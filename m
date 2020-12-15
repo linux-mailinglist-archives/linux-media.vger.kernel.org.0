@@ -2,178 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E462DA721
-	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 05:30:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 899272DA9D8
+	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 10:14:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725869AbgLOEaW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 23:30:22 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:39603 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725763AbgLOEaW (ORCPT
+        id S1727526AbgLOJDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Dec 2020 04:03:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727320AbgLOJDS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 23:30:22 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id p1xyk7pIwQwDIp1xzk3VZM; Tue, 15 Dec 2020 05:29:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1608006580; bh=+C73uJo/XaHxZ1s/v91zL1rjOkdCfovA3UumS70EiVw=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=uJJYOfZhxBymS5W8KAPLDxRSyQ4LePccWDifgZ++64Rir3B89FQnng2ArhqwclI4g
-         9i0TyP8DMRR6aebFNbvjXyykCIQC08cJnFTJtgwPRhug6q1X81jViAA8CI4uQ+oT3T
-         cbcuLRVun30+Qtft0V8bpFMuEV60GyVtihXMeOx67OEY/zu4cOXIFcPGGH/MIhMx2A
-         DMLagW0WrjW7ez4++rannYJYsPrHvvjrQYD+XCGJf8ExI/hMpGDx9QWUXjvwa1Ipd2
-         yANd8jdsuQ/gjDn4xuK9EbXZcVYD3bkDRRO0MmNLhuaqOeO1qOtV+ey2/6BvS2LQ2U
-         h8KaJNFsmHmNQ==
-Message-ID: <948ff5ab873efc806a4158481153808f@smtp-cloud7.xs4all.net>
-Date:   Tue, 15 Dec 2020 05:29:38 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfF02+PqUUWTawSjYo2QsKUisSResPiWrWeJF5ELf5jIt8Q6JEuqVa5BvrK33vjYtNA3AsG/4i/VkQbC8P5lhSeiFb5ESf5Lto8nJ0UhrUFRdrrMT7pMK
- xvPtKrnPxDIxHJyAAwzRvJB1KL3aiW+iryLHJvkhKtRc9XYaJ3n8Pcm8PxNK9boJb7nPsS/8IxsgUFn2UWAeEQwqWKZl+pFtjFRxGRdphhNd1ZAReN4HdEAw
- GMMyo/Y4vif+K2WmMo2iUw==
+        Tue, 15 Dec 2020 04:03:18 -0500
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E942FC06179C
+        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 01:02:37 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id w1so21884932ejf.11
+        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 01:02:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/uXVPucjHR3fNKbq750a3yKPPn2iWB1iP3/avDQ0gbk=;
+        b=W6Y0rt+9Pmp4l5AMg/qdvmD6BD9OxEqcIpX4G+t9eJ9k9d8H/hrnB4WS6FZM14gtyq
+         dDZ71P4jHFA+uFczi6yvXZmpMtdEZtfJHRpYjkIU1X+3fbTe7KZr82CDx2bgii4P/XqN
+         tVbhVjOwMcRr8LBAuQxP0YEBsyZd84LWI2ud8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/uXVPucjHR3fNKbq750a3yKPPn2iWB1iP3/avDQ0gbk=;
+        b=EKh+aGIaBSRZcT2nq0GHqIARltXgk1ijFLAfPUzBlMG71YAWzOjAenjQjIGTSfpUQB
+         3vhqliscgkY6cDp3v3OEdO+nsO5YtIs9OrjTHWmLb2c4LFpgwgVEciDKMIL+KI3rXOls
+         GuU+c8cZKgItOenaHQeSm8tdRnIdsubdhU3SZMEJtRRWpci+ydR3BMTiBSrtk5bpmk2W
+         /R1+Q5hmxX9qpIhLhofPfCu/Gp+kaFlsOTLizeFb/eexGB+s4xbu6ab6X5UO7dsz7i0B
+         opNyz36k7eCmabDHqWTECil+xlv5nAe3fZ1DSnDYzGfy5F7GZRehfezCgT4tvkTWk4k9
+         QM3Q==
+X-Gm-Message-State: AOAM530cGi3QA8ZUZj5O7HrBk1+EeSZ+5NCqUNdwV7AIHUr1dhj6VW/p
+        uLkG23u5myHRu1KRp1kL90Vl176eR+or/A==
+X-Google-Smtp-Source: ABdhPJyY2uL4obMNe5YyCXxNdZ90Yp9PFPwVpbji5/NA9pSjodQDJCfI6HWfK1ayQRDbELmrycZeCQ==
+X-Received: by 2002:a17:907:4332:: with SMTP id ni2mr4939467ejb.422.1608022956435;
+        Tue, 15 Dec 2020 01:02:36 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id x9sm866045ejd.99.2020.12.15.01.02.35
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Dec 2020 01:02:35 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id c5so15391569wrp.6
+        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 01:02:35 -0800 (PST)
+X-Received: by 2002:adf:bb0e:: with SMTP id r14mr33806266wrg.159.1608022954669;
+ Tue, 15 Dec 2020 01:02:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20201214125703.866998-1-acourbot@chromium.org>
+In-Reply-To: <20201214125703.866998-1-acourbot@chromium.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 15 Dec 2020 18:02:22 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BSTnVzGHRV1-H-vS-Ez=yC2He=-diaE_yYuBXiT549+A@mail.gmail.com>
+Message-ID: <CAAFQd5BSTnVzGHRV1-H-vS-Ez=yC2He=-diaE_yYuBXiT549+A@mail.gmail.com>
+Subject: Re: [PATCH] media: venus: use contig vb2 ops
+To:     Alexandre Courbot <acourbot@chromium.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Mon, Dec 14, 2020 at 9:57 PM Alexandre Courbot <acourbot@chromium.org> wrote:
+>
+> This driver uses the SG vb2 ops, but effectively only ever accesses the
+> first entry of the SG table, indicating that it expects a flat layout.
+> Switch it to use the contiguous ops to make sure this expected invariant
+> is always enforced. Since the device is supposed to be behind an IOMMU
+> this should have little to none practical consequences beyond making the
+> driver not rely on a particular behavior of the SG implementation.
+>
+> Reported-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> ---
+> Hi everyone,
+>
+> It probably doesn't hurt to fix this issue before some actual issue happens.
+> I have tested this patch on Chrome OS and playback was just as fine as with
+> the SG ops.
+>
+>  drivers/media/platform/Kconfig              | 2 +-
+>  drivers/media/platform/qcom/venus/helpers.c | 9 ++-------
+>  drivers/media/platform/qcom/venus/vdec.c    | 6 +++---
+>  drivers/media/platform/qcom/venus/venc.c    | 6 +++---
+>  4 files changed, 9 insertions(+), 14 deletions(-)
+>
 
-Results of the daily build of media_tree:
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
-date:			Tue Dec 15 05:00:17 CET 2020
-media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
-media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
-v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7041-g6193b3b71
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Best regards,
+Tomasz
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.69-i686: ERRORS
-linux-5.4.69-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: ERRORS
-linux-5.8.13-x86_64: ERRORS
-linux-5.9.1-i686: ERRORS
-linux-5.9.1-x86_64: ERRORS
-linux-5.10-rc1-i686: ERRORS
-linux-5.10-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: WARNINGS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index 35a18d388f3f..d9d7954111f2 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -533,7 +533,7 @@ config VIDEO_QCOM_VENUS
+>         depends on INTERCONNECT || !INTERCONNECT
+>         select QCOM_MDT_LOADER if ARCH_QCOM
+>         select QCOM_SCM if ARCH_QCOM
+> -       select VIDEOBUF2_DMA_SG
+> +       select VIDEOBUF2_DMA_CONTIG
+>         select V4L2_MEM2MEM_DEV
+>         help
+>           This is a V4L2 driver for Qualcomm Venus video accelerator
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index 50439eb1ffea..859d260f002b 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -7,7 +7,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/slab.h>
+>  #include <linux/kernel.h>
+> -#include <media/videobuf2-dma-sg.h>
+> +#include <media/videobuf2-dma-contig.h>
+>  #include <media/v4l2-mem2mem.h>
+>  #include <asm/div64.h>
+>
+> @@ -1284,14 +1284,9 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb)
+>         struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+>         struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>         struct venus_buffer *buf = to_venus_buffer(vbuf);
+> -       struct sg_table *sgt;
+> -
+> -       sgt = vb2_dma_sg_plane_desc(vb, 0);
+> -       if (!sgt)
+> -               return -EFAULT;
+>
+>         buf->size = vb2_plane_size(vb, 0);
+> -       buf->dma_addr = sg_dma_address(sgt->sgl);
+> +       buf->dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
+>
+>         if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+>                 list_add_tail(&buf->reg_list, &inst->registeredbufs);
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 8488411204c3..3fb277c81aca 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -13,7 +13,7 @@
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-mem2mem.h>
+> -#include <media/videobuf2-dma-sg.h>
+> +#include <media/videobuf2-dma-contig.h>
+>
+>  #include "hfi_venus_io.h"
+>  #include "hfi_parser.h"
+> @@ -1461,7 +1461,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>         src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+>         src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>         src_vq->ops = &vdec_vb2_ops;
+> -       src_vq->mem_ops = &vb2_dma_sg_memops;
+> +       src_vq->mem_ops = &vb2_dma_contig_memops;
+>         src_vq->drv_priv = inst;
+>         src_vq->buf_struct_size = sizeof(struct venus_buffer);
+>         src_vq->allow_zero_bytesused = 1;
+> @@ -1475,7 +1475,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>         dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+>         dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>         dst_vq->ops = &vdec_vb2_ops;
+> -       dst_vq->mem_ops = &vb2_dma_sg_memops;
+> +       dst_vq->mem_ops = &vb2_dma_contig_memops;
+>         dst_vq->drv_priv = inst;
+>         dst_vq->buf_struct_size = sizeof(struct venus_buffer);
+>         dst_vq->allow_zero_bytesused = 1;
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 1c61602c5de1..a09550cd1dba 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -10,7 +10,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/slab.h>
+>  #include <media/v4l2-mem2mem.h>
+> -#include <media/videobuf2-dma-sg.h>
+> +#include <media/videobuf2-dma-contig.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -1001,7 +1001,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>         src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+>         src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>         src_vq->ops = &venc_vb2_ops;
+> -       src_vq->mem_ops = &vb2_dma_sg_memops;
+> +       src_vq->mem_ops = &vb2_dma_contig_memops;
+>         src_vq->drv_priv = inst;
+>         src_vq->buf_struct_size = sizeof(struct venus_buffer);
+>         src_vq->allow_zero_bytesused = 1;
+> @@ -1017,7 +1017,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>         dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+>         dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>         dst_vq->ops = &venc_vb2_ops;
+> -       dst_vq->mem_ops = &vb2_dma_sg_memops;
+> +       dst_vq->mem_ops = &vb2_dma_contig_memops;
+>         dst_vq->drv_priv = inst;
+>         dst_vq->buf_struct_size = sizeof(struct venus_buffer);
+>         dst_vq->allow_zero_bytesused = 1;
+> --
+> 2.29.2.684.gfbc64c5ab5-goog
+>
