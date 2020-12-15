@@ -2,139 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 129972DB63D
-	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 23:05:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9771C2DB655
+	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 23:09:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728268AbgLOWEu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Dec 2020 17:04:50 -0500
-Received: from mga03.intel.com ([134.134.136.65]:63171 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727704AbgLOWEr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Dec 2020 17:04:47 -0500
-IronPort-SDR: ZRwVvvkwg6+13uGvURCrJJ3sHmz3f9BtmJ5jMCa00OFqdnsJZRn0H/nNMp8BoXhpsuxR7VR5F2
- uHZHcyG4mvJA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="175066824"
-X-IronPort-AV: E=Sophos;i="5.78,422,1599548400"; 
-   d="scan'208";a="175066824"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2020 14:02:59 -0800
-IronPort-SDR: 3k+W1bsmGCEDFS/ev7nhXCUu9Im+pNFC6hVZwG2WORMezjAFKRDwNlW+hUsdVmQTiPPQ9r3IYa
- faUukrNiGjZA==
-X-IronPort-AV: E=Sophos;i="5.78,422,1599548400"; 
-   d="scan'208";a="384001989"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2020 14:02:52 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id D88CF2063B; Wed, 16 Dec 2020 00:02:49 +0200 (EET)
-Date:   Wed, 16 Dec 2020 00:02:49 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
-        gregkh@linuxfoundation.org, mika.westerberg@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 13/18] ipu3-cio2: Add functionality allowing
- software_node connections to sensors on platforms designed for Windows
-Message-ID: <20201215220249.GG26370@paasikivi.fi.intel.com>
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-14-djrscally@gmail.com>
- <20201130203551.GP4351@valkosipuli.retiisi.org.uk>
- <5238fc28-350b-a785-0a33-edeba9dfb096@gmail.com>
+        id S1726365AbgLOWJL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Dec 2020 17:09:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57068 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729792AbgLOWGG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Dec 2020 17:06:06 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2648AC061793
+        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 14:05:26 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id 11so15311776pfu.4
+        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 14:05:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
+        b=rOu3z9tr+Uz2Jq7hQygYWUdSEXOtqllnYQZVQ7JZLP52v4jZtyPKuSCT0emQd928OS
+         UXnG68BiLFVU5IQzQhttHl4AmSfyq4yDqbxhYhiij0OuDGBNjOHsxUQJOL2bjrjqpAA3
+         uWLxYS3XwS/5mzazbiFvZa8vT/fuF5R7qmq50x7vmbOV2O0fmGldMo5W7lynABBr46/z
+         bUU18S0qjd5J8Cj4Jmtk47WRhH5lFCVNVOcfyk1aUkZnOwqy1g+wjd+OoHh/xSMjOz4o
+         YI4ePM8sxnDoE3XI1Dkz0kH4YFQI6OJrdUOOEzkWr32/V/3WusqocYedGiK/BTdQyysH
+         iD8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
+        b=jn/rhpYQEzxfnmPu8ineM+GobjyoHA6SfwAVeVJSeuOkQTBlVdunbEv6fvsTKIu1sO
+         qhdFxM2A+OK2tGpG4/yFFLQOO7kJ6a+AP1a9NwlnNHrF3HQGiiQeqhtwcuKAD5A/u/MK
+         9kM4sU0ks98/T3VdIg0sEQ7lrhPt0q6NHd6dZpi/WOY9y5HEckhUi0Hmd2qhTL1xIqZy
+         Ut6Pybcd5WRWK76I1//1KYYM9ZevAE5hvXZ+gRWmsO5gSHVrPRb8xVBOt6jyg/C/WCwj
+         RMEtvnZRQpdk5d3VDP7m3HpGcN2sgEvdmqPLxzsCVVwj3p/s7vlsMpQcICb/bpY5bKOl
+         sMvw==
+X-Gm-Message-State: AOAM530icHp6S3KqjKhARr6bLmL56j9mi7Ktz2a/aZR/RxxH8idsHB8g
+        xoHv0wWOR7X5H+hE+N3mCXIHDA==
+X-Google-Smtp-Source: ABdhPJy/bv/dpSXnrXAIXAKPU25FtDrutI9TAwJhbjpo2R/NbvcsZmowxwswu/mRJpZaOEHPVHm+Fg==
+X-Received: by 2002:a63:4e4c:: with SMTP id o12mr30386525pgl.348.1608069925721;
+        Tue, 15 Dec 2020 14:05:25 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id x15sm84146pfa.80.2020.12.15.14.05.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Dec 2020 14:05:24 -0800 (PST)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [RFC][PATCH 1/3] dma-buf: system_heap: Make sure to return an error if we abort
+Date:   Tue, 15 Dec 2020 22:05:19 +0000
+Message-Id: <20201215220521.118318-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5238fc28-350b-a785-0a33-edeba9dfb096@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+If we abort from the allocation due to a fatal_signal_pending(),
+be sure we report an error so any return code paths don't trip
+over the fact that the allocation didn't succeed.
 
-On Tue, Dec 15, 2020 at 10:28:59AM +0000, Daniel Scally wrote:
-> Morning Sakari
-> 
-> On 30/11/2020 20:35, Sakari Ailus wrote:
-> >> +/*
-> >> + * Extend this array with ACPI Hardware ID's of devices known to be working.
-> >> + * Do not add a HID for a sensor that is not actually supported.
-> >> + */
-> >> +static const char * const cio2_supported_devices[] = {
-> >> +	"INT33BE",
-> >> +	"OVTI2680",
-> > 
-> > I guess we don't have the known-good frequencies for the CSI-2 bus in
-> > firmware?
-> > 
-> > One option would be to put there what the drivers currently use. This
-> > assumes the support for these devices is, well, somewhat opportunistic but
-> > I guess there's no way around that right now at least.
-> > 
-> > As the systems are laptops, they're likely somewhat less prone to EMI
-> > issues to begin with than mobile phones anyway.
-> 
-> Just looking at this; we're currently using this with the ov2680 driver
-> that's in mainline currently (with very minor tweaks) plus a
-> hacked-into-roughly-working version of the atomisp-ov5693 driver (ACPI
-> ID INT33BE = ov5693 physical device). Neither of those drivers lists any
-> link frequencies, nor provides a link frequency control for v4l2 to work
-> with.
-> 
-> On the other hand, the ov5648 [1] and ov8865 [2] drivers which Paul has
-> submitted recently, which we also want to be able to support, _do_
-> include that. I can register the frequencies Paul's defined there as a
-> link-frequencies property but this gives rise to two questions:
-> 
-> 
-> 1. Is this _mandatory_? Do I need to be finding the link-frequencies for
-> the OV2680 and OV5693 drivers too? Or can I skip that property where the
-> driver doesn't handle it anyway. Seems to be working fine without
-> controlling it in driver.
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Suggested-by: Suren Baghdasaryan <surenb@google.com>
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/system_heap.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Receiver drivers generally need the information to program the receiver
-timing. It may work for you without using the correct frequency, but the
-risk of failure on another unit increases.
-
-> 2. Can I trust all the values in the drivers to be available on each
-> platform? For example for the ov5648 Paul lists these as available:
-> 
->  938static const s64 ov5648_link_freq_menu[] = {
-> 
-> 
->  939        210000000,
-> 
-> 
->  940        168000000,
-> 
-> 
->  941};
-> 
-> But can I safely register a link-frequencies property for both of those
-> and trust that that'll work on all IPU3 platforms with an ov5648 in them?
-
-Ideally we'd know which frequency Windows uses, and use the same.
-
-Using another frequency may have adverse effects elsewhere in the system.
-AFAIU mostly this concerns radios of all sorts.
-
-Now that this is in the kernel in any case, it can be fixed later on so I'm
-not too worried about it. Having still a comment there that the
-configuration is opportunistic would be nice.
-
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 17e0e9a68baf..405351aad2a8 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -363,8 +363,10 @@ static int system_heap_allocate(struct dma_heap *heap,
+ 		 * Avoid trying to allocate memory if the process
+ 		 * has been killed by SIGKILL
+ 		 */
+-		if (fatal_signal_pending(current))
++		if (fatal_signal_pending(current)) {
++			ret = -EINTR;
+ 			goto free_buffer;
++		}
+ 
+ 		page = alloc_largest_available(size_remaining, max_order);
+ 		if (!page)
 -- 
-Kind regards,
+2.17.1
 
-Kind regards,
-
-Sakari Ailus
