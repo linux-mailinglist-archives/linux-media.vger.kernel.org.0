@@ -2,102 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 199902DC155
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 14:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6A602DC1E7
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 15:13:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbgLPNc0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 08:32:26 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:38303 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726209AbgLPNc0 (ORCPT
+        id S1726473AbgLPOMy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 09:12:54 -0500
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:38783 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726396AbgLPOMx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 08:32:26 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 41B975C01E2;
-        Wed, 16 Dec 2020 08:31:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 16 Dec 2020 08:31:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=ekw93FdzSF2s1qfpjDiIGy8uby/
-        sFvzW7j4sAmUJEYg=; b=Ga47zo+YQa1qZPG8PcSk4OKj2uv11rbhvRrhCs6aZc8
-        btZnQrqgcv501KY4XM4WCohWADU3L30a53ycsoszxtb3lYF/+VOuZWDX5JE7IJFx
-        RBsIeTEHqKBkLtJKBuRWf3QD9g/ONPXFZrTt1NHTpiacKKUooCs+Hou8jIHGFBuH
-        JOPOW6cjs6Vunh88tDF68Jmr5e9OPCGdQPD6yM4okaaCbNyKHUcnMUDQqhmWrMdL
-        Npq5x1HUZcZjG/KVR4MzV+RbZRiKqlkJJOETDF4HZuAEf3TpVTZhXsgF3SipvU4C
-        bNnsZ604jsOG6tjeh721DznfdE6VKBoQm1YYjelHm2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ekw93F
-        dzSF2s1qfpjDiIGy8uby/sFvzW7j4sAmUJEYg=; b=iGsa9pS0Pf5l3k3dQzdS0E
-        bLUrNUiL4G/00dGunmDiK598PbP/9k4ZDGXoWWjOwEIMzTl0IkIsrBeyfFpbmrM9
-        uovWrWDzDs/TC7OL3dxUFtxiNlIrfKyac3I1b3yzkTrfF+y5KgmggX8T55Z32Vpj
-        CZiw9mauc0IK1pFOQi2qTaShUJrPv5Y/vvLtjjluiuse0zqg+HPIi5f5DGZtZzrD
-        hugC8Gt3D6iZdDyX3H/FKg89W+zSrqsqhn88Wor9UGfzzA+bQyky+Heaug0xp4q7
-        MBfu24dZkSkHdXIqH7EPWmrQqfL+4fm6CYB/I30RCr8o+VWahbf7SI4Tjq/569QA
-        ==
-X-ME-Sender: <xms:JwzaX2NTZpZRaaQ8SnQc0-XLbCqLU03r-SY-XF6o1Ion-dXmbZ1iHw>
-    <xme:JwzaX0-Ptvl2iqBTeDJ25tIck1vM6nZ9EJ4e1d6t6Ts6BSf86EJJCoZBu6rkcbRt5
-    Q40uZ3pWdOw58P4m9M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelvddgheehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:JwzaX9RWsO1V2NDM5sknuj-yP-XRLUV7IYipg9EEAu5rCI1h6kPS0g>
-    <xmx:JwzaX2vcasqlrKYW-_TMy0bfm5agKwUVZE2znraXeU-GGcMvilhC7A>
-    <xmx:JwzaX-e_b2oj0dT_clGstvC-ON48IUpSV43WvAI0sDAxodk3jL8s7g>
-    <xmx:KAzaX95Nr_sjuxfbosuY4_WPEPTOSFF4OrvP3aa66c5V8URmkhfxoA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1FA7224005B;
-        Wed, 16 Dec 2020 08:31:19 -0500 (EST)
-Date:   Wed, 16 Dec 2020 14:31:17 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Zheng Yongjun <zhengyongjun3@huawei.com>
-Cc:     mchehab@kernel.org, wens@csie.org, jernej.skrabec@siol.net,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] media/platform/sunxi: convert comma to semicolon
-Message-ID: <20201216133117.7cvw76coipjl7c2a@gilmour>
-References: <20201216132212.15152-1-zhengyongjun3@huawei.com>
+        Wed, 16 Dec 2020 09:12:53 -0500
+Received: by mail-oi1-f173.google.com with SMTP id x13so18576543oic.5;
+        Wed, 16 Dec 2020 06:12:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=d9IG4L/5kqAsPJUUPo/DF2eSmilATF1K3306QiZRdMc=;
+        b=qDJZusbfYLstxj45uiGz7tMboO+TIUnBf1hcCscWfpEP5dsB3Hsf6r/BDsDyCJjxL5
+         tJV4A7UDZB0G0WL2p7/Pt1ujy/H00L80GIocJAhY0R6VXSIi3U0JfNF9kzvz+yahfiYs
+         6gIprjLF+BjDoNMNaO8EhHoIuH29LwvfV86qLcSeKajVD2ilJjA4UKkIUE0MeYIBqnJA
+         YVBIklaWcvBGd605C9bRLX2+yWjLlCaDnmZ+wNIUwLBkUApYz27guCDHJYAO9MZp/IiT
+         wPoxY+BwmGhFTm8o4MKYY2Wg85gLqZXSVQkEZj+ivF/DqFbpyQMiaJF7H7Cr5sgppeJh
+         LBXg==
+X-Gm-Message-State: AOAM533Gh1186LW37ONQdY7RK5Hlc1xF2iZ56o0emaysIYRjkKgf9s8F
+        bSG0bH8VISC2syqYZV3l7j9l5bR/ng==
+X-Google-Smtp-Source: ABdhPJz74g6qzjy7hOkovlSheopH0aAIWbjsnbZS8+uhxJZmJ7bt7whE1cGUw3R0cCxnK5snw7cn/A==
+X-Received: by 2002:aca:5253:: with SMTP id g80mr2075695oib.98.1608127932708;
+        Wed, 16 Dec 2020 06:12:12 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m3sm451583ots.72.2020.12.16.06.12.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Dec 2020 06:12:11 -0800 (PST)
+Received: (nullmailer pid 1830343 invoked by uid 1000);
+        Wed, 16 Dec 2020 14:12:10 -0000
+Date:   Wed, 16 Dec 2020 08:12:10 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: Convert video-interfaces.txt
+ properties to schemas
+Message-ID: <20201216141210.GB651087@robh.at.kernel.org>
+References: <20201210211625.3070388-1-robh@kernel.org>
+ <20201210211625.3070388-2-robh@kernel.org>
+ <alpine.DEB.2.20.2012161113060.15676@axis700.grange>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xet5grrlfq2wrz4o"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201216132212.15152-1-zhengyongjun3@huawei.com>
+In-Reply-To: <alpine.DEB.2.20.2012161113060.15676@axis700.grange>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Dec 16, 2020 at 11:18:03AM +0100, Guennadi Liakhovetski wrote:
+> Hi Rob,
+> 
+> Sorry for the delay! I didn't realise my ack was required for this patch.
+> I won't object against the licence change, but please don't add me as a
+> maintainer of
 
---xet5grrlfq2wrz4o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Okay, so that's an Ack?
 
-On Wed, Dec 16, 2020 at 09:22:12PM +0800, Zheng Yongjun wrote:
-> Replace a comma between expression statements by a semicolon.
->=20
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+> 
+> On Thu, 10 Dec 2020, Rob Herring wrote:
+> 
+> [snip]
+> 
+> > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > new file mode 100644
+> > index 000000000000..7415a4df1576
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > @@ -0,0 +1,344 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/video-interfaces.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Common bindings for video receiver and transmitter interface endpoints
+> > +
+> > +maintainers:
+> > +  - Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+> 
+> I did commit the original version of
+> Documentation/devicetree/bindings/media/video-interfaces.txt but that was
+> more than 8 years ago, I haven't worked in media / V4L for several years
+> now, so, I don't think I can meaningfully maintain that file now.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Okay, I'll drop you.
 
-Thanks!
-Maxime
+Anyone else want to sign up? Laurent?
 
---xet5grrlfq2wrz4o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9oMJQAKCRDj7w1vZxhR
-xZycAQCfzzrMzr6V5ubsNMXHINmKWKtrt5+9IFPw07P1JeHEMgEAjh+xRQkE2Nn5
-IFqsYL7IbW8Ws3FTVmvdIYRv117YGQE=
-=iFpT
------END PGP SIGNATURE-----
-
---xet5grrlfq2wrz4o--
+Rob
