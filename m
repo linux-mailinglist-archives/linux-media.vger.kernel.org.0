@@ -2,151 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 028722DC53B
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 18:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A0332DC572
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 18:39:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgLPRXH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 12:23:07 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42928 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726837AbgLPRXH (ORCPT
+        id S1727221AbgLPRj0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 12:39:26 -0500
+Received: from mail-ot1-f49.google.com ([209.85.210.49]:36469 "EHLO
+        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727215AbgLPRjZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 12:23:07 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 561CB2CF;
-        Wed, 16 Dec 2020 18:22:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608139344;
-        bh=+Vts7F/npTpqt8B0ttMWAaU+iOYW1Jwk+4duOpA5KX0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qmwy+BAu1SU4I3GEBtlfsTnay4t3By7RNhmgWWpZQPYK/3edpi7r39ohXaEDFrxen
-         RFEmm9/c1FjYVK/IAi0NVW0qacqwi2qEGOa6VgkMS1IvncGl99ajrXg6+8kTea9xqy
-         WIrJH/S836LZu1hFdqtyldqVknS4KrWH6wd4hDJI=
-Date:   Wed, 16 Dec 2020 19:22:17 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
- amplitude
-Message-ID: <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+        Wed, 16 Dec 2020 12:39:25 -0500
+Received: by mail-ot1-f49.google.com with SMTP id d20so5790942otl.3;
+        Wed, 16 Dec 2020 09:39:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SBgo//YKkA63AqbkoZjO8ivHupKtKSKuS3BbHIyo60A=;
+        b=lJ28NWWEytBUIYl4SWWNC14lIATBzeN70KIWXlHeisysiVNpffqqFJ6dp5r2nL9Lxu
+         TnpwnMA1iEz2Vf4jjyj0p+eAzHiRLHdgwyu4/QnXJdUfFE8jCnXZR/1GZGMzt10M0Oam
+         VmPWU0JIVhO8fLjBt5LWDIU9gRlJhrEXTxdyHU27RGP/lixC2X4/2j2Ft7FlTz9+l/DA
+         ULHpGCFtoTv8Vj5e70YpneqCbAWmnvxu/Bfk2seax+AOVSuaGoldRKH6mIRBXGpurHRH
+         OUqz10O9qN7jZo02CXTUtJhdabp4JhdEufRCVv1WckDVVwcYFMoc5gP4hXi1IYdsJhX8
+         Jy6A==
+X-Gm-Message-State: AOAM531Tvl6FAQ1XtnfFoNnKY+MsgIC7YDutvmZ4vB5pcsGx0Uo2p9dC
+        tK++WpbaHSXBWv7nulmKyQ==
+X-Google-Smtp-Source: ABdhPJyqeBN9d5dfNZIeMhAY+vi8REGWDQgMuqX3U+UOmL7tj/LmTASk8c+K/pzD1mU3WSxkAHwgOg==
+X-Received: by 2002:a9d:590c:: with SMTP id t12mr26463191oth.308.1608140324102;
+        Wed, 16 Dec 2020 09:38:44 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id z38sm612215ooi.34.2020.12.16.09.38.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Dec 2020 09:38:42 -0800 (PST)
+Received: (nullmailer pid 2150082 invoked by uid 1000);
+        Wed, 16 Dec 2020 17:38:41 -0000
+Date:   Wed, 16 Dec 2020 11:38:41 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] dt-bindings: media: Use graph and
+ video-interfaces schemas
+Message-ID: <20201216173841.GC651087@robh.at.kernel.org>
+References: <20201210211625.3070388-1-robh@kernel.org>
+ <20201210211625.3070388-6-robh@kernel.org>
+ <X9olm4dVwY8HRC3j@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+In-Reply-To: <X9olm4dVwY8HRC3j@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
-> Adjust the initial reverse channel amplitude parsing from
-> firmware interface the 'maxim,reverse-channel-microvolt'
-> property.
+On Wed, Dec 16, 2020 at 05:19:55PM +0200, Laurent Pinchart wrote:
+> Hi Rob,
 > 
-> This change is required for both rdacm20 and rdacm21 camera
-> modules to be correctly probed when used in combination with
-> the max9286 deserializer.
+> Thank you for the patch.
 > 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
+> On Thu, Dec 10, 2020 at 03:16:25PM -0600, Rob Herring wrote:
+> > Now that we have graph and video-interfaces schemas, rework the media
+> > related schemas to use them.
+> > 
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: Jacopo Mondi <jacopo@jmondi.org>
+> > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Cc: linux-media@vger.kernel.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+
+
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> > index d94bd67ccea1..3657f2f41098 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> > @@ -73,19 +73,16 @@ properties:
+> >      enum: [ 0, 180 ]
+> > 
+> >    port:
+> > -    type: object
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > +    additionalProperties: false
+> > +
+> >      properties:
+> >        endpoint:
+> > -        type: object
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > +
+> >          properties:
+> > -          link-frequencies:
+> > -            $ref: /schemas/types.yaml#/definitions/uint64-array
+> > -            description: List of allowed data link frequencies.
+> > -          data-lanes:
+> > -            minItems: 1
+> > -            maxItems: 8
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 021309c6dd6f..9b40a4890c4d 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -163,6 +163,8 @@ struct max9286_priv {
->  	unsigned int mux_channel;
->  	bool mux_open;
->  
-> +	u32 reverse_channel_mv;
-> +
->  	struct v4l2_ctrl_handler ctrls;
->  	struct v4l2_ctrl *pixelrate;
->  
-> @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
->  	 * All enabled sources have probed and enabled their reverse control
->  	 * channels:
->  	 *
-> +	 * - Increase the reverse channel amplitude to compensate for the
-> +	 *   remote ends high threshold, if not done already
->  	 * - Verify all configuration links are properly detected
->  	 * - Disable auto-ack as communication on the control channel are now
->  	 *   stable.
->  	 */
-> +	if (priv->reverse_channel_mv < 170)
-> +		max9286_reverse_channel_setup(priv, 170);
+> Don't we need
+> 
+>           link-frequencies: true
+>           data-lanes: true
+> 
+> to convey the fact that those properties are applicable for this device
+> ? This applies to a few locations below too.
 
-I'm beginning to wonder if there will be a need in the future to not
-increase the reverse channel amplitude (keeping the threshold low on the
-remote side). An increased amplitude increases power consumption, and if
-the environment isn't noisy, a low amplitude would work. The device tree
-would then need to specify both the initial amplitude required by the
-remote side, and the desired amplitude after initialization. What do you
-think ? Is it overkill ? We don't have to implement this now, so
+Adding them would convey that to the reader, but wouldn't change the 
+schema validation. We'd have to use 'additionalProperties' instead and 
+also add 'remote-endpoint' everywhere (and 'reg' sometimes). I prefer 
+not doing all that, but if we want it just for purposes of documenting 
+the usage, that's fine.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >            bus-type:
+> > -            description: The type of the data bus.
+> >              oneOf:
+> >                - const: 1 # CSI-2 C-PHY
+> >                - const: 3 # CCP2
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+> > index 280c62afae13..3b1ea9da437a 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+> > @@ -31,27 +31,15 @@ properties:
+> >      maxItems: 1
+> > 
+> >    port:
+> > -    type: object
+> > -    description: |-
+> > -      Should contain one endpoint sub-node used to model connection to the
+> > -      video receiver according to the specification defined in
+> > -      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > 
+> >      properties:
+> >        endpoint:
+> > -        type: object
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > 
+> >          properties:
+> > -          remote-endpoint:
+> > -            description: |-
+> > -              phandle to the video receiver input port.
+> > -
+> > -          clock-noncontinuous:
+> > -            type: boolean
+> > -            description: |-
+> > -              Set to true to allow MIPI CSI-2 non-continuous clock operations.
+> > -
+> > -        additionalProperties: false
+> > +          clock-noncontinuous: true
+> > 
+> >      additionalProperties: false
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > index cde85553fd01..c29b057ae922 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > @@ -57,16 +57,13 @@ properties:
+> >        active low.
+> > 
+> >    port:
+> > -    type: object
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> >      additionalProperties: false
+> > -    description:
+> > -      A node containing an output port node with an endpoint definition
+> > -      as documented in
+> > -      Documentation/devicetree/bindings/media/video-interfaces.txt
+> > 
+> >      properties:
+> >        endpoint:
+> > -        type: object
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > 
+> >          properties:
+> >            data-lanes:
+> > @@ -79,18 +76,13 @@ properties:
+> >                - const: 4
+> > 
+> >            link-frequencies:
+> > -            $ref: /schemas/types.yaml#/definitions/uint64-array
+> > -            description:
+> > -              Allowed data bus frequencies. 360000000, 180000000 Hz or both
+> > -              are supported by the driver.
+> > -
+> > +            maxItems: 2
+> > +            items:
+> > +              enum: [ 360000000, 180000000 ]
+> 
+> This is a limitation of the driver, not the device. Should we keep this
+> information in a comment, to eventually get it fixed and drop the
+> limitation from the bindings ?
 
-but if this feature could be required later, we may want to take into
-account in the naming of the new DT property to reflect the fact that it
-is the initial value.
+If your dts has anything else, then it won't work. Warning on that seems 
+valuable to me, so I think we should keep it. If someone with a better 
+driver complains, we can drop it.
 
->  	max9286_check_config_link(priv, priv->source_mask);
->  
->  	/*
-> @@ -967,7 +973,7 @@ static int max9286_setup(struct max9286_priv *priv)
->  	 * only. This should be disabled after the mux is initialised.
->  	 */
->  	max9286_configure_i2c(priv, true);
-> -	max9286_reverse_channel_setup(priv, 170);
-> +	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
->  
->  	/*
->  	 * Enable GMSL links, mask unused ones and autodetect link
-> @@ -1131,6 +1137,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	struct device_node *i2c_mux;
->  	struct device_node *node = NULL;
->  	unsigned int i2c_mux_mask = 0;
-> +	u32 reverse_channel_microvolt;
->  
->  	/* Balance the of_node_put() performed by of_find_node_by_name(). */
->  	of_node_get(dev->of_node);
-> @@ -1221,6 +1228,20 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	}
->  	of_node_put(node);
->  
-> +	/*
-> +	 * Parse the initial value of the reverse channel amplitude from
-> +	 * the firmware interface and convert it to millivolts.
-> +	 *
-> +	 * Default it to 170mV for backward compatibility with DTBs that do not
-> +	 * provide the property.
-> +	 */
-> +	if (of_property_read_u32(dev->of_node,
-> +				 "maxim,reverse-channel-microvolt",
-> +				 &reverse_channel_microvolt))
-> +		priv->reverse_channel_mv = 170;
-> +	else
-> +		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
-> +
->  	priv->route_mask = priv->source_mask;
->  
->  	return 0;
+I can keep the description with 'Frequencies listed are driver, not h/w 
+limitations'.
 
--- 
-Regards,
-
-Laurent Pinchart
+Rob
