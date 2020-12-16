@@ -2,127 +2,799 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C13C52DC3D2
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 17:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 122B22DC4F1
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 18:02:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725287AbgLPQOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 11:14:51 -0500
-Received: from mail-il1-f197.google.com ([209.85.166.197]:42454 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726259AbgLPQOv (ORCPT
+        id S1726948AbgLPRBy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 12:01:54 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42662 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726825AbgLPRBy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 11:14:51 -0500
-Received: by mail-il1-f197.google.com with SMTP id p10so16812782ilo.9
-        for <linux-media@vger.kernel.org>; Wed, 16 Dec 2020 08:14:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=fqGqftTLTf6YHW3fpTIQwGEtnv8ndYKXLlm8NHrjXJE=;
-        b=HfZuS59gAEKyjrY7yP2wWyWb6noTVnxj2haM29I8z3db5r2/Vbh36dGlY03cobdDIh
-         s7ay314H7ggPTSw0nyF4qYVBvAa+NGoxZ++yVE2ngyDAEundRV6chqu4JmLNhkq8eDfW
-         8Taa5o3a2RtPdk5QyX7+G2B3WbJdu1H+rxY3Va/axmxf0f1Yzy5x+D3dQGGXsAC+iCBS
-         hH0Hdx+8pjUfxKzM2vHPyFDVQwOwp1dOYH3IL4q51bWHSbWO602B934APIjBdrFISTwo
-         +QRTWjGlKNrRXydLuKBGneS1uNxOcsKlRBJJyVoDhS5oT8eEv1F/NPR/sN3wT+ahvw8j
-         qEow==
-X-Gm-Message-State: AOAM532bHabhR7rj5esMVKBGTigTTtETnuapBt0wSQl9Nlf9l/1q0BBI
-        /RLZlbyYVFiTFZAlFRqKZsNRAkJPJxX/jHwy4hgNzMCDdqyC
-X-Google-Smtp-Source: ABdhPJzlLn6SB3Z0XBVp4Gy7TfFgiSySYYJELjJ/W2BybVsCGusEDyBVA11ZXrEgUGG/GEj2wda7jdrlkenEwqFxcevpZ6tEBq9v
+        Wed, 16 Dec 2020 12:01:54 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2586745E;
+        Wed, 16 Dec 2020 18:01:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1608138063;
+        bh=eT87L/cuAuWYKdjmlwzLo0Ss4rOuBxsca/KiZ5SmJwo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dmSZZIoqaLeWNbuS6th4782sL7N64Z+Q0HWMIzVoKJa61h3xQx6R6710S/PyREedW
+         kRhgi4+P6j53hj3PixUvEvRMUzlYDXuBmgX0iLZdrnZKWCIl3uKNn2JDRuCEaN8xJx
+         /DPz+eVcG78hbo40TVaMkRc/1QBMHBJgJuQ8JkeM=
+Date:   Wed, 16 Dec 2020 19:00:56 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v6 1/5] media: i2c: Add driver for RDACM21 camera module
+Message-ID: <X9o9SMCkTjW+6t4U@pendragon.ideasonboard.com>
+References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
+ <20201215170957.92761-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:fd03:: with SMTP id c3mr42757557ioi.64.1608135249913;
- Wed, 16 Dec 2020 08:14:09 -0800 (PST)
-Date:   Wed, 16 Dec 2020 08:14:09 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000526d3505b6972a80@google.com>
-Subject: UBSAN: shift-out-of-bounds in mceusb_dev_printdata
-From:   syzbot <syzbot+6d31bf169a8265204b8d@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201215170957.92761-2-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Jacopo,
 
-syzbot found the following issue on:
+Thank you for the patch.
 
-HEAD commit:    5e60366d Merge tag 'fallthrough-fixes-clang-5.11-rc1' of g..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=11b1a46b500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5cea7506b7139727
-dashboard link: https://syzkaller.appspot.com/bug?extid=6d31bf169a8265204b8d
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13727b7f500000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1565f123500000
+On Tue, Dec 15, 2020 at 06:09:53PM +0100, Jacopo Mondi wrote:
+> The RDACM21 is a GMSL camera supporting 1280x1080 resolution images
+> developed by IMI based on an Omnivision OV10640 sensor, an Omnivision
+> OV490 ISP and a Maxim MAX9271 GMSL serializer.
+> 
+> The driver uses the max9271 library module, to maximize code reuse with
+> other camera module drivers using the same serializer, such as rdacm20.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  MAINTAINERS                 |  12 +
+>  drivers/media/i2c/Kconfig   |  13 +
+>  drivers/media/i2c/Makefile  |   2 +
+>  drivers/media/i2c/rdacm21.c | 595 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 622 insertions(+)
+>  create mode 100644 drivers/media/i2c/rdacm21.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4be038f0a59d..a011df5a14d7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14809,6 +14809,18 @@ F:	drivers/media/i2c/max9271.c
+>  F:	drivers/media/i2c/max9271.h
+>  F:	drivers/media/i2c/rdacm20.c
+>  
+> +RDACM21 Camera Sensor
+> +M:	Jacopo Mondi <jacopo+renesas@jmondi.org>
+> +M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> +M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
+> +F:	drivers/media/i2c/max9271.c
+> +F:	drivers/media/i2c/max9271.h
+> +F:	drivers/media/i2c/rdacm21.c
+> +
+>  RDC R-321X SoC
+>  M:	Florian Fainelli <florian@openwrt.org>
+>  S:	Maintained
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 2b9d81e4794a..d500edb8638b 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1212,6 +1212,19 @@ config VIDEO_RDACM20
+>  	  This camera should be used in conjunction with a GMSL
+>  	  deserialiser such as the MAX9286.
+>  
+> +config VIDEO_RDACM21
+> +	tristate "IMI RDACM21 camera support"
+> +	depends on I2C
+> +	select V4L2_FWNODE
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select MEDIA_CONTROLLER
+> +	help
+> +	  This driver supports the IMI RDACM21 GMSL camera, used in
+> +	  ADAS systems.
+> +
+> +	  This camera should be used in conjunction with a GMSL
+> +	  deserialiser such as the MAX9286.
+> +
+>  config VIDEO_RJ54N1
+>  	tristate "Sharp RJ54N1CB0C sensor support"
+>  	depends on I2C && VIDEO_V4L2
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index a3149dce21bb..85b1edc62508 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -124,6 +124,8 @@ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+>  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+>  rdacm20-camera_module-objs	:= rdacm20.o max9271.o
+>  obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
+> +rdacm21-camera_module-objs	:= rdacm21.o max9271.o
+> +obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
+>  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+>  
+>  obj-$(CONFIG_SDR_MAX2175) += max2175.o
+> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> new file mode 100644
+> index 000000000000..5f9267e26258
+> --- /dev/null
+> +++ b/drivers/media/i2c/rdacm21.c
+> @@ -0,0 +1,595 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * IMI RDACM21 GMSL Camera Driver
+> + *
+> + * Copyright (C) 2017-2020 Jacopo Mondi
+> + * Copyright (C) 2017-2019 Kieran Bingham
+> + * Copyright (C) 2017-2019 Laurent Pinchart
+> + * Copyright (C) 2017-2019 Niklas Söderlund
+> + * Copyright (C) 2016 Renesas Electronics Corporation
+> + * Copyright (C) 2015 Cogent Embedded, Inc.
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/fwnode.h>
+> +#include <linux/init.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/videodev2.h>
+> +
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-subdev.h>
+> +#include "max9271.h"
+> +
+> +#define OV10640_ID_LOW			0xa6
+> +
+> +#define OV490_I2C_ADDRESS		0x24
+> +
+> +#define OV490_PAGE_HIGH_REG		0xfffd
+> +#define OV490_PAGE_LOW_REG		0xfffe
+> +
+> +#define OV490_DVP_CTRL3			0x80286009
+> +
+> +#define OV490_ODS_CTRL_FRAME_OUTPUT_EN	0x0c
+> +#define OV490_ODS_CTRL			0x8029d000
+> +
+> +#define OV490_ID_VAL			0x0490
+> +#define OV490_ID(_p, _v)		((((_p) & 0xff) << 8) | ((_v) & 0xff))
+> +#define OV490_PID			0x8080300a
+> +#define OV490_VER			0x8080300b
+> +
+> +#define OV490_ISP_HSIZE_LOW		0x80820060
+> +#define OV490_ISP_HSIZE_HIGH		0x80820061
+> +#define OV490_ISP_VSIZE_LOW		0x80820062
+> +#define OV490_ISP_VSIZE_HIGH		0x80820063
+> +
+> +#define OV10640_PIXEL_RATE		(55000000)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+6d31bf169a8265204b8d@syzkaller.appspotmail.com
+No need for parentheses.
 
-================================================================================
-UBSAN: shift-out-of-bounds in drivers/media/rc/mceusb.c:704:13
-shift exponent 230 is too large for 32-bit type 'unsigned int'
-CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.10.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:79 [inline]
- dump_stack+0x107/0x163 lib/dump_stack.c:120
- ubsan_epilogue+0xb/0x5a lib/ubsan.c:148
- __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x181 lib/ubsan.c:395
- mceusb_dev_printdata.cold+0x19/0x1e drivers/media/rc/mceusb.c:704
- mceusb_process_ir_data drivers/media/rc/mceusb.c:1275 [inline]
- mceusb_dev_recv+0x3cb/0x1990 drivers/media/rc/mceusb.c:1376
- __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1657
- usb_hcd_giveback_urb+0x38c/0x430 drivers/usb/core/hcd.c:1728
- dummy_timer+0x11f4/0x32a0 drivers/usb/gadget/udc/dummy_hcd.c:1971
- call_timer_fn+0x1a5/0x690 kernel/time/timer.c:1417
- expire_timers kernel/time/timer.c:1462 [inline]
- __run_timers.part.0+0x692/0xa50 kernel/time/timer.c:1731
- __run_timers kernel/time/timer.c:1712 [inline]
- run_timer_softirq+0x80/0x120 kernel/time/timer.c:1744
- __do_softirq+0x1b7/0x9c5 kernel/softirq.c:343
- asm_call_irq_on_stack+0xf/0x20
- </IRQ>
- __run_on_irqstack arch/x86/include/asm/irq_stack.h:26 [inline]
- run_on_irqstack_cond arch/x86/include/asm/irq_stack.h:77 [inline]
- do_softirq_own_stack+0x80/0xa0 arch/x86/kernel/irq_64.c:77
- invoke_softirq kernel/softirq.c:226 [inline]
- __irq_exit_rcu+0x119/0x1b0 kernel/softirq.c:420
- irq_exit_rcu+0x5/0x10 kernel/softirq.c:432
- sysvec_apic_timer_interrupt+0x43/0xa0 arch/x86/kernel/apic/apic.c:1096
- asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:628
-RIP: 0010:native_save_fl arch/x86/include/asm/irqflags.h:29 [inline]
-RIP: 0010:arch_local_save_flags arch/x86/include/asm/irqflags.h:79 [inline]
-RIP: 0010:arch_irqs_disabled arch/x86/include/asm/irqflags.h:169 [inline]
-RIP: 0010:acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
-RIP: 0010:acpi_idle_do_entry+0x1c9/0x250 drivers/acpi/processor_idle.c:516
-Code: 8d 61 7f fb 84 db 75 ac e8 04 5b 7f fb e8 4f 0f 85 fb e9 0c 00 00 00 e8 f5 5a 7f fb 0f 00 2d ce 86 87 00 e8 e9 5a 7f fb fb f4 <9c> 5b 81 e3 00 02 00 00 fa 31 ff 48 89 de e8 c4 62 7f fb 48 85 db
-RSP: 0018:ffffffff87407d60 EFLAGS: 00000293
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffffffff87431940 RSI: ffffffff85c0eb77 RDI: ffffffff85c0eb61
-RBP: ffff8881037c3064 R08: 0000000000000001 R09: 0000000000000001
-R10: ffffffff8145fae8 R11: 0000000000000000 R12: 0000000000000001
-R13: ffff8881037c3000 R14: ffff8881037c3064 R15: ffff888105c7d804
- acpi_idle_enter+0x355/0x4f0 drivers/acpi/processor_idle.c:647
- cpuidle_enter_state+0x1b1/0xc80 drivers/cpuidle/cpuidle.c:237
- cpuidle_enter+0x4a/0xa0 drivers/cpuidle/cpuidle.c:351
- call_cpuidle kernel/sched/idle.c:158 [inline]
- cpuidle_idle_call kernel/sched/idle.c:239 [inline]
- do_idle+0x3df/0x580 kernel/sched/idle.c:299
- cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:396
- start_kernel+0x498/0x4b9 init/main.c:1061
- secondary_startup_64_no_verify+0xb0/0xbb
-================================================================================
+At some point we should move the sensor and ISP-related code to a
+separate driver, but that can wait.
 
+> +
+> +struct rdacm21_device {
+> +	struct device			*dev;
+> +	struct max9271_device		*serializer;
+> +	struct i2c_client		*isp;
+> +	struct v4l2_subdev		sd;
+> +	struct media_pad		pad;
+> +	struct v4l2_mbus_framefmt	fmt;
+> +	struct v4l2_ctrl_handler	ctrls;
+> +	u32				addrs[32];
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Do we need 32 addresses ? 2 seem enough.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> +	u16				last_page;
+> +};
+> +
+> +static inline struct rdacm21_device *sd_to_rdacm21(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct rdacm21_device, sd);
+> +}
+> +
+> +static inline struct rdacm21_device *i2c_to_rdacm21(struct i2c_client *client)
+> +{
+> +	return sd_to_rdacm21(i2c_get_clientdata(client));
+> +}
+
+As this is used in the remove handler only you could inline it there, up
+to you.
+
+> +
+> +static const struct ov490_reg {
+> +	u16 reg;
+> +	u8 val;
+> +} ov490_regs_wizard[] = {
+> +	{0xfffd, 0x80},
+> +	{0xfffe, 0x82},
+> +	{0x0071, 0x11},
+> +	{0x0075, 0x11},
+> +	{0xfffe, 0x29},
+> +	{0x6010, 0x01},
+> +	/*
+> +	 * OV490 EMB line disable in YUV and RAW data,
+> +	 * NOTE: EMB line is still used in ISP and sensor
+> +	 */
+> +	{0xe000, 0x14},
+> +	{0xfffe, 0x28},
+> +	{0x6000, 0x04},
+> +	{0x6004, 0x00},
+> +	/*
+> +	 * PCLK polarity - useless due to silicon bug.
+> +	 * Use 0x808000bb register instead.
+> +	 */
+> +	{0x6008, 0x00},
+> +	{0xfffe, 0x80},
+> +	{0x0091, 0x00},
+> +	/* bit[3]=0 - PCLK polarity workaround. */
+> +	{0x00bb, 0x1d},
+> +	/* Ov490 FSIN: app_fsin_from_fsync */
+> +	{0xfffe, 0x85},
+> +	{0x0008, 0x00},
+> +	{0x0009, 0x01},
+> +	/* FSIN0 source. */
+> +	{0x000A, 0x05},
+> +	{0x000B, 0x00},
+> +	/* FSIN0 delay. */
+> +	{0x0030, 0x02},
+> +	{0x0031, 0x00},
+> +	{0x0032, 0x00},
+> +	{0x0033, 0x00},
+> +	/* FSIN1 delay. */
+> +	{0x0038, 0x02},
+> +	{0x0039, 0x00},
+> +	{0x003A, 0x00},
+> +	{0x003B, 0x00},
+> +	/* FSIN0 length. */
+> +	{0x0070, 0x2C},
+> +	{0x0071, 0x01},
+> +	{0x0072, 0x00},
+> +	{0x0073, 0x00},
+> +	/* FSIN1 length. */
+> +	{0x0074, 0x64},
+> +	{0x0075, 0x00},
+> +	{0x0076, 0x00},
+> +	{0x0077, 0x00},
+> +	{0x0000, 0x14},
+> +	{0x0001, 0x00},
+> +	{0x0002, 0x00},
+> +	{0x0003, 0x00},
+> +	/*
+> +	 * Load fsin0,load fsin1,load other,
+> +	 * It will be cleared automatically.
+> +	 */
+> +	{0x0004, 0x32},
+> +	{0x0005, 0x00},
+> +	{0x0006, 0x00},
+> +	{0x0007, 0x00},
+> +	{0xfffe, 0x80},
+> +	/* Sensor FSIN. */
+> +	{0x0081, 0x00},
+> +	/* ov10640 FSIN enable */
+> +	{0xfffe, 0x19},
+> +	{0x5000, 0x00},
+> +	{0x5001, 0x30},
+> +	{0x5002, 0x8c},
+> +	{0x5003, 0xb2},
+> +	{0xfffe, 0x80},
+> +	{0x00c0, 0xc1},
+> +	/* ov10640 HFLIP=1 by default */
+> +	{0xfffe, 0x19},
+> +	{0x5000, 0x01},
+> +	{0x5001, 0x00},
+> +	{0xfffe, 0x80},
+> +	{0x00c0, 0xdc},
+> +};
+> +
+> +static int ov490_read(struct rdacm21_device *dev, u16 reg, u8 *val)
+> +{
+> +	u8 buf[2] = { reg >> 8, reg };
+> +	int ret;
+> +
+> +	ret = i2c_master_send(dev->isp, buf, 2);
+> +	if (ret == 2)
+> +		ret = i2c_master_recv(dev->isp, val, 1);
+> +
+> +	if (ret < 0) {
+> +		dev_dbg(dev->dev, "%s: register 0x%04x read failed (%d)\n",
+> +			__func__, reg, ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov490_write(struct rdacm21_device *dev, u16 reg, u8 val)
+> +{
+> +	u8 buf[3] = { reg >> 8, reg, val };
+> +	int ret;
+> +
+> +	ret = i2c_master_send(dev->isp, buf, 3);
+> +	if (ret < 0) {
+> +		dev_err(dev->dev, "%s: register 0x%04x write failed (%d)\n",
+> +			__func__, reg, ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov490_set_page(struct rdacm21_device *dev, u16 reg)
+
+s/reg/page/
+
+> +{
+> +	bool page_new = false;
+> +	u8 page_high = reg >> 8;
+> +	u8 page_low = reg;
+> +	int ret;
+> +
+
+If you add
+
+	if (page == dev->last_page)
+		return 0;
+
+here, you can drop the page_new variable.
+
+> +	if (page_high != (dev->last_page >> 8)) {
+> +		ret = ov490_write(dev, OV490_PAGE_HIGH_REG, page_high);
+> +		if (ret)
+> +			return ret;
+> +		page_new = true;
+> +	}
+> +
+> +	if (page_low != (u8)dev->last_page) {
+> +		ret = ov490_write(dev, OV490_PAGE_LOW_REG, page_low);
+> +		if (ret)
+> +			return ret;
+> +		page_new = true;
+> +	}
+> +
+> +	if (page_new) {
+> +		dev->last_page = reg;
+> +		usleep_range(100, 150);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov490_read_reg(struct rdacm21_device *dev, u32 reg, u8 *val)
+> +{
+> +	int ret;
+> +
+> +	ret = ov490_set_page(dev, reg >> 16);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ov490_read(dev, (u16)reg, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dev_dbg(dev->dev, "%s: 0x%08x = 0x%02x\n", __func__, reg, *val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov490_write_reg(struct rdacm21_device *dev, u32 reg, u8 val)
+> +{
+> +	int ret;
+> +
+> +	ret = ov490_set_page(dev, reg >> 16);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ov490_write(dev, (u16)reg, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dev_dbg(dev->dev, "%s: 0x%08x = 0x%02x\n", __func__, reg, val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rdacm21_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct rdacm21_device *dev = sd_to_rdacm21(sd);
+> +
+> +	/*
+> +	 * Enable serial link now that the ISP provides a valid pixel clock
+> +	 * to start serializing video data on the GMSL link.
+> +	 */
+> +	return max9271_set_serial_link(dev->serializer, enable);
+> +}
+> +
+> +static int rdacm21_enum_mbus_code(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_pad_config *cfg,
+> +				  struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	if (code->pad || code->index > 0)
+> +		return -EINVAL;
+> +
+> +	code->code = MEDIA_BUS_FMT_YUYV8_1X16;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rdacm21_get_fmt(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_pad_config *cfg,
+> +			   struct v4l2_subdev_format *format)
+> +{
+> +	struct v4l2_mbus_framefmt *mf = &format->format;
+> +	struct rdacm21_device *dev = sd_to_rdacm21(sd);
+> +
+> +	if (format->pad)
+> +		return -EINVAL;
+> +
+> +	mf->width		= dev->fmt.width;
+> +	mf->height		= dev->fmt.height;
+> +	mf->code		= MEDIA_BUS_FMT_YUYV8_1X16;
+> +	mf->colorspace		= V4L2_COLORSPACE_SRGB;
+> +	mf->field		= V4L2_FIELD_NONE;
+> +	mf->ycbcr_enc		= V4L2_YCBCR_ENC_601;
+> +	mf->quantization	= V4L2_QUANTIZATION_FULL_RANGE;
+> +	mf->xfer_func		= V4L2_XFER_FUNC_NONE;
+> +
+> +	return 0;
+> +}
+> +
+> +static struct v4l2_subdev_video_ops rdacm21_video_ops = {
+
+static const
+
+> +	.s_stream	= rdacm21_s_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops rdacm21_subdev_pad_ops = {
+> +	.enum_mbus_code = rdacm21_enum_mbus_code,
+> +	.get_fmt	= rdacm21_get_fmt,
+> +	.set_fmt	= rdacm21_get_fmt,
+> +};
+> +
+> +static struct v4l2_subdev_ops rdacm21_subdev_ops = {
+
+static const
+
+> +	.video		= &rdacm21_video_ops,
+> +	.pad		= &rdacm21_subdev_pad_ops,
+> +};
+> +
+> +static int ov490_initialize(struct rdacm21_device *dev)
+> +{
+> +	unsigned int ov490_pid_retry = 20;
+> +	unsigned int timeout;
+> +	u8 pid, ver, val;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/* Read OV490 Id to test communications. */
+> +pid_retry:
+
+Could we use a for or while loop instead of a goto ?
+
+> +	ret = ov490_read_reg(dev, OV490_PID, &pid);
+> +	if (ret < 0) {
+> +		/* Give OV490 a few more cycles to exit from reset. */
+> +		if (ov490_pid_retry--) {
+> +			usleep_range(1000, 2000);
+> +			goto pid_retry;
+> +		}
+> +
+> +		dev_err(dev->dev, "OV490 PID read failed (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = ov490_read_reg(dev, OV490_VER, &ver);
+> +	if (ret < 0) {
+> +		dev_err(dev->dev, "OV490 VERSION read failed (%d)\n", ret);
+
+There's already an error message printed in the read function, you can
+drop this one.
+
+> +		return ret;
+> +	}
+> +
+> +	if (OV490_ID(pid, ver) != OV490_ID_VAL) {
+> +		dev_err(dev->dev, "OV490 ID mismatch: (0x%04x)\n",
+
+s/://
+
+> +			OV490_ID(pid, ver));
+> +		return -ENODEV;
+> +	}
+> +
+> +	/* Wait for firmware boot by reading streamon status. */
+> +	for (timeout = 300; timeout > 0; timeout--) {
+> +		ov490_read_reg(dev, OV490_ODS_CTRL, &val);
+> +		if (val == OV490_ODS_CTRL_FRAME_OUTPUT_EN)
+> +			break;
+> +		mdelay(1);
+
+A sleep is better than a delay.
+
+> +	}
+> +	if (!timeout) {
+> +		dev_err(dev->dev, "Timeout firmware boot wait\n");
+> +		return -ENODEV;
+> +	}
+> +	dev_dbg(dev->dev, "Firmware booted in %u msec\n", 300 - timeout);
+
+That won't be a very accurate time measurement.
+
+> +
+> +	/* Read OV10640 Id to test communications. */
+> +	ov490_write(dev, 0xfffd, 0x80);
+> +	ov490_write(dev, 0xfffe, 0x19);
+
+The page is handled in ov490_write_reg(), can't we write
+
+	ov490_write_reg(dev, 0x80195000, 0x01);
+	ov490_write_reg(dev, 0x80195001, 0x30);
+	ov490_write_reg(dev, 0x80195002, 0x0a);
+
+to simplify the code ? Same below.
+
+> +	usleep_range(100, 150);
+> +
+> +	ov490_write(dev, 0x5000, 0x01);
+> +	ov490_write(dev, 0x5001, 0x30);
+> +	ov490_write(dev, 0x5002, 0x0a);
+> +
+> +	ov490_write(dev, 0xfffe, 0x80);
+> +	usleep_range(100, 150);
+> +	ov490_write(dev, 0xc0, 0xc1);
+> +	ov490_write(dev, 0xfffe, 0x19);
+> +	usleep_range(1000, 1500);
+> +	ov490_read(dev, 0x5000, &val);
+> +	if (val != OV10640_ID_LOW) {
+> +		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+> +		return -ENODEV;
+> +	}
+> +
+> +	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ov490_regs_wizard); ++i) {
+> +		ret = ov490_write(dev, ov490_regs_wizard[i].reg,
+> +				  ov490_regs_wizard[i].val);
+> +		if (ret < 0) {
+> +			dev_err(dev->dev,
+> +				"%s: register %u (0x%04x) write failed (%d)\n",
+> +				__func__, i, ov490_regs_wizard[i].reg, ret);
+> +
+> +			return -EIO;
+> +		}
+> +
+> +		usleep_range(100, 150);
+> +	}
+> +
+> +	/*
+> +	 * The ISP is programmed with the content of a serial flash memory.
+> +	 * Read the firmware configuration to reflect it through the V4L2 APIs.
+> +	 */
+> +	ov490_read_reg(dev, OV490_ISP_HSIZE_HIGH, &val);
+> +	dev->fmt.width = (val & 0xf) << 8;
+> +	ov490_read_reg(dev, OV490_ISP_HSIZE_LOW, &val);
+> +	dev->fmt.width |= (val & 0xff);
+> +
+> +	ov490_read_reg(dev, OV490_ISP_VSIZE_HIGH, &val);
+> +	dev->fmt.height = (val & 0xf) << 8;
+> +	ov490_read_reg(dev, OV490_ISP_VSIZE_LOW, &val);
+> +	dev->fmt.height |= val & 0xff;
+> +
+> +	/* Set bus width to 12 bits with [0:11] ordering. */
+> +	ov490_write_reg(dev, OV490_DVP_CTRL3, 0x10);
+> +
+> +	dev_info(dev->dev, "Identified RDACM21 camera module\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int rdacm21_initialize(struct rdacm21_device *dev)
+> +{
+> +	int ret;
+> +
+> +	/* Verify communication with the MAX9271: ping to wakeup. */
+> +	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
+> +	i2c_smbus_read_byte(dev->serializer->client);
+> +
+> +	/* Serial link disabled during config as it needs a valid pixel clock. */
+> +	ret = max9271_set_serial_link(dev->serializer, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Set GPO high to hold OV490 in reset during max9271 configuration. */
+> +	ret = max9271_set_gpios(dev->serializer, MAX9271_GPO);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Configure I2C bus at 105Kbps speed and configure GMSL link. */
+> +	ret = max9271_configure_i2c(dev->serializer,
+> +				    MAX9271_I2CSLVSH_469NS_234NS |
+> +				    MAX9271_I2CSLVTO_1024US |
+> +				    MAX9271_I2CMSTBT_105KBPS);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = max9271_configure_gmsl_link(dev->serializer);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
+> +	if (ret)
+> +		return ret;
+> +	dev->serializer->client->addr = dev->addrs[0];
+> +
+> +	/*
+> +	 * Release OV490 from reset and program address translation
+> +	 * before performing OV490 configuration.
+> +	 */
+> +	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPO);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = max9271_set_translation(dev->serializer, dev->addrs[1],
+> +				      OV490_I2C_ADDRESS);
+> +	if (ret)
+> +		return ret;
+> +	dev->isp->addr = dev->addrs[1];
+> +
+> +	ret = ov490_initialize(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * Set reverse channel high threshold to increase noise immunity.
+> +	 *
+> +	 * This should be compensated by increasing the reverse channel
+> +	 * amplitude on the remote deserializer side.
+> +	 */
+> +	ret = max9271_set_high_threshold(dev->serializer, true);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rdacm21_probe(struct i2c_client *client)
+> +{
+> +	struct rdacm21_device *dev;
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
+> +	if (!dev)
+> +		return -ENOMEM;
+> +	dev->dev = &client->dev;
+> +
+> +	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
+> +				       GFP_KERNEL);
+
+Does this need to be allocated dynamically, can't the serializer field
+be embedded ?
+
+> +	if (!dev->serializer)
+> +		return -ENOMEM;
+> +
+> +	dev->serializer->client = client;
+> +
+> +	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+> +					 dev->addrs, 2);
+> +	if (ret < 0) {
+> +		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Create the dummy I2C client for the sensor. */
+> +	dev->isp = i2c_new_dummy_device(client->adapter, OV490_I2C_ADDRESS);
+> +	if (IS_ERR(dev->isp))
+> +		return PTR_ERR(dev->isp);
+> +
+> +	ret = rdacm21_initialize(dev);
+> +	if (ret < 0)
+> +		goto error;
+> +
+> +	/* Initialize and register the subdevice. */
+> +	v4l2_i2c_subdev_init(&dev->sd, client, &rdacm21_subdev_ops);
+> +	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +
+> +	v4l2_ctrl_handler_init(&dev->ctrls, 1);
+> +	v4l2_ctrl_new_std(&dev->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> +			  OV10640_PIXEL_RATE, OV10640_PIXEL_RATE, 1,
+> +			  OV10640_PIXEL_RATE);
+> +	dev->sd.ctrl_handler = &dev->ctrls;
+> +
+> +	ret = dev->ctrls.error;
+> +	if (ret)
+> +		goto error_free_ctrls;
+> +
+> +	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
+> +	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
+> +	if (ret < 0)
+> +		goto error_free_ctrls;
+> +
+> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
+> +	if (!ep) {
+> +		dev_err(&client->dev,
+> +			"Unable to get endpoint in node %pOF\n",
+> +			client->dev.of_node);
+> +		ret = -ENOENT;
+> +		goto error_free_ctrls;
+> +	}
+> +	dev->sd.fwnode = ep;
+> +
+> +	ret = v4l2_async_register_subdev(&dev->sd);
+> +	if (ret)
+> +		goto error_put_node;
+> +
+> +	return 0;
+> +
+> +error_put_node:
+> +	fwnode_handle_put(dev->sd.fwnode);
+> +error_free_ctrls:
+> +	v4l2_ctrl_handler_free(&dev->ctrls);
+> +error:
+> +	i2c_unregister_device(dev->isp);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rdacm21_remove(struct i2c_client *client)
+> +{
+> +	struct rdacm21_device *dev = i2c_to_rdacm21(client);
+> +
+> +	fwnode_handle_put(dev->sd.fwnode);
+
+Maybe this should go after unregistration of the subdev, to avoid a
+use-after-free ? I'd move it to the end.
+
+> +	v4l2_async_unregister_subdev(&dev->sd);
+> +	v4l2_ctrl_handler_free(&dev->ctrls);
+> +	i2c_unregister_device(dev->isp);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id rdacm21_of_ids[] = {
+> +	{ .compatible = "imi,rdacm21" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rdacm21_of_ids);
+> +
+> +static struct i2c_driver rdacm21_i2c_driver = {
+> +	.driver	= {
+> +		.name	= "rdacm21",
+> +		.of_match_table = rdacm21_of_ids,
+> +	},
+> +	.probe_new	= rdacm21_probe,
+> +	.remove		= rdacm21_remove,
+> +};
+> +
+> +module_i2c_driver(rdacm21_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("GMSL Camera driver for RDACM21");
+> +MODULE_AUTHOR("Jacopo Mondi, Kieran Bingham, Laurent Pinchart, Niklas Söderlund, Vladimir Barinov");
+
+Did I author any code in this driver ?
+
+> +MODULE_LICENSE("GPL v2");
+
+-- 
+Regards,
+
+Laurent Pinchart
