@@ -2,128 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 480562DC524
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 18:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C942DC528
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 18:18:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbgLPRPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 12:15:35 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42822 "EHLO
+        id S1727082AbgLPRRz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 12:17:55 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42868 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726745AbgLPRPf (ORCPT
+        with ESMTP id S1727071AbgLPRRz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 12:15:35 -0500
+        Wed, 16 Dec 2020 12:17:55 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DB5445E;
-        Wed, 16 Dec 2020 18:14:52 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 683482CF;
+        Wed, 16 Dec 2020 18:17:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608138892;
-        bh=qi5QC7crOJeytxJKygXG4i2GdQUrkiOb5J7atrBD02M=;
+        s=mail; t=1608139032;
+        bh=W9YanIGwZONXqwRTj+UtztRqLzatG/3UateoWE4Lj5M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dxuYPuLK4H9K3Td+F4iqvkJzc8QAdR/MouvbsumkNL+1W2hQ+j0o+JMYPWP1Bmggy
-         OoCX4IAxRDXRE8vCdW6rpiJvjaWZpxARxcJRBJYw3wUU0IgQOlZeTTDGJbauHoCtRr
-         GQaqFRHnxIK4mRdrILiDDLFhybciJjfG9gcEpCvk=
-Date:   Wed, 16 Dec 2020 19:14:45 +0200
+        b=RSrORiqo52IGgnPFTqEig21c+wCtHJnVXiTwtpYrt3OM/Uwwlatl15cz1tc7vbi6b
+         EMyyhFEZrB5vhGGqForlJjKDekOqDHKTys2AfV+2f2MOAWd94LDU8aPuhkawxoF5Ou
+         fwsDc4An9LjNQ202AyBAL4oxAeVmjcWlqbqkFduM=
+Date:   Wed, 16 Dec 2020 19:17:05 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
         niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        robh@kernel.org, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 4/5] media: i2c: max9286: Make channel amplitude
- programmable
-Message-ID: <X9pAhbdm8b4Y6BTP@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v6 2/5] dt-bindings: media: max9286: Document
+ 'maxim,reverse-channel-microvolt'
+Message-ID: <X9pBEe+da/8Y34Qv@pendragon.ideasonboard.com>
 References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-5-jacopo+renesas@jmondi.org>
- <X9pAbzfmwHnj+GaN@pendragon.ideasonboard.com>
+ <20201215170957.92761-3-jacopo+renesas@jmondi.org>
+ <X9o+XT3z1sVlh73x@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <X9pAbzfmwHnj+GaN@pendragon.ideasonboard.com>
+In-Reply-To: <X9o+XT3z1sVlh73x@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 16, 2020 at 07:14:25PM +0200, Laurent Pinchart wrote:
+On Wed, Dec 16, 2020 at 07:05:34PM +0200, Laurent Pinchart wrote:
 > Hi Jacopo,
 > 
 > Thank you for the patch.
 > 
-> On Tue, Dec 15, 2020 at 06:09:56PM +0100, Jacopo Mondi wrote:
-> > Instrument the function that configures the reverse channel with a
-> > programmable amplitude value.
+> On Tue, Dec 15, 2020 at 06:09:54PM +0100, Jacopo Mondi wrote:
+> > Document the 'reverse-channel-microvolt' vendor property in the
+> > bindings document of the max9286 driver.
 > > 
-> > This change serves to prepare to adjust the reverse channel amplitude
-> > depending on the remote end high-threshold configuration.
+> > The newly introduced property allows to specifying the initial
+> > configuration of the GMSL reverse control channel to accommodate
+> > remote serializers pre-programmed with the high threshold power
+> > supply noise immunity enabled.
 > > 
 > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/max9286.c | 22 ++++++++++++++++------
-> >  1 file changed, 16 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 1cfc8801c0b2..021309c6dd6f 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -336,19 +336,29 @@ static void max9286_configure_i2c(struct max9286_priv *priv, bool localack)
-> >  	usleep_range(3000, 5000);
-> >  }
-> >  
-> > -static void max9286_reverse_channel_setup(struct max9286_priv *priv)
-> > +static void max9286_reverse_channel_setup(struct max9286_priv *priv,
-> > +					  unsigned int chan_amplitude)
-> >  {
-> > +	/* Reverse channel transmission time: default to 1. */
-> > +	u8 chan_config = MAX9286_REV_TRF(1);
-> > +
-> >  	/*
-> >  	 * Reverse channel setup.
-> >  	 *
-> >  	 * - Enable custom reverse channel configuration (through register 0x3f)
-> >  	 *   and set the first pulse length to 35 clock cycles.
-> > -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> > -	 *   high threshold enabled by the serializer driver.
-> > +	 * - Adjust reverse channel amplitude: values > 130 are programmed
-> > +	 *   using the additional +100mV REV_AMP_X boost flag
-> >  	 */
-> >  	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> > -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> > -		      MAX9286_REV_AMP_X);
-> > +
-> > +	if (chan_amplitude > 100) {
-> > +		/* It is not possible to express values (100 < x < 130) */
-> > +		chan_amplitude = chan_amplitude < 130
-> > +			       ? 30 : chan_amplitude - 100;
-> 
-> This could also be written
-> 
-> 		chan_amplitude = min(30, chan_amplitude - 100);
-
-s/min/max/ of course.
-
-> 
-> With or without the change,
 > 
 > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> > +		chan_config |= MAX9286_REV_AMP_X;
-> > +	}
-> > +	max9286_write(priv, 0x3b, chan_config | MAX9286_REV_AMP(chan_amplitude));
-> >  	usleep_range(2000, 2500);
-> >  }
-> >  
-> > @@ -957,7 +967,7 @@ static int max9286_setup(struct max9286_priv *priv)
-> >  	 * only. This should be disabled after the mux is initialised.
-> >  	 */
-> >  	max9286_configure_i2c(priv, true);
-> > -	max9286_reverse_channel_setup(priv);
-> > +	max9286_reverse_channel_setup(priv, 170);
-> >  
-> >  	/*
-> >  	 * Enable GMSL links, mask unused ones and autodetect link
+> > ---
+> > v5->v6:
+> > - Use standard unit suffix 'microvolt' for the custom property
+> > - Drop '$ref' as according to 'example-schema.yaml':
+> >   "Vendor specific properties having a standard unit suffix don't need a type."
+> > ---
+> >  .../bindings/media/i2c/maxim,max9286.yaml     | 23 +++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > index 9ea827092fdd..b22ba3e0db4a 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > @@ -51,6 +51,26 @@ properties:
+> >    '#gpio-cells':
+> >      const: 2
+> > 
+> > +  maxim,reverse-channel-microvolt:
+> > +    minimum: 30000
+> > +    maximum: 200000
+> > +    default: 170000
+> > +    description: |
+> > +      Initial amplitude of the reverse control channel, in micro volts.
+> > +
+> > +      The initial amplitude shall be adjusted to a value compatible with the
+> > +      configuration of the connected remote serializer.
+> > +
+> > +      Some camera modules (for example RDACM20) include an on-board MCU that
+> > +      pre-programs the embedded serializer with power supply noise immunity
+> > +      (high-threshold) enabled. A typical value of the deserializer's reverse
+> > +      channel amplitude to communicate with pre-programmed serializers is
+> > +      170000 micro volts.
+> > +
+> > +      A typical value for the reverse channel amplitude to communicate with
+> > +      a remote serializer whose high-threshold noise immunity is not enabled
+> > +      is 100000 micro volts
+> > +
+> >    ports:
+> >      type: object
+> >      description: |
+> > @@ -221,6 +241,7 @@ required:
+> >    - ports
+> >    - i2c-mux
+> >    - gpio-controller
+> > +  - maxim,reverse-channel-microvolt
+
+One comment though: You specify a default value above, which isn't very
+useful when the property is required. Should we either drop the default
+value, or make the property optional ?
+
+> > 
+> >  additionalProperties: false
+> > 
+> > @@ -243,6 +264,8 @@ examples:
+> >          gpio-controller;
+> >          #gpio-cells = <2>;
+> > 
+> > +        maxim,reverse-channel-microvolt = <170000>;
+> > +
+> >          ports {
+> >            #address-cells = <1>;
+> >            #size-cells = <0>;
 
 -- 
 Regards,
