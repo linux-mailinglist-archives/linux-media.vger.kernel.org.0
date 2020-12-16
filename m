@@ -2,120 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7ADC2DBDC5
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 10:40:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B55762DBDD8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 10:44:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726026AbgLPJjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 04:39:23 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:43123 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725889AbgLPJjX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 04:39:23 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id pTGXkOjPbynrEpTGakpafo; Wed, 16 Dec 2020 10:38:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1608111521; bh=KXHBueOjDbo6cNmvea+XKTXDVux7va/DaIm14CAlSxY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=wSuoBl2w39m+LtyBlld1XHvXDuU0AklIGh1K38If9ePpHhC5DrOVDown4dTHFefC8
-         X2h+XueHJwdXbB31tNG6QtCpqfDevF6OL0ui0m4fJ+TXfpW7fjD5TZ3ywL/cGIBVZ7
-         YxCSnJPN8sOo6Z2cybHKifij5BIzFrl1/aVQ2mzyOUpMJga85v1JqzF/quxBWkImbo
-         rNyNEnV1CH2bS26eBdXbmqkCdyVKI8MuNmz0kc2lw8HYeddkMMDv+6uBlsHZKVCDRs
-         ISo7dEnSkqcG9OdUuiZc9RbjQgXEpqEiVOA5CFhWZLwZ/ktLe6GDpOuttwLzHnXGce
-         wUwLo9F9z+3Sg==
-Subject: Re: [PATCH] media: allegro: Fix use after free on error
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel-janitors@vger.kernel.org
-References: <X9dShwq8PrThDpn9@mwanda> <20201214171627.GE1861@pengutronix.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <7f7011dd-ceb2-67de-1f9b-9edd0777c04d@xs4all.nl>
-Date:   Wed, 16 Dec 2020 10:38:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726047AbgLPJoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 04:44:23 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:42104 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725889AbgLPJoX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Dec 2020 04:44:23 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kpTLR-005T5p-Mf; Wed, 16 Dec 2020 09:43:41 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kpTOg-0004hf-RE; Wed, 16 Dec 2020 09:47:02 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.12] tegra-video: Add support for capturing from (#70078)
+Date:   Wed, 16 Dec 2020 09:47:02 +0000
+Message-Id: <20201216094702.18038-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <c05885cd-1c29-6dde-de3f-38c8a76a851e@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20201214171627.GE1861@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEXhxv8wK2HMnRg9PJqD/Jk1kJWKXA/KSh5IEuI0F6AoeYMO6Oy0+VhEWfIoog/2cPqTMEEGM6HjxUce041XaPcFfNijzRdIvn+HeQBQNwSbRQTSQl0w
- LL5pEyQ/+ljdZ2UuUKYu8W1w2fwVWZtkb+A9G+IiwHN5qmG8LrAe3l64XNUIj4ldgjT+UJ4Hh0m7s3egkPyqu64osW+Bo45poR30eAr+LczDF+6M0JWL6Ol2
- lIqBjqFOlG2MaNzx+9qms+NimmRHs+r/SiKfSWEbKtc7bNLDyiBPNtBYtzJuNrrFTCD/xJt5gzswbWORp5JRqZ4EIwfCC5qQO0XfbvUI/cADS1WK3lkoEiv/
- 9ZzKoaN1dzBRw1xaeRfdGiKL9TjXRAZBS/887l5asljdfzkYdFggYhqMsmB0vHr7rYLz23Y/N0UbfASTGNNe1hxk+keY9IO5mxqwKzsuyWjqpBT1ZpQzgdYQ
- nHm38PJbjScvFz2CNivbk5pMJf7R8HE7r+dbyQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/12/2020 18:16, Michael Tretter wrote:
-> On Mon, 14 Dec 2020 14:54:47 +0300, Dan Carpenter wrote:
->> The "channel" is added to the "dev->channels" but then if
->> v4l2_m2m_ctx_init() fails then we free "channel" but it's still on the
->> list so it could lead to a use after free.  Let's not add it to the
->> list until after v4l2_m2m_ctx_init() succeeds.
-> 
-> Thanks.
-> 
-> The patch conflicts with the series that moves the driver from staging to
-> mainline [0]. I'm not sure, which patch should go in first.
+From: builder@linuxtv.org
 
-I'll take care of the conflict.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/c05885cd-1c29-6dde-de3f-38c8a76a851e@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/81562/
+Build time: 00:11:16
+Link: https://lore.kernel.org/linux-media/c05885cd-1c29-6dde-de3f-38c8a76a851e@xs4all.nl
 
-Regards,
+gpg: Signature made Wed 16 Dec 2020 09:15:29 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-	Hans
+Summary: got 2/13 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-> 
-> It is also correct to not change the order of list_del and
-> v4l2_m2m_ctx_release in allegro_release. The list is used to relate messages
-> from the VCU to their destination channel and this should be possible until
-> the context has been released and no further messages are expected for that
-> channel.
-> 
-> [0] https://lore.kernel.org/linux-media/20201202133040.1954837-1-m.tretter@pengutronix.de/
-> 
->>
->> Fixes: cc62c74749a3 ("media: allegro: add missed checks in allegro_open()")
->> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
-> 
->> ---
->> From static analysis.  Not tested.
->>
->>  drivers/staging/media/allegro-dvt/allegro-core.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
->> index 9f718f43282b..640451134072 100644
->> --- a/drivers/staging/media/allegro-dvt/allegro-core.c
->> +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
->> @@ -2483,8 +2483,6 @@ static int allegro_open(struct file *file)
->>  	INIT_LIST_HEAD(&channel->buffers_reference);
->>  	INIT_LIST_HEAD(&channel->buffers_intermediate);
->>  
->> -	list_add(&channel->list, &dev->channels);
->> -
->>  	channel->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, channel,
->>  						allegro_queue_init);
->>  
->> @@ -2493,6 +2491,7 @@ static int allegro_open(struct file *file)
->>  		goto error;
->>  	}
->>  
->> +	list_add(&channel->list, &dev->channels);
->>  	file->private_data = &channel->fh;
->>  	v4l2_fh_add(&channel->fh);
->>  
->> -- 
->> 2.29.2
->>
->>
+Error/warnings:
+
+patches/0012-media-tegra-video-Add-support-for-x8-captures-with-g.patch:
+
+   checkpatch.pl:
+	$ cat patches/0012-media-tegra-video-Add-support-for-x8-captures-with-g.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:971: CHECK: spinlock_t definition without comment
+
+patches/0013-media-tegra-video-Add-custom-V4L2-control-V4L2_CID_T.patch:
+
+   checkpatch.pl:
+	$ cat patches/0013-media-tegra-video-Add-custom-V4L2-control-V4L2_CID_T.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
 
