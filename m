@@ -2,74 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 144F42DBBE0
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 08:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F1232DBD2E
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 09:59:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbgLPHPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 02:15:44 -0500
-Received: from mail-io1-f70.google.com ([209.85.166.70]:33863 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbgLPHPo (ORCPT
+        id S1725943AbgLPI6v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 03:58:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45514 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725953AbgLPI6u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 02:15:44 -0500
-Received: by mail-io1-f70.google.com with SMTP id r16so15587023ioa.1
-        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 23:15:28 -0800 (PST)
+        Wed, 16 Dec 2020 03:58:50 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65CE8C061793
+        for <linux-media@vger.kernel.org>; Wed, 16 Dec 2020 00:58:10 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id a3so1614256wmb.5
+        for <linux-media@vger.kernel.org>; Wed, 16 Dec 2020 00:58:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=CnyyKZ0Zx1BxINWxPqOgHgBA1hAyUh9nq8RAHfNkCus=;
+        b=fZHU34jQlz1e2bWiS5yLio80iUB2pJw8FaGi9nwz3hsQAEpTTVFuu9ePjFreyn4sO7
+         PU2DQMlqac65tisGoObkSRhMZ4Cv4e9ByEitpNNAKP/hiQWG7RDD0dj2+UFfc/CAQnxv
+         SSQJOp35A9eG6Wlqwk8K+Kr0V7t/Y0MgdwLiSOG16X5h+WgldPpM43if+YUzeQST2qgf
+         E7pW6z1bseE5Rrii/nSvWF/MAtRDgpnZbEzCSkjg2ZNyPJt0kzaOQoYV2gfSXTT09QZK
+         GSAwtVf5/4BSe9+g1NS6PCDRqUxjeHG1JyCwIpryX0ejWqaq2+4gkfPXu+JE5erN0il6
+         Yvmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=36zW/PbpiTCKuG8Esvh3+4Beyh5+p/0KAx49415NdvY=;
-        b=tcJp9Gcgeq3IUj2bvNyfo8nMtFpTZm6geTi7y+J5+uIHqpzc40aWhTqVXJ9Dt/K2yT
-         9JdTM2vTlmijqMOyWjufAyFqDjdtqWYXiYJRQKkI5PHgeRnjAiaw0+OQcKTtbgFG2oSs
-         hNQqoyT+LNRqnu1iYidm1P6OSjEnDwtBBM/WQVvCn/qoX/7NC+rUonWeV5qJEylPNRgZ
-         GmQkyQUFEq2R4xeTD3O+pHg9YI1S6aYqFgfAJQ+x7xRznDfKV+ggfEKfZE9S+DisfN2+
-         Oq5u5OxofO4uzp2fONtug7tJzZjieDu13CRXyesf0YsITV2M5UUpNbd5WG7SX+x/AYo+
-         FtkQ==
-X-Gm-Message-State: AOAM532MbEOpEgv/ITVDf1ywZ9T5OY+vDXK8cOoGfvRqFKC1z4VY+61s
-        O4C1D+nz/oCGsshyfK6fQR3+vQZRhJuN4XGxkHfdd5VM9xJY
-X-Google-Smtp-Source: ABdhPJyE+w4DQGI1MtjxdqzF3IywhKSts84lZVnS0w5MQcPUmCQp7IMO10IRfWgV2p9/kkfUbcykf9u+Dd+WT8lfjHM/CdRp4VIy
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=CnyyKZ0Zx1BxINWxPqOgHgBA1hAyUh9nq8RAHfNkCus=;
+        b=TBuc+Q/17jpI2p4XWIF46JfYSxJAeLp4xMgORNG4Uv4FgLsmByTiVVMN2XtGHA3WsA
+         jJs7tD+WqBMN/5iLsbWu3DPHGRBFpr9lPl+rWkRMqshsC6g94yF5iJfsLFbsNNs51CCk
+         gJ9VA8pXzHPt0yxzte16+cHdcJKW9QuA1SW+APFl3oaj8ccdP4t8VZa6r/up2BfUODR1
+         vQtEZJhyQ5tERnx+0+1b0zB9UEcm77pZ33y9UJzvMHHUC6KK5w3f9thljBVBwSqGXZK0
+         QqFpx2VfwDtPUAb6z+uz1gvMwh+ZbBxZDVFy/7RKSKmr1XMBTxkTPtr+C0w4FRNYJumY
+         WPGQ==
+X-Gm-Message-State: AOAM53006uIgv8Y4Rn81K8nbX8pzGoRkMGvqWPJEh+Ad2f3A8pLOjBdU
+        UsaJMTDaej3pcpEOSC2DaqGXZg==
+X-Google-Smtp-Source: ABdhPJxyD6igsMnOelb9CqTbNakrbhwN83NwuKQeIw5SBvQ4jSlkvgYwYSwyhS6HWPk299U6SE0Fsg==
+X-Received: by 2002:a05:600c:2903:: with SMTP id i3mr2200622wmd.41.1608109089069;
+        Wed, 16 Dec 2020 00:58:09 -0800 (PST)
+Received: from dell ([91.110.221.200])
+        by smtp.gmail.com with ESMTPSA id w13sm2126803wrt.52.2020.12.16.00.58.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Dec 2020 00:58:08 -0800 (PST)
+Date:   Wed, 16 Dec 2020 08:58:06 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Karol Gugala <kgugala@antmicro.com>,
+        Mateusz Holenko <mholenko@antmicro.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pawel Czarnecki <pczarnecki@internships.antmicro.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-mediatek <linux-mediatek@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 5/5] dt-bindings: mfd: correct the node name of the panel
+ led
+Message-ID: <20201216085806.GJ4776@dell>
+References: <20201204093813.1275-1-thunder.leizhen@huawei.com>
+ <20201204093813.1275-6-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:c9cb:: with SMTP id z194mr40484133iof.110.1608102903193;
- Tue, 15 Dec 2020 23:15:03 -0800 (PST)
-Date:   Tue, 15 Dec 2020 23:15:03 -0800
-In-Reply-To: <000000000000ab11c505abeb19f5@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004ea4fe05b68fa299@google.com>
-Subject: Re: KASAN: use-after-free Write in __sco_sock_close
-From:   syzbot <syzbot+077eca30d3cb7c02b273@syzkaller.appspotmail.com>
-To:     anmol.karan123@gmail.com, coreteam@netfilter.org,
-        davem@davemloft.net, devel@driverdev.osuosl.org,
-        foxhlchen@gmail.com, gregkh@linuxfoundation.org,
-        johan.hedberg@gmail.com, kaber@trash.net, kadlec@blackhole.kfki.hu,
-        kuba@kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        marcel@holtmann.org, mchehab@kernel.org, mchehab@s-opensource.com,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        pablo@netfilter.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201204093813.1275-6-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot suspects this issue was fixed by commit:
+On Fri, 04 Dec 2020, Zhen Lei wrote:
 
-commit 6dfccd13db2ff2b709ef60a50163925d477549aa
-Author: Anmol Karn <anmol.karan123@gmail.com>
-Date:   Wed Sep 30 14:18:13 2020 +0000
+> According to the definition in leds-pwm.yaml, the node name of each led
+> must match the regular expression "^led(-[0-9a-f]+)?$". "led" or "led-"
+> followed by a decimal or hexadecimal ID number.
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  Documentation/devicetree/bindings/mfd/iqs62x.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-    Bluetooth: Fix null pointer dereference in hci_event_packet()
+Applied, thanks.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14cb845b500000
-start commit:   47ec5303 Merge git://git.kernel.org/pub/scm/linux/kernel/g..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e0c783f658542f35
-dashboard link: https://syzkaller.appspot.com/bug?extid=077eca30d3cb7c02b273
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=165a89dc900000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=130a8c62900000
-
-If the result looks correct, please mark the issue as fixed by replying with:
-
-#syz fix: Bluetooth: Fix null pointer dereference in hci_event_packet()
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
