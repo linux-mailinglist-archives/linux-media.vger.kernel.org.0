@@ -2,59 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25ECE2DB7D1
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 01:35:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9DB72DB7F3
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 01:51:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbgLPAer (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Dec 2020 19:34:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52704 "EHLO
+        id S1725790AbgLPAuR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Dec 2020 19:50:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbgLPAel (ORCPT
+        with ESMTP id S1725275AbgLPAuQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Dec 2020 19:34:41 -0500
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BDC0C0613D6
-        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 16:34:00 -0800 (PST)
-Received: by mail-lf1-x141.google.com with SMTP id o17so41124588lfg.4
-        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 16:34:00 -0800 (PST)
+        Tue, 15 Dec 2020 19:50:16 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C875DC0613D3
+        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 16:49:36 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id s21so15506287pfu.13
+        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 16:49:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zj2YPVQKRFQs32LNLuK0mWD4evn16vjxArTvNU8xCYE=;
-        b=zmi7gRMEKq3pV/lgDugpVABkbjYGunfv3IE8jzEnAbsXbf+Ejg0wFe38PkWiNxIzat
-         UcNrSUrSe1p2sIBdGyWDONBu3AH8Kbk0NiodFDicgrBdvK70sr0gakQF29ML95jAragV
-         8N13doCOA/pfONzJVu9hq8B426nbEKWVwEaZb7OphLLkthsF5Ta4dsKZ5Ek4hjMnrraY
-         DGHF1s2bdcFGIUxhc8PsQ4bFHAmzraOeLADbxbYfaGcYzobyIX+X8coA5ijWWy005Ds+
-         wAdnfLQ7eT6rJMO+AIq+vVrl6HWY5W3uz0vRd5Gt6zRcBSNLXP04+FjmrPL01+CWxnu5
-         qKVw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MKR4bPj+0an3d7yDezFmd6g6UgR/obAMB14Y7RLspck=;
+        b=yq7gvFhVfsWJo+zmY4hoB9pnJ8uv4hOMEUXxPxzDyY6PT5gUiJ1INcEprFl4kAo2Pv
+         QhBL52aN6JVteOJoWFo5AIGwb3EH7uM9OOnOVIFbLzfMjbk3txQg8ZCuyB4F8aQ1baYl
+         002JC8jXKFq/zM4bR4nYghem24cu8Ux8/0kEU6Dwr79aEO83WV1+fIxhdJrBDX5FzJUT
+         1ysRfgre6Vicnrou/JmjzMxM3JvKjZVNMUml9bk143Q775RStdJR5C61EcabGmOwIyRs
+         skmq+rf145/CPRY3iAvBpzDZ2FzbnlE+h2FLn+SbPYxR3hhMrOAPtGQiohr0BcZl+sN7
+         Uj4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zj2YPVQKRFQs32LNLuK0mWD4evn16vjxArTvNU8xCYE=;
-        b=s+GjBJ9PMakqILSNA3gmgNHAPnuud3cgHj+JXBiuyfr6yr7yOlAR63JAcLyyqG/y1S
-         f8jBYOOJwSs5tmUMhHOZXFC3AsH1DM4GIjHvRBXq3ebp09FgsVW2iQPwnnFUZ/khSEML
-         nBGy1Gpk7pcTOd1v4eVHe1BqHzuU2zpVXMuiya6OtY+18CH18MhEVITZLtDj5heqbXEY
-         jpEQEBrYRMi0VafGqPnN86lR9qYJZtipYKX0xlCd6PcpVnbtHLxhYNQ3mR1arzag7I5i
-         P0gP6AiM07fM1Xp23hAg48of4DzCKF1rCmmwZNp+K2a55MxEGyJXvNUz3P6BQIgc+01V
-         XpWA==
-X-Gm-Message-State: AOAM531KFB13E3VbuRCOOP+yobz5sm2LTSWhL6NnHSak8WgDc5lXiXgd
-        VCZVRib7sbYsjPAq/xw/iYCSJ9rfujGvYaN9efnl7g==
-X-Google-Smtp-Source: ABdhPJyOHjNYEs+MlipEezrk74D7gW0AbcHrqq8ll/2YJyrpydKCzWHi1oI7l8bwkRbDoPAAlJpvejRCo7btrJ0F78U=
-X-Received: by 2002:a2e:8e38:: with SMTP id r24mr7092267ljk.333.1608078838907;
- Tue, 15 Dec 2020 16:33:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20201121235002.69945-1-john.stultz@linaro.org>
- <20201121235002.69945-3-john.stultz@linaro.org> <20201215235334.GA227480@roeck-us.net>
-In-Reply-To: <20201215235334.GA227480@roeck-us.net>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MKR4bPj+0an3d7yDezFmd6g6UgR/obAMB14Y7RLspck=;
+        b=HDs2a5wbmBH2RI6cKK0/QMCmcOBqedaKG9w/Keg214UZclBSWp7AOw5PgKPpTunaS+
+         wdD7uY/ph/znfEGPTGfdJ4fX62dNhip1SIZ4c/g6VXO1y2/MflFy4j07YmXsSQqVa2e7
+         DfWKw9jUMeuJ6EDwH++WU8NCrW1nH74+uwNmk38LwPV2qEw5vjF2fRfU6Yy9a5A5c8MU
+         crWArFtAdA6Q/AaNEZ4W+EsCawVq+OuFH9sVU7zAn5NbzX67dVBUOEi0a0IzKi9sqWKu
+         dOnl+Phxn0cwpwSoql5320vHIpMPiNxTFaugNoextG4alSqFY6uDxIap57glHxsUgrxZ
+         aeQw==
+X-Gm-Message-State: AOAM5317V1nseCQVZ6ceE6p2H5k8TgHWDs3MTMlnNqRkg4oc31PuxDeP
+        VTta/NNdlFcowWTT4gFKy7kpjQ==
+X-Google-Smtp-Source: ABdhPJyVbSdm2BRxuBQ11smLi/qlMz2NC4iswF5AXPde4Afv1/cEnbAlgSBqJzdKLY1agZLuKV0iLg==
+X-Received: by 2002:a62:e519:0:b029:197:bcec:7c0c with SMTP id n25-20020a62e5190000b0290197bcec7c0cmr30530762pff.63.1608079776360;
+        Tue, 15 Dec 2020 16:49:36 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id k14sm166322pfp.132.2020.12.15.16.49.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Dec 2020 16:49:35 -0800 (PST)
 From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 15 Dec 2020 16:33:45 -0800
-Message-ID: <CALAqxLXOnJPU5O5nZRnww6qNeA465syOmCPr9FY5cD_aijjzQA@mail.gmail.com>
-Subject: Re: [PATCH v7 2/5] dma-buf: heaps: Move heap-helper logic into the
- cma_heap implementation
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Liam Mark <lmark@codeaurora.org>,
         Laura Abbott <labbott@kernel.org>,
@@ -64,39 +60,67 @@ Cc:     lkml <linux-kernel@vger.kernel.org>,
         Sandeep Patil <sspatil@google.com>,
         Daniel Mentz <danielmentz@google.com>,
         Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
         Robin Murphy <robin.murphy@arm.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma-buf: cma_heap: Include linux/vmalloc.h to fix build failures on MIPS
+Date:   Wed, 16 Dec 2020 00:49:31 +0000
+Message-Id: <20201216004931.113505-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201215235334.GA227480@roeck-us.net>
+References: <20201215235334.GA227480@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 15, 2020 at 3:53 PM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On Sat, Nov 21, 2020 at 11:49:59PM +0000, John Stultz wrote:
-> > Since the heap-helpers logic ended up not being as generic as
-> > hoped, move the heap-helpers dma_buf_ops implementations into
-> > the cma_heap directly.
-> >
-> > This will allow us to remove the heap_helpers code in a following
-> > patch.
-> >
->
-> mips:allmodconfig:
->
-> drivers/dma-buf/heaps/cma_heap.c: In function 'cma_heap_do_vmap':
-> drivers/dma-buf/heaps/cma_heap.c:195:10: error: implicit declaration of function 'vmap'
->
+We need to include <linux/vmalloc.h> in order for MIPS to find
+vmap(), as it doesn't otherwise get included there.
 
-Ah. Looks like we need to explicitly include linux/vmalloc.h.
+Without this patch, one can hit the following build error:
+  drivers/dma-buf/heaps/cma_heap.c: In function 'cma_heap_do_vmap':
+  drivers/dma-buf/heaps/cma_heap.c:195:10: error: implicit declaration of function 'vmap'
 
-Thanks for the report! I'll spin up a patch, validate it and send it
-out here shortly.
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/cma_heap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-thanks
--john
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 5e7c3436310c..3c4e34301172 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -20,6 +20,7 @@
+ #include <linux/module.h>
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
++#include <linux/vmalloc.h>
+ 
+ 
+ struct cma_heap {
+-- 
+2.17.1
+
