@@ -2,99 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABC152DBFDE
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 12:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3BB2DC05B
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 13:36:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725976AbgLPLyv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 06:54:51 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40614 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725957AbgLPLyu (ORCPT
+        id S1725933AbgLPMgb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 07:36:31 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:47475 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725385AbgLPMgb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 06:54:50 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7D822CF;
-        Wed, 16 Dec 2020 12:54:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608119649;
-        bh=WlmyK4li8v71/hUEgr/biZ+2rK5Z8+jZfzUPyAvY5wg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kwJ52x1H7gR1YNJJducgLQJ4cUmIWUJmVx4WdyVvJYVOCp4LRLtwC947auoZYkj/G
-         hdTsYIRe1OiVy+WZ+VwoDCmXP9zI2KXjcuKg930EWpdsHobWO4bB/JoXHBXeBb7eJS
-         EpXlmrkV/Tn04O4R+a3K5ULn+/AknYb5AbUkc8t0=
-Date:   Wed, 16 Dec 2020 13:54:02 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: vsp1: Use BIT macro for feature identification
-Message-ID: <X9n1WqtWBbWlZ0LL@pendragon.ideasonboard.com>
-References: <20201216114548.818985-1-kieran.bingham+renesas@ideasonboard.com>
+        Wed, 16 Dec 2020 07:36:31 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id pW1vkIY5QQwDIpW1yk8NkX; Wed, 16 Dec 2020 13:35:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1608122148; bh=4DpqKcOBl0qJNIm6neO+j5QyXFEgSMfAEIaDXahboUI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ELIvft3UTSvGsu6w+3+0B+wQ3bYUS4PqDUyaynXtFXNAXVuF/W7u8qI16S9n6QcsH
+         mROgQTm+aEy4lkqenHhEAMzlcG3arWW7q4hh1coHXau1kxasMHSt9te7lKL81KQocH
+         SPI6ShBeaPaoJuF+3YucIr5wHEw01h5vGZ0a4QPNCzy1Mn7Y7DZKBUYXobxlHgBBtN
+         cp3BruEG83DQzyInYGPS5+aVHKuzFO/IjelgTx7f+ajjtrygjnBGEsz5s076LLXYVV
+         4UBzTgTaYK0Mw3KDeL46DhKTyv9Orm+E/k4ZVMYsNWG/NBYmk4XnTmTd9X6Tlhy0hR
+         jqpHIgiY7oinA==
+Subject: Re: [PATCH 00/15] drm/vc4: hdmi: Add CEC support for the BCM2711
+To:     Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>
+Cc:     Jason Cooper <jason@lakedaemon.net>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org
+References: <20201210134648.272857-1-maxime@cerno.tech>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <23bdb67a-fb55-42d4-9130-ade1b0396768@xs4all.nl>
+Date:   Wed, 16 Dec 2020 13:35:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20201210134648.272857-1-maxime@cerno.tech>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201216114548.818985-1-kieran.bingham+renesas@ideasonboard.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfJgyj86ZrRhnHrdWpMYkRtKSgHuIG9ZJQL9FPiU59bZ8dfjDh2lvm4QvL2sxZx87QuMZ/bOcZKpEbSv0yvxuzPqglWEQTKAE9ep4ej9q0qcOcnuzX6lD
+ lE3AQDxyXfxUJYALqXUKLx3h41oLKhfpvB6o1tx40lqPjVW9ggab/3XKhYOiLVilVevprSzRJLoqdngVfPiaExHcvJoH96eekblwRnx/lRnQwCmsNv2z48FV
+ VIzkSyoE6kv2v4PRE1TfUoTp3LV3eLENVaNGGiW6uOmjr1WjyzPq/73AdMhfs6RD9rlCsgQ2FLLj/Ho6MLoiO89XNEXuXaVGL6Vr00ywlz7NzioR8OgfTv2H
+ UBjTA+dgNVr2C/RgD7+Dso8OoMpSbjp9BbSEgmlAtITh7EbjdxdOXslJY9ehJSsBNuCh2SOc+jGG3HNJ8Cv2kcgWyH4q6EUY9o0S2JiT4aVDpRkV5ApKI/OX
+ yLlQMKHI8XQdDfc59ZjhEhmg7VH91X4uBT+7tfMrKkEXj1A7Y5q999ae/Mu540vpN7QHeOb6PdiGwrqzjal5bTAZubTWPGDExaMLyk+8yMZxNwhNKot2/K81
+ wpson4/OUKpeY9FShtvSTCcLv7levMRLe0sLF0RjUFQ21nY0rbmqDYBONKaP7RRz3PMtSDDFeDOg+nwGDIXj/3bi+nyC+zJdWW5yCIsMzu3g6yYzpzEp4WlH
+ Zm1FBZjzUV35BSceFEGrsjmmlKjMPaVBcazOSN6gy4b7hyST1Ma7tsGX4I6BPPfst8kuK4S7ZuiBz6DSC54N8uTnGUxZ8u6b
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hi Maxime,
 
-Thank you for the patch.
+On 10/12/2020 14:46, Maxime Ripard wrote:
+> Hi,
+> 
+> Here's a series introducing the CEC support for the BCM2711 found on the
+> RaspberryPi4.
+> 
+> The BCM2711 HDMI controller uses a similar layout for the CEC registers, the
+> main difference being that the interrupt handling part is now shared between
+> both HDMI controllers.
+> 
+> This series is mainly about fixing a couple of bugs, reworking the driver to
+> support having two different interrupts, one for each direction, provided by an
+> external irqchip, and enables the irqchip driver for the controller we have.
+> 
+> This has been tested on an RPi3 and RPi4, but requires the latest firmware.
+> It's is based on the 10 and 12 bpc series.
 
-On Wed, Dec 16, 2020 at 11:45:48AM +0000, Kieran Bingham wrote:
-> These entries can only ever be single bits. Make use of the BIT macro
-> accordingly.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+This series looks good to me. Before I give my Acked-by for this series, can you
+confirm that it is possible to transmit the Image View On message on both outputs
+of the RPi4 when the HPD is low?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+See section "CEC Without HPD" in https://hverkuil.home.xs4all.nl/cec-status.txt
+on how to test this with a Pulse-Eight device.
 
-> ---
-> 
-> A minor trivial patch to convert the features to use BIT.
-> This is used by a patch I have locally for the upcoming VSPX support
-> where we introduce a new IIF feature.
-> 
-> That won't be sent for some time, and this update stands on it's own, so
-> sending here.
-> 
-> 
->  drivers/media/platform/vsp1/vsp1.h | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1.h b/drivers/media/platform/vsp1/vsp1.h
-> index 56c62122a81a..37cf33c7e6ca 100644
-> --- a/drivers/media/platform/vsp1/vsp1.h
-> +++ b/drivers/media/platform/vsp1/vsp1.h
-> @@ -44,16 +44,16 @@ struct vsp1_uif;
->  #define VSP1_MAX_UIF		2
->  #define VSP1_MAX_WPF		4
->  
-> -#define VSP1_HAS_LUT		(1 << 1)
-> -#define VSP1_HAS_SRU		(1 << 2)
-> -#define VSP1_HAS_BRU		(1 << 3)
-> -#define VSP1_HAS_CLU		(1 << 4)
-> -#define VSP1_HAS_WPF_VFLIP	(1 << 5)
-> -#define VSP1_HAS_WPF_HFLIP	(1 << 6)
-> -#define VSP1_HAS_HGO		(1 << 7)
-> -#define VSP1_HAS_HGT		(1 << 8)
-> -#define VSP1_HAS_BRS		(1 << 9)
-> -#define VSP1_HAS_EXT_DL		(1 << 10)
-> +#define VSP1_HAS_LUT		BIT(1)
-> +#define VSP1_HAS_SRU		BIT(2)
-> +#define VSP1_HAS_BRU		BIT(3)
-> +#define VSP1_HAS_CLU		BIT(4)
-> +#define VSP1_HAS_WPF_VFLIP	BIT(5)
-> +#define VSP1_HAS_WPF_HFLIP	BIT(6)
-> +#define VSP1_HAS_HGO		BIT(7)
-> +#define VSP1_HAS_HGT		BIT(8)
-> +#define VSP1_HAS_BRS		BIT(9)
-> +#define VSP1_HAS_EXT_DL		BIT(10)
->  
->  struct vsp1_device_info {
->  	u32 version;
+This should work.
 
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> Here is the cec-compliance output:
+> 
+> $ cec-ctl --tuner -p 1.0.0.0
+> The CEC adapter doesn't allow setting the physical address manually, ignore this option.
+> 
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : 1.0.0.0
+> 	Logical Address Mask       : 0x0008
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Tuner
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : 3 (Tuner 1)
+> 	    Primary Device Type    : Tuner
+> 	    Logical Address Type   : Tuner
+> 	    All Device Types       : Tuner
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> $ cec-compliance
+> cec-compliance SHA                 : not available
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : 1.0.0.0
+> 	Logical Address Mask       : 0x0008
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Tuner
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : 3 (Tuner 1)
+> 	    Primary Device Type    : Tuner
+> 	    Logical Address Type   : Tuner
+> 	    All Device Types       : Tuner
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> Compliance test for vc4_hdmi device /dev/cec0:
+> 
+>     The test results mean the following:
+>         OK                  Supported correctly by the device.
+>         OK (Not Supported)  Not supported and not mandatory for the device.
+>         OK (Presumed)       Presumably supported.  Manually check to confirm.
+>         OK (Unexpected)     Supported correctly but is not expected to be supported for this device.
+>         OK (Refused)        Supported by the device, but was refused.
+>         FAIL                Failed and was expected to be supported by this device.
+> 
+> Find remote devices:
+> 	Polling: OK
+> 
+> Network topology:
+> 	System Information for device 0 (TV) from device 3 (Tuner 1):
+> 		CEC Version                : 2.0
+> 		Physical Address           : 0.0.0.0
+> 		Primary Device Type        : TV
+> 		Vendor ID                  : 0x000c03 (HDMI)
+> 		OSD Name                   : 'test-124'
+> 		Power Status               : Tx, OK, Rx, OK, Feature Abort
+> 
+> Total for vc4_hdmi device /dev/cec0: 1, Succeeded: 1, Failed: 0, Warnings: 0
+> 
+> Let me know what you think,
+> Maxime
+> 
+> Dom Cobley (5):
+>   drm/vc4: hdmi: Move hdmi reset to bind
+>   drm/vc4: hdmi: Fix register offset with longer CEC messages
+>   drm/vc4: hdmi: Fix up CEC registers
+>   drm/vc4: hdmi: Restore cec physical address on reconnect
+>   drm/vc4: hdmi: Remove cec_available flag
+> 
+> Maxime Ripard (10):
+>   irqchip: Allow to compile bcmstb on other platforms
+>   drm/vc4: hdmi: Compute the CEC clock divider from the clock rate
+>   drm/vc4: hdmi: Update the CEC clock divider on HSM rate change
+>   drm/vc4: hdmi: Introduce a CEC clock
+>   drm/vc4: hdmi: Split the interrupt handlers
+>   drm/vc4: hdmi: Support BCM2711 CEC interrupt setup
+>   drm/vc4: hdmi: Don't register the CEC adapter if there's no interrupts
+>   dt-binding: display: bcm2711-hdmi: Add CEC and hotplug interrupts
+>   ARM: dts: bcm2711: Add the BSC interrupt controller
+>   ARM: dts: bcm2711: Add the CEC interrupt controller
+> 
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml   |  20 +-
+>  arch/arm/boot/dts/bcm2711.dtsi                |  30 +++
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                | 224 +++++++++++++-----
+>  drivers/gpu/drm/vc4/vc4_hdmi.h                |  11 +-
+>  drivers/gpu/drm/vc4/vc4_hdmi_regs.h           |   4 +-
+>  drivers/irqchip/Kconfig                       |   2 +-
+>  6 files changed, 232 insertions(+), 59 deletions(-)
+> 
+
