@@ -2,69 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1AE92DC5F8
-	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 19:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C0D22DC892
+	for <lists+linux-media@lfdr.de>; Wed, 16 Dec 2020 23:02:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729523AbgLPSLI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 13:11:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46312 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729515AbgLPSLH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 13:11:07 -0500
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BBFC061794
-        for <linux-media@vger.kernel.org>; Wed, 16 Dec 2020 10:10:27 -0800 (PST)
-Received: by mail-il1-x132.google.com with SMTP id 75so11375844ilv.13
-        for <linux-media@vger.kernel.org>; Wed, 16 Dec 2020 10:10:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=hrv/96ckmK8XSx55ZruQfPtNoLg3DZWF2w73O6lBvyA=;
-        b=mFItPEdwRTmZH6XUABRgKIQ9XRsYR5ZPqa8D8Yb3QT+aDU0MVPvTSF5v9wSGO5+caN
-         tJzCbNcskb8uZLWApe0l46DARiZ/almHT1Wi1Uabk0O4+I2CIG2IYL9UqUtifadJp2+t
-         aOb29WSXDZy3g9dglbrwDqNY1NLo3ml7VotT0cGCsImCc5Dk/qfur56FTE0irubELT5K
-         6mL9lqK69SMSKTSPcOQYaeQIkUrP2jxomSwN/PcDIgpyeN/uErbgt9oYsEAZO1nkr69H
-         ZUx0yFmqhBWw4o0i/Hi1bGpM8ow4asnRwWX/pBPoy5oiY8x/5p3JUOSnIdrGz6/ksgrt
-         6FfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=hrv/96ckmK8XSx55ZruQfPtNoLg3DZWF2w73O6lBvyA=;
-        b=tvGeyxCfcVNTwSPlqS0Euvk5Lta14rq2vO6pKijdeRKzoUKD4q47rIw18UYbB4ce8L
-         UNhJ9IHaaOgo10KPOcNMdLGXb0g4i4oAJVfWUmGiM2YkVLqVssOwEoFZRB3KsrIYzQq6
-         AKwQGu4QKSqEwsz593M0Ghs2RHwdcGRisLGHO8cOAu5RF0ac9VeRMKcTG3a0OF+6ZIJI
-         VJoWPx456/qDhi4/sKxiA32mytvymrQLd/SMNCQB+LIRl7V9/sGijpYx+Stl83mYMyrW
-         UNNZi+YOkos8kpIi1K7SfTAHUrQkgv2sg88xoPFoPuM99MpOoC+Lg6NPZEvNMJVd67S6
-         VqaA==
-X-Gm-Message-State: AOAM530fI/F4yDw+OrZcZedcf4ncq1gepfYSksl4XhQMHmiTujGTHdOC
-        tOCUyP96i/2/EBCy8CsiCQ0BYp8gs3tEVjnto8E=
-X-Google-Smtp-Source: ABdhPJxLVV+NqmnNwdGF8slWYAgNQH9imPQrlogjRul0wCgILZVcsNjin+E4MaOdR2mToeRD7WsjxuJFjf4QgtpDtVo=
-X-Received: by 2002:a05:6e02:1148:: with SMTP id o8mr47784836ill.174.1608142227081;
- Wed, 16 Dec 2020 10:10:27 -0800 (PST)
+        id S1729984AbgLPWAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 17:00:32 -0500
+Received: from mga05.intel.com ([192.55.52.43]:8298 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729966AbgLPWAc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Dec 2020 17:00:32 -0500
+IronPort-SDR: tAsTYMUp6MhYDV4v4nbITbnktxA7zzub86sK4hj2rTphr+PgXJ3TBPZzM8r2baUGYHE+LEbETp
+ pAy2GNATjVUQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="259868418"
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="259868418"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 13:58:46 -0800
+IronPort-SDR: g6StFyQyNI6oqus3+ogWUBPUnZzHoq6z1zKSGaGYnEB/jpQHAqtKlwbg+pLHIYu61oTWezrZ+O
+ //vTJhsbLJBA==
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="379412408"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 13:58:42 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id F2B6820726; Wed, 16 Dec 2020 23:58:40 +0200 (EET)
+Date:   Wed, 16 Dec 2020 23:58:40 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] media: dt-bindings: Convert video-interfaces.txt
+ properties to schemas
+Message-ID: <20201216215840.GM26370@paasikivi.fi.intel.com>
+References: <20201210211625.3070388-1-robh@kernel.org>
+ <20201210211625.3070388-5-robh@kernel.org>
+ <X9ofJMIivzPzi8x7@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Received: by 2002:ac0:a816:0:0:0:0:0 with HTTP; Wed, 16 Dec 2020 10:10:26
- -0800 (PST)
-Reply-To: isabella.ferreira@yandex.com
-From:   "Isabella.Ferreira" <lorir8611@gmail.com>
-Date:   Wed, 16 Dec 2020 10:10:26 -0800
-Message-ID: <CABJ7TC4n-dmxSqQShMtfkvc-kLWZE+qf896Dm1=6=b=GLtm5bA@mail.gmail.com>
-Subject: Greetings
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <X9ofJMIivzPzi8x7@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings,
+Hi Laurent,
 
-I wonder why you continue neglecting my emails. Please, acknowledge
-the receipt of this message in reference to the subject above as I
-intend to send to you the details of the mail. Sometimes, try to check
-your spam box because most of these correspondences fall out sometimes
-in SPAM folder.
+On Wed, Dec 16, 2020 at 04:52:20PM +0200, Laurent Pinchart wrote:
+> > +  clock-lanes:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    # Assume up to 9 physical lane indices
+> > +    maximum: 8
+> > +    description:
+> > +      Physical clock lane index. Position of an entry determines
+> 
+> s/index/indexes/ (or indices) as there are potentially multiple entries
+> (even if in practice, for all bus types we currently support, only one
+> clock lane is supported) ?
 
-Best regards,
+We could easily change it if that appears.
 
-Isabella Ferreira
+The property was named in plural to align with data-lanes, without
+intention of having more clock lanes. We could of course allow more if that
+happens, but I doubt it.
+
+-- 
+Sakari Ailus
