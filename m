@@ -2,54 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7D622DD769
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:14:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 279542DD82F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:22:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731391AbgLQSJr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:09:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42084 "EHLO
+        id S1730040AbgLQSWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:22:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731168AbgLQSJ1 (ORCPT
+        with ESMTP id S1729923AbgLQSWL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:09:27 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53BD2C061A4D;
-        Thu, 17 Dec 2020 10:08:17 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id l11so59864645lfg.0;
-        Thu, 17 Dec 2020 10:08:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dKHTaUqpc9+qnQDklHnbuyOfX2r5BRRRR5K6s2ucz2U=;
-        b=Z/3072D8/T/ty624y/Y3fzZ4jDHFKHMiM8Puk81C8hVAIESVtNYFGrhY1j91vcZIjE
-         X9pYxViGd/drXaOMeiO03C94pqe0NUAIdPEzUPg7/baXADcPcw0MywpuMA/Af8v2L3JF
-         YYJPps/fM0KR2BDKsk6Jh/nu6atzjZi+/Qjyh1NdEhRzIxzuzNvI0ZekJYPghXXJV2Kx
-         V10TKhm0SSOl8Cihy6JHBf3ogDQRcQ0CbbCJogpbFv704LJOPOZyq5ADGrMW4TfZ9+M8
-         ZS2aqdaM/ACpx1+4CmVJGtjLu2NfZZYPG13hiBP/iVkg3oJvV1O/9KFPXJDqaEV+LQIb
-         JiAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dKHTaUqpc9+qnQDklHnbuyOfX2r5BRRRR5K6s2ucz2U=;
-        b=UJRB4QLjc/eSV67gm2DMcLV0oBReR809rnjGNZzD1CvM6JlaFnrWYVFMDSyf0Ko04q
-         dT9AknZNi23QqlzO29FpKHzHuyb1bu1OP1ClKVi2tJ3ZlsC1evizEXRT/8iTPJbklYNt
-         GsDcMGqy23/Ge1LTlbR6wAmzm5pgncbP/Cct+ScaveD2se1q+HB7jH27sa2AHSiXDwj7
-         ii8SHtM3EJdsPxTaAPM2WhifXB+wBaIizSHCpQmoYam68j4Za/kPes0hSkC9z3QTLZQ7
-         GtljYMNZrJLb6uncA2M/Ku6+YO6EyDoLfgonU7UlX2HnNpuC4zb9xv4akH+a1qzk50hI
-         64UQ==
-X-Gm-Message-State: AOAM530s5AzlHyaXhXBOSh3LbQdnJ+GHLiODbzS7YXlLUDl01wHRX2Oe
-        ZCcl2xkV9mtb2zpxkQhcRss=
-X-Google-Smtp-Source: ABdhPJyA0nTTMUEGxiyKEV0G3HcIN8F0c417daftUmLQYrZ/StuJHmuOFKZCKF5VoAB7IsqXITN4Aw==
-X-Received: by 2002:a2e:8512:: with SMTP id j18mr213822lji.31.1608228495787;
-        Thu, 17 Dec 2020 10:08:15 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.08.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:08:15 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Thu, 17 Dec 2020 13:22:11 -0500
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24205C0617A7;
+        Thu, 17 Dec 2020 10:21:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=k+TBWoCCmuI+juM/RDKcFjuPs5RlB1YJML8ROgxtvlw=; b=R5sL7KBWSOcu7q0eGSq07mz0ho
+        j0+NPSXrRL9yeaniOZDHuWaAUVw2P1el8IkVWHrEKPgMyaBC6tPpkE02x+lkmACRyi1nUI8VYhEba
+        GryzGGyvSAdgSkDMTxMEKoCwwgzZfq4x5sor0wcLurTcDMASw+FAGnWD3u9srW/2m1KyFb3bq1BD8
+        YIjjrqGYlG6Uvnupn5dUXS/wm/r8RC4x4SnsVeQY9X9POgEG7Psy8lft01Vqfa3Qk/L1JC82JFrZE
+        b6BZqcQDoGn0v3nSv9BC56rPFVkFjCWUpKHpOZ7VRD+T1n5S+8IZ4gdI2K2JtncSw/+m1ibYAuSDI
+        8HY+qvmA==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=[192.168.1.10])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1kpxu0-000859-J2; Thu, 17 Dec 2020 20:21:24 +0200
+Subject: Re: [PATCH v2 34/48] gpu: host1x: Support power management
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Mark Brown <broonie@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
@@ -69,123 +54,195 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 48/48] ARM: tegra: cardhu: Support CPU voltage scaling and thermal throttling
-Date:   Thu, 17 Dec 2020 21:06:38 +0300
-Message-Id: <20201217180638.22748-49-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
+ <20201217180638.22748-35-digetx@gmail.com>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <cb8dca7c-6ef2-5116-6c04-816a63525e2e@kapsi.fi>
+Date:   Thu, 17 Dec 2020 20:21:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201217180638.22748-35-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable CPU voltage scaling and thermal throttling on Tegra30 Cardhu board.
+On 12/17/20 8:06 PM, Dmitry Osipenko wrote:
+> Add suspend/resume and generic power domain support to the Host1x driver.
+> This is required for enabling system-wide DVFS and supporting dynamic
+> power management using a generic power domain.
+> 
+> Tested-by: Peter Geis <pgwipeout@gmail.com>
+> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>   drivers/gpu/host1x/dev.c | 102 ++++++++++++++++++++++++++++++++++-----
+>   1 file changed, 91 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index d0ebb70e2fdd..c1525cffe7b1 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -12,6 +12,7 @@
+>   #include <linux/module.h>
+>   #include <linux/of_device.h>
+>   #include <linux/of.h>
+> +#include <linux/pm_runtime.h>
+>   #include <linux/slab.h>
+>   
+>   #define CREATE_TRACE_POINTS
+> @@ -417,7 +418,7 @@ static int host1x_probe(struct platform_device *pdev)
+>   		return err;
+>   	}
+>   
+> -	host->rst = devm_reset_control_get(&pdev->dev, "host1x");
+> +	host->rst = devm_reset_control_get_exclusive_released(&pdev->dev, "host1x");
+>   	if (IS_ERR(host->rst)) {
+>   		err = PTR_ERR(host->rst);
+>   		dev_err(&pdev->dev, "failed to get reset: %d\n", err);
+> @@ -437,16 +438,15 @@ static int host1x_probe(struct platform_device *pdev)
+>   		goto iommu_exit;
+>   	}
+>   
+> -	err = clk_prepare_enable(host->clk);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to enable clock\n");
+> -		goto free_channels;
+> -	}
+> +	pm_runtime_enable(&pdev->dev);
+> +	err = pm_runtime_get_sync(&pdev->dev);
+> +	if (err < 0)
+> +		goto rpm_disable;
+>   
+>   	err = reset_control_deassert(host->rst);
+>   	if (err < 0) {
+>   		dev_err(&pdev->dev, "failed to deassert reset: %d\n", err);
+> -		goto unprepare_disable;
+> +		goto rpm_disable;
+>   	}
+>   
+>   	err = host1x_syncpt_init(host);
+> @@ -485,9 +485,10 @@ static int host1x_probe(struct platform_device *pdev)
+>   	host1x_syncpt_deinit(host);
+>   reset_assert:
+>   	reset_control_assert(host->rst);
+> -unprepare_disable:
+> -	clk_disable_unprepare(host->clk);
+> -free_channels:
+> +rpm_disable:
+> +	pm_runtime_put(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
+> +
+>   	host1x_channel_list_free(&host->channel_list);
+>   iommu_exit:
+>   	host1x_iommu_exit(host);
+> @@ -504,16 +505,95 @@ static int host1x_remove(struct platform_device *pdev)
+>   	host1x_intr_deinit(host);
+>   	host1x_syncpt_deinit(host);
+>   	reset_control_assert(host->rst);
+> -	clk_disable_unprepare(host->clk);
+> +	pm_runtime_put(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
+>   	host1x_iommu_exit(host);
+>   
+>   	return 0;
+>   }
+>   
+> +static int __maybe_unused host1x_runtime_suspend(struct device *dev)
+> +{
+> +	struct host1x *host = dev_get_drvdata(dev);
+> +
+> +	clk_disable_unprepare(host->clk);
+> +	reset_control_release(host->rst);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused host1x_runtime_resume(struct device *dev)
+> +{
+> +	struct host1x *host = dev_get_drvdata(dev);
+> +	int err;
+> +
+> +	err = reset_control_acquire(host->rst);
+> +	if (err) {
+> +		dev_err(dev, "failed to acquire reset: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	err = clk_prepare_enable(host->clk);
+> +	if (err) {
+> +		dev_err(dev, "failed to enable clock: %d\n", err);
+> +		goto release_reset;
+> +	}
+> +
+> +	return 0;
+> +
+> +release_reset:
+> +	reset_control_release(host->rst);
+> +
+> +	return err;
+> +}
+> +
+> +static __maybe_unused int host1x_suspend(struct device *dev)
+> +{
+> +	struct host1x *host = dev_get_drvdata(dev);
+> +	int err;
+> +
+> +	host1x_syncpt_save(host);
+> +
+> +	err = pm_runtime_force_suspend(dev);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	return 0;
+> +}
+> +
+> +static __maybe_unused int host1x_resume(struct device *dev)
+> +{
+> +	struct host1x *host = dev_get_drvdata(dev);
+> +	struct host1x_channel *channel;
+> +	unsigned int index;
+> +	int err;
+> +
+> +	err = pm_runtime_force_resume(dev);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	host1x_syncpt_restore(host);
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra30-cardhu.dtsi | 61 ++++++++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+We also need to execute 'host1x_setup_sid_table' upon resume.
 
-diff --git a/arch/arm/boot/dts/tegra30-cardhu.dtsi b/arch/arm/boot/dts/tegra30-cardhu.dtsi
-index d74c9ca78a7f..08c0ea4e6228 100644
---- a/arch/arm/boot/dts/tegra30-cardhu.dtsi
-+++ b/arch/arm/boot/dts/tegra30-cardhu.dtsi
-@@ -1,6 +1,9 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/thermal/thermal.h>
- #include "tegra30.dtsi"
-+#include "tegra30-cpu-opp.dtsi"
-+#include "tegra30-cpu-opp-microvolt.dtsi"
- 
- /**
-  * This file contains common DT entry for all fab version of Cardhu.
-@@ -339,12 +342,13 @@ ldo8_reg: ldo8 {
- 			};
- 		};
- 
--		temperature-sensor@4c {
-+		nct1008: temperature-sensor@4c {
- 			compatible = "onnn,nct1008";
- 			reg = <0x4c>;
- 			vcc-supply = <&sys_3v3_reg>;
- 			interrupt-parent = <&gpio>;
- 			interrupts = <TEGRA_GPIO(CC, 2) IRQ_TYPE_LEVEL_LOW>;
-+			#thermal-sensor-cells = <1>;
- 		};
- 
- 		vdd_core: tps62361@60 {
-@@ -438,6 +442,29 @@ clk32k_in: clock@0 {
- 		#clock-cells = <0>;
- 	};
- 
-+	cpus {
-+		cpu0: cpu@0 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+			#cooling-cells = <2>;
-+		};
-+
-+		cpu@1 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@2 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@3 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+	};
-+
- 	panel: panel {
- 		compatible = "chunghwa,claa101wb01";
- 		ddc-i2c-bus = <&panelddc>;
-@@ -617,6 +644,38 @@ sound {
- 					 <&tegra_car TEGRA30_CLK_EXTERN1>;
- 	};
- 
-+	thermal-zones {
-+		cpu-thermal {
-+			polling-delay-passive = <1000>; /* milliseconds */
-+			polling-delay = <5000>; /* milliseconds */
-+
-+			thermal-sensors = <&nct1008 1>;
-+
-+			trips {
-+				trip0: cpu-alert0 {
-+					/* throttle at 57C until temperature drops to 56.8C */
-+					temperature = <57000>;
-+					hysteresis = <200>;
-+					type = "passive";
-+				};
-+
-+				trip1: cpu-crit {
-+					/* shut down at 60C */
-+					temperature = <60000>;
-+					hysteresis = <2000>;
-+					type = "critical";
-+				};
-+			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&trip0>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
-+		};
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--- 
-2.29.2
+cheers,
+Mikko
 
+> +
+> +	for_each_set_bit(index, host->channel_list.allocated_channels,
+> +			 host->info->nb_channels) {
+> +		channel = &host->channel_list.channels[index];
+> +		host1x_hw_channel_init(host, channel, channel->id);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops host1x_pm = {
+> +	SET_RUNTIME_PM_OPS(host1x_runtime_suspend, host1x_runtime_resume,
+> +			   NULL)
+> +	SET_SYSTEM_SLEEP_PM_OPS(host1x_suspend, host1x_resume)
+> +};
+> +
+>   static struct platform_driver tegra_host1x_driver = {
+>   	.driver = {
+>   		.name = "tegra-host1x",
+>   		.of_match_table = host1x_of_match,
+> +		.pm = &host1x_pm,
+>   	},
+>   	.probe = host1x_probe,
+>   	.remove = host1x_remove,
+> 
