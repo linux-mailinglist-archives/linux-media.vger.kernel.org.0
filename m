@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0B5B2DD77F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6739E2DD73A
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:14:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731462AbgLQSKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:10:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42130 "EHLO
+        id S1730788AbgLQSJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:09:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726548AbgLQSJZ (ORCPT
+        with ESMTP id S1730728AbgLQSJA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:09:25 -0500
+        Thu, 17 Dec 2020 13:09:00 -0500
 Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D6FC0619DF;
-        Thu, 17 Dec 2020 10:07:54 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id o19so34210094lfo.1;
-        Thu, 17 Dec 2020 10:07:54 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177EAC0619E0;
+        Thu, 17 Dec 2020 10:07:56 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id a12so59838968lfl.6;
+        Thu, 17 Dec 2020 10:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Aa+hChpvs0JDUl0QCouhA8Ook0AiIGpyBFoUGyXOUQI=;
-        b=RhneqMMMFpT/rGzIIf7uEiGIehQLF+olyu6ZCNFX+oOHPVy1WdgNHVxT9bn1QlEeo8
-         4n1SHThx55TK/bXvX0IGfRJ7GoL37rHD2WNc4lkOGHcBMZgFaWTsQ9+uAXZOE3rZqdlW
-         hfAUUX5oiGE3CHjG6mziJsZz3/TzHP2qGv3tDSd1VA2XvrZn95KaGn/ZcVxL0pHAGh2t
-         BFZLKfM9Wp2fxoMv38KrZ/YCEFInQqRvmkF2W5ssdGnXmVqNYh1slRuTRPDfy7h9LqfK
-         9Ij69AfbaRxeblxSU7zdqyMpXBplESP2BswsvcjWDhIg3J1BrpiApycEtaMy4FtWjgRf
-         UY9w==
+        bh=G4bkjkogJjxhucwk91y1cMW03U1PPlta2j9gVHq9Ll8=;
+        b=rCQoU2/mmvaocNvlxnid7FO29LSc024mSugBl0tdXdcytFbXH2gOlnpwvt8N+30PAg
+         yb7ttQI7FzhzKZR924B0d/3R9LNPoRgpBoGk0IOcVJPsgsWCQsxmEeE2TiSNUf6U2zEk
+         UAcyUD0vHfvlRRaoHCc/jZeM8FZ6u+jxT5WvXS4q07C3L49UI1+T4YyeAM47/km2IUMY
+         +h1CezyjEzhVg+SazrlVF4o2uUgbBVRUzc6A6H4zBIs3ZtIXUR4lCvTjP1X8Ma8ljpX9
+         s1nx5sADEfu0hG1dR8Px9QD2KFwkR1jqfRP1a8gQc0nLBI4Jl41CHBYNpt0S5HTVpgKO
+         Zxqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Aa+hChpvs0JDUl0QCouhA8Ook0AiIGpyBFoUGyXOUQI=;
-        b=O2GQeMhEejaKkh9GeCd8kVmJHV+QeGKNZOFrXqSy/LQJI3iaBqTQ/aadKB2p7Fqslm
-         yp16vmfQbPU6SMsIk/zzbULfXDSG9bsLIdKFvjV0eyWN4FtYMiejPI+JKWKlC9gZlnVe
-         gaKZ5XEqd1DfVTPoZtSunDQB/3s6vXP9L89S4A58eaeFULppHPGS4kQQRpYEeOlmgWkU
-         ro8vT8WdNaSFOqtlYYUlfwylsHu0K6+dBmFUpLC2gZuqCM9EB2nfIF9GOwnzBVGnzcdR
-         wdlcesr87773XqVocAKJYrcmsvyFQl96k7Uib7chazCWJNa7p7T/lZm5rD74FCJhMFxA
-         NIdw==
-X-Gm-Message-State: AOAM530nEDra3DWvsdcUW8d3kUVqA5yQI/hVNBzRRSRsr3qiOAlzb9UG
-        PeDAfF2YKTlax9bL5/zF/Bg=
-X-Google-Smtp-Source: ABdhPJxL85GcfJiXMkymH7isdZq+CnfDmDZN1MReJJCcpfCArlmNTx0/MjgW8Yls8T8+SwJfWzuMqQ==
-X-Received: by 2002:a19:5e5b:: with SMTP id z27mr16037203lfi.143.1608228473454;
-        Thu, 17 Dec 2020 10:07:53 -0800 (PST)
+        bh=G4bkjkogJjxhucwk91y1cMW03U1PPlta2j9gVHq9Ll8=;
+        b=D8mfas+qbdsqplY0WMy08me3O0uooIHO6iiB1FkvJlAfES8mUOi9NvOk0RkAf5xMpz
+         oE3zwYm7A0FX0pe26tweC/WYXQaDJ4jHFYD+n67WQjb9Aj1PuXHM0BLO2zm1gok8RroD
+         bpBhuPUI8Zx4rpxgfDeRrmxJrSoiOypJ136acS4jLLmawr/anCzl7sVxYxhoccLY4frf
+         92Jwglv0zRD5sIvD4RhRhSyZB08hyp77mgpaFSnyeUU8g9u/oDDwtEOB9q0zFMkWTDxo
+         g0FUB8OH9X9l91irRJsolz92RrLFGHY+AfvgJffd3cJ+HaE2hZk6IbagyQb5pAjTGFEN
+         gQrA==
+X-Gm-Message-State: AOAM5303lGJv+QknzbRmuwWLXWxTMe8BGXykk5fznRQqkvKpsg9Q4yKJ
+        rUW1E1CftrZKbnKIbvbWnqfL/dc/Tn8=
+X-Google-Smtp-Source: ABdhPJyqYsSi5e5FbU0bmUx3znLJH35GGikhngE/ppL8K7VwQ0KK0y3SqjiWzxI9i0uAFK/MRB0qlg==
+X-Received: by 2002:a2e:9b4d:: with SMTP id o13mr200509ljj.163.1608228474656;
+        Thu, 17 Dec 2020 10:07:54 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.52
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:07:52 -0800 (PST)
+        Thu, 17 Dec 2020 10:07:54 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 29/48] soc/tegra: pmc: Link domains to the parent Core domain
-Date:   Thu, 17 Dec 2020 21:06:19 +0300
-Message-Id: <20201217180638.22748-30-digetx@gmail.com>
+Subject: [PATCH v2 30/48] soc/tegra: regulators: Fix locking up when voltage-spread is out of range
+Date:   Thu, 17 Dec 2020 21:06:20 +0300
+Message-Id: <20201217180638.22748-31-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -81,55 +81,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Core domain is a parent of PMC power domains, hence PMC domains
-should be set up as a sub-domains of the parent (Core) domain if
-"power-domains" phandle presents in a device-tree node of PMC domain.
+Fix voltage coupler lockup which happens when voltage-spread is out
+of range due to a bug in the code. The max-spread requirement shall be
+accounted when CPU regulator doesn't have consumers. This problem is
+observed on Tegra30 Ouya game console once system-wide DVFS is enabled
+in a device-tree.
 
-This allows to propagate GENPD performance changes to the parent Core
-domain if performance change is applied to PMC domain.
-
+Fixes: 783807436f36 ("soc/tegra: regulators: Add regulators coupler for Tegra30")
+Cc: stable@vger.kernel.org
+Tested-by: Peter Geis <pgwipeout@gmail.com>
+Reported-by: Peter Geis <pgwipeout@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/soc/tegra/regulators-tegra30.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 4f96dc7745c4..1a659d1c06d7 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1236,6 +1236,7 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
- static int tegra_powergate_init(struct tegra_pmc *pmc,
- 				struct device_node *parent)
- {
-+	struct of_phandle_args child_args, parent_args;
- 	struct device_node *np, *child;
- 	int err = 0;
+diff --git a/drivers/soc/tegra/regulators-tegra30.c b/drivers/soc/tegra/regulators-tegra30.c
+index 7f21f31de09d..0e776b20f625 100644
+--- a/drivers/soc/tegra/regulators-tegra30.c
++++ b/drivers/soc/tegra/regulators-tegra30.c
+@@ -178,7 +178,7 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
+ 	 * survive the voltage drop if it's running on a higher frequency.
+ 	 */
+ 	if (!cpu_min_uV_consumers)
+-		cpu_min_uV = cpu_uV;
++		cpu_min_uV = max(cpu_uV, cpu_min_uV);
  
-@@ -1249,6 +1250,24 @@ static int tegra_powergate_init(struct tegra_pmc *pmc,
- 			of_node_put(child);
- 			break;
- 		}
-+
-+		if (of_parse_phandle_with_args(child, "power-domains",
-+					       "#power-domain-cells",
-+					       0, &parent_args))
-+			continue;
-+
-+		child_args.np = child;
-+		child_args.args_count = 0;
-+
-+		err = of_genpd_add_subdomain(&parent_args, &child_args);
-+		of_node_put(parent_args.np);
-+		if (err) {
-+			if (err == -ENOENT)
-+				err = -EPROBE_DEFER;
-+
-+			of_node_put(child);
-+			break;
-+		}
- 	}
- 
- 	of_node_put(np);
+ 	/*
+ 	 * Bootloader shall set up voltages correctly, but if it
 -- 
 2.29.2
 
