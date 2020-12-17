@@ -2,89 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA1BF2DD991
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 20:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE3CB2DD9CE
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 21:23:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729070AbgLQT4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 14:56:09 -0500
-Received: from mga07.intel.com ([134.134.136.100]:34787 "EHLO mga07.intel.com"
+        id S1730860AbgLQUXW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 15:23:22 -0500
+Received: from retiisi.eu ([95.216.213.190]:34536 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727543AbgLQT4I (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 14:56:08 -0500
-IronPort-SDR: UHrMB/LB05hfibUgkd+5ICuJuueUzuIpWp/bMvLlkfoc6HzainXl2DXpDuestT2SlYhjT2zh2n
- dOmnBJUUyzcw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9838"; a="239411631"
-X-IronPort-AV: E=Sophos;i="5.78,428,1599548400"; 
-   d="scan'208";a="239411631"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2020 11:54:22 -0800
-IronPort-SDR: FZ2N9ds8QEC0kE8o1hMo8/m1rRrLolO5/ePaqGLg0htBqC3Av5dnv+wi948si0iPkjyWbf+UEx
- /jTymnde4piA==
-X-IronPort-AV: E=Sophos;i="5.78,428,1599548400"; 
-   d="scan'208";a="413599052"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.254.113.190]) ([10.254.113.190])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2020 11:54:21 -0800
-Subject: Re: [PATCH 2/2] media: aspeed: fix clock handling logic
-To:     Stephen Boyd <sboyd@kernel.org>, Joel Stanley <joel@jms.id.au>
-Cc:     linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-clk@vger.kernel.org, linux-media@vger.kernel.org
-References: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com>
- <20201207164240.15436-3-jae.hyun.yoo@linux.intel.com>
- <CACPK8Xd3dz1WLGNGqMiAZxhMEeGHbkPtvO2rYQ36Kbj=Uvy-jA@mail.gmail.com>
- <d3faea9e-e7d6-eba0-a6b2-c30bc9b6e147@linux.intel.com>
- <160820199393.1580929.9806429719720580479@swboyd.mtv.corp.google.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <d3f2d76c-40d9-b167-7002-5a25ec81c73a@linux.intel.com>
-Date:   Thu, 17 Dec 2020 11:54:15 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1730836AbgLQUXW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Dec 2020 15:23:22 -0500
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id D1208634C89;
+        Thu, 17 Dec 2020 22:20:48 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+Subject: [PATCH v2 1/1] media: uapi: Add an entity type for Image Signal Processors
+Date:   Thu, 17 Dec 2020 22:15:05 +0200
+Message-Id: <20201217201505.30584-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <160820199393.1580929.9806429719720580479@swboyd.mtv.corp.google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stephen,
+Add and document a media entity type for Image Signal Processor devices.
+Surprisingly we didn't have one, so add one now. More or less all ISP
+drivers should use this type instead of what they currently are using (or
+not using anything).
 
-On 12/17/2020 2:46 AM, Stephen Boyd wrote:
-> Quoting Jae Hyun Yoo (2020-12-08 09:16:29)
->> Hi Joel,
->>
->> On 12/7/2020 6:39 PM, Joel Stanley wrote:
->>> On Mon, 7 Dec 2020 at 16:33, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
->>>>
->>>> Video engine uses eclk and vclk for its clock sources and its reset
->>>> control is coupled with eclk so the current clock enabling sequence works
->>>> like below.
->>>>
->>>>    Enable eclk
->>>>    De-assert Video Engine reset
->>>>    10ms delay
->>>>    Enable vclk
->>>
->>> This is the case after " clk: ast2600: fix reset settings for eclk and
->>> vclk" is applied, correct? Without that patch applied the reset
->>> sequence is correct by accident for the 2600, but it will be wrong for
->>> the 2500?
->>
->> Correct. Video Engine reset was coupled with eclk for AST2500 and vclk
->> for AST2600 so above sequence was observed only in AST2500. As you said,
->> AST2600 didn't make the issue by accident but the clk/reset pair should
->> be fixed by this patch series.
-> 
-> So should the two patches be squashed together and go through the
-> media tree?
-> 
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ Documentation/userspace-api/media/mediactl/media-types.rst | 7 +++++++
+ include/uapi/linux/media.h                                 | 1 +
+ 2 files changed, 8 insertions(+)
 
-The first patch should go through clk tree, and the second one (this
-patch) should go through media tree. Both patches should be applied at
-the same time. Should I squash them in this case?
+diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+index 7b24a213cae7..e1e4043b3b1c 100644
+--- a/Documentation/userspace-api/media/mediactl/media-types.rst
++++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+@@ -39,6 +39,7 @@ Types and flags used to represent the media graph elements
+ .. _MEDIA-ENT-F-PROC-VIDEO-STATISTICS:
+ .. _MEDIA-ENT-F-PROC-VIDEO-ENCODER:
+ .. _MEDIA-ENT-F-PROC-VIDEO-DECODER:
++.. _MEDIA-ENT-F-PROC-VIDEO-ISP:
+ .. _MEDIA-ENT-F-VID-MUX:
+ .. _MEDIA-ENT-F-VID-IF-BRIDGE:
+ .. _MEDIA-ENT-F-DV-DECODER:
+@@ -201,6 +202,12 @@ Types and flags used to represent the media graph elements
+           decompressing a compressed video stream into uncompressed video
+ 	  frames. Must have one sink pad and at least one source pad.
+ 
++    *  -  ``MEDIA_ENT_F_PROC_VIDEO_ISP``
++       -  An Image Signal Processor (ISP) device. ISPs generally are one of a
++	  kind devices that have their specific control interfaces using a
++	  combination of custom V4L2 controls and IOCTLs, and parameters
++	  supplied in a metadata buffer.
++
+     *  -  ``MEDIA_ENT_F_VID_MUX``
+        - Video multiplexer. An entity capable of multiplexing must have at
+          least two sink pads and one source pad, and must pass the video
+diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+index 383ac7b7d8f0..200fa8462b90 100644
+--- a/include/uapi/linux/media.h
++++ b/include/uapi/linux/media.h
+@@ -127,6 +127,7 @@ struct media_device_info {
+ #define MEDIA_ENT_F_PROC_VIDEO_STATISTICS	(MEDIA_ENT_F_BASE + 0x4006)
+ #define MEDIA_ENT_F_PROC_VIDEO_ENCODER		(MEDIA_ENT_F_BASE + 0x4007)
+ #define MEDIA_ENT_F_PROC_VIDEO_DECODER		(MEDIA_ENT_F_BASE + 0x4008)
++#define MEDIA_ENT_F_PROC_VIDEO_ISP		(MEDIA_ENT_F_BASE + 0x4009)
+ 
+ /*
+  * Switch and bridge entity functions
+-- 
+2.29.2
+
