@@ -2,530 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D1552DCDBE
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 09:42:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD38A2DCE24
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 10:16:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgLQIlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 03:41:23 -0500
-Received: from mail-dm6nam12on2069.outbound.protection.outlook.com ([40.107.243.69]:42720
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726416AbgLQIlW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 03:41:22 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X9HKzmZAi3cTPNRgygnE83TDceNnncixEq3B2x2ZYJXdGD6D/yLCUYN+gvjYZaY9anhbhhtbALQlmuhPkYOsYOaak/LOqNVFKQ7HtlllaSQxiy8qfcChyyT0LViS2WgdokwCyCc5KqyntkAzS2ktfSArcD2jeFTue+jEyAwKKRRr9RZD/vr/CuvM660k4QA63oQv7EdlS0h9si8jrCXEjTMN0AMAnRcgbC2mDqdV9k9YWUq3grMicgtZN00CqIRAmxJc19KIlnWAqvG3A2YDj9BJ+ofkiufZxnBo+ZkVCy9jSIKZxxeYB+FcY9zIwRbUxJFvQf7EAngFm+Au3QlPJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K2KeKc5fK4CDvqslsAwMzEh91QHKX1eB3jV+xbK4iB0=;
- b=JgB/0GkmuFzjhxLwUehLdA5FTdlaSi5CsYtbJ6iavkwt4edQi4OMKM4X/TKK3EYLOPqjd5bD94R26qEKC0EvAyDNd0Ixk5jamv0eEkD95aMEQYga7oBgVt6hMqVz62ydsuOBM7+fogJbcCedTHxld++sJqcoBD2U8MhWkLSRSZ2N2up4WaEUnobaH6h3/WCF/ze+k4hTs38MNAe2EzPd527fwOFR42Lun1a91eVxdy5aGLmWP9JVHbE39NWMohDHvwZmKQq+ZnbJBNcRcOaNN8VW1A7zde7209PZEHCfVvkj7aucBz2y8ZUF6QCfS4VW3daJlel3XRLa7hlR4YuYeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K2KeKc5fK4CDvqslsAwMzEh91QHKX1eB3jV+xbK4iB0=;
- b=tO6Bei9n1bW93ADWnT/9E5Rkg5yAQ3lvHQFzbh4Xk5qGvEtEmz29kOjbpD+l+QcnYbZX1AVpUkfyBeAQJnzNwy8b6Obn/IbbKCNYqS8NPHmQ6k48+8h0aAA9TFEWsRPIloa11S6wGujDvw/LTUcssI5RlQhq5JIw/SpZ8vtepyM=
-Received: from SN2PR01CA0009.prod.exchangelabs.com (2603:10b6:804:2::19) by
- CH2PR02MB6072.namprd02.prod.outlook.com (2603:10b6:610:4::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.19; Thu, 17 Dec 2020 08:40:25 +0000
-Received: from SN1NAM02FT019.eop-nam02.prod.protection.outlook.com
- (2603:10b6:804:2:cafe::c9) by SN2PR01CA0009.outlook.office365.com
- (2603:10b6:804:2::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
- Transport; Thu, 17 Dec 2020 08:40:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT019.mail.protection.outlook.com (10.152.72.130) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3654.12 via Frontend Transport; Thu, 17 Dec 2020 08:40:23 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Thu, 17 Dec 2020 00:40:08 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Thu, 17 Dec 2020 00:40:08 -0800
-Envelope-to: derek.kiernan@xilinx.com,
- manish.narani@xilinx.com,
- michal.simek@xilinx.com,
- dragan.cvetic@xilinx.com,
- rajan.vaja@xilinx.com,
- ravi.patel@xilinx.com,
- tejas.patel@xilinx.com,
- wendy.liang@xilinx.com,
- linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- christian.koenig@amd.com,
- linux-arm-kernel@lists.infradead.org,
- robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org,
- devicetree@vger.kernel.org,
- arnd@arndb.de,
- daniel@ffwll.ch,
- alexdeucher@gmail.com
-Received: from [10.23.122.68] (port=58561)
-        by smtp.xilinx.com with esmtp (Exim 4.90)
-        (envelope-from <wendy.liang@xilinx.com>)
-        id 1kpopU-00020g-Fa; Thu, 17 Dec 2020 00:40:08 -0800
-From:   Jiaying Liang <wendy.liang@xilinx.com>
-Subject: Re: [PATCH v3 0/9] Xilinx AI engine kernel driver
-To:     Alex Deucher <alexdeucher@gmail.com>,
-        Jiaying Liang <wendy.liang@xilinx.com>
-CC:     Daniel Vetter <daniel@ffwll.ch>, <tejas.patel@xilinx.com>,
-        <ravi.patel@xilinx.com>, <rajan.vaja@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Rob Herring <robh+dt@kernel.org>, <manish.narani@xilinx.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Christian Koenig <christian.koenig@amd.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
-References: <1606722505-16194-1-git-send-email-wendy.liang@xilinx.com>
- <CADnq5_NZrqkouXCFKWc2wv483nc=x4cXXjFCqcEmkUYZpNeMUQ@mail.gmail.com>
- <CAKMK7uFjwmm9W3RFVdQ=EOqHvWeD5ZPA7zP86O_sxxBv3n4jjw@mail.gmail.com>
- <b0d41bb6-0347-24f5-7a2d-a3b41d5444c9@xilinx.com>
- <CADnq5_N7Q_6jfghWQGs17gzT2Ucj_19v9V4s7G0wPStVn+mftQ@mail.gmail.com>
-Message-ID: <83491d22-64b6-68bd-b7e2-787e0826712c@xilinx.com>
-Date:   Thu, 17 Dec 2020 00:40:07 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.1
+        id S1727035AbgLQJQd convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 17 Dec 2020 04:16:33 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44310 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725871AbgLQJQd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Dec 2020 04:16:33 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kppO2-00735X-2l; Thu, 17 Dec 2020 09:15:50 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kppRH-0002sg-Tx; Thu, 17 Dec 2020 09:19:11 +0000
+Date:   Thu, 17 Dec 2020 09:19:11 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <994134785.13.1608196751919@builder.linuxtv.org>
+In-Reply-To: <1030143682.12.1608110351891@builder.linuxtv.org>
+References: <1030143682.12.1608110351891@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3330
 MIME-Version: 1.0
-In-Reply-To: <CADnq5_N7Q_6jfghWQGs17gzT2Ucj_19v9V4s7G0wPStVn+mftQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1cefe045-d04f-458a-4ed4-08d8a267650a
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6072:
-X-Microsoft-Antispam-PRVS: <CH2PR02MB60726FE95D3503AF4DF80A80B0C40@CH2PR02MB6072.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Yap0lfeNynBXrtYfZvdApGiLMvMJAU0XX8yRUwxKvsQpUPknDYJJrU2x+QA1FfngZIemKNGNKszwvj3hy5XKQM49gaS4AeyiSgaMsDzHKHSXV4wwOotxXrG9rLUofKeCouwl8H6wuo23Ot2RZXD4PsVXJPVVG49Mr5RX7mV45LHfA8C89VruEYYTJ0pXBLlT5a2CHmWEGq3RkodYoD7nTVkSAZNeRCUsDxswCiFczZzSESCGSqbMDFlxNxbgAIO1k+yNSc2xe3J2vSh33BbVliyg7M8t3ANbt/5sg/Lrez2FYDX9keYHJSHnID++TntGexgDY4YH1BJT+UUf+zwh5xrXyAfMaNsrazSYu6Tp+LAIQCfUMWS+hwWK+AWyj9yA3pue1kBuv1EYqwvTaCAiil6szLcGL1wHjPd14Xw1fd8A2X8q7+NiaBsDaxry7wTrR+Iv2DX3tB3EicvUjxxWYzaVFl2AzzoNSveaSCBi+NwtbgSf7FSUkku4zme9akn8a1N+lZGdFXVYxlQfv46MbA==
-X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch02.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(346002)(39860400002)(376002)(136003)(396003)(46966005)(7636003)(53546011)(82740400003)(70206006)(31696002)(110136005)(966005)(31686004)(336012)(30864003)(26005)(9786002)(8676002)(54906003)(70586007)(478600001)(426003)(316002)(2616005)(36756003)(47076004)(4326008)(82310400003)(8936002)(2906002)(83380400001)(186003)(7416002)(5660300002)(356005)(50156003)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 08:40:23.2131
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cefe045-d04f-458a-4ed4-08d8a267650a
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT019.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6072
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+See <https://builder.linuxtv.org/job/media-build/3330/display/redirect>
 
-On 12/15/20 7:23 AM, Alex Deucher wrote:
-> On Mon, Dec 14, 2020 at 7:24 PM Jiaying Liang<wendy.liang@xilinx.com>  wrote:
->> On 12/11/20 11:39 AM, Daniel Vetter wrote:
->>> Hi all
->>>
->>> On Fri, Dec 11, 2020 at 8:03 PM Alex Deucher<alexdeucher@gmail.com>   wrote:
->>>> On Mon, Nov 30, 2020 at 3:25 AM Wendy Liang<wendy.liang@xilinx.com>   wrote:
->>>>> AI engine is the acceleration engine provided by Xilinx. These engines
->>>>> provide high compute density for vector-based algorithms, and flexible
->>>>> custom compute and data movement. It has core tiles for compute and
->>>>> shim tiles to interface the FPGA fabric.
->>>>>
->>>>> You can check the AI engine architecture document for more hardware details:
->>>>> https://www.xilinx.com/support/documentation/architecture-manuals/am009-versal-ai-engine.pdf
->>>>>
->>>>> This patch series adds a Linux kernel driver to manage the Xilinx AI
->>>>> engine array device and AI engine partitions (groups of AI engine tiles
->>>>> dedicated to an application).
->>>> Hi Wendy,
->>>>
->>>> I think it would be good to provide an overview of how your stack
->>>> works in general.  That would give reviewers a better handle on how
->>>> all of this fits together.  I'd suggest including an overview in the
->>>> cover letter and also in the commit message and/or as a comment in the
->>>> code in one of the patches.  I'm not really an expert when it comes to
->>>> FPGAs, but this basically looks like a pretty low level interface to
->>>> set up the data fabric for a kernel that will run on the soft logic or
->>>> maybe the microcontroller on the board.  It doesn't have to be super
->>>> detailed, just a nice flow for how you might use this.  E.g.,
->>>>
->>>> Userspace uses ioctls X, Y, Z to configure the data fabric for the
->>>> FPGA kernel.  The kernels can run on... .  DMA access to system memory
->>>> for data sets can be allocated using ioctl A.  DMA access is limited
->>>> by... . The user can then load the FPGA kernel on to one of the
->>>> engines using ioctl B and finally they can kick off the whole thing
->>>> using ioctl C.  FPGA kernels are compiled using YYY toolchain and use
->>>> use the following runtime (link to runtime) to configure the data
->>>> fabric using ioctls X, Y, Z.
->>> At least for drm drivers we ideally have that as a .rst file in
->>> Documentation/. With that you can even do full svg graphs, or just dot
->>> graphs, of the overall stack if you really want to go overboard :-)
->>>
->>>> It would also be good to go over the security implications of the
->>>> design.  E.g., can the FPGA kernel(s) access the DMA engine directly,
->>>> or is it limited to just the DMA regions set up by the ioctls?  Also,
->>>> does the hardware and software design allow for multiple users?  If
->>>> so, how does that work?
->>> I've also seen indications that there's some on-chip or on-card
->>> memory. How that's planned to be used and whether we want to manage
->>> this (maybe even with something like ttm) would be good to understand.
->>>
->>> All excellent questions from Alex, just figured I add some more.
->>>
->>> Cheers, Daniel
->> Hi Alex, Daniel,
->>
->> Below is an overview of the driver.
->>
->> AI engine kernel driver manages Xilinx AI engine device. An AI engine device
->> contains cores tiles and SHIM tiles. Core tiles are the computation tiles
->> , the SHIM tiles are the tiles interfacing to external components.
->>
->>             +--------+--------+--------+--------+
->>              | Core        | Core        | Core        | Core | ...
->>              |                |                | |                |
->>             +-----------------------------------+
->>              | Core        | Core        | Core        | Core     | ...
->>              |                |                | |             |
->>             +--------+--------+--------+---------
->>              ...
->>             +--------+--------+-----------------+
->>             | SHIM        | SHIM       | SHIM       |SHIM        |
->>             | PL            | PL           | PL            |PL | NOC  |
->>             +---+----+---+----+---+-----+-------+
->>     AXI Streams   |        |                |              |    |AXI MM
->>                          |        |                | |    |
->> Events Singals |        |                |              |    |
->>                          |        |                | |    |
->>                          |        |                | |    |
->>             +---+--------+--------+-----+ +--+------+
->>             |       FPGA                                        | |
->> NOC        |
->>             | | |                  |
->>             +---------------------------+ +--+-------+
->>                                              |
->>                                              |
->>                                          +---+------+
->>                                          |   DDR           |
->>                                          +----------+
->>
->> Each Core tile contains computing module, local memory and DMA module. The
->> local memory DMA module takes data from or to the AXI streams and writes
->> it to or reads it from the local memory. The computing module can also
->> directly get/put data from/to the AXI stream. The AIE SHIM enables AIE tiles
->> to get/put data from/to AXI streams from FPGA, enables external master to
->> access AI engine address space through AXI MM. SHIM NoC module has DMA
->> engine,
->> which can access extern memory though AXI MM and push it to internal AXI
->> streams.
->>
->> At runtime, the AI engine tiles interconnection needs to be configured
->> so that
->> it can get fetch data from external components or adjacent tiles, and AI
->> engine
->> core program needs to be loaded. And then user application can push data
->> to the
->> AI engine array and start/stop AI engine core. AI engine device errors
->> can be
->> raised as events, the AI engine kernel driver listens to the events
->> interrupt
->> to monitor runtime async device errors.
->>
->> Instead of application directly interacting with the AI engine kernel
->> APIs, user
->> application/libraries interacts with AI engine userspace library:
->> https://github.com/Xilinx/embeddedsw/tree/master/XilinxProcessorIPLib/drivers/aienginev2
->> It provides cross OSes low level functional abstraction such as how to
->> connect one
->> stream port to another stream port, how to configure core tile local DMA.
->>
->> The AI engine library can be used by other runtime libraries such as
->> Xilinx runtime (XRT)
->> library:https://xilinx.github.io/XRT/master/html/index.html,
->> which provides acceleration abstraction for Xilinx accelerators, it has
->> extensions
->> to interface to other acceleration framework such as OpenCL.
->> XRT provides buffer handling abstractions for user application to share
->> data between
->> applicaiton and devices.
->>
->> Here is an example of application runtime stack:
->>
->>               +----------------------------+
->>               |      Application                              |
->>               | |
->>               +----------------------------+
->>               |       XRT                                        |
->>               | |
->>               +----------------------------+
->>               |      AIE Library                               |
->>               | |
->>              +----------------------------+
->>       +----------------------------------------+
->> Kern    +----------------------------+
->>               |         AIE Partition                        +--+
->>              +----------------------------+    |
->>                     |----------------------------+
->>               +----------------------------+
->>                |         AIE Device                           |
->>                | |
->>               +----------------------------+
->>
->>
->>
->> The AI engine kernel driver provides the following user interfaces:
->>    * AIE device driver is the root device driver to manage the partitions of
->>      of the AI engine device array. AI engine array can be partitioned into
->>      column wised isolated partitions. Each applicaiton can only access its
->>      own partitions.
->>    * AIE device driver monitors the interrupt from the AI enigne device. All
->>      AI engine tiles shared the same interrupt for error events.
->>    * AIE partition driver controls address mapping and access of the
->>      registers/local memories of the tiles within a partition.
->>      * It provides mmap operation to enable application to direclty
->> access the
->>        tiles local memories for small data update such as parameter
->> update for
->>        performance.
->>      * It provides mmap operatio to map all the registers as readonly for
->>        application to poll registers efficiently to check status.
->>      * It provides ioctl for userspace to pass I/O commands to write/mask
->> write
->>        the registers. How to configure is defined by userspace. Userspace
->> will
->>        pass the I/O commands sequence to the kernel driver, and kernel driver
->>        will validate the commands before it writes to the registers.
->>      * It provides ioctl to import dmabuf and ioctl to configure the the
->> DMA module
->>        in the SHIM tile which can access memory outside AI engine array.
->>
->> The buffer management is out of this driver. In the above example, user
->> application
->> uses Xilinx runtime(XRT), XRT is the one to manage the buffers.
->>
-> So if I understand this correctly, this driver handles the resource
-> management for the AI engines, PLs (programmable logic), and DMA
-> streams.  I think it's important to understand that there are multiple
-> address spaces here.  Normally when we talk about DMA in the kernel we
-> are referring to devices accessing an external resource like system
-> memory on the host CPU or another device's MMIO space (e.g., another
-> PCIe device).  It would be good to clarify which address spaces the
-> DMAs in your diagram refer to.  I think the DMAs in the AI engines are
-> specifically for DMAs within the AI engine logic (e.g., between AIs in
-> a partition).  How is DMA to system memory handled?  What about
-> dedicated memory on the FPGA (e.g., HBM or DDR on the FPGA itself)?
-> Is that what you are exposing as DMA bufs?  When you allocate a
-> DMA-buf for a partition, is that partition only allowed to access
-> memory that is part of that DMA buf?  I presume there is some
-> scatter/gather table that sets up the DMA range that the partition can
-> access?  Who loads the soft logic (Is that the PL or some other IP)?
-> Is the soft logic partitioned as well?  If I had some soft logic I
-> wanted to run on the FPGA, what would the kernel driver interaction
-> sequence look like?  Maybe using the OpenCL soft logic would be a good
-> example.  E.g.,
-
-The AI engine driver only manage the resources within the AI
-
-engine array. There are two types of DMAs of the AI engine device.
-
-one is the AI engine tile local memory DMA which can only access the local
-
-memory. There is another type of DMA which is in the SHIM tile. This
-
-DMA can access external address space such as DDR. Although it can acess
-
-the memory on fpga if user configure the platform that way, it is 
-preferred to
-
-use PL data mover to move data between FPGA memory and AI engine device.
-
-The PL data mover will not be managed by the AI engine driver.
-
-One SHIM DMA has up to 16 buffer descriptors to use.
-
-Xilinx FPGA manager is the one used to program the FPGA soft logic.
-
-E.g. when XRT is used, if AI engine is connected to FPGA logic, the XRT 
-stack is
-
-the one to manage the configuration sequence.
-
-> 1. user has soft logic blob generated by their soft logic compiler (is
-> this compiler open source?)
-The soft logic blob is generated by Xilinx tools which is not open 
-source yet.
-> 2. user calls AI engine kernel driver to allocate the required
-> resources (AI engines, AI engine DMAs, doorbells of some sort?  etc.)
-
-User will call AI engine kernel driver to allocate required resources within
-
-the AI engine array at runtime.
-
-However the patches for it is not in this patch set.
-
-> 3. user calls AI engine kernel driver to allocate system memory and/or
-> FGPA memory that can be used by the soft logic blob
-
-AI engine kernel driver doesn't allocate system memory. User can use other
-
-kernel driver to allocate memory.
-
-E.g. when XRT is used, user calls XRT kernel driver (zocl) to allocate 
-system memory.
-
-So far, the FPGA memory is usually assigned to a soft data mover when 
-the platform is
-
-created. Are you considering to have the FPGA memory in the DMA pool of the
-
-system? If it is dedicated to a device, can reserved memory solve this 
-problem?
-
-The AI engine kernel driver doesn't consider this yet.
-
-> 4. user calls AI engine kernel driver to load soft logic
-
-I assume you are referring to the soft logic on the FPGA side which is not
-
-part of the AI engine device. FPGA manager is the one to load the soft 
-logic on FPGA.
-
-> 5. user interfaces with soft logic (how? presumably via some memory
-> resource allocated in 2 and 3?)
-
-I assume you are referring to the soft logic on the FPGA side (not the 
-AI engine device)
-
-The user interface with soft logic is managed by the soft logic IP driver.
-
-Each soft logic has some memory mapped control registers. User can 
-access those
-
-registers through the soft logic IP driver.
-
-About memory allocation, I think it is better to manage the shared 
-memory out of
-
-a specific device driver. Are you looking for memory management which covers
-
-both the system memory and fpga memory, and the device can specify which 
-memory
-
-it prefers?
+Changes:
 
 
-Thanks,
+------------------------------------------
+[...truncated 3.63 KB...]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-Wendy
+     0K                                                       100%  222M=0s
 
->
-> Thanks,
->
-> Alex
->
->
->> Best Regards,
->>
->> Wendy
->>
->>>> Thanks,
->>>>
->>>> Alex
->>>>
->>>>
->>>>> v3:
->>>>> * unlock AIE dev mutex after failed to gain the partition lock in
->>>>>     errors handing
->>>>> * replace pointer with __u64 and enum with __u32 in ioctl
->>>>>
->>>>> v2:
->>>>> * Fix dtschema check errors
->>>>> * Fix test bot warning on interrupt implementation. Removed set but
->>>>>     unused  varaible.
->>>>> * Fix compilation unused function warning of firmware change in case
->>>>>     ZynqMP firmware is not configured
->>>>> * There are other warning on ZynqMP firmware reported from testbot
->>>>>     which is not introduced by this patch set.
->>>>>     "[PATCH] firmware: xlnx-zynqmp: fix compilation warning" is submitted
->>>>>     for those fixes.
->>>>>
->>>>>
->>>>> Izhar Ameer Shaikh (1):
->>>>>     firmware: xilinx: Add IOCTL support for AIE ISR Clear
->>>>>
->>>>> Nishad Saraf (2):
->>>>>     misc: xilinx-ai-engine: Add support to request device management
->>>>>       services
->>>>>     misc: xilinx-ai-engine: Add support for servicing error interrupts
->>>>>
->>>>> Wendy Liang (6):
->>>>>     dt-binding: soc: xilinx: ai-engine: Add AI engine binding
->>>>>     misc: Add Xilinx AI engine device driver
->>>>>     misc: xilinx-ai-engine: Implement AI engine cleanup sequence
->>>>>     misc: xilinx-ai-engine: expose AI engine tile memories to userspace
->>>>>     misc: xilinx-ai-engine: add setting shim dma bd operation
->>>>>     misc: xilinx-ai-engine: add request and release tiles
->>>>>
->>>>>    .../bindings/soc/xilinx/xlnx,ai-engine.yaml        | 126 ++++
->>>>>    MAINTAINERS                                        |   8 +
->>>>>    drivers/firmware/xilinx/zynqmp.c                   |  14 +
->>>>>    drivers/misc/Kconfig                               |  12 +
->>>>>    drivers/misc/Makefile                              |   1 +
->>>>>    drivers/misc/xilinx-ai-engine/Makefile             |  16 +
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-aie.c      | 608 +++++++++++++++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-clock.c    | 245 ++++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-dev.c      | 496 ++++++++++++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-dma.c      | 481 +++++++++++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-internal.h | 519 ++++++++++++++++
->>>>>    .../misc/xilinx-ai-engine/ai-engine-interrupt.c    | 659 +++++++++++++++++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-mem.c      | 275 +++++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-part.c     | 635 ++++++++++++++++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-res.c      | 219 +++++++
->>>>>    drivers/misc/xilinx-ai-engine/ai-engine-reset.c    | 159 +++++
->>>>>    include/linux/firmware/xlnx-zynqmp.h               |   8 +
->>>>>    include/uapi/linux/xlnx-ai-engine.h                | 238 ++++++++
->>>>>    18 files changed, 4719 insertions(+)
->>>>>    create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/Makefile
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-aie.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-clock.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dev.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dma.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-internal.h
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-interrupt.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-mem.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-part.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-res.c
->>>>>    create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-reset.c
->>>>>    create mode 100644 include/uapi/linux/xlnx-ai-engine.h
->>>>>
->>>>> --
->>>>> 2.7.4
->>>>>
->>>>> _______________________________________________
->>>>> dri-devel mailing list
->>>>> dri-devel@lists.freedesktop.org
->>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>> _______________________________________________
->>>> dri-devel mailing list
->>>> dri-devel@lists.freedesktop.org
->>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+2020-12-17 09:16:41 (222 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+--2020-12-17 09:16:41--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2 [following]
+--2020-12-17 09:16:42--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7186871 (6.9M) [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2’
+
+     0K .......... .......... .......... .......... ..........  0%  162K 43s
+    50K .......... .......... .......... .......... ..........  1%  326K 32s
+   100K .......... .......... .......... .......... ..........  2% 12.6M 21s
+   150K .......... .......... .......... .......... ..........  2% 1.23M 17s
+   200K .......... .......... .......... .......... ..........  3%  446K 17s
+   250K .......... .......... .......... .......... ..........  4% 15.9M 14s
+   300K .......... .......... .......... .......... ..........  4% 15.6M 12s
+   350K .......... .......... .......... .......... ..........  5% 14.3M 10s
+   400K .......... .......... .......... .......... ..........  6%  348K 11s
+   450K .......... .......... .......... .......... ..........  7% 15.0M 10s
+   500K .......... .......... .......... .......... ..........  7% 17.6M 9s
+   550K .......... .......... .......... .......... ..........  8% 19.5M 8s
+   600K .......... .......... .......... .......... ..........  9% 17.9M 8s
+   650K .......... .......... .......... .......... ..........  9% 18.0M 7s
+   700K .......... .......... .......... .......... .......... 10% 19.3M 7s
+   750K .......... .......... .......... .......... .......... 11% 19.4M 6s
+   800K .......... .......... .......... .......... .......... 12% 2.09M 6s
+   850K .......... .......... .......... .......... .......... 12%  452K 6s
+   900K .......... .......... .......... .......... .......... 13% 21.3M 6s
+   950K .......... .......... .......... .......... .......... 14% 18.5M 6s
+  1000K .......... .......... .......... .......... .......... 14% 18.8M 5s
+  1050K .......... .......... .......... .......... .......... 15% 20.2M 5s
+  1100K .......... .......... .......... .......... .......... 16% 24.1M 5s
+  1150K .......... .......... .......... .......... .......... 17% 24.4M 5s
+  1200K .......... .......... .......... .......... .......... 17% 18.8M 4s
+  1250K .......... .......... .......... .......... .......... 18% 25.8M 4s
+  1300K .......... .......... .......... .......... .......... 19% 27.5M 4s
+  1350K .......... .......... .......... .......... .......... 19% 24.4M 4s
+  1400K .......... .......... .......... .......... .......... 20% 24.0M 4s
+  1450K .......... .......... .......... .......... .......... 21% 29.4M 3s
+  1500K .......... .......... .......... .......... .......... 22% 25.8M 3s
+  1550K .......... .......... .......... .......... .......... 22% 28.7M 3s
+  1600K .......... .......... .......... .......... .......... 23% 20.7M 3s
+  1650K .......... .......... .......... .......... .......... 24% 4.47M 3s
+  1700K .......... .......... .......... .......... .......... 24% 43.4M 3s
+  1750K .......... .......... .......... .......... .......... 25%  457K 3s
+  1800K .......... .......... .......... .......... .......... 26% 44.4M 3s
+  1850K .......... .......... .......... .......... .......... 27% 37.3M 3s
+  1900K .......... .......... .......... .......... .......... 27% 21.8M 3s
+  1950K .......... .......... .......... .......... .......... 28% 23.7M 3s
+  2000K .......... .......... .......... .......... .......... 29% 17.1M 3s
+  2050K .......... .......... .......... .......... .......... 29% 27.5M 3s
+  2100K .......... .......... .......... .......... .......... 30% 25.3M 2s
+  2150K .......... .......... .......... .......... .......... 31% 23.6M 2s
+  2200K .......... .......... .......... .......... .......... 32% 23.0M 2s
+  2250K .......... .......... .......... .......... .......... 32% 24.3M 2s
+  2300K .......... .......... .......... .......... .......... 33% 23.7M 2s
+  2350K .......... .......... .......... .......... .......... 34% 24.1M 2s
+  2400K .......... .......... .......... .......... .......... 34% 17.4M 2s
+  2450K .......... .......... .......... .......... .......... 35% 23.4M 2s
+  2500K .......... .......... .......... .......... .......... 36% 24.0M 2s
+  2550K .......... .......... .......... .......... .......... 37% 23.2M 2s
+  2600K .......... .......... .......... .......... .......... 37% 25.1M 2s
+  2650K .......... .......... .......... .......... .......... 38% 25.6M 2s
+  2700K .......... .......... .......... .......... .......... 39% 25.5M 2s
+  2750K .......... .......... .......... .......... .......... 39% 26.0M 2s
+  2800K .......... .......... .......... .......... .......... 40% 18.6M 2s
+  2850K .......... .......... .......... .......... .......... 41% 23.8M 2s
+  2900K .......... .......... .......... .......... .......... 42% 22.4M 2s
+  2950K .......... .......... .......... .......... .......... 42% 29.3M 2s
+  3000K .......... .......... .......... .......... .......... 43% 25.7M 1s
+  3050K .......... .......... .......... .......... .......... 44% 24.8M 1s
+  3100K .......... .......... .......... .......... .......... 44% 25.1M 1s
+  3150K .......... .......... .......... .......... .......... 45% 24.7M 1s
+  3200K .......... .......... .......... .......... .......... 46% 19.2M 1s
+  3250K .......... .......... .......... .......... .......... 47% 25.8M 1s
+  3300K .......... .......... .......... .......... .......... 47% 24.8M 1s
+  3350K .......... .......... .......... .......... .......... 48% 24.6M 1s
+  3400K .......... .......... .......... .......... .......... 49% 24.9M 1s
+  3450K .......... .......... .......... .......... .......... 49% 25.4M 1s
+  3500K .......... .......... .......... .......... .......... 50% 25.7M 1s
+  3550K .......... .......... .......... .......... .......... 51%  603K 1s
+  3600K .......... .......... .......... .......... .......... 52% 37.6M 1s
+  3650K .......... .......... .......... .......... .......... 52% 54.8M 1s
+  3700K .......... .......... .......... .......... .......... 53% 59.2M 1s
+  3750K .......... .......... .......... .......... .......... 54% 54.6M 1s
+  3800K .......... .......... .......... .......... .......... 54% 44.7M 1s
+  3850K .......... .......... .......... .......... .......... 55% 54.4M 1s
+  3900K .......... .......... .......... .......... .......... 56% 65.3M 1s
+  3950K .......... .......... .......... .......... .......... 56% 56.5M 1s
+  4000K .......... .......... .......... .......... .......... 57% 44.7M 1s
+  4050K .......... .......... .......... .......... .......... 58% 48.0M 1s
+  4100K .......... .......... .......... .......... .......... 59% 49.0M 1s
+  4150K .......... .......... .......... .......... .......... 59% 59.7M 1s
+  4200K .......... .......... .......... .......... .......... 60% 51.8M 1s
+  4250K .......... .......... .......... .......... .......... 61% 49.5M 1s
+  4300K .......... .......... .......... .......... .......... 61% 45.3M 1s
+  4350K .......... .......... .......... .......... .......... 62% 55.4M 1s
+  4400K .......... .......... .......... .......... .......... 63% 35.5M 1s
+  4450K .......... .......... .......... .......... .......... 64% 56.6M 1s
+  4500K .......... .......... .......... .......... .......... 64% 48.4M 1s
+  4550K .......... .......... .......... .......... .......... 65% 46.4M 1s
+  4600K .......... .......... .......... .......... .......... 66% 48.2M 1s
+  4650K .......... .......... .......... .......... .......... 66% 50.3M 1s
+  4700K .......... .......... .......... .......... .......... 67% 43.8M 1s
+  4750K .......... .......... .......... .......... .......... 68% 41.6M 1s
+  4800K .......... .......... .......... .......... .......... 69% 34.6M 1s
+  4850K .......... .......... .......... .......... .......... 69% 50.7M 1s
+  4900K .......... .......... .......... .......... .......... 70% 55.4M 1s
+  4950K .......... .......... .......... .......... .......... 71% 42.0M 1s
+  5000K .......... .......... .......... .......... .......... 71% 56.7M 0s
+  5050K .......... .......... .......... .......... .......... 72% 41.2M 0s
+  5100K .......... .......... .......... .......... .......... 73% 47.8M 0s
+  5150K .......... .......... .......... .......... .......... 74% 46.3M 0s
+  5200K .......... .......... .......... .......... .......... 74% 41.4M 0s
+  5250K .......... .......... .......... .......... .......... 75% 43.9M 0s
+  5300K .......... .......... .......... .......... .......... 76% 56.0M 0s
+  5350K .......... .......... .......... .......... .......... 76% 52.8M 0s
+  5400K .......... .......... .......... .......... .......... 77% 48.2M 0s
+  5450K .......... .......... .......... .......... .......... 78% 44.3M 0s
+  5500K .......... .......... .......... .......... .......... 79% 59.8M 0s
+  5550K .......... .......... .......... .......... .......... 79% 40.7M 0s
+  5600K .......... .......... .......... .......... .......... 80% 50.4M 0s
+  5650K .......... .......... .......... .......... .......... 81% 3.84M 0s
+  5700K .......... .......... .......... .......... .......... 81% 18.6M 0s
+  5750K .......... .......... .......... .......... .......... 82% 17.0M 0s
+  5800K .......... .......... .......... .......... .......... 83% 16.8M 0s
+  5850K .......... .......... .......... .......... .......... 84% 17.9M 0s
+  5900K .......... .......... .......... .......... .......... 84% 17.7M 0s
+  5950K .......... .......... .......... .......... .......... 85% 18.5M 0s
+  6000K .......... .......... .......... .......... .......... 86% 13.5M 0s
+  6050K .......... .......... .......... .......... .......... 86% 19.9M 0s
+  6100K .......... .......... .......... .......... .......... 87% 21.4M 0s
+  6150K .......... .......... .......... .......... .......... 88% 18.5M 0s
+  6200K .......... .......... .......... .......... .......... 89% 19.1M 0s
+  6250K .......... .......... .......... .......... .......... 89% 20.7M 0s
+  6300K .......... .......... .......... .......... .......... 90% 18.9M 0s
+  6350K .......... .......... .......... .......... .......... 91% 19.7M 0s
+  6400K .......... .......... .......... .......... .......... 91% 14.8M 0s
+  6450K .......... .......... .......... .......... .......... 92% 19.4M 0s
+  6500K .......... .......... .......... .......... .......... 93% 19.4M 0s
+  6550K .......... .......... .......... .......... .......... 94% 19.6M 0s
+  6600K .......... .......... .......... .......... .......... 94% 19.2M 0s
+  6650K .......... .......... .......... .......... .......... 95%  996K 0s
+  6700K .......... .......... .......... .......... .......... 96% 39.7M 0s
+  6750K .......... .......... .......... .......... .......... 96% 39.5M 0s
+  6800K .......... .......... .......... .......... .......... 97% 28.9M 0s
+  6850K .......... .......... .......... .......... .......... 98% 39.1M 0s
+  6900K .......... .......... .......... .......... .......... 99% 41.0M 0s
+  6950K .......... .......... .......... .......... .......... 99% 34.6M 0s
+  7000K .......... ........                                   100% 93.2M=1.4s
+
+2020-12-17 09:16:44 (4.91 MB/s) - ‘linux-media.tar.bz2’ saved [7186871/7186871]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-5-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:378: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
