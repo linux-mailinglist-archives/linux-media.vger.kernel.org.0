@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C1A2DD6E5
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDED42DD6E1
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:08:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728966AbgLQSIC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:08:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41880 "EHLO
+        id S1729589AbgLQSIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:08:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728081AbgLQSIB (ORCPT
+        with ESMTP id S1728081AbgLQSIE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:08:01 -0500
+        Thu, 17 Dec 2020 13:08:04 -0500
 Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6D1C06138C;
-        Thu, 17 Dec 2020 10:07:20 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id a12so59834105lfl.6;
-        Thu, 17 Dec 2020 10:07:20 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8266C061282;
+        Thu, 17 Dec 2020 10:07:23 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id m25so59777377lfc.11;
+        Thu, 17 Dec 2020 10:07:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cl0K+0TJ44kvt29rpR6eiUIQXd8X64NWC+nXmDDHd1E=;
-        b=MuUFzZ0hzx33koe8Q6SIGZb5hKTQFzBpBJUqh/SixgLOznrLg7KOMWUpURY+xeV5Hx
-         k/U2399Zm9gNeQBBswlgsbKInco0EB6omSTVgO9I39a9yEFyNbqx2xScbrINdw4W49qY
-         oiKEDur9FjWfspdRBhJVowgv3c0OeHonvL9BobDtgnQY/086LE0DqE29kK45w1BEDk7I
-         zzqJiWQFQ1bVlAlIio0abJ+fAaM3fA84dpqAwotrs+rIc80eNPDuZdkjvHELUM24Caal
-         /nFPceaxGOpDV1296lZGIWzVC+Jwil9tc0hiEppkOjRemaz3NCAyDRkyMJl/pkge85aG
-         auXQ==
+        bh=wRLKIZbWYzVgD4/h7Q5pP/dMfh/6wK4T7bMtKrKWFYs=;
+        b=nof46WJOEl3Od1rTO/2BYq6/+zk+zJ/AGmoG6erIC0+tgB/oIvdBZAktAlSvQoEZb/
+         U6iFxEOBIugW299jwIFrWQ6bsT+VhSHlPUZ5crYO8SLL7E1ykhQSbvIOGz95lEK1CD1l
+         xurdMXdFJ5bUbCKqPxQGL7MSkYrWUwxbVJS+pOaZ6U3PnQamubXJPaPBtEvoLE4NlBzS
+         h6H+Hw6LLV7UvSbjkYoDkkk0kKwliK4ss66ReUrsUlErK+ZcCXIseijPZVZu6jr9Azfu
+         2zvdUbpZW4E4SSI1d19fss7CvalcS3mCXXdnQe9Z374JJpshKOx9EGWBuFbOaGLwTIwv
+         xBFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cl0K+0TJ44kvt29rpR6eiUIQXd8X64NWC+nXmDDHd1E=;
-        b=LtqGCz8fDZAG08mp5IocYtJ44kTKsj1VOsxDu88sy5pi+r7X0Kk0+hAewf/NNMktLS
-         QMiFixGiilXefu0SPIvTkCFNl9syAf5BogbZOLHVHUyKA1DPVDj5Oxd9zdtvg7YV6lWr
-         DFKl6I75B5KqZ/DcW196tyx6MzEQHYIbwGlHLqImTx1MJaZ/a0A1xY8dNzUn30WI/hNX
-         HHJgutMEUYKeD+A4CvlPfDLtqySSNSqDfl+c6UBPNQXtsnKavIeV8++t8mylT9cVMhf+
-         rbKXMpMIhGMCthFXZuCxvMMM5g1DcK/ouLq3IkyXyhBvmQWBl3Jbf/S4YYvA5oYIjWIu
-         oF9w==
-X-Gm-Message-State: AOAM5338+MGZ6PAsdr6Zc3k4mk42VV9vprqpaQyKfAFu29lXRukrg1Gr
-        0DLFysxPObewmELpjVcKAKM=
-X-Google-Smtp-Source: ABdhPJxPFZeRibTS1CFC1H/daUZkN+6BWmcuzHohtcds5PZPgAc+ohRMJgojJ6j8E/2dmWtFFWDUxg==
-X-Received: by 2002:a2e:b0d3:: with SMTP id g19mr207999ljl.279.1608228439106;
-        Thu, 17 Dec 2020 10:07:19 -0800 (PST)
+        bh=wRLKIZbWYzVgD4/h7Q5pP/dMfh/6wK4T7bMtKrKWFYs=;
+        b=poafv4JlTrf6bbaHPgd9iSL/tHWr98QP2KMw/dsodnzfhr1jAOLFY29AbA++6m5I2C
+         ivVBbpTmkdV25gYy+4RVQahdMmx0OLlGYhnooBNVTu/v4JUJ9vnMI6dBXGTdtkrN7jeA
+         tN20p2IuLfNyqZcojNu940BCmfPADFy3tZjUYq6Rg0oOIYXKJX+Ps0Yuw9CDmZOLGDBB
+         pQn3iHYArvZ/wqEYdf4S6m+sYEmuWk3aBKwCVWktlxGhqSecH+8hlOth0YP0uolJfQ+O
+         eRysnebms93RyYHst1atrBozdHa4RomYMS0Urp5qB7qfz7JcwJ13PYj5WwSTvQ+IjfNT
+         3Mog==
+X-Gm-Message-State: AOAM531BjCIrbjN0X4WiODXI0nmKZOMvrAkVZXAMisHjpTq+RqcESaw4
+        H84FpD8lOjCR+j5tLZXkFfA=
+X-Google-Smtp-Source: ABdhPJydLEQpauRBVKAwEa9RLHoou8ZxWlTRtLTcNVXWexn3xCJmbfFa9KYDYb9Npu8cupsJwFP+AQ==
+X-Received: by 2002:a2e:908:: with SMTP id 8mr240132ljj.52.1608228442259;
+        Thu, 17 Dec 2020 10:07:22 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.17
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:07:18 -0800 (PST)
+        Thu, 17 Dec 2020 10:07:19 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 01/48] dt-bindings: memory: tegra20: emc: Replace core regulator with power domain
-Date:   Thu, 17 Dec 2020 21:05:51 +0300
-Message-Id: <20201217180638.22748-2-digetx@gmail.com>
+Subject: [PATCH v2 02/48] dt-bindings: memory: tegra30: emc: Replace core regulator with power domain
+Date:   Thu, 17 Dec 2020 21:05:52 +0300
+Message-Id: <20201217180638.22748-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -89,30 +89,33 @@ regulator yet, and thus, it's okay to change it.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../bindings/memory-controllers/nvidia,tegra20-emc.txt        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../bindings/memory-controllers/nvidia,tegra30-emc.yaml     | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-index cc443fcf4bec..143439b50c92 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-@@ -23,7 +23,7 @@ For each opp entry in 'operating-points-v2' table:
- 	matches, the OPP gets enabled.
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
+index 0a2e2c0d0fdd..7b4af9169b0b 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
+@@ -39,9 +39,9 @@ properties:
+     description:
+       Phandle of the Memory Controller node.
  
- Optional properties:
--- core-supply: Phandle of voltage regulator of the SoC "core" power domain.
-+- power-domains: Phandle to the SoC "core" power domain.
+-  core-supply:
++  power-domains:
+     description:
+-      Phandle of voltage regulator of the SoC "core" power domain.
++      Phandle to the SoC "core" power domain.
  
- Child device nodes describe the memory settings for different configurations and clock rates.
+   operating-points-v2:
+     description:
+@@ -241,7 +241,7 @@ examples:
  
-@@ -48,7 +48,7 @@ Example:
- 		interrupts = <0 78 0x04>;
- 		clocks = <&tegra_car TEGRA20_CLK_EMC>;
- 		nvidia,memory-controller = <&mc>;
--		core-supply = <&core_vdd_reg>;
-+		power-domains = <&domain>;
- 		operating-points-v2 = <&opp_table>;
- 	}
+         nvidia,memory-controller = <&mc>;
+         operating-points-v2 = <&dvfs_opp_table>;
+-        core-supply = <&vdd_core>;
++        power-domains = <&domain>;
+ 
+         #interconnect-cells = <0>;
  
 -- 
 2.29.2
