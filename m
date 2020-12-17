@@ -2,101 +2,298 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C89D2DD183
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 13:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1986D2DD1C7
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 14:01:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgLQMbr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 07:31:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46202 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbgLQMbq (ORCPT
+        id S1726773AbgLQNAl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 08:00:41 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:39581 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726601AbgLQNAf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 07:31:46 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78114C061794;
-        Thu, 17 Dec 2020 04:31:06 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id g18so20249795pgk.1;
-        Thu, 17 Dec 2020 04:31:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZcXeGJJMM5OnozixyGJRr6W72s9oCpGnZVP+dO6FDqI=;
-        b=hRhRpnDuKp4PB5JZZW2jLmbSfNCbvNH4LiF9ILPVPsdlBFbGmZwQCpt4FZXr1/f/g2
-         tFBXcdaQZfgVXLrwXwGYMDPHnvBam42sJ2Do/EeWQ1ddSpkdLvWg8bDWbGJ8M9n837R6
-         LXLB+CaLKdyUzxVGsk6+a4fRSZVCpVcNw4V7c+1X88ARHHBbQKdf+E4vRRmC4XqY3Pmw
-         40PCdCkWomb0oa+kPpVdeeimdwFt+a9kb7Py/bmvHA/HT4Ftf6rJNjfo2wJNRPTTHzuh
-         znMxJ46KsnTzYD1SRpHefrp8Av3u5Ia8hWeTTdLCTW6rF3lGjDjJ5HX+IOHrNFDMAmwm
-         bNKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZcXeGJJMM5OnozixyGJRr6W72s9oCpGnZVP+dO6FDqI=;
-        b=X8AxmRn8ORnXdOgsUk/D+cQUBD5D+Nx1++5YpUJOQdsvEoqIwnhEa4GnS8yvivDPz0
-         IjrkdgiGCvroMtOGGUZD/8Vfapa45r/QpVxEJyMHJEo4di/LHcWFWEGrifcbuaWcG6Z9
-         QnuAW5nkEGnA2P410v9QW+5Ep0W61hBggaS6sHbV22vGu79pARQF5DhlLXJewofddG36
-         IvHM3CLiEsZyVWAWhQbVsOPll+1bT8hFsXSI/JGIwIC6nvt9/FKlgo3P41xbGIS0XoxC
-         vQ0X9KiRD61VABRvY++5+LCRXbv1A3T+wCaaCo7X1x+cZ3Z+YPmv8aw1DKC8XqHWSNDR
-         4cRg==
-X-Gm-Message-State: AOAM530vP9ref5mTkNtJYEQrepUSwGoVGDppMN6I7u/6FwFeR7+A3vdt
-        KFF8afA9w+RN6TBa6+RJc2g=
-X-Google-Smtp-Source: ABdhPJwrN+TGqwitW6OzLtn7nzPccO8xU68OD4Xob+uqCOWc5V6ZJoPyLWwPttbytZl6+2HIg7U3hQ==
-X-Received: by 2002:a65:6a53:: with SMTP id o19mr7051111pgu.212.1608208266108;
-        Thu, 17 Dec 2020 04:31:06 -0800 (PST)
-Received: from localhost.localdomain ([45.77.13.216])
-        by smtp.gmail.com with ESMTPSA id x5sm5044692pjr.38.2020.12.17.04.30.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 04:31:05 -0800 (PST)
-From:   siyanteng01@gmail.com
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        siyanteng <siyanteng01@gmail.com>
-Subject: [PATCH] cma_heap: fix implicit function declaration
-Date:   Thu, 17 Dec 2020 20:30:53 +0800
-Message-Id: <20201217123053.2166511-1-siyanteng01@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        Thu, 17 Dec 2020 08:00:35 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.west.internal (Postfix) with ESMTP id 8AA567F9;
+        Thu, 17 Dec 2020 07:59:27 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 17 Dec 2020 07:59:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=nAhVtWrDkd61G5pxUHemYZDSqXG
+        grHNp+6N+yclpKH0=; b=rds139swIOm51os10Z7Gm12FNXY1sy9cOpIaVXYj9+Z
+        FON/+1UMlltUXUld1n9tcrwww8b+uuzchs1jCT0ICfy1YRKFX2j70XTZO0DM+RLk
+        b12p9CqmAfMdEoLfoHhJvC9+RZM1YuecC6tQTudvxiE0f0CzqwKBMN4Bb5Oh99D/
+        FFPW8JbpBB8Mto5nU7pzJaQUSGvOb2jV5sujQJGY7R6hrg79vHgkSfsA1tmKo/Ib
+        wMDnWYSYCVHFpn4/9CgYkLBpXm2tPIAaokja2Uvul5Ly8X0Jo8OTb5aAa/jHUFRo
+        vkh/acp+CDU7acR11DE+1RBd7yWrZQIsTCI5TEEFMtg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nAhVtW
+        rDkd61G5pxUHemYZDSqXGgrHNp+6N+yclpKH0=; b=ChCaOH+AZmvNgQEWgDElWj
+        ZVNGlshYbSFEYBBzv86sF557a8AIqsXzzAxPoIQYIy+yZcGvCLDTewPqCHqedyfY
+        BrsuPWj0GrVFey+ShwxiDs5XcajRNJa0nh/a8zUJg0XecXDKuRvkKMLLTw/BfoXQ
+        DFFkhDON5n1737SqjDygUDjwCtAf2sAul388vtsmP7t+YF8HHUzNRK6dnyg9DvPz
+        vrR6d3Y7xHuztOwL5vATyU6Ezp2yFovyIp7HKZorqsXq7NRSQUzXRidGcxVul2oE
+        1Q3RR1+aLn39iqJOEHq4UWGJCvYW0ckEMoRM+tLLw0VDRQZ7ohuIWFQV+C7aRqpw
+        ==
+X-ME-Sender: <xms:LFbbX90KdwgaK27ar2A0p_0mwPijj--BXGsJLhrkTVoWC9HIMa0vFQ>
+    <xme:LFbbX0FKJIAALa0SZyXUxa3VXYrjmDkvlSHdnOJuV7TuQtvFMncAkiEICAXfJVV52
+    hyTcin2YMAQaY2HVNQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelgedggeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepvddvgffhkeefgfdthfekjeduffefheeukeeuffevgedvtddtvdehgeelhfel
+    udetnecuffhomhgrihhnpeigshegrghllhdrnhhlnecukfhppeeltddrkeelrdeikedrje
+    einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
+    gihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:LFbbX95bdvP_gOG587BSOseI6RrAQOSHFaFfQnT5EHbRIWRxgt6OtA>
+    <xmx:LFbbX639eXnMjGVMKICyxgNIPW9vIv7WxM7OmJoW-PYmTYiWrTHkKQ>
+    <xmx:LFbbXwE1mnC1O9jtzIOzqQl3SeW5w7dpUg7SbFowiFxtqyMnZU6-Bw>
+    <xmx:L1bbX9dWf9aEA80Mb2g43x-7LWyP5YwXGjTsToWoBYfQPyw_VbxkcDqNb3E>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2AAE21080063;
+        Thu, 17 Dec 2020 07:59:24 -0500 (EST)
+Date:   Thu, 17 Dec 2020 13:59:22 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Eric Anholt <eric@anholt.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Jason Cooper <jason@lakedaemon.net>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 00/15] drm/vc4: hdmi: Add CEC support for the BCM2711
+Message-ID: <20201217125922.bx3wx3dwcl6lojre@gilmour>
+References: <20201210134648.272857-1-maxime@cerno.tech>
+ <23bdb67a-fb55-42d4-9130-ade1b0396768@xs4all.nl>
+ <20201217104946.srurfmuphqzz4c4w@gilmour>
+ <cc3e0adf-ba44-7593-40ec-3d2c1efcba02@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="4u5pz2ddgui6hzza"
+Content-Disposition: inline
+In-Reply-To: <cc3e0adf-ba44-7593-40ec-3d2c1efcba02@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: siyanteng <siyanteng01@gmail.com>
 
-When building cma_heap the following error shows up:
+--4u5pz2ddgui6hzza
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drivers/dma-buf/heaps/cma_heap.c:195:10: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
-195 |  vaddr = vmap(buffer->pages, buffer->pagecount, VM_MAP, PAGE_KERNEL);
-    |          ^~~~
-    |          kmap
+Hi Hans,
 
-Use this include: linux-next/include/linux/vmalloc.h
+On Thu, Dec 17, 2020 at 11:53:42AM +0100, Hans Verkuil wrote:
+> On 17/12/2020 11:49, Maxime Ripard wrote:
+> > Hi Hans,
+> >=20
+> > On Wed, Dec 16, 2020 at 01:35:43PM +0100, Hans Verkuil wrote:
+> >> Hi Maxime,
+> >>
+> >> On 10/12/2020 14:46, Maxime Ripard wrote:
+> >>> Hi,
+> >>>
+> >>> Here's a series introducing the CEC support for the BCM2711 found on =
+the
+> >>> RaspberryPi4.
+> >>>
+> >>> The BCM2711 HDMI controller uses a similar layout for the CEC registe=
+rs, the
+> >>> main difference being that the interrupt handling part is now shared =
+between
+> >>> both HDMI controllers.
+> >>>
+> >>> This series is mainly about fixing a couple of bugs, reworking the dr=
+iver to
+> >>> support having two different interrupts, one for each direction, prov=
+ided by an
+> >>> external irqchip, and enables the irqchip driver for the controller w=
+e have.
+> >>>
+> >>> This has been tested on an RPi3 and RPi4, but requires the latest fir=
+mware.
+> >>> It's is based on the 10 and 12 bpc series.
+> >>
+> >> This series looks good to me. Before I give my Acked-by for this serie=
+s, can you
+> >> confirm that it is possible to transmit the Image View On message on b=
+oth outputs
+> >> of the RPi4 when the HPD is low?
+> >>
+> >> See section "CEC Without HPD" in https://hverkuil.home.xs4all.nl/cec-s=
+tatus.txt
+> >> on how to test this with a Pulse-Eight device.
+> >>
+> >> This should work.
+> >=20
+> > This is the output on the RPi4:
+> >=20
+> > # cec-ctl --playback
+> > Driver Info:
+> > 	Driver Name                : vc4_hdmi
+> > 	Adapter Name               : vc4
+> > 	Capabilities               : 0x0000010e
+> > 		Logical Addresses
+> > 		Transmit
+> > 		Passthrough
+> > 	Driver version             : 5.10.0
+> > 	Available Logical Addresses: 1
+> > 	Physical Address           : f.f.f.f
+> > 	Logical Address Mask       : 0x0000
+> > 	CEC Version                : 2.0
+> > 	Vendor ID                  : 0x000c03 (HDMI)
+> > 	OSD Name                   : Playback
+> > 	Logical Addresses          : 1 (Allow RC Passthrough)
+> >=20
+> > 	  Logical Address          : Not Allocated
+> > 	    Primary Device Type    : Playback
+> > 	    Logical Address Type   : Playback
+> > 	    All Device Types       : Playback
+> > 	    RC TV Profile          : None
+> > 	    Device Features        :
+> > 		None
+> >=20
+> > # cec-ctl -t0 --image-view-on
+> > Driver Info:
+> > 	Driver Name                : vc4_hdmi
+> > 	Adapter Name               : vc4
+> > 	Capabilities               : 0x0000010e
+> > 		Logical Addresses
+> > 		Transmit
+> > 		Passthrough
+> > 	Driver version             : 5.10.0
+> > 	Available Logical Addresses: 1
+> > 	Physical Address           : f.f.f.f
+> > 	Logical Address Mask       : 0x0000
+> > 	CEC Version                : 2.0
+> > 	Vendor ID                  : 0x000c03 (HDMI)
+> > 	OSD Name                   : Playback
+> > 	Logical Addresses          : 1 (Allow RC Passthrough)
+> >=20
+> > 	  Logical Address          : Not Allocated
+> > 	    Primary Device Type    : Playback
+> > 	    Logical Address Type   : Playback
+> > 	    All Device Types       : Playback
+> > 	    RC TV Profile          : None
+> > 	    Device Features        :
+> > 		None
+> >=20
+> >=20
+> > Transmit from Unregistered to TV (15 to 0):
+> > CEC_MSG_IMAGE_VIEW_ON (0x04)
+> > 	Sequence: 1 Tx Timestamp: 77.631s
+> >=20
+> >=20
+> > And this is the output on my desktop with the Pulse-Eight:
+> > $ sudo cec-ctl -p0.0.0.0 --tv
+> > Driver Info:
+> > 	Driver Name                : pulse8-cec
+> > 	Adapter Name               : serio0
+> > 	Capabilities               : 0x0000003f
+> > 		Physical Address
+> > 		Logical Addresses
+> > 		Transmit
+> > 		Passthrough
+> > 		Remote Control Support
+> > 		Monitor All
+> > 	Driver version             : 5.9.8
+> > 	Available Logical Addresses: 1
+> > 	Connector Info             : None
+> > 	Physical Address           : 0.0.0.0
+> > 	Logical Address Mask       : 0x0001
+> > 	CEC Version                : 2.0
+> > 	Vendor ID                  : 0x000c03 (HDMI)
+> > 	OSD Name                   : 'TV  '
+> > 	Logical Addresses          : 1 (Allow RC Passthrough)
+> >=20
+> > 	  Logical Address          : 0 (TV)
+> > 	    Primary Device Type    : TV
+> > 	    Logical Address Type   : TV
+> > 	    All Device Types       : TV
+> > 	    RC TV Profile          : None
+> > 	    Device Features        :
+> > 		None
+> >=20
+> > $ sudo cec-ctl -M
+> > Driver Info:
+> > 	Driver Name                : pulse8-cec
+> > 	Adapter Name               : serio0
+> > 	Capabilities               : 0x0000003f
+> > 		Physical Address
+> > 		Logical Addresses
+> > 		Transmit
+> > 		Passthrough
+> > 		Remote Control Support
+> > 		Monitor All
+> > 	Driver version             : 5.9.8
+> > 	Available Logical Addresses: 1
+> > 	Connector Info             : None
+> > 	Physical Address           : 0.0.0.0
+> > 	Logical Address Mask       : 0x0001
+> > 	CEC Version                : 2.0
+> > 	Vendor ID                  : 0x000c03 (HDMI)
+> > 	OSD Name                   : 'TV  '
+> > 	Logical Addresses          : 1 (Allow RC Passthrough)
+> >=20
+> > 	  Logical Address          : 0 (TV)
+> > 	    Primary Device Type    : TV
+> > 	    Logical Address Type   : TV
+> > 	    All Device Types       : TV
+> > 	    RC TV Profile          : None
+> > 	    Device Features        :
+> > 		None
+> >=20
+> >=20
+> >=20
+> > Initial Event: State Change: PA: 0.0.0.0, LA mask: 0x0001, Conn Info: no
+> > Received from Unregistered to TV (15 to 0): IMAGE_VIEW_ON (0x04)
+> >=20
+> > So it looks like it's working as expected?
+>=20
+> Yes, it looks good. Make sure you test this for both outputs of the RPi4.
 
-Signed-off-by: siyanteng <siyanteng01@gmail.com>
----
- drivers/dma-buf/heaps/cma_heap.c | 1 +
- 1 file changed, 1 insertion(+)
+It's a good thing you asked, I don't appear to get CEC interrupts from
+HDMI1. I'll fix it and send another version (probably not before the end
+of december though).
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 5e7c3436310c..3c4e34301172 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -20,6 +20,7 @@
- #include <linux/module.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
-+#include <linux/vmalloc.h>
- 
- 
- struct cma_heap {
--- 
-2.27.0
+> If it works for both, then you can add my
+>=20
+> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>=20
+> for this series.
+>=20
+> Very nice work, thank you for doing this!
 
+Thanks!
+
+I'll hold your a-b until the next version though, fixing hdmi1 might
+change a few things.
+
+Maxime
+
+--4u5pz2ddgui6hzza
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9tWKgAKCRDj7w1vZxhR
+xVdvAQDHuSRkKxYlgj3+2EqQTksC/VHwJz4gK9OkV9xSfhloJQEA1zz9IR3RFXAN
+SWKYX8zarHyj+PLw8tW6ddst/1rk+A0=
+=49ci
+-----END PGP SIGNATURE-----
+
+--4u5pz2ddgui6hzza--
