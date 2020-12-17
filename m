@@ -2,33 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D3512DD16A
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 13:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C89D2DD183
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 13:32:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728789AbgLQMTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 07:19:52 -0500
-Received: from smtp01.smtpout.orange.fr ([80.12.242.123]:53306 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728709AbgLQMTq (ORCPT
+        id S1726548AbgLQMbr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 07:31:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726012AbgLQMbq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 07:19:46 -0500
-Received: from localhost.localdomain ([92.131.12.169])
-        by mwinf5d48 with ME
-        id 5QHz2400L3eqQsk03QJ0QR; Thu, 17 Dec 2020 13:18:01 +0100
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 17 Dec 2020 13:18:01 +0100
-X-ME-IP: 92.131.12.169
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        georgi.djakov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: venus: core: Fix a resource leak in error handling paths of the probe function
-Date:   Thu, 17 Dec 2020 13:17:25 +0100
-Message-Id: <20201217121725.156649-1-christophe.jaillet@wanadoo.fr>
+        Thu, 17 Dec 2020 07:31:46 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78114C061794;
+        Thu, 17 Dec 2020 04:31:06 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id g18so20249795pgk.1;
+        Thu, 17 Dec 2020 04:31:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZcXeGJJMM5OnozixyGJRr6W72s9oCpGnZVP+dO6FDqI=;
+        b=hRhRpnDuKp4PB5JZZW2jLmbSfNCbvNH4LiF9ILPVPsdlBFbGmZwQCpt4FZXr1/f/g2
+         tFBXcdaQZfgVXLrwXwGYMDPHnvBam42sJ2Do/EeWQ1ddSpkdLvWg8bDWbGJ8M9n837R6
+         LXLB+CaLKdyUzxVGsk6+a4fRSZVCpVcNw4V7c+1X88ARHHBbQKdf+E4vRRmC4XqY3Pmw
+         40PCdCkWomb0oa+kPpVdeeimdwFt+a9kb7Py/bmvHA/HT4Ftf6rJNjfo2wJNRPTTHzuh
+         znMxJ46KsnTzYD1SRpHefrp8Av3u5Ia8hWeTTdLCTW6rF3lGjDjJ5HX+IOHrNFDMAmwm
+         bNKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZcXeGJJMM5OnozixyGJRr6W72s9oCpGnZVP+dO6FDqI=;
+        b=X8AxmRn8ORnXdOgsUk/D+cQUBD5D+Nx1++5YpUJOQdsvEoqIwnhEa4GnS8yvivDPz0
+         IjrkdgiGCvroMtOGGUZD/8Vfapa45r/QpVxEJyMHJEo4di/LHcWFWEGrifcbuaWcG6Z9
+         QnuAW5nkEGnA2P410v9QW+5Ep0W61hBggaS6sHbV22vGu79pARQF5DhlLXJewofddG36
+         IvHM3CLiEsZyVWAWhQbVsOPll+1bT8hFsXSI/JGIwIC6nvt9/FKlgo3P41xbGIS0XoxC
+         vQ0X9KiRD61VABRvY++5+LCRXbv1A3T+wCaaCo7X1x+cZ3Z+YPmv8aw1DKC8XqHWSNDR
+         4cRg==
+X-Gm-Message-State: AOAM530vP9ref5mTkNtJYEQrepUSwGoVGDppMN6I7u/6FwFeR7+A3vdt
+        KFF8afA9w+RN6TBa6+RJc2g=
+X-Google-Smtp-Source: ABdhPJwrN+TGqwitW6OzLtn7nzPccO8xU68OD4Xob+uqCOWc5V6ZJoPyLWwPttbytZl6+2HIg7U3hQ==
+X-Received: by 2002:a65:6a53:: with SMTP id o19mr7051111pgu.212.1608208266108;
+        Thu, 17 Dec 2020 04:31:06 -0800 (PST)
+Received: from localhost.localdomain ([45.77.13.216])
+        by smtp.gmail.com with ESMTPSA id x5sm5044692pjr.38.2020.12.17.04.30.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Dec 2020 04:31:05 -0800 (PST)
+From:   siyanteng01@gmail.com
+To:     Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        siyanteng <siyanteng01@gmail.com>
+Subject: [PATCH] cma_heap: fix implicit function declaration
+Date:   Thu, 17 Dec 2020 20:30:53 +0800
+Message-Id: <20201217123053.2166511-1-siyanteng01@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -36,76 +69,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add 2 missing 'icc_put()' calls in the error handling path of the probe
-function, as already done in the remove function.
+From: siyanteng <siyanteng01@gmail.com>
 
-Fixes: 32f0a6ddc8c9 ("media: venus: Use on-chip interconnect API")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+When building cma_heap the following error shows up:
+
+drivers/dma-buf/heaps/cma_heap.c:195:10: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
+195 |  vaddr = vmap(buffer->pages, buffer->pagecount, VM_MAP, PAGE_KERNEL);
+    |          ^~~~
+    |          kmap
+
+Use this include: linux-next/include/linux/vmalloc.h
+
+Signed-off-by: siyanteng <siyanteng01@gmail.com>
 ---
- drivers/media/platform/qcom/venus/core.c | 31 +++++++++++++++++-------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+ drivers/dma-buf/heaps/cma_heap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index bdd293faaad0..2e6ce215740b 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -200,27 +200,35 @@ static int venus_probe(struct platform_device *pdev)
- 		return PTR_ERR(core->video_path);
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 5e7c3436310c..3c4e34301172 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -20,6 +20,7 @@
+ #include <linux/module.h>
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
++#include <linux/vmalloc.h>
  
- 	core->cpucfg_path = of_icc_get(dev, "cpu-cfg");
--	if (IS_ERR(core->cpucfg_path))
--		return PTR_ERR(core->cpucfg_path);
-+	if (IS_ERR(core->cpucfg_path)) {
-+		ret = PTR_ERR(core->cpucfg_path);
-+		goto err_video_path_put;
-+	}
  
- 	core->irq = platform_get_irq(pdev, 0);
--	if (core->irq < 0)
--		return core->irq;
-+	if (core->irq < 0) {
-+		ret = core->irq;
-+		goto err_cpucfg_path_put;
-+	}
- 
- 	core->res = of_device_get_match_data(dev);
--	if (!core->res)
--		return -ENODEV;
-+	if (!core->res) {
-+		ret = -ENODEV;
-+		goto err_cpucfg_path_put;
-+	}
- 
- 	mutex_init(&core->pm_lock);
- 
- 	core->pm_ops = venus_pm_get(core->res->hfi_version);
--	if (!core->pm_ops)
--		return -ENODEV;
-+	if (!core->pm_ops) {
-+		ret = -ENODEV;
-+		goto err_cpucfg_path_put;
-+	}
- 
- 	if (core->pm_ops->core_get) {
- 		ret = core->pm_ops->core_get(dev);
- 		if (ret)
--			return ret;
-+			goto err_cpucfg_path_put;
- 	}
- 
- 	ret = dma_set_mask_and_coherent(dev, core->res->dma_mask);
-@@ -305,6 +313,11 @@ static int venus_probe(struct platform_device *pdev)
- err_core_put:
- 	if (core->pm_ops->core_put)
- 		core->pm_ops->core_put(dev);
-+err_cpucfg_path_put:
-+	icc_put(core->cpucfg_path);
-+err_video_path_put:
-+	icc_put(core->video_path);
-+
- 	return ret;
- }
- 
+ struct cma_heap {
 -- 
 2.27.0
 
