@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C2F02DD804
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 427162DD7D8
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731347AbgLQSN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:13:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
+        id S1729839AbgLQSMv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:12:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730069AbgLQSIl (ORCPT
+        with ESMTP id S1730214AbgLQSIo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:08:41 -0500
+        Thu, 17 Dec 2020 13:08:44 -0500
 Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02423C0611CD;
-        Thu, 17 Dec 2020 10:07:33 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id a9so59799079lfh.2;
-        Thu, 17 Dec 2020 10:07:32 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E165C0611CE;
+        Thu, 17 Dec 2020 10:07:34 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id 23so59802044lfg.10;
+        Thu, 17 Dec 2020 10:07:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3UVBePDvj8+JPmPnd9lky7oATp5P2thSWicPxP1xnR8=;
-        b=aJbEbbQC/He+JGwsqe9/kWlEHU6l6eJbWVOB+YDfBF2TKFMQVztNRBn7FxxkGhbddC
-         ev33yPj1MSIMzyO+TFiwew5f4KfWulf7oFRaBTCyv3TgOFe4ujYEo+I+Z7tTL1KNM9jb
-         L13m6ejsc71Ofyfwl85z3HfWqR+upQ0tPHMikLcTSLd2xpjYhAO714ZZLJjjJnGvqT4l
-         ZJNGw47xKKIA1sXCEKL2oXmxaJWoioML4IYpvBFET5w2EnSIPfL+gc3dMvbdCqforTUn
-         zZEu2tnDe+CPvHNGmkMFDxfxv13NlKEVcT6f5P2yfM4ci6lqceo5M9extORpjM92O5sn
-         CBKQ==
+        bh=ONUdIoYLvrymxxGuA1rEkpRERKvXdxShg+niqiRuWWw=;
+        b=p2/N6zxOWQ1TNgCgwvZcMNpOSboPM0BuGbUpXZAXVfrMIdLcbf/m3p1KC2nQL3v0I6
+         wH1TSHHk9uUDfjeo0lwnQ0kiY1X7T1gJ0S/JHcoaGZ4DP/tjco2gS2i2yzvshR66pv8H
+         o7Ot28qeR/sxxzMguphR4oIYAhkMO1eRB0/hIWpVDKS1QyUuLObjGKCKgnRASusUidVU
+         zxN0pLs8ZQtIA8ikRgKkDPtzOC4nV6kqtQoNiegpJLjHVQYfklIPYqMmLIHmcd5+/Oej
+         3yksetlAGp6u9VKhXKgNKCbMKS7HuKmgo1KBLhzMJFWqIiExd6/+V5ueg7KJkhXGyUiJ
+         Ddig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3UVBePDvj8+JPmPnd9lky7oATp5P2thSWicPxP1xnR8=;
-        b=abLPPF+BQ+ab9fwr9HtoacCnwBq5lJnJ6nYuKwGEWeFDX9h5nNXofSJ1UAanqgknlG
-         m9Z5XLTp+3QgqKPofOm4ZJDD+hGVxNSCcPKdBKDyKbGcovcW7mvnZdXZB6a/uaU7lWdF
-         7b1AbKOpEio5O8hgmXqJ/IDqBd4FRoGtQnxWt5BX3gyofq6JokgJ0ATm82Rc1+nbbqCu
-         X9JxZ3jKX4wHwbojqfOJcG6NVEJTl5kK/2ljyPbg1oJBII47uVKhKlMH3N0VpBmuRE8g
-         BMnXyYv4V1mGbeRer7Ro9ll5MzrOhz5/F8v9ttebPvlAHj7r/zQ7aSEvpYxXD+/4Tl7p
-         2rWA==
-X-Gm-Message-State: AOAM530UE/715L1GzqLnejaNkEizlPUCasnSLG0AZ3tzCqncIo66spkH
-        K7KhTMZlQhXWi9tXe53q8+Q=
-X-Google-Smtp-Source: ABdhPJxdOm63SmKECVhD/Ri1mq2T3tx66jApca+i51NwPxJdgmqEwm5XIsXzuInwJ0NSw6phFVcb5Q==
-X-Received: by 2002:a05:6512:3054:: with SMTP id b20mr15125654lfb.45.1608228451555;
-        Thu, 17 Dec 2020 10:07:31 -0800 (PST)
+        bh=ONUdIoYLvrymxxGuA1rEkpRERKvXdxShg+niqiRuWWw=;
+        b=Ai0OUCwtGd75S3PxhIZ8j3oLnXziBX9+r1w5G2qK8DJuqS4dCh4jN+5eCLXxbAH5rz
+         3CiZpyEZgNeR0z3jYjn70cBWUI0Re7iq5Apo6F6Tp1aAy/1GpP4o68G7w5Rj/TSz6w/A
+         ajid0N3WJvmWn3oDhrK2G7JJydLnLdQwCfN8fvgpm/tsmo/LpsN7LkG4ElqrHKQXrIpz
+         39R/RFekUV+njkff/dEv88Bn9rYla0pHVflzkKfXvCdQoxQg99AGVyG/Ma5w6jvk+6J0
+         GHbN1ELwBfVoF4CI5nFK2E/JP9otshDpwvxNQ62poKWWXRiYmJWtJwFmBP6d9W1pQuQw
+         4Ftw==
+X-Gm-Message-State: AOAM532AxL10n0bi+MjAtVA+lvC2i7SixUKXT8P8BoNb0G3ncpU8vYYj
+        l9qiObTQu4va/kTBSgyhdGw=
+X-Google-Smtp-Source: ABdhPJx4DSg+fZJTBkNxhuc6g3ezsqDW5hpdLf96cj7krLJwspxwSptzE1H7fpBWtPpK43NibJSC9A==
+X-Received: by 2002:a2e:82d0:: with SMTP id n16mr210409ljh.474.1608228452689;
+        Thu, 17 Dec 2020 10:07:32 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.30
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:07:31 -0800 (PST)
+        Thu, 17 Dec 2020 10:07:32 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 10/48] opp: Add dev_pm_opp_set_voltage()
-Date:   Thu, 17 Dec 2020 21:06:00 +0300
-Message-Id: <20201217180638.22748-11-digetx@gmail.com>
+Subject: [PATCH v2 11/48] opp: Add dev_pm_opp_find_level_ceil()
+Date:   Thu, 17 Dec 2020 21:06:01 +0300
+Message-Id: <20201217180638.22748-12-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -81,113 +81,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add dev_pm_opp_set_voltage() which allows OPP table users to set voltage
-in accordance to a given OPP. In particular this is needed for driving
-voltage of a generic power domain which uses OPPs and doesn't have a
-clock.
+Add a ceil version of the dev_pm_opp_find_level(). It's handy to have if
+levels don't start from 0 in OPP table and zero usually means a minimal
+level.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c     | 52 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/pm_opp.h | 11 +++++----
- 2 files changed, 58 insertions(+), 5 deletions(-)
+ drivers/opp/core.c     | 49 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/pm_opp.h |  8 +++++++
+ 2 files changed, 57 insertions(+)
 
 diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 500d6c716283..eab37b3a27bb 100644
+index eab37b3a27bb..0783a4ac819a 100644
 --- a/drivers/opp/core.c
 +++ b/drivers/opp/core.c
-@@ -2541,3 +2541,55 @@ int dev_pm_opp_sync_regulators(struct device *dev)
- 	return ret;
+@@ -449,6 +449,55 @@ struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
  }
- EXPORT_SYMBOL_GPL(dev_pm_opp_sync_regulators);
-+
+ EXPORT_SYMBOL_GPL(dev_pm_opp_find_level_exact);
+ 
 +/**
-+ * dev_pm_opp_set_voltage() - Change voltage of regulators
-+ * @dev:	device for which we do this operation
-+ * @opp:	opp based on which the voltages are to be configured
++ * dev_pm_opp_find_level_ceil() - search for an rounded up level
++ * @dev:		device for which we do this operation
++ * @level:		level to search for
 + *
-+ * Change voltage of the OPP table regulators.
++ * Return: Searches for rounded up match in the opp table and returns pointer
++ * to the  matching opp if found, else returns ERR_PTR in case of error and
++ * should be handled using IS_ERR. Error return values can be:
++ * EINVAL:	for bad pointer
++ * ERANGE:	no match found for search
++ * ENODEV:	if device not found in list of registered devices
 + *
-+ * Return: 0 on success or a negative error value.
++ * The callers are required to call dev_pm_opp_put() for the returned OPP after
++ * use.
 + */
-+int dev_pm_opp_set_voltage(struct device *dev, struct dev_pm_opp *opp)
++struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
++					      unsigned int *level)
 +{
 +	struct opp_table *opp_table;
-+	struct regulator *reg;
-+	int ret = 0;
++	struct dev_pm_opp *temp_opp, *opp = ERR_PTR(-ERANGE);
 +
-+	/* Device may not have OPP table */
 +	opp_table = _find_opp_table(dev);
-+	if (IS_ERR(opp_table))
-+		return 0;
++	if (IS_ERR(opp_table)) {
++		int r = PTR_ERR(opp_table);
 +
-+	/* Regulator may not be required for the device */
-+	if (!opp_table->regulators)
-+		goto put_table;
-+
-+	/* This function only supports single regulator per device */
-+	if (WARN_ON(opp_table->regulator_count > 1)) {
-+		dev_err(dev, "multiple regulators are not supported\n");
-+		ret = -EINVAL;
-+		goto put_table;
++		dev_err(dev, "%s: OPP table not found (%d)\n", __func__, r);
++		return ERR_PTR(r);
 +	}
 +
-+	reg = opp_table->regulators[0];
-+	ret = _set_opp_voltage(dev, reg, opp->supplies);
++	mutex_lock(&opp_table->lock);
 +
-+	if (!opp_table->enabled) {
-+		ret = regulator_enable(reg);
-+		if (ret < 0) {
-+			dev_warn(dev, "Failed to enable regulator: %d", ret);
-+			goto put_table;
++	list_for_each_entry(temp_opp, &opp_table->opp_list, node) {
++		if (temp_opp->available && temp_opp->level >= *level) {
++			opp = temp_opp;
++			*level = opp->level;
++
++			/* Increment the reference count of OPP */
++			dev_pm_opp_get(opp);
++			break;
 +		}
-+
-+		opp_table->enabled = true;
 +	}
 +
-+put_table:
-+	/* Drop reference taken by _find_opp_table() */
++	mutex_unlock(&opp_table->lock);
 +	dev_pm_opp_put_opp_table(opp_table);
 +
-+	return ret;
++	return opp;
 +}
-+EXPORT_SYMBOL_GPL(dev_pm_opp_set_voltage);
++EXPORT_SYMBOL_GPL(dev_pm_opp_find_level_ceil);
++
+ static noinline struct dev_pm_opp *_find_freq_ceil(struct opp_table *opp_table,
+ 						   unsigned long *freq)
+ {
 diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index 4c79faa2025e..f311a8b2ca04 100644
+index f311a8b2ca04..a17d92d923cc 100644
 --- a/include/linux/pm_opp.h
 +++ b/include/linux/pm_opp.h
-@@ -157,6 +157,7 @@ int dev_pm_opp_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask)
- void dev_pm_opp_remove_table(struct device *dev);
- void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask);
- int dev_pm_opp_sync_regulators(struct device *dev);
-+int dev_pm_opp_set_voltage(struct device *dev, struct dev_pm_opp *opp);
- #else
- static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
- {
-@@ -372,6 +373,11 @@ static inline int dev_pm_opp_sync_regulators(struct device *dev)
- 	return -ENOTSUPP;
+@@ -111,6 +111,8 @@ struct dev_pm_opp *dev_pm_opp_find_freq_exact(struct device *dev,
+ 					      bool available);
+ struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
+ 					       unsigned int level);
++struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
++					      unsigned int *level);
+ 
+ struct dev_pm_opp *dev_pm_opp_find_freq_floor(struct device *dev,
+ 					      unsigned long *freq);
+@@ -228,6 +230,12 @@ static inline struct dev_pm_opp *dev_pm_opp_find_level_exact(struct device *dev,
+ 	return ERR_PTR(-ENOTSUPP);
  }
  
-+static inline int dev_pm_opp_set_voltage(struct device *dev, struct dev_pm_opp *opp)
++static inline struct dev_pm_opp *dev_pm_opp_find_level_ceil(struct device *dev,
++					unsigned int *level)
 +{
-+	return -ENOTSUPP;
++	return ERR_PTR(-ENOTSUPP);
 +}
 +
- #endif		/* CONFIG_PM_OPP */
- 
- #if defined(CONFIG_PM_OPP) && defined(CONFIG_OF)
-@@ -448,11 +454,6 @@ static inline int dev_pm_opp_of_find_icc_paths(struct device *dev, struct opp_ta
+ static inline struct dev_pm_opp *dev_pm_opp_find_freq_floor(struct device *dev,
+ 					unsigned long *freq)
  {
- 	return -ENOTSUPP;
- }
--
--static inline int dev_pm_opp_sync_regulators(struct device *dev)
--{
--	return -ENOTSUPP;
--}
- #endif
- 
- #endif		/* __LINUX_OPP_H__ */
 -- 
 2.29.2
 
