@@ -2,142 +2,301 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C93822DDB17
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 22:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 826C22DDBC1
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 00:08:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731952AbgLQV46 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 16:56:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48986 "EHLO
+        id S1731489AbgLQXG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 18:06:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730937AbgLQV46 (ORCPT
+        with ESMTP id S1729402AbgLQXG6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 16:56:58 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC4CC061794;
-        Thu, 17 Dec 2020 13:56:17 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id m12so240572lfo.7;
-        Thu, 17 Dec 2020 13:56:17 -0800 (PST)
+        Thu, 17 Dec 2020 18:06:58 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F044C061794
+        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 15:06:18 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id n16so142820pgm.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 15:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8nG3HAuO5heZzY5IBy8swXxo8V6gUQeM6w2EgX9BXJQ=;
-        b=FH7Y4beKxDLn6FrH0io7GO1GcAX5VRh7n2CsH8PTCS52NL/g+LWWVpwhVjPSfruoOQ
-         5feO5PmWTZEIKT8KD+uKJxOnCkSmh/oK7rEs6ZU0dpNnmuC+BYgE1edLQspvzqdHce85
-         K46dHCsJiwm5jh912Pg12y96Pj9yNyGP/H9uN5s88X7sMd4pMZiioWuUhbS6PAZWq0CC
-         flNZnZ8VdVz2LdVZCJj+vLBruo51dfg4tatvoTN4szFr2B2N6KhTg+RWoa6eOEazu6B5
-         eLM/se9HsQwagAK1A4dLMLdX6sawyfkSf//yE+th40OP1Wy9rW614MGIGKyPp2zy/ux1
-         gM6Q==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HLdfcjdPBfqUHXsLl2/ctpr8oIlwE7TAUWyEcwHrLdo=;
+        b=I/k40Wchhcm6MZuqEHbwdbTHc/ZYCFhdu3W1pzS+58BhviIvTCTacXeuwFNTqHBCD2
+         uGrSudanYZYtLKhIKSHVOICqH5rzlWjRg44ftUkEShN1QCpGkKMWyeu+Foo4dYGCDRwq
+         9zqnN7tYT6PBgf6iNWmpuzmgSdOYJcWsvhO7GMcyJloFyUVwW1TBMsVrrI5KbjNC5UFP
+         ELNhywtVge3Fy6aEdovPNCbO0rTHf8gOm4fRcS6PY8Oj/Atyfj0Gy5ywwpgVJCGlv3rj
+         IdXYkuqc+j2+3UDIc+OiaTjS6yi4cmMJ0rtAtogWyXYPy7BAKEK7L2HizyC1MUiZlfGK
+         mxWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8nG3HAuO5heZzY5IBy8swXxo8V6gUQeM6w2EgX9BXJQ=;
-        b=AknJh3UWgmCQ0yjvPuIqLT7gVoI+3owo4rMrEDlxmV5LXiu4vSpVR/RS7s1FImo0Vt
-         691k0uItCsEN41m6cqvMHqP3Ab6Zmp6Vf/lLEADaUWEMcyzu3d69TAu6uWPOB7H5Rybg
-         xiFcKkmjSsQusUiR31RVEgjkElpp2ZStQ2zYXvrGuDSLDaAL7bDutDTcpStUXKYrc+fH
-         UnATuu2flpsA1kO2Ytqp4MKD6Nvupq4PMuchhgpHU9777uvkUASlXHNhwlIAiY+pxx94
-         ugL3dTvqagKsb5o1oHpgtwDPGxNwbsmhwqU6mi3/hPYt+++mtWy7ieYpghkEyXmRGAHs
-         hT5g==
-X-Gm-Message-State: AOAM530xawG/E8qbps0wGAQfgokPNigP0wjKCRx3YFak761qDkwdZbdA
-        AB3MU1EEnItKbCnQmJDM9h4IuhfOHUQ=
-X-Google-Smtp-Source: ABdhPJwEQwkebdm0xE5Y65k65p4/uFmrBbkvGqy6QOWj0pr2b6l8lKWwgORn22Sw3y8I8JTXiGH9dQ==
-X-Received: by 2002:a05:6512:358d:: with SMTP id m13mr300445lfr.435.1608242175976;
-        Thu, 17 Dec 2020 13:56:15 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id 20sm708668lfd.237.2020.12.17.13.56.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Dec 2020 13:56:15 -0800 (PST)
-Subject: Re: [PATCH v2 47/48] ARM: tegra: ventana: Support CPU voltage scaling
- and thermal throttling
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-48-digetx@gmail.com>
- <91139f8b-0b83-dd8a-ba53-8e7a499e6344@linaro.org>
- <b39ebfc1-42b3-1fa7-efe4-6ecbc8cfcb50@gmail.com>
- <776e0e84-e395-2bfb-f1ee-c34864b1cf16@linaro.org>
- <ce603c74-3a20-7331-36a7-d7bc43ce36b6@gmail.com>
- <6afaf91c-d0ce-265d-4b71-0ea8da19918b@linaro.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d6f5fb01-7fda-d08c-f909-b0f4ae731b74@gmail.com>
-Date:   Fri, 18 Dec 2020 00:56:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        bh=HLdfcjdPBfqUHXsLl2/ctpr8oIlwE7TAUWyEcwHrLdo=;
+        b=OuCRKL0vRqM/mjm17ju6GYffHlEklMk5QEL3yiEk38RwNiWFQ3oA+DJ0drBTik8AYw
+         RBRLpa3mhIqiHSW9vsH2gV/9kp4qUdsxnS5/jXa7osuOTASokPq8462uUNFQuofBL2Fj
+         GDAiGHPV6fUq/iFupLAEqjGCXKmYVYP+jos3lNZg05Sq+eGJZmg5elgx+0E1gd+NCmlx
+         4NXdA11RsMxDC+Z0Z2sHB8zn/YOV/p2MQS46206owEx3B2KVt6KJZSF4hzULLkKJU6PB
+         BZJguXCVCDnwkT+sI8h6HoqEbE5jLfe6sDf5+Q8i0xB1k8uP1XgCZ+moAD4HZoc0eudY
+         tLoA==
+X-Gm-Message-State: AOAM533kZlEYiBGe6p+g6S+bY7/4xHdDpHz4bN3O6Xkns+LS/PqXz7pN
+        1UIGDhlzOxSt9pPWoN6v+FyZZA==
+X-Google-Smtp-Source: ABdhPJxlOSq8edo4ebrfmzOkKDhWUI4iNXReB/PECcycuNq3WkAnJfowi52bwLCAHeWjpe+6PDYaZQ==
+X-Received: by 2002:a63:7407:: with SMTP id p7mr1500682pgc.48.1608246377608;
+        Thu, 17 Dec 2020 15:06:17 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id q9sm7074036pgb.82.2020.12.17.15.06.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Dec 2020 15:06:16 -0800 (PST)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [RFC][PATCH 1/3] dma-buf: heaps: Add deferred-free-helper library code
+Date:   Thu, 17 Dec 2020 23:06:10 +0000
+Message-Id: <20201217230612.32397-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <6afaf91c-d0ce-265d-4b71-0ea8da19918b@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-18.12.2020 00:19, Daniel Lezcano пишет:
-> On 17/12/2020 21:28, Dmitry Osipenko wrote:
->> 17.12.2020 22:36, Daniel Lezcano пишет:
->>>>>> +					type = "critical";
->>>>>> +				};
->>>>>> +			};
->>>>>> +
->>>>>> +			cooling-maps {
->>>>>> +				map0 {
->>>>>> +					trip = <&trip0>;
->>>>>> +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
->>>>> You should add all CPUs here.
->>>>
->>>> All CPU cores are coupled on Tegra in regards to CPUFreq, hence I think
->>>> it won't make any difference if secondary CPU cores will be added here,
->>>> isn't it?
->>> The explanation is in the description of commit ef4734500407ce4d
->>
->> I think that really only makes sense if CPU cores have independent clock
->> rate management. 
-> 
-> ATM I did not see any ARM platform having a clock line per CPU but I may
-> be wrong.
-> 
->> IIRC, I actually made some research about this in the
->> past and intentionally removed the secondary cores from the
->> cooling-device since they didn't make any difference for a coupled CPU
->> cores.
->>
->> That commit also says:
->>
->> "But as soon as this CPU ordering changes and any other CPU is used to
->> bring up the cooling device, we will start seeing failures."
->>
->> I don't quite understand to what "failures" that commit referrers. I
->> tried to change the cpu0 to cpu1 in the cooling-device and don't see any
->> failures. Could you please clarify this?
->>
->> In general it should be fine to add all the cores to the cooling-device
->> and I'll do it in v3, but I want to make it clear why this is needed.
-> 
-> AFAIR, if CPU0 is unplugged the cooling device can not rebind to CPU1.
-> And if CPU0 is plugged in again, the cooling device fails to initialize.
-> 
-> And, if the CPUs are mapped with the physical CPU0 to Linux numbering
-> CPU1, the cooling device mapping will fail.
+This patch provides infrastructure for deferring buffer frees.
 
-Alright, thank you.
+This is a feature ION provided which when used with some form
+of a page pool, provides a nice performance boost in an
+allocation microbenchmark. The reason it helps is it allows the
+page-zeroing to be done out of the normal allocation/free path,
+and pushed off to a kthread.
+
+As not all heaps will find this useful, its implemented as
+a optional helper library that heaps can utilize.
+
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/Kconfig                |   3 +
+ drivers/dma-buf/heaps/Makefile               |   1 +
+ drivers/dma-buf/heaps/deferred-free-helper.c | 136 +++++++++++++++++++
+ drivers/dma-buf/heaps/deferred-free-helper.h |  15 ++
+ 4 files changed, 155 insertions(+)
+ create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.c
+ create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.h
+
+diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+index a5eef06c4226..ecf65204f714 100644
+--- a/drivers/dma-buf/heaps/Kconfig
++++ b/drivers/dma-buf/heaps/Kconfig
+@@ -1,3 +1,6 @@
++config DMABUF_HEAPS_DEFERRED_FREE
++	bool
++
+ config DMABUF_HEAPS_SYSTEM
+ 	bool "DMA-BUF System Heap"
+ 	depends on DMABUF_HEAPS
+diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+index 974467791032..4e7839875615 100644
+--- a/drivers/dma-buf/heaps/Makefile
++++ b/drivers/dma-buf/heaps/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_DMABUF_HEAPS_DEFERRED_FREE) += deferred-free-helper.o
+ obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+ obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+diff --git a/drivers/dma-buf/heaps/deferred-free-helper.c b/drivers/dma-buf/heaps/deferred-free-helper.c
+new file mode 100644
+index 000000000000..b8f54860454f
+--- /dev/null
++++ b/drivers/dma-buf/heaps/deferred-free-helper.c
+@@ -0,0 +1,136 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Deferred dmabuf freeing helper
++ *
++ * Copyright (C) 2020 Linaro, Ltd.
++ *
++ * Based on the ION page pool code
++ * Copyright (C) 2011 Google, Inc.
++ */
++
++#include <linux/freezer.h>
++#include <linux/list.h>
++#include <linux/slab.h>
++#include <linux/swap.h>
++#include <linux/sched/signal.h>
++
++#include "deferred-free-helper.h"
++
++static LIST_HEAD(free_list);
++static size_t list_size;
++wait_queue_head_t freelist_waitqueue;
++struct task_struct *freelist_task;
++static DEFINE_MUTEX(free_list_lock);
++
++enum {
++	USE_POOL = 0,
++	SKIP_POOL = 1,
++};
++
++void deferred_free(struct deferred_freelist_item *item,
++		   void (*free)(struct deferred_freelist_item*, bool),
++		   size_t size)
++{
++	INIT_LIST_HEAD(&item->list);
++	item->size = size;
++	item->free = free;
++
++	mutex_lock(&free_list_lock);
++	list_add(&item->list, &free_list);
++	list_size += size;
++	mutex_unlock(&free_list_lock);
++	wake_up(&freelist_waitqueue);
++}
++
++static size_t free_one_item(bool nopool)
++{
++	size_t size = 0;
++	struct deferred_freelist_item *item;
++
++	mutex_lock(&free_list_lock);
++	if (list_empty(&free_list)) {
++		mutex_unlock(&free_list_lock);
++		return 0;
++	}
++	item = list_first_entry(&free_list, struct deferred_freelist_item, list);
++	list_del(&item->list);
++	size = item->size;
++	list_size -= size;
++	mutex_unlock(&free_list_lock);
++
++	item->free(item, nopool);
++	return size;
++}
++
++static unsigned long get_freelist_size(void)
++{
++	unsigned long size;
++
++	mutex_lock(&free_list_lock);
++	size = list_size;
++	mutex_unlock(&free_list_lock);
++	return size;
++}
++
++static unsigned long freelist_shrink_count(struct shrinker *shrinker,
++					   struct shrink_control *sc)
++{
++	return get_freelist_size();
++}
++
++static unsigned long freelist_shrink_scan(struct shrinker *shrinker,
++					  struct shrink_control *sc)
++{
++	int total_freed = 0;
++
++	if (sc->nr_to_scan == 0)
++		return 0;
++
++	while (total_freed < sc->nr_to_scan) {
++		int freed = free_one_item(SKIP_POOL);
++
++		if (!freed)
++			break;
++
++		total_freed += freed;
++	}
++
++	return total_freed;
++}
++
++static struct shrinker freelist_shrinker = {
++	.count_objects = freelist_shrink_count,
++	.scan_objects = freelist_shrink_scan,
++	.seeks = DEFAULT_SEEKS,
++	.batch = 0,
++};
++
++static int deferred_free_thread(void *data)
++{
++	while (true) {
++		wait_event_freezable(freelist_waitqueue,
++				     get_freelist_size() > 0);
++
++		free_one_item(USE_POOL);
++	}
++
++	return 0;
++}
++
++static int deferred_freelist_init(void)
++{
++	list_size = 0;
++
++	init_waitqueue_head(&freelist_waitqueue);
++	freelist_task = kthread_run(deferred_free_thread, NULL,
++				    "%s", "dmabuf-deferred-free-worker");
++	if (IS_ERR(freelist_task)) {
++		pr_err("%s: creating thread for deferred free failed\n",
++		       __func__);
++		return -1;
++	}
++	sched_set_normal(freelist_task, 19);
++
++	return register_shrinker(&freelist_shrinker);
++}
++device_initcall(deferred_freelist_init);
+diff --git a/drivers/dma-buf/heaps/deferred-free-helper.h b/drivers/dma-buf/heaps/deferred-free-helper.h
+new file mode 100644
+index 000000000000..09a2274a897c
+--- /dev/null
++++ b/drivers/dma-buf/heaps/deferred-free-helper.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef DEFERRED_FREE_HELPER_H
++#define DEFERRED_FREE_HELPER_H
++
++struct deferred_freelist_item {
++	size_t size;
++	void (*free)(struct deferred_freelist_item *i, bool no_pool);
++	struct list_head list;
++};
++
++void deferred_free(struct deferred_freelist_item *item,
++		   void (*free)(struct deferred_freelist_item *i, bool no_pool),
++		   size_t size);
++#endif
+-- 
+2.17.1
+
