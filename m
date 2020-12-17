@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 232542DD79C
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C41AB2DD799
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731544AbgLQSKy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:10:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41956 "EHLO
+        id S1731536AbgLQSKx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:10:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730989AbgLQSJQ (ORCPT
+        with ESMTP id S1730994AbgLQSJQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 17 Dec 2020 13:09:16 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A68C061A04;
-        Thu, 17 Dec 2020 10:08:08 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id a9so59804173lfh.2;
-        Thu, 17 Dec 2020 10:08:08 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02EF5C061A47;
+        Thu, 17 Dec 2020 10:08:10 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id l11so59863593lfg.0;
+        Thu, 17 Dec 2020 10:08:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Gq8W4I2wUasJ5h66KCTLBqIzNBWEKeD2bx1BnkMl56E=;
-        b=ZiUJkXP3OEl/9p18Wnh4bsCNIWYB4EpZtNeUZUbymDo6mFP/v7DrbTn+YdTom89P/r
-         AmXeBx7796APxIbMxtLxf3HciZHOxVmuTVKKDSDSJ8Ra7ZhMS9huHJ/KMHtHFBjHVkkZ
-         BVDYefv2R4A+bme4K/4nKMZmTJbOuLNfP3vhtuOnUeHRIlFHaLmScFhfKLYmSPt5VqKy
-         EzGb52iQElGyJCgS9zA9Af5lLvAkDa6CQbTnd8SEOJNgYqnIiL5p2zj2cEGY9Ddn8y6W
-         VmjGL6qA17KyZFL2beiSQ+/fMV8SiM74sL+/ipNx57Q2rurhL7nvga/vD8DyPb+RajAM
-         /IHQ==
+        bh=DAtdibIFrFoBdbWxAk3vr83zchLhlmDglPbN6gXDjkM=;
+        b=N3Ck5qX6m1iyF3ASnevrle+liHZfmUJKPpVtCyekINsKU3z6ST0UE5bLfsWvIqI28T
+         q7/Vi3Sc4DvowsD/9Kmvo9md/xI9QWZRDL4tjGFj4npdFEjHST28bU04ou4et5wKrnOO
+         fGttY/cszQ/PtGCr9+VXIP0aN0P10J7+bkhjTUGdyAz347VikCOIE1A/6pxOdMKz2ypq
+         G0p8gf3pn4Qae0IPmyP+JyNMnhpFGkCQ/5nzKj46gc4j5Wo6lbhgkrL0lY/7fhfeBAg0
+         g6JRxyE7jW+z6VXVtkverbxDgAkw6Wh0KasCpETW49fvq3UdS3d9CrPZiAEb+zOriUYO
+         zpSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Gq8W4I2wUasJ5h66KCTLBqIzNBWEKeD2bx1BnkMl56E=;
-        b=PhWKn2bFwjjvG5Rg+eF7luMBEZsfl4QtYH8S7BoSlID769Jku6AOCdWDNr+nUKo5Lj
-         2lsaropRFgbsZc/qESdTLOqbogIr9aLuT6gHzBcIQYVD5nx2w4Q4dubbbaOo5UOi53OG
-         APTLgcwN7+02l6ziqqMUBzhZEhyZVSQpcCk/O8Lh/Qw8ZZ7pAvjRv/Wr82ZCL0gDjYoV
-         f5r1La6sHeQDtV2N3G8EBkAkbOuOTbVFT9lBlU+DMHa+Qp2Mi+WbZTfKvE+DDJnfFWDR
-         ELuGIFaMK1x9dPvXimy509WSGcPeJdd1KlIzP9rYXzYtn4Qzpp9EPM1nJZ3idfsJzVkT
-         JxWQ==
-X-Gm-Message-State: AOAM530Yp1AKcTkIrAs3qRvREZFtuph+eo9gTIi349vjphfY3cBeqc1U
-        l1aSmZcpsqr3fFlfKipHYVk=
-X-Google-Smtp-Source: ABdhPJzG7EE6kXogDOkARgr3HB5ayF26rpXNg7jPbhOKIPf6WK66Rb/TQWDoAw//rAssWa87q3IaOg==
-X-Received: by 2002:a2e:9ad7:: with SMTP id p23mr191997ljj.465.1608228487370;
-        Thu, 17 Dec 2020 10:08:07 -0800 (PST)
+        bh=DAtdibIFrFoBdbWxAk3vr83zchLhlmDglPbN6gXDjkM=;
+        b=JjsimmKWE0GxH6Ds1THkxofYf9wA8SY3V/pk6tZzFzmPDG4B/Syi0hAp5flLqZF01E
+         Y04oYlM+o/RJgq/Rhfr2yf1F9LkyykbLe38IcjgWhzgOBL8G0pDBLpKjbxIgC2nPX/fd
+         0IWjy9I8UYkhNuacdkWziVt3c7PLZF1HMOq66Qr1usGSupro4belMiB7A2fHP6a/5HPN
+         zmT3u8FRmohIzQ0W0zMXut8gc/o6SEGcp96Rl5X7z+rRBxW9nFjnTNkGmmtyL6IT3o9x
+         YBqdBx6AhsKsf8AGdzTbxoql54z2r9BFivFQI+LWdE+jP5egRe9mbIPYVeiakhn+iYGZ
+         Y4ow==
+X-Gm-Message-State: AOAM532Q5bm8rg7kfSRmqPPuBNBZBq3r3Itp3JgGHhQjcR4wFQbfaX6A
+        bnalZmGkC+KLVWIvzUKDj3Y=
+X-Google-Smtp-Source: ABdhPJzE3wxZCPlLlrNCFylC3Z8X0gJtULmex2P6xsR9syJz5fbiVRh05vs/uMJBZetmgQF7Q/iIjg==
+X-Received: by 2002:a2e:b5b3:: with SMTP id f19mr223623ljn.199.1608228488528;
+        Thu, 17 Dec 2020 10:08:08 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.08.06
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.08.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:08:06 -0800 (PST)
+        Thu, 17 Dec 2020 10:08:08 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 41/48] memory: tegra20-emc: Use devm_tegra_core_dev_init_opp_table()
-Date:   Thu, 17 Dec 2020 21:06:31 +0300
-Message-Id: <20201217180638.22748-42-digetx@gmail.com>
+Subject: [PATCH v2 42/48] memory: tegra30-emc: Use devm_tegra_core_dev_init_opp_table()
+Date:   Thu, 17 Dec 2020 21:06:32 +0300
+Message-Id: <20201217180638.22748-43-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -86,20 +86,20 @@ initialization.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/tegra20-emc.c | 57 +++---------------------------
+ drivers/memory/tegra/tegra30-emc.c | 57 +++---------------------------
  1 file changed, 4 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
-index 686aaf477d8a..4be847442fc7 100644
---- a/drivers/memory/tegra/tegra20-emc.c
-+++ b/drivers/memory/tegra/tegra20-emc.c
-@@ -908,58 +908,6 @@ static int tegra_emc_interconnect_init(struct tegra_emc *emc)
+diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
+index 44ac155936aa..c6309afd9939 100644
+--- a/drivers/memory/tegra/tegra30-emc.c
++++ b/drivers/memory/tegra/tegra30-emc.c
+@@ -1480,58 +1480,6 @@ static int tegra_emc_interconnect_init(struct tegra_emc *emc)
  	return err;
  }
  
 -static int tegra_emc_opp_table_init(struct tegra_emc *emc)
 -{
--	u32 hw_version = BIT(tegra_sku_info.soc_process_id);
+-	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
 -	struct opp_table *clk_opp_table, *hw_opp_table;
 -	int err;
 -
@@ -152,15 +152,15 @@ index 686aaf477d8a..4be847442fc7 100644
  static void devm_tegra_emc_unset_callback(void *data)
  {
  	tegra20_clk_set_emc_round_callback(NULL, NULL);
-@@ -1086,6 +1034,7 @@ static int tegra_emc_devfreq_init(struct tegra_emc *emc)
+@@ -1577,6 +1525,7 @@ static int tegra_emc_init_clk(struct tegra_emc *emc)
  
  static int tegra_emc_probe(struct platform_device *pdev)
  {
 +	struct tegra_core_opp_params opp_params = {};
  	struct device_node *np;
  	struct tegra_emc *emc;
- 	int irq, err;
-@@ -1131,7 +1080,9 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	int err;
+@@ -1626,7 +1575,9 @@ static int tegra_emc_probe(struct platform_device *pdev)
  	if (err)
  		return err;
  
