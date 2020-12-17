@@ -2,194 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8063E2DDBC5
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 00:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A002DDC02
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 00:44:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732310AbgLQXHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 18:07:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59790 "EHLO
+        id S1732212AbgLQXoe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 18:44:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732289AbgLQXHC (ORCPT
+        with ESMTP id S1732201AbgLQXoe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 18:07:02 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB35C061282
-        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 15:06:21 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id m5so255063pjv.5
-        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 15:06:21 -0800 (PST)
+        Thu, 17 Dec 2020 18:44:34 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A7F9C061794;
+        Thu, 17 Dec 2020 15:43:53 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id t16so246741wra.3;
+        Thu, 17 Dec 2020 15:43:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZzUxY+R92iIXyCaBsOADIATzq/kMO3WIktPOvJAEK0M=;
-        b=y1i+MP6nxpUZku2pqBjU6nVReMMru3TqzVPCs9Wr2kawDgT3Rbl6Z27FslcSz46Swe
-         xoVAHosAGhjI7aOnPsLsxEeZ7xNxfB46hHlFFGpTJRIPhP1Np8JzTR82OcbK/gEjpSJS
-         cowRVeZibs33LWNdWONpxXfhSrlzipytxorMjEG484XY0t/NKnT3vgmrxMO5bzs6bzQE
-         7YZiocAFGQ2ffjZuuW6Bip4QglPBceU2BnKI11qLp0EDtQMiJsfKq2v2ku0CzTTA+rky
-         rGyzmZKB0g5JCTB2WXhE94V1kA53PIShCIbmffIEiIj1LCnDYFb8baE8V4CcmGvT4ii7
-         K+eg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UBqa0Lp+3ygWF6OGkOP1uHW2xoysiDViqe/7uQy1Q2c=;
+        b=cEYYIywkMDxTUX7cW4KSyTS2FP1Gm5u6zdbSRyz9XE5nFKnajH0cak8KW6FwfluVn4
+         qlZQw5PljRD+nMQIVe3vIx5UOxbVfNaV5oBef1CBnMWSj3YCutyw/hRY7p6Kq9l+ID+4
+         LI8X/TLt1ntdFeXyqmORSPBDFYr9c3nayM2xoUOfuqEaMWK+u+nFNfvP++rMGm6y+6FW
+         tTcF14+5gBOmMB8UmMqbDL82ob6pz/AwIH4JXdYzm6paYc3xSRDSCLLqa+lg571loPU6
+         ylQraO6B0PDL3azcn+VFc8iIR9Q3IdLhWiAIc5MkmTdchxXo5uc1ynkLy8LEjLH4HVcZ
+         6/oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZzUxY+R92iIXyCaBsOADIATzq/kMO3WIktPOvJAEK0M=;
-        b=R04lkqI6k6t2Ijvf0j8+NggjRh+02X+WA4F6il6hGUglJiWgWgZB09VTSSFI83GOfD
-         x+4H4p+pjoNOriRQ/EGcxPd76owQe1/4ozXQ97xsi+L3qOJu9XHYhhDdXorqpbicbUOO
-         lr+KARTxKYYO0nO00pmj/BJmTq/qo4RBNxjNICP+TDJezi3jyrkV2jb3XafKkXcCJxPk
-         Yi6HjdK+vFdD++1jGBInW6qSIY2+EqXdCAs1Fx3DPL4eEOhpH7p81N5aYL3fDhVGQyPp
-         dD/FSkA4ocetyGxjMFSpjLaakSnsGYc/fgblKBJcxJ6kQezPiULA3rthbLN3eKqTvJe5
-         FaYg==
-X-Gm-Message-State: AOAM532ecNBm/ELa3Mii8TZiPTgU1PHyeDmlU0klnCYLTh0y/LEYeTBa
-        gEZsionM9NmZHnjKXPwOtU/5Iw==
-X-Google-Smtp-Source: ABdhPJyufMB2jhDDOlwI5gRTX4PSbfLBi7TX5g878WswkcmJTvgN17xmcUy7n1BL1TSRvOIBCDRBSw==
-X-Received: by 2002:a17:902:b94a:b029:dc:18f2:8063 with SMTP id h10-20020a170902b94ab02900dc18f28063mr1410930pls.8.1608246381337;
-        Thu, 17 Dec 2020 15:06:21 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id q9sm7074036pgb.82.2020.12.17.15.06.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UBqa0Lp+3ygWF6OGkOP1uHW2xoysiDViqe/7uQy1Q2c=;
+        b=P5gNUgsL5DQMq/zhm57qhNMu4POti8OkOOX43MEcsctblnUKVbZ4hT1yk53QzIariE
+         CAlDB3ll6/9lquPOKhkatUbt8wu1W0Kf6L3dlgaXxkubm3r/yMZ4Axq+pXDk2MyVAFPa
+         rioyTESBK7fOYKqNFsboRqVvXGHJ1je7s3vcWKKh7KzBC0AhAq/tF1FWexg/gfnqjSDu
+         LayJONumkmBxVPMDXqPKger8hktssAbL08yBfLLGd1V3qD74FzWZ04XKsWKhpkARQI7S
+         L8iKCFPIUrkB8DHpLlAcIWk59yRJcA+NWJF650jX7g5JFNlNjicXU6b/kCIDXYrk1yde
+         D6DQ==
+X-Gm-Message-State: AOAM530o54+/7oUZpR5P7uhIbKGOBtuTxJz6CSyy6Ony8KkFELOMF1Q5
+        EJXK2lcfJqHoxMLrMWePePC5c3RCGAPG+ds6
+X-Google-Smtp-Source: ABdhPJyKudBgqFd03IKg8iG672BcNf9NNDeb5mtZkBsdWzUVc+LJ4BDY6PIukgM8KKWdQkM+Y48bWQ==
+X-Received: by 2002:a5d:4905:: with SMTP id x5mr1207091wrq.75.1608248632136;
+        Thu, 17 Dec 2020 15:43:52 -0800 (PST)
+Received: from valhalla.home ([2.29.208.56])
+        by smtp.gmail.com with ESMTPSA id o3sm1873575wrc.93.2020.12.17.15.43.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 15:06:20 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [RFC][PATCH 3/3] dma-buf: system_heap: Add deferred freeing to the system heap
-Date:   Thu, 17 Dec 2020 23:06:12 +0000
-Message-Id: <20201217230612.32397-3-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201217230612.32397-1-john.stultz@linaro.org>
-References: <20201217230612.32397-1-john.stultz@linaro.org>
+        Thu, 17 Dec 2020 15:43:51 -0800 (PST)
+From:   Daniel Scally <djrscally@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org
+Cc:     rjw@rjwysocki.net, lenb@kernel.org, gregkh@linuxfoundation.org,
+        yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
+        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+        andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
+        kitakar@gmail.com, jorhand@linux.microsoft.com
+Subject: [PATCH v2 00/12] Add functionality to ipu3-cio2 driver allowing software_node connections to sensors on platforms designed for Windows
+Date:   Thu, 17 Dec 2020 23:43:25 +0000
+Message-Id: <20201217234337.1983732-1-djrscally@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Utilize the deferred free helper library in the system heap.
+Hello all
 
-This provides a nice performance bump and puts the
-system heap performance on par with ION.
+Previous version:
+https://lore.kernel.org/linux-media/20201130133129.1024662-1-djrscally@gmail.com/T/#m91934e12e3d033da2e768e952ea3b4a125ee3e67
+The RFC version before that:
+https://lore.kernel.org/linux-media/20201019225903.14276-1-djrscally@gmail.com/
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/heaps/Kconfig       |  1 +
- drivers/dma-buf/heaps/system_heap.c | 30 ++++++++++++++++++++++-------
- 2 files changed, 24 insertions(+), 7 deletions(-)
+This series is to start adding support for webcams on laptops with ACPI tables
+designed for use with CIO2 on Windows. This problem has two main parts; the
+first part, which is handled in this series, is extending the ipu3-cio2
+driver to allow for patching the firmware via software_nodes if endpoints
+aren't defined by ACPI. The second is adding a new driver to handle power,
+clocks and GPIO pins defined in DSDT tables in an awkward way. I decided to
+split that second part out from this series, and instead give it its own
+series (a v2 of which should land "soon"). The reasons for that are:
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index fa5e1c330cce..3c1cdecca9e2 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -5,6 +5,7 @@ config DMABUF_HEAPS_SYSTEM
- 	bool "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	select PAGE_POOL
-+	select DMABUF_HEAPS_DEFERRED_FREE
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
- 	  is backed by pages from the buddy allocator. If in doubt, say Y.
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 885e30894b77..905b304ea24b 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -22,6 +22,8 @@
- #include <linux/vmalloc.h>
- #include <net/page_pool.h>
- 
-+#include "deferred-free-helper.h"
-+
- static struct dma_heap *sys_heap;
- 
- struct system_heap_buffer {
-@@ -32,6 +34,7 @@ struct system_heap_buffer {
- 	struct sg_table sg_table;
- 	int vmap_cnt;
- 	void *vaddr;
-+	struct deferred_freelist_item deferred_free;
- };
- 
- struct dma_heap_attachment {
-@@ -317,30 +320,43 @@ static int system_heap_zero_buffer(struct system_heap_buffer *buffer)
- 	return ret;
- }
- 
--static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
-+static void system_heap_buf_free(struct deferred_freelist_item *item, bool skip_pool)
- {
--	struct system_heap_buffer *buffer = dmabuf->priv;
-+	struct system_heap_buffer *buffer = container_of(item, struct system_heap_buffer, deferred_free);
- 	struct sg_table *table;
- 	struct scatterlist *sg;
- 	int i, j;
- 
- 	/* Zero the buffer pages before adding back to the pool */
--	system_heap_zero_buffer(buffer);
-+	if (!skip_pool)
-+		if (system_heap_zero_buffer(buffer))
-+			skip_pool = true; // On zeroing failure, just free
- 
- 	table = &buffer->sg_table;
- 	for_each_sg(table->sgl, sg, table->nents, i) {
- 		struct page *page = sg_page(sg);
- 
--		for (j = 0; j < NUM_ORDERS; j++) {
--			if (compound_order(page) == orders[j])
--				break;
-+		if (skip_pool) {
-+			__free_pages(page, compound_order(page));
-+		} else {
-+			for (j = 0; j < NUM_ORDERS; j++) {
-+				if (compound_order(page) == orders[j])
-+					break;
-+			}
-+			page_pool_put_full_page(pools[j], page, false);
- 		}
--		page_pool_put_full_page(pools[j], page, false);
- 	}
- 	sg_free_table(table);
- 	kfree(buffer);
- }
- 
-+static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct system_heap_buffer *buffer = dmabuf->priv;
-+
-+	deferred_free(&buffer->deferred_free, system_heap_buf_free, buffer->len);
-+}
-+
- static const struct dma_buf_ops system_heap_buf_ops = {
- 	.attach = system_heap_attach,
- 	.detach = system_heap_detach,
+1. It's a logically separate change anyway
+2. The recipients list was getting really long and
+3. That probably meant that handling merge for all of this in one go was
+   going to be impractically awkward.
+
+Given how few comments the remaining patches of this series received in the
+last posting, I'm hopeful that most or all of it could get picked up for 5.12.
+We touch a few different areas:
+
+lib (with an ack already)
+  lib/test_printf.c: Use helper function to unwind array of
+    software_nodes
+
+drivers/base
+  software_node: Fix refcounts in software_node_get_next_child()
+  property: Return true in fwnode_device_is_available for NULL ops
+  property: Call fwnode_graph_get_endpoint_by_id() for fwnode->secondary
+  software_node: Enforce parent before child ordering of nodes arrays
+  software_node: unregister software_nodes in reverse order
+
+drivers/acpi
+  acpi: Add acpi_dev_get_next_match_dev() and helper macro
+
+drivers/media
+  media: v4l2-core: v4l2-async: Check sd->fwnode->secondary in
+    match_fwnode()
+  ipu3-cio2: Add T: entry to MAINTAINERS
+  ipu3-cio2: Rename ipu3-cio2.c
+  ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+
+Given that, it feels sensible to me to try and merge them all through a single
+tree; I was hoping the other maintainers would be amenable to having everything
+merged through the media tree. Mauro; if that plan is ok (and of course assuming
+that the rest of the patches are acked by their respective maintainers too),
+could we get a dedicated feature branch just in case the following series ends
+up being ready in time too? 
+
+Series-level changelog:
+	- Squashed the patches enforcing ordering in register/unregister_nodes()
+
+More details of changes on each patch.
+
+Comments as always very welcome - and thanks to everyone for all your help on
+this so far, hope I've addressed everything from last time.
+
+Dan
+
+Daniel Scally (11):
+  software_node: Fix refcounts in software_node_get_next_child()
+  property: Return true in fwnode_device_is_available for NULL ops
+  property: Call fwnode_graph_get_endpoint_by_id() for fwnode->secondary
+  software_node: Enforce parent before child ordering of nodes arrays
+  software_node: unregister software_nodes in reverse order
+  lib/test_printf.c: Use helper function to unwind array of
+    software_nodes
+  ipu3-cio2: Add T: entry to MAINTAINERS
+  ipu3-cio2: Rename ipu3-cio2.c
+  media: v4l2-core: v4l2-async: Check sd->fwnode->secondary in
+    match_fwnode()
+  acpi: Add acpi_dev_get_next_match_dev() and helper macro
+  ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+
+Heikki Krogerus (1):
+  software_node: Add support for fwnode_graph*() family of functions
+
+ MAINTAINERS                                   |   2 +
+ drivers/acpi/utils.c                          |  30 +-
+ drivers/base/property.c                       |  15 +-
+ drivers/base/swnode.c                         | 173 +++++++++--
+ drivers/media/pci/intel/ipu3/Kconfig          |  18 ++
+ drivers/media/pci/intel/ipu3/Makefile         |   3 +
+ drivers/media/pci/intel/ipu3/cio2-bridge.c    | 274 ++++++++++++++++++
+ drivers/media/pci/intel/ipu3/cio2-bridge.h    | 122 ++++++++
+ .../ipu3/{ipu3-cio2.c => ipu3-cio2-main.c}    |  34 +++
+ drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   6 +
+ drivers/media/v4l2-core/v4l2-async.c          |   8 +
+ include/acpi/acpi_bus.h                       |   7 +
+ lib/test_printf.c                             |   4 +-
+ 13 files changed, 669 insertions(+), 27 deletions(-)
+ create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.c
+ create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
+ rename drivers/media/pci/intel/ipu3/{ipu3-cio2.c => ipu3-cio2-main.c} (98%)
+
 -- 
-2.17.1
+2.25.1
 
