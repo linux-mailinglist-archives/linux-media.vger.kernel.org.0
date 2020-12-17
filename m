@@ -2,84 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05A972DCB86
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 04:57:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F8AA2DCBB6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 05:30:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727445AbgLQD5u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Dec 2020 22:57:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727233AbgLQD5u (ORCPT
+        id S1726259AbgLQEa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Dec 2020 23:30:26 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:46605 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726098AbgLQEaZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Dec 2020 22:57:50 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E807DC0617A7;
-        Wed, 16 Dec 2020 19:57:09 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AEFA2C2;
-        Thu, 17 Dec 2020 04:57:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608177426;
-        bh=CeiKeoDJuFXUx0AHENcynkDr6bZJyQ4HAeC/obSpibU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RJZX2LfELR0TstaN5POWm7Al4x8ORmkoALPckEai0xH+I6J1Xnw7V+hZOlrRoN5qg
-         pFQ7Sxkv++3blKSkKWGM33OpaeQsXpLDa0NDBfp+p4HRHXtrH+1oy43Hqs/hHnEYR2
-         DDqkNi8C8oy0VqhuHIwzyVpWcuE4c40+HipxLVww=
-Date:   Thu, 17 Dec 2020 05:56:59 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     kieran.bingham+renesas@ideasonboard.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: vsp1: Fix an error handling path in the probe
- function
-Message-ID: <X9rXC3rKWfEJNP6z@pendragon.ideasonboard.com>
-References: <20201212174119.120027-1-christophe.jaillet@wanadoo.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201212174119.120027-1-christophe.jaillet@wanadoo.fr>
+        Wed, 16 Dec 2020 23:30:25 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id pkv7kRH7QFnBnpkv8k8wmu; Thu, 17 Dec 2020 05:29:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1608179382; bh=9zLtwkg2juKjAT/PYsHpczntTlHwK4RQqwtJYuqOBAQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=DVeluyb+N0+68atYI2O9rPh2+mVJCx5KGntYCyhx9ZX/eEuPn3OEmFS6lnbqNyxN0
+         IRm5MeEIwu5NF0SANTwtk2KAA3WmYflnaenP0Woingn2GV5ZMbfSr9Wesqq1x5GmCA
+         81ht0hRImlv/pFQrHxGbkjGDanY6g4RWZLea6UgkxDvRsfU5OjL7aTDrBZLzVkYaw0
+         UfT0i3YSlk8ox2O9hZIJCFH5f6zx9mOlK9sgdAkCvgnU14zBzlEZFP2JKv4gf48sIB
+         eqkMxpxc9wfLt437azt1cAKrCwCoFg9NH5Eebksss5DyLbvv/ku/O4FdVhvpgeWk6V
+         GggzZj8hDoi0g==
+Message-ID: <c0d89830a746be807cd316e0ae226fea@smtp-cloud8.xs4all.net>
+Date:   Thu, 17 Dec 2020 05:29:41 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfIO6eYhrru+c/j2NX7D8k7KrAY8oSpymq5mJGKxrgq1fkQbNCK0oxitIep/PlseFQK/Us+f6m6xKuD+xgO+BGecB8nqtXHd4CXGjrSDS4EuYF76n30RT
+ 9huKDtKDTawqAVmkuHcMuNgWn+brDj2MsO3jVqnXq0kKKyMmxp98NzO8F0mPiM5kwW12ow0WQZYwNy3m210pFm7ptRNIS8EaBYgTal/fMGVIr1vZMGl+Kxnb
+ aJHsKqlrFchy9QupIc9k/w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christophe,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Sat, Dec 12, 2020 at 06:41:19PM +0100, Christophe JAILLET wrote:
-> A previous 'rcar_fcp_get()' call must be undone in the error handling path,
-> as already done in the remove function.
-> 
-> Fixes: 94fcdf829793 ("[media] v4l: vsp1: Add FCP support")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+date:			Thu Dec 17 05:00:16 CET 2020
+media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
+media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
+v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7047-g72fa1e990
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+linux-git-arm-davinci: OK
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-x86_64: OK
+linux-git-i686: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.238-i686: ERRORS
+linux-4.4.238-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.238-i686: ERRORS
+linux-4.9.238-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.200-i686: ERRORS
+linux-4.14.200-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.149-i686: ERRORS
+linux-4.19.149-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.69-i686: ERRORS
+linux-5.4.69-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.13-i686: ERRORS
+linux-5.8.13-x86_64: ERRORS
+linux-5.9.1-i686: ERRORS
+linux-5.9.1-x86_64: ERRORS
+linux-5.10.1-i686: ERRORS
+linux-5.10.1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: WARNINGS
+smatch: ERRORS
 
-and queued in my tree for v5.12.
+Detailed results are available here:
 
-> ---
->  drivers/media/platform/vsp1/vsp1_drv.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> index dc62533cf32c..aa66e4f5f3f3 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -882,8 +882,10 @@ static int vsp1_probe(struct platform_device *pdev)
->  	}
->  
->  done:
-> -	if (ret)
-> +	if (ret) {
->  		pm_runtime_disable(&pdev->dev);
-> +		rcar_fcp_put(vsp1->fcp);
-> +	}
->  
->  	return ret;
->  }
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
--- 
-Regards,
+Detailed regression test results are available here:
 
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
