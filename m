@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A3302DD7F7
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5AA12DD7EF
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730085AbgLQSIm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:08:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41992 "EHLO
+        id S1728184AbgLQSIn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:08:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725468AbgLQSIl (ORCPT
+        with ESMTP id S1727388AbgLQSIl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 17 Dec 2020 13:08:41 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A669C0611CA;
-        Thu, 17 Dec 2020 10:07:29 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id x20so40283664lfe.12;
-        Thu, 17 Dec 2020 10:07:29 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7852C0611CB;
+        Thu, 17 Dec 2020 10:07:30 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id y19so59727177lfa.13;
+        Thu, 17 Dec 2020 10:07:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yP8wRMt2G/dKkoQz0kDkh+VFFd+KrJNpavXd55zD7Hc=;
-        b=Eevxt/jmSiXEagYpaEv4vTmdCIDS9N1+4fjs6XIYwYipyv36lpsy/C6pKYbwX3UiQu
-         VAu1mRAoSEvOvC9CFXWr2nMYvvWgaq6SnOLErxU8ODNmC5j5jGOa6Ib2PM6ZcCqmH38P
-         /ms4L91GUDsLbCwK3p/ykpA37+zlTT+eRvLma64wIszQWtha25BPEQkFpHNddqKyWQfT
-         +buwKXxL3bX53bNkQosbcNQQk/A6YGx+HMISS5X5MXNlAcmh2539N1EunFi1fSgAdPPc
-         lZu6y+bcf9lMXUeX6+mQg1Tjih0kF9Uxcyo55RH6sXDp4bTnJ3oHXwSLox21wctsWd9N
-         I+6Q==
+        bh=85Y5Xy0sCYGIXnoBRS4PIkvg6O/T96bo2+JpLeZeoDU=;
+        b=HO8B6pRWWY34CmtfEP2kpsIswJ2lPhhfqt6pCe/KhgZFrWjAvhfVC/olegJlNCb7eF
+         UI3MKbRzrqIhUSxGSc5Ajvbj/hJs+jZ8oq79wnAhjB7etVTaRWe4bMbSawUlSSLPp3Sm
+         gCkoFwyBIrpdeWNZ5sjoyHEP793xOAsMnj6a4mh49sHgbLePE2qqdLPbO9YOXsp09Ar5
+         fFnxwvcfqqIwW6ZgiE1KVVbHtu/AdCwcdYddZ+PNfP7cZL8U7GJO6Xf5MAWOk7rTpt8Q
+         hKO49nwhSnI90wCCw8KhsSWqHvaLpPRSm/m3rAfl3WzFoYpQz3bkg9b+THJ9m6P12R5F
+         8/ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yP8wRMt2G/dKkoQz0kDkh+VFFd+KrJNpavXd55zD7Hc=;
-        b=oWIKftE5r1ZoIYmVBnTe3LHD9lGC423gw40PZ3CtayCQbZaUKyl/NytWjgVeT/s5Q+
-         6pyG6nW9C1IwfjtOBSrIlztIgWvLsMvSsWcbw9uGhz1MS9H14twnqZZrMApS4+3EO8k6
-         2Km/+p/1UkPxWqRYx61sGRKzK+STnFeF+H5Rs6dk8/I5imB1jILB8PMEDQvq9ghH3EHe
-         5Owl3A/T0kaRRvlXxxSI6xq+0tNnBHwp5FDxaNpzjYedoCZ3aOzikxzNXbfgX07yKlGX
-         RC+RxDB3DokUtd0zG614/cqbzl+IP44JaCm3FFM23zn8HbSBq7L5zdxxOQeXSWmTRqeW
-         oHkw==
-X-Gm-Message-State: AOAM5327ECEZQoAnAP/puuTg0xB+KFJfG6epg43TTlAm6Q6Q8hNw/N7t
-        2Dw95jf2/IfMbr9MFzkiwfk=
-X-Google-Smtp-Source: ABdhPJxW3mip7l7QnT2EdI9cbqOdB8U51k+kpDGMuuvT5UJhcE0JXjG8oIyqWzLDIWmT1OVJbpI9yg==
-X-Received: by 2002:a19:c3c2:: with SMTP id t185mr1565lff.104.1608228448105;
-        Thu, 17 Dec 2020 10:07:28 -0800 (PST)
+        bh=85Y5Xy0sCYGIXnoBRS4PIkvg6O/T96bo2+JpLeZeoDU=;
+        b=hqvikbmLhlXd0xFqhfP0nho4oyNwe2Kp3S0/e8I8vaTm1jUGKfL7A8w08PcmPuGDkb
+         qrHEJSwvKOnTkxY3/qfOw1GF7SiA8wqmvjM5W51qto39rB/L5yi6Xox1QpvI6batTFX7
+         eMFpk3xNf4tQVWATQPn8dZlzS5eREqpK9hdjRXOSAg3KUdT514t4ds7Nj/M++rRE3b+D
+         mDTnEupLCptKWyXBJI3NQa46VVh+b6XwAq2GBi3f8DlGg6LPpRz3oLTrjBoln5p9Bos6
+         98ZXGjycH2gVXV1p67HQfvl3T9Qj3rug9gG2rs6I2i4u6zCdldfDr+Ubq2MzTJAeQxS1
+         DrVA==
+X-Gm-Message-State: AOAM530fKegHDk5LNyu+O5nB3tPvQE9IqJtaMWVMR5GryofX4+yFrTnc
+        uwz+Ba42hzjYoJfcgue4RF4=
+X-Google-Smtp-Source: ABdhPJxdsk3SmejHPdeEJpjzdTthLwWs3KYuEnkts5yzgKLNEZKMY28YcLV/8fEvQKXp+zJuE2Yd2Q==
+X-Received: by 2002:ac2:4359:: with SMTP id o25mr5495403lfl.536.1608228449259;
+        Thu, 17 Dec 2020 10:07:29 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.27
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:07:27 -0800 (PST)
+        Thu, 17 Dec 2020 10:07:28 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 07/48] dt-bindings: arm: tegra: Add binding for core power domain
-Date:   Thu, 17 Dec 2020 21:05:57 +0300
-Message-Id: <20201217180638.22748-8-digetx@gmail.com>
+Subject: [PATCH v2 08/48] regulator: Make regulator_sync_voltage() usable by coupled regulators
+Date:   Thu, 17 Dec 2020 21:05:58 +0300
+Message-Id: <20201217180638.22748-9-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -81,69 +81,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-All NVIDIA Tegra SoCs have a core power domain where majority of hardware
-blocks reside. Add binding for the core power domain.
+Make regulator_sync_voltage() to re-balance voltage state of a coupled
+regulators instead of changing the voltage directly.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../arm/tegra/nvidia,tegra20-core-domain.yaml | 48 +++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml
+ drivers/regulator/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml
-new file mode 100644
-index 000000000000..f3d8fd2d8371
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/arm/tegra/nvidia,tegra20-core-domain.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index ca03d8e70bd1..576efb815eb8 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -4131,6 +4131,12 @@ int regulator_sync_voltage(struct regulator *regulator)
+ 	if (ret < 0)
+ 		goto out;
+ 
++	/* balance only if there are regulators coupled */
++	if (rdev->coupling_desc.n_coupled > 1) {
++		ret = regulator_balance_voltage(rdev, PM_SUSPEND_ON);
++		goto out;
++	}
 +
-+title: NVIDIA Tegra Core Power Domain
-+
-+maintainers:
-+  - Dmitry Osipenko <digetx@gmail.com>
-+  - Jon Hunter <jonathanh@nvidia.com>
-+  - Thierry Reding <thierry.reding@gmail.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - nvidia,tegra20-core-domain
-+      - nvidia,tegra30-core-domain
-+
-+  operating-points-v2:
-+    description:
-+      Should contain level, voltages and opp-supported-hw property.
-+      The supported-hw is a bitfield indicating SoC speedo or process
-+      ID mask.
-+
-+  "#power-domain-cells":
-+    const: 0
-+
-+  power-supply:
-+    description:
-+      Phandle to voltage regulator connected to the SoC Core power rail.
-+
-+required:
-+  - compatible
-+  - operating-points-v2
-+  - "#power-domain-cells"
-+  - power-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    core-domain {
-+        compatible = "nvidia,tegra20-core-domain";
-+        operating-points-v2 = <&opp_table>;
-+        power-supply = <&regulator>;
-+        #power-domain-cells = <0>;
-+    };
+ 	ret = _regulator_do_set_voltage(rdev, min_uV, max_uV);
+ 
+ out:
 -- 
 2.29.2
 
