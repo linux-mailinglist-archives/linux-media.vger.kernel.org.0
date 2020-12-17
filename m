@@ -2,37 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 279542DD82F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BE092DD84F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:30:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730040AbgLQSWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:22:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44082 "EHLO
+        id S1730429AbgLQS3I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:29:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729923AbgLQSWL (ORCPT
+        with ESMTP id S1729857AbgLQS3I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:22:11 -0500
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24205C0617A7;
-        Thu, 17 Dec 2020 10:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=k+TBWoCCmuI+juM/RDKcFjuPs5RlB1YJML8ROgxtvlw=; b=R5sL7KBWSOcu7q0eGSq07mz0ho
-        j0+NPSXrRL9yeaniOZDHuWaAUVw2P1el8IkVWHrEKPgMyaBC6tPpkE02x+lkmACRyi1nUI8VYhEba
-        GryzGGyvSAdgSkDMTxMEKoCwwgzZfq4x5sor0wcLurTcDMASw+FAGnWD3u9srW/2m1KyFb3bq1BD8
-        YIjjrqGYlG6Uvnupn5dUXS/wm/r8RC4x4SnsVeQY9X9POgEG7Psy8lft01Vqfa3Qk/L1JC82JFrZE
-        b6BZqcQDoGn0v3nSv9BC56rPFVkFjCWUpKHpOZ7VRD+T1n5S+8IZ4gdI2K2JtncSw/+m1ibYAuSDI
-        8HY+qvmA==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236] helo=[192.168.1.10])
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1kpxu0-000859-J2; Thu, 17 Dec 2020 20:21:24 +0200
-Subject: Re: [PATCH v2 34/48] gpu: host1x: Support power management
+        Thu, 17 Dec 2020 13:29:08 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC81C06138C
+        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 10:28:27 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id 91so27565480wrj.7
+        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 10:28:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3Eimbv4irvb06uulzwdmbgzbH0hXJUaf7zvbDZ2yAOw=;
+        b=MBoNO+HzZQn1d2jk1/V+kBAn+RuX+Bgjf4yAuTECCPwo9pr5m6PA59e8a2suZD2rZj
+         WQK6VoGzqsqLLXsUPVSeZCJtfpqNYYeWHwu0WtzcCHrnA0iTZqPKBNzusky0oGwcuPWI
+         vxgZfG5PORMcS69Xl3gppSuianH953hu/LhmBsqsDfxzq0DrtWc4KMCBFbV4Zl+Tdl+j
+         XQwoV7n4jnAiYy/9txHOHHP967uVhDMXq6PpvemH0tcgRkKhqHfeQLEuECTmp6B3Jlgd
+         6Fh5JlgWumnZnWlQKc+PhZd7mWDSwAf3QNa4hWd6frVbAITao8rEW0tIt4LVEW+PWtB+
+         D1YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3Eimbv4irvb06uulzwdmbgzbH0hXJUaf7zvbDZ2yAOw=;
+        b=a4dF9JSCfuxOSBLqB/sonUGFuXBW487TUYXWp1qwkfejBZM2wYNvREBYhjKIPP/85A
+         /OApm7JRB3J6yNcwi/ljnYtJ6613Iq6qVQN5Bye8Mo2NYt5bYkdYgcmnXgSQjSoPLmA6
+         FDBP4u4bAdk9nGeZswMoebTEkNjtGmx48xBYd+uy5oCBrtqcEFQGgNsE22SFPnr/MFLq
+         onpnK7cHKJGbkwbTkHAcZkoiIL62xE2Ra8S44R+YvYKm/RFldEXWk9AqtZ/+Jh57wBAo
+         +QYl2Y8UHlL11zVFNghuYIOAzfQoA/TFXawzJie+wuWqs1sto0GBVn1SPMWVCiWkZ+cu
+         bgDg==
+X-Gm-Message-State: AOAM531IgR75BqgKJvbmIyTn8wjDv8hvILGkylFNZJcMj2m4+i1OzIfG
+        BRgkadxqqwlAAGd3nQyHJyiipQ==
+X-Google-Smtp-Source: ABdhPJzKbCCGpt8ELmmFbxdiuj0VOZ+HkKMKFTm6vWFFlnL6Ebt+3D8mHpr+ALmo4+wr+vg26zHlzQ==
+X-Received: by 2002:adf:ebd2:: with SMTP id v18mr115947wrn.322.1608229706152;
+        Thu, 17 Dec 2020 10:28:26 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:ccb6:ce78:2bcd:4ead? ([2a01:e34:ed2f:f020:ccb6:ce78:2bcd:4ead])
+        by smtp.googlemail.com with ESMTPSA id q1sm9831416wrj.8.2020.12.17.10.28.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Dec 2020 10:28:25 -0800 (PST)
+Subject: Re: [PATCH v2 47/48] ARM: tegra: ventana: Support CPU voltage scaling
+ and thermal throttling
 To:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -55,194 +73,125 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-35-digetx@gmail.com>
-From:   Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <cb8dca7c-6ef2-5116-6c04-816a63525e2e@kapsi.fi>
-Date:   Thu, 17 Dec 2020 20:21:23 +0200
+ <20201217180638.22748-48-digetx@gmail.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <91139f8b-0b83-dd8a-ba53-8e7a499e6344@linaro.org>
+Date:   Thu, 17 Dec 2020 19:28:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201217180638.22748-35-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201217180638.22748-48-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/17/20 8:06 PM, Dmitry Osipenko wrote:
-> Add suspend/resume and generic power domain support to the Host1x driver.
-> This is required for enabling system-wide DVFS and supporting dynamic
-> power management using a generic power domain.
+On 17/12/2020 19:06, Dmitry Osipenko wrote:
+> Enable CPU voltage scaling and thermal throttling on Tegra20 Ventana board.
 > 
-> Tested-by: Peter Geis <pgwipeout@gmail.com>
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->   drivers/gpu/host1x/dev.c | 102 ++++++++++++++++++++++++++++++++++-----
->   1 file changed, 91 insertions(+), 11 deletions(-)
+>  arch/arm/boot/dts/tegra20-ventana.dts | 40 ++++++++++++++++++++++++++-
+>  1 file changed, 39 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-> index d0ebb70e2fdd..c1525cffe7b1 100644
-> --- a/drivers/gpu/host1x/dev.c
-> +++ b/drivers/gpu/host1x/dev.c
-> @@ -12,6 +12,7 @@
->   #include <linux/module.h>
->   #include <linux/of_device.h>
->   #include <linux/of.h>
-> +#include <linux/pm_runtime.h>
->   #include <linux/slab.h>
->   
->   #define CREATE_TRACE_POINTS
-> @@ -417,7 +418,7 @@ static int host1x_probe(struct platform_device *pdev)
->   		return err;
->   	}
->   
-> -	host->rst = devm_reset_control_get(&pdev->dev, "host1x");
-> +	host->rst = devm_reset_control_get_exclusive_released(&pdev->dev, "host1x");
->   	if (IS_ERR(host->rst)) {
->   		err = PTR_ERR(host->rst);
->   		dev_err(&pdev->dev, "failed to get reset: %d\n", err);
-> @@ -437,16 +438,15 @@ static int host1x_probe(struct platform_device *pdev)
->   		goto iommu_exit;
->   	}
->   
-> -	err = clk_prepare_enable(host->clk);
-> -	if (err < 0) {
-> -		dev_err(&pdev->dev, "failed to enable clock\n");
-> -		goto free_channels;
-> -	}
-> +	pm_runtime_enable(&pdev->dev);
-> +	err = pm_runtime_get_sync(&pdev->dev);
-> +	if (err < 0)
-> +		goto rpm_disable;
->   
->   	err = reset_control_deassert(host->rst);
->   	if (err < 0) {
->   		dev_err(&pdev->dev, "failed to deassert reset: %d\n", err);
-> -		goto unprepare_disable;
-> +		goto rpm_disable;
->   	}
->   
->   	err = host1x_syncpt_init(host);
-> @@ -485,9 +485,10 @@ static int host1x_probe(struct platform_device *pdev)
->   	host1x_syncpt_deinit(host);
->   reset_assert:
->   	reset_control_assert(host->rst);
-> -unprepare_disable:
-> -	clk_disable_unprepare(host->clk);
-> -free_channels:
-> +rpm_disable:
-> +	pm_runtime_put(&pdev->dev);
-> +	pm_runtime_disable(&pdev->dev);
+> diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/tegra20-ventana.dts
+> index 14ace2ef749c..c2d9f38960bc 100644
+> --- a/arch/arm/boot/dts/tegra20-ventana.dts
+> +++ b/arch/arm/boot/dts/tegra20-ventana.dts
+> @@ -2,8 +2,10 @@
+>  /dts-v1/;
+>  
+>  #include <dt-bindings/input/input.h>
+> +#include <dt-bindings/thermal/thermal.h>
+>  #include "tegra20.dtsi"
+>  #include "tegra20-cpu-opp.dtsi"
+> +#include "tegra20-cpu-opp-microvolt.dtsi"
+>  
+>  / {
+>  	model = "NVIDIA Tegra20 Ventana evaluation board";
+> @@ -527,9 +529,10 @@ ldo_rtc {
+>  			};
+>  		};
+>  
+> -		temperature-sensor@4c {
+> +		nct1008: temperature-sensor@4c {
+>  			compatible = "onnn,nct1008";
+>  			reg = <0x4c>;
+> +			#thermal-sensor-cells = <1>;
+>  		};
+>  	};
+>  
+> @@ -615,10 +618,13 @@ clk32k_in: clock@0 {
+>  
+>  	cpus {
+>  		cpu0: cpu@0 {
+> +			cpu-supply = <&vdd_cpu>;
+>  			operating-points-v2 = <&cpu0_opp_table>;
+> +			#cooling-cells = <2>;
+>  		};
+>  
+>  		cpu@1 {
+> +			cpu-supply = <&vdd_cpu>;
+>  			operating-points-v2 = <&cpu0_opp_table>;
+>  		};
+>  	};
+> @@ -717,4 +723,36 @@ sound {
+>  			 <&tegra_car TEGRA20_CLK_CDEV1>;
+>  		clock-names = "pll_a", "pll_a_out0", "mclk";
+>  	};
 > +
->   	host1x_channel_list_free(&host->channel_list);
->   iommu_exit:
->   	host1x_iommu_exit(host);
-> @@ -504,16 +505,95 @@ static int host1x_remove(struct platform_device *pdev)
->   	host1x_intr_deinit(host);
->   	host1x_syncpt_deinit(host);
->   	reset_control_assert(host->rst);
-> -	clk_disable_unprepare(host->clk);
-> +	pm_runtime_put(&pdev->dev);
-> +	pm_runtime_disable(&pdev->dev);
->   	host1x_iommu_exit(host);
->   
->   	return 0;
->   }
->   
-> +static int __maybe_unused host1x_runtime_suspend(struct device *dev)
-> +{
-> +	struct host1x *host = dev_get_drvdata(dev);
+> +	thermal-zones {
+> +		cpu-thermal {
+> +			polling-delay-passive = <1000>; /* milliseconds */
+> +			polling-delay = <5000>; /* milliseconds */
 > +
-> +	clk_disable_unprepare(host->clk);
-> +	reset_control_release(host->rst);
+> +			thermal-sensors = <&nct1008 1>;
 > +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused host1x_runtime_resume(struct device *dev)
-> +{
-> +	struct host1x *host = dev_get_drvdata(dev);
-> +	int err;
-> +
-> +	err = reset_control_acquire(host->rst);
-> +	if (err) {
-> +		dev_err(dev, "failed to acquire reset: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = clk_prepare_enable(host->clk);
-> +	if (err) {
-> +		dev_err(dev, "failed to enable clock: %d\n", err);
-> +		goto release_reset;
-> +	}
-> +
-> +	return 0;
-> +
-> +release_reset:
-> +	reset_control_release(host->rst);
-> +
-> +	return err;
-> +}
-> +
-> +static __maybe_unused int host1x_suspend(struct device *dev)
-> +{
-> +	struct host1x *host = dev_get_drvdata(dev);
-> +	int err;
-> +
-> +	host1x_syncpt_save(host);
-> +
-> +	err = pm_runtime_force_suspend(dev);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	return 0;
-> +}
-> +
-> +static __maybe_unused int host1x_resume(struct device *dev)
-> +{
-> +	struct host1x *host = dev_get_drvdata(dev);
-> +	struct host1x_channel *channel;
-> +	unsigned int index;
-> +	int err;
-> +
-> +	err = pm_runtime_force_resume(dev);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	host1x_syncpt_restore(host);
+> +			trips {
+> +				trip0: cpu-alert0 {
+> +					/* start throttling at 50C */
+> +					temperature = <50000>;
+> +					hysteresis = <200>;
 
-We also need to execute 'host1x_setup_sid_table' upon resume.
+Did you mean <2000> ?
 
-cheers,
-Mikko
+> +					type = "passive";
+> +				};
+> +
+> +				trip1: cpu-crit {
+> +					/* shut down at 60C */
+> +					temperature = <60000>;
+> +					hysteresis = <2000>;
 
+I think you can drop the hysteresis here, when the critical temperature
+is reached, there is an emergency shutdown.
+
+50°C and 60°C sound very low values, no ?
+
+> +					type = "critical";
+> +				};
+> +			};
 > +
-> +	for_each_set_bit(index, host->channel_list.allocated_channels,
-> +			 host->info->nb_channels) {
-> +		channel = &host->channel_list.channels[index];
-> +		host1x_hw_channel_init(host, channel, channel->id);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops host1x_pm = {
-> +	SET_RUNTIME_PM_OPS(host1x_runtime_suspend, host1x_runtime_resume,
-> +			   NULL)
-> +	SET_SYSTEM_SLEEP_PM_OPS(host1x_suspend, host1x_resume)
-> +};
-> +
->   static struct platform_driver tegra_host1x_driver = {
->   	.driver = {
->   		.name = "tegra-host1x",
->   		.of_match_table = host1x_of_match,
-> +		.pm = &host1x_pm,
->   	},
->   	.probe = host1x_probe,
->   	.remove = host1x_remove,
+> +			cooling-maps {
+> +				map0 {
+> +					trip = <&trip0>;
+> +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+
+You should add all CPUs here.
+
+> +				};
+> +			};
+> +		};
+> +	};
+>  };
 > 
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
