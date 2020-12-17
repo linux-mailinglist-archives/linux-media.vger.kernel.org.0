@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6A022DD723
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D762DD745
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:14:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730317AbgLQSIy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:08:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41964 "EHLO
+        id S1730913AbgLQSJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:09:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730248AbgLQSIq (ORCPT
+        with ESMTP id S1730874AbgLQSJL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:08:46 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B31C0619D5;
-        Thu, 17 Dec 2020 10:07:42 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id s26so25134640lfc.8;
-        Thu, 17 Dec 2020 10:07:42 -0800 (PST)
+        Thu, 17 Dec 2020 13:09:11 -0500
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0100C0619D7;
+        Thu, 17 Dec 2020 10:07:43 -0800 (PST)
+Received: by mail-lf1-x132.google.com with SMTP id y19so59728949lfa.13;
+        Thu, 17 Dec 2020 10:07:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FMQPVkzhrHffuF4mwShq8rfapz+oLLOiBA35EvDkN1g=;
-        b=T6C/xdTyr28sjOcJqBGBh+2bCLRgFaTIcBewPv/x+1L1QOyKReuP1MfG2tkzSw/dwF
-         83LYY12BDsUDtf5UsTlPOdvdoSknRLL4Ub7pCG7DrdRyrNQWwS4h2r1LZTkODsd2kCpm
-         u/tYnt96D3DAW0wWnLMhHeI2ukJZsL5LRAR7Z0BKq5dc256IqLpTzp3LPwjXw+Ia/TAQ
-         LRe2WyKapRKlf2YaXsf6Z3H30F5rC5i6iHfKfaF7tBIKlrsio1o5JMMvvWxaNqwdeWSd
-         tDMz+vhqPBWL72wWDyYqY3O2tJDobLVBzsYu5+PxlLFQWd3q52ONqjCl1uZ2LI6KEKTH
-         ixzQ==
+        bh=O54hHe3GwNNHKPGqkz2B7DU6dvwXex7DZOGprtr/GmM=;
+        b=OeNoXEbagvqP4DcdFhxII/42gkuzezO/PqnbWTRx0INOXQdREbZ9WUQtGqRW9XC4zu
+         qwqGe/LBGPelVABYeoE0DFhmP9frBpJpDLpxjZNEzjx2+8qfHOLYxleJzaXHkyivn7MV
+         5Wx+7w3s6l4rWpcim8ghNJ6etTTkdS0O3EKA3rmH4m0vpOdsClXW+OmZRnXCmX54UcIZ
+         YIzRp3emr7EG0FQVREe03LqbyinxlxDppx97t00aAoZs/8z1kq05RI6LRx430jN4MrGe
+         yKib5DtjYjwWT1KHHaTrKl53ri2GUuh6aSw6+bQaGldmbatKakYdHzLHJ4nT9jbN9T1g
+         77OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FMQPVkzhrHffuF4mwShq8rfapz+oLLOiBA35EvDkN1g=;
-        b=QzCHnEJ66nWLSu/yedfQBacKHPeMjRtuU+Qihpm9quKiPJjHgtQjPqqOg2iLJFKbPx
-         OgM4/ETR1pL9L1JmldeF8IDvtWwLmlvTOYsTVPYB/GNUFQ0yTJO7s0428fv/VuNH8uzj
-         p9L/LkK63TtAvgdanzdpNCI6A8ysKbCCrHKha1GeTyo/2N3NdL0Lo+hJ2npgrttcdDct
-         hpwvOamQx+xSLbxyQwct+xgqPHpdLgJADJE8Wljvlmqfh8LaRRS6RFhJvWz3nkLhByB/
-         wHTjoGzKItBiXh2p7wUioBqtn1KGAWeM6RCaooza9GL3a9pmulvojYDIWsj7cMXki7Kv
-         E/hQ==
-X-Gm-Message-State: AOAM5332v78k/iPo4M9IwxngLUWdKoYOBnANvd6+GetAtJHdGymJzJS6
-        fmjBrIpEu3s3qBpw6a0ljDY=
-X-Google-Smtp-Source: ABdhPJyWgcRAhgB2jbviKjj3cRVPK5uBYXP0sKAFflQv0Ic12rG9QDo0/dmYvrRqWl5AtvkglHHK6w==
-X-Received: by 2002:a2e:58f:: with SMTP id 137mr196424ljf.469.1608228459627;
-        Thu, 17 Dec 2020 10:07:39 -0800 (PST)
+        bh=O54hHe3GwNNHKPGqkz2B7DU6dvwXex7DZOGprtr/GmM=;
+        b=QyBlJhfWtHDb6VUtK0HLs59bqn28Kxm78/cg6st1yPVGzdw7lRZav3BZiGjcHVjR62
+         QhuCMDIUD9uoGzgretaYaH83Ms9Z3Lkffn7ysAd8gfPfOrKwneOXe1wJAokmL/NeqymG
+         zvxASxwPpyjwChwMRDSnsJPIC/VLZ2FN2Pl90iLHZwp9mQ5fhJWyn6NcJ7VBA0zLc0uP
+         OY0kZ8WcxRgbWx1zdkl0141+gKSn/Ahtlp72G0vEw/6/nQMsDHOOLa8piCKTgLbfYuYC
+         NFj04QFyjEjAKgztcO/k8A5+Hwctmjv5Mdiq6dtUoxQMgGIK/ioOdqYx4Pu+QBCWkZJ2
+         jGng==
+X-Gm-Message-State: AOAM5327XMVfl4WMdKrCk2kzGKShDUFpsDzOEhnGfNWw6D2eAKu5J3+F
+        vQW9sDmi4DIzq+YLZs/uzKQ=
+X-Google-Smtp-Source: ABdhPJwgr1JYd3dkFtKpuRIk58HS8VFkfsWUOGAgiyXDw3hUSYyQyK1uR0tRGdUSz8JFZo5ENDfzNg==
+X-Received: by 2002:a2e:b80d:: with SMTP id u13mr209747ljo.143.1608228460744;
+        Thu, 17 Dec 2020 10:07:40 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.38
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:07:39 -0800 (PST)
+        Thu, 17 Dec 2020 10:07:40 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 17/48] opp: Correct debug message in _opp_add_static_v2()
-Date:   Thu, 17 Dec 2020 21:06:07 +0300
-Message-Id: <20201217180638.22748-18-digetx@gmail.com>
+Subject: [PATCH v2 18/48] opp: Print OPP level in debug message of _opp_add_static_v2()
+Date:   Thu, 17 Dec 2020 21:06:08 +0300
+Message-Id: <20201217180638.22748-19-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -81,35 +81,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The debug message always prints rate=0 instead of a proper value, fix it.
+Print OPP level in debug message of _opp_add_static_v2(). This helps to
+chase GENPD bugs.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/of.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/opp/of.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/opp/of.c b/drivers/opp/of.c
-index 3b5a4c8bc62f..1f2038a4420b 100644
+index 1f2038a4420b..56b153ea5c56 100644
 --- a/drivers/opp/of.c
 +++ b/drivers/opp/of.c
-@@ -755,7 +755,6 @@ static struct dev_pm_opp *_opp_add_static_v2(struct opp_table *opp_table,
- 		struct device *dev, struct device_node *np)
- {
- 	struct dev_pm_opp *new_opp;
--	u64 rate = 0;
- 	u32 val;
- 	int ret;
- 	bool rate_not_available = false;
-@@ -772,7 +771,8 @@ static struct dev_pm_opp *_opp_add_static_v2(struct opp_table *opp_table,
+@@ -822,10 +822,11 @@ static struct dev_pm_opp *_opp_add_static_v2(struct opp_table *opp_table,
+ 	if (new_opp->clock_latency_ns > opp_table->clock_latency_ns_max)
+ 		opp_table->clock_latency_ns_max = new_opp->clock_latency_ns;
  
- 	/* Check if the OPP supports hardware's hierarchy of versions or not */
- 	if (!_opp_is_supported(dev, opp_table, np)) {
--		dev_dbg(dev, "OPP not supported by hardware: %llu\n", rate);
-+		dev_dbg(dev, "OPP not supported by hardware: %lu\n",
-+			new_opp->rate);
- 		goto free_opp;
- 	}
+-	pr_debug("%s: turbo:%d rate:%lu uv:%lu uvmin:%lu uvmax:%lu latency:%lu\n",
++	pr_debug("%s: turbo:%d rate:%lu uv:%lu uvmin:%lu uvmax:%lu latency:%lu level:%u\n",
+ 		 __func__, new_opp->turbo, new_opp->rate,
+ 		 new_opp->supplies[0].u_volt, new_opp->supplies[0].u_volt_min,
+-		 new_opp->supplies[0].u_volt_max, new_opp->clock_latency_ns);
++		 new_opp->supplies[0].u_volt_max, new_opp->clock_latency_ns,
++		 new_opp->level);
  
+ 	/*
+ 	 * Notify the changes in the availability of the operable
 -- 
 2.29.2
 
