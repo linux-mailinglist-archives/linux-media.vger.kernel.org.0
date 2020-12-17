@@ -2,93 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 461CB2DD8B4
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 392532DD8FF
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 20:03:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729846AbgLQSvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:51:20 -0500
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:46421 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbgLQSvU (ORCPT
+        id S1730692AbgLQTBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 14:01:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728194AbgLQTBq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:51:20 -0500
-Received: by mail-ot1-f53.google.com with SMTP id w3so28346460otp.13;
-        Thu, 17 Dec 2020 10:51:04 -0800 (PST)
+        Thu, 17 Dec 2020 14:01:46 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E92BC061794;
+        Thu, 17 Dec 2020 11:01:05 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id y19so60198732lfa.13;
+        Thu, 17 Dec 2020 11:01:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=81D+yHFMAabVlf+2tjVOZShdc9YBbXvn/2mHiBk65M8=;
+        b=E4VCRRwgR/wwwJZ3vV67dTB9C325unQ0kkUOLNhfK3cB9Coik2iK9XFK1Mkl7Li7BV
+         ljYTYh7ccCTr9J8kDePLB/tKR1Ax6UPYyQdMOfo9OtZ/RY/xHNsoRGtTqVGNhEX7lu9m
+         t8h7XcmH+TqCHlqiQE0P/LB3C6qNwDVQ322flLSUavE6ycdJkAibg+I4vgFqgparDlys
+         h7QAlaLgGU+0khcKtaPcZ0Q76U+UZCdJqQ1x4yDKGxpdTxxLf+bBwkyphA0AgxakdYTO
+         m3wAoVXRlQtyAVWMhNILnhc1J6IakGhyInFhMSoa9IuwTqk4krYzDREl8VrcPFk8ZRZS
+         A7cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=0J3vl1MTUsZMronAIrs9qpBUzg0oJyXdy+TBq+BXRGg=;
-        b=T8l0slvmQau/xppvK7jwZX08C/YACfJ34VfoDnVGsHz8LgvozZtraMLZ8zVxcCtACp
-         H2zH1K01/HJP8KV+UsefXzJxVVlqn/PTt8w/fC8b1aL3+l/9y+3HZLWkdbEVO+7nv2Y6
-         HVgD1yuMqb/IPKRsqtl0m7uWZ1/mVi1YHC34WRqnq6RGij52+Po7u5RrBYPRqvH1HqEB
-         3cYLYns9HbHz/L1CP15E1XACmXVVgld7M06aYPEPKfyYagv5GaBTTHBizahWdprjVPZb
-         ZKS2xUfRD6s0rO8W7ys5EWb43aq3UXDRquv6ZbIb/SXPgJqHcnO80FY/AEdl4YPHA7Rb
-         qC1g==
-X-Gm-Message-State: AOAM5310j4gJZYfvZCzY5snSO0KUsDwtluuBjnW02zng0GsGsnzFGSCb
-        X53iIzggSi7lkeTJ8r5nww==
-X-Google-Smtp-Source: ABdhPJyupopTHCyOI1kXrI4SvwIdqGJXu/0CPZvamUq8qDnn0fuulgPaAICVXyoXi8ycIfF3QKPJBw==
-X-Received: by 2002:a9d:2254:: with SMTP id o78mr245009ota.24.1608231038964;
-        Thu, 17 Dec 2020 10:50:38 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l21sm1417234otd.0.2020.12.17.10.50.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:50:37 -0800 (PST)
-Received: (nullmailer pid 50648 invoked by uid 1000);
-        Thu, 17 Dec 2020 18:50:36 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Liu Ying <victor.liu@nxp.com>
-Cc:     dri-devel@lists.freedesktop.org, jernej.skrabec@siol.net,
-        Laurent.pinchart@ideasonboard.com, robh+dt@kernel.org,
-        a.hajda@samsung.com, vkoul@kernel.org, linux-media@vger.kernel.org,
-        s.hauer@pengutronix.de, airlied@linux.ie,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, jonas@kwiboo.se, festevam@gmail.com,
-        narmstrong@baylibre.com, daniel@ffwll.ch, shawnguo@kernel.org,
-        mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-imx@nxp.com, kishon@ti.com
-In-Reply-To: <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
-References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com> <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
-Subject: Re: [PATCH 04/14] dt-bindings: display: bridge: Add i.MX8qm/qxp pixel combiner binding
-Date:   Thu, 17 Dec 2020 12:50:36 -0600
-Message-Id: <1608231036.357497.50647.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=81D+yHFMAabVlf+2tjVOZShdc9YBbXvn/2mHiBk65M8=;
+        b=KsITVzItEO6a+NLQigAk5GKp0Vp5Hj6moc7VMuGPds32jT/e7wlUxmLifLwNUlNYt7
+         whaPNansaEPv4zJIwepjCldJOtOKDaW+1MrFV5fB3XwZKRs9MiwcObXkygvKcrQzdMZP
+         Uv3m0IUZtvQgdcXvO9Q8U5o1JeuEQpH4plmWxx4cUi40AEQKUBOiqCSPA45rjKgEEfXa
+         wmcn0JWcnBs+5Lu5bnRDp8ZKS1BfvYjzjk+fv+f74+rKBnrdfgeOvwuW3CE4QrMt3nIc
+         iO9TfdvM65DH2CPKMc6BpQGAM05G1g4ZmfOp9JA3epv2ndy9OvYtfGd4TOX9N5P2Ii1M
+         xj5Q==
+X-Gm-Message-State: AOAM5312h74r4ogfPJzv6wTp04zCYtaQrFGC0HnKKmlJ5uFqNl4qOF2/
+        KsrCCEeBP+TnmxAKA/EXT0iS4cuNDP4=
+X-Google-Smtp-Source: ABdhPJz2fbmlKJZp5mILGAenl01AxesjkvEREd6Ss2Woz35PQnzT59ZzuIIso9Jym8YQiMAeMBzqQw==
+X-Received: by 2002:a2e:4c11:: with SMTP id z17mr323589lja.364.1608231663452;
+        Thu, 17 Dec 2020 11:01:03 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id l1sm671498lfk.201.2020.12.17.11.01.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Dec 2020 11:01:02 -0800 (PST)
+Subject: Re: [PATCH v2 47/48] ARM: tegra: ventana: Support CPU voltage scaling
+ and thermal throttling
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>
+Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20201217180638.22748-1-digetx@gmail.com>
+ <20201217180638.22748-48-digetx@gmail.com>
+ <91139f8b-0b83-dd8a-ba53-8e7a499e6344@linaro.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b39ebfc1-42b3-1fa7-efe4-6ecbc8cfcb50@gmail.com>
+Date:   Thu, 17 Dec 2020 22:01:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
+MIME-Version: 1.0
+In-Reply-To: <91139f8b-0b83-dd8a-ba53-8e7a499e6344@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 17 Dec 2020 17:59:23 +0800, Liu Ying wrote:
-> This patch adds bindings for i.MX8qm/qxp pixel combiner.
+17.12.2020 21:28, Daniel Lezcano пишет:
+> On 17/12/2020 19:06, Dmitry Osipenko wrote:
+>> Enable CPU voltage scaling and thermal throttling on Tegra20 Ventana board.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  arch/arm/boot/dts/tegra20-ventana.dts | 40 ++++++++++++++++++++++++++-
+>>  1 file changed, 39 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm/boot/dts/tegra20-ventana.dts b/arch/arm/boot/dts/tegra20-ventana.dts
+>> index 14ace2ef749c..c2d9f38960bc 100644
+>> --- a/arch/arm/boot/dts/tegra20-ventana.dts
+>> +++ b/arch/arm/boot/dts/tegra20-ventana.dts
+>> @@ -2,8 +2,10 @@
+>>  /dts-v1/;
+>>  
+>>  #include <dt-bindings/input/input.h>
+>> +#include <dt-bindings/thermal/thermal.h>
+>>  #include "tegra20.dtsi"
+>>  #include "tegra20-cpu-opp.dtsi"
+>> +#include "tegra20-cpu-opp-microvolt.dtsi"
+>>  
+>>  / {
+>>  	model = "NVIDIA Tegra20 Ventana evaluation board";
+>> @@ -527,9 +529,10 @@ ldo_rtc {
+>>  			};
+>>  		};
+>>  
+>> -		temperature-sensor@4c {
+>> +		nct1008: temperature-sensor@4c {
+>>  			compatible = "onnn,nct1008";
+>>  			reg = <0x4c>;
+>> +			#thermal-sensor-cells = <1>;
+>>  		};
+>>  	};
+>>  
+>> @@ -615,10 +618,13 @@ clk32k_in: clock@0 {
+>>  
+>>  	cpus {
+>>  		cpu0: cpu@0 {
+>> +			cpu-supply = <&vdd_cpu>;
+>>  			operating-points-v2 = <&cpu0_opp_table>;
+>> +			#cooling-cells = <2>;
+>>  		};
+>>  
+>>  		cpu@1 {
+>> +			cpu-supply = <&vdd_cpu>;
+>>  			operating-points-v2 = <&cpu0_opp_table>;
+>>  		};
+>>  	};
+>> @@ -717,4 +723,36 @@ sound {
+>>  			 <&tegra_car TEGRA20_CLK_CDEV1>;
+>>  		clock-names = "pll_a", "pll_a_out0", "mclk";
+>>  	};
+>> +
+>> +	thermal-zones {
+>> +		cpu-thermal {
+>> +			polling-delay-passive = <1000>; /* milliseconds */
+>> +			polling-delay = <5000>; /* milliseconds */
+>> +
+>> +			thermal-sensors = <&nct1008 1>;
+>> +
+>> +			trips {
+>> +				trip0: cpu-alert0 {
+>> +					/* start throttling at 50C */
+>> +					temperature = <50000>;
+>> +					hysteresis = <200>;
 > 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160 +++++++++++++++++++++
->  1 file changed, 160 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+> Did you mean <2000> ?
+
+The <200> is correct.
+
+Please see this commit for example:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2b22393b27670b45a2c870bce3df6579efd9a86a
+
+>> +					type = "passive";
+>> +				};
+>> +
+>> +				trip1: cpu-crit {
+>> +					/* shut down at 60C */
+>> +					temperature = <60000>;
+>> +					hysteresis = <2000>;
 > 
+> I think you can drop the hysteresis here, when the critical temperature
+> is reached, there is an emergency shutdown.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Yes, perhaps you're right. Hysteresis doesn't make sense for a critical
+trip. I'll improve it in the next revision, thanks.
 
-yamllint warnings/errors:
+> 50°C and 60°C sound very low values, no ?
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dts:19:18: fatal error: dt-bindings/clock/imx8-lpcg.h: No such file or directory
-   19 |         #include <dt-bindings/clock/imx8-lpcg.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:342: Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1364: dt_binding_check] Error 2
+Tegra20 CPU is very cold in comparison to later generations, it should
+stay under 50°C even at a full load.
 
-See https://patchwork.ozlabs.org/patch/1417599
+>> +					type = "critical";
+>> +				};
+>> +			};
+>> +
+>> +			cooling-maps {
+>> +				map0 {
+>> +					trip = <&trip0>;
+>> +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+> 
+> You should add all CPUs here.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+All CPU cores are coupled on Tegra in regards to CPUFreq, hence I think
+it won't make any difference if secondary CPU cores will be added here,
+isn't it?
