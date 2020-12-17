@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5AA12DD7EF
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDC162DD7ED
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728184AbgLQSIn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1730171AbgLQSIn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 17 Dec 2020 13:08:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41994 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727388AbgLQSIl (ORCPT
+        with ESMTP id S1728182AbgLQSIl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 17 Dec 2020 13:08:41 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7852C0611CB;
-        Thu, 17 Dec 2020 10:07:30 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id y19so59727177lfa.13;
-        Thu, 17 Dec 2020 10:07:30 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD08C0611CC;
+        Thu, 17 Dec 2020 10:07:31 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id y19so59727332lfa.13;
+        Thu, 17 Dec 2020 10:07:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=85Y5Xy0sCYGIXnoBRS4PIkvg6O/T96bo2+JpLeZeoDU=;
-        b=HO8B6pRWWY34CmtfEP2kpsIswJ2lPhhfqt6pCe/KhgZFrWjAvhfVC/olegJlNCb7eF
-         UI3MKbRzrqIhUSxGSc5Ajvbj/hJs+jZ8oq79wnAhjB7etVTaRWe4bMbSawUlSSLPp3Sm
-         gCkoFwyBIrpdeWNZ5sjoyHEP793xOAsMnj6a4mh49sHgbLePE2qqdLPbO9YOXsp09Ar5
-         fFnxwvcfqqIwW6ZgiE1KVVbHtu/AdCwcdYddZ+PNfP7cZL8U7GJO6Xf5MAWOk7rTpt8Q
-         hKO49nwhSnI90wCCw8KhsSWqHvaLpPRSm/m3rAfl3WzFoYpQz3bkg9b+THJ9m6P12R5F
-         8/ug==
+        bh=UciLuLVan0P0SH0oR2Zf1mFiYSDrxBfVN7jaTPVHllw=;
+        b=aUHpk7k/bNFUizBJ9NAhFPP7O5TZO/wM8Ol/u8aIt3gZ9x3kH86JtXskjxBVjqT3VN
+         hgbgaSF/3nKKMcdizRSAFP8bRTPWk69Z9Gt4F8YqU2dJ+52b4MGNlZ6YWO5gYPjErj/a
+         hT5sWjNy0okhQ4km6Sa+6l8FwMx6iy5UBSD/PPb/QgXJBSzTUNx0rVq+i6viLDLHVwoV
+         i1szlSQyGrXl5jz+/N/ZM4FWQ3pzvaMCO/mA12PzGz743GTFBFTgh8LQBiH4inY3JVgx
+         6cMXpjHPHWIZyjbtsxU0pN5s0nz5bzQrAu+Sbzp7G90bLayZtcUOHSlsWBsfZ66iRjZP
+         1NUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=85Y5Xy0sCYGIXnoBRS4PIkvg6O/T96bo2+JpLeZeoDU=;
-        b=hqvikbmLhlXd0xFqhfP0nho4oyNwe2Kp3S0/e8I8vaTm1jUGKfL7A8w08PcmPuGDkb
-         qrHEJSwvKOnTkxY3/qfOw1GF7SiA8wqmvjM5W51qto39rB/L5yi6Xox1QpvI6batTFX7
-         eMFpk3xNf4tQVWATQPn8dZlzS5eREqpK9hdjRXOSAg3KUdT514t4ds7Nj/M++rRE3b+D
-         mDTnEupLCptKWyXBJI3NQa46VVh+b6XwAq2GBi3f8DlGg6LPpRz3oLTrjBoln5p9Bos6
-         98ZXGjycH2gVXV1p67HQfvl3T9Qj3rug9gG2rs6I2i4u6zCdldfDr+Ubq2MzTJAeQxS1
-         DrVA==
-X-Gm-Message-State: AOAM530fKegHDk5LNyu+O5nB3tPvQE9IqJtaMWVMR5GryofX4+yFrTnc
-        uwz+Ba42hzjYoJfcgue4RF4=
-X-Google-Smtp-Source: ABdhPJxdsk3SmejHPdeEJpjzdTthLwWs3KYuEnkts5yzgKLNEZKMY28YcLV/8fEvQKXp+zJuE2Yd2Q==
-X-Received: by 2002:ac2:4359:: with SMTP id o25mr5495403lfl.536.1608228449259;
-        Thu, 17 Dec 2020 10:07:29 -0800 (PST)
+        bh=UciLuLVan0P0SH0oR2Zf1mFiYSDrxBfVN7jaTPVHllw=;
+        b=AddoZx2Pj2GVkXrcw0Jq7a0QJUt7LSDvSPweYHlzZjbcrAFcI6dl3uWv1U5j5TAK46
+         xpE8nljTLz3fEjiM49i1anZmZwTL76qQAJHSnDRF58T26oXqmLBqb63z7LO9TwMTaUnE
+         dl8bWHWc7lakG89oN80Q3pHkIofIcgefiyfiCeFMWcOVqwkj4JuhRsnfUVQ5MD72Ybdr
+         SFmNnAcRi3M8pXCimNzMntkmRRfHWXFs2oBF3JRZMzsMlcncOxzc7J1xiDRMc9DS2Y0t
+         QUtea3GTcpcgfqepX6LDC9YbduLOrJXMXhSF8otebrqHZEClrSSyk8KRXTiNiGLzqpO4
+         henw==
+X-Gm-Message-State: AOAM533WeqCMohson1mWDKtjjPRWhU58xHwom35FFAmbz7v2m9WZv95S
+        wmei98RZbFAixlNwDt+TNcSosQRwo10=
+X-Google-Smtp-Source: ABdhPJyqRF/GAfRVFFJhIN88THdxl4cwg3KVxuRdpu65i6dxhir2dh7Hvi6opFqgBO7mbKTSa0o+vw==
+X-Received: by 2002:a05:6512:2009:: with SMTP id a9mr674300lfb.575.1608228450395;
+        Thu, 17 Dec 2020 10:07:30 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.28
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:07:28 -0800 (PST)
+        Thu, 17 Dec 2020 10:07:29 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 08/48] regulator: Make regulator_sync_voltage() usable by coupled regulators
-Date:   Thu, 17 Dec 2020 21:05:58 +0300
-Message-Id: <20201217180638.22748-9-digetx@gmail.com>
+Subject: [PATCH v2 09/48] opp: Add dev_pm_opp_sync_regulators()
+Date:   Thu, 17 Dec 2020 21:05:59 +0300
+Message-Id: <20201217180638.22748-10-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -81,31 +81,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make regulator_sync_voltage() to re-balance voltage state of a coupled
-regulators instead of changing the voltage directly.
+Extend OPP API with dev_pm_opp_sync_regulators() function, which syncs
+voltage state of regulators.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/regulator/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/opp/core.c     | 42 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/pm_opp.h | 11 +++++++++++
+ 2 files changed, 53 insertions(+)
 
-diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index ca03d8e70bd1..576efb815eb8 100644
---- a/drivers/regulator/core.c
-+++ b/drivers/regulator/core.c
-@@ -4131,6 +4131,12 @@ int regulator_sync_voltage(struct regulator *regulator)
- 	if (ret < 0)
- 		goto out;
- 
-+	/* balance only if there are regulators coupled */
-+	if (rdev->coupling_desc.n_coupled > 1) {
-+		ret = regulator_balance_voltage(rdev, PM_SUSPEND_ON);
-+		goto out;
+diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+index 4268eb359915..500d6c716283 100644
+--- a/drivers/opp/core.c
++++ b/drivers/opp/core.c
+@@ -2499,3 +2499,45 @@ void dev_pm_opp_remove_table(struct device *dev)
+ 	dev_pm_opp_put_opp_table(opp_table);
+ }
+ EXPORT_SYMBOL_GPL(dev_pm_opp_remove_table);
++
++/**
++ * dev_pm_opp_sync_regulators() - Sync state of voltage regulators
++ * @dev:	device for which we do this operation
++ *
++ * Sync voltage state of the OPP table regulators.
++ *
++ * Return: 0 on success or a negative error value.
++ */
++int dev_pm_opp_sync_regulators(struct device *dev)
++{
++	struct opp_table *opp_table;
++	struct regulator *reg;
++	int i, ret = 0;
++
++	/* Device may not have OPP table */
++	opp_table = _find_opp_table(dev);
++	if (IS_ERR(opp_table))
++		return 0;
++
++	/* Regulator may not be required for the device */
++	if (!opp_table->regulators)
++		goto put_table;
++
++	/* Nothing to sync if voltage wasn't changed */
++	if (!opp_table->enabled)
++		goto put_table;
++
++	for (i = 0; i < opp_table->regulator_count; i++) {
++		reg = opp_table->regulators[i];
++		ret = regulator_sync_voltage(reg);
++		if (ret)
++			break;
 +	}
 +
- 	ret = _regulator_do_set_voltage(rdev, min_uV, max_uV);
++put_table:
++	/* Drop reference taken by _find_opp_table() */
++	dev_pm_opp_put_opp_table(opp_table);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(dev_pm_opp_sync_regulators);
+diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
+index 1435c054016a..4c79faa2025e 100644
+--- a/include/linux/pm_opp.h
++++ b/include/linux/pm_opp.h
+@@ -156,6 +156,7 @@ int dev_pm_opp_set_sharing_cpus(struct device *cpu_dev, const struct cpumask *cp
+ int dev_pm_opp_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask);
+ void dev_pm_opp_remove_table(struct device *dev);
+ void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask);
++int dev_pm_opp_sync_regulators(struct device *dev);
+ #else
+ static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
+ {
+@@ -366,6 +367,11 @@ static inline void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask
+ {
+ }
  
- out:
++static inline int dev_pm_opp_sync_regulators(struct device *dev)
++{
++	return -ENOTSUPP;
++}
++
+ #endif		/* CONFIG_PM_OPP */
+ 
+ #if defined(CONFIG_PM_OPP) && defined(CONFIG_OF)
+@@ -442,6 +448,11 @@ static inline int dev_pm_opp_of_find_icc_paths(struct device *dev, struct opp_ta
+ {
+ 	return -ENOTSUPP;
+ }
++
++static inline int dev_pm_opp_sync_regulators(struct device *dev)
++{
++	return -ENOTSUPP;
++}
+ #endif
+ 
+ #endif		/* __LINUX_OPP_H__ */
 -- 
 2.29.2
 
