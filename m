@@ -2,27 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23F672DD6DC
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 916B52DD6EB
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:08:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727368AbgLQSHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:07:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41680 "EHLO
+        id S1728180AbgLQSIB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:08:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726773AbgLQSHs (ORCPT
+        with ESMTP id S1728080AbgLQSIB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:07:48 -0500
-Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8F6C061794
-        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 10:06:03 -0800 (PST)
-Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 93C9C634C87
-        for <linux-media@vger.kernel.org>; Thu, 17 Dec 2020 20:05:14 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 1/1] v4l: common: Fix naming of v4l2_get_link_rate
-Date:   Thu, 17 Dec 2020 19:59:27 +0200
-Message-Id: <20201217175927.26078-1-sakari.ailus@linux.intel.com>
+        Thu, 17 Dec 2020 13:08:01 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7985DC0617B0;
+        Thu, 17 Dec 2020 10:07:20 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id 23so59799960lfg.10;
+        Thu, 17 Dec 2020 10:07:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y8fr1iHSIZhCvTc7010qLcNSLREPpbF8f3eo0rKyUiU=;
+        b=OaXN2R81hy3iauGi3nHDiXjgf+YsKLP5HbTi040iz+cN2JulD/8v6eeKOpKCmL1q9b
+         zA0HXFIEx5FBsVWD96u4eEulgD8AYcHPrEIbvVjT+/WyO0Ta+TJ52ij8PzVE2NxcK6In
+         QsO7EV6ABGHpzV9omz3gxY/F1fEkltnETk7GBxgWuvfE9gdp1usS8SMy9cscMuvYP6ih
+         DykfzpZeekjpJmF7Yzu3jYMZFmQBG+CReKpfwwWc72QaKHEdThV6cDxY57Jgx36Jgx9/
+         MOinM18AY2cDlHIVZCA72FaxD5rXIyH00j6MWNRmpvl4bx84qqyIfp2dExndpCl9zJBC
+         bJhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y8fr1iHSIZhCvTc7010qLcNSLREPpbF8f3eo0rKyUiU=;
+        b=f4PJamPYeoK/c70Lr9MZSTdGSNWAhaxEqh1whVlV/5GGB3/+5g8qrcg5R63lTaTO2l
+         +bPL8HQwiJYnMfqJnqS9W9W9X1n8Frb9KmmTkncFS6bSF09LeDPVMtajMKO16IqtbQS6
+         DIoKPToSV+aMZAAoVYqFNu9iqUq2RWOqxWdruS4qFb0n3iEqLZpnaVg7A08DOnA1E85l
+         zjjHNcioOBQVjuEI/EBrDJFO/6yWWv7uPhHNXsARr28XKrBJwRPNvXflWexXz4fZ8NfK
+         ghTHKJ27m7sRbj9V5DzhtZVSSbQdmXbqSzGyO0UI99PGixXv5VYOHQ7/4oVs8TuizAqE
+         WBrA==
+X-Gm-Message-State: AOAM530tRtMlHZV4+979aZ9ZWktoeZb9ovHOzsxE2Kr9MbpyboL9ay/u
+        2ywUV0raEvf2i5phuN+DCDo=
+X-Google-Smtp-Source: ABdhPJxAsRAMbIzHHj/Ed3LvJkZlf4FF0RfKH5Dp1keOWfcgnzWXvG4XMG7H/toqjj/UbYurNiU/KA==
+X-Received: by 2002:a2e:9ad7:: with SMTP id p23mr190619ljj.465.1608228437792;
+        Thu, 17 Dec 2020 10:07:17 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Dec 2020 10:07:17 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>
+Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v2 00/48] Introduce core voltage scaling for NVIDIA Tegra20/30 SoCs
+Date:   Thu, 17 Dec 2020 21:05:50 +0300
+Message-Id: <20201217180638.22748-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -30,72 +79,183 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename v4l2_get_link_rate() as v4l2_get_link_freq(). What the function
-returns is the frequency of the link; rename it to reflect the name of the
-control where the information is obtained.
+Introduce core voltage scaling for NVIDIA Tegra20/30 SoCs, which reduces
+power consumption and heating of the Tegra chips. Tegra SoC has multiple
+hardware units which belong to a core power domain of the SoC and share
+the core voltage. The voltage must be selected in accordance to a minimum
+requirement of every core hardware unit.
 
-Fixes: 1b888b3cebef ("media: v4l: Add a helper for obtaining the link frequency")
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 2 +-
- drivers/media/v4l2-core/v4l2-common.c    | 4 ++--
- include/media/v4l2-common.h              | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+The minimum core voltage requirement depends on:
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 36e354ecf71e..6cada8a6e50c 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -302,7 +302,7 @@ static int cio2_csi2_calc_timing(struct cio2_device *cio2, struct cio2_queue *q,
- 	if (!q->sensor)
- 		return -ENODEV;
- 
--	freq = v4l2_get_link_rate(q->sensor->ctrl_handler, bpp, lanes);
-+	freq = v4l2_get_link_freq(q->sensor->ctrl_handler, bpp, lanes);
- 	if (freq < 0) {
- 		dev_err(dev, "error %lld, invalid link_freq\n", freq);
- 		return freq;
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 78007dba4677..133d20e40f82 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -442,7 +442,7 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
- }
- EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
- 
--s64 v4l2_get_link_rate(struct v4l2_ctrl_handler *handler, unsigned int mul,
-+s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
- 		       unsigned int div)
- {
- 	struct v4l2_ctrl *ctrl;
-@@ -473,4 +473,4 @@ s64 v4l2_get_link_rate(struct v4l2_ctrl_handler *handler, unsigned int mul,
- 
- 	return freq > 0 ? freq : -EINVAL;
- }
--EXPORT_SYMBOL_GPL(v4l2_get_link_rate);
-+EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
-diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-index be36cbdcc1bd..3eb202259e8c 100644
---- a/include/media/v4l2-common.h
-+++ b/include/media/v4l2-common.h
-@@ -520,7 +520,7 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
- 			u32 width, u32 height);
- 
- /**
-- * v4l2_get_link_rate - Get link rate from transmitter
-+ * v4l2_get_link_freq - Get link rate from transmitter
-  *
-  * @handler: The transmitter's control handler
-  * @mul: The multiplier between pixel rate and link frequency. Bits per pixel on
-@@ -537,7 +537,7 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
-  *	-ENOENT: Link frequency or pixel rate control not found
-  *	-EINVAL: Invalid link frequency value
-  */
--s64 v4l2_get_link_rate(struct v4l2_ctrl_handler *handler, unsigned int mul,
-+s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
- 		       unsigned int div);
- 
- static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+  1. Clock enable state of a hardware unit.
+  2. Clock frequency.
+  3. Unit's internal idling/active state.
+
+This series is tested on Acer A500 (T20), AC100 (T20), Nexus 7 (T30),
+Ouya (T30), TK1 (T124) and some others. I also added voltage scaling to
+the Ventana (T20) and Cardhu (T30) boards which are tested by NVIDIA's CI
+farm. Tegra30 is now couple degrees cooler on Nexus 7 and stays cool on
+Ouya (instead of becoming burning hot) while system is idling. It should
+be possible to improve this further by implementing a more advanced power
+management features for the kernel drivers.
+
+The DVFS support is opt-in for all boards, meaning that older DTBs will
+continue to work like they did it before this series. It should be possible
+to easily add the core voltage scaling support for Tegra114+ SoCs based on
+this grounding work later on, if anyone will want to implement it.
+
+Changelog:
+
+v2: - Replaced Core voltage regulator with a Core power domain. The voltage
+      control is now done using GENPD API. This was suggested by Ulf Hansson.
+
+    - Added basic runtime PM and GENPD support to 2d, 3d, host1x and clk
+      drivers.
+
+    - Added new core-power-domain and clk-device drivers. Some high-freq
+      PLLs and clocks require a higher minimum core voltage and the new
+      clk-device driver manages the voltage for these clocks based on
+      the clock state.
+
+    - Moved voltage scaling entirely to the new clk-device driver for devices
+      which don't require advanced power management, like PWM for example.
+
+    - Added devm_tegra_core_dev_init_opp_table() common helper which sets up
+      OPP table for Tegra drivers.
+
+    - Added resource-managed version for OPP API functions, as it was
+      discussed previously in the comments to v1.
+
+    - Added new APIs, features and fixed various bugs related to voltage
+      scaling and power management done via GENPD API.
+
+Dmitry Osipenko (48):
+  dt-bindings: memory: tegra20: emc: Replace core regulator with power
+    domain
+  dt-bindings: memory: tegra30: emc: Replace core regulator with power
+    domain
+  dt-bindings: memory: tegra124: emc: Replace core regulator with power
+    domain
+  dt-bindings: host1x: Document OPP and power domain properties
+  media: dt: bindings: tegra-vde: Document OPP and power domain
+    properties
+  dt-bindings: clock: tegra: Document clocks sub-node
+  dt-bindings: arm: tegra: Add binding for core power domain
+  regulator: Make regulator_sync_voltage() usable by coupled regulators
+  opp: Add dev_pm_opp_sync_regulators()
+  opp: Add dev_pm_opp_set_voltage()
+  opp: Add dev_pm_opp_find_level_ceil()
+  opp: Add dev_pm_opp_get_required_pstate()
+  opp: Add resource-managed versions of OPP API functions
+  opp: Filter out OPPs based on availability of a required-OPP
+  opp: Support set_opp() customization without requiring to use
+    regulators
+  opp: Handle missing OPP table in dev_pm_opp_xlate_performance_state()
+  opp: Correct debug message in _opp_add_static_v2()
+  opp: Print OPP level in debug message of _opp_add_static_v2()
+  opp: Fix adding OPP entries in a wrong order if rate is unavailable
+  PM: domains: Make set_performance_state() callback optional
+  PM: domains: Add "performance" column to debug summary
+  soc/tegra: pmc: Fix imbalanced clock disabling in error code path
+  soc/tegra: pmc: Pulse resets after removing power clamp
+  soc/tegra: pmc: Ensure that clock rates aren't too high
+  soc/tegra: pmc: Print out domain name when reset fails to acquire
+  soc/tegra: Add devm_tegra_core_dev_init_opp_table()
+  soc/tegra: Add CONFIG_SOC_TEGRA_COMMON and select PM_OPP by default
+  soc/tegra: Introduce core power domain driver
+  soc/tegra: pmc: Link domains to the parent Core domain
+  soc/tegra: regulators: Fix locking up when voltage-spread is out of
+    range
+  soc/tegra: regulators: Support Core domain state syncing
+  clk: tegra: Support runtime PM, power domain and OPP
+  gpu: host1x: Add host1x_channel_stop()
+  gpu: host1x: Support power management
+  drm/tegra: dc: Support OPP and SoC core voltage scaling
+  drm/tegra: gr2d: Correct swapped device-tree compatibles
+  drm/tegra: gr2d: Support OPP and power management
+  drm/tegra: g3d: Support OPP and power management
+  drm/tegra: vic: Stop channel before suspending
+  media: staging: tegra-vde: Support OPP and generic power domain
+  memory: tegra20-emc: Use devm_tegra_core_dev_init_opp_table()
+  memory: tegra30-emc: Use devm_tegra_core_dev_init_opp_table()
+  ARM: tegra: Add OPP tables and power domains to Tegra20 device-tree
+  ARM: tegra: Add OPP tables and power domains to Tegra30 device-tree
+  ARM: tegra: acer-a500: Enable core voltage scaling
+  ARM: tegra: ventana: Enable core voltage scaling
+  ARM: tegra: ventana: Support CPU voltage scaling and thermal
+    throttling
+  ARM: tegra: cardhu: Support CPU voltage scaling and thermal throttling
+
+ .../arm/tegra/nvidia,tegra20-core-domain.yaml |   48 +
+ .../bindings/clock/nvidia,tegra20-car.txt     |   26 +
+ .../bindings/clock/nvidia,tegra30-car.txt     |   26 +
+ .../display/tegra/nvidia,tegra20-host1x.txt   |   49 +
+ .../bindings/media/nvidia,tegra-vde.txt       |   12 +
+ .../nvidia,tegra124-emc.yaml                  |    6 +-
+ .../memory-controllers/nvidia,tegra20-emc.txt |    4 +-
+ .../nvidia,tegra30-emc.yaml                   |    6 +-
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |    8 +-
+ arch/arm/boot/dts/tegra20-colibri.dtsi        |    6 +-
+ arch/arm/boot/dts/tegra20-harmony.dts         |    6 +-
+ arch/arm/boot/dts/tegra20-paz00.dts           |   46 +-
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  941 +++++++++++
+ arch/arm/boot/dts/tegra20-seaboard.dts        |    6 +-
+ arch/arm/boot/dts/tegra20-tamonten.dtsi       |    6 +-
+ arch/arm/boot/dts/tegra20-trimslice.dts       |   12 +
+ arch/arm/boot/dts/tegra20-ventana.dts         |   78 +-
+ arch/arm/boot/dts/tegra20.dtsi                |  220 +++
+ .../tegra30-asus-nexus7-grouper-common.dtsi   |    4 +
+ arch/arm/boot/dts/tegra30-beaver.dts          |    4 +
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         |   81 +-
+ arch/arm/boot/dts/tegra30-colibri.dtsi        |   20 +-
+ arch/arm/boot/dts/tegra30-ouya.dts            |    4 +
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi | 1412 +++++++++++++++++
+ arch/arm/boot/dts/tegra30.dtsi                |  358 +++++
+ drivers/base/power/domain.c                   |   33 +-
+ drivers/clk/tegra/Makefile                    |    1 +
+ drivers/clk/tegra/clk-device.c                |  222 +++
+ drivers/clk/tegra/clk-divider.c               |    2 +-
+ drivers/clk/tegra/clk-periph-gate.c           |    2 +-
+ drivers/clk/tegra/clk-periph.c                |    2 +-
+ drivers/clk/tegra/clk-pll.c                   |    2 +-
+ drivers/clk/tegra/clk-super.c                 |    4 +-
+ drivers/clk/tegra/clk-tegra-periph.c          |  140 +-
+ drivers/clk/tegra/clk-tegra114.c              |    1 +
+ drivers/clk/tegra/clk-tegra124.c              |    1 +
+ drivers/clk/tegra/clk-tegra20-emc.c           |    2 +-
+ drivers/clk/tegra/clk-tegra20.c               |  123 +-
+ drivers/clk/tegra/clk-tegra210.c              |    1 +
+ drivers/clk/tegra/clk-tegra30.c               |  133 +-
+ drivers/clk/tegra/clk.c                       |   89 ++
+ drivers/clk/tegra/clk.h                       |    7 +
+ drivers/gpu/drm/tegra/dc.c                    |   66 +-
+ drivers/gpu/drm/tegra/gr2d.c                  |   77 +-
+ drivers/gpu/drm/tegra/gr3d.c                  |  264 ++-
+ drivers/gpu/drm/tegra/vic.c                   |   15 +
+ drivers/gpu/host1x/channel.c                  |    8 +
+ drivers/gpu/host1x/dev.c                      |  102 +-
+ drivers/memory/tegra/tegra20-emc.c            |   57 +-
+ drivers/memory/tegra/tegra30-emc.c            |   57 +-
+ drivers/opp/core.c                            |  390 ++++-
+ drivers/opp/of.c                              |   34 +-
+ drivers/opp/opp.h                             |    2 +-
+ drivers/regulator/core.c                      |    6 +
+ drivers/soc/tegra/Kconfig                     |   19 +
+ drivers/soc/tegra/Makefile                    |    1 +
+ drivers/soc/tegra/common.c                    |  137 ++
+ drivers/soc/tegra/core-power-domain.c         |  125 ++
+ drivers/soc/tegra/pmc.c                       |  122 +-
+ drivers/soc/tegra/regulators-tegra20.c        |   19 +-
+ drivers/soc/tegra/regulators-tegra30.c        |   20 +-
+ drivers/staging/media/tegra-vde/vde.c         |   63 +-
+ include/linux/host1x.h                        |    1 +
+ include/linux/pm_opp.h                        |   81 +
+ include/soc/tegra/common.h                    |   41 +
+ 65 files changed, 5458 insertions(+), 403 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml
+ create mode 100644 drivers/clk/tegra/clk-device.c
+ create mode 100644 drivers/soc/tegra/core-power-domain.c
+
 -- 
 2.29.2
 
