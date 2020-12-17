@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4822DD7DB
-	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D50152DD7B6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Dec 2020 19:15:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731562AbgLQSMv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 13:12:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41956 "EHLO
+        id S1731637AbgLQSLm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Dec 2020 13:11:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730210AbgLQSIo (ORCPT
+        with ESMTP id S1730867AbgLQSJJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:08:44 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A75A2C0611BB;
-        Thu, 17 Dec 2020 10:07:37 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id l11so59858859lfg.0;
-        Thu, 17 Dec 2020 10:07:37 -0800 (PST)
+        Thu, 17 Dec 2020 13:09:09 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE56EC0619D2;
+        Thu, 17 Dec 2020 10:07:38 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id a9so59799937lfh.2;
+        Thu, 17 Dec 2020 10:07:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pyhIAorEBtf9lvlliXp3a/E9KosdNviFUVTLwzCMWu4=;
-        b=KBFsuU+VjlIdBBBqzZxU8fjyUNxV2GYS1K8Z7YQLuOAUMr50erguvS8eg5lipX2IzF
-         wUJXnioL5pZGD/Km96I24RKaP0oAWM4mVWYg5Lwi1t+/D5N5Jk9k/aWAJCSWNgl+6Ag9
-         Ul+TTXmwIB4/L6tLNavF1vvHuiaDPvO1IYmGAGIQ6IjffbXmmXs+G+t+xYVRe1XCiLUT
-         TTtBHS6GvMaXs7btcbzdBpOt1vRgkH9ELTMrtOzYa5YunqIgyj0rI6fTA1UyrDJBGKzG
-         NsTRPdNroHWqtup4JrKq4hCihZ/I8rG1hzY9GLcahCmccGNQRN37v+O1tg2GPp/B1ZlZ
-         I1Bw==
+        bh=NlDMl6XjPevCn3rRvWT/f1VR4LdbuUD4/E02zVLuVCI=;
+        b=RTWkhu3VqMqpDCA4Qo24BTJf+2HuJmLcparbZ+4myGwK1DNAzIGrgipPwwDKIIjrKS
+         ePerczxp+6zHrPN6Dqn9OXFrwkqgqVZKTxDtaFeEELTEv5tlBstMf0P3QwYRzM20vWTM
+         BliaLVxvI1nhJVyskHZ3FMESXBjgr+oWdWqVqRNm2rlei11rc3wpmZbdQ4odalL2zKWD
+         GwaPJoY/LSJ0dqPxg3Bq/HrsjDS7nXr5Uxa2HsKYjBt0fe7/MWnpeLhAWQ//k18Hkb4W
+         Qgu8Q7C+KU3jCZyrFKxqARUQD6npMHl2BNPx+eMXU587ADHJ5fD/w80+TTFH/cNU5wLn
+         gbKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pyhIAorEBtf9lvlliXp3a/E9KosdNviFUVTLwzCMWu4=;
-        b=qazeeqAqkk3nGSFgJo2u9bTYNJgThLRwEEItIadJncK6WT5gLMnUzZ+xUk7pN2lXX5
-         W5KKgKxeepZ+qL8D3HoWwBfF9v1XgpJTCDSc7C+YX/jc56Rdgah2mHVaYPEpF0Zu0wxg
-         8RQvPtnlKz+4gyOWz09IeYZo0Z2q+PSR6Bv+RBlDMoyzYe44C/l/A5Af020/vOGh5oTC
-         6bYvh3yK8nR8W8YALHDSuNTtWTmgiOOlI7NLbnTf4gD+c3HZ6ElksydP3sQyNunLcK2N
-         0KncuCxSaQV2K0PLByzuf3xAI6jFMMgTxnBcE4+sD/4NNoc1dP4zCpB9iZGV6O+ZWtM2
-         lO4A==
-X-Gm-Message-State: AOAM530U0T0ccDI8TMMiQidAJGKjGDJyCmt5/E5815f9ubYwKif5zfuw
-        UWIFCqQHMbkXtj/gzdMkzDU=
-X-Google-Smtp-Source: ABdhPJyLU/4FC56tDazvyGbryuQ04uANev9KjoowVlnl0s+BVYhQ5t9V+9Mz7a+xus7YmajAeqhwKw==
-X-Received: by 2002:ac2:54b9:: with SMTP id w25mr1838lfk.8.1608228456153;
-        Thu, 17 Dec 2020 10:07:36 -0800 (PST)
+        bh=NlDMl6XjPevCn3rRvWT/f1VR4LdbuUD4/E02zVLuVCI=;
+        b=G7jf1bFIuhwN4SatgeYauYCcWNpDkKAKZNP4v/Br7tH1xLeMZ73g8EE6aD/gr+hs3V
+         43EPV509HSnhBqughvICoAv6R9DLoAnWkmgKmov3SN0/KJDz0ThAZxaw2rk+nonJI0l5
+         waYM3D1WI5vAeEuPQVqgfnVBqLWWQkfGGKaLWRm7EfaMbeUoRIbdXYw1ypsXEsFpnMhH
+         m0R1Vs9pgTPFKLR5H4q8izPBET7sKT/FXJhOvYwppSMyDfXcmUl1u1RzX9Q3i+f3dO6q
+         MVde+pMTcKlzrWg0G+KibpZMsUKEkKYoCLlxOaxfAtKSvvPAUuw9ZKmueVpJJR9c8fry
+         hIbg==
+X-Gm-Message-State: AOAM533yqW7Sf1lcW9m+t8tw9RIBsK5kfxphR/VoRt7hZI712xxyA1ks
+        9aYzSAEmyArtFM+ZXFmvKrk=
+X-Google-Smtp-Source: ABdhPJwLHLuEJNjyRdVPWt6WXEB6a0huo4TKPk5vwaRTMIFRcOi8N+JmP0jdXRGsy84KSAUugIUQMQ==
+X-Received: by 2002:a05:651c:2dc:: with SMTP id f28mr207871ljo.13.1608228457280;
+        Thu, 17 Dec 2020 10:07:37 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.35
+        by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 10:07:35 -0800 (PST)
+        Thu, 17 Dec 2020 10:07:36 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v2 14/48] opp: Filter out OPPs based on availability of a required-OPP
-Date:   Thu, 17 Dec 2020 21:06:04 +0300
-Message-Id: <20201217180638.22748-15-digetx@gmail.com>
+Subject: [PATCH v2 15/48] opp: Support set_opp() customization without requiring to use regulators
+Date:   Thu, 17 Dec 2020 21:06:05 +0300
+Message-Id: <20201217180638.22748-16-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -81,43 +81,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A required OPP may not be available, and thus, all OPPs which are using
-this required OPP should be unavailable too.
+Support set_opp() customization without requiring to use regulators. This
+is needed by drivers which want to use dev_pm_opp_set_rate() for changing
+rates of a multiple clocks and don't need to touch regulator.
+
+One example is NVIDIA Tegra30/114 SoCs which have two sibling 3D hardware
+units which should be use to the same clock rate, meanwhile voltage
+scaling is done using a power domain. In this case OPP table doesn't have
+a regulator, causing a NULL dereference in _set_opp_custom().
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/opp/core.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index d9feb7639598..3d02fe33630b 100644
+index 3d02fe33630b..625dae7a5ecb 100644
 --- a/drivers/opp/core.c
 +++ b/drivers/opp/core.c
-@@ -1588,7 +1588,7 @@ int _opp_add(struct device *dev, struct dev_pm_opp *new_opp,
- 	     struct opp_table *opp_table, bool rate_not_available)
+@@ -828,17 +828,25 @@ static int _set_opp_custom(const struct opp_table *opp_table,
+ 			   struct dev_pm_opp_supply *old_supply,
+ 			   struct dev_pm_opp_supply *new_supply)
  {
- 	struct list_head *head;
--	int ret;
-+	int i, ret;
+-	struct dev_pm_set_opp_data *data;
++	struct dev_pm_set_opp_data *data, tmp_data;
++	unsigned int regulator_count;
+ 	int size;
  
- 	mutex_lock(&opp_table->lock);
- 	head = &opp_table->opp_list;
-@@ -1615,6 +1615,15 @@ int _opp_add(struct device *dev, struct dev_pm_opp *new_opp,
- 			 __func__, new_opp->rate);
- 	}
- 
-+	for (i = 0; i < opp_table->required_opp_count && new_opp->available; i++) {
-+		if (new_opp->required_opps[i]->available)
-+			continue;
-+
-+		new_opp->available = false;
-+		dev_warn(dev, "%s: OPP not supported by required OPP %pOF (%lu)\n",
-+			 __func__, new_opp->required_opps[i]->np, new_opp->rate);
+-	data = opp_table->set_opp_data;
++	if (opp_table->set_opp_data) {
++		data = opp_table->set_opp_data;
++		regulator_count = opp_table->regulator_count;
++	} else {
++		data = &tmp_data;
++		regulator_count = 0;
 +	}
 +
- 	return 0;
- }
+ 	data->regulators = opp_table->regulators;
+-	data->regulator_count = opp_table->regulator_count;
++	data->regulator_count = regulator_count;
+ 	data->clk = opp_table->clk;
+ 	data->dev = dev;
  
+ 	data->old_opp.rate = old_freq;
+-	size = sizeof(*old_supply) * opp_table->regulator_count;
++	size = sizeof(*old_supply) * regulator_count;
+ 	if (!old_supply)
+ 		memset(data->old_opp.supplies, 0, size);
+ 	else
 -- 
 2.29.2
 
