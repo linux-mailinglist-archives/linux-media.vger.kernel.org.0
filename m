@@ -2,82 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A0FB2DE0DD
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 11:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F3E42DE17F
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 11:50:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388786AbgLRKT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 05:19:27 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:40444 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388755AbgLRKT1 (ORCPT
+        id S2389221AbgLRKt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 05:49:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54360 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389219AbgLRKt0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 05:19:27 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BIA9mt9017895;
-        Fri, 18 Dec 2020 10:18:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=kKbiZHacAsLci0AQxcwE6GVgwg7HLb2l0eiJcFvmhcA=;
- b=Iaw7mvIW8nvXU57mW4jUzor+VqI1PUxORrgFqPLyy/CJGbSi+rhyb92D2RctjmlKMy47
- 9ovXsNr6Yeh7bXJeT3ryuete9UzrZHNJSXIM/3mL/zvd/PDXONblWOzXu4VRAcFwqYkL
- MHF89qJ4dWWgGfKS+Ot/WxtoQjBCCcfEr3nglTIWYVAu+fnWlAu/2xHJnAU7HDY8wvk5
- 99yCg8ggXwz26qjRGLe1wBLn7FMviSF2LA/nZmd2BY3sC+p3ns10Aa4L8aSZ9/xbbLIQ
- JQeLo6erXRcOPcz/TCxFPKWOaJGWbNBFcbVKtpBYfBQMTNzUoen3cF+H5/0WukMoYCBe YQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 35ckcbsuwc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 18 Dec 2020 10:18:41 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BIAFKQ8183075;
-        Fri, 18 Dec 2020 10:16:40 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 35g3rfytn2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Dec 2020 10:16:40 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BIAGdS7009208;
-        Fri, 18 Dec 2020 10:16:39 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 18 Dec 2020 02:16:38 -0800
-Date:   Fri, 18 Dec 2020 13:16:30 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Nigel Christian <nigel.l.christian@gmail.com>
-Cc:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, gustavoars@kernel.org,
-        linux-media@vger.kernel.org, trivial@kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: cec: fix trivial style warnings
-Message-ID: <20201218101630.GM2831@kadam>
-References: <20201218063117.GA80700@fedora>
+        Fri, 18 Dec 2020 05:49:26 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48603C0617A7
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 02:48:46 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id t16so1646248wra.3
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 02:48:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fLzY/djypMs81T+aO2pNTod0N4stmZ6pMUg865xqIcc=;
+        b=QISrBGDGFjCaWRQGhGA/GugdDLg+ehTDRBxqjxDRfp6+PRSkSkIIsl/aqU4mLa3D9V
+         1lhDchOMA5XYtDnwV2u9uTHEqTWspfzU1EQ82GjaAChd4hNnHi18144RGGTUGesp4Psf
+         ervrjKImhl07N4OZ3AFBu40EgX2q3R00hjw1y9cWWg07qgqEt61Dwx6UsiFSHcSwWgVc
+         ST4ndcClAToTdY2ClU7Szp0a3g0+kfAlnqOCWLvjMqvT7Fr4BICv4gnZ5pTm39L9ZD16
+         UbjRemFDIB7SgiMlE9szbx5eAH3wqyEc2v73UegEM9nWVycg15DN1igYaZNtBHKi5gOC
+         e6vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fLzY/djypMs81T+aO2pNTod0N4stmZ6pMUg865xqIcc=;
+        b=Wv2gVLApTMq7CoV+q9dVPKGwWZKDtLn78fU0daHBVKfvQ2oiQIxROepH5RVtvGocc+
+         I0JK+Fb3/0Bo/sHIEz8OcjEkd7DOGnw0eCrrmPec0dIucv65ns1aBGnb94MtG4QtBHrL
+         jkNmoU+d9c9yOoTKl2FM5GB8sOq/LbtkIjyEMQTdfXXIIaKrhqMVi4DJO5K6eqJf8no8
+         37yMKprASDl/qMIVhVYF71eiyFnGs9/0tgsC92CTGONrURuj0p5e7NNEtxmZ3i7yYfBr
+         RwPf7VytfVPJha032o7shTXholutj2fDph2Q6T04sXEv5b5qzMhX4j6BbAm1ZHFevT65
+         zOnQ==
+X-Gm-Message-State: AOAM531wowkRe8dmDzgJDCzDufAAvqTjWMqSDzXyYG4Ra13BVeCcWQUk
+        4sObRofiS+WjUCSmcp1xO9+3KIdrwgDKBa0aYSEA7A==
+X-Google-Smtp-Source: ABdhPJw44cawfORTxLkciS4IgdazVtUtDppSQQMxvbWbSTGYtlJ7nqwnlTGvwVMaZCumr1XM4pzvsXEYRyLQwkEHCYc=
+X-Received: by 2002:a5d:65ca:: with SMTP id e10mr3783824wrw.42.1608288525010;
+ Fri, 18 Dec 2020 02:48:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201218063117.GA80700@fedora>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9838 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012180075
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9838 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1011
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012180074
+References: <20201206172720.9406-1-michael.srba@seznam.cz>
+In-Reply-To: <20201206172720.9406-1-michael.srba@seznam.cz>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 18 Dec 2020 10:48:28 +0000
+Message-ID: <CAPY8ntB0g21HMkYoXzk6zRMHN6wzK7GrY-nHuiwrLtPzCcdMiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying clock-frequencies
+To:     michael.srba@seznam.cz
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 18, 2020 at 01:31:17AM -0500, Nigel Christian wrote:
-> Comment has 'then' repeated twice. Let's clean it up.
-> Use unsigned int to maintain naming consistency.
-> 
+Hi Michael
 
-Do you use a tool to find the double "then then"?
+On Sun, 6 Dec 2020 at 17:29, <michael.srba@seznam.cz> wrote:
+>
+> From: Michael Srba <Michael.Srba@seznam.cz>
+>
+> This patch adds 1% tolerance on input clock, similar to other camera sensor
+> drivers. It also allows for specifying the actual clock in the device tree,
+> instead of relying on it being already set to the right frequency (which is
+> often not the case).
+>
+> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
 
-regards,
-dan carpenter
+As the listed maintainer of this driver I'll say that I don't have any
+objections to the aim of this patch.
+Those who know the clock infrastructure far better than me are
+recommending alternative methods of implementing this, so I'll leave
+it up to them to give a Reviewed-by. When that's happened I'll add an
+ack.
 
+  Dave
+
+> ---
+>
+> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
+>
+> ---
+>  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f64c0ef7a897..b6500e2ab19e 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
+>                 return PTR_ERR(imx219->xclk);
+>         }
+>
+> -       imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> -       if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> +       ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
+> +       if (ret) {
+> +               dev_warn(dev, "could not get xclk frequency\n");
+> +
+> +               /* default to 24MHz */
+> +               imx219->xclk_freq = 24000000;
+> +       }
+> +
+> +       /* this driver currently expects 24MHz; allow 1% tolerance */
+> +       if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+>                 dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>                         imx219->xclk_freq);
+>                 return -EINVAL;
+>         }
+>
+> +       ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
+> +       if (ret) {
+> +               dev_err(dev, "could not set xclk frequency\n");
+> +               return ret;
+> +       }
+> +
+> +
+>         ret = imx219_get_regulators(imx219);
+>         if (ret) {
+>                 dev_err(dev, "failed to get regulators\n");
+> --
+> 2.29.2
+>
