@@ -2,178 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E052C2DDDB5
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 05:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA332DDDD6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 06:24:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732208AbgLREaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Dec 2020 23:30:02 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37631 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727266AbgLREaC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Dec 2020 23:30:02 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id q7OJkGkDR8Aynq7OKkfevD; Fri, 18 Dec 2020 05:29:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1608265760; bh=2EJG3q1H3BwtwXDA/GQbBgCn+69VNTI45gXcPYFxo3A=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=W5KlHxxg+4V8eX6HCbSiuWIpO/KoTTpAJn8zmStEGG08GZhl16T1B2e6kizHZ/7Xo
-         i45MKMkxGbArgtueQ1XnjVM88q5INRrPdI2rpdxNrjzrNU2UaJwCyXtmedYomm147P
-         ZjgtO/GvaE40AlNUpEnrA32bCQi4KoCItEtQvfgY20zR3mYwmbPYuff7AkHFwzINvm
-         a6wfRfzl7XX/31WxVrlHSax+Z6yej/6Lyj5bRhOOMY3QkZpKwxqQ2gv8cqNKyZGaMR
-         l7iWuZgB4vMdE1oomQhkjx1RcGJkbr/2g5fOAx11M18pV6IOFcVVwHLc3/xnKoF0mH
-         ypqD6talmgjIg==
-Message-ID: <693c1893a80240f84594b98fcb2c1a2c@smtp-cloud8.xs4all.net>
-Date:   Fri, 18 Dec 2020 05:29:19 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfF621zjnUGtRaKjqPrDXMKNzvIjTchC3wRk/xbjXELGi4Fsz2PO3EPPS5tB9e94v3/7r6Qepe5LHI2SPVqvOnR1DeAqOyRLa/v/sbJ8rlqqA+RuYyH6A
- 5b5ino8a5vrFowz3CfJh+RAnjMDqJ54SzTQIo4TXOUNbxk2L31hsquUwDKq9p9vXbDDe5b3KBgokJmTvj7RGiERlK3Jj4YQgIltU66uODA2A5ePafh7DFxSh
- bL2v2WPZ5gwA+9EsLRTdOg==
+        id S1731527AbgLRFWZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 18 Dec 2020 00:22:25 -0500
+Received: from mail-vi1eur05olkn2064.outbound.protection.outlook.com ([40.92.90.64]:46285
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725290AbgLRFWY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Dec 2020 00:22:24 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l7qJnkGQMD1Xu391ARulm848H/Wjz72QV1X78U+T8ErQKy+34X40MqFGqvyIpBwgkVnu7dxSGLGoNGv/Vp+V1pCi9HjqQ3085JmQpEwf8tXsrqJdIIuPuXp7Q3A+LtMc7Mu38ApRb6q2fg534P+yhaGZIUwVBm9M/LBO8IJ+JSNxxeLPsbGgVyqHw52qqkZ94tmxL0VDe/Z5rCDoiV3lG95ttVOgcVelyjpbYNpRmSVMOIc6PwjW9/+QSVCDHpzYuPR29EG9EGrW3SOD/lktsqmLl6EiphFiFEGZOq0pZg9B3SBiw5DypG+jJjYr3s8gO+stc2QGtrdQ6+8B4r3EkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8IMRs72jDzexY131mRfJ+nnwl2LCDhsoEyaTyyPVze0=;
+ b=cZcqYVsCNeppkzgOIlwd7Di5CbpwoRGSVS1Zj+DazciUk5kwomgLgBQK0GiI173kUxM5tSKI9GFp05RwdYd+7+HgBwP4QYMpelAfTHgdJ2kvnBxghc81Qb/EHkQxUErNZ9LBsCINImZoETjYLpum6wJG8upethNU089bFSX05dhTzXhMHTYJit3it7K+Ft+4vKNObY4Rwv6yv1KWNPhAiAUhIOuSNrLmxoD3hTtw4khmiCP0jqteUzfft1ug6jP9N0n3MNEHLaKQ3cPgMM2C5O5ep/ZOIOPcamJrLQSMNcX5vbj3Wt3SsBMswtNNl5fXDFtF0NjKDilPxc59iGCogA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DB8EUR05FT010.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc0f::51) by
+ DB8EUR05HT236.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc0f::407)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22; Fri, 18 Dec
+ 2020 05:21:36 +0000
+Received: from VI1P193MB0160.EURP193.PROD.OUTLOOK.COM (2a01:111:e400:fc0f::49)
+ by DB8EUR05FT010.mail.protection.outlook.com (2a01:111:e400:fc0f::203) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22 via Frontend
+ Transport; Fri, 18 Dec 2020 05:21:36 +0000
+Received: from VI1P193MB0160.EURP193.PROD.OUTLOOK.COM
+ ([fe80::c1ea:9b6c:f9fe:7d09]) by VI1P193MB0160.EURP193.PROD.OUTLOOK.COM
+ ([fe80::c1ea:9b6c:f9fe:7d09%9]) with mapi id 15.20.3654.025; Fri, 18 Dec 2020
+ 05:21:36 +0000
+From:   Jesus <observer1@hotmail.es>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Help with harmony remote
+Thread-Topic: Help with harmony remote
+Thread-Index: AQHW1P1pj2wAAlUyIE6McsWWcr0cGg==
+Date:   Fri, 18 Dec 2020 05:21:36 +0000
+Message-ID: <VI1P193MB0160CDD11C1487D57A4B795081C30@VI1P193MB0160.EURP193.PROD.OUTLOOK.COM>
+Accept-Language: es-ES, en-US
+Content-Language: es-ES
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:C053D671C53FB19A656BCDBE2F2FED986933FD2EFFD639ACF3038C1FBE25985D;UpperCasedChecksum:650B2500B4D28B2E9233FC9B6D3834152FAE39E5DBD852D292BCF5E7E6581D5F;SizeAsReceived:6587;Count:41
+x-tmn:  [qbZhLgjJ1tOLPnDPCM7s2hoR1KYwDwuQ]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 41
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 406a1b38-bea4-40cc-bb81-08d8a314ca75
+x-ms-traffictypediagnostic: DB8EUR05HT236:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eDZ2Q/dIcff7Q8y0ds+2evMmRMAvlkbFIYKYS+iYOdz6V5nq0AbcoFskC4+Kegc4WeGY8/s84Ks2htmdbnLBxgYSwTGvWdoppFDcX5kQgxRulLz4g2F5XA5/z9+sF3LYNdeFB3DF54f0AaZsHq5uTiaoB8IS6lea1qV56hpgksKVGuzU4QDhZwx1WhGBM/Pxe3Df4SXP+4eCFl0QiNYGz5E0I7yTIjSzpRDwotYnSG0kY8x4Towpq/XWBgyKkEXk
+x-ms-exchange-antispam-messagedata: vZa5a5xRLGyr/OyAfjzHp/9n5hLn4nQjLHDmiO//Xo213Y7KNxpbz27FN2+to+XO+tI8DQLlmrAclgkucophYN8qq+DtJVsFr9mzPEPokS4xal2GBqdcEWZIcq3gWrqqzJGvR6sDeoW5DjMIekr6GQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-AuthSource: DB8EUR05FT010.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 406a1b38-bea4-40cc-bb81-08d8a314ca75
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2020 05:21:36.3322
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR05HT236
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi
+I have an ir harmony remote which I have configured to use as a mouse with a Intel nuc D54250WYK, I have tested un Windows 10 and it works as expected but in linux the mouse buttons don't work.
+I'm using the keymap /lib/udev/rc_keymaps/mce_keyboard.toml, this happens when I press the left button:
 
-Results of the daily build of media_tree:
+688888.335099: lirc protocol(mcir2-mse): scancode = 0x3c
+688888.335117: event type EV_MSC(0x04): scancode = 0x3c
+688888.335117: event type EV_SYN(0x00).
+688888.475123: lirc protocol(mcir2-mse): scancode = 0x3c
+688888.475142: event type EV_MSC(0x04): scancode = 0x3c
+688888.475142: event type EV_SYN(0x00).
 
-date:			Fri Dec 18 05:00:11 CET 2020
-media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
-media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
-v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7047-g72fa1e990
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+So I added this to the file and reloaded:
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.69-i686: ERRORS
-linux-5.4.69-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: ERRORS
-linux-5.8.13-x86_64: ERRORS
-linux-5.9.1-i686: ERRORS
-linux-5.9.1-x86_64: ERRORS
-linux-5.10.1-i686: ERRORS
-linux-5.10.1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: ERRORS
 
-Detailed results are available here:
+[[protocols]]
+protocol = "mce_kbd"
+[protocols.scancodes]
+0x3c = "BTN_LEFT"
+0x5a = "BTN_RIGHT"
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+The output now is:
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+689080.444492: lirc protocol(mcir2-mse): scancode = 0x3c
+689080.444510: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
+689080.444510: event type EV_MSC(0x04): scancode = 0x3c
+689080.444510: event type EV_SYN(0x00).
+689080.542540: lirc protocol(mcir2-mse): scancode = 0x3c
+689080.542564: event type EV_MSC(0x04): scancode = 0x3c
+689080.542564: event type EV_SYN(0x00).
+689080.682743: lirc protocol(mcir2-mse): scancode = 0x3c
+689080.682760: event type EV_MSC(0x04): scancode = 0x3c
+689080.682760: event type EV_SYN(0x00).
+689080.945699: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
+689080.945699: event type EV_SYN(0x00).
+689081.073768: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
+689081.073768: event type EV_SYN(0x00).
+689081.201773: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
+689081.201773: event type EV_SYN(0x00).
+689081.329767: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
+689081.329767: event type EV_SYN(0x00).
+689081.457773: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
+689081.457773: event type EV_SYN(0x00).
 
-Full logs are available here:
+The last two lines keep repeating and the left click don't happens
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+Please help me with this
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Thanks for your attention
