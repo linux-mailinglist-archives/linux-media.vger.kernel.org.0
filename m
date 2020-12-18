@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFED02DE1E6
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 12:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DAB12DE1E9
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 12:22:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732604AbgLRLVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 06:21:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59292 "EHLO
+        id S1733204AbgLRLW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 06:22:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725897AbgLRLVn (ORCPT
+        with ESMTP id S1725875AbgLRLW0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 06:21:43 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55643C0617A7
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 03:21:03 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id 3so2163921wmg.4
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 03:21:03 -0800 (PST)
+        Fri, 18 Dec 2020 06:22:26 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CBFC0617A7
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 03:21:46 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id r7so1746148wrc.5
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 03:21:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Z9VPuMSJSoUHqzMeVGbAE30IrKxI8APrsEWW8ZWta/c=;
-        b=Jwh2WpiuqTtq8IfgRyqIkz6FNAHeEn05Ct65f/ZAFEXaiuq2+Zdo8nJKvU8sQ+RFgy
-         eWyRZ/dANLyHxjixnapLeiLAXU1HtgK956k8JebGtyN2i4I3itFeBe3BFCp2M8plyLve
-         3zku/R4re76JwoUX/OAUO6lrK4kaetW9UQlvSTLigUNfS7KuaJ5RCJZQzpeOo8SBYHPl
-         YPfw2rlG6BnY530aQwyzK9S67fh6nG1+VdTFldGxQsN62Nik22sSQA/I4lKRjZJwuIFx
-         02g/bIgrVjWKqOZjFhy6aS4iUviUj+1gh5v3E1Z0kXbFfrMeC6bG6yHan6MlY8vRAqUc
-         GTgg==
+        bh=0NUjTMUcVO0qCGXSkD6m+wQ/vz/jVZRScuhTw7dmgyQ=;
+        b=WDbuL0avnM8ZM5Ifop4nzsFT0UVBrCayTg2OQ/wcpBNbBsg2t1J4wfT+Xt1526aGMd
+         lgR/Y2+eHn7iv2bKf37gYC0pfYeJPdICkURqEx1GeTmhvwvzpw9NyB4oLYf+0yWp7vyt
+         awyyW4QxHEW7Cj3xRoH6zNAR8yP0XvIYU0fkgiRPQiXr7mlPh5ka9AbBFqodzi4s6wac
+         nKx6MJlFJqETKBgl4BjEfl/ms6kpyG6J7D+P6qTZrORgKL3Bz14Rf2HGSjX4jAMUO5/t
+         XZ5OTEz5Os+3OKO8pV/btHE0n9NBwMYefYyi6yombnfCrRHH69odnu3DXFz+s/TyBMd5
+         OTPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z9VPuMSJSoUHqzMeVGbAE30IrKxI8APrsEWW8ZWta/c=;
-        b=XWLAZ71Sj1uZQwJY4/k62JdDnVVcuVp4w9DNjedsPfoCV8VvHCmtCswjEek/qi0b2o
-         7GB6dx/UBbqpfd4+YEuhmaOwhc98OX4XVAP4F7RAkyVIXtPeEstC72ukLERrhYSK6J3y
-         GoyZ+DJbGHCyO+ZQvCdhREBIW/YaDWY/yqYSJk3ULqnLGEVA4NtQ8cYqpK7jz3nWd4xw
-         JQo1FqhJr55yt2nUZIT/Qs6HIqIa34K/z6UMx0T2JGOjt2BdXVs9Eu8Sc9IqIo5eTjy9
-         dSUPFHCHWEfRIeRhcZ8m/BBlPa79BYat1kZNuInDfvaSz3NoX6Cmzqk94x64dNkcVn//
-         Xysw==
-X-Gm-Message-State: AOAM531npX9ymLy986SkJMQw5DMml3J+sx9AWXNEa60Rjc6+mI2gXkIz
-        wIaN+MRpOn4u/9lygu44sTgsfXyKWPZF49YrrfLYIg==
-X-Google-Smtp-Source: ABdhPJyWiVYnVdrf2lovSlQt3Ng19j8UcjWhnRFH32AdooP4ukqD0DcGQGxUswg/ja6zIoPYyJVqTr0YkWIUx1S9T+s=
-X-Received: by 2002:a1c:27c3:: with SMTP id n186mr3780670wmn.96.1608290462078;
- Fri, 18 Dec 2020 03:21:02 -0800 (PST)
+        bh=0NUjTMUcVO0qCGXSkD6m+wQ/vz/jVZRScuhTw7dmgyQ=;
+        b=EX1xZSNnmx3euyNZHn9GSQn0hMowIUFuOTbTT3+2Fh7LKgPoYm6p4gfmty5DL9yqXO
+         WV1A9baLXelKAGedRQY83wtqVzp9WUo5ynmp/HcN+dm1HQXCc7GpjbjPaya2M14diqWf
+         fz74hmC1PF0nQQ6gSKA4QeOXkseKGCqmWEhLXE+sKp3uPIWWFHaELcOemof1KN72W/ci
+         1w27pCsE0o2UDeC/C3Yi4zTQtGm9Hti9AIhZJeWy6td6WQPCeSLaiORNk/6ERtMQTBJD
+         G+btc3dtbk7o+B7uK55dHIAMLVnPW6VBYWT2kYzttSpPn+TcwIIbPOTYDmw1fne9Dj+/
+         3L7g==
+X-Gm-Message-State: AOAM533/rBFswjAQOsIQHEF3BIpmAzy969KYu6GinDkZHmwx7c7xm7J2
+        rhdZK6IM6Axedvo1ptyaAGgml8i5CMCmibDBCvjUEg==
+X-Google-Smtp-Source: ABdhPJybkChIZsOPvxtUy5vzSoQk4jpCJqUZ7nImjtynHuGJ03k9ybgEfmROhIcueQfPsaFyVblhAdNV8cHWX2SdHy8=
+X-Received: by 2002:a5d:65ca:: with SMTP id e10mr3952897wrw.42.1608290505273;
+ Fri, 18 Dec 2020 03:21:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20201210134648.272857-1-maxime@cerno.tech> <20201210134648.272857-3-maxime@cerno.tech>
-In-Reply-To: <20201210134648.272857-3-maxime@cerno.tech>
+References: <20201210134648.272857-1-maxime@cerno.tech> <20201210134648.272857-5-maxime@cerno.tech>
+In-Reply-To: <20201210134648.272857-5-maxime@cerno.tech>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 18 Dec 2020 11:20:45 +0000
-Message-ID: <CAPY8ntCuVWkZ6twBRPqDX_Vj5bP39pxLuHaEZ-FPveVt7VH=Yg@mail.gmail.com>
-Subject: Re: [PATCH 02/15] drm/vc4: hdmi: Move hdmi reset to bind
+Date:   Fri, 18 Dec 2020 11:21:28 +0000
+Message-ID: <CAPY8ntC+SFwJNKQB==xSee_zc5UUKJSczsmy7U6gATsN8Xrvmw@mail.gmail.com>
+Subject: Re: [PATCH 04/15] drm/vc4: hdmi: Fix up CEC registers
 To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     Eric Anholt <eric@anholt.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -80,54 +80,44 @@ On Thu, 10 Dec 2020 at 13:46, Maxime Ripard <maxime@cerno.tech> wrote:
 >
 > From: Dom Cobley <popcornmix@gmail.com>
 >
-> The hdmi reset got moved to a later point in the commit 9045e91a476b
-> ("drm/vc4: hdmi: Add reset callback").
+> The commit 311e305fdb4e ("drm/vc4: hdmi: Implement a register layout
+> abstraction") forgot one CEC register, and made a copy and paste mistake
+> for another one. Fix those mistakes.
 >
-> However, the reset now occurs after vc4_hdmi_cec_init and so tramples
-> the setup of registers like HDMI_CEC_CNTRL_1
->
-> This only affects pi0-3 as on pi4 the cec registers are in a separate
-> block
-
-It does mean that this reset only happens once on bind rather than on
-every pre_crtc_configure, but as this really is the big reset the
-entire block I don't see it needing to be triggered on every
-configure.
-
-> Fixes: 9045e91a476b ("drm/vc4: hdmi: Add reset callback")
+> Fixes: 311e305fdb4e ("drm/vc4: hdmi: Implement a register layout abstraction")
 > Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 8006bddc8fbb..3df1747dd917 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -773,9 +773,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
->                 return;
->         }
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+> index 013fd57febd8..20a1438a72cb 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+> @@ -29,6 +29,7 @@ enum vc4_hdmi_field {
+>         HDMI_CEC_CPU_MASK_SET,
+>         HDMI_CEC_CPU_MASK_STATUS,
+>         HDMI_CEC_CPU_STATUS,
+> +       HDMI_CEC_CPU_SET,
 >
-> -       if (vc4_hdmi->variant->reset)
-> -               vc4_hdmi->variant->reset(vc4_hdmi);
-> -
->         if (vc4_hdmi->variant->phy_init)
->                 vc4_hdmi->variant->phy_init(vc4_hdmi, vc4_conn_state);
->
-> @@ -1865,6 +1862,9 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->         vc4_hdmi->disable_wifi_frequencies =
->                 of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
->
-> +       if (vc4_hdmi->variant->reset)
-> +               vc4_hdmi->variant->reset(vc4_hdmi);
-> +
->         pm_runtime_enable(dev);
->
->         drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+>         /*
+>          * Transmit data, first byte is low byte of the 32-bit reg.
+> @@ -199,9 +200,10 @@ static const struct vc4_hdmi_register vc4_hdmi_fields[] = {
+>         VC4_HDMI_REG(HDMI_TX_PHY_RESET_CTL, 0x02c0),
+>         VC4_HDMI_REG(HDMI_TX_PHY_CTL_0, 0x02c4),
+>         VC4_HDMI_REG(HDMI_CEC_CPU_STATUS, 0x0340),
+> +       VC4_HDMI_REG(HDMI_CEC_CPU_SET, 0x0344),
+>         VC4_HDMI_REG(HDMI_CEC_CPU_CLEAR, 0x0348),
+>         VC4_HDMI_REG(HDMI_CEC_CPU_MASK_STATUS, 0x034c),
+> -       VC4_HDMI_REG(HDMI_CEC_CPU_MASK_SET, 0x034c),
+> +       VC4_HDMI_REG(HDMI_CEC_CPU_MASK_SET, 0x0350),
+>         VC4_HDMI_REG(HDMI_CEC_CPU_MASK_CLEAR, 0x0354),
+>         VC4_HDMI_REG(HDMI_RAM_PACKET_START, 0x0400),
+>  };
 > --
 > 2.28.0
 >
