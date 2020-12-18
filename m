@@ -2,138 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F3E42DE17F
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 11:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFED02DE1E6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 12:22:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389221AbgLRKt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 05:49:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54360 "EHLO
+        id S1732604AbgLRLVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 06:21:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389219AbgLRKt0 (ORCPT
+        with ESMTP id S1725897AbgLRLVn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 05:49:26 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48603C0617A7
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 02:48:46 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id t16so1646248wra.3
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 02:48:46 -0800 (PST)
+        Fri, 18 Dec 2020 06:21:43 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55643C0617A7
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 03:21:03 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id 3so2163921wmg.4
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 03:21:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fLzY/djypMs81T+aO2pNTod0N4stmZ6pMUg865xqIcc=;
-        b=QISrBGDGFjCaWRQGhGA/GugdDLg+ehTDRBxqjxDRfp6+PRSkSkIIsl/aqU4mLa3D9V
-         1lhDchOMA5XYtDnwV2u9uTHEqTWspfzU1EQ82GjaAChd4hNnHi18144RGGTUGesp4Psf
-         ervrjKImhl07N4OZ3AFBu40EgX2q3R00hjw1y9cWWg07qgqEt61Dwx6UsiFSHcSwWgVc
-         ST4ndcClAToTdY2ClU7Szp0a3g0+kfAlnqOCWLvjMqvT7Fr4BICv4gnZ5pTm39L9ZD16
-         UbjRemFDIB7SgiMlE9szbx5eAH3wqyEc2v73UegEM9nWVycg15DN1igYaZNtBHKi5gOC
-         e6vQ==
+        bh=Z9VPuMSJSoUHqzMeVGbAE30IrKxI8APrsEWW8ZWta/c=;
+        b=Jwh2WpiuqTtq8IfgRyqIkz6FNAHeEn05Ct65f/ZAFEXaiuq2+Zdo8nJKvU8sQ+RFgy
+         eWyRZ/dANLyHxjixnapLeiLAXU1HtgK956k8JebGtyN2i4I3itFeBe3BFCp2M8plyLve
+         3zku/R4re76JwoUX/OAUO6lrK4kaetW9UQlvSTLigUNfS7KuaJ5RCJZQzpeOo8SBYHPl
+         YPfw2rlG6BnY530aQwyzK9S67fh6nG1+VdTFldGxQsN62Nik22sSQA/I4lKRjZJwuIFx
+         02g/bIgrVjWKqOZjFhy6aS4iUviUj+1gh5v3E1Z0kXbFfrMeC6bG6yHan6MlY8vRAqUc
+         GTgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fLzY/djypMs81T+aO2pNTod0N4stmZ6pMUg865xqIcc=;
-        b=Wv2gVLApTMq7CoV+q9dVPKGwWZKDtLn78fU0daHBVKfvQ2oiQIxROepH5RVtvGocc+
-         I0JK+Fb3/0Bo/sHIEz8OcjEkd7DOGnw0eCrrmPec0dIucv65ns1aBGnb94MtG4QtBHrL
-         jkNmoU+d9c9yOoTKl2FM5GB8sOq/LbtkIjyEMQTdfXXIIaKrhqMVi4DJO5K6eqJf8no8
-         37yMKprASDl/qMIVhVYF71eiyFnGs9/0tgsC92CTGONrURuj0p5e7NNEtxmZ3i7yYfBr
-         RwPf7VytfVPJha032o7shTXholutj2fDph2Q6T04sXEv5b5qzMhX4j6BbAm1ZHFevT65
-         zOnQ==
-X-Gm-Message-State: AOAM531wowkRe8dmDzgJDCzDufAAvqTjWMqSDzXyYG4Ra13BVeCcWQUk
-        4sObRofiS+WjUCSmcp1xO9+3KIdrwgDKBa0aYSEA7A==
-X-Google-Smtp-Source: ABdhPJw44cawfORTxLkciS4IgdazVtUtDppSQQMxvbWbSTGYtlJ7nqwnlTGvwVMaZCumr1XM4pzvsXEYRyLQwkEHCYc=
-X-Received: by 2002:a5d:65ca:: with SMTP id e10mr3783824wrw.42.1608288525010;
- Fri, 18 Dec 2020 02:48:45 -0800 (PST)
+        bh=Z9VPuMSJSoUHqzMeVGbAE30IrKxI8APrsEWW8ZWta/c=;
+        b=XWLAZ71Sj1uZQwJY4/k62JdDnVVcuVp4w9DNjedsPfoCV8VvHCmtCswjEek/qi0b2o
+         7GB6dx/UBbqpfd4+YEuhmaOwhc98OX4XVAP4F7RAkyVIXtPeEstC72ukLERrhYSK6J3y
+         GoyZ+DJbGHCyO+ZQvCdhREBIW/YaDWY/yqYSJk3ULqnLGEVA4NtQ8cYqpK7jz3nWd4xw
+         JQo1FqhJr55yt2nUZIT/Qs6HIqIa34K/z6UMx0T2JGOjt2BdXVs9Eu8Sc9IqIo5eTjy9
+         dSUPFHCHWEfRIeRhcZ8m/BBlPa79BYat1kZNuInDfvaSz3NoX6Cmzqk94x64dNkcVn//
+         Xysw==
+X-Gm-Message-State: AOAM531npX9ymLy986SkJMQw5DMml3J+sx9AWXNEa60Rjc6+mI2gXkIz
+        wIaN+MRpOn4u/9lygu44sTgsfXyKWPZF49YrrfLYIg==
+X-Google-Smtp-Source: ABdhPJyWiVYnVdrf2lovSlQt3Ng19j8UcjWhnRFH32AdooP4ukqD0DcGQGxUswg/ja6zIoPYyJVqTr0YkWIUx1S9T+s=
+X-Received: by 2002:a1c:27c3:: with SMTP id n186mr3780670wmn.96.1608290462078;
+ Fri, 18 Dec 2020 03:21:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20201206172720.9406-1-michael.srba@seznam.cz>
-In-Reply-To: <20201206172720.9406-1-michael.srba@seznam.cz>
+References: <20201210134648.272857-1-maxime@cerno.tech> <20201210134648.272857-3-maxime@cerno.tech>
+In-Reply-To: <20201210134648.272857-3-maxime@cerno.tech>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 18 Dec 2020 10:48:28 +0000
-Message-ID: <CAPY8ntB0g21HMkYoXzk6zRMHN6wzK7GrY-nHuiwrLtPzCcdMiQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying clock-frequencies
-To:     michael.srba@seznam.cz
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Date:   Fri, 18 Dec 2020 11:20:45 +0000
+Message-ID: <CAPY8ntCuVWkZ6twBRPqDX_Vj5bP39pxLuHaEZ-FPveVt7VH=Yg@mail.gmail.com>
+Subject: Re: [PATCH 02/15] drm/vc4: hdmi: Move hdmi reset to bind
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Eric Anholt <eric@anholt.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Jason Cooper <jason@lakedaemon.net>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-rpi-kernel@lists.infradead.org,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Dom Cobley <popcornmix@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael
+Hi Maxime & Dom
 
-On Sun, 6 Dec 2020 at 17:29, <michael.srba@seznam.cz> wrote:
+On Thu, 10 Dec 2020 at 13:46, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> From: Michael Srba <Michael.Srba@seznam.cz>
+> From: Dom Cobley <popcornmix@gmail.com>
 >
-> This patch adds 1% tolerance on input clock, similar to other camera sensor
-> drivers. It also allows for specifying the actual clock in the device tree,
-> instead of relying on it being already set to the right frequency (which is
-> often not the case).
+> The hdmi reset got moved to a later point in the commit 9045e91a476b
+> ("drm/vc4: hdmi: Add reset callback").
 >
-> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+> However, the reset now occurs after vc4_hdmi_cec_init and so tramples
+> the setup of registers like HDMI_CEC_CNTRL_1
+>
+> This only affects pi0-3 as on pi4 the cec registers are in a separate
+> block
 
-As the listed maintainer of this driver I'll say that I don't have any
-objections to the aim of this patch.
-Those who know the clock infrastructure far better than me are
-recommending alternative methods of implementing this, so I'll leave
-it up to them to give a Reviewed-by. When that's happened I'll add an
-ack.
+It does mean that this reset only happens once on bind rather than on
+every pre_crtc_configure, but as this really is the big reset the
+entire block I don't see it needing to be triggered on every
+configure.
 
-  Dave
+> Fixes: 9045e91a476b ("drm/vc4: hdmi: Add reset callback")
+> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
->
-> ---
->  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index f64c0ef7a897..b6500e2ab19e 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
->                 return PTR_ERR(imx219->xclk);
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 8006bddc8fbb..3df1747dd917 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -773,9 +773,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+>                 return;
 >         }
 >
-> -       imx219->xclk_freq = clk_get_rate(imx219->xclk);
-> -       if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
-> +       ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
-> +       if (ret) {
-> +               dev_warn(dev, "could not get xclk frequency\n");
-> +
-> +               /* default to 24MHz */
-> +               imx219->xclk_freq = 24000000;
-> +       }
-> +
-> +       /* this driver currently expects 24MHz; allow 1% tolerance */
-> +       if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
->                 dev_err(dev, "xclk frequency not supported: %d Hz\n",
->                         imx219->xclk_freq);
->                 return -EINVAL;
->         }
+> -       if (vc4_hdmi->variant->reset)
+> -               vc4_hdmi->variant->reset(vc4_hdmi);
+> -
+>         if (vc4_hdmi->variant->phy_init)
+>                 vc4_hdmi->variant->phy_init(vc4_hdmi, vc4_conn_state);
 >
-> +       ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
-> +       if (ret) {
-> +               dev_err(dev, "could not set xclk frequency\n");
-> +               return ret;
-> +       }
+> @@ -1865,6 +1862,9 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+>         vc4_hdmi->disable_wifi_frequencies =
+>                 of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
+>
+> +       if (vc4_hdmi->variant->reset)
+> +               vc4_hdmi->variant->reset(vc4_hdmi);
 > +
-> +
->         ret = imx219_get_regulators(imx219);
->         if (ret) {
->                 dev_err(dev, "failed to get regulators\n");
+>         pm_runtime_enable(dev);
+>
+>         drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
 > --
-> 2.29.2
+> 2.28.0
 >
