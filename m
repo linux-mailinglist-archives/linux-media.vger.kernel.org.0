@@ -2,81 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 902B82DEA5B
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 21:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8E172DEADC
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 22:17:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728271AbgLRUnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 15:43:50 -0500
-Received: from mga02.intel.com ([134.134.136.20]:47247 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726175AbgLRUnu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 15:43:50 -0500
-IronPort-SDR: 4yoi1/gAbaJHGqT98AV8MaafVFW3+lve17xIs0J7DNhST8TQlvLT0xxo43P6D/C0z+gAGkvnDh
- g8vwIBd4KcEw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="162552756"
-X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; 
-   d="scan'208";a="162552756"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2020 12:42:04 -0800
-IronPort-SDR: FGMcq3QwsCmxzmDQpIJ5sd/3kNP9SatPg7WSJ33jbWB4qo7dN9OfynKOquzgHyb8G6C2gzA/2X
- IzhuunNVfphA==
-X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; 
-   d="scan'208";a="489926367"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2020 12:41:56 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kqMaX-00FgPF-7Z; Fri, 18 Dec 2020 22:42:57 +0200
-Date:   Fri, 18 Dec 2020 22:42:57 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
-        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
-        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
-        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
-        kitakar@gmail.com, jorhand@linux.microsoft.com
-Subject: Re: [PATCH v2 11/12] acpi: Add acpi_dev_get_next_match_dev() and
- helper macro
-Message-ID: <20201218204257.GD4077@smile.fi.intel.com>
-References: <20201217234337.1983732-1-djrscally@gmail.com>
- <20201217234337.1983732-12-djrscally@gmail.com>
+        id S1725966AbgLRVRX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 16:17:23 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:39270 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725843AbgLRVRX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Dec 2020 16:17:23 -0500
+Received: by mail-ot1-f46.google.com with SMTP id d8so3263180otq.6;
+        Fri, 18 Dec 2020 13:17:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=89ccsB8fwcyvR7nVAanEz4cE3mkZk/u5xESGL8Aypg0=;
+        b=uhjPv7LS6QmRcMStJrwm79kGvRs3/AhzCjqI2FdIjIrJK1tv2sXDstBMPf3RHCeyWA
+         BKLZlJ23CbMixR9Dc3nzacajqNk/CJ7U9u1h6isP238t2jPfe7Q3zt38TtHLrNa4gdLn
+         WlMUqmekC5JBaUE1x973BGcumaWsO9nnPbZpf3136fYvxQVgfwXtZr/HTjDNucxlW6j8
+         xfNkIEJW6zbkR6HdcOh39huUKnJ5d4JGdhdueMrW9qKcBZKcp9mMbrXADLFWZ7HYgJPe
+         wTIZ3a3g5tC8SuQLQ4PhBkWkC3GzU/3DfsIQQxv1YM+4FlM2qVaB9Dx7EsqWOlJzf0So
+         BLdg==
+X-Gm-Message-State: AOAM531Y23OjXMSEf+b1y7VzZn+p0uhUZoTeGhKx7Bph78GZrjAoDUgn
+        /psNmxYpY3xZmm8CKEhRKg==
+X-Google-Smtp-Source: ABdhPJzY04T8aQwTYaKHVfnIc2gJ2xozigpSv7uj4DUWwOdV4MUVP7lFXhPV2ZveO5oUCilPaNGwFw==
+X-Received: by 2002:a9d:347:: with SMTP id 65mr4404416otv.312.1608326202271;
+        Fri, 18 Dec 2020 13:16:42 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id w5sm1710731oow.7.2020.12.18.13.16.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Dec 2020 13:16:41 -0800 (PST)
+Received: (nullmailer pid 2189895 invoked by uid 1000);
+        Fri, 18 Dec 2020 21:16:40 -0000
+Date:   Fri, 18 Dec 2020 15:16:40 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2] media: dt-bindings: coda: Add missing
+ 'additionalProperties'
+Message-ID: <20201218211640.GA2188581@robh.at.kernel.org>
+References: <20201117200752.4004368-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201217234337.1983732-12-djrscally@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20201117200752.4004368-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 11:43:36PM +0000, Daniel Scally wrote:
-> To ensure we handle situations in which multiple sensors of the same
-> model (and therefore _HID) are present in a system, we need to be able
-> to iterate over devices matching a known _HID but unknown _UID and _HRV
->  - add acpi_dev_get_next_match_dev() to accommodate that possibility and
-> change acpi_dev_get_first_match_dev() to simply call the new function
-> with a NULL starting point. Add an iterator macro for convenience.
+On Tue, 17 Nov 2020 14:07:52 -0600, Rob Herring wrote:
+> 'additionalProperties' is now required by the meta-schema. Add it for
+> coda. As a result, 'interrupts', 'interrupt-names' and 'power-domains'
+> need to be reworked to be defined at the top level.
+> 
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/media/coda.yaml       | 42 +++++++++----------
+>  1 file changed, 21 insertions(+), 21 deletions(-)
+> 
 
-...
-
-> - * acpi_dev_get_first_match_dev - Return the first match of ACPI device
-> + * acpi_dev_get_next_match_dev - Return the next match of ACPI device
-> + * @adev: Pointer to the previous acpi_device matching this hid, uid and hrv
-
-A nit: @hid, @uid and @hrv
-
->   * @hid: Hardware ID of the device.
->   * @uid: Unique ID of the device, pass NULL to not check _UID
->   * @hrv: Hardware Revision of the device, pass -1 to not check _HRV
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+As this wasn't picked up for rc1, I've applied it.
