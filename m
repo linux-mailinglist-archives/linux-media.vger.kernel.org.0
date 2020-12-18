@@ -2,84 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C7122DEAEE
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 22:20:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 269EE2DEAF2
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 22:20:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727554AbgLRVSF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 16:18:05 -0500
-Received: from mail-oi1-f178.google.com ([209.85.167.178]:40602 "EHLO
-        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727117AbgLRVSE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 16:18:04 -0500
-Received: by mail-oi1-f178.google.com with SMTP id p126so4317219oif.7;
-        Fri, 18 Dec 2020 13:17:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=l8NpM/ZXx3KvTES0GcT3wzVOs1+8KOFnRlCaHv0vQqg=;
-        b=Ff6IEDnLqo2swbfUZXbZPyqSziAh/VBSxNAZEuTqfIqqp1nKYlPk9EVQQY+TEVQpSK
-         fU0CjNk2prgP33Kjcg4joI7vn3BItwEXE9874KSkVTni8GAtVHaNsY4AvK9Sjcw+9gFE
-         PaRHdGVdh/3hmAng9YrBbKzqDJbl3peUkSpQDH/rGIZja9gFkJj/eEklk/nd1+comRq/
-         Zn0qKw3uqjK1IXKanXiENs2OoZdB0cUGZ2VakN5p1oyj/A2p5TGOhjbMh30a4BlBSyv+
-         SCKbHXTTv9gT1OOpUGh1mRb0E1pnBtTJbwlAdb+m1A1sq+TsuJmZ8K5VDk7i8AJdRYqI
-         wc8g==
-X-Gm-Message-State: AOAM531gEKl9D2NyRNKwsC8VMUYaJupU48Y8dg9OmfXfNgydd7m6C4Jy
-        tsnoeCSE6DHb9cS/p4dXZg==
-X-Google-Smtp-Source: ABdhPJzL2Cdk+fsnQO8ZXvFKbLhNOKv4lZI3fZ66X1EcYf/ouISSzRrfIxqRxLPlSTmS8yZ3GB1RBA==
-X-Received: by 2002:aca:3c57:: with SMTP id j84mr4146262oia.41.1608326243527;
-        Fri, 18 Dec 2020 13:17:23 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id p132sm917646oia.41.2020.12.18.13.17.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 13:17:22 -0800 (PST)
-Received: (nullmailer pid 2190902 invoked by uid 1000);
-        Fri, 18 Dec 2020 21:17:21 -0000
-Date:   Fri, 18 Dec 2020 15:17:21 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Karol Gugala <kgugala@antmicro.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Pawel Czarnecki <pczarnecki@internships.antmicro.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mateusz Holenko <mholenko@antmicro.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Stafford Horne <shorne@gmail.com>
-Subject: Re: [PATCH 4/5] dt-bindings: devapc: add the required property
- 'additionalProperties'
-Message-ID: <20201218211721.GA2190633@robh.at.kernel.org>
-References: <20201204093813.1275-1-thunder.leizhen@huawei.com>
- <20201204093813.1275-5-thunder.leizhen@huawei.com>
+        id S1727806AbgLRVSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 16:18:24 -0500
+Received: from mga07.intel.com ([134.134.136.100]:7349 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725938AbgLRVSX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Dec 2020 16:18:23 -0500
+IronPort-SDR: 0JlXCvVjgfsoWdCkWc+crPUKsgFfAZXkhNOfuhArg3ndisLVIDt538iaivQjCGtXtEEUUczPsJ
+ ypcieFNS4ztg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="239594709"
+X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; 
+   d="scan'208";a="239594709"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2020 13:16:37 -0800
+IronPort-SDR: lwuxQtHx/+Vpq5uEJsaOw+jbynHL+Ge8PzNhREvzAbT2cFe/2Q1U6R+67rUR1fg94uizmYxZKw
+ G6y9vmnJBgmw==
+X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; 
+   d="scan'208";a="454289544"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2020 13:16:31 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kqN80-00FgnK-M6; Fri, 18 Dec 2020 23:17:32 +0200
+Date:   Fri, 18 Dec 2020 23:17:32 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
+        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
+        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
+        kitakar@gmail.com, jorhand@linux.microsoft.com
+Subject: Re: [PATCH v2 12/12] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+Message-ID: <20201218211732.GE4077@smile.fi.intel.com>
+References: <20201217234337.1983732-1-djrscally@gmail.com>
+ <20201217234337.1983732-13-djrscally@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201204093813.1275-5-thunder.leizhen@huawei.com>
+In-Reply-To: <20201217234337.1983732-13-djrscally@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 04 Dec 2020 17:38:12 +0800, Zhen Lei wrote:
-> When I do dt_binding_check for any YAML file, below wanring is always
-> reported:
-> 
-> xxx/soc/mediatek/devapc.yaml: 'additionalProperties' is a required property
-> xxx/soc/mediatek/devapc.yaml: ignoring, error in schema:
-> warning: no schema found in file: xxx/soc/mediatek/devapc.yaml
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  Documentation/devicetree/bindings/soc/mediatek/devapc.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+On Thu, Dec 17, 2020 at 11:43:37PM +0000, Daniel Scally wrote:
+> Currently on platforms designed for Windows, connections between CIO2 and
+> sensors are not properly defined in DSDT. This patch extends the ipu3-cio2
+> driver to compensate by building software_node connections, parsing the
+> connection properties from the sensor's SSDB buffer.
 
-Applied, thanks!
+...
+
+> +	sensor->ep_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.bus_type, 4);
+
+Does 4 has any meaning that can be described by #define ?
+
+...
+
+> +static void cio2_bridge_init_swnode_names(struct cio2_sensor *sensor)
+> +{
+> +	snprintf(sensor->node_names.remote_port, 7, "port@%u", sensor->ssdb.link);
+
+Hmm... I think you should use actual size of remote_port instead of 7.
+
+> +	strscpy(sensor->node_names.port, "port@0", sizeof(sensor->node_names.port));
+
+Yeah, I would rather like to see one point of the definition of the format.
+If it's the same as per OF case, perhaps some generic header (like fwnode.h?) is good for this?
+In this case the 5 in one of the previous patches Also can be derived from the format.
+
+> +	strscpy(sensor->node_names.endpoint, "endpoint@0", sizeof(sensor->node_names.endpoint));
+
+Similar here.
+
+> +}
+
+...
+
+> +	for (i = 0; i < ARRAY_SIZE(cio2_supported_sensors); i++) {
+> +		const struct cio2_sensor_config *cfg = &cio2_supported_sensors[i];
+> +
+> +		for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+
+> +			if (bridge->n_sensors >= CIO2_NUM_PORTS) {
+> +				dev_warn(&cio2->dev, "Exceeded available CIO2 ports\n");
+
+> +				/* overflow i so outer loop ceases */
+> +				i = ARRAY_SIZE(cio2_supported_sensors);
+> +				break;
+
+Why not to create a new label below and assign ret here with probably comment
+why it's not an error?
+
+> +			}
+
+...
+
+> +			ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
+> +							   &sensor->ssdb,
+> +							   sizeof(sensor->ssdb));
+> +			if (ret < 0)
+
+if (ret) (because positive case can be returned just by next conditional).
+
+> +				goto err_put_adev;
+> +
+> +			if (sensor->ssdb.lanes > 4) {
+> +				dev_err(&adev->dev,
+> +					"Number of lanes in SSDB is invalid\n");
+> +				goto err_put_adev;
+> +			}
+
+...
+
+> +			dev_info(&cio2->dev, "Found supported sensor %s\n",
+> +				 acpi_dev_name(adev));
+> +
+> +			bridge->n_sensors++;
+> +		}
+> +	}
+
+	return 0;
+
+> +err_free_swnodes:
+> +	software_node_unregister_nodes(sensor->swnodes);
+> +err_put_adev:
+> +	acpi_dev_put(sensor->adev);
+
+err_out:
+
+> +	return ret;
+> +}
+
+...
+
+> +enum cio2_sensor_swnodes {
+> +	SWNODE_SENSOR_HID,
+> +	SWNODE_SENSOR_PORT,
+> +	SWNODE_SENSOR_ENDPOINT,
+> +	SWNODE_CIO2_PORT,
+> +	SWNODE_CIO2_ENDPOINT,
+
+> +	NR_OF_SENSOR_SWNODES
+
+Perhaps same namespace, i.e.
+
+	SWNODE_SENSOR_NR
+
+> +};
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
