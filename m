@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EADEF2DE402
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 15:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4C302DE40D
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 15:31:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbgLRO14 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 09:27:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59744 "EHLO
+        id S1727887AbgLROaN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 09:30:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726552AbgLRO14 (ORCPT
+        with ESMTP id S1726616AbgLROaN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 09:27:56 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF3FC0617B0
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:27:15 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id v14so2516456wml.1
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:27:15 -0800 (PST)
+        Fri, 18 Dec 2020 09:30:13 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D66F9C0617B0
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:29:32 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id e25so2790462wme.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3jAc8avduUQUrJ7esBOnKUiJwC4FE/zfHKx0EFzGBz4=;
-        b=F2xfRsnxvhpv+uKXzfqbx5DcPoqGFopHvfaBoi1q+5mqVAQZxdhyICtkh2j5WfhqO3
-         3IQecoe1Tv49RuxNLIKuyOjlDOpvEYpmBoOA22StprO4jAKztsbQ7+sOnnguCFjI1OIU
-         zCp17THqkfo1ugcRGSYGkugWd5wKQnG/laLA1EQ2k4gUck1lacj5iwMyIRm41NvG3VVB
-         GHdKvd2sH1ZWm1jABteiUuw+ekkw9Ndlqlmr1VLlCT5qzh+hOGKm7XF4bwxML3TkHtCU
-         LUYLh1XuxOUFyU627821rC71lWA0Jbhr11uUpPI06v5NPJsfZUx6OLC95ABQc83me+oS
-         AWQg==
+        bh=fQcnaVeKn76lYRwiXKR4yvTyQ/9Lgo43QJdLzaw88No=;
+        b=dPH2ZMGlXf7qxs4VLNk1sqQ6DOFTn3EJphiLC07Hd/sKNpQ9O+b48p1oN5bMMLsNcw
+         hUCxxdBSaWxlRLCiL9I/Tfv7Ip15ldWsKrB+y0tzx17DQZbd5X0qybJL4dS6oezkjXuL
+         1YSWS2M66tLqmHYc3wFa0FqObn3OYwwVpqrlVgWf01NBCJq8VBu1OVSdI4xzZvIqedxg
+         0eUb8r35JQVUXYis0AZPc+9VNUaDtE9dWc6DIn2A/6aZsBXFJBtRfvgj9tL/HyxINwoa
+         hYGargZwS5AyYExBC9Pyy1MRNHD2HRaJI2tnVrHRDiAkjnG+32WYgMNbODrH25LBY6hy
+         w3JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3jAc8avduUQUrJ7esBOnKUiJwC4FE/zfHKx0EFzGBz4=;
-        b=acDABQQSShriTOdys9OFlu5spISI85l/BT0zPuRGvPNtw7ztkral65MH+VblRERPcN
-         xAibFpQ7ckA+jSrSTkXqzizg+Z8OzgtLWb/znPD5JBalrTCLumkMV7m/mv7DZ2i6pNk0
-         iw8J18eJSZAIDHfFriIh9WtvsHrxmiF8fkJC79To5u6QZZi6FNoYjuNDwErcmCMyt5IV
-         5y6AJpZSYu/GmYezZrL+zaiTNitrWK7fSTE+UACwzCG0zog8PyhB/TmuqtZ/sehHhiA1
-         lVTkDBPDpSBIV0SjMlQ69aF+m/y+8jUMRWIBtXHPQWSszVMpwVUb5cu9HH5kenJx2pvs
-         V9kQ==
-X-Gm-Message-State: AOAM532vHyoMWI2ZsAtwQU9H4YGX/JgFyJDM9N7TBJZpMGGwRslThid8
-        rFFux2JEpxtoPmU9RhN221+mWKU4uei/+6EiO0l4sA==
-X-Google-Smtp-Source: ABdhPJx/lsgjkUBwptE2FvxilKrOPsqLIk5qAqyXF5cU65mBAdSv8EykNmw+E0J5n3tiJW833Tb9661bqGbb3yW/kKA=
-X-Received: by 2002:a1c:bc88:: with SMTP id m130mr4637467wmf.82.1608301634416;
- Fri, 18 Dec 2020 06:27:14 -0800 (PST)
+        bh=fQcnaVeKn76lYRwiXKR4yvTyQ/9Lgo43QJdLzaw88No=;
+        b=GQYUGvYkE6mVTVNeSoZumwaMrI2qfswyDcC0em3cDz9WxabJrh3i88SYg840Vb410Q
+         u3PCTrw6KcYN/8Q5BQAfEWj0GKyQT32jhJltfOVWqczSSrjUgnBuQoBmup33yoRdhi3e
+         bB4GqluLxqqEUoIpL0wVNV0Lf5/+/ezbvhuXNn8cd7dgRLDtdcVbsOFzClV4FzwqveFC
+         levMcdsK3XBXF8FA7N6ehxVdI8xEeRaDiBwK72XjnNGByC/IAY0wSHyAP3Q+y4N+9uKF
+         URhd8kohp+vYg893VHagm75exW9NM9cY6NnVMAbQmJfv+jb5NAfKU1f4bfPVv9h4xtDF
+         2m6Q==
+X-Gm-Message-State: AOAM531/ApS3nFSitGb+RixNwMApwEhYRiEN92TsedSftQJR+6qbMyau
+        tbhqiaythegfPbDV4/9utyjiZaYGui0bJu9lnTYj6Q==
+X-Google-Smtp-Source: ABdhPJx1zfDnyXEmVWiw9EZm8yj56h7EPNv2EiQk8r5FgzIdRnBEqEC4Oc6xyUqbtGIHIlNzOeHBGh+HWy5KnmgE0kE=
+X-Received: by 2002:a1c:bc88:: with SMTP id m130mr4645539wmf.82.1608301771650;
+ Fri, 18 Dec 2020 06:29:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20201210134648.272857-1-maxime@cerno.tech> <20201210134648.272857-8-maxime@cerno.tech>
-In-Reply-To: <20201210134648.272857-8-maxime@cerno.tech>
+References: <20201210134648.272857-1-maxime@cerno.tech> <20201210134648.272857-13-maxime@cerno.tech>
+In-Reply-To: <20201210134648.272857-13-maxime@cerno.tech>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 18 Dec 2020 14:26:57 +0000
-Message-ID: <CAPY8ntCVgX7qHUS5Ecyjb2_rn_1amc88pFkPTU2XNVmcmO_ZBQ@mail.gmail.com>
-Subject: Re: [PATCH 07/15] drm/vc4: hdmi: Update the CEC clock divider on HSM
- rate change
+Date:   Fri, 18 Dec 2020 14:29:14 +0000
+Message-ID: <CAPY8ntCkFU47CJmDf_E1RVgprscq=BYj4o2=8ReTOfe8hd0d0Q@mail.gmail.com>
+Subject: Re: [PATCH 12/15] drm/vc4: hdmi: Don't register the CEC adapter if
+ there's no interrupts
 To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     Eric Anholt <eric@anholt.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -74,103 +74,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime
-
 On Thu, 10 Dec 2020 at 13:47, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> As part of the enable sequence we might change the HSM clock rate if the
-> pixel rate is different than the one we were already dealing with.
+> We introduced the BCM2711 support to the vc4 HDMI controller with 5.10,
+> but this was lacking any of the interrupts of the CEC controller so we
+> have to deal with the backward compatibility.
 >
-> On the BCM2835 however, the CEC clock derives from the HSM clock so any
-> rate change will need to be reflected in the CEC clock divider to output
-> 40kHz.
+> Do so by simply ignoring the CEC setup if the DT doesn't have the
+> interrupts property.
 >
-> Fixes: cd4cb49dc5bb ("drm/vc4: hdmi: Adjust HSM clock rate depending on pixel rate")
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-I thought we'd got a duplicate patch here, but it's moving code that
-was changed in patch 6/15 so it can be called from
-vc4_hdmi_encoder_pre_crtc_configure too. Good for confusing me!
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 39 +++++++++++++++++++++++++---------
->  1 file changed, 29 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 0c53d7427d15..b93ee3e26e2b 100644
+> index 327638d93032..69217c68d3a4 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -132,6 +132,27 @@ static void vc5_hdmi_reset(struct vc4_hdmi *vc4_hdmi)
->                    HDMI_READ(HDMI_CLOCK_STOP) | VC4_DVP_HT_CLOCK_STOP_PIXEL);
->  }
->
-> +#ifdef CONFIG_DRM_VC4_HDMI_CEC
-> +static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi)
-> +{
-> +       u16 clk_cnt;
-> +       u32 value;
-> +
-> +       value = HDMI_READ(HDMI_CEC_CNTRL_1);
-> +       value &= ~VC4_HDMI_CEC_DIV_CLK_CNT_MASK;
-> +
-> +       /*
-> +        * Set the clock divider: the hsm_clock rate and this divider
-> +        * setting will give a 40 kHz CEC clock.
-> +        */
-> +       clk_cnt = clk_get_rate(vc4_hdmi->hsm_clock) / CEC_CLOCK_FREQ;
-> +       value |= clk_cnt << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT;
-> +       HDMI_WRITE(HDMI_CEC_CNTRL_1, value);
-> +}
-> +#else
-> +static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
-> +#endif
-> +
->  static enum drm_connector_status
->  vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
->  {
-> @@ -761,6 +782,8 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
->                 return;
->         }
->
-> +       vc4_hdmi_cec_update_clk_div(vc4_hdmi);
-> +
->         /*
->          * FIXME: When the pixel freq is 594MHz (4k60), this needs to be setup
->          * at 300MHz.
-> @@ -1586,7 +1609,6 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+> @@ -1655,9 +1655,15 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
 >  {
 >         struct cec_connector_info conn_info;
 >         struct platform_device *pdev = vc4_hdmi->pdev;
-> -       u16 clk_cnt;
+> +       struct device *dev = &pdev->dev;
 >         u32 value;
 >         int ret;
 >
-> @@ -1605,17 +1627,14 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
->         cec_s_conn_info(vc4_hdmi->cec_adap, &conn_info);
->
->         HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
+> +       if (!of_find_property(dev->of_node, "interrupts", NULL)) {
+> +               dev_warn(dev, "'interrupts' DT property is missing, no CEC\n");
+> +               return 0;
+> +       }
 > +
->         value = HDMI_READ(HDMI_CEC_CNTRL_1);
-> -       value &= ~VC4_HDMI_CEC_DIV_CLK_CNT_MASK;
-> -       /*
-> -        * Set the logical address to Unregistered and set the clock
-> -        * divider: the hsm_clock rate and this divider setting will
-> -        * give a 40 kHz CEC clock.
-> -        */
-> -       clk_cnt = clk_get_rate(vc4_hdmi->hsm_clock) / CEC_CLOCK_FREQ;
-> -       value |= VC4_HDMI_CEC_ADDR_MASK |
-> -                (clk_cnt << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT);
-> +       /* Set the logical address to Unregistered */
-> +       value |= VC4_HDMI_CEC_ADDR_MASK;
->         HDMI_WRITE(HDMI_CEC_CNTRL_1, value);
-> +
-> +       vc4_hdmi_cec_update_clk_div(vc4_hdmi);
-> +
->         ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
->                                         vc4_cec_irq_handler,
->                                         vc4_cec_irq_handler_thread, 0,
+>         vc4_hdmi->cec_adap = cec_allocate_adapter(&vc4_hdmi_cec_adap_ops,
+>                                                   vc4_hdmi, "vc4",
+>                                                   CEC_CAP_DEFAULTS |
 > --
 > 2.28.0
 >
