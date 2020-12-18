@@ -2,272 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A942DE4DF
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 15:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EB0D2DE516
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 15:47:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729146AbgLROhE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 09:37:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32918 "EHLO
+        id S1728019AbgLROqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 09:46:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729143AbgLROhC (ORCPT
+        with ESMTP id S1726516AbgLROqx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 09:37:02 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87373C0617B0
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:36:21 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id c133so2545164wme.4
-        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:36:21 -0800 (PST)
+        Fri, 18 Dec 2020 09:46:53 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0ECC061282
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:46:12 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id y17so2433902wrr.10
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 06:46:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YWmqcLqIz38MWpPJhReutWXbyy1oVWYK/A38RJq0qsI=;
-        b=lZhtw4YVxqpHai4JdTeB2XrEhV07UVXh4y06cpjxeZXmu0zybW6wx/zJTsTei8FO8Y
-         yqNOOxnpygr6dwpi2uMVNgYRv/lcmczfh2IpIqToLi2GT9xxuycSKDH2UplkwMTMfYn1
-         WI4iNR58MRcmQv8P3hEOIAOF9kDiKSQ62FLPY=
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IOS7/z9Qy+orQvgN4m7ZcdCgVVfUTOFkUvXr8iUDtNQ=;
+        b=jP4+qMylQ3mhIfQvzLOdmkmIohRItctCA1AYJFdDpD6neUt/k85ZMDI4i2OzBVHyT8
+         9nZ8g3l6IpArhkwp9iYEmf9uY02iLC5C8AVgXOkEOt7FeJlJlwv9EeOc7LDDxCYqxLsR
+         6nbfPcHjsDCI2lX6zoUbekAqhOBvcrCIGVw+gKlfwdYYe4LxGRM1OEJ5G6BWFiQMl/zr
+         kTRisF/pNz/FW6A2LcC3KDrDDUM8wl+g8CFiZAjD0xC/vkgdkVrJq+Hxz1ZW/sTWIl9v
+         lHLPbwplwfadoeKNL3pYmKNleHr7uoNPsZ5I2f+iiEwzOM8u96WE5ZpnZhcKRgMS3wKM
+         QWKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=YWmqcLqIz38MWpPJhReutWXbyy1oVWYK/A38RJq0qsI=;
-        b=EJt4HDuWXqE5l13pO2bBIcjlJpCUEqzz1jFieD1VHCKObmU8JgTUIIFpUJUkLSOI9U
-         J6MsZCxL1rWnb7t/HQp+YMZ46bgW9IW/bfLhtXRIc6Sm/wF02dox9ejLz4PZzORaXEZZ
-         T/blhyVSztVbluFFkqAYmp/rXhBA7e9llICXAAq9actWi5bjAkmxYtvOS5YXbmll65kj
-         3zfohy9tVr4+sE0pst6ZeOVh7P0i5D0rL/D3JgjrkUlqQJauJpUMenhRc9frqp1pyqwA
-         I8mCZZ7Abbw5wTmMLvDwQGSxA1/6InA3xVMPzxN4kQlOvNAdI8bcOGYoyKDDwhvb5td/
-         BLlw==
-X-Gm-Message-State: AOAM530bvP7jDdXte16AmaA7Cj0fWXIVZtHoParbPzwe9xAlDOVn5coT
-        iRkJFZbZN4feuLYlld1cskRSVw==
-X-Google-Smtp-Source: ABdhPJyqSRESDqSGQsY84t7M09sfQ8lcUyY2DVr2zPqGMIH/QznauwStZ8c9xSk3OEOK/jBzpLA9Jw==
-X-Received: by 2002:a1c:7d94:: with SMTP id y142mr4537787wmc.105.1608302180213;
-        Fri, 18 Dec 2020 06:36:20 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id t1sm14644464wro.27.2020.12.18.06.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 06:36:19 -0800 (PST)
-Date:   Fri, 18 Dec 2020 15:36:17 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Sandeep Patil <sspatil@google.com>,
-        dri-devel@lists.freedesktop.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        James Jones <jajones@nvidia.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        linux-media@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Mentz <danielmentz@google.com>
-Subject: Re: [RFC][PATCH 2/3] dma-buf: system_heap: Add pagepool support to
- system heap
-Message-ID: <X9y+YZujWBTHMuH3@phenom.ffwll.local>
-Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
-        Daniel Mentz <danielmentz@google.com>
-References: <20201217230612.32397-1-john.stultz@linaro.org>
- <20201217230612.32397-2-john.stultz@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IOS7/z9Qy+orQvgN4m7ZcdCgVVfUTOFkUvXr8iUDtNQ=;
+        b=k2G2C+Ybe0xa6+eVqk7q3cqrD2Ujxs4QZZaUhnE2zULw6n/nGLtiHtsi1Z7EFrwufN
+         Kjs79QDP6OCdU10dyRF/bgey1ylLDEfKlHgEN5AynLuc0Amh/0nz+RwlpWMIbrEOI7Fp
+         sNGYj/72k8thBmzvMLCJrZ+yaDdudhlu6iMEqKnj17PPt0Z09sF3lUtRrVB1owbCKEcY
+         YnnKRgXE1in917ZJoGwUOlQb8/IcYN7moRb1O38usHcOVAWPgn7OoggKZH8Kco31W6Q2
+         pNiRw/w0PzEOz2Cwsfy/Bv83Rk0GdPYyLSTh4m/C4aR/lBDG3AyXf7Ob58MkqzA2z8XG
+         NAmw==
+X-Gm-Message-State: AOAM532P0bzlYnX76PbEpAEzzEoQZdvApB7CCPOBIm26R9C5Swr0zacj
+        JkGluVGmzUVSDSyB03QLq5eQ7nPgFFJh6ujFQMj7VA==
+X-Google-Smtp-Source: ABdhPJwtPel488pKG+titVqvbHsJDbSA8DLgQ+5Gid39Aj6tn9e5V4SXOrJcLJdMUB9QQY12ijJ55Y7nrivzD5nE7ec=
+X-Received: by 2002:adf:f7d2:: with SMTP id a18mr4827679wrq.47.1608302771328;
+ Fri, 18 Dec 2020 06:46:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201217230612.32397-2-john.stultz@linaro.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20201210134648.272857-1-maxime@cerno.tech> <20201210134648.272857-6-maxime@cerno.tech>
+ <CAPY8ntDXJWR-vssSLsRbh7RTd-40SQApOxWGwt2LkeoyxCdYMw@mail.gmail.com>
+In-Reply-To: <CAPY8ntDXJWR-vssSLsRbh7RTd-40SQApOxWGwt2LkeoyxCdYMw@mail.gmail.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 18 Dec 2020 14:45:54 +0000
+Message-ID: <CAPY8ntAx56BhKLVGyNUjjOYSaaJ1H2wku=Co8oqb38bPDEvGKA@mail.gmail.com>
+Subject: Re: [PATCH 05/15] drm/vc4: hdmi: Restore cec physical address on reconnect
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Eric Anholt <eric@anholt.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Jason Cooper <jason@lakedaemon.net>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-rpi-kernel@lists.infradead.org,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Dom Cobley <popcornmix@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 11:06:11PM +0000, John Stultz wrote:
-> Reuse/abuse the pagepool code from the network code to speed
-> up allocation performance.
-> 
-> This is similar to the ION pagepool usage, but tries to
-> utilize generic code instead of a custom implementation.
-> 
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Liam Mark <lmark@codeaurora.org>
-> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Sandeep Patil <sspatil@google.com>
-> Cc: Daniel Mentz <danielmentz@google.com>
-> Cc: Ørjan Eide <orjan.eide@arm.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: James Jones <jajones@nvidia.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: John Stultz <john.stultz@linaro.org>
+On Fri, 18 Dec 2020 at 14:21, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi  Maxime & Dom
+>
+> On Thu, 10 Dec 2020 at 13:47, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > From: Dom Cobley <popcornmix@gmail.com>
+> >
+> > Currently we call cec_phys_addr_invalidate on a hotplug deassert.
+> > That may be due to a TV power cycling, or an AVR being switched
+> > on (and switching edid).
+> >
+> > This makes CEC unusable since our controller wouldn't have a physical
+> > address anymore.
+> >
+> > Set it back up again on the hotplug assert.
+> >
+> > Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
+> > Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 25 +++++++++++++++++--------
+> >  1 file changed, 17 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > index 28b78ea885ea..eff3bac562c6 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -136,20 +136,29 @@ static enum drm_connector_status
+> >  vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+> >  {
+> >         struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+> > +       bool connected = false;
+> >
+> >         if (vc4_hdmi->hpd_gpio) {
+> >                 if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
+> >                     vc4_hdmi->hpd_active_low)
+> > -                       return connector_status_connected;
+> > -               cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> > -               return connector_status_disconnected;
+> > -       }
+> > -
+> > -       if (drm_probe_ddc(vc4_hdmi->ddc))
+> > -               return connector_status_connected;
+> > -
+> > +                       connected = true;
+> > +       } else if (drm_probe_ddc(vc4_hdmi->ddc))
+> > +               connected = true;
+> >         if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED)
+>
+> This needs to become an "else if(...".
+> It used to be that all the other paths would return, so were mutually
+> exclusive to this. Now they set a thing and keep going we need to
+> avoid reading the register should there be a HPD gpio or the ddc probe
+> succeeds.
+> Memory says that otherwise Pi3 always reports connected.
+>
+> I fixed this in a downstream patch already -
+> https://github.com/raspberrypi/linux/commit/d345caec1e9b2317b9cd7eb5b92ae453a0d3e98c
+>
+> Otherwise fine.
+>
+>   Dave
+>
+> > +               connected = true;
+> > +       if (connected) {
+> > +               if (connector->status != connector_status_connected) {
+> > +                       struct edid *edid = drm_get_edid(connector, vc4_hdmi->ddc);
+> > +
+> > +                       if (edid) {
+> > +                               cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+> > +                               vc4_hdmi->encoder.hdmi_monitor = drm_detect_hdmi_monitor(edid);
+> > +                               drm_connector_update_edid_property(connector, edid);
 
-We also have one of these in ttm. I think we should have at most one of
-these for the gpu ecosystem overall, maybe as a helper that can be plugged
-into all the places.
+Actually looking at this again in the context of the other changes, do
+we need to call drm_connector_update_edid_property() here?
 
-Or I'm kinda missing something, which could be since I only glanced at
-yours for a bit. But it's also called page pool for buffer allocations,
-and I don't think there's that many ways to implement that really :-)
--Daniel
+We've just called drm_get_edid() to get the edid, and that calls
+drm_connector_update_edid_property() as well [1]
+Updating vc4_hdmi->encoder.hdmi_monitor may be necessary. It's
+otherwise done in vc4_hdmi_connector_get_modes, which I sort of expect
+to be called almost immediately by the framework when connector_detect
+returns "connected". I haven't checked if that is guaranteed though.
 
-> ---
->  drivers/dma-buf/heaps/Kconfig       |  1 +
->  drivers/dma-buf/heaps/system_heap.c | 68 +++++++++++++++++++++++++++--
->  2 files changed, 65 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> index ecf65204f714..fa5e1c330cce 100644
-> --- a/drivers/dma-buf/heaps/Kconfig
-> +++ b/drivers/dma-buf/heaps/Kconfig
-> @@ -4,6 +4,7 @@ config DMABUF_HEAPS_DEFERRED_FREE
->  config DMABUF_HEAPS_SYSTEM
->  	bool "DMA-BUF System Heap"
->  	depends on DMABUF_HEAPS
-> +	select PAGE_POOL
->  	help
->  	  Choose this option to enable the system dmabuf heap. The system heap
->  	  is backed by pages from the buddy allocator. If in doubt, say Y.
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 17e0e9a68baf..885e30894b77 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -20,6 +20,7 @@
->  #include <linux/scatterlist.h>
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
-> +#include <net/page_pool.h>
->  
->  static struct dma_heap *sys_heap;
->  
-> @@ -53,6 +54,7 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, LOW_ORDER_GFP, LOW_ORDER_GFP};
->   */
->  static const unsigned int orders[] = {8, 4, 0};
->  #define NUM_ORDERS ARRAY_SIZE(orders)
-> +struct page_pool *pools[NUM_ORDERS];
->  
->  static struct sg_table *dup_sg_table(struct sg_table *table)
->  {
-> @@ -281,18 +283,59 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
->  	dma_buf_map_clear(map);
->  }
->  
-> +static int system_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
-> +{
-> +	void *addr = vmap(pages, num, VM_MAP, pgprot);
-> +
-> +	if (!addr)
-> +		return -ENOMEM;
-> +	memset(addr, 0, PAGE_SIZE * num);
-> +	vunmap(addr);
-> +	return 0;
-> +}
-> +
-> +static int system_heap_zero_buffer(struct system_heap_buffer *buffer)
-> +{
-> +	struct sg_table *sgt = &buffer->sg_table;
-> +	struct sg_page_iter piter;
-> +	struct page *pages[32];
-> +	int p = 0;
-> +	int ret = 0;
-> +
-> +	for_each_sgtable_page(sgt, &piter, 0) {
-> +		pages[p++] = sg_page_iter_page(&piter);
-> +		if (p == ARRAY_SIZE(pages)) {
-> +			ret = system_heap_clear_pages(pages, p, PAGE_KERNEL);
-> +			if (ret)
-> +				return ret;
-> +			p = 0;
-> +		}
-> +	}
-> +	if (p)
-> +		ret = system_heap_clear_pages(pages, p, PAGE_KERNEL);
-> +
-> +	return ret;
-> +}
-> +
->  static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
->  {
->  	struct system_heap_buffer *buffer = dmabuf->priv;
->  	struct sg_table *table;
->  	struct scatterlist *sg;
-> -	int i;
-> +	int i, j;
-> +
-> +	/* Zero the buffer pages before adding back to the pool */
-> +	system_heap_zero_buffer(buffer);
->  
->  	table = &buffer->sg_table;
->  	for_each_sg(table->sgl, sg, table->nents, i) {
->  		struct page *page = sg_page(sg);
->  
-> -		__free_pages(page, compound_order(page));
-> +		for (j = 0; j < NUM_ORDERS; j++) {
-> +			if (compound_order(page) == orders[j])
-> +				break;
-> +		}
-> +		page_pool_put_full_page(pools[j], page, false);
->  	}
->  	sg_free_table(table);
->  	kfree(buffer);
-> @@ -322,8 +365,7 @@ static struct page *alloc_largest_available(unsigned long size,
->  			continue;
->  		if (max_order < orders[i])
->  			continue;
-> -
-> -		page = alloc_pages(order_flags[i], orders[i]);
-> +		page = page_pool_alloc_pages(pools[i], order_flags[i]);
->  		if (!page)
->  			continue;
->  		return page;
-> @@ -428,6 +470,24 @@ static const struct dma_heap_ops system_heap_ops = {
->  static int system_heap_create(void)
->  {
->  	struct dma_heap_export_info exp_info;
-> +	int i;
-> +
-> +	for (i = 0; i < NUM_ORDERS; i++) {
-> +		struct page_pool_params pp;
-> +
-> +		memset(&pp, 0, sizeof(pp));
-> +		pp.order = orders[i];
-> +		pools[i] = page_pool_create(&pp);
-> +
-> +		if (IS_ERR(pools[i])) {
-> +			int j;
-> +
-> +			pr_err("%s: page pool creation failed!\n", __func__);
-> +			for (j = 0; j < i; j++)
-> +				page_pool_destroy(pools[j]);
-> +			return PTR_ERR(pools[i]);
-> +		}
-> +	}
->  
->  	exp_info.name = "system";
->  	exp_info.ops = &system_heap_ops;
-> -- 
-> 2.17.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+vc4_hdmi_connector_get_modes also includes a manual call to
+drm_connector_update_edid_property after having just called
+drm_get_edid, so that one feels redundant too.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+  Dave
+
+[1] https://elixir.bootlin.com/linux/v5.10/source/drivers/gpu/drm/drm_edid.c#L2059
+
+> > +                               kfree(edid);
+> > +                       }
+> > +               }
+> >                 return connector_status_connected;
+> > +       }
+> >         cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> >         return connector_status_disconnected;
+> >  }
+> > --
+> > 2.28.0
+> >
