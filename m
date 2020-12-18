@@ -2,109 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 002FD2DEBB5
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 23:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC9B2DEC1B
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 00:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726020AbgLRWnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 17:43:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49962 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725880AbgLRWnd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 17:43:33 -0500
-X-Gm-Message-State: AOAM532lCQsKZVTjHJBDNQIizDwxs7cOn8pT6Z5aGMac8nIGvVuvODtP
-        sZNng2mo/u9abPWqnYYSgMTxgIz69T4HZPOfvg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608331372;
-        bh=teoJSCyQ35FKEt1l7jtvY4FHIkY/MC2pFjf82N1a7x8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rDvnvJ1UGc/yxbETR9SFwICtFriCq8S4SSVtPzMw72dOKmv+I0MUwOj9IMZE3AMf7
-         +2gjY1d0XvwnkYMgeqXRuDWFgxEvXlLIoNGPFMzl/Rb6IflnUHep5jreJWOybSR56Z
-         E4Z8j7LEZluuCZFIb85pL5xAg9+sAtUFYK8Soy55f4uYLWUZM9ChFZaTY5c7iJdrmz
-         +ao4eqgwT771hMZRAc28mZL4EU2P4H3u8h8kI1EwJojM0v0vaSR7NP7e/9TvIQ8mZJ
-         XkoxTvy2gl8AAI/669RLYd1oxQFMsfji9ElenKbnSncRuePtTM7B7oqqm4oXLzGCTD
-         xmd8Kqc+xP8zA==
-X-Google-Smtp-Source: ABdhPJw9CmTiK/5DXVy1oCGmEYJHnWGGuOTm6/bF1LcvdA7fZjYwB/Q4rwq8PO2wpAomgkDuC068Sj33ePY0fBORLGQ=
-X-Received: by 2002:a17:906:1197:: with SMTP id n23mr6123853eja.359.1608331370605;
- Fri, 18 Dec 2020 14:42:50 -0800 (PST)
+        id S1725914AbgLRXrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 18:47:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60918 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725824AbgLRXrT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Dec 2020 18:47:19 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB26C0617B0;
+        Fri, 18 Dec 2020 15:46:39 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id r3so4245165wrt.2;
+        Fri, 18 Dec 2020 15:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=CVUZDewVjbnAS4rVNDdhGUv6812bBoBX8FloR4mhQfY=;
+        b=LQVpwPjWC+rUHtMvyQSO2kGfFZ6mDpYwAFv8SZMMTP0bhZjlgy++49CszYHYfklMjA
+         j4oKZvyOyj9AY5jJxF6p3YAggoImcqKqKa27j8BjNFkKONTSAAOSIXwthantYKZgTlok
+         dBoqC1iAYNIxzruRpdR52FssBg16j3UDUTMQdExvTqVgSmokZRUVhxRgvRmUNHWvQgLM
+         OhQ+m1E5b2WpjzjUKXa30v9ghy+pD0D5+MKFzC7D5L7KhN/LOfVYfpy4skqhW3eGsDk6
+         XXMba55diAEeLWmRbShS44l9T+8HEOKSL37YerSWajhWu8Xa9fjCQEUMU+fPq+yuMm6E
+         u6Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=CVUZDewVjbnAS4rVNDdhGUv6812bBoBX8FloR4mhQfY=;
+        b=DClvmVC+6LmABsJaE3xYvfXqgKzwAMVTvs+ra6+Uy2HJtP1H2NUoVSc1FBFyo0DTTU
+         L+8DogXrM7V4YeRXN5iDGzl50h8DDR/j/lLihuGbP7ATd4ZyF70dZEECxk6c22paVNc/
+         x7mndPBw8LSWYiNWcNlaZD12DB/FwVIz9SBMZ2ngDzdmFETaSAukXV9Olhd5lMcaeyBL
+         bHD+tLzlNhymwauyTUoHrUhwwkVDT4dMU/ZWnZA2Cjxp2bt0yT7hpNDRoXgF/cHfGWZJ
+         hlQj4fPb1nDAr5uQW+C7eNdGrKmag5120ScB5Mxr9kHCgZrHy0YhGxBGDyV5fTL7BAF8
+         tMSg==
+X-Gm-Message-State: AOAM5328RMzORDgOADvasgTv+K5qWibeaDUPPyFIsRTTCP3wtawijKcK
+        N6zeWugmK83hCmjuItWgJnc=
+X-Google-Smtp-Source: ABdhPJx2UQOLsIf2OalZVqW5ESze04/v9Ukl2g12dxgUkqySNr4VHiXXJHF4dNUCfswYHvLpW4Iz1w==
+X-Received: by 2002:a5d:690d:: with SMTP id t13mr6814722wru.410.1608335196953;
+        Fri, 18 Dec 2020 15:46:36 -0800 (PST)
+Received: from [192.168.1.211] ([2.31.224.116])
+        by smtp.gmail.com with ESMTPSA id c20sm9333375wmb.38.2020.12.18.15.46.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Dec 2020 15:46:35 -0800 (PST)
+Subject: Re: [PATCH v2 06/12] software_node: Add support for fwnode_graph*()
+ family of functions
+From:   Daniel Scally <djrscally@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
+        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
+        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
+        linux@rasmusvillemoes.dk,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
+        kitakar@gmail.com, jorhand@linux.microsoft.com
+References: <20201217234337.1983732-1-djrscally@gmail.com>
+ <20201217234337.1983732-7-djrscally@gmail.com>
+ <X9zXPpirfS2mCFk0@pendragon.ideasonboard.com>
+ <8d448981-ddd5-9e2e-03bc-0a67b318d379@gmail.com>
+Message-ID: <ea73b9ca-d0c0-060d-5af6-f7a82f36b136@gmail.com>
+Date:   Fri, 18 Dec 2020 23:46:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
- <1608199173-28760-5-git-send-email-victor.liu@nxp.com> <1608231036.357497.50647.nullmailer@robh.at.kernel.org>
- <e2edc2e37b6905fd19ada4c212338c6978200fa5.camel@nxp.com>
-In-Reply-To: <e2edc2e37b6905fd19ada4c212338c6978200fa5.camel@nxp.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 18 Dec 2020 16:42:39 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLcyUJWt_gc3B01C0Y+NC61ucYNA8j1jnxTs8U1kudM=Q@mail.gmail.com>
-Message-ID: <CAL_JsqLcyUJWt_gc3B01C0Y+NC61ucYNA8j1jnxTs8U1kudM=Q@mail.gmail.com>
-Subject: Re: [PATCH 04/14] dt-bindings: display: bridge: Add i.MX8qm/qxp pixel
- combiner binding
-To:     Liu Ying <victor.liu@nxp.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Andrzej Hajda <a.hajda@samsung.com>, Vinod <vkoul@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        David Airlie <airlied@linux.ie>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org, Sascha Hauer <kernel@pengutronix.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Fabio Estevam <festevam@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <8d448981-ddd5-9e2e-03bc-0a67b318d379@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 7:48 PM Liu Ying <victor.liu@nxp.com> wrote:
->
-> Hi,
->
-> On Thu, 2020-12-17 at 12:50 -0600, Rob Herring wrote:
-> > On Thu, 17 Dec 2020 17:59:23 +0800, Liu Ying wrote:
-> > > This patch adds bindings for i.MX8qm/qxp pixel combiner.
-> > >
-> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > ---
-> > >  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160 +++++++++++++++++++++
-> > >  1 file changed, 160 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
-> > >
-> >
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dts:19:18: fatal error: dt-bindings/clock/imx8-lpcg.h: No such file or directory
-> >    19 |         #include <dt-bindings/clock/imx8-lpcg.h>
-> >       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > compilation terminated.
-> > make[1]: *** [scripts/Makefile.lib:342: Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dt.yaml] Error 1
-> > make[1]: *** Waiting for unfinished jobs....
-> > make: *** [Makefile:1364: dt_binding_check] Error 2
-> >
-> > See https://patchwork.ozlabs.org/patch/1417599
-> >
-> > This check can fail if there are any dependencies. The base for a patch
-> > series is generally the most recent rc1.
->
-> This series can be applied to linux-next/master branch.
 
-I can't know that to apply and run checks automatically. I guessed
-that reviewing this before sending, but I want it abundantly clear
-what the result of applying this might be and it wasn't mentioned in
-this patch.
+On 18/12/2020 22:13, Daniel Scally wrote:
 
-Plus linux-next is a base no one can apply patches to, so should you
-be sending patches based on it? It's also the merge window, so maybe
-wait until rc1 when your dependency is in and the patch can actually
-be applied. Also, the drm-misc folks will still need to know they need
-to merge rc1 in before this is applied.
+>>> +			break;
+>>> +		}
+>>> +
+>>> +		/* No more endpoints for that port, so stop passing old */
+>>> +		old = NULL;
+>>
+>> I wonder if you could drop the 'old' variable and use 'enpoint' in the
+>> call to software_node_get_next_child(). You could then drop these two
+>> lines.
+> 
+> That won't work, because endpoint would at that point not be a child of
+> the port we're passing, and the function relies on it being one:
+> 
+> 	if (!p || list_empty(&p->children) ||
+> 	    (c && list_is_last(&c->entry, &p->children))) {
+> 		fwnode_handle_put(child);
+> 		return NULL;
+> 	}
+> 
 
-Rob
+Wait, that's nonsense of course, because endpoint gets set to NULL when
+software_node_get_next_child() finds nothing - I'll double check but
+pretty sure you're right.
