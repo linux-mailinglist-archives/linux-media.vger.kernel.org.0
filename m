@@ -2,126 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BA332DDDD6
-	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 06:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECACB2DDEA6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Dec 2020 07:32:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731527AbgLRFWZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 18 Dec 2020 00:22:25 -0500
-Received: from mail-vi1eur05olkn2064.outbound.protection.outlook.com ([40.92.90.64]:46285
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725290AbgLRFWY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 00:22:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l7qJnkGQMD1Xu391ARulm848H/Wjz72QV1X78U+T8ErQKy+34X40MqFGqvyIpBwgkVnu7dxSGLGoNGv/Vp+V1pCi9HjqQ3085JmQpEwf8tXsrqJdIIuPuXp7Q3A+LtMc7Mu38ApRb6q2fg534P+yhaGZIUwVBm9M/LBO8IJ+JSNxxeLPsbGgVyqHw52qqkZ94tmxL0VDe/Z5rCDoiV3lG95ttVOgcVelyjpbYNpRmSVMOIc6PwjW9/+QSVCDHpzYuPR29EG9EGrW3SOD/lktsqmLl6EiphFiFEGZOq0pZg9B3SBiw5DypG+jJjYr3s8gO+stc2QGtrdQ6+8B4r3EkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8IMRs72jDzexY131mRfJ+nnwl2LCDhsoEyaTyyPVze0=;
- b=cZcqYVsCNeppkzgOIlwd7Di5CbpwoRGSVS1Zj+DazciUk5kwomgLgBQK0GiI173kUxM5tSKI9GFp05RwdYd+7+HgBwP4QYMpelAfTHgdJ2kvnBxghc81Qb/EHkQxUErNZ9LBsCINImZoETjYLpum6wJG8upethNU089bFSX05dhTzXhMHTYJit3it7K+Ft+4vKNObY4Rwv6yv1KWNPhAiAUhIOuSNrLmxoD3hTtw4khmiCP0jqteUzfft1ug6jP9N0n3MNEHLaKQ3cPgMM2C5O5ep/ZOIOPcamJrLQSMNcX5vbj3Wt3SsBMswtNNl5fXDFtF0NjKDilPxc59iGCogA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from DB8EUR05FT010.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc0f::51) by
- DB8EUR05HT236.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc0f::407)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22; Fri, 18 Dec
- 2020 05:21:36 +0000
-Received: from VI1P193MB0160.EURP193.PROD.OUTLOOK.COM (2a01:111:e400:fc0f::49)
- by DB8EUR05FT010.mail.protection.outlook.com (2a01:111:e400:fc0f::203) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22 via Frontend
- Transport; Fri, 18 Dec 2020 05:21:36 +0000
-Received: from VI1P193MB0160.EURP193.PROD.OUTLOOK.COM
- ([fe80::c1ea:9b6c:f9fe:7d09]) by VI1P193MB0160.EURP193.PROD.OUTLOOK.COM
- ([fe80::c1ea:9b6c:f9fe:7d09%9]) with mapi id 15.20.3654.025; Fri, 18 Dec 2020
- 05:21:36 +0000
-From:   Jesus <observer1@hotmail.es>
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Help with harmony remote
-Thread-Topic: Help with harmony remote
-Thread-Index: AQHW1P1pj2wAAlUyIE6McsWWcr0cGg==
-Date:   Fri, 18 Dec 2020 05:21:36 +0000
-Message-ID: <VI1P193MB0160CDD11C1487D57A4B795081C30@VI1P193MB0160.EURP193.PROD.OUTLOOK.COM>
-Accept-Language: es-ES, en-US
-Content-Language: es-ES
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:C053D671C53FB19A656BCDBE2F2FED986933FD2EFFD639ACF3038C1FBE25985D;UpperCasedChecksum:650B2500B4D28B2E9233FC9B6D3834152FAE39E5DBD852D292BCF5E7E6581D5F;SizeAsReceived:6587;Count:41
-x-tmn:  [qbZhLgjJ1tOLPnDPCM7s2hoR1KYwDwuQ]
-x-ms-publictraffictype: Email
-x-incomingheadercount: 41
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 406a1b38-bea4-40cc-bb81-08d8a314ca75
-x-ms-traffictypediagnostic: DB8EUR05HT236:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eDZ2Q/dIcff7Q8y0ds+2evMmRMAvlkbFIYKYS+iYOdz6V5nq0AbcoFskC4+Kegc4WeGY8/s84Ks2htmdbnLBxgYSwTGvWdoppFDcX5kQgxRulLz4g2F5XA5/z9+sF3LYNdeFB3DF54f0AaZsHq5uTiaoB8IS6lea1qV56hpgksKVGuzU4QDhZwx1WhGBM/Pxe3Df4SXP+4eCFl0QiNYGz5E0I7yTIjSzpRDwotYnSG0kY8x4Towpq/XWBgyKkEXk
-x-ms-exchange-antispam-messagedata: vZa5a5xRLGyr/OyAfjzHp/9n5hLn4nQjLHDmiO//Xo213Y7KNxpbz27FN2+to+XO+tI8DQLlmrAclgkucophYN8qq+DtJVsFr9mzPEPokS4xal2GBqdcEWZIcq3gWrqqzJGvR6sDeoW5DjMIekr6GQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+        id S1732845AbgLRGcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 01:32:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43176 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732830AbgLRGcF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Dec 2020 01:32:05 -0500
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE315C0617A7;
+        Thu, 17 Dec 2020 22:31:24 -0800 (PST)
+Received: by mail-vk1-xa2c.google.com with SMTP id o195so277218vka.9;
+        Thu, 17 Dec 2020 22:31:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=ObGsyMvKVeZhdZNtJYABaU0OlJzGDwB1XTw5HknW98w=;
+        b=VFY3JDneellkJcK8fYUVTCjVjLvTQGFBTOpQ+FcvioJZaW8NGsgNGTsbcW3XB6Tt+S
+         vdcJ1my23f1CCFk+cZORa89okkBo6WV6G37/jzi0Y/f+REpDi83m2yGN9LlovKCugbkk
+         jXUbWgamW6lh8w5sozE2Ro+o9gpyTIMFHYIXGtwP2LRiv29gEQVUzhw/tAXZsdjEWFt4
+         JpZ2TUWUFxq050CXhu4+q3MXtFRUI0/94n665+rB+oJjwnGyjzMq5DmtHcXPsbjRiSKr
+         vljtCtT6CM9GPs5riUa1+6abH1pEV46km5sKVxchSSiBERkJ8O9gCSaEOPvHy4gKdlLB
+         LUkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=ObGsyMvKVeZhdZNtJYABaU0OlJzGDwB1XTw5HknW98w=;
+        b=TwjGW/Qd5UwiJ92vvFkM0dKTA3dgfwoMrj+nWsNqvZRnS+tTj19x/poejTiVgLjPiU
+         DCiKY3Cv5BcXu0i/2bEdjL0rRX/hZAhbBBGgZVgH4PFK75SF5bQso+BUmcsdecZVNNgu
+         kYojMArUjN20udHxZtMErO45bfmh70fq4irAtgbp4C/ol3NylXnioIFVqTb9dsCIWXus
+         /0jqU2IR0XCSDeDFuf6ooVaOILnZAagtFruTLe517dkw0UrMjL6ICsgxefTDfY3axx6B
+         xTso3GXvFGzxGBjf5IolIlhLj27D/YptIviUx4C6cJhcFl9rs3nuiwKfa4cGemOmM7Fx
+         GTlA==
+X-Gm-Message-State: AOAM5306tgLp/ia1sYrZIp2uJ6b0Q93gSCLoSgG3Zo0XO4nTi1nuXYR6
+        XdU3p4Mhwqz9QSuwcLmROic=
+X-Google-Smtp-Source: ABdhPJwusp5qfzxGF3xU1e4T41++sftUUha7hkzsv1ZJgAf6AII7ZhzXQxkfSjBbxWwnO+5U46Veig==
+X-Received: by 2002:a1f:9ed4:: with SMTP id h203mr2102352vke.1.1608273083917;
+        Thu, 17 Dec 2020 22:31:23 -0800 (PST)
+Received: from fedora ([179.48.251.236])
+        by smtp.gmail.com with ESMTPSA id b19sm949757vsq.18.2020.12.17.22.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Dec 2020 22:31:23 -0800 (PST)
+Date:   Fri, 18 Dec 2020 01:31:17 -0500
+From:   Nigel Christian <nigel.l.christian@gmail.com>
+To:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, dan.carpenter@oracle.com,
+        gustavoars@kernel.org
+Cc:     linux-media@vger.kernel.org, trivial@kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: cec: fix trivial style warnings
+Message-ID: <20201218063117.GA80700@fedora>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-AuthSource: DB8EUR05FT010.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 406a1b38-bea4-40cc-bb81-08d8a314ca75
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2020 05:21:36.3322
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR05HT236
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
-I have an ir harmony remote which I have configured to use as a mouse with a Intel nuc D54250WYK, I have tested un Windows 10 and it works as expected but in linux the mouse buttons don't work.
-I'm using the keymap /lib/udev/rc_keymaps/mce_keyboard.toml, this happens when I press the left button:
+Comment has 'then' repeated twice. Let's clean it up.
+Use unsigned int to maintain naming consistency.
 
-688888.335099: lirc protocol(mcir2-mse): scancode = 0x3c
-688888.335117: event type EV_MSC(0x04): scancode = 0x3c
-688888.335117: event type EV_SYN(0x00).
-688888.475123: lirc protocol(mcir2-mse): scancode = 0x3c
-688888.475142: event type EV_MSC(0x04): scancode = 0x3c
-688888.475142: event type EV_SYN(0x00).
+Signed-off-by: Nigel Christian <nigel.l.christian@gmail.com>
+---
+ drivers/media/cec/core/cec-adap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-So I added this to the file and reloaded:
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index d5d5d28d0b36..79fa36de8a04 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -1296,7 +1296,7 @@ static int cec_config_log_addr(struct cec_adapter *adap,
+ 	/*
+ 	 * If we are unable to get an OK or a NACK after max_retries attempts
+ 	 * (and note that each attempt already consists of four polls), then
+-	 * then we assume that something is really weird and that it is not a
++	 * we assume that something is really weird and that it is not a
+ 	 * good idea to try and claim this logical address.
+ 	 */
+ 	if (i == max_retries)
+@@ -1735,7 +1735,7 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
+ 		const u8 feature_sz = ARRAY_SIZE(log_addrs->features[0]);
+ 		u8 *features = log_addrs->features[i];
+ 		bool op_is_dev_features = false;
+-		unsigned j;
++		unsigned int j;
+ 
+ 		log_addrs->log_addr[i] = CEC_LOG_ADDR_INVALID;
+ 		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
+-- 
+2.29.2
 
-
-[[protocols]]
-protocol = "mce_kbd"
-[protocols.scancodes]
-0x3c = "BTN_LEFT"
-0x5a = "BTN_RIGHT"
-
-The output now is:
-
-
-689080.444492: lirc protocol(mcir2-mse): scancode = 0x3c
-689080.444510: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
-689080.444510: event type EV_MSC(0x04): scancode = 0x3c
-689080.444510: event type EV_SYN(0x00).
-689080.542540: lirc protocol(mcir2-mse): scancode = 0x3c
-689080.542564: event type EV_MSC(0x04): scancode = 0x3c
-689080.542564: event type EV_SYN(0x00).
-689080.682743: lirc protocol(mcir2-mse): scancode = 0x3c
-689080.682760: event type EV_MSC(0x04): scancode = 0x3c
-689080.682760: event type EV_SYN(0x00).
-689080.945699: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
-689080.945699: event type EV_SYN(0x00).
-689081.073768: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
-689081.073768: event type EV_SYN(0x00).
-689081.201773: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
-689081.201773: event type EV_SYN(0x00).
-689081.329767: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
-689081.329767: event type EV_SYN(0x00).
-689081.457773: event type EV_KEY(0x01) key_down: BTN_MOUSE(0x0110)
-689081.457773: event type EV_SYN(0x00).
-
-The last two lines keep repeating and the left click don't happens
-
-Please help me with this
-
-Thanks for your attention
