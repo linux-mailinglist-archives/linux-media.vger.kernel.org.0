@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2BC72DF05E
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 17:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A09692DF08A
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 17:52:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbgLSQC7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Dec 2020 11:02:59 -0500
-Received: from mga03.intel.com ([134.134.136.65]:33161 "EHLO mga03.intel.com"
+        id S1726989AbgLSQvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Dec 2020 11:51:18 -0500
+Received: from mga02.intel.com ([134.134.136.20]:2392 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726787AbgLSQC7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Dec 2020 11:02:59 -0500
-IronPort-SDR: F+PPtolnOk0SVtBTRYDAcOxHen39A+1k/Cv2NBbRSyVu6JByeV3rAs9jIV5NnwZeXwbjnzfByE
- 6L8IPsibYVCQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="175682037"
+        id S1726878AbgLSQvS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 19 Dec 2020 11:51:18 -0500
+IronPort-SDR: owL4rX05+/OH6SCF1F5rzkrOvGNYJop7Yes6LWSfbWZ5Avt+gf330rL8at27hKgqI4mvE+o6DN
+ D3rA676u6zUQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="162638664"
 X-IronPort-AV: E=Sophos;i="5.78,433,1599548400"; 
-   d="gz'50?scan'50,208,50";a="175682037"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2020 08:02:14 -0800
-IronPort-SDR: /zj1l5e6mW+jV5f8hQ/baSNJ9B6sSNIYms1kmX5q0XKET8yadsrL4pDr57ArQTFG8jfEoMpQAY
- m9UJ1OcYH87Q==
+   d="gz'50?scan'50,208,50";a="162638664"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2020 08:50:34 -0800
+IronPort-SDR: uZSeXpWrKPV3vA8izR/3J9B+49NQTH9RpvNv3somZ4BtnkImk96agUnfz+MHLxhlfZwQZ7qUTg
+ QdnqEHycM1/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,433,1599548400"; 
-   d="gz'50?scan'50,208,50";a="354549964"
+   d="gz'50?scan'50,208,50";a="335760499"
 Received: from lkp-server02.sh.intel.com (HELO c4fb2a2464e8) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 19 Dec 2020 08:02:09 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 19 Dec 2020 08:50:30 -0800
 Received: from kbuild by c4fb2a2464e8 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1kqegK-0000y8-Jb; Sat, 19 Dec 2020 16:02:08 +0000
-Date:   Sun, 20 Dec 2020 00:01:26 +0800
+        id 1kqfR7-00014x-N6; Sat, 19 Dec 2020 16:50:29 +0000
+Date:   Sun, 20 Dec 2020 00:50:12 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
         mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
@@ -39,10 +39,10 @@ Cc:     kbuild-all@lists.01.org, clang-built-linux@googlegroups.com,
         s.hauer@pengutronix.de
 Subject: Re: [PATCH v6 3/9] media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG
  Encoder/Decoder
-Message-ID: <202012192347.pizlAl8Q-lkp@intel.com>
+Message-ID: <202012200022.QTHf6wI2-lkp@intel.com>
 References: <20201215111843.30269-4-mirela.rabulea@oss.nxp.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="9jxsPFA5p3P2qPhR"
+Content-Type: multipart/mixed; boundary="x+6KMIRAuhnl3hBn"
 Content-Disposition: inline
 In-Reply-To: <20201215111843.30269-4-mirela.rabulea@oss.nxp.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -51,7 +51,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---9jxsPFA5p3P2qPhR
+--x+6KMIRAuhnl3hBn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -173,12 +173,12 @@ vim +926 drivers/media/platform/imx-jpeg/mxc-jpeg.c
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---9jxsPFA5p3P2qPhR
+--x+6KMIRAuhnl3hBn
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICKIG3l8AAy5jb25maWcAjDzLduM2svv5Cp3OZu5iEvmldOYeL0AQFBGRBA2QsuwNjlpW
+H4sICB0I3l8AAy5jb25maWcAjDzLduM2svv5Cp3OZu5iEvmldOYeL0AQFBGRBA2QsuwNjlpW
 d3xjWz2y3dP5+1sFvgAQVCeLtFVVKACFegPST//4aUbe3w7P27fH3fbp6a/Zl/3L/rh92z/M
 Pj8+7f93FotZIaoZi3n1MxBnjy/v33/5evjv/vh1N7v6+Wz+83y22h9f9k8zenj5/PjlHUY/
 Hl7+8dM/qCgSvtSU6jWTiotCV2xTXX/YPW1fvsy+7Y+vQDc7O/8Zefzzy+Pbv3/5Bf7//Hg8
@@ -907,4 +907,4 @@ V3FctQX7kNcfax2tDxXWJy2NBBNVzpNxvtkJ8Sx/0YYrogzbMUk1cGK7fTqPoQkZUFPb6Cos
 dQN/eeGDixyAe+ZiPKYhPXvq1MCR8Rm5kUIsGUYyFcOeHVar6bvETpghNuWpEFh0VIZtHksO
 PF5bSLBapnJc+LuBpTv/P9iUNQxtcgIA
 
---9jxsPFA5p3P2qPhR--
+--x+6KMIRAuhnl3hBn--
