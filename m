@@ -2,224 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E7292DF0A3
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 18:11:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 381DE2DF0F9
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 19:16:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgLSRLD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Dec 2020 12:11:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50638 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727010AbgLSRLD (ORCPT
+        id S1727386AbgLSSOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Dec 2020 13:14:51 -0500
+Received: from mail-il1-f197.google.com ([209.85.166.197]:43477 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727347AbgLSSOv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Dec 2020 12:11:03 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B90C0613CF;
-        Sat, 19 Dec 2020 09:10:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C32A4BA4;
-        Sat, 19 Dec 2020 18:10:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608397820;
-        bh=gMGb1SCIOqp/rKnAr3uYegHClNMIRY4rKzu/dB7nyUI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z2Ef/hxPn0+/mEO/Jz52v9Yl91yTjdWg1eDZHI74601g4xYbn+RGrkCfF1N9B2ZaA
-         Tcoi1fUr9gDJhPVy6Sfgo7EjmNHpU2yeMuFAkZiEQerWGJ3zCZqeXVwMomGhUPpFYA
-         FYZ15f5THKkhxP+QIg/Hi5FFhBTxqHsN33WBPI2s=
-Date:   Sat, 19 Dec 2020 19:10:12 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] media: dt-bindings: Convert video-interfaces.txt
- properties to schemas
-Message-ID: <X94z9PcpCRyIwDgr@pendragon.ideasonboard.com>
-References: <20201210211625.3070388-1-robh@kernel.org>
- <20201210211625.3070388-5-robh@kernel.org>
- <X9ofJMIivzPzi8x7@pendragon.ideasonboard.com>
- <20201218181955.GA2378317@robh.at.kernel.org>
+        Sat, 19 Dec 2020 13:14:51 -0500
+Received: by mail-il1-f197.google.com with SMTP id p6so5393222ils.10
+        for <linux-media@vger.kernel.org>; Sat, 19 Dec 2020 10:14:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=XCHs9DzLtVN3G7JxGdTMAu9lfhGd2S5W/XzJE3KmVOc=;
+        b=fsN/rgjuBRz38g5273DXM05sUk1KcY0LtRXPaJCKncHaKoxCHR+9Ar5JVvM8AWfpAh
+         XtCnuvaI6dr4rbKT751XQQTX6bgg3HInwWqJPkusIuGdfs4IGa/PVKKf5jx6yAZPZS5y
+         2UKtPVAGnLp0tL+ckmKFgGeLiV3BFpKJlSlDTYWFk9wTzNzkiYEIsAeFGpQ2DcTjLW1G
+         ONEZl4SdOoMlouC1PrkuTthGfqIUGgj0kLnnEhDXYriw53ZSkZTB/F2Bft7le8JHbVs0
+         gZP2ZZPdmpElbb7v0quIhjMKGYvp02NCdeJbHTs2dnd/xyehHPPZZNXgdmDNqS8ymYEV
+         qAGA==
+X-Gm-Message-State: AOAM531yYCLrDjkq9ApRrVNpcqCwIupVWlDlfFhC7dWRv+VQ0zKgIcFZ
+        D/nqrICTEayHr8H0ZCFfOAzJyxzwRUJ2Qw64zKWqrfUS13S8
+X-Google-Smtp-Source: ABdhPJxxQ3e9AR9hTo2g0dF0pMgkZdT3mDlEgGiJQrsVwnpahAM27HhztMy/FpQ8NveZ+5q/vYIAeY+OSdYwMgT5bi6gWQV2n8Jp
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201218181955.GA2378317@robh.at.kernel.org>
+X-Received: by 2002:a92:5802:: with SMTP id m2mr9941150ilb.271.1608401650209;
+ Sat, 19 Dec 2020 10:14:10 -0800 (PST)
+Date:   Sat, 19 Dec 2020 10:14:10 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000000457c305b6d53148@google.com>
+Subject: UBSAN: shift-out-of-bounds in mceusb_dev_recv
+From:   syzbot <syzbot+ec3b3128c576e109171d@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hello,
 
-On Fri, Dec 18, 2020 at 12:19:55PM -0600, Rob Herring wrote:
-> On Wed, Dec 16, 2020 at 04:52:20PM +0200, Laurent Pinchart wrote:
-> > On Thu, Dec 10, 2020 at 03:16:24PM -0600, Rob Herring wrote:
-> > > Convert video-interfaces.txt to DT schema. As it contains a mixture of
-> > > device level and endpoint properties, split it up into 2 schemas.
-> > > 
-> > > Binding schemas will need to reference both the graph.yaml and
-> > > video-interfaces.yaml schemas. The exact schema depends on how many
-> > > ports and endpoints for the binding. A single port with a single
-> > > endpoint looks similar to this:
-> > > 
-> > >   port:
-> > >     $ref: /schemas/graph.yaml#/$defs/port-base
-> > > 
-> > >     properties:
-> > >       endpoint:
-> > >         $ref: video-interfaces.yaml#
-> > >         unevaluatedProperties: false
-> > > 
-> > >         properties:
-> > >           bus-width:
-> > >             enum: [ 8, 10, 12, 16 ]
-> > > 
-> > >           pclk-sample: true
-> > >           hsync-active: true
-> > >           vsync-active: true
-> > > 
-> > >         required:
-> > >           - bus-width
-> > > 
-> > >     additionalProperties: false
-> > > 
-> > > Cc: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-> > > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Acked-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > > I need acks for dual licensing from the listed maintainers.
-> > > 
-> > > v3:
-> > > - Support up to 9 physical lanes
-> > > - Set lane-polarities array bounds
-> > > ---
-> > >  .../media/video-interface-devices.yaml        | 406 +++++++++++
-> > >  .../bindings/media/video-interfaces.txt       | 640 +-----------------
-> > >  .../bindings/media/video-interfaces.yaml      | 346 ++++++++++
-> > >  3 files changed, 753 insertions(+), 639 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> > >  create mode 100644 Documentation/devicetree/bindings/media/video-interfaces.yaml
-> 
-> 
-> > > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > > new file mode 100644
-> > > index 000000000000..fefca7d98718
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > > @@ -0,0 +1,346 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/video-interfaces.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Common bindings for video receiver and transmitter interface endpoints
-> > > +
-> > > +maintainers:
-> > > +  - Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-> > > +  - Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > +
-> > > +description: |
-> > > +  Video data pipelines usually consist of external devices, e.g. camera sensors,
-> > > +  controlled over an I2C, SPI or UART bus, and SoC internal IP blocks, including
-> > > +  video DMA engines and video data processors.
-> > > +
-> > > +  SoC internal blocks are described by DT nodes, placed similarly to other SoC
-> > > +  blocks.  External devices are represented as child nodes of their respective
-> > > +  bus controller nodes, e.g. I2C.
-> > > +
-> > > +  Data interfaces on all video devices are described by their child 'port' nodes.
-> > > +  Configuration of a port depends on other devices participating in the data
-> > > +  transfer and is described by 'endpoint' subnodes.
-> > > +
-> > > +  device {
-> > > +      ...
-> > > +      ports {
-> > > +          #address-cells = <1>;
-> > > +          #size-cells = <0>;
-> > > +
-> > > +          port@0 {
-> > > +              ...
-> > > +              endpoint@0 { ... };
-> > > +              endpoint@1 { ... };
-> > > +          };
-> > > +          port@1 { ... };
-> > > +      };
-> > > +  };
-> > > +
-> > > +  If a port can be configured to work with more than one remote device on the same
-> > > +  bus, an 'endpoint' child node must be provided for each of them.  If more than
-> > > +  one port is present in a device node or there is more than one endpoint at a
-> > > +  port, or port node needs to be associated with a selected hardware interface,
-> > > +  a common scheme using '#address-cells', '#size-cells' and 'reg' properties is
-> > > +  used.
-> > > +
-> > > +  All 'port' nodes can be grouped under optional 'ports' node, which allows to
-> > > +  specify #address-cells, #size-cells properties independently for the 'port'
-> > > +  and 'endpoint' nodes and any child device nodes a device might have.
-> > > +
-> > > +  Two 'endpoint' nodes are linked with each other through their 'remote-endpoint'
-> > > +  phandles.  An endpoint subnode of a device contains all properties needed for
-> > > +  configuration of this device for data exchange with other device.  In most
-> > > +  cases properties at the peer 'endpoint' nodes will be identical, however they
-> > > +  might need to be different when there is any signal modifications on the bus
-> > > +  between two devices, e.g. there are logic signal inverters on the lines.
-> > > +
-> > > +  It is allowed for multiple endpoints at a port to be active simultaneously,
-> > > +  where supported by a device.  For example, in case where a data interface of
-> > > +  a device is partitioned into multiple data busses, e.g. 16-bit input port
-> > > +  divided into two separate ITU-R BT.656 8-bit busses.  In such case bus-width
-> > > +  and data-shift properties can be used to assign physical data lines to each
-> > > +  endpoint node (logical bus).
-> > > +
-> > > +  Documenting bindings for devices
-> > > +  --------------------------------
-> > > +
-> > > +  All required and optional bindings the device supports shall be explicitly
-> > > +  documented in device DT binding documentation. This also includes port and
-> > > +  endpoint nodes for the device, including unit-addresses and reg properties
-> > > +  where relevant.
-> > > +
-> > > +  Please also see Documentation/devicetree/bindings/graph.txt .
-> > 
-> > Should this be dropped, or modified to reference the YAML schema for OF
-> > graph ?
-> 
-> Yeah. A lot of the above I feel is just duplicate of how graphs work, 
-> but I left it as-is.
+syzbot found the following issue on:
 
-I meant only the "Please also see ..." sentence.
+HEAD commit:    5e60366d Merge tag 'fallthrough-fixes-clang-5.11-rc1' of g..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=17386d37500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5cea7506b7139727
+dashboard link: https://syzkaller.appspot.com/bug?extid=ec3b3128c576e109171d
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=178e3e0f500000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1029fccb500000
 
-> > > +  clock-lanes:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    # Assume up to 9 physical lane indices
-> > > +    maximum: 8
-> > > +    description:
-> > > +      Physical clock lane index. Position of an entry determines
-> > 
-> > s/index/indexes/ (or indices) as there are potentially multiple entries
-> > (even if in practice, for all bus types we currently support, only one
-> > clock lane is supported) ?
-> 
-> The original text did say 'array', but there aren't any cases, I can't 
-> really see why or how you'd have more than 1, and it seemed silly to 
-> make it an array type with 'maxItems: 1'. Wouldn't a 2 clock case be 
-> dual interface like we do for DSI?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ec3b3128c576e109171d@syzkaller.appspotmail.com
 
-For CSI-2, I don't see any use case for multiple clocks in a single
-port. C-PHY technically has one clock per data lane, but the clock is
-embedded in the data lane, so there's no separate clock lane. Maybe
-there will be other bus types in the future that require this, but we
-can then care about them when they appear.
+================================================================================
+UBSAN: shift-out-of-bounds in drivers/media/rc/mceusb.c:1173:29
+shift exponent 119 is too large for 32-bit type 'int'
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.10.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:79 [inline]
+ dump_stack+0x107/0x163 lib/dump_stack.c:120
+ ubsan_epilogue+0xb/0x5a lib/ubsan.c:148
+ __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x181 lib/ubsan.c:395
+ mceusb_handle_command drivers/media/rc/mceusb.c:1173 [inline]
+ mceusb_process_ir_data drivers/media/rc/mceusb.c:1278 [inline]
+ mceusb_dev_recv.cold+0x188/0x220 drivers/media/rc/mceusb.c:1376
+ __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1657
+ usb_hcd_giveback_urb+0x38c/0x430 drivers/usb/core/hcd.c:1728
+ dummy_timer+0x11f4/0x32a0 drivers/usb/gadget/udc/dummy_hcd.c:1971
+ call_timer_fn+0x1a5/0x690 kernel/time/timer.c:1417
+ expire_timers kernel/time/timer.c:1462 [inline]
+ __run_timers.part.0+0x692/0xa50 kernel/time/timer.c:1731
+ __run_timers kernel/time/timer.c:1712 [inline]
+ run_timer_softirq+0x80/0x120 kernel/time/timer.c:1744
+ __do_softirq+0x1b7/0x9c5 kernel/softirq.c:343
+ asm_call_irq_on_stack+0xf/0x20
+ </IRQ>
+ __run_on_irqstack arch/x86/include/asm/irq_stack.h:26 [inline]
+ run_on_irqstack_cond arch/x86/include/asm/irq_stack.h:77 [inline]
+ do_softirq_own_stack+0x80/0xa0 arch/x86/kernel/irq_64.c:77
+ invoke_softirq kernel/softirq.c:226 [inline]
+ __irq_exit_rcu+0x119/0x1b0 kernel/softirq.c:420
+ irq_exit_rcu+0x5/0x10 kernel/softirq.c:432
+ sysvec_apic_timer_interrupt+0x43/0xa0 arch/x86/kernel/apic/apic.c:1096
+ asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:628
+RIP: 0010:native_save_fl arch/x86/include/asm/irqflags.h:29 [inline]
+RIP: 0010:arch_local_save_flags arch/x86/include/asm/irqflags.h:79 [inline]
+RIP: 0010:arch_irqs_disabled arch/x86/include/asm/irqflags.h:169 [inline]
+RIP: 0010:acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
+RIP: 0010:acpi_idle_do_entry+0x1c9/0x250 drivers/acpi/processor_idle.c:516
+Code: 8d 61 7f fb 84 db 75 ac e8 04 5b 7f fb e8 4f 0f 85 fb e9 0c 00 00 00 e8 f5 5a 7f fb 0f 00 2d ce 86 87 00 e8 e9 5a 7f fb fb f4 <9c> 5b 81 e3 00 02 00 00 fa 31 ff 48 89 de e8 c4 62 7f fb 48 85 db
+RSP: 0018:ffffffff87407d60 EFLAGS: 00000293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffffffff87431940 RSI: ffffffff85c0eb77 RDI: ffffffff85c0eb61
+RBP: ffff888102eb7064 R08: 0000000000000001 R09: 0000000000000001
+R10: ffffffff8145fae8 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff888102eb7000 R14: ffff888102eb7064 R15: ffff888105c87004
+ acpi_idle_enter+0x355/0x4f0 drivers/acpi/processor_idle.c:647
+ cpuidle_enter_state+0x1b1/0xc80 drivers/cpuidle/cpuidle.c:237
+ cpuidle_enter+0x4a/0xa0 drivers/cpuidle/cpuidle.c:351
+ call_cpuidle kernel/sched/idle.c:158 [inline]
+ cpuidle_idle_call kernel/sched/idle.c:239 [inline]
+ do_idle+0x3df/0x580 kernel/sched/idle.c:299
+ cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:396
+ start_kernel+0x498/0x4b9 init/main.c:1061
+ secondary_startup_64_no_verify+0xb0/0xbb
+================================================================================
 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Thanks.
 
--- 
-Regards,
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Laurent Pinchart
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
