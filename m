@@ -2,127 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 381DE2DF0F9
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 19:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA852DF11E
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 19:54:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbgLSSOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Dec 2020 13:14:51 -0500
-Received: from mail-il1-f197.google.com ([209.85.166.197]:43477 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727347AbgLSSOv (ORCPT
+        id S1727420AbgLSSxi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Dec 2020 13:53:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727337AbgLSSxi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Dec 2020 13:14:51 -0500
-Received: by mail-il1-f197.google.com with SMTP id p6so5393222ils.10
-        for <linux-media@vger.kernel.org>; Sat, 19 Dec 2020 10:14:35 -0800 (PST)
+        Sat, 19 Dec 2020 13:53:38 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73063C0613CF;
+        Sat, 19 Dec 2020 10:52:46 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id x126so3598354pfc.7;
+        Sat, 19 Dec 2020 10:52:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k1zIYWtnLeqCpR6G01qfhl0qjWfgWBYC7/jVFwx9GwE=;
+        b=ONF3H9nm1kc9HSePnhuciU8TbKdOmZD9ddxKmAb5SUSVv9uMe3tYyR8iX1lwdwIIRl
+         EXOuxEbPndf6H89QQVgBxcajC8YwT8Y0jkJrcJgmnseRkvjkvc+tf4FOM/pwhqN2EDJb
+         oKVgNtAKOwZJC1slAJ3jXbOHdnKzv7ZI2SughrBRPE4FUZtH2CnVzViCIXfHUgG84zbJ
+         o87MOV6eOZLA/KOkZ09cz5LDTghW8Kd3ieazDMFHNO9dx47xZMVvfwPM3Kpt+WETnaep
+         oTji+jqIrKwjB1FnSpnGFVeVEHRuCiDyLAN9gyNKLH/JdupQHE5KPSRGpfETteuaydC5
+         AGrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=XCHs9DzLtVN3G7JxGdTMAu9lfhGd2S5W/XzJE3KmVOc=;
-        b=fsN/rgjuBRz38g5273DXM05sUk1KcY0LtRXPaJCKncHaKoxCHR+9Ar5JVvM8AWfpAh
-         XtCnuvaI6dr4rbKT751XQQTX6bgg3HInwWqJPkusIuGdfs4IGa/PVKKf5jx6yAZPZS5y
-         2UKtPVAGnLp0tL+ckmKFgGeLiV3BFpKJlSlDTYWFk9wTzNzkiYEIsAeFGpQ2DcTjLW1G
-         ONEZl4SdOoMlouC1PrkuTthGfqIUGgj0kLnnEhDXYriw53ZSkZTB/F2Bft7le8JHbVs0
-         gZP2ZZPdmpElbb7v0quIhjMKGYvp02NCdeJbHTs2dnd/xyehHPPZZNXgdmDNqS8ymYEV
-         qAGA==
-X-Gm-Message-State: AOAM531yYCLrDjkq9ApRrVNpcqCwIupVWlDlfFhC7dWRv+VQ0zKgIcFZ
-        D/nqrICTEayHr8H0ZCFfOAzJyxzwRUJ2Qw64zKWqrfUS13S8
-X-Google-Smtp-Source: ABdhPJxxQ3e9AR9hTo2g0dF0pMgkZdT3mDlEgGiJQrsVwnpahAM27HhztMy/FpQ8NveZ+5q/vYIAeY+OSdYwMgT5bi6gWQV2n8Jp
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k1zIYWtnLeqCpR6G01qfhl0qjWfgWBYC7/jVFwx9GwE=;
+        b=SJ9Uw6tfEI4wztO3sGdd3hi3f2KqgSlev0Ws+IQPsvsxT24qT9TmAfpDjJ4aoRvuqH
+         bCc0nTElTcF+C+4QQ9UcTl+Jzo9IF+57Vn4GGX1yacPV+dVb82kjmJ4KGlZ8mmxPwz5r
+         KQ6TxehrzEkR+eLPEwUvxHxFJQbIiAnccXRhy5n2Rr8PHhochqLT1yg4D1SSmQaeRCZZ
+         KcTk3aAx1ZC0QYodMQJ7+8+PDATqbgguuzrhbaL3I7UHGIILZobqkagy8iZGR2bASx3w
+         2IjQ0JISOy7Hoq8YAfRocigX+oC6kGuP3wzSAxNZMIie26lhz0c6kJwqlcq+wxSc+PSg
+         eLSQ==
+X-Gm-Message-State: AOAM533KdT7LltXokuO/emyzMYt0Et9o81HV0sNAt/b3nCXoA4neZbXl
+        a1/NfXatlBK2+D0fAgb25MYfzvVf3VcsWiTkWGQ=
+X-Google-Smtp-Source: ABdhPJz5HGuII/pHqYaHr7+ZtbOwTFu7GODBV+U/h1vrgnQazOUcB6ZL7+pPs4yxjBZUWSRc7v3wXh44kRIaKPNeVt0=
+X-Received: by 2002:a05:6a00:170a:b029:19d:afca:4704 with SMTP id
+ h10-20020a056a00170ab029019dafca4704mr8805453pfc.7.1608403965858; Sat, 19 Dec
+ 2020 10:52:45 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a92:5802:: with SMTP id m2mr9941150ilb.271.1608401650209;
- Sat, 19 Dec 2020 10:14:10 -0800 (PST)
-Date:   Sat, 19 Dec 2020 10:14:10 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000457c305b6d53148@google.com>
-Subject: UBSAN: shift-out-of-bounds in mceusb_dev_recv
-From:   syzbot <syzbot+ec3b3128c576e109171d@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com
+References: <20201217234337.1983732-1-djrscally@gmail.com> <20201217234337.1983732-13-djrscally@gmail.com>
+ <20201218211732.GE4077@smile.fi.intel.com> <e2b4c35f-5020-c332-d97a-8ba25be0e55e@gmail.com>
+In-Reply-To: <e2b4c35f-5020-c332-d97a-8ba25be0e55e@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 19 Dec 2020 20:52:29 +0200
+Message-ID: <CAHp75VcebKas4j-vByodicHxRMrO4jkaJToSUW3iLJC2+vY_iA@mail.gmail.com>
+Subject: Re: [PATCH v2 12/12] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>, jorhand@linux.microsoft.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Sat, Dec 19, 2020 at 2:25 AM Daniel Scally <djrscally@gmail.com> wrote:
+> On 18/12/2020 21:17, Andy Shevchenko wrote:
+> > On Thu, Dec 17, 2020 at 11:43:37PM +0000, Daniel Scally wrote:
 
-syzbot found the following issue on:
+...
 
-HEAD commit:    5e60366d Merge tag 'fallthrough-fixes-clang-5.11-rc1' of g..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=17386d37500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5cea7506b7139727
-dashboard link: https://syzkaller.appspot.com/bug?extid=ec3b3128c576e109171d
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=178e3e0f500000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1029fccb500000
+> >> +    sensor->ep_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.bus_type, 4);
+> >
+> > Does 4 has any meaning that can be described by #define ?
+>
+> It's V4L2_FWNODE_BUS_TYPE_CSI2_DPHY:
+>
+> https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-fwnode.c#L36
+>
+> That enum's not in an accessible header, but I can define it in this
+> module's header
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ec3b3128c576e109171d@syzkaller.appspotmail.com
+Maybe you can do a preparatory patch to make it visible to v4l2
+drivers? (Like moving to one of v4l2 headers)
 
-================================================================================
-UBSAN: shift-out-of-bounds in drivers/media/rc/mceusb.c:1173:29
-shift exponent 119 is too large for 32-bit type 'int'
-CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.10.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:79 [inline]
- dump_stack+0x107/0x163 lib/dump_stack.c:120
- ubsan_epilogue+0xb/0x5a lib/ubsan.c:148
- __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x181 lib/ubsan.c:395
- mceusb_handle_command drivers/media/rc/mceusb.c:1173 [inline]
- mceusb_process_ir_data drivers/media/rc/mceusb.c:1278 [inline]
- mceusb_dev_recv.cold+0x188/0x220 drivers/media/rc/mceusb.c:1376
- __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1657
- usb_hcd_giveback_urb+0x38c/0x430 drivers/usb/core/hcd.c:1728
- dummy_timer+0x11f4/0x32a0 drivers/usb/gadget/udc/dummy_hcd.c:1971
- call_timer_fn+0x1a5/0x690 kernel/time/timer.c:1417
- expire_timers kernel/time/timer.c:1462 [inline]
- __run_timers.part.0+0x692/0xa50 kernel/time/timer.c:1731
- __run_timers kernel/time/timer.c:1712 [inline]
- run_timer_softirq+0x80/0x120 kernel/time/timer.c:1744
- __do_softirq+0x1b7/0x9c5 kernel/softirq.c:343
- asm_call_irq_on_stack+0xf/0x20
- </IRQ>
- __run_on_irqstack arch/x86/include/asm/irq_stack.h:26 [inline]
- run_on_irqstack_cond arch/x86/include/asm/irq_stack.h:77 [inline]
- do_softirq_own_stack+0x80/0xa0 arch/x86/kernel/irq_64.c:77
- invoke_softirq kernel/softirq.c:226 [inline]
- __irq_exit_rcu+0x119/0x1b0 kernel/softirq.c:420
- irq_exit_rcu+0x5/0x10 kernel/softirq.c:432
- sysvec_apic_timer_interrupt+0x43/0xa0 arch/x86/kernel/apic/apic.c:1096
- asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:628
-RIP: 0010:native_save_fl arch/x86/include/asm/irqflags.h:29 [inline]
-RIP: 0010:arch_local_save_flags arch/x86/include/asm/irqflags.h:79 [inline]
-RIP: 0010:arch_irqs_disabled arch/x86/include/asm/irqflags.h:169 [inline]
-RIP: 0010:acpi_safe_halt drivers/acpi/processor_idle.c:111 [inline]
-RIP: 0010:acpi_idle_do_entry+0x1c9/0x250 drivers/acpi/processor_idle.c:516
-Code: 8d 61 7f fb 84 db 75 ac e8 04 5b 7f fb e8 4f 0f 85 fb e9 0c 00 00 00 e8 f5 5a 7f fb 0f 00 2d ce 86 87 00 e8 e9 5a 7f fb fb f4 <9c> 5b 81 e3 00 02 00 00 fa 31 ff 48 89 de e8 c4 62 7f fb 48 85 db
-RSP: 0018:ffffffff87407d60 EFLAGS: 00000293
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffffffff87431940 RSI: ffffffff85c0eb77 RDI: ffffffff85c0eb61
-RBP: ffff888102eb7064 R08: 0000000000000001 R09: 0000000000000001
-R10: ffffffff8145fae8 R11: 0000000000000000 R12: 0000000000000001
-R13: ffff888102eb7000 R14: ffff888102eb7064 R15: ffff888105c87004
- acpi_idle_enter+0x355/0x4f0 drivers/acpi/processor_idle.c:647
- cpuidle_enter_state+0x1b1/0xc80 drivers/cpuidle/cpuidle.c:237
- cpuidle_enter+0x4a/0xa0 drivers/cpuidle/cpuidle.c:351
- call_cpuidle kernel/sched/idle.c:158 [inline]
- cpuidle_idle_call kernel/sched/idle.c:239 [inline]
- do_idle+0x3df/0x580 kernel/sched/idle.c:299
- cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:396
- start_kernel+0x498/0x4b9 init/main.c:1061
- secondary_startup_64_no_verify+0xb0/0xbb
-================================================================================
+...
 
+> >> +                    if (bridge->n_sensors >= CIO2_NUM_PORTS) {
+> >> +                            dev_warn(&cio2->dev, "Exceeded available CIO2 ports\n");
+> >
+> >> +                            /* overflow i so outer loop ceases */
+> >> +                            i = ARRAY_SIZE(cio2_supported_sensors);
+> >> +                            break;
+> >
+> > Why not to create a new label below and assign ret here with probably comment
+> > why it's not an error?
+>
+> Sure, I can do that, but since it wouldn't need any cleanup I could also
+> just return 0 here as Laurent suggest (but with a comment explaining why
+> that's ok as you say) - do you have a preference?
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+While it's a good suggestion it will bring a bit of inconsistency into
+approach. Everywhere else in the function you are using the goto
+approach.
+So yes, I have a preference.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> >> +                    }
+
+...
+
+> >> +                    ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
+> >> +                                                       &sensor->ssdb,
+> >> +                                                       sizeof(sensor->ssdb));
+> >> +                    if (ret < 0)
+> >
+> > if (ret) (because positive case can be returned just by next conditional).
+>
+> cio2_bridge_read_acpi_buffer() returns the buffer length on success at
+> the moment, but I can change it to return 0 and have this be if (ret)
+
+Please correct this somehow, because the next failure returns it
+instead of error...
+
+> >> +                            goto err_put_adev;
+> >> +
+> >> +                    if (sensor->ssdb.lanes > 4) {
+> >> +                            dev_err(&adev->dev,
+> >> +                                    "Number of lanes in SSDB is invalid\n");
+
+...I'm even thinking that you have to assign ret here to something meaningful.
+
+> >> +                            goto err_put_adev;
+> >> +                    }
+
+-- 
+With Best Regards,
+Andy Shevchenko
