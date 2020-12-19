@@ -2,180 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A98F2DEC75
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 01:40:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3B5D2DEC9C
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 02:19:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725978AbgLSAkN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 19:40:13 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50680 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbgLSAkN (ORCPT
+        id S1726063AbgLSBRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 20:17:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725940AbgLSBRv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 19:40:13 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0482D180E;
-        Sat, 19 Dec 2020 01:39:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608338370;
-        bh=Mwf0q0t0LMS6PGhWBpcj+B3EqmdyeuNAiT1SG6SpHqY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EJ2cPSMkcWs8RgqA1zBGGIOT6d697PVsPE4YW+7vchJuUU83qS+8VUgnX8fDo0R6a
-         LHqmo09Q1EzHrjfeEyPdp2qqXwUKPT8+4m+1vc2Q9pOSXlFwBSHrX6GUXC+I1DuQRQ
-         FlS6Y4HW9T02cNxFS3RT1mHaoh12uWGyr7U/9xk4=
-Date:   Sat, 19 Dec 2020 02:39:22 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
-        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
-        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
-        sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
-        linux@rasmusvillemoes.dk,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
-        kitakar@gmail.com, jorhand@linux.microsoft.com
-Subject: Re: [PATCH v2 12/12] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
-Message-ID: <X91Lum0ZPDjo1cTt@pendragon.ideasonboard.com>
-References: <20201217234337.1983732-1-djrscally@gmail.com>
- <20201217234337.1983732-13-djrscally@gmail.com>
- <X9zehD1xtQP/bxXu@pendragon.ideasonboard.com>
- <5c0ae9f8-ba58-a26c-400b-7d85d01087a3@gmail.com>
+        Fri, 18 Dec 2020 20:17:51 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42CEC06138C
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 17:17:10 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id h205so10149008lfd.5
+        for <linux-media@vger.kernel.org>; Fri, 18 Dec 2020 17:17:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=kqfzYZjd8v2qCtr+CwGBLV3Vs/0PzggZH8o2lrmVRy4=;
+        b=ls5MoaMqVOyX5M6LeJ7eYoWXDLcSL2zNpvZdCh8SldBLA67re9nR3vHyOr9Kk845sS
+         EL3Ta6jkQM+r9MiA76QGqXSQN9M8bA1OAzpN4vxrPndmuVcBUIDqzCLU7Ehrxhy/qkJ8
+         lSr9P+WugopXsX7cQ6F0rx08k2CPzs0XNLdixfRVDsPviFrVwtFzuKu+r8QAMqrSxkGl
+         yaZZDujJhyMeX5FDAax0n1odd8tQAmYwOy9ca8sfIeuoQdSrqYzTHZEik8Lcu8D3+SHT
+         QB8WMkr44X6wnzsjCZgUeNp17FOX/Ftfku/Ea+p9go1GbGHfSlfrj7dub0jmJpY2g/1A
+         5hzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=kqfzYZjd8v2qCtr+CwGBLV3Vs/0PzggZH8o2lrmVRy4=;
+        b=oXkeNlNXI1ULVbg7GD1WQ7ReVbplAGFl1Lx0lRs/XbKs2r2CfwNOs5rnENrReJXa0b
+         EY6lrHnoVt11DT5D3mEePZiBFIrYRhoRLAmiwDLmXgHj3JqvrX55MuRX1i5PNNBGnUpK
+         LEkHwaptNGo9u9AfyrIFT6cvemwngu8l4pSISaW1MkdMD0c818nqIvSKdLavLBLxgHG7
+         vBTehr3KTiy38lOucSvDfsU7cWYxAh9YzCXwgeByebeq8x09Ms33a1wtcw/9h5xfQ0XU
+         uE6EmgmnPOVCMP1dvM2FBl1KsB79RSCNqLXF6KZHIsSMhFoyjd94w/QLGnCb93pSxKkM
+         yAIw==
+X-Gm-Message-State: AOAM530L9TMi2yEdN4062u81T83oLnhksJGu5AjMD23AZXK3vl4Uxgzz
+        5RcOurSzcYIQO2RZuzIqWvgN6Zmysn/GqUPirCEF4w==
+X-Google-Smtp-Source: ABdhPJz8IyC9TNugB6b1jNzXWdqS4aLXJgFDsDKLMZm3d17IGbYv/wBtt5j26wi/EUUufPG4L1ZhUKiFX7ma0puzRyg=
+X-Received: by 2002:a05:6512:6c3:: with SMTP id u3mr2309354lff.204.1608340629119;
+ Fri, 18 Dec 2020 17:17:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5c0ae9f8-ba58-a26c-400b-7d85d01087a3@gmail.com>
+References: <20201217230612.32397-1-john.stultz@linaro.org>
+ <20201217230612.32397-2-john.stultz@linaro.org> <X9y+YZujWBTHMuH3@phenom.ffwll.local>
+In-Reply-To: <X9y+YZujWBTHMuH3@phenom.ffwll.local>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Fri, 18 Dec 2020 17:16:56 -0800
+Message-ID: <CALAqxLVtYVGSSYtFmMK6oM9JSEmY4RAXra89sECL2Z4YGPic0Q@mail.gmail.com>
+Subject: Re: [RFC][PATCH 2/3] dma-buf: system_heap: Add pagepool support to
+ system heap
+To:     John Stultz <john.stultz@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Sandeep Patil <sspatil@google.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Jones <jajones@nvidia.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+On Fri, Dec 18, 2020 at 6:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Dec 17, 2020 at 11:06:11PM +0000, John Stultz wrote:
+> > Reuse/abuse the pagepool code from the network code to speed
+> > up allocation performance.
+> >
+> > This is similar to the ION pagepool usage, but tries to
+> > utilize generic code instead of a custom implementation.
+>
+> We also have one of these in ttm. I think we should have at most one of
+> these for the gpu ecosystem overall, maybe as a helper that can be plugged
+> into all the places.
+>
+> Or I'm kinda missing something, which could be since I only glanced at
+> yours for a bit. But it's also called page pool for buffer allocations,
+> and I don't think there's that many ways to implement that really :-)
 
-On Fri, Dec 18, 2020 at 11:57:54PM +0000, Daniel Scally wrote:
-> Hi Laurent - thanks for the comments
-> 
-> On 18/12/2020 16:53, Laurent Pinchart wrote:
-> >> +static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
-> >> +{
-> >> +	strscpy(sensor->prop_names.clock_frequency, "clock-frequency",
-> >> +		sizeof(sensor->prop_names.clock_frequency));
-> >> +	strscpy(sensor->prop_names.rotation, "rotation",
-> >> +		sizeof(sensor->prop_names.rotation));
-> >> +	strscpy(sensor->prop_names.bus_type, "bus-type",
-> >> +		sizeof(sensor->prop_names.bus_type));
-> >> +	strscpy(sensor->prop_names.data_lanes, "data-lanes",
-> >> +		sizeof(sensor->prop_names.data_lanes));
-> >> +	strscpy(sensor->prop_names.remote_endpoint, "remote-endpoint",
-> >> +		sizeof(sensor->prop_names.remote_endpoint));
-> >> +	strscpy(sensor->prop_names.link_frequencies, "link-frequencies",
-> >> +		sizeof(sensor->prop_names.link_frequencies));
-> > 
-> > Just curious, was there anything not working correctly with the proposal
-> > I made ?
-> > 
-> > static const struct cio2_property_names prop_names = {
-> > 	.clock_frequency = "clock-frequency",
-> > 	.rotation = "rotation",
-> > 	.bus_type = "bus-type",
-> > 	.data_lanes = "data-lanes",
-> > 	.remote_endpoint = "remote-endpoint",
-> > };
-> > 
-> > static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
-> > {
-> > 	sensor->prop_names = prop_names;
-> > }
-> > 
-> > It generates a warning when the string is too long for the field size,
-> > which should help catching issues at compilation time.
-> 
-> Yes, though I don't know how much of a real-world problem it would have
-> been - if you recall we have the issue that the device grabs a reference
-> to the software_nodes (after we stopped delaying until after the
-> i2c_client is available), which means we can't safely free the
-> cio2_bridge struct on module unload. That also means we can't rely on
-> those pointers to string literals existing, because if the ipu3-cio2
-> module gets unloaded they'll be gone.
+Yea, when I was looking around the ttm one didn't seem quite as
+generic as the networking one, which more easily fit in here.
 
-But the strings above are not stored as literals in .rodata, they're
-copied in prop_names (itself in .rodata), which is then copied to
-sensor->prop_names.
+The main benefit for the system heap is not so much the pool itself
+(the normal page allocator is pretty good), as it being able to defer
+the free and zero the pages in a background thread, so the pool is
+effectively filled with pre-zeroed pages.
 
-> Shame, as it's way neater.
-> 
-> >> +static void cio2_bridge_init_swnode_names(struct cio2_sensor *sensor)
-> >> +{
-> >> +	snprintf(sensor->node_names.remote_port, 7, "port@%u", sensor->ssdb.link);
-> >> +	strscpy(sensor->node_names.port, "port@0", sizeof(sensor->node_names.port));
-> >> +	strscpy(sensor->node_names.endpoint, "endpoint@0", sizeof(sensor->node_names.endpoint));
-> > 
-> > I'd wrap lines, but maybe that's because I'm an old-school, 80-columns
-> > programmer :-)
-> 
-> Heh sure, I'll wrap them.
-> 
-> >> +static int cio2_bridge_connect_sensors(struct cio2_bridge *bridge,
-> >> +				       struct pci_dev *cio2)
-> >> +{
-> >> +	struct fwnode_handle *fwnode;
-> >> +	struct cio2_sensor *sensor;
-> >> +	struct acpi_device *adev;
-> >> +	unsigned int i;
-> >> +	int ret = 0;
-> >> +
-> >> +	for (i = 0; i < ARRAY_SIZE(cio2_supported_sensors); i++) {
-> >> +		const struct cio2_sensor_config *cfg = &cio2_supported_sensors[i];
-> >> +
-> >> +		for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
-> >> +			if (bridge->n_sensors >= CIO2_NUM_PORTS) {
-> >> +				dev_warn(&cio2->dev, "Exceeded available CIO2 ports\n");
-> >> +				/* overflow i so outer loop ceases */
-> >> +				i = ARRAY_SIZE(cio2_supported_sensors);
-> >> +				break;
-> > 
-> > Or just
-> > 
-> > 				return 0;
-> > 
-> > ?
-> 
-> Derp, yes of course.
-> 
-> 
-> >> +/* Data representation as it is in ACPI SSDB buffer */
-> >> +struct cio2_sensor_ssdb {
-> >> +	u8 version;				/* 0000 */
-> >> +	u8 sku;					/* 0001 */
-> >> +	u8 guid_csi2[16];			/* 0002 */
-> >> +	u8 devfunction;				/* 0003 */
-> >> +	u8 bus;					/* 0004 */
-> >> +	u32 dphylinkenfuses;			/* 0005 */
-> >> +	u32 clockdiv;				/* 0009 */
-> >> +	u8 link;				/* 0013 */
-> >> +	u8 lanes;				/* 0014 */
-> >> +	u32 csiparams[10];			/* 0015 */
-> >> +	u32 maxlanespeed;			/* 0019 */
-> >> +	u8 sensorcalibfileidx;			/* 0023 */
-> >> +	u8 sensorcalibfileidxInMBZ[3];		/* 0024 */
-> >> +	u8 romtype;				/* 0025 */
-> >> +	u8 vcmtype;				/* 0026 */
-> >> +	u8 platforminfo;			/* 0027 */
-> > 
-> > Why stop at 27 ? :-) I'd either go all the way, or not at all. It's also
-> > quite customary to represent offset as hex values, as that's what most
-> > hex editors / viewers will show.
-> 
-> Oops - that was actually just me debugging...I guess I might actually
-> finish it, converted to hex. It came in useful reading the DSDT to have
-> that somewhere easy to refer to.
-> 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Nice - thank you!
+But I'll take another look at the ttm implementation and see if it can
+be re-used or the shared code refactored and pulled out somehow.
 
--- 
-Regards,
-
-Laurent Pinchart
+thanks
+-john
