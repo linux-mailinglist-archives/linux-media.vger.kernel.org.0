@@ -2,134 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D0BE2DF207
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 23:45:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0766F2DF219
+	for <lists+linux-media@lfdr.de>; Sun, 20 Dec 2020 00:25:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726580AbgLSWnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Dec 2020 17:43:33 -0500
-Received: from mga06.intel.com ([134.134.136.31]:2982 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726449AbgLSWnd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Dec 2020 17:43:33 -0500
-IronPort-SDR: EG8lzHvi7qYnJYnqO3r0eYSD38I06m/uHOoiU0p5swy5qQ9uTHsF8JRXtvUhrNzrtsfEiTHeMj
- Rua4eIoy1LOQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="237168139"
-X-IronPort-AV: E=Sophos;i="5.78,433,1599548400"; 
-   d="scan'208";a="237168139"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2020 14:41:46 -0800
-IronPort-SDR: r64qM+yIoMn909KO2HJye5lO0Tk4Oxq1aR/lo1pw1UV760m70MhuipbW2BPSNI6mZmqiNTYHp2
- ZVhLLgE3anDw==
-X-IronPort-AV: E=Sophos;i="5.78,433,1599548400"; 
-   d="scan'208";a="559747678"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2020 14:41:44 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 4B5DF205F7; Sun, 20 Dec 2020 00:41:42 +0200 (EET)
-Date:   Sun, 20 Dec 2020 00:41:42 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     syzbot <syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: memory leak in video_usercopy
-Message-ID: <20201219224142.GZ26370@paasikivi.fi.intel.com>
-References: <00000000000025169705b6d100fa@google.com>
- <CAK8P3a3AF4yFUcOEzMPf7SGkf6YVPJthHLzGtM==oGkSj+=mtg@mail.gmail.com>
+        id S1726580AbgLSXZd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Dec 2020 18:25:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726458AbgLSXZc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 19 Dec 2020 18:25:32 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B8CC0613CF;
+        Sat, 19 Dec 2020 15:24:52 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id v14so6253350wml.1;
+        Sat, 19 Dec 2020 15:24:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=b0TK+e8Qjjv1MixV6HMg5PDHcj6mTSKLtcNqevp3glo=;
+        b=s5lTyfVHYAPCC8r+MPcSHNyRX6QnVvFCRtchbVXuCm6w6zQzDzLp09e3OnUAFqx2IP
+         exEsNJr2df/PQ8vpA+/yZsxacCIuIjjrOlg7cXC/IFdXR9+VguOh9sYW7q/scnJVH6E3
+         yuk7JM9+I8STzEpPc/8tEgjn+anJ2qNlCJ3djw4aPQupePPpP1O+ydehYT7wDP0JfLVo
+         R+KtTicLUWrAp55Ooq1sjjgHydA3739lNXjZ1UzJKDEi2Nu6F2I9CP3Ig3iq9iKrUvH6
+         YkS0V/XK+VpbJuyJHOoQfutSRGlGlQoALaFWca7Agt6ekwCVAmeTR6lNqmYQ02qA+V3l
+         1oTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=b0TK+e8Qjjv1MixV6HMg5PDHcj6mTSKLtcNqevp3glo=;
+        b=CLvtdLJdJfj/9qj9SexJiwrQTSBfXqkujU05QXg7pCjmtcTaCM2oZ0m7JMzBTpIUDm
+         FCn9zqkN5nm7XPrXcz/6g+CsLzjqpN2DfoEBQAg06QF93g+ys5wlbOObjexc4QscyTcZ
+         oLMEM3+H5zAaC1sumGGu5PXSepCVUiuhCspnmNgPfjgX5mQIX9QEg3eTdFoasC4RLE5V
+         5q5TcHtVo87qJaMPrXgMRc5Hp5G88K3TZpQ2ll08prrxDrJhFv7rE7MMsYOWTe2XFB3g
+         YIvo+NeJRtBA353dga29WsBBkj5uSZqy7rKoaOUU3GswXOAPG0EFIIviYBVESxJndOOX
+         ECNQ==
+X-Gm-Message-State: AOAM531ZB+bfcXtqz17FuSxpCDZPMS2oKW8KXtTwsuJjsDw7sZWOtLRc
+        OWvtUUWjpWL4pxP0YrY8EL0=
+X-Google-Smtp-Source: ABdhPJw2c1Pa8dqLQOTk1GNNIo4kFBuMGzfpICg6aEdfwvrKvLLN7AXXMrFpf4QsFGSop2tPpJrvFQ==
+X-Received: by 2002:a05:600c:2:: with SMTP id g2mr9731950wmc.156.1608420290111;
+        Sat, 19 Dec 2020 15:24:50 -0800 (PST)
+Received: from [192.168.1.211] ([2.31.224.116])
+        by smtp.gmail.com with ESMTPSA id b7sm14238305wru.33.2020.12.19.15.24.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Dec 2020 15:24:49 -0800 (PST)
+Subject: Re: [PATCH v2 12/12] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
+        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
+        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
+        linux@rasmusvillemoes.dk,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
+        kitakar@gmail.com, jorhand@linux.microsoft.com
+References: <20201217234337.1983732-1-djrscally@gmail.com>
+ <20201217234337.1983732-13-djrscally@gmail.com>
+ <X9zehD1xtQP/bxXu@pendragon.ideasonboard.com>
+ <5c0ae9f8-ba58-a26c-400b-7d85d01087a3@gmail.com>
+ <X91Lum0ZPDjo1cTt@pendragon.ideasonboard.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <5515a4df-d224-1279-ab8d-40b848a74c38@gmail.com>
+Date:   Sat, 19 Dec 2020 23:24:48 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a3AF4yFUcOEzMPf7SGkf6YVPJthHLzGtM==oGkSj+=mtg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <X91Lum0ZPDjo1cTt@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
+On 19/12/2020 00:39, Laurent Pinchart wrote:
+> Hi Daniel,
+> 
+> On Fri, Dec 18, 2020 at 11:57:54PM +0000, Daniel Scally wrote:
+>> Hi Laurent - thanks for the comments
+>>
+>> On 18/12/2020 16:53, Laurent Pinchart wrote:
+>>>> +static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
+>>>> +{
+>>>> +	strscpy(sensor->prop_names.clock_frequency, "clock-frequency",
+>>>> +		sizeof(sensor->prop_names.clock_frequency));
+>>>> +	strscpy(sensor->prop_names.rotation, "rotation",
+>>>> +		sizeof(sensor->prop_names.rotation));
+>>>> +	strscpy(sensor->prop_names.bus_type, "bus-type",
+>>>> +		sizeof(sensor->prop_names.bus_type));
+>>>> +	strscpy(sensor->prop_names.data_lanes, "data-lanes",
+>>>> +		sizeof(sensor->prop_names.data_lanes));
+>>>> +	strscpy(sensor->prop_names.remote_endpoint, "remote-endpoint",
+>>>> +		sizeof(sensor->prop_names.remote_endpoint));
+>>>> +	strscpy(sensor->prop_names.link_frequencies, "link-frequencies",
+>>>> +		sizeof(sensor->prop_names.link_frequencies));
+>>>
+>>> Just curious, was there anything not working correctly with the proposal
+>>> I made ?
+>>>
+>>> static const struct cio2_property_names prop_names = {
+>>> 	.clock_frequency = "clock-frequency",
+>>> 	.rotation = "rotation",
+>>> 	.bus_type = "bus-type",
+>>> 	.data_lanes = "data-lanes",
+>>> 	.remote_endpoint = "remote-endpoint",
+>>> };
+>>>
+>>> static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
+>>> {
+>>> 	sensor->prop_names = prop_names;
+>>> }
+>>>
+>>> It generates a warning when the string is too long for the field size,
+>>> which should help catching issues at compilation time.
+>>
+>> Yes, though I don't know how much of a real-world problem it would have
+>> been - if you recall we have the issue that the device grabs a reference
+>> to the software_nodes (after we stopped delaying until after the
+>> i2c_client is available), which means we can't safely free the
+>> cio2_bridge struct on module unload. That also means we can't rely on
+>> those pointers to string literals existing, because if the ipu3-cio2
+>> module gets unloaded they'll be gone.
+> 
+> But the strings above are not stored as literals in .rodata, they're
+> copied in prop_names (itself in .rodata), which is then copied to
+> sensor->prop_names.
 
-On Sat, Dec 19, 2020 at 03:08:14PM +0100, Arnd Bergmann wrote:
-> ,On Sat, Dec 19, 2020 at 2:15 PM syzbot
-> <syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com> wrote:
-> >
-> > Hello,
-> >
-> > syzbot found the following issue on:
-> >
-> > HEAD commit:    a409ed15 Merge tag 'gpio-v5.11-1' of git://git.kernel.org/..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=10a5880f500000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=37c889fb8b2761af
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=1115e79c8df6472c612b
-> > compiler:       gcc (GCC) 10.1.0-syz 20200507
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14d18f9b500000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=106a2c13500000
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com
-> >
-> > Debian GNU/Linux 9 syzkaller ttyS0
-> > Warning: Permanently added '10.128.10.29' (ECDSA) to the list of known hosts.
-> > executing program
-> > executing program
-> > BUG: memory leak
-> > unreferenced object 0xffff88810fb12300 (size 256):
-> >   comm "syz-executor399", pid 8472, jiffies 4294942333 (age 13.960s)
-> >   hex dump (first 32 bytes):
-> >     03 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >   backtrace:
-> >     [<000000009fd00995>] kmalloc_node include/linux/slab.h:575 [inline]
-> >     [<000000009fd00995>] kvmalloc_node+0x61/0xf0 mm/util.c:575
-> >     [<0000000096a57c4a>] kvmalloc include/linux/mm.h:773 [inline]
-> >     [<0000000096a57c4a>] video_usercopy+0x991/0xa50 drivers/media/v4l2-core/v4l2-ioctl.c:3303
-> >     [<00000000f7529cc2>] v4l2_ioctl+0x77/0x90 drivers/media/v4l2-core/v4l2-dev.c:360
-> >     [<0000000061b5e6a9>] vfs_ioctl fs/ioctl.c:48 [inline]
-> >     [<0000000061b5e6a9>] __do_sys_ioctl fs/ioctl.c:753 [inline]
-> >     [<0000000061b5e6a9>] __se_sys_ioctl fs/ioctl.c:739 [inline]
-> >     [<0000000061b5e6a9>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
-> >     [<000000000139479b>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
-> >     [<00000000d6de1c9c>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> 
-> It seems there are commands that need both a buffer for the direct ioc
-> argument and for array_args. If that happens, we have two kvmalloc() calls
-> but only one kvfree(), and that would correctly trigger the leak detector.
-> 
-> The direct ioc argument copy happens for arguments over 128 bytes.
-> Checking the sizes of the comands with array args shows
-> 
-> VIDIOC_PREPARE_BUF, VIDIOC_QUERYBUF, VIDIOC_QBUF, VIDIOC_DQBUF:
-> v4l2_buffer, 84 bytes or less
-> 
-> VIDIOC_G_EDID, VIDIOC_S_EDID:
-> v4l2_edid, 40 bytes or less
-> 
-> VIDIOC_G_EXT_CTRLS, VIDIOC_S_EXT_CTRLS, VIDIOC_TRY_EXT_CTRLS:
-> v4l2_ext_controls, 32 bytes or less
-> 
-> VIDIOC_G_FMT, VIDIOC_S_FMT, VIDIOC_TRY_FMT:
-> v4l2_format, 204 or 208 bytes
-> 
-> I would conclude it's one of the last three commands, and it could be
-> avoided either by increasing the on-stack buffer to sizeof(struct v4l2_format),
-> or by restructuring this function again to have two separate pointers
-> for alloc/free.
+Yeah, my bad; I also had changed the struct definition to:
 
-Thanks for reporting this.
+struct cio2_property_names {
+	char *clock_frequency;
+	...
+};
 
-I'd say the original approach was risky to begin with, and that risk
-effectively materialised here. I'd rather fix the risky construction than
-leaving it there.
-
-Considering the format IOCTLs have been unchanged (size-wise) all this
-time, it looks like it really has been broken for a few days short of a
-decade! sbuf has been 128 bytes all this time.
-
--- 
-Kind regards,
-
-Sakari Ailus
+And that behaves differently - apologies. I'll change to your proposal.
