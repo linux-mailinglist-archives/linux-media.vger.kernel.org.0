@@ -2,107 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EFDF2DEE08
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 10:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF46E2DEE49
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 11:58:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbgLSJmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Dec 2020 04:42:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38678 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726402AbgLSJmk (ORCPT
+        id S1726483AbgLSK6G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Dec 2020 05:58:06 -0500
+Received: from mail-ej1-f53.google.com ([209.85.218.53]:34661 "EHLO
+        mail-ej1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726456AbgLSK6G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Dec 2020 04:42:40 -0500
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75768C0617B0
-        for <linux-media@vger.kernel.org>; Sat, 19 Dec 2020 01:41:59 -0800 (PST)
-Received: by mail-qt1-x830.google.com with SMTP id 7so3235408qtp.1
-        for <linux-media@vger.kernel.org>; Sat, 19 Dec 2020 01:41:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jKNJRmx0eYAUpZpwCq5ZV9sDDOhriznJbXCWXkD9bEo=;
-        b=P5yYUtVR6rdJTBAzxze64I+pP1/TkTJKW9DPb0BLE+FKPx/D2v58xhqnyxjp9wf+nX
-         YOsuojepOAhUHQorncAuc7x+GEFTOqHsQkRoggcETESTLj8nCBbrZB78HwRi/Lb9oo3Z
-         Nkf2KPRmsvnJv5VC4rloVWAAX4Gd87FSiX7j7TISJ2tMgtLzGvEDsvIX/O+G5hKf8DpG
-         rlBDS9rzg8YxTl8UX4d7KdFDQHa7NaPUqSPUhLBLIpSRAmZyXdcYkZUyRz/Flqvdqnz+
-         q9XeWXxgZIf+d6blm0egJnQeH8bDQwBwpAlbLZZzm38v0H/81ujYtNclWps8Mwqq0U6W
-         etNw==
+        Sat, 19 Dec 2020 05:58:06 -0500
+Received: by mail-ej1-f53.google.com with SMTP id g20so6920291ejb.1;
+        Sat, 19 Dec 2020 02:57:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jKNJRmx0eYAUpZpwCq5ZV9sDDOhriznJbXCWXkD9bEo=;
-        b=DJ8/zzCg37e4TizIulQtArFGuGTTQGk5IRKuscYU++wPsuIKvtozWuy7IJ0FeHgQPA
-         a78x+1fNYsPN2k+BTj4JzToSwiJHqkvvzYrrHWuvStY/dDxt6VQnemY4a9QKpu/gYmcn
-         +Rm+jMHQJIB4wX9jVKY1AItpYXMmxUcPgWIT2IbxR4110BNpLuC7KLpHFeXL/9jm/SgL
-         vxpRcTxzX5DxjZ0n05IdzsVLbHUGIaILp1U2xc4gyE7SHVOD6bRQTGUC/9PovqUcgu2f
-         2SMxfnjkgCcSbsBskuxgO+0u5snkYG8OsxASbIaQ1F3LzMymFYufgvw9BnqZTtDE4iiD
-         U0tw==
-X-Gm-Message-State: AOAM530Mn8TAjDbC9G0kM7Y7xHVrUKhLlRxruA42Ganjs3kXJO8qcQqW
-        CLRMtgMR/sCNFnZXH3gC90oyw1XNQ+77fIEp3NPhoA==
-X-Google-Smtp-Source: ABdhPJyeTNXDinqht80iLQ/jsytyx9IA/MtM78gFuYdt2jUWCeXu1VsZqbeDy9OJTs6GESOiOdQzvK7OWzUI2E+Y/OA=
-X-Received: by 2002:aed:208f:: with SMTP id 15mr7786546qtb.290.1608370918325;
- Sat, 19 Dec 2020 01:41:58 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EpBQBebW9DJ389TpaCDahYCkX51lISZZEMe47kdJ6lQ=;
+        b=IAsruEHJrg2v6P8e0bPaSWQU27WQGHNOQafpZafuRhsmkORmMtmgK0WOjeWIBR1nvA
+         XABh1JLTemUs1aKwRp3FqKge3xIKSgZo4efxOUWUswCbdcZSNM95c4+xraIPgYoYpEDe
+         b8DX+xelZ7CTjfn9iK7U7dZGNqI0U8ZofDamSbwiR+Y0aKxEFDPXnlUfnDfxbWCoidmK
+         3IYUfWytgf/O4LoBR6NTbPzYK2Gi9VniI2nZbPkN0ulBZIGUmoG29h4suHjHWNIXJC9L
+         Qqmdw4GLqHCP0R3rG7IMHMUkCY8uX+uZiWEUAGREbjqP7dBM6lTcUU2/hq4qoL9JlCQv
+         egbA==
+X-Gm-Message-State: AOAM530McxTATj0tA4JvZg130C7LGBPxRV+9LHbVHfFDbwNyPO11M7G/
+        T3BiPwMUZNvqA5oQwQKxzGk=
+X-Google-Smtp-Source: ABdhPJyWR/64ayreIal22iSj58nHkNVe6iV5yUrUJ5pe5qe42bhP84ft40zxoVfZe823dJe4zocuIg==
+X-Received: by 2002:a17:906:4ec7:: with SMTP id i7mr8055250ejv.252.1608375443178;
+        Sat, 19 Dec 2020 02:57:23 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id pk19sm6666596ejb.32.2020.12.19.02.57.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Dec 2020 02:57:22 -0800 (PST)
+Date:   Sat, 19 Dec 2020 11:57:20 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 07/48] dt-bindings: arm: tegra: Add binding for core
+ power domain
+Message-ID: <20201219105720.GA5323@kozik-lap>
+References: <20201217180638.22748-1-digetx@gmail.com>
+ <20201217180638.22748-8-digetx@gmail.com>
 MIME-Version: 1.0
-References: <000000000000f415bd05a047548f@google.com> <0000000000001e7f4605b6c84833@google.com>
-In-Reply-To: <0000000000001e7f4605b6c84833@google.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Sat, 19 Dec 2020 10:41:46 +0100
-Message-ID: <CACT4Y+bqBib4Sb=5keBayTybKXpi3kXgF7+uAsnZjBGfpHr04g@mail.gmail.com>
-Subject: Re: kernel BUG at drivers/dma-buf/dma-buf.c:LINE!
-To:     syzbot <syzbot+d6734079f30f7fc39021@syzkaller.appspotmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        christian.koenig@amd.com, Christian Brauner <christian@brauner.io>,
-        Colin King <colin.king@canonical.com>,
-        "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
-        DRI <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hridya Valsaraju <hridya@google.com>, jbwyatt4@gmail.com,
-        Joel Fernandes <joel@joelfernandes.org>,
-        linaro-mm-sig-owner@lists.linaro.org,
-        linaro-mm-sig@lists.linaro.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-media@vger.kernel.org,
-        m.szyprowski@samsung.com, Martijn Coenen <maco@android.com>,
-        masahiroy@kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Todd Kjos <tkjos@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201217180638.22748-8-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Dec 19, 2020 at 3:50 AM syzbot
-<syzbot+d6734079f30f7fc39021@syzkaller.appspotmail.com> wrote:
->
-> syzbot suspects this issue was fixed by commit:
->
-> commit e722a295cf493388dae474745d30e91e1a2ec549
-> Author: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Date:   Thu Aug 27 12:36:27 2020 +0000
->
->     staging: ion: remove from the tree
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17d4f137500000
-> start commit:   abb3438d Merge tag 'm68knommu-for-v5.9-rc3' of git://git.k..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=978db74cb30aa994
-> dashboard link: https://syzkaller.appspot.com/bug?extid=d6734079f30f7fc39021
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17428596900000
->
-> If the result looks correct, please mark the issue as fixed by replying with:
->
-> #syz fix: staging: ion: remove from the tree
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+On Thu, Dec 17, 2020 at 09:05:57PM +0300, Dmitry Osipenko wrote:
+> All NVIDIA Tegra SoCs have a core power domain where majority of hardware
+> blocks reside. Add binding for the core power domain.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../arm/tegra/nvidia,tegra20-core-domain.yaml | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml
+> new file mode 100644
+> index 000000000000..f3d8fd2d8371
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-core-domain.yaml
+> @@ -0,0 +1,48 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/arm/tegra/nvidia,tegra20-core-domain.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra Core Power Domain
+> +
+> +maintainers:
+> +  - Dmitry Osipenko <digetx@gmail.com>
+> +  - Jon Hunter <jonathanh@nvidia.com>
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nvidia,tegra20-core-domain
+> +      - nvidia,tegra30-core-domain
 
-The reproducer opens /dev/ion
+The file should be in bindings/power.
+Include also the power-domain.yaml schema.
 
-#syz fix: staging: ion: remove from the tree
+> +
+> +  operating-points-v2:
+> +    description:
+> +      Should contain level, voltages and opp-supported-hw property.
+> +      The supported-hw is a bitfield indicating SoC speedo or process
+> +      ID mask.
+> +
+> +  "#power-domain-cells":
+> +    const: 0
+> +
+> +  power-supply:
+> +    description:
+> +      Phandle to voltage regulator connected to the SoC Core power rail.
+> +
+> +required:
+> +  - compatible
+> +  - operating-points-v2
+> +  - "#power-domain-cells"
+> +  - power-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    core-domain {
+
+power-domain (to follow schema and devicetree spec)
+
+Best regards,
+Krzysztof
+
+
+> +        compatible = "nvidia,tegra20-core-domain";
+> +        operating-points-v2 = <&opp_table>;
+> +        power-supply = <&regulator>;
+> +        #power-domain-cells = <0>;
+> +    };
+> -- 
+> 2.29.2
+> 
