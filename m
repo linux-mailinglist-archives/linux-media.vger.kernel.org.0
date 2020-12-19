@@ -2,156 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CA852DF11E
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 19:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0BE2DF207
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 23:45:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727420AbgLSSxi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Dec 2020 13:53:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727337AbgLSSxi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Dec 2020 13:53:38 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73063C0613CF;
-        Sat, 19 Dec 2020 10:52:46 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id x126so3598354pfc.7;
-        Sat, 19 Dec 2020 10:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=k1zIYWtnLeqCpR6G01qfhl0qjWfgWBYC7/jVFwx9GwE=;
-        b=ONF3H9nm1kc9HSePnhuciU8TbKdOmZD9ddxKmAb5SUSVv9uMe3tYyR8iX1lwdwIIRl
-         EXOuxEbPndf6H89QQVgBxcajC8YwT8Y0jkJrcJgmnseRkvjkvc+tf4FOM/pwhqN2EDJb
-         oKVgNtAKOwZJC1slAJ3jXbOHdnKzv7ZI2SughrBRPE4FUZtH2CnVzViCIXfHUgG84zbJ
-         o87MOV6eOZLA/KOkZ09cz5LDTghW8Kd3ieazDMFHNO9dx47xZMVvfwPM3Kpt+WETnaep
-         oTji+jqIrKwjB1FnSpnGFVeVEHRuCiDyLAN9gyNKLH/JdupQHE5KPSRGpfETteuaydC5
-         AGrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k1zIYWtnLeqCpR6G01qfhl0qjWfgWBYC7/jVFwx9GwE=;
-        b=SJ9Uw6tfEI4wztO3sGdd3hi3f2KqgSlev0Ws+IQPsvsxT24qT9TmAfpDjJ4aoRvuqH
-         bCc0nTElTcF+C+4QQ9UcTl+Jzo9IF+57Vn4GGX1yacPV+dVb82kjmJ4KGlZ8mmxPwz5r
-         KQ6TxehrzEkR+eLPEwUvxHxFJQbIiAnccXRhy5n2Rr8PHhochqLT1yg4D1SSmQaeRCZZ
-         KcTk3aAx1ZC0QYodMQJ7+8+PDATqbgguuzrhbaL3I7UHGIILZobqkagy8iZGR2bASx3w
-         2IjQ0JISOy7Hoq8YAfRocigX+oC6kGuP3wzSAxNZMIie26lhz0c6kJwqlcq+wxSc+PSg
-         eLSQ==
-X-Gm-Message-State: AOAM533KdT7LltXokuO/emyzMYt0Et9o81HV0sNAt/b3nCXoA4neZbXl
-        a1/NfXatlBK2+D0fAgb25MYfzvVf3VcsWiTkWGQ=
-X-Google-Smtp-Source: ABdhPJz5HGuII/pHqYaHr7+ZtbOwTFu7GODBV+U/h1vrgnQazOUcB6ZL7+pPs4yxjBZUWSRc7v3wXh44kRIaKPNeVt0=
-X-Received: by 2002:a05:6a00:170a:b029:19d:afca:4704 with SMTP id
- h10-20020a056a00170ab029019dafca4704mr8805453pfc.7.1608403965858; Sat, 19 Dec
- 2020 10:52:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20201217234337.1983732-1-djrscally@gmail.com> <20201217234337.1983732-13-djrscally@gmail.com>
- <20201218211732.GE4077@smile.fi.intel.com> <e2b4c35f-5020-c332-d97a-8ba25be0e55e@gmail.com>
-In-Reply-To: <e2b4c35f-5020-c332-d97a-8ba25be0e55e@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 19 Dec 2020 20:52:29 +0200
-Message-ID: <CAHp75VcebKas4j-vByodicHxRMrO4jkaJToSUW3iLJC2+vY_iA@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        id S1726580AbgLSWnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Dec 2020 17:43:33 -0500
+Received: from mga06.intel.com ([134.134.136.31]:2982 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726449AbgLSWnd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 19 Dec 2020 17:43:33 -0500
+IronPort-SDR: EG8lzHvi7qYnJYnqO3r0eYSD38I06m/uHOoiU0p5swy5qQ9uTHsF8JRXtvUhrNzrtsfEiTHeMj
+ Rua4eIoy1LOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="237168139"
+X-IronPort-AV: E=Sophos;i="5.78,433,1599548400"; 
+   d="scan'208";a="237168139"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2020 14:41:46 -0800
+IronPort-SDR: r64qM+yIoMn909KO2HJye5lO0Tk4Oxq1aR/lo1pw1UV760m70MhuipbW2BPSNI6mZmqiNTYHp2
+ ZVhLLgE3anDw==
+X-IronPort-AV: E=Sophos;i="5.78,433,1599548400"; 
+   d="scan'208";a="559747678"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2020 14:41:44 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 4B5DF205F7; Sun, 20 Dec 2020 00:41:42 +0200 (EET)
+Date:   Sun, 20 Dec 2020 00:41:42 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     syzbot <syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>, jorhand@linux.microsoft.com
-Content-Type: text/plain; charset="UTF-8"
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: memory leak in video_usercopy
+Message-ID: <20201219224142.GZ26370@paasikivi.fi.intel.com>
+References: <00000000000025169705b6d100fa@google.com>
+ <CAK8P3a3AF4yFUcOEzMPf7SGkf6YVPJthHLzGtM==oGkSj+=mtg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3AF4yFUcOEzMPf7SGkf6YVPJthHLzGtM==oGkSj+=mtg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Dec 19, 2020 at 2:25 AM Daniel Scally <djrscally@gmail.com> wrote:
-> On 18/12/2020 21:17, Andy Shevchenko wrote:
-> > On Thu, Dec 17, 2020 at 11:43:37PM +0000, Daniel Scally wrote:
+Hi Arnd,
 
-...
-
-> >> +    sensor->ep_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.bus_type, 4);
+On Sat, Dec 19, 2020 at 03:08:14PM +0100, Arnd Bergmann wrote:
+> ,On Sat, Dec 19, 2020 at 2:15 PM syzbot
+> <syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com> wrote:
 > >
-> > Does 4 has any meaning that can be described by #define ?
->
-> It's V4L2_FWNODE_BUS_TYPE_CSI2_DPHY:
->
-> https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-fwnode.c#L36
->
-> That enum's not in an accessible header, but I can define it in this
-> module's header
-
-Maybe you can do a preparatory patch to make it visible to v4l2
-drivers? (Like moving to one of v4l2 headers)
-
-...
-
-> >> +                    if (bridge->n_sensors >= CIO2_NUM_PORTS) {
-> >> +                            dev_warn(&cio2->dev, "Exceeded available CIO2 ports\n");
+> > Hello,
 > >
-> >> +                            /* overflow i so outer loop ceases */
-> >> +                            i = ARRAY_SIZE(cio2_supported_sensors);
-> >> +                            break;
+> > syzbot found the following issue on:
 > >
-> > Why not to create a new label below and assign ret here with probably comment
-> > why it's not an error?
->
-> Sure, I can do that, but since it wouldn't need any cleanup I could also
-> just return 0 here as Laurent suggest (but with a comment explaining why
-> that's ok as you say) - do you have a preference?
-
-While it's a good suggestion it will bring a bit of inconsistency into
-approach. Everywhere else in the function you are using the goto
-approach.
-So yes, I have a preference.
-
-> >> +                    }
-
-...
-
-> >> +                    ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
-> >> +                                                       &sensor->ssdb,
-> >> +                                                       sizeof(sensor->ssdb));
-> >> +                    if (ret < 0)
+> > HEAD commit:    a409ed15 Merge tag 'gpio-v5.11-1' of git://git.kernel.org/..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=10a5880f500000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=37c889fb8b2761af
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=1115e79c8df6472c612b
+> > compiler:       gcc (GCC) 10.1.0-syz 20200507
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14d18f9b500000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=106a2c13500000
 > >
-> > if (ret) (because positive case can be returned just by next conditional).
->
-> cio2_bridge_read_acpi_buffer() returns the buffer length on success at
-> the moment, but I can change it to return 0 and have this be if (ret)
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com
+> >
+> > Debian GNU/Linux 9 syzkaller ttyS0
+> > Warning: Permanently added '10.128.10.29' (ECDSA) to the list of known hosts.
+> > executing program
+> > executing program
+> > BUG: memory leak
+> > unreferenced object 0xffff88810fb12300 (size 256):
+> >   comm "syz-executor399", pid 8472, jiffies 4294942333 (age 13.960s)
+> >   hex dump (first 32 bytes):
+> >     03 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >   backtrace:
+> >     [<000000009fd00995>] kmalloc_node include/linux/slab.h:575 [inline]
+> >     [<000000009fd00995>] kvmalloc_node+0x61/0xf0 mm/util.c:575
+> >     [<0000000096a57c4a>] kvmalloc include/linux/mm.h:773 [inline]
+> >     [<0000000096a57c4a>] video_usercopy+0x991/0xa50 drivers/media/v4l2-core/v4l2-ioctl.c:3303
+> >     [<00000000f7529cc2>] v4l2_ioctl+0x77/0x90 drivers/media/v4l2-core/v4l2-dev.c:360
+> >     [<0000000061b5e6a9>] vfs_ioctl fs/ioctl.c:48 [inline]
+> >     [<0000000061b5e6a9>] __do_sys_ioctl fs/ioctl.c:753 [inline]
+> >     [<0000000061b5e6a9>] __se_sys_ioctl fs/ioctl.c:739 [inline]
+> >     [<0000000061b5e6a9>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
+> >     [<000000000139479b>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+> >     [<00000000d6de1c9c>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> 
+> It seems there are commands that need both a buffer for the direct ioc
+> argument and for array_args. If that happens, we have two kvmalloc() calls
+> but only one kvfree(), and that would correctly trigger the leak detector.
+> 
+> The direct ioc argument copy happens for arguments over 128 bytes.
+> Checking the sizes of the comands with array args shows
+> 
+> VIDIOC_PREPARE_BUF, VIDIOC_QUERYBUF, VIDIOC_QBUF, VIDIOC_DQBUF:
+> v4l2_buffer, 84 bytes or less
+> 
+> VIDIOC_G_EDID, VIDIOC_S_EDID:
+> v4l2_edid, 40 bytes or less
+> 
+> VIDIOC_G_EXT_CTRLS, VIDIOC_S_EXT_CTRLS, VIDIOC_TRY_EXT_CTRLS:
+> v4l2_ext_controls, 32 bytes or less
+> 
+> VIDIOC_G_FMT, VIDIOC_S_FMT, VIDIOC_TRY_FMT:
+> v4l2_format, 204 or 208 bytes
+> 
+> I would conclude it's one of the last three commands, and it could be
+> avoided either by increasing the on-stack buffer to sizeof(struct v4l2_format),
+> or by restructuring this function again to have two separate pointers
+> for alloc/free.
 
-Please correct this somehow, because the next failure returns it
-instead of error...
+Thanks for reporting this.
 
-> >> +                            goto err_put_adev;
-> >> +
-> >> +                    if (sensor->ssdb.lanes > 4) {
-> >> +                            dev_err(&adev->dev,
-> >> +                                    "Number of lanes in SSDB is invalid\n");
+I'd say the original approach was risky to begin with, and that risk
+effectively materialised here. I'd rather fix the risky construction than
+leaving it there.
 
-...I'm even thinking that you have to assign ret here to something meaningful.
-
-> >> +                            goto err_put_adev;
-> >> +                    }
+Considering the format IOCTLs have been unchanged (size-wise) all this
+time, it looks like it really has been broken for a few days short of a
+decade! sbuf has been 128 bytes all this time.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Kind regards,
+
+Sakari Ailus
