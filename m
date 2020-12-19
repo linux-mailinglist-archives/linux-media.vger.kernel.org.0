@@ -2,202 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43D522DED05
-	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 05:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 217032DED0A
+	for <lists+linux-media@lfdr.de>; Sat, 19 Dec 2020 05:31:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbgLSEQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Dec 2020 23:16:35 -0500
-Received: from mail-db8eur05on2080.outbound.protection.outlook.com ([40.107.20.80]:49985
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726192AbgLSEQe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Dec 2020 23:16:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ru1nm4zP/YeKwqMDiLh0H2vGqqJeVXIXIcRPxK5BAcq+bCujgtr5uwrxi4L5HO8WRRa5dyZQ20Ks1kGTFpyjb642j/lCKxA7yr/6QVPT0Tv6wsGfTuoJq8lxpNSioQ9iDkEKD6esii16r/YUb7fx4zjY4vKy7Kd8OPHANQ535B057ce0o8K0TSr/xFFpvyrO4FdotyF1O1pLhhEi5MNrVKLDOjhCbm/LUD6dfMpQigzAWHIT3h1F9/JaBCyVJlfZ3maeF5+7ktZPoMmClDG11RzUrBEyKkFqHvgXmT8u9un7GIaJlOAfXHPQCF6omZEdpsCHzvDlEqFxgIUVnJEyGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0S8lf+KFk2iMDsxqXO109PDgWq3WcPYa1dlD8eFktwU=;
- b=WuSzpVyOtAu4IohYIEGp8TcQNFQfYZ6gaG5GZwJIU1cj8sTa9oM/lXKfE584ltc9aqP3ioGV9o6j6B8eRH5FNqHJmqsS7o1prlsdmekc8NCEsN/rB6aCJbPeRYNl0zOwTJJh06Oujb94Bn46tJb5Kt4hksM++CAsy4tZZXPTVf9HvEUqQUaXUmj0ummCrotuaqACxT9p7TgVmJvjDRS8Ng8w5hsMz10c0UDfw8ItLfOrrXGoVE9eYsoUDRbfe9jrl0L7YR/8ZUasyZjYTFNh+kC8XegAEoaSmojVlWvyayi5vj49Lz2SoFENZYqsDntDK6vAiB7rJ/hfR0WAor7SuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0S8lf+KFk2iMDsxqXO109PDgWq3WcPYa1dlD8eFktwU=;
- b=jgHQ5jvqiOXFQs9gra1Mb9fchRuYRyJ8wpchpZizvx1f/3utNDTEPxYf6QLkQZQGtp+y/jw1RvbGgFLBHQm9dtepuI/8nvL/TttAn0utvCMvE8ScUaIobVt3wpFe8dHoqMxbcgcTkz4PjK7kEH2mU2AIG7wRK/2tvDbIohsNZTo=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB3974.eurprd04.prod.outlook.com (2603:10a6:209:50::12)
- by AM7PR04MB6776.eurprd04.prod.outlook.com (2603:10a6:20b:103::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Sat, 19 Dec
- 2020 04:15:45 +0000
-Received: from AM6PR04MB3974.eurprd04.prod.outlook.com
- ([fe80::ed48:b3d6:6399:5899]) by AM6PR04MB3974.eurprd04.prod.outlook.com
- ([fe80::ed48:b3d6:6399:5899%7]) with mapi id 15.20.3654.025; Sat, 19 Dec 2020
- 04:15:45 +0000
-Message-ID: <1e0b6178033c064b99546d09b4b3ef9dda3cb1ad.camel@nxp.com>
-Subject: Re: [PATCH 04/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
- pixel combiner binding
-From:   Liu Ying <victor.liu@nxp.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Andrzej Hajda <a.hajda@samsung.com>, Vinod <vkoul@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        David Airlie <airlied@linux.ie>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org, Sascha Hauer <kernel@pengutronix.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Fabio Estevam <festevam@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>
-Date:   Sat, 19 Dec 2020 12:15:10 +0800
-In-Reply-To: <CAL_JsqLcyUJWt_gc3B01C0Y+NC61ucYNA8j1jnxTs8U1kudM=Q@mail.gmail.com>
-References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
-         <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
-         <1608231036.357497.50647.nullmailer@robh.at.kernel.org>
-         <e2edc2e37b6905fd19ada4c212338c6978200fa5.camel@nxp.com>
-         <CAL_JsqLcyUJWt_gc3B01C0Y+NC61ucYNA8j1jnxTs8U1kudM=Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [116.232.209.249]
-X-ClientProxiedBy: HK2PR0302CA0019.apcprd03.prod.outlook.com
- (2603:1096:202::29) To AM6PR04MB3974.eurprd04.prod.outlook.com
- (2603:10a6:209:50::12)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from vbox (116.232.209.249) by HK2PR0302CA0019.apcprd03.prod.outlook.com (2603:1096:202::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.19 via Frontend Transport; Sat, 19 Dec 2020 04:15:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b278fb3b-26c2-4676-c5eb-08d8a3d4c1e5
-X-MS-TrafficTypeDiagnostic: AM7PR04MB6776:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR04MB67764A61A37CB58DA25F0CDF98C20@AM7PR04MB6776.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TtJajdfEnS3woZZbB4yOd/AggZD/iOxm4eUB0bF4jQ10nn7c1tf6+rYimz0sfFXkrU779qcB6jUrYxQWsots+6FAeBy/bdF4f1B862P3sjeyCvfRBhiBxtpUaijr9itRtn5hWEl2qT4tpagfUoPD5+a8/UDa0iEEjxKiQ4K4n7TRA5J0FLevHATB2QVQe76udVO9yePFlzIxAcSRjX+OGdMgjdNtBNZGlTkADSHl+z+Mv9ZD8wYitJvL8IW79XMKgmE3nfNmLX4L2FFZWbrX6khb4SAO4ETESBMCBHvBfMGzvcLC4cdDEvxDTfqRQIxv/wNUYJNZB7+OGQYrwtY0PY53or5twzGHUOg8xpem2g4u2knPhbsU9bVYWkUwAJk5ZEbywGXYqNupROrfvoUxji/nBrInO/WJ4pakLMokj9OefBq3IqoG5IvwfEkyjRdL+SU7w3tm2ZADngXnu3Q7VASYUmnH/ewOdrnpvCuQlg/M4I9gjwDlv+83ocGgLMmnQb9WM4vXZKHdacNVffTn+g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB3974.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(136003)(346002)(376002)(366004)(396003)(2906002)(4326008)(966005)(45080400002)(6916009)(478600001)(6496006)(316002)(54906003)(4001150100001)(36756003)(186003)(26005)(6666004)(16526019)(66556008)(2616005)(8936002)(52116002)(956004)(83380400001)(6486002)(66946007)(66476007)(86362001)(8676002)(53546011)(5660300002)(7416002)(99106002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bnRBaEVodUtCQ09PZ0VzVE43YXVaRHllTW9hb014UGw5aC9lZWNKcWJNbERI?=
- =?utf-8?B?cnJRZnVxekVRWVlpWlpaS3FkMi9ObVFSMkdvZnV4QW5SaEFiNE5UWFY5b0Fu?=
- =?utf-8?B?bkRDalBMWjdzQmtEdmR5TWJYQS92b1NtTWtqRlFRWWNuOGcvT01iN2tyc2Fx?=
- =?utf-8?B?bE9pUWM0dVdGL3lTSTNyT2lHbkd6L1dHdUhVVGI3RnJsa253dzdnOHZTQito?=
- =?utf-8?B?UDd2VHVSQ1BMN3UwV2RDQklJcEc4d203aW1ZNjBPYmVLd2hGMlJycWpCNFJv?=
- =?utf-8?B?Q3haWHhxU1JFTXpUdENhT3FBcWNPeXRXa09JRVlST0FGeXJpNldyQnMrSjhX?=
- =?utf-8?B?Z2w5S1REMXF5NTlPU09vdFZsVk5HRmdqVDhMZjVoTXUzWlBqNkNyY2JjeWsx?=
- =?utf-8?B?K1BTcVhiNGFveTRYa2s4bHpHNUlOYWFOc2Z3UGM2QkdzQVpoSWdMNWpxalNr?=
- =?utf-8?B?RmRhQksvbGhYditRakZHbVJZdFk4M0tvVjRzM0Z2anBmTDQ1a2ZOZlhrSFoy?=
- =?utf-8?B?a0lha2ROT2JEZWZ1VUlGeWNsVGh6ZGdqU1E2Q1MrclZXTWtJbTlleVJidmxW?=
- =?utf-8?B?eUlxcFQ0MEY0M0t5cExCU1dGeTIzbW9mUWZCeHJuRG5JOEQ3SU5VNWVKNE1q?=
- =?utf-8?B?NG11R09uSkZzekQ1UUFwWGhURUY4dmVvVWR4emRPYlpHd1JQTXVpTnZ2ME9p?=
- =?utf-8?B?UEFJSENML1JETFd5eUVXTFdwM2M5THg5Vk9LVFYxRDRrOU9QVzcyYlZxRGNi?=
- =?utf-8?B?aWdCRllHVkFrZktkMStyMStPSVEzRUN2bVU1YXhXYmtFc2JVY2VVMEYyUmcy?=
- =?utf-8?B?eUdzNlNSeGhjOFozMTFMRlhkcDlYMnJReVZsRFcwbkdFb3h2bk9hdmwrYjFF?=
- =?utf-8?B?YVcyRXJscjhPZ0tJYTJ4djYxTHFtc3FkU1liOEpWMlV6QmluakljNzc1dXhO?=
- =?utf-8?B?MThhQWprY2FTQmd3VFNCVTFpNS9rckdKbnN1NXJDdFlreEZFS3R3Q3dOV3o4?=
- =?utf-8?B?ZDNKbzQyWUlBSUhjVGo5cEZ2SmdhNHlNcVozcFl0TzdvTzlGL1BOaC9aanln?=
- =?utf-8?B?ZHNNdW9BaVprVUpYak9uRU1rRXZWL3ZwVTVQaUw0OW51cGtoc01oWHczM1pw?=
- =?utf-8?B?cWM1K2l6Rjd4RHBwMExiU2V5VTAzOVN3c0lUV3VWcGF4enMrZGdabjdmTU1H?=
- =?utf-8?B?UVkwMmZaOFpUN0lPVGcvM2RyZjFkWHcrTjhvWkQ0ZEhacFc4MWRVVnhmRXNr?=
- =?utf-8?B?aTg1MFdZV1pOL2RtMFZsaGo0eWZqMjliVFczWkY0WEZqOC9LbitQaFVmNTBV?=
- =?utf-8?Q?hlzqj82C2PeQTtvbUfABBigbW2MomKvzlv?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB3974.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2020 04:15:45.3311
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: b278fb3b-26c2-4676-c5eb-08d8a3d4c1e5
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x8gczFkG/PgG85cqj+EFqobpxgkdXVYcIK/WFawhI4SlSQ9QagIrsWO9yHPErxXqPRRCrzfzf2RUz903BYR17Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6776
+        id S1726220AbgLSEbU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Dec 2020 23:31:20 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:35785 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726192AbgLSEbU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Dec 2020 23:31:20 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qTt6kwe7vflvjqTt7kTcqq; Sat, 19 Dec 2020 05:30:37 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1608352237; bh=V70Ldx3HNO/Luizj2tGxW1YBI7Wt0RnIsQqWkvZH3e4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=IGKWhKJfr5xuW/XoRqdVRqq6cJeCHHjzeEaYOjWmberDUginjYV6AMubZ3eCf+b5e
+         FDbvEZbIUD4BAGFSGJhwUYO1fVJOgdVC6n3bfeunZOWvrGFeYIldRftuhH3oxSCNrw
+         Z05kFfzL+MF9CsFeCvAVmDadWroOeL3vARNaV57aJ1L14Eb52ZrKnM9Yh9a6++Xk53
+         +Bc8uhRbsFj9Q3N8WFOtcrvzuwrnepRntpUvgiyk8+DAWoJAQWjxKecUghNymlX3vq
+         hWUPZIBVWdQHE35YwiZ6ibdYYRAl3j8plUzg2Vt4jk6/o2hM3/yG+TrftwmZ3vd1bf
+         fGHJKR4fC0sCg==
+Message-ID: <efac7e6d70d4caaf30b2e247d0633c2a@smtp-cloud9.xs4all.net>
+Date:   Sat, 19 Dec 2020 05:30:36 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfBWcPtwgHEBpUk1v3S4xkidb+tXrjDjIpvOwOM0B1XiL3QyMAzqu128HfQH+XZ/ydLQW0Ih+Jvj5Uv2orEwfC6K9aP7HJVg9qQjcaz807TScBjmixkH2
+ 3eAHnLArUmPphqq8t+Bm14fNB4wAlZtFtnEkPZT5G4PPObjZDkHtQGdTZiWkc3LMBUYVNStVvfuUQ7Q3UG43eRyl1RlaUm16NU+Mz2RxF0Hs1lROAPpZ9aq6
+ ZKsweuIaXS/N24VB7HwC1g==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Fri, 2020-12-18 at 16:42 -0600, Rob Herring wrote:
-> On Thu, Dec 17, 2020 at 7:48 PM Liu Ying <victor.liu@nxp.com> wrote:
-> > 
-> > Hi,
-> > 
-> > On Thu, 2020-12-17 at 12:50 -0600, Rob Herring wrote:
-> > > On Thu, 17 Dec 2020 17:59:23 +0800, Liu Ying wrote:
-> > > > This patch adds bindings for i.MX8qm/qxp pixel combiner.
-> > > > 
-> > > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > > ---
-> > > >  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160
-> > > > +++++++++++++++++++++
-> > > >  1 file changed, 160 insertions(+)
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > > > pixel-combiner.yaml
-> > > > 
-> > > 
-> > > My bot found errors running 'make dt_binding_check' on your
-> > > patch:
-> > > 
-> > > yamllint warnings/errors:
-> > > 
-> > > dtschema/dtc warnings/errors:
-> > > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > > pixel-combiner.example.dts:19:18: fatal error: dt-
-> > > bindings/clock/imx8-lpcg.h: No such file or directory
-> > >    19 |         #include <dt-bindings/clock/imx8-lpcg.h>
-> > >       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > compilation terminated.
-> > > make[1]: *** [scripts/Makefile.lib:342:
-> > > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > > pixel-combiner.example.dt.yaml] Error 1
-> > > make[1]: *** Waiting for unfinished jobs....
-> > > make: *** [Makefile:1364: dt_binding_check] Error 2
-> > > 
-> > > See 
-> > > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.ozlabs.org%2Fpatch%2F1417599&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C96806e0ce6bc40c936fa08d8a3a64551%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637439281816690986%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Cjyszb0alRE5z2OGKdZZEg5PQpH11U%2BGqVt6couCLGE%3D&amp;reserved=0
-> > > 
-> > > This check can fail if there are any dependencies. The base for a
-> > > patch
-> > > series is generally the most recent rc1.
-> > 
-> > This series can be applied to linux-next/master branch.
-> 
-> I can't know that to apply and run checks automatically. I guessed
-> that reviewing this before sending, but I want it abundantly clear
-> what the result of applying this might be and it wasn't mentioned in
-> this patch.
-> 
-> Plus linux-next is a base no one can apply patches to, so should you
-> be sending patches based on it? It's also the merge window, so maybe
+Results of the daily build of media_tree:
 
-I sent this series based on drm-misc-next.  This series is applicable
-to linux-next/master, and may pass 'make dt_binding_check' there.
+date:			Sat Dec 19 05:00:11 CET 2020
+media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
+media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
+v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7047-g72fa1e990
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-I'll mention dependencies in the future where similar situations
-appear. Thanks.
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.238-i686: ERRORS
+linux-4.4.238-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.238-i686: ERRORS
+linux-4.9.238-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.200-i686: ERRORS
+linux-4.14.200-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.149-i686: ERRORS
+linux-4.19.149-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.69-i686: ERRORS
+linux-5.4.69-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.13-i686: ERRORS
+linux-5.8.13-x86_64: ERRORS
+linux-5.9.1-i686: ERRORS
+linux-5.9.1-x86_64: ERRORS
+linux-5.10.1-i686: ERRORS
+linux-5.10.1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 1
+sparse: WARNINGS
+smatch: ERRORS
 
-BTW, does it make sense for the bot to additionaly try linux-next if
-needed?  Maybe, that'll be helpful?
+Detailed results are available here:
 
-Regards,
-Liu Ying
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-> wait until rc1 when your dependency is in and the patch can actually
-> be applied. Also, the drm-misc folks will still need to know they
-> need
-> to merge rc1 in before this is applied.
-> 
-> Rob
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
