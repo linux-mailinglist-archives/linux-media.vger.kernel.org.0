@@ -2,47 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21D762DF6C3
-	for <lists+linux-media@lfdr.de>; Sun, 20 Dec 2020 21:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F23462DF6E6
+	for <lists+linux-media@lfdr.de>; Sun, 20 Dec 2020 22:32:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727300AbgLTUMa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Dec 2020 15:12:30 -0500
-Received: from mga02.intel.com ([134.134.136.20]:8342 "EHLO mga02.intel.com"
+        id S1727300AbgLTVbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Dec 2020 16:31:18 -0500
+Received: from mga06.intel.com ([134.134.136.31]:14836 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726584AbgLTUMa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Dec 2020 15:12:30 -0500
-IronPort-SDR: d3nrCirMbuAKJ0+J5HzpOp6uuOKvE7X4kAmiqhY6OVWqMSj4Q9T2FEezoK+AjwiTj6iSx9GrGx
- q66/seukIT4Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9841"; a="162706637"
+        id S1727279AbgLTVbS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 20 Dec 2020 16:31:18 -0500
+IronPort-SDR: qACv4YXbjqHpBPR5VM3loR6CHLf8E2EYYaD0MUG+48lZnUK5Ilm/NdxbAsnK8enbIqRmVCo+rO
+ 8htSy5HV9XUQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9841"; a="237220766"
 X-IronPort-AV: E=Sophos;i="5.78,435,1599548400"; 
-   d="scan'208";a="162706637"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2020 12:10:45 -0800
-IronPort-SDR: l7wnsqon7n7xqWvJ11/MdT1mrSzpQJ/N7oAsPJrM+TK0lxUPr3aQ4LTOilMEUxqpT8jcnbceTp
- sq0q3q7Yq0WQ==
+   d="scan'208";a="237220766"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2020 13:29:31 -0800
+IronPort-SDR: SaSo4Vuc49s2tlW12R2hTwf/0LomY+kj7N+XA5VFOVAGkR6jJ+WDFKzZdJ0GEBhk9kLi8XKba6
+ M8NQGueBPu/Q==
 X-IronPort-AV: E=Sophos;i="5.78,435,1599548400"; 
-   d="scan'208";a="381596029"
+   d="scan'208";a="560244545"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2020 12:10:43 -0800
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2020 13:29:30 -0800
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 600C420204;
-        Sun, 20 Dec 2020 22:10:41 +0200 (EET)
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 8A80820204;
+        Sun, 20 Dec 2020 23:29:28 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1kr537-0003ZU-0g; Sun, 20 Dec 2020 22:11:25 +0200
+        id 1kr6HM-0004Lc-8z; Sun, 20 Dec 2020 23:30:12 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Arnd Bergmann <arnd@kernel.org>,
-        syzbot <syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: [PATCH v2 1/1] v4l: ioctl: Fix memory leak in video_usercopy
-Date:   Sun, 20 Dec 2020 22:11:24 +0200
-Message-Id: <20201220201124.13688-1-sakari.ailus@linux.intel.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 1/1] v4l: ioctl: Use kmalloc to allocate a small chunk of memory
+Date:   Sun, 20 Dec 2020 23:30:12 +0200
+Message-Id: <20201220213012.16671-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,98 +46,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When an IOCTL with argument size larger than 128 that also used array
-arguments were handled, two memory allocations were made but alas, only
-the latter one of them was released. This happened because there was only
-a single local variable to hold such a temporary allocation.
+kvmalloc() was used to release the temporary memory buffer that was used
+to contain both the IOCTL argument as well as a possible array argument
+that could have been large. Now that the two are separated, the IOCTL
+argument is known to be small in size. Use kmalloc to allocate it instead
+of kvmalloc. Similarly for releasing it.
 
-Fix this by adding separate variables to hold the pointers to the
-temporary allocations.
-
-Reported-by: Arnd Bergmann <arnd@kernel.org>
-Reported-by: syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com
-Fixes: d14e6d76ebf7 ("[media] v4l: Add multi-planar ioctl handling code")
-Cc: stable@vger.kernel.org
+Suggested-by: Arnd Bergmann <arnd@kernel.org>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 32 ++++++++++++----------------
- 1 file changed, 14 insertions(+), 18 deletions(-)
+ drivers/media/v4l2-core/v4l2-ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 3198abdd538c..9906b41004e9 100644
+index 9906b41004e9b..8d5d9c39c1622 100644
 --- a/drivers/media/v4l2-core/v4l2-ioctl.c
 +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3283,7 +3283,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
- 	       v4l2_kioctl func)
- {
- 	char	sbuf[128];
--	void    *mbuf = NULL;
-+	void    *mbuf = NULL, *array_buf = NULL;
- 	void	*parg = (void *)arg;
- 	long	err  = -EINVAL;
- 	bool	has_array_args;
-@@ -3318,27 +3318,21 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
- 	has_array_args = err;
- 
- 	if (has_array_args) {
--		/*
--		 * When adding new types of array args, make sure that the
--		 * parent argument to ioctl (which contains the pointer to the
--		 * array) fits into sbuf (so that mbuf will still remain
--		 * unused up to here).
--		 */
--		mbuf = kvmalloc(array_size, GFP_KERNEL);
-+		array_buf = kvmalloc(array_size, GFP_KERNEL);
- 		err = -ENOMEM;
--		if (NULL == mbuf)
-+		if (array_buf == NULL)
- 			goto out_array_args;
- 		err = -EFAULT;
- 		if (in_compat_syscall())
--			err = v4l2_compat_get_array_args(file, mbuf, user_ptr,
--							 array_size, orig_cmd,
--							 parg);
-+			err = v4l2_compat_get_array_args(file, array_buf,
-+							 user_ptr, array_size,
-+							 orig_cmd, parg);
- 		else
--			err = copy_from_user(mbuf, user_ptr, array_size) ?
-+			err = copy_from_user(array_buf, user_ptr, array_size) ?
- 								-EFAULT : 0;
- 		if (err)
- 			goto out_array_args;
--		*kernel_ptr = mbuf;
-+		*kernel_ptr = array_buf;
- 	}
- 
- 	/* Handles IOCTL */
-@@ -3360,12 +3354,13 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
- 		if (in_compat_syscall()) {
- 			int put_err;
- 
--			put_err = v4l2_compat_put_array_args(file, user_ptr, mbuf,
--							     array_size, orig_cmd,
--							     parg);
-+			put_err = v4l2_compat_put_array_args(file, user_ptr,
-+							     array_buf,
-+							     array_size,
-+							     orig_cmd, parg);
- 			if (put_err)
- 				err = put_err;
--		} else if (copy_to_user(user_ptr, mbuf, array_size)) {
-+		} else if (copy_to_user(user_ptr, array_buf, array_size)) {
- 			err = -EFAULT;
- 		}
- 		goto out_array_args;
-@@ -3381,6 +3376,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
- 	if (video_put_user((void __user *)arg, parg, cmd, orig_cmd))
+@@ -3300,7 +3300,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+ 			parg = sbuf;
+ 		} else {
+ 			/* too big to allocate from stack */
+-			mbuf = kvmalloc(ioc_size, GFP_KERNEL);
++			mbuf = kmalloc(ioc_size, GFP_KERNEL);
+ 			if (NULL == mbuf)
+ 				return -ENOMEM;
+ 			parg = mbuf;
+@@ -3377,7 +3377,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
  		err = -EFAULT;
  out:
-+	kvfree(array_buf);
- 	kvfree(mbuf);
+ 	kvfree(array_buf);
+-	kvfree(mbuf);
++	kfree(mbuf);
  	return err;
  }
+ 
 -- 
-2.29.2
+2.20.1
 
