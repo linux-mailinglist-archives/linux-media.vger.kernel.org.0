@@ -2,98 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 829162DF629
-	for <lists+linux-media@lfdr.de>; Sun, 20 Dec 2020 17:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BCC12DF633
+	for <lists+linux-media@lfdr.de>; Sun, 20 Dec 2020 18:00:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727692AbgLTQ4P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Dec 2020 11:56:15 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50586 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbgLTQ4O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Dec 2020 11:56:14 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A88202CF;
-        Sun, 20 Dec 2020 17:55:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608483332;
-        bh=T1JdTctvTUXQISdbX9BX67WYHtL9aq0Jtfgvp/4pSX0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g8XzQFugpqQ90iWyQSPTnIm/U0OBwg4lSpmbpI9HVMhxZJQ6BT8QHKj6oI09dQGUz
-         aA79SBjpDm80SRevYa8CRcdBL5ORny/tsBTKepghKUWzoVJ9iEjqZGWvCxAQPVPhZK
-         YO8k9P2PimS+CyMOOyrfOfMvsMH5+UX6Gza3csjs=
-Date:   Sun, 20 Dec 2020 18:55:25 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 6/9] media: uvcvideo: Add Privacy control based on
- EXT_GPIO
-Message-ID: <X9+B/ShcGjjCY9PC@pendragon.ideasonboard.com>
-References: <20201215154439.69062-1-ribalda@chromium.org>
- <20201215154439.69062-7-ribalda@chromium.org>
+        id S1727796AbgLTQ74 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Dec 2020 11:59:56 -0500
+Received: from mout.gmx.net ([212.227.17.22]:41673 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727396AbgLTQ74 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 20 Dec 2020 11:59:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1608483505;
+        bh=DC8wVKNPaPRsco1RmHQ6aJvsGHfVQ48+LIfds7xjntU=;
+        h=X-UI-Sender-Class:From:To:Subject:Date;
+        b=abD9qr9RQoBIZxCH4yJI9V6uRykmST58TFE3kmyq2sUnPYx/+8P9aJF61RuNhpe+j
+         3BUSd/MQ7NaBuYR+eVdOnoRClODZNAhFZcaqABjZ3iUxGHSx9QpfuMXaINvIpRGMaj
+         spVXcp2vVWWAt17S+6NVTxZSTwH2oh0vJRJLF8w4=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [2.206.181.82] ([2.206.181.82]) by web-mail.gmx.net
+ (3c-app-gmx-bap54.server.lan [172.19.172.124]) (via HTTP); Sun, 20 Dec 2020
+ 17:58:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201215154439.69062-7-ribalda@chromium.org>
+Message-ID: <trinity-3f9b91b4-9d40-4a88-ad57-daeb25d2fc4b-1608483504874@3c-app-gmx-bap54>
+From:   Daniel Speckenheuer <daniel.speckenheuer@gmx.de>
+To:     linux-media@vger.kernel.org
+Subject: Logitech C922 Pro HD Stream Webcam
+Content-Type: text/plain; charset=UTF-8
+Date:   Sun, 20 Dec 2020 17:58:24 +0100
+Importance: normal
+Sensitivity: Normal
+X-Priority: 3
+X-Provags-ID: V03:K1:TE4YMKvjczCh3IvlHGXZIhRT3n4sVnw7kTK84Sii4kqo6HjCJtH0F/B3rnfmCuqEAhGxz
+ Jiy8kNWBi4flF0B/qGZxPQyPkWHFrEQcsuCpFVq7acx35sS0RC1hGoUtDMMtMKs2Z+rGnJWwCm+7
+ hDy3zVaSagKP4jzM9gwlFi7A39E+6yYRTq7AH5JyOkmzq4Kxwkdmqn1c7rVnnm+2Ku/9rWi5HSwx
+ teLuIvKZsJ/2LWvJH4anrexqa8dfhw6+MsxNS67XVLsxUdvq4GrH7TfrPu8q0OYLXjrawZG6ZJBA
+ pk=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NkJELWA9+WM=:ntIoeNVHaMLJflUuA4Rg+f
+ 26GFA1c/jeklrNjPq31xQFNAISjdIv2X/o+wQ/c1ou494YQ9Ylo7EZEonL5qw8BvGcAC+aM1R
+ JOituCYQAsa1QlNBlHRLaSmb0sTLkUvehhaIh/scDlHBqQeCHsiXwMWF7wUGJ/FTxKoIfLxvF
+ CuBz8f9Wc5AEVXrabAcOM0MFPRG0UmfqqMFcyrgT7RGrqiHLe+fqpEXMYgNP+3oCdHIsreXMl
+ 6wVVWR/Lmo3OZSYYPrXgL/UO5BNZfS7xH9z59GXcWTXI6Bp1xRnw3cHwfNDtR5fnfzzVa7WXC
+ IclelQGYxiusMPAjAbJhyEtmbQnHSBCx/I1+3cmwYmAGsEHKfQTaaZpZh+TjRkS2ofybG77PJ
+ Z7V7wGb1Apgvb0Dl0cuZTf8Xnwlw4yr/8NnWSJuLoMohpK0TCHeBGTb5wpTudzsULf/moIcbV
+ 4cl1Z8ICxHYOisUpJunBs0OCbb8BKWqCysu4Ar7pyJ86XYSSDpsMW6/5g7mfXZr1zlRQjnbMC
+ rEAxAJ1tOohvfPZG9A4816dpQpsZoCesRmihDE76NCEoJOIp0aJbHvUgQqDg52ZCkFW3P3+SG
+ 21FGE/d6E0r4BQWb69Wr0c3X2Z7cPq7LFX
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Hello,
 
-Thank you for the patch.
 
-On Tue, Dec 15, 2020 at 04:44:36PM +0100, Ricardo Ribalda wrote:
-> Add a new control and mapping for Privacy controls connected to
-> UVC_GUID_EXT_GPIO_CONTROLLERs.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+the current C922 model from Logitech is missing from the table of known UVC devices.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Please complete the model and let me know whether this works without problems under Linux or whether problems are to be expected here.
 
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 53da1d984883..511927e8b746 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -347,6 +347,14 @@ static const struct uvc_control_info uvc_ctrls[] = {
->  				| UVC_CTRL_FLAG_RESTORE
->  				| UVC_CTRL_FLAG_AUTO_UPDATE,
->  	},
-> +	{
-> +		.entity		= UVC_GUID_EXT_GPIO_CONTROLLER,
-> +		.selector	= UVC_CT_PRIVACY_CONTROL,
-> +		.index		= 0,
-> +		.size		= 1,
-> +		.flags		= UVC_CTRL_FLAG_GET_CUR
-> +				| UVC_CTRL_FLAG_AUTO_UPDATE,
-> +	},
->  };
->  
->  static const struct uvc_menu_info power_line_frequency_controls[] = {
-> @@ -735,6 +743,16 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->  		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
->  		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
->  	},
-> +	{
-> +		.id		= V4L2_CID_PRIVACY,
-> +		.name		= "Privacy",
-> +		.entity		= UVC_GUID_EXT_GPIO_CONTROLLER,
-> +		.selector	= UVC_CT_PRIVACY_CONTROL,
-> +		.size		= 1,
-> +		.offset		= 0,
-> +		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
-> +		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
-> +	},
->  };
->  
->  /* ------------------------------------------------------------------------
 
--- 
-Regards,
+Thank you and best regards from Germany!
 
-Laurent Pinchart
+Daniel Speckenheuer
