@@ -2,152 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 193D52DF5A0
-	for <lists+linux-media@lfdr.de>; Sun, 20 Dec 2020 15:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CBA32DF608
+	for <lists+linux-media@lfdr.de>; Sun, 20 Dec 2020 17:07:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727481AbgLTOP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Dec 2020 09:15:58 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49800 "EHLO
+        id S1727709AbgLTQGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Dec 2020 11:06:30 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50338 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727251AbgLTOP6 (ORCPT
+        with ESMTP id S1727702AbgLTQGa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Dec 2020 09:15:58 -0500
+        Sun, 20 Dec 2020 11:06:30 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB4D3593;
-        Sun, 20 Dec 2020 15:15:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8EF5593;
+        Sun, 20 Dec 2020 17:05:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608473715;
-        bh=mtycxV6Yp4+99KCEYE4NN9LxWCUweyK93tCjkQpZ3Q0=;
+        s=mail; t=1608480346;
+        bh=mSNzw2IzEByhRYY/jSeBJuuUDaOwIDPs6kO78E5XIx4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ldC7/1MBVBBf6A577AkoHnxnowXtRmaSLS7nCdYIOzGW6cyZhK8+uflrNoWXRTP2r
-         qZabN3O9JiNuHxdgOHlrlJRpgccl+xhO/zSoy61G9GSIrzbN0n4sWRCafD+l5Z39it
-         y+JT5Z3moHHqhnV08Bv/9ird34QYo1IROYY2KuLk=
-Date:   Sun, 20 Dec 2020 16:15:07 +0200
+        b=J4V2eFF+qtUZwricdzwyMkvbJUu8Xe6uIE+e9A2Fy8S2D1B0d1VgbjEbsSa5w21+1
+         fXipApEP0SozmqGOYRlIe102jeFsxf00vjWdqcdWDiM5TtmCyDQZXzv6z5T59LTCDA
+         WUFJmuIu9R1yxwGpccaMTnJXTHYKjjcrL4gfRyp4=
+Date:   Sun, 20 Dec 2020 18:05:39 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        syzbot <syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH 1/1] v4l: ioctl: Fix memory leak in video_usercopy
-Message-ID: <X99cazC7wzN8N9Vo@pendragon.ideasonboard.com>
-References: <20201220110651.13432-1-sakari.ailus@linux.intel.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/9] media: uvcvideo: Move guid to entity
+Message-ID: <X992U/SCVGd41fML@pendragon.ideasonboard.com>
+References: <20201215154439.69062-1-ribalda@chromium.org>
+ <20201215154439.69062-2-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201220110651.13432-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20201215154439.69062-2-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Ricardo,
 
 Thank you for the patch.
 
-On Sun, Dec 20, 2020 at 01:06:51PM +0200, Sakari Ailus wrote:
-> When an IOCTL with argument size larger than 128 that also used array
-> arguments were handled, two memory allocations were made but alas, only
-> the latter one of them was released.
-
-Alas, this fills my heart with sorrow indeed :-)
-
-> This happened because there was only
-> a single local variable to hold such a temporary allocation.
+On Tue, Dec 15, 2020 at 04:44:31PM +0100, Ricardo Ribalda wrote:
+> Instead of having multiple copies of the entity guid on the code, move
+> it to the entity structure.
 > 
-> Fix this by adding separate variables to hold the pointers to the
-> temporary allocations.
-> 
-> Reported-by: Arnd Bergmann <arnd@kernel.org>
-> Reported-by: syzbot+1115e79c8df6472c612b@syzkaller.appspotmail.com
-> Fixes: d14e6d76ebf7 ("[media] v4l: Add multi-planar ioctl handling code")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 31 +++++++++++++---------------
->  1 file changed, 14 insertions(+), 17 deletions(-)
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 30 ++++--------------------------
+>  drivers/media/usb/uvc/uvc_driver.c | 26 ++++++++++++++++++++++++--
+>  drivers/media/usb/uvc/uvcvideo.h   |  2 +-
+>  3 files changed, 29 insertions(+), 29 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 3198abdd538ce..f42a779948779 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -3283,7 +3283,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->  	       v4l2_kioctl func)
->  {
->  	char	sbuf[128];
-> -	void    *mbuf = NULL;
-> +	void    *mbuf = NULL, *array_buf = NULL;
->  	void	*parg = (void *)arg;
->  	long	err  = -EINVAL;
->  	bool	has_array_args;
-> @@ -3318,27 +3318,21 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->  	has_array_args = err;
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 011e69427b7c..9f6174a10e73 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -826,31 +826,10 @@ static void uvc_set_le_value(struct uvc_control_mapping *mapping,
+>   * Terminal and unit management
+>   */
 >  
->  	if (has_array_args) {
-> -		/*
-> -		 * When adding new types of array args, make sure that the
-> -		 * parent argument to ioctl (which contains the pointer to the
-> -		 * array) fits into sbuf (so that mbuf will still remain
-> -		 * unused up to here).
-> -		 */
-> -		mbuf = kvmalloc(array_size, GFP_KERNEL);
-> +		array_buf = kvmalloc(array_size, GFP_KERNEL);
->  		err = -ENOMEM;
-> -		if (NULL == mbuf)
-> +		if (array_buf == NULL)
->  			goto out_array_args;
->  		err = -EFAULT;
->  		if (in_compat_syscall())
-> -			err = v4l2_compat_get_array_args(file, mbuf, user_ptr,
-> -							 array_size, orig_cmd,
-> -							 parg);
-> +			err = v4l2_compat_get_array_args(file, array_buf,
-> +							 user_ptr, array_size,
-> +							 orig_cmd, parg);
->  		else
-> -			err = copy_from_user(mbuf, user_ptr, array_size) ?
-> +			err = copy_from_user(array_buf, user_ptr, array_size) ?
->  								-EFAULT : 0;
->  		if (err)
->  			goto out_array_args;
-> -		*kernel_ptr = mbuf;
-> +		*kernel_ptr = array_buf;
+> -static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
+> -static const u8 uvc_camera_guid[16] = UVC_GUID_UVC_CAMERA;
+> -static const u8 uvc_media_transport_input_guid[16] =
+> -	UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
+> -
+>  static int uvc_entity_match_guid(const struct uvc_entity *entity,
+> -	const u8 guid[16])
+> +				 const u8 guid[16])
+>  {
+> -	switch (UVC_ENTITY_TYPE(entity)) {
+> -	case UVC_ITT_CAMERA:
+> -		return memcmp(uvc_camera_guid, guid, 16) == 0;
+> -
+> -	case UVC_ITT_MEDIA_TRANSPORT_INPUT:
+> -		return memcmp(uvc_media_transport_input_guid, guid, 16) == 0;
+> -
+> -	case UVC_VC_PROCESSING_UNIT:
+> -		return memcmp(uvc_processing_guid, guid, 16) == 0;
+> -
+> -	case UVC_VC_EXTENSION_UNIT:
+> -		return memcmp(entity->extension.guidExtensionCode,
+> -			      guid, 16) == 0;
+> -
+> -	default:
+> -		return 0;
+> -	}
+> +	return memcmp(entity->guid, guid, sizeof(entity->guid)) == 0;
+>  }
+>  
+>  /* ------------------------------------------------------------------------
+> @@ -1776,8 +1755,7 @@ static int uvc_ctrl_fill_xu_info(struct uvc_device *dev,
+>  	if (data == NULL)
+>  		return -ENOMEM;
+>  
+> -	memcpy(info->entity, ctrl->entity->extension.guidExtensionCode,
+> -	       sizeof(info->entity));
+> +	memcpy(info->entity, ctrl->entity->guid, sizeof(info->entity));
+>  	info->index = ctrl->index;
+>  	info->selector = ctrl->index + 1;
+>  
+> @@ -1883,7 +1861,7 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+>  
+>  	if (!found) {
+>  		uvc_trace(UVC_TRACE_CONTROL, "Control %pUl/%u not found.\n",
+> -			entity->extension.guidExtensionCode, xqry->selector);
+> +			entity->guid, xqry->selector);
+>  		return -ENOENT;
 >  	}
 >  
->  	/* Handles IOCTL */
-> @@ -3360,12 +3354,14 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->  		if (in_compat_syscall()) {
->  			int put_err;
->  
-> -			put_err = v4l2_compat_put_array_args(file, user_ptr, mbuf,
-> -							     array_size, orig_cmd,
-> +			put_err = v4l2_compat_put_array_args(file, user_ptr,
-> +							     array_buf,
-> +							     array_size,
-> +							     orig_cmd,
->  							     parg);
-
-orig_cmd and pargs would fit on the same line if you want to.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  			if (put_err)
->  				err = put_err;
-> -		} else if (copy_to_user(user_ptr, mbuf, array_size)) {
-> +		} else if (copy_to_user(user_ptr, array_buf, array_size)) {
->  			err = -EFAULT;
->  		}
->  		goto out_array_args;
-> @@ -3381,6 +3377,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->  	if (video_put_user((void __user *)arg, parg, cmd, orig_cmd))
->  		err = -EFAULT;
->  out:
-> +	kvfree(array_buf);
->  	kvfree(mbuf);
->  	return err;
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index ddb9eaa11be7..4cdd65d252d9 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1019,6 +1019,11 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+>  	return ret;
 >  }
+>  
+> +static const u8 uvc_camera_guid[16] = UVC_GUID_UVC_CAMERA;
+> +static const u8 uvc_media_transport_input_guid[16] =
+> +	UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
+> +static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
+> +
+>  static struct uvc_entity *uvc_alloc_entity(u16 type, u8 id,
+>  		unsigned int num_pads, unsigned int extra_size)
+>  {
+> @@ -1038,6 +1043,23 @@ static struct uvc_entity *uvc_alloc_entity(u16 type, u8 id,
+>  	entity->id = id;
+>  	entity->type = type;
+>  
+> +
+
+Nearly there, just one blank line to remove :-) I'll fix this when
+applying.
+
+> +	/*
+> +	 * Set the GUID for standard entity types. For extension units, the GUID
+> +	 * is initialized by the caller.
+> +	 */
+> +	switch (type) {
+> +	case UVC_ITT_CAMERA:
+> +		memcpy(entity->guid, uvc_camera_guid, 16);
+> +		break;
+> +	case UVC_ITT_MEDIA_TRANSPORT_INPUT:
+> +		memcpy(entity->guid, uvc_media_transport_input_guid, 16);
+> +		break;
+> +	case UVC_VC_PROCESSING_UNIT:
+> +		memcpy(entity->guid, uvc_processing_guid, 16);
+> +		break;
+> +	}
+> +
+>  	entity->num_links = 0;
+>  	entity->num_pads = num_pads;
+>  	entity->pads = ((void *)(entity + 1)) + extra_size;
+> @@ -1109,7 +1131,7 @@ static int uvc_parse_vendor_control(struct uvc_device *dev,
+>  		if (unit == NULL)
+>  			return -ENOMEM;
+>  
+> -		memcpy(unit->extension.guidExtensionCode, &buffer[4], 16);
+> +		memcpy(unit->guid, &buffer[4], 16);
+>  		unit->extension.bNumControls = buffer[20];
+>  		memcpy(unit->baSourceID, &buffer[22], p);
+>  		unit->extension.bControlSize = buffer[22+p];
+> @@ -1368,7 +1390,7 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
+>  		if (unit == NULL)
+>  			return -ENOMEM;
+>  
+> -		memcpy(unit->extension.guidExtensionCode, &buffer[4], 16);
+> +		memcpy(unit->guid, &buffer[4], 16);
+>  		unit->extension.bNumControls = buffer[20];
+>  		memcpy(unit->baSourceID, &buffer[22], p);
+>  		unit->extension.bControlSize = buffer[22+p];
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index a3dfacf069c4..df7bf2d104a3 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -304,6 +304,7 @@ struct uvc_entity {
+>  	u8 id;
+>  	u16 type;
+>  	char name[64];
+> +	u8 guid[16];
+>  
+>  	/* Media controller-related fields. */
+>  	struct video_device *vdev;
+> @@ -342,7 +343,6 @@ struct uvc_entity {
+>  		} selector;
+>  
+>  		struct {
+> -			u8  guidExtensionCode[16];
+>  			u8  bNumControls;
+>  			u8  bControlSize;
+>  			u8  *bmControls;
 
 -- 
 Regards,
