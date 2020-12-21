@@ -2,73 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC47C2DFA76
-	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 10:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A29152DFAC7
+	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 11:08:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbgLUJtu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Dec 2020 04:49:50 -0500
-Received: from mga04.intel.com ([192.55.52.120]:12919 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725963AbgLUJtt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Dec 2020 04:49:49 -0500
-IronPort-SDR: c2Gt8/3a5/G3dif/Ks/yzAQeRiVsuTj6di25qYP7fowasgewBwIOcK2uYVxo76fhmm+f23Ul4u
- LJEGdPmQW6og==
-X-IronPort-AV: E=McAfee;i="6000,8403,9841"; a="173134501"
-X-IronPort-AV: E=Sophos;i="5.78,436,1599548400"; 
-   d="scan'208";a="173134501"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 01:48:04 -0800
-IronPort-SDR: f04jvE1kD2WHG1CuvFywfehdeapEiyMjKBt0HSLQ4XChN/4xV4We6OMJzjYBMK9Tuv1vv7j6uc
- 7QirHh0JvXLw==
-X-IronPort-AV: E=Sophos;i="5.78,436,1599548400"; 
-   d="scan'208";a="415741266"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 01:47:58 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 43196205F7; Mon, 21 Dec 2020 11:47:56 +0200 (EET)
-Date:   Mon, 21 Dec 2020 11:47:56 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
-        kitakar@gmail.com, jorhand@linux.microsoft.com
-Subject: Re: [PATCH v2 11/12] acpi: Add acpi_dev_get_next_match_dev() and
- helper macro
-Message-ID: <20201221094756.GI26370@paasikivi.fi.intel.com>
-References: <20201217234337.1983732-1-djrscally@gmail.com>
- <20201217234337.1983732-12-djrscally@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201217234337.1983732-12-djrscally@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726363AbgLUKHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Dec 2020 05:07:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726365AbgLUKHS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Dec 2020 05:07:18 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F2EDC0611D0
+        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 02:06:17 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id p22so8978408edu.11
+        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 02:06:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=U8dIwUpOcM3a85wJXVVTJLuQjf8sprpVk53MYVi4/fg=;
+        b=SEinuPXcvuPCdvW0MRn13fwCWRVS8mO4UxgqBsLX5e46XSnK0CooK8WOIgDm6o0onN
+         EWzNTifuBApc+G8kCehTcxsGQOL8gVRIVOWDNDXpf+lNk6Iib9EdWAtBtbfpsExC6A5/
+         dQhV5pFnOIwnVPz+bhE2SRGZMEFgIhFgrAgkIqqsypM7tIBdbzEqkZWxQwEbgD2M54do
+         VMoSkAlQfGnDPQMsSyhUYJW4gNfjC1JFJvYsCdpIWz4NpRJp30ovrv1wQn1SyUlHu9zh
+         +dIeLO8iCtEFEC7p5tOlM8KbO+U3322ZPSUtlRcLU0EtUJn4u3sI2ANAzgVoRGBUNNFQ
+         Do2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=U8dIwUpOcM3a85wJXVVTJLuQjf8sprpVk53MYVi4/fg=;
+        b=Je9+Oi8OYaErUgFORotTX3OfGx3e98zDr46iuaeReDWl28obRblgItLA4Gr6eBU8vA
+         kzdJzf9k5zxTKhVFgGM0PjwZCUdbQIfr/TyTzLd541jO2t1PLY+8VVnC34Tal+ra2BWb
+         egmcjIah1nmAEC8Yp/SgY+Q4T1LoGfHA4MysPjTWJfCpXTp+ofXAtNzDDT23eyK4LHJo
+         m//ie1CQwZNsIUVBuEj8b2bSivJ9MpNe+FRSBxUr1TDnoFuj74WIhl7vX/lClY8kKWRO
+         ggQmrvkjijButOEHPzfa6P79NlInhJVLVGZy0997MSh/FHq33CcilYtCdmk0N3wNtM4L
+         zvoA==
+X-Gm-Message-State: AOAM530YgxOgbScewlE8mtr7RYLAWQ1uycNRRGS62OdxHIvWc0NlnjJs
+        9xWbZS71JTDClWEaWOurNutUVhUHZdBIutAQ
+X-Google-Smtp-Source: ABdhPJyNz19N0RdiboEsDTGOmv6wgD2nlAcSqq3mfy/nTIjy7fwLPjYOlQ5FcWOL8Sg/XZLoeIFDiw==
+X-Received: by 2002:a50:bac4:: with SMTP id x62mr14940862ede.59.1608544719284;
+        Mon, 21 Dec 2020 01:58:39 -0800 (PST)
+Received: from localhost.localdomain (hst-221-55.medicom.bg. [84.238.221.55])
+        by smtp.gmail.com with ESMTPSA id e21sm28118581edv.96.2020.12.21.01.58.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Dec 2020 01:58:38 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Shawn Guo <shawn.guo@linaro.org>, vgarodia@codeaurora.org,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH] venus: core: Fix platform driver shutdown
+Date:   Mon, 21 Dec 2020 11:58:20 +0200
+Message-Id: <20201221095820.27192-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+With TZ system reboot cannot finish successfully. To fix that
+enable core clocks by runtime pm before TZ calls and disable
+clocks after that.
 
-On Thu, Dec 17, 2020 at 11:43:36PM +0000, Daniel Scally wrote:
-> To ensure we handle situations in which multiple sensors of the same
-> model (and therefore _HID) are present in a system, we need to be able
-> to iterate over devices matching a known _HID but unknown _UID and _HRV
->  - add acpi_dev_get_next_match_dev() to accommodate that possibility and
-> change acpi_dev_get_first_match_dev() to simply call the new function
-> with a NULL starting point. Add an iterator macro for convenience.
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+Fixes: 7399139be6b2 ("media: venus: core: add shutdown callback for venus")
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index bdd293faaad0..7233a7311757 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -349,8 +349,10 @@ static void venus_core_shutdown(struct platform_device *pdev)
+ {
+ 	struct venus_core *core = platform_get_drvdata(pdev);
+ 
++	pm_runtime_get_sync(core->dev);
+ 	venus_shutdown(core);
+ 	venus_firmware_deinit(core);
++	pm_runtime_put_sync(core->dev);
+ }
+ 
+ static __maybe_unused int venus_runtime_suspend(struct device *dev)
 -- 
-Sakari Ailus
+2.17.1
+
