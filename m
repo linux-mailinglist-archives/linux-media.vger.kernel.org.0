@@ -2,150 +2,267 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48BCD2E0279
-	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 23:25:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43CBF2E0292
+	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 23:34:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgLUWYy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Dec 2020 17:24:54 -0500
-Received: from mga05.intel.com ([192.55.52.43]:42712 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725833AbgLUWYx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Dec 2020 17:24:53 -0500
-IronPort-SDR: DjRs2oC3rv8AG+HYecHsUV6M/aLYkYXU5amBjvfhcsnZCOUmLSnvnLKr08mKwU8W4FGkCsaOOZ
- O3tXH3hmBZfg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="260521917"
-X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
-   d="scan'208";a="260521917"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 14:21:47 -0800
-IronPort-SDR: kFcfjsqV4Pipj84NLphvf/feutzypujI19wIr2o7BwQHvoHcKKjGsLchUG81EFSNvrHwNx2BOJ
- lCy4h/germcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
-   d="scan'208";a="372892712"
-Received: from maru.jf.intel.com ([10.54.51.77])
-  by orsmga008.jf.intel.com with ESMTP; 21 Dec 2020 14:21:47 -0800
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Eddie James <eajames@linux.ibm.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: [PATCH v2 1/1] media: aspeed: fix clock handling logic
-Date:   Mon, 21 Dec 2020 14:32:25 -0800
-Message-Id: <20201221223225.14723-2-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201221223225.14723-1-jae.hyun.yoo@linux.intel.com>
-References: <20201221223225.14723-1-jae.hyun.yoo@linux.intel.com>
+        id S1726121AbgLUWeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Dec 2020 17:34:15 -0500
+Received: from mail-oi1-f179.google.com ([209.85.167.179]:46821 "EHLO
+        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725899AbgLUWeP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Dec 2020 17:34:15 -0500
+Received: by mail-oi1-f179.google.com with SMTP id q205so12800428oig.13;
+        Mon, 21 Dec 2020 14:33:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Z+mwSkMBFlGy8BYewhoxfQR/8zLn/0it2xYVLOgL8+c=;
+        b=szWO8fLZ5lZ6+ME8L7+PmiU9VFF50TcI9UVRhGb2GxbjiKaKAjh8ADeoBRk8rUJ0wR
+         9ZdTe0iVEBgwNMK08H4MUjB8DlzM0z8a1wE/vxwlguwOfOe9aR2ilE8DnvDYQHY/FCwG
+         ZTrbkEkI70h7GAsZGEbuR9NCckJ5fiaZ7yBtCprNxktywnhdw26VsPMtrlVx6ipa63xx
+         CQFj0IBhsycg5I0PKwfZ2OSFgDsbTyfVjJl6jmYKX3hwb/gvLw1utxoxq7sQ+3TPbixw
+         NL2xX82j6/cMenlUFp+syIWrz8cr3fWBVTkW71ItXJoMIVz1ZIL2DS/edDyOJYe4WyjC
+         bZrA==
+X-Gm-Message-State: AOAM530B3ZV/CWVGGyh69KN+Xtdpu5ACf1nfPEJbE0ELAkDuUreYLOIB
+        afW9QnGVg6j/YZ/abxMr5Q==
+X-Google-Smtp-Source: ABdhPJyP9oEFF1amNiSHt97ugC4IOmfuLFseapmIcIPPGvlasG6IhA8wPydZQforl2OqRTjFGkCFog==
+X-Received: by 2002:a54:4694:: with SMTP id k20mr5142843oic.64.1608590014301;
+        Mon, 21 Dec 2020 14:33:34 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id r15sm3835754oie.33.2020.12.21.14.33.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Dec 2020 14:33:33 -0800 (PST)
+Received: (nullmailer pid 692742 invoked by uid 1000);
+        Mon, 21 Dec 2020 22:33:29 -0000
+Date:   Mon, 21 Dec 2020 15:33:29 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Liu Ying <victor.liu@nxp.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
+        a.hajda@samsung.com, narmstrong@baylibre.com,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
+Subject: Re: [PATCH 11/14] dt-bindings: display: bridge: Add i.MX8qm/qxp LVDS
+ display bridge binding
+Message-ID: <20201221223329.GA691090@robh.at.kernel.org>
+References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
+ <1608199173-28760-12-git-send-email-victor.liu@nxp.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1608199173-28760-12-git-send-email-victor.liu@nxp.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Video engine uses eclk and vclk for its clock sources and its reset
-control is coupled with eclk so the current clock enabling sequence works
-like below.
+On Thu, Dec 17, 2020 at 05:59:30PM +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qm/qxp LVDS display bridge(LDB).
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>  .../bindings/display/bridge/fsl,imx8qxp-ldb.yaml   | 185 +++++++++++++++++++++
+>  1 file changed, 185 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> new file mode 100644
+> index 00000000..4e5ff6f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> @@ -0,0 +1,185 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-ldb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qm/qxp LVDS Display Bridge
+> +
+> +maintainers:
+> +  - Liu Ying <victor.liu@nxp.com>
+> +
+> +description: |
+> +  The Freescale i.MX8qm/qxp LVDS Display Bridge(LDB) has two channels.
+> +
+> +  For i.MX8qxp LDB, each channel supports up to 24bpp parallel input color
+> +  format and can map the input to VESA or JEIDA standards.  The two channels
+> +  cannot be used simultaneously, that is to say, the user should pick one of
+> +  them to use.  Two LDB channels from two LDB instances can work together in
+> +  LDB split mode to support a dual link LVDS display.  The channel indexes
+> +  have to be different.  Channel0 outputs odd pixels and channel1 outputs
+> +  even pixels.
+> +
+> +  For i.MX8qm LDB, each channel additionally supports up to 30bpp parallel
+> +  input color format.  The two channels can be used simultaneously, either
+> +  in dual mode or split mode.  In dual mode, the two channels output identical
+> +  data.  In split mode, channel0 outputs odd pixels and channel1 outputs even
+> +  pixels.
 
- Enable eclk
- De-assert Video Engine reset
- 10ms delay
- Enable vclk
+This LDB doesn't share anything with prior ones?
 
-It introduces improper reset on the Video Engine hardware and eventually
-the hardware generates unexpected DMA memory transfers that can corrupt
-memory region in random and sporadic patterns. This issue is observed
-very rarely on some specific AST2500 SoCs but it causes a critical
-kernel panic with making a various shape of signature so it's extremely
-hard to debug. Moreover, the issue is observed even when the video
-engine is not actively used because udevd turns on the video engine
-hardware for a short time to make a query in every boot.
-
-To fix this issue, this commit changes the clock handling logic to make
-the reset de-assertion triggered after enabling both eclk and vclk. Also,
-it adds clk_unprepare call for a case when probe fails.
-
-Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-clk: ast2600: fix reset settings for eclk and vclk
-
-Video engine reset setting should be coupled with eclk to match it
-with the setting for previous Aspeed SoCs which is defined in
-clk-aspeed.c since all Aspeed SoCs are sharing a single video engine
-driver. Also, reset bit 6 is defined as 'Video Engine' reset in
-datasheet so it should be de-asserted when eclk is enabled. This
-commit fixes the setting.
-
-Fixes: d3d04f6c330a ("clk: Add support for AST2600 SoC")
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
-Changes since v1:
-- Squashed two patches due to dependency.
-
- drivers/clk/clk-ast2600.c             | 4 ++--
- drivers/media/platform/aspeed-video.c | 9 ++++++---
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
-index 177368cac6dd..882da16575d4 100644
---- a/drivers/clk/clk-ast2600.c
-+++ b/drivers/clk/clk-ast2600.c
-@@ -60,10 +60,10 @@ static void __iomem *scu_g6_base;
- static const struct aspeed_gate_data aspeed_g6_gates[] = {
- 	/*				    clk rst  name		parent	 flags */
- 	[ASPEED_CLK_GATE_MCLK]		= {  0, -1, "mclk-gate",	"mpll",	 CLK_IS_CRITICAL }, /* SDRAM */
--	[ASPEED_CLK_GATE_ECLK]		= {  1, -1, "eclk-gate",	"eclk",	 0 },	/* Video Engine */
-+	[ASPEED_CLK_GATE_ECLK]		= {  1,  6, "eclk-gate",	"eclk",	 0 },	/* Video Engine */
- 	[ASPEED_CLK_GATE_GCLK]		= {  2,  7, "gclk-gate",	NULL,	 0 },	/* 2D engine */
- 	/* vclk parent - dclk/d1clk/hclk/mclk */
--	[ASPEED_CLK_GATE_VCLK]		= {  3,  6, "vclk-gate",	NULL,	 0 },	/* Video Capture */
-+	[ASPEED_CLK_GATE_VCLK]		= {  3, -1, "vclk-gate",	NULL,	 0 },	/* Video Capture */
- 	[ASPEED_CLK_GATE_BCLK]		= {  4,  8, "bclk-gate",	"bclk",	 0 }, /* PCIe/PCI */
- 	/* From dpll */
- 	[ASPEED_CLK_GATE_DCLK]		= {  5, -1, "dclk-gate",	NULL,	 CLK_IS_CRITICAL }, /* DAC */
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index c46a79eace98..db072ff2df70 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -514,8 +514,8 @@ static void aspeed_video_off(struct aspeed_video *video)
- 	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
- 
- 	/* Turn off the relevant clocks */
--	clk_disable(video->vclk);
- 	clk_disable(video->eclk);
-+	clk_disable(video->vclk);
- 
- 	clear_bit(VIDEO_CLOCKS_ON, &video->flags);
- }
-@@ -526,8 +526,8 @@ static void aspeed_video_on(struct aspeed_video *video)
- 		return;
- 
- 	/* Turn on the relevant clocks */
--	clk_enable(video->eclk);
- 	clk_enable(video->vclk);
-+	clk_enable(video->eclk);
- 
- 	set_bit(VIDEO_CLOCKS_ON, &video->flags);
- }
-@@ -1719,8 +1719,11 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 		return rc;
- 
- 	rc = aspeed_video_setup_video(video);
--	if (rc)
-+	if (rc) {
-+		clk_unprepare(video->vclk);
-+		clk_unprepare(video->eclk);
- 		return rc;
-+	}
- 
- 	return 0;
- }
--- 
-2.17.1
-
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8qm-ldb
+> +      - fsl,imx8qxp-ldb
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    items:
+> +      - description: pixel clock
+> +      - description: bypass clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pixel
+> +      - const: bypass
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  fsl,syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      A phandle which points to Control and Status Registers(CSR) module.
+> +
+> +  fsl,companion-ldb:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      A phandle which points to companion LDB which is used in LDB split mode.
+> +
+> +patternProperties:
+> +  "^channel@[0-1]$":
+> +    type: object
+> +    description: Represents a channel of LDB.
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      reg:
+> +        description: The channel index.
+> +        enum: [ 0, 1 ]
+> +
+> +      phys:
+> +        description: A phandle to the phy module representing the LVDS PHY.
+> +        maxItems: 1
+> +
+> +      phy-names:
+> +        const: lvds_phy
+> +
+> +      port@0:
+> +        type: object
+> +        description: Input port of the channel.
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +        required:
+> +          - reg
+> +
+> +      port@1:
+> +        type: object
+> +        description: Output port of the channel.
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - reg
+> +      - phys
+> +      - phy-names
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - fsl,syscon
+> +  - channel@0
+> +  - channel@1
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx8qm-ldb
+> +    then:
+> +      properties:
+> +        fsl,companion-ldb: false
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/firmware/imx/rsrc.h>
+> +    ldb {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        compatible = "fsl,imx8qxp-ldb";
+> +        clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_MISC2>,
+> +                 <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_BYPASS>;
+> +        clock-names = "pixel", "bypass";
+> +        power-domains = <&pd IMX_SC_R_LVDS_0>;
+> +        fsl,syscon = <&mipi_lvds_0_csr>;
+> +
+> +        channel@0 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <0>;
+> +            phys = <&mipi_lvds_0_phy>;
+> +            phy-names = "lvds_phy";
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi: endpoint {
+> +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0>;
+> +                };
+> +            };
+> +        };
+> +
+> +        channel@1 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <1>;
+> +            phys = <&mipi_lvds_0_phy>;
+> +            phy-names = "lvds_phy";
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi: endpoint {
+> +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1>;
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.7.4
+> 
