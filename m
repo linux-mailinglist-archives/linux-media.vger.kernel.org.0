@@ -2,77 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 343A32E0193
-	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 21:33:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABC102E0250
+	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 23:08:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725820AbgLUUde (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Dec 2020 15:33:34 -0500
-Received: from mga11.intel.com ([192.55.52.93]:19457 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725780AbgLUUde (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Dec 2020 15:33:34 -0500
-IronPort-SDR: /8RxgycB2T9Zp3l8pZk/UZmQayDpPz3LzVVLngCX2DKojE/8Vk+PrptgXwdfoZiHBnN2Mjj3HO
- o0/nQVRH8RSw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="172270212"
-X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
-   d="scan'208";a="172270212"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 12:31:48 -0800
-IronPort-SDR: jbpk4wHi2BbEYcQvfiLDlQ0dffQ71lPrQNFpA2D+HPdRV/+ww2GY8CEgewuCh4WFAjhkuGpbOZ
- FzPmn1B6kvMw==
-X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
-   d="scan'208";a="456810261"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.251.28.113]) ([10.251.28.113])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 12:31:47 -0800
-Subject: Re: [PATCH 2/2] media: aspeed: fix clock handling logic
-To:     Stephen Boyd <sboyd@kernel.org>, Joel Stanley <joel@jms.id.au>
-Cc:     linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-clk@vger.kernel.org, linux-media@vger.kernel.org
-References: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com>
- <20201207164240.15436-3-jae.hyun.yoo@linux.intel.com>
- <CACPK8Xd3dz1WLGNGqMiAZxhMEeGHbkPtvO2rYQ36Kbj=Uvy-jA@mail.gmail.com>
- <d3faea9e-e7d6-eba0-a6b2-c30bc9b6e147@linux.intel.com>
- <160820199393.1580929.9806429719720580479@swboyd.mtv.corp.google.com>
- <d3f2d76c-40d9-b167-7002-5a25ec81c73a@linux.intel.com>
- <160842289176.1580929.13125223155803124427@swboyd.mtv.corp.google.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <4b67f62c-012b-d6e9-cf98-1093175793c4@linux.intel.com>
-Date:   Mon, 21 Dec 2020 12:31:46 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1725852AbgLUWH6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Dec 2020 17:07:58 -0500
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:41833 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbgLUWH6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Dec 2020 17:07:58 -0500
+Received: by mail-ot1-f53.google.com with SMTP id x13so10192395oto.8;
+        Mon, 21 Dec 2020 14:07:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2VgdvX5Ur5pTGaQxWLG6Bl3LqsRP77sKFxiKnQwMdLs=;
+        b=Xr5vLWoo7jqSPUMG0yzmirmJOggYBXLfpkAakLh1jPSG3K67B9B9IzfjuGM+KUvwTq
+         3iUjAsIJnJmci8mPVDNn9bFLHka0fK+gvm3iOPH+vZxUxgnsfWsvRAmb9495FKXvRn5Q
+         49d+aLvUOKaj75KWWe5ZTF8Rs4cnK3O7+tyWEhr+xbbpK0NdGs1tmAhLI9SGjgAflgL8
+         3smLrkx7XhlTgAiCEp0OF68LQ3ZD1f+caP8kxNK0ciJcJgIZXgpqD6DI5UOnXrHmAI3u
+         tUhkJMe418df+rWcIRcWqHwPnTEZ61Ik+qDPvD5C2GUoNi+NrAT3ok01U/LTG5/w5n2b
+         q4ww==
+X-Gm-Message-State: AOAM530TozS3L3YjDxUyHUhyZno8tqgJOSsFRuKUOtk4kdxKbeVUdoWQ
+        SS0UGJBxQCkz8nKJ0mNGiQ==
+X-Google-Smtp-Source: ABdhPJyoDAL7oYPx/VjD1/+QQ1bEQabcYua0wBR8spCDnUfsFpkpljR32JlL7Lrqx0Dl0tK8jRbaEQ==
+X-Received: by 2002:a9d:154:: with SMTP id 78mr13429159otu.171.1608588436945;
+        Mon, 21 Dec 2020 14:07:16 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id e25sm1825310oof.1.2020.12.21.14.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Dec 2020 14:07:16 -0800 (PST)
+Received: (nullmailer pid 652695 invoked by uid 1000);
+        Mon, 21 Dec 2020 22:07:13 -0000
+Date:   Mon, 21 Dec 2020 15:07:13 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Liu Ying <victor.liu@nxp.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
+        a.hajda@samsung.com, narmstrong@baylibre.com,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
+Subject: Re: [PATCH 04/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
+ pixel combiner binding
+Message-ID: <20201221220713.GA610096@robh.at.kernel.org>
+References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
+ <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
-In-Reply-To: <160842289176.1580929.13125223155803124427@swboyd.mtv.corp.google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/19/2020 4:08 PM, Stephen Boyd wrote:
-> Quoting Jae Hyun Yoo (2020-12-17 11:54:15)
->> On 12/17/2020 2:46 AM, Stephen Boyd wrote:
->>> Quoting Jae Hyun Yoo (2020-12-08 09:16:29)
->>> So should the two patches be squashed together and go through the
->>> media tree?
->>>
->>
->> The first patch should go through clk tree, and the second one (this
->> patch) should go through media tree. Both patches should be applied at
->> the same time. Should I squash them in this case?
+On Thu, Dec 17, 2020 at 05:59:23PM +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qm/qxp pixel combiner.
 > 
-> If one depends on the other, and having the first one breaks something
-> unless the second one is applied, then yes they should be squashed
-> together.
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160 +++++++++++++++++++++
+>  1 file changed, 160 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+> new file mode 100644
+> index 00000000..bacacd8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+> @@ -0,0 +1,160 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-pixel-combiner.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qm/qxp Pixel Combiner
+> +
+> +maintainers:
+> +  - Liu Ying <victor.liu@nxp.com>
+> +
+> +description: |
+> +  The Freescale i.MX8qm/qxp Pixel Combiner takes two output streams from a
+> +  single display controller and manipulates the two streams to support a number
+> +  of modes(bypass, pixel combine, YUV444 to YUV422, split_RGB) configured as
+> +  either one screen, two screens, or virtual screens.  The pixel combiner is
+> +  also responsible for generating some of the control signals for the pixel link
+> +  output channel.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8qm-pixel-combiner
+> +      - fsl,imx8qxp-pixel-combiner
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: apb
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +patternProperties:
+> +  "^channel@[0-1]$":
+> +    type: object
+> +    description: Represents a display stream of pixel combiner.
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      reg:
+> +        description: The display stream index.
+> +        oneOf:
+> +          - const: 0
+> +          - const: 1
 
-Okay. Will send a squashed commit as v2.
+enum: [ 0, 1 ]
 
-Thanks,
-Jae
+> +
+> +      port@0:
+> +        type: object
+> +        description: Input endpoint of the display stream.
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +        required:
+> +          - reg
+
+You can drop 'reg' parts. That's going to get covered by the graph 
+schema.
+
+> +
+> +      port@1:
+> +        type: object
+> +        description: Output endpoint of the display stream.
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - reg
+> +      - port@0
+> +      - port@1
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8-lpcg.h>
+> +    #include <dt-bindings/firmware/imx/rsrc.h>
+> +    pixel-combiner@56020000 {
+> +        compatible = "fsl,imx8qxp-pixel-combiner";
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        reg = <0x56020000 0x10000>;
+> +        clocks = <&dc0_pixel_combiner_lpcg IMX_LPCG_CLK_4>;
+> +        clock-names = "apb";
+> +        power-domains = <&pd IMX_SC_R_DC_0>;
+> +
+> +        channel@0 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                dc0_pixel_combiner_ch0_dc0_dpu_disp0: endpoint {
+> +                    remote-endpoint = <&dc0_dpu_disp0_dc0_pixel_combiner_ch0>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                dc0_pixel_combiner_ch0_dc0_pixel_link0: endpoint {
+> +                    remote-endpoint = <&dc0_pixel_link0_dc0_pixel_combiner_ch0>;
+> +                };
+> +            };
+> +        };
+> +
+> +        channel@1 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <1>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                dc0_pixel_combiner_ch1_dc0_dpu_disp1: endpoint {
+> +                    remote-endpoint = <&dc0_dpu_disp1_dc0_pixel_combiner_ch1>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                dc0_pixel_combiner_ch1_dc0_pixel_link1: endpoint {
+> +                    remote-endpoint = <&dc0_pixel_link1_dc0_pixel_combiner_ch1>;
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.7.4
+> 
