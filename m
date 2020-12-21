@@ -2,124 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 031022DFFCB
-	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 19:33:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30CF22DFFC3
+	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 19:30:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726969AbgLUSbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Dec 2020 13:31:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53080 "EHLO
+        id S1726327AbgLUSak (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Dec 2020 13:30:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbgLUSbi (ORCPT
+        with ESMTP id S1725892AbgLUSak (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Dec 2020 13:31:38 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E48BC0611C5
-        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 10:30:58 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id c7so10509468edv.6
-        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 10:30:58 -0800 (PST)
+        Mon, 21 Dec 2020 13:30:40 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D9CCC0613D3
+        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 10:29:59 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id n16so216778wmc.0
+        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 10:29:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZQj+lY9Q9qTAn9h/O1jDrfQPMWDKTY6Q2BZuiHff5Iw=;
-        b=M4D2E9qGgwUTj7URXt5FnCh0RdB4oZABXC+0HZNClkcuxBkU9CdQRKlz8YKek9BZHH
-         D77YcPivFf1wXHWK2uURuSSYydhawUwSdWYdi7rbl5BWLT7TxAetQVQH9VgKaoJU7GHi
-         6b/QSaziho4fNBVzAEAOaAFkWtpvXNibJ22YN+9tqA4ITGeT9dmMamDXuBdOeUjbMgbl
-         Pg/ayiieEx96VwFVWbvYJXOtpXhzUeRZj4fvwX3IoCpyNP6P0axAjOsTOo0PvO3YTSSS
-         mTgSExhzUSKZDdymmYUR5SsKy5/fyX0dWB08dffvd1AFU/gLvW/GvnUlfsn6vZfvwXfY
-         im2Q==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vJuLPvN2RTSNyr6LApzw+/OhfeYw5gbFBvw/kpJgHjI=;
+        b=DQyB82We6HV18Ka32uGMj6H2J+bJdM7Y3zVVCfkuJOaodSSJNWB/8GqFOdELB7k+KS
+         DUxjF69Dfb8bXn4RpaOvWr6M3LUO5KWekB+4gvw9cu3biW6KB/9jwvbyX3HSRGsyN/+G
+         z1Y83YcMUDAVWO6uoxRYfbM7FagtC2CYHd8L0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZQj+lY9Q9qTAn9h/O1jDrfQPMWDKTY6Q2BZuiHff5Iw=;
-        b=AIeqo2LCFxtqkZIyXiOMSQifwaHmCJSfy0H6PJYWXG7qYW5J45RafI+YHwrdSN4x5e
-         XGzYxQEqUS66BWVhZE93B22o+aOI4dL2JMu5kzXVXSym3Bre1UIGR+j2cOuhIVJhGupi
-         I0n6c3zaWxdXX1mS7bvu9DVjpOIoEQ1U5aLOeifS5+dUI8FQussvnIDej+D3mnFnBiZH
-         6dc/q6Mnb0OIJUzUd//iDx3V5EmJfdYU9IO8e2XAeHrEYL6bkacc5+RiHngaBIqNQ6rV
-         k+YOBh9qMdV976ShrE8ovfbsYmz2bWyvPifEbj/FXbk2n4zGePwEwjmKGbNaCPkovs5z
-         QmXw==
-X-Gm-Message-State: AOAM533dP6cPp/eGHuxr2olF/XPWRzwizJ2PUW6LbUun7ozo8dEoCmxT
-        xQ8aFDsjGMhzOcXCQRW9Ne48QamE7S2fERYw
-X-Google-Smtp-Source: ABdhPJyjlK1WG/DEJVU6rq0koBfatPri8F85K0VZBp6e6CGUZPIxaBB5iaiRtPXEUR0komHKBL4gTw==
-X-Received: by 2002:a5d:6884:: with SMTP id h4mr19393526wru.174.1608566516071;
-        Mon, 21 Dec 2020 08:01:56 -0800 (PST)
-Received: from [192.168.0.4] ([84.238.208.204])
-        by smtp.googlemail.com with ESMTPSA id d191sm23176698wmd.24.2020.12.21.08.01.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Dec 2020 08:01:55 -0800 (PST)
-Subject: Re: [PATCH] venus: venc: set IDR period to FW only for H264 & HEVC
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1608102410-23390-1-git-send-email-dikshita@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <80ba09a0-d830-4b08-1a76-44b5d7fb38ee@linaro.org>
-Date:   Mon, 21 Dec 2020 18:01:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=vJuLPvN2RTSNyr6LApzw+/OhfeYw5gbFBvw/kpJgHjI=;
+        b=ozZAGtve7KQeFHGRmW1iWC3/lI3LZszx9G+fUsiMXC1iFrSuhBBLeQ0Q0k8yR1x8D3
+         dSPgADF0lGQ7NxfVG1NYrgiwL9oB286wJQgVUMxOG8LXkZre8a/kbsvKee+je8PRE50m
+         yDNkinDoa/PBqXOGoVdnVaxHlh9Hjq+4mWm8cY9f1k9Y3113/GSI+0Vwc+leKnsj8F5e
+         bCg+rj1+7SloviAPcGzgY56IxQNGUqJiOpULa8qmGr4S6STEHxw4ThS85oD9CKNrYuSB
+         +Uud1zHltUR1TduPwpPYo717ZaaJ3IOEtq7GtMZZ5ygWv8zWVzSVvK1JBUP/0h0rtCFQ
+         qiqg==
+X-Gm-Message-State: AOAM533WWoPPLVkTb0RKbSuMSiMogskifMh/Ydq3WQA4fkrgb/RQpM2o
+        3UrJh2g4aTIPj20AsrvRFJ6CJoILZwm0sxBn4LI=
+X-Google-Smtp-Source: ABdhPJwL72OqtKMahlwApirIUX+DUcjXJsr/D1CeeqHILBPP03aucCZhCea9miDoTCBiJ9an+V6J2A==
+X-Received: by 2002:a05:600c:2306:: with SMTP id 6mr17698261wmo.53.1608569302238;
+        Mon, 21 Dec 2020 08:48:22 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id o125sm24581109wmo.30.2020.12.21.08.48.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Dec 2020 08:48:21 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v5 00/12]Show privacy_gpio as a v4l2_ctrl
+Date:   Mon, 21 Dec 2020 17:48:07 +0100
+Message-Id: <20201221164819.792019-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.29.2.684.gfbc64c5ab5-goog
 MIME-Version: 1.0
-In-Reply-To: <1608102410-23390-1-git-send-email-dikshita@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Some devices can implement a physical switch to disable the input of the
+camera on demand. Think of it like an elegant privacy sticker.
 
+The system can read the status of the privacy switch via a GPIO.
 
-On 12/16/20 9:06 AM, Dikshita Agarwal wrote:
-> HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD is supported for only
-> H264 & HEVC codec. There is no need to set it for VP8 since
-> all key frames are treated as IDR frames for VP8.
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/venc.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
+The ACPI table maps this GPIO to the USB device via _CRS and _DSD
+descriptors, so the kernel can find it.
 
-Reviewed-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+The userspace applications need to know if the privacy pin is enabled
+or not.
 
-> 
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 3a2e449..618cf92 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -588,16 +588,19 @@ static int venc_set_properties(struct venus_inst *inst)
->  			return ret;
->  	}
->  
-> -	/* IDR periodicity, n:
-> -	 * n = 0 - only the first I-frame is IDR frame
-> -	 * n = 1 - all I-frames will be IDR frames
-> -	 * n > 1 - every n-th I-frame will be IDR frame
-> -	 */
-> -	ptype = HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
-> -	idrp.idr_period = 0;
-> -	ret = hfi_session_set_property(inst, ptype, &idrp);
-> -	if (ret)
-> -		return ret;
-> +	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-> +	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-> +		/* IDR periodicity, n:
-> +		 * n = 0 - only the first I-frame is IDR frame
-> +		 * n = 1 - all I-frames will be IDR frames
-> +		 * n > 1 - every n-th I-frame will be IDR frame
-> +		 */
-> +		ptype = HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
-> +		idrp.idr_period = 0;
-> +		ret = hfi_session_set_property(inst, ptype, &idrp);
-> +		if (ret)
-> +			return ret;
-> +	}
->  
->  	if (ctr->num_b_frames) {
->  		u32 max_num_b_frames = NUM_B_FRAMES_MAX;
-> 
+The obvious way to show it to userspace is via the V4L2_CID_PRIVACY control.
+
+This patchset implement this functionality.
+
+v5: Thanks to all the comments from Laurent!
+  - Allow multiple async_ctrls
+  - Use dev_dbg() for uvc_trace
+  - Major redesing of "Implement UVC_EXT_GPIO_UNIT"
+  - Major redesing of "Implement UVC_QUIRK_PRIVACY_DURING_STREAM"
+
+v4: Implement UVC_QUIRK_PRIVACY_DURING_STREAM
+
+v3: Thanks to all the comments from Joe Perches
+  - Rework of printk macros
+
+v2: Thanks to all the comments from Laurent!
+  - move guid to unit
+  - support entities with no pads
+  - CodeStyle
+  - Irq handling
+  - pr_cont
+  - new ids
+
+Ricardo Ribalda (12):
+  media: uvcvideo: Fix race condition handling events
+  media: uvcvideo: Allow more that one asyc_ctrl
+  media: uvcvideo: Move guid to entity
+  media: uvcvideo: Allow extra entities
+  media: uvcvideo: Allow entities with no pads
+  media: uvcvideo: Allow entity-defined get_info and get_cur
+  media: uvcvideo: Implement UVC_EXT_GPIO_UNIT
+  media: uvcvideo: Add Privacy control based on EXT_GPIO
+  media: uvcvideo: Implement UVC_QUIRK_PRIVACY_DURING_STREAM
+  media: uvcvideo: Use dev_ printk aliases
+  media: uvcvideo: New macro uvc_trace_cont
+  media: uvcvideo: use dev_dbg() for uvc_trace()
+
+ drivers/media/usb/uvc/uvc_ctrl.c   | 204 +++++----
+ drivers/media/usb/uvc/uvc_driver.c | 644 +++++++++++++++++++----------
+ drivers/media/usb/uvc/uvc_entity.c |  11 +-
+ drivers/media/usb/uvc/uvc_isight.c |  16 +-
+ drivers/media/usb/uvc/uvc_queue.c  |  12 +-
+ drivers/media/usb/uvc/uvc_status.c |  32 +-
+ drivers/media/usb/uvc/uvc_v4l2.c   |  53 ++-
+ drivers/media/usb/uvc/uvc_video.c  | 120 +++---
+ drivers/media/usb/uvc/uvcvideo.h   |  91 ++--
+ 9 files changed, 767 insertions(+), 416 deletions(-)
 
 -- 
-regards,
-Stan
+2.29.2.684.gfbc64c5ab5-goog
+
