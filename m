@@ -2,214 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C21212E028C
-	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 23:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 817382E0271
+	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 23:23:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgLUWcZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Dec 2020 17:32:25 -0500
-Received: from mail-oi1-f174.google.com ([209.85.167.174]:33178 "EHLO
-        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbgLUWcY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Dec 2020 17:32:24 -0500
-Received: by mail-oi1-f174.google.com with SMTP id d203so12890022oia.0;
-        Mon, 21 Dec 2020 14:32:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CrCNdD9kKFd0w/18HL8sM1tY8e07PfB1FWqVN+teSm0=;
-        b=I3n/+8R+XR25EX5m5WyWOOhse+mYR1ZtY6ZRQZBWjwCNN4/3zCC+Q3tXlCRak9GlGX
-         S5iMGnhVOsQtVkSRFovFQ5H3gKvtrfe9Iln/oR73UEf4I+xkeR3XBb1HKiUQsc6dPmca
-         o64B3lLaSNmork/Rp5LbWCo+P2sUI2bgVX9l1AkUU1eg5RBc0nmOeMryBwKZo+d/8sZ6
-         ZrtsmiNrb95YrisVLASWwAfU1/YkIU9EBlB/LBrBmrUqyU9vfsWe5W4TAWFv0eXI9vUb
-         cu0snsyqFphy7c0Ju45IAyA3UoUArxZyYOquUPH+k3C0ANgb4KpTL/9BWquQFZczRx9g
-         6LZg==
-X-Gm-Message-State: AOAM532W2JZqi+aDc+pTcyjpkG0E3yfuN51maWK48EFrWQ2mHJciNxF+
-        /8jBQ9sxjS9d2TjjQOQuug==
-X-Google-Smtp-Source: ABdhPJwd3rb480++WHPVL+OW+GohWnneE/ypMwzopQAGGGNcpsFcZLA+a1WpJRtC7opt6UMNNivAAQ==
-X-Received: by 2002:aca:6202:: with SMTP id w2mr4690067oib.5.1608589903376;
-        Mon, 21 Dec 2020 14:31:43 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id z6sm3980286ooz.17.2020.12.21.14.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 14:31:42 -0800 (PST)
-Received: (nullmailer pid 689847 invoked by uid 1000);
-        Mon, 21 Dec 2020 22:31:40 -0000
-Date:   Mon, 21 Dec 2020 15:31:40 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Liu Ying <victor.liu@nxp.com>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
-        a.hajda@samsung.com, narmstrong@baylibre.com,
-        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
-Subject: Re: [PATCH 06/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
- display pixel link binding
-Message-ID: <20201221223140.GA687317@robh.at.kernel.org>
-References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
- <1608199173-28760-7-git-send-email-victor.liu@nxp.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1608199173-28760-7-git-send-email-victor.liu@nxp.com>
+        id S1726016AbgLUWXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Dec 2020 17:23:33 -0500
+Received: from mga05.intel.com ([192.55.52.43]:42712 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725892AbgLUWXd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Dec 2020 17:23:33 -0500
+IronPort-SDR: 8YOe3Oxoy3Ggwa95nGUMSGVd2jSI/s7NGzTaZOYlE/A7Wo2WDd8sYsF4ZIC5H/XweJ1iYeEZti
+ WXs7XF2OVDFg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="260521913"
+X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
+   d="scan'208";a="260521913"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 14:21:46 -0800
+IronPort-SDR: PS9v6jx1y4Zk2+CT4iwry61c5UoDxY0SjTCemykD8hVs6PLfnxgfHftbemXJiNYLxzqdOrImj9
+ MYZA6Z2eiSiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
+   d="scan'208";a="372892687"
+Received: from maru.jf.intel.com ([10.54.51.77])
+  by orsmga008.jf.intel.com with ESMTP; 21 Dec 2020 14:21:45 -0800
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Eddie James <eajames@linux.ibm.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: [PATCH v2 0/1] Fix kernel panic issues caused by AST2500 Video Engine
+Date:   Mon, 21 Dec 2020 14:32:24 -0800
+Message-Id: <20201221223225.14723-1-jae.hyun.yoo@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 05:59:25PM +0800, Liu Ying wrote:
-> This patch adds bindings for i.MX8qm/qxp display pixel link.
-> 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->  .../display/bridge/fsl,imx8qxp-pixel-link.yaml     | 128 +++++++++++++++++++++
->  1 file changed, 128 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-> new file mode 100644
-> index 00000000..fd24a0e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-> @@ -0,0 +1,128 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-pixel-link.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX8qm/qxp Display Pixel Link
-> +
-> +maintainers:
-> +  - Liu Ying <victor.liu@nxp.com>
-> +
-> +description: |
-> +  The Freescale i.MX8qm/qxp Display Pixel Link(DPL) forms a standard
-> +  asynchronous linkage between pixel sources(display controller or
-> +  camera module) and pixel consumers(imaging or displays).
-> +  It consists of two distinct functions, a pixel transfer function and a
-> +  control interface.  Multiple pixel channels can exist per one control channel.
-> +  This binding documentation is only for pixel links whose pixel sources are
-> +  display controllers.
+Video engine uses eclk and vclk for its clock sources and its reset
+control is coupled with eclk so the current clock enabling sequence works
+like below.
 
-Perhaps some information about how this 'device' is accessed because you 
-have no control interface.
+ Enable eclk
+ De-assert Video Engine reset
+ 10ms delay
+ Enable vclk
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8qm-dc-pixel-link
-> +      - fsl,imx8qxp-dc-pixel-link
-> +
-> +  ports:
-> +    type: object
-> +    description: |
-> +      A node containing pixel link input & output port nodes with endpoint
-> +      definitions as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +      Documentation/devicetree/bindings/graph.txt
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description: The pixel link input port node from upstream video source.
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +        required:
-> +          - reg
+It introduces improper reset on the Video Engine hardware and eventually
+the hardware generates unexpected DMA memory transfers that can corrupt
+memory region in random and sporadic patterns. This issue is observed
+very rarely on some specific AST2500 SoCs but it causes a critical
+kernel panic with making a various shape of signature so it's extremely
+hard to debug. Moreover, the issue is observed even when the video
+engine is not actively used because udevd turns on the video engine
+hardware for a short time to make a query in every boot.
 
-You can drop 'reg' parts.
+To fix this issue, this commit changes the clock handling logic to make
+the reset de-assertion triggered after enabling both eclk and vclk. Also,
+it adds clk_unprepare call for a case when probe fails.
 
-> +
-> +    patternProperties:
-> +      "^port@[1-4]$":
-> +        type: object
-> +        description: The pixel link output port node to downstream bridge.
-> +
-> +        properties:
-> +          reg:
-> +            enum: [ 1, 2, 3, 4 ]
-> +
-> +        required:
-> +          - reg
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - port@0
-> +
-> +    anyOf:
-> +      - required:
-> +          - port@1
-> +      - required:
-> +          - port@2
-> +      - required:
-> +          - port@3
-> +      - required:
-> +          - port@4
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dc0-pixel-link0 {
-> +        compatible = "fsl,imx8qxp-dc-pixel-link";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            /* from dc0 pixel combiner channel0 */
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                dc0_pixel_link0_dc0_pixel_combiner_ch0: endpoint {
-> +                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_pixel_link0>;
-> +                };
-> +            };
-> +
-> +            /* to PXL2DPIs in MIPI/LVDS combo subsystems */
-> +            port@1 {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                reg = <1>;
-> +
-> +                dc0_pixel_link0_mipi_lvds_0_pxl2dpi: endpoint@0 {
-> +                    reg = <0>;
-> +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_dc0_pixel_link0>;
-> +                };
-> +
-> +                dc0_pixel_link0_mipi_lvds_1_pxl2dpi: endpoint@1 {
-> +                    reg = <1>;
-> +                    remote-endpoint = <&mipi_lvds_1_pxl2dpi_dc0_pixel_link0>;
-> +                };
-> +            };
-> +
-> +            /* to imaging subsystem */
-> +            port@4 {
-> +                reg = <4>;
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.7.4
-> 
+In case of AST2600, the video engine reset setting should be coupled with
+eclk to match it with the setting for previous Aspeed SoCs which is defined
+in clk-aspeed.c since all Aspeed SoCs are sharing a single video engine
+driver. Also, reset bit 6 is defined as 'Video Engine' reset in datasheet
+so it should be de-asserted when eclk is enabled. This commit fixes the
+setting too.
+
+Please review this squashed patch.
+
+Changes since v1:
+- Squashed two patches due to dependency.
+
+Jae Hyun Yoo (1):
+  media: aspeed: fix clock handling logic
+
+ drivers/clk/clk-ast2600.c             | 4 ++--
+ drivers/media/platform/aspeed-video.c | 9 ++++++---
+ 2 files changed, 8 insertions(+), 5 deletions(-)
+
+-- 
+2.17.1
+
