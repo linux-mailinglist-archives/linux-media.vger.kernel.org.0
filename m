@@ -2,335 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 274272DFBA3
-	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 12:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8C4A2DFBE1
+	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 13:35:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725962AbgLULr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Dec 2020 06:47:29 -0500
-Received: from mga05.intel.com ([192.55.52.43]:8456 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725771AbgLULr3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Dec 2020 06:47:29 -0500
-IronPort-SDR: 0iBrWWTtBu1U9EUxsAfO5zLXVGIBEU/a61ojQ47N4DvWxAHQ6EHcNz0xZf07mmS7Z2pJlHhFHo
- cRTVzZVnJINA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9841"; a="260442361"
-X-IronPort-AV: E=Sophos;i="5.78,436,1599548400"; 
-   d="scan'208";a="260442361"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 03:45:43 -0800
-IronPort-SDR: 6MhCsoz3Do5e67UXuWNOqgsut+LVNvEz0NIPJ5kojZmxG8hIQuM9PferUZrtkCrECqh2Mdok1t
- 03/Ofv7D8Fgw==
-X-IronPort-AV: E=Sophos;i="5.78,436,1599548400"; 
-   d="scan'208";a="560772653"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 03:45:40 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 5E333205F7; Mon, 21 Dec 2020 13:45:38 +0200 (EET)
-Date:   Mon, 21 Dec 2020 13:45:38 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        tfiga@chromium.org, Robert Foss <robert.foss@linaro.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-        Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        hverkuil@xs4all.nl
-Subject: Re: [RFC] Repurpose V4L2_CID_PIXEL_RATE for the sampling rate in the
- pixel array
-Message-ID: <20201221114538.GM26370@paasikivi.fi.intel.com>
-References: <3dac47ae-54c1-e719-191f-613a0fa5e0c1@linaro.org>
+        id S1726669AbgLUMfD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Dec 2020 07:35:03 -0500
+Received: from so254-31.mailgun.net ([198.61.254.31]:59454 "EHLO
+        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbgLUMfC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Dec 2020 07:35:02 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1608554083; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=tDvl9tDLfGJ7JN2lYUJAQJ9Ss9Zsrq4uuuiex7ki2+Q=;
+ b=mUtq7NQMj8AEZNIvst028U4cleL4eIwccoFkLP3uLv08gDmGrG/QKWjXYfQK6solQ5RGIoj9
+ K0rTepGJjuR8jJL3xWbS2AS+ikFaqxo/1quysxO7OS55MRkkTYc43aFI4gi58guXXgT4Dmpe
+ QJfWFbtqTmdgY7qcWIs7fPRQOyo=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5fe09646cfe5dd67dbcda5b7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Dec 2020 12:34:14
+ GMT
+Sender: rojay=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 8FFD3C433ED; Mon, 21 Dec 2020 12:34:14 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: rojay)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4CAD8C433C6;
+        Mon, 21 Dec 2020 12:34:13 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3dac47ae-54c1-e719-191f-613a0fa5e0c1@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 21 Dec 2020 18:04:13 +0530
+From:   rojay@codeaurora.org
+To:     Akash Asthana <akashast@codeaurora.org>
+Cc:     wsa@kernel.org, swboyd@chromium.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Subject: Re: [RESEND PATCH V6 1/2] i2c: i2c-qcom-geni: Store DMA mapping data
+ in geni_i2c_dev struct
+In-Reply-To: <049c28e9-1211-377f-941d-ba169645dd24@codeaurora.org>
+References: <20201203103156.32595-1-rojay@codeaurora.org>
+ <20201203103156.32595-2-rojay@codeaurora.org>
+ <049c28e9-1211-377f-941d-ba169645dd24@codeaurora.org>
+Message-ID: <585a9b7ab44e3a99eb803536af6334e5@codeaurora.org>
+X-Sender: rojay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrey,
+On 2020-12-09 18:29, Akash Asthana wrote:
+> Hi Roja,
+> 
+> On 12/3/2020 4:01 PM, Roja Rani Yarubandi wrote:
+>> Store DMA mapping data in geni_i2c_dev struct to enhance DMA mapping
+>> data scope. For example during shutdown callback to unmap DMA mapping,
+>> this stored DMA mapping data can be used to call geni_se_tx_dma_unprep
+>> and geni_se_rx_dma_unprep functions.
+>> 
+>> Add two helper functions geni_i2c_rx_msg_cleanup and
+>> geni_i2c_tx_msg_cleanup to unwrap the things after rx/tx FIFO/DMA
+>> transfers, so that the same can be used in geni_i2c_stop_xfer()
+>> function during shutdown callback.
+>> 
+>> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+>> ---
+>> Changes in V5:
+>>   - As per Stephen's comments separated this patch from shutdown
+>>     callback patch, gi2c->cur = NULL is not removed from
+>>     geni_i2c_abort_xfer(), and made a copy of gi2c->cur and passed
+>>     to cleanup functions.
+>> 
+>> Changes in V6:
+>>   - Added spin_lock/unlock in geni_i2c_rx_msg_cleanup() and
+>>     geni_i2c_tx_msg_cleanup() functions.
+>> 
+>>   drivers/i2c/busses/i2c-qcom-geni.c | 69 
+>> +++++++++++++++++++++++-------
+>>   1 file changed, 53 insertions(+), 16 deletions(-)
+>> 
+>> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c 
+>> b/drivers/i2c/busses/i2c-qcom-geni.c
+>> index dce75b85253c..bfbc80f65006 100644
+>> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+>> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+>> @@ -86,6 +86,9 @@ struct geni_i2c_dev {
+>>   	u32 clk_freq_out;
+>>   	const struct geni_i2c_clk_fld *clk_fld;
+>>   	int suspended;
+>> +	void *dma_buf;
+>> +	size_t xfer_len;
+>> +	dma_addr_t dma_addr;
+>>   };
+>>     struct geni_i2c_err_log {
+>> @@ -348,14 +351,49 @@ static void geni_i2c_tx_fsm_rst(struct 
+>> geni_i2c_dev *gi2c)
+>>   		dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
+>>   }
+>>   +static void geni_i2c_rx_msg_cleanup(struct geni_i2c_dev *gi2c,
+>> +				     struct i2c_msg *cur)
+>> +{
+>> +	struct geni_se *se = &gi2c->se;
+>> +	unsigned long flags;
+>> +
+>> +	spin_lock_irqsave(&gi2c->lock, flags);
+>> +	gi2c->cur_rd = 0;
+>> +	if (gi2c->dma_buf) {
+>> +		if (gi2c->err)
+>> +			geni_i2c_rx_fsm_rst(gi2c);
+> 
+> Which race we are trying to avoid here by holding spinlock?
+> 
 
-Thanks for your e-mail.
+Thought that race might occur with "cur" here.
 
-Could you wrap the lines before 80 characters? It's a bit hard to read...
+> We cannot call any sleeping API by holding spinlock,
+> geni_i2c_rx_fsm_rst calls *wait-for-completion*, which is a sleeping
+> call.
+> 
 
-On Tue, Dec 08, 2020 at 03:09:25PM +0300, Andrey Konovalov wrote:
-> Greetings,
-> 
-> I was checking how V4L2_CID_PIXEL_RATE and V4L2_CID_LINK_FREQ controls
-> are documented and used in recent media_tree kernel, and found that the
-> current usage of V4L2_CID_PIXEL_RATE is not consistent.
-> 
-> This topic seems to be a bit wider, but I'll focus on camera sensors and
-> the corresponding receivers.
-> 
-> Not only the receiver drivers often use V4L2_CID_PIXEL_RATE to calculate
-> the link frequency from (this is much more common than using
-> V4L2_CID_LINK_FREQ alone, or with fallback to V4L2_CID_PIXEL_RATE if
-> V4L2_CID_LINK_FREQ is not implemented). The bigger issue is that
-> V4L2_CID_PIXEL_RATE was intended to give the rate at which pixels are
-> transmitted (e.g. over CSI-2 link), while it is also seems to be used for
-> the sampling rate in the pixel array. The problem is that these two rates
-> are different things, and may have different values.
+Fixed this.
 
-The PIXEL_RATE control indeed has signified, well, the pixel rate, and
-pixel rate may be different things depending on where it is found.
-
-The original use has been both on pixel matrix as well as on the
-CSI-2 transmitter but of course this is a problem if the two are the same
-sub-device.
-
+>> +		geni_se_rx_dma_unprep(se, gi2c->dma_addr, gi2c->xfer_len);
+>> +		i2c_put_dma_safe_msg_buf(gi2c->dma_buf, cur, !gi2c->err);
+>> +	}
+>> +	spin_unlock_irqrestore(&gi2c->lock, flags);
+>> +}
+>> +
+>> +static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c,
+>> +				     struct i2c_msg *cur)
+>> +{
+>> +	struct geni_se *se = &gi2c->se;
+>> +	unsigned long flags;
+>> +
+>> +	spin_lock_irqsave(&gi2c->lock, flags);
+>> +	gi2c->cur_wr = 0;
+>> +	if (gi2c->dma_buf) {
+>> +		if (gi2c->err)
+>> +			geni_i2c_tx_fsm_rst(gi2c);
 > 
-> The proposal is to repurpose V4L2_CID_PIXEL_RATE to report the sampling
-> rate in the pixel array, and to calculate the symbol rate at which pixels
-> are transmitted over the link from V4L2_CID_LINK_FREQ value. The receiver
-> drivers currently using V4L2_CID_PIXEL_RATE to get the link frequency can
-> be switched to use the existing v4l2_get_link_rate() helper. We also need
-> to push the sensor drivers to implement V4L2_CID_LINK_FREQ, as quite a
-> few of them do V4L2_CID_PIXEL_RATE only.
-
-Indeed. That has been the idea for some time actually, but first all the
-receiver drivers need to be converted to use LINK_FREQ. This is easiest
-done by using the wrapper the ipu3-cio2 driver already uses as it still
-works even if the sensor driver only implemented PIXEL_RATE.
-
+> Same here
 > 
-> I am not sure about the userspace cases, but guess that the userspace is
-> much more interested in frames per second and exposure values than in
-> link details. So it would rather use V4L2_CID_PIXEL_RATE for the sampling
-> rate in the pixel array anyway.
-
-That's the case if the sensor driver exposes the rest of the configuration
-as the device's native parameters (such as analogue crop rectangle and
-horizontal and vertical blanking). The majority of drivers do not do that,
-at least currently, but instead use SUBDEV_[GS]_FRAME_INTERVAL. This is not
-a native interface for camera sensors, and it is not well suited for
-conveying what other frame intervals are available.
-
+> Regards,
 > 
-> More details below.
+> Akash
 > 
-> 1. V4L2_CID_PIXEL_RATE vs V4L2_CID_LINK_FREQ.
-> ---------------------------------------------
-> 
-> According to [1]: - V4L2_CID_LINK_FREQ control can be used to get or to
-> set the frequency of the bus between transmitter
->   (e.g. sensor) and receiver (e.g. RX phy on an SOC), This control is r/w
->   by default, but is often made read-only by the sensor drivers,
-> - V4L2_CID_PIXEL_RATE control can be used to get pixel rate in the source pads of the subdev. This control
->   is read-only by default.
-> 
-> [2] is even more explicit: - V4L2_CID_LINK_FREQ control tells the
-> receiver driver the frequency (and not the symbol rate) of the link, -
-> V4L2_CID_PIXEL_RATE control may be used by the receiver to obtain the
-> pixel rate the transmitter uses.
->   If the link is the MIPI CSI-2 D-PHY one, the value of the
->   V4L2_CID_PIXEL_RATE is calculated as follows:
->     pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample
-> (*)
-> 
-> [2] also requires the sensor driver connected through CSI-2 or parallel
-> (BT.601 or BT.656) bus to implement V4L2_CID_LINK_FREQ control, and for
-> raw sensors V4L2_CID_PIXEL_RATE is also said to be mandatory. Still only
-> half of sensor drivers under driver/media/i2c in the current media tree
-> have V4L2_CID_PIXEL_RATE support and even less implement
-> V4L2_CID_LINK_FREQ control.
-> 
-> (*) is valid for MIPI CSI-2 D-PHY only, but it is widely used by the
-
-Correct. The only driver just got support for CSI-2 C-PHY, so the
-documentation needs to be adjusted, too. I actually recently sent a patch
-to address that.
-
-> receiver drivers to get CSI-2 link frequency from V4L2_CID_PIXEL_RATE
-> [3], [4], [5], [6]. For other bus types link frequency can also be
-> calculated from the pixel rate and some other parameters. There exists a
-> helper function in drivers/media/v4l2-core/v4l2-common.c for that already
-> [7]:
->   s64 v4l2_get_link_rate(struct v4l2_ctrl_handler *handler, unsigned int
-> mul, unsigned int div) which tries to get the link rate value using
-> V4L2_CID_LINK_FREQ, and if it not supported by the sub-device, it tries
-> V4L2_CID_PIXEL_RATE and calculates the link frequency from the pixel rate
-> using the multiplier and the divider provided by the caller.
-> Unfortunately only one driver [8] uses v4l2_get_link_rate(). [9]
-> implements a similar approach (error handling is different) but on its
-> own.
-> 
-> [10] and [11] use V4L2_CID_LINK_FREQ directly.
-> 
-> Only two drivers use V4L2_CID_PIXEL_RATE for something else than getting
-> the link frequency [12], [13].
-> 
-> So in most of the cases the receiver drivers need to know the link
-> frequency. Often this link frequency is calculated from the pixel rate,
-> but changing the drivers to use V4L2_CID_LINK_FREQ directly looks fairly
-> easy.
-> 
-> 
-> 2. V4L2_CID_PIXEL_RATE: the rate at which pixels are transmitted, or the
-> sampling rate in the pixel array?
-> ----------------------------------------------------------------------------------------------------------
-> 
-> Let's start from the example: "imx219 8-bit raw modes are broken for
-> camss, the 8MP@15fps one included".
-> 
-> The imx219 driver supports only 2 data lanes. The link frequency is fixed
-> at 456MHz. At 8MP the fps is 15, which the driver refers to as 8MP@15fps
-> mode.
-> 
-> Originally the driver supported 10-bit raw format only, so the pixel rate
-> was:
-> 
->   IMX219_pixel_rate = IMX219_link_freq * 2 * nr_of_lanes /
->                       bits_per_sample = 456 * 2 * 2 / 10 = 182.4 Mpix/sec
-> 
-> The line length (IMX219_PPL_DEFAULT) is set to 3448 (h blanking
-> included), the frame length in this mode (IMX219_VTS_15FPS) is 3526 (v
-> blanking included). Then
-> 
->   IMX219_frame_rate_8MP = IMX219_pixel_rate / IMX219_PPL_DEFAULT /
->                           IMX219_VTS_15FPS = 182400000 / 3448 / 3526 =
->                           15.003 Hz - OK, as
-> expected.
-> 
-> The value for read-only V4L2_CID_HBLANK control is calculated as: hblank
->         = IMX219_PPL_DEFAULT - mode->width; - and can only change
-> as the result of switching the modes.
-> 
-> Then 8-bit raw format was added. And it was done such that switching
-> between 10 and 8 bits affects the output data domain only - the pixel
-> read domain continues to work just as before:
->   - the number of bits per sample to read from the FIFO is set to 8 or 10
->     (there is a FIFO between the "pixel read" and the "MIPI data output"
->   halves of the sensor) - the divider for the "read from the FIFO" clock
->   is set to 8 or 10 - this clock is 91.2 MHz for 10 bits
->     and 114 MHz for 8 bits. So that the link frequency remains the same.
-> 
-> The important thing to note is that the clock at which the samples are
-> written to the FIFO remains at 91.2 MHz for both 10 and 8 bits.
-> 
-> V4L2_CID_PIXEL_RATE control handling was not changed - its value is
-> always reported as 182.4 Mpix/sec. This immediately broke the receivers
-> which use V4L2_CID_PIXEL_RATE to configure their phy - e.g. capturing in
-> 8 bit modes doesn't work on Qualcomm boards using camss driver.
-> 
-> So my first impression was that this is a bug in the imx219 driver. But
-> in fact this is a more generic API problem: if we update
-> V4L2_CID_PIXEL_RATE to fix the issue with the drivers calculating the
-> link frequency from it, from the equation below [14]:
-> 
->   frame interval = (analogue crop width + horizontal blanking) *
->                  (analogue crop height + vertical blanking) / pixel_rate
-> (**)
-> 
-> - we would see (if we treat the h blanking as it is treated in imx219
-> driver) that the fps changed from 15 to 18.75 after switching from 10-bit
-> to 8-bit raw format. While in fact the fps is 15 in the both cases. If we
-> changed camss to use V4L2_CID_LINK_FREQ (not changed between 8 and 10
-> bits in this case), and repurposed V4L2_CID_PIXEL_RATE to report the
-> sampling rate in the pixel array (not changed between 8 and 10 bits in
-> this case), then (**) would give the correct frame interval and 8-bit
-> modes would work with camss driver just fine.
-> 
-> As a summary, this issue happened because the equation (*) assumes that
-> pixel_rate is the rate at which pixels are transmitted (belongs to the
-> "MIPI data output" domain), while the imx219 driver and equation (**)
-> assume that the pixel_rate is the sampling rate in the pixel array. And
-> while in case of the imx219 driver these two (different by nature) rates
-> are the same for 10-bit raw formats, for 8-bit raw formats the sampling
-> rate in the pixel array is lower than the rate at which pixels are
-> transmitted. Because switching from 10 to 8 bits reconfigures the "MIPI
-> data output" domain *only*. And this implementation does make sense: this
-> is quite natural for a user to see no change in fps and exposure (in
-> absolute units, not in lines) when he/she decides to use more or less
-> bits per pixel.
-> 
-> (As a side note - different clocks for reading the pixels from the image
-> array and for sending them out to MIPI transmitter is a documented
-> feature of IMX219 sensor.)
-> 
-> If we return to (**) again, as I see it, this equation makes sense in the
-> "pixel sampling" domain only. And this is how it seems to be used in the
-> camera sensor drivers. Also [15] does say "The unit of horizontal
-> blanking is pixels" about V4L2_CID_HBLANK - this is way easier to work
-> with in the "pixel sampling" domain. Even though h/v blanking is rather
-> the notion of "MIPI data output" domain imho. So if we look at what is
-> happening on the CSI link when imx219 driver switches from 10-bit row to
-> 8-bit row, we will see the same link frequency, the increased symbol rate
-> and hence the shorter time between packet header and packet footer
-> followed by increased line blanking interval for the lines with pixel
-> data. While V4L2_CID_PIXEL_RATE and V4L2_CID_HBLANK would report no
-> changes at all (as current imx219 driver uses them as though they both
-> belong to the "pixel sampling" domain).
-> 
-> And again, if the rate at which pixels are transmitted and the sampling
-> rate in the pixel array are the same, the "pixel sampling" domain and the
-> "data out" domain are no difference.
-
-Over the past 15 years, a lot of different camera sensor drivers have been
-merged. The capabilities and interfaces exposed by the drivers have changed
-a little over time and also sensor's capabilities and the driver writer's
-use cases have had an effect on the interfaces the drivers implement. The
-APIs have remained the same, while at the same time they haven't been
-exactly a perfect match for the capabilities of the register list based
-drivers.
-
-So with that background, it's perhaps not surprising that in some areas
-there's variation in how the subdev API is being used by the drivers.
-
-If there's a desire to improve this, it means changing the user space
-interface of a number of drivers. I don't know how they are being used
-currently. Removing a control from a driver or changing its semantics does
-have some potential for breaking user space.
-
-If changes in the interface end up being done, they should be compatible
-the goal of providing all the necessary information on sensor configuration
-to the user space, not just the pixel rate in the pixel array. This
-includes analogue crop rectangle, binning (and subsampling), scaling and
-digital crop configurations. Selecting the actual configuration would still
-be based on the source pad of the sub-device representing the sensor's
-transmitter. This means often implementing more sub-devices, in many cases
-the same way the CCS driver does already.
-
-I'm also not sure it's worth changing drivers that already use
-SUBDEV_[GS]_FRAME_INTERVAL; they're so far from the target and are most
-likely for older hardware. The more obvious target are drivers that already
-expose the blanking controls.
-
-This is what I could think of to remedy the problems:
-
-1. Make all receiver drivers use LINK_FREQ instead of PIXEL_RATE.
-
-2. Remove PIXEL_RATE from sensor drivers in places where it is used to
-convey the pixel rate on the data bus. Steps from this onward may be
-implemented one driver at a time.
-
-3. Add back the pixel rate control that represents the pixel rate in the
-pixel array. The blanking controls need to be aligned with the analogue
-crop size.
-
-4. Implement more sub-devices to convey the sensor's current configuration
-to the user, including analogue crop, binning, scaling and digital crop.
-
-There's a chance of breaking something in the user space from 2. onwards.
-
-If you skip the 4. step, the frame rate configuration could work but the
-rest of the sensor configuration (cropping, binning, scaling etc.) would
-remain unknown to the user space.
-
-The above does not address selection of modes in register list based
-drivers. It would be nice to have a solution for that, too, but the general
-issue is that it does not fit to the model V4L2 has --- considering all the
-configurations independent. They are that on hardware level but register
-list based drivers do not configure them like that.
-
-Any thoughts, opinions, comments etc. on this are very welcome.
-
-Cc also Hans and Mauro.
-
--- 
-Kind regards,
-
-Sakari Ailus
+>> +		geni_se_tx_dma_unprep(se, gi2c->dma_addr, gi2c->xfer_len);
+>> +		i2c_put_dma_safe_msg_buf(gi2c->dma_buf, cur, !gi2c->err);
+>> +	}
+>> +	spin_unlock_irqrestore(&gi2c->lock, flags);
+>> +}
+>> +
+>>   static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct 
+>> i2c_msg *msg,
+>>   				u32 m_param)
+>>   {
+>> -	dma_addr_t rx_dma;
+>> +	dma_addr_t rx_dma = 0;
+>>   	unsigned long time_left;
+>>   	void *dma_buf = NULL;
+>>   	struct geni_se *se = &gi2c->se;
+>>   	size_t len = msg->len;
+>> +	struct i2c_msg *cur;
+>>     	if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>>   		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+>> @@ -372,19 +410,18 @@ static int geni_i2c_rx_one_msg(struct 
+>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>>   		geni_se_select_mode(se, GENI_SE_FIFO);
+>>   		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+>>   		dma_buf = NULL;
+>> +	} else {
+>> +		gi2c->xfer_len = len;
+>> +		gi2c->dma_addr = rx_dma;
+>> +		gi2c->dma_buf = dma_buf;
+>>   	}
+>>   +	cur = gi2c->cur;
+>>   	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
+>>   	if (!time_left)
+>>   		geni_i2c_abort_xfer(gi2c);
+>>   -	gi2c->cur_rd = 0;
+>> -	if (dma_buf) {
+>> -		if (gi2c->err)
+>> -			geni_i2c_rx_fsm_rst(gi2c);
+>> -		geni_se_rx_dma_unprep(se, rx_dma, len);
+>> -		i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>> -	}
+>> +	geni_i2c_rx_msg_cleanup(gi2c, cur);
+>>     	return gi2c->err;
+>>   }
+>> @@ -392,11 +429,12 @@ static int geni_i2c_rx_one_msg(struct 
+>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>>   static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct 
+>> i2c_msg *msg,
+>>   				u32 m_param)
+>>   {
+>> -	dma_addr_t tx_dma;
+>> +	dma_addr_t tx_dma = 0;
+>>   	unsigned long time_left;
+>>   	void *dma_buf = NULL;
+>>   	struct geni_se *se = &gi2c->se;
+>>   	size_t len = msg->len;
+>> +	struct i2c_msg *cur;
+>>     	if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>>   		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+>> @@ -413,22 +451,21 @@ static int geni_i2c_tx_one_msg(struct 
+>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>>   		geni_se_select_mode(se, GENI_SE_FIFO);
+>>   		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+>>   		dma_buf = NULL;
+>> +	} else {
+>> +		gi2c->xfer_len = len;
+>> +		gi2c->dma_addr = tx_dma;
+>> +		gi2c->dma_buf = dma_buf;
+>>   	}
+>>     	if (!dma_buf) /* Get FIFO IRQ */
+>>   		writel_relaxed(1, se->base + SE_GENI_TX_WATERMARK_REG);
+>>   +	cur = gi2c->cur;
+>>   	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
+>>   	if (!time_left)
+>>   		geni_i2c_abort_xfer(gi2c);
+>>   -	gi2c->cur_wr = 0;
+>> -	if (dma_buf) {
+>> -		if (gi2c->err)
+>> -			geni_i2c_tx_fsm_rst(gi2c);
+>> -		geni_se_tx_dma_unprep(se, tx_dma, len);
+>> -		i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>> -	}
+>> +	geni_i2c_tx_msg_cleanup(gi2c, cur);
+>>     	return gi2c->err;
+>>   }
