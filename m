@@ -2,371 +2,272 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C60802DF86A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 05:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2BA2DF884
+	for <lists+linux-media@lfdr.de>; Mon, 21 Dec 2020 06:08:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727984AbgLUExG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Dec 2020 23:53:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38392 "EHLO
+        id S1727658AbgLUFIA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Dec 2020 00:08:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726918AbgLUExG (ORCPT
+        with ESMTP id S1726325AbgLUFH7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Dec 2020 23:53:06 -0500
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15226C061282
-        for <linux-media@vger.kernel.org>; Sun, 20 Dec 2020 20:52:26 -0800 (PST)
-Received: by mail-il1-x132.google.com with SMTP id q5so7758338ilc.10
-        for <linux-media@vger.kernel.org>; Sun, 20 Dec 2020 20:52:26 -0800 (PST)
+        Mon, 21 Dec 2020 00:07:59 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 114D1C0611C5
+        for <linux-media@vger.kernel.org>; Sun, 20 Dec 2020 21:07:19 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id g20so11713211ejb.1
+        for <linux-media@vger.kernel.org>; Sun, 20 Dec 2020 21:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Z8nUgXXr4gmphfYkGDSdKR/yaNjlB+snIU3z29dtuO0=;
-        b=CFTaxcaCBM9h1WplhSBTLnJNW21DX5HpaNsFW4iLnBo+LwJpwODan+3Ow4g2gks0cL
-         tpQEsMEU9GYYHHgw61jhi3Ls4HMZDu7w9/BTK69iSYD5RifeAYwFf44Y8pV20riOjDAm
-         SO+u3oN/EHlmu7ssIi43WNdlyH1XJzfUavBcY=
+        bh=JSDBpbAb+/VW+RgOV1OSYF43CooUkraHhPfK0IhMgi4=;
+        b=cf8HHgfeCrEt06Dq61ckFkc/qILM4IrFeIP8bQNnqWyTh/0UhG4cI1FIZ8YaJugCBH
+         0g+Jvedgj1D50OK5h40yKwQsYcV/B5piZQqbmX1DDcwt9mKCOBD26gdGHc3O1SuRfJmL
+         8EYfqbiCUWj/AnIXhmdjmXMKLltgk0mro30O4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z8nUgXXr4gmphfYkGDSdKR/yaNjlB+snIU3z29dtuO0=;
-        b=TqV8bIxZzo5JMuhSDdh7MFsSHlvvHgjkNhNG5EYvifj41XGKDp3e62Z0qHv8yHkcsO
-         /zGm6JtTykbZdcrGfy8bInF7NrfZ8VKrSCgmG8CMW/vbQEYfzJpsgSNgEYDrkEHn6A2C
-         U70ReFRi2erwukhM53nRWojD3YXAyDnEt1crlNH12juWVB1serJqYp3AFbq6wB9eYDfx
-         rofcWNuKPpialkMNcda22AkCiYbdoXqjcZ31vy6gJUL7vibPZm8FXdAFyt75IwiuJbML
-         AoKd9TsMV/kY6oQZ0JVzhiZHivKWQKBbO6jXjhNZV7HcGt7VB+aXyKe9MChy2rPgQjdG
-         MNYw==
-X-Gm-Message-State: AOAM53267w6+8T0ok+X2MvyQ78g4rtzJETZk6qV1F1F/lOAMEQriBN7E
-        u8QDK+EgfD0W6Vv6P5Qf9Lni9U+dd421Sw==
-X-Google-Smtp-Source: ABdhPJw9F2fMMPI3IHvGTSoAL1wkwpv4tMmHLKeIRcMQ3Anq7cq4zo1LADpSOMgaK7bxSliiqif6zg==
-X-Received: by 2002:a05:6602:3303:: with SMTP id b3mr12810754ioz.179.1608516760240;
-        Sun, 20 Dec 2020 18:12:40 -0800 (PST)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com. [209.85.166.41])
-        by smtp.gmail.com with ESMTPSA id r10sm11953147ilo.34.2020.12.20.18.12.39
+        bh=JSDBpbAb+/VW+RgOV1OSYF43CooUkraHhPfK0IhMgi4=;
+        b=kUzZnG7SQ2vXw0IFddGJhivnMZkMop6AXFax6Q2inShGFpTl0cMH0+ha9tq93EyqvQ
+         cbLsISLEZkVbEBCux7bvqIPbxyZcczdHGMJcdfzLXU4ghBmps+2zVUKCDRNdQx4qMoH2
+         +XrXGfNXVUkj1cBLnfGoWGfcvFdhMO90PgMDFV3HAUVRi2mfEqE1JachvbjxGTZVwNVT
+         5oqOWlGZLegQ+lTHzqyRgLTLZz1NVZ/qHD6r2zcu0t7JAc+oInZCgIiLuHKW3hye2IQX
+         m+qykTRaPxVcae5kPA2CVjsZCB8MxoPWY+KNPla/7AtywuKuqO4C8t4u8PqjXSfs4r2E
+         cpCQ==
+X-Gm-Message-State: AOAM530pVVURhCgonzM7d7KyvfKyHvgth/WJWh+ZKc5+qEehT03xvN8R
+        I/1cdeqXRpKMw1rXTrvYgQLgEdi6SOEHHQ==
+X-Google-Smtp-Source: ABdhPJxYQmyg472lFFSe5JAZzaL3Z/Iyuk4U6t6kpMuWWuerXhPOZ61WGUuVYTs+54eJtkgMS6Uzwg==
+X-Received: by 2002:a17:906:7a46:: with SMTP id i6mr13270761ejo.257.1608520398402;
+        Sun, 20 Dec 2020 19:13:18 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
+        by smtp.gmail.com with ESMTPSA id qh23sm8481108ejb.71.2020.12.20.19.13.16
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Dec 2020 18:12:39 -0800 (PST)
-Received: by mail-io1-f41.google.com with SMTP id w18so7541342iot.0
-        for <linux-media@vger.kernel.org>; Sun, 20 Dec 2020 18:12:39 -0800 (PST)
-X-Received: by 2002:a5d:8d8b:: with SMTP id b11mr11861196ioj.68.1608516759003;
- Sun, 20 Dec 2020 18:12:39 -0800 (PST)
+        Sun, 20 Dec 2020 19:13:16 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id c133so8567277wme.4
+        for <linux-media@vger.kernel.org>; Sun, 20 Dec 2020 19:13:16 -0800 (PST)
+X-Received: by 2002:a1c:c308:: with SMTP id t8mr14451460wmf.22.1608520395846;
+ Sun, 20 Dec 2020 19:13:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20201215154439.69062-1-ribalda@chromium.org> <20201215154439.69062-10-ribalda@chromium.org>
- <X9+IMF9yIdzPrkgg@pendragon.ideasonboard.com> <CANiDSCtSuHFnS85xUsfv9KSKFzaT-KLHeadCzr+5bBRRYZ-arQ@mail.gmail.com>
- <X+ADp39sCVv0Jnzs@pendragon.ideasonboard.com>
-In-Reply-To: <X+ADp39sCVv0Jnzs@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 21 Dec 2020 03:12:28 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuAtvqJMTwoZF6vw8i7dvcN_1+OPb-hyfEfLJV1X5Sj4g@mail.gmail.com>
-Message-ID: <CANiDSCuAtvqJMTwoZF6vw8i7dvcN_1+OPb-hyfEfLJV1X5Sj4g@mail.gmail.com>
-Subject: Re: [PATCH v4 9/9] media: uvcvideo: Implement UVC_QUIRK_PRIVACY_DURING_STREAM
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+References: <20200804192939.2251988-1-helen.koike@collabora.com>
+ <20200804192939.2251988-3-helen.koike@collabora.com> <b8a08145-c54e-3d06-dd61-78ce99a812d5@xs4all.nl>
+ <3ac23162-ce59-6cc3-da48-90f26c618345@collabora.com> <CAAFQd5A1F7g=LSJrtqwF+KEUq-QXmi0__-mbebsN27xFA0rQCQ@mail.gmail.com>
+ <b14809a5-e471-73da-efde-1d0d6f54e485@collabora.com> <de781845-7192-df0b-26c4-36b981237735@xs4all.nl>
+ <f565c17a-e6ef-e875-bc01-1122ba59a50a@collabora.com> <CAAFQd5C=+0YYNHrk+B3-zUTLT8rfBg3iC9Jn7nXzFccC0JW79Q@mail.gmail.com>
+ <a41fe519-8835-97a0-ef8a-ad5b5efcb449@collabora.com> <CAAFQd5DKE=xVf9tX6J6RaVR0M4udK9JDnMESdBSa8aKLwQsvfQ@mail.gmail.com>
+ <4fec6e91-a19b-b0be-d4b6-72a333451d9b@collabora.com>
+In-Reply-To: <4fec6e91-a19b-b0be-d4b6-72a333451d9b@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 21 Dec 2020 12:13:04 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Ds5DQ0V+c_Oapwg9CQ0ADkjtML6w6H5Ad4hwMz9Rg9YQ@mail.gmail.com>
+Message-ID: <CAAFQd5Ds5DQ0V+c_Oapwg9CQ0ADkjtML6w6H5Ad4hwMz9Rg9YQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/7] media: v4l2: Add extended buffer operations
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Hirokazu Honda <hiroh@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
-On Mon, Dec 21, 2020 at 3:08 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Thu, Dec 17, 2020 at 10:20 PM Helen Koike <helen.koike@collabora.com> wrote:
 >
-> Hi Ricardo,
+> Hi Tomasz,
 >
-> On Mon, Dec 21, 2020 at 02:10:18AM +0100, Ricardo Ribalda wrote:
-> > On Sun, Dec 20, 2020 at 6:22 PM Laurent Pinchart wrote:
-> > > On Tue, Dec 15, 2020 at 04:44:39PM +0100, Ricardo Ribalda wrote:
-> > > > Some devices, can only read the privacy_pin if the device is
-> > > > streaming.
-> > >
-> > > :-(
+> Thanks for your comments, I have a few questions below.
+>
+> On 12/16/20 12:13 AM, Tomasz Figa wrote:
+> > On Tue, Dec 15, 2020 at 11:37 PM Helen Koike <helen.koike@collabora.com> wrote:
+> >>
+> >> Hi Tomasz,
+> >>
+> >> On 12/14/20 7:46 AM, Tomasz Figa wrote:
+> >>> On Fri, Dec 4, 2020 at 4:52 AM Helen Koike <helen.koike@collabora.com> wrote:
+> >>>>
+> >>>> Hi,
+> >>>>
+> >>>> Please see my 2 points below (about v4l2_ext_buffer and another about timestamp).
+> >>>>
+> >>>> On 12/3/20 12:11 PM, Hans Verkuil wrote:
+> >>>>> On 23/11/2020 18:40, Helen Koike wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 11/23/20 12:46 PM, Tomasz Figa wrote:
+> >>>>>>> On Tue, Nov 24, 2020 at 12:08 AM Helen Koike <helen.koike@collabora.com> wrote:
+> >>>>>>>>
+> >>>>>>>> Hi Hans,
+> >>>>>>>>
+> >>>>>>>> Thank you for your review.
+> >>>>>>>>
+> >>>>>>>> On 9/9/20 9:27 AM, Hans Verkuil wrote:
+> >>>>>>>>> Hi Helen,
+> >>>>>>>>>
+> >>>>>>>>> Again I'm just reviewing the uAPI.
+> >>>>>>>>>
+> >>>>>>>>> On 04/08/2020 21:29, Helen Koike wrote:
+[snip]
 > >
-> > :"-(
+> >>
+> >> Output: userspace fills plane information, informing in which memory buffer each
+> >>         plane was placed (Or should this be pre-determined by the driver?)
+> >>
+> >> For MMAP
+> >> -----------------------
+> >> userspace performs EXT_CREATE_BUF ioctl to reserve a buffer "index" range in
+> >> that mode, to be used in EXT_QBUF and EXT_DQBUF
+> >>
+> >> Should the API allow userspace to select how many memory buffers it wants?
+> >> (maybe not)
 > >
-> > > > This patch implement a quirk for such devices, in order to avoid invalid
-> > > > reads and/or spurious events.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > >  drivers/media/usb/uvc/uvc_driver.c | 97 ++++++++++++++++++++++++++----
-> > > >  drivers/media/usb/uvc/uvc_queue.c  |  3 +
-> > > >  drivers/media/usb/uvc/uvcvideo.h   |  6 ++
-> > > >  3 files changed, 94 insertions(+), 12 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > index e49491250e87..61313019e226 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > @@ -7,6 +7,7 @@
-> > > >   */
-> > > >
-> > > >  #include <linux/atomic.h>
-> > > > +#include <linux/dmi.h>
-> > > >  #include <linux/gpio/consumer.h>
-> > > >  #include <linux/kernel.h>
-> > > >  #include <linux/list.h>
-> > > > @@ -1471,13 +1472,39 @@ static int uvc_parse_control(struct uvc_device *dev)
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > +static bool uvc_ext_gpio_is_streaming(struct uvc_device *dev)
-> > > > +{
-> > > > +     struct uvc_streaming *streaming;
-> > > > +
-> > > > +     list_for_each_entry(streaming, &dev->streams, list) {
-> > > > +             if (uvc_queue_streaming(&streaming->queue))
-> > > > +                     return true;
-> > > > +     }
-> > > > +
-> > > > +     return false;
-> > > > +}
-> > > > +
-> > > > +/* Update the cached value and return true if it has changed */
-> > > > +static bool uvc_gpio_update_value(struct uvc_entity *unit, u8 *new_val)
-> > > > +{
-> > > > +     *new_val = gpiod_get_value(unit->gpio.gpio_privacy);
-> > > > +
-> > > > +     return atomic_xchg(&unit->gpio.gpio_privacy_value, *new_val) !=
-> > > > +                                                                   *new_val;
-> > >
-> > > That's a weird indentation. Also, as the left hand side modifies
-> > > *new_val, does C guarantee the order in which the two operands to != are
-> > > evaluated ? Could the code be written in an easier to read way ?
-> > >
-> > > > +}
-> > > > +
-> > > >  static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
-> > > >                           u8 cs, void *data, u16 size)
-> > > >  {
-> > > >       if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
-> > > >               return -EINVAL;
-> > > >
-> > > > -     *(uint8_t *)data = gpiod_get_value(entity->gpio.gpio_privacy);
-> > > > +     if ((dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM) &&
-> > > > +         !uvc_ext_gpio_is_streaming(dev))
-> > > > +             return -EBUSY;
-> > > > +
-> > > > +     uvc_gpio_update_value(entity, (uint8_t *)data);
-> > > > +
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > @@ -1491,26 +1518,69 @@ static int uvc_gpio_get_info(struct uvc_device *dev, struct uvc_entity *entity,
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > -static irqreturn_t uvc_privacy_gpio_irq(int irq, void *data)
-> > > > +static struct uvc_entity *uvc_find_ext_gpio_unit(struct uvc_device *dev)
-> > > >  {
-> > > > -     struct uvc_device *dev = data;
-> > > > -     struct uvc_video_chain *chain;
-> > > >       struct uvc_entity *unit;
-> > > > -     u8 value;
-> > > >
-> > > > -     /* GPIO entities are always on the first chain */
-> > > > -     chain = list_first_entry(&dev->chains, struct uvc_video_chain, list);
-> > > >       list_for_each_entry(unit, &dev->entities, list) {
-> > > > -             if (UVC_ENTITY_TYPE(unit) != UVC_EXT_GPIO_UNIT)
-> > > > -                     continue;
-> > > > -             value = gpiod_get_value(unit->gpio.gpio_privacy);
-> > > > -             uvc_ctrl_status_event(NULL, chain, unit->controls, &value);
-> > > > -             return IRQ_HANDLED;
-> > > > +             if (UVC_ENTITY_TYPE(unit) == UVC_EXT_GPIO_UNIT)
-> > > > +                     return unit;
-> > > >       }
-> > > >
-> > > > +     return unit;
-> > > > +}
-> > > > +
-> > > > +void uvc_privacy_gpio_event(struct uvc_device *dev)
-> > > > +{
-> > > > +     struct uvc_entity *unit;
-> > > > +     struct uvc_video_chain *chain;
-> > > > +     u8 new_value;
-> > > > +
-> > > > +     unit = uvc_find_ext_gpio_unit(dev);
-> > > > +     if (WARN_ONCE(!unit, "Unable to find entity ext_gpio_unit"))
-> > > > +             return;
-> > > > +
-> > > > +     if (!uvc_gpio_update_value(unit, &new_value))
-> > > > +             return;
-> > >
-> > > If VIDIOC_G_CTRL() is called before the IRQ is processed, this
-> > > uvc_gpio_update_value() call will return false, and no event will be
-> > > generated. I don't think that's right, and even should be generated
-> > > every time the control changes.
-> > >
-> > I was almost sure that get_cur had also the events wired.... but no.
+> > I think it does allow that - it accepts the v4l2_ext_format struct.
+>
+> hmmm, I thought v4l2_ext_format would describe color planes, and not memory planes.
+> Should it describe memory planes instead? Since planes are defined by the pixelformat.
+> But is this information relevant to ext_{set/get/try} format?
+>
+
+Good point. I ended up assuming the current convention, where giving
+an M format would imply num_memory_planes == num_color_planes and
+non-M format num_memory_planes == 1. Sounds like we might want
+something like a flags field and that could have bits defined to
+select that. I think it would actually be useful for S_FMT as well,
+because that's what REQBUFS would use.
+
 > >
-> > > > +
-> > > > +     /* GPIO entities are always on the first chain */
-> > > > +     chain = list_first_entry(&dev->chains, struct uvc_video_chain, list);
-> > > > +     uvc_ctrl_status_event(NULL, chain, unit->controls, &new_value);
-> > > > +}
-> > > > +
-> > > > +static irqreturn_t uvc_privacy_gpio_irq(int irq, void *data)
-> > > > +{
-> > > > +     struct uvc_device *dev = data;
-> > > > +
-> > > > +     /* Ignore privacy events during streamoff */
-> > > > +     if (dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
-> > > > +             if (!uvc_ext_gpio_is_streaming(dev))
-> > > > +                     return IRQ_HANDLED;
-> > >
-> > >         if (dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM) {
-> > >                 if (!uvc_ext_gpio_is_streaming(dev))
-> > >                         return IRQ_HANDLED;
-> > >         }
-> > >
-> > > There's a potential race condition with VIDIOC_STREAMON and
-> > > VIDIOC_STREAMOFF. Could you explain what the device does exactly when
-> > > not streaming ? As the GPIO isn't tied to the UVC controller, how comes
-> > > the streaming state influences it ? Any hope the firmware could be fixed
-> > > instead ?
+> >>
+> >> userspace performs EXT_QUERY_MMAP_BUF to get the mmap offset/cookie and length
+> >> for each memory buffer.
+> >>
+> >> On EXT_QBUF, userspace doesn't need to fill membuf information. Should the
+> >> mmap offset and length be filled by the kernel and returned to userspace here
+> >> as well? I'm leaning towards: no.
 > >
-> > In the affected devices, the privacy_pin is an output of the camera
-> > module instead of an independent pin.
->
-> So the privacy switch is an input of a camera module, which then output
-> its state on a GPIO instead of exposing it through the UVC privacy
-> control ? Amazing design !
-
-Dont kill the messenger...
-
->
-> > When the camera is not streaming, the camera does not drive the pin,
-> > so the system reads whatever pull-up, pull-down the pin is configured
-> > by default in the firmware/hardware.
+> > Yeah, based on my comment above, I think the answer should be no.
 > >
-> > Unfortunately the only way to fix it would be to change the module, or
-> > the firmware of the module, and neigher things are not feasable :(. So
-> > we have to use a quirk for them.
-> > Future models have this fixed.
->
-> Changing the hardware, obviously. Changing the firmware of the module...
-> Someone needs to be scolded along the development chain, can you take
-> care of that at least ? ;-)
-
-Will do my best ;)
-
->
-> Thinking more about this, do you have a use case for knowing the state
-> of the privacy switch when not streaming ?
-
-Notify user space that the switch has toggled, to provide visual
-feedback of the action.
-
->
-> > Regarding the race condition... The use of the atomic_t was to avoid
-> > that race, but what I did not realise was that by default get_cur does
-> > not send an event... So I am working on a new series, which also
-> > includes a fix for the async_control wq.
+> >>
+> >> If the answer is no, then here is my proposal:
+> >> ----------------------------------------------
+> >>
+> >> /* If MMAP, drivers decide how many memory buffers to allocate */
+> >> int ioctl( int fd, VIDIOC_EXT_CREATE_BUFS, struct v4l2_ext_buffer *argp )
+> >>
+> >> /* Returns -EINVAL if not MMAP */
+> >> int ioctl( int fd, VIDIOC_EXT_MMAP_QUERYBUF, struct v4l2_ext_mmap_querybuf *argp )
+> >>
+> >> /* userspace fills v4l2_ext_buffer.membufs if DMA-fd or Userptr, leave it zero for MMAP
+> >>  * Should userspace also fill v4l2_ext_buffer.planes?
+> >>  */
+> >> int ioctl( int fd, VIDIOC_EXT_QBUF, struct v4l2_ext_buffer *argp )
+> >>
+> >> /* v4l2_ext_buffer.membufs is set to zero by the driver */
+> >> int ioctl( int fd, VIDIOC_EXT_DBUF, struct v4l2_ext_buffer *argp )
+> >>
+> >> (I omitted reserved fields below)
+> >>
+> >> struct v4l2_ext_create_buffers {
+> >>         __u32                           index;
+> >>         __u32                           count;
+> >>         __u32                           memory;
+> >>         __u32                           capabilities;
+> >>         struct v4l2_ext_pix_format      format;
+> >> };
+> >>
+> >> struct v4l2_ext_mmap_membuf {
+> >>         __u32 offset;
+> >>         __u32 length;
+> >> }
+> >>
+> >> struct v4l2_ext_mmap_querybuf {
+> >>         __u32 index;
+> >>         struct v4l2_ext_mmap_membuf membufs[VIDEO_MAX_PLANES];
+> >> }
+> >>
+> >> struct v4l2_ext_membuf {
+> >>         __u32 memory;
+> >>         union {
+> >>                 __u64 userptr;
+> >>                 __s32 dmabuf_fd;
+> >>         } m;
+> >>         // Can't we just remove the union and "memory" field, and the non-zero
+> >>         // is the one we should use?
 > >
-> > Thanks for your review!!!
+> > I think that would lead to an equivalent result in this case. That
+> > said, I'm not sure if there would be any significant enough benefit to
+> > justify moving away from the current convention. Having the memory
+> > field might also make the structure a bit less error prone, e.g.
+> > resilient to missing memset().
 > >
-> > > > +
-> > > > +     uvc_privacy_gpio_event(dev);
-> > > > +
-> > > >       return IRQ_HANDLED;
-> > > >  }
-> > > >
-> > > > +static const struct dmi_system_id privacy_valid_during_streamon[] = {
-> > > > +     {
-> > > > +             .ident = "HP Elite c1030 Chromebook",
-> > > > +             .matches = {
-> > > > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-> > > > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Jinlon"),
-> > > > +             },
-> > > > +     },
-> > > > +     {
-> > > > +             .ident = "HP Pro c640 Chromebook",
-> > > > +             .matches = {
-> > > > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-> > > > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Dratini"),
-> > > > +             },
-> > > > +     },
-> > > > +     { } /* terminate list */
-> > > > +};
-> > > > +
-> > > > +
-> > > >  static int uvc_parse_gpio(struct uvc_device *dev)
-> > > >  {
-> > > >       struct uvc_entity *unit;
-> > > > @@ -1545,6 +1615,9 @@ static int uvc_parse_gpio(struct uvc_device *dev)
-> > > >       if (irq == -EPROBE_DEFER)
-> > > >               return -EPROBE_DEFER;
-> > > >
-> > > > +     if (dmi_check_system(privacy_valid_during_streamon))
-> > > > +             dev->quirks |= UVC_QUIRK_PRIVACY_DURING_STREAM;
-> > > > +
-> > > >       if (irq < 0)
-> > > >               return 0;
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> > > > index cd60c6c1749e..e800d491303f 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_queue.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_queue.c
-> > > > @@ -337,9 +337,12 @@ int uvc_dequeue_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf,
-> > > >  int uvc_queue_streamon(struct uvc_video_queue *queue, enum v4l2_buf_type type)
-> > > >  {
-> > > >       int ret;
-> > > > +     struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> > > >
-> > > >       mutex_lock(&queue->mutex);
-> > > >       ret = vb2_streamon(&queue->queue, type);
-> > > > +     if (stream->dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
-> > > > +             uvc_privacy_gpio_event(stream->dev);
-> > > >       mutex_unlock(&queue->mutex);
-> > > >
-> > > >       return ret;
-> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > index 2b5ba4b02d3a..2a95b3ed3ea8 100644
-> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > @@ -6,6 +6,7 @@
-> > > >  #error "The uvcvideo.h header is deprecated, use linux/uvcvideo.h instead."
-> > > >  #endif /* __KERNEL__ */
-> > > >
-> > > > +#include <linux/atomic.h>
-> > > >  #include <linux/gpio/consumer.h>
-> > > >  #include <linux/kernel.h>
-> > > >  #include <linux/poll.h>
-> > > > @@ -209,6 +210,7 @@
-> > > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
-> > > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
-> > > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
-> > > > +#define UVC_QUIRK_PRIVACY_DURING_STREAM      0x00002000
-> > > >
-> > > >  /* Format flags */
-> > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
-> > > > @@ -359,6 +361,7 @@ struct uvc_entity {
-> > > >                       u8  bControlSize;
-> > > >                       u8  *bmControls;
-> > > >                       struct gpio_desc *gpio_privacy;
-> > > > +                     atomic_t  gpio_privacy_value;
-> > > >               } gpio;
-> > > >       };
-> > > >
-> > > > @@ -815,6 +818,9 @@ extern const struct v4l2_file_operations uvc_fops;
-> > > >  int uvc_mc_register_entities(struct uvc_video_chain *chain);
-> > > >  void uvc_mc_cleanup_entity(struct uvc_entity *entity);
-> > > >
-> > > > +/* Privacy gpio */
-> > > > +void uvc_privacy_gpio_event(struct uvc_device *dev);
-> > > > +
-> > > >  /* Video */
-> > > >  int uvc_video_init(struct uvc_streaming *stream);
-> > > >  int uvc_video_suspend(struct uvc_streaming *stream);
+> >> };
+> >>
+> >> struct v4l2_ext_plane {
+> >>         __u32 membuf_index;
+> >>         __u32 offset;
+> >>         __u32 bytesused;
+> >> };
+> >>
+> >> struct v4l2_ext_buffer {
+> >>         __u32 index;
+> >>         __u32 type;
+> >>         __u32 field;
+> >>         __u32 sequence;
+> >>         __u64 flags;
+> >>         __u64 timestamp;
+> >>         struct v4l2_ext_membuf membufs[VIDEO_MAX_PLANES];
+> >>         struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
+> >
+> > Do we actually need this split into membufs and planes here? After
+> > all, all we want to pass to the kernel here is in what buffer the
+> > plane is in.
 >
-> --
-> Regards,
+> You are right, we don't.
 >
-> Laurent Pinchart
+> >
+> > struct v4l2_ext_plane {
+> >         __u32 memory;
+>
+> Should we design the API to allow a buffer to contain multiple memory planes
+> of different types? Lets say one memplane is DMA-fd, the other is userptr.
+> If the answer is yes, then struct v4l2_ext_create_buffers requires some changes.
+> If not, then there is no need a "memory" field per memory plane in a buffer.
+>
 
+That's a good question. I haven't seen any practical need to do that.
+Moreover, I suspect that the API might be going towards the DMA-buf
+centric model, with DMA-buf heaps getting upstream acceptance, so
+maybe we would be fine moving the memory field to the buffer struct
+indeed.
 
+> >         union {
+> >                 __u32 membuf_index;
+> >                 __u64 userptr;
+> >                 __s32 dmabuf_fd;
+> >         } m;
+> >         __u32 offset;
+> >         __u32 bytesused;
+>
+> We also need userptr_length right?
 
--- 
-Ricardo Ribalda
+Is it actually needed? The length of the plane is determined by the
+current format. I can only see as it being an extra sanity check
+before accessing the process memory, but is it necessary? I think I
+want to hear others's opinion on this.
+
+[snip]
+
+Best regards,
+Tomasz
