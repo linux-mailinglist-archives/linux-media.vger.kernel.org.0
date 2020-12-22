@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9B8C2E07D1
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 10:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2175E2E07DE
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 10:17:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbgLVJO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 04:14:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47758 "EHLO
+        id S1726523AbgLVJQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 04:16:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726290AbgLVJOw (ORCPT
+        with ESMTP id S1726148AbgLVJQl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 04:14:52 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E02DC0613D6
-        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 01:14:11 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id q22so8084429pfk.12
-        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 01:14:11 -0800 (PST)
+        Tue, 22 Dec 2020 04:16:41 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F4086C06179C
+        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 01:16:00 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id z21so7998226pgj.4
+        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 01:16:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=MVpnGnCFYtu4ycJzZf+LSk9hEI84NI49MudCxGCR+HM=;
-        b=MH/242BQ7qGA/c7ZKFlxo9k35H+BRyW2M9A5zqCbM7dzzv0lHpYdUkBpCj7oEZp13m
-         Ffv/YsG7ikpYjSZ/eEGKTEqY8LO+IwgxlNhlguzw31ez4ZqJJXcjZLoVnBXGWPC6ErWp
-         C4MMWo1PjKz1dR7jRL3QB8SQVMUTHXfciaZm6EDwN6BotFowAPQcOqN9+kpF0OvIKtTd
-         1qrZG5oeRJU/1gmMrD39Gfgd5fELI6zV4kIgaf3rqokdN4f26P7QJMe8AgrauAKTYpgV
-         F65EaKqCccbzS16iksFwGpcNQ/HNxaTyiClovDAv6TCiG96SWFf14Mxu2pqAyQ6WpN2l
-         eGbw==
+        bh=l8QALzA4i8zX7B1di+fsQ9pXz5BTZwpSgw/mRJC9G3I=;
+        b=iNpi5UGBLQA73+p7sshoUk2MKXQ6+B7bN+nLc+PLyRS7Qzc6JQHE5LPyrHGQxOzXY1
+         uOtxbpfxB2whAININqJ4SNPQdP/iqcNVaDMTfpwi6jlirHg+TpXFAk8EUfaM+f2LThpO
+         ITwA/t+QLxo/gtfFoU6Y1t6N7t+IeYiN4NQyBRuiWeJo1VWI5Wqkou8CGRhI3Ddi6WMb
+         hnbtCuE/ASxcgiGOFPqWP03O9KQV73qnkGAu5hCruEh7I3wNKYJN03dx+O01l7K/zD/k
+         7cuSdAfi+Fx9eHduQ+ALtP2fw1WpzfC4YnQ/pZ7skehvj4ca2ag34R983WJCOmU+lJGf
+         g+CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MVpnGnCFYtu4ycJzZf+LSk9hEI84NI49MudCxGCR+HM=;
-        b=IaQOG+aZGO8PWOzkbB17EqE0fcsyQ/ja2nis50+Bxws7h9BwLoqb3bPEZo1XMCwSZ2
-         H/K6EbLPmsMCE0HfPp0q7yqZzDkPKAAsitYcih2k3QPlulvszPy1+fJhC05VizeWfqvr
-         5j+ECMCZbTKghNlwY/kM0fWmVMVhVa5POdmm7CfmFu6lj9tbaakYfJc2ahO4xZ0U+ytC
-         5E0+SFkqSmHT6KlmDQlebUWylVxLqpVJ1J6EyVIovEisSs/dfybU2pfvT9jPycPUTiZA
-         VI2rCZufwQ1PC+6dt2iSGzKU9kPuytPbUZ0xb8V25TG+VkDR+oCivsQN9drBFJtwwzK7
-         zTuQ==
-X-Gm-Message-State: AOAM530U9vTgXcizdOl7n3zra6mg0RWg0ApThIGp9YqkGzl5cWnRO5ga
-        ufgNFbxemK66CxlX2raFuE/izg==
-X-Google-Smtp-Source: ABdhPJxR442Its0VhdjNxmES11BozYg6f4jsASsSW6TfWxeI3592psXLb9CuQTRVoVKmE/eJsKTU5A==
-X-Received: by 2002:a05:6a00:230d:b029:18b:9cb:dead with SMTP id h13-20020a056a00230db029018b09cbdeadmr18667524pfh.24.1608628450994;
-        Tue, 22 Dec 2020 01:14:10 -0800 (PST)
+        bh=l8QALzA4i8zX7B1di+fsQ9pXz5BTZwpSgw/mRJC9G3I=;
+        b=R3tlB9f/GHo3sUlTOhUFXrdl6aw3IB3OU7Kwgh+27JgsQzg3GdB96MCalG34kxTvDe
+         M8n3NlmJlMpCm6WxuPk/q2IylQVuOFr6BV3LyBi+NcR6/2RW+p2+JY9FR8bHfvVZxF9P
+         D1R0V4QilXK3zdJ+LY4e66tw4NVnuabvz84lKOHU90QWWFr3UYpbctON252H0MLfQ6PA
+         lz31BQxpXtwXGhKUpGfLW1L+Vf/o8FI7CWNTSrQRp80PcpZNAWYOh8GW5ETTk4XLon03
+         Qxp2ONgxFkWsAN7gQto2PpVYGdd+z2OMImfAF+ywcBU5cG2Y9ki5GFDHK4Q5q9sRpnaF
+         dF0g==
+X-Gm-Message-State: AOAM533n9dUp8f9sX/Fm0vMSF744IQIKqH1pNM8uZhAwNciNKtIJDIs5
+        EvNIrdx2e56lrDNGWFvLQ19YHA==
+X-Google-Smtp-Source: ABdhPJzoRmGGLI8WVPnxM7oud4VBQbrA5PgTbrGlwdy+hH6OXaJYRZjRb0UVH5lYi+efCVdlFZN7eA==
+X-Received: by 2002:a62:1d0a:0:b029:1a9:8b33:a1bf with SMTP id d10-20020a621d0a0000b02901a98b33a1bfmr19012878pfd.32.1608628560561;
+        Tue, 22 Dec 2020 01:16:00 -0800 (PST)
 Received: from localhost ([122.172.20.109])
-        by smtp.gmail.com with ESMTPSA id t5sm18222978pjr.22.2020.12.22.01.14.09
+        by smtp.gmail.com with ESMTPSA id t9sm13088468pgh.41.2020.12.22.01.15.59
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 Dec 2020 01:14:10 -0800 (PST)
-Date:   Tue, 22 Dec 2020 14:44:08 +0530
+        Tue, 22 Dec 2020 01:15:59 -0800 (PST)
+Date:   Tue, 22 Dec 2020 14:45:58 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
@@ -71,82 +71,34 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 44/48] ARM: tegra: Add OPP tables and power domains to
- Tegra30 device-tree
-Message-ID: <20201222091408.vvputqs27olywdxq@vireshk-i7>
+Subject: Re: [PATCH v2 00/48] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+Message-ID: <20201222091558.mhqf4oytviwc6b3h@vireshk-i7>
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-45-digetx@gmail.com>
+ <20201218071455.vdeozvvnmkjtrejt@vireshk-i7>
+ <c0976db7-ae66-740c-d95f-501d81c99fa0@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201217180638.22748-45-digetx@gmail.com>
+In-Reply-To: <c0976db7-ae66-740c-d95f-501d81c99fa0@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17-12-20, 21:06, Dmitry Osipenko wrote:
-> diff --git a/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi b/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-> index cbe84d25e726..983db1a06682 100644
-> --- a/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-> +++ b/arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
-> @@ -1,6 +1,56 @@
->  // SPDX-License-Identifier: GPL-2.0
->  
->  / {
-> +	core_opp_table: core-power-domain-opp-table {
-> +		compatible = "operating-points-v2";
-> +		opp-shared;
-> +
-> +		core_opp_950: opp@950000 {
-> +			opp-microvolt = <950000 950000 1350000>;
-> +			opp-level = <950000>;
+On 18-12-20, 16:51, Dmitry Osipenko wrote:
+> Alright, although I haven't pretended that v2 patches should be merged
+> right away since they are fundamentally different from v1, and thus, all
+> patches need to be reviewed first.
 
-Perhaps you don't need to exactly copy the voltage value into the level field.
-The level field can just be kept to 0, 1,2, 3, etc..
+I agree. I have done some basic review for the stuff.
 
-> +		};
-> +
-> +		core_opp_1000: opp@1000000 {
-> +			opp-microvolt = <1000000 1000000 1350000>;
-> +			opp-level = <1000000>;
-> +		};
-> +
-> +		core_opp_1050: opp@1050000 {
-> +			opp-microvolt = <1050000 1050000 1350000>;
-> +			opp-level = <1050000>;
-> +		};
-> +
-> +		core_opp_1100: opp@1100000 {
-> +			opp-microvolt = <1100000 1100000 1350000>;
-> +			opp-level = <1100000>;
-> +		};
-> +
-> +		core_opp_1150: opp@1150000 {
-> +			opp-microvolt = <1150000 1150000 1350000>;
-> +			opp-level = <1150000>;
-> +		};
-> +
-> +		core_opp_1200: opp@1200000 {
-> +			opp-microvolt = <1200000 1200000 1350000>;
-> +			opp-level = <1200000>;
-> +		};
-> +
-> +		core_opp_1250: opp@1250000 {
-> +			opp-microvolt = <1250000 1250000 1350000>;
-> +			opp-level = <1250000>;
-> +		};
-> +
-> +		core_opp_1300: opp@1300000 {
-> +			opp-microvolt = <1300000 1300000 1350000>;
-> +			opp-level = <1300000>;
-> +		};
-> +
-> +		core_opp_1350: opp@1350000 {
-> +			opp-microvolt = <1350000 1350000 1350000>;
-> +			opp-level = <1350000>;
-> +		};
-> +	};
+> If the current OPP changes look good to you, then please give yours r-b
+> to the patches. Thanks in advance!
+
+r-b-y isn't required as they will go through my tree itself. So if everyone is
+happy with the idea, please submit the patches separately (fixes, improvements,
+devm_*, etc).
 
 -- 
 viresh
