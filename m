@@ -2,68 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4072E2E0D0F
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 17:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 675372E0DC0
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 18:15:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727767AbgLVQGe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 11:06:34 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:59787 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727236AbgLVQGd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 11:06:33 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id D46E91C000A;
-        Tue, 22 Dec 2020 16:05:50 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     chiranjeevi.rapolu@intel.com, hyungwoo.yang@intel.com,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
-Subject: [PATCH] media: i2c: ov5670: Fix PIXEL_RATE minimum value
-Date:   Tue, 22 Dec 2020 17:05:55 +0100
-Message-Id: <20201222160555.116570-1-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.29.2
+        id S1727590AbgLVROt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 12:14:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39308 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727084AbgLVROt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Dec 2020 12:14:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7374023130;
+        Tue, 22 Dec 2020 17:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608657249;
+        bh=66GEWSPJvzklIeHSRZpHVnCFR+8HJC+nKGb813bV9hI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aWs69kfw6Bu8vPoRm2mstM8cN5qc21cRYPUxea3N6r6e7jMT1rC4QPXZFbG1nQTSj
+         80RmGS/kZR5s3vEUg57DgvdNXdHY9+qz0nXaIGOV/bCPh9jtUkfW0biDFkaPdjGO7C
+         CPckUBTitQeTJn+0KSAIlVZ8d9WMZWlg/xot+gMfIC6sBR8y3w3UbTv8DExf5ZXkd5
+         OsG4f0NxluCb1z9xA0rEcUYweusb35BWT4NrRInpBFXsYEbuoDIU5wAKkuZlNEhBQO
+         wXekjpo5AkOVBPVRe+kbLym/4TXTDNET7R50Pw4JZOVdanEu3kSVIqnLrdb/bmawxe
+         /qJfMLdp3TiMg==
+Date:   Tue, 22 Dec 2020 17:13:53 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas properties
+Message-ID: <20201222171353.GC5269@sirena.org.uk>
+References: <20201221234659.824881-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mvpLiMfbWzRoNl4x"
+Content-Disposition: inline
+In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
+X-Cookie: Truth can wait
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver currently reports a single supported value for
-V4L2_CID_PIXEL_RATE and initializes the control's minimum value to 0,
-which is very risky, as userspace might accidentally use it as divider
-when calculating the time duration of a line.
 
-Fix this by using as minimum the only supported value when registering
-the control.
+--mvpLiMfbWzRoNl4x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: 5de35c9b8dcd1 ("media: i2c: Add Omnivision OV5670 5M sensor support")
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
+On Mon, Dec 21, 2020 at 04:46:59PM -0700, Rob Herring wrote:
+> *-supply properties are always a single phandle, so binding schemas
+> don't need a type $ref nor 'maxItems'.
 
-Take #2. I sent it out yesterday but apparantly it didn't hit the list.
-Some of you will receive it multiple times, sorry about this.
+Acked-by: Mark Brown <broonie@kernel.org>
 
----
- drivers/media/i2c/ov5670.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--mvpLiMfbWzRoNl4x
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-index 7f85ae1d93faf..ff46e6eefad6f 100644
---- a/drivers/media/i2c/ov5670.c
-+++ b/drivers/media/i2c/ov5670.c
-@@ -2095,7 +2095,8 @@ static int ov5670_init_controls(struct ov5670 *ov5670)
+-----BEGIN PGP SIGNATURE-----
 
- 	/* By default, V4L2_CID_PIXEL_RATE is read only */
- 	ov5670->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov5670_ctrl_ops,
--					       V4L2_CID_PIXEL_RATE, 0,
-+					       V4L2_CID_PIXEL_RATE,
-+					       link_freq_configs[0].pixel_rate,
- 					       link_freq_configs[0].pixel_rate,
- 					       1,
- 					       link_freq_configs[0].pixel_rate);
---
-2.29.2
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/iKVAACgkQJNaLcl1U
+h9BQcwf+IyZrHbhUmoHb97rb0P395HOZ2TPnUA9AQrgEIQGiygf98JpHLjKBN7aJ
+VUR66urIU4NRzpPl8BA55GEgZvCF5U+n6S/vSUWJcHgMFMGgCZGwFzZnhoytB7TJ
+0qvxrT1+fasUg2ioSOGjpCnCDxVbQL0Wdyk6MkpVXLG7cOLJcCnm0Gvuw1Ph8MQV
+k6DuRiPuCOzSjYUnXeu/gsgkBUj78/WI3FBMa3CsNjytiYXIq26Za/m5U03be47y
+N/MGGcnNdxeIMx+TwUBgJNickvKltn6FLuKWzPgltB5d8D07JSupjWwC7Ybndx0b
+M+e04W6kW75K2MskhF6Ef1e4F3qMGg==
+=eF01
+-----END PGP SIGNATURE-----
 
+--mvpLiMfbWzRoNl4x--
