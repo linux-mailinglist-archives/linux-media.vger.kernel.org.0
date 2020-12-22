@@ -2,360 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34AEA2E064D
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 08:04:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4361F2E069C
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 08:10:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725854AbgLVHEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 02:04:05 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41810 "EHLO
+        id S1726197AbgLVHJ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 02:09:58 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41900 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725300AbgLVHEF (ORCPT
+        with ESMTP id S1726025AbgLVHJ6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 02:04:05 -0500
+        Tue, 22 Dec 2020 02:09:58 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECB619E6;
-        Tue, 22 Dec 2020 08:03:20 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCA0D9E6;
+        Tue, 22 Dec 2020 08:09:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608620601;
-        bh=wr2c/JvrpoqpuCs/EGNX0coXs6l9cQeH37ivwLJhHX0=;
+        s=mail; t=1608620954;
+        bh=VH+sNIDHdF2vto78fqqJB6mWZwyWSfrL6TYP0PHE3xc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oRhDZ+hUb1+7clW6B0GbznIznWZFsOAtCA/OUxeJ/fHeXgZuNxhvHN1SdLok7c0eh
-         diGC0VvpIDLU16mWknRPfe5jGZRhUSrHH01XJbLMrchfnUsp1a+TPhNu/PBh2IehYO
-         7xG4UnwvoyxJvcKA+4KlGGVo2HZoErt8uMvA8GUc=
-Date:   Tue, 22 Dec 2020 09:03:13 +0200
+        b=iyRKpS/FHTAX53XZRUthWRpJGyP7509SFeIJ40/4n10Klx7n93XpRBLuJ1tAtgaXv
+         A89B2GHJc3oCkDQeCNSDyCwJngwH0kHQ8XbgmWaOW1Mp41XKeHPql35r5RYv/LTJqK
+         RX55kyGGc6rP72KB8RXFp6AUDoglDPPzM+xU0m7o=
+Date:   Tue, 22 Dec 2020 09:09:07 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas properties
-Message-ID: <X+GaMWeSyGvt4S7Q@pendragon.ideasonboard.com>
-References: <20201221234659.824881-1-robh@kernel.org>
+To:     Liu Ying <victor.liu@nxp.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        mchehab@kernel.org, a.hajda@samsung.com, narmstrong@baylibre.com,
+        jonas@kwiboo.se, jernej.skrabec@siol.net, kishon@ti.com,
+        vkoul@kernel.org
+Subject: Re: [PATCH 06/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
+ display pixel link binding
+Message-ID: <X+Gbk3uN870B/B7P@pendragon.ideasonboard.com>
+References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
+ <1608199173-28760-7-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
+In-Reply-To: <1608199173-28760-7-git-send-email-victor.liu@nxp.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi Liu,
 
 Thank you for the patch.
 
-On Mon, Dec 21, 2020 at 04:46:59PM -0700, Rob Herring wrote:
-> *-supply properties are always a single phandle, so binding schemas
-> don't need a type $ref nor 'maxItems'.
+On Thu, Dec 17, 2020 at 05:59:25PM +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qm/qxp display pixel link.
 > 
-> A meta-schema check for this is pending once these existing cases are
-> fixed.
-> 
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->  Documentation/devicetree/bindings/display/bridge/anx6345.yaml | 2 --
->  .../devicetree/bindings/display/bridge/ite,it6505.yaml        | 2 --
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml        | 3 +--
->  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 2 --
->  .../devicetree/bindings/display/bridge/simple-bridge.yaml     | 1 -
->  .../bindings/display/bridge/thine,thc63lvd1024.yaml           | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358775.yaml  | 2 --
->  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml   | 4 +---
->  .../devicetree/bindings/iio/humidity/ti,hdc2010.yaml          | 3 +--
->  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 3 +--
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml     | 3 +--
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml          | 1 -
->  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml  | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml  | 3 ---
->  Documentation/devicetree/bindings/mfd/st,stmfx.yaml           | 3 +--
->  .../devicetree/bindings/regulator/anatop-regulator.yaml       | 1 -
->  17 files changed, 6 insertions(+), 34 deletions(-)
+>  .../display/bridge/fsl,imx8qxp-pixel-link.yaml     | 128 +++++++++++++++++++++
+>  1 file changed, 128 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> index 8c0e4f285fbc..fccd63521a8c 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> @@ -26,11 +26,9 @@ properties:
->      description: GPIO connected to active low reset
->  
->    dvdd12-supply:
-> -    maxItems: 1
->      description: Regulator for 1.2V digital core power.
->  
->    dvdd25-supply:
-> -    maxItems: 1
->      description: Regulator for 2.5V digital core power.
->  
->    ports:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> index efbb3d0117dc..02cfc0a3b550 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> @@ -35,11 +35,9 @@ properties:
->      maxItems: 1
->  
->    ovdd-supply:
-> -    maxItems: 1
->      description: I/O voltage
->  
->    pwr18-supply:
-> -    maxItems: 1
->      description: core voltage
->  
->    interrupts:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> index e5e3c72630cf..66a14d60ce1d 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> @@ -79,8 +79,7 @@ properties:
->        The GPIO used to control the power down line of this device.
->      maxItems: 1
->  
-> -  power-supply:
-> -    maxItems: 1
-> +  power-supply: true
->  
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> index 7e27cfcf770d..763c7909473e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> @@ -35,11 +35,9 @@ properties:
->      description: GPIO connected to active low reset.
->  
->    vdd12-supply:
-> -    maxItems: 1
->      description: Regulator for 1.2V digital core power.
->  
->    vdd33-supply:
-> -    maxItems: 1
->      description: Regulator for 3.3V digital core power.
->  
->    ports:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> index 3ddb35fcf0a2..64e8a1c24b40 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> @@ -60,7 +60,6 @@ properties:
->      description: GPIO controlling bridge enable
->  
->    vdd-supply:
-> -    maxItems: 1
->      description: Power supply for the bridge
->  
->  required:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> index 469ac4a34273..3d5ce08a5792 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> @@ -74,7 +74,6 @@ properties:
->      description: Power down GPIO signal, pin name "/PDWN", active low.
->  
->    vcc-supply:
-> -    maxItems: 1
->      description:
->        Power supply for the TTL output, TTL CLOCKOUT signal, LVDS input, PLL and
->        digital circuitry.
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> index fd3113aa9ccd..b5959cc78b8d 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> @@ -28,11 +28,9 @@ properties:
->      description: i2c address of the bridge, 0x0f
->  
->    vdd-supply:
-> -    maxItems: 1
->      description: 1.2V LVDS Power Supply
->  
->    vddio-supply:
-> -    maxItems: 1
->      description: 1.8V IO Power Supply
->  
->    stby-gpios:
-> diff --git a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> index 6a991e9f78e2..f04084fae5e8 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> @@ -16,9 +16,7 @@ properties:
->      enum:
->        - lltc,ltc2496
->  
-> -  vref-supply:
-> -    description: phandle to an external regulator providing the reference voltage
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> +  vref-supply: true
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+> new file mode 100644
+> index 00000000..fd24a0e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+> @@ -0,0 +1,128 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-pixel-link.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qm/qxp Display Pixel Link
+> +
+> +maintainers:
+> +  - Liu Ying <victor.liu@nxp.com>
+> +
+> +description: |
+> +  The Freescale i.MX8qm/qxp Display Pixel Link(DPL) forms a standard
+> +  asynchronous linkage between pixel sources(display controller or
+> +  camera module) and pixel consumers(imaging or displays).
+> +  It consists of two distinct functions, a pixel transfer function and a
+> +  control interface.  Multiple pixel channels can exist per one control channel.
+> +  This binding documentation is only for pixel links whose pixel sources are
+> +  display controllers.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8qm-dc-pixel-link
+> +      - fsl,imx8qxp-dc-pixel-link
+> +
+> +  ports:
+> +    type: object
+> +    description: |
+> +      A node containing pixel link input & output port nodes with endpoint
+> +      definitions as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +      Documentation/devicetree/bindings/graph.txt
 
-I'd keep part of the description as it's not just the device's main
-power supply (at least if we can trust the current description).
+With Rob's patch that convert both of these to YAML, I think you can
+drop the references to these documents, and use
 
-  vref-supply:
-    description: Power supply for the reference voltage
+  $ref: /schemas/graph.yaml#/properties/ports
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+in the ports node, and
 
->    reg:
->      description: spi chipselect number according to the usual spi bindings
-> diff --git a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> index 7037f82ec753..88384b69f917 100644
-> --- a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> +++ b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> @@ -22,8 +22,7 @@ properties:
->        - ti,hdc2010
->        - ti,hdc2080
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> index 378a85c09d34..878464f128dc 100644
-> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> @@ -31,8 +31,7 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    linux,keycodes:
->      minItems: 1
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> index 4ce109476a0e..bfc3a8b5e118 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> @@ -55,8 +55,7 @@ properties:
->  
->    wakeup-source: true
->  
-> -  vcc-supply:
-> -    maxItems: 1
-> +  vcc-supply: true
->  
->    gain:
->      description: Allows setting the sensitivity in the range from 0 to 31.
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> index 9ea827092fdd..68ee8c7d9e79 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> @@ -40,7 +40,6 @@ properties:
->  
->    poc-supply:
->      description: Regulator providing Power over Coax to the cameras
-> -    maxItems: 1
->  
->    enable-gpios:
->      description: GPIO connected to the \#PWDN pin with inverted polarity
-> diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> index 0df0334d2d0d..bb3528315f20 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> @@ -39,15 +39,12 @@ properties:
->  
->    vana-supply:
->      description: Analogue voltage supply (VANA), sensor dependent.
-> -    maxItems: 1
->  
->    vcore-supply:
->      description: Core voltage supply (VCore), sensor dependent.
-> -    maxItems: 1
->  
->    vio-supply:
->      description: I/O voltage supply (VIO), sensor dependent.
-> -    maxItems: 1
->  
->    clocks:
->      description: External clock to the sensor.
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> index 1a3590dd0e98..eb12526a462f 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> @@ -37,15 +37,12 @@ properties:
->  
->    vdddo-supply:
->      description: Chip digital IO regulator (1.8V).
-> -    maxItems: 1
->  
->    vdda-supply:
->      description: Chip analog regulator (2.7V).
-> -    maxItems: 1
->  
->    vddd-supply:
->      description: Chip digital core regulator (1.12V).
-> -    maxItems: 1
->  
->    flash-leds:
->      description: See ../video-interfaces.txt
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> index f697e1a20beb..a66acb20d59b 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> @@ -33,15 +33,12 @@ properties:
->  
->    vana-supply:
->      description: Sensor 2.8 V analog supply.
-> -    maxItems: 1
->  
->    vdig-supply:
->      description: Sensor 1.8 V digital core supply.
-> -    maxItems: 1
->  
->    vddl-supply:
->      description: Sensor digital IO 1.2 V supply.
-> -    maxItems: 1
->  
->    port:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> index 888ab4b5df45..19e9afb385ac 100644
-> --- a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> @@ -26,8 +26,7 @@ properties:
->  
->    drive-open-drain: true
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    pinctrl:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> index e7b3abe30363..0a66338c7e5a 100644
-> --- a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> @@ -59,7 +59,6 @@ properties:
->      description: u32 value representing regulator enable bit offset.
->  
->    vin-supply:
-> -    $ref: '/schemas/types.yaml#/definitions/phandle'
->      description: input supply phandle.
->  
->  required:
+  $ref: /schemas/graph.yaml#/$defs/port-base
+  unevaluatedProperties: false
+
+in the port nodes, dropping the type property. You will also be able to
+drop
+
+  additionalProperties: false
+
+for the ports node.
+
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description: The pixel link input port node from upstream video source.
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +        required:
+> +          - reg
+> +
+> +    patternProperties:
+> +      "^port@[1-4]$":
+> +        type: object
+> +        description: The pixel link output port node to downstream bridge.
+> +
+> +        properties:
+> +          reg:
+> +            enum: [ 1, 2, 3, 4 ]
+> +
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +
+> +    anyOf:
+> +      - required:
+> +          - port@1
+> +      - required:
+> +          - port@2
+> +      - required:
+> +          - port@3
+> +      - required:
+> +          - port@4
+
+Do all DPL instances have four output ports ? If so I would make all of
+them mandatory, as they describe the hardware. They can be left without
+any endpoing if they're not connected to anything.
+
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dc0-pixel-link0 {
+> +        compatible = "fsl,imx8qxp-dc-pixel-link";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            /* from dc0 pixel combiner channel0 */
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                dc0_pixel_link0_dc0_pixel_combiner_ch0: endpoint {
+> +                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_pixel_link0>;
+> +                };
+> +            };
+> +
+> +            /* to PXL2DPIs in MIPI/LVDS combo subsystems */
+> +            port@1 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <1>;
+> +
+> +                dc0_pixel_link0_mipi_lvds_0_pxl2dpi: endpoint@0 {
+> +                    reg = <0>;
+> +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_dc0_pixel_link0>;
+> +                };
+> +
+> +                dc0_pixel_link0_mipi_lvds_1_pxl2dpi: endpoint@1 {
+> +                    reg = <1>;
+> +                    remote-endpoint = <&mipi_lvds_1_pxl2dpi_dc0_pixel_link0>;
+> +                };
+> +            };
+> +
+> +            /* to imaging subsystem */
+> +            port@4 {
+> +                reg = <4>;
+> +            };
+> +        };
+> +    };
 
 -- 
 Regards,
