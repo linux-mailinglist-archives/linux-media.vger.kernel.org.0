@@ -2,314 +2,356 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D7222E0F2A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 21:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C94662E1006
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 23:11:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbgLVUFN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 15:05:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34864 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725895AbgLVUFN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 15:05:13 -0500
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEEBCC0613D3
-        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 12:04:32 -0800 (PST)
-Received: by mail-il1-x134.google.com with SMTP id w12so13033633ilm.12
-        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 12:04:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kSpk1zeEhDoLh5bsqq9yVPc9+N8b5efRRkRUskDUITI=;
-        b=OzEGGHjPaieGGNgo9hNTR3cBHieBD02D+rN7pHRGJKCRpDUhTPl/MMoJwYkm2hWagX
-         cNpmbhk7cPy484245N5AlLMh3d0ucZJ9H6UBMTb5q/VBlPwRhl5gfktBkK0RMUGfrsi3
-         D961UyhCIA3N+uNFF3j99t8mVBY2N8U3k1Gmg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kSpk1zeEhDoLh5bsqq9yVPc9+N8b5efRRkRUskDUITI=;
-        b=W10+ujRT/3BO/isOEpj3ZUZVw0ItcadT9++Rwr7MzNiTbzZ+E7yKtZSf3k6pNt7VzE
-         as8tuhCEUN6iRowCH3i3eBBCWTN9YlRTWO4lnE/0mXqeu+BNITy+lRTo2vCHOQ88myL2
-         639dKR2dCu9nAfZi1HJe8Jmn0vk7/FQiBK3x1TGsMA31eEIsPnKsvmxFfeC2AaC8ROZa
-         6YzkfoSDHrCq+TBfzqvaFP8/xhkItIK0AO4T2hGTJ9MXI00x6C0Ln1bR3uk78PzSVIrY
-         bi2s7XlBr/EnU9sl+qT+tEunx2HdCOf4NhBroJmP1XvG7zSnaIyNVIYg+y3N/Y3fx7/u
-         17rg==
-X-Gm-Message-State: AOAM5330poYlxeNVBZU6WZ7KYr9sUj7ZIn/lcDV/AUFlRfbozqy0lrk1
-        RCYtKOlK5epCQIzYMvI9+bTk56FpJOz4Ngb5
-X-Google-Smtp-Source: ABdhPJzYU+/AW2CDfTRDS5zwtSwnZD3AOsX8Nb0qh/5ziSG61w7N4Wciysuc4+YaoqdytO55+5u7fA==
-X-Received: by 2002:a92:de09:: with SMTP id x9mr22265863ilm.257.1608667471771;
-        Tue, 22 Dec 2020 12:04:31 -0800 (PST)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com. [209.85.166.177])
-        by smtp.gmail.com with ESMTPSA id t22sm16579176ill.35.2020.12.22.12.04.30
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Dec 2020 12:04:31 -0800 (PST)
-Received: by mail-il1-f177.google.com with SMTP id u12so13070132ilv.3
-        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 12:04:30 -0800 (PST)
-X-Received: by 2002:a92:1b43:: with SMTP id b64mr21353866ilb.71.1608667470394;
- Tue, 22 Dec 2020 12:04:30 -0800 (PST)
+        id S1727829AbgLVWIo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 22 Dec 2020 17:08:44 -0500
+Received: from mail.pefp.net ([184.71.18.90]:61497 "EHLO webmail.pefp.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727605AbgLVWIo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Dec 2020 17:08:44 -0500
+X-Greylist: delayed 307 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Dec 2020 17:08:42 EST
+Received: from PEFMX00.corp.pefp.net (192.168.1.32) by PEFMX00.corp.pefp.net
+ (192.168.1.32) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 22 Dec
+ 2020 14:02:54 -0800
+Received: from PEFMX00.corp.pefp.net ([fe80::b5a5:b896:1c79:e8f2]) by
+ PEFMX00.corp.pefp.net ([fe80::b5a5:b896:1c79:e8f2%12]) with mapi id
+ 15.00.1497.000; Tue, 22 Dec 2020 14:02:54 -0800
+From:   Gord Bestwick <Gord.Bestwick@pefp.net>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Unsupported UVC Device.
+Thread-Topic: Unsupported UVC Device.
+Thread-Index: AdbYrdHs/n+RBu9lRKCYfE6yWWnd5w==
+Date:   Tue, 22 Dec 2020 22:02:53 +0000
+Message-ID: <2b0b1b7eaf5349218596d9c6373955e9@PEFMX00.corp.pefp.net>
+Accept-Language: en-CA, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.1.112]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-References: <20201221164819.792019-1-ribalda@chromium.org> <20201221164819.792019-10-ribalda@chromium.org>
- <X+HKpxzbVC29lNlk@pendragon.ideasonboard.com>
-In-Reply-To: <X+HKpxzbVC29lNlk@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 22 Dec 2020 21:04:19 +0100
-X-Gmail-Original-Message-ID: <CANiDSCv_+Usx4QkG4ypGWbCKvusiugYGgeNRYP8GZJ_pvuhjEQ@mail.gmail.com>
-Message-ID: <CANiDSCv_+Usx4QkG4ypGWbCKvusiugYGgeNRYP8GZJ_pvuhjEQ@mail.gmail.com>
-Subject: Re: [PATCH v5 09/12] media: uvcvideo: Implement UVC_QUIRK_PRIVACY_DURING_STREAM
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HI Laurent
+Hello,
 
-Thanks for your review!
+I read that we're supposed to mail this to you if we find an unsupported UVC device. Attached is the LSUSB report for a Cisco Telepresence PrecisionHD 1080p 2.5x camera. I also have another slightly different model, that I believe is the same chipset.
 
-On Tue, Dec 22, 2020 at 11:30 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> On Mon, Dec 21, 2020 at 05:48:16PM +0100, Ricardo Ribalda wrote:
-> > Some devices, can only read the privacy_pin if the device is
->
-> s/devices,/devices/
->
-> > streaming.
-> >
-> > This patch implement a quirk for such devices, in order to avoid invalid
-> > reads and/or spurious events.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 57 ++++++++++++++++++++++++++++--
-> >  drivers/media/usb/uvc/uvc_queue.c  |  3 ++
-> >  drivers/media/usb/uvc/uvcvideo.h   |  4 +++
-> >  3 files changed, 61 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 72516101fdd0..7af37d4bd60a 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -7,6 +7,7 @@
-> >   */
-> >
-> >  #include <linux/atomic.h>
-> > +#include <linux/dmi.h>
-> >  #include <linux/gpio/consumer.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/list.h>
-> > @@ -1472,6 +1473,17 @@ static int uvc_parse_control(struct uvc_device *dev)
-> >  /* -----------------------------------------------------------------------------
-> >   * Privacy GPIO
-> >   */
->
-> There should be a blank line here.
->
-> > +static bool uvc_gpio_is_streaming(struct uvc_device *dev)
-> > +{
-> > +     struct uvc_streaming *streaming;
-> > +
-> > +     list_for_each_entry(streaming, &dev->streams, list) {
-> > +             if (uvc_queue_streaming(&streaming->queue))
-> > +                     return true;
-> > +     }
-> > +
-> > +     return false;
-> > +}
-> >
-> >
->
-> But not too blank lines here.
->
-> >  static u8 uvc_gpio_update_value(struct uvc_device *dev,
-> > @@ -1499,7 +1511,12 @@ static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
-> >       if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
-> >               return -EINVAL;
-> >
-> > +     if ((dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM) &&
-> > +         !uvc_gpio_is_streaming(dev))
-> > +             return -EBUSY;
-> > +
-> >       *(uint8_t *)data = uvc_gpio_update_value(dev, entity);
-> > +
-> >       return 0;
-> >  }
-> >
-> > @@ -1528,19 +1545,50 @@ static struct uvc_entity *uvc_gpio_find_entity(struct uvc_device *dev)
-> >       return NULL;
-> >  }
-> >
-> > -static irqreturn_t uvc_gpio_irq(int irq, void *data)
-> > +void uvc_privacy_gpio_event(struct uvc_device *dev)
-> >  {
-> > -     struct uvc_device *dev = data;
-> >       struct uvc_entity *unit;
-> >
-> > +
-> >       unit = uvc_gpio_find_entity(dev);
-> >       if (!unit)
-> > -             return IRQ_HANDLED;
-> > +             return;
-> >
-> >       uvc_gpio_update_value(dev, unit);
-> > +}
-> > +
-> > +static irqreturn_t uvc_gpio_irq(int irq, void *data)
-> > +{
-> > +     struct uvc_device *dev = data;
-> > +
-> > +     /* Ignore privacy events during streamoff */
-> > +     if (dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
-> > +             if (!uvc_gpio_is_streaming(dev))
-> > +                     return IRQ_HANDLED;
->
-> I'm still a bit concerned of race conditions. When stopping the stream,
-> vb2_queue.streaming is set to 0 after calling the driver's .stop_stream()
-> handler. This means that the device will cut power before
-> uvc_gpio_is_streaming() can detect that streaming has stopped, and the
-> GPIO could thus trigger an IRQ.
+Cheers
 
-On the affected devices I have not seen this. I guess it takes some
-time to discharge. Anyway I am implementing a workaround. Tell me if
-it is too ugly.
+Bus 003 Device 013: ID 1f82:0004 TANDBERG
+Couldn't open device, some information will be missing
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x1f82 TANDBERG
+  idProduct          0x0004
+  bcdDevice            2.00
+  iManufacturer           1
+  iProduct                2
+  iSerial                 3
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x0195
+    bNumInterfaces          2
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0xc0
+      Self Powered
+    MaxPower                2mA
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         0
+      bInterfaceCount         2
+      bFunctionClass         14 Video
+      bFunctionSubClass       3 Video Interface Collection
+      bFunctionProtocol       0
+      iFunction               2
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      1 Video Control
+      bInterfaceProtocol      0
+      iInterface              2
+      VideoControl Interface Descriptor:
+        bLength                13
+        bDescriptorType        36
+        bDescriptorSubtype      1 (HEADER)
+        bcdUVC               1.00
+        wTotalLength       0x004e
+        dwClockFrequency       48.000000MHz
+        bInCollection           1
+        baInterfaceNr( 0)       1
+      VideoControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             3
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bSourceID              10
+        iTerminal               0
+      VideoControl Interface Descriptor:
+        bLength                27
+        bDescriptorType        36
+        bDescriptorSubtype      6 (EXTENSION_UNIT)
+        bUnitID                10
+        guidExtensionCode         {e307e649-4618-a3ff-82fc-2d8b5f216773}
+        bNumControl            10
+        bNrPins                 1
+        baSourceID( 0)          5
+        bControlSize            2
+        bmControls( 0)       0xff
+        bmControls( 1)       0x03
+        iExtension              0
+      VideoControl Interface Descriptor:
+        bLength                18
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             1
+        wTerminalType      0x0201 Camera Sensor
+        bAssocTerminal          0
+        iTerminal               0
+        wObjectiveFocalLengthMin      0
+        wObjectiveFocalLengthMax      0
+        wOcularFocalLength            0
+        bControlSize                  3
+        bmControls           0x00020a20
+          Focus (Absolute)
+          Zoom (Absolute)
+          PanTilt (Absolute)
+          Focus, Auto
+      VideoControl Interface Descriptor:
+        bLength                11
+        bDescriptorType        36
+        bDescriptorSubtype      5 (PROCESSING_UNIT)
+      Warning: Descriptor too short
+        bUnitID                 5
+        bSourceID               1
+        wMaxMultiplier          0
+        bControlSize            2
+        bmControls     0x00001441
+          Brightness
+          White Balance Temperature
+          Power Line Frequency
+          White Balance Temperature, Auto
+        iProcessing             0
+        bmVideoStandards     0x00
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               6
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+      VideoStreaming Interface Descriptor:
+        bLength                            14
+        bDescriptorType                    36
+        bDescriptorSubtype                  1 (INPUT_HEADER)
+        bNumFormats                         1
+        wTotalLength                   0x0111
+        bEndPointAddress                  129
+        bmInfo                              0
+        bTerminalLink                       3
+        bStillCaptureMethod                 0
+        bTriggerSupport                     0
+        bTriggerUsage                       0
+        bControlSize                        1
+        bmaControls( 0)                     4
+      VideoStreaming Interface Descriptor:
+        bLength                            11
+        bDescriptorType                    36
+        bDescriptorSubtype                  6 (FORMAT_MJPEG)
+        bFormatIndex                        1
+        bNumFrameDescriptors                8
+        bFlags                              1
+          Fixed-size samples: Yes
+        bDefaultFrameIndex                  1
+        bAspectRatioX                       0
+        bAspectRatioY                       0
+        bmInterlaceFlags                 0x00
+          Interlaced stream or variable: No
+          Fields per frame: 1 fields
+          Field 1 first: No
+          Field pattern: Field 1 only
+        bCopyProtect                        0
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         1
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                            320
+        wHeight                           240
+        dwMinBitRate                 36864000
+        dwMaxBitRate                 36864000
+        dwMaxVideoFrameBufferSize      153600
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         2
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                            640
+        wHeight                           480
+        dwMinBitRate                147456000
+        dwMaxBitRate                147456000
+        dwMaxVideoFrameBufferSize      614400
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            34
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         3
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                           1280
+        wHeight                           720
+        dwMinBitRate                442368000
+        dwMaxBitRate                884736000
+        dwMaxVideoFrameBufferSize     1843200
+        dwDefaultFrameInterval         166666
+        bFrameIntervalType                  2
+        dwFrameInterval( 0)            166666
+        dwFrameInterval( 1)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         4
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                           1920
+        wHeight                          1080
+        dwMinBitRate                995295232
+        dwMaxBitRate                995295232
+        dwMaxVideoFrameBufferSize     4147200
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            34
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         5
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                            768
+        wHeight                           448
+        dwMinBitRate                330301440
+        dwMaxBitRate                330301440
+        dwMaxVideoFrameBufferSize      688128
+        dwDefaultFrameInterval         166666
+        bFrameIntervalType                  2
+        dwFrameInterval( 0)            166666
+        dwFrameInterval( 1)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         6
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                            640
+        wHeight                           360
+        dwMinBitRate                110592000
+        dwMaxBitRate                110592000
+        dwMaxVideoFrameBufferSize      460800
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         7
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                            512
+        wHeight                           288
+        dwMinBitRate                 70778880
+        dwMaxBitRate                 70778880
+        dwMaxVideoFrameBufferSize      294912
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         8
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                            256
+        wHeight                           144
+        dwMinBitRate                 17694720
+        dwMaxBitRate                 17694720
+        dwMaxVideoFrameBufferSize       73728
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
 
->
-> You mentioned that devices have a pull-up or pull-down on the GPIO line.
-> As there are only two devices affected, do you know if it's a pull-up or
-> pull-down ? Would it be worse to expose that state to userspace than to
-> return -EBUSY when reading the control ?
-
-The module has a 100K pull up. This is, it will return "Privacy = 0".
-
-We cannot return the default value, as it would make the user believe
-that the privacy is in a different state that currently is.
-In other words, userspace needs to know at all times if the privacy is
-in : unknow_state, on, off.
-
->
-> > +
-> > +     uvc_privacy_gpio_event(dev);
-> > +
-> >       return IRQ_HANDLED;
-> >  }
-> >
-> > +static const struct dmi_system_id privacy_valid_during_streamon[] = {
-> > +     {
-> > +             .ident = "HP Elite c1030 Chromebook",
-> > +             .matches = {
-> > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-> > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Jinlon"),
-> > +             },
-> > +     },
-> > +     {
-> > +             .ident = "HP Pro c640 Chromebook",
-> > +             .matches = {
-> > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-> > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Dratini"),
-> > +             },
-> > +     },
-> > +     { } /* terminate list */
-> > +};
-> > +
-> >  static int uvc_gpio_parse(struct uvc_device *dev)
-> >  {
-> >       struct uvc_entity *unit;
-> > @@ -1577,6 +1625,9 @@ static int uvc_gpio_parse(struct uvc_device *dev)
-> >
-> >       list_add_tail(&unit->list, &dev->entities);
-> >
-> > +     if (dmi_check_system(privacy_valid_during_streamon))
-> > +             dev->quirks |= UVC_QUIRK_PRIVACY_DURING_STREAM;
->
-> This will also match any external UVC camera plugged to one of the
-> affected systems, right ? It shouldn't matter in practice as those
-> devices won't have a GPIO entity.
-
-I did think about that but did not make it explicit in the code.
-Adding a comment.
-
->
-> I suppose we can't match on VID:PID instead because the same VID:PID is
-> used in both devices affected by this issue, and devices immune to it ?
-
-The problem with VID:PID, is that the manufacturer can decide to
-change the camera module and then the quirk will not work.
-
-We cannot rely ONLY in VID:PID as these modules are also used in other
-models not affected by the quirk.
-
-I believe that it is also correct to rely on the dmi, as the quirk is
-caused for the way the camera module is wired, which is on the
-motherboard.
-
-
->
-> > +
-> >       return 0;
-> >  }
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> > index cd60c6c1749e..e800d491303f 100644
-> > --- a/drivers/media/usb/uvc/uvc_queue.c
-> > +++ b/drivers/media/usb/uvc/uvc_queue.c
-> > @@ -337,9 +337,12 @@ int uvc_dequeue_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf,
-> >  int uvc_queue_streamon(struct uvc_video_queue *queue, enum v4l2_buf_type type)
-> >  {
-> >       int ret;
-> > +     struct uvc_streaming *stream = uvc_queue_to_stream(queue);
->
-> Please swap the two lines.
->
-> >
-> >       mutex_lock(&queue->mutex);
-> >       ret = vb2_streamon(&queue->queue, type);
-> > +     if (stream->dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
-> > +             uvc_privacy_gpio_event(stream->dev);
->
-> Even when vb2_streamon() failed ?
->
-> >       mutex_unlock(&queue->mutex);
-> >
-> >       return ret;
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 079a407ebba5..32c1ba246d97 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -209,6 +209,7 @@
-> >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
-> >  #define UVC_QUIRK_FORCE_Y8           0x00000800
-> >  #define UVC_QUIRK_FORCE_BPP          0x00001000
-> > +#define UVC_QUIRK_PRIVACY_DURING_STREAM      0x00002000
-> >
-> >  /* Format flags */
-> >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
-> > @@ -826,6 +827,9 @@ extern const struct v4l2_file_operations uvc_fops;
-> >  int uvc_mc_register_entities(struct uvc_video_chain *chain);
-> >  void uvc_mc_cleanup_entity(struct uvc_entity *entity);
-> >
-> > +/* Privacy gpio */
-> > +void uvc_privacy_gpio_event(struct uvc_device *dev);
-> > +
-> >  /* Video */
-> >  int uvc_video_init(struct uvc_streaming *stream);
-> >  int uvc_video_suspend(struct uvc_streaming *stream);
->
-> --
-> Regards,
->
-> Laurent Pinchart
 
 
 
--- 
-Ricardo Ribalda
+[http://www.pacificenergy.net/wp-content/uploads/sites/2/2020/11/pefp_logo.png]
+
+Gord Bestwick
+IT Manager
+
+PACIFIC ENERGY FIREPLACE PRODUCTS
+2975 Allenby Road | Duncan, BC | Canada V9L 6V8
+D (250)715-2391 | TF 1.888.223.0088 | F 250.748.0844
+
+[http://www.pacificenergy.net/wp-content/uploads/sites/2/2020/11/pe_logo.png]             [http://www.pacificenergy.net/wp-content/uploads/sites/2/2020/11/tc_logo.png]               [http://www.pacificenergy.net/wp-content/uploads/sites/2/2020/11/tn_logo.png]
+
+This message and any attachment is intended only for the use of the individual or entity to which it is addressed and may contain information that is privileged, confidential and exempt from disclosure under applicable law. Any other distribution, copying or disclosure is strictly prohibited. If you have received this message in error, please destroy this email and notify the sender immediately.
+
+
