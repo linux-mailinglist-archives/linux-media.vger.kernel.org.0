@@ -2,124 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 327352E0875
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 11:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5693D2E08D5
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 11:31:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbgLVKAQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 05:00:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726123AbgLVKAP (ORCPT
+        id S1726547AbgLVKau (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 05:30:50 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43752 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbgLVKat (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 05:00:15 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9977C06179C
-        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 01:59:34 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id y23so1591396wmi.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 01:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=1uWQ1lsamrDj670psBGhqmITnRdEWIGipMAwVhvN0IQ=;
-        b=nzzFQvbCE9iM4gRr0OHBQhW95iPZnUHGIevbHh6G8/1DaGIs5orfQtZMKTjTyY2zjJ
-         pltvHVHec5UsnNGgJJfthUftOsewWy8YhxnXYppOWmN7Y3UqFISq3+f0ocm6pWy6s+ao
-         uaRBF2vgyNBikZ7ShJgESCzRRRySZbSAjnMwIBBn8PSrZQ33zLQZUN9iSC4x/lmTq981
-         FJ2Ly2VqTgTlLk7P1ecU0mMa6SWh/a/ZrKv1GDXYGD51DpKiA1XsULU+2oq9wzAV5jgw
-         +k0KhDI7UdHfo056NDutP99ttFQbtHZfAKQ81sHnq9JXVyK6fylkzXtS8AJ7ez5tMlJX
-         s4xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=1uWQ1lsamrDj670psBGhqmITnRdEWIGipMAwVhvN0IQ=;
-        b=FQhSti0ZPflvLCTcFP2A8qHMqggVrHikZSNfTbsR7dFVxiy8ylHXYrHyeR8g26MpQe
-         ICX/Cz6rmBj7rKRac829nvaqAQCUPc3+o+7EfYEM+2BMqbQtXbYROtOy+AkJvtUlbpHt
-         +AJ6jjZhUaGq3NrZSLpuLLUMOruDmSUmDul9jjtzswNWf0eHcorHTK1eOlcj0m6z9AM0
-         PZgcRZqkS5jMh3M2n6HnKVSoth9k/WcJnMhMhcaUP4dYsps0l6UKv+yCppNrF63/hhvU
-         cqDpxNm2QAtQk9dkkIaL6H+u1mWFeUQvSxmc9EBZN7yRSRaeitq9HRaWwWnLrCvKIjpC
-         VhSw==
-X-Gm-Message-State: AOAM530aG8z/lxkStDl81fwsuNQeonJEFAZqBvfTOHnAZ/+5fz1W4G0N
-        PDvVlOiiIJqrL3XeH6ECVWNwYQ==
-X-Google-Smtp-Source: ABdhPJyryip6dXlJcoBpock1PWleQBmbQZcocbzF4ei8MZdMG4Bgcp5A9SM4uCOXJeAM5U9qRO3loQ==
-X-Received: by 2002:a1c:1d1:: with SMTP id 200mr21458882wmb.98.1608631173322;
-        Tue, 22 Dec 2020 01:59:33 -0800 (PST)
-Received: from dell ([91.110.221.175])
-        by smtp.gmail.com with ESMTPSA id a65sm26056927wmc.35.2020.12.22.01.58.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Dec 2020 01:59:32 -0800 (PST)
-Date:   Tue, 22 Dec 2020 09:58:23 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas properties
-Message-ID: <20201222095651.GD53991@dell>
-References: <20201221234659.824881-1-robh@kernel.org>
+        Tue, 22 Dec 2020 05:30:49 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6B6C9E6;
+        Tue, 22 Dec 2020 11:30:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1608633007;
+        bh=Yzzayy1jXlp0/639WscGDZbsKqyI1CX8/CSqZKJW5Ms=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aF4v5R0xHOgJg1bh1cylglnVJbVxLF5ENpCbWHQwRXk7yiCICiQIiMo8QGg99Mhmz
+         V+FUFuf+eIqXN5IU55eZ5IrrSWbsYj36mf9PBtYd/JnIUy9JSYUmWL6QJixXhGJmL9
+         +Q9ZnMyHEF3SX0WZqlUnbyuzDeHA13K4lmb85XoU=
+Date:   Tue, 22 Dec 2020 12:29:59 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 09/12] media: uvcvideo: Implement
+ UVC_QUIRK_PRIVACY_DURING_STREAM
+Message-ID: <X+HKpxzbVC29lNlk@pendragon.ideasonboard.com>
+References: <20201221164819.792019-1-ribalda@chromium.org>
+ <20201221164819.792019-10-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
+In-Reply-To: <20201221164819.792019-10-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 21 Dec 2020, Rob Herring wrote:
+Hi Ricardo,
 
-> *-supply properties are always a single phandle, so binding schemas
-> don't need a type $ref nor 'maxItems'.
+Thank you for the patch.
+
+On Mon, Dec 21, 2020 at 05:48:16PM +0100, Ricardo Ribalda wrote:
+> Some devices, can only read the privacy_pin if the device is
+
+s/devices,/devices/
+
+> streaming.
 > 
-> A meta-schema check for this is pending once these existing cases are
-> fixed.
+> This patch implement a quirk for such devices, in order to avoid invalid
+> reads and/or spurious events.
 > 
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  Documentation/devicetree/bindings/display/bridge/anx6345.yaml | 2 --
->  .../devicetree/bindings/display/bridge/ite,it6505.yaml        | 2 --
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml        | 3 +--
->  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 2 --
->  .../devicetree/bindings/display/bridge/simple-bridge.yaml     | 1 -
->  .../bindings/display/bridge/thine,thc63lvd1024.yaml           | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358775.yaml  | 2 --
->  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml   | 4 +---
->  .../devicetree/bindings/iio/humidity/ti,hdc2010.yaml          | 3 +--
->  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 3 +--
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml     | 3 +--
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml          | 1 -
->  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml  | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml  | 3 ---
->  Documentation/devicetree/bindings/mfd/st,stmfx.yaml           | 3 +--
+>  drivers/media/usb/uvc/uvc_driver.c | 57 ++++++++++++++++++++++++++++--
+>  drivers/media/usb/uvc/uvc_queue.c  |  3 ++
+>  drivers/media/usb/uvc/uvcvideo.h   |  4 +++
+>  3 files changed, 61 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 72516101fdd0..7af37d4bd60a 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -7,6 +7,7 @@
+>   */
+>  
+>  #include <linux/atomic.h>
+> +#include <linux/dmi.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+> @@ -1472,6 +1473,17 @@ static int uvc_parse_control(struct uvc_device *dev)
+>  /* -----------------------------------------------------------------------------
+>   * Privacy GPIO
+>   */
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+There should be a blank line here.
 
->  .../devicetree/bindings/regulator/anatop-regulator.yaml       | 1 -
->  17 files changed, 6 insertions(+), 34 deletions(-)
+> +static bool uvc_gpio_is_streaming(struct uvc_device *dev)
+> +{
+> +	struct uvc_streaming *streaming;
+> +
+> +	list_for_each_entry(streaming, &dev->streams, list) {
+> +		if (uvc_queue_streaming(&streaming->queue))
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+>  
+>  
+
+But not too blank lines here.
+
+>  static u8 uvc_gpio_update_value(struct uvc_device *dev,
+> @@ -1499,7 +1511,12 @@ static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
+>  	if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
+>  		return -EINVAL;
+>  
+> +	if ((dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM) &&
+> +	    !uvc_gpio_is_streaming(dev))
+> +		return -EBUSY;
+> +
+>  	*(uint8_t *)data = uvc_gpio_update_value(dev, entity);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1528,19 +1545,50 @@ static struct uvc_entity *uvc_gpio_find_entity(struct uvc_device *dev)
+>  	return NULL;
+>  }
+>  
+> -static irqreturn_t uvc_gpio_irq(int irq, void *data)
+> +void uvc_privacy_gpio_event(struct uvc_device *dev)
+>  {
+> -	struct uvc_device *dev = data;
+>  	struct uvc_entity *unit;
+>  
+> +
+>  	unit = uvc_gpio_find_entity(dev);
+>  	if (!unit)
+> -		return IRQ_HANDLED;
+> +		return;
+>  
+>  	uvc_gpio_update_value(dev, unit);
+> +}
+> +
+> +static irqreturn_t uvc_gpio_irq(int irq, void *data)
+> +{
+> +	struct uvc_device *dev = data;
+> +
+> +	/* Ignore privacy events during streamoff */
+> +	if (dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
+> +		if (!uvc_gpio_is_streaming(dev))
+> +			return IRQ_HANDLED;
+
+I'm still a bit concerned of race conditions. When stopping the stream,
+vb2_queue.streaming is set to 0 after calling the driver's .stop_stream()
+handler. This means that the device will cut power before
+uvc_gpio_is_streaming() can detect that streaming has stopped, and the
+GPIO could thus trigger an IRQ.
+
+You mentioned that devices have a pull-up or pull-down on the GPIO line.
+As there are only two devices affected, do you know if it's a pull-up or
+pull-down ? Would it be worse to expose that state to userspace than to
+return -EBUSY when reading the control ?
+
+> +
+> +	uvc_privacy_gpio_event(dev);
+> +
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static const struct dmi_system_id privacy_valid_during_streamon[] = {
+> +	{
+> +		.ident = "HP Elite c1030 Chromebook",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "Jinlon"),
+> +		},
+> +	},
+> +	{
+> +		.ident = "HP Pro c640 Chromebook",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "Dratini"),
+> +		},
+> +	},
+> +	{ } /* terminate list */
+> +};
+> +
+>  static int uvc_gpio_parse(struct uvc_device *dev)
+>  {
+>  	struct uvc_entity *unit;
+> @@ -1577,6 +1625,9 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+>  
+>  	list_add_tail(&unit->list, &dev->entities);
+>  
+> +	if (dmi_check_system(privacy_valid_during_streamon))
+> +		dev->quirks |= UVC_QUIRK_PRIVACY_DURING_STREAM;
+
+This will also match any external UVC camera plugged to one of the
+affected systems, right ? It shouldn't matter in practice as those
+devices won't have a GPIO entity.
+
+I suppose we can't match on VID:PID instead because the same VID:PID is
+used in both devices affected by this issue, and devices immune to it ?
+
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> index cd60c6c1749e..e800d491303f 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -337,9 +337,12 @@ int uvc_dequeue_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf,
+>  int uvc_queue_streamon(struct uvc_video_queue *queue, enum v4l2_buf_type type)
+>  {
+>  	int ret;
+> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+
+Please swap the two lines.
+
+>  
+>  	mutex_lock(&queue->mutex);
+>  	ret = vb2_streamon(&queue->queue, type);
+> +	if (stream->dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
+> +		uvc_privacy_gpio_event(stream->dev);
+
+Even when vb2_streamon() failed ?
+
+>  	mutex_unlock(&queue->mutex);
+>  
+>  	return ret;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 079a407ebba5..32c1ba246d97 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -209,6 +209,7 @@
+>  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+>  #define UVC_QUIRK_FORCE_Y8		0x00000800
+>  #define UVC_QUIRK_FORCE_BPP		0x00001000
+> +#define UVC_QUIRK_PRIVACY_DURING_STREAM	0x00002000
+>  
+>  /* Format flags */
+>  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+> @@ -826,6 +827,9 @@ extern const struct v4l2_file_operations uvc_fops;
+>  int uvc_mc_register_entities(struct uvc_video_chain *chain);
+>  void uvc_mc_cleanup_entity(struct uvc_entity *entity);
+>  
+> +/* Privacy gpio */
+> +void uvc_privacy_gpio_event(struct uvc_device *dev);
+> +
+>  /* Video */
+>  int uvc_video_init(struct uvc_streaming *stream);
+>  int uvc_video_suspend(struct uvc_streaming *stream);
 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Regards,
+
+Laurent Pinchart
