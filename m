@@ -2,55 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E0772E0ED8
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 20:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A85F82E0EE1
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 20:21:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727761AbgLVTUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 14:20:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56206 "EHLO
+        id S1727080AbgLVTVr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 14:21:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727298AbgLVTUK (ORCPT
+        with ESMTP id S1726620AbgLVTVq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 14:20:10 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22759C0613D3;
-        Tue, 22 Dec 2020 11:19:30 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id a12so34548474lfl.6;
-        Tue, 22 Dec 2020 11:19:30 -0800 (PST)
+        Tue, 22 Dec 2020 14:21:46 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12019C0613D3;
+        Tue, 22 Dec 2020 11:21:06 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id y19so34401813lfa.13;
+        Tue, 22 Dec 2020 11:21:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ulrdoVbGsjwhkH0t5gig0hbyBd9UYXc8gP96903YDxw=;
-        b=TfyVQnVt/DSKdLojw95WJ4Y3kr9B3JreJXSNeZLBEluhzjCcPf6K2C/ui4C3A+RAcn
-         NzqrO2ZQ73TaLD5uGBoTA4sttmca1xpwHqU863FtGcUC88cxmEAsuxQikrmwuidA4uCP
-         nm3AAm9TZcl214JdJVxmbY480arDu40d/ZRO/LMZqIPpdTU56ZnmabVMuRGGAvhILYBZ
-         Lo8a4O4xH2G8xK6eSxS2dJykl50tEw6QNTNuUIOxtAh5QuaHw5oC9C+9K8KQXGYHYHDU
-         yCrcC+UxT5hZUbtUNDzWRin0i+Cl3uko4BCCxLbueXyFERpjQkeXnBMSkzUwEXUzI6/8
-         3Csg==
+        bh=0YzH8qFTgwShSHXjPQ/ih8sk32BJvJHUfZ62MJdnb4Q=;
+        b=cjuuNVp8wJ4Py/jZcvkjtwd+gc2aYRuxADY9gxQQ1BFMmuGUB+QpXlnKsJc4t6BtCL
+         KnGX5HHkPLoHg8NcbTRi//P/INJ7hF0Mt7Mg696geYuEi3wXX1JvDW6EQE3Sovz8NX+t
+         lFaTGtAHKDD5oXV+3gr2TFkuTLzSI6ZGfCmsppPN3+9iVTJmuVeFHGF8Fe2bKRhm87pv
+         bB6x6iQQhjZqDFLIAdl2dOjsTocH/K/GqNBn2WMEe3LKWzJstYv2DfJBuLBpNrjeZnvJ
+         GVJM4YnrqqstFT9iWTlRzs4LU5FMJbnvxzZWYbtw6Ps7yPs1l9ZSuum5Z9IQvJftfOSJ
+         zYGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ulrdoVbGsjwhkH0t5gig0hbyBd9UYXc8gP96903YDxw=;
-        b=dsoeetUwex5UebJxUv84mb4Vs1xaKKF2Q9XEKlDDB/PAxF+LhRd9kq2qOyO91XkuWZ
-         FH6jXitwHL23gonl/VgJNPxPaZE8z2zPiU3T2+DqMMqfrlc57sS4xU2Qc95guptKGaH4
-         9PotBAowkweOIoLdOnAzPHizf59JUpUcRWxT4WMOdknjfn3GzUyMbVYZX/sg+Ez1IcZM
-         jdIbM67HA/TpVjT+dSxXTcK9QmygC4+X0Wnf42VVaP9SLEPC8cj3ze8IpMP8uxILUiBb
-         XM8EW7iRRryWKLjmvh9d+tUimbR2FWvPjFPz6pm7SvZTcdnalCek9YtFAoYBdvOiIz5K
-         iWxg==
-X-Gm-Message-State: AOAM5336fVnJPkK6YjvMNVhV2LwICm871pRIORHsGwDFEvK8gHgtqEBY
-        3gbcJC0Qw2v3gd/BWvppGe+z6DyelkI=
-X-Google-Smtp-Source: ABdhPJyniuH4JIVLYX09aJTJXG2DPOZ3u4RjQh1NfGfdwzaSui65HwnwuqSmtJhso1bwXfgrrij1mg==
-X-Received: by 2002:ac2:46e4:: with SMTP id q4mr8665320lfo.413.1608664768348;
-        Tue, 22 Dec 2020 11:19:28 -0800 (PST)
+        bh=0YzH8qFTgwShSHXjPQ/ih8sk32BJvJHUfZ62MJdnb4Q=;
+        b=al4QxrVSCDc96CuiOTtRudL9r3hTn1HI2s3Z4BAU8PAJ4YoFoHIAyNr7Fe2gfq+sdh
+         UuKX7Z17HkzMAUffSu/zA36Fvqbc9HaUgKJXtevRHADZxrFT79bGMRTtGDbubCjmH8tL
+         qCcmpMQ+9+juRBA/k5m/iOFCPVSfEsw6BeQfnDik3gdFrACbB758ThLnYW6t8L6mcVux
+         27mkl5c+99wdBKM67ytslwE0KZs6D17ZKfPdNmqMym4ZIboi3c+CcPCWhf6gTCfLAHRZ
+         jZNCMTitbS+5WPUP/R0lMMgoFDLyrkhl2RbxhcQxo0TLaQ7+GOJfYH+rpVqHMTtVt8PS
+         uEVw==
+X-Gm-Message-State: AOAM530iX0q92ByPlWBtT5PaVvH+hl5xOd7gr/vVqLIFTB/eZ33QDY76
+        WYeMwlTVCSmZWcYfS6gpldw3fCjY4PA=
+X-Google-Smtp-Source: ABdhPJyTfRbQjmFtVPw92Y7UsE4CBIej0hVl2LRd1tte7JNX6Oy7N+3jhVtpYSR71T820OH/ZDlnJA==
+X-Received: by 2002:ac2:5597:: with SMTP id v23mr4071397lfg.649.1608664864385;
+        Tue, 22 Dec 2020 11:21:04 -0800 (PST)
 Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id w6sm3032131lji.74.2020.12.22.11.19.27
+        by smtp.googlemail.com with ESMTPSA id k2sm2771430lfo.256.2020.12.22.11.21.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Dec 2020 11:19:27 -0800 (PST)
-Subject: Re: [PATCH v2 19/48] opp: Fix adding OPP entries in a wrong order if
- rate is unavailable
+        Tue, 22 Dec 2020 11:21:03 -0800 (PST)
+Subject: Re: [PATCH v2 28/48] soc/tegra: Introduce core power domain driver
 To:     Viresh Kumar <viresh.kumar@linaro.org>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -73,15 +72,15 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-20-digetx@gmail.com>
- <20201222091255.wentz5hyt726qezg@vireshk-i7>
+ <20201217180638.22748-29-digetx@gmail.com>
+ <20201222064029.duuzcsj53rt7xzvt@vireshk-i7>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <db6273e6-8406-b7ae-b51d-48ceb6d21962@gmail.com>
-Date:   Tue, 22 Dec 2020 22:19:26 +0300
+Message-ID: <c130f78d-3d97-9b26-be77-951fee0d8680@gmail.com>
+Date:   Tue, 22 Dec 2020 22:21:03 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.2
 MIME-Version: 1.0
-In-Reply-To: <20201222091255.wentz5hyt726qezg@vireshk-i7>
+In-Reply-To: <20201222064029.duuzcsj53rt7xzvt@vireshk-i7>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -89,56 +88,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-22.12.2020 12:12, Viresh Kumar пишет:
+22.12.2020 09:40, Viresh Kumar пишет:
 > On 17-12-20, 21:06, Dmitry Osipenko wrote:
->> Fix adding OPP entries in a wrong (opposite) order if OPP rate is
->> unavailable. The OPP comparison is erroneously skipped if OPP rate is
->> missing, thus OPPs are left unsorted.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/opp/core.c | 23 ++++++++++++-----------
->>  drivers/opp/opp.h  |  2 +-
->>  2 files changed, 13 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
->> index 34f7e530d941..5c7f130a8de2 100644
->> --- a/drivers/opp/core.c
->> +++ b/drivers/opp/core.c
->> @@ -1531,9 +1531,10 @@ static bool _opp_supported_by_regulators(struct dev_pm_opp *opp,
->>  	return true;
->>  }
->>  
->> -int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2)
->> +int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2,
->> +		     bool rate_not_available)
->>  {
->> -	if (opp1->rate != opp2->rate)
->> +	if (!rate_not_available && opp1->rate != opp2->rate)
+>> +++ b/drivers/soc/tegra/core-power-domain.c
+>> @@ -0,0 +1,125 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * NVIDIA Tegra SoC Core Power Domain Driver
+>> + */
+>> +
+>> +#include <linux/of_device.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/pm_domain.h>
+>> +#include <linux/pm_opp.h>
+>> +#include <linux/slab.h>
+>> +
+>> +#include <soc/tegra/common.h>
+>> +
+>> +static struct lock_class_key tegra_core_domain_lock_class;
+>> +static bool tegra_core_domain_state_synced;
+>> +
+>> +static int tegra_genpd_set_performance_state(struct generic_pm_domain *genpd,
+>> +					     unsigned int level)
+>> +{
+>> +	struct dev_pm_opp *opp;
+>> +	int err;
+>> +
+>> +	opp = dev_pm_opp_find_level_ceil(&genpd->dev, &level);
 > 
-> rate will be 0 for both the OPPs here if rate_not_available is true and so this
-> change shouldn't be required.
+> We don't need ceil or floor versions for level, but rather _exact() version. Or
+> maybe just call it dev_pm_opp_find_level().
 
-The rate_not_available is negated in the condition. This change is
-required because both rates are 0 and then we should proceed to the
-levels comparison.
+The _exact() version won't find OPP for level=0 if levels don't start
+with 0.
 
-I guess it's not clear by looking at this patch, please see a full
-version of the function:
+>> +	if (IS_ERR(opp)) {
+>> +		dev_err(&genpd->dev, "failed to find OPP for level %u: %pe\n",
+>> +			level, opp);
+>> +		return PTR_ERR(opp);
+>> +	}
+>> +
+>> +	err = dev_pm_opp_set_voltage(&genpd->dev, opp);
+> 
+> IIUC, you implemented this callback because you want to use the voltage triplet
+> present in the OPP table ?
+> 
+> And so you are setting the regulator ("power") later in this patch ?
 
-int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2,
-         bool rate_not_available)
-{
-  if (!rate_not_available && opp1->rate != opp2->rate)
-    return opp1->rate < opp2->rate ? -1 : 1;
-  if (opp1->bandwidth && opp2->bandwidth &&
-      opp1->bandwidth[0].peak != opp2->bandwidth[0].peak)
-    return opp1->bandwidth[0].peak < opp2->bandwidth[0].peak ? -1 : 1;
-  if (opp1->level != opp2->level)
-    return opp1->level < opp2->level ? -1 : 1;
-  return 0;
-}
+yes
 
-Perhaps we could check whether opp1->rate=0, like it's done for the
-opp1->bandwidth. I'll consider this variant for v3, thanks.
+> I am not in favor of implementing this routine, as it just adds a wrapper above
+> the regulator API. What you should be doing rather is get the regulator by
+> yourself here (instead of depending on the OPP core). And then you can do
+> dev_pm_opp_get_voltage() here and set the voltage yourself. You may want to
+> implement a version supporting triplet here though for the same.
+> 
+> And you won't require the sync version of the API as well then.
+> 
 
+That's what I initially did for this driver. I don't mind to revert back
+to the initial variant in v3, it appeared to me that it will be nicer
+and cleaner to have OPP API managing everything here.
