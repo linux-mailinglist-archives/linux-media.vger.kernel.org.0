@@ -2,77 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 570C52E077F
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 09:54:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E39F2E078E
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 09:57:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726282AbgLVIyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 03:54:18 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:43867 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725811AbgLVIyR (ORCPT
+        id S1726158AbgLVI4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 03:56:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44902 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726159AbgLVI4b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 03:54:17 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 9973BFF805;
-        Tue, 22 Dec 2020 08:53:32 +0000 (UTC)
-Date:   Tue, 22 Dec 2020 09:53:44 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 2/5] dt-bindings: media: max9286: Document
- 'maxim,reverse-channel-microvolt'
-Message-ID: <20201222085344.gb7nqhbenn65yaux@uno.localdomain>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-3-jacopo+renesas@jmondi.org>
- <X9o+XT3z1sVlh73x@pendragon.ideasonboard.com>
- <X9pBEe+da/8Y34Qv@pendragon.ideasonboard.com>
- <20201221185827.GA359098@robh.at.kernel.org>
+        Tue, 22 Dec 2020 03:56:31 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DA6C061282
+        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 00:55:11 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id p187so11353237iod.4
+        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 00:55:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=cL6fs/TC+AbTrexoVx8lc3glF76LL/64P3jqDOubqOU=;
+        b=p3FaLdyA6wmA6mGKW1iwHZA4ndWfgjKfkiFbsqbgmkPhf9kbrHDYXaUXj/UHpqPOXz
+         xKvfDKYwnoHivFcCrjy/OsKQhIrWrVnfMZVD6aSEQc0iJYvWZlMaPbWXZPBVRUo1DguN
+         tc8H5RUL8YwPJScAZ40XpjLRF5kZpCZq+0CojwWmHcmYzopiuoqFZCJSM7Q7U1mwXHd0
+         LbS0KzUzfZei7GmSL5fm7eUWiQXN6yn7oR1igzb7mwSXXLeEcbJlyR2iRSEPCVdsZ0+N
+         en5MqOLGoU2PuBx0e0BxXUFOLDWc6ahV/suAGeElCchCVDSApjHIw8VunNtIQVlphsGI
+         5XEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=cL6fs/TC+AbTrexoVx8lc3glF76LL/64P3jqDOubqOU=;
+        b=sIkheWeReITrmLYA2GNitErznHtkabX8h7Hnd0BJraefQHJ1Ihje2t25VzuRd+npUJ
+         BTVwbkIebckKYNAWoL0ts8Azpw/RqOZ45gn7hZKwtLPLVZGrtUT8ubDxzAprGJJpVvqM
+         dg9QTdO7JxOFu5UzOCmrZQnu0vmv7nnEj6GSu90VtDCqK0NiJARzuJLU9RUlRHAzLRUR
+         JKsmWgARGSC5R7Rcwy6bY+rAi7kfxSgxyEnduePl0RKujmzqbeXlehu4bA+JWDp0suYj
+         RAa7dij4ulyeRqbPQt8zsUPft+nKCmZQdNB2MLh33mxcfucMvRUql0vq7IOgT3jXGxnG
+         tY7g==
+X-Gm-Message-State: AOAM5316SH0S+D/JLjpqMEhIcMKwBjzFdgffkB9+Y/VsbSCACX7iprah
+        HrPlW/OcMmswGFX/gz9tzLD9OlxZ7l2ReU4aihWVxg==
+X-Google-Smtp-Source: ABdhPJwuNazpKAOATKE0nNMW3rBUfq40/YWGzdym8cpzWqRYRMeOtvTbqo19OaXgrOTKauto0Mlknyht6Q0bCPx/Xog=
+X-Received: by 2002:a6b:1454:: with SMTP id 81mr17362520iou.96.1608627309948;
+ Tue, 22 Dec 2020 00:55:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201221185827.GA359098@robh.at.kernel.org>
+References: <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
+ <20201106061513.uyys7njcqcdlah67@vireshk-i7> <a6926456-8bce-a438-bfaa-be334208f004@gmail.com>
+ <CAEExFWsp0DWw1yO84e3vzr_YZkqkd+pyPfQQR3J2W6n3wTX4Jw@mail.gmail.com>
+ <20201109050010.g47zojh6wafvwqva@vireshk-i7> <c584b301-e052-7f01-335d-8f9160865198@gmail.com>
+ <20201109051014.oa6bt4g3ctm2hnuy@vireshk-i7> <4476fed9-a356-b7f1-32ee-935343e23038@gmail.com>
+ <20201109053546.xupmmsx5qccn46tr@vireshk-i7> <33a7ad95-a8cf-7b88-0f78-09086c1a4adf@gmail.com>
+ <20201109055320.5y5gf2whwast2mi4@vireshk-i7> <CAEExFWuF82B3bPn8T8_vkHODNwP89MDrNOqu-MhObzqTfiYODw@mail.gmail.com>
+In-Reply-To: <CAEExFWuF82B3bPn8T8_vkHODNwP89MDrNOqu-MhObzqTfiYODw@mail.gmail.com>
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+Date:   Tue, 22 Dec 2020 14:24:59 +0530
+Message-ID: <CAKohpokBHcv34Qh1csHOF5w7utSNy8F_umMzv--pFuPTP9D4wg@mail.gmail.com>
+Subject: Re: [PATCH v1 17/30] mmc: sdhci-tegra: Support OPP and core voltage scaling
+To:     Frank Lee <tiny.windzz@gmail.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        driver-dev <devel@driverdev.osuosl.org>,
+        linux-pwm@vger.kernel.org,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>,
+        "open list:SECURE DIGITAL HO..." <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob, Laurent,
+On Mon, 9 Nov 2020 at 16:51, Frank Lee <tiny.windzz@gmail.com> wrote:
+> On Mon, Nov 9, 2020 at 1:53 PM Viresh Kumar <viresh.kumar@linaro.org> wro=
+te:
 
-On Mon, Dec 21, 2020 at 11:58:27AM -0700, Rob Herring wrote:
-> On Wed, Dec 16, 2020 at 07:17:05PM +0200, Laurent Pinchart wrote:
-> > > > @@ -221,6 +241,7 @@ required:
-> > > >    - ports
-> > > >    - i2c-mux
-> > > >    - gpio-controller
-> > > > +  - maxim,reverse-channel-microvolt
+> > > devm_pm_opp_set_supported_hw()
+> > > devm_pm_opp_set_regulators() [if we won't use GENPD]
+> > > devm_pm_opp_set_clkname()
+> > > devm_pm_opp_of_add_table()
 > >
-> > One comment though: You specify a default value above, which isn't very
-> > useful when the property is required. Should we either drop the default
-> > value, or make the property optional ?
+> > I tried to look earlier for the stuff already merged in and didn't
+> > find a lot of stuff where the devm_* could be used, maybe I missed
+> > some of it.
+> >
+> > Frank, would you like to refresh your series based on suggestions from
+> > Dmitry and make other drivers adapt to the new APIs ?
 >
-> And generally added properties can't be required unless for some reason
-> DT's without the property are broken.
+> I am glad to do this.=EF=BC=9A=EF=BC=89
 
-My thinking was to make it required for new DTS and specify a default
-for the old ones that do not have the property. I'll drop required and
-keep the default value in next version.
+Frank,
 
-Thanks
-  j
+Dmitry has submitted a series with a patch that does stuff like this since =
+you
+never resent your patches.
 
->
-> With required dropped,
->
-> Reviewed-by: Rob Herring <robh@kernel.org>
->
-> Rob
+http://lore.kernel.org/lkml/20201217180638.22748-14-digetx@gmail.com
+
+Since you were the first one to get to this, I would still like to
+give you a chance
+to get these patches merged under your authorship, otherwise I would be goi=
+ng
+to pick patches from Dmitry.
+
+--
+viresh
