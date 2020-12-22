@@ -2,799 +2,362 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31B852E0640
-	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 07:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34AEA2E064D
+	for <lists+linux-media@lfdr.de>; Tue, 22 Dec 2020 08:04:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725790AbgLVGz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 01:55:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725300AbgLVGzZ (ORCPT
+        id S1725854AbgLVHEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 02:04:05 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41810 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725300AbgLVHEF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 01:55:25 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E61C0613D3
-        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 22:54:45 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id 6so16811133ejz.5
-        for <linux-media@vger.kernel.org>; Mon, 21 Dec 2020 22:54:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=vghYok1sGjSqj37pu5TYTWY/t/tXGDQM7yatWZO0SkQ=;
-        b=CQEzbsbHqQuhMBFemmVKFXTaeUyIy6hR1ybYNy30kQFaWocaVIsJe7Y68gDZ/waplQ
-         /WKaovjTRrMEvkvOBKIrLbxkB1jjMsZILq/y+F5QB2fB1dhURZQwsKXNKP5PnVrMQ5gN
-         huDgFgIBjYnG1SmuOlFD8wOMPKwnORXDLToVzVejSQKIjMymee+VizWFA5hnrLF0pBcr
-         0mvusHraLDbUlRFwdoBP9UDcuw9nGDISpC/JNky6TByikYKngwZ4UUwGKIp+19uJ4XRY
-         8CYM/M3GqRQlPMOC9axHBq1+Jt84lQKtOaDLEAagdB3UBotY2+HIQ+catq6f/A+SXdnn
-         EX7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=vghYok1sGjSqj37pu5TYTWY/t/tXGDQM7yatWZO0SkQ=;
-        b=nEQVOWkzggxpVoLdojflCLO3yTrXUbc/djVnNIuUAFkO7Y/lT30lOeglB4mZkga28E
-         WtgOI1kWQEjamdVd1gx1FU2ednWUAm/s7p0hZ0ugCc51z0lXu95nAuDywUZe+tScBgBS
-         IqcTwj9Z7hlh2LxZnZVlhp8EkOhdb7x1MQNkUaG9J/F72h3zZLkjohQLpUA2plpx9AIo
-         kOBxJIM+ibQZuBR47+oUza23JIkhClw3DccSUwZgPCeqx0aUMC1g3wwINfL0wX0aWvNR
-         Q49Hf1C5+jPBXQ/z2wqsOJ3NW0uWdpsSQHumbyFU/bl2fMJAMHN69kDZYNitGuohIoNn
-         O+Bg==
-X-Gm-Message-State: AOAM533abJIEbCGHnsHGHynmDQF2XAjLMirtUJf3PIx/v19koGG9hUEp
-        iIuLMeCR5bd1wTs85ZhJyuGAu9Hog9oSsG+VVzsTrX9aKYo=
-X-Google-Smtp-Source: ABdhPJxseUmo20t/aBlOFqe2NTup9TyTaf4mDLP9qQyItOtcW5J+2JCyilVHLnzMP+NVbNVqEd69EN2KyR9ETqUyvoY=
-X-Received: by 2002:a17:906:3c04:: with SMTP id h4mr18199231ejg.220.1608620083629;
- Mon, 21 Dec 2020 22:54:43 -0800 (PST)
+        Tue, 22 Dec 2020 02:04:05 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECB619E6;
+        Tue, 22 Dec 2020 08:03:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1608620601;
+        bh=wr2c/JvrpoqpuCs/EGNX0coXs6l9cQeH37ivwLJhHX0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oRhDZ+hUb1+7clW6B0GbznIznWZFsOAtCA/OUxeJ/fHeXgZuNxhvHN1SdLok7c0eh
+         diGC0VvpIDLU16mWknRPfe5jGZRhUSrHH01XJbLMrchfnUsp1a+TPhNu/PBh2IehYO
+         7xG4UnwvoyxJvcKA+4KlGGVo2HZoErt8uMvA8GUc=
+Date:   Tue, 22 Dec 2020 09:03:13 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas properties
+Message-ID: <X+GaMWeSyGvt4S7Q@pendragon.ideasonboard.com>
+References: <20201221234659.824881-1-robh@kernel.org>
 MIME-Version: 1.0
-From:   Shem Choi <revegins@gmail.com>
-Date:   Tue, 22 Dec 2020 15:54:31 +0900
-Message-ID: <CAFHmfx6qh1oWhRmqS99CGc8ccKzF2kB4tBar6kQ_8xXg=2Bs0A@mail.gmail.com>
-Subject: Couldn't Initialize USB HDMI capture dongle well.
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Linux UVC developers:
-
-Thanks for every support.
-I tested one USB HDMI capture dongle on raspberry Pi.
-And UVC couldn=E2=80=99t detect and initialize well.
-
-
-Here=E2=80=99s the logs.
-
-
-
----- Kernel Log ----
-
-[  131.830253] uvcvideo: Suspending interface 1
-
-[  131.830266] uvcvideo: Suspending interface 0
-
-[  132.699032] usb 1-1.1.3: USB disconnect, device number 31
-
-[  133.395894] usb 1-1.1.3: new high-speed USB device number 32 using dwc_o=
-tg
-
-[  133.493419] usb 1-1.1.3: New USB device found, idVendor=3D1e4e, idProduc=
-t=3D7016
-
-[  133.493507] usb 1-1.1.3: New USB device strings: Mfr=3D0, Product=3D0,
-SerialNumber=3D3
-
-[  133.493521] usb 1-1.1.3: SerialNumber: 20000130041415
-
-[  133.506389] uvcvideo: Probing generic UVC device 1.1.3
-
-[  133.506744] uvcvideo: Found format MJPEG.
-
-[  133.506758] uvcvideo: - 1920x1080 (60.0 fps)
-
-[  133.506789] uvcvideo: Found UVC 1.00 device <unnamed> (1e4e:7016)
-
-[  133.509005] uvcvideo: Scanning UVC chain: OT 2 <- XU 4 <- PU 3 <- IT 1
-
-[  133.509500] uvcvideo: Found a valid video chain (1 -> 2).
-
-[  133.514889] uvcvideo: UVC non compliance - GET_DEF(PROBE) not
-supported. Enabling workaround.
-
-[  133.517651] uvcvideo 1-1.1.3:1.0: Entity type for entity Extension
-4 was not initialized!
-
-[  133.517741] uvcvideo 1-1.1.3:1.0: Entity type for entity Processing
-3 was not initialized!
-
-[  133.517763] uvcvideo 1-1.1.3:1.0: Entity type for entity Camera 1
-was not initialized!
-
-[  133.519279] uvcvideo: UVC device initialized.
-
-[  137.819033] usb 1-1.1.3: USB disconnect, device number 32
-
-[  138.259275] usb 1-1.1.3: new high-speed USB device number 33 using dwc_o=
-tg
-
-[  138.358400] usb 1-1.1.3: New USB device found, idVendor=3D1e4e, idProduc=
-t=3D7016
-
-[  138.358419] usb 1-1.1.3: New USB device strings: Mfr=3D0, Product=3D0,
-SerialNumber=3D3
-
-[  138.358498] usb 1-1.1.3: SerialNumber: 20000130041415
-
-[  138.365497] uvcvideo: Found UVC 1.00 device <unnamed> (1e4e:7016)
-
-[  138.381746] uvcvideo: UVC non compliance - GET_DEF(PROBE) not
-supported. Enabling workaround.
-
-[  138.384747] uvcvideo 1-1.1.3:1.0: Entity type for entity Extension
-4 was not initialized!
-
-[  138.384773] uvcvideo 1-1.1.3:1.0: Entity type for entity Processing
-3 was not initialized!
-
-[  138.384794] uvcvideo 1-1.1.3:1.0: Entity type for entity Camera 1
-was not initialized!
-
-
-
-
-
----- lsusb log ----
-
-Bus 001 Device 078: ID 1e4e:7016
-
-Device Descriptor:
-
-  bLength                18
-
-  bDescriptorType         1
-
-  bcdUSB               2.10
-
-  bDeviceClass          239
-
-  bDeviceSubClass         2
-
-  bDeviceProtocol         1
-
-  bMaxPacketSize0        64
-
-  idVendor           0x1e4e
-
-  idProduct          0x7016
-
-  bcdDevice            1.00
-
-  iManufacturer           0
-
-  iProduct                0
-
-  iSerial                 3 20000130041415
-
-  bNumConfigurations      1
-
-  Configuration Descriptor:
-
-    bLength                 9
-
-    bDescriptorType         2
-
-    wTotalLength          296
-
-    bNumInterfaces          4
-
-    bConfigurationValue     1
-
-    iConfiguration          0
-
-    bmAttributes         0xa0
-
-      (Bus Powered)
-
-      Remote Wakeup
-
-    MaxPower              150mA
-
-    Interface Association:
-
-      bLength                 8
-
-      bDescriptorType        11
-
-      bFirstInterface         0
-
-      bInterfaceCount         2
-
-      bFunctionClass         14
-
-      bFunctionSubClass       3
-
-      bFunctionProtocol       0
-
-      iFunction               0
-
-    Interface Descriptor:
-
-      bLength                 9
-
-      bDescriptorType         4
-
-      bInterfaceNumber        0
-
-      bAlternateSetting       0
-
-      bNumEndpoints           0
-
-      bInterfaceClass        14
-
-      bInterfaceSubClass      1
-
-      bInterfaceProtocol      0
-
-      iInterface              0
-
-      VideoControl Interface Descriptor:
-
-        bLength                13
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      1 (HEADER)
-
-        bcdUVC               1.00
-
-        wTotalLength           77
-
-        dwClockFrequency      120.000000MHz
-
-        bInCollection           1
-
-        baInterfaceNr( 0)       1
-
-      VideoControl Interface Descriptor:
-
-        bLength                18
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      2 (INPUT_TERMINAL)
-
-        bTerminalID             1
-
-        wTerminalType      0x0201
-
-        bAssocTerminal          0
-
-        iTerminal               0
-
-        wObjectiveFocalLengthMin      0
-
-        wObjectiveFocalLengthMax      0
-
-        wOcularFocalLength            0
-
-        bControlSize                  3
-
-        bmControls           0x00000000
-
-      VideoControl Interface Descriptor:
-
-        bLength                11
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      5 (PROCESSING_UNIT)
-
-      Warning: Descriptor too short
-
-        bUnitID                 3
-
-        bSourceID               1
-
-        wMaxMultiplier          0
-
-        bControlSize            2
-
-        bmControls     0x00000000
-
-        iProcessing             0
-
-        bmVideoStandards     0x 9
-
-          None
-
-          SECAM - 625/50
-
-      VideoControl Interface Descriptor:
-
-        bLength                 9
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-
-        bTerminalID             2
-
-        wTerminalType      0x0101
-
-        bAssocTerminal          0
-
-        bSourceID               4
-
-        iTerminal               0
-
-      VideoControl Interface Descriptor:
-
-        bLength                26
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      6 (EXTENSION_UNIT)
-
-        bUnitID                 4
-
-        guidExtensionCode         {5b126dc6-8004-4408-8c26-b8363a84de63}
-
-        bNumControl             3
-
-        bNrPins                 1
-
-        baSourceID( 0)          3
-
-        bControlSize            1
-
-        bmControls( 0)       0x07
-
-        iExtension              0
-
-    Interface Descriptor:
-
-      bLength                 9
-
-      bDescriptorType         4
-
-      bInterfaceNumber        1
-
-      bAlternateSetting       0
-
-      bNumEndpoints           0
-
-      bInterfaceClass        14
-
-      bInterfaceSubClass      2
-
-      bInterfaceProtocol      0
-
-      iInterface              0
-
-      VideoStreaming Interface Descriptor:
-
-        bLength                            14
-
-        bDescriptorType                    36
-
-        bDescriptorSubtype                  1 (INPUT_HEADER)
-
-        bNumFormats                         1
-
-        wTotalLength                       61
-
-        bEndPointAddress                  137
-
-        bmInfo                              0
-
-        bTerminalLink                       2
-
-        bStillCaptureMethod                 0
-
-        bTriggerSupport                     0
-
-        bTriggerUsage                       0
-
-        bControlSize                        1
-
-        bmaControls( 0)                    11
-
-      VideoStreaming Interface Descriptor:
-
-        bLength                            11
-
-        bDescriptorType                    36
-
-        bDescriptorSubtype                  6 (FORMAT_MJPEG)
-
-        bFormatIndex                        1
-
-        bNumFrameDescriptors                1
-
-        bFlags                              0
-
-          Fixed-size samples: No
-
-        bDefaultFrameIndex                  1
-
-        bAspectRatioX                       0
-
-        bAspectRatioY                       0
-
-        bmInterlaceFlags                 0x00
-
-          Interlaced stream or variable: No
-
-          Fields per frame: 1 fields
-
-          Field 1 first: No
-
-          Field pattern: Field 1 only
-
-          bCopyProtect                      0
-
-      VideoStreaming Interface Descriptor:
-
-        bLength                            30
-
-        bDescriptorType                    36
-
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-
-        bFrameIndex                         1
-
-        bmCapabilities                   0x00
-
-          Still image unsupported
-
-        wWidth                           1920
-
-        wHeight                          1080
-
-        dwMinBitRate                497664000
-
-        dwMaxBitRate                497664000
-
-        dwMaxVideoFrameBufferSize     1036800
-
-        dwDefaultFrameInterval         166666
-
-        bFrameIntervalType                  1
-
-        dwFrameInterval( 0)            166666
-
-      VideoStreaming Interface Descriptor:
-
-        bLength                             6
-
-        bDescriptorType                    36
-
-        bDescriptorSubtype                 13 (COLORFORMAT)
-
-        bColorPrimaries                     1 (BT.709,sRGB)
-
-        bTransferCharacteristics            1 (BT.709)
-
-        bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
-
-    Interface Descriptor:
-
-      bLength                 9
-
-      bDescriptorType         4
-
-      bInterfaceNumber        1
-
-      bAlternateSetting       1
-
-      bNumEndpoints           1
-
-      bInterfaceClass        14
-
-      bInterfaceSubClass      2
-
-      bInterfaceProtocol      0
-
-      iInterface              0
-
-      Endpoint Descriptor:
-
-        bLength                 7
-
-        bDescriptorType         5
-
-        bEndpointAddress     0x89  EP 9 IN
-
-        bmAttributes            5
-
-          Transfer Type            Isochronous
-
-          Synch Type               Asynchronous
-
-          Usage Type               Data
-
-        wMaxPacketSize     0x1400  3x 1024 bytes
-
-        bInterval               1
-
-    Interface Association:
-
-      bLength                 8
-
-      bDescriptorType        11
-
-      bFirstInterface         2
-
-      bInterfaceCount         2
-
-      bFunctionClass          1
-
-      bFunctionSubClass       2
-
-      bFunctionProtocol       0
-
-      iFunction               0
-
-    Interface Descriptor:
-
-      bLength                 9
-
-      bDescriptorType         4
-
-      bInterfaceNumber        2
-
-      bAlternateSetting       0
-
-      bNumEndpoints           0
-
-      bInterfaceClass         1
-
-      bInterfaceSubClass      1
-
-      bInterfaceProtocol      0
-
-      iInterface              0
-
-      AudioControl Interface Descriptor:
-
-        bLength                 9
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      1 (HEADER)
-
-        bcdADC               1.00
-
-        wTotalLength           38
-
-        bInCollection           1
-
-        baInterfaceNr( 0)       3
-
-      AudioControl Interface Descriptor:
-
-        bLength                12
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      2 (INPUT_TERMINAL)
-
-        bTerminalID             1
-
-        wTerminalType      0x0201
-
-        bAssocTerminal          0
-
-        bNrChannels             1
-
-        wChannelConfig     0x0000
-
-        iChannelNames           0
-
-        iTerminal               0
-
-      AudioControl Interface Descriptor:
-
-        bLength                 9
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-
-        bTerminalID             2
-
-        wTerminalType      0x0101
-
-        bAssocTerminal          0
-
-        bSourceID               3
-
-        iTerminal               0
-
-      AudioControl Interface Descriptor:
-
-        bLength                 8
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      6 (FEATURE_UNIT)
-
-        bUnitID                 3
-
-        bSourceID               1
-
-        bControlSize            1
-
-        bmaControls( 0)      0x03
-
-          Mute Control
-
-          Volume Control
-
-        iFeature                0
-
-    Interface Descriptor:
-
-      bLength                 9
-
-      bDescriptorType         4
-
-      bInterfaceNumber        3
-
-      bAlternateSetting       0
-
-      bNumEndpoints           0
-
-      bInterfaceClass         1
-
-      bInterfaceSubClass      2
-
-      bInterfaceProtocol      0
-
-      iInterface              0
-
-    Interface Descriptor:
-
-      bLength                 9
-
-      bDescriptorType         4
-
-      bInterfaceNumber        3
-
-      bAlternateSetting       1
-
-      bNumEndpoints           1
-
-      bInterfaceClass         1
-
-      bInterfaceSubClass      2
-
-      bInterfaceProtocol      0
-
-      iInterface              0
-
-      AudioStreaming Interface Descriptor:
-
-        bLength                 7
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      1 (AS_GENERAL)
-
-        bTerminalLink           2
-
-        bDelay                  1 frames
-
-        wFormatTag              1 PCM
-
-      AudioStreaming Interface Descriptor:
-
-        bLength                11
-
-        bDescriptorType        36
-
-        bDescriptorSubtype      2 (FORMAT_TYPE)
-
-        bFormatType             1 (FORMAT_TYPE_I)
-
-        bNrChannels             2
-
-        bSubframeSize           2
-
-        bBitResolution         16
-
-        bSamFreqType            1 Discrete
-
-        tSamFreq[ 0]        48000
-
-      Endpoint Descriptor:
-
-        bLength                 9
-
-        bDescriptorType         5
-
-        bEndpointAddress     0x8a  EP 10 IN
-
-        bmAttributes            5
-
-          Transfer Type            Isochronous
-
-          Synch Type               Asynchronous
-
-          Usage Type               Data
-
-        wMaxPacketSize     0x00c0  1x 192 bytes
-
-        bInterval               4
-
-        bRefresh                0
-
-        bSynchAddress           0
-
-        AudioControl Endpoint Descriptor:
-
-          bLength                 7
-
-          bDescriptorType        37
-
-          bDescriptorSubtype      1 (EP_GENERAL)
-
-          bmAttributes         0x01
-
-            Sampling Frequency
-
-          bLockDelayUnits         0 Undefined
-
-          wLockDelay              0 Undefined
-
-Binary Object Store Descriptor:
-
-  bLength                 5
-
-  bDescriptorType        15
-
-  wTotalLength           22
-
-  bNumDeviceCaps          2
-
-  USB 2.0 Extension Device Capability:
-
-    bLength                 7
-
-    bDescriptorType        16
-
-    bDevCapabilityType      2
-
-    bmAttributes   0x00000006
-
-      Link Power Management (LPM) Supported
-
-  SuperSpeed USB Device Capability:
-
-    bLength                10
-
-    bDescriptorType        16
-
-    bDevCapabilityType      3
-
-    bmAttributes         0x00
-
-    wSpeedsSupported   0x000e
-
-      Device can operate at Full Speed (12Mbps)
-
-      Device can operate at High Speed (480Mbps)
-
-      Device can operate at SuperSpeed (5Gbps)
-
-    bFunctionalitySupport   1
-
-      Lowest fully-functional device speed is Full Speed (12Mbps)
-
-    bU1DevExitLat           4 micro seconds
-
-    bU2DevExitLat           4 micro seconds
-
-Device Status:     0x0000
-
-  (Bus Powered)
+Hi Rob,
+
+Thank you for the patch.
+
+On Mon, Dec 21, 2020 at 04:46:59PM -0700, Rob Herring wrote:
+> *-supply properties are always a single phandle, so binding schemas
+> don't need a type $ref nor 'maxItems'.
+> 
+> A meta-schema check for this is pending once these existing cases are
+> fixed.
+> 
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/display/bridge/anx6345.yaml | 2 --
+>  .../devicetree/bindings/display/bridge/ite,it6505.yaml        | 2 --
+>  .../devicetree/bindings/display/bridge/lvds-codec.yaml        | 3 +--
+>  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 2 --
+>  .../devicetree/bindings/display/bridge/simple-bridge.yaml     | 1 -
+>  .../bindings/display/bridge/thine,thc63lvd1024.yaml           | 1 -
+>  .../devicetree/bindings/display/bridge/toshiba,tc358775.yaml  | 2 --
+>  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml   | 4 +---
+>  .../devicetree/bindings/iio/humidity/ti,hdc2010.yaml          | 3 +--
+>  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 3 +--
+>  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml     | 3 +--
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml          | 1 -
+>  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml  | 3 ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml  | 3 ---
+>  Documentation/devicetree/bindings/mfd/st,stmfx.yaml           | 3 +--
+>  .../devicetree/bindings/regulator/anatop-regulator.yaml       | 1 -
+>  17 files changed, 6 insertions(+), 34 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> index 8c0e4f285fbc..fccd63521a8c 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> @@ -26,11 +26,9 @@ properties:
+>      description: GPIO connected to active low reset
+>  
+>    dvdd12-supply:
+> -    maxItems: 1
+>      description: Regulator for 1.2V digital core power.
+>  
+>    dvdd25-supply:
+> -    maxItems: 1
+>      description: Regulator for 2.5V digital core power.
+>  
+>    ports:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> index efbb3d0117dc..02cfc0a3b550 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> @@ -35,11 +35,9 @@ properties:
+>      maxItems: 1
+>  
+>    ovdd-supply:
+> -    maxItems: 1
+>      description: I/O voltage
+>  
+>    pwr18-supply:
+> -    maxItems: 1
+>      description: core voltage
+>  
+>    interrupts:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index e5e3c72630cf..66a14d60ce1d 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -79,8 +79,7 @@ properties:
+>        The GPIO used to control the power down line of this device.
+>      maxItems: 1
+>  
+> -  power-supply:
+> -    maxItems: 1
+> +  power-supply: true
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> index 7e27cfcf770d..763c7909473e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> @@ -35,11 +35,9 @@ properties:
+>      description: GPIO connected to active low reset.
+>  
+>    vdd12-supply:
+> -    maxItems: 1
+>      description: Regulator for 1.2V digital core power.
+>  
+>    vdd33-supply:
+> -    maxItems: 1
+>      description: Regulator for 3.3V digital core power.
+>  
+>    ports:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> index 3ddb35fcf0a2..64e8a1c24b40 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> @@ -60,7 +60,6 @@ properties:
+>      description: GPIO controlling bridge enable
+>  
+>    vdd-supply:
+> -    maxItems: 1
+>      description: Power supply for the bridge
+>  
+>  required:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> index 469ac4a34273..3d5ce08a5792 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> @@ -74,7 +74,6 @@ properties:
+>      description: Power down GPIO signal, pin name "/PDWN", active low.
+>  
+>    vcc-supply:
+> -    maxItems: 1
+>      description:
+>        Power supply for the TTL output, TTL CLOCKOUT signal, LVDS input, PLL and
+>        digital circuitry.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> index fd3113aa9ccd..b5959cc78b8d 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> @@ -28,11 +28,9 @@ properties:
+>      description: i2c address of the bridge, 0x0f
+>  
+>    vdd-supply:
+> -    maxItems: 1
+>      description: 1.2V LVDS Power Supply
+>  
+>    vddio-supply:
+> -    maxItems: 1
+>      description: 1.8V IO Power Supply
+>  
+>    stby-gpios:
+> diff --git a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+> index 6a991e9f78e2..f04084fae5e8 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+> @@ -16,9 +16,7 @@ properties:
+>      enum:
+>        - lltc,ltc2496
+>  
+> -  vref-supply:
+> -    description: phandle to an external regulator providing the reference voltage
+> -    $ref: /schemas/types.yaml#/definitions/phandle
+> +  vref-supply: true
+
+I'd keep part of the description as it's not just the device's main
+power supply (at least if we can trust the current description).
+
+  vref-supply:
+    description: Power supply for the reference voltage
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>    reg:
+>      description: spi chipselect number according to the usual spi bindings
+> diff --git a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
+> index 7037f82ec753..88384b69f917 100644
+> --- a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
+> +++ b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
+> @@ -22,8 +22,7 @@ properties:
+>        - ti,hdc2010
+>        - ti,hdc2080
+>  
+> -  vdd-supply:
+> -    maxItems: 1
+> +  vdd-supply: true
+>  
+>    reg:
+>      maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> index 378a85c09d34..878464f128dc 100644
+> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> @@ -31,8 +31,7 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> -  vdd-supply:
+> -    maxItems: 1
+> +  vdd-supply: true
+>  
+>    linux,keycodes:
+>      minItems: 1
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> index 4ce109476a0e..bfc3a8b5e118 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> @@ -55,8 +55,7 @@ properties:
+>  
+>    wakeup-source: true
+>  
+> -  vcc-supply:
+> -    maxItems: 1
+> +  vcc-supply: true
+>  
+>    gain:
+>      description: Allows setting the sensitivity in the range from 0 to 31.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index 9ea827092fdd..68ee8c7d9e79 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -40,7 +40,6 @@ properties:
+>  
+>    poc-supply:
+>      description: Regulator providing Power over Coax to the cameras
+> -    maxItems: 1
+>  
+>    enable-gpios:
+>      description: GPIO connected to the \#PWDN pin with inverted polarity
+> diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> index 0df0334d2d0d..bb3528315f20 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> @@ -39,15 +39,12 @@ properties:
+>  
+>    vana-supply:
+>      description: Analogue voltage supply (VANA), sensor dependent.
+> -    maxItems: 1
+>  
+>    vcore-supply:
+>      description: Core voltage supply (VCore), sensor dependent.
+> -    maxItems: 1
+>  
+>    vio-supply:
+>      description: I/O voltage supply (VIO), sensor dependent.
+> -    maxItems: 1
+>  
+>    clocks:
+>      description: External clock to the sensor.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> index 1a3590dd0e98..eb12526a462f 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> @@ -37,15 +37,12 @@ properties:
+>  
+>    vdddo-supply:
+>      description: Chip digital IO regulator (1.8V).
+> -    maxItems: 1
+>  
+>    vdda-supply:
+>      description: Chip analog regulator (2.7V).
+> -    maxItems: 1
+>  
+>    vddd-supply:
+>      description: Chip digital core regulator (1.12V).
+> -    maxItems: 1
+>  
+>    flash-leds:
+>      description: See ../video-interfaces.txt
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> index f697e1a20beb..a66acb20d59b 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> @@ -33,15 +33,12 @@ properties:
+>  
+>    vana-supply:
+>      description: Sensor 2.8 V analog supply.
+> -    maxItems: 1
+>  
+>    vdig-supply:
+>      description: Sensor 1.8 V digital core supply.
+> -    maxItems: 1
+>  
+>    vddl-supply:
+>      description: Sensor digital IO 1.2 V supply.
+> -    maxItems: 1
+>  
+>    port:
+>      type: object
+> diff --git a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
+> index 888ab4b5df45..19e9afb385ac 100644
+> --- a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
+> @@ -26,8 +26,7 @@ properties:
+>  
+>    drive-open-drain: true
+>  
+> -  vdd-supply:
+> -    maxItems: 1
+> +  vdd-supply: true
+>  
+>    pinctrl:
+>      type: object
+> diff --git a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
+> index e7b3abe30363..0a66338c7e5a 100644
+> --- a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
+> @@ -59,7 +59,6 @@ properties:
+>      description: u32 value representing regulator enable bit offset.
+>  
+>    vin-supply:
+> -    $ref: '/schemas/types.yaml#/definitions/phandle'
+>      description: input supply phandle.
+>  
+>  required:
+
+-- 
+Regards,
+
+Laurent Pinchart
