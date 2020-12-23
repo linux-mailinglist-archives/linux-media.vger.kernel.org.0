@@ -2,99 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AA312E1365
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:37:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 318582E164C
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 04:00:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729142AbgLWC3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 21:29:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55146 "EHLO mail.kernel.org"
+        id S1731440AbgLWC7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 21:59:53 -0500
+Received: from aquckbulck.top ([117.50.12.210]:25647 "EHLO aquckbulck.top"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730626AbgLWCZx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:25:53 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 39C8822D73;
-        Wed, 23 Dec 2020 02:25:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690337;
-        bh=THXEJ2+KwvgBooBQ7/cKKxZhDPTzR9NF/UkHJgtdvjg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cYajFohQmCYCLVpMLnPmbbICyMlvpUB8/ryu36gLsW2LseB3sw0KOYUdA42Zajp8P
-         qiEAFw6CNEPbLcpX1hflrTgR8YOTy/GeLF2/qaP0g4Ysxb22na8XeNG3fQ5SBxsqZM
-         g1KN9vxRD+3fqE148AXYLiMh2jjRvygjnlr7GpXNO28zPbfSoe5gNroQ/xHRxLN7+z
-         az7jB336CwHNo1q5W5dCsKIwT7mefFh5vDCF5zbQ3vh8eCNIVxXrKB97uDN1d3qvrd
-         k64cx7OUbbI3mPlX6qBnAPDir+l1wiK2Le4GYCFoHVKljcvA3G8EhvNjQigONz7T3z
-         SiRPWEywU9cFw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 16/38] media: isif: reset global state
-Date:   Tue, 22 Dec 2020 21:24:54 -0500
-Message-Id: <20201223022516.2794471-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022516.2794471-1-sashal@kernel.org>
-References: <20201223022516.2794471-1-sashal@kernel.org>
+        id S1728863AbgLWC7p (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:59:45 -0500
+X-Greylist: delayed 646 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Dec 2020 21:59:43 EST
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=default; d=aquckbulck.top;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=sales@aquckbulck.top;
+ bh=MDtVvOBFMmp+704YsIBqQ6FpA/M=;
+ b=hdV6MV2Rb6A7HD9NM47VyxnPFG3tL6Uz2t5HOitcuce1Bgw6jNAwmxIvPzQsVK5qtdfX0MkyCGNa
+   EMOuk+lzhl/+xXnVwlb0E931JavDlSlIxtUCnQ8CGmqZhZtmNxkOwuP8IECGyzRz8jcPRNVzssn3
+   xbk00ZbDwb2ktg2HCDc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=default; d=aquckbulck.top;
+ b=T1MBT1bDC7QzzRkP24AsWshOpzLjQWdM9BT/L0lW5kyp/HmQjViIa6Af+X1JPcCgArXZwH3Npd55
+   jczt8RAbkhzzti9NfYG0V+bCp3J/Mrso40P/SocWkhkqf4B2hkXITrTHtV+ZJhyKcX63+/VNSjBX
+   EK79Nf64WHk/Q6Ddbl8=;
+Reply-To: andrewgraham267@gmail.com
+From:   TWP PROGRAM 2021 <sales@aquckbulck.top>
+To:     linux-media@vger.kernel.org
+Subject: =?UTF-8?B?TWFucG93ZXIgUmVjcnVpdG1lbnQgRm9yIENhbmFkYeKEog==?=
+Date:   23 Dec 2020 03:48:07 +0100
+Message-ID: <20201223034807.9F2E75D5519856EF@aquckbulck.top>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Evgeny Novikov <novikov@ispras.ru>
+Dear Sir/Madam,
 
-[ Upstream commit 6651dba2bd838f34cf5a1e84229aaa579b1a94fe ]
+We are authorized to recruit 120 unskilled workers to work in=20
+Canada on a two years contract. Please kindly let us know if you=20
+can supply the same workers as my client's requirements for the=20
+following positions. Fish Packers, Cleaners, Laborers, Fruit=20
+packers, Supervisors, supermarket manager, salesman/woman,=20
+Storekeeper, Ground Maintenance, Gardener, Truck Drivers.
+Age from 20 to 55 years old is eligible to work, Primary=20
+Location: Montreal Quebec Canada.
 
-isif_probe() invokes iounmap() on error handling paths, but it does not
-reset the global state. So, later it can invoke iounmap() even when
-ioremap() fails. This is the case also for isif_remove(). The patch
-resets the global state after invoking iounmap() to avoid this.
+NOTE: No qualification is needed.
 
-Found by Linux Driver Verification project (linuxtesting.org).
+TERMS AND CONDITIONS:
 
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/davinci/isif.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+1. Accommodation =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Provided.
+2. Ticket =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Pr=
+ovided.
+3. Medical =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Provid=
+ed.
+4. Transportation =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- Provided.
+5. Working hours =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - 8a.m-4p.m [Mon-Sat]
+6. Vacation =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- 28.5 d=
+ays every year
+7. Salary =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- C=
+a$20 per hourly
+8. Contract =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- 2 year=
+s. Renewable
+9. Extra time =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- Ca$22per ho=
+urly
+10. Insurance & Pension =C2=A0 =C2=A0 - According to Quebec Labor laws.
+11. Requirement =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 120 worker=
+s
+12. job description =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Laborers
+13. Skilled required =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Physically fit
+Other Benefits =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Famil=
+y Status, group benefit, and=20
+other fringe benefits.
 
-diff --git a/drivers/media/platform/davinci/isif.c b/drivers/media/platform/davinci/isif.c
-index b51b875c5a612..3507aa867ba12 100644
---- a/drivers/media/platform/davinci/isif.c
-+++ b/drivers/media/platform/davinci/isif.c
-@@ -1090,10 +1090,14 @@ static int isif_probe(struct platform_device *pdev)
- 	release_mem_region(res->start, resource_size(res));
- 	i--;
- fail_nobase_res:
--	if (isif_cfg.base_addr)
-+	if (isif_cfg.base_addr) {
- 		iounmap(isif_cfg.base_addr);
--	if (isif_cfg.linear_tbl0_addr)
-+		isif_cfg.base_addr = NULL;
-+	}
-+	if (isif_cfg.linear_tbl0_addr) {
- 		iounmap(isif_cfg.linear_tbl0_addr);
-+		isif_cfg.linear_tbl0_addr = NULL;
-+	}
- 
- 	while (i >= 0) {
- 		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-@@ -1111,8 +1115,11 @@ static int isif_remove(struct platform_device *pdev)
- 	int i = 0;
- 
- 	iounmap(isif_cfg.base_addr);
-+	isif_cfg.base_addr = NULL;
- 	iounmap(isif_cfg.linear_tbl0_addr);
-+	isif_cfg.linear_tbl0_addr = NULL;
- 	iounmap(isif_cfg.linear_tbl1_addr);
-+	isif_cfg.linear_tbl1_addr = NULL;
- 	while (i < 3) {
- 		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
- 		if (res)
--- 
-2.27.0
 
+If you need more information regards to this recruitment please=20
+feel free to contact us at your most convenient time. Your Quick=20
+and Favorable Response would be highly appreciated.
+
+Best Regards
+
+
+Mr. Andrew Graham
+7450 Rue des Loutres
+Quebec City,
+Canada
+Phone: +1-581-533-6655
+Whats-app: +1-581-533-6655
+E-mail | andrewgraham267@gmail.com=20
