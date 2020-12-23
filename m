@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F4AF2E2191
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 21:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4A922E219B
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 21:41:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728854AbgLWUiG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Dec 2020 15:38:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34862 "EHLO
+        id S1729163AbgLWUic (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Dec 2020 15:38:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbgLWUiF (ORCPT
+        with ESMTP id S1727147AbgLWUib (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Dec 2020 15:38:05 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14200C061794;
-        Wed, 23 Dec 2020 12:37:25 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id 23so245997lfg.10;
-        Wed, 23 Dec 2020 12:37:24 -0800 (PST)
+        Wed, 23 Dec 2020 15:38:31 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A011BC06179C;
+        Wed, 23 Dec 2020 12:37:50 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id h205so308521lfd.5;
+        Wed, 23 Dec 2020 12:37:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wCsb7WW/M2bzd7/pDZtZYPCJvx1YT3sUxGJbbavSmFg=;
-        b=ZvZCwqyFAc/Ql/wxh66l/3Pl+CYJdEHVkuisgepgy43WMHQBLq7lqEbSWNFjyq1ZV7
-         /Q8eZ//xtNKvGYwTVFKhvCqR6IX4wUEOjUuLVxma61Kdhn6mm7nF89yQA1nn43DX/U/x
-         wbXLmPyX4MgPZeHb5ZJ7iOTMePG7hqFxLKBIKHiuOfdyP7qQ3p1EqWbGETRRjCRn0AaJ
-         qWkN1PAfvH67YturxexyosOWCqX3ti4sO/mvJRpXPRBV1xoRkXoL/5f6CADo5wxPBb6/
-         gqxFM+QiZr7IeIQBHgXM66Oq+WzF9SNBaYYUtdUGbU+Ga1VkUuk5Qfwq4SfZ5OQ40AT8
-         Ep3Q==
+        bh=3ureyQ26WVdvpPiApVvGnYNle5Fa1VHsYVcg9Aec3Z4=;
+        b=JB7ZNM87FEjcnjJQONVUuTF17BvJ9V9ZS3hebD+x6uzZg2DGPHE7Lj1X+o+J9ISuus
+         85ihjaar8Lr4oCD3QODU4FGkYnl2eCgmVKKIopMmCAmQ/KoYdSiq45M2PLliJt5mggct
+         kbQvz4I/RnBpUtpDfvzstCJx9yCv5A+xF1dc3waB/YCRipctvTjPnf7xPX8lKAn0lIyg
+         /ebkOqGUMAUeBqGUgJZBD1K+4lyYODAmeakH/EFLCs6V/OvqtWh98BegqF1PG/j41Vcv
+         CBmasECEhUJ0viZjm5sowMCRQ1vgelVHsqCnS+LtFcP0F8Jn0Z7f5agO/J+nwc1xMDWE
+         EGHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=wCsb7WW/M2bzd7/pDZtZYPCJvx1YT3sUxGJbbavSmFg=;
-        b=KbrI4dVGRgmTcSdVpVL/4/gJBaBodijZhP24kGZuC3y9oetYI6xwz1K3J0nmDjAp7G
-         EMExuZdYy0MCk4+v6lFkJkbcLy2NxyqoVyV6UG+rsLSdhzErRzNmYAhJuygC8O/VPFNn
-         0zYFViJfOkZ7gFqYw9RGfvqFwXBsIAOhLnrgYZqDDp3VV30gFzddRZSRWBKXKQv3Jm26
-         hYdogSKT8l7V5G+b9koHq/WboIy4PIuvq5i7srHQVa52PtEPO6FzqQfIp6Hh1L6t+6Mx
-         XD+4tFJUn8lIuYISu/SvzqXhoVSK7SqLT6yRPimaH0RNdWCj9NC4u7yWKdkHRZCqji0U
-         wPxg==
-X-Gm-Message-State: AOAM533rUkNeQifKIY+81gpzlQKD1CnJKtE2OKwvHqkcpyegC1c8KDHT
-        369J0PKsbZKFjm9OV7CrExIZybGT95U=
-X-Google-Smtp-Source: ABdhPJxGiooPS8lo4Avau8/JweSYhcD8EGyLO2HFPmvlGDoqO2i9U3oI4uzk966QuJ/9xSInUThU1g==
-X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr10919526lfq.232.1608755843340;
-        Wed, 23 Dec 2020 12:37:23 -0800 (PST)
+        bh=3ureyQ26WVdvpPiApVvGnYNle5Fa1VHsYVcg9Aec3Z4=;
+        b=YvyV4MLqen4yPJvttMSNZ4CIILgbGNPwi0aiQutrAYh/CKp6sbmbtfMhFFi5MhF8iH
+         0FQkeX1y50vFgObCDUO5a/5oVhr+n3fHP/Hl+qxp09rvlrKc2H1b2GJ+8c8mKjb62w+S
+         b5tJaE3HKv+pzmCsNvlWG3sPmT9vaBJK82Qtx8w8GBjW32wwODy3m7cFdWEe03lVa4un
+         J4W20f/3A2FlXkzALH8r9Q0vtyRVVB4F0Sh1OgeJegvUdrZZ85FKyBVtfXcgJnpW+rQp
+         c+2DCnjt99Ow2TTIn0Vn0KWemE9oOILlv2gHk2R+Cvk+mub45fRDdrvCdA3dGW+zrRiO
+         X9uw==
+X-Gm-Message-State: AOAM532nEetbGsagc0aUs1zi9nZuWbfrCx0NoDmnvKUyzZcaSjMRqnsw
+        nmI6l83OXEz1dwW9C7cywZeC0NYKvCY=
+X-Google-Smtp-Source: ABdhPJxs2A1nOlz1juXuG3l0yvblA/Eo3IZZbB6Wrfw9MxG4tEEGohUi/FH/Bgb4gz3Fw9m3GGijnw==
+X-Received: by 2002:a2e:9f01:: with SMTP id u1mr12029965ljk.386.1608755869072;
+        Wed, 23 Dec 2020 12:37:49 -0800 (PST)
 Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id u8sm3649057ljj.1.2020.12.23.12.37.22
+        by smtp.googlemail.com with ESMTPSA id z14sm3349336lfd.283.2020.12.23.12.37.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Dec 2020 12:37:22 -0800 (PST)
-Subject: Re: [PATCH v2 28/48] soc/tegra: Introduce core power domain driver
+        Wed, 23 Dec 2020 12:37:48 -0800 (PST)
+Subject: Re: [PATCH v2 11/48] opp: Add dev_pm_opp_find_level_ceil()
 To:     Viresh Kumar <viresh.kumar@linaro.org>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -72,18 +72,17 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-29-digetx@gmail.com>
- <20201222064029.duuzcsj53rt7xzvt@vireshk-i7>
- <c130f78d-3d97-9b26-be77-951fee0d8680@gmail.com>
- <3a5c00e5-2cdd-35ce-2714-d4ffbf9d516a@gmail.com>
- <20201223055715.2n5eba7fohrwpgr5@vireshk-i7>
+ <20201217180638.22748-12-digetx@gmail.com>
+ <20201222064253.x7vsurh7q5k7qzb5@vireshk-i7>
+ <fd7b9f42-d0a7-45eb-2a17-d46779011c58@gmail.com>
+ <20201223041931.klnppy4fu3sdgtsz@vireshk-i7>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <239642ad-d7e9-364e-80d3-1da67625e247@gmail.com>
-Date:   Wed, 23 Dec 2020 23:37:21 +0300
+Message-ID: <f00e0c74-8d9a-d3d3-81bb-3ac25a74175d@gmail.com>
+Date:   Wed, 23 Dec 2020 23:37:47 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.2
 MIME-Version: 1.0
-In-Reply-To: <20201223055715.2n5eba7fohrwpgr5@vireshk-i7>
+In-Reply-To: <20201223041931.klnppy4fu3sdgtsz@vireshk-i7>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -91,74 +90,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-23.12.2020 08:57, Viresh Kumar пишет:
-> On 22-12-20, 22:39, Dmitry Osipenko wrote:
->> 22.12.2020 22:21, Dmitry Osipenko пишет:
->>>>> +	if (IS_ERR(opp)) {
->>>>> +		dev_err(&genpd->dev, "failed to find OPP for level %u: %pe\n",
->>>>> +			level, opp);
->>>>> +		return PTR_ERR(opp);
->>>>> +	}
->>>>> +
->>>>> +	err = dev_pm_opp_set_voltage(&genpd->dev, opp);
->>>> IIUC, you implemented this callback because you want to use the voltage triplet
->>>> present in the OPP table ?
+23.12.2020 07:19, Viresh Kumar пишет:
+> On 22-12-20, 22:15, Dmitry Osipenko wrote:
+>> 22.12.2020 09:42, Viresh Kumar пишет:
+>>> On 17-12-20, 21:06, Dmitry Osipenko wrote:
+>>>> Add a ceil version of the dev_pm_opp_find_level(). It's handy to have if
+>>>> levels don't start from 0 in OPP table and zero usually means a minimal
+>>>> level.
 >>>>
->>>> And so you are setting the regulator ("power") later in this patch ?
->>> yes
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 >>>
->>>> I am not in favor of implementing this routine, as it just adds a wrapper above
->>>> the regulator API. What you should be doing rather is get the regulator by
->>>> yourself here (instead of depending on the OPP core). And then you can do
->>>> dev_pm_opp_get_voltage() here and set the voltage yourself. You may want to
->>>> implement a version supporting triplet here though for the same.
->>>>
->>>> And you won't require the sync version of the API as well then.
->>>>
->>> That's what I initially did for this driver. I don't mind to revert back
->>> to the initial variant in v3, it appeared to me that it will be nicer
->>> and cleaner to have OPP API managing everything here.
+>>> Why doesn't the exact version work for you here ?
+>>>
 >>
->> I forgot one important detail (why the initial variant wasn't good)..
->> OPP entries that have unsupportable voltages should be filtered out and
->> OPP core performs the filtering only if regulator is assigned to the OPP
->> table.
->>
->> If regulator is assigned to the OPP table, then we need to use OPP API
->> for driving the regulator, hence that's why I added
->> dev_pm_opp_sync_regulators() and dev_pm_opp_set_voltage().
->>
->> Perhaps it should be possible to add dev_pm_opp_get_regulator() that
+>> The exact version won't find OPP for level=0 if levels don't start with
+>> 0, where 0 means that minimal level is desired.
 > 
-> What's wrong with getting the regulator in the driver as well ? Apart from the
-> OPP core ?
-
-The voltage syncing should be done for each consumer regulator
-individually [1].
-
-Secondly, regulator core doesn't work well today if the same regulator
-is requested more than one time for the same device.
-
->> will return the OPP table regulator in order to allow driver to use the
->> regulator directly. But I'm not sure whether this is a much better
->> option than the opp_sync_regulators() and opp_set_voltage() APIs.
-> 
-> set_voltage() is still fine as there is some data that the OPP core has, but
-> sync_regulator() has nothing to do with OPP core.
-> 
-> And this may lead to more wrapper helpers in the OPP core, which I am afraid of.
-> And so even if it is not the best, I would like the OPP core to provide the data
-> and not get into this. Ofcourse there is an exception to this, opp_set_rate.
+> Right, but why do you need to send 0 for your platform ?
 > 
 
-The regulator_sync_voltage() should be invoked only if voltage was
-changed previously [1].
+To put power domain into the lowest performance state when device is idling.
 
-The OPP core already has the info about whether voltage was changed and
-it provides the necessary locking for both set_voltage() and
-sync_regulator(). Perhaps I'll need to duplicate that functionality in
-the PD driver, instead of making it all generic and re-usable by other
-drivers.
+https://elixir.bootlin.com/linux/v5.10-rc2/source/drivers/opp/core.c#L897
 
-[1]
-https://elixir.bootlin.com/linux/v5.10.2/source/drivers/regulator/core.c#L4107
+https://elixir.bootlin.com/linux/v5.10-rc2/source/drivers/opp/core.c#L785
+
+Also please see patch 32, tegra_clock_runtime_suspend().
