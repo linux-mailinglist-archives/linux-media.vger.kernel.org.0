@@ -2,40 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 892872E142F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53AC82E14C5
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:48:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729706AbgLWCWc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 21:22:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51318 "EHLO mail.kernel.org"
+        id S1729990AbgLWCnb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 21:43:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52452 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728175AbgLWCWb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:22:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 00A3D22285;
-        Wed, 23 Dec 2020 02:22:14 +0000 (UTC)
+        id S1729873AbgLWCXE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:23:04 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F14F22248;
+        Wed, 23 Dec 2020 02:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690135;
-        bh=P5unjbZXH+XbGIoXl0W3FbS6BfbWKr7hscTz0MlxwNI=;
+        s=k20201202; t=1608690143;
+        bh=qF9l755odwp307/T/N4iq49b/ec7+MuRGg7fKtWJgkU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qjXHVEvRxvJ3HdkAR9r7/MyGhI6sSgPLZ+BhG7vJHzH1tBt1DXF82wAwTn1bbOpzZ
-         Tap7lUg1dS4u2sx7clyK5HNskgqvG61SS+x/aNogFtM/r9RsEjaOVb1Vh5FxJNNj2w
-         otgVeIRZCrcNooiSHxAnB8AUyfR7AS0F7qPGp3Y3FXbzyWotMyx/slAgh6TD8jr+Xj
-         YA9wanySzZiAtmorP9ATdspAChu+2Nlnv232IBwXwBzzSKJbXh+4ZPewusG8BO1jJm
-         xJVy2sczq6RgS+XNwgNIg3zTwuW8bVw9pAWGW1J5cXaTZOF0Xfth44oerRw/awmYUf
-         GOYKT1szTdKUQ==
+        b=GG3fI/0uKfXHDg7UO1rqpzI3WHly6c8nyu0srm88rM2uu4/lBxP5v3dOonIWMRRYu
+         EwZwLtMN0j4LXXR2F6Npfi3uRvq3RPWkWSPK3SgRUiWqrxG68CDPwAjxog9aaJ7nNP
+         ZR0lQaxXHOU55mj41ukWT9GbtDA0lJ4e0WRmddIocmeOZyjDh5KvUsmYY0+zOF+sZV
+         l2Pr+x+3vpYtouj7KsCnwCAy5AXcZZnTh7JheUX49J6f06RtlXUnku+u3aA3iBuT47
+         CUmJtQvLygv4+OlJGseV+KazpZdpU+ZJKKFMMcLAoP7Ct5hFOF6n0JBhVNx4KKj/Xr
+         9BxTLNRoQ1WNA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Daniel Lee Kruse <daniel.lee.kruse@protonmail.com>,
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 58/87] media: cx23885: add more quirks for reset DMA on some AMD IOMMU
-Date:   Tue, 22 Dec 2020 21:20:34 -0500
-Message-Id: <20201223022103.2792705-58-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 64/87] media: rcar-vin: Mask VNCSI_IFMD register
+Date:   Tue, 22 Dec 2020 21:20:40 -0500
+Message-Id: <20201223022103.2792705-64-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223022103.2792705-1-sashal@kernel.org>
 References: <20201223022103.2792705-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -43,44 +47,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Daniel Lee Kruse <daniel.lee.kruse@protonmail.com>
+From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-[ Upstream commit dbf0b3a7b719eb3f72cb53c2ce7d34a012a9c261 ]
+[ Upstream commit fb25ca37317200fa97ea6b8952e07958f06da7a6 ]
 
-On AMD Family 15h (Models 30h-3fh), I/O Memory Management Unit
-RiSC engine sometimes stalls, requiring a reset.
+The VNCSI_IFMD register controls the data expansion mode and the
+channel routing between the CSI-2 receivers and VIN instances.
 
-As result, MythTV and w-scan won't scan channels on the AMD Kaveri
-APU with the Hauppauge QuadHD TV tuner card.
+According to the chip manual revision 2.20 not all fields are available
+for all the SoCs:
+- V3M, V3H and E3 do not support the DES1 field has they do not feature
+  a CSI20 receiver.
+- D3 only supports parallel input, and the whole register shall always
+  be written as 0.
 
-For the solution I added the Input/Output Memory Management Unit's PCI
-Identity of 0x1423 to the broken_dev_id[] array, which is used by
-a quirks logic meant to fix similar problems with other AMD
-chipsets.
+Inspect the per-SoC channel routing table where the available CSI-2
+instances are reported and configure VNCSI_IFMD accordingly.
 
-Signed-off-by: Daniel Lee Kruse <daniel.lee.kruse@protonmail.com>
+This patch supports this BSP change commit:
+
+https://github.com/renesas-rcar/linux-bsp/commit/f54697394457
+("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990")
+
+[hverkuil: replace BSP commit ID with BSP URL]
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Suggested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/cx23885/cx23885-core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/platform/rcar-vin/rcar-dma.c | 25 +++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
-index fd5c52b21436b..a1d738969d7b1 100644
---- a/drivers/media/pci/cx23885/cx23885-core.c
-+++ b/drivers/media/pci/cx23885/cx23885-core.c
-@@ -2084,6 +2084,10 @@ static struct {
- 	 * 0x1451 is PCI ID for the IOMMU found on Ryzen
- 	 */
- 	{ PCI_VENDOR_ID_AMD, 0x1451 },
-+	/* According to sudo lspci -nn,
-+	 * 0x1423 is the PCI ID for the IOMMU found on Kaveri
-+	 */
-+	{ PCI_VENDOR_ID_AMD, 0x1423 },
- };
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+index 70a8cc433a03f..4fee9132472bb 100644
+--- a/drivers/media/platform/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+@@ -1319,7 +1319,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+  */
+ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+ {
+-	u32 ifmd, vnmc;
++	const struct rvin_group_route *route;
++	u32 ifmd = 0;
++	u32 vnmc;
+ 	int ret;
  
- static bool cx23885_does_need_dma_reset(void)
+ 	ret = pm_runtime_get_sync(vin->dev);
+@@ -1332,9 +1334,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+ 	vnmc = rvin_read(vin, VNMC_REG);
+ 	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
+ 
+-	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 | VNCSI_IFMD_CSI_CHSEL(chsel);
++	/*
++	 * Set data expansion mode to "pad with 0s" by inspecting the routes
++	 * table to find out which bit fields are available in the IFMD
++	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
++	 * IFMD_DES0 controls data expansion mode for CSI40/41.
++	 */
++	for (route = vin->info->routes; route->mask; route++) {
++		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
++			ifmd |= VNCSI_IFMD_DES1;
++		else
++			ifmd |= VNCSI_IFMD_DES0;
+ 
+-	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
++		if (ifmd == (VNCSI_IFMD_DES0 | VNCSI_IFMD_DES1))
++			break;
++	}
++
++	if (ifmd) {
++		ifmd |= VNCSI_IFMD_CSI_CHSEL(chsel);
++		rvin_write(vin, ifmd, VNCSI_IFMD_REG);
++	}
+ 
+ 	vin_dbg(vin, "Set IFMD 0x%x\n", ifmd);
+ 
 -- 
 2.27.0
 
