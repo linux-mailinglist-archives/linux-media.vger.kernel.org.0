@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 944EF2E12CD
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22FF92E12E4
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:28:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730325AbgLWCYy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 21:24:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52102 "EHLO mail.kernel.org"
+        id S1730634AbgLWCZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 21:25:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54254 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729457AbgLWCYv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:24:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BE682335A;
-        Wed, 23 Dec 2020 02:24:35 +0000 (UTC)
+        id S1730624AbgLWCZw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:25:52 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E6AEF229C5;
+        Wed, 23 Dec 2020 02:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690276;
-        bh=01HYVePWaFKWr+IE/zlIZLkH1vhtbHw42vDuIZVibKI=;
+        s=k20201202; t=1608690335;
+        bh=qOD3J0qah8tfhOMeHNnIkftANTBwEaXCTYbcvwhJPZc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DLcGr6/oa4eWkZr2dBU1uVV6YBVeeUY/IQ2D9mGxvf3HC2LSebKJ73yx8+Xvnk2T4
-         C+OxNO7ua3PWRAsg0jcIIilCCQtV37XKpcuR7PiEpPHIdqavRhAP8Act+m2t44LyBj
-         Oi4dIPbUCCPjJLpTiuWjlOchS/KW4DOYlt5Rycrs7Z7VxhDPPauK9ou70MEdhmXQeW
-         Q/OqG1Hk0b+LZeFV/pl9v3h91sSGbJy73VC0bHNOZ08D2D1+vJV9DcapoCD0croAa3
-         9Y8wFM9xAmg9d+su5iQSHB8eQByppVS9/8l3Gp0UlRtmb3mc1JFcfO7u+5sWG2F2w6
-         yJeV4iCnSVNNQ==
+        b=Bou3VYruHW3szheA9nFLvWs8vmBVo4TebgrJErBE6Pw0/+1URcjXzE+nOsL7BOWji
+         MfTrqi3GPlECjwO8Wtjqdcb3czeI8s8+NY2RfUWLwrlQmeszf7z6KqTVIzdI7ADAU0
+         DlM2ABiel9EGKJxafpVPQZYePFnxzsmQpxq+Ymaaf6eGcBQnyz24pQoIJZ9iRVdtj/
+         2JMtudzsfuaUl/scMOCtkk89h4tdAKDlxAKUKo56TuhJH0AL0RTY8jLC9WVAIl1+th
+         j/Z28x1wKFcSrz1xyQNUSDEFUHfJwM/k/nHciipMhdNpAOxZJbRGoTKI3XAA5w1lVQ
+         K66Sh/1rbhWZA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Evgeny Novikov <novikov@ispras.ru>,
@@ -30,12 +30,12 @@ Cc:     Evgeny Novikov <novikov@ispras.ru>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 16/48] media: zr364xx: propagate errors from zr364xx_start_readpipe()
-Date:   Tue, 22 Dec 2020 21:23:44 -0500
-Message-Id: <20201223022417.2794032-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 15/38] media: zr364xx: propagate errors from zr364xx_start_readpipe()
+Date:   Tue, 22 Dec 2020 21:24:53 -0500
+Message-Id: <20201223022516.2794471-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022417.2794032-1-sashal@kernel.org>
-References: <20201223022417.2794032-1-sashal@kernel.org>
+In-Reply-To: <20201223022516.2794471-1-sashal@kernel.org>
+References: <20201223022516.2794471-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,10 +63,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 24 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-index c5513f55e64e0..8c8c4c9858507 100644
+index 2d56cccaa4747..505e08ddde2bb 100644
 --- a/drivers/media/usb/zr364xx/zr364xx.c
 +++ b/drivers/media/usb/zr364xx/zr364xx.c
-@@ -1357,6 +1357,7 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
+@@ -1359,6 +1359,7 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
  {
  	struct zr364xx_pipeinfo *pipe = cam->pipe;
  	unsigned long i;
@@ -74,7 +74,7 @@ index c5513f55e64e0..8c8c4c9858507 100644
  
  	DBG("board init: %p\n", cam);
  	memset(pipe, 0, sizeof(*pipe));
-@@ -1390,9 +1391,8 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
+@@ -1392,9 +1393,8 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
  
  	if (i == 0) {
  		printk(KERN_INFO KBUILD_MODNAME ": out of memory. Aborting\n");
@@ -86,7 +86,7 @@ index c5513f55e64e0..8c8c4c9858507 100644
  	} else
  		cam->buffer.dwFrames = i;
  
-@@ -1407,9 +1407,17 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
+@@ -1409,9 +1409,17 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
  	/*** end create system buffers ***/
  
  	/* start read pipe */
@@ -105,7 +105,7 @@ index c5513f55e64e0..8c8c4c9858507 100644
  }
  
  static int zr364xx_probe(struct usb_interface *intf,
-@@ -1608,10 +1616,19 @@ static int zr364xx_resume(struct usb_interface *intf)
+@@ -1610,10 +1618,19 @@ static int zr364xx_resume(struct usb_interface *intf)
  	if (!cam->was_streaming)
  		return 0;
  
