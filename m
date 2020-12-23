@@ -2,178 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D2722E181F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 05:30:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B76A82E1827
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 05:36:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727209AbgLWEaj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 23:30:39 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35695 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725300AbgLWEaj (ORCPT
+        id S1727287AbgLWEf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 23:35:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727261AbgLWEfz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 23:30:39 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id rvmakKXM2flvjrvmbkeXuZ; Wed, 23 Dec 2020 05:29:53 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1608697793; bh=YV9ti/j0cL16t9QbzxBIoNfa7cn3S9bkgzzjOj6GVX0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=HMrh9P0iioXf7c0kNsMCprVLQy5LJWGU64EKV3C9MbD5OcUAwuKFmRLR39SmacMme
-         DqdTztEpOlnUObp1Pj3t2PF/VT0iZ/B5jYrivYplKqH5xQXd2J7MY3MPP3hUdCNPYT
-         IeA+voeQ1lV/V1xm9buZynmIrol59O9Hdd9+wGZVTmraCMGvIdlhWU5dVOtPV5awgG
-         wc22wLlL/5SIdtDB1WEoWTQlkeRQNF1deFmi/Bwtv8vShTJhpJYoCGSUXWDxjel2yu
-         xV4q1fRbIQsRTvC+QU4pDm6FkFMpXayellGLf7pC1WIlymYq3ffHoduoHiqdlK4rMb
-         UWjttK/VapokQ==
-Message-ID: <d2a9c7c2c664148accdbde0e3e467efa@smtp-cloud9.xs4all.net>
-Date:   Wed, 23 Dec 2020 05:29:52 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfEUyJOEBhjpHmof4TdvpDhRpFK8YlZ67iaqMENj/j2STjXHf0FVes7DEzOHp9dTK43VmEfp6ZVWh936ppGQqvm9QcCxVyQ0BCBuRh64C2swZ8BubDKLW
- LkTx02c/ViR/8O4Lvwl7YPPAIdnVgMfDhd893y6SbovItHlbT3x1QJNYaIShyVJL9RKSTMhNwRrpuN7x99wxDV2g1Njdw5UMbWLhuKnR04Jxt9stQ3pnTjgY
- A40YhI2nVZOpePCyWumw6Q==
+        Tue, 22 Dec 2020 23:35:55 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43E47C0611C5
+        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 20:34:50 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id s21so9644975pfu.13
+        for <linux-media@vger.kernel.org>; Tue, 22 Dec 2020 20:34:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=n/wQ/8FF3ZQQmDW8wRJInIGGffY6h+3NeQmSLgJVsG0=;
+        b=OFVqi0FZly+cr6h2L4MgV3W+0bqGCFrv37DumbpBBHHWKR10mlk8j96RhehvYC0ZKZ
+         A7gveeGO4wUPNnptPGhKrlG+oY9ETV8EggwWNNJcSxmSKnIhp4D6iv6jEddwltALPRsH
+         XoYuBifhBdhegWVRfh980lFbJW3ZCSqNzWxi8omP37WhPmGjiRZ+cWui/1OKijohx3Ni
+         VZ3o0KDN4OIc1fPJ6UYDAexLzU558i9zpREZpptiCrCuZwWp74C+otCB7ziEAp6JpBCe
+         /0WINPCLg0o7wHc+WB03uTQnpOkKqeEM2Jo/o42Mju6zYgkhMy6UlsZnrI4SeRLP+Rxr
+         M+6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=n/wQ/8FF3ZQQmDW8wRJInIGGffY6h+3NeQmSLgJVsG0=;
+        b=Bu15DUmZ51oXqTl6xG4kGxOz6hb2pKofKQANJbL0YWxI+3Y6nkJV9VHOo8tcenzo4H
+         x1nRlJHqCg6qVs4xCHDIOua3IiiPgGYhhCA01QH3ONUTqiNabrZwvr+CgDOG09jOvZNd
+         rwhBe2HRdSMtB93SklVRHShNB3mhGDL194TQszYfhyDF+WUzCTSIfs5bEkxS3g0VfzaB
+         I8HU2XiFJb26dqxOZkbMLNWFSnhOt98bV8uPMqsOuh8ZUjJlO6N5JLTxJyEJ+k0B/KVZ
+         I/auYCzvHZulChzSoGk5IvX2aXbr8mAT+Ew2Wr6FoHzga9ALsJ9XX1uAuIZlvTXdybcl
+         Hw9A==
+X-Gm-Message-State: AOAM530YJGMIPC6gxPkxU76Xf0P0c38faPc+8nw9rrTpqm/+vLpxZEST
+        kgdfgeHmu8ynn7PBLr50j0xtvQ==
+X-Google-Smtp-Source: ABdhPJy/6iEXMfinC0IgZ7fpt7I2g+zIxTjZQnxLRTk8cjqPdAagKq6g9nUKUea3gO9B/DZE0Q9zrw==
+X-Received: by 2002:a63:6305:: with SMTP id x5mr22354072pgb.216.1608698089700;
+        Tue, 22 Dec 2020 20:34:49 -0800 (PST)
+Received: from localhost ([122.172.20.109])
+        by smtp.gmail.com with ESMTPSA id p16sm21154516pju.47.2020.12.22.20.34.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 Dec 2020 20:34:48 -0800 (PST)
+Date:   Wed, 23 Dec 2020 10:04:43 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 19/48] opp: Fix adding OPP entries in a wrong order if
+ rate is unavailable
+Message-ID: <20201223043443.rklw5er6hck3gl4y@vireshk-i7>
+References: <20201217180638.22748-1-digetx@gmail.com>
+ <20201217180638.22748-20-digetx@gmail.com>
+ <20201222091255.wentz5hyt726qezg@vireshk-i7>
+ <db6273e6-8406-b7ae-b51d-48ceb6d21962@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <db6273e6-8406-b7ae-b51d-48ceb6d21962@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 22-12-20, 22:19, Dmitry Osipenko wrote:
+> 22.12.2020 12:12, Viresh Kumar пишет:
+> > On 17-12-20, 21:06, Dmitry Osipenko wrote:
+> >> Fix adding OPP entries in a wrong (opposite) order if OPP rate is
+> >> unavailable. The OPP comparison is erroneously skipped if OPP rate is
+> >> missing, thus OPPs are left unsorted.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/opp/core.c | 23 ++++++++++++-----------
+> >>  drivers/opp/opp.h  |  2 +-
+> >>  2 files changed, 13 insertions(+), 12 deletions(-)
+> >>
+> >> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+> >> index 34f7e530d941..5c7f130a8de2 100644
+> >> --- a/drivers/opp/core.c
+> >> +++ b/drivers/opp/core.c
+> >> @@ -1531,9 +1531,10 @@ static bool _opp_supported_by_regulators(struct dev_pm_opp *opp,
+> >>  	return true;
+> >>  }
+> >>  
+> >> -int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2)
+> >> +int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2,
+> >> +		     bool rate_not_available)
+> >>  {
+> >> -	if (opp1->rate != opp2->rate)
+> >> +	if (!rate_not_available && opp1->rate != opp2->rate)
+> > 
+> > rate will be 0 for both the OPPs here if rate_not_available is true and so this
+> > change shouldn't be required.
+> 
+> The rate_not_available is negated in the condition. This change is
+> required because both rates are 0 and then we should proceed to the
+> levels comparison.
 
-Results of the daily build of media_tree:
+Won't that happen without this patch ?
 
-date:			Wed Dec 23 05:00:14 CET 2020
-media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
-media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
-v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7047-g72fa1e990
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+> I guess it's not clear by looking at this patch, please see a full
+> version of the function:
+> 
+> int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2,
+>          bool rate_not_available)
+> {
+>   if (!rate_not_available && opp1->rate != opp2->rate)
+>     return opp1->rate < opp2->rate ? -1 : 1;
+>   if (opp1->bandwidth && opp2->bandwidth &&
+>       opp1->bandwidth[0].peak != opp2->bandwidth[0].peak)
+>     return opp1->bandwidth[0].peak < opp2->bandwidth[0].peak ? -1 : 1;
+>   if (opp1->level != opp2->level)
+>     return opp1->level < opp2->level ? -1 : 1;
+>   return 0;
+> }
+> 
+> Perhaps we could check whether opp1->rate=0, like it's done for the
+> opp1->bandwidth. I'll consider this variant for v3, thanks.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.69-i686: ERRORS
-linux-5.4.69-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: ERRORS
-linux-5.8.13-x86_64: ERRORS
-linux-5.9.1-i686: ERRORS
-linux-5.9.1-x86_64: ERRORS
-linux-5.10.1-i686: ERRORS
-linux-5.10.1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: WARNINGS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+viresh
