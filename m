@@ -2,44 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53AC82E14C5
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A3442E1452
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:47:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729990AbgLWCnb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 21:43:31 -0500
+        id S1730040AbgLWCXi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 21:23:38 -0500
 Received: from mail.kernel.org ([198.145.29.99]:52452 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729873AbgLWCXE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:23:04 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F14F22248;
-        Wed, 23 Dec 2020 02:22:22 +0000 (UTC)
+        id S1730034AbgLWCXg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:23:36 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C4B9723333;
+        Wed, 23 Dec 2020 02:23:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690143;
-        bh=qF9l755odwp307/T/N4iq49b/ec7+MuRGg7fKtWJgkU=;
+        s=k20201202; t=1608690200;
+        bh=7CGrK35cEN11pVpSMg2wMmiuJgUhYG+i/WSrNIA4OIU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GG3fI/0uKfXHDg7UO1rqpzI3WHly6c8nyu0srm88rM2uu4/lBxP5v3dOonIWMRRYu
-         EwZwLtMN0j4LXXR2F6Npfi3uRvq3RPWkWSPK3SgRUiWqrxG68CDPwAjxog9aaJ7nNP
-         ZR0lQaxXHOU55mj41ukWT9GbtDA0lJ4e0WRmddIocmeOZyjDh5KvUsmYY0+zOF+sZV
-         l2Pr+x+3vpYtouj7KsCnwCAy5AXcZZnTh7JheUX49J6f06RtlXUnku+u3aA3iBuT47
-         CUmJtQvLygv4+OlJGseV+KazpZdpU+ZJKKFMMcLAoP7Ct5hFOF6n0JBhVNx4KKj/Xr
-         9BxTLNRoQ1WNA==
+        b=btWFgjYCqgTZaskJ7AWgJA1h/rdwzDblsD1Ax/NAQvhWtS/BXvp0Jxxch67iFohhS
+         uMFlb2XM2x/SCElowtFM5aeWzH5pxFuwQ6z6CKV5/vb2tCZScMxO/FGeEuLhoWCBgY
+         S2TQF41MvedjHL8cai688m9mgiS74NiB9hJbbGRJXQXTsjEbM46y2+nWR8XiG124Gs
+         cxk9eCCbG7MAxUKu1OLcfKdADlnXAogXlLpzkp0xnFn73cPxAXud2wm5x3emCx25xr
+         n36dEtSp29JBavNXix5wWqvkuUrwMW/13La9dIfkxGmTdHv9IHY2DXsqr+XyxIavWg
+         lp4x4q+AW7blw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 64/87] media: rcar-vin: Mask VNCSI_IFMD register
-Date:   Tue, 22 Dec 2020 21:20:40 -0500
-Message-Id: <20201223022103.2792705-64-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 22/66] media: cec-core: first mark device unregistered, then wake up fhs
+Date:   Tue, 22 Dec 2020 21:22:08 -0500
+Message-Id: <20201223022253.2793452-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022103.2792705-1-sashal@kernel.org>
-References: <20201223022103.2792705-1-sashal@kernel.org>
+In-Reply-To: <20201223022253.2793452-1-sashal@kernel.org>
+References: <20201223022253.2793452-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -47,84 +42,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit fb25ca37317200fa97ea6b8952e07958f06da7a6 ]
+[ Upstream commit e91c255733d9bbb4978a372f44fb5ed689ccdbd1 ]
 
-The VNCSI_IFMD register controls the data expansion mode and the
-channel routing between the CSI-2 receivers and VIN instances.
+If a CEC device node is unregistered, then it should be marked as
+unregistered before waking up any filehandles that are waiting for
+an event.
 
-According to the chip manual revision 2.20 not all fields are available
-for all the SoCs:
-- V3M, V3H and E3 do not support the DES1 field has they do not feature
-  a CSI20 receiver.
-- D3 only supports parallel input, and the whole register shall always
-  be written as 0.
+This ensures that there is no race condition where an application can
+call CEC_DQEVENT and have the ioctl return 0 instead of ENODEV.
 
-Inspect the per-SoC channel routing table where the available CSI-2
-instances are reported and configure VNCSI_IFMD accordingly.
-
-This patch supports this BSP change commit:
-
-https://github.com/renesas-rcar/linux-bsp/commit/f54697394457
-("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990")
-
-[hverkuil: replace BSP commit ID with BSP URL]
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Suggested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rcar-vin/rcar-dma.c | 25 +++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+ drivers/media/cec/cec-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 70a8cc433a03f..4fee9132472bb 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1319,7 +1319,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
-  */
- int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- {
--	u32 ifmd, vnmc;
-+	const struct rvin_group_route *route;
-+	u32 ifmd = 0;
-+	u32 vnmc;
- 	int ret;
+diff --git a/drivers/media/cec/cec-core.c b/drivers/media/cec/cec-core.c
+index 648136e552d5b..7c585e05c6311 100644
+--- a/drivers/media/cec/cec-core.c
++++ b/drivers/media/cec/cec-core.c
+@@ -175,12 +175,12 @@ static void cec_devnode_unregister(struct cec_devnode *devnode)
+ 		mutex_unlock(&devnode->lock);
+ 		return;
+ 	}
++	devnode->registered = false;
++	devnode->unregistered = true;
  
- 	ret = pm_runtime_get_sync(vin->dev);
-@@ -1332,9 +1334,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 	vnmc = rvin_read(vin, VNMC_REG);
- 	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
+ 	list_for_each_entry(fh, &devnode->fhs, list)
+ 		wake_up_interruptible(&fh->wait);
  
--	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 | VNCSI_IFMD_CSI_CHSEL(chsel);
-+	/*
-+	 * Set data expansion mode to "pad with 0s" by inspecting the routes
-+	 * table to find out which bit fields are available in the IFMD
-+	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
-+	 * IFMD_DES0 controls data expansion mode for CSI40/41.
-+	 */
-+	for (route = vin->info->routes; route->mask; route++) {
-+		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
-+			ifmd |= VNCSI_IFMD_DES1;
-+		else
-+			ifmd |= VNCSI_IFMD_DES0;
+-	devnode->registered = false;
+-	devnode->unregistered = true;
+ 	mutex_unlock(&devnode->lock);
  
--	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
-+		if (ifmd == (VNCSI_IFMD_DES0 | VNCSI_IFMD_DES1))
-+			break;
-+	}
-+
-+	if (ifmd) {
-+		ifmd |= VNCSI_IFMD_CSI_CHSEL(chsel);
-+		rvin_write(vin, ifmd, VNCSI_IFMD_REG);
-+	}
- 
- 	vin_dbg(vin, "Set IFMD 0x%x\n", ifmd);
- 
+ 	cdev_device_del(&devnode->cdev, &devnode->dev);
 -- 
 2.27.0
 
