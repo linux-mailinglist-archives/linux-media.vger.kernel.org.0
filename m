@@ -2,114 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A0BD2E226B
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 23:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC462E228A
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 23:45:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726288AbgLWWYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Dec 2020 17:24:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
+        id S1727719AbgLWWok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Dec 2020 17:44:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725811AbgLWWYu (ORCPT
+        with ESMTP id S1726112AbgLWWoj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Dec 2020 17:24:50 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3FFC061794;
-        Wed, 23 Dec 2020 14:24:09 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id y23so188201wmi.1;
-        Wed, 23 Dec 2020 14:24:09 -0800 (PST)
+        Wed, 23 Dec 2020 17:44:39 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C796C061794
+        for <linux-media@vger.kernel.org>; Wed, 23 Dec 2020 14:43:59 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id jx16so1141977ejb.10
+        for <linux-media@vger.kernel.org>; Wed, 23 Dec 2020 14:43:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sCveDTAqg2krVZsKdg4haeDPpG4bCY8xxdMqSu4hHV0=;
-        b=SPXs4ihQVtEbUsfzq1Hqda/oybQY2OvK1F30H3bW7uhyexY2dCo/M5s+KEqAlT8DTW
-         NnUQ9UXiunXMMi0M/eSQKDqEZEfiNBr1AbSwHWYkLlz8pczbU+5Tln/W4HkHt6nXHVOk
-         JvqZjlFk2wtYTvfmArSUIGFqo7SjZZlF1AgW91N23aj+UeKxUYhqAFbtrP8F9jyQZIek
-         6kmuBfpl9J1B8095HEd4jGDE13OPDjOv3FNwztMx/fZUtdr96EczLM8hw7yZE+s8g2/G
-         gwubldFpGI2S/aB9kwz8INnewVxAaiIygY7VJk9yOHY3aXU0sz1TtfKcheVq1dFtJaeP
-         UPNA==
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=IC/BRvMVba0ZDMpZtJOH0wMbvTVJGeOAL/bZW58vMcA=;
+        b=SYZQYYtV412AZfVD2MRHfgv6xhAlrOgrDrFzUMf/5gS98xlvJUctWgiMC+gwdp7m25
+         hAqqxlg31X74FkblVzfvoujQ/A6bbS+0mOJ+TVE1QxFTo84yOBp9/i6/D5XPfpuw8aX8
+         KZnx0Kf5GEXxCThDgDjI3DbfCrjExstg7DDz2CsDOqwQdw/cOm/Qfmg+PIRRs7wjrJ0k
+         UMq5cq97G3VmeKT8PXXwEwmNTRv5bo8zQC8eWTJisSVbnmOreoprksH4qDkxgp7MKEo6
+         BeYkEITnqYa51Y8aovI2ZglcxfbCa8o2tg6ZDbFPjzZvb1fcM6qmYL7oO8AweZWYyMjW
+         fRnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sCveDTAqg2krVZsKdg4haeDPpG4bCY8xxdMqSu4hHV0=;
-        b=VijRwiKzVIdnv8U4pauT6KuJYwFpyLDQOZsLjbGH3btc6ecj8AO64wfrPUQsEst9bF
-         IwQ0sngdS1S8f7gSBmnOaup+bwSkO2weR8vX4U9IPaybXCMb4s4i6vmfDQFCMwjYCpRP
-         Y5mzVWWf2Qwss9zEmocp6XAJEWbG4zYQ2TgNLH4+JuIoIFAjK48vktaxtXaoAJjNtm53
-         yRvtFUHxAuFEQTez7F3c/hm+H092JtF3vhfwrhAU3g00/L1OgkdQ6g9dEd4zSG9pvIBb
-         /H4jhkTjklN9oFB+fa5eKel0Ww9v4t+I+vqfrcOvil2dzjsub8B322d+kZ4p9TWKqS02
-         7WpQ==
-X-Gm-Message-State: AOAM532akjqOdBtEkS5OVBFNGKIP64LodJRRRPV0AS9bgtw9pbLBAR13
-        RT/knrVtaK2y2ufAOC36ZbQ=
-X-Google-Smtp-Source: ABdhPJz0hRrU9c/emexZj08cKNt3M2dVcETfPsmlBzq1aTSLke8hhuX43Ushz9NCnDUdmU5bPhVtIw==
-X-Received: by 2002:a1c:bc02:: with SMTP id m2mr1548175wmf.59.1608762248064;
-        Wed, 23 Dec 2020 14:24:08 -0800 (PST)
-Received: from [192.168.1.158] ([2.31.224.116])
-        by smtp.gmail.com with ESMTPSA id c20sm1217971wmb.38.2020.12.23.14.24.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Dec 2020 14:24:07 -0800 (PST)
-Subject: Re: [PATCH v2 05/12] software_node: unregister software_nodes in
- reverse order
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-        linus.walleij@linaro.org, heikki.krogerus@linux.intel.com,
-        kitakar@gmail.com, jorhand@linux.microsoft.com,
-        kernel test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201217234337.1983732-1-djrscally@gmail.com>
- <20201217234337.1983732-6-djrscally@gmail.com>
- <20201221092116.GG26370@paasikivi.fi.intel.com>
- <20201221112644.GJ4077@smile.fi.intel.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <9fbd8234-6cc3-ac3c-7273-854e965a4794@gmail.com>
-Date:   Wed, 23 Dec 2020 22:24:03 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=IC/BRvMVba0ZDMpZtJOH0wMbvTVJGeOAL/bZW58vMcA=;
+        b=QVKVimI8+FHUP5BIqZgYouvqdazHe0JwMEo0GlVdJO510CROWiedNlESZcuFznKTz5
+         0I/AqqHBraRdeENcXD7MtvG9uQWI9njAKeZuQXPDkkwllDAtoDAChAf6R16S6fHAi/yi
+         r1Iz/6mIh/kZQQEHWw6d+1bBYHIg3hsRYrDmipGb6dg9ia2qJCA6ZVZTTMFhqALLU/mb
+         bR34K0BReWUxj62JxTQQm/+u0isO/Zrnck10S7Z7M3TxFSqiuyAXm5c9zlRmhmhPXqE9
+         H+tIztKJKZXQPOGfTR5vngfKOSY11zpr5n4+I3IdrQQgvcFSiQHdz/AAlgpRcws7ORWf
+         kAAw==
+X-Gm-Message-State: AOAM530KQXLJTAs8Y6/X06NBTEwWBC8WFlO4OajrjKPGf7kX5JTmwC25
+        GJ1ZpMmUBxktG+j+R2+LNq5J6VJh5tgvUN22xVbwusS9OGDJbTyE
+X-Google-Smtp-Source: ABdhPJxzAL2EtO9C7QxKhAdEnJCmGyoEFtqZO6sTtDFEoHC+RG/0p/fxufgiWFfO1umtX2qiO0+OtlC6qaNc/unVgHg=
+X-Received: by 2002:a17:906:720e:: with SMTP id m14mr24452243ejk.161.1608763437800;
+ Wed, 23 Dec 2020 14:43:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201221112644.GJ4077@smile.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Wed, 23 Dec 2020 14:43:46 -0800
+Message-ID: <CAJ+vNU0TxUVDoi--tB=5AOYzkXOwhBTQ4MyOgX6_Q515yXTM8g@mail.gmail.com>
+Subject: ADV7280 capture
+To:     Fabio Estevam <festevam@gmail.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/12/2020 11:26, Andy Shevchenko wrote:
-> On Mon, Dec 21, 2020 at 11:21:16AM +0200, Sakari Ailus wrote:
->> On Thu, Dec 17, 2020 at 11:43:30PM +0000, Daniel Scally wrote:
->>> To maintain consistency with software_node_unregister_nodes(), reverse
->>> the order in which the software_node_unregister_node_group() function
->>> unregisters nodes.
-> 
-> ...
-> 
->>>  void software_node_unregister_node_group(const struct software_node **node_group)
->>>  {
->>> -	unsigned int i;
->>> +	unsigned int i = 0;
->>>  
->>>  	if (!node_group)
->>>  		return;
->>>  
->>> -	for (i = 0; node_group[i]; i++)
->>> +	while (node_group[i]->name)
->>
->> Why is this change made? node_group is a NULL-terminated array, and the
->> above accesses the name pointer on each entry before checking the entry is
->> non-NULL. Or do I miss something here?
-> 
-> I believe it's a copy'n'paste typo.
+Fabio,
 
-Careless copy and paste yeah, my bad. I was doing it for consistency but
-really should've just changed the ordering; I'll just drop that part.
+Recently you mentioned you were capturing successfully using an
+adv7280 analog video decoder on an imx6dl with 5.10.
+
+I have found that using the adv7280 on an imx6q/dl does not work
+without a patch [1] to make the output format of the adv7280 the same
+as the adv7180. I'm not sure what the best solution for this issue is
+as the patch was nak'd because it may break existing users of the
+adv7280. I suspect perhaps the best approach is to add a kernel module
+parameter or device-tree property to configure the adv7280 for
+compatibility with the imx6 CSI.
+
+I also still have to patch imx-media-csi.c to skip the first few
+frames in order to sync properly on bt656 sources [2]. I'm also not
+sure if this patch is perhaps acceptable upstream of of there is a
+better solution.
+
+I would have expected you to run into these issues as well?
+
+Here is the media-ctl setup that I use:
+media-ctl -l "'adv7180 0-0020':0 -> 'ipu1_csi1_mux':4[1]"
+media-ctl -l "'ipu1_csi1_mux':5 -> 'ipu1_csi1':0[1]"
+media-ctl -l "'ipu1_csi1':1 -> 'ipu1_vdic':0[1]"
+media-ctl -l "'ipu1_vdic':2 -> 'ipu1_ic_prp':0[1]"
+media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
+media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]"
+media-ctl -V "'adv7180 0-0020':0 [fmt:UYVY2X8/640x480 field:seq-tb]"
+media-ctl -V "'ipu1_csi1_mux':5 [fmt:UYVY2X8/640x480]"
+media-ctl -V "'ipu1_csi1':1 [fmt:AYUV32/640x480]"
+media-ctl -V "'ipu1_vdic':2 [fmt:AYUV32/640x480 field:none]"
+media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/640x480 field:none]"
+media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/640x480 field:none]"
+v4l2-ctl -d2 --set-fmt-video=field=none
+
+gst-launch-1.0 v4l2src device=/dev/video2 ! kmssink:
+
+Best Regards,
+
+Tim
+[1] - https://patchwork.kernel.org/project/linux-media/patch/20190827215539.1286-1-mmichilot@gateworks.com
+[2] - https://github.com/Gateworks/linux-imx6/commit/959fbd4
