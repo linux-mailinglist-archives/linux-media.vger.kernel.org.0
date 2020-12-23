@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0780A2E122C
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:21:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FAAE2E1239
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 03:21:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728727AbgLWCTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 21:19:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46424 "EHLO mail.kernel.org"
+        id S1728865AbgLWCUF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 21:20:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45448 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728722AbgLWCTk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:19:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E539622A99;
-        Wed, 23 Dec 2020 02:19:09 +0000 (UTC)
+        id S1728856AbgLWCUE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Dec 2020 21:20:04 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 53C082222D;
+        Wed, 23 Dec 2020 02:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608689950;
-        bh=oTkdwe/HtLkDFjopoFjvh7xHmrD822H3xtWYFnLOq6Y=;
+        s=k20201202; t=1608689989;
+        bh=ldNz5vXD1guP6blJUNlKPp5ii5h/xOr3sKr0u7xES9Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mpIxK0qjpP2L9iaznp9QrGkKunjToXxvapTw7RDN4Nfl4co4+/q+jKHB83jRIBt7Y
-         uUU60GRLT7eXLzMD5TBSJIME1KyvhKBzcqASLB9MVj3j4blTTXb2ZDmKFuttlJv4+S
-         HEeSgghoQ/tPQu3Cw4+jMpawWYPm5rb3wg2/cILN96Ba4ZFaTJAcHWf2RIfgVtcqwW
-         fjZbxs1BMbbgtW0Ck7rUT/jiThlyWaXEEvIl6psgCfNxWVfNq0fBEEehriDWVjngxO
-         aTfFQiieWYN7QQscBjPPuThFeVwmbJKrtwFmSy9WOrZTz8tXTEuDV4Pul973ZIUQ41
-         6oUO00VBnjH2A==
+        b=omD04PEp4hUW4vO4g6uSt19boHcEGV7yXLafcLT019b2bhnEbTNWGh658Yz+4Dx74
+         jrkOztBMUf9YYrToQi1vJ2Q0ES1epCUk8fKQ96rjJhPKFk1I2TFB2caCABS7dDGQj8
+         +0UIK8ysIxAvQKNpyS5L8E6N+xQkcXD2532o2yXW4XZE5Z0FMVLy/pFQvTsigi+ZPy
+         8hkYElQZlFiELMVfWQvRncyFkDNJeFy5dZoSesCxgxPncqC8qRpS/vHlleg0S9SBvp
+         8Zw4ExTMHV69U/336rXEx+0DdTegIBWZhFNh5vguqYEeR76kLNG5IVUFw0U/rP1EOC
+         91nP5SBkKLIgw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        syzbot <syzkaller@googlegroups.com>,
+        Willem de Bruijn <willemb@google.com>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 044/130] media: dvbdev: Fix memleak in dvb_register_device
-Date:   Tue, 22 Dec 2020 21:16:47 -0500
-Message-Id: <20201223021813.2791612-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 074/130] media: gp8psk: initialize stats at power control logic
+Date:   Tue, 22 Dec 2020 21:17:17 -0500
+Message-Id: <20201223021813.2791612-74-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
 References: <20201223021813.2791612-1-sashal@kernel.org>
@@ -42,35 +43,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit 167faadfcf9339088910e9e85a1b711fcbbef8e9 ]
+[ Upstream commit d0ac1a26ed5943127cb0156148735f5f52a07075 ]
 
-When device_create() fails, dvbdev and dvbdevfops should
-be freed just like when dvb_register_media_device() fails.
+As reported on:
+	https://lore.kernel.org/linux-media/20190627222020.45909-1-willemdebruijn.kernel@gmail.com/
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-Signed-off-by: Sean Young <sean@mess.org>
+if gp8psk_usb_in_op() returns an error, the status var is not
+initialized. Yet, this var is used later on, in order to
+identify:
+	- if the device was already started;
+	- if firmware has loaded;
+	- if the LNBf was powered on.
+
+Using status = 0 seems to ensure that everything will be
+properly powered up.
+
+So, instead of the proposed solution, let's just set
+status = 0.
+
+Reported-by: syzbot <syzkaller@googlegroups.com>
+Reported-by: Willem de Bruijn <willemb@google.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/dvb-core/dvbdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/usb/dvb-usb/gp8psk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 032b6d7dd5821..cfe983e78102f 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -539,6 +539,9 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 	if (IS_ERR(clsdev)) {
- 		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
- 		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
-+		dvb_media_device_free(dvbdev);
-+		kfree(dvbdevfops);
-+		kfree(dvbdev);
- 		return PTR_ERR(clsdev);
- 	}
- 	dprintk("DVB: register adapter%d/%s%d @ minor: %i (0x%02x)\n",
+diff --git a/drivers/media/usb/dvb-usb/gp8psk.c b/drivers/media/usb/dvb-usb/gp8psk.c
+index 1282f701f1857..ac8b8bf6ee1d3 100644
+--- a/drivers/media/usb/dvb-usb/gp8psk.c
++++ b/drivers/media/usb/dvb-usb/gp8psk.c
+@@ -182,7 +182,7 @@ static int gp8psk_load_bcm4500fw(struct dvb_usb_device *d)
+ 
+ static int gp8psk_power_ctrl(struct dvb_usb_device *d, int onoff)
+ {
+-	u8 status, buf;
++	u8 status = 0, buf;
+ 	int gp_product_id = le16_to_cpu(d->udev->descriptor.idProduct);
+ 
+ 	if (onoff) {
 -- 
 2.27.0
 
