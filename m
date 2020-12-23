@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD3ED2E167A
-	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 04:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A621B2E167C
+	for <lists+linux-media@lfdr.de>; Wed, 23 Dec 2020 04:10:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728695AbgLWCTg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Dec 2020 21:19:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46328 "EHLO mail.kernel.org"
+        id S1728701AbgLWCTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Dec 2020 21:19:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728684AbgLWCTg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1728689AbgLWCTg (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 22 Dec 2020 21:19:36 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E331225AA;
-        Wed, 23 Dec 2020 02:19:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB15722257;
+        Wed, 23 Dec 2020 02:19:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608689943;
-        bh=y4SClHplxMoNfmDVqbnedSr667czje45z1pHwNh970w=;
+        s=k20201202; t=1608689944;
+        bh=kFY3jfaSGn9wP3jpuMECk2u7kpTMi3nSn4DQgzodpoQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XFBDN77Vv6pH65Q0gniOU/IoqnbzhROgkXq/P+4RlAjwocxq1SmStfvRd0bKKniRm
-         QbS9VbvGaJ+aeBh5KHxNNn98q+ogz56ZxIncDJ7L+maRYVytYVIa99aqRwiGelPlGa
-         Rx9S7e4hbt93+7SA3crA0yhfB2DwS+mg7hZDp/Ugo0TYnu4dYnRW54aGr+sf11QMvc
-         hgSoa/1Ezb/ckiAfDkoa8hD+7cNy2ogMj4vLLXcQJO1tcRVup76vkHy7GP9Mec17LY
-         KvosdLHxXq9qLBi6Tp4xH5tJk/gdpMKEz042SeSeyFyPFUCPx4HWiV5kCVLjFTJOjl
-         O+WcVSF43qFyw==
+        b=bjh0HBgxmPMK2IlWLrrNO3YjSM7Q5F6HMBZM7S9AtwqVdZV4Sr+/yGUFiq5rHSDAV
+         fji+RugJ6ZxrrG3nv3fBPS9+rCoDGA9+lPJO4Iq6c8D/NOuQmKUlCj41X/ee/46WjZ
+         vpI/W2h8pmKF7ehj/uGPh2jxiNGtpN5IAQm+pBZFDQRHN+16HMefVWma8FZUAK/b7A
+         YjO/e9dH9c1tEELGrGY5dm76hQhrBUQlPw1QAsqWUKvd7YdNIXn6hJ3+EzMrY0wyjM
+         dmVQq+vYXafb3FeT0C17i7scOUCfQk+/xxfl2fDDU22T29yhsncpih7pK9BqEe3NLf
+         kl3w/uHgYQfxQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Evgeny Novikov <novikov@ispras.ru>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 038/130] media: cec-core: first mark device unregistered, then wake up fhs
-Date:   Tue, 22 Dec 2020 21:16:41 -0500
-Message-Id: <20201223021813.2791612-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 039/130] media: isif: reset global state
+Date:   Tue, 22 Dec 2020 21:16:42 -0500
+Message-Id: <20201223021813.2791612-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
 References: <20201223021813.2791612-1-sashal@kernel.org>
@@ -42,43 +43,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Evgeny Novikov <novikov@ispras.ru>
 
-[ Upstream commit e91c255733d9bbb4978a372f44fb5ed689ccdbd1 ]
+[ Upstream commit 6651dba2bd838f34cf5a1e84229aaa579b1a94fe ]
 
-If a CEC device node is unregistered, then it should be marked as
-unregistered before waking up any filehandles that are waiting for
-an event.
+isif_probe() invokes iounmap() on error handling paths, but it does not
+reset the global state. So, later it can invoke iounmap() even when
+ioremap() fails. This is the case also for isif_remove(). The patch
+resets the global state after invoking iounmap() to avoid this.
 
-This ensures that there is no race condition where an application can
-call CEC_DQEVENT and have the ioctl return 0 instead of ENODEV.
+Found by Linux Driver Verification project (linuxtesting.org).
 
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/cec/cec-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/davinci/isif.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/cec/cec-core.c b/drivers/media/cec/cec-core.c
-index 9c610e1e99b84..76b78fb627e83 100644
---- a/drivers/media/cec/cec-core.c
-+++ b/drivers/media/cec/cec-core.c
-@@ -166,12 +166,12 @@ static void cec_devnode_unregister(struct cec_adapter *adap)
- 		mutex_unlock(&devnode->lock);
- 		return;
- 	}
-+	devnode->registered = false;
-+	devnode->unregistered = true;
+diff --git a/drivers/media/platform/davinci/isif.c b/drivers/media/platform/davinci/isif.c
+index e2e7ab7b7f45b..29434f076c047 100644
+--- a/drivers/media/platform/davinci/isif.c
++++ b/drivers/media/platform/davinci/isif.c
+@@ -1075,10 +1075,14 @@ static int isif_probe(struct platform_device *pdev)
+ 	release_mem_region(res->start, resource_size(res));
+ 	i--;
+ fail_nobase_res:
+-	if (isif_cfg.base_addr)
++	if (isif_cfg.base_addr) {
+ 		iounmap(isif_cfg.base_addr);
+-	if (isif_cfg.linear_tbl0_addr)
++		isif_cfg.base_addr = NULL;
++	}
++	if (isif_cfg.linear_tbl0_addr) {
+ 		iounmap(isif_cfg.linear_tbl0_addr);
++		isif_cfg.linear_tbl0_addr = NULL;
++	}
  
- 	list_for_each_entry(fh, &devnode->fhs, list)
- 		wake_up_interruptible(&fh->wait);
+ 	while (i >= 0) {
+ 		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+@@ -1096,8 +1100,11 @@ static int isif_remove(struct platform_device *pdev)
+ 	int i = 0;
  
--	devnode->registered = false;
--	devnode->unregistered = true;
- 	mutex_unlock(&devnode->lock);
- 
- 	mutex_lock(&adap->lock);
+ 	iounmap(isif_cfg.base_addr);
++	isif_cfg.base_addr = NULL;
+ 	iounmap(isif_cfg.linear_tbl0_addr);
++	isif_cfg.linear_tbl0_addr = NULL;
+ 	iounmap(isif_cfg.linear_tbl1_addr);
++	isif_cfg.linear_tbl1_addr = NULL;
+ 	while (i < 3) {
+ 		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+ 		if (res)
 -- 
 2.27.0
 
