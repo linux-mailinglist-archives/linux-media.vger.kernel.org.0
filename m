@@ -2,103 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C12612E289A
-	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 19:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B59472E28F7
+	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 23:05:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728791AbgLXShw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Dec 2020 13:37:52 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:30417 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728266AbgLXShw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Dec 2020 13:37:52 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-277-gYu6pb9aP32_rumPVp6FPw-1; Thu, 24 Dec 2020 18:36:12 +0000
-X-MC-Unique: gYu6pb9aP32_rumPVp6FPw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 24 Dec 2020 18:36:11 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Thu, 24 Dec 2020 18:36:11 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Daniel Scally' <djrscally@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "ACPI Devel Maling List" <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "devel@acpica.org" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        "Erik Kaneda" <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Steven Rostedt" <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        kernel test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v3 05/14] software_node: unregister software_nodes in
- reverse order
-Thread-Topic: [PATCH v3 05/14] software_node: unregister software_nodes in
- reverse order
-Thread-Index: AQHW2f9YHWzUalHOOk+Pd50vjly8GaoGkhDQ
-Date:   Thu, 24 Dec 2020 18:36:10 +0000
-Message-ID: <fcb07dea193b4b99b11f2a8e684d8acf@AcuMS.aculab.com>
-References: <20201224010907.263125-1-djrscally@gmail.com>
- <20201224010907.263125-6-djrscally@gmail.com>
- <CAHp75VdF5NdjrSxcOafh7KNNDteYEUDk9otA0HKX-iks7G0D4g@mail.gmail.com>
- <de478ef0-0b4d-df1d-2651-9cc35bf2f45b@gmail.com>
- <CAHp75VdWuowLenNPQRNc+QXeyuvwKqh_bjw=1WvmFrzoygXFRw@mail.gmail.com>
- <2b415312-fe30-c73b-0077-4ec2a07116df@gmail.com>
-In-Reply-To: <2b415312-fe30-c73b-0077-4ec2a07116df@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S1729120AbgLXWDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Dec 2020 17:03:50 -0500
+Received: from mail.heg.gob.ec ([186.47.84.20]:48412 "EHLO mail.heg.gob.ec"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729063AbgLXWDu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Dec 2020 17:03:50 -0500
+X-Greylist: delayed 12610 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Dec 2020 17:03:49 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.heg.gob.ec (Postfix) with ESMTP id 84F4F12CF2C5;
+        Thu, 24 Dec 2020 12:25:54 -0500 (-05)
+Received: from mail.heg.gob.ec ([127.0.0.1])
+        by localhost (mail.heg.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id wRwYBq-Z5iOO; Thu, 24 Dec 2020 12:25:54 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.heg.gob.ec (Postfix) with ESMTP id 0912512CF1A7;
+        Thu, 24 Dec 2020 12:25:52 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.heg.gob.ec 0912512CF1A7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heg.gob.ec;
+        s=EDABE35A-17BA-11EB-91C0-AF159E800BC9; t=1608830752;
+        bh=wXkMvZ+1k3vYTg2yc9PpBHMT3+HE9x+vEUWkgb0MO5Y=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=du08huDB3WTfToXbb0VR0U53QcvFTZ94wMwm7LISGOwDYxOCmtF4KBc39iNuzc03r
+         Ll4NqI5JuPJPCcEyWeDRU6d/Cy01v0lcuMCBHllCiwkpFKu6FNt8q0GI282WG4FdjW
+         Ho4WduvtJxZ51nrHDEbM24XQhjjaag/w77liP6p91/Eumkib0bG4WufDeKqjOk3ZTR
+         kBreZvLhCavdKiUXYPjK8ge0DuiNxH55Npwl/nzGch5pNfvzc0pitgMGF5+3/3Xz+4
+         T6ej3FdADQbK40AyU2JNTYNuJFv01T9ZOjf16JBIvu1bflwoGvjZkGSGjM+wygBn1M
+         m2NedCiGLD6mg==
+X-Virus-Scanned: amavisd-new at heg.gob.ec
+Received: from mail.heg.gob.ec ([127.0.0.1])
+        by localhost (mail.heg.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id COMYFXffbI7V; Thu, 24 Dec 2020 12:25:51 -0500 (-05)
+Received: from [172.20.10.3] (unknown [129.205.124.181])
+        by mail.heg.gob.ec (Postfix) with ESMTPSA id B255912D2F9B;
+        Thu, 24 Dec 2020 12:25:27 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Spende
+To:     "Mr. Landolt" <jomaira.bermudez@heg.gob.ec>
+From:   "Mr. Landolt" <jomaira.bermudez@heg.gob.ec>
+Date:   Thu, 24 Dec 2020 09:24:27 -0800
+Reply-To: financeoffice017@gmail.com
+Message-Id: <20201224172527.B255912D2F9B@mail.heg.gob.ec>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogRGFuaWVsIFNjYWxseSANCj4gU2VudDogMjQgRGVjZW1iZXIgMjAyMCAxNDoxNA0KLi4u
-DQo+ID4+IFRoZSBhcnJheSB3aWxsIGJlIHVud291bmQgaW4gcmV2ZXJzZSBvcmRlciAoaS5lLiBs
-YXN0IGVudHJ5IGZpcnN0KS4gSWYNCj4gPj4gYW55IG1lbWJlciBvZiB0aGUgYXJyYXkgaXMgYSBj
-aGlsZCBvZiBhbm90aGVyIG1lbWJlciB0aGVuIHRoZSBjaGlsZCBtdXN0DQo+ID4gY2hpbGRyZW4g
-Pw0KPiANCj4gWWVzLCB5b3UgYXJlIHJpZ2h0IG9mIGNvdXJzZS4NCg0KVGhlIHNlY29uZCAnY2hp
-bGQnIGlzIGEgYmFjay1yZWZlcmVuY2UgdG8gJ2FueSBtZW1iZXInIHNvIGlzIHNpbmd1bGFyDQpz
-byAnY2hpbGQnIGlzIGNvcnJlY3QuDQondGhlIGNoaWxkJyBjb3VsZCBiZSByZXBsYWNlZCBieSAn
-aXQnDQoNCllvdSBjb3VsZCBoYXZlOg0KICAgSWYgYW55IG1lbWJlcnMgb2YgdGhlIGFycmF5IGFy
-ZSBjaGlsZHJlbiBvZiBhbm90aGVyIG1lbWJlciB0aGVuIHRoZQ0KICAgY2hpbGRyZW4gbXVzdCBh
-cHBlYXIgbGF0ZXIgaW4gdGhlIGxpc3QuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJl
-c3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsx
-IDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
-
+850.000,00 Euro wurden Ihnen gespendet
