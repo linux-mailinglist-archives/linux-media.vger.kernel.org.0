@@ -2,55 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B59472E28F7
-	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 23:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C8952E2993
+	for <lists+linux-media@lfdr.de>; Fri, 25 Dec 2020 05:12:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729120AbgLXWDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Dec 2020 17:03:50 -0500
-Received: from mail.heg.gob.ec ([186.47.84.20]:48412 "EHLO mail.heg.gob.ec"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729063AbgLXWDu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Dec 2020 17:03:50 -0500
-X-Greylist: delayed 12610 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Dec 2020 17:03:49 EST
-Received: from localhost (localhost [127.0.0.1])
-        by mail.heg.gob.ec (Postfix) with ESMTP id 84F4F12CF2C5;
-        Thu, 24 Dec 2020 12:25:54 -0500 (-05)
-Received: from mail.heg.gob.ec ([127.0.0.1])
-        by localhost (mail.heg.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id wRwYBq-Z5iOO; Thu, 24 Dec 2020 12:25:54 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.heg.gob.ec (Postfix) with ESMTP id 0912512CF1A7;
-        Thu, 24 Dec 2020 12:25:52 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.heg.gob.ec 0912512CF1A7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heg.gob.ec;
-        s=EDABE35A-17BA-11EB-91C0-AF159E800BC9; t=1608830752;
-        bh=wXkMvZ+1k3vYTg2yc9PpBHMT3+HE9x+vEUWkgb0MO5Y=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=du08huDB3WTfToXbb0VR0U53QcvFTZ94wMwm7LISGOwDYxOCmtF4KBc39iNuzc03r
-         Ll4NqI5JuPJPCcEyWeDRU6d/Cy01v0lcuMCBHllCiwkpFKu6FNt8q0GI282WG4FdjW
-         Ho4WduvtJxZ51nrHDEbM24XQhjjaag/w77liP6p91/Eumkib0bG4WufDeKqjOk3ZTR
-         kBreZvLhCavdKiUXYPjK8ge0DuiNxH55Npwl/nzGch5pNfvzc0pitgMGF5+3/3Xz+4
-         T6ej3FdADQbK40AyU2JNTYNuJFv01T9ZOjf16JBIvu1bflwoGvjZkGSGjM+wygBn1M
-         m2NedCiGLD6mg==
-X-Virus-Scanned: amavisd-new at heg.gob.ec
-Received: from mail.heg.gob.ec ([127.0.0.1])
-        by localhost (mail.heg.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id COMYFXffbI7V; Thu, 24 Dec 2020 12:25:51 -0500 (-05)
-Received: from [172.20.10.3] (unknown [129.205.124.181])
-        by mail.heg.gob.ec (Postfix) with ESMTPSA id B255912D2F9B;
-        Thu, 24 Dec 2020 12:25:27 -0500 (-05)
+        id S1729117AbgLYEIl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 24 Dec 2020 23:08:41 -0500
+Received: from mail.reytelhn.com ([200.52.154.183]:53108 "EHLO
+        mail.reytelhn.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727114AbgLYEIl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Dec 2020 23:08:41 -0500
+X-Greylist: delayed 7540 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Dec 2020 23:08:40 EST
+Received: from [192.168.43.150] (unknown [129.205.113.184])
+        by mail.reytelhn.com (Postfix) with ESMTP id 3CCCC8C15C8;
+        Thu, 29 Nov 2007 15:41:55 -0600 (CST)
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: Spende
-To:     "Mr. Landolt" <jomaira.bermudez@heg.gob.ec>
-From:   "Mr. Landolt" <jomaira.bermudez@heg.gob.ec>
-Date:   Thu, 24 Dec 2020 09:24:27 -0800
-Reply-To: financeoffice017@gmail.com
-Message-Id: <20201224172527.B255912D2F9B@mail.heg.gob.ec>
+Subject: INVESTMENT BTC FARM
+To:     Recipients <comercial.blumenau@seguralta.com.br>
+From:   "Ulster Customer<" <comercial.blumenau@seguralta.com.br>
+Date:   Fri, 25 Dec 2020 00:35:37 +0100
+Reply-To: ulstercu52@gmail.com
+Message-Id: <20071129214157.3CCCC8C15C8@mail.reytelhn.com>
+X-WatchGuard-Spam-Score: 1, unclassified
+X-WatchGuard-Mail-Client-IP: 0.0.0.0
+X-WatchGuard-Mail-From: comercial.blumenau@seguralta.com.br
+X-WatchGuard-Mail-Recipients: linux-kernel@vger.kernel.org;linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-850.000,00 Euro wurden Ihnen gespendet
+GOOD NEWS TO YOU ALL !!!
+
+WE ARE HERE TO INTRODUCE BINARY TRADING TO YOU, A PLATFORM WHERE YOU INVEST A LITTLE AMOUNT OF MONEY AND EARN A FORTUNE (7 TIMES RETURN) IN LESS THAN 48 HOURS TO ALL YOU TRADERS THAT PRIORITIZE LOSING, WE CAN MAKE A FORTUNE AND HELP YOU GROW YOUR INVESTMENT. WITH OUR PREMIUM SIGNALS UP TO 95% WINNING ACCURACY PROFIT RETURN IS GUARANTEED. SETUP INVESTMENT TODAY LET OUR TEAM OF PROFESSIONALS TRADE FOR YOU TO EARN 700% PROFIT RETURN WITHIN 2 DAYS.
+
+
+Invest $ 500 earn $ 3,000 IN 48 HOURS
+Invest $ 1000 earn $ 6,000 IN 48 HOURS
+Invest $ 2000 earn $ 12,000 IN 48 HOURS
+Invest $ 3000 earn $ 18,000 IN 48 HOURS
+Invest $ 4000 earn $ 24,000 IN 48 HOURS
+Invest $ 5000 earn $ 30,000 IN 48 HOURS
+
+
+for more information email us now and with our team of professionals trade for you
+
+EMAIL: ulstercu52@gmail.com
+WHATSAPP  :  +1 647 477 6855
+
+
+Invest with a professional trader like me and let me help you to grow up your capital just in 2 days and get your 7 times return of your invested funds your money is safe with me okay and you are 100% guaranteed invest today and start making profits for yourself.
+
+Thank you.
+Jonas Kim
