@@ -2,131 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BFFA2E2710
-	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 14:04:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 295D62E2772
+	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 14:53:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728376AbgLXNEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Dec 2020 08:04:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
+        id S1728222AbgLXNvW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Dec 2020 08:51:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728316AbgLXNEP (ORCPT
+        with ESMTP id S1726591AbgLXNvV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Dec 2020 08:04:15 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91F74C061794;
-        Thu, 24 Dec 2020 05:03:35 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id t6so1286401plq.1;
-        Thu, 24 Dec 2020 05:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nf+OEToUyzUSgpyKbUm/RZLj11+XPWI/mRkR/bcpjVo=;
-        b=Z5Iy/gBp8Ct2o3+1AM0s8Qa53xfZtLHRkd8IXVRnZBYBmtN4cWhjWHBZPpSbLGkreA
-         /ZWRo7u/GbkoL+5mwALiXb6gHjnmuMKVfKbbLOhfQah76L7oNoptg/ey16sbeCWUbJIb
-         9t1WsG4qZSaZu56Xtl2JrDbkucHz1PlDi7zi1ALmfeJ2VdIbOhtc96Ca7ne7GFYMl9fB
-         3i3REG8sSAVcdbdqj7N3YDULgfMFa+er3kKY+6xbKOd+HaKlFeVTBrVpQlDid6FgsmWG
-         cqfQ2ftaUEE8geAa6puJ/OzFdwXiJKZf10uOus8oTvT2Hth3sFj/ZFE6pGzcK1K9mhcd
-         QZCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nf+OEToUyzUSgpyKbUm/RZLj11+XPWI/mRkR/bcpjVo=;
-        b=Cnrkv472B1ng6A3Hvn0315saG9r71zJPn/JB5hJGOVbZFDw7WBt38LS5ent3mWSmQV
-         6iUwF6Ns2wlgfhQb5fOWK7QX11MF7Jnnk6erh/+0EkSR8U5MUq+wy26ukI0PTkTvXHaS
-         gE/KfCdaSjABHwHDAK3GzcfwIB4fRUpKAmyUyMzd2C5hAB7gwaO2jE14jCxGp7rA8ShI
-         MqEi9BrBL4j7wFUsoqlYFUlcGfKilxzcF5vjWpTzPCB9WxuYwdwqxgFnLFsdGF+uBkLE
-         cKwp3zIpEZaJhC7cFp1OpN9FWoARjBW3yKbG5/hmiljmMd2qLnVq6FDrokl/JPWDksbq
-         kW3Q==
-X-Gm-Message-State: AOAM533PxKpA5I5YC64j4GDV+nm75pUNcEoAS/T45ReEokdU/tyUKXfl
-        d1eM5WmELC5lAuyiF7k/Qw81odoiUfhTeXBGgCA=
-X-Google-Smtp-Source: ABdhPJx5pBslTFPiLxoZaSAOkeL0cxRUKvfR/rfmO3tgSDj1sZBpEnT+V5ZccptPEN/tQTIfkoBtoTq5w3ZlBGHwl3U=
-X-Received: by 2002:a17:90a:c592:: with SMTP id l18mr4371312pjt.228.1608815015034;
- Thu, 24 Dec 2020 05:03:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20201224010907.263125-1-djrscally@gmail.com> <20201224010907.263125-8-djrscally@gmail.com>
- <CAHp75Vft7gg1AcKCEU+E74eB_ZMouHFd-8uZ7pcVj5CoJzZpvQ@mail.gmail.com> <X+SPsks5itN9OFqB@pendragon.ideasonboard.com>
-In-Reply-To: <X+SPsks5itN9OFqB@pendragon.ideasonboard.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 24 Dec 2020 15:03:18 +0200
-Message-ID: <CAHp75Ve6YHm-tdqFPvOhfJiT=uRK_dpKY3mnhQd6Mg3KkSuKqA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/14] software_node: Add support for fwnode_graph*()
- family of functions
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Scally <djrscally@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Thu, 24 Dec 2020 08:51:21 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FADEC061794;
+        Thu, 24 Dec 2020 05:50:41 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 015A7A1D;
+        Thu, 24 Dec 2020 14:50:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1608817837;
+        bh=IP/ZvkSmZQ0efnEqwjeW+tZECf17c54ebNNW8CBkRck=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IwMgYFYL6VHrvkgXDMhuQ3YHPVbAihS+8Y5Pye7vJD4pvootx/j2ot1d/27E64frb
+         7QGqLmveNV54hQSvgBkrVapBY+zsn9vu4rMuBIGHLKnwD72ZLBCrEJt4YBLK8J6Y3v
+         WxxOTqYHUsRMsUx+4UXg+yDVNg6lWNFgQ4pKAEgM=
+Date:   Thu, 24 Dec 2020 15:50:28 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Joe Perches <joe@perches.com>
+Subject: Re: [PATCH v7 08/12] media: uvcvideo: Use dev_ printk aliases
+Message-ID: <X+ScpMyiKFqhySG6@pendragon.ideasonboard.com>
+References: <20201223133528.55014-1-ribalda@chromium.org>
+ <20201223133528.55014-9-ribalda@chromium.org>
+ <CAHp75VeTWUGF0huwLm9OPkDpDiDJ8vtG0W2jzoDohWEfB+L3yg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeTWUGF0huwLm9OPkDpDiDJ8vtG0W2jzoDohWEfB+L3yg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 24, 2020 at 2:55 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Dec 24, 2020 at 02:24:12PM +0200, Andy Shevchenko wrote:
-> > On Thu, Dec 24, 2020 at 3:14 AM Daniel Scally wrote:
+Hi Andy,
 
-...
-
-> > > +               if (!strncmp(to_swnode(port)->node->name, "port@",
+On Thu, Dec 24, 2020 at 02:59:34PM +0200, Andy Shevchenko wrote:
+> On Wed, Dec 23, 2020 at 3:39 PM Ricardo Ribalda wrote:
 > >
-> > You may use here corresponding _FMT macro.
-> >
-> > > +                            FWNODE_GRAPH_PORT_NAME_PREFIX_LEN))
-> > > +                       return port;
+> > Replace all the uses of printk() and uvc_printk() with its
+> > equivalent dev_ alias macros.
+> 
+> > Modify uvc_warn_once() macro to use dev_info instead printk().
+> 
+> ...
+> 
+> > +#define uvc_warn_once(_dev, warn, fmt, ...)                            \
+> > +do {                                                                   \
+> > +       if (!test_and_set_bit(warn, &(_dev)->warnings))                 \
+> > +               dev_info(&(_dev)->udev->dev, fmt, ##__VA_ARGS__);       \
+> > +} while (0)
+> 
+> ...
+> 
+> Why not to use dev_warn_once() instead?
 
-...
-
-> > > +       /* Ports have naming style "port@n", we need to select the n */
-> >
-> > > +       ret = kstrtou32(swnode->parent->node->name + FWNODE_GRAPH_PORT_NAME_PREFIX_LEN,
-> >
-> > Maybe a temporary variable?
-> >
-> >   unsigned int prefix_len = FWNODE_GRAPH_PORT_NAME_PREFIX_LEN;
-> >   ...
-> >   ret = kstrtou32(swnode->parent->node->name + prefix_len,
->
-> Honestly I'm wondering if those macros don't hinder readability. I'd
-> rather write
->
->         + strlen("port@")
-
-Works for me, since the compiler optimizes this away to be a plain constant.
-
-> and let the compiler optimize this to a compile-time constant.
->
-> > > +                       10, &endpoint->port);
-> > > +       if (ret)
-> > > +               return ret;
-
+uvc_warn_once() prints the warning once per device, not once globally.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
+
+Laurent Pinchart
