@@ -2,136 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D06A72E2707
-	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 14:01:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3AE32E2709
+	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 14:01:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728455AbgLXM7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Dec 2020 07:59:32 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46390 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727039AbgLXM7b (ORCPT
+        id S1728230AbgLXNAd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Dec 2020 08:00:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726931AbgLXNAc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Dec 2020 07:59:31 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3DDEA1D;
-        Thu, 24 Dec 2020 13:58:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608814729;
-        bh=NyE9Xog7WUOcMlr2CsciXfyQZEiqb7pmT8cHhyWHcAs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wS1uUT75bk0spPut70rJAmR164Mpm7/YndNehxOGBZgmiIsbwc+/+MX6HR4Bg0927
-         +vAEb6CpjMAkFm+LBFWNDQt8wF745mUOB32sx6cJuAKmef3S/fYp4Gw0Ro9oOOecU7
-         8Ng9LdriaVPgX2Md1l9sFbM4EL6YgGQVswT5rqo4=
-Date:   Thu, 24 Dec 2020 14:58:39 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org, yong.zhi@intel.com,
-        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
-        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
-        sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
-        linux@rasmusvillemoes.dk,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-        hverkuil-cisco@xs4all.nl, m.felsch@pengutronix.de,
-        niklas.soderlund+renesas@ragnatech.se, slongerbeam@gmail.com,
-        heikki.krogerus@linux.intel.com, linus.walleij@linaro.org
-Subject: Re: [PATCH v3 13/14] include: media: v4l2-fwnode: Include
- v4l2_fwnode_bus_type
-Message-ID: <X+SQf9qypl3k06Vn@pendragon.ideasonboard.com>
-References: <20201224010907.263125-1-djrscally@gmail.com>
- <20201224010907.263125-14-djrscally@gmail.com>
+        Thu, 24 Dec 2020 08:00:32 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24E78C061794;
+        Thu, 24 Dec 2020 04:59:52 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id v19so1508043pgj.12;
+        Thu, 24 Dec 2020 04:59:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/Jr9F/690UBbYbyn+k3sooKcCVDtYkNF4Oiu8+df2GA=;
+        b=ZB+QyLHBPwq1c/hPyEocJCrpP+Qv1Z4uI3xFhH7c28xOHWYOwrgDMW7TF0YNPVT/QD
+         znWbPYCkBWXeAlgjPpawGjQGfgsx22JyEc+pvlsaD6+c6iI3upkLZF9j0RfYTrAg3ULf
+         84ch3aAu/KpqaEhUiq96pspRAl2CVvaEipAE/SUA41ej5xFnDyp6TGFkMRLBfn7WE7FA
+         ET4EsM1GK9M/XCq2B+QELQVux4+N5ljD4Nkf4Wsqjol7HunhRe6uHAffC+UameXehfvb
+         CK7tmYu6Zvve1LNcCshYsRhxIpbFAofYigclt6/sKLjg6XornOV5i1kNlLVCb6Z+Vmeb
+         h12A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/Jr9F/690UBbYbyn+k3sooKcCVDtYkNF4Oiu8+df2GA=;
+        b=BRSOo6IHgW/9ikM3PNfuwa013VSH+ATBTZauoN8jQidlvXy1uuZUErD5AjbWDFcBGb
+         xvOEKzqmFWVGe2zlCmMIwouoRPfk7VdYN0YGgcgMrxBI0HHBSg07oAhnF4eSqmCS45HJ
+         yKVuvzMJDjIi5C+NLpS44V6ud6FevNXmmFwr+l0cTLsvx1PEh3hy80Ndsy5L1Xp9QJmz
+         fpLUq0Ck1NtPZzvPI2opH0PbDEXokvLtZX9N7PlG0pVj0jhINwJ8yU4bX6ErM3whtoV4
+         udcSKKfzpIUY+Z96eHPfoZzppkp6hCUMDCIE+n1UP1iqdKGhtdEUT24WVSPAsQKyhEzW
+         FaGw==
+X-Gm-Message-State: AOAM532KjtMP3EU9ZrKUr6o1nx/m3MuB3x0HNy/YVJHkaql5iaE2eDiD
+        JtSRE4ZpDFz+pXfqGvv3xgQxsI0Gf6oWDMRYTes=
+X-Google-Smtp-Source: ABdhPJwHzsiefM3VCA9T7exEgAJGxpvRNC6lLAQHZx3Tp1p8GQHo3TxmD5gMICyqER9M+3G4AMCYExMPxrInVpTfaN8=
+X-Received: by 2002:a63:74b:: with SMTP id 72mr28774234pgh.4.1608814790947;
+ Thu, 24 Dec 2020 04:59:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201224010907.263125-14-djrscally@gmail.com>
+References: <20201223133528.55014-1-ribalda@chromium.org> <20201223133528.55014-9-ribalda@chromium.org>
+In-Reply-To: <20201223133528.55014-9-ribalda@chromium.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 24 Dec 2020 14:59:34 +0200
+Message-ID: <CAHp75VeTWUGF0huwLm9OPkDpDiDJ8vtG0W2jzoDohWEfB+L3yg@mail.gmail.com>
+Subject: Re: [PATCH v7 08/12] media: uvcvideo: Use dev_ printk aliases
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+On Wed, Dec 23, 2020 at 3:39 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Replace all the uses of printk() and uvc_printk() with its
+> equivalent dev_ alias macros.
 
-Thank you for the patch.
+> Modify uvc_warn_once() macro to use dev_info instead printk().
 
-On Thu, Dec 24, 2020 at 01:09:06AM +0000, Daniel Scally wrote:
-> V4L2 fwnode bus types are enumerated in v4l2-fwnode.c, meaning they aren't
-> available to the rest of the kernel. Move the enum to the corresponding
-> header so that I can use the label to refer to those values.
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> ---
-> Changes in v3
-> 	- Patch introduced
-> 
->  drivers/media/v4l2-core/v4l2-fwnode.c | 11 -----------
->  include/media/v4l2-fwnode.h           | 22 ++++++++++++++++++++++
->  2 files changed, 22 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 5353e37eb950..c1c2b3060532 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -28,17 +28,6 @@
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-subdev.h>
->  
-> -enum v4l2_fwnode_bus_type {
-> -	V4L2_FWNODE_BUS_TYPE_GUESS = 0,
-> -	V4L2_FWNODE_BUS_TYPE_CSI2_CPHY,
-> -	V4L2_FWNODE_BUS_TYPE_CSI1,
-> -	V4L2_FWNODE_BUS_TYPE_CCP2,
-> -	V4L2_FWNODE_BUS_TYPE_CSI2_DPHY,
-> -	V4L2_FWNODE_BUS_TYPE_PARALLEL,
-> -	V4L2_FWNODE_BUS_TYPE_BT656,
-> -	NR_OF_V4L2_FWNODE_BUS_TYPE,
-> -};
-> -
->  static const struct v4l2_fwnode_bus_conv {
->  	enum v4l2_fwnode_bus_type fwnode_bus_type;
->  	enum v4l2_mbus_type mbus_type;
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index 4365430eea6f..d306a28bda96 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -213,6 +213,28 @@ struct v4l2_fwnode_connector {
->  	} connector;
->  };
->  
-> +/**
-> + * enum v4l2_fwnode_bus_type - Video bus types defined by firmware properties
-> + * @V4L2_FWNODE_BUS_TYPE_GUESS: Default value if no bus-type fwnode property
-> + * @V4L2_FWNODE_BUS_TYPE_CSI2_CPHY: MIPI CSI-2 bus, C-PHY physical layer
-> + * @V4L2_FWNODE_BUS_TYPE_CSI1: MIPI CSI-1 bus
-> + * @V4L2_FWNODE_BUS_TYPE_CCP2: SMIA Compact Camera Port 2 bus
-> + * @V4L2_FWNODE_BUS_TYPE_CSI2_DPHY: MIPI CSI-2 bus, D-PHY physical layer
-> + * @V4L2_FWNODE_BUS_TYPE_PARALLEL: Camera Parallel Interface bus
-> + * @V4L2_FWNODE_BUS_TYPE_BT656: BT656 video format bus-type
+...
 
-s/BT656 video/BT.656 video/
+> +#define uvc_warn_once(_dev, warn, fmt, ...)                            \
+> +do {                                                                   \
+> +       if (!test_and_set_bit(warn, &(_dev)->warnings))                 \
+> +               dev_info(&(_dev)->udev->dev, fmt, ##__VA_ARGS__);       \
+> +} while (0)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+...
 
-> + * @NR_OF_V4L2_FWNODE_BUS_TYPE: Number of bus-types
-> + */
-> +enum v4l2_fwnode_bus_type {
-> +	V4L2_FWNODE_BUS_TYPE_GUESS = 0,
-> +	V4L2_FWNODE_BUS_TYPE_CSI2_CPHY,
-> +	V4L2_FWNODE_BUS_TYPE_CSI1,
-> +	V4L2_FWNODE_BUS_TYPE_CCP2,
-> +	V4L2_FWNODE_BUS_TYPE_CSI2_DPHY,
-> +	V4L2_FWNODE_BUS_TYPE_PARALLEL,
-> +	V4L2_FWNODE_BUS_TYPE_BT656,
-> +	NR_OF_V4L2_FWNODE_BUS_TYPE,
-> +};
-> +
->  /**
->   * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
->   * @fwnode: pointer to the endpoint's fwnode handle
+Why not to use dev_warn_once() instead?
 
 -- 
-Regards,
-
-Laurent Pinchart
+With Best Regards,
+Andy Shevchenko
