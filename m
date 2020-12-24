@@ -2,273 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 654F02E265D
-	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 12:30:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D06E2E26B3
+	for <lists+linux-media@lfdr.de>; Thu, 24 Dec 2020 13:14:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728336AbgLXL1n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Dec 2020 06:27:43 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:43131 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728033AbgLXL1n (ORCPT
+        id S1728128AbgLXMOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Dec 2020 07:14:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727759AbgLXMOK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Dec 2020 06:27:43 -0500
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 24 Dec 2020 03:26:25 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 24 Dec 2020 03:26:23 -0800
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 24 Dec 2020 16:56:20 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id ACB142146B; Thu, 24 Dec 2020 16:56:19 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        nicolas@ndufresne.ca, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v4 3/3] venus: venc: Add support for frame-specific min/max qp controls
-Date:   Thu, 24 Dec 2020 16:55:35 +0530
-Message-Id: <1608809135-26061-4-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1608809135-26061-1-git-send-email-dikshita@codeaurora.org>
-References: <1608809135-26061-1-git-send-email-dikshita@codeaurora.org>
+        Thu, 24 Dec 2020 07:14:10 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64CAC061794;
+        Thu, 24 Dec 2020 04:13:29 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id l23so1101023pjg.1;
+        Thu, 24 Dec 2020 04:13:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UALr9ym4hsAZyiPOgyH1YaE+cu2KjtwJLBwTVvlB5/k=;
+        b=Mg+X4meLskIl4Y4m1FU2Bpwk0/eLPjYsQ1bc2nFbH5sa/Fymch56YfhLwLr2zHgu6+
+         cHXDlkz0qPSrqikN8Kqss93Mb9vkwRYAKrpeV4/VhA5jIXmnM+r+mKthrMlJia4csbNU
+         GRDdpX/FxssQBT5uUJNC0sqPiujRKyronrpH5ErzdcNk3jPAHK54x+IRg0kaYgGnaNVy
+         qTTbaS8J8yo0mFvCaCaf05Nm5opZPixYbnD4EmO26MGunXN7ttnNV+X4MkiC9+PJ7RdU
+         EKMl7kCTVAMhsNNJhptfAavOs4Thf1sP50uNALVbuHt6x76qWZvvSKKA3Ltv+UiORG2x
+         9whw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UALr9ym4hsAZyiPOgyH1YaE+cu2KjtwJLBwTVvlB5/k=;
+        b=DOewvRm9Y/J2OsO6wMhI56oBcWF2vLVpNt7+0kuTstgUPBYz+YZ3QzQgsicipL8liY
+         St7NGRW/f8qIeL+fDsmsxUdjMrXKjobTd1nLrPiU58Xxxwg+EnCJps3aMxfTAT20MI0I
+         klXwo1CiPLCYCC7K55NIr9EuIYebJzZeKVseZTEg8gEJZqBRhICvCVW0KLz988t845yg
+         amVNkBvhAU9QtXwS8iyn+V/3KDuIpeOsTb3VGCdYbnX3LQ75yWEC7s/UHhhUBWNYWrj/
+         fkFuw19ljJ9i44KqWEgiiAYi13psnharc8dVS1X4RAQQg79xq/kNaYdju2jLR5QKxkg9
+         Y8yw==
+X-Gm-Message-State: AOAM533+OMPivAPNV2jZ0Cg64UkOi3NfNn13xgpUbWs80hSNdm0i5WeG
+        it+HthvmytjSND5afaOsNmJjh3KhVb7n+Uiz0Dg=
+X-Google-Smtp-Source: ABdhPJzFIC1SAIBCVWCBrnBnewdPpuCRgYW7JPpjkgyIwp7BAN66+GZ8WvhceftHJu5SPnS3x8pknFhFVqKS3VtWvWc=
+X-Received: by 2002:a17:902:e98c:b029:da:cb88:f11d with SMTP id
+ f12-20020a170902e98cb02900dacb88f11dmr8616930plb.17.1608812009413; Thu, 24
+ Dec 2020 04:13:29 -0800 (PST)
+MIME-Version: 1.0
+References: <20201224010907.263125-1-djrscally@gmail.com> <20201224010907.263125-6-djrscally@gmail.com>
+In-Reply-To: <20201224010907.263125-6-djrscally@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 24 Dec 2020 14:13:13 +0200
+Message-ID: <CAHp75VdF5NdjrSxcOafh7KNNDteYEUDk9otA0HKX-iks7G0D4g@mail.gmail.com>
+Subject: Re: [PATCH v3 05/14] software_node: unregister software_nodes in
+ reverse order
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        kernel test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for frame type specific min and max qp controls
-for encoder.
-This is a preparation patch to support v6.
+On Thu, Dec 24, 2020 at 3:12 AM Daniel Scally <djrscally@gmail.com> wrote:
+>
+> To maintain consistency with software_node_unregister_nodes(), reverse
+> the order in which the software_node_unregister_node_group() function
+> unregisters nodes.
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
----
- drivers/media/platform/qcom/venus/core.h       |  18 ++++
- drivers/media/platform/qcom/venus/venc.c       |  21 +++--
- drivers/media/platform/qcom/venus/venc_ctrls.c | 114 +++++++++++++++++++++++--
- 3 files changed, 142 insertions(+), 11 deletions(-)
+...
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index f03ed42..54c42a3 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -230,10 +230,28 @@ struct venc_controls {
- 	u32 h264_b_qp;
- 	u32 h264_min_qp;
- 	u32 h264_max_qp;
-+	u32 h264_i_min_qp;
-+	u32 h264_i_max_qp;
-+	u32 h264_p_min_qp;
-+	u32 h264_p_max_qp;
-+	u32 h264_b_min_qp;
-+	u32 h264_b_max_qp;
- 	u32 h264_loop_filter_mode;
- 	s32 h264_loop_filter_alpha;
- 	s32 h264_loop_filter_beta;
- 
-+	u32 hevc_i_qp;
-+	u32 hevc_p_qp;
-+	u32 hevc_b_qp;
-+	u32 hevc_min_qp;
-+	u32 hevc_max_qp;
-+	u32 hevc_i_min_qp;
-+	u32 hevc_i_max_qp;
-+	u32 hevc_p_min_qp;
-+	u32 hevc_p_max_qp;
-+	u32 hevc_b_min_qp;
-+	u32 hevc_b_max_qp;
-+
- 	u32 vp8_min_qp;
- 	u32 vp8_max_qp;
- 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 1c61602..3961e03 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -669,17 +669,28 @@ static int venc_set_properties(struct venus_inst *inst)
- 		return ret;
- 
- 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP;
--	quant.qp_i = ctr->h264_i_qp;
--	quant.qp_p = ctr->h264_p_qp;
--	quant.qp_b = ctr->h264_b_qp;
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		quant.qp_i = ctr->hevc_i_qp;
-+		quant.qp_p = ctr->hevc_p_qp;
-+		quant.qp_b = ctr->hevc_b_qp;
-+	} else {
-+		quant.qp_i = ctr->h264_i_qp;
-+		quant.qp_p = ctr->h264_p_qp;
-+		quant.qp_b = ctr->h264_b_qp;
-+	}
- 	quant.layer_id = 0;
- 	ret = hfi_session_set_property(inst, ptype, &quant);
- 	if (ret)
- 		return ret;
- 
- 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
--	quant_range.min_qp = ctr->h264_min_qp;
--	quant_range.max_qp = ctr->h264_max_qp;
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		quant_range.min_qp = ctr->hevc_min_qp;
-+		quant_range.max_qp = ctr->hevc_max_qp;
-+	} else {
-+		quant_range.min_qp = ctr->h264_min_qp;
-+		quant_range.max_qp = ctr->h264_max_qp;
-+	}
- 	quant_range.layer_id = 0;
- 	ret = hfi_session_set_property(inst, ptype, &quant_range);
- 	if (ret)
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index cf860e6..496ad4d 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -135,9 +135,60 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_H264_MIN_QP:
- 		ctr->h264_min_qp = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MIN_QP:
-+		ctr->h264_i_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP:
-+		ctr->h264_p_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:
-+		ctr->h264_b_min_qp = ctrl->val;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP:
- 		ctr->h264_max_qp = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP:
-+		ctr->h264_i_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:
-+		ctr->h264_p_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:
-+		ctr->h264_b_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP:
-+		ctr->hevc_i_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_QP:
-+		ctr->hevc_p_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP:
-+		ctr->hevc_b_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:
-+		ctr->hevc_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP:
-+		ctr->hevc_i_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP:
-+		ctr->hevc_p_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP:
-+		ctr->hevc_b_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:
-+		ctr->hevc_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP:
-+		ctr->hevc_i_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP:
-+		ctr->hevc_p_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP:
-+		ctr->hevc_b_max_qp = ctrl->val;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
- 		ctr->multi_slice_mode = ctrl->val;
- 		break;
-@@ -223,7 +274,7 @@ int venc_ctrl_init(struct venus_inst *inst)
- {
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 33);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 50);
- 	if (ret)
- 		return ret;
- 
-@@ -311,19 +362,70 @@ int venc_ctrl_init(struct venus_inst *inst)
- 		BITRATE_STEP, BITRATE_DEFAULT_PEAK);
- 
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
--		V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP, 1, 51, 1, 26);
-+			  V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP, 1, 51, 1, 26);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_P_FRAME_QP, 1, 51, 1, 28);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_B_FRAME_QP, 1, 51, 1, 30);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_MIN_QP, 1, 51, 1, 1);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MIN_QP, 1, 51, 1, 1);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP, 1, 51, 1, 1);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP, 1, 51, 1, 1);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_MAX_QP, 1, 51, 1, 51);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP, 1, 51, 1, 51);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP, 1, 51, 1, 51);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP, 1, 51, 1, 51);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP, 1, 63, 1, 26);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_QP, 1, 63, 1, 28);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP, 1, 63, 1, 30);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP, 1, 63, 1, 1);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP, 1, 63, 1, 1);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP, 1, 63, 1, 1);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP, 1, 63, 1, 1);
- 
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
--		V4L2_CID_MPEG_VIDEO_H264_P_FRAME_QP, 1, 51, 1, 28);
-+			  V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP, 1, 63, 1, 63);
- 
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
--		V4L2_CID_MPEG_VIDEO_H264_B_FRAME_QP, 1, 51, 1, 30);
-+			  V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP, 1, 63, 1, 63);
- 
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
--		V4L2_CID_MPEG_VIDEO_H264_MIN_QP, 1, 51, 1, 1);
-+			  V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP, 1, 63, 1, 63);
- 
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
--		V4L2_CID_MPEG_VIDEO_H264_MAX_QP, 1, 51, 1, 51);
-+			  V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP, 1, 63, 1, 63);
- 
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
- 		V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MAX_BYTES, SLICE_BYTE_SIZE_MIN,
+> - * Unregister multiple software nodes at once.
+> + * Unregister multiple software nodes at once. The array will be unwound in
+> + * reverse order (i.e. last entry first) and thus if any member of the array
+> + * has its .parent member set then they should appear later in the array such
+> + * that they are unregistered first.
+
+I'm, as being not a native speaker, a bit confused by this comment.
+The idea is that children are unregistered first. Can you try to make
+it more clear maybe?
+
+>   */
+
+
 -- 
-2.7.4
-
+With Best Regards,
+Andy Shevchenko
