@@ -2,178 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAD802E299A
-	for <lists+linux-media@lfdr.de>; Fri, 25 Dec 2020 05:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD8102E2A7B
+	for <lists+linux-media@lfdr.de>; Fri, 25 Dec 2020 09:48:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729145AbgLYE3q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Dec 2020 23:29:46 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56563 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729122AbgLYE3q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Dec 2020 23:29:46 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id seiskCQb4LGy3seitk6bOu; Fri, 25 Dec 2020 05:29:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1608870543; bh=Z2GXCEu31RROfk7gJUFk+F/LR5hNICrgR41pUI6O8G8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=P7VLW6kIOiHnAOzuxFm3gxhbqj2y6WNjocOUn4agFz+LbtqYwvndBun6MAyErfk3o
-         uKTQ5R3KKbvk6SEwhHu8OKc1g/v+ZhCsZnZwLxwNr8NsJEh8r04JAkwU3LgRUDqLik
-         O9c4aPBG969+vM8YyUy9aTa1J3rwe8+VKEuE4IufDVIqGNn/HDcyHm+u5sAacig7sC
-         Q91mYVD1RIfi76U1ePxasGworXabxf1RM/FRRbKmXWt8/5jnUaYvRafX8Sdg/ZqWap
-         eFuQcUnwSqlKMEmmBxfFIhueS83VgXD4p/a2h0IQX/nE6N4u8PDLN/fB34pFyH4+rn
-         TTAT928loBjrA==
-Message-ID: <1557b15df05fc56718dfb8d3d3e78302@smtp-cloud7.xs4all.net>
-Date:   Fri, 25 Dec 2020 05:29:02 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfEgnvNkMClavUKUIaApuWErddE+fYOTm7tT4GsYUmmIfgPRKGTeOXiEBNm9dtrBP/uzlIX0YV4d7ALAxhQkGRJDSKc5crH1lIGVuDvaCXTR5k3242MXQ
- IGjPUv8FMshMuzVUVDyVWKNkejUUd9q8Haa1ui/MLdOgKpkylr87eEmTTLrJn1+YyqMPsUbc4JxKzaA3qycksmK/qvIns8SS3w9yay0qi/eHR0K0bHd7JeZv
- W1hBWiG8+SsYODpSSBIKEg==
+        id S1728983AbgLYIrd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Dec 2020 03:47:33 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:57618 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725863AbgLYIrc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 25 Dec 2020 03:47:32 -0500
+Received: from localhost.localdomain (unknown [124.16.141.241])
+        by APP-03 (Coremail) with SMTP id rQCowADXTPj9pOVfX+OnAA--.33235S2;
+        Fri, 25 Dec 2020 16:38:21 +0800 (CST)
+From:   Xu Wang <vulab@iscas.ac.cn>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: Remove redundant NULL check
+Date:   Fri, 25 Dec 2020 08:38:18 +0000
+Message-Id: <20201225083818.64588-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: rQCowADXTPj9pOVfX+OnAA--.33235S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF13uw1xuFW7KrW7Ww1kuFg_yoW8JFW3pa
+        y8Z3W7G3yUXF1jyrsrXws7ZFW5AayftF1UKa4q93WfCw13t3WfZF1akF15JF1rtw45W3y5
+        Z3WrXrW3Ww1qyFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkIb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+        jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8Jr0_Cr
+        1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_GFyl42xK
+        82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+        C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
+        MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+        IF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8ZZ23UUUUU==
+X-Originating-IP: [124.16.141.241]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgcBA10Te3q+NAAAsG
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Fix warnings reported by coccicheck:
+./drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c:159:4-10: WARNING: NULL check before some freeing functions is not needed.
 
-Results of the daily build of media_tree:
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ .../media/atomisp/pci/runtime/isp_param/src/isp_param.c        | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-date:			Fri Dec 25 05:00:14 CET 2020
-media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
-media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
-v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7047-g72fa1e990
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+index e861777385a0..823ec54b6281 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+@@ -155,8 +155,7 @@ ia_css_isp_param_destroy_isp_parameters(
+ 
+ 	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++) {
+ 		for (pclass = 0; pclass < IA_CSS_NUM_PARAM_CLASSES; pclass++) {
+-			if (mem_params->params[pclass][mem].address)
+-				kvfree(mem_params->params[pclass][mem].address);
++			kvfree(mem_params->params[pclass][mem].address);
+ 			if (css_params->params[pclass][mem].address)
+ 				hmm_free(css_params->params[pclass][mem].address);
+ 			mem_params->params[pclass][mem].address = NULL;
+-- 
+2.17.1
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.69-i686: ERRORS
-linux-5.4.69-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: ERRORS
-linux-5.8.13-x86_64: ERRORS
-linux-5.9.1-i686: ERRORS
-linux-5.9.1-x86_64: ERRORS
-linux-5.10.1-i686: ERRORS
-linux-5.10.1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 5
-sparse: WARNINGS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
