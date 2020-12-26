@@ -2,96 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DEFF2E2E37
-	for <lists+linux-media@lfdr.de>; Sat, 26 Dec 2020 13:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 910042E2F58
+	for <lists+linux-media@lfdr.de>; Sun, 27 Dec 2020 00:16:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726127AbgLZMqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Dec 2020 07:46:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57934 "EHLO
+        id S1725943AbgLZXO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Dec 2020 18:14:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725969AbgLZMqu (ORCPT
+        with ESMTP id S1725881AbgLZXO6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Dec 2020 07:46:50 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BB9C061757
-        for <linux-media@vger.kernel.org>; Sat, 26 Dec 2020 04:46:10 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id b5so3981646pjl.0
-        for <linux-media@vger.kernel.org>; Sat, 26 Dec 2020 04:46:10 -0800 (PST)
+        Sat, 26 Dec 2020 18:14:58 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6743C061757;
+        Sat, 26 Dec 2020 15:14:17 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id r4so5988068wmh.5;
+        Sat, 26 Dec 2020 15:14:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=AxYQEgxOPn2N7I22CFx0QgjTx48s3ArtdHBxYkLM6iA=;
-        b=GBGHLw6Gk5hjAM+SlhD+mS6tmEM7j154q1+WA65J6t4hNonLDQofMFmH9yA7QICWKg
-         5twpzGd6LcYlPC+W2HU5H9G0Y/Ve1tsmL+t92iirPdO2ZVW6uHgulHqk6gA4f0kn2unD
-         jMhqrcynFMeXH5h71x050LUo9PRIbtCUV7tbQpnxghjJx5nwNJbRAJpORlTUASKNhb6C
-         BlXpmjiUweO+yUPXGckEq4ECPklAP7kLso77USE6qhIQw7WHQ+PVPWbY59iMcoTCJl32
-         cBhMgAsvGhVjJ7j0d84GqXszGYkypbPV8lxJKuRWdrATB9bdrSbhw7/Ww7kWrNJ1aP1Z
-         zI+g==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eryyFYDf8MMMvLeZ4Dh3QtgjqUjg6SaNopR5osGWllY=;
+        b=qZYv6EXQMmNHC9DhRXSMxJOYChP+AeaW9DfFXlByadq/SHGy1MPmSMP7F/LFKBP9cw
+         Cwhnir32sL/jjsvJve7BFI7lJNaymtPdnY9etpfsbMC/SuMnTMzcsYRmRsOxyoCJgubz
+         4dRpxTFOFRZkLFS/hGUq2UYB7gbkrini56AepUCjg2wkJZJWrf05AL+qr8v4C61M2nYR
+         ALdxBW9EauchVPp4X4zXNWN+RwEz9a06th64YDFioktyabgTXZfQTxzl/pJv2hjNjcg/
+         OmG3uIky24R336M3zsqD2V6JVUrDZjiIwHn1TY9xz/Ru4d2gsCdnLTch720I+v1N/4Le
+         gYKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=AxYQEgxOPn2N7I22CFx0QgjTx48s3ArtdHBxYkLM6iA=;
-        b=TSAP4CCMTyBkgnmKLSy8ry1I7K0RqLOQ+XsaOIuI760CAB789GSN83NYC+1MnGiggw
-         T8FLCzZmd4L/XaG8cmVujUGmlqNrUeE9DkAMISt+nzNqmmWdOi4wUQ5R+Mfy1D9mGe2A
-         dNe8WharFpjnz8Df/nelmoLLgLtIZZsw1ZA5ho+PmEO7r4+YfadIKlvPHAi1tCy31l+s
-         95eDu96v9m4Gf3//P6ny4lX7k/2LuNDptAnDZeYeIUdTCudN8Mk85vkbcuK6bxAYbbMi
-         d7QyJZNNhCpEAFLnafimC4bcuZMsVxLJfUAESI1bdhOY//maZ40Erk9Cmxexa1NgtZGS
-         tMeQ==
-X-Gm-Message-State: AOAM532HIHtvHLCkQWjjBcrtcTLNRFS9d9HxZ+vlnV+fBlIv3IIEvt2u
-        PSbv9YVjJEcmijTdZA0P+pZGN+ATHst4Kh/tY4s=
-X-Google-Smtp-Source: ABdhPJwyHsBPsJghbefCi9ZSyRHFTdXpV6kl4qnkXP3H6JfKHbamFVnLQ3b7JZ28bXG8dolD+TESlJO/6eHJvMXzn/E=
-X-Received: by 2002:a17:90a:9e5:: with SMTP id 92mr12705211pjo.176.1608986769940;
- Sat, 26 Dec 2020 04:46:09 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=eryyFYDf8MMMvLeZ4Dh3QtgjqUjg6SaNopR5osGWllY=;
+        b=tjyaCP1ZSFEgv3VX9pOGoKMkIkFRHYNgfFBj8+UD4qN4xnGwSKNpBIVn+YWwitLxcu
+         Rh6v4HeI8w6mhICWny3ZawxP2nWPy2c9rf/SoOQ4guURMEnknDzjbNFoElB97xW2REmA
+         kFeS0RqOTaxB/gZQ4guAUjjOHUggOAU3rgnF2O4LdyS8OR+MxU9eTTU45GhJwBXHDwR4
+         v3Fn5YatOcdrkyoLEKwo/SpW0ZRzNifv3a0fjLCzup0S5R6KQGtGO6YMZKHaA0bYcUwa
+         B6eqBqbP60otRFVIkKG2Zz9Dl4WMj31L1M1aH7RdCpiOwtsOxYJPCJMroP18jBHFVuuW
+         tIig==
+X-Gm-Message-State: AOAM530IJhlyc3zCwWtfMxAxr9cxF/PRIpiHaGftyFxMIKpoUDE6mngE
+        UqR0diDbCeWlw9k4Vw57qp8=
+X-Google-Smtp-Source: ABdhPJwuF10rpm3WtaJOMqJO8lZ80gMjL5Ux/o6cTS+GoWMcwYN855GMYqKVCygMQfOxg4xVVWqxPA==
+X-Received: by 2002:a1c:3cd5:: with SMTP id j204mr13796911wma.53.1609024456412;
+        Sat, 26 Dec 2020 15:14:16 -0800 (PST)
+Received: from [192.168.1.211] ([2.31.224.116])
+        by smtp.gmail.com with ESMTPSA id o23sm54117640wro.57.2020.12.26.15.14.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 26 Dec 2020 15:14:15 -0800 (PST)
+Subject: Re: [PATCH v3 13/14] include: media: v4l2-fwnode: Include
+ v4l2_fwnode_bus_type
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+References: <20201224010907.263125-1-djrscally@gmail.com>
+ <20201224010907.263125-14-djrscally@gmail.com>
+ <CAHp75VdSyNv3M9T0_nQKsZfO-nxd5A3Z6o0mrRKrpHm282wsjQ@mail.gmail.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <752601ac-0c9c-bef8-5de0-aa7bf757a8be@gmail.com>
+Date:   Sat, 26 Dec 2020 23:14:14 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Reply-To: mrselizabethedward2@gmail.com
-Sender: entiuomarmachar@gmail.com
-Received: by 2002:a17:90a:e504:0:0:0:0 with HTTP; Sat, 26 Dec 2020 04:46:09
- -0800 (PST)
-From:   "Mrs. Elizabeth Edward" <mrselizabethedward3@gmail.com>
-Date:   Sat, 26 Dec 2020 12:46:09 +0000
-X-Google-Sender-Auth: 0Npjh9ll5cZUESAZjbEgNQ0ZC-s
-Message-ID: <CACoQbmdCnDWG5R+Pb-VFHyrf9aW-ka6+Zsge8ry+PDi_k4sDqQ@mail.gmail.com>
-Subject: Dear friend,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHp75VdSyNv3M9T0_nQKsZfO-nxd5A3Z6o0mrRKrpHm282wsjQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear friend,
+Hi Andy
 
-Please forgive me for stressing you with my predicaments as I know
-that this letter may come to you as a big surprise. Actually, I came
-across your E-mail from my personal search afterward I decided to
-email you directly believing that you will be honest to fulfill my
-final wish before or after my death.
+On 24/12/2020 12:32, Andy Shevchenko wrote:
+> On Thu, Dec 24, 2020 at 3:13 AM Daniel Scally <djrscally@gmail.com> wrote:
 
-Meanwhile, I am Madam Elizabeth Edwards, 63 years, from USA, childless
-and I am suffering from Adenocarcinoma Cancer of the lung for the past
-8 years and from all indication my condition is really deteriorating
-as my doctors have confirmed and courageously advised me that I may
-not live beyond two months from now for the reason that my tumor has
-reached a critical stage which has defiled all forms of medical
-treatment.
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
+Thank you
 
-Since my days are numbered, I've decided willingly to fulfill my
-long-time vow to donate you the sum ($8.5 000.000.00) million dollars
-I inherited from my late husband Mr. Edward Herbart, foreign bank
-account over years.
+>> +/**
+>> + * enum v4l2_fwnode_bus_type - Video bus types defined by firmware properties
+>> + * @V4L2_FWNODE_BUS_TYPE_GUESS: Default value if no bus-type fwnode property
+>> + * @V4L2_FWNODE_BUS_TYPE_CSI2_CPHY: MIPI CSI-2 bus, C-PHY physical layer
+>> + * @V4L2_FWNODE_BUS_TYPE_CSI1: MIPI CSI-1 bus
+>> + * @V4L2_FWNODE_BUS_TYPE_CCP2: SMIA Compact Camera Port 2 bus
+>> + * @V4L2_FWNODE_BUS_TYPE_CSI2_DPHY: MIPI CSI-2 bus, D-PHY physical layer
+>> + * @V4L2_FWNODE_BUS_TYPE_PARALLEL: Camera Parallel Interface bus
+>> + * @V4L2_FWNODE_BUS_TYPE_BT656: BT656 video format bus-type
+>> + * @NR_OF_V4L2_FWNODE_BUS_TYPE: Number of bus-types
+>> + */
+>> +enum v4l2_fwnode_bus_type {
+>> +       V4L2_FWNODE_BUS_TYPE_GUESS = 0,
+>> +       V4L2_FWNODE_BUS_TYPE_CSI2_CPHY,
+>> +       V4L2_FWNODE_BUS_TYPE_CSI1,
+>> +       V4L2_FWNODE_BUS_TYPE_CCP2,
+>> +       V4L2_FWNODE_BUS_TYPE_CSI2_DPHY,
+>> +       V4L2_FWNODE_BUS_TYPE_PARALLEL,
+>> +       V4L2_FWNODE_BUS_TYPE_BT656,
+> 
+>> +       NR_OF_V4L2_FWNODE_BUS_TYPE,
+> 
+> I see that comma is in the original line, but I think it's a good time
+> to remove it from this line. Since it's a terminator line we might
+> prevent potential issues during review (by a different diff look) and
+> at compile time (if anything comes after it).
 
-If you will be honest, kind and willing to assist in transfer of this
-money to his or her account and use the funds for charity work of God
-while you use 50% for yourself. I want you to know there are no risks
-involved, it is 100% hitch free & safe. If you would be interested to
-assist in getting this fund into your account for a charity project to
-fulfill my promise before I die please let me know immediately. I will
-appreciate your utmost confidentiality as I wait for your reply.
+Fair enough, I've removed it.
 
-Kindly get back to me at my discreet Email (
-mrselizabethedward2@gmail.com ) for further discussion.
-
-Best Regards
-Mrs. Elizabeth Edward
-mrselizabethedward2@gmail.com
