@@ -2,169 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F00EE2E2F6A
-	for <lists+linux-media@lfdr.de>; Sun, 27 Dec 2020 00:50:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 434542E2FD4
+	for <lists+linux-media@lfdr.de>; Sun, 27 Dec 2020 05:35:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726089AbgLZXsX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Dec 2020 18:48:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725943AbgLZXsW (ORCPT
+        id S1725986AbgL0Eac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Dec 2020 23:30:32 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:52127 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725908AbgL0Eab (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Dec 2020 18:48:22 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F50C061757;
-        Sat, 26 Dec 2020 15:47:42 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id c5so7056174wrp.6;
-        Sat, 26 Dec 2020 15:47:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kzI2MBTYva7U96gTMdRoE9qINNA+Cq6RZ4dSPhM8U1k=;
-        b=hJM+G/aArmhCe9cR274A2+PGV6lQ/drZKAZwupEAAlgnFtX4aQZPx2DqEXbX7LGQkk
-         YdgYKL15S6UQTVSNwr3QWdj5a0bQ/ggEQvuDO7TzVLipV0Vib95bOSvXey/5gVQez2Jc
-         TiGZclktxHth2mxRD4m8Xu/QI16HD2GaRJuodWEU+7NYA08ZYjsCOEr2tZ3ZFWRnMull
-         gYe3hEzyRXbW0lWl5dSKuNUI3P89K6wz8MfuBzOMuDZ6DUyL6y5kuSwhlhViSLWAB3ap
-         SQLFuWIeg5v9zTwTKv1Fhr7uD8e+e2US2woYNrvXWQ23BTaRxZZ0O7BYM42npMRuw2rf
-         wwKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kzI2MBTYva7U96gTMdRoE9qINNA+Cq6RZ4dSPhM8U1k=;
-        b=glQMUr9/fJRXqLcJbH3T+3VJwyMncsZRn2Df10BfPoYMT+2wbehHYInfXuhWWfqKOi
-         DGY5hPaC++jMSHUDuQGtDC4/P8ke7X1YDZjb5W1XpvpMkZfMyAsugT+vsu+UKJQgGUn3
-         heSusFKQnQAb4/ELx6hao2Vu5zD0VTOWi6aQUzvIcnHSUZO7/PNf7lMK618O6FdPvchT
-         jRTIfnw/0CSsYQlMoCQytjMS5ypqc3JnDj5sNyetW+7QRuUG7lTnYWYqW9DoG8Veu+UL
-         vX4DIwps3tR39QhY0rnixC1u5cHxvw6mI3LNZ1OggUBh/HfkApo6cTzeR52NkGvySAc9
-         Olfg==
-X-Gm-Message-State: AOAM531ZAp8kj+sWAdEFsMh7hpsevtbkV5GTDXU8cvmUGaNRd3qpLwUd
-        8g8Y9Tjo7bjKT+nwh1rlN34=
-X-Google-Smtp-Source: ABdhPJzwtl+Qm96JmW1M6/1w9dplkoiCaZcr7sxyqHDpk1gQAqoFP7RCWtUJRsftTRInmSLfgw167g==
-X-Received: by 2002:adf:e9d2:: with SMTP id l18mr43057569wrn.179.1609026459449;
-        Sat, 26 Dec 2020 15:47:39 -0800 (PST)
-Received: from [192.168.1.211] ([2.31.224.116])
-        by smtp.gmail.com with ESMTPSA id m17sm54312124wrn.0.2020.12.26.15.47.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Dec 2020 15:47:38 -0800 (PST)
-Subject: Re: [PATCH v3 07/14] software_node: Add support for fwnode_graph*()
- family of functions
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-References: <20201224010907.263125-1-djrscally@gmail.com>
- <20201224010907.263125-8-djrscally@gmail.com>
- <CAHp75Vft7gg1AcKCEU+E74eB_ZMouHFd-8uZ7pcVj5CoJzZpvQ@mail.gmail.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <df4a5159-6d5e-3d4e-f164-3bd7c5e551eb@gmail.com>
-Date:   Sat, 26 Dec 2020 23:47:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAHp75Vft7gg1AcKCEU+E74eB_ZMouHFd-8uZ7pcVj5CoJzZpvQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Sat, 26 Dec 2020 23:30:31 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id tNghkvS5FWmLptNgikpR4W; Sun, 27 Dec 2020 05:29:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1609043389; bh=oLocVV9IPtwdeh8GYkfpeeWljrl4gGEn3EHB6bt1l8g=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=BxWfZ4ckKBtOxzNdYcWUVQsrbyF0IZQ1VqxclOXkgOZNoTYHgLn/f11fyxm/NwsvP
+         N16h3NESfz8HPUd4LlRdVTFSiC0Il4ig8RwM4a3prQL7v8+gIRlKkP6Fu003CXZFsz
+         8n4hYboDBtWny4K5ielX/QhHMtjjzjIRirdHmdebv4OzxSIg/8IW20lP10jyaEUm/2
+         hphK0esUzsa8MafHAOPKOwTVDWu39w6sbp2eGvvsSXYrw8ntwJ8W1u0wa/YxFCyDt9
+         Y00FoZ/1mYwMqfPa9jvHrAm0ktv8USS7QhwMuZbkxtm5JBPptVqP0dnP7aDQYxZfF8
+         EEKmENfasCg9w==
+Message-ID: <5b757a0a76b1fda1344fd423e424effd@smtp-cloud8.xs4all.net>
+Date:   Sun, 27 Dec 2020 05:29:47 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfDHsI8v9KzTzVfkL8fUBIckIaTIMrs5FnWhA2/Oep/Zt24Andh6s5Bu67l7+JRBxo4xFTPke7g/Od9ca+T3x7nIkqaUkoHP9JRepL//tIxV+3VjxEQ41
+ Fj0Oc8htEQN1QPFYx4Yw7/1U8JbqhLqIYK1r8vYJ2bFTwuVTuJMZe/1Uq82phO+AyNknmef3koCO1mPb7Ng9mVfDWBWTFGJoTEYHe7PdoKlMuqeTKyCsNi0q
+ zlrJx2ann+Nv0AJssTwtdw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 24/12/2020 12:24, Andy Shevchenko wrote:
-> On Thu, Dec 24, 2020 at 3:14 AM Daniel Scally <djrscally@gmail.com> wrote:
->>
->> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
->>
->> This implements the remaining .graph_* callbacks in the
-> 
-> .graph_* ==> ->graph_*() ?
-> 
->> fwnode operations structure for the software nodes. That makes
->> the fwnode_graph*() functions available in the drivers also
-> 
-> graph*() -> graph_*() ?
+Results of the daily build of media_tree:
 
-Both done.
+date:			Sun Dec 27 05:00:12 CET 2020
+media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
+media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
+v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7047-g72fa1e990
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
->> when software nodes are used.
->>
->> The implementation tries to mimic the "OF graph" as much as
->> possible, but there is no support for the "reg" device
->> property. The ports will need to have the index in their
->> name which starts with "port@" (for example "port@0", "port@1",
-> 
->> ...)
-> 
-> Looks not good, perhaps move to the previous line, or move port@1 example here?
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.238-i686: ERRORS
+linux-4.4.238-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.238-i686: ERRORS
+linux-4.9.238-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.200-i686: ERRORS
+linux-4.14.200-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.149-i686: ERRORS
+linux-4.19.149-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.69-i686: ERRORS
+linux-5.4.69-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.13-i686: ERRORS
+linux-5.8.13-x86_64: ERRORS
+linux-5.9.1-i686: ERRORS
+linux-5.9.1-x86_64: ERRORS
+linux-5.10.1-i686: ERRORS
+linux-5.10.1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: WARNINGS
+smatch: ERRORS
 
-Fixed - by expanding the lines to ~75 chars
+Detailed results are available here:
 
-> Few nitpicks here and there, after addressing them,
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-Thank you!
+Detailed regression test results are available here:
 
->> +static struct fwnode_handle *
->> +swnode_graph_find_next_port(const struct fwnode_handle *parent,
->> +                           struct fwnode_handle *port)
->> +{
->> +       struct fwnode_handle *old = port;
->> +
->> +       while ((port = software_node_get_next_child(parent, old))) {
->> +               /*
->> +                * ports have naming style "port@n", so we search for children
->> +                * that follow that convention (but without assuming anything
->> +                * about the index number)
->> +                */
-> 
->> +               if (!strncmp(to_swnode(port)->node->name, "port@",
-> 
-> You may use here corresponding _FMT macro.
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
->> +static int
->> +software_node_graph_parse_endpoint(const struct fwnode_handle *fwnode,
->> +                                  struct fwnode_endpoint *endpoint)
->> +{
->> +       struct swnode *swnode = to_swnode(fwnode);
->> +       int ret;
->> +
->> +       /* Ports have naming style "port@n", we need to select the n */
-> 
->> +       ret = kstrtou32(swnode->parent->node->name + FWNODE_GRAPH_PORT_NAME_PREFIX_LEN,
-> 
-> Maybe a temporary variable?
-> 
->   unsigned int prefix_len = FWNODE_GRAPH_PORT_NAME_PREFIX_LEN;
->   ...
->   ret = kstrtou32(swnode->parent->node->name + prefix_len,
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
 
-Both discussed after Laurent's reply I think.
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
