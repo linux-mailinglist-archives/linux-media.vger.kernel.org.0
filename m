@@ -2,66 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8FB12E3154
-	for <lists+linux-media@lfdr.de>; Sun, 27 Dec 2020 14:47:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 931ED2E329B
+	for <lists+linux-media@lfdr.de>; Sun, 27 Dec 2020 20:46:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726104AbgL0Npp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Dec 2020 08:45:45 -0500
-Received: from gofer.mess.org ([88.97.38.141]:43109 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726085AbgL0Npo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Dec 2020 08:45:44 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 82A21C634D; Sun, 27 Dec 2020 13:45:02 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1609076702; bh=U5FwOOLb7pgg8vrdfl12PWCnlc5piNmkT5R2/yMxG8s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FnBh7tm4xaYRafGn76R/MeqvRc/jS3iZgzPXV92hl+Rkts+GqYrJ+9616DM+uiE8/
-         BaP0QiBhFYp4CnATy+U8ORQ7QZUAUyMlEDmphtaooW0e8L9snRX5hBVDKOPerUXbIo
-         H6Bm4HiTqkYJrvx1mn0KfAeeYttNV3eOYAbU4Xld03pvy14uSes0ycXjYmOM94W+uA
-         65s3FFXeb8mmqs8SKzM8XqSKkBG8Gb+pv+A3PNiHbSWDUUFtlqaz1yNVtJfq/TBTXS
-         /QchDjq3ln99oUv29seAfieM+KwUFITnz+JDzuEII1NYbRhSxKzMpxlIotYieuEDDv
-         fSA/AaZ9sjqGQ==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Cc:     Georgi Bakalski <georgi.bakalski@gmail.com>
-Subject: [PATCH 2/2] cdc-acm: blacklist another IR Droid device
-Date:   Sun, 27 Dec 2020 13:45:02 +0000
-Message-Id: <20201227134502.4548-2-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201227134502.4548-1-sean@mess.org>
-References: <20201227134502.4548-1-sean@mess.org>
+        id S1726227AbgL0Tpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Dec 2020 14:45:46 -0500
+Received: from mail.initworks.com ([80.69.72.54]:34079 "EHLO
+        mail.initworks.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726198AbgL0Tpq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Dec 2020 14:45:46 -0500
+X-Greylist: delayed 422 seconds by postgrey-1.27 at vger.kernel.org; Sun, 27 Dec 2020 14:45:44 EST
+Received: from webmail.initworks.com (unknown [10.1.44.88])
+        (Authenticated sender: marc.cust210)
+        by mail.initworks.com (Postfix) with ESMTPA id B39C4E28E
+        for <linux-media@vger.kernel.org>; Sun, 27 Dec 2020 20:37:58 +0100 (CET)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Sun, 27 Dec 2020 20:37:58 +0100
+From:   Marc van Wageningen <marc@vanwageningen.eu>
+To:     linux-media@vger.kernel.org
+Subject: Add Logitech B910 webcam to supported list
+Message-ID: <5ea531c2eb814991c58f2ec77ab8c9be@webmail.initworks.com>
+X-Sender: marc@vanwageningen.eu
+User-Agent: Roundcube Webmail/1.2.0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This device is supported by the IR Toy driver.
+Hi,
 
-Reported-by: Georgi Bakalski <georgi.bakalski@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/usb/class/cdc-acm.c | 4 ++++
- 1 file changed, 4 insertions(+)
+I would like to inform you that my recently bought camera could be added 
+to the list on
+https://www.ideasonboard.org/uvc/
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index f52f1bc0559f..781905745812 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -1895,6 +1895,10 @@ static const struct usb_device_id acm_ids[] = {
- 	{ USB_DEVICE(0x04d8, 0xfd08),
- 	.driver_info = IGNORE_DEVICE,
- 	},
-+
-+	{ USB_DEVICE(0x04d8, 0xf58b),
-+	.driver_info = IGNORE_DEVICE,
-+	},
- #endif
- 
- 	/*Samsung phone in firmware update mode */
--- 
-2.29.2
+Bus 001 Device 004: ID 046d:0823 Logitech, Inc. HD Webcam B910
+Device Descriptor:
+bLength 18
+bDescriptorType 1
+bcdUSB 2.00
+bDeviceClass 239 Miscellaneous Device
+bDeviceSubClass 2
+bDeviceProtocol 1 Interface Association
+bMaxPacketSize0 64
+idVendor 0x046d Logitech, Inc.
+idProduct 0x0823 HD Webcam B910
+bcdDevice 0.10
+iManufacturer 0
+iProduct 0
+iSerial 1 05BACB20
+bNumConfigurations 1
+Configuration Descriptor:
+bLength 9
+bDescriptorType 2
+wTotalLength 0x0cc1
+bNumInterfaces 4
+bConfigurationValue 1
+iConfiguration 0
+bmAttributes 0x80
+(Bus Powered)
+MaxPower 500mA
+
+Works as expected on Fedora 33 x86_64,  kernel 5.9.15-200.fc33.x86_64
+
+Regards,
+
+Marc
 
