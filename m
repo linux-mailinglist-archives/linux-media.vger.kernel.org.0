@@ -2,109 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79DAD2E35BB
-	for <lists+linux-media@lfdr.de>; Mon, 28 Dec 2020 11:15:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79B512E36C8
+	for <lists+linux-media@lfdr.de>; Mon, 28 Dec 2020 12:56:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbgL1KPO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Dec 2020 05:15:14 -0500
-Received: from mga11.intel.com ([192.55.52.93]:30884 "EHLO mga11.intel.com"
+        id S1726874AbgL1LzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Dec 2020 06:55:12 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60422 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727013AbgL1KPN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Dec 2020 05:15:13 -0500
-IronPort-SDR: HBP2g1Q93KKK65JbxiSPMynVPbZOitzEy5YfqrGjZV4VXGO1AhB9SLujPmdc148flvUXdGatzr
- iEUKZxLb/iQw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9847"; a="172857407"
-X-IronPort-AV: E=Sophos;i="5.78,454,1599548400"; 
-   d="scan'208";a="172857407"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 02:14:32 -0800
-IronPort-SDR: 2o4QrVc5rt8K5snm4jNOP8DVG+i65S6cUj1QRCuntb4Jlr6nOgSwGZOxSK/8GtFxZXGVM90fgy
- 5VWJOoopVeow==
-X-IronPort-AV: E=Sophos;i="5.78,454,1599548400"; 
-   d="scan'208";a="384530659"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 02:14:25 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andy.shevchenko@gmail.com>)
-        id 1ktpYk-000CE8-13; Mon, 28 Dec 2020 12:15:26 +0200
-Date:   Mon, 28 Dec 2020 12:15:26 +0200
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-To:     David Laight <David.Laight@aculab.com>
-Cc:     'Daniel Scally' <djrscally@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "devel@acpica.org" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
+        id S1726603AbgL1LzM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Dec 2020 06:55:12 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1609156465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WG4xhXQYAczlY0vFiOrBXXA0TnTJFStA1UMY67oHyQ0=;
+        b=eHDfIlI5bzYKS1yXhTEsHix18HPkct5wllAFHfNNZIHoInj0VWjFmryTTqbf7L5TxtM4gg
+        7/1chnPmsifRVHJ+oqKGPBIuyLopCZb9hyPM5Ynj9n7hp3i2eNc26cFnzS/sAFCy/dZ+1Q
+        v4JOIu8lw9u/7aAylVEeq1tiYfYOZpc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 5E57CAB8B;
+        Mon, 28 Dec 2020 11:54:25 +0000 (UTC)
+Message-ID: <f00f7739d0b796a3ba2a36ae462e49a806e17843.camel@suse.com>
+Subject: Re: [PATCH 2/2] cdc-acm: blacklist another IR Droid device
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        kernel test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 05/14] software_node: unregister software_nodes in
- reverse order
-Message-ID: <20201228101526.GV4077@smile.fi.intel.com>
-References: <20201224010907.263125-1-djrscally@gmail.com>
- <20201224010907.263125-6-djrscally@gmail.com>
- <CAHp75VdF5NdjrSxcOafh7KNNDteYEUDk9otA0HKX-iks7G0D4g@mail.gmail.com>
- <de478ef0-0b4d-df1d-2651-9cc35bf2f45b@gmail.com>
- <CAHp75VdWuowLenNPQRNc+QXeyuvwKqh_bjw=1WvmFrzoygXFRw@mail.gmail.com>
- <2b415312-fe30-c73b-0077-4ec2a07116df@gmail.com>
- <fcb07dea193b4b99b11f2a8e684d8acf@AcuMS.aculab.com>
+        linux-usb@vger.kernel.org
+Cc:     Georgi Bakalski <georgi.bakalski@gmail.com>
+Date:   Mon, 28 Dec 2020 12:53:57 +0100
+In-Reply-To: <20201227134502.4548-2-sean@mess.org>
+References: <20201227134502.4548-1-sean@mess.org>
+         <20201227134502.4548-2-sean@mess.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fcb07dea193b4b99b11f2a8e684d8acf@AcuMS.aculab.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 24, 2020 at 06:36:10PM +0000, David Laight wrote:
-> From: Daniel Scally 
-> > Sent: 24 December 2020 14:14
-> ...
-> > >> The array will be unwound in reverse order (i.e. last entry first). If
-> > >> any member of the array is a child of another member then the child must
-> > > children ?
-> > 
-> > Yes, you are right of course.
+Am Sonntag, den 27.12.2020, 13:45 +0000 schrieb Sean Young:
+> This device is supported by the IR Toy driver.
 > 
-> The second 'child' is a back-reference to 'any member' so is singular
-> so 'child' is correct.
-> 'the child' could be replaced by 'it'
-> 
-> You could have:
->    If any members of the array are children of another member then the
->    children must appear later in the list.
-
-Works for me!
-Dan, can you consider David's proposal?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> Reported-by: Georgi Bakalski <georgi.bakalski@gmail.com>
+> Signed-off-by: Sean Young <sean@mess.org>
+Acked-by: Oliver Neukum <oneukum@suse.com>
 
