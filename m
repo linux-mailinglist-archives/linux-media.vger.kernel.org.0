@@ -2,148 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 970D02E42DD
-	for <lists+linux-media@lfdr.de>; Mon, 28 Dec 2020 16:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28A742E6777
+	for <lists+linux-media@lfdr.de>; Mon, 28 Dec 2020 17:26:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392765AbgL1P3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Dec 2020 10:29:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392762AbgL1P3O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Dec 2020 10:29:14 -0500
-X-Greylist: delayed 436 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Dec 2020 07:28:34 PST
-Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37AA3C061796
-        for <linux-media@vger.kernel.org>; Mon, 28 Dec 2020 07:28:33 -0800 (PST)
-Received: from hps2020.home.selasky.org (unknown [178.17.145.105])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id 8651826009E
-        for <linux-media@vger.kernel.org>; Mon, 28 Dec 2020 16:21:16 +0100 (CET)
-To:     linux-media@vger.kernel.org
-From:   Hans Petter Selasky <hps@selasky.org>
-Subject: [PATCH] Bad IOCTLs - time to fix them?
-Message-ID: <a957de07-96f9-b1cd-31e5-19c096e5f974@selasky.org>
-Date:   Mon, 28 Dec 2020 16:21:05 +0100
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S2437321AbgL1QZS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Dec 2020 11:25:18 -0500
+Received: from mail.zju.edu.cn ([61.164.42.155]:45116 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731173AbgL1NJv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Dec 2020 08:09:51 -0500
+X-Greylist: delayed 396 seconds by postgrey-1.27 at vger.kernel.org; Mon, 28 Dec 2020 08:09:43 EST
+Received: from localhost.localdomain (unknown [222.205.25.254])
+        by mail-app4 (Coremail) with SMTP id cS_KCgBnIzhO1+lfx9EiAA--.57389S4;
+        Mon, 28 Dec 2020 21:02:10 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: em28xx: Fix use-after-free in em28xx_alloc_urbs
+Date:   Mon, 28 Dec 2020 21:02:05 +0800
+Message-Id: <20201228130205.14381-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cS_KCgBnIzhO1+lfx9EiAA--.57389S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF1ftrWUJFyxXw15Ary7Wrg_yoWkCrb_Cr
+        4UXrW7Xr1rJ3Z3Xw1DGw1Yyr9Fyr43Xr4xWFyrtas5GryUKa4jg3Z8Wrn3GanrZasrZw15
+        Xr1qqF4q9rn8CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbI8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2
+        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
+        GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l
+        42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+        8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWU
+        twCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+        0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AK
+        xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
+        fUnpnQUUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgYEBlZdtRrnPgAesl
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+When kzalloc() fails, em28xx_uninit_usb_xfer() will free
+usb_bufs->buf and set it to NULL. Thus the later access
+to usb_bufs->buf[i] will lead to null pointer dereference.
+Also the kfree(usb_bufs->buf) after that is redundant.
 
-For some years now, FreeBSD's webcamd project at GitHub has carried 
-patches to fix up IOCTL's in the Linux Kernel and I'm reaching out once 
-again, that the bad read/write bits for certain IOCTLs may be seen as a 
-security issue and should be fixed. These are:
+Fixes: d571b592c6206 ("media: em28xx: don't use coherent buffer for DMA transfers")
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/media/usb/em28xx/em28xx-core.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/include/uapi/linux/dvb/ca.h b/include/uapi/linux/dvb/ca.h
-index dffa59e95ebb..c4533a16d93e 100644
---- a/include/uapi/linux/dvb/ca.h
-+++ b/include/uapi/linux/dvb/ca.h
-@@ -134,9 +134,17 @@ struct ca_descr {
-
-  #define CA_RESET          _IO('o', 128)
-  #define CA_GET_CAP        _IOR('o', 129, struct ca_caps)
-+/*
-+ * At least CA_GET_SLOT_INFO and CA_GET_MSG need to be _IOWR not _IOR.
-+ * This is wrong on Linux too but there the driver doesn't care.
-+ *
-  #define CA_GET_SLOT_INFO  _IOR('o', 130, struct ca_slot_info)
-  #define CA_GET_DESCR_INFO _IOR('o', 131, struct ca_descr_info)
-  #define CA_GET_MSG        _IOR('o', 132, struct ca_msg)
-+*/
-+#define CA_GET_SLOT_INFO  _IOWR('o', 130, struct ca_slot_info)
-+#define CA_GET_DESCR_INFO _IOR('o', 131, struct ca_descr_info)
-+#define CA_GET_MSG        _IOWR('o', 132, struct ca_msg)
-  #define CA_SEND_MSG       _IOW('o', 133, struct ca_msg)
-  #define CA_SET_DESCR      _IOW('o', 134, struct ca_descr)
-
-diff --git a/include/uapi/linux/dvb/frontend.h 
-b/include/uapi/linux/dvb/frontend.h
-index 4f9b4551c534..a5e950404072 100644
---- a/include/uapi/linux/dvb/frontend.h
-+++ b/include/uapi/linux/dvb/frontend.h
-@@ -908,7 +908,8 @@ struct dtv_properties {
-  #define FE_DISHNETWORK_SEND_LEGACY_CMD _IO('o', 80) /* unsigned int */
-
-  #define FE_SET_PROPERTY		   _IOW('o', 82, struct dtv_properties)
--#define FE_GET_PROPERTY		   _IOR('o', 83, struct dtv_properties)
-+#define FE_GET_PROPERTY		   _IOW('o', 83, struct dtv_properties)
-+#define FE_GET_PROPERTY_OLD	   _IOR('o', 83, struct dtv_properties)
-
-  #if defined(__DVB_CORE__) || !defined(__KERNEL__)
-
-diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-index 9a61c28ed3ae..94cc0a7cb0a5 100644
---- a/include/uapi/linux/input.h
-+++ b/include/uapi/linux/input.h
-@@ -131,8 +131,12 @@ struct input_mask {
-  #define EVIOCGREP		_IOR('E', 0x03, unsigned int[2])	/* get repeat 
-settings */
-  #define EVIOCSREP		_IOW('E', 0x03, unsigned int[2])	/* set repeat 
-settings */
-
--#define EVIOCGKEYCODE		_IOR('E', 0x04, unsigned int[2])        /* get 
-keycode */
--#define EVIOCGKEYCODE_V2	_IOR('E', 0x04, struct input_keymap_entry)
-+/*
-+ * These two need to be _IOWR not _IOR (they're wrong on Linux too but
-+ * there the driver doesn't care.)
-+ */
-+#define EVIOCGKEYCODE		_IOWR('E', 0x04, unsigned int[2])       /* get 
-keycode */
-+#define EVIOCGKEYCODE_V2	_IOWR('E', 0x04, struct input_keymap_entry)
-  #define EVIOCSKEYCODE		_IOW('E', 0x04, unsigned int[2])        /* set 
-keycode */
-  #define EVIOCSKEYCODE_V2	_IOW('E', 0x04, struct input_keymap_entry)
-
-@@ -165,7 +169,7 @@ struct input_mask {
-   *
-   * If the request code is not an ABS_MT value, -EINVAL is returned.
-   */
--#define EVIOCGMTSLOTS(len)	_IOC(_IOC_READ, 'E', 0x0a, len)
-+#define EVIOCGMTSLOTS(len)	_IOC(_IOC_READ|_IOC_WRITE, 'E', 0x0a, len)
-
-  #define EVIOCGKEY(len)		_IOC(_IOC_READ, 'E', 0x18, len)		/* get global 
-key state */
-  #define EVIOCGLED(len)		_IOC(_IOC_READ, 'E', 0x19, len)		/* get all 
-LEDs */
-@@ -177,11 +181,11 @@ struct input_mask {
-  #define EVIOCSABS(abs)		_IOW('E', 0xc0 + (abs), struct input_absinfo) 
-/* set abs value/limits */
-
-  #define EVIOCSFF		_IOW('E', 0x80, struct ff_effect)	/* send a force 
-effect to a force feedback device */
--#define EVIOCRMFF		_IOW('E', 0x81, int)			/* Erase a force effect */
-+#define EVIOCRMFF		_IOWINT('E', 0x81)			/* Erase a force effect */
-  #define EVIOCGEFFECTS		_IOR('E', 0x84, int)			/* Report number of 
-effects playable at the same time */
-
--#define EVIOCGRAB		_IOW('E', 0x90, int)			/* Grab/Release device */
--#define EVIOCREVOKE		_IOW('E', 0x91, int)			/* Revoke device access */
-+#define EVIOCGRAB		_IOWINT('E', 0x90)			/* Grab/Release device */
-+#define EVIOCREVOKE		_IOWINT('E', 0x91)			/* Revoke device access */
-
-  /**
-   * EVIOCGMASK - Retrieve current event mask
-@@ -212,7 +216,7 @@ struct input_mask {
-   * if the receive-buffer points to invalid memory, or EINVAL if the kernel
-   * does not implement the ioctl.
-   */
--#define EVIOCGMASK		_IOR('E', 0x92, struct input_mask)	/* Get 
-event-masks */
-+#define EVIOCGMASK		_IOW('E', 0x92, struct input_mask)	/* Get 
-event-masks */
-
-  /**
-   * EVIOCSMASK - Set event mask
+diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
+index e6088b5d1b80..3daa64bb1e1d 100644
+--- a/drivers/media/usb/em28xx/em28xx-core.c
++++ b/drivers/media/usb/em28xx/em28xx-core.c
+@@ -956,14 +956,10 @@ int em28xx_alloc_urbs(struct em28xx *dev, enum em28xx_mode mode, int xfer_bulk,
+ 
+ 		usb_bufs->buf[i] = kzalloc(sb_size, GFP_KERNEL);
+ 		if (!usb_bufs->buf[i]) {
+-			em28xx_uninit_usb_xfer(dev, mode);
+-
+ 			for (i--; i >= 0; i--)
+ 				kfree(usb_bufs->buf[i]);
+ 
+-			kfree(usb_bufs->buf);
+-			usb_bufs->buf = NULL;
+-
++			em28xx_uninit_usb_xfer(dev, mode);
+ 			return -ENOMEM;
+ 		}
+ 
 -- 
-2.29.2
+2.17.1
+
