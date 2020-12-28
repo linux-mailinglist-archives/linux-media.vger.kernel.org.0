@@ -2,72 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 931ED2E329B
-	for <lists+linux-media@lfdr.de>; Sun, 27 Dec 2020 20:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06C032E3405
+	for <lists+linux-media@lfdr.de>; Mon, 28 Dec 2020 05:33:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726227AbgL0Tpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Dec 2020 14:45:46 -0500
-Received: from mail.initworks.com ([80.69.72.54]:34079 "EHLO
-        mail.initworks.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbgL0Tpq (ORCPT
+        id S1726337AbgL1Eat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Dec 2020 23:30:49 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37131 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726167AbgL1Eat (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Dec 2020 14:45:46 -0500
-X-Greylist: delayed 422 seconds by postgrey-1.27 at vger.kernel.org; Sun, 27 Dec 2020 14:45:44 EST
-Received: from webmail.initworks.com (unknown [10.1.44.88])
-        (Authenticated sender: marc.cust210)
-        by mail.initworks.com (Postfix) with ESMTPA id B39C4E28E
-        for <linux-media@vger.kernel.org>; Sun, 27 Dec 2020 20:37:58 +0100 (CET)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Sun, 27 Dec 2020 20:37:58 +0100
-From:   Marc van Wageningen <marc@vanwageningen.eu>
+        Sun, 27 Dec 2020 23:30:49 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id tkAXk2lEGWmLptkAYksEVF; Mon, 28 Dec 2020 05:30:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1609129807; bh=lknaOEz19KA53lMYbTjt/0sVmxit7ZhoUbv0UcKuYqw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=l/OlJ9SVvApMRoTUSMFjOkPsNCTgUHZK1IuWMeAeqgGvKWRgEc9P1G5UGpuFfjXbd
+         ZVpwyLhwGdr7db10McTTv/VOsX5q/x6puAJNx+JhalX9vPNo9anX7U2L42oAOvpcZy
+         zclZupyJGG6X/LZZcgQzQjmdUMFxSbBKtym4cQChoZ0FFzzrxhuAh7Ureot/q7jmhY
+         1OssuhBw4WhIuXhlvzK2q7KjYy2iDCCtZl3Yv5Cb1Nt6kQapNDbnyr1ED3vfvSi31l
+         6OIFFqNBWgniPl56gIYNfjljnQWBFkIYQmlREtUmPCB+3zAURivl2tpiL2UuUpOfCs
+         tas8G1zhLG7Lg==
+Message-ID: <17fd485c34e0c101ddbbb093ee211a51@smtp-cloud8.xs4all.net>
+Date:   Mon, 28 Dec 2020 05:30:05 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Subject: Add Logitech B910 webcam to supported list
-Message-ID: <5ea531c2eb814991c58f2ec77ab8c9be@webmail.initworks.com>
-X-Sender: marc@vanwageningen.eu
-User-Agent: Roundcube Webmail/1.2.0
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfKWFE5brLmATayoLfDW3k78K+6kKqRQ6QfWZOCej2mOzUay10+1RL8P6KRnvdi/vQLb44l5zi5FOyfzgomf7xSo3r+XIZng1eoKZPLENfGgnUry7q4c3
+ k78Ul/LbRkOlmVY/jwfKU7zcuISXinbReBWG/l4rL/bIEGg7GI3UeKTLkxeY+cQxuDGtoissoMTr6gSqc918grPD3OqaN6RV0nx5FboCXQ8dVm/qql+riiy1
+ 71wFBnqPhVUgZ2reO8hmqg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I would like to inform you that my recently bought camera could be added 
-to the list on
-https://www.ideasonboard.org/uvc/
+Results of the daily build of media_tree:
 
-Bus 001 Device 004: ID 046d:0823 Logitech, Inc. HD Webcam B910
-Device Descriptor:
-bLength 18
-bDescriptorType 1
-bcdUSB 2.00
-bDeviceClass 239 Miscellaneous Device
-bDeviceSubClass 2
-bDeviceProtocol 1 Interface Association
-bMaxPacketSize0 64
-idVendor 0x046d Logitech, Inc.
-idProduct 0x0823 HD Webcam B910
-bcdDevice 0.10
-iManufacturer 0
-iProduct 0
-iSerial 1 05BACB20
-bNumConfigurations 1
-Configuration Descriptor:
-bLength 9
-bDescriptorType 2
-wTotalLength 0x0cc1
-bNumInterfaces 4
-bConfigurationValue 1
-iConfiguration 0
-bmAttributes 0x80
-(Bus Powered)
-MaxPower 500mA
+date:			Mon Dec 28 05:00:13 CET 2020
+media-tree git hash:	fab0fca1da5cdc48be051715cd9787df04fdce3a
+media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
+v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7047-g72fa1e990
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Works as expected on Fedora 33 x86_64,  kernel 5.9.15-200.fc33.x86_64
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.238-i686: ERRORS
+linux-4.4.238-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.238-i686: ERRORS
+linux-4.9.238-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.200-i686: ERRORS
+linux-4.14.200-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.149-i686: ERRORS
+linux-4.19.149-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.69-i686: ERRORS
+linux-5.4.69-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.13-i686: ERRORS
+linux-5.8.13-x86_64: ERRORS
+linux-5.9.1-i686: ERRORS
+linux-5.9.1-x86_64: ERRORS
+linux-5.10.1-i686: ERRORS
+linux-5.10.1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: ERRORS
 
-Regards,
+Detailed results are available here:
 
-Marc
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
