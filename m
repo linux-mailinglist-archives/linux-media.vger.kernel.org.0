@@ -2,233 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53CDE2E6A08
-	for <lists+linux-media@lfdr.de>; Mon, 28 Dec 2020 19:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93E8C2E6C57
+	for <lists+linux-media@lfdr.de>; Tue, 29 Dec 2020 00:24:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727941AbgL1ShK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Dec 2020 13:37:10 -0500
-Received: from mga04.intel.com ([192.55.52.120]:65156 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727803AbgL1ShK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Dec 2020 13:37:10 -0500
-IronPort-SDR: l3hyhcJ3ncblzdwEFpewfsdsaW2PhnRjtcJnekRzokqchsQ13ui1El4S5H9hDCZ1WgDBgAMVEM
- 0uGgbuEjNNgg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9848"; a="173835367"
-X-IronPort-AV: E=Sophos;i="5.78,455,1599548400"; 
-   d="scan'208";a="173835367"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 10:35:24 -0800
-IronPort-SDR: TQniySVsNlhRodUnD1r08/zqAV7Xd0G2CY/nuSfJ7f+YXq8muzVI3zVPwl/1wxgJp/0Ja6dMgE
- sL0IBWzHtlEg==
-X-IronPort-AV: E=Sophos;i="5.78,455,1599548400"; 
-   d="scan'208";a="375742402"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 10:35:22 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id DE993207BF; Mon, 28 Dec 2020 20:35:20 +0200 (EET)
-Date:   Mon, 28 Dec 2020 20:35:20 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com,
+        id S1728760AbgL1Wzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Dec 2020 17:55:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41086 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729506AbgL1VST (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Dec 2020 16:18:19 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15244C0613D6;
+        Mon, 28 Dec 2020 13:17:39 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id t30so12570999wrb.0;
+        Mon, 28 Dec 2020 13:17:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6/WVNRIgvoEIoBQB5jvPaHPOS3LUIEzkSJx65mcEOyg=;
+        b=FNJIWOejlt+bMS1zaJGqlv6ykzpCKkcKFXtVr2ubkzsSV1figJddONo7ITMEIUMRex
+         XT0eGBJVWSmhXrtxPE7MAgch7Qox3Mw2QM5IJpO0+z6GZKTJIHE4KWOoId3sEHw2EDuw
+         3nrUazxnPObf9MXUBLiEXi9x8AFtRt34mmlKaC4AwUL3PuIsPKnMPL4e4l2LzIk7CfHp
+         RSWvF9lOr3mdcOD3QG9/D53sIcs0S2Q0hyVV89Wp7zuqAkR0ZRpFWZu8tJCdvx2wD0lE
+         v7LMDvPy/a0y15SRXbQhwROrMRN8+3XIJsXS9c80+fB/rdV2/ZoZ/JqQRxqjI3kjgG0R
+         0EoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6/WVNRIgvoEIoBQB5jvPaHPOS3LUIEzkSJx65mcEOyg=;
+        b=Nymle+BYp7YF0kPgOmVZo2AHF9GD0V2HK86YyiTUVETobB6FCun31cNxbJiuMrhLCo
+         Wckh3jVDQ4ke4IGLQVN4oN4v+VUSOIJXzxt7yhYXRG4EUMoCqM5fRgX3wqzJg1Rx6Yer
+         8GrLBX1QAIFMNbErg0H3P+ejoJyZc5iKmMeSU+UopuDjSyPRF6mg3JwDRuTCoFOwQGbM
+         wQCcQgsW4BvoM2dNvpqq8pKozoAtIR7FA+8U0wBFbzVzYcFlDU5vBJBfp7+4mpQqXq9w
+         11b+ANufl+N3ix7IRjyTuR/l7Ftofs0OmewqqUSvM5E9PTIbFNnf3tBgYb2GvnHfD57+
+         dT/A==
+X-Gm-Message-State: AOAM5316bbDmiia8PifPoM3c6i0hTsYaLm8h+/ifeWeKdlea9ezqhXHE
+        ZfVJiDufGCJCPhTadQHTooI=
+X-Google-Smtp-Source: ABdhPJys8O4OnUh7lIKC27LM7BkKt6guVRZ8oH2MlLfHAo+Jfm7B306edUtwKozJeH8G8NxJCjBpxw==
+X-Received: by 2002:a5d:6607:: with SMTP id n7mr50870402wru.206.1609190257824;
+        Mon, 28 Dec 2020 13:17:37 -0800 (PST)
+Received: from [192.168.1.158] ([2.31.224.116])
+        by smtp.gmail.com with ESMTPSA id s63sm736343wms.18.2020.12.28.13.17.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Dec 2020 13:17:37 -0800 (PST)
+Subject: Re: [PATCH v3 05/14] software_node: unregister software_nodes in
+ reverse order
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        David Laight <David.Laight@aculab.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        kernel test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l2-async: Add waiting subdevices debugfs
-Message-ID: <20201228183520.GB26370@paasikivi.fi.intel.com>
-References: <20201228180511.43486-1-ezequiel@collabora.com>
+References: <20201224010907.263125-1-djrscally@gmail.com>
+ <20201224010907.263125-6-djrscally@gmail.com>
+ <CAHp75VdF5NdjrSxcOafh7KNNDteYEUDk9otA0HKX-iks7G0D4g@mail.gmail.com>
+ <de478ef0-0b4d-df1d-2651-9cc35bf2f45b@gmail.com>
+ <CAHp75VdWuowLenNPQRNc+QXeyuvwKqh_bjw=1WvmFrzoygXFRw@mail.gmail.com>
+ <2b415312-fe30-c73b-0077-4ec2a07116df@gmail.com>
+ <fcb07dea193b4b99b11f2a8e684d8acf@AcuMS.aculab.com>
+ <20201228101526.GV4077@smile.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <1a79347f-b4fe-5fe7-ccb3-a2d53ae93480@gmail.com>
+Date:   Mon, 28 Dec 2020 21:17:35 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201228180511.43486-1-ezequiel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201228101526.GV4077@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
 
-Thanks for the patch.
 
-On Mon, Dec 28, 2020 at 03:05:11PM -0300, Ezequiel Garcia wrote:
-> There is currently little to none information available
-> about the reasons why a v4l2-async device hasn't
-> probed completely.
+On 28/12/2020 10:15, Andy Shevchenko wrote:
+> On Thu, Dec 24, 2020 at 06:36:10PM +0000, David Laight wrote:
+>> From: Daniel Scally 
+>>> Sent: 24 December 2020 14:14
+>> ...
+>>>>> The array will be unwound in reverse order (i.e. last entry first). If
+>>>>> any member of the array is a child of another member then the child must
+>>>> children ?
+>>>
+>>> Yes, you are right of course.
+>>
+>> The second 'child' is a back-reference to 'any member' so is singular
+>> so 'child' is correct.
+>> 'the child' could be replaced by 'it'
+>>
+>> You could have:
+>>    If any members of the array are children of another member then the
+>>    children must appear later in the list.
 > 
-> Inspired by the "devices_deferred" debugfs file,
-> add a file to list information about the subdevices
-> that are on waiting lists, for each notifier.
-> 
-> This is useful to debug v4l2-async subdevices
-> and notifiers, for instance when doing device bring-up.
-> 
-> For instance, a typical output would be:
-> 
-> $ cat /sys/kernel/debug/video4linux/waiting_subdevices
-> [fwnode] 1-003c
-> [fwnode] 20e0000.iomuxc-gpr:ipu1_csi1_mux
-> [fwnode] 20e0000.iomuxc-gpr:ipu1_csi0_mux
-> 
-> It's possible to provide some more information, detecting
-> the type of fwnode and printing of-specific or acpi-specific
-> details. For now, the implementation is kept simple.
+> Works for me!
+> Dan, can you consider David's proposal?
 
-The rest of the debug information we're effectively providing through
-kernel messages on DEBUG level (pr_debug/dev_dbg). Could we do the same
-here?
-
-Would just printing the names of the pending sub-devices at notifier
-register and async subdevice register time be sufficient? That way you'd
-also be fine with just dmesg output if you're asking someone to provide you
-information from another system.
-
-> 
-> Also, note that match-type "custom" prints no information.
-> Since there are no in-tree users of this match-type,
-> the implementation doesn't bother.
-
-Lines up to 74 characters are fine. Only in Gerrit it's 60 or 40 or
-whatever characters. ;-)
-
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 54 ++++++++++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
->  include/media/v4l2-async.h           |  7 ++++
->  3 files changed, 66 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index e3ab003a6c85..32cd1ecced97 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
->   */
->  
-> +#include <linux/debugfs.h>
->  #include <linux/device.h>
->  #include <linux/err.h>
->  #include <linux/i2c.h>
-> @@ -14,6 +15,7 @@
->  #include <linux/mutex.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/seq_file.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
->  
-> @@ -837,3 +839,55 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  	mutex_unlock(&list_lock);
->  }
->  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
-> +
-> +static void print_waiting_subdev(struct seq_file *s,
-> +				 struct v4l2_async_subdev *asd)
-> +{
-> +	switch (asd->match_type) {
-> +	case V4L2_ASYNC_MATCH_CUSTOM:
-> +		seq_puts(s, "[custom]\n");
-> +		break;
-> +	case V4L2_ASYNC_MATCH_DEVNAME:
-> +		seq_printf(s, "[devname] %s\n",
-> +			   asd->match.device_name);
-> +		break;
-> +	case V4L2_ASYNC_MATCH_I2C:
-> +		seq_printf(s, "[i2c] %d-%04x\n",
-> +			   asd->match.i2c.adapter_id,
-> +			   asd->match.i2c.address);
-> +		break;
-> +	case V4L2_ASYNC_MATCH_FWNODE: {
-> +		struct fwnode_handle *fwnode = asd->match.fwnode;
-> +
-> +		if (fwnode_graph_is_endpoint(fwnode))
-> +			fwnode = fwnode_graph_get_port_parent(fwnode);
-> +
-> +		seq_printf(s, "[fwnode] %s\n",
-> +			   fwnode->dev ? dev_name(fwnode->dev) : "nil");
-> +		break;
-> +	}
-> +	}
-> +}
-> +
-> +static int waiting_subdevs_show(struct seq_file *s, void *data)
-> +{
-> +	struct v4l2_async_notifier *notifier;
-> +	struct v4l2_async_subdev *asd;
-> +
-> +	mutex_lock(&list_lock);
-> +
-> +	list_for_each_entry(notifier, &notifier_list, list)
-> +		list_for_each_entry(asd, &notifier->waiting, list)
-> +			print_waiting_subdev(s, asd);
-> +
-> +	mutex_unlock(&list_lock);
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(waiting_subdevs);
-> +
-> +void v4l2_async_debug_init(struct dentry *debugfs_dir)
-> +{
-> +	debugfs_create_file("waiting_subdevices", 0444, debugfs_dir, NULL,
-> +			    &waiting_subdevs_fops);
-> +}
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index a593ea0598b5..8d3813e6ab56 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -14,6 +14,7 @@
->  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
-> +#include <linux/debugfs.h>
->  #include <linux/module.h>
->  #include <linux/types.h>
->  #include <linux/kernel.h>
-> @@ -37,6 +38,7 @@
->  		       __func__, ##arg);				\
->  } while (0)
->  
-> +static struct dentry *v4l2_debugfs_dir;
->  
->  /*
->   *	sysfs stuff
-> @@ -1113,6 +1115,8 @@ static int __init videodev_init(void)
->  		return -EIO;
->  	}
->  
-> +	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
-> +	v4l2_async_debug_init(v4l2_debugfs_dir);
->  	return 0;
->  }
->  
-> @@ -1120,6 +1124,7 @@ static void __exit videodev_exit(void)
->  {
->  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
->  
-> +	debugfs_remove_recursive(v4l2_debugfs_dir);
->  	class_unregister(&video_class);
->  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
->  }
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index d6e31234826f..312ab421aa40 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -137,6 +137,13 @@ struct v4l2_async_notifier {
->  	struct list_head list;
->  };
->  
-> +/**
-> + * v4l2_async_debug_init - Initialize debugging tools.
-> + *
-> + * @debugfs_dir: pointer to the parent debugfs &struct dentry
-> + */
-> +void v4l2_async_debug_init(struct dentry *debugfs_dir);
-> +
->  /**
->   * v4l2_async_notifier_init - Initialize a notifier.
->   *
-
--- 
-Kind regards,
-
-Sakari Ailus
+Yep - done, thanks David
