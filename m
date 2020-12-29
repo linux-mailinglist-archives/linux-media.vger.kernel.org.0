@@ -2,346 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B83D42E7220
-	for <lists+linux-media@lfdr.de>; Tue, 29 Dec 2020 17:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 796AD2E722B
+	for <lists+linux-media@lfdr.de>; Tue, 29 Dec 2020 17:18:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726161AbgL2QLJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Dec 2020 11:11:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54188 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726114AbgL2QLJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Dec 2020 11:11:09 -0500
-Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5530720708;
-        Tue, 29 Dec 2020 16:10:25 +0000 (UTC)
-Date:   Tue, 29 Dec 2020 16:10:22 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas
- properties
-Message-ID: <20201229161022.2df10815@archlinux>
-In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
-References: <20201221234659.824881-1-robh@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S1726168AbgL2QSL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Dec 2020 11:18:11 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60595 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbgL2QSK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 29 Dec 2020 11:18:10 -0500
+X-Originating-IP: 90.55.97.122
+Received: from pc-2.home (apoitiers-259-1-26-122.w90-55.abo.wanadoo.fr [90.55.97.122])
+        (Authenticated sender: maxime.chevallier@bootlin.com)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id AC240E0007;
+        Tue, 29 Dec 2020 16:17:25 +0000 (UTC)
+From:   Maxime Chevallier <maxime.chevallier@bootlin.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 0/3] media: rockchip: Introduce driver for Rockchip's camera interface
+Date:   Tue, 29 Dec 2020 17:17:21 +0100
+Message-Id: <20201229161724.511102-1-maxime.chevallier@bootlin.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 21 Dec 2020 16:46:59 -0700
-Rob Herring <robh@kernel.org> wrote:
+Hi everyone,
 
-> *-supply properties are always a single phandle, so binding schemas
-> don't need a type $ref nor 'maxItems'.
-> 
-> A meta-schema check for this is pending once these existing cases are
-> fixed.
-> 
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+This is the fifth iteration of the series introducing a driver for the
+PX30 camera interface.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
+This was previously known as the "cif" driver in other iterations, but
+was renamed to "vip" following Ezequiel's advices to match the datasheet
+name.
 
-> ---
->  Documentation/devicetree/bindings/display/bridge/anx6345.yaml | 2 --
->  .../devicetree/bindings/display/bridge/ite,it6505.yaml        | 2 --
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml        | 3 +--
->  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 2 --
->  .../devicetree/bindings/display/bridge/simple-bridge.yaml     | 1 -
->  .../bindings/display/bridge/thine,thc63lvd1024.yaml           | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358775.yaml  | 2 --
->  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml   | 4 +---
->  .../devicetree/bindings/iio/humidity/ti,hdc2010.yaml          | 3 +--
->  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 3 +--
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml     | 3 +--
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml          | 1 -
->  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml  | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml  | 3 ---
->  Documentation/devicetree/bindings/mfd/st,stmfx.yaml           | 3 +--
->  .../devicetree/bindings/regulator/anatop-regulator.yaml       | 1 -
->  17 files changed, 6 insertions(+), 34 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> index 8c0e4f285fbc..fccd63521a8c 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> @@ -26,11 +26,9 @@ properties:
->      description: GPIO connected to active low reset
->  
->    dvdd12-supply:
-> -    maxItems: 1
->      description: Regulator for 1.2V digital core power.
->  
->    dvdd25-supply:
-> -    maxItems: 1
->      description: Regulator for 2.5V digital core power.
->  
->    ports:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> index efbb3d0117dc..02cfc0a3b550 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> @@ -35,11 +35,9 @@ properties:
->      maxItems: 1
->  
->    ovdd-supply:
-> -    maxItems: 1
->      description: I/O voltage
->  
->    pwr18-supply:
-> -    maxItems: 1
->      description: core voltage
->  
->    interrupts:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> index e5e3c72630cf..66a14d60ce1d 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> @@ -79,8 +79,7 @@ properties:
->        The GPIO used to control the power down line of this device.
->      maxItems: 1
->  
-> -  power-supply:
-> -    maxItems: 1
-> +  power-supply: true
->  
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> index 7e27cfcf770d..763c7909473e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> @@ -35,11 +35,9 @@ properties:
->      description: GPIO connected to active low reset.
->  
->    vdd12-supply:
-> -    maxItems: 1
->      description: Regulator for 1.2V digital core power.
->  
->    vdd33-supply:
-> -    maxItems: 1
->      description: Regulator for 3.3V digital core power.
->  
->    ports:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> index 3ddb35fcf0a2..64e8a1c24b40 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> @@ -60,7 +60,6 @@ properties:
->      description: GPIO controlling bridge enable
->  
->    vdd-supply:
-> -    maxItems: 1
->      description: Power supply for the bridge
->  
->  required:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> index 469ac4a34273..3d5ce08a5792 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> @@ -74,7 +74,6 @@ properties:
->      description: Power down GPIO signal, pin name "/PDWN", active low.
->  
->    vcc-supply:
-> -    maxItems: 1
->      description:
->        Power supply for the TTL output, TTL CLOCKOUT signal, LVDS input, PLL and
->        digital circuitry.
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> index fd3113aa9ccd..b5959cc78b8d 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> @@ -28,11 +28,9 @@ properties:
->      description: i2c address of the bridge, 0x0f
->  
->    vdd-supply:
-> -    maxItems: 1
->      description: 1.2V LVDS Power Supply
->  
->    vddio-supply:
-> -    maxItems: 1
->      description: 1.8V IO Power Supply
->  
->    stby-gpios:
-> diff --git a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> index 6a991e9f78e2..f04084fae5e8 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> @@ -16,9 +16,7 @@ properties:
->      enum:
->        - lltc,ltc2496
->  
-> -  vref-supply:
-> -    description: phandle to an external regulator providing the reference voltage
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> +  vref-supply: true
->  
->    reg:
->      description: spi chipselect number according to the usual spi bindings
-> diff --git a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> index 7037f82ec753..88384b69f917 100644
-> --- a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> +++ b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> @@ -22,8 +22,7 @@ properties:
->        - ti,hdc2010
->        - ti,hdc2080
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> index 378a85c09d34..878464f128dc 100644
-> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> @@ -31,8 +31,7 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    linux,keycodes:
->      minItems: 1
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> index 4ce109476a0e..bfc3a8b5e118 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> @@ -55,8 +55,7 @@ properties:
->  
->    wakeup-source: true
->  
-> -  vcc-supply:
-> -    maxItems: 1
-> +  vcc-supply: true
->  
->    gain:
->      description: Allows setting the sensitivity in the range from 0 to 31.
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> index 9ea827092fdd..68ee8c7d9e79 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> @@ -40,7 +40,6 @@ properties:
->  
->    poc-supply:
->      description: Regulator providing Power over Coax to the cameras
-> -    maxItems: 1
->  
->    enable-gpios:
->      description: GPIO connected to the \#PWDN pin with inverted polarity
-> diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> index 0df0334d2d0d..bb3528315f20 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> @@ -39,15 +39,12 @@ properties:
->  
->    vana-supply:
->      description: Analogue voltage supply (VANA), sensor dependent.
-> -    maxItems: 1
->  
->    vcore-supply:
->      description: Core voltage supply (VCore), sensor dependent.
-> -    maxItems: 1
->  
->    vio-supply:
->      description: I/O voltage supply (VIO), sensor dependent.
-> -    maxItems: 1
->  
->    clocks:
->      description: External clock to the sensor.
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> index 1a3590dd0e98..eb12526a462f 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> @@ -37,15 +37,12 @@ properties:
->  
->    vdddo-supply:
->      description: Chip digital IO regulator (1.8V).
-> -    maxItems: 1
->  
->    vdda-supply:
->      description: Chip analog regulator (2.7V).
-> -    maxItems: 1
->  
->    vddd-supply:
->      description: Chip digital core regulator (1.12V).
-> -    maxItems: 1
->  
->    flash-leds:
->      description: See ../video-interfaces.txt
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> index f697e1a20beb..a66acb20d59b 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> @@ -33,15 +33,12 @@ properties:
->  
->    vana-supply:
->      description: Sensor 2.8 V analog supply.
-> -    maxItems: 1
->  
->    vdig-supply:
->      description: Sensor 1.8 V digital core supply.
-> -    maxItems: 1
->  
->    vddl-supply:
->      description: Sensor digital IO 1.2 V supply.
-> -    maxItems: 1
->  
->    port:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> index 888ab4b5df45..19e9afb385ac 100644
-> --- a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> @@ -26,8 +26,7 @@ properties:
->  
->    drive-open-drain: true
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    pinctrl:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> index e7b3abe30363..0a66338c7e5a 100644
-> --- a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> @@ -59,7 +59,6 @@ properties:
->      description: u32 value representing regulator enable bit offset.
->  
->    vin-supply:
-> -    $ref: '/schemas/types.yaml#/definitions/phandle'
->      description: input supply phandle.
->  
->  required:
+This is based on a BSP driver, and I'm not fully familiar with the media
+and V4L2 frameworks, so I guess some review is still needed.
+
+On top of the previous series, this series addresses most of the reviews
+by Ezequiel (Thanks again), and was tested on a PX30 chip.
+
+This Fifth iteration addresses some issues uncovered by the kbuild bot
+and Rob's binding_check bot.
+
+The output of v4l2-compliance for this driver is the following :
+
+# v4l2-compliance
+v4l2-compliance SHA: not available, 64 bits
+  
+Compliance test for rk_vip device /dev/video0:
+  
+Driver Info:
+        Driver name      : rk_vip
+        Card type        : rk_vip
+        Bus info         : platform:ff490000.vip
+        Driver version   : 5.11.0
+        Capabilities     : 0x84201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rk_vip
+        Model            : rk_vip
+        Serial           :
+        Bus info         :
+        Media version    : 5.11.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 5.11.0
+Interface Info:
+        ID               : 0x03000002
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : video_rkvip
+        Function         : V4L2 I/O
+        Pad 0x01000004   : 0: Sink
+          Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900 2-0044': Data, Enabled
+  
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+  
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+  
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+  
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+  
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+  
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+  
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+  
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+  
+Total for rk_vip device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
+
+Once again, any review is welcome :)
+
+Thanks a lot,
+
+Maxime
+
+Maxime Chevallier (3):
+  media: dt-bindings: media: Document Rockchip VIP bindings
+  media: rockchip: Introduce driver for Rockhip's camera interface
+  arm64: dts: rockchip: Add the camera interface description of the PX30
+
+ .../bindings/media/rockchip-vip.yaml          |  101 ++
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/Kconfig                |   15 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/rockchip/vip/Makefile  |    3 +
+ drivers/media/platform/rockchip/vip/capture.c | 1146 +++++++++++++++++
+ drivers/media/platform/rockchip/vip/dev.c     |  331 +++++
+ drivers/media/platform/rockchip/vip/dev.h     |  203 +++
+ drivers/media/platform/rockchip/vip/regs.h    |  260 ++++
+ 9 files changed, 2072 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip-vip.yaml
+ create mode 100644 drivers/media/platform/rockchip/vip/Makefile
+ create mode 100644 drivers/media/platform/rockchip/vip/capture.c
+ create mode 100644 drivers/media/platform/rockchip/vip/dev.c
+ create mode 100644 drivers/media/platform/rockchip/vip/dev.h
+ create mode 100644 drivers/media/platform/rockchip/vip/regs.h
+
+-- 
+2.25.4
 
