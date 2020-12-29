@@ -2,282 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA3182E715B
-	for <lists+linux-media@lfdr.de>; Tue, 29 Dec 2020 15:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86C4C2E71C9
+	for <lists+linux-media@lfdr.de>; Tue, 29 Dec 2020 16:27:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726492AbgL2O1E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Dec 2020 09:27:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726156AbgL2O1E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Dec 2020 09:27:04 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F56C0613D6
-        for <linux-media@vger.kernel.org>; Tue, 29 Dec 2020 06:26:24 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03F0C98;
-        Tue, 29 Dec 2020 15:26:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609251982;
-        bh=xYegokcCVQNhaviJy+OEdZjImJkQbD/fHEkVlyZGHS4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X4PkxuG7jtbvMgAVSiE1MIEgwRhnjO7qjyWDYH6HqVqmkfP6Z5CZwCw28B8ZD31wB
-         T+dkzBD2lOzWFsYvPt0qDE1lyAiU/oSfjjdmcAMGfqIW6hg4K3lqlRlVrAwI387Lnv
-         wTIzmNHO9iBD9QQQ0RG8uJB085p4T/MdAi9Dkw50=
-Date:   Tue, 29 Dec 2020 16:26:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com, Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH] media: imx6-mipi-csi2: Call remote subdev
- get_mbus_config to get active lanes
-Message-ID: <X+s8gxxrkAT7h1C/@pendragon.ideasonboard.com>
-References: <20201229103102.45547-1-ezequiel@collabora.com>
+        id S1726632AbgL2PUf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Dec 2020 10:20:35 -0500
+Received: from mga02.intel.com ([134.134.136.20]:30357 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726626AbgL2PUf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 29 Dec 2020 10:20:35 -0500
+IronPort-SDR: 1JikxN0GW0FfPYUlnrXlKUvpn623HZO5XjQAlar/araWchFfVtuzrVyOMROGf5jnwaJnsdtpjK
+ 3RTq4zXxOKgA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9849"; a="163565166"
+X-IronPort-AV: E=Sophos;i="5.78,458,1599548400"; 
+   d="scan'208";a="163565166"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 07:18:49 -0800
+IronPort-SDR: LfQFh3FCSLCw7j9NXEv830+I72UGzbgVRdTuZvUJk0PyXWdjgJfGm6rz6ACXnCS2mTIBCMtwqV
+ /crL6PO4dDaQ==
+X-IronPort-AV: E=Sophos;i="5.78,458,1599548400"; 
+   d="scan'208";a="460182920"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 07:18:47 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kuGmr-000RPF-JW; Tue, 29 Dec 2020 17:19:49 +0200
+Date:   Tue, 29 Dec 2020 17:19:49 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     kernel test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: drivers/media/pci/intel/ipu3/ipu3-cio2.h:22:28: warning:
+ conversion from 'long unsigned int' to 'u16' {aka 'short unsigned int'}
+ changes value from '131072' to '0'
+Message-ID: <20201229151949.GJ4077@smile.fi.intel.com>
+References: <202012291200.Q8gXBY94-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201229103102.45547-1-ezequiel@collabora.com>
+In-Reply-To: <202012291200.Q8gXBY94-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
-
-Thank you for the patch.
-
-On Tue, Dec 29, 2020 at 07:31:02AM -0300, Ezequiel Garcia wrote:
-> Currently, the CSI2 subdevice is using the data-lanes from the
-> neareast endpoint to config the CSI2 lanes.
+On Tue, Dec 29, 2020 at 12:42:08PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   dea8dcf2a9fa8cc540136a6cd885c3beece16ec3
+> commit: 7b285f41f7376dc37e7fad1e803995fd39f42848 media: ipu3-cio2: Introduce CIO2_LOP_ENTRIES constant
+> date:   4 months ago
+> config: ia64-randconfig-r014-20201221 (attached as .config)
+> compiler: ia64-linux-gcc (GCC) 9.3.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7b285f41f7376dc37e7fad1e803995fd39f42848
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 7b285f41f7376dc37e7fad1e803995fd39f42848
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=ia64 
 > 
-> While this may work, the proper way to configure the hardware is
-> to obtain the remote subdevice in v4l2_async_notifier_operations.bound(),
-> and then call get_mbus_config using the remote subdevice to get
-> the active lanes.
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/staging/media/imx/TODO             |  12 ---
->  drivers/staging/media/imx/imx6-mipi-csi2.c | 101 ++++++++++++++++++---
->  2 files changed, 90 insertions(+), 23 deletions(-)
+> All warnings (new ones prefixed by >>):
 > 
-> diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-> index 9cfc1c1e78dc..c575f419204a 100644
-> --- a/drivers/staging/media/imx/TODO
-> +++ b/drivers/staging/media/imx/TODO
-> @@ -2,18 +2,6 @@
->  - The Frame Interval Monitor could be exported to v4l2-core for
->    general use.
->  
-> -- The CSI subdevice parses its nearest upstream neighbor's device-tree
-> -  bus config in order to setup the CSI. Laurent Pinchart argues that
-> -  instead the CSI subdev should call its neighbor's g_mbus_config op
-> -  (which should be propagated if necessary) to get this info. However
-> -  Hans Verkuil is planning to remove the g_mbus_config op. For now this
-> -  driver uses the parsed DT bus config method until this issue is
-> -  resolved.
-> -
-> -  2020-06: g_mbus has been removed in favour of the get_mbus_config pad
-> -  operation which should be used to avoid parsing the remote endpoint
-> -  configuration.
-> -
->  - This media driver supports inheriting V4L2 controls to the
->    video capture devices, from the subdevices in the capture device's
->    pipeline. The controls for each capture device are updated in the
-> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> index 94d87d27d389..bf6a61dd34c2 100644
-> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> @@ -42,7 +42,10 @@ struct csi2_dev {
->  	struct clk             *pllref_clk;
->  	struct clk             *pix_clk; /* what is this? */
->  	void __iomem           *base;
-> -	struct v4l2_fwnode_bus_mipi_csi2 bus;
-> +
-> +	struct v4l2_subdev	*remote;
-> +	unsigned int		remote_pad;
-> +	unsigned short		data_lanes;
->  
->  	/* lock to protect all members below */
->  	struct mutex lock;
-> @@ -138,10 +141,8 @@ static void csi2_enable(struct csi2_dev *csi2, bool enable)
->  	}
->  }
->  
-> -static void csi2_set_lanes(struct csi2_dev *csi2)
-> +static void csi2_set_lanes(struct csi2_dev *csi2, unsigned int lanes)
->  {
-> -	int lanes = csi2->bus.num_data_lanes;
-> -
->  	writel(lanes - 1, csi2->base + CSI2_N_LANES);
->  }
->  
-> @@ -250,12 +251,13 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
->  }
->  
->  /* Waits for low-power LP-11 state on data and clock lanes. */
-> -static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
-> +static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2,
-> +				     unsigned int lanes)
->  {
->  	u32 mask, reg;
->  	int ret;
->  
-> -	mask = PHY_STOPSTATECLK | (((1 << csi2->bus.num_data_lanes) - 1) <<
-> +	mask = PHY_STOPSTATECLK | (((1 << lanes) - 1) <<
->  				   PHY_STOPSTATEDATA_BIT);
+>    In file included from drivers/media/pci/intel/ipu3/ipu3-cio2.c:29:
+>    drivers/media/pci/intel/ipu3/ipu3-cio2.c: In function 'cio2_fbpt_entry_init_dummy':
+> >> drivers/media/pci/intel/ipu3/ipu3-cio2.h:22:28: warning: conversion from 'long unsigned int' to 'u16' {aka 'short unsigned int'} changes value from '131072' to '0' [-Woverflow]
+>       22 | #define CIO2_LOP_ENTRIES   (PAGE_SIZE / sizeof(u32))
+>          |                            ^
+>    drivers/media/pci/intel/ipu3/ipu3-cio2.c:163:39: note: in expansion of macro 'CIO2_LOP_ENTRIES'
+>      163 |  entry[1].second_entry.num_of_pages = CIO2_LOP_ENTRIES * CIO2_MAX_LOPS;
+>          |                                       ^~~~~~~~~~~~~~~~
 
-This now holds on a single line.
-
->  
->  	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
-> @@ -300,8 +302,56 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
->  	writel(reg, csi2->base + CSI2IPU_GASKET);
->  }
->  
-> +static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
-
-The function could return the number of lanes, instead of using an
-output parameter. Up to you.
-
-> +{
-> +	struct v4l2_mbus_config mbus_config = { 0 };
-> +	unsigned int num_lanes = UINT_MAX;
-> +	int ret;
-> +
-> +	*lanes = csi2->data_lanes;
-> +
-> +	ret = v4l2_subdev_call(csi2->remote, pad, get_mbus_config,
-> +			       csi2->remote_pad, &mbus_config);
-> +	if (ret == -ENOIOCTLCMD) {
-> +		dev_dbg(csi2->dev, "No remote mbus configuration available\n");
-> +		return 0;
-> +	}
-> +
-> +	if (ret) {
-> +		dev_err(csi2->dev, "Failed to get remote mbus configuration\n");
-> +		return ret;
-> +	}
-> +
-> +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> +		dev_err(csi2->dev, "Unsupported media bus type %u\n",
-> +			mbus_config.type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-> +		num_lanes = 1;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-> +		num_lanes = 2;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-> +		num_lanes = 3;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-> +		num_lanes = 4;
-> +
-> +	if (num_lanes > csi2->data_lanes) {
-> +		dev_err(csi2->dev,
-> +			"Unsupported mbus config: too many data lanes %u\n",
-> +			num_lanes);
-> +		return -EINVAL;
-> +	}
-> +
-> +	*lanes = num_lanes;
-> +
-> +	return 0;
-> +}
-
-It could make sense to move this to a core V4L2 helper, but it can be
-done later.
-
-> +
->  static int csi2_start(struct csi2_dev *csi2)
->  {
-> +	unsigned int lanes;
->  	int ret;
->  
->  	ret = clk_prepare_enable(csi2->pix_clk);
-> @@ -316,12 +366,16 @@ static int csi2_start(struct csi2_dev *csi2)
->  	if (ret)
->  		goto err_disable_clk;
->  
-> +	ret = csi2_get_active_lanes(csi2, &lanes);
-> +	if (ret)
-> +		goto err_disable_clk;
-> +
->  	/* Step 4 */
-> -	csi2_set_lanes(csi2);
-> +	csi2_set_lanes(csi2, lanes);
->  	csi2_enable(csi2, true);
->  
->  	/* Step 5 */
-> -	csi2_dphy_wait_stopstate(csi2);
-> +	csi2_dphy_wait_stopstate(csi2, lanes);
->  
->  	/* Step 6 */
->  	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
-> @@ -544,12 +598,37 @@ static int csi2_notify_bound(struct v4l2_async_notifier *notifier,
->  {
->  	struct csi2_dev *csi2 = notifier_to_dev(notifier);
->  	struct media_pad *sink = &csi2->sd.entity.pads[CSI2_SINK_PAD];
-> +	int pad;
-> +
-> +	pad = media_entity_get_fwnode_pad(&sd->entity, asd->match.fwnode,
-> +					  MEDIA_PAD_FL_SOURCE);
-> +	if (pad < 0) {
-> +		dev_err(csi2->dev, "Failed to find pad for %s\n", sd->name);
-> +		return pad;
-> +	}
-> +
-> +	csi2->remote = sd;
-> +	csi2->remote_pad = pad;
-> +
-> +	dev_dbg(csi2->dev, "Bound %s pad: %d\n", sd->name, pad);
->  
->  	return v4l2_create_fwnode_links_to_pad(sd, sink);
->  }
->  
-> +static void csi2_notify_unbind(struct v4l2_async_notifier *notifier,
-> +			       struct v4l2_subdev *sd,
-> +			       struct v4l2_async_subdev *asd)
-> +{
-> +	struct csi2_dev *csi2 = notifier_to_dev(notifier);
-> +
-> +	csi2->remote = NULL;
-> +
-> +	dev_dbg(csi2->dev, "Unbind %s\n", sd->name);
-
-I'm not sure if this debug message is useful, I think I'd drop it.
-
-With these small issues addressed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +}
-> +
->  static const struct v4l2_async_notifier_operations csi2_notify_ops = {
->  	.bound = csi2_notify_bound,
-> +	.unbind = csi2_notify_unbind,
->  };
->  
->  static int csi2_async_register(struct csi2_dev *csi2)
-> @@ -572,10 +651,10 @@ static int csi2_async_register(struct csi2_dev *csi2)
->  	if (ret)
->  		goto err_parse;
->  
-> -	csi2->bus = vep.bus.mipi_csi2;
-> +	csi2->data_lanes = vep.bus.mipi_csi2.num_data_lanes;
->  
-> -	dev_dbg(csi2->dev, "data lanes: %d\n", csi2->bus.num_data_lanes);
-> -	dev_dbg(csi2->dev, "flags: 0x%08x\n", csi2->bus.flags);
-> +	dev_dbg(csi2->dev, "data lanes: %d\n", vep.bus.mipi_csi2.num_data_lanes);
-> +	dev_dbg(csi2->dev, "flags: 0x%08x\n", vep.bus.mipi_csi2.flags);
->  
->  	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
->  	if (!asd) {
+Patch is available https://lore.kernel.org/linux-media/20201214152832.39463-1-andriy.shevchenko@linux.intel.com/
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
