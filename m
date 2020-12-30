@@ -2,77 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 194AB2E7C98
-	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 22:22:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65AE22E7D80
+	for <lists+linux-media@lfdr.de>; Thu, 31 Dec 2020 01:35:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgL3VVF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Dec 2020 16:21:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbgL3VVF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 16:21:05 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F0CC061573;
-        Wed, 30 Dec 2020 13:20:24 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6D243E;
-        Wed, 30 Dec 2020 22:20:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609363221;
-        bh=FzFPXZYwcTCYXVGfwAKemFzBPJlkDh8ZhIQZqZzJjVU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q4z6r/TQp6gZHFP9t3UB5xELh5lTXNlc+QaldjORLKZ93lbgtY1+/DZh9aJfNLG0u
-         7QZSTECowBlpWUNtYKv8xL9IQSt44ml95u02EHSlW772eM7Miv39+xfIVHGoDjQzR9
-         7oezsDE2tIMw1qx3MiPB2K/54UMXZDhHAqekyeQs=
-Date:   Wed, 30 Dec 2020 23:20:09 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pavel Machek <pavel@denx.de>
-Cc:     sakari.ailus@linux.intel.com, andy.shevchenko@gmail.com,
-        mchehab+huawei@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: ipu3-cio2: Fix mbus_code processing in
- cio2_subdev_set_fmt()
-Message-ID: <X+zvCZefnwfiTqoO@pendragon.ideasonboard.com>
-References: <20201230125550.GA14074@duo.ucw.cz>
+        id S1726317AbgLaAfn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 30 Dec 2020 19:35:43 -0500
+Received: from mail.hmha.gob.ec ([190.11.21.43]:50700 "EHLO mail.hmha.gob.ec"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726293AbgLaAfn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Dec 2020 19:35:43 -0500
+Received: from mail.hmha.gob.ec (localhost [127.0.0.1])
+        by mail.hmha.gob.ec (Postfix) with ESMTPS id D922B60FD504E;
+        Wed, 30 Dec 2020 18:35:53 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hmha.gob.ec (Postfix) with ESMTP id 98A2560BCFFB4;
+        Wed, 30 Dec 2020 17:43:13 -0500 (-05)
+Received: from mail.hmha.gob.ec ([127.0.0.1])
+        by localhost (mail.hmha.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 3X9s75uYAAmb; Wed, 30 Dec 2020 17:43:13 -0500 (-05)
+Received: from [103.133.108.147] (unknown [103.133.108.147])
+        by mail.hmha.gob.ec (Postfix) with ESMTPSA id 5250960C3B1BD;
+        Wed, 30 Dec 2020 17:43:05 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201230125550.GA14074@duo.ucw.cz>
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Re: Wir bieten Ihnen das beste Darlehen Deal 2%
+To:     Recipients <post@bbw-wismar.de>
+From:   James Charlton <post@bbw-wismar.de>
+Date:   Wed, 30 Dec 2020 14:42:59 -0800
+Reply-To: james_clf@aol.com
+Message-Id: <20201230224306.5250960C3B1BD@mail.hmha.gob.ec>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pavel,
+Sehr geehrte Damen und Herren,
 
-Thank you for the patch.
+Benötigen Sie finanzielle Hilfe? Sind Sie es auch leid, mit Banken oder
+Finanzdienstleistern um einen Kredit zu suchen? Um Sicherheiten zu erhalten,
+um das Darlehen zu 150% zu sichern?
 
-On Wed, Dec 30, 2020 at 01:55:50PM +0100, Pavel Machek wrote:
-> Loop was useless as it would always exit on the first iteration. Fix
-> it with right condition. 
-> 
-> Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
-> Fixes: a86cf9b29e8b ("media: ipu3-cio2: Validate mbus format in setting subdev format")
+Kreditangebot von 10,000 Euro bis 10,000,000.00 Euro
 
-Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> index 36e354ecf71e..e8ea69d30bfd 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> @@ -1269,7 +1269,7 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
->  	fmt->format.code = formats[0].mbus_code;
->  
->  	for (i = 0; i < ARRAY_SIZE(formats); i++) {
-> -		if (formats[i].mbus_code == fmt->format.code) {
-> +		if (formats[i].mbus_code == mbus_code) {
->  			fmt->format.code = mbus_code;
->  			break;
->  		}
-> 
-
--- 
-Regards,
-
-Laurent Pinchart
+Wir bieten 2% Darlehen an, wenn Sie interessiert sind, kontaktieren Sie uns bitte per E-Mail: cfl@cflanfragen.com OR james_clf@aol.com
