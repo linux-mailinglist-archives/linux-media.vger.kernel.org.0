@@ -2,75 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 691392E7C99
+	by mail.lfdr.de (Postfix) with ESMTP id 194AB2E7C98
 	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 22:22:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726354AbgL3VVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Dec 2020 16:21:10 -0500
-Received: from mga14.intel.com ([192.55.52.115]:49725 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726197AbgL3VVK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 16:21:10 -0500
-IronPort-SDR: 2Bdnn53VdhywFtcq85D6llMVnZ0qS3o4Or/8lSBkxk4IXsuSko4VbCY9EcAyrDtKe4nUNh1zAt
- XGuOV9Jx8ZDQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9850"; a="175865009"
-X-IronPort-AV: E=Sophos;i="5.78,462,1599548400"; 
-   d="scan'208";a="175865009"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2020 13:19:22 -0800
-IronPort-SDR: XfwVTHI3K3p6FkpXHUcg3SRmTV2YXjmKahhbfNIml3vifI/BjVCAnoA6v7JyjXELzEoksi39FD
- 4Ki4keUCiUdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,462,1599548400"; 
-   d="scan'208";a="495034277"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga004.jf.intel.com with ESMTP; 30 Dec 2020 13:19:20 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 981B2DE; Wed, 30 Dec 2020 23:19:19 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        royale@zerezo.com, USB <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
-Subject: [RFT][PATCH v1] media: zr364xx: Fix memory leak in ->probe()
-Date:   Wed, 30 Dec 2020 23:19:18 +0200
-Message-Id: <20201230211918.63508-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
+        id S1726276AbgL3VVF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Dec 2020 16:21:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59978 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726197AbgL3VVF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Dec 2020 16:21:05 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F0CC061573;
+        Wed, 30 Dec 2020 13:20:24 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6D243E;
+        Wed, 30 Dec 2020 22:20:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1609363221;
+        bh=FzFPXZYwcTCYXVGfwAKemFzBPJlkDh8ZhIQZqZzJjVU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q4z6r/TQp6gZHFP9t3UB5xELh5lTXNlc+QaldjORLKZ93lbgtY1+/DZh9aJfNLG0u
+         7QZSTECowBlpWUNtYKv8xL9IQSt44ml95u02EHSlW772eM7Miv39+xfIVHGoDjQzR9
+         7oezsDE2tIMw1qx3MiPB2K/54UMXZDhHAqekyeQs=
+Date:   Wed, 30 Dec 2020 23:20:09 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Pavel Machek <pavel@denx.de>
+Cc:     sakari.ailus@linux.intel.com, andy.shevchenko@gmail.com,
+        mchehab+huawei@kernel.org, yong.zhi@intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ipu3-cio2: Fix mbus_code processing in
+ cio2_subdev_set_fmt()
+Message-ID: <X+zvCZefnwfiTqoO@pendragon.ideasonboard.com>
+References: <20201230125550.GA14074@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201230125550.GA14074@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When ->probe() fails in some cases it may not free resources.
-Replace few separated calls by v4l2_device_put() to clean up
-everything.
+Hi Pavel,
 
-Reported-by: syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-I have no hardware and hadn't done any test of this.
+Thank you for the patch.
 
- drivers/media/usb/zr364xx/zr364xx.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On Wed, Dec 30, 2020 at 01:55:50PM +0100, Pavel Machek wrote:
+> Loop was useless as it would always exit on the first iteration. Fix
+> it with right condition. 
+> 
+> Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
+> Fixes: a86cf9b29e8b ("media: ipu3-cio2: Validate mbus format in setting subdev format")
 
-diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-index 1e1c6b4d1874..5b9e31af57cf 100644
---- a/drivers/media/usb/zr364xx/zr364xx.c
-+++ b/drivers/media/usb/zr364xx/zr364xx.c
-@@ -1533,9 +1533,7 @@ static int zr364xx_probe(struct usb_interface *intf,
- 	return 0;
- 
- fail:
--	v4l2_ctrl_handler_free(hdl);
--	v4l2_device_unregister(&cam->v4l2_dev);
--	kfree(cam);
-+	v4l2_device_put(&cam->v4l2_dev);
- 	return err;
- }
- 
+Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> index 36e354ecf71e..e8ea69d30bfd 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> @@ -1269,7 +1269,7 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
+>  	fmt->format.code = formats[0].mbus_code;
+>  
+>  	for (i = 0; i < ARRAY_SIZE(formats); i++) {
+> -		if (formats[i].mbus_code == fmt->format.code) {
+> +		if (formats[i].mbus_code == mbus_code) {
+>  			fmt->format.code = mbus_code;
+>  			break;
+>  		}
+> 
+
 -- 
-2.29.2
+Regards,
 
+Laurent Pinchart
