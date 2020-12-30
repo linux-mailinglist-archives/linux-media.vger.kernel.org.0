@@ -2,153 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 261F52E7BF4
-	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 19:47:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D58E42E7C01
+	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 20:10:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbgL3Sqe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Dec 2020 13:46:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726185AbgL3Sqe (ORCPT
+        id S1726317AbgL3TKF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Dec 2020 14:10:05 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:59446 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726185AbgL3TKF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 13:46:34 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F280C061799
-        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 10:45:53 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id s26so39493986lfc.8
-        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 10:45:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=QeENytF3F7ahVCLpGopKzQFJvc07A4bGjJONLwUaPDc=;
-        b=locakoSPmrgMQW2aLxQyQNPW9PwuYvqTaoZqJb8mbCCsxWuYlpaEhfq1QWxtTNyUXU
-         cV1pHm92cHSnlSQafgxeACLEGUDe8m4ujjyPQ0P1NFlNkMgGZPwDWzFQD3GFZQiXPR2b
-         wMi1IIU37Cr/AEVK5LiE1wuZDfnWBjHjDOSw+fXBQe61ty0VpSy3l+vH5Y2RjH9I8fQM
-         OdFUZfbMXd0ceaUTH1G5/fnaU9qhlaPYwOwZj8C1bmMI8WOS/EBfrPmpXrADW20IKnaf
-         jJFweeF44LoppYkisbE32vGX2rsm2O4ZzwUzMN+EXM5VB7cczz/+fNhgXWShNP7xbslz
-         nTNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=QeENytF3F7ahVCLpGopKzQFJvc07A4bGjJONLwUaPDc=;
-        b=LozvDAPE/i3ACD9gId5egryGjVzOpJHtuemMzFO4MuTF2crlI9WsfK8h8ye2yoeC3s
-         tcixSQxIoz4wn2ed5H6VWj5H71Z0BarjQFt53bdKNnx1Vs/3JZHrlU2z3/FwIc4nXjp6
-         p5PXV1mdvDlDhN+xpjqKbvFf4DOWvmqcOuzlMPzDGgr7wPjIAC+66AVdqhiLKhTBsZYs
-         W/MgdnA/sfTqmiKP00JwTzq4rDmdMaeAGnq54JmUhia6jTT89LOVQ9RqMSeu++KStzSf
-         qscdI9EeP4/hqJnsDJfGb7T6jHQ9jxB1HE34iTcBRVqvhI0t0atd8tkUvYxGlAWpX1mb
-         ZB4g==
-X-Gm-Message-State: AOAM533MeBnqjYD74EQQJO9gFGieX0Y6aO6DHfAoN3MDUg7Zz8WbYFYR
-        H7B96zoxo16gdPSkZQfvYUlLCZhzKGCTm8nJcvs=
-X-Google-Smtp-Source: ABdhPJyBa5wz8bDeLukAxi+86kMAUPIw7jIUbCWI72Sq9uYwqnHMps0RirZdyw0sA4lZUDhru+jVTL8pfIpuaGM/ass=
-X-Received: by 2002:a19:4856:: with SMTP id v83mr22524045lfa.583.1609353951993;
- Wed, 30 Dec 2020 10:45:51 -0800 (PST)
+        Wed, 30 Dec 2020 14:10:05 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 594AD1C0B79; Wed, 30 Dec 2020 20:09:07 +0100 (CET)
+Date:   Wed, 30 Dec 2020 20:09:07 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-media@vger.kernel.org, phone-devel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH 2/2 v7] leds: rt8515: Add Richtek RT8515 LED driver
+Message-ID: <20201230190907.GE25903@duo.ucw.cz>
+References: <20201201101350.1401956-1-linus.walleij@linaro.org>
+ <20201201101350.1401956-2-linus.walleij@linaro.org>
 MIME-Version: 1.0
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Wed, 30 Dec 2020 15:45:40 -0300
-Message-ID: <CAOMZO5D2bEc+g=OVs_cQjcFkurzk6Hj8pZP3F9U8Kdqc4_FP0A@mail.gmail.com>
-Subject: Using kmssink with mxsfb-drm
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Gary Bisson <bisson.gary@gmail.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="Ns7jmDPpOpCD+GE/"
+Content-Disposition: inline
+In-Reply-To: <20201201101350.1401956-2-linus.walleij@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-I am trying to run a simple videotestsrc pipeline on a imx6ull-evk
-board running kernel 5.10 and Gstreamer 1.18.2, but it fails as shown
-below.
+--Ns7jmDPpOpCD+GE/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Any ideas?
+Hi!
 
-Thanks,
+> We do not have a proper datasheet for the RT8515 but
+> it turns out that RT9387A has a public datasheet and
+> is essentially the same chip. We designed the driver
+> in accordance with this datasheet. The day someone
+> needs to drive a RT9387A this driver can probably
+> easily be augmented to handle that chip too.
 
-Fabio Estevam
+Please move this to the comment in the sources... perhaps with url for
+the documenation.
 
-# modetest -M mxsfb-drm
-Encoders:
-id      crtc    type    possible crtcs  possible clones
-34      33      none    0x00000001      0x00000000
+> +/* This is setting the torch light level */
+> +static int rt8515_led_brightness_set(struct led_classdev *led,
+> +				     enum led_brightness brightness)
+> +{
+> +	struct led_classdev_flash *fled =3D lcdev_to_flcdev(led);
+> +	struct rt8515 *rt =3D to_rt8515(fled);
+> +
+> +	mutex_lock(&rt->lock);
+> +
+> +	if (brightness =3D=3D LED_OFF) {
+> +		/* Off */
+> +		gpiod_set_value(rt->enable_flash, 0);
+> +		gpiod_set_value(rt->enable_torch, 0);
+> +	} else if (brightness < RT8515_TORCH_MAX) {
+> +		/* Step it up to movie mode brightness using the flash pin */
+> +		rt8515_gpio_brightness_commit(rt->enable_torch, brightness);
+> +	} else {
+> +		/* Max torch brightness requested */
+> +		gpiod_set_value(rt->enable_torch, 1);
+> +	}
+> +
+> +	mutex_unlock(&rt->lock);
 
-Connectors:
-id      encoder status          name            size (mm)       modes   encoders
-31      34      connected       unknown-1       95x54           1       34
-  modes:
-        index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
-  #0 480x272 59.94 480 482 523 525 272 274 284 286 9000 flags: nhsync,
-nvsync; type: preferred, driver
-  props:
-        1 EDID:
-                flags: immutable blob
-                blobs:
+Do you need to somehow reset the LED to lowest brightness before
+rt8515_gpio_brightness_commit()?
 
-                value:
-        2 DPMS:
-                flags: enum
-                enums: On=0 Standby=1 Suspend=2 Off=3
-                value: 0
-        5 link-status:
-                flags: enum
-                enums: Good=0 Bad=1
-                value: 0
-        6 non-desktop:
-                flags: immutable range
-                values: 0 1
-                value: 0
-        4 TILE:
-                flags: immutable blob
-                blobs:
+> +	ret1 =3D fwnode_property_read_u32(rt->dev->fwnode, resistance, &res);
+> +	ret2 =3D fwnode_property_read_u32(led, max_ua_prop, &ua);
+> +
+> +	/* No info in DT, OK go with hardware maxima */
+> +	if (ret1 && ret2) {
+> +		max_ma =3D RT8515_MAX_IOUT_MA;
+> +		max_intensity =3D hw_max;
+> +		goto out_assign_max;
+> +	}
+> +
+> +	if (ret1 || ret2) {
+> +		dev_err(rt->dev,
+> +			"either %s or %s missing from DT, using HW max\n",
+> +			resistance, max_ua_prop);
+> +		max_ma =3D RT8515_MAX_IOUT_MA;
+> +		max_intensity =3D hw_max;
+> +		goto out_assign_max;
+> +	}
 
-                value:
+I'd go with some minimum values if we don't have complete information
+=66rom devicetree.
 
-CRTCs:
-id      fb      pos     size
-33      35      (0,0)   (480x272)
-  #0 480x272 59.94 480 482 523 525 272 274 284 286 9000 flags: nhsync,
-nvsync; type: preferred, driver
-  props:
-        24 VRR_ENABLED:
-                flags: range
-                values: 0 1
-                value: 0
+> +	/* Create a V4L2 Flash device if V4L2 flash is enabled */
+> +	rt->v4l2_flash =3D v4l2_flash_init(dev, child, fled, NULL, &v4l2_sd_cfg=
+);
+> +	if (IS_ERR(rt->v4l2_flash)) {
+> +		ret =3D PTR_ERR(rt->v4l2_flash);
+> +		dev_err(dev, "failed to register V4L2 flash device (%d)\n",
+> +			ret);
+> +		/*
+> +		 * Continue without the V4L2 flash
+> +		 * (we still have the classdev)
+> +		 */
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rt8515_remove(struct platform_device *pdev)
+> +{
+> +	struct rt8515 *rt =3D platform_get_drvdata(pdev);
+> +
+> +	v4l2_flash_release(rt->v4l2_flash);
 
-Planes:
-id      crtc    fb      CRTC x,y        x,y     gamma size      possible crtcs
-32      33      35      0,0             0,0     0               0x00000001
-  formats: XR24 RG16
-  props:
-        8 type:
-                flags: immutable enum
-                enums: Overlay=0 Primary=1 Cursor=2
-                value: 1
+Is it cool to call v4l2_flash_release() with error pointer?
 
-Frame buffers:
-id      size    pitch
+> +MODULE_LICENSE("GPL v2");
 
-# gst-launch-1.0 videotestsrc ! kmssink connector-id=31 name=mxsfb-drm
-Setting pipeline to PAUSED ...
-Pipeline is PREROLLING ...
-ERROR: from element /GstPipeline:pipeline0/GstKMSSink:mxsfb-drm:
-GStreamer encountered a general resource error.
-Additional debug info:
-../sys/kms/gstkmssink.c(1711): gst_kms_sink_show_frame ():
-/GstPipeline:pipeline0/GstKMSSink:mxsfb-drm:
-drmModeSetPlane failed: Invalid argument (22)
-ERROR: pipeline doesn't want to preroll.
-Setting pipeline to NULL ...
-ERROR: from element
-/GstPipeline:pipeline0/GstVideoTestSrc:videotestsrc0: Internal data
-stream error.
-Additional debug info:
-../libs/gst/base/gstbasesrc.c(3127): gst_base_src_loop ():
-/GstPipeline:pipeline0/GstVideoTestSrc:videotestsrc0:
-streaming stopped, reason error (-5)
-ERROR: pipeline doesn't want to preroll.
-Freeing pipeline ...
+v2+, iirc?
+
+Driver looks good, thanks!
+								Pavel
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--Ns7jmDPpOpCD+GE/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX+zQUwAKCRAw5/Bqldv6
+8pDYAJ9oFNF11x4gDzsv2TAwdLw2H1mdMQCeO/jI7kivtQ5bOnt3g4TeqySJv5I=
+=T3Cx
+-----END PGP SIGNATURE-----
+
+--Ns7jmDPpOpCD+GE/--
