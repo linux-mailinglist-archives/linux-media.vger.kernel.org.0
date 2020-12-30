@@ -2,56 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E97232E79DF
-	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 15:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F37D22E7A14
+	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 15:57:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbgL3OC5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Dec 2020 09:02:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49308 "EHLO
+        id S1726214AbgL3O5O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Dec 2020 09:57:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726547AbgL3OC5 (ORCPT
+        with ESMTP id S1725853AbgL3O5N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 09:02:57 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBFC9C061799;
-        Wed, 30 Dec 2020 06:02:16 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id l11so37890711lfg.0;
-        Wed, 30 Dec 2020 06:02:16 -0800 (PST)
+        Wed, 30 Dec 2020 09:57:13 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CD6C061799;
+        Wed, 30 Dec 2020 06:56:32 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id y19so37997942lfa.13;
+        Wed, 30 Dec 2020 06:56:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kgbDtfqk5fP8ba7WjhXh9EaZlWvPtHxJW5owvXGnu28=;
-        b=UhvgoE4yfbHePS8AaVrQlFt/hwDbTrDKwDFCbRhhHEgAe1Hv4O3OeOiKmqtsQSuVUt
-         2EzhCLUkVX94507wJTEO5Xcx1y+/WKL+HxJw3rG+NdjkqHYpTIHmHfAD6BDhG9cTHfw/
-         vI46uHG3aMxT/34J9JakJmRQGq2WI51algXfdeGu//jRDCGJYh6bFnl478JzLePw7j/B
-         PkiZp4Mvwg7KwrUqwWlkYglwRdXL9EVQm3e922wabLwzAcaGgWzj9L4tsiCFYznbDjk8
-         mPEUkLquIXzerq6FYZOehyvFtuTnWM/jmFGV4sZIvKmT7wLr8MTGy18L+eHVf9I8UdGN
-         c/Ng==
+        bh=0U/3l2R/FqwbzeCe0bIFbSAR6mJKbOIzSVkvfhl/Js8=;
+        b=L5HLkr9WfhVAUPpunjEjaBQBUl1SlW/zUa5O1VDTRHUBdAxB+/HWrJ8GTcGCsF7mWO
+         jel4JTGI4sJHATbOPY2XRlk82AhD92G5EShm59syyPsbyXRC6CAgoynITJGCI7+lFoOJ
+         +dE+2O9gdBFrC94ljSMv9aR/2vIPUYsetKfpgKpwXYFulpQAA+rX0JUiL9MKb2gPS8g/
+         a2Gyez6We5e3I87NlBGkD6YUnUjAnV246QogA89sf84uan1KmmQrFDut1Jl3FzZSqVeb
+         j9F6Ep46eJ6oht7szUO90Kq+IKBdD8OA01xvHwsbL0aa7MlsihfPr64TIiKyPGupP+ed
+         DINg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=kgbDtfqk5fP8ba7WjhXh9EaZlWvPtHxJW5owvXGnu28=;
-        b=e3qBoxKZGn4JF5yYU33YgPN84os2XX+j1PKDG21xo7us6kPXXpejhry/nLOZTSI75B
-         u1B40/Igafrj+4VEjROKtx9/AMheU+oLzIHfZmqlUJ8q4VNPAIdAAtlHD4OTduaf5B3g
-         20BH0acXxhApEMHgYjsrTHjMcvlRJigP+K650awY3vlLq7/mszFl4r7OATXDDc9FDD40
-         Akz+3eKdf98Z6yonlLNrGRddFvNnR/bDWXxg8+BgoZZWAu2FORbDRS3uMoMV7OkjoN6L
-         6yU7WSJ+7HKtcm+8S72ZIvA7dJ5I5Ajg5AoFXtiKG883l+W/W9m7ifm01+kxH/fJCRFq
-         cUSA==
-X-Gm-Message-State: AOAM531i+ycErGYsEpaoivzpCIC4vGjRKALo/QB9MEkVgPYQyrC/v8qX
-        FpHsQgSN2KjMnixgDB/Aip0tUUQ5HhY=
-X-Google-Smtp-Source: ABdhPJw9wWSFuQc16RX9NiqQUb8w4TZ5fG/vmflab4lL/iZ0G+l9QXIErYZJBZgqcLvosb2HGM3QiA==
-X-Received: by 2002:a2e:8910:: with SMTP id d16mr25849728lji.357.1609336933615;
-        Wed, 30 Dec 2020 06:02:13 -0800 (PST)
+        bh=0U/3l2R/FqwbzeCe0bIFbSAR6mJKbOIzSVkvfhl/Js8=;
+        b=j0gHOLHhS3fW8y22SFOyfznt9jQt9sH0M5yOdWkLDgDexC/U4gk09bBhLohCQhK/01
+         zNgUI1KxQZR8aGSOnW9XIZC4g7J8bfTsO6Ch5uDRKz2JhY54uQWJclftRh9GfMbjnR7u
+         iPBTX4vi+l4EYvYpaaB6a6r3C5MAc9bIfgl7EUvoRu17hE7MK4oeKLzZPfX2aJFx0Y4I
+         p9h+M6Uo7i2XlfrJ31h0i36pjuQFbt+W8sbD7tz8QESn5OB03mAPLMOG/5ayQ1HieRTT
+         ZJf+RR7CQ4QmXDO469b6jdcsKqfmiBsd6duHFUwwVTeBn9GAtHzjlvE40I1HZLw8dCx2
+         owbQ==
+X-Gm-Message-State: AOAM531hvJMDBRhXX2AuBhH9o4CBqvYYc/HN85vDrq3pgCq+P9yCXs03
+        bmr5KJcmXjlv9gQc6QzbN90KVuQl+OM=
+X-Google-Smtp-Source: ABdhPJxdcNRH3UKPiAgxGLAONS9JS5ghRNZ2hrGFDfGyakfQGnF6WF4EeDtjyRL5+3uSyAGBKXvc5w==
+X-Received: by 2002:a2e:b80c:: with SMTP id u12mr25529775ljo.490.1609340191355;
+        Wed, 30 Dec 2020 06:56:31 -0800 (PST)
 Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id o12sm5965987lfb.49.2020.12.30.06.02.11
+        by smtp.googlemail.com with ESMTPSA id u22sm4247296lfu.46.2020.12.30.06.56.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Dec 2020 06:02:12 -0800 (PST)
-Subject: Re: [PATCH v2 11/48] opp: Add dev_pm_opp_find_level_ceil()
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Wed, 30 Dec 2020 06:56:30 -0800 (PST)
+Subject: Re: [PATCH v2 23/48] soc/tegra: pmc: Pulse resets after removing
+ power clamp
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Mark Brown <broonie@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
@@ -66,29 +67,19 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
         Viresh Kumar <vireshk@kernel.org>,
         Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>
+Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-clk@vger.kernel.org
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-12-digetx@gmail.com>
- <20201222064253.x7vsurh7q5k7qzb5@vireshk-i7>
- <fd7b9f42-d0a7-45eb-2a17-d46779011c58@gmail.com>
- <20201223041931.klnppy4fu3sdgtsz@vireshk-i7>
- <f00e0c74-8d9a-d3d3-81bb-3ac25a74175d@gmail.com>
- <20201224064339.zngidobhstnlu2a3@vireshk-i7>
- <780db190-d93d-3bca-4819-790010f82c62@gmail.com>
- <20201228062254.ui727ka2ftijov4m@vireshk-i7>
- <c4a6336f-e7e6-b23e-4d60-a41d8e09aef3@gmail.com>
- <20201230044637.jjyw5gwe73ovslbd@vireshk-i7>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7f2385d1-603d-28ab-34e8-3623635045f6@gmail.com>
-Date:   Wed, 30 Dec 2020 17:02:11 +0300
+ <20201217180638.22748-24-digetx@gmail.com>
+Message-ID: <c21796c2-0278-66bc-5e68-cae03ca950ca@gmail.com>
+Date:   Wed, 30 Dec 2020 17:56:29 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.2
 MIME-Version: 1.0
-In-Reply-To: <20201230044637.jjyw5gwe73ovslbd@vireshk-i7>
+In-Reply-To: <20201217180638.22748-24-digetx@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -96,51 +87,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-30.12.2020 07:46, Viresh Kumar пишет:
-> On 28-12-20, 17:03, Dmitry Osipenko wrote:
->> 28.12.2020 09:22, Viresh Kumar пишет:
->>> On 24-12-20, 16:00, Dmitry Osipenko wrote:
->>>> In a device driver I want to set PD to the lowest performance state by
->>>> removing the performance vote when dev_pm_opp_set_rate(dev, 0) is
->>>> invoked by the driver.
->>>>
->>>> The OPP core already does this, but if OPP levels don't start from 0 in
->>>> a device-tree for PD, then it currently doesn't work since there is a
->>>> need to get a rounded-up performance state because
->>>> dev_pm_opp_set_voltage() takes OPP entry for the argument (patches 9 and
->>>> 28).
->>>>
->>>> The PD powering off and performance-changes are separate from each other
->>>> in the GENPD core. The GENPD core automatically turns off domain when
->>>> all devices within the domain are suspended by system-suspend or RPM.
->>>>
->>>> The performance state of a power domain is controlled solely by a device
->>>> driver. GENPD core only aggregates the performance requests, it doesn't
->>>> change the performance state of a domain by itself when device is
->>>> suspended or resumed, IIUC this is intentional. And I want to put domain
->>>> into lowest performance state when device is suspended.
->>>
->>> Right, so if you really want to just drop the performance vote, then with a
->>> value of 0 for the performance state the call will reach to your genpd's
->>> callback ->set_performance_state(). Just as dev_pm_opp_set_rate() accepts the
->>> frequency to be 0, I would expect dev_pm_opp_set_rate() to accept opp argument
->>> as NULL and in that case set voltage to 0 and do regulator_disable() as well.
->>> Won't that work better than going for the lowest voltage ?
->>>
->>
->> We can make dev_pm_opp_set_voltage() to accept OPP=NULL in order to
->> disable the regulator, like it's done for dev_pm_opp_set_rate(dev, 0).
->> Although, I don't need this kind of behaviour for the Tegra PD driver,
->> and thus, would prefer to leave this for somebody else to implement in
->> the future, once it will be really needed.
->>
->> Still we need the dev_pm_opp_find_level_ceil() because level=0 means
->> that we want to set PD to the lowest (minimal) performance state, i.e.
->> it doesn't necessarily mean that we want to set the voltage to 0 and
->> disable the PD entirely. GENPD has a separate controls for on/off.
+17.12.2020 21:06, Dmitry Osipenko пишет:
+> The GR3D1 hardware unit needs to pulse hardware reset after removing power
+> clamp, otherwise reset won't be deasserted. Hence give reset a pulse after
+> removing the clamp. This stayed unnoticed previously because power
+> management wasn't supported by the 3D driver until recently and all power
+> gates are usually ungated after bootloader by default.
 > 
-> Ok.
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/soc/tegra/pmc.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index fd2ba3c59178..985373ce52b1 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -654,6 +654,14 @@ static int tegra_powergate_power_up(struct tegra_powergate *pg,
+>  
+>  	usleep_range(10, 20);
+>  
+> +	/*
+> +	 * Some hardware blocks may need a 0->1->0 reset pulse in order
+> +	 * to propagate the reset, Tegra30 3D1 is one example.
+> +	 */
+> +	err = reset_control_reset(pg->reset);
+> +	if (err)
+> +		goto powergate_off;
+> +
+>  	if (pg->pmc->soc->needs_mbist_war)
+>  		err = tegra210_clk_handle_mbist_war(pg->id);
+>  	if (err)
 > 
 
-I'll separate the OPP patches from this series and will prepare v3,
-thank you for the review!
+After some more testing, I found that 3D1 is reset properly if its
+memory client is placed in reset before power domain is turned off. The
+memory client resetting is completely missed in v2. I'll improve it in
+v3 and then this PMC workaround-patch won't be needed anymore.
