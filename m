@@ -2,125 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F37D22E7A14
-	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 15:57:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6856E2E7BAC
+	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 18:46:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgL3O5O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Dec 2020 09:57:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57622 "EHLO
+        id S1726486AbgL3Rqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Dec 2020 12:46:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725853AbgL3O5N (ORCPT
+        with ESMTP id S1726214AbgL3Rqf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 09:57:13 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CD6C061799;
-        Wed, 30 Dec 2020 06:56:32 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id y19so37997942lfa.13;
-        Wed, 30 Dec 2020 06:56:32 -0800 (PST)
+        Wed, 30 Dec 2020 12:46:35 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E6DC061573
+        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 09:45:54 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id b26so39200122lff.9
+        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 09:45:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0U/3l2R/FqwbzeCe0bIFbSAR6mJKbOIzSVkvfhl/Js8=;
-        b=L5HLkr9WfhVAUPpunjEjaBQBUl1SlW/zUa5O1VDTRHUBdAxB+/HWrJ8GTcGCsF7mWO
-         jel4JTGI4sJHATbOPY2XRlk82AhD92G5EShm59syyPsbyXRC6CAgoynITJGCI7+lFoOJ
-         +dE+2O9gdBFrC94ljSMv9aR/2vIPUYsetKfpgKpwXYFulpQAA+rX0JUiL9MKb2gPS8g/
-         a2Gyez6We5e3I87NlBGkD6YUnUjAnV246QogA89sf84uan1KmmQrFDut1Jl3FzZSqVeb
-         j9F6Ep46eJ6oht7szUO90Kq+IKBdD8OA01xvHwsbL0aa7MlsihfPr64TIiKyPGupP+ed
-         DINg==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=lsMpuSlk+JgQDEfP7dT55M3ksvKCeDlSL4FBnQFCTII=;
+        b=SFODHa+kqT5pT7AZ1XwvAxbkLMaU9B6jTqqO4n1va86iIEVz3sH6eSl/idrc/RBT3E
+         gTNbX9jviWbd/QmP9QocOsTwu6shvkrO0Bo5/C+MzZVb+SABSuJ98r1GVnA8nY+pHzLp
+         Im0CKsuemb7FM2T4IiyR0uCXnHqU7fH67tvp7PpHVFqpLLBVCiq5WVg/CbqHecRtc/6G
+         2vUJyuC5wqn6CwHRJKL3mKbcdcW+YnCxmZWaZVCgJmWkYzUYrFHYCBNJ79GhgcO2fsG4
+         OaPUqnL7j4omyAvJpAL/H0juG5R05psu2uCXgPAlSkv0HjpqpXgntvEJ5dUvLmDvypSW
+         IuWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0U/3l2R/FqwbzeCe0bIFbSAR6mJKbOIzSVkvfhl/Js8=;
-        b=j0gHOLHhS3fW8y22SFOyfznt9jQt9sH0M5yOdWkLDgDexC/U4gk09bBhLohCQhK/01
-         zNgUI1KxQZR8aGSOnW9XIZC4g7J8bfTsO6Ch5uDRKz2JhY54uQWJclftRh9GfMbjnR7u
-         iPBTX4vi+l4EYvYpaaB6a6r3C5MAc9bIfgl7EUvoRu17hE7MK4oeKLzZPfX2aJFx0Y4I
-         p9h+M6Uo7i2XlfrJ31h0i36pjuQFbt+W8sbD7tz8QESn5OB03mAPLMOG/5ayQ1HieRTT
-         ZJf+RR7CQ4QmXDO469b6jdcsKqfmiBsd6duHFUwwVTeBn9GAtHzjlvE40I1HZLw8dCx2
-         owbQ==
-X-Gm-Message-State: AOAM531hvJMDBRhXX2AuBhH9o4CBqvYYc/HN85vDrq3pgCq+P9yCXs03
-        bmr5KJcmXjlv9gQc6QzbN90KVuQl+OM=
-X-Google-Smtp-Source: ABdhPJxdcNRH3UKPiAgxGLAONS9JS5ghRNZ2hrGFDfGyakfQGnF6WF4EeDtjyRL5+3uSyAGBKXvc5w==
-X-Received: by 2002:a2e:b80c:: with SMTP id u12mr25529775ljo.490.1609340191355;
-        Wed, 30 Dec 2020 06:56:31 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id u22sm4247296lfu.46.2020.12.30.06.56.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Dec 2020 06:56:30 -0800 (PST)
-Subject: Re: [PATCH v2 23/48] soc/tegra: pmc: Pulse resets after removing
- power clamp
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-24-digetx@gmail.com>
-Message-ID: <c21796c2-0278-66bc-5e68-cae03ca950ca@gmail.com>
-Date:   Wed, 30 Dec 2020 17:56:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=lsMpuSlk+JgQDEfP7dT55M3ksvKCeDlSL4FBnQFCTII=;
+        b=gwxI9Fvlsxlm+bti0kqHwVn6DDHTjoKtjMiuSmDRBJaLTMMFgDBzt8uOsrlkUVOyk/
+         pvqmFtSQ1qPOEHvgY3cVmhPInooq59l+dyxxsE7XKdiZl/Za8XydcsOaMFX65HcDLiiX
+         0Hnq9ehVVWFqjH7g0hVN2KyDMA6WgldSbRNJXVUEeYdOCicqzPFRM3ayCAt8xhCRLA2I
+         F+J0VFLhCIZMqlwzo+FjgJaL+APP+GbO1PPhFfW4fsbtc2WDKJOmn1GcB29OQunKlTGF
+         HGAqJvn5QOUl6GU5IhuYdfAvt3dv/7vO1kx6dzcp3FQdacIFCiTQgVMxwg32U/Xqgu1A
+         TDeA==
+X-Gm-Message-State: AOAM532tCKxr6NcCREN0zzwPevVOtgDyPQWZrh/weAmfS89Kf53D1WU2
+        1d3PAFTLLS4aL6v61jNYJBMMKsfDsFOhSiJkhkM=
+X-Google-Smtp-Source: ABdhPJyZZR67fNYTA9g44/Or8IA78R4K3penA1chr55HBoF/W1EQeQob0M9rwd72aLKctfz4O0bWdw5fVnmC281sswo=
+X-Received: by 2002:a2e:b80c:: with SMTP id u12mr25777529ljo.490.1609350352853;
+ Wed, 30 Dec 2020 09:45:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201217180638.22748-24-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 30 Dec 2020 14:45:41 -0300
+Message-ID: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
+Subject: imx6ull capture from OV5640
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        =?UTF-8?Q?S=C3=A9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-17.12.2020 21:06, Dmitry Osipenko пишет:
-> The GR3D1 hardware unit needs to pulse hardware reset after removing power
-> clamp, otherwise reset won't be deasserted. Hence give reset a pulse after
-> removing the clamp. This stayed unnoticed previously because power
-> management wasn't supported by the 3D driver until recently and all power
-> gates are usually ungated after bootloader by default.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/soc/tegra/pmc.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-> index fd2ba3c59178..985373ce52b1 100644
-> --- a/drivers/soc/tegra/pmc.c
-> +++ b/drivers/soc/tegra/pmc.c
-> @@ -654,6 +654,14 @@ static int tegra_powergate_power_up(struct tegra_powergate *pg,
->  
->  	usleep_range(10, 20);
->  
-> +	/*
-> +	 * Some hardware blocks may need a 0->1->0 reset pulse in order
-> +	 * to propagate the reset, Tegra30 3D1 is one example.
-> +	 */
-> +	err = reset_control_reset(pg->reset);
-> +	if (err)
-> +		goto powergate_off;
-> +
->  	if (pg->pmc->soc->needs_mbist_war)
->  		err = tegra210_clk_handle_mbist_war(pg->id);
->  	if (err)
-> 
+Hi,
 
-After some more testing, I found that 3D1 is reset properly if its
-memory client is placed in reset before power domain is turned off. The
-memory client resetting is completely missed in v2. I'll improve it in
-v3 and then this PMC workaround-patch won't be needed anymore.
+I am trying to capture from a parallel OV5640 on a imx6ull-evk board.
+
+Here are the device tree changes:
+https://pastebin.com/raw/PZpJjagJ
+
+First, I got the following warning:
+
+[    7.788866] csi: Registered csi capture as /dev/video1
+[    7.797382] ------------[ cut here ]------------
+[    7.802141] WARNING: CPU: 0 PID: 1 at
+drivers/staging/media/imx/imx7-media-csi.c:1168
+imx7_csi_notify_bound+0x40/0x50
+[    7.813116] Modules linked in:
+[    7.816436] CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+5.10.0-next-20201223-00003-gaaee78ed150-dirty #304
+[    7.826015] Hardware name: Freescale i.MX6 Ultralite (Device Tree)
+[    7.832281] [<c0111a68>] (unwind_backtrace) from [<c010c068>]
+(show_stack+0x10/0x14)
+[    7.840151] [<c010c068>] (show_stack) from [<c0e14570>]
+(dump_stack+0xe0/0x10c)
+[    7.847570] [<c0e14570>] (dump_stack) from [<c0125a7c>] (__warn+0x104/0x118)
+[    7.854734] [<c0125a7c>] (__warn) from [<c0125b38>]
+(warn_slowpath_fmt+0xa8/0xb8)
+[    7.862326] [<c0125b38>] (warn_slowpath_fmt) from [<c0a66e0c>]
+(imx7_csi_notify_bound+0x40/0x50)
+[    7.871227] [<c0a66e0c>] (imx7_csi_notify_bound) from [<c09ae084>]
+(v4l2_async_match_notify+0x50/0x124)
+
+To avoid the warning I did:
+
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1164,12 +1164,14 @@ static int imx7_csi_notify_bound(struct
+v4l2_async_notifier *notifier,
+        struct imx7_csi *csi = imx7_csi_notifier_to_dev(notifier);
+        struct media_pad *sink = &csi->sd.entity.pads[IMX7_CSI_PAD_SINK];
+
+-       /* The bound subdev must always be the CSI mux */
+-       if (WARN_ON(sd->entity.function != MEDIA_ENT_F_VID_MUX))
+-               return -ENXIO;
++       if (csi->is_csi2) {
++               /* The bound subdev must always be the CSI mux */
++               if (WARN_ON(sd->entity.function != MEDIA_ENT_F_VID_MUX))
++                       return -ENXIO;
+
+-       /* Mark it as such via its group id */
+-       sd->grp_id = IMX_MEDIA_GRP_ID_CSI_MUX;
++               /* Mark it as such via its group id */
++               sd->grp_id = IMX_MEDIA_GRP_ID_CSI_MUX;
++       }
+
+        return v4l2_create_fwnode_links_to_pad(sd, sink);
+ }
+
+# media-ctl -p
+Media controller API version 5.10.0
+
+Media device information
+------------------------
+driver          imx7-csi
+model           imx-media
+serial
+bus info
+hw revision     0x0
+driver version  5.10.0
+
+Device topology
+- entity 1: csi (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+        pad0: Sink
+                [fmt:UYVY8_2X8/800x600 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:lim-range]
+                <- "ov5640 1-003c":0 []
+        pad1: Source
+                [fmt:UYVY8_2X8/800x600 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:lim-range]
+                -> "csi capture":0 []
+
+- entity 4: csi capture (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+        pad0: Sink
+                <- "csi":1 []
+
+- entity 10: ov5640 1-003c (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev1
+        pad0: Source
+                [fmt:UYVY8_2X8/640x480@1/30 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:full-range]
+                -> "csi":0 []
+And then:
+
+media-ctl -l "'ov5640 1-003c':0 -> 'csi':0[1]"
+media-ctl -l "'csi':1 -> 'csi capture':0[1]"
+media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
+media-ctl -V "'csi':0 [fmt:AYUV32/640x480]"
+
+When trying to capture via v42-ctl:
+# v4l2-ctl --stream-mmap -d /dev/video1
+[  411.627032] csi: capture format not valid
+
+Or with gstreamer:
+
+# gst-launch-1.0 v4l2src device=/dev/video1 ! fakesink
+Setting pipeline to PAUSED ...
+Pipeline is live and does not need PREROLL ...
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
+New clock: GstSystemClock
+[  439.933324] csi: pipeline start failed with -19
+
+Any suggestions?
+
+Thanks,
+
+Fabio Estevam
