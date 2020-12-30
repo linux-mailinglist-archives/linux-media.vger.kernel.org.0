@@ -2,129 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FCD62E7C50
-	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 21:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C146F2E7C67
+	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 21:54:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbgL3Ust (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Dec 2020 15:48:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55012 "EHLO
+        id S1726601AbgL3Ux3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Dec 2020 15:53:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbgL3Ust (ORCPT
+        with ESMTP id S1726214AbgL3Ux2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 15:48:49 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3F28C061573;
-        Wed, 30 Dec 2020 12:48:08 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id h10so9295795pfo.9;
-        Wed, 30 Dec 2020 12:48:08 -0800 (PST)
+        Wed, 30 Dec 2020 15:53:28 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8C1C061573
+        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 12:52:48 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id d26so18491056wrb.12
+        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 12:52:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jRVdipqMo3SGkScdVCSY0NCVDydJxCZXUp0vL0ss0j8=;
-        b=Ex8hVNUWqY+rbyZwRHu0Z8ZFDWv3n6GCNQ6/oKC9ORvHkbkiVNGzdB91SjAk392fsg
-         s3ED8sOmsckgJOxTaNfYxosbDaaMTahyn8teOd4ojTAUMBd0JUPKX5HzCwG4Hhbis73B
-         uRuMcfr3NQT5ekO4VMFxihb+mdcnRnFki6aY9LJt3PYKLZkgwrGw4VeNdH9ioFHjsks1
-         vbOzj6pKww4PqUZL4f29Bi4HnqOfCxVzr4w0ISFjRmcq4dfx2pLhCVAB43Q8usle0KNN
-         XoU1DpgnpDL8QwmG6+owvGJ/TZUxTIGNNavC1HalaTQByK0CRPAB+fhq7VP0yAqWMm5L
-         wt4g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xXUgCEENPXo+MbUYwYvNhhxXf3WEt8t1/vrO0Y1v8ro=;
+        b=T1fkO/ylfMFPfWt864U06qbBPwfk+v0HTG7pkJwcvRCQaLNPNFxAuDxT/NTz41H4JC
+         4rTw1wbl73PHXoAlvpoIkzlUiYivR8IWT0FQUpvAw5RsEZlvaSd4HxlJDH1Ipmeo0HgU
+         xQ0Ew2/RFT/JVHtbJXp1KpoStyEPbMgE4RtzMO74BcHL72Q5MN5TplSk9gKEMvubESKy
+         f9pcndB488C/i6P58xjPE8FIO/IFA87D5mu1W5/Np56syC3zYbWBlDx3DnOFzzWQFYz3
+         up2Kp0tV02Zg/Epg4DrHOAVce4sHiVytbn4lFtB74QwR7BTxUMhDcle31pL6FhNOXIHE
+         7LBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jRVdipqMo3SGkScdVCSY0NCVDydJxCZXUp0vL0ss0j8=;
-        b=EvKOt2D2oKqHTPO5ECfCGDcGPZ/Mbx08uNO1GIA/DrfNwAMXzjq1gjhaz7jsMzcrDb
-         WcOjDyFGLUj3FbBeEHViVCpxk32HKfZeoqVcJ7eAGlBDqfBFxh1Ee55QOyeTfJrrH79T
-         51ibimUaLZuv9ZtE6/AIIOT7kyXfr/iW1Tti6s8DTecrnbHjHiJP+rUL2axyGHbbL4xb
-         6ib/1VVZOcgq/eI6HmOhtOgS+pdi4HB0F6b5b+umvKghnxsnWYyeMyEuYa6cqsY3rcH5
-         A1ZNW/TwuLOkvwvRk1HNboy2XIyBcy0JwKFcKr6PZtM0A3Mq7Jo0eAdj2fsAKXswx66Y
-         ypxA==
-X-Gm-Message-State: AOAM531K/Ev6mIXZCkokCn4f4uqC4EiEjFgnlJNiq9kNNkx1sBUOrr0C
-        0fVAuJzt3YkLKoEwLhzJ62RQL9cXZsTi/XqjnroaXIlKC6/9wA==
-X-Google-Smtp-Source: ABdhPJxSMf4/TA4B3IeFbMjgSsLR1NtTgwkka1CnQ1qojXL0WNjbTMpocAhYi5Qhs2jjwKkiX06W8HtrgHf96sok07s=
-X-Received: by 2002:a63:c04b:: with SMTP id z11mr53914993pgi.74.1609361287808;
- Wed, 30 Dec 2020 12:48:07 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xXUgCEENPXo+MbUYwYvNhhxXf3WEt8t1/vrO0Y1v8ro=;
+        b=Grzqdkw7RqI2278hj2EFafq4eTBLIrY+GFEaQgpoqe6HBvQ0HZ9ZHqGmHxDMZC8dv5
+         e0aLL0RLVl1+0/F5P9B8fTxvKAwhZidGEYg6MRuDBdw5ialnYTolVd5gBabYvmNFN0cX
+         sQqJBWH5xySGOMQlHlTI63VeyjliJM8Sh4XQxx/IQIAlg2tq29a6TbeGhw/TZMMFi/s8
+         TNYeNB8zW60aYUBx9V6jU3rjdqsy8gi0b8CFKmPfGZsCCldNWUymO0NrW24+1wt5IUnh
+         yqJvvt7U74+dEfZlXjJY+Rk0GsUsh/2kc/lPZNtZU7V6rGdZE90zZKT63jleSrLJ/tdM
+         93Ow==
+X-Gm-Message-State: AOAM531vhb8BFCYffgaHOqNWPWIW/M7wyicTlrd09KiXc/L0JaMpggyq
+        rbbyYKqMh6wI+KdgKe9UAa0=
+X-Google-Smtp-Source: ABdhPJx9Rhx10bz6bPY1bamScjJ0spiU0Dbcs4vo/MtsM1EEF5HUz8RbkXdIc8edtwws4t5XwNJcQA==
+X-Received: by 2002:adf:dec7:: with SMTP id i7mr62236693wrn.373.1609361567070;
+        Wed, 30 Dec 2020 12:52:47 -0800 (PST)
+Received: from t450s.lan (2a01cb000f9f0e00de001a392b70d6bd.ipv6.abo.wanadoo.fr. [2a01:cb00:f9f:e00:de00:1a39:2b70:d6bd])
+        by smtp.gmail.com with ESMTPSA id v1sm62278992wrr.48.2020.12.30.12.52.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Dec 2020 12:52:46 -0800 (PST)
+Date:   Wed, 30 Dec 2020 21:52:43 +0100
+From:   Gary Bisson <bisson.gary@gmail.com>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: Re: Using kmssink with mxsfb-drm
+Message-ID: <X+zom8wMYLikJXpq@t450s.lan>
+References: <CAOMZO5D2bEc+g=OVs_cQjcFkurzk6Hj8pZP3F9U8Kdqc4_FP0A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201224010907.263125-1-djrscally@gmail.com> <20201224010907.263125-15-djrscally@gmail.com>
- <CAHp75VeXN6PnV7Mzz6UMpD+m-yjPi6XK0kx1=+-M5mci=Vb=YQ@mail.gmail.com>
- <20201228170521.GZ26370@paasikivi.fi.intel.com> <2d37df3d-f04c-6679-6e27-6c7f82e9b158@gmail.com>
- <20201228225544.GH4077@smile.fi.intel.com> <X+plTyUFhfHi7eIE@pendragon.ideasonboard.com>
- <CAHp75Vdzk7i+QzkTxLJUUkw3xZot9F7QT8pyu6b5yjkCVzMXEA@mail.gmail.com> <X+pzKDNWpiQWenHy@pendragon.ideasonboard.com>
-In-Reply-To: <X+pzKDNWpiQWenHy@pendragon.ideasonboard.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Dec 2020 22:47:51 +0200
-Message-ID: <CAHp75Vf18sse_QQGSy+E2qK-N_B=ky83x36HiNfmUKmya_CS9Q@mail.gmail.com>
-Subject: Re: [PATCH v3 14/14] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Daniel Scally <djrscally@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jordan Hand <jorhand@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOMZO5D2bEc+g=OVs_cQjcFkurzk6Hj8pZP3F9U8Kdqc4_FP0A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 29, 2020 at 2:07 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Dec 29, 2020 at 01:54:59AM +0200, Andy Shevchenko wrote:
-> > On Tue, Dec 29, 2020 at 1:08 AM Laurent Pinchart wrote:
+Hi Fabio,
 
-...
+On Wed, Dec 30, 2020 at 03:45:40PM -0300, Fabio Estevam wrote:
+> Hi,
+> 
+> I am trying to run a simple videotestsrc pipeline on a imx6ull-evk
+> board running kernel 5.10 and Gstreamer 1.18.2, but it fails as shown
+> below.
+> 
+> Any ideas?
+> 
+> Thanks,
+> 
+> Fabio Estevam
+> 
+> # modetest -M mxsfb-drm
+> Encoders:
+> id      crtc    type    possible crtcs  possible clones
+> 34      33      none    0x00000001      0x00000000
+> 
+> Connectors:
+> id      encoder status          name            size (mm)       modes   encoders
+> 31      34      connected       unknown-1       95x54           1       34
+>   modes:
+>         index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+>   #0 480x272 59.94 480 482 523 525 272 274 284 286 9000 flags: nhsync,
+> nvsync; type: preferred, driver
+>   props:
+>         1 EDID:
+>                 flags: immutable blob
+>                 blobs:
+> 
+>                 value:
+>         2 DPMS:
+>                 flags: enum
+>                 enums: On=0 Standby=1 Suspend=2 Off=3
+>                 value: 0
+>         5 link-status:
+>                 flags: enum
+>                 enums: Good=0 Bad=1
+>                 value: 0
+>         6 non-desktop:
+>                 flags: immutable range
+>                 values: 0 1
+>                 value: 0
+>         4 TILE:
+>                 flags: immutable blob
+>                 blobs:
+> 
+>                 value:
+> 
+> CRTCs:
+> id      fb      pos     size
+> 33      35      (0,0)   (480x272)
+>   #0 480x272 59.94 480 482 523 525 272 274 284 286 9000 flags: nhsync,
+> nvsync; type: preferred, driver
+>   props:
+>         24 VRR_ENABLED:
+>                 flags: range
+>                 values: 0 1
+>                 value: 0
+> 
+> Planes:
+> id      crtc    fb      CRTC x,y        x,y     gamma size      possible crtcs
+> 32      33      35      0,0             0,0     0               0x00000001
+>   formats: XR24 RG16
+>   props:
+>         8 type:
+>                 flags: immutable enum
+>                 enums: Overlay=0 Primary=1 Cursor=2
+>                 value: 1
+> 
+> Frame buffers:
+> id      size    pitch
+> 
+> # gst-launch-1.0 videotestsrc ! kmssink connector-id=31 name=mxsfb-drm
 
-> > +#include <linux/videodev2.h>
->
-> I think this can be dropped.
+Have you tried adding 'can-scale=false' as kmssink parameter?
 
-I dropped above (I noticed it's included by a half of the headers listed below.
-
-> > +#include <media/media-device.h>
-> > +#include <media/media-entity.h>
-> > +#include <media/v4l2-async.h>
-> > +#include <media/v4l2-dev.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/v4l2-subdev.h>
-> > +#include <media/videobuf2-core.h>
-> > +#include <media/videobuf2-v4l2.h>
-
-...
-
-> How about grouping all forward declarations at the top ?
-
-Done.
-
-> Otherwise this looks good,
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks!
-I just sent a formal patch with your tag included.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Regards,
+Gary
