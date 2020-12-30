@@ -2,272 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A27E2E7C46
-	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 21:33:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF8B32E7C4C
+	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 21:47:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgL3Udk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Dec 2020 15:33:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbgL3Udj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 15:33:39 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68D3BC061573;
-        Wed, 30 Dec 2020 12:32:59 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id 11so10233453pfu.4;
-        Wed, 30 Dec 2020 12:32:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Vs5OyvtxkG7l6kSvBrQwhbGRRBG5LG7qbYim70DoEkI=;
-        b=C0edT1WOHkDwN5w4tU8YoGLvBGL3JmmTueuYKszX7J5tKFOT4aG9gBIELOhtzKVwnO
-         2xRrfbbdyiPd+LnvLnCMy4enIU+efx5ZoU5Ds6TevjoCqlaiXvqgYQW3EcnH705NBgBU
-         IOrqc4Asjn1XSMTOFQhsQOCumddd0x37VbfGWkmvTCtvm+64nfoZA7OJKtUl7YjsFolz
-         mjlxRI5/mUGBz35CGSbJ2jsl8/hBgNtbAh9cfD7rFH2qf3zJJGMkHxUmT/DFwUE9C4XR
-         cYGyhIlMsAhIkCt1R0MID/nJV1sDWdqFlSeb+7mT4V3+DYFFSXke/kUDru4LENKDLhJZ
-         sCgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Vs5OyvtxkG7l6kSvBrQwhbGRRBG5LG7qbYim70DoEkI=;
-        b=iCq898K3Wur/OgBdpIrGgt8oMqandJ9mBKGea1dE/VL2QF0KBjP7isXvjsr4UYfOMv
-         YWGL+jU+r2t7FiMoUjChecjHLX4gtb1DSj4JoTIjm3pVq3chvtAaDvtbpdBoAMzvhJzA
-         jYl4RIrItj2/zx9WNlWB8xw2GmEXT5c0E2J4XxsdsEPkyuhzpjTRrK/cbyuYeVMudxnj
-         TCbqVzUUBooC8PAYTjlmAksc6jC1TMzDlOKGT1Iztz+1vCzSdC1A3zCgc7F8mZLc0ydw
-         b2dJ+m8ojanUKwO/iSsO7rAvq9yEbb3yENmeaY2J+ka93TRyl0AK9acBFoJ1s7uck3PP
-         thUA==
-X-Gm-Message-State: AOAM533np++Zs3RQvIENkUunMjDt6OjhCZjNdDOukoV5KSLnI66fGfOJ
-        GVNlUy+ErfiHG0jNRZH+1Usa64KkDPZymZ8wuoI=
-X-Google-Smtp-Source: ABdhPJzyGRRS4zfDVS3UjMNck2eSXjz6dchN3qU67wceNliOba+DbPk3Re+KpNdBx2rRY5F/ccUyfaIeneN+nbvyG00=
-X-Received: by 2002:a63:b1e:: with SMTP id 30mr53695484pgl.203.1609360378746;
- Wed, 30 Dec 2020 12:32:58 -0800 (PST)
+        id S1726348AbgL3UqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Dec 2020 15:46:04 -0500
+Received: from mga03.intel.com ([134.134.136.65]:53249 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726302AbgL3UqE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Dec 2020 15:46:04 -0500
+IronPort-SDR: fOIsxAIAlvrFWzQz8IxjcQsfKYS+M+amH2ufHEWw0twnraHTFfcwxzC3c9p5RsFkaDVgYnv6hp
+ mGpLRDxzLLPg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9850"; a="176738320"
+X-IronPort-AV: E=Sophos;i="5.78,462,1599548400"; 
+   d="scan'208";a="176738320"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2020 12:44:15 -0800
+IronPort-SDR: PbfVCazB5vdnYei5Ucfyht9QctAeRC2wpjbzqFTHBsdvSxXihxOMo16SO9qNCn1tIipB6A8NNh
+ jMYEuhZjT46g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,462,1599548400"; 
+   d="scan'208";a="344497799"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga003.jf.intel.com with ESMTP; 30 Dec 2020 12:44:13 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 32031DE; Wed, 30 Dec 2020 22:44:12 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1] media: ipu3-cio2: Add headers that ipu3-cio2.h is direct user of
+Date:   Wed, 30 Dec 2020 22:44:05 +0200
+Message-Id: <20201230204405.62892-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201201101350.1401956-1-linus.walleij@linaro.org> <20201201101350.1401956-2-linus.walleij@linaro.org>
-In-Reply-To: <20201201101350.1401956-2-linus.walleij@linaro.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Dec 2020 22:32:42 +0200
-Message-ID: <CAHp75Ve7PWsecWdD000CHmuH8moo6xaH9kqO9xDmQvkphEX4Rg@mail.gmail.com>
-Subject: Re: [PATCH 2/2 v7] leds: rt8515: Add Richtek RT8515 LED driver
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        phone-devel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 2, 2020 at 12:33 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> This adds a driver for the Richtek RT8515 dual channel
-> torch/flash white LED driver.
->
-> This LED driver is found in some mobile phones from
-> Samsung such as the GT-S7710 and GT-I8190.
->
-> A V4L interface is added.
->
-> We do not have a proper datasheet for the RT8515 but
-> it turns out that RT9387A has a public datasheet and
-> is essentially the same chip. We designed the driver
-> in accordance with this datasheet. The day someone
-> needs to drive a RT9387A this driver can probably
-> easily be augmented to handle that chip too.
+Add headers that ipu3-cio2.h is direct user of.
 
-...
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
 
+Dan, feel free to incorporate this into your series.
 
-> +#include <linux/of.h>
+ drivers/media/pci/intel/ipu3/ipu3-cio2.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-As far as I can see you are using fwnode API, so above better to be
-replaced with
-
-#include <linux/property.h>
-
-For the ID table you probably need mod_devicetable.h.
-
-...
-
-> +#define RT8515_MIN_IOUT_MA     15
-> +#define RT8515_MAX_IOUT_MA     700
-
-MA -> mA ?
-
-...
-
-> +#define RT8515_TIMEOUT_DEFAULT         250000U /* 250ms */
-> +#define RT8515_MAX_TIMEOUT_DEFAULT     300000U /* 300ms */
-
-MAX and DEFAULT in the same sentence sound confusing.
-Also, instead of comments can you use units in the name, like _US?
-
-(I guess _DEFAULT can be replaced by _US)
-
-...
-
-> +struct rt8515 {
-> +       struct device *dev;
-
-> +       struct led_classdev_flash fled;
-
-If you make this first member you will effectively eliminate overhead
-of container_of().
-
-> +       struct v4l2_flash *v4l2_flash;
-
-> +};
-
-...
-
-
-> +       if (brightness == LED_OFF) {
-> +               /* Off */
-> +               gpiod_set_value(rt->enable_flash, 0);
-> +               gpiod_set_value(rt->enable_torch, 0);
-
-These two together are repeated at least three times in the driver, perhaps
-
-static void rt8515_gpio_led_off(... *rt)
-{
-      gpiod_set_value(rt->enable_flash, 0);
-      gpiod_set_value(rt->enable_torch, 0);
-}
-
-> +       } else if (brightness < RT8515_TORCH_MAX) {
-> +               /* Step it up to movie mode brightness using the flash pin */
-> +               rt8515_gpio_brightness_commit(rt->enable_torch, brightness);
-> +       } else {
-> +               /* Max torch brightness requested */
-> +               gpiod_set_value(rt->enable_torch, 1);
-> +       }
-
-...
-
-> +       ret1 = fwnode_property_read_u32(rt->dev->fwnode, resistance, &res);
-> +       ret2 = fwnode_property_read_u32(led, max_ua_prop, &ua);
-> +
-> +       /* No info in DT, OK go with hardware maxima */
-> +       if (ret1 && ret2) {
-> +               max_ma = RT8515_MAX_IOUT_MA;
-> +               max_intensity = hw_max;
-> +               goto out_assign_max;
-> +       }
-> +
-> +       if (ret1 || ret2) {
-> +               dev_err(rt->dev,
-> +                       "either %s or %s missing from DT, using HW max\n",
-> +                       resistance, max_ua_prop);
-> +               max_ma = RT8515_MAX_IOUT_MA;
-> +               max_intensity = hw_max;
-> +               goto out_assign_max;
-> +       }
-
-Dup. Can be rewritten as (taking into account that resistance can't be 0):
-
-       u32 res = 0; /* Can't be 0, used as undefined value */
-       ...
-       fwnode_property_read_u32(rt->dev->fwnode, resistance, &res);
-       ret = fwnode_property_read_u32(led, max_ua_prop, &ua);
-       if (ret || res == 0) {
-               /* No info in DT, OK go with hardware maxima */
-               if (!(ret && res == 0)) {
-                  dev_err(rt->dev,
-                       "either %s or %s missing from DT, using HW max\n",
-// or resistance is 0, the case your original code is missing
-                       resistance, max_ua_prop);
-               }
-               max_ma = RT8515_MAX_IOUT_MA;
-               max_intensity = hw_max;
-               goto out_assign_max;
-      }
-
-But please double check.
-
-> +       /*
-> +        * Formula from datasheet, this is the maximum current
-
-the datasheet
-
-> +        * defined by the hardware.
-> +        */
-> +       max_ma = (5500 * 1000) / res;
-> +       /*
-> +        * Calculate max intensity (linear scaling)
-> +        * Formula is ((ua / 1000) / max_ma) * 100, then simplified
-> +        */
-> +       max_intensity = (ua / 10) / max_ma;
-> +
-> +       dev_info(rt->dev,
-> +                "current restricted from %u to %u mA, max intensity %d/100\n",
-> +                max_ma, (ua / 1000), max_intensity);
-> +
-> +out_assign_max:
-> +       dev_info(rt->dev, "max intensity %d/%d = %d mA\n",
-> +                max_intensity, hw_max, max_ma);
-> +       *max_intensity_setting = max_intensity;
-> +}
-
-...
-
-> +       /* ENF - Enable Flash line */
-> +       rt->enable_flash = devm_gpiod_get(dev, "enf", GPIOD_OUT_LOW);
-> +       if (IS_ERR(rt->enable_flash)) {
-
-> +               dev_err(dev, "cannot get ENF (enable flash) GPIO\n");
-> +               return PTR_ERR(rt->enable_flash);
-
-Shouldn't it be dev_err_probe() to avoid spam in certain cases?
-
-> +       }
-> +
-> +       /* ENT - Enable Torch line */
-> +       rt->enable_torch = devm_gpiod_get(dev, "ent", GPIOD_OUT_LOW);
-> +       if (IS_ERR(rt->enable_torch)) {
-
-> +               dev_err(dev, "cannot get ENT (enable torch) GPIO\n");
-> +               return PTR_ERR(rt->enable_torch);
-
-Shouldn't it be dev_err_probe() to avoid spam in certain cases?
-
-> +       }
-
-...
-
-> +       rt->v4l2_flash = v4l2_flash_init(dev, child, fled, NULL, &v4l2_sd_cfg);
-> +       if (IS_ERR(rt->v4l2_flash)) {
-> +               ret = PTR_ERR(rt->v4l2_flash);
-> +               dev_err(dev, "failed to register V4L2 flash device (%d)\n",
-> +                       ret);
-> +               /*
-> +                * Continue without the V4L2 flash
-> +                * (we still have the classdev)
-> +                */
-> +       }
-
-> +       return 0;
-
-In conjunction with above can be
-
-return PTR_ERR_OR_ZERO(rt->v4l2_flash);
-
-...
-
-> +static const struct of_device_id rt8515_match[] = {
-> +       { .compatible = "richtek,rt8515", },
-> +       { /* sentinel */ },
-
-Comma is not needed.
-
-> +};
-
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+index ccf0b85ae36f..62187ab5ae43 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+@@ -4,8 +4,26 @@
+ #ifndef __IPU3_CIO2_H
+ #define __IPU3_CIO2_H
+ 
++#include <linux/bits.h>
++#include <linux/dma-mapping.h>
++#include <linux/kernel.h>
++#include <linux/mutex.h>
+ #include <linux/types.h>
+ 
++#include <asm/page.h>
++
++#include <media/media-device.h>
++#include <media/media-entity.h>
++#include <media/v4l2-async.h>
++#include <media/v4l2-dev.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-subdev.h>
++#include <media/videobuf2-core.h>
++#include <media/videobuf2-v4l2.h>
++
++struct cio2_fbpt_entry;		/* defined here, after the first usage */
++struct pci_dev;
++
+ #define CIO2_NAME					"ipu3-cio2"
+ #define CIO2_DEVICE_NAME				"Intel IPU3 CIO2"
+ #define CIO2_ENTITY_NAME				"ipu3-csi2"
 -- 
-With Best Regards,
-Andy Shevchenko
+2.29.2
+
