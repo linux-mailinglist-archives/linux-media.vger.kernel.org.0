@@ -2,48 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD132E7BC3
-	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 19:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 261F52E7BF4
+	for <lists+linux-media@lfdr.de>; Wed, 30 Dec 2020 19:47:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726601AbgL3SFL convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 30 Dec 2020 13:05:11 -0500
-Received: from mail.hmha.gob.ec ([190.11.21.43]:48902 "EHLO mail.hmha.gob.ec"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726545AbgL3SFK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Dec 2020 13:05:10 -0500
-X-Greylist: delayed 51791 seconds by postgrey-1.27 at vger.kernel.org; Wed, 30 Dec 2020 13:05:10 EST
-Received: from mail.hmha.gob.ec (localhost [127.0.0.1])
-        by mail.hmha.gob.ec (Postfix) with ESMTPS id 5DA42613AC40D;
-        Tue, 29 Dec 2020 21:19:23 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hmha.gob.ec (Postfix) with ESMTP id 432D2612F3421;
-        Tue, 29 Dec 2020 19:15:36 -0500 (-05)
-Received: from mail.hmha.gob.ec ([127.0.0.1])
-        by localhost (mail.hmha.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Br3cRGMeX9mV; Tue, 29 Dec 2020 19:15:36 -0500 (-05)
-Received: from [103.133.108.147] (unknown [103.133.108.147])
-        by mail.hmha.gob.ec (Postfix) with ESMTPSA id 867D9613224D7;
-        Tue, 29 Dec 2020 19:15:09 -0500 (-05)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726487AbgL3Sqe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Dec 2020 13:46:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726185AbgL3Sqe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Dec 2020 13:46:34 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F280C061799
+        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 10:45:53 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id s26so39493986lfc.8
+        for <linux-media@vger.kernel.org>; Wed, 30 Dec 2020 10:45:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=QeENytF3F7ahVCLpGopKzQFJvc07A4bGjJONLwUaPDc=;
+        b=locakoSPmrgMQW2aLxQyQNPW9PwuYvqTaoZqJb8mbCCsxWuYlpaEhfq1QWxtTNyUXU
+         cV1pHm92cHSnlSQafgxeACLEGUDe8m4ujjyPQ0P1NFlNkMgGZPwDWzFQD3GFZQiXPR2b
+         wMi1IIU37Cr/AEVK5LiE1wuZDfnWBjHjDOSw+fXBQe61ty0VpSy3l+vH5Y2RjH9I8fQM
+         OdFUZfbMXd0ceaUTH1G5/fnaU9qhlaPYwOwZj8C1bmMI8WOS/EBfrPmpXrADW20IKnaf
+         jJFweeF44LoppYkisbE32vGX2rsm2O4ZzwUzMN+EXM5VB7cczz/+fNhgXWShNP7xbslz
+         nTNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=QeENytF3F7ahVCLpGopKzQFJvc07A4bGjJONLwUaPDc=;
+        b=LozvDAPE/i3ACD9gId5egryGjVzOpJHtuemMzFO4MuTF2crlI9WsfK8h8ye2yoeC3s
+         tcixSQxIoz4wn2ed5H6VWj5H71Z0BarjQFt53bdKNnx1Vs/3JZHrlU2z3/FwIc4nXjp6
+         p5PXV1mdvDlDhN+xpjqKbvFf4DOWvmqcOuzlMPzDGgr7wPjIAC+66AVdqhiLKhTBsZYs
+         W/MgdnA/sfTqmiKP00JwTzq4rDmdMaeAGnq54JmUhia6jTT89LOVQ9RqMSeu++KStzSf
+         qscdI9EeP4/hqJnsDJfGb7T6jHQ9jxB1HE34iTcBRVqvhI0t0atd8tkUvYxGlAWpX1mb
+         ZB4g==
+X-Gm-Message-State: AOAM533MeBnqjYD74EQQJO9gFGieX0Y6aO6DHfAoN3MDUg7Zz8WbYFYR
+        H7B96zoxo16gdPSkZQfvYUlLCZhzKGCTm8nJcvs=
+X-Google-Smtp-Source: ABdhPJyBa5wz8bDeLukAxi+86kMAUPIw7jIUbCWI72Sq9uYwqnHMps0RirZdyw0sA4lZUDhru+jVTL8pfIpuaGM/ass=
+X-Received: by 2002:a19:4856:: with SMTP id v83mr22524045lfa.583.1609353951993;
+ Wed, 30 Dec 2020 10:45:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Re: Wir bieten Ihnen das beste Darlehen Deal 2%
-To:     Recipients <post@bbw-wismar.de>
-From:   James Charlton <post@bbw-wismar.de>
-Date:   Tue, 29 Dec 2020 16:15:02 -0800
-Reply-To: james_clf@aol.com
-Message-Id: <20201230001509.867D9613224D7@mail.hmha.gob.ec>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 30 Dec 2020 15:45:40 -0300
+Message-ID: <CAOMZO5D2bEc+g=OVs_cQjcFkurzk6Hj8pZP3F9U8Kdqc4_FP0A@mail.gmail.com>
+Subject: Using kmssink with mxsfb-drm
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Gary Bisson <bisson.gary@gmail.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sehr geehrte Damen und Herren,
+Hi,
 
-Benötigen Sie finanzielle Hilfe? Sind Sie es auch leid, mit Banken oder
-Finanzdienstleistern um einen Kredit zu suchen? Um Sicherheiten zu erhalten,
-um das Darlehen zu 150% zu sichern?
+I am trying to run a simple videotestsrc pipeline on a imx6ull-evk
+board running kernel 5.10 and Gstreamer 1.18.2, but it fails as shown
+below.
 
-Kreditangebot von 10,000 Euro bis 10,000,000.00 Euro
+Any ideas?
 
-Wir bieten 2% Darlehen an, wenn Sie interessiert sind, kontaktieren Sie uns bitte per E-Mail: cfl@cflanfragen.com OR james_clf@aol.com
+Thanks,
+
+Fabio Estevam
+
+# modetest -M mxsfb-drm
+Encoders:
+id      crtc    type    possible crtcs  possible clones
+34      33      none    0x00000001      0x00000000
+
+Connectors:
+id      encoder status          name            size (mm)       modes   encoders
+31      34      connected       unknown-1       95x54           1       34
+  modes:
+        index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+  #0 480x272 59.94 480 482 523 525 272 274 284 286 9000 flags: nhsync,
+nvsync; type: preferred, driver
+  props:
+        1 EDID:
+                flags: immutable blob
+                blobs:
+
+                value:
+        2 DPMS:
+                flags: enum
+                enums: On=0 Standby=1 Suspend=2 Off=3
+                value: 0
+        5 link-status:
+                flags: enum
+                enums: Good=0 Bad=1
+                value: 0
+        6 non-desktop:
+                flags: immutable range
+                values: 0 1
+                value: 0
+        4 TILE:
+                flags: immutable blob
+                blobs:
+
+                value:
+
+CRTCs:
+id      fb      pos     size
+33      35      (0,0)   (480x272)
+  #0 480x272 59.94 480 482 523 525 272 274 284 286 9000 flags: nhsync,
+nvsync; type: preferred, driver
+  props:
+        24 VRR_ENABLED:
+                flags: range
+                values: 0 1
+                value: 0
+
+Planes:
+id      crtc    fb      CRTC x,y        x,y     gamma size      possible crtcs
+32      33      35      0,0             0,0     0               0x00000001
+  formats: XR24 RG16
+  props:
+        8 type:
+                flags: immutable enum
+                enums: Overlay=0 Primary=1 Cursor=2
+                value: 1
+
+Frame buffers:
+id      size    pitch
+
+# gst-launch-1.0 videotestsrc ! kmssink connector-id=31 name=mxsfb-drm
+Setting pipeline to PAUSED ...
+Pipeline is PREROLLING ...
+ERROR: from element /GstPipeline:pipeline0/GstKMSSink:mxsfb-drm:
+GStreamer encountered a general resource error.
+Additional debug info:
+../sys/kms/gstkmssink.c(1711): gst_kms_sink_show_frame ():
+/GstPipeline:pipeline0/GstKMSSink:mxsfb-drm:
+drmModeSetPlane failed: Invalid argument (22)
+ERROR: pipeline doesn't want to preroll.
+Setting pipeline to NULL ...
+ERROR: from element
+/GstPipeline:pipeline0/GstVideoTestSrc:videotestsrc0: Internal data
+stream error.
+Additional debug info:
+../libs/gst/base/gstbasesrc.c(3127): gst_base_src_loop ():
+/GstPipeline:pipeline0/GstVideoTestSrc:videotestsrc0:
+streaming stopped, reason error (-5)
+ERROR: pipeline doesn't want to preroll.
+Freeing pipeline ...
