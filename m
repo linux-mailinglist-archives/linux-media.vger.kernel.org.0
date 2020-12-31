@@ -2,104 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B0522E8020
-	for <lists+linux-media@lfdr.de>; Thu, 31 Dec 2020 13:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DE782E804C
+	for <lists+linux-media@lfdr.de>; Thu, 31 Dec 2020 15:19:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726739AbgLaMzS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Dec 2020 07:55:18 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:35679 "EHLO
+        id S1726514AbgLaOT3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Dec 2020 09:19:29 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:34677 "EHLO
         relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726128AbgLaMzQ (ORCPT
+        with ESMTP id S1726293AbgLaOT3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Dec 2020 07:55:16 -0500
+        Thu, 31 Dec 2020 09:19:29 -0500
 X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 75D64E0003;
-        Thu, 31 Dec 2020 12:54:28 +0000 (UTC)
-Date:   Thu, 31 Dec 2020 13:54:28 +0100
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 51C65E0007;
+        Thu, 31 Dec 2020 14:18:45 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v3 09/15] media: sunxi: Add support for the A31 MIPI
- CSI-2 controller
-Message-ID: <X+3KBO6o5HVRh12e@aptenodytes>
-References: <20201211155708.154710-1-paul.kocialkowski@bootlin.com>
- <20201211155708.154710-10-paul.kocialkowski@bootlin.com>
- <20201214113904.v6j7z3yrvjv74dcd@gilmour>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v6 0/2] media: i2c: OV5648 image sensor support
+Date:   Thu, 31 Dec 2020 15:18:31 +0100
+Message-Id: <20201231141833.2634838-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="UZSCC+lhIG3E1TOG"
-Content-Disposition: inline
-In-Reply-To: <20201214113904.v6j7z3yrvjv74dcd@gilmour>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This series adds support for the OV5648 image sensor,
+as a V4L2 subdev driver.
 
---UZSCC+lhIG3E1TOG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v5:
+- Removed extra tailing ret checks;
+- Fixed variables names in macros using container_of;
+- Set ctrls flags after handler error check;
+- Removed useless ret initializations and gotos;
+- Removed call to v4l2_device_unregister_subdev;
 
-Hi,
+Changes since v4:
+- Squashed tailing function calls in return;
+- Added Kconfig depend on PM since it's not optional;
+- Reordered runtime PM in init;
+- Reworked runtime PM order and added ctrls handler free in exit.
 
-On Mon 14 Dec 20, 12:39, Maxime Ripard wrote:
-> On Fri, Dec 11, 2020 at 04:57:02PM +0100, Paul Kocialkowski wrote:
-> > +#define sun6i_mipi_csi2_subdev_video(subdev) \
-> > +	container_of(subdev, struct sun6i_mipi_csi2_video, subdev)
-> > +
-> > +#define sun6i_mipi_csi2_video_dev(video) \
-> > +	container_of(video, struct sun6i_mipi_csi2_dev, video)
->=20
-> Isn't it a bit unsafe?
->=20
-> The second subdev and video here is not the variable passed in the macro
-> but the field in the structure, so any attempt at using those two macros
-> with anything but a variable named subdev or video will result in a
-> compilation issue?
+Changes since v3:
+- Removed mipi_clk_rate variable that skipped through.
 
-Yep you're totally right. Will fix in the next revision!
+Changes since v2:
+- Added link-frequencies endpoint property support;
+- Used NULL ctrl ops for pixel rate and link freq;
+- Extra cosmetic changes.
 
-Cheers,
+Changes since v1:
+- Used runtime pm;
+- Used assigned-clock-rate;
+- Removed clock name;
+- Returned closest size in set_fmt;
+- Removed unneeded references to v4l2 controls;
+- Removed i2c device table;
+- Dual-licensed bindings;
+- Used SPDX tags.
 
-Paul
+Paul Kocialkowski (2):
+  dt-bindings: media: i2c: Add OV5648 bindings documentation
+  media: i2c: Add support for the OV5648 image sensor
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+ .../bindings/media/i2c/ovti,ov5648.yaml       |  115 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov5648.c                    | 2624 +++++++++++++++++
+ 4 files changed, 2753 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+ create mode 100644 drivers/media/i2c/ov5648.c
 
---UZSCC+lhIG3E1TOG
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.29.2
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/tygMACgkQ3cLmz3+f
-v9Gp0Qf9Hfjq6i2KFmaJ6VFCJGzJSNnxgEPWekzxZsKrMDphbOVlEpz/VH+lLz6I
-UIDtiIhRqxp5j3WH0lU61Ysfd+Dl9SFinxRm4UXDzhGXrK8Bi1W3V30n//pWlA1t
-fHgDXXWcjZ2iEB/lnwa8KmR06JbDW6F2TS7j9Bstxoaxya4uGrQHejHoj6hfO+pr
-p8EvkYsBTVlhRi0meK8bFIfdvW6yT7ijmTFb/yK41Hm3TX3//AZiexLaEasvlFuH
-qUp2sZjEziH3ah6cuVjUQaUgzjxGPdp54/sDK6VRGATnSDmkSOvcTq03JMgdAJtx
-mwoTJPVY3a2Iid1xnqiJA6BzQCGFSA==
-=ofsU
------END PGP SIGNATURE-----
-
---UZSCC+lhIG3E1TOG--
