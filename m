@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1116A2E80A8
-	for <lists+linux-media@lfdr.de>; Thu, 31 Dec 2020 15:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77A2C2E80B2
+	for <lists+linux-media@lfdr.de>; Thu, 31 Dec 2020 15:32:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727284AbgLaObc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Dec 2020 09:31:32 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:36379 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727000AbgLaObb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
+        id S1727246AbgLaObb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 31 Dec 2020 09:31:31 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:51277 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726844AbgLaOba (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 31 Dec 2020 09:31:30 -0500
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id B3A4D20000D;
-        Thu, 31 Dec 2020 14:30:25 +0000 (UTC)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id A0048200010;
+        Thu, 31 Dec 2020 14:30:27 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -38,10 +38,10 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: [PATCH v4 11/15] MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge
-Date:   Thu, 31 Dec 2020 15:29:44 +0100
-Message-Id: <20201231142948.3241780-12-paul.kocialkowski@bootlin.com>
+        kevin.lhopital@hotmail.com, Rob Herring <robh@kernel.org>
+Subject: [PATCH v4 12/15] dt-bindings: media: Add A83T MIPI CSI-2 bindings documentation
+Date:   Thu, 31 Dec 2020 15:29:45 +0100
+Message-Id: <20201231142948.3241780-13-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
 References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
@@ -51,32 +51,169 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add myself as maintainer of the A31 MIPI CSI-2 bridge media driver.
+This introduces YAML bindings documentation for the A83T MIPI CSI-2
+controller.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 147 ++++++++++++++++++
+ 1 file changed, 147 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0644128640fb..a1352171778b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -709,6 +709,14 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
- F:	drivers/media/platform/sunxi/sun4i-csi/
- 
-+ALLWINNER A31 MIPI CSI-2 BRIDGE
-+M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-+F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+new file mode 100644
+index 000000000000..e607fae7d85e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+@@ -0,0 +1,147 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- ALLWINNER CPUFREQ DRIVER
- M:	Yangtao Li <tiny.windzz@gmail.com>
- L:	linux-pm@vger.kernel.org
++title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
++
++maintainers:
++  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++
++properties:
++  compatible:
++    const: allwinner,sun8i-a83t-mipi-csi2
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Bus Clock
++      - description: Module Clock
++      - description: MIPI-specific Clock
++      - description: Misc CSI Clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++      - const: mipi
++      - const: misc
++
++  resets:
++    maxItems: 1
++
++  # See ./video-interfaces.txt for details
++  ports:
++    type: object
++
++    properties:
++      port@0:
++        type: object
++        description: Input port, connect to a MIPI CSI-2 sensor
++
++        properties:
++          reg:
++            const: 0
++
++          endpoint:
++            type: object
++
++            properties:
++              remote-endpoint: true
++
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - data-lanes
++              - remote-endpoint
++
++        required:
++          - endpoint
++
++        additionalProperties: false
++
++      port@1:
++        type: object
++        description: Output port, connect to a CSI controller
++
++        properties:
++          reg:
++            const: 1
++
++          endpoint:
++            type: object
++
++            properties:
++              remote-endpoint: true
++
++            required:
++              - remote-endpoint
++
++        required:
++          - endpoint
++
++        additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
++    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
++
++    mipi_csi2: csi@1cb1000 {
++        compatible = "allwinner,sun8i-a83t-mipi-csi2";
++        reg = <0x01cb1000 0x1000>;
++        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu CLK_BUS_CSI>,
++                 <&ccu CLK_CSI_SCLK>,
++                 <&ccu CLK_MIPI_CSI>,
++                 <&ccu CLK_CSI_MISC>;
++        clock-names = "bus", "mod", "mipi", "misc";
++        resets = <&ccu RST_BUS_CSI>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            mipi_csi2_in: port@0 {
++                reg = <0>;
++
++                mipi_csi2_in_ov8865: endpoint {
++                    data-lanes = <1 2 3 4>;
++
++                    remote-endpoint = <&ov8865_out_mipi_csi2>;
++                };
++            };
++
++            mipi_csi2_out: port@1 {
++                reg = <1>;
++
++                mipi_csi2_out_csi: endpoint {
++                    remote-endpoint = <&csi_in_mipi_csi2>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.29.2
 
