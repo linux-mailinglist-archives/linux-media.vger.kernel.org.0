@@ -2,91 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD58A2E8825
-	for <lists+linux-media@lfdr.de>; Sat,  2 Jan 2021 18:30:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B1CC2E882D
+	for <lists+linux-media@lfdr.de>; Sat,  2 Jan 2021 18:56:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbhABR3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Jan 2021 12:29:35 -0500
-Received: from mga11.intel.com ([192.55.52.93]:56992 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726636AbhABR3e (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 2 Jan 2021 12:29:34 -0500
-IronPort-SDR: AxGlnzAAHuo5xcMNJm42lbvOcrSlM+fLWOyNsHgGCi/vjgexrZrmw4LjNr5yE+3QxnjvkIUr40
- dkZHyE2QmVuw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9852"; a="173321901"
-X-IronPort-AV: E=Sophos;i="5.78,470,1599548400"; 
-   d="scan'208";a="173321901"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2021 09:27:49 -0800
-IronPort-SDR: fImBd+fl/ZH4gxKipnhR5oIZNaRSQ/76zxoC+cOXxyVoXRiwDgMArRBSUPYyP6VNpG8BSJSzMY
- BhsfZFJEUKBA==
-X-IronPort-AV: E=Sophos;i="5.78,470,1599548400"; 
-   d="scan'208";a="360230001"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2021 09:27:47 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 018B5207BF; Sat,  2 Jan 2021 19:27:45 +0200 (EET)
-Date:   Sat, 2 Jan 2021 19:27:44 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pavel Machek <pavel@denx.de>, andy.shevchenko@gmail.com,
-        mchehab+huawei@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: ipu3-cio2: Fix mbus_code processing in
- cio2_subdev_set_fmt()
-Message-ID: <20210102172744.GG11878@paasikivi.fi.intel.com>
-References: <20201230125550.GA14074@duo.ucw.cz>
- <X+zvCZefnwfiTqoO@pendragon.ideasonboard.com>
+        id S1726617AbhABR4W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Jan 2021 12:56:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726567AbhABR4V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Jan 2021 12:56:21 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31FD5C061573
+        for <linux-media@vger.kernel.org>; Sat,  2 Jan 2021 09:55:41 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id a188so1179519pfa.11
+        for <linux-media@vger.kernel.org>; Sat, 02 Jan 2021 09:55:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=S70RCfEH57adyNyWBzedG3Bkr0NdSNtkG4nKLbQAfms=;
+        b=PQAEKWiuvQznyMIZuAVwxko1p7XGVoeVHV3YJYMovh8TIVJT3nj/jtZZCjf3vJCJWO
+         9qNuqqH0/uhqZ2pCgMDeptsX7W6EDaaXBB+tz7rYtytg1sDX+nhbOTOvQI54X2cx5yim
+         +EnkHq72hJF+2KnL8IZBH7Jt/xZpbXxA6hCgICr/8QdQ89EQxoWgV9Fqq3CggmADQFuU
+         vldG7p12GGqVkG3Z4T42qmTLpJN2/SXFBzzFQjLpe9/YhT76k19NCgQbdA+ej7Qlnbjx
+         bxEZeq8IqzqWZOPfR7FqpS0PH6JVZXyFY8zQY6oWbg8k4gRPo1KadeRsqBOp8aYrvwUq
+         KirA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=S70RCfEH57adyNyWBzedG3Bkr0NdSNtkG4nKLbQAfms=;
+        b=mb/KTKNHret8UUty7tLFdxtmR1QUV9e3ZXc8DKrbkVGlqIUHpSxXaVanNzAVepCAow
+         90QPwsYnssJrFvcwypxNsEdwdBXVCztpP6+UrbKY4aemkDZ9BeLKOgn0Rx2oUc1plohR
+         wSS1A26T8o0HruRKcacny3xAnFfcIZaLWSFk06BJIHq3HNIFc0LSDaw4hH7MysStGg3o
+         79X8wpzvgxCvpiegonFK/MhBY9+QACgcrVp/VNumb7T1npAi31D30yw3b7W23d53OFLA
+         WntizM9K74pDdSt53kMqR8VzBMDTwnDOM1IYsj4eTkwHYDtdcDIBbVSnDwVPUFoSRJ1D
+         JnPw==
+X-Gm-Message-State: AOAM532oVyHIOvbZXwDhiXOBXyoww8JdPloSaLVyDq3m9qbWlSHS4Ru2
+        7jEpUzzRSJ722efbQdDHHaE=
+X-Google-Smtp-Source: ABdhPJxwltjhuQiulPBBpEUzUw4S2VdDORp/chp4opQ/6dt/CLrqHLJnhB5VobzuE0bFzex8dS4E4w==
+X-Received: by 2002:aa7:8811:0:b029:1ab:9e4f:b8ea with SMTP id c17-20020aa788110000b02901ab9e4fb8eamr56501063pfo.78.1609610140673;
+        Sat, 02 Jan 2021 09:55:40 -0800 (PST)
+Received: from [192.168.1.59] (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
+        by smtp.gmail.com with ESMTPSA id gb9sm16243516pjb.40.2021.01.02.09.55.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Jan 2021 09:55:40 -0800 (PST)
+Subject: Re: IMX frame interval monitor (FIM) available on
+ ipu{1,2}_ic_prp{enc,vf} capture nodes?
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+References: <CAJ+vNU1Du8JpEMqGC+BMyD3D+wVAUP42PXqa=_unrD7L4YfDAA@mail.gmail.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <30a04077-869b-9b58-a69f-15b19a3f6bd4@gmail.com>
+Date:   Sat, 2 Jan 2021 09:55:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X+zvCZefnwfiTqoO@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAJ+vNU1Du8JpEMqGC+BMyD3D+wVAUP42PXqa=_unrD7L4YfDAA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 30, 2020 at 11:20:09PM +0200, Laurent Pinchart wrote:
-> Hi Pavel,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Dec 30, 2020 at 01:55:50PM +0100, Pavel Machek wrote:
-> > Loop was useless as it would always exit on the first iteration. Fix
-> > it with right condition. 
-> > 
-> > Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
-> > Fixes: a86cf9b29e8b ("media: ipu3-cio2: Validate mbus format in setting subdev format")
-> 
-> Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Tim,
 
-Thanks!
+I gave this a shot a while ago, but I recall struggling with some 
+locking problems. I haven't been able to return to it. I've updated the 
+imx/add-fim-to-prpencvf branch to latest media-tree master branch 
+(5.11.0-rc1), in my github fork [1]. The patches against master are:
 
-As this should go to stable, I'm adding:
+0001-media-imx.rst-update-doc-to-reflect-FIM-changes.patch
+0002-media-imx-prpencvf-attach-FIM.patch
+0003-WIP.patch
 
-	Cc: stable@vger.kernel.org # v4.16 and up
+The last patch was my first attempts to debug the locking problems.
 
-> 
-> > index 36e354ecf71e..e8ea69d30bfd 100644
-> > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > @@ -1269,7 +1269,7 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
-> >  	fmt->format.code = formats[0].mbus_code;
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(formats); i++) {
-> > -		if (formats[i].mbus_code == fmt->format.code) {
-> > +		if (formats[i].mbus_code == mbus_code) {
-> >  			fmt->format.code = mbus_code;
-> >  			break;
-> >  		}
-> > 
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+I don't have access to imx6 hardware any longer, so I can't progress any 
+further on it at this point.
 
--- 
-Sakari Ailus
+Steve
+
+[1] git@github.com:slongerbeam/mediatree.git
+
+
+On 12/31/20 8:48 AM, Tim Harvey wrote:
+> Steve,
+>
+> Some time ago you mentioned that adding FIM capability
+> (imx-media-fim.c) on the ipu{1,2}_ic_prp{enc,vf} capture nodes was on
+> your plate to fix as currently the controls are only available on the
+> ipu{1,2}_csi{0,1} capture nodes. Do you have any patches for that or
+> can you explain what needs to be done?
+>
+> I have a user that wishes to use FIM to deal with a lossy analog
+> signal coming out of sync but they also wish to use the VDIC to
+> de-interlace.
+>
+> Best regards,
+>
+> Tim
+
