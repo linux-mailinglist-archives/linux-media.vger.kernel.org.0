@@ -2,126 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B03222E8967
-	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 01:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 406DE2E8A2B
+	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 04:55:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbhACAMn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Jan 2021 19:12:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46260 "EHLO
+        id S1726306AbhACDzQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Jan 2021 22:55:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726687AbhACAMn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Jan 2021 19:12:43 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F01C061573
-        for <linux-media@vger.kernel.org>; Sat,  2 Jan 2021 16:12:02 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id d13so27255166wrc.13
-        for <linux-media@vger.kernel.org>; Sat, 02 Jan 2021 16:12:02 -0800 (PST)
+        with ESMTP id S1725827AbhACDzQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Jan 2021 22:55:16 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21E9C061573;
+        Sat,  2 Jan 2021 19:54:35 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id p18so16569340pgm.11;
+        Sat, 02 Jan 2021 19:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=ck3ahG9wWztIY7yMg0pVwx36AzZAbyYvyPdbo7hoeqI=;
-        b=C60ntMSp2lyeaL1sncvuRaOwXuP4GqYXmE/wSe6KD0i0SsshcQK8RYwZiaFyTSISMX
-         1znbaTbYsKe5qbqdru0403M9b5ZwBhF/tjfZENS5b1ZQTLUkiM01eZ9Zb/Krm1IoJwHN
-         AoC6v9rYiKfqHGBHn1WBbq3lNtth91pv+WjiS8Ay8rqTm63gL0BmF0R4Gp7syy6EHdkM
-         j6+gQsBWJ/vNTdryB64gng/QsOsXWeLjgy0/uEGlg8Lckgbxyh9U1blQytVPeECGbNWE
-         LM4/x6+QgErofzKhfncClqzuC5BAnhRMQTML1vzFbeMoKI4U+0EuwWmWvvB1V3hUe2NW
-         FNqg==
+        h=from:to:cc:subject:date:message-id;
+        bh=upHhoKMhwNycSsUSkWTDTZGGHEnMJMcgkEoZXl3LtcE=;
+        b=A0sZKpRKEBmumkd+j40q8l8w0e6Orse8JgJFhy/apGOP6iLFx6yB45mUGQ3MmclC6c
+         aR+upeNFhOcGYl2SuGmLC68lbqb66N0Luch93M4VZnz8y5nA00724FAkKZ1GsUFgn0nE
+         NttE5XTiTT1LJDurD4XhqCx9pZKnjMKKbMWWWzDaztkfl9FH/OLZzkkJjrTjif7SmuJK
+         KzOZuPdeTHhfLh7oOVF89U3FWwLKk8mSCnt6MluhZWT6iu9SQ12bBD08gr36rkuw8W46
+         d1TIUxb/h0PXu/rb0qbgH/H7X84Yw1SMEI+bJzPaLWqdLFW97uTXRl+bkRgHCgr4s43Y
+         Mg0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=ck3ahG9wWztIY7yMg0pVwx36AzZAbyYvyPdbo7hoeqI=;
-        b=UsQBJUHKK02AXJlLpsCFaSRhG4UcTBref+xFGyd7U7YPYH9x7o1UDyodIEgCuhqNj7
-         l8X3qamS3xmbFn/tNknGsXslJJyHUkfV+dUJYL6bQYW7MRCePQ04YfThtI435HsUA37Q
-         sQhgomJ4M/BZaDx9xFXHN26tHS8xvg+Fh3NwoHPXlb3VL0/l63NJWojQ/RU7XI7ME9Nz
-         RxGwRwooqJ4/0KgEUv4+pFybJIsO0o0QMW/uLQGTI7xy07GuKg2fu8lgOxSpWsWIvfiz
-         m3rMD/8o4F+TV6Z0e2eLYdXckmhB0uU1bdo8IkGqGYSRDdvt/cFo+QtwBTOVwi6cT36z
-         XAkg==
-X-Gm-Message-State: AOAM531W4eY+Nin80IYOrt8F8aSCrOW4E0e12ON5g7aM62cvyJLv3Doi
-        b342zJczsTkh7I22LyyQfUI=
-X-Google-Smtp-Source: ABdhPJxoKl9B6yCFk9XDotnxBGL4RGp0cVIiHzcMKP4odyZkiUsnr7V1GxvE6puG/0PZGOkpdrTejg==
-X-Received: by 2002:a5d:4c45:: with SMTP id n5mr76047307wrt.396.1609632721225;
-        Sat, 02 Jan 2021 16:12:01 -0800 (PST)
-Received: from [192.168.1.211] ([2.29.208.120])
-        by smtp.gmail.com with ESMTPSA id s3sm24018370wmc.44.2021.01.02.16.12.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Jan 2021 16:12:00 -0800 (PST)
-Subject: Re: [PATCH v1] media: ipu3-cio2: Add headers that ipu3-cio2.h is
- direct user of
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201230204405.62892-1-andriy.shevchenko@linux.intel.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <5018d3aa-338f-7cb6-161e-4c0eefdffa93@gmail.com>
-Date:   Sun, 3 Jan 2021 00:11:59 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201230204405.62892-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=upHhoKMhwNycSsUSkWTDTZGGHEnMJMcgkEoZXl3LtcE=;
+        b=lCfONExwz5ZRx9vWIjiR0CEDym+ESHPXT+evZyTlXfg31hFJZhLVF4NljcThy0I25C
+         A48JlCz2vtv5HfTeXo0CG8CDLAEoGUgGCFxGvkrgLTarAhevTWsl9NS0h+AbFYI6u5yX
+         1/0e1MU0Pogn31FucBX2CE+LybV89a7cx8sojTzZKRT+itzM6eMOZg7mAPaL5T0x6Vt4
+         EolqO8gQzq2kJHdtfHr2xDzikbfndl3uAYMhepcLgB/wwYPRiegZQPfmysugAf41E6cQ
+         s+X8zIhKxRFIFuELDZuGj0sM3X4TEUo7vWJEbGb1/YEiKjNaPExSKT9r3W1s8r2QVYna
+         FFzw==
+X-Gm-Message-State: AOAM533o6zj1c8az8GMplQMRTv1MwdDUXEFSk6uzGOMjtgEVSzU2WQO1
+        Uh0uyOt5mqMx+H3bgTg+fwU=
+X-Google-Smtp-Source: ABdhPJxv/KIPydC4rwftQy4xrCraXrrFy9P+M3m1ZoKozY9r6GNMFOiNFe7kIU7sHqxKl0WT+nK2fw==
+X-Received: by 2002:a65:6a09:: with SMTP id m9mr37744699pgu.51.1609646075302;
+        Sat, 02 Jan 2021 19:54:35 -0800 (PST)
+Received: from localhost.localdomain ([43.255.31.23])
+        by smtp.gmail.com with ESMTPSA id s67sm14054605pgb.60.2021.01.02.19.54.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jan 2021 19:54:34 -0800 (PST)
+From:   Yangtao Li <tiny.windzz@gmail.com>
+To:     myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
+        cw00.choi@samsung.com, krzk@kernel.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, digetx@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie,
+        daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
+        robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        lukasz.luba@arm.com, adrian.hunter@intel.com,
+        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
+        sboyd@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, rjw@rjwysocki.net, jcrouse@codeaurora.org,
+        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
+        marijn.suijten@somainline.org, gustavoars@kernel.org,
+        emil.velikov@collabora.com, jonathan@marek.ca,
+        akhilpo@codeaurora.org, smasetty@codeaurora.org,
+        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
+        tanmay@codeaurora.org, tiny.windzz@gmail.com,
+        ddavenport@chromium.org, jsanka@codeaurora.org,
+        rnayak@codeaurora.org, tongtiangen@huawei.com,
+        miaoqinglang@huawei.com, khsieh@codeaurora.org,
+        abhinavk@codeaurora.org, chandanu@codeaurora.org,
+        groeck@chromium.org, varar@codeaurora.org, mka@chromium.org,
+        harigovi@codeaurora.org, rikard.falkeborn@gmail.com,
+        natechancellor@gmail.com, georgi.djakov@linaro.org,
+        akashast@codeaurora.org, parashar@codeaurora.org,
+        dianders@chromium.org
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: [PATCH 25/31] memory: tegra30: convert to use devm_pm_opp_* API
+Date:   Sun,  3 Jan 2021 03:54:15 +0000
+Message-Id: <20210103035415.23600-1-tiny.windzz@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy
+Use devm_pm_opp_* API to simplify code.
 
-On 30/12/2020 20:44, Andy Shevchenko wrote:
-> Add headers that ipu3-cio2.h is direct user of.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+---
+ drivers/memory/tegra/tegra30-emc.c | 29 +++++++++--------------------
+ 1 file changed, 9 insertions(+), 20 deletions(-)
 
-For what it's worth:
+diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
+index 44ac155936aa..a93d8c3629fe 100644
+--- a/drivers/memory/tegra/tegra30-emc.c
++++ b/drivers/memory/tegra/tegra30-emc.c
+@@ -1483,31 +1483,31 @@ static int tegra_emc_interconnect_init(struct tegra_emc *emc)
+ static int tegra_emc_opp_table_init(struct tegra_emc *emc)
+ {
+ 	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
+-	struct opp_table *clk_opp_table, *hw_opp_table;
++	struct opp_table *opp_table;
+ 	int err;
+ 
+-	clk_opp_table = dev_pm_opp_set_clkname(emc->dev, NULL);
+-	err = PTR_ERR_OR_ZERO(clk_opp_table);
++	opp_table = devm_pm_opp_set_clkname(emc->dev, NULL);
++	err = PTR_ERR_OR_ZERO(opp_table);
+ 	if (err) {
+ 		dev_err(emc->dev, "failed to set OPP clk: %d\n", err);
+ 		return err;
+ 	}
+ 
+-	hw_opp_table = dev_pm_opp_set_supported_hw(emc->dev, &hw_version, 1);
+-	err = PTR_ERR_OR_ZERO(hw_opp_table);
++	opp_table = devm_pm_opp_set_supported_hw(emc->dev, &hw_version, 1);
++	err = PTR_ERR_OR_ZERO(opp_table);
+ 	if (err) {
+ 		dev_err(emc->dev, "failed to set OPP supported HW: %d\n", err);
+-		goto put_clk_table;
++		return err;
+ 	}
+ 
+-	err = dev_pm_opp_of_add_table(emc->dev);
++	err = devm_pm_opp_of_add_table(emc->dev);
+ 	if (err) {
+ 		if (err == -ENODEV)
+ 			dev_err(emc->dev, "OPP table not found, please update your device tree\n");
+ 		else
+ 			dev_err(emc->dev, "failed to add OPP table: %d\n", err);
+ 
+-		goto put_hw_table;
++		return err;
+ 	}
+ 
+ 	dev_info(emc->dev, "OPP HW ver. 0x%x, current clock rate %lu MHz\n",
+@@ -1515,19 +1515,8 @@ static int tegra_emc_opp_table_init(struct tegra_emc *emc)
+ 
+ 	/* first dummy rate-set initializes voltage state */
+ 	err = dev_pm_opp_set_rate(emc->dev, clk_get_rate(emc->clk));
+-	if (err) {
++	if (err)
+ 		dev_err(emc->dev, "failed to initialize OPP clock: %d\n", err);
+-		goto remove_table;
+-	}
+-
+-	return 0;
+-
+-remove_table:
+-	dev_pm_opp_of_remove_table(emc->dev);
+-put_hw_table:
+-	dev_pm_opp_put_supported_hw(hw_opp_table);
+-put_clk_table:
+-	dev_pm_opp_put_clkname(clk_opp_table);
+ 
+ 	return err;
+ }
+-- 
+2.25.1
 
-
-Reviewed-by: Daniel Scally <djrscally@gmail.com>
-
-Tested-by: Daniel Scally <djrscally@gmail.com>
-
-> ---
->
-> Dan, feel free to incorporate this into your series.
-Thanks! I'll add it at the beginning so I can include this header in
-cio2-bridge.h, with my tags added too I guess
->
->  drivers/media/pci/intel/ipu3/ipu3-cio2.h | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> index ccf0b85ae36f..62187ab5ae43 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> @@ -4,8 +4,26 @@
->  #ifndef __IPU3_CIO2_H
->  #define __IPU3_CIO2_H
->  
-> +#include <linux/bits.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mutex.h>
->  #include <linux/types.h>
->  
-> +#include <asm/page.h>
-> +
-> +#include <media/media-device.h>
-> +#include <media/media-entity.h>
-> +#include <media/v4l2-async.h>
-> +#include <media/v4l2-dev.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-subdev.h>
-> +#include <media/videobuf2-core.h>
-> +#include <media/videobuf2-v4l2.h>
-> +
-> +struct cio2_fbpt_entry;		/* defined here, after the first usage */
-> +struct pci_dev;
-> +
->  #define CIO2_NAME					"ipu3-cio2"
->  #define CIO2_DEVICE_NAME				"Intel IPU3 CIO2"
->  #define CIO2_ENTITY_NAME				"ipu3-csi2"
