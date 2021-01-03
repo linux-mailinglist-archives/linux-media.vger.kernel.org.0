@@ -2,197 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 125322E8B77
-	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 10:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0BE52E8C30
+	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 13:53:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbhACJQ1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sun, 3 Jan 2021 04:16:27 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:48740 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726098AbhACJQ0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 3 Jan 2021 04:16:26 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kvzUE-00GDNu-Ht; Sun, 03 Jan 2021 09:15:42 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kvzXb-0001G9-3U; Sun, 03 Jan 2021 09:19:11 +0000
-Date:   Sun, 3 Jan 2021 09:19:10 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <825447167.32.1609665551099@builder.linuxtv.org>
-In-Reply-To: <1796742567.31.1609579152889@builder.linuxtv.org>
-References: <1796742567.31.1609579152889@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3347
+        id S1727091AbhACMxW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Jan 2021 07:53:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726166AbhACMxS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Jan 2021 07:53:18 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DCAC061573;
+        Sun,  3 Jan 2021 04:52:37 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id s26so58212924lfc.8;
+        Sun, 03 Jan 2021 04:52:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fk3XVwTVefOkLbjfXssBtwAHpD8Tcrjmd5/AelczwWk=;
+        b=OEwi935j2c7KzefgNI021QgzicjnnEwbFY0PXx/zRGw9iI/W1MDCJ33nGdFVdpmgK6
+         RIgzZmniThNKQQabZIGWFU35FpubtXtN1R5LazrU8yKIIFEOMvqtTZZ5S+ZI5PwASUDh
+         TxHNixDO7dAndqM40/SeY3e6JavgLO8CB6IJk5nojllWAWb2ldsg7Qly/g8+ynFW8oPL
+         cgNdsvF1E/S8ZWp6UVfr4ESinENcARg/2ifmbIPl9lUD5TbUttr2X8f7TQ9nNIigPWTg
+         IihawwezkYm0eV/L9yiGEhYwV/JPSY1nrPQG12uGVCCkWe86XrpZBpVdlnOYyDyypc5T
+         yDtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fk3XVwTVefOkLbjfXssBtwAHpD8Tcrjmd5/AelczwWk=;
+        b=UiDySKvwgUMp0aJWlYasd22/NicHgjglLcBjz4Q751IwqBWHzZni59MNoQxzWf4ci2
+         fWaiWrq0pkSwtVsd/ufsMtavJAb0Ro4knKV22D84wlPuyWZQHX5rvRaFR7ceSf6DZvr1
+         EmsO+XCHXan/Bo0J3zjFH8GvnO2NN/FEKnX6+y8EjE234bF+763lbSCYq2BxmwIztYw2
+         ySkQhBVA6J8v5PELp4dGFtFTI5yUtL7V4XOjsn6+DQ7IMz8Fhbi+/cFNnGnxRevxQPHL
+         rOEhfc0zLS+kuJ1PWBpY1kenD65S3QkbkH90ot/AIE/6SPoHu11w38Qvi4hGVqnaggJv
+         B7aA==
+X-Gm-Message-State: AOAM533me0Pa2Z6ADRlIh7q/Cf8PFJEiE+yH5TTqo6ctMksMvpr32Cxq
+        KTsm5ueSVowmQ2IQ+dJSKQ7hwXCo2ps=
+X-Google-Smtp-Source: ABdhPJyPgqSAU0iBjgqgqRPmpr/i7kF7QwsvsLVJIEREfmn2IS2TU8rSoup8JfPW09bcJNWdHG7m2A==
+X-Received: by 2002:a05:6512:612:: with SMTP id b18mr32820924lfe.598.1609678355624;
+        Sun, 03 Jan 2021 04:52:35 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id b26sm8429011ljk.132.2021.01.03.04.52.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Jan 2021 04:52:34 -0800 (PST)
+Subject: Re: [PATCH 00/31] Introduce devm_pm_opp_* API
+To:     Yangtao Li <tiny.windzz@gmail.com>, myungjoo.ham@samsung.com,
+        kyungmin.park@samsung.com, cw00.choi@samsung.com, krzk@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie,
+        daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
+        robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        lukasz.luba@arm.com, adrian.hunter@intel.com,
+        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
+        sboyd@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, rjw@rjwysocki.net, jcrouse@codeaurora.org,
+        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
+        marijn.suijten@somainline.org, gustavoars@kernel.org,
+        emil.velikov@collabora.com, jonathan@marek.ca,
+        akhilpo@codeaurora.org, smasetty@codeaurora.org,
+        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
+        tanmay@codeaurora.org, ddavenport@chromium.org,
+        jsanka@codeaurora.org, rnayak@codeaurora.org,
+        tongtiangen@huawei.com, miaoqinglang@huawei.com,
+        khsieh@codeaurora.org, abhinavk@codeaurora.org,
+        chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
+        mka@chromium.org, harigovi@codeaurora.org,
+        rikard.falkeborn@gmail.com, natechancellor@gmail.com,
+        georgi.djakov@linaro.org, akashast@codeaurora.org,
+        parashar@codeaurora.org, dianders@chromium.org
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20210101165507.19486-1-tiny.windzz@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <819f4eaf-18e4-678d-84dd-e4ac9d88c414@gmail.com>
+Date:   Sun, 3 Jan 2021 15:52:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <20210101165507.19486-1-tiny.windzz@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3347/display/redirect>
+01.01.2021 19:54, Yangtao Li пишет:
+> Hi,
+> 
+> This patchset add devm_pm_opp_set_clkname, devm_pm_opp_put_clkname,
+> devm_pm_opp_set_regulators, devm_pm_opp_put_regulators,
+> devm_pm_opp_set_supported_hw, devm_pm_opp_of_add_table and
+> devm_pm_opp_register_notifier.
+> 
+> Yangtao Li (31):
+>   opp: Add devres wrapper for dev_pm_opp_set_clkname and
+>     dev_pm_opp_put_clkname
+>   opp: Add devres wrapper for dev_pm_opp_set_regulators and
+>     dev_pm_opp_put_regulators
+>   opp: Add devres wrapper for dev_pm_opp_set_supported_hw
+>   opp: Add devres wrapper for dev_pm_opp_of_add_table
+>   opp: Add devres wrapper for dev_pm_opp_register_notifier
+>   serial: qcom_geni_serial: fix potential mem leak in
+>     qcom_geni_serial_probe()
+>   serial: qcom_geni_serial: convert to use devm_pm_opp_* API
+>   spi: spi-qcom-qspi: fix potential mem leak in spi_geni_probe()
+>   spi: spi-qcom-qspi: fix potential mem leak in spi_geni_probe()
+>   qcom-geni-se: remove opp_table
+>   mmc: sdhci-msm: fix potential mem leak in sdhci_msm_probe()
+>   mmc: sdhci-msm: convert to use devm_pm_opp_* API
+>   spi: spi-qcom-qspi: fix potential mem leak in qcom_qspi_probe()
+>   spi: spi-qcom-qspi: convert to use devm_pm_opp_* API
+>   drm/msm: fix potential mem leak
+>   drm/msm: convert to use devm_pm_opp_* API and remove dp_ctrl_put
+>   drm/lima: convert to use devm_pm_opp_* API
+>   drm/lima: remove unneeded devm_devfreq_remove_device()
+>   drm/panfrost: convert to use devm_pm_opp_* API
+>   media: venus: fix error check in core_get_v4()
+>   media: venus: convert to use devm_pm_opp_* API
+>   memory: samsung: exynos5422-dmc: fix return error in
+>     exynos5_init_freq_table
+>   memory: samsung: exynos5422-dmc: convert to use devm_pm_opp_* API
+>   memory: tegra20: convert to use devm_pm_opp_* API
+>   memory: tegra30: convert to use devm_pm_opp_* API
+>   PM / devfreq: tegra30: convert to use devm_pm_opp_* API
+>   PM / devfreq: rk3399_dmc: convert to use devm_pm_opp_* API
+>   PM / devfreq: imx8m-ddrc: convert to use devm_pm_opp_* API
+>   PM / devfreq: imx-bus: convert to use devm_pm_opp_* API
+>   PM / devfreq: exynos: convert to use devm_pm_opp_* API
+>   PM / devfreq: convert to devm_pm_opp_register_notifier and remove
+>     unused API
+> 
+>  drivers/devfreq/devfreq.c                     |  66 +------
+>  drivers/devfreq/exynos-bus.c                  |  42 +----
+>  drivers/devfreq/imx-bus.c                     |  14 +-
+>  drivers/devfreq/imx8m-ddrc.c                  |  15 +-
+>  drivers/devfreq/rk3399_dmc.c                  |  22 +--
+>  drivers/devfreq/tegra30-devfreq.c             |  21 +--
+>  drivers/gpu/drm/lima/lima_devfreq.c           |  45 +----
+>  drivers/gpu/drm/lima/lima_devfreq.h           |   2 -
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   2 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   2 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  31 ++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   2 -
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c              |  29 +--
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h              |   1 -
+>  drivers/gpu/drm/msm/dp/dp_display.c           |   5 +-
+>  drivers/gpu/drm/msm/dsi/dsi_host.c            |  23 ++-
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  34 +---
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.h   |   1 -
+>  .../media/platform/qcom/venus/pm_helpers.c    |  22 +--
+>  drivers/memory/samsung/exynos5422-dmc.c       |  13 +-
+>  drivers/memory/tegra/tegra20-emc.c            |  29 +--
+>  drivers/memory/tegra/tegra30-emc.c            |  29 +--
+>  drivers/mmc/host/sdhci-msm.c                  |  27 ++-
+>  drivers/opp/core.c                            | 173 ++++++++++++++++++
+>  drivers/opp/of.c                              |  36 ++++
+>  drivers/spi/spi-geni-qcom.c                   |  23 ++-
+>  drivers/spi/spi-qcom-qspi.c                   |  25 ++-
+>  drivers/tty/serial/qcom_geni_serial.c         |  31 ++--
+>  include/linux/devfreq.h                       |  23 ---
+>  include/linux/pm_opp.h                        |  38 ++++
+>  include/linux/qcom-geni-se.h                  |   2 -
+>  32 files changed, 402 insertions(+), 428 deletions(-)
+> 
 
-Changes:
+Hello,
 
+Could you please add helper for dev_pm_opp_attach_genpd() and make
+cpufreq drivers to use the helpers?
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 174c4cc0037aed1f719b91dfc9e9cc09d53de87c (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 174c4cc0037aed1f719b91dfc9e9cc09d53de87c # timeout=10
-Commit message: "Update v4.18_ccs_bitops.patch"
- > git rev-list --no-walk 174c4cc0037aed1f719b91dfc9e9cc09d53de87c # timeout=10
-[media-build] $ /bin/sh -xe /tmp/jenkins6131480336111206223.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
-
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
-
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2021-01-03 09:16:37--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2021-01-03 09:16:37--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100%  224M=0s
-
-2021-01-03 09:16:37 (224 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:378: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+I'd also like to see a devm helper for
+dev_pm_opp_register_set_opp_helper(), which should become useful for
+Tegra drivers sometime soon.
