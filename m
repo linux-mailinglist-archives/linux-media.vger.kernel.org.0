@@ -2,237 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCC0C2E8A63
-	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 04:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 125322E8B77
+	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 10:17:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726877AbhACD6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Jan 2021 22:58:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726844AbhACD6G (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Jan 2021 22:58:06 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01232C061573;
-        Sat,  2 Jan 2021 19:57:26 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id i5so16611634pgo.1;
-        Sat, 02 Jan 2021 19:57:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=bOqOQLWJhyl2a577YM0GR4m7krtGGKspJhBDUdooXQs=;
-        b=LG0ARZRkjmTXrJorhu/jihm0Mi+5yzddGgU9D1bfoBGcEAyoou58vPzfDIyONWYqDI
-         /4OAqr7Z/zf9ER+L2uOc24kSRn+qLmG4BY+JodzoFQF/B1c2wZHJyb4kvhKxgU+izRHv
-         8MRgEhNgPrZuxzSLQRqYfuvGfcvCuVUoshvt9sl0r4QAtutdKDW05rcIQ9dBdwIO5K0F
-         2hKHfKf0/Qu+0Hr5NyOotRE7Lw4UCKOU9MJ5nHdb3S33C4V0d4YDfF8LqHdXhsI1aUWM
-         ZsJ6w1waDejbsq3kHUW0bKB81kH8ze/DhP8Yctb91F8FeL2e5BM/CTjg2bOh51mUiQqc
-         m2ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=bOqOQLWJhyl2a577YM0GR4m7krtGGKspJhBDUdooXQs=;
-        b=ChWckxCNeaxl6Pkr0XxM9neBeoSWK54vivbigGU8hSaO7oWfjvsVTXndvZVyfo8RUS
-         BMd3x1rUSJWMeLg/2Qs1XSAqwZalGFVLrqkbcPOWcemx18RMd3SynajrBmNfzbbfh67+
-         TeFm9QBfqE91TUOLscR7otxqKGBm9WallJ3uxgBg9n8bi6Fmyyc1JPiIu25UhH7GbtcB
-         /EhNxY/ZI4Tr8z4YpuwBv8UpxjOahQQ5U3jm2wX1HpmOZqUkV5QYFwSg+uDO2ONa4sVe
-         hiCrmI3cgDH30LQYnoTXM2v/825rGO4E5lbMW/8GxEa+xR0TPtAIv7vOKZmKfTZf9RNQ
-         7uIA==
-X-Gm-Message-State: AOAM530RBq+FYr2kEU1dL+hKz0uI46DooLW8dhc0dCtEklTROoI22+sT
-        edMZJJVEEqLSk/2J46WRCYo=
-X-Google-Smtp-Source: ABdhPJz6zhBwhrRUfur/KM3Xc29SF2oYTEQF68P1OftsFEJ1idogWYGRJDx/+HEraVeVhoNlpuXM5Q==
-X-Received: by 2002:a63:db54:: with SMTP id x20mr52218787pgi.200.1609646245532;
-        Sat, 02 Jan 2021 19:57:25 -0800 (PST)
-Received: from localhost.localdomain ([43.255.31.23])
-        by smtp.gmail.com with ESMTPSA id h12sm55934950pgs.7.2021.01.02.19.57.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jan 2021 19:57:24 -0800 (PST)
-From:   Yangtao Li <tiny.windzz@gmail.com>
-To:     myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
-        cw00.choi@samsung.com, krzk@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, digetx@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie,
-        daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
-        robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
-        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        lukasz.luba@arm.com, adrian.hunter@intel.com,
-        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
-        sboyd@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, rjw@rjwysocki.net, jcrouse@codeaurora.org,
-        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
-        marijn.suijten@somainline.org, gustavoars@kernel.org,
-        emil.velikov@collabora.com, jonathan@marek.ca,
-        akhilpo@codeaurora.org, smasetty@codeaurora.org,
-        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
-        tanmay@codeaurora.org, tiny.windzz@gmail.com,
-        ddavenport@chromium.org, jsanka@codeaurora.org,
-        rnayak@codeaurora.org, tongtiangen@huawei.com,
-        miaoqinglang@huawei.com, khsieh@codeaurora.org,
-        abhinavk@codeaurora.org, chandanu@codeaurora.org,
-        groeck@chromium.org, varar@codeaurora.org, mka@chromium.org,
-        harigovi@codeaurora.org, rikard.falkeborn@gmail.com,
-        natechancellor@gmail.com, georgi.djakov@linaro.org,
-        akashast@codeaurora.org, parashar@codeaurora.org,
-        dianders@chromium.org
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: [PATCH 31/31] PM / devfreq: convert to devm_pm_opp_register_notifier and remove unused API
-Date:   Sun,  3 Jan 2021 03:57:06 +0000
-Message-Id: <20210103035706.24168-1-tiny.windzz@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726173AbhACJQ1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 3 Jan 2021 04:16:27 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:48740 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726098AbhACJQ0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 3 Jan 2021 04:16:26 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kvzUE-00GDNu-Ht; Sun, 03 Jan 2021 09:15:42 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kvzXb-0001G9-3U; Sun, 03 Jan 2021 09:19:11 +0000
+Date:   Sun, 3 Jan 2021 09:19:10 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <825447167.32.1609665551099@builder.linuxtv.org>
+In-Reply-To: <1796742567.31.1609579152889@builder.linuxtv.org>
+References: <1796742567.31.1609579152889@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3347
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
- Use devm_pm_opp_* API to simplify code.
+See <https://builder.linuxtv.org/job/media-build/3347/display/redirect>
 
-Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
----
- drivers/devfreq/devfreq.c | 66 +--------------------------------------
- include/linux/devfreq.h   | 23 --------------
- 2 files changed, 1 insertion(+), 88 deletions(-)
+Changes:
 
-diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
-index 6aa10de792b3..f593f30529ec 100644
---- a/drivers/devfreq/devfreq.c
-+++ b/drivers/devfreq/devfreq.c
-@@ -2004,40 +2004,6 @@ struct dev_pm_opp *devfreq_recommended_opp(struct device *dev,
- }
- EXPORT_SYMBOL(devfreq_recommended_opp);
- 
--/**
-- * devfreq_register_opp_notifier() - Helper function to get devfreq notified
-- *				     for any changes in the OPP availability
-- *				     changes
-- * @dev:	The devfreq user device. (parent of devfreq)
-- * @devfreq:	The devfreq object.
-- */
--int devfreq_register_opp_notifier(struct device *dev, struct devfreq *devfreq)
--{
--	return dev_pm_opp_register_notifier(dev, &devfreq->nb);
--}
--EXPORT_SYMBOL(devfreq_register_opp_notifier);
--
--/**
-- * devfreq_unregister_opp_notifier() - Helper function to stop getting devfreq
-- *				       notified for any changes in the OPP
-- *				       availability changes anymore.
-- * @dev:	The devfreq user device. (parent of devfreq)
-- * @devfreq:	The devfreq object.
-- *
-- * At exit() callback of devfreq_dev_profile, this must be included if
-- * devfreq_recommended_opp is used.
-- */
--int devfreq_unregister_opp_notifier(struct device *dev, struct devfreq *devfreq)
--{
--	return dev_pm_opp_unregister_notifier(dev, &devfreq->nb);
--}
--EXPORT_SYMBOL(devfreq_unregister_opp_notifier);
--
--static void devm_devfreq_opp_release(struct device *dev, void *res)
--{
--	devfreq_unregister_opp_notifier(dev, *(struct devfreq **)res);
--}
--
- /**
-  * devm_devfreq_register_opp_notifier() - Resource-managed
-  *					  devfreq_register_opp_notifier()
-@@ -2047,40 +2013,10 @@ static void devm_devfreq_opp_release(struct device *dev, void *res)
- int devm_devfreq_register_opp_notifier(struct device *dev,
- 				       struct devfreq *devfreq)
- {
--	struct devfreq **ptr;
--	int ret;
--
--	ptr = devres_alloc(devm_devfreq_opp_release, sizeof(*ptr), GFP_KERNEL);
--	if (!ptr)
--		return -ENOMEM;
--
--	ret = devfreq_register_opp_notifier(dev, devfreq);
--	if (ret) {
--		devres_free(ptr);
--		return ret;
--	}
--
--	*ptr = devfreq;
--	devres_add(dev, ptr);
--
--	return 0;
-+	return devm_pm_opp_register_notifier(dev, &devfreq->nb);
- }
- EXPORT_SYMBOL(devm_devfreq_register_opp_notifier);
- 
--/**
-- * devm_devfreq_unregister_opp_notifier() - Resource-managed
-- *					    devfreq_unregister_opp_notifier()
-- * @dev:	The devfreq user device. (parent of devfreq)
-- * @devfreq:	The devfreq object.
-- */
--void devm_devfreq_unregister_opp_notifier(struct device *dev,
--					 struct devfreq *devfreq)
--{
--	WARN_ON(devres_release(dev, devm_devfreq_opp_release,
--			       devm_devfreq_dev_match, devfreq));
--}
--EXPORT_SYMBOL(devm_devfreq_unregister_opp_notifier);
--
- /**
-  * devfreq_register_notifier() - Register a driver with devfreq
-  * @devfreq:	The devfreq object.
-diff --git a/include/linux/devfreq.h b/include/linux/devfreq.h
-index b6d3bae1c74d..aca2cc4f4fa4 100644
---- a/include/linux/devfreq.h
-+++ b/include/linux/devfreq.h
-@@ -230,14 +230,8 @@ int update_devfreq(struct devfreq *devfreq);
- /* Helper functions for devfreq user device driver with OPP. */
- struct dev_pm_opp *devfreq_recommended_opp(struct device *dev,
- 				unsigned long *freq, u32 flags);
--int devfreq_register_opp_notifier(struct device *dev,
--				struct devfreq *devfreq);
--int devfreq_unregister_opp_notifier(struct device *dev,
--				struct devfreq *devfreq);
- int devm_devfreq_register_opp_notifier(struct device *dev,
- 				struct devfreq *devfreq);
--void devm_devfreq_unregister_opp_notifier(struct device *dev,
--				struct devfreq *devfreq);
- int devfreq_register_notifier(struct devfreq *devfreq,
- 				struct notifier_block *nb,
- 				unsigned int list);
-@@ -355,29 +349,12 @@ static inline struct dev_pm_opp *devfreq_recommended_opp(struct device *dev,
- 	return ERR_PTR(-EINVAL);
- }
- 
--static inline int devfreq_register_opp_notifier(struct device *dev,
--					struct devfreq *devfreq)
--{
--	return -EINVAL;
--}
--
--static inline int devfreq_unregister_opp_notifier(struct device *dev,
--					struct devfreq *devfreq)
--{
--	return -EINVAL;
--}
--
- static inline int devm_devfreq_register_opp_notifier(struct device *dev,
- 					struct devfreq *devfreq)
- {
- 	return -EINVAL;
- }
- 
--static inline void devm_devfreq_unregister_opp_notifier(struct device *dev,
--					struct devfreq *devfreq)
--{
--}
--
- static inline int devfreq_register_notifier(struct devfreq *devfreq,
- 					struct notifier_block *nb,
- 					unsigned int list)
--- 
-2.25.1
 
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 174c4cc0037aed1f719b91dfc9e9cc09d53de87c (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 174c4cc0037aed1f719b91dfc9e9cc09d53de87c # timeout=10
+Commit message: "Update v4.18_ccs_bitops.patch"
+ > git rev-list --no-walk 174c4cc0037aed1f719b91dfc9e9cc09d53de87c # timeout=10
+[media-build] $ /bin/sh -xe /tmp/jenkins6131480336111206223.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
+
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2021-01-03 09:16:37--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2021-01-03 09:16:37--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  224M=0s
+
+2021-01-03 09:16:37 (224 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-5-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:378: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
