@@ -2,115 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E88FA2E8CFB
-	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 16:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 115BC2E8ECC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 00:17:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725840AbhACPvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Jan 2021 10:51:37 -0500
-Received: from mail.schramp.com ([188.166.64.204]:56436 "EHLO mail.schramp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725765AbhACPvg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 3 Jan 2021 10:51:36 -0500
-Received: by mail.schramp.com (Postfix, from userid 114)
-        id 7715C43AC1; Sun,  3 Jan 2021 15:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=schramp.com; s=mail;
-        t=1609689054; bh=9KhVk9IwBIRzWRUyoac1IK/+jSwU9d0qh6pPNbiKi2c=;
-        h=From:To:Subject:Date:In-Reply-To:References:Reply-To:From;
-        b=HZPIODcOQF8uTKG7XTTFIkPrMz9AkuQrsBX9JzFvUSlzyohV+SkjQEgoMsRtLXJZJ
-         yez0o+FpYv52uBO5FD4YylW5qxuCxdrKpVG36EBO8Ayx+ICNV6E496Ke1SFcRXshGt
-         YR2hTWPVoOxFqaURx6POtEoqKhDBwjj+MDAOtG5cyqltRT0bwpZNzRKJVUdFEfxU3t
-         +dS00/+H50zUA+A5LS7oX+sSXwd1W+589/4vDv61dNtzUaM/gk4GNZmam72P6ENxM3
-         LRDhWsbM4P6TeNrPsMFcN2i0C1gRlfiqRGT3o1/3IWo9oJD0kC7DJhOtknZf5afZLy
-         mqlnGwuiFVoBA==
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.schramp.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=ham autolearn_force=no version=3.4.2
-Received: from [192.168.178.42] (94-209-128-102.cable.dynamic.v4.ziggo.nl [94.209.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: ruud)
-        by mail.schramp.com (Postfix) with ESMTPSA id 1853D3F152
-        for <linux-media@vger.kernel.org>; Sun,  3 Jan 2021 15:50:53 +0000 (UTC)
-From:   "Ruud Schramp" <ruud@schramp.com>
-To:     linux-media@vger.kernel.org
-Subject: Re: USB Microscope, Manufacturer: Winmax Corp. (ION Slides Forever)
-Date:   Sun, 03 Jan 2021 15:50:51 +0000
-Message-Id: <ema5af2fc1-8db3-4b0c-808a-fe48b5b3dc8e@thor>
-In-Reply-To: <em1c6e7844-98f5-422e-b73c-588532718690@thor>
-References: <em1c6e7844-98f5-422e-b73c-588532718690@thor>
-Reply-To: "Ruud Schramp" <ruud@schramp.com>
-User-Agent: eM_Client/7.2.37929.0
-Mime-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        id S1727820AbhACXNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Jan 2021 18:13:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726019AbhACXNf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Jan 2021 18:13:35 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C0EC061573;
+        Sun,  3 Jan 2021 15:12:54 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id w5so29981742wrm.11;
+        Sun, 03 Jan 2021 15:12:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fLb4fKNSG4SMrjIYJ+fA2rrhLatLlO6tz5eQrj9mj/Y=;
+        b=Oxsft3URx40Eeicl5HxJl48+EJe7BCG0SkRJ3EZ8d+hrg+NrzDpdvjy1iJk7/78fd+
+         eea3z7zTWVoFUWIwxW5layFdWG4SOmj50N0t5VLAYI/FPURU8mhtonoAgKFKnuC2m6d1
+         EijPX1Z1vZWuHIKAVZM3QK/vMM2W3ZhqIfVIBXOsjPvAi9Q79hQbpQ43H9kJ7MCKkxTp
+         Gf+JseEH5Si231GoewoXxxiKINfJOmX8BrtYygWz1Tw4MAA0aI5FFDl/b5h73M3oN/96
+         pKK1A2zqXjmRRQZwgCgCx8x5YJkCtexelPVflQalnR9+h5tbeGW9nse2G6b91QmLCjhE
+         erbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fLb4fKNSG4SMrjIYJ+fA2rrhLatLlO6tz5eQrj9mj/Y=;
+        b=S3qoVJhMutV6MbJtuxR+L4RWR9LEgMdT0mNffVlNJKHefJvVItTliVpKAXaJswqVQ+
+         HMUSJ4hR3U/pG4c0Ej1/VfAl4Ai4vV4BFSL28uvwnyfgx04EOi8LaphYeeteikO4i0UR
+         4UXwe/TzBgzi3PC3rEHACTAXPMzDldTW0RaerrZYtnBbaTZcQaYS69koDwPrHQXFMG88
+         Qz63iQcYSrF3xyHLXd8ozzi1x6cQu9vKLlg8UP8LMpw/IgJDYL0yg9i1AUGTlI2Cre6i
+         m+BGtmd7XeiFC2ygOfc8xbQEtGWtmgs1ewFu9VDTtEs+qvNEMYw8ydQMlwHQvR8IVMqd
+         YsDg==
+X-Gm-Message-State: AOAM530LavwyRAKKneCpCTf7vQoHvp1JGxLJUbuWZPUn5Z872QzVJ+7E
+        9reSdWwGrZbq9WRPoYEg+pakiDkvZ8hm4VMv
+X-Google-Smtp-Source: ABdhPJz3aFWlRA2eMStLumhKX3ObBEUO2LzYkUFC5o+EReoSvoKVx/+7pulhNKyaZs89AhRKny6fVw==
+X-Received: by 2002:adf:82c8:: with SMTP id 66mr76691586wrc.420.1609715573686;
+        Sun, 03 Jan 2021 15:12:53 -0800 (PST)
+Received: from valhalla.home ([2.29.208.120])
+        by smtp.gmail.com with ESMTPSA id h9sm32571018wme.11.2021.01.03.15.12.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Jan 2021 15:12:52 -0800 (PST)
+From:   Daniel Scally <djrscally@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org,
+        gregkh@linuxfoundation.org, rjw@rjwysocki.net,
+        sergey.senozhatsky@gmail.com, mchehab@kernel.org
+Cc:     lenb@kernel.org, yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
+        rostedt@goodmis.org, andriy.shevchenko@linux.intel.com,
+        linux@rasmusvillemoes.dk,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        hverkuil-cisco@xs4all.nl, m.felsch@pengutronix.de,
+        niklas.soderlund+renesas@ragnatech.se, slongerbeam@gmail.com,
+        heikki.krogerus@linux.intel.com, linus.walleij@linaro.org
+Subject: [PATCH v4 00/15] Add functionality to ipu3-cio2 driver allowing software_node connections to sensors on platforms designed for Windows
+Date:   Sun,  3 Jan 2021 23:12:20 +0000
+Message-Id: <20210103231235.792999-1-djrscally@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->Hello All,
->
->This email is just to document my in-vane efforts to add support for my=20
->ION Slider Forever film scanner.
->
->Its USB Id:  0c45:6353
->
->The weirdness of the UVC device is that is publishes 2 modes. Both in=20
->YUYV, however closer inspection of the data shows that the=20
->high-resolution frame is a Bayer BGGR patern, and the low-resolution is=20
->YUVY. At the USB level (inspected with wireshark) this is what the=20
->device tells the driver  so its a bug in the device itself. The low-res=20
->is actually working fine.
->
->I made a QUIRK setting that would hopefully reverse the high-res and=20
->low-res behaviour making the high-res work and the low-res broken.
->
->Its published on:=20
->https://github.com/Schramp/linux-writeblock/commit/34f8efd8db41aa90baf944b=
-0371c9c015bc4d34f
->
->Unfortunately it works only a bit: the decoding and formatting is fine,=20
->but the white balance in the camera is moving away from the correct=20
->colours in a matter of a few seconds. I haven't found a way to correct=20
->that behaviour.
->
->For all your reference:
->
->The dmesg on a standard kernel:
->[  416.066239] usb 3-2: new high-speed USB device number 7 using=20
->xhci_hcd
->[  416.433911] usb 3-2: New USB device found, idVendor=3D0c45,=20
->idProduct=3D6353, bcdDevice=3D 1.50
->[  416.433913] usb 3-2: New USB device strings: Mfr=3D2, Product=3D1,=20
->SerialNumber=3D0
->[  416.433914] usb 3-2: Product: USB Microscope
->[  416.433914] usb 3-2: Manufacturer: Winmax Corp.
->[  416.439710] uvcvideo: Probing generic UVC device 2
->[  416.441702] uvcvideo: Found format YUV 4:2:2 (YUYV).
->[  416.441703] uvcvideo: - 592x392 (30.0 fps)
->[  416.441703] uvcvideo: - 1184x1576 (5.0 fps)
->
->After the patch:
->[ 7608.448727] usb 3-2: new high-speed USB device number 15 using=20
->xhci_hcd
->[ 7608.815179] usb 3-2: New USB device found, idVendor=3D0c45,=20
->idProduct=3D6353, bcdDevice=3D 1.50
->[ 7608.815184] usb 3-2: New USB device strings: Mfr=3D2, Product=3D1,=20
->SerialNumber=3D0
->[ 7608.815185] usb 3-2: Product: USB Microscope
->[ 7608.815186] usb 3-2: Manufacturer: Winmax Corp.
->[ 7608.823248] uvcvideo: Probing known UVC device 2 (0c45:6353)
->[ 7608.825550] uvcvideo: Forcing UVC_QUIRK_FORCE_BA81
->[ 7608.825552] uvcvideo: Found format BGGR Bayer (BA81).
->[ 7608.825552] uvcvideo: - 1184x392 (30.0 fps)
->[ 7608.825554] uvcvideo: - 2368x1576 (5.0 fps)
->
->
->I hope the information helps the community (or at least saves them from=20
->re-inventing this broken wheel).
->
->Best regards,
->
->Ruud Schramp
->
+Hello all
+
+v3:
+https://lore.kernel.org/linux-media/20201224010907.263125-1-djrscally@gmail.com/T/#m37b831bb2b406917d6db5da9acf9ed35df65d72d
+v2:
+https://lore.kernel.org/linux-media/20201217234337.1983732-1-djrscally@gmail.com/T/#md93fd090009b42a6a98aed892aff0d38cf07e0cd
+v1:
+https://lore.kernel.org/linux-media/20201130133129.1024662-1-djrscally@gmail.com/T/#m91934e12e3d033da2e768e952ea3b4a125ee3e67
+The RFC version before that:
+https://lore.kernel.org/linux-media/20201019225903.14276-1-djrscally@gmail.com/
+
+This series is to start adding support for webcams on laptops with ACPI tables
+designed for use with CIO2 on Windows. This problem has two main parts; the
+first part, which is handled in this series, is extending the ipu3-cio2
+driver to allow for patching the firmware via software_nodes if endpoints
+aren't defined by ACPI. The second is adding a new driver to handle power,
+clocks and GPIO pins defined in DSDT tables in an awkward way. I decided to
+split that second part out from this series, and instead give it its own
+series (a v2 of which should land "soon"). The reasons for that are:
+
+1. It's a logically separate change anyway
+2. The recipients list was getting really long and
+3. That probably meant that handling merge for all of this in one go was
+   going to be impractically awkward.
+
+I'm hopeful that most or all of this series could get picked up for 5.12.
+We touch a few different areas (listed below), but I think the easiest
+approach would be to merge everything through media tree. Rafael, Greg,
+Mauro and Sergey; are you ok with that plan, or would you prefer a
+different approach? Mauro; if that plan is ok (and of course assuming that
+the rest of the patches are acked by their respective maintainers) could
+we get a dedicated feature branch just in case the following series ends
+up being ready in time too?
+
+lib
+  lib/test_printf.c: Use helper function to unwind array of
+    software_nodes
+
+base
+  software_node: Fix refcounts in software_node_get_next_child()
+  property: Return true in fwnode_device_is_available for NULL ops
+  property: Call fwnode_graph_get_endpoint_by_id() for fwnode->secondary
+  software_node: Enforce parent before child ordering of nodes arrays
+  software_node: unregister software_nodes in reverse order
+  include: fwnode.h: Define format macros for ports and endpoints
+
+acpi
+  acpi: Add acpi_dev_get_next_match_dev() and helper macro
+
+media
+  media: v4l2-core: v4l2-async: Check sd->fwnode->secondary in
+    match_fwnode()
+  ipu3-cio2: Add T: entry to MAINTAINERS
+  ipu3-cio2: Rename ipu3-cio2.c
+  ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+  include: media: v4l2-fwnode: Include v4l2_fwnode_bus_type
+
+Series-level changelog:
+	- Incorporated Andy's patch fixing the ipu3-cio2 header
+
+More details of changes on each patch.
+
+Thanks
+Dan
+
+Andy Shevchenko (1):
+  media: ipu3-cio2: Add headers that ipu3-cio2.h is direct user of
+
+Daniel Scally (13):
+  software_node: Fix refcounts in software_node_get_next_child()
+  property: Return true in fwnode_device_is_available for NULL ops
+  property: Call fwnode_graph_get_endpoint_by_id() for fwnode->secondary
+  software_node: Enforce parent before child ordering of nodes arrays
+  software_node: unregister software_nodes in reverse order
+  include: fwnode.h: Define format macros for ports and endpoints
+  lib/test_printf.c: Use helper function to unwind array of
+    software_nodes
+  ipu3-cio2: Add T: entry to MAINTAINERS
+  ipu3-cio2: Rename ipu3-cio2.c
+  media: v4l2-core: v4l2-async: Check sd->fwnode->secondary in
+    match_fwnode()
+  acpi: Add acpi_dev_get_next_match_dev() and helper macro
+  include: media: v4l2-fwnode: Include v4l2_fwnode_bus_type
+  ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+
+Heikki Krogerus (1):
+  software_node: Add support for fwnode_graph*() family of functions
+
+ MAINTAINERS                                   |   2 +
+ drivers/acpi/utils.c                          |  30 +-
+ drivers/base/property.c                       |  15 +-
+ drivers/base/swnode.c                         | 181 +++++++++--
+ drivers/media/pci/intel/ipu3/Kconfig          |  18 ++
+ drivers/media/pci/intel/ipu3/Makefile         |   3 +
+ drivers/media/pci/intel/ipu3/cio2-bridge.c    | 302 ++++++++++++++++++
+ drivers/media/pci/intel/ipu3/cio2-bridge.h    | 125 ++++++++
+ .../ipu3/{ipu3-cio2.c => ipu3-cio2-main.c}    |  33 ++
+ drivers/media/pci/intel/ipu3/ipu3-cio2.h      |  24 ++
+ drivers/media/v4l2-core/v4l2-async.c          |   8 +
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  11 -
+ include/acpi/acpi_bus.h                       |   7 +
+ include/linux/fwnode.h                        |   7 +
+ include/media/v4l2-fwnode.h                   |  22 ++
+ lib/test_printf.c                             |   4 +-
+ 16 files changed, 754 insertions(+), 38 deletions(-)
+ create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.c
+ create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
+ rename drivers/media/pci/intel/ipu3/{ipu3-cio2.c => ipu3-cio2-main.c} (98%)
+
+-- 
+2.25.1
 
