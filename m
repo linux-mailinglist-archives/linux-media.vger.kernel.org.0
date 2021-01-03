@@ -2,244 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2954F2E8CF6
-	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 16:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E88FA2E8CFB
+	for <lists+linux-media@lfdr.de>; Sun,  3 Jan 2021 16:52:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726239AbhACPmt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Jan 2021 10:42:49 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52028 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbhACPms (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Jan 2021 10:42:48 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 4E4291F44287
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2] media: imx6-mipi-csi2: Call remote subdev get_mbus_config to get active lanes
-Date:   Sun,  3 Jan 2021 12:41:54 -0300
-Message-Id: <20210103154155.318300-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1725840AbhACPvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Jan 2021 10:51:37 -0500
+Received: from mail.schramp.com ([188.166.64.204]:56436 "EHLO mail.schramp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725765AbhACPvg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 3 Jan 2021 10:51:36 -0500
+Received: by mail.schramp.com (Postfix, from userid 114)
+        id 7715C43AC1; Sun,  3 Jan 2021 15:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=schramp.com; s=mail;
+        t=1609689054; bh=9KhVk9IwBIRzWRUyoac1IK/+jSwU9d0qh6pPNbiKi2c=;
+        h=From:To:Subject:Date:In-Reply-To:References:Reply-To:From;
+        b=HZPIODcOQF8uTKG7XTTFIkPrMz9AkuQrsBX9JzFvUSlzyohV+SkjQEgoMsRtLXJZJ
+         yez0o+FpYv52uBO5FD4YylW5qxuCxdrKpVG36EBO8Ayx+ICNV6E496Ke1SFcRXshGt
+         YR2hTWPVoOxFqaURx6POtEoqKhDBwjj+MDAOtG5cyqltRT0bwpZNzRKJVUdFEfxU3t
+         +dS00/+H50zUA+A5LS7oX+sSXwd1W+589/4vDv61dNtzUaM/gk4GNZmam72P6ENxM3
+         LRDhWsbM4P6TeNrPsMFcN2i0C1gRlfiqRGT3o1/3IWo9oJD0kC7DJhOtknZf5afZLy
+         mqlnGwuiFVoBA==
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.schramp.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=ham autolearn_force=no version=3.4.2
+Received: from [192.168.178.42] (94-209-128-102.cable.dynamic.v4.ziggo.nl [94.209.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: ruud)
+        by mail.schramp.com (Postfix) with ESMTPSA id 1853D3F152
+        for <linux-media@vger.kernel.org>; Sun,  3 Jan 2021 15:50:53 +0000 (UTC)
+From:   "Ruud Schramp" <ruud@schramp.com>
+To:     linux-media@vger.kernel.org
+Subject: Re: USB Microscope, Manufacturer: Winmax Corp. (ION Slides Forever)
+Date:   Sun, 03 Jan 2021 15:50:51 +0000
+Message-Id: <ema5af2fc1-8db3-4b0c-808a-fe48b5b3dc8e@thor>
+In-Reply-To: <em1c6e7844-98f5-422e-b73c-588532718690@thor>
+References: <em1c6e7844-98f5-422e-b73c-588532718690@thor>
+Reply-To: "Ruud Schramp" <ruud@schramp.com>
+User-Agent: eM_Client/7.2.37929.0
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, the CSI2 subdevice is using the data-lanes from the
-neareast endpoint to config the CSI2 lanes.
-
-While this may work, the proper way to configure the hardware is
-to obtain the remote subdevice in v4l2_async_notifier_operations.bound(),
-and then call get_mbus_config using the remote subdevice to get
-the active lanes.
-
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/imx/TODO             | 12 ---
- drivers/staging/media/imx/imx6-mipi-csi2.c | 99 +++++++++++++++++++---
- 2 files changed, 87 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-index 9cfc1c1e78dc..c575f419204a 100644
---- a/drivers/staging/media/imx/TODO
-+++ b/drivers/staging/media/imx/TODO
-@@ -2,18 +2,6 @@
- - The Frame Interval Monitor could be exported to v4l2-core for
-   general use.
- 
--- The CSI subdevice parses its nearest upstream neighbor's device-tree
--  bus config in order to setup the CSI. Laurent Pinchart argues that
--  instead the CSI subdev should call its neighbor's g_mbus_config op
--  (which should be propagated if necessary) to get this info. However
--  Hans Verkuil is planning to remove the g_mbus_config op. For now this
--  driver uses the parsed DT bus config method until this issue is
--  resolved.
--
--  2020-06: g_mbus has been removed in favour of the get_mbus_config pad
--  operation which should be used to avoid parsing the remote endpoint
--  configuration.
--
- - This media driver supports inheriting V4L2 controls to the
-   video capture devices, from the subdevices in the capture device's
-   pipeline. The controls for each capture device are updated in the
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index 94d87d27d389..8cfd6358c306 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -42,7 +42,10 @@ struct csi2_dev {
- 	struct clk             *pllref_clk;
- 	struct clk             *pix_clk; /* what is this? */
- 	void __iomem           *base;
--	struct v4l2_fwnode_bus_mipi_csi2 bus;
-+
-+	struct v4l2_subdev	*remote;
-+	unsigned int		remote_pad;
-+	unsigned short		data_lanes;
- 
- 	/* lock to protect all members below */
- 	struct mutex lock;
-@@ -138,10 +141,8 @@ static void csi2_enable(struct csi2_dev *csi2, bool enable)
- 	}
- }
- 
--static void csi2_set_lanes(struct csi2_dev *csi2)
-+static void csi2_set_lanes(struct csi2_dev *csi2, unsigned int lanes)
- {
--	int lanes = csi2->bus.num_data_lanes;
--
- 	writel(lanes - 1, csi2->base + CSI2_N_LANES);
- }
- 
-@@ -250,13 +251,12 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
- }
- 
- /* Waits for low-power LP-11 state on data and clock lanes. */
--static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
-+static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2, unsigned int lanes)
- {
- 	u32 mask, reg;
- 	int ret;
- 
--	mask = PHY_STOPSTATECLK | (((1 << csi2->bus.num_data_lanes) - 1) <<
--				   PHY_STOPSTATEDATA_BIT);
-+	mask = PHY_STOPSTATECLK | (((1 << lanes) - 1) << PHY_STOPSTATEDATA_BIT);
- 
- 	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
- 				 (reg & mask) == mask, 0, 500000);
-@@ -300,8 +300,56 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
- 	writel(reg, csi2->base + CSI2IPU_GASKET);
- }
- 
-+static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
-+{
-+	struct v4l2_mbus_config mbus_config = { 0 };
-+	unsigned int num_lanes = UINT_MAX;
-+	int ret;
-+
-+	*lanes = csi2->data_lanes;
-+
-+	ret = v4l2_subdev_call(csi2->remote, pad, get_mbus_config,
-+			       csi2->remote_pad, &mbus_config);
-+	if (ret == -ENOIOCTLCMD) {
-+		dev_dbg(csi2->dev, "No remote mbus configuration available\n");
-+		return 0;
-+	}
-+
-+	if (ret) {
-+		dev_err(csi2->dev, "Failed to get remote mbus configuration\n");
-+		return ret;
-+	}
-+
-+	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-+		dev_err(csi2->dev, "Unsupported media bus type %u\n",
-+			mbus_config.type);
-+		return -EINVAL;
-+	}
-+
-+	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-+		num_lanes = 1;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-+		num_lanes = 2;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-+		num_lanes = 3;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-+		num_lanes = 4;
-+
-+	if (num_lanes > csi2->data_lanes) {
-+		dev_err(csi2->dev,
-+			"Unsupported mbus config: too many data lanes %u\n",
-+			num_lanes);
-+		return -EINVAL;
-+	}
-+
-+	*lanes = num_lanes;
-+
-+	return 0;
-+}
-+
- static int csi2_start(struct csi2_dev *csi2)
- {
-+	unsigned int lanes;
- 	int ret;
- 
- 	ret = clk_prepare_enable(csi2->pix_clk);
-@@ -316,12 +364,16 @@ static int csi2_start(struct csi2_dev *csi2)
- 	if (ret)
- 		goto err_disable_clk;
- 
-+	ret = csi2_get_active_lanes(csi2, &lanes);
-+	if (ret)
-+		goto err_disable_clk;
-+
- 	/* Step 4 */
--	csi2_set_lanes(csi2);
-+	csi2_set_lanes(csi2, lanes);
- 	csi2_enable(csi2, true);
- 
- 	/* Step 5 */
--	csi2_dphy_wait_stopstate(csi2);
-+	csi2_dphy_wait_stopstate(csi2, lanes);
- 
- 	/* Step 6 */
- 	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
-@@ -544,12 +596,35 @@ static int csi2_notify_bound(struct v4l2_async_notifier *notifier,
- {
- 	struct csi2_dev *csi2 = notifier_to_dev(notifier);
- 	struct media_pad *sink = &csi2->sd.entity.pads[CSI2_SINK_PAD];
-+	int pad;
-+
-+	pad = media_entity_get_fwnode_pad(&sd->entity, asd->match.fwnode,
-+					  MEDIA_PAD_FL_SOURCE);
-+	if (pad < 0) {
-+		dev_err(csi2->dev, "Failed to find pad for %s\n", sd->name);
-+		return pad;
-+	}
-+
-+	csi2->remote = sd;
-+	csi2->remote_pad = pad;
-+
-+	dev_dbg(csi2->dev, "Bound %s pad: %d\n", sd->name, pad);
- 
- 	return v4l2_create_fwnode_links_to_pad(sd, sink);
- }
- 
-+static void csi2_notify_unbind(struct v4l2_async_notifier *notifier,
-+			       struct v4l2_subdev *sd,
-+			       struct v4l2_async_subdev *asd)
-+{
-+	struct csi2_dev *csi2 = notifier_to_dev(notifier);
-+
-+	csi2->remote = NULL;
-+}
-+
- static const struct v4l2_async_notifier_operations csi2_notify_ops = {
- 	.bound = csi2_notify_bound,
-+	.unbind = csi2_notify_unbind,
- };
- 
- static int csi2_async_register(struct csi2_dev *csi2)
-@@ -572,10 +647,10 @@ static int csi2_async_register(struct csi2_dev *csi2)
- 	if (ret)
- 		goto err_parse;
- 
--	csi2->bus = vep.bus.mipi_csi2;
-+	csi2->data_lanes = vep.bus.mipi_csi2.num_data_lanes;
- 
--	dev_dbg(csi2->dev, "data lanes: %d\n", csi2->bus.num_data_lanes);
--	dev_dbg(csi2->dev, "flags: 0x%08x\n", csi2->bus.flags);
-+	dev_dbg(csi2->dev, "data lanes: %d\n", vep.bus.mipi_csi2.num_data_lanes);
-+	dev_dbg(csi2->dev, "flags: 0x%08x\n", vep.bus.mipi_csi2.flags);
- 
- 	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
- 	if (!asd) {
--- 
-2.29.2
+>Hello All,
+>
+>This email is just to document my in-vane efforts to add support for my=20
+>ION Slider Forever film scanner.
+>
+>Its USB Id:  0c45:6353
+>
+>The weirdness of the UVC device is that is publishes 2 modes. Both in=20
+>YUYV, however closer inspection of the data shows that the=20
+>high-resolution frame is a Bayer BGGR patern, and the low-resolution is=20
+>YUVY. At the USB level (inspected with wireshark) this is what the=20
+>device tells the driver  so its a bug in the device itself. The low-res=20
+>is actually working fine.
+>
+>I made a QUIRK setting that would hopefully reverse the high-res and=20
+>low-res behaviour making the high-res work and the low-res broken.
+>
+>Its published on:=20
+>https://github.com/Schramp/linux-writeblock/commit/34f8efd8db41aa90baf944b=
+0371c9c015bc4d34f
+>
+>Unfortunately it works only a bit: the decoding and formatting is fine,=20
+>but the white balance in the camera is moving away from the correct=20
+>colours in a matter of a few seconds. I haven't found a way to correct=20
+>that behaviour.
+>
+>For all your reference:
+>
+>The dmesg on a standard kernel:
+>[  416.066239] usb 3-2: new high-speed USB device number 7 using=20
+>xhci_hcd
+>[  416.433911] usb 3-2: New USB device found, idVendor=3D0c45,=20
+>idProduct=3D6353, bcdDevice=3D 1.50
+>[  416.433913] usb 3-2: New USB device strings: Mfr=3D2, Product=3D1,=20
+>SerialNumber=3D0
+>[  416.433914] usb 3-2: Product: USB Microscope
+>[  416.433914] usb 3-2: Manufacturer: Winmax Corp.
+>[  416.439710] uvcvideo: Probing generic UVC device 2
+>[  416.441702] uvcvideo: Found format YUV 4:2:2 (YUYV).
+>[  416.441703] uvcvideo: - 592x392 (30.0 fps)
+>[  416.441703] uvcvideo: - 1184x1576 (5.0 fps)
+>
+>After the patch:
+>[ 7608.448727] usb 3-2: new high-speed USB device number 15 using=20
+>xhci_hcd
+>[ 7608.815179] usb 3-2: New USB device found, idVendor=3D0c45,=20
+>idProduct=3D6353, bcdDevice=3D 1.50
+>[ 7608.815184] usb 3-2: New USB device strings: Mfr=3D2, Product=3D1,=20
+>SerialNumber=3D0
+>[ 7608.815185] usb 3-2: Product: USB Microscope
+>[ 7608.815186] usb 3-2: Manufacturer: Winmax Corp.
+>[ 7608.823248] uvcvideo: Probing known UVC device 2 (0c45:6353)
+>[ 7608.825550] uvcvideo: Forcing UVC_QUIRK_FORCE_BA81
+>[ 7608.825552] uvcvideo: Found format BGGR Bayer (BA81).
+>[ 7608.825552] uvcvideo: - 1184x392 (30.0 fps)
+>[ 7608.825554] uvcvideo: - 2368x1576 (5.0 fps)
+>
+>
+>I hope the information helps the community (or at least saves them from=20
+>re-inventing this broken wheel).
+>
+>Best regards,
+>
+>Ruud Schramp
+>
 
