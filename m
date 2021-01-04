@@ -2,104 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 507962E96C8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 15:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 557B22E96BF
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 15:06:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727146AbhADOGO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 09:06:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42728 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726762AbhADOGO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Jan 2021 09:06:14 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E752D207BC;
-        Mon,  4 Jan 2021 14:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609769132;
-        bh=79TsA1bA8DKt3n7SY5XnXtm3knysfw0cfWKMLdkrzAc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iHN9zNRZrzzhE+ofXqwGY3v8yznfietvgJMSpIw+/Hb+3GY0GuhJL7mLLW9bt9kcZ
-         PxcqgpZD5FhAKNG8I5jGEXGBvLQpBmco8xGjMnaIc4EebNiLVje0BlJWOj45JL0/PB
-         vxtEJY5OhIuVTA6E/Lui4XNWCjztT9yf7D3//WPmqcmmDQBgRTjNFYUHE+LDDdYS2G
-         vDbXQowhqqzHV+4MYe0UswMc695n3mCySu0MBMSim5Ss3EsWmxmlkITnnS4eNLG3ZK
-         qcONCWIJbRc577IYCOT74XxUKKbK+estp/16xd1zq3Gyj1t5BuDxRAMQebZh9HQ2Px
-         ydgmSJ/nP9dUA==
-Date:   Mon, 4 Jan 2021 14:05:06 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Yangtao Li <tiny.windzz@gmail.com>
-Cc:     myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
-        cw00.choi@samsung.com, krzk@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, digetx@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie,
-        daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
-        robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
-        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        lukasz.luba@arm.com, adrian.hunter@intel.com,
-        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
-        sboyd@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        rjw@rjwysocki.net, jcrouse@codeaurora.org, hoegsberg@google.com,
-        eric@anholt.net, tzimmermann@suse.de,
-        marijn.suijten@somainline.org, gustavoars@kernel.org,
-        emil.velikov@collabora.com, jonathan@marek.ca,
-        akhilpo@codeaurora.org, smasetty@codeaurora.org,
-        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
-        tanmay@codeaurora.org, ddavenport@chromium.org,
-        jsanka@codeaurora.org, rnayak@codeaurora.org,
-        tongtiangen@huawei.com, miaoqinglang@huawei.com,
-        khsieh@codeaurora.org, abhinavk@codeaurora.org,
-        chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
-        mka@chromium.org, harigovi@codeaurora.org,
-        rikard.falkeborn@gmail.com, natechancellor@gmail.com,
-        georgi.djakov@linaro.org, akashast@codeaurora.org,
-        parashar@codeaurora.org, dianders@chromium.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH 14/31] spi: spi-qcom-qspi: convert to use devm_pm_opp_*
- API
-Message-ID: <20210104140506.GF5645@sirena.org.uk>
-References: <20210101165507.19486-1-tiny.windzz@gmail.com>
- <20210101165507.19486-15-tiny.windzz@gmail.com>
+        id S1727091AbhADOF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 09:05:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725840AbhADOF4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 09:05:56 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA52DC061574
+        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 06:05:15 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id g185so19422060wmf.3
+        for <linux-media@vger.kernel.org>; Mon, 04 Jan 2021 06:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=qI9pgI8QN03NxyaYrEoFCjNEpXaU69KlxstEMnwn+Gs=;
+        b=VgYsXIax45+75N/IMLP8SUzWZdkBOd7k3XfvjdHDU58J/0jMSxosFHyeU386QiKK/0
+         jCVzWlWb1gXz4VdU7d7z7IK+NMZeybAfTKRJ2BtghldTwpyT0Hc7y4pWeR95EseaEnF+
+         eg7br5qbZ3/dBaDPG6slyEDNpV2rhRk2SzUS/nT9lPVjDQ2CoT6i76FZ6w3UPfLZE/3r
+         4ALxOJq8t/hJ7KgUeG3ro/MZEe/eCkL20MhZseES0igaSGEGoV4zsv/qjQXCzaLXUgt1
+         IZJFN4nTk3DlurDmZkifn8p22fx+jYfsGGy+2B+bu1kMXDZDne5gJV3/DVXUAqYxadrf
+         pjBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qI9pgI8QN03NxyaYrEoFCjNEpXaU69KlxstEMnwn+Gs=;
+        b=jHQPQMPC+71qALa6Wn9o6l9/sxCUokbR7FTox87uqKG3qOHFyr7Gktl3af4CnkC+eD
+         93L/AjYBMOX4jQEPv+CmNstlkjFqPsVGg8w300m6XtzwaeGF48/YvX3cmtr/gacKAH6q
+         P1jVfRWKy5oVYT1xOjMj8dUU/Iah8sEpXSiLLHiZHOF02FT+xoUSCUAvxhHsVCQ+5JbG
+         z9R/EMB20FuDZTkzHGc6utT7HL5FQFmmfRMdnDw5Zl6lNcntj5Pqxg043EximzYT05zK
+         4kWIH6OJHVs5BgjtpsnnubBPuefSTf9a2McXfSdeUrNGT70Aw70dkFwrVJvUZEEC13yW
+         wLDg==
+X-Gm-Message-State: AOAM530j21CAkEfEw09WKS0kIPLonwhRJ5om8ZmGzKVwBttjCUF6+EFZ
+        MSexjLqswfAFzIUgyuoz2lA=
+X-Google-Smtp-Source: ABdhPJyvWioy0CATmPLUIenotXRwki0oluHceGjj9wnfR9SERV+XX3kEgseplKYCUyQXgUUgy7K9tA==
+X-Received: by 2002:a1c:790f:: with SMTP id l15mr27331294wme.188.1609769114470;
+        Mon, 04 Jan 2021 06:05:14 -0800 (PST)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id u13sm92826286wrw.11.2021.01.04.06.05.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jan 2021 06:05:13 -0800 (PST)
+Date:   Mon, 4 Jan 2021 14:05:11 +0000
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        =?utf-8?Q?S=C3=A9bastien?= Szymanski 
+        <sebastien.szymanski@armadeus.com>
+Subject: Re: imx6ull capture from OV5640
+Message-ID: <20210104140511.ao7dprd5adpvut4m@arch-thunder.localdomain>
+References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
+ <X/KwKikMayH8AHnG@pendragon.ideasonboard.com>
+ <CAOMZO5Dh-AKveQneMy5cuvWAX2PwTuC9Xq9rXMfAMD3WUoVGsg@mail.gmail.com>
+ <X/MTatdI+tDQ/PQI@pendragon.ideasonboard.com>
+ <20210104134511.4on6y6o6hdwdbthd@arch-thunder.localdomain>
+ <X/MdDzJUqTDSbupS@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4VrXvz3cwkc87Wze"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210101165507.19486-15-tiny.windzz@gmail.com>
-X-Cookie: Stupidity is its own reward.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <X/MdDzJUqTDSbupS@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
+On Mon, Jan 04, 2021 at 03:50:07PM +0200, Laurent Pinchart wrote:
+> Hi Rui,
+> 
+> On Mon, Jan 04, 2021 at 01:45:11PM +0000, Rui Miguel Silva wrote:
+> > Hi, catching up with this thread.
+> > 
+> > On Mon, Jan 04, 2021 at 03:08:58PM +0200, Laurent Pinchart wrote:
+> > > On Mon, Jan 04, 2021 at 08:34:48AM -0300, Fabio Estevam wrote:
+> > > > On Mon, Jan 4, 2021 at 3:05 AM Laurent Pinchart wrote:
+> > > > 
+> > > > > That's not right, csi->is_csi2 is a flag that indicates if
+> > > > > the current input to the CSI comes from the CSI-2 receiver.
+> > > > >
+> > > > > It looks like the i.MX6ULL is missing the MIPI CSI-2
+> > > > > receiver and thus also the corresponding video mux. The
+> > > > > WARN_ON() should thus indeed by bypassed, but only for
+> > > > > devices that don't have the video mux. I wouldn't
+> > > > 
+> > > > Unlike i.MX7, i.MX6UL/i.MX6ULL do not have a MIPI CSI-2 IP
+> > > > block.
+> > > > 
+> > > > They only have a parallel CSI interface, and no video mux is
+> > > > present.
+> > > > 
+> > > > So the csi->is_csi2 check I did seems correct, right?
+> > > 
+> > > I don't think so. csi->is_csi2 tells if the currently selected
+> > > input of the video mux is the CSI-2 receiver, not if there's a
+> > > CSI-2 receiver present in the device. csi->is_csi2 should of
+> > > course always be false when there's no CSI-2 receiver, but it
+> > > can be false when a CSI-2 receiver is present and the currently
+> > > selected input is the parallel input.
+> > 
+> > Laurent is correct here. That flag indicates if CSI-2 is the
+> > selected input for the video mux.
+> > 
+> > > > > be surprised if other adaptations would be needed in the
+> > > > > code.
+> > 
+> > I really only had the warp7 board which only had the csi2 as video
+> > mux input, never got the chance to test it with a parallel input.
+> > And the driver expects that we always have a mux. I was not even
+> > aware that an imx6 would have the same csi ip.
+> > 
+> > but from the error outputs looks issues getting the format around
+> > the imx7_csi_{try, get}_fmt.
+> 
+> Do you still have the hardware, would you be able to test a patch
+> series ?
 
---4VrXvz3cwkc87Wze
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yeah, I have it somewhere... it could take a couple of days to
+restore the setup, but possible for sure.
 
-On Fri, Jan 01, 2021 at 04:54:50PM +0000, Yangtao Li wrote:
-> Use devm_pm_opp_* API to simplify code, and remove opp_table
-> from qcom_qspi.
+------
+Cheers,
+     Rui
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---4VrXvz3cwkc87Wze
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/zIJEACgkQJNaLcl1U
-h9DFeQf+IHePH8ftvRUXVVunMDt5ucIZpHjc+KGKU8AM3jyZ+Xyy7jpftefB54+O
-D0zp7MZ5qmBT4HlKD4cibZcvesuW18PPYrUMXVV3H8MuTBZMfvl+XDsWm0NvMjE+
-mG+w8bSqPUM9Mjo5wa7UN8bbEjHzNtPZt0lUNfN+k0NGXJ3XhN5WtH3eGXQAPaIn
-o5aKfPOue5R/hIy2XhK9W7VLqa8NwnhL7tCfYme/Eto/F4ygM/JVeTwdMOeKe3Gi
-SeDV7n7fe5oPecANOGYXE6gdO2c7oAcJl36gxh2rjpz/yGyCykjmHBxU/YdSV3Jk
-T8oGZSZjqmlT+HfPp7aRXPMXmf3ncQ==
-=ApdX
------END PGP SIGNATURE-----
-
---4VrXvz3cwkc87Wze--
+> 
+> > > > Yes, I found other paths that miss the csi->is_csi2 check too.
+> 
+> -- Regards,
+> 
+> Laurent Pinchart
