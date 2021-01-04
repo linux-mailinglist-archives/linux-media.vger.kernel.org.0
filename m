@@ -2,73 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC86C2E958A
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 14:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9320F2E959E
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 14:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726602AbhADNF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 08:05:29 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:45560 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726278AbhADNF3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Jan 2021 08:05:29 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kwPXT-000Kms-73; Mon, 04 Jan 2021 13:04:47 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kwPap-0002A0-DA; Mon, 04 Jan 2021 13:08:15 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.12] Additional CCS driver features (#70395)
-Date:   Mon,  4 Jan 2021 13:08:15 +0000
-Message-Id: <20210104130815.8263-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210104123850.GC850@valkosipuli.retiisi.org.uk>
-References: 
+        id S1726345AbhADNJy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 08:09:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725830AbhADNJy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 08:09:54 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A4EC061793
+        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 05:09:13 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 500762E0;
+        Mon,  4 Jan 2021 14:09:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1609765751;
+        bh=ytzEZPMjImbs14xCLsXgpNvQ805jokY97SYanJCiK+A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Xs/0tyWizN3yykZmNfc9uI5hExNdpkR2hsw2iQYYwDP5H8AqagE9q0eDHOw6UszwI
+         0nNIuJV+1rfDzwN/JFU+RG6V4kOODdRVglgIhFTQoeb7wySl13vW8iqPBFgVxLzPqx
+         /FgqWomQCjds+8157ZDqI00nDC/FTzFZkTf3wGjs=
+Date:   Mon, 4 Jan 2021 15:08:58 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        =?utf-8?Q?S=C3=A9bastien?= Szymanski 
+        <sebastien.szymanski@armadeus.com>
+Subject: Re: imx6ull capture from OV5640
+Message-ID: <X/MTatdI+tDQ/PQI@pendragon.ideasonboard.com>
+References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
+ <X/KwKikMayH8AHnG@pendragon.ideasonboard.com>
+ <CAOMZO5Dh-AKveQneMy5cuvWAX2PwTuC9Xq9rXMfAMD3WUoVGsg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAOMZO5Dh-AKveQneMy5cuvWAX2PwTuC9Xq9rXMfAMD3WUoVGsg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Fabio,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210104123850.GC850@valkosipuli.retiisi.org.uk/
-Build log: https://builder.linuxtv.org/job/patchwork/84316/
-Build time: 00:15:32
-Link: https://lore.kernel.org/linux-media/20210104123850.GC850@valkosipuli.retiisi.org.uk
+On Mon, Jan 04, 2021 at 08:34:48AM -0300, Fabio Estevam wrote:
+> On Mon, Jan 4, 2021 at 3:05 AM Laurent Pinchart wrote:
+> 
+> > That's not right, csi->is_csi2 is a flag that indicates if the current
+> > input to the CSI comes from the CSI-2 receiver.
+> >
+> > It looks like the i.MX6ULL is missing the MIPI CSI-2 receiver and thus
+> > also the corresponding video mux. The WARN_ON() should thus indeed by
+> > bypassed, but only for devices that don't have the video mux. I wouldn't
+> 
+> Unlike i.MX7, i.MX6UL/i.MX6ULL do not have a MIPI CSI-2 IP block.
+> 
+> They only have a parallel CSI interface, and no video mux is present.
+> 
+> So the csi->is_csi2 check I did seems correct, right?
 
-gpg: Signature made Mon 04 Jan 2021 12:27:47 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
+I don't think so. csi->is_csi2 tells if the currently selected input of
+the video mux is the CSI-2 receiver, not if there's a CSI-2 receiver
+present in the device. csi->is_csi2 should of course always be false
+when there's no CSI-2 receiver, but it can be false when a CSI-2
+receiver is present and the currently selected input is the parallel
+input.
 
-Summary: got 3/25 patches with issues, being 0 at build time, plus one error when buinding PDF document
+> > be surprised if other adaptations would be needed in the code.
+> 
+> Yes, I found other paths that miss the csi->is_csi2 check too.
 
-Error/warnings:
+-- 
+Regards,
 
-patches/0008-ccs-Add-support-for-analogue-gain-coefficient-contro.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-ccs-Add-support-for-analogue-gain-coefficient-contro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:65: CHECK: multiple assignments should be avoided
-
-patches/0010-ccs-Add-support-for-alternate-analogue-global-gain.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-ccs-Add-support-for-alternate-analogue-global-gain.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:76: CHECK: multiple assignments should be avoided
-
-patches/0018-ccs-Hardware-requires-a-delay-after-starting-the-clo.patch:
-
-   checkpatch.pl:
-	$ cat patches/0018-ccs-Hardware-requires-a-delay-after-starting-the-clo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:67: WARNING: usleep_range should not use min == max args; see Documentation/timers/timers-howto.rst
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
