@@ -2,119 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 510772E9B60
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 17:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81A192E9B68
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 17:58:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbhADQzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 11:55:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54278 "EHLO
+        id S1726505AbhADQ6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 11:58:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726019AbhADQzL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 11:55:11 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38EC4C061574
-        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 08:54:31 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id m5so32822898wrx.9
-        for <linux-media@vger.kernel.org>; Mon, 04 Jan 2021 08:54:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=RzTuoUDoBn5Bb1r+GxfSIluUvd8nw1+p4UY0jg2OjzA=;
-        b=BDaYHBfo7gwAe+wIsABQ4+OIkNZBBE4n7VzK9qvf7L44MQHd8mAImvqzAW6TuRAese
-         56S3AauUwcdElFxuifBxhet0eiwYzQRzILs7tPp+rRjmlY6nLXNwDWvXUBEFRyj5jcQ1
-         +857qpuAQ73q0JgOXXHk9g6WN4/ldNGlOUtFGR5EBRU1i038jRpiqDQ4aNhfHklM8QEX
-         2XZU0uBBfVw4L0N7Yxx5IJ+hLHZ42KBNYgbEYqaYx9bb9IsNWLDAxL4MGVIkIYdFNhOT
-         N4kPuZUA81XfyqPaZFWOilrBxkfbFBzcu4B8Z/PFah4LraQKk43q/ppSwDp+LN46veOU
-         OeoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=RzTuoUDoBn5Bb1r+GxfSIluUvd8nw1+p4UY0jg2OjzA=;
-        b=F8ieWMiPB9T0YxEyRsX+6ZVIzY0VrDjxh1JvshS9ZkDcUfJcyDsKgwLsKy9kiDLCIW
-         u6LVYDjuPR92WujwpNjy8hCQxrhZSvjcvhwnp5CYQGObRHxhoRjjESN7HiscEhcMunZf
-         HjJgKmDqLB3AG8CdE13PtxiWpxxknOKOKkV9Tw39G/VSl5f243cdt1Ks/KxIgIE2luCs
-         4RuavaamDlKphczUCzB4tC+y4qwd5CsBpfMXHICjLWqro5ZA0cwYultTb5/PUfUx5tnv
-         0OfZ2MqfrRxf6mDgeTF1SYht8XILzm2IfVYdQ+fiq4EdeeaAqyniK1ZRJ6jKfMmjGOcV
-         2YmQ==
-X-Gm-Message-State: AOAM533WgUMtChJNuQdxvF+29J+SviUh5xWQLrF6IjGe4yg0z02QBGSc
-        zpG7XXFBOhgtgLxCCeLpvLNN8btKHEfsTQ==
-X-Google-Smtp-Source: ABdhPJyvVGoSDzIy96/DIqFDXSQ1OWIzutoecu+HHECK2V1MlR+hTcNxQo2TrLmxkPDVKNY05ChoUQ==
-X-Received: by 2002:a5d:4d4f:: with SMTP id a15mr80805873wru.315.1609779270022;
-        Mon, 04 Jan 2021 08:54:30 -0800 (PST)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id z15sm94202950wrv.67.2021.01.04.08.54.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jan 2021 08:54:29 -0800 (PST)
-Date:   Mon, 4 Jan 2021 16:54:27 +0000
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        =?utf-8?Q?S=C3=A9bastien?= Szymanski 
-        <sebastien.szymanski@armadeus.com>
-Subject: Re: imx6ull capture from OV5640
-Message-ID: <20210104165427.sajgkcr7ss5wrmow@arch-thunder.localdomain>
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <X/KwKikMayH8AHnG@pendragon.ideasonboard.com>
- <CAOMZO5Dh-AKveQneMy5cuvWAX2PwTuC9Xq9rXMfAMD3WUoVGsg@mail.gmail.com>
- <X/MTatdI+tDQ/PQI@pendragon.ideasonboard.com>
- <20210104134511.4on6y6o6hdwdbthd@arch-thunder.localdomain>
- <CAOMZO5BtQsM+wR0i=bqLMhAXqdwJ5Eag1DNzUHCf+oGmntVoOQ@mail.gmail.com>
+        with ESMTP id S1726189AbhADQ6b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 11:58:31 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B2EFC061574
+        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 08:57:51 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 427AC1F44B6C
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Petr Cvek <petrcvekcz@gmail.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH 0/6] Remove last users of v4l2-clk and remove v4l2-clk
+Date:   Mon,  4 Jan 2021 13:57:33 -0300
+Message-Id: <20210104165739.116404-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOMZO5BtQsM+wR0i=bqLMhAXqdwJ5Eag1DNzUHCf+oGmntVoOQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
-On Mon, Jan 04, 2021 at 01:21:53PM -0300, Fabio Estevam wrote:
-> H Rui,
-> 
-> On Mon, Jan 4, 2021 at 10:45 AM Rui Miguel Silva <rmfrfs@gmail.com>
-> wrote:
-> 
-> > I really only had the warp7 board which only had the csi2 as video
-> > mux input, never got the chance to test it with a parallel input.
-> > And the driver expects that we always have a mux. I was not even
-> > aware that an imx6 would have the same csi ip.
-> 
-> Please check the following commit:
+The V4L2 temporary clock helper API is used by just one last capture
+driver, pxa-camera, which registers a dummy clock; and then by just
+a few sensor drivers, consuming clocks through the v4l2-clk API.
 
-yeah, of course I am aware of this patch, when I said I was not aware
-any imx6 had the same csi ip was at the time of creating the initial
-imx7 driver, not now.
+It's possible to convert these few last users, and so remove
+the v4l2-clk API, which hasn't been used for a few years.
 
-Now I know it, but I never test in a parallel input scenario, the
-changes from Sebastien in that patch were very small and specific to
-setup csi for a parallel input and I think they worked fro him and did
-not break the mipi-csi input type.
+The sensor drivers are already using the CCF API,
+which v4l2-clk API uses as fallback.
 
-------
-Cheers,
-     Rui
-> 
-> commit 0486a18ce82bd00d69ddc0fab8faa4b80df2117b Author: Sébastien
-> Szymanski <sebastien.szymanski@armadeus.com> Date:   Wed Jul 31
-> 13:33:30 2019 -0300
-> 
->     media: imx7-media-csi: add i.MX6UL support
-> 
->     i.MX7 and i.MX6UL/L have the same CSI controller. So add
->     i.MX6UL/L support to imx7-media-csi driver.
-> 
->     Signed-off-by: Sébastien Szymanski
->     <sebastien.szymanski@armadeus.com> Reviewed-by: Rui Miguel Silva
->     <rmfrfs@gmail.com> Reviewed-by: Fabio Estevam
->     <festevam@gmail.com> Signed-off-by: Sakari Ailus
->     <sakari.ailus@linux.intel.com> Signed-off-by: Mauro Carvalho
->     Chehab <mchehab+samsung@kernel.org>
+To convert the pxa-camera driver, a fixed-rate clock
+is registered for the mach-based platforms that still exist,
+for mt9m111 to work (the only sensor that PXA currently
+registers).
+
+Ezequiel Garcia (6):
+  media: mach-pxa: Register the camera sensor fixed-rate clock
+  media: pxa_camera: Drop the v4l2-clk clock register
+  media: ov9640: Use the generic clock framework
+  media: mt9m111: Use the generic clock framework
+  media: ov6650: Use the generic clock framework
+  media: Remove the legacy v4l2-clk API
+
+ .../driver-api/media/v4l2-clocks.rst          |  31 --
+ Documentation/driver-api/media/v4l2-core.rst  |   1 -
+ arch/arm/mach-pxa/devices.c                   |   8 +
+ drivers/media/i2c/mt9m111.c                   |  17 +-
+ drivers/media/i2c/ov6650.c                    |  26 +-
+ drivers/media/i2c/ov9640.c                    |  15 +-
+ drivers/media/i2c/ov9640.h                    |   4 +-
+ drivers/media/platform/pxa_camera.c           |  30 +-
+ drivers/media/v4l2-core/Makefile              |   2 +-
+ drivers/media/v4l2-core/v4l2-clk.c            | 321 ------------------
+ include/media/v4l2-clk.h                      |  73 ----
+ 11 files changed, 37 insertions(+), 491 deletions(-)
+ delete mode 100644 Documentation/driver-api/media/v4l2-clocks.rst
+ delete mode 100644 drivers/media/v4l2-core/v4l2-clk.c
+ delete mode 100644 include/media/v4l2-clk.h
+
+-- 
+2.29.2
+
