@@ -2,111 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E574F2E953A
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 13:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B5582E9560
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 13:59:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbhADMqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 07:46:30 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:42364 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726586AbhADMq1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Jan 2021 07:46:27 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kwPF3-000JX0-7R; Mon, 04 Jan 2021 12:45:45 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kwPIP-0007u5-SD; Mon, 04 Jan 2021 12:49:13 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.12] V4L2 camera sensor and other patches (#70394)
-Date:   Mon,  4 Jan 2021 12:49:13 +0000
-Message-Id: <20210104124913.30338-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210104120612.GB850@valkosipuli.retiisi.org.uk>
-References: 
+        id S1726693AbhADM6T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 07:58:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726502AbhADM6T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 07:58:19 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2DCCC061574;
+        Mon,  4 Jan 2021 04:57:38 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id d26so32018389wrb.12;
+        Mon, 04 Jan 2021 04:57:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=ggZkcYC9h5eVQbnMgWr/AEjs49D98jiYmnWX9w592LA=;
+        b=RthGD3EnZ0QY82azYylIrogBzOuAAMaMnijfhP1X2DdqXrhTEPiIcU5VrcujCuQL2q
+         DCZqVEgCC54uR3LGvnOpFgEiwvcn11L2tFFx2I0GPDi2TUH0RMMeAdxeHcu6zwt8JGnS
+         0YcdUq/y/Gp9AaGaNkMI755ZU5ZrLg54gSfaa8rzEaurBFDeuABmcUtMxq/Cq5cZXwd6
+         1LDeB9CrRVwxUsgOXI5/y2T89JyLiyz7yvAdDAoLz4eQ/uAnZJgCnKm8G/Zf34K5mXPH
+         6De2HngJjL8JhC2ku8v8oSb5pUQCfAcRJiWOcweeWqk9ueua30ZTSHvuordU73FUkKTE
+         tu7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=ggZkcYC9h5eVQbnMgWr/AEjs49D98jiYmnWX9w592LA=;
+        b=Naqk4RitQDKG+S+EIsuL9m43TcKQv1j6JlsAbvHt9gC1PhltPs9f+OzCFGIe8AFI1V
+         2SucSP2NOYxo3KWAjDIWLs0E1ylNm2/3s8FxuxcDVw5Gu/uGkmi3aLXSDZ1eIrQfl/tU
+         xE26lRoGSggqDg3wuS9ay4Bl9LHcyGQz8fEOLVti+1rdfL7pEPMfTftVtasIjz+dWNgs
+         5qIX6PFVv+PW7BHtYSxboJlh+nohqPgVJZLN2Quv+dr4kppEyZjKLOUPpVoFj0fNzfPG
+         pO+yTH0SZ7ztsGITqR0Okkab6oZaCwyb9UtWg2Qfv9uPDl7BqP143pGoSupd3Vb8Y843
+         f0Kw==
+X-Gm-Message-State: AOAM5335z8iIus/83o8+i9tDqjj/bR09l3n+wl4fGG2Ma9spUwqknlb5
+        JmH9TBAZa+5Xk1hkdvfrBhw=
+X-Google-Smtp-Source: ABdhPJybuSzgoyfe7x0voEhgCYurOZwxvWtHX/XkD78yXa/Fkmh73V1dqnivY+FCfRVigb88QV50iA==
+X-Received: by 2002:a05:6000:144f:: with SMTP id v15mr65709613wrx.138.1609765056599;
+        Mon, 04 Jan 2021 04:57:36 -0800 (PST)
+Received: from [192.168.1.211] ([2.29.208.120])
+        by smtp.gmail.com with ESMTPSA id i16sm87087466wrx.89.2021.01.04.04.57.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Jan 2021 04:57:36 -0800 (PST)
+Subject: Re: [PATCH v4 13/15] acpi: Add acpi_dev_get_next_match_dev() and
+ helper macro
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org,
+        gregkh@linuxfoundation.org, rjw@rjwysocki.net,
+        sergey.senozhatsky@gmail.com, mchehab@kernel.org, lenb@kernel.org,
+        yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
+        rostedt@goodmis.org, linux@rasmusvillemoes.dk,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        hverkuil-cisco@xs4all.nl, m.felsch@pengutronix.de,
+        niklas.soderlund+renesas@ragnatech.se, slongerbeam@gmail.com,
+        heikki.krogerus@linux.intel.com, linus.walleij@linaro.org
+References: <20210103231235.792999-1-djrscally@gmail.com>
+ <20210103231235.792999-14-djrscally@gmail.com>
+ <20210104124228.GU4077@smile.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <589d7078-60e6-ae2b-dbb2-bbe5b8ef7775@gmail.com>
+Date:   Mon, 4 Jan 2021 12:57:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210104124228.GU4077@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210104120612.GB850@valkosipuli.retiisi.org.uk/
-Build log: https://builder.linuxtv.org/job/patchwork/84315/
-Build time: 00:24:32
-Link: https://lore.kernel.org/linux-media/20210104120612.GB850@valkosipuli.retiisi.org.uk
-
-gpg: Signature made Mon 04 Jan 2021 11:51:32 AM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
-
-Summary: got 7/47 patches with issues, being 0 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0020-media-ov5647-Add-SGGBR10_1X10-modes.patch:
-
-   checkpatch.pl:
-	$ cat patches/0020-media-ov5647-Add-SGGBR10_1X10-modes.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:16: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-	-:16: WARNING: Unknown commit id '581dfda6d0a62', maybe rebased or not pulled?
-
-patches/0025-media-ov5647-Support-V4L2_CID_HBLANK-control.patch:
-
-   checkpatch.pl:
-	$ cat patches/0025-media-ov5647-Support-V4L2_CID_HBLANK-control.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-	-:9: WARNING: Unknown commit id 'd82f202156605', maybe rebased or not pulled?
-
-patches/0037-v4l-ioctl-Fix-memory-leak-in-video_usercopy.patch:
-
-   checkpatch.pl:
-	$ cat patches/0037-v4l-ioctl-Fix-memory-leak-in-video_usercopy.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:53: CHECK: Comparison to NULL could be written "!array_buf"
-
-patches/0043-dt-bindings-media-i2c-Add-OV5648-bindings-documentat.patch:
-
-   checkpatch.pl:
-	$ cat patches/0043-dt-bindings-media-i2c-Add-OV5648-bindings-documentat.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0044-media-i2c-Add-support-for-the-OV5648-image-sensor.patch:
-
-   checkpatch.pl:
-	$ cat patches/0044-media-i2c-Add-support-for-the-OV5648-image-sensor.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:65: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:567: CHECK: Macro argument 'c' may be better as '(c)' to avoid precedence issues
-	-:726: CHECK: struct mutex definition without comment
-	-:2375: CHECK: multiple assignments should be avoided
-	-:2376: CHECK: multiple assignments should be avoided
-
-patches/0045-dt-bindings-media-i2c-Add-OV8865-bindings-documentat.patch:
-
-   checkpatch.pl:
-	$ cat patches/0045-dt-bindings-media-i2c-Add-OV8865-bindings-documentat.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:23: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0046-media-i2c-Add-support-for-the-OV8865-image-sensor.patch:
-
-   checkpatch.pl:
-	$ cat patches/0046-media-i2c-Add-support-for-the-OV8865-image-sensor.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:73: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:172: CHECK: Prefer using the BIT macro
-	-:303: CHECK: Please don't use multiple blank lines
-	-:349: CHECK: Prefer using the BIT macro
-	-:539: CHECK: Macro argument 'c' may be better as '(c)' to avoid precedence issues
-	-:750: CHECK: struct mutex definition without comment
-	-:1678: CHECK: Alignment should match open parenthesis
-	-:2739: CHECK: multiple assignments should be avoided
-	-:2740: CHECK: multiple assignments should be avoided
-
-
-Error #512 when building PDF docs
-
+On 04/01/2021 12:42, Andy Shevchenko wrote:
+> On Sun, Jan 03, 2021 at 11:12:33PM +0000, Daniel Scally wrote:
+>> To ensure we handle situations in which multiple sensors of the same
+>> model (and therefore _HID) are present in a system, we need to be able
+>> to iterate over devices matching a known _HID but unknown _UID and _HRV
+>>  - add acpi_dev_get_next_match_dev() to accommodate that possibility and
+>> change acpi_dev_get_first_match_dev() to simply call the new function
+>> with a NULL starting point. Add an iterator macro for convenience.
+> I guess we need Rafael's blessing on this.
+For this one yes
