@@ -2,105 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B960B2E965E
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 14:51:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C82A2E9678
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 14:59:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbhADNvC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 08:51:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726098AbhADNvC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 08:51:02 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13716C061793
-        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 05:50:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 239C32E0;
-        Mon,  4 Jan 2021 14:50:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609768220;
-        bh=lH8IFBJP7rSl4OSWT8Z1OF6yr61MNNTdBfxqkX+asPc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rJeUeRCp1noWO/PLYcrdG+LzdbZ9rm1X9k8sBnAeKjyf6wGNiSHQ49E2iHpKbm1cW
-         LLaC0FWsimORqoJzNO2NIzt1l6maV9piLmWKFs7WdzZhmxyCPcMQRl1/GOOafFSDlO
-         PR3ObRF2pb/bQJzjOpnkhyD773WKNSbftkAHwCWg=
-Date:   Mon, 4 Jan 2021 15:50:07 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        =?utf-8?Q?S=C3=A9bastien?= Szymanski 
-        <sebastien.szymanski@armadeus.com>
-Subject: Re: imx6ull capture from OV5640
-Message-ID: <X/MdDzJUqTDSbupS@pendragon.ideasonboard.com>
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <X/KwKikMayH8AHnG@pendragon.ideasonboard.com>
- <CAOMZO5Dh-AKveQneMy5cuvWAX2PwTuC9Xq9rXMfAMD3WUoVGsg@mail.gmail.com>
- <X/MTatdI+tDQ/PQI@pendragon.ideasonboard.com>
- <20210104134511.4on6y6o6hdwdbthd@arch-thunder.localdomain>
+        id S1726969AbhADN5x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 08:57:53 -0500
+Received: from mga06.intel.com ([134.134.136.31]:42214 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725830AbhADN5x (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Jan 2021 08:57:53 -0500
+IronPort-SDR: ajTwUpv9vdDukyjkbw7QYVjJCYPZ6AjJp2bk8B8GqGKIsgH6KcWU3OIWZjmUjDx2VOcOgNOnuY
+ XSN6eWXjg2nA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9853"; a="238504381"
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="238504381"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 05:56:06 -0800
+IronPort-SDR: 2Vbt0yhUumUuuxHYcnaUFIXxXKYUTubjc2t3IONfE5l9Op3sI71pHqEty7ZDY4aWzCPELH1EMl
+ UxtERwrEo5Vg==
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="565109341"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 05:56:05 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id A4CBA206FD; Mon,  4 Jan 2021 15:55:33 +0200 (EET)
+Date:   Mon, 4 Jan 2021 15:55:33 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
+Subject: Re: [PATCH 2/2] media: i2c: Add OV1063x sensor driver
+Message-ID: <20210104135533.GM11878@paasikivi.fi.intel.com>
+References: <20210104053945.12409-1-laurent.pinchart@ideasonboard.com>
+ <20210104053945.12409-3-laurent.pinchart@ideasonboard.com>
+ <20210104124700.GL11878@paasikivi.fi.intel.com>
+ <X/MSgbOQ3ATJH5At@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210104134511.4on6y6o6hdwdbthd@arch-thunder.localdomain>
+In-Reply-To: <X/MSgbOQ3ATJH5At@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rui,
-
-On Mon, Jan 04, 2021 at 01:45:11PM +0000, Rui Miguel Silva wrote:
-> Hi,
-> catching up with this thread.
+On Mon, Jan 04, 2021 at 03:05:05PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> On Mon, Jan 04, 2021 at 03:08:58PM +0200, Laurent Pinchart wrote:
-> > On Mon, Jan 04, 2021 at 08:34:48AM -0300, Fabio Estevam wrote:
-> > > On Mon, Jan 4, 2021 at 3:05 AM Laurent Pinchart wrote:
-> > > 
-> > > > That's not right, csi->is_csi2 is a flag that indicates if the
-> > > > current input to the CSI comes from the CSI-2 receiver.
-> > > >
-> > > > It looks like the i.MX6ULL is missing the MIPI CSI-2 receiver
-> > > > and thus also the corresponding video mux. The WARN_ON() should
-> > > > thus indeed by bypassed, but only for devices that don't have
-> > > > the video mux. I wouldn't
-> > > 
-> > > Unlike i.MX7, i.MX6UL/i.MX6ULL do not have a MIPI CSI-2 IP block.
-> > > 
-> > > They only have a parallel CSI interface, and no video mux is
-> > > present.
-> > > 
-> > > So the csi->is_csi2 check I did seems correct, right?
+> On Mon, Jan 04, 2021 at 02:47:00PM +0200, Sakari Ailus wrote:
+> > Hi Laurent,
 > > 
-> > I don't think so. csi->is_csi2 tells if the currently selected input
-> > of the video mux is the CSI-2 receiver, not if there's a CSI-2
-> > receiver present in the device. csi->is_csi2 should of course always
-> > be false when there's no CSI-2 receiver, but it can be false when a
-> > CSI-2 receiver is present and the currently selected input is the
-> > parallel input.
+> > On Mon, Jan 04, 2021 at 07:39:45AM +0200, Laurent Pinchart wrote:
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index 878f66ef2719..84a97989775e 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -1050,6 +1050,18 @@ config VIDEO_OV9650
+> > >  	  This is a V4L2 sensor driver for the Omnivision
+> > >  	  OV9650 and OV9652 camera sensors.
+> > >  
+> > > +config VIDEO_OV10633
+> > > +	tristate "OmniVision OV10633/OV10635 sensor support"
+> > > +	depends on I2C && VIDEO_V4L2
+> > > +	depends on GPIOLIB && OF
+> > > +	select MEDIA_CONTROLLER
+> > > +	select REGMAP_I2C
+> > 
+> > Should this be SCCB instead?
+> > 
+> > Likewise for the driver.
 > 
-> Laurent is correct here. That flag indicates if CSI-2 is the selected
-> input for the video mux.
-> 
-> > > > be surprised if other adaptations would be needed in the code.
-> 
-> I really only had the warp7 board which only had the csi2 as video mux
-> input, never got the chance to test it with a parallel input. And the
-> driver expects that we always have a mux. I was not even aware that an
-> imx6 would have the same csi ip.
-> 
-> but from the error outputs looks issues getting the format around the
-> imx7_csi_{try, get}_fmt.
+> The OV1063x has 16-bit register addresses, and, unless I'm mistaken,
+> regmap_sccb assumes register addresses to be 8-bit long.
 
-Do you still have the hardware, would you be able to test a patch series
-?
+It seems so. I wonder what's the meaning of SCCB in this case. A number of
+drivers (three) require REGMAP_SCCB instead of REGMAP_I2C. Could it just be
+someone needed those drivers on controllers with just SMBUS functionality?
 
-> > > Yes, I found other paths that miss the csi->is_csi2 check too.
+I guess this is fine then.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
