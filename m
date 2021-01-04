@@ -2,34 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E834F2E9C6B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 18:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 213482E9C73
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 19:00:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726419AbhADR4Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 12:56:24 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34262 "EHLO
+        id S1726680AbhADSA2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 13:00:28 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34284 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726396AbhADR4Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 12:56:24 -0500
+        with ESMTP id S1726168AbhADSA2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 13:00:28 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id AE9C41F44C54
-Message-ID: <d6ea3d8931ee451807989653b022f0fb07cc70ef.camel@collabora.com>
-Subject: Re: [PATCH] media: v4l2-async: Add waiting subdevices debugfs
+        with ESMTPSA id 8634D1F44C54
+Message-ID: <0b3e741f7c6c9ebfcbf1c18742d74335a224fc41.camel@collabora.com>
+Subject: Re: [PATCH v2] media: imx6-mipi-csi2: Call remote subdev
+ get_mbus_config to get active lanes
 From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com
-Date:   Mon, 04 Jan 2021 14:55:36 -0300
-In-Reply-To: <20210102152814.GB11878@paasikivi.fi.intel.com>
-References: <20201228180511.43486-1-ezequiel@collabora.com>
-         <20201228183520.GB26370@paasikivi.fi.intel.com>
-         <X+pN4Z3eCIV9cjNV@pendragon.ideasonboard.com>
-         <faa537997323c4c6e7e21e0edcc2fbc63e03725c.camel@collabora.com>
-         <X+s53z5vB0hiZY2E@pendragon.ideasonboard.com>
-         <91034a368adcd53691de2b814f5c929e8ccba061.camel@collabora.com>
-         <20210102152814.GB11878@paasikivi.fi.intel.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
+Date:   Mon, 04 Jan 2021 14:59:40 -0300
+In-Reply-To: <183b9760df78c00ca036b350dc76175b0123de47.camel@pengutronix.de>
+References: <20210103154155.318300-1-ezequiel@collabora.com>
+         <183b9760df78c00ca036b350dc76175b0123de47.camel@pengutronix.de>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.2-1 
@@ -39,138 +37,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 2021-01-02 at 17:28 +0200, Sakari Ailus wrote:
-> On Tue, Dec 29, 2020 at 02:52:52PM -0300, Ezequiel Garcia wrote:
-> > On Tue, 2020-12-29 at 16:14 +0200, Laurent Pinchart wrote:
-> > > Hi Ezequiel,
-> > > 
-> > > On Tue, Dec 29, 2020 at 07:16:41AM -0300, Ezequiel Garcia wrote:
-> > > > On Mon, 2020-12-28 at 23:28 +0200, Laurent Pinchart wrote:
-> > > > > On Mon, Dec 28, 2020 at 08:35:20PM +0200, Sakari Ailus wrote:
-> > > > > > On Mon, Dec 28, 2020 at 03:05:11PM -0300, Ezequiel Garcia wrote:
-> > > > > > > There is currently little to none information available
-> > > > > > > about the reasons why a v4l2-async device hasn't
-> > > > > > > probed completely.
-> > > > > > > 
-> > > > > > > Inspired by the "devices_deferred" debugfs file,
-> > > > > > > add a file to list information about the subdevices
-> > > > > > > that are on waiting lists, for each notifier.
-> > > > > > > 
-> > > > > > > This is useful to debug v4l2-async subdevices
-> > > > > > > and notifiers, for instance when doing device bring-up.
-> > > > > > > 
-> > > > > > > For instance, a typical output would be:
-> > > > > > > 
-> > > > > > > $ cat /sys/kernel/debug/video4linux/waiting_subdevices
-> > > > > > > [fwnode] 1-003c
-> > > > > > > [fwnode] 20e0000.iomuxc-gpr:ipu1_csi1_mux
-> > > > > > > [fwnode] 20e0000.iomuxc-gpr:ipu1_csi0_mux
-> > > > > > > 
-> > > > > > > It's possible to provide some more information, detecting
-> > > > > > > the type of fwnode and printing of-specific or acpi-specific
-> > > > > > > details. For now, the implementation is kept simple.
-> > > > > > 
-> > > > > > The rest of the debug information we're effectively providing through
-> > > > > > kernel messages on DEBUG level (pr_debug/dev_dbg). Could we do the same
-> > > > > > here?
-> > > > > > 
-> > > > > > Would just printing the names of the pending sub-devices at notifier
-> > > > > > register and async subdevice register time be sufficient? That way you'd
-> > > > > > also be fine with just dmesg output if you're asking someone to provide you
-> > > > > > information from another system.
-> > > > > 
-> > > > > I think debugfs would be better. It can show the current state of an
-> > > > > async notifier in a single place, which is easier to parse than
-> > > > > reconstructing it from kernel messages and implicit knowledge of the
-> > > > > code. I'd expect users to have an easier time debugging probe issues
-> > > > > with such centralized information.
-> > > > > 
-> > > > > > > Also, note that match-type "custom" prints no information.
-> > > > > > > Since there are no in-tree users of this match-type,
-> > > > > > > the implementation doesn't bother.
-> > > > > > 
-> > > > > > Lines up to 74 characters are fine. Only in Gerrit it's 60 or 40 or
-> > > > > > whatever characters. ;-)
-> > > > > > 
-> > > > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > > > ---
-> > > > > > >  drivers/media/v4l2-core/v4l2-async.c | 54 ++++++++++++++++++++++++++++
-> > > > > > >  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
-> > > > > > >  include/media/v4l2-async.h           |  7 ++++
-> > > > > > >  3 files changed, 66 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > > > > > index e3ab003a6c85..32cd1ecced97 100644
-> > > > > > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > > > > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > > > > > @@ -5,6 +5,7 @@
-> > > > > > >   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-> > > > > > >   */
-> > > > > > >  
-> > > > > > > +#include <linux/debugfs.h>
-> > > > > > >  #include <linux/device.h>
-> > > > > > >  #include <linux/err.h>
-> > > > > > >  #include <linux/i2c.h>
-> > > > > > > @@ -14,6 +15,7 @@
-> > > > > > >  #include <linux/mutex.h>
-> > > > > > >  #include <linux/of.h>
-> > > > > > >  #include <linux/platform_device.h>
-> > > > > > > +#include <linux/seq_file.h>
-> > > > > > >  #include <linux/slab.h>
-> > > > > > >  #include <linux/types.h>
-> > > > > > >  
-> > > > > > > @@ -837,3 +839,55 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
-> > > > > > >         mutex_unlock(&list_lock);
-> > > > > > >  }
-> > > > > > >  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
-> > > > > > > +
-> > > > > > > +static void print_waiting_subdev(struct seq_file *s,
-> > > > > > > +                                struct v4l2_async_subdev *asd)
-> > > > > > > +{
-> > > > > > > +       switch (asd->match_type) {
-> > > > > > > +       case V4L2_ASYNC_MATCH_CUSTOM:
-> > > > > > > +               seq_puts(s, "[custom]\n");
-> > > > > > > +               break;
-> > > > > > > +       case V4L2_ASYNC_MATCH_DEVNAME:
-> > > > > > > +               seq_printf(s, "[devname] %s\n",
-> > > > > > > +                          asd->match.device_name);
-> > > > > > > +               break;
-> > > > > > > +       case V4L2_ASYNC_MATCH_I2C:
-> > > > > > > +               seq_printf(s, "[i2c] %d-%04x\n",
-> > > > > > > +                          asd->match.i2c.adapter_id,
-> > > > > > > +                          asd->match.i2c.address);
-> > > > > > > +               break;
-> > > > > > > +       case V4L2_ASYNC_MATCH_FWNODE: {
-> > > > > > > +               struct fwnode_handle *fwnode = asd->match.fwnode;
-> > > > > > > +
-> > > > > > > +               if (fwnode_graph_is_endpoint(fwnode))
-> > > > > > > +                       fwnode = fwnode_graph_get_port_parent(fwnode);
-> > > > > 
-> > > > > Can we also print endpoint information ?
-> > > > 
-> > > > What endpoint information do you have in mind? I'm asking this
-> > > > because I printed endpoint OF node full names, only to find
-> > > > so many of them named "endpoint" :)
-> > > 
-> > > The port name and endpoint name would be useful. The full fwnode name
-> > > would be an acceptable way to print that I think.
-> > > 
-> > 
-> > Makes sense, and since we'd be parsing the fwnode subtype,
-> > we'll be able to do something like:
-> > 
-> > [of] dev=%s, node=%s
-> > [swnode] ...
-> > [acpi] ...
+Hi Philipp,
+
+On Mon, 2021-01-04 at 14:41 +0100, Philipp Zabel wrote:
+> Hi Ezequiel,
 > 
-> Could you simply print the node name, %pfw?
-> 
-> It works independently of the firmware interface and contains all the
-> relevant information.
+> thank you for picking this up.
 > 
 
-Oh, great, that is really cool.
+No problem.
 
-Thanks for the hint,
+> On Sun, 2021-01-03 at 12:41 -0300, Ezequiel Garcia wrote:
+> > Currently, the CSI2 subdevice is using the data-lanes from the
+> > neareast endpoint to config the CSI2 lanes.
+> > 
+> > While this may work, the proper way to configure the hardware is
+> > to obtain the remote subdevice in v4l2_async_notifier_operations.bound(),
+> > and then call get_mbus_config using the remote subdevice to get
+> > the active lanes.
+> > 
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Same comment as Laurent, csi2_get_active_lanes() looks to be the same as
+> rcsi2_get_active_lanes() in rcar-csi2, so this could benefit from a
+> common helper (later).
+> 
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> 
+
+Thanks for the review.
+
+> > ---
+> >  drivers/staging/media/imx/TODO             | 12 ---
+> >  drivers/staging/media/imx/imx6-mipi-csi2.c | 99 +++++++++++++++++++---
+> >  2 files changed, 87 insertions(+), 24 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
+> > index 9cfc1c1e78dc..c575f419204a 100644
+> > --- a/drivers/staging/media/imx/TODO
+> > +++ b/drivers/staging/media/imx/TODO
+> > @@ -2,18 +2,6 @@
+> >  - The Frame Interval Monitor could be exported to v4l2-core for
+> >    general use.
+> >  
+> > -- The CSI subdevice parses its nearest upstream neighbor's device-tree
+> > -  bus config in order to setup the CSI. Laurent Pinchart argues that
+> > -  instead the CSI subdev should call its neighbor's g_mbus_config op
+> > -  (which should be propagated if necessary) to get this info. However
+> > -  Hans Verkuil is planning to remove the g_mbus_config op. For now this
+> > -  driver uses the parsed DT bus config method until this issue is
+> > -  resolved.
+> > -
+> > -  2020-06: g_mbus has been removed in favour of the get_mbus_config pad
+> > -  operation which should be used to avoid parsing the remote endpoint
+> > -  configuration.
+> > -
+> >  - This media driver supports inheriting V4L2 controls to the
+> >    video capture devices, from the subdevices in the capture device's
+> >    pipeline. The controls for each capture device are updated in the
+> > diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> > index 94d87d27d389..8cfd6358c306 100644
+> > --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
+> > +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> [...]
+> > @@ -300,8 +300,56 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
+> >         writel(reg, csi2->base + CSI2IPU_GASKET);
+> >  }
+> >  
+> > +static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
+> > +{
+> > +       struct v4l2_mbus_config mbus_config = { 0 };
+> > +       unsigned int num_lanes = UINT_MAX;
+> > +       int ret;
+> > +
+> > +       *lanes = csi2->data_lanes;
+> > +
+> > +       ret = v4l2_subdev_call(csi2->remote, pad, get_mbus_config,
+> > +                              csi2->remote_pad, &mbus_config);
+> > +       if (ret == -ENOIOCTLCMD) {
+> > +               dev_dbg(csi2->dev, "No remote mbus configuration available\n");
+> > +               return 0;
+> > +       }
+> > +
+> > +       if (ret) {
+> > +               dev_err(csi2->dev, "Failed to get remote mbus configuration\n");
+> > +               return ret;
+> > +       }
+> > +
+> > +       if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
+> > +               dev_err(csi2->dev, "Unsupported media bus type %u\n",
+> > +                       mbus_config.type);
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
+> > +               num_lanes = 1;
+> > +       else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
+> > +               num_lanes = 2;
+> > +       else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
+> > +               num_lanes = 3;
+> > +       else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
+> > +               num_lanes = 4;
+> 
+> I'd turn this into a
+>         switch (mbus_config.flags & V4L2_MBUS_CSI2_LANES) { }
+> to catch erroneous values of 0 or multiple bits set, as for those the
+> following error message doesn't make much sense:
+> 
+
+Makes sense. We can do that later, once we move the function to the core.
+
+> > +       if (num_lanes > csi2->data_lanes) {
+> > +               dev_err(csi2->dev,
+> > +                       "Unsupported mbus config: too many data lanes %u\n",
+> > +                       num_lanes);
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       *lanes = num_lanes;
+> > +
+> > +       return 0;
+> > +}
+> 
+> Still, this patch looks good to me.
+> 
+
+Thanks,
 Ezequiel
+
 
