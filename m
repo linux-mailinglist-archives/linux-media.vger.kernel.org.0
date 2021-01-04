@@ -2,133 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D55932E9675
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 14:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B18852E9681
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 15:00:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726333AbhADN5d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 08:57:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54764 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbhADN5d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 08:57:33 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F866C061574;
-        Mon,  4 Jan 2021 05:56:52 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id m5so32206904wrx.9;
-        Mon, 04 Jan 2021 05:56:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=LyrRUhBkoqWcAGCYsSDBZgPQ6OfRjVUqBOc3wjEtEV8=;
-        b=peukgvMHKbc4pR8s8RYGql7/y3W5Zj3+lzKdEHPUnq/2rthPuY+XlF/7wfDu35DLAO
-         4oZQdkJ+kNUNNCGUD0tS37DTvWqFrRs+bWzt8/1xQlGWzD/e0NU++DskCK2qw2+LcjAl
-         PJeUWfGYPuTI23iTUYN2OieUZj2b/SqcZvLm+PYpK2BROpvvKDpaE0heezIxHQIlPDS3
-         iykoSUMAAuDxIq3ua2CuwrTP499STfiOqC2yUVbwLMrbU7jqSKoAbNZ73OE+kQTmPmob
-         oM96pSAWbunUPlhga4J70SugNYdWLhVDMlqQYfjLuXr1P+2Z3WLb9hYS7tXNQN5uoIpz
-         P+rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=LyrRUhBkoqWcAGCYsSDBZgPQ6OfRjVUqBOc3wjEtEV8=;
-        b=o0rRkiVbYEgKROQkuU2fsOSPya/RxinYKp5U6/IGH2dv6GMjVLGUQ68J+TTMYNoKa7
-         lN/aWMGKiFeoAo0jc3clu+HmYtzRW8zdWW4vQn6/luthffE/rDdpBqCeyrKwLUHzt0Wb
-         slDntIYrCbvNQXqcKfbJ0Dchk22zwG41kPA+I4vxPZb4JphGmk4jq+2JU8I1edHeAhtM
-         YLIBQEURSWDmm2UbOdfnClENE5GeOJtB/TrfqKAgNoB4q6RzcEexliSHI0Vjjic4mcDY
-         Ltdk3xjd0yTZn671RB4uFzvSeiTCUWCP/g0AP3+hmVI6Jtj+wMpKhoo19HEk1VjdsKyR
-         Okbg==
-X-Gm-Message-State: AOAM531srO/Xm7Y+zPM2/21kl9/mC6K2jGNYZeK2ks4oorjqYQ1EXZR0
-        eQETReWhIJVKhjKsDUaeIBs=
-X-Google-Smtp-Source: ABdhPJwpb88Cfo7Gp8j6dnF/Hw5fgGdPfsTA6M6ICjCrC6rfVw9+Y7Gog2Pg6F2shHFem2EIlh7Zig==
-X-Received: by 2002:adf:e9d2:: with SMTP id l18mr77835390wrn.179.1609768611288;
-        Mon, 04 Jan 2021 05:56:51 -0800 (PST)
-Received: from [192.168.1.211] ([2.29.208.120])
-        by smtp.gmail.com with ESMTPSA id b12sm48311878wmj.2.2021.01.04.05.56.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jan 2021 05:56:50 -0800 (PST)
-Subject: Re: [PATCH v4 15/15] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Joe Perches <joe@perches.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@acpica.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Len Brown <lenb@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jordan Hand <jorhand@linux.microsoft.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210103231235.792999-1-djrscally@gmail.com>
- <20210103231235.792999-16-djrscally@gmail.com>
- <20210104120905.GR4077@smile.fi.intel.com>
- <2f64873d-0413-3614-34e2-139b4a4d9da6@gmail.com>
- <CAHp75VcU7DcRZD_eK+B1-CX7tVtsR5YLPdrA6oULk187xhApCw@mail.gmail.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <287cf1cc-0e96-7609-aecd-e00dedcd90d9@gmail.com>
-Date:   Mon, 4 Jan 2021 13:56:49 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726579AbhADN7t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 08:59:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41446 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726253AbhADN7s (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Jan 2021 08:59:48 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F00220770;
+        Mon,  4 Jan 2021 13:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609768747;
+        bh=oAmb65NYH72MQStk3VaVbGlppJznbNt2cArcbsPTQcY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UHS8gGbh9dNUQe4WMvhK/m2XPS+6hdEkfpYdNdSAq5F5FoNaAgW4OBMLdogt4PlMZ
+         0owqku0gRhayi6vNM2OwKxXh4BRxz3nZVLwlaZ+spR/7Kaz/eO91UxFD+Gjdm88bKM
+         jhbtaXUe9H+xEf8aYkQk7np+nTDd+QSWF0mLzWEYykQxJrDUsjg8rSmePf4X6QdP4d
+         DbPFJjV5rqsmmZx+7sd/m9xkeoRVwB+XCzQh7n76FixJZI2Y7qJwkzv34hDPfZoD2r
+         c6JjG0u9Y4MIozR8Hz2zQTzUpbqGcFS6iPKmT+CL8SNTyBz3rbYmmqLY5MWtxtru3X
+         cQiqUfTF80NuQ==
+Date:   Mon, 4 Jan 2021 13:58:40 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Yangtao Li <tiny.windzz@gmail.com>
+Cc:     myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
+        cw00.choi@samsung.com, krzk@kernel.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, digetx@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie,
+        daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
+        robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        lukasz.luba@arm.com, adrian.hunter@intel.com,
+        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
+        sboyd@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        rjw@rjwysocki.net, jcrouse@codeaurora.org, hoegsberg@google.com,
+        eric@anholt.net, tzimmermann@suse.de,
+        marijn.suijten@somainline.org, gustavoars@kernel.org,
+        emil.velikov@collabora.com, jonathan@marek.ca,
+        akhilpo@codeaurora.org, smasetty@codeaurora.org,
+        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
+        tanmay@codeaurora.org, ddavenport@chromium.org,
+        jsanka@codeaurora.org, rnayak@codeaurora.org,
+        tongtiangen@huawei.com, miaoqinglang@huawei.com,
+        khsieh@codeaurora.org, abhinavk@codeaurora.org,
+        chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
+        mka@chromium.org, harigovi@codeaurora.org,
+        rikard.falkeborn@gmail.com, natechancellor@gmail.com,
+        georgi.djakov@linaro.org, akashast@codeaurora.org,
+        parashar@codeaurora.org, dianders@chromium.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH 08/31] spi: spi-qcom-qspi: fix potential mem leak in
+ spi_geni_probe()
+Message-ID: <20210104135840.GC5645@sirena.org.uk>
+References: <20210101165507.19486-1-tiny.windzz@gmail.com>
+ <20210101165507.19486-9-tiny.windzz@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VcU7DcRZD_eK+B1-CX7tVtsR5YLPdrA6oULk187xhApCw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mvpLiMfbWzRoNl4x"
+Content-Disposition: inline
+In-Reply-To: <20210101165507.19486-9-tiny.windzz@gmail.com>
+X-Cookie: Stupidity is its own reward.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 04/01/2021 13:38, Andy Shevchenko wrote:
-> On Mon, Jan 4, 2021 at 3:02 PM Daniel Scally <djrscally@gmail.com> wrote:
->> On 04/01/2021 12:09, Andy Shevchenko wrote:
->>> On Sun, Jan 03, 2021 at 11:12:35PM +0000, Daniel Scally wrote:
-> ...
->
->>>> +#define NODE_SENSOR(_HID, _PROPS)           \
->>>> +    ((const struct software_node) {         \
->>>> +            .name = _HID,                   \
->>>> +            .properties = _PROPS,           \
->>>> +    })
->>>> +
->>>> +#define NODE_PORT(_PORT, _SENSOR_NODE)              \
->>>> +    ((const struct software_node) {         \
->>>> +            .name = _PORT,                  \
->>>> +            .parent = _SENSOR_NODE,         \
->>>> +    })
->>>> +
->>>> +#define NODE_ENDPOINT(_EP, _PORT, _PROPS)   \
->>>> +    ((const struct software_node) {         \
->>>> +            .name = _EP,                    \
->>>> +            .parent = _PORT,                \
->>>> +            .properties = _PROPS,           \
->>>> +    })
->>> In all three I didn't get why you need outer parentheses. Without them it will
->>> be well defined compound literal and should work as is.
->> The code works fine, but checkpatch complains that macros with complex
->> values should be enclosed in parentheses. I guess now that I'm more
->> familiar with the code I'd call that a false-positive though, as nowhere
->> else in the kernel that I've seen encloses them the same way.
-> I guess it is yet another false positive from checkpatch.
-> I would ignore its complaints.
-Will do so then
+--mvpLiMfbWzRoNl4x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Jan 01, 2021 at 04:54:44PM +0000, Yangtao Li wrote:
+> We should use dev_pm_opp_put_clkname() to free opp table each time
+> dev_pm_opp_of_add_table() got error.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--mvpLiMfbWzRoNl4x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/zHxAACgkQJNaLcl1U
+h9AFlgf+L/LzmrwnlPEvAiV70bJdryKYNIVHhDTji4GNiw5bc3Fz7A6gxBdDd/Jn
+1qI57uFUYX5WyZ7Avao2gi+jL5EWVJgldsdHEHrlzqSUgK2x9xrgSV9u4JquS45Q
+seFNFtiOh4nAG2I+4V2JWPoQIRWTv4kXzhxOuwTRNZZuW6kHLzTJGUOtXpvSKWvp
+hMqDoVpnnWcyf6WKVAQCPiA8X3YX+UsIiWNVv1RCwnc8s7/g4i3sXQYnvslK/7L6
+vE8FX9MChPQrDewpSlZuH+TLRCMEki6IyGVTdeY+SbwrVQQNavBrAvEH4MGOefoh
+qVdPCyIrmbbWYXhYjynDSBxCC9VgJQ==
+=DvyL
+-----END PGP SIGNATURE-----
+
+--mvpLiMfbWzRoNl4x--
