@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B66302E90BB
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 08:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43BEA2E90D1
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 08:17:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726163AbhADHEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 02:04:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46628 "EHLO
+        id S1727288AbhADHQ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 02:16:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbhADHEC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 02:04:02 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C0AFC06179F
-        for <linux-media@vger.kernel.org>; Sun,  3 Jan 2021 23:02:40 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id w1so4850553pjc.0
-        for <linux-media@vger.kernel.org>; Sun, 03 Jan 2021 23:02:40 -0800 (PST)
+        with ESMTP id S1727148AbhADHQ4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 02:16:56 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D478C06179F
+        for <linux-media@vger.kernel.org>; Sun,  3 Jan 2021 23:15:35 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id h10so14982746pfo.9
+        for <linux-media@vger.kernel.org>; Sun, 03 Jan 2021 23:15:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=dlLWZrIy6R69T+0RxdKISUof18f+oj7qL0+rpwclI9Q=;
-        b=RWiath2GV29Ceq29YV4Eo/YDxoleBkI6KhvmDVrM13P6i6WvXBHLB3NL03EuF0d5Ig
-         k3jN3V9R8TYaSIt0OajxpW6UaB9wqaf4kbP7YRvdeIkVNd/vE7mO5sxPJfWGQEcfV0TJ
-         gZMIffKXxGkcLQZpqzBpYXnzYhYnVd/wNwl9DW3PspXwbZWlquvU8ndq1l6zzm/9Z2Ms
-         jHlU/V+Cj9z2qjgPbAipggERD7vN+mLZJD88oCTUGrPBT9eVKuPbKuZBrtt01Y1UYPbg
-         OtJCP+3nernL266el36h94jVbwk98vXd2vQnjhu4QVdYXhTe+6c+dYRx2+Up2YsN7xvd
-         a9Dw==
+        bh=x5qtGC03cGR6fBZ/P7WwG5L1MqF0Nj6bOUHj8Uj+kHE=;
+        b=OAaqSR5s9Ik5xFghIWI9hC6wEO4akfqQjR1AOd5DY6Xi6Mevb8NLfqSZDyR+1BWPVQ
+         0nbaAvHDIACvQtTkVUUyk4W1NyB8M+CTEIC4YreClD/ms9PJv6vmduZftbG4+VxGdOh4
+         M2KFQBwKG84Zx7cCdRv4veEdNPZJFPANKBuC2fDoeERuVv3Scp7X7O8hMrqZZS6srLBv
+         4klE090qhDFDneRddwMkgzplBW/qRn/Ef8pTZMWvv0IWo+yNujZjEzfyoQ9ES/u+JKZk
+         ZoZvpTEodAuDAUMYxGd05rAyu5Bd5sJ6rfBLxqikk+xkarbqtpsvSayBj5tVwYSPv/Z6
+         emVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dlLWZrIy6R69T+0RxdKISUof18f+oj7qL0+rpwclI9Q=;
-        b=ndymBUnNu0QJQq4cLbd4SQYikBiA9ay0UR/jMQVRZMqnWRxnd9+M8HKWCgtY/z5jIr
-         I18aB0nogcmi6Lp/JMLKDFL8lZsGMXAZymFk51pSnBIcVHK0NZsJhiP6/aQjQj54ddVs
-         TYN60ym+TmPftzW3tftWS0K5UON11g61jg9wrKu1qUPq8Gl7L1rJu1Z0N25rkz2rvvBj
-         1PkWHDCMseCr2QTZTQGbiV6/bJ/A2awxDUNMzYof/zq1l8yMNVKECTYB3Ia+fZCPUZ5K
-         YNNLThltJ6G9ZP2fwh09fcxOPBgg3kWrtPlQ9R1eraiwPt4E6827Sv21u/3N3fHTIu6F
-         RNSQ==
-X-Gm-Message-State: AOAM530Vi9Ydr3sNHwoJ9WBLsE0fF60wSAI+cXUREqB2na4Lj55oe+g7
-        k6K53/LGJqLXEJK/er8X9qxwtA==
-X-Google-Smtp-Source: ABdhPJxTIG1l0JLV+LUHEFjwB/9ntN9aIbvjRCJKn3vjHJRyQgMGHUy/WB5LS59Xy8aTKPshWnMfsA==
-X-Received: by 2002:a17:90b:14d3:: with SMTP id jz19mr28643076pjb.196.1609743760002;
-        Sun, 03 Jan 2021 23:02:40 -0800 (PST)
+        bh=x5qtGC03cGR6fBZ/P7WwG5L1MqF0Nj6bOUHj8Uj+kHE=;
+        b=m48DjdG1jqAwjvQ9A038mQAW2BurHUceRXBfvU5WCnF3x/SzGJt5nJ2z68mOsge6TC
+         x59DX4NWn+W3Y3Sft9p7ZCKRheqkVmdkb1eyyZTRZFm48KmceW+ihbvUv4TnywVWeGtQ
+         f2DkuRDkmC15VZ4em5QiYIOgfy4Hr8DstXFH9bYVnGO3gNlqBh+6hE0nxJKHSML+2zj+
+         i3II44B5TGMXlxhRheziwHWrXmzAdrRNu9btyesg26jG1uQ2VF1ppMDUFlAU5rLRmiDh
+         O4H6EjE3y/byd+QffRrgL06lrv0x09IepIvnAYJ9Rz+4cqH/9MQ8XYLgpL5D5TdI+lFv
+         rmuA==
+X-Gm-Message-State: AOAM5308eCIkhVyWAgw7XcWUU4JriRNlzhPQ8xvZ/A+bWwbyKA/1vGZj
+        QxsEoYmvZuDxlakG2u7hHX7T3A==
+X-Google-Smtp-Source: ABdhPJxGFwAV2SQtVU4VNuP02uvq/Pafhur3RgVz2v7E9ia11SPp2CuAR1+kuobkLcHSmIraN1mtOQ==
+X-Received: by 2002:a65:4983:: with SMTP id r3mr71474424pgs.288.1609744534592;
+        Sun, 03 Jan 2021 23:15:34 -0800 (PST)
 Received: from localhost ([122.172.20.109])
-        by smtp.gmail.com with ESMTPSA id n195sm55117950pfd.169.2021.01.03.23.02.38
+        by smtp.gmail.com with ESMTPSA id 22sm20354596pjw.19.2021.01.03.23.15.33
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 03 Jan 2021 23:02:38 -0800 (PST)
-Date:   Mon, 4 Jan 2021 12:32:36 +0530
+        Sun, 03 Jan 2021 23:15:33 -0800 (PST)
+Date:   Mon, 4 Jan 2021 12:45:31 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
 To:     Yangtao Li <tiny.windzz@gmail.com>
 Cc:     myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
@@ -84,61 +84,78 @@ Cc:     myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
         linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
         linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH 06/31] serial: qcom_geni_serial: fix potential mem leak
- in qcom_geni_serial_probe()
-Message-ID: <20210104070236.mnnj3frjtxka7emu@vireshk-i7>
+Subject: Re: [PATCH 05/31] opp: Add devres wrapper for
+ dev_pm_opp_register_notifier
+Message-ID: <20210104071531.oyc64zgfot43gupv@vireshk-i7>
 References: <20210101165507.19486-1-tiny.windzz@gmail.com>
- <20210101165507.19486-7-tiny.windzz@gmail.com>
+ <20210101165507.19486-6-tiny.windzz@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210101165507.19486-7-tiny.windzz@gmail.com>
+In-Reply-To: <20210101165507.19486-6-tiny.windzz@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 01-01-21, 16:54, Yangtao Li wrote:
-> We should use dev_pm_opp_put_clkname() to free opp table each time
-> dev_pm_opp_of_add_table() got error.
+> Add devres wrapper for dev_pm_opp_register_notifier() to simplify driver
+> code.
 > 
 > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 > ---
->  drivers/tty/serial/qcom_geni_serial.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  drivers/opp/core.c     | 38 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/pm_opp.h |  6 ++++++
+>  2 files changed, 44 insertions(+)
 > 
-> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
-> index 291649f02821..5aada7ebae35 100644
-> --- a/drivers/tty/serial/qcom_geni_serial.c
-> +++ b/drivers/tty/serial/qcom_geni_serial.c
-> @@ -1438,9 +1438,12 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
->  		return PTR_ERR(port->se.opp_table);
->  	/* OPP table is optional */
->  	ret = dev_pm_opp_of_add_table(&pdev->dev);
-> -	if (ret && ret != -ENODEV) {
-> -		dev_err(&pdev->dev, "invalid OPP table in device tree\n");
-> -		goto put_clkname;
-> +	if (ret) {
-> +		dev_pm_opp_put_clkname(port->se.opp_table);
-> +		if (ret != -ENODEV) {
-> +			dev_err(&pdev->dev, "invalid OPP table in device tree\n");
-> +			return ret;
-> +		}
->  	}
->  
->  	port->private_data.drv = drv;
-> @@ -1482,7 +1485,6 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
->  	return 0;
->  err:
->  	dev_pm_opp_of_remove_table(&pdev->dev);
-> -put_clkname:
->  	dev_pm_opp_put_clkname(port->se.opp_table);
->  	return ret;
+> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+> index 6b83e373f0d8..ef3544f8cecd 100644
+> --- a/drivers/opp/core.c
+> +++ b/drivers/opp/core.c
+> @@ -2599,6 +2599,44 @@ int dev_pm_opp_unregister_notifier(struct device *dev,
 >  }
+>  EXPORT_SYMBOL(dev_pm_opp_unregister_notifier);
+>  
+> +static void devm_pm_opp_notifier_release(struct device *dev, void *res)
+> +{
+> +	struct notifier_block *nb = *(struct notifier_block **)res;
+> +
+> +	WARN_ON(dev_pm_opp_unregister_notifier(dev, nb));
+> +}
+> +
+> +/**
+> + * devm_pm_opp_register_notifier() - Register OPP notifier for the device
+> + * @dev:	Device for which notifier needs to be registered
+> + * @nb:		Notifier block to be registered
+> + *
+> + * Return: 0 on success or a negative error value.
+> + *
+> + * The notifier will be unregistered after the device is destroyed.
+> + */
+> +int devm_pm_opp_register_notifier(struct device *dev, struct notifier_block *nb)
+> +{
+> +	struct notifier_block **ptr;
+> +	int ret;
+> +
+> +	ptr = devres_alloc(devm_pm_opp_notifier_release, sizeof(*ptr), GFP_KERNEL);
+> +	if (!ptr)
+> +		return -ENOMEM;
+> +
+> +	ret = dev_pm_opp_register_notifier(dev, nb);
+> +	if (ret) {
+> +		devres_free(ptr);
+> +		return ret;
+> +	}
+> +
+> +	*ptr = nb;
+> +	devres_add(dev, ptr);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(devm_pm_opp_register_notifier);
 
-Since put_clkname is always done in remove(), I don't think there is
-any memleak here. Over that with your patch we will do put_clkname
-twice now, once in probe and once in remove. And that is a bug AFAICT.
+I am not in favor of this patch, and it only has one user, which makes
+it more unwanted.
 
 -- 
 viresh
