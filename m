@@ -2,21 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 196692E9B6A
+	by mail.lfdr.de (Postfix) with ESMTP id 860B22E9B6B
 	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 17:59:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbhADQ6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 11:58:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbhADQ6g (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 11:58:36 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76091C061793
-        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 08:57:56 -0800 (PST)
+        id S1726897AbhADQ6k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 11:58:40 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33786 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbhADQ6j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 11:58:39 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 060321F44B70
+        with ESMTPSA id D8F2A1F44B6D
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
@@ -25,9 +22,9 @@ Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 2/6] media: pxa_camera: Drop the v4l2-clk clock register
-Date:   Mon,  4 Jan 2021 13:57:35 -0300
-Message-Id: <20210104165739.116404-3-ezequiel@collabora.com>
+Subject: [PATCH 3/6] media: ov9640: Use the generic clock framework
+Date:   Mon,  4 Jan 2021 13:57:36 -0300
+Message-Id: <20210104165739.116404-4-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210104165739.116404-1-ezequiel@collabora.com>
 References: <20210104165739.116404-1-ezequiel@collabora.com>
@@ -37,106 +34,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that mach-based PXA platforms are registering proper
-fixed-rate clocks through the CCF, the v4l2-clk clock
-is no longer required.
+Commit 63839882c597 ("media: mach-pxa: palmz72/pcm990: remove soc_camera dependencies")
+removed the last in-tree user of this sensor. New users
+will be required to use the generic clock framework,
+so it's possible to convert the driver to use it.
 
-Drop this clock, so the driver no longer depends on the
-legacy v4l2-clk API.
+Convert the driver to use the CCF, and drop the legacy
+v4l2-clk API.
 
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Petr Cvek <petrcvekcz@gmail.com>
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/media/platform/pxa_camera.c | 30 +----------------------------
- 1 file changed, 1 insertion(+), 29 deletions(-)
+ drivers/media/i2c/ov9640.c | 15 ++++++---------
+ drivers/media/i2c/ov9640.h |  4 +++-
+ 2 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
-index b664ce7558a1..8cfa39108162 100644
---- a/drivers/media/platform/pxa_camera.c
-+++ b/drivers/media/platform/pxa_camera.c
-@@ -31,7 +31,6 @@
- #include <linux/dma/pxa-dma.h>
+diff --git a/drivers/media/i2c/ov9640.c b/drivers/media/i2c/ov9640.c
+index e2a25240fc85..d36b04c49628 100644
+--- a/drivers/media/i2c/ov9640.c
++++ b/drivers/media/i2c/ov9640.c
+@@ -17,6 +17,7 @@
+  * Copyright (C) 2008, Guennadi Liakhovetski <kernel@pengutronix.de>
+  */
+ 
++#include <linux/clk.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/i2c.h>
+@@ -26,7 +27,6 @@
+ #include <linux/videodev2.h>
  
  #include <media/v4l2-async.h>
 -#include <media/v4l2-clk.h>
  #include <media/v4l2-common.h>
  #include <media/v4l2-ctrls.h>
  #include <media/v4l2-device.h>
-@@ -677,7 +676,6 @@ struct pxa_camera_dev {
- 	unsigned long		ciclk;
- 	unsigned long		mclk;
- 	u32			mclk_divisor;
--	struct v4l2_clk		*mclk_clk;
- 	u16			width_flags;	/* max 10 bits */
+@@ -333,13 +333,13 @@ static int ov9640_s_power(struct v4l2_subdev *sd, int on)
+ 	if (on) {
+ 		gpiod_set_value(priv->gpio_power, 1);
+ 		usleep_range(1000, 2000);
+-		ret = v4l2_clk_enable(priv->clk);
++		ret = clk_prepare_enable(priv->clk);
+ 		usleep_range(1000, 2000);
+ 		gpiod_set_value(priv->gpio_reset, 0);
+ 	} else {
+ 		gpiod_set_value(priv->gpio_reset, 1);
+ 		usleep_range(1000, 2000);
+-		v4l2_clk_disable(priv->clk);
++		clk_disable_unprepare(priv->clk);
+ 		usleep_range(1000, 2000);
+ 		gpiod_set_value(priv->gpio_power, 0);
+ 	}
+@@ -719,7 +719,7 @@ static int ov9640_probe(struct i2c_client *client,
  
- 	struct list_head	capture;
-@@ -2030,9 +2028,6 @@ static const struct v4l2_ioctl_ops pxa_camera_ioctl_ops = {
- 	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
- };
+ 	priv->subdev.ctrl_handler = &priv->hdl;
  
--static const struct v4l2_clk_ops pxa_camera_mclk_ops = {
--};
--
- static const struct video_device pxa_camera_videodev_template = {
- 	.name = "pxa-camera",
- 	.minor = -1,
-@@ -2140,11 +2135,6 @@ static void pxa_camera_sensor_unbind(struct v4l2_async_notifier *notifier,
+-	priv->clk = v4l2_clk_get(&client->dev, "mclk");
++	priv->clk = devm_clk_get(&client->dev, "mclk");
+ 	if (IS_ERR(priv->clk)) {
+ 		ret = PTR_ERR(priv->clk);
+ 		goto ectrlinit;
+@@ -727,17 +727,15 @@ static int ov9640_probe(struct i2c_client *client,
  
- 	pxa_camera_destroy_formats(pcdev);
+ 	ret = ov9640_video_probe(client);
+ 	if (ret)
+-		goto eprobe;
++		goto ectrlinit;
  
--	if (pcdev->mclk_clk) {
--		v4l2_clk_unregister(pcdev->mclk_clk);
--		pcdev->mclk_clk = NULL;
--	}
--
- 	video_unregister_device(&pcdev->vdev);
- 	pcdev->sensor = NULL;
- 
-@@ -2278,7 +2268,6 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 		.src_maxburst = 8,
- 		.direction = DMA_DEV_TO_MEM,
- 	};
--	char clk_name[V4L2_CLK_NAME_SIZE];
- 	int irq;
- 	int err = 0, i;
- 
-@@ -2417,23 +2406,11 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	if (err)
- 		goto exit_notifier_cleanup;
- 
--	v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
--			  pcdev->asd.match.i2c.adapter_id,
--			  pcdev->asd.match.i2c.address);
--
--	pcdev->mclk_clk = v4l2_clk_register(&pxa_camera_mclk_ops, clk_name, NULL);
--	if (IS_ERR(pcdev->mclk_clk)) {
--		err = PTR_ERR(pcdev->mclk_clk);
--		goto exit_notifier_cleanup;
--	}
--
- 	err = v4l2_async_notifier_register(&pcdev->v4l2_dev, &pcdev->notifier);
- 	if (err)
--		goto exit_free_clk;
-+		goto exit_notifier_cleanup;
+ 	priv->subdev.dev = &client->dev;
+ 	ret = v4l2_async_register_subdev(&priv->subdev);
+ 	if (ret)
+-		goto eprobe;
++		goto ectrlinit;
  
  	return 0;
--exit_free_clk:
--	v4l2_clk_unregister(pcdev->mclk_clk);
- exit_notifier_cleanup:
- 	v4l2_async_notifier_cleanup(&pcdev->notifier);
- exit_free_v4l2dev:
-@@ -2463,11 +2440,6 @@ static int pxa_camera_remove(struct platform_device *pdev)
- 	v4l2_async_notifier_unregister(&pcdev->notifier);
- 	v4l2_async_notifier_cleanup(&pcdev->notifier);
  
--	if (pcdev->mclk_clk) {
--		v4l2_clk_unregister(pcdev->mclk_clk);
--		pcdev->mclk_clk = NULL;
--	}
--
- 	v4l2_device_unregister(&pcdev->v4l2_dev);
+-eprobe:
+-	v4l2_clk_put(priv->clk);
+ ectrlinit:
+ 	v4l2_ctrl_handler_free(&priv->hdl);
  
- 	dev_info(&pdev->dev, "PXA Camera driver unloaded\n");
+@@ -749,7 +747,6 @@ static int ov9640_remove(struct i2c_client *client)
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+ 	struct ov9640_priv *priv = to_ov9640_sensor(sd);
+ 
+-	v4l2_clk_put(priv->clk);
+ 	v4l2_async_unregister_subdev(&priv->subdev);
+ 	v4l2_ctrl_handler_free(&priv->hdl);
+ 
+diff --git a/drivers/media/i2c/ov9640.h b/drivers/media/i2c/ov9640.h
+index a8ed6992c1a8..a1f9150b2050 100644
+--- a/drivers/media/i2c/ov9640.h
++++ b/drivers/media/i2c/ov9640.h
+@@ -180,6 +180,8 @@ enum {
+ };
+ #define	H_SXGA	960
+ 
++struct clk;
++
+ /* Misc. structures */
+ struct ov9640_reg_alt {
+ 	u8	com7;
+@@ -196,7 +198,7 @@ struct ov9640_reg {
+ struct ov9640_priv {
+ 	struct v4l2_subdev		subdev;
+ 	struct v4l2_ctrl_handler	hdl;
+-	struct v4l2_clk			*clk;
++	struct clk			*clk;
+ 	struct gpio_desc		*gpio_power;
+ 	struct gpio_desc		*gpio_reset;
+ 
 -- 
 2.29.2
 
