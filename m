@@ -2,71 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B05E82E9590
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 14:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC86C2E958A
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 14:05:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726655AbhADNGB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 08:06:01 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55468 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbhADNGA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 08:06:00 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 603A32E0;
-        Mon,  4 Jan 2021 14:05:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609765518;
-        bh=LeUgmzK02rGP594z5IuZe3KBuMlXz5W/G2fbXG8ZY0A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ozvbUQw7em6gEZPtfNPtc8NPE+Jic8tslaHQH2rcB/tHlLWxcMl5tdPOD7y3o1dYM
-         RqFejtElnIZZgWfDxgDrJwSmfT+EEorjofiM7ilms9r+r1TBB+Y77fKAtDlI4LyrhQ
-         CqdE1h91uCQrSRRj9/5q4w6BEC0mnbp40L3tKlPk=
-Date:   Mon, 4 Jan 2021 15:05:05 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
-Subject: Re: [PATCH 2/2] media: i2c: Add OV1063x sensor driver
-Message-ID: <X/MSgbOQ3ATJH5At@pendragon.ideasonboard.com>
-References: <20210104053945.12409-1-laurent.pinchart@ideasonboard.com>
- <20210104053945.12409-3-laurent.pinchart@ideasonboard.com>
- <20210104124700.GL11878@paasikivi.fi.intel.com>
+        id S1726602AbhADNF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 08:05:29 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:45560 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726278AbhADNF3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Jan 2021 08:05:29 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kwPXT-000Kms-73; Mon, 04 Jan 2021 13:04:47 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kwPap-0002A0-DA; Mon, 04 Jan 2021 13:08:15 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for 5.12] Additional CCS driver features (#70395)
+Date:   Mon,  4 Jan 2021 13:08:15 +0000
+Message-Id: <20210104130815.8263-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210104123850.GC850@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210104124700.GL11878@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+From: builder@linuxtv.org
 
-On Mon, Jan 04, 2021 at 02:47:00PM +0200, Sakari Ailus wrote:
-> Hi Laurent,
-> 
-> On Mon, Jan 04, 2021 at 07:39:45AM +0200, Laurent Pinchart wrote:
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index 878f66ef2719..84a97989775e 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -1050,6 +1050,18 @@ config VIDEO_OV9650
-> >  	  This is a V4L2 sensor driver for the Omnivision
-> >  	  OV9650 and OV9652 camera sensors.
-> >  
-> > +config VIDEO_OV10633
-> > +	tristate "OmniVision OV10633/OV10635 sensor support"
-> > +	depends on I2C && VIDEO_V4L2
-> > +	depends on GPIOLIB && OF
-> > +	select MEDIA_CONTROLLER
-> > +	select REGMAP_I2C
-> 
-> Should this be SCCB instead?
-> 
-> Likewise for the driver.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210104123850.GC850@valkosipuli.retiisi.org.uk/
+Build log: https://builder.linuxtv.org/job/patchwork/84316/
+Build time: 00:15:32
+Link: https://lore.kernel.org/linux-media/20210104123850.GC850@valkosipuli.retiisi.org.uk
 
-The OV1063x has 16-bit register addresses, and, unless I'm mistaken,
-regmap_sccb assumes register addresses to be 8-bit long.
+gpg: Signature made Mon 04 Jan 2021 12:27:47 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Can't check signature: No public key
 
--- 
-Regards,
+Summary: got 3/25 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-Laurent Pinchart
+Error/warnings:
+
+patches/0008-ccs-Add-support-for-analogue-gain-coefficient-contro.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-ccs-Add-support-for-analogue-gain-coefficient-contro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:65: CHECK: multiple assignments should be avoided
+
+patches/0010-ccs-Add-support-for-alternate-analogue-global-gain.patch:
+
+   checkpatch.pl:
+	$ cat patches/0010-ccs-Add-support-for-alternate-analogue-global-gain.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:76: CHECK: multiple assignments should be avoided
+
+patches/0018-ccs-Hardware-requires-a-delay-after-starting-the-clo.patch:
+
+   checkpatch.pl:
+	$ cat patches/0018-ccs-Hardware-requires-a-delay-after-starting-the-clo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:67: WARNING: usleep_range should not use min == max args; see Documentation/timers/timers-howto.rst
+
+
+Error #512 when building PDF docs
+
