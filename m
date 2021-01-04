@@ -2,168 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 213482E9C73
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 19:00:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 651632E9CA2
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 19:05:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbhADSA2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 13:00:28 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34284 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbhADSA2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 13:00:28 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 8634D1F44C54
-Message-ID: <0b3e741f7c6c9ebfcbf1c18742d74335a224fc41.camel@collabora.com>
-Subject: Re: [PATCH v2] media: imx6-mipi-csi2: Call remote subdev
- get_mbus_config to get active lanes
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Date:   Mon, 04 Jan 2021 14:59:40 -0300
-In-Reply-To: <183b9760df78c00ca036b350dc76175b0123de47.camel@pengutronix.de>
-References: <20210103154155.318300-1-ezequiel@collabora.com>
-         <183b9760df78c00ca036b350dc76175b0123de47.camel@pengutronix.de>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S1727778AbhADSEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 13:04:31 -0500
+Received: from mail-wr1-f51.google.com ([209.85.221.51]:33517 "EHLO
+        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727749AbhADSEa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 13:04:30 -0500
+Received: by mail-wr1-f51.google.com with SMTP id t30so33120348wrb.0;
+        Mon, 04 Jan 2021 10:04:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=h59iCiKuH4MXgrWgjRBSHuWSpOxsm5xD8Y4CubrF3xU=;
+        b=O9Z7vxMRaKMI5t4T35bv5YGBkatCDU5eq6r98qh3QvpeHWzlSAfvYP2gdGrDnTdeX+
+         9lFgK7c3VNoEmv3n0ooUqk/U/D//wbRrsJXgu/8hTYxbBT6jMKF2yD7oRNOYkIrred+Q
+         A36TcezbQKk4ldEN+dINQfU1JnD8ruELUrhvrFMbrHBc7derBdzkFgqYLmy3BtozESqV
+         FrYJR/DbD1nUP5Ci0TkvjufeoMcmg11E5E4KZqE8kJguHszQEotflCChxM97xswkECSV
+         E+gqqo2wMwSHM0FkvYPrWsR+Qc9N6IKAUY5odPzhSPLQuiFFn0ECjTZW7KfMPAGot3Jg
+         IJ6w==
+X-Gm-Message-State: AOAM530djHhjb46cspfzZL3CaJe+iYSF6jgIPNXImY1JNTtHRPCpTaS1
+        44cf+ZLNZ7z9omWXlgNTfzM=
+X-Google-Smtp-Source: ABdhPJxrRN4zoC9ySCl3+E0igqJkr5f1LUevrs1pugc92rcCWGC8YwtDgiDHvDzkbPEnhGyP6UumfQ==
+X-Received: by 2002:a5d:58fb:: with SMTP id f27mr71674294wrd.22.1609783427686;
+        Mon, 04 Jan 2021 10:03:47 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id w8sm92329342wrl.91.2021.01.04.10.03.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jan 2021 10:03:46 -0800 (PST)
+Date:   Mon, 4 Jan 2021 19:03:43 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Yangtao Li <tiny.windzz@gmail.com>
+Cc:     myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
+        cw00.choi@samsung.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        digetx@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
+        yuq825@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+        robdclark@gmail.com, sean@poorly.run, robh@kernel.org,
+        tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        lukasz.luba@arm.com, adrian.hunter@intel.com,
+        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
+        sboyd@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, rjw@rjwysocki.net, jcrouse@codeaurora.org,
+        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
+        marijn.suijten@somainline.org, gustavoars@kernel.org,
+        emil.velikov@collabora.com, jonathan@marek.ca,
+        akhilpo@codeaurora.org, smasetty@codeaurora.org,
+        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
+        tanmay@codeaurora.org, ddavenport@chromium.org,
+        jsanka@codeaurora.org, rnayak@codeaurora.org,
+        tongtiangen@huawei.com, miaoqinglang@huawei.com,
+        khsieh@codeaurora.org, abhinavk@codeaurora.org,
+        chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
+        mka@chromium.org, harigovi@codeaurora.org,
+        rikard.falkeborn@gmail.com, natechancellor@gmail.com,
+        georgi.djakov@linaro.org, akashast@codeaurora.org,
+        parashar@codeaurora.org, dianders@chromium.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH 22/31] memory: samsung: exynos5422-dmc: fix return error
+ in exynos5_init_freq_table
+Message-ID: <20210104180343.GA26189@kozik-lap>
+References: <20210101165507.19486-1-tiny.windzz@gmail.com>
+ <20210101165507.19486-23-tiny.windzz@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210101165507.19486-23-tiny.windzz@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
-
-On Mon, 2021-01-04 at 14:41 +0100, Philipp Zabel wrote:
-> Hi Ezequiel,
+On Fri, Jan 01, 2021 at 04:54:58PM +0000, Yangtao Li wrote:
+> We can't always return -EINVAL, let's fix it.
 > 
-> thank you for picking this up.
-> 
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> ---
+>  drivers/memory/samsung/exynos5422-dmc.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 
-No problem.
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-> On Sun, 2021-01-03 at 12:41 -0300, Ezequiel Garcia wrote:
-> > Currently, the CSI2 subdevice is using the data-lanes from the
-> > neareast endpoint to config the CSI2 lanes.
-> > 
-> > While this may work, the proper way to configure the hardware is
-> > to obtain the remote subdevice in v4l2_async_notifier_operations.bound(),
-> > and then call get_mbus_config using the remote subdevice to get
-> > the active lanes.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Same comment as Laurent, csi2_get_active_lanes() looks to be the same as
-> rcsi2_get_active_lanes() in rcar-csi2, so this could benefit from a
-> common helper (later).
-> 
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> 
+I see that the next patch depends on it so feel free to take it via PM
+tree. Otherwise let me know.
 
-Thanks for the review.
-
-> > ---
-> >  drivers/staging/media/imx/TODO             | 12 ---
-> >  drivers/staging/media/imx/imx6-mipi-csi2.c | 99 +++++++++++++++++++---
-> >  2 files changed, 87 insertions(+), 24 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-> > index 9cfc1c1e78dc..c575f419204a 100644
-> > --- a/drivers/staging/media/imx/TODO
-> > +++ b/drivers/staging/media/imx/TODO
-> > @@ -2,18 +2,6 @@
-> >  - The Frame Interval Monitor could be exported to v4l2-core for
-> >    general use.
-> >  
-> > -- The CSI subdevice parses its nearest upstream neighbor's device-tree
-> > -  bus config in order to setup the CSI. Laurent Pinchart argues that
-> > -  instead the CSI subdev should call its neighbor's g_mbus_config op
-> > -  (which should be propagated if necessary) to get this info. However
-> > -  Hans Verkuil is planning to remove the g_mbus_config op. For now this
-> > -  driver uses the parsed DT bus config method until this issue is
-> > -  resolved.
-> > -
-> > -  2020-06: g_mbus has been removed in favour of the get_mbus_config pad
-> > -  operation which should be used to avoid parsing the remote endpoint
-> > -  configuration.
-> > -
-> >  - This media driver supports inheriting V4L2 controls to the
-> >    video capture devices, from the subdevices in the capture device's
-> >    pipeline. The controls for each capture device are updated in the
-> > diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > index 94d87d27d389..8cfd6358c306 100644
-> > --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> [...]
-> > @@ -300,8 +300,56 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
-> >         writel(reg, csi2->base + CSI2IPU_GASKET);
-> >  }
-> >  
-> > +static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
-> > +{
-> > +       struct v4l2_mbus_config mbus_config = { 0 };
-> > +       unsigned int num_lanes = UINT_MAX;
-> > +       int ret;
-> > +
-> > +       *lanes = csi2->data_lanes;
-> > +
-> > +       ret = v4l2_subdev_call(csi2->remote, pad, get_mbus_config,
-> > +                              csi2->remote_pad, &mbus_config);
-> > +       if (ret == -ENOIOCTLCMD) {
-> > +               dev_dbg(csi2->dev, "No remote mbus configuration available\n");
-> > +               return 0;
-> > +       }
-> > +
-> > +       if (ret) {
-> > +               dev_err(csi2->dev, "Failed to get remote mbus configuration\n");
-> > +               return ret;
-> > +       }
-> > +
-> > +       if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> > +               dev_err(csi2->dev, "Unsupported media bus type %u\n",
-> > +                       mbus_config.type);
-> > +               return -EINVAL;
-> > +       }
-> > +
-> > +       if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-> > +               num_lanes = 1;
-> > +       else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-> > +               num_lanes = 2;
-> > +       else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-> > +               num_lanes = 3;
-> > +       else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-> > +               num_lanes = 4;
-> 
-> I'd turn this into a
->         switch (mbus_config.flags & V4L2_MBUS_CSI2_LANES) { }
-> to catch erroneous values of 0 or multiple bits set, as for those the
-> following error message doesn't make much sense:
-> 
-
-Makes sense. We can do that later, once we move the function to the core.
-
-> > +       if (num_lanes > csi2->data_lanes) {
-> > +               dev_err(csi2->dev,
-> > +                       "Unsupported mbus config: too many data lanes %u\n",
-> > +                       num_lanes);
-> > +               return -EINVAL;
-> > +       }
-> > +
-> > +       *lanes = num_lanes;
-> > +
-> > +       return 0;
-> > +}
-> 
-> Still, this patch looks good to me.
-> 
-
-Thanks,
-Ezequiel
-
-
+Best regards,
+Krzysztof
