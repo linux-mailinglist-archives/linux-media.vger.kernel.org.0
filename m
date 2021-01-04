@@ -2,116 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DFB52E9508
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 13:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1629A2E9525
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 13:44:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbhADMjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 07:39:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbhADMjl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 07:39:41 -0500
-Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B1D6C061574
-        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 04:39:01 -0800 (PST)
-Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7969A634C87
-        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 14:38:50 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kwP8M-0000Xb-DY
-        for linux-media@vger.kernel.org; Mon, 04 Jan 2021 14:38:50 +0200
-Date:   Mon, 4 Jan 2021 14:38:50 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.12] Additional CCS driver features
-Message-ID: <20210104123850.GC850@valkosipuli.retiisi.org.uk>
+        id S1726893AbhADMnU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 07:43:20 -0500
+Received: from mga07.intel.com ([134.134.136.100]:18371 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726789AbhADMnU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Jan 2021 07:43:20 -0500
+IronPort-SDR: 5pu6/Y+350I0eB63FcMdgH2pJAXZpYG58KeIk+Xcjr3qiCy+S/OmwiJ7/ozsZK2JYsMw3oNO5R
+ 651eAV6+RZSw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9853"; a="241029868"
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="241029868"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 04:41:33 -0800
+IronPort-SDR: BZJ0vJPCKSGEmCqRobP/9fXL4Hzw8UC6X/HWbkGKiYRna9+20Xa7UNo6F1J6X0Zby9o87oh7Hv
+ 8AWg9dDfckww==
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="401958746"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 04:41:27 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kwPBs-001ZNb-71; Mon, 04 Jan 2021 14:42:28 +0200
+Date:   Mon, 4 Jan 2021 14:42:28 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org,
+        gregkh@linuxfoundation.org, rjw@rjwysocki.net,
+        sergey.senozhatsky@gmail.com, mchehab@kernel.org, lenb@kernel.org,
+        yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
+        rostedt@goodmis.org, linux@rasmusvillemoes.dk,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        hverkuil-cisco@xs4all.nl, m.felsch@pengutronix.de,
+        niklas.soderlund+renesas@ragnatech.se, slongerbeam@gmail.com,
+        heikki.krogerus@linux.intel.com, linus.walleij@linaro.org
+Subject: Re: [PATCH v4 13/15] acpi: Add acpi_dev_get_next_match_dev() and
+ helper macro
+Message-ID: <20210104124228.GU4077@smile.fi.intel.com>
+References: <20210103231235.792999-1-djrscally@gmail.com>
+ <20210103231235.792999-14-djrscally@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210103231235.792999-14-djrscally@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Sun, Jan 03, 2021 at 11:12:33PM +0000, Daniel Scally wrote:
+> To ensure we handle situations in which multiple sensors of the same
+> model (and therefore _HID) are present in a system, we need to be able
+> to iterate over devices matching a known _HID but unknown _UID and _HRV
+>  - add acpi_dev_get_next_match_dev() to accommodate that possibility and
+> change acpi_dev_get_first_match_dev() to simply call the new function
+> with a NULL starting point. Add an iterator macro for convenience.
 
-This pull request adds support for additional CCS driver features,
-including digital gain support, alternative analogue gain support, analogue
-gain coefficients and CCS shading correction controls.
+I guess we need Rafael's blessing on this.
 
-Also the CCS driver and the PLL calculator are moved to kernel integer
-types.
-
-There are a few fixes and power-on sequence cleanups as well.
-
-Please pull.
-
-
-The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
-
-  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.12-2.1-signed
-
-for you to fetch changes up to 16800ffed3ecfbb451b707018228bfd3954b118c:
-
-  ccs: Small definition cleanup (2021-01-04 13:11:21 +0200)
-
-----------------------------------------------------------------
-Linux CCS driver patches for 5.12
-
-----------------------------------------------------------------
-Sakari Ailus (25):
-      ccs: Add digital gain support
-      ccs: Add support for old-style SMIA digital gain
-      ccs: Remove analogue gain field
-      ccs: Only add analogue gain control if the device supports it
-      v4l: uapi: Add user control base for CCS controls
-      Documentation: ccs: Add user documentation for the CCS driver
-      v4l: uapi: ccs: Add controls for analogue gain constants
-      ccs: Add support for analogue gain coefficient controls
-      v4l: uapi: ccs: Add controls for CCS alternative analogue gain
-      ccs: Add support for alternate analogue global gain
-      ccs: Add debug prints for MSR registers
-      v4l: uapi: ccs: Add CCS controls for shading correction
-      ccs: Add shading correction and luminance correction level controls
-      ccs: Get the endpoint by port rather than any next endpoint
-      ccs: Don't change the I²C address just for software reset
-      ccs: Only do software reset if we have no hardware reset
-      ccs: Wait until software reset is done
-      ccs: Hardware requires a delay after starting the clock of lifting reset
-      ccs: Add a sanity check for external clock frequency
-      ccs: Support and default to auto PHY control
-      Documentation: Include CCS PLL calculator to CCS driver documentation
-      ccs-pll: Switch from standard integer types to kernel ones
-      ccs: Switch from standard integer types to kernel ones
-      Revert "media: ccs-pll: Fix MODULE_LICENSE"
-      ccs: Small definition cleanup
-
- Documentation/driver-api/media/drivers/ccs/ccs.rst |  13 +
- Documentation/userspace-api/media/drivers/ccs.rst  | 110 +++++++
- .../userspace-api/media/drivers/index.rst          |   1 +
- MAINTAINERS                                        |   2 +
- drivers/media/i2c/ccs-pll.c                        | 116 ++++----
- drivers/media/i2c/ccs-pll.h                        |  86 +++---
- drivers/media/i2c/ccs/ccs-core.c                   | 318 ++++++++++++++++++---
- drivers/media/i2c/ccs/ccs-data.c                   |   1 -
- drivers/media/i2c/ccs/ccs-data.h                   |   2 +
- drivers/media/i2c/ccs/ccs-reg-access.c             |  29 +-
- drivers/media/i2c/ccs/ccs.h                        |   8 +-
- drivers/media/i2c/ccs/smiapp-reg-defs.h            |   2 +
- include/uapi/linux/ccs.h                           |  18 ++
- include/uapi/linux/v4l2-controls.h                 |   5 +
- 14 files changed, 551 insertions(+), 160 deletions(-)
- create mode 100644 Documentation/userspace-api/media/drivers/ccs.rst
- create mode 100644 include/uapi/linux/ccs.h
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> ---
+> Changes in v4:
+> 
+> 	- None
+> 
+>  drivers/acpi/utils.c    | 30 ++++++++++++++++++++++++++----
+>  include/acpi/acpi_bus.h |  7 +++++++
+>  2 files changed, 33 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/acpi/utils.c b/drivers/acpi/utils.c
+> index d5411a166685..ddca1550cce6 100644
+> --- a/drivers/acpi/utils.c
+> +++ b/drivers/acpi/utils.c
+> @@ -843,12 +843,13 @@ bool acpi_dev_present(const char *hid, const char *uid, s64 hrv)
+>  EXPORT_SYMBOL(acpi_dev_present);
+>  
+>  /**
+> - * acpi_dev_get_first_match_dev - Return the first match of ACPI device
+> + * acpi_dev_get_next_match_dev - Return the next match of ACPI device
+> + * @adev: Pointer to the previous acpi_device matching this @hid, @uid and @hrv
+>   * @hid: Hardware ID of the device.
+>   * @uid: Unique ID of the device, pass NULL to not check _UID
+>   * @hrv: Hardware Revision of the device, pass -1 to not check _HRV
+>   *
+> - * Return the first match of ACPI device if a matching device was present
+> + * Return the next match of ACPI device if another matching device was present
+>   * at the moment of invocation, or NULL otherwise.
+>   *
+>   * The caller is responsible to call put_device() on the returned device.
+> @@ -856,8 +857,9 @@ EXPORT_SYMBOL(acpi_dev_present);
+>   * See additional information in acpi_dev_present() as well.
+>   */
+>  struct acpi_device *
+> -acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
+> +acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const char *uid, s64 hrv)
+>  {
+> +	struct device *start = adev ? &adev->dev : NULL;
+>  	struct acpi_dev_match_info match = {};
+>  	struct device *dev;
+>  
+> @@ -865,9 +867,29 @@ acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
+>  	match.uid = uid;
+>  	match.hrv = hrv;
+>  
+> -	dev = bus_find_device(&acpi_bus_type, NULL, &match, acpi_dev_match_cb);
+> +	dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
+>  	return dev ? to_acpi_device(dev) : NULL;
+>  }
+> +EXPORT_SYMBOL(acpi_dev_get_next_match_dev);
+> +
+> +/**
+> + * acpi_dev_get_first_match_dev - Return the first match of ACPI device
+> + * @hid: Hardware ID of the device.
+> + * @uid: Unique ID of the device, pass NULL to not check _UID
+> + * @hrv: Hardware Revision of the device, pass -1 to not check _HRV
+> + *
+> + * Return the first match of ACPI device if a matching device was present
+> + * at the moment of invocation, or NULL otherwise.
+> + *
+> + * The caller is responsible to call put_device() on the returned device.
+> + *
+> + * See additional information in acpi_dev_present() as well.
+> + */
+> +struct acpi_device *
+> +acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
+> +{
+> +	return acpi_dev_get_next_match_dev(NULL, hid, uid, hrv);
+> +}
+>  EXPORT_SYMBOL(acpi_dev_get_first_match_dev);
+>  
+>  /*
+> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+> index a3abcc4b7d9f..0a028ba967d3 100644
+> --- a/include/acpi/acpi_bus.h
+> +++ b/include/acpi/acpi_bus.h
+> @@ -688,9 +688,16 @@ static inline bool acpi_device_can_poweroff(struct acpi_device *adev)
+>  
+>  bool acpi_dev_hid_uid_match(struct acpi_device *adev, const char *hid2, const char *uid2);
+>  
+> +struct acpi_device *
+> +acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const char *uid, s64 hrv);
+>  struct acpi_device *
+>  acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv);
+>  
+> +#define for_each_acpi_dev_match(adev, hid, uid, hrv)			\
+> +	for (adev = acpi_dev_get_first_match_dev(hid, uid, hrv);	\
+> +	     adev;							\
+> +	     adev = acpi_dev_get_next_match_dev(adev, hid, uid, hrv))
+> +
+>  static inline void acpi_dev_put(struct acpi_device *adev)
+>  {
+>  	put_device(&adev->dev);
+> -- 
+> 2.25.1
+> 
 
 -- 
-Sakari Ailus
+With Best Regards,
+Andy Shevchenko
+
+
