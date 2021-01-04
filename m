@@ -2,139 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 557B22E96BF
-	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 15:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 942432E96EC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Jan 2021 15:13:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727091AbhADOF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 09:05:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56048 "EHLO
+        id S1727298AbhADOMd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 09:12:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbhADOF4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 09:05:56 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA52DC061574
-        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 06:05:15 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id g185so19422060wmf.3
-        for <linux-media@vger.kernel.org>; Mon, 04 Jan 2021 06:05:15 -0800 (PST)
+        with ESMTP id S1726603AbhADOMd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 09:12:33 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05A94C061793;
+        Mon,  4 Jan 2021 06:11:53 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id lb18so10140222pjb.5;
+        Mon, 04 Jan 2021 06:11:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qI9pgI8QN03NxyaYrEoFCjNEpXaU69KlxstEMnwn+Gs=;
-        b=VgYsXIax45+75N/IMLP8SUzWZdkBOd7k3XfvjdHDU58J/0jMSxosFHyeU386QiKK/0
-         jCVzWlWb1gXz4VdU7d7z7IK+NMZeybAfTKRJ2BtghldTwpyT0Hc7y4pWeR95EseaEnF+
-         eg7br5qbZ3/dBaDPG6slyEDNpV2rhRk2SzUS/nT9lPVjDQ2CoT6i76FZ6w3UPfLZE/3r
-         4ALxOJq8t/hJ7KgUeG3ro/MZEe/eCkL20MhZseES0igaSGEGoV4zsv/qjQXCzaLXUgt1
-         IZJFN4nTk3DlurDmZkifn8p22fx+jYfsGGy+2B+bu1kMXDZDne5gJV3/DVXUAqYxadrf
-         pjBQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EUUxZnLp9iwqwD5hGCnTbWs9va3dDEmsYPYTCboDkgM=;
+        b=X8aqmXMB5tiHFzrniLVTktDAFx9GPxoKYC/VERRRccElLhRt5O3imXB3TuJseco+VB
+         6+IOagth86OcC79TdClqwAmmMuGeNj8/ODoiV94dlOOheowFAPPguDf7eM3Kbnum/qEd
+         FsLcu6pedYoofU9BK0ErFQgL7AnvPpDreqrzLCid0zT+0YFgRYRYI9qnR1OnXWeDDU4a
+         rq5h0PmyevPSwS38mhjy5/qei5hp8DMW5F2siQQNiPt3X99wAGlAxe2yHINXJaY2XdaX
+         s+y0Jw8fJJQZHc6T7MgeJ+CNNyPReKkcZT+mgQAUtqpGNd/l9vI1rRpwptE9A7xhZEq1
+         nm8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qI9pgI8QN03NxyaYrEoFCjNEpXaU69KlxstEMnwn+Gs=;
-        b=jHQPQMPC+71qALa6Wn9o6l9/sxCUokbR7FTox87uqKG3qOHFyr7Gktl3af4CnkC+eD
-         93L/AjYBMOX4jQEPv+CmNstlkjFqPsVGg8w300m6XtzwaeGF48/YvX3cmtr/gacKAH6q
-         P1jVfRWKy5oVYT1xOjMj8dUU/Iah8sEpXSiLLHiZHOF02FT+xoUSCUAvxhHsVCQ+5JbG
-         z9R/EMB20FuDZTkzHGc6utT7HL5FQFmmfRMdnDw5Zl6lNcntj5Pqxg043EximzYT05zK
-         4kWIH6OJHVs5BgjtpsnnubBPuefSTf9a2McXfSdeUrNGT70Aw70dkFwrVJvUZEEC13yW
-         wLDg==
-X-Gm-Message-State: AOAM530j21CAkEfEw09WKS0kIPLonwhRJ5om8ZmGzKVwBttjCUF6+EFZ
-        MSexjLqswfAFzIUgyuoz2lA=
-X-Google-Smtp-Source: ABdhPJyvWioy0CATmPLUIenotXRwki0oluHceGjj9wnfR9SERV+XX3kEgseplKYCUyQXgUUgy7K9tA==
-X-Received: by 2002:a1c:790f:: with SMTP id l15mr27331294wme.188.1609769114470;
-        Mon, 04 Jan 2021 06:05:14 -0800 (PST)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id u13sm92826286wrw.11.2021.01.04.06.05.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jan 2021 06:05:13 -0800 (PST)
-Date:   Mon, 4 Jan 2021 14:05:11 +0000
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        =?utf-8?Q?S=C3=A9bastien?= Szymanski 
-        <sebastien.szymanski@armadeus.com>
-Subject: Re: imx6ull capture from OV5640
-Message-ID: <20210104140511.ao7dprd5adpvut4m@arch-thunder.localdomain>
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <X/KwKikMayH8AHnG@pendragon.ideasonboard.com>
- <CAOMZO5Dh-AKveQneMy5cuvWAX2PwTuC9Xq9rXMfAMD3WUoVGsg@mail.gmail.com>
- <X/MTatdI+tDQ/PQI@pendragon.ideasonboard.com>
- <20210104134511.4on6y6o6hdwdbthd@arch-thunder.localdomain>
- <X/MdDzJUqTDSbupS@pendragon.ideasonboard.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EUUxZnLp9iwqwD5hGCnTbWs9va3dDEmsYPYTCboDkgM=;
+        b=UXFKLdMEf+im46prrMZvTz65vHcH5h47NmAfEqRh47I/KWWkJLMM+vnbRaeI+9MebV
+         hDTc8sk5rizAS8ffvvnJy77M8Ud2kggDfc86GKAVIQS5AqMedwyMXZff47UU66Kkhg5b
+         yx7dgp6/YtVyw7w4qtOKpWxk3d5xsIQU9zuC2OeR5z+gMBkqKIwPj0MHm+Wl7EN5/SgL
+         FYmXpfHMS7TQ/T6zyzgLgwqAaRCAW8wVInmhyhHhmCgfq0j19UuLY2sETkx/Dahig+pT
+         WLF4YagqaJcg2dH4HAQ/xEYPZBlgQtwtmJadZw26Nc1V7mE8XVkziBwzK/63TY6lOIoS
+         D+LA==
+X-Gm-Message-State: AOAM5328TQVYq8KU7oy9MA58UEqezHNpxLVum8kci0M3i6w/PIZW5PjB
+        7DbF8M3/njjEkDqL1PDtZJhq2eY5aJSxqPj+yzxXGTO+m40=
+X-Google-Smtp-Source: ABdhPJz6ehqJDINMSa6fja9yTp967LimGY8Equ3PqbXvrPklGwWlCUj94mtpfF0BG/sS7aRFOYJzqN3YqyiM9CLOAFA=
+X-Received: by 2002:a17:90b:a17:: with SMTP id gg23mr30462729pjb.129.1609769512562;
+ Mon, 04 Jan 2021 06:11:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X/MdDzJUqTDSbupS@pendragon.ideasonboard.com>
+References: <20210103231235.792999-1-djrscally@gmail.com> <20210103231235.792999-16-djrscally@gmail.com>
+ <3d881e2b-747f-dcd7-a0cf-e7309419914b@ideasonboard.com> <9026519f-1f33-9df0-de18-0881069f7aaa@gmail.com>
+In-Reply-To: <9026519f-1f33-9df0-de18-0881069f7aaa@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 4 Jan 2021 16:12:41 +0200
+Message-ID: <CAHp75Vf6Z_qhw54jUu5tt85XxjZncaQFCNpYx=tqGTS9LsVPOg@mail.gmail.com>
+Subject: Re: [PATCH v4 15/15] ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@acpica.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Len Brown <lenb@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jordan Hand <jorhand@linux.microsoft.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-On Mon, Jan 04, 2021 at 03:50:07PM +0200, Laurent Pinchart wrote:
-> Hi Rui,
-> 
-> On Mon, Jan 04, 2021 at 01:45:11PM +0000, Rui Miguel Silva wrote:
-> > Hi, catching up with this thread.
-> > 
-> > On Mon, Jan 04, 2021 at 03:08:58PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Jan 04, 2021 at 08:34:48AM -0300, Fabio Estevam wrote:
-> > > > On Mon, Jan 4, 2021 at 3:05 AM Laurent Pinchart wrote:
-> > > > 
-> > > > > That's not right, csi->is_csi2 is a flag that indicates if
-> > > > > the current input to the CSI comes from the CSI-2 receiver.
-> > > > >
-> > > > > It looks like the i.MX6ULL is missing the MIPI CSI-2
-> > > > > receiver and thus also the corresponding video mux. The
-> > > > > WARN_ON() should thus indeed by bypassed, but only for
-> > > > > devices that don't have the video mux. I wouldn't
-> > > > 
-> > > > Unlike i.MX7, i.MX6UL/i.MX6ULL do not have a MIPI CSI-2 IP
-> > > > block.
-> > > > 
-> > > > They only have a parallel CSI interface, and no video mux is
-> > > > present.
-> > > > 
-> > > > So the csi->is_csi2 check I did seems correct, right?
-> > > 
-> > > I don't think so. csi->is_csi2 tells if the currently selected
-> > > input of the video mux is the CSI-2 receiver, not if there's a
-> > > CSI-2 receiver present in the device. csi->is_csi2 should of
-> > > course always be false when there's no CSI-2 receiver, but it
-> > > can be false when a CSI-2 receiver is present and the currently
-> > > selected input is the parallel input.
-> > 
-> > Laurent is correct here. That flag indicates if CSI-2 is the
-> > selected input for the video mux.
-> > 
-> > > > > be surprised if other adaptations would be needed in the
-> > > > > code.
-> > 
-> > I really only had the warp7 board which only had the csi2 as video
-> > mux input, never got the chance to test it with a parallel input.
-> > And the driver expects that we always have a mux. I was not even
-> > aware that an imx6 would have the same csi ip.
-> > 
-> > but from the error outputs looks issues getting the format around
-> > the imx7_csi_{try, get}_fmt.
-> 
-> Do you still have the hardware, would you be able to test a patch
-> series ?
+On Mon, Jan 4, 2021 at 3:55 PM Daniel Scally <djrscally@gmail.com> wrote:
+> On 04/01/2021 13:35, Kieran Bingham wrote:
 
-Yeah, I have it somewhere... it could take a couple of days to
-restore the setup, but possible for sure.
+...
 
-------
-Cheers,
-     Rui
+> +static const struct cio2_sensor_config cio2_supported_sensors[] = {
+> +       /* Sensor OVTI5693 */
+> +       CIO2_SENSOR_CONFIG("INT33BE", 0),
+> +       /* Sensor OVTI2680 */
+> +       CIO2_SENSOR_CONFIG("OVTI2680", 0),
+>
+> As an inline comment won't fit for the sensors that we know link-frequencies for. That sound ok?
 
-> 
-> > > > Yes, I found other paths that miss the csi->is_csi2 check too.
-> 
-> -- Regards,
-> 
-> Laurent Pinchart
+At least to me it looks okay.
+
+It seems for v5 we need Rafael's blessing on a few patches (driver
+properties / swnode / ACPI) and we are fine.
+
+-- 
+With Best Regards,
+Andy Shevchenko
