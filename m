@@ -2,61 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA6D52EA79C
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 10:36:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 537B12EA7C0
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 10:39:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728083AbhAEJeD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 5 Jan 2021 04:34:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727927AbhAEJeD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 04:34:03 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB603C061793
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 01:33:22 -0800 (PST)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kwiiP-0007B6-Bk; Tue, 05 Jan 2021 10:33:21 +0100
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kwiiO-0003PM-VV; Tue, 05 Jan 2021 10:33:20 +0100
-Message-ID: <5bb16cf701768c68d38dad89c6f3c5cbbec9a02a.camel@pengutronix.de>
-Subject: Re: [PATCH v2 3/3] media: imx: Clean capture unregister
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Date:   Tue, 05 Jan 2021 10:33:20 +0100
-In-Reply-To: <20210104203441.168778-3-ezequiel@collabora.com>
-References: <20210104203441.168778-1-ezequiel@collabora.com>
-         <20210104203441.168778-3-ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        id S1728081AbhAEJi7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 04:38:59 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:40657 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727796AbhAEJi7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 04:38:59 -0500
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 6768E60010;
+        Tue,  5 Jan 2021 09:38:16 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH] media: i2c: ov5648/ov8865: Minor cosmetic fixes
+Date:   Tue,  5 Jan 2021 10:38:03 +0100
+Message-Id: <20210105093803.5247-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2021-01-04 at 17:34 -0300, Ezequiel Garcia wrote:
-> No locking is needed to call video_unregister_device(). Drop it.
-> 
-> Also, drop the superfluous video_is_registered() call, which is
-> done by video_unregister_device(), and re-order media_entity_cleanup()
-> and video_unregister_device() calls.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+This solves a few minor cosmetic issues picked up by checkpatch for
+the OV5648 and OV8865 drivers.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ drivers/media/i2c/ov5648.c | 2 +-
+ drivers/media/i2c/ov8865.c | 7 +++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-regards
-Philipp
+diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+index 609aa67b54ce..752a2e035c49 100644
+--- a/drivers/media/i2c/ov5648.c
++++ b/drivers/media/i2c/ov5648.c
+@@ -496,7 +496,7 @@
+ 	container_of(s, struct ov5648_sensor, subdev)
+ 
+ #define ov5648_ctrl_subdev(c) \
+-	(&container_of(c->handler, struct ov5648_sensor, ctrls.handler)->subdev)
++	(&container_of((c)->handler, struct ov5648_sensor, ctrls.handler)->subdev)
+ 
+ /* Data structures */
+ 
+diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+index fda5a55979aa..704d75b601e3 100644
+--- a/drivers/media/i2c/ov8865.c
++++ b/drivers/media/i2c/ov8865.c
+@@ -223,7 +223,6 @@
+ #define OV8865_FORMAT2_FLIP_HORZ_SENSOR_EN	BIT(1)
+ #define OV8865_FORMAT2_SYNC_HBIN_EN		BIT(0)
+ 
+-
+ #define OV8865_INC_Y_ODD_REG			0x382a
+ #define OV8865_INC_Y_ODD(v)			((v) & GENMASK(4, 0))
+ #define OV8865_INC_Y_EVEN_REG			0x382b
+@@ -460,7 +459,7 @@
+ 	container_of(s, struct ov8865_sensor, subdev)
+ 
+ #define ov8865_ctrl_subdev(c) \
+-	(&container_of(c->handler, struct ov8865_sensor, ctrls.handler)->subdev)
++	(&container_of((c)->handler, struct ov8865_sensor, ctrls.handler)->subdev)
+ 
+ /* Data structures */
+ 
+@@ -1598,8 +1597,8 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
+ 		return ret;
+ 
+ 	ret = ov8865_update_bits(sensor, OV8865_PCLK_SEL_REG,
+-			   OV8865_PCLK_SEL_PCLK_DIV_MASK,
+-			   OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
++				 OV8865_PCLK_SEL_PCLK_DIV_MASK,
++				 OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.29.2
+
