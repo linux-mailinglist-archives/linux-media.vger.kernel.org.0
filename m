@@ -2,115 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43E832EAB56
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 14:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB11E2EAB68
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 14:04:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729694AbhAENAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 08:00:30 -0500
-Received: from mga12.intel.com ([192.55.52.136]:60338 "EHLO mga12.intel.com"
+        id S1730466AbhAENDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 08:03:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57172 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727524AbhAENA3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Jan 2021 08:00:29 -0500
-IronPort-SDR: bICjH5i68eVLn38AHziT3cRV1aniqVl6/UbYlq5SRAgaW45G5JkZuY0L/JRpCqIZ8h37U463Ey
- b1c3WQb11bQA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="156293975"
-X-IronPort-AV: E=Sophos;i="5.78,476,1599548400"; 
-   d="scan'208";a="156293975"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 04:58:44 -0800
-IronPort-SDR: exPky2lEHu5+iUuOLfjXZ+fqO5wRrh67x/0HSBaQL+2MW6nT7yXJutUQGP3NqM/2YCYpwZsCev
- xP+i2SngoaXQ==
-X-IronPort-AV: E=Sophos;i="5.78,476,1599548400"; 
-   d="scan'208";a="395255933"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 04:58:43 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id D4FF9206FD; Tue,  5 Jan 2021 14:58:10 +0200 (EET)
-Date:   Tue, 5 Jan 2021 14:58:10 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: i2c: ov5648/ov8865: Minor cosmetic fixes
-Message-ID: <20210105125810.GQ11878@paasikivi.fi.intel.com>
-References: <20210105093803.5247-1-paul.kocialkowski@bootlin.com>
+        id S1729685AbhAENDc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Jan 2021 08:03:32 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E2CA22AAC;
+        Tue,  5 Jan 2021 13:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1609851770;
+        bh=/Tnbq4FC5ordGqRMZzBmEF2707cpXLotVuL1pB4INEg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b7A+HlihRW0BWkxuWeObIBnymtaP0ufAI6iZqP+I33dmJaItT4s02eE21hd20fF/X
+         d/gLGOgVM5jXbgjwt3xldxp8Yx05uXAdpw5ayzs7kX/HEqtzXpXUB3oUcRe35cTc//
+         0LAxDBVV/TNR3PSOx4/g/7uEn2gJ4Mz3qDyRHQzw=
+Date:   Tue, 5 Jan 2021 14:04:14 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
+Message-ID: <X/RjziK30y56uZUj@kroah.com>
+References: <20210104230253.2805217-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210105093803.5247-1-paul.kocialkowski@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
-
-Thanks for the patch.
-
-On Tue, Jan 05, 2021 at 10:38:03AM +0100, Paul Kocialkowski wrote:
-> This solves a few minor cosmetic issues picked up by checkpatch for
-> the OV5648 and OV8865 drivers.
+On Mon, Jan 04, 2021 at 04:02:53PM -0700, Rob Herring wrote:
+> DT properties which can have multiple entries need to specify what the
+> entries are and define how many entries there can be. In the case of
+> only a single entry, just 'maxItems: 1' is sufficient.
 > 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/media/i2c/ov5648.c | 2 +-
->  drivers/media/i2c/ov8865.c | 7 +++----
->  2 files changed, 4 insertions(+), 5 deletions(-)
+> Add the missing entry constraints. These were found with a modified
+> meta-schema. Unfortunately, there are a few cases where the size
+> constraints are not defined such as common bindings, so the meta-schema
+> can't be part of the normal checks.
 > 
-> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-> index 609aa67b54ce..752a2e035c49 100644
-> --- a/drivers/media/i2c/ov5648.c
-> +++ b/drivers/media/i2c/ov5648.c
-> @@ -496,7 +496,7 @@
->  	container_of(s, struct ov5648_sensor, subdev)
->  
->  #define ov5648_ctrl_subdev(c) \
-> -	(&container_of(c->handler, struct ov5648_sensor, ctrls.handler)->subdev)
-> +	(&container_of((c)->handler, struct ov5648_sensor, ctrls.handler)->subdev)
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
+> Cc: Chanwoo Choi <cw00.choi@samsung.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Ohad Ben-Cohen <ohad@wizery.com>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Over 80; please wrap.
+<snip>
 
+> diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> index 247ef00381ea..f76b25f7fc7a 100644
+> --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> @@ -83,6 +83,7 @@ properties:
+>        Phandle of a companion.
 >  
->  /* Data structures */
+>    phys:
+> +    maxItems: 1
+>      description: PHY specifier for the USB PHY
 >  
-> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-> index fda5a55979aa..704d75b601e3 100644
-> --- a/drivers/media/i2c/ov8865.c
-> +++ b/drivers/media/i2c/ov8865.c
-> @@ -223,7 +223,6 @@
->  #define OV8865_FORMAT2_FLIP_HORZ_SENSOR_EN	BIT(1)
->  #define OV8865_FORMAT2_SYNC_HBIN_EN		BIT(0)
+>    phy-names:
+> diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> index 2178bcc401bc..8e2bd61f2075 100644
+> --- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> @@ -71,6 +71,7 @@ properties:
+>        Overrides the detected port count
 >  
-> -
->  #define OV8865_INC_Y_ODD_REG			0x382a
->  #define OV8865_INC_Y_ODD(v)			((v) & GENMASK(4, 0))
->  #define OV8865_INC_Y_EVEN_REG			0x382b
-> @@ -460,7 +459,7 @@
->  	container_of(s, struct ov8865_sensor, subdev)
+>    phys:
+> +    maxItems: 1
+>      description: PHY specifier for the USB PHY
 >  
->  #define ov8865_ctrl_subdev(c) \
-> -	(&container_of(c->handler, struct ov8865_sensor, ctrls.handler)->subdev)
-> +	(&container_of((c)->handler, struct ov8865_sensor, ctrls.handler)->subdev)
+>    phy-names:
+> diff --git a/Documentation/devicetree/bindings/usb/ingenic,musb.yaml b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
+> index 678396eeeb78..f506225a4d57 100644
+> --- a/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
+> +++ b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
+> @@ -40,7 +40,7 @@ properties:
+>        - const: mc
+>  
+>    phys:
+> -    description: PHY specifier for the USB PHY
+> +    maxItems: 1
+>  
+>    usb-role-switch:
+>      type: boolean
 
-Ditto.
+Any reason you dropped the description for this entry, but not the other
+ones above?
 
+> diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
+> index 388245b91a55..adce36e48bc9 100644
+> --- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
+> +++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
+> @@ -15,13 +15,14 @@ properties:
+>        - const: ti,j721e-usb
 >  
->  /* Data structures */
+>    reg:
+> -    description: module registers
+> +    maxItems: 1
 >  
-> @@ -1598,8 +1597,8 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
->  		return ret;
+>    power-domains:
+>      description:
+>        PM domain provider node and an args specifier containing
+>        the USB device id value. See,
+>        Documentation/devicetree/bindings/soc/ti/sci-pm-domain.txt
+> +    maxItems: 1
 >  
->  	ret = ov8865_update_bits(sensor, OV8865_PCLK_SEL_REG,
-> -			   OV8865_PCLK_SEL_PCLK_DIV_MASK,
-> -			   OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
-> +				 OV8865_PCLK_SEL_PCLK_DIV_MASK,
-> +				 OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
->  	if (ret)
->  		return ret;
->  
-> -- 
-> 2.29.2
-> 
+>    clocks:
+>      description: Clock phandles to usb2_refclk and lpm_clk
 
--- 
-Sakari Ailus
+Same here, why remove the description?
+
+thanks,
+
+greg k-h
