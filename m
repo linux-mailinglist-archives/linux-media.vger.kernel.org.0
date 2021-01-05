@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47ADB2EAEDE
+	by mail.lfdr.de (Postfix) with ESMTP id B5BA42EAEDF
 	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:41:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728696AbhAEPjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 10:39:37 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38190 "EHLO
+        id S1728171AbhAEPjm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 10:39:42 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38168 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728694AbhAEPjg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:39:36 -0500
+        with ESMTP id S1728694AbhAEPjl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:39:41 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4419D1C09;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8FAA3D7;
         Tue,  5 Jan 2021 16:30:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609860620;
-        bh=ftfLaB/aEQPAep5eMoglJXhmA1Ug5eHx9W4WqgyO/Gc=;
+        s=mail; t=1609860621;
+        bh=lprdwajOzEHnCQ60Yz3Qq6HBnwqWgU44/+uHWYeZS5c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=an9BXPIdmDw+0L94vIo6eNtW88NKhjoo49UO4moz3QlzUVv+jsJdbS9qrmymnxuA8
-         pxQ3X8w55FcF34kCGfvwBJprzd5FLTZBmM/X+QfHprlG1gxQL7wrzgPoOu5myyNqzW
-         yFAUW4GdYPBIBoGDprFn5AudgQ8vh0fni8SuzmXU=
+        b=SAXiNiD+ZTGVzyzRjDbB1I6M6xAEGlxLvPGkuEjDE6HYlH/tZR+qhL+jmbCT2Kzxm
+         9whmw8fKU1hRRD8ODbi/jzictODkQOOkEuP9fI233aoPucP9ZLYqTIIiXz0OLr0Q17
+         JoAzGBn+pFxZRgMlYIfEOCjnzukG38z6R5KjiZtQ=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 65/75] media: imx: imx7_mipi_csis: Fix UYVY8 media bus format
-Date:   Tue,  5 Jan 2021 17:28:42 +0200
-Message-Id: <20210105152852.5733-66-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 66/75] media: imx: imx7_mipi_csis: Inline mipi_csis_set_hsync_settle()
+Date:   Tue,  5 Jan 2021 17:28:43 +0200
+Message-Id: <20210105152852.5733-67-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
 References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
@@ -39,40 +39,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-CSI-2 uses, as a convention, 1Xn media bus formats. Replace
-MEDIA_BUS_FMT_UYVY8_2X8 with MEDIA_BUS_FMT_UYVY8_1X16, and set the width
-value accordingly.
+The mipi_csis_set_hsync_settle() is small, called from a single place,
+and misnamed (HS stands for high speed, not horizontal sync). Inline it
+in its only caller, and refactor the HSSETTLE register field macros
+while at it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 5a5b3723f0a8..938503601c60 100644
+index 938503601c60..4e85611fcdc6 100644
 --- a/drivers/staging/media/imx/imx7-mipi-csis.c
 +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -273,9 +273,9 @@ struct csis_pix_format {
- static const struct csis_pix_format mipi_csis_formats[] = {
- 	/* YUV formats. */
- 	{
--		.code = MEDIA_BUS_FMT_UYVY8_2X8,
-+		.code = MEDIA_BUS_FMT_UYVY8_1X16,
- 		.fmt_reg = MIPI_CSIS_ISPCFG_FMT_YCBCR422_8BIT,
--		.width = 8,
-+		.width = 16,
- 	},
- 	/* RAW (Bayer and greyscale) formats. */
- 	{
-@@ -718,7 +718,7 @@ static int mipi_csis_init_cfg(struct v4l2_subdev *mipi_sd,
- 	which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
- 	fmt_sink = mipi_csis_get_format(state, cfg, which, CSIS_PAD_SINK);
+@@ -108,8 +108,8 @@
  
--	fmt_sink->code = MEDIA_BUS_FMT_UYVY8_2X8;
-+	fmt_sink->code = MEDIA_BUS_FMT_UYVY8_1X16;
- 	fmt_sink->width = MIPI_CSIS_DEF_PIX_WIDTH;
- 	fmt_sink->height = MIPI_CSIS_DEF_PIX_HEIGHT;
- 	fmt_sink->field = V4L2_FIELD_NONE;
+ /* D-PHY common control */
+ #define MIPI_CSIS_DPHYCTRL			0x24
+-#define MIPI_CSIS_DPHYCTRL_HSS_MASK		(0xff << 24)
+-#define MIPI_CSIS_DPHYCTRL_HSS_OFFSET		24
++#define MIPI_CSIS_DPHYCTRL_HSSETTLE(n)		((n) << 24)
++#define MIPI_CSIS_DPHYCTRL_HSSETTLE_MASK	GENMASK(31, 24)
+ #define MIPI_CSIS_DPHYCTRL_SCLKS_MASK		(0x3 << 22)
+ #define MIPI_CSIS_DPHYCTRL_SCLKS_OFFSET		22
+ #define MIPI_CSIS_DPHYCTRL_DPDN_SWAP_CLK	BIT(6)
+@@ -482,15 +482,6 @@ static void __mipi_csis_set_format(struct csi_state *state)
+ 	mipi_csis_write(state, MIPI_CSIS_ISPRESOL_CH0, val);
+ }
+ 
+-static void mipi_csis_set_hsync_settle(struct csi_state *state, int hs_settle)
+-{
+-	u32 val = mipi_csis_read(state, MIPI_CSIS_DPHYCTRL);
+-
+-	val = (val & ~MIPI_CSIS_DPHYCTRL_HSS_MASK) | (hs_settle << 24);
+-
+-	mipi_csis_write(state, MIPI_CSIS_DPHYCTRL, val);
+-}
+-
+ static void mipi_csis_set_params(struct csi_state *state)
+ {
+ 	int lanes = state->bus.num_data_lanes;
+@@ -504,7 +495,10 @@ static void mipi_csis_set_params(struct csi_state *state)
+ 
+ 	__mipi_csis_set_format(state);
+ 
+-	mipi_csis_set_hsync_settle(state, state->hs_settle);
++	val = mipi_csis_read(state, MIPI_CSIS_DPHYCTRL);
++	val = (val & ~MIPI_CSIS_DPHYCTRL_HSSETTLE_MASK)
++	    | MIPI_CSIS_DPHYCTRL_HSSETTLE(state->hs_settle);
++	mipi_csis_write(state, MIPI_CSIS_DPHYCTRL, val);
+ 
+ 	val = (0 << MIPI_CSIS_ISPSYNC_HSYNC_LINTV_OFFSET) |
+ 		(0 << MIPI_CSIS_ISPSYNC_VSYNC_SINTV_OFFSET) |
 -- 
 Regards,
 
