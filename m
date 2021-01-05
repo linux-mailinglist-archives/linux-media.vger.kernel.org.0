@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAEA42EAEAA
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A99C62EAEB5
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:36:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727981AbhAEPgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 10:36:05 -0500
+        id S1728321AbhAEPgW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 10:36:22 -0500
 Received: from perceval.ideasonboard.com ([213.167.242.64]:38168 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725868AbhAEPgF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:36:05 -0500
+        with ESMTP id S1728273AbhAEPgW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:36:22 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D59B1B0B;
-        Tue,  5 Jan 2021 16:30:02 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B4261B1F;
+        Tue,  5 Jan 2021 16:30:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609860602;
-        bh=aUx6NkHx3MQXTEOmKJP8p52LyQUNXnrbtBHVzil+IiI=;
+        s=mail; t=1609860603;
+        bh=ST/aRP5kYy5U59Jk32sb1+UtIDwCaQoIhHVntrvfDas=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eeO0QmUbeE5FYRJJjxE3rIgzoaglCZh2UoNNuRWoN47GIzMGnSB6JM3jN4PUB8A3c
-         HBVEhQStOh3yvoqbnS35zoFdG98uWUCbfEGYl8WBUSTbwRoXmIiL0zkP7yswbQeqD2
-         VKIwwDYml6pqLagC6UAEg7NtLO4Ylvazk/SWc8wA=
+        b=Mhfzq2tVTPIlr2i7RHwzDC+mrab8j3UcaO0DG8ATI4RLEtsGB1Gq/5NyPUf9dwyOt
+         zs5Ie1Zzu3wLNGM0Rs+/q+JZFiqp2pTUb2jJLFwG6/IBe3OEzp9VYmAvQiw0QJcYdj
+         u+005papoVbFYfmZXu6Ol+zVRwtFIbpbepqoxqw8=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 41/75] media: imx: imx7-media-csi: Move CSI configuration before source start
-Date:   Tue,  5 Jan 2021 17:28:18 +0200
-Message-Id: <20210105152852.5733-42-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 42/75] media: imx: imx7-media-csi: Merge streaming_start() with csi_enable()
+Date:   Tue,  5 Jan 2021 17:28:19 +0200
+Message-Id: <20210105152852.5733-43-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
 References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
@@ -39,82 +39,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no reason to delay the CSI configuration and the DMA setup after
-starting the source. Move it before, simplifying error handling at
-stream start.
+The imx7_csi_streaming_start() function just wraps imx7_csi_enable().
+Call the latter directly.
+
+Similarly, merge imx7_csi_streaming_stop() and imx7_csi_disable() as
+they're both called from a single location only.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 27 ++++++++--------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 28 +++++++---------------
+ 1 file changed, 8 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index b7e4d83bbbfc..7ff100e895df 100644
+index 7ff100e895df..8680f5d9ff71 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -577,15 +577,23 @@ static int imx7_csi_init(struct imx7_csi *csi)
- 	ret = clk_prepare_enable(csi->mclk);
- 	if (ret < 0)
- 		return ret;
-+
- 	imx7_csi_hw_reset(csi);
- 	imx7_csi_init_interface(csi);
- 	imx7_csi_dmareq_rff_enable(csi);
- 
-+	ret = imx7_csi_dma_setup(csi);
-+	if (ret < 0)
-+		return ret;
-+
-+	imx7_csi_configure(csi);
-+
- 	return 0;
+@@ -610,28 +610,16 @@ static void imx7_csi_enable(struct imx7_csi *csi)
  }
  
- static void imx7_csi_deinit(struct imx7_csi *csi)
- {
-+	imx7_csi_dma_cleanup(csi);
- 	imx7_csi_hw_reset(csi);
- 	imx7_csi_init_interface(csi);
- 	imx7_csi_dmareq_rff_disable(csi);
-@@ -612,24 +620,14 @@ static void imx7_csi_disable(struct imx7_csi *csi)
- 	imx7_csi_hw_disable(csi);
- }
- 
--static int imx7_csi_streaming_start(struct imx7_csi *csi)
-+static void imx7_csi_streaming_start(struct imx7_csi *csi)
- {
--	int ret;
+ static void imx7_csi_disable(struct imx7_csi *csi)
+-{
+-	imx7_csi_dmareq_rff_disable(csi);
 -
--	ret = imx7_csi_dma_setup(csi);
--	if (ret < 0)
--		return ret;
+-	imx7_csi_hw_disable_irq(csi);
 -
--	imx7_csi_configure(csi);
- 	imx7_csi_enable(csi);
+-	imx7_csi_buf_stride_set(csi, 0);
 -
--	return 0;
- }
- 
- static int imx7_csi_streaming_stop(struct imx7_csi *csi)
+-	imx7_csi_hw_disable(csi);
+-}
+-
+-static void imx7_csi_streaming_start(struct imx7_csi *csi)
+-{
+-	imx7_csi_enable(csi);
+-}
+-
+-static int imx7_csi_streaming_stop(struct imx7_csi *csi)
  {
  	imx7_csi_dma_stop(csi);
--	imx7_csi_dma_cleanup(csi);
  
- 	imx7_csi_disable(csi);
+-	imx7_csi_disable(csi);
++	imx7_csi_dmareq_rff_disable(csi);
  
-@@ -769,12 +767,7 @@ static int imx7_csi_s_stream(struct v4l2_subdev *sd, int enable)
+-	return 0;
++	imx7_csi_hw_disable_irq(csi);
++
++	imx7_csi_buf_stride_set(csi, 0);
++
++	imx7_csi_hw_disable(csi);
+ }
+ 
+ /* -----------------------------------------------------------------------------
+@@ -767,9 +755,9 @@ static int imx7_csi_s_stream(struct v4l2_subdev *sd, int enable)
  			goto out_unlock;
  		}
  
--		ret = imx7_csi_streaming_start(csi);
--		if (ret < 0) {
--			v4l2_subdev_call(csi->src_sd, video, s_stream, 0);
--			imx7_csi_deinit(csi);
--			goto out_unlock;
--		}
-+		imx7_csi_streaming_start(csi);
+-		imx7_csi_streaming_start(csi);
++		imx7_csi_enable(csi);
  	} else {
- 		imx7_csi_streaming_stop(csi);
+-		imx7_csi_streaming_stop(csi);
++		imx7_csi_disable(csi);
+ 
+ 		v4l2_subdev_call(csi->src_sd, video, s_stream, 0);
  
 -- 
 Regards,
