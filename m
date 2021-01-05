@@ -2,35 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A93532EAED6
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:41:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2239B2EAED7
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:41:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727987AbhAEPiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 10:38:46 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38190 "EHLO
+        id S1728202AbhAEPiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 10:38:52 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38168 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726957AbhAEPiq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:38:46 -0500
+        with ESMTP id S1727514AbhAEPiw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:38:52 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9239F1BEF;
-        Tue,  5 Jan 2021 16:30:16 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 525B51BF2;
+        Tue,  5 Jan 2021 16:30:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1609860617;
-        bh=QijKmJDIjOo7MKVny8M7NUeZo6zYDFwqShZIVrpphus=;
+        bh=Wi0jh7X7z79/4q+XG3gUag2u7WPD58zF8yByXM9ynkU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G3nTtbEb4p+HJQEX16g6HeL+Qv+xBUbsrb/FecMQUZPlAtrNMOp9HPm4/vrviJDoN
-         lAR5dUBe+jhxZmURhMHyS4L8e5/MuU9Tdlh3Y91cKWxbMLR0ts3IGwZC0jtgvFeU7f
-         xaUEUJ+rp1k6LRthMjNRBQj+JUQETJRJWGO3ycPg=
+        b=U4x90FLHJqJCva322sNz5I4Lk3ixA8hm5fOfNj9vJwFqzyjgbHKw1eX87iwXUyx4E
+         4r/wDj827qjOlLFK0O1aJnlpGWOmexpCBSgsMbkQzYBFkooVMdX8A9ioqoemFRNpGm
+         zXMbvfbeS/w3+tmAm5xEH0hYWsgAOsRBaKMYnn84=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH 59/75] dt-bindings: media: fsl,imx7-mipi-csi2: Drop fsl,csis-hs-settle property
-Date:   Tue,  5 Jan 2021 17:28:36 +0200
-Message-Id: <20210105152852.5733-60-laurent.pinchart@ideasonboard.com>
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH 60/75] media: imx: imx7_mipi_csis: Acquire reset control without naming it
+Date:   Tue,  5 Jan 2021 17:28:37 +0200
+Message-Id: <20210105152852.5733-61-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
 References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
@@ -40,29 +39,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The fsl,csis-hs-settle property isn't used by the driver anymore. Drop
-it.
+The device has a single reset line, there's thus no need to name it
+explicitly when calling devm_reset_control_get_exclusive(). Drop the
+name in preparation for the removal of the reset-names property in the
+DT binding.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../devicetree/bindings/media/fsl,imx7-mipi-csi2.yaml         | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/fsl,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/fsl,imx7-mipi-csi2.yaml
-index d8918ba3b06c..656aac67470d 100644
---- a/Documentation/devicetree/bindings/media/fsl,imx7-mipi-csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/fsl,imx7-mipi-csi2.yaml
-@@ -54,10 +54,6 @@ properties:
-     description: The desired external clock ("wrap") frequency, in Hz
-     default: 166000000
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index d8d1556cb526..b6a808cddb37 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -943,7 +943,7 @@ static int mipi_csis_parse_dt(struct platform_device *pdev,
+ 		state->clk_frequency = DEFAULT_SCLK_CSIS_FREQ;
  
--  fsl,csis-hs-settle:
--    $ref: /schemas/types.yaml#/definitions/uint32
--    description: HS-SETTLE time (unit unknown)
--
-   ports:
-     # See ./video-interfaces.txt for details
-     type: object
+ 	/* Get MIPI PHY resets */
+-	state->mrst = devm_reset_control_get_exclusive(&pdev->dev, "mrst");
++	state->mrst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+ 	if (IS_ERR(state->mrst))
+ 		return PTR_ERR(state->mrst);
+ 
 -- 
 Regards,
 
