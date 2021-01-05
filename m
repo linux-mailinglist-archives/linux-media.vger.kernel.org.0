@@ -2,131 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 743882EAB4D
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 13:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43E832EAB56
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 14:01:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727977AbhAEM6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 07:58:02 -0500
-Received: from retiisi.eu ([95.216.213.190]:57400 "EHLO hillosipuli.retiisi.eu"
+        id S1729694AbhAENAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 08:00:30 -0500
+Received: from mga12.intel.com ([192.55.52.136]:60338 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725932AbhAEM6B (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Jan 2021 07:58:01 -0500
-Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 17DAB634C87;
-        Tue,  5 Jan 2021 14:56:01 +0200 (EET)
+        id S1727524AbhAENA3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Jan 2021 08:00:29 -0500
+IronPort-SDR: bICjH5i68eVLn38AHziT3cRV1aniqVl6/UbYlq5SRAgaW45G5JkZuY0L/JRpCqIZ8h37U463Ey
+ b1c3WQb11bQA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="156293975"
+X-IronPort-AV: E=Sophos;i="5.78,476,1599548400"; 
+   d="scan'208";a="156293975"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 04:58:44 -0800
+IronPort-SDR: exPky2lEHu5+iUuOLfjXZ+fqO5wRrh67x/0HSBaQL+2MW6nT7yXJutUQGP3NqM/2YCYpwZsCev
+ xP+i2SngoaXQ==
+X-IronPort-AV: E=Sophos;i="5.78,476,1599548400"; 
+   d="scan'208";a="395255933"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 04:58:43 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id D4FF9206FD; Tue,  5 Jan 2021 14:58:10 +0200 (EET)
+Date:   Tue, 5 Jan 2021 14:58:10 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/1] ccs: Make (non-)use of uninitialised variables more robust
-Date:   Tue,  5 Jan 2021 14:49:14 +0200
-Message-Id: <20210105124914.22900-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] media: i2c: ov5648/ov8865: Minor cosmetic fixes
+Message-ID: <20210105125810.GQ11878@paasikivi.fi.intel.com>
+References: <20210105093803.5247-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210105093803.5247-1-paul.kocialkowski@bootlin.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-GCC with W=2 level of kernel compiler warnings warns about the use of
-uninitialised variables in a few locations. While these uninitialised
-variables were not used in reality, this still produced compiler warnings.
+Hi Paul,
 
-Address this by assigning the variables to NULL and checking for NULL in
-places it is not expected, returning -EPROTO in that case. This provides
-at least some sanity checking at runtime as the compiler appears unable to
-do that at compile time.
+Thanks for the patch.
 
-Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/ccs/ccs-data.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+On Tue, Jan 05, 2021 at 10:38:03AM +0100, Paul Kocialkowski wrote:
+> This solves a few minor cosmetic issues picked up by checkpatch for
+> the OV5648 and OV8865 drivers.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  drivers/media/i2c/ov5648.c | 2 +-
+>  drivers/media/i2c/ov8865.c | 7 +++----
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+> index 609aa67b54ce..752a2e035c49 100644
+> --- a/drivers/media/i2c/ov5648.c
+> +++ b/drivers/media/i2c/ov5648.c
+> @@ -496,7 +496,7 @@
+>  	container_of(s, struct ov5648_sensor, subdev)
+>  
+>  #define ov5648_ctrl_subdev(c) \
+> -	(&container_of(c->handler, struct ov5648_sensor, ctrls.handler)->subdev)
+> +	(&container_of((c)->handler, struct ov5648_sensor, ctrls.handler)->subdev)
 
-diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
-index 59338a6704af..99b2b515058a 100644
---- a/drivers/media/i2c/ccs/ccs-data.c
-+++ b/drivers/media/i2c/ccs/ccs-data.c
-@@ -214,7 +214,7 @@ static int ccs_data_parse_regs(struct bin_container *bin,
- 			       size_t *__num_regs, const void *payload,
- 			       const void *endp, struct device *dev)
- {
--	struct ccs_reg *regs_base, *regs;
-+	struct ccs_reg *regs_base = NULL, *regs = NULL;
- 	size_t num_regs = 0;
- 	u16 addr = 0;
- 
-@@ -285,6 +285,9 @@ static int ccs_data_parse_regs(struct bin_container *bin,
- 		if (!bin->base) {
- 			bin_reserve(bin, len);
- 		} else if (__regs) {
-+			if (!regs)
-+				return -EPROTO;
-+
- 			regs->addr = addr;
- 			regs->len = len;
- 			regs->value = bin_alloc(bin, len);
-@@ -305,8 +308,12 @@ static int ccs_data_parse_regs(struct bin_container *bin,
- 	if (__num_regs)
- 		*__num_regs = num_regs;
- 
--	if (bin->base && __regs)
-+	if (bin->base && __regs) {
-+		if (!regs_base)
-+			return -EPROTO;
-+
- 		*__regs = regs_base;
-+	}
- 
- 	return 0;
- }
-@@ -425,7 +432,7 @@ static int ccs_data_parse_rules(struct bin_container *bin,
- 				size_t *__num_rules, const void *payload,
- 				const void *endp, struct device *dev)
- {
--	struct ccs_rule *rules_base, *rules = NULL, *next_rule;
-+	struct ccs_rule *rules_base = NULL, *rules = NULL, *next_rule = NULL;
- 	size_t num_rules = 0;
- 	const void *__next_rule = payload;
- 	int rval;
-@@ -483,6 +490,9 @@ static int ccs_data_parse_rules(struct bin_container *bin,
- 			} else {
- 				unsigned int i;
- 
-+				if (!next_rule)
-+					return -EPROTO;
-+
- 				rules = next_rule;
- 				next_rule++;
- 
-@@ -555,6 +565,9 @@ static int ccs_data_parse_rules(struct bin_container *bin,
- 		bin_reserve(bin, sizeof(*rules) * num_rules);
- 		*__num_rules = num_rules;
- 	} else {
-+		if (!rules_base)
-+			return -EPROTO;
-+
- 		*__rules = rules_base;
- 	}
- 
-@@ -690,7 +703,7 @@ static int ccs_data_parse_pdaf(struct bin_container *bin, struct ccs_pdaf_pix_lo
- 	}
- 
- 	for (i = 0; i < max_block_type_id; i++) {
--		struct ccs_pdaf_pix_loc_pixel_desc_group *pdgroup;
-+		struct ccs_pdaf_pix_loc_pixel_desc_group *pdgroup = NULL;
- 		unsigned int j;
- 
- 		if (!is_contained(__num_pixel_descs, endp))
-@@ -721,6 +734,9 @@ static int ccs_data_parse_pdaf(struct bin_container *bin, struct ccs_pdaf_pix_lo
- 			if (!bin->base)
- 				continue;
- 
-+			if (!pdgroup)
-+				return -EPROTO;
-+
- 			pdesc = &pdgroup->descs[j];
- 			pdesc->pixel_type = __pixel_desc->pixel_type;
- 			pdesc->small_offset_x = __pixel_desc->small_offset_x;
+Over 80; please wrap.
+
+>  
+>  /* Data structures */
+>  
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index fda5a55979aa..704d75b601e3 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -223,7 +223,6 @@
+>  #define OV8865_FORMAT2_FLIP_HORZ_SENSOR_EN	BIT(1)
+>  #define OV8865_FORMAT2_SYNC_HBIN_EN		BIT(0)
+>  
+> -
+>  #define OV8865_INC_Y_ODD_REG			0x382a
+>  #define OV8865_INC_Y_ODD(v)			((v) & GENMASK(4, 0))
+>  #define OV8865_INC_Y_EVEN_REG			0x382b
+> @@ -460,7 +459,7 @@
+>  	container_of(s, struct ov8865_sensor, subdev)
+>  
+>  #define ov8865_ctrl_subdev(c) \
+> -	(&container_of(c->handler, struct ov8865_sensor, ctrls.handler)->subdev)
+> +	(&container_of((c)->handler, struct ov8865_sensor, ctrls.handler)->subdev)
+
+Ditto.
+
+>  
+>  /* Data structures */
+>  
+> @@ -1598,8 +1597,8 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
+>  		return ret;
+>  
+>  	ret = ov8865_update_bits(sensor, OV8865_PCLK_SEL_REG,
+> -			   OV8865_PCLK_SEL_PCLK_DIV_MASK,
+> -			   OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
+> +				 OV8865_PCLK_SEL_PCLK_DIV_MASK,
+> +				 OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
+>  	if (ret)
+>  		return ret;
+>  
+> -- 
+> 2.29.2
+> 
+
 -- 
-2.29.2
-
+Sakari Ailus
