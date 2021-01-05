@@ -2,252 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB2E02EA405
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 04:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B67DD2EA412
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 04:50:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728221AbhAEDrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 22:47:07 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60638 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbhAEDrH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 22:47:07 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 311BDDD;
-        Tue,  5 Jan 2021 04:46:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609818384;
-        bh=eHDWnH6m1+eLhcCx84dnlp64GeJVIgEqWQP7+76DXE4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KIffBp0m1D+A07RbdhPsYfgoEj0O8eF25fOQfYFmk/QlzAly/fE5WdIl+9xMvLFri
-         6XDk8DcIqpe9MqdRHe8khZP5xFs+q2gVRmjA0JhbmWnonWXmTnjyn0/y3CrSaBqpig
-         Po87clDBRP3bKoFEdIN2L+PdVvIph9APqSr1SUME=
-Date:   Tue, 5 Jan 2021 05:46:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com, Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v2] media: v4l2-async: Add waiting subdevices debugfs
-Message-ID: <X/PhA5xsuHfSE1R/@pendragon.ideasonboard.com>
-References: <20210104174840.144958-1-ezequiel@collabora.com>
+        id S1728367AbhAEDsf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 22:48:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726168AbhAEDsf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 22:48:35 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 564FBC061794;
+        Mon,  4 Jan 2021 19:47:54 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id m25so69441471lfc.11;
+        Mon, 04 Jan 2021 19:47:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=h3dbOszFbt6OQaWtwfejouXLhmx5RSkLak0dmAl0EsE=;
+        b=X2HIPa+2nYHaUq4baszZeg/1lPwfRlrkiazbu8bWAZ/4KVDEZZ8UJLHkCiHzu5BoPv
+         +d1r6dGtLI/e5iSeLti/uFDhKLFXF3tY06Jdc3OuTB+60jcWy7nbxvR/X/sbuy5Z2y0a
+         zy9Qm2wdvLKFzbzpL5PwnIXh21X/23EVG7mYWxKtxfix082rS5faNNu/pQ57no+v4JD+
+         BaQRjUTLWwn1bDT7po749l/CDI6APyFbpmhm4QydCPb2EdRw7tEUospHsYRRgYR6FHym
+         oOmjm0bgU9pTqMTv2DoYi3myavoG+000acurgbb4dfthX9S8jl7kSgIjjgmMtRlfqb7V
+         Jf3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=h3dbOszFbt6OQaWtwfejouXLhmx5RSkLak0dmAl0EsE=;
+        b=dd7G3Lb1vaKfHk24dyZxF8NzW1w9V2tfzyOCOJtHql4Jdc7Ln21wRiYgpe62h4dMlh
+         HcECjkvf5cmv6Qg/AoIxslXpsDYiNj1rVcy/AGwXEfCk3eGS5UgQPOckRhfr1rxVA7y0
+         NTVI6q1N4eisgYlqmdfDanjvhTaomlSLM0B7sMB4ZdZMbk+74bb3j0L0/hD0yvnMtf/L
+         mKfFtneEN79Y0LYpSA9IyJAE89XsojR30EPH15BbLTLgKAZ44TZIRtwltSFz6H4OO7Vc
+         SqLixdOO/BIR4yE60fjImPZuOw68glbRU6PBStAoVc7Yrvdei+Qq2WCvI/gMuqOALsx2
+         E6Gw==
+X-Gm-Message-State: AOAM530zwnG8HMQmoTyLufFQhzAb9NS8gQL18hxPbRPhdLAXwVjYJGgQ
+        TrGGF5oXeK8DSTdRJQTs6Zm3OKyOizJXfhkQAjg=
+X-Google-Smtp-Source: ABdhPJycvDA2y0kJZnyrX/YoD11eP5GdGX7X4MHU9HChkkRYsRnd6ay+qNKHQmx0en+WU3/yCpN8x9PBPa2srmvjcdU=
+X-Received: by 2002:a19:6b0d:: with SMTP id d13mr32595793lfa.63.1609818472823;
+ Mon, 04 Jan 2021 19:47:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210104174840.144958-1-ezequiel@collabora.com>
+References: <20210103035445.23696-1-tiny.windzz@gmail.com>
+In-Reply-To: <20210103035445.23696-1-tiny.windzz@gmail.com>
+Reply-To: cwchoi00@gmail.com
+From:   Chanwoo Choi <cwchoi00@gmail.com>
+Date:   Tue, 5 Jan 2021 12:47:16 +0900
+Message-ID: <CAGTfZH0sLh=8XhBVOzUr9qO2w_=jp-OuWoh5vgNpnmXq6EzYHA@mail.gmail.com>
+Subject: Re: [PATCH 26/31] PM / devfreq: tegra30: convert to use devm_pm_opp_* API
+To:     Yangtao Li <tiny.windzz@gmail.com>
+Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>, yuq825@gmail.com,
+        David Airlie <airlied@linux.ie>, daniel@ffwll.ch,
+        robdclark@gmail.com, sean@poorly.run,
+        Rob Herring <robh@kernel.org>, tomeu.vizoso@collabora.com,
+        steven.price@arm.com, alyssa.rosenzweig@collabora.com,
+        stanimir.varbanov@linaro.org, agross@kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        mchehab@kernel.org, Lukasz Luba <lukasz.luba@arm.com>,
+        adrian.hunter@intel.com, Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>, jirislaby@kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, jcrouse@codeaurora.org,
+        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
+        marijn.suijten@somainline.org, gustavoars@kernel.org,
+        emil.velikov@collabora.com, jonathan@marek.ca,
+        akhilpo@codeaurora.org, smasetty@codeaurora.org,
+        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
+        tanmay@codeaurora.org, ddavenport@chromium.org,
+        jsanka@codeaurora.org, rnayak@codeaurora.org,
+        tongtiangen@huawei.com, miaoqinglang@huawei.com,
+        khsieh@codeaurora.org, abhinavk@codeaurora.org,
+        chandanu@codeaurora.org, Guenter Roeck <groeck@chromium.org>,
+        varar@codeaurora.org, Matthias Kaehlcke <mka@chromium.org>,
+        harigovi@codeaurora.org, rikard.falkeborn@gmail.com,
+        natechancellor@gmail.com, Georgi Djakov <georgi.djakov@linaro.org>,
+        akashast@codeaurora.org, parashar@codeaurora.org,
+        Doug Anderson <dianders@chromium.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-tegra@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Hi,
 
-Thank you for the patch.
-
-On Mon, Jan 04, 2021 at 02:48:40PM -0300, Ezequiel Garcia wrote:
-> There is currently little to none information available
-> about the reasons why a v4l2-async device hasn't
-> probed completely.
-> 
-> Inspired by the "devices_deferred" debugfs file,
-> add a file to list information about the subdevices
-> that are on waiting lists, for each notifier.
-> 
-> This is useful to debug v4l2-async subdevices
-> and notifiers, for instance when doing device bring-up.
-> 
-> For instance, a typical output would be:
-> 
-> $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
-> ipu1_csi1:
->  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
-> ipu1_csi0:
->  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
-> imx6-mipi-csi2:
->  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
-> imx-media:
-> 
-> Note that match-type "custom" prints no information.
-> Since there are no in-tree users of this match-type,
-> the implementation doesn't bother.
-
-I wonder if we should drop it.
-
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+On Sun, Jan 3, 2021 at 12:57 PM Yangtao Li <tiny.windzz@gmail.com> wrote:
+>
+> Use devm_pm_opp_* API to simplify code, and remove opp_table
+> from tegra_devfreq.
+>
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 > ---
-> v2:
-> * Print fwnode path, as suggested by Sakari.
-> * Print the subdevices under their corresponding notifier.
-> * Rename the file as suggested by Laurent.
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 66 ++++++++++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
->  include/media/v4l2-async.h           |  9 ++++
->  3 files changed, 80 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index e3ab003a6c85..d779808abb3b 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
->   */
->  
-> +#include <linux/debugfs.h>
->  #include <linux/device.h>
->  #include <linux/err.h>
->  #include <linux/i2c.h>
-> @@ -14,6 +15,7 @@
->  #include <linux/mutex.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/seq_file.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
->  
-> @@ -837,3 +839,67 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  	mutex_unlock(&list_lock);
->  }
->  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
-> +
-> +static void print_waiting_subdev(struct seq_file *s,
-> +				 struct v4l2_async_subdev *asd)
-> +{
-> +	switch (asd->match_type) {
-> +	case V4L2_ASYNC_MATCH_CUSTOM:
-> +		seq_puts(s, " [custom]\n");
-> +		break;
-> +	case V4L2_ASYNC_MATCH_DEVNAME:
-> +		seq_printf(s, " [devname] %s\n", asd->match.device_name);
-> +		break;
-> +	case V4L2_ASYNC_MATCH_I2C:
-> +		seq_printf(s, " [i2c] %d-%04x\n", asd->match.i2c.adapter_id,
-> +			   asd->match.i2c.address);
-> +		break;
-> +	case V4L2_ASYNC_MATCH_FWNODE: {
-> +		struct fwnode_handle *fwnode = asd->match.fwnode;
-> +
-> +		if (fwnode_graph_is_endpoint(fwnode))
-> +			fwnode = fwnode_graph_get_port_parent(fwnode);
-> +
-> +		seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",
-> +			   fwnode->dev ? dev_name(fwnode->dev) : "nil",
-> +			   fwnode);
+>  drivers/devfreq/tegra30-devfreq.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index 117cad7968ab..4984cb91e9ea 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -178,7 +178,6 @@ struct tegra_devfreq_soc_data {
+>
+>  struct tegra_devfreq {
+>         struct devfreq          *devfreq;
+> -       struct opp_table        *opp_table;
+>
+>         struct reset_control    *reset;
+>         struct clk              *clock;
+> @@ -794,6 +793,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>         struct tegra_devfreq_device *dev;
+>         struct tegra_devfreq *tegra;
+>         struct devfreq *devfreq;
+> +       struct opp_tabl *opp_table;
 
-Apart from Sakari's comment related to printing the endpoint node (but
-keeping the port's parent for ->dev),
+opp_tabl -> opp_table. It will make the build error. Please do build
+test at least.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>         unsigned int i;
+>         long rate;
+>         int err;
+> @@ -841,25 +841,25 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>                 return err;
+>         }
+>
+> -       tegra->opp_table = dev_pm_opp_set_supported_hw(&pdev->dev,
+> -                                                      &hw_version, 1);
+> -       err = PTR_ERR_OR_ZERO(tegra->opp_table);
+> +       opp_table = devm_pm_opp_set_supported_hw(&pdev->dev,
+> +                                                &hw_version, 1);
+> +       err = PTR_ERR_OR_ZERO(opp_table);
+>         if (err) {
+>                 dev_err(&pdev->dev, "Failed to set supported HW: %d\n", err);
+>                 return err;
+>         }
+>
+> -       err = dev_pm_opp_of_add_table(&pdev->dev);
+> +       err = devm_pm_opp_of_add_table(&pdev->dev);
+>         if (err) {
+>                 dev_err(&pdev->dev, "Failed to add OPP table: %d\n", err);
+> -               goto put_hw;
+> +               return err;
+>         }
+>
+>         err = clk_prepare_enable(tegra->clock);
+>         if (err) {
+>                 dev_err(&pdev->dev,
+>                         "Failed to prepare and enable ACTMON clock\n");
+> -               goto remove_table;
+> +               return err;
+>         }
+>
+>         err = reset_control_reset(tegra->reset);
+> @@ -917,10 +917,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>         reset_control_reset(tegra->reset);
+>  disable_clk:
+>         clk_disable_unprepare(tegra->clock);
+> -remove_table:
+> -       dev_pm_opp_of_remove_table(&pdev->dev);
+> -put_hw:
+> -       dev_pm_opp_put_supported_hw(tegra->opp_table);
 
-> +		break;
-> +	}
-> +	}
-> +}
-> +
-> +static const char *
-> +v4l2_async_notifier_name(struct v4l2_async_notifier *notifier)
-> +{
-> +	if (notifier->v4l2_dev)
-> +		return notifier->v4l2_dev->name;
-> +	else if (notifier->sd)
-> +		return notifier->sd->name;
-> +	else
-> +		return "nil";
-> +}
-> +
-> +static int pending_subdevs_show(struct seq_file *s, void *data)
-> +{
-> +	struct v4l2_async_notifier *notif;
-> +	struct v4l2_async_subdev *asd;
-> +
-> +	mutex_lock(&list_lock);
-> +
-> +	list_for_each_entry(notif, &notifier_list, list) {
-> +		seq_printf(s, "%s:\n", v4l2_async_notifier_name(notif));
-> +		list_for_each_entry(asd, &notif->waiting, list)
-> +			print_waiting_subdev(s, asd);
-> +	}
-> +
-> +	mutex_unlock(&list_lock);
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
-> +
-> +void v4l2_async_debug_init(struct dentry *debugfs_dir)
-> +{
-> +	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
-> +			    &pending_subdevs_fops);
-> +}
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index a593ea0598b5..8d3813e6ab56 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -14,6 +14,7 @@
->  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
-> +#include <linux/debugfs.h>
->  #include <linux/module.h>
->  #include <linux/types.h>
->  #include <linux/kernel.h>
-> @@ -37,6 +38,7 @@
->  		       __func__, ##arg);				\
->  } while (0)
->  
-> +static struct dentry *v4l2_debugfs_dir;
->  
->  /*
->   *	sysfs stuff
-> @@ -1113,6 +1115,8 @@ static int __init videodev_init(void)
->  		return -EIO;
->  	}
->  
-> +	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
-> +	v4l2_async_debug_init(v4l2_debugfs_dir);
->  	return 0;
->  }
->  
-> @@ -1120,6 +1124,7 @@ static void __exit videodev_exit(void)
->  {
->  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
->  
-> +	debugfs_remove_recursive(v4l2_debugfs_dir);
->  	class_unregister(&video_class);
->  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
->  }
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 0e04b5b2ebb0..abc85474bb3b 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -8,9 +8,11 @@
->  #ifndef V4L2_ASYNC_H
->  #define V4L2_ASYNC_H
->  
-> +#include <linux/debugfs.h>
->  #include <linux/list.h>
->  #include <linux/mutex.h>
->  
-> +struct dentry;
->  struct device;
->  struct device_node;
->  struct v4l2_device;
-> @@ -137,6 +139,13 @@ struct v4l2_async_notifier {
->  	struct list_head list;
->  };
->  
-> +/**
-> + * v4l2_async_debug_init - Initialize debugging tools.
-> + *
-> + * @debugfs_dir: pointer to the parent debugfs &struct dentry
-> + */
-> +void v4l2_async_debug_init(struct dentry *debugfs_dir);
-> +
->  /**
->   * v4l2_async_notifier_init - Initialize a notifier.
->   *
-> -- 
-> 2.29.2
-> 
+You might remove the 'devm_pm_opp_remove_all_dynamic(&pdev->dev)
+under ' remove_opp' goto statement.kkkk
 
+
+(snip)
 -- 
-Regards,
-
-Laurent Pinchart
+Best Regards,
+Chanwoo Choi
