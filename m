@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FFCF2EAE5D
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 932F22EAE60
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:32:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727909AbhAEPbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 10:31:18 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38064 "EHLO
+        id S1727987AbhAEPb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 10:31:29 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37698 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727529AbhAEPbS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:31:18 -0500
+        with ESMTP id S1727126AbhAEPb2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:31:28 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D32DC58B;
-        Tue,  5 Jan 2021 16:29:40 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E95A8AE;
+        Tue,  5 Jan 2021 16:29:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1609860581;
-        bh=2jy7T2gtw7HmCENPklwdyzis0OJPEtyjlR5q090j8TU=;
+        bh=Q4jhzRRbXGW8DlhinfOCZSDvepDTQTpO+pclPOG4UII=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Yx8QqD1BqXGQ/RP6u5gMbCkeuKm6z75FwfajbX38wV3oOAyT/NicqrMKZ14ZLAe89
-         KkLJmyrGChEu1dMB1wZun1UX4OLL4plI4QwLH2xLrFqTz+874Z4auHLJ13y4qqULPq
-         tpoaR+CEwJSbfZV3LRh19VQZ8mhkIxgUUdel0pBM=
+        b=tMCtRFuBPS9sWAdGXIalzwEoyhmcvwsKnznuf6xYWtgeLmsCeoUJ2pAwXlD1mawmD
+         jx2Ow6LD2fVtvq8EM4R12WApfeP8Cgqur2YKhvky20+FHRXapNhB2BNcMd5PBeSZzt
+         PUA7Xuq34gtaD+JUHd2QCl7NoceUGwmgrwabLr58=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 07/75] media: imx: utils: Add ability to filter pixel formats by mbus code
-Date:   Tue,  5 Jan 2021 17:27:44 +0200
-Message-Id: <20210105152852.5733-8-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 08/75] media: imx: capture: Use dev_* instead of v4l2_* to log messages
+Date:   Tue,  5 Jan 2021 17:27:45 +0200
+Message-Id: <20210105152852.5733-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
 References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
@@ -39,110 +39,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a media bus code argument to the imx_media_enum_pixel_formats(). If
-set to a non-zero value, the function will only consider pixel formats
-that match the given media bus code.
+The imx-media-capture helpers operate a video device node, but abuse the
+v4l2_* subdev print functions to log messages. We have a struct device
+pointer available, use it instead with the dev_* functions. This reduces
+dependencies from imx-media-capture to the connected subdev.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx-media-capture.c |  5 ++--
- .../staging/media/imx/imx-media-csc-scaler.c  |  2 +-
- drivers/staging/media/imx/imx-media-utils.c   | 23 ++++++++++++++++++-
- drivers/staging/media/imx/imx-media.h         |  2 +-
- 4 files changed, 27 insertions(+), 5 deletions(-)
+ drivers/staging/media/imx/imx-media-capture.c | 30 +++++++++----------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index c1931eb2540e..eb1453ade571 100644
+index eb1453ade571..21f01ec56bd5 100644
 --- a/drivers/staging/media/imx/imx-media-capture.c
 +++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -174,7 +174,8 @@ static int capture_enum_fmt_vid_cap(struct file *file, void *fh,
- 			(cc_src->cs == IPUV3_COLORSPACE_YUV) ?
- 			PIXFMT_SEL_YUV : PIXFMT_SEL_RGB;
+@@ -163,7 +163,7 @@ static int capture_enum_fmt_vid_cap(struct file *file, void *fh,
+ 	fmt_src.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 	ret = v4l2_subdev_call(priv->src_sd, pad, get_fmt, NULL, &fmt_src);
+ 	if (ret) {
+-		v4l2_err(priv->src_sd, "failed to get src_sd format\n");
++		dev_err(priv->dev, "failed to get src_sd format\n");
+ 		return ret;
+ 	}
  
--		ret = imx_media_enum_pixel_formats(&fourcc, f->index, fmt_sel);
-+		ret = imx_media_enum_pixel_formats(&fourcc, f->index, fmt_sel,
-+						   0);
- 		if (ret)
- 			return ret;
- 	} else {
-@@ -223,7 +224,7 @@ static int __capture_try_fmt_vid_cap(struct capture_priv *priv,
- 
- 		cc = imx_media_find_pixel_format(fourcc, fmt_sel);
- 		if (!cc) {
--			imx_media_enum_pixel_formats(&fourcc, 0, fmt_sel);
-+			imx_media_enum_pixel_formats(&fourcc, 0, fmt_sel, 0);
- 			cc = imx_media_find_pixel_format(fourcc, fmt_sel);
- 		}
- 	} else {
-diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
-index fab1155a5958..fb2ce2128c24 100644
---- a/drivers/staging/media/imx/imx-media-csc-scaler.c
-+++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
-@@ -167,7 +167,7 @@ static int ipu_csc_scaler_enum_fmt(struct file *file, void *fh,
+@@ -289,7 +289,7 @@ static int capture_s_fmt_vid_cap(struct file *file, void *fh,
  	int ret;
  
- 	ret = imx_media_enum_pixel_formats(&fourcc, f->index,
--					   PIXFMT_SEL_YUV_RGB);
-+					   PIXFMT_SEL_YUV_RGB, 0);
+ 	if (vb2_is_busy(&priv->q)) {
+-		v4l2_err(priv->src_sd, "%s queue busy\n", __func__);
++		dev_err(priv->dev, "%s queue busy\n", __func__);
+ 		return -EBUSY;
+ 	}
+ 
+@@ -510,9 +510,9 @@ static int capture_buf_prepare(struct vb2_buffer *vb)
+ 	struct v4l2_pix_format *pix = &priv->vdev.fmt.fmt.pix;
+ 
+ 	if (vb2_plane_size(vb, 0) < pix->sizeimage) {
+-		v4l2_err(priv->src_sd,
+-			 "data will not fit into plane (%lu < %lu)\n",
+-			 vb2_plane_size(vb, 0), (long)pix->sizeimage);
++		dev_err(priv->dev,
++			"data will not fit into plane (%lu < %lu)\n",
++			vb2_plane_size(vb, 0), (long)pix->sizeimage);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -570,14 +570,14 @@ static int capture_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 
+ 	ret = capture_validate_fmt(priv);
+ 	if (ret) {
+-		v4l2_err(priv->src_sd, "capture format not valid\n");
++		dev_err(priv->dev, "capture format not valid\n");
+ 		goto return_bufs;
+ 	}
+ 
+ 	ret = imx_media_pipeline_set_stream(priv->md, &priv->src_sd->entity,
+ 					    true);
+ 	if (ret) {
+-		v4l2_err(priv->src_sd, "pipeline start failed with %d\n", ret);
++		dev_err(priv->dev, "pipeline start failed with %d\n", ret);
+ 		goto return_bufs;
+ 	}
+ 
+@@ -610,7 +610,7 @@ static void capture_stop_streaming(struct vb2_queue *vq)
+ 	ret = imx_media_pipeline_set_stream(priv->md, &priv->src_sd->entity,
+ 					    false);
  	if (ret)
+-		v4l2_warn(priv->src_sd, "pipeline stop failed with %d\n", ret);
++		dev_warn(priv->dev, "pipeline stop failed with %d\n", ret);
+ 
+ 	/* release all active buffers */
+ 	spin_lock_irqsave(&priv->q_lock, flags);
+@@ -646,7 +646,7 @@ static int capture_open(struct file *file)
+ 
+ 	ret = v4l2_fh_open(file);
+ 	if (ret)
+-		v4l2_err(priv->src_sd, "v4l2_fh_open failed\n");
++		dev_err(priv->dev, "v4l2_fh_open failed\n");
+ 
+ 	ret = v4l2_pipeline_pm_get(&vfd->entity);
+ 	if (ret)
+@@ -749,7 +749,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+ 
+ 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
+ 	if (ret) {
+-		v4l2_err(sd, "Failed to register video device\n");
++		dev_err(priv->dev, "Failed to register video device\n");
  		return ret;
+ 	}
  
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index c2088f7ceef5..5128915a5d6f 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -283,9 +283,11 @@ EXPORT_SYMBOL_GPL(imx_media_find_mbus_format);
-  * @index: The requested match index.
-  * @fmt_sel: Include in the enumeration entries with the given selection
-  *           criteria.
-+ * @code: If non-zero, only include in the enumeration entries matching this
-+ *	media bus code.
-  */
- int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
--				 enum imx_pixfmt_sel fmt_sel)
-+				 enum imx_pixfmt_sel fmt_sel, u32 code)
- {
- 	bool sel_ipu = fmt_sel & PIXFMT_SEL_IPU;
- 	unsigned int i;
-@@ -306,6 +308,25 @@ int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
- 		if (!(fmt_sel & sel))
- 			continue;
+@@ -766,7 +766,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
  
-+		/*
-+		 * If a media bus code is specified, only consider formats that
-+		 * match it.
-+		 */
-+		if (code) {
-+			unsigned int j;
-+
-+			if (!fmt->codes)
-+				continue;
-+
-+			for (j = 0; fmt->codes[j]; j++) {
-+				if (code == fmt->codes[j])
-+					break;
-+			}
-+
-+			if (!fmt->codes[j])
-+				continue;
-+		}
-+
- 		if (index == 0) {
- 			*fourcc = fmt->fourcc;
- 			return 0;
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index 5b904c3448a0..1761451d3003 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -170,7 +170,7 @@ struct imx_media_dev {
- const struct imx_media_pixfmt *
- imx_media_find_pixel_format(u32 fourcc, enum imx_pixfmt_sel sel);
- int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
--				 enum imx_pixfmt_sel sel);
-+				 enum imx_pixfmt_sel sel, u32 code);
- const struct imx_media_pixfmt *
- imx_media_find_mbus_format(u32 code, enum imx_pixfmt_sel sel);
- int imx_media_enum_mbus_formats(u32 *code, u32 index,
+ 	ret = vb2_queue_init(vq);
+ 	if (ret) {
+-		v4l2_err(sd, "vb2_queue_init failed\n");
++		dev_err(priv->dev, "vb2_queue_init failed\n");
+ 		goto unreg;
+ 	}
+ 
+@@ -776,7 +776,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+ 	ret = media_create_pad_link(&sd->entity, priv->src_sd_pad,
+ 				    &vfd->entity, 0, 0);
+ 	if (ret) {
+-		v4l2_err(sd, "failed to create link to device node\n");
++		dev_err(priv->dev, "failed to create link to device node\n");
+ 		goto unreg;
+ 	}
+ 
+@@ -785,7 +785,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+ 	fmt_src.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt_src);
+ 	if (ret) {
+-		v4l2_err(sd, "failed to get src_sd format\n");
++		dev_err(priv->dev, "failed to get src_sd format\n");
+ 		goto unreg;
+ 	}
+ 
+@@ -797,8 +797,8 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+ 	vdev->cc = imx_media_find_pixel_format(vdev->fmt.fmt.pix.pixelformat,
+ 					       PIXFMT_SEL_ANY);
+ 
+-	v4l2_info(sd, "Registered %s as /dev/%s\n", vfd->name,
+-		  video_device_node_name(vfd));
++	dev_info(priv->dev, "Registered %s as /dev/%s\n", vfd->name,
++		 video_device_node_name(vfd));
+ 
+ 	vfd->ctrl_handler = &priv->ctrl_hdlr;
+ 
 -- 
 Regards,
 
