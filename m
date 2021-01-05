@@ -2,160 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8F092EAFE0
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 17:19:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6738B2EB016
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 17:30:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbhAEQSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 11:18:54 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:45073 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726132AbhAEQSy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Jan 2021 11:18:54 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id wp28kgDcVQzFnwp2BkkL7U; Tue, 05 Jan 2021 17:18:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1609863491; bh=bx9OoX8ppvOVoa6fAFCwQrXob8i/ji5lG6WPKd9fLuI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=mdgY1vMrnX0f6dUTD7bTeoyAMvyQDivp1PJ95N6k9Gc4OX0gKjhKGAt2S8QdrxXKJ
-         ZvIsAfHSxj86ZldbCizLwyD44AOTDCI+KL47r7KYaVX/QM5SQOInbA2xZYGGD0FZWN
-         AULOb/fe+W1Ltxax3k+oVHLh5T4HgPctILsOMQlpi2gxkxzywh3gavM7nVnSaW5q9O
-         12C9LSlgzRXH/055YgTVQf8iG0LfoQBqt3IZPhVFnCoGFQmr/DqlwBE6iUrW9YU+b1
-         CHz76Rh3MyEEt1Vsixb5EaUOiqbYND3boJJnBBA09HkNZXRwGblIvlIODxdKbPLK3b
-         xc4bLy7SnlndA==
-Subject: Re: [PATCH 1/1] ccs: Make (non-)use of uninitialised variables more
- robust
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-References: <20210105124914.22900-1-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <9ea0a248-a317-6536-0786-d85ceb585928@xs4all.nl>
-Date:   Tue, 5 Jan 2021 17:18:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1728497AbhAEQac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 11:30:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40682 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727036AbhAEQab (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Jan 2021 11:30:31 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 705C422CA0;
+        Tue,  5 Jan 2021 16:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609864191;
+        bh=rntfB7C5mBvVXgliBl2U7ngampY/9LrSTvoo5JN6PHE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=S88AqmoJInnEWhe9qFDxHx5FvAYHSp2+rb+N2gfbHNDqaltI/vzxj97J0i6Zl4ZSo
+         FrMnv1h7c5jq1+J/SA2CzP53dUx9Ic5a226yVsQDL87Z/TQTi0ydw0WX0Gj6bWEpff
+         Bpyl/Wv92pZ60y5kZU+mTkDBRRw0n5k3Pfp6MyjOURgVKFyTCYlDKpmW+92zkIrrio
+         AiabCKPbajE3T7uFKNjPkX05HK+As0UcALR8Cs2/Crq2Iy/CX0hUrt7kpGlUCUKYks
+         Y3fP0co3+5kMdsvFM/c9iGlnTGd3Eki1+zbIW6H6Q7OPVStS8Z9lIf0SRS6tjSj6fW
+         QaCVt0a72co2w==
+Date:   Tue, 5 Jan 2021 17:29:46 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Andre Przywara <andre.przywara@arm.com>
+Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Icenowy Zheng <icenowy@aosc.xyz>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+        Shuosheng Huang <huangshuosheng@allwinnertech.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@googlegroups.com,
+        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 18/21] dt-bindings: allwinner: Add H616 compatible
+ strings
+Message-ID: <20210105162946.GI1842@ninjato>
+References: <20201211011934.6171-1-andre.przywara@arm.com>
+ <20201211011934.6171-19-andre.przywara@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210105124914.22900-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLsa6UlbHBOocX0bpiLeqmGaWNIAHHxuZGEu3Tobu0ZTd/7+ZumhtNewQE3cg2oor+lzjabZsT5ONmkSNAp/Ftg4Bgc3VC/nHOrmDADrIU1sFIq97wRu
- vIumFijLwjNwehw92jsxAZQUSlRlYOZL1HTd8nnZSPb6FKjYVH3ZwBBbdik2mILpE8rBlvK5Aij9lHoBGXMShu9vM/FxGcpwlSklD2JSxIeuEflC3TzdpuCd
- SmtljqcOfVYlr78cbOp2MA==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="WIIRZ1HQ6FgrlPgb"
+Content-Disposition: inline
+In-Reply-To: <20201211011934.6171-19-andre.przywara@arm.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/01/2021 13:49, Sakari Ailus wrote:
-> GCC with W=2 level of kernel compiler warnings warns about the use of
-> uninitialised variables in a few locations. While these uninitialised
-> variables were not used in reality, this still produced compiler warnings.
-> 
-> Address this by assigning the variables to NULL and checking for NULL in
-> places it is not expected, returning -EPROTO in that case. This provides
-> at least some sanity checking at runtime as the compiler appears unable to
-> do that at compile time.
-> 
-> Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+--WIIRZ1HQ6FgrlPgb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This fixes the warnings!
+On Fri, Dec 11, 2020 at 01:19:31AM +0000, Andre Przywara wrote:
+> Add simple "allwinner,sun50i-h616-xxx" compatible names to existing
+> bindings, and pair them with an existing fallback compatible string,
+> as the devices are compatible.
+> This covers I2C, infrared, RTC and SPI.
+>=20
+> Use enums to group all compatible devices together.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Thank you,
+Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
 
-	Hans
 
-> ---
->  drivers/media/i2c/ccs/ccs-data.c | 24 ++++++++++++++++++++----
->  1 file changed, 20 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
-> index 59338a6704af..99b2b515058a 100644
-> --- a/drivers/media/i2c/ccs/ccs-data.c
-> +++ b/drivers/media/i2c/ccs/ccs-data.c
-> @@ -214,7 +214,7 @@ static int ccs_data_parse_regs(struct bin_container *bin,
->  			       size_t *__num_regs, const void *payload,
->  			       const void *endp, struct device *dev)
->  {
-> -	struct ccs_reg *regs_base, *regs;
-> +	struct ccs_reg *regs_base = NULL, *regs = NULL;
->  	size_t num_regs = 0;
->  	u16 addr = 0;
->  
-> @@ -285,6 +285,9 @@ static int ccs_data_parse_regs(struct bin_container *bin,
->  		if (!bin->base) {
->  			bin_reserve(bin, len);
->  		} else if (__regs) {
-> +			if (!regs)
-> +				return -EPROTO;
-> +
->  			regs->addr = addr;
->  			regs->len = len;
->  			regs->value = bin_alloc(bin, len);
-> @@ -305,8 +308,12 @@ static int ccs_data_parse_regs(struct bin_container *bin,
->  	if (__num_regs)
->  		*__num_regs = num_regs;
->  
-> -	if (bin->base && __regs)
-> +	if (bin->base && __regs) {
-> +		if (!regs_base)
-> +			return -EPROTO;
-> +
->  		*__regs = regs_base;
-> +	}
->  
->  	return 0;
->  }
-> @@ -425,7 +432,7 @@ static int ccs_data_parse_rules(struct bin_container *bin,
->  				size_t *__num_rules, const void *payload,
->  				const void *endp, struct device *dev)
->  {
-> -	struct ccs_rule *rules_base, *rules = NULL, *next_rule;
-> +	struct ccs_rule *rules_base = NULL, *rules = NULL, *next_rule = NULL;
->  	size_t num_rules = 0;
->  	const void *__next_rule = payload;
->  	int rval;
-> @@ -483,6 +490,9 @@ static int ccs_data_parse_rules(struct bin_container *bin,
->  			} else {
->  				unsigned int i;
->  
-> +				if (!next_rule)
-> +					return -EPROTO;
-> +
->  				rules = next_rule;
->  				next_rule++;
->  
-> @@ -555,6 +565,9 @@ static int ccs_data_parse_rules(struct bin_container *bin,
->  		bin_reserve(bin, sizeof(*rules) * num_rules);
->  		*__num_rules = num_rules;
->  	} else {
-> +		if (!rules_base)
-> +			return -EPROTO;
-> +
->  		*__rules = rules_base;
->  	}
->  
-> @@ -690,7 +703,7 @@ static int ccs_data_parse_pdaf(struct bin_container *bin, struct ccs_pdaf_pix_lo
->  	}
->  
->  	for (i = 0; i < max_block_type_id; i++) {
-> -		struct ccs_pdaf_pix_loc_pixel_desc_group *pdgroup;
-> +		struct ccs_pdaf_pix_loc_pixel_desc_group *pdgroup = NULL;
->  		unsigned int j;
->  
->  		if (!is_contained(__num_pixel_descs, endp))
-> @@ -721,6 +734,9 @@ static int ccs_data_parse_pdaf(struct bin_container *bin, struct ccs_pdaf_pix_lo
->  			if (!bin->base)
->  				continue;
->  
-> +			if (!pdgroup)
-> +				return -EPROTO;
-> +
->  			pdesc = &pdgroup->descs[j];
->  			pdesc->pixel_type = __pixel_desc->pixel_type;
->  			pdesc->small_offset_x = __pixel_desc->small_offset_x;
-> 
+--WIIRZ1HQ6FgrlPgb
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/0k/oACgkQFA3kzBSg
+KbYcAA//fxeNSjKkeAsUP+tmVP+6UOmYGFWuzggJQKr5y0aThBUNYPfWWF/lDRa/
+wuzgurDJZhsKyb8BxhgY2Bc/EoPsxWZi30fz2l6YdTLi3NfYoky2LhUECl+JYGjV
+MgMCCNdVyLZ8uU39J/PuCBH4oN2gBcuLxmOsiVnXcfkbbWjI6c1DNOxRDJdXx9WU
+4YDBk98pbmW7Bxik+11pmF9nncF1HvMQ4MYU+Z7fDvQfwGV74dogLu4Psr0q30o+
+zNgU/BPvf/U7DLlkcTz18ChX+v9++OZe0AnEPKMtugTZW1rI28SYvNSGhE3QDXcW
+otfDp2FvmbilDX5CtK14mlIi+0mVqu0xx6o20pNVAmx4QTjuDr2zAh+EHJ11kP6O
+KEKQRZIP7Wj0NBbaSi/mAieeF/DvH8lK9FNKUFMj8108wNF05NB00KuZ4DFvhpDA
+M1IgSiSLqJOokZw9Kbw1coKROsYZcWuCrY4tCLVe3m7u0mE9wHIgXsnDtEKLajqL
+Vd7GLY60FVPoF9OMlz2Q2liy4D+gz/NIwKYsrFU87FrMag9Lw0JZQVeH9eqw1akl
+ACSHHN3JNDJUIH5g1Yiem+VGAOQSBrz4Lr0sTTHm+OAo6b9q8k7DJtyuwUrUajG9
+s26hNzxVo+c5AbLTltlCd9esoPiHr4/zia2oKz8kM6WYsDLwKMU=
+=9MjQ
+-----END PGP SIGNATURE-----
+
+--WIIRZ1HQ6FgrlPgb--
