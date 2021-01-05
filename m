@@ -2,106 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 447DB2EAF9F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 17:08:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5CE2EAF9E
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 17:07:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728041AbhAEQHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 11:07:46 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:51480 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727996AbhAEQHp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 11:07:45 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtMe7137932;
-        Tue, 5 Jan 2021 16:06:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=27lyL6V97rY2W/IgCdTTMc5DSG0km/flclLx6kdUVyU=;
- b=hLC3hRLS1FA0qEoLdU5KJx4WJG2F/FiownHEiLnIG4ngzGuU4v8Z19SN8HCaCvjvzYHk
- shD+/5zbExURIS4GvrL8/CgqRDFy+MtpCzK0L8O8KXqIelVGX0NrIJu6sUzvNm4FYLge
- efVb/ttXmOlZloCjEVM70EB/DUfMDcGW03TtX2sgkOgCSXjygX2Mp/uzuIJKzOZ/kppV
- 14h12Y0v8RBwGe8QnbXuECj4b5KsfTRNTY+ndXzCmtrIzHmn6XQjiVQmi1Gbee2/ltED
- NbN4zud+XyLUBVFgMUT/GybDnIsKLBZy9patWFILN8MsxlPqR7wPFFCfMq2yTpxlq+nt tQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 35tg8r1gnc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 05 Jan 2021 16:06:59 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuQ9w026613;
-        Tue, 5 Jan 2021 16:04:58 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 35v4rbj7g8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 05 Jan 2021 16:04:58 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G4uYO015851;
-        Tue, 5 Jan 2021 16:04:56 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 05 Jan 2021 16:04:56 +0000
-Date:   Tue, 5 Jan 2021 19:04:48 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        royale@zerezo.com, USB <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
-Subject: Re: [RFT][PATCH v1] media: zr364xx: Fix memory leak in ->probe()
-Message-ID: <20210105160448.GY2831@kadam>
-References: <20201230211918.63508-1-andriy.shevchenko@linux.intel.com>
- <20210105140045.GF2809@kadam>
- <20210105143741.GK4077@smile.fi.intel.com>
+        id S1728055AbhAEQGq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 11:06:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726749AbhAEQGq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 11:06:46 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF24CC061795
+        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 08:06:05 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id b26so73819158lff.9
+        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 08:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M5MlVB+OeSv9vx9YQRSNIPVW4J2RDsOrRoVlGjoC8RU=;
+        b=PGW2+1B/7OgyMb+IZY1+QV9zkkbr2eIoSZvY8P4nLTLiukPD8JEy07zzvaey8bf/vR
+         eQxYWjrpeameXMNpej1AisT7EQW4q1g7CcB7dxw4ejXzmYthvCljf2w6lxuTNCmpDuXM
+         eyC9WbxmYxhelc8uHdEsG4oCPNrEDAhv9bSshj3eY5BHqmymHp3u/d19rHCX8Dw39IKu
+         POa1mTb3pxWtdMDth2SX16oUd1tMzzi2vqmrimqr0h3/laKF0KT+feW0UilU5rUizoxl
+         ehV1HcmgZaszmG6h01El//xccIffFf3aXKALAQgRNZRhmOk9a6TAZ2O4tgvQjrJ2tn/k
+         +g8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M5MlVB+OeSv9vx9YQRSNIPVW4J2RDsOrRoVlGjoC8RU=;
+        b=f8PPkIQ3BySSE3WULTLFi6PpZR5Cn3nt9dzIn6GtplJqCzOdO7omFfQCcJVRBcNxuB
+         sN3+OKPwKGn5X6gGdFVsfaQexfoIRq1Y+/wEtckmqIKgDqslD9+hDRRcl/D4x7EXdaI8
+         HP3B4kz7N6Yf52MzC91gDR81FoxZt2H98/35zJM3dEbL1I8KvvVP0dNVMO44uRrkUd9s
+         Im2Pf6WWe35BVXMp3nz7l4/GGA8kHyvU/fFCD8Ww6ccOERIvu1f25U2bbt9eMfT3cOVl
+         chY3uIs3w8tZ+1HpdJgnKnUJwSReUtGGCblkgrOdHXluQ/uNjRxOMoVIPvmvGH57xQcZ
+         2Ggw==
+X-Gm-Message-State: AOAM532MrLaQvw9fwNcPwigcNHDDKr3t55CAKyk3QsxwsUPe0blpPW+e
+        pVBiPXWseep5Yvx5BBKk5jX19g74JQGI9jtREk8eBxh8Q90=
+X-Google-Smtp-Source: ABdhPJz5HlhmM8QpNv4QORMdJoY/OTxxGT+MezNU5yzkwv2BLxQDLTHomrCmoxkTHewgrOJ84xxfImK86vYy5Mb1OBM=
+X-Received: by 2002:a2e:b80c:: with SMTP id u12mr140888ljo.490.1609862764093;
+ Tue, 05 Jan 2021 08:06:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210105143741.GK4077@smile.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=896 mlxscore=0 bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 phishscore=0 bulkscore=0
- spamscore=0 impostorscore=0 suspectscore=0 adultscore=0 mlxlogscore=903
- mlxscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
+References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
+ <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com> <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
+ <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
+ <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com> <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
+ <CAOMZO5BkbB7KHP3pz1SLgD1Vth-BcZAEuxsaSQJ83Y6O=DDPdg@mail.gmail.com>
+ <CAOMZO5D1Lk6evyRZ08erQ3DaVgSHubGjGbK8dcKao=NS+m-PUA@mail.gmail.com> <20210105150129.fresebmib75htyl5@arch-thunder.localdomain>
+In-Reply-To: <20210105150129.fresebmib75htyl5@arch-thunder.localdomain>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 5 Jan 2021 13:05:52 -0300
+Message-ID: <CAOMZO5D+GGM_QPc0=nWEYe=XV1EBgUS7ff+t+0aER-fg+a4PKA@mail.gmail.com>
+Subject: Re: imx6ull capture from OV5640
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     =?UTF-8?Q?S=C3=A9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Julien Boibessot <julien.boibessot@armadeus.com>
+Content-Type: multipart/mixed; boundary="000000000000315e3905b82962ed"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 05, 2021 at 04:37:41PM +0200, Andy Shevchenko wrote:
-> On Tue, Jan 05, 2021 at 05:00:45PM +0300, Dan Carpenter wrote:
-> > On Wed, Dec 30, 2020 at 11:19:18PM +0200, Andy Shevchenko wrote:
-> > > When ->probe() fails in some cases it may not free resources.
-> > > Replace few separated calls by v4l2_device_put() to clean up
-> > > everything.
-> > > 
-> > 
-> > The clean up everything style of error handling is always buggy.
-> > 
-> > For example, in this case, all the early error paths will now crash
-> > instead of leaking.  The __videobuf_free() function will Oops when it
-> > dereferences "q->int_ops->magic".
-> > 
-> > 	MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
-> > 
-> > The "q->int_ops" pointer is set in videobuf_queue_vmalloc_init().  There
-> > are probably other bugs as well.  It's almost impossible to audit this
-> > style of error handling either for completeness or for crashyness.
-> 
-> Feel free to submit better fix, thanks!
+--000000000000315e3905b82962ed
+Content-Type: text/plain; charset="UTF-8"
 
-Sure.  I'm too tired to think straight today.
+Hi Rui,
 
-I see now that syzbot actually discovered the Oops in __videobuf_free()
-as well...  I'm sort of surprised that the original code never called
-zr364xx_release().  We might have another reference leak somewhere...
+On Tue, Jan 5, 2021 at 12:01 PM Rui Miguel Silva <rmfrfs@gmail.com> wrote:
 
-regards,
-dan carpenter
+> can you see if the following patch make it work again?
 
+Yes, with your patch and mine I can capture the same way as with the
+5.4 kernel :-)
 
+The pink color issue is still present but it is orthogonal to this problem.
+
+Could you please submit your patch formally to the list? Please
+include my attached patch as 1/2 and yours as 2/2.
+
+Also, please add the following tag to your patch:
+
+Tested-by: Fabio Estevam <festevam@gmail.com>
+
+Thanks,
+
+Fabio Estevam
+
+--000000000000315e3905b82962ed
+Content-Type: text/x-patch; charset="US-ASCII"; name="0001-csimux.patch"
+Content-Disposition: attachment; filename="0001-csimux.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kjk6nt940>
+X-Attachment-Id: f_kjk6nt940
+
+RnJvbSA0ZjBlMGY3OTM3NjY2ZGVmM2EzZmExZmY4NjMwZDA5YjIxMzg0MWQwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+CkRh
+dGU6IFR1ZSwgNSBKYW4gMjAyMSAxMTowNjo1NCAtMDMwMApTdWJqZWN0OiBbUEFUQ0ggMS8yXSBt
+ZWRpYTogaW14NzogY3NpOiBGaXggcmVncmVzc2lvbiBmb3IgcGFyYWxsZWwgY2FtZXJhcyBvbiBp
+Lk1YNlVMCgpDb21taXQgODZlMDJkMDc4NzFjICgibWVkaWE6IGlteDUvNi83OiBjc2k6IE1hcmsg
+YSBib3VuZCB2aWRlbyBtdXggYXMKYSBDU0kgbXV4IikgbWFkZSBhbiBpbmNvcnJlY3QgYXNzdW1w
+dGlvbiB0aGF0IGZvciBpbXg3LW1lZGlhLWNzaSwKdGhlIGJvdW5kIHN1YmRldiBtdXN0IGFsd2F5
+cyBiZSBhIENTSSBtdXguIE9uIGkuTVg2VUwvaS5NWDZVTEwgdGhlcmUKaXMgbm8gQ1NJIG11eCBh
+dCBhbGwsIHNvIGRvIG5vdCByZXR1cm4gYW4gZXJyb3Igd2hlbiB0aGUgZW50aXR5IGlzIG5vdCBh
+CnZpZGVvIG11eCBhbmQgYXNzaWduIHRoZSBJTVhfTUVESUFfR1JQX0lEX0NTSV9NVVggZ3JvdXAg
+aWQgb25seSB3aGVuCmFwcHJvcHJpYXRlLgoKVGhpcyBpcyB0aGUgc2FtZSBhcHByb2FjaCBhcyBk
+b25lIGluIGlteC1tZWRpYS1jc2kuYyBhbmQgaXQgZml4ZXMgdGhlCmNzaSBwcm9iZSByZWdyZXNz
+aW9uIG9uIGkuTVg2VUwuCgpUZXN0ZWQgb24gYSBpbXg2dWxsLWV2ayBib2FyZC4KCkZpeGVzOiA4
+NmUwMmQwNzg3MWMgKCJtZWRpYTogaW14NS82Lzc6IGNzaTogTWFyayBhIGJvdW5kIHZpZGVvIG11
+eCBhcyBhIENTSSBtdXgiKQpTaWduZWQtb2ZmLWJ5OiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBn
+bWFpbC5jb20+Ci0tLQogZHJpdmVycy9zdGFnaW5nL21lZGlhL2lteC9pbXg3LW1lZGlhLWNzaS5j
+IHwgMTIgKysrKysrLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2IGRl
+bGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pbXgvaW14Ny1t
+ZWRpYS1jc2kuYyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pbXgvaW14Ny1tZWRpYS1jc2kuYwpp
+bmRleCBhM2YzZGY5MDE3MDQuLjMxZTM2MTY4ZjlkMCAxMDA2NDQKLS0tIGEvZHJpdmVycy9zdGFn
+aW5nL21lZGlhL2lteC9pbXg3LW1lZGlhLWNzaS5jCisrKyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRp
+YS9pbXgvaW14Ny1tZWRpYS1jc2kuYwpAQCAtMTE2NCwxMiArMTE2NCwxMiBAQCBzdGF0aWMgaW50
+IGlteDdfY3NpX25vdGlmeV9ib3VuZChzdHJ1Y3QgdjRsMl9hc3luY19ub3RpZmllciAqbm90aWZp
+ZXIsCiAJc3RydWN0IGlteDdfY3NpICpjc2kgPSBpbXg3X2NzaV9ub3RpZmllcl90b19kZXYobm90
+aWZpZXIpOwogCXN0cnVjdCBtZWRpYV9wYWQgKnNpbmsgPSAmY3NpLT5zZC5lbnRpdHkucGFkc1tJ
+TVg3X0NTSV9QQURfU0lOS107CiAKLQkvKiBUaGUgYm91bmQgc3ViZGV2IG11c3QgYWx3YXlzIGJl
+IHRoZSBDU0kgbXV4ICovCi0JaWYgKFdBUk5fT04oc2QtPmVudGl0eS5mdW5jdGlvbiAhPSBNRURJ
+QV9FTlRfRl9WSURfTVVYKSkKLQkJcmV0dXJuIC1FTlhJTzsKLQotCS8qIE1hcmsgaXQgYXMgc3Vj
+aCB2aWEgaXRzIGdyb3VwIGlkICovCi0Jc2QtPmdycF9pZCA9IElNWF9NRURJQV9HUlBfSURfQ1NJ
+X01VWDsKKwkvKgorCSAqIElmIHRoZSBzdWJkZXYgaXMgYSB2aWRlbyBtdXgsIGl0IG11c3QgYmUg
+b25lIG9mIHRoZSBDU0kKKwkgKiBtdXhlcy4gTWFyayBpdCBhcyBzdWNoIHZpYSBpdHMgZ3JvdXAg
+aWQuCisJICovCisJaWYgKHNkLT5lbnRpdHkuZnVuY3Rpb24gPT0gTUVESUFfRU5UX0ZfVklEX01V
+WCkKKwkJc2QtPmdycF9pZCA9IElNWF9NRURJQV9HUlBfSURfQ1NJX01VWDsKIAogCXJldHVybiB2
+NGwyX2NyZWF0ZV9md25vZGVfbGlua3NfdG9fcGFkKHNkLCBzaW5rKTsKIH0KLS0gCjIuMTcuMQoK
+--000000000000315e3905b82962ed--
