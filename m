@@ -2,153 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E5F72EABFD
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 14:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3252EAC38
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 14:47:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbhAENfK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 08:35:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48226 "EHLO
+        id S1727397AbhAENqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 08:46:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbhAENfK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 08:35:10 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC271C061574
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 05:34:29 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 31DF41F4540E
-Message-ID: <ba227fd79a0e0921b68365a4d636926b7c8b14ef.camel@collabora.com>
-Subject: Re: [PATCH v2] media: v4l2-async: Add waiting subdevices debugfs
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com
-Date:   Tue, 05 Jan 2021 10:34:14 -0300
-In-Reply-To: <X/PhA5xsuHfSE1R/@pendragon.ideasonboard.com>
-References: <20210104174840.144958-1-ezequiel@collabora.com>
-         <X/PhA5xsuHfSE1R/@pendragon.ideasonboard.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        with ESMTP id S1725919AbhAENqw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 08:46:52 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 590BDC061793
+        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 05:46:12 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id l11so72739547lfg.0
+        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 05:46:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+Au1IY+v2KNVtCRXjZBL6iRH9Z3DyqaQULdyE+hkZy8=;
+        b=o/01AhY2Tr3A/GrVC12LywctlEE44xSi4F+ys5FkkWmMYFnCkfIWlMQnHSDM3C5crV
+         w/YZwR45Q9faGjbysy8H67KmK1+3ZIZwAjeKhwO8+rcBX7z1DJc6sWBXY5zRs7NfESdZ
+         2KzDI284MXGsNbTIONqotqioeOqhfzauhTyE+a3VoCFThcm6rjL++A6QR2QAA1oFTU0F
+         QZmDr0Odr6fuwIyarF8svsPwTh1df5JBgI8iDiUMr/ThlNjSlvYMuXI6RcEHrkae0Qgs
+         Die170uVgSTa8xD0JRrz71r/eGNSGzGS2L4poR0O92rPqXrlVZ8i+dsMfkfMMqaOQaBi
+         A3jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+Au1IY+v2KNVtCRXjZBL6iRH9Z3DyqaQULdyE+hkZy8=;
+        b=bbtUbJINuY655+cgWST5Pl4LWw780zeBlMDa32MYSgBvsthnuHRGKMoMBfkGYex6jE
+         3xq69dr2V8kha+78ktt8YRSzFGm3miyg1dbB/m0QXYGbbdc2IUBq7GtQceuTVuaIAJpF
+         7mmAAKhKABYsye7Mt8msSq1MkatOqe9wW2dmbWgE2jAcuquwRgGAbx+iQvxcgxBP23rH
+         kr+P8JLumHu09OIJhI89rP2LbHX0RaWuCEubk+8jH/9fgddTrMfYwvZU2dBOYCXtcr9x
+         qANCvJv0W6MJNluTn0U49qTSvYtFNwvPM57wwxCdkofwbywdrompEkhhrQw4gUJkjx4K
+         WKRw==
+X-Gm-Message-State: AOAM531X6fX3q+1Ow75cxb1c4cp1NLEIJSxnGBmFCtC1GWS8uTqKAEfm
+        HSLMNCxJbslblUA388CJSrAFdf/zn/o3f/KPSCg=
+X-Google-Smtp-Source: ABdhPJwXzZ5UP6ctRLUsrA0rjehLeUz5cqSbkjauJ+N7xOPyNNo1+ARLb1r7ePHajdaXoFgLvvbmwwaNS2UteerkPpk=
+X-Received: by 2002:a19:d93:: with SMTP id 141mr35886706lfn.229.1609854370919;
+ Tue, 05 Jan 2021 05:46:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
+ <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com> <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
+ <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
+ <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com> <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
+In-Reply-To: <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 5 Jan 2021 10:45:59 -0300
+Message-ID: <CAOMZO5BkbB7KHP3pz1SLgD1Vth-BcZAEuxsaSQJ83Y6O=DDPdg@mail.gmail.com>
+Subject: Re: imx6ull capture from OV5640
+To:     =?UTF-8?Q?S=C3=A9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Julien Boibessot <julien.boibessot@armadeus.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari, Laurent,
+On Tue, Jan 5, 2021 at 10:19 AM Fabio Estevam <festevam@gmail.com> wrote:
 
-On Tue, 2021-01-05 at 05:46 +0200, Laurent Pinchart wrote:
-> Hi Ezequiel,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Jan 04, 2021 at 02:48:40PM -0300, Ezequiel Garcia wrote:
-> > There is currently little to none information available
-> > about the reasons why a v4l2-async device hasn't
-> > probed completely.
-> > 
-> > Inspired by the "devices_deferred" debugfs file,
-> > add a file to list information about the subdevices
-> > that are on waiting lists, for each notifier.
-> > 
-> > This is useful to debug v4l2-async subdevices
-> > and notifiers, for instance when doing device bring-up.
-> > 
-> > For instance, a typical output would be:
-> > 
-> > $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
-> > ipu1_csi1:
-> >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
-> > ipu1_csi0:
-> >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
-> > imx6-mipi-csi2:
-> >  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
-> > imx-media:
-> > 
-> > Note that match-type "custom" prints no information.
-> > Since there are no in-tree users of this match-type,
-> > the implementation doesn't bother.
-> 
-> I wonder if we should drop it.
-> 
+> I switched to the same 5.4 you used just to make sure we are in the
+> same codebase.
 
-That would make sense, unless we have some out-of-tree
-users, and we want to support that.
+Just tested against next-20210105 and the original warning happens and
+csi is no longer probed.
 
-Sakari, what do you think?
+I am using the same dtb that worked on 5.4.84.
 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> > v2:
-> > * Print fwnode path, as suggested by Sakari.
-> > * Print the subdevices under their corresponding notifier.
-> > * Rename the file as suggested by Laurent.
-> > ---
-> >  drivers/media/v4l2-core/v4l2-async.c | 66 ++++++++++++++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
-> >  include/media/v4l2-async.h           |  9 ++++
-> >  3 files changed, 80 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > index e3ab003a6c85..d779808abb3b 100644
-> > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > @@ -5,6 +5,7 @@
-> >   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-> >   */
-> >  
-> > +#include <linux/debugfs.h>
-> >  #include <linux/device.h>
-> >  #include <linux/err.h>
-> >  #include <linux/i2c.h>
-> > @@ -14,6 +15,7 @@
-> >  #include <linux/mutex.h>
-> >  #include <linux/of.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/seq_file.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/types.h>
-> >  
-> > @@ -837,3 +839,67 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
-> >         mutex_unlock(&list_lock);
-> >  }
-> >  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
-> > +
-> > +static void print_waiting_subdev(struct seq_file *s,
-> > +                                struct v4l2_async_subdev *asd)
-> > +{
-> > +       switch (asd->match_type) {
-> > +       case V4L2_ASYNC_MATCH_CUSTOM:
-> > +               seq_puts(s, " [custom]\n");
-> > +               break;
-> > +       case V4L2_ASYNC_MATCH_DEVNAME:
-> > +               seq_printf(s, " [devname] %s\n", asd->match.device_name);
-> > +               break;
-> > +       case V4L2_ASYNC_MATCH_I2C:
-> > +               seq_printf(s, " [i2c] %d-%04x\n", asd->match.i2c.adapter_id,
-> > +                          asd->match.i2c.address);
-> > +               break;
-> > +       case V4L2_ASYNC_MATCH_FWNODE: {
-> > +               struct fwnode_handle *fwnode = asd->match.fwnode;
-> > +
-> > +               if (fwnode_graph_is_endpoint(fwnode))
-> > +                       fwnode = fwnode_graph_get_port_parent(fwnode);
-> > +
-> > +               seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",
-> > +                          fwnode->dev ? dev_name(fwnode->dev) : "nil",
-> > +                          fwnode);
-> 
-> Apart from Sakari's comment related to printing the endpoint node (but
-> keeping the port's parent for ->dev),
-> 
-
-Yes, makes some sense.
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-
-Thanks for reviewing,
-Ezequiel
-
+It looks like we have a regression.
