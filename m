@@ -2,189 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 260942EABB7
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 14:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 171E92EABC0
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 14:20:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729283AbhAENSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 08:18:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
+        id S1730068AbhAENUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 08:20:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729174AbhAENSA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 08:18:00 -0500
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27215C061574;
-        Tue,  5 Jan 2021 05:17:35 -0800 (PST)
-Received: by mail-qt1-x829.google.com with SMTP id g24so20710441qtq.12;
-        Tue, 05 Jan 2021 05:17:35 -0800 (PST)
+        with ESMTP id S1727794AbhAENUi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 08:20:38 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 323ECC061793
+        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 05:19:58 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id h205so72467971lfd.5
+        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 05:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jLhbRWXby6luGSFdzAvh4WkvKskLyAT83J5WUyy1B7g=;
-        b=h47nmgU0rIwhajSpfHu3iTWzq30XXTCyDfCURIz5rXQNIRu6C7FopM/0vWUwwTmmyZ
-         +vaowIcYOlJNYAVajvxvjIC1SV/MoypaMqtT5+zxoFAg5NuXq/+80VctTWUzUK0WYb+w
-         a4IvfNrwIDt0sTgffUBa4ECerc3AD4xe1Z3MjJE3Ey8JfCsuhEJGFBvfEttmjQ1+RrZp
-         n8xMASrLIDv003UlpTSxrt+VLhCHOnho52wF8o813HcnuTeAITQ+Ol66zNDRMHM+oubh
-         otFYkYYcOaEoKrOX7+gpHHvRk7VD/jpVhavlJR9h5B5AXPYbf8IshQ7BVjsrXFMunIPf
-         NbTA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=TEQRpiiOsNsCxymUU5I1SC6a0gUGJEle2qemadcBiq0=;
+        b=iqGh8hcsqOc16yXtko6wkmo1YKWCuFS9gAR1au/+C0jmMZ1CxMwMNo7BkURu5cAieP
+         0hzj2VDnRXoe7VtWUmqv4+q3YrOWrCTjY/Gsm8gFu7J9pq85yhdiuKUR9hFn3mxDa8hF
+         by22psOlSPNAmBfm7y2SymJhI8gJ0+ex0y3bVjPW0cBa806SNHHEyzAoiewZcc1WGo1o
+         sc321gqwQNw/EF+OF8BWJQEgqC5DlrhAZxba2mh7c/XCIXjFIdz5zlQBRQxllvW3lYPE
+         FsRpYNbHLQ1C2XKtHhmUnypEuNr8slPSmM3bPGSY/k16gxMlIKhRONbVaEx/tzNrbiZK
+         1Nlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jLhbRWXby6luGSFdzAvh4WkvKskLyAT83J5WUyy1B7g=;
-        b=b1Dz0vNSyxWhzdQ/ZCtRFsrVe7qAdW6b4xrw8MLcVq1774Xsi7FaFp5pD8riWz3WI9
-         MOSsWFnXLmcT5vMK7PukdHbZLFqcc8u8h1mXPeoa56hoFt1qDo67NhK53urJt7/g/TNq
-         qXIaDrChTMq8+oKun/e2Nvg1zAxMvVl12YN9xrY5D4poyvrVV9eTiOytdukyB/jd5PnB
-         F2+ME3cIQDby+TNakyk6xhkKrwjdYeN3MQzOMwvnsn+YGINZg8BxKyPhonIx/YJo7Jth
-         nzzJlepjpsgwOIHBgfZKEt3T+CtKfXOfm2tx12pbmR6QulY6559EfyWIcy+2jn4IeF/Q
-         MWrg==
-X-Gm-Message-State: AOAM531lv04aHrJClfDq3VWedgK2uZuPzKv/2OaCHZNqJFmSg+f1PHva
-        YVrQ2XzMVApTjrbW2ulK+84T//L1tgedOg==
-X-Google-Smtp-Source: ABdhPJyVzx47+ZOqsoJXupw8slUQFPMehE0nhfa36KTvI6eGYZb4pDueYzmJKn/d/uD3F22/U5vWEg==
-X-Received: by 2002:ac8:1c92:: with SMTP id f18mr71741567qtl.234.1609852654400;
-        Tue, 05 Jan 2021 05:17:34 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:77d4:6fb0:85b3:b6f7])
-        by smtp.gmail.com with ESMTPSA id h16sm40697819qko.135.2021.01.05.05.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 05:17:33 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     mchehab@kernel.org, hverkuil@xs4all.nl
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4l-utils] test-media: add support for vidtv
-Date:   Tue,  5 Jan 2021 10:17:25 -0300
-Message-Id: <20210105131725.1191046-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=TEQRpiiOsNsCxymUU5I1SC6a0gUGJEle2qemadcBiq0=;
+        b=G5K1Y+DxSm8tm0s9lMrtlK6tT1TulVIShTBnmcwOtAh7IUSVua/OY9QuOV4+6uiNBQ
+         z93VbZfZu7f734NhRJt3bcELh+LR17raDi5yxaOxsqLz1sFg9Ou4XzIRDyl5yW01MEXy
+         UnKlQH7MWB5GaT6xgzYxQI8iyhiKR1EKMVAgX4pBGlTtmlYVKLkQAUgXWgPZ9Uq93yM+
+         95JVBi+T7ET9vPKcnS3d8VbRSyi8foa+fteilXTf2xWEN4O2aO6M23Fjt57FQqYO/QrP
+         XHeXtCj5OZ5O43cnKd2Hw07hNXZ3PoeklqW46lHVeww7DDjd1pGm4UstHKGmFg9yjyEs
+         krqQ==
+X-Gm-Message-State: AOAM533C/DQhCEj3ePypFisDDKzw8fd/Bn81B+EOJ8SygfvljafRGswY
+        otRzMkvUeGOKC88gPKgzYwQFjDaXTpbEEmrNryesABT+Ao7xCA==
+X-Google-Smtp-Source: ABdhPJwqI8uUcnIlEj+GGBRuyh0bMYzBJb1ahwQ5W9xVqyROPXggfh0JNKyq+jeEE66IrE8qSIYsqPt+4lz5znnStCU=
+X-Received: by 2002:a19:acd:: with SMTP id 196mr24676340lfk.539.1609852796670;
+ Tue, 05 Jan 2021 05:19:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
+ <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com> <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
+ <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com> <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com>
+In-Reply-To: <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 5 Jan 2021 10:19:44 -0300
+Message-ID: <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
+Subject: Re: imx6ull capture from OV5640
+To:     =?UTF-8?Q?S=C3=A9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Julien Boibessot <julien.boibessot@armadeus.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Hi S=C3=A9bastien,
 
-Add support for vidtv at the test-media script so that automated testing
-is possible. Proper compliance tests are still pending.
+On Tue, Jan 5, 2021 at 6:49 AM S=C3=A9bastien Szymanski
+<sebastien.szymanski@armadeus.com> wrote:
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- contrib/test/test-media | 72 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+> I used the following gstreamer pipeline to stream on the framebuffer:
+>
+> gst-launch-1.0 v4l2src device=3D/dev/video1 ! v4l2convert ! fbdevsink
 
-diff --git a/contrib/test/test-media b/contrib/test/test-media
-index 1c1d2e37b..86a2e081a 100755
---- a/contrib/test/test-media
-+++ b/contrib/test/test-media
-@@ -4,6 +4,7 @@
- #
- # Copyright 2019 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
- 
-+vidtv=0
- vivid=0
- vim2m=0
- vimc=0
-@@ -51,6 +52,7 @@ if [ -z "$1" ]; then
- 	echo "-32: use v4l2-ctl-32 and v4l2-compliance-32 to test the 32 bit compat layer"
- 	echo
- 	echo Test Targets:
-+	echo "vidtv: test the vidtv driver"
- 	echo "vivid: test the vivid driver"
- 	echo "vim2m: test the vim2m driver"
- 	echo "vimc: test the vimc driver"
-@@ -96,6 +98,7 @@ while [ ! -z "$1" ]; do
- 		fi
- 		;;
- 	all)
-+		vidtv=1
- 		vivid=1
- 		vim2m=1
- 		vimc=1
-@@ -109,6 +112,9 @@ while [ ! -z "$1" ]; do
- 		vimc=1
- 		vicodec=1
- 		;;
-+	vidtv)
-+		vidtv=1
-+		;;
- 	vivid)
- 		vivid=1
- 		;;
-@@ -162,6 +168,72 @@ $v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-out -o1 -x width=3840,height=21
- 
- echo
- 
-+if [ $vidtv -eq 1 ]; then
-+	rmmod vidtv 2&>/dev/null
-+	modprobe vidtv
-+	sleep 2
-+	dmesg -n notice
-+	echo
-+
-+	if ! media-ctl -d platform:vidtv -p ; then
-+		echo "FAIL: the vidtv module failed to load" | tee -a $tmp
-+		echo "Grand Total for vidtv: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
-+		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
-+		rmmod vidtv
-+		exit 0
-+	fi
-+
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo unbind vidtv
-+	echo
-+	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
-+	sleep $unbind_time
-+	echo
-+	echo rebind vidtv
-+	echo
-+	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/bind
-+	sleep 1
-+	echo
-+	echo second unbind vidtv
-+	echo
-+	sleep 1
-+	echo
-+	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
-+	sleep $reunbind_time
-+	echo
-+	echo rmmod vidtv
-+	echo
-+	rmmod vidtv
-+	sleep $rmmod_time
-+	if [ $kmemleak -eq 1 ]; then
-+		echo
-+		echo kmemleak results for vidtv:
-+		echo
-+		echo scan >/sys/kernel/debug/kmemleak
-+		cat /sys/kernel/debug/kmemleak
-+		echo
-+		echo end of kmemleak results
-+		echo clear >/sys/kernel/debug/kmemleak
-+	fi
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+	echo
-+
-+fi
-+
- if [ $vivid -eq 1 ]; then
- 	dmesg -n notice
- 	echo
--- 
-2.30.0
+Thanks, this helps and now the pipeline starts and I do see the camera
+image on the LCD.
 
+I switched to the same 5.4 you used just to make sure we are in the
+same codebase.
+
+I am getting the wrong colors though. The captured image is too pinky.
+
+Do you get the correct colors on your test?
+
+Also, I had to describe like the polarities like this:
+
+hsync-active =3D <0>;
+vsync-active =3D <1>;
+pclk-sample =3D <0>;
+
+because if I used the same polarities from your patch, then the
+pipeline does not start.
+
+Thanks for your help!
