@@ -2,127 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CF252EA834
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 11:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 531942EA9B0
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 12:19:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727710AbhAEKHZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 05:07:25 -0500
-Received: from 2.mo7.mail-out.ovh.net ([87.98.143.68]:60654 "EHLO
-        2.mo7.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727923AbhAEKHZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 05:07:25 -0500
-X-Greylist: delayed 1007 seconds by postgrey-1.27 at vger.kernel.org; Tue, 05 Jan 2021 05:07:23 EST
-Received: from player795.ha.ovh.net (unknown [10.108.57.153])
-        by mo7.mail-out.ovh.net (Postfix) with ESMTP id 0D3C318B179
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 10:49:54 +0100 (CET)
-Received: from armadeus.com (lfbn-str-1-77-132.w92-140.abo.wanadoo.fr [92.140.204.132])
-        (Authenticated sender: sebastien.szymanski@armadeus.com)
-        by player795.ha.ovh.net (Postfix) with ESMTPSA id D116819835778;
-        Tue,  5 Jan 2021 09:49:45 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-98R002ead48691-cac1-4d8c-bfce-ab47e901812a,
-                    85B3575ABCBC7C1193A4E82C4493561B47B7877E) smtp.auth=sebastien.szymanski@armadeus.com
-X-OVh-ClientIp: 92.140.204.132
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Julien Boibessot <julien.boibessot@armadeus.com>
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com>
- <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
- <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
-From:   =?UTF-8?Q?S=c3=a9bastien_Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-Subject: Re: imx6ull capture from OV5640
-Message-ID: <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com>
-Date:   Tue, 5 Jan 2021 10:49:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1729310AbhAELSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 06:18:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40634 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729196AbhAELSy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Jan 2021 06:18:54 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 736B5229C5;
+        Tue,  5 Jan 2021 11:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609845492;
+        bh=GDmYQRHGn/AcnFt3hdxGi1mf2d4j0SgudD/3lB6HiLU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MGoc1AfjFEcjnH2LG9n6lBEYoM6Ri+jtRDQ3pMETkgkS4xWatgY5WzBCv7tGFTTX4
+         9deGZUIgeLAhm1VPGBdYES++ZORJDj29LOoOSG8tACOto7uS1nWJwFUZ5fw3Q/9+7t
+         9Rnjcz0F86y/qp986vAfUr6GinSVP0XwPgyXu3vSEN7cNL4OxE10chjJdGA85/nxVF
+         lPpoMqPvAHjIz+Tazlv2fQtQtSQARqHG/OYlCfxgVMRWyanIC2bLCSGkFIWiXyTy98
+         QR/IH6Kj4pkkDkHe387Q3RpA+JZkCdNIme8yoaM7itWnaNn71YrIoqeYgceFoOyLsB
+         SI0+F1HbHOM4g==
+Received: by earth.universe (Postfix, from userid 1000)
+        id 4BD5B3C0C94; Tue,  5 Jan 2021 12:18:10 +0100 (CET)
+Date:   Tue, 5 Jan 2021 12:18:10 +0100
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
+Message-ID: <20210105111810.5sdfmjga5in5wgvx@earth.universe>
+References: <20210104230253.2805217-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 3909687428350628894
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdefhedgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepuforsggrshhtihgvnhgpufiihihmrghnshhkihcuoehsvggsrghsthhivghnrdhsiiihmhgrnhhskhhisegrrhhmrgguvghushdrtghomheqnecuggftrfgrthhtvghrnhepkeejveeiffelfeegleetleevgeeifeeugedugeejgfehjeetkeetjeegieeugeejnecuffhomhgrihhnpehprghsthgvsghinhdrtghomhenucfkpheptddrtddrtddrtddpledvrddugedtrddvtdegrddufedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelhedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsvggsrghsthhivghnrdhsiiihmhgrnhhskhhisegrrhhmrgguvghushdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vyuzhxvp4ms2cjlb"
+Content-Disposition: inline
+In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
 
-On 1/5/21 12:56 AM, Fabio Estevam wrote:
-> Hi Sébastien,
-> 
-> On Mon, Jan 4, 2021 at 8:15 PM Fabio Estevam <festevam@gmail.com> wrote:
-> 
->> Could you please share your imx6ul board dts file that you used to
->> test camera capture?
-> 
-> This dts allows csi to probe fine now:
-> https://pastebin.com/raw/7GK5dAWD
-> 
->> Were you able to capture via Gstreamer? If so, please also share the
->> media-ctl and gst pipelines that you used.
-> 
-> I am trying to capture via Gstreamer now. If you managed to get it
-> working, please share your media-ctl setup and Gst pipeline.
+--vyuzhxvp4ms2cjlb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I just tried it with kernel 5.4.84 with the following device tree (from
-mainline kernel):
-https://pastebin.com/w00EWZa5
+Hi Rob,
 
-I configured the pipelines with:
-media-ctl -l "'ov5640 1-003c':0 -> 'csi':0[1]"
-media-ctl -l "'csi':1 -> 'csi capture':0[1]"
-media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_2X8/640x480 field:none]"
+On Mon, Jan 04, 2021 at 04:02:53PM -0700, Rob Herring wrote:
+> DT properties which can have multiple entries need to specify what the
+> entries are and define how many entries there can be. In the case of
+> only a single entry, just 'maxItems: 1' is sufficient.
+>=20
+> Add the missing entry constraints. These were found with a modified
+> meta-schema. Unfortunately, there are a few cases where the size
+> constraints are not defined such as common bindings, so the meta-schema
+> can't be part of the normal checks.
+>=20
+> [...]
+>  .../bindings/power/supply/bq25980.yaml        |  1 +
+> [...]
 
-The topology is then:
+Acked-by: Sebastian Reichel <sre@kernel.org>
 
-Device topology
-- entity 1: csi (2 pads, 2 links)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-        pad0: Sink
-                [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
-xfer:srgb ycbcr:601 quantization:full-range]
-                <- "ov5640 1-003c":0 [ENABLED]
-        pad1: Source
-                [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
-xfer:srgb ycbcr:601 quantization:full-range]
-                -> "csi capture":0 [ENABLED]
+-- Sebastian
 
-- entity 4: csi capture (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video1
-        pad0: Sink
-                <- "csi":1 [ENABLED]
+--vyuzhxvp4ms2cjlb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-- entity 10: ov5640 1-003c (1 pad, 1 link)
-             type V4L2 subdev subtype Sensor flags 0
-             device node name /dev/v4l-subdev1
-        pad0: Source
-                [fmt:UYVY8_2X8/640x480@1/30 field:none colorspace:srgb
-xfer:srgb ycbcr:601 quantization:full-range]
-                -> "csi":0 [ENABLED]
+-----BEGIN PGP SIGNATURE-----
 
-I used the following gstreamer pipeline to stream on the framebuffer:
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/0SucACgkQ2O7X88g7
++ppIAQ/8CwCUtes2Mr7K09stdBuNtR3gBayMxcQnnIM6AQvBexKzq6gM2xpDIPB8
+YVpTjaGQkOcwS3BMu7BsRT4t2s3KXy9lVS5jkChykskjyAyr9a7QPsK7MVZVRh2Q
+U896qS+zI2nsNdeX6+kT10+29b7PcoEvTJRtEPEFlsq4UoFbMAsdJhtHBo9v1oUP
+cJMT7NSkqtcHM9HeSPZFCTLyAsoGFPYMTneKdN9ZVlPHoQRkCH0k3vyHMmKKPWAQ
+uafDLlP+nvs9Ug/FSsFsoaLcixHHAI+GkVj48muZL7EVAygGTbrRA27r0txduvfj
+DOxfT7BdNOMkmDge0RR2vk29V/2WYsEg4vwi3uyP2BDQsdXEYpwTn00IJ5IJgcqE
+EAjq7hWsSo7zd8VkMc/CLN1a1W+PEpIJ0CGfS4cLtAMwRLNLdPA+FS4UaBCAoS4k
+T9AZGFXABwtQQHyOAHD8/Hjs5vexDnWdvcRyCuDqgt6YeUX6Lu8pRTWx5lkWPkLy
+GZf/jppVAnP/gtnsOOJnPL37jxbOpelu+4UopYZ/j9YLJb+M7P2xYhsYuRlnKn0r
+aAgoNpEXu3TNpex2apw+Cm70EiidWAGcWqvrOCWhdqWBulGJ+O4v1DYe536LLoZN
+rdX4Hbkx7kBMNJ1ZZVIA3x9YzLwGKo/1nnV2q7fUdTzUEobcJWQ=
+=gWL0
+-----END PGP SIGNATURE-----
 
-gst-launch-1.0 v4l2src device=/dev/video1 ! v4l2convert ! fbdevsink
-
-Regards,
-
-> 
-> Thanks for your help!
-> 
-
-
--- 
-Sébastien Szymanski, Armadeus Systems
-Software engineer
+--vyuzhxvp4ms2cjlb--
