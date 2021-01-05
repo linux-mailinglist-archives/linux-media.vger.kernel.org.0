@@ -2,154 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85DF12EA376
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 03:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB2E02EA405
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 04:47:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728047AbhAECt5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 21:49:57 -0500
-Received: from mail-io1-f72.google.com ([209.85.166.72]:56160 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbhAECt5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 21:49:57 -0500
-Received: by mail-io1-f72.google.com with SMTP id j25so13072719iog.22
-        for <linux-media@vger.kernel.org>; Mon, 04 Jan 2021 18:49:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=Qw/22jOZ8d9ckeL7b+PrbTIdW53/o+UBIWUIwEw3J0Q=;
-        b=P2RWGtzzT0wEsnawJ4XfiCr+0SsZujAzZw196PvVt6ro0op+Gi1kZmNOeYi8PLa49f
-         IQtSvb37tnEYTJS5iU6ekka4nDKANim+LU2i/P4l2XzPuc1HP8h5kEeKaTjM7G17CmEm
-         BuCjk6/auKvHUTauLDlg1SNwob53CsrFbmZQX3AsMEQ1AyEd7g+9G9u+Lq5a94sbDWth
-         YHTVpWnty87WKvRoMC5BkWR5YhfVBcHQ1H3gaTWgL3e7bShAtDV66GTHz1bjR49D49ru
-         7Vi35ltL9SnA9+AiFguJhH6sL2DiVnBnUTebgVv6a1TMpr+H4pfFH4wriCyesLvOwRrU
-         LGUQ==
-X-Gm-Message-State: AOAM530/Di4qQ/293uyiEE/JupyBc/DlHa1m1X5kZOOUHt4K4xNKbCOc
-        lhrDy2RZVZP+Z9Ms2pdqTrckAaFzCzKtZhBK6kHzlqV6pICj
-X-Google-Smtp-Source: ABdhPJxBaQLizthDThzIt1ZAtGhrdmxMzQ7Fdi/4JaJ7KDjS9Vco3Uxvce8OZyRQPW5O04Fqhy0AS1nBJYitS5rUZj7dzkNTX4LS
+        id S1728221AbhAEDrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 22:47:07 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60638 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726168AbhAEDrH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 22:47:07 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 311BDDD;
+        Tue,  5 Jan 2021 04:46:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1609818384;
+        bh=eHDWnH6m1+eLhcCx84dnlp64GeJVIgEqWQP7+76DXE4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KIffBp0m1D+A07RbdhPsYfgoEj0O8eF25fOQfYFmk/QlzAly/fE5WdIl+9xMvLFri
+         6XDk8DcIqpe9MqdRHe8khZP5xFs+q2gVRmjA0JhbmWnonWXmTnjyn0/y3CrSaBqpig
+         Po87clDBRP3bKoFEdIN2L+PdVvIph9APqSr1SUME=
+Date:   Tue, 5 Jan 2021 05:46:11 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com, Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2] media: v4l2-async: Add waiting subdevices debugfs
+Message-ID: <X/PhA5xsuHfSE1R/@pendragon.ideasonboard.com>
+References: <20210104174840.144958-1-ezequiel@collabora.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:ad05:: with SMTP id w5mr69783289ilh.226.1609814956132;
- Mon, 04 Jan 2021 18:49:16 -0800 (PST)
-Date:   Mon, 04 Jan 2021 18:49:16 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009d50ae05b81e4091@google.com>
-Subject: memory leak in usb_urb_init
-From:   syzbot <syzbot+3c2be7424cea3b932b0e@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210104174840.144958-1-ezequiel@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Ezequiel,
 
-syzbot found the following issue on:
+Thank you for the patch.
 
-HEAD commit:    f6e1ea19 Merge tag 'ceph-for-5.11-rc2' of git://github.com..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=102e814f500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1dcbf163b62a8256
-dashboard link: https://syzkaller.appspot.com/bug?extid=3c2be7424cea3b932b0e
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1509c9c0d00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12e15e0b500000
+On Mon, Jan 04, 2021 at 02:48:40PM -0300, Ezequiel Garcia wrote:
+> There is currently little to none information available
+> about the reasons why a v4l2-async device hasn't
+> probed completely.
+> 
+> Inspired by the "devices_deferred" debugfs file,
+> add a file to list information about the subdevices
+> that are on waiting lists, for each notifier.
+> 
+> This is useful to debug v4l2-async subdevices
+> and notifiers, for instance when doing device bring-up.
+> 
+> For instance, a typical output would be:
+> 
+> $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
+> ipu1_csi1:
+>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
+> ipu1_csi0:
+>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
+> imx6-mipi-csi2:
+>  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
+> imx-media:
+> 
+> Note that match-type "custom" prints no information.
+> Since there are no in-tree users of this match-type,
+> the implementation doesn't bother.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3c2be7424cea3b932b0e@syzkaller.appspotmail.com
+I wonder if we should drop it.
 
-BUG: memory leak
-unreferenced object 0xffff888114a12180 (size 192):
-  comm "kworker/1:3", pid 8132, jiffies 4294980969 (age 13.460s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 98 21 a1 14 81 88 ff ff  .........!......
-  backtrace:
-    [<00000000270adc89>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000270adc89>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-    [<000000007ddd474e>] usb_bulk_urb_init drivers/media/usb/dvb-usb/usb-urb.c:148 [inline]
-    [<000000007ddd474e>] usb_urb_init+0x17a/0x3d0 drivers/media/usb/dvb-usb/usb-urb.c:229
-    [<00000000bdcce353>] dvb_usb_adapter_stream_init+0x5b/0x120 drivers/media/usb/dvb-usb/dvb-usb-urb.c:108
-    [<00000000adc3ae74>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:82 [inline]
-    [<00000000adc3ae74>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
-    [<00000000adc3ae74>] dvb_usb_device_init.cold+0x483/0x6ae drivers/media/usb/dvb-usb/dvb-usb-init.c:287
-    [<00000000979fb93a>] m920x_probe+0x1d7/0x470 drivers/media/usb/dvb-usb/m920x.c:834
-    [<00000000dc58d155>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<0000000011b900cd>] really_probe+0x159/0x480 drivers/base/dd.c:561
-    [<000000003bf38880>] driver_probe_device+0x84/0x100 drivers/base/dd.c:745
-    [<000000003450ad28>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:851
-    [<000000005a93a91d>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<0000000058084795>] __device_attach+0x122/0x250 drivers/base/dd.c:919
-    [<00000000e0d09782>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<000000004566d8b7>] device_add+0x5be/0xc30 drivers/base/core.c:3091
-    [<000000000471371f>] usb_set_configuration+0x9d9/0xb90 drivers/usb/core/message.c:2164
-    [<00000000d93dc50f>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<00000000a0057c67>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+> v2:
+> * Print fwnode path, as suggested by Sakari.
+> * Print the subdevices under their corresponding notifier.
+> * Rename the file as suggested by Laurent.
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 66 ++++++++++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
+>  include/media/v4l2-async.h           |  9 ++++
+>  3 files changed, 80 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index e3ab003a6c85..d779808abb3b 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+>   */
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/err.h>
+>  #include <linux/i2c.h>
+> @@ -14,6 +15,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/seq_file.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+>  
+> @@ -837,3 +839,67 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+>  	mutex_unlock(&list_lock);
+>  }
+>  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+> +
+> +static void print_waiting_subdev(struct seq_file *s,
+> +				 struct v4l2_async_subdev *asd)
+> +{
+> +	switch (asd->match_type) {
+> +	case V4L2_ASYNC_MATCH_CUSTOM:
+> +		seq_puts(s, " [custom]\n");
+> +		break;
+> +	case V4L2_ASYNC_MATCH_DEVNAME:
+> +		seq_printf(s, " [devname] %s\n", asd->match.device_name);
+> +		break;
+> +	case V4L2_ASYNC_MATCH_I2C:
+> +		seq_printf(s, " [i2c] %d-%04x\n", asd->match.i2c.adapter_id,
+> +			   asd->match.i2c.address);
+> +		break;
+> +	case V4L2_ASYNC_MATCH_FWNODE: {
+> +		struct fwnode_handle *fwnode = asd->match.fwnode;
+> +
+> +		if (fwnode_graph_is_endpoint(fwnode))
+> +			fwnode = fwnode_graph_get_port_parent(fwnode);
+> +
+> +		seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",
+> +			   fwnode->dev ? dev_name(fwnode->dev) : "nil",
+> +			   fwnode);
 
-BUG: memory leak
-unreferenced object 0xffff888114a126c0 (size 192):
-  comm "kworker/1:3", pid 8132, jiffies 4294980969 (age 13.460s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 d8 26 a1 14 81 88 ff ff  .........&......
-  backtrace:
-    [<00000000270adc89>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000270adc89>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-    [<000000007ddd474e>] usb_bulk_urb_init drivers/media/usb/dvb-usb/usb-urb.c:148 [inline]
-    [<000000007ddd474e>] usb_urb_init+0x17a/0x3d0 drivers/media/usb/dvb-usb/usb-urb.c:229
-    [<00000000bdcce353>] dvb_usb_adapter_stream_init+0x5b/0x120 drivers/media/usb/dvb-usb/dvb-usb-urb.c:108
-    [<00000000adc3ae74>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:82 [inline]
-    [<00000000adc3ae74>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
-    [<00000000adc3ae74>] dvb_usb_device_init.cold+0x483/0x6ae drivers/media/usb/dvb-usb/dvb-usb-init.c:287
-    [<00000000979fb93a>] m920x_probe+0x1d7/0x470 drivers/media/usb/dvb-usb/m920x.c:834
-    [<00000000dc58d155>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<0000000011b900cd>] really_probe+0x159/0x480 drivers/base/dd.c:561
-    [<000000003bf38880>] driver_probe_device+0x84/0x100 drivers/base/dd.c:745
-    [<000000003450ad28>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:851
-    [<000000005a93a91d>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<0000000058084795>] __device_attach+0x122/0x250 drivers/base/dd.c:919
-    [<00000000e0d09782>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<000000004566d8b7>] device_add+0x5be/0xc30 drivers/base/core.c:3091
-    [<000000000471371f>] usb_set_configuration+0x9d9/0xb90 drivers/usb/core/message.c:2164
-    [<00000000d93dc50f>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<00000000a0057c67>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+Apart from Sakari's comment related to printing the endpoint node (but
+keeping the port's parent for ->dev),
 
-BUG: memory leak
-unreferenced object 0xffff888114bbf900 (size 192):
-  comm "kworker/1:3", pid 8132, jiffies 4294980969 (age 13.460s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 18 f9 bb 14 81 88 ff ff  ................
-  backtrace:
-    [<00000000270adc89>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000270adc89>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-    [<000000007ddd474e>] usb_bulk_urb_init drivers/media/usb/dvb-usb/usb-urb.c:148 [inline]
-    [<000000007ddd474e>] usb_urb_init+0x17a/0x3d0 drivers/media/usb/dvb-usb/usb-urb.c:229
-    [<00000000bdcce353>] dvb_usb_adapter_stream_init+0x5b/0x120 drivers/media/usb/dvb-usb/dvb-usb-urb.c:108
-    [<00000000adc3ae74>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:82 [inline]
-    [<00000000adc3ae74>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
-    [<00000000adc3ae74>] dvb_usb_device_init.cold+0x483/0x6ae drivers/media/usb/dvb-usb/dvb-usb-init.c:287
-    [<00000000979fb93a>] m920x_probe+0x1d7/0x470 drivers/media/usb/dvb-usb/m920x.c:834
-    [<00000000dc58d155>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<0000000011b900cd>] really_probe+0x159/0x480 drivers/base/dd.c:561
-    [<000000003bf38880>] driver_probe_device+0x84/0x100 drivers/base/dd.c:745
-    [<000000003450ad28>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:851
-    [<000000005a93a91d>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<0000000058084795>] __device_attach+0x122/0x250 drivers/base/dd.c:919
-    [<00000000e0d09782>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<000000004566d8b7>] device_add+0x5be/0xc30 drivers/base/core.c:3091
-    [<000000000471371f>] usb_set_configuration+0x9d9/0xb90 drivers/usb/core/message.c:2164
-    [<00000000d93dc50f>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<00000000a0057c67>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+> +		break;
+> +	}
+> +	}
+> +}
+> +
+> +static const char *
+> +v4l2_async_notifier_name(struct v4l2_async_notifier *notifier)
+> +{
+> +	if (notifier->v4l2_dev)
+> +		return notifier->v4l2_dev->name;
+> +	else if (notifier->sd)
+> +		return notifier->sd->name;
+> +	else
+> +		return "nil";
+> +}
+> +
+> +static int pending_subdevs_show(struct seq_file *s, void *data)
+> +{
+> +	struct v4l2_async_notifier *notif;
+> +	struct v4l2_async_subdev *asd;
+> +
+> +	mutex_lock(&list_lock);
+> +
+> +	list_for_each_entry(notif, &notifier_list, list) {
+> +		seq_printf(s, "%s:\n", v4l2_async_notifier_name(notif));
+> +		list_for_each_entry(asd, &notif->waiting, list)
+> +			print_waiting_subdev(s, asd);
+> +	}
+> +
+> +	mutex_unlock(&list_lock);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+> +
+> +void v4l2_async_debug_init(struct dentry *debugfs_dir)
+> +{
+> +	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
+> +			    &pending_subdevs_fops);
+> +}
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index a593ea0598b5..8d3813e6ab56 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -14,6 +14,7 @@
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/module.h>
+>  #include <linux/types.h>
+>  #include <linux/kernel.h>
+> @@ -37,6 +38,7 @@
+>  		       __func__, ##arg);				\
+>  } while (0)
+>  
+> +static struct dentry *v4l2_debugfs_dir;
+>  
+>  /*
+>   *	sysfs stuff
+> @@ -1113,6 +1115,8 @@ static int __init videodev_init(void)
+>  		return -EIO;
+>  	}
+>  
+> +	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
+> +	v4l2_async_debug_init(v4l2_debugfs_dir);
+>  	return 0;
+>  }
+>  
+> @@ -1120,6 +1124,7 @@ static void __exit videodev_exit(void)
+>  {
+>  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
+>  
+> +	debugfs_remove_recursive(v4l2_debugfs_dir);
+>  	class_unregister(&video_class);
+>  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+>  }
+> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> index 0e04b5b2ebb0..abc85474bb3b 100644
+> --- a/include/media/v4l2-async.h
+> +++ b/include/media/v4l2-async.h
+> @@ -8,9 +8,11 @@
+>  #ifndef V4L2_ASYNC_H
+>  #define V4L2_ASYNC_H
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+>  
+> +struct dentry;
+>  struct device;
+>  struct device_node;
+>  struct v4l2_device;
+> @@ -137,6 +139,13 @@ struct v4l2_async_notifier {
+>  	struct list_head list;
+>  };
+>  
+> +/**
+> + * v4l2_async_debug_init - Initialize debugging tools.
+> + *
+> + * @debugfs_dir: pointer to the parent debugfs &struct dentry
+> + */
+> +void v4l2_async_debug_init(struct dentry *debugfs_dir);
+> +
+>  /**
+>   * v4l2_async_notifier_init - Initialize a notifier.
+>   *
+> -- 
+> 2.29.2
+> 
 
+-- 
+Regards,
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Laurent Pinchart
