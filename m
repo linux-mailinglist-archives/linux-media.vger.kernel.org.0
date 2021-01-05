@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 263E62EAE93
+	by mail.lfdr.de (Postfix) with ESMTP id 92F0A2EAE94
 	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:36:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728149AbhAEPeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 10:34:06 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38064 "EHLO
+        id S1728156AbhAEPeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 10:34:16 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37698 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728142AbhAEPeG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:34:06 -0500
+        with ESMTP id S1726960AbhAEPeP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:34:15 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB07D9E6;
-        Tue,  5 Jan 2021 16:29:52 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C48D100F;
+        Tue,  5 Jan 2021 16:29:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1609860593;
-        bh=+90f5oOY8Y7wm7MLcjLDdl0bmpMpZHDpcLA2Mo7xWWU=;
+        bh=WZx4WS/fUNuFOhtS0HKElgVp3JnTc3PIz8rhAhSHGrQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g9aOjhhRwnOr9DwXEgD5hIojXNaAlprCEuAg7QpExKs7jg/uzY/Zb5a8nfAswQVW6
-         vtUfVkh7yTeFmU09yb5t9Zl4pyBe65pPnUYD/mac7sxUZP7snqjXJEmVGBCAQITG+E
-         Vi/kzWk84Bf2h62XwdM5+3InTEUhanPxcEHfe1Pg=
+        b=CqC2llMe8z9rKRhvktGYfrnlGw1jrmPRjrgujcJTvIMtCUCra5rNX01YPXm/IztGM
+         AC1fu6vuPXk5filBYpCPaHLjw+4n/IYmD1NxNSTr/oUwVk6Ml9M22iaTZdFLrU4+JR
+         c+9SE68pxK/Io2fKfnQBR3RH0apEuYJPovAYv35A=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 27/75] media: imx: capture: Simplify __capture_legacy_try_fmt()
-Date:   Tue,  5 Jan 2021 17:28:04 +0200
-Message-Id: <20210105152852.5733-28-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 28/75] media: imx: capture: Decouple video node from source with MC-centric API
+Date:   Tue,  5 Jan 2021 17:28:05 +0200
+Message-Id: <20210105152852.5733-29-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
 References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
@@ -39,107 +39,223 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The __capture_legacy_try_fmt() function returns two values through
-pointer arguments. One is a compose rectangle, which duplicates
-informationr returned through the subdev format argument, and can thus
-be removed. The other is the imx_media_pixfmt, which can be returned
-by value instead.
-
-Simplify the implementation of __capture_legacy_try_fmt() by dropping
-the retcc and compose arguments, and returning the imx_media_pixfmt by
-value.
+When operating in MC-centric mode, the behaviour of video nodes shall
+not be influenced by the active configuration of the source subdev. Add
+a set of ioctl handlers that implement this mode, and select them when
+support for the legacy API is not requested.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx-media-capture.c | 40 ++++++++-----------
- 1 file changed, 17 insertions(+), 23 deletions(-)
+ drivers/staging/media/imx/imx-media-capture.c | 161 +++++++++++++++++-
+ 1 file changed, 155 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 8f3c0da371d3..9a8e1a1400a2 100644
+index 9a8e1a1400a2..f8c1f48d5d4c 100644
 --- a/drivers/staging/media/imx/imx-media-capture.c
 +++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -251,17 +251,16 @@ static int capture_legacy_enum_fmt_vid_cap(struct file *file, void *fh,
+@@ -55,7 +55,7 @@ struct capture_priv {
+ #define VID_MEM_LIMIT	SZ_64M
+ 
+ /* -----------------------------------------------------------------------------
+- * Common Video IOCTLs
++ * MC-Centric Video IOCTLs
+  */
+ 
+ static const struct imx_media_pixfmt *capture_find_format(u32 code, u32 fourcc)
+@@ -92,6 +92,41 @@ static int capture_querycap(struct file *file, void *fh,
  	return 0;
  }
  
--static int __capture_legacy_try_fmt(struct capture_priv *priv,
--				    struct v4l2_subdev_format *fmt_src,
--				    struct v4l2_pix_format *pixfmt,
--				    const struct imx_media_pixfmt **retcc,
--				    struct v4l2_rect *compose)
-+static const struct imx_media_pixfmt *
-+__capture_legacy_try_fmt(struct capture_priv *priv,
-+			 struct v4l2_subdev_format *fmt_src,
-+			 struct v4l2_pix_format *pixfmt)
- {
- 	const struct imx_media_pixfmt *cc;
- 
- 	cc = capture_find_format(fmt_src->format.code, pixfmt->pixelformat);
- 	if (WARN_ON(!cc))
--		return -EINVAL;
-+		return NULL;
- 
- 	/* allow IDMAC interweave but enforce field order from source */
- 	if (V4L2_FIELD_IS_INTERLACED(pixfmt->field)) {
-@@ -279,17 +278,7 @@ static int __capture_legacy_try_fmt(struct capture_priv *priv,
- 
- 	imx_media_mbus_fmt_to_pix_fmt(pixfmt, &fmt_src->format, cc);
- 
--	if (retcc)
--		*retcc = cc;
--
--	if (compose) {
--		compose->left = 0;
--		compose->top = 0;
--		compose->width = fmt_src->format.width;
--		compose->height = fmt_src->format.height;
--	}
--
--	return 0;
-+	return cc;
- }
- 
- static int capture_legacy_try_fmt_vid_cap(struct file *file, void *fh,
-@@ -305,8 +294,10 @@ static int capture_legacy_try_fmt_vid_cap(struct file *file, void *fh,
- 	if (ret)
- 		return ret;
- 
--	return __capture_legacy_try_fmt(priv, &fmt_src, &f->fmt.pix, NULL,
--					NULL);
-+	if (!__capture_legacy_try_fmt(priv, &fmt_src, &f->fmt.pix))
++static int capture_enum_fmt_vid_cap(struct file *file, void *fh,
++				    struct v4l2_fmtdesc *f)
++{
++	return imx_media_enum_pixel_formats(&f->pixelformat, f->index,
++					    PIXFMT_SEL_ANY, 0);
++}
++
++static int capture_enum_framesizes(struct file *file, void *fh,
++				   struct v4l2_frmsizeenum *fsize)
++{
++	const struct imx_media_pixfmt *cc;
++
++	if (fsize->index > 0)
 +		return -EINVAL;
 +
-+	return 0;
- }
- 
- static int capture_legacy_s_fmt_vid_cap(struct file *file, void *fh,
-@@ -314,6 +305,7 @@ static int capture_legacy_s_fmt_vid_cap(struct file *file, void *fh,
- {
- 	struct capture_priv *priv = video_drvdata(file);
- 	struct v4l2_subdev_format fmt_src;
-+	const struct imx_media_pixfmt *cc;
- 	int ret;
- 
- 	if (vb2_is_busy(&priv->q)) {
-@@ -327,12 +319,14 @@ static int capture_legacy_s_fmt_vid_cap(struct file *file, void *fh,
- 	if (ret)
- 		return ret;
- 
--	ret = __capture_legacy_try_fmt(priv, &fmt_src, &f->fmt.pix,
--				       &priv->vdev.cc, &priv->vdev.compose);
--	if (ret)
--		return ret;
-+	cc = __capture_legacy_try_fmt(priv, &fmt_src, &f->fmt.pix);
++	cc = imx_media_find_pixel_format(fsize->pixel_format, PIXFMT_SEL_ANY);
 +	if (!cc)
 +		return -EINVAL;
- 
-+	priv->vdev.cc = cc;
- 	priv->vdev.fmt = f->fmt.pix;
-+	priv->vdev.compose.width = fmt_src.format.width;
-+	priv->vdev.compose.height = fmt_src.format.height;
- 
++
++	/*
++	 * TODO: The constraints are hardware-specific and may depend on the
++	 * pixel format. This should come from the driver using
++	 * imx_media_capture.
++	 */
++	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
++	fsize->stepwise.min_width = 1;
++	fsize->stepwise.max_width = 65535;
++	fsize->stepwise.min_height = 1;
++	fsize->stepwise.max_height = 65535;
++	fsize->stepwise.step_width = 1;
++	fsize->stepwise.step_height = 1;
++
++	return 0;
++}
++
+ static int capture_g_fmt_vid_cap(struct file *file, void *fh,
+ 				 struct v4l2_format *f)
+ {
+@@ -102,6 +137,75 @@ static int capture_g_fmt_vid_cap(struct file *file, void *fh,
  	return 0;
  }
+ 
++static const struct imx_media_pixfmt *
++__capture_try_fmt(struct v4l2_pix_format *pixfmt, struct v4l2_rect *compose)
++{
++	struct v4l2_mbus_framefmt fmt_src;
++	const struct imx_media_pixfmt *cc;
++
++	/*
++	 * Find the pixel format, default to the first supported format if not
++	 * found.
++	 */
++	cc = imx_media_find_pixel_format(pixfmt->pixelformat, PIXFMT_SEL_ANY);
++	if (!cc) {
++		imx_media_enum_pixel_formats(&pixfmt->pixelformat, 0,
++					     PIXFMT_SEL_ANY, 0);
++		cc = imx_media_find_pixel_format(pixfmt->pixelformat,
++						 PIXFMT_SEL_ANY);
++	}
++
++	/* Allow IDMAC interweave but enforce field order from source. */
++	if (V4L2_FIELD_IS_INTERLACED(pixfmt->field)) {
++		switch (pixfmt->field) {
++		case V4L2_FIELD_SEQ_TB:
++			pixfmt->field = V4L2_FIELD_INTERLACED_TB;
++			break;
++		case V4L2_FIELD_SEQ_BT:
++			pixfmt->field = V4L2_FIELD_INTERLACED_BT;
++			break;
++		default:
++			break;
++		}
++	}
++
++	v4l2_fill_mbus_format(&fmt_src, pixfmt, 0);
++	imx_media_mbus_fmt_to_pix_fmt(pixfmt, &fmt_src, cc);
++
++	if (compose) {
++		compose->width = fmt_src.width;
++		compose->height = fmt_src.height;
++	}
++
++	return cc;
++}
++
++static int capture_try_fmt_vid_cap(struct file *file, void *fh,
++				   struct v4l2_format *f)
++{
++	__capture_try_fmt(&f->fmt.pix, NULL);
++	return 0;
++}
++
++static int capture_s_fmt_vid_cap(struct file *file, void *fh,
++				 struct v4l2_format *f)
++{
++	struct capture_priv *priv = video_drvdata(file);
++	const struct imx_media_pixfmt *cc;
++
++	if (vb2_is_busy(&priv->q)) {
++		dev_err(priv->dev, "%s queue busy\n", __func__);
++		return -EBUSY;
++	}
++
++	cc = __capture_try_fmt(&f->fmt.pix, &priv->vdev.compose);
++
++	priv->vdev.cc = cc;
++	priv->vdev.fmt = f->fmt.pix;
++
++	return 0;
++}
++
+ static int capture_g_selection(struct file *file, void *fh,
+ 			       struct v4l2_selection *s)
+ {
+@@ -132,6 +236,43 @@ static int capture_g_selection(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
++static int capture_subscribe_event(struct v4l2_fh *fh,
++				   const struct v4l2_event_subscription *sub)
++{
++	switch (sub->type) {
++	case V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR:
++		return v4l2_event_subscribe(fh, sub, 0, NULL);
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct v4l2_ioctl_ops capture_ioctl_ops = {
++	.vidioc_querycap		= capture_querycap,
++
++	.vidioc_enum_fmt_vid_cap	= capture_enum_fmt_vid_cap,
++	.vidioc_enum_framesizes		= capture_enum_framesizes,
++
++	.vidioc_g_fmt_vid_cap		= capture_g_fmt_vid_cap,
++	.vidioc_try_fmt_vid_cap		= capture_try_fmt_vid_cap,
++	.vidioc_s_fmt_vid_cap		= capture_s_fmt_vid_cap,
++
++	.vidioc_g_selection		= capture_g_selection,
++
++	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
++	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
++	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
++	.vidioc_querybuf		= vb2_ioctl_querybuf,
++	.vidioc_qbuf			= vb2_ioctl_qbuf,
++	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
++	.vidioc_expbuf			= vb2_ioctl_expbuf,
++	.vidioc_streamon		= vb2_ioctl_streamon,
++	.vidioc_streamoff		= vb2_ioctl_streamoff,
++
++	.vidioc_subscribe_event		= capture_subscribe_event,
++	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
++};
++
+ /* -----------------------------------------------------------------------------
+  * Legacy Video IOCTLs
+  */
+@@ -734,10 +875,17 @@ static int capture_init_format(struct capture_priv *priv)
+ 	struct imx_media_video_dev *vdev = &priv->vdev;
+ 	int ret;
+ 
+-	ret = v4l2_subdev_call(priv->src_sd, pad, get_fmt, NULL, &fmt_src);
+-	if (ret) {
+-		dev_err(priv->dev, "failed to get source format\n");
+-		return ret;
++	if (priv->legacy_api) {
++		ret = v4l2_subdev_call(priv->src_sd, pad, get_fmt, NULL,
++				       &fmt_src);
++		if (ret) {
++			dev_err(priv->dev, "failed to get source format\n");
++			return ret;
++		}
++	} else {
++		fmt_src.format.code = MEDIA_BUS_FMT_UYVY8_2X8;
++		fmt_src.format.width = IMX_MEDIA_DEF_PIX_WIDTH;
++		fmt_src.format.height = IMX_MEDIA_DEF_PIX_HEIGHT;
+ 	}
+ 
+ 	imx_media_mbus_fmt_to_pix_fmt(&vdev->fmt, &fmt_src.format, NULL);
+@@ -838,7 +986,8 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	vfd->fops = &capture_fops;
+-	vfd->ioctl_ops = &capture_legacy_ioctl_ops;
++	vfd->ioctl_ops = legacy_api ? &capture_legacy_ioctl_ops
++		       : &capture_ioctl_ops;
+ 	vfd->minor = -1;
+ 	vfd->release = video_device_release;
+ 	vfd->vfl_dir = VFL_DIR_RX;
 -- 
 Regards,
 
