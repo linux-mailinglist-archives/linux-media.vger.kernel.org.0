@@ -2,115 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3D9F2EB385
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 20:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 938102EB3D5
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 21:01:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730889AbhAETdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 14:33:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48292 "EHLO
+        id S1730984AbhAEUAY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 15:00:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729239AbhAETdh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 14:33:37 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B63C061574
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 11:32:52 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id c5so318592wrp.6
-        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 11:32:52 -0800 (PST)
+        with ESMTP id S1728383AbhAEUAW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 15:00:22 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395B7C061793;
+        Tue,  5 Jan 2021 11:59:42 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id l11so1395884lfg.0;
+        Tue, 05 Jan 2021 11:59:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rhQwg92cYbZMf4kN5FZY8clXse3CH57PY5yAttFGnNI=;
-        b=J7VrUnp8gYFTNw1Av/RDPgx2rJje9D8lp5op/b/DB8zunl8TmtXqjlA7MIfCYRc/d5
-         qA/cyGQFlkRA5EDhwMN/ZhaRg126wXt1rnF6vVPQrrS4bxTUoHagG7cbcL6iY79QP5wx
-         oJ1krJ4/pebHYyvX4gvt1lHDQaZYaJQZrHyf6hwmqXrY19kv+Kak2+aDp9O3cFL7Ysps
-         8rdZx9+FfFvJry9++gFnX8uoW1ZE2cTnotJhSWtM9sc9mxCP4Clh3InbUh9x9pksWzcD
-         DXXZXZfRr28+yAnY2dNra6SrWZ35TeIMiRwimcx3l93aDragpfhaK7NLhcKt14zDB8RJ
-         23Sg==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=w3y172ugq1A8+DfHjAatLK3oOwXsMQTLgHeUXaHnUCU=;
+        b=tBCWlgeIGyCHy0ayfKSb2hKeKiEoFzcgiAtzEEfHQ70m4TqSwGsZqX3Xnx4VJJnvbt
+         n0OP+1QygM+MIfVv5A7Ue/siY9qUR3JrwvKGHP2W3QTyiHhYMLJ6zdE5Ged8pj1n+RjK
+         Bb3lYAmgD2urDHD+97GcmaR9/cYTYUc3lvg36iKQWZkukTkf+xsDRudzvwcq2WaBpdlE
+         x0mE68kMXoFvZrIZWNkF8AnSu3p+LzNJVWTcYgez90NbFkWXHh7/NpKY2fPkuOEA7ZKB
+         w1aIj7VtjxtrBSQz6IaOTRs86szJNL8Gutp0tvolPIaAjingl3R6BlglT66Kk2USW+JA
+         gNew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rhQwg92cYbZMf4kN5FZY8clXse3CH57PY5yAttFGnNI=;
-        b=q1JznhdJeYR973WzE3WqrYIUM1D22Xt80kdoVZNUH0M7E3yuv7R8RYht1Nq9tSXBCd
-         zs//1jOkQ/+ARo6eIxXeqqEqYAUAcILicXSl+rSKh87RIw5B0zQACyytllzXYE4zPf0P
-         47B9fQQFO+N4y05SCCjnwF5b7A7vZjidu0voZSvof9MIKiQ+cSw0oxwvL8g07M5p5mxg
-         6XV6p3iMZyhcf7yYKucX6HCxRGiUbRLRcZ85l22sPg1lHGL6TLpkMMFWXVfIBv+D1+VH
-         Rwljb0GnK1jpaYGqPLlFv/bcO8ia7BT7VYfPudamOsu51zD9IhWnsJdJvEi1pUbI7lHG
-         PmHA==
-X-Gm-Message-State: AOAM5331aAWFAJ5jwyN/7ITS45mTZcl/TT2TjKjIUVPTOeqliwZ1xL4H
-        fsCE7svIpuwuDXxrXJyrEw0=
-X-Google-Smtp-Source: ABdhPJyQ0vojQrjRqUVq1Qd1t0Iu7Uwu4OXKO+27Q8tmFbB/sXUEX1jLapwCtZ+pyQguakIGf1SRkA==
-X-Received: by 2002:a5d:4712:: with SMTP id y18mr1013323wrq.229.1609875171172;
-        Tue, 05 Jan 2021 11:32:51 -0800 (PST)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id c10sm100344wrb.92.2021.01.05.11.32.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 11:32:50 -0800 (PST)
-Date:   Tue, 5 Jan 2021 19:32:48 +0000
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     =?utf-8?Q?S=C3=A9bastien?= Szymanski 
-        <sebastien.szymanski@armadeus.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Julien Boibessot <julien.boibessot@armadeus.com>
-Subject: Re: imx6ull capture from OV5640
-Message-ID: <20210105193248.hegbxct4kiurdnzq@arch-thunder.localdomain>
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com>
- <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
- <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
- <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com>
- <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
- <CAOMZO5BkbB7KHP3pz1SLgD1Vth-BcZAEuxsaSQJ83Y6O=DDPdg@mail.gmail.com>
- <CAOMZO5D1Lk6evyRZ08erQ3DaVgSHubGjGbK8dcKao=NS+m-PUA@mail.gmail.com>
- <20210105150129.fresebmib75htyl5@arch-thunder.localdomain>
- <CAOMZO5D+GGM_QPc0=nWEYe=XV1EBgUS7ff+t+0aER-fg+a4PKA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=w3y172ugq1A8+DfHjAatLK3oOwXsMQTLgHeUXaHnUCU=;
+        b=Uf/I3Ff5O/z44dopGdFH8VxMEy+ps1lg2RbF8K2iK1xaV9636T3q/i+iYVyUz8Zyni
+         MsWVVGYV317Br2hWF051LgKpCrQQHDELvspCXtbGdThQCYNy+XtsQDRrPIJHCE5g2CUn
+         EagliKp6DMlD8opHoL7k/2bqsP9vcJr1BCDiroubtkJJaVmWaBeRsHN0Jm3ieCOWOift
+         6nSBgguqmLI1KVE3C4wzsqu/PCVOGNE41U6sbkHn1ZVoa1V25290yMCYinIrSgxKAUHF
+         zqz0xqumSuZ+BLm4+C5wp2VZPA+3fhGmqSIl5xmiwImFBlPW7nSMEWmyg0JG3x92wW04
+         LYaQ==
+X-Gm-Message-State: AOAM531POKnTvTZAfrh/y7+Go/Vz1dUBRj/f9Vi+j6ruoHUjl8lYn95s
+        mLb00hDHWBa72lE/jSkb+1QGupnzOYrpw4F6szU=
+X-Google-Smtp-Source: ABdhPJxefm71gCAP6d5oS17blFAwFnEd9spoEWiCV79bTaAMdk7JG8QCTPTs9zQB67DoNESWvQ4nEkOaTe/eEP/zqxs=
+X-Received: by 2002:a2e:8156:: with SMTP id t22mr509678ljg.263.1609876780665;
+ Tue, 05 Jan 2021 11:59:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOMZO5D+GGM_QPc0=nWEYe=XV1EBgUS7ff+t+0aER-fg+a4PKA@mail.gmail.com>
+References: <20210103035540.23886-1-tiny.windzz@gmail.com> <CAGTfZH37=e4RgdR4xg-3s9-pRjqunHi2jfPQqQgVWkxW94GwOA@mail.gmail.com>
+In-Reply-To: <CAGTfZH37=e4RgdR4xg-3s9-pRjqunHi2jfPQqQgVWkxW94GwOA@mail.gmail.com>
+Reply-To: cwchoi00@gmail.com
+From:   Chanwoo Choi <cwchoi00@gmail.com>
+Date:   Wed, 6 Jan 2021 04:59:04 +0900
+Message-ID: <CAGTfZH0kg=-MLrvEb+oHkaAuS3mV+o+Oia=wUCf=n2v7s1oXMg@mail.gmail.com>
+Subject: Re: [PATCH 28/31] PM / devfreq: imx8m-ddrc: convert to use
+ devm_pm_opp_* API
+To:     Yangtao Li <tiny.windzz@gmail.com>
+Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>, yuq825@gmail.com,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, robdclark@gmail.com,
+        sean@poorly.run, Rob Herring <robh@kernel.org>,
+        tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        agross@kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+        mchehab@kernel.org, Lukasz Luba <lukasz.luba@arm.com>,
+        adrian.hunter@intel.com, Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>, jirislaby@kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, jcrouse@codeaurora.org,
+        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
+        marijn.suijten@somainline.org, gustavoars@kernel.org,
+        emil.velikov@collabora.com, Jonathan Marek <jonathan@marek.ca>,
+        akhilpo@codeaurora.org, smasetty@codeaurora.org,
+        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
+        tanmay@codeaurora.org, ddavenport@chromium.org,
+        jsanka@codeaurora.org, rnayak@codeaurora.org,
+        tongtiangen@huawei.com, miaoqinglang@huawei.com,
+        khsieh@codeaurora.org, abhinavk@codeaurora.org,
+        chandanu@codeaurora.org, Guenter Roeck <groeck@chromium.org>,
+        varar@codeaurora.org, Matthias Kaehlcke <mka@chromium.org>,
+        harigovi@codeaurora.org, rikard.falkeborn@gmail.com,
+        natechancellor@gmail.com, Georgi Djakov <georgi.djakov@linaro.org>,
+        akashast@codeaurora.org, parashar@codeaurora.org,
+        Doug Anderson <dianders@chromium.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-tegra@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Oi Fabio,
-On Tue, Jan 05, 2021 at 01:05:52PM -0300, Fabio Estevam wrote:
-> Hi Rui,
-> 
-> On Tue, Jan 5, 2021 at 12:01 PM Rui Miguel Silva <rmfrfs@gmail.com>
-> wrote:
-> 
-> > can you see if the following patch make it work again?
-> 
-> Yes, with your patch and mine I can capture the same way as with the
-> 5.4 kernel :-)
+Hi Yangtao,
 
-Great that it worked.
+On Tue, Jan 5, 2021 at 1:13 PM Chanwoo Choi <cwchoi00@gmail.com> wrote:
+>
+> On Sun, Jan 3, 2021 at 12:58 PM Yangtao Li <tiny.windzz@gmail.com> wrote:
+> >
+> > Use devm_pm_opp_* API to simplify code.
+> >
+> > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> > ---
+> >  drivers/devfreq/imx8m-ddrc.c | 15 ++-------------
+> >  1 file changed, 2 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/devfreq/imx8m-ddrc.c b/drivers/devfreq/imx8m-ddrc.c
+> > index bc82d3653bff..9383d6e5538b 100644
+> > --- a/drivers/devfreq/imx8m-ddrc.c
+> > +++ b/drivers/devfreq/imx8m-ddrc.c
+> > @@ -370,11 +370,6 @@ static int imx8m_ddrc_check_opps(struct device *dev)
+> >         return 0;
+> >  }
+> >
+> > -static void imx8m_ddrc_exit(struct device *dev)
+> > -{
+> > -       dev_pm_opp_of_remove_table(dev);
+> > -}
+> > -
+> >  static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >  {
+> >         struct device *dev = &pdev->dev;
+> > @@ -419,7 +414,7 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >                 return ret;
+> >         }
+> >
+> > -       ret = dev_pm_opp_of_add_table(dev);
+> > +       ret = devm_pm_opp_of_add_table(dev);
+> >         if (ret < 0) {
+> >                 dev_err(dev, "failed to get OPP table\n");
+> >                 return ret;
+> > @@ -427,12 +422,11 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >
+> >         ret = imx8m_ddrc_check_opps(dev);
+> >         if (ret < 0)
+> > -               goto err;
+> > +               return ret;
+> >
+> >         priv->profile.polling_ms = 1000;
+> >         priv->profile.target = imx8m_ddrc_target;
+> >         priv->profile.get_dev_status = imx8m_ddrc_get_dev_status;
+> > -       priv->profile.exit = imx8m_ddrc_exit;
+> >         priv->profile.get_cur_freq = imx8m_ddrc_get_cur_freq;
+> >         priv->profile.initial_freq = clk_get_rate(priv->dram_core);
+> >
+> > @@ -441,13 +435,8 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >         if (IS_ERR(priv->devfreq)) {
+> >                 ret = PTR_ERR(priv->devfreq);
+> >                 dev_err(dev, "failed to add devfreq device: %d\n", ret);
+> > -               goto err;
+> >         }
+> >
+> > -       return 0;
+> > -
+> > -err:
+> > -       dev_pm_opp_of_remove_table(dev);
+> >         return ret;
+>
+> devm_devfreq_add_device() doesn't return any integer value.
+> Even if devm_devfreq_add_device() returns the right devfreq instance,
+> the 'ret' value  is not the return value of  devm_devfreq_add_device().
+>
+> On this patch, 'ret' value of 'return ret' is from imx8m_ddrc_check_opps().
+> Surely, it is well working with this modification. But, it is not code
+> for exception handling.
+> So, we need to remain the following codes:
+>
+>     return 0;
+> err:
+>     return ret;
+>
 
-> 
-> The pink color issue is still present but it is orthogonal to this
-> problem.
-> 
-> Could you please submit your patch formally to the list? Please
-> include my attached patch as 1/2 and yours as 2/2.
+'err' is not necessary. You better to edit it as following:
 
-yes, I will create a series with the correct fix tags also.
+if (IS_ERR(priv->devfreq)) {
+    dev_err(dev, "failed to add devfreq device: %d\n", ret);
+    return PTR_ERR(priv->devfreq);
+}
 
-> 
-> Also, please add the following tag to your patch:
-> 
-> Tested-by: Fabio Estevam <festevam@gmail.com>
+return 0;
 
-will do, thanks and sorry about your issue, I really thought that all
-imx, including imx5,6 and 7 had a mux. I need to get my hand in a
-imx6ull full documentation.
-
-------
-Cheers,
-     Rui
+-- 
+Best Regards,
+Chanwoo Choi
