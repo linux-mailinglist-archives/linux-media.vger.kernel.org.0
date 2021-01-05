@@ -2,219 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5EC52EB37D
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 20:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3D9F2EB385
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 20:33:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730069AbhAETau (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 14:30:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
+        id S1730889AbhAETdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 14:33:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbhAETat (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 14:30:49 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2BFC061574
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 11:29:14 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id d26so275279wrb.12
-        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 11:29:14 -0800 (PST)
+        with ESMTP id S1729239AbhAETdh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 14:33:37 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B63C061574
+        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 11:32:52 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id c5so318592wrp.6
+        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 11:32:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=CE20StQVGKsqWjpgJ6OkC5u0SWSO0WzXs7GXQFO2BYk=;
-        b=owjx4IOLBc3eZUPzi4aLt0Kvbh60Cu2BA+ZSMYDvKEXNbOY4LpAATOU+NMFE/ZA11s
-         k8EpUk3USD1czO7D/VEDXS7BxgbVVaF+LLSk9YE1iiJADelL5sqBtuV2jT2qkxVIDt4k
-         Iwn4sKhj0wI4A4L/HqQaN3oxN0J39EA/1sZxdyVziCVkWcbwbbyMVO2s8X0qidq38YTa
-         BcPm2C9SbKX0rI33dz46hgSW8Q5cbWBdPohazx1vcyvNb7n8g7Bh6oL/I/S+1aGnEWsV
-         WSla7lWLqO+UXkUUyxu0ubhCF1ZvNkp4c3Hi3UKo+z8c0wg7jvWfUgxtMF2JvERTy3xm
-         E96g==
+        bh=rhQwg92cYbZMf4kN5FZY8clXse3CH57PY5yAttFGnNI=;
+        b=J7VrUnp8gYFTNw1Av/RDPgx2rJje9D8lp5op/b/DB8zunl8TmtXqjlA7MIfCYRc/d5
+         qA/cyGQFlkRA5EDhwMN/ZhaRg126wXt1rnF6vVPQrrS4bxTUoHagG7cbcL6iY79QP5wx
+         oJ1krJ4/pebHYyvX4gvt1lHDQaZYaJQZrHyf6hwmqXrY19kv+Kak2+aDp9O3cFL7Ysps
+         8rdZx9+FfFvJry9++gFnX8uoW1ZE2cTnotJhSWtM9sc9mxCP4Clh3InbUh9x9pksWzcD
+         DXXZXZfRr28+yAnY2dNra6SrWZ35TeIMiRwimcx3l93aDragpfhaK7NLhcKt14zDB8RJ
+         23Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=CE20StQVGKsqWjpgJ6OkC5u0SWSO0WzXs7GXQFO2BYk=;
-        b=m6Johc64SPKvZSTtl5UtmkJJmwVQjVUvshQwBathrNzIrHQpvH2sakRbZCfN1oAmWD
-         TqVo2mgH6kqhAv89KwSJukjTOwlnVUi1kKTIfitgACPy0+KxObSn+LUdoRxelIzR3dSH
-         lTyNKQx2KaTO7Ukg5zxGjBCLdR1k8bjLxFdGJawEo5L9LIV429VmfsSWhcgU+J08MvDm
-         4Z3pz0jKKPbui2Bxdk3AhdKeXCD0D8aZe0+QC1kxEXZbxTqYwQiN+RVFIrwU8Rlef4/2
-         BunAeKqX59bs9NtSzTWS/H98/1QbBk8VNLfj7f+IgBaDK8QxXmll9qygh8JrlcfZsXrw
-         c/uA==
-X-Gm-Message-State: AOAM530juD1TbaLBXwte6uvjYk7TKAvm/29BbtIX4ssIXOFDJjQsBMzE
-        dK18gGeFT/qvJtUrHsLLzDg=
-X-Google-Smtp-Source: ABdhPJzpkCtJng8SPc6y4m74777j7T7KIo4zobslbWk6/aNaKfddtDB1RSwDe+kuoIzDU2tJeyAdcA==
-X-Received: by 2002:adf:e74a:: with SMTP id c10mr1052509wrn.122.1609874953530;
-        Tue, 05 Jan 2021 11:29:13 -0800 (PST)
+        bh=rhQwg92cYbZMf4kN5FZY8clXse3CH57PY5yAttFGnNI=;
+        b=q1JznhdJeYR973WzE3WqrYIUM1D22Xt80kdoVZNUH0M7E3yuv7R8RYht1Nq9tSXBCd
+         zs//1jOkQ/+ARo6eIxXeqqEqYAUAcILicXSl+rSKh87RIw5B0zQACyytllzXYE4zPf0P
+         47B9fQQFO+N4y05SCCjnwF5b7A7vZjidu0voZSvof9MIKiQ+cSw0oxwvL8g07M5p5mxg
+         6XV6p3iMZyhcf7yYKucX6HCxRGiUbRLRcZ85l22sPg1lHGL6TLpkMMFWXVfIBv+D1+VH
+         Rwljb0GnK1jpaYGqPLlFv/bcO8ia7BT7VYfPudamOsu51zD9IhWnsJdJvEi1pUbI7lHG
+         PmHA==
+X-Gm-Message-State: AOAM5331aAWFAJ5jwyN/7ITS45mTZcl/TT2TjKjIUVPTOeqliwZ1xL4H
+        fsCE7svIpuwuDXxrXJyrEw0=
+X-Google-Smtp-Source: ABdhPJyQ0vojQrjRqUVq1Qd1t0Iu7Uwu4OXKO+27Q8tmFbB/sXUEX1jLapwCtZ+pyQguakIGf1SRkA==
+X-Received: by 2002:a5d:4712:: with SMTP id y18mr1013323wrq.229.1609875171172;
+        Tue, 05 Jan 2021 11:32:51 -0800 (PST)
 Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id h9sm135738wre.24.2021.01.05.11.29.12
+        by smtp.gmail.com with ESMTPSA id c10sm100344wrb.92.2021.01.05.11.32.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 11:29:12 -0800 (PST)
-Date:   Tue, 5 Jan 2021 19:29:10 +0000
+        Tue, 05 Jan 2021 11:32:50 -0800 (PST)
+Date:   Tue, 5 Jan 2021 19:32:48 +0000
 From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     =?utf-8?Q?S=C3=A9bastien?= Szymanski 
+        <sebastien.szymanski@armadeus.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH 00/75] media: imx: Miscellaneous fixes and cleanups for
- i.MX7
-Message-ID: <20210105192910.vy6ooypy5i76xae6@arch-thunder.localdomain>
-References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Julien Boibessot <julien.boibessot@armadeus.com>
+Subject: Re: imx6ull capture from OV5640
+Message-ID: <20210105193248.hegbxct4kiurdnzq@arch-thunder.localdomain>
+References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
+ <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com>
+ <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
+ <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
+ <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com>
+ <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
+ <CAOMZO5BkbB7KHP3pz1SLgD1Vth-BcZAEuxsaSQJ83Y6O=DDPdg@mail.gmail.com>
+ <CAOMZO5D1Lk6evyRZ08erQ3DaVgSHubGjGbK8dcKao=NS+m-PUA@mail.gmail.com>
+ <20210105150129.fresebmib75htyl5@arch-thunder.localdomain>
+ <CAOMZO5D+GGM_QPc0=nWEYe=XV1EBgUS7ff+t+0aER-fg+a4PKA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <CAOMZO5D+GGM_QPc0=nWEYe=XV1EBgUS7ff+t+0aER-fg+a4PKA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Laurent,
-On Tue, Jan 05, 2021 at 05:27:37PM +0200, Laurent Pinchart wrote:
-> Hello,
+Oi Fabio,
+On Tue, Jan 05, 2021 at 01:05:52PM -0300, Fabio Estevam wrote:
+> Hi Rui,
 > 
-> This large patch series has been sitting in my tree for way too long. I
-> haven't posted it yet as I'm running into an issue on my test hardware
-> that I can't prove is not a regression from this series, but the
-> pressure has grown and the patches are better on the list for review.
+> On Tue, Jan 5, 2021 at 12:01 PM Rui Miguel Silva <rmfrfs@gmail.com>
+> wrote:
 > 
-> There's really not much to detail in the cover letter as there are
-> "just" fixes and cleanups I developed while bringing up camera support
-> for an i.MX7D platform, and later on an i.MX8MM that shares the same
-> MIPI-CSI2 and CSI IP cores (with some differences).
+> > can you see if the following patch make it work again?
 > 
-> The issue I've noticed is that the CSI writes two images consecutively
-> to the same buffer, overwritting memory after the end of the buffer. I
-> believe this bug to already be present in mainline, but I can't prove it
-> as my sensor won't work without some of the patches in this series. The
-> problem could also be sensor-specific.
-> 
-> Rui, would you be able to test this on your i.MX7 hardware to make sure
-> there's no regression ?
+> Yes, with your patch and mine I can capture the same way as with the
+> 5.4 kernel :-)
 
-Thanks for these small improvements, ehehh.
+Great that it worked.
 
-Well, we already have a regression reported by Fabio in imx6ull, but
-just give a couple of days to go over this and restore my setup with
-the warp7 board.
+> 
+> The pink color issue is still present but it is orthogonal to this
+> problem.
+> 
+> Could you please submit your patch formally to the list? Please
+> include my attached patch as 1/2 and yours as 2/2.
+
+yes, I will create a series with the correct fix tags also.
+
+> 
+> Also, please add the following tag to your patch:
+> 
+> Tested-by: Fabio Estevam <festevam@gmail.com>
+
+will do, thanks and sorry about your issue, I really thought that all
+imx, including imx5,6 and 7 had a mux. I need to get my hand in a
+imx6ull full documentation.
 
 ------
 Cheers,
      Rui
-> 
-> Laurent Pinchart (75):
->   media: imx: Drop dependency on I2C
->   media: imx: Move dependency on VIDEO_DEV to common Kconfig symbol
->   media: imx: Drop manual dependency on VIDEO_IMX_MEDIA
->   media: imx: Move IMX_IPUV3_CORE dependency to VIDEO_IMX_CSI
->   media: imx: Compile imx6-media-objs only for CONFIG_VIDEO_IMX_CSI
->   media: imx: Set default sizes through macros in all drivers
->   media: imx: utils: Add ability to filter pixel formats by mbus code
->   media: imx: capture: Use dev_* instead of v4l2_* to log messages
->   media: imx: capture: Use device name to construct bus_info
->   media: imx: capture: Remove forward declaration of capture_qops
->   media: imx: capture: Handle errors from v4l2_fh_open()
->   media: imx: capture: Clean up capture_priv structure
->   media: imx: capture: Remove capture_priv stop field
->   media: imx: capture: Move queue and ctrl handler init to init function
->   media: imx: capture: Initialize video_device programmatically
->   media: imx: capture: Register the video device after completing init
->   media: imx: capture: Store v4l2_pix_format in imx_media_video_dev
->   media: imx: capture: Move default format init to a separate function
->   media: imx: capture: Rename querycap handler to capture_querycap
->   media: imx: capture: Rename ioctl operations with legacy prefix
->   media: imx: capture: Add a mechanism to disable control inheritance
->   media: imx: capture: Remove unneeded variable in
->     __capture_legacy_try_fmt
->   media: imx: capture: Pass v4l2_pix_format to
->     __capture_legacy_try_fmt()
->   media: imx: capture: Return -EPIPE from __capture_legacy_try_fmt()
->   media: imx: capture: Extract format lookup from
->     __capture_legacy_try_fmt
->   media: imx: capture: Simplify capture_validate_fmt() implementation
->   media: imx: capture: Simplify __capture_legacy_try_fmt()
->   media: imx: capture: Decouple video node from source with MC-centric
->     API
->   media: imx: capture: Expose V4L2_CAP_IO_MC for the MC-centric API
->   media: imx: imx7-media-csi: Disable legacy video node API
->   media: imx: capture: Support creating immutable link to capture device
->   media: imx: imx7-media-csi: Remove control handler
->   media: imx: imx7-media-csi: Move (de)init from link setup to
->     .s_stream()
->   media: imx: imx7-media-csi: Create immutable link to capture device
->   media: imx: imx7-media-csi: Replace CSICR*_RESET_VAL with values
->   media: imx: imx7-media-csi: Tidy up register fields MACROS
->   media: imx: imx7-media-csi: Reorganize code in sections
->   media: imx: imx7-media-csi: Validate capture format in
->     .link_validate()
->   media: imx: imx7-media-csi: Rename imx7_csi_dma_start() to *_setup()
->   media: imx: imx7-media-csi: Split imx7_csi_dma_stop()
->   media: imx: imx7-media-csi: Move CSI configuration before source start
->   media: imx: imx7-media-csi: Merge streaming_start() with csi_enable()
->   media: imx: imx7-media-csi: Merge hw_reset() with init_interface()
->   media: imx: imx7-media-csi: Set the MIPI data type based on the bus
->     code
->   media: imx: imx7-media-csi: Don't set the buffer stride when disabling
->   media: imx: imx7-media-csi: Merge all config in imx7_csi_configure()
->   media: imx: imx7-media-csi: Clear all configurable CSICR18 fields
->   media: imx: imx7-media-csi: Set RFF burst type in imx7_csi_configure()
->   media: imx: imx7-media-csi: Simplify imx7_csi_rx_fifo_clear()
->   media: imx: imx7-media-csi: Don't double-enable the CSI
->   media: imx: imx7-media-csi: Don't double-enable the RxFIFO
->   media: imx: imx7-media-csi: Remove double reflash of DMA controller
->   media: imx: imx7-media-csi: Don't enable SOF and EOF interrupts
->   media: imx: imx7_media-csi: Add support for additional Bayer patterns
->   media: v4l2-mc: Add link flags to v4l2_create_fwnode_links_to_pad()
->   media: imx: imx7_media-csi: Create immutable link to source device
->   dt-bindings: media: Convert i.MX7 MIPI CSI-2 receiver binding to YAML
->   dt-bindings: media: fsl,imx7-mipi-csi2: Drop the reset-names property
->   dt-bindings: media: fsl,imx7-mipi-csi2: Drop fsl,csis-hs-settle
->     property
->   media: imx: imx7_mipi_csis: Acquire reset control without naming it
->   media: imx: imx7_mipi_csis: Fix input size alignment
->   media: imx: imx7_mipi_csis: Make source .s_power() optional
->   media: imx: imx7_mipi_csis: Avoid double get of wrap clock
->   media: imx: imx7_mipi_csis: Drop 10-bit YUV support
->   media: imx: imx7_mipi_csis: Fix UYVY8 media bus format
->   media: imx: imx7_mipi_csis: Inline mipi_csis_set_hsync_settle()
->   media: imx: imx7_mipi_csis: Move link setup check out of locked
->     section
->   media: imx: imx7_mipi_csis: Calculate Ths_settle from source pixel
->     rate
->   media: imx: imx7_mipi_csis: Turn register access macros into functions
->   media: imx: imx7_mipi_csis: Fully initialize MIPI_CSIS_DPHYCTRL
->     register
->   media: imx: imx7_mipi_csis: Define macros for DPHY_BCTRL_L fields
->   media: imx: imx7_mipi_csis: Make ISP registers macros take channel ID
->   media: imx: imx7_mipi_csis: Rename register macros to match datasheet
->   media: imx: imx7_mipi_csis: Use register macros in
->     mipi_csis_dump_regs()
->   media: imx: imx7_mipi_csis: Print shadow registers in
->     mipi_csis_dump_regs()
-> 
->  .../bindings/media/fsl,imx7-mipi-csi2.yaml    |  194 ++++
->  .../bindings/media/imx7-mipi-csi2.txt         |   90 --
->  MAINTAINERS                                   |    2 +-
->  drivers/media/v4l2-core/v4l2-mc.c             |    6 +-
->  drivers/staging/media/imx/Kconfig             |   12 +-
->  drivers/staging/media/imx/Makefile            |    8 +-
->  drivers/staging/media/imx/TODO                |    9 +-
->  drivers/staging/media/imx/imx-ic-prp.c        |    4 +-
->  drivers/staging/media/imx/imx-ic-prpencvf.c   |   24 +-
->  drivers/staging/media/imx/imx-media-capture.c |  685 ++++++-----
->  .../staging/media/imx/imx-media-csc-scaler.c  |    2 +-
->  drivers/staging/media/imx/imx-media-csi.c     |   33 +-
->  .../staging/media/imx/imx-media-dev-common.c  |    4 +
->  drivers/staging/media/imx/imx-media-utils.c   |   23 +-
->  drivers/staging/media/imx/imx-media-vdic.c    |    7 +-
->  drivers/staging/media/imx/imx-media.h         |   12 +-
->  drivers/staging/media/imx/imx6-mipi-csi2.c    |    6 +-
->  drivers/staging/media/imx/imx7-media-csi.c    | 1016 ++++++++---------
->  drivers/staging/media/imx/imx7-mipi-csis.c    |  412 ++++---
->  include/media/v4l2-mc.h                       |    8 +-
->  20 files changed, 1422 insertions(+), 1135 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx7-mipi-csi2.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
