@@ -2,84 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA05A2EA12E
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 00:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A0E2EA16F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 01:23:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbhADX5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Jan 2021 18:57:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34588 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726256AbhADX5G (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Jan 2021 18:57:06 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A9FBC061574
-        for <linux-media@vger.kernel.org>; Mon,  4 Jan 2021 15:56:26 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id a12so68595929lfl.6
-        for <linux-media@vger.kernel.org>; Mon, 04 Jan 2021 15:56:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=9Vlzu672s8e7ccrTjrUiZb4tLfi4nc325O3mvhF0pXE=;
-        b=ZRhm3U8/C/u8Oe0DiOM0YhJRbBVNCvjL1Z4OdK3FtOGXWOk0zHCqbc994wo17GE66v
-         D2qBnwiQg2mBT42+5ewOuF2VZlfRLxux1rj5LsHyC7ujIHQvjQPH0CL+zhuFRMcYkwjU
-         jVOg8zb/ghaBZU9GLiqs8Yieg00X8+fGqKeGCnWwQ27nwfg9WvoOZO8GA/husf8fmQgM
-         3t1EWcEqYcyBzyxaeprPBeCt6lMu3XDknieciKZDi0jR12/4AA1qOcG0cPh1QKxvN6GX
-         iygn2q4XlEi6/iA6glxBVLJ5qnqRK/UglC/OUSlWokEp3l7kBlMS1Icl55ypt2MLaCBk
-         5DOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9Vlzu672s8e7ccrTjrUiZb4tLfi4nc325O3mvhF0pXE=;
-        b=awCPwj55KnY9vbe9NweX5n4fTpNesAvv93EON8RhJLqDIFm80Qqi/Ku271+Iza6pxE
-         d2yK8/E0FTl7cI/ZgUB58OxmFpRJO3LCALktsrjhWBCcXg2V2aiSuR4ldlEGf4nWOYJt
-         Ktg/wUcMbRtL7Ur3nbLX8gl+9zHKuf6yfnoenBXcnYut/iEYoahKxnFSu3incmrcQ8pn
-         3m4dk/Knel1jKH6vjzQZZcawPV1ouEMo3qV07zp0hfNCkoBIDA2uF62NTZrBXLYpGoqn
-         K/o5kGpcpoqk0NYJUcy0SWrBG08XYgc1Cs2SSs6LIAROMI1dOz11QV6YFTz/Ub1mxrGL
-         ROzA==
-X-Gm-Message-State: AOAM531EXrjtFpBVyTcZ3874ZMBpqUQwDlGRMgOWh8sN56OECGyjYoW9
-        ITWVCdi9ZxnvYMIpCCK4NKod1JP9eiyxIg6mqdU=
-X-Google-Smtp-Source: ABdhPJxAchw4t3zzlSLCrW3Sq6L/95/9IROkbPhj8bNuKAElfnyFVdKUQTDiUNLmhYyhv2/4dFIsWABNSK8VYnXbgBM=
-X-Received: by 2002:a19:d93:: with SMTP id 141mr34268081lfn.229.1609804584862;
- Mon, 04 Jan 2021 15:56:24 -0800 (PST)
+        id S1726365AbhAEAWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Jan 2021 19:22:12 -0500
+Received: from mga05.intel.com ([192.55.52.43]:50911 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726163AbhAEAWM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Jan 2021 19:22:12 -0500
+IronPort-SDR: C8cazRfr9GK5Y1QDcQBLjHRWyFrKiPaSDCfeQ64H+vEUQdqnEV6BmGNtokkSBklcsmnrx5C4s4
+ zccNOKV3HB0A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="261790977"
+X-IronPort-AV: E=Sophos;i="5.78,475,1599548400"; 
+   d="scan'208";a="261790977"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 16:20:26 -0800
+IronPort-SDR: 3uEUrqn7KyTwaUdMMnbNtgyo1Sgla5fZOLo+Pjf/owJlvxGxCfyaOIG7zQgoUA1dDYX7TGwb5b
+ Ftg3F643G8Xg==
+X-IronPort-AV: E=Sophos;i="5.78,475,1599548400"; 
+   d="scan'208";a="565283318"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 16:20:24 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 9E50720666; Tue,  5 Jan 2021 02:20:22 +0200 (EET)
+Date:   Tue, 5 Jan 2021 02:20:22 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2] media: v4l2-async: Add waiting subdevices debugfs
+Message-ID: <20210105002022.GO11878@paasikivi.fi.intel.com>
+References: <20210104174840.144958-1-ezequiel@collabora.com>
 MIME-Version: 1.0
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com> <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
-In-Reply-To: <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Mon, 4 Jan 2021 20:56:13 -0300
-Message-ID: <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
-Subject: Re: imx6ull capture from OV5640
-To:     =?UTF-8?Q?S=C3=A9bastien_Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210104174840.144958-1-ezequiel@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi S=C3=A9bastien,
+Hi Ezequiel,
 
-On Mon, Jan 4, 2021 at 8:15 PM Fabio Estevam <festevam@gmail.com> wrote:
+On Mon, Jan 04, 2021 at 02:48:40PM -0300, Ezequiel Garcia wrote:
+> There is currently little to none information available
+> about the reasons why a v4l2-async device hasn't
+> probed completely.
+> 
+> Inspired by the "devices_deferred" debugfs file,
+> add a file to list information about the subdevices
+> that are on waiting lists, for each notifier.
+> 
+> This is useful to debug v4l2-async subdevices
+> and notifiers, for instance when doing device bring-up.
+> 
+> For instance, a typical output would be:
+> 
+> $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
+> ipu1_csi1:
+>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
+> ipu1_csi0:
+>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
+> imx6-mipi-csi2:
+>  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
+> imx-media:
+> 
+> Note that match-type "custom" prints no information.
+> Since there are no in-tree users of this match-type,
+> the implementation doesn't bother.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+> v2:
+> * Print fwnode path, as suggested by Sakari.
+> * Print the subdevices under their corresponding notifier.
+> * Rename the file as suggested by Laurent.
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 66 ++++++++++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
+>  include/media/v4l2-async.h           |  9 ++++
+>  3 files changed, 80 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index e3ab003a6c85..d779808abb3b 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+>   */
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/err.h>
+>  #include <linux/i2c.h>
+> @@ -14,6 +15,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/seq_file.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+>  
+> @@ -837,3 +839,67 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+>  	mutex_unlock(&list_lock);
+>  }
+>  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+> +
+> +static void print_waiting_subdev(struct seq_file *s,
+> +				 struct v4l2_async_subdev *asd)
+> +{
+> +	switch (asd->match_type) {
+> +	case V4L2_ASYNC_MATCH_CUSTOM:
+> +		seq_puts(s, " [custom]\n");
+> +		break;
+> +	case V4L2_ASYNC_MATCH_DEVNAME:
+> +		seq_printf(s, " [devname] %s\n", asd->match.device_name);
+> +		break;
+> +	case V4L2_ASYNC_MATCH_I2C:
+> +		seq_printf(s, " [i2c] %d-%04x\n", asd->match.i2c.adapter_id,
+> +			   asd->match.i2c.address);
+> +		break;
+> +	case V4L2_ASYNC_MATCH_FWNODE: {
+> +		struct fwnode_handle *fwnode = asd->match.fwnode;
+> +
+> +		if (fwnode_graph_is_endpoint(fwnode))
+> +			fwnode = fwnode_graph_get_port_parent(fwnode);
 
-> Could you please share your imx6ul board dts file that you used to
-> test camera capture?
+Could you print the endpoint node name as-is? That's what matching uses,
+too. You'd need one more local variable for that I think.
 
-This dts allows csi to probe fine now:
-https://pastebin.com/raw/7GK5dAWD
+> +
+> +		seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",
+> +			   fwnode->dev ? dev_name(fwnode->dev) : "nil",
+> +			   fwnode);
+> +		break;
+> +	}
+> +	}
+> +}
+> +
+> +static const char *
+> +v4l2_async_notifier_name(struct v4l2_async_notifier *notifier)
+> +{
+> +	if (notifier->v4l2_dev)
+> +		return notifier->v4l2_dev->name;
+> +	else if (notifier->sd)
+> +		return notifier->sd->name;
+> +	else
+> +		return "nil";
+> +}
+> +
+> +static int pending_subdevs_show(struct seq_file *s, void *data)
+> +{
+> +	struct v4l2_async_notifier *notif;
+> +	struct v4l2_async_subdev *asd;
+> +
+> +	mutex_lock(&list_lock);
+> +
+> +	list_for_each_entry(notif, &notifier_list, list) {
+> +		seq_printf(s, "%s:\n", v4l2_async_notifier_name(notif));
+> +		list_for_each_entry(asd, &notif->waiting, list)
+> +			print_waiting_subdev(s, asd);
+> +	}
+> +
+> +	mutex_unlock(&list_lock);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+> +
+> +void v4l2_async_debug_init(struct dentry *debugfs_dir)
+> +{
+> +	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
+> +			    &pending_subdevs_fops);
+> +}
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index a593ea0598b5..8d3813e6ab56 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -14,6 +14,7 @@
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/module.h>
+>  #include <linux/types.h>
+>  #include <linux/kernel.h>
+> @@ -37,6 +38,7 @@
+>  		       __func__, ##arg);				\
+>  } while (0)
+>  
+> +static struct dentry *v4l2_debugfs_dir;
+>  
+>  /*
+>   *	sysfs stuff
+> @@ -1113,6 +1115,8 @@ static int __init videodev_init(void)
+>  		return -EIO;
+>  	}
+>  
+> +	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
+> +	v4l2_async_debug_init(v4l2_debugfs_dir);
+>  	return 0;
+>  }
+>  
+> @@ -1120,6 +1124,7 @@ static void __exit videodev_exit(void)
+>  {
+>  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
+>  
+> +	debugfs_remove_recursive(v4l2_debugfs_dir);
+>  	class_unregister(&video_class);
+>  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+>  }
+> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> index 0e04b5b2ebb0..abc85474bb3b 100644
+> --- a/include/media/v4l2-async.h
+> +++ b/include/media/v4l2-async.h
+> @@ -8,9 +8,11 @@
+>  #ifndef V4L2_ASYNC_H
+>  #define V4L2_ASYNC_H
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+>  
+> +struct dentry;
+>  struct device;
+>  struct device_node;
+>  struct v4l2_device;
+> @@ -137,6 +139,13 @@ struct v4l2_async_notifier {
+>  	struct list_head list;
+>  };
+>  
+> +/**
+> + * v4l2_async_debug_init - Initialize debugging tools.
+> + *
+> + * @debugfs_dir: pointer to the parent debugfs &struct dentry
+> + */
+> +void v4l2_async_debug_init(struct dentry *debugfs_dir);
+> +
+>  /**
+>   * v4l2_async_notifier_init - Initialize a notifier.
+>   *
 
-> Were you able to capture via Gstreamer? If so, please also share the
-> media-ctl and gst pipelines that you used.
+-- 
+Regards,
 
-I am trying to capture via Gstreamer now. If you managed to get it
-working, please share your media-ctl setup and Gst pipeline.
-
-Thanks for your help!
+Sakari Ailus
