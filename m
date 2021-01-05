@@ -2,173 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFC452EB1C3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 18:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6C082EB1CC
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 18:51:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730639AbhAERqe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 12:46:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbhAERqe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 12:46:34 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0702C061793
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 09:45:53 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id 23so303958lfg.10
-        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 09:45:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/Lf83+axfb7kCUXV9cHfIPxVR171WWJNXcgziWU6ZA8=;
-        b=rFe8sET65g01ufLnDF3zzBVfCoqg4HoO+am/rwPSbo3cQCweRFD9eoITuIgO2Vz1WB
-         nCNxjbnfQ2ATcPcFP9IKgnFFvZ8ECWkXQ6OIPpLozbk4a9VVmREPYnSdft1pUHi25Y/U
-         PPsjAIfsAi3XsV6cEZxbInGPU7UWqK0cbkeED37Jplrgi7vFIZfEwueg/gaPIKnIGrQ8
-         r//PfH6/ZAIYwOjAWHtAy0vhIUIDxl/m/x/gYie5qDxzvC2XA6IT8wdB+tkcAp4WjQBe
-         oJL5FLIzvY3R8r6aNyuQX4+RwJ8dKDB8rkvXJAYKfuqS3bNmdgCKvROU/01wOC+Y6OHa
-         5Glw==
+        id S1730591AbhAERu0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 12:50:26 -0500
+Received: from mail-io1-f48.google.com ([209.85.166.48]:34306 "EHLO
+        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730375AbhAERuZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 12:50:25 -0500
+Received: by mail-io1-f48.google.com with SMTP id i18so175255ioa.1;
+        Tue, 05 Jan 2021 09:50:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/Lf83+axfb7kCUXV9cHfIPxVR171WWJNXcgziWU6ZA8=;
-        b=rjs2KMTFzcLLIY+x80RjOWPai/53K/HKvSmo1AIIEMQiWNa7/DREyh34XGcLntIQHj
-         V2YSAIxK7S3CIMy6jQoFm4dIyhfWP7swY85oUIII1GL1bUqd32yWkVLIadxzRXMm7aol
-         VI6JTkuBXdvgaSk6JaDyxFaYXEL1Tii0zXe+ak891RkJYM4LcUHPeMsyUDtNGpFX4bAU
-         a7iEjq+nbj+Bfjfz+ubasPSzLarRnIwlthcn9Cep12r+O8SY+0c3g4MXmIX5kDIXhWXT
-         un90e0598xeFqmJubTCDQwytdY0dmpP5bROkfr4poQJLIklvaQUsM87c0yfP585o1ItQ
-         el+g==
-X-Gm-Message-State: AOAM531MB82Ws6Yvuwy1poYzQFqAa7OzuE9G+pvOpHJTljy9TIWxI5Z0
-        D0S5myI4Vx6NW3zfwopsrWR+2SEJmbp4jKIETGqiJlSiekBX1A==
-X-Google-Smtp-Source: ABdhPJyLrbcHP7uawmNCK9LdWaFeU84fjhuSHSsXFlvLA6geoQ6PnkcqDOixsitQNR3clf/oLnwmn7NyA+QykQBUqD8=
-X-Received: by 2002:a2e:8416:: with SMTP id z22mr332192ljg.347.1609868752065;
- Tue, 05 Jan 2021 09:45:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 5 Jan 2021 14:45:40 -0300
-Message-ID: <CAOMZO5CaWvRGV0Zc4AS6Uexh5uR5jkCG4MkEMkW-YU3NPOVg8g@mail.gmail.com>
-Subject: Re: [PATCH 00/75] media: imx: Miscellaneous fixes and cleanups for i.MX7
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/XtIg+f6gpHC70+1YwF/fqisRZpaChakcrkklrBAZBs=;
+        b=thQDcHGxHYOlhIAHi0U4lfQP5IRM/Pb8i6kVQsD9feYR9jbtpu4oGrD4Hw/FKSJhw2
+         1U4vDudMYPj6bC4GfxTOD0qwUIZp6FuKsXYrmtFiezvYJi42Fhxo+lChzbvqWrNErGrO
+         iboay45EJm0AiaiQo0lA9tTcGqj8GnRvSAeM2XRHn8PFxq/e4rdHyl8toRVGe0cXc7it
+         8RuU9WEDHihH8664eb0U1L0feXSZRvy11r5r+dq8vl3rDlUB+nn8qNg96Osc4iZI7go4
+         q9VBmnnkhAIkfP1G7QIdW5Cp28ROlbTWuB/QQNYRJvko85NxcXRKZlOtbt2mDy6VhwHw
+         bW0Q==
+X-Gm-Message-State: AOAM531RZV9k1/9iEE9JjOVV6uU/36FxAeUIRyE+LA/6rVz32EDkYW6v
+        9RLOill3J+VTqrSN6kMHoJl6UjIKlA==
+X-Google-Smtp-Source: ABdhPJxKFFTNMj4RPBqrgiGX8oxV3CEsYgbKyvDtlwfE+ekAx+GGj3COMBM5mer23VN91fCvh9ck7w==
+X-Received: by 2002:a5d:959a:: with SMTP id a26mr218009ioo.94.1609868984357;
+        Tue, 05 Jan 2021 09:49:44 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id j15sm24518ile.1.2021.01.05.09.49.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jan 2021 09:49:43 -0800 (PST)
+Received: (nullmailer pid 440434 invoked by uid 1000);
+        Tue, 05 Jan 2021 17:49:41 -0000
+Date:   Tue, 5 Jan 2021 10:49:41 -0700
+From:   Rob Herring <robh@kernel.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benoit Parrot <bparrot@ti.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: media: Add bindings for OmniVision
+ OV1063x sensors
+Message-ID: <20210105174941.GA435623@robh.at.kernel.org>
+References: <20210104053945.12409-1-laurent.pinchart@ideasonboard.com>
+ <20210104053945.12409-2-laurent.pinchart@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210104053945.12409-2-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Mon, Jan 04, 2021 at 07:39:44AM +0200, Laurent Pinchart wrote:
+> From: Benoit Parrot <bparrot@ti.com>
+> 
+> Add device tree bindings for the OmniVision OV10633 and OV10635 camera
+> sensors.
+> 
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../bindings/media/i2c/ov1063x.yaml           | 97 +++++++++++++++++++
 
-On Tue, Jan 5, 2021 at 12:31 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello,
->
-> This large patch series has been sitting in my tree for way too long. I
-> haven't posted it yet as I'm running into an issue on my test hardware
-> that I can't prove is not a regression from this series, but the
-> pressure has grown and the patches are better on the list for review.
->
-> There's really not much to detail in the cover letter as there are
-> "just" fixes and cleanups I developed while bringing up camera support
-> for an i.MX7D platform, and later on an i.MX8MM that shares the same
-> MIPI-CSI2 and CSI IP cores (with some differences).
->
-> The issue I've noticed is that the CSI writes two images consecutively
-> to the same buffer, overwritting memory after the end of the buffer. I
-> believe this bug to already be present in mainline, but I can't prove it
-> as my sensor won't work without some of the patches in this series. The
-> problem could also be sensor-specific.
->
-> Rui, would you be able to test this on your i.MX7 hardware to make sure
-> there's no regression ?
+ovti,ov1063x.yaml
 
-Thanks for your series.
+>  MAINTAINERS                                   |  7 ++
+>  2 files changed, 104 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov1063x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov1063x.yaml b/Documentation/devicetree/bindings/media/i2c/ov1063x.yaml
+> new file mode 100644
+> index 000000000000..b5e08dd2f496
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov1063x.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ov1063x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: OmniVision OV10633/OV1035 Camera Sensor
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +
+> +description: |-
+> +  The OmniVision OV1063x is a 720p camera sensor which supports resolutions up
+> +  to 1280x800 and 8- and 10-bit YUV output formats.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ovti,ov10633
+> +      - ovti,ov10635
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clocks-names:
+> +    const: xvclk
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Specifier for the GPIO connected to the RESETB pin.
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Specifier for the GPIO connected to the PWDN pin.
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: ../video-interfaces.yaml#
 
-I tested it on a imx6ul-evk board.
+TBC, this patch has to go in after the above file.
 
-There is a build error introduced by patch 74/75. I fixed it like this:
+Otherwise,
 
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -193,6 +193,8 @@
- #define MIPI_CSIS_SDW_RESOL_CH(n)              (0x84 + (n) * 0x10)
- #define MIPI_CSIS_SDW_SYNC_CH(n)               (0x88 + (n) * 0x10)
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-+/* Debug Control register */
-+#define MIPI_CSIS_DBG_CTRL                     0x20
- /* Non-image packet data buffers */
- #define MIPI_CSIS_PKTDATA_ODD                  0x2000
- #define MIPI_CSIS_PKTDATA_EVEN                 0x3000
-
-Then I applied my patch and Rui's to fix the imx6ul regression as per
-the other thread we have been discussing, but I was not able to
-capture:
-
-# gst-launch-1.0 -v  v4l2src device=/dev/video1 ! v4l2convert ! fbdevsink
-Setting pipeline to PAUSED ...
-Pipeline is live and does not need PREROLL ...
-Pipeline is PREROLLED ...
-Setting pipeline to PLAYING ...
-New clock: GstSystemClock
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
-video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
-framerate=(fraction)120/1, interlace-mode=(string)progressive,
-colorimetr
-y=(string)1:1:5:1
-/GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:src: caps =
-video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
-framerate=(fraction)120/1, interlace-mode=(string)progressive, color
-imetry=(string)1:1:5:1
-/GstPipeline:pipeline0/GstFBDEVSink:fbdevsink0.GstPad:sink: caps =
-video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
-framerate=(fraction)120/1, interlace-mode=(string)progressive, color
-imetry=(string)1:1:5:1
-/GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:sink: caps =
-video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
-framerate=(fraction)120/1, interlace-mode=(string)progressive, colo
-rimetry=(string)1:1:5:1
-[   32.783736] cma: cma_alloc: alloc failed, req-size: 8100 pages, ret: -12
-[   32.791332] imx7-csi 21c4000.csi: dma_alloc_coherent of size 33177600 failed
-ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-to allocate required memory.
-Additional debug info:
-../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-Buffer pool activation failed
-Execution ended after 0:00:00.214658125
-Setting pipeline to NULL ...
-Freeing pipeline ...
-
-As shown above the dimensions and framerate are incorrectly reported
-as: width=(int)3840, height=(int)2160, framerate=(fraction)120/1
-
-Previously it was:
-
-# gst-launch-1.0 -v  v4l2src device=/dev/video1 ! v4l2convert ! fbdevsink
-Setting pipeline to PAUSED ...
-Pipeline is live and does not need PREROLL ...
-Pipeline is PREROLLED ...
-Setting pipeline to PLAYING ...
-New clock: GstSystemClock
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
-video/x-raw, format=(string)UYVY, width=(int)320, height=(int)240,
-framerate=(fraction)30000/1001, interlace-mode=(string)progressive,
-colorim
-etry=(string)1:4:7:1
-/GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:src: caps =
-video/x-raw, format=(string)BGRx, width=(int)320, height=(int)240,
-framerate=(fraction)30000/1001, interlace-mode=(string)progressive
-/GstPipeline:pipeline0/GstFBDEVSink:fbdevsink0.GstPad:sink: caps =
-video/x-raw, format=(string)BGRx, width=(int)320, height=(int)240,
-framerate=(fraction)30000/1001, interlace-mode=(string)progressive
-/GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:sink: caps =
-video/x-raw, format=(string)UYVY, width=(int)320, height=(int)240,
-framerate=(fraction)30000/1001, interlace-mode=(string)progressive, c
-olorimetry=(string)1:4:7:1
-
-Thanks
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          hsync-active: true
+> +          vsync-active: true
+> +          pclk-sample: true
+> +          bus-width:
+> +            enum: [ 8, 10 ]
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clocks-names
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        clock-frequency = <400000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@37 {
+> +            compatible = "ovti,ov10633";
+> +            reg = <0x37>;
+> +
+> +            clocks = <&fixed_clock>;
+> +            clocks-names = "xvclk";
+> +
+> +            reset-gpios = <&gpio4 17 GPIO_ACTIVE_HIGH>;
+> +            powerdown-gpios = <&gpio5 11 GPIO_ACTIVE_HIGH>;
+> +
+> +            port {
+> +                camera1: endpoint {
+> +                     remote-endpoint = <&vin1a_ep>;
+> +                     hsync-active = <1>;
+> +                     vsync-active = <1>;
+> +                     pclk-sample = <0>;
+> +                     bus-width = <8>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 281de213ef47..9dc3a7d75460 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12867,6 +12867,13 @@ M:	Harald Welte <laforge@gnumonks.org>
+>  S:	Maintained
+>  F:	drivers/char/pcmcia/cm4040_cs.*
+>  
+> +OMNIVISION OV10633 SENSOR DRIVER
+> +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	Documentation/devicetree/bindings/media/i2c/ov1063x.yaml
+> +
+>  OMNIVISION OV13858 SENSOR DRIVER
+>  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+>  L:	linux-media@vger.kernel.org
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
