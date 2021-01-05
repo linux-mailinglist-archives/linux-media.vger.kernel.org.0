@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E56652EAE97
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E4022EAE98
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:36:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728169AbhAEPej (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 10:34:39 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38064 "EHLO
+        id S1728178AbhAEPet (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 10:34:49 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37698 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728150AbhAEPej (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:34:39 -0500
+        with ESMTP id S1727965AbhAEPet (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:34:49 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CC9D1871;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF44F1876;
         Tue,  5 Jan 2021 16:29:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609860595;
-        bh=8JgoB6+bEGZ2uMfqfjJUYJXTSJbhd8hZkI+Vy9GCX1M=;
+        s=mail; t=1609860596;
+        bh=EhTxzIWmf/lVUrkhx09lbkqts+y6uk7LMTG/znrYlWo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=J8HBHC/9blXe1CxiR3eOCvYnmj1qzmE4AX2xLGD3oyqqaLD/l3dV/Dm5EEPZB9zVE
-         O1oXlF2gHxbpYZoZINa0VIllAX+j624/T7VCrcF2YjWlsTS4R1inogvlj0/8TmrHnb
-         7iLOQ5tlYKscJEw/A0V5/+Sftiaytle7tRvLFxU8=
+        b=UDtTrD3TPWS58RIrohKoqkq02jJoElHuxhbhmJBNkvY5ERkSq8fmM5tdeOdWP+RCY
+         yJNfPQCp4bSGwqQfP3/bbB+3HIqqmR2ozNRzwe4ssW08rFfNjDJi9ABBK1ZuLpMMud
+         bJcUZdcir43HDUxLjZJndtyHzz5nCMmcNoqwK2r4=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 31/75] media: imx: capture: Support creating immutable link to capture device
-Date:   Tue,  5 Jan 2021 17:28:08 +0200
-Message-Id: <20210105152852.5733-32-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 32/75] media: imx: imx7-media-csi: Remove control handler
+Date:   Tue,  5 Jan 2021 17:28:09 +0200
+Message-Id: <20210105152852.5733-33-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
 References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
@@ -39,102 +39,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the subdevice connected to the capture device has a single possible
-sink, there's no point in making the link mutable. Support creating
-immutable links.
+The control handler isn't used, drop it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx-ic-prpencvf.c   | 2 +-
- drivers/staging/media/imx/imx-media-capture.c | 7 +++++--
- drivers/staging/media/imx/imx-media-csi.c     | 2 +-
- drivers/staging/media/imx/imx-media.h         | 3 ++-
- drivers/staging/media/imx/imx7-media-csi.c    | 2 +-
- 5 files changed, 10 insertions(+), 6 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-index 88d69425e1b3..6c9c75ffb30c 100644
---- a/drivers/staging/media/imx/imx-ic-prpencvf.c
-+++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-@@ -1269,7 +1269,7 @@ static int prp_registered(struct v4l2_subdev *sd)
- 	if (IS_ERR(priv->vdev))
- 		return PTR_ERR(priv->vdev);
- 
--	ret = imx_media_capture_device_register(priv->vdev);
-+	ret = imx_media_capture_device_register(priv->vdev, false);
- 	if (ret)
- 		goto remove_vdev;
- 
-diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 04eb612ff1fa..c6991e8f151c 100644
---- a/drivers/staging/media/imx/imx-media-capture.c
-+++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -898,12 +898,14 @@ static int capture_init_format(struct capture_priv *priv)
- 	return 0;
- }
- 
--int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
-+int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
-+				      bool immutable)
- {
- 	struct capture_priv *priv = to_capture_priv(vdev);
- 	struct v4l2_subdev *sd = priv->src_sd;
- 	struct v4l2_device *v4l2_dev = sd->v4l2_dev;
- 	struct video_device *vfd = vdev->vfd;
-+	u32 flags;
- 	int ret;
- 
- 	/* get media device */
-@@ -927,8 +929,9 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
- 		 video_device_node_name(vfd));
- 
- 	/* Create the link from the src_sd devnode pad to device node. */
-+	flags = immutable ? MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE : 0;
- 	ret = media_create_pad_link(&sd->entity, priv->src_sd_pad,
--				    &vfd->entity, 0, 0);
-+				    &vfd->entity, 0, flags);
- 	if (ret) {
- 		dev_err(priv->dev, "failed to create link to device node\n");
- 		video_unregister_device(vfd);
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 436f3d7160fa..d54d2a3789c0 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -1796,7 +1796,7 @@ static int csi_registered(struct v4l2_subdev *sd)
- 		goto free_fim;
- 	}
- 
--	ret = imx_media_capture_device_register(priv->vdev);
-+	ret = imx_media_capture_device_register(priv->vdev, false);
- 	if (ret)
- 		goto remove_vdev;
- 
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index 16ab879e0084..4efc4d186c0a 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -288,7 +288,8 @@ struct imx_media_video_dev *
- imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
- 			      int pad, bool legacy_api);
- void imx_media_capture_device_remove(struct imx_media_video_dev *vdev);
--int imx_media_capture_device_register(struct imx_media_video_dev *vdev);
-+int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
-+				      bool immutable);
- void imx_media_capture_device_unregister(struct imx_media_video_dev *vdev);
- struct imx_media_buffer *
- imx_media_capture_device_next_buf(struct imx_media_video_dev *vdev);
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index afd1a7e35bfe..c087a212efdd 100644
+index c087a212efdd..69ff491671a3 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1093,7 +1093,7 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
- 	if (IS_ERR(csi->vdev))
- 		return PTR_ERR(csi->vdev);
+@@ -18,7 +18,6 @@
+ #include <linux/regmap.h>
+ #include <linux/types.h>
  
--	ret = imx_media_capture_device_register(csi->vdev);
-+	ret = imx_media_capture_device_register(csi->vdev, false);
+-#include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-fwnode.h>
+@@ -173,8 +172,6 @@ struct imx7_csi {
+ 	const struct imx_media_pixfmt *cc[IMX7_CSI_PADS_NUM];
+ 	struct v4l2_fract frame_interval[IMX7_CSI_PADS_NUM];
+ 
+-	struct v4l2_ctrl_handler ctrl_hdlr;
+-
+ 	void __iomem *regbase;
+ 	int irq;
+ 	struct clk *mclk;
+@@ -476,8 +473,6 @@ static int imx7_csi_link_setup(struct media_entity *entity,
+ 		}
+ 		csi->sink = remote->entity;
+ 	} else {
+-		v4l2_ctrl_handler_free(&csi->ctrl_hdlr);
+-		v4l2_ctrl_handler_init(&csi->ctrl_hdlr, 0);
+ 		csi->sink = NULL;
+ 	}
+ 
+@@ -1284,9 +1279,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 	csi->sd.grp_id = IMX_MEDIA_GRP_ID_CSI;
+ 	snprintf(csi->sd.name, sizeof(csi->sd.name), "csi");
+ 
+-	v4l2_ctrl_handler_init(&csi->ctrl_hdlr, 0);
+-	csi->sd.ctrl_handler = &csi->ctrl_hdlr;
+-
+ 	for (i = 0; i < IMX7_CSI_PADS_NUM; i++)
+ 		csi->pad[i].flags = (i == IMX7_CSI_PAD_SINK) ?
+ 			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+@@ -1294,7 +1286,7 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 	ret = media_entity_pads_init(&csi->sd.entity, IMX7_CSI_PADS_NUM,
+ 				     csi->pad);
+ 	if (ret < 0)
+-		goto free;
++		goto cleanup;
+ 
+ 	ret = imx7_csi_async_register(csi);
  	if (ret)
- 		imx_media_capture_device_remove(csi->vdev);
+@@ -1306,9 +1298,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 	v4l2_async_notifier_unregister(&csi->notifier);
+ 	v4l2_async_notifier_cleanup(&csi->notifier);
+ 
+-free:
+-	v4l2_ctrl_handler_free(&csi->ctrl_hdlr);
+-
+ cleanup:
+ 	v4l2_async_notifier_unregister(&imxmd->notifier);
+ 	v4l2_async_notifier_cleanup(&imxmd->notifier);
+@@ -1338,7 +1327,6 @@ static int imx7_csi_remove(struct platform_device *pdev)
+ 	v4l2_async_notifier_unregister(&csi->notifier);
+ 	v4l2_async_notifier_cleanup(&csi->notifier);
+ 	v4l2_async_unregister_subdev(sd);
+-	v4l2_ctrl_handler_free(&csi->ctrl_hdlr);
+ 
+ 	mutex_destroy(&csi->lock);
  
 -- 
 Regards,
