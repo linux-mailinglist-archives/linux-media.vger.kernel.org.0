@@ -2,187 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A35962EADDB
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:04:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EAC12EADE3
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 16:04:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725917AbhAEPCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 10:02:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725835AbhAEPCO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 10:02:14 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53B37C061574
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 07:01:34 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id y23so3356054wmi.1
-        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 07:01:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=szPb1PPdBsy3wxxQBSrVW4kwBUPiKSvNKTGdrdA/adc=;
-        b=FkeY8PN9xN8l67b1Ab1h5g7dTWZ5MU+31jxQkX5ikaRgRxzavFlDing0l+gCu4TwLL
-         hJ7je7mOvw088Iy3/nW37SZcSFp7bEkRXcpMMeaaG0MS9TUCaYIoa5gVzcytcBzWDLP4
-         m2ufPPFCBEruXCrkovA1ii4uJE/mxEmN2cwEbSKHinq4j2xz9ByCCUq34pAT3wpLluMu
-         ubSsFWDpFxMqz1UM1wKnSO6sVre+wZ/SXmQaR1wKaA/Iv/sgLCeOvC5IzMwzxLWNlxCp
-         hAf2J2nZqZPewaPMOuBZAfshtZFLD5w1sf3T0A6nPfzK9voLCHo6sdbzTX7KNaVzlxtg
-         F1DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=szPb1PPdBsy3wxxQBSrVW4kwBUPiKSvNKTGdrdA/adc=;
-        b=gaxFTGFaqN4YOoH7t3hW5VC92Lav8bcf5/3UixqcOKKJQbJ7q9jIdGlh0EbigIMCRg
-         6JK3nDZUFbkDqIdE7BLs9+2hzlWkoMFZ76XAAk32lby53FGkNIP2umBa/KGCRk5ix2bw
-         N8LiYNB05/P23o5NI0gjhpc1YJOZx2HeawPlINX6BVo6FvLLr6sx5n2FUXT4Bbq6uStY
-         J/2VGOim9A1yipCxVgrPtvmxrRb2jgWSEtEbOd2LvnPUQGw98OywCc7AQEWel96bC0zS
-         mWsRZMPY761uzZsopBuq/4hYrSedQ6ST5ezaI/AgXC7yTh2xizKeUos+MSzTm19pYx4S
-         Ax8g==
-X-Gm-Message-State: AOAM530jILwFJ39kgIx5TwWdUAOI13scI+6w6qHVqejZP3/HvSu+oKtc
-        rIZajbPEDdjqCqfng4SSPDM=
-X-Google-Smtp-Source: ABdhPJxDwxIJUzKoQi8tqXLfWAgLy5IxuGJDQHwogH/CjgnY88C8vmd+Jh2UHaGrEZYXsm29o0Nc3g==
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr3928529wmj.115.1609858893060;
-        Tue, 05 Jan 2021 07:01:33 -0800 (PST)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id z8sm4297980wmg.17.2021.01.05.07.01.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 07:01:31 -0800 (PST)
-Date:   Tue, 5 Jan 2021 15:01:29 +0000
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     =?utf-8?Q?S=C3=A9bastien?= Szymanski 
-        <sebastien.szymanski@armadeus.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        id S1727328AbhAEPDo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 10:03:44 -0500
+Received: from mga02.intel.com ([134.134.136.20]:41911 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726652AbhAEPDn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Jan 2021 10:03:43 -0500
+IronPort-SDR: hRa12InfB/OTHyqbpKkSYHpo/wLdIcWF7o9yN58YKeeIRCpRGmlsc9Z26p9AV1vleBoKV/pW5Q
+ cktqJtW33mhg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="164189911"
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; 
+   d="scan'208";a="164189911"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 07:01:57 -0800
+IronPort-SDR: Oa0Y0EL8fCWv42Gi3WOGSu1cHtMZ/nzOpsp94cGFZCLuJieQfBEkqTa3YviFOSYGrCD5WCk/T9
+ eIdTlmqpfwSQ==
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; 
+   d="scan'208";a="496805998"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 07:01:55 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kwnrN-002DB3-Ai; Tue, 05 Jan 2021 17:02:57 +0200
+Date:   Tue, 5 Jan 2021 17:02:57 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     syzbot <syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Julien Boibessot <julien.boibessot@armadeus.com>
-Subject: Re: imx6ull capture from OV5640
-Message-ID: <20210105150129.fresebmib75htyl5@arch-thunder.localdomain>
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com>
- <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
- <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
- <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com>
- <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
- <CAOMZO5BkbB7KHP3pz1SLgD1Vth-BcZAEuxsaSQJ83Y6O=DDPdg@mail.gmail.com>
- <CAOMZO5D1Lk6evyRZ08erQ3DaVgSHubGjGbK8dcKao=NS+m-PUA@mail.gmail.com>
+        linux-usb <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        royale@zerezo.com, syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: memory leak in zr364xx_probe
+Message-ID: <20210105150257.GP4077@smile.fi.intel.com>
+References: <0000000000006b86be05b7234cc1@google.com>
+ <CAAEAJfADBQpyfgBjWtnnF-y0g_jRryrcHQd_J-123KxSrid5=Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOMZO5D1Lk6evyRZ08erQ3DaVgSHubGjGbK8dcKao=NS+m-PUA@mail.gmail.com>
+In-Reply-To: <CAAEAJfADBQpyfgBjWtnnF-y0g_jRryrcHQd_J-123KxSrid5=Q@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
-On Tue, Jan 05, 2021 at 11:32:29AM -0300, Fabio Estevam wrote:
-> On Tue, Jan 5, 2021 at 10:45 AM Fabio Estevam <festevam@gmail.com> wrote:
+On Thu, Dec 31, 2020 at 05:47:20PM -0300, Ezequiel Garcia wrote:
+> Let's see if this works:
 > 
-> > Just tested against next-20210105 and the original warning happens and
-> > csi is no longer probed.
+> #syz test: https://gitlab.collabora.com/linux/0day.git
+> a1714d224e516b579d09cc1b4c3d85042e42f14c
+
+Thanks for the hint!
+
+> On Wed, 23 Dec 2020 at 12:27, syzbot
+> <syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com> wrote:
 > >
-> > I am using the same dtb that worked on 5.4.84.
+> > Hello,
 > >
-> > It looks like we have a regression.
-> 
-> And here is a fix that allows csi to probe:
-> https://pastebin.com/raw/g6ijDf2N
-> 
-> Makes sense?
+> > syzbot found the following issue on:
+> >
+> > HEAD commit:    3644e2d2 mm/filemap: fix infinite loop in generic_file_buf..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=16f80eff500000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=37c889fb8b2761af
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=b4d54814b339b5c6bbd4
+> > compiler:       gcc (GCC) 10.1.0-syz 20200507
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1089df07500000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1671c77f500000
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
+> >
+> > BUG: memory leak
+> > unreferenced object 0xffffc90000e71000 (size 200704):
+> >   comm "kworker/0:2", pid 3653, jiffies 4294942426 (age 13.820s)
+> >   hex dump (first 32 bytes):
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >   backtrace:
+> >     [<00000000110a155e>] __vmalloc_node_range+0x3a5/0x410 mm/vmalloc.c:2585
+> >     [<000000008a1ee970>] __vmalloc_node mm/vmalloc.c:2617 [inline]
+> >     [<000000008a1ee970>] vmalloc+0x49/0x50 mm/vmalloc.c:2650
+> >     [<00000000a6a3abfa>] zr364xx_board_init drivers/media/usb/zr364xx/zr364xx.c:1348 [inline]
+> >     [<00000000a6a3abfa>] zr364xx_probe+0x60b/0x833 drivers/media/usb/zr364xx/zr364xx.c:1509
+> >     [<0000000014a572f5>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+> >     [<00000000f30ee977>] really_probe+0x159/0x480 drivers/base/dd.c:561
+> >     [<00000000ddb29374>] driver_probe_device+0x84/0x100 drivers/base/dd.c:745
+> >     [<0000000073c89cb9>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:851
+> >     [<000000009f56a99c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+> >     [<00000000848d591a>] __device_attach+0x122/0x250 drivers/base/dd.c:919
+> >     [<00000000168be5bb>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
+> >     [<00000000464f40a6>] device_add+0x5be/0xc30 drivers/base/core.c:3091
+> >     [<000000008c75a2b5>] usb_set_configuration+0x9d9/0xb90 drivers/usb/core/message.c:2164
+> >     [<00000000071d14a5>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+> >     [<00000000f325b973>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+> >     [<00000000f30ee977>] really_probe+0x159/0x480 drivers/base/dd.c:561
+> >     [<00000000ddb29374>] driver_probe_device+0x84/0x100 drivers/base/dd.c:745
+> >
+> >
+> >
+> > ---
+> > This report is generated by a bot. It may contain errors.
+> > See https://goo.gl/tpsmEJ for more information about syzbot.
+> > syzbot engineers can be reached at syzkaller@googlegroups.com.
+> >
+> > syzbot will keep track of this issue. See:
+> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> > syzbot can test patches for this issue, for details see:
+> > https://goo.gl/tpsmEJ#testing-patches
 
-yup.
-
-> 
-> There is another error though: I do not see the message below as seen
-> on 5.4 kernel:
-> [   10.690711] imx-media: ov5640 1-003c:0 -> csi:0
-> 
-> And the same pipeline that worked with 5.4 does not work with linux-next:
-> 
-> # media-ctl -l "'ov5640 1-003c':0 -> 'csi':0[1]"
-> media-ctl -l "'csi':1 -> 'csi capture':0[1]"
-> media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_2X8/320x240 field:none]"
-> 
-> # gst-launch-1.0 -v  v4l2src device=/dev/video1 ! v4l2convert ! fbdevsink
-> Setting pipeline to PAUSED ...
-> Pipeline is live and does not need PREROLL ...
-> Pipeline is PREROLLED ...
-> Setting pipeline to PLAYING ...
-> New clock: GstSystemClock
-> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
-> video/x-raw, format=(string)UYVY, width=(int)320, height=(int)240,
-> framerate=(fraction)30000/1001, interlace-mode=(string)progressive,
-> colorim
-> etry=(string)1:4:7:1
-> /GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:src: caps =
-> video/x-raw, format=(string)BGRx, width=(int)320, height=(int)240,
-> framerate=(fraction)30000/1001, interlace-mode=(string)progressive
-> /GstPipeline:pipeline0/GstFBDEVSink:fbdevsink0.GstPad:sink: caps =
-> video/[  421.495561] alloc_contig_range: [9c480, 9c4a6) PFNs busy
-> x-raw, format=(string)BGRx, width=(int)320, height=(int)240, fra[
-> 421.504399] alloc_contig_range: [9c480, 9c4a6) PFNs busy
-> merate=(fraction)30000/1001, interlace-mode=(string)progressive
-> /GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:sink: c[
-> 421.520989] alloc_contig_range: [9c480, 9c4a6) PFNs busy
-> aps = video/x-raw, format=(string)UYVY, width=(int)320, height=([
-> 421.533523] csi: pipeline start failed with -19
-> int)240, framerate=(fraction)30000/1001,
-> interlace-mode=(string)progressive, colorimetry=(string)1:4:7:1
-> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-> to allocate required memory.
-> Additional debug info:
-> ../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
-> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> Buffer pool activation failed
-> Execution ended after 0:00:00.106613417
-> Setting pipeline to NULL ...
-> Freeing pipeline ...
-> #
-> 
-> Any ideas?
-
-can you see if the following patch make it work again?
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-8<----------------------------------------------------
-
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index a3f3df901704..fa8db9f1cfc8 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -499,6 +499,7 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
-                                      struct v4l2_subdev_format *sink_fmt)
- {
-        struct imx7_csi *csi = v4l2_get_subdevdata(sd);
-+       struct media_entity *src;
-        struct media_pad *pad;
-        int ret;
- 
-@@ -509,11 +510,21 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
-        if (!csi->src_sd)
-                return -EPIPE;
- 
-+       src = &csi->src_sd->entity;
-+
-+       /*
-+        * if the source is neither a mux or csi2 get the one directly upstream
-+        * from this csi
-+        */
-+       if (src->function != MEDIA_ENT_F_VID_IF_BRIDGE &&
-+           src->function != MEDIA_ENT_F_VID_MUX)
-+               src = &csi->sd.entity;
-+
-        /*
-         * find the entity that is selected by the CSI mux. This is needed
-         * to distinguish between a parallel or CSI-2 pipeline.
-         */
--       pad = imx_media_pipeline_pad(&csi->src_sd->entity, 0, 0, true);
-+       pad = imx_media_pipeline_pad(src, 0, 0, true);
-        if (!pad)
-                return -ENODEV;
-
-> 
-> Thanks
