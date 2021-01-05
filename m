@@ -2,99 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B56812EAD95
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 15:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 883102EADB4
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 15:50:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbhAEOnm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 09:43:42 -0500
-Received: from mga04.intel.com ([192.55.52.120]:50191 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726502AbhAEOnl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Jan 2021 09:43:41 -0500
-IronPort-SDR: pDCGS368j4VtJzF8z82tUrnSisgB42Wavyn6WReAnjshcprtcIwlBZ06s9A+tJnvzzsLK+FysO
- AXQrFldZZ6pw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="174537846"
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; 
-   d="scan'208";a="174537846"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 06:41:56 -0800
-IronPort-SDR: bpivkxY+nxz/ZxLQsHPsFGGX4EmiEFv4XieEvrtWP21TnXDbfi4io+N4fhpOYVmtcVsUx2apXH
- mvhvVF0qNRBg==
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; 
-   d="scan'208";a="361188842"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 06:41:52 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id D694F206FD; Tue,  5 Jan 2021 16:41:50 +0200 (EET)
-Date:   Tue, 5 Jan 2021 16:41:50 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com,
-        =?iso-8859-1?Q?K=E9vin_L'h=F4pital?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH v4 2/3] media: i2c: Add support for the OV8865 image
- sensor
-Message-ID: <20210105144150.GS11878@paasikivi.fi.intel.com>
-References: <20201231142702.3095260-1-paul.kocialkowski@bootlin.com>
- <20201231142702.3095260-3-paul.kocialkowski@bootlin.com>
- <20210104120749.GK11878@paasikivi.fi.intel.com>
- <X/Qzp8/4gd/ANdXh@aptenodytes>
+        id S1728121AbhAEOsM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 09:48:12 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:56461 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbhAEOsM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 09:48:12 -0500
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 1A0DA40010;
+        Tue,  5 Jan 2021 14:47:29 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2] media: i2c: ov5648/ov8865: Minor cosmetic fixes
+Date:   Tue,  5 Jan 2021 15:47:19 +0100
+Message-Id: <20210105144720.9578-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X/Qzp8/4gd/ANdXh@aptenodytes>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+This solves a few minor cosmetic issues picked up by checkpatch for
+the OV5648 and OV8865 drivers.
 
-On Tue, Jan 05, 2021 at 10:38:47AM +0100, Paul Kocialkowski wrote:
-> Hi Sakari,
-> 
-> On Mon 04 Jan 21, 14:07, Sakari Ailus wrote:
-> > Hi Paul,
-> > 
-> > On Thu, Dec 31, 2020 at 03:27:01PM +0100, Paul Kocialkowski wrote:
-> > > The OV8865 is a 8 Mpx CMOS image sensor producing 3264x2448 at 30 fps.
-> > > Other modes (including some with sub-sampling) are available too.
-> > > It outputs 10-bit bayer CFA data through a MIPI CSI-2 interface with
-> > > up to 4 lanes supported.
-> > 
-> > I've added the patches to a pull request to Mauro; there appear to still be
-> > some checkpatch.pl issues in both of the drivers.
-> > 
-> > I don't mind the warnings on the assignment or the mutex though. Could you
-> > address these in additional patches, please?
-> 
-> Sorry about that, I realized that I never run checkpatch with --strict
-> so I completely missed those.
-> 
-> I'll fix the cosmetic issues in a following patch.
-> 
-> Just to clarify one thing:
-> #define OV8865_PAD_PK_DRIVE_STRENGTH_2X		(1 << 5)
-> #define OV8865_BLC_CTRL1_COL_SHIFT_128		(1 << 4)
-> 
-> these are not single-bit fields so even though it looks like they should
-> use BIT(), this would be incoherent with other possible values, such as:
-> #define OV8865_PAD_PK_DRIVE_STRENGTH_3X		(2 << 5)
-> #define OV8865_BLC_CTRL1_COL_SHIFT_64		(2 << 4)
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ drivers/media/i2c/ov5648.c | 3 ++-
+ drivers/media/i2c/ov8865.c | 8 ++++----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-Agreed.
-
-You might not assign the top bit, but if you did, the left operand would
-have to be unsigned to guarantee the intended result (otherwise it's
-undefined).
-
+diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+index 609aa67b54ce..110190b322e2 100644
+--- a/drivers/media/i2c/ov5648.c
++++ b/drivers/media/i2c/ov5648.c
+@@ -496,7 +496,8 @@
+ 	container_of(s, struct ov5648_sensor, subdev)
+ 
+ #define ov5648_ctrl_subdev(c) \
+-	(&container_of(c->handler, struct ov5648_sensor, ctrls.handler)->subdev)
++	(&container_of((c)->handler, struct ov5648_sensor, \
++		       ctrls.handler)->subdev)
+ 
+ /* Data structures */
+ 
+diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+index fda5a55979aa..ab4804d5b285 100644
+--- a/drivers/media/i2c/ov8865.c
++++ b/drivers/media/i2c/ov8865.c
+@@ -223,7 +223,6 @@
+ #define OV8865_FORMAT2_FLIP_HORZ_SENSOR_EN	BIT(1)
+ #define OV8865_FORMAT2_SYNC_HBIN_EN		BIT(0)
+ 
+-
+ #define OV8865_INC_Y_ODD_REG			0x382a
+ #define OV8865_INC_Y_ODD(v)			((v) & GENMASK(4, 0))
+ #define OV8865_INC_Y_EVEN_REG			0x382b
+@@ -460,7 +459,8 @@
+ 	container_of(s, struct ov8865_sensor, subdev)
+ 
+ #define ov8865_ctrl_subdev(c) \
+-	(&container_of(c->handler, struct ov8865_sensor, ctrls.handler)->subdev)
++	(&container_of((c)->handler, struct ov8865_sensor, \
++		       ctrls.handler)->subdev)
+ 
+ /* Data structures */
+ 
+@@ -1598,8 +1598,8 @@ static int ov8865_mode_pll1_configure(struct ov8865_sensor *sensor,
+ 		return ret;
+ 
+ 	ret = ov8865_update_bits(sensor, OV8865_PCLK_SEL_REG,
+-			   OV8865_PCLK_SEL_PCLK_DIV_MASK,
+-			   OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
++				 OV8865_PCLK_SEL_PCLK_DIV_MASK,
++				 OV8865_PCLK_SEL_PCLK_DIV(config->pclk_div));
+ 	if (ret)
+ 		return ret;
+ 
 -- 
-Sakari Ailus
+2.30.0
+
