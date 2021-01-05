@@ -2,133 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C50702EAD62
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 15:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 454C92EAD71
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 15:40:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbhAEOdX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 09:33:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726231AbhAEOdX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 09:33:23 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07751C061574
-        for <linux-media@vger.kernel.org>; Tue,  5 Jan 2021 06:32:43 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id o13so73066898lfr.3
-        for <linux-media@vger.kernel.org>; Tue, 05 Jan 2021 06:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RFz3s6uFRgUugW1okZRtJ1a8yuoGhyvmE74H8rFnYgQ=;
-        b=pr0a39u7G1U/UKBhNQuPJnPvKKC9ymGrSsLnSM/t8rNaK9mq9xns0qtO3HTROEJbT/
-         /KNtHSdUlVCYRl5PKdM2bukE73cvMKLNSHUgLEKxqnKConvdFfyJrlMFF9AA+PoCde7e
-         D7IAzTaQK91slOqpR3DSQ1grWlvLPxvy7XqCsZVDIWmf+xo4+/Ijy+LCW6WtArYhRI8M
-         LKV5pKo+VKd/Z0MyjjjpiuX7TjcgX9RoBrcZWKUMl0xopMTDDTakcItBnGqe9/QlEbDq
-         dVnKJNJNJ1D9Pvn9LFwLfm77O7/wUvFqiyUmka7wieO5CeHwqqkpmhhH4QkVJMYUAjod
-         VLlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RFz3s6uFRgUugW1okZRtJ1a8yuoGhyvmE74H8rFnYgQ=;
-        b=MqwJBFiCDDEOCrT/N7ChPSwvM3NBPI1TFQ70Sziah/nnGmipV4EyUlBC9HxIoz+oLm
-         AafYf3VFhyYgJE8L6625B7LIfRb9rLoUwHZsyPmAXlaItQiD3rvOVicwuTbIvuSsLZaE
-         rRl3D+xSI77460siiU1f/xOqoVqfqXvyCHe72Q6XDPOzFNteVp734uY6dV8mTvxYUWpV
-         OuTk4Om9MBT/gJhsoZSAJoEAvzm5qrcT2QcqfnbIJzQ+yEZ24hO23j6MxN8ptT8TzKuS
-         jsZj1m57ZrqQaLYZTThFhGsmo4R3SFU07lqtaT0WIO/jqF24PIeSh8rIpAjmzYIX61zM
-         ebXg==
-X-Gm-Message-State: AOAM530EZE4KMd4LR1/9DU5MhZ6cEXohU7FH/aVJyM0lWvBnsujzt3mF
-        npgP2DFn9xf3q1z7cc859eD7upFieKCyJHD5MQ0=
-X-Google-Smtp-Source: ABdhPJwZXP4pqjxO1Qq4WVj38Or6vTy0XvJDzV9UYkR8PczkW4Ske/QqTaFRhJnQ8suUJp1AVhcQ5x6shM3/bUcG8gk=
-X-Received: by 2002:ac2:4431:: with SMTP id w17mr32450860lfl.223.1609857161504;
- Tue, 05 Jan 2021 06:32:41 -0800 (PST)
+        id S1726864AbhAEOhv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 09:37:51 -0500
+Received: from m43-15.mailgun.net ([69.72.43.15]:47284 "EHLO
+        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726618AbhAEOhu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 09:37:50 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1609857445; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=4DiNJfGzzRCDF2FL02HtG0SOdr7LDb46DzlmbUJfV6s=; b=X45A930qsyotc7/AD+4OMqx7f3foVhfJ7jUfObJQTt8ghcmLls1hQ4Mvgq58UmK+qXqvyUBt
+ Aq4WBL9vEYpQD9iXanVarK1oExM2NmjDs7zLV6WSUX54dDTWCV98XCEpQxZZzgsTEPj/Ml7v
+ JVDstBAXK/rtN2L16vX18hvQ/M8=
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5ff47988b73be0303d2da1d0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 05 Jan 2021 14:36:56
+ GMT
+Sender: charante=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id AF37CC433C6; Tue,  5 Jan 2021 14:36:56 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
+        autolearn=no autolearn_force=no version=3.4.0
+Received: from charante-linux.qualcomm.com (unknown [202.46.22.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: charante)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id E3526C433CA;
+        Tue,  5 Jan 2021 14:36:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E3526C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
+From:   Charan Teja Reddy <charante@codeaurora.org>
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com, arnd@arndb.de
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        "# 5 . 4+" <stable@vger.kernel.org>
+Subject: [PATCH V2] dmabuf: fix use-after-free of dmabuf's file->f_inode
+Date:   Tue,  5 Jan 2021 20:06:39 +0530
+Message-Id: <1609857399-31549-1-git-send-email-charante@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <CAOMZO5DTW_YgVgyXqtccxQUm0A2kLLVcw_EhfsN0kZ9s2hgt7Q@mail.gmail.com>
- <3c42e0cc-0e47-9e8e-993f-f67e9d2924ca@armadeus.com> <CAOMZO5AU2x_a0=UgJM598mAojY-QmgHW61KAo-ePBn08zNFGOA@mail.gmail.com>
- <CAOMZO5A_WgkOotkALDhfCjhRRxBJ6f6RmUS-yF_YcZV593JWGQ@mail.gmail.com>
- <d89a5263-6806-4290-4c24-b433a0b8fdeb@armadeus.com> <CAOMZO5BvOH=wTxRufzGMSB+uwzzN_MpgbWvWvL6awdew6DjeOw@mail.gmail.com>
- <CAOMZO5BkbB7KHP3pz1SLgD1Vth-BcZAEuxsaSQJ83Y6O=DDPdg@mail.gmail.com>
-In-Reply-To: <CAOMZO5BkbB7KHP3pz1SLgD1Vth-BcZAEuxsaSQJ83Y6O=DDPdg@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 5 Jan 2021 11:32:29 -0300
-Message-ID: <CAOMZO5D1Lk6evyRZ08erQ3DaVgSHubGjGbK8dcKao=NS+m-PUA@mail.gmail.com>
-Subject: Re: imx6ull capture from OV5640
-To:     =?UTF-8?Q?S=C3=A9bastien_Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Julien Boibessot <julien.boibessot@armadeus.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 5, 2021 at 10:45 AM Fabio Estevam <festevam@gmail.com> wrote:
+It is observed 'use-after-free' on the dmabuf's file->f_inode with the
+race between closing the dmabuf file and reading the dmabuf's debug
+info.
 
-> Just tested against next-20210105 and the original warning happens and
-> csi is no longer probed.
->
-> I am using the same dtb that worked on 5.4.84.
->
-> It looks like we have a regression.
+Consider the below scenario where P1 is closing the dma_buf file
+and P2 is reading the dma_buf's debug info in the system:
 
-And here is a fix that allows csi to probe:
-https://pastebin.com/raw/g6ijDf2N
+P1						P2
+					dma_buf_debug_show()
+dma_buf_put()
+  __fput()
+    file->f_op->release()
+    dput()
+    ....
+      dentry_unlink_inode()
+        iput(dentry->d_inode)
+        (where the inode is freed)
+					mutex_lock(&db_list.lock)
+					read 'dma_buf->file->f_inode'
+					(the same inode is freed by P1)
+					mutex_unlock(&db_list.lock)
+      dentry->d_op->d_release()-->
+        dma_buf_release()
+          .....
+          mutex_lock(&db_list.lock)
+          removes the dmabuf from the list
+          mutex_unlock(&db_list.lock)
 
-Makes sense?
+In the above scenario, when dma_buf_put() is called on a dma_buf, it
+first frees the dma_buf's file->f_inode(=dentry->d_inode) and then
+removes this dma_buf from the system db_list. In between P2 traversing
+the db_list tries to access this dma_buf's file->f_inode that was freed
+by P1 which is a use-after-free case.
 
-There is another error though: I do not see the message below as seen
-on 5.4 kernel:
-[   10.690711] imx-media: ov5640 1-003c:0 -> csi:0
+Since, __fput() calls f_op->release first and then later calls the
+d_op->d_release, move the dma_buf's db_list removal from d_release() to
+f_op->release(). This ensures that dma_buf's file->f_inode is not
+accessed after it is released.
 
-And the same pipeline that worked with 5.4 does not work with linux-next:
+Cc: <stable@vger.kernel.org> # 5.4+
+Fixes: 4ab59c3c638c ("dma-buf: Move dma_buf_release() from fops to dentry_ops")
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+---
+ V2: Resending with stable tags and Acks
 
-# media-ctl -l "'ov5640 1-003c':0 -> 'csi':0[1]"
-media-ctl -l "'csi':1 -> 'csi capture':0[1]"
-media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_2X8/320x240 field:none]"
+ V1: https://lore.kernel.org/patchwork/patch/1360118/
 
-# gst-launch-1.0 -v  v4l2src device=/dev/video1 ! v4l2convert ! fbdevsink
-Setting pipeline to PAUSED ...
-Pipeline is live and does not need PREROLL ...
-Pipeline is PREROLLED ...
-Setting pipeline to PLAYING ...
-New clock: GstSystemClock
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
-video/x-raw, format=(string)UYVY, width=(int)320, height=(int)240,
-framerate=(fraction)30000/1001, interlace-mode=(string)progressive,
-colorim
-etry=(string)1:4:7:1
-/GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:src: caps =
-video/x-raw, format=(string)BGRx, width=(int)320, height=(int)240,
-framerate=(fraction)30000/1001, interlace-mode=(string)progressive
-/GstPipeline:pipeline0/GstFBDEVSink:fbdevsink0.GstPad:sink: caps =
-video/[  421.495561] alloc_contig_range: [9c480, 9c4a6) PFNs busy
-x-raw, format=(string)BGRx, width=(int)320, height=(int)240, fra[
-421.504399] alloc_contig_range: [9c480, 9c4a6) PFNs busy
-merate=(fraction)30000/1001, interlace-mode=(string)progressive
-/GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:sink: c[
-421.520989] alloc_contig_range: [9c480, 9c4a6) PFNs busy
-aps = video/x-raw, format=(string)UYVY, width=(int)320, height=([
-421.533523] csi: pipeline start failed with -19
-int)240, framerate=(fraction)30000/1001,
-interlace-mode=(string)progressive, colorimetry=(string)1:4:7:1
-ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-to allocate required memory.
-Additional debug info:
-../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-Buffer pool activation failed
-Execution ended after 0:00:00.106613417
-Setting pipeline to NULL ...
-Freeing pipeline ...
-#
+ drivers/dma-buf/dma-buf.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-Any ideas?
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 0eb80c1..a14dcbb 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -76,10 +76,6 @@ static void dma_buf_release(struct dentry *dentry)
+ 
+ 	dmabuf->ops->release(dmabuf);
+ 
+-	mutex_lock(&db_list.lock);
+-	list_del(&dmabuf->list_node);
+-	mutex_unlock(&db_list.lock);
+-
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
+ 
+@@ -88,6 +84,22 @@ static void dma_buf_release(struct dentry *dentry)
+ 	kfree(dmabuf);
+ }
+ 
++static int dma_buf_file_release(struct inode *inode, struct file *file)
++{
++	struct dma_buf *dmabuf;
++
++	if (!is_dma_buf_file(file))
++		return -EINVAL;
++
++	dmabuf = file->private_data;
++
++	mutex_lock(&db_list.lock);
++	list_del(&dmabuf->list_node);
++	mutex_unlock(&db_list.lock);
++
++	return 0;
++}
++
+ static const struct dentry_operations dma_buf_dentry_ops = {
+ 	.d_dname = dmabuffs_dname,
+ 	.d_release = dma_buf_release,
+@@ -413,6 +425,7 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ }
+ 
+ static const struct file_operations dma_buf_fops = {
++	.release	= dma_buf_file_release,
+ 	.mmap		= dma_buf_mmap_internal,
+ 	.llseek		= dma_buf_llseek,
+ 	.poll		= dma_buf_poll,
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+member of the Code Aurora Forum, hosted by The Linux Foundation
 
-Thanks
