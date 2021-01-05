@@ -2,295 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 950CD2EA729
-	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 10:18:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8D782EA7BC
+	for <lists+linux-media@lfdr.de>; Tue,  5 Jan 2021 10:39:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727481AbhAEJQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 04:16:47 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:44846 "EHLO www.linuxtv.org"
+        id S1728120AbhAEJhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 04:37:08 -0500
+Received: from mail.horus.com ([78.46.148.228]:43089 "EHLO mail.horus.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727298AbhAEJQr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Jan 2021 04:16:47 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kwiRh-001Vdi-BG; Tue, 05 Jan 2021 09:16:05 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kwiV4-0003HH-LH; Tue, 05 Jan 2021 09:19:34 +0000
-Date:   Tue, 5 Jan 2021 09:19:34 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <920946076.36.1609838374648@builder.linuxtv.org>
-In-Reply-To: <150123378.35.1609774481990@builder.linuxtv.org>
-References: <150123378.35.1609774481990@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3351
+        id S1726189AbhAEJhI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Jan 2021 04:37:08 -0500
+X-Greylist: delayed 355 seconds by postgrey-1.27 at vger.kernel.org; Tue, 05 Jan 2021 04:37:07 EST
+Received: from [192.168.1.20] (62-116-63-217.adsl.highway.telekom.at [62.116.63.217])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "E-Mail Matthias Reichl", Issuer "HiassofT CA 2014" (not verified))
+        by mail.horus.com (Postfix) with ESMTPSA id 721C16409C;
+        Tue,  5 Jan 2021 10:30:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=horus.com;
+        s=20180324; t=1609839031;
+        bh=3uAvaYTnJj70a1j5/nbACq1hfSa4h3BkSIn2baVHKCQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BhQ/TMsiDA8acfiLQl9uyymIShy00rP9MAfjgqo1qOsudIx8y0YD2I95WAPQz3Ait
+         mec3N5BxGsH8BoeiV1mAEIb2LTuQWOPkFMnsOSNxgno6B847X+aB518VlK+SKXUXJr
+         zxfj471wavgSJYd+DrROpqmos0hn2iMn09jGDsn0=
+Received: by camel2.lan (Postfix, from userid 1000)
+        id D4B941C7374; Tue,  5 Jan 2021 10:30:30 +0100 (CET)
+From:   Matthias Reichl <hias@horus.com>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [PATCH] media: rc: fix timeout handling after switch to microsecond durations
+Date:   Tue,  5 Jan 2021 10:30:23 +0100
+Message-Id: <20210105093023.5212-1-hias@horus.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3351/display/redirect>
+Commit 528222d853f92 ("media: rc: harmonize infrared durations to
+microseconds") missed to switch some timeout calculations from
+nanoseconds to microseconds. This resulted in spurious key_up+key_down
+events at the last scancode if the rc device uses a long timeout
+(eg 100ms on nuvoton-cir) as the device timeout wasn't properly
+accounted for in the keyup timeout calculation.
 
-Changes:
+Fix this by applying the proper conversion functions.
 
+Fixes: 528222d853f92 ("media: rc: harmonize infrared durations to microseconds")
+Signed-off-by: Matthias Reichl <hias@horus.com>
+---
+ drivers/media/rc/ir-mce_kbd-decoder.c | 2 +-
+ drivers/media/rc/rc-main.c            | 4 ++--
+ drivers/media/rc/serial_ir.c          | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-------------------------------------------
-[...truncated 17.23 KB...]
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
-Preparing to compile for kernel version 4.19.0
+diff --git a/drivers/media/rc/ir-mce_kbd-decoder.c b/drivers/media/rc/ir-mce_kbd-decoder.c
+index be8f2756a444..1524dc0fc566 100644
+--- a/drivers/media/rc/ir-mce_kbd-decoder.c
++++ b/drivers/media/rc/ir-mce_kbd-decoder.c
+@@ -320,7 +320,7 @@ static int ir_mce_kbd_decode(struct rc_dev *dev, struct ir_raw_event ev)
+ 				data->body);
+ 			spin_lock(&data->keylock);
+ 			if (scancode) {
+-				delay = nsecs_to_jiffies(dev->timeout) +
++				delay = usecs_to_jiffies(dev->timeout) +
+ 					msecs_to_jiffies(100);
+ 				mod_timer(&data->rx_timeout, jiffies + delay);
+ 			} else {
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index 29d4d01896ff..1fd62c1dac76 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -737,7 +737,7 @@ static unsigned int repeat_period(int protocol)
+ void rc_repeat(struct rc_dev *dev)
+ {
+ 	unsigned long flags;
+-	unsigned int timeout = nsecs_to_jiffies(dev->timeout) +
++	unsigned int timeout = usecs_to_jiffies(dev->timeout) +
+ 		msecs_to_jiffies(repeat_period(dev->last_protocol));
+ 	struct lirc_scancode sc = {
+ 		.scancode = dev->last_scancode, .rc_proto = dev->last_protocol,
+@@ -855,7 +855,7 @@ void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u64 scancode,
+ 	ir_do_keydown(dev, protocol, scancode, keycode, toggle);
+ 
+ 	if (dev->keypressed) {
+-		dev->keyup_jiffies = jiffies + nsecs_to_jiffies(dev->timeout) +
++		dev->keyup_jiffies = jiffies + usecs_to_jiffies(dev->timeout) +
+ 			msecs_to_jiffies(repeat_period(protocol));
+ 		mod_timer(&dev->timer_keyup, dev->keyup_jiffies);
+ 	}
+diff --git a/drivers/media/rc/serial_ir.c b/drivers/media/rc/serial_ir.c
+index 8cc28c92d05d..96ae0294ac10 100644
+--- a/drivers/media/rc/serial_ir.c
++++ b/drivers/media/rc/serial_ir.c
+@@ -385,7 +385,7 @@ static irqreturn_t serial_ir_irq_handler(int i, void *blah)
+ 	} while (!(sinp(UART_IIR) & UART_IIR_NO_INT)); /* still pending ? */
+ 
+ 	mod_timer(&serial_ir.timeout_timer,
+-		  jiffies + nsecs_to_jiffies(serial_ir.rcdev->timeout));
++		  jiffies + usecs_to_jiffies(serial_ir.rcdev->timeout));
+ 
+ 	ir_raw_event_handle(serial_ir.rcdev);
+ 
+-- 
+2.20.1
 
-***WARNING:*** You do not have the full kernel sources installed.
-This does not prevent you from building the v4l-dvb tree if you have the
-kernel headers, but the full kernel source may be required in order to use
-make menuconfig / xconfig / qconfig.
-
-If you are experiencing problems building the v4l-dvb tree, please try
-building against a vanilla kernel before reporting a bug.
-
-Vanilla kernels are available at http://kernel.org.
-On most distros, this will compile a newly downloaded kernel:
-
-cp /boot/config-`uname -r` <your kernel dir>/.config
-cd <your kernel dir>
-make all modules_install install
-
-Please see your distro's web site for instructions to build a new kernel.
-
-WARNING: This is the V4L/DVB backport tree, with experimental drivers
-	 backported to run on legacy kernels from the development tree at:
-		http://git.linuxtv.org/media-tree.git.
-	 It is generally safe to use it for testing a new driver or
-	 feature, but its usage on production environments is risky.
-	 Don't use it in production. You've been warned.
-CEC_CROS_EC: Requires at least kernel 9.255.255
-V4L2_H264: Requires at least kernel 9.255.255
-VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
-VIDEO_OMAP3: Requires at least kernel 9.255.255
-VIDEO_IMX274: Requires at least kernel 9.255.255
-SND_BT87X: Requires at least kernel 9.255.255
-INTEL_ATOMISP: Requires at least kernel 9.255.255
-VIDEO_HANTRO: Requires at least kernel 9.255.255
-VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
-VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
-Created default (all yes) .config file
-./scripts/fix_kconfig.pl
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-scripts/make_makefile.pl
-./scripts/make_myconfig.pl
-[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
-perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
-creating symbolic links...
-Kernel build directory is /lib/modules/4.19.0-5-amd64/build
-make -C ../linux apply_patches
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Patches for 4.19.0-5-amd64 already applied.
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
-make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_regs.isra.4':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:310:11: warning: 'regs_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-   *__regs = regs_base;
-   ~~~~~~~~^~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:291:16: warning: 'regs' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    regs->value = bin_alloc(bin, len);
-    ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_rules':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:506:25: warning: 'next_rule' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     rules->num_if_rules = __num_if_rules;
-     ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:559:12: warning: 'rules_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-   *__rules = rules_base;
-   ~~~~~~~~~^~~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_pdaf.isra.10':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:725:20: warning: 'pdgroup' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    pdesc = &pdgroup->descs[j];
-             ~~~~~~~^~~~~~~
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov02a10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9734.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13858.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9p031.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t112.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v011.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sr030pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/noon010pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rj54n1cb0c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6aa.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6a3.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k4ecgx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k5baf.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-ctrls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adp1653.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3560.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3646.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak881x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-kbd-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ml86v7667.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2659.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc358743.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hi556.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx214.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx219.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx258.o>
-In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-core.h>:18,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-v4l2.h>:16,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.c>:32:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/linux/dma-buf.h>:16:10: fatal error: linux/dma-buf-map.h: No such file or directory
- #include <linux/dma-buf-map.h>
-          ^~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
-make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[3]: *** [Makefile:146: sub-make] Error 2
-make[2]: *** [Makefile:8: all] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 533
-Build step 'Execute shell' marked build as failure
