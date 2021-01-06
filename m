@@ -2,77 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2DFD2EBEAF
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 14:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BF192EBEC1
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 14:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbhAFNav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jan 2021 08:30:51 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2941 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726501AbhAFNau (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 08:30:50 -0500
-Received: from dggeme762-chm.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4D9qvl3Dq1z5F1p;
-        Wed,  6 Jan 2021 21:29:07 +0800 (CST)
-Received: from dggeme760-chm.china.huawei.com (10.3.19.106) by
- dggeme762-chm.china.huawei.com (10.3.19.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Wed, 6 Jan 2021 21:30:02 +0800
-Received: from dggeme760-chm.china.huawei.com ([10.6.80.70]) by
- dggeme760-chm.china.huawei.com ([10.6.80.70]) with mapi id 15.01.1913.007;
- Wed, 6 Jan 2021 21:30:02 +0800
-From:   zhengyongjun <zhengyongjun3@huawei.com>
-To:     "clabbe@baylibre.com" <clabbe@baylibre.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mjpeg-users@lists.sourceforge.net" 
-        <mjpeg-users@lists.sourceforge.net>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIIC1uZXh0XSBtZWRpYTogem9yYW46IHVzZSByZXNvdXJj?=
- =?gb2312?Q?e=5Fsize?=
-Thread-Topic: [PATCH -next] media: zoran: use resource_size
-Thread-Index: AQHW5C4k5dTBnbfL/0ecILiTVyuNR6oal3pw
-Date:   Wed, 6 Jan 2021 13:30:02 +0000
-Message-ID: <f6368bef56b54bdf94c2fdb1fa0752d1@huawei.com>
-References: <20210106131702.32507-1-zhengyongjun3@huawei.com>
-In-Reply-To: <20210106131702.32507-1-zhengyongjun3@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.178.249]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        id S1725903AbhAFNgo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 6 Jan 2021 08:36:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725803AbhAFNgo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 08:36:44 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0936C061358
+        for <linux-media@vger.kernel.org>; Wed,  6 Jan 2021 05:36:03 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kx8yc-0001l3-0x; Wed, 06 Jan 2021 14:35:50 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kx8yY-0005CD-Rt; Wed, 06 Jan 2021 14:35:46 +0100
+Message-ID: <b5c5cf7360a0bc297e5753ed1b4d40476ccd7923.camel@pengutronix.de>
+Subject: Re: [PATCH -next] media: hantro: use resource_size
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Zheng Yongjun <zhengyongjun3@huawei.com>, ezequiel@collabora.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org
+Date:   Wed, 06 Jan 2021 14:35:46 +0100
+In-Reply-To: <20210106131813.32644-1-zhengyongjun3@huawei.com>
+References: <20210106131813.32644-1-zhengyongjun3@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-U29ycnksIHRoaXMgaXMgbXkgZmF1bHQsIGFsbCB0aGlzIG1lZGlhIHJlbGF0ZWQgcGF0Y2ggY29t
-bWl0IG1zZyBpcyB3cm9uZywgSSB3aWxsIHNlbmQgcGF0Y2ggdjIsIHBsZWFzZSBpZ25vcmUgaXQu
-DQoNCi0tLS0t08q8/tStvP4tLS0tLQ0Kt6K8/sjLOiB6aGVuZ3lvbmdqdW4gDQq3osvNyrG85Dog
-MjAyMcTqMdTCNsjVIDIxOjE3DQrK1bz+yMs6IGNsYWJiZUBiYXlsaWJyZS5jb207IG1jaGVoYWJA
-a2VybmVsLm9yZzsgbWpwZWctdXNlcnNAbGlzdHMuc291cmNlZm9yZ2UubmV0OyBsaW51eC1tZWRp
-YUB2Z2VyLmtlcm5lbC5vcmc7IGRldmVsQGRyaXZlcmRldi5vc3Vvc2wub3JnOyBsaW51eC1rZXJu
-ZWxAdmdlci5rZXJuZWwub3JnDQqzrcvNOiBncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZzsgemhl
-bmd5b25nanVuIDx6aGVuZ3lvbmdqdW4zQGh1YXdlaS5jb20+DQrW98ziOiBbUEFUQ0ggLW5leHRd
-IG1lZGlhOiB6b3JhbjogdXNlIHJlc291cmNlX3NpemUNCg0KVXNlIHJlc291cmNlX3NpemUgcmF0
-aGVyIHRoYW4gYSB2ZXJib3NlIGNvbXB1dGF0aW9uIG9uIHRoZSBlbmQgYW5kIHN0YXJ0IGZpZWxk
-cy4NCg0KU2lnbmVkLW9mZi1ieTogWmhlbmcgWW9uZ2p1biA8emhlbmd5b25nanVuM0BodWF3ZWku
-Y29tPg0KLS0tDQogZHJpdmVycy9zdGFnaW5nL21lZGlhL3pvcmFuL3pvcmFuX2RyaXZlci5jIHwg
-MiArLQ0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KDQpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL3pvcmFuL3pvcmFuX2RyaXZlci5jIGIv
-ZHJpdmVycy9zdGFnaW5nL21lZGlhL3pvcmFuL3pvcmFuX2RyaXZlci5jDQppbmRleCA4MDgxOTZl
-YTViODEuLmQ2MGI0YzczZWE4MCAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS96
-b3Jhbi96b3Jhbl9kcml2ZXIuYw0KKysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL3pvcmFuL3pv
-cmFuX2RyaXZlci5jDQpAQCAtMTAyMCw3ICsxMDIwLDcgQEAgaW50IHpvcmFuX3F1ZXVlX2luaXQo
-c3RydWN0IHpvcmFuICp6ciwgc3RydWN0IHZiMl9xdWV1ZSAqdnEpDQogCXZxLT5idWZfc3RydWN0
-X3NpemUgPSBzaXplb2Yoc3RydWN0IHpyX2J1ZmZlcik7DQogCXZxLT5vcHMgPSAmenJfdmlkZW9f
-cW9wczsNCiAJdnEtPm1lbV9vcHMgPSAmdmIyX2RtYV9jb250aWdfbWVtb3BzOw0KLQl2cS0+Z2Zw
-X2ZsYWdzID0gR0ZQX0RNQTMyLA0KKwl2cS0+Z2ZwX2ZsYWdzID0gR0ZQX0RNQTMyOw0KIAl2cS0+
-dGltZXN0YW1wX2ZsYWdzID0gVjRMMl9CVUZfRkxBR19USU1FU1RBTVBfTU9OT1RPTklDOw0KIAl2
-cS0+bWluX2J1ZmZlcnNfbmVlZGVkID0gOTsNCiAJdnEtPmxvY2sgPSAmenItPmxvY2s7DQotLQ0K
-Mi4yMi4wDQoNCg==
+Hi Zheng,
+
+On Wed, 2021-01-06 at 21:18 +0800, Zheng Yongjun wrote:
+> Use resource_size rather than a verbose computation on
+> the end and start fields.
+> 
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+> ---
+>  drivers/staging/media/hantro/hantro_v4l2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index b668a82d40ad..e1081c16f56a 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -316,7 +316,7 @@ hantro_reset_fmt(struct v4l2_pix_format_mplane *fmt,
+>  
+>  	fmt->pixelformat = vpu_fmt->fourcc;
+>  	fmt->field = V4L2_FIELD_NONE;
+> -	fmt->colorspace = V4L2_COLORSPACE_JPEG,
+> +	fmt->colorspace = V4L2_COLORSPACE_JPEG;
+>  	fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+>  	fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
+>  	fmt->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+
+Subject and commit message do not describe the patch.
+
+regards
+Philipp
