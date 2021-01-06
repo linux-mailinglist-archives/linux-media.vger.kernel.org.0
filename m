@@ -2,94 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8824C2EC10C
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 17:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DBED2EC160
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 17:45:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727219AbhAFQWT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jan 2021 11:22:19 -0500
-Received: from impout004aa.msg.chrl.nc.charter.net ([47.43.20.28]:43882 "EHLO
-        impout004.msg.chrl.nc.charter.net" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727022AbhAFQWS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Jan 2021 11:22:18 -0500
-X-Greylist: delayed 305 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Jan 2021 11:22:18 EST
-Received: from voodoo.tomdaley.org ([47.5.104.88])
-        by cmsmtp with ESMTPA
-        id xBU7kEIBBxxx6xBU8kjsk7; Wed, 06 Jan 2021 16:16:32 +0000
-Authentication-Results: tomdaley.org; none
-X-Authority-Analysis: v=2.3 cv=TK7xtGta c=1 sm=1 tr=0
- a=Uohp5j5pIXpt+qzAizrV8Q==:117 a=Uohp5j5pIXpt+qzAizrV8Q==:17
- a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=EmqxpYm9HcoA:10
- a=gwqHzDkt3I5nPAiPXjoA:9 a=CjuIK1q_8ugA:10
-Received: from localhost ([::1] helo=webmail.tomdaley.org)
-        by voodoo.tomdaley.org with esmtpa (Exim 4.92)
-        (envelope-from <tom@tomdaley.org>)
-        id 1kxBU7-0007Xn-40; Wed, 06 Jan 2021 09:16:31 -0700
+        id S1727562AbhAFQoh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jan 2021 11:44:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727205AbhAFQoh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Jan 2021 11:44:37 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B384C23131;
+        Wed,  6 Jan 2021 16:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1609951437;
+        bh=IejT2lVXTH0kk/fG9dvYmRsztiEo7c6jYNhh7J5/CWc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EdExiLF8Cw1eBt+E/4Aq9a7K2EwBHSHuBeYvvMyxZAMd9OX6kHLDiihHapRGn4yJA
+         LLeM39q+/ndQnVqNkhBsiDrkS/rjpr2S4B703ja2fYJF7NOWPonrsJBOxJFDFTPE0A
+         A8O4GWbAl++0yb4gwY22ZHI3Ctim3IG60rzteRA8=
+Date:   Wed, 6 Jan 2021 17:45:18 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Matthias Maennich <maennich@google.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Hridya Valsaraju <hridya@google.com>,
+        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH] staging: ION: remove some references to CONFIG_ION
+Message-ID: <X/XpHo82oOBYygYX@kroah.com>
+References: <20210106155201.2845319-1-maennich@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 06 Jan 2021 09:16:31 -0700
-From:   tom@tomdaley.org
-To:     linux-media@vger.kernel.org
-Cc:     sean@mess.org
-Subject: lirc serial_ir homebrew breakage
-Message-ID: <4d2b514731852e392be29048ff2e2cf3@tomdaley.org>
-X-Sender: tom@tomdaley.org
-User-Agent: Roundcube Webmail/1.3.16
-X-CMAE-Envelope: MS4wfK/JYUxbeNZgNdZkxByh9yndv+WWGJuGaYP42fsCWMGk9rXLPo53QbtGn6ha6x+Pn3yHNK1MMrrbFteDKJ+QcCLIcPNozudz7mkWTciEtxty9mI2N02r
- FRaFMEmz14HdRq0fi3zEvJ/blXjdDxvUTihXvWLWA8jKB+1zjBzhaUlmMOo+l033Qv4ou3SpPCoEkB4gKiUJK+PdMMIVomkh+sQ=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210106155201.2845319-1-maennich@google.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Wed, Jan 06, 2021 at 03:52:01PM +0000, Matthias Maennich wrote:
+> With commit e722a295cf49 ("staging: ion: remove from the tree"), ION and
+> its corresponding config CONFIG_ION is gone. Remove stale references
+> from drivers/staging/media/atomisp/pci and from the recommended Android
+> kernel config.
+> 
+> Fixes: e722a295cf49 ("staging: ion: remove from the tree")
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Hridya Valsaraju <hridya@google.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: devel@driverdev.osuosl.org
+> Signed-off-by: Matthias Maennich <maennich@google.com>
+> ---
+>  .../media/atomisp/pci/atomisp_subdev.c        | 20 -------------------
+>  kernel/configs/android-recommended.config     |  1 -
+>  2 files changed, 21 deletions(-)
 
-An upgrade from linux-5.9.16 to linux-5.10.4 results in lirc not working 
-with my homebrew IR receiver.  Running mode2 and pressing the same 
-button on the IR remote shows timing differences:
+Thanks for finding these remnants, I'll go queue this up now.
 
-5.9.16 works, first few lines of output:
-
-pulse 2676
-space 371
-pulse 1429
-space 371
-pulse 827
-space 372
-pulse 1426
-space 372
-pulse 1425
-space 376
-pulse 1424
-space 374
-
-5.10.4 fail
-pulse 2670
-space 380
-pulse 1428
-space 372
-pulse 827
-pulse 125391  <---
-space 127128  <---
-pulse 1406
-space 394
-pulse 1407
-pulse 125394  <---
-space 126726  <---
-pulse 1400
-space 398
-pulse 1406
-space 394
-pulse 801
-
-The reporting of two pulses in a row as well as the large time reported 
-make it so the button presses are not recognized.
-
-Is this a known issue?
-I am a software developer and would be happy to help in any way.  I can 
-gather more data or attempt to fix it myself.
-
-Thanks, Tom Daley
-
-
+greg k-h
