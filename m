@@ -2,101 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF04C2EC4C8
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 21:21:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B44172EC578
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 22:06:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728070AbhAFUUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jan 2021 15:20:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55586 "EHLO
+        id S1727543AbhAFVGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jan 2021 16:06:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727912AbhAFUUn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 15:20:43 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4299FC061575
-        for <linux-media@vger.kernel.org>; Wed,  6 Jan 2021 12:20:03 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id a6so3415289wmc.2
-        for <linux-media@vger.kernel.org>; Wed, 06 Jan 2021 12:20:03 -0800 (PST)
+        with ESMTP id S1727514AbhAFVGH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 16:06:07 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AF56C061799
+        for <linux-media@vger.kernel.org>; Wed,  6 Jan 2021 13:05:27 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id o19so9795782lfo.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Jan 2021 13:05:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=w3vu7Q77s3pJWhDM2ZQklqoYrnX9v2imWoObUc3E/RA=;
-        b=ctIAJZXn1n8n6ErtdFx+i0m//hYktYCyTIp+fkL2LcY4Jfm0wKjplw4EPnBOWExPAF
-         tm1apLDsKQTMmoQJulDnTwruR9Hsv/yMpbPSwvB33Dn0xO8hHEGo06j0Mq+sinPqwyZs
-         kWZVEpQfTT0gtFMj0arQ6YCHOg8raZObUVbJLy3IpkYwflXc322j700Bc561ZRWT68Qr
-         WImc4bVeS/KdcVxYAC3M6Lh5048xfOZ+mJi3bkLkEPN0k184n8amf7w7eb1X+DXPr41W
-         BYDH63AMZUvCTtDjclrX3JOjBQH+bUaDAXZVik31j8KCdfx49K2tkomwviBCLVObiuL0
-         DAOg==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=hldrX7DaK3vtFLdkulHs1OmsyUauWlphuBrfoAtGxSU=;
+        b=vMJw/B++mdYK7VooeN2idSJaHX1eGSigCY7Py3PQd1mnCRcplidHPjSX/f8ZwPUEmc
+         UcKpfcTdRtBnWLMcJVmYgVPBBr7mOQRSZFBbMYBBC13FNrswtANMPpZSDp/8X8FqlJbY
+         AJlpFL/yGooVIAj79ClZhBh7cAPoi4V3lRTL7olYBTNYrR4oL2Y1jAOxO20E8cvlPwe2
+         9K0VCRrQbUgQtvlNmS32EDSigQbx4Xevaz5v5DjUwuLk2EmNE0YWjqs/1KDzMU7hzJdT
+         oLX3nGKZOUjvfS+oTnyMUfX0Yivrttg9Rtoo76WoLAs5lDMuosih0BGdEAOwqc8LRDQf
+         dNsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=w3vu7Q77s3pJWhDM2ZQklqoYrnX9v2imWoObUc3E/RA=;
-        b=EGN0L5/1CE/gsMx8REtT0/UXQ6uP2zhuIvg2Lxz9JS7IlpJ5kmpmHqy+0KCJKcQSwp
-         VO2+8MCp5FyOkgjDRfhl5P2uQ/LuVjIiqoag8FOVQz6HQIYC/UE4a+d0XKPegAJJe8i7
-         Q8VzinKnFYzaSPLh71inFJ37j04OnMteXXzSQ138uX19x5La2BhTPRHbgHaB7s7wIJ5q
-         bcDeEuuvS6qo2peSWiKKW2qR53Bik+zYxwD8ppy/lxV1fP7b0Se3njnpcbLLOqEBqVqb
-         D7n+2/4uPkpRDykeaIeAcLnDuKhf0eSFPIKCoOhSK74SilItc6O1dkp3l0sVES7clp/f
-         XpSQ==
-X-Gm-Message-State: AOAM532npHkeNxfgq+lmgbRM6cZkWPv3ZVyEhDHkCsDGDcSPkJRFDS8E
-        J/AfcpDtHCl9UTrGZnr8QxqzFw==
-X-Google-Smtp-Source: ABdhPJyBV1GURnIjVGPvwWRfM4Ufh3xwem8TBRk7I5b9Hoc2Gd8ZantU2ae2Sew+89YLsf+t89oB0A==
-X-Received: by 2002:a7b:c1d7:: with SMTP id a23mr5101496wmj.62.1609964401954;
-        Wed, 06 Jan 2021 12:20:01 -0800 (PST)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id n16sm4435939wrj.26.2021.01.06.12.20.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 12:20:01 -0800 (PST)
-Date:   Wed, 6 Jan 2021 21:19:58 +0100
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Zheng Yongjun <zhengyongjun3@huawei.com>, mchehab@kernel.org,
-        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH -next] media: zoran: use resource_size
-Message-ID: <X/Ybbj6gN2xrhIwP@Red>
-References: <20210106131702.32507-1-zhengyongjun3@huawei.com>
- <20210106145100.GJ2809@kadam>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=hldrX7DaK3vtFLdkulHs1OmsyUauWlphuBrfoAtGxSU=;
+        b=RZ44xTUu9/vo532PZJEUFEa0Zs+2US9PIuslUPxF1AHlK9s3Ep9q6SepEyhs8+B6n4
+         oY75jnlmGD/oXKS/RXGSFbq9vJN+CU0wu+rwMTVL2V0DW1nIjg9z/v76h9NuwEJOiNhu
+         kLkTbr7dTw22bjm99oZHHZsfGM7i4xTK647EAFS8KsD0hgncH/O/WkkaigpU60+HoDcr
+         HTYwwF6WfnQrEM8ZjGx4LNTPS6IZ6UYiR8et7a3EGn04YVApgWlrY+aOQ6SDxva0bv2P
+         GHnCxhXAn7Z4FK5JSZF8f88T4tvK0+OSo8Z2uZdkx0jduRuKywohzUWyGnUKSBdZKp7c
+         bWDw==
+X-Gm-Message-State: AOAM533c+24q9GyUAMLE9AYql7XDb55RcqbgDDaCSnBF2MkPx1mqNaT6
+        KxpFGGyJcQ5IkBrQQbSTyOG0JNlQrkJU7BrQ7Y0=
+X-Google-Smtp-Source: ABdhPJxHc3fgQxxRQhpS5hTvL2y4RrXlnqzKaH3+H3dqISDN/eIF/H10IdTOjok3yQUfvQKcdUCzKeLNTSU/dDc1Q+E=
+X-Received: by 2002:a19:acd:: with SMTP id 196mr2843131lfk.539.1609967125562;
+ Wed, 06 Jan 2021 13:05:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210106145100.GJ2809@kadam>
+Received: by 2002:aa6:c3a5:0:b029:a3:29ea:873c with HTTP; Wed, 6 Jan 2021
+ 13:05:24 -0800 (PST)
+Reply-To: dunawattara96@outlook.com
+From:   alihjduna wattara316 <alihjdunawattara316@gmail.com>
+Date:   Wed, 6 Jan 2021 13:05:24 -0800
+Message-ID: <CAHQc6BkcQinqYRwhcEnCfV1q2hJPnfsR20o+617yn4_B+eeniA@mail.gmail.com>
+Subject: Hello friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le Wed, Jan 06, 2021 at 05:51:00PM +0300, Dan Carpenter a écrit :
-> On Wed, Jan 06, 2021 at 09:17:02PM +0800, Zheng Yongjun wrote:
-> > Use resource_size rather than a verbose computation on
-> > the end and start fields.
-> > 
-> > Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-> > ---
-> >  drivers/staging/media/zoran/zoran_driver.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-> > index 808196ea5b81..d60b4c73ea80 100644
-> > --- a/drivers/staging/media/zoran/zoran_driver.c
-> > +++ b/drivers/staging/media/zoran/zoran_driver.c
-> > @@ -1020,7 +1020,7 @@ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq)
-> >  	vq->buf_struct_size = sizeof(struct zr_buffer);
-> >  	vq->ops = &zr_video_qops;
-> >  	vq->mem_ops = &vb2_dma_contig_memops;
-> > -	vq->gfp_flags = GFP_DMA32,
-> > +	vq->gfp_flags = GFP_DMA32;
-> 
-> The commit doesn't match the patch.  Also this driver is in
-> staging because it's going to be deleted soon so there probably isn't
-> much point doing cleanups.
-> 
+Dear Friend,
 
-No, the driver just came back in staging since I fixed the videobuf2 conversion.
-One of the reason it is kept in staging is that media maintainer want to test it with its own zoran card but covid19 delayed the physical recovery of it.
+I know that this mail will come to you as a surprise as we have never
+met before, but need not to worry as I am contacting you independently
+of my investigation and no one is informed of this communication.
 
-So the patch need to be resent, please.
+I need your urgent assistance in transferring the sum of $11.3million
+immediately to your private account.The money has been here in our
+Bank lying dormant for years now without anybody coming for the claim of it.
 
-Regards
+I want to release the money to you as the relative to our deceased
+customer (the account owner) who died a long with his supposed NEXT OF
+KIN since 16th October 2005. The Banking laws here does not allow such
+money to stay more than 16 years, because the money will be recalled
+to the Bank treasury account as unclaimed fund.
+
+By indicating your interest I will send you the full details on how
+the business will be executed.
+
+Please respond urgently and delete if you are not interested.
+
+Best Regards,
+Mr. Duna Wattara.
