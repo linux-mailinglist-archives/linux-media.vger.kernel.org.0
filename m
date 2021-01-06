@@ -2,113 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83E3B2EC05E
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 16:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD8B82EC099
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 16:42:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726215AbhAFP0k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jan 2021 10:26:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37762 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbhAFP0k (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 10:26:40 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10C9DC061357
-        for <linux-media@vger.kernel.org>; Wed,  6 Jan 2021 07:26:00 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id x20so7268729lfe.12
-        for <linux-media@vger.kernel.org>; Wed, 06 Jan 2021 07:25:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ginkgobioworks.com; s=ginkgo;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=LzAKrtThwbvswnV4alSNSV75aEFwgdQlK8xiVCA7cO4=;
-        b=EGWxlj66a9uCEjW2VCo9P4DGQGmeOZ2zJXvb+mXnLiYZiyvAWW32cK8EkHczzRQGjf
-         EatcoznAPdGEuUp/D//QICGJSc54+U4nUrhIUPxvByuoSohaLw8hH8pxJcuhcx4lUhvc
-         QKsBByNZPUoyb05hZN1cMPkZJt1TrrbYTTVBg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=LzAKrtThwbvswnV4alSNSV75aEFwgdQlK8xiVCA7cO4=;
-        b=tbL34Q1ZjOXqqsUINH1QR6OopCaxlRdT8M/l4w4zdFVyXzylS1hRY0Pt9GvvTNqXKP
-         F0NegXGMCctT6JfIZ8383n7ysl6iO2bJq/EXCrUlncKUxB4ATkkeNBFSetvH4NrZdnXV
-         9HDzbRAeiu5vP4Vx5cwOmSk3hYqHGGEMck/TSTuJLr8ePj4pcbTBP4yV0q/BIQ6vR39W
-         cexiTmGKTUcIMTPnK3ZynsWPY2QK/vkTUQ4B9ZLL6dW6CXxgp9Qo13LgVaYoMrc7BJr5
-         YsH5YNL2u4no8ng+9IJ+ZoVPeTnvemdRs0z59sUMFlr8bj2ZQLUkEZebnyUPC9ndl3zK
-         dJ0w==
-X-Gm-Message-State: AOAM530/sX1FqMtIIN3VSTM0FLCHFVa6tL+7vd3/rAPBVFSJVOEmZtYL
-        9ENAcubKCA7YZyE4XlZxb8zkhby37e9DoHNcVBcKJYT7I9c=
-X-Google-Smtp-Source: ABdhPJy0D+9gvSP5Q46QApD/iRcoITQTxPgA1PT0AaoTy4DObet3oP25yZjkcFVWNgZlSXUu52SIHLuyIhXdNTwagO8=
-X-Received: by 2002:ac2:4d44:: with SMTP id 4mr2036810lfp.627.1609946758270;
- Wed, 06 Jan 2021 07:25:58 -0800 (PST)
+        id S1727298AbhAFPmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jan 2021 10:42:23 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53656 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727236AbhAFPmW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 10:42:22 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D504F878;
+        Wed,  6 Jan 2021 16:41:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1609947700;
+        bh=oq0mpB2R6Y5iueTQd24UjAY74WR0Ev34K3MZMptdZQw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pkqEbJEUpuZnJjxg5RdrLqp3EI5ct9rF14b+rL1noUBg45/HpkkwKnUYWZ9omxsLs
+         2OL0VWHWW7c4B4u+sWWvD/0ZzfL6ZcLifhxGqZ4FnB4haviAS1dt38DaUGUCR/Xkms
+         x+6uP+5/bHSGKmheV8GVLZCBwDl6wuNZkxHNHchM=
+Date:   Wed, 6 Jan 2021 17:41:27 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH 00/75] media: imx: Miscellaneous fixes and cleanups for
+ i.MX7
+Message-ID: <X/XaJ0UA04ekdWpi@pendragon.ideasonboard.com>
+References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
+ <CAOMZO5CaWvRGV0Zc4AS6Uexh5uR5jkCG4MkEMkW-YU3NPOVg8g@mail.gmail.com>
 MIME-Version: 1.0
-From:   Matthew Chapman <mchapman@ginkgobioworks.com>
-Date:   Wed, 6 Jan 2021 10:25:46 -0500
-Message-ID: <CAJYzkmQ6CndAs_ke9GkU++rYZO9WNhyM3pfZj_iEML1X5Gv6SQ@mail.gmail.com>
-Subject: new uvcvideo camera Coleman branded
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAOMZO5CaWvRGV0Zc4AS6Uexh5uR5jkCG4MkEMkW-YU3NPOVg8g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello, I've got a unlisted camera here:
-  Vendor: Coleman (yes, the camping people) branded,
-  model: CX14WP
-  usb vid,pid says:  uvcvideo: Found UVC 1.00 device Android (1f3a:100e)
+Hi Fabio,
 
-It is detected by the uvcvideo module, but it doesn't seem to work.
-I'm on debian buster, 4.19 kernel, the uvcvideo module reports SW
-version 1.1.1
+On Tue, Jan 05, 2021 at 02:45:40PM -0300, Fabio Estevam wrote:
+> On Tue, Jan 5, 2021 at 12:31 PM Laurent Pinchart wrote:
+> >
+> > Hello,
+> >
+> > This large patch series has been sitting in my tree for way too long. I
+> > haven't posted it yet as I'm running into an issue on my test hardware
+> > that I can't prove is not a regression from this series, but the
+> > pressure has grown and the patches are better on the list for review.
+> >
+> > There's really not much to detail in the cover letter as there are
+> > "just" fixes and cleanups I developed while bringing up camera support
+> > for an i.MX7D platform, and later on an i.MX8MM that shares the same
+> > MIPI-CSI2 and CSI IP cores (with some differences).
+> >
+> > The issue I've noticed is that the CSI writes two images consecutively
+> > to the same buffer, overwritting memory after the end of the buffer. I
+> > believe this bug to already be present in mainline, but I can't prove it
+> > as my sensor won't work without some of the patches in this series. The
+> > problem could also be sensor-specific.
+> >
+> > Rui, would you be able to test this on your i.MX7 hardware to make sure
+> > there's no regression ?
+> 
+> Thanks for your series.
+> 
+> I tested it on a imx6ul-evk board.
 
-Kernel report below. I'm happy to help in debugging if necessary. I
-would just need a pointer in the right direction.
+Thank you.
 
-  [ 8993.857089] usb 2-4: new high-speed USB device number 3 using xhci_hcd
-  [ 8994.008204] usb 2-4: New USB device found, idVendor=1f3a,
-idProduct=100e, bcdDevice= 2.33
-  [ 8994.008207] usb 2-4: New USB device strings: Mfr=2, Product=3,
-SerialNumber=4
-  [ 8994.008208] usb 2-4: Product: Android
-  [ 8994.008209] usb 2-4: Manufacturer: USB Developer
-  [ 8994.008210] usb 2-4: SerialNumber: 20080411
-  [ 8994.030083] uvcvideo: Found UVC 1.00 device Android (1f3a:100e)
-  [ 8994.030084] uvcvideo: Forcing device quirks to 0x80 by module
-parameter for testing purpose.
-  [ 8994.030084] uvcvideo: Please report required quirks to the
-linux-uvc-devel mailing list.
-  [ 8994.545135] uvcvideo: Failed to query (GET_INFO) UVC control 2 on
-unit 1: -110 (exp. 1).
-  [ 8994.545341] uvcvideo: Failed to query (GET_INFO) UVC control 2 on
-unit 2: -32 (exp. 1).
-  [ 8994.547179] uvcvideo 2-4:1.0: Entity type for entity Processing 2
-was not initialized!
-  [ 8994.547181] uvcvideo 2-4:1.0: Entity type for entity Camera 1 was
-not initialized!
-  [ 8994.547243] input: Android: UVC Camera as
-/devices/pci0000:00/0000:00:01.2/0000:01:00.0/0000:02:08.0/0000:06:00.1/usb2/2-4/2-4:1.0/input/input20
-  [ 8995.089150] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 8995.601140] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 8996.113144] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 8996.625166] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 8997.137149] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 8997.649152] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 8998.161174] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 8998.673175] uvcvideo: Failed to query (GET_DEF) UVC control 2 on
-unit 2: -110 (exp. 2).
-  [ 9001.497160] usb 2-4: USB disconnect, device number 3
-  [ 9002.013124] usb 2-4: new high-speed USB device number 4 using xhci_hcd
-  [ 9002.163630] usb 2-4: New USB device found, idVendor=1f3a,
-idProduct=1002, bcdDevice= 2.33
-  [ 9002.163633] usb 2-4: New USB device strings: Mfr=2, Product=3,
-SerialNumber=4
-  [ 9002.163634] usb 2-4: Product: Android
-  [ 9002.163635] usb 2-4: Manufacturer: USB Developer
-  [ 9002.163636] usb 2-4: SerialNumber: 20080411
-  [ 9002.164525] usb-storage 2-4:1.0: USB Mass Storage device detected
+> There is a build error introduced by patch 74/75. I fixed it like this:
+> 
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -193,6 +193,8 @@
+>  #define MIPI_CSIS_SDW_RESOL_CH(n)              (0x84 + (n) * 0x10)
+>  #define MIPI_CSIS_SDW_SYNC_CH(n)               (0x88 + (n) * 0x10)
+> 
+> +/* Debug Control register */
+> +#define MIPI_CSIS_DBG_CTRL                     0x20
+>  /* Non-image packet data buffers */
+>  #define MIPI_CSIS_PKTDATA_ODD                  0x2000
+>  #define MIPI_CSIS_PKTDATA_EVEN                 0x3000
 
-... it then goes on to attach as a mass-storage device.
+Oops. I have a debug patch in my branch on top of the series that adds
+the macro, that's why I haven't noticed compilation broke. Sorry about
+that.
+
+> Then I applied my patch and Rui's to fix the imx6ul regression as per
+> the other thread we have been discussing, but I was not able to
+> capture:
+
+Would you be able to bisect this ?
+
+> # gst-launch-1.0 -v  v4l2src device=/dev/video1 ! v4l2convert ! fbdevsink
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Pipeline is PREROLLED ...
+> Setting pipeline to PLAYING ...
+> New clock: GstSystemClock
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
+> video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
+> framerate=(fraction)120/1, interlace-mode=(string)progressive,
+> colorimetr
+> y=(string)1:1:5:1
+> /GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:src: caps =
+> video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
+> framerate=(fraction)120/1, interlace-mode=(string)progressive, color
+> imetry=(string)1:1:5:1
+> /GstPipeline:pipeline0/GstFBDEVSink:fbdevsink0.GstPad:sink: caps =
+> video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
+> framerate=(fraction)120/1, interlace-mode=(string)progressive, color
+> imetry=(string)1:1:5:1
+> /GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:sink: caps =
+> video/x-raw, format=(string)BGRx, width=(int)3840, height=(int)2160,
+> framerate=(fraction)120/1, interlace-mode=(string)progressive, colo
+> rimetry=(string)1:1:5:1
+> [   32.783736] cma: cma_alloc: alloc failed, req-size: 8100 pages, ret: -12
+> [   32.791332] imx7-csi 21c4000.csi: dma_alloc_coherent of size 33177600 failed
+> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
+> to allocate required memory.
+> Additional debug info:
+> ../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> Buffer pool activation failed
+> Execution ended after 0:00:00.214658125
+> Setting pipeline to NULL ...
+> Freeing pipeline ...
+> 
+> As shown above the dimensions and framerate are incorrectly reported
+> as: width=(int)3840, height=(int)2160, framerate=(fraction)120/1
+> 
+> Previously it was:
+> 
+> # gst-launch-1.0 -v  v4l2src device=/dev/video1 ! v4l2convert ! fbdevsink
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Pipeline is PREROLLED ...
+> Setting pipeline to PLAYING ...
+> New clock: GstSystemClock
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
+> video/x-raw, format=(string)UYVY, width=(int)320, height=(int)240,
+> framerate=(fraction)30000/1001, interlace-mode=(string)progressive,
+> colorim
+> etry=(string)1:4:7:1
+> /GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:src: caps =
+> video/x-raw, format=(string)BGRx, width=(int)320, height=(int)240,
+> framerate=(fraction)30000/1001, interlace-mode=(string)progressive
+> /GstPipeline:pipeline0/GstFBDEVSink:fbdevsink0.GstPad:sink: caps =
+> video/x-raw, format=(string)BGRx, width=(int)320, height=(int)240,
+> framerate=(fraction)30000/1001, interlace-mode=(string)progressive
+> /GstPipeline:pipeline0/v4l2convert:v4l2convert0.GstPad:sink: caps =
+> video/x-raw, format=(string)UYVY, width=(int)320, height=(int)240,
+> framerate=(fraction)30000/1001, interlace-mode=(string)progressive, c
+> olorimetry=(string)1:4:7:1
+
+-- 
+Regards,
+
+Laurent Pinchart
