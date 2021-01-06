@@ -2,30 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 224332EBE6A
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 14:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 152A72EBE6E
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 14:18:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbhAFNRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jan 2021 08:17:18 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:10396 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726262AbhAFNRS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 08:17:18 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D9qc55Rr9z7R0j;
-        Wed,  6 Jan 2021 21:15:33 +0800 (CST)
+        id S1726610AbhAFNR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jan 2021 08:17:57 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:9958 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726590AbhAFNR4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 08:17:56 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D9qdB1wWkzhvnK;
+        Wed,  6 Jan 2021 21:16:30 +0800 (CST)
 Received: from ubuntu.network (10.175.138.68) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 6 Jan 2021 21:16:19 +0800
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 6 Jan 2021 21:17:08 +0800
 From:   Zheng Yongjun <zhengyongjun3@huawei.com>
-To:     <clabbe@baylibre.com>, <mchehab@kernel.org>,
-        <mjpeg-users@lists.sourceforge.net>, <linux-media@vger.kernel.org>,
+To:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
         <devel@driverdev.osuosl.org>, <linux-kernel@vger.kernel.org>
-CC:     <gregkh@linuxfoundation.org>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>
-Subject: [PATCH -next] media: zoran: use resource_size
-Date:   Wed, 6 Jan 2021 21:17:02 +0800
-Message-ID: <20210106131702.32507-1-zhengyongjun3@huawei.com>
+CC:     <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
+        "Zheng Yongjun" <zhengyongjun3@huawei.com>
+Subject: [PATCH -next] media: atomisp: use resource_size
+Date:   Wed, 6 Jan 2021 21:17:37 +0800
+Message-ID: <20210106131737.32571-1-zhengyongjun3@huawei.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
@@ -41,22 +40,31 @@ the end and start fields.
 
 Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 ---
- drivers/staging/media/zoran/zoran_driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/atomisp/pci/sh_css_params.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index 808196ea5b81..d60b4c73ea80 100644
---- a/drivers/staging/media/zoran/zoran_driver.c
-+++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -1020,7 +1020,7 @@ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq)
- 	vq->buf_struct_size = sizeof(struct zr_buffer);
- 	vq->ops = &zr_video_qops;
- 	vq->mem_ops = &vb2_dma_contig_memops;
--	vq->gfp_flags = GFP_DMA32,
-+	vq->gfp_flags = GFP_DMA32;
- 	vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	vq->min_buffers_needed = 9;
- 	vq->lock = &zr->lock;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 24fc497bd491..4a02948e5612 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -949,7 +949,7 @@ sh_css_set_black_frame(struct ia_css_stream *stream,
+ 
+ 	params = stream->isp_params_configs;
+ 	height = raw_black_frame->info.res.height;
+-	width = raw_black_frame->info.padded_width,
++	width = raw_black_frame->info.padded_width;
+ 
+ 	ptr = raw_black_frame->data
+ 	+ raw_black_frame->planes.raw.offset;
+@@ -1443,7 +1443,7 @@ static int sh_css_params_default_morph_table(
+ 	IA_CSS_ENTER_PRIVATE("");
+ 
+ 	step = (ISP_VEC_NELEMS / 16) * 128,
+-	width = binary->morph_tbl_width,
++	width = binary->morph_tbl_width;
+ 	height = binary->morph_tbl_height;
+ 
+ 	tab = ia_css_morph_table_allocate(width, height);
 -- 
 2.22.0
 
