@@ -2,137 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B40CC2EC0B2
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 16:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8824C2EC10C
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 17:23:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbhAFPyk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jan 2021 10:54:40 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:57826 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726206AbhAFPyk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 10:54:40 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 130E61F4604B
-Message-ID: <3950cb4b337e6373b066034c32e51a1e9e88a50f.camel@collabora.com>
-Subject: Re: [PATCH 1/6] media: mach-pxa: Register the camera sensor
- fixed-rate clock
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Petr Cvek <petrcvekcz@gmail.com>, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Date:   Wed, 06 Jan 2021 12:53:50 -0300
-In-Reply-To: <d07ac542-8b1c-779f-0b69-683c0d0ae2d1@gmail.com>
-References: <20210104165739.116404-1-ezequiel@collabora.com>
-         <20210104165739.116404-2-ezequiel@collabora.com>
-         <d07ac542-8b1c-779f-0b69-683c0d0ae2d1@gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S1727219AbhAFQWT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jan 2021 11:22:19 -0500
+Received: from impout004aa.msg.chrl.nc.charter.net ([47.43.20.28]:43882 "EHLO
+        impout004.msg.chrl.nc.charter.net" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727022AbhAFQWS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Jan 2021 11:22:18 -0500
+X-Greylist: delayed 305 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Jan 2021 11:22:18 EST
+Received: from voodoo.tomdaley.org ([47.5.104.88])
+        by cmsmtp with ESMTPA
+        id xBU7kEIBBxxx6xBU8kjsk7; Wed, 06 Jan 2021 16:16:32 +0000
+Authentication-Results: tomdaley.org; none
+X-Authority-Analysis: v=2.3 cv=TK7xtGta c=1 sm=1 tr=0
+ a=Uohp5j5pIXpt+qzAizrV8Q==:117 a=Uohp5j5pIXpt+qzAizrV8Q==:17
+ a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=EmqxpYm9HcoA:10
+ a=gwqHzDkt3I5nPAiPXjoA:9 a=CjuIK1q_8ugA:10
+Received: from localhost ([::1] helo=webmail.tomdaley.org)
+        by voodoo.tomdaley.org with esmtpa (Exim 4.92)
+        (envelope-from <tom@tomdaley.org>)
+        id 1kxBU7-0007Xn-40; Wed, 06 Jan 2021 09:16:31 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 06 Jan 2021 09:16:31 -0700
+From:   tom@tomdaley.org
+To:     linux-media@vger.kernel.org
+Cc:     sean@mess.org
+Subject: lirc serial_ir homebrew breakage
+Message-ID: <4d2b514731852e392be29048ff2e2cf3@tomdaley.org>
+X-Sender: tom@tomdaley.org
+User-Agent: Roundcube Webmail/1.3.16
+X-CMAE-Envelope: MS4wfK/JYUxbeNZgNdZkxByh9yndv+WWGJuGaYP42fsCWMGk9rXLPo53QbtGn6ha6x+Pn3yHNK1MMrrbFteDKJ+QcCLIcPNozudz7mkWTciEtxty9mI2N02r
+ FRaFMEmz14HdRq0fi3zEvJ/blXjdDxvUTihXvWLWA8jKB+1zjBzhaUlmMOo+l033Qv4ou3SpPCoEkB4gKiUJK+PdMMIVomkh+sQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Petr,
+Hi,
 
-Thanks a lot for reviewing and testing the series.
+An upgrade from linux-5.9.16 to linux-5.10.4 results in lirc not working 
+with my homebrew IR receiver.  Running mode2 and pressing the same 
+button on the IR remote shows timing differences:
 
-On Tue, 2021-01-05 at 17:41 +0100, Petr Cvek wrote:
-> 
-> Dne 04. 01. 21 v 17:57 Ezequiel Garcia napsal(a):
-> > The pxa-camera capture driver currently registers a v4l2-clk
-> > clock, named "mclk", to represent the mt9m111 sensor clock.
-> > 
-> > Register a proper fixed-rate clock using the generic clock framework,
-> > which will allow to remove the v4l2-clk clock in the pxa-camera
-> > driver in a follow-up commit.
-> > 
-> 
-> BTW the mclk output to a sensor is actually a variable rate, divided from lcdclk (which can be changed too). PXA camera driver  is using variable
-> pcdev->mclk_divisor to generate the mclk from lcdclk. 
-> 
+5.9.16 works, first few lines of output:
 
-Hm, now that I look at this, I see the pxa-camera driver
-is requiring a clock:
+pulse 2676
+space 371
+pulse 1429
+space 371
+pulse 827
+space 372
+pulse 1426
+space 372
+pulse 1425
+space 376
+pulse 1424
+space 374
 
-        pcdev->clk = devm_clk_get(&pdev->dev, NULL);                             
-        if (IS_ERR(pcdev->clk))                                                  
-                return PTR_ERR(pcdev->clk);   
+5.10.4 fail
+pulse 2670
+space 380
+pulse 1428
+space 372
+pulse 827
+pulse 125391  <---
+space 127128  <---
+pulse 1406
+space 394
+pulse 1407
+pulse 125394  <---
+space 126726  <---
+pulse 1400
+space 398
+pulse 1406
+space 394
+pulse 801
 
-Where is this clock registered in the non-devicetree case?
+The reporting of two pulses in a row as well as the large time reported 
+make it so the button presses are not recognized.
 
-> The rate change is done in pxa_camera_activate():
-> 
-> https://elixir.bootlin.com/linux/v5.11-rc2/source/drivers/media/platform/pxa_camera.c#L1136
-> 
->         __raw_writel(pcdev->mclk_divisor | cicr4, pcdev->base + CICR4);
-> 
-> Would it be possible to register a correct clock type with possibility to change the divisor by the standard way?
-> 
+Is this a known issue?
+I am a software developer and would be happy to help in any way.  I can 
+gather more data or attempt to fix it myself.
 
-Right, so you mean the pxa-camera driver is the one providing the clock for the sensors?
-
-In that case, I guess the pxa-camera driver should be the one registering
-a CCF clock. Other drivers are doing this, through clk_register for instance.
-
-However, for the sake of this series, which is meant to get rid
-of the v4l2-clk API, I would say it's fine to just register a fixed-rate.
-
-This is similar to what v4l2_clk_register was doing, which was registering
-a dummy clock.
-
-Having said that, as I mentioned above, I'm wondering if the mach-pxa
-boards are really working, given I'm not seeing the clock for pxa-camera.
-
-Maybe the best way forward is to just accept that pxa-camera
-is only supported for the device tree platforms, and therefore drop the
-support from mach-pxa/ boards.
-
-Thanks,
-Ezequiel
- 
-
-> Petr
-> 
-> 
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  arch/arm/mach-pxa/devices.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
-> > index 524d6093e0c7..09b8495f3fd9 100644
-> > --- a/arch/arm/mach-pxa/devices.c
-> > +++ b/arch/arm/mach-pxa/devices.c
-> > @@ -4,6 +4,7 @@
-> >  #include <linux/init.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/clkdev.h>
-> > +#include <linux/clk-provider.h>
-> >  #include <linux/dma-mapping.h>
-> >  #include <linux/dmaengine.h>
-> >  #include <linux/spi/pxa2xx_spi.h>
-> > @@ -634,6 +635,13 @@ static struct platform_device pxa27x_device_camera = {
-> >  
-> >  void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
-> >  {
-> > +       struct clk *mclk;
-> > +
-> > +       /* Register a fixed-rate clock for camera sensors. */
-> > +       mclk = clk_register_fixed_rate(NULL, "pxa_camera_clk", NULL, 0,
-> > +                                            info->mclk_10khz * 10000);
-> > +       if (!IS_ERR(mclk))
-> > +               clkdev_create(mclk, "mclk", NULL);
-> >         pxa_register_device(&pxa27x_device_camera, info);
-> >  }
-> >  
-> > 
+Thanks, Tom Daley
 
 
