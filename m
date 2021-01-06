@@ -2,92 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1191E2EB852
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 04:05:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19C232EB8D9
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 05:25:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbhAFDFe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Jan 2021 22:05:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35120 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbhAFDFd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Jan 2021 22:05:33 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53DEAC061359;
-        Tue,  5 Jan 2021 19:05:08 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id z3so1272236qtw.9;
-        Tue, 05 Jan 2021 19:05:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zHmmCBGfy4ShazVVVDUgrXKI7nP1Rs0OHaoIlOcZSyU=;
-        b=JL2en4yo9zkQGXpTev0LLdXXCf2THcuyHqiHq08UV531nMDdozzMmBTMfv4RzN8CPQ
-         lllYZNvjyJ9qgxB9+8DOs/huEduwu1lZbso+4dQ3cNlajt1gOKr51ZJvHmbYRfRhrZoE
-         3fpH0TujSELp1PrZzpt4GHK1t+fB6YHnav4W7OtJfm2Xu5LMhz5AXSxTt6SaJtzsvXzs
-         VAqhf+7S1YOfeninpvhpQO2O9LA4FZYvVjrBLAOAVKnsUVtuJc1L7TDMniIz+k2W+nGV
-         MOvJX7FiKFv7LjrYYUga8GG1L2nZHe/KcDBkp5B8zBV/mTny9ane6Ci1USHBxQX7Illn
-         cWlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zHmmCBGfy4ShazVVVDUgrXKI7nP1Rs0OHaoIlOcZSyU=;
-        b=rGT2v/XOAyvIixB21hnpAL0OzRTVZWXrcMzd0Ch7LqWbFEjy/Cqiojiad1lVqy4q/f
-         n88pcDscH79Xsmc5Mitp5KpPNdW9ycjCgSWblAitEv5kcxAZQ+8osT6QcP1i5vZ/wYdR
-         eEBRB3tYcb6ks0Ah1andbVrWsZpCeYsA+uU3/1ay7KkPtTt21oSeHujGcIbAQLYAswiY
-         dnAQtiNjk9UnBGgOp77hk+oZ/SriXyY2VggPK2PT69m4ArQwHU8/3GFy7WGUfauS6HQ+
-         fh7Ur2Lv/+B1b39380PP3u8+XzLMFoUdEk4O+Cb3s4dBNBbFRUydrWN2n6hVPBOe745/
-         QDfw==
-X-Gm-Message-State: AOAM533TPQS8wU/7jk/QaJdDxuEDWrfJE7WDow32fnd2x93qxpopS+Yu
-        1VV4rjWx/RuYv5ctu1YBUNk=
-X-Google-Smtp-Source: ABdhPJzHN/EkN4HNuCCqLOYv9mdakCw4XwaOJPrDyI72TQNZVr0TOgJlIqrA83OL2S9wPgHFBL117g==
-X-Received: by 2002:aed:29a5:: with SMTP id o34mr2365384qtd.379.1609902307535;
-        Tue, 05 Jan 2021 19:05:07 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:77d4:6fb0:85b3:b6f7])
-        by smtp.gmail.com with ESMTPSA id n195sm730019qke.20.2021.01.05.19.05.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 19:05:07 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     mchehab@kernel.org, hverkuil@xs4all.nl
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] media: vidtv: print message when driver is removed
-Date:   Wed,  6 Jan 2021 00:04:49 -0300
-Message-Id: <20210106030449.3223172-5-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210106030449.3223172-1-dwlsalmeida@gmail.com>
-References: <20210106030449.3223172-1-dwlsalmeida@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726255AbhAFEXR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Jan 2021 23:23:17 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:46077 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725800AbhAFEXQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 Jan 2021 23:23:16 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id x0L8kf7gHbMeAx0LAkQ9tt; Wed, 06 Jan 2021 05:22:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1609906953; bh=nOrHgs9H5EiVZd4EnxqHW7htkU6s19vtz9nYzgQZSUk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=eEjg2/Nq+cgDPhPFHSg4AUhtuVnLqY0nKx0esl9U4uCY7ZiYuLr9HVxMpczuiqS41
+         VXUuKYXRt4alAK19Ugk4VXa1G5uYOJkQPrt1LOnG1+gMi1gL8hV/8JKQAFA5p0YmTA
+         YDfyC9zm8to04nH+GPPNH3gYegUtEcmbP7S1mRBcyFEp6L0C0hxoeZ9IB0/gWmBnN1
+         bcYol/s6GIExFYuEBoBSwCqPcbdGCvX8j+QOkDoGdUC55LroBL2Ne0nmgLux+l7SzX
+         vcO8fDMl/1OQwGW9wUQ8JfYsZ4nAvujWI/t6z/nCTW7Xi+4Onuw+RbWI3HHWYME4m/
+         T6+V/sk78EfPg==
+Message-ID: <15499c667814b33445f5c6b647f11306@smtp-cloud9.xs4all.net>
+Date:   Wed, 06 Jan 2021 05:22:30 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfMM44n7QWp/iKMTK8NgrFeAwvD+t10CoMyHqtaSfZ55u/VgzrP4bU3mVn7S2DP+vuTreFXbUZOsnZzHGEPGgREPZ7ygYloB4QwMmkqFBNUaqaSuuzikt
+ 2mMhmRQcMlevs4i95wylqewqh2DItgIy2AOoR7pG1wl3+Sq+0HGPrMrXEfc6mA2+jjDbSJ5yf3tXYmEiSxs5HiJGh3bvMcM59ZdQVWT3jTWwX6ren79HSlTV
+ EIiQWQNguMf4W8IAo+06dA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Print a message when the driver is removed so that we get some
-visual confirmation when unbinding vidtv.
+Results of the daily build of media_tree:
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- drivers/media/test-drivers/vidtv/vidtv_bridge.c | 1 +
- 1 file changed, 1 insertion(+)
+date:			Wed Jan  6 05:00:15 CET 2021
+media-tree git hash:	ecd07f4b9d2173694be9214a3ab07f9efb5ba206
+media_build git hash:	3a3077793e73ba835328508c25b79a091ea649d7
+v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7065-gbe18f90f0
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b8d364d2b655bb1aba4bdaf985fd763e90630d46
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-index 9964d1331aff..bde3785333cd 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -555,6 +555,7 @@ static int vidtv_bridge_remove(struct platform_device *pdev)
- 	dvb_dmxdev_release(&dvb->dmx_dev);
- 	dvb_dmx_release(&dvb->demux);
- 	dvb_unregister_adapter(&dvb->adapter);
-+	dev_info(&pdev->dev, "Successfully removed vidtv\n");
- 
- 	return 0;
- }
--- 
-2.30.0
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: WARNINGS
+linux-git-powerpc64: OK
+linux-git-mips: WARNINGS
+linux-git-arm-multi: OK
+linux-git-x86_64: WARNINGS
+linux-git-i686: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: WARNINGS
+linux-5.0.21-x86_64: WARNINGS
+linux-5.1.21-i686: WARNINGS
+linux-5.1.21-x86_64: WARNINGS
+linux-5.2.21-i686: WARNINGS
+linux-5.2.21-x86_64: WARNINGS
+linux-5.3.18-i686: WARNINGS
+linux-5.3.18-x86_64: WARNINGS
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: WARNINGS
+linux-5.5.19-x86_64: WARNINGS
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
