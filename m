@@ -2,295 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E01F2EBB99
-	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 10:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 683092EBC26
+	for <lists+linux-media@lfdr.de>; Wed,  6 Jan 2021 11:12:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbhAFJQo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Jan 2021 04:16:44 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:41142 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726059AbhAFJQn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Jan 2021 04:16:43 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kx4vA-002tY6-3S; Wed, 06 Jan 2021 09:16:00 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kx4yX-0002yq-Hi; Wed, 06 Jan 2021 09:19:29 +0000
-Date:   Wed, 6 Jan 2021 09:19:29 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <695296878.37.1609924769538@builder.linuxtv.org>
-In-Reply-To: <920946076.36.1609838374648@builder.linuxtv.org>
-References: <920946076.36.1609838374648@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3352
+        id S1726476AbhAFKLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Jan 2021 05:11:11 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:52042 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726011AbhAFKLK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Jan 2021 05:11:10 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 106A4kYH125899;
+        Wed, 6 Jan 2021 10:10:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=WYfGnMIIkzNczac23WBRITSIgqNt2y4/Vo4OY/dZozg=;
+ b=LPqOV4L4A9b5R/BRWV1H1iqhXkuuPkZ1zySIn0pBVI4VMkxV717pDikzK437rOmPkxlS
+ EtItT5CQ9HFN2wyUgHvVfo4HtpjouCcDVIfksALC7+YAtHII+94nNkK63Gy7zMj3NVIJ
+ QZ4BKljtfe2vDLR+g8AJ6WZEvsV+l9FaYbRV3MO5dO/E8VRE52VgEHNOuvicMY/si2w9
+ bq2pdsYM93Mhq1mV+C03ivEs9RviIUPeYsO6hDBQJv9wbEjXV9jK8xoDYSc26uhbnw/C
+ Hq5zJmDLWwEmv18Dc+J9KIWlnRKgu5dypt2D+QIYzVBcbtCljttD1uxVSJl3Fl0P7ljJ Hg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2130.oracle.com with ESMTP id 35w7p0grpg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 06 Jan 2021 10:10:23 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 106A6oOu141980;
+        Wed, 6 Jan 2021 10:10:23 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 35v1f9qtp4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 06 Jan 2021 10:10:22 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 106AAJQe008541;
+        Wed, 6 Jan 2021 10:10:20 GMT
+Received: from mwanda (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 06 Jan 2021 02:10:19 -0800
+Date:   Wed, 6 Jan 2021 13:10:05 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Antoine Jacquet <royale@zerezo.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        royale@zerezo.com,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
+Subject: [PATCH] media: zr364xx: fix memory leaks in probe()
+Message-ID: <X/WMfVDCsxRghKHH@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101060060
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1015 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101060060
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3352/display/redirect>
+Syzbot discovered that the probe error handling doesn't clean up the
+resources allocated in zr364xx_board_init().  There are several
+related bugs in this code so I have re-written the error handling.
 
-Changes:
+1)  Introduce a new function zr364xx_board_uninit() which cleans up
+    the resources in zr364xx_board_init().
+2)  In zr364xx_board_init() if the call to zr364xx_start_readpipe()
+    fails then release the "cam->buffer.frame[i].lpvbits" memory
+    before returning.  This way every function either allocates
+    everything successfully or it cleans up after itself.
+3)  Re-write the probe function so that each failure path goto frees
+    the most recent allocation.  That way we don't free anything
+    before it has been allocated and we can also verify that
+    everything is freed.
+4)  Originally, in the probe function the "cam->v4l2_dev.release"
+    pointer was set to "zr364xx_release" near the start but I moved
+    that assignment to the end, after everything had succeeded.  The
+    release function was never actually called during the probe cleanup
+    process, but with this change I wanted to make it clear that we
+    don't want to call zr364xx_release() until everything is
+    allocated successfully.
 
+Next I re-wrote the zr364xx_release() function.  Ideally this would
+have been a simple matter of copy and pasting the cleanup code from
+probe and adding an additional call to video_unregister_device().  But
+there are several quirks to note.
 
-------------------------------------------
-[...truncated 6.18 KB...]
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
-Preparing to compile for kernel version 4.19.0
+1)  The original code never called video_unregister_device().  In other
+    words, this is an additional bugfix.
+2)  The probe function does not call videobuf_mmap_free() and I don't
+    know where the videobuf_mmap is allocated.  I left the code as-is to
+    avoid introducing a bug in code I don't understand.
+3)  The zr364xx_board_uninit() has a call to zr364xx_stop_readpipe()
+    which is a change from the original behavior with regards to
+    unloading the driver.  Calling zr364xx_stop_readpipe() on a stopped
+    pipe is not a problem so this is safe and is potentially a bugfix.
 
-***WARNING:*** You do not have the full kernel sources installed.
-This does not prevent you from building the v4l-dvb tree if you have the
-kernel headers, but the full kernel source may be required in order to use
-make menuconfig / xconfig / qconfig.
+Reported-by: syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/media/usb/zr364xx/zr364xx.c | 50 ++++++++++++++++++-----------
+ 1 file changed, 32 insertions(+), 18 deletions(-)
 
-If you are experiencing problems building the v4l-dvb tree, please try
-building against a vanilla kernel before reporting a bug.
+diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
+index 1e1c6b4d1874..62a232f995a7 100644
+--- a/drivers/media/usb/zr364xx/zr364xx.c
++++ b/drivers/media/usb/zr364xx/zr364xx.c
+@@ -1181,15 +1181,11 @@ static int zr364xx_open(struct file *file)
+ 	return err;
+ }
+ 
+-static void zr364xx_release(struct v4l2_device *v4l2_dev)
++static void zr364xx_board_uninit(struct zr364xx_camera *cam)
+ {
+-	struct zr364xx_camera *cam =
+-		container_of(v4l2_dev, struct zr364xx_camera, v4l2_dev);
+ 	unsigned long i;
+ 
+-	v4l2_device_unregister(&cam->v4l2_dev);
+-
+-	videobuf_mmap_free(&cam->vb_vidq);
++	zr364xx_stop_readpipe(cam);
+ 
+ 	/* release sys buffers */
+ 	for (i = 0; i < FRAMES; i++) {
+@@ -1200,9 +1196,20 @@ static void zr364xx_release(struct v4l2_device *v4l2_dev)
+ 		cam->buffer.frame[i].lpvbits = NULL;
+ 	}
+ 
+-	v4l2_ctrl_handler_free(&cam->ctrl_handler);
+ 	/* release transfer buffer */
+ 	kfree(cam->pipe->transfer_buffer);
++}
++
++static void zr364xx_release(struct v4l2_device *v4l2_dev)
++{
++	struct zr364xx_camera *cam =
++		container_of(v4l2_dev, struct zr364xx_camera, v4l2_dev);
++
++	videobuf_mmap_free(&cam->vb_vidq);
++	video_unregister_device(&cam->vdev);
++	v4l2_ctrl_handler_free(&cam->ctrl_handler);
++	zr364xx_board_uninit(cam);
++	v4l2_device_unregister(&cam->v4l2_dev);
+ 	kfree(cam);
+ }
+ 
+@@ -1376,11 +1383,14 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
+ 	/* start read pipe */
+ 	err = zr364xx_start_readpipe(cam);
+ 	if (err)
+-		goto err_free;
++		goto err_free_frames;
+ 
+ 	DBG(": board initialized\n");
+ 	return 0;
+ 
++err_free_frames:
++	for (i = 0; i < FRAMES; i++)
++		vfree(cam->buffer.frame[i].lpvbits);
+ err_free:
+ 	kfree(cam->pipe->transfer_buffer);
+ 	cam->pipe->transfer_buffer = NULL;
+@@ -1409,12 +1419,10 @@ static int zr364xx_probe(struct usb_interface *intf,
+ 	if (!cam)
+ 		return -ENOMEM;
+ 
+-	cam->v4l2_dev.release = zr364xx_release;
+ 	err = v4l2_device_register(&intf->dev, &cam->v4l2_dev);
+ 	if (err < 0) {
+ 		dev_err(&udev->dev, "couldn't register v4l2_device\n");
+-		kfree(cam);
+-		return err;
++		goto free_cam;
+ 	}
+ 	hdl = &cam->ctrl_handler;
+ 	v4l2_ctrl_handler_init(hdl, 1);
+@@ -1423,7 +1431,7 @@ static int zr364xx_probe(struct usb_interface *intf,
+ 	if (hdl->error) {
+ 		err = hdl->error;
+ 		dev_err(&udev->dev, "couldn't register control\n");
+-		goto fail;
++		goto unregister;
+ 	}
+ 	/* save the init method used by this camera */
+ 	cam->method = id->driver_info;
+@@ -1496,7 +1504,7 @@ static int zr364xx_probe(struct usb_interface *intf,
+ 	if (!cam->read_endpoint) {
+ 		err = -ENOMEM;
+ 		dev_err(&intf->dev, "Could not find bulk-in endpoint\n");
+-		goto fail;
++		goto unregister;
+ 	}
+ 
+ 	/* v4l */
+@@ -1507,10 +1515,11 @@ static int zr364xx_probe(struct usb_interface *intf,
+ 
+ 	/* load zr364xx board specific */
+ 	err = zr364xx_board_init(cam);
+-	if (!err)
+-		err = v4l2_ctrl_handler_setup(hdl);
+ 	if (err)
+-		goto fail;
++		goto unregister;
++	err = v4l2_ctrl_handler_setup(hdl);
++	if (err)
++		goto board_uninit;
+ 
+ 	spin_lock_init(&cam->slock);
+ 
+@@ -1525,16 +1534,21 @@ static int zr364xx_probe(struct usb_interface *intf,
+ 	err = video_register_device(&cam->vdev, VFL_TYPE_VIDEO, -1);
+ 	if (err) {
+ 		dev_err(&udev->dev, "video_register_device failed\n");
+-		goto fail;
++		goto free_handler;
+ 	}
++	cam->v4l2_dev.release = zr364xx_release;
+ 
+ 	dev_info(&udev->dev, DRIVER_DESC " controlling device %s\n",
+ 		 video_device_node_name(&cam->vdev));
+ 	return 0;
+ 
+-fail:
++free_handler:
+ 	v4l2_ctrl_handler_free(hdl);
++board_uninit:
++	zr364xx_board_uninit(cam);
++unregister:
+ 	v4l2_device_unregister(&cam->v4l2_dev);
++free_cam:
+ 	kfree(cam);
+ 	return err;
+ }
+-- 
+2.29.2
 
-Vanilla kernels are available at http://kernel.org.
-On most distros, this will compile a newly downloaded kernel:
-
-cp /boot/config-`uname -r` <your kernel dir>/.config
-cd <your kernel dir>
-make all modules_install install
-
-Please see your distro's web site for instructions to build a new kernel.
-
-WARNING: This is the V4L/DVB backport tree, with experimental drivers
-	 backported to run on legacy kernels from the development tree at:
-		http://git.linuxtv.org/media-tree.git.
-	 It is generally safe to use it for testing a new driver or
-	 feature, but its usage on production environments is risky.
-	 Don't use it in production. You've been warned.
-CEC_CROS_EC: Requires at least kernel 9.255.255
-V4L2_H264: Requires at least kernel 9.255.255
-VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
-VIDEO_OMAP3: Requires at least kernel 9.255.255
-VIDEO_IMX274: Requires at least kernel 9.255.255
-SND_BT87X: Requires at least kernel 9.255.255
-INTEL_ATOMISP: Requires at least kernel 9.255.255
-VIDEO_HANTRO: Requires at least kernel 9.255.255
-VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
-VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
-Created default (all yes) .config file
-./scripts/fix_kconfig.pl
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-./scripts/make_myconfig.pl
-[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
-perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
-creating symbolic links...
-Kernel build directory is /lib/modules/4.19.0-5-amd64/build
-make -C ../linux apply_patches
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Patches for 4.19.0-5-amd64 already applied.
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
-make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_regs.isra.4':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:310:11: warning: 'regs_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-   *__regs = regs_base;
-   ~~~~~~~~^~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:291:16: warning: 'regs' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    regs->value = bin_alloc(bin, len);
-    ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_rules':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:506:25: warning: 'next_rule' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     rules->num_if_rules = __num_if_rules;
-     ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:559:12: warning: 'rules_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
-   *__rules = rules_base;
-   ~~~~~~~~~^~~~~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_pdaf.isra.10':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:725:20: warning: 'pdgroup' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    pdesc = &pdgroup->descs[j];
-             ~~~~~~~^~~~~~~
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov02a10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9734.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13858.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9p031.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t112.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v011.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sr030pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/noon010pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rj54n1cb0c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6aa.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6a3.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k4ecgx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k5baf.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-ctrls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adp1653.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3560.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3646.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak881x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-kbd-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ml86v7667.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2659.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc358743.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hi556.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx214.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx219.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx258.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx290.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx319.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx355.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rdacm20.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/max9271.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/st-mipid02.o>
-In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-core.h>:18,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-v4l2.h>:16,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.c>:32:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/linux/dma-buf.h>:16:10: fatal error: linux/dma-buf-map.h: No such file or directory
- #include <linux/dma-buf-map.h>
-          ^~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
-make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[3]: *** [Makefile:146: sub-make] Error 2
-make[2]: *** [Makefile:8: all] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 533
-Build step 'Execute shell' marked build as failure
