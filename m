@@ -2,124 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 971722EE6CF
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 21:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78C512EE728
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 21:48:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727425AbhAGU1B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 15:27:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725903AbhAGU1A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 15:27:00 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 720EEC0612F5
-        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 12:26:20 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id v3so4171504plz.13
-        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 12:26:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U9M2e+GyD9N3kdkTu1dWZpMp+TAsO6qz5jF42PL+fHo=;
-        b=PdcvmPrsZTt84GZCS+kSt2fsYPUuWBnUZ6TgSGrzQm7LMI06dViN+9q1BlvX3wKwvy
-         1wk7rj1JVz438UvHsZkQev7kMal1vDAykDsfxC7na5m4/YFebvq9SSUKtS9Y0YF4N/OF
-         whDN3W5ZGFo6U3kffrK2ffFmsDsrro0IYJE2cc7EPQDaGOrY7OAee/+wtZPbpDlgGgAL
-         r8gQLptYjvGMrb7QH8D/qwA29QjZF6SuWybgWBfUtX3P53vcbGm0db0nba5hWgQ888ZK
-         n+32dBm5G6GBN1TV8lD0c2epBxo233wXHEb1OEUoqkyDzv+UgJ+vMhEXBEPVTXNetmQA
-         x0SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U9M2e+GyD9N3kdkTu1dWZpMp+TAsO6qz5jF42PL+fHo=;
-        b=jqn3OuRzLgwbTEKhqP8sZvVb+HUzj+8X5biJnoEsGgyUZi3Xa3POsIpdOLLagm2uop
-         eTIOs2yt2/OWAH8nWpxAD08JJtSoO23qQ2ezfdm/8+2O/Yd8eANr1qinYZOLn8jQQK9V
-         9s9chd82Z5znLl0wh5ZEy15VyMyyS1la81sAwPEqGh+xIG0CEBf7A1IPNbwDkioWlzZA
-         GYv0IPnGFo2g5yTZEmepr82ftAsIOahJYBJW5PE1kf9IcjyHQaModPn8F0VwV0gWmnvf
-         N26qtRDP4K1cz6KHQAZoNnQWS3lnb/VdOqS48nONcig4hzWb0tbhOr2YLOH3htQBpmwO
-         RcCg==
-X-Gm-Message-State: AOAM530N7mRScQldN3N1j66fNxHspEimCJD2bOoNftAMNR34dK6qsnw4
-        yUfI7C2Z/R/3w1nXm7QsSIBgfA==
-X-Google-Smtp-Source: ABdhPJzFeKvAsLz8R7Rwlkdtsye3bkYdvaN9gR1Ris0ONyaGl04w2s13SWnH/vv8k+BsZYzGRRZY/w==
-X-Received: by 2002:a17:90a:3948:: with SMTP id n8mr216103pjf.206.1610051180075;
-        Thu, 07 Jan 2021 12:26:20 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id q9sm7042112pgb.82.2021.01.07.12.26.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 12:26:19 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Bing Song <bing.song@nxp.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf: cma_heap: Fix memory leak in CMA heap
-Date:   Thu,  7 Jan 2021 20:26:16 +0000
-Message-Id: <20210107202616.75170-1-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S1727192AbhAGUsO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 15:48:14 -0500
+Received: from vegas.theobroma-systems.com ([144.76.126.164]:36973 "EHLO
+        mail.theobroma-systems.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727183AbhAGUsO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Jan 2021 15:48:14 -0500
+X-Greylist: delayed 1410 seconds by postgrey-1.27 at vger.kernel.org; Thu, 07 Jan 2021 15:48:13 EST
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]:38212 helo=diego.localnet)
+        by mail.theobroma-systems.com with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <heiko.stuebner@theobroma-systems.com>)
+        id 1kxbp8-0006oE-Iw; Thu, 07 Jan 2021 21:23:58 +0100
+From:   Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        kever.yang@rock-chips.com, Eddie Cai <eddie.cai@rock-chips.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org,
+        christoph.muellner@theobroma-systems.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
+Date:   Thu, 07 Jan 2021 21:23:56 +0100
+Message-ID: <3342088.iIbC2pHGDl@diego>
+Organization: Theobroma Systems
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Bing Song noticed the CMA heap was leaking memory due to a flub
-I made in commit a5d2d29e24be ("dma-buf: heaps: Move heap-helper
-logic into the cma_heap implementation"), and provided this fix
-which ensures the pagelist is also freed on release.
+Hi,
 
-Cc: Bing Song <bing.song@nxp.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Reported-by: Bing Song <bing.song@nxp.com>
-Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/heaps/cma_heap.c | 3 +++
- 1 file changed, 3 insertions(+)
+the rkisp driver in the mainline Linux kernel moved out of staging with
+5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 3c4e34301172..364fc2f3e499 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -251,6 +251,9 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
- 		buffer->vaddr = NULL;
- 	}
+The rkisp driver currently only supports the rk3399 and while working
+on porting the support for rk3326/px30 I noticed discrepancies.
+
+Hence it would be somewhat urgent to clarify this, as later it will get
+really cumbersome.
+
+----
+
+The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
+Some sub-blocks moved around or seem to have been replaced with newer
+variants and the gist of changes can be seen in [0] with the important
+part being the uapi changes [1] and those values also exist in mainline.
+
+
+See functions in that patch:
+- isp_goc_config_v12()
+- rkisp1_stats_get_aec_meas_v12()
+- rkisp1_stats_get_hst_meas_v12()
+
+Looking at the code, the register locations are different, for gammas and
+the histogram the actual amount of raw registers is the same, while the
+"aec" seems to use 25 registers on V10 while 21 registers on V12. Though
+their content gets split into multiple values in that v12 variant.
+
+
+As somehow expected the whole thing is pretty undocumented and I
+have no clue what these "bins" or "gammas" mean and why the amount of
+entries now differs and how this relates to userspace at all.
+
+Also looking through libcamera as the one open user of the driver,
+the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
+as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
+don't seem to be used so far.
+
+Hence I also added some Rockchip people in the hope of getting
+a bit of clarification ;-) .
+
+
+Ideas on how to proceed?
+
+Thanks
+Heiko
+
+
+[0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
+[1]
+diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+index b471f01a8459..fbeb6b5dba03 100644
+--- a/include/uapi/linux/rkisp1-config.h
++++ b/include/uapi/linux/rkisp1-config.h
+@@ -32,8 +32,8 @@
+ #define CIFISP_CTK_COEFF_MAX            0x100
+ #define CIFISP_CTK_OFFSET_MAX           0x800
  
-+	/* free page list */
-+	kfree(buffer->pages);
-+	/* release memory */
- 	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
- 	kfree(buffer);
- }
--- 
-2.17.1
+-#define CIFISP_AE_MEAN_MAX              25
+-#define CIFISP_HIST_BIN_N_MAX           16
++#define CIFISP_AE_MEAN_MAX              81
++#define CIFISP_HIST_BIN_N_MAX           32
+ #define CIFISP_AFM_MAX_WINDOWS          3
+ #define CIFISP_DEGAMMA_CURVE_SIZE       17
+ 
+@@ -69,7 +69,7 @@
+  * Gamma out
+  */
+ /* Maximum number of color samples supported */
+-#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
++#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
+
+
 
