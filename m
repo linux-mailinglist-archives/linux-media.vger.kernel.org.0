@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97E1D2EE782
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 22:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 112F72EE783
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 22:17:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbhAGVQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726908AbhAGVQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 7 Jan 2021 16:16:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726720AbhAGVQL (ORCPT
+        with ESMTP id S1726696AbhAGVQL (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 16:16:11 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421A3C0612F6
-        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 13:15:29 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id z21so6002367pgj.4
-        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 13:15:29 -0800 (PST)
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CC2C0612F9
+        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 13:15:31 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id d2so4740998pfq.5
+        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 13:15:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
-        b=K8BGJ9oHdqpLDSsv4ZzOKEHEpyQXmBiqo3CQDjAFOiubf8uMAXb8rE+2Q+8w+MuenT
-         r39dpZHy1UjTwLvLcHtkgKqx7m1yH/VZCVvUsyblpu4gsHE8oyEh27knqvqkNx99hfd/
-         OdLjIgReRKvwFliH9XDPaVNHEjCr8ivL1CuAOS5SsvSCJwjtqzf9bEeTilTgDDB91z1d
-         d8gKjlz+Dsl9OtsTbJ+dMP1JwATb4Hb+DNbBTib+6EpAlAhzwgHklh5i6ggogkXvBu0w
-         Sl0lvmy8kDpa3UVvGMnYPvuuD5pjaQCOY4j8xR9yncAL6VXY3VpNQLEDm0Rk5MWF1r7S
-         80MQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+HPHLTIbnqvyYqZakEN0yW6023R2vX5SvJvHEGRsu88=;
+        b=cHSZgqczj464Vf520gWeFxP2skBA26Gc4qDuq1k8SZeOGcfiiKTsmZsKBzVJdyquDP
+         AwP7iEXEk3FUyf7L5lc4NpelRvFLZEqi6kU8c4hrfifAl04y8vtm7TNoDnKC63HO5SWh
+         lvZZyVDoTP+zd7oHSx0sgJu/5FP0Do/q4vTVgiaLwFYflQVgzzvQt/kR9/i31MISy4tq
+         LbZLvEw+G5rucP4QbGOC20BkR+d3pP9e1EqPfafczaD7SUTW8Q7US+QdpxgtZQPx7nXU
+         sKm0TId7I+tNjCMRk2+nJ9OV9f/iHF9+aoyoW0ijSIp6Kfox+9TUooajqLsw5KAD6xDw
+         p5Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
-        b=fhCuTzOuPvGzvETQekvROene/f7X4SJKGrY/eerqPfYT5b0hEfsdCo+BTJ3Ua1Iag5
-         YPDP5E1iP1nLUrrOjIk1/RnQ+pjPF4INuztolIRW3QFVT/vhlu3UlfpFdVT7QvQeVmUW
-         Q4gZbbv0OvITn/TV22Veexy7Y1z/OoL34Ls03uj9fs6KtKqPR3uj3MhBvpcBH23Za0JM
-         lVhkV4+lUT8GCX2qh1NmRQ3bH8KpjVVrPBG3foc3hQe+gMeXo1Qi4CeYBW5hUf4MHZ8W
-         b7Cb2u/Zoy3KR+t+R7PeepV3MpNIf2PwXsmlNU+3jZHu9Q6+hA9JBSUCAGFY/bZ1Ibk7
-         rgJg==
-X-Gm-Message-State: AOAM530uxHK6zWohRNQ7kkN26a0e8vWs6HfMMdrQTMMJKjTCsUHhTPb2
-        BGeKnJdafS8Ec2v8t73qpy3rTQ==
-X-Google-Smtp-Source: ABdhPJw+uBkf603u8DBtRcPFLax4GUhUMXlfkuBYTBlYX9IqNd80YY3GhmwaHOU9hi8B00BuqmRrDQ==
-X-Received: by 2002:a65:6249:: with SMTP id q9mr3744816pgv.82.1610054128730;
-        Thu, 07 Jan 2021 13:15:28 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+HPHLTIbnqvyYqZakEN0yW6023R2vX5SvJvHEGRsu88=;
+        b=cbmK3U5yTnf4vHnxUqAjbaUAB1aPXgMyVEgfDzhJbu08xbYlL6jGXOIimpllHUkIl8
+         jMzBd3HWNPo+OYLkuIpSgTgqZqyHN0l9ShRrwSCA4g4DdLPjYtgyzSVVFFcTs7ySluPr
+         FKZLVuQAUBOiUhBiqLaeHIy2NEUH/v4z7groyrE+kzX5AHBYTOugLWZgFx7baYPgmZJo
+         W48POCwsmb3/JYocNFmUI6nHckzQOPA+uGWbvidPIwU1UaNrWy4rvpvGoy0iYHwxIqSY
+         Zyf/cJ6AYcbebcdcwoG2noSMCqkH7hXRU0PZa4/OKpBN19SE2fdxcJ5w7/KHbBCKh5dw
+         dksw==
+X-Gm-Message-State: AOAM532xDWNw3CN0q9diyoMJaETL1IqQW4swKD1pp1BPz0f7BUiT4jBa
+        J0ZLWAcjddEIUo9iN/L7mutURA==
+X-Google-Smtp-Source: ABdhPJy9pko8exsJmRsYgHZWzS6HB4ShY5PboCyRW7n6CbWSr9ryNiq7i9X3M83nJXNVn5LYJ0D45Q==
+X-Received: by 2002:aa7:97bc:0:b029:19e:18c7:76b with SMTP id d28-20020aa797bc0000b029019e18c7076bmr501704pfq.23.1610054131037;
+        Thu, 07 Jan 2021 13:15:31 -0800 (PST)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id b6sm6574055pfd.43.2021.01.07.13.15.27
+        by smtp.gmail.com with ESMTPSA id b6sm6574055pfd.43.2021.01.07.13.15.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 13:15:27 -0800 (PST)
+        Thu, 07 Jan 2021 13:15:30 -0800 (PST)
 From:   John Stultz <john.stultz@linaro.org>
 To:     lkml <linux-kernel@vger.kernel.org>
 Cc:     John Stultz <john.stultz@linaro.org>,
@@ -65,10 +65,12 @@ Cc:     John Stultz <john.stultz@linaro.org>,
         Simon Ser <contact@emersion.fr>,
         James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] dma-buf: system_heap: Make sure to return an error if we abort
-Date:   Thu,  7 Jan 2021 21:15:23 +0000
-Message-Id: <20210107211525.75951-1-john.stultz@linaro.org>
+Subject: [PATCH 2/3] dma-buf: heaps: Add a WARN_ON should the vmap_cnt go negative
+Date:   Thu,  7 Jan 2021 21:15:24 +0000
+Message-Id: <20210107211525.75951-2-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210107211525.75951-1-john.stultz@linaro.org>
+References: <20210107211525.75951-1-john.stultz@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -76,9 +78,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If we abort from the allocation due to a fatal_signal_pending(),
-be sure we report an error so any return code paths don't trip
-over the fact that the allocation didn't succeed.
+We shouldn't vunmap more then we vmap, but if we do, make
+sure we complain loudly.
 
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: Liam Mark <lmark@codeaurora.org>
@@ -99,25 +100,34 @@ Cc: dri-devel@lists.freedesktop.org
 Suggested-by: Suren Baghdasaryan <surenb@google.com>
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
- drivers/dma-buf/heaps/system_heap.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/dma-buf/heaps/cma_heap.c    | 1 +
+ drivers/dma-buf/heaps/system_heap.c | 1 +
+ 2 files changed, 2 insertions(+)
 
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 364fc2f3e499..0c76cbc3fb11 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -232,6 +232,7 @@ static void cma_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 
+ 	mutex_lock(&buffer->lock);
++	WARN_ON(buffer->vmap_cnt == 0);
+ 	if (!--buffer->vmap_cnt) {
+ 		vunmap(buffer->vaddr);
+ 		buffer->vaddr = NULL;
 diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 17e0e9a68baf..405351aad2a8 100644
+index 405351aad2a8..2321c91891f6 100644
 --- a/drivers/dma-buf/heaps/system_heap.c
 +++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -363,8 +363,10 @@ static int system_heap_allocate(struct dma_heap *heap,
- 		 * Avoid trying to allocate memory if the process
- 		 * has been killed by SIGKILL
- 		 */
--		if (fatal_signal_pending(current))
-+		if (fatal_signal_pending(current)) {
-+			ret = -EINTR;
- 			goto free_buffer;
-+		}
+@@ -273,6 +273,7 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ 	struct system_heap_buffer *buffer = dmabuf->priv;
  
- 		page = alloc_largest_available(size_remaining, max_order);
- 		if (!page)
+ 	mutex_lock(&buffer->lock);
++	WARN_ON(buffer->vmap_cnt == 0);
+ 	if (!--buffer->vmap_cnt) {
+ 		vunmap(buffer->vaddr);
+ 		buffer->vaddr = NULL;
 -- 
 2.17.1
 
