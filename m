@@ -2,134 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 279542ECC69
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 10:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C10242ECC81
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 10:16:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbhAGJLm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 04:11:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726366AbhAGJLl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 04:11:41 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E60FC0612FC
-        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 01:10:20 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id o10so2035441lfl.13
-        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 01:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T+iZKNW1gmpT+HQqIiqmRRpQMcaG8pgogUVWa/pKYOM=;
-        b=cyz7QwbTfHcC+qnorIFVkv7DnbL/oyA5L+VJJAN8XWkNMg42oKdig8X5tU4xa7X7pN
-         01zspKzmEcVvu5fY2nzlSr3geA/q2812tr8Wz0sUieGMHhvg1aGrsz+m0J4b8Wmr2jr4
-         Bxuqd5E5gXQb8ARkFssKYAOK0W62M412pmNUBd9NwRQD04zf23syAxjzcLmFBod8VeLt
-         Wkczn2W4OJkxg0o6mQ3tRUOpKTABRCCUpHtxAiPQFjxJEJCf/WQ1QzYZHEZTgGgMtnu2
-         jNC0bNdR63+2S3cfHE4fDoxHLsYIWb3l6Ja+q5Vt8aM4kBs1TbyhYMIEDY91gB4GZfH3
-         2CvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T+iZKNW1gmpT+HQqIiqmRRpQMcaG8pgogUVWa/pKYOM=;
-        b=Q+jjpmn47XB6yJEYEPAOaWRBshkbREQ/gIH9qEQFaxHjI6/kkOVos9uy+YAwXB0X9W
-         h2PZI/GNtjR4iYy9G1FXJ6+SFM26RD3JAEeR2ta0cTCRO2/nOH9+QOUElz6t+nCNDpx7
-         8nI5L7WdLBPRQq+KuHX/9b906udmioWXoPsplMq0sigIcesRiCENFEgmWQFYDNGrgAUj
-         RGrHZ1XKK4uU1ha6f04a/1J29Fz6jnt2hVPW07o0kyRNLTCYiMEfu1IbAEf7mW8vcuu2
-         2k4I+2PksKfB1hg9PR/F+eL6k9IVoYACcYyzTaiFhaViSQ5CVY66PQPF4/tqZoG/eoMw
-         Eu7w==
-X-Gm-Message-State: AOAM5332EVgKvIw+Cj7DTO87Q4YvNFfIy8h4lNX0HPBODpEJ0JqxwXMa
-        7amw1llkhCcjkLKbz7AIZXopK4qbOE1z4+LmqHG1UQ==
-X-Google-Smtp-Source: ABdhPJz6FNuZKYGADUxlk9Tv8Rh/lJVu/2CmZBJO3UIrMaB/edLmB9ZlsVBcuBoQ7GbjgHsRrGXCE/gOnIldpK4OwK0=
-X-Received: by 2002:a19:495d:: with SMTP id l29mr3392190lfj.465.1610010618615;
- Thu, 07 Jan 2021 01:10:18 -0800 (PST)
-MIME-Version: 1.0
-References: <20210104230253.2805217-1-robh@kernel.org>
-In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 7 Jan 2021 10:10:07 +0100
-Message-ID: <CACRpkdZVC8RE-DTes+p6g-1EAHxQWpu2u+sBCX2ei32cvaCrDA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+        id S1727432AbhAGJOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 04:14:34 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:41237 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726801AbhAGJOd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Jan 2021 04:14:33 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id xRMVklktVbMeAxRMZkT4Za; Thu, 07 Jan 2021 10:13:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1610010830; bh=E0MA7bSe09OCRGTiRBeJqYGJV3Asl9zqcjkRywEcSlA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=LiqJ21KYHrwqKrRJcgKxZqm1AxBN59aAlf3EUIosdZWalxJ2wL1NvKnPXyy3G8Kwv
+         zbWzE6Y8/nuiS6rogUvCfWoh+l8Ubn53VKT3c23ecaosLLAANRjTfe3b7t8k/tjDBd
+         c+/aFH2YhtbKMkbuu93gpQXu7kv6vdbASh4EwInk6aJWmpsaSB1tNUYG5NiFHCsrde
+         qnUIhYzEYwTpnz6KZ16dwFI+vEwuBq2rbmPBT1ewOXKeVIcRsjWZw8KvUqvBJYJ8iR
+         581HlH8TUiMkRbJStjcx5IdxoSN1FWfTsh58D7t3xiH06Dp7mcy+gGJBRPMWD9S9cM
+         hqsAlKnfIx+tg==
+Subject: Re: [PATCH] media: rkvdec: silence ktest bot build warning
+To:     Adrian Ratiu <adrian.ratiu@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-remoteproc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
-        <alsa-devel@alsa-project.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        linux-usb <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        kernel test robot <lkp@intel.com>
+References: <20201208155540.340583-1-adrian.ratiu@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <76b5569c-bc19-3d11-4da7-cf0dbb244433@xs4all.nl>
+Date:   Thu, 7 Jan 2021 10:13:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <20201208155540.340583-1-adrian.ratiu@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfECXKwRH1TUnQACLjcNLsP8PHssfJJz/tIezgMZj62/CxkRMGBxeAwNrUgW+Q3170ToZ4VnWpgpVMi/tPwXxZQTsqdGv1eukLo5ghbZ5Xgmo3wfn6QT4
+ XPHbH2VyQJ9lQ1iiBZnfnwh9mWIE3CTJSlGRJPdtyNo4fb29QXbYynlw0T55QFeTbbDefiJxe8Cby7mIk/gLeHoObJ3kYd9fXUlltm2GF+r6IAgusSlF4VGN
+ cOCIaubQuEIQHGtC++jcl/dTcaw9Q2N0iJTerVTq13CrZlwZInddDIHGqlo0ESut9PLWvuYoj4N1k/BtW/bKP6pFK+/gBw82VLVASDLcBuBG8l9i+CLLMkCU
+ H1BB/rd9s18MP0BUpnMGxrzcK7dbH1CQHA0VxWO94undZRd0wyPOWIVUskiEwnYBvgAFycxi4aUrQKH6h0Tu1eII4xYIcGM9FT88VtCApDcFxCk1/EdAS0Fn
+ sOG/rUxKg5I5+WUdx3/aeoiIHaVWXN2v6SVhDorbPjkKebsLIIMAHX+t80E=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 5, 2021 at 12:03 AM Rob Herring <robh@kernel.org> wrote:
+On 08/12/2020 16:55, Adrian Ratiu wrote:
+> Some configurations built by the ktest bot produce the following
+> warn, so mark the struct as __maybe_unused to avoid unnecessary
+> ML spam.
+> 
+>>> drivers/staging/media/rkvdec/rkvdec.c:967:34: warning: unused variable 'of_rkvdec_match' [-Wunused-const-variable]
+>    static const struct of_device_id of_rkvdec_match[] = {
+> 				    ^
+>    1 warning generated.
 
-> DT properties which can have multiple entries need to specify what the
-> entries are and define how many entries there can be. In the case of
-> only a single entry, just 'maxItems: 1' is sufficient.
->
-> Add the missing entry constraints. These were found with a modified
-> meta-schema. Unfortunately, there are a few cases where the size
-> constraints are not defined such as common bindings, so the meta-schema
-> can't be part of the normal checks.
->
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
-> Cc: Chanwoo Choi <cw00.choi@samsung.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Marc Zyngier <maz@kernel.org>
+I suspect that this is because there is no 'depends on OF' in the Kconfig.
+
+'__maybe_unused' isn't used for this anywhere else, so this does not seem like the
+right approach.
+
+Regards,
+
+	Hans
+
+> 
+> vim +/of_rkvdec_match +967 drivers/staging/media/rkvdec/rkvdec.c
+> 
+>    966
+>  > 967	static const struct of_device_id of_rkvdec_match[] = {
+>    968		{ .compatible = "rockchip,rk3399-vdec" },
+>    969		{ /* sentinel */ }
+>    970	};
+>    971	MODULE_DEVICE_TABLE(of, of_rkvdec_match);
+>    972
+> 
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
 > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Ohad Ben-Cohen <ohad@wizery.com>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index aa4f8c287618..3af0f02ec59b 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -992,7 +992,7 @@ static void rkvdec_watchdog_func(struct work_struct *work)
+>  	}
+>  }
+>  
+> -static const struct of_device_id of_rkvdec_match[] = {
+> +static const struct of_device_id __maybe_unused of_rkvdec_match[] = {
+>  	{ .compatible = "rockchip,rk3399-vdec" },
+>  	{ /* sentinel */ }
+>  };
+> 
 
-This is good. The stricter the better.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
