@@ -2,108 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD882ECD01
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 10:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FC442ECD62
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 10:59:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbhAGJl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 04:41:27 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:56049 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726326AbhAGJlZ (ORCPT
+        id S1727278AbhAGJ55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 04:57:57 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:39325 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726526AbhAGJ55 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Jan 2021 04:41:25 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id EB4401777;
-        Thu,  7 Jan 2021 04:40:18 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 07 Jan 2021 04:40:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=ybcTpLLw971gG6bm22uSBpkTBJi
-        WuhFBQpGPZAtT1gQ=; b=BT+EjLDd6fxDLG25nQwWepRvzsbP/oqezXlb4pwXcPh
-        SdbSxV4H6JmSBlhAT3KrrrM2nrzeQIbULBl4R8l+JkN7Ieut7Vb2OkWWXTngRz12
-        Xymj8bV2niklzruOcFVMgEkD8oWunVRWr0GXYAabMJ31AbGl8oVN3ZeetIjVUOi/
-        O8KFjOpXggw1xiY+7ZNkBKhLQM6XRdr7cuKLwKbnvNpohI+Gm6i1WeM459WyLPlK
-        UN4Dt39XcRe3m5JmRIU+oosVf8T9Sl+wa1hmuEkzOq2KJ1H+m9EdHrdl/Jrg7UK1
-        2NvM991GWT954kHpA/RRWKs3T4lGLjS0JyeV9UPkkmA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ybcTpL
-        Lw971gG6bm22uSBpkTBJiWuhFBQpGPZAtT1gQ=; b=FgblouXUXHddn7tEfUtAy7
-        Z55r/Kk/9fSIPMp1ltzSnQFWV1W6RracNipCo+y+tSY3ePVuW5AV1nhrAUwZCyL4
-        8auoGD8yJ+az6nn/G32+GbqM5WDoW5wiDr80xmpOG6n0fVf0ymFpsabGr1zpSS6x
-        8TehjgPDeH7WNhAeDWn7rVbua3AjkvOtzi3547M4syBY4cY5OojVwl1AdwsOHLJU
-        ju/Bn7HKxtEvCIoFBBOvRcHudfl24/niEVFemjWCjFBgi/cKAOS7mJzkGUn5ZuW4
-        sT0DuUd86YvHv25CdhXCCDpIPDXtJOdN2MsXNzdRUWVIqVGEyK3MW+g02mkNK9Vg
-        ==
-X-ME-Sender: <xms:Atf2Xw-5AHfjV1_RwmsYdUpnIcC4pBhoU0T0A1jM6Mjms0z8B5upFw>
-    <xme:Atf2X4thXDVQ-4q86ypf8oaQAh20vxzbm2bJmEw0xOkVfMGASKQDvfmsD_soQome3
-    c1U8atp0ohVXbh3hOU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdegvddgtdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Atf2X2DCfCURsdeF7-k4b7jR5MCpOxDBcqVUOSRMIL5-tQzSc1a5nQ>
-    <xmx:Atf2XwdvJMJUcXZY9D032uiU25mPXh0Nr4Nb2mXMZjjmf6yvdTph0A>
-    <xmx:Atf2X1NU-w2XLUbYlImtoCVLdQGYQlKmo3BepyY9rNx2N4HbBA_jsg>
-    <xmx:Atf2X41hTo428NWQv4WvV7T_li-5IDg0N7dnMFDLR1ipn8-JVEFhDQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3066224005E;
-        Thu,  7 Jan 2021 04:40:18 -0500 (EST)
-Date:   Thu, 7 Jan 2021 10:40:16 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     robh+dt@kernel.org, wens@csie.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH] arm64: dts: allwinner: h5: Add deinterlace node
-Message-ID: <20210107094016.6km73lb3waek76vu@gilmour>
-References: <20210106182523.1325796-1-jernej.skrabec@siol.net>
+        Thu, 7 Jan 2021 04:57:57 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id xS2WklxBVbMeAxS2ZkTBns; Thu, 07 Jan 2021 10:57:14 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1610013434; bh=UkZt4ZTDGeg0fKPvr549uQpl0T9ACfldIpvW2nwLlL4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=sczR6Ho2DTpCeVRJ2PJFdYtjgEotQQN7ONhgXz1Ns/hskhhmgdi6bhxPOZnOtNl8J
+         6bqzApH2VcpwDe39wSL4IG3BQ6Y/pPSZRVc6k5sPauzJhvMGBkPUUZqwbG/NmCNXNL
+         v8WO6ANACY2FuNM5KbRAokakHzC5njKqzLv6BjlucuL2FotDSktyuMpikO9eD5ROcF
+         ZfeanecZwpGMIyOrptMMO0cAI7rDNu8RqCFg/N563gsVvlV/UWqZy2E080n/2hCKE0
+         VJ9d3gCoHXlbei4Wlym1dVZn+CyzIDuUc8Pqll4ibPrQEwuQStZtnIPcuCF+lzihMV
+         jE94RPC/FHYBw==
+Subject: Re: [PATCH] media: v4l2: Fix memleak in videobuf_read_one
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michel Lespinasse <walken@google.com>,
+        Ricardo Cerqueira <v4l@cerqueira.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210105075904.27102-1-dinghao.liu@zju.edu.cn>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <05d5b8b5-9758-17ea-4e54-3fe1a0ad2a09@xs4all.nl>
+Date:   Thu, 7 Jan 2021 10:57:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="u3wdxctky4ofhyc3"
-Content-Disposition: inline
-In-Reply-To: <20210106182523.1325796-1-jernej.skrabec@siol.net>
+In-Reply-To: <20210105075904.27102-1-dinghao.liu@zju.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOEyJtbzCDx5Fno2GXwtVahfGOJ5dUUtS9g8McySuH9nxPuGz6pu+3T9a+p5LAQ8benbOgzlmfMMikxQvhgJkmq0VLsKrJSq77sg6BbxyuYaTEkD5Lsm
+ IuHLdFngNYEUBTQiDotlB3AniyBOhDNEszHeY5+L44+ki3JqTb3NBW5lBbIgCOoGOOZKO8jXlRrM7xylkc1oGEboYnK39v/0wqcx8hVhNJbraSwfWp7V5FBY
+ rg03HffeNAdCmpy0BDb1kAEfWJYowTmihuYvGP1FO5t+qJuXRIDK76JsHPBnwRWRCrr2k7O0rgLKurCn77bdAuZ+mVXbPR2T4NcL+W5kQEb/g+gzyp6ILYpS
+ PvDLnEv6W8TTNjBT88KElY3OrMLurYOzK/JB82ZSjnlFzk1PvbJNe3b4bVLgNzJx6g9OpNjvIzKpmRMBcUefQav1OI2ZPeK5uWFwu9VZjMJyToqGJ6npOfDc
+ CIkUTQLnJ8MAmqzQmanP5gN2MRb2LrTDlSg0GA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---u3wdxctky4ofhyc3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 06, 2021 at 07:25:23PM +0100, Jernej Skrabec wrote:
-> Deinterlace core is completely compatible to H3.
->=20
-> Add a node for it.
->=20
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+On 05/01/2021 08:59, Dinghao Liu wrote:
+> When videobuf_waiton() fails, we should execute clean
+> functions to prevent memleak. It's the same when
+> __videobuf_copy_to_user() fails.
+> 
+> Fixes: 7a7d9a89d0307 ("V4L/DVB (6251): Replace video-buf to a more generic approach")
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 > ---
-> Note: I didn't add H5 fallback, since the only reason why this node
-> is not in common H3/H5 dtsi is that it's located on different addresses.
->=20
-> If anyone feel fallback compatible is needed, I'll add it in next revisio=
-n.
+>  drivers/media/v4l2-core/videobuf-core.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/videobuf-core.c b/drivers/media/v4l2-core/videobuf-core.c
+> index 606a271bdd2d..0709b75d11cd 100644
+> --- a/drivers/media/v4l2-core/videobuf-core.c
+> +++ b/drivers/media/v4l2-core/videobuf-core.c
+> @@ -924,8 +924,12 @@ ssize_t videobuf_read_one(struct videobuf_queue *q,
+>  
+>  	/* wait until capture is done */
+>  	retval = videobuf_waiton(q, q->read_buf, nonblocking, 1);
+> -	if (0 != retval)
+> +	if (retval != 0) {
+> +		q->ops->buf_release(q, q->read_buf);
+> +		kfree(q->read_buf);
+> +		q->read_buf = NULL;
+>  		goto done;
+> +	}
 
-Applied, thanks
-Maxime
+I'm fairly certain that this is wrong: if waiton returns an error, then
+that means that the wait is either interrupted or that we are in non-blocking
+mode and no buffer has arrived yet. In that case you just go to done since
+there is nothing to clean up.
 
---u3wdxctky4ofhyc3
-Content-Type: application/pgp-signature; name="signature.asc"
+>  
+>  	CALL(q, sync, q, q->read_buf);
+>  
+> @@ -940,8 +944,12 @@ ssize_t videobuf_read_one(struct videobuf_queue *q,
+>  
+>  	/* Copy to userspace */
+>  	retval = __videobuf_copy_to_user(q, q->read_buf, data, count, nonblocking);
+> -	if (retval < 0)
+> +	if (retval < 0) {
+> +		q->ops->buf_release(q, q->read_buf);
+> +		kfree(q->read_buf);
+> +		q->read_buf = NULL;
+>  		goto done;
 
------BEGIN PGP SIGNATURE-----
+I'm not sure about this either: if userspace gave a crappy pointer and this
+copy_to_user fails, then that doesn't mean you should release the buffer.
+The next read() might have a valid pointer or, more likely, the application
+exits or crashes and everything is cleaned up when the filehandle is closed.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/bXAAAKCRDj7w1vZxhR
-xbjsAQDNU//6B/49Rgc+kWpBX2ZwWQCk5xAX2IJBBgkWN7prOAEA9A4Ey8erbT0E
-EaQhTs22Y3FhZiA2PP6iaYrWrokThgA=
-=aHF6
------END PGP SIGNATURE-----
+> +	}
+>  
+>  	q->read_off += retval;
+>  	if (q->read_off == q->read_buf->size) {
+> 
 
---u3wdxctky4ofhyc3--
+Do you have actual proof that this is a memleak? I don't want to mess around
+with the old videobuf unless you can show me that there is a real bug.
+
+Regards,
+
+	Hans
