@@ -2,140 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C32992ED2FD
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 15:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DBEB2ED315
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 15:57:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726429AbhAGOrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 09:47:46 -0500
-Received: from impout003aa.msg.chrl.nc.charter.net ([47.43.20.27]:52107 "EHLO
-        impout003.msg.chrl.nc.charter.net" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725965AbhAGOrq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Jan 2021 09:47:46 -0500
-Received: from voodoo.tomdaley.org ([47.5.104.88])
-        by cmsmtp with ESMTPA
-        id xWZ5kd9Frr76UxWZ5k7y62; Thu, 07 Jan 2021 14:47:04 +0000
-Authentication-Results: tomdaley.org; none
-X-Authority-Analysis: v=2.3 cv=dotv9Go4 c=1 sm=1 tr=0
- a=Uohp5j5pIXpt+qzAizrV8Q==:117 a=Uohp5j5pIXpt+qzAizrV8Q==:17
- a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=EmqxpYm9HcoA:10 a=7zKikSB_AAAA:8
- a=VwQbUJbxAAAA:8 a=xq3W2uTSAAAA:8 a=EDLF81dCAAAA:8 a=6ir5WShY_YkCChFZm6wA:9
- a=CjuIK1q_8ugA:10 a=fenj-cUWjmncKvz_9n8k:22 a=AjGcO6oz07-iQ99wixmX:22
- a=P5L7wpMTXyg1GfFA3Gwx:22 a=Q3gGPzbJhzamX8w4ir7p:22
-Received: from localhost ([::1] helo=webmail.tomdaley.org)
-        by voodoo.tomdaley.org with esmtpa (Exim 4.92)
-        (envelope-from <tom@tomdaley.org>)
-        id 1kxWZ4-0000zy-V5; Thu, 07 Jan 2021 07:47:02 -0700
+        id S1727099AbhAGO4b convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 7 Jan 2021 09:56:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbhAGO4b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 09:56:31 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E4D3C0612F4
+        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 06:55:50 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kxWhV-0006TA-EU; Thu, 07 Jan 2021 15:55:45 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kxWhP-0003zw-Fm; Thu, 07 Jan 2021 15:55:39 +0100
+Message-ID: <a23ab40e50a761bd2127df6bc8b2a91e99a1617c.camel@pengutronix.de>
+Subject: Re: [PATCH 3/5] dt-bindings: media: rockchip-vpu: Add PX30
+ compatible
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Thu, 07 Jan 2021 15:55:39 +0100
+In-Reply-To: <20210107134101.195426-4-paul.kocialkowski@bootlin.com>
+References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com>
+         <20210107134101.195426-4-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 07 Jan 2021 07:47:02 -0700
-From:   tom@tomdaley.org
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: lirc serial_ir homebrew breakage
-In-Reply-To: <20210107102557.GA16279@gofer.mess.org>
-References: <4d2b514731852e392be29048ff2e2cf3@tomdaley.org>
- <20210107102557.GA16279@gofer.mess.org>
-Message-ID: <3449ade8bbd996a34b2b73f57cd2757b@tomdaley.org>
-X-Sender: tom@tomdaley.org
-User-Agent: Roundcube Webmail/1.3.16
-X-CMAE-Envelope: MS4wfIIuh6GOFu5NGk5RyfromnmQAc7O7DqWKRRXd/icMwUwjfD2mMe87UghEoA7n3gzophE75McetKWvbsxA6gJ28PcwjJMcP9xG/LNm373A8OJl2pJJGOE
- cwuK5ELY3fuGJ54rcQbxnIJnTfGEHWblgd/krDedVO14W5kganPzf3FmhBDysMvjewEFgGEZxzvS66uyo5oXy+BdcK6m/WB07cw=
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-01-07 03:25, Sean Young wrote:
-> Hi Tom,
-> 
-> On Wed, Jan 06, 2021 at 09:16:31AM -0700, tom@tomdaley.org wrote:
->> Hi,
->> 
->> An upgrade from linux-5.9.16 to linux-5.10.4 results in lirc not 
->> working
->> with my homebrew IR receiver.  Running mode2 and pressing the same 
->> button on
->> the IR remote shows timing differences:
->> 
->> 5.9.16 works, first few lines of output:
->> 
->> pulse 2676
->> space 371
->> pulse 1429
->> space 371
->> pulse 827
->> space 372
->> pulse 1426
->> space 372
->> pulse 1425
->> space 376
->> pulse 1424
->> space 374
->> 
->> 5.10.4 fail
->> pulse 2670
->> space 380
->> pulse 1428
->> space 372
->> pulse 827
->> pulse 125391  <---
->> space 127128  <---
->> pulse 1406
->> space 394
->> pulse 1407
->> pulse 125394  <---
->> space 126726  <---
->> pulse 1400
->> space 398
->> pulse 1406
->> space 394
->> pulse 801
->> 
->> The reporting of two pulses in a row as well as the large time 
->> reported make
->> it so the button presses are not recognized.
->> 
->> Is this a known issue?
-> 
-> No, this is not known issue.
-> 
->> I am a software developer and would be happy to help in any way.  I 
->> can
->> gather more data or attempt to fix it myself.
-> 
-> Thanks for your bug report. In 5.10, there was a change which converted
-> the processing from nanoseconds to microsecondes, see:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=528222d853f9283110f0118dd71d9f0ad686d586
-> 
-> One issue has already been found in this change, which hasn't been 
-> upstreamed
-> yet:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210105093023.5212-1-hias@horus.com/
-> 
-> Would you mind testing this patch out please?
-> 
-> Admittedly I'm not convinced that this is the problem though. I'm not 
-> sure
-> what is; the function frbwrite() contains two if statements to filter 
-> out
-> noise, maybe something is wrong there. You could try by commenting 
-> those
-> two if statements out and see if there is a problem there.
-> 
-> Your help is appreciated!
-> 
-> Thanks,
-> 
-> Sean
+Hi Paul,
 
-Hi Sean,
+On Thu, 2021-01-07 at 14:40 +0100, Paul Kocialkowski wrote:
+> The Rockchip PX30 SoC has a Hantro VPU that features a decoder (VDPU2)
+> and an encoder (VEPU2). It is similar to the RK3399's VPU but takes an
+> extra clock (SCLK).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../bindings/media/rockchip-vpu.yaml          | 25 +++++++++++++------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> index c81dbc3e8960..c446b9ead21b 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> @@ -15,10 +15,13 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    enum:
+> -      - rockchip,rk3288-vpu
+> -      - rockchip,rk3328-vpu
+> -      - rockchip,rk3399-vpu
+> +    oneOf:
+> +      - const: rockchip,rk3288-vpu
+> +      - const: rockchip,rk3328-vpu
+> +      - const: rockchip,rk3399-vpu
+> +      - items:
+> +        - const: rockchip,px30-vpu
+> +        - const: rockchip,rk3399-vpu
+>  
+>    reg:
+>      maxItems: 1
+> @@ -35,12 +38,18 @@ properties:
+>            - const: vdpu
+>  
+>    clocks:
+> -    maxItems: 2
+> +    minItems: 2
+> +    maxItems: 3
+>  
+>    clock-names:
+> -    items:
+> -      - const: aclk
+> -      - const: hclk
+> +    oneOf:
+> +      - items:
+> +        - const: aclk
+> +        - const: hclk
+> +      - items:
+> +        - const: aclk
+> +        - const: hclk
+> +        - const: sclk
 
-The patch fixes the problem I was seeing.  I have tested both receive 
-and transmit on my homebrew IR, both are working.
+You could make this:
 
-Thanks, Tom
+    clock-names:
+      minItems: 2
+      items:
+        - const: aclk
+        - const: hclk
+        - const: sclk
 
+And then:
+
+allOf:
+  - if:
+      properties:
+        compatible:
+          contains:
+            const: rockchip,px30-vpu
+    then:
+      properties:
+        clock-names:
+          minItems: 3
+
+to make sure each variant has the correct clocks set.
+
+regards
+Philipp
