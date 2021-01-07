@@ -2,146 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A26F32ED73F
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 20:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BE742ED77B
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 20:33:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729081AbhAGTJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 14:09:02 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42928 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727177AbhAGTJB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 14:09:01 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 1F0991F4662A
-Message-ID: <f7291b83fe39d71c3192ea58ebf71e3909bd38af.camel@collabora.com>
-Subject: Re: [PATCH 5/5] media: hantro: Add support for the Rockchip PX30
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Date:   Thu, 07 Jan 2021 16:08:10 -0300
-In-Reply-To: <20210107134101.195426-6-paul.kocialkowski@bootlin.com>
-References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com>
-         <20210107134101.195426-6-paul.kocialkowski@bootlin.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S1727058AbhAGTcw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 14:32:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbhAGTcv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 14:32:51 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F410C0612F4
+        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 11:32:11 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id i24so8833046edj.8
+        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 11:32:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bGyYSj9jfCDTozLJ7tHaJR33H87h6X+0ovKSaII3Chg=;
+        b=gMC5MwiK/ZpxiXYUFLMTt8lYRBpcNeOaZkvs2xF6FZmnlQrfRjzMHPz6t57P+OUCYK
+         2WLA4Enp9b1MQSWHKZWM06oA+LCIlQMbH1gmLkl8e9tgCtioV9CoBjB50GcN5GN0ahQ7
+         TTUWHWQeA2b3dPr/GtUMBAFZoUT+j6AS4Da4YybRfXzLRUUqCtNmvPz6h2QPAjh3W31N
+         WHaaxRfOG+6MgWD0eMAIcCWlh3PcjE6EQy/lCDGRk3BSDV7UbmrpIY1LZxzxE0/iqIaD
+         GlNT6+kL+lW8bUso9mRD/nMQ53o15XL1L1W4S8wFYWrC8tlJoev71OyVHZdB48jqlHdj
+         B+8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bGyYSj9jfCDTozLJ7tHaJR33H87h6X+0ovKSaII3Chg=;
+        b=Ig1R87eLKOFfYUofDQgPRfvbtmV2NFahulwBW4Hw/mRlsa3GnXukZ8ym5QsFtdStv6
+         gBfNSQRvLSKO1ySOmKnxSRkxnYNX0ZbEUl/neItDs89nJyqXYkkAzA2xo1Yhv8GGpgHF
+         u9avtLjULjNbCxhiUBDmw/LTU2EjIKa/0dBtgS9zZxvi4z8bNNqzPFTIhnLKbvpnVJnr
+         UIVM5bFMF9W7teeVMOf8B0Bb9xxYgWRe4wfHP1KGC8h/T+MUh36ntE4Z82aUfV3Y6xIc
+         /ri2/pMM1XSuIgCNRD+8bEjm8GCaoU2QIcN+XMIu/IWTqLd7Cpkfkx+fZE+e+BuZYqkk
+         2lGQ==
+X-Gm-Message-State: AOAM530Rj0QNscGhoMDNv56/JkFzEYwxDgo9Ajapw6pIaaCadSghQcPR
+        +cnWmk4Q95NX0oD9meKvzISEP+BT5XhgESeGUdnwUQBdfkIkxA==
+X-Google-Smtp-Source: ABdhPJzjlyY5cQVXTgLwOIZSCb0sMmrai5RJDvk/9/1CTVmOagduIwzJDJilsiQPttSlrPYvAmEQaIs4yW127iDRmC0=
+X-Received: by 2002:aa7:cc15:: with SMTP id q21mr2786555edt.213.1610047930097;
+ Thu, 07 Jan 2021 11:32:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201214213348.19675-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20201214213348.19675-1-sakari.ailus@linux.intel.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Thu, 7 Jan 2021 16:31:58 -0300
+Message-ID: <CAAEAJfADNg_RKuWfREAPbtpB86ZQsNKa5rc83sjB9BZViPhtHg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] v4l: fwnode: v4l2_async_notifier_parse_fwnode_endpoints
+ is deprecated
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Yong Deng <yong.deng@magewell.com>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi Sakari,
 
-Happy to see this patch. It was on my TODO list,
-but I hadn't had time to bringup my rk3326 device.
+On Mon, 14 Dec 2020 at 18:45, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> Document that v4l2_async_notifier_parse_fwnode_endpoints() is deprecated.
+> Its functionality has been replaced by other, better functions. Also add a
+> reference to an example if someone ends up wandering here.
+>
 
-A few comments.
+I'm working on a series to clean up the v4l2_async API a bit,
+and came across this patch.
 
-On Thu, 2021-01-07 at 14:41 +0100, Paul Kocialkowski wrote:
-> The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are similar
-> to the RK3399 (Hantro G1/H1 with shuffled registers).
-> 
-> Besides taking an extra clock, it also shares an interrupt with the IOMMU
-> so it's necessary to request the interrupt shared.
-> 
+As far as I can see, the only user of v4l2_async_notifier_parse_fwnode_endpoints
+is drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c.
 
-Could you clarify on the commit description which iommu device interrupt
-line is being shared?
-
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/staging/media/hantro/hantro_drv.c    |  5 +++--
->  drivers/staging/media/hantro/hantro_hw.h     |  1 +
->  drivers/staging/media/hantro/rk3399_vpu_hw.c | 21 ++++++++++++++++++++
->  3 files changed, 25 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index e5f200e64993..076a7782b476 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -472,6 +472,7 @@ static const struct v4l2_file_operations hantro_fops = {
->  
->  static const struct of_device_id of_hantro_match[] = {
->  #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
-> +       { .compatible = "rockchip,px30-vpu", .data = &px30_vpu_variant, },
->         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
->         { .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
->         { .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
-> @@ -796,8 +797,8 @@ static int hantro_probe(struct platform_device *pdev)
->                         return -ENXIO;
->  
->                 ret = devm_request_irq(vpu->dev, irq,
-> -                                      vpu->variant->irqs[i].handler, 0,
-> -                                      dev_name(vpu->dev), vpu);
-> +                                      vpu->variant->irqs[i].handler,
-> +                                      IRQF_SHARED, dev_name(vpu->dev), vpu);
-
-Maybe this irq flag should be part of vpu->variant? It sounds like an IP block
-integration specific thing.
-
-Also, you will need a px30-specific interrupt handler now,
-since the rk3399 one is not shared-friendly.
-
->                 if (ret) {
->                         dev_err(vpu->dev, "Could not request %s IRQ.\n",
->                                 irq_name);
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 34c9e4649a25..07f516fd7a2e 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -148,6 +148,7 @@ enum hantro_enc_fmt {
->         RK3288_VPU_ENC_FMT_UYVY422 = 3,
->  };
->  
-> +extern const struct hantro_variant px30_vpu_variant;
->  extern const struct hantro_variant rk3399_vpu_variant;
->  extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3288_vpu_variant;
-> diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers/staging/media/hantro/rk3399_vpu_hw.c
-> index 7a7962cf771e..4112f98baa60 100644
-> --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
-
-Perhaps it's time to rename this to rockchip_vpu_hw.c,
-and merge rk3288 and rk3399? It's a nitpick, though.
-
-> @@ -220,3 +220,24 @@ const struct hantro_variant rk3328_vpu_variant = {
->         .clk_names = rk3399_clk_names,
->         .num_clocks = ARRAY_SIZE(rk3399_clk_names),
->  };
-> +
-> +static const char * const px30_clk_names[] = {
-> +       "aclk", "hclk", "sclk"
-> +};
-> +
-> +const struct hantro_variant px30_vpu_variant = {
-> +       .enc_offset = 0x0,
-> +       .enc_fmts = rk3399_vpu_enc_fmts,
-> +       .num_enc_fmts = ARRAY_SIZE(rk3399_vpu_enc_fmts),
-> +       .dec_offset = 0x400,
-> +       .dec_fmts = rk3399_vpu_dec_fmts,
-> +       .num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
-> +       .codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
-> +                HANTRO_VP8_DECODER,
-> +       .codec_ops = rk3399_vpu_codec_ops,
-> +       .irqs = rk3399_irqs,
-> +       .num_irqs = ARRAY_SIZE(rk3399_irqs),
-> +       .init = rk3399_vpu_hw_init,
-> +       .clk_names = px30_clk_names,
-> +       .num_clocks = ARRAY_SIZE(px30_clk_names)
-> +};
+Adding Maxime and Yong Deng, it would be great to get rid of this,
+so we can remove the API, which would also allow us to remove
+some other internal functions and therefore make the API a bit cleaner.
 
 Thanks,
 Ezequiel
 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  include/media/v4l2-fwnode.h | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> index 4365430eea6f..d0a1293379ab 100644
+> --- a/include/media/v4l2-fwnode.h
+> +++ b/include/media/v4l2-fwnode.h
+> @@ -453,6 +453,10 @@ typedef int (*parse_endpoint_func)(struct device *dev,
+>   * @parse_endpoint: Driver's callback function called on each V4L2 fwnode
+>   *                 endpoint. Optional.
+>   *
+> + * DEPRECATED! This function is deprecated. Don't use it in new drivers.
+> + * Instead see an example in cio2_parse_firmware() function in
+> + * drivers/media/pci/intel/ipu3/ipu3-cio2.c .
+> + *
+>   * Parse the fwnode endpoints of the @dev device and populate the async sub-
+>   * devices list in the notifier. The @parse_endpoint callback function is
+>   * called for each endpoint with the corresponding async sub-device pointer to
+> --
+> 2.29.2
+>
