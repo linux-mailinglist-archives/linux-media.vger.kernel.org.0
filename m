@@ -2,449 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F0492ECDCC
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 11:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 949D42ECDC4
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 11:28:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbhAGK2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 05:28:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40382 "EHLO mx2.suse.de"
+        id S1726545AbhAGK2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 05:28:20 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44468 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726526AbhAGK2s (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Jan 2021 05:28:48 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 41E9DACCF;
-        Thu,  7 Jan 2021 10:28:05 +0000 (UTC)
-Subject: Re: [PATCH v3 6/8] drm/shmem-helper: Provide a vmap function for
- short-term mappings
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     christian.koenig@amd.com, airlied@linux.ie,
-        sumit.semwal@linaro.org, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
-        sean@poorly.run, eric@anholt.net, sam@ravnborg.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        virtualization@lists.linux-foundation.org
-References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-7-tzimmermann@suse.de>
- <20201211095016.GL401619@phenom.ffwll.local>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e3b3062d-2fc6-4871-3562-5272188414dd@suse.de>
-Date:   Thu, 7 Jan 2021 11:28:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1726541AbhAGK2U (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Jan 2021 05:28:20 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kxSW2-004N6e-O6; Thu, 07 Jan 2021 10:27:38 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kxSZQ-0003YX-Py; Thu, 07 Jan 2021 10:31:08 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.12] Various fixes/enhancements (#70528)
+Date:   Thu,  7 Jan 2021 10:31:08 +0000
+Message-Id: <20210107103108.13628-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <02de968e-c955-55fc-407f-bf2dab0627f4@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20201211095016.GL401619@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="88KxvCruBJe8UE3M4G3C6cS55Ur55MMC6"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---88KxvCruBJe8UE3M4G3C6cS55Ur55MMC6
-Content-Type: multipart/mixed; boundary="Vsa6WbAzSSWCT5kLrdgOeayLJCwhV1wOB";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: christian.koenig@amd.com, airlied@linux.ie, sumit.semwal@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, kraxel@redhat.com,
- hdegoede@redhat.com, sean@poorly.run, eric@anholt.net, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, virtualization@lists.linux-foundation.org
-Message-ID: <e3b3062d-2fc6-4871-3562-5272188414dd@suse.de>
-Subject: Re: [PATCH v3 6/8] drm/shmem-helper: Provide a vmap function for
- short-term mappings
-References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-7-tzimmermann@suse.de>
- <20201211095016.GL401619@phenom.ffwll.local>
-In-Reply-To: <20201211095016.GL401619@phenom.ffwll.local>
+From: builder@linuxtv.org
 
---Vsa6WbAzSSWCT5kLrdgOeayLJCwhV1wOB
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/02de968e-c955-55fc-407f-bf2dab0627f4@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/84733/
+Build time: 00:09:18
+Link: https://lore.kernel.org/linux-media/02de968e-c955-55fc-407f-bf2dab0627f4@xs4all.nl
 
-Hi Daniel
+gpg: Signature made Thu 07 Jan 2021 10:14:17 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Am 11.12.20 um 10:50 schrieb Daniel Vetter:
-[...]
->> +/**
->> + * drm_gem_shmem_vmap_local - Create a virtual mapping for a shmem GE=
-M object
->> + * @shmem: shmem GEM object
->> + * @map: Returns the kernel virtual address of the SHMEM GEM object's=
- backing
->> + *       store.
->> + *
->> + * This function makes sure that a contiguous kernel virtual address =
-mapping
->> + * exists for the buffer backing the shmem GEM object.
->> + *
->> + * The function is called with the BO's reservation object locked. Ca=
-llers must
->> + * hold the lock until after unmapping the buffer.
->> + *
->> + * This function can be used to implement &drm_gem_object_funcs.vmap_=
-local. But
->> + * it can also be called by drivers directly, in which case it will h=
-ide the
->> + * differences between dma-buf imported and natively allocated object=
-s.
->> + *
->> + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vu=
-nmap_local().
->> + *
->> + * Returns:
->> + * 0 on success or a negative error code on failure.
->> + */
->> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_b=
-uf_map *map)
->> +{
->> +	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
->> +	int ret;
->> +
->> +	dma_resv_assert_held(obj->resv);
->> +
->> +	ret =3D mutex_lock_interruptible(&shmem->vmap_lock);
->=20
-> This bites. You need to check for shmem->import_attach and call
-> dma_buf_vmap_local directly here before you take any shmem helper locks=
-=2E
-> Real fix would be to replace both vmap_lock and pages_lock with dma_res=
-v
-> lock, but that's more work. Same for vunmap_local
+Summary: got 0/23 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-This comment confuses me. AFAICT vmap_lock protects vmap_use_count. Why=20
-does this exact code work in drm_gem_shmem_vmap() but not in _local() ?
-
-Best regards
-Thomas
-
->=20
-> With that fixed on the helper part of this patch:
->=20
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
->=20
->> +	if (ret)
->> +		return ret;
->> +	ret =3D drm_gem_shmem_vmap_locked(shmem, map);
->> +	mutex_unlock(&shmem->vmap_lock);
->> +
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_vmap_local);
->> +
->>   static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object =
-*shmem,
->>   					struct dma_buf_map *map)
->>   {
->> @@ -366,7 +406,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm=
-_gem_shmem_object *shmem,
->>   	drm_gem_shmem_put_pages(shmem);
->>   }
->>  =20
->> -/*
->> +/**
->>    * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM obj=
-ect
->>    * @shmem: shmem GEM object
->>    * @map: Kernel virtual address where the SHMEM GEM object was mappe=
-d
->> @@ -389,6 +429,33 @@ void drm_gem_shmem_vunmap(struct drm_gem_object *=
-obj, struct dma_buf_map *map)
->>   }
->>   EXPORT_SYMBOL(drm_gem_shmem_vunmap);
->>  =20
->> +/**
->> + * drm_gem_shmem_vunmap_local - Unmap a virtual mapping fo a shmem GE=
-M object
->> + * @shmem: shmem GEM object
->> + * @map: Kernel virtual address where the SHMEM GEM object was mapped=
-
->> + *
->> + * This function cleans up a kernel virtual address mapping acquired =
-by
->> + * drm_gem_shmem_vmap_local(). The mapping is only removed when the u=
-se count
->> + * drops to zero.
->> + *
->> + * The function is called with the BO's reservation object locked.
->> + *
->> + * This function can be used to implement &drm_gem_object_funcs.vmap_=
-local.
->> + * But it can also be called by drivers directly, in which case it wi=
-ll hide
->> + * the differences between dma-buf imported and natively allocated ob=
-jects.
->> + */
->> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dm=
-a_buf_map *map)
->> +{
->> +	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
->> +
->> +	dma_resv_assert_held(obj->resv);
->> +
->> +	mutex_lock(&shmem->vmap_lock);
->> +	drm_gem_shmem_vunmap_locked(shmem, map);
->> +	mutex_unlock(&shmem->vmap_lock);
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_vunmap_local);
->> +
->>   struct drm_gem_shmem_object *
->>   drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
->>   				 struct drm_device *dev, size_t size,
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
-mgag200/mgag200_mode.c
->> index 1dfc42170059..a33e28d4c5e9 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -1552,22 +1552,32 @@ mgag200_handle_damage(struct mga_device *mdev,=
- struct drm_framebuffer *fb,
->>   		      struct drm_rect *clip)
->>   {
->>   	struct drm_device *dev =3D &mdev->base;
->> +	struct drm_gem_object *obj =3D fb->obj[0];
->>   	struct dma_buf_map map;
->>   	void *vmap;
->>   	int ret;
->>  =20
->> -	ret =3D drm_gem_shmem_vmap(fb->obj[0], &map);
->> +	ret =3D dma_resv_lock(obj->resv, NULL);
->>   	if (drm_WARN_ON(dev, ret))
->> -		return; /* BUG: SHMEM BO should always be vmapped */
->> +		return;
->> +	ret =3D drm_gem_shmem_vmap_local(obj, &map);
->> +	if (drm_WARN_ON(dev, ret))
->> +		goto err_dma_resv_unlock; /* BUG: SHMEM BO should always be vmapped=
- */
->>   	vmap =3D map.vaddr; /* TODO: Use mapping abstraction properly */
->>  =20
->>   	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
->>  =20
->> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
->> +	drm_gem_shmem_vunmap_local(obj, &map);
->> +	dma_resv_unlock(obj->resv);
->>  =20
->>   	/* Always scanout image at VRAM offset 0 */
->>   	mgag200_set_startadd(mdev, (u32)0);
->>   	mgag200_set_offset(mdev, fb);
->> +
->> +	return;
->> +
->> +err_dma_resv_unlock:
->> +	dma_resv_unlock(obj->resv);
->>   }
->>  =20
->>   static void
->> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirr=
-us.c
->> index 561c49d8657a..58c694964148 100644
->> --- a/drivers/gpu/drm/tiny/cirrus.c
->> +++ b/drivers/gpu/drm/tiny/cirrus.c
->> @@ -315,6 +315,7 @@ static int cirrus_fb_blit_rect(struct drm_framebuf=
-fer *fb,
->>   			       struct drm_rect *rect)
->>   {
->>   	struct cirrus_device *cirrus =3D to_cirrus(fb->dev);
->> +	struct drm_gem_object *obj =3D fb->obj[0];
->>   	struct dma_buf_map map;
->>   	void *vmap;
->>   	int idx, ret;
->> @@ -323,9 +324,12 @@ static int cirrus_fb_blit_rect(struct drm_framebu=
-ffer *fb,
->>   	if (!drm_dev_enter(&cirrus->dev, &idx))
->>   		goto out;
->>  =20
->> -	ret =3D drm_gem_shmem_vmap(fb->obj[0], &map);
->> +	ret =3D dma_resv_lock(obj->resv, NULL);
->>   	if (ret)
->>   		goto out_dev_exit;
->> +	ret =3D drm_gem_shmem_vmap_local(fb->obj[0], &map);
->> +	if (ret)
->> +		goto out_dma_resv_unlock;
->>   	vmap =3D map.vaddr; /* TODO: Use mapping abstraction properly */
->>  =20
->>   	if (cirrus->cpp =3D=3D fb->format->cpp[0])
->> @@ -345,9 +349,11 @@ static int cirrus_fb_blit_rect(struct drm_framebu=
-ffer *fb,
->>   	else
->>   		WARN_ON_ONCE("cpp mismatch");
->>  =20
->> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
->>   	ret =3D 0;
->>  =20
->> +	drm_gem_shmem_vunmap_local(obj, &map);
->> +out_dma_resv_unlock:
->> +	dma_resv_unlock(obj->resv);
->>   out_dev_exit:
->>   	drm_dev_exit(idx);
->>   out:
->> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm=
-12u320.c
->> index 33f65f4626e5..b0c6e350f2b3 100644
->> --- a/drivers/gpu/drm/tiny/gm12u320.c
->> +++ b/drivers/gpu/drm/tiny/gm12u320.c
->> @@ -265,11 +265,16 @@ static void gm12u320_copy_fb_to_blocks(struct gm=
-12u320_device *gm12u320)
->>   	y1 =3D gm12u320->fb_update.rect.y1;
->>   	y2 =3D gm12u320->fb_update.rect.y2;
->>  =20
->> -	ret =3D drm_gem_shmem_vmap(fb->obj[0], &map);
->> +	ret =3D dma_resv_lock(fb->obj[0]->resv, NULL);
->>   	if (ret) {
->> -		GM12U320_ERR("failed to vmap fb: %d\n", ret);
->> +		GM12U320_ERR("failed to reserve fb: %d\n", ret);
->>   		goto put_fb;
->>   	}
->> +	ret =3D drm_gem_shmem_vmap_local(fb->obj[0], &map);
->> +	if (ret) {
->> +		GM12U320_ERR("failed to vmap fb: %d\n", ret);
->> +		goto unlock_resv;
->> +	}
->>   	vaddr =3D map.vaddr; /* TODO: Use mapping abstraction properly */
->>  =20
->>   	if (fb->obj[0]->import_attach) {
->> @@ -321,8 +326,11 @@ static void gm12u320_copy_fb_to_blocks(struct gm1=
-2u320_device *gm12u320)
->>   		if (ret)
->>   			GM12U320_ERR("dma_buf_end_cpu_access err: %d\n", ret);
->>   	}
->> +
->> +unlock_resv:
->> +	dma_resv_unlock(fb->obj[0]->resv);
->>   vunmap:
->> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
->> +	drm_gem_shmem_vunmap_local(fb->obj[0], &map);
->>   put_fb:
->>   	drm_framebuffer_put(fb);
->>   	gm12u320->fb_update.fb =3D NULL;
->> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/u=
-dl_modeset.c
->> index 9d34ec9d03f6..46b55b4d03c2 100644
->> --- a/drivers/gpu/drm/udl/udl_modeset.c
->> +++ b/drivers/gpu/drm/udl/udl_modeset.c
->> @@ -290,14 +290,18 @@ static int udl_handle_damage(struct drm_framebuf=
-fer *fb, int x, int y,
->>   	else if ((clip.x2 > fb->width) || (clip.y2 > fb->height))
->>   		return -EINVAL;
->>  =20
->> +	ret =3D dma_resv_lock(fb->obj[0]->resv, NULL);
->> +	if (ret)
->> +		return ret;
->> +
->>   	if (import_attach) {
->>   		ret =3D dma_buf_begin_cpu_access(import_attach->dmabuf,
->>   					       DMA_FROM_DEVICE);
->>   		if (ret)
->> -			return ret;
->> +			goto out_dma_resv_unlock;
->>   	}
->>  =20
->> -	ret =3D drm_gem_shmem_vmap(fb->obj[0], &map);
->> +	ret =3D drm_gem_shmem_vmap_local(fb->obj[0], &map);
->>   	if (ret) {
->>   		DRM_ERROR("failed to vmap fb\n");
->>   		goto out_dma_buf_end_cpu_access;
->> @@ -307,7 +311,7 @@ static int udl_handle_damage(struct drm_framebuffe=
-r *fb, int x, int y,
->>   	urb =3D udl_get_urb(dev);
->>   	if (!urb) {
->>   		ret =3D -ENOMEM;
->> -		goto out_drm_gem_shmem_vunmap;
->> +		goto out_drm_gem_shmem_vunmap_local;
->>   	}
->>   	cmd =3D urb->transfer_buffer;
->>  =20
->> @@ -320,7 +324,7 @@ static int udl_handle_damage(struct drm_framebuffe=
-r *fb, int x, int y,
->>   				       &cmd, byte_offset, dev_byte_offset,
->>   				       byte_width);
->>   		if (ret)
->> -			goto out_drm_gem_shmem_vunmap;
->> +			goto out_drm_gem_shmem_vunmap_local;
->>   	}
->>  =20
->>   	if (cmd > (char *)urb->transfer_buffer) {
->> @@ -336,8 +340,8 @@ static int udl_handle_damage(struct drm_framebuffe=
-r *fb, int x, int y,
->>  =20
->>   	ret =3D 0;
->>  =20
->> -out_drm_gem_shmem_vunmap:
->> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
->> +out_drm_gem_shmem_vunmap_local:
->> +	drm_gem_shmem_vunmap_local(fb->obj[0], &map);
->>   out_dma_buf_end_cpu_access:
->>   	if (import_attach) {
->>   		tmp_ret =3D dma_buf_end_cpu_access(import_attach->dmabuf,
->> @@ -345,6 +349,8 @@ static int udl_handle_damage(struct drm_framebuffe=
-r *fb, int x, int y,
->>   		if (tmp_ret && !ret)
->>   			ret =3D tmp_ret; /* only update ret if not set yet */
->>   	}
->> +out_dma_resv_unlock:
->> +	dma_resv_unlock(fb->obj[0]->resv);
->>  =20
->>   	return ret;
->>   }
->> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_=
-shmem_helper.h
->> index 434328d8a0d9..3f59bdf749aa 100644
->> --- a/include/drm/drm_gem_shmem_helper.h
->> +++ b/include/drm/drm_gem_shmem_helper.h
->> @@ -114,7 +114,9 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_=
-object *shmem);
->>   int drm_gem_shmem_pin(struct drm_gem_object *obj);
->>   void drm_gem_shmem_unpin(struct drm_gem_object *obj);
->>   int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_ma=
-p *map);
->> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_b=
-uf_map *map);
->>   void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf=
-_map *map);
->> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dm=
-a_buf_map *map);
->>  =20
->>   int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv);
->>  =20
->> --=20
->> 2.29.2
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Error/warnings:
 
 
---Vsa6WbAzSSWCT5kLrdgOeayLJCwhV1wOB--
+Error #512 when building PDF docs
 
---88KxvCruBJe8UE3M4G3C6cS55Ur55MMC6
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/24jMFAwAAAAAACgkQlh/E3EQov+Bt
-SQ//Tmvbnqo06avawZAo53Iy6eHT5YE97d7e/vHd02N6MvwRiOcBd2r2vArAE/4Zdq+1lG3NieTT
-W6s22UUsVtUE6B5nm4IzInTLbweMioJ0xvttSH+JDfJ1hZO9G1/EebLsKcP3hSR87vCf5JfDXROs
-Gj/nBPvN4tEGaanUTbvVn5k+Kfb13ZUuYSwYqHpWf5Azrr/34aF1tHsrfCgugx8n81dGKJ/NPWG7
-x7GqNRxaRlkZfTg6apSu9PG1TRZfXXH7yQIpj9U45ILEDdsidS/cw+TWCEknRGSnu/J7zEYanGdc
-k5u6uKy7otLIqV7G0P5cI8mCy1nj8BgozF1OvfIN/GiZygRSVzpaCjM4YOibuv0TmYWbS3PL55i8
-9K/eZ/D20O7uToQWMzPyzTyUTLpI4lgCgTahEc1+GMKPkmqEin5ceRAwwBGpuwh96/B0H8RF4SGO
-Ei1AGqnnHcLCTyxntAp0SFtRGZ6QBTAbnR0G8taThrVU1VmAA04sBMJBPBvKItv5A3RKeR0aMjVw
-aEn4iCEo/7OkoCHuhUROOjUwLaSTGt6KDQMC4jFBDTcD28yXaLk5hM5qv3ghXtaFSQym1X3jAa1e
-IXbl4epC/9R2/SqKmieWnXRSzHRjcv87NOsV6e+Q7gdGGIn1nq36W8Tt46/E6VSCktB6wN50zCBF
-27Q=
-=wiY/
------END PGP SIGNATURE-----
-
---88KxvCruBJe8UE3M4G3C6cS55Ur55MMC6--
