@@ -2,172 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95A622ECD79
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 11:07:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F00962ECD8D
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 11:11:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbhAGKGv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 05:06:51 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:56763 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725974AbhAGKGv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Jan 2021 05:06:51 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id xSB7klznqbMeAxSBAkTDMc; Thu, 07 Jan 2021 11:06:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610013968; bh=16EDQQrb7BzqYQP3Qhe8RixWHoJERl1tg+cwWJ1aub4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=hD/yyhiMDJuTnTdra5BrJvSbIDzNR9aGRXrE6HqKlQjdyqrarsGRE0B1UYu27lFlr
-         ULJu6OENk7Zdw1XdkkrYDpA8a9FEpR1kUAjxOAZYUWWAG4+ETgBQ3V0BY+MmYYLoyC
-         MtZHNL8GP/0WbigKbb7aVO0URmhMyqmqOnRztVQBcPIyoxS7NLbW3UeGOustu3kxDD
-         OeNeSTjhAq3WHSpA3HyShi6Iw5xtma9R6yu2FWzsCwZe5/aSs6Ezna9ZTCchzIvFN9
-         wVFbBHqnNIkFYRQPhYA0HWCuHiNi7vG90iJ/Fk4WTJ/s3QbzJx+ad4iW1Cmh2iKE0c
-         5P5CDnHxPg/3w==
-Subject: Re: [PATCH v2 1/1] media: aspeed: fix clock handling logic
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Eddie James <eajames@linux.ibm.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
-References: <20201221223225.14723-1-jae.hyun.yoo@linux.intel.com>
- <20201221223225.14723-2-jae.hyun.yoo@linux.intel.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <6cd30b60-87d9-0c92-4721-fdaa429acf3e@xs4all.nl>
-Date:   Thu, 7 Jan 2021 11:06:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1727468AbhAGKKl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 05:10:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44152 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726313AbhAGKKl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 05:10:41 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91047C0612F4
+        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 02:10:00 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id a6so4663987wmc.2
+        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 02:10:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3qGibaxmUvozTUg5l5LOwP6FkKyVfhpoDpVtAsIvhlQ=;
+        b=ND1QVgnOp9W+Hgk1OuvGInbtkOL34kLhTnZ6kQI5Sbk6yeJ3ohqkks6VQPZWSij2uO
+         3w7/gUYgDTbmlvNfAvi5pIWmsiM/Iw6FbKsM9/BeV6pyn8aOimxRI8pb7UdszUnH81Is
+         YTLfQRKJtq/3UjYq6FrI4TfuCPfBHnpAWJQOr0I6akYLP3eUDnO/dzwAEVi80ulmdPKl
+         wHsUk4ktzIq45t5R5PeEiEmh2AL6SphgVbqLeHTikOCEvsNB24wIHT9tyWeuVl6yu3gZ
+         BUae6V6IgDFC6++LS1Dps4/kYUDkMizxxBsGKaA3qZXaF7IordT3MX9konTb9rzHKuNg
+         Mk/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3qGibaxmUvozTUg5l5LOwP6FkKyVfhpoDpVtAsIvhlQ=;
+        b=iF7skI2NRlwnZLHIrFRzLPNjLcN3xj1mOOD4z/UncknPMKhma19EglVt/ss0m2O7kP
+         Ox4VZIwAlZKXeIm45EDSmB5G02BZuFCJtP0BDGrq4JQD56K43NkdvQX418BRW4MoDn2v
+         bEQGTKFlRXA1VLpxbvut2R8R9dHcuzfoIpUdVp4LRcfo5g+1o8wHjYu267JafEIjll/f
+         dXFgoqdR3e8VJztKCP5NJ8ny9BXsrqt1fUXbboPUHiSvj4lZjfsp09nKn6mWvezpttM8
+         SZ7O+IlV/wuQePlP4U5/1kbMXRH3llo4LyirjXoHNM4oR90UWNKHXZdTqBegYSRE48F9
+         Qa1g==
+X-Gm-Message-State: AOAM532RbaOQl684aVKp2IxA2jo6MOZVGkoussfvdgFKTJTD8EXPp/xI
+        xNjtqo+8+QTBlyZcYN+ZY6fUnQ==
+X-Google-Smtp-Source: ABdhPJxSL4deVMWAkPfLRW/+Obk7VYER9LX/IqJjWI8HeVTKKnwKPBWpQhORCX6ARakBUJSJVjh3sw==
+X-Received: by 2002:a05:600c:1552:: with SMTP id f18mr7366017wmg.125.1610014199213;
+        Thu, 07 Jan 2021 02:09:59 -0800 (PST)
+Received: from [192.168.0.2] (hst-221-29.medicom.bg. [84.238.221.29])
+        by smtp.googlemail.com with ESMTPSA id l11sm7249798wrt.23.2021.01.07.02.09.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Jan 2021 02:09:58 -0800 (PST)
+Subject: Re: [PATCH v2 7/8] venus: venc: Handle reset encoder state
+To:     Fritz Koenig <frkoenig@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Alexandre Courbot <acourbot@chromium.org>
+References: <20201111143755.24541-1-stanimir.varbanov@linaro.org>
+ <20201111143755.24541-8-stanimir.varbanov@linaro.org>
+ <CAMfZQbzxBdND1VxRJ_P+V7X6f5noZ7bdAjOJHjLfVmQHbBQoLg@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <8dcfc966-5081-66f2-0561-b6e75be57417@linaro.org>
+Date:   Thu, 7 Jan 2021 12:09:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201221223225.14723-2-jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <CAMfZQbzxBdND1VxRJ_P+V7X6f5noZ7bdAjOJHjLfVmQHbBQoLg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOcMz+xa5kN04kzT6m2GYPfbqzY1WyAMxyJULZ5qXXxiAQiGEy7LMZ8JmRsijCIV9HAwiJZNGVZrra4NtRGrv7eoXTOzYr1cwcbfJdMIeAHKXBEFriFt
- TXpt0s9ijAVw71WtvA7FIIB3zjQN8qZmFbCUIe543Cf1AXw3WovcYw3Jjyqh95QDxlPU65z1jMCaGhlHaMBEVqH5KkbB/OospdK83At3YOLBZRskxgMrS+0V
- PFBksh3P8tlsPecgWYaazfFv/2Rs4xLS3OyrUcgCZ46a1BgTt0uY+wLh0Rvs29g2UV09JM51/d0zkrG1HUbIoe0massnqTk9IwCTOGDL0lhrbs8J7B5GVGbo
- Vj0Wsme2a/p5Izc/he9hKSl6l3eGaSacjM139azJub8EA7NleLLUu2SMK59dxqWv+ian8u+eQFqABF5J9YxWszHcu9Eu318iWoqp46mky5L/HtFlCaY+bE35
- F1lgT9/gXOua3QoqP3ETKoOrbZD7NwqywL8b2GG/BBkHoVQ4XV1YCl80jaolO0+Zl17WDDbKrDM9LyBw
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stephen,
+Hi Fritz,
 
-On 21/12/2020 23:32, Jae Hyun Yoo wrote:
-> Video engine uses eclk and vclk for its clock sources and its reset
-> control is coupled with eclk so the current clock enabling sequence works
-> like below.
-> 
->  Enable eclk
->  De-assert Video Engine reset
->  10ms delay
->  Enable vclk
-> 
-> It introduces improper reset on the Video Engine hardware and eventually
-> the hardware generates unexpected DMA memory transfers that can corrupt
-> memory region in random and sporadic patterns. This issue is observed
-> very rarely on some specific AST2500 SoCs but it causes a critical
-> kernel panic with making a various shape of signature so it's extremely
-> hard to debug. Moreover, the issue is observed even when the video
-> engine is not actively used because udevd turns on the video engine
-> hardware for a short time to make a query in every boot.
-> 
-> To fix this issue, this commit changes the clock handling logic to make
-> the reset de-assertion triggered after enabling both eclk and vclk. Also,
-> it adds clk_unprepare call for a case when probe fails.
-> 
-> Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> Reviewed-by: Eddie James <eajames@linux.ibm.com>
-> 
-> clk: ast2600: fix reset settings for eclk and vclk
-> 
-> Video engine reset setting should be coupled with eclk to match it
-> with the setting for previous Aspeed SoCs which is defined in
-> clk-aspeed.c since all Aspeed SoCs are sharing a single video engine
-> driver. Also, reset bit 6 is defined as 'Video Engine' reset in
-> datasheet so it should be de-asserted when eclk is enabled. This
-> commit fixes the setting.
-> 
-> Fixes: d3d04f6c330a ("clk: Add support for AST2600 SoC")
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+On 1/2/21 2:13 AM, Fritz Koenig wrote:
+> How should we resolve this patch in relation to the "venus: venc: Init
+> the session only once in queue_setup" [1] patch?
 
-I think it makes sense to merge this via the media subsystem.
+I plan to make a pull request including 4/8 and 5/8 patches from this
+series which are infact fixes.
 
-Can you Ack this patch?
+After that I will send v2 on top of this pull-request. Unfortunately  I
+have to postpone this series because I see issues when execute in a row
+my tests for drain and reset encoder states.
 
-Thanks!
-
-	Hans
-
-> ---
-> Changes since v1:
-> - Squashed two patches due to dependency.
 > 
->  drivers/clk/clk-ast2600.c             | 4 ++--
->  drivers/media/platform/aspeed-video.c | 9 ++++++---
->  2 files changed, 8 insertions(+), 5 deletions(-)
+> "venus: venc: Init the session only once in queue_setup" comes after
+> and reworks |venc_start_streaming| substantially.  This patch
+> implements |venc_stop_streaming|, but maybe that is not needed with
+> the newer patch?  Can this one just be dropped, or does it need
+> rework?
 > 
-> diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
-> index 177368cac6dd..882da16575d4 100644
-> --- a/drivers/clk/clk-ast2600.c
-> +++ b/drivers/clk/clk-ast2600.c
-> @@ -60,10 +60,10 @@ static void __iomem *scu_g6_base;
->  static const struct aspeed_gate_data aspeed_g6_gates[] = {
->  	/*				    clk rst  name		parent	 flags */
->  	[ASPEED_CLK_GATE_MCLK]		= {  0, -1, "mclk-gate",	"mpll",	 CLK_IS_CRITICAL }, /* SDRAM */
-> -	[ASPEED_CLK_GATE_ECLK]		= {  1, -1, "eclk-gate",	"eclk",	 0 },	/* Video Engine */
-> +	[ASPEED_CLK_GATE_ECLK]		= {  1,  6, "eclk-gate",	"eclk",	 0 },	/* Video Engine */
->  	[ASPEED_CLK_GATE_GCLK]		= {  2,  7, "gclk-gate",	NULL,	 0 },	/* 2D engine */
->  	/* vclk parent - dclk/d1clk/hclk/mclk */
-> -	[ASPEED_CLK_GATE_VCLK]		= {  3,  6, "vclk-gate",	NULL,	 0 },	/* Video Capture */
-> +	[ASPEED_CLK_GATE_VCLK]		= {  3, -1, "vclk-gate",	NULL,	 0 },	/* Video Capture */
->  	[ASPEED_CLK_GATE_BCLK]		= {  4,  8, "bclk-gate",	"bclk",	 0 }, /* PCIe/PCI */
->  	/* From dpll */
->  	[ASPEED_CLK_GATE_DCLK]		= {  5, -1, "dclk-gate",	NULL,	 CLK_IS_CRITICAL }, /* DAC */
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index c46a79eace98..db072ff2df70 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -514,8 +514,8 @@ static void aspeed_video_off(struct aspeed_video *video)
->  	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
->  
->  	/* Turn off the relevant clocks */
-> -	clk_disable(video->vclk);
->  	clk_disable(video->eclk);
-> +	clk_disable(video->vclk);
->  
->  	clear_bit(VIDEO_CLOCKS_ON, &video->flags);
->  }
-> @@ -526,8 +526,8 @@ static void aspeed_video_on(struct aspeed_video *video)
->  		return;
->  
->  	/* Turn on the relevant clocks */
-> -	clk_enable(video->eclk);
->  	clk_enable(video->vclk);
-> +	clk_enable(video->eclk);
->  
->  	set_bit(VIDEO_CLOCKS_ON, &video->flags);
->  }
-> @@ -1719,8 +1719,11 @@ static int aspeed_video_probe(struct platform_device *pdev)
->  		return rc;
->  
->  	rc = aspeed_video_setup_video(video);
-> -	if (rc)
-> +	if (rc) {
-> +		clk_unprepare(video->vclk);
-> +		clk_unprepare(video->eclk);
->  		return rc;
-> +	}
->  
->  	return 0;
->  }
+> -Fritz
 > 
+> [1]: https://lore.kernel.org/patchwork/patch/1349416/
+> 
+> On Wed, Nov 11, 2020 at 6:38 AM Stanimir Varbanov
+> <stanimir.varbanov@linaro.org> wrote:
+>>
+>> Redesign the encoder driver to be compliant with stateful encoder
+>> spec - specifically adds handling of Reset state.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/venc.c | 155 ++++++++++++++++++-----
+>>  1 file changed, 122 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+>> index 7512e4a16270..f1ae89d45a54 100644
+>> --- a/drivers/media/platform/qcom/venus/venc.c
+>> +++ b/drivers/media/platform/qcom/venus/venc.c
+>> @@ -907,6 +907,54 @@ static int venc_queue_setup(struct vb2_queue *q,
+>>         return ret;
+>>  }
+>>
+>> +static void venc_release_session(struct venus_inst *inst)
+>> +{
+>> +       int ret, abort = 0;
+>> +
+>> +       mutex_lock(&inst->lock);
+>> +
+>> +       ret = hfi_session_deinit(inst);
+>> +       abort = (ret && ret != -EINVAL) ? 1 : 0;
+>> +
+>> +       if (inst->session_error)
+>> +               abort = 1;
+>> +
+>> +       if (abort)
+>> +               hfi_session_abort(inst);
+>> +
+>> +       venus_pm_load_scale(inst);
+>> +       INIT_LIST_HEAD(&inst->registeredbufs);
+>> +       mutex_unlock(&inst->lock);
+>> +
+>> +       venus_pm_release_core(inst);
+>> +}
+>> +
+>> +static int venc_buf_init(struct vb2_buffer *vb)
+>> +{
+>> +       struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+>> +
+>> +       inst->buf_count++;
+>> +
+>> +       return venus_helper_vb2_buf_init(vb);
+>> +}
+>> +
+>> +static void venc_buf_cleanup(struct vb2_buffer *vb)
+>> +{
+>> +       struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+>> +       struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>> +       struct venus_buffer *buf = to_venus_buffer(vbuf);
+>> +
+>> +       mutex_lock(&inst->lock);
+>> +       if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+>> +               if (!list_empty(&inst->registeredbufs))
+>> +                       list_del_init(&buf->reg_list);
+>> +       mutex_unlock(&inst->lock);
+>> +
+>> +       inst->buf_count--;
+>> +       if (!inst->buf_count)
+>> +               venc_release_session(inst);
+>> +}
+>> +
+>>  static int venc_verify_conf(struct venus_inst *inst)
+>>  {
+>>         enum hfi_version ver = inst->core->res->hfi_version;
+>> @@ -938,49 +986,57 @@ static int venc_verify_conf(struct venus_inst *inst)
+>>  static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
+>>  {
+>>         struct venus_inst *inst = vb2_get_drv_priv(q);
+>> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+>>         int ret;
+>>
+>>         mutex_lock(&inst->lock);
+>>
+>> -       if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+>> +       v4l2_m2m_update_start_streaming_state(m2m_ctx, q);
+>> +
+>> +       if (V4L2_TYPE_IS_OUTPUT(q->type))
+>>                 inst->streamon_out = 1;
+>>         else
+>>                 inst->streamon_cap = 1;
+>>
+>> -       if (!(inst->streamon_out & inst->streamon_cap)) {
+>> -               mutex_unlock(&inst->lock);
+>> -               return 0;
+>> -       }
+>> +       if (inst->streamon_out && inst->streamon_cap &&
+>> +           inst->state == INST_UNINIT) {
+>> +               venus_helper_init_instance(inst);
+>>
+>> -       venus_helper_init_instance(inst);
+>> +               inst->sequence_cap = 0;
+>> +               inst->sequence_out = 0;
+>>
+>> -       inst->sequence_cap = 0;
+>> -       inst->sequence_out = 0;
+>> +               ret = venc_init_session(inst);
+>> +               if (ret)
+>> +                       goto bufs_done;
+>>
+>> -       ret = venc_init_session(inst);
+>> -       if (ret)
+>> -               goto bufs_done;
+>> +               ret = venus_pm_acquire_core(inst);
+>> +               if (ret)
+>> +                       goto deinit_sess;
+>>
+>> -       ret = venus_pm_acquire_core(inst);
+>> -       if (ret)
+>> -               goto deinit_sess;
+>> +               ret = venc_verify_conf(inst);
+>> +               if (ret)
+>> +                       goto deinit_sess;
+>>
+>> -       ret = venc_set_properties(inst);
+>> -       if (ret)
+>> -               goto deinit_sess;
+>> +               ret = venus_helper_set_num_bufs(inst, inst->num_input_bufs,
+>> +                                               inst->num_output_bufs, 0);
+>> +               if (ret)
+>> +                       goto deinit_sess;
+>>
+>> -       ret = venc_verify_conf(inst);
+>> -       if (ret)
+>> -               goto deinit_sess;
+>> +               ret = venus_helper_vb2_start_streaming(inst);
+>> +               if (ret)
+>> +                       goto deinit_sess;
+>>
+>> -       ret = venus_helper_set_num_bufs(inst, inst->num_input_bufs,
+>> -                                       inst->num_output_bufs, 0);
+>> -       if (ret)
+>> -               goto deinit_sess;
+>> +               venus_helper_process_initial_out_bufs(inst);
+>> +               venus_helper_process_initial_cap_bufs(inst);
+>> +       } else if (V4L2_TYPE_IS_CAPTURE(q->type) && inst->streamon_cap &&
+>> +                  inst->streamon_out) {
+>> +               ret = venus_helper_vb2_start_streaming(inst);
+>> +               if (ret)
+>> +                       goto bufs_done;
+>>
+>> -       ret = venus_helper_vb2_start_streaming(inst);
+>> -       if (ret)
+>> -               goto deinit_sess;
+>> +               venus_helper_process_initial_out_bufs(inst);
+>> +               venus_helper_process_initial_cap_bufs(inst);
+>> +       }
+>>
+>>         mutex_unlock(&inst->lock);
+>>
+>> @@ -990,15 +1046,43 @@ static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
+>>         hfi_session_deinit(inst);
+>>  bufs_done:
+>>         venus_helper_buffers_done(inst, q->type, VB2_BUF_STATE_QUEUED);
+>> -       if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+>> +       if (V4L2_TYPE_IS_OUTPUT(q->type))
+>>                 inst->streamon_out = 0;
+>>         else
+>>                 inst->streamon_cap = 0;
+>> +
+>>         mutex_unlock(&inst->lock);
+>>         return ret;
+>>  }
+>>
+>> -static void venc_vb2_buf_queue(struct vb2_buffer *vb)
+>> +static void venc_stop_streaming(struct vb2_queue *q)
+>> +{
+>> +       struct venus_inst *inst = vb2_get_drv_priv(q);
+>> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+>> +       int ret = -EINVAL;
+>> +
+>> +       mutex_lock(&inst->lock);
+>> +
+>> +       v4l2_m2m_clear_state(m2m_ctx);
+>> +
+>> +       if (V4L2_TYPE_IS_CAPTURE(q->type)) {
+>> +               ret = hfi_session_stop(inst);
+>> +               ret |= hfi_session_unload_res(inst);
+>> +               ret |= venus_helper_unregister_bufs(inst);
+>> +               ret |= venus_helper_intbufs_free(inst);
+>> +       }
+>> +
+>> +       venus_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
+>> +
+>> +       if (V4L2_TYPE_IS_OUTPUT(q->type))
+>> +               inst->streamon_out = 0;
+>> +       else
+>> +               inst->streamon_cap = 0;
+>> +
+>> +       mutex_unlock(&inst->lock);
+>> +}
+>> +
+>> +static void venc_buf_queue(struct vb2_buffer *vb)
+>>  {
+>>         struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+>>         struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>> @@ -1022,11 +1106,12 @@ static void venc_vb2_buf_queue(struct vb2_buffer *vb)
+>>
+>>  static const struct vb2_ops venc_vb2_ops = {
+>>         .queue_setup = venc_queue_setup,
+>> -       .buf_init = venus_helper_vb2_buf_init,
+>> +       .buf_init = venc_buf_init,
+>> +       .buf_cleanup = venc_buf_cleanup,
+>>         .buf_prepare = venus_helper_vb2_buf_prepare,
+>>         .start_streaming = venc_start_streaming,
+>> -       .stop_streaming = venus_helper_vb2_stop_streaming,
+>> -       .buf_queue = venc_vb2_buf_queue,
+>> +       .stop_streaming = venc_stop_streaming,
+>> +       .buf_queue = venc_buf_queue,
+>>  };
+>>
+>>  static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>> @@ -1084,8 +1169,12 @@ static const struct hfi_inst_ops venc_hfi_ops = {
+>>         .event_notify = venc_event_notify,
+>>  };
+>>
+>> +static void venc_m2m_device_run(void *priv)
+>> +{
+>> +}
+>> +
+>>  static const struct v4l2_m2m_ops venc_m2m_ops = {
+>> -       .device_run = venus_helper_m2m_device_run,
+>> +       .device_run = venc_m2m_device_run,
+>>         .job_abort = venus_helper_m2m_job_abort,
+>>  };
+>>
+>> --
+>> 2.17.1
+>>
 
+-- 
+regards,
+Stan
