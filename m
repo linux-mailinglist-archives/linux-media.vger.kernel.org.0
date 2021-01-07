@@ -2,114 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA34B2ED276
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 15:37:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C32992ED2FD
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 15:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728161AbhAGOdX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 09:33:23 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:43222 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729567AbhAGOdX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 09:33:23 -0500
-Received: from relay13.mail.gandi.net (unknown [217.70.178.233])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id AD20E3B1D00;
-        Thu,  7 Jan 2021 14:25:26 +0000 (UTC)
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay13.mail.gandi.net (Postfix) with ESMTPSA id A88428000D;
-        Thu,  7 Jan 2021 14:24:23 +0000 (UTC)
-Date:   Thu, 7 Jan 2021 15:24:23 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/5] arm64: dts: rockchip: Add RGA support to the PX30
-Message-ID: <X/cZlxkQUKRY4Hf+@aptenodytes>
-References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com>
- <20210107134101.195426-3-paul.kocialkowski@bootlin.com>
+        id S1726429AbhAGOrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 09:47:46 -0500
+Received: from impout003aa.msg.chrl.nc.charter.net ([47.43.20.27]:52107 "EHLO
+        impout003.msg.chrl.nc.charter.net" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725965AbhAGOrq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Jan 2021 09:47:46 -0500
+Received: from voodoo.tomdaley.org ([47.5.104.88])
+        by cmsmtp with ESMTPA
+        id xWZ5kd9Frr76UxWZ5k7y62; Thu, 07 Jan 2021 14:47:04 +0000
+Authentication-Results: tomdaley.org; none
+X-Authority-Analysis: v=2.3 cv=dotv9Go4 c=1 sm=1 tr=0
+ a=Uohp5j5pIXpt+qzAizrV8Q==:117 a=Uohp5j5pIXpt+qzAizrV8Q==:17
+ a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=EmqxpYm9HcoA:10 a=7zKikSB_AAAA:8
+ a=VwQbUJbxAAAA:8 a=xq3W2uTSAAAA:8 a=EDLF81dCAAAA:8 a=6ir5WShY_YkCChFZm6wA:9
+ a=CjuIK1q_8ugA:10 a=fenj-cUWjmncKvz_9n8k:22 a=AjGcO6oz07-iQ99wixmX:22
+ a=P5L7wpMTXyg1GfFA3Gwx:22 a=Q3gGPzbJhzamX8w4ir7p:22
+Received: from localhost ([::1] helo=webmail.tomdaley.org)
+        by voodoo.tomdaley.org with esmtpa (Exim 4.92)
+        (envelope-from <tom@tomdaley.org>)
+        id 1kxWZ4-0000zy-V5; Thu, 07 Jan 2021 07:47:02 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="IppPXotpNrpDAaCR"
-Content-Disposition: inline
-In-Reply-To: <20210107134101.195426-3-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 07 Jan 2021 07:47:02 -0700
+From:   tom@tomdaley.org
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: lirc serial_ir homebrew breakage
+In-Reply-To: <20210107102557.GA16279@gofer.mess.org>
+References: <4d2b514731852e392be29048ff2e2cf3@tomdaley.org>
+ <20210107102557.GA16279@gofer.mess.org>
+Message-ID: <3449ade8bbd996a34b2b73f57cd2757b@tomdaley.org>
+X-Sender: tom@tomdaley.org
+User-Agent: Roundcube Webmail/1.3.16
+X-CMAE-Envelope: MS4wfIIuh6GOFu5NGk5RyfromnmQAc7O7DqWKRRXd/icMwUwjfD2mMe87UghEoA7n3gzophE75McetKWvbsxA6gJ28PcwjJMcP9xG/LNm373A8OJl2pJJGOE
+ cwuK5ELY3fuGJ54rcQbxnIJnTfGEHWblgd/krDedVO14W5kganPzf3FmhBDysMvjewEFgGEZxzvS66uyo5oXy+BdcK6m/WB07cw=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 2021-01-07 03:25, Sean Young wrote:
+> Hi Tom,
+> 
+> On Wed, Jan 06, 2021 at 09:16:31AM -0700, tom@tomdaley.org wrote:
+>> Hi,
+>> 
+>> An upgrade from linux-5.9.16 to linux-5.10.4 results in lirc not 
+>> working
+>> with my homebrew IR receiver.  Running mode2 and pressing the same 
+>> button on
+>> the IR remote shows timing differences:
+>> 
+>> 5.9.16 works, first few lines of output:
+>> 
+>> pulse 2676
+>> space 371
+>> pulse 1429
+>> space 371
+>> pulse 827
+>> space 372
+>> pulse 1426
+>> space 372
+>> pulse 1425
+>> space 376
+>> pulse 1424
+>> space 374
+>> 
+>> 5.10.4 fail
+>> pulse 2670
+>> space 380
+>> pulse 1428
+>> space 372
+>> pulse 827
+>> pulse 125391  <---
+>> space 127128  <---
+>> pulse 1406
+>> space 394
+>> pulse 1407
+>> pulse 125394  <---
+>> space 126726  <---
+>> pulse 1400
+>> space 398
+>> pulse 1406
+>> space 394
+>> pulse 801
+>> 
+>> The reporting of two pulses in a row as well as the large time 
+>> reported make
+>> it so the button presses are not recognized.
+>> 
+>> Is this a known issue?
+> 
+> No, this is not known issue.
+> 
+>> I am a software developer and would be happy to help in any way.  I 
+>> can
+>> gather more data or attempt to fix it myself.
+> 
+> Thanks for your bug report. In 5.10, there was a change which converted
+> the processing from nanoseconds to microsecondes, see:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=528222d853f9283110f0118dd71d9f0ad686d586
+> 
+> One issue has already been found in this change, which hasn't been 
+> upstreamed
+> yet:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/20210105093023.5212-1-hias@horus.com/
+> 
+> Would you mind testing this patch out please?
+> 
+> Admittedly I'm not convinced that this is the problem though. I'm not 
+> sure
+> what is; the function frbwrite() contains two if statements to filter 
+> out
+> noise, maybe something is wrong there. You could try by commenting 
+> those
+> two if statements out and see if there is a problem there.
+> 
+> Your help is appreciated!
+> 
+> Thanks,
+> 
+> Sean
 
---IppPXotpNrpDAaCR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Sean,
 
-On Thu 07 Jan 21, 14:40, Paul Kocialkowski wrote:
-> The PX30 features a RGA block: add the necessary node to support it.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  arch/arm64/boot/dts/rockchip/px30.dtsi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts=
-/rockchip/px30.dtsi
-> index 2695ea8cda14..e056d1c32cc8 100644
-> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> @@ -1106,6 +1106,17 @@ vopl_mmu: iommu@ff470f00 {
->  		status =3D "disabled";
->  	};
-> =20
-> +	rga: rga@ff480000 {
-> +		compatible =3D "rockchip,px30-rga", "rockchip,rk3288-rga";
-> +		reg =3D <0x0 0xff480000 0x0 0x10000>;
-> +		interrupts =3D <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH 0>;
+The patch fixes the problem I was seeing.  I have tested both receive 
+and transmit on my homebrew IR, both are working.
 
-Looks like this trailing 0 shouldn't be here. Will fix in v2.
+Thanks, Tom
 
-Cheers,
-
-Paul
-
-> +		clocks =3D <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE>;
-> +		clock-names =3D "aclk", "hclk", "sclk";
-> +		power-domains =3D <&power PX30_PD_VO>;
-> +		resets =3D <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
-> +		reset-names =3D "core", "axi", "ahb";
-> +	};
-> +
->  	qos_gmac: qos@ff518000 {
->  		compatible =3D "syscon";
->  		reg =3D <0x0 0xff518000 0x0 0x20>;
-> --=20
-> 2.30.0
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---IppPXotpNrpDAaCR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/3GZcACgkQ3cLmz3+f
-v9Gt2gf/arpDpZLEP4HaikNA893L8x+KyyjlaREZnnG5cbWbSWcvqi7dA/EpQPr1
-PzVNIOV0cGyeW7niPdksrjZ6TW6ZrbjzjsujtBg4Pk/o06AAnXvJavNSXJRwlxy3
-ges/kOzUgpIaDow+4TVMUFZaF5OfvrPI4fldt4kTEhgdWWAmi+JqkMusHt4PY8/s
-O92fjtV/VbPQKsTdXz/wUvw4u9dbWCiCLmN+2VQmWAgXrkh4QwZ43P3iRtUCmwBB
-F59EiFpXhCw2z0s/uedGkDp5M2SY+ENEXGCwFLSIv/FkS28kMmSjmO7D2QtnCDsE
-MDisahYUzr1e9YvbPgmCDn0i7GyyUg==
-=+GZK
------END PGP SIGNATURE-----
-
---IppPXotpNrpDAaCR--
