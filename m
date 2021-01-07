@@ -2,120 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1119C2ECE1F
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 11:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFA752ECE36
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 11:53:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727739AbhAGKsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 05:48:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
+        id S1727764AbhAGKxQ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 7 Jan 2021 05:53:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727733AbhAGKsT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 05:48:19 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7C3C0612F6
-        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 02:47:39 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id m5so5146772wrx.9
-        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 02:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HEF8U1LOFMDOS1nZx7wQJSKi4/nl2du1Hlm0oy+YxHI=;
-        b=xgm4666IVk3QgwOVfJ1Oks+VCUpbhpOFW3kY5vTqQ47Rrmtcir5GAJO8EtRwPSY+p3
-         W0YLCe+7b8PNaQIQuPvlKA5oWBg/eVUgPBsVkOlyJmiVcSQpQ0JsjHaZyJhflpunnSph
-         VjRJMoTnECOkltxG7WMOvHg9BeMZuOJ4wkeM0kedrRT6OOaJ6cx36DuJuV+La4Ly858O
-         xSauSEm/apLKUnwDGTPipWwNi1/Ov/YQf4MH9E31bdE3oNG/PZ4OwBFsOw+C6eau9Eif
-         bd/NlcoHgZ4qDfesckZAhYchWoX3psu5kuz0trro6zkXiKBNr+QtHzuLH1/PBCAKgcXj
-         UJLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HEF8U1LOFMDOS1nZx7wQJSKi4/nl2du1Hlm0oy+YxHI=;
-        b=ov3bwH6cfD0OJJe9DUvwl0MuySNbNnEmrXBIu6TWgfx11x4rhNck7dpxccRgNRBb/u
-         Ino65uTV4yXM5Hhz7BZD53EX7gW84diGXw/9AiNxyyY6iVmmpu89DSLgH8OkW3wyewgV
-         8LJTRW+MwLOb3i6SdvLK2oo5poUVKyHTcN/RXDNnSU5Uv2rR2BlH1n4gE5E+ibSPo1UQ
-         r4Pgy2q6qh0pH5HlV04jkrGex5uLVWu+eequ7SK5Bw+R4bWuAv6mxCJj+y6qSIxV33WI
-         umh6DhEKiq7sDgpM+HFhTg1zJpwi88eWJ2dXEbZHlvfLh9f3BTSGAfx4pP6ArdsFjZ4h
-         ejyA==
-X-Gm-Message-State: AOAM531OoB97BGyhS4xA3RksX74CAp86ZHePYdfYRQgfrhw7dCdE3ndZ
-        qnxR4i4whCwIEmE/561h3B6bYA==
-X-Google-Smtp-Source: ABdhPJy5l0lSs7me0aW9ay6GYyxXm+OAwYTvxXTZ9ndOvNCfjpaPzTzGSJ2TmsjHxLqzqMSsDaOvoA==
-X-Received: by 2002:adf:9d48:: with SMTP id o8mr8437704wre.408.1610016457896;
-        Thu, 07 Jan 2021 02:47:37 -0800 (PST)
-Received: from arch-thunder.local (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id o74sm7841449wme.36.2021.01.07.02.47.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 02:47:37 -0800 (PST)
-From:   Rui Miguel Silva <rui.silva@linaro.org>
-X-Google-Original-From: Rui Miguel Silva <rmfrfs@gmail.com>
-To:     sakari.ailus@linux.intel.com, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
-        =?UTF-8?q?S=C3=A9bastien=20Szymanski?= 
-        <sebastien.szymanski@armadeus.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH 2/2] media: imx7: csi: Fix pad link validation
-Date:   Thu,  7 Jan 2021 10:47:26 +0000
-Message-Id: <20210107104726.1294538-3-rmfrfs@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210107104726.1294538-1-rmfrfs@gmail.com>
-References: <20210107104726.1294538-1-rmfrfs@gmail.com>
+        with ESMTP id S1726151AbhAGKxQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 05:53:16 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F198C0612F4
+        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 02:52:35 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kxSuA-0002YG-AH; Thu, 07 Jan 2021 11:52:34 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kxSu9-0004Kn-Df; Thu, 07 Jan 2021 11:52:33 +0100
+Message-ID: <fbf3aaa4454f2ada8f7b8f5e8b990a4e66577427.camel@pengutronix.de>
+Subject: Re: [PATCH 20/75] media: imx: capture: Rename ioctl operations with
+ legacy prefix
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Date:   Thu, 07 Jan 2021 11:52:33 +0100
+In-Reply-To: <e47bf3ba-6d9a-52cf-f232-ce4b02a46e2e@gmail.com>
+References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
+         <20210105152852.5733-21-laurent.pinchart@ideasonboard.com>
+         <e47bf3ba-6d9a-52cf-f232-ce4b02a46e2e@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We can not make the assumption that the bound subdev is always a CSI
-mux, in i.MX6UL/i.MX6ULL that is not the case. So, just get the entity
-selected by source directly upstream from the CSI.
+Hi Steve, Laurent,
 
-Fixes: 86e02d07871c ("media: imx5/6/7: csi: Mark a bound video mux as a CSI mux")
-Reported-by: Fabio Estevam <festevam@gmail.com>
-Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
-Tested-by: Fabio Estevam <festevam@gmail.com>
-Tested-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
----
- drivers/staging/media/imx/imx7-media-csi.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+On Wed, 2021-01-06 at 09:51 -0800, Steve Longerbeam wrote:
+> Hi Laurent,
+> 
+> I guess I have fallen behind the times with v4l2, but I wasn't aware 
+> that the /dev/video nodes and VIDIOC_* APIs are now considered legacy!
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 31e36168f9d0..ac52b1daf991 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -499,6 +499,7 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
- 				      struct v4l2_subdev_format *sink_fmt)
- {
- 	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
-+	struct media_entity *src;
- 	struct media_pad *pad;
- 	int ret;
- 
-@@ -509,11 +510,21 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
- 	if (!csi->src_sd)
- 		return -EPIPE;
- 
-+	src = &csi->src_sd->entity;
-+
-+	/*
-+	 * if the source is neither a CSI MUX or CSI-2 get the one directly
-+	 * upstream from this CSI
-+	 */
-+	if (src->function != MEDIA_ENT_F_VID_IF_BRIDGE &&
-+	    src->function != MEDIA_ENT_F_VID_MUX)
-+		src = &csi->sd.entity;
-+
- 	/*
--	 * find the entity that is selected by the CSI mux. This is needed
-+	 * find the entity that is selected by the source. This is needed
- 	 * to distinguish between a parallel or CSI-2 pipeline.
- 	 */
--	pad = imx_media_pipeline_pad(&csi->src_sd->entity, 0, 0, true);
-+	pad = imx_media_pipeline_pad(src, 0, 0, true);
- 	if (!pad)
- 		return -ENODEV;
- 
--- 
-2.30.0
+I don't think Laurent considers the video node legacy, just the fact
+that the current implementation looks at the subdev source pad's active
+format in ENUM_FRAMESIZES and ENUM_/G/S/TRY_FMT.
 
+I see the behavior of VIDIOC_ENUM_FMT was extended/defined for MC-
+centric devices last year, to allow enumerating all pixel formats or
+filter pixel formats for a given mbus format:
+
+e5b6b07a1b45 ("media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices")
+cfe9e707c564 ("media: open.rst: document mc-centric and video-node-centric")
+
+> Steve
+> 
+> On 1/5/21 7:27 AM, Laurent Pinchart wrote:
+> > The i.MX media drivers implement a legacy video node API, where the
+> > format of the video node is influenced by the active format of the
+> > connected subdev (both for enumeration and for the get, set and try
+> > format ioctls), and where controls exposed by the subdevs in the
+> > pipeline are inherited by the video node.
+
+But I don't quite understand why G/S/TRY_FMT should not respect the
+connected subdev source pad's active format. Should MC-centric devices
+allow to set non-working configurations and only error out on stream
+start? Is this documented?
+
+The current "legacy" vb2_ops check the subdev in ENUM_FRAMESIZES and
+ENUM_FRAMEINTERVALS, and in TRY_FMT/S_FMT to determine format and
+possible interlacing options. If the MC-centric ops just drop that,
+there is no way to determine which interlacing combinations are actually
+supported.
+
+regards
+Philipp
