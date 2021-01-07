@@ -2,154 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19D2A2EE77A
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 22:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97E1D2EE782
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 22:17:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbhAGVN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 16:13:29 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58838 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726948AbhAGVN2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 16:13:28 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21F2B292;
-        Thu,  7 Jan 2021 22:12:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610053966;
-        bh=iSN34c4AU5rPgaHWtf0hIhL0FEp776s6VojFNxGa5nc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UyifnPzyKIPC8ZEb40/wteZGtLi59G9NsNwnySGHYWzf4o3Ca93theJBaB3i19ypG
-         03QP+6HFWSlAOwXTD+ibGd8OfhxsODHx8C0yBz7IYSMDi9XcPJySoYVocwOlieNLsM
-         UAFB5jVUUfNeT4ssSBvZSB0H4Atn7bp8oTZGXYh8=
-Date:   Thu, 7 Jan 2021 23:12:32 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com
-Subject: Re: [PATCH v2] media: v4l2-async: Add waiting subdevices debugfs
-Message-ID: <X/d5QJ/jGzTGVO9X@pendragon.ideasonboard.com>
-References: <20210104174840.144958-1-ezequiel@collabora.com>
- <20210105002022.GO11878@paasikivi.fi.intel.com>
- <02148b8ca6fa1d4fec206ec1511316f98fc616cb.camel@collabora.com>
+        id S1727063AbhAGVQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 16:16:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726720AbhAGVQL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 16:16:11 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421A3C0612F6
+        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 13:15:29 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id z21so6002367pgj.4
+        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 13:15:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
+        b=K8BGJ9oHdqpLDSsv4ZzOKEHEpyQXmBiqo3CQDjAFOiubf8uMAXb8rE+2Q+8w+MuenT
+         r39dpZHy1UjTwLvLcHtkgKqx7m1yH/VZCVvUsyblpu4gsHE8oyEh27knqvqkNx99hfd/
+         OdLjIgReRKvwFliH9XDPaVNHEjCr8ivL1CuAOS5SsvSCJwjtqzf9bEeTilTgDDB91z1d
+         d8gKjlz+Dsl9OtsTbJ+dMP1JwATb4Hb+DNbBTib+6EpAlAhzwgHklh5i6ggogkXvBu0w
+         Sl0lvmy8kDpa3UVvGMnYPvuuD5pjaQCOY4j8xR9yncAL6VXY3VpNQLEDm0Rk5MWF1r7S
+         80MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
+        b=fhCuTzOuPvGzvETQekvROene/f7X4SJKGrY/eerqPfYT5b0hEfsdCo+BTJ3Ua1Iag5
+         YPDP5E1iP1nLUrrOjIk1/RnQ+pjPF4INuztolIRW3QFVT/vhlu3UlfpFdVT7QvQeVmUW
+         Q4gZbbv0OvITn/TV22Veexy7Y1z/OoL34Ls03uj9fs6KtKqPR3uj3MhBvpcBH23Za0JM
+         lVhkV4+lUT8GCX2qh1NmRQ3bH8KpjVVrPBG3foc3hQe+gMeXo1Qi4CeYBW5hUf4MHZ8W
+         b7Cb2u/Zoy3KR+t+R7PeepV3MpNIf2PwXsmlNU+3jZHu9Q6+hA9JBSUCAGFY/bZ1Ibk7
+         rgJg==
+X-Gm-Message-State: AOAM530uxHK6zWohRNQ7kkN26a0e8vWs6HfMMdrQTMMJKjTCsUHhTPb2
+        BGeKnJdafS8Ec2v8t73qpy3rTQ==
+X-Google-Smtp-Source: ABdhPJw+uBkf603u8DBtRcPFLax4GUhUMXlfkuBYTBlYX9IqNd80YY3GhmwaHOU9hi8B00BuqmRrDQ==
+X-Received: by 2002:a65:6249:: with SMTP id q9mr3744816pgv.82.1610054128730;
+        Thu, 07 Jan 2021 13:15:28 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id b6sm6574055pfd.43.2021.01.07.13.15.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jan 2021 13:15:27 -0800 (PST)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] dma-buf: system_heap: Make sure to return an error if we abort
+Date:   Thu,  7 Jan 2021 21:15:23 +0000
+Message-Id: <20210107211525.75951-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <02148b8ca6fa1d4fec206ec1511316f98fc616cb.camel@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+If we abort from the allocation due to a fatal_signal_pending(),
+be sure we report an error so any return code paths don't trip
+over the fact that the allocation didn't succeed.
 
-On Thu, Jan 07, 2021 at 05:58:04PM -0300, Ezequiel Garcia wrote:
-> On Tue, 2021-01-05 at 02:20 +0200, Sakari Ailus wrote:
-> > On Mon, Jan 04, 2021 at 02:48:40PM -0300, Ezequiel Garcia wrote:
-> > > There is currently little to none information available
-> > > about the reasons why a v4l2-async device hasn't
-> > > probed completely.
-> > > 
-> > > Inspired by the "devices_deferred" debugfs file,
-> > > add a file to list information about the subdevices
-> > > that are on waiting lists, for each notifier.
-> > > 
-> > > This is useful to debug v4l2-async subdevices
-> > > and notifiers, for instance when doing device bring-up.
-> > > 
-> > > For instance, a typical output would be:
-> > > 
-> > > $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
-> > > ipu1_csi1:
-> > >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
-> > > ipu1_csi0:
-> > >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
-> > > imx6-mipi-csi2:
-> > >  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
-> > > imx-media:
-> > > 
-> > > Note that match-type "custom" prints no information.
-> > > Since there are no in-tree users of this match-type,
-> > > the implementation doesn't bother.
-> > > 
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > > v2:
-> > > * Print fwnode path, as suggested by Sakari.
-> > > * Print the subdevices under their corresponding notifier.
-> > > * Rename the file as suggested by Laurent.
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-async.c | 66 ++++++++++++++++++++++++++++
-> > >  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
-> > >  include/media/v4l2-async.h           |  9 ++++
-> > >  3 files changed, 80 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > index e3ab003a6c85..d779808abb3b 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > @@ -5,6 +5,7 @@
-> > >   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-> > >   */
-> > >  
-> > > +#include <linux/debugfs.h>
-> > >  #include <linux/device.h>
-> > >  #include <linux/err.h>
-> > >  #include <linux/i2c.h>
-> > > @@ -14,6 +15,7 @@
-> > >  #include <linux/mutex.h>
-> > >  #include <linux/of.h>
-> > >  #include <linux/platform_device.h>
-> > > +#include <linux/seq_file.h>
-> > >  #include <linux/slab.h>
-> > >  #include <linux/types.h>
-> > >  
-> > > @@ -837,3 +839,67 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
-> > >         mutex_unlock(&list_lock);
-> > >  }
-> > >  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
-> > > +
-> > > +static void print_waiting_subdev(struct seq_file *s,
-> > > +                                struct v4l2_async_subdev *asd)
-> > > +{
-> > > +       switch (asd->match_type) {
-> > > +       case V4L2_ASYNC_MATCH_CUSTOM:
-> > > +               seq_puts(s, " [custom]\n");
-> > > +               break;
-> > > +       case V4L2_ASYNC_MATCH_DEVNAME:
-> > > +               seq_printf(s, " [devname] %s\n", asd->match.device_name);
-> > > +               break;
-> > > +       case V4L2_ASYNC_MATCH_I2C:
-> > > +               seq_printf(s, " [i2c] %d-%04x\n", asd->match.i2c.adapter_id,
-> > > +                          asd->match.i2c.address);
-> > > +               break;
-> > > +       case V4L2_ASYNC_MATCH_FWNODE: {
-> > > +               struct fwnode_handle *fwnode = asd->match.fwnode;
-> > > +
-> > > +               if (fwnode_graph_is_endpoint(fwnode))
-> > > +                       fwnode = fwnode_graph_get_port_parent(fwnode);
-> > 
-> > Could you print the endpoint node name as-is? That's what matching uses,
-> > too. You'd need one more local variable for that I think.
-> > 
-> 
-> Since we are printing the full path for the node, how about this:
-> 
->                 devnode = fwnode_graph_is_endpoint(fwnode) ?                     
->                           fwnode_graph_get_port_parent(fwnode) : fwnode;         
->                                                                                  
->                 seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",                   
->                            devnode->dev ? dev_name(devnode->dev) : "nil",        
->                            fwnode);                                              
-> 
-> The parent is used only to print a more useful dev_name,
-> but otherwise the actual full path is used,
-> whether it's an endpoint or not.
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Suggested-by: Suren Baghdasaryan <surenb@google.com>
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/system_heap.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-With the refcount issue handled (fwnode_graph_get_port_parent() takes a
-reference), it looks good to me.
-
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 17e0e9a68baf..405351aad2a8 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -363,8 +363,10 @@ static int system_heap_allocate(struct dma_heap *heap,
+ 		 * Avoid trying to allocate memory if the process
+ 		 * has been killed by SIGKILL
+ 		 */
+-		if (fatal_signal_pending(current))
++		if (fatal_signal_pending(current)) {
++			ret = -EINTR;
+ 			goto free_buffer;
++		}
+ 
+ 		page = alloc_largest_available(size_remaining, max_order);
+ 		if (!page)
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
