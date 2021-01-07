@@ -2,91 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6A62ED3B9
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 16:48:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A26F32ED73F
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 20:10:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728055AbhAGPry (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 10:47:54 -0500
-Received: from mail-il1-f172.google.com ([209.85.166.172]:38951 "EHLO
-        mail-il1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726165AbhAGPrx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 10:47:53 -0500
-Received: by mail-il1-f172.google.com with SMTP id q1so7143965ilt.6;
-        Thu, 07 Jan 2021 07:47:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=EFvubgNg2DnmOPkDfoaERPy8UEjZfnIKtkw4s3eQ4y8=;
-        b=sG216gqm6cWxCBpp/Fe2MgfVhF6mNyWyc6ZAP7+c/GoELLk9MZA1uLrimTEjLWekdN
-         Ys5FLgKGYbhy5ZWnOEgYlxWy/bRZNkYC0GwFz5I6CrO3FJkRTcSqF50e91Q4dYQYf6uV
-         NeSQg+BTqRSuOpRFphDmPTokSjVa1QLYIYmKPeouW5/GCw3bhN3Z8kxqA/Z0A8x6u8F9
-         3L+GWCa/K0QuGT5XufNxsST0CywuCs1ogv1Cqhmw79c/J2wPjZJd7/3Rdg7WV0w59nZM
-         ggecY4kTnNiLHqmqYwGc69nm6bK8abM5kcG7RDw+6ZFu/2XIhEzy0XumhzT4uXmW+zpt
-         fdzw==
-X-Gm-Message-State: AOAM533vc2/+k1RZ9G8Ijfmul3pYL1InbUiJ8/YU4s979BDzS6iBPOgX
-        jztodFvGvKV1J/GshyF0kHWUHZcnmA==
-X-Google-Smtp-Source: ABdhPJzWIw7GRMQcaSe+m/tRZb/B+liDGhOIlES2tHNkuZBjMlXU4n/TvVLDxcrPd++qzPI4GJCjSw==
-X-Received: by 2002:a92:cccb:: with SMTP id u11mr9488057ilq.44.1610034432686;
-        Thu, 07 Jan 2021 07:47:12 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id x3sm3510521ila.29.2021.01.07.07.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 07:47:11 -0800 (PST)
-Received: (nullmailer pid 907945 invoked by uid 1000);
-        Thu, 07 Jan 2021 15:47:05 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        id S1729081AbhAGTJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 14:09:02 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42928 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727177AbhAGTJB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 14:09:01 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 1F0991F4662A
+Message-ID: <f7291b83fe39d71c3192ea58ebf71e3909bd38af.camel@collabora.com>
+Subject: Re: [PATCH 5/5] media: hantro: Add support for the Rockchip PX30
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-rockchip@lists.infradead.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-In-Reply-To: <20210107134101.195426-4-paul.kocialkowski@bootlin.com>
-References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com> <20210107134101.195426-4-paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH 3/5] dt-bindings: media: rockchip-vpu: Add PX30 compatible
-Date:   Thu, 07 Jan 2021 08:47:05 -0700
-Message-Id: <1610034425.207068.907944.nullmailer@robh.at.kernel.org>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Thu, 07 Jan 2021 16:08:10 -0300
+In-Reply-To: <20210107134101.195426-6-paul.kocialkowski@bootlin.com>
+References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com>
+         <20210107134101.195426-6-paul.kocialkowski@bootlin.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 07 Jan 2021 14:40:59 +0100, Paul Kocialkowski wrote:
-> The Rockchip PX30 SoC has a Hantro VPU that features a decoder (VDPU2)
-> and an encoder (VEPU2). It is similar to the RK3399's VPU but takes an
-> extra clock (SCLK).
+Hi Paul,
+
+Happy to see this patch. It was on my TODO list,
+but I hadn't had time to bringup my rk3326 device.
+
+A few comments.
+
+On Thu, 2021-01-07 at 14:41 +0100, Paul Kocialkowski wrote:
+> The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are similar
+> to the RK3399 (Hantro G1/H1 with shuffled registers).
 > 
+> Besides taking an extra clock, it also shares an interrupt with the IOMMU
+> so it's necessary to request the interrupt shared.
+> 
+
+Could you clarify on the commit description which iommu device interrupt
+line is being shared?
+
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  .../bindings/media/rockchip-vpu.yaml          | 25 +++++++++++++------
->  1 file changed, 17 insertions(+), 8 deletions(-)
+>  drivers/staging/media/hantro/hantro_drv.c    |  5 +++--
+>  drivers/staging/media/hantro/hantro_hw.h     |  1 +
+>  drivers/staging/media/hantro/rk3399_vpu_hw.c | 21 ++++++++++++++++++++
+>  3 files changed, 25 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index e5f200e64993..076a7782b476 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -472,6 +472,7 @@ static const struct v4l2_file_operations hantro_fops = {
+>  
+>  static const struct of_device_id of_hantro_match[] = {
+>  #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
+> +       { .compatible = "rockchip,px30-vpu", .data = &px30_vpu_variant, },
+>         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+>         { .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+>         { .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+> @@ -796,8 +797,8 @@ static int hantro_probe(struct platform_device *pdev)
+>                         return -ENXIO;
+>  
+>                 ret = devm_request_irq(vpu->dev, irq,
+> -                                      vpu->variant->irqs[i].handler, 0,
+> -                                      dev_name(vpu->dev), vpu);
+> +                                      vpu->variant->irqs[i].handler,
+> +                                      IRQF_SHARED, dev_name(vpu->dev), vpu);
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Maybe this irq flag should be part of vpu->variant? It sounds like an IP block
+integration specific thing.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:23:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:47:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:50:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+Also, you will need a px30-specific interrupt handler now,
+since the rk3399 one is not shared-friendly.
 
-dtschema/dtc warnings/errors:
+>                 if (ret) {
+>                         dev_err(vpu->dev, "Could not request %s IRQ.\n",
+>                                 irq_name);
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 34c9e4649a25..07f516fd7a2e 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -148,6 +148,7 @@ enum hantro_enc_fmt {
+>         RK3288_VPU_ENC_FMT_UYVY422 = 3,
+>  };
+>  
+> +extern const struct hantro_variant px30_vpu_variant;
+>  extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3288_vpu_variant;
+> diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> index 7a7962cf771e..4112f98baa60 100644
+> --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
 
-See https://patchwork.ozlabs.org/patch/1423300
+Perhaps it's time to rename this to rockchip_vpu_hw.c,
+and merge rk3288 and rk3399? It's a nitpick, though.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+> @@ -220,3 +220,24 @@ const struct hantro_variant rk3328_vpu_variant = {
+>         .clk_names = rk3399_clk_names,
+>         .num_clocks = ARRAY_SIZE(rk3399_clk_names),
+>  };
+> +
+> +static const char * const px30_clk_names[] = {
+> +       "aclk", "hclk", "sclk"
+> +};
+> +
+> +const struct hantro_variant px30_vpu_variant = {
+> +       .enc_offset = 0x0,
+> +       .enc_fmts = rk3399_vpu_enc_fmts,
+> +       .num_enc_fmts = ARRAY_SIZE(rk3399_vpu_enc_fmts),
+> +       .dec_offset = 0x400,
+> +       .dec_fmts = rk3399_vpu_dec_fmts,
+> +       .num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
+> +       .codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+> +                HANTRO_VP8_DECODER,
+> +       .codec_ops = rk3399_vpu_codec_ops,
+> +       .irqs = rk3399_irqs,
+> +       .num_irqs = ARRAY_SIZE(rk3399_irqs),
+> +       .init = rk3399_vpu_hw_init,
+> +       .clk_names = px30_clk_names,
+> +       .num_clocks = ARRAY_SIZE(px30_clk_names)
+> +};
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+Thanks,
+Ezequiel
 
