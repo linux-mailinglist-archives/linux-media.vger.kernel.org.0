@@ -2,112 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78C512EE728
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 21:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D49172EE74A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 21:59:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbhAGUsO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 15:48:14 -0500
-Received: from vegas.theobroma-systems.com ([144.76.126.164]:36973 "EHLO
-        mail.theobroma-systems.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727183AbhAGUsO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Jan 2021 15:48:14 -0500
-X-Greylist: delayed 1410 seconds by postgrey-1.27 at vger.kernel.org; Thu, 07 Jan 2021 15:48:13 EST
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]:38212 helo=diego.localnet)
-        by mail.theobroma-systems.com with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <heiko.stuebner@theobroma-systems.com>)
-        id 1kxbp8-0006oE-Iw; Thu, 07 Jan 2021 21:23:58 +0100
-From:   Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        kever.yang@rock-chips.com, Eddie Cai <eddie.cai@rock-chips.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org,
-        christoph.muellner@theobroma-systems.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
-Date:   Thu, 07 Jan 2021 21:23:56 +0100
-Message-ID: <3342088.iIbC2pHGDl@diego>
-Organization: Theobroma Systems
+        id S1726064AbhAGU6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 15:58:52 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43742 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725974AbhAGU6w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 15:58:52 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 051751F4669E
+Message-ID: <02148b8ca6fa1d4fec206ec1511316f98fc616cb.camel@collabora.com>
+Subject: Re: [PATCH v2] media: v4l2-async: Add waiting subdevices debugfs
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com
+Date:   Thu, 07 Jan 2021 17:58:04 -0300
+In-Reply-To: <20210105002022.GO11878@paasikivi.fi.intel.com>
+References: <20210104174840.144958-1-ezequiel@collabora.com>
+         <20210105002022.GO11878@paasikivi.fi.intel.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Sakari, Laurent,
 
-the rkisp driver in the mainline Linux kernel moved out of staging with
-5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
+On Tue, 2021-01-05 at 02:20 +0200, Sakari Ailus wrote:
+> Hi Ezequiel,
+> 
+> On Mon, Jan 04, 2021 at 02:48:40PM -0300, Ezequiel Garcia wrote:
+> > There is currently little to none information available
+> > about the reasons why a v4l2-async device hasn't
+> > probed completely.
+> > 
+> > Inspired by the "devices_deferred" debugfs file,
+> > add a file to list information about the subdevices
+> > that are on waiting lists, for each notifier.
+> > 
+> > This is useful to debug v4l2-async subdevices
+> > and notifiers, for instance when doing device bring-up.
+> > 
+> > For instance, a typical output would be:
+> > 
+> > $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
+> > ipu1_csi1:
+> >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
+> > ipu1_csi0:
+> >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
+> > imx6-mipi-csi2:
+> >  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
+> > imx-media:
+> > 
+> > Note that match-type "custom" prints no information.
+> > Since there are no in-tree users of this match-type,
+> > the implementation doesn't bother.
+> > 
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> > v2:
+> > * Print fwnode path, as suggested by Sakari.
+> > * Print the subdevices under their corresponding notifier.
+> > * Rename the file as suggested by Laurent.
+> > ---
+> >  drivers/media/v4l2-core/v4l2-async.c | 66 ++++++++++++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
+> >  include/media/v4l2-async.h           |  9 ++++
+> >  3 files changed, 80 insertions(+)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index e3ab003a6c85..d779808abb3b 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -5,6 +5,7 @@
+> >   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+> >   */
+> >  
+> > +#include <linux/debugfs.h>
+> >  #include <linux/device.h>
+> >  #include <linux/err.h>
+> >  #include <linux/i2c.h>
+> > @@ -14,6 +15,7 @@
+> >  #include <linux/mutex.h>
+> >  #include <linux/of.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/seq_file.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/types.h>
+> >  
+> > @@ -837,3 +839,67 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+> >         mutex_unlock(&list_lock);
+> >  }
+> >  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+> > +
+> > +static void print_waiting_subdev(struct seq_file *s,
+> > +                                struct v4l2_async_subdev *asd)
+> > +{
+> > +       switch (asd->match_type) {
+> > +       case V4L2_ASYNC_MATCH_CUSTOM:
+> > +               seq_puts(s, " [custom]\n");
+> > +               break;
+> > +       case V4L2_ASYNC_MATCH_DEVNAME:
+> > +               seq_printf(s, " [devname] %s\n", asd->match.device_name);
+> > +               break;
+> > +       case V4L2_ASYNC_MATCH_I2C:
+> > +               seq_printf(s, " [i2c] %d-%04x\n", asd->match.i2c.adapter_id,
+> > +                          asd->match.i2c.address);
+> > +               break;
+> > +       case V4L2_ASYNC_MATCH_FWNODE: {
+> > +               struct fwnode_handle *fwnode = asd->match.fwnode;
+> > +
+> > +               if (fwnode_graph_is_endpoint(fwnode))
+> > +                       fwnode = fwnode_graph_get_port_parent(fwnode);
+> 
+> Could you print the endpoint node name as-is? That's what matching uses,
+> too. You'd need one more local variable for that I think.
+> 
 
-The rkisp driver currently only supports the rk3399 and while working
-on porting the support for rk3326/px30 I noticed discrepancies.
+Since we are printing the full path for the node, how about this:
 
-Hence it would be somewhat urgent to clarify this, as later it will get
-really cumbersome.
+                devnode = fwnode_graph_is_endpoint(fwnode) ?                     
+                          fwnode_graph_get_port_parent(fwnode) : fwnode;         
+                                                                                 
+                seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",                   
+                           devnode->dev ? dev_name(devnode->dev) : "nil",        
+                           fwnode);                                              
 
-----
+The parent is used only to print a more useful dev_name,
+but otherwise the actual full path is used,
+whether it's an endpoint or not.
 
-The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
-Some sub-blocks moved around or seem to have been replaced with newer
-variants and the gist of changes can be seen in [0] with the important
-part being the uapi changes [1] and those values also exist in mainline.
-
-
-See functions in that patch:
-- isp_goc_config_v12()
-- rkisp1_stats_get_aec_meas_v12()
-- rkisp1_stats_get_hst_meas_v12()
-
-Looking at the code, the register locations are different, for gammas and
-the histogram the actual amount of raw registers is the same, while the
-"aec" seems to use 25 registers on V10 while 21 registers on V12. Though
-their content gets split into multiple values in that v12 variant.
-
-
-As somehow expected the whole thing is pretty undocumented and I
-have no clue what these "bins" or "gammas" mean and why the amount of
-entries now differs and how this relates to userspace at all.
-
-Also looking through libcamera as the one open user of the driver,
-the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
-as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
-don't seem to be used so far.
-
-Hence I also added some Rockchip people in the hope of getting
-a bit of clarification ;-) .
-
-
-Ideas on how to proceed?
-
-Thanks
-Heiko
-
-
-[0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
-[1]
-diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-index b471f01a8459..fbeb6b5dba03 100644
---- a/include/uapi/linux/rkisp1-config.h
-+++ b/include/uapi/linux/rkisp1-config.h
-@@ -32,8 +32,8 @@
- #define CIFISP_CTK_COEFF_MAX            0x100
- #define CIFISP_CTK_OFFSET_MAX           0x800
- 
--#define CIFISP_AE_MEAN_MAX              25
--#define CIFISP_HIST_BIN_N_MAX           16
-+#define CIFISP_AE_MEAN_MAX              81
-+#define CIFISP_HIST_BIN_N_MAX           32
- #define CIFISP_AFM_MAX_WINDOWS          3
- #define CIFISP_DEGAMMA_CURVE_SIZE       17
- 
-@@ -69,7 +69,7 @@
-  * Gamma out
-  */
- /* Maximum number of color samples supported */
--#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-+#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
-
+Ezequiel 
 
 
