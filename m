@@ -2,123 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C0A22ED188
-	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 15:15:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7CA42ED208
+	for <lists+linux-media@lfdr.de>; Thu,  7 Jan 2021 15:25:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728539AbhAGOPH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Jan 2021 09:15:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54070 "EHLO
+        id S1728415AbhAGOW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Jan 2021 09:22:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728187AbhAGOPC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 09:15:02 -0500
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96F1AC0612F5
-        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 06:14:21 -0800 (PST)
-Received: by mail-il1-x12a.google.com with SMTP id q1so6833745ilt.6
-        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 06:14:21 -0800 (PST)
+        with ESMTP id S1727292AbhAGOWZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Jan 2021 09:22:25 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD9AC0612F6
+        for <linux-media@vger.kernel.org>; Thu,  7 Jan 2021 06:21:44 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id d17so9864256ejy.9
+        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 06:21:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5EKjm5VT/QdJn/B1BYcuiBIUG9oQpN1/AMx3O8ZLC64=;
-        b=LF4UpleR6FsIZbyEpjiLbQPE887zOCnrGlHR7ccv+cu7FlMU1Yo0SbefHfeSAgdlMR
-         Ldk5bvNrxJgg/hf9f0gZ+xMoDsCQ22tTW1nM1jLgelWwGVg4lSQdm+o+adk3MQZrjP26
-         oyA4A0yU9yq7NCGzqcSM5ysirka/OI141IFrs=
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9XphW4qRvsvPkDpcKFQBM3ZMGk3H03d/R4eSCmWd/3I=;
+        b=xO8iNhuBKIX4hsI2v/zY7BHU7bJx8icJXoZ/Vhr3PwDP94WtktHjZjrzj127Wl7JyQ
+         b0Mj4s6MzC526rXro8ZOXNF+0T7IHNNJ8km7cNLY8WadedNFgin36fEaHIaUvB5glPBs
+         IM6oGdTqkMFGkqSTu3Mhda6RH6ti5ee8cE/UXqI6Vse8G4bRomSJ8CuQ59YpLlbgAPc+
+         P9bOvisnlz3+rSAhts+GdQzjOoWrq4/nvufoL3SmZrCJkvgs41yO8rP+1KRq16ggAdCY
+         lBNaycH6OfEC0YN2qnwgV9V+y/Yk/Zn8TSsSi2ML9SVmfD+0qCHZiwIYtW+cS5W52dt9
+         4XDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5EKjm5VT/QdJn/B1BYcuiBIUG9oQpN1/AMx3O8ZLC64=;
-        b=KAyEt5QgHa9jpER2/tN/VuFrWX9u5ggenEBI7/9uZ2VvSjX1fMRR+cFheFICYQTbjZ
-         QtenTuoV2R8WEpgpl9xhvnyEI//+a3g4UBa00TiDeHV+pGehZkIvSF/Icqx1YL/AFRUf
-         dEHSxezoejjY4lHybmqqyyWYsB77VB9s9hIvScHlT/DhhIYWA/Qw5LhWtjPUetlu7fSx
-         hLLDIp6i+3FWAAHtA9O9uAMkTUeFpNXruB9Dg6jIkAbW4SjVl/I81wRNiwAMgG1BSOpm
-         Uh2MIlhQqPqOu6anFmXMvCCuYDwd1RoDtLYuC7GYKJfq4NymVzvXH+fu6yB5VckmUoqV
-         Ddaw==
-X-Gm-Message-State: AOAM531cj639IAKEbYbgvpwyNmEK7MhGE3v41Sf5oCmiqr6+0iTkryAL
-        BrXgNqinwl/pc83jMv/g6ApghAJflruTmw==
-X-Google-Smtp-Source: ABdhPJzZjuUJ8qIup4YsbLITygzOooF+Di6VKB0WEzJ1Yr46KndQZ/N9/W5Zwwr30rFXBlAzzbVdvA==
-X-Received: by 2002:a92:9a42:: with SMTP id t63mr9308461ili.176.1610028860699;
-        Thu, 07 Jan 2021 06:14:20 -0800 (PST)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com. [209.85.166.52])
-        by smtp.gmail.com with ESMTPSA id h16sm4564639ile.6.2021.01.07.06.14.19
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Jan 2021 06:14:19 -0800 (PST)
-Received: by mail-io1-f52.google.com with SMTP id p187so6251247iod.4
-        for <linux-media@vger.kernel.org>; Thu, 07 Jan 2021 06:14:19 -0800 (PST)
-X-Received: by 2002:a6b:cd02:: with SMTP id d2mr1461830iog.4.1610028858785;
- Thu, 07 Jan 2021 06:14:18 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9XphW4qRvsvPkDpcKFQBM3ZMGk3H03d/R4eSCmWd/3I=;
+        b=g1K2DIqRCggqApUrFEF1sgCA0vu+vR9hJDaY6tkrRtj5FeUcc+LmOsOZV2Ju++dn/b
+         m/RFfP/lceckZnQ9WydGSCDdTODqWR37HWFz0WQTgdLe9wg4sOUMuJAAPtCkWgyllsbz
+         yuNd3y7T7FYTTI5NaOJMyPQn4ngUpCNwOg7+1gvoxOcvh4PMFps/ekP37rtZ6i89+yFS
+         ZMG2/eedOeYcHOLnrdQTebb1089MIdlW99EHMJL0PJhhempKg7h139p06ze7tIvYzPEO
+         bySgKfBiBKdFr9nqm/IGWOtQbA9BRIQqjePam3XHeRGUBiDk0xC2D5afNt8J4TkyJSqg
+         iW2Q==
+X-Gm-Message-State: AOAM531CN+klOq3S/+AwEiWmVXBbvLYKf5u5FKMSS+jXF+XbXtcRl/lq
+        yQyN7/CpN9X9O9+ZnSVtQCSghA==
+X-Google-Smtp-Source: ABdhPJygBz1SpT4Q0wFwMTmvFz3T1BZuqYVJ3MJGw+K9ePNmvj0yFA8aIlbR8AxHnBs3YyQhB/CiUg==
+X-Received: by 2002:a17:906:e247:: with SMTP id gq7mr6745586ejb.27.1610029303591;
+        Thu, 07 Jan 2021 06:21:43 -0800 (PST)
+Received: from localhost.localdomain ([2a02:2450:102f:d6a:a3f6:c728:8a3d:e3e4])
+        by smtp.gmail.com with ESMTPSA id gl23sm2498177ejb.87.2021.01.07.06.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jan 2021 06:21:42 -0800 (PST)
+From:   Robert Foss <robert.foss@linaro.org>
+To:     dongchun.zhu@mediatek.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dongchun Zhu <Dongchun.Zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Tomasz Figa <tfiga@google.com>,
+        Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH v2] media: ov8856: Fix Bayer format dependance on mode
+Date:   Thu,  7 Jan 2021 15:21:23 +0100
+Message-Id: <20210107142123.639477-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de>
- <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de>
- <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
- <20201208071320.GA1667627@google.com> <20201209111639.GB22806@lst.de>
-In-Reply-To: <20201209111639.GB22806@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 7 Jan 2021 15:14:08 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com>
-Message-ID: <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-To:     ". Christoph Hellwig" <hch@lst.de>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christoph
+The Bayer GRBG10 mode used for earlier modes 3280x2460 and
+1640x1232 isn't the mode output by the sensor for the
+3264x2448 and 1632x1224 modes.
 
-Happy new year!
+Switch from MEDIA_BUS_FMT_SGRBG10_1X10 to MEDIA_BUS_FMT_SBGGR10_1X10
+for 3264x2448 & 1632x1224 modes.
 
-On Wed, Dec 9, 2020 at 12:16 PM . Christoph Hellwig <hch@lst.de> wrote:
->
-> On Tue, Dec 08, 2020 at 04:13:20PM +0900, Sergey Senozhatsky wrote:
-> > On (20/12/08 13:54), Tomasz Figa wrote:
-> > >
-> > > In any case, Sergey is going to share a preliminary patch on how the
-> > > current API would be used in the V4L2 videobuf2 framework. That should
-> > > give us more input on how such a helper could look.
-> >
-> > HUGE apologies for the previous screw up! I replied in the
-> > gmail web-interface and that did not work out as expected
-> > (at all, big times).
->
-> Actually the previous mail was a mime multipart one, and the plain text
-> version displayed just fine here.  My the gmail engineers finally learned
-> something after all.
->
-> > Another thing to notice is that the new API requires us to have two execution branches
-> > in allocators - one for the current API; and one for the new API (if it's supported and
-> > if user-space requested non-coherent allocation).
->
-> So I think we do want these branches for coherent vs non-coherent as they
-> have very different semantics and I do not think that hiding them under
-> the same API helps people to understand those vastly different semantics.
->
-> OTOH we should look into a fallback for DMA API instances that do not
-> support the discontigous allocations.
->
-> I think between your comments and those from Ricardo I have a good idea
-> for a somewhat updated API.  I'll try to post something in the next days.
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+---
 
-Did you have time to look into this?
+Changes since v1:
+ - Sakari: Added mode information to ov8856_mode struct
+ - Sakari: enum_mbus_code updated
 
-No hurry, I just want to make sure that I didn't miss anything ;)
+ drivers/media/i2c/ov8856.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-Best regards!
-
-
-
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index 2f4ceaa80593..7cd83564585c 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -126,6 +126,9 @@ struct ov8856_mode {
+ 
+ 	/* Sensor register settings for this resolution */
+ 	const struct ov8856_reg_list reg_list;
++
++	/* MEDIA_BUS_FMT for this mode */
++	u32 code;
+ };
+ 
+ static const struct ov8856_reg mipi_data_rate_720mbps[] = {
+@@ -942,6 +945,11 @@ static const char * const ov8856_test_pattern_menu[] = {
+ 	"Bottom-Top Darker Color Bar"
+ };
+ 
++static const u32 ov8856_formats[] = {
++	MEDIA_BUS_FMT_SBGGR10_1X10,
++	MEDIA_BUS_FMT_SGRBG10_1X10,
++};
++
+ static const s64 link_freq_menu_items[] = {
+ 	OV8856_LINK_FREQ_360MHZ,
+ 	OV8856_LINK_FREQ_180MHZ
+@@ -974,6 +982,7 @@ static const struct ov8856_mode supported_modes[] = {
+ 			.regs = mode_3280x2464_regs,
+ 		},
+ 		.link_freq_index = OV8856_LINK_FREQ_720MBPS,
++		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+ 	},
+ 	{
+ 		.width = 3264,
+@@ -986,6 +995,7 @@ static const struct ov8856_mode supported_modes[] = {
+ 			.regs = mode_3264x2448_regs,
+ 		},
+ 		.link_freq_index = OV8856_LINK_FREQ_720MBPS,
++		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+ 	},
+ 	{
+ 		.width = 1640,
+@@ -998,6 +1008,7 @@ static const struct ov8856_mode supported_modes[] = {
+ 			.regs = mode_1640x1232_regs,
+ 		},
+ 		.link_freq_index = OV8856_LINK_FREQ_360MBPS,
++		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+ 	},
+ 	{
+ 		.width = 1632,
+@@ -1010,6 +1021,7 @@ static const struct ov8856_mode supported_modes[] = {
+ 			.regs = mode_1632x1224_regs,
+ 		},
+ 		.link_freq_index = OV8856_LINK_FREQ_360MBPS,
++		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+ 	}
+ };
+ 
+@@ -1281,8 +1293,8 @@ static void ov8856_update_pad_format(const struct ov8856_mode *mode,
+ {
+ 	fmt->width = mode->width;
+ 	fmt->height = mode->height;
+-	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+ 	fmt->field = V4L2_FIELD_NONE;
++	fmt->code = mode->code;
+ }
+ 
+ static int ov8856_start_streaming(struct ov8856 *ov8856)
+@@ -1519,11 +1531,10 @@ static int ov8856_enum_mbus_code(struct v4l2_subdev *sd,
+ 				 struct v4l2_subdev_pad_config *cfg,
+ 				 struct v4l2_subdev_mbus_code_enum *code)
+ {
+-	/* Only one bayer order GRBG is supported */
+-	if (code->index > 0)
++	if (code->index >= ARRAY_SIZE(ov8856_formats))
+ 		return -EINVAL;
+ 
+-	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
++	code->code = ov8856_formats[code->index];
+ 
+ 	return 0;
+ }
+@@ -1532,10 +1543,11 @@ static int ov8856_enum_frame_size(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_pad_config *cfg,
+ 				  struct v4l2_subdev_frame_size_enum *fse)
+ {
+-	if (fse->index >= ARRAY_SIZE(supported_modes))
++	if ((fse->code != ov8856_formats[0]) &&
++	    (fse->code != ov8856_formats[1]))
+ 		return -EINVAL;
+ 
+-	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
++	if (fse->index >= ARRAY_SIZE(supported_modes))
+ 		return -EINVAL;
+ 
+ 	fse->min_width = supported_modes[fse->index].width;
 -- 
-Ricardo Ribalda
+2.27.0
+
