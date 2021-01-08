@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62C4C2EEFFA
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:46:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15D802EEFF5
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:46:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728092AbhAHJpN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 04:45:13 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36776 "EHLO mx2.suse.de"
+        id S1728034AbhAHJpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 04:45:11 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36778 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727966AbhAHJpJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 04:45:09 -0500
+        id S1727975AbhAHJpK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Jan 2021 04:45:10 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 79F5BAFAE;
-        Fri,  8 Jan 2021 09:43:48 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 38000AFD7;
+        Fri,  8 Jan 2021 09:43:49 +0000 (UTC)
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     sumit.semwal@linaro.org, christian.koenig@amd.com,
         airlied@redhat.com, daniel@ffwll.ch,
@@ -25,9 +25,9 @@ Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org,
         virtualization@lists.linux-foundation.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 07/13] drm/gm12u320: Use drm_gem_shmem_vmap_local() in damage handling
-Date:   Fri,  8 Jan 2021 10:43:34 +0100
-Message-Id: <20210108094340.15290-8-tzimmermann@suse.de>
+Subject: [PATCH v4 08/13] drm/udl: Use drm_gem_shmem_vmap_local() in damage handling
+Date:   Fri,  8 Jan 2021 10:43:35 +0100
+Message-Id: <20210108094340.15290-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210108094340.15290-1-tzimmermann@suse.de>
 References: <20210108094340.15290-1-tzimmermann@suse.de>
@@ -37,50 +37,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Damage handling in gm12u320 requires a short-term mapping of the source
+Damage handling in udl requires a short-term mapping of the source
 BO. Use drm_gem_shmem_vmap_local().
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/gm12u320.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/udl/udl_modeset.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
-index 33f65f4626e5..b0c6e350f2b3 100644
---- a/drivers/gpu/drm/tiny/gm12u320.c
-+++ b/drivers/gpu/drm/tiny/gm12u320.c
-@@ -265,11 +265,16 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
- 	y1 = gm12u320->fb_update.rect.y1;
- 	y2 = gm12u320->fb_update.rect.y2;
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 9d34ec9d03f6..46b55b4d03c2 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -290,14 +290,18 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 	else if ((clip.x2 > fb->width) || (clip.y2 > fb->height))
+ 		return -EINVAL;
+ 
++	ret = dma_resv_lock(fb->obj[0]->resv, NULL);
++	if (ret)
++		return ret;
++
+ 	if (import_attach) {
+ 		ret = dma_buf_begin_cpu_access(import_attach->dmabuf,
+ 					       DMA_FROM_DEVICE);
+ 		if (ret)
+-			return ret;
++			goto out_dma_resv_unlock;
+ 	}
  
 -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
-+	ret = dma_resv_lock(fb->obj[0]->resv, NULL);
- 	if (ret) {
--		GM12U320_ERR("failed to vmap fb: %d\n", ret);
-+		GM12U320_ERR("failed to reserve fb: %d\n", ret);
- 		goto put_fb;
- 	}
 +	ret = drm_gem_shmem_vmap_local(fb->obj[0], &map);
-+	if (ret) {
-+		GM12U320_ERR("failed to vmap fb: %d\n", ret);
-+		goto unlock_resv;
-+	}
- 	vaddr = map.vaddr; /* TODO: Use mapping abstraction properly */
- 
- 	if (fb->obj[0]->import_attach) {
-@@ -321,8 +326,11 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
- 		if (ret)
- 			GM12U320_ERR("dma_buf_end_cpu_access err: %d\n", ret);
+ 	if (ret) {
+ 		DRM_ERROR("failed to vmap fb\n");
+ 		goto out_dma_buf_end_cpu_access;
+@@ -307,7 +311,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 	urb = udl_get_urb(dev);
+ 	if (!urb) {
+ 		ret = -ENOMEM;
+-		goto out_drm_gem_shmem_vunmap;
++		goto out_drm_gem_shmem_vunmap_local;
  	}
-+
-+unlock_resv:
-+	dma_resv_unlock(fb->obj[0]->resv);
- vunmap:
+ 	cmd = urb->transfer_buffer;
+ 
+@@ -320,7 +324,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 				       &cmd, byte_offset, dev_byte_offset,
+ 				       byte_width);
+ 		if (ret)
+-			goto out_drm_gem_shmem_vunmap;
++			goto out_drm_gem_shmem_vunmap_local;
+ 	}
+ 
+ 	if (cmd > (char *)urb->transfer_buffer) {
+@@ -336,8 +340,8 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 
+ 	ret = 0;
+ 
+-out_drm_gem_shmem_vunmap:
 -	drm_gem_shmem_vunmap(fb->obj[0], &map);
++out_drm_gem_shmem_vunmap_local:
 +	drm_gem_shmem_vunmap_local(fb->obj[0], &map);
- put_fb:
- 	drm_framebuffer_put(fb);
- 	gm12u320->fb_update.fb = NULL;
+ out_dma_buf_end_cpu_access:
+ 	if (import_attach) {
+ 		tmp_ret = dma_buf_end_cpu_access(import_attach->dmabuf,
+@@ -345,6 +349,8 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 		if (tmp_ret && !ret)
+ 			ret = tmp_ret; /* only update ret if not set yet */
+ 	}
++out_dma_resv_unlock:
++	dma_resv_unlock(fb->obj[0]->resv);
+ 
+ 	return ret;
+ }
 -- 
 2.29.2
 
