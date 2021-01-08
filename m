@@ -2,292 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B9A42EF593
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 17:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D92C2EF65C
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 18:18:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728101AbhAHQNP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 8 Jan 2021 11:13:15 -0500
-Received: from mga18.intel.com ([134.134.136.126]:21825 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728097AbhAHQNP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 11:13:15 -0500
-IronPort-SDR: UTpUH/mDKF31bZpdsU9kwZOLfcp+Fq6Z0vi/0iGkvEM2CxzxLUXIC66DdjQKCiyoad9CFrEIsR
- b8SMnhaVmSAA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="165304544"
-X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; 
-   d="scan'208";a="165304544"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2021 08:12:34 -0800
-IronPort-SDR: JMbobQ7je7NHlqEgCJqr+/MvTBYSjiYikipnt+2BMt8dIYeeNWW8hzX84f1xJ/FHwBuwkoaUT5
- 6Hcg9CKTDj0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; 
-   d="scan'208";a="351723950"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Jan 2021 08:12:33 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 8 Jan 2021 08:12:33 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 8 Jan 2021 08:12:32 -0800
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.1713.004;
- Fri, 8 Jan 2021 08:12:25 -0800
-From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "maarten.lankhorst@linux.intel.com" 
-        <maarten.lankhorst@linux.intel.com>,
-        "mripard@kernel.org" <mripard@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "sean@poorly.run" <sean@poorly.run>,
-        "eric@anholt.net" <eric@anholt.net>,
-        "sam@ravnborg.org" <sam@ravnborg.org>
-CC:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
- operations
-Thread-Topic: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
- operations
-Thread-Index: AQHW5aLP4hX76tQjY0SfdcD489sfwKod5bgg
-Date:   Fri, 8 Jan 2021 16:12:25 +0000
-Message-ID: <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-2-tzimmermann@suse.de>
-In-Reply-To: <20210108094340.15290-2-tzimmermann@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.22.254.132]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1728349AbhAHRSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 12:18:20 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53186 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728117AbhAHRSU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 12:18:20 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id B75231F46CD8
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH] media: v4l2-async: Remove V4L2_ASYNC_MATCH_CUSTOM
+Date:   Fri,  8 Jan 2021 14:17:27 -0300
+Message-Id: <20210108171728.39434-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->-----Original Message-----
->From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->Thomas Zimmermann
->Sent: Friday, January 8, 2021 4:43 AM
->To: sumit.semwal@linaro.org; christian.koenig@amd.com;
->airlied@redhat.com; daniel@ffwll.ch; maarten.lankhorst@linux.intel.com;
->mripard@kernel.org; kraxel@redhat.com; hdegoede@redhat.com;
->sean@poorly.run; eric@anholt.net; sam@ravnborg.org
->Cc: Daniel Vetter <daniel.vetter@ffwll.ch>; dri-devel@lists.freedesktop.org;
->virtualization@lists.linux-foundation.org; linaro-mm-sig@lists.linaro.org;
->Thomas Zimmermann <tzimmermann@suse.de>; linux-
->media@vger.kernel.org
->Subject: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
->operations
->
->The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
->allowed to pin the buffer or acquire the buffer's reservation object
->lock.
->
->This is a problem for callers that only require a short-term mapping
->of the buffer without the pinning, or callers that have special locking
->requirements. These may suffer from unnecessary overhead or interfere
->with regular pin operations.
->
->The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
->their rsp callbacks in struct dma_buf_ops provide an alternative without
->pinning or reservation locking. Callers are responsible for these
->operations.
->
->v4:
->	* update documentation (Daniel)
->
->Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->---
-> drivers/dma-buf/dma-buf.c | 81
->+++++++++++++++++++++++++++++++++++++++
-> include/linux/dma-buf.h   | 34 ++++++++++++++++
-> 2 files changed, 115 insertions(+)
->
->diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->index b8465243eca2..01f9c74d97fa 100644
->--- a/drivers/dma-buf/dma-buf.c
->+++ b/drivers/dma-buf/dma-buf.c
->@@ -1295,6 +1295,87 @@ void dma_buf_vunmap(struct dma_buf *dmabuf,
->struct dma_buf_map *map)
-> }
-> EXPORT_SYMBOL_GPL(dma_buf_vunmap);
->
->+/**
->+ * dma_buf_vmap_local - Create virtual mapping for the buffer object into
->kernel
->+ * address space.
->+ * @dmabuf:	[in]	buffer to vmap
->+ * @map:	[out]	returns the vmap pointer
->+ *
->+ * Unlike dma_buf_vmap() this is a short term mapping and will not pin
->+ * the buffer. The struct dma_resv for the @dmabuf must be locked until
->+ * dma_buf_vunmap_local() is called.
->+ *
->+ * Returns:
->+ * 0 on success, or a negative errno code otherwise.
->+ */
->+int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
->*map)
->+{
->+	struct dma_buf_map ptr;
->+	int ret = 0;
->+
->+	dma_buf_map_clear(map);
->+
->+	if (WARN_ON(!dmabuf))
->+		return -EINVAL;
->+
->+	dma_resv_assert_held(dmabuf->resv);
->+
->+	if (!dmabuf->ops->vmap_local)
->+		return -EINVAL;
+Custom/driver-specific v4l2-async match support was introduced
+in 2013, as V4L2_ASYNC_BUS_CUSTOM.
 
-You are clearing the map, and then doing the above checks.
+This type of match never had any user, so it's fair
+to conclude it's not required and that safe for removal.
+If the support is ever needed, it can always be restored.
 
-Is it ok to change the map info and then exit on error?
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ drivers/media/v4l2-core/v4l2-async.c | 14 --------------
+ include/media/v4l2-async.h           | 17 -----------------
+ 2 files changed, 31 deletions(-)
 
-Mike
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index e3ab003a6c85..3faf1d12d49d 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -139,16 +139,6 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+ 	return true;
+ }
+ 
+-static bool match_custom(struct v4l2_async_notifier *notifier,
+-			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+-{
+-	if (!asd->match.custom.match)
+-		/* Match always */
+-		return true;
+-
+-	return asd->match.custom.match(sd->dev, asd);
+-}
+-
+ static LIST_HEAD(subdev_list);
+ static LIST_HEAD(notifier_list);
+ static DEFINE_MUTEX(list_lock);
+@@ -164,9 +154,6 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+ 	list_for_each_entry(asd, &notifier->waiting, list) {
+ 		/* bus_type has been verified valid before */
+ 		switch (asd->match_type) {
+-		case V4L2_ASYNC_MATCH_CUSTOM:
+-			match = match_custom;
+-			break;
+ 		case V4L2_ASYNC_MATCH_DEVNAME:
+ 			match = match_devname;
+ 			break;
+@@ -467,7 +454,6 @@ static int v4l2_async_notifier_asd_valid(struct v4l2_async_notifier *notifier,
+ 		return -EINVAL;
+ 
+ 	switch (asd->match_type) {
+-	case V4L2_ASYNC_MATCH_CUSTOM:
+ 	case V4L2_ASYNC_MATCH_DEVNAME:
+ 	case V4L2_ASYNC_MATCH_I2C:
+ 	case V4L2_ASYNC_MATCH_FWNODE:
+diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+index 0e04b5b2ebb0..8ed42188e7c9 100644
+--- a/include/media/v4l2-async.h
++++ b/include/media/v4l2-async.h
+@@ -21,8 +21,6 @@ struct v4l2_async_notifier;
+  * enum v4l2_async_match_type - type of asynchronous subdevice logic to be used
+  *	in order to identify a match
+  *
+- * @V4L2_ASYNC_MATCH_CUSTOM: Match will use the logic provided by &struct
+- *	v4l2_async_subdev.match ops
+  * @V4L2_ASYNC_MATCH_DEVNAME: Match will use the device name
+  * @V4L2_ASYNC_MATCH_I2C: Match will check for I2C adapter ID and address
+  * @V4L2_ASYNC_MATCH_FWNODE: Match will use firmware node
+@@ -31,7 +29,6 @@ struct v4l2_async_notifier;
+  * algorithm that will be used to match an asynchronous device.
+  */
+ enum v4l2_async_match_type {
+-	V4L2_ASYNC_MATCH_CUSTOM,
+ 	V4L2_ASYNC_MATCH_DEVNAME,
+ 	V4L2_ASYNC_MATCH_I2C,
+ 	V4L2_ASYNC_MATCH_FWNODE,
+@@ -58,15 +55,6 @@ enum v4l2_async_match_type {
+  * @match.i2c.address:
+  *		I2C address to be matched.
+  *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
+- * @match.custom:
+- *		Driver-specific match criteria.
+- *		Used if @match_type is %V4L2_ASYNC_MATCH_CUSTOM.
+- * @match.custom.match:
+- *		Driver-specific match function to be used if
+- *		%V4L2_ASYNC_MATCH_CUSTOM.
+- * @match.custom.priv:
+- *		Driver-specific private struct with match parameters
+- *		to be used if %V4L2_ASYNC_MATCH_CUSTOM.
+  * @asd_list:	used to add struct v4l2_async_subdev objects to the
+  *		master notifier @asd_list
+  * @list:	used to link struct v4l2_async_subdev objects, waiting to be
+@@ -85,11 +73,6 @@ struct v4l2_async_subdev {
+ 			int adapter_id;
+ 			unsigned short address;
+ 		} i2c;
+-		struct {
+-			bool (*match)(struct device *dev,
+-				      struct v4l2_async_subdev *sd);
+-			void *priv;
+-		} custom;
+ 	} match;
+ 
+ 	/* v4l2-async core private: not to be used by drivers */
+-- 
+2.29.2
 
->+	mutex_lock(&dmabuf->lock);
->+	if (dmabuf->vmapping_counter) {
->+		dmabuf->vmapping_counter++;
->+		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
->+		*map = dmabuf->vmap_ptr;
->+		goto out_unlock;
->+	}
->+
->+	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
->+
->+	ret = dmabuf->ops->vmap_local(dmabuf, &ptr);
->+	if (WARN_ON_ONCE(ret))
->+		goto out_unlock;
->+
->+	dmabuf->vmap_ptr = ptr;
->+	dmabuf->vmapping_counter = 1;
->+
->+	*map = dmabuf->vmap_ptr;
->+
->+out_unlock:
->+	mutex_unlock(&dmabuf->lock);
->+	return ret;
->+}
->+EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
->+
->+/**
->+ * dma_buf_vunmap_local - Unmap a vmap obtained by
->dma_buf_vmap_local.
->+ * @dmabuf:	[in]	buffer to vunmap
->+ * @map:	[in]	vmap pointer to vunmap
->+ *
->+ * Release a mapping established with dma_buf_vmap_local().
->+ */
->+void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
->dma_buf_map *map)
->+{
->+	if (WARN_ON(!dmabuf))
->+		return;
->+
->+	dma_resv_assert_held(dmabuf->resv);
->+
->+	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
->+	BUG_ON(dmabuf->vmapping_counter == 0);
->+	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
->+
->+	mutex_lock(&dmabuf->lock);
->+	if (--dmabuf->vmapping_counter == 0) {
->+		if (dmabuf->ops->vunmap_local)
->+			dmabuf->ops->vunmap_local(dmabuf, map);
->+		dma_buf_map_clear(&dmabuf->vmap_ptr);
->+	}
->+	mutex_unlock(&dmabuf->lock);
->+}
->+EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
->+
-> #ifdef CONFIG_DEBUG_FS
-> static int dma_buf_debug_show(struct seq_file *s, void *unused)
-> {
->diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->index 628681bf6c99..aeed754b5467 100644
->--- a/include/linux/dma-buf.h
->+++ b/include/linux/dma-buf.h
->@@ -264,6 +264,38 @@ struct dma_buf_ops {
->
-> 	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> 	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map
->*map);
->+
->+	/**
->+	 * @vmap_local:
->+	 *
->+	 * Creates a virtual mapping for the buffer into kernel address space.
->+	 *
->+	 * This callback establishes short-term mappings for situations where
->+	 * callers only use the buffer for a bounded amount of time; such as
->+	 * updates to the framebuffer or reading back contained information.
->+	 * In contrast to the regular @vmap callback, vmap_local does never
->pin
->+	 * the buffer to a specific domain or acquire the buffer's reservation
->+	 * lock.
->+	 *
->+	 * This is called with the &dma_buf.resv object locked. Callers must
->hold
->+	 * the lock until after removing the mapping with @vunmap_local.
->+	 *
->+	 * This callback is optional.
->+	 *
->+	 * Returns:
->+	 *
->+	 * 0 on success or a negative error code on failure.
->+	 */
->+	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
->*map);
->+
->+	/**
->+	 * @vunmap_local:
->+	 *
->+	 * Removes a virtual mapping that was established by @vmap_local.
->+	 *
->+	 * This callback is optional.
->+	 */
->+	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
->*map);
-> };
->
-> /**
->@@ -501,4 +533,6 @@ int dma_buf_mmap(struct dma_buf *, struct
->vm_area_struct *,
-> 		 unsigned long);
-> int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map
->*map);
->+int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
->*map);
->+void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
->dma_buf_map *map);
-> #endif /* __DMA_BUF_H__ */
->--
->2.29.2
->
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
