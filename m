@@ -2,99 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D66F2EF068
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 11:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 841942EF075
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 11:11:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbhAHKHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 05:07:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57350 "EHLO mail.kernel.org"
+        id S1726829AbhAHKLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 05:11:24 -0500
+Received: from mga06.intel.com ([134.134.136.31]:16399 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726120AbhAHKHO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 05:07:14 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A008235FA;
-        Fri,  8 Jan 2021 10:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610100393;
-        bh=0seG1qL20nPxGrYmWcmVzd36Vq7VdNi0HGCeEa/IXx8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ugUrqP8e3xpsSeS41GNHnQitoUH1xd+2b3XfGcvpvtTlYBVLUQ35ZZed6g81SOXqk
-         WAcWhX4i7DuClqJrpksigj0/TnCyWhSkVaAqIpfzvp2IxsxjUf7x3W+yQC9BtaMfuR
-         S1JUL+acrLSjoYhdfpRp8wSEszOOkZhpznkUFvZEh1aPcaDVHR21RKmESmGEoeCmGN
-         Fhui58VwJuH7enKjDbppKcUoy9VtMARgW5VfGQzp8obdOQcreMkvZDSMuwj0w22M+I
-         F/IUSOI/gcxbuwmXgQXg215+ry8MCutM4cmVXUHcatPjcdIQVZ8R1vdX6tP2LuG9Mk
-         dVQsVlaQnHGdA==
-Date:   Fri, 8 Jan 2021 11:06:30 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     rojay@codeaurora.org
-Cc:     swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, akashast@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        pyarlaga@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH V7 2/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-Message-ID: <20210108100630.GC1223@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>, rojay@codeaurora.org,
-        swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, akashast@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        pyarlaga@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-References: <20201221123801.26643-1-rojay@codeaurora.org>
- <20201221123801.26643-3-rojay@codeaurora.org>
- <20210105152747.GB1842@ninjato>
- <d3e53aabf39e888d8184faa2981f7837@codeaurora.org>
+        id S1726120AbhAHKLY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Jan 2021 05:11:24 -0500
+IronPort-SDR: AJFfs2w9QBbKqwAU3svq90zASJD61pAXSzAEfwkejSmvv1xH39RTuqS7ZjbwNeceV0LrZT6jhf
+ tYQEoxOCKiGg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="239125622"
+X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; 
+   d="scan'208";a="239125622"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2021 02:09:38 -0800
+IronPort-SDR: yWctD8157T9vgUXdARnHZ0HvK9KkWUb7T6cwttWmDtoai9PE4OS2vHsHfARm2MhZPTb1WIBvoC
+ ArMJMAVSw1hA==
+X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; 
+   d="scan'208";a="398943111"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2021 02:09:37 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 2507D2067A; Fri,  8 Jan 2021 12:09:35 +0200 (EET)
+Date:   Fri, 8 Jan 2021 12:09:35 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Maxime Ripard <mripard@kernel.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        linux-media <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 1/1] v4l: fwnode:
+ v4l2_async_notifier_parse_fwnode_endpoints is deprecated
+Message-ID: <20210108100935.GX11878@paasikivi.fi.intel.com>
+References: <20201214213348.19675-1-sakari.ailus@linux.intel.com>
+ <CAAEAJfADNg_RKuWfREAPbtpB86ZQsNKa5rc83sjB9BZViPhtHg@mail.gmail.com>
+ <20210107220723.GV11878@paasikivi.fi.intel.com>
+ <X/gspYsUCNm+wcpS@aptenodytes>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="96YOpH+ONegL0A3E"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d3e53aabf39e888d8184faa2981f7837@codeaurora.org>
+In-Reply-To: <X/gspYsUCNm+wcpS@aptenodytes>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Paul,
 
---96YOpH+ONegL0A3E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Jan 08, 2021 at 10:57:57AM +0100, Paul Kocialkowski wrote:
+> Hi,
+> 
+> On Fri 08 Jan 21, 00:07, Sakari Ailus wrote:
+> > Hi Ezequiel,
+> > 
+> > On Thu, Jan 07, 2021 at 04:31:58PM -0300, Ezequiel Garcia wrote:
+> > > Hi Sakari,
+> > > 
+> > > On Mon, 14 Dec 2020 at 18:45, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > > >
+> > > > Document that v4l2_async_notifier_parse_fwnode_endpoints() is deprecated.
+> > > > Its functionality has been replaced by other, better functions. Also add a
+> > > > reference to an example if someone ends up wandering here.
+> > > >
+> > > 
+> > > I'm working on a series to clean up the v4l2_async API a bit,
+> > > and came across this patch.
+> > > 
+> > > As far as I can see, the only user of v4l2_async_notifier_parse_fwnode_endpoints
+> > > is drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c.
+> > 
+> > It may be that's the only one left. The intent was also to avoid anyone
+> > proposing new ones.
+> > 
+> > > Adding Maxime and Yong Deng, it would be great to get rid of this,
+> > > so we can remove the API, which would also allow us to remove
+> > > some other internal functions and therefore make the API a bit cleaner.
+> > 
+> > Yes, that'd be very nice. Then we could remove it altogether.
+> 
+> I've been touching that area a bit with my MIPI CSI-2 support series.
+> I'll try to get rid of it along the way if I need to respin the series,
+> or come up with a follow-up patch to remove the call to this function.
+> 
+> If I understand correctly, the preferred way now is to use:
+> - fwnode_graph_get_endpoint_by_id
+> - v4l2_fwnode_endpoint_parse
+> - v4l2_async_notifier_add_fwnode_remote_subdev
+> 
+> Is that correct? I think that's what I've been doing in the MIPI CSI-2
+> bridge drivers so far.
 
+Yes, that's the preferred way.
 
-> > The use of 'goto' is not needed here IMHO. I think:
-...
-> In context to the previous comment [1], I have implemented this way.
-> But, yeah anything is fine for me.
-
-Thanks, I really think it is better.
-
-> In geni_i2c_abort_xfer() function gi2c->cur will be made NULL, so copying it
-> before to "cur" is needed here.
-
-Okay then, thanks for the heads up!
-
-
---96YOpH+ONegL0A3E
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/4LqYACgkQFA3kzBSg
-Kbbwag/6A5M3A+2Q2jivtmmhNGGh4pVc1ok5Joih+D1lZqAQVbSKjqPPZNyAeuOu
-0a2ouMt6rjzDrKgZ8rWDcuH6PTbFwtSKcwK1vyLK10ehhP8/lr2uVK5MqWJ8ydXS
-PcTBZI1NXLdK+cf6fIpfhcCYZG7mBf6Pc+riFDPNIgRv2Gs8sXz7/qNKrOE98XAv
-mqGuAbKTu6GqvfkFA5aRrT2hK/+p5XGzzAMX1zW7Gei+XyicABSko+aY1UExv/Bn
-uZrBYlG4xwW89gKNeqBDibZcXd1vPVhhqA8FVRGarwoJAQ09x9LN5G9iHnrZn1AW
-ID5BIu243HenHQkMDlOCVutNxEIFB7FohEK3UYY1uPR88VXunnMsaIcQWt1uoAHg
-IiS8AxZ+cEnePxzJC1HP1IjnisT3SP37KXSZyXzLpRhWk8P2rUOWIClEsVslSC6y
-uVLUpDiSc93lgQ1zmPYp8RUYrOeYq+tEmNnuSTC5JydlmjiaH0gVrl5769Kar8SK
-RdNB4LYPOG5+BtatssGfLzsMLN0vBiOV2GUxSWktCR3Xx179VNkd0ftyqJvUK4XE
-e8SeeqqvQJLAbSlE3UC5EurheaKN6dOXhvnjfh9zVDNh3swfQ0fYl4dbINnGaORr
-Sywbt3JRJ41iEaOvTy0QJ6kcEuV6qh6oXPjMgrsUednm8zpmJdQ=
-=3G2X
------END PGP SIGNATURE-----
-
---96YOpH+ONegL0A3E--
+-- 
+Sakari Ailus
