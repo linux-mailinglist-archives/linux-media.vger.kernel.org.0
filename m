@@ -2,199 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F712EF0DF
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 11:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7949A2EF0F8
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 11:59:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727293AbhAHKui convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 8 Jan 2021 05:50:38 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:56350 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726901AbhAHKui (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 05:50:38 -0500
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1kxpL9-0002KQ-F4; Fri, 08 Jan 2021 11:49:55 +0100
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+        id S1726503AbhAHK73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 05:59:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725806AbhAHK73 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 05:59:29 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B614EC0612F4
+        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 02:58:48 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id i24so10734386edj.8
+        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 02:58:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TOm13NRGHy5Sqh3vog/0XZzm1iyrOm+MRP8TdK1CfMg=;
+        b=KVehekSoUNThax2CKt3lTjAesH+8/eHmROF1JIF6RMQ0gz4viBtpcXlHn7Qy3uO92f
+         4yZXdQt8GOIis3xpGQv6yg8e7ZNDq6fFJ7Nvs8EN9OiheeO5Q8i7lKnqyfAfn3LBXZeK
+         VI3HAe37TFWAvyDtFniueTIQ2Q1UGVlACAlAiaD+Ic8TSkEQblsAzPt5TVox5P5veC7f
+         726z3+7hRiBDIRJTd0pUt5ifUGR0JCdsEXpJwQWtgTQJjjUN5qizyPvnalFvBRJMntjw
+         hGSRHippbUw4kd3JwrQ9GPUPrL1/GbruvW9o2svnmCrD/kh6f0AaGVHrt0AwcrhiBLBn
+         3fUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TOm13NRGHy5Sqh3vog/0XZzm1iyrOm+MRP8TdK1CfMg=;
+        b=jDSqyn1NYg0Cr9sxRT3BDRBpaekuDmvoCRgRiLjjGQ2ppu45RKUJaVwI2cJ1TqEKWL
+         MC04qnAJOLK+7hcDMpvfaf/ja4Gsn/oO5iI8nGuus/MyiNiXEqPDXqrRmwi8wWRu69jA
+         +gj01Hcb5O8WAD1/dDlOYJL5m4kzn3d/+LwhGC05PThEBW0+GYIB+iePLkumPCP0ccZ6
+         SrbCvDMADnFTCAMz756GWN+ghsnQTI781bFCNSmniUJiiUd6jXZKW92Gx+EcDHv86Yzx
+         jb1G5zmislPrq8GSS3APiw2fXtJCbZWnzr7MEAggzMEiXo6bFKIpAjiDmKFNeqA5++pt
+         nPXw==
+X-Gm-Message-State: AOAM530Ye5IgcDWW0Sp114ipss+4ZM9LS2W3ZdH5WsW86Nyca2cHGqTT
+        3tCroGyGVIBXxmZp8osX6mo=
+X-Google-Smtp-Source: ABdhPJzQ1p3qGIF9RvvpV4+O+RVVjNL7bNHK5QsAsD4Vp7NDE+OMMwNDPHGfGAB6pGc2b6IyygR5sw==
+X-Received: by 2002:a05:6402:45:: with SMTP id f5mr4785454edu.273.1610103527497;
+        Fri, 08 Jan 2021 02:58:47 -0800 (PST)
+Received: from kontron.lan (2001-1ae9-1e8-b200-9c26-b1f7-3f54-fb94.ip6.tmcz.cz. [2001:1ae9:1e8:b200:9c26:b1f7:3f54:fb94])
+        by smtp.gmail.com with ESMTPSA id j25sm3419167ejx.125.2021.01.08.02.58.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Jan 2021 02:58:46 -0800 (PST)
+Subject: Re: [PATCH 1/6] media: mach-pxa: Register the camera sensor
+ fixed-rate clock
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Jacob Chen <jacob-chen@iotwrt.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 5/5] media: hantro: Add support for the Rockchip PX30
-Date:   Fri, 08 Jan 2021 11:49:54 +0100
-Message-ID: <5671105.lOV4Wx5bFT@diego>
-In-Reply-To: <11669141.O9o76ZdvQC@diego>
-References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com> <X/ggTOOTBhGoFDpW@aptenodytes> <11669141.O9o76ZdvQC@diego>
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20210104165739.116404-1-ezequiel@collabora.com>
+ <20210104165739.116404-2-ezequiel@collabora.com>
+ <d07ac542-8b1c-779f-0b69-683c0d0ae2d1@gmail.com>
+ <3950cb4b337e6373b066034c32e51a1e9e88a50f.camel@collabora.com>
+From:   Petr Cvek <petrcvekcz@gmail.com>
+Message-ID: <c8b39f6c-7a21-b597-c633-b053d701fe67@gmail.com>
+Date:   Fri, 8 Jan 2021 12:02:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
+In-Reply-To: <3950cb4b337e6373b066034c32e51a1e9e88a50f.camel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, 8. Januar 2021, 11:48:26 CET schrieb Heiko St�bner:
-> Am Freitag, 8. Januar 2021, 10:05:16 CET schrieb Paul Kocialkowski:
-> > Hi Ezequiel,
-> > 
-> > On Thu 07 Jan 21, 16:08, Ezequiel Garcia wrote:
-> > > Happy to see this patch. It was on my TODO list,
-> > > but I hadn't had time to bringup my rk3326 device.
-> > 
-> > Same here, I just had an occasion to use it again these days so I jumped
-> > on it!
-> > 
-> > > A few comments.
-> > > 
-> > > On Thu, 2021-01-07 at 14:41 +0100, Paul Kocialkowski wrote:
-> > > > The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are similar
-> > > > to the RK3399 (Hantro G1/H1 with shuffled registers).
-> > > > 
-> > > > Besides taking an extra clock, it also shares an interrupt with the IOMMU
-> > > > so it's necessary to request the interrupt shared.
-> > > > 
-> > > 
-> > > Could you clarify on the commit description which iommu device interrupt
-> > > line is being shared?
-> > 
-> > Sure! It's IRQ 79 of the GIC that's shared with vopl_mmu.
-> > It's not very obvious in the dt commit.
+Dne 06. 01. 21 v 16:53 Ezequiel Garcia napsal(a):
+> Hi Petr,
 > 
-> Having looked through the docs again, I think that the vopl_mmu using
-> irq 79 is just a mistake:
+> Thanks a lot for reviewing and testing the series.
 > 
-> (1) in general vop and vop-mmu use the same irq (78 in that case)
-> (2) Rockchip does seem to have fixed that in their 4.19 tree as well:
-> https://github.com/rockchip-linux/kernel/blob/develop-4.19/arch/arm64/boot/dts/rockchip/px30.dtsi#L1598
-
-(3) https://github.com/rockchip-linux/kernel/commit/391a5c5f96d177896f9fe92ca1c83e00f4352191 ;-)
-
+> On Tue, 2021-01-05 at 17:41 +0100, Petr Cvek wrote:
+>>
+>> Dne 04. 01. 21 v 17:57 Ezequiel Garcia napsal(a):
+>>> The pxa-camera capture driver currently registers a v4l2-clk
+>>> clock, named "mclk", to represent the mt9m111 sensor clock.
+>>>
+>>> Register a proper fixed-rate clock using the generic clock framework,
+>>> which will allow to remove the v4l2-clk clock in the pxa-camera
+>>> driver in a follow-up commit.
+>>>
+>>
+>> BTW the mclk output to a sensor is actually a variable rate, divided from lcdclk (which can be changed too). PXA camera driver  is using variable
+>> pcdev->mclk_divisor to generate the mclk from lcdclk. 
+>>
 > 
-> So to me it looks like this doesn't need to be shared and instead
-> "simply" the px30 dtsi fixed ;-)
+> Hm, now that I look at this, I see the pxa-camera driver
+> is requiring a clock:
 > 
+>         pcdev->clk = devm_clk_get(&pdev->dev, NULL);                             
+>         if (IS_ERR(pcdev->clk))                                                  
+>                 return PTR_ERR(pcdev->clk);   
 > 
-> Heiko
-> 
-> 
-> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > ---
-> > > >  drivers/staging/media/hantro/hantro_drv.c    |  5 +++--
-> > > >  drivers/staging/media/hantro/hantro_hw.h     |  1 +
-> > > >  drivers/staging/media/hantro/rk3399_vpu_hw.c | 21 ++++++++++++++++++++
-> > > >  3 files changed, 25 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > > > index e5f200e64993..076a7782b476 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > @@ -472,6 +472,7 @@ static const struct v4l2_file_operations hantro_fops = {
-> > > >  
-> > > >  static const struct of_device_id of_hantro_match[] = {
-> > > >  #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
-> > > > +       { .compatible = "rockchip,px30-vpu", .data = &px30_vpu_variant, },
-> > > >         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
-> > > >         { .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
-> > > >         { .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
-> > > > @@ -796,8 +797,8 @@ static int hantro_probe(struct platform_device *pdev)
-> > > >                         return -ENXIO;
-> > > >  
-> > > >                 ret = devm_request_irq(vpu->dev, irq,
-> > > > -                                      vpu->variant->irqs[i].handler, 0,
-> > > > -                                      dev_name(vpu->dev), vpu);
-> > > > +                                      vpu->variant->irqs[i].handler,
-> > > > +                                      IRQF_SHARED, dev_name(vpu->dev), vpu);
-> > > 
-> > > Maybe this irq flag should be part of vpu->variant? It sounds like an IP block
-> > > integration specific thing.
-> > 
-> > Ah right, I agree that it would be justified. But it would also be simple to
-> > just fix the irq handlers and assume this can generally be the case, because it
-> > feels like a bit of a detail to justify a flag.
-> > 
-> > Do you think this could be a safe/workable assumption?
-> > 
-> > > Also, you will need a px30-specific interrupt handler now,
-> > > since the rk3399 one is not shared-friendly.
-> > 
-> > Yeah I realize I haven't been very careful there and didn't really check that
-> > the IOMMU driver is really safe to handle shared interrupts either. I'll take
-> > a look a that when crafting v2.
-> > 
-> > > >                 if (ret) {
-> > > >                         dev_err(vpu->dev, "Could not request %s IRQ.\n",
-> > > >                                 irq_name);
-> > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> > > > index 34c9e4649a25..07f516fd7a2e 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > > > @@ -148,6 +148,7 @@ enum hantro_enc_fmt {
-> > > >         RK3288_VPU_ENC_FMT_UYVY422 = 3,
-> > > >  };
-> > > >  
-> > > > +extern const struct hantro_variant px30_vpu_variant;
-> > > >  extern const struct hantro_variant rk3399_vpu_variant;
-> > > >  extern const struct hantro_variant rk3328_vpu_variant;
-> > > >  extern const struct hantro_variant rk3288_vpu_variant;
-> > > > diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers/staging/media/hantro/rk3399_vpu_hw.c
-> > > > index 7a7962cf771e..4112f98baa60 100644
-> > > > --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
-> > > > +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
-> > > 
-> > > Perhaps it's time to rename this to rockchip_vpu_hw.c,
-> > > and merge rk3288 and rk3399? It's a nitpick, though.
-> > 
-> > Haha, I was thinking the exact same thing but wasn't sure it would be welcome!
-> > 
-> > I was thinking of rockchip_vpu2_hw.c or rockchip_vdpu2_hw.c since that's
-> > apparently how it's called in Rockchip terminology: VDPU2 and VEPU2 for the
-> > Hantro G1 and H1 with the shuffled register layout. The rk3288 stuff is
-> > probably VDPU1/VEPU1 and we might want to rename it accordingly as well.
-> > 
-> > Cheers and thanks for the review!
-> > 
-> > Paul
-> > 
-> > > > @@ -220,3 +220,24 @@ const struct hantro_variant rk3328_vpu_variant = {
-> > > >         .clk_names = rk3399_clk_names,
-> > > >         .num_clocks = ARRAY_SIZE(rk3399_clk_names),
-> > > >  };
-> > > > +
-> > > > +static const char * const px30_clk_names[] = {
-> > > > +       "aclk", "hclk", "sclk"
-> > > > +};
-> > > > +
-> > > > +const struct hantro_variant px30_vpu_variant = {
-> > > > +       .enc_offset = 0x0,
-> > > > +       .enc_fmts = rk3399_vpu_enc_fmts,
-> > > > +       .num_enc_fmts = ARRAY_SIZE(rk3399_vpu_enc_fmts),
-> > > > +       .dec_offset = 0x400,
-> > > > +       .dec_fmts = rk3399_vpu_dec_fmts,
-> > > > +       .num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
-> > > > +       .codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
-> > > > +                HANTRO_VP8_DECODER,
-> > > > +       .codec_ops = rk3399_vpu_codec_ops,
-> > > > +       .irqs = rk3399_irqs,
-> > > > +       .num_irqs = ARRAY_SIZE(rk3399_irqs),
-> > > > +       .init = rk3399_vpu_hw_init,
-> > > > +       .clk_names = px30_clk_names,
-> > > > +       .num_clocks = ARRAY_SIZE(px30_clk_names)
-> > > > +};
-> > > 
-> > > Thanks,
-> > > Ezequiel
-> > > 
-> > 
-> > 
-> 
+> Where is this clock registered in the non-devicetree case?
 > 
 
+I think this is where the clock is defined 
+
+	PXA27X_CKEN_1RATE("pxa27x-camera.0", NULL, CAMERA, pxa27x_lcd_bus_parents, 0),
+
+https://elixir.bootlin.com/linux/v5.10.2/source/drivers/clk/pxa/clk-pxa27x.c#L180
 
 
+>> The rate change is done in pxa_camera_activate():
+>>
+>> https://elixir.bootlin.com/linux/v5.11-rc2/source/drivers/media/platform/pxa_camera.c#L1136
+>>
+>>         __raw_writel(pcdev->mclk_divisor | cicr4, pcdev->base + CICR4);
+>>
+>> Would it be possible to register a correct clock type with possibility to change the divisor by the standard way?
+>>
+> 
+> Right, so you mean the pxa-camera driver is the one providing the clock for the sensors?
+> 
+> In that case, I guess the pxa-camera driver should be the one registering
+> a CCF clock. Other drivers are doing this, through clk_register for instance.
+> 
 
+Yeah that would make the sense, because the camera controller controls the divider and enable signals.
+
+> However, for the sake of this series, which is meant to get rid
+> of the v4l2-clk API, I would say it's fine to just register a fixed-rate.
+> 
+> This is similar to what v4l2_clk_register was doing, which was registering
+> a dummy clock.
+> 
+
+I guess. Just the 1:1 replacement. 
+
+> Having said that, as I mentioned above, I'm wondering if the mach-pxa
+> boards are really working, given I'm not seeing the clock for pxa-camera.
+> 
+> Maybe the best way forward is to just accept that pxa-camera
+> is only supported for the device tree platforms, and therefore drop the
+> support from mach-pxa/ boards.
+> 
+
+PXA camera worked without devicetree without problems (I'm not sure if I ever used devicetree). The definition should be in that file above (but I'm not that familiar with the clock framework).
+
+best regards,
+Petr
+
+> Thanks,
+> Ezequiel
+>  
+> 
+>> Petr
+>>
+>>
+>>> Cc: Arnd Bergmann <arnd@arndb.de>
+>>> Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+>>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>>> ---
+>>>  arch/arm/mach-pxa/devices.c | 8 ++++++++
+>>>  1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
+>>> index 524d6093e0c7..09b8495f3fd9 100644
+>>> --- a/arch/arm/mach-pxa/devices.c
+>>> +++ b/arch/arm/mach-pxa/devices.c
+>>> @@ -4,6 +4,7 @@
+>>>  #include <linux/init.h>
+>>>  #include <linux/platform_device.h>
+>>>  #include <linux/clkdev.h>
+>>> +#include <linux/clk-provider.h>
+>>>  #include <linux/dma-mapping.h>
+>>>  #include <linux/dmaengine.h>
+>>>  #include <linux/spi/pxa2xx_spi.h>
+>>> @@ -634,6 +635,13 @@ static struct platform_device pxa27x_device_camera = {
+>>>  
+>>>  void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
+>>>  {
+>>> +       struct clk *mclk;
+>>> +
+>>> +       /* Register a fixed-rate clock for camera sensors. */
+>>> +       mclk = clk_register_fixed_rate(NULL, "pxa_camera_clk", NULL, 0,
+>>> +                                            info->mclk_10khz * 10000);
+>>> +       if (!IS_ERR(mclk))
+>>> +               clkdev_create(mclk, "mclk", NULL);
+>>>         pxa_register_device(&pxa27x_device_camera, info);
+>>>  }
+>>>  
+>>>
+> 
+> 
