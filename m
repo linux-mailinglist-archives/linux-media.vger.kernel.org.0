@@ -2,151 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EF222EF044
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:57:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D63342EF04A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:59:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728350AbhAHJ5Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 04:57:25 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:38971 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727898AbhAHJ5Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 04:57:24 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 62B455805B5;
-        Fri,  8 Jan 2021 04:56:18 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 08 Jan 2021 04:56:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=nhNnfGpgrsijY/Ccu+y8p0GNRzv
-        B/ZDbp2P5o/E9YYI=; b=mCu2BkvuJ60N05UHH3NFsoh91nOK914AIlpEVkz6P7N
-        Tv3MtQExaE4iycqINncj+4/U8eo/flDASas8AGjU3HR1NP6almnLr2wwTLjQYoxJ
-        sHUvgBhFkQ8+KfjlTfYaSAFVrvjMn5qgAUL+RuGQ3JGo7Zyv9GnA1Er0qgLKwdnw
-        T8Wag3E81PpRErhMagM0hUmwDK0UEl9sSBippaadqvIRW82EoaDT0BBPwXP3aKaC
-        sm0mzPadNHg4gd4Qmo2xznsyx9p0L7nBLXHNnBzlfMPj9p4copwQYp0TkIVYjUxo
-        S5LyJVPlkyNe50WyY1DcsfuW2pvsmu8ZouUr0L9X6Nw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nhNnfG
-        pgrsijY/Ccu+y8p0GNRzvB/ZDbp2P5o/E9YYI=; b=FypFiIH8/HMzVMOKvJ6cNK
-        03GOdjTrcdipr8QmsLbs0koleqvV58rkjUdjfSBuvYUjoRzS8xrsocCOtDqCeBas
-        FkFat+dPalXcssOOA3Lq83HYFi/Una2HebqQ3lEkZu7e6+X82S11YL33v3Md0gQ9
-        y7sOQ7rHwop6/wg9F3c6tXMDiWaOQzYnEQl1dmNfOcANWy+K/iMLy0dPHhU5HFzt
-        54zP2ZMuosr2kQap6tvAFyF45v4GqzIKh8MgnIi+zw4P5NTE7Ln773mPpWYWYnqO
-        VpYHFBZ3dWGSW907UWLiPbROS2ZEocGDRNCJK1+EJTVTufHMrZygJGvU7NU35hmg
-        ==
-X-ME-Sender: <xms:Qiz4XzVXczHUGtWkxxUSpJzht1sSKgO83Nh_91PmIihTPVFQ40Lz2w>
-    <xme:Qiz4X7nbR1FJUS_T7zjlxjIHBowTLFMmj9UhxJF164sAr4jFYWCiXNrnq6RCkH8fX
-    3zOU92jbFjWpjczlaY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeggedgtdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
-    gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Qiz4X_Yb7R6wfHUdYRv9VVqWql5ANEVGFiTs_nLEc7cmdA_hQpjTMg>
-    <xmx:Qiz4X-VXv5EAm95r6c89-UjXxsgKv0BJPm1SYqLyPmqBu7nK7lYroQ>
-    <xmx:Qiz4X9nuz9AeEAO4hz3TNMTqsl9s6npywTQeCmkm3V6iNHH0UYi--g>
-    <xmx:Qiz4X3v_yzueyTaMUQG_WvCF8OKC4oqeZ96GeaNdkgKUjNtnU4s0xw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id C7057240057;
-        Fri,  8 Jan 2021 04:56:17 -0500 (EST)
-Date:   Fri, 8 Jan 2021 10:56:16 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v4 13/15] media: sunxi: Add support for the A83T MIPI
- CSI-2 controller
-Message-ID: <20210108095616.fy5oaslwnyumv3if@gilmour>
-References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
- <20201231142948.3241780-14-paul.kocialkowski@bootlin.com>
+        id S1728423AbhAHJ5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 04:57:44 -0500
+Received: from so254-31.mailgun.net ([198.61.254.31]:59697 "EHLO
+        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728064AbhAHJ5n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 04:57:43 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1610099842; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=rGYMlvx+81LgALQ6E4x5ySpL+k2I8nl0X8pOs7NL20U=;
+ b=MwiKTNFWRRYlCX3V1OgX4bDhFXMSW4+OQCXzhB0lxgKFclb/ZzBZhAsL8oM9SFCMcw2QGpP4
+ AjTFgeInWcSiyDM6WvHAMf1y6GTof9v/77YwAyosdcjQnIRhO4LeD01NI8U1g25vha14TI1M
+ +//eAJA8qQ1WuFYY0lq4IYHsPAk=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5ff82c5f922ae55531d57c15 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 08 Jan 2021 09:56:47
+ GMT
+Sender: rojay=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 23B17C43463; Fri,  8 Jan 2021 09:56:47 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: rojay)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 96026C433C6;
+        Fri,  8 Jan 2021 09:56:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tc6l3ymxpbqq47df"
-Content-Disposition: inline
-In-Reply-To: <20201231142948.3241780-14-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 08 Jan 2021 15:26:46 +0530
+From:   rojay@codeaurora.org
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     swboyd@chromium.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, akashast@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        pyarlaga@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V7 2/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+In-Reply-To: <20210105152747.GB1842@ninjato>
+References: <20201221123801.26643-1-rojay@codeaurora.org>
+ <20201221123801.26643-3-rojay@codeaurora.org>
+ <20210105152747.GB1842@ninjato>
+Message-ID: <d3e53aabf39e888d8184faa2981f7837@codeaurora.org>
+X-Sender: rojay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Wolfram,
 
---tc6l3ymxpbqq47df
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2021-01-05 20:57, Wolfram Sang wrote:
+>> +	geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
+>> +	if (!(geni_status & M_GENI_CMD_ACTIVE))
+>> +		goto out;
+>> +
+>> +	cur = gi2c->cur;
+>> +	geni_i2c_abort_xfer(gi2c);
+>> +	if (cur->flags & I2C_M_RD)
+>> +		geni_i2c_rx_msg_cleanup(gi2c, cur);
+>> +	else
+>> +		geni_i2c_tx_msg_cleanup(gi2c, cur);
+>> +out:
+>> +	pm_runtime_put_sync_suspend(gi2c->se.dev);
+>> +}
+> 
+> The use of 'goto' is not needed here IMHO. I think:
+> 
+> 	if (geni_status & M_GENI_CMD_ACTIVE) {
+> 		do_the_stuff
+> 	}
+> 
+> 	pm_runtime_put_sync_suspend(...);
+> 
+> is more readable, in fact.
+> 
 
-Hi,
+In context to the previous comment [1], I have implemented this way.
+But, yeah anything is fine for me.
 
-On Thu, Dec 31, 2020 at 03:29:46PM +0100, Paul Kocialkowski wrote:
-> The A83T supports MIPI CSI-2 with a composite controller, covering
-> both the protocol logic and the D-PHY implementation. This controller
-> seems to be found on the A83T only and probably was abandoned since.
->=20
-> This implementation splits the protocol and D-PHY registers and
-> uses the PHY framework internally. The D-PHY is not registered as a
-> standalone PHY driver since it cannot be used with any other
-> controller.
->=20
-> There are a few notable points about the controller:
-> - The initialisation sequence involes writing specific magic init
->   values that do not seem to make any particular sense given the
->   concerned register fields;
-> - Interrupts appear to be hitting regardless of the interrupt mask
->   registers, which can cause a serious flood when transmission errors
->   occur.
->=20
-> Only 8-bit and 10-bit Bayer formats are currently supported.
-> While up to 4 internal channels to the CSI controller exist, only one
-> is currently supported by this implementation.
->=20
-> This work is based on the first version of the driver submitted by
-> K=E9vin L'h=F4pital, which was adapted to mainline from the Allwinner BSP.
-> This version integrates MIPI CSI-2 support as a standalone V4L2 subdev
-> instead of merging it in the sun6i-csi driver.
->=20
-> It was tested on a Banana Pi M3 board with an OV8865 sensor in a 4-lane
-> configuration.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Also, I don't think we really need the 'cur'
+> variable and just use 'gi2c->cur' but that's very minor and you can 
+> keep
+> it if you like it.
+> 
 
-There's a couple of checkpatch --strict warnings here as well
+In geni_i2c_abort_xfer() function gi2c->cur will be made NULL, so 
+copying it before to "cur" is needed here.
 
-Once fixed,
-Acked-by: Maxime Ripard <mripard@kernel.org>
+> Reset looks good!
 
-Thanks!
-Maxime
+[1] 
+https://patchwork.kernel.org/project/linux-arm-msm/patch/20200820103522.26242-3-rojay@codeaurora.org/#23560541
 
---tc6l3ymxpbqq47df
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/gsQAAKCRDj7w1vZxhR
-xa6vAQDzxq7wGkrr8cxK3zTV9vzdO+lsvVdg8AtqesAmrp2IVAD+JY8cLaoGu8C1
-tfK38n0rbE9wxRSIDnEtIQ3OENiefwk=
-=GD9h
------END PGP SIGNATURE-----
-
---tc6l3ymxpbqq47df--
+Thanks,
+Roja
