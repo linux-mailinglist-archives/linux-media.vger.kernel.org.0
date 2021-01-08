@@ -2,219 +2,292 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13D832EF4BC
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 16:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B9A42EF593
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 17:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbhAHPWe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 10:22:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726977AbhAHPWe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 10:22:34 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13465C061381
-        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 07:21:54 -0800 (PST)
-Received: from [IPv6:2003:c7:cf1c:ce00:d1bc:7258:fc49:a047] (p200300c7cf1cce00d1bc7258fc49a047.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:ce00:d1bc:7258:fc49:a047])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6CA3A1F46C52;
-        Fri,  8 Jan 2021 15:21:52 +0000 (GMT)
-Subject: Re: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
-To:     Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
-        kever.yang@rock-chips.com, Eddie Cai <eddie.cai@rock-chips.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org,
-        christoph.muellner@theobroma-systems.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <3342088.iIbC2pHGDl@diego>
- <a75546bb-8af7-a0ab-fce2-89a6e6b63972@collabora.com>
- <2125881.iZASKD2KPV@diego>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <d0ec7f72-799e-ec53-a917-755fde323e95@collabora.com>
-Date:   Fri, 8 Jan 2021 16:21:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <2125881.iZASKD2KPV@diego>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S1728101AbhAHQNP convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 8 Jan 2021 11:13:15 -0500
+Received: from mga18.intel.com ([134.134.136.126]:21825 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728097AbhAHQNP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Jan 2021 11:13:15 -0500
+IronPort-SDR: UTpUH/mDKF31bZpdsU9kwZOLfcp+Fq6Z0vi/0iGkvEM2CxzxLUXIC66DdjQKCiyoad9CFrEIsR
+ b8SMnhaVmSAA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="165304544"
+X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; 
+   d="scan'208";a="165304544"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2021 08:12:34 -0800
+IronPort-SDR: JMbobQ7je7NHlqEgCJqr+/MvTBYSjiYikipnt+2BMt8dIYeeNWW8hzX84f1xJ/FHwBuwkoaUT5
+ 6Hcg9CKTDj0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; 
+   d="scan'208";a="351723950"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga008.fm.intel.com with ESMTP; 08 Jan 2021 08:12:33 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 8 Jan 2021 08:12:33 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 8 Jan 2021 08:12:32 -0800
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.1713.004;
+ Fri, 8 Jan 2021 08:12:25 -0800
+From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "maarten.lankhorst@linux.intel.com" 
+        <maarten.lankhorst@linux.intel.com>,
+        "mripard@kernel.org" <mripard@kernel.org>,
+        "kraxel@redhat.com" <kraxel@redhat.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "sean@poorly.run" <sean@poorly.run>,
+        "eric@anholt.net" <eric@anholt.net>,
+        "sam@ravnborg.org" <sam@ravnborg.org>
+CC:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: RE: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+Thread-Topic: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+Thread-Index: AQHW5aLP4hX76tQjY0SfdcD489sfwKod5bgg
+Date:   Fri, 8 Jan 2021 16:12:25 +0000
+Message-ID: <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-2-tzimmermann@suse.de>
+In-Reply-To: <20210108094340.15290-2-tzimmermann@suse.de>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>Thomas Zimmermann
+>Sent: Friday, January 8, 2021 4:43 AM
+>To: sumit.semwal@linaro.org; christian.koenig@amd.com;
+>airlied@redhat.com; daniel@ffwll.ch; maarten.lankhorst@linux.intel.com;
+>mripard@kernel.org; kraxel@redhat.com; hdegoede@redhat.com;
+>sean@poorly.run; eric@anholt.net; sam@ravnborg.org
+>Cc: Daniel Vetter <daniel.vetter@ffwll.ch>; dri-devel@lists.freedesktop.org;
+>virtualization@lists.linux-foundation.org; linaro-mm-sig@lists.linaro.org;
+>Thomas Zimmermann <tzimmermann@suse.de>; linux-
+>media@vger.kernel.org
+>Subject: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+>operations
+>
+>The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
+>allowed to pin the buffer or acquire the buffer's reservation object
+>lock.
+>
+>This is a problem for callers that only require a short-term mapping
+>of the buffer without the pinning, or callers that have special locking
+>requirements. These may suffer from unnecessary overhead or interfere
+>with regular pin operations.
+>
+>The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
+>their rsp callbacks in struct dma_buf_ops provide an alternative without
+>pinning or reservation locking. Callers are responsible for these
+>operations.
+>
+>v4:
+>	* update documentation (Daniel)
+>
+>Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>---
+> drivers/dma-buf/dma-buf.c | 81
+>+++++++++++++++++++++++++++++++++++++++
+> include/linux/dma-buf.h   | 34 ++++++++++++++++
+> 2 files changed, 115 insertions(+)
+>
+>diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>index b8465243eca2..01f9c74d97fa 100644
+>--- a/drivers/dma-buf/dma-buf.c
+>+++ b/drivers/dma-buf/dma-buf.c
+>@@ -1295,6 +1295,87 @@ void dma_buf_vunmap(struct dma_buf *dmabuf,
+>struct dma_buf_map *map)
+> }
+> EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>
+>+/**
+>+ * dma_buf_vmap_local - Create virtual mapping for the buffer object into
+>kernel
+>+ * address space.
+>+ * @dmabuf:	[in]	buffer to vmap
+>+ * @map:	[out]	returns the vmap pointer
+>+ *
+>+ * Unlike dma_buf_vmap() this is a short term mapping and will not pin
+>+ * the buffer. The struct dma_resv for the @dmabuf must be locked until
+>+ * dma_buf_vunmap_local() is called.
+>+ *
+>+ * Returns:
+>+ * 0 on success, or a negative errno code otherwise.
+>+ */
+>+int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>*map)
+>+{
+>+	struct dma_buf_map ptr;
+>+	int ret = 0;
+>+
+>+	dma_buf_map_clear(map);
+>+
+>+	if (WARN_ON(!dmabuf))
+>+		return -EINVAL;
+>+
+>+	dma_resv_assert_held(dmabuf->resv);
+>+
+>+	if (!dmabuf->ops->vmap_local)
+>+		return -EINVAL;
 
+You are clearing the map, and then doing the above checks.
 
-Am 08.01.21 um 13:05 schrieb Heiko Stuebner:
-> Hi Dafna,
-> 
-> Am Freitag, 8. Januar 2021, 12:17:43 CET schrieb Dafna Hirschfeld:
->> Am 07.01.21 um 21:23 schrieb Heiko Stuebner:
->>> the rkisp driver in the mainline Linux kernel moved out of staging with
->>> 5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
->>>
->>> The rkisp driver currently only supports the rk3399 and while working
->>> on porting the support for rk3326/px30 I noticed discrepancies.
->>>
->>> Hence it would be somewhat urgent to clarify this, as later it will get
->>> really cumbersome.
->>
->> I see that we are now on 5.11-rc2 so that gives us about 4-5 weeks,
->>
->>>
->>> ----
->>>
->>> The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
->>
->> How do you know that the isp of rk3399 is v10 ? I looked at the RK3399 TRM
->> and the datasheet for the isp and could not find this information.
-> 
-> That's from Rockchip's upstream sources where they introduced the new code.
-> There're some (if v12) conditionals in there ;-) .
-> 
-> 
->>> Some sub-blocks moved around or seem to have been replaced with newer
->>> variants and the gist of changes can be seen in [0] with the important
->>> part being the uapi changes [1] and those values also exist in mainline.
->>>
->>>
->>> See functions in that patch:
->>> - isp_goc_config_v12()
->>> - rkisp1_stats_get_aec_meas_v12()
->>> - rkisp1_stats_get_hst_meas_v12()
->>>
->>> Looking at the code, the register locations are different, for gammas and
->>> the histogram the actual amount of raw registers is the same, while the
->>> "aec" seems to use 25 registers on V10 while 21 registers on V12. Though
->>> their content gets split into multiple values in that v12 variant.
->>>
->>>
->>> As somehow expected the whole thing is pretty undocumented and I
->>> have no clue what these "bins" or "gammas" mean and why the amount of
->>> entries now differs and how this relates to userspace at all.
->>>
->>> Also looking through libcamera as the one open user of the driver,
->>> the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
->>> as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
->>> don't seem to be used so far.
->>
->> yes, that's a shame. There is a simple implementation using the ae in
->> stuct rkisp1_cif_isp_stat in src/ipa/rkisp1.c
-> 
-> Thanks for pointing me to that :-)
-> 
-> 
->>> Hence I also added some Rockchip people in the hope of getting
->>> a bit of clarification ;-) .
->>>
->>>
->>> Ideas on how to proceed?
->>>
->>> Thanks
->>> Heiko
->>>
->>>
->>> [0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
->>> [1]
->>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
->>> index b471f01a8459..fbeb6b5dba03 100644
->>> --- a/include/uapi/linux/rkisp1-config.h
->>> +++ b/include/uapi/linux/rkisp1-config.h
->>> @@ -32,8 +32,8 @@
->>>    #define CIFISP_CTK_COEFF_MAX            0x100
->>>    #define CIFISP_CTK_OFFSET_MAX           0x800
->>>    
->>> -#define CIFISP_AE_MEAN_MAX              25
->>> -#define CIFISP_HIST_BIN_N_MAX           16
->>> +#define CIFISP_AE_MEAN_MAX              81
->>> +#define CIFISP_HIST_BIN_N_MAX           32
->>>    #define CIFISP_AFM_MAX_WINDOWS          3
->>>    #define CIFISP_DEGAMMA_CURVE_SIZE       17
->>>    
->>> @@ -69,7 +69,7 @@
->>>     * Gamma out
->>>     */
->>>    /* Maximum number of color samples supported */
->>> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
->>> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
->>
->> I see that in that code you use the old names of the registers.
->> The names are different in the current version of the driver,
->> in the media tree: git://linuxtv.org/media_tree.git
->> Also, I guess that instead of changing the values you should
->> add a separated define, something like:
->>
->> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
->> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
->> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-> 
-> Just for clarity, that is Rockchip's commit in their vendor kernel.
-> I'm just using that as base to get the changes needed for mainline :-) .
-> 
-> The main issue I see is that these max-values directly influence the sizes
-> of arrays inside the uapi - where the "v12" seems to need bigger arrays
-> on first glance.
-> ^^^ which is essentially the part I'm mostly worried about
+Is it ok to change the map info and then exit on error?
 
-Oh, ok, I thought it's your code.
-So maybe we should change the uapi to look like:
+Mike
 
-/* v10 is the isp version for rk3399 */
-#define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-/* v12 is the isp version for rk3326/px30 */
-#define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-#define CIFISP_GAMMA_OUT_MAX_SAMPLES       CIFISP_GAMMA_OUT_MAX_SAMPLES_v12
-
-This way we inform userspace how many samples are supported according to the
-version.
-I don't know if there are other versions with higher maximum,
-
-What do you think?
-
-Thanks,
-Dafna
-
-
-> 
-> The vendor-code only used the MAX-constants for the uapi to get the
-> biggest size needed and then defines the real per-version maximums
-> inside the driver, see
-> https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R378
-> 
-> and for the auto-exposure:
-> https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R265
-> >> Thanks for working on that, hope we could still fix this in 5.11,
->>
->> I don't have a rk3326/px30 hardware so I can't test your patches.
->> Do you have a hardware to test it?
-> 
-> Yep, I'm working on a px30-evb and thankfully the driver for the camera
-> on it is also already part of mainline.
-> 
-> 
->> I suggest that you send a patchset to the mailing list then I can
->> review it and test it on rk3399. Unfortunately there is indeed no way
->> to thoroughly test the params/stats since there is no userspace for that.
-> 
->  From looking at the currently newest version [0] it looks like these
-> new max values seem to have stayed the same, so one solution might be
-> to just make the uapi structures bigger to these new max values and
-> hope for the best?
-> 
-> It seems rk3568 and newer will use a really different isp block (they
-> seem to call it rkisp2 already), so will probably have a separate userspace
-> interface?
-> 
-> 
-> Thanks for your input and help
-> Heiko
-> 
-> 
-> [0] https://github.com/rockchip-linux/kernel/blob/develop-4.19/include/uapi/linux/rkisp1-config.h
-> 
-> 
-> 
+>+	mutex_lock(&dmabuf->lock);
+>+	if (dmabuf->vmapping_counter) {
+>+		dmabuf->vmapping_counter++;
+>+		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>+		*map = dmabuf->vmap_ptr;
+>+		goto out_unlock;
+>+	}
+>+
+>+	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+>+
+>+	ret = dmabuf->ops->vmap_local(dmabuf, &ptr);
+>+	if (WARN_ON_ONCE(ret))
+>+		goto out_unlock;
+>+
+>+	dmabuf->vmap_ptr = ptr;
+>+	dmabuf->vmapping_counter = 1;
+>+
+>+	*map = dmabuf->vmap_ptr;
+>+
+>+out_unlock:
+>+	mutex_unlock(&dmabuf->lock);
+>+	return ret;
+>+}
+>+EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
+>+
+>+/**
+>+ * dma_buf_vunmap_local - Unmap a vmap obtained by
+>dma_buf_vmap_local.
+>+ * @dmabuf:	[in]	buffer to vunmap
+>+ * @map:	[in]	vmap pointer to vunmap
+>+ *
+>+ * Release a mapping established with dma_buf_vmap_local().
+>+ */
+>+void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>dma_buf_map *map)
+>+{
+>+	if (WARN_ON(!dmabuf))
+>+		return;
+>+
+>+	dma_resv_assert_held(dmabuf->resv);
+>+
+>+	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>+	BUG_ON(dmabuf->vmapping_counter == 0);
+>+	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
+>+
+>+	mutex_lock(&dmabuf->lock);
+>+	if (--dmabuf->vmapping_counter == 0) {
+>+		if (dmabuf->ops->vunmap_local)
+>+			dmabuf->ops->vunmap_local(dmabuf, map);
+>+		dma_buf_map_clear(&dmabuf->vmap_ptr);
+>+	}
+>+	mutex_unlock(&dmabuf->lock);
+>+}
+>+EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
+>+
+> #ifdef CONFIG_DEBUG_FS
+> static int dma_buf_debug_show(struct seq_file *s, void *unused)
+> {
+>diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>index 628681bf6c99..aeed754b5467 100644
+>--- a/include/linux/dma-buf.h
+>+++ b/include/linux/dma-buf.h
+>@@ -264,6 +264,38 @@ struct dma_buf_ops {
+>
+> 	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> 	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+
+>+	/**
+>+	 * @vmap_local:
+>+	 *
+>+	 * Creates a virtual mapping for the buffer into kernel address space.
+>+	 *
+>+	 * This callback establishes short-term mappings for situations where
+>+	 * callers only use the buffer for a bounded amount of time; such as
+>+	 * updates to the framebuffer or reading back contained information.
+>+	 * In contrast to the regular @vmap callback, vmap_local does never
+>pin
+>+	 * the buffer to a specific domain or acquire the buffer's reservation
+>+	 * lock.
+>+	 *
+>+	 * This is called with the &dma_buf.resv object locked. Callers must
+>hold
+>+	 * the lock until after removing the mapping with @vunmap_local.
+>+	 *
+>+	 * This callback is optional.
+>+	 *
+>+	 * Returns:
+>+	 *
+>+	 * 0 on success or a negative error code on failure.
+>+	 */
+>+	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+
+>+	/**
+>+	 * @vunmap_local:
+>+	 *
+>+	 * Removes a virtual mapping that was established by @vmap_local.
+>+	 *
+>+	 * This callback is optional.
+>+	 */
+>+	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+> };
+>
+> /**
+>@@ -501,4 +533,6 @@ int dma_buf_mmap(struct dma_buf *, struct
+>vm_area_struct *,
+> 		 unsigned long);
+> int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>dma_buf_map *map);
+> #endif /* __DMA_BUF_H__ */
+>--
+>2.29.2
+>
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
