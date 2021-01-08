@@ -2,190 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 117102EF1DA
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 13:08:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BA732EF257
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 13:19:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727468AbhAHMGn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 07:06:43 -0500
-Received: from vegas.theobroma-systems.com ([144.76.126.164]:48955 "EHLO
-        mail.theobroma-systems.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726992AbhAHMGm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 07:06:42 -0500
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]:56442 helo=diego.localnet)
-        by mail.theobroma-systems.com with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <heiko.stuebner@theobroma-systems.com>)
-        id 1kxqWi-0007d6-DR; Fri, 08 Jan 2021 13:05:56 +0100
-From:   Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-To:     kever.yang@rock-chips.com, Eddie Cai <eddie.cai@rock-chips.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org,
-        christoph.muellner@theobroma-systems.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Collabora Kernel ML <kernel@collabora.com>
-Subject: Re: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
-Date:   Fri, 08 Jan 2021 13:05:55 +0100
-Message-ID: <2125881.iZASKD2KPV@diego>
-Organization: Theobroma Systems
-In-Reply-To: <a75546bb-8af7-a0ab-fce2-89a6e6b63972@collabora.com>
-References: <3342088.iIbC2pHGDl@diego> <a75546bb-8af7-a0ab-fce2-89a6e6b63972@collabora.com>
+        id S1727002AbhAHMRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 07:17:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728156AbhAHMRn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 07:17:43 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B17C0612FA;
+        Fri,  8 Jan 2021 04:17:01 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id z12so3552078pjn.1;
+        Fri, 08 Jan 2021 04:17:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QJpmPSXBMkDyRpOAie8nEtiKxW2diZukk9pipJ57ovs=;
+        b=APSTOjBSR9NIMt2G+tAKvfWj2tZ4hY4e3e1aiF7JekWmZUQuDSiZ5IbRXu1/KhIooQ
+         J/HcWQyXi3KQ8+D3KlBShkw+3DV6P4O1wxDFt0b6FOjSvZOjWafWoGAE5gPV76cBRJEm
+         Trby4n2kGLMcOmuVcRt+XtceGuTyFfThWFR/vn0PxK22wx1n4JN5HZUiXRxrbyd94B1R
+         vwNFtlu1wjAJNAzTBHWOysPbZxTNUDeohmI4FYAlxbyEXEsJR4qwQI7U+VJiK8rIce49
+         UCcCgQVlofROPknaFgODvIv6KE0B/8oLY3ZGWbI6odx41TeD/9kCPg7pBagojBWs0pX9
+         gmyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QJpmPSXBMkDyRpOAie8nEtiKxW2diZukk9pipJ57ovs=;
+        b=kzWJdXbWtSVdYF6un2pC2l5x5uFmu+iPWhmo4sNz5Ad5uIB7syYNEMUVHno8CSedOQ
+         s5Re3PrCE2EXBrz+vl8Mvq7v5+iPL23Ilx4BXYhaMzSHQZVTxErhaHsYO2eE/93ATJQe
+         JLWkKnodJ8HWtqW1AToeCE66JfK2mGGYQXslo/cO7NDKCfxxS8SETU1obiEtY06/iZhX
+         2fQB4bfNaa7iwHpyUa3Be7Cmz2SIRgJC8xYPVJjx1OxMZiP1GfQR10NYs2lKx7ZQiEHA
+         XgzM8UT0edGCs+aIsn4YC5SVb5ucidiLKTvwUnJ9BqTLQz9W/H6ZQ1pIxgeqDvSJzAEl
+         ZYZA==
+X-Gm-Message-State: AOAM531yOEuXnIZwoycRCf0pjkNvWPzX+lXiQPOyUTXSUBQ+3M0eQtUv
+        HC4ZhwlTMDqxJRnzf6XuRRRlz2cEUJbJf0odauw=
+X-Google-Smtp-Source: ABdhPJyldR1piNAeKj9uIZ1Le/5wxh9TOr537qIrpxGvyxjo1onN4F4oe8SR/CXSTDkdvSzMQ7bZigw9hkKUqlRE4vo=
+X-Received: by 2002:a17:90a:c592:: with SMTP id l18mr3486365pjt.228.1610108221001;
+ Fri, 08 Jan 2021 04:17:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20201130133129.1024662-1-djrscally@gmail.com> <20201130133129.1024662-19-djrscally@gmail.com>
+ <20201130200719.GB4077@smile.fi.intel.com> <778f23fc-b99c-33a2-642d-ca0e47fd4ed5@gmail.com>
+In-Reply-To: <778f23fc-b99c-33a2-642d-ca0e47fd4ed5@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 8 Jan 2021 14:17:49 +0200
+Message-ID: <CAHp75VeYOqJt9iKaGPA4=dkb2kYUbqUV4PGTn8uSsnUt_kSGSw@mail.gmail.com>
+Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jordan Hand <jorhand@linux.microsoft.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+On Fri, Jan 8, 2021 at 1:56 AM Daniel Scally <djrscally@gmail.com> wrote:
+> On 30/11/2020 20:07, Andy Shevchenko wrote:
+> > On Mon, Nov 30, 2020 at 01:31:29PM +0000, Daniel Scally wrote:
 
-Am Freitag, 8. Januar 2021, 12:17:43 CET schrieb Dafna Hirschfeld:
-> Am 07.01.21 um 21:23 schrieb Heiko Stuebner:
-> > the rkisp driver in the mainline Linux kernel moved out of staging with
-> > 5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
-> > 
-> > The rkisp driver currently only supports the rk3399 and while working
-> > on porting the support for rk3326/px30 I noticed discrepancies.
-> > 
-> > Hence it would be somewhat urgent to clarify this, as later it will get
-> > really cumbersome.
-> 
-> I see that we are now on 5.11-rc2 so that gives us about 4-5 weeks,
-> 
-> > 
-> > ----
-> > 
-> > The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
-> 
-> How do you know that the isp of rk3399 is v10 ? I looked at the RK3399 TRM
-> and the datasheet for the isp and could not find this information.
+...
 
-That's from Rockchip's upstream sources where they introduced the new code.
-There're some (if v12) conditionals in there ;-) .
+> > It's solely Windows driver design...
+> > Luckily I found some information and can clarify above table:
+> >
+> > 0x00 Reset
+> > 0x01 Power down
+> > 0x0b Power enable
+> > 0x0c Clock enable
+> > 0x0d LED (active high)
+> >
+> > The above text perhaps should go somewhere under Documentation.
+>
+> Coming back to this; there's a bit of an anomaly with the 0x01 Power
+> Down pin for at least one platform.  As listed above, the OV2680 on one
+> of my platforms has 3 GPIOs defined, and the table above gives them as
+> type Reset, Power down and Clock enable. I'd assumed from this table
+> that "power down" meant a powerdown GPIO (I.E. the one usually called
+> PWDNB in Omnivision datasheets and "powerdown" in drivers), but the
+> datasheet for the OV2680 doesn't list a separate reset and powerdown
+> pin, but rather a single pin that performs both functions.
 
+All of them are GPIOs, the question here is how they are actually
+connected on PCB level and I have no answer to that. You have to find
+schematics somewhere.
 
-> > Some sub-blocks moved around or seem to have been replaced with newer
-> > variants and the gist of changes can be seen in [0] with the important
-> > part being the uapi changes [1] and those values also exist in mainline.
-> > 
-> > 
-> > See functions in that patch:
-> > - isp_goc_config_v12()
-> > - rkisp1_stats_get_aec_meas_v12()
-> > - rkisp1_stats_get_hst_meas_v12()
-> > 
-> > Looking at the code, the register locations are different, for gammas and
-> > the histogram the actual amount of raw registers is the same, while the
-> > "aec" seems to use 25 registers on V10 while 21 registers on V12. Though
-> > their content gets split into multiple values in that v12 variant.
-> > 
-> > 
-> > As somehow expected the whole thing is pretty undocumented and I
-> > have no clue what these "bins" or "gammas" mean and why the amount of
-> > entries now differs and how this relates to userspace at all.
-> > 
-> > Also looking through libcamera as the one open user of the driver,
-> > the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
-> > as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
-> > don't seem to be used so far.
-> 
-> yes, that's a shame. There is a simple implementation using the ae in
-> stuct rkisp1_cif_isp_stat in src/ipa/rkisp1.c
+> Am I wrong to treat that as something that ought to be mapped as a
+> powerdown GPIO to the sensors? Or do you know of any other way to
+> reconcile that discrepancy?
 
-Thanks for pointing me to that :-)
+The GPIOs can go directly to the sensors or be a control pin for
+separate discrete power gates.
+So, we can do one of the following:
+ a) present PD GPIO as fixed regulator;
+ b) present PD & Reset GPIOs as regulator;
+ c) provide them as is to the sensor and sensor driver must do what it
+considers right.
 
+Since we don't have schematics (yet?) and we have plenty of variations
+of sensors, I would go to c) and update the driver of the affected
+sensor as needed. Because even if you have separate discrete PD for
+one sensor on one platform there is no guarantee that it will be the
+same on another. Providing a "virtual" PD in a sensor that doesn't
+support it is the best choice I think. Let's hear what Sakari and
+other experienced camera sensor developers say.
 
-> > Hence I also added some Rockchip people in the hope of getting
-> > a bit of clarification ;-) .
-> > 
-> > 
-> > Ideas on how to proceed?
-> > 
-> > Thanks
-> > Heiko
-> > 
-> > 
-> > [0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
-> > [1]
-> > diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> > index b471f01a8459..fbeb6b5dba03 100644
-> > --- a/include/uapi/linux/rkisp1-config.h
-> > +++ b/include/uapi/linux/rkisp1-config.h
-> > @@ -32,8 +32,8 @@
-> >   #define CIFISP_CTK_COEFF_MAX            0x100
-> >   #define CIFISP_CTK_OFFSET_MAX           0x800
-> >   
-> > -#define CIFISP_AE_MEAN_MAX              25
-> > -#define CIFISP_HIST_BIN_N_MAX           16
-> > +#define CIFISP_AE_MEAN_MAX              81
-> > +#define CIFISP_HIST_BIN_N_MAX           32
-> >   #define CIFISP_AFM_MAX_WINDOWS          3
-> >   #define CIFISP_DEGAMMA_CURVE_SIZE       17
-> >   
-> > @@ -69,7 +69,7 @@
-> >    * Gamma out
-> >    */
-> >   /* Maximum number of color samples supported */
-> > -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> > +#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
-> 
-> I see that in that code you use the old names of the registers.
-> The names are different in the current version of the driver,
-> in the media tree: git://linuxtv.org/media_tree.git
-> Also, I guess that instead of changing the values you should
-> add a separated define, something like:
-> 
-> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
+My vision is purely based on electrical engineering background,
+experience with existing (not exactly camera) sensor drivers and
+generic cases.
 
-Just for clarity, that is Rockchip's commit in their vendor kernel.
-I'm just using that as base to get the changes needed for mainline :-) .
-
-The main issue I see is that these max-values directly influence the sizes
-of arrays inside the uapi - where the "v12" seems to need bigger arrays
-on first glance.
-^^^ which is essentially the part I'm mostly worried about
-
-The vendor-code only used the MAX-constants for the uapi to get the
-biggest size needed and then defines the real per-version maximums
-inside the driver, see
-https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R378
-
-and for the auto-exposure:
-https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R265
-
-> Thanks for working on that, hope we could still fix this in 5.11,
-> 
-> I don't have a rk3326/px30 hardware so I can't test your patches.
-> Do you have a hardware to test it?
-
-Yep, I'm working on a px30-evb and thankfully the driver for the camera
-on it is also already part of mainline.
+> Failing that; the only way I can think to handle this is to register
+> proxy GPIO pins assigned to the sensors as you suggested previously, and
+> have them toggle the GPIO's assigned to the INT3472 based on platform
+> specific mapping data (I.E. we register a pin called "reset", which on
+> most platforms just toggles the 0x00 pin, but on this specific platform
+> would drive both 0x00 and 0x01 together. We're already heading that way
+> for the regulator consumer supplies so it's sort of nothing new, but I'd
+> still rather not if it can be avoided.
 
 
-> I suggest that you send a patchset to the mailing list then I can
-> review it and test it on rk3399. Unfortunately there is indeed no way
-> to thoroughly test the params/stats since there is no userspace for that.
-
-From looking at the currently newest version [0] it looks like these
-new max values seem to have stayed the same, so one solution might be
-to just make the uapi structures bigger to these new max values and
-hope for the best?
-
-It seems rk3568 and newer will use a really different isp block (they
-seem to call it rkisp2 already), so will probably have a separate userspace
-interface?
-
-
-Thanks for your input and help
-Heiko
-
-
-[0] https://github.com/rockchip-linux/kernel/blob/develop-4.19/include/uapi/linux/rkisp1-config.h
-
-
-
+-- 
+With Best Regards,
+Andy Shevchenko
