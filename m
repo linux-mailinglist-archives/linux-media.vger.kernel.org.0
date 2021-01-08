@@ -2,31 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B96E2EEF74
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43D022EEF86
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:25:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728312AbhAHJXN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 04:23:13 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:9726 "EHLO
+        id S1728121AbhAHJY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 04:24:29 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:10120 "EHLO
         szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727798AbhAHJXM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 04:23:12 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DByJQ1McQzl36x;
-        Fri,  8 Jan 2021 17:20:54 +0800 (CST)
+        with ESMTP id S1727416AbhAHJY3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 04:24:29 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DByLf2NRzz15qrL;
+        Fri,  8 Jan 2021 17:22:50 +0800 (CST)
 Received: from ubuntu.network (10.175.138.68) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 8 Jan 2021 17:22:00 +0800
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 8 Jan 2021 17:23:40 +0800
 From:   Zheng Yongjun <zhengyongjun3@huawei.com>
-To:     <ezequiel@collabora.com>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>, <devel@driverdev.osuosl.org>,
+To:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-CC:     <gregkh@linuxfoundation.org>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>
-Subject: [PATCH v2 -next] media: rkvdec: convert comma to semicolon
-Date:   Fri, 8 Jan 2021 17:22:44 +0800
-Message-ID: <20210108092244.18845-1-zhengyongjun3@huawei.com>
+CC:     Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: [PATCH v2 -next] media: dvbsky: convert comma to semicolon
+Date:   Fri, 8 Jan 2021 17:24:24 +0800
+Message-ID: <20210108092424.19419-1-zhengyongjun3@huawei.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
@@ -41,22 +38,49 @@ Replace a comma between expression statements by a semicolon.
 
 Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/dvb-usb-v2/dvbsky.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index d25c4a37e2af..66572066e7a0 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -130,7 +130,7 @@ static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format *f,
- 	memset(f, 0, sizeof(*f));
- 	f->fmt.pix_mp.pixelformat = fourcc;
- 	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
--	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709,
-+	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709;
- 	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
- 	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
- 	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
+diff --git a/drivers/media/usb/dvb-usb-v2/dvbsky.c b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+index 0d9657f7f29d..689829f1b52a 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvbsky.c
++++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+@@ -287,8 +287,8 @@ static int dvbsky_s960_attach(struct dvb_usb_adapter *adap)
+ 	m88ds3103_pdata.ts_clk = 16000;
+ 	m88ds3103_pdata.ts_clk_pol = 0;
+ 	m88ds3103_pdata.agc = 0x99;
+-	m88ds3103_pdata.lnb_hv_pol = 1,
+-	m88ds3103_pdata.lnb_en_pol = 1,
++	m88ds3103_pdata.lnb_hv_pol = 1;
++	m88ds3103_pdata.lnb_en_pol = 1;
+ 
+ 	state->i2c_client_demod = dvb_module_probe("m88ds3103", NULL,
+ 						   &d->i2c_adap,
+@@ -383,15 +383,15 @@ static int dvbsky_s960c_attach(struct dvb_usb_adapter *adap)
+ 	struct sp2_config sp2_config = {};
+ 
+ 	/* attach demod */
+-	m88ds3103_pdata.clk = 27000000,
+-	m88ds3103_pdata.i2c_wr_max = 33,
+-	m88ds3103_pdata.clk_out = 0,
+-	m88ds3103_pdata.ts_mode = M88DS3103_TS_CI,
+-	m88ds3103_pdata.ts_clk = 10000,
+-	m88ds3103_pdata.ts_clk_pol = 1,
+-	m88ds3103_pdata.agc = 0x99,
+-	m88ds3103_pdata.lnb_hv_pol = 0,
+-	m88ds3103_pdata.lnb_en_pol = 1,
++	m88ds3103_pdata.clk = 27000000;
++	m88ds3103_pdata.i2c_wr_max = 33;
++	m88ds3103_pdata.clk_out = 0;
++	m88ds3103_pdata.ts_mode = M88DS3103_TS_CI;
++	m88ds3103_pdata.ts_clk = 10000;
++	m88ds3103_pdata.ts_clk_pol = 1;
++	m88ds3103_pdata.agc = 0x99;
++	m88ds3103_pdata.lnb_hv_pol = 0;
++	m88ds3103_pdata.lnb_en_pol = 1;
+ 
+ 	state->i2c_client_demod = dvb_module_probe("m88ds3103", NULL,
+ 						   &d->i2c_adap,
 -- 
 2.22.0
 
