@@ -2,54 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7949A2EF0F8
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 11:59:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E55F2EF107
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 12:02:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbhAHK73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 05:59:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50462 "EHLO
+        id S1726505AbhAHLBM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 06:01:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725806AbhAHK73 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 05:59:29 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B614EC0612F4
-        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 02:58:48 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id i24so10734386edj.8
-        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 02:58:48 -0800 (PST)
+        with ESMTP id S1725806AbhAHLBM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 06:01:12 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC041C0612F6
+        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 03:00:31 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id ga15so14006551ejb.4
+        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 03:00:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TOm13NRGHy5Sqh3vog/0XZzm1iyrOm+MRP8TdK1CfMg=;
-        b=KVehekSoUNThax2CKt3lTjAesH+8/eHmROF1JIF6RMQ0gz4viBtpcXlHn7Qy3uO92f
-         4yZXdQt8GOIis3xpGQv6yg8e7ZNDq6fFJ7Nvs8EN9OiheeO5Q8i7lKnqyfAfn3LBXZeK
-         VI3HAe37TFWAvyDtFniueTIQ2Q1UGVlACAlAiaD+Ic8TSkEQblsAzPt5TVox5P5veC7f
-         726z3+7hRiBDIRJTd0pUt5ifUGR0JCdsEXpJwQWtgTQJjjUN5qizyPvnalFvBRJMntjw
-         hGSRHippbUw4kd3JwrQ9GPUPrL1/GbruvW9o2svnmCrD/kh6f0AaGVHrt0AwcrhiBLBn
-         3fUg==
+        bh=Un39CzzMCo3lTlEmgJEWmuQlsbm6EVcAyFjjs6nG5l8=;
+        b=FDv/fFTAz/6EP5VbWUtAFYrBdkexsCN9SbE49oRBeXXvr224o8TKNhxiZy3WmnNM6H
+         gzs30dzycJ6AXBWqKAc+kqjgLc6EWEDOeDHAdRjxfzuGHgQ21UQda+fW+yRxi8l7nDtV
+         QMId2pymYNOEePO0ymYu50Ta4uCEyOgEfIFopEV1a5LgPC9wnuS1+e//gTQjC2CwgTMS
+         dmSlWpeQqgL5+odXAzVdFRMa0GO+Xfzo/vUZfsf60rGxgvmjglDEWYBUzeLCbFEHznrG
+         LAHKXZ1KLnSM54irh31NrYqrX8PsWlb07JZxwQNbojY+q9yjCwxMPYb4HXZF6CagOaXF
+         K2GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=TOm13NRGHy5Sqh3vog/0XZzm1iyrOm+MRP8TdK1CfMg=;
-        b=jDSqyn1NYg0Cr9sxRT3BDRBpaekuDmvoCRgRiLjjGQ2ppu45RKUJaVwI2cJ1TqEKWL
-         MC04qnAJOLK+7hcDMpvfaf/ja4Gsn/oO5iI8nGuus/MyiNiXEqPDXqrRmwi8wWRu69jA
-         +gj01Hcb5O8WAD1/dDlOYJL5m4kzn3d/+LwhGC05PThEBW0+GYIB+iePLkumPCP0ccZ6
-         SrbCvDMADnFTCAMz756GWN+ghsnQTI781bFCNSmniUJiiUd6jXZKW92Gx+EcDHv86Yzx
-         jb1G5zmislPrq8GSS3APiw2fXtJCbZWnzr7MEAggzMEiXo6bFKIpAjiDmKFNeqA5++pt
-         nPXw==
-X-Gm-Message-State: AOAM530Ye5IgcDWW0Sp114ipss+4ZM9LS2W3ZdH5WsW86Nyca2cHGqTT
-        3tCroGyGVIBXxmZp8osX6mo=
-X-Google-Smtp-Source: ABdhPJzQ1p3qGIF9RvvpV4+O+RVVjNL7bNHK5QsAsD4Vp7NDE+OMMwNDPHGfGAB6pGc2b6IyygR5sw==
-X-Received: by 2002:a05:6402:45:: with SMTP id f5mr4785454edu.273.1610103527497;
-        Fri, 08 Jan 2021 02:58:47 -0800 (PST)
+        bh=Un39CzzMCo3lTlEmgJEWmuQlsbm6EVcAyFjjs6nG5l8=;
+        b=oOurbbwUK/SAyYgcTBGRlVQYVowXI2iJ/I4eeUdQiEtAwfgoBCdCiGaZLfqnPVg7Yx
+         mBO6o7zzhd7EqpcSeLc/qA1NZPMmyU2F/3HEjWsePj0WeGOiXrjpZuvD8BxsuH8b315s
+         t1TkwscL/zxplTAZAUFuFoGlmqWdhVPcuR4GCFe0ljl9A7WCoxovfzjdzrAKTtweio5v
+         4QAUYVT7QE0Cg9F+9G98cHgOztnA8D+p3AvDc1hTzgiXppACSGeoPYxQwlDX14NZnwo0
+         Jnj0m7tnPkWVERssdOBUAa6dPs0U1hUi8ePVRitqWUDchTLMx+FpdPgY/vO4JP1e8nC/
+         ctZA==
+X-Gm-Message-State: AOAM530dXI1QXmHs6lWbqL6JO9I124atfYpWKjN3yzkMbMNJ69ZEpxYu
+        gJ2986LgzcCBBTrg5cSejY14Yll2xGAe5113
+X-Google-Smtp-Source: ABdhPJx4jvkbUAoYJ5NGaZwcxtMh0OxFuT1wsKEqxOAT8tiA8j2mUaPu5c9pQV1juLK4EqdAka6VTg==
+X-Received: by 2002:a17:906:2984:: with SMTP id x4mr2294911eje.239.1610103630464;
+        Fri, 08 Jan 2021 03:00:30 -0800 (PST)
 Received: from kontron.lan (2001-1ae9-1e8-b200-9c26-b1f7-3f54-fb94.ip6.tmcz.cz. [2001:1ae9:1e8:b200:9c26:b1f7:3f54:fb94])
-        by smtp.gmail.com with ESMTPSA id j25sm3419167ejx.125.2021.01.08.02.58.46
+        by smtp.gmail.com with ESMTPSA id o10sm3389098eju.89.2021.01.08.03.00.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jan 2021 02:58:46 -0800 (PST)
-Subject: Re: [PATCH 1/6] media: mach-pxa: Register the camera sensor
- fixed-rate clock
+        Fri, 08 Jan 2021 03:00:29 -0800 (PST)
+Subject: Re: [PATCH 0/6] Remove last users of v4l2-clk and remove v4l2-clk
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
@@ -57,139 +56,76 @@ Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
 References: <20210104165739.116404-1-ezequiel@collabora.com>
- <20210104165739.116404-2-ezequiel@collabora.com>
- <d07ac542-8b1c-779f-0b69-683c0d0ae2d1@gmail.com>
- <3950cb4b337e6373b066034c32e51a1e9e88a50f.camel@collabora.com>
+ <59dcd2fd-79db-fdd1-820b-5d3c5ea6446a@gmail.com>
+ <3bec40b9d5b9af50c069357cc41ad0a401e5615a.camel@collabora.com>
 From:   Petr Cvek <petrcvekcz@gmail.com>
-Message-ID: <c8b39f6c-7a21-b597-c633-b053d701fe67@gmail.com>
-Date:   Fri, 8 Jan 2021 12:02:47 +0100
+Message-ID: <84055855-d84a-70e2-a9ce-88166147bc8e@gmail.com>
+Date:   Fri, 8 Jan 2021 12:04:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <3950cb4b337e6373b066034c32e51a1e9e88a50f.camel@collabora.com>
+In-Reply-To: <3bec40b9d5b9af50c069357cc41ad0a401e5615a.camel@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: cs
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne 06. 01. 21 v 16:53 Ezequiel Garcia napsal(a):
+Dne 06. 01. 21 v 15:24 Ezequiel Garcia napsal(a):
 > Hi Petr,
 > 
-> Thanks a lot for reviewing and testing the series.
-> 
-> On Tue, 2021-01-05 at 17:41 +0100, Petr Cvek wrote:
->>
->> Dne 04. 01. 21 v 17:57 Ezequiel Garcia napsal(a):
->>> The pxa-camera capture driver currently registers a v4l2-clk
->>> clock, named "mclk", to represent the mt9m111 sensor clock.
->>>
->>> Register a proper fixed-rate clock using the generic clock framework,
->>> which will allow to remove the v4l2-clk clock in the pxa-camera
->>> driver in a follow-up commit.
->>>
->>
->> BTW the mclk output to a sensor is actually a variable rate, divided from lcdclk (which can be changed too). PXA camera driver  is using variable
->> pcdev->mclk_divisor to generate the mclk from lcdclk. 
+> On Tue, 2021-01-05 at 17:08 +0100, Petr Cvek wrote:
+>> I don't have a working magician setup at the moment, so I can only test the compilation (which works).
 >>
 > 
-> Hm, now that I look at this, I see the pxa-camera driver
-> is requiring a clock:
-> 
->         pcdev->clk = devm_clk_get(&pdev->dev, NULL);                             
->         if (IS_ERR(pcdev->clk))                                                  
->                 return PTR_ERR(pcdev->clk);   
-> 
-> Where is this clock registered in the non-devicetree case?
-> 
+> Thanks for the testing! Does that mean I can take your Tested-by ?
 
-I think this is where the clock is defined 
-
-	PXA27X_CKEN_1RATE("pxa27x-camera.0", NULL, CAMERA, pxa27x_lcd_bus_parents, 0),
-
-https://elixir.bootlin.com/linux/v5.10.2/source/drivers/clk/pxa/clk-pxa27x.c#L180
+Well it was just a compilation and I don't know ov6650 nor mt9m111. And I may have some time in the next month to try it on the real device.
 
 
->> The rate change is done in pxa_camera_activate():
->>
->> https://elixir.bootlin.com/linux/v5.11-rc2/source/drivers/media/platform/pxa_camera.c#L1136
->>
->>         __raw_writel(pcdev->mclk_divisor | cicr4, pcdev->base + CICR4);
->>
->> Would it be possible to register a correct clock type with possibility to change the divisor by the standard way?
->>
-> 
-> Right, so you mean the pxa-camera driver is the one providing the clock for the sensors?
-> 
-> In that case, I guess the pxa-camera driver should be the one registering
-> a CCF clock. Other drivers are doing this, through clk_register for instance.
-> 
-
-Yeah that would make the sense, because the camera controller controls the divider and enable signals.
-
-> However, for the sake of this series, which is meant to get rid
-> of the v4l2-clk API, I would say it's fine to just register a fixed-rate.
-> 
-> This is similar to what v4l2_clk_register was doing, which was registering
-> a dummy clock.
-> 
-
-I guess. Just the 1:1 replacement. 
-
-> Having said that, as I mentioned above, I'm wondering if the mach-pxa
-> boards are really working, given I'm not seeing the clock for pxa-camera.
-> 
-> Maybe the best way forward is to just accept that pxa-camera
-> is only supported for the device tree platforms, and therefore drop the
-> support from mach-pxa/ boards.
-> 
-
-PXA camera worked without devicetree without problems (I'm not sure if I ever used devicetree). The definition should be in that file above (but I'm not that familiar with the clock framework).
-
-best regards,
-Petr
-
-> Thanks,
-> Ezequiel
->  
 > 
 >> Petr
 >>
->>
->>> Cc: Arnd Bergmann <arnd@arndb.de>
->>> Cc: Robert Jarzmik <robert.jarzmik@free.fr>
->>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->>> ---
->>>  arch/arm/mach-pxa/devices.c | 8 ++++++++
->>>  1 file changed, 8 insertions(+)
+>> Dne 04. 01. 21 v 17:57 Ezequiel Garcia napsal(a):
+>>> The V4L2 temporary clock helper API is used by just one last capture
+>>> driver, pxa-camera, which registers a dummy clock; and then by just
+>>> a few sensor drivers, consuming clocks through the v4l2-clk API.
 >>>
->>> diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
->>> index 524d6093e0c7..09b8495f3fd9 100644
->>> --- a/arch/arm/mach-pxa/devices.c
->>> +++ b/arch/arm/mach-pxa/devices.c
->>> @@ -4,6 +4,7 @@
->>>  #include <linux/init.h>
->>>  #include <linux/platform_device.h>
->>>  #include <linux/clkdev.h>
->>> +#include <linux/clk-provider.h>
->>>  #include <linux/dma-mapping.h>
->>>  #include <linux/dmaengine.h>
->>>  #include <linux/spi/pxa2xx_spi.h>
->>> @@ -634,6 +635,13 @@ static struct platform_device pxa27x_device_camera = {
->>>  
->>>  void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
->>>  {
->>> +       struct clk *mclk;
->>> +
->>> +       /* Register a fixed-rate clock for camera sensors. */
->>> +       mclk = clk_register_fixed_rate(NULL, "pxa_camera_clk", NULL, 0,
->>> +                                            info->mclk_10khz * 10000);
->>> +       if (!IS_ERR(mclk))
->>> +               clkdev_create(mclk, "mclk", NULL);
->>>         pxa_register_device(&pxa27x_device_camera, info);
->>>  }
->>>  
+>>> It's possible to convert these few last users, and so remove
+>>> the v4l2-clk API, which hasn't been used for a few years.
+>>>
+>>> The sensor drivers are already using the CCF API,
+>>> which v4l2-clk API uses as fallback.
+>>>
+>>> To convert the pxa-camera driver, a fixed-rate clock
+>>> is registered for the mach-based platforms that still exist,
+>>> for mt9m111 to work (the only sensor that PXA currently
+>>> registers).
+>>>
+>>> Ezequiel Garcia (6):
+>>>   media: mach-pxa: Register the camera sensor fixed-rate clock
+>>>   media: pxa_camera: Drop the v4l2-clk clock register
+>>>   media: ov9640: Use the generic clock framework
+>>>   media: mt9m111: Use the generic clock framework
+>>>   media: ov6650: Use the generic clock framework
+>>>   media: Remove the legacy v4l2-clk API
+>>>
+>>>  .../driver-api/media/v4l2-clocks.rst          |  31 --
+>>>  Documentation/driver-api/media/v4l2-core.rst  |   1 -
+>>>  arch/arm/mach-pxa/devices.c                   |   8 +
+>>>  drivers/media/i2c/mt9m111.c                   |  17 +-
+>>>  drivers/media/i2c/ov6650.c                    |  26 +-
+>>>  drivers/media/i2c/ov9640.c                    |  15 +-
+>>>  drivers/media/i2c/ov9640.h                    |   4 +-
+>>>  drivers/media/platform/pxa_camera.c           |  30 +-
+>>>  drivers/media/v4l2-core/Makefile              |   2 +-
+>>>  drivers/media/v4l2-core/v4l2-clk.c            | 321 ------------------
+>>>  include/media/v4l2-clk.h                      |  73 ----
+>>>  11 files changed, 37 insertions(+), 491 deletions(-)
+>>>  delete mode 100644 Documentation/driver-api/media/v4l2-clocks.rst
+>>>  delete mode 100644 drivers/media/v4l2-core/v4l2-clk.c
+>>>  delete mode 100644 include/media/v4l2-clk.h
 >>>
 > 
 > 
