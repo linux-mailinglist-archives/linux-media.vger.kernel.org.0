@@ -2,119 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FBF02EF007
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB5242EF00B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 10:51:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727834AbhAHJtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 04:49:41 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:48347 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726683AbhAHJtk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 04:49:40 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 32FB75805D1;
-        Fri,  8 Jan 2021 04:48:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 08 Jan 2021 04:48:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=T
-        ytH3TW5ntRxZ1LpTYSljem0k/W8jkP4F1c3fUJ+HnI=; b=W3F2qLClKz+EIUHj1
-        pv70rfj99kjHw5cSQWbB+HijiNCWpzhjGi5yptuS//finB4rRnYVI0LrJ8SvHTr2
-        +5MGi5cR+C4GWr5anRTBVMif4V3TfDelToTBfAfeLKMXaF8HHA3VUKHhLbsfwp/c
-        xqoOT+jB7EIMAoWSWuHfdQ3G96SOepw8okwkDXI5F+mcPr5yGgJ2jxXDfIZSzurt
-        v7RU568SvVs2/kckacscI/Y8816G7pIqGywlrAyxBZIXRKijQ+gXnAed/K/Sfd/M
-        UuPeCCL/XXliHSR/mg4Z6UL2Z04aZhG+vKYIN0fvQQXCiahlKovIOZZJYJQtfGkl
-        3D1Ug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=TytH3TW5ntRxZ1LpTYSljem0k/W8jkP4F1c3fUJ+H
-        nI=; b=dvLWvQnc+tGYtY5Ktw5Nv60Z2gEzvnYGdAeKcKrfgM3yB0w1DA2nMjMWb
-        87srFgfXi0KPy/XIT2aFkW+L2SNm0UO3lz4BjhcurLhQMwpuD4EUdtEd6iEGgF0X
-        aPcwwkj5NoRVDyJglif8E3HUsqDq5EkWSvqqbi8kjF+FaZfGZ/GzlmQMOTB9iuf7
-        Iabaou+nUWZ9bVn/a4iXu+A7H+b6l7St8dJJleUVEAWRwqroAegdVyD6ePS4RvuV
-        MjReMwNCOdoP+2sDSFGbrQn87RBWVB9fIjnKFcjeL71kds928Rsb33eOagBzUTuC
-        XQDT0VVEKD9Rhc1p6UtSWcMQiUOhQ==
-X-ME-Sender: <xms:cCr4XwXj0PKIWNmqVR-oTuQrqqORN9LX6e4Hojg1sTDdHlVc8TObMw>
-    <xme:cCr4X0lDefX2fYgiqmmwkHM515jroZ62sabD940CHyxLYIW3_QQ82ovwyV5HZmd3r
-    Sc3wZcZV17SVBsrhLY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeggedgtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
-    gedvudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:cCr4X0aUwcPPWAHJ5z4rzpXyY02ZK-FVieH81hLxeY748HZ74uu9sw>
-    <xmx:cCr4X_VxDu4MnTytDOB-yCRgYACgQDwv7llt5mu0Xyn54_mTIHLrUg>
-    <xmx:cCr4X6lnqBbTcRkSwR3kgpGeVMsAJwmEce1NWD34avV_Amz-rXXO3A>
-    <xmx:cir4X8XjlFasr4jNuf3X53We_AZ3OUI6qRjSHA9nQ--7odUbviF99A>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id AF09D108005C;
-        Fri,  8 Jan 2021 04:48:31 -0500 (EST)
-Date:   Fri, 8 Jan 2021 10:48:30 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 06/15] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <20210108094830.6cmuelnraxjpgmaf@gilmour>
-References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
- <20201231142948.3241780-7-paul.kocialkowski@bootlin.com>
+        id S1728178AbhAHJuC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 04:50:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728134AbhAHJuB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 04:50:01 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D9A9C0612F5
+        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 01:49:21 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id t30so8387917wrb.0
+        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 01:49:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6RcYttTMOnXQ/EkpLSa2hP7WyET9NuXOkFaalMdFVgM=;
+        b=upXMSd/IWf84zJj2eifJ4ej+Bxpt7HnlTttf4LiN36uw9tvU4eCtR/jUPqxNvZs8As
+         a0eAYW6UlPazIZ1HlYiMsk9te0WbcyZ5wZbU+3Gh34KKqWpbXV6ArAIWaSFVzHXlRGnw
+         z91DEW7/aeQF0F566EvGbEMUnqSo0xkuVmkcL+SFNNHnrUBLsp6N3Za7NZU4CIp+IMFF
+         pTp2B15WVxZSmWpy3ChmdL7+Lvt1qbHrk/JaupVjx+iunmBCr6mQXuxb22F8yixtQrxT
+         RwuvvA6MAk8qlu2lq8jyK82T684YEpZe3pQ/EITjvGQbfCOz8sSxKLXZDi2vunT+xh0B
+         VrqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6RcYttTMOnXQ/EkpLSa2hP7WyET9NuXOkFaalMdFVgM=;
+        b=aWvnLzqsG4gukjBhXk2/+ygaXvmXLEjaOFdg4mY9jjMzUTNSTue9GaqMym2rJduv65
+         SkeWcMEXGqId3l5FhgIu8aF06LsjSX3XFnjTPzYnT3KkBBDVfirlfUfMJ9iiryvf1hmk
+         BXSR+iKPOkSJsgaMAJBGNoZdEihIfeJW12WHKsP1CpqAyslj6XJi+ADcoA40L4BeSnTM
+         dio8I+c5fRRzlhRPlSTWdhgDA3C3SVO5cI+GD0i6L7yLeH1xrEquAMZYg5GkTrcipLja
+         EQdNNdusKmfRdxM/02yt8m/n9eB+qEw/kvaHTAMJZm6+8LkxigJu2OiCnHJEe0UCYT7E
+         JOjg==
+X-Gm-Message-State: AOAM531QMYzXC4UUgWNAu7/+Z4p8J5gn0rTo3E6tpP8MByVg5nTAzPBe
+        mDXpa6dkiPP0w9Amn+FlewiK0+0GF3qUU1xCr5bRnQ==
+X-Google-Smtp-Source: ABdhPJxlNukvJ6v5Vi6Sol8VEaWaRMlqnUbpU+ZmI4OWw99W5JQjYWAAj0IN9GsuCkAUMQ2pNFDQXTMEJRyimM4JS2M=
+X-Received: by 2002:adf:ef12:: with SMTP id e18mr2779398wro.192.1610099359674;
+ Fri, 08 Jan 2021 01:49:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20201231142948.3241780-7-paul.kocialkowski@bootlin.com>
+References: <20210107142123.639477-1-robert.foss@linaro.org>
+In-Reply-To: <20210107142123.639477-1-robert.foss@linaro.org>
+From:   Tomasz Figa <tfiga@google.com>
+Date:   Fri, 8 Jan 2021 18:49:07 +0900
+Message-ID: <CAAFQd5BVSNGDV7ZkiVpZwbfTfRLJmNvopMQFnQno+CDs+bo3Gg@mail.gmail.com>
+Subject: Re: [PATCH v2] media: ov8856: Fix Bayer format dependance on mode
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 31, 2020 at 03:29:39PM +0100, Paul Kocialkowski wrote:
-> The A31 CSI controller supports two distinct input interfaces:
-> parallel and an external MIPI CSI-2 bridge. The parallel interface
-> is often connected to a set of hardware pins while the MIPI CSI-2
-> bridge is an internal FIFO-ish link. As a result, these two inputs
-> are distinguished as two different ports.
->=20
-> Note that only one of the two may be present on a controller instance.
-> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> dedicated to parallel.
->=20
-> Update the binding with an explicit ports node that holds two distinct
-> port nodes: one for parallel input and one for MIPI CSI-2.
->=20
-> This is backward-compatible with the single-port approach that was
-> previously taken for representing the parallel interface port, which
-> stays enumerated as fwnode port 0.
->=20
-> Note that additional ports may be added in the future, especially to
-> support feeding the CSI controller's output to the ISP.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Hi Robert,
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+On Thu, Jan 7, 2021 at 11:21 PM Robert Foss <robert.foss@linaro.org> wrote:
+>
+> The Bayer GRBG10 mode used for earlier modes 3280x2460 and
+> 1640x1232 isn't the mode output by the sensor for the
+> 3264x2448 and 1632x1224 modes.
+>
+> Switch from MEDIA_BUS_FMT_SGRBG10_1X10 to MEDIA_BUS_FMT_SBGGR10_1X10
+> for 3264x2448 & 1632x1224 modes.
+>
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>
+> Changes since v1:
+>  - Sakari: Added mode information to ov8856_mode struct
+>  - Sakari: enum_mbus_code updated
+>
+>  drivers/media/i2c/ov8856.c | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+> index 2f4ceaa80593..7cd83564585c 100644
+> --- a/drivers/media/i2c/ov8856.c
+> +++ b/drivers/media/i2c/ov8856.c
+> @@ -126,6 +126,9 @@ struct ov8856_mode {
+>
+>         /* Sensor register settings for this resolution */
+>         const struct ov8856_reg_list reg_list;
+> +
+> +       /* MEDIA_BUS_FMT for this mode */
+> +       u32 code;
+>  };
+>
+>  static const struct ov8856_reg mipi_data_rate_720mbps[] = {
+> @@ -942,6 +945,11 @@ static const char * const ov8856_test_pattern_menu[] = {
+>         "Bottom-Top Darker Color Bar"
+>  };
+>
+> +static const u32 ov8856_formats[] = {
+> +       MEDIA_BUS_FMT_SBGGR10_1X10,
+> +       MEDIA_BUS_FMT_SGRBG10_1X10,
+> +};
+> +
+>  static const s64 link_freq_menu_items[] = {
+>         OV8856_LINK_FREQ_360MHZ,
+>         OV8856_LINK_FREQ_180MHZ
+> @@ -974,6 +982,7 @@ static const struct ov8856_mode supported_modes[] = {
+>                         .regs = mode_3280x2464_regs,
+>                 },
+>                 .link_freq_index = OV8856_LINK_FREQ_720MBPS,
+> +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
+>         },
+>         {
+>                 .width = 3264,
+> @@ -986,6 +995,7 @@ static const struct ov8856_mode supported_modes[] = {
+>                         .regs = mode_3264x2448_regs,
+>                 },
+>                 .link_freq_index = OV8856_LINK_FREQ_720MBPS,
+> +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
+>         },
+>         {
+>                 .width = 1640,
+> @@ -998,6 +1008,7 @@ static const struct ov8856_mode supported_modes[] = {
+>                         .regs = mode_1640x1232_regs,
+>                 },
+>                 .link_freq_index = OV8856_LINK_FREQ_360MBPS,
+> +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
+>         },
+>         {
+>                 .width = 1632,
+> @@ -1010,6 +1021,7 @@ static const struct ov8856_mode supported_modes[] = {
+>                         .regs = mode_1632x1224_regs,
+>                 },
+>                 .link_freq_index = OV8856_LINK_FREQ_360MBPS,
+> +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
+>         }
+>  };
+>
+> @@ -1281,8 +1293,8 @@ static void ov8856_update_pad_format(const struct ov8856_mode *mode,
+>  {
+>         fmt->width = mode->width;
+>         fmt->height = mode->height;
+> -       fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+>         fmt->field = V4L2_FIELD_NONE;
+> +       fmt->code = mode->code;
+>  }
+>
+>  static int ov8856_start_streaming(struct ov8856 *ov8856)
+> @@ -1519,11 +1531,10 @@ static int ov8856_enum_mbus_code(struct v4l2_subdev *sd,
+>                                  struct v4l2_subdev_pad_config *cfg,
+>                                  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -       /* Only one bayer order GRBG is supported */
+> -       if (code->index > 0)
+> +       if (code->index >= ARRAY_SIZE(ov8856_formats))
+>                 return -EINVAL;
+>
+> -       code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +       code->code = ov8856_formats[code->index];
+>
+>         return 0;
+>  }
+> @@ -1532,10 +1543,11 @@ static int ov8856_enum_frame_size(struct v4l2_subdev *sd,
+>                                   struct v4l2_subdev_pad_config *cfg,
+>                                   struct v4l2_subdev_frame_size_enum *fse)
+>  {
+> -       if (fse->index >= ARRAY_SIZE(supported_modes))
+> +       if ((fse->code != ov8856_formats[0]) &&
+> +           (fse->code != ov8856_formats[1]))
 
-Maxime
+Shouldn't this be validated against the current mode? I guess it's the
+question about which part of the state takes precedence - the mbus
+code or the frame size.
+
+Best regards,
+Tomasz
