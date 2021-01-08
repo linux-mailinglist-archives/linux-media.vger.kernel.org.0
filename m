@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28D142EEDAF
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 08:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00D912EEDD1
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 08:25:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726938AbhAHHFO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 02:05:14 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:9371 "EHLO
+        id S1726474AbhAHHYq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 02:24:46 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:13994 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726730AbhAHHFO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 02:05:14 -0500
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 07 Jan 2021 23:04:33 -0800
+        with ESMTP id S1725308AbhAHHYq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 02:24:46 -0500
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 07 Jan 2021 23:24:06 -0800
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 07 Jan 2021 23:04:31 -0800
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 07 Jan 2021 23:24:04 -0800
 X-QCInternal: smtphost
 Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 08 Jan 2021 12:34:19 +0530
+  by ironmsg01-blr.qualcomm.com with ESMTP; 08 Jan 2021 12:53:51 +0530
 Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id DD17B2149A; Fri,  8 Jan 2021 12:34:17 +0530 (IST)
+        id EC40E2149A; Fri,  8 Jan 2021 12:53:49 +0530 (IST)
 From:   Dikshita Agarwal <dikshita@codeaurora.org>
 To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v3] venus: venc: set inband mode property to FW.
-Date:   Fri,  8 Jan 2021 12:34:03 +0530
-Message-Id: <1610089443-16420-1-git-send-email-dikshita@codeaurora.org>
+Subject: [PATCH RESEND v3] venus: venc: set inband mode property to FW.
+Date:   Fri,  8 Jan 2021 12:53:37 +0530
+Message-Id: <1610090618-30070-1-git-send-email-dikshita@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -47,7 +47,7 @@ Changes since v2:
  2 files changed, 30 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 3a2e449..bd6597c 100644
+index 3a2e449..ae21a7c 100644
 --- a/drivers/media/platform/qcom/venus/venc.c
 +++ b/drivers/media/platform/qcom/venus/venc.c
 @@ -536,6 +536,7 @@ static int venc_set_properties(struct venus_inst *inst)
@@ -63,7 +63,7 @@ index 3a2e449..bd6597c 100644
  		return ret;
  
 +	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-+		inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
++	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
 +		ptype = HFI_PROPERTY_CONFIG_VENC_SYNC_FRAME_SEQUENCE_HEADER;
 +		if (ctr->header_mode == V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE)
 +			en.enable = 0;
