@@ -2,84 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B33A2EF877
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 21:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 177BF2EF86E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 20:56:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728724AbhAHT7T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 14:59:19 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:59696 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727180AbhAHT7T (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 14:59:19 -0500
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1kxxVy-0004Zr-TC; Fri, 08 Jan 2021 20:33:38 +0100
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     ezequiel@collabora.com, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, Laurent.pinchart@ideasonboard.com
-Cc:     linux-rockchip@lists.infradead.org,
-        christoph.muellner@theobroma-systems.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org, heiko@sntech.de,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Subject: [PATCH RFC 11/11] media: rockchip: rkisp1: add support for px30 isp version
-Date:   Fri,  8 Jan 2021 20:33:11 +0100
-Message-Id: <20210108193311.3423236-12-heiko@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210108193311.3423236-1-heiko@sntech.de>
-References: <20210108193311.3423236-1-heiko@sntech.de>
+        id S1727102AbhAHT41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 14:56:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49348 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726059AbhAHT41 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 14:56:27 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3880EC061380
+        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 11:55:47 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id o19so25779886lfo.1
+        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 11:55:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PJMq4objzVNcUblV8NE/DuldZCBKwJF/PtAQRpfJPNc=;
+        b=vrBhrVXkMEbApDOfPouVo3hQgeMClLDDFTrQJuG42kKnLbo4UQvyEmnpXNVNMFotwC
+         ndG6SVmWvpz1z2eiJmqH68y4K1/FZGQAdrZbDWLyWd47B7Oc0ty8OKSFmNiWl31EHMoD
+         xAOfpJ1UbzfW2NnPJ0565Fqxjf8CLMH1bbI9QMDi54+CvunHBzvshWLRUPiRW+mMcy7+
+         PwKs2pMhwxRvQSj4xkPHasXVtQnWrOQnhYal5iGmFa83CxIvJ2pmCtU1Mo0hbNQTgtJ2
+         MBJc8C/3f609xACEZU8d0oVj0cxZHV77L1zBK/2XC6zJkoYOHa8YOdvH3JWni4Z8Dn07
+         dtpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PJMq4objzVNcUblV8NE/DuldZCBKwJF/PtAQRpfJPNc=;
+        b=rV3jgwkNFhGL5DAd9/6+AKZK/r+e6CuAphdNn003rdTjV2hWMi+O3f8eTqgRFhfAqI
+         sittAT+hPkWJbm7YqRu3FZ7iTyc1smRxf0Ct2mTNJI9RgxSrAHcGeJX3eh/cCagkeeao
+         7JbrvOUKamnGxgNQklYiUzRRz+CCQeoaON/qTpA2XZ+DYZZv9QUJvHQhG5dwCkIIoe0g
+         yF4oHFPFi2udvaPZ0UKdrbkod8fDy1RFAkyJJG+KKgWnqcYP8liMLVYnaeLWN5XZ7yR1
+         WSyFxIC6Dhj5JG1tiqQuaeKFLjeNXmTUsAGSTQllm5cn7ECEBz8li5eYWElOd9lJ3k+S
+         13LA==
+X-Gm-Message-State: AOAM531vxW7iPBmtyJ4+HO2soR9QJof9u8ciIS+udD/t+XeyiZpWgLQw
+        Xe67m+juvBGF2qiXRJPXgo0oaxqyW6wV5gVobiTdNA==
+X-Google-Smtp-Source: ABdhPJxTt/pq9Ctby6LYdcBcM6+wiAiQOmcWinms2iB1gVmjDc1A/yv94xhmvmRI7G2lqD56lARAFOaf9ejrNHPsLnM=
+X-Received: by 2002:ac2:50cc:: with SMTP id h12mr2121481lfm.508.1610135745778;
+ Fri, 08 Jan 2021 11:55:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1609962554-13872-1-git-send-email-veeras@codeaurora.org>
+In-Reply-To: <1609962554-13872-1-git-send-email-veeras@codeaurora.org>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Fri, 8 Jan 2021 11:55:34 -0800
+Message-ID: <CALAqxLVyCuQmEKYh+TBo7k5igP8piz8mAsFt4cChF9q=qmh8XQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 1/2] dma-fence: allow signaling drivers to set
+ fence timestamp
+To:     Veera Sundaram Sankaran <veeras@codeaurora.org>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, abhinavk@codeaurora.org,
+        pdhaval@codeaurora.org, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+On Thu, Jan 7, 2021 at 12:53 AM Veera Sundaram Sankaran
+<veeras@codeaurora.org> wrote:
+>
+> Some drivers have hardware capability to get the precise timestamp of
+> certain events based on which the fences are triggered. This allows it to
+> set accurate timestamp factoring out any software and IRQ latencies. Add
+> a timestamp variant of fence signal function, dma_fence_signal_timestamp
+> to allow drivers to update the precise timestamp for fences.
+>
 
-The px30 uses a V12 isp block so add compatible and matchdata
-for it.
+So, on quick review, this seems mostly sane. Though, it might be good
+to add some more detail about how the hardware timestamping fits into
+the kernel's CLOCK_MONOTONIC time domain.
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
----
- .../media/platform/rockchip/rkisp1/rkisp1-dev.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+I just want to make sure this interface isn't abused to jam raw
+hardware-domain timestamps into the fence->timestamp, causing the
+meaning or time-domain of the fence->timestamp to be unclear or
+inconsistent.
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 0a01ffbc2cae..b617be5f2bd5 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -403,6 +403,19 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
- 	return IRQ_HANDLED;
- }
- 
-+static const char * const px30_isp_clks[] = {
-+	"isp",
-+	"aclk",
-+	"hclk",
-+	"pclk",
-+};
-+
-+static const struct rkisp1_match_data px30_isp_match_data = {
-+	.clks = px30_isp_clks,
-+	.size = ARRAY_SIZE(px30_isp_clks),
-+	.isp_ver = RKISP1_V12,
-+};
-+
- static const char * const rk3399_isp_clks[] = {
- 	"isp",
- 	"aclk",
-@@ -416,6 +429,10 @@ static const struct rkisp1_match_data rk3399_isp_match_data = {
- };
- 
- static const struct of_device_id rkisp1_of_match[] = {
-+	{
-+		.compatible = "rockchip,px30-cif-isp",
-+		.data = &px30_isp_match_data,
-+	},
- 	{
- 		.compatible = "rockchip,rk3399-cif-isp",
- 		.data = &rk3399_isp_match_data,
--- 
-2.29.2
+It may be useful to add an additional patch to the documentation
+around the dma_fence structure to make the timestamp field semantics
+more explicit and avoid confusion?
 
+thanks
+-john
