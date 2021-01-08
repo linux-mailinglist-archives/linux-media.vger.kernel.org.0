@@ -2,168 +2,809 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5C282EFBAE
-	for <lists+linux-media@lfdr.de>; Sat,  9 Jan 2021 00:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5946B2EFBBF
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jan 2021 00:37:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725836AbhAHXZ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 18:25:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725306AbhAHXZ2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 18:25:28 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A14C3C061574;
-        Fri,  8 Jan 2021 15:24:47 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id c133so9020773wme.4;
-        Fri, 08 Jan 2021 15:24:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=ZTVjz7zCgsSu6PVGr/bnHMO3eNJHXSh+io9UTv2G2+8=;
-        b=qKb+hU98rQjhEPlmUg2xbV2M65NyOuB5U9eJEXmhpkEogAeFH1gZ7vof5wKzfgstL5
-         6p4LtFu9y6Eiy/BcFGvv7yfV5CunJwog3bK7ItnmEk6ae4EEJaG58FU1sbmh8JRekxxw
-         +BblvuUTtLO+9O6+wPGDeKtqIb/gPzfnt+lSMNjQmJn4+qeNtocg9VRLJ48D25fROaFv
-         wo7F20BqL4dqj3X03Ndbua4UwCZfLUbDKa2eo5OkSo8uWb9nTrdHjHe+/+REcsj1iarx
-         tJoZhYiNhXwmoXKt18o4s1nwSgou+HsP9Ndf/ews1rxAwAvcA22AzdxI42x4AQIpe6H2
-         LFyw==
+        id S1725836AbhAHXhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 18:37:11 -0500
+Received: from mail-wr1-f47.google.com ([209.85.221.47]:40376 "EHLO
+        mail-wr1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725817AbhAHXhK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 18:37:10 -0500
+Received: by mail-wr1-f47.google.com with SMTP id 91so10483148wrj.7
+        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 15:36:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=ZTVjz7zCgsSu6PVGr/bnHMO3eNJHXSh+io9UTv2G2+8=;
-        b=j6KkNRFe8wuZE90z+MdXnPFnjtA75BCOJhGkWRe+NQdaMPm2eDng2R63mYU+Y2y4Uo
-         N+dzQ7uWQSANHWu0yL9c9ExbMtzhbNgYoffa0KY4NJjs6NHEgDHCBESGBaE3n+ldVxFV
-         g9x+L8ICeZaRqWjChlBhSfd3vJQrOh+/kG2KAomCuyeows8alTCNCCya5Fb1sbAv2n/W
-         gYbV9kY76eHsOaciqRF2LVQs5TaTtkdS4gVIZIbT5fNuFCaWL77ivKi5r0AoWA97rumd
-         qtMdJ/9zDqBtwTWaHKJZ0ej8wv66c5KYw8H7vyP4poby2oNd1RnYmPhXZ50kwT32cd4w
-         0fDQ==
-X-Gm-Message-State: AOAM530anBokXK9sXrMMFE7K5pCZmbyAobMx8bvb3nSsvfs33v4tpqdQ
-        gb/IizgNSpeByKUpOuKwnSU=
-X-Google-Smtp-Source: ABdhPJwK4d0nHoCWkgUEfRiA/81UbPANMjLuiyUl1XoiJ/Fh8XDuz2QHzVAo/qI23xyAMUYFIMpgxA==
-X-Received: by 2002:a1c:5fd4:: with SMTP id t203mr4797925wmb.15.1610148286192;
-        Fri, 08 Jan 2021 15:24:46 -0800 (PST)
-Received: from [192.168.1.211] ([2.29.208.120])
-        by smtp.gmail.com with ESMTPSA id q15sm14372061wrw.75.2021.01.08.15.24.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jan 2021 15:24:45 -0800 (PST)
-Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Wolfram Sang <wsa@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jordan Hand <jorhand@linux.microsoft.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-19-djrscally@gmail.com>
- <20201130200719.GB4077@smile.fi.intel.com>
- <778f23fc-b99c-33a2-642d-ca0e47fd4ed5@gmail.com>
- <CAHp75VeYOqJt9iKaGPA4=dkb2kYUbqUV4PGTn8uSsnUt_kSGSw@mail.gmail.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <360b3783-b0ff-bdb8-5bcf-ec88a554503f@gmail.com>
-Date:   Fri, 8 Jan 2021 23:24:44 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eBAGOCuQxyBcVmBpyL8YYzcnmGuUG3a+rUA5qHsuTDQ=;
+        b=s+tKL2SmUzQw+G+MfpX1m4BPSvEoWtUdhWyWq+9owGlDjiB9FCuafgBn02pw71526K
+         0e1A6HnMCXgkDQHqR/WBqtHaT0pEZ/2E2DpaY4WT+2sznzJ5BVfjBObpuDYVJEcr8jx6
+         K+QUgCtXeBG9m5tFiO3cygwPM4q2j/HFQuotZBXfoDckekssxc3yRCSyLChMe8U18uAJ
+         ucnJeH8AFFtfNIHv7tVg+OVcLN1egsjNzgk6l9AKJjRlXviKtpmJpH0PltjDboiTFqwM
+         wlJtKe2XrbnhGFcI43aqmtvMAcFEF7uPPgrNH/moJL5+ElDkifo9WV/fL6egfM02ZV5K
+         x+jA==
+X-Gm-Message-State: AOAM5306mSLc83Vtz835PnhI+hLJbnOH8Z4770A7cBzoS10StxMyEKS3
+        EOznzKgIf7CdwNbC9nqkDZfyKpHq8gDLdz4B
+X-Google-Smtp-Source: ABdhPJwGEjLm46TZbtu4MHqd5z+sZr04TSbsdi0iGsfjXdRjBiKh1ab1vyDPF1fKqO9sNXxec/itIw==
+X-Received: by 2002:a5d:6289:: with SMTP id k9mr6017801wru.200.1610148985806;
+        Fri, 08 Jan 2021 15:36:25 -0800 (PST)
+Received: from localhost ([2a01:4b00:f419:6f00:e2db:6a88:4676:d01b])
+        by smtp.gmail.com with ESMTPSA id i9sm15739915wrs.70.2021.01.08.15.36.24
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jan 2021 15:36:25 -0800 (PST)
+From:   Luca Boccassi <bluca@debian.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils] Build with libbpf, remove local sources
+Date:   Fri,  8 Jan 2021 23:36:08 +0000
+Message-Id: <20210108233608.285497-1-bluca@debian.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VeYOqJt9iKaGPA4=dkb2kYUbqUV4PGTn8uSsnUt_kSGSw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy
+libbpf is nowadays widely available in all distros that enable BPF,
+and it is a standalone library with a release cycle and a stable API.
+Remove the old sync of bpf.c/bpf.h and check for the library via
+pkg-config and use it instead.
+Only a minor modification is needed to make it compile.
 
-On 08/01/2021 12:17, Andy Shevchenko wrote:
-> On Fri, Jan 8, 2021 at 1:56 AM Daniel Scally <djrscally@gmail.com> wrote:
->> On 30/11/2020 20:07, Andy Shevchenko wrote:
->>> On Mon, Nov 30, 2020 at 01:31:29PM +0000, Daniel Scally wrote:
-> ...
->
->>> It's solely Windows driver design...
->>> Luckily I found some information and can clarify above table:
->>>
->>> 0x00 Reset
->>> 0x01 Power down
->>> 0x0b Power enable
->>> 0x0c Clock enable
->>> 0x0d LED (active high)
->>>
->>> The above text perhaps should go somewhere under Documentation.
->> Coming back to this; there's a bit of an anomaly with the 0x01 Power
->> Down pin for at least one platform.  As listed above, the OV2680 on one
->> of my platforms has 3 GPIOs defined, and the table above gives them as
->> type Reset, Power down and Clock enable. I'd assumed from this table
->> that "power down" meant a powerdown GPIO (I.E. the one usually called
->> PWDNB in Omnivision datasheets and "powerdown" in drivers), but the
->> datasheet for the OV2680 doesn't list a separate reset and powerdown
->> pin, but rather a single pin that performs both functions.
-> All of them are GPIOs, the question here is how they are actually
-> connected on PCB level and I have no answer to that. You have to find
-> schematics somewhere.
+Signed-off-by: Luca Boccassi <bluca@debian.org>
+---
+NOTE: unfortunately I do not have IR capable hardware to use with Linux,
+so I could only build-test this.
 
-Yeah; I've been trying to get those but so far, no dice.
+ configure.ac               |   3 +-
+ utils/keytable/Makefile.am |   5 +-
+ utils/keytable/bpf.c       | 491 -------------------------------------
+ utils/keytable/bpf.h       | 110 ---------
+ utils/keytable/bpf_load.c  |  15 +-
+ utils/keytable/bpf_load.h  |   2 -
+ utils/keytable/keytable.c  |   2 +-
+ 7 files changed, 14 insertions(+), 614 deletions(-)
+ delete mode 100644 utils/keytable/bpf.c
+ delete mode 100644 utils/keytable/bpf.h
 
->
->> Am I wrong to treat that as something that ought to be mapped as a
->> powerdown GPIO to the sensors? Or do you know of any other way to
->> reconcile that discrepancy?
-> The GPIOs can go directly to the sensors or be a control pin for
-> separate discrete power gates.
-> So, we can do one of the following:
->  a) present PD GPIO as fixed regulator;
->  b) present PD & Reset GPIOs as regulator;
->  c) provide them as is to the sensor and sensor driver must do what it
-> considers right.
->
-> Since we don't have schematics (yet?) and we have plenty of variations
-> of sensors, I would go to c) and update the driver of the affected
-> sensor as needed. Because even if you have separate discrete PD for
-> one sensor on one platform there is no guarantee that it will be the
-> same on another. Providing a "virtual" PD in a sensor that doesn't
-> support it is the best choice I think. Let's hear what Sakari and
-> other experienced camera sensor developers say.
->
-> My vision is purely based on electrical engineering background,
-> experience with existing (not exactly camera) sensor drivers and
-> generic cases.
+diff --git a/configure.ac b/configure.ac
+index c59d247e..5290fa01 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -556,7 +556,8 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
+ AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
+ AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
+ AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
+-AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang])
++PKG_CHECK_MODULES([LIBBPF], [libbpf], [bpf_pc=yes], [bpf_pc=no])
++AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
+ 
+ # append -static to libtool compile and link command to enforce static libs
+ AS_IF([test x$enable_libdvbv5 = xno], [AC_SUBST([ENFORCE_LIBDVBV5_STATIC], ["-static"])])
+diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
+index a057eb89..c5eb414a 100644
+--- a/utils/keytable/Makefile.am
++++ b/utils/keytable/Makefile.am
+@@ -10,14 +10,15 @@ endif
+ ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h toml.c toml.h keymap.c keymap.h
+ 
+ if WITH_BPF
+-ir_keytable_SOURCES += bpf.c bpf_load.c bpf.h bpf_load.h
++ir_keytable_SOURCES += bpf_load.c bpf_load.h
+ endif
+ 
+ ir_keytable_LDADD = @LIBINTL@
+ ir_keytable_LDFLAGS = $(ARGP_LIBS)
+ 
+ if WITH_BPF
+-ir_keytable_LDFLAGS += $(LIBELF_LIBS)
++ir_keytable_LDFLAGS += $(LIBELF_LIBS) $(LIBBPF_LIBS)
++ir_keytable_CFLAGS = $(LIBBPF_CFLAGS)
+ SUBDIRS = bpf_protocols
+ endif
+ 
+diff --git a/utils/keytable/bpf.c b/utils/keytable/bpf.c
+deleted file mode 100644
+index 69ba190d..00000000
+--- a/utils/keytable/bpf.c
++++ /dev/null
+@@ -1,491 +0,0 @@
+-// SPDX-License-Identifier: LGPL-2.1
+-
+-/*
+- * common eBPF ELF operations.
+- *
+- * Copyright (C) 2013-2015 Alexei Starovoitov <ast@kernel.org>
+- * Copyright (C) 2015 Wang Nan <wangnan0@huawei.com>
+- * Copyright (C) 2015 Huawei Inc.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation;
+- * version 2.1 of the License (not later!)
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this program; if not,  see <http://www.gnu.org/licenses>
+- */
+-
+-#include <stdlib.h>
+-#include <memory.h>
+-#include <unistd.h>
+-#include <asm/unistd.h>
+-#include <linux/bpf.h>
+-#include "bpf.h"
+-#include <errno.h>
+-
+-/*
+- * When building perf, unistd.h is overridden. __NR_bpf is
+- * required to be defined explicitly.
+- */
+-#ifndef __NR_bpf
+-# if defined(__i386__)
+-#  define __NR_bpf 357
+-# elif defined(__x86_64__)
+-#  define __NR_bpf 321
+-# elif defined(__aarch64__)
+-#  define __NR_bpf 280
+-# elif defined(__sparc__)
+-#  define __NR_bpf 349
+-# elif defined(__s390__)
+-#  define __NR_bpf 351
+-# else
+-#  error __NR_bpf not defined. libbpf does not support your arch.
+-# endif
+-#endif
+-
+-#ifndef min
+-#define min(x, y) ((x) < (y) ? (x) : (y))
+-#endif
+-
+-static inline __u64 ptr_to_u64(const void *ptr)
+-{
+-	return (__u64) (unsigned long) ptr;
+-}
+-
+-static inline int sys_bpf(enum bpf_cmd cmd, union bpf_attr *attr,
+-			  unsigned int size)
+-{
+-	return syscall(__NR_bpf, cmd, attr, size);
+-}
+-
+-int bpf_create_map_xattr(const struct bpf_create_map_attr *create_attr)
+-{
+-	__u32 name_len = create_attr->name ? strlen(create_attr->name) : 0;
+-	union bpf_attr attr = {};
+-
+-	attr.map_type = create_attr->map_type;
+-	attr.key_size = create_attr->key_size;
+-	attr.value_size = create_attr->value_size;
+-	attr.max_entries = create_attr->max_entries;
+-	attr.map_flags = create_attr->map_flags;
+-	memcpy(attr.map_name, create_attr->name,
+-	       min(name_len, BPF_OBJ_NAME_LEN - 1));
+-	attr.numa_node = create_attr->numa_node;
+-	attr.btf_fd = create_attr->btf_fd;
+-	attr.btf_key_type_id = create_attr->btf_key_type_id;
+-	attr.btf_value_type_id = create_attr->btf_value_type_id;
+-	attr.map_ifindex = create_attr->map_ifindex;
+-
+-	return sys_bpf(BPF_MAP_CREATE, &attr, sizeof(attr));
+-}
+-
+-int bpf_create_map_node(enum bpf_map_type map_type, const char *name,
+-			int key_size, int value_size, int max_entries,
+-			__u32 map_flags, int node)
+-{
+-	struct bpf_create_map_attr map_attr = {};
+-
+-	map_attr.name = name;
+-	map_attr.map_type = map_type;
+-	map_attr.map_flags = map_flags;
+-	map_attr.key_size = key_size;
+-	map_attr.value_size = value_size;
+-	map_attr.max_entries = max_entries;
+-	if (node >= 0) {
+-		map_attr.numa_node = node;
+-		map_attr.map_flags |= BPF_F_NUMA_NODE;
+-	}
+-
+-	return bpf_create_map_xattr(&map_attr);
+-}
+-
+-int bpf_create_map(enum bpf_map_type map_type, int key_size,
+-		   int value_size, int max_entries, __u32 map_flags)
+-{
+-	struct bpf_create_map_attr map_attr = {};
+-
+-	map_attr.map_type = map_type;
+-	map_attr.map_flags = map_flags;
+-	map_attr.key_size = key_size;
+-	map_attr.value_size = value_size;
+-	map_attr.max_entries = max_entries;
+-
+-	return bpf_create_map_xattr(&map_attr);
+-}
+-
+-int bpf_create_map_name(enum bpf_map_type map_type, const char *name,
+-			int key_size, int value_size, int max_entries,
+-			__u32 map_flags)
+-{
+-	struct bpf_create_map_attr map_attr = {};
+-
+-	map_attr.name = name;
+-	map_attr.map_type = map_type;
+-	map_attr.map_flags = map_flags;
+-	map_attr.key_size = key_size;
+-	map_attr.value_size = value_size;
+-	map_attr.max_entries = max_entries;
+-
+-	return bpf_create_map_xattr(&map_attr);
+-}
+-
+-int bpf_create_map_in_map_node(enum bpf_map_type map_type, const char *name,
+-			       int key_size, int inner_map_fd, int max_entries,
+-			       __u32 map_flags, int node)
+-{
+-	__u32 name_len = name ? strlen(name) : 0;
+-	union bpf_attr attr = {};
+-
+-	attr.map_type = map_type;
+-	attr.key_size = key_size;
+-	attr.value_size = 4;
+-	attr.inner_map_fd = inner_map_fd;
+-	attr.max_entries = max_entries;
+-	attr.map_flags = map_flags;
+-	memcpy(attr.map_name, name, min(name_len, BPF_OBJ_NAME_LEN - 1));
+-
+-	if (node >= 0) {
+-		attr.map_flags |= BPF_F_NUMA_NODE;
+-		attr.numa_node = node;
+-	}
+-
+-	return sys_bpf(BPF_MAP_CREATE, &attr, sizeof(attr));
+-}
+-
+-int bpf_create_map_in_map(enum bpf_map_type map_type, const char *name,
+-			  int key_size, int inner_map_fd, int max_entries,
+-			  __u32 map_flags)
+-{
+-	return bpf_create_map_in_map_node(map_type, name, key_size,
+-					  inner_map_fd, max_entries, map_flags,
+-					  -1);
+-}
+-
+-int bpf_load_program_xattr(const struct bpf_load_program_attr *load_attr,
+-			   char *log_buf, size_t log_buf_sz)
+-{
+-	union bpf_attr attr;
+-	__u32 name_len;
+-	int fd;
+-
+-	if (!load_attr)
+-		return -EINVAL;
+-
+-	name_len = load_attr->name ? strlen(load_attr->name) : 0;
+-
+-	memset(&attr, 0, sizeof(attr));
+-	attr.prog_type = load_attr->prog_type;
+-	attr.expected_attach_type = load_attr->expected_attach_type;
+-	attr.insn_cnt = (__u32)load_attr->insns_cnt;
+-	attr.insns = ptr_to_u64(load_attr->insns);
+-	attr.license = ptr_to_u64(load_attr->license);
+-	attr.log_buf = ptr_to_u64(NULL);
+-	attr.log_size = 0;
+-	attr.log_level = 0;
+-	attr.kern_version = load_attr->kern_version;
+-	attr.prog_ifindex = load_attr->prog_ifindex;
+-	memcpy(attr.prog_name, load_attr->name,
+-	       min(name_len, BPF_OBJ_NAME_LEN - 1));
+-
+-	fd = sys_bpf(BPF_PROG_LOAD, &attr, sizeof(attr));
+-	if (fd >= 0 || !log_buf || !log_buf_sz)
+-		return fd;
+-
+-	/* Try again with log */
+-	attr.log_buf = ptr_to_u64(log_buf);
+-	attr.log_size = log_buf_sz;
+-	attr.log_level = 1;
+-	log_buf[0] = 0;
+-	return sys_bpf(BPF_PROG_LOAD, &attr, sizeof(attr));
+-}
+-
+-int bpf_load_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+-		     size_t insns_cnt, const char *name, const char *license,
+-		     __u32 kern_version, char *log_buf,
+-		     size_t log_buf_sz)
+-{
+-	struct bpf_load_program_attr load_attr = {};
+-
+-	load_attr.prog_type = type;
+-	load_attr.expected_attach_type = 0;
+-	load_attr.name = name;
+-	load_attr.insns = insns;
+-	load_attr.insns_cnt = insns_cnt;
+-	load_attr.license = license;
+-	load_attr.kern_version = kern_version;
+-
+-	return bpf_load_program_xattr(&load_attr, log_buf, log_buf_sz);
+-}
+-
+-int bpf_verify_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+-		       size_t insns_cnt, int strict_alignment,
+-		       const char *license, __u32 kern_version,
+-		       char *log_buf, size_t log_buf_sz, int log_level)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.prog_type = type;
+-	attr.insn_cnt = (__u32)insns_cnt;
+-	attr.insns = ptr_to_u64(insns);
+-	attr.license = ptr_to_u64(license);
+-	attr.log_buf = ptr_to_u64(log_buf);
+-	attr.log_size = log_buf_sz;
+-	attr.log_level = log_level;
+-	log_buf[0] = 0;
+-	attr.kern_version = kern_version;
+-	attr.prog_flags = strict_alignment ? BPF_F_STRICT_ALIGNMENT : 0;
+-
+-	return sys_bpf(BPF_PROG_LOAD, &attr, sizeof(attr));
+-}
+-
+-int bpf_map_update_elem(int fd, const void *key, const void *value,
+-			__u64 flags)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.map_fd = fd;
+-	attr.key = ptr_to_u64(key);
+-	attr.value = ptr_to_u64(value);
+-	attr.flags = flags;
+-
+-	return sys_bpf(BPF_MAP_UPDATE_ELEM, &attr, sizeof(attr));
+-}
+-
+-int bpf_map_lookup_elem(int fd, const void *key, void *value)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.map_fd = fd;
+-	attr.key = ptr_to_u64(key);
+-	attr.value = ptr_to_u64(value);
+-
+-	return sys_bpf(BPF_MAP_LOOKUP_ELEM, &attr, sizeof(attr));
+-}
+-
+-int bpf_map_delete_elem(int fd, const void *key)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.map_fd = fd;
+-	attr.key = ptr_to_u64(key);
+-
+-	return sys_bpf(BPF_MAP_DELETE_ELEM, &attr, sizeof(attr));
+-}
+-
+-int bpf_map_get_next_key(int fd, const void *key, void *next_key)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.map_fd = fd;
+-	attr.key = ptr_to_u64(key);
+-	attr.next_key = ptr_to_u64(next_key);
+-
+-	return sys_bpf(BPF_MAP_GET_NEXT_KEY, &attr, sizeof(attr));
+-}
+-
+-int bpf_obj_pin(int fd, const char *pathname)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.pathname = ptr_to_u64((void *)pathname);
+-	attr.bpf_fd = fd;
+-
+-	return sys_bpf(BPF_OBJ_PIN, &attr, sizeof(attr));
+-}
+-
+-int bpf_obj_get(const char *pathname)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.pathname = ptr_to_u64((void *)pathname);
+-
+-	return sys_bpf(BPF_OBJ_GET, &attr, sizeof(attr));
+-}
+-
+-int bpf_prog_attach(int prog_fd, int target_fd, enum bpf_attach_type type,
+-		    unsigned int flags)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.target_fd	   = target_fd;
+-	attr.attach_bpf_fd = prog_fd;
+-	attr.attach_type   = type;
+-	attr.attach_flags  = flags;
+-
+-	return sys_bpf(BPF_PROG_ATTACH, &attr, sizeof(attr));
+-}
+-
+-int bpf_prog_detach(int target_fd, enum bpf_attach_type type)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.target_fd	 = target_fd;
+-	attr.attach_type = type;
+-
+-	return sys_bpf(BPF_PROG_DETACH, &attr, sizeof(attr));
+-}
+-
+-int bpf_prog_detach2(int prog_fd, int target_fd, enum bpf_attach_type type)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.target_fd	 = target_fd;
+-	attr.attach_bpf_fd = prog_fd;
+-	attr.attach_type = type;
+-
+-	return sys_bpf(BPF_PROG_DETACH, &attr, sizeof(attr));
+-}
+-
+-int bpf_prog_query(int target_fd, enum bpf_attach_type type, __u32 query_flags,
+-		   __u32 *attach_flags, __u32 *prog_ids, __u32 *prog_cnt)
+-{
+-	union bpf_attr attr = {};
+-	int ret;
+-
+-	attr.query.target_fd	= target_fd;
+-	attr.query.attach_type	= type;
+-	attr.query.query_flags	= query_flags;
+-	attr.query.prog_cnt	= *prog_cnt;
+-	attr.query.prog_ids	= ptr_to_u64(prog_ids);
+-
+-	ret = sys_bpf(BPF_PROG_QUERY, &attr, sizeof(attr));
+-	if (attach_flags)
+-		*attach_flags = attr.query.attach_flags;
+-	*prog_cnt = attr.query.prog_cnt;
+-	return ret;
+-}
+-
+-int bpf_prog_test_run(int prog_fd, int repeat, void *data, __u32 size,
+-		      void *data_out, __u32 *size_out, __u32 *retval,
+-		      __u32 *duration)
+-{
+-	union bpf_attr attr = {};
+-	int ret;
+-
+-	attr.test.prog_fd = prog_fd;
+-	attr.test.data_in = ptr_to_u64(data);
+-	attr.test.data_out = ptr_to_u64(data_out);
+-	attr.test.data_size_in = size;
+-	attr.test.repeat = repeat;
+-
+-	ret = sys_bpf(BPF_PROG_TEST_RUN, &attr, sizeof(attr));
+-	if (size_out)
+-		*size_out = attr.test.data_size_out;
+-	if (retval)
+-		*retval = attr.test.retval;
+-	if (duration)
+-		*duration = attr.test.duration;
+-	return ret;
+-}
+-
+-int bpf_prog_get_next_id(__u32 start_id, __u32 *next_id)
+-{
+-	union bpf_attr attr = {};
+-	int err;
+-
+-	attr.start_id = start_id;
+-
+-	err = sys_bpf(BPF_PROG_GET_NEXT_ID, &attr, sizeof(attr));
+-	if (!err)
+-		*next_id = attr.next_id;
+-
+-	return err;
+-}
+-
+-int bpf_map_get_next_id(__u32 start_id, __u32 *next_id)
+-{
+-	union bpf_attr attr = {};
+-	int err;
+-
+-	attr.start_id = start_id;
+-
+-	err = sys_bpf(BPF_MAP_GET_NEXT_ID, &attr, sizeof(attr));
+-	if (!err)
+-		*next_id = attr.next_id;
+-
+-	return err;
+-}
+-
+-int bpf_prog_get_fd_by_id(__u32 id)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.prog_id = id;
+-
+-	return sys_bpf(BPF_PROG_GET_FD_BY_ID, &attr, sizeof(attr));
+-}
+-
+-int bpf_map_get_fd_by_id(__u32 id)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.map_id = id;
+-
+-	return sys_bpf(BPF_MAP_GET_FD_BY_ID, &attr, sizeof(attr));
+-}
+-
+-int bpf_btf_get_fd_by_id(__u32 id)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.btf_id = id;
+-
+-	return sys_bpf(BPF_BTF_GET_FD_BY_ID, &attr, sizeof(attr));
+-}
+-
+-int bpf_obj_get_info_by_fd(int prog_fd, void *info, __u32 *info_len)
+-{
+-	union bpf_attr attr = {};
+-	int err;
+-
+-	attr.info.bpf_fd = prog_fd;
+-	attr.info.info_len = *info_len;
+-	attr.info.info = ptr_to_u64(info);
+-
+-	err = sys_bpf(BPF_OBJ_GET_INFO_BY_FD, &attr, sizeof(attr));
+-	if (!err)
+-		*info_len = attr.info.info_len;
+-
+-	return err;
+-}
+-
+-int bpf_raw_tracepoint_open(const char *name, int prog_fd)
+-{
+-	union bpf_attr attr = {};
+-
+-	attr.raw_tracepoint.name = ptr_to_u64(name);
+-	attr.raw_tracepoint.prog_fd = prog_fd;
+-
+-	return sys_bpf(BPF_RAW_TRACEPOINT_OPEN, &attr, sizeof(attr));
+-}
+-
+-int bpf_load_btf(void *btf, __u32 btf_size, char *log_buf, __u32 log_buf_size,
+-		 bool do_log)
+-{
+-	union bpf_attr attr = {};
+-	int fd;
+-
+-	attr.btf = ptr_to_u64(btf);
+-	attr.btf_size = btf_size;
+-
+-retry:
+-	if (do_log && log_buf && log_buf_size) {
+-		attr.btf_log_level = 1;
+-		attr.btf_log_size = log_buf_size;
+-		attr.btf_log_buf = ptr_to_u64(log_buf);
+-	}
+-
+-	fd = sys_bpf(BPF_BTF_LOAD, &attr, sizeof(attr));
+-	if (fd == -1 && !do_log && log_buf && log_buf_size) {
+-		do_log = true;
+-		goto retry;
+-	}
+-
+-	return fd;
+-}
+diff --git a/utils/keytable/bpf.h b/utils/keytable/bpf.h
+deleted file mode 100644
+index fb3896c9..00000000
+--- a/utils/keytable/bpf.h
++++ /dev/null
+@@ -1,110 +0,0 @@
+-/* SPDX-License-Identifier: LGPL-2.1 */
+-
+-/*
+- * common eBPF ELF operations.
+- *
+- * Copyright (C) 2013-2015 Alexei Starovoitov <ast@kernel.org>
+- * Copyright (C) 2015 Wang Nan <wangnan0@huawei.com>
+- * Copyright (C) 2015 Huawei Inc.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation;
+- * version 2.1 of the License (not later!)
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this program; if not,  see <http://www.gnu.org/licenses>
+- */
+-#ifndef __BPF_BPF_H
+-#define __BPF_BPF_H
+-
+-#include <linux/bpf.h>
+-#include <stdbool.h>
+-#include <stddef.h>
+-
+-struct bpf_create_map_attr {
+-	const char *name;
+-	enum bpf_map_type map_type;
+-	__u32 map_flags;
+-	__u32 key_size;
+-	__u32 value_size;
+-	__u32 max_entries;
+-	__u32 numa_node;
+-	__u32 btf_fd;
+-	__u32 btf_key_type_id;
+-	__u32 btf_value_type_id;
+-	__u32 map_ifindex;
+-};
+-
+-int bpf_create_map_xattr(const struct bpf_create_map_attr *create_attr);
+-int bpf_create_map_node(enum bpf_map_type map_type, const char *name,
+-			int key_size, int value_size, int max_entries,
+-			__u32 map_flags, int node);
+-int bpf_create_map_name(enum bpf_map_type map_type, const char *name,
+-			int key_size, int value_size, int max_entries,
+-			__u32 map_flags);
+-int bpf_create_map(enum bpf_map_type map_type, int key_size, int value_size,
+-		   int max_entries, __u32 map_flags);
+-int bpf_create_map_in_map_node(enum bpf_map_type map_type, const char *name,
+-			       int key_size, int inner_map_fd, int max_entries,
+-			       __u32 map_flags, int node);
+-int bpf_create_map_in_map(enum bpf_map_type map_type, const char *name,
+-			  int key_size, int inner_map_fd, int max_entries,
+-			  __u32 map_flags);
+-
+-struct bpf_load_program_attr {
+-	enum bpf_prog_type prog_type;
+-	enum bpf_attach_type expected_attach_type;
+-	const char *name;
+-	const struct bpf_insn *insns;
+-	size_t insns_cnt;
+-	const char *license;
+-	__u32 kern_version;
+-	__u32 prog_ifindex;
+-};
+-
+-/* Recommend log buffer size */
+-#define BPF_LOG_BUF_SIZE (256 * 1024)
+-int bpf_load_program_xattr(const struct bpf_load_program_attr *load_attr,
+-			   char *log_buf, size_t log_buf_sz);
+-int bpf_load_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+-		     size_t insns_cnt, const char *name, const char *license,
+-		     __u32 kern_version, char *log_buf,
+-		     size_t log_buf_sz);
+-int bpf_verify_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+-		       size_t insns_cnt, int strict_alignment,
+-		       const char *license, __u32 kern_version,
+-		       char *log_buf, size_t log_buf_sz, int log_level);
+-
+-int bpf_map_update_elem(int fd, const void *key, const void *value,
+-			__u64 flags);
+-
+-int bpf_map_lookup_elem(int fd, const void *key, void *value);
+-int bpf_map_delete_elem(int fd, const void *key);
+-int bpf_map_get_next_key(int fd, const void *key, void *next_key);
+-int bpf_obj_pin(int fd, const char *pathname);
+-int bpf_obj_get(const char *pathname);
+-int bpf_prog_attach(int prog_fd, int attachable_fd, enum bpf_attach_type type,
+-		    unsigned int flags);
+-int bpf_prog_detach(int attachable_fd, enum bpf_attach_type type);
+-int bpf_prog_detach2(int prog_fd, int attachable_fd, enum bpf_attach_type type);
+-int bpf_prog_test_run(int prog_fd, int repeat, void *data, __u32 size,
+-		      void *data_out, __u32 *size_out, __u32 *retval,
+-		      __u32 *duration);
+-int bpf_prog_get_next_id(__u32 start_id, __u32 *next_id);
+-int bpf_map_get_next_id(__u32 start_id, __u32 *next_id);
+-int bpf_prog_get_fd_by_id(__u32 id);
+-int bpf_map_get_fd_by_id(__u32 id);
+-int bpf_btf_get_fd_by_id(__u32 id);
+-int bpf_obj_get_info_by_fd(int prog_fd, void *info, __u32 *info_len);
+-int bpf_prog_query(int target_fd, enum bpf_attach_type type, __u32 query_flags,
+-		   __u32 *attach_flags, __u32 *prog_ids, __u32 *prog_cnt);
+-int bpf_raw_tracepoint_open(const char *name, int prog_fd);
+-int bpf_load_btf(void *btf, __u32 btf_size, char *log_buf, __u32 log_buf_size,
+-		 bool do_log);
+-#endif
+diff --git a/utils/keytable/bpf_load.c b/utils/keytable/bpf_load.c
+index 7ae9af4a..ec6eb98e 100644
+--- a/utils/keytable/bpf_load.c
++++ b/utils/keytable/bpf_load.c
+@@ -12,10 +12,10 @@
+ #include <limits.h>
+ #include <stdlib.h>
+ #include <linux/bpf.h>
++#include <bpf/bpf.h>
+ #include <assert.h>
+ #include <argp.h>
+ #include "keymap.h"
+-#include "bpf.h"
+ #include "bpf_load.h"
+ 
+ #ifdef ENABLE_NLS
+@@ -28,6 +28,8 @@
+ # define _(string) string
+ #endif
+ 
++#define LOG_BUF_SIZE (256 * 1024)
++
+ // This should match the struct in the raw BPF decoder
+ struct raw_pattern {
+ 	unsigned int scancode;
+@@ -39,7 +41,7 @@ struct raw_pattern {
+ int max_length;
+ int trail_space;
+ 
+-char bpf_log_buf[BPF_LOG_BUF_SIZE];
++char bpf_log_buf[LOG_BUF_SIZE];
+ extern int debug;
+ 
+ struct bpf_file {
+@@ -58,14 +60,14 @@ struct bpf_file {
+ 	struct protocol_param *param;
+ };
+ 
+-static int load_and_attach(int lirc_fd, struct bpf_file *bpf_file, const char *name, struct bpf_insn *prog, int size)
++static int load_and_attach(int lirc_fd, struct bpf_file *bpf_file, struct bpf_insn *prog, int size)
+ {
+         size_t insns_cnt = size / sizeof(struct bpf_insn);
+ 	int fd, err;
+ 
+ 	fd = bpf_load_program(BPF_PROG_TYPE_LIRC_MODE2, prog, insns_cnt,
+-			      name, bpf_file->license, 0,
+-			      bpf_log_buf, BPF_LOG_BUF_SIZE);
++			      bpf_file->license, 0,
++			      bpf_log_buf, LOG_BUF_SIZE);
+ 	if (fd < 0) {
+ 		printf("bpf_load_program() err=%m\n%s", bpf_log_buf);
+ 		return -1;
+@@ -548,8 +550,7 @@ int load_bpf_file(const char *path, int lirc_fd, struct protocol_param *param,
+ 		    !(shdr.sh_flags & SHF_EXECINSTR))
+ 			continue;
+ 
+-		ret = load_and_attach(lirc_fd, &bpf_file, shname, data->d_buf,
+-				      data->d_size);
++		ret = load_and_attach(lirc_fd, &bpf_file, data->d_buf, data->d_size);
+ 		break;
+ 	}
+ 
+diff --git a/utils/keytable/bpf_load.h b/utils/keytable/bpf_load.h
+index 47b57b25..fe0b3e58 100644
+--- a/utils/keytable/bpf_load.h
++++ b/utils/keytable/bpf_load.h
+@@ -2,8 +2,6 @@
+ #ifndef __BPF_LOAD_H
+ #define __BPF_LOAD_H
+ 
+-#define BPF_LOG_BUF_SIZE (256 * 1024)
+-
+ #define MAX_MAPS 32
+ #define MAX_PROGS 64
+ 
+diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+index cb91f1f0..248493a9 100644
+--- a/utils/keytable/keytable.c
++++ b/utils/keytable/keytable.c
+@@ -37,7 +37,7 @@
+ #include "keymap.h"
+ 
+ #ifdef HAVE_BPF
+-#include "bpf.h"
++#include <bpf/bpf.h>
+ #include "bpf_load.h"
+ #endif
+ 
+-- 
+2.29.2
 
-Alright; thanks. I'm happy with C being the answer, so unless someone
-thinks differently I'll work on that basis.
-
->> Failing that; the only way I can think to handle this is to register
->> proxy GPIO pins assigned to the sensors as you suggested previously, and
->> have them toggle the GPIO's assigned to the INT3472 based on platform
->> specific mapping data (I.E. we register a pin called "reset", which on
->> most platforms just toggles the 0x00 pin, but on this specific platform
->> would drive both 0x00 and 0x01 together. We're already heading that way
->> for the regulator consumer supplies so it's sort of nothing new, but I'd
->> still rather not if it can be avoided.
->
