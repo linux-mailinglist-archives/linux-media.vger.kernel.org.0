@@ -2,211 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 118A42EF0D6
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 11:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DBAF2EF0DA
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 11:49:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727322AbhAHKqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 05:46:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48506 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726795AbhAHKqu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 05:46:50 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C429C0612F5
-        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 02:46:10 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id b26so21861811lff.9
-        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 02:46:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=p+waloq0fk/MGdpK82nCZe9TIaeg5dnHeMElfg7ryM4=;
-        b=BKpjsFphvWdKBCHkA4RhemDDINeDoPUwbMlWozZMEDjYKYz3sh+JQclxys0m1+XuBa
-         /4wzP5ULgApjOCKj1Yj/SnkVAcmbQxg/z+piNUuZFMXnxvl/LXgrjrGPJIONoRNGP3zq
-         kaq3n+jRGjg3c5T5aPU+gtXdJlY+4PzERzZMRmPH2xnCbBugiLGgeXO3svaK/5Xnlfd+
-         Zlpd7vz3SVh+bkAWO0NvLK7Yg+f581MV8OX0R4eyjxAYzD5rF3UJy84HesNTYrYk3mxK
-         uAfSm2h9Y9PjEUYzZ56eGgJ18xsRv49HxBI+U7SAw5Cwak8pZmywGwnO6PSO/4UICsFD
-         ZMxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=p+waloq0fk/MGdpK82nCZe9TIaeg5dnHeMElfg7ryM4=;
-        b=kMQaCx7qCn0RjkG4R9H6uCNNW/mPdRni1itS6OMNQkPPApA1HFVmmEmvIAjb8HcDhW
-         BYHSxpCnUZQ2HyWE3zVH9ZHSaKbQAo0vzTOpC9OBkXxJTCVuhhl7gSwsQ96Rzqi1anXd
-         EfEJhSLgNaFyk3jl98jRLJVq4D3UDIuScDkNIgKY3BZ3mvZ/cfH74X5+a8tkvmH5FWQP
-         BcJpKS6M7CZw4FGjQP7DZnlkRpWktm4uBOW+Dgc1FkHpzlr1J1wRmKUlD/GxG1O00OmG
-         yBN3P7TL9ypAW7Cj6aTwV1wB1uV0/vKH3jO63zciLrFGZYM1cXdu6B1/FblqXLk+HH6I
-         n9Pw==
-X-Gm-Message-State: AOAM530+XO2uG37wDwZOuI2ZiN/vgfOpkvHWihvM35EHawJBzHkLSCid
-        txWAyu0RJ2Gz9Ld+tmF8YdUkaA==
-X-Google-Smtp-Source: ABdhPJxyd5pjnYXDovgitsQk+ePH2PwRGsbg5/X5D8xjJRjKtyVtA+LosBWIyYGCr+TskuNhZ3AOZw==
-X-Received: by 2002:ac2:5042:: with SMTP id a2mr1322451lfm.42.1610102768460;
-        Fri, 08 Jan 2021 02:46:08 -0800 (PST)
-Received: from [192.168.118.216] ([85.249.43.69])
-        by smtp.gmail.com with ESMTPSA id a15sm1983948lji.105.2021.01.08.02.46.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jan 2021 02:46:07 -0800 (PST)
-Subject: Re: [PATCH v2] media: ov8856: Fix Bayer format dependance on mode
-To:     Tomasz Figa <tfiga@google.com>,
-        Robert Foss <robert.foss@linaro.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        id S1727496AbhAHKtU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 05:49:20 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:56286 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726752AbhAHKtU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Jan 2021 05:49:20 -0500
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1kxpJl-0002Jc-KQ; Fri, 08 Jan 2021 11:48:29 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Jacob Chen <jacob-chen@iotwrt.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@linux.intel.com>
-References: <20210107142123.639477-1-robert.foss@linaro.org>
- <CAAFQd5BVSNGDV7ZkiVpZwbfTfRLJmNvopMQFnQno+CDs+bo3Gg@mail.gmail.com>
-From:   Andrey Konovalov <andrey.konovalov@linaro.org>
-Message-ID: <6ec75d88-0cd5-79cc-6413-81f169b5e976@linaro.org>
-Date:   Fri, 8 Jan 2021 13:46:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 5/5] media: hantro: Add support for the Rockchip PX30
+Date:   Fri, 08 Jan 2021 11:48:26 +0100
+Message-ID: <11669141.O9o76ZdvQC@diego>
+In-Reply-To: <X/ggTOOTBhGoFDpW@aptenodytes>
+References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com> <f7291b83fe39d71c3192ea58ebf71e3909bd38af.camel@collabora.com> <X/ggTOOTBhGoFDpW@aptenodytes>
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5BVSNGDV7ZkiVpZwbfTfRLJmNvopMQFnQno+CDs+bo3Gg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert and Tomasz,
-
-On 08.01.2021 12:49, Tomasz Figa wrote:
-> Hi Robert,
+Am Freitag, 8. Januar 2021, 10:05:16 CET schrieb Paul Kocialkowski:
+> Hi Ezequiel,
 > 
-> On Thu, Jan 7, 2021 at 11:21 PM Robert Foss <robert.foss@linaro.org> wrote:
->>
->> The Bayer GRBG10 mode used for earlier modes 3280x2460 and
->> 1640x1232 isn't the mode output by the sensor for the
->> 3264x2448 and 1632x1224 modes.
->>
->> Switch from MEDIA_BUS_FMT_SGRBG10_1X10 to MEDIA_BUS_FMT_SBGGR10_1X10
->> for 3264x2448 & 1632x1224 modes.
->>
->> Signed-off-by: Robert Foss <robert.foss@linaro.org>
->> ---
->>
->> Changes since v1:
->>   - Sakari: Added mode information to ov8856_mode struct
->>   - Sakari: enum_mbus_code updated
->>
->>   drivers/media/i2c/ov8856.c | 24 ++++++++++++++++++------
->>   1 file changed, 18 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
->> index 2f4ceaa80593..7cd83564585c 100644
->> --- a/drivers/media/i2c/ov8856.c
->> +++ b/drivers/media/i2c/ov8856.c
->> @@ -126,6 +126,9 @@ struct ov8856_mode {
->>
->>          /* Sensor register settings for this resolution */
->>          const struct ov8856_reg_list reg_list;
->> +
->> +       /* MEDIA_BUS_FMT for this mode */
->> +       u32 code;
->>   };
->>
->>   static const struct ov8856_reg mipi_data_rate_720mbps[] = {
->> @@ -942,6 +945,11 @@ static const char * const ov8856_test_pattern_menu[] = {
->>          "Bottom-Top Darker Color Bar"
->>   };
->>
->> +static const u32 ov8856_formats[] = {
->> +       MEDIA_BUS_FMT_SBGGR10_1X10,
->> +       MEDIA_BUS_FMT_SGRBG10_1X10,
->> +};
->> +
->>   static const s64 link_freq_menu_items[] = {
->>          OV8856_LINK_FREQ_360MHZ,
->>          OV8856_LINK_FREQ_180MHZ
->> @@ -974,6 +982,7 @@ static const struct ov8856_mode supported_modes[] = {
->>                          .regs = mode_3280x2464_regs,
->>                  },
->>                  .link_freq_index = OV8856_LINK_FREQ_720MBPS,
->> +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
->>          },
->>          {
->>                  .width = 3264,
->> @@ -986,6 +995,7 @@ static const struct ov8856_mode supported_modes[] = {
->>                          .regs = mode_3264x2448_regs,
->>                  },
->>                  .link_freq_index = OV8856_LINK_FREQ_720MBPS,
->> +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
->>          },
->>          {
->>                  .width = 1640,
->> @@ -998,6 +1008,7 @@ static const struct ov8856_mode supported_modes[] = {
->>                          .regs = mode_1640x1232_regs,
->>                  },
->>                  .link_freq_index = OV8856_LINK_FREQ_360MBPS,
->> +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
->>          },
->>          {
->>                  .width = 1632,
->> @@ -1010,6 +1021,7 @@ static const struct ov8856_mode supported_modes[] = {
->>                          .regs = mode_1632x1224_regs,
->>                  },
->>                  .link_freq_index = OV8856_LINK_FREQ_360MBPS,
->> +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
->>          }
->>   };
->>
->> @@ -1281,8 +1293,8 @@ static void ov8856_update_pad_format(const struct ov8856_mode *mode,
->>   {
->>          fmt->width = mode->width;
->>          fmt->height = mode->height;
->> -       fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
->>          fmt->field = V4L2_FIELD_NONE;
->> +       fmt->code = mode->code;
->>   }
->>
->>   static int ov8856_start_streaming(struct ov8856 *ov8856)
->> @@ -1519,11 +1531,10 @@ static int ov8856_enum_mbus_code(struct v4l2_subdev *sd,
->>                                   struct v4l2_subdev_pad_config *cfg,
->>                                   struct v4l2_subdev_mbus_code_enum *code)
->>   {
->> -       /* Only one bayer order GRBG is supported */
->> -       if (code->index > 0)
->> +       if (code->index >= ARRAY_SIZE(ov8856_formats))
->>                  return -EINVAL;
->>
->> -       code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
->> +       code->code = ov8856_formats[code->index];
->>
->>          return 0;
->>   }
->> @@ -1532,10 +1543,11 @@ static int ov8856_enum_frame_size(struct v4l2_subdev *sd,
->>                                    struct v4l2_subdev_pad_config *cfg,
->>                                    struct v4l2_subdev_frame_size_enum *fse)
->>   {
->> -       if (fse->index >= ARRAY_SIZE(supported_modes))
->> +       if ((fse->code != ov8856_formats[0]) &&
->> +           (fse->code != ov8856_formats[1]))
+> On Thu 07 Jan 21, 16:08, Ezequiel Garcia wrote:
+> > Happy to see this patch. It was on my TODO list,
+> > but I hadn't had time to bringup my rk3326 device.
 > 
-> Shouldn't this be validated against the current mode? I guess it's the
-> question about which part of the state takes precedence - the mbus
-> code or the frame size.
+> Same here, I just had an occasion to use it again these days so I jumped
+> on it!
+> 
+> > A few comments.
+> > 
+> > On Thu, 2021-01-07 at 14:41 +0100, Paul Kocialkowski wrote:
+> > > The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are similar
+> > > to the RK3399 (Hantro G1/H1 with shuffled registers).
+> > > 
+> > > Besides taking an extra clock, it also shares an interrupt with the IOMMU
+> > > so it's necessary to request the interrupt shared.
+> > > 
+> > 
+> > Could you clarify on the commit description which iommu device interrupt
+> > line is being shared?
+> 
+> Sure! It's IRQ 79 of the GIC that's shared with vopl_mmu.
+> It's not very obvious in the dt commit.
 
-The docs [1] say "enumerate all frame sizes supported by a sub-device on the given pad
-for the given media bus format". It doesn't seem to mention the current mode. But the
-frame sizes reported should be filtered by the mbus code, and this patch misses that
-if I read it correct.
+Having looked through the docs again, I think that the vopl_mmu using
+irq 79 is just a mistake:
 
-But this situation when the mbus code depends on the mode (on the resolution in fact)...
-Yes, if we read the pixels from a rectangle smaller than the active area, we can change
-the bayer order by moving this "read-out" rectangle by one pixel along x, y, or both x
-and y axes. But wouldn't it be better if we try to review the register setting for the
-current modes so that the bayer order would be the same for all the modes?
+(1) in general vop and vop-mmu use the same irq (78 in that case)
+(2) Rockchip does seem to have fixed that in their 4.19 tree as well:
+https://github.com/rockchip-linux/kernel/blob/develop-4.19/arch/arm64/boot/dts/rockchip/px30.dtsi#L1598
 
-Thanks,
-Andrey
+So to me it looks like this doesn't need to be shared and instead
+"simply" the px30 dtsi fixed ;-)
 
-> Best regards,
-> Tomasz
+
+Heiko
+
+
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > ---
+> > >  drivers/staging/media/hantro/hantro_drv.c    |  5 +++--
+> > >  drivers/staging/media/hantro/hantro_hw.h     |  1 +
+> > >  drivers/staging/media/hantro/rk3399_vpu_hw.c | 21 ++++++++++++++++++++
+> > >  3 files changed, 25 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> > > index e5f200e64993..076a7782b476 100644
+> > > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > > @@ -472,6 +472,7 @@ static const struct v4l2_file_operations hantro_fops = {
+> > >  
+> > >  static const struct of_device_id of_hantro_match[] = {
+> > >  #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
+> > > +       { .compatible = "rockchip,px30-vpu", .data = &px30_vpu_variant, },
+> > >         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+> > >         { .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+> > >         { .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+> > > @@ -796,8 +797,8 @@ static int hantro_probe(struct platform_device *pdev)
+> > >                         return -ENXIO;
+> > >  
+> > >                 ret = devm_request_irq(vpu->dev, irq,
+> > > -                                      vpu->variant->irqs[i].handler, 0,
+> > > -                                      dev_name(vpu->dev), vpu);
+> > > +                                      vpu->variant->irqs[i].handler,
+> > > +                                      IRQF_SHARED, dev_name(vpu->dev), vpu);
+> > 
+> > Maybe this irq flag should be part of vpu->variant? It sounds like an IP block
+> > integration specific thing.
+> 
+> Ah right, I agree that it would be justified. But it would also be simple to
+> just fix the irq handlers and assume this can generally be the case, because it
+> feels like a bit of a detail to justify a flag.
+> 
+> Do you think this could be a safe/workable assumption?
+> 
+> > Also, you will need a px30-specific interrupt handler now,
+> > since the rk3399 one is not shared-friendly.
+> 
+> Yeah I realize I haven't been very careful there and didn't really check that
+> the IOMMU driver is really safe to handle shared interrupts either. I'll take
+> a look a that when crafting v2.
+> 
+> > >                 if (ret) {
+> > >                         dev_err(vpu->dev, "Could not request %s IRQ.\n",
+> > >                                 irq_name);
+> > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> > > index 34c9e4649a25..07f516fd7a2e 100644
+> > > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > > @@ -148,6 +148,7 @@ enum hantro_enc_fmt {
+> > >         RK3288_VPU_ENC_FMT_UYVY422 = 3,
+> > >  };
+> > >  
+> > > +extern const struct hantro_variant px30_vpu_variant;
+> > >  extern const struct hantro_variant rk3399_vpu_variant;
+> > >  extern const struct hantro_variant rk3328_vpu_variant;
+> > >  extern const struct hantro_variant rk3288_vpu_variant;
+> > > diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > > index 7a7962cf771e..4112f98baa60 100644
+> > > --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > > +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > 
+> > Perhaps it's time to rename this to rockchip_vpu_hw.c,
+> > and merge rk3288 and rk3399? It's a nitpick, though.
+> 
+> Haha, I was thinking the exact same thing but wasn't sure it would be welcome!
+> 
+> I was thinking of rockchip_vpu2_hw.c or rockchip_vdpu2_hw.c since that's
+> apparently how it's called in Rockchip terminology: VDPU2 and VEPU2 for the
+> Hantro G1 and H1 with the shuffled register layout. The rk3288 stuff is
+> probably VDPU1/VEPU1 and we might want to rename it accordingly as well.
+> 
+> Cheers and thanks for the review!
+> 
+> Paul
+> 
+> > > @@ -220,3 +220,24 @@ const struct hantro_variant rk3328_vpu_variant = {
+> > >         .clk_names = rk3399_clk_names,
+> > >         .num_clocks = ARRAY_SIZE(rk3399_clk_names),
+> > >  };
+> > > +
+> > > +static const char * const px30_clk_names[] = {
+> > > +       "aclk", "hclk", "sclk"
+> > > +};
+> > > +
+> > > +const struct hantro_variant px30_vpu_variant = {
+> > > +       .enc_offset = 0x0,
+> > > +       .enc_fmts = rk3399_vpu_enc_fmts,
+> > > +       .num_enc_fmts = ARRAY_SIZE(rk3399_vpu_enc_fmts),
+> > > +       .dec_offset = 0x400,
+> > > +       .dec_fmts = rk3399_vpu_dec_fmts,
+> > > +       .num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
+> > > +       .codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+> > > +                HANTRO_VP8_DECODER,
+> > > +       .codec_ops = rk3399_vpu_codec_ops,
+> > > +       .irqs = rk3399_irqs,
+> > > +       .num_irqs = ARRAY_SIZE(rk3399_irqs),
+> > > +       .init = rk3399_vpu_hw_init,
+> > > +       .clk_names = px30_clk_names,
+> > > +       .num_clocks = ARRAY_SIZE(px30_clk_names)
+> > > +};
+> > 
+> > Thanks,
+> > Ezequiel
+> > 
+> 
 > 
 
-[1] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/vidioc-subdev-enum-frame-size.html
+
+
+
