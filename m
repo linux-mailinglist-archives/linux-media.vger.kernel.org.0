@@ -2,141 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 663912EF888
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 21:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5C282EFBAE
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jan 2021 00:25:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728918AbhAHUHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 15:07:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51160 "EHLO
+        id S1725836AbhAHXZ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 18:25:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727180AbhAHUHv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 15:07:51 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E9CFC061380
-        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 12:07:11 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id o13so25866103lfr.3
-        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 12:07:11 -0800 (PST)
+        with ESMTP id S1725306AbhAHXZ2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 18:25:28 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A14C3C061574;
+        Fri,  8 Jan 2021 15:24:47 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id c133so9020773wme.4;
+        Fri, 08 Jan 2021 15:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vBXrHhQsMSZE24lPYHC5hE8Tvxsqc5QvSO99Uer2dqY=;
-        b=CYo7SNrso54Do6MmIyzyVaUhqI0zqvwDsPmdS0hyjsFX370xglzPaYlMY6kZiBp9ls
-         KF/PxuGWJq3ceChX36JZgI3NkxfXVej3u525jGJOzYxD2Jn/gc3XAcRVXJR1H0h6Yoh8
-         blHEuVnR1bF7GYFV9sFozA9x9FezyzC9pX9aM0P694SJraxLzn0O/7SDeoGdvWxPHNhF
-         q5P+3zPj1yFjIhgO2Wfd7rwR9v9+75JBP4H2NJgPM0OQilzktY5z+phOzC2p2FgI5w+H
-         THvaKX7lDUI3l4cRQsw4mPZTVtlZhpFnB7pWzfBg4/ALhW7w1wSKWtYgZxY0uxJoTW7D
-         GJEQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=ZTVjz7zCgsSu6PVGr/bnHMO3eNJHXSh+io9UTv2G2+8=;
+        b=qKb+hU98rQjhEPlmUg2xbV2M65NyOuB5U9eJEXmhpkEogAeFH1gZ7vof5wKzfgstL5
+         6p4LtFu9y6Eiy/BcFGvv7yfV5CunJwog3bK7ItnmEk6ae4EEJaG58FU1sbmh8JRekxxw
+         +BblvuUTtLO+9O6+wPGDeKtqIb/gPzfnt+lSMNjQmJn4+qeNtocg9VRLJ48D25fROaFv
+         wo7F20BqL4dqj3X03Ndbua4UwCZfLUbDKa2eo5OkSo8uWb9nTrdHjHe+/+REcsj1iarx
+         tJoZhYiNhXwmoXKt18o4s1nwSgou+HsP9Ndf/ews1rxAwAvcA22AzdxI42x4AQIpe6H2
+         LFyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vBXrHhQsMSZE24lPYHC5hE8Tvxsqc5QvSO99Uer2dqY=;
-        b=qvu9lgZ2RHNSqNdfjBqJs58FOMjCEXCWa63XW1hBn8aFOyMMTSeaanZN/VT/9IZhzN
-         TdAMPQqQhfuJHYRs9DT+Gcg6ykuHleYBkngLdHyYand+vLIL9EthC5y4CWeaBS/ArzRh
-         oa18sBJSw/wKutaSeKdsmIT99zSi2YWSv8L+kFStUV3XnsSOW9uERmCBWm+BQKSME0Rc
-         G9Qr4Wt9bji7PrWMbg9URJmlDD5j5x9Iz2V3bV68mvD79mMJc1CEKcQnNqWQiqhSgTa/
-         /3KKcoFwYSDCR3PgibWVttRIHy2UBXjhjySAN3ecHyRwItJnvgtMLVywC45RXMxm6jBS
-         2T4g==
-X-Gm-Message-State: AOAM533wd5ZBFP4bHFHAen/1MW4Rf1x+jfg+/kyMjv4iKNLgVS8UyCsX
-        hLU16qp4BYuNGCIq60QtvznejkvDAxpMdEV+5VGImeFEkbWq8A==
-X-Google-Smtp-Source: ABdhPJxJV8oC668VXcRm1+eI+UwseO9jyPGPM0WN+OvhmO/TzjibXRm7ZB6GKJkJHknJN/pO0gCe6n16FRaa/LRVp/4=
-X-Received: by 2002:a05:651c:2105:: with SMTP id a5mr2055232ljq.170.1610136429775;
- Fri, 08 Jan 2021 12:07:09 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=ZTVjz7zCgsSu6PVGr/bnHMO3eNJHXSh+io9UTv2G2+8=;
+        b=j6KkNRFe8wuZE90z+MdXnPFnjtA75BCOJhGkWRe+NQdaMPm2eDng2R63mYU+Y2y4Uo
+         N+dzQ7uWQSANHWu0yL9c9ExbMtzhbNgYoffa0KY4NJjs6NHEgDHCBESGBaE3n+ldVxFV
+         g9x+L8ICeZaRqWjChlBhSfd3vJQrOh+/kG2KAomCuyeows8alTCNCCya5Fb1sbAv2n/W
+         gYbV9kY76eHsOaciqRF2LVQs5TaTtkdS4gVIZIbT5fNuFCaWL77ivKi5r0AoWA97rumd
+         qtMdJ/9zDqBtwTWaHKJZ0ej8wv66c5KYw8H7vyP4poby2oNd1RnYmPhXZ50kwT32cd4w
+         0fDQ==
+X-Gm-Message-State: AOAM530anBokXK9sXrMMFE7K5pCZmbyAobMx8bvb3nSsvfs33v4tpqdQ
+        gb/IizgNSpeByKUpOuKwnSU=
+X-Google-Smtp-Source: ABdhPJwK4d0nHoCWkgUEfRiA/81UbPANMjLuiyUl1XoiJ/Fh8XDuz2QHzVAo/qI23xyAMUYFIMpgxA==
+X-Received: by 2002:a1c:5fd4:: with SMTP id t203mr4797925wmb.15.1610148286192;
+        Fri, 08 Jan 2021 15:24:46 -0800 (PST)
+Received: from [192.168.1.211] ([2.29.208.120])
+        by smtp.gmail.com with ESMTPSA id q15sm14372061wrw.75.2021.01.08.15.24.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Jan 2021 15:24:45 -0800 (PST)
+Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@acpica.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jordan Hand <jorhand@linux.microsoft.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-19-djrscally@gmail.com>
+ <20201130200719.GB4077@smile.fi.intel.com>
+ <778f23fc-b99c-33a2-642d-ca0e47fd4ed5@gmail.com>
+ <CAHp75VeYOqJt9iKaGPA4=dkb2kYUbqUV4PGTn8uSsnUt_kSGSw@mail.gmail.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <360b3783-b0ff-bdb8-5bcf-ec88a554503f@gmail.com>
+Date:   Fri, 8 Jan 2021 23:24:44 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1609962554-13872-1-git-send-email-veeras@codeaurora.org> <1609962554-13872-2-git-send-email-veeras@codeaurora.org>
-In-Reply-To: <1609962554-13872-2-git-send-email-veeras@codeaurora.org>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Fri, 8 Jan 2021 12:06:58 -0800
-Message-ID: <CALAqxLUwg+zu8QqFimozkOM3jFk-K24syaAiGkD+5rf-FrKBBA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 2/2] drm/drm_vblank: set the dma-fence timestamp
- during send_vblank_event
-To:     Veera Sundaram Sankaran <veeras@codeaurora.org>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, abhinavk@codeaurora.org,
-        pdhaval@codeaurora.org, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHp75VeYOqJt9iKaGPA4=dkb2kYUbqUV4PGTn8uSsnUt_kSGSw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 7, 2021 at 12:54 AM Veera Sundaram Sankaran
-<veeras@codeaurora.org> wrote:
->
-> The explicit out-fences in crtc are signaled as part of vblank event,
-> indicating all framebuffers present on the Atomic Commit request are
-> scanned out on the screen. Though the fence signal and the vblank event
-> notification happens at the same time, triggered by the same hardware
-> vsync event, the timestamp set in both are different. With drivers
-> supporting precise vblank timestamp the difference between the two
-> timestamps would be even higher. This might have an impact on use-mode
-> frameworks using these fence timestamps for purposes other than simple
-> buffer usage. For instance, the Android framework [1] uses the
-> retire-fences as an alternative to vblank when frame-updates are in
-> progress. Set the fence timestamp during send vblank event using a new
-> drm_send_event_timestamp_locked variant to avoid discrepancies.
->
-> [1] https://android.googlesource.com/platform/frameworks/native/+/master/
-> services/surfaceflinger/Scheduler/Scheduler.cpp#397
->
-> Changes in v2:
-> - Use drm_send_event_timestamp_locked to update fence timestamp
-> - add more information to commit text
+Hi Andy
 
-Thanks for sending this out! One small note:
-
-> @@ -775,6 +775,49 @@ void drm_event_cancel_free(struct drm_device *dev,
->  EXPORT_SYMBOL(drm_event_cancel_free);
+On 08/01/2021 12:17, Andy Shevchenko wrote:
+> On Fri, Jan 8, 2021 at 1:56 AM Daniel Scally <djrscally@gmail.com> wrote:
+>> On 30/11/2020 20:07, Andy Shevchenko wrote:
+>>> On Mon, Nov 30, 2020 at 01:31:29PM +0000, Daniel Scally wrote:
+> ...
 >
->  /**
-> + * drm_send_event_timestamp_locked - send DRM event to file descriptor
-> + * @dev: DRM device
-> + * @e: DRM event to deliver
-> + * @timestamp: timestamp to set for the fence event
-> + *
-> + * This function sends the event @e, initialized with drm_event_reserve_init(),
-> + * to its associated userspace DRM file. Callers must already hold
-> + * &drm_device.event_lock, see drm_send_event() for the unlocked version.
-> + *
-> + * Note that the core will take care of unlinking and disarming events when the
-> + * corresponding DRM file is closed. Drivers need not worry about whether the
-> + * DRM file for this event still exists and can call this function upon
-> + * completion of the asynchronous work unconditionally.
-> + */
-> +void drm_send_event_timestamp_locked(struct drm_device *dev,
-> +                       struct drm_pending_event *e, ktime_t timestamp)
-> +{
-> +       assert_spin_locked(&dev->event_lock);
-> +
-> +       if (e->completion) {
-> +               complete_all(e->completion);
-> +               e->completion_release(e->completion);
-> +               e->completion = NULL;
-> +       }
-> +
-> +       if (e->fence) {
-> +               dma_fence_signal_timestamp(e->fence, timestamp);
-> +               dma_fence_put(e->fence);
-> +       }
-> +
-> +       if (!e->file_priv) {
-> +               kfree(e);
-> +               return;
-> +       }
-> +
-> +       list_del(&e->pending_link);
-> +       list_add_tail(&e->link,
-> +                     &e->file_priv->event_list);
-> +       wake_up_interruptible(&e->file_priv->event_wait);
-> +}
-> +EXPORT_SYMBOL(drm_send_event_timestamp_locked);
+>>> It's solely Windows driver design...
+>>> Luckily I found some information and can clarify above table:
+>>>
+>>> 0x00 Reset
+>>> 0x01 Power down
+>>> 0x0b Power enable
+>>> 0x0c Clock enable
+>>> 0x0d LED (active high)
+>>>
+>>> The above text perhaps should go somewhere under Documentation.
+>> Coming back to this; there's a bit of an anomaly with the 0x01 Power
+>> Down pin for at least one platform.  As listed above, the OV2680 on one
+>> of my platforms has 3 GPIOs defined, and the table above gives them as
+>> type Reset, Power down and Clock enable. I'd assumed from this table
+>> that "power down" meant a powerdown GPIO (I.E. the one usually called
+>> PWDNB in Omnivision datasheets and "powerdown" in drivers), but the
+>> datasheet for the OV2680 doesn't list a separate reset and powerdown
+>> pin, but rather a single pin that performs both functions.
+> All of them are GPIOs, the question here is how they are actually
+> connected on PCB level and I have no answer to that. You have to find
+> schematics somewhere.
 
-This seems to duplicate much of drm_send_event_locked().  Should a
-common backend function be used between them?
+Yeah; I've been trying to get those but so far, no dice.
 
-thanks
--john
+>
+>> Am I wrong to treat that as something that ought to be mapped as a
+>> powerdown GPIO to the sensors? Or do you know of any other way to
+>> reconcile that discrepancy?
+> The GPIOs can go directly to the sensors or be a control pin for
+> separate discrete power gates.
+> So, we can do one of the following:
+>  a) present PD GPIO as fixed regulator;
+>  b) present PD & Reset GPIOs as regulator;
+>  c) provide them as is to the sensor and sensor driver must do what it
+> considers right.
+>
+> Since we don't have schematics (yet?) and we have plenty of variations
+> of sensors, I would go to c) and update the driver of the affected
+> sensor as needed. Because even if you have separate discrete PD for
+> one sensor on one platform there is no guarantee that it will be the
+> same on another. Providing a "virtual" PD in a sensor that doesn't
+> support it is the best choice I think. Let's hear what Sakari and
+> other experienced camera sensor developers say.
+>
+> My vision is purely based on electrical engineering background,
+> experience with existing (not exactly camera) sensor drivers and
+> generic cases.
+
+Alright; thanks. I'm happy with C being the answer, so unless someone
+thinks differently I'll work on that basis.
+
+>> Failing that; the only way I can think to handle this is to register
+>> proxy GPIO pins assigned to the sensors as you suggested previously, and
+>> have them toggle the GPIO's assigned to the INT3472 based on platform
+>> specific mapping data (I.E. we register a pin called "reset", which on
+>> most platforms just toggles the 0x00 pin, but on this specific platform
+>> would drive both 0x00 and 0x01 together. We're already heading that way
+>> for the regulator consumer supplies so it's sort of nothing new, but I'd
+>> still rather not if it can be avoided.
+>
