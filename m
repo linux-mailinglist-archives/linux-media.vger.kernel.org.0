@@ -2,117 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00D912EEDD1
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 08:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09CC82EEE8A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 09:25:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726474AbhAHHYq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 02:24:46 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:13994 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725308AbhAHHYq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 02:24:46 -0500
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 07 Jan 2021 23:24:06 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 07 Jan 2021 23:24:04 -0800
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 08 Jan 2021 12:53:51 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id EC40E2149A; Fri,  8 Jan 2021 12:53:49 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH RESEND v3] venus: venc: set inband mode property to FW.
-Date:   Fri,  8 Jan 2021 12:53:37 +0530
-Message-Id: <1610090618-30070-1-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        id S1727767AbhAHIYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 03:24:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59022 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727396AbhAHIYW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Jan 2021 03:24:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 907DB2343B;
+        Fri,  8 Jan 2021 08:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610094222;
+        bh=Kb16w298kZTAlEWpzqllvq2hovbvuFFho6Aectf+P2Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WamJreZb+aHOCvWYMI4fEqI0PlJQZ8fbipCb3x7HG2ff1xkqKyTazUHc63vjUQFC2
+         TieFRi213IHgRdBymssxUlqO2qHmocTOqOigzhktw+QqeKraljxk4UbgVS3Zs2yWwQ
+         BV5j9DaKfC7N3GINFqM9Kfxc6QHIWG4OcoqoaEEtSesJmV164OAIgR/t02AnNREbcx
+         LEu4aT6jYoXEQbvusL6PRBD3eT+UFx361idz170TYzlR1JnGkK3gAiqg26vdxZmRRQ
+         a9wXynGOPx9+JRob6sYUj2jnT3YigRcR4H4WlkIUAtmW9a4xRQLdn4W59OvzpXmtBe
+         qBtvpyc30e2oA==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: fix Wvisiblity warning
+Date:   Fri,  8 Jan 2021 09:23:28 +0100
+Message-Id: <20210108082337.2305938-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-set HFI_PROPERTY_CONFIG_VENC_SYNC_FRAME_SEQUENCE_HEADER to FW
-to support inband sequence header mode.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Some randconfig builds include ia_css_firmware.h without first
+including linux/device.h:
 
-Changes since v2:
-- fixed Null pointer dereference (Stanimir, Fritz)
-- added set property call at correct place.
+In file included from atomisp/pci/mmu/sh_mmu_mrfld.c:23:
+In file included from atomisp/pci/atomisp_compat.h:22:
+In file included from atomisp/pci/atomisp_compat_css20.h:24:
+In file included from atomisp/pci/ia_css.h:28:
+In file included from atomisp/pci/ia_css_control.h:25:
+drivers/staging/media/atomisp//pci/ia_css_firmware.h:52:29: error: declaration of 'struct device' will not be visible outside of this function [-Werror,-Wvisibility]
+
+Add a forward declaration to avoid the warning.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/platform/qcom/venus/venc.c       | 14 ++++++++++++++
- drivers/media/platform/qcom/venus/venc_ctrls.c | 17 ++++++++++++++++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
+ drivers/staging/media/atomisp/pci/ia_css_firmware.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 3a2e449..ae21a7c 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -536,6 +536,7 @@ static int venc_set_properties(struct venus_inst *inst)
- 	struct hfi_idr_period idrp;
- 	struct hfi_quantization quant;
- 	struct hfi_quantization_range quant_range;
-+	struct hfi_enable en;
- 	u32 ptype, rate_control, bitrate;
- 	u32 profile, level;
- 	int ret;
-@@ -655,6 +656,19 @@ static int venc_set_properties(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_firmware.h b/drivers/staging/media/atomisp/pci/ia_css_firmware.h
+index edab72256494..38f0408947d1 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_firmware.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_firmware.h
+@@ -30,6 +30,8 @@ struct ia_css_fw {
+ 	unsigned int bytes; /** length in bytes of firmware data */
+ };
  
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-+	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		ptype = HFI_PROPERTY_CONFIG_VENC_SYNC_FRAME_SEQUENCE_HEADER;
-+		if (ctr->header_mode == V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE)
-+			en.enable = 0;
-+		else
-+			en.enable = 1;
++struct device;
 +
-+		ret = hfi_session_set_property(inst, ptype, &en);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (!ctr->bitrate_peak)
- 		bitrate *= 2;
- 	else
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index cf860e6..3ce02ad 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -158,6 +158,20 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
- 		ctr->header_mode = ctrl->val;
-+		mutex_lock(&inst->lock);
-+		if (inst->streamon_out && inst->streamon_cap) {
-+			if (ctrl->val == V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE)
-+				en.enable = 0;
-+			else
-+				en.enable = 1;
-+			ptype = HFI_PROPERTY_CONFIG_VENC_SYNC_FRAME_SEQUENCE_HEADER;
-+			ret = hfi_session_set_property(inst, ptype, &en);
-+			if (ret) {
-+				mutex_unlock(&inst->lock);
-+				return ret;
-+			}
-+		}
-+		mutex_unlock(&inst->lock);
- 		break;
- 	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:
- 		break;
-@@ -289,7 +303,8 @@ int venc_ctrl_init(struct venus_inst *inst)
- 	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
- 		V4L2_CID_MPEG_VIDEO_HEADER_MODE,
- 		V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME,
--		1 << V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME,
-+		~((1 << V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE) |
-+		(1 << V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME)),
- 		V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE);
- 
- 	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
+ /* @brief Loads the firmware
+  * @param[in]	env		Environment, provides functions to access the
+  *				environment in which the CSS code runs. This is
 -- 
-2.7.4
+2.29.2
 
