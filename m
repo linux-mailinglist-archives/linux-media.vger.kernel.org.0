@@ -2,71 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64A1E2EF2C9
-	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 14:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80D3B2EF2E9
+	for <lists+linux-media@lfdr.de>; Fri,  8 Jan 2021 14:15:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727566AbhAHNAZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 08:00:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59476 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726545AbhAHNAY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Jan 2021 08:00:24 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DC6EB23884
-        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 12:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610110784;
-        bh=BTjkIjNo6NpfBPhuXpVpEVPxTh/ZzLyxZIQKnD1tukw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b7ugSOPXg7hh5k4xQiiDq3Fsa7zAp85oLOgbT2R6h6KnnQzuQj9KYKOI5ZG1960nj
-         SPtrYYzW0tzV5321xoFsjo+ga2AHE0QKPjATjAzFuCxT2m6tVeCvRmuQLrqQYG0ZMD
-         btX2Riu+zWfeU/Ai44XXEkIWphlypYLowRCTfdLbbP9CSGinBhkmRFWdf7NO4VqwAA
-         7VLUrGu6z/ho3GQhh4BfQjQ/sAihPD5FFsuKDHQiPBGRnmKeWMAYMtO7qTqGR1zgaa
-         27r2gLmMcHv3RChWIADQwl7dzibP+OD/+sfZ99rOKT7gK1XeMvTS8xt/RtcbDywv3I
-         orQmMPdgBsCdA==
-Received: by mail-ot1-f44.google.com with SMTP id r9so9498025otk.11
-        for <linux-media@vger.kernel.org>; Fri, 08 Jan 2021 04:59:43 -0800 (PST)
-X-Gm-Message-State: AOAM530SvSINUdgZr46gpz2T5fEFUNyNz6iJCXiEE0ZyFKt7n5nqT5AX
-        8gJUqWePs+4Kh4PzNyq7XEv6rOTuxhw+7MqwcKU=
-X-Google-Smtp-Source: ABdhPJxPbFXlMEqXIoihrrXpbX0xaUDjzMb5Oi2IPMwipIFc3Gvs2WenodK/X/cCNYkYWteYtUlX6zETFp94vbKtrws=
-X-Received: by 2002:a9d:7a4b:: with SMTP id z11mr2460200otm.305.1610110783103;
- Fri, 08 Jan 2021 04:59:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20210104165739.116404-1-ezequiel@collabora.com> <20210104165739.116404-2-ezequiel@collabora.com>
-In-Reply-To: <20210104165739.116404-2-ezequiel@collabora.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Fri, 8 Jan 2021 13:59:27 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3E4z50fecwFdwmMjj8Pk5_BoT8E1LNKAnsvgPfsdEhAw@mail.gmail.com>
-Message-ID: <CAK8P3a3E4z50fecwFdwmMjj8Pk5_BoT8E1LNKAnsvgPfsdEhAw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] media: mach-pxa: Register the camera sensor
- fixed-rate clock
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Collabora kernel ML <kernel@collabora.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S1727247AbhAHNO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 08:14:28 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51426 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726992AbhAHNO2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 08:14:28 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id B596C1F469E7
+Message-ID: <f9a163675ae05cc77b2d527ea5d68064fbbeead9.camel@collabora.com>
+Subject: Re: [PATCH 5/5] media: hantro: Add support for the Rockchip PX30
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Jacob Chen <jacob-chen@iotwrt.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Fri, 08 Jan 2021 10:13:36 -0300
+In-Reply-To: <X/ggTOOTBhGoFDpW@aptenodytes>
+References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com>
+         <20210107134101.195426-6-paul.kocialkowski@bootlin.com>
+         <f7291b83fe39d71c3192ea58ebf71e3909bd38af.camel@collabora.com>
+         <X/ggTOOTBhGoFDpW@aptenodytes>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 4, 2021 at 5:57 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
->
-> The pxa-camera capture driver currently registers a v4l2-clk
-> clock, named "mclk", to represent the mt9m111 sensor clock.
->
-> Register a proper fixed-rate clock using the generic clock framework,
-> which will allow to remove the v4l2-clk clock in the pxa-camera
-> driver in a follow-up commit.
->
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+On Fri, 2021-01-08 at 10:05 +0100, Paul Kocialkowski wrote:
+> Hi Ezequiel,
+> 
+> On Thu 07 Jan 21, 16:08, Ezequiel Garcia wrote:
+> > Happy to see this patch. It was on my TODO list,
+> > but I hadn't had time to bringup my rk3326 device.
+> 
+> Same here, I just had an occasion to use it again these days so I jumped
+> on it!
+> 
+> > A few comments.
+> > 
+> > On Thu, 2021-01-07 at 14:41 +0100, Paul Kocialkowski wrote:
+> > > The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are similar
+> > > to the RK3399 (Hantro G1/H1 with shuffled registers).
+> > > 
+> > > Besides taking an extra clock, it also shares an interrupt with the IOMMU
+> > > so it's necessary to request the interrupt shared.
+> > > 
+> > 
+[..]
+> > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> > > index 34c9e4649a25..07f516fd7a2e 100644
+> > > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > > @@ -148,6 +148,7 @@ enum hantro_enc_fmt {
+> > >         RK3288_VPU_ENC_FMT_UYVY422 = 3,
+> > >  };
+> > >  
+> > > +extern const struct hantro_variant px30_vpu_variant;
+> > >  extern const struct hantro_variant rk3399_vpu_variant;
+> > >  extern const struct hantro_variant rk3328_vpu_variant;
+> > >  extern const struct hantro_variant rk3288_vpu_variant;
+> > > diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > > index 7a7962cf771e..4112f98baa60 100644
+> > > --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > > +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > 
+> > Perhaps it's time to rename this to rockchip_vpu_hw.c,
+> > and merge rk3288 and rk3399? It's a nitpick, though.
+> 
+> Haha, I was thinking the exact same thing but wasn't sure it would be welcome!
+> 
+> I was thinking of rockchip_vpu2_hw.c or rockchip_vdpu2_hw.c since that's
+> apparently how it's called in Rockchip terminology: VDPU2 and VEPU2 for the
+> Hantro G1 and H1 with the shuffled register layout. The rk3288 stuff is
+> probably VDPU1/VEPU1 and we might want to rename it accordingly as well.
+> 
 
-If there are no objections to the change itself, please take it through
-the v4l2 git tree. For arch/arm/mach-*/
+I'd rather keep it simple as rockchip_vpu_hw.c and just throw in there
+all the rockchip stuff.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Thanks,
+Ezequiel
+
