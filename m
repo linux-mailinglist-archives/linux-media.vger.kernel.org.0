@@ -2,123 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C292EFC9A
-	for <lists+linux-media@lfdr.de>; Sat,  9 Jan 2021 02:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB7332EFC9E
+	for <lists+linux-media@lfdr.de>; Sat,  9 Jan 2021 02:12:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725861AbhAIBKl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Jan 2021 20:10:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44740 "EHLO
+        id S1726407AbhAIBLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Jan 2021 20:11:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725817AbhAIBKk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 20:10:40 -0500
+        with ESMTP id S1726402AbhAIBLo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Jan 2021 20:11:44 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71077C061573
-        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 17:10:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E926C061573
+        for <linux-media@vger.kernel.org>; Fri,  8 Jan 2021 17:11:04 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD218DA;
-        Sat,  9 Jan 2021 02:09:58 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 046FDDA;
+        Sat,  9 Jan 2021 02:11:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610154598;
-        bh=ErDdCP2F8LdyUk3AH5fI+psfl+LRxANcP+6uXVkXB20=;
+        s=mail; t=1610154663;
+        bh=vgQe4vhX4wb01npxhMEht4ZlvF5nje3y96Dc+DQF3GE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UReDswvXJ6EyntU/yKOeBbpVUeJfU/eHyxXWQaK/gT5US3gIAn7rp9Qoqbx2K/Tml
-         Ryn8wVqdeUh30VOjDWYa/Crl3mYih8FNq27kZWtNiDGXaiCDLabhrQi8eezdNGuxYm
-         8o/sRwb/JaWEt+AgSkLcEdhsGFjcMvXPX+OM2vv4=
-Date:   Sat, 9 Jan 2021 03:09:45 +0200
+        b=Qxp3XMRxj1EDEzloS+zPd4rATg8/sIL6sJM3eIdJKP64ZuHbLAfiqIRibqK25LBsG
+         9t78b8cU9SbHSl21rhRqpQKoIa2PCzqYs4R49B0nD2TYaSk+BaL12bHsyp2l7mGO8U
+         ds2jIEKr7tSwz4dzp22KcqdzTeQ0YwOyjjrA2ZGY=
+Date:   Sat, 9 Jan 2021 03:10:50 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH 20/75] media: imx: capture: Rename ioctl operations with
- legacy prefix
-Message-ID: <X/kCWdynMK8w4sV+@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 00/75] media: imx: Miscellaneous fixes and cleanups for
+ i.MX7
+Message-ID: <X/kCmomKdjh3Yepp@pendragon.ideasonboard.com>
 References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
- <20210105152852.5733-21-laurent.pinchart@ideasonboard.com>
- <e47bf3ba-6d9a-52cf-f232-ce4b02a46e2e@gmail.com>
- <fbf3aaa4454f2ada8f7b8f5e8b990a4e66577427.camel@pengutronix.de>
+ <CAOMZO5CaWvRGV0Zc4AS6Uexh5uR5jkCG4MkEMkW-YU3NPOVg8g@mail.gmail.com>
+ <X/XaJ0UA04ekdWpi@pendragon.ideasonboard.com>
+ <CAOMZO5CkT1i3TMhC=VuZ4c3B6VnKX7jDj6wYON9VLMyQdDODKA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <fbf3aaa4454f2ada8f7b8f5e8b990a4e66577427.camel@pengutronix.de>
+In-Reply-To: <CAOMZO5CkT1i3TMhC=VuZ4c3B6VnKX7jDj6wYON9VLMyQdDODKA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+Hi Fabio,
 
-On Thu, Jan 07, 2021 at 11:52:33AM +0100, Philipp Zabel wrote:
-> On Wed, 2021-01-06 at 09:51 -0800, Steve Longerbeam wrote:
-> > Hi Laurent,
-> > 
-> > I guess I have fallen behind the times with v4l2, but I wasn't aware 
-> > that the /dev/video nodes and VIDIOC_* APIs are now considered legacy!
+On Wed, Jan 06, 2021 at 06:10:44PM -0300, Fabio Estevam wrote:
+> On Wed, Jan 6, 2021 at 12:41 PM Laurent Pinchart wrote:
 > 
-> I don't think Laurent considers the video node legacy, just the fact
-> that the current implementation looks at the subdev source pad's active
-> format in ENUM_FRAMESIZES and ENUM_/G/S/TRY_FMT.
-
-Correct. The legacy part here is control of the source subdev through
-the video node. It should instead be handled with the media controller
-API. The DMA engine side is still handled through the video node, and
-that's totally fine.
-
-> I see the behavior of VIDIOC_ENUM_FMT was extended/defined for MC-
-> centric devices last year, to allow enumerating all pixel formats or
-> filter pixel formats for a given mbus format:
+> > Would you be able to bisect this ?
 > 
-> e5b6b07a1b45 ("media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices")
-> cfe9e707c564 ("media: open.rst: document mc-centric and video-node-centric")
+> Sure, the commit the broke camera capture on a imx6ul-evk board was:
 > 
-> > On 1/5/21 7:27 AM, Laurent Pinchart wrote:
-> > > The i.MX media drivers implement a legacy video node API, where the
-> > > format of the video node is influenced by the active format of the
-> > > connected subdev (both for enumeration and for the get, set and try
-> > > format ioctls), and where controls exposed by the subdevs in the
-> > > pipeline are inherited by the video node.
+> commit d2c66a98046a42ccb7d8a7b761a5dd6867815171
+> Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Date:   Tue Mar 10 16:04:01 2020 +0200
 > 
-> But I don't quite understand why G/S/TRY_FMT should not respect the
-> connected subdev source pad's active format. Should MC-centric devices
-> allow to set non-working configurations and only error out on stream
-> start? Is this documented?
+>     media: imx: imx7-media-csi: Disable legacy video node API
+> 
+>     Support for the MC-centric API has been tested on the i.MX7. Enable it
+>     for that platform. i.MX6 should be converted next.
+> 
+>     Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> If I use your imx/csi/imx7 branch, and then revert the above commit,
+> camera capture works for me (with the additional patch from me and Rui
+> as discussed in the other thread).
 
-It's the currently recommended practice, but I'm not sure it's
-documented.
-
-There are multiple issues here. One of them is that we could limit
-VIDIOC_S_FMT to formats compatible with the connected source subdev with
-minimum complexity in the implementation, but the source subdev could
-then see its configuration being changed by userspace, and updating the
-format on the video node automatically would be not only more difficult,
-but potentially confusing for userspace as formats are not supposed to
-change automatically. For this reason, we need to validate the full
-pipeline at stream on time in any case, and restricting the format
-ioctls on the video node to the active configuration of the connected
-subdev would thus not be that useful.
-
-Another issue is that we've had cases in the past where it was useful
-for userspace to configure the video node with a format not matching the
-connected subdev, with the subdev configuration later being changed to
-match the video node, before starting the stream. I'm not sure if this
-use case is still valid today though.
-
-> The current "legacy" vb2_ops check the subdev in ENUM_FRAMESIZES and
-> ENUM_FRAMEINTERVALS, and in TRY_FMT/S_FMT to determine format and
-> possible interlacing options. If the MC-centric ops just drop that,
-> there is no way to determine which interlacing combinations are actually
-> supported.
-
-Could you elaborate a little bit here ? We don't have an API to
-explicitly enumerate supported interlacing types. This can be done by
-calling VIDIOC_TRY_FMT with all field types and see which ones are
-supported. You can still do so with the MC-based API, the video node
-will return from VIDIOC_TRY_FMT the interlacing types intrinsicly
-supported by the video node, and you can query from the source subdev
-the interlacing types supported by the source. Userspace can then
-combine the information to find what is supported. In this case, with a
-source producing V4L2_FIELD_SEQ_TB, and the video node not reporting
-V4L2_FIELD_SEQ_TB but reporting V4L2_FIELD_INTERLACED_TB, wouldn't the
-application be able to know that V4L2_FIELD_INTERLACED_TB will work ?
+Ah of course, I should have mentioned that, sorry. Without the legacy
+video node API, the pipeline has to be configured with the MC API and
+the V4L2 subdev userspace API before starting the stream.
 
 -- 
 Regards,
