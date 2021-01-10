@@ -2,105 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0C512F0837
-	for <lists+linux-media@lfdr.de>; Sun, 10 Jan 2021 16:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 209882F09A7
+	for <lists+linux-media@lfdr.de>; Sun, 10 Jan 2021 21:14:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbhAJPxt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Jan 2021 10:53:49 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36128 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726263AbhAJPxt (ORCPT
+        id S1726908AbhAJUMS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Jan 2021 15:12:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726697AbhAJUMR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Jan 2021 10:53:49 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1BB2DA;
-        Sun, 10 Jan 2021 16:53:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610293986;
-        bh=mdp/42K9ju2NRuvkRPWyCbi9pUrRQdaXR83ukN6BuR4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RMfhimpuuC7SP/wI7LlPTD3bHKeXEmS/cbmxHGPjZ2rAxeSMC+O4MIykKQlGnvoMU
-         JTQUO005IfZxaEQ5jJR7xcvCJqFdgWEkX0SNOb+huNeu4OXsbit3or9Smd2I5qFwWT
-         kfW8ZFdH5VyHZPARmUtGIXp/FXQJd6w6pkUenk40=
-Date:   Sun, 10 Jan 2021 17:52:52 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devel@acpica.org" <devel@acpica.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "lenb@kernel.org" <lenb@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "yong.zhi@intel.com" <yong.zhi@intel.com>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "bingbu.cao@intel.com" <bingbu.cao@intel.com>,
-        "tian.shu.qiu@intel.com" <tian.shu.qiu@intel.com>,
-        "robert.moore@intel.com" <robert.moore@intel.com>,
-        "erik.kaneda@intel.com" <erik.kaneda@intel.com>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "jacopo+renesas@jmondi.org" <jacopo+renesas@jmondi.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "m.felsch@pengutronix.de" <m.felsch@pengutronix.de>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        "prabhakar.mahadev-lad.rj@bp.renesas.com" 
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
-        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH v5 09/15] lib/test_printf.c: Use helper function to
- unwind array of software_nodes
-Message-ID: <X/si1LAnrY1YpKWa@pendragon.ideasonboard.com>
-References: <20210107132838.396641-1-djrscally@gmail.com>
- <20210107132838.396641-10-djrscally@gmail.com>
- <X/kOYeZtkCspoAC5@pendragon.ideasonboard.com>
- <CAHp75VeLiMdzXL3Awhco-w6JwJhZNVao_uj7F6bmuty_aW0SNQ@mail.gmail.com>
- <X/riDXHahRAXCQXC@pendragon.ideasonboard.com>
- <CAHp75VcntC5O8v8Q40Vw1oh9c-2eaq_ZRtjFLo1OFrwfku90Pw@mail.gmail.com>
+        Sun, 10 Jan 2021 15:12:17 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B01EC061794
+        for <linux-media@vger.kernel.org>; Sun, 10 Jan 2021 12:11:37 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id m5so14313375wrx.9
+        for <linux-media@vger.kernel.org>; Sun, 10 Jan 2021 12:11:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=vzqtQyMRq4VCQF1VUb0eyXg1Bg4nfSL5atIamSsB9uc=;
+        b=x6LH5YZ4oO5+9nfetywRMADEwS3U7bawPknEEexOvy+CexY+QJbashKsVPIyMqwMgC
+         6R0692/OaofsGMM5qHr6+WI/ZCm3momWjYGvNoN9NvQqwdr+PyBNw3LTHxkdG94s7t8e
+         8MqkEXp7kKTOediovoBQTwS8bw/tKTe8PbeSiy3qXVDf19YE0Y8kE1Wz3RxdVGH7HsK0
+         83Qql7RuMHUInzaieaPxgPzrSqTji74SfwGSiGngmIZ7Z4jJkPo5QeQHTh7xWRRuy+ul
+         QYc/haAKWm78z9SqOxtVuybYYoMUMIcwwCma6k81FHNUtMSfN2ITDTm9NBnf7rynJs36
+         VFsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=vzqtQyMRq4VCQF1VUb0eyXg1Bg4nfSL5atIamSsB9uc=;
+        b=JtWxfm0aZbk+gu51FGpGDUBm8KMt3hj6/8vYnOK8nVH0x5Q/VAHnGGzxWtlGpBzwe7
+         xW8xq/FSXbOJDV2RJmBc1mqa3BxEg8KtyqwStmomnpzk9iZnFTIxrnaJB3W3D3bNsiic
+         0U9bmMx11XfvYUszelPUkA2HzBsnQ5X/2HcFDn8vqZ0nemu99nqA6O9451USfGPEG6FO
+         etCwHz3RrK3DN1Yito6B5jPFtiF5Pz0ozW/NwZ8ANhqXmAEXXgsYvVczW/zhqd6VgYj1
+         2PgpM+OMWoP4csUjF7zZAhEL1PKuaYLlfCcadsSctBRxm9i9cspPFIEKgB8w4zmhZaWG
+         QGRQ==
+X-Gm-Message-State: AOAM531kQAtb47VvyZDtwTE6IugfXvR1W9uuIx7yksxFmr0hJ2z/4rQG
+        FzCdV4mAZYic+IECzTccmtsQAA==
+X-Google-Smtp-Source: ABdhPJz5Dfz18y8QFO6GGNqOBNMf1RBCsaBQ6rZSVsoyLzkwP4MPg+sEKPlH4sybqmqVaN00KS42qg==
+X-Received: by 2002:a05:6000:100f:: with SMTP id a15mr13320174wrx.300.1610309496048;
+        Sun, 10 Jan 2021 12:11:36 -0800 (PST)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id h3sm19805291wmm.4.2021.01.10.12.11.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Jan 2021 12:11:35 -0800 (PST)
+Date:   Sun, 10 Jan 2021 21:11:33 +0100
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     Zheng Yongjun <zhengyongjun3@huawei.com>
+Cc:     mchehab@kernel.org, mjpeg-users@lists.sourceforge.net,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 -next] media: zoran: convert comma to semicolon
+Message-ID: <X/tfdbVP5R2dzMuv@Red>
+References: <20210108092119.18642-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAHp75VcntC5O8v8Q40Vw1oh9c-2eaq_ZRtjFLo1OFrwfku90Pw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210108092119.18642-1-zhengyongjun3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jan 10, 2021 at 05:38:03PM +0200, Andy Shevchenko wrote:
-> On Sun, Jan 10, 2021 at 1:16 PM Laurent Pinchart wrote:
-> > On Sat, Jan 09, 2021 at 11:07:33AM +0200, Andy Shevchenko wrote:
-> > > On Saturday, January 9, 2021, Laurent Pinchart wrote:
-> > > > Could you please let us know if you're fine with this patch getting
-> > > > merged in v5.12 through the linux-media tree ? The cover letter contains
-> > > > additional details (in a nutshell, this is a cross-tree series and we
-> > > > would like to avoid topic branches if possible).
-> > >
-> > > There is already a tag by Petr.
-> >
-> > I saw that, but looking at the corresponding e-mail, there was no clear
-> > acknowledgement that we could merge this patch through a different tree.
+Le Fri, Jan 08, 2021 at 05:21:19PM +0800, Zheng Yongjun a écrit :
+> Replace a comma between expression statements by a semicolon.
 > 
-> Fair point.
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+> ---
+>  drivers/staging/media/zoran/zoran_driver.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> One question though, what so wrong with topic branches.
+> diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
+> index 808196ea5b81..d60b4c73ea80 100644
+> --- a/drivers/staging/media/zoran/zoran_driver.c
+> +++ b/drivers/staging/media/zoran/zoran_driver.c
+> @@ -1020,7 +1020,7 @@ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq)
+>  	vq->buf_struct_size = sizeof(struct zr_buffer);
+>  	vq->ops = &zr_video_qops;
+>  	vq->mem_ops = &vb2_dma_contig_memops;
+> -	vq->gfp_flags = GFP_DMA32,
+> +	vq->gfp_flags = GFP_DMA32;
+>  	vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>  	vq->min_buffers_needed = 9;
+>  	vq->lock = &zr->lock;
+> -- 
+> 2.22.0
+> 
 
-They're not wrong, they just add more complexity as all maintainers
-involved would need to create a topic branch based on v5.11-rc1 and
-merge it in their respective tree. It's certainly doable, but when
-there's no risk of conflict, merging the whole series through a single
-tree is just easier.
+Acked-by: Corentin Labbe <clabbe@baylibre.com>
 
--- 
-Regards,
-
-Laurent Pinchart
+Thanks!
