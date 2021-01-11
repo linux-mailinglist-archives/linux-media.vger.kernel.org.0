@@ -2,143 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E6F12F1C40
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 18:24:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5F4C2F1DAA
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 19:12:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389328AbhAKRX7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 12:23:59 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:50355 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbhAKRX7 (ORCPT
+        id S2390233AbhAKSMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 13:12:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390230AbhAKSMM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 12:23:59 -0500
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 926CBC0005;
-        Mon, 11 Jan 2021 17:23:14 +0000 (UTC)
-Date:   Mon, 11 Jan 2021 18:23:13 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Jacob Chen <jacob-chen@iotwrt.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 5/5] media: hantro: Add support for the Rockchip PX30
-Message-ID: <X/yJgRXToYvYlapj@aptenodytes>
-References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com>
- <20210107134101.195426-6-paul.kocialkowski@bootlin.com>
- <f7291b83fe39d71c3192ea58ebf71e3909bd38af.camel@collabora.com>
- <X/ggTOOTBhGoFDpW@aptenodytes>
- <f9a163675ae05cc77b2d527ea5d68064fbbeead9.camel@collabora.com>
+        Mon, 11 Jan 2021 13:12:12 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E30EC061786
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 10:11:31 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id w1so909667ejf.11
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 10:11:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZheorGSTfgd88VVFRSNsRcjuZSZpq1vykcWg/KvDChs=;
+        b=gs12mhRbkRDLQX/6SckZEyeDpBAdQGlKd4nf/EyWDLEj07/LTf4rYxSUIAPjPFM+PY
+         tC9J3o7p5a4hFG5SPMQ/aBZVGX2bnJ1IBXAWbEFrDOuuYtr7RTgRSbu8M+0CJqzJ7Itn
+         DbnSM1kONKRe+ynT8uTAKESH8tYuaQHn4Y/x6Lk4Pr/wBxxd1y+nnP80GDqQGOg7kwMi
+         WPfuKnQ5RuVQ2nqflScTu8mWUqjSloWUhP+RhXQiZG9e0Xav40Q32v0EfscPAMnUhoIT
+         64YxKGAkWkI7gHnpn4uoBJaSV9D/ZQKQH54fa8lb11gbGqHA18ZOvuA2b7Rz+lRaFtdl
+         8yJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZheorGSTfgd88VVFRSNsRcjuZSZpq1vykcWg/KvDChs=;
+        b=F3HLeVFkZJT5tj25gH1JOgzNTI1u2O4mlCfnkd6pDweINFnV/B32ZwdTNfCaNamUWV
+         h8uU1brEDjDFsZvsYqA7P5ACuu5jWUsK4XnvYQsqwX2FKyJni2NNG2KwkGdaaYq31wzC
+         7IMJwjHTuuFFTlF15UsrRSBiMsk24YaNoFbiiaemHOlj7Q2JS4hzQkd/Q1gsvD2szsCL
+         Co+7FbnOvr1uZ2Q23tWTAN/mTWVpuF5PhwRjQqKiz9C48Da5kN+aCUTQEI1CJ5g0OAlr
+         gvNlZL7z2QPXrWZK3nqbBUnAyMLQH//19ePpQ7z/SV3DtGfz5gLVMz3FTSIOxtzTHXTl
+         vaXQ==
+X-Gm-Message-State: AOAM532G5NuH9/UQ+BHR6+xotnvBE5LhKloO+prWkIDYDGyaXjrt1/zD
+        aJQ5vW3V5z4W1Kf9y9BRku8PsbRs8fidnRX7ScMZMQ==
+X-Google-Smtp-Source: ABdhPJzxgFsUtoVLIF49QjS3VoJV2KHCOv1fviyrbLtL5fuWpUiZwQi1Wh1a6uPJ25egRkVpTjsjP0y69emZDFIBZm0=
+X-Received: by 2002:a17:906:e84:: with SMTP id p4mr490149ejf.141.1610388690333;
+ Mon, 11 Jan 2021 10:11:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="1emMtAQaK8QkpPQv"
-Content-Disposition: inline
-In-Reply-To: <f9a163675ae05cc77b2d527ea5d68064fbbeead9.camel@collabora.com>
+References: <20210111145445.28854-1-ribalda@chromium.org> <20210111145445.28854-7-ribalda@chromium.org>
+In-Reply-To: <20210111145445.28854-7-ribalda@chromium.org>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Mon, 11 Jan 2021 15:11:18 -0300
+Message-ID: <CAAEAJfB5RD8y6fMsqSZp7Xw5656Qyt3pj9G64gsA9xwSePEd9g@mail.gmail.com>
+Subject: Re: [PATCH 6/9] media: sum4i-csi: Do not zero reserved fields
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Ricardo,
 
---1emMtAQaK8QkpPQv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks a lot for doing this media-wide cleanup.
 
-Hi,
+Aside from a silly typo here in the commit title, s/sum4i-csi/sun4i-csi,
+all the patches seem fine.
 
-On Fri 08 Jan 21, 10:13, Ezequiel Garcia wrote:
-> On Fri, 2021-01-08 at 10:05 +0100, Paul Kocialkowski wrote:
-> > Hi Ezequiel,
-> >=20
-> > On Thu 07 Jan 21, 16:08, Ezequiel Garcia wrote:
-> > > Happy to see this patch. It was on my TODO list,
-> > > but I hadn't had time to bringup my rk3326 device.
-> >=20
-> > Same here, I just had an occasion to use it again these days so I jumped
-> > on it!
-> >=20
-> > > A few comments.
-> > >=20
-> > > On Thu, 2021-01-07 at 14:41 +0100, Paul Kocialkowski wrote:
-> > > > The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are sim=
-ilar
-> > > > to the RK3399 (Hantro G1/H1 with shuffled registers).
-> > > >=20
-> > > > Besides taking an extra clock, it also shares an interrupt with the=
- IOMMU
-> > > > so it's necessary to request the interrupt shared.
-> > > >=20
-> > >=20
-> [..]
-> > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/sta=
-ging/media/hantro/hantro_hw.h
-> > > > index 34c9e4649a25..07f516fd7a2e 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > > > @@ -148,6 +148,7 @@ enum hantro_enc_fmt {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0RK3288_VPU_ENC_FMT_=
-UYVY422 =3D 3,
-> > > > =C2=A0};
-> > > > =C2=A0
-> > > > +extern const struct hantro_variant px30_vpu_variant;
-> > > > =C2=A0extern const struct hantro_variant rk3399_vpu_variant;
-> > > > =C2=A0extern const struct hantro_variant rk3328_vpu_variant;
-> > > > =C2=A0extern const struct hantro_variant rk3288_vpu_variant;
-> > > > diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers=
-/staging/media/hantro/rk3399_vpu_hw.c
-> > > > index 7a7962cf771e..4112f98baa60 100644
-> > > > --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
-> > > > +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
-> > >=20
-> > > Perhaps it's time to rename this to rockchip_vpu_hw.c,
-> > > and merge rk3288 and rk3399? It's a nitpick, though.
-> >=20
-> > Haha, I was thinking the exact same thing but wasn't sure it would be w=
-elcome!
-> >=20
-> > I was thinking of rockchip_vpu2_hw.c or rockchip_vdpu2_hw.c since that's
-> > apparently how it's called in Rockchip terminology: VDPU2 and VEPU2 for=
- the
-> > Hantro G1 and H1 with the shuffled register layout. The rk3288 stuff is
-> > probably VDPU1/VEPU1 and we might want to rename it accordingly as well.
-> >=20
->=20
-> I'd rather keep it simple as rockchip_vpu_hw.c and just throw in there
-> all the rockchip stuff.
+Thanks,
+Ezequiel
 
-Do you also mean merging all the rk*_vpu_hw.c files into one or just coveri=
-ng
-the general helpers (and not the platform-specific structures)?
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---1emMtAQaK8QkpPQv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/8iYEACgkQ3cLmz3+f
-v9Go3wf8CY2beRCaepip+ySAr3f0rsAttGwT8TjAqe+dBrzZTyFhjEDEi2azyUgp
-bA49M4gc6+nCMtbfoGmOUrgffYiFy2SJqyTeICeTQviFY9I6xDjUprn5SSO40ohA
-Hh762PMKF47CXeC6mYAQ9Np2merbDP4kqNcUmCNctOKy4mSGec94BgdHIx8ABlBW
-exWvVw8AS0TzMoeIJALRzGV5BMTqKpwb5yHnTdwfN2UtiKJDl2J8GIP2koHTpSDw
-OE6ZVsY7ksYjvu7Kzs8RGjWksHNTViiCHygSrdSIYMYV22H6l5Gj2pgKMWpMs7hR
-I/F/7cVY0gP+RMFIVzTALLgvQWhFIA==
-=fdgl
------END PGP SIGNATURE-----
-
---1emMtAQaK8QkpPQv--
+On Mon, 11 Jan 2021 at 11:56, Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Core code already clears reserved fields of struct
+> v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
+> v4l2_plane_pix_format reserved fields").
+>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+> index 1a2f65d83a6c..4785faddf630 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+> @@ -113,8 +113,6 @@ static void _sun4i_csi_try_fmt(struct sun4i_csi *csi,
+>         pix->num_planes = _fmt->num_planes;
+>         pix->pixelformat = _fmt->fourcc;
+>
+> -       memset(pix->reserved, 0, sizeof(pix->reserved));
+> -
+>         /* Align the width and height on the subsampling */
+>         width = ALIGN(pix->width, _fmt->hsub);
+>         height = ALIGN(pix->height, _fmt->vsub);
+> @@ -131,8 +129,6 @@ static void _sun4i_csi_try_fmt(struct sun4i_csi *csi,
+>                 bpl = pix->width / hsub * _fmt->bpp[i] / 8;
+>                 pix->plane_fmt[i].bytesperline = bpl;
+>                 pix->plane_fmt[i].sizeimage = bpl * pix->height / vsub;
+> -               memset(pix->plane_fmt[i].reserved, 0,
+> -                      sizeof(pix->plane_fmt[i].reserved));
+>         }
+>  }
+>
+> --
+> 2.30.0.284.gd98b1dd5eaa7-goog
+>
