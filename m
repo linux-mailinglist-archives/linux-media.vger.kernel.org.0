@@ -2,265 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 849EB2F192C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 16:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D48842F193E
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 16:13:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730795AbhAKPGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 10:06:10 -0500
-Received: from vegas.theobroma-systems.com ([144.76.126.164]:59164 "EHLO
-        mail.theobroma-systems.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726459AbhAKPGK (ORCPT
+        id S1730746AbhAKPM0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 10:12:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727957AbhAKPMZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 10:06:10 -0500
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]:50370 helo=diego.localnet)
-        by mail.theobroma-systems.com with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <heiko.stuebner@theobroma-systems.com>)
-        id 1kyykz-0001pU-2k; Mon, 11 Jan 2021 16:05:21 +0100
-From:   Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        kever.yang@rock-chips.com, Eddie Cai <eddie.cai@rock-chips.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org,
-        christoph.muellner@theobroma-systems.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Collabora Kernel ML <kernel@collabora.com>
-Subject: Re: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
-Date:   Mon, 11 Jan 2021 16:05:20 +0100
-Message-ID: <15789743.geO5KgaWL5@diego>
-Organization: Theobroma Systems
-In-Reply-To: <X/ww2Bfvr8WE/Yz6@pendragon.ideasonboard.com>
-References: <3342088.iIbC2pHGDl@diego> <1704014.3VsfAaAtOV@diego> <X/ww2Bfvr8WE/Yz6@pendragon.ideasonboard.com>
+        Mon, 11 Jan 2021 10:12:25 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0212C061786
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 07:11:45 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 72CD31F4456C
+Message-ID: <7c87bf467d44d32a3f8d67dec8c581e82b09eaf7.camel@collabora.com>
+Subject: Re: [PATCH] media: imx6-mipi-csi2: Call remote subdev
+ get_mbus_config to get active lanes
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>
+Date:   Mon, 11 Jan 2021 12:11:36 -0300
+In-Reply-To: <cdd4a805-13a7-ab1a-dcf6-1d22c2dde1e5@gmail.com>
+References: <20201229103102.45547-1-ezequiel@collabora.com>
+         <cdd4a805-13a7-ab1a-dcf6-1d22c2dde1e5@gmail.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Steve,
 
-Am Montag, 11. Januar 2021, 12:04:56 CET schrieb Laurent Pinchart:
-> On Mon, Jan 11, 2021 at 11:53:00AM +0100, Heiko Stuebner wrote:
-> > Am Samstag, 9. Januar 2021, 02:21:43 CET schrieb Laurent Pinchart:
-> > > On Fri, Jan 08, 2021 at 04:21:49PM +0100, Dafna Hirschfeld wrote:
-> > > > Am 08.01.21 um 13:05 schrieb Heiko Stuebner:
-> > > > > Am Freitag, 8. Januar 2021, 12:17:43 CET schrieb Dafna Hirschfeld:
-> > > > >> Am 07.01.21 um 21:23 schrieb Heiko Stuebner:
-> > > > >>> the rkisp driver in the mainline Linux kernel moved out of staging with
-> > > > >>> 5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
-> > > > >>>
-> > > > >>> The rkisp driver currently only supports the rk3399 and while working
-> > > > >>> on porting the support for rk3326/px30 I noticed discrepancies.
-> > > > >>>
-> > > > >>> Hence it would be somewhat urgent to clarify this, as later it will get
-> > > > >>> really cumbersome.
-> > > > >>
-> > > > >> I see that we are now on 5.11-rc2 so that gives us about 4-5 weeks,
-> > > > >>
-> > > > >>>
-> > > > >>> ----
-> > > > >>>
-> > > > >>> The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
-> > > > >>
-> > > > >> How do you know that the isp of rk3399 is v10 ? I looked at the RK3399 TRM
-> > > > >> and the datasheet for the isp and could not find this information.
-> > > > > 
-> > > > > That's from Rockchip's upstream sources where they introduced the new code.
-> > > > > There're some (if v12) conditionals in there ;-) .
-> > > > > 
-> > > > >>> Some sub-blocks moved around or seem to have been replaced with newer
-> > > > >>> variants and the gist of changes can be seen in [0] with the important
-> > > > >>> part being the uapi changes [1] and those values also exist in mainline.
-> > > > >>>
-> > > > >>>
-> > > > >>> See functions in that patch:
-> > > > >>> - isp_goc_config_v12()
-> > > > >>> - rkisp1_stats_get_aec_meas_v12()
-> > > > >>> - rkisp1_stats_get_hst_meas_v12()
-> > > > >>>
-> > > > >>> Looking at the code, the register locations are different, for gammas and
-> > > > >>> the histogram the actual amount of raw registers is the same, while the
-> > > > >>> "aec" seems to use 25 registers on V10 while 21 registers on V12. Though
-> > > > >>> their content gets split into multiple values in that v12 variant.
-> > > > >>>
-> > > > >>>
-> > > > >>> As somehow expected the whole thing is pretty undocumented and I
-> > > > >>> have no clue what these "bins" or "gammas" mean and why the amount of
-> > > > >>> entries now differs and how this relates to userspace at all.
-> > > > >>>
-> > > > >>> Also looking through libcamera as the one open user of the driver,
-> > > > >>> the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
-> > > > >>> as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
-> > > > >>> don't seem to be used so far.
-> > > > >>
-> > > > >> yes, that's a shame. There is a simple implementation using the ae in
-> > > > >> stuct rkisp1_cif_isp_stat in src/ipa/rkisp1.c
-> > > > > 
-> > > > > Thanks for pointing me to that :-)
-> > > > > 
-> > > > >>> Hence I also added some Rockchip people in the hope of getting
-> > > > >>> a bit of clarification ;-) .
-> > > > >>>
-> > > > >>> Ideas on how to proceed?
-> > > > >>>
-> > > > >>> Thanks
-> > > > >>> Heiko
-> > > > >>>
-> > > > >>>
-> > > > >>> [0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
-> > > > >>> [1]
-> > > > >>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> > > > >>> index b471f01a8459..fbeb6b5dba03 100644
-> > > > >>> --- a/include/uapi/linux/rkisp1-config.h
-> > > > >>> +++ b/include/uapi/linux/rkisp1-config.h
-> > > > >>> @@ -32,8 +32,8 @@
-> > > > >>>    #define CIFISP_CTK_COEFF_MAX            0x100
-> > > > >>>    #define CIFISP_CTK_OFFSET_MAX           0x800
-> > > > >>>    
-> > > > >>> -#define CIFISP_AE_MEAN_MAX              25
-> > > > >>> -#define CIFISP_HIST_BIN_N_MAX           16
-> > > > >>> +#define CIFISP_AE_MEAN_MAX              81
-> > > > >>> +#define CIFISP_HIST_BIN_N_MAX           32
-> > > > >>>    #define CIFISP_AFM_MAX_WINDOWS          3
-> > > > >>>    #define CIFISP_DEGAMMA_CURVE_SIZE       17
-> > > > >>>    
-> > > > >>> @@ -69,7 +69,7 @@
-> > > > >>>     * Gamma out
-> > > > >>>     */
-> > > > >>>    /* Maximum number of color samples supported */
-> > > > >>> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> > > > >>> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
-> > > > >>
-> > > > >> I see that in that code you use the old names of the registers.
-> > > > >> The names are different in the current version of the driver,
-> > > > >> in the media tree: git://linuxtv.org/media_tree.git
-> > > > >> Also, I guess that instead of changing the values you should
-> > > > >> add a separated define, something like:
-> > > > >>
-> > > > >> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> > > > >> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-> > > > >> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-> > > > > 
-> > > > > Just for clarity, that is Rockchip's commit in their vendor kernel.
-> > > > > I'm just using that as base to get the changes needed for mainline :-) .
-> > > > > 
-> > > > > The main issue I see is that these max-values directly influence the sizes
-> > > > > of arrays inside the uapi - where the "v12" seems to need bigger arrays
-> > > > > on first glance.
-> > > > > ^^^ which is essentially the part I'm mostly worried about
-> > > > 
-> > > > Oh, ok, I thought it's your code.
-> > > > So maybe we should change the uapi to look like:
-> > > > 
-> > > > /* v10 is the isp version for rk3399 */
-> > > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-> > > > /* v12 is the isp version for rk3326/px30 */
-> > > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-> > > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES       CIFISP_GAMMA_OUT_MAX_SAMPLES_v12
-> > > > 
-> > > > This way we inform userspace how many samples are supported according to the
-> > > > version.
-> > > > I don't know if there are other versions with higher maximum,
-> > > > 
-> > > > What do you think?
-> > > 
-> > > This makes sense to me. Userspace will need to know how many samples are
-> > > actually present in the array, so corresponding macros should be defined
-> > > in the header.
-> > 
-> > ok, though as it seems to have been discussed on irc, we'll also need a
-> > version field to indicate the IP version.
+On Fri, 2021-01-08 at 11:10 -0800, Steve Longerbeam wrote:
 > 
-> In the statistics buffer that could be done, but in the params buffer it
-> won't help userspace figure out what version of the IP is in use as
-> params are filled by the application, not the kernel. I think reporting
-> the IP version through the media controller API should be enough,
-> possibly in media_device_info.hw_revision, and/or in the model string.
-
-hw_revision sounds like the ideal place :-)
-
-and I've added a line doing that, thanks for the pointer.
-
-
-> > > > > The vendor-code only used the MAX-constants for the uapi to get the
-> > > > > biggest size needed and then defines the real per-version maximums
-> > > > > inside the driver, see
-> > > > > https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R378
-> > > > > 
-> > > > > and for the auto-exposure:
-> > > > > https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R265
-> > > > > >> Thanks for working on that, hope we could still fix this in 5.11,
-> > > > >>
-> > > > >> I don't have a rk3326/px30 hardware so I can't test your patches.
-> > > > >> Do you have a hardware to test it?
-> > > > > 
-> > > > > Yep, I'm working on a px30-evb and thankfully the driver for the camera
-> > > > > on it is also already part of mainline.
-> > > > > 
-> > > > >> I suggest that you send a patchset to the mailing list then I can
-> > > > >> review it and test it on rk3399. Unfortunately there is indeed no way
-> > > > >> to thoroughly test the params/stats since there is no userspace for that.
-> > > > > 
-> > > > >  From looking at the currently newest version [0] it looks like these
-> > > > > new max values seem to have stayed the same, so one solution might be
-> > > > > to just make the uapi structures bigger to these new max values and
-> > > > > hope for the best?
-> > > 
-> > > This is one option, the other option would be to make the array size
-> > > dynamic by turning them into pointers. That leads to additional
-> > > complications though, so given that the extra memory consumed for the
-> > > largest array is reasonable, simply increasing the array size may be the
-> > > best option. Do we expect other ISP versions in the future with
-> > > differences that would require other changes to the userspace API ? How
-> > > about v1 to v9 and v11, do they exist ?
+> On 12/29/20 2:31 AM, Ezequiel Garcia wrote:
+> > Currently, the CSI2 subdevice is using the data-lanes from the
+> > neareast endpoint to config the CSI2 lanes.
 > > 
-> > I do believe the version indication is v10 for v1.0 and so on.
+> > While this may work, the proper way to configure the hardware is
+> > to obtain the remote subdevice in v4l2_async_notifier_operations.bound(),
+> > and then call get_mbus_config using the remote subdevice to get
+> > the active lanes.
 > > 
-> > Looking at the vendor tree, I see versions:
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> >   drivers/staging/media/imx/TODO             |  12 ---
+> >   drivers/staging/media/imx/imx6-mipi-csi2.c | 101 ++++++++++++++++++---
+> >   2 files changed, 90 insertions(+), 23 deletions(-)
 > > 
-> > - V10: rk3288 + rk3399
-> > - V10_1: rk3368 (only supports MP streams - whatever these are)
-> > - V11: unused
-> > - V12: rk3326 / px30
-> > - V13: rk1808
-> > - V20: rk3568 and probably following
-> >
-> > gamma_out, hist_grid_size, ae_mean_max, hist_bin
-> > v10:  17, 28, 25, 16
-> > v12: 34, 81, 81, 32
-> > v13: same as v12
+> > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
+> > index 9cfc1c1e78dc..c575f419204a 100644
+> > --- a/drivers/staging/media/imx/TODO
+> > +++ b/drivers/staging/media/imx/TODO
+> > @@ -2,18 +2,6 @@
+> >   - The Frame Interval Monitor could be exported to v4l2-core for
+> >     general use.
+> >   
+> > -- The CSI subdevice parses its nearest upstream neighbor's device-tree
+> > -  bus config in order to setup the CSI. Laurent Pinchart argues that
+> > -  instead the CSI subdev should call its neighbor's g_mbus_config op
+> > -  (which should be propagated if necessary) to get this info. However
+> > -  Hans Verkuil is planning to remove the g_mbus_config op. For now this
+> > -  driver uses the parsed DT bus config method until this issue is
+> > -  resolved.
 > 
-> Are v10 and v12 software versions introduced by rockchip, or is there a
-> version reported in the hardware registers ?
-
-The version designations are introduced by Rockchip - living in the
-dt-compatible-based match-data.
-
-Looking at the registers in the regs header, I sadly didn't see any
-version-registers - though V12 moved a number of registers arond
-and introduced new ones (for the data sources requiring these
-bigger arrays)
-
-
-> > Looking at the general change for V20 [0] it really looks like a big rework
-> > of the ISP block happenend with 100K of new register definitions and there
-> > are of course no chips nor boards on the market yet at all, so part of me
-> > would expect this to need a separate userspace when the time comes.
+> This TODO was actually referring to the fwnode endpoint parsing in 
+> imx-media-csi.c, not imx6-mipi-csi2.c.
 > 
-> Is it an evoluation of the IP core, or something completely different ?
-> It may even make sense to have a separate kernel driver.
 
-From my short glance it seems to share a lot of the basic parts for capture
-etc with small evolutions ... but the stats and params parts seem to have
-gotten a major evolution.
+Ah, OK.
 
-I guess we'll cross that bridge after the chips are actually available ;-) .
-Rockchip pushed that code into their public repo only last week after all.
+> But the same conversion to call .get_mbus_config() instead of endpoint 
+> parsing could be done in imx-media-csi.c, but there is one imx6 
+> constraint that is preventing this from happening. The imx6 reference 
+> manual states that if the CSI is receiving from an input parallel bus 
+> that is 16-bits wide, the data must go directly to memory via the SMFC 
+> and not be sent to the IPU's Image Converter ("passthrough" mode):
+> 
+> "37.4.3.9 16 bit camera support
+> 
+> Devices that support 16 bit data bus can be connected to the CSI. This 
+> can be done in one
+> of the following ways.
+> 
+> 16 bit YUV422
+> In this mode the CSI receives 2 components per cycle. The CSI is 
+> programmed to
+> accept the data as 16 bit generic data. The captured data will be stored 
+> in the memory
+> through the SMFC. The IDMAC needs to be programmed to store 16bit 
+> generic data.
+> When the data is read back from the memory for further processing in the 
+> IPU it will
+> be read as YUV422 data."
+> 
+> Same is said for RGB data to the CSI.
+> 
+> I'm not sure if this restriction is real or not. If this restriction 
+> were ignored, the fwnode endpoint check "ep->bus.parallel.bus_width >= 
+> 16" could be removed and the only remaining info required to determine 
+> passthrough mode is available from 'struct v4l2_mbus_config' and the 
+> input mbus codes, thus allowing the conversion to .get_mbus_config().
+> 
+
+For the sound of this, the above doesn't affect this patch, right?
+Also, note there's a v2 submitted:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/20210103154155.318300-1-ezequiel@collabora.com/
+
+Now, there's something I'm not exactly sure about these .get_mbus_config
+conversions, being described in the TODO file.
+
+The TODO file should only list what's missing to move the driver
+out of staging. Converting to newer APIs doesn't seem a blocker:
+there are a ton of drivers using old APIs out there, which is
+a natural consequence of how the kernel evolve APIs all the time.
+
+I'm wondering if the other TODO items apply as well, moving
+the Frame Interval Monitor to the v4l2-core is something we
+can always do at any later point. It shouldn't be a requirement
+for destaging.
+
+There's one thing that we must resolve before de-staging.
+The media controller topology, which is a form of ABI should
+be settled, as that's difficult to change later.
+
+However, this item is not mentioned in the TODO.
+
+So, I was thinking we should remove all the current TODO
+items and add something about the media controller topology
+stability requirements.
+
+What do you think?
+
+Cheers,
+Ezequiel 
 
 
-Heiko
 
 
