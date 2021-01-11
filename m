@@ -2,156 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F23A62F11F9
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 12:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 809022F1208
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 13:01:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728417AbhAKL4p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 06:56:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32902 "EHLO
+        id S1729832AbhAKMBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 07:01:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728242AbhAKL4p (ORCPT
+        with ESMTP id S1729807AbhAKMBA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 06:56:45 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE9AC061794
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 03:56:05 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id z5so17470122iob.11
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 03:56:04 -0800 (PST)
+        Mon, 11 Jan 2021 07:01:00 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A3A1C061794
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 04:00:19 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id n26so24323859eju.6
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 04:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uA3TKz8uECHG3k4yaFsUscxG5WEGEfU+DDgmBoAkS/o=;
-        b=cIvAbCgayxCKoOYNityjL7wT9stWwPvV5eiCz7X38vD43GczvDqDpmuctteU9QyQ+e
-         Km9UDE+qcaQ+wrWWNECGFkMSGJXhz5AW0uKH50716CeXLrfWfAe0i4OFHhFv79uQxpSy
-         gnOsEH9u8HNzIAWUO1mhanlP45jDlmTwtKBbU=
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OW8w9+OK+kpGhqgXSAht9uVN2nF9YMGSL1tUgT2Bs9Q=;
+        b=EsRDrUhPpM9Is+P0DCnamaarnKSYq4o/vGbyGa2dwsoNGwSuZQv+XKTDZG4dMbpNB4
+         037pSOoUXYDTFHieNWTc5SA+PnkRZSgzQNjC86cOdGvWWFQVQBPKNd9rn76m8UjnVM5k
+         45nJNTd2h52DJShEnava1+XA+8GCGkdhI2NfjtAx+F8xxEMJR7r4ieiIU1hY6dowbo+m
+         FjE2stb5DY8wAUTk5o2GIxTE5/6z6k6I42efmjz3QD0DWS36+1w/Ut4ejRlRM2KDNCU1
+         SGP5oQSeJmT94MqKq9sGjaGGJZIKTYaGO6ESRhVUenOvRdqpXhebaCFktULZpX4W0FXV
+         R3Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uA3TKz8uECHG3k4yaFsUscxG5WEGEfU+DDgmBoAkS/o=;
-        b=DnCIW3jFqjz7wcUCyTUyRVNSwWFpwBzfX2SywVrorkcLrgWNc/qAq3pe4Xl0uRqcFR
-         wLda9tjzv30z+/t9OwX6TRHu3z7ob1t/Z8JpBg0uAfiYp8dMH8iSZDYjxuTN6ui0+bhv
-         JsNw+y32WPR2BGFgfmr+JXPIbLxLwflpz9FyWGRlmXIzid4u7lg4aecL4KIvOqUmdwop
-         97HJCOybMgTmmE+XpcMujZfwvaWEdO7LRgdgPdUPS8b11ec01VzsGWB+R3Ls0FpgHeLs
-         m43uhGQfMl3+sZf/X3Cx85J/BtSTua3bju9ATrf55ed9bYtooe1Z3mg03KY9datJcmUs
-         vt0g==
-X-Gm-Message-State: AOAM533TM0WxI2HeWJICDz+bFUDv5K7qFzHd0EsPUUd0NjhHfaL0RCvN
-        sKqdwIYCiAtY3YnQsudhO94VtEuO4WAwTA==
-X-Google-Smtp-Source: ABdhPJwuSNcNUL7NBUH0sSgnkwcDGIVfSPkhRZJFpbSb2VNnWC/BUEAmd6frY+bzWPa0JSuuGG0zww==
-X-Received: by 2002:a5e:dc0d:: with SMTP id b13mr14390654iok.31.1610366164068;
-        Mon, 11 Jan 2021 03:56:04 -0800 (PST)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com. [209.85.166.41])
-        by smtp.gmail.com with ESMTPSA id x3sm13295236ila.29.2021.01.11.03.56.03
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jan 2021 03:56:03 -0800 (PST)
-Received: by mail-io1-f41.google.com with SMTP id m23so17553240ioy.2
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 03:56:03 -0800 (PST)
-X-Received: by 2002:a02:c042:: with SMTP id u2mr13813149jam.32.1610366162852;
- Mon, 11 Jan 2021 03:56:02 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OW8w9+OK+kpGhqgXSAht9uVN2nF9YMGSL1tUgT2Bs9Q=;
+        b=TjQI8TaZqZlsFemXVQwLEU4QU9uIfnRTAVMTOEHyhQYou4YVuzj8eU0iXTpu1XkeRv
+         jZDfH+c6mnV2qOoXG90kSuP7DykhVbGMdSkEkt1h/FbW+PTD68Dypr5MunbVxmg+Jhd4
+         W+Q4js6CawNIl8fG3HIbC0lMwKYvrr7OCuAd1NWRLW0HTvHcMVJsWKGiXGI6eFQ5sVLI
+         VpmKyMC7O3nNAk+hGNwKOzKiZAbiRo1tddL3UtDJR8zasSZcxgjXotEAgdsuXLHTfXHm
+         f66IfnCJvhpdO/v2qY0brgYO9L+t4YF33JGKi9e0+8EH19VP1HXZ7IEmocbXEQzvNpcC
+         6bTQ==
+X-Gm-Message-State: AOAM531oXNKdb0yR00zS75tSZGxtOAzXugfyI9/9QoQ9t/QCPe7VC9Xi
+        fP92sbmXq9DjzSPcMAp1LUgQNA==
+X-Google-Smtp-Source: ABdhPJw8sahUMcOxodYfKP6KQePGGZK0sOT4LELPBVUvL0IWKI6ubgbWuu7t0cSieKXrj3kUtPrfXw==
+X-Received: by 2002:a17:906:3883:: with SMTP id q3mr10475752ejd.160.1610366417997;
+        Mon, 11 Jan 2021 04:00:17 -0800 (PST)
+Received: from localhost.localdomain ([2a02:2450:102f:d6a:fe7e:1742:34f2:8721])
+        by smtp.gmail.com with ESMTPSA id t15sm7680427eds.38.2021.01.11.04.00.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 04:00:17 -0800 (PST)
+From:   Robert Foss <robert.foss@linaro.org>
+To:     dongchun.zhu@mediatek.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dongchun Zhu <Dongchun.Zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     Tomasz Figa <tfiga@google.com>,
+        Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH v2] media: ov8856: Configure sensor for GRBG Bayer for all modes
+Date:   Mon, 11 Jan 2021 12:59:30 +0100
+Message-Id: <20210111115930.117393-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210111113529.45488-1-ribalda@chromium.org> <ef218bf2bd948961079237686b58a00ca1b125bf.camel@collabora.com>
-In-Reply-To: <ef218bf2bd948961079237686b58a00ca1b125bf.camel@collabora.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 11 Jan 2021 12:55:52 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsX3k7xeC7Sr2T2SxHqspay+i054rAuv-NYCQpFRNuGeg@mail.gmail.com>
-Message-ID: <CANiDSCsX3k7xeC7Sr2T2SxHqspay+i054rAuv-NYCQpFRNuGeg@mail.gmail.com>
-Subject: Re: [PATCH] hantro: Format IOCTLs compliance fixes
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel
+The previously added modes 3264x2448 & 1632x1224 are actually
+configuring the sensor for BGGR mode, this is an issue since
+the mode that is exposed through V4L incorrectly is set as GRBG.
 
-On Mon, Jan 11, 2021 at 12:48 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
->
-> Hi Ricardo,
->
-> On Mon, 2021-01-11 at 12:35 +0100, Ricardo Ribalda wrote:
-> > Clear the reserved fields.
-> >
-> > Fixes:
-> >   fail: v4l2-test-formats.cpp(482): pix_mp.plane_fmt[0].reserved not zeroed
-> > test VIDIOC_TRY_FMT: FAIL
-> >   fail: v4l2-test-formats.cpp(482): pix_mp.plane_fmt[0].reserved not zeroed
-> > test VIDIOC_S_FMT: FAIL
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/staging/media/hantro/hantro_v4l2.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> > index b668a82d40ad..9b384fbffc93 100644
-> > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > @@ -239,6 +239,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
-> >         const struct hantro_fmt *fmt, *vpu_fmt;
-> >         bool capture = V4L2_TYPE_IS_CAPTURE(type);
-> >         bool coded;
-> > +       int i;
-> >
-> >         coded = capture == ctx->is_encoder;
-> >
-> > @@ -293,6 +294,10 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
-> >                         pix_mp->width * pix_mp->height * fmt->max_depth;
-> >         }
-> >
-> > +       for (i = 0; i < pix_mp->num_planes; i++)
-> > +               memset(pix_mp->plane_fmt[i].reserved, 0,
-> > +                      sizeof(pix_mp->plane_fmt[i].reserved));
-> > +
->
-> This looks like something that should be handled at the core,
-> probably in drivers/media/v4l2-core/v4l2-ioctl.c::v4l_try_fmt().
+This patch fixes the issue by configuring the sensor to always
+output GRBG Bayer formatted frames.
 
-The core does clear the reserved field from v4l2_pix_format_mplane,
-but not the reserved field for every plane. I can try to add it to the
-core as well. At least these drivers have code duplication:
-
-git grep reserved | grep memset | grep plane_fmt
-drivers/media/pci/intel/ipu3/ipu3-cio2.c:
-memset(mpix->plane_fmt[0].reserved, 0,
-drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c:
-memset(pix_mp->plane_fmt[i].reserved, 0,
-drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c:
-memset(&(pix_fmt_mp->plane_fmt[i].reserved[0]), 0x0,
-drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c:
-memset(&(pix_fmt_mp->plane_fmt[i].reserved[0]), 0x0,
-drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c:
-memset(&(pix->plane_fmt[i].reserved[0]), 0x0,
-drivers/media/platform/rcar_fdp1.c:
-memset(pix->plane_fmt[i].reserved, 0,
-drivers/media/platform/rcar_fdp1.c:
-memset(pix->plane_fmt[2].reserved, 0,
-drivers/media/platform/rcar_jpu.c:
-memset(pix->plane_fmt[0].reserved, 0,
-drivers/media/platform/rcar_jpu.c:
-memset(pix->plane_fmt[i].reserved, 0,
-drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c:
-memset(pix->plane_fmt[i].reserved, 0,
-drivers/media/platform/ti-vpe/vpe.c:
-memset(plane_fmt->reserved, 0, sizeof(plane_fmt->reserved));
-drivers/media/test-drivers/vicodec/vicodec-core.c:
-memset(pix_mp->plane_fmt[0].reserved, 0,
-drivers/staging/media/hantro/hantro_v4l2.c:
-memset(pix_mp->plane_fmt[i].reserved, 0,
-drivers/staging/media/ipu3/ipu3-v4l2.c: memset(pixm->plane_fmt[0].reserved, 0,
-
->
-> Thanks,
-> Ezequiel
->
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Suggested-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+---
 
 
+Changes since v1:
+ - Sakari: Added mode information to ov8856_mode struct
+ - Sakari: enum_mbus_code updated
+
+Changes since v2:
+ - Andrey: Switched approach to changing the sensor configuration
+   to yield identical Bayer modes for all modes
+
+
+ drivers/media/i2c/ov8856.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index 2f4ceaa80593..8a355135c7db 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -428,7 +428,7 @@ static const struct ov8856_reg mode_3264x2448_regs[] = {
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x04},
+ 	{0x3812, 0x00},
+-	{0x3813, 0x02},
++	{0x3813, 0x01},
+ 	{0x3814, 0x01},
+ 	{0x3815, 0x01},
+ 	{0x3816, 0x00},
+@@ -821,7 +821,7 @@ static const struct ov8856_reg mode_1632x1224_regs[] = {
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x02},
+ 	{0x3812, 0x00},
+-	{0x3813, 0x02},
++	{0x3813, 0x01},
+ 	{0x3814, 0x03},
+ 	{0x3815, 0x01},
+ 	{0x3816, 0x00},
 -- 
-Ricardo Ribalda
+2.27.0
+
