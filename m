@@ -2,255 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E0C2F10CA
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 12:05:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AC072F1129
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 12:23:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728328AbhAKLFy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 06:05:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50246 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727986AbhAKLFx (ORCPT
+        id S1729675AbhAKLUx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 06:20:53 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:39473 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726753AbhAKLUw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 06:05:53 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CBDDC061786
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 03:05:13 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57DDDEC;
-        Mon, 11 Jan 2021 12:05:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610363110;
-        bh=LoI+2YjgZuFvikbedH16QCYI6iRfeQFXigiqDU3r8ek=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RrJIwc4NLo5cqHGAict9kH3jthwNb+239TPT8P/+L1mJTmK07k4HiuAB8hgZs6M6B
-         3guKOVMtS9QmYmp0V3QaS07t6rLTy3UvpjPn6vSXlqHT3RxJVhzdugV5ck9G/BQ1s3
-         QEK/jW4rp3xvHQvN3WUoA/LAhdZl3T9MkujtRgdg=
-Date:   Mon, 11 Jan 2021 13:04:56 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        kever.yang@rock-chips.com, Eddie Cai <eddie.cai@rock-chips.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org,
-        christoph.muellner@theobroma-systems.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Collabora Kernel ML <kernel@collabora.com>
-Subject: Re: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
-Message-ID: <X/ww2Bfvr8WE/Yz6@pendragon.ideasonboard.com>
-References: <3342088.iIbC2pHGDl@diego>
- <d0ec7f72-799e-ec53-a917-755fde323e95@collabora.com>
- <X/kFJ+bguDHuiSac@pendragon.ideasonboard.com>
- <1704014.3VsfAaAtOV@diego>
+        Mon, 11 Jan 2021 06:20:52 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 39F5A40005;
+        Mon, 11 Jan 2021 11:20:05 +0000 (UTC)
+Date:   Mon, 11 Jan 2021 12:20:23 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
+ amplitude
+Message-ID: <20210111112023.brrhxgfedo5fer53@uno.localdomain>
+References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
+ <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+ <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
+ <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
+ <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1704014.3VsfAaAtOV@diego>
+In-Reply-To: <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+Hi Laurent,
 
-On Mon, Jan 11, 2021 at 11:53:00AM +0100, Heiko Stuebner wrote:
-> Am Samstag, 9. Januar 2021, 02:21:43 CET schrieb Laurent Pinchart:
-> > On Fri, Jan 08, 2021 at 04:21:49PM +0100, Dafna Hirschfeld wrote:
-> > > Am 08.01.21 um 13:05 schrieb Heiko Stuebner:
-> > > > Am Freitag, 8. Januar 2021, 12:17:43 CET schrieb Dafna Hirschfeld:
-> > > >> Am 07.01.21 um 21:23 schrieb Heiko Stuebner:
-> > > >>> the rkisp driver in the mainline Linux kernel moved out of staging with
-> > > >>> 5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
-> > > >>>
-> > > >>> The rkisp driver currently only supports the rk3399 and while working
-> > > >>> on porting the support for rk3326/px30 I noticed discrepancies.
-> > > >>>
-> > > >>> Hence it would be somewhat urgent to clarify this, as later it will get
-> > > >>> really cumbersome.
-> > > >>
-> > > >> I see that we are now on 5.11-rc2 so that gives us about 4-5 weeks,
-> > > >>
-> > > >>>
-> > > >>> ----
-> > > >>>
-> > > >>> The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
-> > > >>
-> > > >> How do you know that the isp of rk3399 is v10 ? I looked at the RK3399 TRM
-> > > >> and the datasheet for the isp and could not find this information.
-> > > > 
-> > > > That's from Rockchip's upstream sources where they introduced the new code.
-> > > > There're some (if v12) conditionals in there ;-) .
-> > > > 
-> > > >>> Some sub-blocks moved around or seem to have been replaced with newer
-> > > >>> variants and the gist of changes can be seen in [0] with the important
-> > > >>> part being the uapi changes [1] and those values also exist in mainline.
-> > > >>>
-> > > >>>
-> > > >>> See functions in that patch:
-> > > >>> - isp_goc_config_v12()
-> > > >>> - rkisp1_stats_get_aec_meas_v12()
-> > > >>> - rkisp1_stats_get_hst_meas_v12()
-> > > >>>
-> > > >>> Looking at the code, the register locations are different, for gammas and
-> > > >>> the histogram the actual amount of raw registers is the same, while the
-> > > >>> "aec" seems to use 25 registers on V10 while 21 registers on V12. Though
-> > > >>> their content gets split into multiple values in that v12 variant.
-> > > >>>
-> > > >>>
-> > > >>> As somehow expected the whole thing is pretty undocumented and I
-> > > >>> have no clue what these "bins" or "gammas" mean and why the amount of
-> > > >>> entries now differs and how this relates to userspace at all.
-> > > >>>
-> > > >>> Also looking through libcamera as the one open user of the driver,
-> > > >>> the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
-> > > >>> as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
-> > > >>> don't seem to be used so far.
-> > > >>
-> > > >> yes, that's a shame. There is a simple implementation using the ae in
-> > > >> stuct rkisp1_cif_isp_stat in src/ipa/rkisp1.c
-> > > > 
-> > > > Thanks for pointing me to that :-)
-> > > > 
-> > > >>> Hence I also added some Rockchip people in the hope of getting
-> > > >>> a bit of clarification ;-) .
-> > > >>>
-> > > >>> Ideas on how to proceed?
-> > > >>>
-> > > >>> Thanks
-> > > >>> Heiko
-> > > >>>
-> > > >>>
-> > > >>> [0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
-> > > >>> [1]
-> > > >>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> > > >>> index b471f01a8459..fbeb6b5dba03 100644
-> > > >>> --- a/include/uapi/linux/rkisp1-config.h
-> > > >>> +++ b/include/uapi/linux/rkisp1-config.h
-> > > >>> @@ -32,8 +32,8 @@
-> > > >>>    #define CIFISP_CTK_COEFF_MAX            0x100
-> > > >>>    #define CIFISP_CTK_OFFSET_MAX           0x800
-> > > >>>    
-> > > >>> -#define CIFISP_AE_MEAN_MAX              25
-> > > >>> -#define CIFISP_HIST_BIN_N_MAX           16
-> > > >>> +#define CIFISP_AE_MEAN_MAX              81
-> > > >>> +#define CIFISP_HIST_BIN_N_MAX           32
-> > > >>>    #define CIFISP_AFM_MAX_WINDOWS          3
-> > > >>>    #define CIFISP_DEGAMMA_CURVE_SIZE       17
-> > > >>>    
-> > > >>> @@ -69,7 +69,7 @@
-> > > >>>     * Gamma out
-> > > >>>     */
-> > > >>>    /* Maximum number of color samples supported */
-> > > >>> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> > > >>> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
-> > > >>
-> > > >> I see that in that code you use the old names of the registers.
-> > > >> The names are different in the current version of the driver,
-> > > >> in the media tree: git://linuxtv.org/media_tree.git
-> > > >> Also, I guess that instead of changing the values you should
-> > > >> add a separated define, something like:
-> > > >>
-> > > >> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> > > >> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-> > > >> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-> > > > 
-> > > > Just for clarity, that is Rockchip's commit in their vendor kernel.
-> > > > I'm just using that as base to get the changes needed for mainline :-) .
-> > > > 
-> > > > The main issue I see is that these max-values directly influence the sizes
-> > > > of arrays inside the uapi - where the "v12" seems to need bigger arrays
-> > > > on first glance.
-> > > > ^^^ which is essentially the part I'm mostly worried about
-> > > 
-> > > Oh, ok, I thought it's your code.
-> > > So maybe we should change the uapi to look like:
-> > > 
-> > > /* v10 is the isp version for rk3399 */
-> > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-> > > /* v12 is the isp version for rk3326/px30 */
-> > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-> > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES       CIFISP_GAMMA_OUT_MAX_SAMPLES_v12
-> > > 
-> > > This way we inform userspace how many samples are supported according to the
-> > > version.
-> > > I don't know if there are other versions with higher maximum,
-> > > 
-> > > What do you think?
-> > 
-> > This makes sense to me. Userspace will need to know how many samples are
-> > actually present in the array, so corresponding macros should be defined
-> > in the header.
-> 
-> ok, though as it seems to have been discussed on irc, we'll also need a
-> version field to indicate the IP version.
-
-In the statistics buffer that could be done, but in the params buffer it
-won't help userspace figure out what version of the IP is in use as
-params are filled by the application, not the kernel. I think reporting
-the IP version through the media controller API should be enough,
-possibly in media_device_info.hw_revision, and/or in the model string.
-
-> > > > The vendor-code only used the MAX-constants for the uapi to get the
-> > > > biggest size needed and then defines the real per-version maximums
-> > > > inside the driver, see
-> > > > https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R378
-> > > > 
-> > > > and for the auto-exposure:
-> > > > https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R265
-> > > > >> Thanks for working on that, hope we could still fix this in 5.11,
-> > > >>
-> > > >> I don't have a rk3326/px30 hardware so I can't test your patches.
-> > > >> Do you have a hardware to test it?
-> > > > 
-> > > > Yep, I'm working on a px30-evb and thankfully the driver for the camera
-> > > > on it is also already part of mainline.
-> > > > 
-> > > >> I suggest that you send a patchset to the mailing list then I can
-> > > >> review it and test it on rk3399. Unfortunately there is indeed no way
-> > > >> to thoroughly test the params/stats since there is no userspace for that.
-> > > > 
-> > > >  From looking at the currently newest version [0] it looks like these
-> > > > new max values seem to have stayed the same, so one solution might be
-> > > > to just make the uapi structures bigger to these new max values and
-> > > > hope for the best?
-> > 
-> > This is one option, the other option would be to make the array size
-> > dynamic by turning them into pointers. That leads to additional
-> > complications though, so given that the extra memory consumed for the
-> > largest array is reasonable, simply increasing the array size may be the
-> > best option. Do we expect other ISP versions in the future with
-> > differences that would require other changes to the userspace API ? How
-> > about v1 to v9 and v11, do they exist ?
-> 
-> I do believe the version indication is v10 for v1.0 and so on.
-> 
-> Looking at the vendor tree, I see versions:
-> 
-> - V10: rk3288 + rk3399
-> - V10_1: rk3368 (only supports MP streams - whatever these are)
-> - V11: unused
-> - V12: rk3326 / px30
-> - V13: rk1808
-> - V20: rk3568 and probably following
+On Mon, Jan 11, 2021 at 12:58:59PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
 >
-> gamma_out, hist_grid_size, ae_mean_max, hist_bin
-> v10:  17, 28, 25, 16
-> v12: 34, 81, 81, 32
-> v13: same as v12
+> On Mon, Jan 11, 2021 at 11:43:11AM +0100, Jacopo Mondi wrote:
+> > On Wed, Dec 16, 2020 at 07:22:17PM +0200, Laurent Pinchart wrote:
+> > > On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
+> > > > Adjust the initial reverse channel amplitude parsing from
+> > > > firmware interface the 'maxim,reverse-channel-microvolt'
+> > > > property.
+> > > >
+> > > > This change is required for both rdacm20 and rdacm21 camera
+> > > > modules to be correctly probed when used in combination with
+> > > > the max9286 deserializer.
+> > > >
+> > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
+> > > >  1 file changed, 22 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > > index 021309c6dd6f..9b40a4890c4d 100644
+> > > > --- a/drivers/media/i2c/max9286.c
+> > > > +++ b/drivers/media/i2c/max9286.c
+> > > > @@ -163,6 +163,8 @@ struct max9286_priv {
+> > > >  	unsigned int mux_channel;
+> > > >  	bool mux_open;
+> > > >
+> > > > +	u32 reverse_channel_mv;
+> > > > +
+> > > >  	struct v4l2_ctrl_handler ctrls;
+> > > >  	struct v4l2_ctrl *pixelrate;
+> > > >
+> > > > @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+> > > >  	 * All enabled sources have probed and enabled their reverse control
+> > > >  	 * channels:
+> > > >  	 *
+> > > > +	 * - Increase the reverse channel amplitude to compensate for the
+> > > > +	 *   remote ends high threshold, if not done already
+> > > >  	 * - Verify all configuration links are properly detected
+> > > >  	 * - Disable auto-ack as communication on the control channel are now
+> > > >  	 *   stable.
+> > > >  	 */
+> > > > +	if (priv->reverse_channel_mv < 170)
+> > > > +		max9286_reverse_channel_setup(priv, 170);
+> > >
+> > > I'm beginning to wonder if there will be a need in the future to not
+> > > increase the reverse channel amplitude (keeping the threshold low on the
+> > > remote side). An increased amplitude increases power consumption, and if
+> > > the environment isn't noisy, a low amplitude would work. The device tree
+> > > would then need to specify both the initial amplitude required by the
+> > > remote side, and the desired amplitude after initialization. What do you
+> > > think ? Is it overkill ? We don't have to implement this now, so
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >
+> > > but if this feature could be required later, we may want to take into
+> > > account in the naming of the new DT property to reflect the fact that it
+> > > is the initial value.
+> >
+> > I had the same thought when I initially proposed
+> > "maxim,initial-reverse-channel-mV"
+> >
+> > Having to use the standard unit suffix that would have become
+> > "maxim,initial-reverse-channel-microvolt"
+> > which is extremely long.
+> >
+> > I can't tell if there will be any need to adjust the amplitude later.
+> > In any case, I would not rely on a DTS property to do so, as once we
+> > have probed the remote we have a subdev where to call
+> > 'get_mbus_config()' on, and from there we can report the high threshold
+> > status of the serializer and adjust the deser amplitude accordingly.
+>
+> I don't think that's the point. The threshold of the serializer is
+> something we can configure at runtime. What voltage level to use after
 
-Are v10 and v12 software versions introduced by rockchip, or is there a
-version reported in the hardware registers ?
+How so ? I mean, we can add an API for this, but currently it's
+configured at probe time and that's it. Its configuration might as
+well come from a DT property like we do on the deserializer here but I
+fail to see why it's different. Both settings depends on the required
+noise immunity of th system.
 
-> Looking at the general change for V20 [0] it really looks like a big rework
-> of the ISP block happenend with 100K of new register definitions and there
-> are of course no chips nor boards on the market yet at all, so part of me
-> would expect this to need a separate userspace when the time comes.
+> initialization time is a system property as it depends on noise
+> immunity, so we'll have to specify it in DT.
 
-Is it an evoluation of the IP core, or something completely different ?
-It may even make sense to have a separate kernel driver.
+I don't see it differently than what happens on the serializer. We can
+add an API if we want to, but it's configured at probe time (initial
+value) and later can be adjusted in reponse to the serializer
+configuration setting.
 
-> [0] https://github.com/rockchip-linux/kernel/commit/e631e47fe7012d165f185009f224d52a81b0f74f
+I feel like we're on different pages :/
 
--- 
-Regards,
-
-Laurent Pinchart
+>
+> > The property documentation clearly says the there specified amplitude
+> > is 'initial' many times, so I don't think it is strictly necessary to
+> > report it in the name too.
+> >
+> > Would this work for you ?
+>
+> I don't mind either way.
+>
+> > > >  	max9286_check_config_link(priv, priv->source_mask);
+> > > >
+> > > >  	/*
+> > > > @@ -967,7 +973,7 @@ static int max9286_setup(struct max9286_priv *priv)
+> > > >  	 * only. This should be disabled after the mux is initialised.
+> > > >  	 */
+> > > >  	max9286_configure_i2c(priv, true);
+> > > > -	max9286_reverse_channel_setup(priv, 170);
+> > > > +	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
+> > > >
+> > > >  	/*
+> > > >  	 * Enable GMSL links, mask unused ones and autodetect link
+> > > > @@ -1131,6 +1137,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+> > > >  	struct device_node *i2c_mux;
+> > > >  	struct device_node *node = NULL;
+> > > >  	unsigned int i2c_mux_mask = 0;
+> > > > +	u32 reverse_channel_microvolt;
+> > > >
+> > > >  	/* Balance the of_node_put() performed by of_find_node_by_name(). */
+> > > >  	of_node_get(dev->of_node);
+> > > > @@ -1221,6 +1228,20 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+> > > >  	}
+> > > >  	of_node_put(node);
+> > > >
+> > > > +	/*
+> > > > +	 * Parse the initial value of the reverse channel amplitude from
+> > > > +	 * the firmware interface and convert it to millivolts.
+> > > > +	 *
+> > > > +	 * Default it to 170mV for backward compatibility with DTBs that do not
+> > > > +	 * provide the property.
+> > > > +	 */
+> > > > +	if (of_property_read_u32(dev->of_node,
+> > > > +				 "maxim,reverse-channel-microvolt",
+> > > > +				 &reverse_channel_microvolt))
+> > > > +		priv->reverse_channel_mv = 170;
+> > > > +	else
+> > > > +		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
+> > > > +
+> > > >  	priv->route_mask = priv->source_mask;
+> > > >
+> > > >  	return 0;
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
