@@ -2,194 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AC072F1129
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 12:23:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55D162F118F
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 12:37:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729675AbhAKLUx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 06:20:53 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:39473 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726753AbhAKLUw (ORCPT
+        id S1728305AbhAKLgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 06:36:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56732 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726889AbhAKLgN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 06:20:52 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 39F5A40005;
-        Mon, 11 Jan 2021 11:20:05 +0000 (UTC)
-Date:   Mon, 11 Jan 2021 12:20:23 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
- amplitude
-Message-ID: <20210111112023.brrhxgfedo5fer53@uno.localdomain>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-6-jacopo+renesas@jmondi.org>
- <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
- <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
- <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
+        Mon, 11 Jan 2021 06:36:13 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA23C061794
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 03:35:32 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id j16so18500235edr.0
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 03:35:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lXOWeR9801FrisPggQzBoR4P1LZC0ogSzc7qiclRxzA=;
+        b=Mf2f7LJM9bPXCaZWpu+DA3F8zjBC3NYdKnghIBztANh6OSOVMK4LbhwONJlFeqAU6H
+         pPSrTCV6Jx9bvjcyGbOIGMOKxmMwu/jHp1FqUYKRJnRF7aa8ssiiz/i2Ojgla86zeC67
+         RFZq1mjsHkMRdKKz0w0brsi7WTIhAR8EMNdFY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lXOWeR9801FrisPggQzBoR4P1LZC0ogSzc7qiclRxzA=;
+        b=GjvDGOE6yfQcunoQYC1nkh0BsHk3+ER4UjEMEUGvuuzDDymWepaxtRWh5Tls4aHNNX
+         8T8sc9B7YXaXjVHTVMHw1wLZEtd/aMlBBKbjfBSt1xs02iWQ/yQggFfoP03wgB7DzsPp
+         DL1QGmOpqrY8cNJqm9vWEijWuht2uJY7UvX/U1KUKh+bpC+uaxSpqqlipX+69FSSubt5
+         zIdq8YPTCu82PV8Zyq/z0WzhrP60rersx+B+1x50uOw2canOEttBgkbeNVz0YcZTxEJS
+         o95xpgh2xwTBTYW3HSkP0pO5wJcbq+P+lDZYTKb4J005WJw54HCdqJM9CQGhz6z49MYb
+         XqMw==
+X-Gm-Message-State: AOAM531xKIgcyNzcL93siepjzIDowU0rgVraI2KGLKVvoOPkfz/U89VM
+        vulyS/oZm4VcItt3/53DIMp8og==
+X-Google-Smtp-Source: ABdhPJzwxJwfY2vvKcY/y88PUCnedWNHcDU/ytPX64NcJqeDQDiDRVSjMIYqBwltXgDOoc01CDFlTw==
+X-Received: by 2002:a05:6402:307c:: with SMTP id bs28mr13865398edb.186.1610364931540;
+        Mon, 11 Jan 2021 03:35:31 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id rs27sm6982564ejb.21.2021.01.11.03.35.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 03:35:30 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] hantro: Format IOCTLs compliance fixes
+Date:   Mon, 11 Jan 2021 12:35:29 +0100
+Message-Id: <20210111113529.45488-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Clear the reserved fields.
 
-On Mon, Jan 11, 2021 at 12:58:59PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Mon, Jan 11, 2021 at 11:43:11AM +0100, Jacopo Mondi wrote:
-> > On Wed, Dec 16, 2020 at 07:22:17PM +0200, Laurent Pinchart wrote:
-> > > On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
-> > > > Adjust the initial reverse channel amplitude parsing from
-> > > > firmware interface the 'maxim,reverse-channel-microvolt'
-> > > > property.
-> > > >
-> > > > This change is required for both rdacm20 and rdacm21 camera
-> > > > modules to be correctly probed when used in combination with
-> > > > the max9286 deserializer.
-> > > >
-> > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > ---
-> > > >  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
-> > > >  1 file changed, 22 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > > index 021309c6dd6f..9b40a4890c4d 100644
-> > > > --- a/drivers/media/i2c/max9286.c
-> > > > +++ b/drivers/media/i2c/max9286.c
-> > > > @@ -163,6 +163,8 @@ struct max9286_priv {
-> > > >  	unsigned int mux_channel;
-> > > >  	bool mux_open;
-> > > >
-> > > > +	u32 reverse_channel_mv;
-> > > > +
-> > > >  	struct v4l2_ctrl_handler ctrls;
-> > > >  	struct v4l2_ctrl *pixelrate;
-> > > >
-> > > > @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
-> > > >  	 * All enabled sources have probed and enabled their reverse control
-> > > >  	 * channels:
-> > > >  	 *
-> > > > +	 * - Increase the reverse channel amplitude to compensate for the
-> > > > +	 *   remote ends high threshold, if not done already
-> > > >  	 * - Verify all configuration links are properly detected
-> > > >  	 * - Disable auto-ack as communication on the control channel are now
-> > > >  	 *   stable.
-> > > >  	 */
-> > > > +	if (priv->reverse_channel_mv < 170)
-> > > > +		max9286_reverse_channel_setup(priv, 170);
-> > >
-> > > I'm beginning to wonder if there will be a need in the future to not
-> > > increase the reverse channel amplitude (keeping the threshold low on the
-> > > remote side). An increased amplitude increases power consumption, and if
-> > > the environment isn't noisy, a low amplitude would work. The device tree
-> > > would then need to specify both the initial amplitude required by the
-> > > remote side, and the desired amplitude after initialization. What do you
-> > > think ? Is it overkill ? We don't have to implement this now, so
-> > >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > but if this feature could be required later, we may want to take into
-> > > account in the naming of the new DT property to reflect the fact that it
-> > > is the initial value.
-> >
-> > I had the same thought when I initially proposed
-> > "maxim,initial-reverse-channel-mV"
-> >
-> > Having to use the standard unit suffix that would have become
-> > "maxim,initial-reverse-channel-microvolt"
-> > which is extremely long.
-> >
-> > I can't tell if there will be any need to adjust the amplitude later.
-> > In any case, I would not rely on a DTS property to do so, as once we
-> > have probed the remote we have a subdev where to call
-> > 'get_mbus_config()' on, and from there we can report the high threshold
-> > status of the serializer and adjust the deser amplitude accordingly.
->
-> I don't think that's the point. The threshold of the serializer is
-> something we can configure at runtime. What voltage level to use after
+Fixes:
+  fail: v4l2-test-formats.cpp(482): pix_mp.plane_fmt[0].reserved not zeroed
+test VIDIOC_TRY_FMT: FAIL
+  fail: v4l2-test-formats.cpp(482): pix_mp.plane_fmt[0].reserved not zeroed
+test VIDIOC_S_FMT: FAIL
 
-How so ? I mean, we can add an API for this, but currently it's
-configured at probe time and that's it. Its configuration might as
-well come from a DT property like we do on the deserializer here but I
-fail to see why it's different. Both settings depends on the required
-noise immunity of th system.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/staging/media/hantro/hantro_v4l2.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> initialization time is a system property as it depends on noise
-> immunity, so we'll have to specify it in DT.
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index b668a82d40ad..9b384fbffc93 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -239,6 +239,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+ 	const struct hantro_fmt *fmt, *vpu_fmt;
+ 	bool capture = V4L2_TYPE_IS_CAPTURE(type);
+ 	bool coded;
++	int i;
+ 
+ 	coded = capture == ctx->is_encoder;
+ 
+@@ -293,6 +294,10 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+ 			pix_mp->width * pix_mp->height * fmt->max_depth;
+ 	}
+ 
++	for (i = 0; i < pix_mp->num_planes; i++)
++		memset(pix_mp->plane_fmt[i].reserved, 0,
++		       sizeof(pix_mp->plane_fmt[i].reserved));
++
+ 	return 0;
+ }
+ 
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
 
-I don't see it differently than what happens on the serializer. We can
-add an API if we want to, but it's configured at probe time (initial
-value) and later can be adjusted in reponse to the serializer
-configuration setting.
-
-I feel like we're on different pages :/
-
->
-> > The property documentation clearly says the there specified amplitude
-> > is 'initial' many times, so I don't think it is strictly necessary to
-> > report it in the name too.
-> >
-> > Would this work for you ?
->
-> I don't mind either way.
->
-> > > >  	max9286_check_config_link(priv, priv->source_mask);
-> > > >
-> > > >  	/*
-> > > > @@ -967,7 +973,7 @@ static int max9286_setup(struct max9286_priv *priv)
-> > > >  	 * only. This should be disabled after the mux is initialised.
-> > > >  	 */
-> > > >  	max9286_configure_i2c(priv, true);
-> > > > -	max9286_reverse_channel_setup(priv, 170);
-> > > > +	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
-> > > >
-> > > >  	/*
-> > > >  	 * Enable GMSL links, mask unused ones and autodetect link
-> > > > @@ -1131,6 +1137,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> > > >  	struct device_node *i2c_mux;
-> > > >  	struct device_node *node = NULL;
-> > > >  	unsigned int i2c_mux_mask = 0;
-> > > > +	u32 reverse_channel_microvolt;
-> > > >
-> > > >  	/* Balance the of_node_put() performed by of_find_node_by_name(). */
-> > > >  	of_node_get(dev->of_node);
-> > > > @@ -1221,6 +1228,20 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> > > >  	}
-> > > >  	of_node_put(node);
-> > > >
-> > > > +	/*
-> > > > +	 * Parse the initial value of the reverse channel amplitude from
-> > > > +	 * the firmware interface and convert it to millivolts.
-> > > > +	 *
-> > > > +	 * Default it to 170mV for backward compatibility with DTBs that do not
-> > > > +	 * provide the property.
-> > > > +	 */
-> > > > +	if (of_property_read_u32(dev->of_node,
-> > > > +				 "maxim,reverse-channel-microvolt",
-> > > > +				 &reverse_channel_microvolt))
-> > > > +		priv->reverse_channel_mv = 170;
-> > > > +	else
-> > > > +		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
-> > > > +
-> > > >  	priv->route_mask = priv->source_mask;
-> > > >
-> > > >  	return 0;
->
-> --
-> Regards,
->
-> Laurent Pinchart
