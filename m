@@ -2,252 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B821D2F19CE
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 16:34:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 342872F1B79
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 17:52:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729869AbhAKPeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 10:34:22 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36564 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727957AbhAKPeU (ORCPT
+        id S1733014AbhAKQvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 11:51:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732337AbhAKQva (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 10:34:20 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A1563E;
-        Mon, 11 Jan 2021 16:33:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610379217;
-        bh=odg8jklcRy3RC1nJL/GTq5BIyU5YY9ap2WPkBb/eqMg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=F/tFwXKeSuJbHOJC32dUnpas/Im1Tre6qCa9whDOFO4waSj9WpFF/FugO5sI7L7tj
-         vsD76weR7m8SBUVDRgDgRaNrDtdKLpRqyhFjwz8zE553nQQd7E2HTj6sPYC8QA1cJQ
-         IUExgCbOkYvk70oQCbuhAEG7WWiQwDDgrkyPVc9A=
-Date:   Mon, 11 Jan 2021 17:33:23 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        "cc: Kieran Bingham" <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        mchehab+huawei@kernel.org
-Subject: Re: [PATCH v4 5/5] media: bcm2835-unicam: Add TODO file
-Message-ID: <X/xvw8C39ApIe4vK@pendragon.ideasonboard.com>
-References: <20201110174036.220883-1-jacopo@jmondi.org>
- <20201110174036.220883-6-jacopo@jmondi.org>
- <20201202220635.GC4351@valkosipuli.retiisi.org.uk>
- <CAPY8ntC42KJ-8SB2JbG=bbHKOD7u7qs8kqTJZ7unz63nxpXtZQ@mail.gmail.com>
- <X/Rp3KUGPd3ZKXm0@pendragon.ideasonboard.com>
- <CAPY8ntCViDgXic-r83U8yeyEBVLDcCQbTzLDuek9c4e3Tv7bwg@mail.gmail.com>
+        Mon, 11 Jan 2021 11:51:30 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B93C0617A3
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 08:50:40 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id y23so526611wmi.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 08:50:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yj6pW/NLvzV1m68BPluDwqW1KUCMC2X4qQpTc9K7+Ww=;
+        b=OErw2b02vL0f/fUgefa7zpnZ/ngeTFN8ZOeMwYNwR4MAafCQZ7H3u7wDcMKqaZbBbU
+         /FJ32kp59ex+9/RxeRaulDP7zwBDrysUfjHmGFxiyEwzhjAS/b7mr0kGdKTLR8csS9/V
+         o5nsrNtwNlA1ap9b+ODfsiAufZyBFktOUemZI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yj6pW/NLvzV1m68BPluDwqW1KUCMC2X4qQpTc9K7+Ww=;
+        b=lWN9jfFKoq3q7E9flZc6+qflrcWKV0z/FOn0GfQFV7StTN9voFA3Ohoa1UwGsyn6mz
+         bgAexVvcp5DWcXkr0RKiaso8DgGvPSZJV9VdDP2kFueh/gLMNfDwV49TJyo0fr1uLx5y
+         99mc0IAvQ+V7TgyOHEvrLqi3qt7LN+wJIvbRauAE1M5vT1ekVpNjaBdbLOvAhHX2BW06
+         Q5qRpjPdi1pL4wgVNWpkcoCi4i689ohVKaEf2Qu31uvDxVMrAM9oOhaPsUsiDB3USzFL
+         jMFeoyaKflyD2WahFLuY76P40lOV3ZRTXkKt7tBTebvm+PAWVSZS5lpeX5ofS7QeSWpP
+         K3BA==
+X-Gm-Message-State: AOAM533QfYv0KYyIXWsoaCVv6G0gNHoahF74SofSE4qpTcAzsSnQ+HD2
+        wrpmyGsa9Ighq0DEnZ6cJSUlDQ==
+X-Google-Smtp-Source: ABdhPJyKZg/r5HU4UsZwQIpVrxWn9fGeSCEf1DAuO2I0uSSuqSMovExSe5yPcAz48ELKK/wW9CTh2Q==
+X-Received: by 2002:a1c:b608:: with SMTP id g8mr552394wmf.110.1610383839338;
+        Mon, 11 Jan 2021 08:50:39 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id h184sm450377wmh.23.2021.01.11.08.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 08:50:38 -0800 (PST)
+Date:   Mon, 11 Jan 2021 17:50:36 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
+        airlied@redhat.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        kraxel@redhat.com, hdegoede@redhat.com, sean@poorly.run,
+        eric@anholt.net, sam@ravnborg.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v4 04/13] drm/shmem-helper: Provide a vmap function for
+ short-term mappings
+Message-ID: <X/yB3LC79f/zWTwG@phenom.ffwll.local>
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-5-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntCViDgXic-r83U8yeyEBVLDcCQbTzLDuek9c4e3Tv7bwg@mail.gmail.com>
+In-Reply-To: <20210108094340.15290-5-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
-
-On Mon, Jan 11, 2021 at 03:12:10PM +0000, Dave Stevenson wrote:
-> On Tue, 5 Jan 2021 at 13:30, Laurent Pinchart wrote:
-> > On Thu, Dec 03, 2020 at 11:42:38AM +0000, Dave Stevenson wrote:
-> > > On Wed, 2 Dec 2020 at 22:07, Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > > > On Tue, Nov 10, 2020 at 06:40:36PM +0100, Jacopo Mondi wrote:
-> > > > > The bcm2835-unicam driver is currently in staging mainly for
-> > > > > two reasons:
-> > > > > - Handling of CSI-2 embedded data
-> > > > > - Usage of both media controller API and subdev kAPI
-> > > > >
-> > > > > Provide a more detailed description of the currently on-going design
-> > > > > discussions in the associated TODO file.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > > ---
-> > > > >  drivers/staging/media/bcm2835-unicam/TODO | 37 +++++++++++++++++++++++
-> > > > >  1 file changed, 37 insertions(+)
-> > > > >  create mode 100644 drivers/staging/media/bcm2835-unicam/TODO
-> > > > >
-> > > > > diff --git a/drivers/staging/media/bcm2835-unicam/TODO b/drivers/staging/media/bcm2835-unicam/TODO
-> > > > > new file mode 100644
-> > > > > index 0000000000000..c7840872eea4c
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/staging/media/bcm2835-unicam/TODO
-> > > > > @@ -0,0 +1,37 @@
-> > > > > +BCM2835 Unicam driver TODO list
-> > > > > +===============================
-> > > > > +
-> > > > > +The unicam driver could be considered ready to be moved out of the staging
-> > > > > +directory in terms of code quality and expected functionalities.
-> > > > > +
-> > > > > +However there currently are two design issues that suggest the driver is
-> > > > > +better kept in staging for the time being.
-> > > > > +
-> > > > > +CSI-2 Embedded data support:
-> > > > > +----------------------------
-> > > > > +
-> > > > > +The RaspberryPi camera stack and camera applications rely on the availability of
-> > > > > +the sensor produced CSI-2 embedded data, whose support is currently not
-> > > > > +finalized in mainline Linux.
-> > > > > +
-> > > > > +The driver conditionally registers an additional video device node
-> > > > > +'unicam-embedded' with a single sink pad which connects to the sensor
-> > > > > +sub-device source pad #1 to expose ancillary data.
-> > > > > +
-> > > > > +Currently none of the mainline sensor drivers register more than a single pad,
-> > > > > +and consequentially no embedded data from the sensor are exposed to userspace.
-> > > > > +
-> > > > > +The current implementation is then subject to changes depending on how support
-> > > > > +for CSI-2 embedded data gets finalized in Linux.
-> > > >
-> > > > Are you looking to use out-of-tree sensor drivers that have two pads? I'd
-> > > > rather see sensor drivers merged to mainline proper.
-> > > >
-> > > > But as noted in the other e-mail, we need VC / stream support so this needs
-> > > > to be addressed for reasons not related to Unicam.
-> > >
-> > > There's a downstream patch for imx219 that adds the second pad [1].
-> > > The imx477 driver that is currently only out-of-tree also supports it,
-> > > and should be upstreamed once this first wave of patches have got
-> > > somewhere.
-> > >
-> > > [1] https://github.com/raspberrypi/linux/commit/fa8131cb1399f2c22de3f29e08ec1658db76552b
-> > > It's on the rpi-5.10.y branch too, but that is still being frequently
-> > > rebased so no stable commit hashes
-> > >
-> > > > > +
-> > > > > +Media controller support:
-> > > > > +-------------------------
-> > > > > +
-> > > > > +Due to compatibility reasons with the existing RaspberryPi software ecosystem
-> > > > > +the unicam driver implements the media controller interface to allow the
-> > > > > +enumeration of the connected entities but handles the configuration of the
-> > > > > +sensor sub-device using the v4l2-subdev kAPI instead of delegating that to
-> > > > > +user-space.
-> > > > > +
-> > > > > +Discussions are on-going on how this should be better handled (driver option,
-> > > > > +KConfig option etc etc).
-> > > >
-> > > > That's a fair use case. There are two ways to handle it, either in the
-> > > > kernel where the choice affects how the user space looks like. You have an
-> > > > option of module parameter or Kconfig option there, and both are true
-> > > > annoyances.
-> > > >
-> > > > Another option is to work around it in the user space, wrapping the IOCTL
-> > > > calls. This way no kernel build or module load time parameters would be
-> > > > needed to switch between the two sets of user space programs.
-> > > >
-> > > > We probably can't decide it now, but could an MC-only driver + user space
-> > > > compatibility layer be an option here?
-> > >
-> > > Iff the user-space compatibility layer worked with all standard users
-> > > (eg v4l2-ctl, FFmpeg and Gstreamer), then it's plausible, but is that
-> > > realistic?
-> >
-> > We have a compatibility layer in libcamera, implemented with a
-> > best-effort approach (as the gap between a V4L2 video node and a complex
-> > camera is larger to bridge than between a video node and an MC-based
-> > device with a simple linear capture pipeline). It works, but has its
-> > share of issues as LD_PRELOAD'ing a library isn't always a practical
-> > option.
-> >
-> > I believe the wrapper that Sakari envisions is feasible to implement as
-> > the problem space is smaller (in a way the code already exists in kernel
-> > space in the unicam driver, it bridges between the video node and the
-> > input subdev). The tricky part will be to make it nice to use.
-> >
-> > > The non-MC approach is mainly for things like the TC358743 HDMI->CSI
-> > > bridge and ADV728x-M chips where MC adds nothing, and they do just
-> > > work with the likes of FFmpeg and Gstreamer.
-> >
-> > There are of devices that won't benefit much from an MC-based approach,
-> > but note that in the non-camera use cases, you could have chips such as
-> > the ADV748x which has one HDMI input, 8 analog inputs and two CSI-2
-> > outputs with configurable routing in-between.
+On Fri, Jan 08, 2021 at 10:43:31AM +0100, Thomas Zimmermann wrote:
+> Implementations of the vmap/vunmap GEM callbacks may perform pinning
+> of the BO and may acquire the associated reservation object's lock.
+> Callers that only require a mapping of the contained memory can thus
+> interfere with other tasks that require exact pinning, such as scanout.
+> This is less of an issue with private SHMEM buffers, but may happen
+> with imported ones.
 > 
-> The main difference there is that no one has ever been able to use
-> ADV748x without MC.
+> Therefore provide the new interfaces drm_gem_shmem_vmap_local() and
+> drm_gem_shmem_vunmap_local(), which only perform the vmap/vunmap
+> operations. Callers have to hold the reservation lock while the mapping
+> persists.
 > 
-> Running a mono image sensor, ADV728x-M or TC358743 is all perfectly
-> possible in a non-MC world. I don't want the headache of all the user
-> complaints should that get removed, even if able to workaround it with
-> a LD_PRELOAD library.
-
-I agree, an LD_PRELOAD wrapper doesn't bring a great user experience :-(
-
-> Should a wrapper appear then that would potentially remove the need
-> for the kernel to support a non-MC mode, but currently it looks like a
-> driver supporting both modes is the only answer.
-
-From a backward compatibility point of view, yes, that's the only
-solution we have now that will be 100% transparent and compatible.
-
-> > > Image sensors are generally going to be used under libcamera umbrella,
-> > > so there MC works.
-> > >
-> > > Kconfig isn't an option for us as one kernel build needs to support
-> > > all potential source devices via DT / runtime changes alone.
-> > >
-> > > I haven't looked in detail at what the previous VC / stream patches
-> > > proposed as the API for passing the configuration. We only need MC for
-> > > the more complex use cases, so if that VC/stream API usage can be
-> > > detected at probe then we can switch to MC. It doesn't seem
-> > > unreasonable to expect any sensor drivers to be upgraded to correctly
-> > > use the new API even if they don't actually produce embedded data.
-> >
-> > I'm not sure that would be the case, support for multiplexed streams
-> > would be on top of the V4L2 subdev in-kernel API, and I don't expect
-> > changes in camera sensors that don't support multiple streams.
-> >
-> > > We also want MC for ADV748x HDMI&analog->CSI bridges that expose
-> >
-> > There we go :-)
+> This patch also connects GEM SHMEM helpers to GEM object functions with
+> equivalent functionality.
 > 
-> New use case, therefore no existing user expectations on how it would work.
-
-Sure, that was only outlining that we need MC support, not that we have
-to drop everything else.
-
-> > > multiple subdevs, but there we can look at the upstream endpoint and
-> > > see if it has any sink pads. Sink pads mean MC is needed. (I now have
-> > > a board with an ADV7482 on, so when time allows I'm intending to have
-> > > an experiment with it).
-> >
-> > Note that we will likely, in the future, introduce media entities for
-> > connectors, which means that a device such as the TC358743 would have a
-> > sink pad connected to an HDMI connector entity.
+> v4:
+> 	* call dma_buf_{vmap,vunmap}_local() where necessary (Daniel)
+> 	* move driver changes into separate patches (Daniel)
 > 
-> Would that count as an improvement?
-> I thought the golden rule was not to break userspace, but you'd be
-> enforcing extra userspace steps in configuring the device if it gains
-> more MC entities. Not my call though.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 90 +++++++++++++++++++++++---
+>  include/drm/drm_gem_shmem_helper.h     |  2 +
+>  2 files changed, 84 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 9825c378dfa6..298832b2b43b 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -32,6 +32,8 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+>  	.get_sg_table = drm_gem_shmem_get_sg_table,
+>  	.vmap = drm_gem_shmem_vmap,
+>  	.vunmap = drm_gem_shmem_vunmap,
+> +	.vmap_local = drm_gem_shmem_vmap_local,
+> +	.vunmap_local = drm_gem_shmem_vunmap_local,
+>  	.mmap = drm_gem_shmem_mmap,
+>  };
+>  
+> @@ -261,7 +263,8 @@ void drm_gem_shmem_unpin(struct drm_gem_object *obj)
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_unpin);
+>  
+> -static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map)
+> +static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map,
+> +				     bool local)
 
-Just to clarify, this change will not be applied to existing drivers if
-it risks breaking userspace. Furthermore, there will likely be no need
-for userspace to configure the connector entity. My point was that logic
-in the kernel that looks at the source to see if it has more than just
-one output port or pad may not be future-proof, but that's a kernel-side
-problem, it shouldn't affect userspace. I'm sure we'll be able to find a
-good enough heuristic on the kernel side.
+This is a bit spaghetti and also has the problem that we're not changing
+shmem->vmap_use_count under different locks, depending upon which path
+we're taking.
 
-> I'm tied up with other stuff at present, but will be looking at adding
-> MC rather than video node based mode of operation when time allows.
+I think the cleanest would be if we pull the if (import_attach) case out
+of the _locked() version completely, for all cases, and also outside of
+the shmem->vmap_lock. This means no caching of vmaps in the shmem layer
+anymore for imported buffers, but this is no longer a problem: We cache
+them in the exporters instead (I think at least, if not maybe need to fix
+that where it's expensive).
 
-That's something I can look at too. The question is how to handle
-backward compatibility, my preference would be for the driver core to be
-MC-based, and for the compatibility layer to be based on top of that,
-isolated from the rest of the code as much as possible. I think it's
-doable.
+Other option would be to unly pull it out for the _vmap_local case, but
+that's a bit ugly because no longer symmetrical in the various paths.
 
-> > > Use a module parameter as a last resort should the detection fail, or
-> > > I guess if you want to override the detected setting for some reason
-> > > (a simple sensor being used outside of libcamera for example).
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  	int ret = 0;
+> @@ -272,7 +275,10 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct
+>  	}
+>  
+>  	if (obj->import_attach) {
+> -		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+> +		if (local)
+> +			ret = dma_buf_vmap_local(obj->import_attach->dmabuf, map);
+> +		else
+> +			ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+>  		if (!ret) {
+>  			if (WARN_ON(map->is_iomem)) {
+>  				ret = -EIO;
+> @@ -313,7 +319,7 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct
+>  	return ret;
+>  }
+>  
+> -/*
+> +/**
+>   * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+>   * @shmem: shmem GEM object
+>   * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
+> @@ -339,15 +345,53 @@ int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  	ret = mutex_lock_interruptible(&shmem->vmap_lock);
+>  	if (ret)
+>  		return ret;
+> -	ret = drm_gem_shmem_vmap_locked(shmem, map);
+> +	ret = drm_gem_shmem_vmap_locked(shmem, map, false);
+>  	mutex_unlock(&shmem->vmap_lock);
+>  
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vmap);
+>  
+> +/**
+> + * drm_gem_shmem_vmap_local - Create a virtual mapping for a shmem GEM object
+> + * @shmem: shmem GEM object
+> + * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
+> + *       store.
+> + *
+> + * This function makes sure that a contiguous kernel virtual address mapping
+> + * exists for the buffer backing the shmem GEM object.
+> + *
+> + * The function is called with the BO's reservation object locked. Callers must
+> + * hold the lock until after unmapping the buffer.
+> + *
+> + * This function can be used to implement &drm_gem_object_funcs.vmap_local. But
+> + * it can also be called by drivers directly, in which case it will hide the
+> + * differences between dma-buf imported and natively allocated objects.
+
+So for the other callbacks I tried to make sure we have different entry
+points for this, since it's not really the same thing and because of the
+locking mess we have with dma_resv_lock vs various pre-existing local
+locking scheme, it's easy to get a mess.
+
+I think the super clean version here would be to also export just the
+internal stuff for the ->v(un)map_local hooks, but that's maybe a bit too
+much boilerplate for no real gain.
+-Daniel
+
+> + *
+> + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap_local().
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
+> +{
+> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+> +	int ret;
+> +
+> +	dma_resv_assert_held(obj->resv);
+> +
+> +	ret = mutex_lock_interruptible(&shmem->vmap_lock);
+> +	if (ret)
+> +		return ret;
+> +	ret = drm_gem_shmem_vmap_locked(shmem, map, true);
+> +	mutex_unlock(&shmem->vmap_lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_gem_shmem_vmap_local);
+> +
+>  static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+> -					struct dma_buf_map *map)
+> +					struct dma_buf_map *map, bool local)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  
+> @@ -358,7 +402,10 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  		return;
+>  
+>  	if (obj->import_attach)
+> -		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+> +		if (local)
+> +			dma_buf_vunmap_local(obj->import_attach->dmabuf, map);
+> +		else
+> +			dma_buf_vunmap(obj->import_attach->dmabuf, map);
+>  	else
+>  		vunmap(shmem->vaddr);
+>  
+> @@ -366,7 +413,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  	drm_gem_shmem_put_pages(shmem);
+>  }
+>  
+> -/*
+> +/**
+>   * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM object
+>   * @shmem: shmem GEM object
+>   * @map: Kernel virtual address where the SHMEM GEM object was mapped
+> @@ -384,11 +431,38 @@ void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>  
+>  	mutex_lock(&shmem->vmap_lock);
+> -	drm_gem_shmem_vunmap_locked(shmem, map);
+> +	drm_gem_shmem_vunmap_locked(shmem, map, false);
+>  	mutex_unlock(&shmem->vmap_lock);
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vunmap);
+>  
+> +/**
+> + * drm_gem_shmem_vunmap_local - Unmap a virtual mapping fo a shmem GEM object
+> + * @shmem: shmem GEM object
+> + * @map: Kernel virtual address where the SHMEM GEM object was mapped
+> + *
+> + * This function cleans up a kernel virtual address mapping acquired by
+> + * drm_gem_shmem_vmap_local(). The mapping is only removed when the use count
+> + * drops to zero.
+> + *
+> + * The function is called with the BO's reservation object locked.
+> + *
+> + * This function can be used to implement &drm_gem_object_funcs.vmap_local.
+> + * But it can also be called by drivers directly, in which case it will hide
+> + * the differences between dma-buf imported and natively allocated objects.
+> + */
+> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
+> +{
+> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+> +
+> +	dma_resv_assert_held(obj->resv);
+> +
+> +	mutex_lock(&shmem->vmap_lock);
+> +	drm_gem_shmem_vunmap_locked(shmem, map, true);
+> +	mutex_unlock(&shmem->vmap_lock);
+> +}
+> +EXPORT_SYMBOL(drm_gem_shmem_vunmap_local);
+> +
+>  struct drm_gem_shmem_object *
+>  drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+>  				 struct drm_device *dev, size_t size,
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 434328d8a0d9..3f59bdf749aa 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -114,7 +114,9 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
+>  int drm_gem_shmem_pin(struct drm_gem_object *obj);
+>  void drm_gem_shmem_unpin(struct drm_gem_object *obj);
+>  int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv);
+>  
+> -- 
+> 2.29.2
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
