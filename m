@@ -2,281 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AE8A2F1996
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 16:24:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B821D2F19CE
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 16:34:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728928AbhAKPYp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 10:24:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728506AbhAKPYo (ORCPT
+        id S1729869AbhAKPeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 10:34:22 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36564 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727957AbhAKPeU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 10:24:44 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B44EC06179F
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 07:24:04 -0800 (PST)
+        Mon, 11 Jan 2021 10:34:20 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9572F3E;
-        Mon, 11 Jan 2021 16:24:00 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A1563E;
+        Mon, 11 Jan 2021 16:33:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610378640;
-        bh=UfWPv5ynnazlXyQ8VmBBZlqoS0d0m/74qRYLiEZN2iQ=;
+        s=mail; t=1610379217;
+        bh=odg8jklcRy3RC1nJL/GTq5BIyU5YY9ap2WPkBb/eqMg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U8uQYUZPFn1AAJcNwAMah8GIyZ+iYWuWK+1dWtlQjq8y72Dtgdx8YsmltexyUACph
-         aobhcEvlbpRIGjBv+7pdforqWJ1aQAqWARh64ANS6X90X9G5zmjBi8ipZsBgU3bf03
-         c49KfjCperv3gmJ4CtILAFocT/6/uW6XdWJDkTf8=
-Date:   Mon, 11 Jan 2021 17:23:46 +0200
+        b=F/tFwXKeSuJbHOJC32dUnpas/Im1Tre6qCa9whDOFO4waSj9WpFF/FugO5sI7L7tj
+         vsD76weR7m8SBUVDRgDgRaNrDtdKLpRqyhFjwz8zE553nQQd7E2HTj6sPYC8QA1cJQ
+         IUExgCbOkYvk70oQCbuhAEG7WWiQwDDgrkyPVc9A=
+Date:   Mon, 11 Jan 2021 17:33:23 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        kever.yang@rock-chips.com, Eddie Cai <eddie.cai@rock-chips.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org,
-        christoph.muellner@theobroma-systems.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Collabora Kernel ML <kernel@collabora.com>
-Subject: Re: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
-Message-ID: <X/xtgl7exc828m5M@pendragon.ideasonboard.com>
-References: <3342088.iIbC2pHGDl@diego>
- <1704014.3VsfAaAtOV@diego>
- <X/ww2Bfvr8WE/Yz6@pendragon.ideasonboard.com>
- <15789743.geO5KgaWL5@diego>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        "cc: Kieran Bingham" <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        mchehab+huawei@kernel.org
+Subject: Re: [PATCH v4 5/5] media: bcm2835-unicam: Add TODO file
+Message-ID: <X/xvw8C39ApIe4vK@pendragon.ideasonboard.com>
+References: <20201110174036.220883-1-jacopo@jmondi.org>
+ <20201110174036.220883-6-jacopo@jmondi.org>
+ <20201202220635.GC4351@valkosipuli.retiisi.org.uk>
+ <CAPY8ntC42KJ-8SB2JbG=bbHKOD7u7qs8kqTJZ7unz63nxpXtZQ@mail.gmail.com>
+ <X/Rp3KUGPd3ZKXm0@pendragon.ideasonboard.com>
+ <CAPY8ntCViDgXic-r83U8yeyEBVLDcCQbTzLDuek9c4e3Tv7bwg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <15789743.geO5KgaWL5@diego>
+In-Reply-To: <CAPY8ntCViDgXic-r83U8yeyEBVLDcCQbTzLDuek9c4e3Tv7bwg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+Hi Dave,
 
-On Mon, Jan 11, 2021 at 04:05:20PM +0100, Heiko Stuebner wrote:
-> Am Montag, 11. Januar 2021, 12:04:56 CET schrieb Laurent Pinchart:
-> > On Mon, Jan 11, 2021 at 11:53:00AM +0100, Heiko Stuebner wrote:
-> >> Am Samstag, 9. Januar 2021, 02:21:43 CET schrieb Laurent Pinchart:
-> >>> On Fri, Jan 08, 2021 at 04:21:49PM +0100, Dafna Hirschfeld wrote:
-> >>>> Am 08.01.21 um 13:05 schrieb Heiko Stuebner:
-> >>>>> Am Freitag, 8. Januar 2021, 12:17:43 CET schrieb Dafna Hirschfeld:
-> >>>>>> Am 07.01.21 um 21:23 schrieb Heiko Stuebner:
-> >>>>>>> the rkisp driver in the mainline Linux kernel moved out of staging with
-> >>>>>>> 5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
-> >>>>>>>
-> >>>>>>> The rkisp driver currently only supports the rk3399 and while working
-> >>>>>>> on porting the support for rk3326/px30 I noticed discrepancies.
-> >>>>>>>
-> >>>>>>> Hence it would be somewhat urgent to clarify this, as later it will get
-> >>>>>>> really cumbersome.
-> >>>>>>
-> >>>>>> I see that we are now on 5.11-rc2 so that gives us about 4-5 weeks,
-> >>>>>>
-> >>>>>>>
-> >>>>>>> ----
-> >>>>>>>
-> >>>>>>> The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
-> >>>>>>
-> >>>>>> How do you know that the isp of rk3399 is v10 ? I looked at the RK3399 TRM
-> >>>>>> and the datasheet for the isp and could not find this information.
-> >>>>> 
-> >>>>> That's from Rockchip's upstream sources where they introduced the new code.
-> >>>>> There're some (if v12) conditionals in there ;-) .
-> >>>>> 
-> >>>>>>> Some sub-blocks moved around or seem to have been replaced with newer
-> >>>>>>> variants and the gist of changes can be seen in [0] with the important
-> >>>>>>> part being the uapi changes [1] and those values also exist in mainline.
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> See functions in that patch:
-> >>>>>>> - isp_goc_config_v12()
-> >>>>>>> - rkisp1_stats_get_aec_meas_v12()
-> >>>>>>> - rkisp1_stats_get_hst_meas_v12()
-> >>>>>>>
-> >>>>>>> Looking at the code, the register locations are different, for gammas and
-> >>>>>>> the histogram the actual amount of raw registers is the same, while the
-> >>>>>>> "aec" seems to use 25 registers on V10 while 21 registers on V12. Though
-> >>>>>>> their content gets split into multiple values in that v12 variant.
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> As somehow expected the whole thing is pretty undocumented and I
-> >>>>>>> have no clue what these "bins" or "gammas" mean and why the amount of
-> >>>>>>> entries now differs and how this relates to userspace at all.
-> >>>>>>>
-> >>>>>>> Also looking through libcamera as the one open user of the driver,
-> >>>>>>> the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
-> >>>>>>> as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
-> >>>>>>> don't seem to be used so far.
-> >>>>>>
-> >>>>>> yes, that's a shame. There is a simple implementation using the ae in
-> >>>>>> stuct rkisp1_cif_isp_stat in src/ipa/rkisp1.c
-> >>>>> 
-> >>>>> Thanks for pointing me to that :-)
-> >>>>> 
-> >>>>>>> Hence I also added some Rockchip people in the hope of getting
-> >>>>>>> a bit of clarification ;-) .
-> >>>>>>>
-> >>>>>>> Ideas on how to proceed?
-> >>>>>>>
-> >>>>>>> Thanks
-> >>>>>>> Heiko
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> [0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
-> >>>>>>> [1]
-> >>>>>>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> >>>>>>> index b471f01a8459..fbeb6b5dba03 100644
-> >>>>>>> --- a/include/uapi/linux/rkisp1-config.h
-> >>>>>>> +++ b/include/uapi/linux/rkisp1-config.h
-> >>>>>>> @@ -32,8 +32,8 @@
-> >>>>>>>    #define CIFISP_CTK_COEFF_MAX            0x100
-> >>>>>>>    #define CIFISP_CTK_OFFSET_MAX           0x800
-> >>>>>>>    
-> >>>>>>> -#define CIFISP_AE_MEAN_MAX              25
-> >>>>>>> -#define CIFISP_HIST_BIN_N_MAX           16
-> >>>>>>> +#define CIFISP_AE_MEAN_MAX              81
-> >>>>>>> +#define CIFISP_HIST_BIN_N_MAX           32
-> >>>>>>>    #define CIFISP_AFM_MAX_WINDOWS          3
-> >>>>>>>    #define CIFISP_DEGAMMA_CURVE_SIZE       17
-> >>>>>>>    
-> >>>>>>> @@ -69,7 +69,7 @@
-> >>>>>>>     * Gamma out
-> >>>>>>>     */
-> >>>>>>>    /* Maximum number of color samples supported */
-> >>>>>>> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> >>>>>>> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
-> >>>>>>
-> >>>>>> I see that in that code you use the old names of the registers.
-> >>>>>> The names are different in the current version of the driver,
-> >>>>>> in the media tree: git://linuxtv.org/media_tree.git
-> >>>>>> Also, I guess that instead of changing the values you should
-> >>>>>> add a separated define, something like:
-> >>>>>>
-> >>>>>> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-> >>>>>> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-> >>>>>> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-> >>>>> 
-> >>>>> Just for clarity, that is Rockchip's commit in their vendor kernel.
-> >>>>> I'm just using that as base to get the changes needed for mainline :-) .
-> >>>>> 
-> >>>>> The main issue I see is that these max-values directly influence the sizes
-> >>>>> of arrays inside the uapi - where the "v12" seems to need bigger arrays
-> >>>>> on first glance.
-> >>>>> ^^^ which is essentially the part I'm mostly worried about
-> >>>> 
-> >>>> Oh, ok, I thought it's your code.
-> >>>> So maybe we should change the uapi to look like:
-> >>>> 
-> >>>> /* v10 is the isp version for rk3399 */
-> >>>> #define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
-> >>>> /* v12 is the isp version for rk3326/px30 */
-> >>>> #define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
-> >>>> #define CIFISP_GAMMA_OUT_MAX_SAMPLES       CIFISP_GAMMA_OUT_MAX_SAMPLES_v12
-> >>>> 
-> >>>> This way we inform userspace how many samples are supported according to the
-> >>>> version.
-> >>>> I don't know if there are other versions with higher maximum,
-> >>>> 
-> >>>> What do you think?
-> >>> 
-> >>> This makes sense to me. Userspace will need to know how many samples are
-> >>> actually present in the array, so corresponding macros should be defined
-> >>> in the header.
-> >> 
-> >> ok, though as it seems to have been discussed on irc, we'll also need a
-> >> version field to indicate the IP version.
-> > 
-> > In the statistics buffer that could be done, but in the params buffer it
-> > won't help userspace figure out what version of the IP is in use as
-> > params are filled by the application, not the kernel. I think reporting
-> > the IP version through the media controller API should be enough,
-> > possibly in media_device_info.hw_revision, and/or in the model string.
+On Mon, Jan 11, 2021 at 03:12:10PM +0000, Dave Stevenson wrote:
+> On Tue, 5 Jan 2021 at 13:30, Laurent Pinchart wrote:
+> > On Thu, Dec 03, 2020 at 11:42:38AM +0000, Dave Stevenson wrote:
+> > > On Wed, 2 Dec 2020 at 22:07, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> > > > On Tue, Nov 10, 2020 at 06:40:36PM +0100, Jacopo Mondi wrote:
+> > > > > The bcm2835-unicam driver is currently in staging mainly for
+> > > > > two reasons:
+> > > > > - Handling of CSI-2 embedded data
+> > > > > - Usage of both media controller API and subdev kAPI
+> > > > >
+> > > > > Provide a more detailed description of the currently on-going design
+> > > > > discussions in the associated TODO file.
+> > > > >
+> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > > ---
+> > > > >  drivers/staging/media/bcm2835-unicam/TODO | 37 +++++++++++++++++++++++
+> > > > >  1 file changed, 37 insertions(+)
+> > > > >  create mode 100644 drivers/staging/media/bcm2835-unicam/TODO
+> > > > >
+> > > > > diff --git a/drivers/staging/media/bcm2835-unicam/TODO b/drivers/staging/media/bcm2835-unicam/TODO
+> > > > > new file mode 100644
+> > > > > index 0000000000000..c7840872eea4c
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/staging/media/bcm2835-unicam/TODO
+> > > > > @@ -0,0 +1,37 @@
+> > > > > +BCM2835 Unicam driver TODO list
+> > > > > +===============================
+> > > > > +
+> > > > > +The unicam driver could be considered ready to be moved out of the staging
+> > > > > +directory in terms of code quality and expected functionalities.
+> > > > > +
+> > > > > +However there currently are two design issues that suggest the driver is
+> > > > > +better kept in staging for the time being.
+> > > > > +
+> > > > > +CSI-2 Embedded data support:
+> > > > > +----------------------------
+> > > > > +
+> > > > > +The RaspberryPi camera stack and camera applications rely on the availability of
+> > > > > +the sensor produced CSI-2 embedded data, whose support is currently not
+> > > > > +finalized in mainline Linux.
+> > > > > +
+> > > > > +The driver conditionally registers an additional video device node
+> > > > > +'unicam-embedded' with a single sink pad which connects to the sensor
+> > > > > +sub-device source pad #1 to expose ancillary data.
+> > > > > +
+> > > > > +Currently none of the mainline sensor drivers register more than a single pad,
+> > > > > +and consequentially no embedded data from the sensor are exposed to userspace.
+> > > > > +
+> > > > > +The current implementation is then subject to changes depending on how support
+> > > > > +for CSI-2 embedded data gets finalized in Linux.
+> > > >
+> > > > Are you looking to use out-of-tree sensor drivers that have two pads? I'd
+> > > > rather see sensor drivers merged to mainline proper.
+> > > >
+> > > > But as noted in the other e-mail, we need VC / stream support so this needs
+> > > > to be addressed for reasons not related to Unicam.
+> > >
+> > > There's a downstream patch for imx219 that adds the second pad [1].
+> > > The imx477 driver that is currently only out-of-tree also supports it,
+> > > and should be upstreamed once this first wave of patches have got
+> > > somewhere.
+> > >
+> > > [1] https://github.com/raspberrypi/linux/commit/fa8131cb1399f2c22de3f29e08ec1658db76552b
+> > > It's on the rpi-5.10.y branch too, but that is still being frequently
+> > > rebased so no stable commit hashes
+> > >
+> > > > > +
+> > > > > +Media controller support:
+> > > > > +-------------------------
+> > > > > +
+> > > > > +Due to compatibility reasons with the existing RaspberryPi software ecosystem
+> > > > > +the unicam driver implements the media controller interface to allow the
+> > > > > +enumeration of the connected entities but handles the configuration of the
+> > > > > +sensor sub-device using the v4l2-subdev kAPI instead of delegating that to
+> > > > > +user-space.
+> > > > > +
+> > > > > +Discussions are on-going on how this should be better handled (driver option,
+> > > > > +KConfig option etc etc).
+> > > >
+> > > > That's a fair use case. There are two ways to handle it, either in the
+> > > > kernel where the choice affects how the user space looks like. You have an
+> > > > option of module parameter or Kconfig option there, and both are true
+> > > > annoyances.
+> > > >
+> > > > Another option is to work around it in the user space, wrapping the IOCTL
+> > > > calls. This way no kernel build or module load time parameters would be
+> > > > needed to switch between the two sets of user space programs.
+> > > >
+> > > > We probably can't decide it now, but could an MC-only driver + user space
+> > > > compatibility layer be an option here?
+> > >
+> > > Iff the user-space compatibility layer worked with all standard users
+> > > (eg v4l2-ctl, FFmpeg and Gstreamer), then it's plausible, but is that
+> > > realistic?
+> >
+> > We have a compatibility layer in libcamera, implemented with a
+> > best-effort approach (as the gap between a V4L2 video node and a complex
+> > camera is larger to bridge than between a video node and an MC-based
+> > device with a simple linear capture pipeline). It works, but has its
+> > share of issues as LD_PRELOAD'ing a library isn't always a practical
+> > option.
+> >
+> > I believe the wrapper that Sakari envisions is feasible to implement as
+> > the problem space is smaller (in a way the code already exists in kernel
+> > space in the unicam driver, it bridges between the video node and the
+> > input subdev). The tricky part will be to make it nice to use.
+> >
+> > > The non-MC approach is mainly for things like the TC358743 HDMI->CSI
+> > > bridge and ADV728x-M chips where MC adds nothing, and they do just
+> > > work with the likes of FFmpeg and Gstreamer.
+> >
+> > There are of devices that won't benefit much from an MC-based approach,
+> > but note that in the non-camera use cases, you could have chips such as
+> > the ADV748x which has one HDMI input, 8 analog inputs and two CSI-2
+> > outputs with configurable routing in-between.
 > 
-> hw_revision sounds like the ideal place :-)
+> The main difference there is that no one has ever been able to use
+> ADV748x without MC.
 > 
-> and I've added a line doing that, thanks for the pointer.
-> 
-> >>>>> The vendor-code only used the MAX-constants for the uapi to get the
-> >>>>> biggest size needed and then defines the real per-version maximums
-> >>>>> inside the driver, see
-> >>>>> https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R378
-> >>>>> 
-> >>>>> and for the auto-exposure:
-> >>>>> https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R265
-> >>>>>>> Thanks for working on that, hope we could still fix this in 5.11,
-> >>>>>>
-> >>>>>> I don't have a rk3326/px30 hardware so I can't test your patches.
-> >>>>>> Do you have a hardware to test it?
-> >>>>> 
-> >>>>> Yep, I'm working on a px30-evb and thankfully the driver for the camera
-> >>>>> on it is also already part of mainline.
-> >>>>> 
-> >>>>>> I suggest that you send a patchset to the mailing list then I can
-> >>>>>> review it and test it on rk3399. Unfortunately there is indeed no way
-> >>>>>> to thoroughly test the params/stats since there is no userspace for that.
-> >>>>> 
-> >>>>>  From looking at the currently newest version [0] it looks like these
-> >>>>> new max values seem to have stayed the same, so one solution might be
-> >>>>> to just make the uapi structures bigger to these new max values and
-> >>>>> hope for the best?
-> >>> 
-> >>> This is one option, the other option would be to make the array size
-> >>> dynamic by turning them into pointers. That leads to additional
-> >>> complications though, so given that the extra memory consumed for the
-> >>> largest array is reasonable, simply increasing the array size may be the
-> >>> best option. Do we expect other ISP versions in the future with
-> >>> differences that would require other changes to the userspace API ? How
-> >>> about v1 to v9 and v11, do they exist ?
-> >> 
-> >> I do believe the version indication is v10 for v1.0 and so on.
-> >> 
-> >> Looking at the vendor tree, I see versions:
-> >> 
-> >> - V10: rk3288 + rk3399
-> >> - V10_1: rk3368 (only supports MP streams - whatever these are)
-> >> - V11: unused
-> >> - V12: rk3326 / px30
-> >> - V13: rk1808
-> >> - V20: rk3568 and probably following
-> >>
-> >> gamma_out, hist_grid_size, ae_mean_max, hist_bin
-> >> v10:  17, 28, 25, 16
-> >> v12: 34, 81, 81, 32
-> >> v13: same as v12
-> > 
-> > Are v10 and v12 software versions introduced by rockchip, or is there a
-> > version reported in the hardware registers ?
-> 
-> The version designations are introduced by Rockchip - living in the
-> dt-compatible-based match-data.
-> 
-> Looking at the registers in the regs header, I sadly didn't see any
-> version-registers - though V12 moved a number of registers arond
-> and introduced new ones (for the data sources requiring these
-> bigger arrays)
-> 
-> >> Looking at the general change for V20 [0] it really looks like a big rework
-> >> of the ISP block happenend with 100K of new register definitions and there
-> >> are of course no chips nor boards on the market yet at all, so part of me
-> >> would expect this to need a separate userspace when the time comes.
-> > 
-> > Is it an evoluation of the IP core, or something completely different ?
-> > It may even make sense to have a separate kernel driver.
-> 
-> From my short glance it seems to share a lot of the basic parts for capture
-> etc with small evolutions ... but the stats and params parts seem to have
-> gotten a major evolution.
+> Running a mono image sensor, ADV728x-M or TC358743 is all perfectly
+> possible in a non-MC world. I don't want the headache of all the user
+> complaints should that get removed, even if able to workaround it with
+> a LD_PRELOAD library.
 
-While the format of the stats-related structures are partly
-hardware-driven the params structures (at least up to v13) are not too
-tied to the hardware as the driver writes registers manually. Of course
-parameters stored in the buffer are likely to be in the form expected by
-hardware registers, but the layout of the structures is quite
-independent. We'll have to look at the code in the v20 driver that
-interacts with the hardware to try and figure out what the differences
-really are.
+I agree, an LD_PRELOAD wrapper doesn't bring a great user experience :-(
 
-> I guess we'll cross that bridge after the chips are actually available ;-) .
-> Rockchip pushed that code into their public repo only last week after all.
+> Should a wrapper appear then that would potentially remove the need
+> for the kernel to support a non-MC mode, but currently it looks like a
+> driver supporting both modes is the only answer.
+
+From a backward compatibility point of view, yes, that's the only
+solution we have now that will be 100% transparent and compatible.
+
+> > > Image sensors are generally going to be used under libcamera umbrella,
+> > > so there MC works.
+> > >
+> > > Kconfig isn't an option for us as one kernel build needs to support
+> > > all potential source devices via DT / runtime changes alone.
+> > >
+> > > I haven't looked in detail at what the previous VC / stream patches
+> > > proposed as the API for passing the configuration. We only need MC for
+> > > the more complex use cases, so if that VC/stream API usage can be
+> > > detected at probe then we can switch to MC. It doesn't seem
+> > > unreasonable to expect any sensor drivers to be upgraded to correctly
+> > > use the new API even if they don't actually produce embedded data.
+> >
+> > I'm not sure that would be the case, support for multiplexed streams
+> > would be on top of the V4L2 subdev in-kernel API, and I don't expect
+> > changes in camera sensors that don't support multiple streams.
+> >
+> > > We also want MC for ADV748x HDMI&analog->CSI bridges that expose
+> >
+> > There we go :-)
+> 
+> New use case, therefore no existing user expectations on how it would work.
+
+Sure, that was only outlining that we need MC support, not that we have
+to drop everything else.
+
+> > > multiple subdevs, but there we can look at the upstream endpoint and
+> > > see if it has any sink pads. Sink pads mean MC is needed. (I now have
+> > > a board with an ADV7482 on, so when time allows I'm intending to have
+> > > an experiment with it).
+> >
+> > Note that we will likely, in the future, introduce media entities for
+> > connectors, which means that a device such as the TC358743 would have a
+> > sink pad connected to an HDMI connector entity.
+> 
+> Would that count as an improvement?
+> I thought the golden rule was not to break userspace, but you'd be
+> enforcing extra userspace steps in configuring the device if it gains
+> more MC entities. Not my call though.
+
+Just to clarify, this change will not be applied to existing drivers if
+it risks breaking userspace. Furthermore, there will likely be no need
+for userspace to configure the connector entity. My point was that logic
+in the kernel that looks at the source to see if it has more than just
+one output port or pad may not be future-proof, but that's a kernel-side
+problem, it shouldn't affect userspace. I'm sure we'll be able to find a
+good enough heuristic on the kernel side.
+
+> I'm tied up with other stuff at present, but will be looking at adding
+> MC rather than video node based mode of operation when time allows.
+
+That's something I can look at too. The question is how to handle
+backward compatibility, my preference would be for the driver core to be
+MC-based, and for the compatibility layer to be based on top of that,
+isolated from the rest of the code as much as possible. I think it's
+doable.
+
+> > > Use a module parameter as a last resort should the detection fail, or
+> > > I guess if you want to override the detected setting for some reason
+> > > (a simple sensor being used outside of libcamera for example).
 
 -- 
 Regards,
