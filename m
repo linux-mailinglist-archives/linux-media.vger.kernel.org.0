@@ -2,140 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A6B2F1C2A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 18:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E6F12F1C40
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 18:24:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730150AbhAKRVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 12:21:04 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:45665 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728432AbhAKRVD (ORCPT
+        id S2389328AbhAKRX7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 12:23:59 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:50355 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726952AbhAKRX7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 12:21:03 -0500
+        Mon, 11 Jan 2021 12:23:59 -0500
 X-Originating-IP: 93.29.109.196
 Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 595964000B;
-        Mon, 11 Jan 2021 17:20:17 +0000 (UTC)
-Date:   Mon, 11 Jan 2021 18:20:16 +0100
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 926CBC0005;
+        Mon, 11 Jan 2021 17:23:14 +0000 (UTC)
+Date:   Mon, 11 Jan 2021 18:23:13 +0100
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Heiko Stuebner <heiko@sntech.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 3/5] dt-bindings: media: rockchip-vpu: Add PX30 compatible
-Message-ID: <X/yI0BCrkrEI/K42@aptenodytes>
+Subject: Re: [PATCH 5/5] media: hantro: Add support for the Rockchip PX30
+Message-ID: <X/yJgRXToYvYlapj@aptenodytes>
 References: <20210107134101.195426-1-paul.kocialkowski@bootlin.com>
- <20210107134101.195426-4-paul.kocialkowski@bootlin.com>
- <a23ab40e50a761bd2127df6bc8b2a91e99a1617c.camel@pengutronix.de>
+ <20210107134101.195426-6-paul.kocialkowski@bootlin.com>
+ <f7291b83fe39d71c3192ea58ebf71e3909bd38af.camel@collabora.com>
+ <X/ggTOOTBhGoFDpW@aptenodytes>
+ <f9a163675ae05cc77b2d527ea5d68064fbbeead9.camel@collabora.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7MHoYb//4iLnyjZi"
+        protocol="application/pgp-signature"; boundary="1emMtAQaK8QkpPQv"
 Content-Disposition: inline
-In-Reply-To: <a23ab40e50a761bd2127df6bc8b2a91e99a1617c.camel@pengutronix.de>
+In-Reply-To: <f9a163675ae05cc77b2d527ea5d68064fbbeead9.camel@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---7MHoYb//4iLnyjZi
+--1emMtAQaK8QkpPQv
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Philipp,
+Hi,
 
-On Thu 07 Jan 21, 15:55, Philipp Zabel wrote:
-> Hi Paul,
->=20
-> On Thu, 2021-01-07 at 14:40 +0100, Paul Kocialkowski wrote:
-> > The Rockchip PX30 SoC has a Hantro VPU that features a decoder (VDPU2)
-> > and an encoder (VEPU2). It is similar to the RK3399's VPU but takes an
-> > extra clock (SCLK).
+On Fri 08 Jan 21, 10:13, Ezequiel Garcia wrote:
+> On Fri, 2021-01-08 at 10:05 +0100, Paul Kocialkowski wrote:
+> > Hi Ezequiel,
 > >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../bindings/media/rockchip-vpu.yaml          | 25 +++++++++++++------
-> >  1 file changed, 17 insertions(+), 8 deletions(-)
+> > On Thu 07 Jan 21, 16:08, Ezequiel Garcia wrote:
+> > > Happy to see this patch. It was on my TODO list,
+> > > but I hadn't had time to bringup my rk3326 device.
 > >=20
-> > diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml =
-b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> > index c81dbc3e8960..c446b9ead21b 100644
-> > --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> > +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> > @@ -15,10 +15,13 @@ description:
-> > =20
-> >  properties:
-> >    compatible:
-> > -    enum:
-> > -      - rockchip,rk3288-vpu
-> > -      - rockchip,rk3328-vpu
-> > -      - rockchip,rk3399-vpu
-> > +    oneOf:
-> > +      - const: rockchip,rk3288-vpu
-> > +      - const: rockchip,rk3328-vpu
-> > +      - const: rockchip,rk3399-vpu
-> > +      - items:
-> > +        - const: rockchip,px30-vpu
-> > +        - const: rockchip,rk3399-vpu
-> > =20
-> >    reg:
-> >      maxItems: 1
-> > @@ -35,12 +38,18 @@ properties:
-> >            - const: vdpu
-> > =20
-> >    clocks:
-> > -    maxItems: 2
-> > +    minItems: 2
-> > +    maxItems: 3
-> > =20
-> >    clock-names:
-> > -    items:
-> > -      - const: aclk
-> > -      - const: hclk
-> > +    oneOf:
-> > +      - items:
-> > +        - const: aclk
-> > +        - const: hclk
-> > +      - items:
-> > +        - const: aclk
-> > +        - const: hclk
-> > +        - const: sclk
+> > Same here, I just had an occasion to use it again these days so I jumped
+> > on it!
+> >=20
+> > > A few comments.
+> > >=20
+> > > On Thu, 2021-01-07 at 14:41 +0100, Paul Kocialkowski wrote:
+> > > > The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are sim=
+ilar
+> > > > to the RK3399 (Hantro G1/H1 with shuffled registers).
+> > > >=20
+> > > > Besides taking an extra clock, it also shares an interrupt with the=
+ IOMMU
+> > > > so it's necessary to request the interrupt shared.
+> > > >=20
+> > >=20
+> [..]
+> > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/sta=
+ging/media/hantro/hantro_hw.h
+> > > > index 34c9e4649a25..07f516fd7a2e 100644
+> > > > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > > > @@ -148,6 +148,7 @@ enum hantro_enc_fmt {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0RK3288_VPU_ENC_FMT_=
+UYVY422 =3D 3,
+> > > > =C2=A0};
+> > > > =C2=A0
+> > > > +extern const struct hantro_variant px30_vpu_variant;
+> > > > =C2=A0extern const struct hantro_variant rk3399_vpu_variant;
+> > > > =C2=A0extern const struct hantro_variant rk3328_vpu_variant;
+> > > > =C2=A0extern const struct hantro_variant rk3288_vpu_variant;
+> > > > diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers=
+/staging/media/hantro/rk3399_vpu_hw.c
+> > > > index 7a7962cf771e..4112f98baa60 100644
+> > > > --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > > > +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> > >=20
+> > > Perhaps it's time to rename this to rockchip_vpu_hw.c,
+> > > and merge rk3288 and rk3399? It's a nitpick, though.
+> >=20
+> > Haha, I was thinking the exact same thing but wasn't sure it would be w=
+elcome!
+> >=20
+> > I was thinking of rockchip_vpu2_hw.c or rockchip_vdpu2_hw.c since that's
+> > apparently how it's called in Rockchip terminology: VDPU2 and VEPU2 for=
+ the
+> > Hantro G1 and H1 with the shuffled register layout. The rk3288 stuff is
+> > probably VDPU1/VEPU1 and we might want to rename it accordingly as well.
+> >=20
 >=20
-> You could make this:
->=20
->     clock-names:
->       minItems: 2
->       items:
->         - const: aclk
->         - const: hclk
->         - const: sclk
->=20
-> And then:
->=20
-> allOf:
->   - if:
->       properties:
->         compatible:
->           contains:
->             const: rockchip,px30-vpu
->     then:
->       properties:
->         clock-names:
->           minItems: 3
->=20
-> to make sure each variant has the correct clocks set.
+> I'd rather keep it simple as rockchip_vpu_hw.c and just throw in there
+> all the rockchip stuff.
 
-Thanks for the suggestion! That's a finer grain that my proposal.
-
-Rob, is there a preference for how this case should be handled?
-Here, we want to specify an extra clock for the PX30 case.
+Do you also mean merging all the rk*_vpu_hw.c files into one or just coveri=
+ng
+the general helpers (and not the platform-specific structures)?
 
 Cheers,
 
@@ -146,19 +126,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---7MHoYb//4iLnyjZi
+--1emMtAQaK8QkpPQv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/8iNAACgkQ3cLmz3+f
-v9EGTgf/cgOKh4wu1sCC8/0p35XnHK1fKqvY0710rustUO1l4hbVKA0uavtIZ0ei
-2xTeicq6AK40n0SPvMiyYB/Naz/YT1CJ3xY+rm+fBARG2tW+IPZS16/EudbQYrb2
-aW1iXXj8hGqTPjIDaKMbTBRv/r+mSFsEZuimq2iNbF5Qq2J0AkESeEj6H3YLvl9z
-BibYPcx+NHtHlA6iogqV5iqvmUT+x0ur0+NeUDj8Tu4qDZhPZY2I++U5WNSIqAlQ
-jPsef+ABZ5Uzq2JmrjJqY9PATVuuTx8kbHIqCLpKRW1a+1PnZf7zedf1BRI19EgL
-lg9SFntpJ6LjCpUVWLPLlpHIgWMqBA==
-=L38N
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/8iYEACgkQ3cLmz3+f
+v9Go3wf8CY2beRCaepip+ySAr3f0rsAttGwT8TjAqe+dBrzZTyFhjEDEi2azyUgp
+bA49M4gc6+nCMtbfoGmOUrgffYiFy2SJqyTeICeTQviFY9I6xDjUprn5SSO40ohA
+Hh762PMKF47CXeC6mYAQ9Np2merbDP4kqNcUmCNctOKy4mSGec94BgdHIx8ABlBW
+exWvVw8AS0TzMoeIJALRzGV5BMTqKpwb5yHnTdwfN2UtiKJDl2J8GIP2koHTpSDw
+OE6ZVsY7ksYjvu7Kzs8RGjWksHNTViiCHygSrdSIYMYV22H6l5Gj2pgKMWpMs7hR
+I/F/7cVY0gP+RMFIVzTALLgvQWhFIA==
+=fdgl
 -----END PGP SIGNATURE-----
 
---7MHoYb//4iLnyjZi--
+--1emMtAQaK8QkpPQv--
