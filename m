@@ -2,142 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC322F1834
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 15:27:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBFBB2F18D1
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 15:56:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388644AbhAKOZ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 09:25:28 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:51593 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388637AbhAKOZ1 (ORCPT
+        id S1731809AbhAKOz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 09:55:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728141AbhAKOz3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 09:25:27 -0500
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailnew.nyi.internal (Postfix) with ESMTP id CB4DE58067E;
-        Mon, 11 Jan 2021 09:23:32 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Mon, 11 Jan 2021 09:23:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=2UJ5fuVx0fd+N
-        mWUjZ3j/otRbpaIkIN2Yqbqj/0LMQI=; b=gmJsgSzmBVOJgCOqeYyuojWlR6fr2
-        Se2czyZ8KkbwfC+1qymwyhGA1OEioSYRIT6MtXKulxsuIsbWux2sJQTnNcwpZr0m
-        HdCe2s7j3dALoOAxzhk+EbsC2gKSyPmpi0i5fTozbEQS/k1zWFCO+Ks/dlz0yt61
-        ety5p4afG0mdSUdf1ajLNO3pH4PS17kL0DQPJ53/ka5cQeVY2+WpsR/FO5++gRWp
-        5S8PFCFvIxsKQho3BGfQ+8XQBG8uJB5WoNEpTSbLWYhBCjFlub1X1SxEjqvFEDx9
-        ZvgzuYlfaOS5BGcc/N0txAtvrkaStN1e1G2pN4psX1ZTAPukVF6hnNX1w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=2UJ5fuVx0fd+NmWUjZ3j/otRbpaIkIN2Yqbqj/0LMQI=; b=qtupaJIJ
-        QPjWfZ2lvqir1OKsDTnKi/1v3hhg3B1SNt6Gir/jWhMcIKct5h90FuUo7Wx05cAI
-        B644oGNBNhCOiX6K5sovwGH15OTz7UJfnlH7Ag2XLVGPXjSRkmLiMPgE7iyU04Iq
-        HRAz4Hz7Vmbme3SBdtTnK/BxCEUcMw5IGIzVApsfeGFw0i2oLNMt506utk4uVtVk
-        UJZYRDT7E2n3Z7FyUyOS/Yd5VgP51UVkJcDL5ZmZeeJgYV+AYRWJKoP1LcW3KnR2
-        BMeMsB5W3sUvfuCo2fOA/RKImuqnTZyszdKh9HiG5Jh0Le/hGotLh8pcfu7D7lTF
-        dzabEm4Es+rLfQ==
-X-ME-Sender: <xms:ZF_8X4zXA9D8hF6s9WwFDyNe625VUT7jJMKhhu4YF-qqc--haXkKBQ>
-    <xme:ZF_8X8MP0Ip3NBzFXfQOR_VVcX1k8AFQqevJmwCN159hdjprEGFtnxsvHli6NNowk
-    L1o6SxURaOBwZ9qtiA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddgieegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
-    hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ZF_8X3PdqEsaWNBAAn-5wxQ2fD7r9hMwda3Ne61n-mJden-INbNphQ>
-    <xmx:ZF_8X-SIio-iUAhVyTq9YiJEr2sJ9-XJ2-NEXT_SMAhmUULubeNjCA>
-    <xmx:ZF_8X5AqKI7w7EVY6v6z5Kc7Vmb8K47mprZ9xdIF6Ttgso7AT4MUoQ>
-    <xmx:ZF_8Xy0M_oXuoVtcLCYagfLbqFUPgk8rvwafjwAa2yEEhZctumKBCQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 660E824005A;
-        Mon, 11 Jan 2021 09:23:32 -0500 (EST)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>
-Cc:     linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-media@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>
-Subject: [PATCH v2 15/15] ARM: dts: bcm2711: Add the CEC interrupt controller
-Date:   Mon, 11 Jan 2021 15:23:09 +0100
-Message-Id: <20210111142309.193441-16-maxime@cerno.tech>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210111142309.193441-1-maxime@cerno.tech>
-References: <20210111142309.193441-1-maxime@cerno.tech>
+        Mon, 11 Jan 2021 09:55:29 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DBCC061794
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 06:54:48 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id y23so137968wmi.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 06:54:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rm+TmbhSOTypnq+pdXbrNPtnKH0Bpei8eJl5VublyGk=;
+        b=GILf5v43eU0xG50GFgWqf7ViufRZGPtCttM4viJg/lzVN2fLoZoNIrMdNMetiR7svs
+         hu/FJxnTT49RjibfD+Gge+5tSuZiGsH//RyCf87BPK5KlhGUhqEStsDpHOFhlhxdYPI5
+         xvfMQ9Bo09NSDBcpcO1wix8xh91UQ78KRj8eU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rm+TmbhSOTypnq+pdXbrNPtnKH0Bpei8eJl5VublyGk=;
+        b=LvvoHVNfiLKy2t/Fi//JE481pcEYRzOBMR29WaoxdfqlJJ6jJQzvjk9cEyLXcuM8aG
+         ZgUKNABjFbEvqxeoH0fz/kLtbVJwNl9Vsdbd5+06wQS1UV1cPQTsrlEu1lXXhkHyj7Cm
+         ldR1EAFZCOC5zGxY4LAWV5TMFZ6GHAEHmJArazNawTEgy0rNIJTaEqWnMQ1G3EhWkklg
+         mpbgXjnTsPxTbrOyVaqqbslRjDHfwEM1zGbea6/cSF8843yNkZncNB1H/eIKfGaBntDO
+         9tfcX0dn6j6e6l0q/L8CBTeT84RqHKEItY4d76ydaA3bRxV6hq5Fmtqw2ZKMJ6DIc464
+         2iNw==
+X-Gm-Message-State: AOAM530DSH8HA4Cgs+Zko8ZxXXMDfHGBdP8U1if5dmcusoqZGCRVdev3
+        3w72EspWM6JZuInDaKgt18mbxv1a/PyQnZ0fpXE=
+X-Google-Smtp-Source: ABdhPJyBoEs0OoPj3MayFeuV9EYSMTS9G7uR8/tOAAdYtcKt86F9EAWQZc4Br6prcQSSwoMKWjrWbg==
+X-Received: by 2002:a05:600c:2158:: with SMTP id v24mr57683wml.129.1610376887442;
+        Mon, 11 Jan 2021 06:54:47 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id s133sm17780wmf.38.2021.01.11.06.54.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 06:54:46 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH 1/9] media: ipu3-cio2: Do not zero reserved fields
+Date:   Mon, 11 Jan 2021 15:54:36 +0100
+Message-Id: <20210111145445.28854-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The CEC and hotplug interrupts go through an interrupt controller shared
-between the two HDMI controllers.
+Core code already clears reserved fields of struct
+v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
+v4l2_plane_pix_format reserved fields").
 
-Let's add that interrupt controller and the interrupts for both HDMI
-controllers
-
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- arch/arm/boot/dts/bcm2711.dtsi | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-index 8bb46ae76a92..06b15797ec11 100644
---- a/arch/arm/boot/dts/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/bcm2711.dtsi
-@@ -316,6 +316,14 @@ bsc_intr: interrupt-controller@7ef00040 {
- 			#interrupt-cells = <1>;
- 		};
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index 36e354ecf71e..c5376de8cb8a 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -1094,12 +1094,9 @@ static int cio2_v4l2_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
+ 	mpix->pixelformat = fmt->fourcc;
+ 	mpix->colorspace = V4L2_COLORSPACE_RAW;
+ 	mpix->field = V4L2_FIELD_NONE;
+-	memset(mpix->reserved, 0, sizeof(mpix->reserved));
+ 	mpix->plane_fmt[0].bytesperline = cio2_bytesperline(mpix->width);
+ 	mpix->plane_fmt[0].sizeimage = mpix->plane_fmt[0].bytesperline *
+ 							mpix->height;
+-	memset(mpix->plane_fmt[0].reserved, 0,
+-	       sizeof(mpix->plane_fmt[0].reserved));
  
-+		aon_intr: interrupt-controller@7ef00100 {
-+			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
-+			reg = <0x7ef00100 0x30>;
-+			interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+		};
-+
- 		hdmi0: hdmi@7ef00700 {
- 			compatible = "brcm,bcm2711-hdmi0";
- 			reg = <0x7ef00700 0x300>,
-@@ -338,6 +346,11 @@ hdmi0: hdmi@7ef00700 {
- 				    "hd";
- 			clock-names = "hdmi", "bvb", "audio", "cec";
- 			resets = <&dvp 0>;
-+			interrupt-parent = <&aon_intr>;
-+			interrupts = <0>, <1>, <2>,
-+				     <3>, <4>, <5>;
-+			interrupt-names = "cec-tx", "cec-rx", "cec-low",
-+					  "wakeup", "hpd-connected", "hpd-removed";
- 			ddc = <&ddc0>;
- 			dmas = <&dma 10>;
- 			dma-names = "audio-rx";
-@@ -377,6 +390,11 @@ hdmi1: hdmi@7ef05700 {
- 			ddc = <&ddc1>;
- 			clock-names = "hdmi", "bvb", "audio", "cec";
- 			resets = <&dvp 1>;
-+			interrupt-parent = <&aon_intr>;
-+			interrupts = <8>, <7>, <6>,
-+				     <9>, <10>, <11>;
-+			interrupt-names = "cec-tx", "cec-rx", "cec-low",
-+					  "wakeup", "hpd-connected", "hpd-removed";
- 			dmas = <&dma 17>;
- 			dma-names = "audio-rx";
- 			status = "disabled";
+ 	/* use default */
+ 	mpix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
 -- 
-2.29.2
+2.30.0.284.gd98b1dd5eaa7-goog
 
