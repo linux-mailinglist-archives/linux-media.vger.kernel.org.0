@@ -2,130 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 176342F1B93
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 17:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A3092F1B96
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 17:55:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389157AbhAKQy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 11:54:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40460 "EHLO
+        id S1733033AbhAKQyz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 11:54:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387574AbhAKQy0 (ORCPT
+        with ESMTP id S1732327AbhAKQyy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 11:54:26 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4BE0C061794
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 08:53:45 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id a6so413397wmc.2
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 08:53:45 -0800 (PST)
+        Mon, 11 Jan 2021 11:54:54 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3489C061786;
+        Mon, 11 Jan 2021 08:54:14 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id p12so8131408pju.5;
+        Mon, 11 Jan 2021 08:54:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BKC0evkXZWcyXdGHOdDWdLxv+2YIG23jjrv2ITmXGIQ=;
-        b=f2cIISkhKkxD+6ziwoDlFIC/KnEne4zqVI9ATW8WxcwU7HfEthL+03Wj3lkxUchqS3
-         /WGreq/q3CYEM1yc7ykmE2LcR8/EDk3++qTMvmg2dDKFRxjFyuVKdjbu82HfncPHeu2C
-         4Mqi+7z550gOUOI+aHrTfXZ2RuzUNOGr1tf3w=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hxC1qJrlI0mdrHZWwzeRQSreuKvyt9lhWexionM4bvc=;
+        b=jxi/iFmty57nzeTvRbSd8YTGnCoBs+nIg7Xb3rogDOUe+DisU3WnALwowVXJyKCdf9
+         SNIrJFrH9wUNxjvl8JlykHbNFo0sanCK9U2HLEtAA7DTdBwUqQxwSKiUlgXKN45UKMsr
+         9IJ8RVGGpE1hds+aKcovVVyMX8n7xvHYhmCwhPe+81bd3a8pxpAoP8Gob1rCTxutFvpd
+         eoXQoDJToMgjgIvROkHiTPbdzzORIvC2a3a1djItlqB8kTmdHgHHkyYIxOeXq1kUf9FR
+         JII7XYS6E6qz3aoERJLkAcvkj4EcYuerXOaj8lnWULRHMEhH2Edrwiw4Ul+6RdxmbQ7f
+         mDMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BKC0evkXZWcyXdGHOdDWdLxv+2YIG23jjrv2ITmXGIQ=;
-        b=FG6uigPnGAij6oWP1JXvE/fczFG6eBkprsju8Ht+jhL+E9RQxq2t777R71tjuuzxgX
-         7GcGYJgyxEPILGLXg4ZOxdeAUvFtKWz55qrV1m5Hr/ZDTApfieQFecIi6RyjcIsiA9qk
-         vjrwOhvqm2YjtI8r6zcPchoRMqgc6ypmC0tQN674b7i2KHIGPJGslva42V7bx1/anTMF
-         OEk2CfANevI12FaC4VapwezS5VQ2JULE986L+1q143LRXGdz0gxPSXnh3UsrGKHElDPI
-         sCUCmsdI57d9z/XsYsqOCcKVZK1edcfEqQzBwKbG1c+I6bDQF7vEBWha/TjzFMGHIOLK
-         DW9g==
-X-Gm-Message-State: AOAM531oZyV1koxjKqCti0wTG6ug15Rlhu41CfHOT4SU88Pkx/wp/GPS
-        F5TvXjm0U5LzwTgOHe5uFKpViA==
-X-Google-Smtp-Source: ABdhPJyVeudWNsRG/VKpD0MFuEfV8F2YrsSfFQ/sscFBJ0jdG0Vu75xdwPKdNjqVKbdnVXqp/usYtQ==
-X-Received: by 2002:a1c:2182:: with SMTP id h124mr545791wmh.25.1610384024539;
-        Mon, 11 Jan 2021 08:53:44 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id u83sm440737wmu.12.2021.01.11.08.53.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 08:53:43 -0800 (PST)
-Date:   Mon, 11 Jan 2021 17:53:41 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
-        airlied@redhat.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        kraxel@redhat.com, hdegoede@redhat.com, sean@poorly.run,
-        eric@anholt.net, sam@ravnborg.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v4 05/13] drm/mgag200: Use drm_gem_shmem_vmap_local() in
- damage handling
-Message-ID: <X/yClQZQ0B5AMfEP@phenom.ffwll.local>
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-6-tzimmermann@suse.de>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hxC1qJrlI0mdrHZWwzeRQSreuKvyt9lhWexionM4bvc=;
+        b=FnJhdpwSWye1m5vvqv//KKtRfTEKfEYAwvKD5K2puSQ9MhmOCOEDS5D7YJ65XPZYyc
+         hkjWGY+3RTpAgczY4UQr2qj2BWA0yAYUL0OuzpKkXsiu6dBElCZTXRB8ahX3OirHHRHz
+         cOtDFDI+c3X037kPn+9rP+KWZ2mJ+aL6ANCG5Dnx4JiPkq5n7cSoJdEv//+iUzM3M2nr
+         TELpcNo9NqLjP+/ChBxvgjxfhSf+5LlomjVGDEn9s3qcCCA3TETQ8CZCJJjKo3MMqBqp
+         gEXBwgOCNgh23x++ia/R6o6SeVCy0ykIZMh36w+4UZ1LhUj9gg2SdrbAoygYVzlcY0t+
+         795g==
+X-Gm-Message-State: AOAM533BJJc1XQDcvTifcIrG+WpShtUhfffBdRuW3YYePJOECCuyAwGX
+        l1w1OvpUIRHTL2Wcj768/r8A4Pslogo=
+X-Google-Smtp-Source: ABdhPJxZc9BlCRH4vHrwGcRGH4A9CVXGnll08SaLUdGhIqreT6BDwqmzNHnBS8fd2Kp2yKbARF6sXg==
+X-Received: by 2002:a17:90a:4689:: with SMTP id z9mr145138pjf.87.1610384053835;
+        Mon, 11 Jan 2021 08:54:13 -0800 (PST)
+Received: from [10.230.29.29] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id x1sm272433pgj.37.2021.01.11.08.54.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Jan 2021 08:54:13 -0800 (PST)
+Subject: Re: [PATCH v2 01/15] ARM: bcm: Select BRCMSTB_L2_IRQ for bcm2835
+To:     Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-media@vger.kernel.org
+References: <20210111142309.193441-1-maxime@cerno.tech>
+ <20210111142309.193441-2-maxime@cerno.tech>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <000a8e5b-cb97-f413-6d8b-2f5a529f7137@gmail.com>
+Date:   Mon, 11 Jan 2021 08:54:10 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210108094340.15290-6-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20210111142309.193441-2-maxime@cerno.tech>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 08, 2021 at 10:43:32AM +0100, Thomas Zimmermann wrote:
-> Damage handling in mgag200 requires a short-term mapping of the source
-> BO. Use drm_gem_shmem_vmap_local().
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> ---
->  drivers/gpu/drm/mgag200/mgag200_mode.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
+On 1/11/2021 6:22 AM, Maxime Ripard wrote:
+> The BCM2711 has a number of instances of interrupt controllers handled
+> by the driver behind the BRCMSTB_L2_IRQ Kconfig option (irq-brcmstb-l2).
 > 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 1dfc42170059..a33e28d4c5e9 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -1552,22 +1552,32 @@ mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
->  		      struct drm_rect *clip)
->  {
->  	struct drm_device *dev = &mdev->base;
-> +	struct drm_gem_object *obj = fb->obj[0];
->  	struct dma_buf_map map;
->  	void *vmap;
->  	int ret;
->  
-> -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
-> +	ret = dma_resv_lock(obj->resv, NULL);
->  	if (drm_WARN_ON(dev, ret))
-> -		return; /* BUG: SHMEM BO should always be vmapped */
-> +		return;
-> +	ret = drm_gem_shmem_vmap_local(obj, &map);
-> +	if (drm_WARN_ON(dev, ret))
-> +		goto err_dma_resv_unlock; /* BUG: SHMEM BO should always be vmapped */
->  	vmap = map.vaddr; /* TODO: Use mapping abstraction properly */
->  
->  	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
->  
-> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
-> +	drm_gem_shmem_vunmap_local(obj, &map);
-> +	dma_resv_unlock(obj->resv);
->  
->  	/* Always scanout image at VRAM offset 0 */
->  	mgag200_set_startadd(mdev, (u32)0);
->  	mgag200_set_offset(mdev, fb);
-> +
-> +	return;
-> +
-> +err_dma_resv_unlock:
-> +	dma_resv_unlock(obj->resv);
->  }
->  
->  static void
-> -- 
-> 2.29.2
+> Let's select that driver as part of the ARCH_BCM2835 Kconfig option.
 > 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+
+Nicolas, I suppose you will be taking patches 1 and 14, 15 through the
+SoC pull request, right?
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Florian
