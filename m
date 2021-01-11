@@ -2,229 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4BC52F101C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 11:32:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C4B2F104B
+	for <lists+linux-media@lfdr.de>; Mon, 11 Jan 2021 11:44:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728941AbhAKKaa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Jan 2021 05:30:30 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:57197 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726695AbhAKKaa (ORCPT
+        id S1729183AbhAKKnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Jan 2021 05:43:39 -0500
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:58941 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726295AbhAKKni (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Jan 2021 05:30:30 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 38316580557;
-        Mon, 11 Jan 2021 05:29:38 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 11 Jan 2021 05:29:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=YZXFEHRVUr3V+AEbjPO03cseRYi
-        /P0yN90ljuM26SGI=; b=MRgfIkzwwXAu8YfCHoQ23fXhAzYEI29Nf/Newf90lt9
-        xVdtsC7h/rt87eTugQSjxfJkxPhZy0/Ug7u6hMuKvPjWWhlFU62OXQ/cwZZPqMjB
-        NAR8i0JhzqMMNBr0LQx1xnWUJPmUU6ULnDizMLBXGkaa6FMn2g4QBjfNUTMMRbsH
-        zYggJ08uwk48zQ6o6r6KSUQhsDJ7O6rBhsgsitoAsdVaWCtflmpgCgnxngKoirfE
-        LveMTcaN8w1svFThFcPUvhOKfyNxT1ziOwJR/7730PKOKOD16ulPGMydoFZn/dT3
-        ObLWe316nk0qoxQ3SGbSzdb8orEf2w+5FhmHsDS72vw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=YZXFEH
-        RVUr3V+AEbjPO03cseRYi/P0yN90ljuM26SGI=; b=I4Hkn+41HffOpUEiy9af3c
-        St7n4vY8+LuugawTrAwKqLHS1+BVr+Ml5AIRJKyE4ulz0epWl+FPUs5ot7X+j6Ov
-        XAxfSvZrpA07TrPIPh4nKMG1iHZx0h8D9rfeyLzWnFBA5DYI2ta+lj8MMvfAaar/
-        9wZvWTP9wu41C5B/F9b/61/4LmIjQX75Q0LJNIHqUPDajtuOhh6uOxhd0kncR2hP
-        9um+9IiNbz+JEMDVA4HmYvItB8p11z0qpHloH9eoyVHZQSg192iqrKUbS7ats7eA
-        R46o0Z1V3s9O9YHa0FcUj0zLbXJJARegBeYHj/C6cZA3DNRl6mHJgQIicwnxeFug
-        ==
-X-ME-Sender: <xms:kCj8X1Pjk2mQHJ3XOOMuSyDaB_SkdxRvbCLrDy3bsAHr1IIXT0WKhg>
-    <xme:kCj8X394rqTxn-a4ddXbDUY86jVNYfpAH9vlK5h3whgQ7KXRln__nAQJ-RTNv9s4p
-    2jqo8iCojUGyVh9k-0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddgudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepveegudetkeethfetgffgtdekkefghefhffefgeduleehgeehieeuveefgedv
-    ieegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepledtrdekledrieekrd
-    ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
-    rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:kCj8X0TA_wzjXnj3pznTY2K--tRVZ1CVTUXTNhcvga7U2HO17zPJ6A>
-    <xmx:kCj8XxthNcsAk7rQsnk3V2rPg5vA2wGnfk7hWxcPzmVv4cwPM9Uk3Q>
-    <xmx:kCj8X9deIKY-oDyMz6WS77NJFUCJzQF5LxsMtI9bDsPsMV2RNZsQjA>
-    <xmx:kij8X9-gaF_E0K2Yqq0uuPrjCB8wkZVZM7YvN2Gi8z0a9r-vwnCSkw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 7CD5624005B;
-        Mon, 11 Jan 2021 05:29:36 -0500 (EST)
-Date:   Mon, 11 Jan 2021 11:29:35 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Jason Cooper <jason@lakedaemon.net>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Marc Zyngier <maz@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-rpi-kernel@lists.infradead.org,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Dom Cobley <popcornmix@gmail.com>
-Subject: Re: [PATCH 05/15] drm/vc4: hdmi: Restore cec physical address on
- reconnect
-Message-ID: <20210111102935.tyairu2pw2phfmfo@gilmour>
-References: <20201210134648.272857-1-maxime@cerno.tech>
- <20201210134648.272857-6-maxime@cerno.tech>
- <CAPY8ntDXJWR-vssSLsRbh7RTd-40SQApOxWGwt2LkeoyxCdYMw@mail.gmail.com>
- <CAPY8ntAx56BhKLVGyNUjjOYSaaJ1H2wku=Co8oqb38bPDEvGKA@mail.gmail.com>
+        Mon, 11 Jan 2021 05:43:38 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 87494FF81D;
+        Mon, 11 Jan 2021 10:42:53 +0000 (UTC)
+Date:   Mon, 11 Jan 2021 11:43:11 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
+ amplitude
+Message-ID: <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
+References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
+ <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+ <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="qmysxmbkp2dmwhyb"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntAx56BhKLVGyNUjjOYSaaJ1H2wku=Co8oqb38bPDEvGKA@mail.gmail.com>
+In-Reply-To: <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
---qmysxmbkp2dmwhyb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Dave,
-
-Thanks for your review
-
-On Fri, Dec 18, 2020 at 02:45:54PM +0000, Dave Stevenson wrote:
-> On Fri, 18 Dec 2020 at 14:21, Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
+On Wed, Dec 16, 2020 at 07:22:17PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
+> > Adjust the initial reverse channel amplitude parsing from
+> > firmware interface the 'maxim,reverse-channel-microvolt'
+> > property.
 > >
-> > Hi  Maxime & Dom
+> > This change is required for both rdacm20 and rdacm21 camera
+> > modules to be correctly probed when used in combination with
+> > the max9286 deserializer.
 > >
-> > On Thu, 10 Dec 2020 at 13:47, Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > From: Dom Cobley <popcornmix@gmail.com>
-> > >
-> > > Currently we call cec_phys_addr_invalidate on a hotplug deassert.
-> > > That may be due to a TV power cycling, or an AVR being switched
-> > > on (and switching edid).
-> > >
-> > > This makes CEC unusable since our controller wouldn't have a physical
-> > > address anymore.
-> > >
-> > > Set it back up again on the hotplug assert.
-> > >
-> > > Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
-> > > Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 25 +++++++++++++++++--------
-> > >  1 file changed, 17 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4=
-_hdmi.c
-> > > index 28b78ea885ea..eff3bac562c6 100644
-> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > @@ -136,20 +136,29 @@ static enum drm_connector_status
-> > >  vc4_hdmi_connector_detect(struct drm_connector *connector, bool forc=
-e)
-> > >  {
-> > >         struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector=
-);
-> > > +       bool connected =3D false;
-> > >
-> > >         if (vc4_hdmi->hpd_gpio) {
-> > >                 if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
-> > >                     vc4_hdmi->hpd_active_low)
-> > > -                       return connector_status_connected;
-> > > -               cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-> > > -               return connector_status_disconnected;
-> > > -       }
-> > > -
-> > > -       if (drm_probe_ddc(vc4_hdmi->ddc))
-> > > -               return connector_status_connected;
-> > > -
-> > > +                       connected =3D true;
-> > > +       } else if (drm_probe_ddc(vc4_hdmi->ddc))
-> > > +               connected =3D true;
-> > >         if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED)
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
+> >  1 file changed, 22 insertions(+), 1 deletion(-)
 > >
-> > This needs to become an "else if(...".
-> > It used to be that all the other paths would return, so were mutually
-> > exclusive to this. Now they set a thing and keep going we need to
-> > avoid reading the register should there be a HPD gpio or the ddc probe
-> > succeeds.
-> > Memory says that otherwise Pi3 always reports connected.
+> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > index 021309c6dd6f..9b40a4890c4d 100644
+> > --- a/drivers/media/i2c/max9286.c
+> > +++ b/drivers/media/i2c/max9286.c
+> > @@ -163,6 +163,8 @@ struct max9286_priv {
+> >  	unsigned int mux_channel;
+> >  	bool mux_open;
 > >
-> > I fixed this in a downstream patch already -
-> > https://github.com/raspberrypi/linux/commit/d345caec1e9b2317b9cd7eb5b92=
-ae453a0d3e98c
+> > +	u32 reverse_channel_mv;
+> > +
+> >  	struct v4l2_ctrl_handler ctrls;
+> >  	struct v4l2_ctrl *pixelrate;
 > >
-> > Otherwise fine.
+> > @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+> >  	 * All enabled sources have probed and enabled their reverse control
+> >  	 * channels:
+> >  	 *
+> > +	 * - Increase the reverse channel amplitude to compensate for the
+> > +	 *   remote ends high threshold, if not done already
+> >  	 * - Verify all configuration links are properly detected
+> >  	 * - Disable auto-ack as communication on the control channel are now
+> >  	 *   stable.
+> >  	 */
+> > +	if (priv->reverse_channel_mv < 170)
+> > +		max9286_reverse_channel_setup(priv, 170);
+>
+> I'm beginning to wonder if there will be a need in the future to not
+> increase the reverse channel amplitude (keeping the threshold low on the
+> remote side). An increased amplitude increases power consumption, and if
+> the environment isn't noisy, a low amplitude would work. The device tree
+> would then need to specify both the initial amplitude required by the
+> remote side, and the desired amplitude after initialization. What do you
+> think ? Is it overkill ? We don't have to implement this now, so
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> but if this feature could be required later, we may want to take into
+> account in the naming of the new DT property to reflect the fact that it
+> is the initial value.
+
+I had the same thought when I initially proposed
+"maxim,initial-reverse-channel-mV"
+
+Having to use the standard unit suffix that would have become
+"maxim,initial-reverse-channel-microvolt"
+which is extremely long.
+
+I can't tell if there will be any need to adjust the amplitude later.
+In any case, I would not rely on a DTS property to do so, as once we
+have probed the remote we have a subdev where to call
+'get_mbus_config()' on, and from there we can report the high threshold
+status of the serializer and adjust the deser amplitude accordingly.
+
+The property documentation clearly says the there specified amplitude
+is 'initial' many times, so I don't think it is strictly necessary to
+report it in the name too.
+
+Would this work for you ?
+
+>
+> >  	max9286_check_config_link(priv, priv->source_mask);
 > >
-> >   Dave
+> >  	/*
+> > @@ -967,7 +973,7 @@ static int max9286_setup(struct max9286_priv *priv)
+> >  	 * only. This should be disabled after the mux is initialised.
+> >  	 */
+> >  	max9286_configure_i2c(priv, true);
+> > -	max9286_reverse_channel_setup(priv, 170);
+> > +	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
 > >
-> > > +               connected =3D true;
-> > > +       if (connected) {
-> > > +               if (connector->status !=3D connector_status_connected=
-) {
-> > > +                       struct edid *edid =3D drm_get_edid(connector,=
- vc4_hdmi->ddc);
-> > > +
-> > > +                       if (edid) {
-> > > +                               cec_s_phys_addr_from_edid(vc4_hdmi->c=
-ec_adap, edid);
-> > > +                               vc4_hdmi->encoder.hdmi_monitor =3D dr=
-m_detect_hdmi_monitor(edid);
-> > > +                               drm_connector_update_edid_property(co=
-nnector, edid);
->=20
-> Actually looking at this again in the context of the other changes, do
-> we need to call drm_connector_update_edid_property() here?
->=20
-> We've just called drm_get_edid() to get the edid, and that calls
-> drm_connector_update_edid_property() as well [1]
-
-Yeah, you're right I'll drop it
-
-> Updating vc4_hdmi->encoder.hdmi_monitor may be necessary. It's
-> otherwise done in vc4_hdmi_connector_get_modes, which I sort of expect
-> to be called almost immediately by the framework when connector_detect
-> returns "connected". I haven't checked if that is guaranteed though.
->=20
-> vc4_hdmi_connector_get_modes also includes a manual call to
-> drm_connector_update_edid_property after having just called
-> drm_get_edid, so that one feels redundant too.
-
-=2Eget_modes is called in drm_helper_probe_single_connector_modes, which
-is usually the helper set in .fill_modes. .fill_modes seems to only be
-called when either DRM_IOCTL_MODE_GETCONNECTOR is called, or when the
-connector status is forced through sysfs, so it doesn't look like it's
-done automatically.
-
-I'm not sure we need to set hdmi_monitor though, it's only used to
-configure the display related side, and that can't happen without
-get_modes being called.
-
-Maxime
-
---qmysxmbkp2dmwhyb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/wojwAKCRDj7w1vZxhR
-xc/UAP4uzcrDbeddwq8fB/meHTS+faUCJJfFGqyserLZSOQPawD+PaA4lSzVPlU4
-Xk3OPdAtdOnLKH0IHfvlFUdE8CeZSAc=
-=GJnj
------END PGP SIGNATURE-----
-
---qmysxmbkp2dmwhyb--
+> >  	/*
+> >  	 * Enable GMSL links, mask unused ones and autodetect link
+> > @@ -1131,6 +1137,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+> >  	struct device_node *i2c_mux;
+> >  	struct device_node *node = NULL;
+> >  	unsigned int i2c_mux_mask = 0;
+> > +	u32 reverse_channel_microvolt;
+> >
+> >  	/* Balance the of_node_put() performed by of_find_node_by_name(). */
+> >  	of_node_get(dev->of_node);
+> > @@ -1221,6 +1228,20 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+> >  	}
+> >  	of_node_put(node);
+> >
+> > +	/*
+> > +	 * Parse the initial value of the reverse channel amplitude from
+> > +	 * the firmware interface and convert it to millivolts.
+> > +	 *
+> > +	 * Default it to 170mV for backward compatibility with DTBs that do not
+> > +	 * provide the property.
+> > +	 */
+> > +	if (of_property_read_u32(dev->of_node,
+> > +				 "maxim,reverse-channel-microvolt",
+> > +				 &reverse_channel_microvolt))
+> > +		priv->reverse_channel_mv = 170;
+> > +	else
+> > +		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
+> > +
+> >  	priv->route_mask = priv->source_mask;
+> >
+> >  	return 0;
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
