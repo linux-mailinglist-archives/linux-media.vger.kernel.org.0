@@ -2,121 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A024B2F2C3A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 11:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4599D2F2C7D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 11:20:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403960AbhALKG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 05:06:58 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49439 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390366AbhALKG6 (ORCPT
+        id S2404524AbhALKSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 05:18:20 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39803 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727053AbhALKST (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 05:06:58 -0500
+        Tue, 12 Jan 2021 05:18:19 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id zGZ1kDb08VfyLzGZ5kp3UZ; Tue, 12 Jan 2021 11:06:15 +0100
+        id zGk0kDf9FVfyLzGk3kp6Bd; Tue, 12 Jan 2021 11:17:35 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610445975; bh=9gjTF/3gD6d81SgCtPxdN5K9QJXqD4wWTa2DmR9v9u8=;
+        t=1610446655; bh=BvimkMfLcHGMoc07KAwPIZpzvCmAEbR/EJ40smYhPZM=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=QggJrsmJbSzg8dVGA4/xf1lH4EhIlL6wgAMIvSIQNEXvSH3nOHsd+5nJSBEC1J/Bj
-         A7TxwMpfIeXsuWyKmbuq/k9sd4v6vOWQv7+5lhjV8y9XfcnnJTsiVGUQ7EVulcXHJY
-         yF7IY7s8z5vvzIv0SFing6e9PzUoOMH8d5cyYuIX2z90a8Spa5QVfnVbL2CifGqLjY
-         SL83cwaNvOt/VzMD/zCAc47nHwocfDkj7wuuA+nf/Uj0AhqgLwo4/N0yxAl5f7oplU
-         r/nnau7oQKk5z9eI8JdBs5egeqapUoL9nEArrcyWQheBTgPNsq/dujhnQbrILmTqDh
-         db75dulO2F0kw==
-Subject: Re: [PATCH v2 3/4] media: v4l2-ctrls: Add control for AUD generation
+        b=lZzAXJE7rDGnwQrfaWzl8tssRj8GyE/D80oq08tX/QYPPOUPULmY1QyrFdIDULHyS
+         ojapb5vXkx2ohon8c2e8z0M99B0HvHLEC2mWAzuvSFljCNOOSntGbEH1c94O5EW+Lp
+         mN+U2xGhb9JM4B1wfX76CkZa5FTZnMtgyXmYBxtm9uJvOrWdahVlps/9i2ygue7Cfu
+         XzBBWU+wKza9nAl/lt28txmFBl0xKs2onoJ42XAi108pZoDIN950WqbxWBtl/Lv/s/
+         okqhqW2tV4JiyA4PRMzwwNsNNC63zUOg0f/zyjOCgblCT45XdTD0KtvkUFT7FOAOVU
+         SWSDqBoTc1tKg==
+Subject: Re: [PATCH v3 1/3] v4l: Add HDR10 static metadata controls
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org
 Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Maheshwar Ajja <majja@codeaurora.org>
-References: <20201206102717.19000-1-stanimir.varbanov@linaro.org>
- <20201206102717.19000-4-stanimir.varbanov@linaro.org>
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20201208145931.6187-1-stanimir.varbanov@linaro.org>
+ <20201208145931.6187-2-stanimir.varbanov@linaro.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <1b46d938-4a8c-148e-70ba-b49816a0ee95@xs4all.nl>
-Date:   Tue, 12 Jan 2021 11:06:11 +0100
+Message-ID: <dcfafee3-9ac8-3f00-3f1d-82fa916abf1a@xs4all.nl>
+Date:   Tue, 12 Jan 2021 11:17:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201206102717.19000-4-stanimir.varbanov@linaro.org>
+In-Reply-To: <20201208145931.6187-2-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKxisxu4M+r3Nm3ajkdo4n1m6fBsNiOApuYZ9Wn28b5up+iY49WAOAC7DcDpbyuxwc4/RxNR3dcfVzlQkzIYdFRtCdIz31UUxK6J5dyHILilXYhH3McJ
- W7I3e83Lsmz/t/FLakYcJ3n0JgSE4CNv8liyu1pDzTYkSySTJ7X09m5OXKUUFS72gglVaz99/t9EYeZaBy7BibhVlHiEaUnZi0tC58QJXnWwC0GkKkctt0z6
- 7SQ7vpLFk+Pmt/ZUpHBrnp2Y+RLk08MIt5NU5UbwvS0/UlfS0EKn2JSwHzAJ9rlU7nTQVcLDgq2kpa1Mgsw00WSUl8o1Gqex9XoP0ffGo2rGAUKE8eEWwqZM
- jPdmbVkLkms27A/gtkOiu4yMMVHdzxLFDLCNxeRAc4RTxE5avBtIs7MkJdHL/+/Z+r4CH8aTxxKhSaRzbPXe0jv8qSSRRQ==
+X-CMAE-Envelope: MS4xfDFxN3iFfB16jOihL7StkkuHV4WdOhi9w6ZbaqhBNhtrHorRMPPrmHyOMrjzpPjvhSdpHbAUF8grmtZ8CnzAOsctc8ZMvcKBkIpAxYSG3q4Ugb+Q1j51
+ Tqg5NdCYwEzu/tTOqX/WPRvci0WgEZsY2gM470l4JPlDQWSTvJxmQO3V4Lpifjt279w7wgV5uUxyabYj8tC838/tpDIj94zuiA2cAs+Keha9paEzDFLnHhCB
+ BtVxZtuA9Qd4TfAKgKJIgUVAncP++8fR7TaO81FCPShSfE9ax/TCsK5rFUqcTxoBayJ8XHptEpMo1ISPhTi92X6U1ra1B6sv5wn8461TK/ri1bf89I2uDZ8h
+ 1ikRYZjcVfKDffd6TKk6Hi7hkvjhSWWozK1V1KCrPkO64sAIvOyGfeytwKiVN7Z/ia2+5t5t
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/12/2020 11:27, Stanimir Varbanov wrote:
-> Add a control to enable inserting of AUD NALU into encoded
-> bitstream.
+On 08/12/2020 15:59, Stanimir Varbanov wrote:
+> Here we introduce a new Colorimetry control class and add
+> Content light level and Mastering display colour volume v4l2
+> compound controls, relevant payload structures and validation.
 > 
 > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Looks good!
-
-	Hans
-
 > ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 +++++
->  drivers/media/v4l2-core/v4l2-ctrls.c                      | 2 ++
->  include/uapi/linux/v4l2-controls.h                        | 1 +
->  3 files changed, 8 insertions(+)
+>  .../media/videodev2.h.rst.exceptions          |  2 +
+>  drivers/media/v4l2-core/v4l2-ctrls.c          | 68 +++++++++++++++++++
+>  include/media/v4l2-ctrls.h                    |  4 ++
+>  include/uapi/linux/v4l2-controls.h            | 35 ++++++++++
+>  include/uapi/linux/videodev2.h                |  2 +
+>  5 files changed, 111 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index d65d7c1381b7..32eb233ee089 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -679,6 +679,11 @@ enum v4l2_mpeg_video_frame_skip_mode -
->      otherwise the decoder expects a single frame in per buffer.
->      Applicable to the decoder, all codecs.
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 0ed170c6e720..af4b8b87c5d7 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -147,6 +147,8 @@ replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+> +replace symbol V4L2_CTRL_TYPE_HDR10_CLL_INFO :c:type:`v4l2_ctrl_hdr10_cll_info`
+> +replace symbol V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY :c:type:`v4l2_ctrl_hdr10_mastering_display`
 >  
-> +``V4L2_CID_MPEG_VIDEO_AU_DELIMITER (boolean)``
-> +    If enabled then, AUD (Access Unit Delimiter) NALUs will be generated.
-> +    That could be useful to find the start of a frame without having to
-> +    fully parse each NALU. Applicable to the H264 and HEVC encoders.
-> +
->  ``V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE (boolean)``
->      Enable writing sample aspect ratio in the Video Usability
->      Information. Applicable to the H264 encoder.
+>  # V4L2 capability defines
+>  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
 > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index ac44848d2d6e..ea2de8b51e29 100644
+> index 5cbe0ffbf501..7bd6c3098f30 100644
 > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
 > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -875,6 +875,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
->  	case V4L2_CID_MPEG_VIDEO_MAX_REF_PIC:			return "Max Number of Reference Pics";
->  	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:		return "Frame Skip Mode";
-> +	case V4L2_CID_MPEG_VIDEO_AU_DELIMITER:			return "Generate Access Unit Delimiters";
->  	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:		return "H263 I-Frame QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:		return "H263 P-Frame QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H263_B_FRAME_QP:		return "H263 B-Frame QP Value";
-> @@ -1232,6 +1233,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE:
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_QPEL:
->  	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:
-> +	case V4L2_CID_MPEG_VIDEO_AU_DELIMITER:
->  	case V4L2_CID_WIDE_DYNAMIC_RANGE:
->  	case V4L2_CID_IMAGE_STABILIZATION:
->  	case V4L2_CID_RDS_RECEPTION:
+> @@ -1015,6 +1015,9 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
+>  
+> +	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:		return "HDR10 Content Light Info";
+> +	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:	return "HDR10 Mastering Display";
+> +
+>  	/* CAMERA controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>  	case V4L2_CID_CAMERA_CLASS:		return "Camera Controls";
+> @@ -1466,6 +1469,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
+>  		break;
+> +	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:
+> +		*type = V4L2_CTRL_TYPE_HDR10_CLL_INFO;
+> +		break;
+> +	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+> +		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+> +		break;
+>  	case V4L2_CID_UNIT_CELL_SIZE:
+>  		*type = V4L2_CTRL_TYPE_AREA;
+>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> @@ -1765,6 +1774,12 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+>  	case V4L2_CTRL_TYPE_FWHT_PARAMS:
+>  		pr_cont("FWHT_PARAMS");
+>  		break;
+> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+> +		pr_cont("HDR10_CLL_INFO");
+> +		break;
+> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+> +		pr_cont("HDR10_MASTERING_DISPLAY");
+> +		break;
+>  	default:
+>  		pr_cont("unknown type %d", ctrl->type);
+>  		break;
+
+I'm missing support for the new V4L2_CID_COLORIMETRY_CLASS here.
+
+Please split up this patch in two parts: the first adds the new class, the
+second adds the new controls in that class.
+
+Ditto for the documentation. I recommend that you do a grep for e.g.
+V4L2_CID_DETECT_CLASS to see all the places where you need to add something
+for this new class.
+
+> @@ -1817,6 +1832,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
+>  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+>  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
+> +	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_area *area;
+>  	void *p = ptr.p + idx * ctrl->elem_size;
+>  	unsigned int i;
+> @@ -2112,6 +2128,52 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  		zero_padding(*p_hevc_slice_params);
+>  		break;
+>  
+> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+> +		break;
+> +
+> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+> +		p_hdr10_mastering = p;
+> +
+> +		for (i = 0; i < 3; ++i) {
+> +			if (p_hdr10_mastering->display_primaries_x[i] <
+> +				V4L2_HDR10_MASTERING_PRIMARIES_X_LOW ||
+> +			    p_hdr10_mastering->display_primaries_x[i] >
+> +				V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH ||
+> +			    p_hdr10_mastering->display_primaries_y[i] <
+> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW ||
+> +			    p_hdr10_mastering->display_primaries_y[i] >
+> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH)
+> +				return -EINVAL;
+> +		}
+> +
+> +		if (p_hdr10_mastering->white_point_x <
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW ||
+> +		    p_hdr10_mastering->white_point_x >
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH ||
+> +		    p_hdr10_mastering->white_point_y <
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW ||
+> +		    p_hdr10_mastering->white_point_y >
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH)
+> +			return -EINVAL;
+> +
+> +		if (p_hdr10_mastering->max_display_mastering_luminance <
+> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW ||
+> +		    p_hdr10_mastering->max_display_mastering_luminance >
+> +			V4L2_HDR10_MASTERING_MAX_LUMA_HIGH ||
+> +		    p_hdr10_mastering->min_display_mastering_luminance <
+> +			V4L2_HDR10_MASTERING_MIN_LUMA_LOW ||
+> +		    p_hdr10_mastering->min_display_mastering_luminance >
+> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
+> +			return -EINVAL;
+> +
+> +		if (p_hdr10_mastering->max_display_mastering_luminance ==
+> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW &&
+> +		    p_hdr10_mastering->min_display_mastering_luminance ==
+> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
+> +			return -EINVAL;
+> +
+> +		break;
+> +
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		area = p;
+>  		if (!area->width || !area->height)
+> @@ -2804,6 +2866,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+>  		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
+>  		break;
+> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+> +		elem_size = sizeof(struct v4l2_ctrl_hdr10_cll_info);
+> +		break;
+> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+> +		elem_size = sizeof(struct v4l2_ctrl_hdr10_mastering_display);
+> +		break;
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		elem_size = sizeof(struct v4l2_area);
+>  		break;
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index 167ca8c8424f..8308acc89b11 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -54,6 +54,8 @@ struct video_device;
+>   * @p_hevc_sps:			Pointer to an HEVC sequence parameter set structure.
+>   * @p_hevc_pps:			Pointer to an HEVC picture parameter set structure.
+>   * @p_hevc_slice_params:	Pointer to an HEVC slice parameters structure.
+> + * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
+> + * @p_hdr10_mastering	:	Pointer to an HDR10 Mastering Display structure.
+>   * @p_area:			Pointer to an area.
+>   * @p:				Pointer to a compound value.
+>   * @p_const:			Pointer to a constant compound value.
+> @@ -78,6 +80,8 @@ union v4l2_ctrl_ptr {
+>  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
+>  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+>  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
+> +	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+> +	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_area *p_area;
+>  	void *p;
+>  	const void *p_const;
 > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 54b9072ac49d..1fb1a3ba3985 100644
+> index 823b214aac0c..8563f789cbe2 100644
 > --- a/include/uapi/linux/v4l2-controls.h
 > +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -423,6 +423,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
->  #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
->  #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
->  #define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+230)
-> +#define V4L2_CID_MPEG_VIDEO_AU_DELIMITER		(V4L2_CID_CODEC_BASE+231)
+> @@ -66,6 +66,7 @@
+>  #define V4L2_CTRL_CLASS_RF_TUNER	0x00a20000	/* RF tuner controls */
+>  #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
+>  #define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
+> +#define V4L2_CTRL_CLASS_COLORIMETRY	0x00a50000	/* Colorimetry controls */
 >  
->  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
->  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+>  /* User-class control IDs */
+>  
+> @@ -1635,6 +1636,40 @@ struct v4l2_ctrl_fwht_params {
+>  	__u32 quantization;
+>  };
+>  
+> +#define V4L2_CID_COLORIMETRY_BASE	(V4L2_CTRL_CLASS_COLORIMETRY | 0x900)
+> +#define V4L2_CID_COLORIMETRY_CLASS	(V4L2_CTRL_CLASS_COLORIMETRY | 1)
+> +
+> +#define V4L2_CID_COLORIMETRY_HDR10_CLL_INFO	(V4L2_CID_COLORIMETRY_BASE + 0)
+> +
+> +struct v4l2_ctrl_hdr10_cll_info {
+> +	__u16 max_content_light_level;
+> +	__u16 max_pic_average_light_level;
+> +};
+> +
+> +#define V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY	(V4L2_CID_COLORIMETRY_BASE + 1)
+> +
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_X_LOW	5
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH	37000
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW	5
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH	42000
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW	5
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH	37000
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW	5
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH	42000
+> +#define V4L2_HDR10_MASTERING_MAX_LUMA_LOW	50000
+> +#define V4L2_HDR10_MASTERING_MAX_LUMA_HIGH	100000000
+> +#define V4L2_HDR10_MASTERING_MIN_LUMA_LOW	1
+> +#define V4L2_HDR10_MASTERING_MIN_LUMA_HIGH	50000
+> +
+> +struct v4l2_ctrl_hdr10_mastering_display {
+> +	__u16 display_primaries_x[3];
+> +	__u16 display_primaries_y[3];
+> +	__u16 white_point_x;
+> +	__u16 white_point_y;
+> +	__u32 max_display_mastering_luminance;
+> +	__u32 min_display_mastering_luminance;
+> +};
+> +
+>  /* MPEG-compression definitions kept for backwards compatibility */
+>  #ifndef __KERNEL__
+>  #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 79dbde3bcf8d..1bde498e36a0 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1792,6 +1792,8 @@ enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_H264_PRED_WEIGHTS    = 0x0205,
+>  
+>  	V4L2_CTRL_TYPE_FWHT_PARAMS	    = 0x0220,
+> +	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0221,
+
+I'd change this to 0x0110 and move it up to after V4L2_CTRL_TYPE_AREA.
+
+> +	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0222,
+>  };
+>  
+>  /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
 > 
 
+Regards,
+
+	Hans
