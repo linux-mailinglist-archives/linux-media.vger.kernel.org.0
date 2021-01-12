@@ -2,159 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E8C12F3AAA
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 20:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 346C12F3ACB
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 20:42:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406182AbhALTe4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 14:34:56 -0500
-Received: from mail-oi1-f172.google.com ([209.85.167.172]:43916 "EHLO
-        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388019AbhALTez (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 14:34:55 -0500
-Received: by mail-oi1-f172.google.com with SMTP id q25so3540696oij.10;
-        Tue, 12 Jan 2021 11:34:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k32Qu3cNSiXcAEMafYSgn1kVqosninNEkgSTQf4f+b8=;
-        b=fp8Qd2NeuY+hQCJRQo4uUuCfnEB6p9MkS1IaFYgCRVKuy6wtKB/Wdldzw09ppKud7U
-         7cU0l0DEdHd4ct0xpoKnlNkRz+9+jv6Bvz4c+xliBpLVWGohRqIaM4Kn8fpQ3n18JH6r
-         j8WAhrZvRvEtImnp6ReCEtxaKgP5ivLbK1SGWtQMLvqBJqUeep4Zk7H95eD2jByy+RM1
-         AOixkbJs+W0zoV05/mJKvI+4x53dBSbZCSQjVuMRb6KhQYokWcZI56OVdvjC93l0DQC/
-         KSbOvl89Kq7UMlYM5slpSFDERmJczI0xeFQd7/Onu5fnXgX9l0IzQ8G5M4h2L7CbBXmt
-         dleQ==
-X-Gm-Message-State: AOAM533UOCjvmvI6AFxm0A56099trQC0cEcSDXlkZe0NSBw6sIVUl82E
-        hPaWtXWlFzaL6IFr0WGOe46xvvmlZSfp7nrfgfo=
-X-Google-Smtp-Source: ABdhPJx7Dl0rZbXiXD6L6Xfo9BZWZpfCRxNircr5Bvuzz8XDqjnp0tR+JuDzrI0pKoBbcHejVMVKTnBv1PaBNG8qTnA=
-X-Received: by 2002:aca:4892:: with SMTP id v140mr468391oia.71.1610480054580;
- Tue, 12 Jan 2021 11:34:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20210107132838.396641-1-djrscally@gmail.com>
-In-Reply-To: <20210107132838.396641-1-djrscally@gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 12 Jan 2021 20:34:03 +0100
-Message-ID: <CAJZ5v0gb9c-kWM4aAKm6UqbVKt7dyp6xJS5E=7yoPRnPP+msbw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] Add functionality to ipu3-cio2 driver allowing
- software_node connections to sensors on platforms designed for Windows
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S2436487AbhALTl7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 14:41:59 -0500
+Received: from www.zeus03.de ([194.117.254.33]:54900 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2393155AbhALTl7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Jan 2021 14:41:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=t9XstqtRgrmC0ix2FNPF67k/oNnC
+        JJETaagxYwsHmRE=; b=JaDwonS5UZRK77cksg6+5d/q9duNxG5p8d/FLbtvV5Jz
+        Y11V37KBxCcFyOIRxpCpqbZGfkXY2gaNCCw9HRKhFs1MPFOMTmVvzOaNdakd4Mk7
+        IgSrnsvZutal1lQmf4tTxEBWeXikHBnx8DOQa5A0yj8cbSM4BwT8dJpQDy2GVLY=
+Received: (qmail 2864404 invoked from network); 12 Jan 2021 20:41:17 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jan 2021 20:41:17 +0100
+X-UD-Smtp-Session: l3s3148p1@ZZq9NLm4qNMgAwDPXwxzAHrEwO71dOp2
+Date:   Tue, 12 Jan 2021 20:41:16 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        yong.zhi@intel.com, Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, tian.shu.qiu@intel.com,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        hverkuil-cisco@xs4all.nl, m.felsch@pengutronix.de,
-        Niklas Soderlund <niklas.soderlund+renesas@ragnatech.se>,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 2/3] media: i2c: adv7842: remove open coded version
+ of SMBus block read
+Message-ID: <20210112194116.GA50007@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210112164130.47895-1-wsa+renesas@sang-engineering.com>
+ <20210112164130.47895-3-wsa+renesas@sang-engineering.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
+Content-Disposition: inline
+In-Reply-To: <20210112164130.47895-3-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 7, 2021 at 2:30 PM Daniel Scally <djrscally@gmail.com> wrote:
->
->
-> Hello all
->
-> v4:
-> https://lore.kernel.org/linux-media/20210103231235.792999-1-djrscally@gmail.com/T/#m11b7cb977e1b73fba1e625c3d6a189e2943a7783
-> v3:
-> https://lore.kernel.org/linux-media/20201224010907.263125-1-djrscally@gmail.com/T/#m37b831bb2b406917d6db5da9acf9ed35df65d72d
-> v2:
-> https://lore.kernel.org/linux-media/20201217234337.1983732-1-djrscally@gmail.com/T/#md93fd090009b42a6a98aed892aff0d38cf07e0cd
-> v1:
-> https://lore.kernel.org/linux-media/20201130133129.1024662-1-djrscally@gmail.com/T/#m91934e12e3d033da2e768e952ea3b4a125ee3e67
->
-> This series is to start adding support for webcams on laptops with ACPI tables
-> designed for use with CIO2 on Windows. This series extends the ipu3-cio2
-> driver to allow for patching the firmware via software_nodes if endpoints
-> aren't defined by ACPI.
->
-> I'm hopeful that most or all of this series could get picked up for 5.12.
-> We touch a few different areas (listed below), but I think the easiest
-> approach would be to merge everything through media tree. Rafael, Greg,
-> Mauro and Sergey; are you ok with that plan, or would you prefer a
-> different approach? Mauro; if that plan is ok (and of course assuming that
-> the rest of the patches are acked by their respective maintainers) could
-> we get a dedicated feature branch just in case the following series ends
-> up being ready in time too?
->
-> lib
->   lib/test_printf.c: Use helper function to unwind array of
->     software_nodes
->
-> base
->   software_node: Fix refcounts in software_node_get_next_child()
->   property: Return true in fwnode_device_is_available for NULL ops
->   property: Call fwnode_graph_get_endpoint_by_id() for fwnode->secondary
->   software_node: Enforce parent before child ordering of nodes arrays
->   software_node: unregister software_nodes in reverse order
->   include: fwnode.h: Define format macros for ports and endpoints
->
-> acpi
->   acpi: Add acpi_dev_get_next_match_dev() and helper macro
->
-> media
->   media: v4l2-core: v4l2-async: Check sd->fwnode->secondary in
->     match_fwnode()
->   ipu3-cio2: Add T: entry to MAINTAINERS
->   ipu3-cio2: Rename ipu3-cio2.c
->   ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
->   include: media: v4l2-fwnode: Include v4l2_fwnode_bus_type
->
-> Series-level changelog:
->         - Rebased onto 5.11-rc1
->
-> Thanks
-> Dan
->
-> Andy Shevchenko (1):
->   media: ipu3-cio2: Add headers that ipu3-cio2.h is direct user of
->
-> Daniel Scally (13):
->   software_node: Fix refcounts in software_node_get_next_child()
->   device property: Return true in fwnode_device_is_available for NULL
->     ops
->   device property: Call fwnode_graph_get_endpoint_by_id() for
->     fwnode->secondary
->   software_node: Enforce parent before child ordering of nodes arrays
->   software_node: unregister software_nodes in reverse order
->   device property: Define format macros for ports and endpoints
->   lib/test_printf.c: Use helper function to unwind array of
->     software_nodes
->   ipu3-cio2: Add T: entry to MAINTAINERS
->   ipu3-cio2: Rename ipu3-cio2.c
->   media: v4l2-core: v4l2-async: Check sd->fwnode->secondary in
->     match_fwnode()
->   ACPI / bus: Add acpi_dev_get_next_match_dev() and helper macro
->   media: v4l2-fwnode: Include v4l2_fwnode_bus_type
->   ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver
->
-> Heikki Krogerus (1):
->   software_node: Add support for fwnode_graph*() family of functions
 
-Please feel free to add
+--VbJkn9YxBvnuCH5J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-to all of the device properties patches in this series if that helps.
+> +static int adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
+>  {
+>  	struct adv7511_state *state = get_adv7511_state(sd);
+> +	s32 len;
 
-Thanks!
+And 'len' here shadows the function argument :( Ok, I need to resend
+this patch. Still, looking forward to a comment if an approach like this
+is acceptable.
+
+
+--VbJkn9YxBvnuCH5J
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/9+1gACgkQFA3kzBSg
+KbZFzhAAh2Wa1O3n+/gpFeJusi6JllSei7zH9E2v/pWihrudzMC/FhEp4uPzMDOt
+/w9b9ZLzGTZSxx38qyOdZgJBtib6liZQt6Zgsdrbh0kIRvmXDQNxpx8KZa/1ukZy
+0ze1WghkEI1Jalop1FNnbzRVSBctb/lOCWevcwyQ7fbHca5OeLM8Hj2HHQahH+WU
+s6UMddJAr+f7eOCc1eoc2kSjzQWQUexfNMoaYLvUZZdGTb87dd07mZlcoNgvBoeC
+aM9zzBJUhALDOMioMVZujVc8kWerGF3MSPrT3uglbkGR+cdwo8GNQmoAMhgHRNi9
+U2pHugFL7Oi58skehzpFDuJjqDyIpaX11U7VkrU214tEJOKo4avt+XCjpgoKzFaA
+ZYGUoI1I2JQTo7CEz/Akd/vgSi+umhRAm+GTAhPy+I8q4eJaJagR38iC5zdfYW+a
+S5SsHpGG31BOkIiI7heqa66W7H7B8PuCTie+QzF2rlBFJ3JlzgyuJQpTfx7p4Ths
+Z7dCq2XHyyZiFyqaoRHaIKR5L+oGYfxA5U5nVYjn8hAFIkis+pMwi57VK+Kw5l/m
+GLiTtNjbdRFcB3syxsbdtVSMacohOZl4nIdZhwxRbEpTq9UDTiQNFDVkDXwCw9bB
+7ilk+AoO1gTNaVSEm+xPhzj/l5p7Ez0bgkp00ACEwOUEexu7gG4=
+=qSVB
+-----END PGP SIGNATURE-----
+
+--VbJkn9YxBvnuCH5J--
