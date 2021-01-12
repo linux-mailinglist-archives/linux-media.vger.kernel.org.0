@@ -2,532 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 361DC2F3B3A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 20:54:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 163F62F3D31
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 01:43:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436834AbhALTwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 14:52:36 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44278 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406358AbhALTwf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 14:52:35 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id AD34D1F45506
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Daniel Mack <zonque@gmail.com>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2 6/6] media: Remove the legacy v4l2-clk API
-Date:   Tue, 12 Jan 2021 16:49:19 -0300
-Message-Id: <20210112194919.50176-7-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210112194919.50176-1-ezequiel@collabora.com>
-References: <20210112194919.50176-1-ezequiel@collabora.com>
+        id S2437071AbhALVh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 16:37:27 -0500
+Received: from ozlabs.org ([203.11.71.1]:58291 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437081AbhALU6L (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Jan 2021 15:58:11 -0500
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4DFjZJ1JDbz9sWk;
+        Wed, 13 Jan 2021 07:57:27 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1610485049;
+        bh=oOt9UC3bfgNLTO1XfajBqrAQGTUzyQ0gZrLFC6E3HKU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Hv1aowxpQ+GcGQfyulfIc1P1mB3L6lGbSlN5XXUsET7xYh1wkqDT0x80p8aZPvq1i
+         2HTwdUHTD2S43mwoK7jW08qs/SnxBF6H3u2cIboP5QIwNeyA/jtbs3U8cTknHK78dB
+         Z9OrIql/t1s8V1mzT7RdF+MWtnXevTBc50ONHqDBqstOjaVD+5Z0JHv0NMhr0OKMa2
+         8j4YRR8rOsbQawaCwbtT/qkPG1pWVAj7bBMDgnGP+ILpHLtPEteoU4nM0ZjXkLTgah
+         oyCYQXJCXVN20UCtTuetN/8DKj6mcc5RfIlk0OMEz4J3nOw/7eJWCUGnXDPY7F2gbp
+         olsd3EKG41vFw==
+Date:   Wed, 13 Jan 2021 07:57:26 +1100
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>, linux-mm@kvack.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v7 00/17] follow_pfn and other iomap races
+Message-ID: <20210113075726.2ffaef97@canb.auug.org.au>
+In-Reply-To: <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+        <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/3kQvshNRwSzGT637_7v3ycs";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 temporary clock helper API, was introduced
-in late 2012 and, as mentioned in the documentation,
-meant to be replaced by the generic clock API,
-once the generic clock framework became available
-on all relevant architectures.
+--Sig_/3kQvshNRwSzGT637_7v3ycs
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The generic clock API is a well-established API (since a few
-years now). The last few media capture drivers and sensors
-using v4l2-clk have been converted to the generic clock framework.
+Hi Daniel,
 
-We can now remove the v4l2-clk API.
+On Tue, 12 Jan 2021 14:24:27 +0100 Daniel Vetter <daniel@ffwll.ch> wrote:
+>=20
+> As Jason suggested, I've pulled the first 1 patches into a topic branch.
+>=20
+> Stephen, can you please add the below to linux-next for the 5.12 merge
+> window?
+>=20
+> git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- .../driver-api/media/v4l2-clocks.rst          |  31 --
- Documentation/driver-api/media/v4l2-core.rst  |   1 -
- drivers/media/v4l2-core/Makefile              |   2 +-
- drivers/media/v4l2-core/v4l2-clk.c            | 321 ------------------
- include/media/v4l2-clk.h                      |  73 ----
- 5 files changed, 1 insertion(+), 427 deletions(-)
- delete mode 100644 Documentation/driver-api/media/v4l2-clocks.rst
- delete mode 100644 drivers/media/v4l2-core/v4l2-clk.c
- delete mode 100644 include/media/v4l2-clk.h
+Added from today.
 
-diff --git a/Documentation/driver-api/media/v4l2-clocks.rst b/Documentation/driver-api/media/v4l2-clocks.rst
-deleted file mode 100644
-index 5c22eecab7ba..000000000000
---- a/Documentation/driver-api/media/v4l2-clocks.rst
-+++ /dev/null
-@@ -1,31 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--V4L2 clocks
-------------
--
--.. attention::
--
--	This is a temporary API and it shall be replaced by the generic
--	clock API, when the latter becomes widely available.
--
--Many subdevices, like camera sensors, TV decoders and encoders, need a clock
--signal to be supplied by the system. Often this clock is supplied by the
--respective bridge device. The Linux kernel provides a Common Clock Framework for
--this purpose. However, it is not (yet) available on all architectures. Besides,
--the nature of the multi-functional (clock, data + synchronisation, I2C control)
--connection of subdevices to the system might impose special requirements on the
--clock API usage. E.g. V4L2 has to support clock provider driver unregistration
--while a subdevice driver is holding a reference to the clock. For these reasons
--a V4L2 clock helper API has been developed and is provided to bridge and
--subdevice drivers.
--
--The API consists of two parts: two functions to register and unregister a V4L2
--clock source: v4l2_clk_register() and v4l2_clk_unregister() and calls to control
--a clock object, similar to the respective generic clock API calls:
--v4l2_clk_get(), v4l2_clk_put(), v4l2_clk_enable(), v4l2_clk_disable(),
--v4l2_clk_get_rate(), and v4l2_clk_set_rate(). Clock suppliers have to provide
--clock operations that will be called when clock users invoke respective API
--methods.
--
--It is expected that once the CCF becomes available on all relevant
--architectures this API will be removed.
-diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
-index 0dcad7a23141..1a8c4a5f256b 100644
---- a/Documentation/driver-api/media/v4l2-core.rst
-+++ b/Documentation/driver-api/media/v4l2-core.rst
-@@ -15,7 +15,6 @@ Video4Linux devices
-     v4l2-controls
-     v4l2-videobuf
-     v4l2-videobuf2
--    v4l2-clocks
-     v4l2-dv-timings
-     v4l2-flash-led-class
-     v4l2-mc
-diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-index 2ef0c7c958a2..e4cd589b99a5 100644
---- a/drivers/media/v4l2-core/Makefile
-+++ b/drivers/media/v4l2-core/Makefile
-@@ -6,7 +6,7 @@
- tuner-objs	:=	tuner-core.o
- 
- videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
--			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o v4l2-clk.o \
-+			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
- 			v4l2-async.o v4l2-common.o
- videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
- videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
-diff --git a/drivers/media/v4l2-core/v4l2-clk.c b/drivers/media/v4l2-core/v4l2-clk.c
-deleted file mode 100644
-index 91274eee6977..000000000000
---- a/drivers/media/v4l2-core/v4l2-clk.c
-+++ /dev/null
-@@ -1,321 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * V4L2 clock service
-- *
-- * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-- */
--
--#include <linux/atomic.h>
--#include <linux/clk.h>
--#include <linux/device.h>
--#include <linux/errno.h>
--#include <linux/list.h>
--#include <linux/module.h>
--#include <linux/mutex.h>
--#include <linux/of.h>
--#include <linux/slab.h>
--#include <linux/string.h>
--
--#include <media/v4l2-clk.h>
--#include <media/v4l2-subdev.h>
--
--static DEFINE_MUTEX(clk_lock);
--static LIST_HEAD(clk_list);
--
--static struct v4l2_clk *v4l2_clk_find(const char *dev_id)
--{
--	struct v4l2_clk *clk;
--
--	list_for_each_entry(clk, &clk_list, list)
--		if (!strcmp(dev_id, clk->dev_id))
--			return clk;
--
--	return ERR_PTR(-ENODEV);
--}
--
--struct v4l2_clk *v4l2_clk_get(struct device *dev, const char *id)
--{
--	struct v4l2_clk *clk;
--	struct clk *ccf_clk = clk_get(dev, id);
--	char clk_name[V4L2_CLK_NAME_SIZE];
--
--	if (PTR_ERR(ccf_clk) == -EPROBE_DEFER)
--		return ERR_PTR(-EPROBE_DEFER);
--
--	if (!IS_ERR_OR_NULL(ccf_clk)) {
--		clk = kzalloc(sizeof(*clk), GFP_KERNEL);
--		if (!clk) {
--			clk_put(ccf_clk);
--			return ERR_PTR(-ENOMEM);
--		}
--		clk->clk = ccf_clk;
--
--		return clk;
--	}
--
--	mutex_lock(&clk_lock);
--	clk = v4l2_clk_find(dev_name(dev));
--
--	/* if dev_name is not found, try use the OF name to find again  */
--	if (PTR_ERR(clk) == -ENODEV && dev->of_node) {
--		v4l2_clk_name_of(clk_name, sizeof(clk_name), dev->of_node);
--		clk = v4l2_clk_find(clk_name);
--	}
--
--	if (!IS_ERR(clk))
--		atomic_inc(&clk->use_count);
--	mutex_unlock(&clk_lock);
--
--	return clk;
--}
--EXPORT_SYMBOL(v4l2_clk_get);
--
--void v4l2_clk_put(struct v4l2_clk *clk)
--{
--	struct v4l2_clk *tmp;
--
--	if (IS_ERR(clk))
--		return;
--
--	if (clk->clk) {
--		clk_put(clk->clk);
--		kfree(clk);
--		return;
--	}
--
--	mutex_lock(&clk_lock);
--
--	list_for_each_entry(tmp, &clk_list, list)
--		if (tmp == clk)
--			atomic_dec(&clk->use_count);
--
--	mutex_unlock(&clk_lock);
--}
--EXPORT_SYMBOL(v4l2_clk_put);
--
--static int v4l2_clk_lock_driver(struct v4l2_clk *clk)
--{
--	struct v4l2_clk *tmp;
--	int ret = -ENODEV;
--
--	mutex_lock(&clk_lock);
--
--	list_for_each_entry(tmp, &clk_list, list)
--		if (tmp == clk) {
--			ret = !try_module_get(clk->ops->owner);
--			if (ret)
--				ret = -EFAULT;
--			break;
--		}
--
--	mutex_unlock(&clk_lock);
--
--	return ret;
--}
--
--static void v4l2_clk_unlock_driver(struct v4l2_clk *clk)
--{
--	module_put(clk->ops->owner);
--}
--
--int v4l2_clk_enable(struct v4l2_clk *clk)
--{
--	int ret;
--
--	if (clk->clk)
--		return clk_prepare_enable(clk->clk);
--
--	ret = v4l2_clk_lock_driver(clk);
--	if (ret < 0)
--		return ret;
--
--	mutex_lock(&clk->lock);
--
--	if (++clk->enable == 1 && clk->ops->enable) {
--		ret = clk->ops->enable(clk);
--		if (ret < 0)
--			clk->enable--;
--	}
--
--	mutex_unlock(&clk->lock);
--
--	return ret;
--}
--EXPORT_SYMBOL(v4l2_clk_enable);
--
--/*
-- * You might Oops if you try to disabled a disabled clock, because then the
-- * driver isn't locked and could have been unloaded by now, so, don't do that
-- */
--void v4l2_clk_disable(struct v4l2_clk *clk)
--{
--	int enable;
--
--	if (clk->clk)
--		return clk_disable_unprepare(clk->clk);
--
--	mutex_lock(&clk->lock);
--
--	enable = --clk->enable;
--	if (WARN(enable < 0, "Unbalanced %s() on %s!\n", __func__,
--		 clk->dev_id))
--		clk->enable++;
--	else if (!enable && clk->ops->disable)
--		clk->ops->disable(clk);
--
--	mutex_unlock(&clk->lock);
--
--	v4l2_clk_unlock_driver(clk);
--}
--EXPORT_SYMBOL(v4l2_clk_disable);
--
--unsigned long v4l2_clk_get_rate(struct v4l2_clk *clk)
--{
--	int ret;
--
--	if (clk->clk)
--		return clk_get_rate(clk->clk);
--
--	ret = v4l2_clk_lock_driver(clk);
--	if (ret < 0)
--		return ret;
--
--	mutex_lock(&clk->lock);
--	if (!clk->ops->get_rate)
--		ret = -ENOSYS;
--	else
--		ret = clk->ops->get_rate(clk);
--	mutex_unlock(&clk->lock);
--
--	v4l2_clk_unlock_driver(clk);
--
--	return ret;
--}
--EXPORT_SYMBOL(v4l2_clk_get_rate);
--
--int v4l2_clk_set_rate(struct v4l2_clk *clk, unsigned long rate)
--{
--	int ret;
--
--	if (clk->clk) {
--		long r = clk_round_rate(clk->clk, rate);
--		if (r < 0)
--			return r;
--		return clk_set_rate(clk->clk, r);
--	}
--
--	ret = v4l2_clk_lock_driver(clk);
--
--	if (ret < 0)
--		return ret;
--
--	mutex_lock(&clk->lock);
--	if (!clk->ops->set_rate)
--		ret = -ENOSYS;
--	else
--		ret = clk->ops->set_rate(clk, rate);
--	mutex_unlock(&clk->lock);
--
--	v4l2_clk_unlock_driver(clk);
--
--	return ret;
--}
--EXPORT_SYMBOL(v4l2_clk_set_rate);
--
--struct v4l2_clk *v4l2_clk_register(const struct v4l2_clk_ops *ops,
--				   const char *dev_id,
--				   void *priv)
--{
--	struct v4l2_clk *clk;
--	int ret;
--
--	if (!ops || !dev_id)
--		return ERR_PTR(-EINVAL);
--
--	clk = kzalloc(sizeof(struct v4l2_clk), GFP_KERNEL);
--	if (!clk)
--		return ERR_PTR(-ENOMEM);
--
--	clk->dev_id = kstrdup(dev_id, GFP_KERNEL);
--	if (!clk->dev_id) {
--		ret = -ENOMEM;
--		goto ealloc;
--	}
--	clk->ops = ops;
--	clk->priv = priv;
--	atomic_set(&clk->use_count, 0);
--	mutex_init(&clk->lock);
--
--	mutex_lock(&clk_lock);
--	if (!IS_ERR(v4l2_clk_find(dev_id))) {
--		mutex_unlock(&clk_lock);
--		ret = -EEXIST;
--		goto eexist;
--	}
--	list_add_tail(&clk->list, &clk_list);
--	mutex_unlock(&clk_lock);
--
--	return clk;
--
--eexist:
--ealloc:
--	kfree(clk->dev_id);
--	kfree(clk);
--	return ERR_PTR(ret);
--}
--EXPORT_SYMBOL(v4l2_clk_register);
--
--void v4l2_clk_unregister(struct v4l2_clk *clk)
--{
--	if (WARN(atomic_read(&clk->use_count),
--		 "%s(): Refusing to unregister ref-counted %s clock!\n",
--		 __func__, clk->dev_id))
--		return;
--
--	mutex_lock(&clk_lock);
--	list_del(&clk->list);
--	mutex_unlock(&clk_lock);
--
--	kfree(clk->dev_id);
--	kfree(clk);
--}
--EXPORT_SYMBOL(v4l2_clk_unregister);
--
--struct v4l2_clk_fixed {
--	unsigned long rate;
--	struct v4l2_clk_ops ops;
--};
--
--static unsigned long fixed_get_rate(struct v4l2_clk *clk)
--{
--	struct v4l2_clk_fixed *priv = clk->priv;
--	return priv->rate;
--}
--
--struct v4l2_clk *__v4l2_clk_register_fixed(const char *dev_id,
--				unsigned long rate, struct module *owner)
--{
--	struct v4l2_clk *clk;
--	struct v4l2_clk_fixed *priv = kzalloc(sizeof(*priv), GFP_KERNEL);
--
--	if (!priv)
--		return ERR_PTR(-ENOMEM);
--
--	priv->rate = rate;
--	priv->ops.get_rate = fixed_get_rate;
--	priv->ops.owner = owner;
--
--	clk = v4l2_clk_register(&priv->ops, dev_id, priv);
--	if (IS_ERR(clk))
--		kfree(priv);
--
--	return clk;
--}
--EXPORT_SYMBOL(__v4l2_clk_register_fixed);
--
--void v4l2_clk_unregister_fixed(struct v4l2_clk *clk)
--{
--	kfree(clk->priv);
--	v4l2_clk_unregister(clk);
--}
--EXPORT_SYMBOL(v4l2_clk_unregister_fixed);
-diff --git a/include/media/v4l2-clk.h b/include/media/v4l2-clk.h
-deleted file mode 100644
-index d9d21a43a834..000000000000
---- a/include/media/v4l2-clk.h
-+++ /dev/null
-@@ -1,73 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * V4L2 clock service
-- *
-- * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-- *
-- * ATTENTION: This is a temporary API and it shall be replaced by the generic
-- * clock API, when the latter becomes widely available.
-- */
--
--#ifndef MEDIA_V4L2_CLK_H
--#define MEDIA_V4L2_CLK_H
--
--#include <linux/atomic.h>
--#include <linux/export.h>
--#include <linux/list.h>
--#include <linux/mutex.h>
--
--struct module;
--struct device;
--
--struct clk;
--struct v4l2_clk {
--	struct list_head list;
--	const struct v4l2_clk_ops *ops;
--	const char *dev_id;
--	int enable;
--	struct mutex lock; /* Protect the enable count */
--	atomic_t use_count;
--	struct clk *clk;
--	void *priv;
--};
--
--struct v4l2_clk_ops {
--	struct module	*owner;
--	int		(*enable)(struct v4l2_clk *clk);
--	void		(*disable)(struct v4l2_clk *clk);
--	unsigned long	(*get_rate)(struct v4l2_clk *clk);
--	int		(*set_rate)(struct v4l2_clk *clk, unsigned long);
--};
--
--struct v4l2_clk *v4l2_clk_register(const struct v4l2_clk_ops *ops,
--				   const char *dev_name,
--				   void *priv);
--void v4l2_clk_unregister(struct v4l2_clk *clk);
--struct v4l2_clk *v4l2_clk_get(struct device *dev, const char *id);
--void v4l2_clk_put(struct v4l2_clk *clk);
--int v4l2_clk_enable(struct v4l2_clk *clk);
--void v4l2_clk_disable(struct v4l2_clk *clk);
--unsigned long v4l2_clk_get_rate(struct v4l2_clk *clk);
--int v4l2_clk_set_rate(struct v4l2_clk *clk, unsigned long rate);
--
--struct module;
--
--struct v4l2_clk *__v4l2_clk_register_fixed(const char *dev_id,
--			unsigned long rate, struct module *owner);
--void v4l2_clk_unregister_fixed(struct v4l2_clk *clk);
--
--static inline struct v4l2_clk *v4l2_clk_register_fixed(const char *dev_id,
--							unsigned long rate)
--{
--	return __v4l2_clk_register_fixed(dev_id, rate, THIS_MODULE);
--}
--
--#define V4L2_CLK_NAME_SIZE 64
--
--#define v4l2_clk_name_i2c(name, size, adap, client) snprintf(name, size, \
--			  "%d-%04x", adap, client)
--
--#define v4l2_clk_name_of(name, size, node) snprintf(name, size, \
--			  "of-%pOF", node)
--
--#endif
--- 
-2.29.2
+Thanks for adding your subsystem tree as a participant of linux-next.  As
+you may know, this is not a judgement of your code.  The purpose of
+linux-next is for integration testing and to lower the impact of
+conflicts between subsystems in the next merge window.=20
 
+You will need to ensure that the patches/commits in your tree/series have
+been:
+     * submitted under GPL v2 (or later) and include the Contributor's
+        Signed-off-by,
+     * posted to the relevant mailing list,
+     * reviewed by you (or another maintainer of your subsystem tree),
+     * successfully unit tested, and=20
+     * destined for the current or next Linux merge window.
+
+Basically, this should be just what you would send to Linus (or ask him
+to fetch).  It is allowed to be rebased if you deem it necessary.
+
+--=20
+Cheers,
+Stephen Rothwell=20
+sfr@canb.auug.org.au
+
+--Sig_/3kQvshNRwSzGT637_7v3ycs
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/+DTYACgkQAVBC80lX
+0GxNGgf9EtCDsHg2G5ATJxLMpj0++NlXWmIf8gLWRE7OQLpBu+7tP4EgP4BGf0B6
+XKm8FFDJGaYQ+dRRCMllLCFLfjZsxDDRqyQxAZ0TeZNIIW8gBLIHfC73jlqv9i5N
+q43QxSqU2CatsUkqt0P9G4JeE5mvDmgr6p4b4Webza6UBzqVvRNLxctL+OP7h+1f
+p9kM7E1sHfUofXAeBYGp0DBtEPDzxBjwyyQlcIknDJtNwPMUet2tPvL9Z8nUoODF
+z4upF0XEmm4ijYuHOfdxpKg2wHObICkSlbE1sMPs6jb6+DAaW7auRagOsyejlShO
+HQrjuzmMDQGxl5vGPO1+K8ZQFRxudg==
+=AR5e
+-----END PGP SIGNATURE-----
+
+--Sig_/3kQvshNRwSzGT637_7v3ycs--
