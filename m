@@ -2,104 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 163F62F3D31
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 01:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB2FF2F405E
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 01:47:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437071AbhALVh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 16:37:27 -0500
-Received: from ozlabs.org ([203.11.71.1]:58291 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437081AbhALU6L (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 15:58:11 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4DFjZJ1JDbz9sWk;
-        Wed, 13 Jan 2021 07:57:27 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1610485049;
-        bh=oOt9UC3bfgNLTO1XfajBqrAQGTUzyQ0gZrLFC6E3HKU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Hv1aowxpQ+GcGQfyulfIc1P1mB3L6lGbSlN5XXUsET7xYh1wkqDT0x80p8aZPvq1i
-         2HTwdUHTD2S43mwoK7jW08qs/SnxBF6H3u2cIboP5QIwNeyA/jtbs3U8cTknHK78dB
-         Z9OrIql/t1s8V1mzT7RdF+MWtnXevTBc50ONHqDBqstOjaVD+5Z0JHv0NMhr0OKMa2
-         8j4YRR8rOsbQawaCwbtT/qkPG1pWVAj7bBMDgnGP+ILpHLtPEteoU4nM0ZjXkLTgah
-         oyCYQXJCXVN20UCtTuetN/8DKj6mcc5RfIlk0OMEz4J3nOw/7eJWCUGnXDPY7F2gbp
-         olsd3EKG41vFw==
-Date:   Wed, 13 Jan 2021 07:57:26 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v7 00/17] follow_pfn and other iomap races
-Message-ID: <20210113075726.2ffaef97@canb.auug.org.au>
-In-Reply-To: <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
-References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
-        <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
+        id S2389011AbhALXgV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 18:36:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728032AbhALXgU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Jan 2021 18:36:20 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85FC2C061575;
+        Tue, 12 Jan 2021 15:35:40 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id g8so3382692wme.1;
+        Tue, 12 Jan 2021 15:35:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=96AFxN9qdBCX705IZeYQUwreVW1FNVIfvYgEDTfoapc=;
+        b=EAcYSikfHZcircFSK78lfI+As4BKckcFYYkxNpU2iWOyM0ORpkrMnjQP4o1uDXXu8d
+         ITcjJNRNM7ou0ysaQOAh9kO4W7DsOXCSyp1WdD9/36bGoApqH4E9DGeA600ja8EgFRYa
+         VESDD4M5SydFu30WecBJL62r9hFe6GR5DsD4WFIwoRa/K4nta9EOpt+Wt3p2R1iVF+uj
+         7T9xSWOM9Ap1DLDLtCzOpVT/o3lCK+syGlKmgQQKbXLF8wzLdE7CP23/6AKAHp4ZsKmx
+         y+QGzxUDE+g755I7++Z9mwkZKtOgqeEjEBynGthZ6wIoOA95cRRf3J5DVracJdVPhxBw
+         kyIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=96AFxN9qdBCX705IZeYQUwreVW1FNVIfvYgEDTfoapc=;
+        b=E4vOCmWBlXhOZBcFtEzTLI40JLf4++pUsFTFF+3dlLt4acCO3jUqV5Ij941cgONxum
+         jEWg/RBkv8SCIHA8j14Nw+gxLhdbyhbltpJ0jQOjsQYaU5HwADXSzZfX9ek4Bv/qqGRD
+         +05Y5sdbO/QnauWR6GzjPxJAMLxkUiQmD7NAOPoyzgF2SRc+bMidEjUWFLoXmKE35pj6
+         0BVjbrJGI5dIeoWVTxQJJLAth8gY7fEzm+9Cl5VsQUYbPTmZD1Z3hRwqd4EWK4NuEBtN
+         C5VP5XZ2YFA8fHHSWJPFqG67U1QajT+QMaeALctaFkLN54tZ5/S24Z1L8hbpJ2faBZr3
+         Nr7w==
+X-Gm-Message-State: AOAM530HGHL6yAsrUhzNEy3Dnrk4zpPuyreUR+GpLSwFgS+Yg0hByvDa
+        BqvDlVH4Vg3r+J5RJbaP35y8zAtzrPR2hg==
+X-Google-Smtp-Source: ABdhPJy6vn2CF1xoE9dKg3jChENtseZXZXzBV2rpYPSMu8O38VXZvrNpwnnRLOqBXOynaXloYJYMcw==
+X-Received: by 2002:a1c:608b:: with SMTP id u133mr65860wmb.140.1610494539312;
+        Tue, 12 Jan 2021 15:35:39 -0800 (PST)
+Received: from [192.168.1.211] ([2.29.208.120])
+        by smtp.gmail.com with ESMTPSA id b127sm135170wmc.45.2021.01.12.15.35.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Jan 2021 15:35:38 -0800 (PST)
+Subject: Re: [PATCH v5 00/15] Add functionality to ipu3-cio2 driver allowing
+ software_node connections to sensors on platforms designed for Windows
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        yong.zhi@intel.com, Bingbu Cao <bingbu.cao@intel.com>,
+        tian.shu.qiu@intel.com, Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        hverkuil-cisco@xs4all.nl, m.felsch@pengutronix.de,
+        Niklas Soderlund <niklas.soderlund+renesas@ragnatech.se>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+References: <20210107132838.396641-1-djrscally@gmail.com>
+ <CAJZ5v0gb9c-kWM4aAKm6UqbVKt7dyp6xJS5E=7yoPRnPP+msbw@mail.gmail.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <9c451747-410e-3c99-c1a5-87336b71aa7b@gmail.com>
+Date:   Tue, 12 Jan 2021 23:35:37 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/3kQvshNRwSzGT637_7v3ycs";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <CAJZ5v0gb9c-kWM4aAKm6UqbVKt7dyp6xJS5E=7yoPRnPP+msbw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/3kQvshNRwSzGT637_7v3ycs
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Rafael, Sakari
 
-Hi Daniel,
+On 12/01/2021 19:34, Rafael J. Wysocki wrote:
+> <snip>
+>> I'm hopeful that most or all of this series could get picked up for 5.12.
+>> We touch a few different areas (listed below), but I think the easiest
+>> approach would be to merge everything through media tree. Rafael, Greg,
+>> Mauro and Sergey; are you ok with that plan, or would you prefer a
+>> different approach? Mauro; if that plan is ok (and of course assuming that
+>> the rest of the patches are acked by their respective maintainers) could
+>> we get a dedicated feature branch just in case the following series ends
+>> up being ready in time too?
+>>
+>> <snip>
+> Please feel free to add
+>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>
+> to all of the device properties patches in this series if that helps.
+>
+> Thanks!
 
-On Tue, 12 Jan 2021 14:24:27 +0100 Daniel Vetter <daniel@ffwll.ch> wrote:
->=20
-> As Jason suggested, I've pulled the first 1 patches into a topic branch.
->=20
-> Stephen, can you please add the below to linux-next for the 5.12 merge
-> window?
->=20
-> git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
+Thanks very much (and Greg too).
 
-Added from today.
 
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
+Sakari; unless I'm misunderstanding something, I think this series could
+be picked up now, right? Would it be ok to do that through your tree? I
+think the idea of a dedicated feature branch can be dropped, I won't
+have the second series ready in time for this round anyway.
 
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
 
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
+First time doing this, so if I've missed something please let me know!
 
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
-
---Sig_/3kQvshNRwSzGT637_7v3ycs
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/+DTYACgkQAVBC80lX
-0GxNGgf9EtCDsHg2G5ATJxLMpj0++NlXWmIf8gLWRE7OQLpBu+7tP4EgP4BGf0B6
-XKm8FFDJGaYQ+dRRCMllLCFLfjZsxDDRqyQxAZ0TeZNIIW8gBLIHfC73jlqv9i5N
-q43QxSqU2CatsUkqt0P9G4JeE5mvDmgr6p4b4Webza6UBzqVvRNLxctL+OP7h+1f
-p9kM7E1sHfUofXAeBYGp0DBtEPDzxBjwyyQlcIknDJtNwPMUet2tPvL9Z8nUoODF
-z4upF0XEmm4ijYuHOfdxpKg2wHObICkSlbE1sMPs6jb6+DAaW7auRagOsyejlShO
-HQrjuzmMDQGxl5vGPO1+K8ZQFRxudg==
-=AR5e
------END PGP SIGNATURE-----
-
---Sig_/3kQvshNRwSzGT637_7v3ycs--
