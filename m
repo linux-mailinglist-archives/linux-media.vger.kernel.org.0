@@ -2,82 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 346C12F3ACB
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 20:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21B582F3B29
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 20:51:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436487AbhALTl7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 14:41:59 -0500
-Received: from www.zeus03.de ([194.117.254.33]:54900 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393155AbhALTl7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 14:41:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=t9XstqtRgrmC0ix2FNPF67k/oNnC
-        JJETaagxYwsHmRE=; b=JaDwonS5UZRK77cksg6+5d/q9duNxG5p8d/FLbtvV5Jz
-        Y11V37KBxCcFyOIRxpCpqbZGfkXY2gaNCCw9HRKhFs1MPFOMTmVvzOaNdakd4Mk7
-        IgSrnsvZutal1lQmf4tTxEBWeXikHBnx8DOQa5A0yj8cbSM4BwT8dJpQDy2GVLY=
-Received: (qmail 2864404 invoked from network); 12 Jan 2021 20:41:17 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jan 2021 20:41:17 +0100
-X-UD-Smtp-Session: l3s3148p1@ZZq9NLm4qNMgAwDPXwxzAHrEwO71dOp2
-Date:   Tue, 12 Jan 2021 20:41:16 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 2/3] media: i2c: adv7842: remove open coded version
- of SMBus block read
-Message-ID: <20210112194116.GA50007@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210112164130.47895-1-wsa+renesas@sang-engineering.com>
- <20210112164130.47895-3-wsa+renesas@sang-engineering.com>
+        id S2393254AbhALTuR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 14:50:17 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44218 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393209AbhALTuQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Jan 2021 14:50:16 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 01B8E1F4550F
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
+        Petr Cvek <petrcvekcz@gmail.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Daniel Mack <zonque@gmail.com>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v2 0/6] Remove last users of v4l2-clk and remove v4l2-clk
+Date:   Tue, 12 Jan 2021 16:49:13 -0300
+Message-Id: <20210112194919.50176-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
-Content-Disposition: inline
-In-Reply-To: <20210112164130.47895-3-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The V4L2 temporary clock helper API is used by just one last capture
+driver, pxa-camera, which registers a dummy clock; and then by just
+a few sensor drivers, consuming clocks through the v4l2-clk API.
 
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+It's possible to convert these few last users, and so remove
+the v4l2-clk API, which hasn't been used for a few years.
+
+The sensor drivers are already using the CCF API,
+which v4l2-clk API uses as fallback.
+
+To convert the pxa-camera driver, a fixed-rate clock
+is registered for the mach-based platforms that still exist,
+for mt9m111 to work (the only sensor that PXA currently
+registers).
 
 
-> +static int adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
->  {
->  	struct adv7511_state *state = get_adv7511_state(sd);
-> +	s32 len;
+Ezequiel Garcia (6):
+  media: mach-pxa: Register the camera sensor fixed-rate clock
+  media: pxa_camera: Drop the v4l2-clk clock register
+  media: ov9640: Use the generic clock framework
+  media: mt9m111: Use the generic clock framework
+  media: ov6650: Use the generic clock framework
+  media: Remove the legacy v4l2-clk API
 
-And 'len' here shadows the function argument :( Ok, I need to resend
-this patch. Still, looking forward to a comment if an approach like this
-is acceptable.
+ .../driver-api/media/v4l2-clocks.rst          |  31 --
+ Documentation/driver-api/media/v4l2-core.rst  |   1 -
+ arch/arm/mach-pxa/devices.c                   |   8 +
+ drivers/media/i2c/mt9m111.c                   |  17 +-
+ drivers/media/i2c/ov6650.c                    |  28 +-
+ drivers/media/i2c/ov9640.c                    |  15 +-
+ drivers/media/i2c/ov9640.h                    |   2 +-
+ drivers/media/platform/pxa_camera.c           |  30 +-
+ drivers/media/v4l2-core/Makefile              |   2 +-
+ drivers/media/v4l2-core/v4l2-clk.c            | 321 ------------------
+ include/media/v4l2-clk.h                      |  73 ----
+ 11 files changed, 35 insertions(+), 493 deletions(-)
+ delete mode 100644 Documentation/driver-api/media/v4l2-clocks.rst
+ delete mode 100644 drivers/media/v4l2-core/v4l2-clk.c
+ delete mode 100644 include/media/v4l2-clk.h
 
+-- 
+2.29.2
 
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/9+1gACgkQFA3kzBSg
-KbZFzhAAh2Wa1O3n+/gpFeJusi6JllSei7zH9E2v/pWihrudzMC/FhEp4uPzMDOt
-/w9b9ZLzGTZSxx38qyOdZgJBtib6liZQt6Zgsdrbh0kIRvmXDQNxpx8KZa/1ukZy
-0ze1WghkEI1Jalop1FNnbzRVSBctb/lOCWevcwyQ7fbHca5OeLM8Hj2HHQahH+WU
-s6UMddJAr+f7eOCc1eoc2kSjzQWQUexfNMoaYLvUZZdGTb87dd07mZlcoNgvBoeC
-aM9zzBJUhALDOMioMVZujVc8kWerGF3MSPrT3uglbkGR+cdwo8GNQmoAMhgHRNi9
-U2pHugFL7Oi58skehzpFDuJjqDyIpaX11U7VkrU214tEJOKo4avt+XCjpgoKzFaA
-ZYGUoI1I2JQTo7CEz/Akd/vgSi+umhRAm+GTAhPy+I8q4eJaJagR38iC5zdfYW+a
-S5SsHpGG31BOkIiI7heqa66W7H7B8PuCTie+QzF2rlBFJ3JlzgyuJQpTfx7p4Ths
-Z7dCq2XHyyZiFyqaoRHaIKR5L+oGYfxA5U5nVYjn8hAFIkis+pMwi57VK+Kw5l/m
-GLiTtNjbdRFcB3syxsbdtVSMacohOZl4nIdZhwxRbEpTq9UDTiQNFDVkDXwCw9bB
-7ilk+AoO1gTNaVSEm+xPhzj/l5p7Ez0bgkp00ACEwOUEexu7gG4=
-=qSVB
------END PGP SIGNATURE-----
-
---VbJkn9YxBvnuCH5J--
