@@ -2,164 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7FD2F2ABF
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 10:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 350622F2ACB
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 10:09:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389332AbhALJFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 04:05:21 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60527 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388856AbhALJFS (ORCPT
+        id S2389771AbhALJIf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 04:08:35 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:33117 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389634AbhALJIe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 04:05:18 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id zFbIkDFNAVfyLzFbLkopWg; Tue, 12 Jan 2021 10:04:31 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610442271; bh=w+eQNhQZnKJAllfIzv3g8UL7ixvpbCSLuEatvY5u/XI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=KBbY/P7mJw0U7W6AdLzOqfUcXsIvbj3VuzH2QfSeFCuPeFlsDUbPo321JOY711RVQ
-         jkVL714w1GHgf3zdqlU+8jjm3z/wPele3KaPgZrrFDvGJszmpnG/y4OdOCdl3Q2BBL
-         6KubodHq54gb5Wc+vBOb8RPTdVq1cHDrliCD58s/V7mcf+UwSQOPR7fAD8R3pZdWAG
-         BZE9VkyCXq70RoctikkJA+MnS0PxLBklpoH3t6CL0gH3iHqVBaSMjrwCzXc9XAOwLr
-         rnSh57fRdo4Z/3D0kS+LNrC1X4FA2NUP3aWSsL5GJyxDYPxsUr3fq2E/n0qvLKGc6N
-         +Bi48mk0NsNpA==
-Subject: Re: [PATCH v5 2/2] venus: venc: Add support for Long Term Reference
- (LTR) controls
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1609736971-14454-1-git-send-email-dikshita@codeaurora.org>
- <1609736971-14454-3-git-send-email-dikshita@codeaurora.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e11a4e78-8e41-c7f4-4947-76d27f0fa2ed@xs4all.nl>
-Date:   Tue, 12 Jan 2021 10:04:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Tue, 12 Jan 2021 04:08:34 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id BD52520016;
+        Tue, 12 Jan 2021 09:07:48 +0000 (UTC)
+Date:   Tue, 12 Jan 2021 10:08:05 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
+ amplitude
+Message-ID: <20210112090805.myglp2lpozo3blq5@uno.localdomain>
+References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
+ <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+ <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
+ <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
+ <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
+ <20210111112023.brrhxgfedo5fer53@uno.localdomain>
+ <X/0triYZZJiXaf07@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <1609736971-14454-3-git-send-email-dikshita@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNfNVDt7xI9xuvE28pakTe/RciRNCg7GGlZTvFiXs8nhuSsM/ARLZqkNolvXYjUWI8q6xAPEXTm2qTPk6C+KMppHZhHyxC90OftYJ9yerdRsdF9oqWS3
- cnhrppwA5Tyqp9piHy0BO39n0rDMTTwJpHnjX+8VLuWA8W6+XxcTPbGZTzySN0FD29Y8BqVsCPDMBtn1U+Zc9pdr/iKbZAscijqEPHsBI8gFzOJJqZGC+1QD
- YOv8U9x+XdRYDX/aE7WMhaFPd7xrtrkI2lrdbasAIL1hLn5U6aEdTqzFEyirJAWY29nnGnCZpjvHJ4BjdFB2nJRcWPwzaeC47fb2nxTvqmPpmjDp77JGbzJS
- E1AcqhLtfOJjLWXky8GiDXcF8QutnMX7n4fbCntvmVGw2YQleis=
+Content-Disposition: inline
+In-Reply-To: <X/0triYZZJiXaf07@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/01/2021 06:09, Dikshita Agarwal wrote:
-> Add support for below LTR controls in encoder:
-> - V4L2_CID_MPEG_VIDEO_LTR_COUNT
-> - V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX
-> - V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES
+Hi Laurent,
 
-This patch does not add any Request API support to the venus driver,
-so it makes no sense to merge this series. It's incomplete.
+On Tue, Jan 12, 2021 at 07:03:42AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Mon, Jan 11, 2021 at 12:20:23PM +0100, Jacopo Mondi wrote:
+> > On Mon, Jan 11, 2021 at 12:58:59PM +0200, Laurent Pinchart wrote:
+> > > On Mon, Jan 11, 2021 at 11:43:11AM +0100, Jacopo Mondi wrote:
+> > >> On Wed, Dec 16, 2020 at 07:22:17PM +0200, Laurent Pinchart wrote:
+> > >>> On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
+> > >>>> Adjust the initial reverse channel amplitude parsing from
+> > >>>> firmware interface the 'maxim,reverse-channel-microvolt'
+> > >>>> property.
+> > >>>>
+> > >>>> This change is required for both rdacm20 and rdacm21 camera
+> > >>>> modules to be correctly probed when used in combination with
+> > >>>> the max9286 deserializer.
+> > >>>>
+> > >>>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >>>> ---
+> > >>>>  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
+> > >>>>  1 file changed, 22 insertions(+), 1 deletion(-)
+> > >>>>
+> > >>>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > >>>> index 021309c6dd6f..9b40a4890c4d 100644
+> > >>>> --- a/drivers/media/i2c/max9286.c
+> > >>>> +++ b/drivers/media/i2c/max9286.c
+> > >>>> @@ -163,6 +163,8 @@ struct max9286_priv {
+> > >>>>  	unsigned int mux_channel;
+> > >>>>  	bool mux_open;
+> > >>>>
+> > >>>> +	u32 reverse_channel_mv;
+> > >>>> +
+> > >>>>  	struct v4l2_ctrl_handler ctrls;
+> > >>>>  	struct v4l2_ctrl *pixelrate;
+> > >>>>
+> > >>>> @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+> > >>>>  	 * All enabled sources have probed and enabled their reverse control
+> > >>>>  	 * channels:
+> > >>>>  	 *
+> > >>>> +	 * - Increase the reverse channel amplitude to compensate for the
+> > >>>> +	 *   remote ends high threshold, if not done already
+> > >>>>  	 * - Verify all configuration links are properly detected
+> > >>>>  	 * - Disable auto-ack as communication on the control channel are now
+> > >>>>  	 *   stable.
+> > >>>>  	 */
+> > >>>> +	if (priv->reverse_channel_mv < 170)
+> > >>>> +		max9286_reverse_channel_setup(priv, 170);
+> > >>>
+> > >>> I'm beginning to wonder if there will be a need in the future to not
+> > >>> increase the reverse channel amplitude (keeping the threshold low on the
+> > >>> remote side). An increased amplitude increases power consumption, and if
+> > >>> the environment isn't noisy, a low amplitude would work. The device tree
+> > >>> would then need to specify both the initial amplitude required by the
+> > >>> remote side, and the desired amplitude after initialization. What do you
+> > >>> think ? Is it overkill ? We don't have to implement this now, so
+> > >>>
+> > >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >>>
+> > >>> but if this feature could be required later, we may want to take into
+> > >>> account in the naming of the new DT property to reflect the fact that it
+> > >>> is the initial value.
+> > >>
+> > >> I had the same thought when I initially proposed
+> > >> "maxim,initial-reverse-channel-mV"
+> > >>
+> > >> Having to use the standard unit suffix that would have become
+> > >> "maxim,initial-reverse-channel-microvolt"
+> > >> which is extremely long.
+> > >>
+> > >> I can't tell if there will be any need to adjust the amplitude later.
+> > >> In any case, I would not rely on a DTS property to do so, as once we
+> > >> have probed the remote we have a subdev where to call
+> > >> 'get_mbus_config()' on, and from there we can report the high threshold
+> > >> status of the serializer and adjust the deser amplitude accordingly.
+> > >
+> > > I don't think that's the point. The threshold of the serializer is
+> > > something we can configure at runtime. What voltage level to use after
+> >
+> > How so ? I mean, we can add an API for this, but currently it's
+> > configured at probe time and that's it. Its configuration might as
+> > well come from a DT property like we do on the deserializer here but I
+> > fail to see why it's different. Both settings depends on the required
+> > noise immunity of th system.
+>
+> The voltage level configuration need to match between the tserializer
+> (transmitter) and the deserializer (receiver). The serializer is
+> configured with a voltage level, and the deserializer needs to be
+> configured with a corresponding threshold.
+>
 
-The other two series (priority ID and QP and layer bitrate) look good
-to be merged.
+If I'm not mistaken it's actually the other way around, at least for
+the chips we're dealing with.
 
-Regards,
+The serializer (MAX9271) has an "Reverse Channel Receiver High
+Threshold Enable" bit (register 0x08[0]) undocumented in the chip
+manual but described in the "MAX9286 Programming Guide 2 10.pdf"
+document in the "Important Registers" section.
 
-	Hans
+The deserializer (MAX9286) has instead a configurable setting for the reverse
+channel signal amplitude, which is what we are controlling in this
+series.
 
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/venc_ctrls.c | 49 +++++++++++++++++++++++++-
->  1 file changed, 48 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> index 496ad4d..7d010d8 100644
-> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> @@ -20,6 +20,7 @@
->  #define INTRA_REFRESH_MBS_MAX	300
->  #define AT_SLICE_BOUNDARY	\
->  	V4L2_MPEG_VIDEO_H264_LOOP_FILTER_MODE_DISABLED_AT_SLICE_BOUNDARY
-> +#define MAX_LTR_FRAME_COUNT 4
->  
->  static int venc_calc_bpframes(u32 gop_size, u32 conseq_b, u32 *bf, u32 *pf)
->  {
-> @@ -72,6 +73,9 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
->  	struct venc_controls *ctr = &inst->controls.enc;
->  	struct hfi_enable en = { .enable = 1 };
->  	struct hfi_bitrate brate;
-> +	struct hfi_ltr_use ltr_use;
-> +	struct hfi_ltr_mark ltr_mark;
-> +	struct hfi_ltr_mode ltr_mode;
->  	u32 bframes;
->  	u32 ptype;
->  	int ret;
-> @@ -259,6 +263,37 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
->  		ctr->frame_skip_mode = ctrl->val;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
-> +		ptype = HFI_PROPERTY_PARAM_VENC_LTRMODE;
-> +		ltr_mode.ltr_count = ctrl->val;
-> +		ltr_mode.ltr_mode = HFI_LTR_MODE_MANUAL;
-> +		ltr_mode.trust_mode = 1;
-> +		ret = hfi_session_set_property(inst, ptype, &ltr_mode);
-> +		if (ret) {
-> +			mutex_unlock(&inst->lock);
-> +			return ret;
-> +		}
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
-> +		ptype = HFI_PROPERTY_CONFIG_VENC_MARKLTRFRAME;
-> +		ltr_mark.mark_frame = ctrl->val;
-> +		ret = hfi_session_set_property(inst, ptype, &ltr_mark);
-> +		if (ret) {
-> +			mutex_unlock(&inst->lock);
-> +			return ret;
-> +		}
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
-> +		ptype = HFI_PROPERTY_CONFIG_VENC_USELTRFRAME;
-> +		ltr_use.ref_ltr = ctrl->val;
-> +		ltr_use.use_constrnt = true;
-> +		ltr_use.frames = 0;
-> +		ret = hfi_session_set_property(inst, ptype, &ltr_use);
-> +		if (ret) {
-> +			mutex_unlock(&inst->lock);
-> +			return ret;
-> +		}
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -274,7 +309,7 @@ int venc_ctrl_init(struct venus_inst *inst)
->  {
->  	int ret;
->  
-> -	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 50);
-> +	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 53);
->  	if (ret)
->  		return ret;
->  
-> @@ -476,6 +511,18 @@ int venc_ctrl_init(struct venus_inst *inst)
->  			       (1 << V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT)),
->  			       V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED);
->  
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			  V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES, 0,
-> +			  (MAX_LTR_FRAME_COUNT - 1), 1, 0);
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			  V4L2_CID_MPEG_VIDEO_LTR_COUNT, 0,
-> +			  MAX_LTR_FRAME_COUNT, 1, 0);
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			  V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX, 0,
-> +			  (MAX_LTR_FRAME_COUNT - 1), 1, 0);
-> +
->  	ret = inst->ctrl_handler.error;
->  	if (ret)
->  		goto err;
-> 
+The deserializer reverse channel amplitude has to match the remote
+side 'high threshold enable' setting. If it is enabled the amplitude
+has to be increased to be able to probe the remote side. If it's not
+a lower amplitude has to be used to make comunication reliable.
 
+As you said, some models (RDACM20) might be pre-programmed with the
+'high threshold enable' bit set, and so the deserializer reverse
+channel amplitude has to be adjusted accordingly to be able to
+comunicate on the reverse channel.
+
+> The voltage level of the serializer is configurable on the camera side
+> when the system is powered up. The RDACM20 has a microcontroller which
+> can configure the serializer, and other cameras may have similar
+> mechanisms. As the deserializer can't query the information from the
+> serializer (communication is unreliable if the threshold has an
+> incorrect value), we need a DT property to tell the deserializer what
+> threshold is initially used by the camera when it gets powered up.
+>
+
+That's what this series does, yes.
+
+> This only covers initialization. A camera could boot up with a low
+> voltage level, but we may want to increase the voltage level (and thus
+> the threshold on the deserializer side) to increase noise immunity. Or,
+> if the system environment isn't noisy, we may want to keep a low voltage
+> level, or even decrease it if the camera boots up with a high voltage
+> level. This runtime voltage level depends on the system design and its
+> susceptibility to noise, and is thus a system property. Should we want
+> to make it configurable, it should be specified in DT, and it's separate
+> from the initial voltage level that is used to establish communication.
+>
+
+And that's what I meant. Assuming we handle initialization correctly
+with this series, the serializers 'high threshold' configuration
+-after- initialization can be specified with a DT property on the
+-serializer- side. Then, to adjust the deserializer reverse channel
+amplitude, once we the remote has probed and we have a subdevice
+registered for it, we can query the 'high threshold' configuration
+using get_mbus_config() (or another API if we think it's better) and
+adjust the deserializer accordingly.
+
+All in all:
+- yes, I think there might be a need to control the noise immunity
+  settings after initialization
+- I think it should be done on the serializer side, possibly with a DT
+  property, possibly something like a boolean 'maxim,high-threshold-enable'
+- the deserializer can query that information with a kAPI like
+  get_mbus_config() after the remote has probed
+- Because of that there is no need for an additional deserializer property
+
+Hope this makes sense
