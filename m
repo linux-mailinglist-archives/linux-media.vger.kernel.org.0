@@ -2,152 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD812F2784
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 06:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E03012F2832
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 07:06:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbhALFIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 00:08:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57446 "EHLO
+        id S1727176AbhALGFt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 01:05:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725888AbhALFIr (ORCPT
+        with ESMTP id S1726812AbhALGFt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 00:08:47 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BF3C061575
-        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 21:08:06 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFE3D3E;
-        Tue, 12 Jan 2021 06:08:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610428085;
-        bh=IodhxuEpngPjf8Wd9gEVRl+3BzUOrlhRWIpPF+Bp/9k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aVuk6eKKgEGD86YGDl2s6cA1zxEFTF8jUrwJY1GsK8eLN98RiG5v6vcE5EJaYp+pr
-         w4eruIXnH0oX9b4Io63VSozxhL5ky2V0AbdhBa7HWvxZClzJ66JYnkTmzYrPV7ImSs
-         nQb3WibQp7g0JwMam09JzaS5WpubNoCtShqlusUA=
-Date:   Tue, 12 Jan 2021 07:07:51 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com, Philipp Zabel <p.zabel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH] media: imx6-mipi-csi2: Call remote subdev
- get_mbus_config to get active lanes
-Message-ID: <X/0up+6vBkcngF1V@pendragon.ideasonboard.com>
-References: <20201229103102.45547-1-ezequiel@collabora.com>
- <cdd4a805-13a7-ab1a-dcf6-1d22c2dde1e5@gmail.com>
- <7c87bf467d44d32a3f8d67dec8c581e82b09eaf7.camel@collabora.com>
+        Tue, 12 Jan 2021 01:05:49 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3EF4C061575
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 22:05:08 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id v26so954542eds.13
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 22:05:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=D6bELGUJvHwAug6B4ju9CfL6sACFKa7D5Sn8crQlhpc=;
+        b=V38c9JIQKVLHILnG3PzwHK6iWLJVIqGUwVebu8CvtbmitgPJesR/mraPNOlRziVx3A
+         6U72sqz9ntXcbPp7j04BBmMDRZZZqwdnxK7aTExzH5roZUDvXP0nD+JtbjXl3n5emKYP
+         xLaAnrZiis68427ri1LsijwhC5YFGuMi8izgI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=D6bELGUJvHwAug6B4ju9CfL6sACFKa7D5Sn8crQlhpc=;
+        b=J5GVk8GGlYxv5Kw5YZNL5P1VR6Wx75/7yRBceBHXOgjhs7bqETg17PkZLh1+rLoNbx
+         VT3hvng9//dui8gVy3hiuhQeGihrJ0ZE9/GWoYryU4z0/eTTTGQOPLkyUXZNJPN3afvp
+         FcQ+xYPJpItjPgrShHS7Zw7RqynI5elbMQp+KxtWNrJoH/BrPIM434PBATOplCCybij3
+         IoGobKE99R4YCmwLDl9z9NFuAID+E1u2Jfq2NrL5r8XOI4HRKI2EmUeVnnchPT9DABeh
+         PWPy3hd8VlrxFqJwf1lFSaNhk59GMkr+uoQTB9sFwbj/lAK26jRzuV0s0HKJt3a/qBjs
+         fn8g==
+X-Gm-Message-State: AOAM531mqpvYTyvT9kHqCvhdB+xQ7mUJQ94G09MoWyhvbsXMCyYgg6do
+        hggj0CZFLEhjG3rJe1vspuV81ywios3UqA==
+X-Google-Smtp-Source: ABdhPJyzqCfYdc7XJgMWttd35hDPzguczL4jrFMc0iIrf5y4Hw9UCQGqTbLmqjgNl+VqStQZ77cdgw==
+X-Received: by 2002:a05:6402:31bb:: with SMTP id dj27mr96204edb.285.1610431507264;
+        Mon, 11 Jan 2021 22:05:07 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
+        by smtp.gmail.com with ESMTPSA id v25sm201140ejw.21.2021.01.11.22.05.05
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Jan 2021 22:05:06 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id 3so918411wmg.4
+        for <linux-media@vger.kernel.org>; Mon, 11 Jan 2021 22:05:05 -0800 (PST)
+X-Received: by 2002:a1c:c308:: with SMTP id t8mr1899553wmf.22.1610431505145;
+ Mon, 11 Jan 2021 22:05:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7c87bf467d44d32a3f8d67dec8c581e82b09eaf7.camel@collabora.com>
+References: <3342088.iIbC2pHGDl@diego>
+In-Reply-To: <3342088.iIbC2pHGDl@diego>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 12 Jan 2021 15:04:53 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AywuBVXSEdfoYTMofmhEXPVzehPm0pgTSfBrFD9s6aQg@mail.gmail.com>
+Message-ID: <CAAFQd5AywuBVXSEdfoYTMofmhEXPVzehPm0pgTSfBrFD9s6aQg@mail.gmail.com>
+Subject: Re: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
+To:     Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        "Kever.Yang" <kever.yang@rock-chips.com>,
+        Eddie Cai <eddie.cai@rock-chips.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        christoph.muellner@theobroma-systems.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Hi Heiko,
 
-On Mon, Jan 11, 2021 at 12:11:36PM -0300, Ezequiel Garcia wrote:
-> On Fri, 2021-01-08 at 11:10 -0800, Steve Longerbeam wrote:
-> > On 12/29/20 2:31 AM, Ezequiel Garcia wrote:
-> > > Currently, the CSI2 subdevice is using the data-lanes from the
-> > > neareast endpoint to config the CSI2 lanes.
-> > > 
-> > > While this may work, the proper way to configure the hardware is
-> > > to obtain the remote subdevice in v4l2_async_notifier_operations.bound(),
-> > > and then call get_mbus_config using the remote subdevice to get
-> > > the active lanes.
-> > > 
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > >   drivers/staging/media/imx/TODO             |  12 ---
-> > >   drivers/staging/media/imx/imx6-mipi-csi2.c | 101 ++++++++++++++++++---
-> > >   2 files changed, 90 insertions(+), 23 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-> > > index 9cfc1c1e78dc..c575f419204a 100644
-> > > --- a/drivers/staging/media/imx/TODO
-> > > +++ b/drivers/staging/media/imx/TODO
-> > > @@ -2,18 +2,6 @@
-> > >   - The Frame Interval Monitor could be exported to v4l2-core for
-> > >     general use.
-> > >   
-> > > -- The CSI subdevice parses its nearest upstream neighbor's device-tree
-> > > -  bus config in order to setup the CSI. Laurent Pinchart argues that
-> > > -  instead the CSI subdev should call its neighbor's g_mbus_config op
-> > > -  (which should be propagated if necessary) to get this info. However
-> > > -  Hans Verkuil is planning to remove the g_mbus_config op. For now this
-> > > -  driver uses the parsed DT bus config method until this issue is
-> > > -  resolved.
-> > 
-> > This TODO was actually referring to the fwnode endpoint parsing in 
-> 
-> Ah, OK.
-> 
-> > But the same conversion to call .get_mbus_config() instead of endpoint 
-> > parsing could be done in imx-media-csi.c, but there is one imx6 
-> > constraint that is preventing this from happening. The imx6 reference 
-> > manual states that if the CSI is receiving from an input parallel bus 
-> > that is 16-bits wide, the data must go directly to memory via the SMFC 
-> > and not be sent to the IPU's Image Converter ("passthrough" mode):
-> > 
-> > "37.4.3.9 16 bit camera support
-> > 
-> > Devices that support 16 bit data bus can be connected to the CSI. This  can be done in one
-> > of the following ways.
-> > 
-> > 16 bit YUV422
-> > In this mode the CSI receives 2 components per cycle. The CSI is programmed to
-> > accept the data as 16 bit generic data. The captured data will be stored in the memory
-> > through the SMFC. The IDMAC needs to be programmed to store 16bit generic data.
-> > When the data is read back from the memory for further processing in the IPU it will
-> > be read as YUV422 data."
-> > 
-> > Same is said for RGB data to the CSI.
-> > 
-> > I'm not sure if this restriction is real or not. If this restriction 
-> > were ignored, the fwnode endpoint check "ep->bus.parallel.bus_width >= 
-> > 16" could be removed and the only remaining info required to determine 
-> > passthrough mode is available from 'struct v4l2_mbus_config' and the 
-> > input mbus codes, thus allowing the conversion to .get_mbus_config().
-> 
-> For the sound of this, the above doesn't affect this patch, right?
-> Also, note there's a v2 submitted:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210103154155.318300-1-ezequiel@collabora.com/
-> 
-> Now, there's something I'm not exactly sure about these .get_mbus_config
-> conversions, being described in the TODO file.
-> 
-> The TODO file should only list what's missing to move the driver
-> out of staging. Converting to newer APIs doesn't seem a blocker:
-> there are a ton of drivers using old APIs out there, which is
-> a natural consequence of how the kernel evolve APIs all the time.
-> 
-> I'm wondering if the other TODO items apply as well, moving
-> the Frame Interval Monitor to the v4l2-core is something we
-> can always do at any later point. It shouldn't be a requirement
-> for destaging.
-> 
-> There's one thing that we must resolve before de-staging.
-> The media controller topology, which is a form of ABI should
-> be settled, as that's difficult to change later.
-> 
-> However, this item is not mentioned in the TODO.
-> 
-> So, I was thinking we should remove all the current TODO
-> items and add something about the media controller topology
-> stability requirements.
-> 
-> What do you think?
+On Fri, Jan 8, 2021 at 5:48 AM Heiko Stuebner
+<heiko.stuebner@theobroma-systems.com> wrote:
+>
+> Hi,
+>
+> the rkisp driver in the mainline Linux kernel moved out of staging with
+> 5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
+>
+> The rkisp driver currently only supports the rk3399 and while working
+> on porting the support for rk3326/px30 I noticed discrepancies.
+>
+> Hence it would be somewhat urgent to clarify this, as later it will get
+> really cumbersome.
+>
+> ----
+>
+> The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
+> Some sub-blocks moved around or seem to have been replaced with newer
+> variants and the gist of changes can be seen in [0] with the important
+> part being the uapi changes [1] and those values also exist in mainline.
+>
+>
+> See functions in that patch:
+> - isp_goc_config_v12()
+> - rkisp1_stats_get_aec_meas_v12()
+> - rkisp1_stats_get_hst_meas_v12()
+>
+> Looking at the code, the register locations are different, for gammas and
+> the histogram the actual amount of raw registers is the same, while the
+> "aec" seems to use 25 registers on V10 while 21 registers on V12. Though
+> their content gets split into multiple values in that v12 variant.
+>
+>
+> As somehow expected the whole thing is pretty undocumented and I
+> have no clue what these "bins" or "gammas" mean and why the amount of
+> entries now differs and how this relates to userspace at all.
+>
+> Also looking through libcamera as the one open user of the driver,
+> the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
+> as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
+> don't seem to be used so far.
 
-If we decide to do so, could you keep the TODO items somewhere ? It's
-useful to have a list, they could be moved to the driver source code for
-instance.
+FWIW, another open source user of the driver is the Rockchip HAL for
+Chrome OS. [1]
+The link points to an unmerged version that is updated for the
+upstream driver, which we want to transition to, as per the stack of
+patches at [2].
+For example, RKISP1_CIF_ISP_HIST_BIN_N_MAX (which
+CIFISP_HIST_BIN_N_MAX was renamed to) seems to be referenced in [3].
 
--- 
-Regards,
+[1] https://chromium.googlesource.com/chromiumos/platform2/+/5c055d6ae727e347c1a9fd8acad061e427b1e4ff/camera/hal/rockchip/
+[2] https://chromium-review.googlesource.com/c/chromiumos/platform2/+/2521601/
+[3] https://chromium.googlesource.com/chromiumos/platform2/+/5c055d6ae727e347c1a9fd8acad061e427b1e4ff/camera/hal/rockchip/psl/rkisp1/workers/StatisticsWorker.cpp#220
 
-Laurent Pinchart
+Best regards,
+Tomasz
+
+>
+> Hence I also added some Rockchip people in the hope of getting
+> a bit of clarification ;-) .
+>
+>
+> Ideas on how to proceed?
+>
+> Thanks
+> Heiko
+>
+>
+> [0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
+> [1]
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index b471f01a8459..fbeb6b5dba03 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -32,8 +32,8 @@
+>  #define CIFISP_CTK_COEFF_MAX            0x100
+>  #define CIFISP_CTK_OFFSET_MAX           0x800
+>
+> -#define CIFISP_AE_MEAN_MAX              25
+> -#define CIFISP_HIST_BIN_N_MAX           16
+> +#define CIFISP_AE_MEAN_MAX              81
+> +#define CIFISP_HIST_BIN_N_MAX           32
+>  #define CIFISP_AFM_MAX_WINDOWS          3
+>  #define CIFISP_DEGAMMA_CURVE_SIZE       17
+>
+> @@ -69,7 +69,7 @@
+>   * Gamma out
+>   */
+>  /* Maximum number of color samples supported */
+> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
+> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
+>
+>
+>
