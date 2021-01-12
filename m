@@ -2,121 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A67662F2ECC
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 13:16:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76E0D2F2EF1
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 13:22:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732838AbhALMPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 07:15:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36166 "EHLO
+        id S1733124AbhALMVk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 07:21:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732818AbhALMPf (ORCPT
+        with ESMTP id S1730609AbhALMVk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 07:15:35 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E61B0C061794
-        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 04:14:54 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id w18so3504420iot.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 04:14:54 -0800 (PST)
+        Tue, 12 Jan 2021 07:21:40 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9914BC0617A2
+        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 04:20:59 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id y23so1936397wmi.1
+        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 04:20:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qJL4JUyVXMfbMHqv+BM1N6i62BH9jhBqq5i/XcID/Eo=;
-        b=II8D82E6AzHZZLtAWQVebainBcvHg800YO6VLekfQ2TUR6KefyDr9x97Gvi/tYJKJ8
-         5rKNZT6/FZhfegQbsQQnS1wJWc8aXgi6O8V4fD0Qj7lsr5IM/yYn2krgnXKrxhwi5dT0
-         2f9VZUV9GwdPDsCxHBEAqhzbCchtmJabRI7+A=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MbuUq4P3EHTaRZRZIMbCktw9khedoDm+hM+zJy1KsqI=;
+        b=LhTgig3W3sY07dXxslzsfjFFIfbXnY40C8dWqKXdoxjaCsPK6Sxr2e7t/oPOPZPYHs
+         1eQoNC/fomQriaKt2PO/gTKRdDmMUUQiU7zqiqNWSzRgRVB7LXj+orqSFahMBEglKJCA
+         NUFevB0PHOengYR/AUjkRLCQ40QEEWx7YblPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qJL4JUyVXMfbMHqv+BM1N6i62BH9jhBqq5i/XcID/Eo=;
-        b=UIn1kd71xxJ1wsbb+n69YkkNtnOEKnPRqYozzWouNNr6OcYGRKhCOSsM6R/JlRHCAv
-         ujUN1VxM4wRhokJXXgRKn7FD6sPhr8Pm3TKvj2NT0fd3BYItySZbzAGnzrGC/thBSXEG
-         Pq5Y0Ogb57ENVyL6PWm0IbAmcXEqqB5gK8mzXvLi6Yb5rtBmLb+Pf4uxouocaEzepUW3
-         VBeTchplG2mPx+QjiOYaYpc9X/n/NSUj1pHBQd7SnSAWpsiUGv9RnEn/VnYwWiUoLlG8
-         pEshyJ0MwS3fM4Nf/xs553Ru+8oHzSBa2h8a36lTnDXEEgtMvAhO+heR/u66eLWzn4nr
-         qJ7w==
-X-Gm-Message-State: AOAM532NShxT2TIItNYNoXK8Waz3LADFJcXLJhDs+Jruo+xjyFcAF5Av
-        oitTJSv+TZ05KhwZTGaRHpegxXc1+8gsb9Dy
-X-Google-Smtp-Source: ABdhPJw3dc2+0sJmrIGOzqlqMedra+rNnwgFBF1UEKs7LV4URRc7O/byH/LH8jibsNMYUrxmketEOA==
-X-Received: by 2002:a92:cb82:: with SMTP id z2mr3592072ilo.195.1610453694080;
-        Tue, 12 Jan 2021 04:14:54 -0800 (PST)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com. [209.85.166.43])
-        by smtp.gmail.com with ESMTPSA id q2sm552221ioh.36.2021.01.12.04.14.53
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jan 2021 04:14:53 -0800 (PST)
-Received: by mail-io1-f43.google.com with SMTP id 81so3412236ioc.13
-        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 04:14:53 -0800 (PST)
-X-Received: by 2002:a05:6638:2243:: with SMTP id m3mr3857184jas.115.1610453692875;
- Tue, 12 Jan 2021 04:14:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20210111145445.28854-1-ribalda@chromium.org> <20210111145445.28854-2-ribalda@chromium.org>
- <8fb0c69c-bf17-328e-1b08-ab6316b65b83@ideasonboard.com>
-In-Reply-To: <8fb0c69c-bf17-328e-1b08-ab6316b65b83@ideasonboard.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MbuUq4P3EHTaRZRZIMbCktw9khedoDm+hM+zJy1KsqI=;
+        b=ZHzakkvPlxKvHefKXxoeSX9rwH3mWuZWoKE9kz2ec4vGx1hYGWzOTAIhYeOLqRX8Pd
+         DdnBQd4BpacRuXA5xwOqZ2/aQQkk3776X6lrKa1FaOKTM11DKDRJKN5aSR7AZ9DiVj8a
+         YHksnQmhkOpIM/preGaDpUZVJPpA8xVsrW9xCjhIQO6FN6oxLoGS0yY0gYPzZmof72aA
+         8N/I8TaqV8ZJOAeJ7FI6AHiVKXf0XXIZ2gbcz3FuIOdXuuwHlpLwRVPs4TxpkdATR/1S
+         BAzs7eA7KTVVrAQJWexdgOf+j7MYBFfLhXodJP/XNx1u1cUi06VzOI2JfO4ymoBmnfWV
+         nP1w==
+X-Gm-Message-State: AOAM531r0qXY2PVd83/QNoT0eAWHYZb3aUKxHXkYOZbM0+qAxEF+cd1L
+        eHOCYJvtuM5rJ03YSoy9CP3EJ5i4p1yKQZvH5/o=
+X-Google-Smtp-Source: ABdhPJyIhFnoExJgUM6FYKub4zkfWO30jYVL5KHqYAuyL6Hn09FJ/56mq3n40ebrt+ImoKxV+BRInQ==
+X-Received: by 2002:a1c:7217:: with SMTP id n23mr3243366wmc.167.1610454058331;
+        Tue, 12 Jan 2021 04:20:58 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id w189sm3781384wmg.31.2021.01.12.04.20.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jan 2021 04:20:57 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 12 Jan 2021 13:14:42 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsao8=gpSg_1sBdso97iLCPcGD4GM3jcMEQGB2mOcghaQ@mail.gmail.com>
-Message-ID: <CANiDSCsao8=gpSg_1sBdso97iLCPcGD4GM3jcMEQGB2mOcghaQ@mail.gmail.com>
-Subject: Re: [PATCH] media: staging/intel-ipu3 : Do not zero reserved fields
-To:     kieran.bingham+renesas@ideasonboard.com
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kieran.bingham+renesas@ideasonboard.com,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>
+Subject: [PATCH v2 6/9] media: sun4i-csi: Do not zero reserved fields
+Date:   Tue, 12 Jan 2021 13:20:52 +0100
+Message-Id: <20210112122053.10372-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran
+Core code already clears reserved fields of struct
+v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
+v4l2_plane_pix_format reserved fields").
 
-On Tue, Jan 12, 2021 at 12:59 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On 11/01/2021 14:54, Ricardo Ribalda wrote:
-> > Core code already clears reserved fields of struct
-> > v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
-> > v4l2_plane_pix_format reserved fields").
-> >
-> > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> This is just 9/9 of the series right ? ;-)
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-I was just testing that you were doing a good review :P
-
-My bad, I sent the mails with git email-send 00* and I forgot to clean
-before :(. I already marked the patch as obsolete in patchwork. Sorry
-for wasting your time
-
-Best regards!
-
-> --
-> Kieran
->
-> > ---
-> >  drivers/staging/media/ipu3/ipu3-v4l2.c | 3 ---
-> >  1 file changed, 3 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > index 4dc8d9165f63..60aa02eb7d2a 100644
-> > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > @@ -773,9 +773,6 @@ static int imgu_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
-> >
-> >       pixm->pixelformat = fmt->fourcc;
-> >
-> > -     memset(pixm->plane_fmt[0].reserved, 0,
-> > -            sizeof(pixm->plane_fmt[0].reserved));
-> > -
-> >       return 0;
-> >  }
-> >
-> >
->
-
-
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+index 1a2f65d83a6c..4785faddf630 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+@@ -113,8 +113,6 @@ static void _sun4i_csi_try_fmt(struct sun4i_csi *csi,
+ 	pix->num_planes = _fmt->num_planes;
+ 	pix->pixelformat = _fmt->fourcc;
+ 
+-	memset(pix->reserved, 0, sizeof(pix->reserved));
+-
+ 	/* Align the width and height on the subsampling */
+ 	width = ALIGN(pix->width, _fmt->hsub);
+ 	height = ALIGN(pix->height, _fmt->vsub);
+@@ -131,8 +129,6 @@ static void _sun4i_csi_try_fmt(struct sun4i_csi *csi,
+ 		bpl = pix->width / hsub * _fmt->bpp[i] / 8;
+ 		pix->plane_fmt[i].bytesperline = bpl;
+ 		pix->plane_fmt[i].sizeimage = bpl * pix->height / vsub;
+-		memset(pix->plane_fmt[i].reserved, 0,
+-		       sizeof(pix->plane_fmt[i].reserved));
+ 	}
+ }
+ 
 -- 
-Ricardo Ribalda
+2.30.0.284.gd98b1dd5eaa7-goog
+
