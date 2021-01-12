@@ -2,146 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CF4B2F319A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 14:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A8F2F31A0
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 14:26:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727395AbhALNZI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 08:25:08 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40430 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726774AbhALNZI (ORCPT
+        id S1727593AbhALNZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 08:25:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51240 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726900AbhALNZ1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 08:25:08 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id AF6491F451E4
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 13/13] media: v4l2-async: Discourage use of v4l2_async_notifier_add_subdev
-Date:   Tue, 12 Jan 2021 10:23:39 -0300
-Message-Id: <20210112132339.5621-14-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210112132339.5621-1-ezequiel@collabora.com>
-References: <20210112132339.5621-1-ezequiel@collabora.com>
+        Tue, 12 Jan 2021 08:25:27 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73EAC0617A7
+        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 05:24:31 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id d13so2451852wrc.13
+        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 05:24:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=910ykGfQR9OTgKA6vCFnMHYhpzuWplH/2cTJtmBp2T4=;
+        b=Ah/l+t33mmwDIGlBMFIZyKuV7qXcm9eDb12vI6vVfsUrYpUJ7a/uEpTRS1f5aK+cO/
+         8eTGjuY/8GejCUk9XV0+gzotIvf8wR0G3lKhCLzwFKOPdosHO0Jg3sgDrr8NM9lhj4hZ
+         DSlEwKVk7hsiyQHBm7B7rTp5gH6qDqjI1EK1k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=910ykGfQR9OTgKA6vCFnMHYhpzuWplH/2cTJtmBp2T4=;
+        b=mvoHYRpdJv9b20mDmfb7ZweJbIajDgsGXladkMb2sKhovvaperLl2qQnjspyxUiqIN
+         qUlb+llroMkb3ng0qMeyCirtzmCR2r7Tj9cHR8d95/osfqJLJ96unA0FEnXwj/NzfHgP
+         O377xOiVyILRAi/onWV5Zsi01pCy24nnG2p48Zhf0z/Y014QpY30jZolBsM62aNZOAWw
+         hAsc+d6VqFYfm3RJl5U2MOTbjq5hHgSGAuBl1c92snCtrWxVs14EqBrX4PxftruBWr3Q
+         xFR9EXSNDXlNR0QoPKNPUwbSRqEGmD5FCI3GbRIZc8dH3Ali7VMZTKI/Unf06DkZydXe
+         PdKA==
+X-Gm-Message-State: AOAM530TxtyjjlFDKVVztJmXad3XQUA1RE9vobwVcrD9OhHIx97KqlZA
+        4FWw3zph+H0/FV+N3N9cAQzfHQ==
+X-Google-Smtp-Source: ABdhPJwktpfadpAuorK6LF+XqkHpBN5jTG/nc1ar3yG4HE88ZwI4eoXbc58CgFkM+yHvg3W2YwpYrg==
+X-Received: by 2002:adf:ab5b:: with SMTP id r27mr1161193wrc.282.1610457870643;
+        Tue, 12 Jan 2021 05:24:30 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id j2sm5098461wrh.78.2021.01.12.05.24.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jan 2021 05:24:29 -0800 (PST)
+Date:   Tue, 12 Jan 2021 14:24:27 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>, linux-mm@kvack.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v7 00/17] follow_pfn and other iomap races
+Message-ID: <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
+Mail-Followup-To: DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.7.0-1-amd64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Most -if not all- use-cases are expected to be covered by one of:
-v4l2_async_notifier_add_fwnode_subdev,
-v4l2_async_notifier_add_fwnode_remote_subdev,
-v4l2_async_notifier_add_i2c_subdev or
-v4l2_async_notifier_add_devname_subdev.
+On Fri, Nov 27, 2020 at 05:41:14PM +0100, Daniel Vetter wrote:
+> Hi all
+> 
+> Another update of my patch series to clamp down a bunch of races and gaps
+> around follow_pfn and other access to iomem mmaps. Previous version:
+> 
+> v1: https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
+> v2: https://lore.kernel.org/dri-devel/20201009075934.3509076-1-daniel.vetter@ffwll.ch
+> v3: https://lore.kernel.org/dri-devel/20201021085655.1192025-1-daniel.vetter@ffwll.ch/
+> v4: https://lore.kernel.org/dri-devel/20201026105818.2585306-1-daniel.vetter@ffwll.ch/
+> v5: https://lore.kernel.org/dri-devel/20201030100815.2269-1-daniel.vetter@ffwll.ch/
+> v6: https://lore.kernel.org/dri-devel/20201119144146.1045202-1-daniel.vetter@ffwll.ch/
+> 
+> And the discussion that sparked this journey:
+> 
+> https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
+> 
+> I think the first 12 patches are ready for landing. The parts starting
+> with "mm: Add unsafe_follow_pfn" probably need more baking time.
+> 
+> Andrew, can you please pick these up, or do you prefer I do a topic branch
+> and send them to Linus directly in the next merge window?
+> 
+> Changes in v7:
+> - more acks/reviews
+> - reordered with the ready pieces at the front
+> - simplified the new follow_pfn function as Jason suggested
+> 
+> Changes in v6:
+> - Tested v4l userptr as Tomasz suggested. No boom observed
+> - Added RFC for locking down follow_pfn, per discussion with Christoph and
+>   Jason.
+> - Explain why pup_fast is safe in relevant patches, there was a bit a
+>   confusion when discussing v5.
+> - Fix up the resource patch, with CONFIG_IO_STRICT_DEVMEM it crashed on
+>   boot due to an unintended change (reported by John)
+> 
+> Changes in v5:
+> - Tomasz found some issues in the media patches
+> - Polish suggested by Christoph for the unsafe_follow_pfn patch
+> 
+> Changes in v4:
+> - Drop the s390 patch, that was very stand-alone and now queued up to land
+>   through s390 trees.
+> - Comment polish per Dan's review.
+> 
+> Changes in v3:
+> - Bunch of polish all over, no functional changes aside from one barrier
+>   in the resource code, for consistency.
+> - A few more r-b tags.
+> 
+> Changes in v2:
+> - tons of small polish&fixes all over, thanks to all the reviewers who
+>   spotted issues
+> - I managed to test at least the generic_access_phys and pci mmap revoke
+>   stuff with a few gdb sessions using our i915 debug tools (hence now also
+>   the drm/i915 patch to properly request all the pci bar regions)
+> - reworked approach for the pci mmap revoke: Infrastructure moved into
+>   kernel/resource.c, address_space mapping is now set up at open time for
+>   everyone (which required some sysfs changes). Does indeed look a lot
+>   cleaner and a lot less invasive than I feared at first.
+> 
+> Coments and review on the remaining bits very much welcome, especially
+> from the kvm and vfio side.
+> 
+> Cheers, Daniel
+> 
+> Daniel Vetter (17):
+>   drm/exynos: Stop using frame_vector helpers
+>   drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
+>   misc/habana: Stop using frame_vector helpers
+>   misc/habana: Use FOLL_LONGTERM for userptr
+>   mm/frame-vector: Use FOLL_LONGTERM
+>   media: videobuf2: Move frame_vector into media subsystem
+>   mm: Close race in generic_access_phys
+>   PCI: Obey iomem restrictions for procfs mmap
+>   /dev/mem: Only set filp->f_mapping
+>   resource: Move devmem revoke code to resource framework
+>   sysfs: Support zapping of binary attr mmaps
+>   PCI: Revoke mappings like devmem
 
-We'd like to discourage drivers from using v4l2_async_notifier_add_subdev,
-so rename it as __v4l2_async_notifier_add_subdev. This is
-typically a good hint for drivers to avoid using the function.
+As Jason suggested, I've pulled the first 1 patches into a topic branch.
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/media/v4l2-core/v4l2-async.c  | 10 +++++-----
- drivers/media/v4l2-core/v4l2-fwnode.c |  2 +-
- include/media/v4l2-async.h            | 10 ++++++++--
- 3 files changed, 14 insertions(+), 8 deletions(-)
+Stephen, can you please add the below to linux-next for the 5.12 merge
+window?
 
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index b325bacddff4..e8e690280922 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -630,7 +630,7 @@ void v4l2_async_notifier_cleanup(struct v4l2_async_notifier *notifier)
- }
- EXPORT_SYMBOL_GPL(v4l2_async_notifier_cleanup);
- 
--int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
-+int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
- 				   struct v4l2_async_subdev *asd)
- {
- 	int ret;
-@@ -647,7 +647,7 @@ int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
- 	mutex_unlock(&list_lock);
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_subdev);
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_subdev);
- 
- struct v4l2_async_subdev *
- v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
-@@ -664,7 +664,7 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
- 	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
- 	asd->match.fwnode = fwnode_handle_get(fwnode);
- 
--	ret = v4l2_async_notifier_add_subdev(notifier, asd);
-+	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
- 	if (ret) {
- 		fwnode_handle_put(fwnode);
- 		kfree(asd);
-@@ -714,7 +714,7 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
- 	asd->match.i2c.adapter_id = adapter_id;
- 	asd->match.i2c.address = address;
- 
--	ret = v4l2_async_notifier_add_subdev(notifier, asd);
-+	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
- 	if (ret) {
- 		kfree(asd);
- 		return ERR_PTR(ret);
-@@ -739,7 +739,7 @@ v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
- 	asd->match_type = V4L2_ASYNC_MATCH_DEVNAME;
- 	asd->match.device_name = device_name;
- 
--	ret = v4l2_async_notifier_add_subdev(notifier, asd);
-+	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
- 	if (ret) {
- 		kfree(asd);
- 		return ERR_PTR(ret);
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 5353e37eb950..919fde20032e 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -833,7 +833,7 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
- 	if (ret < 0)
- 		goto out_err;
- 
--	ret = v4l2_async_notifier_add_subdev(notifier, asd);
-+	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
- 	if (ret < 0) {
- 		/* not an error if asd already exists */
- 		if (ret == -EEXIST)
-diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-index 1278f98355a7..9cf83f1ecca6 100644
---- a/include/media/v4l2-async.h
-+++ b/include/media/v4l2-async.h
-@@ -161,17 +161,23 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
- void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier);
- 
- /**
-- * v4l2_async_notifier_add_subdev - Add an async subdev to the
-+ * __v4l2_async_notifier_add_subdev - Add an async subdev to the
-  *				notifier's master asd list.
-  *
-  * @notifier: pointer to &struct v4l2_async_notifier
-  * @asd: pointer to &struct v4l2_async_subdev
-  *
-+ * \warning: Drivers should avoid using this function and instead use one of:
-+ * @v4l2_async_notifier_add_fwnode_subdev,
-+ * @v4l2_async_notifier_add_fwnode_remote_subdev,
-+ * @v4l2_async_notifier_add_i2c_subdev or
-+ * @v4l2_async_notifier_add_devname_subdev.
-+ *
-  * Call this function before registering a notifier to link the provided @asd to
-  * the notifiers master @asd_list. The @asd must be allocated with k*alloc() as
-  * it will be freed by the framework when the notifier is destroyed.
-  */
--int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
-+int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
- 				   struct v4l2_async_subdev *asd);
- 
- /**
+git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
+
+Once this part has landed I'll see what to do with the below part.
+
+Thanks, Daniel
+
+>   mm: Add unsafe_follow_pfn
+>   media/videobuf1|2: Mark follow_pfn usage as unsafe
+>   vfio/type1: Mark follow_pfn as unsafe
+>   kvm: pass kvm argument to follow_pfn callsites
+>   mm: add mmu_notifier argument to follow_pfn
+> 
+>  arch/powerpc/kvm/book3s_64_mmu_hv.c           |   2 +-
+>  arch/powerpc/kvm/book3s_64_mmu_radix.c        |   2 +-
+>  arch/powerpc/kvm/e500_mmu_host.c              |   2 +-
+>  arch/x86/kvm/mmu/mmu.c                        |   8 +-
+>  drivers/char/mem.c                            |  86 +-------------
+>  drivers/gpu/drm/exynos/Kconfig                |   1 -
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  48 ++++----
+>  drivers/media/common/videobuf2/Kconfig        |   1 -
+>  drivers/media/common/videobuf2/Makefile       |   1 +
+>  .../media/common/videobuf2}/frame_vector.c    |  57 ++++-----
+>  .../media/common/videobuf2/videobuf2-memops.c |   3 +-
+>  drivers/media/platform/omap/Kconfig           |   1 -
+>  drivers/media/v4l2-core/videobuf-dma-contig.c |   2 +-
+>  drivers/misc/habanalabs/Kconfig               |   1 -
+>  drivers/misc/habanalabs/common/habanalabs.h   |   6 +-
+>  drivers/misc/habanalabs/common/memory.c       |  52 +++-----
+>  drivers/pci/pci-sysfs.c                       |   4 +
+>  drivers/pci/proc.c                            |   6 +
+>  drivers/vfio/vfio_iommu_type1.c               |   4 +-
+>  fs/sysfs/file.c                               |  11 ++
+>  include/linux/ioport.h                        |   6 +-
+>  include/linux/kvm_host.h                      |   9 +-
+>  include/linux/mm.h                            |  50 +-------
+>  include/linux/sysfs.h                         |   2 +
+>  include/media/frame_vector.h                  |  47 ++++++++
+>  include/media/videobuf2-core.h                |   1 +
+>  kernel/resource.c                             |  98 ++++++++++++++-
+>  mm/Kconfig                                    |   3 -
+>  mm/Makefile                                   |   1 -
+>  mm/memory.c                                   | 112 +++++++++++++++---
+>  mm/nommu.c                                    |  16 ++-
+>  security/Kconfig                              |  13 ++
+>  virt/kvm/kvm_main.c                           |  56 +++++----
+>  33 files changed, 413 insertions(+), 299 deletions(-)
+>  rename {mm => drivers/media/common/videobuf2}/frame_vector.c (84%)
+>  create mode 100644 include/media/frame_vector.h
+> 
+> -- 
+> 2.29.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 -- 
-2.29.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
