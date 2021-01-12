@@ -2,87 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A8342F2E41
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 12:45:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B29A2F2E53
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 12:49:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730806AbhALLpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 06:45:18 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43904 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729957AbhALLpS (ORCPT
+        id S1730435AbhALLrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 06:47:40 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:34507 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729208AbhALLrk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 06:45:18 -0500
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 095A43E;
-        Tue, 12 Jan 2021 12:44:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610451876;
-        bh=VGt8NO+VSU7bfuSVdiCy1nwUKDg+okyMjS9L34pL1lU=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=WYnuG3ieJNtJsvp5oyfk6WlHqdHyMXyrqEgHHowiOC26hW3O72gQiViBLrmQl9H7+
-         D7I/vSqtqc/YAhU/KWKJTsNrECN5NupUkrp5VCIYwwsYRl4GkA3+4GKNFXEENF6Ahn
-         hiWPKc8vInYfZPpiRsHQZHteCn/O97kLmj+ym93k=
-Subject: Re: [PATCH 8/9] media: vicodec: Do not zero reserved fields
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20210111145445.28854-1-ribalda@chromium.org>
- <20210111145445.28854-9-ribalda@chromium.org>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <9c136057-69a2-47d3-7563-7ee5ecf83c1d@ideasonboard.com>
-Date:   Tue, 12 Jan 2021 11:44:33 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 12 Jan 2021 06:47:40 -0500
+X-Originating-IP: 93.34.118.233
+Received: from localhost.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 9913E6000A;
+        Tue, 12 Jan 2021 11:46:57 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] media: i2c: rdacm20: Verify MAX9271 startup
+Date:   Tue, 12 Jan 2021 12:47:02 +0100
+Message-Id: <20210112114702.26959-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210111145445.28854-9-ribalda@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+During the RDACM20 probe sequence the connected deserializer chip
+has to uses its I2C auto-acknowledgment feature as the reverse
+channel where I2C messages are transmitted on is not yet available.
 
-On 11/01/2021 14:54, Ricardo Ribalda wrote:
-> Core code already clears reserved fields of struct
-> v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
-> v4l2_plane_pix_format reserved fields").
-> 
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+This makes it impossible to detect failures when communicating with
+the remote cameras, as all messages are acknowledged automatically.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reading the serializer chip id and verify it is correct is thus the
+only reliable way to make sure it has correctly started-up.
 
+The current implementation tries to read the chip id once, and bails
+out if it not correct, but does not give the serializer any time to
+exit from low power after the 'ping to wake-up' first transaction.
 
-> ---
->  drivers/media/test-drivers/vicodec/vicodec-core.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> index 025f3ff77302..33f1c893c1b6 100644
-> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> @@ -811,9 +811,6 @@ static int vidioc_g_fmt(struct vicodec_ctx *ctx, struct v4l2_format *f)
->  		pix_mp->xfer_func = ctx->state.xfer_func;
->  		pix_mp->ycbcr_enc = ctx->state.ycbcr_enc;
->  		pix_mp->quantization = ctx->state.quantization;
-> -		memset(pix_mp->reserved, 0, sizeof(pix_mp->reserved));
-> -		memset(pix_mp->plane_fmt[0].reserved, 0,
-> -		       sizeof(pix_mp->plane_fmt[0].reserved));
->  		break;
->  	default:
->  		return -EINVAL;
-> @@ -886,8 +883,6 @@ static int vidioc_try_fmt(struct vicodec_ctx *ctx, struct v4l2_format *f)
->  			info->sizeimage_mult / info->sizeimage_div;
->  		if (pix_mp->pixelformat == V4L2_PIX_FMT_FWHT)
->  			plane->sizeimage += sizeof(struct fwht_cframe_hdr);
-> -		memset(pix_mp->reserved, 0, sizeof(pix_mp->reserved));
-> -		memset(plane->reserved, 0, sizeof(plane->reserved));
->  		break;
->  	default:
->  		return -EINVAL;
-> 
+Make the startup process more robust by:
+1) Add a 5 milliseconds delay after the wake up message before
+   starting the configuration procedure as suggested by the chip
+   manual
+2) Read the chip-id to make sure it has properly booted
+3) Wrap the procedure in a for-loop and attempt configuration up
+   to 10 times
+
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ drivers/media/i2c/rdacm20.c | 53 ++++++++++++++++++++++++-------------
+ 1 file changed, 34 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+index 16bcb764b0e0..de4cb635eabe 100644
+--- a/drivers/media/i2c/rdacm20.c
++++ b/drivers/media/i2c/rdacm20.c
+@@ -29,6 +29,8 @@
+
+ #include "max9271.h"
+
++#define MAX9271_RESET_CYCLES		10
++
+ #define OV10635_I2C_ADDRESS		0x30
+
+ #define OV10635_SOFTWARE_RESET		0x0103
+@@ -453,35 +455,48 @@ static struct v4l2_subdev_ops rdacm20_subdev_ops = {
+ static int rdacm20_initialize(struct rdacm20_device *dev)
+ {
+ 	unsigned int retry = 3;
++	unsigned int i;
+ 	int ret;
+
+ 	/* Verify communication with the MAX9271: ping to wakeup. */
+ 	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
+ 	i2c_smbus_read_byte(dev->serializer->client);
+
+-	/* Serial link disabled during config as it needs a valid pixel clock. */
+-	ret = max9271_set_serial_link(dev->serializer, false);
+-	if (ret)
+-		return ret;
++	/* Configure MAX9271 and make sure we can read its ID. */
++	for (i = 0; i < MAX9271_RESET_CYCLES; ++i) {
++		usleep_range(5000, 8000);
+
+-	/*
+-	 *  Ensure that we have a good link configuration before attempting to
+-	 *  identify the device.
+-	 */
+-	max9271_configure_i2c(dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
+-					       MAX9271_I2CSLVTO_1024US |
+-					       MAX9271_I2CMSTBT_105KBPS);
++		/* Serial link disabled: it needs a valid pixel clock. */
++		ret = max9271_set_serial_link(dev->serializer, false);
++		if (ret)
++			return ret;
+
+-	max9271_configure_gmsl_link(dev->serializer);
++		/*
++		 *  Ensure that we have a good link configuration before
++		 *  attempting to identify the device.
++		 */
++		max9271_configure_i2c(dev->serializer,
++				      MAX9271_I2CSLVSH_469NS_234NS |
++				      MAX9271_I2CSLVTO_1024US |
++				      MAX9271_I2CMSTBT_105KBPS);
++
++		ret = max9271_configure_gmsl_link(dev->serializer);
++		if (ret)
++			return ret;
+
+-	ret = max9271_verify_id(dev->serializer);
+-	if (ret < 0)
+-		return ret;
++		ret = max9271_set_address(dev->serializer, dev->addrs[0]);
++		if (ret < 0)
++			return ret;
++		dev->serializer->client->addr = dev->addrs[0];
+
+-	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
+-	if (ret < 0)
+-		return ret;
+-	dev->serializer->client->addr = dev->addrs[0];
++		ret = max9271_verify_id(dev->serializer);
++		if (ret == 0)
++			break;
++	}
++	if (i == MAX9271_RESET_CYCLES) {
++		dev_err(dev->dev, "Failed to configure max9271");
++		return -ENODEV;
++	}
+
+ 	/*
+ 	 * Reset the sensor by cycling the OV10635 reset signal connected to the
+--
+2.29.2
 
