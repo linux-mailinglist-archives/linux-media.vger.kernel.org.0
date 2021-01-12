@@ -2,161 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5612F32CC
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 15:18:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 880962F336F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 16:00:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726241AbhALOSC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 09:18:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34374 "EHLO
+        id S2389430AbhALO7M convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 12 Jan 2021 09:59:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726013AbhALOSC (ORCPT
+        with ESMTP id S2387818AbhALO7M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 09:18:02 -0500
-Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40026C061795
-        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 06:17:22 -0800 (PST)
-Received: by mail-ua1-x933.google.com with SMTP id 73so852660uac.8
-        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 06:17:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rLiwQ7Aisx/Fct40RlEWj5FexYeUpewbEHaYhQmapwI=;
-        b=BUyDdDviQzrGZtoD8G/L9ZZzmGO6GemK7todlsnlbd0rVa7KTW3u8IrJKPqb/8RHKL
-         xt2iSJp/n2fSg29NSed4RkVMbmCY64pJk4yh7AVcQfnvne84NBA9w56RGBVMYKqI3fRE
-         Tq7hdSv4A9tFde3hyUPmWis4D9CECTR5ZOdPSK7wSCCE/6MsIM8KvytoZYs0X7OeeIYd
-         fmFiJFHJmrcC10fGMedE740yhIxTmzk+SKoFVsQfpm5CfXLl1A5hCR0uMvRGQOAhZ2GM
-         UH1T8K+YAivhtItsg+Q8OspPcDBKzVVBbLJNw/kjIV6J/m/IQ3Xey0Xy8SDGNdYBm/26
-         yoYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rLiwQ7Aisx/Fct40RlEWj5FexYeUpewbEHaYhQmapwI=;
-        b=oUMs59FauybU6syCAL1LYRrTr/PZXqVCBYNaX29Sf1IEohn1ytASewi2NdvDiEdyON
-         A8rG07ovy4xDVpqXR1eyLyrd3FI4XnAM8W4MVAb7ZCBldNmGn4wlQ4rwEk07hUuSD/HQ
-         wcZREo8g3HSniB/ZzrwQCK0p9iBrG2cvU+ZGKX3PJFX0INjh7YUNvjyf3m24GL6/zcmJ
-         8JE0oH98pgM78iRylTMFr55ah7nW8zeCVgkDwruAwIQzOcTc1+Iqz/Xq2NCL+YUfCS4f
-         gAQUSQgL9+qEGElSky66v3jOtN8r1OLSzOaucIv6Uui7mmlsdOe/9P69PjaKk1oljfUz
-         IkjA==
-X-Gm-Message-State: AOAM5334Ra/z7vUB/dCxjGXCFRhJGyRQRFVeF2aD8GOlhHCVEIf7OJiw
-        u4UAVaUarU/UlF+6Jb6/wRc2lm3sAs+6ljSPVxWMRw==
-X-Google-Smtp-Source: ABdhPJwERNzz9D9S6H23pmXXFcX/wNzEGNdMuoeIpmrclPBW5Q0rU9hEo0YNznVcrhbk/kGGj8fHyudcoc/ZIKkrLR4=
-X-Received: by 2002:ab0:2e99:: with SMTP id f25mr3740445uaa.104.1610461041138;
- Tue, 12 Jan 2021 06:17:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20201217180638.22748-1-digetx@gmail.com> <20201217180638.22748-36-digetx@gmail.com>
-In-Reply-To: <20201217180638.22748-36-digetx@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 12 Jan 2021 15:16:44 +0100
-Message-ID: <CAPDyKFpQUFTYJ8K2hPMeQCCbQTF_TCE_B+xkXpcL4Fi7h2ReHw@mail.gmail.com>
-Subject: Re: [PATCH v2 35/48] drm/tegra: dc: Support OPP and SoC core voltage scaling
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
+        Tue, 12 Jan 2021 09:59:12 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA60C061786
+        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 06:58:31 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kzL7j-00020s-4W; Tue, 12 Jan 2021 15:58:19 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kzL7h-0007qp-JE; Tue, 12 Jan 2021 15:58:17 +0100
+Message-ID: <c47df7713b41d2714a36c0c17b9d01aa90a72601.camel@pengutronix.de>
+Subject: Re: [PATCH v7 6/9] media: Add parsing for APP14 data segment in
+ jpeg helpers
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Mirela Rabulea <mirela.rabulea@oss.nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, shawnguo@kernel.org, robh+dt@kernel.org
+Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, robert.chiras@nxp.com,
+        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
+        devicetree@vger.kernel.org, ezequiel@collabora.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com
+Date:   Tue, 12 Jan 2021 15:58:17 +0100
+In-Reply-To: <20210111192822.12178-7-mirela.rabulea@oss.nxp.com>
+References: <20210111192822.12178-1-mirela.rabulea@oss.nxp.com>
+         <20210111192822.12178-7-mirela.rabulea@oss.nxp.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-- trimmed cc-list
-
-On Thu, 17 Dec 2020 at 19:08, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> Add OPP and SoC core voltage scaling support to the display controller
-> driver. This is required for enabling system-wide DVFS on pre-Tegra186
-> SoCs.
->
-> Tested-by: Peter Geis <pgwipeout@gmail.com>
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+On Mon, 2021-01-11 at 21:28 +0200, Mirela Rabulea wrote:
+> From: Mirela Rabulea <mirela.rabulea@nxp.com>
+> 
+> According to Rec. ITU-T T.872 (06/2012) 6.5.3
+> APP14 segment is for color encoding, it contains a transform flag, which
+> may have values of 0, 1 and 2 and are interpreted as follows:
+> 0 - CMYK for images that are encoded with four components
+>   - RGB for images that are encoded with three components
+> 1 - An image encoded with three components using YCbCr colour encoding.
+> 2 - An image encoded with four components using YCCK colour encoding.
+> 
+> This is used in imx-jpeg decoder, to distinguish between
+> YUV444 and RGB24.
+> 
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 > ---
->  drivers/gpu/drm/tegra/dc.c | 66 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 65 insertions(+), 1 deletion(-)
+> Changes in v7:
+>   Check there are 6 bytes available in the stream before checking for "Adobe\0"
+>   Change jpeg_parse_app14_data function to differentiate between the 3 scenarios: app14 missing, or app14 present but with/without parsing errors:
+>     App14 missing => Added V4L2_JPEG_APP14_TF_UNKNOWN to the enum v4l2_jpeg_app14_tf, use it to indicate app14 & TF is missing
+> 	App14 present without parsing errors => Return the transform flag value as enum v4l2_jpeg_app14_tf (new paramater of jpeg_parse_app14_data function)
+>     App14 present with parsing errors => Return -EINVAL from jpeg_parse_app14_data, also return from calling function (v4l2_jpeg_parse_header) when this error is met.
 >
-> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> index b6676f1fe358..105ad786e432 100644
-> --- a/drivers/gpu/drm/tegra/dc.c
-> +++ b/drivers/gpu/drm/tegra/dc.c
-> @@ -11,9 +11,12 @@
->  #include <linux/interconnect.h>
->  #include <linux/module.h>
->  #include <linux/of_device.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/reset.h>
->
-> +#include <soc/tegra/common.h>
->  #include <soc/tegra/pmc.h>
->
->  #include <drm/drm_atomic.h>
-> @@ -1699,6 +1702,48 @@ int tegra_dc_state_setup_clock(struct tegra_dc *dc,
->         return 0;
+>  drivers/media/v4l2-core/v4l2-jpeg.c | 47 +++++++++++++++++++++++++++--
+>  include/media/v4l2-jpeg.h           | 20 ++++++++++++
+>  2 files changed, 65 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
+> index 8947fd95c6f1..8d5fedb136dd 100644
+> --- a/drivers/media/v4l2-core/v4l2-jpeg.c
+> +++ b/drivers/media/v4l2-core/v4l2-jpeg.c
+> @@ -45,6 +45,7 @@ MODULE_LICENSE("GPL");
+>  #define DHP	0xffde	/* hierarchical progression */
+>  #define EXP	0xffdf	/* expand reference */
+>  #define APP0	0xffe0	/* application data */
+> +#define APP14	0xffee	/* application data for colour encoding */
+>  #define APP15	0xffef
+>  #define JPG0	0xfff0	/* extensions */
+>  #define JPG13	0xfffd
+> @@ -444,8 +445,44 @@ static int jpeg_skip_segment(struct jpeg_stream *stream)
+>  	return jpeg_skip(stream, len - 2);
 >  }
->
-> +static void tegra_dc_update_voltage_state(struct tegra_dc *dc,
-> +                                         struct tegra_dc_state *state)
+>  
+> +/* Rec. ITU-T T.872 (06/2012) 6.5.3 */
+> +static int jpeg_parse_app14_data(struct jpeg_stream *stream,
+> +				 enum v4l2_jpeg_app14_tf *tf)
 > +{
-> +       unsigned long rate, pstate;
-> +       struct dev_pm_opp *opp;
-> +       int err;
+> +	int ret;
+> +	int lp;
+> +	int skip;
 > +
-> +       /* calculate actual pixel clock rate which depends on internal divider */
-> +       rate = DIV_ROUND_UP(clk_get_rate(dc->clk) * 2, state->div + 2);
+> +	lp = jpeg_get_word_be(stream);
+> +	if (lp < 0)
+> +		return lp;
 > +
-> +       /* find suitable OPP for the rate */
-> +       opp = dev_pm_opp_find_freq_ceil(dc->dev, &rate);
+> +	/* Check for "Adobe\0" in Ap1..6 */
+> +	if (stream->curr + 6 > stream->end ||
+> +	    strncmp(stream->curr, "Adobe\0", 6))
+> +		return -EINVAL;
 > +
-> +       if (opp == ERR_PTR(-ERANGE))
-> +               opp = dev_pm_opp_find_freq_floor(dc->dev, &rate);
+> +	/* get to Ap12 */
+> +	ret = jpeg_skip(stream, 11);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +       /* -ENOENT means that this device-tree doesn't have OPP table */
-> +       if (opp == ERR_PTR(-ENOENT))
-> +               return;
+> +	ret = jpeg_get_byte(stream);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +       if (IS_ERR(opp)) {
-> +               dev_err(dc->dev, "failed to find OPP for %luHz: %pe\n",
-> +                       rate, opp);
-> +               return;
-> +       }
+> +	*tf = ret;
 > +
-> +       pstate = dev_pm_opp_get_voltage(opp);
-> +       dev_pm_opp_put(opp);
-> +
-> +       /*
-> +        * The minimum core voltage depends on the pixel clock rate (which
-> +        * depends on internal clock divider of the CRTC) and not on the
-> +        * rate of the display controller clock. This is why we're not using
-> +        * dev_pm_opp_set_rate() API and instead controlling the power domain
-> +        * directly.
-> +        */
-> +       err = dev_pm_genpd_set_performance_state(dc->dev, pstate);
+> +	skip = lp - 2 - 11;
 
-As you state above, in general we should not need to call the
-dev_pm_genpd_set_performance_state() directly for the consumer driver.
-
-Even if this looks like a special case to me, I would appreciate a
-confirmation from Viresh that this is the way he also would like to
-move forward from the opp library perspective.
-
-> +       if (err)
-> +               dev_err(dc->dev, "failed to set power domain state to %lu: %d\n",
-> +                       pstate, err);
-> +}
+> +	ret = jpeg_skip(stream, skip);
+> +	if (ret < 0)
+> +		return ret;
 > +
+> +	return 0;
 
-[...]
+This could be simplified to
 
-Kind regards
-Uffe
+	return jpeg_skip(stream, skip);
+
+although it would be better style to move the *tf = ... assignment down
+past the last error return instead. Either way,
+
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+regards
+Philipp
