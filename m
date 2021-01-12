@@ -2,137 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2FC2F3600
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 17:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5354D2F3615
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 17:45:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727021AbhALQm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 11:42:27 -0500
-Received: from www.zeus03.de ([194.117.254.33]:37370 "EHLO mail.zeus03.de"
+        id S1727622AbhALQpR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 11:45:17 -0500
+Received: from www.zeus03.de ([194.117.254.33]:38196 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388261AbhALQmS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 11:42:18 -0500
+        id S1729490AbhALQpQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Jan 2021 11:45:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=COjMPOqL7pc0uU
-        qyCZQPJcPRT2njX4Q7Fmh8pYBGCis=; b=rHNbVfps7GYEDFKCUfmJpwPhcP2KYa
-        CyWNs7zo5IUlJPU6VZxnekx8BKAxCsb9/nBJIgugnnI3oF8XXk4fNXvqESLHZYyT
-        kyMP6+wa4UUGgRHbE/rEkBG5saS/D4+vrSj7Kt5XMHvw7quOmiQrWiaFtG6b5/Jz
-        Zg4gV8QmguKK8=
-Received: (qmail 2812461 invoked from network); 12 Jan 2021 17:41:36 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jan 2021 17:41:36 +0100
-X-UD-Smtp-Session: l3s3148p1@gPcmsra4StEgAwDPXwxzAHrEwO71dOp2
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=wnKCSjcDuaBu5Dw3faPAZNWGPVwG
+        m9aVO5eOWICBkSc=; b=JLwMTQGghUyIuBEKpFDnFVE0JIuoyLc2+kZX4E91mLXM
+        31oyshuzxzU5EzUSOG7LXcIjcoARcZUOtiTePM+RJ/kzje/CEQYUiP6S9yjmTUT1
+        XcYJzoZVy3rLQr8ZypTYHVPrpIK+DN6H5ly5oJQa6PW8/6OYaElVURHGrV4HX8A=
+Received: (qmail 2813548 invoked from network); 12 Jan 2021 17:44:35 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jan 2021 17:44:35 +0100
+X-UD-Smtp-Session: l3s3148p1@HqLPvLa4vtEgAwDPXwxzAHrEwO71dOp2
+Date:   Tue, 12 Jan 2021 17:44:34 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 2/3] media: i2c: adv7842: remove open coded version of SMBus block read
-Date:   Tue, 12 Jan 2021 17:41:28 +0100
-Message-Id: <20210112164130.47895-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210112164130.47895-1-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH RFC 2/3] media: i2c: adv7842: remove open coded version
+ of SMBus block read
+Message-ID: <20210112164434.GA47645@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20210112164130.47895-1-wsa+renesas@sang-engineering.com>
+ <20210112164130.47895-3-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Disposition: inline
+In-Reply-To: <20210112164130.47895-3-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The open coded version differs from the one in the core in one way: the
-buffer will be always copied back, even when the transfer failed. It
-looks like it is expected that the sanity check for a correct CRC and
-header will bail out later.
 
-Use the block read from the I2C core and propagate a potential errno
-further to the sanity check.
+--LZvS9be/3tNcYl/X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Tue, Jan 12, 2021 at 05:41:28PM +0100, Wolfram Sang wrote:
+> The open coded version differs from the one in the core in one way: the
+> buffer will be always copied back, even when the transfer failed. It
+> looks like it is expected that the sanity check for a correct CRC and
+> header will bail out later.
+>=20
+> Use the block read from the I2C core and propagate a potential errno
+> further to the sanity check.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Note: we could now make the error checking even stronger by checking if
-the number of received bytes is I2C_SMBUS_BLOCK_MAX. But to avoid
-regressions, I kept the logic as is, i.e. only check for errno.
+$subject should say "adv7511", sorry!
 
- drivers/media/i2c/adv7511-v4l2.c | 40 +++++++++++---------------------
- 1 file changed, 14 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
-index a3161d709015..0150f76dc6a6 100644
---- a/drivers/media/i2c/adv7511-v4l2.c
-+++ b/drivers/media/i2c/adv7511-v4l2.c
-@@ -214,36 +214,24 @@ static inline void adv7511_wr_and_or(struct v4l2_subdev *sd, u8 reg, u8 clr_mask
- 	adv7511_wr(sd, reg, (adv7511_rd(sd, reg) & clr_mask) | val_mask);
- }
- 
--static int adv_smbus_read_i2c_block_data(struct i2c_client *client,
--					 u8 command, unsigned length, u8 *values)
--{
--	union i2c_smbus_data data;
--	int ret;
--
--	if (length > I2C_SMBUS_BLOCK_MAX)
--		length = I2C_SMBUS_BLOCK_MAX;
--	data.block[0] = length;
--
--	ret = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
--			     I2C_SMBUS_READ, command,
--			     I2C_SMBUS_I2C_BLOCK_DATA, &data);
--	memcpy(values, data.block + 1, length);
--	return ret;
--}
--
--static void adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
-+static int adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
- {
- 	struct adv7511_state *state = get_adv7511_state(sd);
-+	s32 len;
- 	int i;
--	int err = 0;
- 
- 	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
- 
--	for (i = 0; !err && i < len; i += I2C_SMBUS_BLOCK_MAX)
--		err = adv_smbus_read_i2c_block_data(state->i2c_edid, i,
-+	for (i = 0; i < len; i += I2C_SMBUS_BLOCK_MAX) {
-+		len = i2c_smbus_read_i2c_block_data(state->i2c_edid, i,
- 						    I2C_SMBUS_BLOCK_MAX, buf + i);
--	if (err)
--		v4l2_err(sd, "%s: i2c read error\n", __func__);
-+		if (len < 0) {
-+			v4l2_err(sd, "%s: i2c read error\n", __func__);
-+			return len;
-+		}
-+	}
-+
-+	return 0;
- }
- 
- static inline int adv7511_cec_read(struct v4l2_subdev *sd, u8 reg)
-@@ -1668,20 +1656,20 @@ static bool adv7511_check_edid_status(struct v4l2_subdev *sd)
- 	if (edidRdy & MASK_ADV7511_EDID_RDY) {
- 		int segment = adv7511_rd(sd, 0xc4);
- 		struct adv7511_edid_detect ed;
-+		int err;
- 
- 		if (segment >= EDID_MAX_SEGM) {
- 			v4l2_err(sd, "edid segment number too big\n");
- 			return false;
- 		}
- 		v4l2_dbg(1, debug, sd, "%s: got segment %d\n", __func__, segment);
--		adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
-+		err = adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
- 		adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
- 		if (segment == 0) {
- 			state->edid.blocks = state->edid.data[0x7e] + 1;
- 			v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n", __func__, state->edid.blocks);
- 		}
--		if (!edid_verify_crc(sd, segment) ||
--		    !edid_verify_header(sd, segment)) {
-+		if (err < 0 || !edid_verify_crc(sd, segment) || !edid_verify_header(sd, segment)) {
- 			/* edid crc error, force reread of edid segment */
- 			v4l2_err(sd, "%s: edid crc or header error\n", __func__);
- 			state->have_monitor = false;
--- 
-2.29.2
+--LZvS9be/3tNcYl/X
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/90e4ACgkQFA3kzBSg
+KbbBMg/+JZzUyWKwElld60MIkYxKvRuq3e/me60lsKJVz/BBfuu7TVxXuF7SRLug
+B++WrDe2gRbePRy7u3Z6ww2xQ9KchGsJ4im39wFDVm+HhFAGqIkbsEndzbyr+12g
+pnvJ+eNaH0mW8I3iNF1xaIsC3QToVYzMkjS7g55ba4yR0rcUN0ufyZZoUNHYrYN+
+NUsFAeyQ/L4EItyCR86oa7Y7liKEMoQOQgVztbXUO8U9+6MBuhbwktTeHuR3KgQs
+FXNLWpDxKHCZPo92LLtYQ0q3b3SKqPFYUBTKoYe0gJUKPIdJQlKsUVDWxxa/JN+G
+wJ45f6VdvDtoIS5/aAj857MJYzgmF13HN0OoM1sxg25TCN3tJQ8QKWR31055lcZ6
+U/8Xu4af9FKOZl3U3VcUajRAK5fyr7N1HAwBRYBQMRGcVlG8vL+xEhMBzJuq1lnW
+6Yi1Tx79H8hR6Fdt3bu8AJoR6y26PpvYsVBbK7sxvkAI+7QCR9CXjOjizBQUReM9
+oq8uGKduuJJRoSjEUMv9Lh6j08bBLi4Pgs6VS0Mkd5EQdVHoIi1MMf5rkCBQzFAa
+PdzkWtSIIJb3v0ySe8Qlr6SBhazhfB2FSdYodgqSjfPa018OmTS6UZowVjeQNJPE
+8U1hm6hrWBdsjEpRWZscQxTnPwO89QgP/h5OfjFYXng/h25Srww=
+=00Lt
+-----END PGP SIGNATURE-----
+
+--LZvS9be/3tNcYl/X--
