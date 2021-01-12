@@ -2,87 +2,365 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B85E62F28F0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 08:33:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 091802F291E
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 08:46:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392006AbhALHb4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 02:31:56 -0500
-Received: from m43-15.mailgun.net ([69.72.43.15]:63150 "EHLO
-        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726949AbhALHby (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 02:31:54 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610436690; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=cBjd+mxvdRBq+9OHv7BDdff4Bs/on3l7fhAHwfVcq+o=; b=W/dxks3Ft5+PWKaz3pvDZHs3IO1uFY+ZXjtACZMWzGnCTb74iHa4DpJQHB5cFHRWW9DKb69y
- bzF7Eduj0iCZWBzwrf9k8r1XlpbSA12QgEduphRZ1LaqcOty+0jVLQoPrn+VX0tTZ5eFr3wU
- 4IAQFET+tXJKMbGmBYGJw6UErw0=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5ffd5033c88af06107ba80cf (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 12 Jan 2021 07:30:59
- GMT
-Sender: akashast=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 06417C43463; Tue, 12 Jan 2021 07:30:59 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        NICE_REPLY_A,SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from [192.168.43.98] (unknown [223.225.121.48])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: akashast)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id D9486C433C6;
-        Tue, 12 Jan 2021 07:30:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D9486C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=akashast@codeaurora.org
-Subject: Re: [PATCH V8 1/1] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
-Cc:     swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-References: <20210108150545.2018-1-rojay@codeaurora.org>
- <20210108150545.2018-2-rojay@codeaurora.org>
-From:   Akash Asthana <akashast@codeaurora.org>
-Message-ID: <1cf28a5a-6de0-1f4e-4cd0-3a1f8125c1ca@codeaurora.org>
-Date:   Tue, 12 Jan 2021 13:00:40 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+        id S1731786AbhALHpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 02:45:45 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37302 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728301AbhALHpo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Jan 2021 02:45:44 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 50CA2AC95;
+        Tue, 12 Jan 2021 07:45:02 +0000 (UTC)
+Subject: Re: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+To:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "maarten.lankhorst@linux.intel.com" 
+        <maarten.lankhorst@linux.intel.com>,
+        "mripard@kernel.org" <mripard@kernel.org>,
+        "kraxel@redhat.com" <kraxel@redhat.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "sean@poorly.run" <sean@poorly.run>,
+        "eric@anholt.net" <eric@anholt.net>,
+        "sam@ravnborg.org" <sam@ravnborg.org>
+Cc:     "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-2-tzimmermann@suse.de>
+ <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <65f6679c-dc53-e902-bcd1-a960caef756b@suse.de>
+Date:   Tue, 12 Jan 2021 08:45:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210108150545.2018-2-rojay@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+In-Reply-To: <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa
+Content-Type: multipart/mixed; boundary="usVErwPLg02GQl5mnHWNZvhlyTGeK9IqA";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "airlied@redhat.com" <airlied@redhat.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "sean@poorly.run" <sean@poorly.run>, "eric@anholt.net" <eric@anholt.net>,
+ "sam@ravnborg.org" <sam@ravnborg.org>
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>
+Message-ID: <65f6679c-dc53-e902-bcd1-a960caef756b@suse.de>
+Subject: Re: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-2-tzimmermann@suse.de>
+ <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
+In-Reply-To: <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
 
-On 1/8/2021 8:35 PM, Roja Rani Yarubandi wrote:
-> If the hardware is still accessing memory after SMMU translation
-> is disabled (as part of smmu shutdown callback), then the
-> IOVAs (I/O virtual address) which it was using will go on the bus
-> as the physical addresses which will result in unknown crashes
-> like NoC/interconnect errors.
->
-> So, implement shutdown callback to i2c driver to stop on-going transfer
-> and unmap DMA mappings during system "reboot" or "shutdown".
->
-> Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller")
-> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
-Reviewed-by: Akash Asthana <akashast@codeaurora.org>
+--usVErwPLg02GQl5mnHWNZvhlyTGeK9IqA
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,\na Linux Foundation Collaborative Project
+Hi
 
+Am 08.01.21 um 17:12 schrieb Ruhl, Michael J:
+>> -----Original Message-----
+>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of=
+
+>> Thomas Zimmermann
+>> Sent: Friday, January 8, 2021 4:43 AM
+>> To: sumit.semwal@linaro.org; christian.koenig@amd.com;
+>> airlied@redhat.com; daniel@ffwll.ch; maarten.lankhorst@linux.intel.com=
+;
+>> mripard@kernel.org; kraxel@redhat.com; hdegoede@redhat.com;
+>> sean@poorly.run; eric@anholt.net; sam@ravnborg.org
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>; dri-devel@lists.freedeskto=
+p.org;
+>> virtualization@lists.linux-foundation.org; linaro-mm-sig@lists.linaro.=
+org;
+>> Thomas Zimmermann <tzimmermann@suse.de>; linux-
+>> media@vger.kernel.org
+>> Subject: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+>> operations
+>>
+>> The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
+>> allowed to pin the buffer or acquire the buffer's reservation object
+>> lock.
+>>
+>> This is a problem for callers that only require a short-term mapping
+>> of the buffer without the pinning, or callers that have special lockin=
+g
+>> requirements. These may suffer from unnecessary overhead or interfere
+>> with regular pin operations.
+>>
+>> The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
+>> their rsp callbacks in struct dma_buf_ops provide an alternative witho=
+ut
+>> pinning or reservation locking. Callers are responsible for these
+>> operations.
+>>
+>> v4:
+>> 	* update documentation (Daniel)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> ---
+>> drivers/dma-buf/dma-buf.c | 81
+>> +++++++++++++++++++++++++++++++++++++++
+>> include/linux/dma-buf.h   | 34 ++++++++++++++++
+>> 2 files changed, 115 insertions(+)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index b8465243eca2..01f9c74d97fa 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -1295,6 +1295,87 @@ void dma_buf_vunmap(struct dma_buf *dmabuf,
+>> struct dma_buf_map *map)
+>> }
+>> EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>>
+>> +/**
+>> + * dma_buf_vmap_local - Create virtual mapping for the buffer object =
+into
+>> kernel
+>> + * address space.
+>> + * @dmabuf:	[in]	buffer to vmap
+>> + * @map:	[out]	returns the vmap pointer
+>> + *
+>> + * Unlike dma_buf_vmap() this is a short term mapping and will not pi=
+n
+>> + * the buffer. The struct dma_resv for the @dmabuf must be locked unt=
+il
+>> + * dma_buf_vunmap_local() is called.
+>> + *
+>> + * Returns:
+>> + * 0 on success, or a negative errno code otherwise.
+>> + */
+>> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map)
+>> +{
+>> +	struct dma_buf_map ptr;
+>> +	int ret =3D 0;
+>> +
+>> +	dma_buf_map_clear(map);
+>> +
+>> +	if (WARN_ON(!dmabuf))
+>> +		return -EINVAL;
+>> +
+>> +	dma_resv_assert_held(dmabuf->resv);
+>> +
+>> +	if (!dmabuf->ops->vmap_local)
+>> +		return -EINVAL;
+>=20
+> You are clearing the map, and then doing the above checks.
+>=20
+> Is it ok to change the map info and then exit on error?
+
+In vmap_local map argument returns the mapping's address. Callers are=20
+expected to check the return code. But I would expect a careless caller=20
+to not check, or check for map being cleared. Clearing it here first is=20
+the save thing to do.
+
+Best regards
+Thomas
+
+>=20
+> Mike
+>=20
+>> +	mutex_lock(&dmabuf->lock);
+>> +	if (dmabuf->vmapping_counter) {
+>> +		dmabuf->vmapping_counter++;
+>> +		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>> +		*map =3D dmabuf->vmap_ptr;
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+>> +
+>> +	ret =3D dmabuf->ops->vmap_local(dmabuf, &ptr);
+>> +	if (WARN_ON_ONCE(ret))
+>> +		goto out_unlock;
+>> +
+>> +	dmabuf->vmap_ptr =3D ptr;
+>> +	dmabuf->vmapping_counter =3D 1;
+>> +
+>> +	*map =3D dmabuf->vmap_ptr;
+>> +
+>> +out_unlock:
+>> +	mutex_unlock(&dmabuf->lock);
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
+>> +
+>> +/**
+>> + * dma_buf_vunmap_local - Unmap a vmap obtained by
+>> dma_buf_vmap_local.
+>> + * @dmabuf:	[in]	buffer to vunmap
+>> + * @map:	[in]	vmap pointer to vunmap
+>> + *
+>> + * Release a mapping established with dma_buf_vmap_local().
+>> + */
+>> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>> dma_buf_map *map)
+>> +{
+>> +	if (WARN_ON(!dmabuf))
+>> +		return;
+>> +
+>> +	dma_resv_assert_held(dmabuf->resv);
+>> +
+>> +	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>> +	BUG_ON(dmabuf->vmapping_counter =3D=3D 0);
+>> +	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
+>> +
+>> +	mutex_lock(&dmabuf->lock);
+>> +	if (--dmabuf->vmapping_counter =3D=3D 0) {
+>> +		if (dmabuf->ops->vunmap_local)
+>> +			dmabuf->ops->vunmap_local(dmabuf, map);
+>> +		dma_buf_map_clear(&dmabuf->vmap_ptr);
+>> +	}
+>> +	mutex_unlock(&dmabuf->lock);
+>> +}
+>> +EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
+>> +
+>> #ifdef CONFIG_DEBUG_FS
+>> static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>> {
+>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>> index 628681bf6c99..aeed754b5467 100644
+>> --- a/include/linux/dma-buf.h
+>> +++ b/include/linux/dma-buf.h
+>> @@ -264,6 +264,38 @@ struct dma_buf_ops {
+>>
+>> 	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>> 	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +
+>> +	/**
+>> +	 * @vmap_local:
+>> +	 *
+>> +	 * Creates a virtual mapping for the buffer into kernel address spac=
+e.
+>> +	 *
+>> +	 * This callback establishes short-term mappings for situations wher=
+e
+>> +	 * callers only use the buffer for a bounded amount of time; such as=
+
+>> +	 * updates to the framebuffer or reading back contained information.=
+
+>> +	 * In contrast to the regular @vmap callback, vmap_local does never
+>> pin
+>> +	 * the buffer to a specific domain or acquire the buffer's reservati=
+on
+>> +	 * lock.
+>> +	 *
+>> +	 * This is called with the &dma_buf.resv object locked. Callers must=
+
+>> hold
+>> +	 * the lock until after removing the mapping with @vunmap_local.
+>> +	 *
+>> +	 * This callback is optional.
+>> +	 *
+>> +	 * Returns:
+>> +	 *
+>> +	 * 0 on success or a negative error code on failure.
+>> +	 */
+>> +	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +
+>> +	/**
+>> +	 * @vunmap_local:
+>> +	 *
+>> +	 * Removes a virtual mapping that was established by @vmap_local.
+>> +	 *
+>> +	 * This callback is optional.
+>> +	 */
+>> +	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> };
+>>
+>> /**
+>> @@ -501,4 +533,6 @@ int dma_buf_mmap(struct dma_buf *, struct
+>> vm_area_struct *,
+>> 		 unsigned long);
+>> int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>> void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>> dma_buf_map *map);
+>> #endif /* __DMA_BUF_H__ */
+>> --
+>> 2.29.2
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--usVErwPLg02GQl5mnHWNZvhlyTGeK9IqA--
+
+--6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/9U3wFAwAAAAAACgkQlh/E3EQov+DN
+qA//arRnPM7UBr2PsEvXdUHdZ1y6EycvzSr+GIFoKVvKY/YxgLaQnEvS2C/jGnHeTU0AA+PANq2E
+CUgz2eC/E7p2e1DIFx6qtXjhWEJs+jsDwAFlUhBeSIB9lQIlwWDnv67UkwrHok76iPMO+F5qkzhH
+dsZ7THbWb8cIClaQtIhUhZhYSGKZ7545+79Iq1fgo4WpN33zutR/xP8F0zkwXSMhQhlb5WHrK56Z
+lqc8OlzwRqqoihElEzBFlw2q//cqgFnhcA3eLyZWapMYS/MkGBjGWFXRZZxlEm0My7vG+f6xUEa/
+sj7SwnpyArT0dkxiR/OLwsQ+f4861V0mskoGa6za9WvdE39oDEXUI4z7wuOV2kjjHwbIix5f4YPW
+rffx/U4SXIsronOpy7KYYw7oUnapQq+bNcFgeuikkEEdQSOfAeER457g7yxf7ztP4iCUFuH3ACaV
+U3DA7cQJMyMuEcDXdv1ZAHP0zO4C7MgEJTaNT0nBE7OqoyrCIwLLgBS3krz8o1OSFVXON6SBbZwT
+OYiCLMyIJu/WwvPMrB93Yt4h5YugeqcUPj5Lz/S1MtK2B6GeL/AMUVpP8wveKjHkvfuYmyQg6Z4g
+659iSVK0b0n5DOtotcZOGHonBKbDxPNtvHC+bK/TvkO7d/NDR3wKzOTjQWrkAH7DS02Sk7+upUOw
+ufI=
+=mvIW
+-----END PGP SIGNATURE-----
+
+--6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa--
