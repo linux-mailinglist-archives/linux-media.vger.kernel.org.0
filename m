@@ -2,220 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A8F2F31A0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 14:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA922F31B8
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 14:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727593AbhALNZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 08:25:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51240 "EHLO
+        id S1729164AbhALN1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 08:27:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726900AbhALNZ1 (ORCPT
+        with ESMTP id S1726546AbhALN1t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 08:25:27 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73EAC0617A7
-        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 05:24:31 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id d13so2451852wrc.13
-        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 05:24:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=910ykGfQR9OTgKA6vCFnMHYhpzuWplH/2cTJtmBp2T4=;
-        b=Ah/l+t33mmwDIGlBMFIZyKuV7qXcm9eDb12vI6vVfsUrYpUJ7a/uEpTRS1f5aK+cO/
-         8eTGjuY/8GejCUk9XV0+gzotIvf8wR0G3lKhCLzwFKOPdosHO0Jg3sgDrr8NM9lhj4hZ
-         DSlEwKVk7hsiyQHBm7B7rTp5gH6qDqjI1EK1k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=910ykGfQR9OTgKA6vCFnMHYhpzuWplH/2cTJtmBp2T4=;
-        b=mvoHYRpdJv9b20mDmfb7ZweJbIajDgsGXladkMb2sKhovvaperLl2qQnjspyxUiqIN
-         qUlb+llroMkb3ng0qMeyCirtzmCR2r7Tj9cHR8d95/osfqJLJ96unA0FEnXwj/NzfHgP
-         O377xOiVyILRAi/onWV5Zsi01pCy24nnG2p48Zhf0z/Y014QpY30jZolBsM62aNZOAWw
-         hAsc+d6VqFYfm3RJl5U2MOTbjq5hHgSGAuBl1c92snCtrWxVs14EqBrX4PxftruBWr3Q
-         xFR9EXSNDXlNR0QoPKNPUwbSRqEGmD5FCI3GbRIZc8dH3Ali7VMZTKI/Unf06DkZydXe
-         PdKA==
-X-Gm-Message-State: AOAM530TxtyjjlFDKVVztJmXad3XQUA1RE9vobwVcrD9OhHIx97KqlZA
-        4FWw3zph+H0/FV+N3N9cAQzfHQ==
-X-Google-Smtp-Source: ABdhPJwktpfadpAuorK6LF+XqkHpBN5jTG/nc1ar3yG4HE88ZwI4eoXbc58CgFkM+yHvg3W2YwpYrg==
-X-Received: by 2002:adf:ab5b:: with SMTP id r27mr1161193wrc.282.1610457870643;
-        Tue, 12 Jan 2021 05:24:30 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id j2sm5098461wrh.78.2021.01.12.05.24.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 05:24:29 -0800 (PST)
-Date:   Tue, 12 Jan 2021 14:24:27 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v7 00/17] follow_pfn and other iomap races
-Message-ID: <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
-Mail-Followup-To: DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org
-References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+        Tue, 12 Jan 2021 08:27:49 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05278C061794
+        for <linux-media@vger.kernel.org>; Tue, 12 Jan 2021 05:27:09 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id CEACC1F451D7
+Message-ID: <9a2a251a3de3de86b870dffc67ff9d8e4f776d64.camel@collabora.com>
+Subject: Re: [PATCH] media: imx6-mipi-csi2: Call remote subdev
+ get_mbus_config to get active lanes
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com, Philipp Zabel <p.zabel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>
+Date:   Tue, 12 Jan 2021 10:27:00 -0300
+In-Reply-To: <X/0up+6vBkcngF1V@pendragon.ideasonboard.com>
+References: <20201229103102.45547-1-ezequiel@collabora.com>
+         <cdd4a805-13a7-ab1a-dcf6-1d22c2dde1e5@gmail.com>
+         <7c87bf467d44d32a3f8d67dec8c581e82b09eaf7.camel@collabora.com>
+         <X/0up+6vBkcngF1V@pendragon.ideasonboard.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.7.0-1-amd64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 27, 2020 at 05:41:14PM +0100, Daniel Vetter wrote:
-> Hi all
+On Tue, 2021-01-12 at 07:07 +0200, Laurent Pinchart wrote:
+> Hi Ezequiel,
 > 
-> Another update of my patch series to clamp down a bunch of races and gaps
-> around follow_pfn and other access to iomem mmaps. Previous version:
+> On Mon, Jan 11, 2021 at 12:11:36PM -0300, Ezequiel Garcia wrote:
+> > On Fri, 2021-01-08 at 11:10 -0800, Steve Longerbeam wrote:
+> > > On 12/29/20 2:31 AM, Ezequiel Garcia wrote:
+> > > > Currently, the CSI2 subdevice is using the data-lanes from the
+> > > > neareast endpoint to config the CSI2 lanes.
+> > > > 
+> > > > While this may work, the proper way to configure the hardware is
+> > > > to obtain the remote subdevice in v4l2_async_notifier_operations.bound(),
+> > > > and then call get_mbus_config using the remote subdevice to get
+> > > > the active lanes.
+> > > > 
+> > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > > ---
+> > > >   drivers/staging/media/imx/TODO             |  12 ---
+> > > >   drivers/staging/media/imx/imx6-mipi-csi2.c | 101 ++++++++++++++++++---
+> > > >   2 files changed, 90 insertions(+), 23 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
+> > > > index 9cfc1c1e78dc..c575f419204a 100644
+> > > > --- a/drivers/staging/media/imx/TODO
+> > > > +++ b/drivers/staging/media/imx/TODO
+> > > > @@ -2,18 +2,6 @@
+> > > >   - The Frame Interval Monitor could be exported to v4l2-core for
+> > > >     general use.
+> > > >   
+> > > > -- The CSI subdevice parses its nearest upstream neighbor's device-tree
+> > > > -  bus config in order to setup the CSI. Laurent Pinchart argues that
+> > > > -  instead the CSI subdev should call its neighbor's g_mbus_config op
+> > > > -  (which should be propagated if necessary) to get this info. However
+> > > > -  Hans Verkuil is planning to remove the g_mbus_config op. For now this
+> > > > -  driver uses the parsed DT bus config method until this issue is
+> > > > -  resolved.
+> > > 
+> > > This TODO was actually referring to the fwnode endpoint parsing in 
+> > 
+> > Ah, OK.
+> > 
+> > > But the same conversion to call .get_mbus_config() instead of endpoint 
+> > > parsing could be done in imx-media-csi.c, but there is one imx6 
+> > > constraint that is preventing this from happening. The imx6 reference 
+> > > manual states that if the CSI is receiving from an input parallel bus 
+> > > that is 16-bits wide, the data must go directly to memory via the SMFC 
+> > > and not be sent to the IPU's Image Converter ("passthrough" mode):
+> > > 
+> > > "37.4.3.9 16 bit camera support
+> > > 
+> > > Devices that support 16 bit data bus can be connected to the CSI. This  can be done in one
+> > > of the following ways.
+> > > 
+> > > 16 bit YUV422
+> > > In this mode the CSI receives 2 components per cycle. The CSI is programmed to
+> > > accept the data as 16 bit generic data. The captured data will be stored in the memory
+> > > through the SMFC. The IDMAC needs to be programmed to store 16bit generic data.
+> > > When the data is read back from the memory for further processing in the IPU it will
+> > > be read as YUV422 data."
+> > > 
+> > > Same is said for RGB data to the CSI.
+> > > 
+> > > I'm not sure if this restriction is real or not. If this restriction 
+> > > were ignored, the fwnode endpoint check "ep->bus.parallel.bus_width >= 
+> > > 16" could be removed and the only remaining info required to determine 
+> > > passthrough mode is available from 'struct v4l2_mbus_config' and the 
+> > > input mbus codes, thus allowing the conversion to .get_mbus_config().
+> > 
+> > For the sound of this, the above doesn't affect this patch, right?
+> > Also, note there's a v2 submitted:
+> > 
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20210103154155.318300-1-ezequiel@collabora.com/
+> > 
+> > Now, there's something I'm not exactly sure about these .get_mbus_config
+> > conversions, being described in the TODO file.
+> > 
+> > The TODO file should only list what's missing to move the driver
+> > out of staging. Converting to newer APIs doesn't seem a blocker:
+> > there are a ton of drivers using old APIs out there, which is
+> > a natural consequence of how the kernel evolve APIs all the time.
+> > 
+> > I'm wondering if the other TODO items apply as well, moving
+> > the Frame Interval Monitor to the v4l2-core is something we
+> > can always do at any later point. It shouldn't be a requirement
+> > for destaging.
+> > 
+> > There's one thing that we must resolve before de-staging.
+> > The media controller topology, which is a form of ABI should
+> > be settled, as that's difficult to change later.
+> > 
+> > However, this item is not mentioned in the TODO.
+> > 
+> > So, I was thinking we should remove all the current TODO
+> > items and add something about the media controller topology
+> > stability requirements.
+> > 
+> > What do you think?
 > 
-> v1: https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
-> v2: https://lore.kernel.org/dri-devel/20201009075934.3509076-1-daniel.vetter@ffwll.ch
-> v3: https://lore.kernel.org/dri-devel/20201021085655.1192025-1-daniel.vetter@ffwll.ch/
-> v4: https://lore.kernel.org/dri-devel/20201026105818.2585306-1-daniel.vetter@ffwll.ch/
-> v5: https://lore.kernel.org/dri-devel/20201030100815.2269-1-daniel.vetter@ffwll.ch/
-> v6: https://lore.kernel.org/dri-devel/20201119144146.1045202-1-daniel.vetter@ffwll.ch/
+> If we decide to do so, could you keep the TODO items somewhere ? It's
+> useful to have a list, they could be moved to the driver source code for
+> instance.
 > 
-> And the discussion that sparked this journey:
-> 
-> https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
-> 
-> I think the first 12 patches are ready for landing. The parts starting
-> with "mm: Add unsafe_follow_pfn" probably need more baking time.
-> 
-> Andrew, can you please pick these up, or do you prefer I do a topic branch
-> and send them to Linus directly in the next merge window?
-> 
-> Changes in v7:
-> - more acks/reviews
-> - reordered with the ready pieces at the front
-> - simplified the new follow_pfn function as Jason suggested
-> 
-> Changes in v6:
-> - Tested v4l userptr as Tomasz suggested. No boom observed
-> - Added RFC for locking down follow_pfn, per discussion with Christoph and
->   Jason.
-> - Explain why pup_fast is safe in relevant patches, there was a bit a
->   confusion when discussing v5.
-> - Fix up the resource patch, with CONFIG_IO_STRICT_DEVMEM it crashed on
->   boot due to an unintended change (reported by John)
-> 
-> Changes in v5:
-> - Tomasz found some issues in the media patches
-> - Polish suggested by Christoph for the unsafe_follow_pfn patch
-> 
-> Changes in v4:
-> - Drop the s390 patch, that was very stand-alone and now queued up to land
->   through s390 trees.
-> - Comment polish per Dan's review.
-> 
-> Changes in v3:
-> - Bunch of polish all over, no functional changes aside from one barrier
->   in the resource code, for consistency.
-> - A few more r-b tags.
-> 
-> Changes in v2:
-> - tons of small polish&fixes all over, thanks to all the reviewers who
->   spotted issues
-> - I managed to test at least the generic_access_phys and pci mmap revoke
->   stuff with a few gdb sessions using our i915 debug tools (hence now also
->   the drm/i915 patch to properly request all the pci bar regions)
-> - reworked approach for the pci mmap revoke: Infrastructure moved into
->   kernel/resource.c, address_space mapping is now set up at open time for
->   everyone (which required some sysfs changes). Does indeed look a lot
->   cleaner and a lot less invasive than I feared at first.
-> 
-> Coments and review on the remaining bits very much welcome, especially
-> from the kvm and vfio side.
-> 
-> Cheers, Daniel
-> 
-> Daniel Vetter (17):
->   drm/exynos: Stop using frame_vector helpers
->   drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
->   misc/habana: Stop using frame_vector helpers
->   misc/habana: Use FOLL_LONGTERM for userptr
->   mm/frame-vector: Use FOLL_LONGTERM
->   media: videobuf2: Move frame_vector into media subsystem
->   mm: Close race in generic_access_phys
->   PCI: Obey iomem restrictions for procfs mmap
->   /dev/mem: Only set filp->f_mapping
->   resource: Move devmem revoke code to resource framework
->   sysfs: Support zapping of binary attr mmaps
->   PCI: Revoke mappings like devmem
 
-As Jason suggested, I've pulled the first 1 patches into a topic branch.
+Yes, that makes perfect sense. I'll send a v3 in the next few days,
+unless there is any objection on it.
 
-Stephen, can you please add the below to linux-next for the 5.12 merge
-window?
+Thanks,
+Ezequiel
 
-git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
-
-Once this part has landed I'll see what to do with the below part.
-
-Thanks, Daniel
-
->   mm: Add unsafe_follow_pfn
->   media/videobuf1|2: Mark follow_pfn usage as unsafe
->   vfio/type1: Mark follow_pfn as unsafe
->   kvm: pass kvm argument to follow_pfn callsites
->   mm: add mmu_notifier argument to follow_pfn
-> 
->  arch/powerpc/kvm/book3s_64_mmu_hv.c           |   2 +-
->  arch/powerpc/kvm/book3s_64_mmu_radix.c        |   2 +-
->  arch/powerpc/kvm/e500_mmu_host.c              |   2 +-
->  arch/x86/kvm/mmu/mmu.c                        |   8 +-
->  drivers/char/mem.c                            |  86 +-------------
->  drivers/gpu/drm/exynos/Kconfig                |   1 -
->  drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  48 ++++----
->  drivers/media/common/videobuf2/Kconfig        |   1 -
->  drivers/media/common/videobuf2/Makefile       |   1 +
->  .../media/common/videobuf2}/frame_vector.c    |  57 ++++-----
->  .../media/common/videobuf2/videobuf2-memops.c |   3 +-
->  drivers/media/platform/omap/Kconfig           |   1 -
->  drivers/media/v4l2-core/videobuf-dma-contig.c |   2 +-
->  drivers/misc/habanalabs/Kconfig               |   1 -
->  drivers/misc/habanalabs/common/habanalabs.h   |   6 +-
->  drivers/misc/habanalabs/common/memory.c       |  52 +++-----
->  drivers/pci/pci-sysfs.c                       |   4 +
->  drivers/pci/proc.c                            |   6 +
->  drivers/vfio/vfio_iommu_type1.c               |   4 +-
->  fs/sysfs/file.c                               |  11 ++
->  include/linux/ioport.h                        |   6 +-
->  include/linux/kvm_host.h                      |   9 +-
->  include/linux/mm.h                            |  50 +-------
->  include/linux/sysfs.h                         |   2 +
->  include/media/frame_vector.h                  |  47 ++++++++
->  include/media/videobuf2-core.h                |   1 +
->  kernel/resource.c                             |  98 ++++++++++++++-
->  mm/Kconfig                                    |   3 -
->  mm/Makefile                                   |   1 -
->  mm/memory.c                                   | 112 +++++++++++++++---
->  mm/nommu.c                                    |  16 ++-
->  security/Kconfig                              |  13 ++
->  virt/kvm/kvm_main.c                           |  56 +++++----
->  33 files changed, 413 insertions(+), 299 deletions(-)
->  rename {mm => drivers/media/common/videobuf2}/frame_vector.c (84%)
->  create mode 100644 include/media/frame_vector.h
-> 
-> -- 
-> 2.29.2
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
