@@ -2,41 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 595C22F2D9E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 12:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DBD32F2DA8
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 12:15:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728041AbhALLLV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 06:11:21 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43752 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726119AbhALLLO (ORCPT
+        id S1726437AbhALLNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 06:13:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51066 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726377AbhALLNV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 06:11:14 -0500
+        Tue, 12 Jan 2021 06:13:21 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9543AC061575;
+        Tue, 12 Jan 2021 03:12:41 -0800 (PST)
 Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C04A83E;
-        Tue, 12 Jan 2021 12:10:31 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AE1E58E;
+        Tue, 12 Jan 2021 12:12:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610449832;
-        bh=3a6z6DlvigbNZwjdEOITL5jSiNUfEDR/Y9b0dEJsedk=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=nDUFrZaIwtATzadF1Osv6VlgYJsOM1WCy2/HDtwsEJwI1LaFRzEcHNlCy6nQc1GrQ
-         BcM/HFA+HlDvqbUB4ZU6Fk4eOUai+ZfQIYKVnaOVQEbki6Mfc4XdGQ6yVZT/TlEVLm
-         hGjGrWLsXZUmYpoxzijYSjSsqvdxp/gIVz7NSq9w=
-Subject: Re: [PATCH 6/9] media: sum4i-csi: Do not zero reserved fields
+        s=mail; t=1610449958;
+        bh=nxwVkILG5Muy2w73FYXJgibdri3T1ViT49g+RDYx6n8=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=d5d1EzrZcpROge3DrlgyGK3t2qOv8nQitkRk7H16/oYPWYm+wDnHRn/addvIYB2jh
+         93yMO/2uhZpiuoV3A3n2SSXRc5NvGJDezPOVwj9HYkLq+3cWCLRzoNFBtyBO6PpbZc
+         k2uZRyurgWhb6j/vG+6XSztASqjR9d3L6sf+gRwg=
+Subject: Re: [PATCH 7/9] media: ti-vpe: Do not zero reserved fields
 To:     Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>
+Cc:     Benoit Parrot <bparrot@ti.com>
 References: <20210111145445.28854-1-ribalda@chromium.org>
- <20210111145445.28854-7-ribalda@chromium.org>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
+ <20210111145445.28854-8-ribalda@chromium.org>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
 Organization: Ideas on Board
-Message-ID: <bc3f9c21-26d7-a459-280f-6f5cef180d6a@ideasonboard.com>
-Date:   Tue, 12 Jan 2021 11:10:29 +0000
+Message-ID: <4dce6a1a-f4dc-53b4-7e87-7066936fd2d0@ideasonboard.com>
+Date:   Tue, 12 Jan 2021 11:12:36 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210111145445.28854-7-ribalda@chromium.org>
+In-Reply-To: <20210111145445.28854-8-ribalda@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -46,48 +49,39 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Ricardo,
 
-Well I've started, so I may as well finish and do the rest too.
-
 On 11/01/2021 14:54, Ricardo Ribalda wrote:
 > Core code already clears reserved fields of struct
 > v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
 > v4l2_plane_pix_format reserved fields").
 
-Indeed, these are the only memsets here ...
-
-With the $TITLE fixed as spotted by Ezequiel,
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> 
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Benoit Parrot <bparrot@ti.com>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/media/platform/ti-vpe/vpe.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> index 1a2f65d83a6c..4785faddf630 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> @@ -113,8 +113,6 @@ static void _sun4i_csi_try_fmt(struct sun4i_csi *csi,
->  	pix->num_planes = _fmt->num_planes;
->  	pix->pixelformat = _fmt->fourcc;
+> diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
+> index 779dd74b82d0..10251b787674 100644
+> --- a/drivers/media/platform/ti-vpe/vpe.c
+> +++ b/drivers/media/platform/ti-vpe/vpe.c
+> @@ -1683,7 +1683,6 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
+>  		}
+>  	}
 >  
 > -	memset(pix->reserved, 0, sizeof(pix->reserved));
-> -
->  	/* Align the width and height on the subsampling */
->  	width = ALIGN(pix->width, _fmt->hsub);
->  	height = ALIGN(pix->height, _fmt->vsub);
-> @@ -131,8 +129,6 @@ static void _sun4i_csi_try_fmt(struct sun4i_csi *csi,
->  		bpl = pix->width / hsub * _fmt->bpp[i] / 8;
->  		pix->plane_fmt[i].bytesperline = bpl;
->  		pix->plane_fmt[i].sizeimage = bpl * pix->height / vsub;
-> -		memset(pix->plane_fmt[i].reserved, 0,
-> -		       sizeof(pix->plane_fmt[i].reserved));
+>  	for (i = 0; i < pix->num_planes; i++) {
+>  		plane_fmt = &pix->plane_fmt[i];
+>  		depth = fmt->vpdma_fmt[i]->depth;
+> @@ -1713,7 +1712,6 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
+>  					       plane_fmt->bytesperline *
+>  					       depth) >> 3;
+>  		}
+> -		memset(plane_fmt->reserved, 0, sizeof(plane_fmt->reserved));
 >  	}
->  }
 >  
+>  	return 0;
 > 
 
