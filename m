@@ -2,198 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BF332F2946
-	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 08:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33DE42F29DA
+	for <lists+linux-media@lfdr.de>; Tue, 12 Jan 2021 09:18:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731159AbhALHyq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Jan 2021 02:54:46 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40186 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729397AbhALHyp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Jan 2021 02:54:45 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AD129AC8F;
-        Tue, 12 Jan 2021 07:54:03 +0000 (UTC)
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
-        airlied@redhat.com, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
-        sean@poorly.run, eric@anholt.net, sam@ravnborg.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        virtualization@lists.linux-foundation.org
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-12-tzimmermann@suse.de>
- <X/yFj9zIdW52UKk4@phenom.ffwll.local>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
- cursor update
-Message-ID: <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
-Date:   Tue, 12 Jan 2021 08:54:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1729460AbhALISb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Jan 2021 03:18:31 -0500
+Received: from vegas.theobroma-systems.com ([144.76.126.164]:50483 "EHLO
+        mail.theobroma-systems.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726999AbhALISb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Jan 2021 03:18:31 -0500
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]:32956 helo=diego.localnet)
+        by mail.theobroma-systems.com with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <heiko.stuebner@theobroma-systems.com>)
+        id 1kzEs1-0003o6-C8; Tue, 12 Jan 2021 09:17:41 +0100
+From:   Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        "Kever.Yang" <kever.yang@rock-chips.com>,
+        Eddie Cai <eddie.cai@rock-chips.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        christoph.muellner@theobroma-systems.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Collabora Kernel ML <kernel@collabora.com>
+Subject: Re: rkisp in mainline (destaging) vs. rk3326/px30 uapi differences
+Date:   Tue, 12 Jan 2021 09:17:41 +0100
+Message-ID: <2479328.7s5MMGUR32@diego>
+Organization: Theobroma Systems
+In-Reply-To: <CAAFQd5DpMYK2HG5_8BBf3qYJ_MDGnS-O8k32LiYvT2jvR0x9xQ@mail.gmail.com>
+References: <3342088.iIbC2pHGDl@diego> <15789743.geO5KgaWL5@diego> <CAAFQd5DpMYK2HG5_8BBf3qYJ_MDGnS-O8k32LiYvT2jvR0x9xQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <X/yFj9zIdW52UKk4@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq
-Content-Type: multipart/mixed; boundary="U5F6Qhzznh14i5jrMNqGuORkmSSSTnYpz";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, kraxel@redhat.com,
- hdegoede@redhat.com, sean@poorly.run, eric@anholt.net, sam@ravnborg.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, virtualization@lists.linux-foundation.org
-Message-ID: <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
-Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
- cursor update
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-12-tzimmermann@suse.de>
- <X/yFj9zIdW52UKk4@phenom.ffwll.local>
-In-Reply-To: <X/yFj9zIdW52UKk4@phenom.ffwll.local>
+Hi Tomasz,
 
---U5F6Qhzznh14i5jrMNqGuORkmSSSTnYpz
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Am Dienstag, 12. Januar 2021, 07:10:16 CET schrieb Tomasz Figa:
+> On Tue, Jan 12, 2021 at 12:05 AM Heiko Stuebner
+> <heiko.stuebner@theobroma-systems.com> wrote:
+> > Am Montag, 11. Januar 2021, 12:04:56 CET schrieb Laurent Pinchart:
+> > > On Mon, Jan 11, 2021 at 11:53:00AM +0100, Heiko Stuebner wrote:
+> > > > Am Samstag, 9. Januar 2021, 02:21:43 CET schrieb Laurent Pinchart:
+> > > > > On Fri, Jan 08, 2021 at 04:21:49PM +0100, Dafna Hirschfeld wrote:
+> > > > > > Am 08.01.21 um 13:05 schrieb Heiko Stuebner:
+> > > > > > > Am Freitag, 8. Januar 2021, 12:17:43 CET schrieb Dafna Hirschfeld:
+> > > > > > >> Am 07.01.21 um 21:23 schrieb Heiko Stuebner:
+> > > > > > >>> the rkisp driver in the mainline Linux kernel moved out of staging with
+> > > > > > >>> 5.11-rc1, so the uapi will be fixed after 5.11 proper is released.
+> > > > > > >>>
+> > > > > > >>> The rkisp driver currently only supports the rk3399 and while working
+> > > > > > >>> on porting the support for rk3326/px30 I noticed discrepancies.
+> > > > > > >>>
+> > > > > > >>> Hence it would be somewhat urgent to clarify this, as later it will get
+> > > > > > >>> really cumbersome.
+> > > > > > >>
+> > > > > > >> I see that we are now on 5.11-rc2 so that gives us about 4-5 weeks,
+> > > > > > >>
+> > > > > > >>>
+> > > > > > >>> ----
+> > > > > > >>>
+> > > > > > >>> The rkisp on the px30 (v12) has some changes compared to the rk3399 (v10).
+> > > > > > >>
+> > > > > > >> How do you know that the isp of rk3399 is v10 ? I looked at the RK3399 TRM
+> > > > > > >> and the datasheet for the isp and could not find this information.
+> > > > > > >
+> > > > > > > That's from Rockchip's upstream sources where they introduced the new code.
+> > > > > > > There're some (if v12) conditionals in there ;-) .
+> > > > > > >
+> > > > > > >>> Some sub-blocks moved around or seem to have been replaced with newer
+> > > > > > >>> variants and the gist of changes can be seen in [0] with the important
+> > > > > > >>> part being the uapi changes [1] and those values also exist in mainline.
+> > > > > > >>>
+> > > > > > >>>
+> > > > > > >>> See functions in that patch:
+> > > > > > >>> - isp_goc_config_v12()
+> > > > > > >>> - rkisp1_stats_get_aec_meas_v12()
+> > > > > > >>> - rkisp1_stats_get_hst_meas_v12()
+> > > > > > >>>
+> > > > > > >>> Looking at the code, the register locations are different, for gammas and
+> > > > > > >>> the histogram the actual amount of raw registers is the same, while the
+> > > > > > >>> "aec" seems to use 25 registers on V10 while 21 registers on V12. Though
+> > > > > > >>> their content gets split into multiple values in that v12 variant.
+> > > > > > >>>
+> > > > > > >>>
+> > > > > > >>> As somehow expected the whole thing is pretty undocumented and I
+> > > > > > >>> have no clue what these "bins" or "gammas" mean and why the amount of
+> > > > > > >>> entries now differs and how this relates to userspace at all.
+> > > > > > >>>
+> > > > > > >>> Also looking through libcamera as the one open user of the driver,
+> > > > > > >>> the whole rkisp1_cif_isp_isp_other_cfg (containing the gamma config)
+> > > > > > >>> as well as the rkisp1_cif_isp_stat struct (for ae and histogram)
+> > > > > > >>> don't seem to be used so far.
+> > > > > > >>
+> > > > > > >> yes, that's a shame. There is a simple implementation using the ae in
+> > > > > > >> stuct rkisp1_cif_isp_stat in src/ipa/rkisp1.c
+> > > > > > >
+> > > > > > > Thanks for pointing me to that :-)
+> > > > > > >
+> > > > > > >>> Hence I also added some Rockchip people in the hope of getting
+> > > > > > >>> a bit of clarification ;-) .
+> > > > > > >>>
+> > > > > > >>> Ideas on how to proceed?
+> > > > > > >>>
+> > > > > > >>> Thanks
+> > > > > > >>> Heiko
+> > > > > > >>>
+> > > > > > >>>
+> > > > > > >>> [0] https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c
+> > > > > > >>> [1]
+> > > > > > >>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> > > > > > >>> index b471f01a8459..fbeb6b5dba03 100644
+> > > > > > >>> --- a/include/uapi/linux/rkisp1-config.h
+> > > > > > >>> +++ b/include/uapi/linux/rkisp1-config.h
+> > > > > > >>> @@ -32,8 +32,8 @@
+> > > > > > >>>    #define CIFISP_CTK_COEFF_MAX            0x100
+> > > > > > >>>    #define CIFISP_CTK_OFFSET_MAX           0x800
+> > > > > > >>>
+> > > > > > >>> -#define CIFISP_AE_MEAN_MAX              25
+> > > > > > >>> -#define CIFISP_HIST_BIN_N_MAX           16
+> > > > > > >>> +#define CIFISP_AE_MEAN_MAX              81
+> > > > > > >>> +#define CIFISP_HIST_BIN_N_MAX           32
+> > > > > > >>>    #define CIFISP_AFM_MAX_WINDOWS          3
+> > > > > > >>>    #define CIFISP_DEGAMMA_CURVE_SIZE       17
+> > > > > > >>>
+> > > > > > >>> @@ -69,7 +69,7 @@
+> > > > > > >>>     * Gamma out
+> > > > > > >>>     */
+> > > > > > >>>    /* Maximum number of color samples supported */
+> > > > > > >>> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
+> > > > > > >>> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES       34
+> > > > > > >>
+> > > > > > >> I see that in that code you use the old names of the registers.
+> > > > > > >> The names are different in the current version of the driver,
+> > > > > > >> in the media tree: git://linuxtv.org/media_tree.git
+> > > > > > >> Also, I guess that instead of changing the values you should
+> > > > > > >> add a separated define, something like:
+> > > > > > >>
+> > > > > > >> -#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
+> > > > > > >> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
+> > > > > > >> +#define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
+> > > > > > >
+> > > > > > > Just for clarity, that is Rockchip's commit in their vendor kernel.
+> > > > > > > I'm just using that as base to get the changes needed for mainline :-) .
+> > > > > > >
+> > > > > > > The main issue I see is that these max-values directly influence the sizes
+> > > > > > > of arrays inside the uapi - where the "v12" seems to need bigger arrays
+> > > > > > > on first glance.
+> > > > > > > ^^^ which is essentially the part I'm mostly worried about
+> > > > > >
+> > > > > > Oh, ok, I thought it's your code.
+> > > > > > So maybe we should change the uapi to look like:
+> > > > > >
+> > > > > > /* v10 is the isp version for rk3399 */
+> > > > > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES_V10       17
+> > > > > > /* v12 is the isp version for rk3326/px30 */
+> > > > > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES_v12       34
+> > > > > > #define CIFISP_GAMMA_OUT_MAX_SAMPLES       CIFISP_GAMMA_OUT_MAX_SAMPLES_v12
+> > > > > >
+> > > > > > This way we inform userspace how many samples are supported according to the
+> > > > > > version.
+> > > > > > I don't know if there are other versions with higher maximum,
+> > > > > >
+> > > > > > What do you think?
+> > > > >
+> > > > > This makes sense to me. Userspace will need to know how many samples are
+> > > > > actually present in the array, so corresponding macros should be defined
+> > > > > in the header.
+> > > >
+> > > > ok, though as it seems to have been discussed on irc, we'll also need a
+> > > > version field to indicate the IP version.
+> > >
+> > > In the statistics buffer that could be done, but in the params buffer it
+> > > won't help userspace figure out what version of the IP is in use as
+> > > params are filled by the application, not the kernel. I think reporting
+> > > the IP version through the media controller API should be enough,
+> > > possibly in media_device_info.hw_revision, and/or in the model string.
+> >
+> > hw_revision sounds like the ideal place :-)
+> >
+> > and I've added a line doing that, thanks for the pointer.
+> >
+> 
+> One problem with that approach is that we would still need to change
+> those arrays in the existing UAPI structs. That might be fine for now,
+> since they still reside under staging/, but even then it would be
+> cumbersome for existing users, such as Chrome OS.
+> 
+> I think we can still adjust our userspace in Chrome OS, but once we
+> move out of staging, such changes wouldn't be possible. In that case,
+> I think there would be two options left:
+>  - Create a new FourCC and introduce a new structure for the new hardware,
+>  - Extend the existing structure at the end to allow the userspace
+> retain the existing layout.
 
-Hi
+rkisp1 moved out of staging with 5.11-rc1 so essentially we have the rest
+of 5.11-rc to fix this without high cost.
 
-Am 11.01.21 um 18:06 schrieb Daniel Vetter:
-> On Fri, Jan 08, 2021 at 10:43:38AM +0100, Thomas Zimmermann wrote:
->> Cursor updates in vboxvideo require a short-term mapping of the
->> source BO. Use drm_gem_vram_vmap_local() and avoid the pinning
->> operations.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> All these drivers patches break the dma_resv_lock vs
-> dma_fence_begin/end_signalling nesting rules, so this doesn't work.
->=20
-> Generally this is what the prepare/cleanup_fb hooks are for, that's whe=
-re
-> mappings (including vmaps) are meant to be set up, permanently.
->=20
-> I'm kinda not clear on why we need all these changes, I thought the
-> locking problem is just in the fb helper paths, because it's outside of=
+Yesterday evening I send a 2-patch serie, doing the extension which you can
+find on [0]. It increases the numbers and thus also extends the arrays in the
+uapi.
 
-> the atomic path and could conflict with an atomic update at the same ti=
-me?
-> So only that one should get the vmap_local treatment, everything else
-> should keep the normal vmap treatment.
-
-Kind of responding to all your comment on the driver changes:
-
-These drivers only require short-term mappings, so using vmap_local=20
-would be the natural choice. For SHMEM helpers, it's mostly a cosmetic=20
-thing. For VRAM helpers, I was hoping to remove the vmap/vunmap helpers=20
-entirely. One cannot really map the BOs for the long-term, so not having =
-
-the helpers at all would make sense.
-
-But reading all your comments on the driver patches, I'd rather not=20
-update the drivers here but later convert them to use=20
-prepare_fb/cleanup_fb in the correct way.
-
-Best regards
-Thomas
-
-> -Daniel
->> ---
->>   drivers/gpu/drm/vboxvideo/vbox_mode.c | 15 +++++++++------
->>   1 file changed, 9 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/v=
-boxvideo/vbox_mode.c
->> index dbc0dd53c69e..215b37c78c10 100644
->> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
->> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
->> @@ -381,7 +381,8 @@ static void vbox_cursor_atomic_update(struct drm_p=
-lane *plane,
->>   		container_of(plane->dev, struct vbox_private, ddev);
->>   	struct vbox_crtc *vbox_crtc =3D to_vbox_crtc(plane->state->crtc);
->>   	struct drm_framebuffer *fb =3D plane->state->fb;
->> -	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(fb->obj[0]);=
-
->> +	struct drm_gem_object *obj =3D fb->obj[0];
->> +	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(obj);
->>   	u32 width =3D plane->state->crtc_w;
->>   	u32 height =3D plane->state->crtc_h;
->>   	size_t data_size, mask_size;
->> @@ -401,11 +402,12 @@ static void vbox_cursor_atomic_update(struct drm=
-_plane *plane,
->>  =20
->>   	vbox_crtc->cursor_enabled =3D true;
->>  =20
->> -	ret =3D drm_gem_vram_vmap(gbo, &map);
->> +	ret =3D dma_resv_lock(obj->resv, NULL);
->> +	if (ret)
->> +		return;
->> +	ret =3D drm_gem_vram_vmap_local(gbo, &map);
->>   	if (ret) {
->> -		/*
->> -		 * BUG: we should have pinned the BO in prepare_fb().
->> -		 */
->> +		dma_resv_unlock(obj->resv);
->>   		mutex_unlock(&vbox->hw_mutex);
->>   		DRM_WARN("Could not map cursor bo, skipping update\n");
->>   		return;
->> @@ -421,7 +423,8 @@ static void vbox_cursor_atomic_update(struct drm_p=
-lane *plane,
->>   	data_size =3D width * height * 4 + mask_size;
->>  =20
->>   	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size)=
-;
->> -	drm_gem_vram_vunmap(gbo, &map);
->> +	drm_gem_vram_vunmap_local(gbo, &map);
->> +	dma_resv_unlock(obj->resv);
->>  =20
->>   	flags =3D VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
->>   		VBOX_MOUSE_POINTER_ALPHA;
->> --=20
->> 2.29.2
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+As I said before, all versions that are close to the rk3399 original seem
+to be using these values and they haven't been increased anymore since.
 
 
---U5F6Qhzznh14i5jrMNqGuORkmSSSTnYpz--
+Heiko
 
---fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
+[0] http://lore.kernel.org/r/20210111234011.3642481-1-heiko@sntech.de
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/9VZoFAwAAAAAACgkQlh/E3EQov+A8
-Wg/+I0SyUQpi71oPpCBYek68iAu50GKUZW7dK67ZMc9RA0DBTxFA5uc7aSSFJtQSIuCZ/EQpFJml
-C7QXHsubugL2XGOrYEHTEmMCBEiv5Do1Rn0IgFcBjrs5BhaqYP3Gt/io8yR+TA8NQDYy1QIzR5aU
-mrv00bklvUF0i1TMtd+slbdUcnV92eHrTVD6WrKVAPXxyLJvSyQfu3lipPGFvtQAiOHpUieFPPzF
-ffJpWXUZic5zZvesXyEiCLx0gVBl75I6PX/2gesMZatLKGNHFtf9U3rwSoXCKxPMLgjEQEZru3Fl
-3jVASrvsp7/B2c7Wl3eNaLQixFP20NdhBGQhbF8WmMsW1xTCX3TEiFiq9lLq+S/nJUfv56u2blDQ
-4yxfPtlhk8CGBRceHLqmWlgI4hoodMTDT0gov7vvZFHFYmg5JYQpsPSjPAG2kv+3vRGRylU9mJmC
-L/m6tDfpDaGmfct6EN0qbFnYjs7WcYLuNpHUCiyEPNKMWZ6A//w6zGHjUj8i5ffzaDW17tUXP16l
-hlIyxQNT5huFWZ2yj+FOF0BDGT71EyKNu/8qp5HxDvG/KOqwzxvLt90tOpAPUciJO6TP/pB+bjbM
-bqvN9HjrWJHc1bAmbyJ5H3DC8gjnEw8LrAf8Jy6B8OTY0d5tRUCVYksHYBKSfMmCQ86n0xdibpTi
-qmE=
-=+rp9
------END PGP SIGNATURE-----
+> > > > > > > The vendor-code only used the MAX-constants for the uapi to get the
+> > > > > > > biggest size needed and then defines the real per-version maximums
+> > > > > > > inside the driver, see
+> > > > > > > https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R378
+> > > > > > >
+> > > > > > > and for the auto-exposure:
+> > > > > > > https://github.com/rockchip-linux/kernel/commit/2ff670508e8fdfefd67318e885effb8cee4a0f4c#diff-961dbaed00164098bb082b01d6c9446501cfcef808cf5a71bf18405067fb5426R265
+> > > > > > > >> Thanks for working on that, hope we could still fix this in 5.11,
+> > > > > > >>
+> > > > > > >> I don't have a rk3326/px30 hardware so I can't test your patches.
+> > > > > > >> Do you have a hardware to test it?
+> > > > > > >
+> > > > > > > Yep, I'm working on a px30-evb and thankfully the driver for the camera
+> > > > > > > on it is also already part of mainline.
+> > > > > > >
+> > > > > > >> I suggest that you send a patchset to the mailing list then I can
+> > > > > > >> review it and test it on rk3399. Unfortunately there is indeed no way
+> > > > > > >> to thoroughly test the params/stats since there is no userspace for that.
+> > > > > > >
+> > > > > > >  From looking at the currently newest version [0] it looks like these
+> > > > > > > new max values seem to have stayed the same, so one solution might be
+> > > > > > > to just make the uapi structures bigger to these new max values and
+> > > > > > > hope for the best?
+> > > > >
+> > > > > This is one option, the other option would be to make the array size
+> > > > > dynamic by turning them into pointers. That leads to additional
+> > > > > complications though, so given that the extra memory consumed for the
+> > > > > largest array is reasonable, simply increasing the array size may be the
+> > > > > best option. Do we expect other ISP versions in the future with
+> > > > > differences that would require other changes to the userspace API ? How
+> > > > > about v1 to v9 and v11, do they exist ?
+> > > >
+> > > > I do believe the version indication is v10 for v1.0 and so on.
+> > > >
+> > > > Looking at the vendor tree, I see versions:
+> > > >
+> > > > - V10: rk3288 + rk3399
+> > > > - V10_1: rk3368 (only supports MP streams - whatever these are)
+> > > > - V11: unused
+> > > > - V12: rk3326 / px30
+> > > > - V13: rk1808
+> > > > - V20: rk3568 and probably following
+> > > >
+> > > > gamma_out, hist_grid_size, ae_mean_max, hist_bin
+> > > > v10:  17, 28, 25, 16
+> > > > v12: 34, 81, 81, 32
+> > > > v13: same as v12
+> > >
+> > > Are v10 and v12 software versions introduced by rockchip, or is there a
+> > > version reported in the hardware registers ?
+> >
+> > The version designations are introduced by Rockchip - living in the
+> > dt-compatible-based match-data.
+> >
+> > Looking at the registers in the regs header, I sadly didn't see any
+> > version-registers - though V12 moved a number of registers arond
+> > and introduced new ones (for the data sources requiring these
+> > bigger arrays)
+> >
+> >
+> > > > Looking at the general change for V20 [0] it really looks like a big rework
+> > > > of the ISP block happenend with 100K of new register definitions and there
+> > > > are of course no chips nor boards on the market yet at all, so part of me
+> > > > would expect this to need a separate userspace when the time comes.
+> > >
+> > > Is it an evoluation of the IP core, or something completely different ?
+> > > It may even make sense to have a separate kernel driver.
+> >
+> > From my short glance it seems to share a lot of the basic parts for capture
+> > etc with small evolutions ... but the stats and params parts seem to have
+> > gotten a major evolution.
+> >
+> > I guess we'll cross that bridge after the chips are actually available ;-) .
+> > Rockchip pushed that code into their public repo only last week after all.
+> >
+> >
+> > Heiko
+> >
+> >
+> 
 
---fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq--
+
+
+
