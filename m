@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCCA32F4360
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 05:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 458162F4361
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 05:53:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbhAMEwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726429AbhAMEwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 12 Jan 2021 23:52:45 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:52431 "EHLO
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:37185 "EHLO
         wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726375AbhAMEwl (ORCPT
+        by vger.kernel.org with ESMTP id S1725842AbhAMEwl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 12 Jan 2021 23:52:41 -0500
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 172991A97;
+        by mailout.west.internal (Postfix) with ESMTP id 6CEA61A98;
         Tue, 12 Jan 2021 23:51:35 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 12 Jan 2021 23:51:35 -0500
+  by compute5.internal (MEProxy); Tue, 12 Jan 2021 23:51:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=ih9mGv1qM3ePD
-        xTUPxNck+dFubidDoXlLwxus9O0g8A=; b=ZH71xXh1CLDdwyw2g+diVyQEFEnj9
-        v+96qoK/uoSsIwx8EqPV4kPKWuuJfBiilBz1EZP9raxjI71QtV3I6bXfqu/6n/mP
-        QlI1PcKdVGuaofmQQyVud0c6Y3JR7vKx4vxk0XInfrOBgf5ubS5vcq/obz/2cuKU
-        xOa6+/sPPlq9tuirvunhIZgfWaXae0EvzAfRLcS4vfpydQ+NsL5RrFhHjV68Ru7s
-        Hpdjcgpn7unHb30CdOS/9J1F/1+AbcbcROn2S73y//nG/XqvwhChsoNFBc7mmGb/
-        yiO1KDElL/2ZtO/HOOlnRmzRs58U1pj5c0iEEddqnOtPklUeCnb/OB6Yw==
+        :mime-version:content-transfer-encoding; s=fm1; bh=ShOwykOk3rSnz
+        klCoW5PQa5WqRMT3Vxxh+HMfWymvtk=; b=HL2IFPwvUEd8MxkJj1jonsK6s7Y0C
+        fCNIfOgFo1yAiBEBnpoSOoG8J1trlQakrrlMn4lNSHsnGD5OR92Yn72fVnlGzx0T
+        M+cdi7YlkPorXwUTsqBOs9/Mv4E/OPdNICGsIPpdQGfrhxGCCld5/paQ45Mi5RuR
+        TRWCZ8VYjKHBEVN+HVXZPUijUDZSGRJg9TUeZ4EJA7pdbXDqTPzizmebuLyp5pKJ
+        59/k3vOJuvN9t24qlznFJCHHR+OCXDVcqBDSviABGsvdSOSpIvY+zGlJ5N0IcoTN
+        svXkslDzYfM9vdyGIk72ehB764r27seuoWgWiMe51MzhMeitr28z7kceg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=ih9mGv1qM3ePDxTUPxNck+dFubidDoXlLwxus9O0g8A=; b=pezWa+Os
-        jNq2Y3IaG7C5PDSmWbrsPDnOidB/tXhOF+UcWKwThP7UTKJht5TMXbcvbH588+Bq
-        pyEKkp5fLR9Bc3Bun0coJaK4jr6SJS/xVUvK0fJAtgRX3+rXRKXB1Lj6OnPOyRWr
-        RQxDmsYidXP/hLAMWLSuThFZtYSwR5wUCr8Ul/9OSqNG3iJGDaA8dKNoufM3hdIX
-        cSgIJUboDiNa+9Y2nlHAc9v8RGdLKJFSB3SzasPm9P/ae2J0dfJGr9Wl0jxWFTXh
-        ZLuh6ZNqmGPJR2D/QGNBVeAEa3K5XL/5ojpSNngdSSt/nxIuNoJ0u0DiBE5p5Sav
-        +UtXLIQLyEBBuw==
-X-ME-Sender: <xms:Vnz-X_h8DzxloHXn6F7GyEMetiut8FUEjlSA-pg3mKUxDyrOBus8Tg>
-    <xme:Vnz-X8AhdQnoXmzhnblll9bwSLIFGJwBgls7kgI4Yc-6wR6NCRO4wCXcfXBWjoG9T
-    w79NhZ-ZPSGngIdXQ>
+        fm1; bh=ShOwykOk3rSnzklCoW5PQa5WqRMT3Vxxh+HMfWymvtk=; b=YFDkxPoo
+        TmIrELCm4qonBUPoRI+TWhkWCpNYOZf/+bEpgXWKVRbvR3tA4S8FQ/98CrKkVFx8
+        PFPeotEGPFF1SSVuB4HufwfsdOCgFQBM3P2tL0nCsR+6Ffpgkcgw7qXkqcEa8nts
+        UIk09V+7EnGK0QaVt8guDTzyOyrRnnl2HpLQe/6cWO6cPC/vFbRLs5iN/NeOl4U2
+        R4LrXgkkZ5YRVBnQbv2wvB4nK7+fkq0Txbv0EdkrwI1iM4nn/dsTCRpJL9DUlf36
+        Spxto74LOp0fTHbt9kOZaJomZBZClr13hfRIJYc6wj5CmE8LRTCJIZLZG2QTd9H+
+        +qPAhgxieHVX0g==
+X-ME-Sender: <xms:Vnz-X8AHriibEptU0zYPO6pmVAJ-_OsENVsCeh39JxNu6UU0zg6z1w>
+    <xme:Vnz-X-joBZrwr8VT4jq2Y7LGFRaxHAFdZMQH9z8a7s4LXTUP9i8CQqOzIHfDQICkg
+    AnMEJ_3MyAWTTw-Cg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdejkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -49,12 +49,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdejkecutefuodetggdote
     jeehueeinecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghrufhiii
     gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
     rdhorhhg
-X-ME-Proxy: <xmx:Vnz-X_E2ktfnc79LLkAO796pDK2-REkCkG7_jbWDrcF6Z2JU07wUuA>
-    <xmx:Vnz-X8RWrQ_2GX-hcdNmfmQ35FYBTyrW3hbV2MalnP65cGMbwBYmVw>
-    <xmx:Vnz-X8zNtZmXVCuSxIJXzdLo7UODurNjL7aF4SKDcnUh9YTEBTdeeg>
-    <xmx:Vnz-XzkQtqrr9C4KExEjsPmjwF3yeOIOeYZrYyMf3xjHG3eGm_VFFw>
+X-ME-Proxy: <xmx:Vnz-X_nyBMH9CNbV3o7fe6GW9QjqR4sXq5LkV0CclI40XyJn3S9bKA>
+    <xmx:Vnz-XyyW1tHh6HMSJ_N3mq42TlMxCGDU7Gd1htzDtywVHxFltjMOyA>
+    <xmx:Vnz-XxQ9HfgPFRqaZ8Qu61CwqAaldaB4m7tA3fCnW8RwwCpSZgc56Q>
+    <xmx:V3z-XwHdrN4w_o9mw_I8-mwB3xdrJP8_LyOtE64RhGoaqVto1XQZdA>
 Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1975824005B;
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7BB4C240065;
         Tue, 12 Jan 2021 23:51:34 -0500 (EST)
 From:   Samuel Holland <samuel@sholland.org>
 To:     Sean Young <sean@mess.org>,
@@ -64,9 +64,9 @@ To:     Sean Young <sean@mess.org>,
         Jernej Skrabec <jernej.skrabec@siol.net>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-sunxi@googlegroups.com, Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 3/4] media: sunxi-cir: Factor out hardware initialization
-Date:   Tue, 12 Jan 2021 22:51:31 -0600
-Message-Id: <20210113045132.31430-4-samuel@sholland.org>
+Subject: [PATCH 4/4] media: sunxi-cir: Implement suspend/resume/shutdown callbacks
+Date:   Tue, 12 Jan 2021 22:51:32 -0600
+Message-Id: <20210113045132.31430-5-samuel@sholland.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210113045132.31430-1-samuel@sholland.org>
 References: <20210113045132.31430-1-samuel@sholland.org>
@@ -76,214 +76,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In preparation for adding suspend/resume hooks, factor out the hardware
-initialization from the driver probe/remove functions.
-
-The timeout programmed during init is taken from the `struct rc_dev` so
-it is maintained across an exit/init cycle.
-
-This resolves some trivial issues with the probe function: throwing away
-the error from clk_prepare_enable and using the wrong type for the
-temporary register value.
+To save power, gate/reset the hardware block while the system is
+asleep or powered off.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
- drivers/media/rc/sunxi-cir.c | 128 ++++++++++++++++++++---------------
- 1 file changed, 74 insertions(+), 54 deletions(-)
+ drivers/media/rc/sunxi-cir.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-index 48be400421cd..ccb9d6b4225d 100644
+index ccb9d6b4225d..a0bdbf6f66c9 100644
 --- a/drivers/media/rc/sunxi-cir.c
 +++ b/drivers/media/rc/sunxi-cir.c
-@@ -169,10 +169,74 @@ static int sunxi_ir_set_timeout(struct rc_dev *rc_dev, unsigned int timeout)
- 	return 0;
+@@ -234,6 +234,20 @@ static void sunxi_ir_hw_exit(struct device *dev)
+ 	reset_control_assert(ir->rst);
  }
  
-+static int sunxi_ir_hw_init(struct device *dev)
++static int __maybe_unused sunxi_ir_suspend(struct device *dev)
 +{
-+	struct sunxi_ir *ir = dev_get_drvdata(dev);
-+	u32 tmp;
-+	int ret;
-+
-+	ret = reset_control_deassert(ir->rst);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(ir->apb_clk);
-+	if (ret) {
-+		dev_err(dev, "failed to enable apb clk\n");
-+		goto exit_assert_reset;
-+	}
-+
-+	ret = clk_prepare_enable(ir->clk);
-+	if (ret) {
-+		dev_err(dev, "failed to enable ir clk\n");
-+		goto exit_disable_apb_clk;
-+	}
-+
-+	/* Enable CIR Mode */
-+	writel(REG_CTL_MD, ir->base + SUNXI_IR_CTL_REG);
-+
-+	/* Set noise threshold and idle threshold */
-+	sunxi_ir_set_timeout(ir->rc, ir->rc->timeout);
-+
-+	/* Invert Input Signal */
-+	writel(REG_RXCTL_RPPI, ir->base + SUNXI_IR_RXCTL_REG);
-+
-+	/* Clear All Rx Interrupt Status */
-+	writel(REG_RXSTA_CLEARALL, ir->base + SUNXI_IR_RXSTA_REG);
-+
-+	/*
-+	 * Enable IRQ on overflow, packet end, FIFO available with trigger
-+	 * level
-+	 */
-+	writel(REG_RXINT_ROI_EN | REG_RXINT_RPEI_EN |
-+	       REG_RXINT_RAI_EN | REG_RXINT_RAL(ir->fifo_size / 2 - 1),
-+	       ir->base + SUNXI_IR_RXINT_REG);
-+
-+	/* Enable IR Module */
-+	tmp = readl(ir->base + SUNXI_IR_CTL_REG);
-+	writel(tmp | REG_CTL_GEN | REG_CTL_RXEN, ir->base + SUNXI_IR_CTL_REG);
++	sunxi_ir_hw_exit(dev);
 +
 +	return 0;
-+
-+exit_disable_apb_clk:
-+	clk_disable_unprepare(ir->apb_clk);
-+exit_assert_reset:
-+	reset_control_assert(ir->rst);
-+
-+	return ret;
 +}
 +
-+static void sunxi_ir_hw_exit(struct device *dev)
++static int __maybe_unused sunxi_ir_resume(struct device *dev)
 +{
-+	struct sunxi_ir *ir = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(ir->clk);
-+	clk_disable_unprepare(ir->apb_clk);
-+	reset_control_assert(ir->rst);
++	return sunxi_ir_hw_init(dev);
 +}
++
++static SIMPLE_DEV_PM_OPS(sunxi_ir_pm_ops, sunxi_ir_suspend, sunxi_ir_resume);
 +
  static int sunxi_ir_probe(struct platform_device *pdev)
  {
  	int ret = 0;
--	unsigned long tmp = 0;
- 
- 	struct device *dev = &pdev->dev;
- 	struct device_node *dn = dev->of_node;
-@@ -213,43 +277,26 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 		ir->rst = devm_reset_control_get_exclusive(dev, NULL);
- 		if (IS_ERR(ir->rst))
- 			return PTR_ERR(ir->rst);
--		ret = reset_control_deassert(ir->rst);
--		if (ret)
--			return ret;
- 	}
- 
- 	ret = clk_set_rate(ir->clk, b_clk_freq);
- 	if (ret) {
- 		dev_err(dev, "set ir base clock failed!\n");
--		goto exit_reset_assert;
-+		return ret;
- 	}
- 	dev_dbg(dev, "set base clock frequency to %d Hz.\n", b_clk_freq);
- 
--	if (clk_prepare_enable(ir->apb_clk)) {
--		dev_err(dev, "try to enable apb_ir_clk failed\n");
--		ret = -EINVAL;
--		goto exit_reset_assert;
--	}
--
--	if (clk_prepare_enable(ir->clk)) {
--		dev_err(dev, "try to enable ir_clk failed\n");
--		ret = -EINVAL;
--		goto exit_clkdisable_apb_clk;
--	}
--
- 	/* IO */
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	ir->base = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(ir->base)) {
--		ret = PTR_ERR(ir->base);
--		goto exit_clkdisable_clk;
-+		return PTR_ERR(ir->base);
- 	}
- 
- 	ir->rc = rc_allocate_device(RC_DRIVER_IR_RAW);
- 	if (!ir->rc) {
- 		dev_err(dev, "failed to allocate device\n");
--		ret = -ENOMEM;
--		goto exit_clkdisable_clk;
-+		return -ENOMEM;
- 	}
- 
- 	ir->rc->priv = ir;
-@@ -265,6 +312,7 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
- 	/* Frequency after IR internal divider with sample period in us */
- 	ir->rc->rx_resolution = (USEC_PER_SEC / (b_clk_freq / 64));
-+	ir->rc->timeout = IR_DEFAULT_TIMEOUT;
- 	ir->rc->min_timeout = sunxi_ithr_to_usec(b_clk_freq, 0);
- 	ir->rc->max_timeout = sunxi_ithr_to_usec(b_clk_freq, 255);
- 	ir->rc->s_timeout = sunxi_ir_set_timeout;
-@@ -291,41 +339,15 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 		goto exit_free_dev;
- 	}
- 
--	/* Enable CIR Mode */
--	writel(REG_CTL_MD, ir->base+SUNXI_IR_CTL_REG);
--
--	/* Set noise threshold and idle threshold */
--	sunxi_ir_set_timeout(ir->rc, IR_DEFAULT_TIMEOUT);
--
--	/* Invert Input Signal */
--	writel(REG_RXCTL_RPPI, ir->base + SUNXI_IR_RXCTL_REG);
--
--	/* Clear All Rx Interrupt Status */
--	writel(REG_RXSTA_CLEARALL, ir->base + SUNXI_IR_RXSTA_REG);
--
--	/*
--	 * Enable IRQ on overflow, packet end, FIFO available with trigger
--	 * level
--	 */
--	writel(REG_RXINT_ROI_EN | REG_RXINT_RPEI_EN |
--	       REG_RXINT_RAI_EN | REG_RXINT_RAL(ir->fifo_size / 2 - 1),
--	       ir->base + SUNXI_IR_RXINT_REG);
--
--	/* Enable IR Module */
--	tmp = readl(ir->base + SUNXI_IR_CTL_REG);
--	writel(tmp | REG_CTL_GEN | REG_CTL_RXEN, ir->base + SUNXI_IR_CTL_REG);
-+	ret = sunxi_ir_hw_init(dev);
-+	if (ret)
-+		goto exit_free_dev;
- 
- 	dev_info(dev, "initialized sunXi IR driver\n");
+@@ -362,6 +376,11 @@ static int sunxi_ir_remove(struct platform_device *pdev)
  	return 0;
- 
- exit_free_dev:
- 	rc_free_device(ir->rc);
--exit_clkdisable_clk:
--	clk_disable_unprepare(ir->clk);
--exit_clkdisable_apb_clk:
--	clk_disable_unprepare(ir->apb_clk);
--exit_reset_assert:
--	reset_control_assert(ir->rst);
- 
- 	return ret;
  }
-@@ -334,11 +356,9 @@ static int sunxi_ir_remove(struct platform_device *pdev)
- {
- 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
  
--	clk_disable_unprepare(ir->clk);
--	clk_disable_unprepare(ir->apb_clk);
--	reset_control_assert(ir->rst);
--
++static void sunxi_ir_shutdown(struct platform_device *pdev)
++{
 +	sunxi_ir_hw_exit(&pdev->dev);
- 	rc_unregister_device(ir->rc);
++}
 +
- 	return 0;
- }
+ static const struct sunxi_ir_quirks sun4i_a10_ir_quirks = {
+ 	.has_reset = false,
+ 	.fifo_size = 16,
+@@ -397,9 +416,11 @@ MODULE_DEVICE_TABLE(of, sunxi_ir_match);
+ static struct platform_driver sunxi_ir_driver = {
+ 	.probe          = sunxi_ir_probe,
+ 	.remove         = sunxi_ir_remove,
++	.shutdown       = sunxi_ir_shutdown,
+ 	.driver = {
+ 		.name = SUNXI_IR_DEV,
+ 		.of_match_table = sunxi_ir_match,
++		.pm = &sunxi_ir_pm_ops,
+ 	},
+ };
  
 -- 
 2.26.2
