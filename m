@@ -2,112 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C72102F4A8A
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 12:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D343C2F4B0C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 13:14:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727009AbhAMLop (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 06:44:45 -0500
-Received: from mga06.intel.com ([134.134.136.31]:46382 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725809AbhAMLop (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 06:44:45 -0500
-IronPort-SDR: zC01mtUVWzx73an9c/JECTfkjAKfH8ThYl9ijoadwQ+FDbomASpLtAVtBRMRXdDqmpIpxsQ4iq
- dXCkfHXB28gg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="239730876"
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
-   d="scan'208";a="239730876"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2021 03:42:58 -0800
-IronPort-SDR: 3j4F2y6/OhnLLUOBPzJpyD0dxEd60lDhOHaARqoH8x51OwEvrtKe6yicEftyL/Mx02PchFGn6g
- Bj1OUHfslcFA==
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
-   d="scan'208";a="404798865"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2021 03:42:52 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 4AD23207BF; Wed, 13 Jan 2021 13:42:50 +0200 (EET)
-Date:   Wed, 13 Jan 2021 13:42:50 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        yong.zhi@intel.com, Bingbu Cao <bingbu.cao@intel.com>,
-        tian.shu.qiu@intel.com, Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        hverkuil-cisco@xs4all.nl, m.felsch@pengutronix.de,
-        Niklas Soderlund <niklas.soderlund+renesas@ragnatech.se>,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH v5 00/15] Add functionality to ipu3-cio2 driver allowing
- software_node connections to sensors on platforms designed for Windows
-Message-ID: <20210113114250.GH11878@paasikivi.fi.intel.com>
-References: <20210107132838.396641-1-djrscally@gmail.com>
- <CAJZ5v0gb9c-kWM4aAKm6UqbVKt7dyp6xJS5E=7yoPRnPP+msbw@mail.gmail.com>
- <9c451747-410e-3c99-c1a5-87336b71aa7b@gmail.com>
+        id S1727296AbhAMMMD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 07:12:03 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45493 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727062AbhAMMMC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 07:12:02 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id zezckLzZ0VfyLzezfktJvB; Wed, 13 Jan 2021 13:11:20 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1610539880; bh=Eyuz39YgzNPFa82TqC/9wp9lrmUhTMdbwj81g67iPHM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=OD2iIBA7j2LjCHdnNvEYBzWBGSliP5DiGPX2d7PqWSgaehGXZfm57eLYWRFCJRUK4
+         gc/MuIdDY5AXXkOXf2RvuvZL9itzSJmTuopEycmuLgDjYIgIoZgE/RzCrYNyaoFHQN
+         4cgdW4+VaTU9Hna2VULi42nqL+voS59w+sYdgTu+k4jjaHORQYCWbqBZmgjarvCdjO
+         lOmK3WktuD1FyKIVYdN0Ev4ArSmEf8o+w7A/5ulaEespYlkpFCdcwcoin6CctS8lna
+         WJRiXHsXvUwAm06n2bIVNf4h8G9Cy5L4BMZ+CCF8WHlZCigkXx7aU1PLzgb1cACbir
+         cT9CBgldvizNw==
+Subject: Re: [PATCH 2/2] media: imx7: csi: Fix pad link validation
+To:     Rui Miguel Silva <rui.silva@linaro.org>,
+        sakari.ailus@linux.intel.com
+Cc:     linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+        =?UTF-8?Q?S=c3=a9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+References: <20210107104726.1294538-1-rmfrfs@gmail.com>
+ <20210107104726.1294538-3-rmfrfs@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <54f32ef2-3dbd-48b7-9b74-d6e5a6be3614@xs4all.nl>
+Date:   Wed, 13 Jan 2021 13:11:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c451747-410e-3c99-c1a5-87336b71aa7b@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210107104726.1294538-3-rmfrfs@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfEXPCi1pifRop4x16WoOZ6HR1cvYIZkB6G1V13mHh7JYgcS88SAqrBlKkLQrIzElM3kHMSKoP013KY5wZZnWjIjUQjS0EabYnz0cG7NdscZ5XLjbC1Hk
+ KnVBBR/+EGMZwkcX8qO/3KT6Vvy/NswsovhHbteGYZOiuUVktVXje7Teq+XMzPA1SqOAc03okCdguOrQmC9N/OZyitUvjPSmBpg73OVNqvH57DyRR3ZNhQUd
+ cN8P4Ks11ms2Ua+1DXDcy5Cl+/ue+FQYC+vChYTpSIiWhM70HSq/at4STSYFfDSp+gDznEFSBVCvT4RXhoK1TeMatkEnrBNfjsej76HjRsbaqV+cNS/hBSJd
+ dNCEjX9J8ULVxy0ZN0//fl7ojpO7wg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+On 07/01/2021 11:47, Rui Miguel Silva wrote:
+> We can not make the assumption that the bound subdev is always a CSI
+> mux, in i.MX6UL/i.MX6ULL that is not the case. So, just get the entity
+> selected by source directly upstream from the CSI.
 
-On Tue, Jan 12, 2021 at 11:35:37PM +0000, Daniel Scally wrote:
-> Hi Rafael, Sakari
-> 
-> On 12/01/2021 19:34, Rafael J. Wysocki wrote:
-> > <snip>
-> >> I'm hopeful that most or all of this series could get picked up for 5.12.
-> >> We touch a few different areas (listed below), but I think the easiest
-> >> approach would be to merge everything through media tree. Rafael, Greg,
-> >> Mauro and Sergey; are you ok with that plan, or would you prefer a
-> >> different approach? Mauro; if that plan is ok (and of course assuming that
-> >> the rest of the patches are acked by their respective maintainers) could
-> >> we get a dedicated feature branch just in case the following series ends
-> >> up being ready in time too?
-> >>
-> >> <snip>
-> > Please feel free to add
-> >
-> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > to all of the device properties patches in this series if that helps.
-> >
-> > Thanks!
-> 
-> Thanks very much (and Greg too).
-> 
-> 
-> Sakari; unless I'm misunderstanding something, I think this series could
-> be picked up now, right? Would it be ok to do that through your tree? I
-> think the idea of a dedicated feature branch can be dropped, I won't
-> have the second series ready in time for this round anyway.
-> 
-> 
-> First time doing this, so if I've missed something please let me know!
+scripts/checkpatch.pl --strict:
 
-I think it's ready, indeed. I'll let you know if there are any issues.
+WARNING: From:/Signed-off-by: email address mismatch: 'From: Rui Miguel Silva <rui.silva@linaro.org>' != 'Signed-off-by: Rui Miguel Silva
+<rmfrfs@gmail.com>'
 
--- 
-Kind regards,
+I can fix this if you let me know which email address I should pick.
 
-Sakari Ailus
+Regards,
+
+	Hans
+
+> 
+> Fixes: 86e02d07871c ("media: imx5/6/7: csi: Mark a bound video mux as a CSI mux")
+> Reported-by: Fabio Estevam <festevam@gmail.com>
+> Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> Tested-by: Fabio Estevam <festevam@gmail.com>
+> Tested-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
+> ---
+>  drivers/staging/media/imx/imx7-media-csi.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> index 31e36168f9d0..ac52b1daf991 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -499,6 +499,7 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
+>  				      struct v4l2_subdev_format *sink_fmt)
+>  {
+>  	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
+> +	struct media_entity *src;
+>  	struct media_pad *pad;
+>  	int ret;
+>  
+> @@ -509,11 +510,21 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
+>  	if (!csi->src_sd)
+>  		return -EPIPE;
+>  
+> +	src = &csi->src_sd->entity;
+> +
+> +	/*
+> +	 * if the source is neither a CSI MUX or CSI-2 get the one directly
+> +	 * upstream from this CSI
+> +	 */
+> +	if (src->function != MEDIA_ENT_F_VID_IF_BRIDGE &&
+> +	    src->function != MEDIA_ENT_F_VID_MUX)
+> +		src = &csi->sd.entity;
+> +
+>  	/*
+> -	 * find the entity that is selected by the CSI mux. This is needed
+> +	 * find the entity that is selected by the source. This is needed
+>  	 * to distinguish between a parallel or CSI-2 pipeline.
+>  	 */
+> -	pad = imx_media_pipeline_pad(&csi->src_sd->entity, 0, 0, true);
+> +	pad = imx_media_pipeline_pad(src, 0, 0, true);
+>  	if (!pad)
+>  		return -ENODEV;
+>  
+> 
+
