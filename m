@@ -2,76 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9E9D2F4F19
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 16:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEFE32F4F66
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 17:02:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbhAMPqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 10:46:33 -0500
-Received: from gofer.mess.org ([88.97.38.141]:40821 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725773AbhAMPqc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 10:46:32 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id F0F2BC6378; Wed, 13 Jan 2021 15:45:50 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1610552751; bh=EvjBZGXjfDkQfDSWeQsfJ27FWEt2Eqt87BZKRuX0kp4=;
-        h=Date:From:To:Subject:From;
-        b=KVqj1TL8v3IzD6l5fdsKYtVpERTtyGmtaWDVhGUxJw8aUE8RG7JufRZFBnpm12CHR
-         EguV3DdQbgkhwTW1qYkxa0iI4/1xsHMybHKDDvOiBJSsMIFt/NMywMq0BfxO83+gSl
-         UaROJl89EVRh2Nma2tHiNgLVNze8tzCtaHCAxItzFXyuQRQuPdDFnmKRcsswI26fef
-         m4qeaI0b3OitDWrfZu7QpHR0FWsPEVU7CEIlA+XVREsosxHhsGcGBRoFxifXif9Z8f
-         zJfFn3ZK1SaCggErOU7m/ckds3SyYnw8lOlWOy6VTpeeFakEZIYuIx31kstndbmDFY
-         CFOruieG8HMZg==
-Date:   Wed, 13 Jan 2021 15:45:50 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.12] Minor rc/dvb updates
-Message-ID: <20210113154550.GA9374@gofer.mess.org>
+        id S1727262AbhAMQBo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 11:01:44 -0500
+Received: from mail-wr1-f41.google.com ([209.85.221.41]:45071 "EHLO
+        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727245AbhAMQBn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 11:01:43 -0500
+Received: by mail-wr1-f41.google.com with SMTP id d26so2647134wrb.12
+        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 08:01:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=ZBJxpfOADLb8A12PWXpl/ehU7Uw7s9SAxEOG6FOEIwg=;
+        b=o2dVM0qRcuKgBkvWbvecrEhIDFG55qUtH+0SzpsVjwVhfxeikJJVP2LAllEeC9B6Z4
+         LmgZsdQlp6B9ENxHVpl9qVszb67aSAWAPGxQoHzLLz80RIgZA6xkd7LwluQs2Q98d5Ia
+         asMyealxtFClHq+zndIbOxkjtH9JsvrZzhAQlYogfR65iu0H485+AyR99iiNr3PmWFgf
+         jBqEPmrTAbXJq4DCMG1Tr49p8knuwZETxZnlO5yxZZ9R5tExGn6efEvXRpPWJci7I+LE
+         bhUqdUzigyy1Jj57HeiBwdVrZRqO5BbG7pRE85MQV7//vU//5WG77hGSV+NshrtAy574
+         QdHg==
+X-Gm-Message-State: AOAM533OXZKw7LyrGNgMueNnxEygvgnP20rbGmg71+ooxtJp0XSY9au/
+        VJ5qFz3aVUegVK8vowE35sY=
+X-Google-Smtp-Source: ABdhPJwIJjsah7vfo9ok6CUBNmz7craRDuPv1LsGpkNanMUW22zCh+mR1su5atUp8xuY6WDNXKYCQw==
+X-Received: by 2002:adf:e552:: with SMTP id z18mr3454024wrm.29.1610553661846;
+        Wed, 13 Jan 2021 08:01:01 -0800 (PST)
+Received: from localhost ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id h9sm3689739wre.24.2021.01.13.08.01.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 08:01:00 -0800 (PST)
+Message-ID: <171da21a611570261d96c9d1a65143fae3733b5c.camel@debian.org>
+Subject: Re: [PATCH v4l-utils] Build with libbpf, remove local sources
+From:   Luca Boccassi <bluca@debian.org>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
+Date:   Wed, 13 Jan 2021 16:00:59 +0000
+In-Reply-To: <20210113153058.GB8867@gofer.mess.org>
+References: <20210108233608.285497-1-bluca@debian.org>
+         <20210113153058.GB8867@gofer.mess.org>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+        protocol="application/pgp-signature"; boundary="=-r0+Cqp17260jTeHj8C5d"
+User-Agent: Evolution 3.30.5-1.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
 
-Some very minor patches. Note that the ir_toy patch depends on a usb cdc
-patch which Greg KH has already merged to trees, including a bunch of stable
-trees. Hence the `Cc: stable@vger.kernel.org`.
+--=-r0+Cqp17260jTeHj8C5d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
+On Wed, 2021-01-13 at 15:30 +0000, Sean Young wrote:
+> On Fri, Jan 08, 2021 at 11:36:08PM +0000, Luca Boccassi wrote:
+> > libbpf is nowadays widely available in all distros that enable BPF,
+> > and it is a standalone library with a release cycle and a stable API.
+> > Remove the old sync of bpf.c/bpf.h and check for the library via
+> > pkg-config and use it instead.
+> > Only a minor modification is needed to make it compile.
+> >=20
+> > Signed-off-by: Luca Boccassi <bluca@debian.org>
+>=20
+> Very nice, thank you very much! Yes, it was about time the old pre-libbpf
+> files were replaced.
+>=20
+> > ---
+> > NOTE: unfortunately I do not have IR capable hardware to use with Linux=
+,
+> > so I could only build-test this.
+>=20
+> I've tested it and it works fine. You would be able to test with rc-loopb=
+ack,
+> but never mind.
+>=20
+> Patch applied.
+>=20
+> Thanks again!
+>=20
+> Sean
 
-Sean
+Oh didn't know about rc-loopback (I really know nothing about the media
+subsystems), will keep it in mind if there's a next time - thanks for
+the tip, for testing and for merging.
 
-The following changes since commit 7371093f983d35d60a7fac3a6f082de7fefe3648:
+--=20
+Kind regards,
+Luca Boccassi
 
-  media: venus: helpers: Wire up hfi platform buffer requirements (2021-01-13 09:20:55 +0100)
+--=-r0+Cqp17260jTeHj8C5d
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-are available in the Git repository at:
+-----BEGIN PGP SIGNATURE-----
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.12a
+iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAl//GTsACgkQSylmgFB4
+UWL82Qf/a2GJ0FuWnNhzGmuROSqctQwdg3lUuxlTE49RIqMPmV3tn+Mi3kx885Cy
+yHdvHm++/76B75UXNPqJUxT0SKXj8Jla298YAnqCJ6ahd0HuvBNF5EC+qfP0jTTZ
+p8N4TtMoMekE+M6/th0EuCH/xF9RmRY/UIaA7jEG19d4lXIX999wuUD1saHEIGew
+pNxAE/cnQ6L/sHCYbX7oMxYIuK0/CQk+CGOcpgryi+l15YClB8DFFaN/GFvR9cU9
+1Ca9nVqqbUVB00jdB50kckMYIWheIp/gu24cD18ElmO8jIZhIHH3A+4/f3ztD5pE
+P27VdGKeMLLKkA1cJkvVrb+AuBFW8g==
+=nlx2
+-----END PGP SIGNATURE-----
 
-for you to fetch changes up to 7d340fa38016df2a100231dd6c2aab69b3b0b1f3:
-
-  media: cxd2841er: use DIV_ROUND_UP to calculate timeout (2021-01-13 14:55:58 +0000)
-
-----------------------------------------------------------------
-v5.12a
-
-----------------------------------------------------------------
-James Reynolds (1):
-      media: mceusb: Fix potential out-of-bounds shift
-
-Sean Young (1):
-      media: ir_toy: add another IR Droid device
-
-Zheng Yongjun (1):
-      media: cxd2841er: use DIV_ROUND_UP to calculate timeout
-
- drivers/media/dvb-frontends/cxd2841er.c | 2 +-
- drivers/media/rc/ir_toy.c               | 1 +
- drivers/media/rc/mceusb.c               | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
-
+--=-r0+Cqp17260jTeHj8C5d--
