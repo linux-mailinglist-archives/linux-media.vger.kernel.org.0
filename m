@@ -2,99 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15AD72F5042
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 17:45:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0EFB2F504D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 17:47:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbhAMQnY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 11:43:24 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:42915 "EHLO
+        id S1727599AbhAMQpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 11:45:45 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:53537 "EHLO
         lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725801AbhAMQnW (ORCPT
+        by vger.kernel.org with ESMTP id S1727533AbhAMQpo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 11:43:22 -0500
+        Wed, 13 Jan 2021 11:45:44 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id zjECkKK0fAiIczjEFkeILe; Wed, 13 Jan 2021 17:42:39 +0100
+        id zjGVkKKlBAiIczjGYkeIiH; Wed, 13 Jan 2021 17:45:02 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610556159; bh=QjptJiNz86mdClYrClXx1IRfzUIRd4GB9Y2otxlFmJQ=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1610556302; bh=OGsVjFozKqnOMVXft0rDgO45msjbJ73GWAviZyXZlbA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=cMoFURYpxos2C17ws4LnmpfZBhDsNyTUXm9Xkv5gbknXIGByUoKqvpwo/PKFoHoWW
-         gdCJKi+wB15LkGSmW+51iTv6DdQFZwLl1WaEiuBdEo4q7nFzCvYfH1udwV+xDnhaFe
-         ttMd/sLsMCccLMj7tlNKpSG/eNGxrITeZsX1gh8aBpDpH4vcywx9l9+LFuEsnPbWZ/
-         eRR2lfBMi6en8+xxjVZSNVbfNzdwz748VLCe8yuGBChDTctgnppLHtW2iD6kZhfwT2
-         vAxRRr8+Qbdm+3R9r8RQTxKDBNbHnfOt5N0MzicIgM0NDwdzaB5KHKyeDv1dfrYE6P
-         fGT6Y5Rg1Y4vA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dikshita Agarwal <dikshita@codeaurora.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.12] Various fixes/enhancements
-Message-ID: <38f99047-2ecf-ab1b-630e-6cf1853f548f@xs4all.nl>
-Date:   Wed, 13 Jan 2021 17:42:36 +0100
+        b=KJbxeHXUAbY0kec1Ai+ooACscx2Izhyti4/Xk0WUExd5Opjj3UgfYFLffZ4IJtQR5
+         5VnUz9pJHHDCtKhnZxE2FzkqhNX10Bxcc1uvMpKVpAPsbwOTmJH4cXCyrudePXHuhX
+         pPe//GpSONFHcPeiUIB7ugUXlFmYDtzRhdA7e/DExVJpfynX/Gk9OCVoN8xGsG6Jly
+         XbVvjFGBSGqc4AYprodsPaZVpvaHwXbAbYBvxX+dan6TTcvbdfzU5C/cPUZdEpRUvF
+         phn+y2gGD8yi1iiYahSivGncRx3JX3jz1yvAyFngMf41U62my8g4qcY+vdZenK4GZ0
+         YvwfQSo1V4YXw==
+Subject: Re: [PATCH v4 0/2] Add base layer priority id control
+To:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+References: <1609738914-22769-1-git-send-email-dikshita@codeaurora.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <ef05e9fe-355d-43d5-7b14-9ea89cfef907@xs4all.nl>
+Date:   Wed, 13 Jan 2021 17:44:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <1609738914-22769-1-git-send-email-dikshita@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfH3o1j0pLZEBDHvppLm4Gm3uGa5Rn1bn6rzcJe55plpbMSwnqmEWG+iakT0a9Q5lYXBqPnfX2gT2k3NC9nfyf1JsyI0nAUHXlaYb/CXG5ACaDQYnomF6
- RFlCyJcK5K+MUjkdbtrYpUOF/99fbYexb+ZIVZZDPjWXk0tQG0I+DanK8A6RSHwUr66s/4P+e3yu3geaYs0SOYQRT/OhUkyrZi3WV9fFdl3wIBrw30lMG+9K
+X-CMAE-Envelope: MS4xfGTHDsmIdoz91f7BiWTfdovwEmXJNMyRw6fE2w6PfzFdkyFbYSsUT2bc0W8vQigim8mZQbOS3ZD+85fvNbIGK4uVGFaxrYYaG8FU6b+/xnbbtOn+0e+I
+ 3woEV5DguH/+Ka16szyqqiBoLEGVHflPr+2YtrDS4/b/XpaQ9KewEENQ+fB3O8nmuIE/vYPcOy+E8f9HCrJ69N8LHWSYgs+MQ7nWYv8I6ZEHBTfYdjpfuWr+
+ 9oqYtK4QRFirh/2Ff08Ru9vF3ah2tbdp/SrkGIfmC7WupkoNPK/Ttxt/vCvglF9I8jERETwFpufwvaCkrNddxsoYMDNdlAWmDfO5DaJ++6U2FvdGV0tZQ/KM
+ Z0KRGBA7l+7HIjO7N/XyhDOYS7pWD+ZgZ3SIrkGkz+opCEI5Ct0=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 7371093f983d35d60a7fac3a6f082de7fefe3648:
+Hi Dikshita,
 
-  media: venus: helpers: Wire up hfi platform buffer requirements (2021-01-13 09:20:55 +0100)
+On 04/01/2021 06:41, Dikshita Agarwal wrote:
+> This series adds base layer priority id control for encoder
+> and support for the same in venus driver.
 
-are available in the Git repository at:
+Posted a pull request for this series and the "Add new controls for QP and
+layer bitrate" series.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.12b
+Note that because the "Add encoder ctrls for long term reference" is not
+merged, the control ID for V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID changed
+and that you need to rebase the "Add encoder ctrls for long term reference"
+series accordingly.
 
-for you to fetch changes up to 7ea861cead04c80a27f41f0aeab65541b682d378:
+Regards,
 
-  media: atomisp: convert comma to semicolon (2021-01-13 17:14:32 +0100)
+	Hans
 
-----------------------------------------------------------------
-Tag branch
+> 
+> Changes since v3:
+> - Rebased the changes on latest media tree.
+> - Addressed the comments.
+> - Added driver side implementation for new control.
+> 
+> Dikshita Agarwal (2):
+>   media: v4l2-ctrl: Add base layer priority id control.
+>   venus: venc : Add support for priority ID control.
+> 
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 9 +++++++++
+>  drivers/media/platform/qcom/venus/core.h                  | 2 ++
+>  drivers/media/platform/qcom/venus/venc_ctrls.c            | 9 ++++++++-
+>  drivers/media/v4l2-core/v4l2-ctrls.c                      | 1 +
+>  include/uapi/linux/v4l2-controls.h                        | 1 +
+>  5 files changed, 21 insertions(+), 1 deletion(-)
+> 
 
-----------------------------------------------------------------
-Dikshita Agarwal (5):
-      media: v4l2-ctrl: Add frame-specific min/max qp controls for hevc
-      media: v4l2-ctrl: Add layer wise bitrate controls for h264
-      venus: venc: Add support for frame-specific min/max qp controls
-      media: v4l2-ctrl: Add base layer priority id control.
-      venus: venc : Add support for priority ID control.
-
-Fabio Estevam (1):
-      media: imx7: csi: Fix regression for parallel cameras on i.MX6UL
-
-Rui Miguel Silva (1):
-      media: imx7: csi: Fix pad link validation
-
-Sakari Ailus (1):
-      ccs: Make (non-)use of uninitialised variables more robust
-
-Tomi Valkeinen (1):
-      media: ti-vpe: cal: fix write to unallocated memory
-
-Zheng Yongjun (2):
-      media: zoran: convert comma to semicolon
-      media: atomisp: convert comma to semicolon
-
-Zou Wei (1):
-      media: ti-vpe: cal: Mark cal_camerarx_media_ops with static keyword
-
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst |  81 +++++++++++++++++++++++++++-
- drivers/media/i2c/ccs/ccs-data.c                          |  24 +++++++--
- drivers/media/platform/qcom/venus/core.h                  |  20 +++++++
- drivers/media/platform/qcom/venus/venc.c                  |  21 ++++++--
- drivers/media/platform/qcom/venus/venc_ctrls.c            | 121 +++++++++++++++++++++++++++++++++++++++---
- drivers/media/platform/ti-vpe/cal-camerarx.c              |   2 +-
- drivers/media/platform/ti-vpe/cal.c                       |   4 +-
- drivers/media/v4l2-core/v4l2-ctrls.c                      |  16 ++++++
- drivers/staging/media/atomisp/pci/sh_css_params.c         |   6 +--
- drivers/staging/media/imx/imx7-media-csi.c                |  27 +++++++---
- drivers/staging/media/zoran/zoran_driver.c                |   2 +-
- include/uapi/linux/v4l2-controls.h                        |  17 ++++++
- 12 files changed, 309 insertions(+), 32 deletions(-)
