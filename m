@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCB5D2F52D0
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 19:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1AE22F52D2
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 19:57:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728583AbhAMSzu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 13:55:50 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:55347 "EHLO
+        id S1728609AbhAMSzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 13:55:53 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:45741 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728552AbhAMSzu (ORCPT
+        with ESMTP id S1728552AbhAMSzw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 13:55:50 -0500
+        Wed, 13 Jan 2021 13:55:52 -0500
 X-Originating-IP: 93.61.96.190
 Received: from uno.LocalDomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id ACAF41C000E;
-        Wed, 13 Jan 2021 18:55:05 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 670AB1C0011;
+        Wed, 13 Jan 2021 18:55:08 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
@@ -25,11 +25,12 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com, Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v7 4/7] dt-bindings: media: max9286: Document 'maxim,reverse-channel-microvolt'
-Date:   Wed, 13 Jan 2021 19:55:02 +0100
-Message-Id: <20210113185506.119808-5-jacopo+renesas@jmondi.org>
+        sergei.shtylyov@gmail.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesasa@ideasonboard.com>
+Subject: [PATCH v7 5/7] media: i2c: max9286: Break-out reverse channel setup
+Date:   Wed, 13 Jan 2021 19:55:03 +0100
+Message-Id: <20210113185506.119808-6-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210113185506.119808-1-jacopo+renesas@jmondi.org>
 References: <20210113185506.119808-1-jacopo+renesas@jmondi.org>
@@ -39,62 +40,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document the 'reverse-channel-microvolt' vendor property in the
-bindings document of the max9286 driver.
+Break out the reverse channel setup configuration procedure to its own
+function.
 
-The newly introduced property allows to specifying the initial
-configuration of the GMSL reverse control channel to accommodate
-remote serializers pre-programmed with the high threshold power
-supply noise immunity enabled.
+This change prepares for configuring the reverse channel conditionally
+to the remote side high threshold configuration.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+No functional changes intended.
+
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesasa@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- .../bindings/media/i2c/maxim,max9286.yaml     | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/media/i2c/max9286.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-index 68ee8c7d9e79..1406236e37ef 100644
---- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-@@ -50,6 +50,26 @@ properties:
-   '#gpio-cells':
-     const: 2
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index c82c1493e099..1cfc8801c0b2 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -336,6 +336,22 @@ static void max9286_configure_i2c(struct max9286_priv *priv, bool localack)
+ 	usleep_range(3000, 5000);
+ }
  
-+  maxim,reverse-channel-microvolt:
-+    minimum: 30000
-+    maximum: 200000
-+    default: 170000
-+    description: |
-+      Initial amplitude of the reverse control channel, in micro volts.
++static void max9286_reverse_channel_setup(struct max9286_priv *priv)
++{
++	/*
++	 * Reverse channel setup.
++	 *
++	 * - Enable custom reverse channel configuration (through register 0x3f)
++	 *   and set the first pulse length to 35 clock cycles.
++	 * - Increase the reverse channel amplitude to 170mV to accommodate the
++	 *   high threshold enabled by the serializer driver.
++	 */
++	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
++	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
++		      MAX9286_REV_AMP_X);
++	usleep_range(2000, 2500);
++}
 +
-+      The initial amplitude shall be adjusted to a value compatible with the
-+      configuration of the connected remote serializer.
-+
-+      Some camera modules (for example RDACM20) include an on-board MCU that
-+      pre-programs the embedded serializer with power supply noise immunity
-+      (high-threshold) enabled. A typical value of the deserializer's reverse
-+      channel amplitude to communicate with pre-programmed serializers is
-+      170000 micro volts.
-+
-+      A typical value for the reverse channel amplitude to communicate with
-+      a remote serializer whose high-threshold noise immunity is not enabled
-+      is 100000 micro volts
-+
-   ports:
-     type: object
-     description: |
-@@ -242,6 +262,8 @@ examples:
-         gpio-controller;
-         #gpio-cells = <2>;
+ /*
+  * max9286_check_video_links() - Make sure video links are detected and locked
+  *
+@@ -941,19 +957,7 @@ static int max9286_setup(struct max9286_priv *priv)
+ 	 * only. This should be disabled after the mux is initialised.
+ 	 */
+ 	max9286_configure_i2c(priv, true);
+-
+-	/*
+-	 * Reverse channel setup.
+-	 *
+-	 * - Enable custom reverse channel configuration (through register 0x3f)
+-	 *   and set the first pulse length to 35 clock cycles.
+-	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+-	 *   high threshold enabled by the serializer driver.
+-	 */
+-	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+-	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+-		      MAX9286_REV_AMP_X);
+-	usleep_range(2000, 2500);
++	max9286_reverse_channel_setup(priv);
  
-+        maxim,reverse-channel-microvolt = <170000>;
-+
-         ports {
-           #address-cells = <1>;
-           #size-cells = <0>;
+ 	/*
+ 	 * Enable GMSL links, mask unused ones and autodetect link
 -- 
 2.29.2
 
