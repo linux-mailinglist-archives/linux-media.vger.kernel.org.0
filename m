@@ -2,299 +2,815 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9161B2F4E2C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 16:10:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B5BC2F4ECB
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 16:32:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726884AbhAMPKh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 10:10:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725843AbhAMPKh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 10:10:37 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFA30C061786;
-        Wed, 13 Jan 2021 07:09:56 -0800 (PST)
+        id S1727003AbhAMPbl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 10:31:41 -0500
+Received: from gofer.mess.org ([88.97.38.141]:34367 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725801AbhAMPbk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 10:31:40 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id A3DF0C6378; Wed, 13 Jan 2021 15:09:54 +0000 (GMT)
+        id 6D8AEC6378; Wed, 13 Jan 2021 15:30:58 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1610550594; bh=vnBpzQjOx+cBmpfoVZKB5QgB9eUJOE6mIeUphxb+gS4=;
+        t=1610551858; bh=jwl/hg91xZt+1NS9/j77DHAHw6vD/EE1YZJOwXJ1eQE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FPlHsRBP2IkKFSRIA8lDfHbV+q6nlASaPczF9f8wLdVYQ2DwO14XH9mQzsnDTDdGa
-         N5nYLoSaBRCxluH09pYuG0sq6Z55+wLIDgqWGScOHDrTYxug0ocR1T5hThvhLt6WZm
-         MlTL6bcZmtig2rOSFwl0On0arZKVnjlUd6SH92d4mQ0TZsLYRzuhF/1DYWCbYN0Cfr
-         SB1xyPw8WMDO9g0tttyHUF8/JmDEsu/jQiYb1Z40OUKjKZ5N2FQ8MUw2QznStnx13E
-         Zeqv0NaoZI8W5jcUi4tN/GT0ZW4XHO9Eesf4JrXo8oqiXeiXOWYBybszwa81ttxbXM
-         Lpa7GBWWfrt1g==
-Date:   Wed, 13 Jan 2021 15:09:54 +0000
+        b=ok7fgTUeQmGcxYKkew6+yF0zkWni4mHP9aWRR0Bd/BIjay4atdbQ7ZvuIZqDEMR9G
+         uAGc7GG4W2IHWCFP5WKeeyvbSUBQGtIbf/R8on7Y8MgUoyxAKfce8Dkq2i9M6NF7R/
+         mfQOWTRszn1mD+kbOc0Szgo9nKC8RThIaBvYi+cgXUgtJGdyF7M6p6qL+xHSZPuC66
+         RLR4vmjEL2O2TgsfDyzAKtvYculZ4KXb0bAtoaDt7Cw7J/a9F8r/8imz8vRUwIBiPd
+         Qx/eNxfvsFRjYlCtkE5tZ876BcnlKs8Dr8JPxl6yNJOPfqaH6ABMXFIfBuI5ao7UlP
+         BSbE2TRm1OtSQ==
+Date:   Wed, 13 Jan 2021 15:30:58 +0000
 From:   Sean Young <sean@mess.org>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 3/4] media: sunxi-cir: Factor out hardware initialization
-Message-ID: <20210113150954.GA8867@gofer.mess.org>
-References: <20210113045132.31430-1-samuel@sholland.org>
- <20210113045132.31430-4-samuel@sholland.org>
- <20210113143633.GB8430@gofer.mess.org>
- <ec69da79-4d96-0672-9610-5749ec881b4f@sholland.org>
+To:     Luca Boccassi <bluca@debian.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v4l-utils] Build with libbpf, remove local sources
+Message-ID: <20210113153058.GB8867@gofer.mess.org>
+References: <20210108233608.285497-1-bluca@debian.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ec69da79-4d96-0672-9610-5749ec881b4f@sholland.org>
+In-Reply-To: <20210108233608.285497-1-bluca@debian.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Samuel,
-
-On Wed, Jan 13, 2021 at 09:00:20AM -0600, Samuel Holland wrote:
-> On 1/13/21 8:36 AM, Sean Young wrote:
-> > On Tue, Jan 12, 2021 at 10:51:31PM -0600, Samuel Holland wrote:
-> >> In preparation for adding suspend/resume hooks, factor out the hardware
-> >> initialization from the driver probe/remove functions.
-> >>
-> >> The timeout programmed during init is taken from the `struct rc_dev` so
-> >> it is maintained across an exit/init cycle.
-> >>
-> >> This resolves some trivial issues with the probe function: throwing away
-> >> the error from clk_prepare_enable and using the wrong type for the
-> >> temporary register value.
-> >>
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >>  drivers/media/rc/sunxi-cir.c | 128 ++++++++++++++++++++---------------
-> >>  1 file changed, 74 insertions(+), 54 deletions(-)
-> >>
-> >> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> >> index 48be400421cd..ccb9d6b4225d 100644
-> >> --- a/drivers/media/rc/sunxi-cir.c
-> >> +++ b/drivers/media/rc/sunxi-cir.c
-> >> @@ -169,10 +169,74 @@ static int sunxi_ir_set_timeout(struct rc_dev *rc_dev, unsigned int timeout)
-> >>  	return 0;
-> >>  }
-> >>  
-> >> +static int sunxi_ir_hw_init(struct device *dev)
-> >> +{
-> >> +	struct sunxi_ir *ir = dev_get_drvdata(dev);
-> >> +	u32 tmp;
-> >> +	int ret;
-> >> +
-> >> +	ret = reset_control_deassert(ir->rst);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	ret = clk_prepare_enable(ir->apb_clk);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "failed to enable apb clk\n");
-> >> +		goto exit_assert_reset;
-> >> +	}
-> >> +
-> >> +	ret = clk_prepare_enable(ir->clk);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "failed to enable ir clk\n");
-> >> +		goto exit_disable_apb_clk;
-> >> +	}
-> >> +
-> >> +	/* Enable CIR Mode */
-> >> +	writel(REG_CTL_MD, ir->base + SUNXI_IR_CTL_REG);
-> >> +
-> >> +	/* Set noise threshold and idle threshold */
-> >> +	sunxi_ir_set_timeout(ir->rc, ir->rc->timeout);
+On Fri, Jan 08, 2021 at 11:36:08PM +0000, Luca Boccassi wrote:
+> libbpf is nowadays widely available in all distros that enable BPF,
+> and it is a standalone library with a release cycle and a stable API.
+> Remove the old sync of bpf.c/bpf.h and check for the library via
+> pkg-config and use it instead.
+> Only a minor modification is needed to make it compile.
 > 
-> Initializing ir->rc->timeout in .probe is needed because of this line.
-> As the changelog mentions, this reprograms the user-configured timeout
-> after an exit/init (suspend/resume) cycle. It needs some default value
-> the first time, when called from .probe.
+> Signed-off-by: Luca Boccassi <bluca@debian.org>
 
-Yes, you're completely right. Sorry about that.
+Very nice, thank you very much! Yes, it was about time the old pre-libbpf
+files were replaced.
 
-> >> +
-> >> +	/* Invert Input Signal */
-> >> +	writel(REG_RXCTL_RPPI, ir->base + SUNXI_IR_RXCTL_REG);
-> >> +
-> >> +	/* Clear All Rx Interrupt Status */
-> >> +	writel(REG_RXSTA_CLEARALL, ir->base + SUNXI_IR_RXSTA_REG);
-> >> +
-> >> +	/*
-> >> +	 * Enable IRQ on overflow, packet end, FIFO available with trigger
-> >> +	 * level
-> >> +	 */
-> >> +	writel(REG_RXINT_ROI_EN | REG_RXINT_RPEI_EN |
-> >> +	       REG_RXINT_RAI_EN | REG_RXINT_RAL(ir->fifo_size / 2 - 1),
-> >> +	       ir->base + SUNXI_IR_RXINT_REG);
-> >> +
-> >> +	/* Enable IR Module */
-> >> +	tmp = readl(ir->base + SUNXI_IR_CTL_REG);
-> >> +	writel(tmp | REG_CTL_GEN | REG_CTL_RXEN, ir->base + SUNXI_IR_CTL_REG);
-> >> +
-> >> +	return 0;
-> >> +
-> >> +exit_disable_apb_clk:
-> >> +	clk_disable_unprepare(ir->apb_clk);
-> >> +exit_assert_reset:
-> >> +	reset_control_assert(ir->rst);
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static void sunxi_ir_hw_exit(struct device *dev)
-> >> +{
-> >> +	struct sunxi_ir *ir = dev_get_drvdata(dev);
-> >> +
-> >> +	clk_disable_unprepare(ir->clk);
-> >> +	clk_disable_unprepare(ir->apb_clk);
-> >> +	reset_control_assert(ir->rst);
-> >> +}
-> >> +
-> >>  static int sunxi_ir_probe(struct platform_device *pdev)
-> >>  {
-> >>  	int ret = 0;
-> >> -	unsigned long tmp = 0;
-> >>  
-> >>  	struct device *dev = &pdev->dev;
-> >>  	struct device_node *dn = dev->of_node;
-> >> @@ -213,43 +277,26 @@ static int sunxi_ir_probe(struct platform_device *pdev)
-> >>  		ir->rst = devm_reset_control_get_exclusive(dev, NULL);
-> >>  		if (IS_ERR(ir->rst))
-> >>  			return PTR_ERR(ir->rst);
-> >> -		ret = reset_control_deassert(ir->rst);
-> >> -		if (ret)
-> >> -			return ret;
-> >>  	}
-> >>  
-> >>  	ret = clk_set_rate(ir->clk, b_clk_freq);
-> >>  	if (ret) {
-> >>  		dev_err(dev, "set ir base clock failed!\n");
-> >> -		goto exit_reset_assert;
-> >> +		return ret;
-> >>  	}
-> >>  	dev_dbg(dev, "set base clock frequency to %d Hz.\n", b_clk_freq);
-> >>  
-> >> -	if (clk_prepare_enable(ir->apb_clk)) {
-> >> -		dev_err(dev, "try to enable apb_ir_clk failed\n");
-> >> -		ret = -EINVAL;
-> >> -		goto exit_reset_assert;
-> >> -	}
-> >> -
-> >> -	if (clk_prepare_enable(ir->clk)) {
-> >> -		dev_err(dev, "try to enable ir_clk failed\n");
-> >> -		ret = -EINVAL;
-> >> -		goto exit_clkdisable_apb_clk;
-> >> -	}
-> >> -
-> >>  	/* IO */
-> >>  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> >>  	ir->base = devm_ioremap_resource(dev, res);
-> >>  	if (IS_ERR(ir->base)) {
-> >> -		ret = PTR_ERR(ir->base);
-> >> -		goto exit_clkdisable_clk;
-> >> +		return PTR_ERR(ir->base);
-> >>  	}
-> >>  
-> >>  	ir->rc = rc_allocate_device(RC_DRIVER_IR_RAW);
-> >>  	if (!ir->rc) {
-> >>  		dev_err(dev, "failed to allocate device\n");
-> >> -		ret = -ENOMEM;
-> >> -		goto exit_clkdisable_clk;
-> >> +		return -ENOMEM;
-> >>  	}
-> >>  
-> >>  	ir->rc->priv = ir;
-> >> @@ -265,6 +312,7 @@ static int sunxi_ir_probe(struct platform_device *pdev)
-> >>  	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
-> >>  	/* Frequency after IR internal divider with sample period in us */
-> >>  	ir->rc->rx_resolution = (USEC_PER_SEC / (b_clk_freq / 64));
-> >> +	ir->rc->timeout = IR_DEFAULT_TIMEOUT;
-> > 
-> > Why? This is set from sunxi_ir_set_timeout().
-> 
-> Because it is also sent as an argument to sunxi_ir_set_timeout().
+> ---
+> NOTE: unfortunately I do not have IR capable hardware to use with Linux,
+> so I could only build-test this.
 
-Indeed it is.
+I've tested it and it works fine. You would be able to test with rc-loopback,
+but never mind.
 
-> >>  	ir->rc->min_timeout = sunxi_ithr_to_usec(b_clk_freq, 0);
-> >>  	ir->rc->max_timeout = sunxi_ithr_to_usec(b_clk_freq, 255);
-> >>  	ir->rc->s_timeout = sunxi_ir_set_timeout;
-> >> @@ -291,41 +339,15 @@ static int sunxi_ir_probe(struct platform_device *pdev)
-> >>  		goto exit_free_dev;
-> >>  	}
-> >>  
-> >> -	/* Enable CIR Mode */
-> >> -	writel(REG_CTL_MD, ir->base+SUNXI_IR_CTL_REG);
-> >> -
-> >> -	/* Set noise threshold and idle threshold */
-> >> -	sunxi_ir_set_timeout(ir->rc, IR_DEFAULT_TIMEOUT);
-> 
-> This is where the default timeout was originally programmed.
-> 
-> >> -
-> >> -	/* Invert Input Signal */
-> >> -	writel(REG_RXCTL_RPPI, ir->base + SUNXI_IR_RXCTL_REG);
-> >> -
-> >> -	/* Clear All Rx Interrupt Status */
-> >> -	writel(REG_RXSTA_CLEARALL, ir->base + SUNXI_IR_RXSTA_REG);
-> >> -
-> >> -	/*
-> >> -	 * Enable IRQ on overflow, packet end, FIFO available with trigger
-> >> -	 * level
-> >> -	 */
-> >> -	writel(REG_RXINT_ROI_EN | REG_RXINT_RPEI_EN |
-> >> -	       REG_RXINT_RAI_EN | REG_RXINT_RAL(ir->fifo_size / 2 - 1),
-> >> -	       ir->base + SUNXI_IR_RXINT_REG);
-> >> -
-> >> -	/* Enable IR Module */
-> >> -	tmp = readl(ir->base + SUNXI_IR_CTL_REG);
-> >> -	writel(tmp | REG_CTL_GEN | REG_CTL_RXEN, ir->base + SUNXI_IR_CTL_REG);
-> >> +	ret = sunxi_ir_hw_init(dev);
-> >> +	if (ret)
-> >> +		goto exit_free_dev;
-> >>  
-> >>  	dev_info(dev, "initialized sunXi IR driver\n");
-> >>  	return 0;
-> >>  
-> >>  exit_free_dev:
-> >>  	rc_free_device(ir->rc);
-> >> -exit_clkdisable_clk:
-> >> -	clk_disable_unprepare(ir->clk);
-> >> -exit_clkdisable_apb_clk:
-> >> -	clk_disable_unprepare(ir->apb_clk);
-> >> -exit_reset_assert:
-> >> -	reset_control_assert(ir->rst);
-> >>  
-> >>  	return ret;
-> >>  }
-> >> @@ -334,11 +356,9 @@ static int sunxi_ir_remove(struct platform_device *pdev)
-> >>  {
-> >>  	struct sunxi_ir *ir = platform_get_drvdata(pdev);
-> >>  
-> >> -	clk_disable_unprepare(ir->clk);
-> >> -	clk_disable_unprepare(ir->apb_clk);
-> >> -	reset_control_assert(ir->rst);
-> >> -
-> >> +	sunxi_ir_hw_exit(&pdev->dev);
-> >>  	rc_unregister_device(ir->rc);
-> 
-> I can swap these lines to fix your comment on patch 1.
+Patch applied.
 
-Please do, and mention it in the commit message.
-
-It might be harmless to write to SUNXI_IR_CIR_REG but it's not really the
-right thing to do. It should be idiomatic to call rc_unregister_device()
-first in the remove() function.
-
-Thank you for that.
+Thanks again!
 
 Sean
 
 > 
-> >> +
-> >>  	return 0;
-> >>  }
-> >>  
-> >> -- 
-> >> 2.26.2
+>  configure.ac               |   3 +-
+>  utils/keytable/Makefile.am |   5 +-
+>  utils/keytable/bpf.c       | 491 -------------------------------------
+>  utils/keytable/bpf.h       | 110 ---------
+>  utils/keytable/bpf_load.c  |  15 +-
+>  utils/keytable/bpf_load.h  |   2 -
+>  utils/keytable/keytable.c  |   2 +-
+>  7 files changed, 14 insertions(+), 614 deletions(-)
+>  delete mode 100644 utils/keytable/bpf.c
+>  delete mode 100644 utils/keytable/bpf.h
+> 
+> diff --git a/configure.ac b/configure.ac
+> index c59d247e..5290fa01 100644
+> --- a/configure.ac
+> +++ b/configure.ac
+> @@ -556,7 +556,8 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
+> -AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang])
+> +PKG_CHECK_MODULES([LIBBPF], [libbpf], [bpf_pc=yes], [bpf_pc=no])
+> +AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
+>  
+>  # append -static to libtool compile and link command to enforce static libs
+>  AS_IF([test x$enable_libdvbv5 = xno], [AC_SUBST([ENFORCE_LIBDVBV5_STATIC], ["-static"])])
+> diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
+> index a057eb89..c5eb414a 100644
+> --- a/utils/keytable/Makefile.am
+> +++ b/utils/keytable/Makefile.am
+> @@ -10,14 +10,15 @@ endif
+>  ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h toml.c toml.h keymap.c keymap.h
+>  
+>  if WITH_BPF
+> -ir_keytable_SOURCES += bpf.c bpf_load.c bpf.h bpf_load.h
+> +ir_keytable_SOURCES += bpf_load.c bpf_load.h
+>  endif
+>  
+>  ir_keytable_LDADD = @LIBINTL@
+>  ir_keytable_LDFLAGS = $(ARGP_LIBS)
+>  
+>  if WITH_BPF
+> -ir_keytable_LDFLAGS += $(LIBELF_LIBS)
+> +ir_keytable_LDFLAGS += $(LIBELF_LIBS) $(LIBBPF_LIBS)
+> +ir_keytable_CFLAGS = $(LIBBPF_CFLAGS)
+>  SUBDIRS = bpf_protocols
+>  endif
+>  
+> diff --git a/utils/keytable/bpf.c b/utils/keytable/bpf.c
+> deleted file mode 100644
+> index 69ba190d..00000000
+> --- a/utils/keytable/bpf.c
+> +++ /dev/null
+> @@ -1,491 +0,0 @@
+> -// SPDX-License-Identifier: LGPL-2.1
+> -
+> -/*
+> - * common eBPF ELF operations.
+> - *
+> - * Copyright (C) 2013-2015 Alexei Starovoitov <ast@kernel.org>
+> - * Copyright (C) 2015 Wang Nan <wangnan0@huawei.com>
+> - * Copyright (C) 2015 Huawei Inc.
+> - *
+> - * This program is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU Lesser General Public
+> - * License as published by the Free Software Foundation;
+> - * version 2.1 of the License (not later!)
+> - *
+> - * This program is distributed in the hope that it will be useful,
+> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> - * GNU Lesser General Public License for more details.
+> - *
+> - * You should have received a copy of the GNU Lesser General Public
+> - * License along with this program; if not,  see <http://www.gnu.org/licenses>
+> - */
+> -
+> -#include <stdlib.h>
+> -#include <memory.h>
+> -#include <unistd.h>
+> -#include <asm/unistd.h>
+> -#include <linux/bpf.h>
+> -#include "bpf.h"
+> -#include <errno.h>
+> -
+> -/*
+> - * When building perf, unistd.h is overridden. __NR_bpf is
+> - * required to be defined explicitly.
+> - */
+> -#ifndef __NR_bpf
+> -# if defined(__i386__)
+> -#  define __NR_bpf 357
+> -# elif defined(__x86_64__)
+> -#  define __NR_bpf 321
+> -# elif defined(__aarch64__)
+> -#  define __NR_bpf 280
+> -# elif defined(__sparc__)
+> -#  define __NR_bpf 349
+> -# elif defined(__s390__)
+> -#  define __NR_bpf 351
+> -# else
+> -#  error __NR_bpf not defined. libbpf does not support your arch.
+> -# endif
+> -#endif
+> -
+> -#ifndef min
+> -#define min(x, y) ((x) < (y) ? (x) : (y))
+> -#endif
+> -
+> -static inline __u64 ptr_to_u64(const void *ptr)
+> -{
+> -	return (__u64) (unsigned long) ptr;
+> -}
+> -
+> -static inline int sys_bpf(enum bpf_cmd cmd, union bpf_attr *attr,
+> -			  unsigned int size)
+> -{
+> -	return syscall(__NR_bpf, cmd, attr, size);
+> -}
+> -
+> -int bpf_create_map_xattr(const struct bpf_create_map_attr *create_attr)
+> -{
+> -	__u32 name_len = create_attr->name ? strlen(create_attr->name) : 0;
+> -	union bpf_attr attr = {};
+> -
+> -	attr.map_type = create_attr->map_type;
+> -	attr.key_size = create_attr->key_size;
+> -	attr.value_size = create_attr->value_size;
+> -	attr.max_entries = create_attr->max_entries;
+> -	attr.map_flags = create_attr->map_flags;
+> -	memcpy(attr.map_name, create_attr->name,
+> -	       min(name_len, BPF_OBJ_NAME_LEN - 1));
+> -	attr.numa_node = create_attr->numa_node;
+> -	attr.btf_fd = create_attr->btf_fd;
+> -	attr.btf_key_type_id = create_attr->btf_key_type_id;
+> -	attr.btf_value_type_id = create_attr->btf_value_type_id;
+> -	attr.map_ifindex = create_attr->map_ifindex;
+> -
+> -	return sys_bpf(BPF_MAP_CREATE, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_create_map_node(enum bpf_map_type map_type, const char *name,
+> -			int key_size, int value_size, int max_entries,
+> -			__u32 map_flags, int node)
+> -{
+> -	struct bpf_create_map_attr map_attr = {};
+> -
+> -	map_attr.name = name;
+> -	map_attr.map_type = map_type;
+> -	map_attr.map_flags = map_flags;
+> -	map_attr.key_size = key_size;
+> -	map_attr.value_size = value_size;
+> -	map_attr.max_entries = max_entries;
+> -	if (node >= 0) {
+> -		map_attr.numa_node = node;
+> -		map_attr.map_flags |= BPF_F_NUMA_NODE;
+> -	}
+> -
+> -	return bpf_create_map_xattr(&map_attr);
+> -}
+> -
+> -int bpf_create_map(enum bpf_map_type map_type, int key_size,
+> -		   int value_size, int max_entries, __u32 map_flags)
+> -{
+> -	struct bpf_create_map_attr map_attr = {};
+> -
+> -	map_attr.map_type = map_type;
+> -	map_attr.map_flags = map_flags;
+> -	map_attr.key_size = key_size;
+> -	map_attr.value_size = value_size;
+> -	map_attr.max_entries = max_entries;
+> -
+> -	return bpf_create_map_xattr(&map_attr);
+> -}
+> -
+> -int bpf_create_map_name(enum bpf_map_type map_type, const char *name,
+> -			int key_size, int value_size, int max_entries,
+> -			__u32 map_flags)
+> -{
+> -	struct bpf_create_map_attr map_attr = {};
+> -
+> -	map_attr.name = name;
+> -	map_attr.map_type = map_type;
+> -	map_attr.map_flags = map_flags;
+> -	map_attr.key_size = key_size;
+> -	map_attr.value_size = value_size;
+> -	map_attr.max_entries = max_entries;
+> -
+> -	return bpf_create_map_xattr(&map_attr);
+> -}
+> -
+> -int bpf_create_map_in_map_node(enum bpf_map_type map_type, const char *name,
+> -			       int key_size, int inner_map_fd, int max_entries,
+> -			       __u32 map_flags, int node)
+> -{
+> -	__u32 name_len = name ? strlen(name) : 0;
+> -	union bpf_attr attr = {};
+> -
+> -	attr.map_type = map_type;
+> -	attr.key_size = key_size;
+> -	attr.value_size = 4;
+> -	attr.inner_map_fd = inner_map_fd;
+> -	attr.max_entries = max_entries;
+> -	attr.map_flags = map_flags;
+> -	memcpy(attr.map_name, name, min(name_len, BPF_OBJ_NAME_LEN - 1));
+> -
+> -	if (node >= 0) {
+> -		attr.map_flags |= BPF_F_NUMA_NODE;
+> -		attr.numa_node = node;
+> -	}
+> -
+> -	return sys_bpf(BPF_MAP_CREATE, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_create_map_in_map(enum bpf_map_type map_type, const char *name,
+> -			  int key_size, int inner_map_fd, int max_entries,
+> -			  __u32 map_flags)
+> -{
+> -	return bpf_create_map_in_map_node(map_type, name, key_size,
+> -					  inner_map_fd, max_entries, map_flags,
+> -					  -1);
+> -}
+> -
+> -int bpf_load_program_xattr(const struct bpf_load_program_attr *load_attr,
+> -			   char *log_buf, size_t log_buf_sz)
+> -{
+> -	union bpf_attr attr;
+> -	__u32 name_len;
+> -	int fd;
+> -
+> -	if (!load_attr)
+> -		return -EINVAL;
+> -
+> -	name_len = load_attr->name ? strlen(load_attr->name) : 0;
+> -
+> -	memset(&attr, 0, sizeof(attr));
+> -	attr.prog_type = load_attr->prog_type;
+> -	attr.expected_attach_type = load_attr->expected_attach_type;
+> -	attr.insn_cnt = (__u32)load_attr->insns_cnt;
+> -	attr.insns = ptr_to_u64(load_attr->insns);
+> -	attr.license = ptr_to_u64(load_attr->license);
+> -	attr.log_buf = ptr_to_u64(NULL);
+> -	attr.log_size = 0;
+> -	attr.log_level = 0;
+> -	attr.kern_version = load_attr->kern_version;
+> -	attr.prog_ifindex = load_attr->prog_ifindex;
+> -	memcpy(attr.prog_name, load_attr->name,
+> -	       min(name_len, BPF_OBJ_NAME_LEN - 1));
+> -
+> -	fd = sys_bpf(BPF_PROG_LOAD, &attr, sizeof(attr));
+> -	if (fd >= 0 || !log_buf || !log_buf_sz)
+> -		return fd;
+> -
+> -	/* Try again with log */
+> -	attr.log_buf = ptr_to_u64(log_buf);
+> -	attr.log_size = log_buf_sz;
+> -	attr.log_level = 1;
+> -	log_buf[0] = 0;
+> -	return sys_bpf(BPF_PROG_LOAD, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_load_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+> -		     size_t insns_cnt, const char *name, const char *license,
+> -		     __u32 kern_version, char *log_buf,
+> -		     size_t log_buf_sz)
+> -{
+> -	struct bpf_load_program_attr load_attr = {};
+> -
+> -	load_attr.prog_type = type;
+> -	load_attr.expected_attach_type = 0;
+> -	load_attr.name = name;
+> -	load_attr.insns = insns;
+> -	load_attr.insns_cnt = insns_cnt;
+> -	load_attr.license = license;
+> -	load_attr.kern_version = kern_version;
+> -
+> -	return bpf_load_program_xattr(&load_attr, log_buf, log_buf_sz);
+> -}
+> -
+> -int bpf_verify_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+> -		       size_t insns_cnt, int strict_alignment,
+> -		       const char *license, __u32 kern_version,
+> -		       char *log_buf, size_t log_buf_sz, int log_level)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.prog_type = type;
+> -	attr.insn_cnt = (__u32)insns_cnt;
+> -	attr.insns = ptr_to_u64(insns);
+> -	attr.license = ptr_to_u64(license);
+> -	attr.log_buf = ptr_to_u64(log_buf);
+> -	attr.log_size = log_buf_sz;
+> -	attr.log_level = log_level;
+> -	log_buf[0] = 0;
+> -	attr.kern_version = kern_version;
+> -	attr.prog_flags = strict_alignment ? BPF_F_STRICT_ALIGNMENT : 0;
+> -
+> -	return sys_bpf(BPF_PROG_LOAD, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_map_update_elem(int fd, const void *key, const void *value,
+> -			__u64 flags)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.map_fd = fd;
+> -	attr.key = ptr_to_u64(key);
+> -	attr.value = ptr_to_u64(value);
+> -	attr.flags = flags;
+> -
+> -	return sys_bpf(BPF_MAP_UPDATE_ELEM, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_map_lookup_elem(int fd, const void *key, void *value)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.map_fd = fd;
+> -	attr.key = ptr_to_u64(key);
+> -	attr.value = ptr_to_u64(value);
+> -
+> -	return sys_bpf(BPF_MAP_LOOKUP_ELEM, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_map_delete_elem(int fd, const void *key)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.map_fd = fd;
+> -	attr.key = ptr_to_u64(key);
+> -
+> -	return sys_bpf(BPF_MAP_DELETE_ELEM, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_map_get_next_key(int fd, const void *key, void *next_key)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.map_fd = fd;
+> -	attr.key = ptr_to_u64(key);
+> -	attr.next_key = ptr_to_u64(next_key);
+> -
+> -	return sys_bpf(BPF_MAP_GET_NEXT_KEY, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_obj_pin(int fd, const char *pathname)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.pathname = ptr_to_u64((void *)pathname);
+> -	attr.bpf_fd = fd;
+> -
+> -	return sys_bpf(BPF_OBJ_PIN, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_obj_get(const char *pathname)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.pathname = ptr_to_u64((void *)pathname);
+> -
+> -	return sys_bpf(BPF_OBJ_GET, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_prog_attach(int prog_fd, int target_fd, enum bpf_attach_type type,
+> -		    unsigned int flags)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.target_fd	   = target_fd;
+> -	attr.attach_bpf_fd = prog_fd;
+> -	attr.attach_type   = type;
+> -	attr.attach_flags  = flags;
+> -
+> -	return sys_bpf(BPF_PROG_ATTACH, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_prog_detach(int target_fd, enum bpf_attach_type type)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.target_fd	 = target_fd;
+> -	attr.attach_type = type;
+> -
+> -	return sys_bpf(BPF_PROG_DETACH, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_prog_detach2(int prog_fd, int target_fd, enum bpf_attach_type type)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.target_fd	 = target_fd;
+> -	attr.attach_bpf_fd = prog_fd;
+> -	attr.attach_type = type;
+> -
+> -	return sys_bpf(BPF_PROG_DETACH, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_prog_query(int target_fd, enum bpf_attach_type type, __u32 query_flags,
+> -		   __u32 *attach_flags, __u32 *prog_ids, __u32 *prog_cnt)
+> -{
+> -	union bpf_attr attr = {};
+> -	int ret;
+> -
+> -	attr.query.target_fd	= target_fd;
+> -	attr.query.attach_type	= type;
+> -	attr.query.query_flags	= query_flags;
+> -	attr.query.prog_cnt	= *prog_cnt;
+> -	attr.query.prog_ids	= ptr_to_u64(prog_ids);
+> -
+> -	ret = sys_bpf(BPF_PROG_QUERY, &attr, sizeof(attr));
+> -	if (attach_flags)
+> -		*attach_flags = attr.query.attach_flags;
+> -	*prog_cnt = attr.query.prog_cnt;
+> -	return ret;
+> -}
+> -
+> -int bpf_prog_test_run(int prog_fd, int repeat, void *data, __u32 size,
+> -		      void *data_out, __u32 *size_out, __u32 *retval,
+> -		      __u32 *duration)
+> -{
+> -	union bpf_attr attr = {};
+> -	int ret;
+> -
+> -	attr.test.prog_fd = prog_fd;
+> -	attr.test.data_in = ptr_to_u64(data);
+> -	attr.test.data_out = ptr_to_u64(data_out);
+> -	attr.test.data_size_in = size;
+> -	attr.test.repeat = repeat;
+> -
+> -	ret = sys_bpf(BPF_PROG_TEST_RUN, &attr, sizeof(attr));
+> -	if (size_out)
+> -		*size_out = attr.test.data_size_out;
+> -	if (retval)
+> -		*retval = attr.test.retval;
+> -	if (duration)
+> -		*duration = attr.test.duration;
+> -	return ret;
+> -}
+> -
+> -int bpf_prog_get_next_id(__u32 start_id, __u32 *next_id)
+> -{
+> -	union bpf_attr attr = {};
+> -	int err;
+> -
+> -	attr.start_id = start_id;
+> -
+> -	err = sys_bpf(BPF_PROG_GET_NEXT_ID, &attr, sizeof(attr));
+> -	if (!err)
+> -		*next_id = attr.next_id;
+> -
+> -	return err;
+> -}
+> -
+> -int bpf_map_get_next_id(__u32 start_id, __u32 *next_id)
+> -{
+> -	union bpf_attr attr = {};
+> -	int err;
+> -
+> -	attr.start_id = start_id;
+> -
+> -	err = sys_bpf(BPF_MAP_GET_NEXT_ID, &attr, sizeof(attr));
+> -	if (!err)
+> -		*next_id = attr.next_id;
+> -
+> -	return err;
+> -}
+> -
+> -int bpf_prog_get_fd_by_id(__u32 id)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.prog_id = id;
+> -
+> -	return sys_bpf(BPF_PROG_GET_FD_BY_ID, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_map_get_fd_by_id(__u32 id)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.map_id = id;
+> -
+> -	return sys_bpf(BPF_MAP_GET_FD_BY_ID, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_btf_get_fd_by_id(__u32 id)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.btf_id = id;
+> -
+> -	return sys_bpf(BPF_BTF_GET_FD_BY_ID, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_obj_get_info_by_fd(int prog_fd, void *info, __u32 *info_len)
+> -{
+> -	union bpf_attr attr = {};
+> -	int err;
+> -
+> -	attr.info.bpf_fd = prog_fd;
+> -	attr.info.info_len = *info_len;
+> -	attr.info.info = ptr_to_u64(info);
+> -
+> -	err = sys_bpf(BPF_OBJ_GET_INFO_BY_FD, &attr, sizeof(attr));
+> -	if (!err)
+> -		*info_len = attr.info.info_len;
+> -
+> -	return err;
+> -}
+> -
+> -int bpf_raw_tracepoint_open(const char *name, int prog_fd)
+> -{
+> -	union bpf_attr attr = {};
+> -
+> -	attr.raw_tracepoint.name = ptr_to_u64(name);
+> -	attr.raw_tracepoint.prog_fd = prog_fd;
+> -
+> -	return sys_bpf(BPF_RAW_TRACEPOINT_OPEN, &attr, sizeof(attr));
+> -}
+> -
+> -int bpf_load_btf(void *btf, __u32 btf_size, char *log_buf, __u32 log_buf_size,
+> -		 bool do_log)
+> -{
+> -	union bpf_attr attr = {};
+> -	int fd;
+> -
+> -	attr.btf = ptr_to_u64(btf);
+> -	attr.btf_size = btf_size;
+> -
+> -retry:
+> -	if (do_log && log_buf && log_buf_size) {
+> -		attr.btf_log_level = 1;
+> -		attr.btf_log_size = log_buf_size;
+> -		attr.btf_log_buf = ptr_to_u64(log_buf);
+> -	}
+> -
+> -	fd = sys_bpf(BPF_BTF_LOAD, &attr, sizeof(attr));
+> -	if (fd == -1 && !do_log && log_buf && log_buf_size) {
+> -		do_log = true;
+> -		goto retry;
+> -	}
+> -
+> -	return fd;
+> -}
+> diff --git a/utils/keytable/bpf.h b/utils/keytable/bpf.h
+> deleted file mode 100644
+> index fb3896c9..00000000
+> --- a/utils/keytable/bpf.h
+> +++ /dev/null
+> @@ -1,110 +0,0 @@
+> -/* SPDX-License-Identifier: LGPL-2.1 */
+> -
+> -/*
+> - * common eBPF ELF operations.
+> - *
+> - * Copyright (C) 2013-2015 Alexei Starovoitov <ast@kernel.org>
+> - * Copyright (C) 2015 Wang Nan <wangnan0@huawei.com>
+> - * Copyright (C) 2015 Huawei Inc.
+> - *
+> - * This program is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU Lesser General Public
+> - * License as published by the Free Software Foundation;
+> - * version 2.1 of the License (not later!)
+> - *
+> - * This program is distributed in the hope that it will be useful,
+> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> - * GNU Lesser General Public License for more details.
+> - *
+> - * You should have received a copy of the GNU Lesser General Public
+> - * License along with this program; if not,  see <http://www.gnu.org/licenses>
+> - */
+> -#ifndef __BPF_BPF_H
+> -#define __BPF_BPF_H
+> -
+> -#include <linux/bpf.h>
+> -#include <stdbool.h>
+> -#include <stddef.h>
+> -
+> -struct bpf_create_map_attr {
+> -	const char *name;
+> -	enum bpf_map_type map_type;
+> -	__u32 map_flags;
+> -	__u32 key_size;
+> -	__u32 value_size;
+> -	__u32 max_entries;
+> -	__u32 numa_node;
+> -	__u32 btf_fd;
+> -	__u32 btf_key_type_id;
+> -	__u32 btf_value_type_id;
+> -	__u32 map_ifindex;
+> -};
+> -
+> -int bpf_create_map_xattr(const struct bpf_create_map_attr *create_attr);
+> -int bpf_create_map_node(enum bpf_map_type map_type, const char *name,
+> -			int key_size, int value_size, int max_entries,
+> -			__u32 map_flags, int node);
+> -int bpf_create_map_name(enum bpf_map_type map_type, const char *name,
+> -			int key_size, int value_size, int max_entries,
+> -			__u32 map_flags);
+> -int bpf_create_map(enum bpf_map_type map_type, int key_size, int value_size,
+> -		   int max_entries, __u32 map_flags);
+> -int bpf_create_map_in_map_node(enum bpf_map_type map_type, const char *name,
+> -			       int key_size, int inner_map_fd, int max_entries,
+> -			       __u32 map_flags, int node);
+> -int bpf_create_map_in_map(enum bpf_map_type map_type, const char *name,
+> -			  int key_size, int inner_map_fd, int max_entries,
+> -			  __u32 map_flags);
+> -
+> -struct bpf_load_program_attr {
+> -	enum bpf_prog_type prog_type;
+> -	enum bpf_attach_type expected_attach_type;
+> -	const char *name;
+> -	const struct bpf_insn *insns;
+> -	size_t insns_cnt;
+> -	const char *license;
+> -	__u32 kern_version;
+> -	__u32 prog_ifindex;
+> -};
+> -
+> -/* Recommend log buffer size */
+> -#define BPF_LOG_BUF_SIZE (256 * 1024)
+> -int bpf_load_program_xattr(const struct bpf_load_program_attr *load_attr,
+> -			   char *log_buf, size_t log_buf_sz);
+> -int bpf_load_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+> -		     size_t insns_cnt, const char *name, const char *license,
+> -		     __u32 kern_version, char *log_buf,
+> -		     size_t log_buf_sz);
+> -int bpf_verify_program(enum bpf_prog_type type, const struct bpf_insn *insns,
+> -		       size_t insns_cnt, int strict_alignment,
+> -		       const char *license, __u32 kern_version,
+> -		       char *log_buf, size_t log_buf_sz, int log_level);
+> -
+> -int bpf_map_update_elem(int fd, const void *key, const void *value,
+> -			__u64 flags);
+> -
+> -int bpf_map_lookup_elem(int fd, const void *key, void *value);
+> -int bpf_map_delete_elem(int fd, const void *key);
+> -int bpf_map_get_next_key(int fd, const void *key, void *next_key);
+> -int bpf_obj_pin(int fd, const char *pathname);
+> -int bpf_obj_get(const char *pathname);
+> -int bpf_prog_attach(int prog_fd, int attachable_fd, enum bpf_attach_type type,
+> -		    unsigned int flags);
+> -int bpf_prog_detach(int attachable_fd, enum bpf_attach_type type);
+> -int bpf_prog_detach2(int prog_fd, int attachable_fd, enum bpf_attach_type type);
+> -int bpf_prog_test_run(int prog_fd, int repeat, void *data, __u32 size,
+> -		      void *data_out, __u32 *size_out, __u32 *retval,
+> -		      __u32 *duration);
+> -int bpf_prog_get_next_id(__u32 start_id, __u32 *next_id);
+> -int bpf_map_get_next_id(__u32 start_id, __u32 *next_id);
+> -int bpf_prog_get_fd_by_id(__u32 id);
+> -int bpf_map_get_fd_by_id(__u32 id);
+> -int bpf_btf_get_fd_by_id(__u32 id);
+> -int bpf_obj_get_info_by_fd(int prog_fd, void *info, __u32 *info_len);
+> -int bpf_prog_query(int target_fd, enum bpf_attach_type type, __u32 query_flags,
+> -		   __u32 *attach_flags, __u32 *prog_ids, __u32 *prog_cnt);
+> -int bpf_raw_tracepoint_open(const char *name, int prog_fd);
+> -int bpf_load_btf(void *btf, __u32 btf_size, char *log_buf, __u32 log_buf_size,
+> -		 bool do_log);
+> -#endif
+> diff --git a/utils/keytable/bpf_load.c b/utils/keytable/bpf_load.c
+> index 7ae9af4a..ec6eb98e 100644
+> --- a/utils/keytable/bpf_load.c
+> +++ b/utils/keytable/bpf_load.c
+> @@ -12,10 +12,10 @@
+>  #include <limits.h>
+>  #include <stdlib.h>
+>  #include <linux/bpf.h>
+> +#include <bpf/bpf.h>
+>  #include <assert.h>
+>  #include <argp.h>
+>  #include "keymap.h"
+> -#include "bpf.h"
+>  #include "bpf_load.h"
+>  
+>  #ifdef ENABLE_NLS
+> @@ -28,6 +28,8 @@
+>  # define _(string) string
+>  #endif
+>  
+> +#define LOG_BUF_SIZE (256 * 1024)
+> +
+>  // This should match the struct in the raw BPF decoder
+>  struct raw_pattern {
+>  	unsigned int scancode;
+> @@ -39,7 +41,7 @@ struct raw_pattern {
+>  int max_length;
+>  int trail_space;
+>  
+> -char bpf_log_buf[BPF_LOG_BUF_SIZE];
+> +char bpf_log_buf[LOG_BUF_SIZE];
+>  extern int debug;
+>  
+>  struct bpf_file {
+> @@ -58,14 +60,14 @@ struct bpf_file {
+>  	struct protocol_param *param;
+>  };
+>  
+> -static int load_and_attach(int lirc_fd, struct bpf_file *bpf_file, const char *name, struct bpf_insn *prog, int size)
+> +static int load_and_attach(int lirc_fd, struct bpf_file *bpf_file, struct bpf_insn *prog, int size)
+>  {
+>          size_t insns_cnt = size / sizeof(struct bpf_insn);
+>  	int fd, err;
+>  
+>  	fd = bpf_load_program(BPF_PROG_TYPE_LIRC_MODE2, prog, insns_cnt,
+> -			      name, bpf_file->license, 0,
+> -			      bpf_log_buf, BPF_LOG_BUF_SIZE);
+> +			      bpf_file->license, 0,
+> +			      bpf_log_buf, LOG_BUF_SIZE);
+>  	if (fd < 0) {
+>  		printf("bpf_load_program() err=%m\n%s", bpf_log_buf);
+>  		return -1;
+> @@ -548,8 +550,7 @@ int load_bpf_file(const char *path, int lirc_fd, struct protocol_param *param,
+>  		    !(shdr.sh_flags & SHF_EXECINSTR))
+>  			continue;
+>  
+> -		ret = load_and_attach(lirc_fd, &bpf_file, shname, data->d_buf,
+> -				      data->d_size);
+> +		ret = load_and_attach(lirc_fd, &bpf_file, data->d_buf, data->d_size);
+>  		break;
+>  	}
+>  
+> diff --git a/utils/keytable/bpf_load.h b/utils/keytable/bpf_load.h
+> index 47b57b25..fe0b3e58 100644
+> --- a/utils/keytable/bpf_load.h
+> +++ b/utils/keytable/bpf_load.h
+> @@ -2,8 +2,6 @@
+>  #ifndef __BPF_LOAD_H
+>  #define __BPF_LOAD_H
+>  
+> -#define BPF_LOG_BUF_SIZE (256 * 1024)
+> -
+>  #define MAX_MAPS 32
+>  #define MAX_PROGS 64
+>  
+> diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+> index cb91f1f0..248493a9 100644
+> --- a/utils/keytable/keytable.c
+> +++ b/utils/keytable/keytable.c
+> @@ -37,7 +37,7 @@
+>  #include "keymap.h"
+>  
+>  #ifdef HAVE_BPF
+> -#include "bpf.h"
+> +#include <bpf/bpf.h>
+>  #include "bpf_load.h"
+>  #endif
+>  
+> -- 
+> 2.29.2
