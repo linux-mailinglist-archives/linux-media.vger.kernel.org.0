@@ -2,93 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 567842F4F0D
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 16:46:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9E9D2F4F19
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 16:46:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbhAMPpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 10:45:47 -0500
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:38224 "EHLO
-        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726011AbhAMPpr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 10:45:47 -0500
-Received: by mail-ot1-f41.google.com with SMTP id j20so2286237otq.5;
-        Wed, 13 Jan 2021 07:45:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=/OZYDMQOUVtActRUrxqdkowy5AXag3L8nzdkAFPXlHg=;
-        b=ahSWeiUTlZlM4gSc/S1CdvnUEJLPXUMrqdO81jnrpbhbJsq19nWlvxYIBLChzd/7yD
-         wKvESMYk22lklCzHObnEvg/kQ0xHBTn0btjWcSVDGSZDL6TrlkLc2X1o0UApSt2rYW3s
-         AezdbV43E8RllvYYbZ3c6mNhNWnlTST1vDHzCaNihVUfHmgImaQc+EpT8Fj6d4D4DhwH
-         Fxkt6TgMYbMXf1NKa7KbNsZU2Kn+we9iUfz6HG99vGEA1gc2odzSRNewe+mjmXAFgATC
-         X1jB51xmZwUksQNtCwaIuTp0kiUXQ64H0FmMRoMmlHbw63N+AVdg31xOpHaPlRWhCK9i
-         nGAg==
-X-Gm-Message-State: AOAM532MpXmB14i99U99E/NyW6HuWcPtLgCyHK/XWgzSmaHapPMc6REw
-        5RtFHPwnWBRXvEGcgH8GJg==
-X-Google-Smtp-Source: ABdhPJxhG9xx22koYrUiBE7xApayk8lzDcbuaua4K4mR7TmW9qeqOnJNnQjjpctbY/7o1KuqZJK3tQ==
-X-Received: by 2002:a9d:b90:: with SMTP id 16mr1727890oth.9.1610552706627;
-        Wed, 13 Jan 2021 07:45:06 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id h7sm460329otq.21.2021.01.13.07.45.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 07:45:05 -0800 (PST)
-Received: (nullmailer pid 2506181 invoked by uid 1000);
-        Wed, 13 Jan 2021 15:45:04 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     hyesoo.yu@samsung.com, hch@infradead.org, joaodias@google.com,
-        hridya@google.com, pullip.cho@samsung.com,
-        LKML <linux-kernel@vger.kernel.org>, mhocko@suse.com,
-        robh+dt@kernel.org, linaro-mm-sig@lists.linaro.org,
-        surenb@google.com, Andrew Morton <akpm@linux-foundation.org>,
-        devicetree@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
-        sumit.semwal@linaro.org, john.stultz@linaro.org,
-        linux-media@vger.kernel.org, david@redhat.com
-In-Reply-To: <20210113012143.1201105-4-minchan@kernel.org>
-References: <20210113012143.1201105-1-minchan@kernel.org> <20210113012143.1201105-4-minchan@kernel.org>
-Subject: Re: [PATCH v3 3/4] dt-bindings: reserved-memory: Make DMA-BUF CMA heap DT-configurable
-Date:   Wed, 13 Jan 2021 09:45:04 -0600
-Message-Id: <1610552704.254587.2506180.nullmailer@robh.at.kernel.org>
+        id S1726428AbhAMPqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 10:46:33 -0500
+Received: from gofer.mess.org ([88.97.38.141]:40821 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725773AbhAMPqc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 10:46:32 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id F0F2BC6378; Wed, 13 Jan 2021 15:45:50 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1610552751; bh=EvjBZGXjfDkQfDSWeQsfJ27FWEt2Eqt87BZKRuX0kp4=;
+        h=Date:From:To:Subject:From;
+        b=KVqj1TL8v3IzD6l5fdsKYtVpERTtyGmtaWDVhGUxJw8aUE8RG7JufRZFBnpm12CHR
+         EguV3DdQbgkhwTW1qYkxa0iI4/1xsHMybHKDDvOiBJSsMIFt/NMywMq0BfxO83+gSl
+         UaROJl89EVRh2Nma2tHiNgLVNze8tzCtaHCAxItzFXyuQRQuPdDFnmKRcsswI26fef
+         m4qeaI0b3OitDWrfZu7QpHR0FWsPEVU7CEIlA+XVREsosxHhsGcGBRoFxifXif9Z8f
+         zJfFn3ZK1SaCggErOU7m/ckds3SyYnw8lOlWOy6VTpeeFakEZIYuIx31kstndbmDFY
+         CFOruieG8HMZg==
+Date:   Wed, 13 Jan 2021 15:45:50 +0000
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.12] Minor rc/dvb updates
+Message-ID: <20210113154550.GA9374@gofer.mess.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 12 Jan 2021 17:21:42 -0800, Minchan Kim wrote:
-> From: Hyesoo Yu <hyesoo.yu@samsung.com>
-> 
-> Document devicetree binding for chunk cma heap on dma heap framework.
-> 
-> The DMA chunk heap supports the bulk allocation of higher order pages.
-> 
-> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Change-Id: I8fb231e5a8360e2d8f65947e155b12aa664dde01
-> ---
->  .../reserved-memory/dma_heap_chunk.yaml       | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
-> 
+Hi Mauro,
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Some very minor patches. Note that the ir_toy patch depends on a usb cdc
+patch which Greg KH has already merged to trees, including a bunch of stable
+trees. Hence the `Cc: stable@vger.kernel.org`.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml:58:1: [warning] too many blank lines (2 > 1) (empty-lines)
+Thanks
 
-dtschema/dtc warnings/errors:
+Sean
 
-See https://patchwork.ozlabs.org/patch/1425577
+The following changes since commit 7371093f983d35d60a7fac3a6f082de7fefe3648:
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+  media: venus: helpers: Wire up hfi platform buffer requirements (2021-01-13 09:20:55 +0100)
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+are available in the Git repository at:
 
-pip3 install dtschema --upgrade
+  git://linuxtv.org/syoung/media_tree.git tags/v5.12a
 
-Please check and re-submit.
+for you to fetch changes up to 7d340fa38016df2a100231dd6c2aab69b3b0b1f3:
+
+  media: cxd2841er: use DIV_ROUND_UP to calculate timeout (2021-01-13 14:55:58 +0000)
+
+----------------------------------------------------------------
+v5.12a
+
+----------------------------------------------------------------
+James Reynolds (1):
+      media: mceusb: Fix potential out-of-bounds shift
+
+Sean Young (1):
+      media: ir_toy: add another IR Droid device
+
+Zheng Yongjun (1):
+      media: cxd2841er: use DIV_ROUND_UP to calculate timeout
+
+ drivers/media/dvb-frontends/cxd2841er.c | 2 +-
+ drivers/media/rc/ir_toy.c               | 1 +
+ drivers/media/rc/mceusb.c               | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
