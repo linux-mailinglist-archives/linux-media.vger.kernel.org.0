@@ -2,155 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 166582F52DC
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 19:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D2802F53B1
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 20:54:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728700AbhAMS5A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 13:57:00 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:53297 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728694AbhAMS5A (ORCPT
+        id S1728681AbhAMTxJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 14:53:09 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:15661 "EHLO
+        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726808AbhAMTxI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 13:57:00 -0500
-X-Originating-IP: 93.61.96.190
-Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 4278FFF80E;
-        Wed, 13 Jan 2021 18:56:15 +0000 (UTC)
-Date:   Wed, 13 Jan 2021 19:56:33 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: rdacm20: Verify MAX9271 startup
-Message-ID: <20210113185633.yrrs5evt5emsddce@uno.localdomain>
-References: <20210112114702.26959-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210112114702.26959-1-jacopo+renesas@jmondi.org>
+        Wed, 13 Jan 2021 14:53:08 -0500
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 13 Jan 2021 11:52:27 -0800
+X-QCInternal: smtphost
+Received: from veeras-linux.qualcomm.com ([10.134.68.137])
+  by ironmsg02-sd.qualcomm.com with ESMTP; 13 Jan 2021 11:52:26 -0800
+Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
+        id 8952E21B9E; Wed, 13 Jan 2021 11:52:26 -0800 (PST)
+From:   Veera Sundaram Sankaran <veeras@codeaurora.org>
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
+        daniel@ffwll.ch, john.stultz@linaro.org
+Cc:     Veera Sundaram Sankaran <veeras@codeaurora.org>,
+        robdclark@gmail.com, sean@poorly.run, pdhaval@codeaurora.org,
+        abhinavk@codeaurora.org, jsanka@codeaurora.org
+Subject: [PATCH v3 1/2] dma-fence: allow signaling drivers to set fence timestamp
+Date:   Wed, 13 Jan 2021 11:52:18 -0800
+Message-Id: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-   please temporary ignore this patch, as I've applied the same on
-the twin RDACM21 driver and it doesn't actually help recovering
-failures.
+Some drivers have hardware capability to get the precise HW timestamp
+of certain events based on which the fences are triggered. The delta
+between the event HW timestamp & current HW reference timestamp can
+be used to calculate the timestamp in kernel's CLOCK_MONOTONIC time
+domain. This allows it to set accurate timestamp factoring out any
+software and IRQ latencies. Add a timestamp variant of fence signal
+function, dma_fence_signal_timestamp to allow drivers to update the
+precise timestamp for fences.
 
-Sorry for the noise
+Changes in v2:
+- Add a new fence signal variant instead of modifying fence struct
 
-On Tue, Jan 12, 2021 at 12:47:02PM +0100, Jacopo Mondi wrote:
-> During the RDACM20 probe sequence the connected deserializer chip
-> has to uses its I2C auto-acknowledgment feature as the reverse
-> channel where I2C messages are transmitted on is not yet available.
->
-> This makes it impossible to detect failures when communicating with
-> the remote cameras, as all messages are acknowledged automatically.
->
-> Reading the serializer chip id and verify it is correct is thus the
-> only reliable way to make sure it has correctly started-up.
->
-> The current implementation tries to read the chip id once, and bails
-> out if it not correct, but does not give the serializer any time to
-> exit from low power after the 'ping to wake-up' first transaction.
->
-> Make the startup process more robust by:
-> 1) Add a 5 milliseconds delay after the wake up message before
->    starting the configuration procedure as suggested by the chip
->    manual
-> 2) Read the chip-id to make sure it has properly booted
-> 3) Wrap the procedure in a for-loop and attempt configuration up
->    to 10 times
->
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/rdacm20.c | 53 ++++++++++++++++++++++++-------------
->  1 file changed, 34 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 16bcb764b0e0..de4cb635eabe 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -29,6 +29,8 @@
->
->  #include "max9271.h"
->
-> +#define MAX9271_RESET_CYCLES		10
-> +
->  #define OV10635_I2C_ADDRESS		0x30
->
->  #define OV10635_SOFTWARE_RESET		0x0103
-> @@ -453,35 +455,48 @@ static struct v4l2_subdev_ops rdacm20_subdev_ops = {
->  static int rdacm20_initialize(struct rdacm20_device *dev)
->  {
->  	unsigned int retry = 3;
-> +	unsigned int i;
->  	int ret;
->
->  	/* Verify communication with the MAX9271: ping to wakeup. */
->  	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
->  	i2c_smbus_read_byte(dev->serializer->client);
->
-> -	/* Serial link disabled during config as it needs a valid pixel clock. */
-> -	ret = max9271_set_serial_link(dev->serializer, false);
-> -	if (ret)
-> -		return ret;
-> +	/* Configure MAX9271 and make sure we can read its ID. */
-> +	for (i = 0; i < MAX9271_RESET_CYCLES; ++i) {
-> +		usleep_range(5000, 8000);
->
-> -	/*
-> -	 *  Ensure that we have a good link configuration before attempting to
-> -	 *  identify the device.
-> -	 */
-> -	max9271_configure_i2c(dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
-> -					       MAX9271_I2CSLVTO_1024US |
-> -					       MAX9271_I2CMSTBT_105KBPS);
-> +		/* Serial link disabled: it needs a valid pixel clock. */
-> +		ret = max9271_set_serial_link(dev->serializer, false);
-> +		if (ret)
-> +			return ret;
->
-> -	max9271_configure_gmsl_link(dev->serializer);
-> +		/*
-> +		 *  Ensure that we have a good link configuration before
-> +		 *  attempting to identify the device.
-> +		 */
-> +		max9271_configure_i2c(dev->serializer,
-> +				      MAX9271_I2CSLVSH_469NS_234NS |
-> +				      MAX9271_I2CSLVTO_1024US |
-> +				      MAX9271_I2CMSTBT_105KBPS);
-> +
-> +		ret = max9271_configure_gmsl_link(dev->serializer);
-> +		if (ret)
-> +			return ret;
->
-> -	ret = max9271_verify_id(dev->serializer);
-> -	if (ret < 0)
-> -		return ret;
-> +		ret = max9271_set_address(dev->serializer, dev->addrs[0]);
-> +		if (ret < 0)
-> +			return ret;
-> +		dev->serializer->client->addr = dev->addrs[0];
->
-> -	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
-> -	if (ret < 0)
-> -		return ret;
-> -	dev->serializer->client->addr = dev->addrs[0];
-> +		ret = max9271_verify_id(dev->serializer);
-> +		if (ret == 0)
-> +			break;
-> +	}
-> +	if (i == MAX9271_RESET_CYCLES) {
-> +		dev_err(dev->dev, "Failed to configure max9271");
-> +		return -ENODEV;
-> +	}
->
->  	/*
->  	 * Reset the sensor by cycling the OV10635 reset signal connected to the
-> --
-> 2.29.2
->
+Changes in v3:
+- Add timestamp domain information to commit-text and
+dma_fence_signal_timestamp documentation
+
+Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+---
+ drivers/dma-buf/dma-fence.c | 70 ++++++++++++++++++++++++++++++++++++++++-----
+ include/linux/dma-fence.h   |  3 ++
+ 2 files changed, 66 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 7475e09..b83e9fa 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -312,22 +312,25 @@ void __dma_fence_might_wait(void)
+ 
+ 
+ /**
+- * dma_fence_signal_locked - signal completion of a fence
++ * dma_fence_signal_timestamp_locked - signal completion of a fence
+  * @fence: the fence to signal
++ * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
+  *
+  * Signal completion for software callbacks on a fence, this will unblock
+  * dma_fence_wait() calls and run all the callbacks added with
+  * dma_fence_add_callback(). Can be called multiple times, but since a fence
+  * can only go from the unsignaled to the signaled state and not back, it will
+- * only be effective the first time.
++ * only be effective the first time. Set the timestamp provided as the fence
++ * signal timestamp.
+  *
+- * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
+- * held.
++ * Unlike dma_fence_signal_timestamp(), this function must be called with
++ * &dma_fence.lock held.
+  *
+  * Returns 0 on success and a negative error value when @fence has been
+  * signalled already.
+  */
+-int dma_fence_signal_locked(struct dma_fence *fence)
++int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
++			ktime_t timestamp)
+ {
+ 	struct dma_fence_cb *cur, *tmp;
+ 	struct list_head cb_list;
+@@ -341,7 +344,7 @@ int dma_fence_signal_locked(struct dma_fence *fence)
+ 	/* Stash the cb_list before replacing it with the timestamp */
+ 	list_replace(&fence->cb_list, &cb_list);
+ 
+-	fence->timestamp = ktime_get();
++	fence->timestamp = timestamp;
+ 	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+ 	trace_dma_fence_signaled(fence);
+ 
+@@ -352,6 +355,59 @@ int dma_fence_signal_locked(struct dma_fence *fence)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
++
++/**
++ * dma_fence_signal_timestamp - signal completion of a fence
++ * @fence: the fence to signal
++ * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
++ *
++ * Signal completion for software callbacks on a fence, this will unblock
++ * dma_fence_wait() calls and run all the callbacks added with
++ * dma_fence_add_callback(). Can be called multiple times, but since a fence
++ * can only go from the unsignaled to the signaled state and not back, it will
++ * only be effective the first time. Set the timestamp provided as the fence
++ * signal timestamp.
++ *
++ * Returns 0 on success and a negative error value when @fence has been
++ * signalled already.
++ */
++int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
++{
++	unsigned long flags;
++	int ret;
++
++	if (!fence)
++		return -EINVAL;
++
++	spin_lock_irqsave(fence->lock, flags);
++	ret = dma_fence_signal_timestamp_locked(fence, timestamp);
++	spin_unlock_irqrestore(fence->lock, flags);
++
++	return ret;
++}
++EXPORT_SYMBOL(dma_fence_signal_timestamp);
++
++/**
++ * dma_fence_signal_locked - signal completion of a fence
++ * @fence: the fence to signal
++ *
++ * Signal completion for software callbacks on a fence, this will unblock
++ * dma_fence_wait() calls and run all the callbacks added with
++ * dma_fence_add_callback(). Can be called multiple times, but since a fence
++ * can only go from the unsignaled to the signaled state and not back, it will
++ * only be effective the first time.
++ *
++ * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
++ * held.
++ *
++ * Returns 0 on success and a negative error value when @fence has been
++ * signalled already.
++ */
++int dma_fence_signal_locked(struct dma_fence *fence)
++{
++	return dma_fence_signal_timestamp_locked(fence, ktime_get());
++}
+ EXPORT_SYMBOL(dma_fence_signal_locked);
+ 
+ /**
+@@ -379,7 +435,7 @@ int dma_fence_signal(struct dma_fence *fence)
+ 	tmp = dma_fence_begin_signalling();
+ 
+ 	spin_lock_irqsave(fence->lock, flags);
+-	ret = dma_fence_signal_locked(fence);
++	ret = dma_fence_signal_timestamp_locked(fence, ktime_get());
+ 	spin_unlock_irqrestore(fence->lock, flags);
+ 
+ 	dma_fence_end_signalling(tmp);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 09e23ad..9f12efa 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -372,6 +372,9 @@ static inline void __dma_fence_might_wait(void) {}
+ 
+ int dma_fence_signal(struct dma_fence *fence);
+ int dma_fence_signal_locked(struct dma_fence *fence);
++int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
++int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
++				      ktime_t timestamp);
+ signed long dma_fence_default_wait(struct dma_fence *fence,
+ 				   bool intr, signed long timeout);
+ int dma_fence_add_callback(struct dma_fence *fence,
+-- 
+2.7.4
+
