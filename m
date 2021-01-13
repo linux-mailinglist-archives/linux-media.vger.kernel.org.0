@@ -2,101 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B3212F4D16
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 15:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73BCD2F4D28
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 15:35:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726003AbhAMO2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 09:28:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725772AbhAMO23 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 09:28:29 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFFD8C061575;
-        Wed, 13 Jan 2021 06:27:49 -0800 (PST)
+        id S1725943AbhAMOeZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 09:34:25 -0500
+Received: from gofer.mess.org ([88.97.38.141]:50591 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725843AbhAMOeZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 09:34:25 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 0AB5DC6378; Wed, 13 Jan 2021 14:27:46 +0000 (GMT)
+        id 62E44C6378; Wed, 13 Jan 2021 14:33:43 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1610548066; bh=UktXgG9wkBHTGV//3PGFQd/yEA8ExzR/nxPRJulSGQA=;
+        t=1610548423; bh=mEnNij7JtIsgICbFjxm+XkheIaJlysr8bzezKdXpPkw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Facmcd+CkeoNSgGoSfHw7RKuh9lt4n46w1p2uqfH6iFCzcgOyNzY2eLZMxF2Yyx0N
-         Dh8UHI+BjVsuYsRzm/WY+8Hb01/cPeVzgHJfcSXr0ElscF0aJbNpWZqo3jeNsMvp61
-         xJ8Y3MRBhDbqJajQsnz6xKnBxDRYZ6TodbL1BvA+7APXBgW7Vow3QXo4u8EOxbQdlL
-         iOGfnzDnvxs9Ar5AQoKjh0MDZvO8pqvZurneYfiSHdoRekyEGr0seyar0FJYHxWM0x
-         rIiTeVvbwSu0cZNB09aRzDjarNB3v3w9QKBjGDVwe8ZVfNIEgOr6FlUvXUj5TCepwD
-         WnQzxV3uJfoCg==
-Date:   Wed, 13 Jan 2021 14:27:45 +0000
+        b=T7WMkVijJRJ16g0Fr2qpEN8GGavduKlAN2AQWhQqh1KOk9KGJ1mIiwLDYEXE8st95
+         17TgOxns/z69eqWtVXQvo7o9FUDpORK5YHvBs/KloWUCmrlPwKTVMZDBoA8v8vPNro
+         Cd+3K9wPRwQmDQ2v2xOq1Z9zGAp1svJutxlPulMkg+muLzM7AVr9oaiQRBrPGQYMCO
+         c1/nivxi7uKZVd/UUj5lk5ycR4f3N8NkknHm+Y7q63vwEafeUNZoYbYbsnBRXpU+ci
+         Vl/CAJr99jf3x7aEZVtNkugYnOi62ZwgmhAZCztI80fLvIQbMK2WsNHBlSawfM3M2c
+         cJ2uq3zMxEBzw==
+Date:   Wed, 13 Jan 2021 14:33:43 +0000
 From:   Sean Young <sean@mess.org>
-To:     Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fix shift-out-of-bound in mceusb_process_ir_data
-Message-ID: <20210113142745.GA8138@gofer.mess.org>
-References: <20210113111122.1739478-1-mudongliangabcd@gmail.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@googlegroups.com
+Subject: Re: [PATCH 1/4] media: sunxi-cir: Clean up dead register writes
+Message-ID: <20210113143343.GA8430@gofer.mess.org>
+References: <20210113045132.31430-1-samuel@sholland.org>
+ <20210113045132.31430-2-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210113111122.1739478-1-mudongliangabcd@gmail.com>
+In-Reply-To: <20210113045132.31430-2-samuel@sholland.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 07:11:22PM +0800, Dongliang Mu wrote:
-> The missing check of ir->buf_in[i+1] can lead to an shift-out-of-bound
-> in mceusb_handle_command or mceusb_dev_printdata. This patch adds a
-> check to limit its value lower than 16. The concrete report of UBSAN is
-> as follows.
+On Tue, Jan 12, 2021 at 10:51:29PM -0600, Samuel Holland wrote:
+> The register writes during driver removal occur after the device is
+> already put back in reset, so they never had any effect.
 > 
-> UBSAN: shift-out-of-bounds in drivers/media/rc/mceusb.c:704:13
-> shift exponent 230 is too large for 32-bit type 'unsigned int'
-> CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.10.0-syzkaller #0
-> Call Trace:
->  <IRQ>
->  __dump_stack lib/dump_stack.c:79 [inline]
->  dump_stack+0x107/0x163 lib/dump_stack.c:120
->  ubsan_epilogue+0xb/0x5a lib/ubsan.c:148
->  __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x181 lib/ubsan.c:395
->  mceusb_dev_printdata.cold+0x19/0x1e drivers/media/rc/mceusb.c:704
->  mceusb_process_ir_data drivers/media/rc/mceusb.c:1275 [inline]
->  mceusb_dev_recv+0x3cb/0x1990 drivers/media/rc/mceusb.c:1376
->  __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1657
->  usb_hcd_giveback_urb+0x38c/0x430 drivers/usb/core/hcd.c:1728
->  dummy_timer+0x11f4/0x32a0 drivers/usb/gadget/udc/dummy_hcd.c:1971
-> 
-> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  drivers/media/rc/mceusb.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/media/rc/sunxi-cir.c | 10 ----------
+>  1 file changed, 10 deletions(-)
 > 
-> diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-> index f9616158bcf4..755808c6e747 100644
-> --- a/drivers/media/rc/mceusb.c
-> +++ b/drivers/media/rc/mceusb.c
-> @@ -1272,6 +1272,8 @@ static void mceusb_process_ir_data(struct mceusb_dev *ir, int buf_len)
->  		switch (ir->parser_state) {
->  		case SUBCMD:
->  			ir->rem = mceusb_cmd_datasize(ir->cmd, ir->buf_in[i]);
-> +			if (ir->buf_in[i+1] >= 16)
-> +				continue;
+> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+> index 8555c7798706..0a7f7eab3cc3 100644
+> --- a/drivers/media/rc/sunxi-cir.c
+> +++ b/drivers/media/rc/sunxi-cir.c
+> @@ -342,22 +342,12 @@ static int sunxi_ir_probe(struct platform_device *pdev)
+>  
+>  static int sunxi_ir_remove(struct platform_device *pdev)
+>  {
+> -	unsigned long flags;
+>  	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+>  
+>  	clk_disable_unprepare(ir->clk);
+>  	clk_disable_unprepare(ir->apb_clk);
+>  	reset_control_assert(ir->rst);
+>  
+> -	spin_lock_irqsave(&ir->ir_lock, flags);
+> -	/* disable IR IRQ */
+> -	writel(0, ir->base + SUNXI_IR_RXINT_REG);
+> -	/* clear All Rx Interrupt Status */
+> -	writel(REG_RXSTA_CLEARALL, ir->base + SUNXI_IR_RXSTA_REG);
+> -	/* disable IR */
+> -	writel(0, ir->base + SUNXI_IR_CTL_REG);
+> -	spin_unlock_irqrestore(&ir->ir_lock, flags);
+> -
+>  	rc_unregister_device(ir->rc);
+>  	return 0;
+>  }
 
-I'm not sure this is correct. This checks the second byte for *any* response,
-not just MCE_RSP_EQIRCFS response which is causing the "shift out of bounds"
-issue.
+I don't think there is anything wrong with the patch, however here the
+driver does rc_unregister_device() *after* disabling it. Userspace can
+still hold a file descriptor open, and call e.g. LIRC_SET_REC_TIMEOUT
+ioctl, which causes various writes the sunxi-cir registers.
 
-I think the check belongs within the MCE_RSP_EQIRCFS case.
+The order should be reversed.
 
-Lastly it should have been break, not continue.
-
-Thanks
 
 Sean
-
-
-
->  			mceusb_dev_printdata(ir, ir->buf_in, buf_len, i - 1,
->  					     ir->rem + 2, false);
->  			if (i + ir->rem < buf_len)
-> -- 
-> 2.25.1
