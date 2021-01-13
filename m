@@ -2,86 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE1CB2F48B3
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 11:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F8F12F4978
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 12:10:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726980AbhAMKaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 05:30:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726898AbhAMKaL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 05:30:11 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217B2C061795
-        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 02:29:31 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id d17so2290218ejy.9
-        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 02:29:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=O1ISGW1RaU0XNG0J5lpJPahfmekjOSoZHUoUK6eXzeY=;
-        b=tpSYzA/7Owm4gVFs36ogemVFjXeDYR+jzWi4Cp4UMcA7mHlFrB0cpVoAAfLcJR6kET
-         Q6CT4ymmP+DRgWCQVXkiHK3BKdzJgWcpWWRokCgPIGP3vBHT8iVYqaKy/vBq494I0G3O
-         Y5SkiVY7r51r4dU6H779DFjkUJ10nGvUIuv3lNYF7UVMQSi9hxmnZTB5lDVH5Kt2wym0
-         Tv1OARpOnqnjQObG16qloUrd8XMdBsraAmWCwfwDpsJx6WWtBFGPiDKgCsgmRXisNNGl
-         1nkuMIK2jPkcOLTed9cRLlwkRmPVpWtgMKlJPASVIIf3Nhp7uLKkCFw3cec+DUQkWCL/
-         U3GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=O1ISGW1RaU0XNG0J5lpJPahfmekjOSoZHUoUK6eXzeY=;
-        b=gb0SySWqNK3ukJvzZvuCn0J5mv2DpwYAGLiG07rS/7yK4WUvLOOQthtOe6+cdseGY6
-         wolxWEX3kVyOKkl7GAjKoXckx9SWOzlVSci3c81+NUU5BjMziO7TVPtZTGEE26kegRe3
-         eJVabjEP946nRLf3DkgE0H8zo6HKQFN0ZSZet9E6/6/W6g6V3Nce2Z/IpK45LnPZ+Nlg
-         RfA3v6rOIedX0BM2OPXkIdCexbstIJNeYOCHAXhEPkLsz03iEWwE0sTDHJHSGuTdW/e+
-         cMaSBoOjSUzUF2FDxfSsv3lyXa0u616B59k7YVFAqg9UHhJZmIPDTFnR6NrBIDE2V/lR
-         MrLg==
-X-Gm-Message-State: AOAM533iAxX06WU7UQFb6NOw86goZqxlUpCmUfK31iIkNaWPLB4fCyXB
-        ZN/n1UVbBxPx/nbfuNQclt60TcPuKposDoaX
-X-Google-Smtp-Source: ABdhPJxmf863ISkG6HUSgsuXyuhC9GiBpmDhAY8DCknXAyR9TX9tYt7SyZfcMin1m25CvnWirp2FMQ==
-X-Received: by 2002:a17:906:1288:: with SMTP id k8mr1063584ejb.206.1610533769627;
-        Wed, 13 Jan 2021 02:29:29 -0800 (PST)
-Received: from localhost.localdomain (hst-221-90.medicom.bg. [84.238.221.90])
-        by smtp.gmail.com with ESMTPSA id h12sm551253ejx.81.2021.01.13.02.29.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 02:29:28 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH] venus: hfi_plat: Fix warning for missing function prototype
-Date:   Wed, 13 Jan 2021 12:29:20 +0200
-Message-Id: <20210113102920.12841-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S1727846AbhAMLCK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 06:02:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38838 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727442AbhAMLAw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 06:00:52 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 96C0123383;
+        Wed, 13 Jan 2021 10:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610535569;
+        bh=UsiaJ5TeFRIuOKIuSBE3ueTDIjqdP8/ojUP8xNThLiU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JwQBO8e3swkxbw4v0qYoQuzfOutZcHgnI0MSHLSa7aQYUqKKz9xGmdslvbE+6X+pl
+         iQOsreIaYUaopfrnoALMeRcoV8b2ewED6qoB6VZAohTV2XoiM/Ugq8CdhsTDpkpFSC
+         sHsApbyrBjWJlSbUXBv7tLCy1UNX3cGrSSAD7j++4HLesIzeEjFZVPQJn2J5oLmjON
+         LO6JcKkXMZsrXk8YpCGzlX782pac1zAqJFB7uHTlnn9sXRcGD3zlcwAV7Mf5VR7pFG
+         iH9Nqr9o9EuUz7C11onQCo1Sg/vfJIRxblyM1+yeUPdfpo0R+ivUmKOYdf8WcgHtgm
+         MAEc9cWWKa5YQ==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kzds7-00DpFo-1W; Wed, 13 Jan 2021 11:59:27 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH 00/24] Fix broken file docs cross-references
+Date:   Wed, 13 Jan 2021 11:59:01 +0100
+Message-Id: <cover.1610535349.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The bufreq_enc function should be static.
+File renames and yaml conversions broke file references for several files,
+as reported by:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+	./scripts/documentation-file-ref-check
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-index 072e349dd46c..d43d1a53e72d 100644
---- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-+++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-@@ -1239,8 +1239,8 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
- 	return 0;
- }
- 
--int bufreq_enc(struct hfi_plat_buffers_params *params, u32 buftype,
--	       struct hfi_buffer_requirements *bufreq)
-+static int bufreq_enc(struct hfi_plat_buffers_params *params, u32 buftype,
-+		      struct hfi_buffer_requirements *bufreq)
- {
- 	enum hfi_version version = params->version;
- 	struct enc_bufsize_ops *enc_ops;
+Fix most of them.
+
+Please notice that this series was generated against  linux-next
+(next-20210113).  So, it is better if the fixup patch could be added
+at the same tree that received the patch renaming the filename.
+
+Regards,
+Mauro
+
+Mauro Carvalho Chehab (24):
+  MAINTAINERS: update adi,ad5758.yaml reference
+  MAINTAINERS: update fsl,dpaa2-console.yaml reference
+  MAINTAINERS: update st,hts221.yaml reference
+  MAINTAINERS: update dpot-dac.yaml reference
+  MAINTAINERS: update envelope-detector.yaml reference
+  MAINTAINERS: update current-sense-amplifier.yaml reference
+  MAINTAINERS: update current-sense-shunt.yaml reference
+  MAINTAINERS: update voltage-divider.yaml reference
+  MAINTAINERS: update mtk-sd.yaml reference
+  MAINTAINERS: update atmel,sama5d2-adc.yaml reference
+  MAINTAINERS: update pni,rm3100.yaml reference
+  MAINTAINERS: update renesas,rcar-gyroadc.yaml reference
+  MAINTAINERS: update st,lsm6dsx.yaml reference
+  MAINTAINERS: update st,vl53l0x.yaml reference
+  MAINTAINERS: update ti,dac7612.yaml reference
+  Documentation/hwmon/ina2xx.rst: update ti,ina2xx.yaml reference
+  arch/Kconfig: update unaligned-memory-access.rst reference
+  include/linux/iio/dac/mcp4725.h: update a microchip,mcp4725.yaml ref
+  doc: update rcu_dereference.rst reference
+  ASoC: audio-graph-card: update audio-graph-card.yaml reference
+  dt-bindings: display: mediatek: update mediatek,dpi.yaml reference
+  dt-bindings: memory: mediatek: update mediatek,smi-larb.yaml
+    references
+  dt-bindings:iio:adc: update adc.yaml reference
+  dt-bindings: phy: update phy-cadence-sierra.yaml reference
+
+ .../bindings/display/bridge/sii902x.txt       |  2 +-
+ .../display/mediatek/mediatek,disp.txt        |  4 +--
+ .../bindings/iio/adc/adi,ad7192.yaml          |  2 +-
+ .../bindings/media/mediatek-jpeg-decoder.txt  |  2 +-
+ .../bindings/media/mediatek-jpeg-encoder.txt  |  2 +-
+ .../bindings/media/mediatek-mdp.txt           |  2 +-
+ .../bindings/phy/ti,phy-j721e-wiz.yaml        |  2 +-
+ Documentation/hwmon/ina2xx.rst                |  2 +-
+ MAINTAINERS                                   | 30 +++++++++----------
+ arch/Kconfig                                  |  2 +-
+ include/linux/iio/dac/mcp4725.h               |  2 +-
+ tools/memory-model/Documentation/glossary.txt |  2 +-
+ 12 files changed, 27 insertions(+), 27 deletions(-)
+
 -- 
-2.17.1
+2.29.2
+
 
