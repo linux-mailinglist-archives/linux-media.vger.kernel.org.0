@@ -2,86 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0EFB2F504D
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 17:47:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E600F2F508E
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 18:03:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727599AbhAMQpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 11:45:45 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:53537 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727533AbhAMQpo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 11:45:44 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id zjGVkKKlBAiIczjGYkeIiH; Wed, 13 Jan 2021 17:45:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610556302; bh=OGsVjFozKqnOMVXft0rDgO45msjbJ73GWAviZyXZlbA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=KJbxeHXUAbY0kec1Ai+ooACscx2Izhyti4/Xk0WUExd5Opjj3UgfYFLffZ4IJtQR5
-         5VnUz9pJHHDCtKhnZxE2FzkqhNX10Bxcc1uvMpKVpAPsbwOTmJH4cXCyrudePXHuhX
-         pPe//GpSONFHcPeiUIB7ugUXlFmYDtzRhdA7e/DExVJpfynX/Gk9OCVoN8xGsG6Jly
-         XbVvjFGBSGqc4AYprodsPaZVpvaHwXbAbYBvxX+dan6TTcvbdfzU5C/cPUZdEpRUvF
-         phn+y2gGD8yi1iiYahSivGncRx3JX3jz1yvAyFngMf41U62my8g4qcY+vdZenK4GZ0
-         YvwfQSo1V4YXw==
-Subject: Re: [PATCH v4 0/2] Add base layer priority id control
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1609738914-22769-1-git-send-email-dikshita@codeaurora.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <ef05e9fe-355d-43d5-7b14-9ea89cfef907@xs4all.nl>
-Date:   Wed, 13 Jan 2021 17:44:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1727825AbhAMRC7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 12:02:59 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:49296 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727527AbhAMRC7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 12:02:59 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kzjXF-00DTyt-C7; Wed, 13 Jan 2021 17:02:17 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kzjag-0005sV-4V; Wed, 13 Jan 2021 17:05:50 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.12] Various fixes/enhancements (#70720)
+Date:   Wed, 13 Jan 2021 17:05:50 +0000
+Message-Id: <20210113170550.22554-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <38f99047-2ecf-ab1b-630e-6cf1853f548f@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <1609738914-22769-1-git-send-email-dikshita@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGTHDsmIdoz91f7BiWTfdovwEmXJNMyRw6fE2w6PfzFdkyFbYSsUT2bc0W8vQigim8mZQbOS3ZD+85fvNbIGK4uVGFaxrYYaG8FU6b+/xnbbtOn+0e+I
- 3woEV5DguH/+Ka16szyqqiBoLEGVHflPr+2YtrDS4/b/XpaQ9KewEENQ+fB3O8nmuIE/vYPcOy+E8f9HCrJ69N8LHWSYgs+MQ7nWYv8I6ZEHBTfYdjpfuWr+
- 9oqYtK4QRFirh/2Ff08Ru9vF3ah2tbdp/SrkGIfmC7WupkoNPK/Ttxt/vCvglF9I8jERETwFpufwvaCkrNddxsoYMDNdlAWmDfO5DaJ++6U2FvdGV0tZQ/KM
- Z0KRGBA7l+7HIjO7N/XyhDOYS7pWD+ZgZ3SIrkGkz+opCEI5Ct0=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dikshita,
+From: builder@linuxtv.org
 
-On 04/01/2021 06:41, Dikshita Agarwal wrote:
-> This series adds base layer priority id control for encoder
-> and support for the same in venus driver.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/38f99047-2ecf-ab1b-630e-6cf1853f548f@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/85636/
+Build time: 00:14:23
+Link: https://lore.kernel.org/linux-media/38f99047-2ecf-ab1b-630e-6cf1853f548f@xs4all.nl
 
-Posted a pull request for this series and the "Add new controls for QP and
-layer bitrate" series.
+gpg: Signature made Wed 13 Jan 2021 04:16:51 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Note that because the "Add encoder ctrls for long term reference" is not
-merged, the control ID for V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID changed
-and that you need to rebase the "Add encoder ctrls for long term reference"
-series accordingly.
+Summary: got 3/12 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-Regards,
+Error/warnings:
 
-	Hans
+patches/0002-media-v4l2-ctrl-Add-frame-specific-min-max-qp-contro.patch:
 
-> 
-> Changes since v3:
-> - Rebased the changes on latest media tree.
-> - Addressed the comments.
-> - Added driver side implementation for new control.
-> 
-> Dikshita Agarwal (2):
->   media: v4l2-ctrl: Add base layer priority id control.
->   venus: venc : Add support for priority ID control.
-> 
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 9 +++++++++
->  drivers/media/platform/qcom/venus/core.h                  | 2 ++
->  drivers/media/platform/qcom/venus/venc_ctrls.c            | 9 ++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls.c                      | 1 +
->  include/uapi/linux/v4l2-controls.h                        | 1 +
->  5 files changed, 21 insertions(+), 1 deletion(-)
-> 
+   checkpatch.pl:
+	$ cat patches/0002-media-v4l2-ctrl-Add-frame-specific-min-max-qp-contro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:106: WARNING: line length of 103 exceeds 100 columns
+	-:107: WARNING: line length of 103 exceeds 100 columns
+	-:115: WARNING: line length of 103 exceeds 100 columns
+	-:116: WARNING: line length of 103 exceeds 100 columns
+	-:117: WARNING: line length of 103 exceeds 100 columns
+	-:118: WARNING: line length of 103 exceeds 100 columns
+	-:119: WARNING: line length of 103 exceeds 100 columns
+	-:120: WARNING: line length of 103 exceeds 100 columns
+	-:132: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:133: CHECK: spaces preferred around that '+' (ctx:VxV)
+
+patches/0003-media-v4l2-ctrl-Add-layer-wise-bitrate-controls-for-.patch:
+
+   checkpatch.pl:
+	$ cat patches/0003-media-v4l2-ctrl-Add-layer-wise-bitrate-controls-for-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:56: WARNING: line length of 105 exceeds 100 columns
+	-:57: WARNING: line length of 105 exceeds 100 columns
+	-:58: WARNING: line length of 105 exceeds 100 columns
+	-:59: WARNING: line length of 105 exceeds 100 columns
+	-:60: WARNING: line length of 105 exceeds 100 columns
+	-:61: WARNING: line length of 105 exceeds 100 columns
+	-:62: WARNING: line length of 105 exceeds 100 columns
+	-:74: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:75: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:76: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:77: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:78: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:79: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:80: CHECK: spaces preferred around that '+' (ctx:VxV)
+
+patches/0005-media-v4l2-ctrl-Add-base-layer-priority-id-control.patch:
+
+   checkpatch.pl:
+	$ cat patches/0005-media-v4l2-ctrl-Add-base-layer-priority-id-control.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:55: CHECK: spaces preferred around that '+' (ctx:VxV)
+
+
+Error #512 when building PDF docs
 
