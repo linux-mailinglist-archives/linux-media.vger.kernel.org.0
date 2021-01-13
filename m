@@ -2,215 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 830D32F4CB8
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 15:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B3212F4D16
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 15:28:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbhAMOGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 09:06:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60326 "EHLO
+        id S1726003AbhAMO2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 09:28:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726223AbhAMOGx (ORCPT
+        with ESMTP id S1725772AbhAMO23 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 09:06:53 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D50AC061575
-        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 06:06:12 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id n16so3698352wmc.0
-        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 06:06:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PuB9AtsbL57Sf3a4kUmMKSYxRAD6+mN4emlNl3f9yCc=;
-        b=CxVKPnmBcMg1ScTz2Wp7OQZJuPc9+gpiJ+JlCYN6Nyr7ytccijkhKaHNDHZxxaODJC
-         sktKBeblYT6pNWHjIU2Bu1i27ImC4PNkMWua5Wz4rZ5EBI9AFNiwW4+rKC+qBYKTHVjC
-         lGCPXwZhAXuQw3n7nI1i0AL1R5F9Cxp8tVREE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PuB9AtsbL57Sf3a4kUmMKSYxRAD6+mN4emlNl3f9yCc=;
-        b=WEvdBfS8vlHWe+VuaTn16fG66AwI0wWVYHAwNASRru3p5UvBXUG9JdgcYqe148QAvT
-         x47Pla+FLbm/qvICkDasjxant9pigC99Yuk0QLJpW3KhIohFZt+s0QIBcw5m20JPnCqm
-         8y9CKwGh6Vg1Qr76Gqi4ERcSFZydLGeXg/KelV986NsKwKTDo/XBQ9XJSBTyZRGnrWy2
-         pyANHRhHoZT5TjdI4ZH0CPZ5wF8bCW9kNexwbBrj7Yf8SQfLRr8oYiQDU69xNGwf0/nE
-         sXhzj0f5vYqpLAbeTHRoxAgNNRidIshZXSRywQN87D6kIFi1ZYJqWtyYPuUklK7NyvD2
-         SgkA==
-X-Gm-Message-State: AOAM531DrQDuNqmT6EX2wc4HNs0T8K+dmhmCd0umf8S9PX/1CqjgyKkF
-        +W3YK2T3aqQsWLH03sVkenB/SA==
-X-Google-Smtp-Source: ABdhPJwDA7rrRqm6VAVvCKB++joJBjMpeLpdhwEvxaUmndBbZOKzgsDgvMWoa8xdALfSxtRH+BW4EA==
-X-Received: by 2002:a05:600c:2219:: with SMTP id z25mr2385510wml.27.1610546771304;
-        Wed, 13 Jan 2021 06:06:11 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id y68sm3590295wmc.0.2021.01.13.06.06.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 06:06:10 -0800 (PST)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Stevens <stevensd@chromium.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drm-buf: Add debug option
-Date:   Wed, 13 Jan 2021 15:06:04 +0100
-Message-Id: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.29.2
+        Wed, 13 Jan 2021 09:28:29 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFFD8C061575;
+        Wed, 13 Jan 2021 06:27:49 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 0AB5DC6378; Wed, 13 Jan 2021 14:27:46 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1610548066; bh=UktXgG9wkBHTGV//3PGFQd/yEA8ExzR/nxPRJulSGQA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Facmcd+CkeoNSgGoSfHw7RKuh9lt4n46w1p2uqfH6iFCzcgOyNzY2eLZMxF2Yyx0N
+         Dh8UHI+BjVsuYsRzm/WY+8Hb01/cPeVzgHJfcSXr0ElscF0aJbNpWZqo3jeNsMvp61
+         xJ8Y3MRBhDbqJajQsnz6xKnBxDRYZ6TodbL1BvA+7APXBgW7Vow3QXo4u8EOxbQdlL
+         iOGfnzDnvxs9Ar5AQoKjh0MDZvO8pqvZurneYfiSHdoRekyEGr0seyar0FJYHxWM0x
+         rIiTeVvbwSu0cZNB09aRzDjarNB3v3w9QKBjGDVwe8ZVfNIEgOr6FlUvXUj5TCepwD
+         WnQzxV3uJfoCg==
+Date:   Wed, 13 Jan 2021 14:27:45 +0000
+From:   Sean Young <sean@mess.org>
+To:     Dongliang Mu <mudongliangabcd@gmail.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Fix shift-out-of-bound in mceusb_process_ir_data
+Message-ID: <20210113142745.GA8138@gofer.mess.org>
+References: <20210113111122.1739478-1-mudongliangabcd@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210113111122.1739478-1-mudongliangabcd@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We have too many people abusing the struct page they can get at but
-really shouldn't in importers. Aside from that the backing page might
-simply not exist (for dynamic p2p mappings) looking at it and using it
-e.g. for mmap can also wreak the page handling of the exporter
-completely. Importers really must go through the proper interface like
-dma_buf_mmap for everything.
+On Wed, Jan 13, 2021 at 07:11:22PM +0800, Dongliang Mu wrote:
+> The missing check of ir->buf_in[i+1] can lead to an shift-out-of-bound
+> in mceusb_handle_command or mceusb_dev_printdata. This patch adds a
+> check to limit its value lower than 16. The concrete report of UBSAN is
+> as follows.
+> 
+> UBSAN: shift-out-of-bounds in drivers/media/rc/mceusb.c:704:13
+> shift exponent 230 is too large for 32-bit type 'unsigned int'
+> CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.10.0-syzkaller #0
+> Call Trace:
+>  <IRQ>
+>  __dump_stack lib/dump_stack.c:79 [inline]
+>  dump_stack+0x107/0x163 lib/dump_stack.c:120
+>  ubsan_epilogue+0xb/0x5a lib/ubsan.c:148
+>  __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x181 lib/ubsan.c:395
+>  mceusb_dev_printdata.cold+0x19/0x1e drivers/media/rc/mceusb.c:704
+>  mceusb_process_ir_data drivers/media/rc/mceusb.c:1275 [inline]
+>  mceusb_dev_recv+0x3cb/0x1990 drivers/media/rc/mceusb.c:1376
+>  __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1657
+>  usb_hcd_giveback_urb+0x38c/0x430 drivers/usb/core/hcd.c:1728
+>  dummy_timer+0x11f4/0x32a0 drivers/usb/gadget/udc/dummy_hcd.c:1971
+> 
+> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> ---
+>  drivers/media/rc/mceusb.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
+> index f9616158bcf4..755808c6e747 100644
+> --- a/drivers/media/rc/mceusb.c
+> +++ b/drivers/media/rc/mceusb.c
+> @@ -1272,6 +1272,8 @@ static void mceusb_process_ir_data(struct mceusb_dev *ir, int buf_len)
+>  		switch (ir->parser_state) {
+>  		case SUBCMD:
+>  			ir->rem = mceusb_cmd_datasize(ir->cmd, ir->buf_in[i]);
+> +			if (ir->buf_in[i+1] >= 16)
+> +				continue;
 
-Just an RFC to see whether this idea has some stickiness. default y
-for now to make sure intel-gfx-ci picks it up too.
+I'm not sure this is correct. This checks the second byte for *any* response,
+not just MCE_RSP_EQIRCFS response which is causing the "shift out of bounds"
+issue.
 
-I'm semi-tempted to enforce this for dynamic importers since those
-really have no excuse at all to break the rules.
+I think the check belongs within the MCE_RSP_EQIRCFS case.
 
-Unfortuantely we can't store the right pointers somewhere safe to make
-sure we oops on something recognizable, so best is to just wrangle
-them a bit by flipping all the bits. At least on x86 kernel addresses
-have all their high bits sets and the struct page array is fairly low
-in the kernel mapping, so flipping all the bits gives us a very high
-pointer in userspace and hence excellent chances for an invalid
-dereference.
+Lastly it should have been break, not continue.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: David Stevens <stevensd@chromium.org>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/Kconfig   |  8 +++++++
- drivers/dma-buf/dma-buf.c | 49 +++++++++++++++++++++++++++++++++++----
- 2 files changed, 53 insertions(+), 4 deletions(-)
+Thanks
 
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index 4f8224a6ac95..cddb549e5e59 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -50,6 +50,14 @@ config DMABUF_MOVE_NOTIFY
- 	  This is marked experimental because we don't yet have a consistent
- 	  execution context and memory management between drivers.
- 
-+config DMABUF_DEBUG
-+	bool "DMA-BUF debug checks"
-+	default y
-+	help
-+	  This option enables additional checks for DMA-BUF importers and
-+	  exporters. Specifically it validates that importers do not peek at the
-+	  underlying struct page when they import a buffer.
-+
- config DMABUF_SELFTESTS
- 	tristate "Selftests for the dma-buf interfaces"
- 	default n
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 1c9bd51db110..6e4725f7dfde 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -666,6 +666,30 @@ void dma_buf_put(struct dma_buf *dmabuf)
- }
- EXPORT_SYMBOL_GPL(dma_buf_put);
- 
-+static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
-+				       enum dma_data_direction direction)
-+{
-+	struct sg_table *sg_table;
-+
-+	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
-+
-+#if CONFIG_DMABUF_DEBUG
-+	if (sg_table) {
-+		int i;
-+		struct scatterlist *sg;
-+
-+		/* To catch abuse of the underlying struct page by importers mix
-+		 * up the bits, but take care to preserve the low SG_ bits to
-+		 * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
-+		 * before passing the sgt back to the exporter. */
-+		for_each_sgtable_sg(sg_table, sg, i)
-+			sg->page_link ^= ~0xffUL;
-+	}
-+#endif
-+
-+	return sg_table;
-+}
-+
- /**
-  * dma_buf_dynamic_attach - Add the device to dma_buf's attachments list
-  * @dmabuf:		[in]	buffer to attach device to.
-@@ -737,7 +761,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 				goto err_unlock;
- 		}
- 
--		sgt = dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
-+		sgt = __map_dma_buf(attach, DMA_BIDIRECTIONAL);
- 		if (!sgt)
- 			sgt = ERR_PTR(-ENOMEM);
- 		if (IS_ERR(sgt)) {
-@@ -784,6 +808,23 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
- }
- EXPORT_SYMBOL_GPL(dma_buf_attach);
- 
-+static void __unmap_dma_buf(struct dma_buf_attachment *attach,
-+			    struct sg_table *sg_table,
-+			    enum dma_data_direction direction)
-+{
-+
-+#if CONFIG_DMABUF_DEBUG
-+	if (sg_table) {
-+		int i;
-+		struct scatterlist *sg;
-+
-+		for_each_sgtable_sg(sg_table, sg, i)
-+			sg->page_link ^= ~0xffUL;
-+	}
-+#endif
-+	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
-+}
-+
- /**
-  * dma_buf_detach - Remove the given attachment from dmabuf's attachments list
-  * @dmabuf:	[in]	buffer to detach from.
-@@ -802,7 +843,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 		if (dma_buf_is_dynamic(attach->dmabuf))
- 			dma_resv_lock(attach->dmabuf->resv, NULL);
- 
--		dmabuf->ops->unmap_dma_buf(attach, attach->sgt, attach->dir);
-+		__unmap_dma_buf(attach, attach->sgt, attach->dir);
- 
- 		if (dma_buf_is_dynamic(attach->dmabuf)) {
- 			dma_buf_unpin(attach);
-@@ -924,7 +965,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
- 		}
- 	}
- 
--	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
-+	sg_table = __map_dma_buf(attach, direction);
- 	if (!sg_table)
- 		sg_table = ERR_PTR(-ENOMEM);
- 
-@@ -987,7 +1028,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
- 	if (dma_buf_is_dynamic(attach->dmabuf))
- 		dma_resv_assert_held(attach->dmabuf->resv);
- 
--	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
-+	__unmap_dma_buf(attach, sg_table, direction);
- 
- 	if (dma_buf_is_dynamic(attach->dmabuf) &&
- 	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
--- 
-2.29.2
+Sean
 
+
+
+>  			mceusb_dev_printdata(ir, ir->buf_in, buf_len, i - 1,
+>  					     ir->rem + 2, false);
+>  			if (i + ir->rem < buf_len)
+> -- 
+> 2.25.1
