@@ -2,113 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6A022F5110
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 18:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ED322F512D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 18:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728162AbhAMRXr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 12:23:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46864 "EHLO
+        id S1727859AbhAMRcL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 12:32:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728091AbhAMRXr (ORCPT
+        with ESMTP id S1726996AbhAMRcL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 12:23:47 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3F15C061786
-        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 09:23:06 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id g21so2802804edy.0
-        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 09:23:06 -0800 (PST)
+        Wed, 13 Jan 2021 12:32:11 -0500
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38A3C061575
+        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 09:31:30 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id a1so1097411qvd.13
+        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 09:31:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4AwPN586eSy4mbXN3tKGamNWI7spdXbsGdw+y/Zgc3E=;
-        b=nWlCyj5TF4VhJbErT9LiR9QoH6NTt2uP2bbpbU3bVRsUyL9hE7Yb8n43G/TyYE+YAK
-         ETT5zKDsblOwhu+JBn4JC6OmNTbYzIFTkBZ5QK97Uq+LdLR7drY2cEmAk5Du1I5xq/Yk
-         f34ENIv6phGTxkBjDU3/xd25hXSDAk4KsZvfOv/643fIkhFSshIk5ugasKpiBsT868D6
-         46Em0HZolk9xa7NB2/c5twVrxseqVHVwl6ysgeWqR6LUToRGg1J4ynkkvUEM5g5Vqbp2
-         fyYhyz53rZ5e0SlRmGT6qXs395AFF0NydzrQQ9XPtgtQjDVB03y5kQ5gJikyO6wAdvrg
-         A9+w==
+        bh=+V2Dr2muMkbk0Yt20+kBeKoC8rP7GJB7dLSdIgBdmPU=;
+        b=TGvsxQuiRgpoRSNCinvSnrvriBuQfwHVZFHfM1a1dybagvBAQuJXoAB6tesQINtW66
+         rZnAujCpdbZJiYkIikadqGylWKIlPfne/BLEPbWGrO57TszPd7LhSpHrbLH2QfZdjRNz
+         cPFkmXQJw1OKpOMpbye9/FjUn7KOY1E7gxAyo17gO01nP5cSxzETAzSQ9pPWr9qPdgyh
+         NdE/jLXnqXcK/psY1fmr9gqq9DpedoxySG1dpVSIp+FwCsQFtJrUhG3GiT2/yxFUA3Zg
+         5Yr74jWVXlHzqNfZYdrqAF/ehceTrb5qJOB1IRFgLFPysIaSyOFCpUyxKC1G+G0OPyBS
+         C5Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4AwPN586eSy4mbXN3tKGamNWI7spdXbsGdw+y/Zgc3E=;
-        b=igt/WOr7IA7PIDfrJp0VVq/ZbTaPrdoy+wHCfpzocmEoqGIxuSiTBCsUhwKZjfAKYq
-         5Y0ZParfyiC3KvjEzgCf0PzldebQ7lO1MVcRBKjp6jj1M8mJkzQ/I6AJqqd3f5gljexv
-         fZmi4TSR+hFF1QoUgUzcU4vRFqCrTGoFQzygdhjeWissZGx+o7xY5tkd/vk8nrkIrNo0
-         ICfHhLO+biKkiEXWm4saLMRbDTJi05N37eh5T0ZtyIaqkPb/py6WhGOS/bdBr/KYE3Im
-         GIFEpiJVbJwcZ2NNVnI5khrxOJPGPPLspuahObxzAFGOUy7pF7mRMMlhEX6ygVvKfoGN
-         RWtQ==
-X-Gm-Message-State: AOAM533I8z/dsIxJNRYUQ3BZLHzyzC0gdl+3iUP5w5TOgdi9vdatdan4
-        ofZR2EgDTFbP4qPfA8AHyhsb30nQn0uaiih3Y/gnuw==
-X-Google-Smtp-Source: ABdhPJywHg1wYzXYJj4cTNqUA6DSMYVdgcXGZDE1A5/kG7PCatw9Ngxgx3Ru0sk7d+ltP1Bi3TVOJZMxaXS91FnY9sY=
-X-Received: by 2002:a05:6402:3048:: with SMTP id bu8mr2620460edb.49.1610558585482;
- Wed, 13 Jan 2021 09:23:05 -0800 (PST)
+        bh=+V2Dr2muMkbk0Yt20+kBeKoC8rP7GJB7dLSdIgBdmPU=;
+        b=E1rFaBbkx5N3QAVXd7GIfJ3MfanZfW34omOi34wuNmkZ17A9OvaQK/fuTaQAOrfwZJ
+         JP8KbZRuj9gICH7QrFeqrpBMOIgJdpZtfxUCX1oTVhwhf3UUGc/dbdRF9yfxZCJVz8kV
+         BEE5SK2piL1EESP/QH30Px2LquJio9i3eG6UvHlWgKahdCqnYyyzlG7gygEZAEVMTcw3
+         DOTij9BGRx149VKr/OI39aYcYP1qiGpbftO0Qvm0/2DDFd1kcJZem3JmOUDeyfnUa3li
+         v5fdfWlplpEyr3h1hvAMX7mTyJKkyLv5Cd5nziuDXwSjkd144lVgYsHevaIRUwDtPZio
+         Wv5w==
+X-Gm-Message-State: AOAM530LyLl9gzgSRNL+DoObhrIIEmcsw/YhSyVOD/wMYC/osuTVbVtg
+        MJWY1P9/eVX9f+9qoiW4MMkPCwlN655hmBXJBEiiMQ==
+X-Google-Smtp-Source: ABdhPJz285kiLrApEti5WJgRA1E13XN480igK5w4hFcgkOLK8+pftJijGcF2r5qhv2NtQ+Bq2oR1dKlDUWJkPD/JeWo=
+X-Received: by 2002:a0c:8203:: with SMTP id h3mr3390601qva.0.1610559089537;
+ Wed, 13 Jan 2021 09:31:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20210113090027.234403-1-tomi.valkeinen@ideasonboard.com> <d3b141f5-7e72-befd-9e09-4fe1ff63effd@ideasonboard.com>
-In-Reply-To: <d3b141f5-7e72-befd-9e09-4fe1ff63effd@ideasonboard.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 13 Jan 2021 14:22:53 -0300
-Message-ID: <CAAEAJfAu2ZmGET-nSW20gGfKc8gOLdcSqQhm4Xs6cVE-D8oiBQ@mail.gmail.com>
-Subject: Re: [PATCH] media: ti-vpe: cal: fix write to unallocated memory
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Benoit Parrot <bparrot@ti.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        stable <stable@vger.kernel.org>
+References: <20210113012143.1201105-1-minchan@kernel.org> <20210113012143.1201105-4-minchan@kernel.org>
+ <1610552704.254587.2506180.nullmailer@robh.at.kernel.org>
+In-Reply-To: <1610552704.254587.2506180.nullmailer@robh.at.kernel.org>
+From:   Hridya Valsaraju <hridya@google.com>
+Date:   Wed, 13 Jan 2021 09:30:53 -0800
+Message-ID: <CA+wgaPOwCWc+oYzzaLwUch32-vUMhma3UgFLWZTbOZ5jMuv6Ng@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] dt-bindings: reserved-memory: Make DMA-BUF CMA
+ heap DT-configurable
+To:     Rob Herring <robh@kernel.org>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Hyesoo Yu <hyesoo.yu@samsung.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        John Dias <joaodias@google.com>,
+        "pullip.cho" <pullip.cho@samsung.com>,
+        LKML <linux-kernel@vger.kernel.org>, mhocko@suse.com,
+        robh+dt@kernel.org, linaro-mm-sig@lists.linaro.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        devicetree@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-media@vger.kernel.org, david@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 13 Jan 2021 at 06:08, Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
+On Wed, Jan 13, 2021 at 7:45 AM Rob Herring <robh@kernel.org> wrote:
 >
-> On 13/01/2021 11:00, Tomi Valkeinen wrote:
-> > The asd allocated with v4l2_async_notifier_add_fwnode_subdev() must be
-> > of size cal_v4l2_async_subdev, otherwise access to
-> > cal_v4l2_async_subdev->phy will go to unallocated memory.
+> On Tue, 12 Jan 2021 17:21:42 -0800, Minchan Kim wrote:
+> > From: Hyesoo Yu <hyesoo.yu@samsung.com>
 > >
-> > Fixes: 8fcb7576ad19 ("media: ti-vpe: cal: Allow multiple contexts per subdev notifier")
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Document devicetree binding for chunk cma heap on dma heap framework.
+> >
+> > The DMA chunk heap supports the bulk allocation of higher order pages.
+> >
+> > Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> > Signed-off-by: Minchan Kim <minchan@kernel.org>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Change-Id: I8fb231e5a8360e2d8f65947e155b12aa664dde01
+> > ---
+> >  .../reserved-memory/dma_heap_chunk.yaml       | 58 +++++++++++++++++++
+> >  1 file changed, 58 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
+> >
 >
-> Ah, I forgot to add:
+> My bot found errors running 'make dt_binding_check' on your patch:
 >
-> Cc: stable@vger.kernel.org # 5.9+
+> yamllint warnings/errors:
+> ./Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml:58:1: [warning] too many blank lines (2 > 1) (empty-lines)
+>
+> dtschema/dtc warnings/errors:
+>
+> See https://patchwork.ozlabs.org/patch/1425577
+>
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
+>
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>
+> pip3 install dtschema --upgrade
+>
+> Please check and re-submit.
 >
 
-Nice catch. I missed users of v4l2_async_notifier_add_fwnode_subdev
-in my recent cleanup series.
+Hi Rob,
 
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Sorry about that, I can see the warning after installing yamllint.
+Will fix it in the next version!
 
 Thanks,
-Ezequiel
-
-> > ---
-> >  drivers/media/platform/ti-vpe/cal.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> > index 59a0266b1f39..2eef245c31a1 100644
-> > --- a/drivers/media/platform/ti-vpe/cal.c
-> > +++ b/drivers/media/platform/ti-vpe/cal.c
-> > @@ -406,7 +406,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
-> >   */
-> >
-> >  struct cal_v4l2_async_subdev {
-> > -     struct v4l2_async_subdev asd;
-> > +     struct v4l2_async_subdev asd; /* Must be first */
-> >       struct cal_camerarx *phy;
-> >  };
-> >
-> > @@ -472,7 +472,7 @@ static int cal_async_notifier_register(struct cal_dev *cal)
-> >               fwnode = of_fwnode_handle(phy->sensor_node);
-> >               asd = v4l2_async_notifier_add_fwnode_subdev(&cal->notifier,
-> >                                                           fwnode,
-> > -                                                         sizeof(*asd));
-> > +                                                         sizeof(*casd));
-> >               if (IS_ERR(asd)) {
-> >                       phy_err(phy, "Failed to add subdev to notifier\n");
-> >                       ret = PTR_ERR(asd);
-> >
+Hridya
