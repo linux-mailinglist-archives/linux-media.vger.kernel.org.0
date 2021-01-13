@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BA582F4758
+	by mail.lfdr.de (Postfix) with ESMTP id CA6E12F4759
 	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 10:18:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727495AbhAMJQm convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 13 Jan 2021 04:16:42 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:49628 "EHLO www.linuxtv.org"
+        id S1727663AbhAMJRE convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 13 Jan 2021 04:17:04 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:49648 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727466AbhAMJQm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 04:16:42 -0500
+        id S1727641AbhAMJRE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Jan 2021 04:17:04 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1kzcFy-00CxaD-Ci; Wed, 13 Jan 2021 09:15:58 +0000
+        id 1kzcGM-00CxmO-7h; Wed, 13 Jan 2021 09:16:22 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1kzcJO-0004r0-5O; Wed, 13 Jan 2021 09:19:30 +0000
-Date:   Wed, 13 Jan 2021 09:19:29 +0000 (UTC)
+        id 1kzcJm-0004rb-My; Wed, 13 Jan 2021 09:19:54 +0000
+Date:   Wed, 13 Jan 2021 09:19:54 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <797693416.44.1610529570151@builder.linuxtv.org>
-In-Reply-To: <700614131.43.1610443168238@builder.linuxtv.org>
-References: <700614131.43.1610443168238@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3359
+Message-ID: <504328279.45.1610529594705@builder.linuxtv.org>
+In-Reply-To: <797693416.44.1610529570151@builder.linuxtv.org>
+References: <797693416.44.1610529570151@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3360
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -38,75 +38,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3359/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media-build/3360/display/redirect>
 
 Changes:
 
-[hverkuil-cisco] linux/Makefile: add include/uapi/linux/ccs.h
-
-[hverkuil-cisco] v4l/versions.txt: ov8865 needs probe_new
-
-[hverkuil-cisco] Add backports/v5.0_gpio.patch
-
-[hverkuil-cisco] Add backports/v4.11_pwc.patch
-
-[hverkuil-cisco] v4l/version.txt: ov5648 needs probe_new
-
-[hverkuil-cisco] v4l/versions.txt: OV5647 needs GPIOD_*
-
 
 ------------------------------------------
-[...truncated 11.43 KB...]
-  4700K .......... .......... .......... .......... .......... 67% 21.3M 1s
-  4750K .......... .......... .......... .......... .......... 67% 23.5M 1s
-  4800K .......... .......... .......... .......... .......... 68% 18.4M 1s
-  4850K .......... .......... .......... .......... .......... 69% 17.6M 1s
-  4900K .......... .......... .......... .......... .......... 69% 21.3M 1s
-  4950K .......... .......... .......... .......... .......... 70% 21.1M 1s
-  5000K .......... .......... .......... .......... .......... 71% 19.6M 1s
-  5050K .......... .......... .......... .......... .......... 72% 21.7M 0s
-  5100K .......... .......... .......... .......... .......... 72% 1.88M 0s
-  5150K .......... .......... .......... .......... .......... 73% 24.5M 0s
-  5200K .......... .......... .......... .......... .......... 74% 16.5M 0s
-  5250K .......... .......... .......... .......... .......... 74% 21.3M 0s
-  5300K .......... .......... .......... .......... .......... 75% 23.9M 0s
-  5350K .......... .......... .......... .......... .......... 76% 21.9M 0s
-  5400K .......... .......... .......... .......... .......... 77% 24.5M 0s
-  5450K .......... .......... .......... .......... .......... 77% 23.0M 0s
-  5500K .......... .......... .......... .......... .......... 78% 22.0M 0s
-  5550K .......... .......... .......... .......... .......... 79% 23.3M 0s
-  5600K .......... .......... .......... .......... .......... 79% 32.1M 0s
-  5650K .......... .......... .......... .......... .......... 80% 63.5M 0s
-  5700K .......... .......... .......... .......... .......... 81% 63.5M 0s
-  5750K .......... .......... .......... .......... .......... 81% 49.6M 0s
-  5800K .......... .......... .......... .......... .......... 82% 52.1M 0s
-  5850K .......... .......... .......... .......... .......... 83% 56.5M 0s
-  5900K .......... .......... .......... .......... .......... 84% 56.7M 0s
-  5950K .......... .......... .......... .......... .......... 84% 54.9M 0s
-  6000K .......... .......... .......... .......... .......... 85% 44.6M 0s
-  6050K .......... .......... .......... .......... .......... 86% 50.4M 0s
-  6100K .......... .......... .......... .......... .......... 86% 63.8M 0s
-  6150K .......... .......... .......... .......... .......... 87% 50.6M 0s
-  6200K .......... .......... .......... .......... .......... 88% 32.3M 0s
-  6250K .......... .......... .......... .......... .......... 89% 18.5M 0s
-  6300K .......... .......... .......... .......... .......... 89% 7.59M 0s
-  6350K .......... .......... .......... .......... .......... 90%  149M 0s
-  6400K .......... .......... .......... .......... .......... 91%  118M 0s
-  6450K .......... .......... .......... .......... .......... 91% 36.8M 0s
-  6500K .......... .......... .......... .......... .......... 92% 24.4M 0s
-  6550K .......... .......... .......... .......... .......... 93% 25.7M 0s
-  6600K .......... .......... .......... .......... .......... 94% 23.2M 0s
-  6650K .......... .......... .......... .......... .......... 94% 2.17M 0s
-  6700K .......... .......... .......... .......... .......... 95% 64.4M 0s
-  6750K .......... .......... .......... .......... .......... 96% 57.3M 0s
-  6800K .......... .......... .......... .......... .......... 96% 31.5M 0s
-  6850K .......... .......... .......... .......... .......... 97% 55.0M 0s
-  6900K .......... .......... .......... .......... .......... 98% 39.6M 0s
-  6950K .......... .......... .......... .......... .......... 98% 61.8M 0s
-  7000K .......... .......... .......... .......... .......... 99% 37.5M 0s
-  7050K .......... .......... ....                            100% 59.5M=1.4s
+[...truncated 1.28 KB...]
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-2021-01-13 09:16:38 (4.96 MB/s) - ‘linux-media.tar.bz2’ saved [7244164/7244164]
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2021-01-13 09:17:04--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2021-01-13 09:17:04--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  180M=0s
+
+2021-01-13 09:17:05 (180 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
 make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
@@ -251,7 +233,6 @@ Created default (all yes) .config file
 make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
 make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
 make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-scripts/make_makefile.pl
 ./scripts/make_myconfig.pl
 [ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
 perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
@@ -272,13 +253,6 @@ make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.c>:31:10: fatal error: uapi/linux/ccs.h: No such file or directory
- #include <uapi/linux/ccs.h>
-          ^~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
 <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_regs.isra.4':
 <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:309:11: warning: 'regs_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
    *__regs = regs_base;
@@ -297,6 +271,20 @@ make[5]: *** Waiting for unfinished jobs....
 <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:724:20: warning: 'pdgroup' may be used uninitialized in this function [-Wmaybe-uninitialized]
     pdesc = &pdgroup->descs[j];
              ~~~~~~~^~~~~~~
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.c>:31:10: fatal error: uapi/linux/ccs.h: No such file or directory
+ #include <uapi/linux/ccs.h>
+          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:309: <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o]> Error 1
+make[5]: *** Waiting for unfinished jobs....
 make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
 make[3]: *** [Makefile:146: sub-make] Error 2
 make[2]: *** [Makefile:8: all] Error 2
