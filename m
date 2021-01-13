@@ -2,103 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 555562F467A
-	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 09:30:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 183B92F46AD
+	for <lists+linux-media@lfdr.de>; Wed, 13 Jan 2021 09:42:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbhAMI1w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 03:27:52 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:33577 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726235AbhAMI1w (ORCPT
+        id S1726460AbhAMIlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 03:41:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51728 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726262AbhAMIlD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 03:27:52 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id B61E75C0491;
-        Wed, 13 Jan 2021 03:26:45 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 13 Jan 2021 03:26:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=+eb9MYVKw8kOQcjSGqOAjHWpQQ6
-        2lU5ysMR3PLKD6qk=; b=B7syX42b4uZJYZaZITSe21+OF6hk1Q3B3hbmES1vZhb
-        romumOtcSvsw2jC631FJ/Na5e8aHQHEui51obsb3sPuMQZ0wZI6DCmmo0DrynaCc
-        bp7n5+94H7RILlnCdcYLUMdcAo7uEBNSX68LnwkNYc6EudnSaj3CEY+IIjLhumqm
-        HL+q1jkzcZHIFMxJKBwrT+7WPJ2ARV4h3fdRi2wxywZNj3Ws4LYekK4Tl+XeY21l
-        uBr6nKUyAg7045EdodPqbiLtnt4stfPz4y3mJG4s1oBlRAd04TtA80F4fDhRNOkI
-        Ku12OKj0AKIShstqT1fWY91o5uy6oYu/GVOhENUeUGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+eb9MY
-        VKw8kOQcjSGqOAjHWpQQ62lU5ysMR3PLKD6qk=; b=MfousZkgr07aOL1veQ1uF5
-        FINfbd/MaNfUE49zqbL5aQCAsV/gB4Peu2K6kNsiJYepOe/N9ECotwpSoza0P+WV
-        eaMZ/0GI/noxLM8tVT0A2nprGTVIa7wU/CSdD/SR9tFepTwjQ95eXJLpiDFk4pRW
-        oooeAV1JzG21nI6rGykp3CHqSd8iqShs1agwj5GxA4mF0YtYCKNtgjmWtjnzV73f
-        FmA9T/hbBKpzUdph99kxcHhzo6n2s4HhBYVFLZaGBGjXek0LBYhR3IELdXjj6PSk
-        /en9fBPyJFcOHY7RmPsqUbsWq+I/RAokZzu8qXUkUejG/sDLmMNBRPllayN4D3hg
-        ==
-X-ME-Sender: <xms:xK7-X4u2ptIIOBJ1FPvfEXxFUi8O_Lf7YgcnA4UwF8ihw4IsjYIDVw>
-    <xme:xK7-X1e3FpMjcX02RF9zGxWLZWfeboZm98pa43jk3u5e9yobNkE9A9p3h5NxTo3nX
-    IfVbc1X6Wv4qmUNH_w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdduvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:xK7-XzyS-HZWUquiltqpCk3oNzT1gV-Ppr4C9-g_-gzORylxqXIZFA>
-    <xmx:xK7-X7OXaxd2VQ9RaxJWk6gblkNEp0ox2eIie2lJ5xveBmYcks2Hwg>
-    <xmx:xK7-X48tYvKbkIdHpqX7a243TdjrYgexS_9hG8hqrt3SKqTNfbTr0A>
-    <xmx:xa7-X3nqmDeyFI9dSeTxUMkmKmY4tDjgypLYHiBJqOEoWxOUsfhfcA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 77790240064;
-        Wed, 13 Jan 2021 03:26:44 -0500 (EST)
-Date:   Wed, 13 Jan 2021 09:26:42 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 0/4] media: sunxi-cir: Cleanup and power management
-Message-ID: <20210113082642.v4gdvnllk7mzihdj@gilmour>
-References: <20210113045132.31430-1-samuel@sholland.org>
+        Wed, 13 Jan 2021 03:41:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610527176;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Wz/Vy/Cnya8aaX6TmCcBs5toJJRTuy9G5Pgif1Zbaps=;
+        b=h98sz9t6B5XlKDXYzMezig8mfJLuMuyHyw9EzYVLsOSfweWkJ0VPwX2lXNRFyXFFTbgxdK
+        e/wrHk5WNr3wur0LP0DjbMdyVQAgvAY057s/t4jBrj/refCFCLRKGkWVaJvSQE3zrrtfwj
+        vvkIeVPXF/W0Mm23X+ftAqqY4SihtmU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-5ykmI9XhN-2xGAaPK57QBw-1; Wed, 13 Jan 2021 03:39:32 -0500
+X-MC-Unique: 5ykmI9XhN-2xGAaPK57QBw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2490115720;
+        Wed, 13 Jan 2021 08:39:30 +0000 (UTC)
+Received: from [10.36.114.135] (ovpn-114-135.ams2.redhat.com [10.36.114.135])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F389560BF1;
+        Wed, 13 Jan 2021 08:39:26 +0000 (UTC)
+Subject: Re: [PATCH v3 2/4] mm: failfast mode with __GFP_NORETRY in
+ alloc_contig_range
+To:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        hyesoo.yu@samsung.com, mhocko@suse.com, surenb@google.com,
+        pullip.cho@samsung.com, joaodias@google.com, hridya@google.com,
+        john.stultz@linaro.org, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        hch@infradead.org, robh+dt@kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20210113012143.1201105-1-minchan@kernel.org>
+ <20210113012143.1201105-3-minchan@kernel.org>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <723e935f-3aa4-2c55-8d69-fcaf71f4eb4c@redhat.com>
+Date:   Wed, 13 Jan 2021 09:39:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mjtxpnmpjvho7jip"
-Content-Disposition: inline
-In-Reply-To: <20210113045132.31430-1-samuel@sholland.org>
+In-Reply-To: <20210113012143.1201105-3-minchan@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 13.01.21 02:21, Minchan Kim wrote:
+> Contiguous memory allocation can be stalled due to waiting
+> on page writeback and/or page lock which causes unpredictable
+> delay. It's a unavoidable cost for the requestor to get *big*
+> contiguous memory but it's expensive for *small* contiguous
+> memory(e.g., order-4) because caller could retry the request
+> in diffrent range where would have easy migratable pages
+> without stalling.
 
---mjtxpnmpjvho7jip
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+s/diffrent/different/
 
-On Tue, Jan 12, 2021 at 10:51:28PM -0600, Samuel Holland wrote:
-> This series cleans up some dead code in the sunxi-cir driver and adds
-> system power management hooks.
+> 
+> This patch introduce __GFP_NORETRY as compaction gfp_mask in
+> alloc_contig_range so it will fail fast without blocking
+> when it encounters pages needed waitting.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+s/waitting/waiting/
 
-Thanks!
-Maxime
+> 
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> ---
+>  mm/page_alloc.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 5b3923db9158..ff41ceb4db51 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -8489,12 +8489,16 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
+>  	unsigned int nr_reclaimed;
+>  	unsigned long pfn = start;
+>  	unsigned int tries = 0;
+> +	unsigned int max_tries = 5;
+>  	int ret = 0;
+>  	struct migration_target_control mtc = {
+>  		.nid = zone_to_nid(cc->zone),
+>  		.gfp_mask = GFP_USER | __GFP_MOVABLE | __GFP_RETRY_MAYFAIL,
+>  	};
+>  
+> +	if (cc->alloc_contig && cc->mode == MIGRATE_ASYNC)
+> +		max_tries = 1;
+> +
+>  	migrate_prep();
+>  
+>  	while (pfn < end || !list_empty(&cc->migratepages)) {
+> @@ -8511,7 +8515,7 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
+>  				break;
+>  			}
+>  			tries = 0;
+> -		} else if (++tries == 5) {
+> +		} else if (++tries == max_tries) {
+>  			ret = ret < 0 ? ret : -EBUSY;
+>  			break;
+>  		}
+> @@ -8562,7 +8566,7 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+>  		.nr_migratepages = 0,
+>  		.order = -1,
+>  		.zone = page_zone(pfn_to_page(start)),
+> -		.mode = MIGRATE_SYNC,
+> +		.mode = gfp_mask & __GFP_NORETRY ? MIGRATE_ASYNC : MIGRATE_SYNC,
+>  		.ignore_skip_hint = true,
+>  		.no_set_skip_hint = true,
+>  		.gfp_mask = current_gfp_context(gfp_mask),
+> 
 
---mjtxpnmpjvho7jip
-Content-Type: application/pgp-signature; name="signature.asc"
+I'm fine with using gfp flags (e.g., __GFP_NORETRY) as long as they
+don't enable other implicit behavior (e.g., move draining X to the
+caller) that's hard to get from the flag name.
 
------BEGIN PGP SIGNATURE-----
+IMHO, if we ever want to move draining to the caller, or change the
+behavior of alloc_contig_range() in different ways (e.g., disable PCP),
+we won't get around introducing a separate set of flags for
+alloc_contig_range().
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/6uwQAKCRDj7w1vZxhR
-xb1LAP0XUvRBBMpXiuX3EtTe9jOWFfkmdtxcvMhWPed0R+u8uwEA1VWVV3Y8gI8f
-kSozGZox57nNdNnM678q/9kfMiPRXA8=
-=AMac
------END PGP SIGNATURE-----
+Let's see what Michal thinks. Thanks!
 
---mjtxpnmpjvho7jip--
+-- 
+Thanks,
+
+David / dhildenb
+
