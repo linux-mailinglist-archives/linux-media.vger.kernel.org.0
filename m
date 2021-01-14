@@ -2,114 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FB3A2F6176
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6F02F6177
 	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 14:04:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728729AbhANNDh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 08:03:37 -0500
-Received: from mail-qk1-f174.google.com ([209.85.222.174]:41188 "EHLO
-        mail-qk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbhANNDf (ORCPT
+        id S1726272AbhANNEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 08:04:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726175AbhANNEB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 08:03:35 -0500
-Received: by mail-qk1-f174.google.com with SMTP id 19so7523702qkm.8;
-        Thu, 14 Jan 2021 05:03:19 -0800 (PST)
+        Thu, 14 Jan 2021 08:04:01 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D62C061575
+        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 05:03:21 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id c124so4462175wma.5
+        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 05:03:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lMjCyJ4LFX2yXOveR+4JmstAFOfGTUFf7mwxezUhrSE=;
+        b=VU9ytjDnsJhBQEKU8CcNfn5EcCVMbibvcmMIQSw6rqWNc6nN1Lf1oPsOOgFmwiKBTc
+         RrPVWF1HCcyoZ3tDzDgIdYHPj60ibMqmq7v41lcCdLex3eGAfcqZNX3auAiU+HgY4YI4
+         y8jR1nV/ehPXzbKO5mBB9omD5EgSVnqYK232Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Tevr+spNEpRnq44NthoNPfr11G6U21MwOk+W3Rj2u8A=;
-        b=p6izCGH0r6lIcugzvAuaLO6nS00KMZZUCs/OkbVJt6LaL3JY5MonNKAKsp3D6ThimQ
-         M2hQc0OpIxpRh/Mt+i74O4fHdYeDdFt3SqIcYGyaXTD/UgAN9pOnqUGRnSh1RI0tPmKp
-         5xr8eZErTtivPFMNrA/0sAW5vYLvsdtwDCOE6tbpEZuC0+qMWfljFsay1ouwP5NsGGXF
-         rvrO5V/L3MpCBY4d/uqv0wUzM1k52NUsrFfX7jKQ8RQfYC6tHfL2AWaxXyMDW8OvHqZD
-         FHwSiUGM4Nx2j9aMcQ+miQzuzw7gje1OfLIuyed6rWPRF4i4ySpCgk4CR5X6Bl29q7Ne
-         m4TQ==
-X-Gm-Message-State: AOAM5338fL0hcZcTXhdla7EqOg8nVkNlv5Bd4cfzjgs4BQahPq64gKur
-        FfxXH56YuhYYmFRylAu7pjodAq5vCs/lc5U5+TQ=
-X-Google-Smtp-Source: ABdhPJz7zX1VUb6yM/UFCYla+bwht/B5d+uqLgHlNnpvlh8YvZy2Bzj7uocTaFDWEPNqsL1pXXusBDtHKGx+wylrIcs=
-X-Received: by 2002:a37:a950:: with SMTP id s77mr7011771qke.122.1610629374384;
- Thu, 14 Jan 2021 05:02:54 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lMjCyJ4LFX2yXOveR+4JmstAFOfGTUFf7mwxezUhrSE=;
+        b=i6+nr+OipEUtZ4d1My7GSAzOtM9kRjB2/aZOMGwutwvc+rgpoSjgLu+KGvQ5zo4H0J
+         ZdpwB9PtPWpQzltA1cHoy8Z0ygy1svPH09Kspy+/riX43FI0OypeDxuLpaT+Y9wVxbXh
+         tf2ovUHdP5c30/h0huvPrS8KZX+lcQ7ZULsE0BzaSACpyWc5RKobQuSGUY/sIF9eJdoB
+         IzNBKwuhbGh8FUOgtg9AU4eOlKmIm+xA4wI/qqKD/WoBJs3Ki2vHObTW4B1F61LJDfr0
+         fH1fRwLOYgUMUguI4Nd8Lrix5E9MZOesHBMT3vmzCZu9arWE2PVD8aZSEWVnsfvzm0EX
+         Q1dA==
+X-Gm-Message-State: AOAM531RYX6OOidclAaYrUnjohaACwg77laYsCn3YKVOPKvCzhy8vcK3
+        mV5P1wVrr4Q19ILF+mG971piGg==
+X-Google-Smtp-Source: ABdhPJwFrQgrAKlNT+/f/q7vLOej10mKl2NqLzYVqByPSzm1wlk/JVQWuVJ4qCBH9M1ZbeaQlqukKg==
+X-Received: by 2002:a1c:cc19:: with SMTP id h25mr3952785wmb.124.1610629399701;
+        Thu, 14 Jan 2021 05:03:19 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id x13sm9313627wrp.80.2021.01.14.05.03.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 05:03:19 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] media: hantro: Fix reset_raw_fmt initialization
+Date:   Thu, 14 Jan 2021 14:03:16 +0100
+Message-Id: <20210114130316.803231-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
 MIME-Version: 1.0
-References: <20201021135332.4928-1-fabrizio.castro.jz@renesas.com> <20201021135332.4928-3-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20201021135332.4928-3-fabrizio.castro.jz@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Jan 2021 14:02:42 +0100
-Message-ID: <CAMuHMdWj_Gm6vwOF9Akz84WakA3KTcNTRHte6ukEF_U5=Q8xFA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] media: dt-bindings: media: renesas,drif: Convert
- to json-schema
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabrizio, Rob,
+raw_fmt->height in never initialized. But width in initialized twice.
 
-On Wed, Oct 21, 2020 at 3:53 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> Convert the Renesas DRIF bindings to DT schema and update
-> MAINTAINERS accordingly.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Fixes: 88d06362d1d05 ("media: hantro: Refactor for V4L2 API spec compliancy")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/staging/media/hantro/hantro_v4l2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-
-> +  clock-names:
-> +    maxItems: 1
-> +    items:
-> +      - const: fck
-
-With latest dt-schema, "make dt_binding_check" complains:
-
-    Documentation/devicetree/bindings/media/renesas,drif.yaml:
-properties:clock-names:maxItems: False schema does not allow 1
-    Documentation/devicetree/bindings/media/renesas,drif.yaml:
-ignoring, error in schema: properties: clock-names: maxItems
-
-Using
-
-       clock-names:
-         const: fck
-
-Fixes that.
-
-However, I'm wondering why I do not get a complaint about the similar
-clock/clock-names in
-Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml.
-Because they're part of an else branch?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index b668a82d40ad..f5fbdbc4ffdb 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -367,7 +367,7 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+ 
+ 	hantro_reset_fmt(raw_fmt, raw_vpu_fmt);
+ 	raw_fmt->width = encoded_fmt->width;
+-	raw_fmt->width = encoded_fmt->width;
++	raw_fmt->height = encoded_fmt->height;
+ 	if (ctx->is_encoder)
+ 		hantro_set_fmt_out(ctx, raw_fmt);
+ 	else
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.30.0.284.gd98b1dd5eaa7-goog
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
