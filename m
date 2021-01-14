@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C3252F6A5D
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 20:05:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B97E2F6B73
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 20:49:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729708AbhANTBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 14:01:49 -0500
-Received: from mga09.intel.com ([134.134.136.24]:30402 "EHLO mga09.intel.com"
+        id S1730128AbhANTpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 14:45:53 -0500
+Received: from mga02.intel.com ([134.134.136.20]:22250 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728656AbhANTBs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 14:01:48 -0500
-IronPort-SDR: OaJ1NlgvEanL6i7tufnzL1RwDkM/Um8opGkP1QI2CWzNffSGm4HHALszAQj9nhcsKDjJSW7YfG
- ytnpw5tEaNhg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="178575131"
+        id S1729109AbhANTpw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Jan 2021 14:45:52 -0500
+IronPort-SDR: m9gcoQKs6VAzwR5UzfuMrZN5vpuIoXhQe9kXT9zu0XICQyEX6dTK+tSJBopRtIF7YbJrnt6bBQ
+ 4CmilwJwdiQQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="165518289"
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="gz'50?scan'50,208,50";a="178575131"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 11:01:02 -0800
-IronPort-SDR: PrWpso9nOGH6pLKS5zRiyYOUq/iqMLHNqdwr7355NOelyMQnfUDpNTBcXASHv1rZUYCW+EqieO
- Rz96WKs4Er6Q==
+   d="gz'50?scan'50,208,50";a="165518289"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 11:45:06 -0800
+IronPort-SDR: wr8sJczVTYeMqXEYtOKVChHgzMLc8V05qPOdmSMDuo3/SnOzOXw7iHWKjflQ7ynQxce8gqF/0D
+ WXOzb6fOkGzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="gz'50?scan'50,208,50";a="389886549"
+   d="gz'50?scan'50,208,50";a="499697933"
 Received: from lkp-server01.sh.intel.com (HELO d5d1a9a2c6bb) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 14 Jan 2021 11:00:59 -0800
+  by orsmga004.jf.intel.com with ESMTP; 14 Jan 2021 11:45:03 -0800
 Received: from kbuild by d5d1a9a2c6bb with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1l07re-000166-Oz; Thu, 14 Jan 2021 19:00:58 +0000
-Date:   Fri, 15 Jan 2021 03:00:55 +0800
+        id 1l08YI-00017G-PC; Thu, 14 Jan 2021 19:45:02 +0000
+Date:   Fri, 15 Jan 2021 03:44:56 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 Cc:     kbuild-all@lists.01.org, clang-built-linux@googlegroups.com,
         linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: drivers/media/test-drivers/vidtv/vidtv_psi.c:1457:31: warning:
+Subject: drivers/media/test-drivers/vidtv/vidtv_psi.c:1778:32: warning:
  taking address of packed member 'bitfield' of class or structure
- 'vidtv_psi_table_nit' may result in an unaligned pointer value
-Message-ID: <202101150348.QAnJ7zb6-lkp@intel.com>
+ 'vidtv_psi_table_eit_event' may result in an unaligned pointer value
+Message-ID: <202101150345.R8ea5LEt-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="bg08WKrSYDhXBjb5"
+Content-Type: multipart/mixed; boundary="a8Wt8u1KmwUX3Y2C"
 Content-Disposition: inline
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
@@ -48,13 +48,13 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---bg08WKrSYDhXBjb5
+--a8Wt8u1KmwUX3Y2C
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   65f0d2414b7079556fbbcc070b3d1c9f9587606d
-commit: c2f78f0cb294aa6f009d3a170f4ee8ad199ba5da media: vidtv: psi: add a Network Information Table (NIT)
+commit: 7a7899f6f58e3270ccfd200ee63ebced5ddba3c9 media: vidtv: psi: Implement an Event Information Table (EIT)
 date:   7 weeks ago
 config: mips-randconfig-r026-20210114 (attached as .config)
 compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project 68ff52ffead2ba25cca442778ab19286000daad7)
@@ -63,10 +63,10 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         # install mips cross compiling tool for clang build
         # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c2f78f0cb294aa6f009d3a170f4ee8ad199ba5da
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7a7899f6f58e3270ccfd200ee63ebced5ddba3c9
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout c2f78f0cb294aa6f009d3a170f4ee8ad199ba5da
+        git checkout 7a7899f6f58e3270ccfd200ee63ebced5ddba3c9
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=mips 
 
@@ -75,15 +75,6 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/preempt.h:78:
-   In file included from ./arch/mips/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:38:
-   In file included from arch/mips/include/asm/thread_info.h:16:
-   In file included from arch/mips/include/asm/processor.h:14:
-   In file included from include/linux/atomic.h:7:
-   arch/mips/include/asm/atomic.h:52:1: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
-   arch/mips/include/asm/atomic.h:45:9: note: expanded from macro 'ATOMIC_OPS'
            return xchg(&v->counter, n);                                    \
                   ^
    arch/mips/include/asm/cmpxchg.h:102:7: note: expanded from macro 'xchg'
@@ -166,93 +157,195 @@ All warnings (new ones prefixed by >>):
    arch/mips/include/asm/sync.h:147:34: note: expanded from macro '__SYNC_loongson3_war'
    # define __SYNC_loongson3_war   (1 << 31)
                                       ^
-   drivers/media/test-drivers/vidtv/vidtv_psi.c:753:31: warning: taking address of packed member 'bitfield2' of class or structure 'vidtv_psi_table_pmt' may result in an unaligned pointer value [-Waddress-of-packed-member]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:850:31: warning: taking address of packed member 'bitfield2' of class or structure 'vidtv_psi_table_pmt' may result in an unaligned pointer value [-Waddress-of-packed-member]
            vidtv_psi_set_desc_loop_len(&pmt->bitfield2, desc_loop_len, 10);
                                         ^~~~~~~~~~~~~~
-   drivers/media/test-drivers/vidtv/vidtv_psi.c:764:32: warning: taking address of packed member 'bitfield2' of class or structure 'vidtv_psi_table_pmt_stream' may result in an unaligned pointer value [-Waddress-of-packed-member]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:861:32: warning: taking address of packed member 'bitfield2' of class or structure 'vidtv_psi_table_pmt_stream' may result in an unaligned pointer value [-Waddress-of-packed-member]
                    vidtv_psi_set_desc_loop_len(&s->bitfield2, desc_loop_len, 10);
                                                 ^~~~~~~~~~~~
-   drivers/media/test-drivers/vidtv/vidtv_psi.c:796:32: warning: taking address of packed member 'bitfield' of class or structure 'vidtv_psi_table_sdt_service' may result in an unaligned pointer value [-Waddress-of-packed-member]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:893:32: warning: taking address of packed member 'bitfield' of class or structure 'vidtv_psi_table_sdt_service' may result in an unaligned pointer value [-Waddress-of-packed-member]
                    vidtv_psi_set_desc_loop_len(&s->bitfield, desc_loop_len, 12);
                                                 ^~~~~~~~~~~
->> drivers/media/test-drivers/vidtv/vidtv_psi.c:1457:31: warning: taking address of packed member 'bitfield' of class or structure 'vidtv_psi_table_nit' may result in an unaligned pointer value [-Waddress-of-packed-member]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:1556:31: warning: taking address of packed member 'bitfield' of class or structure 'vidtv_psi_table_nit' may result in an unaligned pointer value [-Waddress-of-packed-member]
            vidtv_psi_set_desc_loop_len(&nit->bitfield, desc_loop_len, 12);
                                         ^~~~~~~~~~~~~
->> drivers/media/test-drivers/vidtv/vidtv_psi.c:1472:32: warning: taking address of packed member 'bitfield' of class or structure 'vidtv_psi_table_transport' may result in an unaligned pointer value [-Waddress-of-packed-member]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:1571:32: warning: taking address of packed member 'bitfield' of class or structure 'vidtv_psi_table_transport' may result in an unaligned pointer value [-Waddress-of-packed-member]
                    vidtv_psi_set_desc_loop_len(&t->bitfield, desc_loop_len, 12);
                                                 ^~~~~~~~~~~
->> drivers/media/test-drivers/vidtv/vidtv_psi.c:1480:31: warning: taking address of packed member 'bitfield2' of class or structure 'vidtv_psi_table_nit' may result in an unaligned pointer value [-Waddress-of-packed-member]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:1579:31: warning: taking address of packed member 'bitfield2' of class or structure 'vidtv_psi_table_nit' may result in an unaligned pointer value [-Waddress-of-packed-member]
            vidtv_psi_set_desc_loop_len(&nit->bitfield2, transport_loop_len, 12);
                                         ^~~~~~~~~~~~~~
-   drivers/media/test-drivers/vidtv/vidtv_psi.c:92:19: warning: unused function 'vidtv_psi_sdt_serv_get_desc_loop_len' [-Wunused-function]
+>> drivers/media/test-drivers/vidtv/vidtv_psi.c:1778:32: warning: taking address of packed member 'bitfield' of class or structure 'vidtv_psi_table_eit_event' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                   vidtv_psi_set_desc_loop_len(&e->bitfield, desc_loop_len, 12);
+                                                ^~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:93:19: warning: unused function 'vidtv_psi_sdt_serv_get_desc_loop_len' [-Wunused-function]
    static inline u16 vidtv_psi_sdt_serv_get_desc_loop_len(struct vidtv_psi_table_sdt_service *s)
                      ^
-   drivers/media/test-drivers/vidtv/vidtv_psi.c:103:19: warning: unused function 'vidtv_psi_pmt_stream_get_desc_loop_len' [-Wunused-function]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:104:19: warning: unused function 'vidtv_psi_pmt_stream_get_desc_loop_len' [-Wunused-function]
    static inline u16 vidtv_psi_pmt_stream_get_desc_loop_len(struct vidtv_psi_table_pmt_stream *s)
                      ^
-   drivers/media/test-drivers/vidtv/vidtv_psi.c:114:19: warning: unused function 'vidtv_psi_pmt_get_desc_loop_len' [-Wunused-function]
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:115:19: warning: unused function 'vidtv_psi_pmt_get_desc_loop_len' [-Wunused-function]
    static inline u16 vidtv_psi_pmt_get_desc_loop_len(struct vidtv_psi_table_pmt *p)
                      ^
-   19 warnings generated.
+   20 warnings generated.
+--
+                ^
+   arch/mips/include/asm/sync.h:147:34: note: expanded from macro '__SYNC_loongson3_war'
+   # define __SYNC_loongson3_war   (1 << 31)
+                                      ^
+   In file included from drivers/media/test-drivers/vidtv/vidtv_channel.c:23:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:51:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/mips/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:38:
+   In file included from arch/mips/include/asm/thread_info.h:16:
+   In file included from arch/mips/include/asm/processor.h:14:
+   In file included from include/linux/atomic.h:7:
+   arch/mips/include/asm/atomic.h:52:1: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
+   arch/mips/include/asm/atomic.h:45:9: note: expanded from macro 'ATOMIC_OPS'
+           return xchg(&v->counter, n);                                    \
+                  ^
+   arch/mips/include/asm/cmpxchg.h:102:7: note: expanded from macro 'xchg'
+           if (!__SYNC_loongson3_war)                                      \
+                ^
+   arch/mips/include/asm/sync.h:147:34: note: expanded from macro '__SYNC_loongson3_war'
+   # define __SYNC_loongson3_war   (1 << 31)
+                                      ^
+   In file included from drivers/media/test-drivers/vidtv/vidtv_channel.c:23:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:51:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/mips/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:38:
+   In file included from arch/mips/include/asm/thread_info.h:16:
+   In file included from arch/mips/include/asm/processor.h:14:
+   In file included from include/linux/atomic.h:7:
+   arch/mips/include/asm/atomic.h:257:1: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
+   ATOMIC_SIP_OP(atomic, int, subu, ll, sc)
+   ^
+   arch/mips/include/asm/atomic.h:251:7: note: expanded from macro 'ATOMIC_SIP_OP'
+           if (!__SYNC_loongson3_war)                                      \
+                ^
+   arch/mips/include/asm/sync.h:147:34: note: expanded from macro '__SYNC_loongson3_war'
+   # define __SYNC_loongson3_war   (1 << 31)
+                                      ^
+   In file included from drivers/media/test-drivers/vidtv/vidtv_channel.c:23:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:51:
+   In file included from include/linux/preempt.h:78:
+   In file included from ./arch/mips/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:38:
+   In file included from arch/mips/include/asm/thread_info.h:16:
+   In file included from arch/mips/include/asm/processor.h:14:
+   In file included from include/linux/atomic.h:7:
+   arch/mips/include/asm/atomic.h:261:1: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
+   ATOMIC_SIP_OP(atomic64, s64, dsubu, lld, scd)
+   ^
+   arch/mips/include/asm/atomic.h:251:7: note: expanded from macro 'ATOMIC_SIP_OP'
+           if (!__SYNC_loongson3_war)                                      \
+                ^
+   arch/mips/include/asm/sync.h:147:34: note: expanded from macro '__SYNC_loongson3_war'
+   # define __SYNC_loongson3_war   (1 << 31)
+                                      ^
+   In file included from drivers/media/test-drivers/vidtv/vidtv_channel.c:23:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:59:
+   In file included from include/linux/lockdep.h:14:
+   In file included from include/linux/smp.h:15:
+   In file included from include/linux/smp_types.h:5:
+   include/linux/llist.h:222:9: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
+           return xchg(&head->first, NULL);
+                  ^
+   arch/mips/include/asm/cmpxchg.h:102:7: note: expanded from macro 'xchg'
+           if (!__SYNC_loongson3_war)                                      \
+                ^
+   arch/mips/include/asm/sync.h:147:34: note: expanded from macro '__SYNC_loongson3_war'
+   # define __SYNC_loongson3_war   (1 << 31)
+                                      ^
+   In file included from drivers/media/test-drivers/vidtv/vidtv_channel.c:23:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:59:
+   In file included from include/linux/lockdep.h:27:
+   include/linux/debug_locks.h:17:9: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
+           return xchg(&debug_locks, 0);
+                  ^
+   arch/mips/include/asm/cmpxchg.h:102:7: note: expanded from macro 'xchg'
+           if (!__SYNC_loongson3_war)                                      \
+                ^
+   arch/mips/include/asm/sync.h:147:34: note: expanded from macro '__SYNC_loongson3_war'
+   # define __SYNC_loongson3_war   (1 << 31)
+                                      ^
+>> drivers/media/test-drivers/vidtv/vidtv_channel.c:147:27: warning: taking address of packed member 'descriptor' of class or structure 'vidtv_psi_table_eit_event' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                           vidtv_psi_desc_assign(&tail->descriptor, desc);
+                                                  ^~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_channel.c:192:27: warning: taking address of packed member 'descriptor' of class or structure 'vidtv_psi_table_sdt_service' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                           vidtv_psi_desc_assign(&tail->descriptor, desc);
+                                                  ^~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_channel.c:292:29: warning: taking address of packed member 'descriptor' of class or structure 'vidtv_psi_table_pmt_stream' may result in an unaligned pointer value [-Waddress-of-packed-member]
+                                           vidtv_psi_desc_assign(&tail->descriptor, desc);
+                                                                  ^~~~~~~~~~~~~~~~
+   13 warnings generated.
 
 
-vim +1457 drivers/media/test-drivers/vidtv/vidtv_psi.c
+vim +1778 drivers/media/test-drivers/vidtv/vidtv_psi.c
 
-  1442	
-  1443	static void vidtv_psi_nit_table_update_sec_len(struct vidtv_psi_table_nit *nit)
-  1444	{
-  1445		u16 length = 0;
-  1446		struct vidtv_psi_table_transport *t = nit->transport;
-  1447		u16 desc_loop_len;
-  1448		u16 transport_loop_len = 0;
-  1449	
-  1450		/*
-  1451		 * from immediately after 'section_length' until
-  1452		 * 'network_descriptor_length'
-  1453		 */
-  1454		length += NIT_LEN_UNTIL_NETWORK_DESCRIPTOR_LEN;
-  1455	
-  1456		desc_loop_len = vidtv_psi_desc_comp_loop_len(nit->descriptor);
-> 1457		vidtv_psi_set_desc_loop_len(&nit->bitfield, desc_loop_len, 12);
-  1458	
-  1459		length += desc_loop_len;
-  1460	
-  1461		length += sizeof_field(struct vidtv_psi_table_nit, bitfield2);
-  1462	
-  1463		while (t) {
-  1464			/* skip both pointers at the end */
-  1465			transport_loop_len += sizeof(struct vidtv_psi_table_transport) -
-  1466					      sizeof(struct vidtv_psi_desc *) -
-  1467					      sizeof(struct vidtv_psi_table_transport *);
-  1468	
-  1469			length += transport_loop_len;
-  1470	
-  1471			desc_loop_len = vidtv_psi_desc_comp_loop_len(t->descriptor);
-> 1472			vidtv_psi_set_desc_loop_len(&t->bitfield, desc_loop_len, 12);
-  1473	
-  1474			length += desc_loop_len;
-  1475	
-  1476			t = t->next;
-  1477		}
-  1478	
-  1479		// Actually sets the transport stream loop len, maybe rename this function later
-> 1480		vidtv_psi_set_desc_loop_len(&nit->bitfield2, transport_loop_len, 12);
-  1481		length += CRC_SIZE_IN_BYTES;
-  1482	
-  1483		vidtv_psi_set_sec_len(&nit->header, length);
-  1484	}
-  1485	
+  1758	
+  1759	void vidtv_psi_eit_table_update_sec_len(struct vidtv_psi_table_eit *eit)
+  1760	{
+  1761		u16 length = 0;
+  1762		struct vidtv_psi_table_eit_event *e = eit->event;
+  1763		u16 desc_loop_len;
+  1764	
+  1765		/*
+  1766		 * from immediately after 'section_length' until
+  1767		 * 'last_table_id'
+  1768		 */
+  1769		length += EIT_LEN_UNTIL_LAST_TABLE_ID;
+  1770	
+  1771		while (e) {
+  1772			/* skip both pointers at the end */
+  1773			length += sizeof(struct vidtv_psi_table_eit_event) -
+  1774				  sizeof(struct vidtv_psi_desc *) -
+  1775				  sizeof(struct vidtv_psi_table_eit_event *);
+  1776	
+  1777			desc_loop_len = vidtv_psi_desc_comp_loop_len(e->descriptor);
+> 1778			vidtv_psi_set_desc_loop_len(&e->bitfield, desc_loop_len, 12);
+  1779	
+  1780			length += desc_loop_len;
+  1781	
+  1782			e = e->next;
+  1783		}
+  1784	
+  1785		length += CRC_SIZE_IN_BYTES;
+  1786	
+  1787		vidtv_psi_set_sec_len(&eit->header, length);
+  1788	}
+  1789	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---bg08WKrSYDhXBjb5
+--a8Wt8u1KmwUX3Y2C
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICMqQAGAAAy5jb25maWcAlFxbc9w2sn7Pr5hKXrJVSSyNbvY5pQeQBGfgIQkaAEcjvaDG
+H4sICCKZAGAAAy5jb25maWcAlFxbc9w2sn7Pr5hKXrJVSSyNbvY5pQeQBGfgIQkaAEcjvaDG
 0tiZs7KkGknJ+t9vN8ALAIJyztZW7OkGGrdG99eNpn/56ZcZeX15/LZ92d9u7++/z77uHnaH
 7cvubvZlf7/731nGZxVXM5ox9Qc0LvYPr/95923/9Dw7++P46I+j3w+389lqd3jY3c/Sx4cv
 +6+v0H3/+PDTLz+lvMrZQqepXlMhGa+0oht1+fPt/fbh6+yv3eEZ2s2O53+AnNmvX/cv//Pu
@@ -943,4 +1036,4 @@ WNM1MekzJN/8Ad/awSIFXLCORbhYeR8dxnddSnn+C9zOeYMSQEPVtEuq8c2yxWutI6MVshAW
 tJV/XZyCOt3A9Ylsil4x8Jm/LG2/IZL1WnJsnjYYTqNPyrjD5yjjLJZybpRK7mvdBjh3/P8H
 YrDpq3JQAgA=
 
---bg08WKrSYDhXBjb5--
+--a8Wt8u1KmwUX3Y2C--
