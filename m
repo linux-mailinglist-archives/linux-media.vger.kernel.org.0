@@ -2,91 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 142342F5646
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 02:57:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B5D82F5634
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 02:57:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726852AbhANBpQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Jan 2021 20:45:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33274 "EHLO
+        id S1726590AbhANBoZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Jan 2021 20:44:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726730AbhANBFP (ORCPT
+        with ESMTP id S1727381AbhANBR2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Jan 2021 20:05:15 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B154C061795;
-        Wed, 13 Jan 2021 17:04:33 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id s15so2056921plr.9;
-        Wed, 13 Jan 2021 17:04:33 -0800 (PST)
+        Wed, 13 Jan 2021 20:17:28 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D86CC061795
+        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 17:16:47 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id a12so5645377lfl.6
+        for <linux-media@vger.kernel.org>; Wed, 13 Jan 2021 17:16:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VpmEfhmuE4m3lCR0CbzUbqFZms+Fz8wndQrnmUOwqpU=;
-        b=TcU4dQzKhkz4u0aGbShBlkm5Lgq7vBIeKqPRvRSA67x2gzxKRk0RspQzEpBkEcuoIy
-         1c2YEI0lQBpuFJ2rrFEGVoWUQg7apSF/CkrdhKvTZrG/WUCjf0KBkpgYE4ZzazRYp9PT
-         HcHbBRZImxTueiR83MlHPjrLeK9YdmZLwXksGik3Kb2iw5fOMV/tlh+oaWPsyk6wt9KS
-         6YvyqRtrbHAVN0Wd2R4y+DaQytJYM2FSKtytA9b9TN+amnbNQILqW90/6PYQVxJBU5mc
-         zR08x9HrQ5CxzaT1W2mj/h10bGZb378QVuIHUepaNTKZvEaTE8nve9wNWSNZPv0i2dNi
-         0mNg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HV7acaig/IuRZH0FvYIco0+cS2A927XztjWMUTsde/M=;
+        b=IXFf8TxyLoXqmiwzz7jnOBU1brF71r/TNOHrgUJum6TzTj2MIzEndUMppFjUPpZn98
+         4HDRv5Mvwa5T7985Dy+e/m+R7NkWVG/359jcS5PeLV5tSzqbLd3rGClr5PYTPtr351Bv
+         EyCVa+dYmnuYdWmJDX3DTEXb6uiUo0D9zv4W+ZWMNR0210lP16WR8KA9MbrSNaD39ByL
+         s/nV32dLVX9hpWXJPGrnyO/BnYr3h9GdmP62XTGTGY6YQeKEI2gpmkAFWyeQ2PDcKV+v
+         77jr6b5CADe+kxxmnh17PJZXtSagcndB2UDmXd48HiYlMzsV3htGuZTOjwhNzedCh3Cx
+         kDfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=VpmEfhmuE4m3lCR0CbzUbqFZms+Fz8wndQrnmUOwqpU=;
-        b=f9w+aHBkqUfH4pP/mNH27Gg4T9L2m6EYb9D5Z/6EGCu41AxG7VG07bgdcHYw4bHEjy
-         mz2aLsH9H5BH3pHmOmXvO3p+3h1uLBuuxuP2kN9o2yW+NTBYBPrHws1FMyheb56wUhx8
-         gg3PqK8ymStGBfP421JKeuKRcybP1IPhT5A44Pz5TWZ0v0h2/0BMvPVxzhCZ7KdHp048
-         moT3RL7iJB6OW2Acjz5RLjXsvWfwPF069WgY29Bg634xUR0JhBHjxvKJK9Ne6fMfQYQ0
-         y1VAuyRCeuhHjbIfRSjMhS1tjMqbw/t5d+Ft/9lKufEiHkmxZiBX3g4cydbsoJY3pq3h
-         gp9Q==
-X-Gm-Message-State: AOAM532dS2Kj9iR6orgNN9wUp0z4Sbr47VKbnPQd1nMPqnIp1zKZ8IUB
-        olVdHyCrRAKXUXUcWXKlY7s=
-X-Google-Smtp-Source: ABdhPJwrJ8Isxj4nRytmMfOvMREHmP4joIOQKLfG5NRnAzquyOfiEt2ltmtABLIC4FEuwymZgPSspw==
-X-Received: by 2002:a17:90a:f2c6:: with SMTP id gt6mr2130111pjb.35.1610586272925;
-        Wed, 13 Jan 2021 17:04:32 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
-        by smtp.gmail.com with ESMTPSA id h1sm3901522pgj.59.2021.01.13.17.04.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 17:04:31 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Wed, 13 Jan 2021 17:04:29 -0800
-From:   Minchan Kim <minchan@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
-        david@redhat.com, mhocko@suse.com, surenb@google.com,
-        pullip.cho@samsung.com, joaodias@google.com, hridya@google.com,
-        john.stultz@linaro.org, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        hch@infradead.org, robh+dt@kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
-Message-ID: <X/+Yne/3X3jvdCj0@google.com>
-References: <20210113012143.1201105-1-minchan@kernel.org>
- <20210113012143.1201105-5-minchan@kernel.org>
- <23b60450-b6ac-447b-4a61-fc4649c3a390@infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HV7acaig/IuRZH0FvYIco0+cS2A927XztjWMUTsde/M=;
+        b=V1bWY+MTaO6S6yUx7a5TmH7WL26djcU8RlrHytYY0KgraJnz0X38LDhK9z3wNFB0Jo
+         rE8LsCAZaczj5kWtNv+bBwp5aZFW5gyC85Rg6TiFipdfW/MaN8gQpq2BnuEqNeZyZwgo
+         KIhLJfigd+Zg0IchcvH4Grtw5qROrjMKUHMYOm1af6rgHa2uXDph9yUZm+jssV4RvGZm
+         oGKJ/sQxFBVjByfQaBAvSXL7cdjaEe74E/eaakNl5IQ2Z9VDknO/PNd8oJXikFLFZ67r
+         3p643wQCzgmztwVHvhvN/7yJDVZ/ZljTNhvO59m3dK8j41bw36OmrE5xzMtfqLtlyKE2
+         EX2A==
+X-Gm-Message-State: AOAM530oUatPDxl2lbb+bCsGz86OJH96Xpj4OgbzXUBYWNVD1T+LNjgB
+        v591+q60QkTjiXLzM7iBdOIyc0thJtrFCN8ggzExag==
+X-Google-Smtp-Source: ABdhPJyI7Qrj9xwod84Gx794EFJRqixlMuHqyjZlGkjTwv6t48YBJWudycgrvf0f6eTRNZ69PMLPYboo+0BS1hJIeXs=
+X-Received: by 2002:ac2:5145:: with SMTP id q5mr1915337lfd.626.1610587005736;
+ Wed, 13 Jan 2021 17:16:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <23b60450-b6ac-447b-4a61-fc4649c3a390@infradead.org>
+References: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
+In-Reply-To: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Wed, 13 Jan 2021 17:16:34 -0800
+Message-ID: <CALAqxLVCf0w2oO2CPYp4R=Fk2yPGptDXY3v+RW5qzycg8R3NeA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dma-fence: allow signaling drivers to set fence timestamp
+To:     Veera Sundaram Sankaran <veeras@codeaurora.org>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        pdhaval@codeaurora.org, abhinavk@codeaurora.org,
+        jsanka@codeaurora.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 07:38:40PM -0800, Randy Dunlap wrote:
-> On 1/12/21 5:21 PM, Minchan Kim wrote:
-> > +config DMABUF_HEAPS_CHUNK
-> > +	bool "DMA-BUF CHUNK Heap"
-> > +	depends on DMABUF_HEAPS && DMA_CMA
-> > +	help
-> > +	  Choose this option to enable dma-buf CHUNK heap. This heap is backed
-> > +	  by the Contiguous Memory Allocator (CMA) and allocates the buffers that
-> > +	  arranged into a list of fixed size chunks taken from CMA.
-> 
-> maybe:
-> 	  are arranged into
+On Wed, Jan 13, 2021 at 11:52 AM Veera Sundaram Sankaran
+<veeras@codeaurora.org> wrote:
+> Some drivers have hardware capability to get the precise HW timestamp
+> of certain events based on which the fences are triggered. The delta
+> between the event HW timestamp & current HW reference timestamp can
+> be used to calculate the timestamp in kernel's CLOCK_MONOTONIC time
+> domain. This allows it to set accurate timestamp factoring out any
+> software and IRQ latencies. Add a timestamp variant of fence signal
+> function, dma_fence_signal_timestamp to allow drivers to update the
+> precise timestamp for fences.
+>
+> Changes in v2:
+> - Add a new fence signal variant instead of modifying fence struct
+>
+> Changes in v3:
+> - Add timestamp domain information to commit-text and
+> dma_fence_signal_timestamp documentation
+>
+> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
 
-Let me fix it.
+Looks ok to me, also did some brief testing w/ AOSP and didn't see any
+regressions.
 
-Thanks, Randy. 
+Reviewed-by: John Stultz <john.stultz@linaro.org>
+
+thanks
+-john
