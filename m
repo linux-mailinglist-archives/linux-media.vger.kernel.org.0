@@ -2,93 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3A262F65C6
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 17:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39DCE2F65D0
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 17:26:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727152AbhANQXb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 11:23:31 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50420 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726241AbhANQXb (ORCPT
+        id S1726440AbhANQYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 11:24:48 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54786 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbhANQYs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 11:23:31 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 9ED3A1F45D54
-Message-ID: <ca15a45b0930069ad64ddb2ceb5320bbfb713899.camel@collabora.com>
-Subject: Re: [PATCH 01/13] media: v4l2-async: Clean
- v4l2_async_notifier_add_fwnode_remote_subdev semantics
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com
-Date:   Thu, 14 Jan 2021 13:22:40 -0300
-In-Reply-To: <20210114161116.GM11878@paasikivi.fi.intel.com>
-References: <20210112132339.5621-1-ezequiel@collabora.com>
-         <20210112132339.5621-2-ezequiel@collabora.com>
-         <X/+lbrp7bLuAjl8e@pendragon.ideasonboard.com>
-         <20210114134709.GL11878@paasikivi.fi.intel.com>
-         <fe45ae496158a6d6be954f5884a7e3beee7ec2c6.camel@collabora.com>
-         <20210114161116.GM11878@paasikivi.fi.intel.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Thu, 14 Jan 2021 11:24:48 -0500
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE5D62B3;
+        Thu, 14 Jan 2021 17:24:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1610641445;
+        bh=hXfu5UH4biLC000racXZNQYm7fv8Vam4UwXoKqIH4UA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Pz3pEQ9lfAgsD48O1v4mOyKGPfVhIvBXM0Rz6mx1fI2loqZOv2wBMQ3PWF8tQ2z/k
+         ryVW7awL1ixCPMRYNSLHcMEKGjVN4OlvnnHJkPDFZhZoUOr9FjyWjDiODt+qIEGc2f
+         yfKg3awvuCLBg1BmdNFyHInR9is8vO6jGFNTCdBM=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v4 00/10] drm: rcar-du: Rework CRTC and groups for atomic commits
+Date:   Thu, 14 Jan 2021 16:22:45 +0000
+Message-Id: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2021-01-14 at 18:11 +0200, Sakari Ailus wrote:
-> On Thu, Jan 14, 2021 at 11:46:11AM -0300, Ezequiel Garcia wrote:
-> > On Thu, 2021-01-14 at 15:47 +0200, Sakari Ailus wrote:
-> > > Hi Laurent, Ezequiel,
-> > > 
-> > > On Thu, Jan 14, 2021 at 03:59:10AM +0200, Laurent Pinchart wrote:
-> > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > > > > index 68da1eed753d..235dcf0c4122 100644
-> > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > > > > @@ -252,6 +252,7 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
-> > > > >                         .bus_type = V4L2_MBUS_CSI2_DPHY
-> > > > >                 };
-> > > > >                 struct rkisp1_sensor_async *rk_asd = NULL;
-> > > > > +               struct v4l2_async_subdev *asd;
-> > > > >                 struct fwnode_handle *ep;
-> > > > >  
-> > > > >                 ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
-> > > > > @@ -264,21 +265,16 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
-> > > > >                 if (ret)
-> > > > >                         goto err_parse;
-> > > > >  
-> > > > > -               rk_asd = kzalloc(sizeof(*rk_asd), GFP_KERNEL);
-> > > > > -               if (!rk_asd) {
-> > > > > -                       ret = -ENOMEM;
-> > > > > +               asd = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
-> > > > > +                                                       sizeof(*rk_asd));
-> > > > > +               if (IS_ERR(asd))
-> > > 
-> > > The problem with registering the sub-device already here is that the driver
-> > > can proceed to use the information in the async sub-device object which is
-> > > initialised below.
-> > > 
-> > 
-> > Note that this interface is not really registering sub-devices.
-> 
-> Not directly, but this will happen as a by-product of registering the async
-> sub-device and other functions that will be called. All this takes place
-> synchronously, meaming that by the time this function returns, the
-> character devices that are the user space interface have already been
-> created.
-> 
+This patch series refactors atomic commit tail handling in the R-Car DU
+driver to simplify the code flow, and open the door to further
+optimisations. It rebases the series posted by Laurent "[PATCH v3 00/10]
+drm: rcar-du: Rework CRTC and groups for atomic commits", which was
+itself based upon work that I had started originally.
 
-That's not the case, as I've explained before, v4l2_async_notifier_add_fwnode_remote_subdev
-is _not_ about registering any actual v4l2 subdevice/char device.
+A few minor updates were required for the rebase, and review comments
+from v3 were handled, along with minor updates based upon suggestions
+from 'checkpatch.pl --strict'.
 
-It's just about adding the v4l2 async subdevice descriptor
-to a given (unregistered) notifier.
 
-Thanks,
-Ezequiel
+The R-Car DU is a bit of a strange beast, with support for up to four
+CRTCs that share resources in groups of two CRTCs. Depending on the
+generation, planes can be shared (on Gen 1 and Gen 2), and output
+routing configuration is also handled at the group level to some extent.
+Furthermore, many configuration parameters, especially those related to
+routing or clock handling, require the whole group to be restarted to
+take effect, even when the parameter itself affects a single CRTC only.
+
+This hardware architecture is difficult to handle properly on the
+software side, and has resulted in group usage being reference-counted
+while CRTC usage only tracks the enabled state. Calls are then
+unbalanced and difficult to trace, especially for the configuration of
+output routing, and implementation of new shared resources is hindered.
+This patch series aims at solving this problem.
+
+The series starts with 4 patches that touch the API between the DU and
+VSP drivers. It became apparent that we need to split the configuration
+of the VSP to allow fine grain control of setting the mode configuration
+and enabling/disabling of the pipeline. To support the cross-component
+API, the new interface is added in patch 01/10, including an
+implementation of vsp1_du_setup_lif() to support the transition. Patch
+02/10 prepares for the new call flow that will call the atomic flush
+handler before enabling the pipeline. The DRM usage is adapted in patch
+03/10, before the call is removed entirely in patch 04/10.
+
+The next two patches convert CRTC clock handling and initial setup,
+potentially called from both the CRTC .atomic_begin() and
+.atomic_enable() operations, to a simpler code flow controlled by the
+commit tail handler. Patch 05/10 takes the CRTCs out of standby and put
+them back in standby respectively at the beginning and end of the commit
+tail handler, based on the CRTC atomic state instead of state
+information stored in the custom rcar_du_crtc structure. Patch 06/10
+then performs a similar change for the CRTC mode setting configuration.
+
+Finally, the last four patches introduce a DRM private object for the
+CRTC groups, along with an associated state. Patch 07/10 adds a helper
+macro to easily iterate over CRTC groups, and patch 08/10 adds the group
+private objects and empty states. Patches 09/10 and 10/10 respectively
+move the group setup and routing configuration under control of the
+commit tail handler, simplifying the configuration and moving state
+information from driver structures to state structures.
+
+More refactoring is expected, with plane assignment being moved to group
+states, and group restart being optimised to avoid flickering. Better
+configuration of pixel clocks could also be implemented on top of this
+series.
+
+The whole series has been tested on Salvator-XS with the DU test suite
+(http://git.ideasonboard.com/renesas/kms-tests.git).  No failure or
+change in behaviour has been noticed.
+
+Kieran Bingham (8):
+  media: vsp1: drm: Split vsp1_du_setup_lif()
+  drm: rcar-du: Convert to the new VSP atomic API
+  media: vsp1: drm: Remove vsp1_du_setup_lif()
+  drm: rcar-du: Handle CRTC standby from commit tail handler
+  drm: rcar-du: Handle CRTC configuration from commit tail handler
+  drm: rcar-du: Provide for_each_group helper
+  drm: rcar-du: Create a group state object
+  drm: rcar-du: Perform group setup from the atomic tail handler
+
+Laurent Pinchart (2):
+  media: vsp1: drm: Don't configure hardware when the pipeline is
+    disabled
+  drm: rcar-du: Centralise routing configuration in commit tail handler
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 160 ++++++----
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   9 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 390 +++++++++++++++++++-----
+ drivers/gpu/drm/rcar-du/rcar_du_group.h |  44 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  63 ++--
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c   |  20 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h   |   3 +
+ drivers/media/platform/vsp1/vsp1_drm.c  | 188 ++++++++----
+ drivers/media/platform/vsp1/vsp1_drm.h  |   2 +
+ include/media/vsp1.h                    |  25 +-
+ 12 files changed, 644 insertions(+), 276 deletions(-)
+
+-- 
+2.25.1
 
