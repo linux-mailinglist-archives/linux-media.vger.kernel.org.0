@@ -2,109 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A7E92F625F
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 14:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EB042F629E
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 15:03:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728944AbhANNtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 08:49:01 -0500
-Received: from mga05.intel.com ([192.55.52.43]:34534 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726891AbhANNtB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 08:49:01 -0500
-IronPort-SDR: KtXNRvYAbMM3+UoNx1/djUKxC+r1K2fIOF3MqrJ7s5PU/9wPO2//NcEVDk+Dj4GvpyGkowDNOG
- MMNqgim48xcQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="263155846"
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="263155846"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 05:47:13 -0800
-IronPort-SDR: 2IQrMvXx55dMYaojIWoAokbdWmYREuJZz/RoTjthZXZT1ZWXhQXhVWFnkG7IOJe9vL8xc18pRK
- qd8u6pei/UCA==
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="345900964"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 05:47:11 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 4514820356; Thu, 14 Jan 2021 15:47:09 +0200 (EET)
-Date:   Thu, 14 Jan 2021 15:47:09 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com
-Subject: Re: [PATCH 01/13] media: v4l2-async: Clean
- v4l2_async_notifier_add_fwnode_remote_subdev semantics
-Message-ID: <20210114134709.GL11878@paasikivi.fi.intel.com>
-References: <20210112132339.5621-1-ezequiel@collabora.com>
- <20210112132339.5621-2-ezequiel@collabora.com>
- <X/+lbrp7bLuAjl8e@pendragon.ideasonboard.com>
+        id S1726982AbhANOCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 09:02:25 -0500
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:33162 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726236AbhANOCZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Jan 2021 09:02:25 -0500
+Received: by mail-ot1-f53.google.com with SMTP id b24so5264453otj.0;
+        Thu, 14 Jan 2021 06:02:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vmtwqRd+vOOs93CtJZXLHlLxZuc0mcM65taAtteZXlA=;
+        b=hOc+4qoXzcULnot14ryYY8UAkVx3pbyThjZ1/WXmwaGobt2bWNzCk+imAt8CZgVGKm
+         xF+NTRHX70J8HU+/BXapIIY+iCdxEqweNb+d1DxCxUfq9sLXfOWDAsjpQE6MyRyhBccH
+         BWQqrQoQmHD95u+BXul+0mqXlSFu5zDRi3rtcYuNnzbc28UEFXruaSghyvOgvnRV9moD
+         w446zKjW0aLbAQM0iDRP8xMjNF3LY6p8QvXvwPnovddV2a3MUf9hP0glCLu6VaSvk7KH
+         deYu1zyJvtfnecRBAhRRrYQv04dKhi4OVRh6Mm4fILcSNZlc+UCw/02L1j3UyGSA0P5T
+         4U1g==
+X-Gm-Message-State: AOAM532ebI6Q4by3lraHAs4A98ABFeOclgjJ/245N8Ik1LAaKycGvUMW
+        uC3VR0hd1PuBob2WGSGSCw==
+X-Google-Smtp-Source: ABdhPJwA4xSmb7PKCcuU6wjuRg19ZNzvAwR2u8Pzf0moxRyQEWEjN27Dqi5u3i2wZ9eO5cK3Ls+Hmw==
+X-Received: by 2002:a9d:6f8f:: with SMTP id h15mr4838190otq.125.1610632901192;
+        Thu, 14 Jan 2021 06:01:41 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id u141sm1036348oie.46.2021.01.14.06.01.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 06:01:40 -0800 (PST)
+Received: (nullmailer pid 2811070 invoked by uid 1000);
+        Thu, 14 Jan 2021 14:01:38 -0000
+Date:   Thu, 14 Jan 2021 08:01:38 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
+        david@redhat.com, mhocko@suse.com, surenb@google.com,
+        pullip.cho@samsung.com, joaodias@google.com, hridya@google.com,
+        john.stultz@linaro.org, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        hch@infradead.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v3 3/4] dt-bindings: reserved-memory: Make DMA-BUF CMA
+ heap DT-configurable
+Message-ID: <20210114140138.GA2796092@robh.at.kernel.org>
+References: <20210113012143.1201105-1-minchan@kernel.org>
+ <20210113012143.1201105-4-minchan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <X/+lbrp7bLuAjl8e@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210113012143.1201105-4-minchan@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Ezequiel,
-
-On Thu, Jan 14, 2021 at 03:59:10AM +0200, Laurent Pinchart wrote:
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > index 68da1eed753d..235dcf0c4122 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > @@ -252,6 +252,7 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
-> >  			.bus_type = V4L2_MBUS_CSI2_DPHY
-> >  		};
-> >  		struct rkisp1_sensor_async *rk_asd = NULL;
-> > +		struct v4l2_async_subdev *asd;
-> >  		struct fwnode_handle *ep;
-> >  
-> >  		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
-> > @@ -264,21 +265,16 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
-> >  		if (ret)
-> >  			goto err_parse;
-> >  
-> > -		rk_asd = kzalloc(sizeof(*rk_asd), GFP_KERNEL);
-> > -		if (!rk_asd) {
-> > -			ret = -ENOMEM;
-> > +		asd = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
-> > +							sizeof(*rk_asd));
-> > +		if (IS_ERR(asd))
-
-The problem with registering the sub-device already here is that the driver
-can proceed to use the information in the async sub-device object which is
-initialised below.
-
-There might not be practical problems but there's also no guarantee it
-would work. The same problem is actually present in the rest of the
-functions registering the object after allocating it.
-
-> >  			goto err_parse;
-> > -		}
-> >  
-> > +		rk_asd = container_of(asd, struct rkisp1_sensor_async, asd);
+On Tue, Jan 12, 2021 at 05:21:42PM -0800, Minchan Kim wrote:
+> From: Hyesoo Yu <hyesoo.yu@samsung.com>
 > 
-> It could be nice to turn v4l2_async_notifier_add_fwnode_remote_subdev()
-> into a macro that would take the asd structure type, and cast the
-> result, to avoid container_of() in the caller. That can be done on top
-> of this series.
+> Document devicetree binding for chunk cma heap on dma heap framework.
 > 
-> >  		rk_asd->mbus_type = vep.bus_type;
-> >  		rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
-> >  		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
-> >  
-> > -		ret = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
-> > -								   &rk_asd->asd);
-> > -		if (ret)
-> > -			goto err_parse;
-> > -
-> >  		dev_dbg(rkisp1->dev, "registered ep id %d with %d lanes\n",
-> >  			vep.base.id, rk_asd->lanes);
-> >  
+> The DMA chunk heap supports the bulk allocation of higher order pages.
 
--- 
-Kind regards,
+Why do we need this? What does this do that CMA doesn't?
 
-Sakari Ailus
+With a CMA area I can believe a carve out is a common, OS independent 
+thing. This looks too closely tied to some Linux thing to go into DT.
+
+> 
+> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Change-Id: I8fb231e5a8360e2d8f65947e155b12aa664dde01
+
+Drop this.
+
+> ---
+>  .../reserved-memory/dma_heap_chunk.yaml       | 58 +++++++++++++++++++
+>  1 file changed, 58 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml b/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
+> new file mode 100644
+> index 000000000000..3e7fed5fb006
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
+> @@ -0,0 +1,58 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/reserved-memory/dma_heap_chunk.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Device tree binding for chunk heap on DMA HEAP FRAMEWORK
+> +
+> +description: |
+> +  The DMA chunk heap is backed by the Contiguous Memory Allocator (CMA) and
+> +  supports bulk allocation of fixed size pages.
+> +
+> +maintainers:
+> +  - Hyesoo Yu <hyesoo.yu@samsung.com>
+> +  - John Stultz <john.stultz@linaro.org>
+> +  - Minchan Kim <minchan@kernel.org>
+> +  - Hridya Valsaraju<hridya@google.com>
+
+space                  ^
+
+> +
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - dma_heap,chunk
+
+The format is <vendor>,<something> and 'dma_heap' is not a vendor.
+
+> +
+> +  chunk-order:
+> +    description: |
+> +            order of pages that will get allocated from the chunk DMA heap.
+> +    maxItems: 1
+> +
+> +  size:
+> +    maxItems: 1
+> +
+> +  alignment:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - size
+> +  - alignment
+> +  - chunk-order
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    reserved-memory {
+> +        #address-cells = <2>;
+> +        #size-cells = <1>;
+> +
+> +        chunk_memory: chunk_memory {
+> +            compatible = "dma_heap,chunk";
+> +            size = <0x3000000>;
+> +            alignment = <0x0 0x00010000>;
+> +            chunk-order = <4>;
+> +        };
+> +    };
+> +
+> +
+> -- 
+> 2.30.0.284.gd98b1dd5eaa7-goog
+> 
