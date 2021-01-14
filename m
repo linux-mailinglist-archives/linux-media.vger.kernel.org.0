@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76DB02F5FB4
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 12:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 864702F5FB7
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 12:22:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727865AbhANLTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 06:19:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52096 "EHLO
+        id S1728202AbhANLUC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 06:20:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727820AbhANLTT (ORCPT
+        with ESMTP id S1727992AbhANLUB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 06:19:19 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B8FC061575
-        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 03:18:38 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id l9so1871555ejx.3
-        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 03:18:38 -0800 (PST)
+        Thu, 14 Jan 2021 06:20:01 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439C3C061573
+        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 03:19:21 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id d17so7581298ejy.9
+        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 03:19:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HRmrH3JRSU4wFGyW7pKc7d0RBOCtUf376wdrcGqsw5Q=;
-        b=i6nIRfVA2NBjtWPs1SW9iEr9IbDnnZsuCXTVPZ0c5L3gRkByZAS/Jk387XTuF4WDxV
-         2u1QmOd/p8mGNqppyMw9TWikjsP6DP1fiTsZf2C4sBevlx5l6e3r+VQsz9HnWxev8I23
-         QCE+23z0l24gdaRM0XX8JjqZEJZIJSTx9YoOVn5PP1nf6Bu7rrD4RgN6Na5Nr+38Cy1g
-         n+cjcnrU2RryErMnuoKBtKpTNsYyY5IutzoXPjJ8AwGkDKZykH83+GOy1+uqDSj7SXfd
-         MfF6xWzXAqcORraeHZbT8TG9XcKQ0ferBSAMk44jE2q1vPMh3R/Nf0fNYHai2CwnM6DG
-         Qc8Q==
+        bh=llEYo4jXB4s5StOd/f3/qGTd0pYWJctVA22pcoHob7U=;
+        b=lTXD1vnTxEpjj0pq3iFWAsE8bj4q3JWZYZ5ZOz4FPcTV7mDzkq/oWYq9zhCHaVyDuE
+         CnE8ZTzxEySh0f9J6AYESS4YAnzcVZ/dWXHsrz9oe+jbY/NUtnNncPi6Bzc401PwkkjP
+         7frYthWkE1cxlB+pDnxsKvRodWWc+wZ+HWQRZ4Ai8xz4G/YsmNPUBfF3spdM9wdR60sP
+         XIQVvFyaHQlaw7Q2EHp0rLZRPr+hVQP9Dz3SH3ZN1g8EDp9sSEJY6OhahT2O7812KDg+
+         BGcfM0YA6K6tm0fz/bZg8t38fuPCjC/Zg/AOKvjfdmD2TtD8h6HtrjTdkGNBnkRtlfu6
+         Mnqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=HRmrH3JRSU4wFGyW7pKc7d0RBOCtUf376wdrcGqsw5Q=;
-        b=NC5qF3ZxsbMt7Si2ZMc3gjKLUmeIrhjUrW97JsAY84LLqpMMQThHByz7f34XH68e83
-         VMOkNDH55BY+o5rwWH92QMFDc7Rf8Kn1XhZp3BZFcHnNdRyAnXiZEqmmVIg27UyGIq8G
-         ND08nbQX4qOR2lEFPyldYuhjCVqn0BS80g6dN0cRWqJ49i58gps7qfa52uLSnaEis5wc
-         dNg30tC0FrR1tA2QLgVLzA37G/8ZadN/8h25ME9BhCrco+21gVhdwG40c6ZdszM8kB4P
-         l5Qtzk01fBpuNU94fYbxigeV5KsTk4EfBHycxs/Q0Z17OEpVyhmC+GBfDjoYdVDP4Cvl
-         AeIQ==
-X-Gm-Message-State: AOAM531ATpNiCUZhRr8tH/yYsYw/PoFmB19zO6s14XUvBT+riFfAaSAv
-        lylS2AufwrEJZTbTL5R0tts=
-X-Google-Smtp-Source: ABdhPJw2XL2zR8hgBFGNNblvodsZkYp27MkdkzvCVcfPBjUN3A0TWTfzh0C1ZzxzP8aFsjIz6ZDjgQ==
-X-Received: by 2002:a17:906:490d:: with SMTP id b13mr4840080ejq.307.1610623117585;
-        Thu, 14 Jan 2021 03:18:37 -0800 (PST)
+        bh=llEYo4jXB4s5StOd/f3/qGTd0pYWJctVA22pcoHob7U=;
+        b=jIdBsy9RNsf3kCD2Dd6UkbRq0z/lQi1HEChGfPh6nk258GWaHZL3p3FAgKte1mKaP4
+         7pgGb4Ov6CRHkUeQJeJUSicqdOHe6JcFeGz89Hdjr2nXv8nll2mIFgije+l1A+qGRBuI
+         omUYX/I8Iu+mi5haX3QDKsOTVCaa+cc3a+ZBZc+IudiD5CyDv7ViXxH14zU9BPI0dGIH
+         54fKJQ2sn25ei0U1YQRgg+ucghaAIWxZkAj3g/s/BdcVnrVSR3Z0zUIYo39YQCB8UvFK
+         Xd5xKwrzXaPhn6TXNo7EINjb92BHt/F64eOZVDrxs8ROpe/5P1IFefVzG8IZgZBKQFU3
+         LexA==
+X-Gm-Message-State: AOAM530Ro8LXBocWpmDEK6w/2kvyMngvWwKCU/AtcjPSG2mmQ5xPyYM5
+        wEHjsc/0nqv2On4GaEjTif0=
+X-Google-Smtp-Source: ABdhPJzxHxW7XRSQKNw2nfC25RKrxUnmgC4sOkLV2PM7jR+jxSkqbRqJeyffm03615j5dYd4F4H83Q==
+X-Received: by 2002:a17:906:7d88:: with SMTP id v8mr652692ejo.416.1610623160048;
+        Thu, 14 Jan 2021 03:19:20 -0800 (PST)
 Received: from kontron.lan (2001-1ae9-1e8-b200-9c26-b1f7-3f54-fb94.ip6.tmcz.cz. [2001:1ae9:1e8:b200:9c26:b1f7:3f54:fb94])
-        by smtp.gmail.com with ESMTPSA id t9sm1851964ejc.51.2021.01.14.03.18.36
+        by smtp.gmail.com with ESMTPSA id by30sm2050477edb.15.2021.01.14.03.19.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jan 2021 03:18:36 -0800 (PST)
-Subject: Re: [PATCH v2 2/6] media: pxa_camera: Drop the v4l2-clk clock
- register
+        Thu, 14 Jan 2021 03:19:19 -0800 (PST)
+Subject: Re: [PATCH v2 1/6] media: mach-pxa: Register the camera sensor
+ fixed-rate clock
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
@@ -59,14 +59,14 @@ Cc:     kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
         Daniel Mack <zonque@gmail.com>,
         Haojian Zhuang <haojian.zhuang@gmail.com>
 References: <20210112194919.50176-1-ezequiel@collabora.com>
- <20210112194919.50176-3-ezequiel@collabora.com>
+ <20210112194919.50176-2-ezequiel@collabora.com>
 From:   Petr Cvek <petrcvekcz@gmail.com>
-Message-ID: <1b34f160-fba4-c5b5-d4a1-9cdd6ef1cf42@gmail.com>
-Date:   Thu, 14 Jan 2021 12:22:56 +0100
+Message-ID: <6f8b32fe-3e71-f964-26c5-38bc97322e4d@gmail.com>
+Date:   Thu, 14 Jan 2021 12:23:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210112194919.50176-3-ezequiel@collabora.com>
+In-Reply-To: <20210112194919.50176-2-ezequiel@collabora.com>
 Content-Type: text/plain; charset=iso-8859-2
 Content-Language: cs
 Content-Transfer-Encoding: 7bit
@@ -77,103 +77,49 @@ X-Mailing-List: linux-media@vger.kernel.org
 Acked-by: Petr Cvek <petrcvekcz@gmail.com>
 
 Dne 12. 01. 21 v 20:49 Ezequiel Garcia napsal(a):
-> Now that mach-based PXA platforms are registering proper
-> fixed-rate clocks through the CCF, the v4l2-clk clock
-> is no longer required.
+> The pxa-camera capture driver currently registers a v4l2-clk
+> clock, named "mclk", to represent the mt9m111 sensor clock.
 > 
-> Drop this clock, so the driver no longer depends on the
-> legacy v4l2-clk API.
+> Register a proper fixed-rate clock using the generic clock framework,
+> which will allow to remove the v4l2-clk clock in the pxa-camera
+> driver in a follow-up commit.
 > 
 > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Acked-by: Arnd Bergmann <arnd@arndb.de> (for arch/arm/mach-*/)
 > ---
->  drivers/media/platform/pxa_camera.c | 30 +----------------------------
->  1 file changed, 1 insertion(+), 29 deletions(-)
+> Quoting Arnd:
+> """
+> If there are no objections to the change itself, please take it through
+> the v4l2 git tree.
+> """
 > 
-> diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
-> index b664ce7558a1..8cfa39108162 100644
-> --- a/drivers/media/platform/pxa_camera.c
-> +++ b/drivers/media/platform/pxa_camera.c
-> @@ -31,7 +31,6 @@
->  #include <linux/dma/pxa-dma.h>
+>  arch/arm/mach-pxa/devices.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
+> index 524d6093e0c7..09b8495f3fd9 100644
+> --- a/arch/arm/mach-pxa/devices.c
+> +++ b/arch/arm/mach-pxa/devices.c
+> @@ -4,6 +4,7 @@
+>  #include <linux/init.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/clkdev.h>
+> +#include <linux/clk-provider.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/spi/pxa2xx_spi.h>
+> @@ -634,6 +635,13 @@ static struct platform_device pxa27x_device_camera = {
 >  
->  #include <media/v4l2-async.h>
-> -#include <media/v4l2-clk.h>
->  #include <media/v4l2-common.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
-> @@ -677,7 +676,6 @@ struct pxa_camera_dev {
->  	unsigned long		ciclk;
->  	unsigned long		mclk;
->  	u32			mclk_divisor;
-> -	struct v4l2_clk		*mclk_clk;
->  	u16			width_flags;	/* max 10 bits */
+>  void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
+>  {
+> +	struct clk *mclk;
+> +
+> +	/* Register a fixed-rate clock for camera sensors. */
+> +	mclk = clk_register_fixed_rate(NULL, "pxa_camera_clk", NULL, 0,
+> +					     info->mclk_10khz * 10000);
+> +	if (!IS_ERR(mclk))
+> +		clkdev_create(mclk, "mclk", NULL);
+>  	pxa_register_device(&pxa27x_device_camera, info);
+>  }
 >  
->  	struct list_head	capture;
-> @@ -2030,9 +2028,6 @@ static const struct v4l2_ioctl_ops pxa_camera_ioctl_ops = {
->  	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
->  };
->  
-> -static const struct v4l2_clk_ops pxa_camera_mclk_ops = {
-> -};
-> -
->  static const struct video_device pxa_camera_videodev_template = {
->  	.name = "pxa-camera",
->  	.minor = -1,
-> @@ -2140,11 +2135,6 @@ static void pxa_camera_sensor_unbind(struct v4l2_async_notifier *notifier,
->  
->  	pxa_camera_destroy_formats(pcdev);
->  
-> -	if (pcdev->mclk_clk) {
-> -		v4l2_clk_unregister(pcdev->mclk_clk);
-> -		pcdev->mclk_clk = NULL;
-> -	}
-> -
->  	video_unregister_device(&pcdev->vdev);
->  	pcdev->sensor = NULL;
->  
-> @@ -2278,7 +2268,6 @@ static int pxa_camera_probe(struct platform_device *pdev)
->  		.src_maxburst = 8,
->  		.direction = DMA_DEV_TO_MEM,
->  	};
-> -	char clk_name[V4L2_CLK_NAME_SIZE];
->  	int irq;
->  	int err = 0, i;
->  
-> @@ -2417,23 +2406,11 @@ static int pxa_camera_probe(struct platform_device *pdev)
->  	if (err)
->  		goto exit_notifier_cleanup;
->  
-> -	v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
-> -			  pcdev->asd.match.i2c.adapter_id,
-> -			  pcdev->asd.match.i2c.address);
-> -
-> -	pcdev->mclk_clk = v4l2_clk_register(&pxa_camera_mclk_ops, clk_name, NULL);
-> -	if (IS_ERR(pcdev->mclk_clk)) {
-> -		err = PTR_ERR(pcdev->mclk_clk);
-> -		goto exit_notifier_cleanup;
-> -	}
-> -
->  	err = v4l2_async_notifier_register(&pcdev->v4l2_dev, &pcdev->notifier);
->  	if (err)
-> -		goto exit_free_clk;
-> +		goto exit_notifier_cleanup;
->  
->  	return 0;
-> -exit_free_clk:
-> -	v4l2_clk_unregister(pcdev->mclk_clk);
->  exit_notifier_cleanup:
->  	v4l2_async_notifier_cleanup(&pcdev->notifier);
->  exit_free_v4l2dev:
-> @@ -2463,11 +2440,6 @@ static int pxa_camera_remove(struct platform_device *pdev)
->  	v4l2_async_notifier_unregister(&pcdev->notifier);
->  	v4l2_async_notifier_cleanup(&pcdev->notifier);
->  
-> -	if (pcdev->mclk_clk) {
-> -		v4l2_clk_unregister(pcdev->mclk_clk);
-> -		pcdev->mclk_clk = NULL;
-> -	}
-> -
->  	v4l2_device_unregister(&pcdev->v4l2_dev);
->  
->  	dev_info(&pdev->dev, "PXA Camera driver unloaded\n");
 > 
