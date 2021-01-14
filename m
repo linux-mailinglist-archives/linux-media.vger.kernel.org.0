@@ -2,176 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C5C82F5C35
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 09:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E1322F5C51
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 09:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727745AbhANIJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 03:09:55 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:53295 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727721AbhANIJy (ORCPT
+        id S1727373AbhANIV1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 03:21:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726204AbhANIVY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 03:09:54 -0500
-X-Originating-IP: 93.61.96.190
-Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 9F3A2C0025;
-        Thu, 14 Jan 2021 08:09:09 +0000 (UTC)
-Date:   Thu, 14 Jan 2021 09:09:27 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Thu, 14 Jan 2021 03:21:24 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3428FC061575;
+        Thu, 14 Jan 2021 00:20:44 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id x20so6784391lfe.12;
+        Thu, 14 Jan 2021 00:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3nBcH17u4wRamAJ7uMUZUGqlgSjiRmAWW0nH78rAfnc=;
+        b=ovEie4gzrZBF/T8jC/PT19rGl0IpqmmOcZPDHabyd+MGIwXid951DJQjUd/QCFH3GF
+         BSIXJ4d0nJRBNJVo6emoEzcnFSzZuKfjrcDN2ykv5W9RLcvjFNfbbJi8wDQzGPfCz4Bz
+         7as6y+Aji4rJPitUlIoNIHSmWHtqu64YrJUj4X7DdYZoGsXDkOMLJ6b3QTf2J6RQQ09k
+         uKwAQ16DmSXdfhnWraBTu2hC3ZYqVnyRzTAXmxltwJd8YJzYKOKwURfWDNevGYwgfSaL
+         ss26zihDVk3PE121xHDPmvasPUdFe0fTEDezehFOPIfiPpQvRx+51WWa8/FOtS5wuxcb
+         krYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=3nBcH17u4wRamAJ7uMUZUGqlgSjiRmAWW0nH78rAfnc=;
+        b=Nuu4RLugHtyP2G17GqFs/kS27LgvBN44HQuuQxHTeOeFr162q7W6G0Ie7I+uDMQe/w
+         JfYNc/P64oasJuaG1AzmG8EFSlQ9Tw3LmpuEqQj8vgzeLunLyveHU/wFzjXzxCc0KotH
+         GlsbmG9dD6AowOUyDm4oKiOpx1QXyoAhJWep+vm/gZ+vEwvhqPlgZoUB1B0lW/KCwpWf
+         +89TAhPf3fakpnSJvABa8VVZTieEpx7848ft8y4/bnAjKQiwBb1hFMKxZzr/3izIv3ta
+         o/oed6U/TPM/E/w4ile9bTe7+/iJBZjrk5Av8QXFyamkFeLAVyExmC2YYNsfPezgSPGu
+         cBUg==
+X-Gm-Message-State: AOAM5300MIvPMeX1k9zoDw8MpB9ZpaQnQwOHIBaQDslk1lfewTb+Go9B
+        m4XfvwIjXJUmp3ijtjE7szE=
+X-Google-Smtp-Source: ABdhPJwKSJEcRknnP+y9jsGT0h2EP3cC4Glv4jOtT3xYilx0cp1Sf+sbgEmv53OZYAPoglkcFOqrJw==
+X-Received: by 2002:a19:747:: with SMTP id 68mr2645596lfh.408.1610612442737;
+        Thu, 14 Jan 2021 00:20:42 -0800 (PST)
+Received: from [192.168.1.100] ([178.176.79.115])
+        by smtp.gmail.com with ESMTPSA id k25sm472627lfm.236.2021.01.14.00.20.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jan 2021 00:20:42 -0800 (PST)
+Subject: Re: [PATCH v7 4/7] dt-bindings: media: max9286: Document
+ 'maxim,reverse-channel-microvolt'
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
- amplitude
-Message-ID: <20210114080927.idz5v472ex25p5r4@uno.localdomain>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-6-jacopo+renesas@jmondi.org>
- <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
- <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
- <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
- <20210111112023.brrhxgfedo5fer53@uno.localdomain>
- <X/0triYZZJiXaf07@pendragon.ideasonboard.com>
- <20210112090805.myglp2lpozo3blq5@uno.localdomain>
- <X//cYHkyELaH4XHb@pendragon.ideasonboard.com>
+        Rob Herring <robh@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210113185506.119808-1-jacopo+renesas@jmondi.org>
+ <20210113185506.119808-5-jacopo+renesas@jmondi.org>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <46b966bb-e276-29c4-bcd8-091cb65a81bf@gmail.com>
+Date:   Thu, 14 Jan 2021 11:20:28 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <X//cYHkyELaH4XHb@pendragon.ideasonboard.com>
+In-Reply-To: <20210113185506.119808-5-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hello!
 
-On Thu, Jan 14, 2021 at 07:53:36AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> >
-> > All in all:
-> > - yes, I think there might be a need to control the noise immunity
-> >   settings after initialization
-> > - I think it should be done on the serializer side, possibly with a DT
-> >   property, possibly something like a boolean 'maxim,high-threshold-enable'
-> > - the deserializer can query that information with a kAPI like
-> >   get_mbus_config() after the remote has probed
-> > - Because of that there is no need for an additional deserializer property
-> >
-> > Hope this makes sense
->
-> Now I get what you meant. Sorry for missing the point.
->
-> While it would be technically feasible to query the property from the
-> serializer at runtime, there's the additional issue that the
-> deserializer has a single reverse channel amplitude setting for all the
-> channels. We would need to ensure that the property is set to the same
-> value in all camera DT nodes. Wouldn't it be best to then set it once
-> only, in the deserializer node ?
->
+On 13.01.2021 21:55, Jacopo Mondi wrote:
 
-To be honest I wouldn't mind a run-time error, or a fallback like "the
-first one to probe is the authoritative one, the rest have to follow".
-And don't forget we would need a serializer property anyway to tell
-the chip if it has to enable its noise immunity threshold or not.
+> Document the 'reverse-channel-microvolt' vendor property in the
 
-But anyway, the here introduced new property already requires
-knwoledge on the deserializer about which camera is connected on the
-other side. It's not so bad, as if cameras are described in a .dtsi or
-.dtbo the deserializer property can be overridden. We can do the same
-for an additional property.
+    Where is "maxim,"?
 
-ie. a deserializer-serializer 'maxim,high-threshold-enable' property
+> bindings document of the max9286 driver.
+> 
+> The newly introduced property allows to specifying the initial
 
-RDACM20: pre-programmed high threshold enable
+    Specify?
 
--------------- rdacm20.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <170000>;
+> configuration of the GMSL reverse control channel to accommodate
+> remote serializers pre-programmed with the high threshold power
+> supply noise immunity enabled.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+[...]
 
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-RDACM21: no pre-programmed high-threshold, high threshold enabled
-after camera probe
-
--------------- rdacm21.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <100000>;
-        maxim,high-threshold-enable;
-
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                maxim,high-threshold-enable;
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-RDACM21: no high-threshold enabled at all
-
--------------- rdacm21.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <100000>;
-
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-For the serializer it's a boolean, for the deser we might need to
-specify a voltage, so it might become an uint32
-'maxim,high-threshold-microvolt' there.
-
--------------- rdacm21.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <100000>;
-        maxim,high-threshold-microvolt = <170000>;
-
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                maxim,high-threshold-enable;
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-> --
-> Regards,
->
-> Laurent Pinchart
+MBR, Sergei
