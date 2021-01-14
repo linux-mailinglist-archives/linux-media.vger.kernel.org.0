@@ -2,234 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E07E2F5CE5
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 10:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F4402F5D17
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 10:17:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727963AbhANJHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 04:07:09 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47988 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727319AbhANJHH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 04:07:07 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F3FE279;
-        Thu, 14 Jan 2021 10:06:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610615184;
-        bh=tNMa+mShBy7Vx5Z8KggwYfkKbc+EU8VJr7oZaGAeAiw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uQ/F0rBRNzvZEsyM0aO5253P5Ci7MYAJPBLJvD6KBqFbzqwIdHYIvf7lQAK1NOZ+J
-         DF6BHHF7bfdcfxnRKlrqeeDPH0TJKZNzqr8FoixOtADUTWVUFr8gTtnIMuWoisbnaK
-         hU1FoQ5PqyM02veU5zuW4hkQRfR6UTVSvVOgq2NE=
-Date:   Thu, 14 Jan 2021 11:06:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v7 3/7] fixup! media: i2c: rdacm21: Break-out ov10640
- initialization
-Message-ID: <YAAJfkaZ4zCmjB7h@pendragon.ideasonboard.com>
-References: <20210113185506.119808-1-jacopo+renesas@jmondi.org>
- <20210113185506.119808-4-jacopo+renesas@jmondi.org>
- <X/+A7btfIZpdktrL@pendragon.ideasonboard.com>
- <20210114075228.wbvvzcwh5qwubpda@uno.localdomain>
+        id S1727372AbhANJQx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 04:16:53 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:50690 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727174AbhANJQt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Jan 2021 04:16:49 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kzyjf-00EVPH-1h; Thu, 14 Jan 2021 09:16:07 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kzyn5-0007Qo-Rh; Thu, 14 Jan 2021 09:19:39 +0000
+Date:   Thu, 14 Jan 2021 09:19:39 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1227605827.46.1610615979847@builder.linuxtv.org>
+In-Reply-To: <504328279.45.1610529594705@builder.linuxtv.org>
+References: <504328279.45.1610529594705@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3361
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210114075228.wbvvzcwh5qwubpda@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+See <https://builder.linuxtv.org/job/media-build/3361/display/redirect>
 
-On Thu, Jan 14, 2021 at 08:52:28AM +0100, Jacopo Mondi wrote:
-> On Thu, Jan 14, 2021 at 01:23:25AM +0200, Laurent Pinchart wrote:
-> > On Wed, Jan 13, 2021 at 07:55:01PM +0100, Jacopo Mondi wrote:
-> > > The embedded OV490 ISP chip provides a secondary SCCB interface and
-> > > two GPIO lines to control the connected OV10640 image sensor.
-> > >
-> > > Break out the OV10640 initialization from the OV490 initialization and
-> > > explicitely control the powerdown and reset GPIOs. After the image
-> >
-> > s/explicitely/explicitly/
-> >
-> > > sensor has been hard reset, implement a more clear handling of the
-> > > secondary SCCB interface to read the image sensor chip ID.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/rdacm21.c | 75 ++++++++++++++++++++++++++++++-------
-> > >  1 file changed, 61 insertions(+), 14 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> > > index 0428e3209463..944009687de5 100644
-> > > --- a/drivers/media/i2c/rdacm21.c
-> > > +++ b/drivers/media/i2c/rdacm21.c
-> > > @@ -30,11 +30,24 @@
-> > >  #define OV490_PAGE_HIGH_REG		0xfffd
-> > >  #define OV490_PAGE_LOW_REG		0xfffe
-> > >
-> > > +/*
-> > > + * The SCCB slave handling is undocumented; the registers naming scheme is
-> > > + * totally arbitrary.
-> > > + */
-> > > +#define OV490_SCCB_SLAVE_WRITE		0x00
-> > > +#define OV490_SCCB_SLAVE_READ		0x01
-> > > +#define OV490_SCCB_SLAVE0_DIR		0x80195000
-> > > +#define OV490_SCCB_SLAVE0_ADDR_HIGH	0x80195001
-> > > +#define OV490_SCCB_SLAVE0_ADDR_LOW	0x80195002
-> > > +
-> > >  #define OV490_DVP_CTRL3			0x80286009
-> > >
-> > >  #define OV490_ODS_CTRL_FRAME_OUTPUT_EN	0x0c
-> > >  #define OV490_ODS_CTRL			0x8029d000
-> > >
-> > > +#define OV490_HOST_CMD			0x808000c0
-> > > +#define OV490_HOST_CMD_TRIGGER		0xc1
-> > > +
-> > >  #define OV490_ID_VAL			0x0490
-> > >  #define OV490_ID(_p, _v)		((((_p) & 0xff) << 8) | ((_v) & 0xff))
-> > >  #define OV490_PID			0x8080300a
-> > > @@ -42,12 +55,22 @@
-> > >  #define OV490_PID_TIMEOUT		20
-> > >  #define OV490_OUTPUT_EN_TIMEOUT		300
-> > >
-> > > +#define OV490_GPIO0_RESETB		0x01
-> >
-> > Shouldn't this be named just OV490_GPIO0 ? The fact that it's connected
-> > to the RESETB signal of the OV10640 is board-specific, not an OV490
-> > intrinsic property.
-> >
-> > BIT(0) ?
-> >
-> > > +#define OV490_SPWDN0			0x01
-> >
-> > Same here.
-> >
-> 
-> Correct, I'll fix...
-> 
-> > > +#define OV490_GPIO_SEL0			0x80800050
-> > > +#define OV490_GPIO_SEL1			0x80800051
-> > > +#define OV490_GPIO_DIRECTION0		0x80800054
-> > > +#define OV490_GPIO_DIRECTION1		0x80800055
-> > > +#define OV490_GPIO_OUTPUT_VALUE0	0x80800058
-> > > +#define OV490_GPIO_OUTPUT_VALUE1	0x80800059
-> > > +
-> > >  #define OV490_ISP_HSIZE_LOW		0x80820060
-> > >  #define OV490_ISP_HSIZE_HIGH		0x80820061
-> > >  #define OV490_ISP_VSIZE_LOW		0x80820062
-> > >  #define OV490_ISP_VSIZE_HIGH		0x80820063
-> > >
-> > > -#define OV10640_ID_LOW			0xa6
-> > > +#define OV10640_ID_HIGH			0xa6
-> > > +#define OV10640_CHIP_ID			0x300a
-> > >  #define OV10640_PIXEL_RATE		55000000
-> > >
-> > >  struct rdacm21_device {
-> > > @@ -306,6 +329,39 @@ static const struct v4l2_subdev_ops rdacm21_subdev_ops = {
-> > >  	.pad		= &rdacm21_subdev_pad_ops,
-> > >  };
-> > >
-> > > +static int ov10640_initialize(struct rdacm21_device *dev)
-> > > +{
-> > > +	u8 val;
-> > > +
-> > > +	/* Power-up OV10640 by setting RESETB and PWDNB pins high. */
-> > > +	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0_RESETB);
-> > > +	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
-> > > +	ov490_write_reg(dev, OV490_GPIO_DIRECTION0, OV490_GPIO0_RESETB);
-> > > +	ov490_write_reg(dev, OV490_GPIO_DIRECTION1, OV490_SPWDN0);
-> > > +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0_RESETB);
-> > > +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_SPWDN0);
-> > > +	usleep_range(3000, 5000);
-> >
-> > So the OV490 firmware doesn't handle this ?
-> 
-> Do you mean the delay or the reset of the ov10640 ?
-> 
-> I need the delay here otherwise reading the ov10640 id fails below.
-> Same for the reset :)
-> 
-> About reset, it seems it does not... The ov490 settings are loaded
-> from an EEPROM but I don't know what it content is, maybe it's just
-> about the imaging-related settings ?
+Changes:
 
-I meant the configuration of the GPIOs and the reset of the sensor, yes.
-I was just curious, as I was expecting the firmware to handle all the
-platform-specific data.
 
-> > > +
-> > > +	/* Read OV10640 ID to test communications. */
-> > > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
-> > > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
-> > > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, (u8)OV10640_CHIP_ID);
-> > > +
-> > > +	/* Trigger SCCB slave transaction and give it some time to complete. */
-> > > +	ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
-> > > +	usleep_range(1000, 1500);
-> > > +
-> > > +	ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
-> > > +	if (val != OV10640_ID_HIGH) {
-> > > +		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
-> > > +		return -ENODEV;
-> > > +	}
-> >
-> > Would it make sense to create an ov490_sensor_read() helper ?
-> 
-> While developing this I went and also tested reading other registers
-> of the ov10640 and I had contradictory results. I'm mostly wondering
-> if OV490_HOST_CMD_TRIGGER is correct in all cases, as I have some BSP
-> code that uses a different value.
-> 
-> Can we wait for an helper until we have more users ?
+------------------------------------------
+[...truncated 17.35 KB...]
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-5-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
+patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+patch -s -f -N -p1 -i ../backports/v5.0_gpio.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
+Preparing to compile for kernel version 4.19.0
 
-I don't mind.
+***WARNING:*** You do not have the full kernel sources installed.
+This does not prevent you from building the v4l-dvb tree if you have the
+kernel headers, but the full kernel source may be required in order to use
+make menuconfig / xconfig / qconfig.
 
-> > > +
-> > > +	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >  static int ov490_initialize(struct rdacm21_device *dev)
-> > >  {
-> > >  	u8 pid, ver, val;
-> > > @@ -349,20 +405,11 @@ static int ov490_initialize(struct rdacm21_device *dev)
-> > >  		return -ENODEV;
-> > >  	}
-> > >
-> > > -	/* Read OV10640 Id to test communications. */
-> > > -	ov490_write_reg(dev, 0x80195000, 0x01);
-> > > -	ov490_write_reg(dev, 0x80195001, 0x30);
-> > > -	ov490_write_reg(dev, 0x80195002, 0x0a);
-> > > -	ov490_write_reg(dev, 0x808000c0, 0xc1);
-> > > -
-> > > -	ov490_read_reg(dev, 0x80195000, &val);
-> > > -	if (val != OV10640_ID_LOW) {
-> > > -		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
-> > > -		return -ENODEV;
-> > > -	}
-> > > -
-> > > -	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
-> > > +	ret = ov10640_initialize(dev);
-> > > +	if (ret)
-> > > +		return ret;
-> > >
-> > > +	/* Program OV490 with register-value table. */
-> > >  	for (i = 0; i < ARRAY_SIZE(ov490_regs_wizard); ++i) {
-> > >  		ret = ov490_write(dev, ov490_regs_wizard[i].reg,
-> > >  				  ov490_regs_wizard[i].val);
+If you are experiencing problems building the v4l-dvb tree, please try
+building against a vanilla kernel before reporting a bug.
 
--- 
-Regards,
+Vanilla kernels are available at http://kernel.org.
+On most distros, this will compile a newly downloaded kernel:
 
-Laurent Pinchart
+cp /boot/config-`uname -r` <your kernel dir>/.config
+cd <your kernel dir>
+make all modules_install install
+
+Please see your distro's web site for instructions to build a new kernel.
+
+WARNING: This is the V4L/DVB backport tree, with experimental drivers
+	 backported to run on legacy kernels from the development tree at:
+		http://git.linuxtv.org/media-tree.git.
+	 It is generally safe to use it for testing a new driver or
+	 feature, but its usage on production environments is risky.
+	 Don't use it in production. You've been warned.
+CEC_CROS_EC: Requires at least kernel 9.255.255
+V4L2_H264: Requires at least kernel 9.255.255
+VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
+VIDEO_OMAP3: Requires at least kernel 9.255.255
+VIDEO_IMX274: Requires at least kernel 9.255.255
+SND_BT87X: Requires at least kernel 9.255.255
+INTEL_ATOMISP: Requires at least kernel 9.255.255
+VIDEO_HANTRO: Requires at least kernel 9.255.255
+VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
+VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
+Created default (all yes) .config file
+./scripts/fix_kconfig.pl
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+scripts/make_makefile.pl
+./scripts/make_myconfig.pl
+[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
+perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
+creating symbolic links...
+Kernel build directory is /lib/modules/4.19.0-5-amd64/build
+make -C ../linux apply_patches
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Patches for 4.19.0-5-amd64 already applied.
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
+make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_regs.isra.4':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:309:11: warning: 'regs_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+   *__regs = regs_base;
+   ~~~~~~~~^~~~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:290:16: warning: 'regs' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    regs->value = bin_alloc(bin, len);
+    ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_rules':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:505:25: warning: 'next_rule' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     rules->num_if_rules = __num_if_rules;
+     ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:558:12: warning: 'rules_base' may be used uninitialized in this function [-Wmaybe-uninitialized]
+   *__rules = rules_base;
+   ~~~~~~~~~^~~~~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>: In function 'ccs_data_parse_pdaf.isra.10':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.c>:724:20: warning: 'pdgroup' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    pdesc = &pdgroup->descs[j];
+             ~~~~~~~^~~~~~~
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov02a10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9650.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9734.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13858.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m001.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m032.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m111.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9p031.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t001.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t112.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v011.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v032.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v111.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sr030pc30.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/noon010pc30.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rj54n1cb0c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6aa.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6a3.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k4ecgx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k5baf.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-spi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-ctrls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adp1653.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3560.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3646.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-pll.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak881x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-kbd-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ml86v7667.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2659.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc358743.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hi556.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx214.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx219.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx258.o>
+In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-core.h>:18,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-v4l2.h>:16,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.c>:32:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/linux/dma-buf.h>:16:10: fatal error: linux/dma-buf-map.h: No such file or directory
+ #include <linux/dma-buf-map.h>
+          ^~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o]> Error 1
+make[5]: *** Waiting for unfinished jobs....
+make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[3]: *** [Makefile:146: sub-make] Error 2
+make[2]: *** [Makefile:8: all] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
+Build step 'Execute shell' marked build as failure
