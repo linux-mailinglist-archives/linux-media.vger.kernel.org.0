@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C59A2F65D4
+	by mail.lfdr.de (Postfix) with ESMTP id E83902F65D6
 	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 17:26:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726579AbhANQYv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 11:24:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33378 "EHLO
+        id S1726459AbhANQYw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 11:24:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbhANQYu (ORCPT
+        with ESMTP id S1726272AbhANQYw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 11:24:50 -0500
+        Thu, 14 Jan 2021 11:24:52 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D3BC061757;
-        Thu, 14 Jan 2021 08:24:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CB7C0613C1;
+        Thu, 14 Jan 2021 08:24:11 -0800 (PST)
 Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 898998EF;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0608EB77;
         Thu, 14 Jan 2021 17:24:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610641446;
-        bh=zORDbomIFkIlxQcbzHxSvw0hoVYkwxy+GP1jaPdQttI=;
+        s=mail; t=1610641447;
+        bh=DOQm06BQXPNUG2wcu5FWU2cy/C1+HUvEnc6VBcWLIbU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BVRHKfLuvX2oIcA3436bIz+udANvVwJ/h0tXTOS8t4bSjGbOizrMIMhyAYbXsKUak
-         6RzdIUVSqlZPpkH5JLYMfUrJsUqD0u0q/0vvVenD49cX5MOP+/BNNzc4XlUZIFV1RY
-         +ZESZkSoJcjjVPgrLhLUyMivXa7l8MKKE4okZdzU=
+        b=R3O/6B/r2zzdlvDZPpWHHKfI3hcTikEijg7UqOKpnLuJ6j4OJgWideIVKxHjatiQI
+         fgtGnmv/wiO9Nub8DP4/gU+bKiKMlk5ps/W7IY4EiDkPmW0pYCHtnxhr8+NubceUUB
+         zcb++uei5hu3OhHLvang4CjqreiSBLsjmMmIf/O8=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Ulrich Hecht <uli+renesas@fpond.eu>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v4 02/10] media: vsp1: drm: Don't configure hardware when the pipeline is disabled
-Date:   Thu, 14 Jan 2021 16:22:47 +0000
-Message-Id: <20210114162255.705868-3-kieran.bingham+renesas@ideasonboard.com>
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v4 03/10] drm: rcar-du: Convert to the new VSP atomic API
+Date:   Thu, 14 Jan 2021 16:22:48 +0000
+Message-Id: <20210114162255.705868-4-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
@@ -44,82 +44,117 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+The configuration API between the VSP and the DU has been updated to
+provide finer grain control over modesetting, and enablement.
 
-The vsp1_du_atomic_flush() function calls vsp1_du_pipeline_configure()
-to configure the hardware pipeline. The function is currently guaranteed
-to be called with the pipeline enabled, but this will change by future
-rework of the DU driver. Guard the hardware configuration to skip it
-when the pipeline is disabled. The hardware will be configured the next
-time the pipeline gets enabled.
+Split rcar_du_vsp_enable() into rcar_du_vsp_modeset() and
+rcar_du_vsp_enable() accordingly, and update each function to use the
+new VSP API.
+
+There are no further users of the deprecated vsp1_du_setup_lif() which
+can now be removed.
 
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/platform/vsp1/vsp1_drm.c | 13 ++++++++++++-
- drivers/media/platform/vsp1/vsp1_drm.h |  2 ++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+Changes since v2:
 
-diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
-index 2bac80014bf4..fa79cac32e49 100644
---- a/drivers/media/platform/vsp1/vsp1_drm.c
-+++ b/drivers/media/platform/vsp1/vsp1_drm.c
-@@ -723,6 +723,8 @@ int vsp1_du_atomic_enable(struct device *dev, unsigned int pipe_index,
- 	/* Configure all entities in the pipeline. */
- 	vsp1_du_pipeline_configure(pipe);
+- Minor formatting changes
+
+Changes since v3:
+- Minor formatting for checkpatch.pl --strict
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  4 +++-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 20 ++++++++++++++------
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h  |  3 +++
+ 3 files changed, 20 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index ea7e39d03545..53838dde2f29 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -533,8 +533,10 @@ static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
+ 	rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
  
-+	drm_pipe->enabled = true;
+ 	/* Enable the VSP compositor. */
+-	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
++	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE)) {
++		rcar_du_vsp_modeset(rcrtc);
+ 		rcar_du_vsp_enable(rcrtc);
++	}
+ 
+ 	/* Turn vertical blanking interrupt reporting on. */
+ 	drm_crtc_vblank_on(&rcrtc->crtc);
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 53221d8473c1..b9e6b8531c96 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -46,16 +46,14 @@ static void rcar_du_vsp_complete(void *private, unsigned int status, u32 crc)
+ 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc);
+ }
+ 
+-void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
++void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc)
+ {
+ 	const struct drm_display_mode *mode = &crtc->crtc.state->adjusted_mode;
+ 	struct rcar_du_device *rcdu = crtc->dev;
+-	struct vsp1_du_lif_config cfg = {
++	struct vsp1_du_modeset_config cfg = {
+ 		.width = mode->hdisplay,
+ 		.height = mode->vdisplay,
+ 		.interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE,
+-		.callback = rcar_du_vsp_complete,
+-		.callback_data = crtc,
+ 	};
+ 	struct rcar_du_plane_state state = {
+ 		.state = {
+@@ -92,12 +90,22 @@ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
+ 	 */
+ 	crtc->group->need_restart = true;
+ 
+-	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
++	vsp1_du_atomic_modeset(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
++}
 +
- unlock:
- 	mutex_unlock(&vsp1->drm->lock);
- 
-@@ -799,6 +801,8 @@ int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index)
- 	pipe->brx->pipe = NULL;
- 	pipe->brx = NULL;
- 
-+	drm_pipe->enabled = false;
++void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
++{
++	struct vsp1_du_enable_config cfg = {
++		.callback = rcar_du_vsp_complete,
++		.callback_data = crtc,
++	};
 +
- 	mutex_unlock(&vsp1->drm->lock);
++	vsp1_du_atomic_enable(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
+ }
  
- 	vsp1_dlm_reset(pipe->output->dlm);
-@@ -991,7 +995,14 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
- 	}
+ void rcar_du_vsp_disable(struct rcar_du_crtc *crtc)
+ {
+-	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, NULL);
++	vsp1_du_atomic_disable(crtc->vsp->vsp, crtc->vsp_pipe);
+ }
  
- 	vsp1_du_pipeline_setup_inputs(vsp1, pipe);
--	vsp1_du_pipeline_configure(pipe);
+ void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc)
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
+index 9b4724159378..7c141523434d 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
+@@ -58,6 +58,7 @@ to_rcar_vsp_plane_state(struct drm_plane_state *state)
+ #ifdef CONFIG_DRM_RCAR_VSP
+ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+ 		     unsigned int crtcs);
++void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc);
+ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc);
+ void rcar_du_vsp_disable(struct rcar_du_crtc *crtc);
+ void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc);
+@@ -73,6 +74,8 @@ static inline int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
+ {
+ 	return -ENXIO;
+ }
 +
-+	/*
-+	 * We may get called before the pipeline gets enabled, postpone
-+	 * configuration in that case. vsp1_du_pipeline_configure() will be
-+	 * called from vsp1_du_atomic_enable().
-+	 */
-+	if (drm_pipe->enabled)
-+		vsp1_du_pipeline_configure(pipe);
- 
- done:
- 	mutex_unlock(&vsp1->drm->lock);
-diff --git a/drivers/media/platform/vsp1/vsp1_drm.h b/drivers/media/platform/vsp1/vsp1_drm.h
-index e85ad4366fbb..d780dafc1324 100644
---- a/drivers/media/platform/vsp1/vsp1_drm.h
-+++ b/drivers/media/platform/vsp1/vsp1_drm.h
-@@ -20,6 +20,7 @@
- /**
-  * vsp1_drm_pipeline - State for the API exposed to the DRM driver
-  * @pipe: the VSP1 pipeline used for display
-+ * @enabled: true if the pipeline is enabled
-  * @width: output display width
-  * @height: output display height
-  * @force_brx_release: when set, release the BRx during the next reconfiguration
-@@ -31,6 +32,7 @@
-  */
- struct vsp1_drm_pipeline {
- 	struct vsp1_pipeline pipe;
-+	bool enabled;
- 
- 	unsigned int width;
- 	unsigned int height;
++static inlinc void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc) { };
+ static inline void rcar_du_vsp_enable(struct rcar_du_crtc *crtc) { };
+ static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
+ static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
 -- 
 2.25.1
 
