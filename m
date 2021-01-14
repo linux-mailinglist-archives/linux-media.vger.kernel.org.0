@@ -2,29 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E82892F5A86
-	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 06:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29C172F5B9F
+	for <lists+linux-media@lfdr.de>; Thu, 14 Jan 2021 08:55:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725962AbhANFyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 00:54:38 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46718 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725844AbhANFyi (ORCPT
+        id S1727691AbhANHw4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 02:52:56 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:42527 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726677AbhANHwz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 00:54:38 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F543279;
-        Thu, 14 Jan 2021 06:53:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610603633;
-        bh=qad28ByfohnLai24O40nfSiXhHKQuiGekH7EQCXPvvw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CjXUv+se79l+XhZQDsV32e/Ovx/LxmMThseafJl7jW4X2hPmPiDpxpy4lTIw7YYWH
-         NPgDydsh+onTdf399Rk/29tborcyOVvJqAULz1UALH6hhEKrq8x/VKpwfJBF7srfKu
-         b/JbAF+WDE1E1ocAkkA4GvFqp1dMAYG5CDdM3wcw=
-Date:   Thu, 14 Jan 2021 07:53:36 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
+        Thu, 14 Jan 2021 02:52:55 -0500
+X-Originating-IP: 93.61.96.190
+Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 765F7C0011;
+        Thu, 14 Jan 2021 07:52:10 +0000 (UTC)
+Date:   Thu, 14 Jan 2021 08:52:28 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
@@ -33,189 +28,204 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
- amplitude
-Message-ID: <X//cYHkyELaH4XHb@pendragon.ideasonboard.com>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-6-jacopo+renesas@jmondi.org>
- <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
- <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
- <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
- <20210111112023.brrhxgfedo5fer53@uno.localdomain>
- <X/0triYZZJiXaf07@pendragon.ideasonboard.com>
- <20210112090805.myglp2lpozo3blq5@uno.localdomain>
+Subject: Re: [PATCH v7 3/7] fixup! media: i2c: rdacm21: Break-out ov10640
+ initialization
+Message-ID: <20210114075228.wbvvzcwh5qwubpda@uno.localdomain>
+References: <20210113185506.119808-1-jacopo+renesas@jmondi.org>
+ <20210113185506.119808-4-jacopo+renesas@jmondi.org>
+ <X/+A7btfIZpdktrL@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210112090805.myglp2lpozo3blq5@uno.localdomain>
+In-Reply-To: <X/+A7btfIZpdktrL@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Laurent,
 
-On Tue, Jan 12, 2021 at 10:08:05AM +0100, Jacopo Mondi wrote:
-> On Tue, Jan 12, 2021 at 07:03:42AM +0200, Laurent Pinchart wrote:
-> > On Mon, Jan 11, 2021 at 12:20:23PM +0100, Jacopo Mondi wrote:
-> > > On Mon, Jan 11, 2021 at 12:58:59PM +0200, Laurent Pinchart wrote:
-> > > > On Mon, Jan 11, 2021 at 11:43:11AM +0100, Jacopo Mondi wrote:
-> > > >> On Wed, Dec 16, 2020 at 07:22:17PM +0200, Laurent Pinchart wrote:
-> > > >>> On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
-> > > >>>> Adjust the initial reverse channel amplitude parsing from
-> > > >>>> firmware interface the 'maxim,reverse-channel-microvolt'
-> > > >>>> property.
-> > > >>>>
-> > > >>>> This change is required for both rdacm20 and rdacm21 camera
-> > > >>>> modules to be correctly probed when used in combination with
-> > > >>>> the max9286 deserializer.
-> > > >>>>
-> > > >>>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > >>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > >>>> ---
-> > > >>>>  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
-> > > >>>>  1 file changed, 22 insertions(+), 1 deletion(-)
-> > > >>>>
-> > > >>>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > >>>> index 021309c6dd6f..9b40a4890c4d 100644
-> > > >>>> --- a/drivers/media/i2c/max9286.c
-> > > >>>> +++ b/drivers/media/i2c/max9286.c
-> > > >>>> @@ -163,6 +163,8 @@ struct max9286_priv {
-> > > >>>>  	unsigned int mux_channel;
-> > > >>>>  	bool mux_open;
-> > > >>>>
-> > > >>>> +	u32 reverse_channel_mv;
-> > > >>>> +
-> > > >>>>  	struct v4l2_ctrl_handler ctrls;
-> > > >>>>  	struct v4l2_ctrl *pixelrate;
-> > > >>>>
-> > > >>>> @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
-> > > >>>>  	 * All enabled sources have probed and enabled their reverse control
-> > > >>>>  	 * channels:
-> > > >>>>  	 *
-> > > >>>> +	 * - Increase the reverse channel amplitude to compensate for the
-> > > >>>> +	 *   remote ends high threshold, if not done already
-> > > >>>>  	 * - Verify all configuration links are properly detected
-> > > >>>>  	 * - Disable auto-ack as communication on the control channel are now
-> > > >>>>  	 *   stable.
-> > > >>>>  	 */
-> > > >>>> +	if (priv->reverse_channel_mv < 170)
-> > > >>>> +		max9286_reverse_channel_setup(priv, 170);
-> > > >>>
-> > > >>> I'm beginning to wonder if there will be a need in the future to not
-> > > >>> increase the reverse channel amplitude (keeping the threshold low on the
-> > > >>> remote side). An increased amplitude increases power consumption, and if
-> > > >>> the environment isn't noisy, a low amplitude would work. The device tree
-> > > >>> would then need to specify both the initial amplitude required by the
-> > > >>> remote side, and the desired amplitude after initialization. What do you
-> > > >>> think ? Is it overkill ? We don't have to implement this now, so
-> > > >>>
-> > > >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > >>>
-> > > >>> but if this feature could be required later, we may want to take into
-> > > >>> account in the naming of the new DT property to reflect the fact that it
-> > > >>> is the initial value.
-> > > >>
-> > > >> I had the same thought when I initially proposed
-> > > >> "maxim,initial-reverse-channel-mV"
-> > > >>
-> > > >> Having to use the standard unit suffix that would have become
-> > > >> "maxim,initial-reverse-channel-microvolt"
-> > > >> which is extremely long.
-> > > >>
-> > > >> I can't tell if there will be any need to adjust the amplitude later.
-> > > >> In any case, I would not rely on a DTS property to do so, as once we
-> > > >> have probed the remote we have a subdev where to call
-> > > >> 'get_mbus_config()' on, and from there we can report the high threshold
-> > > >> status of the serializer and adjust the deser amplitude accordingly.
-> > > >
-> > > > I don't think that's the point. The threshold of the serializer is
-> > > > something we can configure at runtime. What voltage level to use after
-> > >
-> > > How so ? I mean, we can add an API for this, but currently it's
-> > > configured at probe time and that's it. Its configuration might as
-> > > well come from a DT property like we do on the deserializer here but I
-> > > fail to see why it's different. Both settings depends on the required
-> > > noise immunity of th system.
-> >
-> > The voltage level configuration need to match between the tserializer
-> > (transmitter) and the deserializer (receiver). The serializer is
-> > configured with a voltage level, and the deserializer needs to be
-> > configured with a corresponding threshold.
-> 
-> If I'm not mistaken it's actually the other way around, at least for
-> the chips we're dealing with.
-
-Yes, I mixed up the direction, sorry about that.
-
-> The serializer (MAX9271) has an "Reverse Channel Receiver High
-> Threshold Enable" bit (register 0x08[0]) undocumented in the chip
-> manual but described in the "MAX9286 Programming Guide 2 10.pdf"
-> document in the "Important Registers" section.
-> 
-> The deserializer (MAX9286) has instead a configurable setting for the reverse
-> channel signal amplitude, which is what we are controlling in this
-> series.
-> 
-> The deserializer reverse channel amplitude has to match the remote
-> side 'high threshold enable' setting. If it is enabled the amplitude
-> has to be increased to be able to probe the remote side. If it's not
-> a lower amplitude has to be used to make comunication reliable.
-> 
-> As you said, some models (RDACM20) might be pre-programmed with the
-> 'high threshold enable' bit set, and so the deserializer reverse
-> channel amplitude has to be adjusted accordingly to be able to
-> comunicate on the reverse channel.
+On Thu, Jan 14, 2021 at 01:23:25AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
 >
-> > The voltage level of the serializer is configurable on the camera side
-> > when the system is powered up. The RDACM20 has a microcontroller which
-> > can configure the serializer, and other cameras may have similar
-> > mechanisms. As the deserializer can't query the information from the
-> > serializer (communication is unreliable if the threshold has an
-> > incorrect value), we need a DT property to tell the deserializer what
-> > threshold is initially used by the camera when it gets powered up.
-> 
-> That's what this series does, yes.
-> 
-> > This only covers initialization. A camera could boot up with a low
-> > voltage level, but we may want to increase the voltage level (and thus
-> > the threshold on the deserializer side) to increase noise immunity. Or,
-> > if the system environment isn't noisy, we may want to keep a low voltage
-> > level, or even decrease it if the camera boots up with a high voltage
-> > level. This runtime voltage level depends on the system design and its
-> > susceptibility to noise, and is thus a system property. Should we want
-> > to make it configurable, it should be specified in DT, and it's separate
-> > from the initial voltage level that is used to establish communication.
-> 
-> And that's what I meant. Assuming we handle initialization correctly
-> with this series, the serializers 'high threshold' configuration
-> -after- initialization can be specified with a DT property on the
-> -serializer- side. Then, to adjust the deserializer reverse channel
-> amplitude, once we the remote has probed and we have a subdevice
-> registered for it, we can query the 'high threshold' configuration
-> using get_mbus_config() (or another API if we think it's better) and
-> adjust the deserializer accordingly.
-> 
-> All in all:
-> - yes, I think there might be a need to control the noise immunity
->   settings after initialization
-> - I think it should be done on the serializer side, possibly with a DT
->   property, possibly something like a boolean 'maxim,high-threshold-enable'
-> - the deserializer can query that information with a kAPI like
->   get_mbus_config() after the remote has probed
-> - Because of that there is no need for an additional deserializer property
-> 
-> Hope this makes sense
+> Thank you for the patch.
+>
+> On Wed, Jan 13, 2021 at 07:55:01PM +0100, Jacopo Mondi wrote:
+> > The embedded OV490 ISP chip provides a secondary SCCB interface and
+> > two GPIO lines to control the connected OV10640 image sensor.
+> >
+> > Break out the OV10640 initialization from the OV490 initialization and
+> > explicitely control the powerdown and reset GPIOs. After the image
+>
+> s/explicitely/explicitly/
+>
+> > sensor has been hard reset, implement a more clear handling of the
+> > secondary SCCB interface to read the image sensor chip ID.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/i2c/rdacm21.c | 75 ++++++++++++++++++++++++++++++-------
+> >  1 file changed, 61 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> > index 0428e3209463..944009687de5 100644
+> > --- a/drivers/media/i2c/rdacm21.c
+> > +++ b/drivers/media/i2c/rdacm21.c
+> > @@ -30,11 +30,24 @@
+> >  #define OV490_PAGE_HIGH_REG		0xfffd
+> >  #define OV490_PAGE_LOW_REG		0xfffe
+> >
+> > +/*
+> > + * The SCCB slave handling is undocumented; the registers naming scheme is
+> > + * totally arbitrary.
+> > + */
+> > +#define OV490_SCCB_SLAVE_WRITE		0x00
+> > +#define OV490_SCCB_SLAVE_READ		0x01
+> > +#define OV490_SCCB_SLAVE0_DIR		0x80195000
+> > +#define OV490_SCCB_SLAVE0_ADDR_HIGH	0x80195001
+> > +#define OV490_SCCB_SLAVE0_ADDR_LOW	0x80195002
+> > +
+> >  #define OV490_DVP_CTRL3			0x80286009
+> >
+> >  #define OV490_ODS_CTRL_FRAME_OUTPUT_EN	0x0c
+> >  #define OV490_ODS_CTRL			0x8029d000
+> >
+> > +#define OV490_HOST_CMD			0x808000c0
+> > +#define OV490_HOST_CMD_TRIGGER		0xc1
+> > +
+> >  #define OV490_ID_VAL			0x0490
+> >  #define OV490_ID(_p, _v)		((((_p) & 0xff) << 8) | ((_v) & 0xff))
+> >  #define OV490_PID			0x8080300a
+> > @@ -42,12 +55,22 @@
+> >  #define OV490_PID_TIMEOUT		20
+> >  #define OV490_OUTPUT_EN_TIMEOUT		300
+> >
+> > +#define OV490_GPIO0_RESETB		0x01
+>
+> Shouldn't this be named just OV490_GPIO0 ? The fact that it's connected
+> to the RESETB signal of the OV10640 is board-specific, not an OV490
+> intrinsic property.
+>
+> BIT(0) ?
+>
+> > +#define OV490_SPWDN0			0x01
+>
+> Same here.
+>
 
-Now I get what you meant. Sorry for missing the point.
+Correct, I'll fix...
 
-While it would be technically feasible to query the property from the
-serializer at runtime, there's the additional issue that the
-deserializer has a single reverse channel amplitude setting for all the
-channels. We would need to ensure that the property is set to the same
-value in all camera DT nodes. Wouldn't it be best to then set it once
-only, in the deserializer node ?
+> > +#define OV490_GPIO_SEL0			0x80800050
+> > +#define OV490_GPIO_SEL1			0x80800051
+> > +#define OV490_GPIO_DIRECTION0		0x80800054
+> > +#define OV490_GPIO_DIRECTION1		0x80800055
+> > +#define OV490_GPIO_OUTPUT_VALUE0	0x80800058
+> > +#define OV490_GPIO_OUTPUT_VALUE1	0x80800059
+> > +
+> >  #define OV490_ISP_HSIZE_LOW		0x80820060
+> >  #define OV490_ISP_HSIZE_HIGH		0x80820061
+> >  #define OV490_ISP_VSIZE_LOW		0x80820062
+> >  #define OV490_ISP_VSIZE_HIGH		0x80820063
+> >
+> > -#define OV10640_ID_LOW			0xa6
+> > +#define OV10640_ID_HIGH			0xa6
+> > +#define OV10640_CHIP_ID			0x300a
+> >  #define OV10640_PIXEL_RATE		55000000
+> >
+> >  struct rdacm21_device {
+> > @@ -306,6 +329,39 @@ static const struct v4l2_subdev_ops rdacm21_subdev_ops = {
+> >  	.pad		= &rdacm21_subdev_pad_ops,
+> >  };
+> >
+> > +static int ov10640_initialize(struct rdacm21_device *dev)
+> > +{
+> > +	u8 val;
+> > +
+> > +	/* Power-up OV10640 by setting RESETB and PWDNB pins high. */
+> > +	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0_RESETB);
+> > +	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
+> > +	ov490_write_reg(dev, OV490_GPIO_DIRECTION0, OV490_GPIO0_RESETB);
+> > +	ov490_write_reg(dev, OV490_GPIO_DIRECTION1, OV490_SPWDN0);
+> > +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0_RESETB);
+> > +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_SPWDN0);
+> > +	usleep_range(3000, 5000);
+>
+> So the OV490 firmware doesn't handle this ?
+>
 
--- 
-Regards,
+Do you mean the delay or the reset of the ov10640 ?
 
-Laurent Pinchart
+I need the delay here otherwise reading the ov10640 id fails below.
+Same for the reset :)
+
+About reset, it seems it does not... The ov490 settings are loaded
+from an EEPROM but I don't know what it content is, maybe it's just
+about the imaging-related settings ?
+
+> > +
+> > +	/* Read OV10640 ID to test communications. */
+> > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
+> > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
+> > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, (u8)OV10640_CHIP_ID);
+> > +
+> > +	/* Trigger SCCB slave transaction and give it some time to complete. */
+> > +	ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
+> > +	usleep_range(1000, 1500);
+> > +
+> > +	ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
+> > +	if (val != OV10640_ID_HIGH) {
+> > +		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+> > +		return -ENODEV;
+> > +	}
+>
+> Would it make sense to create an ov490_sensor_read() helper ?
+>
+
+While developing this I went and also tested reading other registers
+of the ov10640 and I had contradictory results. I'm mostly wondering
+if OV490_HOST_CMD_TRIGGER is correct in all cases, as I have some BSP
+code that uses a different value.
+
+Can we wait for an helper until we have more users ?
+
+Thanks
+  j
+
+> > +
+> > +	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int ov490_initialize(struct rdacm21_device *dev)
+> >  {
+> >  	u8 pid, ver, val;
+> > @@ -349,20 +405,11 @@ static int ov490_initialize(struct rdacm21_device *dev)
+> >  		return -ENODEV;
+> >  	}
+> >
+> > -	/* Read OV10640 Id to test communications. */
+> > -	ov490_write_reg(dev, 0x80195000, 0x01);
+> > -	ov490_write_reg(dev, 0x80195001, 0x30);
+> > -	ov490_write_reg(dev, 0x80195002, 0x0a);
+> > -	ov490_write_reg(dev, 0x808000c0, 0xc1);
+> > -
+> > -	ov490_read_reg(dev, 0x80195000, &val);
+> > -	if (val != OV10640_ID_LOW) {
+> > -		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+> > -		return -ENODEV;
+> > -	}
+> > -
+> > -	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
+> > +	ret = ov10640_initialize(dev);
+> > +	if (ret)
+> > +		return ret;
+> >
+> > +	/* Program OV490 with register-value table. */
+> >  	for (i = 0; i < ARRAY_SIZE(ov490_regs_wizard); ++i) {
+> >  		ret = ov490_write(dev, ov490_regs_wizard[i].reg,
+> >  				  ov490_regs_wizard[i].val);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
