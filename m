@@ -2,211 +2,242 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 911B92F85AE
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 20:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FAEE2F85B5
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 20:48:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730444AbhAOTnn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 14:43:43 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48212 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730047AbhAOTnl (ORCPT
+        id S2387856AbhAOTr6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 14:47:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733262AbhAOTru (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 14:43:41 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAAE158B;
-        Fri, 15 Jan 2021 20:42:57 +0100 (CET)
+        Fri, 15 Jan 2021 14:47:50 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B75CC0613C1
+        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 11:47:10 -0800 (PST)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60FF058B;
+        Fri, 15 Jan 2021 20:47:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610739778;
-        bh=QxS4CCYLBs4oUpxHNRqTWnrBvEbxBJERx4bPb1dkEeM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hcHgH4Syuelmjn+8onpQo973dgRW9PyxrvCshVXX2NRr6ieSbCsEiz7cYf61uAOj3
-         Meiop45IR/2Az7wHR+SLrovbswywoqbI7nUN/1s2ryp4vnh92HfXOCQK1j9WUJsY+o
-         pQiBWN8TONOxrW6iaNnOUvC/Xkmwah0IwRqH1QUc=
-Date:   Fri, 15 Jan 2021 21:42:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Heiko Stuebner <heiko@sntech.de>
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil@xs4all.nl, linux-rockchip@lists.infradead.org,
-        ezequiel@collabora.com, christoph.muellner@theobroma-systems.com,
-        tfiga@chromium.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Subject: Re: [PATCH v4 2/3] media: rockchip: rkisp1: carry ip version
- information
-Message-ID: <YAHwMb4DD0eRoeg3@pendragon.ideasonboard.com>
-References: <20210115163829.217131-1-heiko@sntech.de>
- <20210115163829.217131-3-heiko@sntech.de>
+        s=mail; t=1610740028;
+        bh=cfp897znM/zemYdOdvSFX6aQgH7BN52N3aDpYW8edXs=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=dzjWRCnY8ucvflEIPtmwFXNP4JMbTXrmpNEFOjc6hIq7bA//dT0b6+vJvUHmCwA/2
+         dzihIctNxLbq//+6Sye2sAJKF2Xm17vL1HQoEzakV36FGfhtqRVuK4vfOoFoDHEww2
+         g8KRmLLVid1QntK33YYx1Zeouzv9gsGctYPrMMUs=
+Subject: Re: [PATCH v4] media: v4l2-async: Add waiting subdevices debugfs
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20210108171728.39434-2-ezequiel@collabora.com>
+ <20210115191415.164127-1-ezequiel@collabora.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <fc13f536-c107-a097-9012-06d4184afa9c@ideasonboard.com>
+Date:   Fri, 15 Jan 2021 19:47:05 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210115191415.164127-1-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210115163829.217131-3-heiko@sntech.de>
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+Hi Ezequiel,
 
-Thank you for the patch.
+On 15/01/2021 19:14, Ezequiel Garcia wrote:
+> There is currently little to no information available
+> about the reasons why a v4l2-async device hasn't
+> probed completely.
+> 
+> Inspired by the "devices_deferred" debugfs file,
+> add a file to list information about the subdevices
+> that are on waiting lists, for each notifier.
+> 
+> This is useful to debug v4l2-async subdevices
+> and notifiers, for instance when doing device bring-up.
+> 
+> For instance, a typical output would be:
+> 
+> $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
+> ipu1_csi1:
+>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
+> ipu1_csi0:
+>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
+> imx6-mipi-csi2:
+>  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
+> imx-media:
 
-On Fri, Jan 15, 2021 at 05:38:28PM +0100, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> 
-> The IP block evolved from its rk3288/rk3399 base and the vendor
-> designates them with a numerical version. rk3399 for example
-> is designated V10 probably meaning V1.0.
-> 
-> There doesn't seem to be an actual version register we could read that
-> information from, so allow the match_data to carry that information
-> for future differentiation.
-> 
-> Also carry that information in the hw_revision field of the media-
-> controller API, so that userspace also has access to that.
-> 
-> The added versions are:
-> - V10: at least rk3288 + rk3399
-> - V11: seemingly unused as of now, but probably appeared in some soc
-> - V12: at least rk3326 + px30
-> - V13: at least rk1808
+Oh this is very exciting. I started looking at something like this
+recently, hitting async failures, and this already looks better.
 
-In addition to changes to the ISP itself, are there changes in how it is
-integrated in the system, in particular in how it is connected to CSI-2
-receivers ? Do all the above SoCs have two ISP instances ?
+In other words, - Thank you!
 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  Documentation/admin-guide/media/rkisp1.rst    | 16 ++++++++++++++
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++++++++++--------
->  include/uapi/linux/rkisp1-config.h            | 16 ++++++++++++++
->  3 files changed, 44 insertions(+), 9 deletions(-)
+>  drivers/media/v4l2-core/v4l2-async.c | 63 ++++++++++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
+>  include/media/v4l2-async.h           |  8 ++++
+>  3 files changed, 76 insertions(+)
 > 
-> diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
-> index 2267e4fb475e..ccf418713623 100644
-> --- a/Documentation/admin-guide/media/rkisp1.rst
-> +++ b/Documentation/admin-guide/media/rkisp1.rst
-> @@ -13,6 +13,22 @@ This file documents the driver for the Rockchip ISP1 that is part of RK3288
->  and RK3399 SoCs. The driver is located under drivers/staging/media/rkisp1
->  and uses the Media-Controller API.
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index e3ab003a6c85..e35f18706792 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+>   */
 >  
-> +Revisions
-> +=========
+> +#include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/err.h>
+>  #include <linux/i2c.h>
+> @@ -14,6 +15,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/seq_file.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+>  
+> @@ -837,3 +839,64 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+>  	mutex_unlock(&list_lock);
+>  }
+>  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
 > +
-> +There exist multiple smaller revisions to this ISP that got introduced in
-> +later SoCs. Revisions can be found in the enum :c:type:`rkisp1_cif_isp_version`
-> +in the UAPI and the revision of the ISP inside the running SoC can be read
-> +in the field hw_revision of struct media_device_info as returned by
-> +ioctl MEDIA_IOC_DEVICE_INFO.
+> +static void print_waiting_subdev(struct seq_file *s,
+> +				 struct v4l2_async_subdev *asd)
+> +{
+> +	switch (asd->match_type) {
+> +	case V4L2_ASYNC_MATCH_I2C:
+> +		seq_printf(s, " [i2c] dev=%d-%04x\n", asd->match.i2c.adapter_id,
+> +			   asd->match.i2c.address);
+> +		break;
+> +	case V4L2_ASYNC_MATCH_FWNODE: {
+> +		struct fwnode_handle *devnode, *fwnode = asd->match.fwnode;
 > +
-> +Versions in use are:
+> +		devnode = fwnode_graph_is_endpoint(fwnode) ?
+> +			  fwnode_graph_get_port_parent(fwnode) :
+> +			  fwnode_handle_get(fwnode);
 > +
-> +- RKISP1_V10: used at least in rk3288 and rk3399
-> +- RKISP1_V11: declared in the original vendor code, but not used
-> +- RKISP1_V12: used at least in rk3326 and px30
-> +- RKISP1_V13: used at least in rk1808
+> +		seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",
+> +			   devnode->dev ? dev_name(devnode->dev) : "nil",
+> +			   fwnode);
 > +
->  Topology
->  ========
->  .. _rkisp1_topology_graph:
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index 68da1eed753d..f7e9fd305548 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -104,6 +104,7 @@
->  struct rkisp1_match_data {
->  	const char * const *clks;
->  	unsigned int size;
-> +	enum rkisp1_cif_isp_version isp_ver;
->  };
+> +		fwnode_handle_put(devnode);
+> +		break;
+> +	}
+> +	}
+> +}
+> +
+> +static const char *
+> +v4l2_async_notifier_name(struct v4l2_async_notifier *notifier)
+> +{
+> +	if (notifier->v4l2_dev)
+> +		return notifier->v4l2_dev->name;
+> +	else if (notifier->sd)
+> +		return notifier->sd->name;
+> +	else
+> +		return "nil";
+> +}
+> +
+> +static int pending_subdevs_show(struct seq_file *s, void *data)
+> +{
+> +	struct v4l2_async_notifier *notif;
+> +	struct v4l2_async_subdev *asd;
+> +
+> +	mutex_lock(&list_lock);
+> +
+> +	list_for_each_entry(notif, &notifier_list, list) {
+> +		seq_printf(s, "%s:\n", v4l2_async_notifier_name(notif));
+> +		list_for_each_entry(asd, &notif->waiting, list)
+> +			print_waiting_subdev(s, asd);
+> +	}
+> +
+> +	mutex_unlock(&list_lock);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+> +
+> +void v4l2_async_debug_init(struct dentry *debugfs_dir)
+> +{
+> +	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
+> +			    &pending_subdevs_fops);
+> +}
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index f9cff033d0dc..b6a72d297775 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -14,6 +14,7 @@
 >  
->  /* ----------------------------------------------------------------------------
-> @@ -411,15 +412,16 @@ static const char * const rk3399_isp_clks[] = {
->  	"hclk",
->  };
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 >  
-> -static const struct rkisp1_match_data rk3399_isp_clk_data = {
-> +static const struct rkisp1_match_data rk3399_isp_match_data = {
->  	.clks = rk3399_isp_clks,
->  	.size = ARRAY_SIZE(rk3399_isp_clks),
-> +	.isp_ver = RKISP1_V10,
->  };
+> +#include <linux/debugfs.h>
+>  #include <linux/module.h>
+>  #include <linux/types.h>
+>  #include <linux/kernel.h>
+> @@ -38,6 +39,7 @@
+>  		       __func__, ##arg);				\
+>  } while (0)
 >  
->  static const struct of_device_id rkisp1_of_match[] = {
->  	{
->  		.compatible = "rockchip,rk3399-cif-isp",
-> -		.data = &rk3399_isp_clk_data,
-> +		.data = &rk3399_isp_match_data,
->  	},
->  	{},
->  };
-> @@ -457,15 +459,15 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+> +static struct dentry *v4l2_debugfs_dir;
 >  
->  static int rkisp1_probe(struct platform_device *pdev)
+>  /*
+>   *	sysfs stuff
+> @@ -1118,6 +1120,8 @@ static int __init videodev_init(void)
+>  		return -EIO;
+>  	}
+>  
+> +	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
+> +	v4l2_async_debug_init(v4l2_debugfs_dir);
+>  	return 0;
+>  }
+>  
+> @@ -1125,6 +1129,7 @@ static void __exit videodev_exit(void)
 >  {
-> -	const struct rkisp1_match_data *clk_data;
-> +	const struct rkisp1_match_data *match_data;
->  	struct device *dev = &pdev->dev;
->  	struct rkisp1_device *rkisp1;
->  	struct v4l2_device *v4l2_dev;
->  	unsigned int i;
->  	int ret, irq;
+>  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
 >  
-> -	clk_data = of_device_get_match_data(&pdev->dev);
-> -	if (!clk_data)
-> +	match_data = of_device_get_match_data(&pdev->dev);
-> +	if (!match_data)
->  		return -ENODEV;
+> +	debugfs_remove_recursive(v4l2_debugfs_dir);
+>  	class_unregister(&video_class);
+>  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+>  }
+> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> index 0e04b5b2ebb0..243ac10a53c6 100644
+> --- a/include/media/v4l2-async.h
+> +++ b/include/media/v4l2-async.h
+> @@ -11,6 +11,7 @@
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
 >  
->  	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
-> @@ -494,15 +496,16 @@ static int rkisp1_probe(struct platform_device *pdev)
+> +struct dentry;
+>  struct device;
+>  struct device_node;
+>  struct v4l2_device;
+> @@ -137,6 +138,13 @@ struct v4l2_async_notifier {
+>  	struct list_head list;
+>  };
 >  
->  	rkisp1->irq = irq;
->  
-> -	for (i = 0; i < clk_data->size; i++)
-> -		rkisp1->clks[i].id = clk_data->clks[i];
-> -	ret = devm_clk_bulk_get(dev, clk_data->size, rkisp1->clks);
-> +	for (i = 0; i < match_data->size; i++)
-> +		rkisp1->clks[i].id = match_data->clks[i];
-> +	ret = devm_clk_bulk_get(dev, match_data->size, rkisp1->clks);
->  	if (ret)
->  		return ret;
-> -	rkisp1->clk_size = clk_data->size;
-> +	rkisp1->clk_size = match_data->size;
->  
->  	pm_runtime_enable(&pdev->dev);
->  
-> +	rkisp1->media_dev.hw_revision = match_data->isp_ver;
->  	strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
->  		sizeof(rkisp1->media_dev.model));
->  	rkisp1->media_dev.dev = &pdev->dev;
-> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> index ba443771cc0b..9fecb6bc457d 100644
-> --- a/include/uapi/linux/rkisp1-config.h
-> +++ b/include/uapi/linux/rkisp1-config.h
-> @@ -124,6 +124,22 @@
->  #define RKISP1_CIF_ISP_STAT_AFM           (1U << 2)
->  #define RKISP1_CIF_ISP_STAT_HIST          (1U << 3)
->  
-> +
 > +/**
-> + * enum rkisp1_cif_isp_version - ISP variants
+> + * v4l2_async_debug_init - Initialize debugging tools.
 > + *
-> + * @RKISP1_V10: used at least in rk3288 and rk3399
-> + * @RKISP1_V11: declared in the original vendor code, but not used
-> + * @RKISP1_V12: used at least in rk3326 and px30
-> + * @RKISP1_V13: used at least in rk1808
+> + * @debugfs_dir: pointer to the parent debugfs &struct dentry
 > + */
-> +enum rkisp1_cif_isp_version {
-> +	RKISP1_V10 = 0,
-> +	RKISP1_V11,
-> +	RKISP1_V12,
-> +	RKISP1_V13,
-> +};
+> +void v4l2_async_debug_init(struct dentry *debugfs_dir);
 > +
->  enum rkisp1_cif_isp_histogram_mode {
->  	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
->  	RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED,
+>  /**
+>   * v4l2_async_notifier_init - Initialize a notifier.
+>   *
+> 
 
--- 
-Regards,
-
-Laurent Pinchart
