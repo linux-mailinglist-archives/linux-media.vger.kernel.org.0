@@ -2,123 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21C692F8648
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 21:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AFEB2F869D
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 21:25:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732249AbhAOUJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 15:09:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731808AbhAOUJD (ORCPT
+        id S2387581AbhAOUY4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 15:24:56 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37870 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388022AbhAOUYy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 15:09:03 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FF7C061757
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 12:08:22 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id o10so14909772lfl.13
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 12:08:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d+EPX/VWpJj2Kmk5Q5zZssFSGXKhH2fYu5LFm+A3OQY=;
-        b=C5L9mPrgwxor/EMphYQ64LokUxMeN+N+rbK2dWGM/Qh1lOeJDEPsje9APFkubFrqHb
-         QOoGnTxBz/CKeTlpIO/8fq3SbUHJTjU0sF2IBLepYlKl/DnHD9nrPNHN9ICURYPBpUDf
-         kBXVgzuIRwB5uMzYMJLi42nnNoVkrhS9oh60+W9V5hS/nkpkkD5oGlaDKcuBOfRpsFtb
-         v/uCvYWxtqYbfsvi2Fd9xqrAXsfxpUzSwR7nbOp8QSEvTIBMGLJ8dGC39/8h9ZeVK3Z4
-         nOC1FBjD+6pjGf+qvAfj7jTlM8r/XkFPH/TAgcPejJYc3XoVCWqhkjV6A9np6lmcVp2q
-         7ViA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d+EPX/VWpJj2Kmk5Q5zZssFSGXKhH2fYu5LFm+A3OQY=;
-        b=hFHfVPAxSzYN74f4FzX9WdZvZrg17J2N7u1GxFiFemt2qs2fz4w4btyhMkb9ABA0Jq
-         281QoHYzRbi9t1iv1CLQcnzylWXlBI/o2jsiuxb9qR4AKg3IVN6+oH1EySl6uqSA73r8
-         nvZzYjXRSwK7+o7eon4N4h8UBByVa9iLpRedZo7YaeRO/8Dtx/+YeyBx5iT1vHgsKg/d
-         W3DpBhaINViViVWyFjU47Idok/bF3nhtJ9L/3aYmw6xzcvNbkjhuPXs4fz/O8rtKmZGa
-         TLI4I0Mto0RG5MOWdYgJ/Td6ovETX3sJDH8blQupaClJs+AriTyg2kknPuduG8jkD36C
-         8VGA==
-X-Gm-Message-State: AOAM530u30p49Eq6iz2XrqEdh+XgA7WH4NPQFeSwOxZbIvxmBigiDuXs
-        y5/HoEr5mIV5g84XFNzjWGwSiSNDFeSY7Z0nVivDBg==
-X-Google-Smtp-Source: ABdhPJxS56/W58MCPOSvN37WwT8INoO+4zH5jbgEoeT9FfCMxK+CD/sf82tE0Sa+/3PBj/nmCYe8JiYSQ1eKWJ5BX8Y=
-X-Received: by 2002:ac2:5145:: with SMTP id q5mr5808847lfd.626.1610741301404;
- Fri, 15 Jan 2021 12:08:21 -0800 (PST)
+        Fri, 15 Jan 2021 15:24:54 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 33B011F45F0C
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH] media: v4l2-async: Remove V4L2_ASYNC_MATCH_DEVNAME
+Date:   Fri, 15 Jan 2021 17:23:57 -0300
+Message-Id: <20210115202357.169556-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
- <161055261490.6195.7986280621869334351@build.alporthouse.com>
- <CAKMK7uEnnEj_YAR5Tm3jpS7MNPkqB43JBhQnY_K0YQ+LE9wL1g@mail.gmail.com>
- <161057213487.6195.581396740566956696@build.alporthouse.com> <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com>
-In-Reply-To: <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Fri, 15 Jan 2021 12:08:10 -0800
-Message-ID: <CALAqxLWedYkMiYA750e6vCw6q52XxjwEMNm4h7b67FexQEemtg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm-buf: Add debug option
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?moderated_list=3ADMA_BUFFER_SHARING_FRAMEWORK_=3Clinaro=2Dmm=2Dsig=40l?=
-         =?UTF-8?Q?ists=2Elinaro=2Eorg=3E=2C_David_Stevens_=3Cstevensd=40chromium=2Eorg=3E=2C_Dan?=
-         =?UTF-8?Q?iel_Vetter_=3Cdaniel=2Evetter=40intel=2Ecom=3E=2C_Christian_K=C3=B6nig_=3Cchri?=
-         =?UTF-8?Q?stian=2Ekoenig=40amd=2Ecom=3E=2C_open_list=3ADMA_BUFFER_SHARING_FRAMEWOR?=
-         =?UTF-8?Q?K?= <linux-media@vger.kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 1:03 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Wed, Jan 13, 2021 at 10:08 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > Quoting Daniel Vetter (2021-01-13 20:50:11)
-> > > On Wed, Jan 13, 2021 at 4:43 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > > >
-> > > > Quoting Daniel Vetter (2021-01-13 14:06:04)
-> > > > > We have too many people abusing the struct page they can get at but
-> > > > > really shouldn't in importers. Aside from that the backing page might
-> > > > > simply not exist (for dynamic p2p mappings) looking at it and using it
-> > > > > e.g. for mmap can also wreak the page handling of the exporter
-> > > > > completely. Importers really must go through the proper interface like
-> > > > > dma_buf_mmap for everything.
-> > > >
-> > > > If the exporter doesn't want to expose the struct page, why are they
-> > > > setting it in the exported sg_table?
-> > >
-> > > You need to store it somewhere, otherwise the dma-api doesn't work.
-> > > Essentially this achieves clearing/resetting the struct page pointer,
-> > > without additional allocations somewhere, or tons of driver changes
-> > > (since presumably the driver does keep track of the struct page
-> > > somewhere too).
-> >
-> > Only for mapping, and that's before the export -- if there's even a
-> > struct page to begin with.
-> >
-> > > Also as long as we have random importers looking at struct page we
-> > > can't just remove it, or crashes everywhere. So it has to be some
-> > > debug option you can disable.
-> >
-> > Totally agreed that nothing generic can rely on pages being transported
-> > via dma-buf, and memfd is there if you do want a suitable transport. The
-> > one I don't know about is dma-buf heap, do both parties there consent to
-> > transport pages via the dma-buf? i.e. do they have special cases for
-> > import/export between heaps?
->
-> heaps shouldn't be any different wrt the interface exposed to
-> importers. Adding John just in case I missed something.
+The last user for this type of match was the soc-camera/sh_mobile_csi2
+driver, which was removed in v4.9. If the support is ever needed,
+it can always be restored.
 
-I'm not aware of how this would be an issue right off for dma-buf
-heaps. Obviously there may be some corner cases with things like
-secure heaps, but I've not gotten to work on any of those yet and
-there's none in-tree.  I did test out the patch on HiKey960 (using the
-cma and system heap for display and gpu buffers - admittedly not
-particularly complex) and didn't see any issues with it enabled.
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+Applies on top of "media: v4l2-async: Remove V4L2_ASYNC_MATCH_CUSTOM"
+https://patchwork.linuxtv.org/project/linux-media/patch/20210108171728.39434-1-ezequiel@collabora.com/
 
-I've added Suren and Hridya for more input but don't have any
-objections right off.
+ drivers/media/v4l2-core/v4l2-async.c | 38 ----------------------------
+ include/media/v4l2-async.h           | 25 ------------------
+ 2 files changed, 63 deletions(-)
 
-thanks
--john
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index 3faf1d12d49d..d05809b81870 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -64,12 +64,6 @@ static bool match_i2c(struct v4l2_async_notifier *notifier,
+ #endif
+ }
+ 
+-static bool match_devname(struct v4l2_async_notifier *notifier,
+-			  struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+-{
+-	return !strcmp(asd->match.device_name, dev_name(sd->dev));
+-}
+-
+ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+ 			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+ {
+@@ -154,9 +148,6 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+ 	list_for_each_entry(asd, &notifier->waiting, list) {
+ 		/* bus_type has been verified valid before */
+ 		switch (asd->match_type) {
+-		case V4L2_ASYNC_MATCH_DEVNAME:
+-			match = match_devname;
+-			break;
+ 		case V4L2_ASYNC_MATCH_I2C:
+ 			match = match_i2c;
+ 			break;
+@@ -185,9 +176,6 @@ static bool asd_equal(struct v4l2_async_subdev *asd_x,
+ 		return false;
+ 
+ 	switch (asd_x->match_type) {
+-	case V4L2_ASYNC_MATCH_DEVNAME:
+-		return strcmp(asd_x->match.device_name,
+-			      asd_y->match.device_name) == 0;
+ 	case V4L2_ASYNC_MATCH_I2C:
+ 		return asd_x->match.i2c.adapter_id ==
+ 			asd_y->match.i2c.adapter_id &&
+@@ -454,7 +442,6 @@ static int v4l2_async_notifier_asd_valid(struct v4l2_async_notifier *notifier,
+ 		return -EINVAL;
+ 
+ 	switch (asd->match_type) {
+-	case V4L2_ASYNC_MATCH_DEVNAME:
+ 	case V4L2_ASYNC_MATCH_I2C:
+ 	case V4L2_ASYNC_MATCH_FWNODE:
+ 		if (v4l2_async_notifier_has_async_subdev(notifier, asd,
+@@ -708,31 +695,6 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_i2c_subdev);
+ 
+-struct v4l2_async_subdev *
+-v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
+-				       const char *device_name,
+-				       unsigned int asd_struct_size)
+-{
+-	struct v4l2_async_subdev *asd;
+-	int ret;
+-
+-	asd = kzalloc(asd_struct_size, GFP_KERNEL);
+-	if (!asd)
+-		return ERR_PTR(-ENOMEM);
+-
+-	asd->match_type = V4L2_ASYNC_MATCH_DEVNAME;
+-	asd->match.device_name = device_name;
+-
+-	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+-	if (ret) {
+-		kfree(asd);
+-		return ERR_PTR(ret);
+-	}
+-
+-	return asd;
+-}
+-EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_devname_subdev);
+-
+ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+ {
+ 	struct v4l2_async_notifier *subdev_notifier;
+diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+index 8ed42188e7c9..49c14cc5f85a 100644
+--- a/include/media/v4l2-async.h
++++ b/include/media/v4l2-async.h
+@@ -21,7 +21,6 @@ struct v4l2_async_notifier;
+  * enum v4l2_async_match_type - type of asynchronous subdevice logic to be used
+  *	in order to identify a match
+  *
+- * @V4L2_ASYNC_MATCH_DEVNAME: Match will use the device name
+  * @V4L2_ASYNC_MATCH_I2C: Match will check for I2C adapter ID and address
+  * @V4L2_ASYNC_MATCH_FWNODE: Match will use firmware node
+  *
+@@ -29,7 +28,6 @@ struct v4l2_async_notifier;
+  * algorithm that will be used to match an asynchronous device.
+  */
+ enum v4l2_async_match_type {
+-	V4L2_ASYNC_MATCH_DEVNAME,
+ 	V4L2_ASYNC_MATCH_I2C,
+ 	V4L2_ASYNC_MATCH_FWNODE,
+ };
+@@ -42,9 +40,6 @@ enum v4l2_async_match_type {
+  * @match.fwnode:
+  *		pointer to &struct fwnode_handle to be matched.
+  *		Used if @match_type is %V4L2_ASYNC_MATCH_FWNODE.
+- * @match.device_name:
+- *		string containing the device name to be matched.
+- *		Used if @match_type is %V4L2_ASYNC_MATCH_DEVNAME.
+  * @match.i2c:	embedded struct with I2C parameters to be matched.
+  *		Both @match.i2c.adapter_id and @match.i2c.address
+  *		should be matched.
+@@ -68,7 +63,6 @@ struct v4l2_async_subdev {
+ 	enum v4l2_async_match_type match_type;
+ 	union {
+ 		struct fwnode_handle *fwnode;
+-		const char *device_name;
+ 		struct {
+ 			int adapter_id;
+ 			unsigned short address;
+@@ -210,25 +204,6 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+ 				   int adapter_id, unsigned short address,
+ 				   unsigned int asd_struct_size);
+ 
+-/**
+- * v4l2_async_notifier_add_devname_subdev - Allocate and add a device-name
+- *				async subdev to the notifier's master asd_list.
+- *
+- * @notifier: pointer to &struct v4l2_async_notifier
+- * @device_name: device name string to be matched
+- * @asd_struct_size: size of the driver's async sub-device struct, including
+- *		     sizeof(struct v4l2_async_subdev). The &struct
+- *		     v4l2_async_subdev shall be the first member of
+- *		     the driver's async sub-device struct, i.e. both
+- *		     begin at the same memory address.
+- *
+- * Same as above but for device-name matched sub-devices.
+- */
+-struct v4l2_async_subdev *
+-v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
+-				       const char *device_name,
+-				       unsigned int asd_struct_size);
+-
+ /**
+  * v4l2_async_notifier_register - registers a subdevice asynchronous notifier
+  *
+-- 
+2.29.2
+
