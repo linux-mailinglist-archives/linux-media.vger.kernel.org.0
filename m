@@ -2,64 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9482F7446
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 09:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D2882F748F
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 09:49:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727875AbhAOI0c convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 15 Jan 2021 03:26:32 -0500
-Received: from mail.fireflyinternet.com ([77.68.26.236]:65168 "EHLO
-        fireflyinternet.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726004AbhAOI0c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 03:26:32 -0500
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS)) x-ip-name=78.156.65.138;
-Received: from localhost (unverified [78.156.65.138]) 
-        by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id 23602727-1500050 
-        for multiple; Fri, 15 Jan 2021 08:25:47 +0000
-Content-Type: text/plain; charset="utf-8"
+        id S1726201AbhAOItP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 03:49:15 -0500
+Received: from mga18.intel.com ([134.134.136.126]:47424 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725797AbhAOItP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Jan 2021 03:49:15 -0500
+IronPort-SDR: RDWGbO9zfCyH0DQ4fT9MgV9oPDxWPYGckjwtMycuADNNYCuamtuFQbo5Tll7BXMOS88zzpSyId
+ wJUn6XGEZAsA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166189532"
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="166189532"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 00:47:25 -0800
+IronPort-SDR: Xplb/O8iwy4xFItQZQ5UTuJsRUWSyjCnND7SqBMcDOD6/Rd3tKY0txumIQhvHCt2NLa89RxxGu
+ YBkdDoSyEZcw==
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="390054772"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 00:47:21 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 0CA3D206A9; Fri, 15 Jan 2021 10:47:18 +0200 (EET)
+Date:   Fri, 15 Jan 2021 10:47:18 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com
+Subject: Re: [PATCH 12/13] media: Clarify v4l2-async subdevice addition API
+Message-ID: <20210115084717.GO11878@paasikivi.fi.intel.com>
+References: <20210112132339.5621-1-ezequiel@collabora.com>
+ <20210112132339.5621-13-ezequiel@collabora.com>
+ <X/+qw3OtGpveRK17@pendragon.ideasonboard.com>
+ <38064ab4f6d0fc4302171e3c24bb8be37e500b86.camel@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <YAATPMc+1jmhxnsF@phenom.ffwll.local>
-References: <20210113140604.3615437-1-daniel.vetter@ffwll.ch> <161055261490.6195.7986280621869334351@build.alporthouse.com> <CAKMK7uEnnEj_YAR5Tm3jpS7MNPkqB43JBhQnY_K0YQ+LE9wL1g@mail.gmail.com> <161057213487.6195.581396740566956696@build.alporthouse.com> <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com> <161061619887.19482.10606780107376365239@build.alporthouse.com> <CAKMK7uE58dJabnaTNgePTyio_JY3=kvFZtu1RT1eFeGDK76ZeA@mail.gmail.com> <161061753732.19482.13146900597152116822@build.alporthouse.com> <YAATPMc+1jmhxnsF@phenom.ffwll.local>
-Subject: Re: [Intel-gfx] [PATCH] drm-buf: Add debug option
-From:   Chris Wilson <chris@chris-wilson.co.uk>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        John Stultz <john.stultz@linaro.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        DMA BUFFER SHARING FRAMEWORK <linux-media@vger.kernel.org>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Date:   Fri, 15 Jan 2021 08:25:46 +0000
-Message-ID: <161069914606.19482.1823329746575120144@build.alporthouse.com>
-User-Agent: alot/0.9
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <38064ab4f6d0fc4302171e3c24bb8be37e500b86.camel@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Daniel Vetter (2021-01-14 09:47:40)
-> On Thu, Jan 14, 2021 at 09:45:37AM +0000, Chris Wilson wrote:
-> > Quoting Daniel Vetter (2021-01-14 09:30:32)
-> > > On Thu, Jan 14, 2021 at 10:23 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > > > The only other problem I see with the implementation is that there's
-> > > > nothing that says that each dmabuf->ops->map_dma_buf() returns a new
-> > > > sg_table, so we may end up undoing the xor. Or should each dma-buf
-> > > > return a fresh dma-mapping for iommu isolation?
-> > > 
-> > > Maybe I screwed it up, but that's why I extracted the little helpers:
-> > > We scramble when we get the sgtable from exporter, and unscramble
-> > > before we pass it back. dma-buf.c does some caching and will hand back
-> > > the same sgtable, but for that case we don't re-scramble.
+On Thu, Jan 14, 2021 at 10:39:33AM -0300, Ezequiel Garcia wrote:
+> On Thu, 2021-01-14 at 04:21 +0200, Laurent Pinchart wrote:
+> > Hi Ezequiel,
 > > 
-> > The attachment is only mapped once, but there can be more than one
-> > attachment, and the backend could return the same sg_table for each
-> > mapping. Conceivably, it could return its own private sg_table where it
-> > wants to maintain the struct page. Seems like just adding a sentence to
-> > @map_dma_buf to clarify that each call should return a new sg_table will
-> > suffice.
+> > Thank you for the patch.
+> > 
+> > On Tue, Jan 12, 2021 at 10:23:38AM -0300, Ezequiel Garcia wrote:
+> > > Now that most users of v4l2_async_notifier_add_subdev have
+> > > been converted, let's fix the documentation so it's more clear
+> > > how the v4l2-async API should be used.
+> > > 
+> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > ---
+> > >  .../driver-api/media/v4l2-subdev.rst          | 38 ++++++++++++++++---
+> > >  include/media/v4l2-async.h                    | 12 +++++-
+> > >  2 files changed, 43 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+> > > index bb5b1a7cdfd9..5ddf9de4fcf7 100644
+> > > --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> > > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> > > @@ -204,11 +204,39 @@ Before registering the notifier, bridge drivers must do two things:
+> > >  first, the notifier must be initialized using the
+> > >  :c:func:`v4l2_async_notifier_init`. Second, bridge drivers can then
+> > >  begin to form a list of subdevice descriptors that the bridge device
+> > > -needs for its operation. Subdevice descriptors are added to the notifier
+> > > -using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
+> > > -takes two arguments: a pointer to struct :c:type:`v4l2_async_notifier`,
+> > > -and a pointer to the subdevice descripter, which is of type struct
+> > > -:c:type:`v4l2_async_subdev`.
+> > > +needs for its operation. Several functions are available, to
+> > > +add subdevice descriptors to a notifier, depending on the type of device:
+> > 
+> > You could reflow this to
+> > 
+> > needs for its operation. Several functions are available, to add subdevice
+> > descriptors to a notifier, depending on the type of device:
+> > 
+> > > +:c:func:`v4l2_async_notifier_add_devname_subdev`,
+> > > +:c:func:`v4l2_async_notifier_add_fwnode_subdev` or
+> > > +:c:func:`v4l2_async_notifier_add_i2c_subdev`.
+> > 
+> > Should you also list v4l2_async_notifier_add_fwnode_remote_subdev() (and
 > 
-> Ah yes good point, will augment (once CI stops being angry at me).
+> Yes.
+> 
+> > possibly v4l2_async_notifier_parse_fwnode_endpoints()) here ?
+> > 
+> 
+> Unsure. I'd rather not document this one, as it's deprecated
+> and we want to remove it.
 
-Fwiw, with a quick explanation of "don't do this" in the docs,
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
--Chris
+This document is here to guide people to use the right functions and that
+isn't one of them. So it shouldn't be added here.
+
+-- 
+Regards,
+
+Sakari Ailus
