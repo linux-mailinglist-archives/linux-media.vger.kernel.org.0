@@ -2,154 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D83C2F785D
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 13:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E729B2F7897
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 13:19:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbhAOMNv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 07:13:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34726 "EHLO
+        id S1727708AbhAOMS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 07:18:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbhAOMNv (ORCPT
+        with ESMTP id S1727252AbhAOMS6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 07:13:51 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B36EC061757
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 04:13:08 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id B07291F45EB9
-Message-ID: <276aeddcb765139e03a77a833dce682af9f0bf3d.camel@collabora.com>
-Subject: Re: [PATCH 03/13] media: renesas-ceu: Use
- v4l2_async_notifier_add_{i2c,fwnode_remote}_subdev helpers
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date:   Fri, 15 Jan 2021 09:12:50 -0300
-In-Reply-To: <X/+nKwhIhDY7Z9HW@pendragon.ideasonboard.com>
-References: <20210112132339.5621-1-ezequiel@collabora.com>
-         <20210112132339.5621-4-ezequiel@collabora.com>
-         <X/+nKwhIhDY7Z9HW@pendragon.ideasonboard.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Fri, 15 Jan 2021 07:18:58 -0500
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5CCBC061757
+        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 04:18:15 -0800 (PST)
+Received: by mail-ot1-x330.google.com with SMTP id i6so8325793otr.2
+        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 04:18:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=TaHxnKsVVUjjlYWbb5WM8lULkRobrhCkf872o49hI5Y=;
+        b=uJ6AN+4JaxmMp6vcPRxSoScYISXIhei100d7+CTFQ5KdDEZUjPGNvb//86G9Jdqir6
+         S71mdeeLCorcgCnnMq/g90vmbYvmJfXEPIl3cUZNxH/4G9xXaqYvRHj011UoeRC2/lx5
+         AMR1DskdM+AaSxrtmH5MhQPUA41MAhrYL9644tCM0NRo0oTpssotIqPTIQs6GPwU1ipw
+         KVZ8tGzqv3upjQWMg4XJkFD9RQTZC0rC7SZ7qkSDwNusCeyx4lYgwM/nTFLUkjNUOv5h
+         oNf7EMQfIuak7A7G3+etI93IQ7qRrn1gPlkInDwjfoYUQpIquwxaU7YjXvmZSK7HuNTM
+         yqrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=TaHxnKsVVUjjlYWbb5WM8lULkRobrhCkf872o49hI5Y=;
+        b=q9EIVOoUNKk1MvBSx6OcXEK77dmSV63y1//DculivQtBbTVbU9CBEFkofa5spW8pQs
+         FyRwR/rO+lWbJe6IWUghqzjdWAxz9Z6quzjFuws/fHHA/4n+MLV9KKDCk5Z+x7q2kejd
+         eqtiZ+FaAe58d7WSeyLda0K/LivrREoIdBvDgdmwto9C8QI+hkPc2S5WfBT7P2H4LAM7
+         0e0jCZ5eH4fe7kGeih/VpuFL1n0i/a6Z2W/LeBgEit1MoDZjlK12FJN6z9yseHkG7q4x
+         CenmtphbKU1ZcbM1GsKPtF3I2POyN9woiDB8IYwjD1VwdafcWagKUcMURWqSkeX1xF5B
+         Fi5g==
+X-Gm-Message-State: AOAM531rm/Y2psMSM9mPXLO+O/f6b/wEsKjSyXfC/uaq+jeQKEZexbaB
+        8hb91JlPzz8vGZSYWEF2e559aDHWvG5NjbJQ5Es=
+X-Google-Smtp-Source: ABdhPJzyZeiSijHfeRzspySVQl2p2rRlUPge9bqaCbxGNxzjyQ3MzpgF61BzgR7h/G7qRCpADFZgwEjZQbKiJSQJ9H4=
+X-Received: by 2002:a9d:4816:: with SMTP id c22mr7790384otf.358.1610713095046;
+ Fri, 15 Jan 2021 04:18:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ac9:56a4:0:0:0:0:0 with HTTP; Fri, 15 Jan 2021 04:18:14
+ -0800 (PST)
+Reply-To: laurentgaborit747@yahoo.com
+From:   Laurent Gaborit <universitelavalcanada2@gmail.com>
+Date:   Fri, 15 Jan 2021 13:18:14 +0100
+Message-ID: <CAAMPQKNsbC+5u5TNkWtSUvaib3EbD-kZ=yxy4ktkrnj-QwZ2jw@mail.gmail.com>
+Subject: OFFRE DE PRET
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On Thu, 2021-01-14 at 04:06 +0200, Laurent Pinchart wrote:
-> Hi Ezequiel,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Jan 12, 2021 at 10:23:29AM -0300, Ezequiel Garcia wrote:
-> > The use of v4l2_async_notifier_add_subdev is discouraged.
-> 
-> It's not yet, that only happens at the end of the series :-)
-> 
-> s/is discouraged/will be discouraged/
-> 
-> > Drivers are instead encouraged to use a helper such as
-> > v4l2_async_notifier_add_i2c_subdev.
-> > 
-> > This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
-> > should get a kmalloc'ed struct v4l2_async_subdev,
-> > removing some boilerplate code while at it.
-> > 
-> > Use the appropriate helper: v4l2_async_notifier_add_i2c_subdev
-> > or v4l2_async_notifier_add_fwnode_remote_subdev, which handles
-> > the needed setup, instead of open-coding it.
-> > 
-> > Using v4l2-async to allocate the driver-specific structs,
-> > requires to change struct ceu_subdev so the embedded
-> > struct v4l2_async_subdev is now the first element.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  drivers/media/platform/renesas-ceu.c | 89 ++++++++++------------------
-> >  1 file changed, 31 insertions(+), 58 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
-> > index 4a633ad0e8fa..18485812a21e 100644
-> > --- a/drivers/media/platform/renesas-ceu.c
-> > +++ b/drivers/media/platform/renesas-ceu.c
-> > @@ -152,8 +152,8 @@ static inline struct ceu_buffer *vb2_to_ceu(struct vb2_v4l2_buffer *vbuf)
-> >   * ceu_subdev - Wraps v4l2 sub-device and provides async subdevice.
-> >   */
-> >  struct ceu_subdev {
-> > -       struct v4l2_subdev *v4l2_sd;
-> >         struct v4l2_async_subdev asd;
-> > +       struct v4l2_subdev *v4l2_sd;
-> >  
-> >         /* per-subdevice mbus configuration options */
-> >         unsigned int mbus_flags;
-> > @@ -174,7 +174,7 @@ struct ceu_device {
-> >         struct v4l2_device      v4l2_dev;
-> >  
-> >         /* subdevices descriptors */
-> > -       struct ceu_subdev       *subdevs;
-> > +       struct ceu_subdev       **subdevs;
-> >         /* the subdevice currently in use */
-> >         struct ceu_subdev       *sd;
-> >         unsigned int            sd_index;
-> > @@ -1195,7 +1195,7 @@ static int ceu_enum_input(struct file *file, void *priv,
-> >         if (inp->index >= ceudev->num_sd)
-> >                 return -EINVAL;
-> >  
-> > -       ceusd = &ceudev->subdevs[inp->index];
-> > +       ceusd = ceudev->subdevs[inp->index];
-> >  
-> >         inp->type = V4L2_INPUT_TYPE_CAMERA;
-> >         inp->std = 0;
-> > @@ -1230,7 +1230,7 @@ static int ceu_s_input(struct file *file, void *priv, unsigned int i)
-> >                 return 0;
-> >  
-> >         ceu_sd_old = ceudev->sd;
-> > -       ceudev->sd = &ceudev->subdevs[i];
-> > +       ceudev->sd = ceudev->subdevs[i];
-> >  
-> >         /*
-> >          * Make sure we can generate output image formats and apply
-> > @@ -1423,7 +1423,7 @@ static int ceu_notify_complete(struct v4l2_async_notifier *notifier)
-> >          * ceu formats.
-> >          */
-> >         if (!ceudev->sd) {
-> > -               ceudev->sd = &ceudev->subdevs[0];
-> > +               ceudev->sd = ceudev->subdevs[0];
-> >                 ceudev->sd_index = 0;
-> >         }
-> >  
-> > @@ -1465,28 +1465,6 @@ static const struct v4l2_async_notifier_operations ceu_notify_ops = {
-> >         .complete       = ceu_notify_complete,
-> >  };
-> >  
-> > -/*
-> > - * ceu_init_async_subdevs() - Initialize CEU subdevices and async_subdevs in
-> > - *                           ceu device. Both DT and platform data parsing use
-> > - *                           this routine.
-> > - *
-> > - * Returns 0 for success, -ENOMEM for failure.
-> > - */
-> > -static int ceu_init_async_subdevs(struct ceu_device *ceudev, unsigned int n_sd)
-> > -{
-> > -       /* Reserve memory for 'n_sd' ceu_subdev descriptors. */
-> > -       ceudev->subdevs = devm_kcalloc(ceudev->dev, n_sd,
-> > -                                      sizeof(*ceudev->subdevs), GFP_KERNEL);
-> 
-> I may be missing something, but it looks like the subdevs array isn't
-> allocated anymore. It turned to an array of pointers, but it still need
-> allocation.
-> 
-
-After some thought, I'd say it would be better to leave
-ceu_init_async_subdevs() untouched, trying to be as
-uninvasive as possible.
-
-Thanks for the catch.
-
-Ezequiel
-
+Hallo,
+Sie brauchten Geldkredite zwischen Einzelpersonen, um damit fertig zu werde=
+n
+finanzielle Schwierigkeiten, um endlich die Sackgasse zu durchbrechen
+provozieren Sie die Banken, indem Sie Ihre Bewerbungsunterlagen f=C3=BCr ab=
+lehnen
+Credits?
+Ich bin ein franz=C3=B6sischer Staatsb=C3=BCrger, der Sie dazu bringen kann
+ein Darlehen von 5.000 Euro zu 2.000.000 Euro mit einem Zinssatz von
+2% und unter Bedingungen, die Sie
+wird das Leben leichter machen. Hier sind die Bereiche, in denen ich
+Ihnen helfen kann
+Hilfe:
+* Finanziell
+* Immobilienkredit
+* Investitionsdarlehen
+* Autokredit
+* Konsolidierungsschulden
+* Kreditlinie
+* Zweite Hypothek
+* Kreditr=C3=BCckkauf
+* Privat Darlehen
+Sie stecken fest, sind vom Bankgesch=C3=A4ft ausgeschlossen und haben nicht
+die Gunst von
+Banken oder besser Sie haben ein Projekt und ben=C3=B6tigen eine Finanzieru=
+ng, a
+schlechte Kredit oder brauchen Geld, um Rechnungen zu bezahlen,
+Mittel, um in Unternehmen zu investieren.
+Wenn Sie also Geldkredite ben=C3=B6tigen, z=C3=B6gern Sie nicht, mich zu ko=
+ntaktieren
+Kontakt per E-Mail: laurentgaborit747@yahoo.com, um mehr dar=C3=BCber zu er=
+fahren
+meine sehr g=C3=BCnstigen Bedingungen.
+NB: Person, die es nicht ernst meint, sich zu enthalten
+Mit freundlichen Gr=C3=BC=C3=9Fen ...
+Laurent GABORIT.
