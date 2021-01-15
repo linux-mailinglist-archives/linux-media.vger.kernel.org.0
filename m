@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85E922F862E
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 21:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4E9C2F8634
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 21:06:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388773AbhAOUDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 15:03:32 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:44609 "EHLO
+        id S2388326AbhAOUDz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 15:03:55 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:57767 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388747AbhAOUDZ (ORCPT
+        with ESMTP id S2388716AbhAOUDW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 15:03:25 -0500
+        Fri, 15 Jan 2021 15:03:22 -0500
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id ACE741C001A;
-        Fri, 15 Jan 2021 20:02:25 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 45DB41C0011;
+        Fri, 15 Jan 2021 20:02:28 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -41,9 +41,9 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: [PATCH v5 15/16] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
-Date:   Fri, 15 Jan 2021 21:01:40 +0100
-Message-Id: <20210115200141.1397785-16-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 16/16] MAINTAINERS: Add entry for the Allwinner A83T MIPI CSI-2 bridge
+Date:   Fri, 15 Jan 2021 21:01:41 +0100
+Message-Id: <20210115200141.1397785-17-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
 References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
@@ -53,55 +53,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-MIPI CSI-2 is supported on the A83T with a dedicated controller that
-covers both the protocol and D-PHY. It can be connected to the CSI
-interface as a V4L2 subdev through the fwnode graph.
-
-This is not done by default since connecting the bridge without a
-subdev attached to it will cause a failure on the CSI driver.
+Add myself as maintainer of the A83T MIPI CSI-2 bridge media driver.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-index c010b27fdb6a..d6d55c12b995 100644
---- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-@@ -1066,6 +1066,32 @@ csi_in: port {
- 			};
- 		};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a41c41f6387c..af8095085f0f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -718,6 +718,14 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+ F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
  
-+		mipi_csi2: csi@1cb1000 {
-+			compatible = "allwinner,sun8i-a83t-mipi-csi2";
-+			reg = <0x01cb1000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI_SCLK>,
-+				 <&ccu CLK_MIPI_CSI>,
-+				 <&ccu CLK_CSI_MISC>;
-+			clock-names = "bus", "mod", "mipi", "misc";
-+			resets = <&ccu RST_BUS_CSI>;
-+			status = "disabled";
++ALLWINNER A83T MIPI CSI-2 BRIDGE
++M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
++F:	drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				mipi_csi2_in: port@0 {
-+					reg = <0>;
-+				};
-+
-+				mipi_csi2_out: port@1 {
-+					reg = <1>;
-+				};
-+			};
-+		};
-+
- 		hdmi: hdmi@1ee0000 {
- 			compatible = "allwinner,sun8i-a83t-dw-hdmi";
- 			reg = <0x01ee0000 0x10000>;
+ ALLWINNER CPUFREQ DRIVER
+ M:	Yangtao Li <tiny.windzz@gmail.com>
+ L:	linux-pm@vger.kernel.org
 -- 
 2.30.0
 
