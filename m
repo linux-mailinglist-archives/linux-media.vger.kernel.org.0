@@ -2,139 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E2F62F83E0
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 19:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF1172F83EE
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 19:20:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388574AbhAOSRo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 13:17:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57170 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728537AbhAOSRn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 13:17:43 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DF0C0617BF
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 10:16:47 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id 6so2912779wri.3
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 10:16:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8ouoNyIGf3M12ncW8jNmga8ZhB/umTlAexno2+hm9vw=;
-        b=PN4ofpG3AFQIY2HDhtrxDHd3v0+xd4onwEz7G2/zC+rhfE4HirmzmL3jcXLpUYXBOi
-         1hKzvGAxrSr6Dv8cDtBOLdA7LW3HUMbsDnWopgDjwrGvgzeyJHyJwJWkktXJjDTKYn5x
-         6sdobPOvJJIR/TrcLU+En4Nb4Sqr3ym2MpFPjZERoM0EqXn73uEydbCIdma4dh+mEVpS
-         9T/msFV3PGGbNj49yLhdVehCCKoHHScJgdSAS89oR4U37UhK/tfSoY4zcAxgsB3IEg6M
-         gagHknlc1GH0nljzwa8FvQWUO/kBx3xMgu49tE3RqzKT+TqiG4u92puwvRgzcDEP2/vs
-         8tag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8ouoNyIGf3M12ncW8jNmga8ZhB/umTlAexno2+hm9vw=;
-        b=ijoFAQtc33C5jm6CiE+iPFNhyMc1qpMCquNIgtxpfBu8XB6DGIDYe+5HiwgqMvLps8
-         dU0AM3pqPdOkTZkRjKJpoQ6SPM9yq5753ScKqevJ4FAjmpLiNHneR+cv4gNSfBslIDPn
-         8EScNTffgxKrWTQLuH6SF1s8+ZeHBSiDCTuZZZ+pZs1QWcB0zjYS9wav8RsGIcVb+OEm
-         Ce9qbH7bezKRGmbd/BqngnQ1/BLugpdKdE0uL6UV1lY/JfX2pNMlYCr9SB2EI0z6cKNL
-         DH6ikx2V/lmZl8rsuLz2lANl6QnR4VBDsOmng/XCgBZWaz2k9iU8EkC9HDzqFzByqDOJ
-         xsPQ==
-X-Gm-Message-State: AOAM532H0PsGgnmAmjjEKOwSOA7MdwRxL4yxT+z6iHBxwnLkaeeAXrKX
-        bvgv7Dzx3qra0Wr9X+Y2QXou/Q==
-X-Google-Smtp-Source: ABdhPJypPfWiZJEwtJ8E9isJbQjNIe0ev/rxFYQX2OcbRtBc5hQl2j1aWEaiYzfS5p/hRAPbYrpcgA==
-X-Received: by 2002:adf:ef49:: with SMTP id c9mr10087109wrp.172.1610734606342;
-        Fri, 15 Jan 2021 10:16:46 -0800 (PST)
-Received: from dell.default ([91.110.221.158])
-        by smtp.gmail.com with ESMTPSA id b133sm14405979wme.33.2021.01.15.10.16.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 10:16:45 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Zack Rusin <zackr@vmware.com>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Rob Clark <rob.clark@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 29/29] drm/vmwgfx/ttm_object: Reorder header to immediately precede its struct
-Date:   Fri, 15 Jan 2021 18:16:01 +0000
-Message-Id: <20210115181601.3432599-30-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210115181601.3432599-1-lee.jones@linaro.org>
-References: <20210115181601.3432599-1-lee.jones@linaro.org>
+        id S1733268AbhAOSSF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 13:18:05 -0500
+Received: from mga07.intel.com ([134.134.136.100]:2395 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388624AbhAOSR5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Jan 2021 13:17:57 -0500
+IronPort-SDR: ghY8NQn3ZpaiIDNOetnNZmdRBAvXI+YM4w6e+bkpxgUyQ5NbHXoxs8x4ci2JkWwpWhRT0415tK
+ t60h6r1dtgMg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9865"; a="242655474"
+X-IronPort-AV: E=Sophos;i="5.79,350,1602572400"; 
+   d="scan'208";a="242655474"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 10:17:11 -0800
+IronPort-SDR: SQJduWxDig0EuPaLYnjNE8MlUhyAA1nh3aaGIRe4QhuXYX2eScCXCaHMTO3kcciLioxV5WcKdi
+ lvJNMdPPbg3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,350,1602572400"; 
+   d="scan'208";a="401366461"
+Received: from lkp-server01.sh.intel.com (HELO 260eafd5ecd0) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 15 Jan 2021 10:17:08 -0800
+Received: from kbuild by 260eafd5ecd0 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1l0Tem-0000TW-7P; Fri, 15 Jan 2021 18:17:08 +0000
+Date:   Sat, 16 Jan 2021 02:16:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 321af22a3d2f6ed1fb1737c8588c01f6fec8a7b8
+Message-ID: <6001dbed.mejw8Zc3mPRH6XAl%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Also add missing description for 'refcount'
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: 321af22a3d2f6ed1fb1737c8588c01f6fec8a7b8  media: atomisp: convert comma to semicolon
 
-Fixes the following W=1 kernel build warning(s):
+elapsed time: 1751m
 
- drivers/gpu/drm/vmwgfx/ttm_object.c:60: error: Cannot parse struct or union!
+configs tested: 174
+configs skipped: 4
 
-Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-Cc: Roland Scheidegger <sroland@vmware.com>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Rob Clark <rob.clark@linaro.org>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                               defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                             alldefconfig
+powerpc                   bluestone_defconfig
+sh                          urquell_defconfig
+arm                             mxs_defconfig
+ia64                            zx1_defconfig
+arm                          ixp4xx_defconfig
+mips                         tb0287_defconfig
+s390                          debug_defconfig
+openrisc                            defconfig
+arc                        nsim_700_defconfig
+arm                           sunxi_defconfig
+mips                           ip28_defconfig
+m68k                         amcore_defconfig
+sh                        apsh4ad0a_defconfig
+mips                    maltaup_xpa_defconfig
+ia64                         bigsur_defconfig
+powerpc                      ppc44x_defconfig
+powerpc                      tqm8xx_defconfig
+powerpc                      katmai_defconfig
+powerpc                       eiger_defconfig
+arc                              alldefconfig
+m68k                        mvme147_defconfig
+um                            kunit_defconfig
+powerpc                    sam440ep_defconfig
+powerpc                  mpc885_ads_defconfig
+arm                           sama5_defconfig
+arm                       cns3420vb_defconfig
+powerpc                      bamboo_defconfig
+mips                         mpc30x_defconfig
+arm                  colibri_pxa300_defconfig
+sh                           se7712_defconfig
+powerpc                     rainier_defconfig
+mips                      malta_kvm_defconfig
+sh                ecovec24-romimage_defconfig
+arm                           viper_defconfig
+sh                          rsk7201_defconfig
+arm                           corgi_defconfig
+arm                       aspeed_g5_defconfig
+arm                        mvebu_v5_defconfig
+arm                         assabet_defconfig
+arm                        multi_v7_defconfig
+arm                           efm32_defconfig
+powerpc                     pq2fads_defconfig
+arm                            xcep_defconfig
+arm                         s3c2410_defconfig
+arm                       imx_v4_v5_defconfig
+arm                         socfpga_defconfig
+powerpc                     sbc8548_defconfig
+s390                                defconfig
+mips                     loongson1b_defconfig
+mips                           mtx1_defconfig
+arm                        spear3xx_defconfig
+arc                          axs103_defconfig
+arm                         cm_x300_defconfig
+sh                           se7750_defconfig
+sh                           se7206_defconfig
+powerpc                     tqm8555_defconfig
+arm                         lpc32xx_defconfig
+nios2                               defconfig
+powerpc                    ge_imp3a_defconfig
+ia64                          tiger_defconfig
+sh                            shmin_defconfig
+sh                           sh2007_defconfig
+mips                 decstation_r4k_defconfig
+sh                           se7722_defconfig
+mips                        maltaup_defconfig
+csky                             alldefconfig
+arm                          iop32x_defconfig
+sh                                  defconfig
+sh                             espt_defconfig
+m68k                           sun3_defconfig
+powerpc                     ksi8560_defconfig
+arm                       mainstone_defconfig
+powerpc                      ep88xc_defconfig
+arm                        shmobile_defconfig
+powerpc                       ppc64_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+arc                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20210115
+x86_64               randconfig-a006-20210115
+x86_64               randconfig-a001-20210115
+x86_64               randconfig-a003-20210115
+x86_64               randconfig-a005-20210115
+x86_64               randconfig-a002-20210115
+i386                 randconfig-a002-20210114
+i386                 randconfig-a005-20210114
+i386                 randconfig-a006-20210114
+i386                 randconfig-a001-20210114
+i386                 randconfig-a003-20210114
+i386                 randconfig-a004-20210114
+i386                 randconfig-a002-20210115
+i386                 randconfig-a005-20210115
+i386                 randconfig-a006-20210115
+i386                 randconfig-a001-20210115
+i386                 randconfig-a003-20210115
+i386                 randconfig-a004-20210115
+x86_64               randconfig-a015-20210114
+x86_64               randconfig-a012-20210114
+x86_64               randconfig-a013-20210114
+x86_64               randconfig-a016-20210114
+x86_64               randconfig-a014-20210114
+x86_64               randconfig-a011-20210114
+i386                 randconfig-a012-20210115
+i386                 randconfig-a011-20210115
+i386                 randconfig-a016-20210115
+i386                 randconfig-a015-20210115
+i386                 randconfig-a013-20210115
+i386                 randconfig-a014-20210115
+i386                 randconfig-a012-20210114
+i386                 randconfig-a011-20210114
+i386                 randconfig-a016-20210114
+i386                 randconfig-a015-20210114
+i386                 randconfig-a013-20210114
+i386                 randconfig-a014-20210114
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a004-20210114
+x86_64               randconfig-a006-20210114
+x86_64               randconfig-a001-20210114
+x86_64               randconfig-a003-20210114
+x86_64               randconfig-a005-20210114
+x86_64               randconfig-a002-20210114
+x86_64               randconfig-a015-20210115
+x86_64               randconfig-a012-20210115
+x86_64               randconfig-a013-20210115
+x86_64               randconfig-a016-20210115
+x86_64               randconfig-a014-20210115
+x86_64               randconfig-a011-20210115
+
 ---
- drivers/gpu/drm/vmwgfx/ttm_object.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
-index b3fdc630497cb..112394dd0ab6a 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_object.c
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
-@@ -42,6 +42,14 @@
-  */
- 
- 
-+#define pr_fmt(fmt) "[TTM] " fmt
-+
-+#include <linux/list.h>
-+#include <linux/spinlock.h>
-+#include <linux/slab.h>
-+#include <linux/atomic.h>
-+#include "ttm_object.h"
-+
- /**
-  * struct ttm_object_file
-  *
-@@ -55,16 +63,9 @@
-  *
-  * @ref_hash: Hash tables of ref objects, one per ttm_ref_type,
-  * for fast lookup of ref objects given a base object.
-+ *
-+ * @refcount: reference/usage count
-  */
--
--#define pr_fmt(fmt) "[TTM] " fmt
--
--#include <linux/list.h>
--#include <linux/spinlock.h>
--#include <linux/slab.h>
--#include <linux/atomic.h>
--#include "ttm_object.h"
--
- struct ttm_object_file {
- 	struct ttm_object_device *tdev;
- 	spinlock_t lock;
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
