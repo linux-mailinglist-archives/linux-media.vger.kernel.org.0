@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A249E2F7FFF
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 16:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE3962F8017
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 16:54:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbhAOPvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 10:51:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53608 "EHLO
+        id S1731581AbhAOPxn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 10:53:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726019AbhAOPvb (ORCPT
+        with ESMTP id S1727716AbhAOPxn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 10:51:31 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB17C061757
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 07:50:51 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id w5so9731214wrm.11
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 07:50:51 -0800 (PST)
+        Fri, 15 Jan 2021 10:53:43 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A47C061757
+        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 07:53:02 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id v15so6097883wrx.4
+        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 07:53:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=q7gBk18YmNOfMyE9S30pIp1RMFiN+uN9pi0ooJEWKGo=;
-        b=EMXJxp0QXEfuZFc9Hg65q9oCxA/7Plboe2KHhwINPr4QUoGbmqvd8ES4svJj+XxQ7B
-         DF3VL1EM4NWySE1Z+NhMEzjcCCFzRMRiAly8nXBzADMCyR22AhXyCzftDjtrPmREoMSZ
-         RwuioYvEjRMxAkfRAKv+iTxl9E5/dhBDw4ka4=
+        bh=348PC2/6SKVFrtiPRUkzmP4CfoimzYwLYqiUIY+InWA=;
+        b=Q6U/Lyz+XFNdXux0eiUVrE2BYt9ExwGHfO9sV+UINCyCuoes9IHl3UUieblQTW4U/Z
+         cM/hI0xrJV/CXMAcKbz2RFtBQ69szWfp76wxAf3Yrc48uabjzC+NzVRuccFyNdf/HHSE
+         JofWrKXbMVJSwC8Gfvp5UdAdhkzhhGDvpzoGk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=q7gBk18YmNOfMyE9S30pIp1RMFiN+uN9pi0ooJEWKGo=;
-        b=aY2SeZ5lZIbG6CTgpDP0UcGYRYJ2eI6NkZzJ9N3Zou1YEdo0sYdQLbPFRM1R2mFFM0
-         H0hk9ekz3etEQAU4qvdGY30jyUbDvbZtsSJFy0veQcgQ7X+yPMACdwdHmQkwGTFeQxix
-         CQmBI1QIu3CX+2+9g2oVLjEUPYefUveNF1URINZsq31SB1gmahL9mxU1U5FlscAxOnzl
-         fEeQQEQxSMHNTQF486qfdguFvNd5hIoOLIrd1JmLL4QkQyTk0qy4VBCjgXFcUowFZSfq
-         DIVum2OnqWHInnvMawSTqdpPHqIMKtjJ8kan2TwXeuvmkbPqNc2+9PhCld1EitBSmuwn
-         7e6A==
-X-Gm-Message-State: AOAM5330238tKTsR9nTeyaMzhfx4QSYDExKMVnIbV/BwcIjMl4WTX7o/
-        dEb7gHWE1oBgBl352ZoZ67oyCA==
-X-Google-Smtp-Source: ABdhPJyCCsVdQ1OCcsH1MF+bkVvPFwRrX0Y7BJk9sYFE8183W2+eoPDbk/imPGj4Qh8hlsse6RRZTg==
-X-Received: by 2002:a5d:6749:: with SMTP id l9mr13992139wrw.395.1610725849836;
-        Fri, 15 Jan 2021 07:50:49 -0800 (PST)
+        bh=348PC2/6SKVFrtiPRUkzmP4CfoimzYwLYqiUIY+InWA=;
+        b=ZdGbZHjawMTZglvxFjHTgzLBA0eqhtoWJJMehLrHj/ePgzkas8NGxoQ1/3FmQHZl6S
+         S5zLMZnGLIFQxi00mImKIMAIFJCVjW+G5SyQR4xl4Oo4VoBe/zFvKdBJFog0+R/jrlz6
+         JIRGP7aVNhSxWEveGmCaiwOdxElf+5x8THvgKtles7a1qQBdqSPul7oXpu//XMNxxT/v
+         1SeyKTdL+F25wPItAIPgRQqksOevpoQcyW9/cOWOgMN66/2ZdJ6JJTHE5W0IQYa1VT5v
+         Cd52MHI24tw8HJpFaENOOh9tjOoSOl+BEIxnytACxV+HeTQ0vpksgRN4ZYNLsMhknFxf
+         tXcg==
+X-Gm-Message-State: AOAM533sFKygp/UMDPksDhnqamLUsVORkqIY40ITDleap029VJbuPAE+
+        rqka052odvGW8MQmDI3WhPALvg==
+X-Google-Smtp-Source: ABdhPJx2LNk2SAKRlGZWuaUBs0aSCGBdSNjKhIlwwh8HNOCAy/szRN2Nxp2W9MW1zGbjHGMl8N4yYA==
+X-Received: by 2002:a5d:4491:: with SMTP id j17mr13625752wrq.78.1610725981659;
+        Fri, 15 Jan 2021 07:53:01 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id a17sm15109135wrs.20.2021.01.15.07.50.48
+        by smtp.gmail.com with ESMTPSA id g194sm13104246wme.39.2021.01.15.07.53.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 07:50:49 -0800 (PST)
+        Fri, 15 Jan 2021 07:53:00 -0800 (PST)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>,
         Intel Graphics Development <intel-gfx@lists.freedesktop.org>
@@ -56,8 +56,8 @@ Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
         David Stevens <stevensd@chromium.org>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 Subject: [PATCH] dma-buf: Add debug option
-Date:   Fri, 15 Jan 2021 16:50:43 +0100
-Message-Id: <20210115155043.3942935-1-daniel.vetter@ffwll.ch>
+Date:   Fri, 15 Jan 2021 16:52:26 +0100
+Message-Id: <20210115155226.3943181-1-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210115130219.3915789-1-daniel.vetter@ffwll.ch>
 References: <20210115130219.3915789-1-daniel.vetter@ffwll.ch>
@@ -94,6 +94,8 @@ Enable by default when CONFIG_DMA_API_DEBUG is enabled.
 
 v3: Only one copy of the mangle/unmangle code (Christian)
 
+v4: #ifdef, not #if (0day)
+
 Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk> (v2)
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Chris Wilson <chris@chris-wilson.co.uk>
@@ -128,7 +130,7 @@ index 4f8224a6ac95..4e16c71c24b7 100644
  	tristate "Selftests for the dma-buf interfaces"
  	default n
 diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 1c9bd51db110..820927474cc8 100644
+index 1c9bd51db110..f676bab64f55 100644
 --- a/drivers/dma-buf/dma-buf.c
 +++ b/drivers/dma-buf/dma-buf.c
 @@ -666,6 +666,36 @@ void dma_buf_put(struct dma_buf *dmabuf)
@@ -137,7 +139,7 @@ index 1c9bd51db110..820927474cc8 100644
  
 +static void mangle_sg_table(struct sg_table *sg_table)
 +{
-+#if CONFIG_DMABUF_DEBUG
++#ifdef CONFIG_DMABUF_DEBUG
 +	int i;
 +	struct scatterlist *sg;
 +
