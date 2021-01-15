@@ -2,92 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6467F2F74C5
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 09:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 645CA2F74D7
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 10:04:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726817AbhAOI7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 03:59:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49416 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726381AbhAOI7Y (ORCPT
+        id S1726451AbhAOJDy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 04:03:54 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:37033 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725995AbhAOJDy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 03:59:24 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3751FC061757;
-        Fri, 15 Jan 2021 00:58:44 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id v24so5426837lfr.7;
-        Fri, 15 Jan 2021 00:58:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yoHSmWqLEgOaqrsaqCRDQK3B4dOZRw9xdRI7JhzzteE=;
-        b=vFRmv5ETC4uP8sDjMBmXiNUGt9deXfFgVIk4VckzrnU4FPtT0qCpoWgmneijK09ZWc
-         w5YlV5V1A3L3qpQ75u4tb5HBgO8Ia64zIR9L+M4aeyfXKoSioMCD07J7XvzOsx1neWIN
-         Sa3QFTH/WP8L6HByxqWjMVg/dbltNIP5pfkMfo0ypautkShhDBf2KakMaYJQej3+qRuJ
-         uEA2xIiqEmw8b8gQhoNyNSkA+71qGDh3K++j6fPFy1XdCEfblIQzZt3+LPem7RNBqXFk
-         YaWaE8x2kaDTvocyArhSabML8lzGZRn1vPJGBQNi4ymD/eM6n1ySSe+NO9oxYhJUReC5
-         m8UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=yoHSmWqLEgOaqrsaqCRDQK3B4dOZRw9xdRI7JhzzteE=;
-        b=lDgnPMwk53kCQPDEkN+CyTooINPTHuSUHUmGcd/epQLZRv0DmfHxwTmZi/OYPdaUdt
-         OlzbijCDPocoi9AHeYd+jelrS0b5heUyHvBjnFx+9b306KEMUi7SH2DJy14ebcXo8kky
-         W7rZxPP6UOdjggFId3sez19Uj/Ox6y9EiD29hNdvqFnIlyUzWDx49faiBhOYnHQJzpnI
-         hkiuL75j4grGQXK+S1dYUnZytwpTEdK5KB5niGmYL+BdqrZRIZRJUptpwn5weHqs9/Hy
-         E0i+F/XhDYKWnM2bNEuaWVJHz/0xDRSUjkBSzZtPAaelHRODIrd40s5MEZ9araevZBYe
-         a4cg==
-X-Gm-Message-State: AOAM531+ioSsKOsCaOfXoLYLdlDESkLeS58RsoAkQsDSIv5qJKneqIn3
-        +OGahXeGQX8fKVKsw97Oljlo0fwdlHIErg==
-X-Google-Smtp-Source: ABdhPJzWw+TkPMfkvIslzJD0f/V/yDnmC+fu05uR1a5pG0GBOMgIXw0UqbM9iL8o2SEEm8O8gUniYg==
-X-Received: by 2002:ac2:5981:: with SMTP id w1mr5560436lfn.374.1610701122526;
-        Fri, 15 Jan 2021 00:58:42 -0800 (PST)
-Received: from [192.168.1.100] ([31.173.86.2])
-        by smtp.gmail.com with ESMTPSA id y21sm508948lfl.84.2021.01.15.00.58.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jan 2021 00:58:41 -0800 (PST)
-Subject: Re: [PATCH v2 4/4] rcar-csi2: Do not try to recover after transfer
- error
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
- <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <664cfe51-1739-2294-75fb-f2357402fa91@gmail.com>
-Date:   Fri, 15 Jan 2021 11:58:27 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        Fri, 15 Jan 2021 04:03:54 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 15FED1C0017;
+        Fri, 15 Jan 2021 09:03:07 +0000 (UTC)
+Date:   Fri, 15 Jan 2021 10:03:26 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        roman.kovalivskyi@globallogic.com,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        naush@raspberrypi.com, Eugeniu Rosca <erosca@de.adit-jv.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 01/30] dt-bindings: media: i2c: Rename ov5647.yaml
+Message-ID: <20210115090326.qufukw5cd73ansby@uno.localdomain>
+References: <20201119161956.756455-1-jacopo@jmondi.org>
+ <20201119161956.756455-2-jacopo@jmondi.org>
+ <20201125091526.GI3940@paasikivi.fi.intel.com>
+ <CAL_JsqLfdGumeicqqhkfn5K40GaXX93NuNZTOpgcCLycHmVQbg@mail.gmail.com>
+ <20201222095025.GS26370@paasikivi.fi.intel.com>
+ <CAL_JsqL6e3Ko=gwPZj6SeFHofiebeR3-HzsEHcNiXrabruJtLA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqL6e3Ko=gwPZj6SeFHofiebeR3-HzsEHcNiXrabruJtLA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
+Ups,
 
-On 15.01.2021 3:21, Niklas Söderlund wrote:
+   I'll fix. A question for Mauro though
 
-> Instead of restarting the R-Car CSI-2 receiver if a transmission error
-> is detected inform the R-Car VIN driver of the error so it can stop the
-              ^ , woiuldn't hurt here?
+On Thu, Jan 14, 2021 at 02:20:34PM -0600, Rob Herring wrote:
+> On Tue, Dec 22, 2020 at 3:50 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Rob,
+> >
+> > On Mon, Dec 21, 2020 at 01:23:29PM -0700, Rob Herring wrote:
+> > > On Wed, Nov 25, 2020 at 2:15 AM Sakari Ailus
+> > > <sakari.ailus@linux.intel.com> wrote:
+> > > >
+> > > > Cc Rob + DT list.
+> > >
+> > > You have to resend if you really want me to see things. In this case,
+> > > I don't think you need to wait on me for a rename.
+> >
+> > I merged the patch earlier based on the IRC discussion.
+>
+> Seems this landed in -next:
+>
+> ./Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml: $id:
+> relative path/filename doesn't match actual path or filename
+> expected: http://devicetree.org/schemas/media/i2c/ovti,ov5647.yaml#
+>
 
+The fix is worth a Fixes: tag, should I refer to the current commit
+sha1 in linux-media/master or is there any risk for a rebase before
+the tree is merged in the v5.12 merge window ?
 
-> whole pipeline and inform user-space. This is done to reflect a updated
-                                                                 ^ an
+Thanks
+    j
 
-> usage recommendation in later versions of the datasheet.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-[...]
-
-MBR, Sergei
+> Rob
