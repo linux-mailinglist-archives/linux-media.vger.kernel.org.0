@@ -2,128 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF0572F878E
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 22:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8DAF2F87A4
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 22:28:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725865AbhAOVU5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 16:20:57 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38328 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725536AbhAOVU4 (ORCPT
+        id S1726995AbhAOV0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 16:26:03 -0500
+Received: from smtp02.smtpout.orange.fr ([80.12.242.124]:45662 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725536AbhAOV0C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 16:20:56 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 452571F4623F
-Subject: Re: Failing V4l2-compliance test with a sensor driver
-To:     Sebastian Fricke <sebastian.fricke@posteo.net>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <20210115115324.glhnixqafh2jakw4@basti-TUXEDO-Book-XA1510>
- <1821bd61-818f-5e1b-156a-3c72b2bca800@xs4all.nl>
- <20210115183449.xrkl6u2sk2su7zgp@basti-TUXEDO-Book-XA1510>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <b4a9a516-88bb-c278-0088-d652ec588556@collabora.com>
-Date:   Fri, 15 Jan 2021 22:20:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 15 Jan 2021 16:26:02 -0500
+Received: from localhost.localdomain ([92.131.99.25])
+        by mwinf5d04 with ME
+        id H9QF2400C0Ys01Y039QHn8; Fri, 15 Jan 2021 22:24:18 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 15 Jan 2021 22:24:18 +0100
+X-ME-IP: 92.131.99.25
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     mchehab@kernel.org, dwlsalmeida@gmail.com,
+        hverkuil-cisco@xs4all.nl, vaibhavgupta40@gmail.com,
+        liushixin2@huawei.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: saa7164: switch from 'pci_' to 'dma_' API
+Date:   Fri, 15 Jan 2021 22:24:15 +0100
+Message-Id: <20210115212415.497079-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210115183449.xrkl6u2sk2su7zgp@basti-TUXEDO-Book-XA1510>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
 
-Am 15.01.21 um 19:34 schrieb Sebastian Fricke:
-> Hello Hans,
-> 
-> Thank you very much for the quick response.
-> 
-> On 15.01.2021 13:11, Hans Verkuil wrote:
->> On 15/01/2021 12:53, Sebastian Fricke wrote:
->>> Hello,
->>>
->>> I believe you are the creator of v4l2-compliance, right? My hope is that you might be able to lead me in the right direction.
->>> I am currently finishing up a sensor driver that I ported from a downstream kernel. And I try to clear up the last compliance error:
->>>
->>> ```
->>>      info: checking control event 'User Controls' (0x00980001)
->>>      VIDIOC_SUBSCRIBE_EVENT returned -1 (Inappropriate ioctl for device)
->>
->> This returns ENOTTY, which is weird...
->>
->>>      fail: v4l2-test-controls.cpp(818): subscribe event for control 'User Controls' failed
->>> test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
->>> ```
->>>
->>> I notice that it calls a normal v4l2 ioctl on my subdevice. I implemented the event handling just like I was able to find in other devices like:
->>> imx219, imx355, ov2640 by adding:
->>>
->>> ```
->>> #include <media/v4l2-event.h>
->>> ...
->>>     sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
->>>              V4L2_SUBDEV_FL_HAS_EVENTS;
->>> ...
->>> static const struct v4l2_subdev_core_ops ov13850_core_ops = {
->>>      ...
->>>     .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
->>>     .unsubscribe_event = v4l2_event_subdev_unsubscribe
->>>      ...
->>> ```
->>
->> ...since this looks exactly as it should be.
->>
->>>
->>> Am I supposed to correct that error, or asked in another way is it actually an error when a subdevice doesn't implement VIDIOC_SUBSCRIBE_EVENT?
->>
->> Yes, it is an error if subscribe_event isn't implemented, but you DO have controls in your driver.
->>
->> Are you compiling v4l2-compliance from the git repo? You shouldn't use the version packages by distros since that is typically much too old.
-> 
-> Yes I have compiled it directly from the git repo `git clone https://git.linuxtv.org/v4l-utils.git/`, to be more specific I have an ansible playbook that shows exactly how I compiled it:
-> https://github.com/initBasti/NanoPC-T4_armbian_configuration/blob/main/ansible/setup_nanopct4.yml#L95
-> 
-> The build I currently use is 3 days old.
-> 
->>
->> I can't give support either if you are using an old version.
->>
->>> Additionally, I noticed that the compliance check doesn't look at my VIDIOC_SUBDEV_G_SELECTION implementation but instead searches for any implementation of the VIDIOC_G_SELECTION ioctl.
->>
->> It shouldn't, at least v4l2-test-subdevs.cpp only uses VIDIOC_SUBDEV_G_SELECTION.
-> 
-> That is exactly what confuses me, I cannot find a *single* SUBDEV ioctl
+When memory is allocated in 'saa7164_buffer_alloc()' GFP_KERNEL can be used
+because this function is already using this flag just a few lines above.
 
-That's weird, looking at the v4l2-compliance code I see there is a function "'mi_media_detect_type", maybe you should see what type is detected
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
 
-Thanks,
-Dafna
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
 
-> within the output of the tests.
-> Here is the complete output: https://paste.debian.net/1181280/
-> 
->>
->> Regards,
->>
->>     Hans
-> 
-> Thanks a lot
-> Sebastian
->>
->>>
->>> I invoked the compliance test with:
->>>
->>> v4l2-compliance -u /dev/v4l-subdev3 -v -T
->>>
->>> My current code can be located here: https://github.com/initBasti/Linux_kernel_media_tree_fork/blob/fix_subscribe_event_user_controls/drivers/media/i2c/ov13850.c
->>>
->>> Greetings and thanks in advance,
->>> Sebastian
->>>
->>
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/saa7164/saa7164-buffer.c | 16 +++++++++-------
+ drivers/media/pci/saa7164/saa7164-core.c   |  2 +-
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/pci/saa7164/saa7164-buffer.c b/drivers/media/pci/saa7164/saa7164-buffer.c
+index 245d9db280aa..89c5b79a5b24 100644
+--- a/drivers/media/pci/saa7164/saa7164-buffer.c
++++ b/drivers/media/pci/saa7164/saa7164-buffer.c
+@@ -103,13 +103,13 @@ struct saa7164_buffer *saa7164_buffer_alloc(struct saa7164_port *port,
+ 	buf->pt_size = (SAA7164_PT_ENTRIES * sizeof(u64)) + 0x1000;
+ 
+ 	/* Allocate contiguous memory */
+-	buf->cpu = pci_alloc_consistent(port->dev->pci, buf->pci_size,
+-		&buf->dma);
++	buf->cpu = dma_alloc_coherent(&port->dev->pci->dev, buf->pci_size,
++				      &buf->dma, GFP_KERNEL);
+ 	if (!buf->cpu)
+ 		goto fail1;
+ 
+-	buf->pt_cpu = pci_alloc_consistent(port->dev->pci, buf->pt_size,
+-		&buf->pt_dma);
++	buf->pt_cpu = dma_alloc_coherent(&port->dev->pci->dev, buf->pt_size,
++					 &buf->pt_dma, GFP_KERNEL);
+ 	if (!buf->pt_cpu)
+ 		goto fail2;
+ 
+@@ -137,7 +137,8 @@ struct saa7164_buffer *saa7164_buffer_alloc(struct saa7164_port *port,
+ 	goto ret;
+ 
+ fail2:
+-	pci_free_consistent(port->dev->pci, buf->pci_size, buf->cpu, buf->dma);
++	dma_free_coherent(&port->dev->pci->dev, buf->pci_size, buf->cpu,
++			  buf->dma);
+ fail1:
+ 	kfree(buf);
+ 
+@@ -160,8 +161,9 @@ int saa7164_buffer_dealloc(struct saa7164_buffer *buf)
+ 	if (buf->flags != SAA7164_BUFFER_FREE)
+ 		log_warn(" freeing a non-free buffer\n");
+ 
+-	pci_free_consistent(dev->pci, buf->pci_size, buf->cpu, buf->dma);
+-	pci_free_consistent(dev->pci, buf->pt_size, buf->pt_cpu, buf->pt_dma);
++	dma_free_coherent(&dev->pci->dev, buf->pci_size, buf->cpu, buf->dma);
++	dma_free_coherent(&dev->pci->dev, buf->pt_size, buf->pt_cpu,
++			  buf->pt_dma);
+ 
+ 	kfree(buf);
+ 
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index f3a4e575a782..7973ae42873a 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -1273,7 +1273,7 @@ static int saa7164_initdev(struct pci_dev *pci_dev,
+ 
+ 	pci_set_master(pci_dev);
+ 	/* TODO */
+-	err = pci_set_dma_mask(pci_dev, 0xffffffff);
++	err = dma_set_mask(&pci_dev->dev, 0xffffffff);
+ 	if (err) {
+ 		printk("%s/0: Oops: no 32bit PCI DMA ???\n", dev->name);
+ 		goto fail_irq;
+-- 
+2.27.0
+
