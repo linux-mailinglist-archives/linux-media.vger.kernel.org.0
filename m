@@ -2,115 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2B892F7C14
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 14:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 779402F7C2C
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 14:11:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732911AbhAONJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 08:09:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46820 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732744AbhAONJI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 08:09:08 -0500
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E83B0C0613C1
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 05:08:27 -0800 (PST)
-Received: by mail-io1-xd2f.google.com with SMTP id b19so15428959ioa.9
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 05:08:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RTaj+kQTI0f7LZEXnhvKOz2cpPUJhSCbtgTVKj7/e7M=;
-        b=EH9Lf/Qh5uutAxEfsjPu9Tu0c9s5EADzA4pymQanveSRfO8osic1lzoqlLFpKqmKgM
-         ePUT9SwlH1pgv9q9fuQy6uxulz1L+MdF/UTIPxzPc9vEm7feTrhKPS0IT9sN69GG/h/D
-         8x/BZqmWKrCkVwyxr6q7Or83KJQbyw2b5IrvU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RTaj+kQTI0f7LZEXnhvKOz2cpPUJhSCbtgTVKj7/e7M=;
-        b=k15otXewWNDj8MNUycG+lEMMUrPd647qrECBk6BZyusYj+lgzbanJT6fXqlTDFF2dj
-         1ip9bvU48zETs904ksxhagyHOihZ0BPEaFcu0wAbjLy64XY5XAdbzy5Yg2LHbAO/TPph
-         ayDytBBYQIvHbE+m/IFPB3lKYUR0uHsJssm73xCvrJYahm6nuU4Un/0cRQDRB6l19+Cy
-         GkMgrP+CQqJJLHcIjbgv5ZTbgIj7cn2VWjtSV1zGgizO1VVUHIfzDmxvrAzv2IQdzJZJ
-         B3hHOrdcPoDrRAVBrq4LgAky7Nps4PVsHVCDCH2c9Y28TrfEQuRnzC4hZuCVwCOHSl4d
-         hB/A==
-X-Gm-Message-State: AOAM530U5oH13fh/oF9UC4bk1+1MsUcLK163rGCCisH2xEe5eLV6bybF
-        wraQ0oV2yAjzgpBH3OTVeul+bz1RmiJwnQ==
-X-Google-Smtp-Source: ABdhPJyd6CJh3pV64OEugnbBfMiZqqS0IU70kmM7Y972+R+CJRRKuQrG5z1/fraqojcKxEyDmRjE/A==
-X-Received: by 2002:a05:6e02:8aa:: with SMTP id a10mr10643347ilt.157.1610716106956;
-        Fri, 15 Jan 2021 05:08:26 -0800 (PST)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com. [209.85.166.51])
-        by smtp.gmail.com with ESMTPSA id a4sm5565593ild.5.2021.01.15.05.08.25
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jan 2021 05:08:26 -0800 (PST)
-Received: by mail-io1-f51.google.com with SMTP id n4so17870473iow.12
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 05:08:25 -0800 (PST)
-X-Received: by 2002:a05:6e02:cc7:: with SMTP id c7mr10850857ilj.218.1610716105308;
- Fri, 15 Jan 2021 05:08:25 -0800 (PST)
+        id S1732965AbhAONK2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 08:10:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37818 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732438AbhAONK1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Jan 2021 08:10:27 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C2E122256F;
+        Fri, 15 Jan 2021 13:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610716186;
+        bh=f3Gebj2QRD4hWp5mkrPz0xAwREY4cfiqUQdsQMe5bfc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=m6n3n8fg9Mz5Mf0xOwwGHS6kI1OXmqtbWarRzxd0yNk20DPGQLnqNiFcK6D/Ai6jq
+         Q5N22SKOvvm6JTpQOoO+B6+u1Dc7yDqMJSM2UPNqoqf1knwebLLNQNlgObGrv4v4BT
+         gkXdK/J+gxu4Z1OtvvYrokoVN1nmGHBaUBwUyPUhaVT/ZQVqAhzLAi5uJKusyHw+Kt
+         LONIvBQJtyh+MkXoJ9n58Mi5T+q3bgjNc4xaqW0QonF2oabTtjLy2Xoej9I0O7VHtv
+         wS9/lmJN2UJETLAu8lktAB+Q/FeAO2q9LLQ+tUPLoa+CZR0DM4zgizfhMEen1oz54s
+         q1H4RuVJbEx5A==
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Thomas Haemmerle <thomas.haemmerle@wolfvision.net>,
+        laurent.pinchart@ideasonboard.com
+Cc:     gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+        linux-usb@vger.kernel.org, m.tretter@pengutronix.de,
+        linux-media@vger.kernel.org,
+        Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+Subject: Re: [PATCH v4] usb: gadget: uvc: fix multiple opens
+In-Reply-To: <20201201192730.5633-1-thomas.haemmerle@wolfvision.net>
+References: <2920c6ea-d191-a6cb-ec90-dda22bb9df55@wolfvision.net>
+ <20201201192730.5633-1-thomas.haemmerle@wolfvision.net>
+Date:   Fri, 15 Jan 2021 15:09:39 +0200
+Message-ID: <87pn261h4c.fsf@kernel.org>
 MIME-Version: 1.0
-References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de>
- <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de>
- <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
- <20201208071320.GA1667627@google.com> <20201209111639.GB22806@lst.de>
- <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com> <20210111083614.GA27589@lst.de>
-In-Reply-To: <20210111083614.GA27589@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 15 Jan 2021 14:08:14 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com>
-Message-ID: <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-To:     ". Christoph Hellwig" <hch@lst.de>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 9:36 AM . Christoph Hellwig <hch@lst.de> wrote:
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+
+Hi,
+
+Thomas Haemmerle <thomas.haemmerle@wolfvision.net> writes:
+> Currently, the UVC function is activated when open on the corresponding
+> v4l2 device is called.
+> On another open the activation of the function fails since the
+> deactivation counter in `usb_function_activate` equals 0. However the
+> error is not returned to userspace since the open of the v4l2 device is
+> successful.
 >
-> On Thu, Jan 07, 2021 at 03:14:08PM +0100, Ricardo Ribalda wrote:
-> > > So I think we do want these branches for coherent vs non-coherent as they
-> > > have very different semantics and I do not think that hiding them under
-> > > the same API helps people to understand those vastly different semantics.
-> > >
-> > > OTOH we should look into a fallback for DMA API instances that do not
-> > > support the discontigous allocations.
-> > >
-> > > I think between your comments and those from Ricardo I have a good idea
-> > > for a somewhat updated API.  I'll try to post something in the next days.
-> >
-> > Did you have time to look into this?
-> >
-> > No hurry, I just want to make sure that I didn't miss anything ;)
+> On a close the function is deactivated (since deactivation counter still
+> equals 0) and the video is disabled in `uvc_v4l2_release`, although the
+> UVC application potentially is streaming.
 >
-> Haven't managed to get to it, sorry.
-
-No worries!, is there something we can do to help you with this?
-
+> Move activation of UVC function to subscription on UVC_EVENT_SETUP
+> because there we can guarantee for a userspace application utilizing
+> UVC.
+> Block subscription on UVC_EVENT_SETUP while another application already
+> is subscribed to it, indicated by `bool func_connected` in
+> `struct uvc_device`.
+> Extend the `struct uvc_file_handle` with member `bool is_uvc_app_handle`
+> to tag it as the handle used by the userspace UVC application.
 >
-> >
-> > Best regards!
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
-> ---end quoted text---
+> With this a process is able to check capabilities of the v4l2 device
+> without deactivating the function for the actual UVC application.
+>
+> Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
 
+Laurent, do you agree with the change?
 
+=2D-=20
+balbi
 
--- 
-Ricardo Ribalda
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmABlBMRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQZhCQ/+MXVsCg4n1nL/YF2IH9BeiPgOf2GkzI7A
+BrTxdwUaw621IPlEoejsFXAduXz/U8WVNDVshOUkbbe64p9PZRNbTZPMRUlo+9Ed
+9WJBHmol5Mw09cAjIxfle8t/pC90HH/obXSzBrJ9GDbfsGwKErZdYmpc0JomNTPb
+bnbuuMOap28G1AFOKuVFbLl0vK4L+YfAxpCoRiMAIr94rv4thpPnOOfUtmHdPyu0
+4ggFOI2T6O0P/sl2LuITWGznhChmM+1do+fVbqI7evVinPWcmFTTNC6YvPJVIg5X
+qkeEDzEmmgFAuYkdeqwepFiqoLH3R6MkE43m8UH1gEktGbavlqRPZE7hI5y5AAA2
+fC81pFk08aYvTvlHJWGZE7ugzbvOYqs8gGMkvFqPpfTby1bWmVJY6vbPctEAS0QP
+Tel2zTjWGvP4LG/h1orS7bk77Piq1py4Ejou4ocuujsfCLavkBMrr5UQf3NeU2fS
+WXhH7wO2E7weh6QFdmy0d4/xx9m/+XsH8j/jzkgYnOTglV4O8iB1a15G17g7e6hX
+N55pVi5c3096K7sjtwaJ0KOL0MHj2CBXpJyfuPJSNgaYZ8xmdl5ZSxeoHJE33cs/
+1+0MtDteWZkOjiP6lQTTSJPu+hEKxpDi6RDvOxdWkaiMfhzPXtM/C2PRk5SeNMfW
+jrFikMFOsaA=
+=pykO
+-----END PGP SIGNATURE-----
+--=-=-=--
