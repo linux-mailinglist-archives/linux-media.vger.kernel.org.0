@@ -2,85 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CFFA2F7E4E
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 15:34:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AABF82F7EF0
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 16:07:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732914AbhAOOd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 09:33:27 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:39270 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726402AbhAOOd1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 09:33:27 -0500
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10FEQieu012767;
-        Fri, 15 Jan 2021 15:32:30 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : subject
- : date : message-id : mime-version : content-type; s=selector1;
- bh=20mI/yLvK9/ogh5zbaHOf1X4owesvcwj4/m6TdHC+ns=;
- b=l/sKPrBte54ACnoQtjd74G+H6JjxXKxBg+rR+IHTECOo9EXoJaw9x/9HzMRotGoclcEM
- oP8ZGGQiMuwDhJRgZPrYvuQd3MBtnv17ngExwi+1eq1jrzfNpl/Z6lLo3N0sYRrLVGio
- mNau1tNOixbVQYaRsR2hzJJEsT8JTySVXDvYMir54DQYfITFaQfbQyUNt1w9PnTX0WCw
- Bbta9u7TTwKnyF3zvo0EhnOj9jqORyoK9OUN1gIg3VhVbBZrTfn5Ws4fD5ktArkaEOwq
- vqxVot3T67OxwotBRBzA5wryU78gyOWdaXm9kDPAiP/F0osKi9kL1OcDSUW+ps3dDQ0R fQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 35y5m04yyh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 15 Jan 2021 15:32:30 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2E6D710002A;
-        Fri, 15 Jan 2021 15:32:29 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1E58724974F;
-        Fri, 15 Jan 2021 15:32:29 +0100 (CET)
-Received: from localhost (10.75.127.48) by SFHDAG2NODE3.st.com (10.75.127.6)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 15 Jan 2021 15:31:46
- +0100
-From:   Yannick Fertre <yannick.fertre@foss.st.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Etienne Carriere <etienne.carriere@st.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Philippe Cornu <philippe.cornu@foss.st.com>
-Subject: [PATCH] media: cec: add stm32 driver
-Date:   Fri, 15 Jan 2021 15:31:44 +0100
-Message-ID: <20210115143144.27468-1-yannick.fertre@foss.st.com>
-X-Mailer: git-send-email 2.17.1
+        id S1732163AbhAOPHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 10:07:15 -0500
+Received: from mga11.intel.com ([192.55.52.93]:2649 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732142AbhAOPHP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Jan 2021 10:07:15 -0500
+IronPort-SDR: RJu17aFu+f6o2nfvuxf764Ih7kiSykdsN89gKE9pB+arF2pPNrjbfHRv+o2c7Idvt1yH2rtBlM
+ Z9N0an/G7f0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="175054190"
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="175054190"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 07:05:27 -0800
+IronPort-SDR: ynMfejPdgyy49MhXrflW3K6pZ8ULxJ4Bv6Ue0CS+eoHSiQ45FuDyOzj2PJWeWx79TWQlZ7p6+V
+ 2CQTFFmSXm9A==
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="390133898"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 07:05:25 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id C4D56206A9; Fri, 15 Jan 2021 17:05:23 +0200 (EET)
+Date:   Fri, 15 Jan 2021 17:05:23 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3] media: v4l2-async: Add waiting subdevices debugfs
+Message-ID: <20210115150523.GS11878@paasikivi.fi.intel.com>
+References: <20210108171728.39434-1-ezequiel@collabora.com>
+ <20210108171728.39434-2-ezequiel@collabora.com>
+ <20210114233632.GN11878@paasikivi.fi.intel.com>
+ <d3a4714e98ce065e8a6c7b11929d72c330ab4097.camel@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG4NODE3.st.com (10.75.127.12) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2021-01-15_08:2021-01-15,2021-01-15 signatures=0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d3a4714e98ce065e8a6c7b11929d72c330ab4097.camel@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Missing stm32 directory to Makefile.
+On Fri, Jan 15, 2021 at 11:08:21AM -0300, Ezequiel Garcia wrote:
+> On Fri, 2021-01-15 at 01:36 +0200, Sakari Ailus wrote:
+> > Hi Ezequiel,
+> > 
+> > On Fri, Jan 08, 2021 at 02:17:28PM -0300, Ezequiel Garcia wrote:
+> > > There is currently little to no information available
+> > > about the reasons why a v4l2-async device hasn't
+> > > probed completely.
+> > > 
+> > > Inspired by the "devices_deferred" debugfs file,
+> > > add a file to list information about the subdevices
+> > > that are on waiting lists, for each notifier.
+> > > 
+> > > This is useful to debug v4l2-async subdevices
+> > > and notifiers, for instance when doing device bring-up.
+> > > 
+> > > For instance, a typical output would be:
+> > > 
+> > > $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
+> > > ipu1_csi1:
+> > >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
+> > > ipu1_csi0:
+> > >  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
+> > > imx6-mipi-csi2:
+> > >  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
+> > > imx-media:
+> > > 
+> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > --
+> > > v3:
+> > > * Drop MATCH_CUSTOM
+> > > * Use the actual fwnode, to print the real full path. endpoint name.
+> > > * Fix refcounted handle leak.
+> > > v2:
+> > > * Print fwnode path, as suggested by Sakari.
+> > > * Print the subdevices under their corresponding notifier.
+> > > * Rename the file as suggested by Laurent.
+> > 
+> > The patch itself seems fine. But lease put such notes below the '---' line
+> > below going forward. What's above it will be part of the commit message.
+> > 
+> 
+> Oops, sorry for the typo.
+> 
+> I have a v4 for this one, dropping MATCH_DEVNAME too.
 
-Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
----
- drivers/media/cec/platform/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+Could you remove it as a separate patch? It's unrelated to debugging.
 
-diff --git a/drivers/media/cec/platform/Makefile b/drivers/media/cec/platform/Makefile
-index 3a947159b25a..ea6f8ee8161c 100644
---- a/drivers/media/cec/platform/Makefile
-+++ b/drivers/media/cec/platform/Makefile
-@@ -10,5 +10,6 @@ obj-$(CONFIG_CEC_MESON_AO)	+= meson/
- obj-$(CONFIG_CEC_SAMSUNG_S5P)	+= s5p/
- obj-$(CONFIG_CEC_SECO)		+= seco/
- obj-$(CONFIG_CEC_STI)		+= sti/
-+obj-$(CONFIG_CEC_STM32)		+= stm32/
- obj-$(CONFIG_CEC_TEGRA)		+= tegra/
- 
 -- 
-2.17.1
-
+Sakari Ailus
