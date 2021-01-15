@@ -2,102 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 968112F7559
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 10:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EFBD2F7561
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 10:28:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728021AbhAOJ2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 04:28:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730376AbhAOJ1s (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 04:27:48 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAC28C0617A0
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 01:26:29 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id dk8so8798179edb.1
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 01:26:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NPpTp6a6u7fOZ3GfoVMqP0h5qwWkDaaqGx3MQZmmFIU=;
-        b=uMAA8EshSzFzDykdzTxOtz+DOjd9oB+lBVytXRmkeZbkPOvJcWqiycin0jTas0XdPR
-         Abx7o0jv/ZFIpGgUyOdpdwufLQpzCbgh7khYlSroxcprt0ZC//THezzvYBxX15pVrEB0
-         oC8YMc7jYOYu/9FwnfbCmkgKNocSg3QNnWYKeJBOm1gzE3nYTxNh5snzdRiAgtqFqpZ/
-         6NSEnUyZfGsg6A3YXrCXYTcfAFNoGFyCFv4j8EdpzBDAGYkTt6QyNt5RLBS3F2/PtKN8
-         GTqDetFFpRmSBx2LI3hHvRC4CiBSOnSeRf0L5mu9mJWs94RFTHiAWQ0rVKfea4WUcTdD
-         Y35A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=NPpTp6a6u7fOZ3GfoVMqP0h5qwWkDaaqGx3MQZmmFIU=;
-        b=tpSVcYgnm8J53M0X95bvQGCsCaX5PhUnpJqGCzHFY34i5oBaKqbBDnGASJ6NMrSms1
-         Kegixsd0XSKO2kuyrY3gx/pRKl/Q/g7ArAu6Vzr1nqK49LxdC3CLxXN0aGDZV2yc4wXC
-         ThUs+CKqDNa9n1GC7+F73uvECNJE8KitJHsmrLiXNUSHXykpNrh+G39qEco9os0zKYub
-         1rCBxGijfdjU9RDAXI7/ri9hCT8LnGDAfO19dvdAT21pPftBCu28hcHPia0p8hbsng09
-         sHd599otwIdmJi/J8dke4kRtOSE0mmsjNsu1m7rtGjB2z3Sr18UIV/FAdK2szFWb7fMf
-         Hntg==
-X-Gm-Message-State: AOAM531A7Omx0Sn342itC0bqTJBWEhMEhwcFgbEHXSezwE3YlfNsGTbN
-        vpDPT8NHY/6+M/TgRiomi2P8M07u27tznovi
-X-Google-Smtp-Source: ABdhPJw84zuV4cS7/a+LJQv0YdUKaq2TAeJk8mtppmG+PidICGNdaA6qBwFXKRGGNfr0Lj30tSEqiA==
-X-Received: by 2002:a05:6402:5206:: with SMTP id s6mr7291383edd.92.1610702788407;
-        Fri, 15 Jan 2021 01:26:28 -0800 (PST)
-Received: from localhost.localdomain (hst-221-63.medicom.bg. [84.238.221.63])
-        by smtp.gmail.com with ESMTPSA id u24sm3004140eje.71.2021.01.15.01.26.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 01:26:27 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 4/4] docs: Deprecate mfc display delay controls
-Date:   Fri, 15 Jan 2021 11:26:07 +0200
-Message-Id: <20210115092607.29849-5-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210115092607.29849-1-stanimir.varbanov@linaro.org>
-References: <20210115092607.29849-1-stanimir.varbanov@linaro.org>
+        id S1730909AbhAOJ22 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 04:28:28 -0500
+Received: from mga03.intel.com ([134.134.136.65]:41112 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729172AbhAOJ21 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Jan 2021 04:28:27 -0500
+IronPort-SDR: vkHvCL/UdoOEiTe08AgJYfTICXi69wN3dpBYmuUbijXKBqRPUEof5UTHHSKYHbVHVDixPZI17P
+ r+uov+N8ljyA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="178611070"
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="178611070"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:26:41 -0800
+IronPort-SDR: 88dXyl/0gw5XIMHuouF1nDiZ/c618bWw9ZCwXlY6MlY7JDivP8c1c4jDWSSxOYObPcYMQzG2op
+ NNsUdgfYw9Uw==
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="364525233"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:26:38 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id A9C30206A9; Fri, 15 Jan 2021 11:26:36 +0200 (EET)
+Date:   Fri, 15 Jan 2021 11:26:36 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        roman.kovalivskyi@globallogic.com,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        naush@raspberrypi.com, Eugeniu Rosca <erosca@de.adit-jv.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 01/30] dt-bindings: media: i2c: Rename ov5647.yaml
+Message-ID: <20210115092636.GP11878@paasikivi.fi.intel.com>
+References: <20201119161956.756455-1-jacopo@jmondi.org>
+ <20201119161956.756455-2-jacopo@jmondi.org>
+ <20201125091526.GI3940@paasikivi.fi.intel.com>
+ <CAL_JsqLfdGumeicqqhkfn5K40GaXX93NuNZTOpgcCLycHmVQbg@mail.gmail.com>
+ <20201222095025.GS26370@paasikivi.fi.intel.com>
+ <CAL_JsqL6e3Ko=gwPZj6SeFHofiebeR3-HzsEHcNiXrabruJtLA@mail.gmail.com>
+ <20210115090326.qufukw5cd73ansby@uno.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210115090326.qufukw5cd73ansby@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Deprecate mfc private display delay and display enable controls for
-new clients and use the standard controls instead.
+Hi Jacopo,
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- .../userspace-api/media/v4l/ext-ctrls-codec.rst        | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+On Fri, Jan 15, 2021 at 10:03:26AM +0100, Jacopo Mondi wrote:
+> Ups,
+> 
+>    I'll fix. A question for Mauro though
+> 
+> On Thu, Jan 14, 2021 at 02:20:34PM -0600, Rob Herring wrote:
+> > On Tue, Dec 22, 2020 at 3:50 AM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Rob,
+> > >
+> > > On Mon, Dec 21, 2020 at 01:23:29PM -0700, Rob Herring wrote:
+> > > > On Wed, Nov 25, 2020 at 2:15 AM Sakari Ailus
+> > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > >
+> > > > > Cc Rob + DT list.
+> > > >
+> > > > You have to resend if you really want me to see things. In this case,
+> > > > I don't think you need to wait on me for a rename.
+> > >
+> > > I merged the patch earlier based on the IRC discussion.
+> >
+> > Seems this landed in -next:
+> >
+> > ./Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml: $id:
+> > relative path/filename doesn't match actual path or filename
+> > expected: http://devicetree.org/schemas/media/i2c/ovti,ov5647.yaml#
+> >
+> 
+> The fix is worth a Fixes: tag, should I refer to the current commit
+> sha1 in linux-media/master or is there any risk for a rebase before
+> the tree is merged in the v5.12 merge window ?
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 5d7c47837035..815c6eb4a0d0 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2111,6 +2111,11 @@ MFC 5.1 Control IDs
-     feature can be used for example for generating thumbnails of videos.
-     Applicable to the H264 decoder.
- 
-+    .. note::
-+
-+       This control is deprecated. Use the standard
-+       ``V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE`` control instead.
-+
- ``V4L2_CID_MPEG_MFC51_VIDEO_DECODER_H264_DISPLAY_DELAY (integer)``
-     Display delay value for H264 decoder. The decoder is forced to
-     return a decoded frame after the set 'display delay' number of
-@@ -2118,6 +2123,11 @@ MFC 5.1 Control IDs
-     of display order, in addition the hardware may still be using the
-     returned buffer as a reference picture for subsequent frames.
- 
-+    .. note::
-+
-+       This control is deprecated. Use the standard
-+       ``V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY`` control instead.
-+
- ``V4L2_CID_MPEG_MFC51_VIDEO_H264_NUM_REF_PIC_FOR_P (integer)``
-     The number of reference pictures used for encoding a P picture.
-     Applicable to the H264 encoder.
+I'd say that happens only in exceptional circumstances. I think you can do
+that.
+
 -- 
-2.17.1
+Regards,
 
+Sakari Ailus
