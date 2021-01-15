@@ -2,108 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2882F748F
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 09:49:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6467F2F74C5
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 09:59:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbhAOItP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 03:49:15 -0500
-Received: from mga18.intel.com ([134.134.136.126]:47424 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725797AbhAOItP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 03:49:15 -0500
-IronPort-SDR: RDWGbO9zfCyH0DQ4fT9MgV9oPDxWPYGckjwtMycuADNNYCuamtuFQbo5Tll7BXMOS88zzpSyId
- wJUn6XGEZAsA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166189532"
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="166189532"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 00:47:25 -0800
-IronPort-SDR: Xplb/O8iwy4xFItQZQ5UTuJsRUWSyjCnND7SqBMcDOD6/Rd3tKY0txumIQhvHCt2NLa89RxxGu
- YBkdDoSyEZcw==
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="390054772"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 00:47:21 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 0CA3D206A9; Fri, 15 Jan 2021 10:47:18 +0200 (EET)
-Date:   Fri, 15 Jan 2021 10:47:18 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com
-Subject: Re: [PATCH 12/13] media: Clarify v4l2-async subdevice addition API
-Message-ID: <20210115084717.GO11878@paasikivi.fi.intel.com>
-References: <20210112132339.5621-1-ezequiel@collabora.com>
- <20210112132339.5621-13-ezequiel@collabora.com>
- <X/+qw3OtGpveRK17@pendragon.ideasonboard.com>
- <38064ab4f6d0fc4302171e3c24bb8be37e500b86.camel@collabora.com>
+        id S1726817AbhAOI7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 03:59:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49416 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726381AbhAOI7Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Jan 2021 03:59:24 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3751FC061757;
+        Fri, 15 Jan 2021 00:58:44 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id v24so5426837lfr.7;
+        Fri, 15 Jan 2021 00:58:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yoHSmWqLEgOaqrsaqCRDQK3B4dOZRw9xdRI7JhzzteE=;
+        b=vFRmv5ETC4uP8sDjMBmXiNUGt9deXfFgVIk4VckzrnU4FPtT0qCpoWgmneijK09ZWc
+         w5YlV5V1A3L3qpQ75u4tb5HBgO8Ia64zIR9L+M4aeyfXKoSioMCD07J7XvzOsx1neWIN
+         Sa3QFTH/WP8L6HByxqWjMVg/dbltNIP5pfkMfo0ypautkShhDBf2KakMaYJQej3+qRuJ
+         uEA2xIiqEmw8b8gQhoNyNSkA+71qGDh3K++j6fPFy1XdCEfblIQzZt3+LPem7RNBqXFk
+         YaWaE8x2kaDTvocyArhSabML8lzGZRn1vPJGBQNi4ymD/eM6n1ySSe+NO9oxYhJUReC5
+         m8UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=yoHSmWqLEgOaqrsaqCRDQK3B4dOZRw9xdRI7JhzzteE=;
+        b=lDgnPMwk53kCQPDEkN+CyTooINPTHuSUHUmGcd/epQLZRv0DmfHxwTmZi/OYPdaUdt
+         OlzbijCDPocoi9AHeYd+jelrS0b5heUyHvBjnFx+9b306KEMUi7SH2DJy14ebcXo8kky
+         W7rZxPP6UOdjggFId3sez19Uj/Ox6y9EiD29hNdvqFnIlyUzWDx49faiBhOYnHQJzpnI
+         hkiuL75j4grGQXK+S1dYUnZytwpTEdK5KB5niGmYL+BdqrZRIZRJUptpwn5weHqs9/Hy
+         E0i+F/XhDYKWnM2bNEuaWVJHz/0xDRSUjkBSzZtPAaelHRODIrd40s5MEZ9araevZBYe
+         a4cg==
+X-Gm-Message-State: AOAM531+ioSsKOsCaOfXoLYLdlDESkLeS58RsoAkQsDSIv5qJKneqIn3
+        +OGahXeGQX8fKVKsw97Oljlo0fwdlHIErg==
+X-Google-Smtp-Source: ABdhPJzWw+TkPMfkvIslzJD0f/V/yDnmC+fu05uR1a5pG0GBOMgIXw0UqbM9iL8o2SEEm8O8gUniYg==
+X-Received: by 2002:ac2:5981:: with SMTP id w1mr5560436lfn.374.1610701122526;
+        Fri, 15 Jan 2021 00:58:42 -0800 (PST)
+Received: from [192.168.1.100] ([31.173.86.2])
+        by smtp.gmail.com with ESMTPSA id y21sm508948lfl.84.2021.01.15.00.58.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Jan 2021 00:58:41 -0800 (PST)
+Subject: Re: [PATCH v2 4/4] rcar-csi2: Do not try to recover after transfer
+ error
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <664cfe51-1739-2294-75fb-f2357402fa91@gmail.com>
+Date:   Fri, 15 Jan 2021 11:58:27 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <38064ab4f6d0fc4302171e3c24bb8be37e500b86.camel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 10:39:33AM -0300, Ezequiel Garcia wrote:
-> On Thu, 2021-01-14 at 04:21 +0200, Laurent Pinchart wrote:
-> > Hi Ezequiel,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Jan 12, 2021 at 10:23:38AM -0300, Ezequiel Garcia wrote:
-> > > Now that most users of v4l2_async_notifier_add_subdev have
-> > > been converted, let's fix the documentation so it's more clear
-> > > how the v4l2-async API should be used.
-> > > 
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > >  .../driver-api/media/v4l2-subdev.rst          | 38 ++++++++++++++++---
-> > >  include/media/v4l2-async.h                    | 12 +++++-
-> > >  2 files changed, 43 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> > > index bb5b1a7cdfd9..5ddf9de4fcf7 100644
-> > > --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> > > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> > > @@ -204,11 +204,39 @@ Before registering the notifier, bridge drivers must do two things:
-> > >  first, the notifier must be initialized using the
-> > >  :c:func:`v4l2_async_notifier_init`. Second, bridge drivers can then
-> > >  begin to form a list of subdevice descriptors that the bridge device
-> > > -needs for its operation. Subdevice descriptors are added to the notifier
-> > > -using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
-> > > -takes two arguments: a pointer to struct :c:type:`v4l2_async_notifier`,
-> > > -and a pointer to the subdevice descripter, which is of type struct
-> > > -:c:type:`v4l2_async_subdev`.
-> > > +needs for its operation. Several functions are available, to
-> > > +add subdevice descriptors to a notifier, depending on the type of device:
-> > 
-> > You could reflow this to
-> > 
-> > needs for its operation. Several functions are available, to add subdevice
-> > descriptors to a notifier, depending on the type of device:
-> > 
-> > > +:c:func:`v4l2_async_notifier_add_devname_subdev`,
-> > > +:c:func:`v4l2_async_notifier_add_fwnode_subdev` or
-> > > +:c:func:`v4l2_async_notifier_add_i2c_subdev`.
-> > 
-> > Should you also list v4l2_async_notifier_add_fwnode_remote_subdev() (and
-> 
-> Yes.
-> 
-> > possibly v4l2_async_notifier_parse_fwnode_endpoints()) here ?
-> > 
-> 
-> Unsure. I'd rather not document this one, as it's deprecated
-> and we want to remove it.
+Hello!
 
-This document is here to guide people to use the right functions and that
-isn't one of them. So it shouldn't be added here.
+On 15.01.2021 3:21, Niklas SÃ¶derlund wrote:
 
--- 
-Regards,
+> Instead of restarting the R-Car CSI-2 receiver if a transmission error
+> is detected inform the R-Car VIN driver of the error so it can stop the
+              ^ , woiuldn't hurt here?
 
-Sakari Ailus
+
+> whole pipeline and inform user-space. This is done to reflect a updated
+                                                                 ^ an
+
+> usage recommendation in later versions of the datasheet.
+> 
+> Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+[...]
+
+MBR, Sergei
