@@ -2,94 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 680E82F7C62
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 14:20:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B19AF2F7C64
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 14:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732821AbhAONUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 08:20:12 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:48019 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725946AbhAONUM (ORCPT
+        id S1732859AbhAONUu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 08:20:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49396 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732855AbhAONUt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 08:20:12 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 0P0xlMZ5kaiWp0P11lUYBC; Fri, 15 Jan 2021 14:19:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610716787; bh=ps/g1ngMt8065PdHBs/mt44QLGWknpCa5piLpYCRiV8=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=LmsrvGeo5jwMpFPFGQ3iECOMoPXIqYNjIyeoIbbBQi5RGAWc/v41VkCEEtoIILJvt
-         ozFB+AdUqpWwpMuW+PpDqF1qf84a0Jezhxe1JoYAcEIyw5JubkrObEnn9oboQ50IT1
-         ZG67jD/yxZkSib6EZCmqWPPf7KM1KGW62UxH2kExMG/QHqnhz0V9piG0l8w5EZdSPF
-         p6iu/gvVuExbTErGqN1oDQcl5RXTRxNkY5mJjEFmcjRgKDQCF18kwd7AlSpcuzBFUg
-         jng78adXq9L2Yz1JLclkNC3cNwvmSlyj5qah8J7BT7liaCCC3yM8NxTvZFakBbDjD8
-         +4pAS4ZvIhpEQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Michael Tretter <m.tretter@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.12] allegro: add HEVC support
-Message-ID: <6918c2b2-d559-8024-add6-88cc25547b13@xs4all.nl>
-Date:   Fri, 15 Jan 2021 14:19:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Fri, 15 Jan 2021 08:20:49 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F22C0613C1
+        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 05:20:26 -0800 (PST)
+Received: from [IPv6:2003:c7:cf1c:ce00:50c3:215:f597:23ab] (p200300c7cf1cce0050c30215f59723ab.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:ce00:50c3:215:f597:23ab])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id A879B1F45E0E;
+        Fri, 15 Jan 2021 13:20:24 +0000 (GMT)
+Subject: Re: [PATCH v3 2/2] media: rockchip: rkisp1: extend uapi array sizes
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>, helen.koike@collabora.com,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        Laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
+Cc:     linux-rockchip@lists.infradead.org,
+        christoph.muellner@theobroma-systems.com, tfiga@chromium.org,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+References: <20210115112351.208011-1-heiko@sntech.de>
+ <20210115112351.208011-3-heiko@sntech.de>
+ <d194755d07ee6949d6577d8d08402548dbcd75cc.camel@collabora.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <771f6491-e3c4-a845-e845-11e71d7044f4@collabora.com>
+Date:   Fri, 15 Jan 2021 14:20:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <d194755d07ee6949d6577d8d08402548dbcd75cc.camel@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNxpR3wQPWTHBPtMvwasxJA0bASnvJQJIZvt8ro3TiztFGG9WFwW6YePxXYOYtD2odomQw7kJW2TWDpUWr13LmEsDWpUDjU8Ch8K0Zk9V+Ux+lWiEX+R
- Jtxp2d9ft43QWYckIpxrvIMYNS/ExTKEoNDoUZa3m7pveCBq3kvYMi5B3qbL22VEuFmA933yBoIVTGX4QcUBb1W8TBR8giBwTHFXfb9pkF6D46Brv5fh9knw
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 321af22a3d2f6ed1fb1737c8588c01f6fec8a7b8:
 
-  media: atomisp: convert comma to semicolon (2021-01-14 13:59:46 +0100)
 
-are available in the Git repository at:
+Am 15.01.21 um 13:21 schrieb Ezequiel Garcia:
+> On Fri, 2021-01-15 at 12:23 +0100, Heiko Stuebner wrote:
+>> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+>>
+>> Later variants of the rkisp1 block use more entries in some arrays:
+>>
+>> RKISP1_CIF_ISP_AE_MEAN_MAX                 25 -> 81
+>> RKISP1_CIF_ISP_HIST_BIN_N_MAX              16 -> 32
+>> RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17 -> 34
+>> RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28 -> 81
+>>
+>> and we can still extend the uapi during the 5.11-rc cycle, so do that
+>> now to be on the safe side.
+>>
+>> V10 and V11 only need the smaller sizes, while V12 and V13 needed
+>> the larger sizes.
+>>
+>> When adding the bigger sizes make sure, values filled from hardware
+>> values and transmitted to userspace don't leak kernel data by zeroing
+>> them beforehand.
+>>
+>> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> 
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.12d
+Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
-for you to fetch changes up to 073a8a67a52ea51adf26dd450d9cec6cb64134c0:
+Thanks,
+Dafna
 
-  media: allegro: add support for HEVC encoding (2021-01-15 14:08:15 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Michael Tretter (18):
-      media: allegro: extract RBSP handler from H.264 NAL generator
-      media: allegro: add helper to report unsupported fields
-      media: allegro: add HEVC NAL unit generator
-      media: allegro: implement S_FMT for CAPTURE
-      media: allegro: adjust channel after format change
-      media: allegro: move encoding options to channel
-      media: allegro: fix log2_max_poc in firmware 2019.1
-      media: allegro: use handler_setup to configure channel
-      media: allegro: initialize bitrate using v4l2_ctrl
-      media: allegro: implement scaling of cpb size in SPS
-      media: allegro: remove cpb_size and gop_size from channel
-      media: allegro: remove profile and level from channel
-      media: allegro: use accessor functions for QP values
-      media: allegro: add helper to get entropy mode
-      media: allegro: rename codec specific functions
-      media: allegro: increase offset in CAPTURE buffer
-      media: allegro: activate v4l2-ctrls only for current codec
-      media: allegro: add support for HEVC encoding
-
- drivers/media/platform/allegro-dvt/Makefile       |   3 +-
- drivers/media/platform/allegro-dvt/allegro-core.c | 817 +++++++++++++++++++++++++++++++++++++++++++------
- drivers/media/platform/allegro-dvt/allegro-mail.c |  13 +-
- drivers/media/platform/allegro-dvt/allegro-mail.h |   1 +
- drivers/media/platform/allegro-dvt/nal-h264.c     | 336 +-------------------
- drivers/media/platform/allegro-dvt/nal-hevc.c     | 824 ++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/allegro-dvt/nal-hevc.h     | 350 +++++++++++++++++++++
- drivers/media/platform/allegro-dvt/nal-rbsp.c     | 310 +++++++++++++++++++
- drivers/media/platform/allegro-dvt/nal-rbsp.h     |  61 ++++
- 9 files changed, 2290 insertions(+), 425 deletions(-)
- create mode 100644 drivers/media/platform/allegro-dvt/nal-hevc.c
- create mode 100644 drivers/media/platform/allegro-dvt/nal-hevc.h
- create mode 100644 drivers/media/platform/allegro-dvt/nal-rbsp.c
- create mode 100644 drivers/media/platform/allegro-dvt/nal-rbsp.h
+> 
+> Thanks,
+> Ezequiel
+> 
