@@ -2,214 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C44A2F7FE3
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 16:43:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81CFF2F7FF5
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 16:47:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729568AbhAOPmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 10:42:50 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35062 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730136AbhAOPmo (ORCPT
+        id S1726918AbhAOPq1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 10:46:27 -0500
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:33981 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725910AbhAOPq0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 10:42:44 -0500
-Received: from [IPv6:2003:c7:cf1c:ce00:50c3:215:f597:23ab] (p200300c7cf1cce0050c30215f59723ab.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:ce00:50c3:215:f597:23ab])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9568D1F45FED;
-        Fri, 15 Jan 2021 15:42:02 +0000 (GMT)
-Subject: Re: [PATCH v3 1/2] media: rockchip: rkisp1: carry ip version
- information
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>, helen.koike@collabora.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        Laurent.pinchart@ideasonboard.com
-Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
-        christoph.muellner@theobroma-systems.com, tfiga@chromium.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-References: <20210115112351.208011-1-heiko@sntech.de>
- <20210115112351.208011-2-heiko@sntech.de>
- <6f368ffc-2caf-44a0-1fa8-12104f57d568@xs4all.nl>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <a2edd953-8e33-7d34-14cb-4c242a8ff696@collabora.com>
-Date:   Fri, 15 Jan 2021 16:41:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 15 Jan 2021 10:46:26 -0500
+Received: by mail-ot1-f52.google.com with SMTP id a109so8949722otc.1;
+        Fri, 15 Jan 2021 07:46:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CAVo+erasOTevyP/72Qi2ybUcxE9hqUJxgq3h+H1dpA=;
+        b=Ttgv3Ahqo4mCztAZXhb0eEtPzr1EjQQH56CVF0pCPkw4K6x3JlaA8keRzO9i8sZk76
+         WCbiUqIreO2izMep48IopDMpXfTK82mWJI4882NUk+QWUubo/a5N5nFGOizX3NdHQITt
+         DdqgDxBAifZYZqr4y6aOU872kvZR2plBx5tpVGEzjhXhiTu4oLDilakNf120HVvpFd8S
+         Dv0adBFZMMDNAZ3JAEqkjh2SArHtYpFoQiY3dYZgUSWnkaG9reltxwqMXeejXiiEtueI
+         +RsNVf8l+2JQU9+iumOrCb4nPO7tRcNcNzxP0tCXdYj5iyu/pNZFSimoay6KDCvTta58
+         F2cA==
+X-Gm-Message-State: AOAM532M5QXjOrJ7m7L86qRPMYS3E49RLffTNXw68plx95ys3uWpdL8H
+        AnZDP0gnssPrH/SoUvGB7sbQxM0A/A==
+X-Google-Smtp-Source: ABdhPJwLrd6B6y7mp+t0817rPMZ2yAaOp4E8lU0oG+WhJxaPnixXpus0itdgsRCFCCJ0n1sM0pMDew==
+X-Received: by 2002:a9d:3ef6:: with SMTP id b109mr8838462otc.288.1610725545186;
+        Fri, 15 Jan 2021 07:45:45 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s23sm1888422oot.0.2021.01.15.07.45.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jan 2021 07:45:44 -0800 (PST)
+Received: (nullmailer pid 1322391 invoked by uid 1000);
+        Fri, 15 Jan 2021 15:45:43 -0000
+Date:   Fri, 15 Jan 2021 09:45:43 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: ov5647: Fix filename
+Message-ID: <20210115154543.GA1320747@robh.at.kernel.org>
+References: <20210115101652.9275-1-jacopo@jmondi.org>
 MIME-Version: 1.0
-In-Reply-To: <6f368ffc-2caf-44a0-1fa8-12104f57d568@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210115101652.9275-1-jacopo@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Jan 15, 2021 at 11:16:52AM +0100, Jacopo Mondi wrote:
+> Commit 1b5071af8240 ("media: dt-bindings: media: i2c: Rename
+> ov5647.yaml") renamed the bindings file but did not update the
+> Id: field there.
+> 
+> Fix it by using the new filename.
+> 
+> Fixes: 1b5071af8240 ("media: dt-bindings: media: i2c: Rename ov5647.yaml")
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Am 15.01.21 um 15:02 schrieb Hans Verkuil:
-> On 15/01/2021 12:23, Heiko Stuebner wrote:
->> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
->>
->> The IP block evolved from its rk3288/rk3399 base and the vendor
->> designates them with a numerical version. rk3399 for example
->> is designated V10 probably meaning V1.0.
->>
->> There doesn't seem to be an actual version register we could read that
->> information from, so allow the match_data to carry that information
->> for future differentiation.
->>
->> Also carry that information in the hw_revision field of the media-
->> controller API, so that userspace also has access to that.
->>
->> The added versions are:
->> - V10: at least rk3288 + rk3399
->> - V11: seemingly unused as of now, but probably appeared in some soc
->> - V12: at least rk3326 + px30
->> - V13: at least rk1808
->>
->> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
->> ---
->>   Documentation/admin-guide/media/rkisp1.rst    | 15 +++++++++++++
->>   .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++++++++++--------
->>   include/uapi/linux/rkisp1-config.h            |  7 +++++++
->>   3 files changed, 34 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
->> index 2267e4fb475e..e960678f47ca 100644
->> --- a/Documentation/admin-guide/media/rkisp1.rst
->> +++ b/Documentation/admin-guide/media/rkisp1.rst
->> @@ -13,6 +13,21 @@ This file documents the driver for the Rockchip ISP1 that is part of RK3288
->>   and RK3399 SoCs. The driver is located under drivers/staging/media/rkisp1
->>   and uses the Media-Controller API.
->>   
->> +Revisions
->> +=========
->> +
->> +There exist multiple smaller revisions to this ISP that got introduced in
->> +later SoCs. Revisions in use are documented in enum rkisp1_cif_isp_version
-
-Hi,
-since you send v4 anyway..
-You can format "enum rkisp1_cif_isp_version" to "enum :c:type:`rkisp1_cif_isp_version`"
-But you actually document the revision here in this file and not "in enum rkisp1_cif_isp_version"
-Maybe it is actually better to document them inline (just above the enum decleration)
-
-Thanks,
-Dafna
-
->> +in the UAPI and the revision of the ISP inside the running SoC can be read
->> +in the field hw_revision of struct media_device.
 > 
-> No, struct media_device is internal to the kernel, userspace doesn't see this
-> struct.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+> index 280c62afae13..429566c9ee1d 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/media/i2c/ov5647.yaml#
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5647.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
 > 
-> Replace this by:
-> 
-> "...struct media_device_info as returned by ioctl MEDIA_IOC_DEVICE_INFO."
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> +
->> +Versions in use are:
->> +
->> +- RKISP1_V10: used at least in rk3288 and rk3399
->> +- RKISP1_V11: declared in the original vendor code, but not used
->> +- RKISP1_V12: used at least in rk3326 and px30
->> +- RKISP1_V13: used at least in rk1808
->> +
->>   Topology
->>   ========
->>   .. _rkisp1_topology_graph:
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> index 68da1eed753d..f7e9fd305548 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> @@ -104,6 +104,7 @@
->>   struct rkisp1_match_data {
->>   	const char * const *clks;
->>   	unsigned int size;
->> +	enum rkisp1_cif_isp_version isp_ver;
->>   };
->>   
->>   /* ----------------------------------------------------------------------------
->> @@ -411,15 +412,16 @@ static const char * const rk3399_isp_clks[] = {
->>   	"hclk",
->>   };
->>   
->> -static const struct rkisp1_match_data rk3399_isp_clk_data = {
->> +static const struct rkisp1_match_data rk3399_isp_match_data = {
->>   	.clks = rk3399_isp_clks,
->>   	.size = ARRAY_SIZE(rk3399_isp_clks),
->> +	.isp_ver = RKISP1_V10,
->>   };
->>   
->>   static const struct of_device_id rkisp1_of_match[] = {
->>   	{
->>   		.compatible = "rockchip,rk3399-cif-isp",
->> -		.data = &rk3399_isp_clk_data,
->> +		.data = &rk3399_isp_match_data,
->>   	},
->>   	{},
->>   };
->> @@ -457,15 +459,15 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
->>   
->>   static int rkisp1_probe(struct platform_device *pdev)
->>   {
->> -	const struct rkisp1_match_data *clk_data;
->> +	const struct rkisp1_match_data *match_data;
->>   	struct device *dev = &pdev->dev;
->>   	struct rkisp1_device *rkisp1;
->>   	struct v4l2_device *v4l2_dev;
->>   	unsigned int i;
->>   	int ret, irq;
->>   
->> -	clk_data = of_device_get_match_data(&pdev->dev);
->> -	if (!clk_data)
->> +	match_data = of_device_get_match_data(&pdev->dev);
->> +	if (!match_data)
->>   		return -ENODEV;
->>   
->>   	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
->> @@ -494,15 +496,16 @@ static int rkisp1_probe(struct platform_device *pdev)
->>   
->>   	rkisp1->irq = irq;
->>   
->> -	for (i = 0; i < clk_data->size; i++)
->> -		rkisp1->clks[i].id = clk_data->clks[i];
->> -	ret = devm_clk_bulk_get(dev, clk_data->size, rkisp1->clks);
->> +	for (i = 0; i < match_data->size; i++)
->> +		rkisp1->clks[i].id = match_data->clks[i];
->> +	ret = devm_clk_bulk_get(dev, match_data->size, rkisp1->clks);
->>   	if (ret)
->>   		return ret;
->> -	rkisp1->clk_size = clk_data->size;
->> +	rkisp1->clk_size = match_data->size;
->>   
->>   	pm_runtime_enable(&pdev->dev);
->>   
->> +	rkisp1->media_dev.hw_revision = match_data->isp_ver;
->>   	strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
->>   		sizeof(rkisp1->media_dev.model));
->>   	rkisp1->media_dev.dev = &pdev->dev;
->> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
->> index 6e449e784260..bad46aadf838 100644
->> --- a/include/uapi/linux/rkisp1-config.h
->> +++ b/include/uapi/linux/rkisp1-config.h
->> @@ -124,6 +124,13 @@
->>   #define RKISP1_CIF_ISP_STAT_AFM           (1U << 2)
->>   #define RKISP1_CIF_ISP_STAT_HIST          (1U << 3)
->>   
->> +enum rkisp1_cif_isp_version {
->> +	RKISP1_V10 = 0,
->> +	RKISP1_V11,
->> +	RKISP1_V12,
->> +	RKISP1_V13,
->> +};
->> +
->>   enum rkisp1_cif_isp_histogram_mode {
->>   	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
->>   	RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED,
->>
+>  title: Omnivision OV5647 raw image sensor
+> --
+> 2.29.2
 > 
