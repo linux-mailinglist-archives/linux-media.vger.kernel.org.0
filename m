@@ -2,79 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA9032F7794
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 12:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4320C2F7795
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 12:24:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728371AbhAOLYg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 06:24:36 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:56410 "EHLO gloria.sntech.de"
+        id S1727496AbhAOLYh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 06:24:37 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:56406 "EHLO gloria.sntech.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727496AbhAOLYg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 06:24:36 -0500
+        id S1728336AbhAOLYh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Jan 2021 06:24:37 -0500
 Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.sntech)
         by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <heiko@sntech.de>)
-        id 1l0NCr-0004rD-P4; Fri, 15 Jan 2021 12:23:53 +0100
+        id 1l0NCs-0004rD-5u; Fri, 15 Jan 2021 12:23:54 +0100
 From:   Heiko Stuebner <heiko@sntech.de>
 To:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
         linux-media@vger.kernel.org, mchehab@kernel.org,
         Laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
 Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
         christoph.muellner@theobroma-systems.com, heiko@sntech.de,
-        tfiga@chromium.org
-Subject: [PATCH v3 0/2] Fix the rkisp1 userspace API for later IP versions
-Date:   Fri, 15 Jan 2021 12:23:49 +0100
-Message-Id: <20210115112351.208011-1-heiko@sntech.de>
+        tfiga@chromium.org,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Subject: [PATCH v3 1/2] media: rockchip: rkisp1: carry ip version information
+Date:   Fri, 15 Jan 2021 12:23:50 +0100
+Message-Id: <20210115112351.208011-2-heiko@sntech.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210115112351.208011-1-heiko@sntech.de>
+References: <20210115112351.208011-1-heiko@sntech.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This NEEDs to go into 5.11 while we can still adapt the uapi
-during its RC-cycle.
+From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 
+The IP block evolved from its rk3288/rk3399 base and the vendor
+designates them with a numerical version. rk3399 for example
+is designated V10 probably meaning V1.0.
 
-When looking into supporting the rkisp1 of the px30 I noticed that
-some fields got bigger in the uapi, caused by bigger number of samples
-for example for histograms or gamma values.
+There doesn't seem to be an actual version register we could read that
+information from, so allow the match_data to carry that information
+for future differentiation.
 
-The rkisp1 was destaged with 5.11-rc1 so we have still time during
-the 5.11 cycle to fix that without big hassles.
+Also carry that information in the hw_revision field of the media-
+controller API, so that userspace also has access to that.
 
-This was discussed previously in a mail [0] and a rfc series [1]
-and this two-part series now splits out the important parts that
-really should become part of a 5.11-rc and thus the final 5.11.
+The added versions are:
+- V10: at least rk3288 + rk3399
+- V11: seemingly unused as of now, but probably appeared in some soc
+- V12: at least rk3326 + px30
+- V13: at least rk1808
 
-changes since v2:
-- actually zero the correct sizes for u16 values (hist-bins)
-  (kernel-test-robot)
+Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+---
+ Documentation/admin-guide/media/rkisp1.rst    | 15 +++++++++++++
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++++++++++--------
+ include/uapi/linux/rkisp1-config.h            |  7 +++++++
+ 3 files changed, 34 insertions(+), 9 deletions(-)
 
-changes since v1:
-- drop duplicate isp_ver storage, hw_revision is enough (Dafna)
-- document multiple maximum sizes in uapi (Hans)
-- document usage of hw_revision field (Hans)
-- zero fields transmitted to userspace before adding data (Hans)
-- use _V10 field sizes when filling fields, as there is only v10 for now
-
-changes since rfc:
-- move rkisp1_version enum into uapo
-- show version in media-api hw_revision
-- introduce constants for versions and make max use the biggest
-
-Heiko Stuebner (2):
-  media: rockchip: rkisp1: carry ip version information
-  media: rockchip: rkisp1: extend uapi array sizes
-
- Documentation/admin-guide/media/rkisp1.rst    | 15 +++++++
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++++----
- .../platform/rockchip/rkisp1/rkisp1-params.c  |  2 +-
- .../platform/rockchip/rkisp1/rkisp1-stats.c   | 12 +++++-
- include/uapi/linux/rkisp1-config.h            | 43 ++++++++++++++++---
- 5 files changed, 76 insertions(+), 17 deletions(-)
-
+diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
+index 2267e4fb475e..e960678f47ca 100644
+--- a/Documentation/admin-guide/media/rkisp1.rst
++++ b/Documentation/admin-guide/media/rkisp1.rst
+@@ -13,6 +13,21 @@ This file documents the driver for the Rockchip ISP1 that is part of RK3288
+ and RK3399 SoCs. The driver is located under drivers/staging/media/rkisp1
+ and uses the Media-Controller API.
+ 
++Revisions
++=========
++
++There exist multiple smaller revisions to this ISP that got introduced in
++later SoCs. Revisions in use are documented in enum rkisp1_cif_isp_version
++in the UAPI and the revision of the ISP inside the running SoC can be read
++in the field hw_revision of struct media_device.
++
++Versions in use are:
++
++- RKISP1_V10: used at least in rk3288 and rk3399
++- RKISP1_V11: declared in the original vendor code, but not used
++- RKISP1_V12: used at least in rk3326 and px30
++- RKISP1_V13: used at least in rk1808
++
+ Topology
+ ========
+ .. _rkisp1_topology_graph:
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 68da1eed753d..f7e9fd305548 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -104,6 +104,7 @@
+ struct rkisp1_match_data {
+ 	const char * const *clks;
+ 	unsigned int size;
++	enum rkisp1_cif_isp_version isp_ver;
+ };
+ 
+ /* ----------------------------------------------------------------------------
+@@ -411,15 +412,16 @@ static const char * const rk3399_isp_clks[] = {
+ 	"hclk",
+ };
+ 
+-static const struct rkisp1_match_data rk3399_isp_clk_data = {
++static const struct rkisp1_match_data rk3399_isp_match_data = {
+ 	.clks = rk3399_isp_clks,
+ 	.size = ARRAY_SIZE(rk3399_isp_clks),
++	.isp_ver = RKISP1_V10,
+ };
+ 
+ static const struct of_device_id rkisp1_of_match[] = {
+ 	{
+ 		.compatible = "rockchip,rk3399-cif-isp",
+-		.data = &rk3399_isp_clk_data,
++		.data = &rk3399_isp_match_data,
+ 	},
+ 	{},
+ };
+@@ -457,15 +459,15 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+ 
+ static int rkisp1_probe(struct platform_device *pdev)
+ {
+-	const struct rkisp1_match_data *clk_data;
++	const struct rkisp1_match_data *match_data;
+ 	struct device *dev = &pdev->dev;
+ 	struct rkisp1_device *rkisp1;
+ 	struct v4l2_device *v4l2_dev;
+ 	unsigned int i;
+ 	int ret, irq;
+ 
+-	clk_data = of_device_get_match_data(&pdev->dev);
+-	if (!clk_data)
++	match_data = of_device_get_match_data(&pdev->dev);
++	if (!match_data)
+ 		return -ENODEV;
+ 
+ 	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
+@@ -494,15 +496,16 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 
+ 	rkisp1->irq = irq;
+ 
+-	for (i = 0; i < clk_data->size; i++)
+-		rkisp1->clks[i].id = clk_data->clks[i];
+-	ret = devm_clk_bulk_get(dev, clk_data->size, rkisp1->clks);
++	for (i = 0; i < match_data->size; i++)
++		rkisp1->clks[i].id = match_data->clks[i];
++	ret = devm_clk_bulk_get(dev, match_data->size, rkisp1->clks);
+ 	if (ret)
+ 		return ret;
+-	rkisp1->clk_size = clk_data->size;
++	rkisp1->clk_size = match_data->size;
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
++	rkisp1->media_dev.hw_revision = match_data->isp_ver;
+ 	strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
+ 		sizeof(rkisp1->media_dev.model));
+ 	rkisp1->media_dev.dev = &pdev->dev;
+diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+index 6e449e784260..bad46aadf838 100644
+--- a/include/uapi/linux/rkisp1-config.h
++++ b/include/uapi/linux/rkisp1-config.h
+@@ -124,6 +124,13 @@
+ #define RKISP1_CIF_ISP_STAT_AFM           (1U << 2)
+ #define RKISP1_CIF_ISP_STAT_HIST          (1U << 3)
+ 
++enum rkisp1_cif_isp_version {
++	RKISP1_V10 = 0,
++	RKISP1_V11,
++	RKISP1_V12,
++	RKISP1_V13,
++};
++
+ enum rkisp1_cif_isp_histogram_mode {
+ 	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
+ 	RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED,
 -- 
 2.29.2
 
