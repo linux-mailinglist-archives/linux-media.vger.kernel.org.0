@@ -2,161 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 107962F85AC
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 20:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 911B92F85AE
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 20:44:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387758AbhAOTlL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 14:41:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbhAOTlJ (ORCPT
+        id S1730444AbhAOTnn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Jan 2021 14:43:43 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48212 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730047AbhAOTnl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 14:41:09 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39687C0613C1
-        for <linux-media@vger.kernel.org>; Fri, 15 Jan 2021 11:40:28 -0800 (PST)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AED658B;
-        Fri, 15 Jan 2021 20:40:25 +0100 (CET)
+        Fri, 15 Jan 2021 14:43:41 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAAE158B;
+        Fri, 15 Jan 2021 20:42:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610739625;
-        bh=TYuBW75zIWbptNsezfxVG6RCXLov6z1LFoD4eyw/eEQ=;
-        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
-        b=UR+ry29NnlPJgmaGn/wvM+zay8surVsP0OjY4FE2++ssjiKyqclccucYg5/zERwkg
-         yH/SEOL9N9js0Bk0XmaoyQJnxEFbno4QM/MreEIRrg0DaK+5TbOQ440/H+Rt6ukjHo
-         rZ9rnPSySBlbTWY6m296TO+M+Lw+RYwOzHxy3V+s=
-Subject: Re: [PATCH] media: v4l2-async: Remove V4L2_ASYNC_MATCH_CUSTOM
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20210108171728.39434-1-ezequiel@collabora.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Organization: Ideas on Board
-Message-ID: <732caccd-9bd7-c723-cb34-533f99318cb4@ideasonboard.com>
-Date:   Fri, 15 Jan 2021 19:40:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        s=mail; t=1610739778;
+        bh=QxS4CCYLBs4oUpxHNRqTWnrBvEbxBJERx4bPb1dkEeM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hcHgH4Syuelmjn+8onpQo973dgRW9PyxrvCshVXX2NRr6ieSbCsEiz7cYf61uAOj3
+         Meiop45IR/2Az7wHR+SLrovbswywoqbI7nUN/1s2ryp4vnh92HfXOCQK1j9WUJsY+o
+         pQiBWN8TONOxrW6iaNnOUvC/Xkmwah0IwRqH1QUc=
+Date:   Fri, 15 Jan 2021 21:42:41 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Heiko Stuebner <heiko@sntech.de>
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl, linux-rockchip@lists.infradead.org,
+        ezequiel@collabora.com, christoph.muellner@theobroma-systems.com,
+        tfiga@chromium.org,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Subject: Re: [PATCH v4 2/3] media: rockchip: rkisp1: carry ip version
+ information
+Message-ID: <YAHwMb4DD0eRoeg3@pendragon.ideasonboard.com>
+References: <20210115163829.217131-1-heiko@sntech.de>
+ <20210115163829.217131-3-heiko@sntech.de>
 MIME-Version: 1.0
-In-Reply-To: <20210108171728.39434-1-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20210115163829.217131-3-heiko@sntech.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Hi Heiko,
 
-On 08/01/2021 17:17, Ezequiel Garcia wrote:
-> Custom/driver-specific v4l2-async match support was introduced
-> in 2013, as V4L2_ASYNC_BUS_CUSTOM.
+Thank you for the patch.
+
+On Fri, Jan 15, 2021 at 05:38:28PM +0100, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > 
-> This type of match never had any user, so it's fair
-> to conclude it's not required and that safe for removal.
-> If the support is ever needed, it can always be restored.
+> The IP block evolved from its rk3288/rk3399 base and the vendor
+> designates them with a numerical version. rk3399 for example
+> is designated V10 probably meaning V1.0.
 > 
+> There doesn't seem to be an actual version register we could read that
+> information from, so allow the match_data to carry that information
+> for future differentiation.
+> 
+> Also carry that information in the hw_revision field of the media-
+> controller API, so that userspace also has access to that.
+> 
+> The added versions are:
+> - V10: at least rk3288 + rk3399
+> - V11: seemingly unused as of now, but probably appeared in some soc
+> - V12: at least rk3326 + px30
+> - V13: at least rk1808
 
-Simplify v4l2-async? Yes please!
+In addition to changes to the ISP itself, are there changes in how it is
+integrated in the system, in particular in how it is connected to CSI-2
+receivers ? Do all the above SoCs have two ISP instances ?
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 > ---
->  drivers/media/v4l2-core/v4l2-async.c | 14 --------------
->  include/media/v4l2-async.h           | 17 -----------------
->  2 files changed, 31 deletions(-)
+>  Documentation/admin-guide/media/rkisp1.rst    | 16 ++++++++++++++
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++++++++++--------
+>  include/uapi/linux/rkisp1-config.h            | 16 ++++++++++++++
+>  3 files changed, 44 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index e3ab003a6c85..3faf1d12d49d 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -139,16 +139,6 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	return true;
->  }
+> diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
+> index 2267e4fb475e..ccf418713623 100644
+> --- a/Documentation/admin-guide/media/rkisp1.rst
+> +++ b/Documentation/admin-guide/media/rkisp1.rst
+> @@ -13,6 +13,22 @@ This file documents the driver for the Rockchip ISP1 that is part of RK3288
+>  and RK3399 SoCs. The driver is located under drivers/staging/media/rkisp1
+>  and uses the Media-Controller API.
 >  
-> -static bool match_custom(struct v4l2_async_notifier *notifier,
-> -			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> -{
-> -	if (!asd->match.custom.match)
-> -		/* Match always */
-> -		return true;
-> -
-> -	return asd->match.custom.match(sd->dev, asd);
-> -}
-> -
->  static LIST_HEAD(subdev_list);
->  static LIST_HEAD(notifier_list);
->  static DEFINE_MUTEX(list_lock);
-> @@ -164,9 +154,6 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
->  	list_for_each_entry(asd, &notifier->waiting, list) {
->  		/* bus_type has been verified valid before */
->  		switch (asd->match_type) {
-> -		case V4L2_ASYNC_MATCH_CUSTOM:
-> -			match = match_custom;
-> -			break;
->  		case V4L2_ASYNC_MATCH_DEVNAME:
->  			match = match_devname;
->  			break;
-> @@ -467,7 +454,6 @@ static int v4l2_async_notifier_asd_valid(struct v4l2_async_notifier *notifier,
->  		return -EINVAL;
+> +Revisions
+> +=========
+> +
+> +There exist multiple smaller revisions to this ISP that got introduced in
+> +later SoCs. Revisions can be found in the enum :c:type:`rkisp1_cif_isp_version`
+> +in the UAPI and the revision of the ISP inside the running SoC can be read
+> +in the field hw_revision of struct media_device_info as returned by
+> +ioctl MEDIA_IOC_DEVICE_INFO.
+> +
+> +Versions in use are:
+> +
+> +- RKISP1_V10: used at least in rk3288 and rk3399
+> +- RKISP1_V11: declared in the original vendor code, but not used
+> +- RKISP1_V12: used at least in rk3326 and px30
+> +- RKISP1_V13: used at least in rk1808
+> +
+>  Topology
+>  ========
+>  .. _rkisp1_topology_graph:
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 68da1eed753d..f7e9fd305548 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -104,6 +104,7 @@
+>  struct rkisp1_match_data {
+>  	const char * const *clks;
+>  	unsigned int size;
+> +	enum rkisp1_cif_isp_version isp_ver;
+>  };
 >  
->  	switch (asd->match_type) {
-> -	case V4L2_ASYNC_MATCH_CUSTOM:
->  	case V4L2_ASYNC_MATCH_DEVNAME:
->  	case V4L2_ASYNC_MATCH_I2C:
->  	case V4L2_ASYNC_MATCH_FWNODE:
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 0e04b5b2ebb0..8ed42188e7c9 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -21,8 +21,6 @@ struct v4l2_async_notifier;
->   * enum v4l2_async_match_type - type of asynchronous subdevice logic to be used
->   *	in order to identify a match
->   *
-> - * @V4L2_ASYNC_MATCH_CUSTOM: Match will use the logic provided by &struct
-> - *	v4l2_async_subdev.match ops
->   * @V4L2_ASYNC_MATCH_DEVNAME: Match will use the device name
->   * @V4L2_ASYNC_MATCH_I2C: Match will check for I2C adapter ID and address
->   * @V4L2_ASYNC_MATCH_FWNODE: Match will use firmware node
-> @@ -31,7 +29,6 @@ struct v4l2_async_notifier;
->   * algorithm that will be used to match an asynchronous device.
->   */
->  enum v4l2_async_match_type {
-> -	V4L2_ASYNC_MATCH_CUSTOM,
->  	V4L2_ASYNC_MATCH_DEVNAME,
->  	V4L2_ASYNC_MATCH_I2C,
->  	V4L2_ASYNC_MATCH_FWNODE,
-> @@ -58,15 +55,6 @@ enum v4l2_async_match_type {
->   * @match.i2c.address:
->   *		I2C address to be matched.
->   *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
-> - * @match.custom:
-> - *		Driver-specific match criteria.
-> - *		Used if @match_type is %V4L2_ASYNC_MATCH_CUSTOM.
-> - * @match.custom.match:
-> - *		Driver-specific match function to be used if
-> - *		%V4L2_ASYNC_MATCH_CUSTOM.
-> - * @match.custom.priv:
-> - *		Driver-specific private struct with match parameters
-> - *		to be used if %V4L2_ASYNC_MATCH_CUSTOM.
->   * @asd_list:	used to add struct v4l2_async_subdev objects to the
->   *		master notifier @asd_list
->   * @list:	used to link struct v4l2_async_subdev objects, waiting to be
-> @@ -85,11 +73,6 @@ struct v4l2_async_subdev {
->  			int adapter_id;
->  			unsigned short address;
->  		} i2c;
-> -		struct {
-> -			bool (*match)(struct device *dev,
-> -				      struct v4l2_async_subdev *sd);
-> -			void *priv;
-> -		} custom;
->  	} match;
+>  /* ----------------------------------------------------------------------------
+> @@ -411,15 +412,16 @@ static const char * const rk3399_isp_clks[] = {
+>  	"hclk",
+>  };
 >  
->  	/* v4l2-async core private: not to be used by drivers */
-> 
+> -static const struct rkisp1_match_data rk3399_isp_clk_data = {
+> +static const struct rkisp1_match_data rk3399_isp_match_data = {
+>  	.clks = rk3399_isp_clks,
+>  	.size = ARRAY_SIZE(rk3399_isp_clks),
+> +	.isp_ver = RKISP1_V10,
+>  };
+>  
+>  static const struct of_device_id rkisp1_of_match[] = {
+>  	{
+>  		.compatible = "rockchip,rk3399-cif-isp",
+> -		.data = &rk3399_isp_clk_data,
+> +		.data = &rk3399_isp_match_data,
+>  	},
+>  	{},
+>  };
+> @@ -457,15 +459,15 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  
+>  static int rkisp1_probe(struct platform_device *pdev)
+>  {
+> -	const struct rkisp1_match_data *clk_data;
+> +	const struct rkisp1_match_data *match_data;
+>  	struct device *dev = &pdev->dev;
+>  	struct rkisp1_device *rkisp1;
+>  	struct v4l2_device *v4l2_dev;
+>  	unsigned int i;
+>  	int ret, irq;
+>  
+> -	clk_data = of_device_get_match_data(&pdev->dev);
+> -	if (!clk_data)
+> +	match_data = of_device_get_match_data(&pdev->dev);
+> +	if (!match_data)
+>  		return -ENODEV;
+>  
+>  	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
+> @@ -494,15 +496,16 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  
+>  	rkisp1->irq = irq;
+>  
+> -	for (i = 0; i < clk_data->size; i++)
+> -		rkisp1->clks[i].id = clk_data->clks[i];
+> -	ret = devm_clk_bulk_get(dev, clk_data->size, rkisp1->clks);
+> +	for (i = 0; i < match_data->size; i++)
+> +		rkisp1->clks[i].id = match_data->clks[i];
+> +	ret = devm_clk_bulk_get(dev, match_data->size, rkisp1->clks);
+>  	if (ret)
+>  		return ret;
+> -	rkisp1->clk_size = clk_data->size;
+> +	rkisp1->clk_size = match_data->size;
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> +	rkisp1->media_dev.hw_revision = match_data->isp_ver;
+>  	strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
+>  		sizeof(rkisp1->media_dev.model));
+>  	rkisp1->media_dev.dev = &pdev->dev;
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index ba443771cc0b..9fecb6bc457d 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -124,6 +124,22 @@
+>  #define RKISP1_CIF_ISP_STAT_AFM           (1U << 2)
+>  #define RKISP1_CIF_ISP_STAT_HIST          (1U << 3)
+>  
+> +
+> +/**
+> + * enum rkisp1_cif_isp_version - ISP variants
+> + *
+> + * @RKISP1_V10: used at least in rk3288 and rk3399
+> + * @RKISP1_V11: declared in the original vendor code, but not used
+> + * @RKISP1_V12: used at least in rk3326 and px30
+> + * @RKISP1_V13: used at least in rk1808
+> + */
+> +enum rkisp1_cif_isp_version {
+> +	RKISP1_V10 = 0,
+> +	RKISP1_V11,
+> +	RKISP1_V12,
+> +	RKISP1_V13,
+> +};
+> +
+>  enum rkisp1_cif_isp_histogram_mode {
+>  	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
+>  	RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED,
 
+-- 
+Regards,
+
+Laurent Pinchart
