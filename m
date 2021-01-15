@@ -2,126 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EBDB2F6F59
-	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 01:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6A632F6F5E
+	for <lists+linux-media@lfdr.de>; Fri, 15 Jan 2021 01:19:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731209AbhAOAPp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Jan 2021 19:15:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50246 "EHLO
+        id S1731222AbhAOASY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Jan 2021 19:18:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731125AbhAOAPo (ORCPT
+        with ESMTP id S1731141AbhAOASX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Jan 2021 19:15:44 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B65C061575
-        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 16:15:04 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id o10so10617392lfl.13
-        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 16:15:04 -0800 (PST)
+        Thu, 14 Jan 2021 19:18:23 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55EEDC0613CF
+        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 16:17:42 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id x23so8507147lji.7
+        for <linux-media@vger.kernel.org>; Thu, 14 Jan 2021 16:17:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=mdsFIq2D73zGIah6I3SrS/jyNjPgsLZQ5ZmI9l2orJQ=;
-        b=G+hcKYBg5O8dL+nv8dmkA/Hvqh2wexj0/DPvs26YZmOR5nMk7eoXaKCDhmXFRlmpCS
-         mUQRC0G5rG0ySupUx0wGYtZ2tUVigdTLPPkFVu8ixqd9VkTalQwp8sn7OgGQ19qdsoX1
-         yiO79ECk2Kvp0spfCYH8r6t5v/FNQ3l5XuvHMXmHDIQjbZ1qEZ+1a3EdwZFKO2TrpB8K
-         49/4LTHPzKwpxV6z6Hk9wia8Z76bKjT1n2GLwDrs8RagSZ0ZyaIbSCXfdkH+/g01NKDA
-         e7GJDhFXHkyJv3U3laf8Fy9DKRRi6Ju/2fghqfXkOUXLFzcitcGUgTq8RD0DiFN2iZC/
-         hP0w==
+        bh=zNdVcJbI3nrainJFJjKo/yaSKIhwyi9P0RDcbwv1LE4=;
+        b=n1Ju8+dUeF0gCezXRo2f7sNgL0uiXqtXtFLDS7M2qq8QYfPDtdIB8+65orYU+AEPPb
+         jw20dDC8l1PIEUSHVDNQFEKaZ9xsC4sgGp93JqYJ4JnJBXdLflA/2MJmU4RiXsBAhyXC
+         pX0My7lH8j8brD9IyFImSJaHGym8MhfEfDp1BvXT6Myf590Rt+1juuMMgLQjzQBnoukL
+         sDoLCoaSUglN7Eot5WNvcK/fv/tE+33ccvMcaKyIz1hmo0btyDNDJIhezauRBy792qPL
+         P0AIduTpVk1XCxKJ8w0r2lhLmfTTYo+1KOYJhSIxFh/aT92qEHVKv/yknZQzDzfP2Mi5
+         fINQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=mdsFIq2D73zGIah6I3SrS/jyNjPgsLZQ5ZmI9l2orJQ=;
-        b=DA85dg8Dk20qt2bNRbEYcRNN2ZH9lVRZr37B6wmexAPfMz4cYmv6I73GuUk924jh2q
-         7Hf63ws8GE7aXbnF7o+kkOAF/6r5jYS4z6JENDEUySOgzhPV6KQt6xbPl0NOLNNCD3ek
-         LIxwgzjTEFtRkk2lv5esUB6iKdnTXYf9HGDAYH2ryuVX0na68ONh6dEgS0S2Hf4EeCp5
-         OQBJ/dkx8pJ4VgDhcKKCvYWcHtNJsAL7BdVdSQYM3b7qXa4BJTx9sMQO8ipWhjkAS03P
-         CEDkJb/+XB/FJLZuQ+atJNcnXlHV4oghBL/EJxum/pPJq/ToGNOIdtouWN9wHHXXJwrP
-         Cx4w==
-X-Gm-Message-State: AOAM533tkBbF51JAGm1tEOXpoMK6XIr7pnSSgx3HOkkb8ElJJC1ph53M
-        aD8OCG84RmOoqa+St4+FRSn3aG+Lq6W+SxSg
-X-Google-Smtp-Source: ABdhPJyyKDsI4zY9nNgr8OWNfiWmfwdvVnHP8NP8/xQCPi10ioiAYfOuROMylugOFmPStFfeN55R8Q==
-X-Received: by 2002:a05:6512:3305:: with SMTP id k5mr4266273lfe.35.1610669702895;
-        Thu, 14 Jan 2021 16:15:02 -0800 (PST)
+        bh=zNdVcJbI3nrainJFJjKo/yaSKIhwyi9P0RDcbwv1LE4=;
+        b=ZR+OxsUUZC+iWxDfe5hdvW9uA/OCDsmUYXoCsEo9LXGNJVDZlp0c/O/8XI7UX+zUH1
+         04m+80OprBBe/5YaLAte9lDUWDBpi97AZ3vpgxxF/b7D3FDWBWa5+tMyPiE1Xu7zb0Yl
+         k/5nugvgjSNKtFl37TfWS5PT1ZKK4wbKRWfAkXTlHs7otulFUJ5V1a0rGJh9hOCZdyxk
+         g6eXeLazcgmvMkAXBlHCeo8oUkNqkTy6O5YR46bJB0xybPu8svjSiv0wOfJzBNfZbc45
+         lBTEn06p0RT+jKEjJEt0MRTjQSMm2N3LAfazoe7pxAC0MenebVdpP6Wd1Famt4kZ3ouh
+         ZViQ==
+X-Gm-Message-State: AOAM530KvsPMYcKfePTctCpXiY0hyzTTyiqDehl0jgt/nCcscwWkD0jz
+        p4cYIw2AyL3PvqQLrhGoSp+7DhjyykGUkwyy
+X-Google-Smtp-Source: ABdhPJzcBijF9H92I4Y8piBd/MZlN5nuqyjfsIrkZUAbUWoqExWt8llqOni4iSTVIkD9lGjlZa1uBw==
+X-Received: by 2002:a05:651c:283:: with SMTP id b3mr4241624ljo.345.1610669860865;
+        Thu, 14 Jan 2021 16:17:40 -0800 (PST)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id w25sm702177lfk.237.2021.01.14.16.15.01
+        by smtp.gmail.com with ESMTPSA id n15sm618032ljm.59.2021.01.14.16.17.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jan 2021 16:15:02 -0800 (PST)
-Date:   Fri, 15 Jan 2021 01:15:01 +0100
+        Thu, 14 Jan 2021 16:17:40 -0800 (PST)
+Date:   Fri, 15 Jan 2021 01:17:39 +0100
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/4] rcar-vin: Do not try to stop stream if not running
-Message-ID: <YADehaOvwN0dCrtR@oden.dyn.berto.se>
+Subject: Re: [PATCH 3/4] rcar-vin: Stop stream when subdevice signal EOS
+Message-ID: <YADfI6uJBmPiEiAr@oden.dyn.berto.se>
 References: <20201112225147.1672622-1-niklas.soderlund+renesas@ragnatech.se>
- <20201112225147.1672622-2-niklas.soderlund+renesas@ragnatech.se>
- <20201116162838.opj7nfpvmfvup6cq@uno.localdomain>
+ <20201112225147.1672622-4-niklas.soderlund+renesas@ragnatech.se>
+ <20201116165814.keyj2gydiodphiss@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201116162838.opj7nfpvmfvup6cq@uno.localdomain>
+In-Reply-To: <20201116165814.keyj2gydiodphiss@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-Thanks for your feedback.
+Thanks for your comments.
 
-On 2020-11-16 17:28:38 +0100, Jacopo Mondi wrote:
+On 2020-11-16 17:58:14 +0100, Jacopo Mondi wrote:
 > Hi Niklas,
 > 
-> On Thu, Nov 12, 2020 at 11:51:44PM +0100, Niklas Söderlund wrote:
-> > Do not attempt to stop the streaming if the stream is not running.
+> On Thu, Nov 12, 2020 at 11:51:46PM +0100, Niklas Söderlund wrote:
+> > When a subdevice signals end of stream stop the VIN in addition to
+> > informing user-space of the event.
 > >
 > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > > ---
-> >  drivers/media/platform/rcar-vin/rcar-dma.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
+> >  drivers/media/platform/rcar-vin/rcar-v4l2.c | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > index 5a5f0e5007478c8d..eae25972ed7df2b6 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > @@ -1302,6 +1302,11 @@ void rvin_stop_streaming(struct rvin_dev *vin)
-> >
-> >  	spin_lock_irqsave(&vin->qlock, flags);
-> >
-> > +	if (vin->state == STOPPED) {
-> > +		spin_unlock_irqrestore(&vin->qlock, flags);
-> > +		return;
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > index dca3ab1656a66cef..fcaf68c3428b80fd 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > @@ -969,9 +969,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
+> >  static void rvin_notify_video_device(struct rvin_dev *vin,
+> >  				     unsigned int notification, void *arg)
+> >  {
+> > +	const struct v4l2_event *event;
+> > +
 > 
-> Do I read it right that, in case a double stop is attempted, returning
-> here is not enough as the caller:
-> 
-> {
-> 	rvin_stop_streaming(vin);
-> 
-> 	/* Free scratch buffer. */
-> 	dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-> 			  vin->scratch_phys);
-> 
-> 	return_unused_buffers(vin, VB2_BUF_STATE_ERROR);
-> }
-> 
-> Are the potential double call to dma_free_coherent and the buffer
-> return procedure harmless ?
+> Can this go inside the switch ?
 
-Yes.
+It could but I dislike creating 'case FOO: { }' blocks as I think they 
+are hard to read and un C like ;-P
+
+> 
+> >  	switch (notification) {
+> >  	case V4L2_DEVICE_NOTIFY_EVENT:
+> > -		v4l2_event_queue(&vin->vdev, arg);
+> > +		event = arg;
+> > +
+> > +		switch (event->type) {
+> > +		case V4L2_EVENT_EOS:
+> 
+> As there's only a case where this happen, this could be an if, but I
+> see a switch is consistent with the existing one. Up to you.
+
+I been bitten by this in the past so now days I go straight for the 
+switch() construct :-)
+
+> 
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks!
 
 > 
 > Thanks
 >    j
 > 
-> > +	}
+> > +			rvin_stop_streaming(vin);
+> > +			v4l2_info(&vin->v4l2_dev,
+> > +				  "Subdevice signaled end of stream, stopping.\n");
+> > +			break;
+> > +		default:
+> > +			break;
+> > +		}
 > > +
-> >  	vin->state = STOPPING;
-> >
-> >  	/* Wait until only scratch buffer is used, max 3 interrupts. */
+> > +		v4l2_event_queue(&vin->vdev, event);
+> >  		break;
+> >  	default:
+> >  		break;
 > > --
 > > 2.29.2
 > >
