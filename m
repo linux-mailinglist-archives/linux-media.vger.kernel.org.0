@@ -2,180 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AAC72F8B4D
-	for <lists+linux-media@lfdr.de>; Sat, 16 Jan 2021 05:42:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 524702F8C60
+	for <lists+linux-media@lfdr.de>; Sat, 16 Jan 2021 10:07:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725854AbhAPEmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Jan 2021 23:42:07 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:57935 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725797AbhAPEmG (ORCPT
+        id S1726125AbhAPJGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Jan 2021 04:06:30 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:46468 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726114AbhAPJGY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Jan 2021 23:42:06 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 0dOtlnYtLqqWw0dOulwtn6; Sat, 16 Jan 2021 05:41:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610772084; bh=G0EHpfhfBVdJIcVBvaYzeUZnqs1HPIMIiVHC398S6rc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=GmW3iEhwmA3x7IbSBJIyJfSCKSv39LjhFzJu/xvGC/l+kbrCWRxWk2UqYoD2IOmid
-         9HmdjQEEZtgBcN0IuP6uScQNzJLhP3vhrJfmpYbGUEFRr4NIN99xzyTPDYhiL4xBgz
-         JOpTBsQlgJFXKVevaoja8fJvYTvB5o9GuIKGoilyDDU9owiJNK7CwqJ5nym9omgb6L
-         FTWAvJSAZoW67I3TkIVPjbX8yOFU08p5F1YYdf4ynNYQsswfg7rCI94+f6v3boIBKk
-         ZKhgPx4w7hk/F+yG15Vwl1dKNIwBTFbtu/PdnRLgD9RY+nZRRtwOx/W/woIRQISeXY
-         4k5SQXAJepmqA==
-Message-ID: <dfc91ecbc6b7239fed6e2aa7e71cdabd@smtp-cloud9.xs4all.net>
-Date:   Sat, 16 Jan 2021 05:41:23 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfPtxwLspUrooqdLZ0qVNUWzGz9NDx21YEcNWSjgHpcl4SE000sKAiIynsqnOQ/DGrPJ8N2p0m6etTrRERmh2GJa69ike9Tt6IavotrRIB1mjYho/zjbw
- HqBr5OYnm7VZiSZCaY26Dp85mdcytO5Zw/MQ4NPcKagJvBLciG1BmtM8SnW3mMNVSM2b1Ev3zSxO1E8NYvMqsIn5D5j9lPpvhmFtBNiOqsXaU+FufP9fbEHw
- BKCjjhAky38LrgYljMNFMw==
+        Sat, 16 Jan 2021 04:06:24 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 637CE1F460B4
+Subject: Re: [PATCH v4 3/3] media: rockchip: rkisp1: extend uapi array sizes
+To:     =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+        helen.koike@collabora.com, linux-media@vger.kernel.org,
+        mchehab@kernel.org, Laurent.pinchart@ideasonboard.com,
+        hverkuil@xs4all.nl
+Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
+        christoph.muellner@theobroma-systems.com, tfiga@chromium.org
+References: <20210115163829.217131-1-heiko@sntech.de>
+ <20210115163829.217131-4-heiko@sntech.de>
+ <6a1a7cb2-7c37-6cbc-43e7-45e5b0b80e21@collabora.com>
+ <1739328.QCnGb9OGeP@diego>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <06d42f41-d570-7327-daca-40a52978d4f9@collabora.com>
+Date:   Sat, 16 Jan 2021 10:05:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <1739328.QCnGb9OGeP@diego>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Sat Jan 16 05:00:12 CET 2021
-media-tree git hash:	321af22a3d2f6ed1fb1737c8588c01f6fec8a7b8
-media_build git hash:	f6e3542673d19355e8e42be40f5fc78431d611c5
-v4l-utils git hash:	39374ef223e490c4fee4827146011e839ffaeae2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7065-gbe18f90f0
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 01932d8c0f1bcf9780263707cc9aa0af06014d36
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Am 16.01.21 um 00:52 schrieb Heiko Stübner:
+> Hi Dafna,
+> 
+> Am Freitag, 15. Januar 2021, 18:41:06 CET schrieb Dafna Hirschfeld:
+>>
+>> Am 15.01.21 um 17:38 schrieb Heiko Stuebner:
+>>> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+>>>
+>>> Later variants of the rkisp1 block use more entries in some arrays:
+>>>
+>>> RKISP1_CIF_ISP_AE_MEAN_MAX                 25 -> 81
+>>> RKISP1_CIF_ISP_HIST_BIN_N_MAX              16 -> 32
+>>> RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17 -> 34
+>>> RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28 -> 81
+>>
+>> I see you didn't change the value for that define.
+> 
+> In the below patch I find
+> 
+> @@ -103,7 +111,9 @@
+> * Histogram calculation
+> */
+> /* Last 3 values unused. */
+> -#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28
+> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10 28
+> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12 81
+> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE     RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
+> 
+> so I'm not sure I understand what you mean except this.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.1-i686: OK
-linux-5.10.1-x86_64: OK
-linux-5.11-rc1-i686: OK
-linux-5.11-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: ERRORS
+Opps, I somehow missed that.
+But now since we have 81 entries, it makes no sense to
+define it to 28 for V10 and documenting "Last 3 values unused" (see just above the definition).
+We can set it just to 25, we have 56 (81-25) unused values anyway.
 
-Detailed results are available here:
+> 
+>> The usage of it is a bit more complicated.
+>> It is used in function rkisp1_hst_config.
+> 
+> Yeah, though the for-loop iterates over 4*7 entry values, so stays
+> below the RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10 in all cases.
+> 
+> 
+>> Actually the real number of weight values are 25 (5x5) for rk3399,
+>> the last 3 are not used. I think that in order to support both
+>> 5x5 and 9x9 the code in rkisp1-params.c should change. I'll
+>> send a patch fixing it.
+> 
+> If you look at my V12-patch [0] the weight handling is done different there
+> and from the registers, it looks like they exchanges that part of the isp.
+> 
+> [0] https://lore.kernel.org/linux-media/20210108193311.3423236-11-heiko@sntech.de/
+> void rkisp1_hst_config_v12() as a search term
+> 
+> [...]
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+Right, there is no need to change the relevant code in rkisp1-param.c when setting the
+RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE to 25.
 
-Detailed regression test results are available here:
+Thanks,
+Dafna
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> 
+>>> @@ -862,8 +898,16 @@ struct rkisp1_cif_isp_af_stat {
+>>>     *
+>>>     * @hist_bins: measured bin counters
+>>>     *
+>>> - * Measurement window divided into 16 sub-windows, set
+>>> - * with ISP_HIST_XXX
+>>> + * Measurement window divided into 16 sub-windows for V10/V10
+>>> + * and 32 sub-windows for V12/V13, set with ISP_HIST_XXX
+>>
+>> It is actually not windows but histogram bins. Could you change it to:
+>> "The histogram values divided into 16 bins for V10/V11 and 32 bins
+>> for V12/V13. It is configured within the struct rkisp1_cif_isp_hst_config.
+> 
+> I've changed this like your suggestions and will give a bit of time for
+> the stuff above. But I guess I can send a v5 some time tomorrow?
+> 
+> 
+> Thanks for your input
+> Heiko
+> 
+> 
