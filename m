@@ -2,879 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DC192F9116
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 07:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 965632F9189
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 10:17:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbhAQGeb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jan 2021 01:34:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40428 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbhAQGeJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jan 2021 01:34:09 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D08C061573;
-        Sat, 16 Jan 2021 22:33:28 -0800 (PST)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79481BAC;
-        Sun, 17 Jan 2021 07:33:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610865204;
-        bh=GHZQZb72/R6GGrhH47VkM+h3bVR4hrWbjyFtd+zG4Sk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nrrCfc5PtFSrShzNdwtBWSwU1WFZgSoBh77V7QhkyZjgoZJbU8csbEN4A4v8WWOE5
-         Hjs3TWK5Yu74hr7Hdb5DPSObfXcpyQ2fegh4u2G4LvRnKzp61DAqFAvZVnYSvwZM03
-         8Xqgt2tmOeiILeHc4/ibHWML/SZN7rptGln+avhc=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2] media: v4l2-async: Improve v4l2_async_notifier_add_*_subdev() API
-Date:   Sun, 17 Jan 2021 08:33:04 +0200
-Message-Id: <20210117063304.1650-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.28.0
+        id S1727663AbhAQJRA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jan 2021 04:17:00 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:42166 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726209AbhAQJQj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 17 Jan 2021 04:16:39 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l14A6-001FVi-Ia; Sun, 17 Jan 2021 09:15:54 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l14DY-00055z-Lu; Sun, 17 Jan 2021 09:19:28 +0000
+Date:   Sun, 17 Jan 2021 09:19:28 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <769467644.49.1610875168670@builder.linuxtv.org>
+In-Reply-To: <1116375698.48.1610788769154@builder.linuxtv.org>
+References: <1116375698.48.1610788769154@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3364
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The functions that add an async subdev to an async subdev notifier take
-as an argument the size of the container structure they need to
-allocate. This is error prone, as passing an invalid size will not be
-caught by the compiler. Wrap those functions in macros that take a
-container type instead of a size, and cast the returned pointer to the
-desired type. The compiler will catch mistakes if the incorrect type is
-passed to the macro, as the assignment types won't match.
+See <https://builder.linuxtv.org/job/media-build/3364/display/redirect>
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
-Changes since v1:
+Changes:
 
-- Fix variable name and type in renesas_ceu and ti-cal
----
- drivers/media/i2c/max9286.c                   |  2 +-
- drivers/media/i2c/st-mipid02.c                |  2 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 10 ++---
- drivers/media/platform/am437x/am437x-vpfe.c   |  2 +-
- drivers/media/platform/atmel/atmel-isi.c      |  2 +-
- .../media/platform/atmel/atmel-sama5d2-isc.c  |  2 +-
- drivers/media/platform/cadence/cdns-csi2rx.c  |  3 +-
- drivers/media/platform/davinci/vpif_capture.c |  2 +-
- drivers/media/platform/exynos4-is/media-dev.c |  3 +-
- .../media/platform/marvell-ccic/cafe-driver.c |  2 +-
- .../media/platform/marvell-ccic/mmp-driver.c  |  4 +-
- drivers/media/platform/omap3isp/isp.c         | 16 +++-----
- drivers/media/platform/pxa_camera.c           |  4 +-
- drivers/media/platform/qcom/camss/camss.c     | 11 ++----
- drivers/media/platform/rcar-vin/rcar-core.c   |  5 ++-
- drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
- drivers/media/platform/rcar_drif.c            |  2 +-
- drivers/media/platform/renesas-ceu.c          | 20 ++++------
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 10 ++---
- drivers/media/platform/stm32/stm32-dcmi.c     |  3 +-
- .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  4 +-
- drivers/media/platform/ti-vpe/cal.c           | 12 +++---
- drivers/media/platform/video-mux.c            |  2 +-
- drivers/media/platform/xilinx/xilinx-vipp.c   | 10 ++---
- drivers/media/v4l2-core/v4l2-async.c          | 38 +++++++++----------
- drivers/media/v4l2-core/v4l2-fwnode.c         |  4 +-
- drivers/staging/media/imx/imx-media-csi.c     |  2 +-
- drivers/staging/media/imx/imx-media-of.c      |  2 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c    |  2 +-
- drivers/staging/media/imx/imx7-media-csi.c    |  2 +-
- drivers/staging/media/imx/imx7-mipi-csis.c    |  2 +-
- drivers/staging/media/tegra-video/vi.c        | 10 ++---
- include/media/v4l2-async.h                    | 36 ++++++++++++------
- 33 files changed, 116 insertions(+), 117 deletions(-)
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index c82c1493e099..c31858548d34 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -580,7 +580,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
- 
- 		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
- 							    source->fwnode,
--							    sizeof(*asd));
-+							    struct v4l2_async_subdev);
- 		if (IS_ERR(asd)) {
- 			dev_err(dev, "Failed to add subdev for source %u: %ld",
- 				i, PTR_ERR(asd));
-diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-index 9e04ff02257c..bd0aff878159 100644
---- a/drivers/media/i2c/st-mipid02.c
-+++ b/drivers/media/i2c/st-mipid02.c
-@@ -879,7 +879,7 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
- 					&bridge->notifier,
- 					of_fwnode_handle(ep_node),
--					sizeof(*asd));
-+					struct v4l2_async_subdev);
- 	of_node_put(ep_node);
- 
- 	if (IS_ERR(asd)) {
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 78b1109d0693..99112c47e686 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -1468,7 +1468,6 @@ static int cio2_parse_firmware(struct cio2_device *cio2)
- 			.bus_type = V4L2_MBUS_CSI2_DPHY
- 		};
- 		struct sensor_async_subdev *s_asd;
--		struct v4l2_async_subdev *asd;
- 		struct fwnode_handle *ep;
- 
- 		ep = fwnode_graph_get_endpoint_by_id(
-@@ -1482,14 +1481,13 @@ static int cio2_parse_firmware(struct cio2_device *cio2)
- 		if (ret)
- 			goto err_parse;
- 
--		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--				&cio2->notifier, ep, sizeof(*s_asd));
--		if (IS_ERR(asd)) {
--			ret = PTR_ERR(asd);
-+		s_asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+				&cio2->notifier, ep, struct sensor_async_subdev);
-+		if (IS_ERR(s_asd)) {
-+			ret = PTR_ERR(s_asd);
- 			goto err_parse;
- 		}
- 
--		s_asd = container_of(asd, struct sensor_async_subdev, asd);
- 		s_asd->csi2.port = vep.base.port;
- 		s_asd->csi2.lanes = vep.bus.mipi_csi2.num_data_lanes;
- 
-diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
-index 0fb9f9ba1219..6cdc77dda0e4 100644
---- a/drivers/media/platform/am437x/am437x-vpfe.c
-+++ b/drivers/media/platform/am437x/am437x-vpfe.c
-@@ -2365,7 +2365,7 @@ vpfe_get_pdata(struct vpfe_device *vpfe)
- 
- 		pdata->asd[i] = v4l2_async_notifier_add_fwnode_subdev(
- 			&vpfe->notifier, of_fwnode_handle(rem),
--			sizeof(struct v4l2_async_subdev));
-+			struct v4l2_async_subdev);
- 		of_node_put(rem);
- 		if (IS_ERR(pdata->asd[i]))
- 			goto cleanup;
-diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
-index c1a6dd7af002..0514be6153df 100644
---- a/drivers/media/platform/atmel/atmel-isi.c
-+++ b/drivers/media/platform/atmel/atmel-isi.c
-@@ -1150,7 +1150,7 @@ static int isi_graph_init(struct atmel_isi *isi)
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
- 						&isi->notifier,
- 						of_fwnode_handle(ep),
--						sizeof(*asd));
-+						struct v4l2_async_subdev);
- 	of_node_put(ep);
- 
- 	if (IS_ERR(asd))
-diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-index 9ee2cd194f93..0b78fecfd2a8 100644
---- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-+++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-@@ -214,7 +214,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
- 					&subdev_entity->notifier,
- 					of_fwnode_handle(subdev_entity->epn),
--					sizeof(*asd));
-+					struct v4l2_async_subdev);
- 
- 		of_node_put(subdev_entity->epn);
- 		subdev_entity->epn = NULL;
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index 7d299cacef8c..c68a3eac62cd 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -398,7 +398,8 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
- 	v4l2_async_notifier_init(&csi2rx->notifier);
- 
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi2rx->notifier,
--							   fwh, sizeof(*asd));
-+							   fwh,
-+							   struct v4l2_async_subdev);
- 	of_node_put(ep);
- 	if (IS_ERR(asd))
- 		return PTR_ERR(asd);
-diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-index 72a0e94e2e21..8d2e165bf7de 100644
---- a/drivers/media/platform/davinci/vpif_capture.c
-+++ b/drivers/media/platform/davinci/vpif_capture.c
-@@ -1584,7 +1584,7 @@ vpif_capture_get_pdata(struct platform_device *pdev)
- 
- 		pdata->asd[i] = v4l2_async_notifier_add_fwnode_subdev(
- 			&vpif_obj.notifier, of_fwnode_handle(rem),
--			sizeof(struct v4l2_async_subdev));
-+			struct v4l2_async_subdev);
- 		if (IS_ERR(pdata->asd[i]))
- 			goto err_cleanup;
- 
-diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-index 196166a9a4e5..b8a99da39f76 100644
---- a/drivers/media/platform/exynos4-is/media-dev.c
-+++ b/drivers/media/platform/exynos4-is/media-dev.c
-@@ -462,7 +462,8 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
- 		return -EINVAL;
- 
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--		&fmd->subdev_notifier, of_fwnode_handle(ep), sizeof(*asd));
-+		&fmd->subdev_notifier, of_fwnode_handle(ep),
-+		struct v4l2_async_subdev);
- 
- 	of_node_put(ep);
- 
-diff --git a/drivers/media/platform/marvell-ccic/cafe-driver.c b/drivers/media/platform/marvell-ccic/cafe-driver.c
-index 91d65f71be96..9c94a8b58b7c 100644
---- a/drivers/media/platform/marvell-ccic/cafe-driver.c
-+++ b/drivers/media/platform/marvell-ccic/cafe-driver.c
-@@ -552,7 +552,7 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- 	asd = v4l2_async_notifier_add_i2c_subdev(&mcam->notifier,
- 					i2c_adapter_id(cam->i2c_adapter),
- 					ov7670_info.addr,
--					sizeof(*asd));
-+					struct v4l2_async_subdev);
- 	if (IS_ERR(asd)) {
- 		ret = PTR_ERR(asd);
- 		goto out_smbus_shutdown;
-diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
-index 40d9fc4a731a..f2f09cea751d 100644
---- a/drivers/media/platform/marvell-ccic/mmp-driver.c
-+++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
-@@ -241,8 +241,8 @@ static int mmpcam_probe(struct platform_device *pdev)
- 
- 	v4l2_async_notifier_init(&mcam->notifier);
- 
--	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&mcam->notifier,
--							   ep, sizeof(*asd));
-+	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&mcam->notifier, ep,
-+							   struct v4l2_async_subdev);
- 	fwnode_handle_put(ep);
- 	if (IS_ERR(asd)) {
- 		ret = PTR_ERR(asd);
-diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
-index 51c35f42773f..a6bb7d9bf75f 100644
---- a/drivers/media/platform/omap3isp/isp.c
-+++ b/drivers/media/platform/omap3isp/isp.c
-@@ -2141,7 +2141,6 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
- {
- 	struct fwnode_handle *ep;
- 	struct isp_async_subdev *isd = NULL;
--	struct v4l2_async_subdev *asd;
- 	unsigned int i;
- 
- 	ep = fwnode_graph_get_endpoint_by_id(
-@@ -2159,12 +2158,10 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
- 		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
- 
- 		if (!ret) {
--			asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--				&isp->notifier, ep, sizeof(*isd));
--			if (!IS_ERR(asd)) {
--				isd = container_of(asd, struct isp_async_subdev, asd);
-+			isd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+				&isp->notifier, ep, struct isp_async_subdev);
-+			if (!IS_ERR(isd))
- 				isp_parse_of_parallel_endpoint(isp->dev, &vep, &isd->bus);
--			}
- 		}
- 
- 		fwnode_handle_put(ep);
-@@ -2200,11 +2197,10 @@ static int isp_parse_of_endpoints(struct isp_device *isp)
- 		}
- 
- 		if (!ret) {
--			asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--				&isp->notifier, ep, sizeof(*isd));
-+			isd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+				&isp->notifier, ep, struct isp_async_subdev);
- 
--			if (!IS_ERR(asd)) {
--				isd = container_of(asd, struct isp_async_subdev, asd);
-+			if (!IS_ERR(isd)) {
- 				switch (vep.bus_type) {
- 				case V4L2_MBUS_CSI2_DPHY:
- 					isd->bus.interface =
-diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
-index d4b2cde7eb2b..2c3556677d7e 100644
---- a/drivers/media/platform/pxa_camera.c
-+++ b/drivers/media/platform/pxa_camera.c
-@@ -2256,7 +2256,7 @@ static int pxa_camera_pdata_from_dt(struct device *dev,
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
- 				&pcdev->notifier,
- 				of_fwnode_handle(np),
--				sizeof(*asd));
-+				struct v4l2_async_subdev);
- 	if (IS_ERR(asd))
- 		err = PTR_ERR(asd);
- out:
-@@ -2306,7 +2306,7 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 				&pcdev->notifier,
- 				pcdev->pdata->sensor_i2c_adapter_id,
- 				pcdev->pdata->sensor_i2c_address,
--				sizeof(*asd));
-+				struct v4l2_async_subdev);
- 		if (IS_ERR(asd))
- 			err = PTR_ERR(asd);
- 	} else if (pdev->dev.of_node) {
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 8fefce57bc49..7c0f669f8aa6 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -655,7 +655,6 @@ static int camss_of_parse_ports(struct camss *camss)
- 
- 	for_each_endpoint_of_node(dev->of_node, node) {
- 		struct camss_async_subdev *csd;
--		struct v4l2_async_subdev *asd;
- 
- 		if (!of_device_is_available(node))
- 			continue;
-@@ -667,17 +666,15 @@ static int camss_of_parse_ports(struct camss *camss)
- 			goto err_cleanup;
- 		}
- 
--		asd = v4l2_async_notifier_add_fwnode_subdev(
-+		csd = v4l2_async_notifier_add_fwnode_subdev(
- 			&camss->notifier, of_fwnode_handle(remote),
--			sizeof(*csd));
-+			struct camss_async_subdev);
- 		of_node_put(remote);
--		if (IS_ERR(asd)) {
--			ret = PTR_ERR(asd);
-+		if (IS_ERR(csd)) {
-+			ret = PTR_ERR(csd);
- 			goto err_cleanup;
- 		}
- 
--		csd = container_of(asd, struct camss_async_subdev, asd);
--
- 		ret = camss_of_parse_endpoint_node(dev, node, csd);
- 		if (ret < 0)
- 			goto err_cleanup;
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 98bff765b02e..a9cc09653110 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -642,7 +642,7 @@ static int rvin_parallel_parse_of(struct rvin_dev *vin)
- 	}
- 
- 	asd = v4l2_async_notifier_add_fwnode_subdev(&vin->notifier, fwnode,
--						    sizeof(*asd));
-+						    struct v4l2_async_subdev);
- 	if (IS_ERR(asd)) {
- 		ret = PTR_ERR(asd);
- 		goto out;
-@@ -842,7 +842,8 @@ static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
- 	}
- 
- 	asd = v4l2_async_notifier_add_fwnode_subdev(&vin->group->notifier,
--						    fwnode, sizeof(*asd));
-+						    fwnode,
-+						    struct v4l2_async_subdev);
- 	if (IS_ERR(asd)) {
- 		ret = PTR_ERR(asd);
- 		goto out;
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index 945d2eb87233..e06cd512aba2 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -910,7 +910,7 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
- 	priv->notifier.ops = &rcar_csi2_notify_ops;
- 
- 	asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier, fwnode,
--						    sizeof(*asd));
-+						    struct v4l2_async_subdev);
- 	fwnode_handle_put(fwnode);
- 	if (IS_ERR(asd))
- 		return PTR_ERR(asd);
-diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-index f318cd4b8086..83bd9a412a56 100644
---- a/drivers/media/platform/rcar_drif.c
-+++ b/drivers/media/platform/rcar_drif.c
-@@ -1231,7 +1231,7 @@ static int rcar_drif_parse_subdevs(struct rcar_drif_sdr *sdr)
- 	}
- 
- 	asd = v4l2_async_notifier_add_fwnode_subdev(notifier, fwnode,
--						    sizeof(*asd));
-+						    struct v4l2_async_subdev);
- 	fwnode_handle_put(fwnode);
- 	if (IS_ERR(asd))
- 		return PTR_ERR(asd);
-diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
-index 18485812a21e..740299f979be 100644
---- a/drivers/media/platform/renesas-ceu.c
-+++ b/drivers/media/platform/renesas-ceu.c
-@@ -1473,7 +1473,6 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
- 				   const struct ceu_platform_data *pdata)
- {
- 	const struct ceu_async_subdev *async_sd;
--	struct v4l2_async_subdev *asd;
- 	struct ceu_subdev *ceu_sd;
- 	unsigned int i;
- 	int ret;
-@@ -1489,16 +1488,15 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
- 
- 		/* Setup the ceu subdevice and the async subdevice. */
- 		async_sd = &pdata->subdevs[i];
--		asd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
-+		ceu_sd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
- 				async_sd->i2c_adapter_id,
- 				async_sd->i2c_address,
--				sizeof(*ceu_sd));
--		if (IS_ERR(asd)) {
--			ret = PTR_ERR(asd);
-+				struct ceu_subdev);
-+		if (IS_ERR(ceu_sd)) {
-+			ret = PTR_ERR(ceu_sd);
- 			v4l2_async_notifier_cleanup(&ceudev->notifier);
- 			return ret;
- 		}
--		ceu_sd = to_ceu_subdev(asd);
- 		ceu_sd->mbus_flags = async_sd->flags;
- 		ceudev->subdevs[i] = ceu_sd;
- 	}
-@@ -1513,7 +1511,6 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
- {
- 	struct device_node *of = ceudev->dev->of_node;
- 	struct device_node *ep;
--	struct v4l2_async_subdev *asd;
- 	struct ceu_subdev *ceu_sd;
- 	unsigned int i;
- 	int num_ep;
-@@ -1555,14 +1552,13 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
- 		}
- 
- 		/* Setup the ceu subdevice and the async subdevice. */
--		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+		ceu_sd = v4l2_async_notifier_add_fwnode_remote_subdev(
- 				&ceudev->notifier, of_fwnode_handle(ep),
--				sizeof(*ceu_sd));
--		if (IS_ERR(asd)) {
--			ret = PTR_ERR(asd);
-+				struct ceu_subdev);
-+		if (IS_ERR(ceu_sd)) {
-+			ret = PTR_ERR(ceu_sd);
- 			goto error_cleanup;
- 		}
--		ceu_sd = to_ceu_subdev(asd);
- 		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
- 		ceudev->subdevs[i] = ceu_sd;
- 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 235dcf0c4122..447721e78d1e 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -251,8 +251,7 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
- 		struct v4l2_fwnode_endpoint vep = {
- 			.bus_type = V4L2_MBUS_CSI2_DPHY
- 		};
--		struct rkisp1_sensor_async *rk_asd = NULL;
--		struct v4l2_async_subdev *asd;
-+		struct rkisp1_sensor_async *rk_asd;
- 		struct fwnode_handle *ep;
- 
- 		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
-@@ -265,12 +264,11 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
- 		if (ret)
- 			goto err_parse;
- 
--		asd = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
--							sizeof(*rk_asd));
--		if (IS_ERR(asd))
-+		rk_asd = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
-+							struct rkisp1_sensor_async);
-+		if (IS_ERR(rk_asd))
- 			goto err_parse;
- 
--		rk_asd = container_of(asd, struct rkisp1_sensor_async, asd);
- 		rk_asd->mbus_type = vep.bus_type;
- 		rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
- 		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
-diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-index 142f63d07dcd..bbcc2254fa2e 100644
---- a/drivers/media/platform/stm32/stm32-dcmi.c
-+++ b/drivers/media/platform/stm32/stm32-dcmi.c
-@@ -1820,7 +1820,8 @@ static int dcmi_graph_init(struct stm32_dcmi *dcmi)
- 	v4l2_async_notifier_init(&dcmi->notifier);
- 
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--		&dcmi->notifier, of_fwnode_handle(ep), sizeof(*asd));
-+		&dcmi->notifier, of_fwnode_handle(ep),
-+		struct v4l2_async_subdev);
- 
- 	of_node_put(ep);
- 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-index 3f94b8c966f3..8d40a7acba9c 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-@@ -135,8 +135,8 @@ static int sun4i_csi_notifier_init(struct sun4i_csi *csi)
- 
- 	csi->bus = vep.bus.parallel;
- 
--	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
--							   ep, sizeof(*asd));
-+	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier, ep,
-+							   struct v4l2_async_subdev);
- 	if (IS_ERR(asd)) {
- 		ret = PTR_ERR(asd);
- 		goto out;
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 5fb627811c6b..fa0931788040 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -685,23 +685,21 @@ static int cal_async_notifier_register(struct cal_dev *cal)
- 	for (i = 0; i < cal->data->num_csi2_phy; ++i) {
- 		struct cal_camerarx *phy = cal->phy[i];
- 		struct cal_v4l2_async_subdev *casd;
--		struct v4l2_async_subdev *asd;
- 		struct fwnode_handle *fwnode;
- 
- 		if (!phy->sensor_node)
- 			continue;
- 
- 		fwnode = of_fwnode_handle(phy->sensor_node);
--		asd = v4l2_async_notifier_add_fwnode_subdev(&cal->notifier,
--							    fwnode,
--							    sizeof(*casd));
--		if (IS_ERR(asd)) {
-+		casd = v4l2_async_notifier_add_fwnode_subdev(&cal->notifier,
-+							     fwnode,
-+							     struct cal_v4l2_async_subdev);
-+		if (IS_ERR(casd)) {
- 			phy_err(phy, "Failed to add subdev to notifier\n");
--			ret = PTR_ERR(asd);
-+			ret = PTR_ERR(casd);
- 			goto error;
- 		}
- 
--		casd = to_cal_asd(asd);
- 		casd->phy = phy;
- 	}
- 
-diff --git a/drivers/media/platform/video-mux.c b/drivers/media/platform/video-mux.c
-index 7b280dfca727..133122e38515 100644
---- a/drivers/media/platform/video-mux.c
-+++ b/drivers/media/platform/video-mux.c
-@@ -371,7 +371,7 @@ static int video_mux_async_register(struct video_mux *vmux,
- 			continue;
- 
- 		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--			&vmux->notifier, ep, sizeof(*asd));
-+			&vmux->notifier, ep, struct v4l2_async_subdev);
- 
- 		fwnode_handle_put(ep);
- 
-diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
-index cc2856efea59..bf4015d852e3 100644
---- a/drivers/media/platform/xilinx/xilinx-vipp.c
-+++ b/drivers/media/platform/xilinx/xilinx-vipp.c
-@@ -359,7 +359,7 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
- 	dev_dbg(xdev->dev, "parsing node %p\n", fwnode);
- 
- 	while (1) {
--		struct v4l2_async_subdev *asd;
-+		struct xvip_graph_entity *xge;
- 
- 		ep = fwnode_graph_get_next_endpoint(fwnode, ep);
- 		if (ep == NULL)
-@@ -382,12 +382,12 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
- 			continue;
- 		}
- 
--		asd = v4l2_async_notifier_add_fwnode_subdev(
-+		xge = v4l2_async_notifier_add_fwnode_subdev(
- 			&xdev->notifier, remote,
--			sizeof(struct xvip_graph_entity));
-+			struct xvip_graph_entity);
- 		fwnode_handle_put(remote);
--		if (IS_ERR(asd)) {
--			ret = PTR_ERR(asd);
-+		if (IS_ERR(xge)) {
-+			ret = PTR_ERR(xge);
- 			goto err_notifier_cleanup;
- 		}
- 	}
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 8cd431fbd165..35c4e8df6c9a 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -648,9 +648,9 @@ int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
- EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_subdev);
- 
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
--				      struct fwnode_handle *fwnode,
--				      unsigned int asd_struct_size)
-+__v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
-+					struct fwnode_handle *fwnode,
-+					unsigned int asd_struct_size)
- {
- 	struct v4l2_async_subdev *asd;
- 	int ret;
-@@ -671,12 +671,12 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
- 
- 	return asd;
- }
--EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_fwnode_subdev);
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_fwnode_subdev);
- 
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
--					     struct fwnode_handle *endpoint,
--					     unsigned int asd_struct_size)
-+__v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
-+					       struct fwnode_handle *endpoint,
-+					       unsigned int asd_struct_size)
- {
- 	struct v4l2_async_subdev *asd;
- 	struct fwnode_handle *remote;
-@@ -685,21 +685,21 @@ v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
- 	if (!remote)
- 		return ERR_PTR(ENOTCONN);
- 
--	asd = v4l2_async_notifier_add_fwnode_subdev(notif,
--						    remote, asd_struct_size);
-+	asd = __v4l2_async_notifier_add_fwnode_subdev(notif, remote,
-+						      asd_struct_size);
- 	/*
--	 * Calling v4l2_async_notifier_add_fwnode_subdev grabs a refcount,
-+	 * Calling __v4l2_async_notifier_add_fwnode_subdev grabs a refcount,
- 	 * so drop then one we got in fwnode_graph_get_remote_port_parent.
- 	 */
- 	fwnode_handle_put(remote);
- 	return asd;
- }
--EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_fwnode_remote_subdev);
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_fwnode_remote_subdev);
- 
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
--				   int adapter_id, unsigned short address,
--				   unsigned int asd_struct_size)
-+__v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
-+				     int adapter_id, unsigned short address,
-+				     unsigned int asd_struct_size)
- {
- 	struct v4l2_async_subdev *asd;
- 	int ret;
-@@ -720,12 +720,12 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
- 
- 	return asd;
- }
--EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_i2c_subdev);
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_i2c_subdev);
- 
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
--				       const char *device_name,
--				       unsigned int asd_struct_size)
-+__v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
-+					 const char *device_name,
-+					 unsigned int asd_struct_size)
- {
- 	struct v4l2_async_subdev *asd;
- 	int ret;
-@@ -745,7 +745,7 @@ v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
- 
- 	return asd;
- }
--EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_devname_subdev);
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_devname_subdev);
- 
- int v4l2_async_register_subdev(struct v4l2_subdev *sd)
- {
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 919fde20032e..74226f8f99e7 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -955,7 +955,7 @@ static int v4l2_fwnode_reference_parse(struct device *dev,
- 
- 		asd = v4l2_async_notifier_add_fwnode_subdev(notifier,
- 							    args.fwnode,
--							    sizeof(*asd));
-+							    struct v4l2_async_subdev);
- 		fwnode_handle_put(args.fwnode);
- 		if (IS_ERR(asd)) {
- 			/* not an error if asd already exists */
-@@ -1255,7 +1255,7 @@ v4l2_fwnode_reference_parse_int_props(struct device *dev,
- 		struct v4l2_async_subdev *asd;
- 
- 		asd = v4l2_async_notifier_add_fwnode_subdev(notifier, fwnode,
--							    sizeof(*asd));
-+							    struct v4l2_async_subdev);
- 		fwnode_handle_put(fwnode);
- 		if (IS_ERR(asd)) {
- 			ret = PTR_ERR(asd);
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 6344389e6afa..ef5add079774 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -1923,7 +1923,7 @@ static int imx_csi_async_register(struct csi_priv *priv)
- 					     FWNODE_GRAPH_ENDPOINT_NEXT);
- 	if (ep) {
- 		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--			&priv->notifier, ep, sizeof(*asd));
-+			&priv->notifier, ep, struct v4l2_async_subdev);
- 
- 		fwnode_handle_put(ep);
- 
-diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
-index 82e13e972e23..b677cf0e0c84 100644
---- a/drivers/staging/media/imx/imx-media-of.c
-+++ b/drivers/staging/media/imx/imx-media-of.c
-@@ -31,7 +31,7 @@ int imx_media_of_add_csi(struct imx_media_dev *imxmd,
- 	/* add CSI fwnode to async notifier */
- 	asd = v4l2_async_notifier_add_fwnode_subdev(&imxmd->notifier,
- 						    of_fwnode_handle(csi_np),
--						    sizeof(*asd));
-+						    struct v4l2_async_subdev);
- 	if (IS_ERR(asd)) {
- 		ret = PTR_ERR(asd);
- 		if (ret == -EEXIST)
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index 9457761b7c8b..1b3fef9d0aa9 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -578,7 +578,7 @@ static int csi2_async_register(struct csi2_dev *csi2)
- 	dev_dbg(csi2->dev, "flags: 0x%08x\n", csi2->bus.flags);
- 
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--		&csi2->notifier, ep, sizeof(*asd));
-+		&csi2->notifier, ep, struct v4l2_async_subdev);
- 	fwnode_handle_put(ep);
- 
- 	if (IS_ERR(asd))
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 6c59485291ca..3046f880c014 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1201,7 +1201,7 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
- 					     FWNODE_GRAPH_ENDPOINT_NEXT);
- 	if (ep) {
- 		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--			&csi->notifier, ep, sizeof(*asd));
-+			&csi->notifier, ep, struct v4l2_async_subdev);
- 
- 		fwnode_handle_put(ep);
- 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 32d8e7a824d4..0969ee528e38 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -1025,7 +1025,7 @@ static int mipi_csis_async_register(struct csi_state *state)
- 	dev_dbg(state->dev, "flags: 0x%08x\n", state->bus.flags);
- 
- 	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
--		&state->notifier, ep, sizeof(*asd));
-+		&state->notifier, ep, struct v4l2_async_subdev);
- 	if (IS_ERR(asd))
- 		goto err_parse;
- 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 70e1e18644b2..7a09061cda57 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1788,7 +1788,7 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
- 	struct tegra_vi *vi = chan->vi;
- 	struct fwnode_handle *ep = NULL;
- 	struct fwnode_handle *remote = NULL;
--	struct v4l2_async_subdev *asd;
-+	struct tegra_vi_graph_entity *tvge;
- 	struct device_node *node = NULL;
- 	int ret;
- 
-@@ -1812,10 +1812,10 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
- 			continue;
- 		}
- 
--		asd = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier,
--				remote, sizeof(struct tegra_vi_graph_entity));
--		if (IS_ERR(asd)) {
--			ret = PTR_ERR(asd);
-+		tvge = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier,
-+				remote, struct tegra_vi_graph_entity);
-+		if (IS_ERR(tvge)) {
-+			ret = PTR_ERR(tvge);
- 			dev_err(vi->dev,
- 				"failed to add subdev to notifier: %d\n", ret);
- 			fwnode_handle_put(remote);
-diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-index 121f7d9dcbe6..72c3f4fe1148 100644
---- a/include/media/v4l2-async.h
-+++ b/include/media/v4l2-async.h
-@@ -189,9 +189,12 @@ int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
-  * is released later at notifier cleanup time.
-  */
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
--				      struct fwnode_handle *fwnode,
--				      unsigned int asd_struct_size);
-+__v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
-+					struct fwnode_handle *fwnode,
-+					unsigned int asd_struct_size);
-+#define v4l2_async_notifier_add_fwnode_subdev(__notifier, __fwnode, __type)	\
-+((__type *)__v4l2_async_notifier_add_fwnode_subdev(__notifier, __fwnode,	\
-+						   sizeof(__type)))
- 
- /**
-  * v4l2_async_notifier_add_fwnode_remote_subdev - Allocate and add a fwnode
-@@ -215,9 +218,12 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
-  * exception that the fwnode refers to a local endpoint, not the remote one.
-  */
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
--					     struct fwnode_handle *endpoint,
--					     unsigned int asd_struct_size);
-+__v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
-+					       struct fwnode_handle *endpoint,
-+					       unsigned int asd_struct_size);
-+#define v4l2_async_notifier_add_fwnode_remote_subdev(__notifier, __ep, __type)	\
-+((__type *)__v4l2_async_notifier_add_fwnode_remote_subdev(__notifier, __ep,	\
-+							  sizeof(__type)))
- 
- /**
-  * v4l2_async_notifier_add_i2c_subdev - Allocate and add an i2c async
-@@ -235,9 +241,12 @@ v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
-  * Same as above but for I2C matched sub-devices.
-  */
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
--				   int adapter_id, unsigned short address,
--				   unsigned int asd_struct_size);
-+__v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
-+				     int adapter_id, unsigned short address,
-+				     unsigned int asd_struct_size);
-+#define v4l2_async_notifier_add_i2c_subdev(__notifier, __adap, __addr, __type)	\
-+((__type *)__v4l2_async_notifier_add_i2c_subdev(__notifier, __adap, __addr,	\
-+						sizeof(__type)))
- 
- /**
-  * v4l2_async_notifier_add_devname_subdev - Allocate and add a device-name
-@@ -254,9 +263,12 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
-  * Same as above but for device-name matched sub-devices.
-  */
- struct v4l2_async_subdev *
--v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
--				       const char *device_name,
--				       unsigned int asd_struct_size);
-+__v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
-+					 const char *device_name,
-+					 unsigned int asd_struct_size);
-+#define v4l2_async_notifier_add_devname_subdev(__notifier, __name, __type)	\
-+((__type *)__v4l2_async_notifier_add_devname_subdev(__notifier, __name,		\
-+						    sizeof(__type)))
- 
- /**
-  * v4l2_async_notifier_register - registers a subdevice asynchronous notifier
--- 
-Regards,
+------------------------------------------
+[...truncated 5.65 KB...]
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-5-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
+patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+patch -s -f -N -p1 -i ../backports/v5.0_gpio.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
+Preparing to compile for kernel version 4.19.0
 
-Laurent Pinchart
+***WARNING:*** You do not have the full kernel sources installed.
+This does not prevent you from building the v4l-dvb tree if you have the
+kernel headers, but the full kernel source may be required in order to use
+make menuconfig / xconfig / qconfig.
 
+If you are experiencing problems building the v4l-dvb tree, please try
+building against a vanilla kernel before reporting a bug.
+
+Vanilla kernels are available at http://kernel.org.
+On most distros, this will compile a newly downloaded kernel:
+
+cp /boot/config-`uname -r` <your kernel dir>/.config
+cd <your kernel dir>
+make all modules_install install
+
+Please see your distro's web site for instructions to build a new kernel.
+
+WARNING: This is the V4L/DVB backport tree, with experimental drivers
+	 backported to run on legacy kernels from the development tree at:
+		http://git.linuxtv.org/media-tree.git.
+	 It is generally safe to use it for testing a new driver or
+	 feature, but its usage on production environments is risky.
+	 Don't use it in production. You've been warned.
+CEC_CROS_EC: Requires at least kernel 9.255.255
+V4L2_H264: Requires at least kernel 9.255.255
+VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
+VIDEO_OMAP3: Requires at least kernel 9.255.255
+VIDEO_IMX274: Requires at least kernel 9.255.255
+SND_BT87X: Requires at least kernel 9.255.255
+INTEL_ATOMISP: Requires at least kernel 9.255.255
+VIDEO_HANTRO: Requires at least kernel 9.255.255
+VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
+VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
+Created default (all yes) .config file
+./scripts/fix_kconfig.pl
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+./scripts/make_myconfig.pl
+[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
+perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
+creating symbolic links...
+Kernel build directory is /lib/modules/4.19.0-5-amd64/build
+make -C ../linux apply_patches
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Patches for 4.19.0-5-amd64 already applied.
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
+make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov02a10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9650.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9734.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13858.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m001.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m032.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m111.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9p031.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t001.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t112.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v011.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v032.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v111.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sr030pc30.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/noon010pc30.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rj54n1cb0c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6aa.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6a3.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k4ecgx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k5baf.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-spi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-ctrls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adp1653.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3560.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3646.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-pll.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak881x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-kbd-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ml86v7667.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2659.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc358743.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hi556.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx214.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx219.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx258.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx290.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx319.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx355.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rdacm20.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/max9271.o>
+In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-core.h>:18,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-v4l2.h>:16,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.c>:32:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/linux/dma-buf.h>:16:10: fatal error: linux/dma-buf-map.h: No such file or directory
+ #include <linux/dma-buf-map.h>
+          ^~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o]> Error 1
+make[5]: *** Waiting for unfinished jobs....
+make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[3]: *** [Makefile:146: sub-make] Error 2
+make[2]: *** [Makefile:8: all] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
+Build step 'Execute shell' marked build as failure
