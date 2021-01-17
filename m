@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE6B92F9498
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 19:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A902F9499
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 19:32:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729822AbhAQScI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jan 2021 13:32:08 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59694 "EHLO
+        id S1729837AbhAQScN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jan 2021 13:32:13 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59718 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729745AbhAQScE (ORCPT
+        with ESMTP id S1729745AbhAQScK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jan 2021 13:32:04 -0500
+        Sun, 17 Jan 2021 13:32:10 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 7EA601F44A59
+        with ESMTPSA id A6A2B1F44A53
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     kernel@collabora.com,
@@ -36,9 +36,9 @@ Cc:     kernel@collabora.com,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v2 04/14] media: exynos4-is: Use v4l2_async_notifier_add_fwnode_remote_subdev
-Date:   Sun, 17 Jan 2021 15:29:40 -0300
-Message-Id: <20210117182956.41298-9-ezequiel@collabora.com>
+Subject: [PATCH v2 05/14] media: st-mipid02: Use v4l2_async_notifier_add_fwnode_remote_subdev
+Date:   Sun, 17 Jan 2021 15:29:41 -0300
+Message-Id: <20210117182956.41298-10-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117182956.41298-1-ezequiel@collabora.com>
 References: <20210117182956.41298-1-ezequiel@collabora.com>
@@ -62,95 +62,54 @@ which handles the needed setup, instead of open-coding it.
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- drivers/media/platform/exynos4-is/media-dev.c | 25 +++++++++++--------
- drivers/media/platform/exynos4-is/media-dev.h |  2 +-
- 2 files changed, 15 insertions(+), 12 deletions(-)
+ drivers/media/i2c/st-mipid02.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-index e636c33e847b..de26ecdcfe81 100644
---- a/drivers/media/platform/exynos4-is/media-dev.c
-+++ b/drivers/media/platform/exynos4-is/media-dev.c
-@@ -401,6 +401,7 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
- 	int index = fmd->num_sensors;
- 	struct fimc_source_info *pd = &fmd->sensor[index].pdata;
- 	struct device_node *rem, *np;
+diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+index 003ba22334cd..9e04ff02257c 100644
+--- a/drivers/media/i2c/st-mipid02.c
++++ b/drivers/media/i2c/st-mipid02.c
+@@ -92,7 +92,6 @@ struct mipid02_dev {
+ 	u64 link_frequency;
+ 	struct v4l2_fwnode_endpoint tx;
+ 	/* remote source */
+-	struct v4l2_async_subdev asd;
+ 	struct v4l2_async_notifier notifier;
+ 	struct v4l2_subdev *s_subdev;
+ 	/* registers */
+@@ -844,6 +843,7 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
+ {
+ 	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_CSI2_DPHY };
+ 	struct i2c_client *client = bridge->i2c_client;
 +	struct v4l2_async_subdev *asd;
- 	struct v4l2_fwnode_endpoint endpoint = { .bus_type = 0 };
+ 	struct device_node *ep_node;
  	int ret;
  
-@@ -418,10 +419,11 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
- 	pd->mux_id = (endpoint.base.port - 1) & 0x1;
+@@ -875,17 +875,17 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
+ 	bridge->rx = ep;
  
- 	rem = of_graph_get_remote_port_parent(ep);
--	of_node_put(ep);
- 	if (rem == NULL) {
- 		v4l2_info(&fmd->v4l2_dev, "Remote device at %pOF not found\n",
- 							ep);
-+		of_node_put(rem);
-+		of_node_put(ep);
- 		return 0;
- 	}
- 
-@@ -450,6 +452,7 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
- 	 * checking parent's node name.
- 	 */
- 	np = of_get_parent(rem);
-+	of_node_put(rem);
- 
- 	if (of_node_name_eq(np, "i2c-isp"))
- 		pd->fimc_bus_type = FIMC_BUS_TYPE_ISP_WRITEBACK;
-@@ -458,20 +461,19 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
- 	of_node_put(np);
- 
- 	if (WARN_ON(index >= ARRAY_SIZE(fmd->sensor))) {
--		of_node_put(rem);
-+		of_node_put(ep);
- 		return -EINVAL;
- 	}
- 
--	fmd->sensor[index].asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
--	fmd->sensor[index].asd.match.fwnode = of_fwnode_handle(rem);
+ 	/* register async notifier so we get noticed when sensor is connected */
+-	bridge->asd.match.fwnode =
+-		fwnode_graph_get_remote_port_parent(of_fwnode_handle(ep_node));
+-	bridge->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
++	v4l2_async_notifier_init(&bridge->notifier);
 +	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+		&fmd->subdev_notifier, of_fwnode_handle(ep), sizeof(*asd));
++					&bridge->notifier,
++					of_fwnode_handle(ep_node),
++					sizeof(*asd));
+ 	of_node_put(ep_node);
  
--	ret = v4l2_async_notifier_add_subdev(&fmd->subdev_notifier,
--					     &fmd->sensor[index].asd);
+-	v4l2_async_notifier_init(&bridge->notifier);
+-	ret = v4l2_async_notifier_add_subdev(&bridge->notifier, &bridge->asd);
 -	if (ret) {
--		of_node_put(rem);
--		return ret;
--	}
-+	of_node_put(ep);
-+
-+	if (IS_ERR(asd))
-+		return PTR_ERR(asd);
- 
-+	fmd->sensor[index].asd = asd;
- 	fmd->num_sensors++;
- 
- 	return 0;
-@@ -1381,7 +1383,8 @@ static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
- 
- 	/* Find platform data for this sensor subdev */
- 	for (i = 0; i < ARRAY_SIZE(fmd->sensor); i++)
--		if (fmd->sensor[i].asd.match.fwnode ==
-+		if (fmd->sensor[i].asd &&
-+		    fmd->sensor[i].asd->match.fwnode ==
- 		    of_fwnode_handle(subdev->dev->of_node))
- 			si = &fmd->sensor[i];
- 
-diff --git a/drivers/media/platform/exynos4-is/media-dev.h b/drivers/media/platform/exynos4-is/media-dev.h
-index 9447fafe23c6..a3876d668ea6 100644
---- a/drivers/media/platform/exynos4-is/media-dev.h
-+++ b/drivers/media/platform/exynos4-is/media-dev.h
-@@ -83,7 +83,7 @@ struct fimc_camclk_info {
-  */
- struct fimc_sensor_info {
- 	struct fimc_source_info pdata;
--	struct v4l2_async_subdev asd;
-+	struct v4l2_async_subdev *asd;
- 	struct v4l2_subdev *subdev;
- 	struct fimc_dev *host;
- };
++	if (IS_ERR(asd)) {
++		ret = PTR_ERR(asd);
+ 		dev_err(&client->dev, "fail to register asd to notifier %d",
+ 			ret);
+-		fwnode_handle_put(bridge->asd.match.fwnode);
+ 		return ret;
+ 	}
+ 	bridge->notifier.ops = &mipid02_notifier_ops;
 -- 
 2.29.2
 
