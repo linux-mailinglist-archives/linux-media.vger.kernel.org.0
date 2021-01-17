@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E4542F949B
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 19:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49AC12F949C
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 19:32:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729864AbhAQSc0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jan 2021 13:32:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51852 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729861AbhAQScZ (ORCPT
+        id S1729868AbhAQSce (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jan 2021 13:32:34 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59796 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729865AbhAQScb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jan 2021 13:32:25 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A41C061575
-        for <linux-media@vger.kernel.org>; Sun, 17 Jan 2021 10:31:44 -0800 (PST)
+        Sun, 17 Jan 2021 13:32:31 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id C79821F44A5B
+        with ESMTPSA id 1E3741F44A56
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     kernel@collabora.com,
@@ -39,9 +36,9 @@ Cc:     kernel@collabora.com,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v2 06/14] media: cadence: Use v4l2_async_notifier_add_fwnode_remote_subdev
-Date:   Sun, 17 Jan 2021 15:29:43 -0300
-Message-Id: <20210117182956.41298-12-ezequiel@collabora.com>
+Subject: [PATCH v2 06/14] media: cdns-csi2rx: Use v4l2_async_notifier_add_fwnode_remote_subdev
+Date:   Sun, 17 Jan 2021 15:29:44 -0300
+Message-Id: <20210117182956.41298-13-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117182956.41298-1-ezequiel@collabora.com>
 References: <20210117182956.41298-1-ezequiel@collabora.com>
