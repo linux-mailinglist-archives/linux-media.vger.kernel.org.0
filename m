@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 626DC2F94A9
-	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 19:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B27F02F94A4
+	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 19:33:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729952AbhAQSdV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jan 2021 13:33:21 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59996 "EHLO
+        id S1730006AbhAQSdk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jan 2021 13:33:40 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60018 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729939AbhAQSdR (ORCPT
+        with ESMTP id S1729970AbhAQSdY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jan 2021 13:33:17 -0500
+        Sun, 17 Jan 2021 13:33:24 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 8C5D41F44A51
+        with ESMTPSA id B06F41F44A56
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     kernel@collabora.com,
@@ -35,9 +35,9 @@ Cc:     kernel@collabora.com,
         Robert Foss <robert.foss@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2 09/14] media: pxa-camera: Use v4l2_async_notifier_add_{i2c,fwnode_remote}_subdev
-Date:   Sun, 17 Jan 2021 15:29:50 -0300
-Message-Id: <20210117182956.41298-19-ezequiel@collabora.com>
+Subject: [PATCH v2 09/14] media: pxa-camera: Use v4l2_async_notifier_add_*_subdev
+Date:   Sun, 17 Jan 2021 15:29:51 -0300
+Message-Id: <20210117182956.41298-20-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117182956.41298-1-ezequiel@collabora.com>
 References: <20210117182956.41298-1-ezequiel@collabora.com>
