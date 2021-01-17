@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 768092F949F
+	by mail.lfdr.de (Postfix) with ESMTP id E3B272F94A0
 	for <lists+linux-media@lfdr.de>; Sun, 17 Jan 2021 19:33:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729888AbhAQSc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Jan 2021 13:32:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729874AbhAQScz (ORCPT
+        id S1729903AbhAQSdI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Jan 2021 13:33:08 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59908 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729874AbhAQSdG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Jan 2021 13:32:55 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A53B9C061573
-        for <linux-media@vger.kernel.org>; Sun, 17 Jan 2021 10:32:14 -0800 (PST)
+        Sun, 17 Jan 2021 13:33:06 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id EB1451F44A5B
+        with ESMTPSA id AA78D1F44A53
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     kernel@collabora.com,
@@ -39,9 +36,9 @@ Cc:     kernel@collabora.com,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v2 08/14] media: marvell-ccic: Use v4l2_async_notifier_add_{i2c,fwnode_remote}_subdev
-Date:   Sun, 17 Jan 2021 15:29:47 -0300
-Message-Id: <20210117182956.41298-16-ezequiel@collabora.com>
+Subject: [PATCH v2 08/14] media: marvell-ccic: Use v4l2_async_notifier_add_*_subdev
+Date:   Sun, 17 Jan 2021 15:29:48 -0300
+Message-Id: <20210117182956.41298-17-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117182956.41298-1-ezequiel@collabora.com>
 References: <20210117182956.41298-1-ezequiel@collabora.com>
