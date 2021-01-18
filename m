@@ -2,131 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ECD32F9E19
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 12:28:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 652E22F9F1A
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 13:08:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390086AbhARL1E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 06:27:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388820AbhARLRh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 06:17:37 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CB1C061793
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 03:16:13 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id w26so17809757ljo.4
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 03:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BiOeQObj1lWg++oDC0igsl1yme7R9sAH9n3rrQCoHD8=;
-        b=DpMVg2MbierGpSbhzEntYbaeNip/kLGJBsOF3ZssNvBJd7P3b8GKmSoqDjUhwfwKAM
-         YRfi5k8eqKcHArItKgeOnCyRBgPmynrrPstxpeF7QEvzTqmtWYJtFmGHHiB9Y8KT5woH
-         PJfCV5EBX4mdQfTKQ5zIfDcH+Lw7d0uRlTGI8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BiOeQObj1lWg++oDC0igsl1yme7R9sAH9n3rrQCoHD8=;
-        b=rMYV36wBg4YG/he6T8fBP62dtwto2EDw/DKF5kNm/zJmucbhRECS8XsvSNbLwvsVvg
-         HpcIWI5MMpgr+tT5rFlledO6dA9Kp+uazzbWAFettgsPwFDbQyeXywdVtDN+o/sgjl7Y
-         A3KA1MiALgvz8QtX7Mux8AIQKZQhMLAScUos/Z7hibWKSdOn2fnJ0RyZeLG1JMa3iEQN
-         QSCxon362dmrQi/NtVuIKPbBfPNtkAqIA/wenW+71xgFtnb5tInwJN3Qi1mECvR+H1Qq
-         bY2Y8CAJ3WuxYIq+wdHY1CvKNsPaWHdqkDktUd8KnEhL2X+sKMlbUqZJTXhULgv+HHfC
-         gxww==
-X-Gm-Message-State: AOAM5332WwRBg/BuAWgIPB7smS2wMG+3QIG1avu67rhKCTQJc376400L
-        QHP72H1/8vabXciPkKQ8I50ljmogNQAyncCw
-X-Google-Smtp-Source: ABdhPJyATFhjbQTTPoQABKHpljNhkdWz6eF9QVAjMwZAK+Cml/E35BHPo8PP5NMyHju205Udjybm6Q==
-X-Received: by 2002:a2e:5741:: with SMTP id r1mr10296194ljd.15.1610968571899;
-        Mon, 18 Jan 2021 03:16:11 -0800 (PST)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id f23sm1865912lfc.63.2021.01.18.03.16.09
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jan 2021 03:16:11 -0800 (PST)
-Received: by mail-lj1-f173.google.com with SMTP id w26so17809544ljo.4
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 03:16:09 -0800 (PST)
-X-Received: by 2002:a2e:8e63:: with SMTP id t3mr10249115ljk.88.1610968568684;
- Mon, 18 Jan 2021 03:16:08 -0800 (PST)
+        id S2390604AbhARMHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 07:07:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45286 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389047AbhARMHR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Jan 2021 07:07:17 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C933222BB;
+        Mon, 18 Jan 2021 12:06:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610971596;
+        bh=q/FYT+FiLtSjL+KOgS20Z7N04SjGI/P+GlPMtd2nG60=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XFh0dYiGpx4oVbGvJ+staJ5LrwgAf5GdKJDUFEjr5UDoxNnGQBI8y8J8NlsPIufoO
+         M6q1bBYN2LC5/GD6yVc681THbRJs0DoxBjd/Njx/vV4N1MidSMwgT4x+Cx4UaHMx0U
+         iZLUKrXKNgLVV4Zg0WdTUyFWfhvA+OWu4kGLmWEkvSuDUT2vSBrToEL+k/NpcEG7hp
+         W9yM1oYm1p2zy5KlUxDxHKikDgScSt86a27jsK0/fb2aLOYhE6mU+lpaFlfV9UZkgj
+         CjRUGr4mF8pKErGOTyGEW8Sko6KzP134rX2uR5rKKvIlhLw0pTAr85K4TgB2cikoRc
+         yO/Ye2ELoD7MQ==
+Date:   Mon, 18 Jan 2021 12:05:58 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Andre Przywara <andre.przywara@arm.com>
+Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Icenowy Zheng <icenowy@aosc.io>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Shuosheng Huang <huangshuosheng@allwinnertech.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@googlegroups.com,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org
+Subject: Re: [PATCH v3 18/21] dt-bindings: allwinner: Add H616 compatible
+ strings
+Message-ID: <20210118120558.GD4455@sirena.org.uk>
+References: <20210118020848.11721-1-andre.przywara@arm.com>
+ <20210118020848.11721-19-andre.przywara@arm.com>
 MIME-Version: 1.0
-References: <20200623111325.237158-1-keiichiw@chromium.org>
- <87czy7l6uu.fsf@linaro.org> <CAD90Vca=VPVM7+Cj-2cK3SWaSR_Ciajt7oOr0OyB-34bL15ewg@mail.gmail.com>
- <f3b177a7-1792-25ff-5bef-9e6b7fb4bde3@opensynergy.com>
-In-Reply-To: <f3b177a7-1792-25ff-5bef-9e6b7fb4bde3@opensynergy.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Mon, 18 Jan 2021 20:15:57 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MV=r3yin5cH+VW7s1njhWZFF-Xx6STrtUfOPKeDmJjURg@mail.gmail.com>
-Message-ID: <CAPBb6MV=r3yin5cH+VW7s1njhWZFF-Xx6STrtUfOPKeDmJjURg@mail.gmail.com>
-Subject: Re: [virtio-dev] [PATCH RFC v4 0/1] Virtio Video Device Specification
-To:     Matti Moell <Matti.Moell@opensynergy.com>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
-        Kiran Pawar <kiran.pawar@opensynergy.com>,
-        Saket Sinha <saket.sinha89@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        virtio-dev@lists.oasis-open.org,
-        Ruchika Gupta <ruchika.gupta@linaro.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Mike Holmes <mike.holmes@linaro.org>, dmitry.sepp@outlook.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jL2BoiuKMElzg3CS"
+Content-Disposition: inline
+In-Reply-To: <20210118020848.11721-19-andre.przywara@arm.com>
+X-Cookie: Huh?
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
 
-I think the v5 should be ready for public review. It has considerably
-changed compared to v3, however the changes are mostly simplifications
-and addressing issues we experienced with v3 on Chrome OS, so
-hopefully it's for the better. Let me do a final check before sending
-it to the virtio list.
+--jL2BoiuKMElzg3CS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Alex.
+On Mon, Jan 18, 2021 at 02:08:45AM +0000, Andre Przywara wrote:
+> Add simple "allwinner,sun50i-h616-xxx" compatible names to existing
+> bindings, and pair them with an existing fallback compatible string,
+> as the devices are compatible.
+> This covers I2C, infrared, RTC and SPI.
+>=20
+> Use enums to group all compatible devices together.
 
-On Sat, Jan 16, 2021 at 1:55 AM Matti Moell <Matti.Moell@opensynergy.com> wrote:
->
->
-> On 15.01.21 15:25, Keiichi Watanabe wrote:
-> > I think the driver implementation is necessary for the spec to be
-> > merged, but it's not yet clear when we can spend time implementing
-> > drivers. It's likely to be after April or so.
-> >
-> > IIRC, OpenSynergy folks, who implemented the v3 driver, also had some
-> > plan to implement the driver with the v5 spec.
-> > Matti, do you have any update on it? I'd really appreciate it if we
-> > could keep working for upstream together.
->
-> Hey Keiichi and Alex!
->
-> Yeah, I think for us it'll also be in the March/April timeline before we
-> can start looking at it again, there's quite a few loose ends when going
-> from v3 to v5 so it'll probably take a while to get it in shape and make
-> sure that all the comments from the drivers v2 are properly addressed.
->
-> I'm not 100% sure how to proceed but perhaps it makes sense to jointly
-> iterate on the driver sources together once the v5 is mostly agreed. Any
-> suggestions welcome.
->
-> Cheers,
->
->                 Matti
->
+Please submit normal, per subsystem patches for things like this.
+
+--jL2BoiuKMElzg3CS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmAFeaUACgkQJNaLcl1U
+h9A+Fwf+LAkNmQitmzhglYIYHsNeibirBy6k8yPJ2w1+MZulWEhOeDJvaqgbS3ct
+4Q3qFxVZGkgzzsypXzU0iEB03Vzxy33H6J3QPfNqMhNQPQOZOXQho3xTuKgar9P+
+qQEQDJFYL1qpMKz3+CqO4SQotdjIFEJYNd/O44cnTCU98AnHARvi32ajvs7+VzNu
+HHKAsqKmQT4a4nPA31joiWxp2XAC7rA1q+KZ7iL5rWIKuJkp4pfkXK58QiBegXhz
+CCCrggzrjimyFakw4WA6IWyTF2pE6maY0UyLrP9n6AHPC/DDIvalzos5xjC7KWj8
+KsITNqrGnlImwAjQ5fSm/X1uTyqipw==
+=MpJn
+-----END PGP SIGNATURE-----
+
+--jL2BoiuKMElzg3CS--
