@@ -2,111 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB42F2FA674
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 17:40:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C95F2FA763
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 18:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406122AbhARQkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 11:40:03 -0500
-Received: from mga07.intel.com ([134.134.136.100]:24585 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405707AbhARQjB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 11:39:01 -0500
-IronPort-SDR: TtJC5Y8AUz/8qc1j4h2zRtKfSD39F6bL7mb7B1DPtq+fquBhHRYWUU9+fAJ+1j6i77KFbkDwf3
- 7LtlGExWXfUw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="242894252"
-X-IronPort-AV: E=Sophos;i="5.79,356,1602572400"; 
-   d="scan'208";a="242894252"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 08:37:02 -0800
-IronPort-SDR: /1q7VBu3PmCUuae3E2pTh+5o9jA7x+FLUtCblDOKWwObNQhXs9ryKKxFd7ak3F0sK9hR6u2GB8
- IYWFbDEATvjA==
-X-IronPort-AV: E=Sophos;i="5.79,356,1602572400"; 
-   d="scan'208";a="569234468"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 08:37:00 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 6E8BB208D7; Mon, 18 Jan 2021 18:36:57 +0200 (EET)
-Date:   Mon, 18 Jan 2021 18:36:57 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Daniel Mack <zonque@gmail.com>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>
-Subject: Re: [PATCH v2 1/6] media: mach-pxa: Register the camera sensor
- fixed-rate clock
-Message-ID: <20210118163657.GZ11878@paasikivi.fi.intel.com>
-References: <20210112194919.50176-1-ezequiel@collabora.com>
- <20210112194919.50176-2-ezequiel@collabora.com>
+        id S2407158AbhARRVz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 12:21:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407153AbhARRVr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Jan 2021 12:21:47 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87FF6C061575
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 09:21:06 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id hs11so22420876ejc.1
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 09:21:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ruKXD8bGqkoghUlX4mzLfQbwoSM0QEpIg9OIDZO9Mdo=;
+        b=f5a2tENvm/u4bFMrMFNXAaNES+GmCodM6qlXaeJTCIca4bsDMi6F94bqs0oWhStzK6
+         SrQzF6iWuNKVoum76255DMFHCK4NhHbFWoIiV43nAhKldc2KxNWh2P7G24pm3jh/EIkP
+         lezu2qBQsTqdlIl0iknd9Ljr5+M3UOsUBBuuUMIyIvTkBMXjXl5zgHsXoFAQRxemkznY
+         XXER8lOWJb81Pu95woHfz53uj48UmE+Ua/6EHF6WXciyKNVi5/Do3WJxd4CITxjFH9L8
+         lAjwPcop4tjfxAuqzn768qghPphHAz0+VjxOQCWcezaSXkHOucUF9mjLMkO5EtXTM2qB
+         1MJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ruKXD8bGqkoghUlX4mzLfQbwoSM0QEpIg9OIDZO9Mdo=;
+        b=CSGyGsNVLH6hZnMqChV7U5mU8wUeZ6GYMH3lXMWml0GjSbk4S4tLVT5zfYWHPpF+wY
+         c6J2YVa/4HFFPTSWUPPMCxmsC3GITnJfPlfrtUuakUCIvdToPR9fT75e/RnogOPoRMcF
+         2CxQnLYYn3ftulFuKQNWcSihEB+HtUquY+TcYzRiPONYRSWMGV7DuGQYVXse5p9kwGik
+         M/wrfVbsaICcMeMkUVEGBEBL5Hbs1udlFd2aKsOTptvMVELjoeEWc3uSKnIWwI+oDLtj
+         NZazUwGZjPlVbEbKfFa9FRV9NJn36/pRAaWPuQ0EWRhXWeIqAoh5VURz/MPLohrJTM1f
+         pF3Q==
+X-Gm-Message-State: AOAM531x2tlWn2XRH4KoWmyoNDCbPRUo8jHi0JrBBvuvOcad3cfjkvuo
+        fH1ukymVfXpoA5AFMEpOgRMi8g==
+X-Google-Smtp-Source: ABdhPJwdgFF5BqmP+9q7+iU/tK8YvN5uva5O2cPfysLnAR8lqJ2SGsX7RryocyV2Q8pOax/ERzd8Iw==
+X-Received: by 2002:a17:906:97c5:: with SMTP id ef5mr460921ejb.347.1610990465193;
+        Mon, 18 Jan 2021 09:21:05 -0800 (PST)
+Received: from [192.168.0.3] ([84.238.208.220])
+        by smtp.googlemail.com with ESMTPSA id c7sm6401239edv.70.2021.01.18.09.21.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Jan 2021 09:21:04 -0800 (PST)
+Subject: Re: [PATCH 1/2] media: venus: core: Add sdm660 DT compatible and
+ resource struct
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        stanimir.varbanov@linaro.org
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
+        marijn.suijten@somainline.org, phone-devel@vger.kernel.org
+References: <20210115185252.333562-1-angelogioacchino.delregno@somainline.org>
+ <20210115185252.333562-2-angelogioacchino.delregno@somainline.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <2dc8a95f-110f-526f-18a8-6393e508c3a6@linaro.org>
+Date:   Mon, 18 Jan 2021 19:21:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210112194919.50176-2-ezequiel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210115185252.333562-2-angelogioacchino.delregno@somainline.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Hi Angelo,
 
-Thanks for the patch.
+Thanks for the patch!
 
-On Tue, Jan 12, 2021 at 04:49:14PM -0300, Ezequiel Garcia wrote:
-> The pxa-camera capture driver currently registers a v4l2-clk
-> clock, named "mclk", to represent the mt9m111 sensor clock.
+On 1/15/21 8:52 PM, AngeloGioacchino Del Regno wrote:
+> Add the SDM660 DT compatible and its resource structure, also
+> including support for the Venus pmdomains, in order to support
+> the Venus block in SDM630, SDM636, SDM660 and SDA variants.
 > 
-> Register a proper fixed-rate clock using the generic clock framework,
-> which will allow to remove the v4l2-clk clock in the pxa-camera
-> driver in a follow-up commit.
-
-Where is the clock generated?
-
-If it's the same device, shouldn't it be registered in the pxa_camera
-driver?
-
+> This SoC features Venus 4.4 (HFI3XX), with one vcodec used for
+> both encoding and decoding, switched on through two GDSCs.
+> The core clock for this Venus chip is powered by the RPM VDD_CX
+> power domain.
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Acked-by: Arnd Bergmann <arnd@arndb.de> (for arch/arm/mach-*/)
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 > ---
-> Quoting Arnd:
-> """
-> If there are no objections to the change itself, please take it through
-> the v4l2 git tree.
-> """
+>  drivers/media/platform/qcom/venus/core.c | 66 ++++++++++++++++++++++++
+>  1 file changed, 66 insertions(+)
 > 
->  arch/arm/mach-pxa/devices.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
-> index 524d6093e0c7..09b8495f3fd9 100644
-> --- a/arch/arm/mach-pxa/devices.c
-> +++ b/arch/arm/mach-pxa/devices.c
-> @@ -4,6 +4,7 @@
->  #include <linux/init.h>
->  #include <linux/platform_device.h>
->  #include <linux/clkdev.h>
-> +#include <linux/clk-provider.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/dmaengine.h>
->  #include <linux/spi/pxa2xx_spi.h>
-> @@ -634,6 +635,13 @@ static struct platform_device pxa27x_device_camera = {
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index bdd293faaad0..83ca86a63241 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -565,6 +565,71 @@ static const struct venus_resources sdm845_res_v2 = {
+>  	.fwname = "qcom/venus-5.2/venus.mdt",
+>  };
 >  
->  void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
->  {
-> +	struct clk *mclk;
+> +static const struct freq_tbl sdm660_freq_table[] = {
+> +	{ 0, 518400000 },
+> +	{ 0, 441600000 },
+> +	{ 0, 404000000 },
+> +	{ 0, 320000000 },
+> +	{ 0, 269330000 },
+> +	{ 0, 133330000 },
+> +};
 > +
-> +	/* Register a fixed-rate clock for camera sensors. */
-> +	mclk = clk_register_fixed_rate(NULL, "pxa_camera_clk", NULL, 0,
-> +					     info->mclk_10khz * 10000);
-> +	if (!IS_ERR(mclk))
-> +		clkdev_create(mclk, "mclk", NULL);
->  	pxa_register_device(&pxa27x_device_camera, info);
->  }
->  
+> +static const struct reg_val sdm660_reg_preset[] = {
+> +	{ 0x80010, 0x001f001f },
+> +	{ 0x80018, 0x00000156 },
+> +	{ 0x8001C, 0x00000156 },
+> +};
+> +
+> +static const struct bw_tbl sdm660_bw_table_enc[] = {
+> +	{  979200,  1044000, 0, 2446336, 0 },	/* 4k UHD @ 30 */
+> +	{  864000,   887000, 0, 2108416, 0 },	/* 720p @ 240 */
+> +	{  489600,   666000, 0, 1207296, 0 },	/* 1080p @ 60 */
+> +	{  432000,   578000, 0, 1058816, 0 },	/* 720p @ 120 */
+> +	{  244800,   346000, 0,  616448, 0 },	/* 1080p @ 30 */
+> +	{  216000,   293000, 0,  534528, 0 },	/* 720p @ 60 */
+> +	{  108000,   151000, 0,  271360, 0 },	/* 720p @ 30 */
+> +};
+> +
+> +static const struct bw_tbl sdm660_bw_table_dec[] = {
+> +	{  979200,  2365000, 0, 1892000, 0 },	/* 4k UHD @ 30 */
+> +	{  864000,  1978000, 0, 1554000, 0 },	/* 720p @ 240 */
+> +	{  489600,  1133000, 0,  895000, 0 },	/* 1080p @ 60 */
+> +	{  432000,   994000, 0,  781000, 0 },	/* 720p @ 120 */
+> +	{  244800,   580000, 0,  460000, 0 },	/* 1080p @ 30 */
+> +	{  216000,   501000, 0,  301000, 0 },	/* 720p @ 60 */
+> +	{  108000,   255000, 0,  202000, 0 },	/* 720p @ 30 */
+> +};
+> +
+> +static const struct venus_resources sdm660_res = {
+> +	.freq_tbl = sdm660_freq_table,
+> +	.freq_tbl_size = ARRAY_SIZE(sdm660_freq_table),
+> +	.reg_tbl = sdm660_reg_preset,
+> +	.reg_tbl_size = ARRAY_SIZE(sdm660_reg_preset),
+> +	.bw_tbl_enc = sdm660_bw_table_enc,
+> +	.bw_tbl_enc_size = ARRAY_SIZE(sdm660_bw_table_enc),
+> +	.bw_tbl_dec = sdm660_bw_table_dec,
+> +	.bw_tbl_dec_size = ARRAY_SIZE(sdm660_bw_table_dec),
+> +	.clks = {"core", "iface", "bus_throttle", "bus" },
+> +	.clks_num = 4,
+> +	.vcodec0_clks = { "vcodec0_core" },
+> +	.vcodec_clks_num = 1,
+> +	.vcodec_pmdomains = { "venus", "vcodec0" },
+> +	.vcodec_pmdomains_num = 2,
+> +	.opp_pmdomain = (const char *[]) { "cx", NULL },
+> +	.vcodec_num = 1,
+> +	.max_load = 1036800,
+> +	.hfi_version = HFI_VERSION_3XX,
+> +	.vmem_id = VIDC_RESOURCE_NONE,
+> +	.vmem_size = 0,
+> +	.vmem_addr = 0,
+> +	.cp_start = 0,
+> +	.cp_size = 0x79000000,
+> +	.cp_nonpixel_start = 0x1000000,
+> +	.cp_nonpixel_size = 0x28000000,
+> +	.dma_mask = 0xd9000000 - 1,
+> +	.fwname = "qcom/venus-4.4/venus.mdt",
+
+Did you try venus-4.2 firmware from linux-firmware tree [1] ?
+
+> +};
+> +
+>  static const struct freq_tbl sc7180_freq_table[] = {
+>  	{  0, 500000000 },
+>  	{  0, 434000000 },
+> @@ -613,6 +678,7 @@ static const struct venus_resources sc7180_res = {
+>  static const struct of_device_id venus_dt_match[] = {
+>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+> +	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+>  	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
+> 
+
+Reviewed-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
 -- 
-Kind regards,
+regards,
+Stan
 
-Sakari Ailus
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/qcom/venus-4.2
