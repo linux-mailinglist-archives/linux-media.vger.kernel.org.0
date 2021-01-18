@@ -2,132 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1181D2FABB3
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 21:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 113C22FAC5C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 22:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388979AbhARUjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 15:39:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388255AbhARKfd (ORCPT
+        id S2394417AbhARVOM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 16:14:12 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40597 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388837AbhARKN2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 05:35:33 -0500
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 571D2C0613D3
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 02:34:17 -0800 (PST)
-Received: by mail-qv1-xf32.google.com with SMTP id a13so7264071qvv.0
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 02:34:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7wvFzfvZq3gy/QLYapWxVlH+yWiTFpvNNpaLPUEGCQg=;
-        b=f1RfBedwvzweG57vnMB4BxRnNDdZIvlF9UywqNZaVb9w26zKkBVneuPPRgARdnf6ZP
-         8GvQEtndG8aQhb2zwo+dR8/T8lEV1nMqyy+QYqXCX942Pg3WILt8Q25eAsErsy5vvmmV
-         /jmWYeit46oeEasjTm97HK6LmlkhJygUIqLZmTLrK0Oz4rkuEiyWdPdf1b3uYQf/8OcK
-         YUkEc2M4z/zON8xxuzcZTr9la0Kctz70xoQVdoZtI5wAfNywcbVMfVTjPtVbzDQ4oeM6
-         SDC5kCwBbzrknVzlh07MDNE4vDhCCLt6F6x+kGEufWdzm2axCcg/RNHu3yd6HDM1yHC6
-         zquw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7wvFzfvZq3gy/QLYapWxVlH+yWiTFpvNNpaLPUEGCQg=;
-        b=GYl6+tVu+Ugvruyp1nRjaJa0BzP56f+Zcq1VTLcu9JZjoJXVgGnA/TRg1mcA7T7UOx
-         ZnwTuFaSKicag/fga0FpNj3fhkZtQpjMKVwQ/dPFqDYcnkpxLVrDY1fT/UHTbmoDEuRl
-         f5ww3/iEdsJjVyVx1kqZeQHSEdRCZttgVRtffOyR8FggjNVpWdTasSoLvZwzq8fxCzlI
-         xDKqqDVL/5YajXASEyX/K5Rx02w0yEgo98WCuzY15mvozMNII5/fLDEWbRwiBYcGhPST
-         kBwx149o3AqQYMnf+Qk7cRVOErxckT3S3aXJo5cOevYqtuimGn4QXso9OZ6dD3P+cc2a
-         F5Nw==
-X-Gm-Message-State: AOAM533QrRp9wXydjHw41cxL8fTgAEQTx9hVrX2O6caeolNpYHpe/jkE
-        mK7uYaIZfj28mweku/G13XC2jckU54tCiWPkmjila0ij3osPCQ==
-X-Google-Smtp-Source: ABdhPJxrdwib1cYm0VEExzMJb/AsVd2MXqJ2vCUKNl5E3jpJ8g15775LII/UpOboZ+I1jCpNLaocZ1zoznSG0Ph6ZoA=
-X-Received: by 2002:a0c:a525:: with SMTP id y34mr23187785qvy.37.1610966056570;
- Mon, 18 Jan 2021 02:34:16 -0800 (PST)
+        Mon, 18 Jan 2021 05:13:28 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 1RWOlHppyyutM1RWRlYFC7; Mon, 18 Jan 2021 11:12:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1610964755; bh=ayWN1O9yjjDn6kU5MeBoQJ9CyFvEEaw0GBspGXnqg/w=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=g8kJ8k9S1ElbTr4sX5GDBBOvkQxyro1rLlgxYMm71BpqUgdYd4HEnnogz73c5hmfw
+         g0T8JHSH++G64EwUlOJhCMburAF4WwuzQCL6+Kx3z80rxLQDaUtEgTGdRLz2QeaPFQ
+         8yTWzkQJwGb9LuJC2oAcAozbbWddHLve7ir97hGX4ZKKCEyyabG3KrBXnMZCJmJGR4
+         s10RRW9PPIFEkbD6HHbK2yN57uXueSwhckqFz7nD3i4Z7U9O9nSn08FD+GP0Ekab9h
+         pU2p9KFJGx1lluA+rjYEuUZrR4C4RxNEaCa6J+7EzvktMklldCFhUOVn3WUm2mT2J7
+         LvB3vEeGnLQvw==
+Subject: Re: [PATCH v5 3/3] media: rockchip: rkisp1: extend uapi array sizes
+To:     Heiko Stuebner <heiko@sntech.de>, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, linux-media@vger.kernel.org,
+        mchehab@kernel.org, Laurent.pinchart@ideasonboard.com
+Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
+        christoph.muellner@theobroma-systems.com, tfiga@chromium.org,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+References: <20210118095736.272473-1-heiko@sntech.de>
+ <20210118095736.272473-4-heiko@sntech.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <533d6b7b-0e57-f766-5796-bb8e57058a4f@xs4all.nl>
+Date:   Mon, 18 Jan 2021 11:12:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <CAHoAvW8+1jAirPQPQ-WYYD5fyngckrXA+dLTX+H2ysGzOKUZRg@mail.gmail.com>
- <CAHoAvW_Cju=0svzAExJDuXP9NBnz34Lut8M2+Y9RHUtMXfxJqg@mail.gmail.com>
- <CAHoAvW8k77_ckRdAGGTsu4ALhw4=TUPa27knK3x9zR3bjvjbUw@mail.gmail.com> <CAK8P3a1du9ypzvLk3yoF3FNX8BSvSDSdXwWEMQzuFsVm96w1nw@mail.gmail.com>
-In-Reply-To: <CAK8P3a1du9ypzvLk3yoF3FNX8BSvSDSdXwWEMQzuFsVm96w1nw@mail.gmail.com>
-From:   root jason <jason.root.w@gmail.com>
-Date:   Mon, 18 Jan 2021 18:34:05 +0800
-Message-ID: <CAHoAvW8gK3Zm-uJV7uOWGmMQfmR+xP_8+kn6XoBeCv8GiTw7sQ@mail.gmail.com>
-Subject: Re: [PATCH]media:dvb: add compat_ioctl def for dmx_dvr
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210118095736.272473-4-heiko@sntech.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOotmWfX5YvDyGrvUeYghnvQ5b8oEu2LjYdO+8FyHvDkOl9qDIhT7oYV2gO7gR7KRivKu0ellDmUFzAMJZH2vr9+N8Gs4lim3fFISW4S6Kn7C8QBwhso
+ CAKnt4xQTpkfdIVDWyGcINSlrMf+YBTS4WomiRrNJSPROAR5S68jdYQ20HtEebnrDaGOSwjddB6sjvltJxJyFiPUhqdfHlFJw6DRSB4F1MPnAHDtGcUTJ//M
+ pBpofOIqbEE2oQ/F1VVSl6bPT+UGfAiAEptaWJ2ERSuhzchnHaaIIxEI78Ax9it6vjxpZEUu1voseVpa0Ek/S66PcPNyGOXEu4cpUsKjjP3VOrUYkvqHzJOT
+ MokMJzXn4jDEHp7GtpwkI/VcnPUtNua//wnYAvT0856mEajPGHowc3hIyR1Mik5Mb5jbgmEwAUlAR1BGLD0ndRwnVzW7cR+XeznDFdWXbrNLX9jzYFm0BqhZ
+ OSXRNwbXLvZydqcWcLL6Q0cuWqpMaAVZTHKR2aE0K01tTc0DIT63f+XTkN3d+s7ZVDvZ2Vj7tVx570MGGfdOArjdsil1jqpLqja5Ff1ryZXhwv3Y7jXvhJcy
+ jz5jIzfWsrT/6rQh7xohllK9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Arnd Bergmann <arnd@kernel.org> =E4=BA=8E2021=E5=B9=B41=E6=9C=8818=E6=97=A5=
-=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=883:38=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Jan 18, 2021 at 7:21 AM root jason <jason.root.w@gmail.com> wrote=
-:
-> > From: jason.wang <jason.root.w@gmail.com>
-> >
-> > add compat_ioctl define for dmx_dvr to handle ioctl when CONFIG_COMPAT =
-is enable.
-> >
-> > Signed-off-by: .jason.wang <jason.root.w@gmail.com>
-> > ---
-> >  drivers/media/dvb-core/dmxdev.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/d=
-mxdev.c
-> > index f14a872d1268..4a9e027de827 100644
-> > --- a/drivers/media/dvb-core/dmxdev.c
-> > +++ b/drivers/media/dvb-core/dmxdev.c
-> > @@ -1393,6 +1393,7 @@ static const struct file_operations dvb_dvr_fops =
-=3D {
-> >         .read =3D dvb_dvr_read,
-> >         .write =3D dvb_dvr_write,
-> >         .unlocked_ioctl =3D dvb_dvr_ioctl,
-> > +       .compat_ioctl =3D dvb_dvr_ioctl,
-> >         .open =3D dvb_dvr_open,
-> >         .release =3D dvb_dvr_release,
-> >         .poll =3D dvb_dvr_poll,
->
-> This is correct for DMX_SET_BUFFER_SIZE, which takes an integer
-> argument, but not strictly correct for the other ones that take a pointer
-> argument and need a compat_ptr() conversion.
->
-> You could do it by either passing both the 'unsigned long arg'
-> and the 'void __user *argp' pointer to dvb_usercopy(), with the
-> pointer coming from compat_ptr() in case of compat, or you
-> add something like
->
->          if (in_compat_syscall())
->                    arg =3D compat_ptr(unsigned long arg);
->
-> in the function itself. I checked the DVB ioctls to make sure that
-> no other ioctl commands need any special handling, and found
-> that DMX_SET_BUFFER_SIZE is the only one.
->
->           Arnd
+Hi Heiko,
 
-hi Arnd,
-     thank you for your quick comment.
+On 18/01/2021 10:57, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> 
+> Later variants of the rkisp1 block use more entries in some arrays:
+> 
+> RKISP1_CIF_ISP_AE_MEAN_MAX                 25 -> 81
+> RKISP1_CIF_ISP_HIST_BIN_N_MAX              16 -> 32
+> RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17 -> 34
+> RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28 -> 81
 
-     I upload this change is because if not compt_ioctl dvr_ioctl can
-not be invoked
-     I checked my local kernel code about compt_ioctl call flow.
-     I figure out that my local kernel version is 5.4.70.
-     if compat_ioctl is not defined, ioctl cmd need to add into the
-array(ioctl_pointer),
-     otherwise, unlocked_ioctl will not be called.
+This still mentions 28.
 
-     and I check latest kernel version. the logic about this part is
-changed.  no need to
-     add ioctl cmd into that array.
-     for the latest kernel, it should be ok.
+The commit message must say something about changing 28 to 25 as well.
 
-    anyway, .thank you for your reply.
+Actually, I think it would be best if that change (28 -> 25) is done in
+a separate 2/4 patch since this is independent of the V12/13 support.
 
-jason.wang
+Otherwise this series looks good from my point of view.
+
+Regards,
+
+	Hans
+
+> 
+> and we can still extend the uapi during the 5.11-rc cycle, so do that
+> now to be on the safe side.
+> 
+> V10 and V11 only need the smaller sizes, while V12 and V13 needed
+> the larger sizes.
+> 
+> When adding the bigger sizes make sure, values filled from hardware
+> values and transmitted to userspace don't leak kernel data by zeroing
+> them beforehand.
+> 
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-params.c  |  2 +-
+>  .../platform/rockchip/rkisp1/rkisp1-stats.c   | 12 +++-
+>  include/uapi/linux/rkisp1-config.h            | 58 ++++++++++++++++---
+>  3 files changed, 62 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> index 6af4d551ffb5..fa47fe2a02d0 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> @@ -391,7 +391,7 @@ static void rkisp1_goc_config(struct rkisp1_params *params,
+>  				RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
+>  	rkisp1_write(params->rkisp1, arg->mode, RKISP1_CIF_ISP_GAMMA_OUT_MODE);
+>  
+> -	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES; i++)
+> +	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10; i++)
+>  		rkisp1_write(params->rkisp1, arg->gamma_y[i],
+>  			     RKISP1_CIF_ISP_GAMMA_OUT_Y_0 + i * 4);
+>  }
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+> index 3ddab8fa8f2d..a26de388ca13 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+> @@ -202,8 +202,12 @@ static void rkisp1_stats_get_aec_meas(struct rkisp1_stats *stats,
+>  	struct rkisp1_device *rkisp1 = stats->rkisp1;
+>  	unsigned int i;
+>  
+> +	/* the global max can be bigger than the version-specific one */
+> +	memset(pbuf->params.ae.exp_mean, 0, RKISP1_CIF_ISP_AE_MEAN_MAX *
+> +					    sizeof(*pbuf->params.ae.exp_mean));
+> +
+>  	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
+> -	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX; i++)
+> +	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX_V10; i++)
+>  		pbuf->params.ae.exp_mean[i] =
+>  			(u8)rkisp1_read(rkisp1,
+>  					RKISP1_CIF_ISP_EXP_MEAN_00 + i * 4);
+> @@ -232,8 +236,12 @@ static void rkisp1_stats_get_hst_meas(struct rkisp1_stats *stats,
+>  	struct rkisp1_device *rkisp1 = stats->rkisp1;
+>  	unsigned int i;
+>  
+> +	/* the global max can be bigger then the version-specific one */
+> +	memset(pbuf->params.hist.hist_bins, 0, RKISP1_CIF_ISP_HIST_BIN_N_MAX *
+> +					       sizeof(*pbuf->params.hist.hist_bins));
+> +
+>  	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
+> -	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++)
+> +	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10; i++)
+>  		pbuf->params.hist.hist_bins[i] =
+>  			(u8)rkisp1_read(rkisp1,
+>  					RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index d685b7371e71..c0c3abf5e50b 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -49,8 +49,14 @@
+>  #define RKISP1_CIF_ISP_CTK_COEFF_MAX            0x100
+>  #define RKISP1_CIF_ISP_CTK_OFFSET_MAX           0x800
+>  
+> -#define RKISP1_CIF_ISP_AE_MEAN_MAX              25
+> -#define RKISP1_CIF_ISP_HIST_BIN_N_MAX           16
+> +#define RKISP1_CIF_ISP_AE_MEAN_MAX_V10		25
+> +#define RKISP1_CIF_ISP_AE_MEAN_MAX_V12		81
+> +#define RKISP1_CIF_ISP_AE_MEAN_MAX		RKISP1_CIF_ISP_AE_MEAN_MAX_V12
+> +
+> +#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10	16
+> +#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12	32
+> +#define RKISP1_CIF_ISP_HIST_BIN_N_MAX		RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12
+> +
+>  #define RKISP1_CIF_ISP_AFM_MAX_WINDOWS          3
+>  #define RKISP1_CIF_ISP_DEGAMMA_CURVE_SIZE       17
+>  
+> @@ -86,7 +92,9 @@
+>   * Gamma out
+>   */
+>  /* Maximum number of color samples supported */
+> -#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17
+> +#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10   17
+> +#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12   34
+> +#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
+>  
+>  /*
+>   * Lens shade correction
+> @@ -103,7 +111,9 @@
+>   * Histogram calculation
+>   */
+>  /* Last 3 values unused. */
+> -#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28
+> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10 25
+> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12 81
+> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE     RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
+>  
+>  /*
+>   * Defect Pixel Cluster Correction
+> @@ -526,6 +536,15 @@ enum rkisp1_cif_isp_goc_mode {
+>   *
+>   * @mode: goc mode (from enum rkisp1_cif_isp_goc_mode)
+>   * @gamma_y: gamma out curve y-axis for all color components
+> + *
+> + * The number of entries of @gamma_y depends on the hardware revision
+> + * as is reported by the hw_revision field of the struct media_device_info
+> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
+> + *
+> + * Versions <= V11 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10
+> + * entries, versions >= V12 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
+> + * entries. RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES is equal to the maximum
+> + * of the two.
+>   */
+>  struct rkisp1_cif_isp_goc_config {
+>  	__u32 mode;
+> @@ -540,6 +559,15 @@ struct rkisp1_cif_isp_goc_config {
+>   *			  skipped
+>   * @meas_window: coordinates of the measure window
+>   * @hist_weight: weighting factor for sub-windows
+> + *
+> + * The number of entries of @hist_weight depends on the hardware revision
+> + * as is reported by the hw_revision field of the struct media_device_info
+> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
+> + *
+> + * Versions <= V11 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10
+> + * entries, versions >= V12 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
+> + * entries. RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE is equal to the maximum
+> + * of the two.
+>   */
+>  struct rkisp1_cif_isp_hst_config {
+>  	__u32 mode;
+> @@ -827,7 +855,15 @@ struct rkisp1_cif_isp_bls_meas_val {
+>   * @exp_mean: Mean luminance value of block xx
+>   * @bls_val:  BLS measured values
+>   *
+> - * Image is divided into 5x5 blocks.
+> + * The number of entries of @exp_mean depends on the hardware revision
+> + * as is reported by the hw_revision field of the struct media_device_info
+> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
+> + *
+> + * Versions <= V11 have RKISP1_CIF_ISP_AE_MEAN_MAX_V10 entries,
+> + * versions >= V12 have RKISP1_CIF_ISP_AE_MEAN_MAX_V12 entries.
+> + * RKISP1_CIF_ISP_AE_MEAN_MAX is equal to the maximum of the two.
+> + *
+> + * Image is divided into 5x5 blocks on V10 and 9x9 blocks on V12.
+>   */
+>  struct rkisp1_cif_isp_ae_stat {
+>  	__u8 exp_mean[RKISP1_CIF_ISP_AE_MEAN_MAX];
+> @@ -862,8 +898,16 @@ struct rkisp1_cif_isp_af_stat {
+>   *
+>   * @hist_bins: measured bin counters
+>   *
+> - * Measurement window divided into 16 sub-windows, set
+> - * with ISP_HIST_XXX
+> + * The histogram values divided into 16 bins for V10/V11 and 32 bins
+> + * for V12/V13. It is configured within the struct rkisp1_cif_isp_hst_config.
+> + *
+> + * The number of entries of @hist_bins depends on the hardware revision
+> + * as is reported by the hw_revision field of the struct media_device_info
+> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
+> + *
+> + * Versions <= V11 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10 entries,
+> + * versions >= V12 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12 entries.
+> + * RKISP1_CIF_ISP_HIST_BIN_N_MAX is equal to the maximum of the two.
+>   */
+>  struct rkisp1_cif_isp_hist_stat {
+>  	__u16 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
+> 
+
