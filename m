@@ -2,295 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DB8C2FAAFB
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 21:10:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF6A2FAB01
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 21:10:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387998AbhARKoc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 05:44:32 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:50468 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388505AbhARJQk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 04:16:40 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l1Qde-002gpm-1M; Mon, 18 Jan 2021 09:15:54 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l1Qh6-0004Ia-U3; Mon, 18 Jan 2021 09:19:28 +0000
-Date:   Mon, 18 Jan 2021 09:19:28 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1582286407.50.1610961568919@builder.linuxtv.org>
-In-Reply-To: <769467644.49.1610875168670@builder.linuxtv.org>
-References: <769467644.49.1610875168670@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3365
+        id S2388569AbhARKpC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 05:45:02 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41062 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388572AbhARJU0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Jan 2021 04:20:26 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 561051F447E5
+Subject: Re: [PATCH v4 2/3] media: rockchip: rkisp1: carry ip version
+ information
+To:     =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     helen.koike@collabora.com, linux-media@vger.kernel.org,
+        mchehab@kernel.org, hverkuil@xs4all.nl,
+        linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
+        christoph.muellner@theobroma-systems.com, tfiga@chromium.org
+References: <20210115163829.217131-1-heiko@sntech.de>
+ <20210115163829.217131-3-heiko@sntech.de>
+ <YAHwMb4DD0eRoeg3@pendragon.ideasonboard.com> <2867818.687JKscXgg@diego>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <f67aadb1-0965-e2eb-6b50-842e548e0043@collabora.com>
+Date:   Mon, 18 Jan 2021 10:19:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <2867818.687JKscXgg@diego>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3365/display/redirect>
-
-Changes:
 
 
-------------------------------------------
-[...truncated 5.68 KB...]
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v5.0_gpio.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
-Preparing to compile for kernel version 4.19.0
+Am 15.01.21 um 21:29 schrieb Heiko Stübner:
+> Hi Laurent,
+> 
+> Am Freitag, 15. Januar 2021, 20:42:41 CET schrieb Laurent Pinchart:
+>> On Fri, Jan 15, 2021 at 05:38:28PM +0100, Heiko Stuebner wrote:
+>>> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+>>>
+>>> The IP block evolved from its rk3288/rk3399 base and the vendor
+>>> designates them with a numerical version. rk3399 for example
+>>> is designated V10 probably meaning V1.0.
+>>>
+>>> There doesn't seem to be an actual version register we could read that
+>>> information from, so allow the match_data to carry that information
+>>> for future differentiation.
+>>>
+>>> Also carry that information in the hw_revision field of the media-
+>>> controller API, so that userspace also has access to that.
+>>>
+>>> The added versions are:
+>>> - V10: at least rk3288 + rk3399
+>>> - V11: seemingly unused as of now, but probably appeared in some soc
+>>> - V12: at least rk3326 + px30
+>>> - V13: at least rk1808
+>>
+>> In addition to changes to the ISP itself, are there changes in how it is
+>> integrated in the system, in particular in how it is connected to CSI-2
+>> receivers ?
+> 
+> Hooking up my camera on the px30 was pretty straightforward.
+> As you can see in [0] the actual csi-phy block is different, but structurally
+> everything else stayed the same and the px30 series merely accounts
+> for some isp-specific changes, like the split interrupts and the V12-specific
+> parts.
+> 
+> 
+>> Do all the above SoCs have two ISP instances ?
+> 
+> Nope, I think only the rk3399 has two ISPs.
+> 
+> All others only seem to have one instance and maybe an additional more
+> simple video input processor. (like the rk3288 has both an ISP and something
+> called VIP - a simpler block)
+> 
+> Similar is the rk3326/px30 (same soc) which has an ISP as well as a VIP that
+> Maxime Chevallier is working on [1]
+> 
+> Heiko
+> 
+> [0] https://lore.kernel.org/linux-media/20210108193311.3423236-1-heiko@sntech.de/
+> [1] https://lore.kernel.org/linux-devicetree/20201229161724.511102-1-maxime.chevallier@bootlin.com/
+> 
+> 
+>>> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+>>> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+>>> ---
+>>>   Documentation/admin-guide/media/rkisp1.rst    | 16 ++++++++++++++
+>>>   .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++++++++++--------
+>>>   include/uapi/linux/rkisp1-config.h            | 16 ++++++++++++++
+>>>   3 files changed, 44 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
+>>> index 2267e4fb475e..ccf418713623 100644
+>>> --- a/Documentation/admin-guide/media/rkisp1.rst
+>>> +++ b/Documentation/admin-guide/media/rkisp1.rst
+>>> @@ -13,6 +13,22 @@ This file documents the driver for the Rockchip ISP1 that is part of RK3288
+>>>   and RK3399 SoCs. The driver is located under drivers/staging/media/rkisp1
+>>>   and uses the Media-Controller API.
+>>>   
+>>> +Revisions
+>>> +=========
+>>> +
+>>> +There exist multiple smaller revisions to this ISP that got introduced in
+>>> +later SoCs. Revisions can be found in the enum :c:type:`rkisp1_cif_isp_version`
+>>> +in the UAPI and the revision of the ISP inside the running SoC can be read
+>>> +in the field hw_revision of struct media_device_info as returned by
+>>> +ioctl MEDIA_IOC_DEVICE_INFO.
+>>> +
+>>> +Versions in use are:
+>>> +
+>>> +- RKISP1_V10: used at least in rk3288 and rk3399
+>>> +- RKISP1_V11: declared in the original vendor code, but not used
+>>> +- RKISP1_V12: used at least in rk3326 and px30
+>>> +- RKISP1_V13: used at least in rk1808
+>>> +
+>>>   Topology
+>>>   ========
+>>>   .. _rkisp1_topology_graph:
+>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>>> index 68da1eed753d..f7e9fd305548 100644
+>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+>>> @@ -104,6 +104,7 @@
+>>>   struct rkisp1_match_data {
+>>>   	const char * const *clks;
+>>>   	unsigned int size;
+>>> +	enum rkisp1_cif_isp_version isp_ver;
+>>>   };
+>>>   
+>>>   /* ----------------------------------------------------------------------------
+>>> @@ -411,15 +412,16 @@ static const char * const rk3399_isp_clks[] = {
+>>>   	"hclk",
+>>>   };
+>>>   
+>>> -static const struct rkisp1_match_data rk3399_isp_clk_data = {
+>>> +static const struct rkisp1_match_data rk3399_isp_match_data = {
+>>>   	.clks = rk3399_isp_clks,
+>>>   	.size = ARRAY_SIZE(rk3399_isp_clks),
+>>> +	.isp_ver = RKISP1_V10,
+>>>   };
+>>>   
+>>>   static const struct of_device_id rkisp1_of_match[] = {
+>>>   	{
+>>>   		.compatible = "rockchip,rk3399-cif-isp",
+>>> -		.data = &rk3399_isp_clk_data,
+>>> +		.data = &rk3399_isp_match_data,
+>>>   	},
+>>>   	{},
+>>>   };
+>>> @@ -457,15 +459,15 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>>>   
+>>>   static int rkisp1_probe(struct platform_device *pdev)
+>>>   {
+>>> -	const struct rkisp1_match_data *clk_data;
+>>> +	const struct rkisp1_match_data *match_data;
+>>>   	struct device *dev = &pdev->dev;
+>>>   	struct rkisp1_device *rkisp1;
+>>>   	struct v4l2_device *v4l2_dev;
+>>>   	unsigned int i;
+>>>   	int ret, irq;
+>>>   
+>>> -	clk_data = of_device_get_match_data(&pdev->dev);
+>>> -	if (!clk_data)
+>>> +	match_data = of_device_get_match_data(&pdev->dev);
+>>> +	if (!match_data)
+>>>   		return -ENODEV;
+>>>   
+>>>   	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
+>>> @@ -494,15 +496,16 @@ static int rkisp1_probe(struct platform_device *pdev)
+>>>   
+>>>   	rkisp1->irq = irq;
+>>>   
+>>> -	for (i = 0; i < clk_data->size; i++)
+>>> -		rkisp1->clks[i].id = clk_data->clks[i];
+>>> -	ret = devm_clk_bulk_get(dev, clk_data->size, rkisp1->clks);
+>>> +	for (i = 0; i < match_data->size; i++)
+>>> +		rkisp1->clks[i].id = match_data->clks[i];
+>>> +	ret = devm_clk_bulk_get(dev, match_data->size, rkisp1->clks);
+>>>   	if (ret)
+>>>   		return ret;
+>>> -	rkisp1->clk_size = clk_data->size;
+>>> +	rkisp1->clk_size = match_data->size;
+>>>   
+>>>   	pm_runtime_enable(&pdev->dev);
+>>>   
+>>> +	rkisp1->media_dev.hw_revision = match_data->isp_ver;
+>>>   	strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
+>>>   		sizeof(rkisp1->media_dev.model));
+>>>   	rkisp1->media_dev.dev = &pdev->dev;
+>>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+>>> index ba443771cc0b..9fecb6bc457d 100644
+>>> --- a/include/uapi/linux/rkisp1-config.h
+>>> +++ b/include/uapi/linux/rkisp1-config.h
+>>> @@ -124,6 +124,22 @@
+>>>   #define RKISP1_CIF_ISP_STAT_AFM           (1U << 2)
+>>>   #define RKISP1_CIF_ISP_STAT_HIST          (1U << 3)
+>>>   
+>>> +
+>>> +/**
+>>> + * enum rkisp1_cif_isp_version - ISP variants
+>>> + *
+>>> + * @RKISP1_V10: used at least in rk3288 and rk3399
+>>> + * @RKISP1_V11: declared in the original vendor code, but not used
+>>> + * @RKISP1_V12: used at least in rk3326 and px30
+>>> + * @RKISP1_V13: used at least in rk1808
+>>> + */
+>>> +enum rkisp1_cif_isp_version {
+>>> +	RKISP1_V10 = 0,
 
-***WARNING:*** You do not have the full kernel sources installed.
-This does not prevent you from building the v4l-dvb tree if you have the
-kernel headers, but the full kernel source may be required in order to use
-make menuconfig / xconfig / qconfig.
+I wonder if it is useful to start the enum with:
+RKISP1_V10 = 10,
 
-If you are experiencing problems building the v4l-dvb tree, please try
-building against a vanilla kernel before reporting a bug.
+So when printing the hw revision it always prints a positive number.
 
-Vanilla kernels are available at http://kernel.org.
-On most distros, this will compile a newly downloaded kernel:
+Thanks,
+Dafna
 
-cp /boot/config-`uname -r` <your kernel dir>/.config
-cd <your kernel dir>
-make all modules_install install
-
-Please see your distro's web site for instructions to build a new kernel.
-
-WARNING: This is the V4L/DVB backport tree, with experimental drivers
-	 backported to run on legacy kernels from the development tree at:
-		http://git.linuxtv.org/media-tree.git.
-	 It is generally safe to use it for testing a new driver or
-	 feature, but its usage on production environments is risky.
-	 Don't use it in production. You've been warned.
-CEC_CROS_EC: Requires at least kernel 9.255.255
-V4L2_H264: Requires at least kernel 9.255.255
-VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
-VIDEO_OMAP3: Requires at least kernel 9.255.255
-VIDEO_IMX274: Requires at least kernel 9.255.255
-SND_BT87X: Requires at least kernel 9.255.255
-INTEL_ATOMISP: Requires at least kernel 9.255.255
-VIDEO_HANTRO: Requires at least kernel 9.255.255
-VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
-VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
-Created default (all yes) .config file
-./scripts/fix_kconfig.pl
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-./scripts/make_myconfig.pl
-[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
-perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
-creating symbolic links...
-Kernel build directory is /lib/modules/4.19.0-5-amd64/build
-make -C ../linux apply_patches
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Patches for 4.19.0-5-amd64 already applied.
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
-make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov02a10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9734.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13858.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9p031.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t112.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v011.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sr030pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/noon010pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rj54n1cb0c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6aa.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6a3.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k4ecgx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k5baf.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-ctrls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adp1653.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3560.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3646.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak881x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-kbd-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ml86v7667.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2659.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc358743.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hi556.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx214.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx219.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx258.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx290.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx319.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx355.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rdacm20.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/max9271.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/st-mipid02.o>
-In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-core.h>:18,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-v4l2.h>:16,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.c>:32:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/linux/dma-buf.h>:16:10: fatal error: linux/dma-buf-map.h: No such file or directory
- #include <linux/dma-buf-map.h>
-          ^~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
-make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[3]: *** [Makefile:146: sub-make] Error 2
-make[2]: *** [Makefile:8: all] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 533
-Build step 'Execute shell' marked build as failure
+>>> +	RKISP1_V11,
+>>> +	RKISP1_V12,
+>>> +	RKISP1_V13,
+>>> +};
+>>> +
+>>>   enum rkisp1_cif_isp_histogram_mode {
+>>>   	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
+>>>   	RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED,
+>>
+>>
+> 
+> 
+> 
+> 
