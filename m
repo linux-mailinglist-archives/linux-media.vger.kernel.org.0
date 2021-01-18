@@ -2,139 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F1AB2FA43B
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 16:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 142952FA4C0
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 16:32:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390268AbhARPLG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 10:11:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34516 "EHLO
+        id S2405920AbhARPak convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 18 Jan 2021 10:30:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405442AbhARPKa (ORCPT
+        with ESMTP id S2405908AbhARPaf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 10:10:30 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 297E6C061757
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 07:09:50 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id v15so13138268wrx.4
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 07:09:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=o0LrDk575sZO8QF6eRJPnKaqFriKwMIEzttJtoJHwP0=;
-        b=DrzJ/q9KyuRRal0Ze0KBbIW7oKNk6JkGd6CVff4gctqjSVajqnVv9fc7l4zSQUtIRt
-         cq+ipbNdcyGi8vKWvy03L6K1Nt4n4vl5tCE7kIZonzCkLKU0T9t4LWz4fXubhR6WZ6b8
-         Rn9Nj+iFhp8F+gjof50KQotABsBOASwT1tIRsCQWUqxHTd6/Wmm4Viynn/1gq0U6iIPU
-         uz7J7AWfvI+lkmOqPc4gG7QFOOQ0z8nJn//TX/yN5S6R1lEi0+z31VyXBmFKhPZdn3nq
-         NsSgEvnUf0l6dMbCFJk1UihF29ReJOisAzC3Rlr7aD7qosJ4Hd8jf18Huw9xBsNG5Gr6
-         VVOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=o0LrDk575sZO8QF6eRJPnKaqFriKwMIEzttJtoJHwP0=;
-        b=lM3jk7dH1O+/TRG4V9BIVaX/7HMr92VsDL+0Ndg903wVmHvMYWi2FplkEyoLLZ7po6
-         C8hNplJPdhdp3zE7qHk4DLhJpglhLWm/z6bZXOiiU4SH5W9ejUR1+MXDfbsKYnaoY2QJ
-         J1cmdp5XVUi+IhRcjNHtvrG+ZL6QCvk6xmtr70OKlmz2Pl/ZWTahokE7ugtr2yrzBCuE
-         UuTvwohs9/mFQbWu894uIfCs6ewAoH80NsvfowfIC0m9Kfp3tsc6kC7uG44bXHw9kXw2
-         7ft4bkk9bpqNya+WAxqSt2YZmvswy9pl+yxXFvXT76D1PeNDVeh9XnQIKyn5sds1X9Zu
-         a1/A==
-X-Gm-Message-State: AOAM5334zYCmJlG4rBmFmzFcq+DoRnSmMDyy5Q9oyu+KzMtcDY53e00C
-        llu3CgJNOaTm7SYRDgo8vUMEGA==
-X-Google-Smtp-Source: ABdhPJyDZ5Oz5+gFChXkRG81oA1CFNwWNCMpwIu5woxmSaXUr+y+QkHfALigdBsXlGhC6+k4fDIdvA==
-X-Received: by 2002:a05:6000:368:: with SMTP id f8mr26201890wrf.150.1610982588871;
-        Mon, 18 Jan 2021 07:09:48 -0800 (PST)
-Received: from dell ([91.110.221.158])
-        by smtp.gmail.com with ESMTPSA id n10sm29595126wrx.21.2021.01.18.07.09.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 07:09:47 -0800 (PST)
-Date:   Mon, 18 Jan 2021 15:09:45 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Zack Rusin <zackr@vmware.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Eddie Dong <eddie.dong@intel.com>,
-        Eric Anholt <eric@anholt.net>, Faith <faith@valinux.com>,
-        Gareth Hughes <gareth@valinux.com>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        Jackie Li <yaodong.li@intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jan Safrata <jan.nikitenko@gmail.com>,
-        Jesse Barnes <jesse.barnes@intel.com>,
-        jim liu <jim.liu@intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Keith Packard <keithp@keithp.com>,
-        Kevin Tian <kevin.tian@intel.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>, Min He <min.he@intel.com>,
-        Niu Bing <bing.niu@intel.com>,
-        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        Pei Zhang <pei.zhang@intel.com>,
-        Ping Gao <ping.a.gao@intel.com>,
-        Rob Clark <rob.clark@linaro.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tina Zhang <tina.zhang@intel.com>,
-        Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Zhiyuan Lv <zhiyuan.lv@intel.com>
-Subject: Re: [PATCH 00/29] [Set 15] Finally rid W=1 warnings from GPU!
-Message-ID: <20210118150945.GE4903@dell>
-References: <20210115181601.3432599-1-lee.jones@linaro.org>
- <F914D9B9-6DD4-4383-9F7C-8D09FBFE96CE@vmware.com>
- <YAWhDRkSOHbJ+2Le@phenom.ffwll.local>
+        Mon, 18 Jan 2021 10:30:35 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A07B8C061573
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 07:29:54 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1l1WTY-0007VF-Sm; Mon, 18 Jan 2021 16:29:52 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1l1WTY-00038F-7Q; Mon, 18 Jan 2021 16:29:52 +0100
+Message-ID: <180eccb13a035e6245da319b285c6cd622fb30ec.camel@pengutronix.de>
+Subject: Re: Coda: imx53 plays video with incorrect colors
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        Tim Harvey <tharvey@gateworks.com>
+Date:   Mon, 18 Jan 2021 16:29:52 +0100
+In-Reply-To: <CAOMZO5CyDtEW4Uo3u9ANRro5fV4DBx3WLKDc_ok8HB41mNKF5w@mail.gmail.com>
+References: <CAOMZO5A3Dr2SF_u9z9p1dAwBrrPXTqkdVqZuBR0v6iYRPcJEig@mail.gmail.com>
+         <CAOMZO5B=2z5sHWQvb0872v4f7YYN8Aq4ptf4YuDmoebJBtEY+w@mail.gmail.com>
+         <f8d2536fb5dadf7b7bdb4bfb6b3aaadf68318a88.camel@ndufresne.ca>
+         <CAOMZO5DBRGqn5DTsMG3RRHdN1HMo7CtP6HYw3PajK3A6Y6iCoQ@mail.gmail.com>
+         <CAKQmDh-KgO4TameRQs_D3_rdW8n0oY-ZLmbsQzWQPOkUJdiObw@mail.gmail.com>
+         <CAOMZO5DCzodXDVygMfnhJi=DF3W64NZJQxLBT6LoOJ_V6NJ9Hg@mail.gmail.com>
+         <4366a936909a3f33788719f00441e81b1f3576f7.camel@pengutronix.de>
+         <CAOMZO5CyDtEW4Uo3u9ANRro5fV4DBx3WLKDc_ok8HB41mNKF5w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YAWhDRkSOHbJ+2Le@phenom.ffwll.local>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 18 Jan 2021, Daniel Vetter wrote:
+Hi Fabio,
 
-> On Fri, Jan 15, 2021 at 06:27:15PM +0000, Zack Rusin wrote:
-> > 
-> > > On Jan 15, 2021, at 13:15, Lee Jones <lee.jones@linaro.org> wrote:
-> > > 
-> > > This set is part of a larger effort attempting to clean-up W=1
-> > > kernel builds, which are currently overwhelmingly riddled with
-> > > niggly little warnings.
-> > > 
-> > > Last set!  All clean after this for; Arm, Arm64, PPC, MIPS and x86.
-> > 
-> > Thanks! For all the vmwgfx bits:
-> > Reviewed-by: Zack Rusin <zackr@vmware.com>
+On Mon, 2021-01-18 at 10:28 -0300, Fabio Estevam wrote:
+> Hi Philipp,
 > 
-> Ok I merged everything except vmwgfx (that's for Zack) and i915/nouveau
-> (those generally go through other trees, pls holler if they're stuck).
+> Thanks for your reply.
+> 
+> On Mon, Jan 18, 2021 at 9:40 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> 
+> > The driver could be modified to switch the DP->DI0/DC->DI1 mapping
+> > around to DP->DI1/DC->DI0 when required. As a simple test, you can
+> > switch statically with:
+> 
+> It does change the colors but still does not play the video with the
+> correct colors. Looks like it plays in black-and-white now.
 
-Thanks Daniel, you're a superstar!
+Please try forcing decoder output to NV12 instead of I420.
 
-So Zack will take the vmwgfx parts?  Despite providing a R-b?
+> > Or, as a workaround, add a v4l2convert element and use the IC to convert
+> > to BGRx between decoder and kmssink.
+> 
+> Yes, I have tried to do this, but it says that v4l2convert does not
+> support bt601 colorimetry, and then a segfault occurs:
+> 
+> # gst-launch-1.0 filesrc location=/media/clip.mp4 ! qtdemux !
+> h264parse ! v4l2h264dec ! v4l2convert ! video/x-raw,format=BGRx !
+> kmssink
+> Setting pipeline to PAUSED ...
+> Pipeline is PREROLLING ...
+> ERROR: from element /GstPipeline:pipeline0/v4l2convert:v4l2convert0:
+> Device '/dev/video4' does not support bt601 colorimetry
+> Additional debug info:
+> ../sys/v4l2/gstv4l2object.c(4032): gst_v4l2_object_set_format_full ():
+> /GstPipeline:pipeline0/v4l2convert:v4l2convert0:
+> Device wants 2:4:5:4 colorimetry
+> ERROR: pipeline doesn't want to preroll.
+> Setting pipeline to NULL ...
+> Caught SIGSEGV
+> exec gdb failed: No such file or directory
+> Spinning.  Please run 'gdb gst-launch-1.0 217' to continue debugging,
+> Ctrl-C to quit, or Ctrl-\ to dump core.
+> 
+> Is the Gstreamer pipeline above correct?
 
-> Note that we have some build issue on some of the configs sfr uses, so drm
-> trees are still stuck on old versions in linux-next. Hopefully should get
-> resolved soon, the bugfix is in some subtree I've heard.
+Yes. Please try if the following patch makes it work:
 
-No worries.  Thanks for letting me know.
+----------8<----------
+From c45afcaf6fbef56a86dce19200c06df78718db60 Mon Sep 17 00:00:00 2001
+From: Philipp Zabel <p.zabel@pengutronix.de>
+Date: Mon, 18 Jan 2021 15:54:43 +0100
+Subject: [PATCH] v4l2object: handle GST_VIDEO_TRANSFER_BT601
 
+V4L2 makes no difference between the BT.601 and BT.709 transfer
+functions [1], but GStreamer does since 1.18 [2].
+
+Adapt gst_v4l2_object_get_colorspace() and
+gst_v4l2_object_set_format_full().
+
+[1] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/colorspaces-details.html#colorspace-smpte-170m-v4l2-colorspace-smpte170m
+[2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/merge_requests/724
+---
+ sys/v4l2/gstv4l2object.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
+index ea4363e17303..b13216d75836 100644
+--- a/sys/v4l2/gstv4l2object.c
++++ b/sys/v4l2/gstv4l2object.c
+@@ -2334,7 +2334,7 @@ gst_v4l2_object_get_colorspace (struct v4l2_format *fmt,
+     case V4L2_COLORSPACE_SMPTE170M:
+       cinfo->range = GST_VIDEO_COLOR_RANGE_16_235;
+       cinfo->matrix = GST_VIDEO_COLOR_MATRIX_BT601;
+-      cinfo->transfer = GST_VIDEO_TRANSFER_BT709;
++      cinfo->transfer = GST_VIDEO_TRANSFER_BT601;
+       cinfo->primaries = GST_VIDEO_COLOR_PRIMARIES_SMPTE170M;
+       break;
+     case V4L2_COLORSPACE_REC709:
+@@ -2463,6 +2463,8 @@ gst_v4l2_object_get_colorspace (struct v4l2_format *fmt,
+     case V4L2_XFER_FUNC_709:
+       if (colorspace == V4L2_COLORSPACE_BT2020 && fmt->fmt.pix.height >= 2160)
+         cinfo->transfer = GST_VIDEO_TRANSFER_BT2020_12;
++      else if (colorspace == V4L2_COLORSPACE_SMPTE170M)
++        cinfo->transfer = GST_VIDEO_TRANSFER_BT601;
+       else
+         cinfo->transfer = GST_VIDEO_TRANSFER_BT709;
+       break;
+@@ -3855,6 +3857,7 @@ gst_v4l2_object_set_format_full (GstV4l2Object * v4l2object, GstCaps * caps,
+     case GST_VIDEO_TRANSFER_GAMMA10:
+       transfer = V4L2_XFER_FUNC_NONE;
+       break;
++    case GST_VIDEO_TRANSFER_BT601:
+     case GST_VIDEO_TRANSFER_BT2020_12:
+     case GST_VIDEO_TRANSFER_BT709:
+       transfer = V4L2_XFER_FUNC_709;
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.20.1
+---------->8----------
+
+This may not be the correct solution. GStreamer could keep choosing
+BT709 as told by V4L2, and use the new
+gst_video_color_transfer_is_equivalent() function to test for
+equivalence instead.
+
+regards
+Philipp
