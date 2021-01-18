@@ -2,122 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95E922F9F67
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 13:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 163B92FA021
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 13:43:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391417AbhARMVj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 07:21:39 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:54364 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404011AbhARMVL (ORCPT
+        id S2391575AbhARMlm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 18 Jan 2021 07:41:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404154AbhARMlG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 07:21:11 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10ICF5WX167030;
-        Mon, 18 Jan 2021 12:20:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=I/Gkifl18XJioa2EZqEq8waf3qGoKiu8TDdISQu8GPM=;
- b=IiGuKj62Yfo/6y/lGbFftTw32iN3P42wvyCLA7IZECOrgWC/XPwi6/81drDhyRXmgkPn
- ICg0p9NAY5D8XqIa+WLgU4NTx+F0NUZV9/c4Ifv8vU9XQfyb24T1o95NzKDCJxmdnVK7
- P5zjInqMS+8OeUsLOGWCjbijHDrfnVSo7t//2TJh+xbvZPHIQ2t8SkazsNUM4VHjs1bQ
- nFq7ZN1EnSTNUmeobXV5vP8MO3J6kl+ufYcaCIrd1NKW+cnaahbUFrJt0nV3+amORDaY
- Uf3B8y6ieebxUyAxldKflksQlpkPGaRIkonh9xku5/oqZQadRI3uSFiB7ZFTbcjq+LNo SQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 363nnad27a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Jan 2021 12:20:23 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10IC9vT7035510;
-        Mon, 18 Jan 2021 12:20:23 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 364a1wch1j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Jan 2021 12:20:23 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10ICKL4w013785;
-        Mon, 18 Jan 2021 12:20:21 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 18 Jan 2021 04:20:21 -0800
-Date:   Mon, 18 Jan 2021 15:20:11 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Antoine Jacquet <royale@zerezo.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
-Subject: Re: [PATCH] media: zr364xx: fix memory leaks in probe()
-Message-ID: <20210118122011.GA2696@kadam>
-References: <X/WMfVDCsxRghKHH@mwanda>
- <196887f5-677f-0aeb-5f5c-fb4a918d6128@xs4all.nl>
+        Mon, 18 Jan 2021 07:41:06 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9257AC061573
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 04:40:25 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1l1TpX-0002QI-Pz; Mon, 18 Jan 2021 13:40:23 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1l1TpX-0003Cl-0z; Mon, 18 Jan 2021 13:40:23 +0100
+Message-ID: <4366a936909a3f33788719f00441e81b1f3576f7.camel@pengutronix.de>
+Subject: Re: Coda: imx53 plays video with incorrect colors
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Fabio Estevam <festevam@gmail.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        Tim Harvey <tharvey@gateworks.com>
+Date:   Mon, 18 Jan 2021 13:40:22 +0100
+In-Reply-To: <CAOMZO5DCzodXDVygMfnhJi=DF3W64NZJQxLBT6LoOJ_V6NJ9Hg@mail.gmail.com>
+References: <CAOMZO5A3Dr2SF_u9z9p1dAwBrrPXTqkdVqZuBR0v6iYRPcJEig@mail.gmail.com>
+         <CAOMZO5B=2z5sHWQvb0872v4f7YYN8Aq4ptf4YuDmoebJBtEY+w@mail.gmail.com>
+         <f8d2536fb5dadf7b7bdb4bfb6b3aaadf68318a88.camel@ndufresne.ca>
+         <CAOMZO5DBRGqn5DTsMG3RRHdN1HMo7CtP6HYw3PajK3A6Y6iCoQ@mail.gmail.com>
+         <CAKQmDh-KgO4TameRQs_D3_rdW8n0oY-ZLmbsQzWQPOkUJdiObw@mail.gmail.com>
+         <CAOMZO5DCzodXDVygMfnhJi=DF3W64NZJQxLBT6LoOJ_V6NJ9Hg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <196887f5-677f-0aeb-5f5c-fb4a918d6128@xs4all.nl>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 adultscore=0
- mlxscore=0 spamscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101180074
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 spamscore=0
- mlxlogscore=999 clxscore=1011 bulkscore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101180074
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 05:13:41PM +0100, Hans Verkuil wrote:
-> Hi Dan,
+Hi Fabio,
+
+On Mon, 2021-01-18 at 07:57 -0300, Fabio Estevam wrote:
+> Hi Philipp,
 > 
-> On 06/01/2021 11:10, Dan Carpenter wrote:
-> > Syzbot discovered that the probe error handling doesn't clean up the
-> > resources allocated in zr364xx_board_init().  There are several
-> > related bugs in this code so I have re-written the error handling.
-> > 
-> > 1)  Introduce a new function zr364xx_board_uninit() which cleans up
-> >     the resources in zr364xx_board_init().
-> > 2)  In zr364xx_board_init() if the call to zr364xx_start_readpipe()
-> >     fails then release the "cam->buffer.frame[i].lpvbits" memory
-> >     before returning.  This way every function either allocates
-> >     everything successfully or it cleans up after itself.
-> > 3)  Re-write the probe function so that each failure path goto frees
-> >     the most recent allocation.  That way we don't free anything
-> >     before it has been allocated and we can also verify that
-> >     everything is freed.
-> > 4)  Originally, in the probe function the "cam->v4l2_dev.release"
-> >     pointer was set to "zr364xx_release" near the start but I moved
-> >     that assignment to the end, after everything had succeeded.  The
-> >     release function was never actually called during the probe cleanup
-> >     process, but with this change I wanted to make it clear that we
-> >     don't want to call zr364xx_release() until everything is
-> >     allocated successfully.
-> > 
-> > Next I re-wrote the zr364xx_release() function.  Ideally this would
-> > have been a simple matter of copy and pasting the cleanup code from
-> > probe and adding an additional call to video_unregister_device().  But
-> > there are several quirks to note.
-> > 
-> > 1)  The original code never called video_unregister_device().  In other
-> >     words, this is an additional bugfix.
+> On Sun, Jan 17, 2021 at 10:18 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
 > 
-> Not a bug, see below.
-> 
+> > At first sight there is nothing wrong from GStreamer happening. It
+> > picks i420, pass it to KMS and it comes out wrong, first suspect
+> > would be the display driver. Understand that yuv formats are often
+> > unused and untested as most display server / compositer uses rgb
+> > type of formats converting with GPU.
 
-Thanks for reviewing this.  I will fix a send a v2.  I should have seen
-that.
+This is both a bug and a missing feature in the imx-drm driver. The
+driver doesn't support color space conversion on the VGA output and
+doesn't report that correctly.
 
-The layering here is sort of confusing in a way...  But not anything
-that needs to be dealt with immediately.
+> On i.MX53 I see this 'wrong color' behavior when playing videos into
+> TVE as well as parallel display.
+>
+> Are you able to playback video successfully on i.MX53? If so, could
+> you please share your Gstreamer pipeline?
 
-regards,
-dan carpenter
+I can reproduce this with
 
+  gst-launch-1.0 videotestsrc ! video/x-raw,format=I420 ! kmssink
+
+and the same for NV12 or YUY2. We are missing color space conversion on
+the VGA output.
+
+The IPU only supports color space conversion on one output via the DP.
+This path is hard-coded to DI0 in the driver. The direct DC path to DI1,
+which TVE/VGA is connected to, does not support CSC.
+
+The driver could be modified to switch the DP->DI0/DC->DI1 mapping
+around to DP->DI1/DC->DI0 when required. As a simple test, you can
+switch statically with:
+
+----------8<----------
+diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
+index d166ee262ce4..f7c86ef0bed7 100644
+--- a/drivers/gpu/ipu-v3/ipu-common.c
++++ b/drivers/gpu/ipu-v3/ipu-common.c
+@@ -1118,18 +1118,18 @@ static struct ipu_platform_reg client_reg[] = {
+ 	}, {
+ 		.pdata = {
+ 			.di = 0,
+-			.dc = 5,
+-			.dp = IPU_DP_FLOW_SYNC_BG,
+-			.dma[0] = IPUV3_CHANNEL_MEM_BG_SYNC,
++			.dc = 1,
++			.dp = -EINVAL,
++			.dma[0] = IPUV3_CHANNEL_MEM_DC_SYNC,
+ 			.dma[1] = IPUV3_CHANNEL_MEM_FG_SYNC,
+ 		},
+ 		.name = "imx-ipuv3-crtc",
+ 	}, {
+ 		.pdata = {
+ 			.di = 1,
+-			.dc = 1,
+-			.dp = -EINVAL,
+-			.dma[0] = IPUV3_CHANNEL_MEM_DC_SYNC,
++			.dc = 5,
++			.dp = IPU_DP_FLOW_SYNC_BG,
++			.dma[0] = IPUV3_CHANNEL_MEM_BG_SYNC,
+ 			.dma[1] = -EINVAL,
+ 		},
+ 		.name = "imx-ipuv3-crtc",
+diff --git a/drivers/gpu/ipu-v3/ipu-dc.c b/drivers/gpu/ipu-v3/ipu-dc.c
+index 34b4075a6a8e..0a7f48e4aa37 100644
+--- a/drivers/gpu/ipu-v3/ipu-dc.c
++++ b/drivers/gpu/ipu-v3/ipu-dc.c
+@@ -364,9 +364,9 @@ int ipu_dc_init(struct ipu_soc *ipu, struct device *dev,
+ 
+ 	writel(DC_WR_CH_CONF_WORD_SIZE_24 | DC_WR_CH_CONF_DISP_ID_PARALLEL(1) |
+ 			DC_WR_CH_CONF_PROG_DI_ID,
+-			priv->channels[1].base + DC_WR_CH_CONF);
+-	writel(DC_WR_CH_CONF_WORD_SIZE_24 | DC_WR_CH_CONF_DISP_ID_PARALLEL(0),
+ 			priv->channels[5].base + DC_WR_CH_CONF);
++	writel(DC_WR_CH_CONF_WORD_SIZE_24 | DC_WR_CH_CONF_DISP_ID_PARALLEL(0),
++			priv->channels[1].base + DC_WR_CH_CONF);
+ 
+ 	writel(DC_GEN_SYNC_1_6_SYNC | DC_GEN_SYNC_PRIORITY_1,
+ 		priv->dc_reg + DC_GEN);
+---------->8----------
+
+That should enable CSC (and overlay plane) on DI1, and lose it on DI0.
+
+Or, as a workaround, add a v4l2convert element and use the IC to convert
+to BGRx between decoder and kmssink.
+
+regards
+Philipp
