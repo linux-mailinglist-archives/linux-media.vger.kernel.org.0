@@ -2,102 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C417B2FA208
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 14:48:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F1772FA246
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 14:57:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404811AbhARNsL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 08:48:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42226 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404790AbhARNro (ORCPT
+        id S2404834AbhARN4L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 08:56:11 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:59051 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404779AbhARNz5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 08:47:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610977577;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=X4UKy1ZlErLNFqSWKqt0fMjDDkpt5JLUt2TOmRC3MUA=;
-        b=V/k8NME4DHRTgy3ICLXxuXGVI3PlANgqATyakuaHcXCdJ9tZUjs7qsYZmgAyOWi6tcQXmV
-        7nFBtyYGa/eySTG9W71AftEE2SJxiMjxg/ZVX8ShZu2rxtiyZBFqt9zTAesxE7XYHKXHFc
-        E3LEcnWgu/+FZLQQEdyI8sN5+Ab2CPY=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-zhpqICeWNFaT_6DtviTkzA-1; Mon, 18 Jan 2021 08:46:16 -0500
-X-MC-Unique: zhpqICeWNFaT_6DtviTkzA-1
-Received: by mail-qt1-f199.google.com with SMTP id k12so15307160qth.23
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 05:46:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X4UKy1ZlErLNFqSWKqt0fMjDDkpt5JLUt2TOmRC3MUA=;
-        b=nEP5TUna49l5BSErAArYrnqJ0daghNCQp3ccVcG2SX93Swu/BUq/AECwbKtklD2cya
-         OxY96PKasQ27Bb3b+JAD9iqMkLvyrei3F+TpCg+nApW6jqnliWe7cYeh1gu28KQBnb9D
-         k+iKg+rGGUGwgtIXZkHhTRoshgwk+8eaNxNzmBDjl7GflQTeKuEh/pRvQ0ab48/5t2fz
-         ANfMzvk8dC+fYyGduM6SvyNkLpyShQUdzlA7JRbzqq6rQvKdL4+jCevP7QYiMUsa/eNj
-         oMeP8ylqMrth5YZQaBNzPG1RZtumWWzItSXjrAmEbomT7/jYt0JoptIUwZXXWKJ2h4/b
-         qJug==
-X-Gm-Message-State: AOAM533WJIAFD4GFG31J3MYl5oMzNZjkNcs5KDpvoaVmvyOKOmLfDFNj
-        DRpvWNDGv39FCDJ4uhVKGVBphBMjEZ5FjRdLh2Op+IDk3goEMjApz9PuQ1trtymcsHDNE95pcSC
-        fuhBgAnG43CKNys7f2HwD9aI=
-X-Received: by 2002:a0c:8304:: with SMTP id j4mr24266753qva.18.1610977575150;
-        Mon, 18 Jan 2021 05:46:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwfTxYTWOMK1FOKD7X9onRCJISzmAUfQaJXpGwZwHEk8ttsMbuo7RxaMz2e+7c5NBGily/iGQ==
-X-Received: by 2002:a0c:8304:: with SMTP id j4mr24266551qva.18.1610977571564;
-        Mon, 18 Jan 2021 05:46:11 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id o21sm11026169qko.9.2021.01.18.05.46.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 05:46:10 -0800 (PST)
-From:   trix@redhat.com
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        peter.ujfalusi@ti.com, robert.jarzmik@free.fr,
-        romain.perier@gmail.com, jacopo+renesas@jmondi.org,
-        allen.lkml@gmail.com, dan.carpenter@oracle.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] media: pxa_camera: declare variable when DEBUG is defined
-Date:   Mon, 18 Jan 2021 05:45:13 -0800
-Message-Id: <20210118134513.613097-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+        Mon, 18 Jan 2021 08:55:57 -0500
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 2332920008;
+        Mon, 18 Jan 2021 13:55:07 +0000 (UTC)
+Date:   Mon, 18 Jan 2021 14:55:07 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Julia Lawall <julia.lawall@inria.fr>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        kbuild-all@lists.01.org
+Subject: Re: [PATCH] media: i2c: fix odd_ptr_err.cocci warnings
+Message-ID: <YAWTO11tkNPnslKV@aptenodytes>
+References: <alpine.DEB.2.22.394.2101162109350.2697@hadrien>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="QNxCC/ko3tLIeCxU"
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2101162109350.2697@hadrien>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
 
-When DEBUG is defined this error occurs
+--QNxCC/ko3tLIeCxU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drivers/media/platform/pxa_camera.c:1410:7: error:
-  ‘i’ undeclared (first use in this function)
-  for (i = 0; i < vb->num_planes; i++)
-       ^
-The variable 'i' is missing, so declare it.
+Hi,
 
-Fixes: 6f28435d1c15 ("[media] media: platform: pxa_camera: trivial move of functions")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/media/platform/pxa_camera.c | 3 +++
- 1 file changed, 3 insertions(+)
+On Sat 16 Jan 21, 21:11, Julia Lawall wrote:
+> From: kernel test robot <lkp@intel.com>
+>=20
+> PTR_ERR should access the value just tested by IS_ERR
 
-diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
-index b664ce7558a1..75fad9689c90 100644
---- a/drivers/media/platform/pxa_camera.c
-+++ b/drivers/media/platform/pxa_camera.c
-@@ -1386,6 +1386,9 @@ static int pxac_vb2_prepare(struct vb2_buffer *vb)
- 	struct pxa_camera_dev *pcdev = vb2_get_drv_priv(vb->vb2_queue);
- 	struct pxa_buffer *buf = vb2_to_pxa_buffer(vb);
- 	int ret = 0;
-+#ifdef DEBUG
-+	int i;
-+#endif
- 
- 	switch (pcdev->channels) {
- 	case 1:
--- 
-2.27.0
+Good catch!
 
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> Generated by: scripts/coccinelle/tests/odd_ptr_err.cocci
+>=20
+> Fixes: 11c0d8fdccc5 ("media: i2c: Add support for the OV8865 image sensor=
+")
+> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
+> ---
+>=20
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   b3a3cbdec55b090d22a09f75efb7c7d34cb97f25
+> commit: 11c0d8fdccc56fa15cb15906480b4737c31dd085 [2650/3956] media: i2c: =
+Add support for the OV8865 image sensor
+> :::::: branch date: 2 days ago
+> :::::: commit date: 4 days ago
+>=20
+>  ov8865.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -2849,7 +2849,7 @@ static int ov8865_probe(struct i2c_clien
+>  	sensor->avdd =3D devm_regulator_get(dev, "avdd");
+>  	if (IS_ERR(sensor->avdd)) {
+>  		dev_err(dev, "cannot get AVDD (analog) regulator\n");
+> -		ret =3D PTR_ERR(sensor->dvdd);
+> +		ret =3D PTR_ERR(sensor->avdd);
+>  		goto error_endpoint;
+>  	}
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--QNxCC/ko3tLIeCxU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmAFkzsACgkQ3cLmz3+f
+v9FKbQf+NcZH7Muof9WMCk2hCgMCuDHJPB+r4d23+jph+8Z55rc0NvIIzZLiFO/v
+YdaRBSz14ar2gMp4o8lifD3AQxKEvyCga90LqwJ329WpHvk4E8SKW0KI7jNv5XWU
+EWR7LVxSrunBYwt7lYAiP0By6KWpDxvrXPfk6fLvbvxG0xH+ewaZ557xvh976uRr
+jpCZNx93uT8XKW5dutl2zLz3MLhyRWm0s46yeGHX5VJk3BdfCNTF9heApuuy0Oiu
+zvf0yXjHk4Z4NQypzveWg8ekdKHe/rfZosWsaBkSrVmK5fXZVPVOw1nDo8PCs+jf
+1sZbPyTNC/qySeSiLDY+J4/mjU8vvw==
+=oRMb
+-----END PGP SIGNATURE-----
+
+--QNxCC/ko3tLIeCxU--
