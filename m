@@ -2,159 +2,326 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A172FAD5A
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 23:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B533D2FAD93
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 23:53:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731502AbhARWfG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 17:35:06 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:50600 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727761AbhARWfF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 17:35:05 -0500
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1l1d6M-00089h-1g; Mon, 18 Jan 2021 23:34:22 +0100
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     Sebastian Fricke <sebastian.fricke@posteo.net>,
-        linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>
-Cc:     kernel@collabora.com, dafna.hirschfeld@collabora.com,
-        ezequiel@vanguardiasur.com.ar
-Subject: Re: RkISP1 simulataneously streaming with two cameras
-Date:   Mon, 18 Jan 2021 23:34:21 +0100
-Message-ID: <1966374.K71DO8KEF6@diego>
-In-Reply-To: <7d7a9785-eec7-cc8a-105a-596e29f41c89@collabora.com>
-References: <20210117131209.4m2vqht4mflci7hy@basti-TUXEDO-Book-XA1510> <4e3159d4-7320-271f-ede8-1399fd23b0d6@collabora.com> <7d7a9785-eec7-cc8a-105a-596e29f41c89@collabora.com>
+        id S1732477AbhARWxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 17:53:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731342AbhARWxI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Jan 2021 17:53:08 -0500
+X-Greylist: delayed 643 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Jan 2021 14:52:27 PST
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A913C061573;
+        Mon, 18 Jan 2021 14:52:27 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dbd4xkyj7wcfw2k22jcct-3.rev.dnainternet.fi [IPv6:2001:14ba:8f1:3400:fb90:892b:22d6:3885])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 2288E1B00257;
+        Tue, 19 Jan 2021 00:41:41 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1611009701;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KRCka0377VlEadOtTVjlwLcx8FKWy9F/jF3cR941l3g=;
+        b=hsxrsBz/iBluWcTLJdXvbBKobPYNr3ZDMPcspkl4r1W/9hkyAnIcO6CuFVgxOINSa1cTwD
+        9hLH4F01RMsm0n3ESoZ9NHXs16tzQOCaoIymF/oWlaXXgQ/tDfUOQSz8x5Etgv2daYoSxm
+        gBNQ3+yE0nerLAu0udljNrSNtWSartPakb3LcudaA/8WMTGAFGYszKZFqhvYT93ouAAVJN
+        1KQFTEnjPdJYtjW+a8RrxDqfjNo8djSCY8Ck67i8dHMOKflr1TWVEWmvEIi498Qd6fko0G
+        gQSwa/bO+0YN4ZGRuvZ25YuWa8DPmTqhIxxou5eBzrMch9RM6TVQauKtTL3rwg==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AFF57634C89;
+        Tue, 19 Jan 2021 00:40:28 +0200 (EET)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.org.uk)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1l1dCG-000457-HM; Tue, 19 Jan 2021 00:40:28 +0200
+Date:   Tue, 19 Jan 2021 00:40:28 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        phone-devel@vger.kernel.org, konrad.dybcio@somainline.org,
+        marijn.suijten@somainline.org, martin.botka@somainline.org
+Subject: Re: [PATCH v4 2/2] media: dt-bindings: media: i2c: Add IMX300 CMOS
+ sensor binding
+Message-ID: <20210118223636.GA3@valkosipuli.retiisi.org.uk>
+References: <20210113182934.444727-1-angelogioacchino.delregno@somainline.org>
+ <20210113182934.444727-3-angelogioacchino.delregno@somainline.org>
+ <20210116234404.GX850@valkosipuli.retiisi.org.uk>
+ <b681819b-1fc9-a6ea-bb20-f234dcdb3cb7@somainline.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b681819b-1fc9-a6ea-bb20-f234dcdb3cb7@somainline.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1611009701; a=rsa-sha256;
+        cv=none;
+        b=pGSA4VMAZLteT3gHGeAJjZeKGOp2N8XSo7qb0O4zsOQbPrcJLqMQfIF4Ub665mgnA5f9RI
+        XlzSOgnU+1Vgk3FTX+KC6bRTjssIn/FN5PJn3NBJYHi4xknWryt3MbQa9qXEi/qNoXBuuw
+        mv+u8GGVPcWFHPneBXCwT/GC3dZWpDjNh6pCkstlRdtasvP5devha+A1q2Cs3quoB8fCJG
+        /gw26AP2eY3zzSV8AjSAJ3AF9AKS5dV4k4pOl2H+9jscJRao59aP+TFeqXlHGVSbvitBP4
+        73vDr83UYiN19A15vfGAXjnAX6aYALwruneWYSJKpTLmlvGKm+aHPBlcFwZumg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1611009701;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KRCka0377VlEadOtTVjlwLcx8FKWy9F/jF3cR941l3g=;
+        b=onZEfUvFCHdJs0wFKSKN6YG1kjxv0hN+Ui+JiVq+k9s+dbTvAQq33P6HsjhfGBMsPicRol
+        yb1H5Oz6CdUKWf75pQSkAHMNcD16wPNGcJ2H1tbI2povICjn0G24sLNqhKw5FrkGhjnVUq
+        QQUwtPudxThnnHmuatZDNrAMFpD6y3caUALDvtYXjncbpfCBt//qTdN/XE/DZQU26qWPxr
+        j2W0bIhPOmo+L1o3w2biTsBGuOLCuYxXWSoBhusIJYbH5LUg/QXaEKjxs7wOxB1dbL04wR
+        srQEtsALxe0sTxTPexJGVO2kPkQC43DCYkxwUdwWbx8+uMIppA0mdEvPqoZwYA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Montag, 18. Januar 2021, 22:41:19 CET schrieb Helen Koike:
-> 
-> On 1/18/21 3:12 PM, Helen Koike wrote:
-> > Hi Sebastian,
+On Sun, Jan 17, 2021 at 06:51:04PM +0100, AngeloGioacchino Del Regno wrote:
+> Il 17/01/21 00:44, Sakari Ailus ha scritto:
+> > Hi AngeloGioacchino,
 > > 
-> > On 1/17/21 10:12 AM, Sebastian Fricke wrote:
-> >> Hello,
-> >>
-> >> I am currently trying to figure out how to configure my NanoPC-T4 for
-> >> streaming with two cameras at the same time. The cameras are the CAM1320
-> >> (OV13850) and the MCAM40(OV4689), I have ported the drivers from the
-> >> downstream BSP Kernel to the current 5.11 rc1 kernel.
-> >> My current attempt is to enable the second instance of the RkISP1, the
-> >> mipi_dphy_tx1rx1 and setup the OV13850 on i2c1 and the OV4689 on the
+> > On Wed, Jan 13, 2021 at 07:29:34PM +0100, AngeloGioacchino Del Regno wrote:
+> > > Add YAML device tree binding for IMX300 CMOS image sensor, and
+> > > the relevant MAINTAINERS entries.
+> > > 
+> > > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > > ---
+> > >   .../bindings/media/i2c/sony,imx300.yaml       | 112 ++++++++++++++++++
+> > >   MAINTAINERS                                   |   7 ++
+> > >   2 files changed, 119 insertions(+)
+> > >   create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+> > > new file mode 100644
+> > > index 000000000000..4fa767feea80
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+> > > @@ -0,0 +1,112 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx300.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Sony 1/2.3-Inch 25Mpixel Stacked CMOS Digital Image Sensor
+> > > +
+> > > +maintainers:
+> > > +  - AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > > +
+> > > +description: |-
+> > > +  The Sony IMX300 is a 1/2.3-inch Stacked CMOS (Exmor-RS) digital image
+> > > +  sensor with a pixel size of 1.08um and an active array size of
+> > > +  5948H x 4140V. It is programmable through I2C interface at address 0x10.
+> > > +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> > > +  4 data lanes.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: sony,imx300
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
 > > 
-> > The driver phy-rockchip-dphy-rx0.c doesn't support tx1rx1.
-> 
-> In case you are interested, it seems to be supported by the downstream
-> driver:
-> 
->     https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/phy/rockchip/phy-rockchip-mipi-rx.c
-
-I also did start implementing how I think this could look last year, though never
-got it to work at the time.
-
-Relevant code is at:
-	https://github.com/mmind/linux-rockchip/commits/wip/tc358749
-
-especially:
-	https://github.com/mmind/linux-rockchip/commit/e0d4b03976d2aab85a8c1630be937ea003b5df88
-
-which allows dsi1 to act like a phy instead as it contains the controls
-for the tx1rx1 dphy.
-
-
-Though I can't say if and when I'll revisit this myself again.
-
-
-Heiko
-
-> 
-> Adding support for it upstream would be more then welcome :)
-> We didn't add it when we merged because we didn't have hw to test it.
-> 
-> Thanks!
-> Helen
-> 
+> > Please add assigned clock related properties; see
+> > Documentation/driver-api/media/camera-sensor.rst .
 > > 
-> > Regards,
-> > Helen
-> > 
-> >> i2c2.
-> >> The patch that I apply in this case is the following:
-> >> https://github.com/initBasti/Linux_kernel_media_tree_fork/commit/9a8e594a660d67f3790da32f3268bebd3d233526> 
-> >> Here is the dmesg ouput when I start the kernel with this patch:
-> >> ```
-> >> [    7.021079] mc: Linux media interface: v0.10
-> >> ...
-> >> [    7.084369] videodev: Linux video capture interface: v2.00
-> >> ...
-> >> [    7.125911] ov4689 2-0036: driver version: 00.01.01
-> >> [    7.125939] ov4689 2-0036: could not get module information!
-> >> [    7.130037] ov4689 2-0036: Unexpected sensor id(000000), ret(-5)
-> >> ...
-> >> [    7.143951] ov13850 1-0010: driver version: 00.01.01
-> >> [    7.143980] ov13850 1-0010: could not get module information!
-> >> [    7.149127] ov13850 1-0010: Detected OV00d850 sensor, REVISION 0xb1
-> >> ...
-> >> [    7.259601] rkisp1 ff910000.isp0: Adding to iommu group 4
-> >> [    7.260911] rkisp1: registered rkisp1_mainpath as /dev/video1
-> >> [    7.261100] rkisp1: registered rkisp1_selfpath as /dev/video2
-> >> ...
-> >> [    7.262628] rkisp1 ff910000.isp0: registered ep id 0 with 2 lanes
-> >> [    7.263666] rkvdec ff660000.video-codec: Adding to iommu group 1
-> >> [    7.265120] rkisp1 ff910000.isp0: Async subdev notifier completed
-> >> [    7.265458] rkisp1 ff920000.isp1: Adding to iommu group 5
-> >> [    7.266441] rkisp1: registered rkisp1_mainpath as /dev/video6
-> >> [    7.267380] rkisp1: registered rkisp1_selfpath as /dev/video7
-> >> [    7.267945] rkisp1 ff920000.isp1: registered ep id 0 with 2 lanes
-> >> [    7.267994] debugfs: Directory 'rkisp1' with parent '/' already present!
-> >> ```
-> >>
-> >> And here is the long version of the log with pinctrl and gpio debug
-> >> output. https://paste.debian.net/1181487/
-> >>
-> >> These are the drivers that I use:
-> >> OV13850: https://github.com/initBasti/Linux_kernel_media_tree_fork/blob/dual_cam/drivers/media/i2c/ov13850.c
-> >> OV4689: https://github.com/initBasti/Linux_kernel_media_tree_fork/blob/dual_cam/drivers/media/i2c/ov4689.c
-> >>
-> >> I have the following questions:
-> >> 1. Within the mipi_dphy_tx1rx1, I chose the phy-cells value to be `<0>`, but I have to say I am not entirely sure about this value. My current research was within the Documentation/devicetree/bindings/phy folder where I was able to find:
-> >>> #phy-cells:    Number of cells in a PHY specifier;  The meaning of all
-> >>> those cells is defined by the binding for the phy node. The PHY
-> >>> provider can use the values in cells to find the appropriate PHY.
-> >> But as there is only a binding for the rx0, I felt like I had to guess.
-> >> Could someone give me a hint in the right direction?
-> >>
-> >> 2. Both ISP instances try to acquire the same endpoint 0, I found out
-> >> within the code at `rkisp1-dev.c:257`, that the rkisp1 driver tries to
-> >> get the endpoint from the firmware node at port 0. Looking deeper into
-> >> the code I can see that there are multiple debugging messages which
-> >> might be useful, how do I enable the debugging output for prints like:
-> >> `drivers/media/v4l2-core/v4l2-fwnode.c:419` ? I already enabled
-> >> CONFIG_DEBUG_KERNEL & CONFIG_DEBUG_MISC & CONFIG_DYNAMIC_DEBUG
-> >>
-> >> 3. Is it correct when two camera sensors try to multiplex the
-> >> cif-clkout-a pinctrl? I have taken this from the friendlyElec fork of
-> >> the rockchip BSP downstream kernel. https://github.com/friendlyarm/kernel-rockchip/blob/nanopi4-linux-v4.4.y/arch/arm64/boot/dts/rockchip/rk3399-nanopi4-rkisp1.dtsi#L30
-> >> I have been testing on of their official images and there the dual mipi setup works.
-> >> So, I currently ask myself has something significantly changed in this
-> >> part of the code that I am unaware of?
-> >> And also I have a really hard time figuring out, where the cif-clkout-a
-> >> pinctrl is actually used.
-> >>
-> >> 4. Has anyone been able to set up the dual cam setup on the rkisp1 on an
-> >> upstream kernel? If yes how did you do it?
-> >>
-> >> Greetings,
-> >> Sebastian
+> Will do!
 > 
+> > > +
+> > > +  vdig-supply:
+> > > +    description:
+> > > +      Digital I/O voltage supply, 1.15-1.20 volts
+> > > +
+> > > +  vana-supply:
+> > > +    description:
+> > > +      Analog voltage supply, 2.2 volts
+> > > +
+> > > +  vddl-supply:
+> > > +    description:
+> > > +      Digital core voltage supply, 1.8 volts
+> > > +
+> > > +  reset-gpios:
+> > > +    description: |-
+> > > +      Reference to the GPIO connected to the xclr pin, if any.
+> > > +      Must be released (set high) after all supplies are applied.
+> > > +
+> > > +  # See ../video-interfaces.txt for more details
+> > > +  port:
+> > > +    type: object
+> > > +    properties:
+> > > +      endpoint:
+> > > +        type: object
+> > > +
+> > > +        properties:
+> > > +          data-lanes:
+> > > +            description: |-
+> > > +              The driver only supports four-lane operation.
+> > 
+> > This can be removed as bindings describe hardware, not driver operation.
+> > 
+> Ack.
+> 
+> > > +            items:
+> > > +              - const: 0
+> > > +              - const: 1
+> > > +              - const: 2
+> > > +              - const: 3
+> > 
+> > Two lanes here, too?
+> > 
+> 
+> The driver only supports four-lane operation.
+> I am 100% sure that this sensor can also work with two lanes, but it needs
+> special configuration which I'm not able to produce, nor test.
+> 
+> As you may imagine (and as you can read in the driver itself), all of this
+> was reverse-engineering work, as Sony has never released any datasheet for
+> this sensor - and I have a hunch - they never will (but that's another
+> story).
 
+That's all fine. The bindings describe the hardware, not the driver's
+capabilities.
 
+> 
+> > > +
+> > > +          clock-noncontinuous: true
+> > > +
+> > > +          link-frequencies:
+> > > +            $ref: /schemas/types.yaml#/definitions/uint64-array
+> > > +            description:
+> > > +              Allowed data bus frequencies. The driver currently needs
+> > > +              to switch between 780000000 and 480000000 Hz in order to
+> > > +              guarantee functionality of all modes.
+> > 
+> > You can omit this description, too.
+> > 
+> 
+> The intention here was to be clear and provide as much information as I
+> could gather during the very time-consuming reverse engineering process that
+> took place in the making of this driver.
+> 
+> But okay, I will remove this.
 
+Again, this is about the hardware, not the driver. That information is also
+part of the driver.
 
+> 
+> > > +
+> > > +        required:
+> > > +          - data-lanes
+> > > +          - link-frequencies
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - vana-supply
+> > > +  - vdig-supply
+> > > +  - vddl-supply
+> > 
+> > Are the regulators really required? I'm not quite sure about the
+> > established practices; still the common case is that one or two of these
+> > are hard-wired.
+> > 
+> 
+> On all the Sony phones that I have (....many), with MSM8956, MSM8996,
+> SDM630, equipped with the IMX300 camera assy, none of these three are
+> hard-wired: sometimes they're wired to the LDOs of the PMIC, sometimes
+> they're wired to fixed LDOs, enabled through GPIOs (fixed-regulator binding
+> in this case).
+> 
+> So.. yeah, they're really required.
+
+As noted, that depends on the board. You just happen to have some where
+they are not hard-wired.
+
+> 
+> > > +  - port
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    i2c0 {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        imx300: sensor@10 {
+> > > +            compatible = "sony,imx300";
+> > > +            reg = <0x10>;
+> > > +            clocks = <&imx300_xclk>;
+> > > +            vana-supply = <&imx300_vana>;   /* 2.2v */
+> > > +            vdig-supply = <&imx300_vdig>;   /* 1.2v */
+> > > +            vddl-supply = <&imx300_vddl>;   /* 1.8v */
+> > > +
+> > > +            port {
+> > > +                imx300_0: endpoint {
+> > > +                    remote-endpoint = <&csi1_ep>;
+> > > +                    data-lanes = <0 1 2 3>;
+> > > +                    clock-noncontinuous;
+> > > +                    link-frequencies = /bits/ 64 <780000000 480000000>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index ad9abb42f852..5e0f08f48d48 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -16633,6 +16633,13 @@ T:	git git://linuxtv.org/media_tree.git
+> > >   F:	Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > >   F:	drivers/media/i2c/imx290.c
+> > > +SONY IMX300 SENSOR DRIVER
+> > > +M:	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > > +L:	linux-media@vger.kernel.org
+> > 
+> > Please also add the git tree.
+> > 
+> > Ideally also the MAINTAINERS change comes with the first patch adding the
+> > files, which should be the DT bindings. I.e. just reverse the order of the
+> > patches.
+> > 
+> 
+> I haven't added it because last time I did that I got reviews saying that if
+> I'm not the owner of the git tree I shall not put it in.
+> Though, if that's a requirement for media, then I didn't know that...
+
+The documentation in MAINTAINERS doesn't say that at least.
+
+I think it'd be useful to have it.
+
+> 
+> > > +S:	Maintained
+> > > +F:	Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+> > > +F:	drivers/media/i2c/imx300.c
+> > > +
+> > >   SONY IMX319 SENSOR DRIVER
+> > >   M:	Bingbu Cao <bingbu.cao@intel.com>
+> > >   L:	linux-media@vger.kernel.org
+> > 
+> 
+> Thank you for your review!
+
+You're welcome!
+
+-- 
+Sakari Ailus
