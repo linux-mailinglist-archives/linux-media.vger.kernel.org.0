@@ -2,90 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA0AA2F9AAB
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 08:40:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A35D2F9B16
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 09:17:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732943AbhARHjQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 02:39:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44698 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732932AbhARHjO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 02:39:14 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A9F222228
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 07:38:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610955510;
-        bh=DDynyscYZVUVtAXV53NQJEWwa5ZbVTJGt5KWs6jiOkA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cGc3/DewOzlbK60pFesw2sjl3veD+63zIUTHeQW5ujISiHGxTrp7qiq3Dn2ijIK7p
-         xd8jzU8p667CJuDFrJY6uGZhxLrCy0vrIot1TbhUtCpnBIMnIvwrmhlttaUCsDcf3X
-         BON8p6oyLx7wk+qcSKomw3q2J9d8IACR+MpAXHUXeSa4IRdPiKzB1O2bdAQqMnq0Fm
-         pm8qDIO1IKn+5RB2knx5rwg2GqmxnmvvQEITq3dW06sYBnUoclKRF38QtfWq3A+3BL
-         PpwsjDtocGbSJFoAsAYepXJ4BhGlgplxypxXV6XzNixKyQPub04itN2SCSpE6as92m
-         vvDT12XV1PnaQ==
-Received: by mail-oi1-f171.google.com with SMTP id s75so16841288oih.1
-        for <linux-media@vger.kernel.org>; Sun, 17 Jan 2021 23:38:30 -0800 (PST)
-X-Gm-Message-State: AOAM530rn5KwCgLd6xE5TyFfZtXW6ASzt+kapm/+dMft227AJ8RMnenL
-        WFa5JScIdNG31xs6MzKxrNpguqaNvbwQK8eGwGg=
-X-Google-Smtp-Source: ABdhPJzVyv7FNiO8ag7bsR1zR15MpEblMRrZCubo2/E9mKvs8VubaL6tRjOoN0E/MIfJyfs9AwVGAzKhhoyGnF/F7rY=
-X-Received: by 2002:aca:e103:: with SMTP id y3mr11821406oig.11.1610955509494;
- Sun, 17 Jan 2021 23:38:29 -0800 (PST)
+        id S2387620AbhARIQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 03:16:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58502 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387610AbhARIQl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Jan 2021 03:16:41 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694BCC061573;
+        Mon, 18 Jan 2021 00:16:00 -0800 (PST)
+Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D9C22BB;
+        Mon, 18 Jan 2021 09:15:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1610957758;
+        bh=NY67C730CbIloBFeIkqctx6ZpjM0PzbrQOWMiGMqJes=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hYgPp3QmZOK36l+s0QWZt6pERI3sVRRt/jw40vY2WyWhywpcoHpbWn4DDO9uijoHG
+         YVi/PNz4hAMPrjxbHtIqkuLvJsfZLdYppZucBsEdotwrvYrQwjn0O8TzqcrZcJEaXN
+         D8b9tRYq9cySJ4ngyHwBjtTUZxCTM4FnYjJnoDuM=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        stable@vger.kernel.org
+Subject: [PATCH] media: i2c: max9286: fix access to unallocated memory
+Date:   Mon, 18 Jan 2021 10:14:46 +0200
+Message-Id: <20210118081446.46555-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAHoAvW8+1jAirPQPQ-WYYD5fyngckrXA+dLTX+H2ysGzOKUZRg@mail.gmail.com>
- <CAHoAvW_Cju=0svzAExJDuXP9NBnz34Lut8M2+Y9RHUtMXfxJqg@mail.gmail.com> <CAHoAvW8k77_ckRdAGGTsu4ALhw4=TUPa27knK3x9zR3bjvjbUw@mail.gmail.com>
-In-Reply-To: <CAHoAvW8k77_ckRdAGGTsu4ALhw4=TUPa27knK3x9zR3bjvjbUw@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Mon, 18 Jan 2021 08:38:13 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1du9ypzvLk3yoF3FNX8BSvSDSdXwWEMQzuFsVm96w1nw@mail.gmail.com>
-Message-ID: <CAK8P3a1du9ypzvLk3yoF3FNX8BSvSDSdXwWEMQzuFsVm96w1nw@mail.gmail.com>
-Subject: Re: [PATCH]media:dvb: add compat_ioctl def for dmx_dvr
-To:     root jason <jason.root.w@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 7:21 AM root jason <jason.root.w@gmail.com> wrote:
-> From: jason.wang <jason.root.w@gmail.com>
->
-> add compat_ioctl define for dmx_dvr to handle ioctl when CONFIG_COMPAT is enable.
->
-> Signed-off-by: .jason.wang <jason.root.w@gmail.com>
-> ---
->  drivers/media/dvb-core/dmxdev.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
-> index f14a872d1268..4a9e027de827 100644
-> --- a/drivers/media/dvb-core/dmxdev.c
-> +++ b/drivers/media/dvb-core/dmxdev.c
-> @@ -1393,6 +1393,7 @@ static const struct file_operations dvb_dvr_fops = {
->         .read = dvb_dvr_read,
->         .write = dvb_dvr_write,
->         .unlocked_ioctl = dvb_dvr_ioctl,
-> +       .compat_ioctl = dvb_dvr_ioctl,
->         .open = dvb_dvr_open,
->         .release = dvb_dvr_release,
->         .poll = dvb_dvr_poll,
+The asd allocated with v4l2_async_notifier_add_fwnode_subdev() must be
+of size max9286_asd, otherwise access to max9286_asd->source will go to
+unallocated memory.
 
-This is correct for DMX_SET_BUFFER_SIZE, which takes an integer
-argument, but not strictly correct for the other ones that take a pointer
-argument and need a compat_ptr() conversion.
+Fixes: 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: stable@vger.kernel.org # v5.10+
+---
+ drivers/media/i2c/max9286.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You could do it by either passing both the 'unsigned long arg'
-and the 'void __user *argp' pointer to dvb_usercopy(), with the
-pointer coming from compat_ptr() in case of compat, or you
-add something like
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index c82c1493e099..b1e2476d3c9e 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -580,7 +580,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
+ 
+ 		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
+ 							    source->fwnode,
+-							    sizeof(*asd));
++							    sizeof(struct max9286_asd));
+ 		if (IS_ERR(asd)) {
+ 			dev_err(dev, "Failed to add subdev for source %u: %ld",
+ 				i, PTR_ERR(asd));
+-- 
+2.25.1
 
-         if (in_compat_syscall())
-                   arg = compat_ptr(unsigned long arg);
-
-in the function itself. I checked the DVB ioctls to make sure that
-no other ioctl commands need any special handling, and found
-that DMX_SET_BUFFER_SIZE is the only one.
-
-          Arnd
