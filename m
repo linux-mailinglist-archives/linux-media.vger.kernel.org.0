@@ -2,79 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 152B12F9DD3
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 12:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27B6D2F9DB9
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 12:14:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388935AbhARKrN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 05:47:13 -0500
-Received: from www.zeus03.de ([194.117.254.33]:43258 "EHLO mail.zeus03.de"
+        id S2388745AbhARKrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 05:47:40 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:46158 "EHLO gloria.sntech.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388889AbhARJcu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 04:32:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=jjlIzJbv5AfMOZb8DeeYojqlwPux
-        8lrHsYxvp6bLS6M=; b=zYbQ8rzGeBpdP8pj5YCVWlIshwK8NP5pKgMELuji1aV5
-        UVz9XA9eA4ETqix0Ie6eKwqFFfydFdwWi5b/yh/36ZDPxhDMwFopIqKJjpIq+m5x
-        Dp0vqlqTQT7BqXDrdKgVGgu4tUWtbgPLjQDi757w5M+dY6uGAwukiDnMYLQ+Btg=
-Received: (qmail 643050 invoked from network); 18 Jan 2021 10:32:01 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Jan 2021 10:32:01 +0100
-X-UD-Smtp-Session: l3s3148p1@JozuZCm5uoYgAwDPXwacAOByz8F9Mgm1
-Date:   Mon, 18 Jan 2021 10:32:01 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-i2c@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 1/3] media: i2c: adv7842: remove open coded version
- of SMBus block write
-Message-ID: <20210118093201.GC1018@ninjato>
-References: <20210112164130.47895-1-wsa+renesas@sang-engineering.com>
- <20210112164130.47895-2-wsa+renesas@sang-engineering.com>
- <f1c17eaf-1ab8-2665-54bb-6df69ab1f067@xs4all.nl>
+        id S2388620AbhARJ6c (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Jan 2021 04:58:32 -0500
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1l1RI2-0002qw-9g; Mon, 18 Jan 2021 10:57:38 +0100
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        Laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
+Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
+        christoph.muellner@theobroma-systems.com, heiko@sntech.de,
+        tfiga@chromium.org
+Subject: [PATCH v5 0/3] Fix the rkisp1 userspace API for later IP versions
+Date:   Mon, 18 Jan 2021 10:57:33 +0100
+Message-Id: <20210118095736.272473-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="0lnxQi9hkpPO77W3"
-Content-Disposition: inline
-In-Reply-To: <f1c17eaf-1ab8-2665-54bb-6df69ab1f067@xs4all.nl>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---0lnxQi9hkpPO77W3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This NEEDs to go into 5.11 while we can still adapt the uapi
+during its RC-cycle.
 
 
-> > +#define adv_smbus_write_i2c_block_data i2c_smbus_write_i2c_block_data
->=20
-> I would prefer it if the driver just uses i2c_smbus_write_i2c_block_data
-> directly instead of relying on this define. It's used only 5 times, so
-> it should be a trivial change.
+When looking into supporting the rkisp1 of the px30 I noticed that
+some fields got bigger in the uapi, caused by bigger number of samples
+for example for histograms or gamma values.
 
-Okay, will change it!
+The rkisp1 was destaged with 5.11-rc1 so we have still time during
+the 5.11 cycle to fix that without big hassles.
 
+This was discussed previously in a mail [0] and a rfc series [1]
+and this two-part series now splits out the important parts that
+really should become part of a 5.11-rc and thus the final 5.11.
 
---0lnxQi9hkpPO77W3
-Content-Type: application/pgp-signature; name="signature.asc"
+changes since v4:
+- set GAMMA_OUT to the real 25 instead of the 28 with 3 spares (Dafna)
+- start RKISP_Vxx enum with 10 for RKISP_V10 to make output
+  easier and also allow userspace to differentiate between old (= 0)
+  and newer driver variants (Dafna, Laurent)
 
------BEGIN PGP SIGNATURE-----
+changes since v3:
+- add patch fixing the original histogram size comment
+- make comments in uapi more verbose (Hans)
+- fix wording in admin guide (Hans)
+- document version <-> soc in uapi as well (easier for people) (Dafna)
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAFVY0ACgkQFA3kzBSg
-KbbmFxAAgGh0H3VpFDjIoJkJ89p+HFbHBHoviJp61p/GkaWpQkD8K++fMxEH048H
-6vsASnSSkUqHzdhq/4nHbLVe/wvwe/PZkCqRdMnhuXrhzS0Ip9jZ7ljfA6H/rpxC
-eg8Tcfr6lBW6hNwO+rlagA26+xMwEFrq+yNIs+hr39pzb4oP1lDZVlh8uR9bFXJN
-Onpk/V8tPQY9Y3+SnMWixVcLGRaIeJL9V5EXpv+ZXNmFFqkDcD8Zlwah4qtoz3v8
-PVWgvbFpDsMIMa0sj3kwEnf47c1SIw0flK64n8cdTTGSfKk/7VzDVRIDDYO0/wr1
-aG2KnkQd4FUcHYorlWdG4TMGaTM9A/3c6XeQHJGIfp+VzSe4XI6fFIoHuJD20iFK
-dLKZvnAfe6qLIiaW/0VG8hGo0w98ixJY/W6Y+NlR8eYYDP5mHWU0tDG3JPGsSp93
-LTf5FbubZO2EOgGfMvZKX/eict/DDX+dtckssRX7eaa6T9lxZSGc5oGllkgFhchL
-Iqclq0fDMffCVmlXFHIfDlxojcmB7JZ5HeS2M3+QCu+84VZzGuRLTc4Jf6cxoPwu
-bC3PqeElZHN04RSvUfdVkOkQx8T+jvQuqYkou3duh11d6u7MsIJ0MBbIMPxrYqIR
-5Jkf5KZkwxvFhE5NXab3Fej3u/RE8EZN3gRmkHrxn3k9bJjmIdI=
-=6du5
------END PGP SIGNATURE-----
+changes since v2:
+- actually zero the correct sizes for u16 values (hist-bins)
+  (kernel-test-robot)
 
---0lnxQi9hkpPO77W3--
+changes since v1:
+- drop duplicate isp_ver storage, hw_revision is enough (Dafna)
+- document multiple maximum sizes in uapi (Hans)
+- document usage of hw_revision field (Hans)
+- zero fields transmitted to userspace before adding data (Hans)
+- use _V10 field sizes when filling fields, as there is only v10 for now
+
+changes since rfc:
+- move rkisp1_version enum into uapo
+- show version in media-api hw_revision
+- introduce constants for versions and make max use the biggest
+
+Heiko Stuebner (3):
+  media: rockchip: rkisp1: fix comment about number of histogram
+    sub-windows
+  media: rockchip: rkisp1: carry ip version information
+  media: rockchip: rkisp1: extend uapi array sizes
+
+ Documentation/admin-guide/media/rkisp1.rst    | 16 ++++
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++---
+ .../platform/rockchip/rkisp1/rkisp1-params.c  |  2 +-
+ .../platform/rockchip/rkisp1/rkisp1-stats.c   | 12 ++-
+ include/uapi/linux/rkisp1-config.h            | 74 +++++++++++++++++--
+ 5 files changed, 106 insertions(+), 19 deletions(-)
+
+-- 
+2.29.2
+
