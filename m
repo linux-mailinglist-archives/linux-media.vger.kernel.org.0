@@ -2,93 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C162FA8FF
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 19:39:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31FC82FA98E
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 20:03:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731302AbhARSij (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 13:38:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51228 "EHLO
+        id S2407615AbhARTDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 14:03:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730964AbhARShs (ORCPT
+        with ESMTP id S2436954AbhARTC6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 13:37:48 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4738C061573
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 10:37:07 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id b10so19257473ljp.6
-        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 10:37:07 -0800 (PST)
+        Mon, 18 Jan 2021 14:02:58 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6026C061574
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 11:02:07 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id 190so14531849wmz.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 11:02:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d4UhRkL63IYIvTQz7Jn3KAp7Q6ZJmuRzTOlnY7mYcHE=;
-        b=t1sjK4b27xNUqKPNbiuKsRgAKe5c3vXgffrA1g1UnNpoG7B9e90hYkcfr60y0OmvC3
-         qwfBX1Uq2t88wDuyFz/2ZHgyUxdBVDrk6x8s7MMhi5QxhmSLDUzyxUUPCy62XZ93O3PO
-         t21mCkgOCap+LJzvvNhw0y4/49vlS57kRpoaArjS9bmCT0UgK4t4E/hfQGUeeI1w4xOd
-         Kn2kC96Y2WUQzRM1ID+KpgTxPXVak0OG2SCPpUwR9Ou7lGDzJffEKPi5ebDjqpCIZPsQ
-         KUYjgRPNCCduULdch4JdvWI5MFZUqlAWOpeQ0i6ysJcjxS1aXZW8EqgYsrdhplRSPbaG
-         b5bQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8Kty1SsDZGYmfUaFdIQI7Zq2VlU05k1IiFmWYlmVzbE=;
+        b=pyMAcrMRbEe6TGaFQnMhvLyPC81ZH5fVLbGbHmSJ8iJT/EvtGysU0MlhGwYCaM6Go3
+         AwLNWS2HzdTR2aIebufDjsAplNBGkKRK4JuZ7OOruuQiwEOZ0di3yoTEbjA70eYrYBFQ
+         iqc1L43A4SgXovb4nwEem3jVmwSbHm0Nu7arZQjfb7jtH5pSqi/JRRw2C7y+WXeLOU8n
+         g8GYlReg8EuRnt0NyADBdx02d7o4kR9xFntpWHIaWC9N+jYoa6NDSycS5WVZky453IcP
+         fhBHtlw1tc6f2sx6ub6xw1B78uNMXIHfgzbVmUCjblR5ZFSYMofPgEzFxT12cpA2sLTQ
+         pzbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d4UhRkL63IYIvTQz7Jn3KAp7Q6ZJmuRzTOlnY7mYcHE=;
-        b=SwudjtYu9nW5TuL5zsbzLMktYCWJJEQ+30E4sIbsKAYqi7j7H19uLjOWLOrpFdQm2Y
-         jt9oAC23PDYZatNgeCr0yXgMBUuGnUOlFFew4m4UHY7TMvYlc3qrqAgJsAGkPeMOFJ/m
-         TpA9c4y25CPbSBPzR1SIcMXR5fo0u9p8uKc/PrCaUL2k4T2VTd+JEo9lA9/S6yXrfflw
-         DrZdfNk0jdzUs+o811YiTJv+gNekyfMJfShlB4pK0A1d3c157Oe1PqdlR6RMznzP4Rz5
-         Y5VNALKRiHLc8j0YG1J7ictXTAY0Kvdok81qyT52c4BxnW60ps5p/xdlShQf0J8S4LIQ
-         F6dw==
-X-Gm-Message-State: AOAM532qjrQZ92/r5N9zm3N32Jv0nTXmxFvF3CeMe+e1QZ4NPw8DFLDK
-        S6JWmHv/rBzBNwrmyEwa4vGOymOti9sic3fei5b9q9TpPP6McA==
-X-Google-Smtp-Source: ABdhPJzoN1VOIXjU4jUo7QvLEajGepgIYbtPtpUzDb32oC0HZZDWIvexQCJbb3aN/MCkBY0ql1MJQongTMfHv0dUoGo=
-X-Received: by 2002:a2e:b80c:: with SMTP id u12mr388046ljo.490.1610995026150;
- Mon, 18 Jan 2021 10:37:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8Kty1SsDZGYmfUaFdIQI7Zq2VlU05k1IiFmWYlmVzbE=;
+        b=t2f/+qSPeRgsm5UnWDDlnjqFWb1EsfUvYs627vse2EO0RftmFRq7AEi7c5ebAFpGk7
+         lCasEL0e7KlGIDFLXxhCYld+2JT7Zr3gIFfxkLEatxDyTWLWu9hKz2ymSfMqmt0muT5h
+         hnpXf0qaED6toIRPNaCkLokkQsWTs2iDpM8p5aN1sDT5K4AAFvemh9mzrRApVAvSitlk
+         v1xb40OgriFALhDzbQciJKyn2Rfm2c02C0YO3fH3MXtzak0tij/X60+6fJOLvC3xQFR4
+         1+JYho8+Fy4mYsmWogIaKdYxJCfWpiahkBS3PLh05/WoSUwYQBEu4FOst++e1zL2iaoy
+         +0Aw==
+X-Gm-Message-State: AOAM532jui7RSFv24Of1q16uKqwhoJa54WhaiLg6aodF5dL+UZGvbsRx
+        rtIacnv1os2QxmmAOBCTNX4vCA==
+X-Google-Smtp-Source: ABdhPJwZXKJ6wE68hu01F+Ly4OeBx+mI7taJbTpIRlW2jzdqbB7t/UaAtQXMLC4knrxqueTOlw8nkA==
+X-Received: by 2002:a1c:a145:: with SMTP id k66mr700875wme.11.1610996526322;
+        Mon, 18 Jan 2021 11:02:06 -0800 (PST)
+Received: from localhost.localdomain ([2a02:2450:102f:d6a:399d:974c:1ebc:7134])
+        by smtp.gmail.com with ESMTPSA id z63sm519244wme.8.2021.01.18.11.02.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jan 2021 11:02:05 -0800 (PST)
+From:   Robert Foss <robert.foss@linaro.org>
+To:     dongchun.zhu@mediatek.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dongchun Zhu <Dongchun.Zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     Tomasz Figa <tfiga@google.com>,
+        Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH v4] media: ov8856: Configure sensor for GRBG Bayer for all modes
+Date:   Mon, 18 Jan 2021 20:01:32 +0100
+Message-Id: <20210118190132.1045913-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <CAOMZO5A3Dr2SF_u9z9p1dAwBrrPXTqkdVqZuBR0v6iYRPcJEig@mail.gmail.com>
- <CAOMZO5B=2z5sHWQvb0872v4f7YYN8Aq4ptf4YuDmoebJBtEY+w@mail.gmail.com>
- <f8d2536fb5dadf7b7bdb4bfb6b3aaadf68318a88.camel@ndufresne.ca>
- <CAOMZO5DBRGqn5DTsMG3RRHdN1HMo7CtP6HYw3PajK3A6Y6iCoQ@mail.gmail.com>
- <CAKQmDh-KgO4TameRQs_D3_rdW8n0oY-ZLmbsQzWQPOkUJdiObw@mail.gmail.com>
- <CAOMZO5DCzodXDVygMfnhJi=DF3W64NZJQxLBT6LoOJ_V6NJ9Hg@mail.gmail.com>
- <4366a936909a3f33788719f00441e81b1f3576f7.camel@pengutronix.de>
- <CAOMZO5CyDtEW4Uo3u9ANRro5fV4DBx3WLKDc_ok8HB41mNKF5w@mail.gmail.com> <180eccb13a035e6245da319b285c6cd622fb30ec.camel@pengutronix.de>
-In-Reply-To: <180eccb13a035e6245da319b285c6cd622fb30ec.camel@pengutronix.de>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Mon, 18 Jan 2021 15:36:54 -0300
-Message-ID: <CAOMZO5Cu_=vEe23R+siqcH2UKPUvaBnCo=WD5FvKcSmbdX6Tbg@mail.gmail.com>
-Subject: Re: Coda: imx53 plays video with incorrect colors
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media <linux-media@vger.kernel.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        Tim Harvey <tharvey@gateworks.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+The previously added modes 3264x2448 & 1632x1224 are actually
+configuring the sensor for BGGR mode, this is an issue since
+the mode that is exposed through V4L incorrectly is set as GRBG.
 
-On Mon, Jan 18, 2021 at 12:29 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+This patch fixes the issue by moving the output crop window of
+internal sensor ISP uses by one row, which means that the Bayer
+pattern of the output is changed.
 
-> Please try forcing decoder output to NV12 instead of I420.
+From:
+row 1: B G B G B G ...
+row 2: G R G R G R ...
+raw 3: B G B G B G ...
+...
 
-Your suggestion works, thank you. After applying your IPU patch and
-using this Gstreamer pipeline:
+To:
+raw 2: G R G R G R ...
+raw 3: B G B G B G ...
+...
 
-gst-launch-1.0 filesrc location=/media/clip.mp4 ! qtdemux ! h264parse
-! v4l2h264dec ! video/x-raw,format=NV12  !  kmssink
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Suggested-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+---
 
-The video is played with correct colors.
+Changes since v1:
+ - Sakari: Added mode information to ov8856_mode struct
+ - Sakari: enum_mbus_code updated
 
-Can we make the NV12 format be used automatically so that a simple
-'gst-play-1.0 /media/clip.mp4' works?
+Changes since v2:
+ - Andrey: Switched approach to changing the sensor configuration
+   to yield identical Bayer modes for all modes
 
-> Yes. Please try if the following patch makes it work:
+Changes since v3:
+ - Andrey: Improve commit msg to explain Bayer shift better
 
-With this Gstreamer patch, I don't see the segfault anymore, but it
-plays in black-and-white.
+ drivers/media/i2c/ov8856.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index 2f4ceaa80593..8a355135c7db 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -428,7 +428,7 @@ static const struct ov8856_reg mode_3264x2448_regs[] = {
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x04},
+ 	{0x3812, 0x00},
+-	{0x3813, 0x02},
++	{0x3813, 0x01},
+ 	{0x3814, 0x01},
+ 	{0x3815, 0x01},
+ 	{0x3816, 0x00},
+@@ -821,7 +821,7 @@ static const struct ov8856_reg mode_1632x1224_regs[] = {
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x02},
+ 	{0x3812, 0x00},
+-	{0x3813, 0x02},
++	{0x3813, 0x01},
+ 	{0x3814, 0x03},
+ 	{0x3815, 0x01},
+ 	{0x3816, 0x00},
+-- 
+2.27.0
+
