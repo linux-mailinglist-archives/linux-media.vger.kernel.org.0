@@ -2,258 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 113C22FAC5C
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 22:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90B122FAC4C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 22:14:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394417AbhARVOM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 16:14:12 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40597 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388837AbhARKN2 (ORCPT
+        id S2394264AbhARVBV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 16:01:21 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59551 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388860AbhARKNj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 05:13:28 -0500
+        Mon, 18 Jan 2021 05:13:39 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 1RWOlHppyyutM1RWRlYFC7; Mon, 18 Jan 2021 11:12:35 +0100
+        id 1RWklHpwiyutM1RWnlYFHd; Mon, 18 Jan 2021 11:12:54 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610964755; bh=ayWN1O9yjjDn6kU5MeBoQJ9CyFvEEaw0GBspGXnqg/w=;
+        t=1610964774; bh=lf4b/rh74vLT2S9Z8V7AQJRxfl5sBCp09/4ApswQ3/w=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=g8kJ8k9S1ElbTr4sX5GDBBOvkQxyro1rLlgxYMm71BpqUgdYd4HEnnogz73c5hmfw
-         g0T8JHSH++G64EwUlOJhCMburAF4WwuzQCL6+Kx3z80rxLQDaUtEgTGdRLz2QeaPFQ
-         8yTWzkQJwGb9LuJC2oAcAozbbWddHLve7ir97hGX4ZKKCEyyabG3KrBXnMZCJmJGR4
-         s10RRW9PPIFEkbD6HHbK2yN57uXueSwhckqFz7nD3i4Z7U9O9nSn08FD+GP0Ekab9h
-         pU2p9KFJGx1lluA+rjYEuUZrR4C4RxNEaCa6J+7EzvktMklldCFhUOVn3WUm2mT2J7
-         LvB3vEeGnLQvw==
-Subject: Re: [PATCH v5 3/3] media: rockchip: rkisp1: extend uapi array sizes
-To:     Heiko Stuebner <heiko@sntech.de>, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, linux-media@vger.kernel.org,
-        mchehab@kernel.org, Laurent.pinchart@ideasonboard.com
-Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
-        christoph.muellner@theobroma-systems.com, tfiga@chromium.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-References: <20210118095736.272473-1-heiko@sntech.de>
- <20210118095736.272473-4-heiko@sntech.de>
+        b=LgeaJwUt0kHVTAuxsmyr1EmylaSGb6n+I0K+FK3sgqO22x6tI2dQh6vE0oN7dYFcc
+         nSI8AsdgLXJklTsSpmRy4Lg96ed0e5QwZTdYo4GDZcfbz35JPb30B6iMz0mv6PeUmH
+         LTa+inr+02kE6eftul0aqX0EcMI1ls114YA64VwtQahzlLm3yNqpDh7NpEVFAYRCwl
+         tVbDCFusWu7htezXCWegoi7yW7Pl5BjJ0GPbBTDs2HnBMPcc8TcNOGZ4l4JcCVIEuu
+         VuC38VM8gJAIJXuFM2EcqoKhJwJQ9C1I8iiNdX1Va+ffUZCuINMNjkaMBY++hMxVds
+         t4QBs3tnVDKJg==
+Subject: Re: Failing V4l2-compliance test with a sensor driver
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org,
+        Collabora Kernel ML <kernel@collabora.com>
+References: <20210115115324.glhnixqafh2jakw4@basti-TUXEDO-Book-XA1510>
+ <1821bd61-818f-5e1b-156a-3c72b2bca800@xs4all.nl>
+ <20210115183449.xrkl6u2sk2su7zgp@basti-TUXEDO-Book-XA1510>
+ <b4a9a516-88bb-c278-0088-d652ec588556@collabora.com>
+ <20210118071500.x7e2pdszql44ncba@basti-TUXEDO-Book-XA1510>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <533d6b7b-0e57-f766-5796-bb8e57058a4f@xs4all.nl>
-Date:   Mon, 18 Jan 2021 11:12:28 +0100
+Message-ID: <bea28ee9-0cb4-4849-5e73-96e6ef1f945a@xs4all.nl>
+Date:   Mon, 18 Jan 2021 11:12:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210118095736.272473-4-heiko@sntech.de>
+In-Reply-To: <20210118071500.x7e2pdszql44ncba@basti-TUXEDO-Book-XA1510>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOotmWfX5YvDyGrvUeYghnvQ5b8oEu2LjYdO+8FyHvDkOl9qDIhT7oYV2gO7gR7KRivKu0ellDmUFzAMJZH2vr9+N8Gs4lim3fFISW4S6Kn7C8QBwhso
- CAKnt4xQTpkfdIVDWyGcINSlrMf+YBTS4WomiRrNJSPROAR5S68jdYQ20HtEebnrDaGOSwjddB6sjvltJxJyFiPUhqdfHlFJw6DRSB4F1MPnAHDtGcUTJ//M
- pBpofOIqbEE2oQ/F1VVSl6bPT+UGfAiAEptaWJ2ERSuhzchnHaaIIxEI78Ax9it6vjxpZEUu1voseVpa0Ek/S66PcPNyGOXEu4cpUsKjjP3VOrUYkvqHzJOT
- MokMJzXn4jDEHp7GtpwkI/VcnPUtNua//wnYAvT0856mEajPGHowc3hIyR1Mik5Mb5jbgmEwAUlAR1BGLD0ndRwnVzW7cR+XeznDFdWXbrNLX9jzYFm0BqhZ
- OSXRNwbXLvZydqcWcLL6Q0cuWqpMaAVZTHKR2aE0K01tTc0DIT63f+XTkN3d+s7ZVDvZ2Vj7tVx570MGGfdOArjdsil1jqpLqja5Ff1ryZXhwv3Y7jXvhJcy
- jz5jIzfWsrT/6rQh7xohllK9
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfF8RnisBwLIbBQ/9moSEZ1Qci6sMevUqwCa8P+7t/VY7rXly0evzltwZoOMW+5p+ttTn6+yDEAaVSZyvC7nOKVQ2jP2QjRHvD9dFjbi8O1+sDemwbLsT
+ +33bzD1zXvksWIG1+Pgs4v/kNeVCyw93xG8rBCeMAmjv3G6HaNyBA1fn2MAL6mctDgNc9c3shl5pdKQr/L7MAaR2lGojuvlztjqVLNWa+vJluJf/ViTUn7uk
+ phzTpO8SBNRaF2MqG8+AuFrsPKPYqIw0j3MNXznD2ODVL0V1+PLRCpgckq08eXV2N4ua7NCd0G6vaKnssytR1g==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+Hi Sebastian,
 
-On 18/01/2021 10:57, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+On 18/01/2021 08:15, Sebastian Fricke wrote:
+> Hello Hans & Dafna,
 > 
-> Later variants of the rkisp1 block use more entries in some arrays:
+> I am not really sure what changed but I have setup a new image for the
+> NanoPC-T4 and installed v4l2-compliance in exactly the same manner but
+> now everything works. Maybe the module was silently not inserted correctly when
+> I changed the event handling.
 > 
-> RKISP1_CIF_ISP_AE_MEAN_MAX                 25 -> 81
-> RKISP1_CIF_ISP_HIST_BIN_N_MAX              16 -> 32
-> RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17 -> 34
-> RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28 -> 81
+> https://paste.debian.net/1181580/
 
-This still mentions 28.
+This isn't right: v4l2-compliance thinks it is a regular video device, not
+a subdev device. You should see something like this:
 
-The commit message must say something about changing 28 to 25 as well.
+v4l2-compliance 1.21.0-4688, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 4739a67dac10 2021-01-06 08:21:53
 
-Actually, I think it would be best if that change (28 -> 25) is done in
-a separate 2/4 patch since this is independent of the V12/13 support.
+Compliance test for vimc device /dev/v4l-subdev0:
 
-Otherwise this series looks good from my point of view.
+Media Driver Info:
+        Driver name      : vimc
+        Model            : VIMC MDEV
+        Serial           :
+        Bus info         : platform:vimc
+        Media version    : 5.11.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 5.11.0
+Interface Info:
+        ID               : 0x0300002c
+        Type             : V4L Sub-Device
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : Sensor A
+        Function         : Camera Sensor
+        Pad 0x01000002   : 0: Source
+          Link 0x0200001c: to remote pad 0x1000006 of entity 'Debayer A': Data, Enabled, Immutable
+          Link 0x0200001e: to remote pad 0x100000c of entity 'Raw Capture 0': Data, Enabled, Immutable
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+
+....
+
+Sub-Device ioctls (Source Pad 0):
+        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+        test Try VIDIOC_SUBDEV_G/S_FMT: OK
+        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+        test Active VIDIOC_SUBDEV_G/S_FMT: OK
+        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+...
+
+Check this:
+
+ls -l /dev/v4l-subdev3
+# replace <minor> with the minor device number seen in the output of ls -l
+cat /sys/dev/char/81\:<minor>/uevent
+
+It should contain something like this:
+
+$ cat /sys/dev/char/81\:3/uevent
+MAJOR=81
+MINOR=3
+DEVNAME=v4l-subdev3
+
+where DEVNAME starts with 'v4l-subdev'.
 
 Regards,
 
 	Hans
 
 > 
-> and we can still extend the uapi during the 5.11-rc cycle, so do that
-> now to be on the safe side.
+> Thank you for your assistance.
 > 
-> V10 and V11 only need the smaller sizes, while V12 and V13 needed
-> the larger sizes.
-> 
-> When adding the bigger sizes make sure, values filled from hardware
-> values and transmitted to userspace don't leak kernel data by zeroing
-> them beforehand.
-> 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-params.c  |  2 +-
->  .../platform/rockchip/rkisp1/rkisp1-stats.c   | 12 +++-
->  include/uapi/linux/rkisp1-config.h            | 58 ++++++++++++++++---
->  3 files changed, 62 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> index 6af4d551ffb5..fa47fe2a02d0 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> @@ -391,7 +391,7 @@ static void rkisp1_goc_config(struct rkisp1_params *params,
->  				RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
->  	rkisp1_write(params->rkisp1, arg->mode, RKISP1_CIF_ISP_GAMMA_OUT_MODE);
->  
-> -	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES; i++)
-> +	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10; i++)
->  		rkisp1_write(params->rkisp1, arg->gamma_y[i],
->  			     RKISP1_CIF_ISP_GAMMA_OUT_Y_0 + i * 4);
->  }
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-> index 3ddab8fa8f2d..a26de388ca13 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-> @@ -202,8 +202,12 @@ static void rkisp1_stats_get_aec_meas(struct rkisp1_stats *stats,
->  	struct rkisp1_device *rkisp1 = stats->rkisp1;
->  	unsigned int i;
->  
-> +	/* the global max can be bigger than the version-specific one */
-> +	memset(pbuf->params.ae.exp_mean, 0, RKISP1_CIF_ISP_AE_MEAN_MAX *
-> +					    sizeof(*pbuf->params.ae.exp_mean));
-> +
->  	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
-> -	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX; i++)
-> +	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX_V10; i++)
->  		pbuf->params.ae.exp_mean[i] =
->  			(u8)rkisp1_read(rkisp1,
->  					RKISP1_CIF_ISP_EXP_MEAN_00 + i * 4);
-> @@ -232,8 +236,12 @@ static void rkisp1_stats_get_hst_meas(struct rkisp1_stats *stats,
->  	struct rkisp1_device *rkisp1 = stats->rkisp1;
->  	unsigned int i;
->  
-> +	/* the global max can be bigger then the version-specific one */
-> +	memset(pbuf->params.hist.hist_bins, 0, RKISP1_CIF_ISP_HIST_BIN_N_MAX *
-> +					       sizeof(*pbuf->params.hist.hist_bins));
-> +
->  	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
-> -	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++)
-> +	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10; i++)
->  		pbuf->params.hist.hist_bins[i] =
->  			(u8)rkisp1_read(rkisp1,
->  					RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
-> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> index d685b7371e71..c0c3abf5e50b 100644
-> --- a/include/uapi/linux/rkisp1-config.h
-> +++ b/include/uapi/linux/rkisp1-config.h
-> @@ -49,8 +49,14 @@
->  #define RKISP1_CIF_ISP_CTK_COEFF_MAX            0x100
->  #define RKISP1_CIF_ISP_CTK_OFFSET_MAX           0x800
->  
-> -#define RKISP1_CIF_ISP_AE_MEAN_MAX              25
-> -#define RKISP1_CIF_ISP_HIST_BIN_N_MAX           16
-> +#define RKISP1_CIF_ISP_AE_MEAN_MAX_V10		25
-> +#define RKISP1_CIF_ISP_AE_MEAN_MAX_V12		81
-> +#define RKISP1_CIF_ISP_AE_MEAN_MAX		RKISP1_CIF_ISP_AE_MEAN_MAX_V12
-> +
-> +#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10	16
-> +#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12	32
-> +#define RKISP1_CIF_ISP_HIST_BIN_N_MAX		RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12
-> +
->  #define RKISP1_CIF_ISP_AFM_MAX_WINDOWS          3
->  #define RKISP1_CIF_ISP_DEGAMMA_CURVE_SIZE       17
->  
-> @@ -86,7 +92,9 @@
->   * Gamma out
->   */
->  /* Maximum number of color samples supported */
-> -#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17
-> +#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10   17
-> +#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12   34
-> +#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
->  
->  /*
->   * Lens shade correction
-> @@ -103,7 +111,9 @@
->   * Histogram calculation
->   */
->  /* Last 3 values unused. */
-> -#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28
-> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10 25
-> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12 81
-> +#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE     RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
->  
->  /*
->   * Defect Pixel Cluster Correction
-> @@ -526,6 +536,15 @@ enum rkisp1_cif_isp_goc_mode {
->   *
->   * @mode: goc mode (from enum rkisp1_cif_isp_goc_mode)
->   * @gamma_y: gamma out curve y-axis for all color components
-> + *
-> + * The number of entries of @gamma_y depends on the hardware revision
-> + * as is reported by the hw_revision field of the struct media_device_info
-> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-> + *
-> + * Versions <= V11 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10
-> + * entries, versions >= V12 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
-> + * entries. RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES is equal to the maximum
-> + * of the two.
->   */
->  struct rkisp1_cif_isp_goc_config {
->  	__u32 mode;
-> @@ -540,6 +559,15 @@ struct rkisp1_cif_isp_goc_config {
->   *			  skipped
->   * @meas_window: coordinates of the measure window
->   * @hist_weight: weighting factor for sub-windows
-> + *
-> + * The number of entries of @hist_weight depends on the hardware revision
-> + * as is reported by the hw_revision field of the struct media_device_info
-> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-> + *
-> + * Versions <= V11 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10
-> + * entries, versions >= V12 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
-> + * entries. RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE is equal to the maximum
-> + * of the two.
->   */
->  struct rkisp1_cif_isp_hst_config {
->  	__u32 mode;
-> @@ -827,7 +855,15 @@ struct rkisp1_cif_isp_bls_meas_val {
->   * @exp_mean: Mean luminance value of block xx
->   * @bls_val:  BLS measured values
->   *
-> - * Image is divided into 5x5 blocks.
-> + * The number of entries of @exp_mean depends on the hardware revision
-> + * as is reported by the hw_revision field of the struct media_device_info
-> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-> + *
-> + * Versions <= V11 have RKISP1_CIF_ISP_AE_MEAN_MAX_V10 entries,
-> + * versions >= V12 have RKISP1_CIF_ISP_AE_MEAN_MAX_V12 entries.
-> + * RKISP1_CIF_ISP_AE_MEAN_MAX is equal to the maximum of the two.
-> + *
-> + * Image is divided into 5x5 blocks on V10 and 9x9 blocks on V12.
->   */
->  struct rkisp1_cif_isp_ae_stat {
->  	__u8 exp_mean[RKISP1_CIF_ISP_AE_MEAN_MAX];
-> @@ -862,8 +898,16 @@ struct rkisp1_cif_isp_af_stat {
->   *
->   * @hist_bins: measured bin counters
->   *
-> - * Measurement window divided into 16 sub-windows, set
-> - * with ISP_HIST_XXX
-> + * The histogram values divided into 16 bins for V10/V11 and 32 bins
-> + * for V12/V13. It is configured within the struct rkisp1_cif_isp_hst_config.
-> + *
-> + * The number of entries of @hist_bins depends on the hardware revision
-> + * as is reported by the hw_revision field of the struct media_device_info
-> + * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-> + *
-> + * Versions <= V11 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10 entries,
-> + * versions >= V12 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12 entries.
-> + * RKISP1_CIF_ISP_HIST_BIN_N_MAX is equal to the maximum of the two.
->   */
->  struct rkisp1_cif_isp_hist_stat {
->  	__u16 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
-> 
+> On 15.01.2021 22:20, Dafna Hirschfeld wrote:
+>>
+>>
+>> Am 15.01.21 um 19:34 schrieb Sebastian Fricke:
+>>> Hello Hans,
+>>>
+>>> Thank you very much for the quick response.
+>>>
+>>> On 15.01.2021 13:11, Hans Verkuil wrote:
+>>>> On 15/01/2021 12:53, Sebastian Fricke wrote:
+>>>>> Hello,
+>>>>>
+>>>>> I believe you are the creator of v4l2-compliance, right? My hope is that you might be able to lead me in the right direction.
+>>>>> I am currently finishing up a sensor driver that I ported from a downstream kernel. And I try to clear up the last compliance error:
+>>>>>
+>>>>> ```
+>>>>>      info: checking control event 'User Controls' (0x00980001)
+>>>>>      VIDIOC_SUBSCRIBE_EVENT returned -1 (Inappropriate ioctl for device)
+>>>>
+>>>> This returns ENOTTY, which is weird...
+>>>>
+>>>>>      fail: v4l2-test-controls.cpp(818): subscribe event for control 'User Controls' failed
+>>>>> test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+>>>>> ```
+>>>>>
+>>>>> I notice that it calls a normal v4l2 ioctl on my subdevice. I implemented the event handling just like I was able to find in other devices like:
+>>>>> imx219, imx355, ov2640 by adding:
+>>>>>
+>>>>> ```
+>>>>> #include <media/v4l2-event.h>
+>>>>> ...
+>>>>>     sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+>>>>>              V4L2_SUBDEV_FL_HAS_EVENTS;
+>>>>> ...
+>>>>> static const struct v4l2_subdev_core_ops ov13850_core_ops = {
+>>>>>      ...
+>>>>>     .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+>>>>>     .unsubscribe_event = v4l2_event_subdev_unsubscribe
+>>>>>      ...
+>>>>> ```
+>>>>
+>>>> ...since this looks exactly as it should be.
+>>>>
+>>>>>
+>>>>> Am I supposed to correct that error, or asked in another way is it actually an error when a subdevice doesn't implement VIDIOC_SUBSCRIBE_EVENT?
+>>>>
+>>>> Yes, it is an error if subscribe_event isn't implemented, but you DO have controls in your driver.
+>>>>
+>>>> Are you compiling v4l2-compliance from the git repo? You shouldn't use the version packages by distros since that is typically much too old.
+>>>
+>>> Yes I have compiled it directly from the git repo `git clone https://git.linuxtv.org/v4l-utils.git/`, to be more specific I have an ansible playbook that shows exactly how I compiled it:
+>>> https://github.com/initBasti/NanoPC-T4_armbian_configuration/blob/main/ansible/setup_nanopct4.yml#L95
+>>>
+>>> The build I currently use is 3 days old.
+>>>
+>>>>
+>>>> I can't give support either if you are using an old version.
+>>>>
+>>>>> Additionally, I noticed that the compliance check doesn't look at my VIDIOC_SUBDEV_G_SELECTION implementation but instead searches for any implementation of the VIDIOC_G_SELECTION ioctl.
+>>>>
+>>>> It shouldn't, at least v4l2-test-subdevs.cpp only uses VIDIOC_SUBDEV_G_SELECTION.
+>>>
+>>> That is exactly what confuses me, I cannot find a *single* SUBDEV ioctl
+>>
+>> That's weird, looking at the v4l2-compliance code I see there is a function "'mi_media_detect_type", maybe you should see what type is detected
+>>
+>> Thanks,
+>> Dafna
+>>
+>>> within the output of the tests.
+>>> Here is the complete output: https://paste.debian.net/1181280/
+>>>
+>>>>
+>>>> Regards,
+>>>>
+>>>>     Hans
+>>>
+>>> Thanks a lot
+>>> Sebastian
+>>>>
+>>>>>
+>>>>> I invoked the compliance test with:
+>>>>>
+>>>>> v4l2-compliance -u /dev/v4l-subdev3 -v -T
+>>>>>
+>>>>> My current code can be located here: https://github.com/initBasti/Linux_kernel_media_tree_fork/blob/fix_subscribe_event_user_controls/drivers/media/i2c/ov13850.c
+>>>>>
+>>>>> Greetings and thanks in advance,
+>>>>> Sebastian
+>>>>>
+>>>>
 
