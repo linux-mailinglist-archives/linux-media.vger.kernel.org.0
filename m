@@ -2,224 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B0B2FACE8
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 22:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E354D2FACE2
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 22:42:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388881AbhARVm4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 16:42:56 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:46210 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388636AbhARJ6n (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 04:58:43 -0500
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1l1RI3-0002qw-EI; Mon, 18 Jan 2021 10:57:39 +0100
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        Laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
-        christoph.muellner@theobroma-systems.com, heiko@sntech.de,
-        tfiga@chromium.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Subject: [PATCH v5 3/3] media: rockchip: rkisp1: extend uapi array sizes
-Date:   Mon, 18 Jan 2021 10:57:36 +0100
-Message-Id: <20210118095736.272473-4-heiko@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210118095736.272473-1-heiko@sntech.de>
-References: <20210118095736.272473-1-heiko@sntech.de>
+        id S2388823AbhARVmP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 16:42:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34342 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388816AbhARVmI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Jan 2021 16:42:08 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FCD9C061573
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 13:41:28 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id C48421F44CBA
+Subject: Re: RkISP1 simulataneously streaming with two cameras
+From:   Helen Koike <helen.koike@collabora.com>
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>,
+        linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, dafna.hirschfeld@collabora.com,
+        ezequiel@vanguardiasur.com.ar, heiko@sntech.de
+References: <20210117131209.4m2vqht4mflci7hy@basti-TUXEDO-Book-XA1510>
+ <4e3159d4-7320-271f-ede8-1399fd23b0d6@collabora.com>
+Message-ID: <7d7a9785-eec7-cc8a-105a-596e29f41c89@collabora.com>
+Date:   Mon, 18 Jan 2021 18:41:19 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <4e3159d4-7320-271f-ede8-1399fd23b0d6@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 
-Later variants of the rkisp1 block use more entries in some arrays:
 
-RKISP1_CIF_ISP_AE_MEAN_MAX                 25 -> 81
-RKISP1_CIF_ISP_HIST_BIN_N_MAX              16 -> 32
-RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17 -> 34
-RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28 -> 81
+On 1/18/21 3:12 PM, Helen Koike wrote:
+> Hi Sebastian,
+> 
+> On 1/17/21 10:12 AM, Sebastian Fricke wrote:
+>> Hello,
+>>
+>> I am currently trying to figure out how to configure my NanoPC-T4 for
+>> streaming with two cameras at the same time. The cameras are the CAM1320
+>> (OV13850) and the MCAM40(OV4689), I have ported the drivers from the
+>> downstream BSP Kernel to the current 5.11 rc1 kernel.
+>> My current attempt is to enable the second instance of the RkISP1, the
+>> mipi_dphy_tx1rx1 and setup the OV13850 on i2c1 and the OV4689 on the
+> 
+> The driver phy-rockchip-dphy-rx0.c doesn't support tx1rx1.
 
-and we can still extend the uapi during the 5.11-rc cycle, so do that
-now to be on the safe side.
+In case you are interested, it seems to be supported by the downstream
+driver:
 
-V10 and V11 only need the smaller sizes, while V12 and V13 needed
-the larger sizes.
+    https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/phy/rockchip/phy-rockchip-mipi-rx.c
 
-When adding the bigger sizes make sure, values filled from hardware
-values and transmitted to userspace don't leak kernel data by zeroing
-them beforehand.
+Adding support for it upstream would be more then welcome :)
+We didn't add it when we merged because we didn't have hw to test it.
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- .../platform/rockchip/rkisp1/rkisp1-params.c  |  2 +-
- .../platform/rockchip/rkisp1/rkisp1-stats.c   | 12 +++-
- include/uapi/linux/rkisp1-config.h            | 58 ++++++++++++++++---
- 3 files changed, 62 insertions(+), 10 deletions(-)
+Thanks!
+Helen
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index 6af4d551ffb5..fa47fe2a02d0 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -391,7 +391,7 @@ static void rkisp1_goc_config(struct rkisp1_params *params,
- 				RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
- 	rkisp1_write(params->rkisp1, arg->mode, RKISP1_CIF_ISP_GAMMA_OUT_MODE);
- 
--	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES; i++)
-+	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10; i++)
- 		rkisp1_write(params->rkisp1, arg->gamma_y[i],
- 			     RKISP1_CIF_ISP_GAMMA_OUT_Y_0 + i * 4);
- }
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-index 3ddab8fa8f2d..a26de388ca13 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-@@ -202,8 +202,12 @@ static void rkisp1_stats_get_aec_meas(struct rkisp1_stats *stats,
- 	struct rkisp1_device *rkisp1 = stats->rkisp1;
- 	unsigned int i;
- 
-+	/* the global max can be bigger than the version-specific one */
-+	memset(pbuf->params.ae.exp_mean, 0, RKISP1_CIF_ISP_AE_MEAN_MAX *
-+					    sizeof(*pbuf->params.ae.exp_mean));
-+
- 	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
--	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX; i++)
-+	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX_V10; i++)
- 		pbuf->params.ae.exp_mean[i] =
- 			(u8)rkisp1_read(rkisp1,
- 					RKISP1_CIF_ISP_EXP_MEAN_00 + i * 4);
-@@ -232,8 +236,12 @@ static void rkisp1_stats_get_hst_meas(struct rkisp1_stats *stats,
- 	struct rkisp1_device *rkisp1 = stats->rkisp1;
- 	unsigned int i;
- 
-+	/* the global max can be bigger then the version-specific one */
-+	memset(pbuf->params.hist.hist_bins, 0, RKISP1_CIF_ISP_HIST_BIN_N_MAX *
-+					       sizeof(*pbuf->params.hist.hist_bins));
-+
- 	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
--	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++)
-+	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10; i++)
- 		pbuf->params.hist.hist_bins[i] =
- 			(u8)rkisp1_read(rkisp1,
- 					RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
-diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-index d685b7371e71..c0c3abf5e50b 100644
---- a/include/uapi/linux/rkisp1-config.h
-+++ b/include/uapi/linux/rkisp1-config.h
-@@ -49,8 +49,14 @@
- #define RKISP1_CIF_ISP_CTK_COEFF_MAX            0x100
- #define RKISP1_CIF_ISP_CTK_OFFSET_MAX           0x800
- 
--#define RKISP1_CIF_ISP_AE_MEAN_MAX              25
--#define RKISP1_CIF_ISP_HIST_BIN_N_MAX           16
-+#define RKISP1_CIF_ISP_AE_MEAN_MAX_V10		25
-+#define RKISP1_CIF_ISP_AE_MEAN_MAX_V12		81
-+#define RKISP1_CIF_ISP_AE_MEAN_MAX		RKISP1_CIF_ISP_AE_MEAN_MAX_V12
-+
-+#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10	16
-+#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12	32
-+#define RKISP1_CIF_ISP_HIST_BIN_N_MAX		RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12
-+
- #define RKISP1_CIF_ISP_AFM_MAX_WINDOWS          3
- #define RKISP1_CIF_ISP_DEGAMMA_CURVE_SIZE       17
- 
-@@ -86,7 +92,9 @@
-  * Gamma out
-  */
- /* Maximum number of color samples supported */
--#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17
-+#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10   17
-+#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12   34
-+#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
- 
- /*
-  * Lens shade correction
-@@ -103,7 +111,9 @@
-  * Histogram calculation
-  */
- /* Last 3 values unused. */
--#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28
-+#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10 25
-+#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12 81
-+#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE     RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
- 
- /*
-  * Defect Pixel Cluster Correction
-@@ -526,6 +536,15 @@ enum rkisp1_cif_isp_goc_mode {
-  *
-  * @mode: goc mode (from enum rkisp1_cif_isp_goc_mode)
-  * @gamma_y: gamma out curve y-axis for all color components
-+ *
-+ * The number of entries of @gamma_y depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10
-+ * entries, versions >= V12 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
-+ * entries. RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES is equal to the maximum
-+ * of the two.
-  */
- struct rkisp1_cif_isp_goc_config {
- 	__u32 mode;
-@@ -540,6 +559,15 @@ struct rkisp1_cif_isp_goc_config {
-  *			  skipped
-  * @meas_window: coordinates of the measure window
-  * @hist_weight: weighting factor for sub-windows
-+ *
-+ * The number of entries of @hist_weight depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10
-+ * entries, versions >= V12 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
-+ * entries. RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE is equal to the maximum
-+ * of the two.
-  */
- struct rkisp1_cif_isp_hst_config {
- 	__u32 mode;
-@@ -827,7 +855,15 @@ struct rkisp1_cif_isp_bls_meas_val {
-  * @exp_mean: Mean luminance value of block xx
-  * @bls_val:  BLS measured values
-  *
-- * Image is divided into 5x5 blocks.
-+ * The number of entries of @exp_mean depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_AE_MEAN_MAX_V10 entries,
-+ * versions >= V12 have RKISP1_CIF_ISP_AE_MEAN_MAX_V12 entries.
-+ * RKISP1_CIF_ISP_AE_MEAN_MAX is equal to the maximum of the two.
-+ *
-+ * Image is divided into 5x5 blocks on V10 and 9x9 blocks on V12.
-  */
- struct rkisp1_cif_isp_ae_stat {
- 	__u8 exp_mean[RKISP1_CIF_ISP_AE_MEAN_MAX];
-@@ -862,8 +898,16 @@ struct rkisp1_cif_isp_af_stat {
-  *
-  * @hist_bins: measured bin counters
-  *
-- * Measurement window divided into 16 sub-windows, set
-- * with ISP_HIST_XXX
-+ * The histogram values divided into 16 bins for V10/V11 and 32 bins
-+ * for V12/V13. It is configured within the struct rkisp1_cif_isp_hst_config.
-+ *
-+ * The number of entries of @hist_bins depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10 entries,
-+ * versions >= V12 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12 entries.
-+ * RKISP1_CIF_ISP_HIST_BIN_N_MAX is equal to the maximum of the two.
-  */
- struct rkisp1_cif_isp_hist_stat {
- 	__u16 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
--- 
-2.29.2
-
+> 
+> Regards,
+> Helen
+> 
+>> i2c2.
+>> The patch that I apply in this case is the following:
+>> https://github.com/initBasti/Linux_kernel_media_tree_fork/commit/9a8e594a660d67f3790da32f3268bebd3d233526> 
+>> Here is the dmesg ouput when I start the kernel with this patch:
+>> ```
+>> [    7.021079] mc: Linux media interface: v0.10
+>> ...
+>> [    7.084369] videodev: Linux video capture interface: v2.00
+>> ...
+>> [    7.125911] ov4689 2-0036: driver version: 00.01.01
+>> [    7.125939] ov4689 2-0036: could not get module information!
+>> [    7.130037] ov4689 2-0036: Unexpected sensor id(000000), ret(-5)
+>> ...
+>> [    7.143951] ov13850 1-0010: driver version: 00.01.01
+>> [    7.143980] ov13850 1-0010: could not get module information!
+>> [    7.149127] ov13850 1-0010: Detected OV00d850 sensor, REVISION 0xb1
+>> ...
+>> [    7.259601] rkisp1 ff910000.isp0: Adding to iommu group 4
+>> [    7.260911] rkisp1: registered rkisp1_mainpath as /dev/video1
+>> [    7.261100] rkisp1: registered rkisp1_selfpath as /dev/video2
+>> ...
+>> [    7.262628] rkisp1 ff910000.isp0: registered ep id 0 with 2 lanes
+>> [    7.263666] rkvdec ff660000.video-codec: Adding to iommu group 1
+>> [    7.265120] rkisp1 ff910000.isp0: Async subdev notifier completed
+>> [    7.265458] rkisp1 ff920000.isp1: Adding to iommu group 5
+>> [    7.266441] rkisp1: registered rkisp1_mainpath as /dev/video6
+>> [    7.267380] rkisp1: registered rkisp1_selfpath as /dev/video7
+>> [    7.267945] rkisp1 ff920000.isp1: registered ep id 0 with 2 lanes
+>> [    7.267994] debugfs: Directory 'rkisp1' with parent '/' already present!
+>> ```
+>>
+>> And here is the long version of the log with pinctrl and gpio debug
+>> output. https://paste.debian.net/1181487/
+>>
+>> These are the drivers that I use:
+>> OV13850: https://github.com/initBasti/Linux_kernel_media_tree_fork/blob/dual_cam/drivers/media/i2c/ov13850.c
+>> OV4689: https://github.com/initBasti/Linux_kernel_media_tree_fork/blob/dual_cam/drivers/media/i2c/ov4689.c
+>>
+>> I have the following questions:
+>> 1. Within the mipi_dphy_tx1rx1, I chose the phy-cells value to be `<0>`, but I have to say I am not entirely sure about this value. My current research was within the Documentation/devicetree/bindings/phy folder where I was able to find:
+>>> #phy-cells:    Number of cells in a PHY specifier;  The meaning of all
+>>> those cells is defined by the binding for the phy node. The PHY
+>>> provider can use the values in cells to find the appropriate PHY.
+>> But as there is only a binding for the rx0, I felt like I had to guess.
+>> Could someone give me a hint in the right direction?
+>>
+>> 2. Both ISP instances try to acquire the same endpoint 0, I found out
+>> within the code at `rkisp1-dev.c:257`, that the rkisp1 driver tries to
+>> get the endpoint from the firmware node at port 0. Looking deeper into
+>> the code I can see that there are multiple debugging messages which
+>> might be useful, how do I enable the debugging output for prints like:
+>> `drivers/media/v4l2-core/v4l2-fwnode.c:419` ? I already enabled
+>> CONFIG_DEBUG_KERNEL & CONFIG_DEBUG_MISC & CONFIG_DYNAMIC_DEBUG
+>>
+>> 3. Is it correct when two camera sensors try to multiplex the
+>> cif-clkout-a pinctrl? I have taken this from the friendlyElec fork of
+>> the rockchip BSP downstream kernel. https://github.com/friendlyarm/kernel-rockchip/blob/nanopi4-linux-v4.4.y/arch/arm64/boot/dts/rockchip/rk3399-nanopi4-rkisp1.dtsi#L30
+>> I have been testing on of their official images and there the dual mipi setup works.
+>> So, I currently ask myself has something significantly changed in this
+>> part of the code that I am unaware of?
+>> And also I have a really hard time figuring out, where the cif-clkout-a
+>> pinctrl is actually used.
+>>
+>> 4. Has anyone been able to set up the dual cam setup on the rkisp1 on an
+>> upstream kernel? If yes how did you do it?
+>>
+>> Greetings,
+>> Sebastian
