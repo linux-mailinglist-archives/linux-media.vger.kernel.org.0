@@ -2,129 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBBD12FAB7C
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 21:32:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1181D2FABB3
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 21:42:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388557AbhARKka (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 05:40:30 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:52279 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388390AbhARJKq (ORCPT
+        id S2388979AbhARUjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 15:39:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60014 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388255AbhARKfd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 04:10:46 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 950255806CC;
-        Mon, 18 Jan 2021 04:09:53 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 18 Jan 2021 04:09:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=R1pGfxcuJnekXAz99rc1GrqcVhx
-        oC8FEezWd5X2V/wc=; b=HDdEhP7k0u7Kr0CuJmufFRjOKLQG+h1H/Oxx8zICiFS
-        m3XhURRkqWYGyESLH2ioYAOjyidK9mbPo9vxY7C0+MqQoOBumn2f8hFEmvlwxyIi
-        6H94opM/TGbkKAOuPqBeItwXPCx9tA9OsaE/DRoYGfvRicNtnYxIiCQWMT5O6rhc
-        q4/A0F0FdsXmOl1yzTsXXhVT0aRhnLEq92qjjEB8Gf7vwW0Ap8ExnihYOfBtjpv7
-        lWzlubCqjxfJTit+2kJzW2QU+SqfDT1YAjDK/eFAG+oQfKXM8pCaxAOrQ9QtmTmh
-        z0+SbeeLZNIMrZaa43fROYR/b1S/y711D4yqoeSBuow==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=R1pGfx
-        cuJnekXAz99rc1GrqcVhxoC8FEezWd5X2V/wc=; b=Y91WYLV3bL70Fnuz0Lcrkg
-        fUcr3CPJUuNQQ/73hpLWF8xSfCtd12pU18VAeCUi0aD4hwLgn+ArVdtxGUUhETa5
-        4SUfET+eDvdHW6wFrmTiRuG/QwWPLGr+V7leHuH3dh2nwrseyF7hWiLnq9v/Fvod
-        JA+6SwrFTbYIMpbclZGNGVb8o74k3EQ0IJV1rYimtsn6Rl45zHolhTW3yszwAM2P
-        uQ67utqjjVGSYOkZE7MgPRAj7py4P3BI3L4UfnQ2sOkGXLvj5/iTD/1ZKDy+q9zU
-        B0MEfpIVDBfk/tRr3GMVz33PTJpwmq5BUQoNdKM3Lbif0ycVaEPV/0Hehs8P80kw
-        ==
-X-ME-Sender: <xms:XFAFYDeeKHtqy-FMSF4DaQn8bORgh2zjymAkiiOB_CXhA5VWsV8FyA>
-    <xme:XFAFYJPjGsMFddeIiiADXOVcfsrFS0vpvt-S4a31B31bWVoKp1AMPRF3nwqvnVevb
-    vgv5qPWXBkctAotxRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
-    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnh
-    epleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecu
-    kfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:XFAFYMhPzXcPrv8lXJzVW7dXtPA-e7CpLVEca5UyRw3QpqGAst5QxA>
-    <xmx:XFAFYE8UXLmhOM5_TUoJnDF_OcIwYiwGka2bKBlnybGgT4RFezqKEw>
-    <xmx:XFAFYPtjix0-ov_riM1aMc3_eD9VgYUVFUUc6vy48MAi7vRg1-GQHQ>
-    <xmx:YVAFYPcftKako6DbTRIDzIJlchl40QfeLNkJJ5sWyecWcUIioS8Odw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6A748240064;
-        Mon, 18 Jan 2021 04:09:48 -0500 (EST)
-Date:   Mon, 18 Jan 2021 10:09:46 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: Re: [PATCH v5 04/16] media: sun6i-csi: Stop using the deprecated
- fwnode endpoint parser
-Message-ID: <20210118090946.vysdaribva7jl4xi@gilmour>
-References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
- <20210115200141.1397785-5-paul.kocialkowski@bootlin.com>
+        Mon, 18 Jan 2021 05:35:33 -0500
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 571D2C0613D3
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 02:34:17 -0800 (PST)
+Received: by mail-qv1-xf32.google.com with SMTP id a13so7264071qvv.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 02:34:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=7wvFzfvZq3gy/QLYapWxVlH+yWiTFpvNNpaLPUEGCQg=;
+        b=f1RfBedwvzweG57vnMB4BxRnNDdZIvlF9UywqNZaVb9w26zKkBVneuPPRgARdnf6ZP
+         8GvQEtndG8aQhb2zwo+dR8/T8lEV1nMqyy+QYqXCX942Pg3WILt8Q25eAsErsy5vvmmV
+         /jmWYeit46oeEasjTm97HK6LmlkhJygUIqLZmTLrK0Oz4rkuEiyWdPdf1b3uYQf/8OcK
+         YUkEc2M4z/zON8xxuzcZTr9la0Kctz70xoQVdoZtI5wAfNywcbVMfVTjPtVbzDQ4oeM6
+         SDC5kCwBbzrknVzlh07MDNE4vDhCCLt6F6x+kGEufWdzm2axCcg/RNHu3yd6HDM1yHC6
+         zquw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7wvFzfvZq3gy/QLYapWxVlH+yWiTFpvNNpaLPUEGCQg=;
+        b=GYl6+tVu+Ugvruyp1nRjaJa0BzP56f+Zcq1VTLcu9JZjoJXVgGnA/TRg1mcA7T7UOx
+         ZnwTuFaSKicag/fga0FpNj3fhkZtQpjMKVwQ/dPFqDYcnkpxLVrDY1fT/UHTbmoDEuRl
+         f5ww3/iEdsJjVyVx1kqZeQHSEdRCZttgVRtffOyR8FggjNVpWdTasSoLvZwzq8fxCzlI
+         xDKqqDVL/5YajXASEyX/K5Rx02w0yEgo98WCuzY15mvozMNII5/fLDEWbRwiBYcGhPST
+         kBwx149o3AqQYMnf+Qk7cRVOErxckT3S3aXJo5cOevYqtuimGn4QXso9OZ6dD3P+cc2a
+         F5Nw==
+X-Gm-Message-State: AOAM533QrRp9wXydjHw41cxL8fTgAEQTx9hVrX2O6caeolNpYHpe/jkE
+        mK7uYaIZfj28mweku/G13XC2jckU54tCiWPkmjila0ij3osPCQ==
+X-Google-Smtp-Source: ABdhPJxrdwib1cYm0VEExzMJb/AsVd2MXqJ2vCUKNl5E3jpJ8g15775LII/UpOboZ+I1jCpNLaocZ1zoznSG0Ph6ZoA=
+X-Received: by 2002:a0c:a525:: with SMTP id y34mr23187785qvy.37.1610966056570;
+ Mon, 18 Jan 2021 02:34:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="phzzxokt6uufvv73"
-Content-Disposition: inline
-In-Reply-To: <20210115200141.1397785-5-paul.kocialkowski@bootlin.com>
+References: <CAHoAvW8+1jAirPQPQ-WYYD5fyngckrXA+dLTX+H2ysGzOKUZRg@mail.gmail.com>
+ <CAHoAvW_Cju=0svzAExJDuXP9NBnz34Lut8M2+Y9RHUtMXfxJqg@mail.gmail.com>
+ <CAHoAvW8k77_ckRdAGGTsu4ALhw4=TUPa27knK3x9zR3bjvjbUw@mail.gmail.com> <CAK8P3a1du9ypzvLk3yoF3FNX8BSvSDSdXwWEMQzuFsVm96w1nw@mail.gmail.com>
+In-Reply-To: <CAK8P3a1du9ypzvLk3yoF3FNX8BSvSDSdXwWEMQzuFsVm96w1nw@mail.gmail.com>
+From:   root jason <jason.root.w@gmail.com>
+Date:   Mon, 18 Jan 2021 18:34:05 +0800
+Message-ID: <CAHoAvW8gK3Zm-uJV7uOWGmMQfmR+xP_8+kn6XoBeCv8GiTw7sQ@mail.gmail.com>
+Subject: Re: [PATCH]media:dvb: add compat_ioctl def for dmx_dvr
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Arnd Bergmann <arnd@kernel.org> =E4=BA=8E2021=E5=B9=B41=E6=9C=8818=E6=97=A5=
+=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=883:38=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, Jan 18, 2021 at 7:21 AM root jason <jason.root.w@gmail.com> wrote=
+:
+> > From: jason.wang <jason.root.w@gmail.com>
+> >
+> > add compat_ioctl define for dmx_dvr to handle ioctl when CONFIG_COMPAT =
+is enable.
+> >
+> > Signed-off-by: .jason.wang <jason.root.w@gmail.com>
+> > ---
+> >  drivers/media/dvb-core/dmxdev.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/d=
+mxdev.c
+> > index f14a872d1268..4a9e027de827 100644
+> > --- a/drivers/media/dvb-core/dmxdev.c
+> > +++ b/drivers/media/dvb-core/dmxdev.c
+> > @@ -1393,6 +1393,7 @@ static const struct file_operations dvb_dvr_fops =
+=3D {
+> >         .read =3D dvb_dvr_read,
+> >         .write =3D dvb_dvr_write,
+> >         .unlocked_ioctl =3D dvb_dvr_ioctl,
+> > +       .compat_ioctl =3D dvb_dvr_ioctl,
+> >         .open =3D dvb_dvr_open,
+> >         .release =3D dvb_dvr_release,
+> >         .poll =3D dvb_dvr_poll,
+>
+> This is correct for DMX_SET_BUFFER_SIZE, which takes an integer
+> argument, but not strictly correct for the other ones that take a pointer
+> argument and need a compat_ptr() conversion.
+>
+> You could do it by either passing both the 'unsigned long arg'
+> and the 'void __user *argp' pointer to dvb_usercopy(), with the
+> pointer coming from compat_ptr() in case of compat, or you
+> add something like
+>
+>          if (in_compat_syscall())
+>                    arg =3D compat_ptr(unsigned long arg);
+>
+> in the function itself. I checked the DVB ioctls to make sure that
+> no other ioctl commands need any special handling, and found
+> that DMX_SET_BUFFER_SIZE is the only one.
+>
+>           Arnd
 
---phzzxokt6uufvv73
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+hi Arnd,
+     thank you for your quick comment.
 
-Hi,
+     I upload this change is because if not compt_ioctl dvr_ioctl can
+not be invoked
+     I checked my local kernel code about compt_ioctl call flow.
+     I figure out that my local kernel version is 5.4.70.
+     if compat_ioctl is not defined, ioctl cmd need to add into the
+array(ioctl_pointer),
+     otherwise, unlocked_ioctl will not be called.
 
-Thanks for working on this
+     and I check latest kernel version. the logic about this part is
+changed.  no need to
+     add ioctl cmd into that array.
+     for the latest kernel, it should be ok.
 
-On Fri, Jan 15, 2021 at 09:01:29PM +0100, Paul Kocialkowski wrote:
-> The v4l2_async_notifier_parse_fwnode_endpoints helper is getting
-> deprecated in favor of explicit parsing of the endpoints.
->=20
-> Implement it instead of using this deprecated function.
->=20
-> Since this was the last user of the helper, it should now be safe to
-> remove.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+    anyway, .thank you for your reply.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---phzzxokt6uufvv73
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAVQWgAKCRDj7w1vZxhR
-xePXAQCUCBAhygtdMlfSOyDe9FrqYWFDVy55JekmXn69swyY2AEAgRYKfDHOvKjp
-OK65VWBIaKANrwzOQ+puhKAQ4DMbLgs=
-=WFFY
------END PGP SIGNATURE-----
-
---phzzxokt6uufvv73--
+jason.wang
