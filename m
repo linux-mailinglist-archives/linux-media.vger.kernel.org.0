@@ -2,124 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74B062F9DAF
-	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 12:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ECD32F9E19
+	for <lists+linux-media@lfdr.de>; Mon, 18 Jan 2021 12:28:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389838AbhARLJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Jan 2021 06:09:57 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50813 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389955AbhARLJs (ORCPT
+        id S2390086AbhARL1E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Jan 2021 06:27:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388820AbhARLRh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Jan 2021 06:09:48 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 1SP3lI8g1yutM1SP6lYRWv; Mon, 18 Jan 2021 12:09:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610968140; bh=rmBkZbqdwxLdkFjkZ/f6SmjjYIeJdSfxgcigdYZNOOU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=IyLcDjwAglHK4V+qofEPMkwe6OufUd21Y5RWO0hmkEF7PSuPxTD18A8E0hsUHdtyI
-         5NzApNSlOEeDS7o+nYV8QbGrxrk/fw6Hrfszhh7eFAXLCxh2IWmng7SSPx7vuT/3Xm
-         FJW7PZDqS6PuqfbEc6tB9kVLUwYmdr5JAIv0imbXx/VR7DzboSE14XfnA8+4xQxbiV
-         K5VBFWEZ7rSDABtWIjynoUH70KU62Jo9t7bNttXUswzzV9mkFBpnBCt+wCMEFPb9tx
-         hqnjJOcoz+74LiIJUKA3jX5EWQxGYETQ7aR++jG3EhETHqFEn+wxyTG47AzqqDCdZq
-         m3gxiJsmgfhEQ==
-Subject: Re: [PATCH v6 0/4] Fix the rkisp1 userspace API for later IP versions
-To:     Heiko Stuebner <heiko@sntech.de>, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, linux-media@vger.kernel.org,
-        mchehab@kernel.org, Laurent.pinchart@ideasonboard.com
-Cc:     linux-rockchip@lists.infradead.org, ezequiel@collabora.com,
-        christoph.muellner@theobroma-systems.com, tfiga@chromium.org
-References: <20210118110448.275389-1-heiko@sntech.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e98a2c06-c04c-567b-643a-d785988820a2@xs4all.nl>
-Date:   Mon, 18 Jan 2021 12:08:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Mon, 18 Jan 2021 06:17:37 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CB1C061793
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 03:16:13 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id w26so17809757ljo.4
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 03:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BiOeQObj1lWg++oDC0igsl1yme7R9sAH9n3rrQCoHD8=;
+        b=DpMVg2MbierGpSbhzEntYbaeNip/kLGJBsOF3ZssNvBJd7P3b8GKmSoqDjUhwfwKAM
+         YRfi5k8eqKcHArItKgeOnCyRBgPmynrrPstxpeF7QEvzTqmtWYJtFmGHHiB9Y8KT5woH
+         PJfCV5EBX4mdQfTKQ5zIfDcH+Lw7d0uRlTGI8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BiOeQObj1lWg++oDC0igsl1yme7R9sAH9n3rrQCoHD8=;
+        b=rMYV36wBg4YG/he6T8fBP62dtwto2EDw/DKF5kNm/zJmucbhRECS8XsvSNbLwvsVvg
+         HpcIWI5MMpgr+tT5rFlledO6dA9Kp+uazzbWAFettgsPwFDbQyeXywdVtDN+o/sgjl7Y
+         A3KA1MiALgvz8QtX7Mux8AIQKZQhMLAScUos/Z7hibWKSdOn2fnJ0RyZeLG1JMa3iEQN
+         QSCxon362dmrQi/NtVuIKPbBfPNtkAqIA/wenW+71xgFtnb5tInwJN3Qi1mECvR+H1Qq
+         bY2Y8CAJ3WuxYIq+wdHY1CvKNsPaWHdqkDktUd8KnEhL2X+sKMlbUqZJTXhULgv+HHfC
+         gxww==
+X-Gm-Message-State: AOAM5332WwRBg/BuAWgIPB7smS2wMG+3QIG1avu67rhKCTQJc376400L
+        QHP72H1/8vabXciPkKQ8I50ljmogNQAyncCw
+X-Google-Smtp-Source: ABdhPJyATFhjbQTTPoQABKHpljNhkdWz6eF9QVAjMwZAK+Cml/E35BHPo8PP5NMyHju205Udjybm6Q==
+X-Received: by 2002:a2e:5741:: with SMTP id r1mr10296194ljd.15.1610968571899;
+        Mon, 18 Jan 2021 03:16:11 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id f23sm1865912lfc.63.2021.01.18.03.16.09
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Jan 2021 03:16:11 -0800 (PST)
+Received: by mail-lj1-f173.google.com with SMTP id w26so17809544ljo.4
+        for <linux-media@vger.kernel.org>; Mon, 18 Jan 2021 03:16:09 -0800 (PST)
+X-Received: by 2002:a2e:8e63:: with SMTP id t3mr10249115ljk.88.1610968568684;
+ Mon, 18 Jan 2021 03:16:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210118110448.275389-1-heiko@sntech.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfII0tMi/5pQVAk60iSd0DAkBYyPNyAgjCNbJGKGv/hJNOYlomEjCrjg18hOD6XWYI/FpmTWYhw5LKKNRIbxwmyN+BwlD/XEliY//UeXMWCAlKXwcvVsl
- tiJCezYYqNGGRXlpgh/+LqbssdutfLZrKGkyIPyKzbXV3KlGzvjgJ7oDsQRvzzyLJNcOqSw17cq+0XGT2ns2Tguh2csmqEriUax5S11Lurzg+/85bteLwfXU
- lfR8hUmdIBB6gskQIaUA/X1yGnDdmR5ILuDTyg9VCc7E9yI1PLnvQMxNdg59REvcyR3YQPZpmVwTNdMViAMfyDTxzFNR27lzTo10FuZBBbuwIMjMnxdyfRb3
- XKa9tc7Clv5ZZoOekYCOpsaG5WDa/kvZey9uHJviav9SUxLfl5ersBiysi6fG+zZaP8hOyayR2f261xu4e/7SYjLffJ71qYqimm6tgNqyt9vfLdGoSrWCCfc
- 180Q8X+UOFvfuHpfRLxsguHlaw+NiTzZ+r1qGolWeVBzMIh8t9lPVIEZhlNg55ELYB9eAm11LjGTBBxOJsouVaiIBvouoN9qnjWkAg==
+References: <20200623111325.237158-1-keiichiw@chromium.org>
+ <87czy7l6uu.fsf@linaro.org> <CAD90Vca=VPVM7+Cj-2cK3SWaSR_Ciajt7oOr0OyB-34bL15ewg@mail.gmail.com>
+ <f3b177a7-1792-25ff-5bef-9e6b7fb4bde3@opensynergy.com>
+In-Reply-To: <f3b177a7-1792-25ff-5bef-9e6b7fb4bde3@opensynergy.com>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Mon, 18 Jan 2021 20:15:57 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MV=r3yin5cH+VW7s1njhWZFF-Xx6STrtUfOPKeDmJjURg@mail.gmail.com>
+Message-ID: <CAPBb6MV=r3yin5cH+VW7s1njhWZFF-Xx6STrtUfOPKeDmJjURg@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH RFC v4 0/1] Virtio Video Device Specification
+To:     Matti Moell <Matti.Moell@opensynergy.com>
+Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
+        =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        David Staessens <dstaessens@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        spice-devel@lists.freedesktop.org,
+        David Stevens <stevensd@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
+        Kiran Pawar <kiran.pawar@opensynergy.com>,
+        Saket Sinha <saket.sinha89@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        virtio-dev@lists.oasis-open.org,
+        Ruchika Gupta <ruchika.gupta@linaro.org>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Mike Holmes <mike.holmes@linaro.org>, dmitry.sepp@outlook.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/01/2021 12:04, Heiko Stuebner wrote:
-> This NEEDs to go into 5.11 while we can still adapt the uapi
-> during its RC-cycle.
-> 
-> 
-> When looking into supporting the rkisp1 of the px30 I noticed that
-> some fields got bigger in the uapi, caused by bigger number of samples
-> for example for histograms or gamma values.
-> 
-> The rkisp1 was destaged with 5.11-rc1 so we have still time during
-> the 5.11 cycle to fix that without big hassles.
-> 
-> This was discussed previously in a mail [0] and a rfc series [1]
-> and this two-part series now splits out the important parts that
-> really should become part of a 5.11-rc and thus the final 5.11.
+Hi all,
 
-Nice! If there are no more comments, then I plan a PR for 5.11 on Wednesday.
+I think the v5 should be ready for public review. It has considerably
+changed compared to v3, however the changes are mostly simplifications
+and addressing issues we experienced with v3 on Chrome OS, so
+hopefully it's for the better. Let me do a final check before sending
+it to the virtio list.
 
-Regards,
+Cheers,
+Alex.
 
-	Hans
-
-> 
-> changes since v5:
-> - move grid reduction for V10 to separate patch (Hans)
-> - fix commit message (histogram size 28 -> 25) in patch4 (Hans)
-> 
-> changes since v4:
-> - set GAMMA_OUT to the real 25 instead of the 28 with 3 spares (Dafna)
-> - start RKISP_Vxx enum with 10 for RKISP_V10 to make output
->   easier and also allow userspace to differentiate between old (= 0)
->   and newer driver variants (Dafna, Laurent)
-> 
-> changes since v3:
-> - add patch fixing the original histogram size comment
-> - make comments in uapi more verbose (Hans)
-> - fix wording in admin guide (Hans)
-> - document version <-> soc in uapi as well (easier for people) (Dafna)
-> 
-> changes since v2:
-> - actually zero the correct sizes for u16 values (hist-bins)
->   (kernel-test-robot)
-> 
-> changes since v1:
-> - drop duplicate isp_ver storage, hw_revision is enough (Dafna)
-> - document multiple maximum sizes in uapi (Hans)
-> - document usage of hw_revision field (Hans)
-> - zero fields transmitted to userspace before adding data (Hans)
-> - use _V10 field sizes when filling fields, as there is only v10 for now
-> 
-> changes since rfc:
-> - move rkisp1_version enum into uapo
-> - show version in media-api hw_revision
-> - introduce constants for versions and make max use the biggest
-> 
-> 
-> Heiko Stuebner (4):
->   media: rockchip: rkisp1: fix comment about number of histogram
->     sub-windows
->   media: rockchip: rkisp1: reduce number of histogram grid elements in
->     uapi
->   media: rockchip: rkisp1: carry ip version information
->   media: rockchip: rkisp1: extend uapi array sizes
-> 
->  Documentation/admin-guide/media/rkisp1.rst    | 16 ++++
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++---
->  .../platform/rockchip/rkisp1/rkisp1-params.c  |  2 +-
->  .../platform/rockchip/rkisp1/rkisp1-stats.c   | 12 ++-
->  include/uapi/linux/rkisp1-config.h            | 75 +++++++++++++++++--
->  5 files changed, 106 insertions(+), 20 deletions(-)
-> 
-
+On Sat, Jan 16, 2021 at 1:55 AM Matti Moell <Matti.Moell@opensynergy.com> wrote:
+>
+>
+> On 15.01.21 15:25, Keiichi Watanabe wrote:
+> > I think the driver implementation is necessary for the spec to be
+> > merged, but it's not yet clear when we can spend time implementing
+> > drivers. It's likely to be after April or so.
+> >
+> > IIRC, OpenSynergy folks, who implemented the v3 driver, also had some
+> > plan to implement the driver with the v5 spec.
+> > Matti, do you have any update on it? I'd really appreciate it if we
+> > could keep working for upstream together.
+>
+> Hey Keiichi and Alex!
+>
+> Yeah, I think for us it'll also be in the March/April timeline before we
+> can start looking at it again, there's quite a few loose ends when going
+> from v3 to v5 so it'll probably take a while to get it in shape and make
+> sure that all the comments from the drivers v2 are properly addressed.
+>
+> I'm not 100% sure how to proceed but perhaps it makes sense to jointly
+> iterate on the driver sources together once the v5 is mostly agreed. Any
+> suggestions welcome.
+>
+> Cheers,
+>
+>                 Matti
+>
