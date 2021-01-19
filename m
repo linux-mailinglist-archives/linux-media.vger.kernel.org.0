@@ -2,113 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FEE82FBB44
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 16:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCAF52FBC04
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 17:10:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391314AbhASPdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 10:33:22 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59864 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390775AbhASPdJ (ORCPT
+        id S2391462AbhASQKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 11:10:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391433AbhASPwp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 10:33:09 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id D23E81F45370
-Subject: Re: [PATCH] media: rkisp1: uapi: change hist_bins array type from
- __u16 to __u32
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, heiko@sntech.de
-Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20210119145341.29686-1-dafna.hirschfeld@collabora.com>
- <a8f8d9e9-30b1-b594-a9bc-f4a11924bf56@xs4all.nl>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <fbe57350-f319-dbc7-f093-d3c1c76feb89@collabora.com>
-Date:   Tue, 19 Jan 2021 16:32:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 19 Jan 2021 10:52:45 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641B8C061574;
+        Tue, 19 Jan 2021 07:51:55 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id i63so5408102pfg.7;
+        Tue, 19 Jan 2021 07:51:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jGeJYEKHSWeoJcj5qAEZzduzYII6G03XjO2vsKZy9EA=;
+        b=hJ0iWDtRDdsvNgT4hiugAwGjsUNhnUCdTvbXWk4iz/IOuvGZmbcvd16r0EnSkMqqnp
+         QkQLl9bzqEgmLVsz0ItuuP6eTWk/sVER62hGsW0mDDRsLiExwHbDYT9ll5fJV4mKn8BP
+         hN1ILSB4S0B5U/LwWcOoBp5jzIPPEG67Wd/akzffGALccvQxyg+CiSZor4lrXcwdKjHQ
+         YTmTBZj5l1mclfnWNgreXQUnt38S6kwUXPv66RuvGNJpnfWVNOIO1P/5ArhQMphsPX32
+         RdXm9StV2ozHpE6ZZd78hBi9RpFCQtOkgrQCt5x4aFJFRKzRUMtPtjCR3ZihNQnR6kPJ
+         iwfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=jGeJYEKHSWeoJcj5qAEZzduzYII6G03XjO2vsKZy9EA=;
+        b=APDRGHHv1gP48mGq7RvcTUyN2ayM/7RY1QNNBuKD9xFFIrzurS+RZwdzVL30fmV9i4
+         RKBZkJD1dvy5YRgFAa7cjM48YDD3UCwu1tEc/FzJgru+EDfQUikdTVrhKLS/2hK8+e5O
+         oNy/EMDhIQ3BTR265LNhVNPZzfAPtS58Hyn8DKL+be4d+Zs2Noy+LybTUj3Yfx0DycIy
+         8mZWtYEmpymOP5CeaAulBZDNm4Nbqs0IKClm8tAQ0l1gTBxc0LzldAsWab9iVeGc1StG
+         ZhM66ECYv8KCGBDhaqMHVCsHnOfhEvTIk+yYCIAqmfgg01eUVkOwirsj16jL+2zsrRj5
+         0DTQ==
+X-Gm-Message-State: AOAM532ruegrAmCGEK91JlO5zpA1YaMkmGIKjksnbAGnqOh4aFHS/oct
+        /wPSemgOLT75hFk1SpGz8ac=
+X-Google-Smtp-Source: ABdhPJyIr1aZov1YBsbDAEgjuC6i0+b3UdroSmkUYkfVGPf5O/G+0lPpjcSTJae7Ou5RcNlfOjI74Q==
+X-Received: by 2002:a63:605:: with SMTP id 5mr4916819pgg.144.1611071514834;
+        Tue, 19 Jan 2021 07:51:54 -0800 (PST)
+Received: from google.com ([2620:15c:211:201:8d1f:e7:cd3c:db2f])
+        by smtp.gmail.com with ESMTPSA id a204sm5841762pfa.49.2021.01.19.07.51.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 07:51:53 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Tue, 19 Jan 2021 07:51:51 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        hyesoo.yu@samsung.com, david@redhat.com, mhocko@suse.com,
+        surenb@google.com, pullip.cho@samsung.com, joaodias@google.com,
+        hridya@google.com, john.stultz@linaro.org, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        hch@infradead.org, robh+dt@kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v3 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
+Message-ID: <YAcAF2FUhaOIDY3N@google.com>
+References: <20210113012143.1201105-1-minchan@kernel.org>
+ <20210113012143.1201105-5-minchan@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <a8f8d9e9-30b1-b594-a9bc-f4a11924bf56@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210113012143.1201105-5-minchan@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Jan 12, 2021 at 05:21:43PM -0800, Minchan Kim wrote:
+> From: Hyesoo Yu <hyesoo.yu@samsung.com>
+> 
+> This patch supports chunk heap that allocates the buffers that
+> arranged into a list a fixed size chunks taken from CMA.
+> 
+> The chunk heap driver is bound directly to a reserved_memory
+> node by following Rob Herring's suggestion in [1].
+> 
+> [1] https://lore.kernel.org/lkml/20191025225009.50305-2-john.stultz@linaro.org/T/#m3dc63acd33fea269a584f43bb799a876f0b2b45d
+> 
+> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
 
+DMABUF folks,
 
-Am 19.01.21 um 16:00 schrieb Hans Verkuil:
-> On 19/01/2021 15:53, Dafna Hirschfeld wrote:
->> Each entry in the array is a 20 bits value composed of 16
->> bits unsigned integer and 4 bits fractional part. So the
->> type should change to __u32.
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->> This patch is applied on top of v6 of the patchset
->> "Fix the rkisp1 userspace API for later IP versions"
->>
->>   include/uapi/linux/rkisp1-config.h | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
->> index 57ca3eea985f..47f6b84d7c56 100644
->> --- a/include/uapi/linux/rkisp1-config.h
->> +++ b/include/uapi/linux/rkisp1-config.h
->> @@ -895,7 +895,8 @@ struct rkisp1_cif_isp_af_stat {
->>   /**
->>    * struct rkisp1_cif_isp_hist_stat - statistics histogram data
->>    *
->> - * @hist_bins: measured bin counters
->> + * @hist_bins: measured bin counters. Each bin is a 20 bits value
->> + *	       composed of a 16-bit unsigned integer and 4 bits fractional part.
-> 
-> So bits 0-3 are the fractional part and bits 4-19 contain the integer part?
-> What goes where should be defined!
-
-Actually I don't know, I just copied the docs in the datasheet.
-I can try figure it out. I can meanwhile send a patch without the doc until
-we are sure. Is that OK?
-
-> 
-> Looking at rkisp1_stats_get_hst_meas() I see this:
-> 
->          for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++)
->                  pbuf->params.hist.hist_bins[i] =
->                          (u8)rkisp1_read(rkisp1,
->                                          RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
-> 
-> Here this is cast to a u8, so how does this work?
-
-This seems to be a bug. I see that this cast is introduced in v12 of the patch
-"media: staging: rkisp1: add capture device for statistics".
-This cast does not exist in any of the downstream versions.
-
-Thanks,
-Dafna
-
-> 
-> There is something fishy here...
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>    *
->>    * The histogram values divided into 16 bins for V10/V11 and 32 bins
->>    * for V12/V13. It is configured within the struct rkisp1_cif_isp_hst_config.
->> @@ -909,7 +910,7 @@ struct rkisp1_cif_isp_af_stat {
->>    * RKISP1_CIF_ISP_HIST_BIN_N_MAX is equal to the maximum of the two.
->>    */
->>   struct rkisp1_cif_isp_hist_stat {
->> -	__u16 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
->> +	__u32 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
->>   };
->>   
->>   /**
->>
-> 
+It would be great if you guys give any comments.
