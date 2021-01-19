@@ -2,93 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A18C2FB3F4
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 09:25:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17D612FB41D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 09:32:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730994AbhASIXf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 03:23:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58604 "EHLO
+        id S1728250AbhASIaf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 03:30:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730852AbhASIXV (ORCPT
+        with ESMTP id S1726023AbhASIaM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 03:23:21 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B99C061575
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:22:36 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id s15so10062559plr.9
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:22:36 -0800 (PST)
+        Tue, 19 Jan 2021 03:30:12 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 640EBC061573
+        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:29:32 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id d13so18766718wrc.13
+        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NWqB/GoVkdljpMDCGL3FVT5zZbqPZEOnVZhu+cjokqA=;
-        b=pVXBoUg0EM0/gtnwyxcJZc6u2KLdurCxF5teoMEf/ZP9Xk4o6Luw09oLCWinIQ1m7w
-         48bP0e1rpkg5PE6dzyyKa2ajONBarWT+3WQh1j8VseGWSqzScxZVd55T+73gdz4XFmHr
-         aaLRqaENQ66rHSJJTc0CzBnZYxI4nl0ceDyib9Lo1Jv80KQVNe7mBTOkOtoFj99sfpDt
-         tTb+bmPnyuo8U/5Vr0ARuCw7Txxq3ovfZTcwWwmHr5L1eFJgv7GVOdGk3qvN1ZiYCT6n
-         Txj8DMfGx8E9zjOYev6DyWkh0B72kMGoukk2/JUVuvM89e1poI0ZnQwHJuJWhJtTaIdv
-         qGBQ==
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=d9EPmxgSjplqIloqEd0fjmhaf+3lX7Ca0TE2z4KWzZU=;
+        b=Mc5TIayeKmc7ETz+AffYmEItuFJXlQ+LEXC0DXPZd0CeGOe+I1qOEyFh4REscFCZ9K
+         QBlcRgDo6dPqK01+Ka8woQ4Ce+Tpfm4FNert/g90UtAxCnBuF6LU1jEhogQ+mzzaEXxv
+         DVOpaMrUYFVaILEhToWw1nDQFOPBoeBbLmfVTlycpgZ05pSDTcdv5hEOM/6dSSGRsn7E
+         u8N/93WaR4XjU+lnDH7Ix1nIBRz/1r+gwTh3LStekGLavIWm5gbpGGe8mYxhTbrpBfQd
+         2LQiofEKLbLBHRRgyFy04sunOBK61oZGum2gRLULFFnGY4r2g62QdNAeo2JEuWOMYptT
+         Z8Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NWqB/GoVkdljpMDCGL3FVT5zZbqPZEOnVZhu+cjokqA=;
-        b=Cm/7X9RCWQCdu6SCxwTpd47fLLpvFdhc280AMbWKKuvu0U7em/m4mBYSnAiYPSN9wb
-         1cqDijMEGoy38LkcWckCAa9Uz1Gs3mFSnZsY8X+oDMCRHwzhPLYzBLI7DpidSUKhpN0+
-         fJ6o0iBNIgaoT+UeDoyQHmL2rcOd7fLna3FeQlg3zy37BgCBKtF5vTw3St89ee66v/vy
-         YIepuELsBYgNHHj6t1O03cEgKBP29cL1r5AO3dtkRuC2xKS4GbhcgwLYbL4O7rRP1gm3
-         CRx+IrvfNnaUVKfqv4ldKmOmL6LPiCVr2irp5ARXViBio0nr1sxqWWFMtfHbLDdpFsWh
-         TvJg==
-X-Gm-Message-State: AOAM531vlKZWg6GYgkubhR7Iswe1ZQvGsNJYKJi7yin0NMeBAFJYlC80
-        OLf4rCYdtSnrdBdss3y/B8Phwg==
-X-Google-Smtp-Source: ABdhPJxXowidB3QV6SfYuccQQERZU3/i23rKOz8wxL9hyQZP9P1g8KIW9bxPHRaRu72azEIyZ4VllQ==
-X-Received: by 2002:a17:90b:1a86:: with SMTP id ng6mr4002698pjb.113.1611044555937;
-        Tue, 19 Jan 2021 00:22:35 -0800 (PST)
-Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
-        by smtp.gmail.com with ESMTPSA id g5sm9206465pfb.194.2021.01.19.00.22.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 19 Jan 2021 00:22:35 -0800 (PST)
-Date:   Tue, 19 Jan 2021 16:22:11 +0800
-From:   Shawn Guo <shawn.guo@linaro.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        vgarodia@codeaurora.org,
-        Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: Re: [PATCH] venus: core: Fix platform driver shutdown
-Message-ID: <20210119082210.GC17701@dragon>
-References: <20201221095820.27192-1-stanimir.varbanov@linaro.org>
- <20210119074044.GB17701@dragon>
- <72d85c1b-ec0b-3cf1-dbbc-6c4924e4beec@linaro.org>
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=d9EPmxgSjplqIloqEd0fjmhaf+3lX7Ca0TE2z4KWzZU=;
+        b=RrEEcSYFWV7UcFkvma9h7mnwlHPPnhkQAWxfy0I0jBPF9kU7fKJ+Y60Vbu7os+Zlbu
+         xVA6TEuHG7Ej9Yr6spOnB64JXdPwu4pV/VrLHMm7s/YzUGlaGzTrWgTNAJ7OthDzufgO
+         63Ppe7FOGLupZ7XN8L+wMeLYbEKFu0RKTWWbb8CtEAypLSlHQQu1th8VhHiBBKD8FcAj
+         zZxjPKx4HQ/g1d6E5ihuI4VBhUKWhma89ZJwYhcL9DaklfAk88N+EHe4wmMVeZhOUqg/
+         9reWq2hMD8gFKlKzQZluCR41xyBYRidvEz+7IDgsYYaUPebdvL6wgixswAs+5vORtnM9
+         EUkw==
+X-Gm-Message-State: AOAM532Yoe594uA8xxUuOEKKAW2FECk6HMeJ8hwpFLK7vLZfEz2KXU3M
+        ieeulEsrdj1fiypjHT4wgsPRKA==
+X-Google-Smtp-Source: ABdhPJxZgbmI7dqTDYKpsJ4RFJ20zHNFbzEsz8E5NfIQ/ie1dHSOozCsng29cOp98WeoUcI4x2Sbrw==
+X-Received: by 2002:adf:b519:: with SMTP id a25mr3094280wrd.263.1611044971004;
+        Tue, 19 Jan 2021 00:29:31 -0800 (PST)
+Received: from dell ([91.110.221.158])
+        by smtp.gmail.com with ESMTPSA id b64sm3307488wmb.26.2021.01.19.00.29.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 00:29:30 -0800 (PST)
+Date:   Tue, 19 Jan 2021 08:29:27 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Zack Rusin <zackr@vmware.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Eddie Dong <eddie.dong@intel.com>,
+        Eric Anholt <eric@anholt.net>, Faith <faith@valinux.com>,
+        Gareth Hughes <gareth@valinux.com>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "intel-gvt-dev@lists.freedesktop.org" 
+        <intel-gvt-dev@lists.freedesktop.org>,
+        Jackie Li <yaodong.li@intel.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jan Safrata <jan.nikitenko@gmail.com>,
+        Jesse Barnes <jesse.barnes@intel.com>,
+        jim liu <jim.liu@intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Keith Packard <keithp@keithp.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, Min He <min.he@intel.com>,
+        Niu Bing <bing.niu@intel.com>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+        Pei Zhang <pei.zhang@intel.com>,
+        Ping Gao <ping.a.gao@intel.com>,
+        Rob Clark <rob.clark@linaro.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tina Zhang <tina.zhang@intel.com>,
+        Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        Zhiyuan Lv <zhiyuan.lv@intel.com>
+Subject: Re: [PATCH 00/29] [Set 15] Finally rid W=1 warnings from GPU!
+Message-ID: <20210119082927.GJ4903@dell>
+References: <20210115181601.3432599-1-lee.jones@linaro.org>
+ <F914D9B9-6DD4-4383-9F7C-8D09FBFE96CE@vmware.com>
+ <YAWhDRkSOHbJ+2Le@phenom.ffwll.local>
+ <20210118150945.GE4903@dell>
+ <YAXDgmWMR9s4OgxN@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <72d85c1b-ec0b-3cf1-dbbc-6c4924e4beec@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YAXDgmWMR9s4OgxN@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 09:59:41AM +0200, Stanimir Varbanov wrote:
-> On 1/19/21 9:40 AM, Shawn Guo wrote:
-> > On Mon, Dec 21, 2020 at 11:58:20AM +0200, Stanimir Varbanov wrote:
-> >> With TZ system reboot cannot finish successfully. To fix that
-> >> enable core clocks by runtime pm before TZ calls and disable
-> >> clocks after that.
-> >>
-> >> Fixes: 7399139be6b2 ("media: venus: core: add shutdown callback for venus")
-> >> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+On Mon, 18 Jan 2021, Daniel Vetter wrote:
+
+> On Mon, Jan 18, 2021 at 03:09:45PM +0000, Lee Jones wrote:
+> > On Mon, 18 Jan 2021, Daniel Vetter wrote:
 > > 
-> > Hi Mauro,
+> > > On Fri, Jan 15, 2021 at 06:27:15PM +0000, Zack Rusin wrote:
+> > > > 
+> > > > > On Jan 15, 2021, at 13:15, Lee Jones <lee.jones@linaro.org> wrote:
+> > > > > 
+> > > > > This set is part of a larger effort attempting to clean-up W=1
+> > > > > kernel builds, which are currently overwhelmingly riddled with
+> > > > > niggly little warnings.
+> > > > > 
+> > > > > Last set!  All clean after this for; Arm, Arm64, PPC, MIPS and x86.
+> > > > 
+> > > > Thanks! For all the vmwgfx bits:
+> > > > Reviewed-by: Zack Rusin <zackr@vmware.com>
+> > > 
+> > > Ok I merged everything except vmwgfx (that's for Zack) and i915/nouveau
+> > > (those generally go through other trees, pls holler if they're stuck).
 > > 
-> > Could you help pick this fix up?
+> > Thanks Daniel, you're a superstar!
+> > 
+> > So Zack will take the vmwgfx parts?  Despite providing a R-b?
 > 
-> Shawn, it is part of linux-next already.
+> I only merge stuff that's defacto abandoned already. Everything else I try
+> to offload to whomever actually cares :-)
 
-Ha, sorry, I did not check linux-next.  I sent the message because
-I see this fix is still missing after I rebase my Yoga C630 branch
-to 5.11-rc4.  We will get this fix into 5.11, right?
+Understood.  Thanks for the explanation.
 
-Shawn
+Hopefully Zack actually cares. :D
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
