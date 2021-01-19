@@ -2,149 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 821252FB8B9
+	by mail.lfdr.de (Postfix) with ESMTP id EEBFB2FB8BA
 	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 15:34:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394498AbhASNlS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 08:41:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392672AbhASMSS (ORCPT
+        id S2403925AbhASNlV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 08:41:21 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:42689 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404081AbhASMY7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 07:18:18 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29BE3C061786
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 04:16:54 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id f1so7115399edr.12
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 04:16:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7do0SqrAAjNKuAwvjSS/PH9scEdy2dmxkDXLAMjZ4Mw=;
-        b=WQE1HroxlDYFsu92j4/V9+GiWk5tgYIXA5t5rMxlNHN+oAsDy6OtlAyuWGdBitj9oH
-         mAAHN9Y1JYr7wuxdrkPmAg2ixuNhnxgWtnBAR4qF2BYK7XuGgWVKObv5CBTeQZuY6exE
-         sxxr8Ga/1mpyL8M60wNo0nmckXrcSJKbbEd0OOjRixYyuWLvo7k7U4Qvpy2nsxcTQHRw
-         hL3JCYR757qO4YqNMX1/LvopSNEmHDb/PtPvFFOtNWCiZI3Bm/dKP2n6jYfVBKz0nKnr
-         Wk9CxH27ZHP9KqdGCQKLZeqCiJ219XMCcF0++WWJraHb4NH+Dbe9xr9S3bodRxjyB3jA
-         V/tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7do0SqrAAjNKuAwvjSS/PH9scEdy2dmxkDXLAMjZ4Mw=;
-        b=E+X9ppfCCPezTYadvjbFroOsaylqBq/L3cBhK4g7u6juq2YemHRr3KdUc5ptpMP4IZ
-         H0+W1J2sfcFIXv++08fDtSlDF2Xb9/vHfh0DGOz+hrLYt6mLNxYiyQBh/F5cRj1XP72Z
-         4WNSESr/bcm3Ciohu/axBWvr1i7Cb/0r5iQs6gA/u2OSjER3z7udMOsUICkNgd/Z38is
-         idl2oYDQHlVoBnCRkrPfbrt4h9AZq/mPpqF4FJGOtjrNye/YGccyGt83coG2mFYOQ5Tz
-         zmaDqdYF/KCoTMRdEepAMpEQ8Dy5Q6XhNomOtYH4t9OVHxVMZpH2n+qwz7dK4pVUCpBd
-         nUAw==
-X-Gm-Message-State: AOAM531vnojlL0bTtO5Ojg2+AbTwE8IAhwXG5mht/3F3ZhikNnAtnCFm
-        3fzHjszmwiXLgSXGhjO6JoRHKd6GCpTllP3Q
-X-Google-Smtp-Source: ABdhPJxNRzeR8gtOV1TdEhF1tAGxZnV6FSR8lWz513vGWacEJiLq1q2yYYjMAnL7lqkG4fS6wdSwLQ==
-X-Received: by 2002:a50:d5c1:: with SMTP id g1mr3296389edj.299.1611058612764;
-        Tue, 19 Jan 2021 04:16:52 -0800 (PST)
-Received: from localhost.localdomain (hst-221-116.medicom.bg. [84.238.221.116])
-        by smtp.gmail.com with ESMTPSA id hb19sm180819ejc.16.2021.01.19.04.16.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 04:16:52 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v3 2/2] venus: venc: Add support for AUD NALU control
-Date:   Tue, 19 Jan 2021 14:16:25 +0200
-Message-Id: <20210119121625.2397824-3-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210119121625.2397824-1-stanimir.varbanov@linaro.org>
-References: <20210119121625.2397824-1-stanimir.varbanov@linaro.org>
+        Tue, 19 Jan 2021 07:24:59 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 1q3JlOl5LyutM1q3MlbVVy; Tue, 19 Jan 2021 13:24:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611059053; bh=+fygwg8H7qkyKanjBFzInEqDikPrCtVia5ztmXeuT8o=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=esWbI+Lh9FRvuG9LpVYDuouJ84+y5SVFATzQP7ZpAkWlKhxpMQNv10g7tZk+Q+4GR
+         P8w0iKSjARrqozBk9TMk4qupccz3HMw/pPa5j+Fl4C2W0pgaEOFIATNA5dfqmNbXpF
+         WY3dgySHr2MM3+6svDtBqw3Cm53j9ZKlcznqjLsgYdpTtvUnDnYFt00lTZiImdL2fY
+         qY1XJPsfQLCx3vnp/zkfosk3P0gx6P0mVbHxoub0/O3N+aYXqUBlwVZ01FyUjwj1I0
+         OZ20uGwGN94AfvQR5wgjFi/ySkQn4HCvdPm/riMHsIyPvQ/Hw151NoHZMXG5h6/u3B
+         ZllT5HuMu4+8A==
+Subject: Re: [PATCH v7 14/17] media/videobuf1|2: Mark follow_pfn usage as
+ unsafe
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     kvm@vger.kernel.org, linux-mm@kvack.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+ <20201127164131.2244124-15-daniel.vetter@ffwll.ch>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f15ba4c6-211c-f93e-919e-e18adfe6c75e@xs4all.nl>
+Date:   Tue, 19 Jan 2021 13:24:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201127164131.2244124-15-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfA1H6w7Z451hXz5uBfC+T4CILwukWC7IM/06HM55r5dwzXzD5s4d8wprZRF6kMCTJKToPwR+OFR57hUr5TUeAa3J/b4Bano5cXG5JJs7aDyySvyBQ7iT
+ AF6NJi1hvvqh1FElksqvzLVa/QmOEEejZBgjFwsoa8P3BlX71aUZg55UgN1CoKfvJigaVMx8OmJVZTP1TBgBzYBEZA+0dH6f1b1DMDgA9kXqoDqQfIJqtbCX
+ qHojNYKAiISwBmDYuSZMkSH7KYRNIIB59C3sKlux+Osh+dIvr5KeKL/UVyQNN5t4C8bA3xzI7WdxGoWOTrcrh6osz7j5RinbLE8qyeEUJUyvvWjXKkpd7dqS
+ HMIEDbWiUVhRUKJ1yDeGKCpWevlCpEVMVzY1pNK0/aVSSfNEBvtodYg6CYCokOhjJHvuA+Ep4e+YV4DPrzHET+/xc+NX8AyQiHwb8/yP2YmEZJ49rfgQR9BP
+ dr/7nk6Q/Zh1zkv3OibjwZY9c+4YhA+0B7uhgqimrkbKOf8Rigw2QOU+Ca/UadrwBpoSe8JeVoEhBEL9Z1DvGPDVJmztfvzZh/WKgR3U/UdzLA58H6XYG2Wi
+ kRopGvfHjGH7BGq7rfl3p2JRUv4RPzrY67wfHIz7CJCMySBHEhQmO0DqCexzJwuN7qVDQQUew+dVW+zy8VfPtcLvnQ/ulL2+sYo0AsauVMOoEKmJsD13zo8F
+ BwOGLGocDuv11A3T9etYvQWCfQotxHdMIivYlD9K45bjGngn5VQTZJEBfHREoydJ8pRl5Zubmv1dwvrtHzJ5cUaN75JDMp0+rY6t7CQSF6ElQBaS/BkwGvqT
+ E/8oCoh/4PmJ0q6wWIfjNWnYVoGo3VhXp1URyLLFriMg9vsz5Zk8hKxx6nVgqUGGVM+9vX7XOQ6WrUu2nFalkCfyREoU2d7TZo3kbyVR1cFUVs4KSoSVdkYX
+ 9CdJyh8ZOIugxyoIdE14LTtUXncHFwG8YxkQ+bn6EZL1uWAR
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for Access Unit Delimiter control into encoder.
+On 27/11/2020 17:41, Daniel Vetter wrote:
+> The media model assumes that buffers are all preallocated, so that
+> when a media pipeline is running we never miss a deadline because the
+> buffers aren't allocated or available.
+> 
+> This means we cannot fix the v4l follow_pfn usage through
+> mmu_notifier, without breaking how this all works. The only real fix
+> is to deprecate userptr support for VM_IO | VM_PFNMAP mappings and
+> tell everyone to cut over to dma-buf memory sharing for zerocopy.
+> 
+> userptr for normal memory will keep working as-is, this only affects
+> the zerocopy userptr usage enabled in 50ac952d2263 ("[media]
+> videobuf2-dma-sg: Support io userptr operations on io memory").
+> 
+> Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.h       |  1 +
- drivers/media/platform/qcom/venus/venc.c       | 14 ++++++++++++++
- drivers/media/platform/qcom/venus/venc_ctrls.c |  8 +++++++-
- 3 files changed, 22 insertions(+), 1 deletion(-)
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index b984d508ed71..efb9ce5505ac 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -222,6 +222,7 @@ struct venc_controls {
- 	u32 multi_slice_max_mb;
- 
- 	u32 header_mode;
-+	bool aud_enable;
- 
- 	struct {
- 		u32 h264;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index e4775ec97a87..498efa875c51 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -728,6 +728,20 @@ static int venc_set_properties(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
- 
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-+	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		struct hfi_enable en = {};
-+
-+		ptype = HFI_PROPERTY_PARAM_VENC_H264_GENERATE_AUDNAL;
-+
-+		if (ctr->aud_enable)
-+			en.enable = 1;
-+
-+		ret = hfi_session_set_property(inst, ptype, &en);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 9fbe8388a938..cbc49910de67 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -262,6 +262,9 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:
- 		ctr->base_priority_id = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_AU_DELIMITER:
-+		ctr->aud_enable = ctrl->val;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -277,7 +280,7 @@ int venc_ctrl_init(struct venus_inst *inst)
- {
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 51);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 52);
- 	if (ret)
- 		return ret;
- 
-@@ -483,6 +486,9 @@ int venc_ctrl_init(struct venus_inst *inst)
- 			  V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID, 0,
- 			  6, 1, 0);
- 
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_AU_DELIMITER, 0, 1, 1, 0);
-+
- 	ret = inst->ctrl_handler.error;
- 	if (ret)
- 		goto err;
--- 
-2.25.1
+Regards,
+
+	Hans
+
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: Pawel Osciak <pawel@osciak.com>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> Cc: Tomasz Figa <tfiga@chromium.org>
+> Cc: Laurent Dufour <ldufour@linux.ibm.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
+> Cc: Michel Lespinasse <walken@google.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> --
+> v3:
+> - Reference the commit that enabled the zerocopy userptr use case to
+>   make it abundandtly clear that this patch only affects that, and not
+>   normal memory userptr. The old commit message already explained that
+>   normal memory userptr is unaffected, but I guess that was not clear
+>   enough.
+> ---
+>  drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>  drivers/media/v4l2-core/videobuf-dma-contig.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+> index a0e65481a201..1a82ec13ea00 100644
+> --- a/drivers/media/common/videobuf2/frame_vector.c
+> +++ b/drivers/media/common/videobuf2/frame_vector.c
+> @@ -70,7 +70,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>  			break;
+>  
+>  		while (ret < nr_frames && start + PAGE_SIZE <= vma->vm_end) {
+> -			err = follow_pfn(vma, start, &nums[ret]);
+> +			err = unsafe_follow_pfn(vma, start, &nums[ret]);
+>  			if (err) {
+>  				if (ret == 0)
+>  					ret = err;
+> diff --git a/drivers/media/v4l2-core/videobuf-dma-contig.c b/drivers/media/v4l2-core/videobuf-dma-contig.c
+> index 52312ce2ba05..821c4a76ab96 100644
+> --- a/drivers/media/v4l2-core/videobuf-dma-contig.c
+> +++ b/drivers/media/v4l2-core/videobuf-dma-contig.c
+> @@ -183,7 +183,7 @@ static int videobuf_dma_contig_user_get(struct videobuf_dma_contig_memory *mem,
+>  	user_address = untagged_baddr;
+>  
+>  	while (pages_done < (mem->size >> PAGE_SHIFT)) {
+> -		ret = follow_pfn(vma, user_address, &this_pfn);
+> +		ret = unsafe_follow_pfn(vma, user_address, &this_pfn);
+>  		if (ret)
+>  			break;
+>  
+> 
 
