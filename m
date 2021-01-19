@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D29242FB8B3
+	by mail.lfdr.de (Postfix) with ESMTP id 65EFA2FB8B2
 	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 15:33:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392229AbhASNkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 08:40:15 -0500
-Received: from www.zeus03.de ([194.117.254.33]:55090 "EHLO mail.zeus03.de"
+        id S2390685AbhASNkF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 08:40:05 -0500
+Received: from www.zeus03.de ([194.117.254.33]:55080 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387689AbhASJkZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S2387683AbhASJkZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 19 Jan 2021 04:40:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=1V+YeFI2dhLbdh
-        a8QK5vAA8wcMmioJd9L4yOtd0w7DM=; b=naTxYIkcHy5MTF5FF23ZZtZ2GNSaz7
-        FU/dFDRK5W7nrpy9bqD73erJkovVPKFVm5YKxWSo9H/yd4W/D+l98CjQ49Gxv8j6
-        YH8clt89jPe+vpkwgyuvD33ZVDERQ76plV4HrsqIGCMhOg2J4F4Cv3HEPOJy7Gc9
-        amsu90IrAVsVk=
-Received: (qmail 1003486 invoked from network); 19 Jan 2021 10:39:20 +0100
+        :mime-version:content-transfer-encoding; s=k1; bh=D/a5mp3Y9DlTj5
+        umviADmsnNfOp+6c9C7wik2zre4KU=; b=pTSWJo0UyyegjPqDm8A/9ZPRc+MkZF
+        Y+WA8nSgtQgzUvzBCcphEPt5W/XRQlLtZctEFJXjBc0+b1w12d/vbNga8jcPtfOw
+        7JZW5OjTwWl9xj6iIqOu1GCXnKS4Z2r9aP82VFOF4iVQvpkcTFEtVZbSDBAEuqtZ
+        XRmXVCHRVwO7Q=
+Received: (qmail 1003521 invoked from network); 19 Jan 2021 10:39:20 +0100
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jan 2021 10:39:20 +0100
-X-UD-Smtp-Session: l3s3148p1@pSHinD257tkgAwDPXyX1ACWcscxtZ2TX
+X-UD-Smtp-Session: l3s3148p1@VA3tnD258NkgAwDPXyX1ACWcscxtZ2TX
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-i2c@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -28,9 +28,9 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] media: i2c: adv7842: remove open coded version of SMBus block write
-Date:   Tue, 19 Jan 2021 10:39:08 +0100
-Message-Id: <20210119093912.1838-2-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 2/3] media: i2c: adv7511: remove open coded version of SMBus block read
+Date:   Tue, 19 Jan 2021 10:39:09 +0100
+Message-Id: <20210119093912.1838-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119093912.1838-1-wsa+renesas@sang-engineering.com>
 References: <20210119093912.1838-1-wsa+renesas@sang-engineering.com>
@@ -40,88 +40,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The version here is identical to the one in the I2C core, so use the
-latter version directly.
+The open coded version differs from the one in the core in one way: the
+buffer will be always copied back, even when the transfer failed. Be
+more robust: use the block read from the I2C core and propagate a
+potential errno further to the sanity checks.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
 
 Changes since RFC:
-* skip define, use i2c_smbus_write_i2c_block_data directly
+* removed wrong assumption from the commit message
 
- drivers/media/i2c/adv7842.c | 24 +++++-------------------
- 1 file changed, 5 insertions(+), 19 deletions(-)
+ drivers/media/i2c/adv7511-v4l2.c | 41 ++++++++++++--------------------
+ 1 file changed, 15 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index 0855f648416d..e0629d5ef17b 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -343,20 +343,6 @@ static void adv_smbus_write_byte_no_check(struct i2c_client *client,
- 		       I2C_SMBUS_BYTE_DATA, &data);
+diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
+index a3161d709015..441bafa743a6 100644
+--- a/drivers/media/i2c/adv7511-v4l2.c
++++ b/drivers/media/i2c/adv7511-v4l2.c
+@@ -214,36 +214,25 @@ static inline void adv7511_wr_and_or(struct v4l2_subdev *sd, u8 reg, u8 clr_mask
+ 	adv7511_wr(sd, reg, (adv7511_rd(sd, reg) & clr_mask) | val_mask);
  }
  
--static s32 adv_smbus_write_i2c_block_data(struct i2c_client *client,
--				  u8 command, unsigned length, const u8 *values)
+-static int adv_smbus_read_i2c_block_data(struct i2c_client *client,
+-					 u8 command, unsigned length, u8 *values)
 -{
 -	union i2c_smbus_data data;
+-	int ret;
 -
 -	if (length > I2C_SMBUS_BLOCK_MAX)
 -		length = I2C_SMBUS_BLOCK_MAX;
 -	data.block[0] = length;
--	memcpy(data.block + 1, values, length);
--	return i2c_smbus_xfer(client->adapter, client->addr, client->flags,
--			      I2C_SMBUS_WRITE, command,
--			      I2C_SMBUS_I2C_BLOCK_DATA, &data);
+-
+-	ret = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
+-			     I2C_SMBUS_READ, command,
+-			     I2C_SMBUS_I2C_BLOCK_DATA, &data);
+-	memcpy(values, data.block + 1, length);
+-	return ret;
 -}
 -
- /* ----------------------------------------------------------------------- */
+-static void adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
++static int adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
+ {
+ 	struct adv7511_state *state = get_adv7511_state(sd);
+ 	int i;
+-	int err = 0;
  
- static inline int io_read(struct v4l2_subdev *sd, u8 reg)
-@@ -741,7 +727,7 @@ static int edid_write_vga_segment(struct v4l2_subdev *sd)
- 	rep_write_and_or(sd, 0x77, 0xef, 0x10);
+ 	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
  
- 	for (i = 0; !err && i < 256; i += I2C_SMBUS_BLOCK_MAX)
--		err = adv_smbus_write_i2c_block_data(state->i2c_edid, i,
-+		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
- 					     I2C_SMBUS_BLOCK_MAX, val + i);
- 	if (err)
- 		return err;
-@@ -807,7 +793,7 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
- 	rep_write_and_or(sd, 0x77, 0xef, 0x00);
+-	for (i = 0; !err && i < len; i += I2C_SMBUS_BLOCK_MAX)
+-		err = adv_smbus_read_i2c_block_data(state->i2c_edid, i,
++	for (i = 0; i < len; i += I2C_SMBUS_BLOCK_MAX) {
++		s32 ret;
++
++		ret = i2c_smbus_read_i2c_block_data(state->i2c_edid, i,
+ 						    I2C_SMBUS_BLOCK_MAX, buf + i);
+-	if (err)
+-		v4l2_err(sd, "%s: i2c read error\n", __func__);
++		if (ret < 0) {
++			v4l2_err(sd, "%s: i2c read error\n", __func__);
++			return ret;
++		}
++	}
++
++	return 0;
+ }
  
- 	for (i = 0; !err && i < 256; i += I2C_SMBUS_BLOCK_MAX)
--		err = adv_smbus_write_i2c_block_data(state->i2c_edid, i,
-+		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
- 						     I2C_SMBUS_BLOCK_MAX, edid + i);
- 	if (err)
- 		return err;
-@@ -1079,7 +1065,7 @@ static void configure_custom_video_timings(struct v4l2_subdev *sd,
- 		/* Should only be set in auto-graphics mode [REF_02, p. 91-92] */
- 		/* setup PLL_DIV_MAN_EN and PLL_DIV_RATIO */
- 		/* IO-map reg. 0x16 and 0x17 should be written in sequence */
--		if (adv_smbus_write_i2c_block_data(client, 0x16, 2, pll)) {
-+		if (i2c_smbus_write_i2c_block_data(client, 0x16, 2, pll)) {
- 			v4l2_err(sd, "writing to reg 0x16 and 0x17 failed\n");
- 			break;
+ static inline int adv7511_cec_read(struct v4l2_subdev *sd, u8 reg)
+@@ -1668,20 +1657,20 @@ static bool adv7511_check_edid_status(struct v4l2_subdev *sd)
+ 	if (edidRdy & MASK_ADV7511_EDID_RDY) {
+ 		int segment = adv7511_rd(sd, 0xc4);
+ 		struct adv7511_edid_detect ed;
++		int err;
+ 
+ 		if (segment >= EDID_MAX_SEGM) {
+ 			v4l2_err(sd, "edid segment number too big\n");
+ 			return false;
  		}
-@@ -1135,7 +1121,7 @@ static void adv7842_set_offset(struct v4l2_subdev *sd, bool auto_offset, u16 off
- 	offset_buf[3] = offset_c & 0x0ff;
- 
- 	/* Registers must be written in this order with no i2c access in between */
--	if (adv_smbus_write_i2c_block_data(state->i2c_cp, 0x77, 4, offset_buf))
-+	if (i2c_smbus_write_i2c_block_data(state->i2c_cp, 0x77, 4, offset_buf))
- 		v4l2_err(sd, "%s: i2c error writing to CP reg 0x77, 0x78, 0x79, 0x7a\n", __func__);
- }
- 
-@@ -1164,7 +1150,7 @@ static void adv7842_set_gain(struct v4l2_subdev *sd, bool auto_gain, u16 gain_a,
- 	gain_buf[3] = ((gain_c & 0x0ff));
- 
- 	/* Registers must be written in this order with no i2c access in between */
--	if (adv_smbus_write_i2c_block_data(state->i2c_cp, 0x73, 4, gain_buf))
-+	if (i2c_smbus_write_i2c_block_data(state->i2c_cp, 0x73, 4, gain_buf))
- 		v4l2_err(sd, "%s: i2c error writing to CP reg 0x73, 0x74, 0x75, 0x76\n", __func__);
- }
- 
+ 		v4l2_dbg(1, debug, sd, "%s: got segment %d\n", __func__, segment);
+-		adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
++		err = adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
+ 		adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
+ 		if (segment == 0) {
+ 			state->edid.blocks = state->edid.data[0x7e] + 1;
+ 			v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n", __func__, state->edid.blocks);
+ 		}
+-		if (!edid_verify_crc(sd, segment) ||
+-		    !edid_verify_header(sd, segment)) {
++		if (err < 0 || !edid_verify_crc(sd, segment) || !edid_verify_header(sd, segment)) {
+ 			/* edid crc error, force reread of edid segment */
+ 			v4l2_err(sd, "%s: edid crc or header error\n", __func__);
+ 			state->have_monitor = false;
 -- 
 2.29.2
 
