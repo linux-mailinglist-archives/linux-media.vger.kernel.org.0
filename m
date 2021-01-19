@@ -2,122 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD2032FC148
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 21:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D30EC2FC17C
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 21:46:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730225AbhASUii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 15:38:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47528 "EHLO
+        id S1730806AbhASUqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 15:46:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732149AbhASUhY (ORCPT
+        with ESMTP id S1732149AbhASUpx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 15:37:24 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F33C061757;
-        Tue, 19 Jan 2021 12:36:44 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id g15so673209pjd.2;
-        Tue, 19 Jan 2021 12:36:44 -0800 (PST)
+        Tue, 19 Jan 2021 15:45:53 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D12C061575
+        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 12:45:12 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id w14so3996639pfi.2
+        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 12:45:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=B8V4SvilY22Ou2CtEY4Ue8qbjrsp3tthnLCK+7Q59QY=;
-        b=PeAXI8eTzedOObem6tpD3NZRZKrBkgPenj/spRJ6lVUlMubwNa3Hsb2icgzXSomLqy
-         jZ0E6xPVrfpe5ilrFFeyILMIUF5YcgHQi8+CknGm8Z7ZWUZZCKKEMDt51BM3ZYstg0yS
-         2eROI954uU0JzmDnA7QdgSEGNXTAfT2mPXLCf5SRW6gvfz0nZx1CGzLXdOpj0nPZz7V4
-         y59gAQtbX2e1l++jNfgypKC6n73SaA/zOLG1zk0c85OMOYgSZgOx+w37YU2SDizmy0t1
-         fvYjxUEcFgSQxSZ+zg5/YjdqyN0owSiUhq96CQQhEn4PximkBY0CGFHHAzCp3nk1Coad
-         NRDw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
+        b=BOomRctyxyEqp6sAYPFH+XcCAixJ9mdS3M4PS9Y1Hs6E8tPpzPoXFJ7GtEq0ZqmFX/
+         bvhzR+TJgZVMqHH0HGzclpgi6jHb4tp/UtdkQysgd8hBfqUTrR17Y6FjSOhJWQ2F65jI
+         r1SvnCIuGt5FEZtRnmIoXeTeKg9AnfvEJ8THUXkDay1yIct1VropoKQyZoua/576XOuD
+         HIzDN4aSMbE4zlQfV44ERRSILhcgU3FKtUKbczAlrE/k83vWca3WhG+5a8lAddZX2g8Q
+         Z5jTjcfBLXAGwxTXTJE5Rl1C1/t5U+IzOftefmhcvZTXwPrIAFUJ7fNQJ0hP5B+sqD5A
+         ke+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=B8V4SvilY22Ou2CtEY4Ue8qbjrsp3tthnLCK+7Q59QY=;
-        b=eLbXha3AZwW4YcP11twEA0IatZARw2/7VYE3M+mL00WU+KOvcEkx7mJvTr8ARXyx1Y
-         5mOxcXSIkhVi6RrNjoGcavcmDuL5vSeUrZHYs8CuZW8P8aLyTay5yVWcBQ73uCHbS4uF
-         MIzDm2NZHIwPbJWJ61bVLSVzfziSeMXEZumLv2gE+GWyygw1Lb+W267yuFE62GY3p+Wr
-         EQlmnM8emIhhcIC4niHKUUgLkzVpAx/pyygIG1Sqox1Y6wB95MibXHnTjSQprOYNSA34
-         vFsOd2MDqUvrDAjhpiEhdtJFF3FVmCxqK/wbUAiKTsyC7kJVSwVHqCHNOxN0DSQhnzOg
-         6neQ==
-X-Gm-Message-State: AOAM533vqjPNcC4H53UdkkvpQtoFBbbH0rLrqHZcuZouz4sAM7jIDDuk
-        AC0KNzhgf837gQFcsK0Z5mw=
-X-Google-Smtp-Source: ABdhPJxMgNFUumt9XiceexCYO3QOZQGhZnpeiTmcQUHGdDtv9MMjBRezO5wS52FU++T2/s/pwxcgsg==
-X-Received: by 2002:a17:902:d909:b029:df:52b4:8147 with SMTP id c9-20020a170902d909b02900df52b48147mr1944220plz.33.1611088603852;
-        Tue, 19 Jan 2021 12:36:43 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:8d1f:e7:cd3c:db2f])
-        by smtp.gmail.com with ESMTPSA id b67sm1171pfa.140.2021.01.19.12.36.41
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/gCsWuNpJqoaKmXUbqD2yoFjbhOP/NQNls4IpQYcF/Q=;
+        b=Smb/tOVKqCEcw6nH50o/NVAPnLqKixbhm1CE8rQeHpwxOEqKFt/s7ZF3drnVAahxbS
+         jX2UQOpGeTMKBKLDKo+mxyu+L4cViD/bUkG3yP2+Fo8FyWXhRvdcieDtyRZYWbMo1nlg
+         sDjIVybj0/ZKfUm/c2Nbnl/Bd3P3KQuutuZCRbTuTI8EL/ICVnAyCgVI/jyyaa99B3Yz
+         fkYQoh2WQZInIeNHMlESpxA28Qdiw0x28yHiSw5xt7qkwjbtwZhDGJ8oA8bcHEHNTD/c
+         SYHs4Qrko9RBXTa1XccItqoPvVjIJKRQ41Vg6RZyssard7mnRcVUTHhp9NG1UW0aSpQ2
+         OraQ==
+X-Gm-Message-State: AOAM532mBvGE+xKRQAby1mmO215sW2Yu8w7rBzp4HiMQoXWdyn2ELSS2
+        pgnbmZOlrQOcZj1meOtlwOSUmA==
+X-Google-Smtp-Source: ABdhPJzu4DX94t/qf1W5DtWbi8rKWJWe4eKwpUf4bPI5rvqgtbBrSK+Jq+SaY8+fAOZRUOFW+e520A==
+X-Received: by 2002:a62:36c3:0:b029:1b9:e110:e126 with SMTP id d186-20020a6236c30000b02901b9e110e126mr3294942pfa.64.1611089112103;
+        Tue, 19 Jan 2021 12:45:12 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id md7sm4129838pjb.52.2021.01.19.12.45.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 12:36:42 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Tue, 19 Jan 2021 12:36:40 -0800
-From:   Minchan Kim <minchan@kernel.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hyesoo Yu <hyesoo.yu@samsung.com>, david@redhat.com,
-        Michal Hocko <mhocko@suse.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        KyongHo Cho <pullip.cho@samsung.com>,
-        John Dias <joaodias@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
+        Tue, 19 Jan 2021 12:45:11 -0800 (PST)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v3 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
-Message-ID: <YAdC2J4x/4J9ozkq@google.com>
-References: <20210113012143.1201105-1-minchan@kernel.org>
- <20210113012143.1201105-5-minchan@kernel.org>
- <CALAqxLWPT8PWYue0h1863NjNxKn_FH0DtoRtArpmmxZ1Ve5xCw@mail.gmail.com>
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [RESEND][PATCH 1/3] dma-buf: system_heap: Make sure to return an error if we abort
+Date:   Tue, 19 Jan 2021 20:45:06 +0000
+Message-Id: <20210119204508.9256-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALAqxLWPT8PWYue0h1863NjNxKn_FH0DtoRtArpmmxZ1Ve5xCw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 10:29:29AM -0800, John Stultz wrote:
-> On Tue, Jan 12, 2021 at 5:22 PM Minchan Kim <minchan@kernel.org> wrote:
-> >
-> > From: Hyesoo Yu <hyesoo.yu@samsung.com>
-> >
-> > This patch supports chunk heap that allocates the buffers that
-> > arranged into a list a fixed size chunks taken from CMA.
-> >
-> > The chunk heap driver is bound directly to a reserved_memory
-> > node by following Rob Herring's suggestion in [1].
-> >
-> > [1] https://lore.kernel.org/lkml/20191025225009.50305-2-john.stultz@linaro.org/T/#m3dc63acd33fea269a584f43bb799a876f0b2b45d
-> >
-> > Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: Minchan Kim <minchan@kernel.org>
-> > ---
-> ...
-> > +static int register_chunk_heap(struct chunk_heap *chunk_heap_info)
-> > +{
-> > +       struct dma_heap_export_info exp_info;
-> > +
-> > +       exp_info.name = cma_get_name(chunk_heap_info->cma);
-> 
-> One potential issue here, you're setting the name to the same as the
-> CMA name. Since the CMA heap uses the CMA name, if one chunk was
-> registered as a chunk heap but also was the default CMA area, it might
-> be registered twice. But since both would have the same name it would
-> be an initialization race as to which one "wins".
+If we abort from the allocation due to a fatal_signal_pending(),
+be sure we report an error so any return code paths don't trip
+over the fact that the allocation didn't succeed.
 
-Good point. Maybe someone might want to use default CMA area for
-both cma_heap and chunk_heap. I cannot come up with ideas why we
-should prohibit it atm.
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Suggested-by: Suren Baghdasaryan <surenb@google.com>
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/system_heap.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> 
-> So maybe could you postfix the CMA name with "-chunk" or something?
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 17e0e9a68baf..405351aad2a8 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -363,8 +363,10 @@ static int system_heap_allocate(struct dma_heap *heap,
+ 		 * Avoid trying to allocate memory if the process
+ 		 * has been killed by SIGKILL
+ 		 */
+-		if (fatal_signal_pending(current))
++		if (fatal_signal_pending(current)) {
++			ret = -EINTR;
+ 			goto free_buffer;
++		}
+ 
+ 		page = alloc_largest_available(size_remaining, max_order);
+ 		if (!page)
+-- 
+2.17.1
 
-Hyesoo, Any opinion?
-Unless you have something other idea, let's fix it in next version.
