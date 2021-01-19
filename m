@@ -2,108 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24EAA2FBF37
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 19:42:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EA1F2FBF87
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 19:56:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388721AbhASSbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 13:31:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727098AbhASSaW (ORCPT
+        id S1729316AbhASSzN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 13:55:13 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33798 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729360AbhASSyU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 13:30:22 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1728C061574
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 10:29:41 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id p13so23099874ljg.2
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 10:29:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JWWYuzWaghP5Q544uqJbXr3wVFNCkeCk1gyHHkDdQ/A=;
-        b=xnRYIRj8nrXC1Xt9zSBJsXJhgrBfjtCh3CpB6YoNFq2VStdTH5p5X55ThbO9d1T1QX
-         W4s3X+eaII0u/7aakfdFOHqfMiUcebQtCqGbU6qrTrTIw/bmaobbAmF5g8xQdlH+JcMm
-         MwOW3qhK6j4IEuDDA9aUNzDZHWOBV902OvyIedTiWvaRgws3zCpOuRkUoF7aUpFxFq3D
-         40LMffLZW2m8ILnF63bEftJER/hfJVcH/wFwzdFaBuEzghmJBC93E7qNrD9P7KluZaeX
-         XSeU0f3WfA72mJTI8MrG5TUXjTsupJjNWOUFcePRC+6ucYsae6rZqQivHGipbnhG0lhg
-         MmZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JWWYuzWaghP5Q544uqJbXr3wVFNCkeCk1gyHHkDdQ/A=;
-        b=G6hZekF9Yaj2dBLIigudSWehHOGj5C2NnWheVnEXDg+UabUTIHRGtdwzYG9NE+ucBq
-         9FMmPLG9W0A2/RmFPp5Ju0zXxIKutyPvSVYp/wtyT6SC5V7PtoAMqzDXpWeIRVChiaqA
-         3kJ/uQcznPWyd7Q11aGcF7EGUNQ5HPsReTewpl3DUiqSQtaus1a44H84BlJ3buyekhfA
-         NG1KioZIEU1d34O70pwj0zpaHr/het80/UwC3Gki+rUiz/5Zvxi+qC51BNiGDObgMyNA
-         zO0cyszECXvB9ZuCQZA92y3BDVVX/yZ8UwtHwgU0FEKEqAbErpiLchD66qWGr2iLMmNO
-         Akhw==
-X-Gm-Message-State: AOAM531Uat5N6c54ysg0dYOr1ss2VzW8gZ8sy2T3vO/RnjkGdzW6fbKS
-        VCvlmrjHSJ2VCiSKDo8iZYiCeqc/jfs5KpceN/XTPQ==
-X-Google-Smtp-Source: ABdhPJyoOd3Tzkorx9mIjYO8VVetUnWwDqJgYwdoxP5M9bwFey7dBLq3et+JsaDPEcCzrb4F1+lPqF4gjUDlxQ1XCog=
-X-Received: by 2002:a05:651c:10e:: with SMTP id a14mr2543204ljb.128.1611080980220;
- Tue, 19 Jan 2021 10:29:40 -0800 (PST)
+        Tue, 19 Jan 2021 13:54:20 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 5A1D71F45271
+Subject: Re: [PATCH v2 08/14] media: renesas-ceu: Use
+ v4l2_async_notifier_add_*_subdev
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+References: <20210118015258.3993-1-ezequiel@collabora.com>
+ <20210118015258.3993-9-ezequiel@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <21f8c8cb-e8c1-5ee2-1cf9-e636eedcd7f3@collabora.com>
+Date:   Tue, 19 Jan 2021 15:53:08 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210113012143.1201105-1-minchan@kernel.org> <20210113012143.1201105-5-minchan@kernel.org>
-In-Reply-To: <20210113012143.1201105-5-minchan@kernel.org>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 19 Jan 2021 10:29:29 -0800
-Message-ID: <CALAqxLWPT8PWYue0h1863NjNxKn_FH0DtoRtArpmmxZ1Ve5xCw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hyesoo Yu <hyesoo.yu@samsung.com>, david@redhat.com,
-        Michal Hocko <mhocko@suse.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        KyongHo Cho <pullip.cho@samsung.com>,
-        John Dias <joaodias@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210118015258.3993-9-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 5:22 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> From: Hyesoo Yu <hyesoo.yu@samsung.com>
->
-> This patch supports chunk heap that allocates the buffers that
-> arranged into a list a fixed size chunks taken from CMA.
->
-> The chunk heap driver is bound directly to a reserved_memory
-> node by following Rob Herring's suggestion in [1].
->
-> [1] https://lore.kernel.org/lkml/20191025225009.50305-2-john.stultz@linaro.org/T/#m3dc63acd33fea269a584f43bb799a876f0b2b45d
->
-> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
+Hi Ezequiel,
+
+Just a nit below.
+
+On 1/17/21 10:52 PM, Ezequiel Garcia wrote:
+> The use of v4l2_async_notifier_add_subdev will be discouraged.
+> Drivers are instead encouraged to use a helper such as
+> v4l2_async_notifier_add_i2c_subdev.
+> 
+> This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
+> should get a kmalloc'ed struct v4l2_async_subdev,
+> removing some boilerplate code while at it.
+> 
+> Use the appropriate helper: v4l2_async_notifier_add_i2c_subdev
+> or v4l2_async_notifier_add_fwnode_remote_subdev, which handles
+> the needed setup, instead of open-coding it.
+> 
+> Using v4l2-async to allocate the driver-specific structs,
+> requires to change struct ceu_subdev so the embedded
+> struct v4l2_async_subdev is now the first element.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
-...
-> +static int register_chunk_heap(struct chunk_heap *chunk_heap_info)
-> +{
-> +       struct dma_heap_export_info exp_info;
-> +
-> +       exp_info.name = cma_get_name(chunk_heap_info->cma);
+>  drivers/media/platform/renesas-ceu.c | 59 +++++++++++++---------------
+>  1 file changed, 27 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+> index 4a633ad0e8fa..93e60aaa4959 100644
+> --- a/drivers/media/platform/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas-ceu.c
+> @@ -152,8 +152,8 @@ static inline struct ceu_buffer *vb2_to_ceu(struct vb2_v4l2_buffer *vbuf)
+>   * ceu_subdev - Wraps v4l2 sub-device and provides async subdevice.
+>   */
+>  struct ceu_subdev {
+> -	struct v4l2_subdev *v4l2_sd;
+>  	struct v4l2_async_subdev asd;
+> +	struct v4l2_subdev *v4l2_sd;
+>  
+>  	/* per-subdevice mbus configuration options */
+>  	unsigned int mbus_flags;
+> @@ -174,7 +174,7 @@ struct ceu_device {
+>  	struct v4l2_device	v4l2_dev;
+>  
+>  	/* subdevices descriptors */
+> -	struct ceu_subdev	*subdevs;
+> +	struct ceu_subdev	**subdevs;
+>  	/* the subdevice currently in use */
+>  	struct ceu_subdev	*sd;
+>  	unsigned int		sd_index;
+> @@ -1195,7 +1195,7 @@ static int ceu_enum_input(struct file *file, void *priv,
+>  	if (inp->index >= ceudev->num_sd)
+>  		return -EINVAL;
+>  
+> -	ceusd = &ceudev->subdevs[inp->index];
+> +	ceusd = ceudev->subdevs[inp->index];
+>  
+>  	inp->type = V4L2_INPUT_TYPE_CAMERA;
+>  	inp->std = 0;
+> @@ -1230,7 +1230,7 @@ static int ceu_s_input(struct file *file, void *priv, unsigned int i)
+>  		return 0;
+>  
+>  	ceu_sd_old = ceudev->sd;
+> -	ceudev->sd = &ceudev->subdevs[i];
+> +	ceudev->sd = ceudev->subdevs[i];
+>  
+>  	/*
+>  	 * Make sure we can generate output image formats and apply
+> @@ -1423,7 +1423,7 @@ static int ceu_notify_complete(struct v4l2_async_notifier *notifier)
+>  	 * ceu formats.
+>  	 */
+>  	if (!ceudev->sd) {
+> -		ceudev->sd = &ceudev->subdevs[0];
+> +		ceudev->sd = ceudev->subdevs[0];
+>  		ceudev->sd_index = 0;
+>  	}
+>  
+> @@ -1467,8 +1467,8 @@ static const struct v4l2_async_notifier_operations ceu_notify_ops = {
+>  
+>  /*
+>   * ceu_init_async_subdevs() - Initialize CEU subdevices and async_subdevs in
+> - *			      ceu device. Both DT and platform data parsing use
+> - *			      this routine.
+> + *                           ceu device. Both DT and platform data parsing use
+> + *                           this routine.
+>   *
+>   * Returns 0 for success, -ENOMEM for failure.
+>   */
+> @@ -1495,6 +1495,7 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>  				   const struct ceu_platform_data *pdata)
+>  {
+>  	const struct ceu_async_subdev *async_sd;
+> +	struct v4l2_async_subdev *asd;
+>  	struct ceu_subdev *ceu_sd;
+>  	unsigned int i;
+>  	int ret;
+> @@ -1510,21 +1511,18 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>  
+>  		/* Setup the ceu subdevice and the async subdevice. */
+>  		async_sd = &pdata->subdevs[i];
+> -		ceu_sd = &ceudev->subdevs[i];
+> -
+> -		INIT_LIST_HEAD(&ceu_sd->asd.list);
+> -
+> -		ceu_sd->mbus_flags	= async_sd->flags;
+> -		ceu_sd->asd.match_type	= V4L2_ASYNC_MATCH_I2C;
+> -		ceu_sd->asd.match.i2c.adapter_id = async_sd->i2c_adapter_id;
+> -		ceu_sd->asd.match.i2c.address = async_sd->i2c_address;
+> -
+> -		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+> -						     &ceu_sd->asd);
+> -		if (ret) {
+> +		asd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
+> +				async_sd->i2c_adapter_id,
+> +				async_sd->i2c_address,
+> +				sizeof(*ceu_sd));
+> +		if (IS_ERR(asd)) {
+> +			ret = PTR_ERR(asd);
+>  			v4l2_async_notifier_cleanup(&ceudev->notifier);
+>  			return ret;
 
-One potential issue here, you're setting the name to the same as the
-CMA name. Since the CMA heap uses the CMA name, if one chunk was
-registered as a chunk heap but also was the default CMA area, it might
-be registered twice. But since both would have the same name it would
-be an initialization race as to which one "wins".
+You can save one line with:
+			return PTR_ERR(asd);
 
-So maybe could you postfix the CMA name with "-chunk" or something?
+Reviewed-by: Helen Koike <helen.koike@collabora.com>
 
-thanks
--john
+Regards,
+Helen
+
+>  		}
+> +		ceu_sd = to_ceu_subdev(asd);
+> +		ceu_sd->mbus_flags = async_sd->flags;
+> +		ceudev->subdevs[i] = ceu_sd;
+>  	}
+>  
+>  	return pdata->num_subdevs;
+> @@ -1536,7 +1534,8 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>  static int ceu_parse_dt(struct ceu_device *ceudev)
+>  {
+>  	struct device_node *of = ceudev->dev->of_node;
+> -	struct device_node *ep, *remote;
+> +	struct device_node *ep;
+> +	struct v4l2_async_subdev *asd;
+>  	struct ceu_subdev *ceu_sd;
+>  	unsigned int i;
+>  	int num_ep;
+> @@ -1578,20 +1577,16 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
+>  		}
+>  
+>  		/* Setup the ceu subdevice and the async subdevice. */
+> -		ceu_sd = &ceudev->subdevs[i];
+> -		INIT_LIST_HEAD(&ceu_sd->asd.list);
+> -
+> -		remote = of_graph_get_remote_port_parent(ep);
+> -		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+> -		ceu_sd->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -		ceu_sd->asd.match.fwnode = of_fwnode_handle(remote);
+> -
+> -		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+> -						     &ceu_sd->asd);
+> -		if (ret) {
+> -			of_node_put(remote);
+> +		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
+> +				&ceudev->notifier, of_fwnode_handle(ep),
+> +				sizeof(*ceu_sd));
+> +		if (IS_ERR(asd)) {
+> +			ret = PTR_ERR(asd);
+>  			goto error_cleanup;
+>  		}
+> +		ceu_sd = to_ceu_subdev(asd);
+> +		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+> +		ceudev->subdevs[i] = ceu_sd;
+>  
+>  		of_node_put(ep);
+>  	}
+> 
