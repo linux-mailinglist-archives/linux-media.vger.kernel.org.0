@@ -2,106 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 913902FC110
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 21:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD2032FC148
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 21:41:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729786AbhASUcX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 15:32:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46414 "EHLO
+        id S1730225AbhASUii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 15:38:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730420AbhASUcQ (ORCPT
+        with ESMTP id S1732149AbhASUhY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 15:32:16 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAEA0C061573
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 12:31:32 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id b26so30993143lff.9
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 12:31:32 -0800 (PST)
+        Tue, 19 Jan 2021 15:37:24 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F33C061757;
+        Tue, 19 Jan 2021 12:36:44 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id g15so673209pjd.2;
+        Tue, 19 Jan 2021 12:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/nJcXNoH8E3aokPgO4BKfYF5qohGlAlcDu7kLVa0nBA=;
-        b=DYUO2d4yCSIx4re3VOc4/ejR4WqTUcf27k5UZ6RV9JxY36OFGaixYjqS4nz3+0SSqE
-         L9CJf326BCDrmNptAHBfZl73wCmr87tEeElAp1V7MadlglUZY/yI/GwyhY96izF8BrGj
-         ETe6diBX9DQJLKINfEQyfHQDTJD3Z9bNz2rhIM/l6LAIyqEDoGY4Oz7YvgIoPgOUg95I
-         qEr2O8r1hNa8OknyZkdRtmPfFSO5W+s1Kj7b4QfxYEdOudnAutghQqr84srwWazErzDk
-         n7iJJILsOHRPIcRdSPdSncqlOgkRx9n2xVjB0k3cpyvWYKgKSo8PHH8WYXBOqS+zMg/7
-         1xng==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=B8V4SvilY22Ou2CtEY4Ue8qbjrsp3tthnLCK+7Q59QY=;
+        b=PeAXI8eTzedOObem6tpD3NZRZKrBkgPenj/spRJ6lVUlMubwNa3Hsb2icgzXSomLqy
+         jZ0E6xPVrfpe5ilrFFeyILMIUF5YcgHQi8+CknGm8Z7ZWUZZCKKEMDt51BM3ZYstg0yS
+         2eROI954uU0JzmDnA7QdgSEGNXTAfT2mPXLCf5SRW6gvfz0nZx1CGzLXdOpj0nPZz7V4
+         y59gAQtbX2e1l++jNfgypKC6n73SaA/zOLG1zk0c85OMOYgSZgOx+w37YU2SDizmy0t1
+         fvYjxUEcFgSQxSZ+zg5/YjdqyN0owSiUhq96CQQhEn4PximkBY0CGFHHAzCp3nk1Coad
+         NRDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/nJcXNoH8E3aokPgO4BKfYF5qohGlAlcDu7kLVa0nBA=;
-        b=uAWzJFtQruNsKAPPOpP5hAgAnfZbY4cbJTC/e5dP3EGa7PmRNsMXkGIDfjCGl8MDNF
-         S+wXn1aCHT9NLDpyCZSPSShX65OssPpNYgGLEVSV3ZtddVU28BfCN+0P+n2kX08foFpo
-         vWe52zy1tKwwSUTHrqjqwUmH7d58xjbpLabXQNwIWPFPfLtrLHsnzf9/IFIZxwSl1pwO
-         +lUwCll0eQbmkai3WWjvNyNUbHq4QVvhI7+SQzHKhp3RThobJLlzblLH8sdtgxfIH4EH
-         b1c4WBJVcw2hx8i4a6CuGPhw74baAYwHmTOndoH+DH8r2cOjpnqh5lheRUi69SePhHq8
-         ThzQ==
-X-Gm-Message-State: AOAM533Dw/SXN6aEahBKv1PkDHT+43MnIpGzERr9ziAiSakd3QGJ/8lz
-        FkahySVxkMP4EWSJkgWtDfWf1woBmZeWxneByxFTdA==
-X-Google-Smtp-Source: ABdhPJzn6b8f4IdmLW+Jc4y/BacRK4n5UWsqai7H2T3iKIHKBVAXQ9I/doUhxxJ2NE90WdVGTsbugI4YcP/KGNlmhM4=
-X-Received: by 2002:a19:8357:: with SMTP id f84mr2538481lfd.567.1611088291224;
- Tue, 19 Jan 2021 12:31:31 -0800 (PST)
-MIME-Version: 1.0
-References: <1610757107-11892-1-git-send-email-veeras@codeaurora.org> <1610757107-11892-2-git-send-email-veeras@codeaurora.org>
-In-Reply-To: <1610757107-11892-2-git-send-email-veeras@codeaurora.org>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 19 Jan 2021 12:31:19 -0800
-Message-ID: <CALAqxLX9Jh8NpXQwQ5ssBYuypbzzNg2OF+hPxxYfCnvzmzNOWg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drm/drm_vblank: set the dma-fence timestamp during send_vblank_event
-To:     Veera Sundaram Sankaran <veeras@codeaurora.org>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>,
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=B8V4SvilY22Ou2CtEY4Ue8qbjrsp3tthnLCK+7Q59QY=;
+        b=eLbXha3AZwW4YcP11twEA0IatZARw2/7VYE3M+mL00WU+KOvcEkx7mJvTr8ARXyx1Y
+         5mOxcXSIkhVi6RrNjoGcavcmDuL5vSeUrZHYs8CuZW8P8aLyTay5yVWcBQ73uCHbS4uF
+         MIzDm2NZHIwPbJWJ61bVLSVzfziSeMXEZumLv2gE+GWyygw1Lb+W267yuFE62GY3p+Wr
+         EQlmnM8emIhhcIC4niHKUUgLkzVpAx/pyygIG1Sqox1Y6wB95MibXHnTjSQprOYNSA34
+         vFsOd2MDqUvrDAjhpiEhdtJFF3FVmCxqK/wbUAiKTsyC7kJVSwVHqCHNOxN0DSQhnzOg
+         6neQ==
+X-Gm-Message-State: AOAM533vqjPNcC4H53UdkkvpQtoFBbbH0rLrqHZcuZouz4sAM7jIDDuk
+        AC0KNzhgf837gQFcsK0Z5mw=
+X-Google-Smtp-Source: ABdhPJxMgNFUumt9XiceexCYO3QOZQGhZnpeiTmcQUHGdDtv9MMjBRezO5wS52FU++T2/s/pwxcgsg==
+X-Received: by 2002:a17:902:d909:b029:df:52b4:8147 with SMTP id c9-20020a170902d909b02900df52b48147mr1944220plz.33.1611088603852;
+        Tue, 19 Jan 2021 12:36:43 -0800 (PST)
+Received: from google.com ([2620:15c:211:201:8d1f:e7:cd3c:db2f])
+        by smtp.gmail.com with ESMTPSA id b67sm1171pfa.140.2021.01.19.12.36.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 12:36:42 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Tue, 19 Jan 2021 12:36:40 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Hyesoo Yu <hyesoo.yu@samsung.com>, david@redhat.com,
+        Michal Hocko <mhocko@suse.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        KyongHo Cho <pullip.cho@samsung.com>,
+        John Dias <joaodias@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        pdhaval@codeaurora.org, abhinavk@codeaurora.org,
-        jsanka@codeaurora.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v3 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
+Message-ID: <YAdC2J4x/4J9ozkq@google.com>
+References: <20210113012143.1201105-1-minchan@kernel.org>
+ <20210113012143.1201105-5-minchan@kernel.org>
+ <CALAqxLWPT8PWYue0h1863NjNxKn_FH0DtoRtArpmmxZ1Ve5xCw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALAqxLWPT8PWYue0h1863NjNxKn_FH0DtoRtArpmmxZ1Ve5xCw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 4:31 PM Veera Sundaram Sankaran
-<veeras@codeaurora.org> wrote:
->
-> The explicit out-fences in crtc are signaled as part of vblank event,
-> indicating all framebuffers present on the Atomic Commit request are
-> scanned out on the screen. Though the fence signal and the vblank event
-> notification happens at the same time, triggered by the same hardware
-> vsync event, the timestamp set in both are different. With drivers
-> supporting precise vblank timestamp the difference between the two
-> timestamps would be even higher. This might have an impact on use-mode
-> frameworks using these fence timestamps for purposes other than simple
-> buffer usage. For instance, the Android framework [1] uses the
-> retire-fences as an alternative to vblank when frame-updates are in
-> progress. Set the fence timestamp during send vblank event using a new
-> drm_send_event_timestamp_locked variant to avoid discrepancies.
->
-> [1] https://android.googlesource.com/platform/frameworks/native/+/master/
-> services/surfaceflinger/Scheduler/Scheduler.cpp#397
->
-> Changes in v2:
-> - Use drm_send_event_timestamp_locked to update fence timestamp
-> - add more information to commit text
->
-> Changes in v3:
-> - use same backend helper function for variants of drm_send_event to
-> avoid code duplications
->
-> Changes in v4:
-> - remove WARN_ON from drm_send_event_timestamp_locked
->
-> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
-> ---
+On Tue, Jan 19, 2021 at 10:29:29AM -0800, John Stultz wrote:
+> On Tue, Jan 12, 2021 at 5:22 PM Minchan Kim <minchan@kernel.org> wrote:
+> >
+> > From: Hyesoo Yu <hyesoo.yu@samsung.com>
+> >
+> > This patch supports chunk heap that allocates the buffers that
+> > arranged into a list a fixed size chunks taken from CMA.
+> >
+> > The chunk heap driver is bound directly to a reserved_memory
+> > node by following Rob Herring's suggestion in [1].
+> >
+> > [1] https://lore.kernel.org/lkml/20191025225009.50305-2-john.stultz@linaro.org/T/#m3dc63acd33fea269a584f43bb799a876f0b2b45d
+> >
+> > Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: Minchan Kim <minchan@kernel.org>
+> > ---
+> ...
+> > +static int register_chunk_heap(struct chunk_heap *chunk_heap_info)
+> > +{
+> > +       struct dma_heap_export_info exp_info;
+> > +
+> > +       exp_info.name = cma_get_name(chunk_heap_info->cma);
+> 
+> One potential issue here, you're setting the name to the same as the
+> CMA name. Since the CMA heap uses the CMA name, if one chunk was
+> registered as a chunk heap but also was the default CMA area, it might
+> be registered twice. But since both would have the same name it would
+> be an initialization race as to which one "wins".
 
-Looks good, as expected no longer seeing the warning.
+Good point. Maybe someone might want to use default CMA area for
+both cma_heap and chunk_heap. I cannot come up with ideas why we
+should prohibit it atm.
 
-Reviewed-by: John Stultz <john.stultz@linaro.org>
+> 
+> So maybe could you postfix the CMA name with "-chunk" or something?
 
-thanks
--john
+Hyesoo, Any opinion?
+Unless you have something other idea, let's fix it in next version.
