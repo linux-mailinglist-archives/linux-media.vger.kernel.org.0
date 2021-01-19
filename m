@@ -2,149 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 895442FB3B6
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 09:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDDC02FB3EA
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 09:22:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728706AbhASIFY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 03:05:24 -0500
-Received: from mga18.intel.com ([134.134.136.126]:49212 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730640AbhASIDs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 03:03:48 -0500
-IronPort-SDR: 77uYxBw11e15wipuz9OFl/GswL9ec8MOz/16GYt6eWX/R+s/p8bUWJrkQzmJ9ULEc7umapUWdt
- FK0bNUZ4/ZWA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="166559347"
-X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="166559347"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 00:01:54 -0800
-IronPort-SDR: Hn35EKDSoj6JLtLqR4gZ3vMdjTpAswkKhI5c2L50KX8+V9PMb5XriAybtDmG4DUaFwGGFZEy0X
- EY5SWsLhoBRg==
-X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="391018092"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 00:01:51 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 90579207BF; Tue, 19 Jan 2021 10:01:48 +0200 (EET)
-Date:   Tue, 19 Jan 2021 10:01:48 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com, Arnd Bergmann <arnd@arndb.de>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Daniel Mack <zonque@gmail.com>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>
-Subject: Re: [PATCH v2 1/6] media: mach-pxa: Register the camera sensor
- fixed-rate clock
-Message-ID: <20210119080148.GB11878@paasikivi.fi.intel.com>
-References: <20210112194919.50176-1-ezequiel@collabora.com>
- <20210112194919.50176-2-ezequiel@collabora.com>
- <20210118163657.GZ11878@paasikivi.fi.intel.com>
- <8c71f7b3e19b9d66fc41d54c6e0d44cc03daa35b.camel@collabora.com>
+        id S1729939AbhASIU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 03:20:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57622 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728280AbhASISs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Jan 2021 03:18:48 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCF4C061757
+        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:18:07 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id f6so9778995ots.9
+        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:18:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=WfFJuLm0JWFKIZSr35gVwj0xg2AYZzNEcuLqFUXW2+8=;
+        b=PbkKRo7SNg95R94SiZevOw2BEtiFlTjvdHUYcZPMAnSrGIckYOkeHga/KY6+b/RNEu
+         RQKckLdL5MSMzGFd7lJcRzJqnGxbYjtG1EOrlYplFzb90mxOoz3o6SCb0Xws/78s2/JW
+         OCW0F7fS42A6taX0chOn4gczjDBvyZIQbF25k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WfFJuLm0JWFKIZSr35gVwj0xg2AYZzNEcuLqFUXW2+8=;
+        b=ars9IrMUenZqfJObxLEfa2oaiBTIUUhdOu6RLdtvTAilZW9B4CilfF9ssN9sVtgMXP
+         fcdL3AE+K6QMvE7nxECpDl5tuuR97geRmyo3vCJzPnFLyKS59aZVjo4tzeXyPy8/S5xt
+         YQF36cnIfsbQKcGZ+R+3SSqwGp5n9eMdIhH1ic88VzjaXYPoyWs2v8cfY4UJ8Vqy2zn3
+         rH47czjEDbRHujdM6O3BoWnM/QCVUuswu0Gm5rxOdeZ0NlyRhred0VVK31wXfk+g6xh1
+         nP9TFS2FQXXsH4H7vS1SasaVICqmfVLl43DzBU8tBnANjsiojicfGMbr35vqzi4Iqphj
+         kNDw==
+X-Gm-Message-State: AOAM532L5Jdm7e+xrp61wFevN3QetXvagWdQSMQJVjWM6bONNtNBc0Zd
+        63jXdCREEypECNnfcn9wtcFUseKPAW3GMjd9CvhY1Q==
+X-Google-Smtp-Source: ABdhPJzaeODA4sJQGtFnmlEJhEIejHm5tUfJ6WBUJaaM4JSKW7UsD8q5H1JPOzhq7vW/xPspCH7j/ySdSzg97qcaAUI=
+X-Received: by 2002:a9d:23ca:: with SMTP id t68mr2659337otb.281.1611044286607;
+ Tue, 19 Jan 2021 00:18:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8c71f7b3e19b9d66fc41d54c6e0d44cc03daa35b.camel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch> <20201127164131.2244124-13-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201127164131.2244124-13-daniel.vetter@ffwll.ch>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Tue, 19 Jan 2021 09:17:55 +0100
+Message-ID: <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
+Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
+To:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+On Fri, Nov 27, 2020 at 5:42 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
+e:
+>
+> Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
+> the default for all driver uses.
+>
+> Except there's two more ways to access PCI BARs: sysfs and proc mmap
+> support. Let's plug that hole.
+>
+> For revoke_devmem() to work we need to link our vma into the same
+> address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> adjusted, because that's how (io_)remap_pfn_range works, but for the
+> mapping we need to adjust vma->vm_file->f_mapping. The cleanest way is
+> to adjust this at at ->open time:
+>
+> - for sysfs this is easy, now that binary attributes support this. We
+>   just set bin_attr->mapping when mmap is supported
+> - for procfs it's a bit more tricky, since procfs pci access has only
+>   one file per device, and access to a specific resources first needs
+>   to be set up with some ioctl calls. But mmap is only supported for
+>   the same resources as sysfs exposes with mmap support, and otherwise
+>   rejected, so we can set the mapping unconditionally at open time
+>   without harm.
+>
+> A special consideration is for arch_can_pci_mmap_io() - we need to
+> make sure that the ->f_mapping doesn't alias between ioport and iomem
+> space. There's only 2 ways in-tree to support mmap of ioports: generic
+> pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the single
+> architecture hand-rolling. Both approach support ioport mmap through a
+> special pfn range and not through magic pte attributes. Aliasing is
+> therefore not a problem.
+>
+> The only difference in access checks left is that sysfs PCI mmap does
+> not check for CAP_RAWIO. I'm not really sure whether that should be
+> added or not.
+>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-mm@kvack.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: linux-pci@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> --
+> v2:
+> - Totally new approach: Adjust filp->f_mapping at open time. Note that
+>   this now works on all architectures, not just those support
+>   ARCH_GENERIC_PCI_MMAP_RESOURCE
+> ---
+>  drivers/pci/pci-sysfs.c | 4 ++++
+>  drivers/pci/proc.c      | 1 +
+>  2 files changed, 5 insertions(+)
+>
+> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> index d15c881e2e7e..3f1c31bc0b7c 100644
+> --- a/drivers/pci/pci-sysfs.c
+> +++ b/drivers/pci/pci-sysfs.c
+> @@ -929,6 +929,7 @@ void pci_create_legacy_files(struct pci_bus *b)
+>         b->legacy_io->read =3D pci_read_legacy_io;
+>         b->legacy_io->write =3D pci_write_legacy_io;
+>         b->legacy_io->mmap =3D pci_mmap_legacy_io;
+> +       b->legacy_io->mapping =3D iomem_get_mapping();
+>         pci_adjust_legacy_attr(b, pci_mmap_io);
+>         error =3D device_create_bin_file(&b->dev, b->legacy_io);
+>         if (error)
+> @@ -941,6 +942,7 @@ void pci_create_legacy_files(struct pci_bus *b)
+>         b->legacy_mem->size =3D 1024*1024;
+>         b->legacy_mem->attr.mode =3D 0600;
+>         b->legacy_mem->mmap =3D pci_mmap_legacy_mem;
+> +       b->legacy_io->mapping =3D iomem_get_mapping();
 
-On Mon, Jan 18, 2021 at 05:21:12PM -0300, Ezequiel Garcia wrote:
-> On Mon, 2021-01-18 at 18:36 +0200, Sakari Ailus wrote:
-> > Hi Ezequiel,
-> > 
-> > Thanks for the patch.
-> > 
-> > On Tue, Jan 12, 2021 at 04:49:14PM -0300, Ezequiel Garcia wrote:
-> > > The pxa-camera capture driver currently registers a v4l2-clk
-> > > clock, named "mclk", to represent the mt9m111 sensor clock.
-> > > 
-> > > Register a proper fixed-rate clock using the generic clock framework,
-> > > which will allow to remove the v4l2-clk clock in the pxa-camera
-> > > driver in a follow-up commit.
-> > 
-> > Where is the clock generated?
-> > 
-> > If it's the same device, shouldn't it be registered in the pxa_camera
-> > driver?
-> > 
-> 
-> Apparently, as Petr explained, the PXA camera controller
-> can provide a clock.
-> 
-> However, it seems to me this is not necesarily the only
-> way to provide a clock to a sensor, is it?
+Unlike the normal pci stuff below, the legacy files here go boom
+because they're set up much earlier in the boot sequence. This only
+affects HAVE_PCI_LEGACY architectures, which aren't that many. So what
+should we do here now:
+- drop the devmem revoke for these
+- rework the init sequence somehow to set up these files a lot later
+- redo the sysfs patch so that it doesn't take an address_space
+pointer, but instead a callback to get at that (since at open time
+everything is set up). Imo rather ugly
+- ditch this part of the series (since there's not really any takers
+for the latter parts it might just not make sense to push for this)
+- something else?
 
-It isn't. But that's what the clock framework is for.
+Bjorn, Greg, thoughts?
 
-> 
-> Moreover, doing the proper clock conversion in the PXA driver
-> doesn't seem trivial and I don't have hardware to test it.
+Issuge got reported by Stephen on a powerpc when trying to build
+linux-next with this patch included.
 
-I guess it's possible to do that later, too. The platform appears to rely
-still on platform data, too.
+Thanks, Daniel
 
-This set is still a major improvement, to get rid of v4l2-clk.
+>         pci_adjust_legacy_attr(b, pci_mmap_mem);
+>         error =3D device_create_bin_file(&b->dev, b->legacy_mem);
+>         if (error)
+> @@ -1156,6 +1158,8 @@ static int pci_create_attr(struct pci_dev *pdev, in=
+t num, int write_combine)
+>                         res_attr->mmap =3D pci_mmap_resource_uc;
+>                 }
+>         }
+> +       if (res_attr->mmap)
+> +               res_attr->mapping =3D iomem_get_mapping();
+>         res_attr->attr.name =3D res_attr_name;
+>         res_attr->attr.mode =3D 0600;
+>         res_attr->size =3D pci_resource_len(pdev, num);
+> diff --git a/drivers/pci/proc.c b/drivers/pci/proc.c
+> index 3a2f90beb4cb..9bab07302bbf 100644
+> --- a/drivers/pci/proc.c
+> +++ b/drivers/pci/proc.c
+> @@ -298,6 +298,7 @@ static int proc_bus_pci_open(struct inode *inode, str=
+uct file *file)
+>         fpriv->write_combine =3D 0;
+>
+>         file->private_data =3D fpriv;
+> +       file->f_mapping =3D iomem_get_mapping();
+>
+>         return 0;
+>  }
+> --
+> 2.29.2
+>
 
-> 
-> I'd rather keep things simple, and just register a fixed-rate
-> clock at mach-pxa level, which will be removed anyway
-> once these non-DT platforms are finally converted to DT
-> or dropped.
-> 
-> This way is at least a tiny bit less ugly than the current
-> dummy v4l2-clk.
-> 
-> Thanks,
-> Ezequiel
-> 
-> > > 
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > Acked-by: Arnd Bergmann <arnd@arndb.de> (for arch/arm/mach-*/)
-> > > ---
-> > > Quoting Arnd:
-> > > """
-> > > If there are no objections to the change itself, please take it through
-> > > the v4l2 git tree.
-> > > """
-> > > 
-> > >  arch/arm/mach-pxa/devices.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
-> > > index 524d6093e0c7..09b8495f3fd9 100644
-> > > --- a/arch/arm/mach-pxa/devices.c
-> > > +++ b/arch/arm/mach-pxa/devices.c
-> > > @@ -4,6 +4,7 @@
-> > >  #include <linux/init.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/clkdev.h>
-> > > +#include <linux/clk-provider.h>
-> > >  #include <linux/dma-mapping.h>
-> > >  #include <linux/dmaengine.h>
-> > >  #include <linux/spi/pxa2xx_spi.h>
-> > > @@ -634,6 +635,13 @@ static struct platform_device pxa27x_device_camera = {
-> > >  
-> > >  void __init pxa_set_camera_info(struct pxacamera_platform_data *info)
-> > >  {
-> > > +       struct clk *mclk;
-> > > +
-> > > +       /* Register a fixed-rate clock for camera sensors. */
-> > > +       mclk = clk_register_fixed_rate(NULL, "pxa_camera_clk", NULL, 0,
-> > > +                                            info->mclk_10khz * 10000);
-> > > +       if (!IS_ERR(mclk))
-> > > +               clkdev_create(mclk, "mclk", NULL);
-> > >         pxa_register_device(&pxa27x_device_camera, info);
-> > >  }
-> > >  
-> > 
-> 
-> 
 
--- 
-Sakari Ailus
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
