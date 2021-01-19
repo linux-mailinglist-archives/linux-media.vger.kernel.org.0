@@ -2,133 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 568EB2FC17D
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 21:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8BBC2FC24D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 22:30:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388647AbhASUqU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 15:46:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387591AbhASUpy (ORCPT
+        id S1728031AbhASSoh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 13:44:37 -0500
+Received: from mail-io1-f70.google.com ([209.85.166.70]:34323 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391595AbhASSj6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 15:45:54 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3861EC0613ED
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 12:45:14 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id 30so13712902pgr.6
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 12:45:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+HPHLTIbnqvyYqZakEN0yW6023R2vX5SvJvHEGRsu88=;
-        b=rVY83dpi8ReoTmjM5P+oExiEZYsinMGkbYee1lkK/ULznES2ZNsQayfBScXWTZxwHT
-         xzR9TWfOeB0CMtADGKZkF8TcwHODZPc1u4AMryo79Zq9NNv2fP2u7rpmstz007F5Nwzb
-         fYc/mdbBQq3n41ctal8AiQZluORE84aHZh48bd34Zb95cR6VzRRKiIQtqtWHSWK5Ql/Z
-         37MtMXfQhlWisjAseq7aB5u02jTDZwCwRQhmEw5cye33lLvuVq6TSjWkKCFJCnRio0sf
-         Jg4mseBZ0ILUNtu46AlrTKRbSYK79YX03tEGKvAoDHj4I2D3x6wz8PcifiCFUrwR00mS
-         hKXA==
+        Tue, 19 Jan 2021 13:39:58 -0500
+Received: by mail-io1-f70.google.com with SMTP id r16so37119583ioa.1
+        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 10:39:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+HPHLTIbnqvyYqZakEN0yW6023R2vX5SvJvHEGRsu88=;
-        b=ow1iwcKAqwPMPw41b16kv9wOaTep/MLHHmejUzZNk1TxmGeK9kPKPN0bWZpQGpvDY/
-         8iE4wVwAv/+BOfVwa5VJxvve69XTvNmhDnmqpjnaeGHHR7xe5EutZZwBxfF0PTKaP6n6
-         c8m/bsxJNTzNwExNcFizo1o/cORpWaOOgLs3HhLq6kHJQ4X5VnyyDXS7GJxxrIgxLjO4
-         i+5RXMa16+LY9rrhwvgXBoYDuMxioYE85+A16s8mI/Q0dcfJ3VUWjmYUr65bMWFW/DC4
-         Yseol8p/KGwQjVNOvdP7JdvZZY6nNlwpynnoTM42j46f5q/ktGvLyL/oWIXmnDLKn+2a
-         Cbug==
-X-Gm-Message-State: AOAM532xd5rKbr32jzlO/qZSXlmxT31Y+1SZqajprm+aMW9HpS18bK4k
-        DuXTzdAA3R/691dhgXKyQ0MguA==
-X-Google-Smtp-Source: ABdhPJx7XqKFUvEfxsZUM/yPecJslI2EJghoNxHC6weKaxS/Wdl7E5UFXQpws/ka9g4TjNc2jaAWIA==
-X-Received: by 2002:a62:5b07:0:b029:1ae:177d:69e1 with SMTP id p7-20020a625b070000b02901ae177d69e1mr5644437pfb.25.1611089113811;
-        Tue, 19 Jan 2021 12:45:13 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id md7sm4129838pjb.52.2021.01.19.12.45.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 12:45:12 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [RESEND][PATCH 2/3] dma-buf: heaps: Add a WARN_ON should the vmap_cnt go negative
-Date:   Tue, 19 Jan 2021 20:45:07 +0000
-Message-Id: <20210119204508.9256-2-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210119204508.9256-1-john.stultz@linaro.org>
-References: <20210119204508.9256-1-john.stultz@linaro.org>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=WdkBn9riwIbRJJ+uSYY9Jvm7Ton9pmCnypyx0bUimvQ=;
+        b=kKglrpjdhNP23q+gerk/RXAFy/tmb4NwKMI8Jvva86tljIgljjtgkuftu1xneQvXMv
+         eix+TfhexK33jgJ4iaOseg8lzv+Bvm5AgVJEu/YHzhoFzHdF89vM+ywwX5jTmOYFjCVM
+         nxDnjsbqr529kar/KloKMmCS2bXCq5bG8S0dTszVmhvH5Smfb3I1sdZIQs5HHwtpnB23
+         T/jDb89fofZfn1M0v/H53NF/kdezdGEMAj2i0A3n5pvrmaU9eFNCYG5OhlN+YX9hO124
+         AKf+u2quyRy+sGGtWUgs9Zm489u4YvO9sy9mpYv+fWQU0p3buaEoVWj1yBF3YIT3N1S0
+         Fcnw==
+X-Gm-Message-State: AOAM532Gk7sYEVVpuL5RDALedLOfH0lRTNJ+zjxZNBMddVJOQtt6WixW
+        bEZWYwnC+OzfIcgvb4TPPvq2+GQ/uUOr5hVoq9ePyJ0ngzz2
+X-Google-Smtp-Source: ABdhPJxa3gLsf9Z4xg5RCxUHvK2/e6vpqujSQ54YT4qMV/IbyZxynsLQLJvLPM2M4NB1H6/PP91l9uoSyXLCWU+FlQFgn+AstOTy
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:c25:: with SMTP id q5mr4535832ilg.286.1611081557543;
+ Tue, 19 Jan 2021 10:39:17 -0800 (PST)
+Date:   Tue, 19 Jan 2021 10:39:17 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f1136d05b9452773@google.com>
+Subject: UBSAN: shift-out-of-bounds in std_validate
+From:   syzbot <syzbot+42d8c7c3d3e594b34346@syzkaller.appspotmail.com>
+To:     ezequiel@collabora.com, hverkuil-cisco@xs4all.nl,
+        jacopo@jmondi.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We shouldn't vunmap more then we vmap, but if we do, make
-sure we complain loudly.
+Hello,
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Suggested-by: Suren Baghdasaryan <surenb@google.com>
-Signed-off-by: John Stultz <john.stultz@linaro.org>
+syzbot found the following issue on:
+
+HEAD commit:    1e2a199f Merge tag 'spi-fix-v5.11-rc4' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=146e0c94d00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=41e68e7e8a23ad09
+dashboard link: https://syzkaller.appspot.com/bug?extid=42d8c7c3d3e594b34346
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12166d58d00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14dfc294d00000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+42d8c7c3d3e594b34346@syzkaller.appspotmail.com
+
+================================================================================
+UBSAN: shift-out-of-bounds in drivers/media/v4l2-core/v4l2-ctrls.c:2168:36
+shift exponent 100 is too large for 64-bit type 'long long unsigned int'
+CPU: 0 PID: 8469 Comm: syz-executor534 Not tainted 5.11.0-rc4-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:79 [inline]
+ dump_stack+0x107/0x163 lib/dump_stack.c:120
+ ubsan_epilogue+0xb/0x5a lib/ubsan.c:148
+ __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x181 lib/ubsan.c:395
+ std_validate.cold+0x19/0x1e drivers/media/v4l2-core/v4l2-ctrls.c:2168
+ validate_new drivers/media/v4l2-core/v4l2-ctrls.c:2477 [inline]
+ set_ctrl+0x207/0x4a0 drivers/media/v4l2-core/v4l2-ctrls.c:4425
+ set_ctrl_lock drivers/media/v4l2-core/v4l2-ctrls.c:4448 [inline]
+ v4l2_s_ctrl+0x2fd/0x4f0 drivers/media/v4l2-core/v4l2-ctrls.c:4469
+ v4l_s_ctrl+0x324/0x390 drivers/media/v4l2-core/v4l2-ioctl.c:2253
+ __video_do_ioctl+0xb94/0xe20 drivers/media/v4l2-core/v4l2-ioctl.c:2993
+ video_usercopy+0x23d/0x12d0 drivers/media/v4l2-core/v4l2-ioctl.c:3345
+ v4l2_ioctl+0x1b3/0x250 drivers/media/v4l2-core/v4l2-dev.c:360
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl fs/ioctl.c:739 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x443ee9
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 fb d7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffe02e7df08 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004002e0 RCX: 0000000000443ee9
+RDX: 0000000020000140 RSI: 00000000c008561c RDI: 0000000000000003
+RBP: 00000000006ce018 R08: 0000000000000000 R09: 00000000004002e0
+R10: 000000000000000f R11: 0000000000000246 R12: 0000000000401b70
+R13: 0000000000401c00 R14: 0000000000000000 R15: 0000000000000000
+================================================================================
+
+
 ---
- drivers/dma-buf/heaps/cma_heap.c    | 1 +
- drivers/dma-buf/heaps/system_heap.c | 1 +
- 2 files changed, 2 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 364fc2f3e499..0c76cbc3fb11 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -232,6 +232,7 @@ static void cma_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- 	struct cma_heap_buffer *buffer = dmabuf->priv;
- 
- 	mutex_lock(&buffer->lock);
-+	WARN_ON(buffer->vmap_cnt == 0);
- 	if (!--buffer->vmap_cnt) {
- 		vunmap(buffer->vaddr);
- 		buffer->vaddr = NULL;
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 405351aad2a8..2321c91891f6 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -273,6 +273,7 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- 	struct system_heap_buffer *buffer = dmabuf->priv;
- 
- 	mutex_lock(&buffer->lock);
-+	WARN_ON(buffer->vmap_cnt == 0);
- 	if (!--buffer->vmap_cnt) {
- 		vunmap(buffer->vaddr);
- 		buffer->vaddr = NULL;
--- 
-2.17.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
