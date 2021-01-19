@@ -2,145 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D612FB41D
-	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 09:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A0092FB42A
+	for <lists+linux-media@lfdr.de>; Tue, 19 Jan 2021 09:37:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728250AbhASIaf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Jan 2021 03:30:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60102 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbhASIaM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Jan 2021 03:30:12 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 640EBC061573
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:29:32 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id d13so18766718wrc.13
-        for <linux-media@vger.kernel.org>; Tue, 19 Jan 2021 00:29:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=d9EPmxgSjplqIloqEd0fjmhaf+3lX7Ca0TE2z4KWzZU=;
-        b=Mc5TIayeKmc7ETz+AffYmEItuFJXlQ+LEXC0DXPZd0CeGOe+I1qOEyFh4REscFCZ9K
-         QBlcRgDo6dPqK01+Ka8woQ4Ce+Tpfm4FNert/g90UtAxCnBuF6LU1jEhogQ+mzzaEXxv
-         DVOpaMrUYFVaILEhToWw1nDQFOPBoeBbLmfVTlycpgZ05pSDTcdv5hEOM/6dSSGRsn7E
-         u8N/93WaR4XjU+lnDH7Ix1nIBRz/1r+gwTh3LStekGLavIWm5gbpGGe8mYxhTbrpBfQd
-         2LQiofEKLbLBHRRgyFy04sunOBK61oZGum2gRLULFFnGY4r2g62QdNAeo2JEuWOMYptT
-         Z8Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=d9EPmxgSjplqIloqEd0fjmhaf+3lX7Ca0TE2z4KWzZU=;
-        b=RrEEcSYFWV7UcFkvma9h7mnwlHPPnhkQAWxfy0I0jBPF9kU7fKJ+Y60Vbu7os+Zlbu
-         xVA6TEuHG7Ej9Yr6spOnB64JXdPwu4pV/VrLHMm7s/YzUGlaGzTrWgTNAJ7OthDzufgO
-         63Ppe7FOGLupZ7XN8L+wMeLYbEKFu0RKTWWbb8CtEAypLSlHQQu1th8VhHiBBKD8FcAj
-         zZxjPKx4HQ/g1d6E5ihuI4VBhUKWhma89ZJwYhcL9DaklfAk88N+EHe4wmMVeZhOUqg/
-         9reWq2hMD8gFKlKzQZluCR41xyBYRidvEz+7IDgsYYaUPebdvL6wgixswAs+5vORtnM9
-         EUkw==
-X-Gm-Message-State: AOAM532Yoe594uA8xxUuOEKKAW2FECk6HMeJ8hwpFLK7vLZfEz2KXU3M
-        ieeulEsrdj1fiypjHT4wgsPRKA==
-X-Google-Smtp-Source: ABdhPJxZgbmI7dqTDYKpsJ4RFJ20zHNFbzEsz8E5NfIQ/ie1dHSOozCsng29cOp98WeoUcI4x2Sbrw==
-X-Received: by 2002:adf:b519:: with SMTP id a25mr3094280wrd.263.1611044971004;
-        Tue, 19 Jan 2021 00:29:31 -0800 (PST)
-Received: from dell ([91.110.221.158])
-        by smtp.gmail.com with ESMTPSA id b64sm3307488wmb.26.2021.01.19.00.29.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 00:29:30 -0800 (PST)
-Date:   Tue, 19 Jan 2021 08:29:27 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Zack Rusin <zackr@vmware.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Eddie Dong <eddie.dong@intel.com>,
-        Eric Anholt <eric@anholt.net>, Faith <faith@valinux.com>,
-        Gareth Hughes <gareth@valinux.com>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        Jackie Li <yaodong.li@intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jan Safrata <jan.nikitenko@gmail.com>,
-        Jesse Barnes <jesse.barnes@intel.com>,
-        jim liu <jim.liu@intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Keith Packard <keithp@keithp.com>,
-        Kevin Tian <kevin.tian@intel.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>, Min He <min.he@intel.com>,
-        Niu Bing <bing.niu@intel.com>,
-        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        Pei Zhang <pei.zhang@intel.com>,
-        Ping Gao <ping.a.gao@intel.com>,
-        Rob Clark <rob.clark@linaro.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tina Zhang <tina.zhang@intel.com>,
-        Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Zhiyuan Lv <zhiyuan.lv@intel.com>
-Subject: Re: [PATCH 00/29] [Set 15] Finally rid W=1 warnings from GPU!
-Message-ID: <20210119082927.GJ4903@dell>
-References: <20210115181601.3432599-1-lee.jones@linaro.org>
- <F914D9B9-6DD4-4383-9F7C-8D09FBFE96CE@vmware.com>
- <YAWhDRkSOHbJ+2Le@phenom.ffwll.local>
- <20210118150945.GE4903@dell>
- <YAXDgmWMR9s4OgxN@phenom.ffwll.local>
+        id S1729629AbhASIdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Jan 2021 03:33:24 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:59496 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730122AbhASIdN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Jan 2021 03:33:13 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l1mRD-0046qf-Q2; Tue, 19 Jan 2021 08:32:31 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l1mUg-0007Ps-VW; Tue, 19 Jan 2021 08:36:07 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.12] Venus updates - part2 (#70920)
+Date:   Tue, 19 Jan 2021 08:36:06 +0000
+Message-Id: <20210119083606.28467-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210119081853.1293838-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YAXDgmWMR9s4OgxN@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 18 Jan 2021, Daniel Vetter wrote:
+From: builder@linuxtv.org
 
-> On Mon, Jan 18, 2021 at 03:09:45PM +0000, Lee Jones wrote:
-> > On Mon, 18 Jan 2021, Daniel Vetter wrote:
-> > 
-> > > On Fri, Jan 15, 2021 at 06:27:15PM +0000, Zack Rusin wrote:
-> > > > 
-> > > > > On Jan 15, 2021, at 13:15, Lee Jones <lee.jones@linaro.org> wrote:
-> > > > > 
-> > > > > This set is part of a larger effort attempting to clean-up W=1
-> > > > > kernel builds, which are currently overwhelmingly riddled with
-> > > > > niggly little warnings.
-> > > > > 
-> > > > > Last set!  All clean after this for; Arm, Arm64, PPC, MIPS and x86.
-> > > > 
-> > > > Thanks! For all the vmwgfx bits:
-> > > > Reviewed-by: Zack Rusin <zackr@vmware.com>
-> > > 
-> > > Ok I merged everything except vmwgfx (that's for Zack) and i915/nouveau
-> > > (those generally go through other trees, pls holler if they're stuck).
-> > 
-> > Thanks Daniel, you're a superstar!
-> > 
-> > So Zack will take the vmwgfx parts?  Despite providing a R-b?
-> 
-> I only merge stuff that's defacto abandoned already. Everything else I try
-> to offload to whomever actually cares :-)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210119081853.1293838-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/86449/
+Build time: 00:04:49
+Link: https://lore.kernel.org/linux-media/20210119081853.1293838-1-stanimir.varbanov@linaro.org
 
-Understood.  Thanks for the explanation.
+gpg: Signature made Tue 19 Jan 2021 08:04:50 AM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-Hopefully Zack actually cares. :D
+Summary: got 0/8 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Error/warnings:
+
+
+Error #512 when building PDF docs
+
