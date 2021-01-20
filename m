@@ -2,99 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9072FCE76
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 11:55:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B45D2FCE94
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 12:01:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387717AbhATKmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 05:42:36 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56376 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732967AbhATKVn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 05:21:43 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AE908AFB4;
-        Wed, 20 Jan 2021 10:21:00 +0000 (UTC)
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stefan Seyfried <seife+kernel@b1-systems.com>
-Subject: [PATCH 2/2] media: dvb-usb: Fix use-after-free access
-Date:   Wed, 20 Jan 2021 11:20:57 +0100
-Message-Id: <20210120102057.21143-3-tiwai@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210120102057.21143-1-tiwai@suse.de>
-References: <20210120102057.21143-1-tiwai@suse.de>
+        id S1730025AbhATKbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 05:31:18 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:54277 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731191AbhATJVb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Jan 2021 04:21:31 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 517C120016;
+        Wed, 20 Jan 2021 09:20:46 +0000 (UTC)
+Date:   Wed, 20 Jan 2021 10:21:05 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] media: i2c/Kconfig: Select FWNODE for OV772x sensor
+Message-ID: <20210120092105.niausxf2dfe46p7p@uno.localdomain>
+References: <20210120090148.30598-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210120090148.30598-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dvb_usb_device_init() copies the properties to the own data, so that
-the callers can release the original properties later (as done in the
-commit 299c7007e936 "media: dw2102: Fix memleak on sequence of
-probes").  However, it also stores dev->desc pointer that is a
-reference to the original properties data.  Since dev->desc is
-referred later, it may result in use-after-free, in the worst case,
-leading to a kernel Oops as reported.
+Hi Prabhakar,
 
-This patch addresses the problem by allocating and copying the
-properties at first, then get the desc from the copied properties.
+On Wed, Jan 20, 2021 at 09:01:48AM +0000, Lad Prabhakar wrote:
+> Fix OV772x build breakage by selecting V4L2_FWNODE config:
+>
+> ia64-linux-ld: drivers/media/i2c/ov772x.o: in function `ov772x_probe':
+> ov772x.c:(.text+0x1ee2): undefined reference to `v4l2_fwnode_endpoint_alloc_parse'
+> ia64-linux-ld: ov772x.c:(.text+0x1f12): undefined reference to `v4l2_fwnode_endpoint_free'
+> ia64-linux-ld: ov772x.c:(.text+0x2212): undefined reference to `v4l2_fwnode_endpoint_alloc_parse'
+>
+> Fixes: 8a10b4e3601e ("media: i2c: ov772x: Parse endpoint properties")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Reported-and-tested-by: Stefan Seyfried <seife+kernel@b1-systems.com>
-BugLink: http://bugzilla.opensuse.org/show_bug.cgi?id=1181104
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/media/usb/dvb-usb/dvb-usb-init.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+You beat me to it, I was about to hit send for the same patch :)
 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-index 5befec87f26a..07ff9b4d2f34 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-@@ -255,27 +255,30 @@ int dvb_usb_device_init(struct usb_interface *intf,
- 	if (du != NULL)
- 		*du = NULL;
- 
--	if ((desc = dvb_usb_find_device(udev, props, &cold)) == NULL) {
-+	d = kzalloc(sizeof(struct dvb_usb_device), GFP_KERNEL);
-+	if (!d) {
-+		err("no memory for 'struct dvb_usb_device'");
-+		return -ENOMEM;
-+	}
-+
-+	memcpy(&d->props, props, sizeof(struct dvb_usb_device_properties));
-+
-+	desc = dvb_usb_find_device(udev, &d->props, &cold);
-+	if (!desc) {
- 		deb_err("something went very wrong, device was not found in current device list - let's see what comes next.\n");
--		return -ENODEV;
-+		ret = -ENODEV;
-+		goto error;
- 	}
- 
- 	if (cold) {
- 		info("found a '%s' in cold state, will try to load a firmware", desc->name);
- 		ret = dvb_usb_download_firmware(udev, props);
- 		if (!props->no_reconnect || ret != 0)
--			return ret;
-+			goto error;
- 	}
- 
- 	info("found a '%s' in warm state.", desc->name);
--	d = kzalloc(sizeof(struct dvb_usb_device), GFP_KERNEL);
--	if (d == NULL) {
--		err("no memory for 'struct dvb_usb_device'");
--		return -ENOMEM;
--	}
--
- 	d->udev = udev;
--	memcpy(&d->props, props, sizeof(struct dvb_usb_device_properties));
- 	d->desc = desc;
- 	d->owner = owner;
- 
--- 
-2.26.2
+Thanks!
+Acked-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+> ---
+>  drivers/media/i2c/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index eddb10220953..bb1b5a340431 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1013,6 +1013,7 @@ config VIDEO_OV772X
+>  	tristate "OmniVision OV772x sensor support"
+>  	depends on I2C && VIDEO_V4L2
+>  	select REGMAP_SCCB
+> +	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV772x camera.
+> --
+> 2.17.1
+>
