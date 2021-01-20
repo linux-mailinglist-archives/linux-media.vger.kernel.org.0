@@ -2,132 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FAD22FDBA7
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 22:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 345E42FDBA9
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 22:26:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387445AbhATU5D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 15:57:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44700 "EHLO
+        id S2387480AbhATU5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 15:57:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731488AbhATNyC (ORCPT
+        with ESMTP id S2389921AbhATUxx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 08:54:02 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53781C061368
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:45:10 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id i63so2887569wma.4
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:45:10 -0800 (PST)
+        Wed, 20 Jan 2021 15:53:53 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54DB2C0613C1
+        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 12:53:13 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id v15so20741906wrx.4
+        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 12:53:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=UlBA+jrFoLLefklW/JXu8ZcQb+a+i4EuznUW8mxqVQQ=;
-        b=YOWJ/QSfCwPu5AKsDbQTv93fq1IJxtz9qrJuAL3ZE/GO8Z5uCTsjkb3nJeQLb9x1/A
-         vJiaj9ifUExUwrM4HIJiZYNcoMueYov11qOmzV0GNyuEdzyHOvA4ubwgkDVXDV69Thut
-         Aau1BINo7I15eA5keY3kVx7LQOGVSDensdfdXcAwQ59OeY+oer16BKDT4jlZTSRM2Maf
-         1+FC4DXlrd1qHviBsVbIc8uW1rauj5eIX2+3wIfKLHifLz+knAMsiQk9BEfzgDNUG3yj
-         JSullwoyLCG9e4pCkLY5lkJI4Y96xS/LAiq+U7c+yQPsGi6hNyZNV/J3NuB0XmU0EYhX
-         6ftQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+Fzlnu2gDVF5uqigGznocNtk8tICKRhrhDQur+g+6zI=;
+        b=Ap8blQxbIDeY1iMmJMm2T7KYPQi0avue3p1JK+vpgNKrG9yC08Oz5D7lBwGvPTP9o+
+         8jSoY81LwRelmRszwF2zG4x520gG/eqyTx5SRcjPWx9fQEEL8US+OLreGcAUFvbReIa3
+         5mPpM8BlbbIDjxcbZn9XBEXaS1s1aewOvZJVUCyo7FLc57nql3qDt6wJOe7VbiEq8YBQ
+         PU5jZL4IfoLhrHykg9Y0que2Dg9Hi6IDGuhfMik2k4my3sxHlrKVRrV/BXXQqc1inbXa
+         23MeK88WsAUO0Mtvxb2kHB3hYIvMCKlMrykrS2j4lEX+MME/c9gJuSdIRxBe98rw6C4T
+         aseQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UlBA+jrFoLLefklW/JXu8ZcQb+a+i4EuznUW8mxqVQQ=;
-        b=H1tQE5O5MvJjmv21D+HiOjBOWa+oJIdqbQMNLOOeK9xwxVERvS6Em2/ZoYlsFw03i2
-         t71QzqKFVypJyCMxSAWgNRd1tiZBTACAB5oFPH6qMTFmDGx/mG5CxNmhY77yRxVscuTw
-         MYC0cneAxgMOrfvnst29STZxftPceQ3YlJgSjouBaMp6CWM6+PXEliAvyO4mgpj3KgWl
-         gnlNAt6yTm9Pi3OhG83B6ZnDcSU8lDPFV7kKMgj1Ma25AChz4jwohwR4owF0h9SAM0Fv
-         uDSFINVQ+mqxqIf1KsitjXxmkXNFM0hvGzFZVvhb4h+7tanfKgVcxoJIdFUIIqbpXAN0
-         fVHA==
-X-Gm-Message-State: AOAM533EWsVeM5OEkaWa+TsDQCiM9muPqpkrTBIUbxXY8B4dYSofzM8l
-        yLrIb6XzPE4Yjuv2l+n4R755Wg==
-X-Google-Smtp-Source: ABdhPJxyuaJ74/nQdJuyAGH8vGzesMdLOtUmQatDRmLixQ7HAUtct0vVX2J1/Aa57UuAPyM3+hQ6SA==
-X-Received: by 2002:a1c:740b:: with SMTP id p11mr4520239wmc.34.1611150309125;
-        Wed, 20 Jan 2021 05:45:09 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:102f:d6a:93b3:1f80:ae7b:a5c6])
-        by smtp.gmail.com with ESMTPSA id t67sm4224075wmt.28.2021.01.20.05.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 05:45:08 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org,
-        robert.foss@linaro.org, todor.too@gmail.com, mchehab@kernel.org,
-        robh+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        shawnguo@kernel.org, leoyang.li@nxp.com, geert+renesas@glider.be,
-        vkoul@kernel.org, Anson.Huang@nxp.com, michael@walle.cc,
-        agx@sigxcpu.org, max.oss.09@gmail.com,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
-        Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH v2 22/22] arm64: dts: sdm845-db845c: Enable ov8856 sensor and connect to ISP
-Date:   Wed, 20 Jan 2021 14:43:57 +0100
-Message-Id: <20210120134357.1522254-22-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120134357.1522254-1-robert.foss@linaro.org>
-References: <20210120134357.1522254-1-robert.foss@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+Fzlnu2gDVF5uqigGznocNtk8tICKRhrhDQur+g+6zI=;
+        b=M0sKXcUBNrhFs1weD9q1LigsUbT6JutxLYyGp9SDw0ueWM9b/uwfSFMfXsZq7H0F7C
+         Q2bbBxafpI2iboBnTpLDe0CqgKYIui+kEVVTz6eEhVjVJ966JpXLn9tUt2dAIK3zvhqu
+         kuhFq0FKkLi4x/4dC8EjfEJT/yK7Ykxw/qLJEoOBAy9hzx2lU/mubc2ntIoACkMTLO1K
+         q3itWgxivubVky41dXQUHOnj3Oeo7Kjuyosu0s4rSYuml9dvjx8yqu11wW16hoHbyqhW
+         M22XJrrxFsPg7qRO+A7cuGz7OAm7nm8Z5WaDiPbZ2O8arjhgTm31REeMJ6RxQUjW/vIK
+         B/4Q==
+X-Gm-Message-State: AOAM533L2AcS7WEMUV1ek9wmLjX4lLcIK+wWYw8kIQ0j8dY8v04dJJnD
+        4JbgyjQEY3lu39NQ9f2uKtqwtEQeBW+K1AJby8sGbw==
+X-Google-Smtp-Source: ABdhPJwt7pT74j5UgBuf0hqmfBTKggX4sl1ee2GbnEY6OrFXtj1vnr4AMrVjK/Sb4RohxWtiIk9c6lfylvwXhnh6I2k=
+X-Received: by 2002:a5d:4704:: with SMTP id y4mr10992455wrq.358.1611175991891;
+ Wed, 20 Jan 2021 12:53:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210113012143.1201105-1-minchan@kernel.org> <20210113012143.1201105-5-minchan@kernel.org>
+ <CALAqxLWPT8PWYue0h1863NjNxKn_FH0DtoRtArpmmxZ1Ve5xCw@mail.gmail.com>
+ <CGME20210119203646epcas2p2622d11cb2cf90a7bd24050a5238e78ef@epcas2p2.samsung.com>
+ <YAdC2J4x/4J9ozkq@google.com> <20210120033208.GA179511@KEI>
+In-Reply-To: <20210120033208.GA179511@KEI>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 20 Jan 2021 12:53:01 -0800
+Message-ID: <CAJuCfpFN5ntfTT9N==wxnZM2rbFXWuL_PJhpJLA=AnYgEsReFQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
+To:     Hyesoo Yu <hyesoo.yu@samsung.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, david@redhat.com,
+        Michal Hocko <mhocko@suse.com>,
+        KyongHo Cho <pullip.cho@samsung.com>,
+        John Dias <joaodias@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable camss & ov8856 DT nodes.
+On Tue, Jan 19, 2021 at 7:39 PM Hyesoo Yu <hyesoo.yu@samsung.com> wrote:
+>
+> On Tue, Jan 19, 2021 at 12:36:40PM -0800, Minchan Kim wrote:
+> > On Tue, Jan 19, 2021 at 10:29:29AM -0800, John Stultz wrote:
+> > > On Tue, Jan 12, 2021 at 5:22 PM Minchan Kim <minchan@kernel.org> wrote:
+> > > >
+> > > > From: Hyesoo Yu <hyesoo.yu@samsung.com>
+> > > >
+> > > > This patch supports chunk heap that allocates the buffers that
+> > > > arranged into a list a fixed size chunks taken from CMA.
+> > > >
+> > > > The chunk heap driver is bound directly to a reserved_memory
+> > > > node by following Rob Herring's suggestion in [1].
+> > > >
+> > > > [1] https://lore.kernel.org/lkml/20191025225009.50305-2-john.stultz@linaro.org/T/#m3dc63acd33fea269a584f43bb799a876f0b2b45d
+> > > >
+> > > > Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> > > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > > > Signed-off-by: Minchan Kim <minchan@kernel.org>
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
----
- arch/arm64/boot/dts/qcom/sdm845-db845c.dts | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+After addressing John's comments feel free to add Reviewed-by: Suren
+Baghdasaryan <surenb@google.com>
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-index 5842ab65789c..d89286f6aacb 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-@@ -1108,6 +1108,21 @@ &cci {
- 
- &camss {
- 	vdda-supply = <&vreg_l1a_0p875>;
-+
-+	status = "ok";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			csiphy0_ep: endpoint {
-+				clock-lanes = <1>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&ov8856_ep>;
-+			};
-+		};
-+	};
- };
- 
- &cci_i2c0 {
-@@ -1139,7 +1154,7 @@ camera@10 {
- 		avdd-supply = <&cam0_avdd_2v8>;
- 		dvdd-supply = <&cam0_dvdd_1v2>;
- 
--		status = "disable";
-+		status = "ok";
- 
- 		port {
- 			ov8856_ep: endpoint {
-@@ -1147,7 +1162,7 @@ ov8856_ep: endpoint {
- 				link-frequencies = /bits/ 64
- 					<360000000 180000000>;
- 				data-lanes = <1 2 3 4>;
--//				remote-endpoint = <&csiphy0_ep>;
-+				remote-endpoint = <&csiphy0_ep>;
- 			};
- 		};
- 	};
--- 
-2.27.0
-
+> > > > ---
+> > > ...
+> > > > +static int register_chunk_heap(struct chunk_heap *chunk_heap_info)
+> > > > +{
+> > > > +       struct dma_heap_export_info exp_info;
+> > > > +
+> > > > +       exp_info.name = cma_get_name(chunk_heap_info->cma);
+> > >
+> > > One potential issue here, you're setting the name to the same as the
+> > > CMA name. Since the CMA heap uses the CMA name, if one chunk was
+> > > registered as a chunk heap but also was the default CMA area, it might
+> > > be registered twice. But since both would have the same name it would
+> > > be an initialization race as to which one "wins".
+> >
+> > Good point. Maybe someone might want to use default CMA area for
+> > both cma_heap and chunk_heap. I cannot come up with ideas why we
+> > should prohibit it atm.
+> >
+> > >
+> > > So maybe could you postfix the CMA name with "-chunk" or something?
+> >
+> > Hyesoo, Any opinion?
+> > Unless you have something other idea, let's fix it in next version.
+> >
+>
+> I agree that. It is not good to use heap name directly as cma name.
+> Let's postfix the name with '-chunk'
+>
+> Thanks,
+> Regards.
