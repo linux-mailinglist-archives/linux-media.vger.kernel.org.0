@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFAEE2FDB9B
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 22:26:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B44FC2FDB9D
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 22:26:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733023AbhATU4o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 15:56:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43588 "EHLO
+        id S1733073AbhATU4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 15:56:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387716AbhATNse (ORCPT
+        with ESMTP id S2387754AbhATNsm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 08:48:34 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839D3C061389
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:44:50 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id 7so15904297wrz.0
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:44:50 -0800 (PST)
+        Wed, 20 Jan 2021 08:48:42 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5FBC06138C
+        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:44:52 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id j18so2895022wmi.3
+        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:44:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kvX1fPx3FMQ5uXckxXhS8AVQna5Rb5Ybg4HAxWPNgfE=;
-        b=Q/OOvB5sufKO/f+HBQXe5exjY/4GhQ+yiQHbkYN2i4txFLHXaV0N+hlFR0PHNA/moI
-         BsZjgnR2jKTkaOdlGOjOvju7+aI5X+yXF+uqHpFWsxyJDYbVap8gtos3xFjhoGgnBd3I
-         bFG7E8saHzGDjhPqpC4YGD6I0bPCJz5wBPMjzQE9WccVGLBMpFcMefc3eh6wkH2LtCwD
-         8OYMiPvu3rZU2okWMd7BKp6IGK8dpShF/Ud5QiV5vF3dprX8C3OARqnE0B6mZrpPLGt1
-         /HypXkmOfBOhEclaIR9Z9ZIAenu6BOPlYhXEhShUb+5NKB4XkmBJiluIlDpmoiWAaRFD
-         F81w==
+        bh=LkZ99XoWXMbOO4g7PnTiwOPZK1LCMqlyf1JEPyZMdz8=;
+        b=k470PfzQJ4mPG/ZHGsLXUKxxbiF/k4+J2RxbbrL3wGFDkUVswDBGPjTGRVQ7/qO2Ew
+         TuWhfbHFoFn6N17z1FLaNSATwpB4fEojNMyB6Vcv0bt5KFtEg3kYaFQMQ8wdWxmfe6PE
+         rXDcTT6mXa0ejjfmYTH29reqJe5Cpf22oG+yRStac+eMEnw3nxcwThA1dVzXfXvWB6vU
+         PD505fPu5BQE56y0kje8rDXLNEG1DE6LaKfpE+J1nsPWYKedWj4OiB/aSyX+Ku3VjVwO
+         durkk3kDmqy/RwH4awu5MOyEDwS1iFDcWQWZzWfMcMka9fg/esHQ5mvU0LAsuc3/DDwB
+         9A/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kvX1fPx3FMQ5uXckxXhS8AVQna5Rb5Ybg4HAxWPNgfE=;
-        b=J1lEJDCTREzQkaET+PQVj3Zrj/ICixRvBEEfMFxe102pyt16Wpacsng0hDeUcTEKvz
-         Z31g7tspYrrXYONEc+epE9zUuxKNWz33/bGd91JBZ+F0mZOwXCBLloOUg4Z5OEINqlk2
-         iIhNTE8Gz/SdHyIvADGSGdDMjIPt9uIzyYfKJjWWuJN3BY5u9YpCKv9N4hUsHC8Uq0Sx
-         ejdPSgxkc8xj2j8ssXYIJThSe1vvOQCHP4yg7Y053fxuQSdjRvTwtdS7NylZOSCMgc8/
-         LFR90ZDu/UrunEXCyl1nj5O/WGXM0jBVhUAGY8VUYiK04TOxFQAwtDIFj10noC6VKv7m
-         vgCA==
-X-Gm-Message-State: AOAM531su0cEk0cqllzZYvIeU8pyy7jGrT4d23foGg9XOv9K7c0GIYp6
-        k6mZDHxGh9Ef0xv48Qj02BSVyw==
-X-Google-Smtp-Source: ABdhPJwmeOkJDIwBxZPP1psrzo5rq2FDf7hRuBV8lpK8kRPuf0AVvSRZr+Fq+qh4DU6KCiFOy/XqeQ==
-X-Received: by 2002:adf:eb4c:: with SMTP id u12mr7403964wrn.79.1611150289327;
-        Wed, 20 Jan 2021 05:44:49 -0800 (PST)
+        bh=LkZ99XoWXMbOO4g7PnTiwOPZK1LCMqlyf1JEPyZMdz8=;
+        b=nzcVq585IWQuywQjmWMFPFpQ9PAO8JEoI5qbg7F7iml1WPMYrVshfGKRSsOTdTd9et
+         pCmb4mw3jZ9mY+QaWiDlBe9BCEpJSAKHNlLSv1epcy0d3FNVoAnJPQHgTnb06HN40Hkv
+         2gBd+hvFDdgrgFcwhCQg/3aQrU92osF9MDB/LqeYsQp31QnCAdi+X8TJMxeiOFeJIgQO
+         WSp+qCl5fwR+zzC0i/pJL3yfLnaZFsbS2QHET8W7jqHKInF9vdXn3BCDGZC3q0aPypq7
+         DeVHS1Mw0LYvdprPGb+O+16DkaTKK3EZKIjjX+BLSX+iIxkHnMtACdc64gb/VoWNhr+z
+         U+cQ==
+X-Gm-Message-State: AOAM530QwVpPdIKfNV9Co52sOfa1CnMXNFyHhu4O3VcFIWxEXaYq4Ybw
+        fuvWN7s0cw9v7UiSRgiaFsbPJA==
+X-Google-Smtp-Source: ABdhPJyHt28Lb05HKHpDnLz50i7lYj1GT2JcZ1hAwpc+Ij034gOCGS8CLTUoznBFwsFVnHGOcqvb3A==
+X-Received: by 2002:a05:600c:215:: with SMTP id 21mr4415492wmi.54.1611150291224;
+        Wed, 20 Jan 2021 05:44:51 -0800 (PST)
 Received: from localhost.localdomain ([2a02:2450:102f:d6a:93b3:1f80:ae7b:a5c6])
-        by smtp.gmail.com with ESMTPSA id t67sm4224075wmt.28.2021.01.20.05.44.47
+        by smtp.gmail.com with ESMTPSA id t67sm4224075wmt.28.2021.01.20.05.44.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 05:44:48 -0800 (PST)
+        Wed, 20 Jan 2021 05:44:50 -0800 (PST)
 From:   Robert Foss <robert.foss@linaro.org>
 To:     agross@kernel.org, bjorn.andersson@linaro.org,
         robert.foss@linaro.org, todor.too@gmail.com, mchehab@kernel.org,
@@ -65,9 +65,9 @@ Cc:     Tomasz Figa <tfiga@chromium.org>,
         Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
         Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
         Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH v2 12/22] media: camss: Enable SDM845
-Date:   Wed, 20 Jan 2021 14:43:47 +0100
-Message-Id: <20210120134357.1522254-12-robert.foss@linaro.org>
+Subject: [PATCH v2 13/22] dt-bindings: media: camss: Add qcom,msm8916-camss binding
+Date:   Wed, 20 Jan 2021 14:43:48 +0100
+Message-Id: <20210120134357.1522254-13-robert.foss@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210120134357.1522254-1-robert.foss@linaro.org>
 References: <20210120134357.1522254-1-robert.foss@linaro.org>
@@ -77,94 +77,295 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable support for SDM845 based Titan 170 ISPs.
+Add bindings for qcom,msm8916-camss in order to support the camera
+subsystem on MSM8916.
 
 Signed-off-by: Robert Foss <robert.foss@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss.c | 17 +++++++++++++++++
- drivers/media/platform/qcom/camss/camss.h |  6 ++++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 22f9d7d7085a..5ce7cae2ab9b 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -897,6 +897,12 @@ static int camss_init_subdevices(struct camss *camss)
- 		csid_res = csid_res_660;
- 		ispif_res = &ispif_res_660;
- 		vfe_res = vfe_res_660;
-+	}  else if (camss->version == CAMSS_845) {
-+		csiphy_res = csiphy_res_845;
-+		csid_res = csid_res_845;
-+		/* Titan VFEs don't have an ISPIF  */
-+		ispif_res = NULL;
-+		vfe_res = vfe_res_845;
- 	} else {
- 		return -EINVAL;
- 	}
-@@ -1203,6 +1209,8 @@ static int camss_configure_pd(struct camss *camss)
- 	if (camss->version == CAMSS_8x96 ||
- 	    camss->version == CAMSS_660)
- 		nbr_pm_domains = PM_DOMAIN_CAMSS_COUNT;
-+	else if (camss->version == CAMSS_845)
-+		nbr_pm_domains = PM_DOMAIN_TITAN_COUNT;
- 
- 	for (i = 0; i < nbr_pm_domains; i++) {
- 		camss->genpd[i] = dev_pm_domain_attach_by_id(camss->dev, i);
-@@ -1271,6 +1279,12 @@ static int camss_probe(struct platform_device *pdev)
- 		camss->csiphy_num = 3;
- 		camss->csid_num = 4;
- 		camss->vfe_num = 2;
-+	} else if (of_device_is_compatible(dev->of_node,
-+					   "qcom,sdm845-camss")) {
-+		camss->version = CAMSS_845;
-+		camss->csiphy_num = 4;
-+		camss->csid_num = 3;
-+		camss->vfe_num = 3;
- 	} else {
- 		ret = -EINVAL;
- 		goto err_free;
-@@ -1402,6 +1416,8 @@ void camss_delete(struct camss *camss)
- 	if (camss->version == CAMSS_8x96 ||
- 	    camss->version == CAMSS_660)
- 		nbr_pm_domains = PM_DOMAIN_CAMSS_COUNT;
-+	else if (camss->version == CAMSS_845)
-+		nbr_pm_domains = PM_DOMAIN_TITAN_COUNT;
- 
- 	for (i = 0; i < nbr_pm_domains; i++) {
- 		device_link_del(camss->genpd_link[i]);
-@@ -1435,6 +1451,7 @@ static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-camss" },
- 	{ .compatible = "qcom,msm8996-camss" },
- 	{ .compatible = "qcom,sdm660-camss" },
-+	{ .compatible = "qcom,sdm845-camss" },
- 	{ }
- };
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 7560d85b3352..2f853557ed16 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -60,6 +60,8 @@ enum pm_domain {
- 	PM_DOMAIN_VFE0 = 0,
- 	PM_DOMAIN_VFE1 = 1,
- 	PM_DOMAIN_CAMSS_COUNT = 2,	/* CAMSS series of ISPs */
-+	PM_DOMAIN_VFELITE = 2,		/* VFELITE / TOP GDSC */
-+	PM_DOMAIN_TITAN_COUNT = 3,	/* Titan series of ISPs */
- };
- 
- enum camss_version {
-@@ -83,8 +85,8 @@ struct camss {
- 	int vfe_num;
- 	struct vfe_device *vfe;
- 	atomic_t ref_count;
--	struct device *genpd[PM_DOMAIN_CAMSS_COUNT];
--	struct device_link *genpd_link[PM_DOMAIN_CAMSS_COUNT];
-+	struct device *genpd[PM_DOMAIN_TITAN_COUNT];
-+	struct device_link *genpd_link[PM_DOMAIN_TITAN_COUNT];
- };
- 
- struct camss_camera_interface {
+Changes since v1:
+ - Laurent: Reworked driver to use dtschema
+
+ .../bindings/media/qcom,msm8916-camss.yaml    | 270 ++++++++++++++++++
+ 1 file changed, 270 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
+new file mode 100644
+index 000000000000..f0b0c67d0f0c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
+@@ -0,0 +1,270 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/media/qcom,msm8916-camss.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Qualcomm CAMSS ISP
++
++maintainers:
++  - Robert Foss <robert.foss@linaro.org>
++  - Todor Tomov <todor.too@gmail.com>
++
++description: |
++  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
++
++properties:
++  compatible:
++    const: qcom,msm8916-camss
++
++  clocks:
++    description:
++      Input clocks for the hardware block.
++    minItems: 19
++    maxItems: 19
++
++  clock-names:
++    description:
++      Names of input clocks for the hardware block.
++    items:
++      - const: top_ahb
++      - const: ispif_ahb
++      - const: csiphy0_timer
++      - const: csiphy1_timer
++      - const: csi0_ahb
++      - const: csi0
++      - const: csi0_phy
++      - const: csi0_pix
++      - const: csi0_rdi
++      - const: csi1_ahb
++      - const: csi1
++      - const: csi1_phy
++      - const: csi1_pix
++      - const: csi1_rdi
++      - const: ahb
++      - const: vfe0
++      - const: csi_vfe0
++      - const: vfe_ahb
++      - const: vfe_axi
++
++  interrupts:
++    description:
++      IRQs for the hardware block.
++    minItems: 6
++    maxItems: 6
++
++  interrupt-names:
++    description:
++      Names of IRQs for the hardware block.
++    items:
++      - const: csiphy0
++      - const: csiphy1
++      - const: csid0
++      - const: csid1
++      - const: ispif
++      - const: vfe0
++
++  iommus:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    description:
++      The CSI data input ports.
++
++    type: object
++
++    properties:
++      port@0:
++        type: object
++        description: Input node for receiving CSI data.
++        properties:
++          endpoint:
++            type: object
++
++            properties:
++              clock-lanes:
++                description: |-
++                  The physical clock lane index. The value
++                  must always be <1> as the physical
++                  clock lane is lane 1.
++
++              data-lanes:
++                description: |-
++                  An array of physical data lanes indexes.
++                  Position of an entry determines the logical
++                  lane number, while the value of an entry
++                  indicates physical lane index. Lane swapping
++                  is supported. Physical lane indexes:
++                  0, 2, 3, 4.
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++        required:
++          - endpoint
++          - reg
++
++      port@1:
++        type: object
++        description: Input node for receiving CSI data.
++        properties:
++          endpoint:
++            type: object
++
++            properties:
++              clock-lanes:
++                description: |-
++                  The physical clock lane index. The value
++                  must always be <1> as the physical
++                  clock lane is lane 1.
++
++              data-lanes:
++                description: |-
++                  An array of physical data lanes indexes.
++                  Position of an entry determines the logical
++                  lane number, while the value of an entry
++                  indicates physical lane index. Lane swapping
++                  is supported. Physical lane indexes:
++                  0, 2, 3, 4.
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++        required:
++          - endpoint
++          - reg
++
++  reg:
++    minItems: 9
++    maxItems: 9
++
++  reg-names:
++    items:
++      - const: csiphy0
++      - const: csiphy0_clk_mux
++      - const: csiphy1
++      - const: csiphy1_clk_mux
++      - const: csid0
++      - const: csid1
++      - const: ispif
++      - const: csi_clk_mux
++      - const: vfe0
++
++  vdda-supply:
++    description:
++      Definition of the regulator used as analog power supply.
++
++required:
++  - clock-names
++  - clocks
++  - compatible
++  - interrupt-names
++  - interrupts
++  - iommus
++  - power-domains
++  - reg
++  - reg-names
++  - vdda-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/qcom,gcc-msm8916.h>
++
++    camss: camss@1b00000 {
++      compatible = "qcom,msm8916-camss";
++
++      clocks = <&gcc GCC_CAMSS_TOP_AHB_CLK>,
++        <&gcc GCC_CAMSS_ISPIF_AHB_CLK>,
++        <&gcc GCC_CAMSS_CSI0PHYTIMER_CLK>,
++        <&gcc GCC_CAMSS_CSI1PHYTIMER_CLK>,
++        <&gcc GCC_CAMSS_CSI0_AHB_CLK>,
++        <&gcc GCC_CAMSS_CSI0_CLK>,
++        <&gcc GCC_CAMSS_CSI0PHY_CLK>,
++        <&gcc GCC_CAMSS_CSI0PIX_CLK>,
++        <&gcc GCC_CAMSS_CSI0RDI_CLK>,
++        <&gcc GCC_CAMSS_CSI1_AHB_CLK>,
++        <&gcc GCC_CAMSS_CSI1_CLK>,
++        <&gcc GCC_CAMSS_CSI1PHY_CLK>,
++        <&gcc GCC_CAMSS_CSI1PIX_CLK>,
++        <&gcc GCC_CAMSS_CSI1RDI_CLK>,
++        <&gcc GCC_CAMSS_AHB_CLK>,
++        <&gcc GCC_CAMSS_VFE0_CLK>,
++        <&gcc GCC_CAMSS_CSI_VFE0_CLK>,
++        <&gcc GCC_CAMSS_VFE_AHB_CLK>,
++        <&gcc GCC_CAMSS_VFE_AXI_CLK>;
++
++      clock-names = "top_ahb",
++        "ispif_ahb",
++        "csiphy0_timer",
++        "csiphy1_timer",
++        "csi0_ahb",
++        "csi0",
++        "csi0_phy",
++        "csi0_pix",
++        "csi0_rdi",
++        "csi1_ahb",
++        "csi1",
++        "csi1_phy",
++        "csi1_pix",
++        "csi1_rdi",
++        "ahb",
++        "vfe0",
++        "csi_vfe0",
++        "vfe_ahb",
++        "vfe_axi";
++
++      interrupts = <GIC_SPI 78 IRQ_TYPE_EDGE_RISING>,
++        <GIC_SPI 79 IRQ_TYPE_EDGE_RISING>,
++        <GIC_SPI 51 IRQ_TYPE_EDGE_RISING>,
++        <GIC_SPI 52 IRQ_TYPE_EDGE_RISING>,
++        <GIC_SPI 55 IRQ_TYPE_EDGE_RISING>,
++        <GIC_SPI 57 IRQ_TYPE_EDGE_RISING>;
++
++      interrupt-names = "csiphy0",
++        "csiphy1",
++        "csid0",
++        "csid1",
++        "ispif",
++        "vfe0";
++
++      iommus = <&apps_iommu 3>;
++
++      power-domains = <&gcc VFE_GDSC>;
++
++      reg = <0x01b0ac00 0x200>,
++        <0x01b00030 0x4>,
++        <0x01b0b000 0x200>,
++        <0x01b00038 0x4>,
++        <0x01b08000 0x100>,
++        <0x01b08400 0x100>,
++        <0x01b0a000 0x500>,
++        <0x01b00020 0x10>,
++        <0x01b10000 0x1000>;
++
++      reg-names = "csiphy0",
++        "csiphy0_clk_mux",
++        "csiphy1",
++        "csiphy1_clk_mux",
++        "csid0",
++        "csid1",
++        "ispif",
++        "csi_clk_mux",
++        "vfe0";
++
++      vdda-supply = <&reg_2v8>;
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++      };
++
++    };
 -- 
 2.27.0
 
