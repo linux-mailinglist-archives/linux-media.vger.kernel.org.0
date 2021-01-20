@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EA1C2FD613
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 17:53:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E6D82FD611
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 17:53:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403808AbhATQwS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 11:52:18 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50552 "EHLO
+        id S2391679AbhATQv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 11:51:59 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50576 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389342AbhATQpn (ORCPT
+        with ESMTP id S2391570AbhATQpm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 11:45:43 -0500
+        Wed, 20 Jan 2021 11:45:42 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id 944DD1F44F86
+        with ESMTPSA id 3E1631F44FA7
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org, heiko.stuebner@theobroma-systems.com,
         heiko@sntech.de
@@ -23,84 +23,53 @@ Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
         hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
         sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
         mchehab@kernel.org, tfiga@chromium.org
-Subject: [PATCH v7 0/5] Fix the rkisp1 userspace API for later IP versions
-Date:   Wed, 20 Jan 2021 17:44:41 +0100
-Message-Id: <20210120164446.1220-1-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v7 1/5] media: rkisp1: uapi: change hist_bins array type from __u16 to __u32
+Date:   Wed, 20 Jan 2021 17:44:42 +0100
+Message-Id: <20210120164446.1220-2-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210120164446.1220-1-dafna.hirschfeld@collabora.com>
+References: <20210120164446.1220-1-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-This is v7 of the rkisp1 fixes set sent by Heiko Stuebner. [0]
+Each entry in the array is a 20 bits value composed of 16
+bits unsigned integer and 4 bits fractional part. So the
+type should change to __u32.
+In addition add a documentation of how the measurements
+are done.
 
-In addition to prepare the support to px30 (V12 in the uapi)
-This version of the set adds more fixes to the code in params/stats
-according to the changes in the uapi and also change the
-hist_bins to be u32 instead of u16.
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ include/uapi/linux/rkisp1-config.h | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-More details about the patchset can be found in v6's cover-letter [1]
-
-[0] https://patchwork.kernel.org/project/linux-media/list/?series=416647
-[1] https://patchwork.kernel.org/project/linux-media/cover/20210118110448.275389-1-heiko@sntech.de/
-
-changes since v6:
-- add a patch to change the hist_bins array type to __u32 and extend the
-documentation of how the histogram measurements are taken
-- remove a wrong u8 cast when filling the hist_bins array
-- when reducing the number of elements in the weight grid array,
-the code in rkisp1-params.c should be adjusted to iterate it 25 times
-- some minor typo and checkpatch fixes.
-
-changes since v5:
-- move grid reduction for V10 to separate patch (Hans)
-- fix commit message (histogram size 28 -> 25) in patch4 (Hans)
-
-changes since v4:
-- set GAMMA_OUT to the real 25 instead of the 28 with 3 spares (Dafna)
-- start RKISP_Vxx enum with 10 for RKISP_V10 to make output
-  easier and also allow userspace to differentiate between old (= 0)
-  and newer driver variants (Dafna, Laurent)
-
-changes since v3:
-- add patch fixing the original histogram size comment
-- make comments in uapi more verbose (Hans)
-- fix wording in admin guide (Hans)
-- document version <-> soc in uapi as well (easier for people) (Dafna)
-
-changes since v2:
-- actually zero the correct sizes for u16 values (hist-bins)
-  (kernel-test-robot)
-
-changes since v1:
-- drop duplicate isp_ver storage, hw_revision is enough (Dafna)
-- document multiple maximum sizes in uapi (Hans)
-- document usage of hw_revision field (Hans)
-- zero fields transmitted to userspace before adding data (Hans)
-- use _V10 field sizes when filling fields, as there is only v10 for now
-
-changes since rfc:
-- move rkisp1_version enum into uapo
-- show version in media-api hw_revision
-- introduce constants for versions and make max use the biggest
-
-Dafna Hirschfeld (2):
-  media: rkisp1: uapi: change hist_bins array type from __u16 to __u32
-  media: rkisp1: stats: remove a wrong cast to u8
-
-Heiko Stuebner (3):
-  media: rockchip: rkisp1: reduce number of histogram grid elements in
-    uapi
-  media: rockchip: rkisp1: carry ip version information
-  media: rockchip: rkisp1: extend uapi array sizes
-
- Documentation/admin-guide/media/rkisp1.rst    | 16 ++++
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 21 +++--
- .../platform/rockchip/rkisp1/rkisp1-params.c  |  5 +-
- .../platform/rockchip/rkisp1/rkisp1-stats.c   | 15 +++-
- include/uapi/linux/rkisp1-config.h            | 84 ++++++++++++++++---
- 5 files changed, 116 insertions(+), 25 deletions(-)
-
+diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+index 6e449e784260..f75f8d698fb4 100644
+--- a/include/uapi/linux/rkisp1-config.h
++++ b/include/uapi/linux/rkisp1-config.h
+@@ -844,13 +844,17 @@ struct rkisp1_cif_isp_af_stat {
+ /**
+  * struct rkisp1_cif_isp_hist_stat - statistics histogram data
+  *
+- * @hist_bins: measured bin counters
++ * @hist_bins: measured bin counters. Each bin is a 20 bits unsigned fixed point type.
++ *	       Bits 0-4 are the fractional part and bits 5-19 are the integer part.
+  *
+- * Measurement window divided into 25 sub-windows, set
+- * with ISP_HIST_XXX
++ * The window of the measurements area is divided to 5x5 sub-windows. The histogram
++ * is then computed for each sub-window independently and the final result is a weighted
++ * average of the histogram measurements on all sub-windows.
++ * The window of the measurements area and the weight of each sub-window are configurable
++ * using struct @rkisp1_cif_isp_hst_config.
+  */
+ struct rkisp1_cif_isp_hist_stat {
+-	__u16 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
++	__u32 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
+ };
+ 
+ /**
 -- 
 2.17.1
 
