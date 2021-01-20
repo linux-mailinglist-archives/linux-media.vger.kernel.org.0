@@ -2,356 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57F632FDD06
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 00:40:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F11F2FDDDB
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 01:31:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388016AbhATWOX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 17:14:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732871AbhATVKu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 16:10:50 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E706C061794
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 13:09:46 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id z21so16070862pgj.4
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 13:09:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=H4+X0xWeooH24gYhSYvXX9x75t8RTwKg5FJ1Ffw/87E=;
-        b=b+9dZxp4AirxgnJJSr4dySxi/WJW1ARIEAf6hNM3BR6rRHmNRJ1MZpwJ/OBt4UYMY8
-         74ECTrUU5Uil9qGJ7UZJT3o60mz3sfiRSorXPkmty6sTDdyuLqvgUxyWgmcTJe2Tc/3Y
-         hQDyLsBwYERkBEox9qzKb0srA+DM7+gD+ck9f2hcZZ4VifojYxJWZu5+h066eQNlqQkW
-         WTNIByqh6IaEZEa2iqKZhuBmlIop5JUJslwRi0p3MgdJXLIuLzfzP0BoKR/uEb8aby56
-         kW8NUHY2+Uvckz0UPPxHeKrgMis65PYRLsvnRES7q738rjV7tRJep+hw+/Iqm6OfsekA
-         0riw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=H4+X0xWeooH24gYhSYvXX9x75t8RTwKg5FJ1Ffw/87E=;
-        b=lSNf96y0IY6/bj4vGxfjprKJ08AuNmICL2S+Z9bWL3ucvz4AG04DNcLhiFRAWVlXzj
-         ajSh3CEXO2lxfffb2EKXh09BqJmjlj1lNnTeusvrsPzhS7ijH4hAb9xulTHAthuiAi9z
-         K6FT3uwS5cU2RTHcdaCw1O6sx4DC2bch31dfRlebtvhRLygW9eJgjs7rBdq14kyKGek8
-         oalv4NhovJlQ12GEBwSXPeej0iYHKQq1NiMsirx/3M/qBN8AgKPOKkpKwlb/bWtBWaTD
-         sqINWIqusblpPX4wMAauLFesjmQI2P46HH/G/4mtt8gQtySMWcrR36bxaHdm9puReXCk
-         goEA==
-X-Gm-Message-State: AOAM530UuX6enzyRq8otVwaE5Ev3p3TJ7dJB2yqL6ID4c6u12/WOQgO8
-        U+mKalyiRfTv/yriL010i7xUJw==
-X-Google-Smtp-Source: ABdhPJyv4JjWfOCxuhxS+jF+NOmU+TvHCVz4VkCmpOfeGTszmzT23aBKlf3HPpm7AJDat28vcTMDGA==
-X-Received: by 2002:a62:8fca:0:b029:1a9:39bc:ed37 with SMTP id n193-20020a628fca0000b02901a939bced37mr10984394pfd.61.1611176985973;
-        Wed, 20 Jan 2021 13:09:45 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id f15sm3265629pja.24.2021.01.20.13.09.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 13:09:45 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     Bing Song <bing.song@nxp.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        John Stultz <john.stultz@linaro.org>
-Subject: [PATCH 3/3] dma-buf: cma_heap: Add a cma-uncached heap re-using the cma heap
-Date:   Wed, 20 Jan 2021 21:09:37 +0000
-Message-Id: <20210120210937.15069-4-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210120210937.15069-1-john.stultz@linaro.org>
-References: <20210120210937.15069-1-john.stultz@linaro.org>
+        id S2392995AbhAUA0q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 19:26:46 -0500
+Received: from mga03.intel.com ([134.134.136.65]:36322 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388743AbhATVec (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Jan 2021 16:34:32 -0500
+IronPort-SDR: KSGpgyxxSoHBwUiWovWedlc6GngpGHqVQoTgc86p0Bd+QJrSUajwOlcEIPftl6pr7F7qaLji4d
+ XYSG0rPVQxtA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9870"; a="179263499"
+X-IronPort-AV: E=Sophos;i="5.79,362,1602572400"; 
+   d="scan'208";a="179263499"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2021 13:32:13 -0800
+IronPort-SDR: ClBbH19ia4QOiuyNHGqhQLNYBFvtit6Tkd2b+GPHK61WwT09kd1YA7lA3Nf7zaIoKQUhjYsz/j
+ pQPw0lRJNCKg==
+X-IronPort-AV: E=Sophos;i="5.79,362,1602572400"; 
+   d="scan'208";a="427043427"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2021 13:32:09 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 92D9B206D0; Wed, 20 Jan 2021 23:32:07 +0200 (EET)
+Date:   Wed, 20 Jan 2021 23:32:07 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, heiko.stuebner@theobroma-systems.com,
+        heiko@sntech.de, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH v7 1/5] media: rkisp1: uapi: change hist_bins array type
+ from __u16 to __u32
+Message-ID: <20210120213207.GN11878@paasikivi.fi.intel.com>
+References: <20210120164446.1220-1-dafna.hirschfeld@collabora.com>
+ <20210120164446.1220-2-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210120164446.1220-2-dafna.hirschfeld@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bing Song <bing.song@nxp.com>
+Hi Dafna,
 
-This adds a heap that allocates CMA buffers that are
-marked as writecombined, so they are not cached by the CPU.
+Thanks for the update.
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Bing Song <bing.song@nxp.com>
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/heaps/cma_heap.c | 119 +++++++++++++++++++++++++++----
- 1 file changed, 107 insertions(+), 12 deletions(-)
+On Wed, Jan 20, 2021 at 05:44:42PM +0100, Dafna Hirschfeld wrote:
+> Each entry in the array is a 20 bits value composed of 16
+> bits unsigned integer and 4 bits fractional part. So the
+> type should change to __u32.
+> In addition add a documentation of how the measurements
+> are done.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 364fc2f3e499..1b8c6eb0a8ea 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -38,6 +38,7 @@ struct cma_heap_buffer {
- 	pgoff_t pagecount;
- 	int vmap_cnt;
- 	void *vaddr;
-+	bool uncached;
- };
- 
- struct dma_heap_attachment {
-@@ -45,6 +46,7 @@ struct dma_heap_attachment {
- 	struct sg_table table;
- 	struct list_head list;
- 	bool mapped;
-+	bool uncached;
- };
- 
- static int cma_heap_attach(struct dma_buf *dmabuf,
-@@ -70,6 +72,7 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
- 	a->dev = attachment->dev;
- 	INIT_LIST_HEAD(&a->list);
- 	a->mapped = false;
-+	a->uncached = buffer->uncached;
- 
- 	attachment->priv = a;
- 
-@@ -99,8 +102,12 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
- {
- 	struct dma_heap_attachment *a = attachment->priv;
- 	struct sg_table *table = &a->table;
-+	int attr = 0;
- 	int ret;
- 
-+	if (a->uncached)
-+		attr = DMA_ATTR_SKIP_CPU_SYNC;
-+
- 	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
- 	if (ret)
- 		return ERR_PTR(-ENOMEM);
-@@ -113,7 +120,10 @@ static void cma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
- 				   enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
-+	int attr = 0;
- 
-+	if (a->uncached)
-+		attr = DMA_ATTR_SKIP_CPU_SYNC;
- 	a->mapped = false;
- 	dma_unmap_sgtable(attachment->dev, table, direction, 0);
- }
-@@ -128,10 +138,12 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
- 	mutex_lock(&buffer->lock);
--	list_for_each_entry(a, &buffer->attachments, list) {
--		if (!a->mapped)
--			continue;
--		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+	if (!buffer->uncached) {
-+		list_for_each_entry(a, &buffer->attachments, list) {
-+			if (!a->mapped)
-+				continue;
-+			dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+		}
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -148,10 +160,12 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
- 	mutex_lock(&buffer->lock);
--	list_for_each_entry(a, &buffer->attachments, list) {
--		if (!a->mapped)
--			continue;
--		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+	if (!buffer->uncached) {
-+		list_for_each_entry(a, &buffer->attachments, list) {
-+			if (!a->mapped)
-+				continue;
-+			dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+		}
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -183,6 +197,9 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
- 		return -EINVAL;
- 
-+	if (buffer->uncached)
-+		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+
- 	vma->vm_ops = &dma_heap_vm_ops;
- 	vma->vm_private_data = buffer;
- 
-@@ -191,9 +208,13 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 
- static void *cma_heap_do_vmap(struct cma_heap_buffer *buffer)
- {
-+	pgprot_t pgprot = PAGE_KERNEL;
- 	void *vaddr;
- 
--	vaddr = vmap(buffer->pages, buffer->pagecount, VM_MAP, PAGE_KERNEL);
-+	if (buffer->uncached)
-+		pgprot = pgprot_writecombine(PAGE_KERNEL);
-+
-+	vaddr = vmap(buffer->pages, buffer->pagecount, VM_MAP, pgprot);
- 	if (!vaddr)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -271,10 +292,11 @@ static const struct dma_buf_ops cma_heap_buf_ops = {
- 	.release = cma_heap_dma_buf_release,
- };
- 
--static int cma_heap_allocate(struct dma_heap *heap,
-+static int cma_heap_do_allocate(struct dma_heap *heap,
- 				  unsigned long len,
- 				  unsigned long fd_flags,
--				  unsigned long heap_flags)
-+				  unsigned long heap_flags,
-+				  bool uncached)
- {
- 	struct cma_heap *cma_heap = dma_heap_get_drvdata(heap);
- 	struct cma_heap_buffer *buffer;
-@@ -283,8 +305,9 @@ static int cma_heap_allocate(struct dma_heap *heap,
- 	pgoff_t pagecount = size >> PAGE_SHIFT;
- 	unsigned long align = get_order(size);
- 	struct page *cma_pages;
-+	struct sg_table table;
- 	struct dma_buf *dmabuf;
--	int ret = -ENOMEM;
-+	int ret = -ENOMEM, ret_sg_table;
- 	pgoff_t pg;
- 
- 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-@@ -294,6 +317,7 @@ static int cma_heap_allocate(struct dma_heap *heap,
- 	INIT_LIST_HEAD(&buffer->attachments);
- 	mutex_init(&buffer->lock);
- 	buffer->len = size;
-+	buffer->uncached = uncached;
- 
- 	if (align > CONFIG_CMA_ALIGNMENT)
- 		align = CONFIG_CMA_ALIGNMENT;
-@@ -356,6 +380,18 @@ static int cma_heap_allocate(struct dma_heap *heap,
- 		return ret;
- 	}
- 
-+	if (buffer->uncached) {
-+		ret_sg_table = sg_alloc_table(&table, 1, GFP_KERNEL);
-+		if (ret_sg_table)
-+			return ret_sg_table;
-+
-+		sg_set_page(table.sgl, cma_pages, size, 0);
-+
-+		dma_map_sgtable(dma_heap_get_dev(heap), &table, DMA_BIDIRECTIONAL, 0);
-+		dma_unmap_sgtable(dma_heap_get_dev(heap), &table, DMA_BIDIRECTIONAL, 0);
-+		sg_free_table(&table);
-+	}
-+
- 	return ret;
- 
- free_pages:
-@@ -368,14 +404,45 @@ static int cma_heap_allocate(struct dma_heap *heap,
- 	return ret;
- }
- 
-+static int cma_heap_allocate(struct dma_heap *heap,
-+				  unsigned long len,
-+				  unsigned long fd_flags,
-+				  unsigned long heap_flags)
-+{
-+	return cma_heap_do_allocate(heap, len, fd_flags, heap_flags, false);
-+}
-+
-+static int cma_uncached_heap_allocate(struct dma_heap *heap,
-+				  unsigned long len,
-+				  unsigned long fd_flags,
-+				  unsigned long heap_flags)
-+{
-+	return cma_heap_do_allocate(heap, len, fd_flags, heap_flags, true);
-+}
-+
-+/* Dummy function to be used until we can call coerce_mask_and_coherent */
-+static int cma_uncached_heap_not_initialized(struct dma_heap *heap,
-+						unsigned long len,
-+						unsigned long fd_flags,
-+						unsigned long heap_flags)
-+{
-+	return -EBUSY;
-+}
-+
- static const struct dma_heap_ops cma_heap_ops = {
- 	.allocate = cma_heap_allocate,
- };
- 
-+static struct dma_heap_ops cma_uncached_heap_ops = {
-+	.allocate = cma_uncached_heap_not_initialized,
-+};
-+
- static int __add_cma_heap(struct cma *cma, void *data)
- {
- 	struct cma_heap *cma_heap;
- 	struct dma_heap_export_info exp_info;
-+	const char *postfixed = "-uncached";
-+	char *cma_name;
- 
- 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
- 	if (!cma_heap)
-@@ -394,6 +461,34 @@ static int __add_cma_heap(struct cma *cma, void *data)
- 		return ret;
- 	}
- 
-+	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
-+	if (!cma_heap)
-+		return -ENOMEM;
-+	cma_heap->cma = cma;
-+
-+	cma_name = kzalloc(strlen(cma_get_name(cma)) + strlen(postfixed) + 1, GFP_KERNEL);
-+	if (!cma_name) {
-+		kfree(cma_heap);
-+		return -ENOMEM;
-+	}
-+
-+	exp_info.name = strcat(strcpy(cma_name, cma_get_name(cma)), postfixed);
-+	exp_info.ops = &cma_uncached_heap_ops;
-+	exp_info.priv = cma_heap;
-+
-+	cma_heap->heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(cma_heap->heap)) {
-+		int ret = PTR_ERR(cma_heap->heap);
-+
-+		kfree(cma_heap);
-+		kfree(cma_name);
-+		return ret;
-+	}
-+
-+	dma_coerce_mask_and_coherent(dma_heap_get_dev(cma_heap->heap), DMA_BIT_MASK(64));
-+	mb(); /* make sure we only set allocate after dma_mask is set */
-+	cma_uncached_heap_ops.allocate = cma_uncached_heap_allocate;
-+
- 	return 0;
- }
- 
+The commit message lines wrap at 74, under 60 is not much.
+
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+Should there be a Fixes: line? The patch is changing UAPI...
+
+The file has been recently introduced. Should it go to fixes or to a stable
+kernel, too?
+
+> ---
+>  include/uapi/linux/rkisp1-config.h | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 6e449e784260..f75f8d698fb4 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -844,13 +844,17 @@ struct rkisp1_cif_isp_af_stat {
+>  /**
+>   * struct rkisp1_cif_isp_hist_stat - statistics histogram data
+>   *
+> - * @hist_bins: measured bin counters
+> + * @hist_bins: measured bin counters. Each bin is a 20 bits unsigned fixed point type.
+> + *	       Bits 0-4 are the fractional part and bits 5-19 are the integer part.
+>   *
+> - * Measurement window divided into 25 sub-windows, set
+> - * with ISP_HIST_XXX
+> + * The window of the measurements area is divided to 5x5 sub-windows. The histogram
+> + * is then computed for each sub-window independently and the final result is a weighted
+> + * average of the histogram measurements on all sub-windows.
+> + * The window of the measurements area and the weight of each sub-window are configurable
+> + * using struct @rkisp1_cif_isp_hst_config.
+
+Please wrap the lines before 80.
+
+>   */
+>  struct rkisp1_cif_isp_hist_stat {
+> -	__u16 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
+> +	__u32 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
+>  };
+>  
+>  /**
+> -- 
+> 2.17.1
+> 
+
 -- 
-2.17.1
+Regards,
 
+Sakari Ailus
