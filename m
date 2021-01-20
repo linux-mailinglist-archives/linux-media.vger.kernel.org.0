@@ -2,143 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A3662FD47A
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 16:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 200EF2FD49A
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 16:54:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390968AbhATPrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 10:47:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41502 "EHLO
+        id S1728371AbhATPyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 10:54:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733213AbhATPrS (ORCPT
+        with ESMTP id S2390562AbhATPx3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 10:47:18 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F48FC0613CF;
-        Wed, 20 Jan 2021 07:46:22 -0800 (PST)
-Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 074FA8F7;
-        Wed, 20 Jan 2021 16:46:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1611157579;
-        bh=ZMWI4OGRZAATPh8nZBl53jCBoeI4nHhwrebs6Ygh4aw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KIsBN+y65ubEgel1JzwAs+hxcM3ce6sVGyXOT6/sHx/8Lc6nnXi81b24gcvMsQcsv
-         DhTyahEp5/xFZYdSRfe/ugEjreoX61nBmkoqG3A07pu6Vc4vIJpbd/pGgpvgRH2U8s
-         1SJ3HpwxypOR4lfTWR4nhumKmwX9whTNQFnOWRoc=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v2 2/2] media: i2c: max9271: Use unsigned constants
-Date:   Wed, 20 Jan 2021 15:46:14 +0000
-Message-Id: <20210120154614.2750268-3-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210120154614.2750268-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20210120154614.2750268-1-kieran.bingham+renesas@ideasonboard.com>
+        Wed, 20 Jan 2021 10:53:29 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38FE4C061575;
+        Wed, 20 Jan 2021 07:52:49 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id o17so34757590lfg.4;
+        Wed, 20 Jan 2021 07:52:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/KIgJpukkTUseLKOL+nfTNs+iHfOcLiaf/sA4jMSc7o=;
+        b=b2NLVokQPZCUuJAyv3kiWNUb/D7/YvKoWfUJcCHR1heKGaiZjLpcSwBstX7Q3YX8MD
+         0VSL3nGarP20z1Z7t1EQA7XA2H4vpXyhlGms2qwFGmlN5vFPCkNOEwhXvgcl2dX2OHl0
+         Fk8lwe7s8eUZ2wwS5RMH6/mUWuXSRNmTjNvQCAwK5Dd3NdzmkpZHt4llHrw8Ni5khkmn
+         myMjJRhAiEUeq/sHdT1yh60NnMmGAROPatvIjJ8mP6HQeV19cvk6YGXY87IpFAtncwaV
+         v00shKKr9e/yxCXAB3jbsK18rnr4dn0SL3OuJ8SyDsoqZnywmH2zxXJFRB0YEqFQqi04
+         OP8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/KIgJpukkTUseLKOL+nfTNs+iHfOcLiaf/sA4jMSc7o=;
+        b=nbGUUFMp2tvkeX6XBsXTytoIiQPoz2eDIbHMmu4obTt01NoNLbaj2f9zx3wVyrCp4j
+         XIEjmjHhN6R1F1fnjSKUn9LIH2fe1HWXJOARadqqsVIByKni7NkJOPdLj+5chmh06SoZ
+         6TH9b14hriqgE1+ThonVV1NND8L1OGT9qf8dXWsrbFRjvgVWZ0Hv2ANhdQP7Pp0rUInH
+         DdyJhS2vnOcnkWMdS4WMk+TAwt6OmI0ezULfIAVj4iUL3FbjIeIkwceqBm8ZxGEFnVmy
+         1k1exhCfw1zlHcU/HC6vF73fyQJL7udqR/YCzWTZyBsWL6xCKgckEZ+apslDjtXdNUTt
+         jDZQ==
+X-Gm-Message-State: AOAM5338hi7aA1pHPOm9dFhgTGZXp4CKCcQIfKiU3dvNwEKhL+T6Bgjo
+        K/NSxyBc5oPD2aA5LNiSlbJh8+WQmjY=
+X-Google-Smtp-Source: ABdhPJz54jp4p6N7ro9OB4UGTlGLwMbj9w9A1NhmVFwuW25RiB7kgYemoqd4C3nN1Esa+ddCNU5GUA==
+X-Received: by 2002:a19:ac45:: with SMTP id r5mr4942869lfc.305.1611157967504;
+        Wed, 20 Jan 2021 07:52:47 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.googlemail.com with ESMTPSA id b4sm74228ljp.53.2021.01.20.07.52.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Jan 2021 07:52:46 -0800 (PST)
+Subject: Re: [PATCH 02/31] opp: Add devres wrapper for
+ dev_pm_opp_set_regulators and dev_pm_opp_put_regulators
+To:     Yangtao Li <tiny.windzz@gmail.com>, myungjoo.ham@samsung.com,
+        kyungmin.park@samsung.com, cw00.choi@samsung.com, krzk@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie,
+        daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
+        robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        lukasz.luba@arm.com, adrian.hunter@intel.com,
+        ulf.hansson@linaro.org, vireshk@kernel.org, nm@ti.com,
+        sboyd@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, rjw@rjwysocki.net, jcrouse@codeaurora.org,
+        hoegsberg@google.com, eric@anholt.net, tzimmermann@suse.de,
+        marijn.suijten@somainline.org, gustavoars@kernel.org,
+        emil.velikov@collabora.com, jonathan@marek.ca,
+        akhilpo@codeaurora.org, smasetty@codeaurora.org,
+        airlied@redhat.com, masneyb@onstation.org, kalyan_t@codeaurora.org,
+        tanmay@codeaurora.org, ddavenport@chromium.org,
+        jsanka@codeaurora.org, rnayak@codeaurora.org,
+        tongtiangen@huawei.com, miaoqinglang@huawei.com,
+        khsieh@codeaurora.org, abhinavk@codeaurora.org,
+        chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
+        mka@chromium.org, harigovi@codeaurora.org,
+        rikard.falkeborn@gmail.com, natechancellor@gmail.com,
+        georgi.djakov@linaro.org, akashast@codeaurora.org,
+        parashar@codeaurora.org, dianders@chromium.org
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20210101165507.19486-1-tiny.windzz@gmail.com>
+ <20210101165507.19486-3-tiny.windzz@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <43c251a2-430a-040c-4152-94cf10c884e0@gmail.com>
+Date:   Wed, 20 Jan 2021 18:52:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
+In-Reply-To: <20210101165507.19486-3-tiny.windzz@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the bitfield definitions to use unsigned integers.
+01.01.2021 19:54, Yangtao Li пишет:
+> Add devres wrapper for dev_pm_opp_set_regulators()
+> dev_pm_opp_put_regulators () to simplify driver code.
+> 
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> ---
+>  drivers/opp/core.c     | 50 ++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/pm_opp.h |  9 ++++++++
+>  2 files changed, 59 insertions(+)
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/media/i2c/max9271.h | 60 ++++++++++++++++++-------------------
- 1 file changed, 30 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/media/i2c/max9271.h b/drivers/media/i2c/max9271.h
-index d78fb21441e9..4ef36a90c746 100644
---- a/drivers/media/i2c/max9271.h
-+++ b/drivers/media/i2c/max9271.h
-@@ -13,24 +13,24 @@
- #define MAX9271_DEFAULT_ADDR	0x40
- 
- /* Register 0x02 */
--#define MAX9271_SPREAD_SPECT_0		(0 << 5)
--#define MAX9271_SPREAD_SPECT_05		(1 << 5)
--#define MAX9271_SPREAD_SPECT_15		(2 << 5)
--#define MAX9271_SPREAD_SPECT_1		(5 << 5)
--#define MAX9271_SPREAD_SPECT_2		(3 << 5)
--#define MAX9271_SPREAD_SPECT_3		(6 << 5)
--#define MAX9271_SPREAD_SPECT_4		(7 << 5)
-+#define MAX9271_SPREAD_SPECT_0		(0U << 5)
-+#define MAX9271_SPREAD_SPECT_05		(1U << 5)
-+#define MAX9271_SPREAD_SPECT_15		(2U << 5)
-+#define MAX9271_SPREAD_SPECT_1		(5U << 5)
-+#define MAX9271_SPREAD_SPECT_2		(3U << 5)
-+#define MAX9271_SPREAD_SPECT_3		(6U << 5)
-+#define MAX9271_SPREAD_SPECT_4		(7U << 5)
- #define MAX9271_R02_RES			BIT(4)
--#define MAX9271_PCLK_AUTODETECT		(3 << 2)
-+#define MAX9271_PCLK_AUTODETECT		(3U << 2)
- #define MAX9271_SERIAL_AUTODETECT	(0x03)
- /* Register 0x04 */
- #define MAX9271_SEREN			BIT(7)
- #define MAX9271_CLINKEN			BIT(6)
- #define MAX9271_PRBSEN			BIT(5)
- #define MAX9271_SLEEP			BIT(4)
--#define MAX9271_INTTYPE_I2C		(0 << 2)
--#define MAX9271_INTTYPE_UART		(1 << 2)
--#define MAX9271_INTTYPE_NONE		(2 << 2)
-+#define MAX9271_INTTYPE_I2C		(0U << 2)
-+#define MAX9271_INTTYPE_UART		(1U << 2)
-+#define MAX9271_INTTYPE_NONE		(2U << 2)
- #define MAX9271_REVCCEN			BIT(1)
- #define MAX9271_FWDCCEN			BIT(0)
- /* Register 0x07 */
-@@ -39,9 +39,9 @@
- #define MAX9271_BWS			BIT(5)
- #define MAX9271_ES			BIT(4)
- #define MAX9271_HVEN			BIT(2)
--#define MAX9271_EDC_1BIT_PARITY		(0 << 0)
--#define MAX9271_EDC_6BIT_CRC		(1 << 0)
--#define MAX9271_EDC_6BIT_HAMMING	(2 << 0)
-+#define MAX9271_EDC_1BIT_PARITY		(0U << 0)
-+#define MAX9271_EDC_6BIT_CRC		(1U << 0)
-+#define MAX9271_EDC_6BIT_HAMMING	(2U << 0)
- /* Register 0x08 */
- #define MAX9271_INVVS			BIT(7)
- #define MAX9271_INVHS			BIT(6)
-@@ -51,22 +51,22 @@
- #define MAX9271_ID			0x09
- /* Register 0x0d */
- #define MAX9271_I2CLOCACK		BIT(7)
--#define MAX9271_I2CSLVSH_1046NS_469NS	(3 << 5)
--#define MAX9271_I2CSLVSH_938NS_352NS	(2 << 5)
--#define MAX9271_I2CSLVSH_469NS_234NS	(1 << 5)
--#define MAX9271_I2CSLVSH_352NS_117NS	(0 << 5)
--#define MAX9271_I2CMSTBT_837KBPS	(7 << 2)
--#define MAX9271_I2CMSTBT_533KBPS	(6 << 2)
--#define MAX9271_I2CMSTBT_339KBPS	(5 << 2)
--#define MAX9271_I2CMSTBT_173KBPS	(4 << 2)
--#define MAX9271_I2CMSTBT_105KBPS	(3 << 2)
--#define MAX9271_I2CMSTBT_84KBPS		(2 << 2)
--#define MAX9271_I2CMSTBT_28KBPS		(1 << 2)
--#define MAX9271_I2CMSTBT_8KBPS		(0 << 2)
--#define MAX9271_I2CSLVTO_NONE		(3 << 0)
--#define MAX9271_I2CSLVTO_1024US		(2 << 0)
--#define MAX9271_I2CSLVTO_256US		(1 << 0)
--#define MAX9271_I2CSLVTO_64US		(0 << 0)
-+#define MAX9271_I2CSLVSH_1046NS_469NS	(3U << 5)
-+#define MAX9271_I2CSLVSH_938NS_352NS	(2U << 5)
-+#define MAX9271_I2CSLVSH_469NS_234NS	(1U << 5)
-+#define MAX9271_I2CSLVSH_352NS_117NS	(0U << 5)
-+#define MAX9271_I2CMSTBT_837KBPS	(7U << 2)
-+#define MAX9271_I2CMSTBT_533KBPS	(6U << 2)
-+#define MAX9271_I2CMSTBT_339KBPS	(5U << 2)
-+#define MAX9271_I2CMSTBT_173KBPS	(4U << 2)
-+#define MAX9271_I2CMSTBT_105KBPS	(3U << 2)
-+#define MAX9271_I2CMSTBT_84KBPS		(2U << 2)
-+#define MAX9271_I2CMSTBT_28KBPS		(1U << 2)
-+#define MAX9271_I2CMSTBT_8KBPS		(0U << 2)
-+#define MAX9271_I2CSLVTO_NONE		(3U << 0)
-+#define MAX9271_I2CSLVTO_1024US		(2U << 0)
-+#define MAX9271_I2CSLVTO_256US		(1U << 0)
-+#define MAX9271_I2CSLVTO_64US		(0U << 0)
- /* Register 0x0f */
- #define MAX9271_GPIO5OUT		BIT(5)
- #define MAX9271_GPIO4OUT		BIT(4)
--- 
-2.25.1
-
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
