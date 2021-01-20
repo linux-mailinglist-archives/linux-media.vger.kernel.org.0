@@ -2,234 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F442FCE7B
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 11:55:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6F1B2FCE64
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 11:55:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733128AbhATKg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 05:36:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731335AbhATJ2o (ORCPT
+        id S2387420AbhATKjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 05:39:44 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:44247 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731644AbhATJny (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 04:28:44 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE73C06179F
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 01:26:39 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id b5so16117816ejv.4
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 01:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6MiTsU3N2AEa1ZXLRORW5cxTPfFrxekkDKqSBZREPFg=;
-        b=lfSJbpRhrQiT4g6I14nJUgeGqQvOqM29Xz7/bAZ/PIuZedSRZDj2QPpgqc+5DjCVqF
-         lOnL4vlKTAycvbcio8+ic8jhyhLYaxkIdZS4Hr6iQBplw0djoG+w7DScLglfdQPIk0XF
-         adhYwqWjeOVvU/BOXbJ/LqkUAUpN4TnunYjcZMt9bv+UZ7qET00ViAC6JW6rsm4UUPQP
-         3SPV3tFrQBxAGXqT1OQammYCPTTKULP7i9sXLWD2QlixUyqwvqvENUH88VuswxHp7IDU
-         ZGUvG43e3FTaJh/76t7sD8061BtoxC8a6RGnRCogUx1DFTcx9ARZLXA8712IywvvYG+y
-         S7FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6MiTsU3N2AEa1ZXLRORW5cxTPfFrxekkDKqSBZREPFg=;
-        b=a2ysv8pS4WRuO6Q0WcODp+5w0wwHHoHIp+AfByG4IkEvLGCaglYSfHnOUqi6I2Oyky
-         uH588JjN1/AdcvyVKJIJO/DM5L1YFqy5S1JgL4A4lLU+T8/eP3CVVvNuem8+B1h7tRw4
-         cXzWoIJJ1+UPpYIvDhr1nJKy4iKfYCQM9ojZdDe5XdTaiziV1UgvWmGqGIKAe+s9hpUO
-         TGRASg+V5ktEJpBLYW2skFQO30H7HD5ocyU1XzRn6K0EvAGCcWF4jHuk2NlxfKyVSQv3
-         g5x6rJDDo9OHM34aEx+YjiqVfd830Ee7KnbNldMYMWQCc9ri2xaHEI+8VoHNPi0c+jmS
-         bVNw==
-X-Gm-Message-State: AOAM533dZsWKDYUIq4kVH/WmPZ7CczNcfCxBkDCm2fliFHz10KLGEXus
-        SuYKrjLPHTm4socb3VS/XOXXpGiNyx+dpK1x
-X-Google-Smtp-Source: ABdhPJxsNboXYbktxzCo02+KzjeSp1vEtkL2iqpIjcagAeMCx8imVxhxBKaMz12lWM5cHjpPfx6sGQ==
-X-Received: by 2002:a17:906:ae9b:: with SMTP id md27mr5819629ejb.357.1611134797966;
-        Wed, 20 Jan 2021 01:26:37 -0800 (PST)
-Received: from localhost.localdomain (hst-221-66.medicom.bg. [84.238.221.66])
-        by smtp.gmail.com with ESMTPSA id k16sm619392ejd.78.2021.01.20.01.26.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 01:26:37 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v4 5/5] venus: venc: Add support for CLL and Mastering display controls
-Date:   Wed, 20 Jan 2021 11:26:06 +0200
-Message-Id: <20210120092606.3987207-6-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210120092606.3987207-1-stanimir.varbanov@linaro.org>
-References: <20210120092606.3987207-1-stanimir.varbanov@linaro.org>
+        Wed, 20 Jan 2021 04:43:54 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 2A14lJCTVftvz2A17l8jDt; Wed, 20 Jan 2021 10:43:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611135790; bh=6LGxA5WBLgXBOwMVcq9pjOftrhauWjC2h9oPKKHoJDE=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=RKjicG01syX/2yiOG+D1LkqXsUp0GULwKaI9A0kNrtkLb4QPpc4k5S4C2NgIS/erT
+         3NRMRAc5g5GxO2gM/bkvc5PWlfldbj0O9i/t0IBNvcA1Ry1yXmhthxQz+tSJCNM135
+         JuyTTakpGD8gQ2yB1+5ZdHWYjRyZxCxWPDeVsx8b0hKR39qZcRmHSrtIy7vY+4FLUz
+         3sCNAKuFnUclgBF+INwG/Z/EOWXOwUslVWX6yOGPVEQpx1h5SfwnzG7OOyKZvryL9f
+         bLI0ByESozFr3U1EDwVkKayI27jCStp7ndRRmXGaqR2eWRx9SIk9f7JQL6wYDTKCsi
+         Wg2lyDaBi5RNA==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 00/14] Fixes for smatch/sparse/sysbot/compiler warnings
+Date:   Wed, 20 Jan 2021 10:42:52 +0100
+Message-Id: <20210120094306.784318-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfGCYqhuwV3+Yk1rv2QJDZScmo32gHmrOGHUW680tMvz8mG7tCBVf9OnohmtN4nL1GUNY/zfLKBZtYzV8Xbr2NOg5rrxGzfqKLgJgrvnqWJC4O9RuLB9k
+ 4+VfNDbmV2VhmiocUDJEUTkE6j8PfLoikiLAtkB/Ip/WM8S7VZznmsQJm2Y7dFTFCJ9cpyCfu9LGs2GIOXDrwD4YXI4wlJCqTSc=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create CLL and Mastering display colour volume v4l2 controls for
-encoder, add handling of HDR10 PQ SEI packet payloads for v4.
+The first patch fixes a compiler warning for i686, the second
+patch fixes a sysbot error, the last patch fixes a sparse warning
+and all others fix smatch warnings.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.h      |  2 ++
- drivers/media/platform/qcom/venus/hfi_cmds.c  |  8 +++++
- .../media/platform/qcom/venus/hfi_helper.h    | 20 +++++++++++++
- drivers/media/platform/qcom/venus/venc.c      | 29 +++++++++++++++++++
- .../media/platform/qcom/venus/venc_ctrls.c    | 16 +++++++++-
- 5 files changed, 74 insertions(+), 1 deletion(-)
+Regards,
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index b984d508ed71..d2776a18217f 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -238,6 +238,8 @@ struct venc_controls {
- 	} level;
- 
- 	u32 base_priority_id;
-+	struct v4l2_ctrl_hdr10_cll_info cll;
-+	struct v4l2_ctrl_hdr10_mastering_display mastering;
- };
- 
- struct venus_buffer {
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 7022368c1e63..081e5a816bca 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -1205,6 +1205,14 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
- 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*cu);
- 		break;
- 	}
-+	case HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI: {
-+		struct hfi_hdr10_pq_sei *in = pdata, *hdr10 = prop_data;
-+
-+		memcpy(hdr10, in, sizeof(*hdr10));
-+		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*hdr10);
-+		break;
-+	}
-+
- 	case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
- 	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
- 	case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index 1f1c3faa4631..ecbe05a5cee1 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -513,6 +513,7 @@
- #define HFI_PROPERTY_PARAM_VENC_VPX_ERROR_RESILIENCE_MODE	0x2005029
- #define HFI_PROPERTY_PARAM_VENC_HIER_B_MAX_NUM_ENH_LAYER	0x200502c
- #define HFI_PROPERTY_PARAM_VENC_HIER_P_HYBRID_MODE		0x200502f
-+#define HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI			0x2005036
- 
- /*
-  * HFI_PROPERTY_CONFIG_VENC_COMMON_START
-@@ -809,6 +810,25 @@ struct hfi_ltr_mark {
- 	u32 mark_frame;
- };
- 
-+struct hfi_mastering_display_colour_sei_payload {
-+	u32 display_primaries_x[3];
-+	u32 display_primaries_y[3];
-+	u32 white_point_x;
-+	u32 white_point_y;
-+	u32 max_display_mastering_luminance;
-+	u32 min_display_mastering_luminance;
-+};
-+
-+struct hfi_content_light_level_sei_payload {
-+	u32 max_content_light;
-+	u32 max_pic_average_light;
-+};
-+
-+struct hfi_hdr10_pq_sei {
-+	struct hfi_mastering_display_colour_sei_payload mastering;
-+	struct hfi_content_light_level_sei_payload cll;
-+};
-+
- struct hfi_framesize {
- 	u32 buffer_type;
- 	u32 width;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index e4775ec97a87..464027c88499 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -588,6 +588,35 @@ static int venc_set_properties(struct venus_inst *inst)
- 			return ret;
- 	}
- 
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		struct hfi_hdr10_pq_sei hdr10;
-+		unsigned int c;
-+
-+		ptype = HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
-+
-+		for (c = 0; c < 3; c++) {
-+			hdr10.mastering.display_primaries_x[c] =
-+				ctr->mastering.display_primaries_x[c];
-+			hdr10.mastering.display_primaries_y[c] =
-+				ctr->mastering.display_primaries_y[c];
-+		}
-+
-+		hdr10.mastering.white_point_x = ctr->mastering.white_point_x;
-+		hdr10.mastering.white_point_y = ctr->mastering.white_point_y;
-+		hdr10.mastering.max_display_mastering_luminance =
-+			ctr->mastering.max_display_mastering_luminance;
-+		hdr10.mastering.min_display_mastering_luminance =
-+			ctr->mastering.min_display_mastering_luminance;
-+
-+		hdr10.cll.max_content_light = ctr->cll.max_content_light_level;
-+		hdr10.cll.max_pic_average_light =
-+			ctr->cll.max_pic_average_light_level;
-+
-+		ret = hfi_session_set_property(inst, ptype, &hdr10);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/* IDR periodicity, n:
- 	 * n = 0 - only the first I-frame is IDR frame
- 	 * n = 1 - all I-frames will be IDR frames
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 9fbe8388a938..5a18330b82b8 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -262,6 +262,12 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:
- 		ctr->base_priority_id = ctrl->val;
- 		break;
-+	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:
-+		ctr->cll = *ctrl->p_new.p_hdr10_cll;
-+		break;
-+	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
-+		ctr->mastering = *ctrl->p_new.p_hdr10_mastering;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -277,7 +283,7 @@ int venc_ctrl_init(struct venus_inst *inst)
- {
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 51);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 53);
- 	if (ret)
- 		return ret;
- 
-@@ -483,6 +489,14 @@ int venc_ctrl_init(struct venus_inst *inst)
- 			  V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID, 0,
- 			  6, 1, 0);
- 
-+	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
-+				   V4L2_CID_COLORIMETRY_HDR10_CLL_INFO,
-+				   v4l2_ctrl_ptr_create(NULL));
-+
-+	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
-+				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
-+				   v4l2_ctrl_ptr_create(NULL));
-+
- 	ret = inst->ctrl_handler.error;
- 	if (ret)
- 		goto err;
+	Hans
+
+Hans Verkuil (14):
+  atomisp/pci/hmm: fix wrong printk format
+  v4l2-ctrls.c: fix shift-out-of-bounds in std_validate
+  meson/ge2d: set ret to -ENOMEM
+  davinci/vpbe.c: ret contains the return code, not err
+  tuners/it913x.c: fix missing error code
+  i2c/ov8865.c: fix error checks using wrong variable
+  sti/c8sectpfe: set correct return code
+  sti/hva: add missing clk_disable_unprepare()
+  pci/ivtv: release memory regions on error
+  usb/dvb-usb-v2/rtl28xxu.c: clean up code to fix smatch warning
+  dvb-frontends/rtl2832.c: fix missing error code
+  dvb-frontends/af9033.c: fix missing error codes
+  atomisp/pci: add missing include
+  i2c/ov02a10.c: add cast to fix type mismatch
+
+ drivers/media/dvb-frontends/af9033.c          |  2 ++
+ drivers/media/dvb-frontends/rtl2832.c         |  1 +
+ drivers/media/i2c/ov02a10.c                   |  2 +-
+ drivers/media/i2c/ov8865.c                    |  6 ++--
+ drivers/media/pci/ivtv/ivtv-driver.c          |  5 +++
+ drivers/media/platform/davinci/vpbe.c         |  2 +-
+ drivers/media/platform/meson/ge2d/ge2d.c      |  1 +
+ .../platform/sti/c8sectpfe/c8sectpfe-core.c   |  1 +
+ drivers/media/platform/sti/hva/hva-hw.c       |  1 +
+ drivers/media/tuners/it913x.c                 |  1 +
+ drivers/media/usb/dvb-usb-v2/rtl28xxu.c       | 35 +++++++------------
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  3 +-
+ drivers/staging/media/atomisp/pci/hmm/hmm.c   |  2 +-
+ .../media/atomisp/pci/ia_css_firmware.h       |  1 +
+ 14 files changed, 34 insertions(+), 29 deletions(-)
+
 -- 
-2.25.1
+2.29.2
 
