@@ -2,136 +2,267 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F4A2FD079
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 13:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D80F52FD07D
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 13:59:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389878AbhATMji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 07:39:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51072 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389017AbhATMJo (ORCPT
+        id S2388773AbhATMjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 07:39:51 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40230 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387433AbhATMNL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 07:09:44 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F2BC0613C1
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 04:09:03 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id a1so1567987wrq.6
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 04:09:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wzEvD+kaeH728kQHhGOibyDD+euNAkFvVRcvtcgrs18=;
-        b=qdvK8t9eT2BjR0GGUGhAMJ1J6m8rb7xgiQNQ6ZAlQxOR0aeLwd/XUfwr1fVokh3mKw
-         4obnOkNJBowb2b1Mn7FyxEc1JXYG6C34OxUqRxDl8Z9NpIydWAgZc8CGDV9xrB+AIpmD
-         T/+9GhXU1SKHP3nvZ2sCopc6oAuZ4Z8r0DoFO8ChqXtQUjZA6/Ul43LlWQSjCP6fq/RI
-         bg0LQbLwg7pOQ8dABxRh4fM+wkRde8aBmUWBkDqlWJdT6tQV7Vn43b50XLojjIphcBwB
-         3W8ZfWsFIDjGLNrkv8DlVYcmbxYYDMBnqv9PSUHDvhrQsepNhD1Q6SyUd5hUNymIRi/7
-         b3kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wzEvD+kaeH728kQHhGOibyDD+euNAkFvVRcvtcgrs18=;
-        b=O5+17vFurGnJpiRifDFSikKIzEHfJMEmmTixxAFkcOY35uHFZHouOshxqhTrkwbnVc
-         lJWdV5V8mDDjTwS6d3RnpwMCxSCeV8xq61KRTWYW+A2UB9r+fxyuEuFkXkMKttB3Pnz0
-         a4sgqZ7rBv/aLHI9vowBOmQqYXukG5jNPCi2fE2QNhuFVPLeL6sjAAe3kxYB/XE35lYs
-         Ri6QhfltPbNqGhSWB4Gy0zTp87XugipALcjDlSssKTz2rvE/lafHKB8shpnTRNzyFmNs
-         F+XFNT26/nnsJ1l7UZpEY1bnRMsQ3AwFDTmuaMMmifMew3w6+nbnVMS9QOYzgVzJXWm2
-         Zlnw==
-X-Gm-Message-State: AOAM5323VIBl/ZGqctS/plwTMR6xHBmGUtT7UkA9RjrcxLeKVu/yC0Y0
-        6g7sM34gTsE9+uu8IALvotqh0w==
-X-Google-Smtp-Source: ABdhPJzUoAyUnN8xEH54Pnn59hcdXRJw6tEEG6Xn/WyKNcnG2ObslKaVNA8T/dqQFCIl7cJHvjZV+g==
-X-Received: by 2002:adf:a11d:: with SMTP id o29mr2755493wro.45.1611144542670;
-        Wed, 20 Jan 2021 04:09:02 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:102f:d6a:93b3:1f80:ae7b:a5c6])
-        by smtp.gmail.com with ESMTPSA id a62sm3867391wmh.40.2021.01.20.04.09.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 04:09:01 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     dongchun.zhu@mediatek.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dongchun Zhu <Dongchun.Zhu@mediatek.com>,
+        Wed, 20 Jan 2021 07:13:11 -0500
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 677A2813;
+        Wed, 20 Jan 2021 13:12:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1611144740;
+        bh=OBsgCLskM2jyxkGvxB8sQDhm7TPcsjMVw6cYko8kHYs=;
+        h=Reply-To:Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=Q64NvK/HjtD11ausNQTn7v0lt69PCkpM17Wv6lvl1qIRvw6DGG0tdQSbs70W/T8TB
+         eMZBw146UyYXkHT0jKfViPRzoAOu/vUY9oF+Jxv1QGTB7XD0a80KMMOrJlZbHsjbTu
+         SDLDo0afHv8ZsgUlchJus18PcP4cPj4H7typzS+g=
+Reply-To: kieran.bingham+renesas@ideasonboard.com,
+          kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v4] media: v4l2-async: Add waiting subdevices debugfs
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@linux.intel.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Tomasz Figa <tfiga@google.com>,
-        Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v5] media: ov8856: Configure sensor for GRBG Bayer for all modes
-Date:   Wed, 20 Jan 2021 13:08:47 +0100
-Message-Id: <20210120120847.1505143-1-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.27.0
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20210108171728.39434-2-ezequiel@collabora.com>
+ <20210115191415.164127-1-ezequiel@collabora.com>
+ <fc13f536-c107-a097-9012-06d4184afa9c@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <3c636547-cef8-291e-34a0-7dfa1995040e@ideasonboard.com>
+Date:   Wed, 20 Jan 2021 12:12:18 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <fc13f536-c107-a097-9012-06d4184afa9c@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The previously added modes 3264x2448 & 1632x1224 are actually
-configuring the sensor for BGGR mode, this is an issue since
-the mode that is exposed through V4L incorrectly is set as GRBG.
+Hi Ezequiel,
 
-This patch fixes the issue by moving the output crop window of
-internal sensor ISP uses by one row, which means that the Bayer
-pattern of the output is changed.
-
-From:
-row 1: B G B G B G ...
-row 2: G R G R G R ...
-row 3: B G B G B G ...
-...
-
-To:
-row 2: G R G R G R ...
-row 3: B G B G B G ...
-...
-
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Suggested-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-Reviewed-by: Andrey Konovalov <andrey.konovalov@linaro.org>
----
-
-Changes since v1:
- - Sakari: Added mode information to ov8856_mode struct
- - Sakari: enum_mbus_code updated
-
-Changes since v2:
- - Andrey: Switched approach to changing the sensor configuration
-   to yield identical Bayer modes for all modes
-
-Changes since v3:
- - Andrey: Improve commit msg to explain Bayer shift better
-
-Changes since v4:
- - Andrey: Fix typ-o
- - Andrey: Add r-b
+On 15/01/2021 19:47, Kieran Bingham wrote:
+> Hi Ezequiel,
+> 
+> On 15/01/2021 19:14, Ezequiel Garcia wrote:
+>> There is currently little to no information available
+>> about the reasons why a v4l2-async device hasn't
+>> probed completely.
+>>
+>> Inspired by the "devices_deferred" debugfs file,
+>> add a file to list information about the subdevices
+>> that are on waiting lists, for each notifier.
+>>
+>> This is useful to debug v4l2-async subdevices
+>> and notifiers, for instance when doing device bring-up.
+>>
+>> For instance, a typical output would be:
+>>
+>> $ cat /sys/kernel/debug/video4linux/pending_async_subdevices
+>> ipu1_csi1:
+>>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi1_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi1_mux
+>> ipu1_csi0:
+>>  [fwnode] dev=20e0000.iomuxc-gpr:ipu1_csi0_mux, node=/soc/bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
+>> imx6-mipi-csi2:
+>>  [fwnode] dev=1-003c, node=/soc/bus@2100000/i2c@21a4000/camera@3c
+>> imx-media:
+> 
+> Oh this is very exciting. I started looking at something like this
+> recently, hitting async failures, and this already looks better.
+> 
+> In other words, - Thank you!
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 
- drivers/media/i2c/ov8856.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Throwing in an extra tag:
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 2f4ceaa80593..8a355135c7db 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -428,7 +428,7 @@ static const struct ov8856_reg mode_3264x2448_regs[] = {
- 	{0x3810, 0x00},
- 	{0x3811, 0x04},
- 	{0x3812, 0x00},
--	{0x3813, 0x02},
-+	{0x3813, 0x01},
- 	{0x3814, 0x01},
- 	{0x3815, 0x01},
- 	{0x3816, 0x00},
-@@ -821,7 +821,7 @@ static const struct ov8856_reg mode_1632x1224_regs[] = {
- 	{0x3810, 0x00},
- 	{0x3811, 0x02},
- 	{0x3812, 0x00},
--	{0x3813, 0x02},
-+	{0x3813, 0x01},
- 	{0x3814, 0x03},
- 	{0x3815, 0x01},
- 	{0x3816, 0x00},
--- 
-2.27.0
+> root@salvator-x:/home/kbingham# cat /sys/kernel/debug/video4linux/pending_async_subdevices 
+> max9286 4-006c:
+>  [fwnode] dev=15-0035, node=/soc/i2c@e66d8000/gmsl-deserializer@6c/i2c-mux/i2c@0/camera@35/port/endpoint
+> max9286 4-004c:
+>  [fwnode] dev=10-0031, node=/soc/i2c@e66d8000/gmsl-deserializer@4c/i2c-mux/i2c@0/camera@31/port/endpoint
+>  [fwnode] dev=11-0032, node=/soc/i2c@e66d8000/gmsl-deserializer@4c/i2c-mux/i2c@1/camera@32/port/endpoint
+>  [fwnode] dev=12-0033, node=/soc/i2c@e66d8000/gmsl-deserializer@4c/i2c-mux/i2c@2/camera@33/port/endpoint
+>  [fwnode] dev=13-0034, node=/soc/i2c@e66d8000/gmsl-deserializer@4c/i2c-mux/i2c@3/camera@34/port/endpoint
+> rcar-vin e6ef7000.video:
+> rcar_csi2 feab0000.csi2:
+> rcar_csi2 feaa0000.csi2:
+> rcar_csi2 fea80000.csi2:
+
+
+That looks good and really helpful to me ;-)
+
+Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> 
+>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  drivers/media/v4l2-core/v4l2-async.c | 63 ++++++++++++++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-dev.c   |  5 +++
+>>  include/media/v4l2-async.h           |  8 ++++
+>>  3 files changed, 76 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+>> index e3ab003a6c85..e35f18706792 100644
+>> --- a/drivers/media/v4l2-core/v4l2-async.c
+>> +++ b/drivers/media/v4l2-core/v4l2-async.c
+>> @@ -5,6 +5,7 @@
+>>   * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+>>   */
+>>  
+>> +#include <linux/debugfs.h>
+>>  #include <linux/device.h>
+>>  #include <linux/err.h>
+>>  #include <linux/i2c.h>
+>> @@ -14,6 +15,7 @@
+>>  #include <linux/mutex.h>
+>>  #include <linux/of.h>
+>>  #include <linux/platform_device.h>
+>> +#include <linux/seq_file.h>
+>>  #include <linux/slab.h>
+>>  #include <linux/types.h>
+>>  
+>> @@ -837,3 +839,64 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+>>  	mutex_unlock(&list_lock);
+>>  }
+>>  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+>> +
+>> +static void print_waiting_subdev(struct seq_file *s,
+>> +				 struct v4l2_async_subdev *asd)
+>> +{
+>> +	switch (asd->match_type) {
+>> +	case V4L2_ASYNC_MATCH_I2C:
+>> +		seq_printf(s, " [i2c] dev=%d-%04x\n", asd->match.i2c.adapter_id,
+>> +			   asd->match.i2c.address);
+>> +		break;
+>> +	case V4L2_ASYNC_MATCH_FWNODE: {
+>> +		struct fwnode_handle *devnode, *fwnode = asd->match.fwnode;
+>> +
+>> +		devnode = fwnode_graph_is_endpoint(fwnode) ?
+>> +			  fwnode_graph_get_port_parent(fwnode) :
+>> +			  fwnode_handle_get(fwnode);
+>> +
+>> +		seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",
+>> +			   devnode->dev ? dev_name(devnode->dev) : "nil",
+>> +			   fwnode);
+>> +
+>> +		fwnode_handle_put(devnode);
+>> +		break;
+>> +	}
+>> +	}
+>> +}
+>> +
+>> +static const char *
+>> +v4l2_async_notifier_name(struct v4l2_async_notifier *notifier)
+>> +{
+>> +	if (notifier->v4l2_dev)
+>> +		return notifier->v4l2_dev->name;
+>> +	else if (notifier->sd)
+>> +		return notifier->sd->name;
+>> +	else
+>> +		return "nil";
+>> +}
+>> +
+>> +static int pending_subdevs_show(struct seq_file *s, void *data)
+>> +{
+>> +	struct v4l2_async_notifier *notif;
+>> +	struct v4l2_async_subdev *asd;
+>> +
+>> +	mutex_lock(&list_lock);
+>> +
+>> +	list_for_each_entry(notif, &notifier_list, list) {
+>> +		seq_printf(s, "%s:\n", v4l2_async_notifier_name(notif));
+>> +		list_for_each_entry(asd, &notif->waiting, list)
+>> +			print_waiting_subdev(s, asd);
+>> +	}
+>> +
+>> +	mutex_unlock(&list_lock);
+>> +
+>> +	return 0;
+>> +}
+>> +DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+>> +
+>> +void v4l2_async_debug_init(struct dentry *debugfs_dir)
+>> +{
+>> +	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
+>> +			    &pending_subdevs_fops);
+>> +}
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index f9cff033d0dc..b6a72d297775 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -14,6 +14,7 @@
+>>  
+>>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>>  
+>> +#include <linux/debugfs.h>
+>>  #include <linux/module.h>
+>>  #include <linux/types.h>
+>>  #include <linux/kernel.h>
+>> @@ -38,6 +39,7 @@
+>>  		       __func__, ##arg);				\
+>>  } while (0)
+>>  
+>> +static struct dentry *v4l2_debugfs_dir;
+>>  
+>>  /*
+>>   *	sysfs stuff
+>> @@ -1118,6 +1120,8 @@ static int __init videodev_init(void)
+>>  		return -EIO;
+>>  	}
+>>  
+>> +	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
+>> +	v4l2_async_debug_init(v4l2_debugfs_dir);
+>>  	return 0;
+>>  }
+>>  
+>> @@ -1125,6 +1129,7 @@ static void __exit videodev_exit(void)
+>>  {
+>>  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
+>>  
+>> +	debugfs_remove_recursive(v4l2_debugfs_dir);
+>>  	class_unregister(&video_class);
+>>  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+>>  }
+>> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+>> index 0e04b5b2ebb0..243ac10a53c6 100644
+>> --- a/include/media/v4l2-async.h
+>> +++ b/include/media/v4l2-async.h
+>> @@ -11,6 +11,7 @@
+>>  #include <linux/list.h>
+>>  #include <linux/mutex.h>
+>>  
+>> +struct dentry;
+>>  struct device;
+>>  struct device_node;
+>>  struct v4l2_device;
+>> @@ -137,6 +138,13 @@ struct v4l2_async_notifier {
+>>  	struct list_head list;
+>>  };
+>>  
+>> +/**
+>> + * v4l2_async_debug_init - Initialize debugging tools.
+>> + *
+>> + * @debugfs_dir: pointer to the parent debugfs &struct dentry
+>> + */
+>> +void v4l2_async_debug_init(struct dentry *debugfs_dir);
+>> +
+>>  /**
+>>   * v4l2_async_notifier_init - Initialize a notifier.
+>>   *
+>>
+> 
 
