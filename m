@@ -2,102 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8F5F2FD275
-	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 15:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA1E72FD307
+	for <lists+linux-media@lfdr.de>; Wed, 20 Jan 2021 15:52:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387536AbhATOPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Jan 2021 09:15:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389517AbhATNvP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Jan 2021 08:51:15 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15C17C06134F
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:45:01 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id v15so19507908wrx.4
-        for <linux-media@vger.kernel.org>; Wed, 20 Jan 2021 05:45:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vztiGMVp+rvsTFKWIicHjtSmUWk3pLrrjlnb+8+XkDo=;
-        b=dT23SxdOb6Y9xBCRkwxpCNfTfrakj5EBLLf4T+faZJW08iKW0fi9uK2B3r4T30FBKD
-         7pplan8HZA/ALOtNoucFcoyrdNXk6WK9TdYPVycsTU/y3+hsUUWqv0EcUDGHdaZk5itv
-         KIbip9A4PwPa/iNuPzzggi4NCQYei8DYW2SoLUV1HzRDaYh95EKo/GFRHrKrfan1Iun8
-         gevAszK/9Hugka5fd4wRLR3ZUZf6Yw1aRStp8tcXN6SqDDC7CXB122x0G3PWIiKRHCCk
-         tSDGLAz74kBHcGFdQHvTrGxrLkyMPAaxdmbnFILm/0grNEuwpAWJuUrU0PAb+QepuHl0
-         utDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vztiGMVp+rvsTFKWIicHjtSmUWk3pLrrjlnb+8+XkDo=;
-        b=S8l+ZCzDBjO7qn2nytQgDfSTHsZmjdtqpwy/bhmgHZ3kWnpZa35ba8QdN6GI/mYVEO
-         EoPEJDFHZ0W4VWmkgt4Y3Bq+xnFAkOMmRCvPNEfKJBW38uOWb5IIzNh5kOkx+aGOtafV
-         ghhyG5mXvRKDpIBXjRYrTs4kSWjk+rULcvPSZ/TCwZTFCLsnIMpt25S5/+uahAkdInA2
-         s1YRhuihlx9JAI+CFAfFQpa5J4osD+9xJDTIVBItgI+CmLCKAj8RCV9I4fPYIHX2xbGp
-         yjUh2+eiq+Ohk1DrVvq8k2Jtrdw48g4SuGNTum9exUHHwgBUafr0O7CUS/fTHbqKcwXW
-         mgVg==
-X-Gm-Message-State: AOAM530E7YXigaDHD0FUxbjT4S6bjIeMRyKKr2eW9hdK/kKJqrXyzOBx
-        m1rsWv42JYVcnPg23jBruQTepA==
-X-Google-Smtp-Source: ABdhPJzcDDIc++DKDwG28GvjCyGwlaq/0VFE1rXnXTpPxCR3vv7fJqFE0CqOMkofHxMEDJckZgd75Q==
-X-Received: by 2002:a5d:4d50:: with SMTP id a16mr9173834wru.43.1611150299729;
-        Wed, 20 Jan 2021 05:44:59 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:102f:d6a:93b3:1f80:ae7b:a5c6])
-        by smtp.gmail.com with ESMTPSA id t67sm4224075wmt.28.2021.01.20.05.44.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 05:44:59 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org,
-        robert.foss@linaro.org, todor.too@gmail.com, mchehab@kernel.org,
-        robh+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        shawnguo@kernel.org, leoyang.li@nxp.com, geert+renesas@glider.be,
-        vkoul@kernel.org, Anson.Huang@nxp.com, michael@walle.cc,
-        agx@sigxcpu.org, max.oss.09@gmail.com,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
-        Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH v2 17/22] MAINTAINERS: Change CAMSS documentation to use dtschema bindings
-Date:   Wed, 20 Jan 2021 14:43:52 +0100
-Message-Id: <20210120134357.1522254-17-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120134357.1522254-1-robert.foss@linaro.org>
-References: <20210120134357.1522254-1-robert.foss@linaro.org>
+        id S1728002AbhATOOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Jan 2021 09:14:48 -0500
+Received: from mga01.intel.com ([192.55.52.88]:2857 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390074AbhATNjH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Jan 2021 08:39:07 -0500
+IronPort-SDR: YeNGUsJdzkiTmAsEr+/wpkDuYG82sVSL/pCFIH4OWbqwKTy/q9TcHSFDkCYdS6fzKkByu6BWvD
+ DR3jwG0H8oVw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="197830621"
+X-IronPort-AV: E=Sophos;i="5.79,361,1602572400"; 
+   d="scan'208";a="197830621"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2021 05:37:20 -0800
+IronPort-SDR: 6iCIvZlhKAaus0xQHmBrMtwMWH5y3UOO3YLDn2ogriWgP7oQ5MBNU6JXvTgfmvycgpCiPH3cA/
+ 2y09oM0n0hdQ==
+X-IronPort-AV: E=Sophos;i="5.79,361,1602572400"; 
+   d="scan'208";a="391554723"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2021 05:37:19 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id E8B3E206D0; Wed, 20 Jan 2021 15:37:16 +0200 (EET)
+Date:   Wed, 20 Jan 2021 15:37:16 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: v4l2-async: Safely unregister an non-registered
+ async subdev
+Message-ID: <20210120133716.GK11878@paasikivi.fi.intel.com>
+References: <20210107225458.4485-1-laurent.pinchart@ideasonboard.com>
+ <ec851753-b344-ea01-0551-7fb9ffa477bb@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ec851753-b344-ea01-0551-7fb9ffa477bb@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Due to the complexity of describing multiple hardware generations
-in one document, switch to using separate dt-bindings.
+Hi Kieran,
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Jan 20, 2021 at 11:14:39AM +0000, Kieran Bingham wrote:
+> Hi Laurent,
+> 
+> On 07/01/2021 22:54, Laurent Pinchart wrote:
+> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > 
+> > Make the V4L2 async framework a bit more robust by allowing to
+> > unregister a non-registered async subdev. Otherwise the
+> > v4l2_async_cleanup() will attempt to delete the async subdev from the
+> > subdev_list with the corresponding list_head not initialized.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-async.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index 8bde33c21ce4..fc4525c4a75f 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -750,6 +750,9 @@ EXPORT_SYMBOL(v4l2_async_register_subdev);
+> >  
+> >  void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+> >  {
+> > +	if (!sd->async_list.next)
+> > +		return;
+> 
+> This is a bit opaque for anyone reading the code alone.
+> 
+> It could easily read as:
+> 
+> "If we don't have a following item in the async list - then don't
+> unregister?", which seems a bit nonsensical.
+> 
+> Hopefully that would make someone question what it's actually checking
+> but still.
+> 
+> I think I've seen you reference this pattern a couple of times so
+> perhaps having a way to check if a list is initialised would be worth
+> having as a helper in the list.
+> 
+> Otherwise, at least a comment to say that we're using the initialisation
+> of the list to determine if the async subdevice is already registered or
+> not. (perhaps a bit more briefly ;D)
+> 
+> 
+> Anyway, with that all in mind - I always like being able to simplify
+> error and clean up paths, so
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 47fad204d6aa..4008e321a584 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14684,7 +14684,7 @@ M:	Todor Tomov <todor.too@gmail.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/admin-guide/media/qcom_camss.rst
--F:	Documentation/devicetree/bindings/media/qcom,camss.txt
-+F:	Documentation/devicetree/bindings/media/*camss*
- F:	drivers/media/platform/qcom/camss/
- 
- QUALCOMM CORE POWER REDUCTION (CPR) AVS DRIVER
+Thanks.
+
+I think the patch is good as-is but I wouldn't mind to see such a list
+helper either. V4L2-async could later on use it.
+
 -- 
-2.27.0
+Regards,
 
+Sakari Ailus
