@@ -2,224 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 424452FED47
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 15:48:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 543942FEDEE
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 16:03:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731995AbhAUOpv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jan 2021 09:45:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56074 "EHLO
+        id S1732185AbhAUPDB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jan 2021 10:03:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731535AbhAUOpn (ORCPT
+        with ESMTP id S1731207AbhAUN3v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jan 2021 09:45:43 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903F8C061788
-        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 06:44:18 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id ED4C81F45EBC
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        hverkuil@xs4all.nl, sakari.ailus@linux.intel.com, heiko@sntech.de
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Subject: [PATCH v8 6/6] media: rockchip: rkisp1: extend uapi array sizes
-Date:   Thu, 21 Jan 2021 15:44:07 +0100
-Message-Id: <20210121144407.9045-7-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210121144407.9045-1-dafna.hirschfeld@collabora.com>
-References: <20210121144407.9045-1-dafna.hirschfeld@collabora.com>
+        Thu, 21 Jan 2021 08:29:51 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB026C0613D3
+        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 05:29:10 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id v67so2517267lfa.0
+        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 05:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=TCBmtAGF/p0qcpEu6dpC3LB6xwiWGvLiDJYZOK21eQg=;
+        b=kso9808x4AKlVCLoDuCnsIu39a5rc+GdoErbN4v9A0LeyKqKlKZnQ1dZCtCi/0HC8w
+         KnpoXw6adp5LSyaXaJqzK1+/d0XrFyt+6exKUKkPuXHFe6dn1pOpw630yXpyGwMieW0j
+         T6KPRzXmXWmgk8S0am1TrBzX0lIsQL5iGtEEwTwKcJfen4UKw/mkoT/Whj00fjmxTOWW
+         eNJ5E1psjb4UowIw3L/ze2bL8N1I12lKlDeGZOI6qWOSHemRUyNBu/cfHfl7YMRSREJf
+         y85GfZVxzSHd0veFJ2SPwAvJmAw/Q7l8G1Mm9YmwoUiNIqbqr9FVssgzQyuO802KfYmR
+         eBXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=TCBmtAGF/p0qcpEu6dpC3LB6xwiWGvLiDJYZOK21eQg=;
+        b=gUreIPxocw24c4v/ZMlvW+lXj4J3bGzpWrf3KLWZu4AtepYJWmgkdxTlOEAykO0CKr
+         6wKtHxCik5bE9d5fiEwvP/FruBpoa7BSQYU5wJKSC9GUNvm6cYh2vsHzwXvX1kKYT87B
+         M9NFYIErVjNZqKf4RmaDzoZggKgFwNCA5ARu95QzEdpTldbtQYjqylbKX2VG88HugkGd
+         lkV7fH2hIAy/KJ+O2Jpms+ATt6ArDTbcAGovJ8ETNNS376CCWY7543YqgeevzUuNBJI6
+         AsQqbuiBGoLIdWqpuYtfLDLz5mQ8+QLhEj9IzeSivUup4rcfdH1+4VnPBzFIhyE4af+c
+         wiRg==
+X-Gm-Message-State: AOAM532sVUBYM7eMBw1VFxtFSEMM+ZR+zQENVf++HQKoW4X3N0WY742p
+        MYtHh5tG2H0+c2aQjvc2lRbVtFiLQ+sGEZAigc8bTA==
+X-Google-Smtp-Source: ABdhPJxLYG8wma3X3iAjIq15alrm3ByQ9m1SEliYlbpIky8zpSJ6MErlEFnMHA3/JFYzicxGQZp2bcYAzKcs4eMeICU=
+X-Received: by 2002:a19:7616:: with SMTP id c22mr4729640lff.550.1611235749239;
+ Thu, 21 Jan 2021 05:29:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20210119204508.9256-1-john.stultz@linaro.org>
+In-Reply-To: <20210119204508.9256-1-john.stultz@linaro.org>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Thu, 21 Jan 2021 18:58:57 +0530
+Message-ID: <CAO_48GHfGPqcX8B7BC5tf0J3+RWrtjpgHpfnJ-+sVaNv3bxYiw@mail.gmail.com>
+Subject: Re: [RESEND][PATCH 1/3] dma-buf: system_heap: Make sure to return an
+ error if we abort
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Hi John,
 
-Later variants of the rkisp1 block use more entries in some arrays:
+On Wed, 20 Jan 2021 at 02:15, John Stultz <john.stultz@linaro.org> wrote:
+>
+> If we abort from the allocation due to a fatal_signal_pending(),
+> be sure we report an error so any return code paths don't trip
+> over the fact that the allocation didn't succeed.
 
-RKISP1_CIF_ISP_AE_MEAN_MAX                 25 -> 81
-RKISP1_CIF_ISP_HIST_BIN_N_MAX              16 -> 32
-RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17 -> 34
-RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 25 -> 81
+Thanks for the patch; LGTM, will push into drm-misc-next.
+>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Liam Mark <lmark@codeaurora.org>
+> Cc: Laura Abbott <labbott@kernel.org>
+> Cc: Brian Starkey <Brian.Starkey@arm.com>
+> Cc: Hridya Valsaraju <hridya@google.com>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Sandeep Patil <sspatil@google.com>
+> Cc: Daniel Mentz <danielmentz@google.com>
+> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> Cc: =C3=98rjan Eide <orjan.eide@arm.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: James Jones <jajones@nvidia.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Suggested-by: Suren Baghdasaryan <surenb@google.com>
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> ---
+>  drivers/dma-buf/heaps/system_heap.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
+system_heap.c
+> index 17e0e9a68baf..405351aad2a8 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -363,8 +363,10 @@ static int system_heap_allocate(struct dma_heap *hea=
+p,
+>                  * Avoid trying to allocate memory if the process
+>                  * has been killed by SIGKILL
+>                  */
+> -               if (fatal_signal_pending(current))
+> +               if (fatal_signal_pending(current)) {
+> +                       ret =3D -EINTR;
+>                         goto free_buffer;
+> +               }
+>
+>                 page =3D alloc_largest_available(size_remaining, max_orde=
+r);
+>                 if (!page)
+> --
+> 2.17.1
+>
 
-and we can still extend the uapi during the 5.11-rc cycle, so do that
-now to be on the safe side.
-
-V10 and V11 only need the smaller sizes, while V12 and V13 needed
-the larger sizes.
-
-When adding the bigger sizes make sure, values filled from hardware
-values and transmitted to userspace don't leak kernel data by zeroing
-them beforehand.
-
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Acked-by: Helen Koike <helen.koike@collabora.com>
----
- .../platform/rockchip/rkisp1/rkisp1-params.c  |  2 +-
- .../platform/rockchip/rkisp1/rkisp1-stats.c   |  4 +-
- include/uapi/linux/rkisp1-config.h            | 67 ++++++++++++++++---
- 3 files changed, 60 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index 021939466b24..aa5f45749543 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -391,7 +391,7 @@ static void rkisp1_goc_config(struct rkisp1_params *params,
- 				RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
- 	rkisp1_write(params->rkisp1, arg->mode, RKISP1_CIF_ISP_GAMMA_OUT_MODE);
- 
--	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES; i++)
-+	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10; i++)
- 		rkisp1_write(params->rkisp1, arg->gamma_y[i],
- 			     RKISP1_CIF_ISP_GAMMA_OUT_Y_0 + i * 4);
- }
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-index 3b2783700abc..c1d07a2e8839 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-@@ -203,7 +203,7 @@ static void rkisp1_stats_get_aec_meas(struct rkisp1_stats *stats,
- 	unsigned int i;
- 
- 	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
--	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX; i++)
-+	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX_V10; i++)
- 		pbuf->params.ae.exp_mean[i] =
- 			(u8)rkisp1_read(rkisp1,
- 					RKISP1_CIF_ISP_EXP_MEAN_00 + i * 4);
-@@ -233,7 +233,7 @@ static void rkisp1_stats_get_hst_meas(struct rkisp1_stats *stats,
- 	unsigned int i;
- 
- 	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
--	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++) {
-+	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10; i++) {
- 		u32 reg_val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
- 
- 		pbuf->params.hist.hist_bins[i] = RKISP1_CIF_ISP_HIST_GET_BIN(reg_val);
-diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-index bee4413fe0d3..36e3efb81b01 100644
---- a/include/uapi/linux/rkisp1-config.h
-+++ b/include/uapi/linux/rkisp1-config.h
-@@ -49,8 +49,14 @@
- #define RKISP1_CIF_ISP_CTK_COEFF_MAX            0x100
- #define RKISP1_CIF_ISP_CTK_OFFSET_MAX           0x800
- 
--#define RKISP1_CIF_ISP_AE_MEAN_MAX              25
--#define RKISP1_CIF_ISP_HIST_BIN_N_MAX           16
-+#define RKISP1_CIF_ISP_AE_MEAN_MAX_V10		25
-+#define RKISP1_CIF_ISP_AE_MEAN_MAX_V12		81
-+#define RKISP1_CIF_ISP_AE_MEAN_MAX		RKISP1_CIF_ISP_AE_MEAN_MAX_V12
-+
-+#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10	16
-+#define RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12	32
-+#define RKISP1_CIF_ISP_HIST_BIN_N_MAX		RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12
-+
- #define RKISP1_CIF_ISP_AFM_MAX_WINDOWS          3
- #define RKISP1_CIF_ISP_DEGAMMA_CURVE_SIZE       17
- 
-@@ -86,7 +92,9 @@
-  * Gamma out
-  */
- /* Maximum number of color samples supported */
--#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       17
-+#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10   17
-+#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12   34
-+#define RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES       RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
- 
- /*
-  * Lens shade correction
-@@ -102,7 +110,9 @@
- /*
-  * Histogram calculation
-  */
--#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 25
-+#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10 25
-+#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12 81
-+#define RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE     RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
- 
- /*
-  * Defect Pixel Cluster Correction
-@@ -524,6 +534,15 @@ enum rkisp1_cif_isp_goc_mode {
-  *
-  * @mode: goc mode (from enum rkisp1_cif_isp_goc_mode)
-  * @gamma_y: gamma out curve y-axis for all color components
-+ *
-+ * The number of entries of @gamma_y depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V10
-+ * entries, versions >= V12 have RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12
-+ * entries. RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES is equal to the maximum
-+ * of the two.
-  */
- struct rkisp1_cif_isp_goc_config {
- 	__u32 mode;
-@@ -538,6 +557,15 @@ struct rkisp1_cif_isp_goc_config {
-  *			  skipped
-  * @meas_window: coordinates of the measure window
-  * @hist_weight: weighting factor for sub-windows
-+ *
-+ * The number of entries of @hist_weight depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V10
-+ * entries, versions >= V12 have RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE_V12
-+ * entries. RKISP1_CIF_ISP_HISTOGRAM_WEIGHT_GRIDS_SIZE is equal to the maximum
-+ * of the two.
-  */
- struct rkisp1_cif_isp_hst_config {
- 	__u32 mode;
-@@ -825,7 +853,15 @@ struct rkisp1_cif_isp_bls_meas_val {
-  * @exp_mean: Mean luminance value of block xx
-  * @bls_val:  BLS measured values
-  *
-- * Image is divided into 5x5 blocks.
-+ * The number of entries of @exp_mean depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_AE_MEAN_MAX_V10 entries,
-+ * versions >= V12 have RKISP1_CIF_ISP_AE_MEAN_MAX_V12 entries.
-+ * RKISP1_CIF_ISP_AE_MEAN_MAX is equal to the maximum of the two.
-+ *
-+ * Image is divided into 5x5 blocks on V10 and 9x9 blocks on V12.
-  */
- struct rkisp1_cif_isp_ae_stat {
- 	__u8 exp_mean[RKISP1_CIF_ISP_AE_MEAN_MAX];
-@@ -862,11 +898,22 @@ struct rkisp1_cif_isp_af_stat {
-  *	       type. Bits 0-4 are the fractional part and bits 5-19 are the
-  *	       integer part.
-  *
-- * The window of the measurements area is divided to 5x5 sub-windows. The
-- * histogram is then computed for each sub-window independently and the final
-- * result is a weighted average of the histogram measurements on all
-- * sub-windows. The window of the measurements area and the weight of each
-- * sub-window are configurable using struct @rkisp1_cif_isp_hst_config.
-+ * The window of the measurements area is divided to 5x5 sub-windows for
-+ * V10/V11 and to 9x9 sub-windows for V12. The histogram is then computed for
-+ * each sub-window independently and the final result is a weighted average of
-+ * the histogram measurements on all sub-windows. The window of the
-+ * measurements area and the weight of each sub-window are configurable using
-+ * struct @rkisp1_cif_isp_hst_config.
-+ *
-+ * The histogram contains 16 bins in V10/V11 and 32 bins in V12/V13.
-+ *
-+ * The number of entries of @hist_bins depends on the hardware revision
-+ * as is reported by the hw_revision field of the struct media_device_info
-+ * that is returned by ioctl MEDIA_IOC_DEVICE_INFO.
-+ *
-+ * Versions <= V11 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V10 entries,
-+ * versions >= V12 have RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12 entries.
-+ * RKISP1_CIF_ISP_HIST_BIN_N_MAX is equal to the maximum of the two.
-  */
- struct rkisp1_cif_isp_hist_stat {
- 	__u32 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
--- 
-2.17.1
-
+Best,
+Sumit.
