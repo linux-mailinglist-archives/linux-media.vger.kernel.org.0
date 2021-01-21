@@ -2,73 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAC352FF5F2
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 21:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4DC32FF6E5
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 22:14:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726355AbhAUUdl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jan 2021 15:33:41 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36520 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727102AbhAUUaA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jan 2021 15:30:00 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C4D1FABDA;
-        Thu, 21 Jan 2021 20:29:01 +0000 (UTC)
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: pwc: Fix the URB buffer allocation
-Date:   Thu, 21 Jan 2021 21:28:55 +0100
-Message-Id: <20210121202855.17400-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.26.2
+        id S1727637AbhAUVIs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jan 2021 16:08:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51718 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727453AbhAUU6P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 Jan 2021 15:58:15 -0500
+X-Greylist: delayed 485 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 21 Jan 2021 12:57:22 PST
+Received: from antares.kleine-koenig.org (antares.kleine-koenig.org [IPv6:2a01:4f8:c0c:3a97::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD63EC06174A;
+        Thu, 21 Jan 2021 12:57:22 -0800 (PST)
+Received: by antares.kleine-koenig.org (Postfix, from userid 1000)
+        id 4F281AD8EB0; Thu, 21 Jan 2021 21:48:22 +0100 (CET)
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pau Oliva Fora <pof@eslack.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Hannes Reinecke <hare@suse.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Finn Thain <fthain@telegraphics.com.au>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH v1 0/2] isa: Make the remove callback for isa drivers return void
+Date:   Thu, 21 Jan 2021 21:48:10 +0100
+Message-Id: <20210121204812.402589-1-uwe@kleine-koenig.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The URB buffer allocation of pwc driver involves with the
-dma_map_single(), and it needs to pass the right device.  Currently it
-passes usb_device.dev, but it's no real device that manages the DMA.
-Since the passed device has no DMA mask set up, now the pwc driver
-hits the WARN_ON_ONCE() check in dma_map_page_attrs() (that was
-introduced in 5.10), resulting in an error at URB allocations.
-Eventually this ended up with the black output.
+Hello,
 
-This patch fixes the bug by passing the proper device, the bus
-controller, to make the URB allocation and map working again.
+as described in the commit log of the 2nd patch returning an error code
+from a bus' remove callback doesn't make any difference as the driver
+core ignores it and still considers the device removed.
 
-BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1181133
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/media/usb/pwc/pwc-if.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So change the remove callback to return void to not give driver authors
+an incentive to believe they could return an error.
 
-diff --git a/drivers/media/usb/pwc/pwc-if.c b/drivers/media/usb/pwc/pwc-if.c
-index 61869636ec61..d771160bb168 100644
---- a/drivers/media/usb/pwc/pwc-if.c
-+++ b/drivers/media/usb/pwc/pwc-if.c
-@@ -461,7 +461,7 @@ static int pwc_isoc_init(struct pwc_device *pdev)
- 		urb->pipe = usb_rcvisocpipe(udev, pdev->vendpoint);
- 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
- 		urb->transfer_buffer_length = ISO_BUFFER_SIZE;
--		urb->transfer_buffer = pwc_alloc_urb_buffer(&udev->dev,
-+		urb->transfer_buffer = pwc_alloc_urb_buffer(udev->bus->controller,
- 							    urb->transfer_buffer_length,
- 							    &urb->transfer_dma);
- 		if (urb->transfer_buffer == NULL) {
-@@ -524,7 +524,7 @@ static void pwc_iso_free(struct pwc_device *pdev)
- 		if (urb) {
- 			PWC_DEBUG_MEMORY("Freeing URB\n");
- 			if (urb->transfer_buffer)
--				pwc_free_urb_buffer(&urb->dev->dev,
-+				pwc_free_urb_buffer(urb->dev->bus->controller,
- 						    urb->transfer_buffer_length,
- 						    urb->transfer_buffer,
- 						    urb->transfer_dma);
+There is only a single isa driver in the tree (assuming I didn't miss
+any) that has a remove callback that can return a non zero return code.
+This is "fixed" in the first patch, to make the second patch more
+obviously correct.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (2):
+  watchdog: pcwd: drop always-false if from remove callback
+  isa: Make the remove callback for isa drivers return void
+
+ drivers/base/isa.c                   | 2 +-
+ drivers/i2c/busses/i2c-elektor.c     | 4 +---
+ drivers/i2c/busses/i2c-pca-isa.c     | 4 +---
+ drivers/input/touchscreen/htcpen.c   | 4 +---
+ drivers/media/radio/radio-sf16fmr2.c | 4 +---
+ drivers/net/can/sja1000/tscan1.c     | 4 +---
+ drivers/net/ethernet/3com/3c509.c    | 3 +--
+ drivers/scsi/advansys.c              | 3 +--
+ drivers/scsi/aha1542.c               | 3 +--
+ drivers/scsi/fdomain_isa.c           | 3 +--
+ drivers/scsi/g_NCR5380.c             | 3 +--
+ drivers/watchdog/pcwd.c              | 7 +------
+ include/linux/isa.h                  | 2 +-
+ sound/isa/ad1848/ad1848.c            | 3 +--
+ sound/isa/adlib.c                    | 3 +--
+ sound/isa/cmi8328.c                  | 3 +--
+ sound/isa/cmi8330.c                  | 3 +--
+ sound/isa/cs423x/cs4231.c            | 3 +--
+ sound/isa/cs423x/cs4236.c            | 3 +--
+ sound/isa/es1688/es1688.c            | 3 +--
+ sound/isa/es18xx.c                   | 3 +--
+ sound/isa/galaxy/galaxy.c            | 3 +--
+ sound/isa/gus/gusclassic.c           | 3 +--
+ sound/isa/gus/gusextreme.c           | 3 +--
+ sound/isa/gus/gusmax.c               | 3 +--
+ sound/isa/gus/interwave.c            | 3 +--
+ sound/isa/msnd/msnd_pinnacle.c       | 3 +--
+ sound/isa/opl3sa2.c                  | 3 +--
+ sound/isa/opti9xx/miro.c             | 3 +--
+ sound/isa/opti9xx/opti92x-ad1848.c   | 3 +--
+ sound/isa/sb/jazz16.c                | 3 +--
+ sound/isa/sb/sb16.c                  | 3 +--
+ sound/isa/sb/sb8.c                   | 3 +--
+ sound/isa/sc6000.c                   | 3 +--
+ sound/isa/sscape.c                   | 3 +--
+ sound/isa/wavefront/wavefront.c      | 3 +--
+ 36 files changed, 36 insertions(+), 79 deletions(-)
+
+
+base-commit: 5a158981aafa7f29709034b17bd007b15cb29983
 -- 
-2.26.2
-
+2.29.2
