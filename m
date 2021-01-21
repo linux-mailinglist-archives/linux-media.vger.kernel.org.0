@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52C1F2FF2A6
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 19:00:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BBE22FF292
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 18:57:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389319AbhAUR7p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jan 2021 12:59:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40760 "EHLO
+        id S2389361AbhAUR4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jan 2021 12:56:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389053AbhAURzv (ORCPT
+        with ESMTP id S2389229AbhAURzy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jan 2021 12:55:51 -0500
+        Thu, 21 Jan 2021 12:55:54 -0500
 Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26BA4C061756;
-        Thu, 21 Jan 2021 09:55:11 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id 31so1686590plb.10;
-        Thu, 21 Jan 2021 09:55:11 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F682C0613D6;
+        Thu, 21 Jan 2021 09:55:13 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id d4so1711542plh.5;
+        Thu, 21 Jan 2021 09:55:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5aQuxt1nZst2lLKkiFlWOAqj/tVkXqtYs356x95d5f0=;
-        b=FKdfqGEX6B9MgedVW8r+6/43MRAQYZp3W6O+lYUOhIWcHvMRfGHmJxoN9lBT8g64hG
-         xEoIwo264ZbNkC9mApttjnw+IyU4VnDVgkmVVlbEltjJ4DkdE1g6HkjdL9moCRGKgFW4
-         f0lgOkk2ME5EEXtyG1rq6DQV9WzXsT3U/skp0pYkIDhXAIn5n0b2JnlX4nKoAN1/3R5Z
-         heTu/JHH4VvqGNK2HWJUiYLqnAvHNRZTS6sYGx8x/oeVEfALUxzgSOGxG5K9q9j+C1Y9
-         k9VlO9x9K5HSo3j4ZRCoi1kDdHZSJVfZ6vsDaRE427BihHUZHnA00HfDLqr8JxY5IquS
-         TizA==
+        bh=gPMjM19aJ4pm3ETJElwKqqAg8qqzpXB97r3PbN2RvL8=;
+        b=qDC+o38edBIaLnG8PWToxRhj0mPMeIfGyClNNZGIdiSSXZ2tJZWeGMSjqb6Huno5Je
+         +s9NpaIPVTqyciyZTwKM5kcwYq2dDpuaC0zoITN6bASo1/oCbfUYZKU1WDHQFpR4oTNg
+         Q+2MMzLxdK1Ode8CPyEpokjv+oVgNPg+KGhhdt3i2NU2HG/DmJKDhjdILm/UOXIjpOai
+         er6lOvs1xiyuvzkQUHTmK/7TJ35rFG3Qq4hWmU2S0uFXV8TnSr3Uu+mgP7eff89fbX4D
+         Pa584ZSykXNIjOtQdY8kLxVwg4OVsCPqbdHgBWm//V/4HNQhBVmyo2f3msnkwFwkGnCO
+         2CGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=5aQuxt1nZst2lLKkiFlWOAqj/tVkXqtYs356x95d5f0=;
-        b=dBpT3nVzyvrImp77tuCzcJT5NSakTuGpXhv8umUgqt6BgQo8FyLHQRxTiY6mtejKAb
-         xxGi4bFqEyT2KK2IJwv30aJd8O7Pbj/mqECm32AIQdaiRpMD/zbP++JPKTjacNkmwzax
-         18Q5rbmGJiomDTQRTX7S9m32J/Gu8bunfiF5Xr7+BjOt6UzcIov4pWtAvDNXYgcpMxCt
-         Bc3uAY6zrL5x2wxGoIJEK9Vn7W8rgDNAfgUlytMb0noD6980ijeoIxmjhZQVpx/WCvcm
-         g3h7wKkVQZm1htqUCRZarIIy+kWoiV5kWHodL+4nDUpWdtBmERrP47BW3m/oobhg7aYa
-         Vf+Q==
-X-Gm-Message-State: AOAM531/ymwuNwuBDT93qRv3KJMwzdACPZSkodNl5oilboUFxVgY7Dah
-        0X9qPW8z68JnpxwTUAtpQ/M=
-X-Google-Smtp-Source: ABdhPJz84d4NP4LNFL0MoEneIS25lKrepaWWshMn2GI68bIrXjZpBav7A7tXuDrjAGcsuJdMwCVHDQ==
-X-Received: by 2002:a17:902:edc7:b029:de:6cde:8cfd with SMTP id q7-20020a170902edc7b02900de6cde8cfdmr812671plk.59.1611251710651;
-        Thu, 21 Jan 2021 09:55:10 -0800 (PST)
+        bh=gPMjM19aJ4pm3ETJElwKqqAg8qqzpXB97r3PbN2RvL8=;
+        b=tTIA/jVHiaWhFtKmkLmeBusMNi3TEo0mf+FoqBugcWub+nwYbCFANmEDPMT3qNc1JM
+         /Qo3rRGVHHbPBk3qZh7Mksh1xAym+WJmDtO0vrP/2txQi8opK2bx7bdOp8jwcMEN88gH
+         W2q8nldW+SwdzH+9UNemNxtIsafTT7LCdu2Vn0NHAuzj3E5e7bs7x+48qj10bDtb3C2K
+         z7O7jwQmotu8ejQqBdvwPyOyk+YOef4dOwYtheIP7T4dYS1NwmxKXehA4beWkXA4sKzN
+         iJmxwDBCXVISSlf/KvEIbjfl3en169+/SBL/q2SJ+5gWi0wrnM3JNDXQFoDNnYoA4cu3
+         Z6LA==
+X-Gm-Message-State: AOAM532CDtC9IBzIYiTavQ6sOq2dlND4oq9SHORays1d9ET1GZLId40G
+        mfvqFcfozM4rHDcRu/q06/Y=
+X-Google-Smtp-Source: ABdhPJwua3dS85PxEqSvzV1XHGSp3rtEG3Evxsrqo12dFSbOhRShx1GThlZKPz/+p0B1yNRZEi2OWw==
+X-Received: by 2002:a17:902:59c7:b029:de:25e7:2426 with SMTP id d7-20020a17090259c7b02900de25e72426mr424509plj.21.1611251713128;
+        Thu, 21 Jan 2021 09:55:13 -0800 (PST)
 Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:201:74d0:bb24:e25e:dc4d])
-        by smtp.gmail.com with ESMTPSA id t2sm6897317pju.19.2021.01.21.09.55.08
+        by smtp.gmail.com with ESMTPSA id t2sm6897317pju.19.2021.01.21.09.55.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 09:55:09 -0800 (PST)
+        Thu, 21 Jan 2021 09:55:12 -0800 (PST)
 Sender: Minchan Kim <minchan.kim@gmail.com>
 From:   Minchan Kim <minchan@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
@@ -58,9 +58,9 @@ Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         hch@infradead.org, robh+dt@kernel.org,
         linaro-mm-sig@lists.linaro.org, Minchan Kim <minchan@kernel.org>
-Subject: [PATCH v4 1/4] mm: cma: introduce gfp flag in cma_alloc instead of no_warn
-Date:   Thu, 21 Jan 2021 09:54:59 -0800
-Message-Id: <20210121175502.274391-2-minchan@kernel.org>
+Subject: [PATCH v4 2/4] mm: failfast mode with __GFP_NORETRY in alloc_contig_range
+Date:   Thu, 21 Jan 2021 09:55:00 -0800
+Message-Id: <20210121175502.274391-3-minchan@kernel.org>
 X-Mailer: git-send-email 2.30.0.296.g2bfb1c46d8-goog
 In-Reply-To: <20210121175502.274391-1-minchan@kernel.org>
 References: <20210121175502.274391-1-minchan@kernel.org>
@@ -70,185 +70,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The upcoming patch will introduce __GFP_NORETRY semantic
-in alloc_contig_range which is a failfast mode of the API.
-Instead of adding a additional parameter for gfp, replace
-no_warn with gfp flag.
+Contiguous memory allocation can be stalled due to waiting
+on page writeback and/or page lock which causes unpredictable
+delay. It's a unavoidable cost for the requestor to get *big*
+contiguous memory but it's expensive for *small* contiguous
+memory(e.g., order-4) because caller could retry the request
+in different range where would have easy migratable pages
+without stalling.
 
-To keep old behaviors, it follows the rule below.
+This patch introduce __GFP_NORETRY as compaction gfp_mask in
+alloc_contig_range so it will fail fast without blocking
+when it encounters pages needed waiting.
 
-  no_warn 			gfp_flags
-
-  false         		GFP_KERNEL
-  true          		GFP_KERNEL|__GFP_NOWARN
-  gfp & __GFP_NOWARN		GFP_KERNEL | (gfp & __GFP_NOWARN)
-
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 Signed-off-by: Minchan Kim <minchan@kernel.org>
 ---
- drivers/dma-buf/heaps/cma_heap.c |  2 +-
- drivers/s390/char/vmcp.c         |  2 +-
- include/linux/cma.h              |  2 +-
- kernel/dma/contiguous.c          |  3 ++-
- mm/cma.c                         | 12 ++++++------
- mm/cma_debug.c                   |  2 +-
- mm/hugetlb.c                     |  6 ++++--
- mm/secretmem.c                   |  3 ++-
- 8 files changed, 18 insertions(+), 14 deletions(-)
+ mm/page_alloc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 364fc2f3e499..0afc1907887a 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -298,7 +298,7 @@ static int cma_heap_allocate(struct dma_heap *heap,
- 	if (align > CONFIG_CMA_ALIGNMENT)
- 		align = CONFIG_CMA_ALIGNMENT;
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index b031a5ae0bd5..1cdc3ee0b22e 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -8491,12 +8491,16 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
+ 	unsigned int nr_reclaimed;
+ 	unsigned long pfn = start;
+ 	unsigned int tries = 0;
++	unsigned int max_tries = 5;
+ 	int ret = 0;
+ 	struct migration_target_control mtc = {
+ 		.nid = zone_to_nid(cc->zone),
+ 		.gfp_mask = GFP_USER | __GFP_MOVABLE | __GFP_RETRY_MAYFAIL,
+ 	};
  
--	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
-+	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, GFP_KERNEL);
- 	if (!cma_pages)
- 		goto free_buffer;
++	if (cc->alloc_contig && cc->mode == MIGRATE_ASYNC)
++		max_tries = 1;
++
+ 	migrate_prep();
  
-diff --git a/drivers/s390/char/vmcp.c b/drivers/s390/char/vmcp.c
-index 9e066281e2d0..78f9adf56456 100644
---- a/drivers/s390/char/vmcp.c
-+++ b/drivers/s390/char/vmcp.c
-@@ -70,7 +70,7 @@ static void vmcp_response_alloc(struct vmcp_session *session)
- 	 * anymore the system won't work anyway.
- 	 */
- 	if (order > 2)
--		page = cma_alloc(vmcp_cma, nr_pages, 0, false);
-+		page = cma_alloc(vmcp_cma, nr_pages, 0, GFP_KERNEL);
- 	if (page) {
- 		session->response = (char *)page_to_phys(page);
- 		session->cma_alloc = 1;
-diff --git a/include/linux/cma.h b/include/linux/cma.h
-index 217999c8a762..d6c02d08ddbc 100644
---- a/include/linux/cma.h
-+++ b/include/linux/cma.h
-@@ -45,7 +45,7 @@ extern int cma_init_reserved_mem(phys_addr_t base, phys_addr_t size,
- 					const char *name,
- 					struct cma **res_cma);
- extern struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
--			      bool no_warn);
-+			      gfp_t gfp_mask);
- extern bool cma_release(struct cma *cma, const struct page *pages, unsigned int count);
- 
- extern int cma_for_each_area(int (*it)(struct cma *cma, void *data), void *data);
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 3d63d91cba5c..552ed531c018 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -260,7 +260,8 @@ struct page *dma_alloc_from_contiguous(struct device *dev, size_t count,
- 	if (align > CONFIG_CMA_ALIGNMENT)
- 		align = CONFIG_CMA_ALIGNMENT;
- 
--	return cma_alloc(dev_get_cma_area(dev), count, align, no_warn);
-+	return cma_alloc(dev_get_cma_area(dev), count, align, GFP_KERNEL |
-+			(no_warn ? __GFP_NOWARN : 0));
- }
- 
- /**
-diff --git a/mm/cma.c b/mm/cma.c
-index 0ba69cd16aeb..d50627686fec 100644
---- a/mm/cma.c
-+++ b/mm/cma.c
-@@ -419,13 +419,13 @@ static inline void cma_debug_show_areas(struct cma *cma) { }
-  * @cma:   Contiguous memory region for which the allocation is performed.
-  * @count: Requested number of pages.
-  * @align: Requested alignment of pages (in PAGE_SIZE order).
-- * @no_warn: Avoid printing message about failed allocation
-+ * @gfp_mask: GFP mask to use during the cma allocation.
-  *
-  * This function allocates part of contiguous memory on specific
-  * contiguous memory area.
-  */
- struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
--		       bool no_warn)
-+		       gfp_t gfp_mask)
- {
- 	unsigned long mask, offset;
- 	unsigned long pfn = -1;
-@@ -438,8 +438,8 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
- 	if (!cma || !cma->count || !cma->bitmap)
- 		return NULL;
- 
--	pr_debug("%s(cma %p, count %zu, align %d)\n", __func__, (void *)cma,
--		 count, align);
-+	pr_debug("%s(cma %p, count %zu, align %d gfp_mask 0x%x)\n", __func__,
-+			(void *)cma, count, align, gfp_mask);
- 
- 	if (!count)
- 		return NULL;
-@@ -471,7 +471,7 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
- 
- 		pfn = cma->base_pfn + (bitmap_no << cma->order_per_bit);
- 		ret = alloc_contig_range(pfn, pfn + count, MIGRATE_CMA,
--				     GFP_KERNEL | (no_warn ? __GFP_NOWARN : 0));
-+						gfp_mask);
- 
- 		if (ret == 0) {
- 			page = pfn_to_page(pfn);
-@@ -500,7 +500,7 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
- 			page_kasan_tag_reset(page + i);
- 	}
- 
--	if (ret && !no_warn) {
-+	if (ret && !(gfp_mask & __GFP_NOWARN)) {
- 		pr_err("%s: alloc failed, req-size: %zu pages, ret: %d\n",
- 			__func__, count, ret);
- 		cma_debug_show_areas(cma);
-diff --git a/mm/cma_debug.c b/mm/cma_debug.c
-index d5bf8aa34fdc..00170c41cf81 100644
---- a/mm/cma_debug.c
-+++ b/mm/cma_debug.c
-@@ -137,7 +137,7 @@ static int cma_alloc_mem(struct cma *cma, int count)
- 	if (!mem)
- 		return -ENOMEM;
- 
--	p = cma_alloc(cma, count, 0, false);
-+	p = cma_alloc(cma, count, 0, GFP_KERNEL);
- 	if (!p) {
- 		kfree(mem);
- 		return -ENOMEM;
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index a6bad1f686c5..4209a2ed1e1b 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1266,7 +1266,8 @@ static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
- 
- 		if (hugetlb_cma[nid]) {
- 			page = cma_alloc(hugetlb_cma[nid], nr_pages,
--					huge_page_order(h), true);
-+					huge_page_order(h),
-+					GFP_KERNEL | __GFP_NOWARN);
- 			if (page)
- 				return page;
- 		}
-@@ -1277,7 +1278,8 @@ static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
- 					continue;
- 
- 				page = cma_alloc(hugetlb_cma[node], nr_pages,
--						huge_page_order(h), true);
-+						huge_page_order(h),
-+						GFP_KERNEL | __GFP_NOWARN);
- 				if (page)
- 					return page;
+ 	while (pfn < end || !list_empty(&cc->migratepages)) {
+@@ -8513,7 +8517,7 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
+ 				break;
  			}
-diff --git a/mm/secretmem.c b/mm/secretmem.c
-index b8a32954ac68..585d55b9f9d8 100644
---- a/mm/secretmem.c
-+++ b/mm/secretmem.c
-@@ -86,7 +86,8 @@ static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
- 	struct page *page;
- 	int err;
- 
--	page = cma_alloc(secretmem_cma, nr_pages, PMD_SIZE, gfp & __GFP_NOWARN);
-+	page = cma_alloc(secretmem_cma, nr_pages, PMD_SIZE,
-+				GFP_KERNEL | (gfp & __GFP_NOWARN));
- 	if (!page)
- 		return -ENOMEM;
- 
+ 			tries = 0;
+-		} else if (++tries == 5) {
++		} else if (++tries == max_tries) {
+ 			ret = ret < 0 ? ret : -EBUSY;
+ 			break;
+ 		}
+@@ -8564,7 +8568,7 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+ 		.nr_migratepages = 0,
+ 		.order = -1,
+ 		.zone = page_zone(pfn_to_page(start)),
+-		.mode = MIGRATE_SYNC,
++		.mode = gfp_mask & __GFP_NORETRY ? MIGRATE_ASYNC : MIGRATE_SYNC,
+ 		.ignore_skip_hint = true,
+ 		.no_set_skip_hint = true,
+ 		.gfp_mask = current_gfp_context(gfp_mask),
 -- 
 2.30.0.296.g2bfb1c46d8-goog
 
