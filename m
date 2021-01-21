@@ -2,76 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77D5E2FEAC4
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 13:56:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47C742FEB36
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 14:11:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728996AbhAUMzF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jan 2021 07:55:05 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:57662 "EHLO www.linuxtv.org"
+        id S1731600AbhAUNDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jan 2021 08:03:33 -0500
+Received: from mga09.intel.com ([134.134.136.24]:62364 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731513AbhAUMyU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jan 2021 07:54:20 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l2ZSy-007Jdv-24; Thu, 21 Jan 2021 12:53:36 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l2ZWS-0001VB-2I; Thu, 21 Jan 2021 12:57:12 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.12] More V4L2 patches (#71010)
-Date:   Thu, 21 Jan 2021 12:57:11 +0000
-Message-Id: <20210121125711.5732-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210121122556.GK3@valkosipuli.retiisi.org.uk>
-References: 
+        id S1729663AbhAUND2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 Jan 2021 08:03:28 -0500
+IronPort-SDR: 4sRZxa1BGAWfS0qgaIVMMjPI9+Yi4bD9Ew5YZKFLo+IPLJnVcZ8eR3aY1Xj8v3/OTDIrbUgQEK
+ H++NAvliOnzA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9870"; a="179413999"
+X-IronPort-AV: E=Sophos;i="5.79,363,1602572400"; 
+   d="scan'208";a="179413999"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 05:01:24 -0800
+IronPort-SDR: 1eUyjMpjjryq+aukYze5uL3uJ5Kay2XMhajOfVuAbdlz7kCnKPmu/ExS5hHpgm0T7kobS4P/mu
+ +Qyn6KoQSRDQ==
+X-IronPort-AV: E=Sophos;i="5.79,363,1602572400"; 
+   d="scan'208";a="347904719"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 05:01:21 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id EF5E72067A; Thu, 21 Jan 2021 15:01:18 +0200 (EET)
+Date:   Thu, 21 Jan 2021 15:01:18 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, heiko.stuebner@theobroma-systems.com,
+        heiko@sntech.de, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH v7 1/5] media: rkisp1: uapi: change hist_bins array type
+ from __u16 to __u32
+Message-ID: <20210121130118.GC6234@paasikivi.fi.intel.com>
+References: <20210120164446.1220-1-dafna.hirschfeld@collabora.com>
+ <20210120164446.1220-2-dafna.hirschfeld@collabora.com>
+ <20210120213207.GN11878@paasikivi.fi.intel.com>
+ <12823703-5a32-f08a-5b4d-3a5ead231b33@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12823703-5a32-f08a-5b4d-3a5ead231b33@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Dafna,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210121122556.GK3@valkosipuli.retiisi.org.uk/
-Build log: https://builder.linuxtv.org/job/patchwork/86754/
-Build time: 00:06:06
-Link: https://lore.kernel.org/linux-media/20210121122556.GK3@valkosipuli.retiisi.org.uk
+On Thu, Jan 21, 2021 at 01:48:58PM +0100, Dafna Hirschfeld wrote:
+> 
+> 
+> Am 20.01.21 um 22:32 schrieb Sakari Ailus:
+> > Hi Dafna,
+> > 
+> > Thanks for the update.
+> > 
+> > On Wed, Jan 20, 2021 at 05:44:42PM +0100, Dafna Hirschfeld wrote:
+> > > Each entry in the array is a 20 bits value composed of 16
+> > > bits unsigned integer and 4 bits fractional part. So the
+> > > type should change to __u32.
+> > > In addition add a documentation of how the measurements
+> > > are done.
+> > 
+> > The commit message lines wrap at 74, under 60 is not much.
+> > 
+> > > 
+> > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > 
+> > Should there be a Fixes: line? The patch is changing UAPI...
+> > 
+> > The file has been recently introduced. Should it go to fixes or to a stable
+> > kernel, too?
+> 
+> The file was in the staging directory and will be first destaged in the coming 5.11,
+> so I don't think this is necessary.
 
-gpg: Signature made Thu 21 Jan 2021 12:18:46 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
+You still probably want to avoid making the uAPI change after 5.11, so
+the fixes branch would be the right target I presume.
 
-Summary: got 3/5 patches with issues, being 2 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-v4l2-async-Add-waiting-subdevices-debugfs.patch:
-
-    allmodconfig: return code #0:
-	../drivers/media/v4l2-core/v4l2-async.c:846:2: warning: enumeration value ‘V4L2_ASYNC_MATCH_CUSTOM’ not handled in switch [-Wswitch]
-
-   checkpatch.pl:
-	$ cat patches/0001-media-v4l2-async-Add-waiting-subdevices-debugfs.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0003-media-i2c-Kconfig-Select-FWNODE-for-OV772x-sensor.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-i2c-Kconfig-Select-FWNODE-for-OV772x-sensor.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0004-media-v4l2-async-Safely-unregister-an-non-registered.patch:
-
-    allmodconfig: return code #0:
-	../drivers/media/v4l2-core/v4l2-async.c:849:2: warning: enumeration value ‘V4L2_ASYNC_MATCH_CUSTOM’ not handled in switch [-Wswitch]
-
-
-Error #512 when building PDF docs
-
+-- 
+Sakari Ailus
