@@ -2,111 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A4712FE726
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 11:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A39A02FE748
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 11:16:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728531AbhAUKI6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jan 2021 05:08:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728404AbhAUKIl (ORCPT
+        id S1727155AbhAUKOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jan 2021 05:14:52 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:53835 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728803AbhAUKOl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jan 2021 05:08:41 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58EB9C061575
-        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 02:08:01 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id bx12so1733141edb.8
-        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 02:08:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hr8G9ZRt7jscYO8CLUhH5Ds1WbiUzFjHZWuqOSMKHdU=;
-        b=GvEUJalzniaiCCa2+ngQnbp8snJ8jc68JNc2fkb9RdUdyjz1evsvu63fQ07IxVoc9R
-         nJroc34QzqHexVPgOQoLntzHs7TdgM1fV2/NDhT/0e9AhZZmtxWBVqiNivNKPhKSDnqz
-         4PMcOGWf4jG5aa6XoWiF4r/vfplWAzWKhpvRQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hr8G9ZRt7jscYO8CLUhH5Ds1WbiUzFjHZWuqOSMKHdU=;
-        b=XTRqL7t4zBRgfXTxGgrt5JOpLYW1VtRrr5QG9jEnZVEEHm+WHBHPnbhYaCh7WVaEzU
-         hqTFw2jemRAI/JR5uP5bIAVaV4/lVEatuGLH3mg1jMur+/I5UB/RTaay0O+3CngPV+BR
-         +Pi8dG8cpmudHt7xRyfYBgGLfXGUguNPGK5R1PnxX1xjDCUeYSGxWvP9qeL3B6ytv6L3
-         LboVSN/uaVOfOb7XmBpqV6HQWJvqjQCsaH5kEQ/5Y2yVEJ6Xe8B8lBsHu7+iXEDQejYS
-         F5IGKVKND3fw/h7nD8wPQ651TfHRkGiGfMp+6hRsGvmMLKZd9G9X5nQmXpF1QoQnHqhP
-         2kiA==
-X-Gm-Message-State: AOAM532JSl09Wo05p+gCkkFEfT+GjzuYgcX/La1+86h80LvPsRGoOtz+
-        d33upiIrwnelIla7X7GeSBPXSkx5INpBhw==
-X-Google-Smtp-Source: ABdhPJxnt1oX6KnjNdLc5aKYZHVihQsUF0HJuTPP9Yiq1wqYbGUI/BisDtZGmzIVBbWlT7QU4qbwRA==
-X-Received: by 2002:a50:8b02:: with SMTP id l2mr10267458edl.322.1611223679730;
-        Thu, 21 Jan 2021 02:07:59 -0800 (PST)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
-        by smtp.gmail.com with ESMTPSA id n27sm2053157eje.29.2021.01.21.02.07.56
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jan 2021 02:07:57 -0800 (PST)
-Received: by mail-ej1-f48.google.com with SMTP id w1so1744423ejf.11
-        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 02:07:56 -0800 (PST)
-X-Received: by 2002:a17:906:aad1:: with SMTP id kt17mr8868059ejb.116.1611223676379;
- Thu, 21 Jan 2021 02:07:56 -0800 (PST)
+        Thu, 21 Jan 2021 05:14:41 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 2WyKlaYYVyutM2WyOlgjO6; Thu, 21 Jan 2021 11:13:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611224032; bh=vFldCs0uCsla7nsO6tILqtpoaUWPlgyl3Ou2eNpC9WE=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=gxkl7D/1CR7f1z9G2fM2wJn6rWrvZW+/qnID0KeKpZgrCVCz2sDuS/oNvevGzTV3r
+         2p8F1F8/n45+Kv5uP3/g9FIGzMEwfuxnSwUC1ZWk42IWsK/n69HsczUMRYU114VjaT
+         65GRIFqUfxpIbvzCgBHsJxoTNglikE+P24It/j4ktrEnMDtceymTDG5yJtIb3qjlwj
+         zVDrMiuI8FsGLFnm1Z2wCaFc+j3bdbK+OB1+p8G/i/4ubXKZ8YlX9Ar6vk4cWOKYc4
+         SfUrLoqpLcRe7Bo2Z31PLqLPgSXxigw51EuxkTpPXaQWkUArq3KmweYJQPGM0cY9qa
+         UYqFYcfp3vzZQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.12] Various fixes
+Message-ID: <827141bf-e952-e716-9366-c9b7e09c73d3@xs4all.nl>
+Date:   Thu, 21 Jan 2021 11:13:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210120164446.1220-1-dafna.hirschfeld@collabora.com> <20210120164446.1220-3-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20210120164446.1220-3-dafna.hirschfeld@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 21 Jan 2021 19:07:44 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AyE87V7u6heJp24VUXVBMzqrQ6nUVa-mVr0JUADSVq=g@mail.gmail.com>
-Message-ID: <CAAFQd5AyE87V7u6heJp24VUXVBMzqrQ6nUVa-mVr0JUADSVq=g@mail.gmail.com>
-Subject: Re: [PATCH v7 2/5] media: rkisp1: stats: remove a wrong cast to u8
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEcWvF7eUvTLC1mGxP6eYdkFvW7fs5uy9xnPVbTUfsZD1Tb/SOViJVrlTMxfxU37gmDc7uxFxnEqKaSX3gXZ/6U3NJhRh75VUsb2mlgtl+vrcGVN8V82
+ +C+Dqhi5jAvr+InhkQS3TDhFQQJOtVYrmhXA3WnAb23PzNaAwAJIOuLBtddje3K5aMy3xXrdXhPOK5xGZ3uBPTNP7MW0PDm0hxw=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+The following changes since commit 321af22a3d2f6ed1fb1737c8588c01f6fec8a7b8:
 
-On Thu, Jan 21, 2021 at 1:45 AM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
-> hist_bins is an array of type __u32. Each entry represent
-> a 20 bit fixed point value as documented inline.
-> The cast to u8 when setting the values is wrong. Remove it.
+  media: atomisp: convert comma to semicolon (2021-01-14 13:59:46 +0100)
 
-Thanks for the patch. See my comment inline.
+are available in the Git repository at:
 
->
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-> index 3ddab8fa8f2d..4cdb180fa64d 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
-> @@ -235,8 +235,7 @@ static void rkisp1_stats_get_hst_meas(struct rkisp1_stats *stats,
->         pbuf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
->         for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++)
->                 pbuf->params.hist.hist_bins[i] =
-> -                       (u8)rkisp1_read(rkisp1,
-> -                                       RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
-> +                       rkisp1_read(rkisp1, RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.12e
 
-Is the register guaranteed to return 0 for the upper unused 12 bits?
-Should we mask them instead?
+for you to fetch changes up to 4e221f315d321688858493f8e097741b569b5232:
 
-Best regards,
-Tomasz
+  media: pxa_camera: declare variable when DEBUG is defined (2021-01-21 11:08:13 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: rc: select CONFIG_BITREVERSE where needed
+
+Christophe JAILLET (2):
+      media: saa7164: switch from 'pci_' to 'dma_' API
+      media: cx25821: Fix a bug when reallocating some dma memory
+
+Dan Carpenter (1):
+      media: atomisp: Fix a buffer overflow in debug code
+
+Evan Benn (1):
+      media: mtk-vcodec: Fix order of log arguments
+
+Gustavo A. R. Silva (6):
+      media: dvb-frontends: Fix fall-through warnings for Clang
+      media: usb: dvb-usb-v2: Fix fall-through warnings for Clang
+      media: atomisp: Fix fall-through warnings for Clang
+      media: dvb_frontend: Fix fall-through warnings for Clang
+      media: rcar_jpu: Fix fall-through warnings for Clang
+      media: saa7134: Fix fall-through warnings for Clang
+
+Jernej Skrabec (1):
+      media: cedrus: Remove checking for required controls
+
+Luo Meng (1):
+      qm1d1c0042: fix error return code in qm1d1c0042_init()
+
+Ricardo Ribalda (7):
+      media: mtk-mdp: Do not zero reserved fields
+      media: fdp1: Do not zero reserved fields
+      media: jpu: Do not zero reserved fields
+      media: ti-vpe: Do not zero reserved fields
+      media: vicodec: Do not zero reserved fields
+      media: sun4i-csi: Do not zero reserved fields
+      media: mtk-vcodec: Do not zero reserved fields
+
+Tom Rix (2):
+      media: mtk-vcodec: fix argument used when DEBUG is defined
+      media: pxa_camera: declare variable when DEBUG is defined
+
+ drivers/media/dvb-core/dvb_frontend.c                   |  1 +
+ drivers/media/dvb-frontends/cx24120.c                   |  1 +
+ drivers/media/dvb-frontends/dib0090.c                   |  2 ++
+ drivers/media/dvb-frontends/drxk_hard.c                 |  1 +
+ drivers/media/dvb-frontends/m88rs2000.c                 |  1 +
+ drivers/media/pci/cx25821/cx25821-core.c                |  4 +++-
+ drivers/media/pci/saa7134/saa7134-tvaudio.c             | 25 ++++++++++++-----------
+ drivers/media/pci/saa7164/saa7164-buffer.c              | 16 ++++++++-------
+ drivers/media/pci/saa7164/saa7164-core.c                |  2 +-
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c            |  3 ---
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c      |  6 ------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c      | 10 ---------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  4 ++--
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.c     | 12 +++++------
+ drivers/media/platform/pxa_camera.c                     |  3 +++
+ drivers/media/platform/rcar_fdp1.c                      |  4 ----
+ drivers/media/platform/rcar_jpu.c                       |  6 +-----
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  4 ----
+ drivers/media/platform/ti-vpe/vpe.c                     |  2 --
+ drivers/media/rc/Kconfig                                |  2 ++
+ drivers/media/rc/img-ir/Kconfig                         |  1 +
+ drivers/media/test-drivers/vicodec/vicodec-core.c       |  5 -----
+ drivers/media/tuners/qm1d1c0042.c                       |  4 +++-
+ drivers/media/usb/cx231xx/Kconfig                       |  1 +
+ drivers/media/usb/dvb-usb-v2/af9015.c                   |  1 +
+ drivers/media/usb/dvb-usb-v2/lmedm04.c                  |  1 +
+ drivers/media/usb/em28xx/Kconfig                        |  1 +
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c      | 24 ++++++++++++++--------
+ drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c |  1 +
+ drivers/staging/media/sunxi/cedrus/cedrus.c             | 49 ---------------------------------------------
+ drivers/staging/media/sunxi/cedrus/cedrus.h             |  1 -
+ 31 files changed, 71 insertions(+), 127 deletions(-)
