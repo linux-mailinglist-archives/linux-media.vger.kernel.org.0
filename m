@@ -2,293 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34BB42FF49A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 20:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C503D2FF4E6
+	for <lists+linux-media@lfdr.de>; Thu, 21 Jan 2021 20:44:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbhAUTdn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Jan 2021 14:33:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52626 "EHLO
+        id S1727340AbhAUTnU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Jan 2021 14:43:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726735AbhAUSvK (ORCPT
+        with ESMTP id S1726278AbhAUTmT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:51:10 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A694C06174A;
-        Thu, 21 Jan 2021 10:50:16 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id y8so1785564plp.8;
-        Thu, 21 Jan 2021 10:50:16 -0800 (PST)
+        Thu, 21 Jan 2021 14:42:19 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99FE4C061788
+        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 11:41:04 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id m2so2476569wmm.1
+        for <linux-media@vger.kernel.org>; Thu, 21 Jan 2021 11:41:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Gzk23zajungTlCb2zZF+0WgvgyrDA4yvKtkR1qaP/Ig=;
-        b=Xz6NOONbGpI8fy5u2HmJJVGmoZPbRnH3JHmvd32Iazx7o2poDKrgDud7nprz+i6zb4
-         gRb16/Lo/qfJSmsY7xJJs8GT7ShWs6jdrgITMD6D6z9c8Yn1Ha0p8wwLv3biS7XNyk2q
-         +ps7du1yQH91OFksV2ICbUastQTLzsKVvMGd/cakBDrwigciJ7PzpoI6Bhtv9TyiQdsI
-         C1uHS1Iom5uhlDufTxww+wdIfw2c47UAzSSToKlOYnsaxUwYNcBhlK3Z5wV57jPoV0mO
-         aEkINUonChkxshGiEagNTQ1sq1zntzaPRQIbUfZzdaSiFBzDjBnr+0drncwamQMYFRSz
-         DTuA==
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bNL6e0QN+ZR4/EOKF9FDIwkALm5IXytT641Xe0UFkrY=;
+        b=P8ric9b+DEzkRUmhpyp5fhDfW46TI86b2poNLqGZYj3qS6U4sSUnJwXO9DgIU1/7ZD
+         CKZ09IYRErEY3NX1DdvOp/F2B/sSE5opK29JNAgoq/QvIMRF/IILJk/sK4rN/fvGW4Rt
+         XJN9Hiir+rV1rDeOdFpzPu2UqlLf+V1J1aL2M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=Gzk23zajungTlCb2zZF+0WgvgyrDA4yvKtkR1qaP/Ig=;
-        b=R5QDWwevHVk4E41f6mPKyBTpaAEiIHzVDwPnVNcc9ui6BR77i/eRKB+E3FNqAbJKqk
-         2H4lNxr5YCfiUNv9ma1NNk5R4TOknJt7DBz8JC44j20xvyugaaxPh4WoNK8lNvWDND+t
-         QWzknwWHrDTyGFpAUOp5kLcnQj3J2MBEus0rZ6EmNjsK92kizWsDKJH6b7m/ZwtNonzi
-         8NLqcbFtkL8J/V3VGRzG01EbwqIaxeSqLiY+CypGafRqU8u4n8aEZz6rkTg58jd73lrx
-         7PAsHq6mGQDlwBRG+UgBKR5BFKBVs1bxr0EnmklQ1feVpRIBjcuQLG3w1fHJ7hrXvn8T
-         bLXw==
-X-Gm-Message-State: AOAM5332B3O7AO0rjEA04tzexcpiGisI7Ys+NaU2AVnR5FKkFT4uU2hV
-        psA0WLzjPfOINpPoKMIrMOg=
-X-Google-Smtp-Source: ABdhPJyfH862LfwsBBPrzhoeOlf41yFFc4kB5MAcVlKsh2VxeTXSxBN2yqWWIhsFKo0Q9csPN8kefQ==
-X-Received: by 2002:a17:90a:5303:: with SMTP id x3mr891727pjh.54.1611255015949;
-        Thu, 21 Jan 2021 10:50:15 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:74d0:bb24:e25e:dc4d])
-        by smtp.gmail.com with ESMTPSA id x19sm6440436pfp.207.2021.01.21.10.50.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bNL6e0QN+ZR4/EOKF9FDIwkALm5IXytT641Xe0UFkrY=;
+        b=UhsQBxVgUJTBTLGf3cSNzFfU39ymIP8qXLn/lrJKA4x9A/kf45LjN/ya00piqd//Do
+         RHC4TpCgvK0XhtQU3qdAyvvrQXMZMDtiBlGRbCHFLfr89YLesvcXIL/p8zDDwz8pY6hE
+         ysp/npvrSXiKBbg8aEjY9AzudXTZhrCapvKpabBksKdc6pIzVGScHrzpY/I5psfHWi/j
+         y/plucZG/frudS43MrvTd432aDhcB7x7+B4jjXhn04w47zArXy/HrbZfV18G9J8fLDuq
+         Jze4IhBESAlVDc+Og2MwJrcCT9IpzFEVNerGReJEFBusyWgIanOGly2/ab6ZYQI7NC5W
+         Putw==
+X-Gm-Message-State: AOAM532QHuV8DX5r8CoEvUWfpBvlTb3QWtTl97/+9yxq5r0E+Nj3HkmA
+        NJcrdUYeSaDnoA8X1hytxzAgmg==
+X-Google-Smtp-Source: ABdhPJz6Ns3zXzoWHuN08CkftiUhSBJXsmHiP4wjoMie+1Gc9+2oPhLWgZ/NzGFdQrNkELplFRSVpw==
+X-Received: by 2002:a1c:a9ce:: with SMTP id s197mr854645wme.146.1611258063360;
+        Thu, 21 Jan 2021 11:41:03 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id w13sm9605935wrt.52.2021.01.21.11.41.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:50:15 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Thu, 21 Jan 2021 10:50:12 -0800
-From:   Minchan Kim <minchan@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        hyesoo.yu@samsung.com, david@redhat.com, mhocko@suse.com,
-        surenb@google.com, pullip.cho@samsung.com, joaodias@google.com,
-        hridya@google.com, john.stultz@linaro.org, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        hch@infradead.org, robh+dt@kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 1/4] mm: cma: introduce gfp flag in cma_alloc instead
- of no_warn
-Message-ID: <YAnM5PbNJZlk//iX@google.com>
-References: <20210121175502.274391-1-minchan@kernel.org>
- <20210121175502.274391-2-minchan@kernel.org>
+        Thu, 21 Jan 2021 11:41:02 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Felix Kuehling <felix.kuehling@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] RFC: dma-fence: Document recoverable page fault implications
+Date:   Thu, 21 Jan 2021 20:40:56 +0100
+Message-Id: <20210121194056.1734409-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121175502.274391-2-minchan@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 09:54:59AM -0800, Minchan Kim wrote:
-> The upcoming patch will introduce __GFP_NORETRY semantic
-> in alloc_contig_range which is a failfast mode of the API.
-> Instead of adding a additional parameter for gfp, replace
-> no_warn with gfp flag.
-> 
-> To keep old behaviors, it follows the rule below.
-> 
->   no_warn 			gfp_flags
-> 
->   false         		GFP_KERNEL
->   true          		GFP_KERNEL|__GFP_NOWARN
->   gfp & __GFP_NOWARN		GFP_KERNEL | (gfp & __GFP_NOWARN)
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
+Recently there was a fairly long thread about recoreable hardware page
+faults, how they can deadlock, and what to do about that.
 
-Found one missing piece : cma_alloc_alinged
+While the discussion is still fresh I figured good time to try and
+document the conclusions a bit.
 
-Resend with fixing
+References: https://lore.kernel.org/dri-devel/20210107030127.20393-1-Felix.Kuehling@amd.com/
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@intel.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Jerome Glisse <jglisse@redhat.com>
+Cc: Felix Kuehling <felix.kuehling@amd.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+--
+I'll be away next week, but figured I'll type this up quickly for some
+comments and to check whether I got this all roughly right.
 
-
-From 54f5de059636d2178bf5f716239a4a1ea9cbdc52 Mon Sep 17 00:00:00 2001
-From: Minchan Kim <minchan@kernel.org>
-Date: Mon, 21 Dec 2020 17:55:37 -0800
-Subject: [PATCH v4 1/4] mm: cma: introduce gfp flag in cma_alloc instead
-
-The upcoming patch will introduce __GFP_NORETRY semantic
-in alloc_contig_range which is a failfast mode of the API.
-Instead of adding a additional parameter for gfp, replace
-no_warn with gfp flag.
-
-To keep old behaviors, it follows the rule below.
-
-  no_warn 			gfp_flags
-
-  false         		GFP_KERNEL
-  true          		GFP_KERNEL|__GFP_NOWARN
-  gfp & __GFP_NOWARN		GFP_KERNEL | (gfp & __GFP_NOWARN)
-
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-Signed-off-by: Minchan Kim <minchan@kernel.org>
+Critique very much wanted on this, so that we can make sure hw which
+can't preempt (with pagefaults pending) like gfx10 has a clear path to
+support page faults in upstream. So anything I missed, got wrong or
+like that would be good.
+-Daniel
 ---
- drivers/dma-buf/heaps/cma_heap.c |  2 +-
- drivers/s390/char/vmcp.c         |  2 +-
- include/linux/cma.h              |  2 +-
- kernel/dma/contiguous.c          |  6 ++++--
- mm/cma.c                         | 12 ++++++------
- mm/cma_debug.c                   |  2 +-
- mm/hugetlb.c                     |  6 ++++--
- mm/secretmem.c                   |  3 ++-
- 8 files changed, 20 insertions(+), 15 deletions(-)
+ Documentation/driver-api/dma-buf.rst | 66 ++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 364fc2f3e499..0afc1907887a 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -298,7 +298,7 @@ static int cma_heap_allocate(struct dma_heap *heap,
- 	if (align > CONFIG_CMA_ALIGNMENT)
- 		align = CONFIG_CMA_ALIGNMENT;
- 
--	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
-+	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, GFP_KERNEL);
- 	if (!cma_pages)
- 		goto free_buffer;
- 
-diff --git a/drivers/s390/char/vmcp.c b/drivers/s390/char/vmcp.c
-index 9e066281e2d0..78f9adf56456 100644
---- a/drivers/s390/char/vmcp.c
-+++ b/drivers/s390/char/vmcp.c
-@@ -70,7 +70,7 @@ static void vmcp_response_alloc(struct vmcp_session *session)
- 	 * anymore the system won't work anyway.
- 	 */
- 	if (order > 2)
--		page = cma_alloc(vmcp_cma, nr_pages, 0, false);
-+		page = cma_alloc(vmcp_cma, nr_pages, 0, GFP_KERNEL);
- 	if (page) {
- 		session->response = (char *)page_to_phys(page);
- 		session->cma_alloc = 1;
-diff --git a/include/linux/cma.h b/include/linux/cma.h
-index 217999c8a762..d6c02d08ddbc 100644
---- a/include/linux/cma.h
-+++ b/include/linux/cma.h
-@@ -45,7 +45,7 @@ extern int cma_init_reserved_mem(phys_addr_t base, phys_addr_t size,
- 					const char *name,
- 					struct cma **res_cma);
- extern struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
--			      bool no_warn);
-+			      gfp_t gfp_mask);
- extern bool cma_release(struct cma *cma, const struct page *pages, unsigned int count);
- 
- extern int cma_for_each_area(int (*it)(struct cma *cma, void *data), void *data);
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 3d63d91cba5c..f5a6fcaa9876 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -260,7 +260,8 @@ struct page *dma_alloc_from_contiguous(struct device *dev, size_t count,
- 	if (align > CONFIG_CMA_ALIGNMENT)
- 		align = CONFIG_CMA_ALIGNMENT;
- 
--	return cma_alloc(dev_get_cma_area(dev), count, align, no_warn);
-+	return cma_alloc(dev_get_cma_area(dev), count, align, GFP_KERNEL |
-+			(no_warn ? __GFP_NOWARN : 0));
- }
- 
- /**
-@@ -283,7 +284,8 @@ static struct page *cma_alloc_aligned(struct cma *cma, size_t size, gfp_t gfp)
- {
- 	unsigned int align = min(get_order(size), CONFIG_CMA_ALIGNMENT);
- 
--	return cma_alloc(cma, size >> PAGE_SHIFT, align, gfp & __GFP_NOWARN);
-+	return cma_alloc(cma, size >> PAGE_SHIFT, align,
-+				GFP_KERNEL | (gfp & __GFP_NOWARN));
- }
- 
- /**
-diff --git a/mm/cma.c b/mm/cma.c
-index 0ba69cd16aeb..d50627686fec 100644
---- a/mm/cma.c
-+++ b/mm/cma.c
-@@ -419,13 +419,13 @@ static inline void cma_debug_show_areas(struct cma *cma) { }
-  * @cma:   Contiguous memory region for which the allocation is performed.
-  * @count: Requested number of pages.
-  * @align: Requested alignment of pages (in PAGE_SIZE order).
-- * @no_warn: Avoid printing message about failed allocation
-+ * @gfp_mask: GFP mask to use during the cma allocation.
-  *
-  * This function allocates part of contiguous memory on specific
-  * contiguous memory area.
-  */
- struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
--		       bool no_warn)
-+		       gfp_t gfp_mask)
- {
- 	unsigned long mask, offset;
- 	unsigned long pfn = -1;
-@@ -438,8 +438,8 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
- 	if (!cma || !cma->count || !cma->bitmap)
- 		return NULL;
- 
--	pr_debug("%s(cma %p, count %zu, align %d)\n", __func__, (void *)cma,
--		 count, align);
-+	pr_debug("%s(cma %p, count %zu, align %d gfp_mask 0x%x)\n", __func__,
-+			(void *)cma, count, align, gfp_mask);
- 
- 	if (!count)
- 		return NULL;
-@@ -471,7 +471,7 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
- 
- 		pfn = cma->base_pfn + (bitmap_no << cma->order_per_bit);
- 		ret = alloc_contig_range(pfn, pfn + count, MIGRATE_CMA,
--				     GFP_KERNEL | (no_warn ? __GFP_NOWARN : 0));
-+						gfp_mask);
- 
- 		if (ret == 0) {
- 			page = pfn_to_page(pfn);
-@@ -500,7 +500,7 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
- 			page_kasan_tag_reset(page + i);
- 	}
- 
--	if (ret && !no_warn) {
-+	if (ret && !(gfp_mask & __GFP_NOWARN)) {
- 		pr_err("%s: alloc failed, req-size: %zu pages, ret: %d\n",
- 			__func__, count, ret);
- 		cma_debug_show_areas(cma);
-diff --git a/mm/cma_debug.c b/mm/cma_debug.c
-index d5bf8aa34fdc..00170c41cf81 100644
---- a/mm/cma_debug.c
-+++ b/mm/cma_debug.c
-@@ -137,7 +137,7 @@ static int cma_alloc_mem(struct cma *cma, int count)
- 	if (!mem)
- 		return -ENOMEM;
- 
--	p = cma_alloc(cma, count, 0, false);
-+	p = cma_alloc(cma, count, 0, GFP_KERNEL);
- 	if (!p) {
- 		kfree(mem);
- 		return -ENOMEM;
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index a6bad1f686c5..4209a2ed1e1b 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1266,7 +1266,8 @@ static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
- 
- 		if (hugetlb_cma[nid]) {
- 			page = cma_alloc(hugetlb_cma[nid], nr_pages,
--					huge_page_order(h), true);
-+					huge_page_order(h),
-+					GFP_KERNEL | __GFP_NOWARN);
- 			if (page)
- 				return page;
- 		}
-@@ -1277,7 +1278,8 @@ static struct page *alloc_gigantic_page(struct hstate *h, gfp_t gfp_mask,
- 					continue;
- 
- 				page = cma_alloc(hugetlb_cma[node], nr_pages,
--						huge_page_order(h), true);
-+						huge_page_order(h),
-+						GFP_KERNEL | __GFP_NOWARN);
- 				if (page)
- 					return page;
- 			}
-diff --git a/mm/secretmem.c b/mm/secretmem.c
-index b8a32954ac68..585d55b9f9d8 100644
---- a/mm/secretmem.c
-+++ b/mm/secretmem.c
-@@ -86,7 +86,8 @@ static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
- 	struct page *page;
- 	int err;
- 
--	page = cma_alloc(secretmem_cma, nr_pages, PMD_SIZE, gfp & __GFP_NOWARN);
-+	page = cma_alloc(secretmem_cma, nr_pages, PMD_SIZE,
-+				GFP_KERNEL | (gfp & __GFP_NOWARN));
- 	if (!page)
- 		return -ENOMEM;
- 
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index a2133d69872c..e924c1e4f7a3 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -257,3 +257,69 @@ fences in the kernel. This means:
+   userspace is allowed to use userspace fencing or long running compute
+   workloads. This also means no implicit fencing for shared buffers in these
+   cases.
++
++Recoverable Hardware Page Faults Implications
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Modern hardware supports recoverable page faults, which has a lot of
++implications for DMA fences.
++
++First, a pending page fault obviously holds up the work that's running on the
++accelerator and a memory allocation is usually required to resolve the fault.
++But memory allocations are not allowed to gate completion of DMA fences, which
++means any workload using recoverable page faults cannot use DMA fences for
++synchronization. Synchronization fences controlled by userspace must be used
++instead.
++
++On GPUs this poses a problem, because current desktop compositor protocols on
++Linus rely on DMA fences, which means without an entirely new userspace stack
++built on top of userspace fences, they cannot benefit from recoverable page
++faults. The exception is when page faults are only used as migration hints and
++never to on-demand fill a memory request. For now this means recoverable page
++faults on GPUs are limited to pure compute workloads.
++
++Furthermore GPUs usually have shared resources between the 3D rendering and
++compute side, like compute units or command submission engines. If both a 3D
++job with a DMA fence and a compute workload using recoverable page faults are
++pending they could deadlock:
++
++- The 3D workload might need to wait for the compute job to finish and release
++  hardware resources first.
++
++- The compute workload might be stuck in a page fault, because the memory
++  allocation is waiting for the DMA fence of the 3D workload to complete.
++
++There are a few ways to prevent this problem:
++
++- Compute workloads can always be preempted, even when a page fault is pending
++  and not yet repaired. Not all hardware supports this.
++
++- DMA fence workloads and workloads which need page fault handling have
++  independent hardware resources to guarantee forward progress. This could be
++  achieved through e.g. through dedicated engines and minimal compute unit
++  reservations for DMA fence workloads.
++
++- The reservation approach could be further refined by only reserving the
++  hardware resources for DMA fence workloads when they are in-flight. This must
++  cover the time from when the DMA fence is visible to other threads up to
++  moment when fence is completed through dma_fence_signal().
++
++- As a last resort, if the hardware provides no useful reservation mechanics,
++  all workloads must be flushed from the GPU when switching between jobs
++  requiring DMA fences or jobs requiring page fault handling: This means all DMA
++  fences must complete before a compute job with page fault handling can be
++  inserted into the scheduler queue. And vice versa, before a DMA fence can be
++  made visible anywhere in the system, all compute workloads must be preempted
++  to guarantee all pending GPU page faults are flushed.
++
++Note that workloads that run on independent hardware like copy engines or other
++GPUs do not have any impact. This allows us to keep using DMA fences internally
++in the kernel even for resolving hardware page faults, e.g. by using copy
++engines to clear or copy memory needed to resolve the page fault.
++
++In some ways this page fault problem is a special case of the `Infinite DMA
++Fences` discussions: Infinite fences from compute workloads are allowed to
++depend on DMA fences, but not the other way around. And not even the page fault
++problem is new, because some other CPU thread in userspace might
++hit a page fault which holds up a userspace fence - supporting page faults on
++GPUs doesn't anything fundamentally new.
 -- 
-2.30.0.296.g2bfb1c46d8-goog
-
+2.30.0
 
