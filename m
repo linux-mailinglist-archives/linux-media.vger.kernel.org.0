@@ -2,75 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A6E8300AA8
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 19:11:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3CB5300B3D
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 19:30:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729343AbhAVR0Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jan 2021 12:26:25 -0500
-Received: from mga02.intel.com ([134.134.136.20]:41761 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729553AbhAVRDj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jan 2021 12:03:39 -0500
-IronPort-SDR: gLBTn5FpTDUnpRFoVT0rLXvirqqC4Aqhwx0QibHa5K9lxZGUvBUSNa3SsJzLb3f08EhR6zTA8M
- kqrlLawIiT0w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9872"; a="166573825"
-X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
-   d="scan'208";a="166573825"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 09:01:49 -0800
-IronPort-SDR: UckGca5CZ28evMMRtzlVJOWlrAwGXsPkrkuvGCW2bDBrnTf/ZTUpqa3HsL7T8anjjaPAQnJd68
- 1lQ9C9/EJWsw==
-X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
-   d="scan'208";a="348335508"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 09:01:46 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 29C6C20690; Fri, 22 Jan 2021 19:01:44 +0200 (EET)
-Date:   Fri, 22 Jan 2021 19:01:44 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
-        Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v4 1/2] media: dt-bindings: Convert video-interfaces.txt
- properties to schemas
-Message-ID: <20210122170144.GE27155@paasikivi.fi.intel.com>
-References: <20210104165808.2166686-1-robh@kernel.org>
- <20210104165808.2166686-2-robh@kernel.org>
- <CAL_Jsq+dpVvA0iOMzaPf50Decc1hj7zH0eq-RyuVkdzp729vEQ@mail.gmail.com>
+        id S1729297AbhAVS3p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jan 2021 13:29:45 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55134 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729941AbhAVS2S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 Jan 2021 13:28:18 -0500
+Received: from floko.floko.floko (unknown [IPv6:2804:214:8593:5236:d605:9367:f420:5eea])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 34F071F4668A;
+        Fri, 22 Jan 2021 18:27:32 +0000 (GMT)
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, kernel@collabora.com,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: doc: pixfmt-yuv: Fix 4:4:4 subsampling info
+Date:   Fri, 22 Jan 2021 15:27:23 -0300
+Message-Id: <20210122182723.327438-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+dpVvA0iOMzaPf50Decc1hj7zH0eq-RyuVkdzp729vEQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+YUV 4:4:4 is not subsampled, fix this in the docs.
 
-On Fri, Jan 22, 2021 at 10:23:44AM -0600, Rob Herring wrote:
-> On Mon, Jan 4, 2021 at 10:58 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > Convert video-interfaces.txt to DT schema. As it contains a mixture of
-> > device level and endpoint properties, split it up into 2 schemas.
-> 
-> Ping!
-> 
-> Can this please be applied to the media tree so I can tell folks to
-> use it in reviews of media bindings.
+Fixes: da785536e007 ("media: doc: pixfmt-yuv: Move all semi-planar YUV formats to common file")
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+---
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Yes, it can. It's in my tree now.
-
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index 7d4d39201a3f..bcb4ef24c334 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -396,8 +396,8 @@ number of lines as the luma plane.
+ NV24 and NV42
+ -------------
+ 
+-Semi-planar YUV 4:4:4 formats. The chroma plane is subsampled by 2 in the
+-horizontal direction. Chroma lines contain half the number of pixels and the
++Semi-planar YUV 4:4:4 formats. No sub-sampling.
++Chroma lines contain the same number of pixels and the
+ same number of bytes as luma lines, and the chroma plane contains the same
+ number of lines as the luma plane.
+ 
 -- 
-Kind regards,
+2.30.0
 
-Sakari Ailus
