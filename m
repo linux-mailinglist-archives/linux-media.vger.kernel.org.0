@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DC24300FE3
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 23:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61E3A301016
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 23:37:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729136AbhAVWWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jan 2021 17:22:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41122 "EHLO
+        id S1729327AbhAVWgv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jan 2021 17:36:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728360AbhAVWV7 (ORCPT
+        with ESMTP id S1729626AbhAVWgD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jan 2021 17:21:59 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D52C0613D6
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 14:21:08 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id e15so5626263wme.0
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 14:21:08 -0800 (PST)
+        Fri, 22 Jan 2021 17:36:03 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD52C06178B
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 14:35:21 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id o13so9742556lfr.3
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 14:35:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=p+wFAQDvhZKzJckMU2PTCB4geYwutkW2n4ieR3b1p7c=;
-        b=PzRiNcUmdot6JGXxpzUl72+waAwAYCBKGrm/wOqFqpqn/YIEGIMEuGbcpXxwbFRSlm
-         SOBocLyuiSB7j+UyAVJQxtRnEbA6+9VKrlk3oLSxWawGjvxJtF3esc7MkVFKD7wLu5eo
-         F4TpcjpAYQpee6WoocuEVDpRvIjmoiknO6i1025Z9y1gttI3fC0tNg+sL/6O5T6qneOC
-         k+s2sXL5Kaa/Pg+eusXwY7uVGye3iFe/B3uDL2mWFJDwBYQD9RvljoAJqNhUeWLGwoDn
-         U2BtIfMSR41j+1w+FOU0GlAxbfrrUeTj3qOdPKG5V3TJjOJRrJyljTxWpOy5B/TdZv7S
-         JN1g==
+         :cc;
+        bh=TVHHWido/EH2Vt59qdy1Zby/ZP47wr14BUSPLPmA0j4=;
+        b=vRtzT2R7AO6c4k2leJdr9LSRmXNc6Xyl/1AF/P7bdVFSKXBE97fAh73Oss8ZhECx99
+         tUmbI1ES3YH2WefY9ABfgwQpDa6Yk2uICzg9wT2S8oBIb7MsV5E4Ohx26IanqF6f/8lY
+         ZZKGvs+Fjlfs3zVa8b6/TjZam2qMpcoJEO1oIlZRiY37NWIfIp8j89KenGVwyuV45bIB
+         4oFqn+/7bkNaGaniA5pcfuPjBIej3sTakGYOkVyxozrrICb83JvbcP71N/2iYpi6nNjW
+         4oEk04IiHcpIffCzEs3r5v0MJvgPra/+0VbZxFschKo/9/xGNdHScf9vQ6WQWusHo/NJ
+         Do3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=p+wFAQDvhZKzJckMU2PTCB4geYwutkW2n4ieR3b1p7c=;
-        b=XRn3Ip6GRliKwLRrU7efEwfDRkorjKmg6FQhxmLrC06/OC5BZcLNBReO+8p4CdRBg5
-         Ed7RTeqGZqQ0c7FvwqeXoGkP8jQrGopb+VICzeF+xMyiOwH1rUjDCZjVhSfNoVlwuQF/
-         1U9iddQt80yopNPWK2tz8vgGQ9UkcnGtWplexcZHKrXwXj51IkqjXmQ4bDX+y1KmanKg
-         /LOphsqGgXE42mMIqgYm/HV3SDdyPkIZq4+HcyunGq26GDfH3Mzjj+JbaXyRPtV5rmk4
-         vXiASZJe6B+6zRLwCsHIaRztdARspSPNBy3+v+J47RfHuVulCinq3fhLoH+y36q9PboP
-         OHRA==
-X-Gm-Message-State: AOAM531rQ/JrCTt+DNuxHFgcXcHchKhyEEVOhSFF4vy9aMmNZVXQQzr9
-        B8TGqCKLcac3jhWQvjF2ClIxxoASJSqgPFAIJPYQxg==
-X-Google-Smtp-Source: ABdhPJzbd/UOZZQeTAnMSZA8bXD9d3VDfBedEN1Zbd4a2k+DLKLdfAPmMYLlkIHhGT4WfL3kqVVIITKABzMNGSZHbOA=
-X-Received: by 2002:a1c:7906:: with SMTP id l6mr5825010wme.22.1611354067218;
- Fri, 22 Jan 2021 14:21:07 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=TVHHWido/EH2Vt59qdy1Zby/ZP47wr14BUSPLPmA0j4=;
+        b=PmlVibGvt/479i3xxLP0ZKca/5F8P383bQme8SeD2apIplvaj1n5xCg35sBWReb7Y1
+         uf33YOg2q8xpYAQ36721GBjgOtQOGkdantSUVl0vTG2qMW/xIeNa4CDX8bG4Rw0toOtb
+         39BD44hGn0PbhoEXgXVFCK9bAAxrHrpY9PrAdWaGOiu28HewD/G6e6HiuWmgve6VblJh
+         MEpocsFaOQMRC2KpyQmB1bZSZpWYyGnNx4PE98coXLTkyWSH/b++v9/qaK/QrvFbzlQa
+         v3CUvTGxR2Bru1hVIxj5D0jxy69osuIEMuZ2rKFSzfq7p7TvuIoKBDsa831khCwkqvJz
+         +67A==
+X-Gm-Message-State: AOAM5336V70SlZiU36sSdHC/knF5HjP49H6RcjdX7XFbmMeVAqW7UOBv
+        c9jRFti6Yhkeh/8AqibULUn5qHSLA02nJThhfy7/MA==
+X-Google-Smtp-Source: ABdhPJy1BnxeBPTkzgt4QScOHWd/QI0f84MDBJMyCAHwV8LfTy+jZGVeA/xcg+uD8cA806qlu/XHkmck+4PXwcqcImg=
+X-Received: by 2002:a19:48d0:: with SMTP id v199mr2069375lfa.535.1611354919948;
+ Fri, 22 Jan 2021 14:35:19 -0800 (PST)
 MIME-Version: 1.0
 References: <20210119204508.9256-1-john.stultz@linaro.org> <20210119204508.9256-2-john.stultz@linaro.org>
- <CAO_48GEYGzY8cZybwrXgfODhuoAJqi4AvwbZbWd+PiYjMqKYpw@mail.gmail.com>
-In-Reply-To: <CAO_48GEYGzY8cZybwrXgfODhuoAJqi4AvwbZbWd+PiYjMqKYpw@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Fri, 22 Jan 2021 14:20:56 -0800
-Message-ID: <CAJuCfpGRkM+h16SJp7gJOaAhy+gFw1-++WP8kavOjRj3MHcpBQ@mail.gmail.com>
+ <CAO_48GEYGzY8cZybwrXgfODhuoAJqi4AvwbZbWd+PiYjMqKYpw@mail.gmail.com> <CAJuCfpGRkM+h16SJp7gJOaAhy+gFw1-++WP8kavOjRj3MHcpBQ@mail.gmail.com>
+In-Reply-To: <CAJuCfpGRkM+h16SJp7gJOaAhy+gFw1-++WP8kavOjRj3MHcpBQ@mail.gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Fri, 22 Jan 2021 14:35:07 -0800
+Message-ID: <CALAqxLW-Z3-Zcwkeuard5vfU_bAZkRRsAo2fX=3Wwp2-yURiuA@mail.gmail.com>
 Subject: Re: [RESEND][PATCH 2/3] dma-buf: heaps: Add a WARN_ON should the
  vmap_cnt go negative
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Liam Mark <lmark@codeaurora.org>,
         Laura Abbott <labbott@kernel.org>,
@@ -72,88 +72,33 @@ Cc:     John Stultz <john.stultz@linaro.org>,
         <linux-media@vger.kernel.org>,
         DRI mailing list <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 11:56 PM Sumit Semwal <sumit.semwal@linaro.org> wro=
-te:
->
-> Hi John, Suren,
->
->
-> On Wed, 20 Jan 2021 at 02:15, John Stultz <john.stultz@linaro.org> wrote:
+On Fri, Jan 22, 2021 at 2:21 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> On Thu, Jan 21, 2021 at 11:56 PM Sumit Semwal <sumit.semwal@linaro.org> wrote:
+> > On Wed, 20 Jan 2021 at 02:15, John Stultz <john.stultz@linaro.org> wrote:
+> > >
+> > > We shouldn't vunmap more then we vmap, but if we do, make
+> > > sure we complain loudly.
 > >
-> > We shouldn't vunmap more then we vmap, but if we do, make
-> > sure we complain loudly.
+> > I was checking the general usage of vunmap in the kernel, and I
+> > couldn't find many instances where we need to WARN_ON for the vunmap
+> > count more than vmap count. Is there a specific need for this in the heaps?
 >
-> I was checking the general usage of vunmap in the kernel, and I
-> couldn't find many instances where we need to WARN_ON for the vunmap
-> count more than vmap count. Is there a specific need for this in the heap=
-s?
+> Hi Sumit,
+> My worry was that buffer->vmap_cnt could silently go negative. But if
+> this warning is not consistent with other places we do refcounted
+> vmap/vunmap then feel free to ignore my suggestion.
+>
 
-Hi Sumit,
-My worry was that buffer->vmap_cnt could silently go negative. But if
-this warning is not consistent with other places we do refcounted
-vmap/vunmap then feel free to ignore my suggestion.
-Thanks!
+Yea,
+ My sense is that it didn't seem like it would hurt, and if the
+warning happened to be tripped, it would be good to catch.
 
->
-> Best,
-> Sumit.
-> >
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Liam Mark <lmark@codeaurora.org>
-> > Cc: Laura Abbott <labbott@kernel.org>
-> > Cc: Brian Starkey <Brian.Starkey@arm.com>
-> > Cc: Hridya Valsaraju <hridya@google.com>
-> > Cc: Suren Baghdasaryan <surenb@google.com>
-> > Cc: Sandeep Patil <sspatil@google.com>
-> > Cc: Daniel Mentz <danielmentz@google.com>
-> > Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> > Cc: =C3=98rjan Eide <orjan.eide@arm.com>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: James Jones <jajones@nvidia.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Suggested-by: Suren Baghdasaryan <surenb@google.com>
-> > Signed-off-by: John Stultz <john.stultz@linaro.org>
-> > ---
-> >  drivers/dma-buf/heaps/cma_heap.c    | 1 +
-> >  drivers/dma-buf/heaps/system_heap.c | 1 +
-> >  2 files changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/c=
-ma_heap.c
-> > index 364fc2f3e499..0c76cbc3fb11 100644
-> > --- a/drivers/dma-buf/heaps/cma_heap.c
-> > +++ b/drivers/dma-buf/heaps/cma_heap.c
-> > @@ -232,6 +232,7 @@ static void cma_heap_vunmap(struct dma_buf *dmabuf,=
- struct dma_buf_map *map)
-> >         struct cma_heap_buffer *buffer =3D dmabuf->priv;
-> >
-> >         mutex_lock(&buffer->lock);
-> > +       WARN_ON(buffer->vmap_cnt =3D=3D 0);
-> >         if (!--buffer->vmap_cnt) {
-> >                 vunmap(buffer->vaddr);
-> >                 buffer->vaddr =3D NULL;
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
-s/system_heap.c
-> > index 405351aad2a8..2321c91891f6 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -273,6 +273,7 @@ static void system_heap_vunmap(struct dma_buf *dmab=
-uf, struct dma_buf_map *map)
-> >         struct system_heap_buffer *buffer =3D dmabuf->priv;
-> >
-> >         mutex_lock(&buffer->lock);
-> > +       WARN_ON(buffer->vmap_cnt =3D=3D 0);
-> >         if (!--buffer->vmap_cnt) {
-> >                 vunmap(buffer->vaddr);
-> >                 buffer->vaddr =3D NULL;
-> > --
-> > 2.17.1
-> >
+However, if you are skeptical, feel free to drop that patch from this
+series for now (it shouldn't impact the following patches).
+
+thanks
+-john
