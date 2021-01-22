@@ -2,144 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EADC300467
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 14:42:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D686930047B
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 14:47:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbhAVNlL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jan 2021 08:41:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41594 "EHLO
+        id S1727877AbhAVNqG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jan 2021 08:46:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727764AbhAVNlE (ORCPT
+        with ESMTP id S1727764AbhAVNp5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jan 2021 08:41:04 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53123C06174A
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 05:40:24 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id by1so7731988ejc.0
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 05:40:24 -0800 (PST)
+        Fri, 22 Jan 2021 08:45:57 -0500
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0227AC061788
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 05:45:17 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id q205so5944629oig.13
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 05:45:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=Dv7/+/NyO0aDXINqIUmwCPejHTrvrHEAZ2oKeoHKz00=;
-        b=B8Uzht5O+sytkMMyGFt6RB/eoKBx4NZ9wnFtWUfDmbh9dXpdusvzx4xAQsutYvZe/l
-         vdvaWutIB3OEFjByjwhGLXd3ZfD8IA34CZ7f9o/0ntXc3qSnTwEKXj6Of3xl+sUDlhAG
-         OkVvw41IcjzjMYrS2IvAwVEpzJAsPnIwYhLKYrTCDjLK/BGChoBBkAlIyTsPl0MiyFbi
-         mMMHe6lA4Fpqj1oEP0qlM0diCQ7YKPx9dQ8FlfgZTKIv9Ndys1R0voP4Oadv82i++yY+
-         YKXBNLhZZhl2UlLQFAzm/HGKHyj8zFBJy35vPA/Qb49R5NsPXOHSAirwiGCX/cLtk+ic
-         g/4w==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=uByiq5cbxTpSuvq2dpFMAGIUx/D6lyIcvK4e7oH4Et0=;
+        b=Rao+LsSodoixu1h+xH5TQKiHUjloJupKyKmRSVnDWWqHgbaAzIDOMlxrwy8NO0jg/S
+         OpKWhxRVo/EYlQPUsSzGXQ3mCS0f4cqqquoTwQX0M5jkqLEIGDJYWZQCkaHw1bZuxiJS
+         THW5aGICustUhVdocuMhwIvJE04QhFmnVEM7M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=Dv7/+/NyO0aDXINqIUmwCPejHTrvrHEAZ2oKeoHKz00=;
-        b=VHMf0MyV9GVLejYvCz1gi6R3YcMJEt+A5xQI27pAte7vSZrT+rt/buH7udje8HdEsc
-         vkypIgCrOTJzeqTRN+34M8A6ubkLEhgRzawhUo1YLGk9hG8DftAfdiYATAIt++Pm2jsx
-         j9mB0fIo+pdo5AxP9yiZs4zR1NEldajLU4fsiEhgdPOL3sj08oBX7p7W8XF/38a4gSnC
-         AKsn7glciM/1k4P/TmF8ynO2Jk/VPZG8iOJMXUJjGeSkuxDkj2lKUPoz+CGRU5yXj1Wf
-         bbXXjjQ33U1xZPa6Ys2FWBSVUiq/nkGSrofurL+X2Wa1ryOYtcWom6lie+l0DJmQyHwq
-         LzkQ==
-X-Gm-Message-State: AOAM530N4iWCVcpBx/AzqLQrF/uKizqv6EHZX2Xqvc4ArM/RBcVaSMG4
-        N2/A0iSk06nNn/PRHr/KkjkzTTpGWe0=
-X-Google-Smtp-Source: ABdhPJxdFyRIc4cBsYcdHDLtkQZHcOZqQEMWll5DSib2bySsdmIbq2Iw49GkoOEk5IcMal5pOZ/qQw==
-X-Received: by 2002:a17:906:447:: with SMTP id e7mr2965096eja.172.1611322821816;
-        Fri, 22 Jan 2021 05:40:21 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
-        by smtp.gmail.com with ESMTPSA id a10sm4505138ejk.75.2021.01.22.05.40.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 05:40:21 -0800 (PST)
-Reply-To: christian.koenig@amd.com
-Subject: Re: [Linaro-mm-sig] [PATCH] drm/todo: Add entry for moving to
- dma_resv_lock
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=uByiq5cbxTpSuvq2dpFMAGIUx/D6lyIcvK4e7oH4Et0=;
+        b=FQeBcYN5xCNm3Etgdt9BfMFEoG1IYc0ZS7ob7yJiccywoYmY/bP5rOw2OlcYSWsB/B
+         yX+IUoFcfAo22jMii1JR4OpmcxT9N6BCgXXC/fU68n17yPkB4Q2n5BZRBsoUgfXfccfq
+         vEE/9v/eX0FR5oLH6/pjDUakCH6NlJLThVWSkVayWQWqUYVTX1G3vsLa4DIHd7Ksb/DI
+         Y8/zkPFrAM6yA/FdJAPFTe8wiwgzCsZ79xlJVqXlo1ikBPuvDLKZTtHQb5GPEs9kS77b
+         nuevsvApwN6CCBlVNP+yXL6ADatP6kQiCUq6Qio+yOEH4RYWFu6Lwl+CFf4opbv5WhGE
+         hggw==
+X-Gm-Message-State: AOAM530l5FMvTbAQir4DtEWRb/NXV7fwBq00XXq1l1UPGeaoQ6oDDupr
+        zZBbqX2QfY9DTsC6HVZh12uyPEUK89WOBU0JpFOmKQ==
+X-Google-Smtp-Source: ABdhPJxz3O350DQ11ZlOU6GmrY3buaxmy6LR/RtW9IFfVrOcib3cNaKEJhK8wAgnqyB7AOn3634+wOz8pj0ozrIb0Ew=
+X-Received: by 2002:aca:ad92:: with SMTP id w140mr3289220oie.128.1611323116465;
+ Fri, 22 Jan 2021 05:45:16 -0800 (PST)
+MIME-Version: 1.0
+References: <20210122133624.1751802-1-daniel.vetter@ffwll.ch> <2282a592-8e19-b5ae-68ba-cf1ad6dda768@gmail.com>
+In-Reply-To: <2282a592-8e19-b5ae-68ba-cf1ad6dda768@gmail.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri, 22 Jan 2021 14:45:05 +0100
+Message-ID: <CAKMK7uHAB4eBn486umdyBqMkht172kwOP1fFXhcJQw0LrH5FFw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/todo: Add entry for moving to dma_resv_lock
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        David Airlie <airlied@linux.ie>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        linux-media@vger.kernel.org
-References: <20210122133624.1751802-1-daniel.vetter@ffwll.ch>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <2282a592-8e19-b5ae-68ba-cf1ad6dda768@gmail.com>
-Date:   Fri, 22 Jan 2021 14:40:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210122133624.1751802-1-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 22.01.21 um 14:36 schrieb Daniel Vetter:
-> Requested by Thomas. I think it justifies a new level, since I tried
-> to make some forward progress on this last summer, and gave up (for
-> now). This is very tricky.
+On Fri, Jan 22, 2021 at 2:40 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> ---
->   Documentation/gpu/todo.rst | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
+> Am 22.01.21 um 14:36 schrieb Daniel Vetter:
+> > Requested by Thomas. I think it justifies a new level, since I tried
+> > to make some forward progress on this last summer, and gave up (for
+> > now). This is very tricky.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > ---
+> >   Documentation/gpu/todo.rst | 19 +++++++++++++++++++
+> >   1 file changed, 19 insertions(+)
+> >
+> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > index dea9082c0e5f..f872d3d33218 100644
+> > --- a/Documentation/gpu/todo.rst
+> > +++ b/Documentation/gpu/todo.rst
+> > @@ -23,6 +23,9 @@ Advanced: Tricky tasks that need fairly good understa=
+nding of the DRM subsystem
+> >   and graphics topics. Generally need the relevant hardware for develop=
+ment and
+> >   testing.
+> >
+> > +Expert: Only attempt these if you've successfully completed some trick=
+y
+> > +refactorings already and are an expert in the specific area
+> > +
+> >   Subsystem-wide refactorings
+> >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> >
+> > @@ -168,6 +171,22 @@ Contact: Daniel Vetter, respective driver maintain=
+ers
+> >
+> >   Level: Advanced
+> >
+> > +Move Buffer Object Locking to dma_resv_lock()
+> > +---------------------------------------------
+> > +
+> > +Many drivers have their own per-object locking scheme, usually using
+> > +mutex_lock(). This causes all kinds of trouble for buffer sharing, sin=
+ce
+> > +depending which driver is the exporter and importer, the locking hiera=
+rchy is
+> > +reversed.
+> > +
+> > +To solve this we need one standard per-object locking mechanism, which=
+ is
+> > +dma_resv_lock(). This lock needs to be called as the outermost lock, w=
+ith all
+> > +other driver specific per-object locks removed. The problem is tha rol=
+ling out
+> > +the actual change to the locking contract is a flag day, due to struct=
+ dma_buf
+> > +buffer sharing.
+> > +
+> > +Level: Expert
+> > +
 >
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index dea9082c0e5f..f872d3d33218 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -23,6 +23,9 @@ Advanced: Tricky tasks that need fairly good understanding of the DRM subsystem
->   and graphics topics. Generally need the relevant hardware for development and
->   testing.
->   
-> +Expert: Only attempt these if you've successfully completed some tricky
-> +refactorings already and are an expert in the specific area
-> +
->   Subsystem-wide refactorings
->   ===========================
->   
-> @@ -168,6 +171,22 @@ Contact: Daniel Vetter, respective driver maintainers
->   
->   Level: Advanced
->   
-> +Move Buffer Object Locking to dma_resv_lock()
-> +---------------------------------------------
-> +
-> +Many drivers have their own per-object locking scheme, usually using
-> +mutex_lock(). This causes all kinds of trouble for buffer sharing, since
-> +depending which driver is the exporter and importer, the locking hierarchy is
-> +reversed.
-> +
-> +To solve this we need one standard per-object locking mechanism, which is
-> +dma_resv_lock(). This lock needs to be called as the outermost lock, with all
-> +other driver specific per-object locks removed. The problem is tha rolling out
-> +the actual change to the locking contract is a flag day, due to struct dma_buf
-> +buffer sharing.
-> +
-> +Level: Expert
-> +
+> Could you name some examples of driver locks here? I'm not aware in
+> anything like this in amdgpu, radeon or neveau.
 
-Could you name some examples of driver locks here? I'm not aware in 
-anything like this in amdgpu, radeon or neveau.
+ttm based drivers are all fine. It's everything else which is a
+problem, and it gets worse if you mix helpers (like shmem helpers,
+which have their own locks internally) with render drivers (again with
+their own mutexes).
 
-And yes sounds like a job for the appropriate driver maintainer.
+> And yes sounds like a job for the appropriate driver maintainer.
 
-Thanks,
-Christian.
+The problem is, this one you can't do driver-by-driver because of the
+dma-buf contract. I mean we tried for p2p at first, it's just too
+much. I tried to do it last summer just for shmem gem helpers, and you
+really have to tackle all the drivers in one go (even if you ignore
+dma-buf for now, where we side-stepped the problem with pinning). This
+is "scares danvet" levels of nasty.
+-Daniel
 
->   Convert logging to drm_* functions with drm_device paramater
->   ------------------------------------------------------------
->   
+> Thanks,
+> Christian.
+>
+> >   Convert logging to drm_* functions with drm_device paramater
+> >   ------------------------------------------------------------
+> >
+>
 
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
