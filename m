@@ -2,150 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96A7630008A
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 11:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF6C3001EA
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 12:48:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727140AbhAVKfw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jan 2021 05:35:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727918AbhAVKcv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jan 2021 05:32:51 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D81EC061786
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 02:32:10 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id c128so3877917wme.2
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 02:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zqPi5MJbj1ms2b0Q8q7oOCrglElwMPk+QoWvn6qZ8Lg=;
-        b=H6BDzO8wt0zPd6IO4WofunMxSNshx5vl4o49LxSFogf+BCn/vCC98TIqePtTm+5h1x
-         yDVKOa6am8btjgY6xmYocEO3sKTXo/j5sGlKyPVb01mODw69yYenSPEmmJqreultpMc+
-         pPoqPqSNIGNzoVdenVvvuZ2hF9qZQLTgm5B9ViaW6zn75oXHq5/w0AF8gehobqmXsQD9
-         d/r5mCeBkE1m63az/u6sD2pg7hYzXSmMERBgwYc1aIKdD8UDD+NS9zjberNwTsJ5m3ba
-         idj1NpnscvnWVUtl9Fn6mpJi5BMN+96RRV0QvmGGIo1iUMwCjFb7RRJ3fgJKdgPwTUz0
-         h6VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zqPi5MJbj1ms2b0Q8q7oOCrglElwMPk+QoWvn6qZ8Lg=;
-        b=eL8hDrfAfZu35od/hZc4X4BwRWs7OP48kPAnhcZNo9WX9zZoTRq3oVCn89H5ME8w0E
-         F9FmPO5FjwEDMN0UBkLnjsa6jJhA0JGaV368Nxd8QIPj9XdsEc/535zWX9+s6X9vQW3g
-         RvLCm9eALEhYcV15o7TtZ8TZaIQw3yir3GZ1sbiwwXQAiG6MWu3XHjt6vaj/Ugg12A5z
-         ZuSO9EvyGlVW4UT6QonpdAJbrgRhcX2tKSk/RxVvDSodyzgonU/7mI54RhEdkHCwIkUm
-         rZtiHYBu7A0vPvQpWaUzITIm6vlZbsAWpG2kTDUzh5yPYxcvR85kC2mqWFKcmtydVwE5
-         b1bQ==
-X-Gm-Message-State: AOAM533QE7o+gK5hwGfw1B4KeMus/Tknye+9s606IH/aRWgMQxZGJMR0
-        ZrYZxEeKC9cW8CejQxjnDctx9riPWnRkw/rPgp1fJw==
-X-Google-Smtp-Source: ABdhPJz76UhEva/JXNulXxfAlQoMv3hOfREdUPUZ/oJbYQoDfEa5wiLS2sBJAZNWLdnfrtRz6I0qapY32xXzEYiN/Xo=
-X-Received: by 2002:a1c:f201:: with SMTP id s1mr3237293wmc.158.1611311528710;
- Fri, 22 Jan 2021 02:32:08 -0800 (PST)
+        id S1727148AbhAVLsZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jan 2021 06:48:25 -0500
+Received: from mga17.intel.com ([192.55.52.151]:27190 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727136AbhAVLqy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 Jan 2021 06:46:54 -0500
+IronPort-SDR: cJErxF5/EMC2vnGfC5Phsn00QGJZvXHz5cqQ9cGbt2d2/o78KjfC/lV7umt3hwt2c58MUDQmc2
+ dXgwzs2Gkl6A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="159210871"
+X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; 
+   d="scan'208";a="159210871"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 03:44:56 -0800
+IronPort-SDR: J3y7zTLgpFbaDviXa8dk3nMWsL+Fn8NPNjxh2QW0TPOPXZ4ARTv73fqatRp2vnSiQpIUr7GN+Q
+ J6df8arTpqmA==
+X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; 
+   d="scan'208";a="356996021"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 03:44:54 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id EEFFE209EB; Fri, 22 Jan 2021 11:18:22 +0200 (EET)
+Date:   Fri, 22 Jan 2021 11:18:22 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 1/4] dt-bindings: media: imx258: add bindings for
+ IMX258 sensor
+Message-ID: <20210122091822.GB27155@paasikivi.fi.intel.com>
+References: <20201118202715.6692-1-krzk@kernel.org>
 MIME-Version: 1.0
-References: <20210111142309.193441-1-maxime@cerno.tech> <20210111142309.193441-6-maxime@cerno.tech>
-In-Reply-To: <20210111142309.193441-6-maxime@cerno.tech>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 22 Jan 2021 10:31:53 +0000
-Message-ID: <CAPY8ntD=52HEwc6-3XggH4_CErjc2q9aBUc_c29L13UGuJcvqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/15] drm/vc4: hdmi: Restore cec physical address on reconnect
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dom Cobley <popcornmix@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201118202715.6692-1-krzk@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime
+Hi Krysztof,
 
-Sorry for the slow reply on these patches.
-
-On Mon, 11 Jan 2021 at 14:23, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> From: Dom Cobley <popcornmix@gmail.com>
->
-> Currently we call cec_phys_addr_invalidate on a hotplug deassert.
-> That may be due to a TV power cycling, or an AVR being switched
-> on (and switching edid).
->
-> This makes CEC unusable since our controller wouldn't have a physical
-> address anymore.
->
-> Set it back up again on the hotplug assert.
->
-> Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
-> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-I follow the logic, and trust Dom that it works, but I don't know if
-that is the correct thing within CEC.
-Ideally Hans will comment as the original author of the CEC code - I
-believe he's testing the series anyway.
-
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
+On Wed, Nov 18, 2020 at 09:27:12PM +0100, Krzysztof Kozlowski wrote:
+> Add bindings for the IMX258 camera sensor.  The bindings, just like the
+> driver, are quite limited, e.g. do not support regulator supplies.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 7945dbcee78c..c3a301396aad 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -136,20 +136,32 @@ static enum drm_connector_status
->  vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
->  {
->         struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
-> +       bool connected = false;
->
->         if (vc4_hdmi->hpd_gpio) {
->                 if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
->                     vc4_hdmi->hpd_active_low)
-> -                       return connector_status_connected;
-> -               cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-> -               return connector_status_disconnected;
-> +                       connected = true;
-> +       } else if (drm_probe_ddc(vc4_hdmi->ddc)) {
-> +               connected = true;
-> +       } else if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED) {
-> +               connected = true;
->         }
->
-> -       if (drm_probe_ddc(vc4_hdmi->ddc))
-> -               return connector_status_connected;
-> +       if (connected) {
-> +               if (connector->status != connector_status_connected) {
-> +                       struct edid *edid = drm_get_edid(connector, vc4_hdmi->ddc);
+> 
+> Changes since v4:
+> 1. Add clock-lanes,
+> 2. Add Rob's review,
+> 3. Add one more example and extend existing one,
+> 4. Add common clock properties (assigned-*).
+> 
+> Changes since v3:
+> 1. Document also two lane setup.
+> 
+> Changes since v2:
+> 1. Remove clock-frequency, add reset GPIOs, add supplies.
+> 2. Use additionalProperties.
+> 
+> Changes since v1:
+> 1. None
+> ---
+>  .../devicetree/bindings/media/i2c/imx258.yaml | 140 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 141 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> new file mode 100644
+> index 000000000000..4a3471fb88a1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> @@ -0,0 +1,140 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +                       if (edid) {
-> +                               cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
-> +                               vc4_hdmi->encoder.hdmi_monitor = drm_detect_hdmi_monitor(edid);
-> +                               kfree(edid);
-> +                       }
-> +               }
->
-> -       if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED)
->                 return connector_status_connected;
-> +       }
+> +title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
 > +
->         cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
->         return connector_status_disconnected;
->  }
-> --
-> 2.29.2
->
+> +maintainers:
+> +  - Krzysztof Kozlowski <krzk@kernel.org>
+> +
+> +description: |-
+> +  IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
+> +  type stacked image sensor with a square pixel array of size 4208 x 3120. It
+> +  is programmable through I2C interface.  Image data is sent through MIPI
+> +  CSI-2.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx258
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-parents: true
+> +  assigned-clock-rates: true
+> +
+> +  clocks:
+> +    description:
+> +      Clock frequency from 6 to 27 MHz.
+> +    maxItems: 1
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: |-
+> +      Reference to the GPIO connected to the XCLR pin, if any.
+> +
+> +  vana-supply:
+> +    description:
+> +      Analog voltage (VANA) supply, 2.7 V
+> +
+> +  vdig-supply:
+> +    description:
+> +      Digital I/O voltage (VDIG) supply, 1.2 V
+> +
+> +  vif-supply:
+> +    description:
+> +      Interface voltage (VIF) supply, 1.8 V
+> +
+> +  # See ../video-interfaces.txt for more details
+> +  port:
+> +    type: object
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          clock-lanes:
+> +            const: 0
+
+This is redundant. Please remove, same for the examples. Can be a separate
+patch, too.
+
+With this change the set seems good to me.
+
+-- 
+Sakari Ailus
