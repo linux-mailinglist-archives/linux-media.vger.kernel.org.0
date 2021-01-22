@@ -2,58 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6591300F52
-	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 22:54:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DBCB300F13
+	for <lists+linux-media@lfdr.de>; Fri, 22 Jan 2021 22:44:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730723AbhAVVwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jan 2021 16:52:22 -0500
-Received: from mail.padangpariamankab.go.id ([103.94.3.123]:40924 "EHLO
-        mail.padangpariamankab.go.id" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730365AbhAVVv4 (ORCPT
+        id S1729264AbhAVVmF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jan 2021 16:42:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60572 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728491AbhAVVlB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jan 2021 16:51:56 -0500
-X-Greylist: delayed 2959 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Jan 2021 16:50:43 EST
-Received: from localhost (localhost [127.0.0.1])
-        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 3E68F6E6C72;
-        Sat, 23 Jan 2021 03:48:10 +0700 (WIB)
-Received: from mail.padangpariamankab.go.id ([127.0.0.1])
-        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id kBGXOQypupm6; Sat, 23 Jan 2021 03:48:09 +0700 (WIB)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 294CB6E6C77;
-        Sat, 23 Jan 2021 03:48:09 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.padangpariamankab.go.id 294CB6E6C77
+        Fri, 22 Jan 2021 16:41:01 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BED4C061788
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 13:40:21 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id v67so9581179lfa.0
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 13:40:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=padangpariamankab.go.id; s=D2C6CDEC-3607-11EA-BC8A-EEDE4AB8B776;
-        t=1611348489; bh=4AhSoXRU63EAbbOwseUY/pxjidGey07DskAQ7pZ9AvE=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=HThFhYOADhRCtO5N541vi9Gyg7fJmmutk/OT2THWWyfJ95sWN76AgwUEgQZtSvKhP
-         x/LxSc8MhKoXFOnNTieirEJIp/EcM8e1Pjx1VBDwhPK07CSOtfO2YNC/YwcDHmyfyz
-         2Lf9drxpZNkkPji5hrUXs8+6FbGouclsglppsLR4=
-X-Virus-Scanned: amavisd-new at padangpariamankab.go.id
-Received: from mail.padangpariamankab.go.id ([127.0.0.1])
-        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id mxYAXxb3FYdJ; Sat, 23 Jan 2021 03:48:08 +0700 (WIB)
-Received: from mail.padangpariamankab.go.id (mail.padangpariamankab.go.id [103.94.3.123])
-        by mail.padangpariamankab.go.id (Postfix) with ESMTP id B15016E6C6F;
-        Sat, 23 Jan 2021 03:48:05 +0700 (WIB)
-Date:   Sat, 23 Jan 2021 03:48:05 +0700 (WIB)
-From:   GREENLIGHT <rsud@padangpariamankab.go.id>
-Reply-To: "Greenlight Financial Services " <greenlightservices@usa.com>
-Message-ID: <1668595482.19502.1611348485649.JavaMail.zimbra@padangpariamankab.go.id>
-Subject: Update
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fVQGipISqL+GidmgskuqE54mrZNWSegyyQUFD/qGixM=;
+        b=DBYc+xh+//BuisFJO7Qj1/JPZY3GmA6Q6VyAQhmchMrcnNdQgI3jZFePMXCHUuaEGg
+         5RGO80cSZyrTGMfD5NST6y8FzE5ZHd23XF5yoG3UYaBQDzFj4EBslBBv+RMkVdaje+V7
+         1w8G104HZiAVP9Xw4H9rO76cPe9oNYOh3DJhL4jOXrv0KPDJz0j53J/JhIHOT3M43fAm
+         w0FEQ+PVt5C4c9c+XLzX44lm3z0UUqXZrPr489pWycIYpyiq4GPqoBcsQfZi8tPWdPI3
+         PJGhLhoQrjfWBxZf2vgIATJgsgdEu5EAdBl5KswwMCDnuF9udk8RL7pcv6HehjvmkuOr
+         eezw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fVQGipISqL+GidmgskuqE54mrZNWSegyyQUFD/qGixM=;
+        b=Ycepvw/fUcrOjdp22Fusz6DK0dV29t20QrCtom2anrFVK3jM9fnrJWdWeyXTVKUCCh
+         LnazCZye9Vxh5W/ZcK6t/JpS8ChG0t26+iLFwnc42XeeB+mJke61dVOFL+1DwCwWfULf
+         YCpy5xG2I7mkyP700hlU0RUR1GJpiXjECTByPE32IlX231FRgwvb30Nfhiqt0zgP10se
+         cyodVhltvHYdGwHcwbxCYskM6u+bvVAKUjvFuyA7fPNtrAc2xxsr7/mqpIpGbEsxk87F
+         7xX2EU1ZzxEML/NN7dzUGMMVVm1Mts9IwETd5IrN7AxLjcPpE3WIJJuGeWIIgg8uathb
+         AXsQ==
+X-Gm-Message-State: AOAM532bEX721nVKTUtArUPZ4g02kRvVdPczFotkcHQTshYmR6SD3pjF
+        ijEJGSSUW094pJXi1zdWkFow+AC185EP9qznRxBl5g==
+X-Google-Smtp-Source: ABdhPJxfbwAudp1weWzfAaiCkKvD4TAjwf6Rim6UybIVL3cqXpXKCe6HdRAIpeeYqM+DRPelpzMSFkQEYdi9Ys2JH6I=
+X-Received: by 2002:a05:6512:3238:: with SMTP id f24mr3247513lfe.29.1611351619532;
+ Fri, 22 Jan 2021 13:40:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [103.94.3.123]
-X-Mailer: Zimbra 8.8.15_GA_3895 (zclient/8.8.15_GA_3895)
-Thread-Index: YwDzoLjYr5wvIyGTK9ZPzksGXyGLMw==
-Thread-Topic: Update
-To:     unlisted-recipients:; (no To-header on input)
+References: <20210102231510.2068851-1-linus.walleij@linaro.org> <20210102231510.2068851-2-linus.walleij@linaro.org>
+In-Reply-To: <20210102231510.2068851-2-linus.walleij@linaro.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 22 Jan 2021 22:40:08 +0100
+Message-ID: <CACRpkdbihCo+OYuu8ffokOO=eXeTDAYG1k91dFh+2HGh0jQCWQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v9] leds: rt8515: Add Richtek RT8515 LED driver
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        phone-devel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi LED folks,
 
+I think this version has covered all review comments, at least it's been silent,
+can the driver be merged?
 
-We offer Reliable/Low Interest Rate Financial Services to Companies & Individuals including; Start-Up Business, Loans & Mortgage ETC. Apply Now
+Yours,
+Linus Walleij
