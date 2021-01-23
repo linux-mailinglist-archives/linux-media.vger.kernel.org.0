@@ -2,202 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FA023012DA
-	for <lists+linux-media@lfdr.de>; Sat, 23 Jan 2021 04:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D95301314
+	for <lists+linux-media@lfdr.de>; Sat, 23 Jan 2021 05:44:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbhAWDsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jan 2021 22:48:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727024AbhAWDrn (ORCPT
+        id S1726602AbhAWEoN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jan 2021 23:44:13 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:51725 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726535AbhAWEoN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jan 2021 22:47:43 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09438C06178B
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 19:47:03 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id u11so4360584plg.13
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 19:47:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NeU+sbXmljaYFeP3l6UlIJg8urIJG4eKqAQWq4YMm7Q=;
-        b=WnxuHG+58B7ObL97OX1lcKW9Hk6NeIHCjNLj+Ln4wJsoDeIQbBP+2ByXlvfZxdp6xM
-         ZHm3dS++P7X/juDRpoRnVOs0+6P0DE/MLFMnFT+oG23Y2K+iDsKR1IqSXz50WqwNLXrW
-         kc8oy2ktygL6toj6sEVnLbt/YzPbduFQAvMvfJWGL9Y19Os79LYUZkD+vum4PHTIZ9f9
-         LawLrkgE7NuSJ9/Pmb2fkpeWzn3k2SIDnK1MsF3/sHRAvqXGygs4L1hd7DocUguZpid5
-         cnYdR20sbtKRuHIyD3eTOjXgWNMHabLZkKYmh20fZBkdsFl6m0tC8YWSw9nyfLchkhQu
-         S8yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NeU+sbXmljaYFeP3l6UlIJg8urIJG4eKqAQWq4YMm7Q=;
-        b=CKVfQkQ6VH7KXcINsIFSRcb4j0AYXjjzommf4+GwC5kmiDuywnlHB1U7490ypBnfVZ
-         R2PL5p1vx4kzAjtWKoI0+5D971iP7PaUywPr7oQniU19sD1BFoCia12NPpO84qv+XJwT
-         1DCr2ppGFGlT1++kqTDh+//FhRBRmtkfl+ltG/7sJDg79FJy39BdbPRUCN2f90G6x6aS
-         92I7UmedcQr2jgUT0drq3kZGwTKzI6vwxas6+kC8P7j77GYMHclBN18tyMHVY+A58LwF
-         xWKkvE+4KwYKFjrPxJZY0UbXFu88QNufNyvcowrAIv4OHLayRVygFHhNMxtkzc79VE60
-         DMiw==
-X-Gm-Message-State: AOAM531f+W7NedMCC2Vq5z99WkiDUmE7eARUM+SzaXCDK9N3mulw3cN8
-        NYuF9JJ3huXdWDWw65w8+cD8dA==
-X-Google-Smtp-Source: ABdhPJxIYWGLWs4iE8DbmMqeyBbwTuBXL43v1z7ZqgX+FHaaaJjZZAx1y0u7UHKgbJEkz+l0gMljOA==
-X-Received: by 2002:a17:90b:4c0b:: with SMTP id na11mr2604106pjb.45.1611373622594;
-        Fri, 22 Jan 2021 19:47:02 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id q24sm10316702pfs.72.2021.01.22.19.47.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 19:47:01 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] dma-buf: system_heap: Add deferred freeing to the system heap
-Date:   Sat, 23 Jan 2021 03:46:55 +0000
-Message-Id: <20210123034655.102813-3-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210123034655.102813-1-john.stultz@linaro.org>
-References: <20210123034655.102813-1-john.stultz@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Fri, 22 Jan 2021 23:44:13 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 3Alkl7hFNI2393AlmlWGFW; Sat, 23 Jan 2021 05:43:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611377010; bh=EDIcPyjrm6PNu+cffa4KN5pOoFE2T1rxHJ2UoiA+d6Y=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=IZ242ZgpctiZuLVdyO/nuTRUyp9VGQEfJE9+Y+66PXLG+7E91kW3DywOWuEKSC21a
+         Ti49DdzGW4aFP5wOczTmq+JSndKDyCncrTXWV7srq6qRXBh+Mfe+nzD5oYyg5ydZxc
+         7Q2K7ozXsFosBWk2Va22gmkJbCPg9S1s5TbL8MCxQjbM6oVq4JQWeIbjzRNv2E9jmm
+         RuGjF+FO3fqp5CjizeJNw5yETul9G/foJlsaX6oKGlNPvBYNsvXOEi/I3pxTE7sLIO
+         qPzkxtF1DdZRORk37EYgbhmr3dgZhKpB2rcZ0uhMFaLsfGuVfupUFwS7rBg4NOTRZu
+         L/U/ux/4S2NbA==
+Message-ID: <e55d5b93a3cc513fb699272ebe302b56@smtp-cloud9.xs4all.net>
+Date:   Sat, 23 Jan 2021 05:43:28 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfMIN9sAD/Sg1bMtojiGotR4ReGLiCRv72bXrWu79KpDvPPjXLHYSk2kSrbbunS++mcgzOI5wH8WaUwV9Mg6nVrfZcAfxnwRM5emfJSiCcdfkbCxLyz9y
+ ON+gFi8baXPEypfnmo1Jcntmw9685QmkQAg3dUc4apzZha8k/vJPiFZt3KcOh1q0At0EEt0L6CCzn+cYMxqRMwtgfS2hZiat00QGZu+f7C+f42lI7gxF1eQy
+ T7fOrQZTvEhClkqzAZ/xnA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Utilize the deferred free helper library in the system heap.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-This provides a nice performance bump and puts the
-system heap performance on par with ION.
+Results of the daily build of media_tree:
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
-v2:
-* Rework deferred-free api to use reason enum as suggested by
-  Suren Baghdasaryan
----
- drivers/dma-buf/heaps/Kconfig       |  1 +
- drivers/dma-buf/heaps/system_heap.c | 32 ++++++++++++++++++++++-------
- 2 files changed, 26 insertions(+), 7 deletions(-)
+date:			Sat Jan 23 05:00:11 CET 2021
+media-tree git hash:	066a94e28a23e04c0e9cb293f9ead56d409d7e41
+media_build git hash:	f6e3542673d19355e8e42be40f5fc78431d611c5
+v4l-utils git hash:	6053dad4c63a063fcd4714c85fd9dd10fe07f93e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7087-gdbdb27615
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 01932d8c0f1bcf9780263707cc9aa0af06014d36
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index 748e840e6edd..3f4d7b949301 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -6,6 +6,7 @@ config DMABUF_HEAPS_SYSTEM
- 	depends on DMABUF_HEAPS
- 	select NET
- 	select PAGE_POOL
-+	select DMABUF_HEAPS_DEFERRED_FREE
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
- 	  is backed by pages from the buddy allocator. If in doubt, say Y.
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 885e30894b77..747fa2250e84 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -22,6 +22,8 @@
- #include <linux/vmalloc.h>
- #include <net/page_pool.h>
- 
-+#include "deferred-free-helper.h"
-+
- static struct dma_heap *sys_heap;
- 
- struct system_heap_buffer {
-@@ -32,6 +34,7 @@ struct system_heap_buffer {
- 	struct sg_table sg_table;
- 	int vmap_cnt;
- 	void *vaddr;
-+	struct deferred_freelist_item deferred_free;
- };
- 
- struct dma_heap_attachment {
-@@ -317,30 +320,45 @@ static int system_heap_zero_buffer(struct system_heap_buffer *buffer)
- 	return ret;
- }
- 
--static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
-+static void system_heap_buf_free(struct deferred_freelist_item *item,
-+				 enum df_reason reason)
- {
--	struct system_heap_buffer *buffer = dmabuf->priv;
-+	struct system_heap_buffer *buffer;
- 	struct sg_table *table;
- 	struct scatterlist *sg;
- 	int i, j;
- 
-+	buffer = container_of(item, struct system_heap_buffer, deferred_free);
- 	/* Zero the buffer pages before adding back to the pool */
--	system_heap_zero_buffer(buffer);
-+	if (reason == DF_NORMAL)
-+		if (system_heap_zero_buffer(buffer))
-+			reason = DF_UNDER_PRESSURE; // On failure, just free
- 
- 	table = &buffer->sg_table;
- 	for_each_sg(table->sgl, sg, table->nents, i) {
- 		struct page *page = sg_page(sg);
- 
--		for (j = 0; j < NUM_ORDERS; j++) {
--			if (compound_order(page) == orders[j])
--				break;
-+		if (reason == DF_UNDER_PRESSURE) {
-+			__free_pages(page, compound_order(page));
-+		} else {
-+			for (j = 0; j < NUM_ORDERS; j++) {
-+				if (compound_order(page) == orders[j])
-+					break;
-+			}
-+			page_pool_put_full_page(pools[j], page, false);
- 		}
--		page_pool_put_full_page(pools[j], page, false);
- 	}
- 	sg_free_table(table);
- 	kfree(buffer);
- }
- 
-+static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct system_heap_buffer *buffer = dmabuf->priv;
-+
-+	deferred_free(&buffer->deferred_free, system_heap_buf_free, buffer->len);
-+}
-+
- static const struct dma_buf_ops system_heap_buf_ops = {
- 	.attach = system_heap_attach,
- 	.detach = system_heap_detach,
--- 
-2.17.1
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
