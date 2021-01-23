@@ -2,141 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D87F3011FE
-	for <lists+linux-media@lfdr.de>; Sat, 23 Jan 2021 02:29:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63E803012C0
+	for <lists+linux-media@lfdr.de>; Sat, 23 Jan 2021 04:46:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbhAWB3b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Jan 2021 20:29:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53462 "EHLO
+        id S1726709AbhAWDp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Jan 2021 22:45:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbhAWB32 (ORCPT
+        with ESMTP id S1726411AbhAWDpy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Jan 2021 20:29:28 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 127B1C0613D6
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 17:28:47 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id x23so8638672lji.7
-        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 17:28:46 -0800 (PST)
+        Fri, 22 Jan 2021 22:45:54 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0DBEC061793
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 19:44:32 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id t6so4408705plq.1
+        for <linux-media@vger.kernel.org>; Fri, 22 Jan 2021 19:44:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=yfeJphQ0sDWpVDHO4BIQKQejXBdG4Gl17zoealRBPD8=;
-        b=gICXjdQzjIZupISrGhW4/NffiZvV7rNuGnLKX3VcHrhEpbrHDK/isnFulFOw7k6YmD
-         M9YIjj3XVYpfO4CkPcLVWyiOP9hLzmB6VWBRedDhebfMjgquqYTtSpCnHe5AQXimqFIL
-         X9l59yHd5nBiHqKPsk1xeWUYHFCyXbvnZZE6Mqi2uqhYzK8sUaWxNuVv5g5Sxf307mu5
-         lQ0Rk5bCFgv4OUYAmpYychz0y+xM8PB8DIN+hgym5WN97YX7TOTWwaqzGMyqMB+jpjLx
-         Kvq3YB5cwJgKZQrOw8tKKyRvgCdGbE65gwEHZNCQNvHkFbfIwnb/mJq6u6DgfPBYkyJE
-         qenA==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T2zUOMuYBsp0xa+C63qhybgwegJ8SB3Z5I9fwiJv468=;
+        b=PRYgioSsxf0GbBLKdvEOl43mw9Aiuqs/hQuhRLx2SFwqy8rX5AeKEZSZpSNxTwoOeJ
+         t2BmPA9Zqcn6T5n9kx1zfbkdtceWlN+cpdMOxV5wUJLEpHw1VLu4hv7dC+xAXYgPzcPc
+         cxfTSvM6ujZjysYfxhvR0FilC+Kxu3p1WY8K4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=yfeJphQ0sDWpVDHO4BIQKQejXBdG4Gl17zoealRBPD8=;
-        b=nAosy7S2VY308Rj3rcm1m2YGFTe0zmM+ZHYT4J1BeRLMhYADFfAodKFPgxsr7XoROA
-         /TmzEdvpvR4eJcBsxbhZuSyfB4nmdPeNtbMmniKEuIxduM9AtEQwsoKjhgzSeTwnW0v5
-         ksRw9+57DQdeCccggDF0bNCnu3MzyP9Px8waWQ9aDwbsmotN63zj6tZtQJodn991MTiQ
-         UEQIXecNI4hbxwivVzD08hR0pOtPmT6zg+0PNIkMh0pf8cx1BYVnWuyqqknp9Iik9MyA
-         HHJnczwEFawuPJdSip0xFPes0eDxHNshLIpDMhFvdFjnY4Y+c8CODTuzKmHIsMRQW/G6
-         l/wg==
-X-Gm-Message-State: AOAM532ZKlJjpoqkV9LDS+USZE3EpE9hx7dRK1jvMOsaQHZ0flpVWaye
-        cgAqL0Bo5wlz00dep3BksT7w6u2OD1vjLJQbtzimmQ==
-X-Google-Smtp-Source: ABdhPJyIUZEiyrDDDxLY28EF6rN61DxLuQL+7PTZS/r3UdjtMlSsCnW0o7RtD5J7teKoSreixvqjk4ot1Cqj4bHK16E=
-X-Received: by 2002:a05:651c:10e:: with SMTP id a14mr1388108ljb.128.1611365325426;
- Fri, 22 Jan 2021 17:28:45 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T2zUOMuYBsp0xa+C63qhybgwegJ8SB3Z5I9fwiJv468=;
+        b=QisPc6gQp78ZI9BQdR94/iT9PekzpgoxySFpHXr+mJry8Nfr6BviOtqnC1aWNouvFf
+         hU6PLykys279XyfuO4Vj1n99do2rmYxnhKNmVh/9R+mFwlLC4UD4CTI4w41erBOYBhyF
+         d7PAjS61B3j3BhMYy3VrnqNw0upiWr6gwpCQq5Y2wxxNcGjORkjOe0xveqrOsbEWMo+y
+         GueXrjUB7Z/Ya357/fpBMfHjmyFdeMLJXNRkcYjcPs83iyxnesbpKBZfTi4slP+D8NHa
+         PQt04KoD83JZaKpybJjhxwOzFzQMOk/RPM/VGlvBSEI+rKuhn2Zta1a/npvD6ZaHfJcF
+         dwmw==
+X-Gm-Message-State: AOAM533bKXbnj6jjfjt4VSZfC7egCxjD8e0ddSie/u88FMwe5QmaMoWs
+        9I6+ZmoylXvlrg6x3BZ1w6C8Vw==
+X-Google-Smtp-Source: ABdhPJyd7fFDZv6n2P9mHgXUxsP3pGyEOW4hJ+i/rwmCQeMc2Toy8idB/lj4h/4jokogwBeJ/kWUpg==
+X-Received: by 2002:a17:902:ee11:b029:df:e6ac:c01 with SMTP id z17-20020a170902ee11b02900dfe6ac0c01mr489404plb.65.1611373472221;
+        Fri, 22 Jan 2021 19:44:32 -0800 (PST)
+Received: from smtp.gmail.com ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id gf23sm10480343pjb.42.2021.01.22.19.44.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jan 2021 19:44:31 -0800 (PST)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Jean Delvare <jdelvare@suse.com>, Jiri Slaby <jslaby@suse.com>,
+        linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Richard Leitner <richard.leitner@skidata.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v2 0/6]  Stop NULLifying match pointer in of_match_device()
+Date:   Fri, 22 Jan 2021 19:44:22 -0800
+Message-Id: <20210123034428.2841052-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
 MIME-Version: 1.0
-References: <20201217230612.32397-1-john.stultz@linaro.org>
- <20201217230612.32397-2-john.stultz@linaro.org> <X9y+YZujWBTHMuH3@phenom.ffwll.local>
- <CALAqxLVtYVGSSYtFmMK6oM9JSEmY4RAXra89sECL2Z4YGPic0Q@mail.gmail.com> <X+Ec+xVhyIUa7IsJ@phenom.ffwll.local>
-In-Reply-To: <X+Ec+xVhyIUa7IsJ@phenom.ffwll.local>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Fri, 22 Jan 2021 17:28:32 -0800
-Message-ID: <CALAqxLWdq9pKpFLzXmV60LQHpu8BgckDuX1HX5hY4jspHvLK5Q@mail.gmail.com>
-Subject: Re: [RFC][PATCH 2/3] dma-buf: system_heap: Add pagepool support to
- system heap
-To:     John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Sandeep Patil <sspatil@google.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        James Jones <jajones@nvidia.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Dec 21, 2020 at 2:09 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Dec 18, 2020 at 05:16:56PM -0800, John Stultz wrote:
-> > On Fri, Dec 18, 2020 at 6:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > On Thu, Dec 17, 2020 at 11:06:11PM +0000, John Stultz wrote:
-> > > > Reuse/abuse the pagepool code from the network code to speed
-> > > > up allocation performance.
-> > > >
-> > > > This is similar to the ION pagepool usage, but tries to
-> > > > utilize generic code instead of a custom implementation.
-> > >
-> > > We also have one of these in ttm. I think we should have at most one of
-> > > these for the gpu ecosystem overall, maybe as a helper that can be plugged
-> > > into all the places.
-> > >
-> > > Or I'm kinda missing something, which could be since I only glanced at
-> > > yours for a bit. But it's also called page pool for buffer allocations,
-> > > and I don't think there's that many ways to implement that really :-)
-> >
-> > Yea, when I was looking around the ttm one didn't seem quite as
-> > generic as the networking one, which more easily fit in here.
->
-> Oops, I didn't look that closely and didn't realize you're reusing the one
-> from net/core/.
->
-> > The main benefit for the system heap is not so much the pool itself
-> > (the normal page allocator is pretty good), as it being able to defer
-> > the free and zero the pages in a background thread, so the pool is
-> > effectively filled with pre-zeroed pages.
-> >
-> > But I'll take another look at the ttm implementation and see if it can
-> > be re-used or the shared code refactored and pulled out somehow.
->
-> I think moving the page_pool from net into lib and using it in ttm might
-> also be an option. Lack of shrinker in the networking one might be a bit a
-> problem.
+(This is a continuation of this series[1] per Rob's request. I've picked
+up the acks, etc. with b4 and compile tested the patches along with an
+arm64 allmodconfig build. Presumably Rob will pick these up directly.)
 
-Yea. I've been looking at this, to see how to abstract out a generic
-pool implementation, but each pool implementation has been tweaked for
-the specific use cases, so a general abstraction is a bit tough right
-off.
+of_match_device() uses of_match_ptr() to make the match table argument
+NULL via the pre-processor when CONFIG_OF=n. This makes life harder for
+compilers who think that match tables are never used and warn about
+unused variables when CONFIG_OF=n. This series changes various callers
+to use of_device_get_match_data() instead, which doesn't have this
+problem, and removes the of_match_ptr() usage from of_match_device() so
+that the compiler can stop complaining about unused variables. It will
+do dead code elimination instead and remove the match table if it isn't
+actually used.
 
-For example the ttm pool's handling allocations both from alloc_pages
-and dma_alloc in a pool, where the net page pool only uses alloc_pages
-(but can pre map via dma_map_attr).
+[1] https://lore.kernel.org/r/20191004214334.149976-1-swboyd@chromium.org
 
-And as you mentioned, the networking page pool is statically sized
-where the ttm pool is dynamic and shrinker controlled.
+Cc: Alexandre Torgue <alexandre.torgue@st.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Grygorii Strashko <grygorii.strashko@ti.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Jacopo Mondi <jacopo@jmondi.org>
+Cc: Jean Delvare <jdelvare@suse.com>
+Cc: Jiri Slaby <jslaby@suse.com>
+Cc: <linux-hwmon@vger.kernel.org>
+Cc: <linux-kernel@vger.kernel.org>,
+Cc: <linux-media@vger.kernel.org>
+Cc: <linux-omap@vger.kernel.org>
+Cc: <linux-renesas-soc@vger.kernel.org>
+Cc: <linux-serial@vger.kernel.org>
+Cc: <linux-usb@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Richard Leitner <richard.leitner@skidata.com>
+Cc: Rob Herring <robh+dt@kernel.org>
 
-Further, as the ttm pool is utilized for keeping pools of pages set
-for specific cache types, it makes it difficult to abstract that out
-as we have to be able to reset the caching (set_pages_wb()) when
-shrinking, so that would also have to be pushed down into the pool
-attributes as well.
+Stephen Boyd (6):
+  media: renesas-ceu: Use of_device_get_match_data()
+  drivers: net: davinci_mdio: Use of_device_get_match_data()
+  serial: stm32: Use of_device_get_match_data()
+  usb: usb251xb: Use of_device_get_match_data()
+  hwmon: (lm70) Avoid undefined reference to match table
+  of/device: Don't NULLify match table in of_match_device() with
+    CONFIG_OF=n
 
-So far, in my attempts to share an abstraction for both the net
-page_pool and the ttm page pool, it seems to make the code complexity
-worse on both sides -  so while I'm interested in continuing to try to
-find a way to share code here, I'm not sure it makes sense to hold up
-this series (which is already re-using an existing implementation and
-provide a performance bump in microbenchmarks) for the
-grand-unified-page-pool. Efforts to refactor the ttm pool and net page
-pool can continue on indepently, and I'd be happy to move the system
-heap to whatever that ends up being.
+ drivers/hwmon/lm70.c                   |  2 +-
+ drivers/media/platform/renesas-ceu.c   |  2 +-
+ drivers/net/ethernet/ti/davinci_mdio.c | 12 ++---
+ drivers/tty/serial/stm32-usart.c       | 71 ++++++++++++--------------
+ drivers/tty/serial/stm32-usart.h       |  2 +-
+ drivers/usb/misc/usb251xb.c            | 12 ++---
+ include/linux/of_device.h              |  4 +-
+ 7 files changed, 47 insertions(+), 58 deletions(-)
 
-thanks
--john
+
+base-commit: 19c329f6808995b142b3966301f217c831e7cf31
+-- 
+https://chromeos.dev
+
