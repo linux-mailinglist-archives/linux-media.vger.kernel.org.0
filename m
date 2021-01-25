@@ -2,108 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A073304852
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C170304850
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388742AbhAZFpz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:45:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32968 "EHLO
+        id S2388764AbhAZFqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:46:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730303AbhAYPpG (ORCPT
+        with ESMTP id S1727969AbhAYQvo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 10:45:06 -0500
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FBDDC061354
-        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 07:18:49 -0800 (PST)
-Received: by mail-oo1-xc33.google.com with SMTP id j8so3346698oon.3
-        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 07:18:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tqHsUUcTKe2jpNesKI4Ls70gHgXQSHomQormGTtd+iw=;
-        b=imItcls200JtD5a68DthH3lsLf4uMZWQ91vTV4g7TYBg/St0bmxyqGgdbR2rjn+iIn
-         15IkSULWWDrZXcQisDmEKjoemcLL+w95s//mDlWuqpn1ypwxq18OsLoIHX0HT+7fnFBr
-         gHfE+lEYIN24Q9D9WVpXPXNpVAUg4x06GLOOSCxEdKzQgDNUvqlA9INcdgIqp+3SN48t
-         poqxp3XiVOn8u5prL2a86r9pykxuSIRUX6rqn25vYQ+ze2XDzkZIcwfhKgERUdL7a2RP
-         i9m7zEA33fA7c7FxLWieFyPQBNFvXBOchQ0DN2rc1uL5FLu2bF83xmYA+emTYMDrPDHn
-         6Lug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tqHsUUcTKe2jpNesKI4Ls70gHgXQSHomQormGTtd+iw=;
-        b=h0O/bQGa8B8IESToa5kxVrbKMkt9+beHOvJ6yLI+KUzjia+DdKoQUomKxS/riBJpx1
-         cjURaM+5r1Lwm1zTHqYzypntV0DYY2i59WuIO6EB8HU966fgzmyKiMbHlUDMtN+BBPkq
-         mgi32ocmRYiINvaXhPWjPS3tXMZmFH45LF7zi9NS24vB0DNaTaGuGjVHAMPzTJaQI+Nd
-         oTtWBTSPLPBYE3+qfGVOT5m1CzkEiKqALcClcw2S+LImIAA/RKHNpGLl8r85JheymJqf
-         jgVZU/PKcqAIS0dCMqeZu2iZnCN1/v9rYIyzBd+52cBM8117mwErLdB+TPAnHguB05XV
-         YmGQ==
-X-Gm-Message-State: AOAM531cfXfKtGgv+I7X2qK+EEZITjUZSZetVSkN7lsYcQywCXbS1j2N
-        epAGwfqVZx0E8BzaOi/J04QrEA==
-X-Google-Smtp-Source: ABdhPJxhWtj7ijUayPT4NSsxAYdvO1VOqHaRxL5y+7iV9e5hW3l/lC2sNftCU/43hxqEuvMuSgiwdQ==
-X-Received: by 2002:a05:6820:22c:: with SMTP id j12mr815447oob.65.1611587928383;
-        Mon, 25 Jan 2021 07:18:48 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id m7sm3524169otq.33.2021.01.25.07.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 07:18:47 -0800 (PST)
-Date:   Mon, 25 Jan 2021 09:18:45 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        agross@kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
-        phone-devel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: venus: core: Add sdm660 DT compatible and
- resource struct
-Message-ID: <YA7hVQVTXT554cKN@builder.lan>
-References: <20210115185252.333562-1-angelogioacchino.delregno@somainline.org>
- <20210115185252.333562-2-angelogioacchino.delregno@somainline.org>
- <2dc8a95f-110f-526f-18a8-6393e508c3a6@linaro.org>
- <eabc91cc-de96-08ef-756c-87fe43d6fadc@somainline.org>
- <cfc1998f-8d9b-5237-f286-7fdc69874b30@xs4all.nl>
- <40c38734-a69d-2314-c342-244ee5a0e6b1@somainline.org>
+        Mon, 25 Jan 2021 11:51:44 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B7DC06174A
+        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 08:50:58 -0800 (PST)
+Received: from [IPv6:2804:214:81d7:a6cc:f83c:66c3:4225:e59d] (unknown [IPv6:2804:214:81d7:a6cc:f83c:66c3:4225:e59d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9115F1F45362;
+        Mon, 25 Jan 2021 16:50:52 +0000 (GMT)
+Subject: Re: [PATCH v3 11/14] media: v4l2-async: Fix incorrect comment
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+References: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
+ <20210125132230.6600-26-sakari.ailus@linux.intel.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <fab49b26-1297-fb0f-4d02-103e8faedffd@collabora.com>
+Date:   Mon, 25 Jan 2021 13:50:48 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <40c38734-a69d-2314-c342-244ee5a0e6b1@somainline.org>
+In-Reply-To: <20210125132230.6600-26-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon 25 Jan 08:51 CST 2021, AngeloGioacchino Del Regno wrote:
+Hi Sakari,
 
-> Il 25/01/21 11:40, Hans Verkuil ha scritto:
-> > On 18/01/2021 18:45, AngeloGioacchino Del Regno wrote:
-> > > Il 18/01/21 18:21, Stanimir Varbanov ha scritto:
-> > > > > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-[..]
-> > > > > +	.fwname = "qcom/venus-4.4/venus.mdt",
-[..]
-> > This patch can't be merged unless there is a corresponding firmware available
-> > in linux-firmware. Is the current 4.2 firmware in linux-firmware signed by
-> > Qualcomm? Can they provided 4.4 firmware as well?
-> > 
+Thank you for the patch.
+
+On 1/25/21 10:22 AM, Sakari Ailus wrote:
+> From: Ezequiel Garcia <ezequiel@collabora.com>
 > 
-> If there is such issue, then maybe we should do "something" about it: I
-> would then propose to remove all references to fwname and just get this
-> done in DT, where every qcom board already specifies its own path for
-> its own firmware.
+> The v4l2_async_notifier_cleanup() documentation mentions
+> v4l2_fwnode_reference_parse_sensor_common, which was actually
+> introduced as v4l2_async_notifier_parse_fwnode_sensor_common(),
+> in commit 7a9ec808ad46 ("media: v4l: fwnode: Add convenience function for
+> parsing common external refs").
 > 
+> The function drivers do use is
+> v4l2_async_register_subdev_sensor_common().
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  include/media/v4l2-async.h | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> index 0ddc06e36c08..f2cac0931372 100644
+> --- a/include/media/v4l2-async.h
+> +++ b/include/media/v4l2-async.h
+> @@ -174,9 +174,11 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+>   *
+>   * @notif: pointer to &struct v4l2_async_notifier
+>   * @endpoint: local endpoint pointing to the remote sub-device to be matched
+> - * @asd: Async sub-device struct allocated by the caller. The &struct
+> - *	 v4l2_async_subdev shall be the first member of the driver's async
+> - *	 sub-device struct, i.e. both begin at the same memory address.
+> + * @asd_struct_size: size of the driver's async sub-device struct, including
+> + *		     sizeof(struct v4l2_async_subdev). The &struct
+> + *		     v4l2_async_subdev shall be the first member of
+> + *		     the driver's async sub-device struct, i.e. both
+> + *		     begin at the same memory address.
+>   *
+>   * Gets the remote endpoint of a given local endpoint, set it up for fwnode
+>   * matching and adds the async sub-device to the notifier's @asd_list. The
+> @@ -184,13 +186,12 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+>   * notifier cleanup time.
+>   *
+>   * This is just like @v4l2_async_notifier_add_fwnode_subdev, but with the
+> - * exception that the fwnode refers to a local endpoint, not the remote one, and
+> - * the function relies on the caller to allocate the async sub-device struct.
+> + * exception that the fwnode refers to a local endpoint, not the remote one.
+>   */
+> -int
+> +struct v4l2_async_subdev *
+>  v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
+>  					     struct fwnode_handle *endpoint,
+> -					     struct v4l2_async_subdev *asd);
+> +					     unsigned int asd_struct_size);
 
-We have the same problem with production devices on e.g. SDM845, where
-the firmware referenced by fw_name and present in linux-firmware won't
-work on any real devices.
-
-As such, providing means for specifying the firmware name in DT would be
-a very reasonable thing, and in line with how we handle this in other
-subsystems (using the firmware-name property, containing the full
-relative path).
+This change should go with patch 1/14.
 
 Regards,
-Bjorn
+Helen
+
+>  
+>  /**
+>   * v4l2_async_notifier_add_i2c_subdev - Allocate and add an i2c async
+> @@ -249,7 +250,7 @@ void v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier);
+>   * notifier after calling
+>   * @v4l2_async_notifier_add_subdev,
+>   * @v4l2_async_notifier_parse_fwnode_endpoints or
+> - * @v4l2_fwnode_reference_parse_sensor_common.
+> + * @v4l2_async_register_subdev_sensor_common.
+>   *
+>   * There is no harm from calling v4l2_async_notifier_cleanup in other
+>   * cases as long as its memory has been zeroed after it has been
+> 
