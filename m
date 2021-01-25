@@ -2,218 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA4F2303589
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 06:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51E5D30358B
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 06:46:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388626AbhAZFpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:45:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728872AbhAYNcr (ORCPT
+        id S2388669AbhAZFpY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:45:24 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59254 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729172AbhAYN6R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:32:47 -0500
-Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50023C061574
-        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 05:29:52 -0800 (PST)
-Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 5F454634CCD;
-        Mon, 25 Jan 2021 15:25:59 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 10/14] media: davinci: vpif_display: Remove unused v4l2-async code
-Date:   Mon, 25 Jan 2021 15:22:26 +0200
-Message-Id: <20210125132230.6600-25-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
-References: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
+        Mon, 25 Jan 2021 08:58:17 -0500
+Received: from [IPv6:2804:214:81d7:a6cc:f83c:66c3:4225:e59d] (unknown [IPv6:2804:214:81d7:a6cc:f83c:66c3:4225:e59d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6D84A1F452BC;
+        Mon, 25 Jan 2021 13:57:20 +0000 (GMT)
+Subject: Re: [PATCH] media: doc: pixfmt-yuv: Fix 4:4:4 subsampling info
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        hans.verkuil@cisco.com, kernel@collabora.com,
+        linux-kernel@vger.kernel.org
+References: <20210122182723.327438-1-helen.koike@collabora.com>
+ <YAvyu6AvEmZy6WRq@pendragon.ideasonboard.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <7f650d51-d419-53cc-0ad1-b241a10ab801@collabora.com>
+Date:   Mon, 25 Jan 2021 10:57:15 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YAvyu6AvEmZy6WRq@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ezequiel Garcia <ezequiel@collabora.com>
 
-There are no users for vpif_display_config.asd_sizes
-and vpif_display_config.asd members, which means the v4l2-async
-subdevices aren't being defined anywhere.
 
-Remove the v4l2-async, leaving only the synchronous setup.
+On 1/23/21 6:56 AM, Laurent Pinchart wrote:
+> Hi Helen,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Jan 22, 2021 at 03:27:23PM -0300, Helen Koike wrote:
+>> YUV 4:4:4 is not subsampled, fix this in the docs.
+>>
+>> Fixes: da785536e007 ("media: doc: pixfmt-yuv: Move all semi-planar YUV formats to common file")
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>> ---
+>>  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> index 7d4d39201a3f..bcb4ef24c334 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> @@ -396,8 +396,8 @@ number of lines as the luma plane.
+>>  NV24 and NV42
+>>  -------------
+>>  
+>> -Semi-planar YUV 4:4:4 formats. The chroma plane is subsampled by 2 in the
+>> -horizontal direction. Chroma lines contain half the number of pixels and the
+>> +Semi-planar YUV 4:4:4 formats. No sub-sampling.
+> 
+> "The chroma plane is not subsampled." ?
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Helen Koike <helen.koike@collabora.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/platform/davinci/vpif_display.c | 86 ++++---------------
- drivers/media/platform/davinci/vpif_display.h |  1 -
- include/media/davinci/vpif_types.h            |  2 -
- 3 files changed, 15 insertions(+), 74 deletions(-)
+Ack.
 
-diff --git a/drivers/media/platform/davinci/vpif_display.c b/drivers/media/platform/davinci/vpif_display.c
-index 46afc029138f..e5f61d9b221d 100644
---- a/drivers/media/platform/davinci/vpif_display.c
-+++ b/drivers/media/platform/davinci/vpif_display.c
-@@ -1117,23 +1117,6 @@ static void free_vpif_objs(void)
- 		kfree(vpif_obj.dev[i]);
- }
- 
--static int vpif_async_bound(struct v4l2_async_notifier *notifier,
--			    struct v4l2_subdev *subdev,
--			    struct v4l2_async_subdev *asd)
--{
--	int i;
--
--	for (i = 0; i < vpif_obj.config->subdev_count; i++)
--		if (!strcmp(vpif_obj.config->subdevinfo[i].name,
--			    subdev->name)) {
--			vpif_obj.sd[i] = subdev;
--			vpif_obj.sd[i]->grp_id = 1 << i;
--			return 0;
--		}
--
--	return -EINVAL;
--}
--
- static int vpif_probe_complete(void)
- {
- 	struct common_obj *common;
-@@ -1230,16 +1213,6 @@ static int vpif_probe_complete(void)
- 	return err;
- }
- 
--static int vpif_async_complete(struct v4l2_async_notifier *notifier)
--{
--	return vpif_probe_complete();
--}
--
--static const struct v4l2_async_notifier_operations vpif_async_ops = {
--	.bound = vpif_async_bound,
--	.complete = vpif_async_complete,
--};
--
- /*
-  * vpif_probe: This function creates device entries by register itself to the
-  * V4L2 driver and initializes fields of each channel objects
-@@ -1294,52 +1267,28 @@ static __init int vpif_probe(struct platform_device *pdev)
- 		goto vpif_unregister;
- 	}
- 
--	v4l2_async_notifier_init(&vpif_obj.notifier);
--
--	if (!vpif_obj.config->asd_sizes) {
--		i2c_adap = i2c_get_adapter(vpif_obj.config->i2c_adapter_id);
--		for (i = 0; i < subdev_count; i++) {
--			vpif_obj.sd[i] =
--				v4l2_i2c_new_subdev_board(&vpif_obj.v4l2_dev,
--							  i2c_adap,
--							  &subdevdata[i].
--							  board_info,
--							  NULL);
--			if (!vpif_obj.sd[i]) {
--				vpif_err("Error registering v4l2 subdevice\n");
--				err = -ENODEV;
--				goto probe_subdev_out;
--			}
--
--			if (vpif_obj.sd[i])
--				vpif_obj.sd[i]->grp_id = 1 << i;
--		}
--		err = vpif_probe_complete();
--		if (err) {
-+	i2c_adap = i2c_get_adapter(vpif_obj.config->i2c_adapter_id);
-+	for (i = 0; i < subdev_count; i++) {
-+		vpif_obj.sd[i] =
-+			v4l2_i2c_new_subdev_board(&vpif_obj.v4l2_dev,
-+						  i2c_adap,
-+						  &subdevdata[i].board_info,
-+						  NULL);
-+		if (!vpif_obj.sd[i]) {
-+			vpif_err("Error registering v4l2 subdevice\n");
-+			err = -ENODEV;
- 			goto probe_subdev_out;
- 		}
--	} else {
--		for (i = 0; i < vpif_obj.config->asd_sizes[0]; i++) {
--			err = v4l2_async_notifier_add_subdev(
--				&vpif_obj.notifier, vpif_obj.config->asd[i]);
--			if (err)
--				goto probe_cleanup;
--		}
- 
--		vpif_obj.notifier.ops = &vpif_async_ops;
--		err = v4l2_async_notifier_register(&vpif_obj.v4l2_dev,
--						   &vpif_obj.notifier);
--		if (err) {
--			vpif_err("Error registering async notifier\n");
--			err = -EINVAL;
--			goto probe_cleanup;
--		}
-+		if (vpif_obj.sd[i])
-+			vpif_obj.sd[i]->grp_id = 1 << i;
- 	}
-+	err = vpif_probe_complete();
-+	if (err)
-+		goto probe_subdev_out;
- 
- 	return 0;
- 
--probe_cleanup:
--	v4l2_async_notifier_cleanup(&vpif_obj.notifier);
- probe_subdev_out:
- 	kfree(vpif_obj.sd);
- vpif_unregister:
-@@ -1358,11 +1307,6 @@ static int vpif_remove(struct platform_device *device)
- 	struct channel_obj *ch;
- 	int i;
- 
--	if (vpif_obj.config->asd_sizes) {
--		v4l2_async_notifier_unregister(&vpif_obj.notifier);
--		v4l2_async_notifier_cleanup(&vpif_obj.notifier);
--	}
--
- 	v4l2_device_unregister(&vpif_obj.v4l2_dev);
- 
- 	kfree(vpif_obj.sd);
-diff --git a/drivers/media/platform/davinci/vpif_display.h b/drivers/media/platform/davinci/vpif_display.h
-index f731a65eefd6..f98062e79167 100644
---- a/drivers/media/platform/davinci/vpif_display.h
-+++ b/drivers/media/platform/davinci/vpif_display.h
-@@ -118,7 +118,6 @@ struct vpif_device {
- 	struct v4l2_device v4l2_dev;
- 	struct channel_obj *dev[VPIF_DISPLAY_NUM_CHANNELS];
- 	struct v4l2_subdev **sd;
--	struct v4l2_async_notifier notifier;
- 	struct vpif_display_config *config;
- };
- 
-diff --git a/include/media/davinci/vpif_types.h b/include/media/davinci/vpif_types.h
-index 8439e46fb993..d03e5c54347a 100644
---- a/include/media/davinci/vpif_types.h
-+++ b/include/media/davinci/vpif_types.h
-@@ -48,8 +48,6 @@ struct vpif_display_config {
- 	int i2c_adapter_id;
- 	struct vpif_display_chan_config chan_config[VPIF_DISPLAY_MAX_CHANNELS];
- 	const char *card_name;
--	struct v4l2_async_subdev **asd;	/* Flat array, arranged in groups */
--	int *asd_sizes;		/* 0-terminated array of asd group sizes */
- };
- 
- struct vpif_input {
--- 
-2.29.2
+> 
+>> +Chroma lines contain the same number of pixels and the
+>>  same number of bytes as luma lines, and the chroma plane contains the same
+>>  number of lines as the luma plane.
+> 
+> That's not quite right, the chroma lines contain twice the number of
+> pixels and bytes, as there's one Cb and one Cr value in the chroma line
+> for each Y value in the luma line.
+> 
+> 
+> Maybe the text could be reflowed ?
+> 
 
+Ack.
+
+I'll submit v2 updating the text.
+
+Thanks,
+Helen
