@@ -2,135 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D621230280D
-	for <lists+linux-media@lfdr.de>; Mon, 25 Jan 2021 17:39:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC4C830283B
+	for <lists+linux-media@lfdr.de>; Mon, 25 Jan 2021 17:55:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730704AbhAYQjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Jan 2021 11:39:41 -0500
-Received: from mga01.intel.com ([192.55.52.88]:1958 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730850AbhAYQja (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 11:39:30 -0500
-IronPort-SDR: azYh0cuT/aHiuOcApl7xlFSbj22JhDu/UXMb16FpQseeAeLNNUwGfg4LNvgHhMvVIzmopuyOYl
- 7BHNAKlE/tBg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="198537418"
-X-IronPort-AV: E=Sophos;i="5.79,374,1602572400"; 
-   d="scan'208";a="198537418"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 08:37:37 -0800
-IronPort-SDR: yfCAYGbxbIvJckOqR5h6a1HNvd0IAp6wiQN/tnZYc4gRfKrq/eqYKjtJzPlpajiT0cVkW0xRod
- dhXTIaEns1lg==
-X-IronPort-AV: E=Sophos;i="5.79,374,1602572400"; 
-   d="scan'208";a="387454327"
-Received: from mkrastex-mobl.ger.corp.intel.com (HELO mkrastexMOBL) ([10.104.84.23])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 08:37:35 -0800
-From:   "Martina Krasteva" <martinax.krasteva@linux.intel.com>
-To:     "'Sakari Ailus'" <sakari.ailus@linux.intel.com>
-Cc:     <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
-        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <daniele.alessandrelli@linux.intel.com>,
-        <paul.j.murphy@linux.intel.com>,
-        <gjorgjix.rosikopulos@linux.intel.com>
-References: <20201211105633.708-1-martinax.krasteva@linux.intel.com> <20201211105633.708-3-martinax.krasteva@linux.intel.com> <20201211113153.GA23771@paasikivi.fi.intel.com> <011701d6cfb3$eaa5ac30$bff10490$@linux.intel.com> <20210125125502.GJ27155@paasikivi.fi.intel.com>
-In-Reply-To: <20210125125502.GJ27155@paasikivi.fi.intel.com>
-Subject: RE: [PATCH v4 2/2] media: i2c: Add imx334 camera sensor driver
-Date:   Mon, 25 Jan 2021 16:37:32 -0000
-Message-ID: <000001d6f338$63dbddc0$2b939940$@linux.intel.com>
+        id S1728431AbhAYQww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jan 2021 11:52:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727834AbhAYQvo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Jan 2021 11:51:44 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A99BC06178A
+        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 08:50:37 -0800 (PST)
+Received: from [IPv6:2804:214:81d7:a6cc:f83c:66c3:4225:e59d] (unknown [IPv6:2804:214:81d7:a6cc:f83c:66c3:4225:e59d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B61251F45362;
+        Mon, 25 Jan 2021 16:50:30 +0000 (GMT)
+Subject: Re: [PATCH v3 08/14] media: renesas-ceu: Use
+ v4l2_async_notifier_add_*_subdev
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+References: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
+ <20210125132230.6600-23-sakari.ailus@linux.intel.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <e58b42da-cb08-28c7-ec0a-fd3a07f76228@collabora.com>
+Date:   Mon, 25 Jan 2021 13:50:25 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
+In-Reply-To: <20210125132230.6600-23-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJ+AAXszZC+XWREX7U1zNfsFhfiYwHZem/YAhZDBKIB8boiXwJ2B7zvqKe0ZgA=
-Content-Language: en-us
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
 
-> -----Original Message-----
-> From: 'Sakari Ailus' <sakari.ailus@linux.intel.com>
-> Sent: Monday, January 25, 2021 12:55 PM
-> To: Martina Krasteva <martinax.krasteva@linux.intel.com>
-> Cc: linux-media@vger.kernel.org; mchehab@kernel.org; robh+dt@kernel.org;
-> devicetree@vger.kernel.org; daniele.alessandrelli@linux.intel.com;
-> paul.j.murphy@linux.intel.com; gjorgjix.rosikopulos@linux.intel.com
-> Subject: Re: [PATCH v4 2/2] media: i2c: Add imx334 camera sensor driver
-> 
-> Hi Martina,
-> 
-> On Fri, Dec 11, 2020 at 11:51:05AM -0000, Martina Krasteva wrote:
-> > Hi Sakari,
-> >
-> > > -----Original Message-----
-> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Sent: Friday, December 11, 2020 11:32 AM
-> > > To: Martina Krasteva <martinax.krasteva@linux.intel.com>
-> > > Cc: linux-media@vger.kernel.org; mchehab@kernel.org;
-> > > robh+dt@kernel.org; devicetree@vger.kernel.org;
-> > > daniele.alessandrelli@linux.intel.com;
-> > > paul.j.murphy@linux.intel.com; gjorgjix.rosikopulos@linux.intel.com
-> > > Subject: Re: [PATCH v4 2/2] media: i2c: Add imx334 camera sensor
-> > > driver
-> > >
-> > > Hi Martina,
-> > >
-> > > On Fri, Dec 11, 2020 at 10:56:33AM +0000, Martina Krasteva wrote:
-> > > ...
-> > > > +static int imx334_read_reg(struct imx334 *imx334, u16 reg, u32
-> > > > +len,
-> > > > +u32 *val) {
-> > > > +	struct i2c_client *client =
-v4l2_get_subdevdata(&imx334->sd);
-> > > > +	struct i2c_msg msgs[2] = { 0 };
-> > > > +	u8 addr_buf[2] = { 0 };
-> > > > +	u8 data_buf[4] = { 0 };
-> > > > +	int ret;
-> > > > +
-> > > > +	if (WARN_ON(len > 4))
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	put_unaligned_be16(reg, addr_buf);
-> > > > +
-> > > > +	/* Write register address */
-> > > > +	msgs[0].addr = client->addr;
-> > > > +	msgs[0].flags = 0;
-> > > > +	msgs[0].len = ARRAY_SIZE(addr_buf);
-> > > > +	msgs[0].buf = addr_buf;
-> > > > +
-> > > > +	/* Read data from register */
-> > > > +	msgs[1].addr = client->addr;
-> > > > +	msgs[1].flags = I2C_M_RD;
-> > > > +	msgs[1].len = len;
-> > > > +	msgs[1].buf = &data_buf[4 - len];
-> > > > +
-> > > > +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> > > > +	if (ret != ARRAY_SIZE(msgs))
-> > > > +		return -EIO;
-> > > > +
-> > > > +	*val = get_unaligned_le32(data_buf + (4 - len));
-> > >
-> > > Hmm. The device native endianness is big (on control interface)
-> > > unless something very unexpected happened in hardware development.
-> > >
-> > > You also can't do this as this will overrun data_buf.
-> >
-> > Imx334 uses little endian so I have to convert the values.
-> 
-> Ack. That's very unusual, and probably the first raw camera sensor
-implemented
-> that way.
-> 
-> Could you fix the data_buf overrun?
-> 
-Yes, will be fixed in next version :)
-> --
-> Sakari Ailus
 
-Kind Regards,
-Martina
+On 1/25/21 10:22 AM, Sakari Ailus wrote:
+> From: Ezequiel Garcia <ezequiel@collabora.com>
+> 
+> The use of v4l2_async_notifier_add_subdev will be discouraged.
+> Drivers are instead encouraged to use a helper such as
+> v4l2_async_notifier_add_i2c_subdev.
+> 
+> This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
+> should get a kmalloc'ed struct v4l2_async_subdev,
+> removing some boilerplate code while at it.
+> 
+> Use the appropriate helper: v4l2_async_notifier_add_i2c_subdev
+> or v4l2_async_notifier_add_fwnode_remote_subdev, which handles
+> the needed setup, instead of open-coding it.
+> 
+> Using v4l2-async to allocate the driver-specific structs,
+> requires to change struct ceu_subdev so the embedded
+> struct v4l2_async_subdev is now the first element.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/platform/renesas-ceu.c | 60 +++++++++++++---------------
+>  1 file changed, 27 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+> index 4a633ad0e8fa..0298d08b39e4 100644
+> --- a/drivers/media/platform/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas-ceu.c
+> @@ -152,8 +152,8 @@ static inline struct ceu_buffer *vb2_to_ceu(struct vb2_v4l2_buffer *vbuf)
+>   * ceu_subdev - Wraps v4l2 sub-device and provides async subdevice.
+>   */
+>  struct ceu_subdev {
+> -	struct v4l2_subdev *v4l2_sd;
+>  	struct v4l2_async_subdev asd;
+> +	struct v4l2_subdev *v4l2_sd;
+>  
+>  	/* per-subdevice mbus configuration options */
+>  	unsigned int mbus_flags;
+> @@ -174,7 +174,7 @@ struct ceu_device {
+>  	struct v4l2_device	v4l2_dev;
+>  
+>  	/* subdevices descriptors */
+> -	struct ceu_subdev	*subdevs;
+> +	struct ceu_subdev	**subdevs;
+>  	/* the subdevice currently in use */
+>  	struct ceu_subdev	*sd;
+>  	unsigned int		sd_index;
+> @@ -1195,7 +1195,7 @@ static int ceu_enum_input(struct file *file, void *priv,
+>  	if (inp->index >= ceudev->num_sd)
+>  		return -EINVAL;
+>  
+> -	ceusd = &ceudev->subdevs[inp->index];
+> +	ceusd = ceudev->subdevs[inp->index];
+>  
+>  	inp->type = V4L2_INPUT_TYPE_CAMERA;
+>  	inp->std = 0;
+> @@ -1230,7 +1230,7 @@ static int ceu_s_input(struct file *file, void *priv, unsigned int i)
+>  		return 0;
+>  
+>  	ceu_sd_old = ceudev->sd;
+> -	ceudev->sd = &ceudev->subdevs[i];
+> +	ceudev->sd = ceudev->subdevs[i];
+>  
+>  	/*
+>  	 * Make sure we can generate output image formats and apply
+> @@ -1423,7 +1423,7 @@ static int ceu_notify_complete(struct v4l2_async_notifier *notifier)
+>  	 * ceu formats.
+>  	 */
+>  	if (!ceudev->sd) {
+> -		ceudev->sd = &ceudev->subdevs[0];
+> +		ceudev->sd = ceudev->subdevs[0];
+>  		ceudev->sd_index = 0;
+>  	}
+>  
+> @@ -1467,8 +1467,8 @@ static const struct v4l2_async_notifier_operations ceu_notify_ops = {
+>  
+>  /*
+>   * ceu_init_async_subdevs() - Initialize CEU subdevices and async_subdevs in
+> - *			      ceu device. Both DT and platform data parsing use
+> - *			      this routine.
+> + *                           ceu device. Both DT and platform data parsing use
+> + *                           this routine.
 
+Maybe doc alignment fix should be sent in another patch.
+
+With or without this:
+
+Reviewed-by: Helen Koike <helen.koike@collabora.com>
+
+Regards,
+Helen
+
+>   *
+>   * Returns 0 for success, -ENOMEM for failure.
+>   */
+> @@ -1495,6 +1495,7 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>  				   const struct ceu_platform_data *pdata)
+>  {
+>  	const struct ceu_async_subdev *async_sd;
+> +	struct v4l2_async_subdev *asd;
+>  	struct ceu_subdev *ceu_sd;
+>  	unsigned int i;
+>  	int ret;
+> @@ -1510,21 +1511,17 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>  
+>  		/* Setup the ceu subdevice and the async subdevice. */
+>  		async_sd = &pdata->subdevs[i];
+> -		ceu_sd = &ceudev->subdevs[i];
+> -
+> -		INIT_LIST_HEAD(&ceu_sd->asd.list);
+> -
+> -		ceu_sd->mbus_flags	= async_sd->flags;
+> -		ceu_sd->asd.match_type	= V4L2_ASYNC_MATCH_I2C;
+> -		ceu_sd->asd.match.i2c.adapter_id = async_sd->i2c_adapter_id;
+> -		ceu_sd->asd.match.i2c.address = async_sd->i2c_address;
+> -
+> -		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+> -						     &ceu_sd->asd);
+> -		if (ret) {
+> +		asd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
+> +				async_sd->i2c_adapter_id,
+> +				async_sd->i2c_address,
+> +				sizeof(*ceu_sd));
+> +		if (IS_ERR(asd)) {
+>  			v4l2_async_notifier_cleanup(&ceudev->notifier);
+> -			return ret;
+> +			return PTR_ERR(asd);
+>  		}
+> +		ceu_sd = to_ceu_subdev(asd);
+> +		ceu_sd->mbus_flags = async_sd->flags;
+> +		ceudev->subdevs[i] = ceu_sd;
+>  	}
+>  
+>  	return pdata->num_subdevs;
+> @@ -1536,7 +1533,8 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>  static int ceu_parse_dt(struct ceu_device *ceudev)
+>  {
+>  	struct device_node *of = ceudev->dev->of_node;
+> -	struct device_node *ep, *remote;
+> +	struct device_node *ep;
+> +	struct v4l2_async_subdev *asd;
+>  	struct ceu_subdev *ceu_sd;
+>  	unsigned int i;
+>  	int num_ep;
+> @@ -1578,20 +1576,16 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
+>  		}
+>  
+>  		/* Setup the ceu subdevice and the async subdevice. */
+> -		ceu_sd = &ceudev->subdevs[i];
+> -		INIT_LIST_HEAD(&ceu_sd->asd.list);
+> -
+> -		remote = of_graph_get_remote_port_parent(ep);
+> -		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+> -		ceu_sd->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -		ceu_sd->asd.match.fwnode = of_fwnode_handle(remote);
+> -
+> -		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+> -						     &ceu_sd->asd);
+> -		if (ret) {
+> -			of_node_put(remote);
+> +		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
+> +				&ceudev->notifier, of_fwnode_handle(ep),
+> +				sizeof(*ceu_sd));
+> +		if (IS_ERR(asd)) {
+> +			ret = PTR_ERR(asd);
+>  			goto error_cleanup;
+>  		}
+> +		ceu_sd = to_ceu_subdev(asd);
+> +		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+> +		ceudev->subdevs[i] = ceu_sd;
+>  
+>  		of_node_put(ep);
+>  	}
+> 
