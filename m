@@ -2,145 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B483048A0
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7936A3048A7
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:33:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388385AbhAZFoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:44:20 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:53039 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727202AbhAYJ7N (ORCPT
+        id S2388415AbhAZFoZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:44:25 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59297 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727355AbhAYKPG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:59:13 -0500
+        Mon, 25 Jan 2021 05:15:06 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 3ybylSxZYiWRg3yc1lfkwc; Mon, 25 Jan 2021 10:56:45 +0100
+        id 3yqClT3gRiWRg3yqFlfogV; Mon, 25 Jan 2021 11:11:27 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1611568605; bh=d1oH/dg1c5hhev2gtzREZqY4fF4dPmvsBxp3g3Tqro8=;
+        t=1611569487; bh=iHjqjC1dPct1fusIaq3KcBt0B0WlEHCalPEjGV1Ps7M=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=bux89eyFprXyWlWsSl9sUDGSz5Ky77ppK+K5B5ZUNwpioOcY+VMMrZCztl+qX8+fl
-         pnnJ7SvrZZukM8ckUclq1Cf9gYDj0hj9IfW0ZNcKrNS9F6WIim5iQ2VvJmNqeXFDuc
-         vl+esb01CifwdvL3K41MAI7GceWTbYbZ6+1sZSLYUqymtYtCxXbUejUv7qj6SwdHjC
-         xgs1TDsyqpeXFSH68tegT1VIhfriz012XeJfcwKZQRKNrHYrVxVlWEgF9AqeapWn1k
-         C702m3tGV4nMhKcUYm7HUVSjFxC20qVl5ZztEBNmCvTR2ykYAY7OEXxhi4X1Wx6KUR
-         VoMUejT25x/yw==
-Subject: Re: [PATCH 1/3] media: i2c: adv7842: remove open coded version of
- SMBus block write
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210119093912.1838-1-wsa+renesas@sang-engineering.com>
- <20210119093912.1838-2-wsa+renesas@sang-engineering.com>
+        b=p3zqztYL2ccY2ClDM+4msMNkOFX+1M6x1CZMwLN4s534L0apVn8tpoKeU/nHCHMLT
+         3K+QQgFvV5qUTiZkJmZA0r0kG9FxzlsJVzS+fsM3/xCQ6iEB3hqvbBOka8xRAgL6dr
+         099EJ69oOevCeOhB2Z/rVSZRDBu00Y0tpdJ/4aFiZWnAFy8SWI395xii7Q6pshpJJn
+         WoyJ2pkbgUqJl+2G+OXMw6dM9uCRibNqSeuK4B56DuF7Nf6G73jJf6qZTjV4putdUo
+         A7E3Q3emJ70+/0gbVGOkBm9tj5gVxAp/nTKepQ+2xvBEOUOjBUqSq24mxLTodSnl+m
+         GvX83ysYzpiBQ==
+Subject: Re: [PATCH v4 2/5] docs: Document colorimetry class
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20210120092606.3987207-1-stanimir.varbanov@linaro.org>
+ <20210120092606.3987207-3-stanimir.varbanov@linaro.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <df22c72d-cbae-0e87-8448-9dbcabbc5823@xs4all.nl>
-Date:   Mon, 25 Jan 2021 10:56:42 +0100
+Message-ID: <ca570ca5-356d-1b89-8653-476d27375519@xs4all.nl>
+Date:   Mon, 25 Jan 2021 11:11:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210119093912.1838-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210120092606.3987207-3-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfD9+Q/+bx9WBtEmKNst4heavMkDzpVddMvSyjurw+8jq6sMwFNAsxPcZYjneEbP2g+ED3R8MXYWavoSXhlHzOBd8+E8NkS4pjmoeVhbiAq+ninDLC9CA
- R27uvEu3NZDPCicsKfV0uoF+NLQPV4i5ncRgcfUh9qVl+qi0a+EpKk3LaD04chSOgHfqEH5RjiHgAuAI+Qm9r2CPXuFYwi0Wh1tkCGmkq/Yx1ePUzadDG7kZ
- EUCmYErPgqrB0MHXgMr9m8njMP6TuM+cB+P6uaDXNub3QrHO5Ka1ADyHOiGnWtK0FmDaPaHS9KpoH7n8cs/aJbICfe8dbjf0tSkWfzRbu7sBH6liZoveMcoW
- Zxyn1L+OhcuFTBJS8ToiBBqQgWIKx2X9+R45maODAiynyNUMlLvYhU/I2YMNLJPEephgdzmX
+X-CMAE-Envelope: MS4xfAcnFOLmq7LGmgbbdP/0yyr6VBQ9i/0oZ0u5hJVj+076zYK7C6jHVnd+YoxwGdQw4pklzUDaTGIle8v0p5+bPrGGHChXwB+1TauPPNN2cPLyt0ExOONG
+ wmLEB4gm03w82zD/P4mPtBg2CNLeEwQReG1SvN1JsvRomfTS0L2LdpWpF0IbSnHcFBEtxhXNddBpfX7pCqZ5qo3kJXTmC55TOHdEx6uFwBCYE+u8RJ2w7hgZ
+ dY3t51xewnASo34+YkSvqVbEjwSzh3Oy+nsEVubHCkn8T6PV2dn78IIfHRSQZM0ytXJdXkiqZVblE2PoP1LisvFjscUiqnFNABtSJaUc4EfuagToBPpTHOGe
+ VgCWZRQ2pOeDVPZfoqsEP69le0hh2fv+5mtJUA99qiXPiYhtuphkYQOl8gGhof+LMWW2lGhK
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/01/2021 10:39, Wolfram Sang wrote:
-> The version here is identical to the one in the I2C core, so use the
-> latter version directly.
+On 20/01/2021 10:26, Stanimir Varbanov wrote:
+> Add a document for ext control colorimetry class.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  .../userspace-api/media/v4l/common.rst        |  1 +
+>  .../media/v4l/ext-ctrls-colorimetry.rst       | 19 +++++++++++++++++++
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+>  3 files changed, 24 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/common.rst b/Documentation/userspace-api/media/v4l/common.rst
+> index 8c263c5a85d8..ea0435182e44 100644
+> --- a/Documentation/userspace-api/media/v4l/common.rst
+> +++ b/Documentation/userspace-api/media/v4l/common.rst
+> @@ -51,6 +51,7 @@ applicable to all devices.
+>      ext-ctrls-fm-tx
+>      ext-ctrls-fm-rx
+>      ext-ctrls-detect
+> +    ext-ctrls-colorimetry
+>      fourcc
+>      format
+>      planar-apis
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
+> new file mode 100644
+> index 000000000000..6b0cd2054e84
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
+> @@ -0,0 +1,19 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +
+> +.. _colorimetry-controls:
+> +
+> +*****************************
+> +Colorimetry Control Reference
+> +*****************************
+> +
+> +Below are controls within the Colorimetry control class.
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+This needs a bit more work since it doesn't explain anything :-)
 
-Looks good to me!
+See how it is done in other ext-ctrls-*.rst files.
+
+Regards,
 
 	Hans
 
-> ---
-> 
-> Changes since RFC:
-> * skip define, use i2c_smbus_write_i2c_block_data directly
-> 
->  drivers/media/i2c/adv7842.c | 24 +++++-------------------
->  1 file changed, 5 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-> index 0855f648416d..e0629d5ef17b 100644
-> --- a/drivers/media/i2c/adv7842.c
-> +++ b/drivers/media/i2c/adv7842.c
-> @@ -343,20 +343,6 @@ static void adv_smbus_write_byte_no_check(struct i2c_client *client,
->  		       I2C_SMBUS_BYTE_DATA, &data);
->  }
+> +
+> +Colorimetry Control IDs
+> +-----------------------
+> +
+> +.. _colorimetry-control-id:
+> +
+> +``V4L2_CID_COLORIMETRY_CLASS (class)``
+> +    The Colorimetry class descriptor. Calling
+> +    :ref:`VIDIOC_QUERYCTRL` for this control will
+> +    return a description of this control class.
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index b9c62affbb5a..8a95ebdd499a 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -394,6 +394,10 @@ still cause this situation.
+>        - 0xa40000
+>        - The class containing stateless codec controls. These controls are
+>  	described in :ref:`codec-stateless-controls`.
+> +    * - ``V4L2_CTRL_CLASS_COLORIMETRY``
+> +      - 0xa50000
+> +      - The class containing colorimetry controls. These controls are
+> +	described in :ref:`colorimetry-controls`.
 >  
-> -static s32 adv_smbus_write_i2c_block_data(struct i2c_client *client,
-> -				  u8 command, unsigned length, const u8 *values)
-> -{
-> -	union i2c_smbus_data data;
-> -
-> -	if (length > I2C_SMBUS_BLOCK_MAX)
-> -		length = I2C_SMBUS_BLOCK_MAX;
-> -	data.block[0] = length;
-> -	memcpy(data.block + 1, values, length);
-> -	return i2c_smbus_xfer(client->adapter, client->addr, client->flags,
-> -			      I2C_SMBUS_WRITE, command,
-> -			      I2C_SMBUS_I2C_BLOCK_DATA, &data);
-> -}
-> -
->  /* ----------------------------------------------------------------------- */
->  
->  static inline int io_read(struct v4l2_subdev *sd, u8 reg)
-> @@ -741,7 +727,7 @@ static int edid_write_vga_segment(struct v4l2_subdev *sd)
->  	rep_write_and_or(sd, 0x77, 0xef, 0x10);
->  
->  	for (i = 0; !err && i < 256; i += I2C_SMBUS_BLOCK_MAX)
-> -		err = adv_smbus_write_i2c_block_data(state->i2c_edid, i,
-> +		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
->  					     I2C_SMBUS_BLOCK_MAX, val + i);
->  	if (err)
->  		return err;
-> @@ -807,7 +793,7 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
->  	rep_write_and_or(sd, 0x77, 0xef, 0x00);
->  
->  	for (i = 0; !err && i < 256; i += I2C_SMBUS_BLOCK_MAX)
-> -		err = adv_smbus_write_i2c_block_data(state->i2c_edid, i,
-> +		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
->  						     I2C_SMBUS_BLOCK_MAX, edid + i);
->  	if (err)
->  		return err;
-> @@ -1079,7 +1065,7 @@ static void configure_custom_video_timings(struct v4l2_subdev *sd,
->  		/* Should only be set in auto-graphics mode [REF_02, p. 91-92] */
->  		/* setup PLL_DIV_MAN_EN and PLL_DIV_RATIO */
->  		/* IO-map reg. 0x16 and 0x17 should be written in sequence */
-> -		if (adv_smbus_write_i2c_block_data(client, 0x16, 2, pll)) {
-> +		if (i2c_smbus_write_i2c_block_data(client, 0x16, 2, pll)) {
->  			v4l2_err(sd, "writing to reg 0x16 and 0x17 failed\n");
->  			break;
->  		}
-> @@ -1135,7 +1121,7 @@ static void adv7842_set_offset(struct v4l2_subdev *sd, bool auto_offset, u16 off
->  	offset_buf[3] = offset_c & 0x0ff;
->  
->  	/* Registers must be written in this order with no i2c access in between */
-> -	if (adv_smbus_write_i2c_block_data(state->i2c_cp, 0x77, 4, offset_buf))
-> +	if (i2c_smbus_write_i2c_block_data(state->i2c_cp, 0x77, 4, offset_buf))
->  		v4l2_err(sd, "%s: i2c error writing to CP reg 0x77, 0x78, 0x79, 0x7a\n", __func__);
->  }
->  
-> @@ -1164,7 +1150,7 @@ static void adv7842_set_gain(struct v4l2_subdev *sd, bool auto_gain, u16 gain_a,
->  	gain_buf[3] = ((gain_c & 0x0ff));
->  
->  	/* Registers must be written in this order with no i2c access in between */
-> -	if (adv_smbus_write_i2c_block_data(state->i2c_cp, 0x73, 4, gain_buf))
-> +	if (i2c_smbus_write_i2c_block_data(state->i2c_cp, 0x73, 4, gain_buf))
->  		v4l2_err(sd, "%s: i2c error writing to CP reg 0x73, 0x74, 0x75, 0x76\n", __func__);
->  }
->  
+>  Return Value
+>  ============
 > 
 
