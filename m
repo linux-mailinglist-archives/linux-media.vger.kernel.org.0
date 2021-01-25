@@ -2,119 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F06F30255A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Jan 2021 14:14:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BD88302583
+	for <lists+linux-media@lfdr.de>; Mon, 25 Jan 2021 14:31:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728654AbhAYNNB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Jan 2021 08:13:01 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37966 "EHLO mx2.suse.de"
+        id S1728881AbhAYN3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jan 2021 08:29:55 -0500
+Received: from retiisi.eu ([95.216.213.190]:36916 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728608AbhAYNMv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:12:51 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611580322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gWGUX5BQka/TYr2ZK97IOPcurnLuL5UlU4w1UDBIDS0=;
-        b=S+u9xiNJ/Y4QHOvsaNZi3Tr/iedHMRiBhIjW1BWvXuuMLQOIPa+GFfFxUJMPT7JjIGmHqB
-        1DjahGJq23HDdtJO0cXw7I4Sa7DvBuH/47YZpWQLcYyJlOHyiaCSqr0q5s6Fmq0ZdLVmZc
-        R/vSTXP1DwuGAf8EX7FBJrFNUYDo0HY=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 1FD60AC45;
-        Mon, 25 Jan 2021 13:12:02 +0000 (UTC)
-Date:   Mon, 25 Jan 2021 14:12:00 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
-        david@redhat.com, surenb@google.com, pullip.cho@samsung.com,
-        joaodias@google.com, hridya@google.com, john.stultz@linaro.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, hch@infradead.org, robh+dt@kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 2/4] mm: failfast mode with __GFP_NORETRY in
- alloc_contig_range
-Message-ID: <20210125131200.GG827@dhcp22.suse.cz>
-References: <20210121175502.274391-1-minchan@kernel.org>
- <20210121175502.274391-3-minchan@kernel.org>
+        id S1728861AbhAYN3q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Jan 2021 08:29:46 -0500
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 74974634C91;
+        Mon, 25 Jan 2021 15:25:57 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH 07/14] media: marvell-ccic: Use v4l2_async_notifier_add_*_subdev
+Date:   Mon, 25 Jan 2021 15:22:08 +0200
+Message-Id: <20210125132230.6600-7-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
+References: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121175502.274391-3-minchan@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu 21-01-21 09:55:00, Minchan Kim wrote:
-> Contiguous memory allocation can be stalled due to waiting
-> on page writeback and/or page lock which causes unpredictable
-> delay. It's a unavoidable cost for the requestor to get *big*
-> contiguous memory but it's expensive for *small* contiguous
-> memory(e.g., order-4) because caller could retry the request
-> in different range where would have easy migratable pages
-> without stalling.
-> 
-> This patch introduce __GFP_NORETRY as compaction gfp_mask in
-> alloc_contig_range so it will fail fast without blocking
-> when it encounters pages needed waiting.
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-I am not against controling how hard this allocator tries with gfp mask
-but this changelog is rather void on any data and any user.
+The use of v4l2_async_notifier_add_subdev will be discouraged.
+Drivers are instead encouraged to use a helper such as
+v4l2_async_notifier_add_fwnode_remote_subdev.
 
-It is also rather dubious to have retries when then caller says to not
-retry.
+This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
+should get a kmalloc'ed struct v4l2_async_subdev,
+removing some boilerplate code while at it.
 
-Also why didn't you consider GFP_NOWAIT semantic for non blocking mode?
+Use the appropriate helper: v4l2_async_notifier_add_i2c_subdev
+or v4l2_async_notifier_add_fwnode_remote_subdev, which handles
+the needed setup, instead of open-coding it.
 
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-> ---
->  mm/page_alloc.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index b031a5ae0bd5..1cdc3ee0b22e 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -8491,12 +8491,16 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
->  	unsigned int nr_reclaimed;
->  	unsigned long pfn = start;
->  	unsigned int tries = 0;
-> +	unsigned int max_tries = 5;
->  	int ret = 0;
->  	struct migration_target_control mtc = {
->  		.nid = zone_to_nid(cc->zone),
->  		.gfp_mask = GFP_USER | __GFP_MOVABLE | __GFP_RETRY_MAYFAIL,
->  	};
->  
-> +	if (cc->alloc_contig && cc->mode == MIGRATE_ASYNC)
-> +		max_tries = 1;
-> +
->  	migrate_prep();
->  
->  	while (pfn < end || !list_empty(&cc->migratepages)) {
-> @@ -8513,7 +8517,7 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
->  				break;
->  			}
->  			tries = 0;
-> -		} else if (++tries == 5) {
-> +		} else if (++tries == max_tries) {
->  			ret = ret < 0 ? ret : -EBUSY;
->  			break;
->  		}
-> @@ -8564,7 +8568,7 @@ int alloc_contig_range(unsigned long start, unsigned long end,
->  		.nr_migratepages = 0,
->  		.order = -1,
->  		.zone = page_zone(pfn_to_page(start)),
-> -		.mode = MIGRATE_SYNC,
-> +		.mode = gfp_mask & __GFP_NORETRY ? MIGRATE_ASYNC : MIGRATE_SYNC,
->  		.ignore_skip_hint = true,
->  		.no_set_skip_hint = true,
->  		.gfp_mask = current_gfp_context(gfp_mask),
-> -- 
-> 2.30.0.296.g2bfb1c46d8-goog
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Reviewed-by: Helen Koike <helen.koike@collabora.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/platform/marvell-ccic/cafe-driver.c | 14 +++++++++++---
+ drivers/media/platform/marvell-ccic/mcam-core.c   | 10 ----------
+ drivers/media/platform/marvell-ccic/mcam-core.h   |  1 -
+ drivers/media/platform/marvell-ccic/mmp-driver.c  | 11 ++++++++---
+ 4 files changed, 19 insertions(+), 17 deletions(-)
 
+diff --git a/drivers/media/platform/marvell-ccic/cafe-driver.c b/drivers/media/platform/marvell-ccic/cafe-driver.c
+index 00f623d62c96..91d65f71be96 100644
+--- a/drivers/media/platform/marvell-ccic/cafe-driver.c
++++ b/drivers/media/platform/marvell-ccic/cafe-driver.c
+@@ -489,6 +489,7 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 	int ret;
+ 	struct cafe_camera *cam;
+ 	struct mcam_camera *mcam;
++	struct v4l2_async_subdev *asd;
+ 
+ 	/*
+ 	 * Start putting together one of our big camera structures.
+@@ -546,9 +547,16 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		goto out_pdown;
+ 
+-	mcam->asd.match_type = V4L2_ASYNC_MATCH_I2C;
+-	mcam->asd.match.i2c.adapter_id = i2c_adapter_id(cam->i2c_adapter);
+-	mcam->asd.match.i2c.address = ov7670_info.addr;
++	v4l2_async_notifier_init(&mcam->notifier);
++
++	asd = v4l2_async_notifier_add_i2c_subdev(&mcam->notifier,
++					i2c_adapter_id(cam->i2c_adapter),
++					ov7670_info.addr,
++					sizeof(*asd));
++	if (IS_ERR(asd)) {
++		ret = PTR_ERR(asd);
++		goto out_smbus_shutdown;
++	}
+ 
+ 	ret = mccic_register(mcam);
+ 	if (ret)
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+index c012fd2e1d29..153277e4fe80 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.c
++++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+@@ -1866,16 +1866,6 @@ int mccic_register(struct mcam_camera *cam)
+ 	cam->pix_format = mcam_def_pix_format;
+ 	cam->mbus_code = mcam_def_mbus_code;
+ 
+-	/*
+-	 * Register sensor notifier.
+-	 */
+-	v4l2_async_notifier_init(&cam->notifier);
+-	ret = v4l2_async_notifier_add_subdev(&cam->notifier, &cam->asd);
+-	if (ret) {
+-		cam_warn(cam, "failed to add subdev to a notifier");
+-		goto out;
+-	}
+-
+ 	cam->notifier.ops = &mccic_notify_ops;
+ 	ret = v4l2_async_notifier_register(&cam->v4l2_dev, &cam->notifier);
+ 	if (ret < 0) {
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.h b/drivers/media/platform/marvell-ccic/mcam-core.h
+index b55545822fd2..f324d808d737 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.h
++++ b/drivers/media/platform/marvell-ccic/mcam-core.h
+@@ -151,7 +151,6 @@ struct mcam_camera {
+ 	 */
+ 	struct video_device vdev;
+ 	struct v4l2_async_notifier notifier;
+-	struct v4l2_async_subdev asd;
+ 	struct v4l2_subdev *sensor;
+ 
+ 	/* Videobuf2 stuff */
+diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
+index 032fdddbbecc..40d9fc4a731a 100644
+--- a/drivers/media/platform/marvell-ccic/mmp-driver.c
++++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
+@@ -180,6 +180,7 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	struct resource *res;
+ 	struct fwnode_handle *ep;
+ 	struct mmp_camera_platform_data *pdata;
++	struct v4l2_async_subdev *asd;
+ 	int ret;
+ 
+ 	cam = devm_kzalloc(&pdev->dev, sizeof(*cam), GFP_KERNEL);
+@@ -238,10 +239,15 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	if (!ep)
+ 		return -ENODEV;
+ 
+-	mcam->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+-	mcam->asd.match.fwnode = fwnode_graph_get_remote_port_parent(ep);
++	v4l2_async_notifier_init(&mcam->notifier);
+ 
++	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&mcam->notifier,
++							   ep, sizeof(*asd));
+ 	fwnode_handle_put(ep);
++	if (IS_ERR(asd)) {
++		ret = PTR_ERR(asd);
++		goto out;
++	}
+ 
+ 	/*
+ 	 * Register the device with the core.
+@@ -278,7 +284,6 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(&pdev->dev);
+ 	return 0;
+ out:
+-	fwnode_handle_put(mcam->asd.match.fwnode);
+ 	mccic_shutdown(mcam);
+ 
+ 	return ret;
 -- 
-Michal Hocko
-SUSE Labs
+2.29.2
+
