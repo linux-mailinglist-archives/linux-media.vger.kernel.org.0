@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D1E2303588
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 06:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96CCE303586
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 06:46:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388615AbhAZFpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:45:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60384 "EHLO
+        id S2388596AbhAZFpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:45:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728910AbhAYNbr (ORCPT
+        with ESMTP id S1728909AbhAYNbp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:31:47 -0500
+        Mon, 25 Jan 2021 08:31:45 -0500
 Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AB9C0617A7
-        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 05:27:53 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9992EC0617AA
+        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 05:27:57 -0800 (PST)
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id A1196634CA5;
-        Mon, 25 Jan 2021 15:25:58 +0200 (EET)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 1E7D6634CC0;
+        Mon, 25 Jan 2021 15:25:59 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
@@ -35,9 +35,9 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
         Robert Foss <robert.foss@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 03/14] media: stm32: Use v4l2_async_notifier_add_fwnode_remote_subdev
-Date:   Mon, 25 Jan 2021 15:22:19 +0200
-Message-Id: <20210125132230.6600-18-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 07/14] media: marvell-ccic: Use v4l2_async_notifier_add_*_subdev
+Date:   Mon, 25 Jan 2021 15:22:23 +0200
+Message-Id: <20210125132230.6600-22-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
 References: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
@@ -57,243 +57,124 @@ This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
 should get a kmalloc'ed struct v4l2_async_subdev,
 removing some boilerplate code while at it.
 
-Use the appropriate helper v4l2_async_notifier_add_fwnode_remote_subdev,
-which handles the needed setup, instead of open-coding it.
-
-This results in removal of the now unneeded driver-specific state
-struct dcmi_graph_entity, keeping track of just the source
-subdevice.
+Use the appropriate helper: v4l2_async_notifier_add_i2c_subdev
+or v4l2_async_notifier_add_fwnode_remote_subdev, which handles
+the needed setup, instead of open-coding it.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Reviewed-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/stm32/stm32-dcmi.c | 86 ++++++++---------------
- 1 file changed, 30 insertions(+), 56 deletions(-)
+ drivers/media/platform/marvell-ccic/cafe-driver.c | 14 +++++++++++---
+ drivers/media/platform/marvell-ccic/mcam-core.c   | 10 ----------
+ drivers/media/platform/marvell-ccic/mcam-core.h   |  1 -
+ drivers/media/platform/marvell-ccic/mmp-driver.c  | 11 ++++++++---
+ 4 files changed, 19 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-index b745f1342c2e..142f63d07dcd 100644
---- a/drivers/media/platform/stm32/stm32-dcmi.c
-+++ b/drivers/media/platform/stm32/stm32-dcmi.c
-@@ -99,13 +99,6 @@ enum state {
- 
- #define OVERRUN_ERROR_THRESHOLD	3
- 
--struct dcmi_graph_entity {
--	struct v4l2_async_subdev asd;
--
--	struct device_node *remote_node;
--	struct v4l2_subdev *source;
--};
--
- struct dcmi_format {
- 	u32	fourcc;
- 	u32	mbus_code;
-@@ -139,7 +132,7 @@ struct stm32_dcmi {
- 	struct v4l2_device		v4l2_dev;
- 	struct video_device		*vdev;
- 	struct v4l2_async_notifier	notifier;
--	struct dcmi_graph_entity	entity;
-+	struct v4l2_subdev		*source;
- 	struct v4l2_format		fmt;
- 	struct v4l2_rect		crop;
- 	bool				do_crop;
-@@ -610,7 +603,7 @@ static int dcmi_pipeline_s_fmt(struct stm32_dcmi *dcmi,
- 			       struct v4l2_subdev_pad_config *pad_cfg,
- 			       struct v4l2_subdev_format *format)
- {
--	struct media_entity *entity = &dcmi->entity.source->entity;
-+	struct media_entity *entity = &dcmi->source->entity;
- 	struct v4l2_subdev *subdev;
- 	struct media_pad *sink_pad = NULL;
- 	struct media_pad *src_pad = NULL;
-@@ -1018,7 +1011,7 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
- 	}
- 
- 	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
--	ret = v4l2_subdev_call(dcmi->entity.source, pad, set_fmt,
-+	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
- 			       &pad_cfg, &format);
- 	if (ret < 0)
- 		return ret;
-@@ -1152,7 +1145,7 @@ static int dcmi_get_sensor_format(struct stm32_dcmi *dcmi,
- 	};
+diff --git a/drivers/media/platform/marvell-ccic/cafe-driver.c b/drivers/media/platform/marvell-ccic/cafe-driver.c
+index 00f623d62c96..91d65f71be96 100644
+--- a/drivers/media/platform/marvell-ccic/cafe-driver.c
++++ b/drivers/media/platform/marvell-ccic/cafe-driver.c
+@@ -489,6 +489,7 @@ static int cafe_pci_probe(struct pci_dev *pdev,
  	int ret;
- 
--	ret = v4l2_subdev_call(dcmi->entity.source, pad, get_fmt, NULL, &fmt);
-+	ret = v4l2_subdev_call(dcmi->source, pad, get_fmt, NULL, &fmt);
- 	if (ret)
- 		return ret;
- 
-@@ -1181,7 +1174,7 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
- 	}
- 
- 	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
--	ret = v4l2_subdev_call(dcmi->entity.source, pad, set_fmt,
-+	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
- 			       &pad_cfg, &format);
- 	if (ret < 0)
- 		return ret;
-@@ -1204,7 +1197,7 @@ static int dcmi_get_sensor_bounds(struct stm32_dcmi *dcmi,
- 	/*
- 	 * Get sensor bounds first
- 	 */
--	ret = v4l2_subdev_call(dcmi->entity.source, pad, get_selection,
-+	ret = v4l2_subdev_call(dcmi->source, pad, get_selection,
- 			       NULL, &bounds);
- 	if (!ret)
- 		*r = bounds.r;
-@@ -1385,7 +1378,7 @@ static int dcmi_enum_framesizes(struct file *file, void *fh,
- 
- 	fse.code = sd_fmt->mbus_code;
- 
--	ret = v4l2_subdev_call(dcmi->entity.source, pad, enum_frame_size,
-+	ret = v4l2_subdev_call(dcmi->source, pad, enum_frame_size,
- 			       NULL, &fse);
- 	if (ret)
- 		return ret;
-@@ -1402,7 +1395,7 @@ static int dcmi_g_parm(struct file *file, void *priv,
- {
- 	struct stm32_dcmi *dcmi = video_drvdata(file);
- 
--	return v4l2_g_parm_cap(video_devdata(file), dcmi->entity.source, p);
-+	return v4l2_g_parm_cap(video_devdata(file), dcmi->source, p);
- }
- 
- static int dcmi_s_parm(struct file *file, void *priv,
-@@ -1410,7 +1403,7 @@ static int dcmi_s_parm(struct file *file, void *priv,
- {
- 	struct stm32_dcmi *dcmi = video_drvdata(file);
- 
--	return v4l2_s_parm_cap(video_devdata(file), dcmi->entity.source, p);
-+	return v4l2_s_parm_cap(video_devdata(file), dcmi->source, p);
- }
- 
- static int dcmi_enum_frameintervals(struct file *file, void *fh,
-@@ -1432,7 +1425,7 @@ static int dcmi_enum_frameintervals(struct file *file, void *fh,
- 
- 	fie.code = sd_fmt->mbus_code;
- 
--	ret = v4l2_subdev_call(dcmi->entity.source, pad,
-+	ret = v4l2_subdev_call(dcmi->source, pad,
- 			       enum_frame_interval, NULL, &fie);
- 	if (ret)
- 		return ret;
-@@ -1452,7 +1445,7 @@ MODULE_DEVICE_TABLE(of, stm32_dcmi_of_match);
- static int dcmi_open(struct file *file)
- {
- 	struct stm32_dcmi *dcmi = video_drvdata(file);
--	struct v4l2_subdev *sd = dcmi->entity.source;
-+	struct v4l2_subdev *sd = dcmi->source;
- 	int ret;
- 
- 	if (mutex_lock_interruptible(&dcmi->lock))
-@@ -1483,7 +1476,7 @@ static int dcmi_open(struct file *file)
- static int dcmi_release(struct file *file)
- {
- 	struct stm32_dcmi *dcmi = video_drvdata(file);
--	struct v4l2_subdev *sd = dcmi->entity.source;
-+	struct v4l2_subdev *sd = dcmi->source;
- 	bool fh_singular;
- 	int ret;
- 
-@@ -1616,7 +1609,7 @@ static int dcmi_formats_init(struct stm32_dcmi *dcmi)
- {
- 	const struct dcmi_format *sd_fmts[ARRAY_SIZE(dcmi_formats)];
- 	unsigned int num_fmts = 0, i, j;
--	struct v4l2_subdev *subdev = dcmi->entity.source;
-+	struct v4l2_subdev *subdev = dcmi->source;
- 	struct v4l2_subdev_mbus_code_enum mbus_code = {
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
- 	};
-@@ -1675,7 +1668,7 @@ static int dcmi_formats_init(struct stm32_dcmi *dcmi)
- static int dcmi_framesizes_init(struct stm32_dcmi *dcmi)
- {
- 	unsigned int num_fsize = 0;
--	struct v4l2_subdev *subdev = dcmi->entity.source;
-+	struct v4l2_subdev *subdev = dcmi->source;
- 	struct v4l2_subdev_frame_size_enum fse = {
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
- 		.code = dcmi->sd_format->mbus_code,
-@@ -1727,14 +1720,13 @@ static int dcmi_graph_notify_complete(struct v4l2_async_notifier *notifier)
- 	 * we search for the source subdevice
- 	 * in order to expose it through V4L2 interface
- 	 */
--	dcmi->entity.source =
--		media_entity_to_v4l2_subdev(dcmi_find_source(dcmi));
--	if (!dcmi->entity.source) {
-+	dcmi->source = media_entity_to_v4l2_subdev(dcmi_find_source(dcmi));
-+	if (!dcmi->source) {
- 		dev_err(dcmi->dev, "Source subdevice not found\n");
- 		return -ENODEV;
- 	}
- 
--	dcmi->vdev->ctrl_handler = dcmi->entity.source->ctrl_handler;
-+	dcmi->vdev->ctrl_handler = dcmi->source->ctrl_handler;
- 
- 	ret = dcmi_formats_init(dcmi);
- 	if (ret) {
-@@ -1813,46 +1805,28 @@ static const struct v4l2_async_notifier_operations dcmi_graph_notify_ops = {
- 	.complete = dcmi_graph_notify_complete,
- };
- 
--static int dcmi_graph_parse(struct stm32_dcmi *dcmi, struct device_node *node)
--{
--	struct device_node *ep = NULL;
--	struct device_node *remote;
--
--	ep = of_graph_get_next_endpoint(node, ep);
--	if (!ep)
--		return -EINVAL;
--
--	remote = of_graph_get_remote_port_parent(ep);
--	of_node_put(ep);
--	if (!remote)
--		return -EINVAL;
--
--	/* Remote node to connect */
--	dcmi->entity.remote_node = remote;
--	dcmi->entity.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
--	dcmi->entity.asd.match.fwnode = of_fwnode_handle(remote);
--	return 0;
--}
--
- static int dcmi_graph_init(struct stm32_dcmi *dcmi)
- {
+ 	struct cafe_camera *cam;
+ 	struct mcam_camera *mcam;
 +	struct v4l2_async_subdev *asd;
-+	struct device_node *ep;
+ 
+ 	/*
+ 	 * Start putting together one of our big camera structures.
+@@ -546,9 +547,16 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		goto out_pdown;
+ 
+-	mcam->asd.match_type = V4L2_ASYNC_MATCH_I2C;
+-	mcam->asd.match.i2c.adapter_id = i2c_adapter_id(cam->i2c_adapter);
+-	mcam->asd.match.i2c.address = ov7670_info.addr;
++	v4l2_async_notifier_init(&mcam->notifier);
++
++	asd = v4l2_async_notifier_add_i2c_subdev(&mcam->notifier,
++					i2c_adapter_id(cam->i2c_adapter),
++					ov7670_info.addr,
++					sizeof(*asd));
++	if (IS_ERR(asd)) {
++		ret = PTR_ERR(asd);
++		goto out_smbus_shutdown;
++	}
+ 
+ 	ret = mccic_register(mcam);
+ 	if (ret)
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+index c012fd2e1d29..153277e4fe80 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.c
++++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+@@ -1866,16 +1866,6 @@ int mccic_register(struct mcam_camera *cam)
+ 	cam->pix_format = mcam_def_pix_format;
+ 	cam->mbus_code = mcam_def_mbus_code;
+ 
+-	/*
+-	 * Register sensor notifier.
+-	 */
+-	v4l2_async_notifier_init(&cam->notifier);
+-	ret = v4l2_async_notifier_add_subdev(&cam->notifier, &cam->asd);
+-	if (ret) {
+-		cam_warn(cam, "failed to add subdev to a notifier");
+-		goto out;
+-	}
+-
+ 	cam->notifier.ops = &mccic_notify_ops;
+ 	ret = v4l2_async_notifier_register(&cam->v4l2_dev, &cam->notifier);
+ 	if (ret < 0) {
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.h b/drivers/media/platform/marvell-ccic/mcam-core.h
+index b55545822fd2..f324d808d737 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.h
++++ b/drivers/media/platform/marvell-ccic/mcam-core.h
+@@ -151,7 +151,6 @@ struct mcam_camera {
+ 	 */
+ 	struct video_device vdev;
+ 	struct v4l2_async_notifier notifier;
+-	struct v4l2_async_subdev asd;
+ 	struct v4l2_subdev *sensor;
+ 
+ 	/* Videobuf2 stuff */
+diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
+index 032fdddbbecc..40d9fc4a731a 100644
+--- a/drivers/media/platform/marvell-ccic/mmp-driver.c
++++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
+@@ -180,6 +180,7 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	struct resource *res;
+ 	struct fwnode_handle *ep;
+ 	struct mmp_camera_platform_data *pdata;
++	struct v4l2_async_subdev *asd;
  	int ret;
  
--	/* Parse the graph to extract a list of subdevice DT nodes. */
--	ret = dcmi_graph_parse(dcmi, dcmi->dev->of_node);
--	if (ret < 0) {
--		dev_err(dcmi->dev, "Failed to parse graph\n");
--		return ret;
-+	ep = of_graph_get_next_endpoint(dcmi->dev->of_node, NULL);
-+	if (!ep) {
-+		dev_err(dcmi->dev, "Failed to get next endpoint\n");
-+		return -EINVAL;
- 	}
+ 	cam = devm_kzalloc(&pdev->dev, sizeof(*cam), GFP_KERNEL);
+@@ -238,10 +239,15 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	if (!ep)
+ 		return -ENODEV;
  
- 	v4l2_async_notifier_init(&dcmi->notifier);
+-	mcam->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+-	mcam->asd.match.fwnode = fwnode_graph_get_remote_port_parent(ep);
++	v4l2_async_notifier_init(&mcam->notifier);
  
--	ret = v4l2_async_notifier_add_subdev(&dcmi->notifier,
--					     &dcmi->entity.asd);
--	if (ret) {
-+	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+		&dcmi->notifier, of_fwnode_handle(ep), sizeof(*asd));
-+
-+	of_node_put(ep);
-+
++	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&mcam->notifier,
++							   ep, sizeof(*asd));
+ 	fwnode_handle_put(ep);
 +	if (IS_ERR(asd)) {
- 		dev_err(dcmi->dev, "Failed to add subdev notifier\n");
--		of_node_put(dcmi->entity.remote_node);
--		return ret;
-+		return PTR_ERR(asd);
- 	}
++		ret = PTR_ERR(asd);
++		goto out;
++	}
  
- 	dcmi->notifier.ops = &dcmi_graph_notify_ops;
+ 	/*
+ 	 * Register the device with the core.
+@@ -278,7 +284,6 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(&pdev->dev);
+ 	return 0;
+ out:
+-	fwnode_handle_put(mcam->asd.match.fwnode);
+ 	mccic_shutdown(mcam);
+ 
+ 	return ret;
 -- 
 2.29.2
 
