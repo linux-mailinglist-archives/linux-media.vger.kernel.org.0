@@ -2,176 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F32433048AA
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A0E3048AD
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:33:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388425AbhAZFo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:44:27 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:40963 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727557AbhAYKZm (ORCPT
+        id S2388437AbhAZFo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:44:29 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:41497 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727527AbhAYKoP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 05:25:42 -0500
+        Mon, 25 Jan 2021 05:44:15 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 3z2slT9JIiWRg3z2vlfsGd; Mon, 25 Jan 2021 11:24:34 +0100
+        id 3zIdlTG1UiWRg3zIglfwSD; Mon, 25 Jan 2021 11:40:51 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1611570274; bh=kmHFrl41CYcqrNiUZ72T0IMxn1HeaqRQUa+uQpTKAh4=;
+        t=1611571251; bh=s3QZt++3CI0A5wvLqKyK0CtL2x0R4G1sMDc99hjaLQ4=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=oXmmdET7/MG/IZ6DB+YbjqvMyhUlv+UHIP/hooPMt+bj5p4JvdWpj7cKP9ZenlLRd
-         uiexvauakHRez0Bck0x0rbTX0KBmRRvX6Ho9uQWFT+sHUVs/HihYCyNeLjm8nafR6s
-         jppMSjbGCkxBY/y0C4QkkDKMspDT2pwCvL3oBv4F9xOk8k5TJKtBV8GTTGvSVwfPDB
-         9ROhVFjx7qTPgR3i2n7tLGMa3kA+M1KVMXDT0KxXSAiB3dYeAr5Ktr+GcNUFLphWpG
-         sP7G3JmSIyVNfbnaISVDX1XVdEPIbOfNirESEyeA886EoGEOZdsCzKhq6yIAH/u/+j
-         CygTI7tJRSGOQ==
-Subject: Re: [PATCH v4 4/5] docs: Document CLL and Mastering display
- colorimetry controls
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20210120092606.3987207-1-stanimir.varbanov@linaro.org>
- <20210120092606.3987207-5-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e93c5dec-94a9-89f6-dae2-b1d14092d674@xs4all.nl>
-Date:   Mon, 25 Jan 2021 11:24:30 +0100
+        b=rZ+IlOyqzB7JMg4VTO8qd/+RwewVIaFAKbor7bLIym4IFKfUReLfDs1EMN1us85CS
+         FvTksenzg2/rmMljQz3+hfWvBYkGKffHSYA473m9i15pkp0166ItP9qf0PsyDDeEHN
+         YQSghW2gZ21IMyjbtx3IapgK+OAwRXVnC7qQCCV3ZCaxP1xH+4MLQGJkXbVsFcpfX/
+         e9WHXaHUDoysUSpJNbGG0bQfSLm3PJyTCSST6s7/F+/yTbH/Nqx4GMQA8amtRfASTn
+         fyvGvlXgtC3UkKVSuqwZIMIfMp9os7+iUjV8qxGRYPojWfXjUNSr+2vT9hwjJEHs6z
+         uvtC6Xymw+Tig==
+Subject: Re: [PATCH 1/2] media: venus: core: Add sdm660 DT compatible and
+ resource struct
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
+        marijn.suijten@somainline.org, phone-devel@vger.kernel.org
+References: <20210115185252.333562-1-angelogioacchino.delregno@somainline.org>
+ <20210115185252.333562-2-angelogioacchino.delregno@somainline.org>
+ <2dc8a95f-110f-526f-18a8-6393e508c3a6@linaro.org>
+ <eabc91cc-de96-08ef-756c-87fe43d6fadc@somainline.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <cfc1998f-8d9b-5237-f286-7fdc69874b30@xs4all.nl>
+Date:   Mon, 25 Jan 2021 11:40:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210120092606.3987207-5-stanimir.varbanov@linaro.org>
+In-Reply-To: <eabc91cc-de96-08ef-756c-87fe43d6fadc@somainline.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfA2/LOkNI9VQJ8+gVuoFSlqX10OKjpezettPw9cfd1F+z945XPysL/FtmxGPSQh6w2Nxgn4pZxYFMO3HxMQyC5bmacnsaKD0DGwgog/IMieaPYtfB+eT
- KsGJTtWapnowAtcuxLk8FwO46TguaqfFzdAp29e27RYPtEEkyOE2raaxnVgBKADvJefm9ILJhT/fQ4SWaXPXIO5+jsVAFVyvIG1zL11MvxXXekykbKDT+18y
- g++RnhJcjbbjmJxb+gq2tn3k8nlZrTrQp3nDa/Rg0aAlaFV4sB+FXIR9LWGDXbrANdL5l29xoCKtBbortuK7tcSxXbE84hkGTKrWP5TxJXcNbaedp69UuWWK
- XiENvPOTMyqkkoIW+xZo6nKnEvjhfXjCJDSEo+CbL7RVOMxef6rTLiaLi7LP+BxlM6oIXszJ
+X-CMAE-Envelope: MS4xfCqz0evgKVotePnsCokWrF5dG7lxrkLaVMWwSPa/i/tgineJVMYuGpipFITOjzGLjbSPom8RHRC6xVlYRnG2fXhA9/kwL6o2cT7TexnGdWaNnV/X37Yv
+ 0mIXC0vaPDmyCR1ibq6Jz6gcpCLg9u5E6p3br7OQmFrwBqfBXLhaWATFGjtvy7J20QSqTpG6srzefZXyltNn5MGmXveYfSTq/G025/cYxFWLJAL0PLy/JhPD
+ 7L4PhPK4b44BUvCpp33dz3sIX4AIdnbWrNBLRsPoSmsr0u+dcSeTCh/AF9x8jAIUyYPzH045u2cM2sKYB16CGOLpvxO0riOP+LGSMxcq0f+aTpi5pYGafI6X
+ EzkJuOeHRK0dzmmqGm61DCIOGVlJifgz4Go9J4N0GaTlLsb9twGno2BmAtZukwY20mWwNbdIl0L7vzsQkK8G9TUhvqsiZaI0kiqsXc0z8StWwUcSaou6jvnF
+ XiXm5Kw39lTLDuIdJj3qujaZQbk6h7uy/c1E72FwucUsirUx5bvzZNm8AlU2RCyWhqVT3f4GkwE9Bji91zLlL02eiOPOeMCMJu3m7Ycl9yZjdV7EGQb7mxGe
+ xmz2m/dPgY++XKqgIifi5vSBukWKgModXHAsTpQI5zCtWY+FNN7xUA5twwzvTdBlhNBuN61XAvAh0Lsy+wVZYlge
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/01/2021 10:26, Stanimir Varbanov wrote:
-> Document Content Light Level and Mastering Display v4l2 colorimetry
-> controls.
+On 18/01/2021 18:45, AngeloGioacchino Del Regno wrote:
+> Il 18/01/21 18:21, Stanimir Varbanov ha scritto:
+>> Hi Angelo,
+>>
+>> Thanks for the patch!
+>>
+>> On 1/15/21 8:52 PM, AngeloGioacchino Del Regno wrote:
+>>> Add the SDM660 DT compatible and its resource structure, also
+>>> including support for the Venus pmdomains, in order to support
+>>> the Venus block in SDM630, SDM636, SDM660 and SDA variants.
+>>>
+>>> This SoC features Venus 4.4 (HFI3XX), with one vcodec used for
+>>> both encoding and decoding, switched on through two GDSCs.
+>>> The core clock for this Venus chip is powered by the RPM VDD_CX
+>>> power domain.
+>>>
+>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+>>> ---
+>>>   drivers/media/platform/qcom/venus/core.c | 66 ++++++++++++++++++++++++
+>>>   1 file changed, 66 insertions(+)
+>>>
+>>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>>> index bdd293faaad0..83ca86a63241 100644
+>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>> +++ b/drivers/media/platform/qcom/venus/core.c
+>>> @@ -565,6 +565,71 @@ static const struct venus_resources sdm845_res_v2 = {
+>>>   	.fwname = "qcom/venus-5.2/venus.mdt",
+>>>   };
+>>>   
+>>> +static const struct freq_tbl sdm660_freq_table[] = {
+>>> +	{ 0, 518400000 },
+>>> +	{ 0, 441600000 },
+>>> +	{ 0, 404000000 },
+>>> +	{ 0, 320000000 },
+>>> +	{ 0, 269330000 },
+>>> +	{ 0, 133330000 },
+>>> +};
+>>> +
+>>> +static const struct reg_val sdm660_reg_preset[] = {
+>>> +	{ 0x80010, 0x001f001f },
+>>> +	{ 0x80018, 0x00000156 },
+>>> +	{ 0x8001C, 0x00000156 },
+>>> +};
+>>> +
+>>> +static const struct bw_tbl sdm660_bw_table_enc[] = {
+>>> +	{  979200,  1044000, 0, 2446336, 0 },	/* 4k UHD @ 30 */
+>>> +	{  864000,   887000, 0, 2108416, 0 },	/* 720p @ 240 */
+>>> +	{  489600,   666000, 0, 1207296, 0 },	/* 1080p @ 60 */
+>>> +	{  432000,   578000, 0, 1058816, 0 },	/* 720p @ 120 */
+>>> +	{  244800,   346000, 0,  616448, 0 },	/* 1080p @ 30 */
+>>> +	{  216000,   293000, 0,  534528, 0 },	/* 720p @ 60 */
+>>> +	{  108000,   151000, 0,  271360, 0 },	/* 720p @ 30 */
+>>> +};
+>>> +
+>>> +static const struct bw_tbl sdm660_bw_table_dec[] = {
+>>> +	{  979200,  2365000, 0, 1892000, 0 },	/* 4k UHD @ 30 */
+>>> +	{  864000,  1978000, 0, 1554000, 0 },	/* 720p @ 240 */
+>>> +	{  489600,  1133000, 0,  895000, 0 },	/* 1080p @ 60 */
+>>> +	{  432000,   994000, 0,  781000, 0 },	/* 720p @ 120 */
+>>> +	{  244800,   580000, 0,  460000, 0 },	/* 1080p @ 30 */
+>>> +	{  216000,   501000, 0,  301000, 0 },	/* 720p @ 60 */
+>>> +	{  108000,   255000, 0,  202000, 0 },	/* 720p @ 30 */
+>>> +};
+>>> +
+>>> +static const struct venus_resources sdm660_res = {
+>>> +	.freq_tbl = sdm660_freq_table,
+>>> +	.freq_tbl_size = ARRAY_SIZE(sdm660_freq_table),
+>>> +	.reg_tbl = sdm660_reg_preset,
+>>> +	.reg_tbl_size = ARRAY_SIZE(sdm660_reg_preset),
+>>> +	.bw_tbl_enc = sdm660_bw_table_enc,
+>>> +	.bw_tbl_enc_size = ARRAY_SIZE(sdm660_bw_table_enc),
+>>> +	.bw_tbl_dec = sdm660_bw_table_dec,
+>>> +	.bw_tbl_dec_size = ARRAY_SIZE(sdm660_bw_table_dec),
+>>> +	.clks = {"core", "iface", "bus_throttle", "bus" },
+>>> +	.clks_num = 4,
+>>> +	.vcodec0_clks = { "vcodec0_core" },
+>>> +	.vcodec_clks_num = 1,
+>>> +	.vcodec_pmdomains = { "venus", "vcodec0" },
+>>> +	.vcodec_pmdomains_num = 2,
+>>> +	.opp_pmdomain = (const char *[]) { "cx", NULL },
+>>> +	.vcodec_num = 1,
+>>> +	.max_load = 1036800,
+>>> +	.hfi_version = HFI_VERSION_3XX,
+>>> +	.vmem_id = VIDC_RESOURCE_NONE,
+>>> +	.vmem_size = 0,
+>>> +	.vmem_addr = 0,
+>>> +	.cp_start = 0,
+>>> +	.cp_size = 0x79000000,
+>>> +	.cp_nonpixel_start = 0x1000000,
+>>> +	.cp_nonpixel_size = 0x28000000,
+>>> +	.dma_mask = 0xd9000000 - 1,
+>>> +	.fwname = "qcom/venus-4.4/venus.mdt",
+>>
+>> Did you try venus-4.2 firmware from linux-firmware tree [1] ?
+>>
 > 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  .../media/v4l/ext-ctrls-colorimetry.rst       | 71 +++++++++++++++++++
->  .../media/videodev2.h.rst.exceptions          |  2 +
->  2 files changed, 73 insertions(+)
+> No I haven't.. and I can't... my Sony devices (but I think that this is
+> a practice of all OEMs/ODMs) are using a Sony signed venus firmware, so
+> I am totally limited to use the firmware that comes with the device.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
-> index 6b0cd2054e84..e7e55323651f 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
-> @@ -17,3 +17,74 @@ Colorimetry Control IDs
->      The Colorimetry class descriptor. Calling
->      :ref:`VIDIOC_QUERYCTRL` for this control will
->      return a description of this control class.
-> +
-> +``V4L2_CID_COLORIMETRY_HDR10_CLL_INFO (struct)``
-> +    The Content Light Level defines upper bounds for the nominal target
-> +    brightness light level of the pictures.
-> +
-> +.. c:type:: v4l2_ctrl_hdr10_cll_info
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hdr10_cll_info
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``max_content_light_level``
-> +      - The upper bound for the maximum light level among all individual
-> +        samples for the pictures of a coded video sequence, cd/m2. When
+> Besides that, the version is still different so, even if I had any
+> possibility to try that, I don't think that it would work anyway...
 
-For this document:
+I'm a bit confused. "qcom/venus-4.4/venus.mdt" is the Sony signed FW?
 
-cd/m2 -> cd/m\ :sup:`2`
+This patch can't be merged unless there is a corresponding firmware available
+in linux-firmware. Is the current 4.2 firmware in linux-firmware signed by
+Qualcomm? Can they provided 4.4 firmware as well?
 
-> +        equal to 0 no such upper bound is present.
-> +    * - __u16
-> +      - ``max_pic_average_light_level``
-> +      - The upper bound for the maximum average light level among the
-> +        samples for any individual picture of a coded video sequence, cd/m2.
-> +        When equal to 0 no such upper bound is present.
-> +
-> +``V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY (struct)``
-> +    The mastering display defines the colour volume (the colour primaries,
-
-For this document: colour -> color
-
-(The US spelling is used)
-
-> +    white point and luminance range) of a display considered to be the
-> +    mastering display for the current video content.
-> +
-> +.. c:type:: v4l2_ctrl_hdr10_mastering_display
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hdr10_mastering_display
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``display_primaries_x[3]``
-> +      - Specifies the normalized x chromaticity coordinate of the colour
-> +        primary component c of the mastering display in increments of 0.00002.
-> +        For describing the mastering display that uses Red, Green and Blue
-> +        colour primaries, index value c equal to 0 corresponds to the Green
-> +        primary, c equal to 1 corresponds to Blue primary and c equal to 2
-> +        corresponds to the Red colour primary.
-> +    * - __u16
-> +      - ``display_primaries_y[3]``
-> +      - Specifies the normalized y chromaticity coordinate of the colour
-> +        primary component c of the mastering display in increments of 0.00002.
-> +        For describing the mastering display that uses Red, Green and Blue
-> +        colour primaries, index value c equal to 0 corresponds to the Green
-> +        primary, c equal to 1 corresponds to Blue primary and c equal to 2
-> +        corresponds to Red colour primary.
-> +    * - __u16
-> +      - ``white_point_x``
-> +      - Specifies the normalized x chromaticity coordinate of the white
-> +        point of the mastering display in increments of 0.00002.
-> +    * - __u16
-> +      - ``white_point_y``
-> +      - Specifies the normalized y chromaticity coordinate of the white
-> +        point of the mastering display in increments of 0.00002.
-> +    * - __u32
-> +      - ``max_luminance``
-> +      - Specifies the nominal maximum display luminance of the mastering
-> +        display in units of 0.0001 cd/m2.
-> +    * - __u32
-> +      - ``min_luminance``
-> +      - specifies the nominal minimum display luminance of the mastering
-> +        display in units of 0.0001 cd/m2.
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index 0ed170c6e720..af4b8b87c5d7 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -147,6 +147,8 @@ replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
-> +replace symbol V4L2_CTRL_TYPE_HDR10_CLL_INFO :c:type:`v4l2_ctrl_hdr10_cll_info`
-> +replace symbol V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY :c:type:`v4l2_ctrl_hdr10_mastering_display`
-
-No, these two should be :c:type:`v4l2_ctrl_type` like the others.
-
->  
->  # V4L2 capability defines
->  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
-> 
-
-You also need to document the new p_hdr10_cll and p_hdr10_mastering
-fields in Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst.
+I have no idea how this works for the venus driver, but I hope Stanimir does.
 
 Regards,
 
 	Hans
+
+> 
+>>> +};
+>>> +
+>>>   static const struct freq_tbl sc7180_freq_table[] = {
+>>>   	{  0, 500000000 },
+>>>   	{  0, 434000000 },
+>>> @@ -613,6 +678,7 @@ static const struct venus_resources sc7180_res = {
+>>>   static const struct of_device_id venus_dt_match[] = {
+>>>   	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>>>   	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+>>> +	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>>>   	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>>>   	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+>>>   	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
+>>>
+>>
+>> Reviewed-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>>
+> 
+> Thank you!
+> - Angelo
+> 
+
