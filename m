@@ -2,79 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4971B30357D
+	by mail.lfdr.de (Postfix) with ESMTP id B6E0430357E
 	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 06:46:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731843AbhAZFnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:43:47 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46709 "EHLO
+        id S1731935AbhAZFnv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:43:51 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:34047 "EHLO
         lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726110AbhAYJRr (ORCPT
+        by vger.kernel.org with ESMTP id S1726794AbhAYJjx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:17:47 -0500
+        Mon, 25 Jan 2021 04:39:53 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 3xgdlSZ5liWRg3xgglfVNP; Mon, 25 Jan 2021 09:57:33 +0100
+        id 3yJrlSq3WiWRg3yJulfgVM; Mon, 25 Jan 2021 10:38:03 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1611565053; bh=Cg0C444tQm28uUmnFYRWQssZ7i1ibjFWyLPPzyy9tOA=;
+        t=1611567483; bh=cRKWCdXjPiL2XlpvqcIxZhxldG0a5KVzheRGT3caeDc=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=PxLoKjfLxlVxiT7amVhnTQKWwqMpx9kilhrqSZVbbHK3SQGJ04xBpuxt9wM31dbbT
-         qw4BK+hM8CqK6wuss0lp2HtwC4gBxgfG6pIEl0K90PzKFh6GzyVe0XywMPg0A1BpiX
-         EIwivR1qrDQWlbtK22Z+bZKA/JPcjXLyOqNUpOnvLCxu56I3pbGY2VSAIyNxXms2H6
-         BRWvLa2u1JCoA0xArBr+Ub8FJTeLtv6q+Yg8W4DNucHLXg14gS/iu1t76LY4RYkmdw
-         q3my25p2eoQSnbhGpgliE9O85ydruyFWtE53kJ201ygwopG6RdK8ENDZuXQ+QtSxGg
-         BY6wmooO1TrVg==
-Subject: Re: [PATCH 0/4] media: vidtv: add media controller support
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-References: <20210105130956.1133222-1-dwlsalmeida@gmail.com>
+        b=Tnw5b+5VU9gyfGumDmaJ59suhuJbeF8Qw8hHr8rQzUfeLpCtLr7gfVYCtQRWQdfwa
+         2jAWacX95PAvpfOipK/W+XiRYtfBlDzoGuhmuS8Z+WWOrG2VLxqgchyPhfcKaecog8
+         sClpY7Voh7IMRynN6yPN12CRZz7ORtkBoQQSQDhHRpMETHqxByUTAytdnaJnau+YjX
+         rvHmPpakafKkPjrJxrKZQlkaKYNLpDBmLYBmPAt8bKnf4uL3HWs8PVK20Vbmd64rg3
+         Nf9xNeEm6vA/GrXoRgwZ8UzG76jmSMUKY21miNOWR9ulShSj3E7eqt6GFeBYWLzyGS
+         boGCeYwkF4iFg==
+Subject: Re: [PATCH v2 3/4] rcar-vin: Stop stream when subdevice signal EOS
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210115002148.4079591-4-niklas.soderlund+renesas@ragnatech.se>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <46584ea9-81ff-a3a6-2853-fade654bd2fd@xs4all.nl>
-Date:   Mon, 25 Jan 2021 09:57:27 +0100
+Message-ID: <9d24ffee-120b-51af-cce0-089b96e9e0ed@xs4all.nl>
+Date:   Mon, 25 Jan 2021 10:37:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210105130956.1133222-1-dwlsalmeida@gmail.com>
+In-Reply-To: <20210115002148.4079591-4-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIrhUs8azoJXXgV3bGWciye9in8e1NG+Is9X14KzRn8mqJAM1/A5uzLnjfC5Y/iuHO6g5KJ4/WEMnR5m+f2xXKSKJ9m2jYwquUbPDKKnptPljMxO+8EV
- xTzVFVE56QqHzLRIgif0r8Gf1qGx3nSCmtg9VVQjMSLkx0x/rlW+MCKp3dw/YnvwERlRJNR70B8/WWnI5NkfIT7O/PGmrhXA1JyLX8hOJlY8VToYqrx6+H4J
- 3Ki74U2LcWqaECUOU2hUgTQIggLenAYCS/W1LmLYgLnjltqIld1RBnR+SA2uQu4cGfr8CB+EYZkcbT1ieT+et1IhgXeEwRo2zMwyAjMdt7oJ2sg/mmRB1sJJ
- kguX04RnlUZA4GWMyfRO+C86e+vcGg==
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfPknFU8MCKRNfDUhfhxQLihWHdtq9q27KJxMMb610mH0m+9NbOeP3vn9tYMRh16RHRvFlolWtBZqXZ1RmOaPPDBWcndIXSEougffh7ibO54W/AzaDdwL
+ dtkZzOnpKQE9Gkv5SkfzOGWiUDwu7thjcxljieTyBdOXww8q5z2g+p3zm9Zy2VaB8cVcjQzFv3LdE/xc+WGO3dEKIiWI0VuWsW7ep9sse/ayjPmiismj1nYu
+ 0DQEdNhc0CxpA9kPMOoXzNgmm/B1CR4F/SJQ/MecGFBgqxpn6GaOcPxkn+b3GcxmFDtonSfRAHP+6s8bxTWfnKxIKX4pncETb4EFwTvaB00=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/01/2021 14:09, Daniel W. S. Almeida wrote:
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+On 15/01/2021 01:21, Niklas Söderlund wrote:
+> When a subdevice signals end of stream stop the VIN in addition to
+> informing user-space of the event.
 > 
-> This series adds media controller support for vidtv so that we can
-> support this driver at the test-media script in v4l-utils.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
 > 
-> I based my implementation on vim2m's.
-> 
-> Daniel W. S. Almeida (4):
->   media: vidtv: Add media controller support
->   media: vidtv: reinstate sysfs bind attrs
->   media: vidtv: use a simpler name in platform_{device|driver}
->   media: vidtv: print message when driver is removed
-> 
->  .../media/test-drivers/vidtv/vidtv_bridge.c   | 32 +++++++++++++++++--
->  .../media/test-drivers/vidtv/vidtv_bridge.h   |  7 ++++
->  2 files changed, 36 insertions(+), 3 deletions(-)
-> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 457a65bf6b664f05..176eae2dd5151ac9 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -969,9 +969,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
+>  static void rvin_notify_video_device(struct rvin_dev *vin,
+>  				     unsigned int notification, void *arg)
+>  {
+> +	const struct v4l2_event *event;
+> +
+>  	switch (notification) {
+>  	case V4L2_DEVICE_NOTIFY_EVENT:
+> -		v4l2_event_queue(&vin->vdev, arg);
+> +		event = arg;
+> +
+> +		switch (event->type) {
+> +		case V4L2_EVENT_EOS:
+> +			rvin_stop_streaming(vin);
+> +			v4l2_info(&vin->v4l2_dev,
 
-For this series:
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Mauro, it would be very nice to merge this. It will make it possible
-to add vidtv to the test-media script for regression testing.
+Can you make this v4l2_dbg to avoid polluting the kernel log?
 
 Regards,
 
 	Hans
+
+> +				  "Subdevice signaled end of stream, stopping.\n");
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +
+> +		v4l2_event_queue(&vin->vdev, event);
+>  		break;
+>  	default:
+>  		break;
+> 
+
