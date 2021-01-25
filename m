@@ -2,77 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31613302311
-	for <lists+linux-media@lfdr.de>; Mon, 25 Jan 2021 10:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E011302396
+	for <lists+linux-media@lfdr.de>; Mon, 25 Jan 2021 11:21:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726017AbhAYI6F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Jan 2021 03:58:05 -0500
-Received: from mail-oo1-f51.google.com ([209.85.161.51]:46900 "EHLO
-        mail-oo1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725984AbhAYImu (ORCPT
+        id S1727329AbhAYKSK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Jan 2021 05:18:10 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:58531 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727408AbhAYKQg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 03:42:50 -0500
-Received: by mail-oo1-f51.google.com with SMTP id n127so3079760ooa.13;
-        Mon, 25 Jan 2021 00:42:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hiUJc/HdQm/xO1vbpPKcLW9aGOAJmDPSBwho7Vc1Vvo=;
-        b=X5mk8mcNrOSfNlO6pnwBFWN+OMwgK/AslZ75JVOD0t8Zn+mqHOSWx46xSNMt39CUr8
-         TTAuJTXBxA7JP7FT/JCdX+7WecJfJHJJrwAi7x+KL9gUGV37XhmVVH2g0hCZqKfshlql
-         50aQXxiiRYUl5hieptZ46Qp04lVDnZW2LxdfPMCvrD18vZti5ui/J4CCWlw51FU4FxSY
-         Cta+bqLNJeUeYlFkw5a6vpMX5M+r5pubQKiKpnyCDmd2bxajh11W0qW45UHRS+vI2NT4
-         ShQQCXWro4IpjPEW4e6AuivkxV7LV1e4XqHH+OkfAIGPb01a/DFEESuImpwReoiyolf9
-         wqFQ==
-X-Gm-Message-State: AOAM5314sYRS3bPCB6Zp4X2r2NM2r4eFoNJWDyUCL8TDchChz9EV54Y9
-        S1Y0pAS9ES9G3xhRuBcuk2b0epEDV0bWSfKvN9u+JXZ+
-X-Google-Smtp-Source: ABdhPJypBNe753D1tSXL7zrIq5K8wvq7SGNoPpWkP+tJo7lzRLWoSlBhA+bakJXgepB3QEIcn+vKD5ghu3CoO1Udifs=
-X-Received: by 2002:a05:6830:15cc:: with SMTP id j12mr946904otr.145.1611563479678;
- Mon, 25 Jan 2021 00:31:19 -0800 (PST)
+        Mon, 25 Jan 2021 05:16:36 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 3yoRlT2wgiWRg3yoUlfoEt; Mon, 25 Jan 2021 11:09:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611569378; bh=10OZ4C4oJRmz4e8mTjoJyag5+Zj9mbPXnERwT1rgrfQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=clSd4Po+R2kpxf3Dwf3EuBpcJyRjSSSAROvqG9aBCUVMIxo3vJv/LATilozEsU0KH
+         lbTA37YL4kFGBb4PNEmdip4qiwFBmoBZnyvzFpRQGy3iu+N7Y1DGlsNKBhGFbmpZjG
+         Ss9P5J9o6ZiBS7Wiob7v4+bfvT2s4XGx55rAUO5USZdT7EnqD8mWR4MWR1m1dN+YR6
+         kjoQpqJqoDeXYynSTE03akTTyKCJKikWwWKZU27lPL85ZUiT8eyrJitcnH7Q2RKMZ5
+         K0X4jsY1P0wf5pFLhZ9y76rkIzzeACn+ajS/2WymEMM/+zyu8fTP+rVX3tEbnkHVG1
+         tp5tD3BrBt/YA==
+Subject: Re: [PATCH v4 1/5] v4l: Add new Colorimetry Class
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20210120092606.3987207-1-stanimir.varbanov@linaro.org>
+ <20210120092606.3987207-2-stanimir.varbanov@linaro.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <45c31168-ad69-70de-9cc7-1c825eecfd40@xs4all.nl>
+Date:   Mon, 25 Jan 2021 11:09:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210123034428.2841052-1-swboyd@chromium.org> <20210123034428.2841052-2-swboyd@chromium.org>
-In-Reply-To: <20210123034428.2841052-2-swboyd@chromium.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Jan 2021 09:30:58 +0100
-Message-ID: <CAMuHMdVVrkGX3pKFdTMqZYWdtFvy0Y0TcvB0UJoQ_f=NFkh6uQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] media: renesas-ceu: Use of_device_get_match_data()
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210120092606.3987207-2-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfG6RBSpzu2+u6sNd/1sizAp6yJDu+K1+A8YosIOiHVC2gDZ32i5vyLEU/DnO7y6H0Zc3NW/GD80ijov4M4TejNIjEZjLzZDBc69NI02Fo2KnAVApoyNK
+ nLbqL+PguA0zjIpRhSEUApg04nspsEtVHbh69DH0bHzfueqXfYsKwStmoXh4npcAoNO6VsSqYCDaaZ7LLQySukAtd/HxVGHvhD5yd+T4yiKFuP6JTkCrHoYY
+ SHbHcwcpRXfG7bGExQ/OK4yYRi8e3pouaU/Ccr5Oa3eum81kTR0fTMAkbkv/fV/JuQ5wMNYnBdK+H+5bjPeO1N4o6nlr1VRwtL0POdnTTQj/0eanM4T4h96s
+ /28DRgM2EGF+2Oz7xamwIOLQO+ay7u5KYFX0paXPHUC1XY+tBkf26YMTeHvs89hz2u70Io4c
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jan 23, 2021 at 4:44 AM Stephen Boyd <swboyd@chromium.org> wrote:
-> This driver can use the replacement API instead of calling
-> of_match_device() and then dereferencing the pointer that is returned.
-> This nicely avoids referencing the match table when it is undefined with
-> configurations where CONFIG_OF=n.
->
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+On 20/01/2021 10:26, Stanimir Varbanov wrote:
+> Add Colorimetry control class for colorimetry controls
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 5 +++++
+>  include/uapi/linux/v4l2-controls.h   | 4 ++++
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index f7b310240af2..a5137a867411 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -1201,6 +1201,10 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:		return "H264 Slice Parameters";
+>  	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
+>  	case V4L2_CID_STATELESS_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+> +
+> +	/* Colorimetry controls */
+> +	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> +	case V4L2_CID_COLORIMETRY_CLASS:	return "Colorimetry Controls";
+>  	default:
+>  		return NULL;
+>  	}
+> @@ -1389,6 +1393,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_RF_TUNER_CLASS:
+>  	case V4L2_CID_DETECT_CLASS:
+>  	case V4L2_CID_CODEC_STATELESS_CLASS:
+> +	case V4L2_CID_COLORIMETRY_CLASS:
+>  		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
+>  		/* You can neither read not write these */
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I wouldn't have bothered with this, but since a v5 will be needed in any case:
+can you fix the typo in this comment? not -> nor
 
-Gr{oetje,eeting}s,
+No need to create a separate patch for this. Just mention in the commit message
+that you fixed this typo as well.
 
-                        Geert
+Regards,
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+	Hans
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 039c0d7add1b..a41039559193 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -66,6 +66,7 @@
+>  #define V4L2_CTRL_CLASS_RF_TUNER	0x00a20000	/* RF tuner controls */
+>  #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
+>  #define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
+> +#define V4L2_CTRL_CLASS_COLORIMETRY	0x00a50000	/* Colorimetry controls */
+>  
+>  /* User-class control IDs */
+>  
+> @@ -1657,6 +1658,9 @@ struct v4l2_ctrl_fwht_params {
+>  	__u32 quantization;
+>  };
+>  
+> +#define V4L2_CID_COLORIMETRY_CLASS_BASE	(V4L2_CTRL_CLASS_COLORIMETRY | 0x900)
+> +#define V4L2_CID_COLORIMETRY_CLASS	(V4L2_CTRL_CLASS_COLORIMETRY | 1)
+> +
+>  /* MPEG-compression definitions kept for backwards compatibility */
+>  #ifndef __KERNEL__
+>  #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+> 
+
