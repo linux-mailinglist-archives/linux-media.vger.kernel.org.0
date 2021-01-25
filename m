@@ -2,21 +2,17 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 297BC304871
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B70030486F
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:24:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388544AbhAZFpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:45:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728863AbhAYN3q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:29:46 -0500
-Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54BCC06174A
-        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 05:27:40 -0800 (PST)
+        id S2388553AbhAZFpF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:45:05 -0500
+Received: from retiisi.eu ([95.216.213.190]:37264 "EHLO hillosipuli.retiisi.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728864AbhAYN3r (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Jan 2021 08:29:47 -0500
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 510D6634C8F;
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 8FE18634C92;
         Mon, 25 Jan 2021 15:25:57 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -35,9 +31,9 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
         Robert Foss <robert.foss@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 06/14] media: cadence: Use v4l2_async_notifier_add_fwnode_remote_subdev
-Date:   Mon, 25 Jan 2021 15:22:07 +0200
-Message-Id: <20210125132230.6600-6-sakari.ailus@linux.intel.com>
+Subject: [PATCH 08/14] media: renesas-ceu: Use v4l2_async_notifier_add_*_subdev
+Date:   Mon, 25 Jan 2021 15:22:09 +0200
+Message-Id: <20210125132230.6600-8-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
 References: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
@@ -51,66 +47,166 @@ From: Ezequiel Garcia <ezequiel@collabora.com>
 
 The use of v4l2_async_notifier_add_subdev will be discouraged.
 Drivers are instead encouraged to use a helper such as
-v4l2_async_notifier_add_fwnode_remote_subdev.
+v4l2_async_notifier_add_i2c_subdev.
 
 This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
 should get a kmalloc'ed struct v4l2_async_subdev,
 removing some boilerplate code while at it.
 
-Use the appropriate helper v4l2_async_notifier_add_fwnode_remote_subdev,
-which handles the needed setup, instead of open-coding it.
+Use the appropriate helper: v4l2_async_notifier_add_i2c_subdev
+or v4l2_async_notifier_add_fwnode_remote_subdev, which handles
+the needed setup, instead of open-coding it.
+
+Using v4l2-async to allocate the driver-specific structs,
+requires to change struct ceu_subdev so the embedded
+struct v4l2_async_subdev is now the first element.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Reviewed-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/cadence/cdns-csi2rx.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ drivers/media/platform/renesas-ceu.c | 60 +++++++++++++---------------
+ 1 file changed, 27 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index be9ec59774d6..7d299cacef8c 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -81,7 +81,6 @@ struct csi2rx_priv {
- 	struct media_pad		pads[CSI2RX_PAD_MAX];
+diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+index 4a633ad0e8fa..0298d08b39e4 100644
+--- a/drivers/media/platform/renesas-ceu.c
++++ b/drivers/media/platform/renesas-ceu.c
+@@ -152,8 +152,8 @@ static inline struct ceu_buffer *vb2_to_ceu(struct vb2_v4l2_buffer *vbuf)
+  * ceu_subdev - Wraps v4l2 sub-device and provides async subdevice.
+  */
+ struct ceu_subdev {
+-	struct v4l2_subdev *v4l2_sd;
+ 	struct v4l2_async_subdev asd;
++	struct v4l2_subdev *v4l2_sd;
  
- 	/* Remote source */
--	struct v4l2_async_subdev	asd;
- 	struct v4l2_subdev		*source_subdev;
- 	int				source_pad;
- };
-@@ -362,6 +361,7 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
- static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
- {
- 	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
-+	struct v4l2_async_subdev *asd;
- 	struct fwnode_handle *fwh;
- 	struct device_node *ep;
- 	int ret;
-@@ -395,17 +395,13 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
+ 	/* per-subdevice mbus configuration options */
+ 	unsigned int mbus_flags;
+@@ -174,7 +174,7 @@ struct ceu_device {
+ 	struct v4l2_device	v4l2_dev;
+ 
+ 	/* subdevices descriptors */
+-	struct ceu_subdev	*subdevs;
++	struct ceu_subdev	**subdevs;
+ 	/* the subdevice currently in use */
+ 	struct ceu_subdev	*sd;
+ 	unsigned int		sd_index;
+@@ -1195,7 +1195,7 @@ static int ceu_enum_input(struct file *file, void *priv,
+ 	if (inp->index >= ceudev->num_sd)
  		return -EINVAL;
+ 
+-	ceusd = &ceudev->subdevs[inp->index];
++	ceusd = ceudev->subdevs[inp->index];
+ 
+ 	inp->type = V4L2_INPUT_TYPE_CAMERA;
+ 	inp->std = 0;
+@@ -1230,7 +1230,7 @@ static int ceu_s_input(struct file *file, void *priv, unsigned int i)
+ 		return 0;
+ 
+ 	ceu_sd_old = ceudev->sd;
+-	ceudev->sd = &ceudev->subdevs[i];
++	ceudev->sd = ceudev->subdevs[i];
+ 
+ 	/*
+ 	 * Make sure we can generate output image formats and apply
+@@ -1423,7 +1423,7 @@ static int ceu_notify_complete(struct v4l2_async_notifier *notifier)
+ 	 * ceu formats.
+ 	 */
+ 	if (!ceudev->sd) {
+-		ceudev->sd = &ceudev->subdevs[0];
++		ceudev->sd = ceudev->subdevs[0];
+ 		ceudev->sd_index = 0;
  	}
  
--	csi2rx->asd.match.fwnode = fwnode_graph_get_remote_port_parent(fwh);
--	csi2rx->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
--	of_node_put(ep);
+@@ -1467,8 +1467,8 @@ static const struct v4l2_async_notifier_operations ceu_notify_ops = {
+ 
+ /*
+  * ceu_init_async_subdevs() - Initialize CEU subdevices and async_subdevs in
+- *			      ceu device. Both DT and platform data parsing use
+- *			      this routine.
++ *                           ceu device. Both DT and platform data parsing use
++ *                           this routine.
+  *
+  * Returns 0 for success, -ENOMEM for failure.
+  */
+@@ -1495,6 +1495,7 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+ 				   const struct ceu_platform_data *pdata)
+ {
+ 	const struct ceu_async_subdev *async_sd;
++	struct v4l2_async_subdev *asd;
+ 	struct ceu_subdev *ceu_sd;
+ 	unsigned int i;
+ 	int ret;
+@@ -1510,21 +1511,17 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+ 
+ 		/* Setup the ceu subdevice and the async subdevice. */
+ 		async_sd = &pdata->subdevs[i];
+-		ceu_sd = &ceudev->subdevs[i];
 -
- 	v4l2_async_notifier_init(&csi2rx->notifier);
+-		INIT_LIST_HEAD(&ceu_sd->asd.list);
+-
+-		ceu_sd->mbus_flags	= async_sd->flags;
+-		ceu_sd->asd.match_type	= V4L2_ASYNC_MATCH_I2C;
+-		ceu_sd->asd.match.i2c.adapter_id = async_sd->i2c_adapter_id;
+-		ceu_sd->asd.match.i2c.address = async_sd->i2c_address;
+-
+-		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+-						     &ceu_sd->asd);
+-		if (ret) {
++		asd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
++				async_sd->i2c_adapter_id,
++				async_sd->i2c_address,
++				sizeof(*ceu_sd));
++		if (IS_ERR(asd)) {
+ 			v4l2_async_notifier_cleanup(&ceudev->notifier);
+-			return ret;
++			return PTR_ERR(asd);
+ 		}
++		ceu_sd = to_ceu_subdev(asd);
++		ceu_sd->mbus_flags = async_sd->flags;
++		ceudev->subdevs[i] = ceu_sd;
+ 	}
  
--	ret = v4l2_async_notifier_add_subdev(&csi2rx->notifier, &csi2rx->asd);
--	if (ret) {
--		fwnode_handle_put(csi2rx->asd.match.fwnode);
--		return ret;
--	}
-+	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi2rx->notifier,
-+							   fwh, sizeof(*asd));
-+	of_node_put(ep);
-+	if (IS_ERR(asd))
-+		return PTR_ERR(asd);
+ 	return pdata->num_subdevs;
+@@ -1536,7 +1533,8 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+ static int ceu_parse_dt(struct ceu_device *ceudev)
+ {
+ 	struct device_node *of = ceudev->dev->of_node;
+-	struct device_node *ep, *remote;
++	struct device_node *ep;
++	struct v4l2_async_subdev *asd;
+ 	struct ceu_subdev *ceu_sd;
+ 	unsigned int i;
+ 	int num_ep;
+@@ -1578,20 +1576,16 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
+ 		}
  
- 	csi2rx->notifier.ops = &csi2rx_notifier_ops;
+ 		/* Setup the ceu subdevice and the async subdevice. */
+-		ceu_sd = &ceudev->subdevs[i];
+-		INIT_LIST_HEAD(&ceu_sd->asd.list);
+-
+-		remote = of_graph_get_remote_port_parent(ep);
+-		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+-		ceu_sd->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+-		ceu_sd->asd.match.fwnode = of_fwnode_handle(remote);
+-
+-		ret = v4l2_async_notifier_add_subdev(&ceudev->notifier,
+-						     &ceu_sd->asd);
+-		if (ret) {
+-			of_node_put(remote);
++		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
++				&ceudev->notifier, of_fwnode_handle(ep),
++				sizeof(*ceu_sd));
++		if (IS_ERR(asd)) {
++			ret = PTR_ERR(asd);
+ 			goto error_cleanup;
+ 		}
++		ceu_sd = to_ceu_subdev(asd);
++		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
++		ceudev->subdevs[i] = ceu_sd;
  
+ 		of_node_put(ep);
+ 	}
 -- 
 2.29.2
 
