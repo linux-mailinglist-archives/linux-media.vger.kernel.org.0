@@ -2,21 +2,17 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 761BF304866
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 514DE30486D
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:24:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388607AbhAZFpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:45:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60364 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728893AbhAYNbp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:31:45 -0500
-Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C70DC061797
-        for <linux-media@vger.kernel.org>; Mon, 25 Jan 2021 05:27:53 -0800 (PST)
+        id S2388572AbhAZFpG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:45:06 -0500
+Received: from retiisi.eu ([95.216.213.190]:37508 "EHLO hillosipuli.retiisi.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728870AbhAYN3r (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Jan 2021 08:29:47 -0500
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 86899634CA3;
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id B9477634CA9;
         Mon, 25 Jan 2021 15:25:58 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -35,9 +31,9 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
         Robert Foss <robert.foss@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 02/14] media: atmel: Use v4l2_async_notifier_add_fwnode_remote_subdev
-Date:   Mon, 25 Jan 2021 15:22:18 +0200
-Message-Id: <20210125132230.6600-17-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 04/14] media: exynos4-is: Use v4l2_async_notifier_add_fwnode_remote_subdev
+Date:   Mon, 25 Jan 2021 15:22:20 +0200
+Message-Id: <20210125132230.6600-19-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
 References: <20210125132230.6600-1-sakari.ailus@linux.intel.com>
@@ -57,193 +53,101 @@ This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
 should get a kmalloc'ed struct v4l2_async_subdev,
 removing some boilerplate code while at it.
 
+Use the appropriate helper v4l2_async_notifier_add_fwnode_remote_subdev,
+which handles the needed setup, instead of open-coding it.
+
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Reviewed-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/atmel/atmel-isc.h      |  1 +
- drivers/media/platform/atmel/atmel-isi.c      | 46 ++++++-------------
- .../media/platform/atmel/atmel-sama5d2-isc.c  | 44 ++++++------------
- 3 files changed, 29 insertions(+), 62 deletions(-)
+ drivers/media/platform/exynos4-is/media-dev.c | 24 ++++++++++---------
+ drivers/media/platform/exynos4-is/media-dev.h |  2 +-
+ 2 files changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-index 24b784b893d6..fab8eca58d93 100644
---- a/drivers/media/platform/atmel/atmel-isc.h
-+++ b/drivers/media/platform/atmel/atmel-isc.h
-@@ -41,6 +41,7 @@ struct isc_buffer {
- struct isc_subdev_entity {
- 	struct v4l2_subdev		*sd;
- 	struct v4l2_async_subdev	*asd;
-+	struct device_node		*epn;
- 	struct v4l2_async_notifier      notifier;
- 
- 	u32 pfe_cfg0;
-diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
-index d74aa73f26be..c1a6dd7af002 100644
---- a/drivers/media/platform/atmel/atmel-isi.c
-+++ b/drivers/media/platform/atmel/atmel-isi.c
-@@ -70,7 +70,6 @@ struct frame_buffer {
- struct isi_graph_entity {
- 	struct device_node *node;
- 
--	struct v4l2_async_subdev asd;
- 	struct v4l2_subdev *subdev;
- };
- 
-@@ -1136,45 +1135,26 @@ static const struct v4l2_async_notifier_operations isi_graph_notify_ops = {
- 	.complete = isi_graph_notify_complete,
- };
- 
--static int isi_graph_parse(struct atmel_isi *isi, struct device_node *node)
--{
--	struct device_node *ep = NULL;
--	struct device_node *remote;
--
--	ep = of_graph_get_next_endpoint(node, ep);
--	if (!ep)
--		return -EINVAL;
--
--	remote = of_graph_get_remote_port_parent(ep);
--	of_node_put(ep);
--	if (!remote)
--		return -EINVAL;
--
--	/* Remote node to connect */
--	isi->entity.node = remote;
--	isi->entity.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
--	isi->entity.asd.match.fwnode = of_fwnode_handle(remote);
--	return 0;
--}
--
- static int isi_graph_init(struct atmel_isi *isi)
- {
+diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+index e636c33e847b..f4687b0cbd65 100644
+--- a/drivers/media/platform/exynos4-is/media-dev.c
++++ b/drivers/media/platform/exynos4-is/media-dev.c
+@@ -401,6 +401,7 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
+ 	int index = fmd->num_sensors;
+ 	struct fimc_source_info *pd = &fmd->sensor[index].pdata;
+ 	struct device_node *rem, *np;
 +	struct v4l2_async_subdev *asd;
-+	struct device_node *ep;
+ 	struct v4l2_fwnode_endpoint endpoint = { .bus_type = 0 };
  	int ret;
  
--	/* Parse the graph to extract a list of subdevice DT nodes. */
--	ret = isi_graph_parse(isi, isi->dev->of_node);
--	if (ret < 0) {
--		dev_err(isi->dev, "Graph parsing failed\n");
--		return ret;
--	}
-+	ep = of_graph_get_next_endpoint(isi->dev->of_node, NULL);
-+	if (!ep)
-+		return -EINVAL;
+@@ -418,10 +419,10 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
+ 	pd->mux_id = (endpoint.base.port - 1) & 0x1;
  
- 	v4l2_async_notifier_init(&isi->notifier);
+ 	rem = of_graph_get_remote_port_parent(ep);
+-	of_node_put(ep);
+ 	if (rem == NULL) {
+ 		v4l2_info(&fmd->v4l2_dev, "Remote device at %pOF not found\n",
+ 							ep);
++		of_node_put(ep);
+ 		return 0;
+ 	}
  
--	ret = v4l2_async_notifier_add_subdev(&isi->notifier, &isi->entity.asd);
--	if (ret) {
--		of_node_put(isi->entity.node);
--		return ret;
--	}
+@@ -450,6 +451,7 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
+ 	 * checking parent's node name.
+ 	 */
+ 	np = of_get_parent(rem);
++	of_node_put(rem);
+ 
+ 	if (of_node_name_eq(np, "i2c-isp"))
+ 		pd->fimc_bus_type = FIMC_BUS_TYPE_ISP_WRITEBACK;
+@@ -458,20 +460,19 @@ static int fimc_md_parse_one_endpoint(struct fimc_md *fmd,
+ 	of_node_put(np);
+ 
+ 	if (WARN_ON(index >= ARRAY_SIZE(fmd->sensor))) {
+-		of_node_put(rem);
++		of_node_put(ep);
+ 		return -EINVAL;
+ 	}
+ 
+-	fmd->sensor[index].asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+-	fmd->sensor[index].asd.match.fwnode = of_fwnode_handle(rem);
 +	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+						&isi->notifier,
-+						of_fwnode_handle(ep),
-+						sizeof(*asd));
++		&fmd->subdev_notifier, of_fwnode_handle(ep), sizeof(*asd));
+ 
+-	ret = v4l2_async_notifier_add_subdev(&fmd->subdev_notifier,
+-					     &fmd->sensor[index].asd);
+-	if (ret) {
+-		of_node_put(rem);
+-		return ret;
+-	}
 +	of_node_put(ep);
 +
 +	if (IS_ERR(asd))
 +		return PTR_ERR(asd);
  
- 	isi->notifier.ops = &isi_graph_notify_ops;
++	fmd->sensor[index].asd = asd;
+ 	fmd->num_sensors++;
  
-diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-index a3304f49e499..9ee2cd194f93 100644
---- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-+++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-@@ -57,7 +57,7 @@
- static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- {
- 	struct device_node *np = dev->of_node;
--	struct device_node *epn = NULL, *rem;
-+	struct device_node *epn = NULL;
- 	struct isc_subdev_entity *subdev_entity;
- 	unsigned int flags;
- 	int ret;
-@@ -71,17 +71,9 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- 		if (!epn)
- 			return 0;
+ 	return 0;
+@@ -1381,7 +1382,8 @@ static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
  
--		rem = of_graph_get_remote_port_parent(epn);
--		if (!rem) {
--			dev_notice(dev, "Remote device at %pOF not found\n",
--				   epn);
--			continue;
--		}
--
- 		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
- 						 &v4l2_epn);
- 		if (ret) {
--			of_node_put(rem);
- 			ret = -EINVAL;
- 			dev_err(dev, "Could not parse the endpoint\n");
- 			break;
-@@ -90,21 +82,10 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- 		subdev_entity = devm_kzalloc(dev, sizeof(*subdev_entity),
- 					     GFP_KERNEL);
- 		if (!subdev_entity) {
--			of_node_put(rem);
--			ret = -ENOMEM;
--			break;
--		}
--
--		/* asd will be freed by the subsystem once it's added to the
--		 * notifier list
--		 */
--		subdev_entity->asd = kzalloc(sizeof(*subdev_entity->asd),
--					     GFP_KERNEL);
--		if (!subdev_entity->asd) {
--			of_node_put(rem);
- 			ret = -ENOMEM;
- 			break;
- 		}
-+		subdev_entity->epn = epn;
+ 	/* Find platform data for this sensor subdev */
+ 	for (i = 0; i < ARRAY_SIZE(fmd->sensor); i++)
+-		if (fmd->sensor[i].asd.match.fwnode ==
++		if (fmd->sensor[i].asd &&
++		    fmd->sensor[i].asd->match.fwnode ==
+ 		    of_fwnode_handle(subdev->dev->of_node))
+ 			si = &fmd->sensor[i];
  
- 		flags = v4l2_epn.bus.parallel.flags;
- 
-@@ -121,12 +102,10 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- 			subdev_entity->pfe_cfg0 |= ISC_PFE_CFG0_CCIR_CRC |
- 					ISC_PFE_CFG0_CCIR656;
- 
--		subdev_entity->asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
--		subdev_entity->asd->match.fwnode = of_fwnode_handle(rem);
- 		list_add_tail(&subdev_entity->list, &isc->subdev_entities);
- 	}
--
- 	of_node_put(epn);
-+
- 	return ret;
- }
- 
-@@ -228,13 +207,20 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	}
- 
- 	list_for_each_entry(subdev_entity, &isc->subdev_entities, list) {
-+		struct v4l2_async_subdev *asd;
-+
- 		v4l2_async_notifier_init(&subdev_entity->notifier);
- 
--		ret = v4l2_async_notifier_add_subdev(&subdev_entity->notifier,
--						     subdev_entity->asd);
--		if (ret) {
--			fwnode_handle_put(subdev_entity->asd->match.fwnode);
--			kfree(subdev_entity->asd);
-+		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+					&subdev_entity->notifier,
-+					of_fwnode_handle(subdev_entity->epn),
-+					sizeof(*asd));
-+
-+		of_node_put(subdev_entity->epn);
-+		subdev_entity->epn = NULL;
-+
-+		if (IS_ERR(asd)) {
-+			ret = PTR_ERR(asd);
- 			goto cleanup_subdev;
- 		}
- 
+diff --git a/drivers/media/platform/exynos4-is/media-dev.h b/drivers/media/platform/exynos4-is/media-dev.h
+index 9447fafe23c6..a3876d668ea6 100644
+--- a/drivers/media/platform/exynos4-is/media-dev.h
++++ b/drivers/media/platform/exynos4-is/media-dev.h
+@@ -83,7 +83,7 @@ struct fimc_camclk_info {
+  */
+ struct fimc_sensor_info {
+ 	struct fimc_source_info pdata;
+-	struct v4l2_async_subdev asd;
++	struct v4l2_async_subdev *asd;
+ 	struct v4l2_subdev *subdev;
+ 	struct fimc_dev *host;
+ };
 -- 
 2.29.2
 
