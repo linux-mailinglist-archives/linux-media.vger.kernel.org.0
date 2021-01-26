@@ -2,154 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E73AC304CC7
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6012304CC9
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730723AbhAZWzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 17:55:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
+        id S1730743AbhAZWzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 17:55:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391674AbhAZTM7 (ORCPT
+        with ESMTP id S2395455AbhAZTZ1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 14:12:59 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF05CC06174A;
-        Tue, 26 Jan 2021 11:12:18 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id g15so12046980pgu.9;
-        Tue, 26 Jan 2021 11:12:18 -0800 (PST)
+        Tue, 26 Jan 2021 14:25:27 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6F9C061573;
+        Tue, 26 Jan 2021 11:24:47 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id kx7so2589621pjb.2;
+        Tue, 26 Jan 2021 11:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=z+Elf6KN7gCVxKH5y5v8VFFxpAzRjoRyqfE2dK5dzCQ=;
-        b=CzMop3FhOdFGtWBkHlk/GUz/sqkCJ9tRBC/4jNGcxWNawh9ndTJDO/q315ne2lbJ0R
-         gk+2ZghnnXjkzlDQN1M9uTa6WRDOsyuI+rFitPzUAGAAZS0s5nYP5yFboFjQyoEy6ybq
-         ufGydHojAu8poq6x5fWLpp8DbYktqiIJmV9B7pWfV9m24uS9iM8BYVCCaB2ex21Dzhj9
-         5HB5LEZ4IQsmd9mKZDv7xX0AwcXHhRSEtzdZ9i+raHscQXLTaBqz5W32bLsR6DH661ak
-         f5+olSkBh+BJ82RaHyOpZP/vYklYI7PsrBeNo5NUDxFmiRoa2BTB4qpk4X1JDOwTXOCm
-         HPBQ==
+        bh=PQEAhCm3+TMoHM6fCNFPYeDIJ30oYf/VDFpXx3VbChw=;
+        b=pdxOOP16unQeTfJM+vcSmtoc9otBE7D1QLUGBMbUYwwc34fV0mmt1KNHQcGy+JP0cp
+         53WCFFjL8QIOoe4118TDseHG68AAfQPg+8uzBDlf7Vk8eIPb8XprP3FU8DM1Fx7jAwJ4
+         5dqxSza5b9ihAmhyNhw+OIYVCN/olOVqT//FYm+DX+irUbO4Hy7VwOpBEZD81ZgyAHoB
+         IHHnsDCgxxMP0KCAEbhJUDrkzNhPyOaNAGPa4BSQwgPDSLRKZr8VE5N8LUaR6/Zbz3K6
+         GuKzfXkjki5oS4gGXjjW50XwR7uc+G2V5R93Dzcx3edaVBVeekPcoJzppscpK0pLvETu
+         d8Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to;
-        bh=z+Elf6KN7gCVxKH5y5v8VFFxpAzRjoRyqfE2dK5dzCQ=;
-        b=GoGygaWuQxRgFJbPtyhQ20FjL+/ci15fRbas/o8HIBgYlOXX2W+g+DAdOQ7hDdeLQv
-         7wcWQWpVjM059U757/ikS0iNePM6cFak+twsklYuTAiQEefAJAQ6D90/MU2guCIZCaZ8
-         5pHYvuJw5ZhQd7j9hJahD3BMjhoKg56VRXcDyWRyRY7BZEAsPHrlFPst+xG93fKNKzPV
-         Hfp4oV9yobFvo7TbSZI4C1ZAGdot93HfNrUdbZMLp/unrPE75qMGUKwYcmmEiNbe+Kuj
-         alAFTKjyK65zBAjlM1+1F4KbgGfN+WFoL114IyX0VTAPN/Jrn5JYKUrsMOdsXIQfftwu
-         VLoA==
-X-Gm-Message-State: AOAM530tAK3BQ63MBsrlAPN6QQo3T2cHZJ0zcfdaaQk4xLxdA9k2IY5U
-        /UqxKCmcGtbuCte53GioNhY=
-X-Google-Smtp-Source: ABdhPJzAeJ2VBQP8Ty12PWfHYgZ3qBVMPcowpow+95wbsOdOdX7sQMm9xF9YxgnjsVF1aa+ITIH1ug==
-X-Received: by 2002:a62:7d03:0:b029:1bb:5919:6dec with SMTP id y3-20020a627d030000b02901bb59196decmr6759692pfc.76.1611688338278;
-        Tue, 26 Jan 2021 11:12:18 -0800 (PST)
+        bh=PQEAhCm3+TMoHM6fCNFPYeDIJ30oYf/VDFpXx3VbChw=;
+        b=a+6WKJ6ka5oN36U2wEMo0sa2mtzygtC3ntvZiH95nJK+3tfMVysqZNoVgX0NELvKsz
+         PkVk9mQwaZIKdDHJzuGlLOktCbTq/G7GoekZtzcBFdReB8lIWAZt8pnR8a1+qHKLUUjC
+         DE/5sptVI3qnpXk1F4XaF+oYUz90SmtV5vVSYPaOkJj2x5VljM/sE+TExHgnP63iWLoU
+         68SZQDmyp8Z1kFAbuqJWC3juS/6kZ84wfY3nKq8I3f5vI19/iDZd/OmpeGFbCbYasEf0
+         wKzuX6FCXscs2KzVDfgtbx0qjAAfTddWRq2tp0jTC9ub43saYd8ApqKYvKDVCNI+OIYt
+         YuRA==
+X-Gm-Message-State: AOAM533dEP/Ip1rODAdz0i+OZNIXdUgVSTdG3xzpl1lc30haydrkF0Ns
+        3wk1XVZKdZJAunD9uPFmDjk=
+X-Google-Smtp-Source: ABdhPJxdJr9i8PyYeuFQBxPxm7+nZIJNNDk8XULgbT6ihBzMPiuZA67mDinh9JKsG2HkLZaC7sxFnw==
+X-Received: by 2002:a17:90a:5403:: with SMTP id z3mr1385657pjh.198.1611689087020;
+        Tue, 26 Jan 2021 11:24:47 -0800 (PST)
 Received: from google.com ([2620:15c:211:201:9dd5:b47b:bb84:dede])
-        by smtp.gmail.com with ESMTPSA id b14sm3091649pju.14.2021.01.26.11.12.16
+        by smtp.gmail.com with ESMTPSA id jx15sm2818337pjb.17.2021.01.26.11.24.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 11:12:17 -0800 (PST)
+        Tue, 26 Jan 2021 11:24:45 -0800 (PST)
 Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Tue, 26 Jan 2021 11:12:14 -0800
+Date:   Tue, 26 Jan 2021 11:24:43 -0800
 From:   Minchan Kim <minchan@kernel.org>
-To:     Michal Hocko <mhocko@suse.com>
+To:     John Stultz <john.stultz@linaro.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
-        david@redhat.com, surenb@google.com, pullip.cho@samsung.com,
-        joaodias@google.com, hridya@google.com, john.stultz@linaro.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, hch@infradead.org, robh+dt@kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 1/4] mm: cma: introduce gfp flag in cma_alloc instead
- of no_warn
-Message-ID: <YBBpjvBRtvi3Rl9F@google.com>
+        LKML <linux-kernel@vger.kernel.org>,
+        Hyesoo Yu <hyesoo.yu@samsung.com>, david@redhat.com,
+        Michal Hocko <mhocko@suse.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        KyongHo Cho <pullip.cho@samsung.com>,
+        John Dias <joaodias@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v4 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
+Message-ID: <YBBse31hUxQcglig@google.com>
 References: <20210121175502.274391-1-minchan@kernel.org>
- <20210121175502.274391-2-minchan@kernel.org>
- <20210125130701.GF827@dhcp22.suse.cz>
- <YA8fKgFLuOi/rSez@google.com>
- <20210126073808.GZ827@dhcp22.suse.cz>
+ <20210121175502.274391-5-minchan@kernel.org>
+ <CALAqxLWJDo=pM8bvt9YWrzJ+VyK5gojoL-v7ch1fQC=cjGwJOw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210126073808.GZ827@dhcp22.suse.cz>
+In-Reply-To: <CALAqxLWJDo=pM8bvt9YWrzJ+VyK5gojoL-v7ch1fQC=cjGwJOw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 08:38:08AM +0100, Michal Hocko wrote:
-> On Mon 25-01-21 11:42:34, Minchan Kim wrote:
-> > On Mon, Jan 25, 2021 at 02:07:01PM +0100, Michal Hocko wrote:
-> > > On Thu 21-01-21 09:54:59, Minchan Kim wrote:
-> > > > The upcoming patch will introduce __GFP_NORETRY semantic
-> > > > in alloc_contig_range which is a failfast mode of the API.
-> > > > Instead of adding a additional parameter for gfp, replace
-> > > > no_warn with gfp flag.
-> > > > 
-> > > > To keep old behaviors, it follows the rule below.
-> > > > 
-> > > >   no_warn 			gfp_flags
-> > > > 
-> > > >   false         		GFP_KERNEL
-> > > >   true          		GFP_KERNEL|__GFP_NOWARN
-> > > >   gfp & __GFP_NOWARN		GFP_KERNEL | (gfp & __GFP_NOWARN)
-> > > > 
-> > > > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> > > > Signed-off-by: Minchan Kim <minchan@kernel.org>
-> > > [...]
-> > > > diff --git a/mm/cma.c b/mm/cma.c
-> > > > index 0ba69cd16aeb..d50627686fec 100644
-> > > > --- a/mm/cma.c
-> > > > +++ b/mm/cma.c
-> > > > @@ -419,13 +419,13 @@ static inline void cma_debug_show_areas(struct cma *cma) { }
-> > > >   * @cma:   Contiguous memory region for which the allocation is performed.
-> > > >   * @count: Requested number of pages.
-> > > >   * @align: Requested alignment of pages (in PAGE_SIZE order).
-> > > > - * @no_warn: Avoid printing message about failed allocation
-> > > > + * @gfp_mask: GFP mask to use during the cma allocation.
-> > > 
-> > > Call out supported gfp flags explicitly. Have a look at kvmalloc_node
-> > > for a guidance.
-> > 
-> > How about this?
-> > 
-> > 
-> > diff --git a/mm/cma.c b/mm/cma.c
-> > index d50627686fec..b94727b694d6 100644
-> > --- a/mm/cma.c
-> > +++ b/mm/cma.c
-> > @@ -423,6 +423,10 @@ static inline void cma_debug_show_areas(struct cma *cma) { }
-> >   *
-> >   * This function allocates part of contiguous memory on specific
-> >   * contiguous memory area.
-> > + *
-> > + * For gfp_mask, GFP_KERNEL and __GFP_NORETRY are supported. __GFP_NORETRY
-> > + * will avoid costly functions(e.g., waiting on page_writeback and locking)
-> > + * at current implementaion during the page migration.
+On Mon, Jan 25, 2021 at 11:32:57PM -0800, John Stultz wrote:
+> On Thu, Jan 21, 2021 at 9:55 AM Minchan Kim <minchan@kernel.org> wrote:
 > 
-> rather than explicitly mentioning what the flag implies I think it would
-> be more useful to state the intended usecase. See how kvmalloc_node says
-> "__GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
-> preferable to the vmalloc fallback, due to visible performance
-> drawbacks.
-> __GFP_NOWARN is also supported to suppress allocation failure messages."
+> Hey Minchan,
+>   Thanks for sending this out! I'm still working through testing with
+> this patch set, so I may have some more feedback tomorrow, but a few
+> quick items I did hit below.
 > 
-> This would help people not familiar with internals to see whether this
-> flag is a good fit for them.
+> > +
+> > +#define CHUNK_PREFIX "chunk-"
+> > +
+> > +static int register_chunk_heap(struct chunk_heap *chunk_heap_info)
+> > +{
+> > +       struct dma_heap_export_info exp_info;
+> > +       const char *name = cma_get_name(chunk_heap_info->cma);
+> > +       size_t len = strlen(CHUNK_PREFIX) + strlen(name) + 1;
+> > +       char *buf = kmalloc(len, GFP_KERNEL);
+> > +
+> > +       if (!buf)
+> > +               return -ENOMEM;
+> > +
+> > +       sprintf(buf, CHUNK_PREFIX"%s", cma_get_name(chunk_heap_info->cma));
+> > +       buf[len] = '\0';
+> > +
+> > +       exp_info.name = buf;
+> > +       exp_info.name = cma_get_name(chunk_heap_info->cma);
 > 
-> In this case I woul go with
-> "
-> @flags: gfp mask. Must be compatible (superset) with GFP_KERNEL.
-> [...]
-> Reclaim modifiers (__GFP_RETRY_MAYFAIL, __GFP_NOFAIL) are not supported.
-> __GFP_NORETRY is supported, and it should be used for opportunistic
-> allocation attempts that should rather fail quickly when the caller has
-> a fallback strategy.
-> "
-> 
-> Obviously for this patch you will go with a simple statement that
-> Reclaim modifiers are not supported at all.
+> I think you intended to delete this line, as it's overwriting your
+> prefixed name.
 
-After more discussion for gfp_flags in thread of next patch, let me
-changes a bit more based on it.
+Hi John,
 
-Thanks for the suggestion, Michal.
+You're right. Will fix it.
+
+> 
+> > +       exp_info.ops = &chunk_heap_ops;
+> > +       exp_info.priv = chunk_heap_info;
+> > +
+> > +       chunk_heap_info->heap = dma_heap_add(&exp_info);
+> > +       if (IS_ERR(chunk_heap_info->heap)) {
+> > +               kfree(buf);
+> > +               return PTR_ERR(chunk_heap_info->heap);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int __init chunk_heap_init(void)
+> > +{
+> > +       unsigned int i;
+> > +
+> > +       for (i = 0; i < chunk_heap_count; i++)
+> > +               register_chunk_heap(&chunk_heaps[i]);
+> > +
+> > +       return 0;
+> > +}
+> > +module_init(chunk_heap_init);
+> > +
+> > +#ifdef CONFIG_OF_EARLY_FLATTREE
+> > +
+> > +static int __init dmabuf_chunk_heap_area_init(struct reserved_mem *rmem)
+> > +{
+> > +       int ret;
+> > +       struct cma *cma;
+> > +       struct chunk_heap *chunk_heap_info;
+> > +       const __be32 *chunk_order;
+> > +
+> > +       phys_addr_t align = PAGE_SIZE << max(MAX_ORDER - 1, pageblock_order);
+> > +       phys_addr_t mask = align - 1;
+> > +
+> > +       if ((rmem->base & mask) || (rmem->size & mask)) {
+> > +               pr_err("Incorrect alignment for CMA region\n");
+> > +               return -EINVAL;
+> 
+> Passing this check can be tough if you're using dynamically assigned
+> rmem, so it might be helpful for debugging to print the base/size/mask
+> values?
+
+Let me fold this into next respin.
+
+diff --git a/drivers/dma-buf/heaps/chunk_heap.c b/drivers/dma-buf/heaps/chunk_heap.c
+index 6fe8e69d108f..cc2ed5341b54 100644
+--- a/drivers/dma-buf/heaps/chunk_heap.c
++++ b/drivers/dma-buf/heaps/chunk_heap.c
+@@ -456,7 +456,8 @@ static int __init dmabuf_chunk_heap_area_init(struct reserved_mem *rmem)
+        phys_addr_t mask = align - 1;
+
+        if ((rmem->base & mask) || (rmem->size & mask)) {
+-               pr_err("Incorrect alignment for CMA region\n");
++               pr_err("Incorrect alignment for CMA region: base %pa size %pa mask %pa\n",
++                               rmem->base, rmem->size, mask);
+                return -EINVAL;
+        }
+
+Thanks for the review, John!
