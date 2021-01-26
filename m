@@ -2,147 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6D5F304CD3
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:57:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C5D3304CB7
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:54:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731022AbhAZW42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 17:56:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728776AbhAZWZQ (ORCPT
+        id S1727910AbhAZWyA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 17:54:00 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:45491 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390218AbhAZRl0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 17:25:16 -0500
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E79C061756
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 14:24:36 -0800 (PST)
-Received: by mail-oo1-xc35.google.com with SMTP id q6so47692ooo.8
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 14:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension-cc.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1ikuMteTikjN+nS/9X2TtyJ7Ju5HqPFdonWETOx56iY=;
-        b=p/6msXi3a5Exjr8WuwIzY8yBKmBDvl+nAaaNli7XqXRNfGki8wjsYWW/2vwjDKzswi
-         slnGt23L6ZXVKy20UUrt9nPvsx+1HOL1gJSR6ywK3QtuDBsJO08FNLLR8FrnDPcwjLgw
-         osxXmOo3rRFS4MmcsRzeEYetMgitG/IkFZO6EAtp2kZx5y8KER2ggS0YmkpuUa2g5T7Q
-         otAzBjPd/NcqWw84Qnh6Pn8y4VKEZeRy4ZCm55/D+QLb8S+7cYgglXaoQA9qDQhk8/wk
-         TqNkZBPoLbD3VDIxzC2r7oeXPZq1S3FByyQiWl5AzU2OR3zKkzIKuovVOk2tLPpJwONJ
-         hYfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1ikuMteTikjN+nS/9X2TtyJ7Ju5HqPFdonWETOx56iY=;
-        b=beEsO+IGyQOu/4mUjNFivVCM/zDj5Eat2lr0/6bLVAmwnaJWdYeJwYpvBzH0WU8omz
-         NBDvQ2bEAy2ePGmL82UDpLUMXBNyX0EdL6VZFce6+sETMgelua40s95nTXzpQlEpgu08
-         Q+aZVbC3RTRc6rFcRJ5v3kmiAzxhgLIuaTmL5hDYHRPgvA7pua4PJwZtZaLyCithOTYn
-         98zLvMoJ5c4k65ROn4uEIK4YWbceAgxPLUjPLTQ8HlPsDijAt8AKD37vjwVNXtmGtRdi
-         +XOEOn0yB7vx2NokR2Ri6LZpsHM5RaKS34Pn0W8tapnfYUj88wHHTDBjq9ZJ7p1dsDwE
-         YrpA==
-X-Gm-Message-State: AOAM530hpr87tdioeLhW36rxpUY7XVIXS8PmB6wBiW9PUL5fqtv0f0bX
-        WmbWcTojr1melHgMACqwYy3jxEPDcWDfcb7L
-X-Google-Smtp-Source: ABdhPJwPeP0NBCMSTKtcZXsc2/jo4nMYVkTr3HcM0/KZuoyJRUFkP3RlBtkmCwqyicKyMVV1iYLPfg==
-X-Received: by 2002:a4a:3b4f:: with SMTP id s76mr5438609oos.29.1611699875328;
-        Tue, 26 Jan 2021 14:24:35 -0800 (PST)
-Received: from localhost (66-90-181-52.dyn.grandenetworks.net. [66.90.181.52])
-        by smtp.gmail.com with ESMTPSA id f10sm63378oom.18.2021.01.26.14.24.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Jan 2021 14:24:34 -0800 (PST)
-From:   Brad Love <brad@nextdimension.cc>
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4al.nl
-Cc:     Brad Love <brad@nextdimension.cc>
-Subject: [PATCH] cx23885: Fix various Hauppauge device analog capture inputs
-Date:   Mon, 25 Jan 2021 22:52:06 -0600
-Message-Id: <20210126045206.19517-2-brad@nextdimension.cc>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210126045206.19517-1-brad@nextdimension.cc>
-References: <20210126045206.19517-1-brad@nextdimension.cc>
+        Tue, 26 Jan 2021 12:41:26 -0500
+X-Originating-IP: 78.199.60.242
+Received: from localhost.localdomain (unknown [78.199.60.242])
+        (Authenticated sender: hadess@hadess.net)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 8FCBE2000F;
+        Tue, 26 Jan 2021 17:40:37 +0000 (UTC)
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-media@vger.kernel.org
+Cc:     Bastien Nocera <hadess@hadess.net>
+Subject: [PATCH 1/2] media: rc: add keymap for Xbox 360 Universal Media remote
+Date:   Tue, 26 Jan 2021 18:40:33 +0100
+Message-Id: <20210126174034.1349785-1-hadess@hadess.net>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reports indicated S-Video capture did not work on HVR1265_K4, so all
-devices on hand were audited and corrected to become fully
-functional.
+Captured using a raw IR receiver. Manual linked in the remote definition
+itself.
 
-ImpactVCB-e
-- Remove extraneous composite inputs
-- Fix S-Video inputs
-
-HVR5525
-- Add routing and config for composite capture
-- Add routing and config for S-Video capture
-- Add routing for audio on both composite/S-Video
-
-HVR1265_K4
-- Remove non-existent composite capture
-- Add routing and config for S-Video capture
-
-Signed-off-by: Brad Love <brad@nextdimension.cc>
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
- drivers/media/pci/cx23885/cx23885-cards.c | 28 +++++++++++------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/media/rc/keymaps/Makefile      |  1 +
+ drivers/media/rc/keymaps/rc-xbox-360.c | 83 ++++++++++++++++++++++++++
+ include/media/rc-map.h                 |  1 +
+ 3 files changed, 85 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-xbox-360.c
 
-diff --git a/drivers/media/pci/cx23885/cx23885-cards.c b/drivers/media/pci/cx23885/cx23885-cards.c
-index 03eee606af91..052199990d63 100644
---- a/drivers/media/pci/cx23885/cx23885-cards.c
-+++ b/drivers/media/pci/cx23885/cx23885-cards.c
-@@ -657,14 +657,11 @@ struct cx23885_board cx23885_boards[] = {
- 		.porta		= CX23885_ANALOG_VIDEO,
- 		.input          = {{
- 			.type   = CX23885_VMUX_COMPOSITE1,
--			.vmux   = CX25840_VIN7_CH3 |
--				  CX25840_VIN4_CH2 |
--				  CX25840_VIN6_CH1,
-+			.vmux   = CX25840_VIN6_CH1,
- 			.amux   = CX25840_AUDIO7,
- 		}, {
- 			.type   = CX23885_VMUX_SVIDEO,
--			.vmux   = CX25840_VIN7_CH3 |
--				  CX25840_VIN4_CH2 |
-+			.vmux   = CX25840_VIN4_CH2 |
- 				  CX25840_VIN8_CH1 |
- 				  CX25840_SVIDEO_ON,
- 			.amux   = CX25840_AUDIO7,
-@@ -715,6 +712,16 @@ struct cx23885_board cx23885_boards[] = {
- 					CX25840_VIN2_CH1 |
- 					CX25840_DIF_ON,
- 			.amux   = CX25840_AUDIO8,
-+		}, {
-+			.type   = CX23885_VMUX_COMPOSITE1,
-+			.vmux   = CX25840_VIN6_CH1,
-+			.amux   = CX25840_AUDIO7,
-+		}, {
-+			.type   = CX23885_VMUX_SVIDEO,
-+			.vmux   = CX25840_VIN7_CH3 |
-+				  CX25840_VIN8_CH1 |
-+				  CX25840_SVIDEO_ON,
-+			.amux   = CX25840_AUDIO7,
- 		} },
- 	},
- 	[CX23885_BOARD_VIEWCAST_260E] = {
-@@ -822,17 +829,10 @@ struct cx23885_board cx23885_boards[] = {
- 					CX25840_VIN2_CH1 |
- 					CX25840_DIF_ON,
- 			.amux   = CX25840_AUDIO8,
--		}, {
--			.type   = CX23885_VMUX_COMPOSITE1,
--			.vmux   =	CX25840_VIN7_CH3 |
--					CX25840_VIN4_CH2 |
--					CX25840_VIN6_CH1,
--			.amux   = CX25840_AUDIO7,
- 		}, {
- 			.type   = CX23885_VMUX_SVIDEO,
--			.vmux   =	CX25840_VIN7_CH3 |
--					CX25840_VIN4_CH2 |
--					CX25840_VIN8_CH1 |
-+			.vmux   =	CX25840_VIN4_CH2 |
-+					CX25840_VIN6_CH1 |
- 					CX25840_SVIDEO_ON,
- 			.amux   = CX25840_AUDIO7,
- 		} },
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index b252a1d2ebd6..37ce3cbf0c0c 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -127,6 +127,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-winfast.o \
+ 			rc-winfast-usbii-deluxe.o \
+ 			rc-su3000.o \
++			rc-xbox-360.o \
+ 			rc-xbox-dvd.o \
+ 			rc-x96max.o \
+ 			rc-zx-irdec.o
+diff --git a/drivers/media/rc/keymaps/rc-xbox-360.c b/drivers/media/rc/keymaps/rc-xbox-360.c
+new file mode 100644
+index 000000000000..231aa00514af
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-xbox-360.c
+@@ -0,0 +1,83 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Keytable for Xbox 360 Universal Media remote
++// Copyright (c) 2021 Bastien Nocera <hadess@hadess.net>
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++/*
++ * Manual for remote available at:
++ * http://download.microsoft.com/download/b/c/e/bce76f3f-db51-4c98-b79d-b3d21e90ccc1/universalmediaremote_na_0609.pdf
++ */
++static struct rc_map_table xbox_360[] = {
++	{KEY_EJECTCD, 0x800f7428},
++	{KEY_HOMEPAGE, 0x800f7464},
++	{KEY_POWER, 0x800f740c},
++	{KEY_STOP, 0x800f7419},
++	{KEY_PAUSE, 0x800f7418},
++	{KEY_REWIND, 0x800f7415},
++	{KEY_FASTFORWARD, 0x800f7414},
++	{KEY_PREVIOUS, 0x800f741b},
++	{KEY_NEXT, 0x800f741a},
++	{KEY_PLAY, 0x800f7416},
++	{KEY_PROPS, 0x800f744f}, /* "Display" */
++	{KEY_BACK, 0x800f7423},
++	{KEY_MEDIA_TOP_MENU, 0x800f7424}, /* "DVD Menu" */
++	{KEY_ROOT_MENU, 0x800f7451}, /* "Title" */
++	{KEY_INFO, 0x800f740f},
++	{KEY_UP, 0x800f741e},
++	{KEY_LEFT, 0x800f7420},
++	{KEY_RIGHT, 0x800f7421},
++	{KEY_DOWN, 0x800f741f},
++	{KEY_OK, 0x800f7422},
++	{KEY_YELLOW, 0x800f7426},
++	{KEY_BLUE, 0x800f7468},
++	{KEY_GREEN, 0x800f7466},
++	{KEY_RED, 0x800f7425},
++	{KEY_VOLUMEUP, 0x800f7410},
++	{KEY_VOLUMEDOWN, 0x800f7411},
++	/* TV key doesn't light the IR LED */
++	{KEY_MUTE, 0x800f740e},
++	{KEY_CHANNELUP, 0x800f746c},
++	{KEY_CHANNELDOWN, 0x800f746d},
++	{KEY_LEFTMETA, 0x800f740d},
++	{KEY_ENTER, 0x800f740b},
++	{KEY_RECORD, 0x800f7417},
++	{KEY_CLEAR, 0x800f740a},
++	{KEY_NUMERIC_1, 0x800f7401},
++	{KEY_NUMERIC_2, 0x800f7402},
++	{KEY_NUMERIC_3, 0x800f7403},
++	{KEY_NUMERIC_4, 0x800f7404},
++	{KEY_NUMERIC_5, 0x800f7405},
++	{KEY_NUMERIC_6, 0x800f7406},
++	{KEY_NUMERIC_7, 0x800f7407},
++	{KEY_NUMERIC_8, 0x800f7408},
++	{KEY_NUMERIC_9, 0x800f7409},
++	{KEY_NUMERIC_0, 0x800f7400},
++	{KEY_102ND, 0x800f741d}, /* "100" */
++	{KEY_CANCEL, 0x800f741c},
++};
++
++static struct rc_map_list xbox_360_map = {
++	.map = {
++		.scan     = xbox_360,
++		.size     = ARRAY_SIZE(xbox_360),
++		.rc_proto = RC_PROTO_RC6_MCE,
++		.name     = RC_MAP_XBOX_360,
++	}
++};
++
++static int __init init_rc_map(void)
++{
++	return rc_map_register(&xbox_360_map);
++}
++
++static void __exit exit_rc_map(void)
++{
++	rc_map_unregister(&xbox_360_map);
++}
++
++module_init(init_rc_map)
++module_exit(exit_rc_map)
++
++MODULE_LICENSE("GPL");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 999b750bc6b8..9b7608e58b52 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -331,6 +331,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_WINFAST                   "rc-winfast"
+ #define RC_MAP_WINFAST_USBII_DELUXE      "rc-winfast-usbii-deluxe"
+ #define RC_MAP_X96MAX                    "rc-x96max"
++#define RC_MAP_XBOX_360                  "rc-xbox-360"
+ #define RC_MAP_XBOX_DVD                  "rc-xbox-dvd"
+ #define RC_MAP_ZX_IRDEC                  "rc-zx-irdec"
+ 
 -- 
-2.28.0
+2.29.2
 
