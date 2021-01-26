@@ -2,110 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D8DF3044CE
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 18:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D33A304727
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 19:55:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389431AbhAZROs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 12:14:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54970 "EHLO
+        id S1732316AbhAZRLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 12:11:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390423AbhAZInt (ORCPT
+        with ESMTP id S2389427AbhAZHK6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 03:43:49 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD18CC06174A
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 00:43:08 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id d2so15189023edz.3
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 00:43:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t2z1NGbSv+92Iq3y3cHfX8r3rHSgzWMGOLngnUuImF8=;
-        b=HqvMQYpbjsMs5FO0qw8p+bYpP7RjH7vBlf6l0HF5VNPGglgnOsbLVfBqJljbCsIasF
-         NaYGE3B0ARKF9zXOk8iR5t9vxzgRRMOUE7jeQ4cqURu19xi64IpFfjsjuzIBdl51A+hC
-         kmyXKCuwFkg/seQLV8IzyJL2tsx1vEJpZJMh5o2b5n2r1ko4f3p5zXbHSOPZiwd68r+Y
-         EuLylY5VI4sLkTuc+4qAJhM/6vvPKW0T8NjQmIhBfqQ8EzuNyprvsXrov4AKw2qPm1ZO
-         eWgrDM2jc3tKXYPKcV11SGdwMUuRoBXLTR/iSN8Xl6lBGJSYDPLMJUv6bQ+lcwKpb08+
-         VXEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t2z1NGbSv+92Iq3y3cHfX8r3rHSgzWMGOLngnUuImF8=;
-        b=OERn1kQqI28yTLI99bWJsi5NN854AXlpARdRQuzv41drbLOIdpCSJsh6vdex++qkOW
-         PboI0Px1FXwSgMkO1Y+M0XLKJZQ6Enshvq6nb9Vw6wwZzWmo/ngvx9kysX8Xgl+G0koo
-         xVk6c6WPT0x2xjih1ByJZ4Nzgf99g1jZ8gmGNnk0W7d/mxfyjYIaOikyOSuZwZ/gLM2m
-         +Y3xL7skLPdd+onqafPeXglMPso8aRDmSysQtrvSo5jvczvd29vaAGsViAVNgamFtnEN
-         RRvm+qrJRMAUfnb2UJm8MkJd5bJmhLJulaFGOgT5P3SkDC09PfNWY67RS88xXK2a/vR3
-         S/CA==
-X-Gm-Message-State: AOAM53275zPKye2stfvN3CH6mkFyfwIcCyHDi434Kzj9L3FvzYEv8zxf
-        L/jBjK4KxQnJfjJeTkD0HXvdlWcGYi+92Dy+
-X-Google-Smtp-Source: ABdhPJwXmN0+EIt8RzL3ueMP/CCxmZVMUAxRmK9RWZ7CZYPhgMXX2MhPsEKA8AQcrWMlG54ahj8c1Q==
-X-Received: by 2002:aa7:cc98:: with SMTP id p24mr3854242edt.126.1611650587275;
-        Tue, 26 Jan 2021 00:43:07 -0800 (PST)
-Received: from localhost.localdomain (hst-221-9.medicom.bg. [84.238.221.9])
-        by smtp.gmail.com with ESMTPSA id i4sm9511524eje.90.2021.01.26.00.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 00:43:06 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH] venus: core: Parse firmware-name DT property
-Date:   Tue, 26 Jan 2021 10:42:52 +0200
-Message-Id: <20210126084252.238078-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Tue, 26 Jan 2021 02:10:58 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9968FC061756;
+        Mon, 25 Jan 2021 23:09:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Izeg7/5VyaxB5rz80jqoHfYzz5pDatI+gGF4pjJhArM=; b=JxGhOfyt5KZ0xAvheJfP/7LS2P
+        Y83ZDjEK8bQEjgBt/BpF0eamFtJcyEAfQHf/ElHxB1tIfSP3QeYgV0n1QNVE4BUdSaVGtVbjrYAMN
+        TuHlWJUH9tkJE60kuW5AJiqigJrcLYwrTGT9W4U217GGTP8ey+WqXQodrTV12q2K1VhdwTUV3zhVb
+        7zMIE9AxFA8z5T7uvGQ9XlXtnv8Fpdf6JRJwOXYYEXzC0M/snrp2CV1yu8pLmOl74fJ2W1EEVTmfn
+        CyeAbzzNZrnKe3A5Ia6Dir7ucISl11Letv7SUL4Ydbax5iEblm/IeoLTYWLeQRqjaM1T4AoJNCJ/t
+        SGODeicQ==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1l4IS0-005E6W-9K; Tue, 26 Jan 2021 07:08:08 +0000
+Date:   Tue, 26 Jan 2021 07:07:44 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
+        david@redhat.com, mhocko@suse.com, surenb@google.com,
+        pullip.cho@samsung.com, joaodias@google.com, hridya@google.com,
+        john.stultz@linaro.org, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        hch@infradead.org, robh+dt@kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
+Message-ID: <20210126070744.GA1244507@infradead.org>
+References: <20210121175502.274391-1-minchan@kernel.org>
+ <20210121175502.274391-5-minchan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210121175502.274391-5-minchan@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On production devices the firmware could be located on different
-places, this path could be provided by special firmware-name DT
-property.
+> +config DMABUF_HEAPS_CHUNK
+> +	bool "DMA-BUF CHUNK Heap"
+> +	depends on DMABUF_HEAPS && DMA_CMA
+> +	help
+> +	  Choose this option to enable dma-buf CHUNK heap. This heap is backed
+> +	  by the Contiguous Memory Allocator (CMA) and allocates the buffers that
+> +	  are arranged into a list of fixed size chunks taken from CMA.
 
-Here we check for existence of such DT property and if it exist
-take the firmware path from there. Otherwise, if the property
-is missing we fallback to the predefined path from driver resource
-structure.
+Overly long line, which in text flowing text is really, really annoying.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/firmware.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-index d03e2dd5808c..56c8fb5a019b 100644
---- a/drivers/media/platform/qcom/venus/firmware.c
-+++ b/drivers/media/platform/qcom/venus/firmware.c
-@@ -187,6 +187,7 @@ int venus_boot(struct venus_core *core)
- {
- 	struct device *dev = core->dev;
- 	const struct venus_resources *res = core->res;
-+	const char *fwpath = NULL;
- 	phys_addr_t mem_phys;
- 	size_t mem_size;
- 	int ret;
-@@ -195,7 +196,12 @@ int venus_boot(struct venus_core *core)
- 	    (core->use_tz && !qcom_scm_is_available()))
- 		return -EPROBE_DEFER;
- 
--	ret = venus_load_fw(core, core->res->fwname, &mem_phys, &mem_size);
-+	ret = of_property_read_string_index(dev->of_node, "firmware-name", 0,
-+					    &fwpath);
-+	if (ret)
-+		fwpath = core->res->fwname;
-+
-+	ret = venus_load_fw(core, fwpath, &mem_phys, &mem_size);
- 	if (ret) {
- 		dev_err(dev, "fail to load video firmware\n");
- 		return -EINVAL;
--- 
-2.25.1
-
+Many more later.  Remember that > 80 chars are only allowed if they
+significantly improve readability.  
