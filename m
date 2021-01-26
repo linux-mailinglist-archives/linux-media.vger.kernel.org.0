@@ -2,156 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4E5B30484C
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8327304845
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 20:23:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388772AbhAZFqC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:46:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729835AbhAYTeU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 14:34:20 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D693BC061573;
-        Mon, 25 Jan 2021 11:33:40 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id jx18so240511pjb.5;
-        Mon, 25 Jan 2021 11:33:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=YmWxybprGkUlor/mN/GWW2ybyHD5q29LT4+P3EdRmnA=;
-        b=EBNKjZuKHxW5GWIdGLvLCZ7chWb4KO0MKVIhKt3fRdJvaAs9jxM6ETrjqjFSG+hOcx
-         h5S+VpQyEwXNQ8VtntSyf/SQoUXVvLP4lUyC58rkfp3tgs9J+paSQXGcEKa52yXy7J4O
-         kP52t1kBs6KlnhOIj6WaHmbBC1YtPBk5SI8JsAOBaK2UaPtHDIWJRnLdul8swrqRHAcZ
-         AMC+FX2sapcUnJovE0Mkmu6G5Nfa+gorBVc9MhFr6aALhEtVlXPUhBsjEg9FbMWzpXCR
-         o6nmbgOPQmeO7kXntbtATshiWQQcq3s3uvWEcDnIj69e25CCDifde3FwVj+PJJZx9BRN
-         1kUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=YmWxybprGkUlor/mN/GWW2ybyHD5q29LT4+P3EdRmnA=;
-        b=gVe9ZHO1X8TW5z8BrRz6Aofs1OITyH0hgNZ+JAHNBHNfjTUsvD1blRum1GoV6n6fuX
-         kGa5AGAnAnqYNkUdHCaorqO+ZZYp1pIdIU17i5N73iwjD/sqpIgYNkMZQKzOAcC89sKQ
-         ev62Mpy+yVptBQ18PBWqr0M1Y/zAyYEC9EdoBUel6jdZ2UsT2GG9CfGezEsrGhHhSxir
-         rCnGj1dtlb+znBKAiA8ceogvITjMr69Sz2TWjFr7CQfNhPkFk5VZZIl2HTKbrkmBMiAe
-         sY/+ElODlmH+Uv/5NPtHyF8F3cEFJ5PURco1i+NqBrp11xxogDaURSH57bHXsv7xf00n
-         +A4w==
-X-Gm-Message-State: AOAM531uaQZwr3hIBGA22GTmifO8X4XJL5TIQgrxj3PpoHjoDr/EAjsC
-        x5FAJXQOZJ+WNp5A7XphMJw=
-X-Google-Smtp-Source: ABdhPJzWAbofIoJoeR7THVK7Sebi8NYFmGlVyxvi0QBQ4bvwgYBN/qHKMW2JhCbBaw0rqz/r5kDC9g==
-X-Received: by 2002:a17:90a:be10:: with SMTP id a16mr1817662pjs.78.1611603220402;
-        Mon, 25 Jan 2021 11:33:40 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:e8b4:4688:79de:94f3])
-        by smtp.gmail.com with ESMTPSA id w19sm17535415pgf.23.2021.01.25.11.33.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 11:33:38 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Mon, 25 Jan 2021 11:33:36 -0800
-From:   Minchan Kim <minchan@kernel.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
-        david@redhat.com, surenb@google.com, pullip.cho@samsung.com,
-        joaodias@google.com, hridya@google.com, john.stultz@linaro.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, hch@infradead.org, robh+dt@kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 2/4] mm: failfast mode with __GFP_NORETRY in
- alloc_contig_range
-Message-ID: <YA8dEFSrHBb9muFr@google.com>
-References: <20210121175502.274391-1-minchan@kernel.org>
- <20210121175502.274391-3-minchan@kernel.org>
- <20210125131200.GG827@dhcp22.suse.cz>
+        id S1727557AbhAZFqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 00:46:35 -0500
+Received: from m12-12.163.com ([220.181.12.12]:51532 "EHLO m12-12.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730505AbhAZE2g (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Jan 2021 23:28:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=mxInm
+        W0WGyD7tNP1IlQncdf8KhYE4vvXW0RaNikDrpY=; b=VBch1yBoEU6YLN9mWCA8L
+        owEmX3Mxei73LlwWeFZKU1pqdh1d4FWr7mmioHzwsK21lRJ4XS2piCosLSEMJb1/
+        WSUJvThyMAln9lPcMSpRtNDrgRdJxOut/mllmYU6hWxBXolbUa8b3wWU8hGgcTxX
+        yYc4wE95aqoq7zCd55qU8Q=
+Received: from localhost (unknown [218.94.48.178])
+        by smtp8 (Coremail) with SMTP id DMCowABHf6uTgw9gy6c8Nw--.6162S2;
+        Tue, 26 Jan 2021 10:51:00 +0800 (CST)
+Date:   Tue, 26 Jan 2021 10:50:58 +0800
+From:   Guoqing Chi <chi962464zy@163.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zhangwen@yulong.com
+Subject: Re: [PATCH] media: vidtv: remove redundant quote
+Message-ID: <20210126105058.000034a4@163.com>
+In-Reply-To: <b470e011-a21e-f333-6650-5c025906d63e@xs4all.nl>
+References: <20210119010947.709-1-chi962464zy@163.com>
+        <b470e011-a21e-f333-6650-5c025906d63e@xs4all.nl>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210125131200.GG827@dhcp22.suse.cz>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: DMCowABHf6uTgw9gy6c8Nw--.6162S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtw47urW8Ww4kZry5Jr43Jrb_yoWDuFb_Cw
+        s7Zr4xu34Utr18tF15JF9rZryYkayDZFs5XF98tw1YvFy3Za45J3Wavw17Aa12gF4IvFsr
+        Zry5X348ur13WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRiXdb5UUUUU==
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: pfklmlasuwk6r16rljoofrz/1tbiNxQmRFWBjYMKtAAAsl
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 02:12:00PM +0100, Michal Hocko wrote:
-> On Thu 21-01-21 09:55:00, Minchan Kim wrote:
-> > Contiguous memory allocation can be stalled due to waiting
-> > on page writeback and/or page lock which causes unpredictable
-> > delay. It's a unavoidable cost for the requestor to get *big*
-> > contiguous memory but it's expensive for *small* contiguous
-> > memory(e.g., order-4) because caller could retry the request
-> > in different range where would have easy migratable pages
-> > without stalling.
+On Mon, 25 Jan 2021 12:26:54 +0100
+Hans Verkuil <hverkuil@xs4all.nl> wrote:
+
+> On 19/01/2021 02:09, chiguoqing wrote:
+> > Repeated references string.h
 > > 
-> > This patch introduce __GFP_NORETRY as compaction gfp_mask in
-> > alloc_contig_range so it will fail fast without blocking
-> > when it encounters pages needed waiting.
+> > Signed-off-by: Wen Zhang <zhangwen@yulong.com>  
 > 
-> I am not against controling how hard this allocator tries with gfp mask
-> but this changelog is rather void on any data and any user.
+> checkpatch gives me:
 > 
-> It is also rather dubious to have retries when then caller says to not
-> retry.
-
-Since max_tries is 1 with ++tries, it shouldn't retry.
-
+> ERROR: Missing Signed-off-by: line by nominal patch author
+> 'chiguoqing <chi962464zy@163.com>'
 > 
-> Also why didn't you consider GFP_NOWAIT semantic for non blocking mode?
+> Can you fix this?
+> 
+> Regards,
+> 
+> 	Hans
 
-GFP_NOWAIT seems to be low(specific) flags rather than the one I want to
-express. Even though I said only page writeback/lock in the description,
-the goal is to avoid costly operations we might find later so such
-"failfast", I thought GFP_NORETRY would be good fit.
+Hi Hans:
+  I will resend patch,and change author to zhangwen. Thanks.
 
 > 
-> > Signed-off-by: Minchan Kim <minchan@kernel.org>
 > > ---
-> >  mm/page_alloc.c | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >  drivers/media/test-drivers/vidtv/vidtv_psi.c | 1 -
+> >  1 file changed, 1 deletion(-)
 > > 
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index b031a5ae0bd5..1cdc3ee0b22e 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -8491,12 +8491,16 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
-> >  	unsigned int nr_reclaimed;
-> >  	unsigned long pfn = start;
-> >  	unsigned int tries = 0;
-> > +	unsigned int max_tries = 5;
-> >  	int ret = 0;
-> >  	struct migration_target_control mtc = {
-> >  		.nid = zone_to_nid(cc->zone),
-> >  		.gfp_mask = GFP_USER | __GFP_MOVABLE | __GFP_RETRY_MAYFAIL,
-> >  	};
+> > diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c
+> > b/drivers/media/test-drivers/vidtv/vidtv_psi.c index
+> > 4511a2a98405..8ff27d26c343 100644 ---
+> > a/drivers/media/test-drivers/vidtv/vidtv_psi.c +++
+> > b/drivers/media/test-drivers/vidtv/vidtv_psi.c @@ -19,7 +19,6 @@
+> >  #include <linux/ratelimit.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/string.h>
+> > -#include <linux/string.h>
+> >  #include <linux/time.h>
+> >  #include <linux/types.h>
 > >  
-> > +	if (cc->alloc_contig && cc->mode == MIGRATE_ASYNC)
-> > +		max_tries = 1;
-> > +
-> >  	migrate_prep();
-> >  
-> >  	while (pfn < end || !list_empty(&cc->migratepages)) {
-> > @@ -8513,7 +8517,7 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
-> >  				break;
-> >  			}
-> >  			tries = 0;
-> > -		} else if (++tries == 5) {
-> > +		} else if (++tries == max_tries) {
-> >  			ret = ret < 0 ? ret : -EBUSY;
-> >  			break;
-> >  		}
-> > @@ -8564,7 +8568,7 @@ int alloc_contig_range(unsigned long start, unsigned long end,
-> >  		.nr_migratepages = 0,
-> >  		.order = -1,
-> >  		.zone = page_zone(pfn_to_page(start)),
-> > -		.mode = MIGRATE_SYNC,
-> > +		.mode = gfp_mask & __GFP_NORETRY ? MIGRATE_ASYNC : MIGRATE_SYNC,
-> >  		.ignore_skip_hint = true,
-> >  		.no_set_skip_hint = true,
-> >  		.gfp_mask = current_gfp_context(gfp_mask),
-> > -- 
-> > 2.30.0.296.g2bfb1c46d8-goog
-> 
-> -- 
-> Michal Hocko
-> SUSE Labs
+> >   
+
+
