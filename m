@@ -2,155 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 579F73042C6
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 16:42:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE8FF30430B
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 16:53:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391055AbhAZPlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 10:41:46 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54070 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392006AbhAZPkD (ORCPT
+        id S2391263AbhAZPwZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 10:52:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35332 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732498AbhAZPwP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 10:40:03 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 597A62C1;
-        Tue, 26 Jan 2021 16:39:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1611675558;
-        bh=Pby13UJp8gKyOcj8Zok5aTPgmkef0wuX4nO2OfrKUYk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JVeM4bcqDjxxdAD+nQ13zTsSWvUJ5ZJDWt9bb9F63f/ZwuYA8k3X+nt59FAEb3i54
-         Ha7mANWTihATYJPSa31itWIUCByNh59ib248T8h9iLaadibpHUc1d9oNw16gHQrDKn
-         cecKKPgkz5aSA4fj3bylfWvgGWb63ZgCTNQxLX7Y=
-Date:   Tue, 26 Jan 2021 17:38:58 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 04/12] media: uvcvideo: Provide sync and async
- uvc_ctrl_status_event
-Message-ID: <YBA3krpfIfIB2vYc@pendragon.ideasonboard.com>
-References: <20201223133528.55014-1-ribalda@chromium.org>
- <20201223133528.55014-5-ribalda@chromium.org>
+        Tue, 26 Jan 2021 10:52:15 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94436C0698C1
+        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 07:51:35 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id r4so9973998pls.11
+        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 07:51:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PzZyFBzr4f1W011B4gds9g7r9/jftdBns1YRMkXB7G4=;
+        b=HOFUATxySjWJF9wDr1dtWEkN+/idvEzn47Zjt9MKZL3qGL1P87LT1q+9u5NM9j7v8k
+         obQGW/r4Ddie+9jlcmPuPh9sr+WLnmaHVVwTQCN+5uujt0uwUqUAnkAbW6NLqyp4E8kZ
+         N9iYoV0lni2uaomeyhRyfzBxhn/embFLAkuTYk3ScoPKQHYre/uVftOlCqlDZCiwPrAx
+         plP9flXyFRkfl07jr/ergkUlOc/odRWH6f3xD2rJuelLWuQaUYnJeyTGEuT8cXc3m7Y+
+         mEJuvJzOSPlzZxc2yNKjgCO6FwWi1t3I1BmgOS+mP+WmpcPjZcmEiJAjIfvrixhXKYCh
+         YWOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PzZyFBzr4f1W011B4gds9g7r9/jftdBns1YRMkXB7G4=;
+        b=l0B+NuFj2crklXUSSyKdZx3wS2Z7VCvCFQ/00Ipl+D8lGoUpoJrHp3+p3AgIBtflZb
+         zB/dxJffMtqzw9CDAAVp7dezjH9iooHN0GBzuJEN9v9gVgaA2NDuRB6QlXsbDfc4Cylu
+         esW1XSU6ho82kBaH9Wx/y2TFdT6CtTyt6DnNzJq3lSr9WCBOhJE7aIV8yz20Cz4FHmr1
+         EDYWJhs4WIxvja53Qq86jbJGgCTf06peSk0dk7Lj51mASDgqSSv/gbmApNbSMc1SY1uu
+         4bf30LMWMTrSxRFDUhbjY4rn6xmlRHBKrZ0AXBbVQxj08bz7QScg5jQQQZC+bgCaqOKf
+         xCQA==
+X-Gm-Message-State: AOAM533vmmR09n1HjwOSiFt8hHwRxFeQdpE0XhtGdUbexxTcFBrxmSBk
+        Fd9ry46Rc7rd/fneRNsf2e5zGLnw0mTp87MPc+d9iA==
+X-Google-Smtp-Source: ABdhPJxT6M1sJ1hYz7Ajt4zTCMc/Fq44WCfGtLRnoQTq/rcNFbTPShvjS86lvm79AzCU2Th24aK0wvSkVq+CXn3YDyY=
+X-Received: by 2002:a17:90a:9414:: with SMTP id r20mr413274pjo.222.1611676295029;
+ Tue, 26 Jan 2021 07:51:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201223133528.55014-5-ribalda@chromium.org>
+References: <20210120134357.1522254-1-robert.foss@linaro.org>
+ <20210120134357.1522254-15-robert.foss@linaro.org> <20210122163427.GA922435@robh.at.kernel.org>
+In-Reply-To: <20210122163427.GA922435@robh.at.kernel.org>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Tue, 26 Jan 2021 16:51:24 +0100
+Message-ID: <CAG3jFysf5D1T7zkEJCR2KXEm+r6AHRiNp-HMk=+CtFyExDyaVQ@mail.gmail.com>
+Subject: Re: [PATCH v2 15/22] dt-bindings: media: camss: Add qcom,sdm660-camss binding
+To:     Rob Herring <robh@kernel.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
+        shawnguo@kernel.org, leoyang.li@nxp.com, geert+renesas@glider.be,
+        Vinod Koul <vkoul@kernel.org>, Anson.Huang@nxp.com,
+        michael@walle.cc, agx@sigxcpu.org, max.oss.09@gmail.com,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
+        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
+        Jonathan Marek <jonathan@marek.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Thanks Rob!
 
-Thank you for the patch.
+On Fri, 22 Jan 2021 at 17:34, Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Jan 20, 2021 at 02:43:50PM +0100, Robert Foss wrote:
+> > Add bindings for qcom,sdm660-camss in order to support the camera
+> > subsystem on SDM630/660 and SDA variants.
+> >
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > ---
+> >
+> > Changes since v1:
+> >  - Laurent: Reworked driver to use dtschema
+>
+> Same comments on this one.
 
-On Wed, Dec 23, 2020 at 02:35:20PM +0100, Ricardo Ribalda wrote:
-> Split the functionality of void uvc_ctrl_status_event_work in two, so it
-> can be called by functions outside interrupt context and not part of an
-> URB.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c   | 25 +++++++++++++++----------
->  drivers/media/usb/uvc/uvc_status.c |  3 ++-
->  drivers/media/usb/uvc/uvcvideo.h   |  4 +++-
->  3 files changed, 20 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 9f6174a10e73..4d43f4c3e349 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1254,17 +1254,12 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
->  	uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
->  }
->  
-> -static void uvc_ctrl_status_event_work(struct work_struct *work)
-> +void uvc_ctrl_status_event(struct uvc_video_chain *chain,
-> +			   struct uvc_control *ctrl, const u8 *data)
->  {
-> -	struct uvc_device *dev = container_of(work, struct uvc_device,
-> -					      async_ctrl.work);
-> -	struct uvc_ctrl_work *w = &dev->async_ctrl;
-> -	struct uvc_video_chain *chain = w->chain;
->  	struct uvc_control_mapping *mapping;
-> -	struct uvc_control *ctrl = w->ctrl;
->  	struct uvc_fh *handle;
->  	unsigned int i;
-> -	int ret;
->  
->  	mutex_lock(&chain->ctrl_mutex);
->  
-> @@ -1272,7 +1267,7 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
->  	ctrl->handle = NULL;
->  
->  	list_for_each_entry(mapping, &ctrl->info.mappings, list) {
-> -		s32 value = __uvc_ctrl_get_value(mapping, w->data);
-> +		s32 value = __uvc_ctrl_get_value(mapping, data);
->  
->  		/*
->  		 * handle may be NULL here if the device sends auto-update
-> @@ -1291,6 +1286,16 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
->  	}
->  
->  	mutex_unlock(&chain->ctrl_mutex);
-> +}
-> +
-> +static void uvc_ctrl_status_event_work(struct work_struct *work)
-> +{
-> +	struct uvc_device *dev = container_of(work, struct uvc_device,
-> +					      async_ctrl.work);
-> +	struct uvc_ctrl_work *w = &dev->async_ctrl;
-> +	int ret;
-> +
-> +	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
->  
->  	/* Resubmit the URB. */
->  	w->urb->interval = dev->int_ep->desc.bInterval;
-> @@ -1300,8 +1305,8 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
->  			   ret);
->  }
->  
-> -bool uvc_ctrl_status_event(struct urb *urb, struct uvc_video_chain *chain,
-> -			   struct uvc_control *ctrl, const u8 *data)
-> +bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
-> +				 struct uvc_control *ctrl, const u8 *data)
->  {
->  	struct uvc_device *dev = chain->dev;
->  	struct uvc_ctrl_work *w = &dev->async_ctrl;
-> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> index 2bdb0ff203f8..3e26d82a906d 100644
-> --- a/drivers/media/usb/uvc/uvc_status.c
-> +++ b/drivers/media/usb/uvc/uvc_status.c
-> @@ -179,7 +179,8 @@ static bool uvc_event_control(struct urb *urb,
->  
->  	switch (status->bAttribute) {
->  	case UVC_CTRL_VALUE_CHANGE:
-> -		return uvc_ctrl_status_event(urb, chain, ctrl, status->bValue);
-> +		return uvc_ctrl_status_event_async(urb, chain, ctrl,
-> +						   status->bValue);
->  
->  	case UVC_CTRL_INFO_CHANGE:
->  	case UVC_CTRL_FAILURE_CHANGE:
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index c50b0546901f..be784ed8354d 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -843,7 +843,9 @@ int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
->  int uvc_ctrl_init_device(struct uvc_device *dev);
->  void uvc_ctrl_cleanup_device(struct uvc_device *dev);
->  int uvc_ctrl_restore_values(struct uvc_device *dev);
-> -bool uvc_ctrl_status_event(struct urb *urb, struct uvc_video_chain *chain,
-> +bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
-> +				 struct uvc_control *ctrl, const u8 *data);
-> +void uvc_ctrl_status_event(struct uvc_video_chain *chain,
->  			   struct uvc_control *ctrl, const u8 *data);
->  
->  int uvc_ctrl_begin(struct uvc_video_chain *chain);
-
--- 
-Regards,
-
-Laurent Pinchart
+I applied the same feedback to msm8916, msm8996, sdm660 & sdm845
+bindings in this series.
+Thanks!
