@@ -2,256 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EF55304709
+	by mail.lfdr.de (Postfix) with ESMTP id 0CD2B304708
 	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 19:51:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730869AbhAZRO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 12:14:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55352 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390535AbhAZIpe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 03:45:34 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9418EC061756
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 00:44:54 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id gx5so21820427ejb.7
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 00:44:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=eji12R6gCX6BEtC0hEE+44yMlKnt13zaBvqRPlDNOuc=;
-        b=PQoCDVWAVbJM1hi5GLiYL0t3gI53bWAiY2QgADmfc35vPnzuoOhxIkP9UsdEuCA587
-         /p5fzyEineh6m2JIkEh1ex0o5AI2hW+JSjtvSxAjwngO0Mwg1ko4EzQGj7n+0fMSpnw7
-         pXIAGXVIjAGqsZx4JJ6op25GEVzDBpOuKD0E3WFPxxx9AQmCdHy8IaE+k/jq+ePpWid+
-         gE1pEdzkax0axxeJY3ocV1jkJZgtYl2ohGg6CLjWHlhjRg7zbPWv5NDKvoV8EMZu/qOx
-         AqfvLiiZN2yOAOll6kala2zOq2xosj+gALGgiKZ5fItjVzYDNNBHINlEaZMbay1aHg5h
-         0OsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=eji12R6gCX6BEtC0hEE+44yMlKnt13zaBvqRPlDNOuc=;
-        b=DImUU5Mgn9OfE7Xnyf8/tib03rbI9cEtqC/W0RnMafcX0VFfX0burmU0ChNXA2MbdN
-         4LcGA94OYVMExZuYPTdGZonY2kzEb6jPhAUMGFak/tZe1MbreIfZb91M6Y2pc5isaTsM
-         zjzvWeJjBWrSaD0cZ2pS1tzPtg1tSxNdCPrnIPBQDQ7a1MOWTVqKU4bzFKfKfoNdnY7/
-         tY8ZZiTvY3Y6fUcUNCh7pEDy6B2epNyxwBRVxhfix/JrEqHq1hyhViCuJeGP0Z0sVB5N
-         QH5DHWABRlfSUbaNqeoJ/YHhy6luEi+GiAMKGIsB2wHiseOYDyMpATYTONBBggmu+qqg
-         rxOA==
-X-Gm-Message-State: AOAM533/KQ0EXCq4xksuPevGi3k/01UnWXmzoZNl2SjwkWPNNzOpIM/p
-        AFza91MPpmkC+E3+BdHQJH9BxbDm9sNr3sjk
-X-Google-Smtp-Source: ABdhPJzV2BuJu8DMCJn/QOuR5oWv0SJ08MU4W2rVgFGMuLKyCmqR6IcDkFoAlIHHx7f8UfKezwsyZg==
-X-Received: by 2002:a17:906:dbe7:: with SMTP id yd7mr2843644ejb.242.1611650693279;
-        Tue, 26 Jan 2021 00:44:53 -0800 (PST)
-Received: from [192.168.0.2] ([84.238.208.206])
-        by smtp.googlemail.com with ESMTPSA id h12sm9501891ejf.95.2021.01.26.00.44.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Jan 2021 00:44:52 -0800 (PST)
-Subject: Re: [PATCH 1/2] media: venus: core: Add sdm660 DT compatible and
- resource struct
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>
-Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
-        marijn.suijten@somainline.org, phone-devel@vger.kernel.org
-References: <20210115185252.333562-1-angelogioacchino.delregno@somainline.org>
- <20210115185252.333562-2-angelogioacchino.delregno@somainline.org>
- <2dc8a95f-110f-526f-18a8-6393e508c3a6@linaro.org>
- <eabc91cc-de96-08ef-756c-87fe43d6fadc@somainline.org>
- <cfc1998f-8d9b-5237-f286-7fdc69874b30@xs4all.nl>
- <40c38734-a69d-2314-c342-244ee5a0e6b1@somainline.org>
- <58f76830-7af5-0507-ce3f-2c1cd9b101d1@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <0c4cce0b-fdb8-d094-14a5-2ed527afd9da@linaro.org>
-Date:   Tue, 26 Jan 2021 10:44:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S2389533AbhAZRPD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 12:15:03 -0500
+Received: from mail-eopbgr60077.outbound.protection.outlook.com ([40.107.6.77]:33507
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2390754AbhAZJDO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Jan 2021 04:03:14 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SFLei8tlOfrK+66frFEdfGm25fVz8cyOYrvcYzUujBluBtor91qYDgRkYoL1vfNpJO6qlHUIJ7KChcEaPbCgwtOoYcJ6/aGj+ZWnLpNGTi1TnYDdYrhUW/N5BEMtTb0RnoqX5t9F963KqX3mlrNiKLC2KRzyFNJWTvXXWJCgfEc1eL1BP4nxTYIYDYrhIhEVW0DcIR6To9gdFuSrrugnloDgiZFuVEUo9qYplzPg4e0jD9p2ibmFNumxLoTn9xL9yB9nFZH8gSjS+SJ6dC8fGxCCssZPxRBOFUS57TlRyN8qz0An082LHMAqA74N1x59vHTh0/12lH2FALG/1WvfwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WS4FUi4lJy8sy5/foKPh2GA49woYwc7TxSiv6kty9bE=;
+ b=AOjqU7h+pU3aU5D2e/Kv8l3IEN+GUZhhcRNeFxzZG4Q8vrT3aVOMjcFKZc4rxCl9CKOxjq01s7Nhhmpvu4WdNpvec/FpKZaBrFPU15sX89BzFnyM3hJ4X7pBK7+8mxeL5UO7WOLJfSoP+ZD6ZzRcvz2Jryt7G2cZAQk06Mkisph6DjFcwY00z+mt6FTTGr+wib26GBqJu3mLaA1i+yEdNkzlOmpvhf25WbfTBZj7mrBYNksj3jPel/JlfEohFkergXLRqNHzEUq0jk7sSpTKMuowceBbRsjlDAWbMpYI3zGRLdcV8b4WJVy4ZRGgUD159O+6L4apWJYYAqGxTseUYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WS4FUi4lJy8sy5/foKPh2GA49woYwc7TxSiv6kty9bE=;
+ b=f6FiVqRwTJ/pz1SpKrKl7Rd6kv11cLKFuz9j5JtJBl1K3tShVoZiyh305JPbI0i/8syzQ5widpL1qS9okE+BruciTP58P7g/3mZkTNdOFws8Jxz/D+xFSiXWlvtaT9MDgI2+JS6ke89J0BZyaz3pa/d2JOPKXWA57g+tRILf/f8=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB3974.eurprd04.prod.outlook.com (2603:10a6:209:50::12)
+ by AS8PR04MB7878.eurprd04.prod.outlook.com (2603:10a6:20b:2af::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12; Tue, 26 Jan
+ 2021 09:02:21 +0000
+Received: from AM6PR04MB3974.eurprd04.prod.outlook.com
+ ([fe80::64a8:cb73:cfb:1674]) by AM6PR04MB3974.eurprd04.prod.outlook.com
+ ([fe80::64a8:cb73:cfb:1674%5]) with mapi id 15.20.3784.012; Tue, 26 Jan 2021
+ 09:02:21 +0000
+Message-ID: <5c30dd91498ccac3207a9577f170c8a4b37c17e3.camel@nxp.com>
+Subject: Re: [PATCH v2 08/14] dt-bindings: display: bridge: Add i.MX8qxp
+ pixel link to DPI binding
+From:   Liu Ying <victor.liu@nxp.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
+        a.hajda@samsung.com, narmstrong@baylibre.com,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
+Date:   Tue, 26 Jan 2021 17:00:41 +0800
+In-Reply-To: <20210125211316.GA1000096@robh.at.kernel.org>
+References: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
+         <1610616132-8220-9-git-send-email-victor.liu@nxp.com>
+         <20210125211316.GA1000096@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: SG2PR06CA0181.apcprd06.prod.outlook.com (2603:1096:4:1::13)
+ To AM6PR04MB3974.eurprd04.prod.outlook.com (2603:10a6:209:50::12)
 MIME-Version: 1.0
-In-Reply-To: <58f76830-7af5-0507-ce3f-2c1cd9b101d1@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from blueberry.ap.freescale.net (119.31.174.66) by SG2PR06CA0181.apcprd06.prod.outlook.com (2603:1096:4:1::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11 via Frontend Transport; Tue, 26 Jan 2021 09:02:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3c0e33df-dd2d-49a4-6637-08d8c1d916d2
+X-MS-TrafficTypeDiagnostic: AS8PR04MB7878:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR04MB787850008E997BA8FA3BB19398BC0@AS8PR04MB7878.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aTxTelFGONp1UrkhwvXzHgGq1PN52QMN0Sp8mRYZcso8qzuSadLZT9bNJvZQs8+NewGX1zsc8VsyV5yiE7BIJNFxUusXKwQ0uukwDR1ZNsSpsKN1LIIhTsH6muUt8QugN3pYXEWA75VjTSlzqvED+wyd6agqBSrL1CzsW/Zs+sCBazwwVWGEoZDdYUyn77UEsqtdxjhUbNoPSXLMH6Q8l90Rl6oT0loLc01IINLymU0zHxwIbdGOpAGeQadLHjn8XGA60e6Uw6K+CL/TSdPfJTXgvLtzPBiC23K4kNcjjsqSYi/pdOlR8e6j++bZ4+/lRqW99lhGi4lv0sbXMmilBI/2eBG8I+gg3swj5+ffpDCkDOMmQVZD0N11NIGJSTiLA8Y3d2pQ5H7QhM9vGGPK0zZ4jZE6rni7+H4yZ3mcG8RejBUJjn3OzKI74tjYtMtwSY3RpBKcYS5CoBJJZ7/k/D1vxCuFIYlGs2w+oVqP9yIK9Fu6rIPmYTavMmwhKyjZrtu3S53+IoiNchgknD7h2GvKKdTZPlwshMGQDdOKPb9WmuayJgk10zaOIB6ZEgRtsMBAyQF+Nbrgsd2TzBtdHQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB3974.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39860400002)(376002)(136003)(396003)(346002)(4326008)(26005)(6512007)(86362001)(52116002)(8936002)(7416002)(66556008)(66946007)(36756003)(316002)(2906002)(478600001)(966005)(6916009)(6506007)(8676002)(66476007)(186003)(2616005)(956004)(6486002)(6666004)(45080400002)(5660300002)(16526019);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dUlxNW4zdnhYRzJwUWxabjRXQ3dYaUhIbzdqL0JRQ3ZhNytTc3Y1SkVCY1pW?=
+ =?utf-8?B?TUNWQXB0R1ZORTVrcGVWMFVvTzVxZlVIMnhaZDJmV2xBRjArU0hmeExCbmp3?=
+ =?utf-8?B?aEYxaTNIaWlTOWN5V0pFRGlkeitqNTJKdktZa1M1UjNqVStPbHZ4RnptOW80?=
+ =?utf-8?B?VGlZdjZFejNDOHhMRGg3QXAvMWt5OGpkRG1JYm1kNzIrR1VwUm9DcngyZGd4?=
+ =?utf-8?B?RjZhQUZ1akZ1eExybWNzN251b1E0QVZsc0tnczcyV2ZlT2xqbFhoYzNFcngv?=
+ =?utf-8?B?OWFVTk5yTnhLZlpEMXNzZlJCcG05cHhPYk5vU2RkcTljSjgvRjFOdDNGd0NM?=
+ =?utf-8?B?NjVKVEVPVWMwLzZUSG9PTTV4Mnc4VGN4Ymh2bndlOS9oUXVSVTRlVzZocUFl?=
+ =?utf-8?B?NDc3VWFDczVjbjZaSjBJc0hkVnVzZURCZWRYdVhTMHRaNGhRNlA2V1BkTTRa?=
+ =?utf-8?B?WXRIU0gxMEppSmlVSmFmYzRhRkd5cjdtaXdDOWtrWUNKN21WTGRKN3phc0xh?=
+ =?utf-8?B?RHo2eGE1SlRyRUFLZThrWldQOEdyRGkweXpBb0o1RitSUjZiRlJnZTRhTGRl?=
+ =?utf-8?B?UGFibkhialpxelo3QVdsTDFwVzhqYUFqYUlYejhaaUtTamlTUGFRSTJ1NWN5?=
+ =?utf-8?B?aDVuY1o3U1Fjd0t6WjdHM3VlbTAweThZWTNZT2pJVU5uai9YTFRRY1ZnVkVt?=
+ =?utf-8?B?eXRpeXJ4aEdsc3JCcFNTcFNJL0RyTExEQlIrdVl6T3ExN0FWbUJield0Mnpm?=
+ =?utf-8?B?MGhoYUdNN0hGbTFPSHkyclltdERJRVhBUHZuQ3RvVlgzTEhLOFNNeS9Sbnh4?=
+ =?utf-8?B?Rnh3ZjJtV0lpdEYzS1ZHNFV5NGp5eHp3R2dGN0lUS1NQdG9zanBFZ1J2cWJp?=
+ =?utf-8?B?WXFmWE9OMzdDamNFczd0Y0ZTK1NoYXkvblhpbWdLaEVNUS9pS1d6U3YzSHdx?=
+ =?utf-8?B?WFAvV0czSnphb041eGF2QTFrdjF5dUNlUHZNcVRKc09vWGE1dTliYVJPZTZG?=
+ =?utf-8?B?enpDeUp0ZnpKTFA2NFVRZjNyTkc0Yit5RXlvb1VYeWQ4U1ZuQnZYTG1Cd2pp?=
+ =?utf-8?B?cVl4c2x6SUprMVB1NFVHUWVmK0c2bnVoMFV5Sk8xZWJOcFV4ODZoVjVnQk84?=
+ =?utf-8?B?Rm45YVJ2bUgxejgveVJvVDNjZ09UTWcybG5tK1pFVithemp1Ui96OVZwK3VY?=
+ =?utf-8?B?NkpCMFEwOGpsMkszZDhlQkFCZy9wSUo1SnUxOVM2U1o1RWF0dmpHSGJrR1Vr?=
+ =?utf-8?B?NHlkVitIbEpTbm9WQTJBb1hnVWRFbkRiSVNnKzAzN2V1a1dnRStHd0cwOHFI?=
+ =?utf-8?B?MThrNGdDa0dpT0xrZ0JzcVd3MjgxbWJrMmRoTENKendaNEh1U2xkRURUUjMv?=
+ =?utf-8?B?cEhodmd1aFE5V3FxeVpkaVJVbVBFTExTYkJBdFNsalJPY0ZDSXdRN1h4SWxn?=
+ =?utf-8?Q?jrIauveM?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c0e33df-dd2d-49a4-6637-08d8c1d916d2
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB3974.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 09:02:21.6781
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vy14bFNiMlWGnK1xBqmpPCDBSSDlRCLV9iM8ElShMTW+htutLDh6IBRgvTey3ydAGt3z8H/KA974OTWNnQRXPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7878
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 1/25/21 5:01 PM, Hans Verkuil wrote:
-> On 25/01/2021 15:51, AngeloGioacchino Del Regno wrote:
->> Il 25/01/21 11:40, Hans Verkuil ha scritto:
->>> On 18/01/2021 18:45, AngeloGioacchino Del Regno wrote:
->>>> Il 18/01/21 18:21, Stanimir Varbanov ha scritto:
->>>>> Hi Angelo,
->>>>>
->>>>> Thanks for the patch!
->>>>>
->>>>> On 1/15/21 8:52 PM, AngeloGioacchino Del Regno wrote:
->>>>>> Add the SDM660 DT compatible and its resource structure, also
->>>>>> including support for the Venus pmdomains, in order to support
->>>>>> the Venus block in SDM630, SDM636, SDM660 and SDA variants.
->>>>>>
->>>>>> This SoC features Venus 4.4 (HFI3XX), with one vcodec used for
->>>>>> both encoding and decoding, switched on through two GDSCs.
->>>>>> The core clock for this Venus chip is powered by the RPM VDD_CX
->>>>>> power domain.
->>>>>>
->>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
->>>>>> ---
->>>>>>    drivers/media/platform/qcom/venus/core.c | 66 ++++++++++++++++++++++++
->>>>>>    1 file changed, 66 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
->>>>>> index bdd293faaad0..83ca86a63241 100644
->>>>>> --- a/drivers/media/platform/qcom/venus/core.c
->>>>>> +++ b/drivers/media/platform/qcom/venus/core.c
->>>>>> @@ -565,6 +565,71 @@ static const struct venus_resources sdm845_res_v2 = {
->>>>>>    	.fwname = "qcom/venus-5.2/venus.mdt",
->>>>>>    };
->>>>>>    
->>>>>> +static const struct freq_tbl sdm660_freq_table[] = {
->>>>>> +	{ 0, 518400000 },
->>>>>> +	{ 0, 441600000 },
->>>>>> +	{ 0, 404000000 },
->>>>>> +	{ 0, 320000000 },
->>>>>> +	{ 0, 269330000 },
->>>>>> +	{ 0, 133330000 },
->>>>>> +};
->>>>>> +
->>>>>> +static const struct reg_val sdm660_reg_preset[] = {
->>>>>> +	{ 0x80010, 0x001f001f },
->>>>>> +	{ 0x80018, 0x00000156 },
->>>>>> +	{ 0x8001C, 0x00000156 },
->>>>>> +};
->>>>>> +
->>>>>> +static const struct bw_tbl sdm660_bw_table_enc[] = {
->>>>>> +	{  979200,  1044000, 0, 2446336, 0 },	/* 4k UHD @ 30 */
->>>>>> +	{  864000,   887000, 0, 2108416, 0 },	/* 720p @ 240 */
->>>>>> +	{  489600,   666000, 0, 1207296, 0 },	/* 1080p @ 60 */
->>>>>> +	{  432000,   578000, 0, 1058816, 0 },	/* 720p @ 120 */
->>>>>> +	{  244800,   346000, 0,  616448, 0 },	/* 1080p @ 30 */
->>>>>> +	{  216000,   293000, 0,  534528, 0 },	/* 720p @ 60 */
->>>>>> +	{  108000,   151000, 0,  271360, 0 },	/* 720p @ 30 */
->>>>>> +};
->>>>>> +
->>>>>> +static const struct bw_tbl sdm660_bw_table_dec[] = {
->>>>>> +	{  979200,  2365000, 0, 1892000, 0 },	/* 4k UHD @ 30 */
->>>>>> +	{  864000,  1978000, 0, 1554000, 0 },	/* 720p @ 240 */
->>>>>> +	{  489600,  1133000, 0,  895000, 0 },	/* 1080p @ 60 */
->>>>>> +	{  432000,   994000, 0,  781000, 0 },	/* 720p @ 120 */
->>>>>> +	{  244800,   580000, 0,  460000, 0 },	/* 1080p @ 30 */
->>>>>> +	{  216000,   501000, 0,  301000, 0 },	/* 720p @ 60 */
->>>>>> +	{  108000,   255000, 0,  202000, 0 },	/* 720p @ 30 */
->>>>>> +};
->>>>>> +
->>>>>> +static const struct venus_resources sdm660_res = {
->>>>>> +	.freq_tbl = sdm660_freq_table,
->>>>>> +	.freq_tbl_size = ARRAY_SIZE(sdm660_freq_table),
->>>>>> +	.reg_tbl = sdm660_reg_preset,
->>>>>> +	.reg_tbl_size = ARRAY_SIZE(sdm660_reg_preset),
->>>>>> +	.bw_tbl_enc = sdm660_bw_table_enc,
->>>>>> +	.bw_tbl_enc_size = ARRAY_SIZE(sdm660_bw_table_enc),
->>>>>> +	.bw_tbl_dec = sdm660_bw_table_dec,
->>>>>> +	.bw_tbl_dec_size = ARRAY_SIZE(sdm660_bw_table_dec),
->>>>>> +	.clks = {"core", "iface", "bus_throttle", "bus" },
->>>>>> +	.clks_num = 4,
->>>>>> +	.vcodec0_clks = { "vcodec0_core" },
->>>>>> +	.vcodec_clks_num = 1,
->>>>>> +	.vcodec_pmdomains = { "venus", "vcodec0" },
->>>>>> +	.vcodec_pmdomains_num = 2,
->>>>>> +	.opp_pmdomain = (const char *[]) { "cx", NULL },
->>>>>> +	.vcodec_num = 1,
->>>>>> +	.max_load = 1036800,
->>>>>> +	.hfi_version = HFI_VERSION_3XX,
->>>>>> +	.vmem_id = VIDC_RESOURCE_NONE,
->>>>>> +	.vmem_size = 0,
->>>>>> +	.vmem_addr = 0,
->>>>>> +	.cp_start = 0,
->>>>>> +	.cp_size = 0x79000000,
->>>>>> +	.cp_nonpixel_start = 0x1000000,
->>>>>> +	.cp_nonpixel_size = 0x28000000,
->>>>>> +	.dma_mask = 0xd9000000 - 1,
->>>>>> +	.fwname = "qcom/venus-4.4/venus.mdt",
->>>>>
->>>>> Did you try venus-4.2 firmware from linux-firmware tree [1] ?
->>>>>
->>>>
->>>> No I haven't.. and I can't... my Sony devices (but I think that this is
->>>> a practice of all OEMs/ODMs) are using a Sony signed venus firmware, so
->>>> I am totally limited to use the firmware that comes with the device.
->>>>
->>>> Besides that, the version is still different so, even if I had any
->>>> possibility to try that, I don't think that it would work anyway...
->>
->> Hello!
->>
->>>
->>> I'm a bit confused. "qcom/venus-4.4/venus.mdt" is the Sony signed FW?
->>>
->>
->> In my case it is, but this follows the generic firmware path as was done
->> for all the other Venus firmwares, so my code is not pointing at Sony
->> specific things, but just generic ones.
->>
->> Every Qualcomm-powered consumer device (smartphones, tablets etc) have
->> got a double sigcheck: one for qcom, one for OEM specific and most of
->> the times the TZ is configured to accept only firmwares that also have
->> the OEM signature.
->>
->> This is not true for all the firmwares - for example, Adreno has this
->> mechanism only for the ZAP part - but unfortunately I'm not aware of
->> any consumer device accepting a Venus firmware with the "generic"
->> Qualcomm signature only (so - without the OEM signature).
->>
->> Short answer:
->> 1. qcom/venus-4.4/venus.mdt is a generic firmware for Venus
+On Mon, 2021-01-25 at 15:13 -0600, Rob Herring wrote:
+> On Thu, Jan 14, 2021 at 05:22:06PM +0800, Liu Ying wrote:
+> > This patch adds bindings for i.MX8qxp pixel link to DPI(PXL2DPI).
+> > 
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> > v1->v2:
+> > * Use graph schema. (Laurent)
+> > 
+> >  .../display/bridge/fsl,imx8qxp-pxl2dpi.yaml        | 105 +++++++++++++++++++++
+> >  1 file changed, 105 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+> > new file mode 100644
+> > index 00000000..187824e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+> > @@ -0,0 +1,105 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fbridge%2Ffsl%2Cimx8qxp-pxl2dpi.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C39b067c8005e4019ae6f08d8c1760c31%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637472060047200709%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=u7Hv3l5h%2FwAfl31GcfBntdxDXrAAM7XBxEwitTHo2Sc%3D&amp;reserved=0
+> > +$schema: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C39b067c8005e4019ae6f08d8c1760c31%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637472060047200709%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=sM%2F9h6GLwhim7LidsI6upQzly7NnZoTbal2YBGygnEE%3D&amp;reserved=0
+> > +
+> > +title: Freescale i.MX8qxp Pixel Link to Display Pixel Interface
+> > +
+> > +maintainers:
+> > +  - Liu Ying <victor.liu@nxp.com>
+> > +
+> > +description: |
+> > +  The Freescale i.MX8qxp Pixel Link to Display Pixel Interface(PXL2DPI)
+> > +  interfaces the pixel link 36-bit data output and the DSI controller’s
+> > +  MIPI-DPI 24-bit data input, and inputs of LVDS Display Bridge(LDB) module
+> > +  used in LVDS mode, to remap the pixel color codings between those modules.
+> > +  This module is purely combinatorial.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: fsl,imx8qxp-pxl2dpi
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  fsl,syscon:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: |
+> > +      A phandle which points to Control and Status Registers(CSR) module.
 > 
-> So can this FW be made available in the linux-firmware repo? Stanimir?
-> 
->> 2. 99% of the people needs a different firmware for signature issues
->>
->>
->>> This patch can't be merged unless there is a corresponding firmware available
->>> in linux-firmware. Is the current 4.2 firmware in linux-firmware signed by
->>> Qualcomm? Can they provided 4.4 firmware as well?
->>>
->>
->> If there is such issue, then maybe we should do "something" about it: I
->> would then propose to remove all references to fwname and just get this
->> done in DT, where every qcom board already specifies its own path for
->> its own firmware.
->>
->> In any case, the issue that you're raising here has been raised multiple
->> times on LKML, I don't precisely remember, but I recall seeing this for
->> something like 4 years (or even more) being raised every now and then...
->>
->>> I have no idea how this works for the venus driver, but I hope Stanimir does.
->>>
->>
->> As far as I've understood, this driver just uses the firmware which
->> path is hardcoded in fwname, even though at this point I would like
->> to get an opinion from Stanimir.
->>
->> Would you be ok if we start parsing firmware-name from DT for this
->> driver? The flow would be something like:
->>
->> Is firmware-name DT property present?
->>     Yes -> Use FW path from firmware-name property
->>     No  -> Use the FW path from the fwname field of struct
->>            venus_resources
->>
->> This is a common flow in at least freedreno and remoteproc (modem).
-> 
-> I would have no problem with this, but it is up to Stanimir to decide.
-> 
+> If this is the only control interface, then make it a child node of the 
+> phandle.
 
-I sent a patch for that. Thanks for raising this issue.
+Will do.
 
--- 
-regards,
-Stan
+Thanks,
+Liu Ying
+
+> 
+> > +
+> > +  fsl,companion-pxl2dpi:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: |
+> > +      A phandle which points to companion PXL2DPI which is used by downstream
+> > +      LVDS Display Bridge(LDB) in split mode.
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: The PXL2DPI input port node from pixel link.
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: The PXL2DPI output port node to downstream bridge.
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - power-domains
+> > +  - fsl,syscon
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/firmware/imx/rsrc.h>
+> > +    pxl2dpi {
+> > +        compatible = "fsl,imx8qxp-pxl2dpi";
+> > +        power-domains = <&pd IMX_SC_R_MIPI_0>;
+> > +        fsl,syscon = <&mipi_lvds_0_csr>;
+> > +
+> > +        ports {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +
+> > +            port@0 {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +                reg = <0>;
+> > +
+> > +                mipi_lvds_0_pxl2dpi_dc_pixel_link0: endpoint@0 {
+> > +                    reg = <0>;
+> > +                    remote-endpoint = <&dc_pixel_link0_mipi_lvds_0_pxl2dpi>;
+> > +                };
+> > +
+> > +                mipi_lvds_0_pxl2dpi_dc_pixel_link1: endpoint@1 {
+> > +                     reg = <1>;
+> > +                     remote-endpoint = <&dc_pixel_link1_mipi_lvds_0_pxl2dpi>;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +                reg = <1>;
+> > +
+> > +                mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0: endpoint@0 {
+> > +                    reg = <0>;
+> > +                    remote-endpoint = <&mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi>;
+> > +                };
+> > +
+> > +                mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1: endpoint@1 {
+> > +                    reg = <1>;
+> > +                    remote-endpoint = <&mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > -- 
+> > 2.7.4
+> > 
+
