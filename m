@@ -2,105 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7F47304CD1
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B2F304CA8
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:52:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730867AbhAZW4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 17:56:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392801AbhAZT10 (ORCPT
+        id S1727114AbhAZWwD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 17:52:03 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59493 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726041AbhAZEnO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 14:27:26 -0500
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E3CC061788
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 11:26:45 -0800 (PST)
-Received: by mail-oi1-x22b.google.com with SMTP id w124so19712702oia.6
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 11:26:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension-cc.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gnlXVpJnCAkP8W3GA73N34jnD1Oq53YIDVgXQEyvOx0=;
-        b=u4fPbD8Ilt8r8Y/Vg8PjdKMVmrfoWn88FqtlxwDrykMkuxCBTA329+98/xtk8OD5jF
-         i1mPQgFK1PHzscNl5t+ZSpMXMy4HO1WLVjKJjyhN88ka6f4aWy1XjKF4CUya53zlv5F0
-         KuDI44i4WbC/6W0HcCxOt1Yp7MJANxkGbQik/h9HlfOK3tIGaKwqUfKrJkWXhMnYc906
-         EYtx5BPkYLn2pCEPqcOQAnsLeSmM4KLos3KYEPVliF8bW6zgs4q3uScw0vAl8qHy6eCe
-         neeTy45Qer/95b5jwpQEMAzSrSWuCunA1OavSg4JPNKOOW/Jv9mZE14mFEtMHDYIhG3x
-         fU5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gnlXVpJnCAkP8W3GA73N34jnD1Oq53YIDVgXQEyvOx0=;
-        b=fR6NeRHCPPs5o78Ata+VnPtrahqW4iNNPTyl5t5oQap1NQJkYeGXdcHZU/ewrTsjmK
-         Y2829m5GnlVfFh+tPI6D5EoMnyXPJusd74f4+e1DL4fcrlr9pwr/g4/HMCvw6lXHr4gD
-         MFafQW9iCMnDT8Nlw3VNFgTl4lgxxlfxxIKFDSZeFmQ9INH2X+bqxOPMMIao2X3IXfs6
-         jjPCtow1MCigx8wKYm4EZZTMKQZu+w95pASzDthSYULqiPblNxjpQv9CWkI0FETMoe/I
-         xm6HMZCx+YLe2lgurYwJMKt0qMOfH5Dw3fFY9g1hBmwVd74DddsLv6AK++m8k5M8bX/0
-         Fx+Q==
-X-Gm-Message-State: AOAM532e8fTV8sEIPs2CileUYPQk6gIp6yIf6EW4G8Cq25Eyu2FVytZx
-        3vJ6XmlX4kKIFMyqcsoUYHkTsum3U+9/hpo5
-X-Google-Smtp-Source: ABdhPJxWp7y0vXebLIkTwFJtMaJQTO/LXG+iMDyBFsyDN4KMxYox6w7/F2aak7e2Hz/Xe5GRcFUHgQ==
-X-Received: by 2002:a54:4e03:: with SMTP id a3mr814205oiy.108.1611689205257;
-        Tue, 26 Jan 2021 11:26:45 -0800 (PST)
-Received: from localhost (66-90-181-52.dyn.grandenetworks.net. [66.90.181.52])
-        by smtp.gmail.com with ESMTPSA id j8sm4315362oie.47.2021.01.26.11.26.44
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Jan 2021 11:26:44 -0800 (PST)
-From:   Brad Love <brad@nextdimension.cc>
-To:     linux-media@vger.kernel.org, sean@mess.org
-Cc:     Brad Love <brad@nextdimension.cc>
-Subject: [PATCH 3/4] em28xx-core: Fix i2c error debug
-Date:   Mon, 25 Jan 2021 19:54:15 -0600
-Message-Id: <20210126015416.5622-4-brad@nextdimension.cc>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210126015416.5622-1-brad@nextdimension.cc>
-References: <20200612183937.10952-1-3126054018@nextdimension.cc>
- <20210126015416.5622-1-brad@nextdimension.cc>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 25 Jan 2021 23:43:14 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4GB8lZ88AiWRg4GB9lie9Q; Tue, 26 Jan 2021 05:42:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611636131; bh=RCQ4H0h2f1e3ztBWT8eHBnw43r0Q/j4Ur/Abym6cOxQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=volcUitdc4a9qmtkcp5mUd74OD3OR5wkcWwsRHI12dVofShYHRKS6KYRzwU4iK9EO
+         ULyNz17EIIoZvUFn2jnufCNHetc1qCiObiHC0659JZzRJLIynuDEWdWaeTJRTQb3Zy
+         dwrL13iWDw1sE3HITtjo7MVWiHy8Q/WBTk6EkfKvszUqsquQbx/Hn5fMr1psGoKTyg
+         fuuGKaXoEWJhvYcH/pm/c7pUZY/8GNxiQbv3DWc+UX0hBdN/D18wIyAEahF0kvlHQ1
+         e6iVcVoBSyM6+X22+bDD3GwUYaaG2zA15FJYieT4BTyn8bUnhehMiuXhM2ASCSIkLk
+         pIJ9aM13Ws4RQ==
+Message-ID: <a9f8daff3ec098ddfd14479a0fe84211@smtp-cloud7.xs4all.net>
+Date:   Tue, 26 Jan 2021 05:42:10 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfJ2z1voWaaXLF8+MDqruBMUlXvjJnJvXhL67NoSmrfnK/Hf+WfmEmA279ujksnaLzQUxwq+jKn0MR/B3EKNoHYJ7lGJPsjndMrEDMoETZSCdxxo1Tf8R
+ 24X4rcG4A3hCBlWcbHjkJhTlexp8ym9uEBhBIGz6XrTTLADu0b/A6uF2TVTrPOJxT6M8XHnqK1kqEKJMlKSNsfJROo7qDvg44wBQF17FAsRwzITwwUUTRFMo
+ IE77xOJi1bKJj85wXUY5Tw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Read errors are currently reported as write errors.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-An incorrectly received read operation is never reported at all.
-Add a debug statement indicating the request mismatch.
+Results of the daily build of media_tree:
 
-Signed-off-by: Brad Love <brad@nextdimension.cc>
----
-Since v1:
-- Was not in v1
+date:			Tue Jan 26 05:00:11 CET 2021
+media-tree git hash:	066a94e28a23e04c0e9cb293f9ead56d409d7e41
+media_build git hash:	f6e3542673d19355e8e42be40f5fc78431d611c5
+v4l-utils git hash:	12d47944e2760e3af7028b4484ef15b0c0763a81
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7087-gdbdb27615
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 01932d8c0f1bcf9780263707cc9aa0af06014d36
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
- drivers/media/usb/em28xx/em28xx-i2c.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
 
-diff --git a/drivers/media/usb/em28xx/em28xx-i2c.c b/drivers/media/usb/em28xx/em28xx-i2c.c
-index 592b98b3643a..255395959255 100644
---- a/drivers/media/usb/em28xx/em28xx-i2c.c
-+++ b/drivers/media/usb/em28xx/em28xx-i2c.c
-@@ -294,6 +294,10 @@ static int em28xx_i2c_recv_bytes(struct em28xx *dev, u16 addr, u8 *buf, u16 len)
- 			 "reading from i2c device at 0x%x failed (error=%i)\n",
- 			 addr, ret);
- 		return ret;
-+	} else if (ret != len) {
-+		dev_dbg(&dev->intf->dev,
-+			"%i bytes read from i2c device at 0x%x requested, but %i bytes written\n",
-+				ret, addr, len);
- 	}
- 	/*
- 	 * NOTE: some devices with two i2c buses have the bad habit to return 0
-@@ -329,7 +333,7 @@ static int em28xx_i2c_recv_bytes(struct em28xx *dev, u16 addr, u8 *buf, u16 len)
- 	}
- 
- 	dev_warn(&dev->intf->dev,
--		 "write to i2c device at 0x%x failed with unknown error (status=%i)\n",
-+		 "read from i2c device at 0x%x failed with unknown error (status=%i)\n",
- 		 addr, ret);
- 	return -EIO;
- }
--- 
-2.28.0
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
