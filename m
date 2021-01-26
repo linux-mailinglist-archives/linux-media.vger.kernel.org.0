@@ -2,103 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C562305B63
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:30:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37BAD305C05
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:49:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232981AbhA0M3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 07:29:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236779AbhA0M1h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 07:27:37 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79ADDC06174A;
-        Wed, 27 Jan 2021 04:26:57 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id o18so1178541qtp.10;
-        Wed, 27 Jan 2021 04:26:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=wNeqy1eeb9t2veXPrSrcgYkXO41oWKgjj1xWqs7fT1c=;
-        b=bT5qFKL/FMCfuSZAYwivgiYjFfSVtz9v6C2G9I17avfiVA1USlROhQ9ow4v/IPjjQr
-         fdUOHgNWc58lCXO3F+nBrQYadnztfHbKVGoPe2PdWfipenKUoyqo+f5TIE6/MTHK3SlI
-         nkPcmuPtJi/adw9QVwZeAZkrmkEjS8XsYPjDvjlPLI8WFuu34fewXxupIq8TmYruU4Pf
-         MuuURUxCC3tjTqTyWCuTeiYC6+iTqV627BOUcN7jbaakJwb0taPm+1uisk44hlkusveF
-         Mt4KtKit9Vs1oFhrJIiCakgGcu09M9e73r6CuIic3FSE739GxhVegKyFzZP1JOYCnjP8
-         UgTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=wNeqy1eeb9t2veXPrSrcgYkXO41oWKgjj1xWqs7fT1c=;
-        b=JcYSrbdNMXDgvjcRlFKhKBhbfzngLzBh2T7f1rH9zvCDVzq1i1sYJWQ93FZpjAYcFq
-         L30vgAW5qSLh0iYC6nEPw7sd5ZQnPsUuAXM1FNF9nx/YP+oUXuqO7jIRsyJb1Ampnls/
-         P5eWDi30WVE7J20ob3NPNqa1mP6a1LnnHxju9QCnHQBq+KcKQzjwre76CfkrKmTOCJYF
-         +MiDk7cRRm/OpDiG2brVz5+glMeMWRGMluEElqX/4rL4NnxwA3Gm489CuICJgu74+UZh
-         eikhiPMVV+K0O6QoyZqhI/15YdYR7FGckBRaJbLAhVfsjSJoe/H2vDjqF4VitKOhSIDY
-         bVSw==
-X-Gm-Message-State: AOAM5317EebQ4HZRVyvExBPnqvno7wyFBdl6FCYRafL/6z24dNDwk4Pb
-        uZ7kV+7aW3zKg5slk8/lcM7LPvsxOX0xNQ==
-X-Google-Smtp-Source: ABdhPJwAPfMgibzBdxGcMRRj2Jsc+Ks+647ibyMoMELCOt9nutHYAQJkyIoQbkjN9/kbQd1527885Q==
-X-Received: by 2002:ac8:5942:: with SMTP id 2mr9410165qtz.117.1611750416415;
-        Wed, 27 Jan 2021 04:26:56 -0800 (PST)
-Received: from ?IPv6:2804:14d:72b1:8920:b057:7dfc:eb51:9d42? ([2804:14d:72b1:8920:b057:7dfc:eb51:9d42])
-        by smtp.gmail.com with ESMTPSA id b72sm1038900qkc.60.2021.01.27.04.26.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jan 2021 04:26:55 -0800 (PST)
-Subject: Re: [PATCH 3/3] media: vidtv: add initial debugfs interface
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.o,
-        linux-kernel@vger.kernel.org
-References: <20201224150402.1945788-3-dwlsalmeida@gmail.com>
- <20210127120623.7f018471@coco.lan>
-From:   Daniel Almeida <dwlsalmeida@gmail.com>
-Message-ID: <ded2b580-be92-e309-28ca-fc6635a3af4f@gmail.com>
-Date:   Wed, 27 Jan 2021 09:26:52 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S313237AbhAZWwM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 17:52:12 -0500
+Received: from m12-12.163.com ([220.181.12.12]:39679 "EHLO m12-12.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387759AbhAZFaz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Jan 2021 00:30:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=mxInm
+        W0WGyD7tNP1IlQncdf8KhYE4vvXW0RaNikDrpY=; b=VBch1yBoEU6YLN9mWCA8L
+        owEmX3Mxei73LlwWeFZKU1pqdh1d4FWr7mmioHzwsK21lRJ4XS2piCosLSEMJb1/
+        WSUJvThyMAln9lPcMSpRtNDrgRdJxOut/mllmYU6hWxBXolbUa8b3wWU8hGgcTxX
+        yYc4wE95aqoq7zCd55qU8Q=
+Received: from localhost (unknown [218.94.48.178])
+        by smtp8 (Coremail) with SMTP id DMCowABHf6uTgw9gy6c8Nw--.6162S2;
+        Tue, 26 Jan 2021 10:51:00 +0800 (CST)
+Date:   Tue, 26 Jan 2021 10:50:58 +0800
+From:   Guoqing Chi <chi962464zy@163.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zhangwen@yulong.com
+Subject: Re: [PATCH] media: vidtv: remove redundant quote
+Message-ID: <20210126105058.000034a4@163.com>
+In-Reply-To: <b470e011-a21e-f333-6650-5c025906d63e@xs4all.nl>
+References: <20210119010947.709-1-chi962464zy@163.com>
+        <b470e011-a21e-f333-6650-5c025906d63e@xs4all.nl>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <20210127120623.7f018471@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-CM-TRANSID: DMCowABHf6uTgw9gy6c8Nw--.6162S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtw47urW8Ww4kZry5Jr43Jrb_yoWDuFb_Cw
+        s7Zr4xu34Utr18tF15JF9rZryYkayDZFs5XF98tw1YvFy3Za45J3Wavw17Aa12gF4IvFsr
+        Zry5X348ur13WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRiXdb5UUUUU==
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: pfklmlasuwk6r16rljoofrz/1tbiNxQmRFWBjYMKtAAAsl
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro! Thanks for the review.
+On Mon, 25 Jan 2021 12:26:54 +0100
+Hans Verkuil <hverkuil@xs4all.nl> wrote:
 
+> On 19/01/2021 02:09, chiguoqing wrote:
+> > Repeated references string.h
+> > 
+> > Signed-off-by: Wen Zhang <zhangwen@yulong.com>  
+> 
+> checkpatch gives me:
+> 
+> ERROR: Missing Signed-off-by: line by nominal patch author
+> 'chiguoqing <chi962464zy@163.com>'
+> 
+> Can you fix this?
+> 
+> Regards,
+> 
+> 	Hans
 
-Just one more thing though: what did you think about the way I chose to 
-inject the errors? (e.g. drop packet, shift bytes, create 
-discontinuity...etc etc)
+Hi Hans:
+  I will resend patch,and change author to zhangwen. Thanks.
 
-I was just trying out a few ideas in this patch so if you also have any 
-input on this please let me know.
-
-As of now writing to any of these files will cause a myriad of errors on 
-dvbinspector.
-
-
->> +
->> +#. dynamically inject errors at runtime by interacting with the files at /sys/kernel/debug/vidtv/*
->> +
->> +#. read some dvbv5 statistics from userspace more easily
->> +
->> +.. note::
->> +	This is entirely optional and the driver will work without this option selected.
-> Please keep lines <= 80 columns, except when there's a strong reason to
-> use longer lines. The same applies to other parts of this patch.
->
-I was under the assumption that this had been bumped to 100 recently.
-
-
--- thanks
-
--- Daniel
+> 
+> > ---
+> >  drivers/media/test-drivers/vidtv/vidtv_psi.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c
+> > b/drivers/media/test-drivers/vidtv/vidtv_psi.c index
+> > 4511a2a98405..8ff27d26c343 100644 ---
+> > a/drivers/media/test-drivers/vidtv/vidtv_psi.c +++
+> > b/drivers/media/test-drivers/vidtv/vidtv_psi.c @@ -19,7 +19,6 @@
+> >  #include <linux/ratelimit.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/string.h>
+> > -#include <linux/string.h>
+> >  #include <linux/time.h>
+> >  #include <linux/types.h>
+> >  
+> >   
 
 
