@@ -2,201 +2,395 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 413D530432A
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 16:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30B7430433B
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 16:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404056AbhAZP4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 10:56:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36246 "EHLO
+        id S2390919AbhAZP7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 10:59:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404024AbhAZP40 (ORCPT
+        with ESMTP id S2403926AbhAZP5a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 10:56:26 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B42E0C061D7F
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 07:55:45 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id t12so4768776ljc.6
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 07:55:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1qbmsERETvvhmGcrikQHaWP/ykH+HxLm8R4w+ova73M=;
-        b=bjS7vGEOTjywoQGHoQ/5v81uMWTKMT+tReITGMTMwdMkp/2jAVJsFULLopIbWpJAcT
-         Z1nmq6BNImxs7UhzeY8DppHWy5cKw3Mh2LetNztovAth6Y0ywRbJQCZPc/czRHqcTYzY
-         sI5ZGp7RBv4MsWX3Yrl6QF8EKH1hnVG4M1sHgFFg+GYFixlADm8/fQ/V9po7YP/t1K1c
-         ue72cHiKFQ74Pl7SI8APNE/5xqsXheIKiJMdvHsbn2src4NJ8aGdhyV1nqUu3BJAXm/d
-         Q1tPvwZmEkQnaEwEoq1sxqf/G9bsmJ4gtv/AvL966DCYV/GuUVld5L5tz9cSMg/8hd7N
-         YoqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1qbmsERETvvhmGcrikQHaWP/ykH+HxLm8R4w+ova73M=;
-        b=ppviMy4WHcnmk3OFSvxPXDmhantt3fZzKuLrbz6lKpGGX7n4rjPC2ySQ0GBCFR+Pps
-         ED90TMplAWl1MmRfgj/W0dkZOkobqJFEcoeayoMz0h47063vGA5GvmikgsaWrFFD3NmM
-         4o7y4vHe9cgXQDUw64FjNC2sRKoa2lf91deVflxeObmLUX8WPBgchaXAmAdH8Qm3ygGq
-         xx5ct/E1bRfYjcWzf+C4zIyJ5i1fZHe+wsYi/RiuiNAmsb88/sYLOqp7sNPHET/mEcvf
-         h7zgYrHoRU9So9yKFWFG4qweCLOWK82jARljuNaHI9TYbmp6kR0lqQVdghLRjJyh1fMT
-         4zyw==
-X-Gm-Message-State: AOAM531ym5B9OTavpJWkaIFjCWcKeazZjHGplMC35Pt+SYrbL5EptGj5
-        mXu5cCyYVIw2xopx453ubDvS3A==
-X-Google-Smtp-Source: ABdhPJxmxfWWfClFxwpfrcM7WVP0LljcTC4+s4EiVqOiKTXtYoECMMgt/0KEPp+mtfHMEeCHoaY9cA==
-X-Received: by 2002:a2e:9d8e:: with SMTP id c14mr3355503ljj.477.1611676544197;
-        Tue, 26 Jan 2021 07:55:44 -0800 (PST)
-Received: from [192.168.118.216] ([85.249.43.69])
-        by smtp.gmail.com with ESMTPSA id z1sm2481481lfc.303.2021.01.26.07.55.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Jan 2021 07:55:43 -0800 (PST)
-Subject: Re: [PATCH] media: i2c: imx219: Implement V4L2_CID_LINK_FREQ control
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+        Tue, 26 Jan 2021 10:57:30 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37651C061D73;
+        Tue, 26 Jan 2021 07:56:50 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6EB52C1;
+        Tue, 26 Jan 2021 16:56:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1611676608;
+        bh=Z8Ov8MmZWUEST4sah1yIUBto2TrDQaIcE0bvw50m0ik=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pkCLG3WfJhSbhIfcbRanc5J+aneHPnpoNs/aRjb8B1PLdTNc0UBK4jY/rEYJlO3YU
+         csOmdQcjDGKKil9iExxBXwysFrI9cmMR7tW8wSkFKZDUw/iROBE9QXQwIp9P+3AxhM
+         YEOKVtC7Aq8H5DZ12e0MYvd6JA4rw+P3XG5B8t0k=
+Date:   Tue, 26 Jan 2021 17:56:29 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Peter Griffin <peter.griffin@linaro.org>
-References: <20210126074934.26980-1-andrey.konovalov@linaro.org>
- <CAPY8ntBmVoe_dMKhd7imcQYRcdJLn4PG3rXzZvGBRVbeCjiL0A@mail.gmail.com>
-From:   Andrey Konovalov <andrey.konovalov@linaro.org>
-Message-ID: <4c72313b-1b4a-0c7a-a553-144b17763aaa@linaro.org>
-Date:   Tue, 26 Jan 2021 18:55:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 06/12] media: uvcvideo: Implement UVC_EXT_GPIO_UNIT
+Message-ID: <YBA7rduUYr0I/KwJ@pendragon.ideasonboard.com>
+References: <20201223133528.55014-1-ribalda@chromium.org>
+ <20201223133528.55014-7-ribalda@chromium.org>
+ <YBA67sapYU3almJb@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntBmVoe_dMKhd7imcQYRcdJLn4PG3rXzZvGBRVbeCjiL0A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YBA67sapYU3almJb@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
-
-On 26.01.2021 16:01, Dave Stevenson wrote:
-> Hi Andrey
+On Tue, Jan 26, 2021 at 05:53:19PM +0200, Laurent Pinchart wrote:
+> Hi Ricardo,
 > 
-> On Tue, 26 Jan 2021 at 07:50, Andrey Konovalov
-> <andrey.konovalov@linaro.org> wrote:
->>
->> This control is needed for imx219 driver, as the link frequency
->> is independent from the pixel rate in this case, and can't be
->> calculated from the pixel rate.
->>
->> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
->> ---
->>   drivers/media/i2c/imx219.c | 15 ++++++++++++++-
->>   1 file changed, 14 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
->> index 92a8d52776b8..6e3382b85a90 100644
->> --- a/drivers/media/i2c/imx219.c
->> +++ b/drivers/media/i2c/imx219.c
->> @@ -390,6 +390,10 @@ static const struct imx219_reg raw10_framefmt_regs[] = {
->>          {0x0309, 0x0a},
->>   };
->>
->> +static const s64 imx219_link_freq_menu[] = {
->> +       IMX219_DEFAULT_LINK_FREQ,
+> Thank you for the patch.
 > 
-> Link frequency is one of the parameters that is largely irrelevant on
-> the Pi, so I've partially ignored it.
-
-I faced a problem with the imx219 8-bit modes not working with the camss driver
-(drivers/media/platform/qcom/camss), as based on the link frequency calculated
-from the pixel rate the driver sets the csiphy clock to 100MHz which is too low
-for the actual link frequency (4 * 100MHz < 456MHz), and the captured image
-becomes garbage.
-
-> Is the link frequency really the same for all modes? Even 8 bit vs 10
-> bit readout?
-
-Yes, this is exactly the case.
-
-> The pixel rate is constant at 182.4Mpix/s for all modes.
-
-Right.
-
-> Switching to 8 bit changes register 0x0309 (op_pix_clk_div) from 10 to 8.
-> Figure 43 "Clock System Block Diagram" in the datasheet I have says
-> this reduces the divider to the FIFO between the pipeline and MIPI. As
-> we haven't changed PLL2 or Pre-div2 I'd expect the link frequency to
-> stay the same,
-
-That's true.
-
-> but that leaves me confused over that FIFO clock as
-> it'll go UP in frequency. I can't quite see how that works, but it
-> clearly does.
-
-Yes, the FIFO makes it possible for the different write and read rates to work.
-There are few words regarding this in the datasheet, but this isn't enough
-to fully understand how it works:
-"If, Pix Rate of PLL1 domain < Data Rate of PLL2 domain, data is always
-correctly output from the sensor" (page 81)
-
-If I read the datasheet right, for 10-bit modes the both rates are the same
-(91.2 MHz). In the 8-bit modes the "Data Rate" increases to 114 MHz while
-the "Pix Rate" remains at 91.2 MHz.
-
-> Both 8 and 10 bit modes do read out at the same frame / pixel rate,
-> therefore that bit is correct, but that leaves me puzzling over link
-> frequency. I have no information on how big that FIFO is, or how it's
-> clocked on input and output.
+> On Wed, Dec 23, 2020 at 02:35:22PM +0100, Ricardo Ribalda wrote:
+> > Some devices can implement a physical switch to disable the input of the
+> > camera on demand. Think of it like an elegant privacy sticker.
+> > 
+> > The system can read the status of the privacy switch via a GPIO.
+> > 
+> > It is important to know the status of the switch, e.g. to notify the
+> > user when the camera will produce black frames and a videochat
+> > application is used.
+> > 
+> > In some systems, the GPIO is connected to main SoC instead of the
 > 
-> Simplest option is that as I need to go into the office in the next
-> day or so I'll pop into the lab and measure it in each mode.
-
-That would be nice!
-In my home "office" I only have a small piece of hardware which claims
-to be able to deal with 2 signals up to 72MHz each, which is not enough
-for such kind of measurements.
-
-> Otherwise I have no issues with the implementation of the patch.
+> s/to main/to the main/
 > 
->    Dave
+> > camera controller, with the connection reported by the system firmware
+> > (ACPI or DT). In that case, the UVC device isn't aware of the GPIO. We
+> > need to implement a virtual entity to handle the GPIO fully on the
+> > driver side.
+> > 
+> > For example, for ACPI-based systems, the GPIO is reported in the USB
+> > device object:
+> > 
+> >   Scope (\_SB.PCI0.XHCI.RHUB.HS07)
+> >   {
+> > 
+> > 	  /.../
+> > 
+> >     Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+> >     {
+> >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
+> >             "\\_SB.PCI0.GPIO", 0x00, ResourceConsumer, ,
+> >             )
+> >             {   // Pin list
+> >                 0x0064
+> >             }
+> >     })
+> >     Name (_DSD, Package (0x02)  // _DSD: Device-Specific Data
+> >     {
+> >         ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301") /* Device Properties for _DSD */,
+> >         Package (0x01)
+> >         {
+> >             Package (0x02)
+> >             {
+> >                 "privacy-gpio",
+> >                 Package (0x04)
+> >                 {
+> >                     \_SB.PCI0.XHCI.RHUB.HS07,
+> >                     Zero,
+> >                     Zero,
+> >                     One
+> >                 }
+> >             }
+> >         }
+> >     })
+> >   }
+> > 
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c   |   3 +
+> >  drivers/media/usb/uvc/uvc_driver.c | 127 +++++++++++++++++++++++++++++
+> >  drivers/media/usb/uvc/uvc_entity.c |   1 +
+> >  drivers/media/usb/uvc/uvcvideo.h   |  16 ++++
+> >  4 files changed, 147 insertions(+)
+> > 
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index 1a5e85368af4..e0ab55583dd8 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -2291,6 +2291,9 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
+> >  		} else if (UVC_ENTITY_TYPE(entity) == UVC_ITT_CAMERA) {
+> >  			bmControls = entity->camera.bmControls;
+> >  			bControlSize = entity->camera.bControlSize;
+> > +		} else if (UVC_ENTITY_TYPE(entity) == UVC_EXT_GPIO_UNIT) {
+> > +			bmControls = entity->gpio.bmControls;
+> > +			bControlSize = entity->gpio.bControlSize;
+> >  		}
+> >  
+> >  		/* Remove bogus/blacklisted controls */
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index c0c5f75ade40..b0bf93c44999 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -7,6 +7,7 @@
+> >   */
+> >  
+> >  #include <linux/atomic.h>
+> > +#include <linux/gpio/consumer.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/list.h>
+> >  #include <linux/module.h>
+> > @@ -1020,6 +1021,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+> >  }
+> >  
+> >  static const u8 uvc_camera_guid[16] = UVC_GUID_UVC_CAMERA;
+> > +static const u8 uvc_gpio_guid[16] = UVC_GUID_EXT_GPIO_CONTROLLER;
+> >  static const u8 uvc_media_transport_input_guid[16] =
+> >  	UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
+> >  static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
+> > @@ -1051,6 +1053,9 @@ static struct uvc_entity *uvc_alloc_entity(u16 type, u16 id,
+> >  	 * is initialized by the caller.
+> >  	 */
+> >  	switch (type) {
+> > +	case UVC_EXT_GPIO_UNIT:
+> > +		memcpy(entity->guid, uvc_gpio_guid, 16);
+> > +		break;
+> >  	case UVC_ITT_CAMERA:
+> >  		memcpy(entity->guid, uvc_camera_guid, 16);
+> >  		break;
+> > @@ -1464,6 +1469,108 @@ static int uvc_parse_control(struct uvc_device *dev)
+> >  	return 0;
+> >  }
+> >  
+> > +/* -----------------------------------------------------------------------------
+> > + * Privacy GPIO
+> > + */
+> > +
+> > +static void uvc_gpio_event(struct uvc_device *dev)
+> > +{
+> > +	struct uvc_entity *unit = dev->gpio_unit;
+> > +	struct uvc_video_chain *chain;
+> > +	u8 new_val;
+> > +
+> > +	if (!unit)
+> > +		return;
+> > +
+> > +	new_val = gpiod_get_value_cansleep(unit->gpio.gpio_privacy);
+> > +
+> > +	/* GPIO entities are always on the first chain. */
+> > +	chain = list_first_entry(&dev->chains, struct uvc_video_chain, list);
+> > +	uvc_ctrl_status_event(chain, unit->controls, &new_val);
+> > +}
+> > +
+> > +static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
+> > +			    u8 cs, void *data, u16 size)
+> > +{
+> > +	if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
+> > +		return -EINVAL;
+> > +
+> > +	*(u8 *)data = gpiod_get_value_cansleep(entity->gpio.gpio_privacy);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int uvc_gpio_get_info(struct uvc_device *dev, struct uvc_entity *entity,
+> > +			     u8 cs, u8 *caps)
+> > +{
+> > +	if (cs != UVC_CT_PRIVACY_CONTROL)
+> > +		return -EINVAL;
+> > +
+> > +	*caps = UVC_CONTROL_CAP_GET | UVC_CONTROL_CAP_AUTOUPDATE;
+> > +	return 0;
+> > +}
+> > +
+> > +static irqreturn_t uvc_gpio_irq(int irq, void *data)
+> > +{
+> > +	struct uvc_device *dev = data;
+> > +
+> > +	uvc_gpio_event(dev);
+> 
+> Should uvc_gpio_event() be inlined here ? If so I can make the
+> modification when applying, there's no need for a v8 just for this.
 
-Thanks,
-Andrey
+I've seen the function is called in a different location later in this
+series, please ignore the noise.
 
->> +};
->> +
->>   static const char * const imx219_test_pattern_menu[] = {
->>          "Disabled",
->>          "Color Bars",
->> @@ -547,6 +551,7 @@ struct imx219 {
->>          struct v4l2_ctrl_handler ctrl_handler;
->>          /* V4L2 Controls */
->>          struct v4l2_ctrl *pixel_rate;
->> +       struct v4l2_ctrl *link_freq;
->>          struct v4l2_ctrl *exposure;
->>          struct v4l2_ctrl *vflip;
->>          struct v4l2_ctrl *hflip;
->> @@ -1269,7 +1274,7 @@ static int imx219_init_controls(struct imx219 *imx219)
->>          int i, ret;
->>
->>          ctrl_hdlr = &imx219->ctrl_handler;
->> -       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
->> +       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
->>          if (ret)
->>                  return ret;
->>
->> @@ -1283,6 +1288,14 @@ static int imx219_init_controls(struct imx219 *imx219)
->>                                                 IMX219_PIXEL_RATE, 1,
->>                                                 IMX219_PIXEL_RATE);
->>
->> +       imx219->link_freq =
->> +               v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx219_ctrl_ops,
->> +                                      V4L2_CID_LINK_FREQ,
->> +                                      ARRAY_SIZE(imx219_link_freq_menu) - 1, 0,
->> +                                      imx219_link_freq_menu);
->> +       if (imx219->link_freq)
->> +               imx219->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->> +
->>          /* Initial vblank/hblank/exposure parameters based on current mode */
->>          imx219->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
->>                                             V4L2_CID_VBLANK, IMX219_VBLANK_MIN,
->> --
->> 2.17.1
->>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +	return IRQ_HANDLED;
+> > +}
+> > +
+> > +static int uvc_gpio_parse(struct uvc_device *dev)
+> > +{
+> > +	struct uvc_entity *unit;
+> > +	struct gpio_desc *gpio_privacy;
+> > +	int irq;
+> > +
+> > +	gpio_privacy = devm_gpiod_get_optional(&dev->udev->dev, "privacy",
+> > +					       GPIOD_IN);
+> > +	if (IS_ERR_OR_NULL(gpio_privacy))
+> > +		return PTR_ERR_OR_ZERO(gpio_privacy);
+> > +
+> > +	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
+> > +	if (!unit)
+> > +		return -ENOMEM;
+> > +
+> > +	irq = gpiod_to_irq(gpio_privacy);
+> > +	if (irq < 0) {
+> > +		if (irq != EPROBE_DEFER)
+> > +			dev_err(&dev->udev->dev,
+> > +				"No IRQ for privacy GPIO (%d)\n", irq);
+> > +		return irq;
+> > +	}
+> > +
+> > +	unit->gpio.gpio_privacy = gpio_privacy;
+> > +	unit->gpio.irq = irq;
+> > +	unit->gpio.bControlSize = 1;
+> > +	unit->gpio.bmControls = (u8 *)unit + sizeof(*unit);
+> > +	unit->gpio.bmControls[0] = 1;
+> > +	unit->get_cur = uvc_gpio_get_cur;
+> > +	unit->get_info = uvc_gpio_get_info;
+> > +	strncpy(unit->name, "GPIO", sizeof(unit->name) - 1);
+> > +
+> > +	list_add_tail(&unit->list, &dev->entities);
+> > +
+> > +	dev->gpio_unit = unit;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int uvc_gpio_init_irq(struct uvc_device *dev)
+> > +{
+> > +	struct uvc_entity *unit = dev->gpio_unit;
+> > +
+> > +	if (!unit || unit->gpio.irq < 0)
+> > +		return 0;
+> > +
+> > +	return devm_request_threaded_irq(&dev->udev->dev, unit->gpio.irq, NULL,
+> > +					 uvc_gpio_irq,
+> > +					 IRQF_ONESHOT | IRQF_TRIGGER_FALLING |
+> > +					 IRQF_TRIGGER_RISING,
+> > +					 "uvc_privacy_gpio", dev);
+> > +}
+> > +
+> >  /* ------------------------------------------------------------------------
+> >   * UVC device scan
+> >   */
+> > @@ -1953,6 +2060,13 @@ static int uvc_scan_device(struct uvc_device *dev)
+> >  		return -1;
+> >  	}
+> >  
+> > +	/* Add GPIO entity to the first chain. */
+> > +	if (dev->gpio_unit) {
+> > +		chain = list_first_entry(&dev->chains,
+> > +					 struct uvc_video_chain, list);
+> > +		list_add_tail(&dev->gpio_unit->chain, &chain->entities);
+> > +	}
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > @@ -2285,6 +2399,12 @@ static int uvc_probe(struct usb_interface *intf,
+> >  		goto error;
+> >  	}
+> >  
+> > +	/* Parse the associated GPIOs. */
+> > +	if (uvc_gpio_parse(dev) < 0) {
+> > +		uvc_trace(UVC_TRACE_PROBE, "Unable to parse UVC GPIOs\n");
+> > +		goto error;
+> > +	}
+> > +
+> >  	uvc_printk(KERN_INFO, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+> >  		dev->uvc_version >> 8, dev->uvc_version & 0xff,
+> >  		udev->product ? udev->product : "<unnamed>",
+> > @@ -2329,6 +2449,13 @@ static int uvc_probe(struct usb_interface *intf,
+> >  			"supported.\n", ret);
+> >  	}
+> >  
+> > +	ret = uvc_gpio_init_irq(dev);
+> > +	if (ret < 0) {
+> > +		dev_err(&dev->udev->dev,
+> > +			"Unable to request privacy GPIO IRQ (%d)\n", ret);
+> > +		goto error;
+> > +	}
+> > +
+> >  	uvc_trace(UVC_TRACE_PROBE, "UVC device initialized.\n");
+> >  	usb_enable_autosuspend(udev);
+> >  	return 0;
+> > diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
+> > index ca3a9c2eec27..6a9ba5b498db 100644
+> > --- a/drivers/media/usb/uvc/uvc_entity.c
+> > +++ b/drivers/media/usb/uvc/uvc_entity.c
+> > @@ -105,6 +105,7 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
+> >  		case UVC_OTT_DISPLAY:
+> >  		case UVC_OTT_MEDIA_TRANSPORT_OUTPUT:
+> >  		case UVC_EXTERNAL_VENDOR_SPECIFIC:
+> > +		case UVC_EXT_GPIO_UNIT:
+> >  		default:
+> >  			function = MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN;
+> >  			break;
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 6465711fe5bb..4211531a3558 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -6,6 +6,7 @@
+> >  #error "The uvcvideo.h header is deprecated, use linux/uvcvideo.h instead."
+> >  #endif /* __KERNEL__ */
+> >  
+> > +#include <linux/atomic.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/poll.h>
+> >  #include <linux/usb.h>
+> > @@ -37,6 +38,8 @@
+> >  	(UVC_ENTITY_IS_TERM(entity) && \
+> >  	((entity)->type & 0x8000) == UVC_TERM_OUTPUT)
+> >  
+> > +#define UVC_EXT_GPIO_UNIT		0x7ffe
+> > +#define UVC_EXT_GPIO_UNIT_ID		0x100
+> >  
+> >  /* ------------------------------------------------------------------------
+> >   * GUIDs
+> > @@ -56,6 +59,9 @@
+> >  #define UVC_GUID_UVC_SELECTOR \
+> >  	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> >  	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
+> > +#define UVC_GUID_EXT_GPIO_CONTROLLER \
+> > +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> > +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
+> >  
+> >  #define UVC_GUID_FORMAT_MJPEG \
+> >  	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+> > @@ -212,6 +218,7 @@
+> >   * Structures.
+> >   */
+> >  
+> > +struct gpio_desc;
+> >  struct uvc_device;
+> >  
+> >  /* TODO: Put the most frequently accessed fields at the beginning of
+> > @@ -353,6 +360,13 @@ struct uvc_entity {
+> >  			u8  *bmControls;
+> >  			u8  *bmControlsType;
+> >  		} extension;
+> > +
+> > +		struct {
+> > +			u8  bControlSize;
+> > +			u8  *bmControls;
+> > +			struct gpio_desc *gpio_privacy;
+> > +			int irq;
+> > +		} gpio;
+> >  	};
+> >  
+> >  	u8 bNrInPins;
+> > @@ -690,6 +704,8 @@ struct uvc_device {
+> >  		struct uvc_control *ctrl;
+> >  		const void *data;
+> >  	} async_ctrl;
+> > +
+> > +	struct uvc_entity *gpio_unit;
+> >  };
+> >  
+> >  enum uvc_handle_state {
+
+-- 
+Regards,
+
+Laurent Pinchart
