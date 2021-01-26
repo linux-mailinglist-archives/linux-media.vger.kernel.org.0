@@ -2,88 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FF51303592
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 06:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E9B3036E4
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 07:57:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388790AbhAZFqF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 00:46:05 -0500
-Received: from m12-12.163.com ([220.181.12.12]:44516 "EHLO m12-12.163.com"
+        id S2389286AbhAZG4z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 01:56:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34846 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729346AbhAZCwi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Jan 2021 21:52:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=mxInm
-        W0WGyD7tNP1IlQncdf8KhYE4vvXW0RaNikDrpY=; b=VBch1yBoEU6YLN9mWCA8L
-        owEmX3Mxei73LlwWeFZKU1pqdh1d4FWr7mmioHzwsK21lRJ4XS2piCosLSEMJb1/
-        WSUJvThyMAln9lPcMSpRtNDrgRdJxOut/mllmYU6hWxBXolbUa8b3wWU8hGgcTxX
-        yYc4wE95aqoq7zCd55qU8Q=
-Received: from localhost (unknown [218.94.48.178])
-        by smtp8 (Coremail) with SMTP id DMCowABHf6uTgw9gy6c8Nw--.6162S2;
-        Tue, 26 Jan 2021 10:51:00 +0800 (CST)
-Date:   Tue, 26 Jan 2021 10:50:58 +0800
-From:   Guoqing Chi <chi962464zy@163.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, zhangwen@yulong.com
-Subject: Re: [PATCH] media: vidtv: remove redundant quote
-Message-ID: <20210126105058.000034a4@163.com>
-In-Reply-To: <b470e011-a21e-f333-6650-5c025906d63e@xs4all.nl>
-References: <20210119010947.709-1-chi962464zy@163.com>
-        <b470e011-a21e-f333-6650-5c025906d63e@xs4all.nl>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: DMCowABHf6uTgw9gy6c8Nw--.6162S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtw47urW8Ww4kZry5Jr43Jrb_yoWDuFb_Cw
-        s7Zr4xu34Utr18tF15JF9rZryYkayDZFs5XF98tw1YvFy3Za45J3Wavw17Aa12gF4IvFsr
-        Zry5X348ur13WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRiXdb5UUUUU==
-X-Originating-IP: [218.94.48.178]
-X-CM-SenderInfo: pfklmlasuwk6r16rljoofrz/1tbiNxQmRFWBjYMKtAAAsl
+        id S2389275AbhAZG4b (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Jan 2021 01:56:31 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 4EDD3AE91;
+        Tue, 26 Jan 2021 06:55:49 +0000 (UTC)
+Date:   Tue, 26 Jan 2021 07:55:47 +0100
+Message-ID: <s5hbldc2nm4.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <uwe@kleine-koenig.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pau Oliva Fora <pof@eslack.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Hannes Reinecke <hare@suse.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Finn Thain <fthain@telegraphics.com.au>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH v2 0/3] isa: Make the remove callback for isa drivers return void
+In-Reply-To: <20210122092449.426097-1-uwe@kleine-koenig.org>
+References: <20210122092449.426097-1-uwe@kleine-koenig.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 25 Jan 2021 12:26:54 +0100
-Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On Fri, 22 Jan 2021 10:24:46 +0100,
+Uwe Kleine-König wrote:
+> 
+> Hello,
+> 
+> changes since v1
+> (https://lore.kernel.org/r/20210121204812.402589-1-uwe@kleine-koenig.org):
+>  - fix build failure, found by the kernel test robot
+>    (my grep missed the struct isa_driver embedded in struct
+>    radio_isa_driver). For this I introduced patch 2 and adapted patch 3
+>    a bit. An interdiff is below.
+>  - Added Acks/Reviews by Guenter Roeck, William Breathitt Gray, Marc
+>    Kleine-Budde, Wolfram Sang and Takashi Iwai <tiwai@suse.de>
+> 
+> The base-commit I specified (by hand *sigh*) in v1 was broken, must be a
+> cut-n-paste-error, sorry for that.
+> 
+> Takashi suggested to take this series via sound.git given that this is
+> the most affected tree. This is fine for me. Otherwise I can also
+> provide an immutable branch. For both variants we still need a few acks
+> though.
 
-> On 19/01/2021 02:09, chiguoqing wrote:
-> > Repeated references string.h
-> > 
-> > Signed-off-by: Wen Zhang <zhangwen@yulong.com>  
-> 
-> checkpatch gives me:
-> 
-> ERROR: Missing Signed-off-by: line by nominal patch author
-> 'chiguoqing <chi962464zy@163.com>'
-> 
-> Can you fix this?
-> 
-> Regards,
-> 
-> 	Hans
+Now I applied all three patches to my sound.git tree.
+It's found in isa-void-remove-callback signed tag, in case anyone else
+wants to merge in.  The branch is based on 5.11-rc4.
 
-Hi Hans:
-  I will resend patch,and change author to zhangwen. Thanks.
-
-> 
-> > ---
-> >  drivers/media/test-drivers/vidtv/vidtv_psi.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c
-> > b/drivers/media/test-drivers/vidtv/vidtv_psi.c index
-> > 4511a2a98405..8ff27d26c343 100644 ---
-> > a/drivers/media/test-drivers/vidtv/vidtv_psi.c +++
-> > b/drivers/media/test-drivers/vidtv/vidtv_psi.c @@ -19,7 +19,6 @@
-> >  #include <linux/ratelimit.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/string.h>
-> > -#include <linux/string.h>
-> >  #include <linux/time.h>
-> >  #include <linux/types.h>
-> >  
-> >   
+git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/isa-void-remove-callback
 
 
+thanks,
+
+Takashi
