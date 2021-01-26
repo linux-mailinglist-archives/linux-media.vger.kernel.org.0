@@ -2,89 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E333E303FD4
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 15:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ABC03040B3
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 15:44:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392685AbhAZOJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 09:09:50 -0500
-Received: from relay08.th.seeweb.it ([5.144.164.169]:34853 "EHLO
-        relay08.th.seeweb.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404788AbhAZOIO (ORCPT
+        id S2391475AbhAZOnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 09:43:49 -0500
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:48103 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390386AbhAZJob (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 09:08:14 -0500
-Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7A49C3E7D4;
-        Tue, 26 Jan 2021 15:07:19 +0100 (CET)
-Subject: Re: [PATCH] venus: core: Parse firmware-name DT property
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-References: <20210126084252.238078-1-stanimir.varbanov@linaro.org>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>
-Message-ID: <b2afcf41-5135-1ac0-c603-6394bb0ab492@somainline.org>
-Date:   Tue, 26 Jan 2021 15:07:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-MIME-Version: 1.0
-In-Reply-To: <20210126084252.238078-1-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Tue, 26 Jan 2021 04:44:31 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=abaci-bugfix@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0UMxz7nf_1611654189;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:abaci-bugfix@linux.alibaba.com fp:SMTPD_---0UMxz7nf_1611654189)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 26 Jan 2021 17:43:16 +0800
+From:   Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
+To:     l.stach@pengutronix.de
+Cc:     airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, linux+etnaviv@armlinux.org.uk,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
+Subject: [PATCH] drm/gem: remove redundant NULL check
+Date:   Tue, 26 Jan 2021 17:43:07 +0800
+Message-Id: <1611654187-95651-1-git-send-email-abaci-bugfix@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 26/01/21 09:42, Stanimir Varbanov ha scritto:
-> On production devices the firmware could be located on different
-> places, this path could be provided by special firmware-name DT
-> property.
-> 
-> Here we check for existence of such DT property and if it exist
-> take the firmware path from there. Otherwise, if the property
-> is missing we fallback to the predefined path from driver resource
-> structure.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->   drivers/media/platform/qcom/venus/firmware.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-> index d03e2dd5808c..56c8fb5a019b 100644
-> --- a/drivers/media/platform/qcom/venus/firmware.c
-> +++ b/drivers/media/platform/qcom/venus/firmware.c
-> @@ -187,6 +187,7 @@ int venus_boot(struct venus_core *core)
->   {
->   	struct device *dev = core->dev;
->   	const struct venus_resources *res = core->res;
-> +	const char *fwpath = NULL;
->   	phys_addr_t mem_phys;
->   	size_t mem_size;
->   	int ret;
-> @@ -195,7 +196,12 @@ int venus_boot(struct venus_core *core)
->   	    (core->use_tz && !qcom_scm_is_available()))
->   		return -EPROBE_DEFER;
->   
-> -	ret = venus_load_fw(core, core->res->fwname, &mem_phys, &mem_size);
-> +	ret = of_property_read_string_index(dev->of_node, "firmware-name", 0,
-> +					    &fwpath);
-> +	if (ret)
-> +		fwpath = core->res->fwname;
-> +
-> +	ret = venus_load_fw(core, fwpath, &mem_phys, &mem_size);
->   	if (ret) {
->   		dev_err(dev, "fail to load video firmware\n");
->   		return -EINVAL;
-> 
+Fix below warnings reported by coccicheck:
+./drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c:80:2-8: WARNING: NULL
+check before some freeing functions is not needed.
+./drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:612:2-8: WARNING: NULL
+check before some freeing functions is not needed.
 
-Super! As you surely know, I totally agree.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  |  3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 12 ++++--------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-It may not have huge value, but:
-Reviewed-By: AngeloGioacchino Del Regno 
-<angelogioacchino.delregno@somainline.org>
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index d9bd832..c402d424 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -80,8 +80,7 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
+ 	/* Don't drop the pages for imported dmabuf, as they are not
+ 	 * ours, just free the array we allocated:
+ 	 */
+-	if (etnaviv_obj->pages)
+-		kvfree(etnaviv_obj->pages);
++	kvfree(etnaviv_obj->pages);
+ 
+ 	drm_prime_gem_destroy(&etnaviv_obj->base, etnaviv_obj->sgt);
+ }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index d05c359..bd0d66e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -612,14 +612,10 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ err_submit_cmds:
+ 	if (ret && (out_fence_fd >= 0))
+ 		put_unused_fd(out_fence_fd);
+-	if (stream)
+-		kvfree(stream);
+-	if (bos)
+-		kvfree(bos);
+-	if (relocs)
+-		kvfree(relocs);
+-	if (pmrs)
+-		kvfree(pmrs);
++	kvfree(stream);
++	kvfree(bos);
++	kvfree(relocs);
++	kvfree(pmrs);
+ 
+ 	return ret;
+ }
+-- 
+1.8.3.1
+
