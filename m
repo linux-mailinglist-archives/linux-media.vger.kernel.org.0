@@ -2,94 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8823304CBE
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:54:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C9A9304CC1
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730693AbhAZWyb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 17:54:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404054AbhAZSGF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 13:06:05 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67BF2C061756
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 10:05:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E98A2C1
-        for <linux-media@vger.kernel.org>; Tue, 26 Jan 2021 19:05:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1611684320;
-        bh=TXiQhEl1E1xwzQfCknKBeV1IugYrI50tzcmHYa8KN8I=;
-        h=Date:From:To:Subject:From;
-        b=lh3542gs8wqA2pXLjUXAN8HTuls92rz+PSIJS9iVZQzqzDXLLGboGDOcVT39A3lja
-         5MmBCh6FtS8xnnFQrl8rp62i33dXEupPNhAle/31uDjetNs1/MmQocPddIVhRoRQaT
-         +x6RG31prnMpuxJd8fXPChYckN2PXmwFki5f2fho=
-Date:   Tue, 26 Jan 2021 20:05:01 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.12] UVC driver changes
-Message-ID: <YBBZzXcB8R1xd3Hm@pendragon.ideasonboard.com>
+        id S1729032AbhAZWyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 17:54:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47448 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729073AbhAZSV7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Jan 2021 13:21:59 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E859207BC;
+        Tue, 26 Jan 2021 18:21:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611685277;
+        bh=MXfhwHib5lhIxe0d2EionO+qD1p7JOcTGIR5T//GcjU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Vyv6zeCgPBGRmLOGE+ZvJN/iEJbaZMbXGNiKs6W7mrLLyXtdvyXRRMjhIUG4flGz0
+         SObPNEWXGHHwcJfUJNuiMDGYMFH/8ozn34f5YEANN+7bqYaurnkm8GG9NwrvNlziq/
+         O+icUTumPpIZFw8RhAofdIEpRpC2YkiAovXOWMQqJg9uQPP3e+v84gtclOugTGmOcV
+         ++aSNFIc4sQpch4zq96vzAnzS+3zaa/mBeaevzYjYP5n9QywZGVOgMQYAiyYmOP+pZ
+         Sq1U3Xwms5ZLaHqaPI4yniW31jcyXpj/T+SM9Ctu5ovfB008PliOds9wV4CCoDyhwc
+         GyVUoh4d1+tyA==
+Received: by mail-ed1-f43.google.com with SMTP id c6so20960185ede.0;
+        Tue, 26 Jan 2021 10:21:17 -0800 (PST)
+X-Gm-Message-State: AOAM531+bSa8/wfSUxTkMkqCWoYP6KAcEK0RB3tUKorghTKbVy0gruDu
+        l16YNSHn7Vbd0RkSMdhlUX5JAJttecisG/5fnw==
+X-Google-Smtp-Source: ABdhPJwqon1vbLCOlmss6J+2GsHVOo4w9BY+GyxQEwzER9kIB9CkFOtLUal0HAuyf9bfo2h5vrYSv5GPYVZbdJOig20=
+X-Received: by 2002:a05:6402:1751:: with SMTP id v17mr5717873edx.289.1611685276124;
+ Tue, 26 Jan 2021 10:21:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20210123034428.2841052-1-swboyd@chromium.org>
+In-Reply-To: <20210123034428.2841052-1-swboyd@chromium.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 26 Jan 2021 12:21:04 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+voSRnHEEkUZSasdKGrXiBs3yCmzHp6Ua4WNuAgnh4AQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+voSRnHEEkUZSasdKGrXiBs3yCmzHp6Ua4WNuAgnh4AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] Stop NULLifying match pointer in of_match_device()
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Jean Delvare <jdelvare@suse.com>, Jiri Slaby <jslaby@suse.com>,
+        Linux HWMON List <linux-hwmon@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Richard Leitner <richard.leitner@skidata.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Fri, Jan 22, 2021 at 9:44 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> (This is a continuation of this series[1] per Rob's request. I've picked
+> up the acks, etc. with b4 and compile tested the patches along with an
+> arm64 allmodconfig build. Presumably Rob will pick these up directly.)
+>
+> of_match_device() uses of_match_ptr() to make the match table argument
+> NULL via the pre-processor when CONFIG_OF=n. This makes life harder for
+> compilers who think that match tables are never used and warn about
+> unused variables when CONFIG_OF=n. This series changes various callers
+> to use of_device_get_match_data() instead, which doesn't have this
+> problem, and removes the of_match_ptr() usage from of_match_device() so
+> that the compiler can stop complaining about unused variables. It will
+> do dead code elimination instead and remove the match table if it isn't
+> actually used.
+>
+> [1] https://lore.kernel.org/r/20191004214334.149976-1-swboyd@chromium.org
+>
+> Cc: Alexandre Torgue <alexandre.torgue@st.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Frank Rowand <frowand.list@gmail.com>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Grygorii Strashko <grygorii.strashko@ti.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jacopo Mondi <jacopo@jmondi.org>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Jiri Slaby <jslaby@suse.com>
+> Cc: <linux-hwmon@vger.kernel.org>
+> Cc: <linux-kernel@vger.kernel.org>,
+> Cc: <linux-media@vger.kernel.org>
+> Cc: <linux-omap@vger.kernel.org>
+> Cc: <linux-renesas-soc@vger.kernel.org>
+> Cc: <linux-serial@vger.kernel.org>
+> Cc: <linux-usb@vger.kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Richard Leitner <richard.leitner@skidata.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+>
+> Stephen Boyd (6):
+>   media: renesas-ceu: Use of_device_get_match_data()
+>   drivers: net: davinci_mdio: Use of_device_get_match_data()
+>   serial: stm32: Use of_device_get_match_data()
+>   usb: usb251xb: Use of_device_get_match_data()
+>   hwmon: (lm70) Avoid undefined reference to match table
+>   of/device: Don't NULLify match table in of_match_device() with
+>     CONFIG_OF=n
+>
+>  drivers/hwmon/lm70.c                   |  2 +-
+>  drivers/media/platform/renesas-ceu.c   |  2 +-
+>  drivers/net/ethernet/ti/davinci_mdio.c | 12 ++---
+>  drivers/tty/serial/stm32-usart.c       | 71 ++++++++++++--------------
+>  drivers/tty/serial/stm32-usart.h       |  2 +-
+>  drivers/usb/misc/usb251xb.c            | 12 ++---
+>  include/linux/of_device.h              |  4 +-
+>  7 files changed, 47 insertions(+), 58 deletions(-)
 
-The following changes since commit 066a94e28a23e04c0e9cb293f9ead56d409d7e41:
+Series applied.
 
-  media: dt-bindings: media: Use graph and video-interfaces schemas (2021-01-22 22:40:15 +0100)
 
-are available in the Git repository at:
-
-  git://linuxtv.org/pinchartl/media.git tags/uvc-next-20210126
-
-for you to fetch changes up to 9a71d1f0628599823d9233e62aa2fa17d5322013:
-
-  media: uvcvideo: Rename debug functions (2021-01-26 19:07:18 +0200)
-
-----------------------------------------------------------------
-UVC changes for v5.12:
-
-- UVC privacy GPIO support
-- Fix format/size setting regression with some devices
-- Support 1bcf:0b40
-
-----------------------------------------------------------------
-Joe Perches (1):
-      media: uvcvideo: Rename debug functions
-
-Laurent Pinchart (2):
-      media: uvcvideo: Force UVC version to 1.0a for 1bcf:0b40
-      media: uvcvideo: Accept invalid bFormatIndex and bFrameIndex values
-
-Ricardo Ribalda (10):
-      media: uvcvideo: Move guid to entity
-      media: uvcvideo: Allow extra entities
-      media: uvcvideo: Allow entities with no pads
-      media: uvcvideo: Provide sync and async uvc_ctrl_status_event
-      media: uvcvideo: Allow entity-defined get_info and get_cur
-      media: uvcvideo: Implement UVC_EXT_GPIO_UNIT
-      media: uvcvideo: Add Privacy control based on EXT_GPIO
-      media: uvcvideo: Use dev_ printk aliases
-      media: uvcvideo: New macro uvc_trace_cont
-      media: uvcvideo: use dev_printk() for uvc_trace()
-
- drivers/media/usb/uvc/uvc_ctrl.c   | 179 ++++++------
- drivers/media/usb/uvc/uvc_driver.c | 552 ++++++++++++++++++++++++-------------
- drivers/media/usb/uvc/uvc_entity.c |  11 +-
- drivers/media/usb/uvc/uvc_isight.c |  17 +-
- drivers/media/usb/uvc/uvc_queue.c  |   9 +-
- drivers/media/usb/uvc/uvc_status.c |  44 +--
- drivers/media/usb/uvc/uvc_v4l2.c   |  62 +++--
- drivers/media/usb/uvc/uvc_video.c  | 162 +++++------
- drivers/media/usb/uvc/uvcvideo.h   |  95 +++++--
- 9 files changed, 680 insertions(+), 451 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+Rob
