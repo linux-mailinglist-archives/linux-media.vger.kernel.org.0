@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE159304CC5
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E73AC304CC7
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726484AbhAZWzB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 17:55:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49968 "EHLO
+        id S1730723AbhAZWzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 17:55:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395189AbhAZTLD (ORCPT
+        with ESMTP id S2391674AbhAZTM7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 14:11:03 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD71C061573;
-        Tue, 26 Jan 2021 11:10:23 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id lw17so1722736pjb.0;
-        Tue, 26 Jan 2021 11:10:23 -0800 (PST)
+        Tue, 26 Jan 2021 14:12:59 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF05CC06174A;
+        Tue, 26 Jan 2021 11:12:18 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id g15so12046980pgu.9;
+        Tue, 26 Jan 2021 11:12:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=/pySoVPj6x2FMVMDC3PwlkUp7Fwc7oRZb5nCpTSbyxQ=;
-        b=Kno6Uq1KChTjup+cYxZsCvQQHrWKR+TvGJmKwMtOI7jpjF3oTBKfkjxna4GAaQnzUe
-         PyfN4sriJBZGjz+UGvJ23ap8wPDZNDcbGSW1x0bu386315/oa7rPYe4mOOni01Hu+Mb0
-         wN9iTOneC4o/FGqSazvRUfiHj4cD9QIPNlv26j7kMA+4vj93pRp+ix8IMpblCuztyp+b
-         L2a5nkRL6tzM3I64JhXq5e53tqETri0b6mAt7wHFGjZteY01SB3Js485e6csvtse6dSX
-         DWdCyPGkqo8hT56y6ZBKNRHRNbhI7L5q+pQbR5mhexFnjPcoZAnlnme/uuKufbZTupV4
-         nikg==
+        bh=z+Elf6KN7gCVxKH5y5v8VFFxpAzRjoRyqfE2dK5dzCQ=;
+        b=CzMop3FhOdFGtWBkHlk/GUz/sqkCJ9tRBC/4jNGcxWNawh9ndTJDO/q315ne2lbJ0R
+         gk+2ZghnnXjkzlDQN1M9uTa6WRDOsyuI+rFitPzUAGAAZS0s5nYP5yFboFjQyoEy6ybq
+         ufGydHojAu8poq6x5fWLpp8DbYktqiIJmV9B7pWfV9m24uS9iM8BYVCCaB2ex21Dzhj9
+         5HB5LEZ4IQsmd9mKZDv7xX0AwcXHhRSEtzdZ9i+raHscQXLTaBqz5W32bLsR6DH661ak
+         f5+olSkBh+BJ82RaHyOpZP/vYklYI7PsrBeNo5NUDxFmiRoa2BTB4qpk4X1JDOwTXOCm
+         HPBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to;
-        bh=/pySoVPj6x2FMVMDC3PwlkUp7Fwc7oRZb5nCpTSbyxQ=;
-        b=aB/Ma5Q+Out15FtT6/DbB7w3AQY5vDv1+19+vYO3FP4zwKgT+vlbNjUtW8E5UQmBUO
-         SNn+c4RyJewoiwKnSCdJjTVKeUIX4XW2X42ecZjAMSWF6VJ4qJXkwA1FfRENVe52+3g1
-         uSIMxVQ22ZfmrFU3uE0voqL/Ikbdb7RYUPgjQ/dRbzvDCMQLNTc5AAhEw//6hLw8XuvF
-         4XmPPPco+cHb8K2NBQOHmAZ5unF9BA1vbv+faqJxNbHhsign64Pi4pe30yVULTz1EcEm
-         zSeduERGWes+W2jtuhXk9PNshNPLx6QXxtkrbFj9Bce/9lIOyqjo3zTSFhNBITxKFrsM
-         dbaw==
-X-Gm-Message-State: AOAM531UlybmpaMR1dPiEZlz359bxKgnZjkO10LAD5fw3miJaKb6gHLn
-        QElTFfAzG9E1JULld2PHN68=
-X-Google-Smtp-Source: ABdhPJwWecYPRIlieWfot1SXaGDWSpfbRFecAz3my6DVfWYKNjOZ1cQl+qt2qR2hJDfOo2isASG1lQ==
-X-Received: by 2002:a17:902:9049:b029:da:efd6:4c12 with SMTP id w9-20020a1709029049b02900daefd64c12mr7512150plz.12.1611688222672;
-        Tue, 26 Jan 2021 11:10:22 -0800 (PST)
+        bh=z+Elf6KN7gCVxKH5y5v8VFFxpAzRjoRyqfE2dK5dzCQ=;
+        b=GoGygaWuQxRgFJbPtyhQ20FjL+/ci15fRbas/o8HIBgYlOXX2W+g+DAdOQ7hDdeLQv
+         7wcWQWpVjM059U757/ikS0iNePM6cFak+twsklYuTAiQEefAJAQ6D90/MU2guCIZCaZ8
+         5pHYvuJw5ZhQd7j9hJahD3BMjhoKg56VRXcDyWRyRY7BZEAsPHrlFPst+xG93fKNKzPV
+         Hfp4oV9yobFvo7TbSZI4C1ZAGdot93HfNrUdbZMLp/unrPE75qMGUKwYcmmEiNbe+Kuj
+         alAFTKjyK65zBAjlM1+1F4KbgGfN+WFoL114IyX0VTAPN/Jrn5JYKUrsMOdsXIQfftwu
+         VLoA==
+X-Gm-Message-State: AOAM530tAK3BQ63MBsrlAPN6QQo3T2cHZJ0zcfdaaQk4xLxdA9k2IY5U
+        /UqxKCmcGtbuCte53GioNhY=
+X-Google-Smtp-Source: ABdhPJzAeJ2VBQP8Ty12PWfHYgZ3qBVMPcowpow+95wbsOdOdX7sQMm9xF9YxgnjsVF1aa+ITIH1ug==
+X-Received: by 2002:a62:7d03:0:b029:1bb:5919:6dec with SMTP id y3-20020a627d030000b02901bb59196decmr6759692pfc.76.1611688338278;
+        Tue, 26 Jan 2021 11:12:18 -0800 (PST)
 Received: from google.com ([2620:15c:211:201:9dd5:b47b:bb84:dede])
-        by smtp.gmail.com with ESMTPSA id v2sm18941836pgs.50.2021.01.26.11.10.20
+        by smtp.gmail.com with ESMTPSA id b14sm3091649pju.14.2021.01.26.11.12.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 11:10:21 -0800 (PST)
+        Tue, 26 Jan 2021 11:12:17 -0800 (PST)
 Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Tue, 26 Jan 2021 11:10:18 -0800
+Date:   Tue, 26 Jan 2021 11:12:14 -0800
 From:   Minchan Kim <minchan@kernel.org>
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -60,87 +60,96 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         sumit.semwal@linaro.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, hch@infradead.org, robh+dt@kernel.org,
         linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 2/4] mm: failfast mode with __GFP_NORETRY in
- alloc_contig_range
-Message-ID: <YBBpGji3BJYHidHs@google.com>
+Subject: Re: [PATCH v4 1/4] mm: cma: introduce gfp flag in cma_alloc instead
+ of no_warn
+Message-ID: <YBBpjvBRtvi3Rl9F@google.com>
 References: <20210121175502.274391-1-minchan@kernel.org>
- <20210121175502.274391-3-minchan@kernel.org>
- <20210125131200.GG827@dhcp22.suse.cz>
- <YA8dEFSrHBb9muFr@google.com>
- <20210126074449.GA827@dhcp22.suse.cz>
+ <20210121175502.274391-2-minchan@kernel.org>
+ <20210125130701.GF827@dhcp22.suse.cz>
+ <YA8fKgFLuOi/rSez@google.com>
+ <20210126073808.GZ827@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210126074449.GA827@dhcp22.suse.cz>
+In-Reply-To: <20210126073808.GZ827@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 08:44:49AM +0100, Michal Hocko wrote:
-> On Mon 25-01-21 11:33:36, Minchan Kim wrote:
-> > On Mon, Jan 25, 2021 at 02:12:00PM +0100, Michal Hocko wrote:
-> > > On Thu 21-01-21 09:55:00, Minchan Kim wrote:
-> > > > Contiguous memory allocation can be stalled due to waiting
-> > > > on page writeback and/or page lock which causes unpredictable
-> > > > delay. It's a unavoidable cost for the requestor to get *big*
-> > > > contiguous memory but it's expensive for *small* contiguous
-> > > > memory(e.g., order-4) because caller could retry the request
-> > > > in different range where would have easy migratable pages
-> > > > without stalling.
+On Tue, Jan 26, 2021 at 08:38:08AM +0100, Michal Hocko wrote:
+> On Mon 25-01-21 11:42:34, Minchan Kim wrote:
+> > On Mon, Jan 25, 2021 at 02:07:01PM +0100, Michal Hocko wrote:
+> > > On Thu 21-01-21 09:54:59, Minchan Kim wrote:
+> > > > The upcoming patch will introduce __GFP_NORETRY semantic
+> > > > in alloc_contig_range which is a failfast mode of the API.
+> > > > Instead of adding a additional parameter for gfp, replace
+> > > > no_warn with gfp flag.
 > > > > 
-> > > > This patch introduce __GFP_NORETRY as compaction gfp_mask in
-> > > > alloc_contig_range so it will fail fast without blocking
-> > > > when it encounters pages needed waiting.
+> > > > To keep old behaviors, it follows the rule below.
+> > > > 
+> > > >   no_warn 			gfp_flags
+> > > > 
+> > > >   false         		GFP_KERNEL
+> > > >   true          		GFP_KERNEL|__GFP_NOWARN
+> > > >   gfp & __GFP_NOWARN		GFP_KERNEL | (gfp & __GFP_NOWARN)
+> > > > 
+> > > > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> > > > Signed-off-by: Minchan Kim <minchan@kernel.org>
+> > > [...]
+> > > > diff --git a/mm/cma.c b/mm/cma.c
+> > > > index 0ba69cd16aeb..d50627686fec 100644
+> > > > --- a/mm/cma.c
+> > > > +++ b/mm/cma.c
+> > > > @@ -419,13 +419,13 @@ static inline void cma_debug_show_areas(struct cma *cma) { }
+> > > >   * @cma:   Contiguous memory region for which the allocation is performed.
+> > > >   * @count: Requested number of pages.
+> > > >   * @align: Requested alignment of pages (in PAGE_SIZE order).
+> > > > - * @no_warn: Avoid printing message about failed allocation
+> > > > + * @gfp_mask: GFP mask to use during the cma allocation.
 > > > 
-> > > I am not against controling how hard this allocator tries with gfp mask
-> > > but this changelog is rather void on any data and any user.
-> > > 
-> > > It is also rather dubious to have retries when then caller says to not
-> > > retry.
+> > > Call out supported gfp flags explicitly. Have a look at kvmalloc_node
+> > > for a guidance.
 > > 
-> > Since max_tries is 1 with ++tries, it shouldn't retry.
-> 
-> OK, I have missed that. This is a tricky code. ASYNC mode should be
-> completely orthogonal to the retries count. Those are different things.
-> Page allocator does an explicit bail out based on __GFP_NORETRY. You
-> should be doing the same.
-
-A concern with __GFP_NOWAIT is regardless of flags passed to cma_alloc,
-internal implementation of alloc_contig_range inside will use blockable
-operation. See __alloc_contig_migrate_range.
-
-If we go with __GFP_NOWAIT, we should propagate the gfp_mask inside of
-__alloc_contig_migrate_range to make cma_alloc consistent with alloc_pages.
-(IIUC, that's what you want - make gfp_mask consistent between cma_alloc
-and alloc_pages) but I am worry about the direction will make complicate
-situation since cma invovles migration context as well as target page
-allocation context. Sometime, the single gfp flag could be trouble
-to express both contexts all at once. 
-
-> 
-> > > 
-> > > Also why didn't you consider GFP_NOWAIT semantic for non blocking mode?
+> > How about this?
 > > 
-> > GFP_NOWAIT seems to be low(specific) flags rather than the one I want to
-> > express. Even though I said only page writeback/lock in the description,
-> > the goal is to avoid costly operations we might find later so such
-> > "failfast", I thought GFP_NORETRY would be good fit.
+> > 
+> > diff --git a/mm/cma.c b/mm/cma.c
+> > index d50627686fec..b94727b694d6 100644
+> > --- a/mm/cma.c
+> > +++ b/mm/cma.c
+> > @@ -423,6 +423,10 @@ static inline void cma_debug_show_areas(struct cma *cma) { }
+> >   *
+> >   * This function allocates part of contiguous memory on specific
+> >   * contiguous memory area.
+> > + *
+> > + * For gfp_mask, GFP_KERNEL and __GFP_NORETRY are supported. __GFP_NORETRY
+> > + * will avoid costly functions(e.g., waiting on page_writeback and locking)
+> > + * at current implementaion during the page migration.
 > 
-> I suspect you are too focused on implementation details here. Think
-> about the indended semantic. Callers of this functionality will not
-> think about those (I hope because if they rely on these details then the
-> whole thing will become unmaintainable because any change would require
-> an audit of all existing users). All you should be caring about is to
-> control how expensive the call can be. GFP_NOWAIT is not really low
-> level from that POV. It gives you a very lightweight non-sleeping
-> attempt to allocate. GFP_NORETRY will give you potentially sleeping but
-> an opportunistic-easy-to-fail attempt. And so on. See how that is
-> absolutely free of any page writeback or any specific locking.
+> rather than explicitly mentioning what the flag implies I think it would
+> be more useful to state the intended usecase. See how kvmalloc_node says
+> "__GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
+> preferable to the vmalloc fallback, due to visible performance
+> drawbacks.
+> __GFP_NOWARN is also supported to suppress allocation failure messages."
+> 
+> This would help people not familiar with internals to see whether this
+> flag is a good fit for them.
+> 
+> In this case I woul go with
+> "
+> @flags: gfp mask. Must be compatible (superset) with GFP_KERNEL.
+> [...]
+> Reclaim modifiers (__GFP_RETRY_MAYFAIL, __GFP_NOFAIL) are not supported.
+> __GFP_NORETRY is supported, and it should be used for opportunistic
+> allocation attempts that should rather fail quickly when the caller has
+> a fallback strategy.
+> "
+> 
+> Obviously for this patch you will go with a simple statement that
+> Reclaim modifiers are not supported at all.
 
-With above reason I mentioned, I wanted to express __GFP_NORETRY as 
-"opportunistic-easy-to-fail attempt" to support cma_alloc as "failfast"
-for migration context.
+After more discussion for gfp_flags in thread of next patch, let me
+changes a bit more based on it.
 
-> -- 
-> Michal Hocko
-> SUSE Labs
+Thanks for the suggestion, Michal.
