@@ -2,178 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6012304CC9
-	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4D1A304CCB
+	for <lists+linux-media@lfdr.de>; Tue, 26 Jan 2021 23:56:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730743AbhAZWzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Jan 2021 17:55:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53054 "EHLO
+        id S1730783AbhAZWzS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Jan 2021 17:55:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395455AbhAZTZ1 (ORCPT
+        with ESMTP id S2395482AbhAZT0V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 14:25:27 -0500
+        Tue, 26 Jan 2021 14:26:21 -0500
 Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6F9C061573;
-        Tue, 26 Jan 2021 11:24:47 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id kx7so2589621pjb.2;
-        Tue, 26 Jan 2021 11:24:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B2AC06174A;
+        Tue, 26 Jan 2021 11:25:41 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id s24so1268076pjp.5;
+        Tue, 26 Jan 2021 11:25:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=PQEAhCm3+TMoHM6fCNFPYeDIJ30oYf/VDFpXx3VbChw=;
-        b=pdxOOP16unQeTfJM+vcSmtoc9otBE7D1QLUGBMbUYwwc34fV0mmt1KNHQcGy+JP0cp
-         53WCFFjL8QIOoe4118TDseHG68AAfQPg+8uzBDlf7Vk8eIPb8XprP3FU8DM1Fx7jAwJ4
-         5dqxSza5b9ihAmhyNhw+OIYVCN/olOVqT//FYm+DX+irUbO4Hy7VwOpBEZD81ZgyAHoB
-         IHHnsDCgxxMP0KCAEbhJUDrkzNhPyOaNAGPa4BSQwgPDSLRKZr8VE5N8LUaR6/Zbz3K6
-         GuKzfXkjki5oS4gGXjjW50XwR7uc+G2V5R93Dzcx3edaVBVeekPcoJzppscpK0pLvETu
-         d8Qw==
+        bh=nK7tnHnznGQB0kPXMrTbGs0rXvcjNbLRXG7T5ai/0Zc=;
+        b=VOyP9MtWypuH9Wq29+SBRxy6xbc3U0m27YBBHF7tPQKDMFyWhM+JVQP34dx4PheQjL
+         44q/qLPNyuQ46sbUgNABdWb7P0XaZPCnmNqon07WJshroTynXRNA3rS7jxmUqc2AlU0Q
+         wIMX1R0dkFQ3ZFGcAkuupvB/liVmfl54gZlmVVkCcAyc9Klg18TOaIhWCNgJSGnsfI72
+         +njDrUON13uyXz0in+SKMzLmHGHjT32mEhO2gnLLiqPJcjhhnz03qRAb3FXJvljCwaVA
+         inL8WpBNOiwi8CUA+0lBBMhd787E3pW2sexTwHV9wDq8V1fikaDQTn5TQDcFfStYeNL5
+         afRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to;
-        bh=PQEAhCm3+TMoHM6fCNFPYeDIJ30oYf/VDFpXx3VbChw=;
-        b=a+6WKJ6ka5oN36U2wEMo0sa2mtzygtC3ntvZiH95nJK+3tfMVysqZNoVgX0NELvKsz
-         PkVk9mQwaZIKdDHJzuGlLOktCbTq/G7GoekZtzcBFdReB8lIWAZt8pnR8a1+qHKLUUjC
-         DE/5sptVI3qnpXk1F4XaF+oYUz90SmtV5vVSYPaOkJj2x5VljM/sE+TExHgnP63iWLoU
-         68SZQDmyp8Z1kFAbuqJWC3juS/6kZ84wfY3nKq8I3f5vI19/iDZd/OmpeGFbCbYasEf0
-         wKzuX6FCXscs2KzVDfgtbx0qjAAfTddWRq2tp0jTC9ub43saYd8ApqKYvKDVCNI+OIYt
-         YuRA==
-X-Gm-Message-State: AOAM533dEP/Ip1rODAdz0i+OZNIXdUgVSTdG3xzpl1lc30haydrkF0Ns
-        3wk1XVZKdZJAunD9uPFmDjk=
-X-Google-Smtp-Source: ABdhPJxdJr9i8PyYeuFQBxPxm7+nZIJNNDk8XULgbT6ihBzMPiuZA67mDinh9JKsG2HkLZaC7sxFnw==
-X-Received: by 2002:a17:90a:5403:: with SMTP id z3mr1385657pjh.198.1611689087020;
-        Tue, 26 Jan 2021 11:24:47 -0800 (PST)
+        bh=nK7tnHnznGQB0kPXMrTbGs0rXvcjNbLRXG7T5ai/0Zc=;
+        b=lYgk2M/7z6Wqk3dehjErvq2HwUjCxNFNDgYVmAXiojVIhZmyj8xsZRSSOVyiNFjqHs
+         9KeDwADgTsx3SuYDmPuRO2lnsnHXO2Hgejxk3jRPhPs8wE7iBIB/OtO9ygFyGeGiFwdj
+         XgLI4eAhViBzTolB8Ns+rj410zTSMyawFkkymnDMkB9cblUH3HKiVkwTP2+0JlkVlbpk
+         DUCWjMbhzm2Vadnqp4yd3/t8/5WiExUT+Vd3wF4JYLzxFjsVRoUxIDHMRukHZiVBQbYn
+         EjLwunWjij/aYGlnV6Dh+82+sEnhIHstXtreI+xTSYYVQzK/rGVjc3f7i4SYS5oe4jzI
+         FryQ==
+X-Gm-Message-State: AOAM531PvIAGg3LvTLt9av9NvasjN9DifcPCskmLJYfiC4TNTky4Swhn
+        ZwOkysLflAykPde2Pry6mGs=
+X-Google-Smtp-Source: ABdhPJyTSqN+Wy7o7ylbYmXGZX4TARLM/Pp5CHrEy+BLWy2fLLjk4S4tsgG6xjJxdHckkDnuEilVQw==
+X-Received: by 2002:a17:902:b692:b029:de:43aa:6537 with SMTP id c18-20020a170902b692b02900de43aa6537mr7623990pls.65.1611689140727;
+        Tue, 26 Jan 2021 11:25:40 -0800 (PST)
 Received: from google.com ([2620:15c:211:201:9dd5:b47b:bb84:dede])
-        by smtp.gmail.com with ESMTPSA id jx15sm2818337pjb.17.2021.01.26.11.24.44
+        by smtp.gmail.com with ESMTPSA id s73sm20345829pgc.46.2021.01.26.11.25.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 11:24:45 -0800 (PST)
+        Tue, 26 Jan 2021 11:25:39 -0800 (PST)
 Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Tue, 26 Jan 2021 11:24:43 -0800
+Date:   Tue, 26 Jan 2021 11:25:36 -0800
 From:   Minchan Kim <minchan@kernel.org>
-To:     John Stultz <john.stultz@linaro.org>
+To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hyesoo Yu <hyesoo.yu@samsung.com>, david@redhat.com,
-        Michal Hocko <mhocko@suse.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        KyongHo Cho <pullip.cho@samsung.com>,
-        John Dias <joaodias@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
+        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
+        david@redhat.com, surenb@google.com, pullip.cho@samsung.com,
+        joaodias@google.com, hridya@google.com, john.stultz@linaro.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, hch@infradead.org, robh+dt@kernel.org,
+        linaro-mm-sig@lists.linaro.org
 Subject: Re: [PATCH v4 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
-Message-ID: <YBBse31hUxQcglig@google.com>
+Message-ID: <YBBssDOJNQ8qq9w1@google.com>
 References: <20210121175502.274391-1-minchan@kernel.org>
  <20210121175502.274391-5-minchan@kernel.org>
- <CALAqxLWJDo=pM8bvt9YWrzJ+VyK5gojoL-v7ch1fQC=cjGwJOw@mail.gmail.com>
+ <20210126074605.GB827@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALAqxLWJDo=pM8bvt9YWrzJ+VyK5gojoL-v7ch1fQC=cjGwJOw@mail.gmail.com>
+In-Reply-To: <20210126074605.GB827@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 11:32:57PM -0800, John Stultz wrote:
-> On Thu, Jan 21, 2021 at 9:55 AM Minchan Kim <minchan@kernel.org> wrote:
+On Tue, Jan 26, 2021 at 08:46:05AM +0100, Michal Hocko wrote:
+> On Thu 21-01-21 09:55:02, Minchan Kim wrote:
+> > From: Hyesoo Yu <hyesoo.yu@samsung.com>
+> > 
+> > This patch supports chunk heap that allocates the buffers that
+> > arranged into a list a fixed size chunks taken from CMA.
+> > 
+> > The chunk heap driver is bound directly to a reserved_memory
+> > node by following Rob Herring's suggestion in [1].
+> > 
+> > [1] https://lore.kernel.org/lkml/20191025225009.50305-2-john.stultz@linaro.org/T/#m3dc63acd33fea269a584f43bb799a876f0b2b45d
 > 
-> Hey Minchan,
->   Thanks for sending this out! I'm still working through testing with
-> this patch set, so I may have some more feedback tomorrow, but a few
-> quick items I did hit below.
-> 
-> > +
-> > +#define CHUNK_PREFIX "chunk-"
-> > +
-> > +static int register_chunk_heap(struct chunk_heap *chunk_heap_info)
-> > +{
-> > +       struct dma_heap_export_info exp_info;
-> > +       const char *name = cma_get_name(chunk_heap_info->cma);
-> > +       size_t len = strlen(CHUNK_PREFIX) + strlen(name) + 1;
-> > +       char *buf = kmalloc(len, GFP_KERNEL);
-> > +
-> > +       if (!buf)
-> > +               return -ENOMEM;
-> > +
-> > +       sprintf(buf, CHUNK_PREFIX"%s", cma_get_name(chunk_heap_info->cma));
-> > +       buf[len] = '\0';
-> > +
-> > +       exp_info.name = buf;
-> > +       exp_info.name = cma_get_name(chunk_heap_info->cma);
-> 
-> I think you intended to delete this line, as it's overwriting your
-> prefixed name.
+> Who is using this allocator in the kernel?
 
-Hi John,
-
-You're right. Will fix it.
-
-> 
-> > +       exp_info.ops = &chunk_heap_ops;
-> > +       exp_info.priv = chunk_heap_info;
-> > +
-> > +       chunk_heap_info->heap = dma_heap_add(&exp_info);
-> > +       if (IS_ERR(chunk_heap_info->heap)) {
-> > +               kfree(buf);
-> > +               return PTR_ERR(chunk_heap_info->heap);
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int __init chunk_heap_init(void)
-> > +{
-> > +       unsigned int i;
-> > +
-> > +       for (i = 0; i < chunk_heap_count; i++)
-> > +               register_chunk_heap(&chunk_heaps[i]);
-> > +
-> > +       return 0;
-> > +}
-> > +module_init(chunk_heap_init);
-> > +
-> > +#ifdef CONFIG_OF_EARLY_FLATTREE
-> > +
-> > +static int __init dmabuf_chunk_heap_area_init(struct reserved_mem *rmem)
-> > +{
-> > +       int ret;
-> > +       struct cma *cma;
-> > +       struct chunk_heap *chunk_heap_info;
-> > +       const __be32 *chunk_order;
-> > +
-> > +       phys_addr_t align = PAGE_SIZE << max(MAX_ORDER - 1, pageblock_order);
-> > +       phys_addr_t mask = align - 1;
-> > +
-> > +       if ((rmem->base & mask) || (rmem->size & mask)) {
-> > +               pr_err("Incorrect alignment for CMA region\n");
-> > +               return -EINVAL;
-> 
-> Passing this check can be tough if you're using dynamically assigned
-> rmem, so it might be helpful for debugging to print the base/size/mask
-> values?
-
-Let me fold this into next respin.
-
-diff --git a/drivers/dma-buf/heaps/chunk_heap.c b/drivers/dma-buf/heaps/chunk_heap.c
-index 6fe8e69d108f..cc2ed5341b54 100644
---- a/drivers/dma-buf/heaps/chunk_heap.c
-+++ b/drivers/dma-buf/heaps/chunk_heap.c
-@@ -456,7 +456,8 @@ static int __init dmabuf_chunk_heap_area_init(struct reserved_mem *rmem)
-        phys_addr_t mask = align - 1;
-
-        if ((rmem->base & mask) || (rmem->size & mask)) {
--               pr_err("Incorrect alignment for CMA region\n");
-+               pr_err("Incorrect alignment for CMA region: base %pa size %pa mask %pa\n",
-+                               rmem->base, rmem->size, mask);
-                return -EINVAL;
-        }
-
-Thanks for the review, John!
+Userspace uses the memory via mapping it via dmabuf.
