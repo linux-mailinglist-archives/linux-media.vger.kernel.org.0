@@ -2,129 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3627305571
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 09:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFC823056F3
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 10:30:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234769AbhA0IRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 03:17:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38672 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232896AbhA0IPE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 03:15:04 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611735249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=E5AhEGs1fZHdUiGxkSymBk7PBZi4G6XOuFjXSG9Eq4o=;
-        b=mej6njj16e/xkk21Dx/xEB1pgXTMf6sb6IneUutMWu6NULauH+X2idainwluKw5kdb5uVo
-        cnfJSayyz1mlydC/QVOOa742m4v2mXUvJNigoop4fq7aX9g80y5KQUb5lST8ZCZZleG7Fe
-        QwZ1ieA6PznUBPI95WrQItCnV8n757A=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 53A5FB73C;
-        Wed, 27 Jan 2021 08:14:09 +0000 (UTC)
-Date:   Wed, 27 Jan 2021 09:14:08 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
-        david@redhat.com, surenb@google.com, pullip.cho@samsung.com,
-        joaodias@google.com, hridya@google.com, john.stultz@linaro.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, hch@infradead.org, robh+dt@kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 2/4] mm: failfast mode with __GFP_NORETRY in
- alloc_contig_range
-Message-ID: <20210127081408.GA827@dhcp22.suse.cz>
-References: <20210121175502.274391-1-minchan@kernel.org>
- <20210121175502.274391-3-minchan@kernel.org>
- <20210125131200.GG827@dhcp22.suse.cz>
- <YA8dEFSrHBb9muFr@google.com>
- <20210126074449.GA827@dhcp22.suse.cz>
- <YBBpGji3BJYHidHs@google.com>
+        id S231519AbhA0J3O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 04:29:14 -0500
+Received: from mail-vi1eur05on2058.outbound.protection.outlook.com ([40.107.21.58]:20960
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234859AbhA0JEU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Jan 2021 04:04:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nv/jf/2VDtUaFkRPlsdJzvBcChslqTyp8O5sOUfZ1KV8Y2N1+vcKCsrhL5Nv2kyg03FS0jKt9YOIv+rwpUcMJjms4oPwqu132Qy16H/vJR0XXmQAGfYgKdPrz+govfPjWcTaUZh4ePzLL/ROyTvL4TTqqD5ItifrXP+SnoIxxSj/Sr/IcITWPrko50YiL5QA+VqFiZaBxPl7bxQYSB6VL7Xz0mtfAB3nygqMQZLgg5IgviAuhdDHTDnevoAp5M1etEIumYO/e+eBlQ+/hWY5rSSz3cIRLR/cO0NkDBPS3hQD39m9iuMpY+k0lrtLvm4RrJA9Ku30pb7jEjfqOZN78g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K15mBtnRnlVhzeXRe6+V42y/axZrQX4RArbQmgb3gWA=;
+ b=PBytOkvykbA73wATXx6M5exK9TXlIVSNbinPGBFviePutfFJ2vPf18oYSQihe9U7yy9z5IHghLfPzb8TtGUFYmpK5nFVJ3RzP/r/aPVo+4/WLw1sQ/KRmoCnEg6/AMFWw9hwFx7jq2SULso7A9WTBjg1D9pUFFWDhsHHSZ0HEQ+CrHRQ2tZRi541YUtydLaHY803l/gspZANauATT9ydBGsc5ubhh56gVxM2LckXVdAgmNubVq/c5lGAPbMVy9qzEz+PXBVylvm+6CMY6yakv3fLzUrzCVIvEG0oDk3xcOiD0inVICv8VVt4tOQX5Jgdlb3+tnObFupoioTbnYh2iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K15mBtnRnlVhzeXRe6+V42y/axZrQX4RArbQmgb3gWA=;
+ b=kQ4O/Aewpuhi4flVlJBjLCY19YCEY83xnt9QUeHs3bQa+wL2/L/zQQELFWPNraPkcWgwpXdFp4l9FXoisNOUs+eWoNHw5czVKQ/lr2BRBNxbkO8YmAQ6cst2Om6r1TBU2AF5qRuISpEr8vTz32aNRgVuoiJJxux/qk1lq1geBdo=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=none action=none
+ header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB2975.eurprd04.prod.outlook.com (2603:10a6:802:9::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Wed, 27 Jan
+ 2021 09:02:36 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3805.016; Wed, 27 Jan 2021
+ 09:02:36 +0000
+From:   Liu Ying <victor.liu@nxp.com>
+To:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
+        a.hajda@samsung.com, narmstrong@baylibre.com,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
+Subject: [PATCH v3 03/14] media: docs: Add some RGB bus formats for i.MX8qm/qxp pixel combiner
+Date:   Wed, 27 Jan 2021 16:51:17 +0800
+Message-Id: <1611737488-2791-4-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
+References: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
+Content-Type: text/plain
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: SG2PR02CA0049.apcprd02.prod.outlook.com
+ (2603:1096:4:54::13) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBBpGji3BJYHidHs@google.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.66) by SG2PR02CA0049.apcprd02.prod.outlook.com (2603:1096:4:54::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 09:02:30 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3d10bfa1-7a3f-485c-9cb3-08d8c2a24a38
+X-MS-TrafficTypeDiagnostic: VI1PR04MB2975:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB297548D4E3CBADEE12517F7A98BB0@VI1PR04MB2975.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1201;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: M7GyieVA3pi0/LeoZRNOHAtZWJAhTkF5uQPXKgENcHWdStTouftDWYt3AcTBuzEVbAHoIO1RkKrL8t7TXN0wgnKJ0S7uvp7p+NPdF+zTxnq8gvhojAQPr7LSvK2nhzh9KolAg6AlNqDo+yOzXhWXM7DxFhgB1MVu0jw1KUGjH1v6YOrWSpBipBSJBKz6LKxJUItWzgbenWGoRs6z3BAP3V7MUz1LHD7h5lTsjLZZSv58rTgmWBF0XpDQmm5d5FTqPEMEIbMQHXYcVDpb2MHWfcsvYrIMohYosmckj7Nvk3ZqivZDmFcZ28t7f4Zd5aEkOremnVORsjpw0drPg4smMaekJQCKbdDcuPGYHU+3Dr9PGAXzV8bnB8JxjZKkjg/UaA+iVDZfWeFUg6CHkS/WiRY0A2WVOT57YGCMd1q6HFdqKSUhD8umQjl69iy2adz7/d3Pns7orUlfo58VCsHgNldOdNbI+ocTUL5AdLbmF93Y+sDjEiKv374kfnugooq4/5z/+cZLdliUXu6mNo8/VIyuZwCNsI+8grGLybG+TIt3HnfFrYmLGvehyG5KcsUAuiE533iX8WBBKYbZtMD9DA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB3983.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(346002)(39860400002)(136003)(396003)(8936002)(2616005)(6486002)(66946007)(186003)(6666004)(956004)(7416002)(4326008)(36756003)(69590400011)(6506007)(8676002)(316002)(5660300002)(16526019)(86362001)(478600001)(6512007)(2906002)(52116002)(66556008)(26005)(66476007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?zcgWR3rY67V0yLOKqtI5OblI12emwy6JMBumLMup/Jq9Tfb0+nPMbY+RpPzP?=
+ =?us-ascii?Q?sNZXm4cx9hdY23Gk6upxOuYI8W9q6ln802sCbWAp46BZXyUA8sGUDu6hX/TC?=
+ =?us-ascii?Q?FVtqZ+72qpPDovWDCW3Vi55bcss/KWhdHQz2tBq/dLhsyPw3sESZv5jmGWBV?=
+ =?us-ascii?Q?ltGIst7qQGdpN+jcw7IjpSbbehPLje3lCqqFbFbCe2lfzWPpCAnatdZ5/0zU?=
+ =?us-ascii?Q?3VjuOho+sbrdQAGS33plOXcMheqGQMdc71sdyeGVM/ckPAaTH8DyOZZogrFa?=
+ =?us-ascii?Q?05ERbbMjzJHhsPchk4LQ+hjw0NIdRu8B5Zv49ktQ8Sstj3i4qOiI5h6qJuAc?=
+ =?us-ascii?Q?IIUdkgugfi8WIbrU7QZh63/9er8uIEaGtrTxZ2y8MRBactkUfttyOUk+BDKe?=
+ =?us-ascii?Q?LxfRObFd/Oc0FhJIw10Sh5J9mYiCBektbl4+W1G8Su1zN+nCsVwZ7B841XOk?=
+ =?us-ascii?Q?HT/W7yUo1D/uW8NNz0uX6EL+AUj1gYQVdEpmJSkaOAkIq/T+Cmb4E9O3VcQV?=
+ =?us-ascii?Q?xhyh5brSQsT+nZI4Zm8MeoZB21xxLb3D80ovg/agBSSIcHRG3PfNTKeKTcgw?=
+ =?us-ascii?Q?TdxX0gp0NJZsTmg/T1J6wZAKy4nS1VZBjx2u8TA8f3YOsCjf4ak/CgXaevO6?=
+ =?us-ascii?Q?azjlO8zSezGg5a2fIZCZudfqtb/UeYdEfIr8898i5rA/B3aCRB9cv2i/9Im6?=
+ =?us-ascii?Q?wRQEWoo0huLYsHCjjzp3BwY3kWYFFy/L8vwwBGJNp2noxo6ldRcchb81QdQJ?=
+ =?us-ascii?Q?NZ/3Lt3nFPPYHZIL+Q9oYKl2pgppnSaXrBFVWpLVQImtqtW3hH93PStLTtcO?=
+ =?us-ascii?Q?A/DRAUIwQcpHEbSjA9Kw84QfQdY/G4DDIyOomA6BOyywVKnNmCt5ULu6ZgQw?=
+ =?us-ascii?Q?gLhM/49mSCSrGY6YdFYa1/FCLujhXT2kDQ0NvgsKgLgt8xkg5uYFnPKItusv?=
+ =?us-ascii?Q?U/Alo31IlBRQtivJFOX1L2JvZywf2b9s0s2mS3H49ojGvbNMIsVdl93E6KgR?=
+ =?us-ascii?Q?a/a3EumKowaSfs0FnBk2CWRe3Nl19tlTIKSyb66YSKhG7Yx+KdCmG5QL9vde?=
+ =?us-ascii?Q?mwhwovrO?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d10bfa1-7a3f-485c-9cb3-08d8c2a24a38
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 09:02:36.2417
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ul+OgVyAsysttYPy4az5ERZGYq5wDo2qKvHqpwPc/4qnw1tCS378bjElVIz2td7J0Z4WebigD4fspaFvI7fWPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB2975
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue 26-01-21 11:10:18, Minchan Kim wrote:
-> On Tue, Jan 26, 2021 at 08:44:49AM +0100, Michal Hocko wrote:
-> > On Mon 25-01-21 11:33:36, Minchan Kim wrote:
-> > > On Mon, Jan 25, 2021 at 02:12:00PM +0100, Michal Hocko wrote:
-> > > > On Thu 21-01-21 09:55:00, Minchan Kim wrote:
-> > > > > Contiguous memory allocation can be stalled due to waiting
-> > > > > on page writeback and/or page lock which causes unpredictable
-> > > > > delay. It's a unavoidable cost for the requestor to get *big*
-> > > > > contiguous memory but it's expensive for *small* contiguous
-> > > > > memory(e.g., order-4) because caller could retry the request
-> > > > > in different range where would have easy migratable pages
-> > > > > without stalling.
-> > > > > 
-> > > > > This patch introduce __GFP_NORETRY as compaction gfp_mask in
-> > > > > alloc_contig_range so it will fail fast without blocking
-> > > > > when it encounters pages needed waiting.
-> > > > 
-> > > > I am not against controling how hard this allocator tries with gfp mask
-> > > > but this changelog is rather void on any data and any user.
-> > > > 
-> > > > It is also rather dubious to have retries when then caller says to not
-> > > > retry.
-> > > 
-> > > Since max_tries is 1 with ++tries, it shouldn't retry.
-> > 
-> > OK, I have missed that. This is a tricky code. ASYNC mode should be
-> > completely orthogonal to the retries count. Those are different things.
-> > Page allocator does an explicit bail out based on __GFP_NORETRY. You
-> > should be doing the same.
-> 
-> A concern with __GFP_NOWAIT is regardless of flags passed to cma_alloc,
-> internal implementation of alloc_contig_range inside will use blockable
-> operation. See __alloc_contig_migrate_range.
+This patch adds documentations for RGB666_1X30_CPADLO, RGB888_1X30_CPADLO,
+RGB666_1X36_CPADLO and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp
+pixel combiner.  The RGB pixels with padding low per component are
+transmitted on a 30-bit input bus(10-bit per component) from a display
+controller or a 36-bit output bus(12-bit per component) to a pixel link.
 
-Yes it is now. But nothing should prevent from making it non blockable.
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+v2->v3:
+* No change.
 
-> If we go with __GFP_NOWAIT, we should propagate the gfp_mask inside of
-> __alloc_contig_migrate_range to make cma_alloc consistent with alloc_pages.
+v1->v2:
+* No change.
 
-Absolutely. You should be doing that anyway. As I've said above you
-shouldn't rely on side effects like ASYNC mode.
+ .../userspace-api/media/v4l/subdev-formats.rst     | 156 +++++++++++++++++++++
+ 1 file changed, 156 insertions(+)
 
-> (IIUC, that's what you want - make gfp_mask consistent between cma_alloc
-> and alloc_pages) but I am worry about the direction will make complicate
-> situation since cma invovles migration context as well as target page
-> allocation context. Sometime, the single gfp flag could be trouble
-> to express both contexts all at once. 
-
-I am not sure I see your concern.
-
-> > > > Also why didn't you consider GFP_NOWAIT semantic for non blocking mode?
-> > > 
-> > > GFP_NOWAIT seems to be low(specific) flags rather than the one I want to
-> > > express. Even though I said only page writeback/lock in the description,
-> > > the goal is to avoid costly operations we might find later so such
-> > > "failfast", I thought GFP_NORETRY would be good fit.
-> > 
-> > I suspect you are too focused on implementation details here. Think
-> > about the indended semantic. Callers of this functionality will not
-> > think about those (I hope because if they rely on these details then the
-> > whole thing will become unmaintainable because any change would require
-> > an audit of all existing users). All you should be caring about is to
-> > control how expensive the call can be. GFP_NOWAIT is not really low
-> > level from that POV. It gives you a very lightweight non-sleeping
-> > attempt to allocate. GFP_NORETRY will give you potentially sleeping but
-> > an opportunistic-easy-to-fail attempt. And so on. See how that is
-> > absolutely free of any page writeback or any specific locking.
-> 
-> With above reason I mentioned, I wanted to express __GFP_NORETRY as 
-> "opportunistic-easy-to-fail attempt" to support cma_alloc as "failfast"
-> for migration context.
-
-Yes that is fine. And please note that I do not push for NOWAIT
-semantic. If there is no user for that now then fine.
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index 7f16cbe..201c16d 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -1488,6 +1488,80 @@ The following tables list existing packed RGB formats.
+       - b\ :sub:`2`
+       - b\ :sub:`1`
+       - b\ :sub:`0`
++    * .. _MEDIA-BUS-FMT-RGB666-1X30-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB666_1X30-CPADLO
++      - 0x101e
++      -
++      - 0
++      - 0
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++    * .. _MEDIA-BUS-FMT-RGB888-1X30-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB888_1X30-CPADLO
++      - 0x101f
++      -
++      - 0
++      - 0
++      - r\ :sub:`7`
++      - r\ :sub:`6`
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - g\ :sub:`7`
++      - g\ :sub:`6`
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - b\ :sub:`7`
++      - b\ :sub:`6`
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
+     * .. _MEDIA-BUS-FMT-ARGB888-1X32:
+ 
+       - MEDIA_BUS_FMT_ARGB888_1X32
+@@ -1665,6 +1739,88 @@ The following table list existing packed 36bit wide RGB formats.
+       - 2
+       - 1
+       - 0
++    * .. _MEDIA-BUS-FMT-RGB666-1X36-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB666_1X36_CPADLO
++      - 0x1020
++      -
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++    * .. _MEDIA-BUS-FMT-RGB888-1X36-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB888_1X36_CPADLO
++      - 0x1021
++      -
++      - r\ :sub:`7`
++      - r\ :sub:`6`
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - g\ :sub:`7`
++      - g\ :sub:`6`
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - b\ :sub:`7`
++      - b\ :sub:`6`
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
+     * .. _MEDIA-BUS-FMT-RGB121212-1X36:
+ 
+       - MEDIA_BUS_FMT_RGB121212_1X36
 -- 
-Michal Hocko
-SUSE Labs
+2.7.4
+
