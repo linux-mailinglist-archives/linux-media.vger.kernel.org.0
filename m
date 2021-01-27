@@ -2,155 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 983CA305713
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 10:37:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0095D30570F
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 10:36:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234684AbhA0JhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 04:37:13 -0500
-Received: from mail-eopbgr60062.outbound.protection.outlook.com ([40.107.6.62]:5859
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234840AbhA0JDW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 04:03:22 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AwXR8OQg9xJ8okqTqJHX67bZwUxGWXgp2koDihmQJP3eKOuGhl4gzbhjRXNyBUnMZ4qZDrD1o6QZw4vSubE7ap60A+1lWppknONkD/yaQYi9o2c6dIIGtf+nO23/hMlQvLHUx1fkIjUunLe9nqir52xv+qQ7zd4O2CShAjzB1exvhFvAJMxOU+k7Zjktr6WyLqkDqWBmZ1/Lazl501GlAbHgJTQjESNRiPffnvmfNtz7rzlbtsdlboqj9ItoQJWT3phqBzjRaY5i1bF6jkgLJCOeXS6ivtFwXu2AUqXiH9nDBlzbSr0pHEcQFx9E9OAMGAUVH40Ymxi2ig4tMFz4OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OwFOMuVKshgQDKiBAsFggICil7yw7RtDrxCYg25axfw=;
- b=etPbWKPCrNvJ30MW3FecbKSqnX5dI4lkA2utk2+D7Srtsef/1IEds3+1tIfN1neSXJe1vTzB3So+6eyVLj5nXxsjE7NFDCaDggM1ZcXq5WDFDLspKb8xaRZPrCZdNsfrR1eBJbc49W0mBroQHqwxKhcDTg72v6iXhr2yj8GQI25EQ/yLmJ1ElxQ4ym7mswfpUXz0MXin0Ou9d1Maq6KynhoOxSnUwmH1C46HfnCUZT3Ex9vu6COqOUuXGBEizUp5dOJR6yzmEclvsVT4Koi0W4dqtQF+6CEF8IMfqEmTzO8hDc/KWIJrBkzt1AWw1b6jviJdjs+ghZHCdy0vYbZEJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OwFOMuVKshgQDKiBAsFggICil7yw7RtDrxCYg25axfw=;
- b=B4Lar6J1am+ndUCYXCyNOiD6PmvhXSPEV+Dks612hBxJe8AtzZVFeupaxRbGFAAeLCZw1C3nwdt6Kwwly/ey9DuO7ZLx794q+pj6GEesTHwyOQWgWgKMKrzobSfOpV/5gBz3HnZkopU7oqL7EaQlFWp6xEXIdPV9yv2RQV0SZlg=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=none action=none
- header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VE1PR04MB6559.eurprd04.prod.outlook.com (2603:10a6:803:126::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Wed, 27 Jan
- 2021 09:02:30 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3805.016; Wed, 27 Jan 2021
- 09:02:30 +0000
-From:   Liu Ying <victor.liu@nxp.com>
-To:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
-        a.hajda@samsung.com, narmstrong@baylibre.com,
-        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
-Subject: [PATCH v3 02/14] media: uapi: Add some RGB bus formats for i.MX8qm/qxp pixel combiner
-Date:   Wed, 27 Jan 2021 16:51:16 +0800
-Message-Id: <1611737488-2791-3-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
-References: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
-Content-Type: text/plain
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR02CA0049.apcprd02.prod.outlook.com
- (2603:1096:4:54::13) To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+        id S234933AbhA0Jgf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 04:36:35 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59145 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234850AbhA0JDd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Jan 2021 04:03:33 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4giqll9Uq1U0p4giulzoKp; Wed, 27 Jan 2021 10:02:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611738168; bh=WM93M7GQdaTpsK01iu5vr6yjZIgGqem1aksLuP+stKM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=tneJnUlq5ZaJKcbZspsKxDb6uIPrAB1yMSxNdhpXNuNCiPC8F8XCTkz92BlM8qhNb
+         IOrzhpnLKl/GE52BNZ1rm+qu7xEXDBFUZDttngqNwq8X5EWVIut/eDPs7AHC+m3V/o
+         9eh7nM0HVI3VlQb7lGMgIoEVPhS21VzvPP57GdvS3b/HJs2nJYsOddNnJ5n/Shto6K
+         4UIa2KICmJ/eeT7YyXivtKirLx5X8j3GYYduiC11SMPvieFcYlw7tAKBl240QcDFrk
+         D4MgPutjpV5T/UcJ7r/5jYVv+92qJQ8YL+kZnGy94OORRg8+r2EcWTe4pXCkpsXz9+
+         kMevlc6F2yYcA==
+Subject: Re: [PATCH] v4l2-ctl: print delta to current clock in verbose mode
+To:     Max Schulze <max.schulze@posteo.de>, linux-media@vger.kernel.org
+References: <71a724ea-ffd4-25f5-b1ca-40802a625b62@posteo.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <400c6a61-b778-0400-4ec2-cb254b9c67d5@xs4all.nl>
+Date:   Wed, 27 Jan 2021 10:02:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by SG2PR02CA0049.apcprd02.prod.outlook.com (2603:1096:4:54::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 09:02:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: c733c30e-3333-4259-888f-08d8c2a2468b
-X-MS-TrafficTypeDiagnostic: VE1PR04MB6559:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB65591649AA54F62CB222366098BB0@VE1PR04MB6559.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:326;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JUA09FL1/U2a+ji0lx0mh1tePnqpn5twtcOkftomRNLVf+s+D3aFAS29Nny6qPJufaxNWaWlWoBulM1iL1RkbAKWwPpN5GIL8MMRGvk96aR3b4uBKCxjAGbbEiq8ILyOLcmrwvST1JcCaHN9f0lktUqoFXLCSJzglfLT9ure7S6tK1OkmSylPvRvQspLRM9c+YK+YR9bQ2NtLbNz/YDyclnszTQik9EobwRUfey+mOitvUODAHJNUlwqwll2OJwrqLET5lnOWiiF9sW7Gcxv5/KFYD9aVi05FlEbk8dP8PgJoWl1GCec1r9TDOYpnj+42Pydv6yyZl6+w6DaPB/dEfde9PmuMZFQfUnadsWArb3EAVkYg6FlnpFopkxozYJssG67ZCfFrucL0iDlnq5DI+y9pIpVBjtQ/pa23BYLbohyU5L7AjHS1Lwf0jVoTkxxUgYpd4BI30F2itxxIMZ8QMLBFXJZiTU+AKhkzxfFzxZelXhmYkQHaGxtUfNhrtP7tjJ69pbh9dvrexBg1oRWfthakz9b2uGKVK7NxL4Zyuu/0bizvrJVK1OjY5tRdRiOX9NCjybaTiJwM7KVFiOymQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB3983.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(376002)(396003)(39860400002)(136003)(86362001)(83380400001)(6512007)(478600001)(6486002)(316002)(5660300002)(7416002)(8676002)(8936002)(2906002)(26005)(69590400011)(4326008)(6666004)(52116002)(66946007)(6506007)(66476007)(66556008)(186003)(2616005)(956004)(16526019)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?rIM1F9brxpa/LCh2+whEBVsKw+sez+qozxGUHpZ89kD2z4TC5mJyEJh6MbkK?=
- =?us-ascii?Q?gEal92Uj5ihmsuOVny64+l7GupzwM9FATw7BB8dau7pRnExR5JzMqvwSiB1X?=
- =?us-ascii?Q?mp4PN8iH7cBc/P+90sT2g/yfRqAywpCF5udDwOK9cjHzaHGcRbU9sEeKONIo?=
- =?us-ascii?Q?pn5MQAit2wZ730LgURw08KSJT1cUyDMDQueZK8TI3CTnsqpf4bnaD29lDhEl?=
- =?us-ascii?Q?o4Kn0mBPUlgtNgPemGfXcvS/mFOk6ULaElk4szoWgPJQX3EEWWJQbRhsuS8l?=
- =?us-ascii?Q?eD0LR7ZXXeDi9hTAnkpL/SEcPpKlIOuL+iTYFyLawZ42Sd6Vn3vDzAJChW4D?=
- =?us-ascii?Q?7UX+B5DFW4utEMw3Xr69US4/0OFh5dmWOMhu0QVVZKm7yf++0ymw9E68N3XU?=
- =?us-ascii?Q?HL0EIvEePAmCpztEtV1GWnw3yGRmhgF0Moyc3LVxmZnrybKmgoLmEOL4GN9o?=
- =?us-ascii?Q?hZi5e/1aYsqfNtzZjKALNj8Egq5TA6c34W9t0Wvs6Ag2xqxsqU7oJaworVn5?=
- =?us-ascii?Q?yNnBwi5Kj9LfbQm4kg7pZ68LvNEPv89Er3fXd0GZaBWy8TASkZdnDE8elhZd?=
- =?us-ascii?Q?J5rVT4jLQEwImLgXKMWg3Fc78qbAMT70h4b8r4JkvPOWkY12PmGWnxglRuQy?=
- =?us-ascii?Q?wL6BY9CG248CjmMtqpmkk4E4tNpugdU1lBTMIErK9rYG7EjUsSJZZOf6iRoM?=
- =?us-ascii?Q?ImXAwdbSTm5RTPczEjzxfpA//Q/lQnX7b7a/unKGczR9GW5dqCdeW62s+dz5?=
- =?us-ascii?Q?n8XzocW2scYlFXqO7BaYohCVRDNkLOGM3fGYX9FzbpoNK4iBmmZqLNdhnzoM?=
- =?us-ascii?Q?G93HZ9rgD65gpIqZqk4SyvogIU27nhNDFWttNqcUY1+MpGAuYcBDj7ZgH1BY?=
- =?us-ascii?Q?r5muaxsLxMf/yu5Qc+24TFOLw4V9NzWIGVvArDozgGBQKqtY6Y2Hj2Zi0EWU?=
- =?us-ascii?Q?blEM8sN2M6e5OE8j2K8tOsPcW8WPX+P2GSza0lIIgJel0b2tQlEgVajXR/NT?=
- =?us-ascii?Q?ySF6bo0rIa4M5SGx6cCGm1PFmKcgdFDgezuj6glvTz8BF1x/Ycznn/YdibNq?=
- =?us-ascii?Q?N2/4EfG0?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c733c30e-3333-4259-888f-08d8c2a2468b
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 09:02:29.9403
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: adfg38S0lwYDvv78PnfOhTKVI/JXdhHkQTz35rxuj9ZZ+CTz8EguHoz/+wO0+M0Z8/+X98ny0KQHTmyZjCta0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6559
+In-Reply-To: <71a724ea-ffd4-25f5-b1ca-40802a625b62@posteo.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfIKZqUy+iXuZIrp3N0shbkR9HBCc/Or8zKMTrsTD1atDS40XE1SE1BrGfjEK3c5b+drOWEH2UB2F9ZYRFMiaMRGcdUEVHKZJdgnD+FJkVnBLOpy+/gvo
+ +8iNA92LTP0KHgPYfF7jhyQNSF4jLmfyjSAkapEpJuhKC/BAlqZ4nGyhIL3EyDtJ1SDcDIH7R8/jwIII6RK4YG7I6GUq+RQT/ux+0kKOBIXMPuS8m3o0eToa
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds RGB666_1X30_CPADLO, RGB888_1X30_CPADLO, RGB666_1X36_CPADLO
-and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp pixel combiner.
-The RGB pixels with padding low per component are transmitted on a 30-bit
-input bus(10-bit per component) from a display controller or a 36-bit
-output bus(12-bit per component) to a pixel link.
+Hi Max,
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v2->v3:
-* No change.
+On 26/01/2021 15:24, Max Schulze wrote:
+> If the Buffer Timestamp Clock is _MONOTONIC, print the delta
+> to the current clock time. Useful for debugging / insights.
+> 
+> 
+> Signed-off-by: Max Schuze <max.schulze@posteo.de>
+> ---
+>   utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp 
+> b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> index a3580595..d024f925 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> @@ -556,9 +556,15 @@ static void print_concise_buffer(FILE *f, 
+> cv4l_buffer &buf, cv4l_fmt &fmt,
+>           double ts = buf.g_timestamp().tv_sec + 
+> buf.g_timestamp().tv_usec / 1000000.0;
+>           fprintf(f, " ts: %.06f", ts);
+>           if (last_ts <= 0.0)
+> -            fprintf(f, " delta: %.03f ms", (ts - last_ts) * 1000.0);
+> +            fprintf(f, " delta last: %.03f ms", (ts - last_ts) * 1000.0);
+>           last_ts = ts;
+> 
+> +        if ((buf.g_flags() & V4L2_BUF_FLAG_TIMESTAMP_MASK) == 
+> V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC) {
+> +            timespec ts_clock;
+> +            clock_gettime(CLOCK_MONOTONIC, &ts_clock);
+> +            fprintf(f, " delta now: %+.03f ms", ((ts_clock.tv_sec + 
+> ts_clock.tv_nsec / 1000000000.0) - ts) * 1000.0);
 
-v1->v2:
-* No change.
+I have no objection to this, but I think this needs to be enabled
+with a new option (e.g. --stream-show-delta-now) to avoid cluttering
+the output too much.
 
- include/uapi/linux/media-bus-format.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Regards,
 
-diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-index 0dfc11e..ec3323d 100644
---- a/include/uapi/linux/media-bus-format.h
-+++ b/include/uapi/linux/media-bus-format.h
-@@ -34,7 +34,7 @@
- 
- #define MEDIA_BUS_FMT_FIXED			0x0001
- 
--/* RGB - next is	0x101e */
-+/* RGB - next is	0x1022 */
- #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-@@ -59,9 +59,13 @@
- #define MEDIA_BUS_FMT_RGB888_3X8_DELTA		0x101d
- #define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG		0x1011
- #define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA	0x1012
-+#define MEDIA_BUS_FMT_RGB666_1X30_CPADLO	0x101e
-+#define MEDIA_BUS_FMT_RGB888_1X30_CPADLO	0x101f
- #define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
- #define MEDIA_BUS_FMT_RGB888_1X32_PADHI		0x100f
- #define MEDIA_BUS_FMT_RGB101010_1X30		0x1018
-+#define MEDIA_BUS_FMT_RGB666_1X36_CPADLO	0x1020
-+#define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
- #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
- #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
- 
--- 
-2.7.4
+	Hans
+
+> +        }
+> +
+>           if (fps_ts.has_fps(true))
+>               fprintf(stderr, " fps: %.02f", fps_ts.fps());
+> 
 
