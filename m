@@ -2,94 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 978A5305ABC
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D300B305AE2
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:10:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237611AbhA0MEX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 07:04:23 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:42307 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237102AbhA0MBb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 07:01:31 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 4jV5lXiYsI2394jV8lhCJz; Wed, 27 Jan 2021 13:00:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1611748847; bh=0AzF55Jm0IIRIMqXAMk5LEUSkHNmCZO64x7XOqGXwLY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Dj/XSM8gWRVVYm9qfXtIKdHG+uGdDSmqxmLk+ZToFNBsse7DIFoCm7/txp2E/Mgg2
-         +cYN9Nq1XIGBaLcuw9kG1wUG1ywQ03yWVdNds1Wmla5jA3gbm7Cax1ozmbwlp36MBE
-         qOwmqm06XvaFCrq7Fwl3S9wl5Iu77s0ZNBiH8h/QeAcisto/daWbPl0GERI7Ur/Yt3
-         5/h04WiAg3bGeiOrK3/TbhclnPDJzg5n1MHSpOPNAUpawAxBd1/Hf+7vsRWhrAqsk3
-         EQWwt3A/MXViO4BdI/6Uo2XyD86T8fvEmx/sPahrU6tW6pnvGML3gMoBEjxwVJeDE/
-         EzxY2h8bQGBDg==
-Subject: Re: v4l2-ctl: Question on last_ts
-To:     Max Schulze <max.schulze@posteo.de>
-Cc:     linux-media@vger.kernel.org
-References: <de158cf3-5825-be21-f8ed-964cb9be6ec0@posteo.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a8a31968-941b-ca44-3112-8d9f7c2215a4@xs4all.nl>
-Date:   Wed, 27 Jan 2021 13:00:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S235491AbhA0MJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 07:09:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42484 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237638AbhA0MHF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Jan 2021 07:07:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 95D7920784;
+        Wed, 27 Jan 2021 12:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1611749184;
+        bh=dVANB09LwALkp+sTk1/RHGXfqYtVo6LFn5maSabxK30=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qDieFINuIfQ5HlI+Q7d4qhudf9ZCuiTBRaas2DMe7dboSfmIU5iWI+Qev11I7Xil8
+         1ek08I89gKNZBTTj7gDXhuYErxetiuAhTydHkj1+ei+GCJl5hqUiIKCIsE3ht+Muml
+         CLfsbz52X/gHRe7p5poUYUB6LM4yJOnB4UwjDXdA=
+Date:   Wed, 27 Jan 2021 13:06:21 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Hridya Valsaraju <hridya@google.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        kernel-team@android.com, john.stultz@linaro.org, surenb@google.com,
+        hyesoo.yu@samsung.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3] dmabuf: Add the capability to expose DMA-BUF stats in
+ sysfs
+Message-ID: <YBFXPbePURupbe+y@kroah.com>
+References: <20210126204240.418297-1-hridya@google.com>
 MIME-Version: 1.0
-In-Reply-To: <de158cf3-5825-be21-f8ed-964cb9be6ec0@posteo.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfGy5Uj4x1Q0vSUyLrv5+QtTYx8bo4reZHpkK+foKKMOeRyNJGzem1ZR12CL0IcrVn2XTA6daws3hb2ifgpY07tiFf+K9NLxdaTXuo5IVtlykrhNUf3Cu
- uQKGD0vk7w/iBdzi6n88/UBsfeLZrFxb8fOF6Ij7bdBhJcstrs5ALglnRoRKWaYIY+5y2b0u/jVGLaISY5oR2jIhKgDS9i0jdES8JIjDZQmD2LvByzYlYjBB
+In-Reply-To: <20210126204240.418297-1-hridya@google.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/01/2021 11:44, Max Schulze wrote:
-> Hello Hans,
+On Tue, Jan 26, 2021 at 12:42:36PM -0800, Hridya Valsaraju wrote:
+> This patch allows statistics to be enabled for each DMA-BUF in
+> sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
+> 
+> The following stats will be exposed by the interface:
+> 
+> /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
+> /sys/kernel/dmabuf/buffers/<inode_number>/size
+> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
+> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_counter
+> 
+> The inode_number is unique for each DMA-BUF and was added earlier [1]
+> in order to allow userspace to track DMA-BUF usage across different
+> processes.
+> 
+> Currently, this information is exposed in
+> /sys/kernel/debug/dma_buf/bufinfo.
+> However, since debugfs is considered unsafe to be mounted in production,
+> it is being duplicated in sysfs.
+> 
+> This information will be used to derive DMA-BUF
+> per-exporter stats and per-device usage stats for Android Bug reports.
+> The corresponding userspace changes can be found at [2].
+> Telemetry tools will also capture this information(along with other
+> memory metrics) periodically as well as on important events like a
+> foreground app kill (which might have been triggered by Low Memory
+> Killer). It will also contribute to provide a snapshot of the system
+> memory usage on other events such as OOM kills and Application Not
+> Responding events.
+> 
+> A shell script that can be run on a classic Linux environment to read
+> out the DMA-BUF statistics can be found at [3](suggested by John
+> Stultz).
+> 
+> The patch contains the following improvements over the previous version:
+> 1) Each attachment is represented by its own directory to allow creating
+> a symlink to the importing device and to also provide room for future
+> expansion.
+> 2) The number of distinct mappings of each attachment is exposed in a
+> separate file.
+> 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
+> inorder to make the interface expandable in future.
+> 
+> All of the improvements above are based on suggestions/feedback from
+> Daniel Vetter and Christian K�nig.
+> 
+> [1]: https://lore.kernel.org/patchwork/patch/1088791/
+> [2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(status:open%20OR%20status:merged)
+> [3]: https://android-review.googlesource.com/c/platform/system/memory/libmeminfo/+/1549734
+> 
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+> Changes in v3:
+> Fix a warning reported by the kernel test robot.
+> 
+> Changes in v2:
+> -Move statistics to /sys/kernel/dmabuf/buffers in oder to allow addition
+> of other DMA-BUF-related sysfs stats in future. Based on feedback from
+> Daniel Vetter.
+> -Each attachment has its own directory to represent attaching devices as
+> symlinks and to introduce map_count as a separate file. Based on
+> feedback from Daniel Vetter and Christian K�nig. Thank you both!
+> -Commit messages updated to point to userspace code in AOSP that will
+> read the DMA-BUF sysfs stats.
 > 
 > 
-> I do not understand the concept on last_ts.
-> 
->> cap dqbuf: 0 seq:      0 bytesused: 512000 ts: 137342.420951 delta 
->> last: 137342420.951 ms (ts-monotonic, ts-src-soe)
->> cap dqbuf: 1 seq:      2 bytesused: 512000 ts: 137342.484954 dropped: 
->> 1 (ts-monotonic, ts-src-soe)
-> 
-> It seems to print the timestamp on the first frame, but then never again 
-> (how useful is it, to print the same timestamp twice?).
-> 
-> 
->> if (last_ts <= 0.0)
->>             fprintf(f, " delta last: %.03f ms", (ts - last_ts) * 1000.0);
->>         last_ts = ts;
-> 
-> Might it be, that commit 222e1760c7 "utils: fix implicit float 
-> conversion" got the float conversion wrong and it should rather be
-> 
->>         if (last_ts > 0.0)
-> 
-> To my understanding, this would yield a much-more useful output of 
-> printing the diff to the last frame _in every frame_
+>  .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  52 ++++
+>  drivers/dma-buf/Kconfig                       |  11 +
+>  drivers/dma-buf/Makefile                      |   1 +
+>  drivers/dma-buf/dma-buf-sysfs-stats.c         | 285 ++++++++++++++++++
+>  drivers/dma-buf/dma-buf-sysfs-stats.h         |  62 ++++
+>  drivers/dma-buf/dma-buf.c                     |  37 +++
+>  include/linux/dma-buf.h                       |  20 ++
+>  7 files changed, 468 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+>  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
+>  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
 
-Yep, you are correct. It's now fixed. I was wondering about that as well
-when I looked at the code.
+I don't know the dma-buf code at all, but from a sysfs/kobject point of
+view, this patch looks good to me:
 
-Thanks for reporting this!
-
-	Hans
-
-> 
-> 
->> cap dqbuf: 0 seq:      0 bytesused: 512000 ts: 143215.916971 
->> (ts-monotonic, ts-src-soe)
->> cap dqbuf: 1 seq:      2 bytesused: 512000 ts: 143215.984995 delta 
->> last: 68.024 ms dropped: 1 (ts-monotonic, ts-src-soe)
->> cap dqbuf: 2 seq:      3 bytesused: 512000 ts: 143216.016956 delta 
->> last: 31.961 ms (ts-monotonic, ts-src-soe)
->> cap dqbuf: 3 seq:      4 bytesused: 512000 ts: 143216.052981 delta 
->> last: 36.025 ms (ts-monotonic, ts-src-soe)
->> cap dqbuf: 0 seq:      5 bytesused: 512000 ts: 143216.088920 delta 
->> last: 35.939 ms fps: 29.08 (ts-monotonic, ts-src-soe)
-> 
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
