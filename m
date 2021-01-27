@@ -2,166 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2D5E30651B
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 21:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48AB9306554
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 21:43:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231206AbhA0U0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 15:26:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36708 "EHLO
+        id S232777AbhA0Unc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 15:43:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232845AbhA0U0W (ORCPT
+        with ESMTP id S233256AbhA0Un3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 15:26:22 -0500
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A931C061756
-        for <linux-media@vger.kernel.org>; Wed, 27 Jan 2021 12:25:41 -0800 (PST)
-Received: by mail-qk1-x72b.google.com with SMTP id l27so3086984qki.9
-        for <linux-media@vger.kernel.org>; Wed, 27 Jan 2021 12:25:41 -0800 (PST)
+        Wed, 27 Jan 2021 15:43:29 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D1AC061573;
+        Wed, 27 Jan 2021 12:42:49 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id a20so1991696pjs.1;
+        Wed, 27 Jan 2021 12:42:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lZoBtRS8YOTJzu29qNFHhNioiABAFU8p2auHgs06phc=;
-        b=dOg76lBVPdgpL3K73aYKg8S9kQsTuB3QhYLxcfe3hHPcoKGHrOFvkQQia+LkpUWZWb
-         0UIi0DLfFKVMkuPiul/U7qPVKpWdv7lvmz0i9DXyH/ih3tJxljDye/cpDcIc9GI0zexo
-         S+eAKL4OYxBDNi0rUvQiNCjudtuTDR0XWN6iyVWuzKXiZMxYHnonmBnrJ63QJ7yVO16a
-         apfU0eyuMBOxkwtaArHphf7XOWX72sDIS8qKoheNOO19geIOJEe0pEdEOVCd2LjrdoyH
-         Fw8LoVKhRxn919ILiOjY/WckYtg/hGwZXS9ZUQLeNT57uyhAIH6ybrrkNPmSclOMZOyS
-         wGWw==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=heAqkYphZYwX3mYVMDdP10R2l2TFo2HmDmbz1DiFkNE=;
+        b=K0T81wAKtAFxYGJqnI8tNi9jqePKm9zDwFtaAH9ROlxwFJ3ja4XBrZdQlyTB3YScyf
+         Vs4wulo78erERFxQi1GI3/yzOPf8n2KcHcd6ZaZNx13DndiA8fyqLbb1rUQk4PdQF83O
+         +xVsD8JcOvts1HfSuUZJsVjhIrP+d+n14QYMS5S+cFI/6r9FFVUZY8rsLK3Fh06ERuP4
+         M3634ytlArQvdjfLm0ABdYmDYFPOAxhp65cYAgefIb3U+yukrn/HuaRK7FzQaxVcbjcI
+         5MTN0gqK/4/1MKgl3iyejTRBDCFeT57wU5DZmJG4owiXL9r7dttpDJI9Uh6WClas3X9O
+         TjwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lZoBtRS8YOTJzu29qNFHhNioiABAFU8p2auHgs06phc=;
-        b=AV+kVQ9Tk1VYQLCcGTF81tI9MLdl6CCR/lIAO9F1AwT//LFm8c+NJHAytTmQfUD9FQ
-         FgQkSD9/p+g2nLEWyNhY7iaKJ6GgrbPCGy5z85xtBq0/kuJ0dmiTubH/3+I3ww3azOfc
-         5AsAd4o7bylVseECE6AbPYwK5+xNaxLydqhE6v/hBpD/VJ9xMrH3yrauLwO8Vg1ogHb+
-         bWkhnoNHBxAYhtsWw2rw4E2TEZ5U8vCJR7Up+kI4QCbL85DGvcuGi++bgIWHK6aJpav4
-         bMz+tdFVMBn++FqW9918Ju+pp4COo71oS0Ap+h93tOQAh4/ztYI1Jhyqz8cYyA23KsDW
-         uv+w==
-X-Gm-Message-State: AOAM530Xmt2oMDWX5NrUl6sl+wWUFFuqh4Rsyl6cliD1layTzSNA/3NZ
-        mydeUijQfWkulxcN4VFJg1q4Y+BiJWFsUKw9/M7YzQ==
-X-Google-Smtp-Source: ABdhPJzrXGIOvM2o8iMF0bkxogCRV5D8LhWKGv10+6bJZ18hS+cdFs/W7ewbDbyxyJtymoETwoc1+36mu6cH94Vad+w=
-X-Received: by 2002:a37:7003:: with SMTP id l3mr12574546qkc.467.1611779140267;
- Wed, 27 Jan 2021 12:25:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20210121175502.274391-1-minchan@kernel.org> <20210121175502.274391-4-minchan@kernel.org>
- <CALAqxLU3yU8e006G0W-mSBLogWAru6jOJcBbuH5wFHoi1JitPA@mail.gmail.com>
-In-Reply-To: <CALAqxLU3yU8e006G0W-mSBLogWAru6jOJcBbuH5wFHoi1JitPA@mail.gmail.com>
-From:   Hridya Valsaraju <hridya@google.com>
-Date:   Wed, 27 Jan 2021 12:25:04 -0800
-Message-ID: <CA+wgaPNoRm7GrUNm4wPV8BkWZT4KhqF5WHUb7f1U5Xz3zeSxGg@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] dt-bindings: reserved-memory: Make DMA-BUF CMA
- heap DT-configurable
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=heAqkYphZYwX3mYVMDdP10R2l2TFo2HmDmbz1DiFkNE=;
+        b=ajM6cD9VvPywMcGN3S8+p2xWtsG3XzjSIiNEBbt04HNe/w3zzh+3JrWmdqYY0HBIJo
+         JuPG+h0y0b+pCEVGM39nI+xCd6EdAYRuEf/16LN7ijAJTEu3KzhFiQmU8BUYPRjH8Kyj
+         vRThnVFjBhbEI2qqOxMi+FATAcc5lFa3f/naAQH3OMWxOzhaV2rUTZZmB0/Y47TFw8xX
+         MxP78fbOUEJ6hyFMBwXGioV3tRvUN0jBSiuvka8noi3FiHkLJTJh+WESV5bwifqZP5lQ
+         qsF3Tb2oX+M12jwChd4PS92xyV1FfDvnutplXZhyWaq22M/hkpd5SjFcPv9pbdg/rLuv
+         jUkQ==
+X-Gm-Message-State: AOAM532QjvgJ/FU9KiIEmS8QZ7gYwue0VBSAZPKGnqcrKlbUS2RVszZO
+        12P4i8afUWVb4FZ/WwkEEss=
+X-Google-Smtp-Source: ABdhPJyrDUsN/Czs9FxNo3YQSGdUkHSsN4MG+RN/LXd3icOH8HO4d6Aya9e6WjnHk3Ic8QmrVWjzeQ==
+X-Received: by 2002:a17:902:edcd:b029:df:d2b1:ecf0 with SMTP id q13-20020a170902edcdb02900dfd2b1ecf0mr13184394plk.15.1611780169223;
+        Wed, 27 Jan 2021 12:42:49 -0800 (PST)
+Received: from google.com ([2620:15c:211:201:9dd5:b47b:bb84:dede])
+        by smtp.gmail.com with ESMTPSA id a72sm3457344pfa.126.2021.01.27.12.42.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jan 2021 12:42:47 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Wed, 27 Jan 2021 12:42:45 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hyesoo Yu <hyesoo.yu@samsung.com>, david@redhat.com,
-        Michal Hocko <mhocko@suse.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        KyongHo Cho <pullip.cho@samsung.com>,
-        John Dias <joaodias@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
+        david@redhat.com, surenb@google.com, pullip.cho@samsung.com,
+        joaodias@google.com, hridya@google.com, john.stultz@linaro.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, hch@infradead.org, robh+dt@kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 2/4] mm: failfast mode with __GFP_NORETRY in
+ alloc_contig_range
+Message-ID: <YBHQRY8kw8/wjFK8@google.com>
+References: <20210121175502.274391-1-minchan@kernel.org>
+ <20210121175502.274391-3-minchan@kernel.org>
+ <20210125131200.GG827@dhcp22.suse.cz>
+ <YA8dEFSrHBb9muFr@google.com>
+ <20210126074449.GA827@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210126074449.GA827@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 11:07 PM John Stultz <john.stultz@linaro.org> wrote:
->
-> On Thu, Jan 21, 2021 at 9:55 AM Minchan Kim <minchan@kernel.org> wrote:
-> >  .../reserved-memory/dma_heap_chunk.yaml       | 56 +++++++++++++++++++
-> >  1 file changed, 56 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml b/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
-> > new file mode 100644
-> > index 000000000000..00db0ae6af61
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
-> > @@ -0,0 +1,56 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/reserved-memory/dma_heap_chunk.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Device tree binding for chunk heap on DMA HEAP FRAMEWORK
-> > +
-> > +description: |
-> > +  The DMA chunk heap is backed by the Contiguous Memory Allocator (CMA) and
-> > +  supports bulk allocation of fixed size pages.
-> > +
-> > +maintainers:
-> > +  - Hyesoo Yu <hyesoo.yu@samsung.com>
-> > +  - John Stultz <john.stultz@linaro.org>
-> > +  - Minchan Kim <minchan@kernel.org>
-> > +  - Hridya Valsaraju<hridya@google.com>
-> > +
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - dma_heap,chunk
-> > +
-> > +  chunk-order:
-> > +    description: |
-> > +            order of pages that will get allocated from the chunk DMA heap.
-> > +    maxItems: 1
-> > +
-> > +  size:
-> > +    maxItems: 1
-> > +
-> > +  alignment:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - size
-> > +  - alignment
-> > +  - chunk-order
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    reserved-memory {
-> > +        #address-cells = <2>;
-> > +        #size-cells = <1>;
-> > +
-> > +        chunk_memory: chunk_memory {
-> > +            compatible = "dma_heap,chunk";
-> > +            size = <0x3000000>;
->
-> Hey Minchan,
->   Looking closer here, would it make more sense to document the "reg =
-> <>" parameter here as well instead of just "size = <>"?
->
-> That way the address of the region could be explicitly specified (for
-> instance, to ensure the CMA region created is 32bit addressable). And
-> more practically, trying to satisfy the base address alignment checks
-> in the final patch when its set dynamically may require a fair amount
-> of luck  - I couldn't manage it in my own testing on the hikey960 w/o
-> resorting to reg=  :)
->
-> It does look like the RESERVEDMEM_OF_DECLARE() logic already supports
-> this, so it's likely just a matter of documenting it here?
+On Tue, Jan 26, 2021 at 08:44:49AM +0100, Michal Hocko wrote:
+> On Mon 25-01-21 11:33:36, Minchan Kim wrote:
+> > On Mon, Jan 25, 2021 at 02:12:00PM +0100, Michal Hocko wrote:
+> > > On Thu 21-01-21 09:55:00, Minchan Kim wrote:
+> > > > Contiguous memory allocation can be stalled due to waiting
+> > > > on page writeback and/or page lock which causes unpredictable
+> > > > delay. It's a unavoidable cost for the requestor to get *big*
+> > > > contiguous memory but it's expensive for *small* contiguous
+> > > > memory(e.g., order-4) because caller could retry the request
+> > > > in different range where would have easy migratable pages
+> > > > without stalling.
+> > > > 
+> > > > This patch introduce __GFP_NORETRY as compaction gfp_mask in
+> > > > alloc_contig_range so it will fail fast without blocking
+> > > > when it encounters pages needed waiting.
+> > > 
+> > > I am not against controling how hard this allocator tries with gfp mask
+> > > but this changelog is rather void on any data and any user.
+> > > 
+> > > It is also rather dubious to have retries when then caller says to not
+> > > retry.
+> > 
+> > Since max_tries is 1 with ++tries, it shouldn't retry.
+> 
+> OK, I have missed that. This is a tricky code. ASYNC mode should be
+> completely orthogonal to the retries count. Those are different things.
+> Page allocator does an explicit bail out based on __GFP_NORETRY. You
+> should be doing the same.
 
-Thank you John, yes, that makes sense. We will add the 'reg' parameter
-as well when we send out the next version.
+Before sending next revision, let me check this part again.
 
-Regards,
-Hridya
+I want to use __GFP_NORETRY to indicate "opportunistic-easy-to-fail attempt"
+and I want to use ASYNC migrate_mode to help the goal.
 
->
-> thanks
-> -john
+Do you see the problem?
