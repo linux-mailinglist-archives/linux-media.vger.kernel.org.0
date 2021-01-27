@@ -2,118 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6200305802
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 11:15:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1645305814
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 11:18:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231482AbhA0KOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 05:14:46 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:57422 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S314323AbhAZXFQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Jan 2021 18:05:16 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l4XNp-00FMvJ-8o; Tue, 26 Jan 2021 23:04:25 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l4XRL-0000Lm-Mh; Tue, 26 Jan 2021 23:08:03 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.12] UVC driver changes (#71094)
-Date:   Tue, 26 Jan 2021 23:08:03 +0000
-Message-Id: <20210126230803.1305-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <YBBZzXcB8R1xd3Hm@pendragon.ideasonboard.com>
-References: 
+        id S235751AbhA0KRy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 05:17:54 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53037 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234345AbhA0KP4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Jan 2021 05:15:56 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4hqvllXB81U0p4hqzl03ts; Wed, 27 Jan 2021 11:15:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611742513; bh=chb4sMVKUt+7nsODaRCQOkT3XrCkdu29UyjXR3GrcF4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=s68/8M72D0V8nFh1vJiuDWFpQ5ZcJXThDs7mD4DZopC/aH4s+z+yLgD/iBiUtrE5V
+         9+5kCo3uspWrVgA6zs2VXo6tuLYjznb75rWWKb4jIqRNF6et1sQeFFHx0ZZV/sUcpB
+         XAcNjwx2K9FUq7ppG3VArhDWQdD9TXoIvpzAAycqM28O+HsVuM0QJsetCxhuQ+pSq4
+         Q+YKqXpdv34bUXxbRKCWsS2JC+J/BfHJkxlxlMygvD9grJfAKzsh31/SspODM4/JtF
+         VFUhevjqhpLd9RwWKpsEjS9wafnk1NFt2JIh38Kj5felSSM3ALQneajB7tgnvVhlVM
+         civ292PdlTgdQ==
+Subject: Re: [PATCH] v4l2-ctl: print delta to current clock in verbose mode
+To:     Max Schulze <max.schulze@posteo.de>, linux-media@vger.kernel.org
+References: <71a724ea-ffd4-25f5-b1ca-40802a625b62@posteo.de>
+ <400c6a61-b778-0400-4ec2-cb254b9c67d5@xs4all.nl>
+ <cce03638-168e-f7f7-a917-854310c64745@posteo.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <0ccd746f-3555-11e0-9ff7-d2f39ba4685a@xs4all.nl>
+Date:   Wed, 27 Jan 2021 11:15:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <cce03638-168e-f7f7-a917-854310c64745@posteo.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfHXqqpf5Yx1M5VbXFPDBXpP0GUGrDciBsP4q6aPoJ0sY8PhP8J+3W/OkB9DmHhvD6zOpvQTKitrEqjmo7HkuOEAoxZahD+WH+YhjrLQc/SL9w2Q5MEfJ
+ rmHIUwkVi95f8MVLdhUQt46q9KUj4+Z65E9I5QbDUlGIG6pLtY5pvrA88/8rz7amKZI4gvLb+986fx4m7kAQZPaCm132xVoGQo/ekJujd/hcKL1nugg3Q5aT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 27/01/2021 10:19, Max Schulze wrote:
+> Hello Hans,
+> 
+> On 27.01.21 10:02, Hans Verkuil wrote:
+>> Hi Max,
+>>
+>> On 26/01/2021 15:24, Max Schulze wrote:
+>>> If the Buffer Timestamp Clock is _MONOTONIC, print the delta
+>>> to the current clock time. Useful for debugging / insights.
+>>>
+>>>
+>>> Signed-off-by: Max Schuze <max.schulze@posteo.de>
+>>> ---
+>>>    utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 8 +++++++-
+>>>    1 file changed, 7 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+>>> b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+>>> index a3580595..d024f925 100644
+>>> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+>>> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+>>> @@ -556,9 +556,15 @@ static void print_concise_buffer(FILE *f,
+>>> cv4l_buffer &buf, cv4l_fmt &fmt,
+>>>            double ts = buf.g_timestamp().tv_sec +
+>>> buf.g_timestamp().tv_usec / 1000000.0;
+>>>            fprintf(f, " ts: %.06f", ts);
+>>>            if (last_ts <= 0.0)
+>>> -            fprintf(f, " delta: %.03f ms", (ts - last_ts) * 1000.0);
+>>> +            fprintf(f, " delta last: %.03f ms", (ts - last_ts) * 1000.0);
+>>>            last_ts = ts;
+>>>
+>>> +        if ((buf.g_flags() & V4L2_BUF_FLAG_TIMESTAMP_MASK) ==
+>>> V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC) {
+>>> +            timespec ts_clock;
+>>> +            clock_gettime(CLOCK_MONOTONIC, &ts_clock);
+>>> +            fprintf(f, " delta now: %+.03f ms", ((ts_clock.tv_sec +
+>>> ts_clock.tv_nsec / 1000000000.0) - ts) * 1000.0);
+>> I have no objection to this, but I think this needs to be enabled
+>> with a new option (e.g. --stream-show-delta-now) to avoid cluttering
+>> the output too much.
+>>
+> Note we already need to be in verbose mode and not skip_ts .
+> 
+> Example output:
+> 
+>> cap dqbuf: 0 seq:      0 bytesused: 512000 ts: 137342.420951 delta 
+>> last: 137342420.951 ms delta now: +56.301 ms (ts-monotonic, ts-src-soe)
+>> cap dqbuf: 1 seq:      2 bytesused: 512000 ts: 137342.484954 delta 
+>> now: +28.171 ms dropped: 1 (ts-monotonic, ts-src-soe)
+>> cap dqbuf: 2 seq:      3 bytesused: 512000 ts: 137342.520953 delta 
+>> now: +24.296 ms (ts-monotonic, ts-src-soe)
+>> cap dqbuf: 3 seq:      4 bytesused: 512000 ts: 137342.556925 delta 
+>> now: +24.269 ms (ts-monotonic, ts-src-soe)
+>> cap dqbuf: 0 seq:      5 bytesused: 512000 ts: 137342.592909 delta 
+>> now: +24.216 ms fps: 29.08 (ts-monotonic, ts-src-soe)
+> BTW: is this the supposed way to display the "delta last", [...] "show 
+> the timestamp delta between two successive frames." ?
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YBBZzXcB8R1xd3Hm@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/87535/
-Build time: 00:06:54
-Link: https://lore.kernel.org/linux-media/YBBZzXcB8R1xd3Hm@pendragon.ideasonboard.com
+Yes.
 
-gpg: Signature made Tue 26 Jan 2021 06:03:22 PM UTC
-gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+> 
+> 
+> Do you want me to make another patch with mentioned command line option?
 
-Summary: got 7/13 patches with issues, being 0 at build time, plus one error when buinding PDF document
+Yes please!
 
-Error/warnings:
+Regards,
 
-patches/0004-media-uvcvideo-Allow-extra-entities.patch:
+	Hans
 
-   checkpatch.pl:
-	$ cat patches/0004-media-uvcvideo-Allow-extra-entities.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:31: CHECK: Alignment should match open parenthesis
-
-patches/0007-media-uvcvideo-Allow-entity-defined-get_info-and-get.patch:
-
-   checkpatch.pl:
-	$ cat patches/0007-media-uvcvideo-Allow-entity-defined-get_info-and-get.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:36: CHECK: Alignment should match open parenthesis
-
-patches/0008-media-uvcvideo-Implement-UVC_EXT_GPIO_UNIT.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-uvcvideo-Implement-UVC_EXT_GPIO_UNIT.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:31: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0010-media-uvcvideo-Use-dev_-printk-aliases.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-media-uvcvideo-Use-dev_-printk-aliases.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:387: CHECK: Macro argument 'flag' may be better as '(flag)' to avoid precedence issues
-	-:390: WARNING: Prefer [subsystem eg: netdev]_dbg([subsystem]dev, ... then dev_dbg(dev, ... then pr_debug(...  to printk(KERN_DEBUG ...
-	-:393: CHECK: Macro argument reuse '_dev' - possible side-effects?
-
-patches/0011-media-uvcvideo-New-macro-uvc_trace_cont.patch:
-
-   checkpatch.pl:
-	$ cat patches/0011-media-uvcvideo-New-macro-uvc_trace_cont.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:163: CHECK: Macro argument 'flag' may be better as '(flag)' to avoid precedence issues
-	-:166: WARNING: Avoid logging continuation uses where feasible
-
-patches/0012-media-uvcvideo-use-dev_printk-for-uvc_trace.patch:
-
-   checkpatch.pl:
-	$ cat patches/0012-media-uvcvideo-use-dev_printk-for-uvc_trace.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:820: CHECK: Alignment should match open parenthesis
-	-:1332: CHECK: Macro argument 'flag' may be better as '(flag)' to avoid precedence issues
-	-:1336: WARNING: Prefer dev_dbg(... to dev_printk(KERN_DEBUG, ...
-
-patches/0013-media-uvcvideo-Rename-debug-functions.patch:
-
-   checkpatch.pl:
-	$ cat patches/0013-media-uvcvideo-Rename-debug-functions.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:975: CHECK: spaces preferred around that '|' (ctx:VxV)
-	-:975: WARNING: Symbolic permissions 'S_IRUGO|S_IWUSR' are not preferred. Consider using octal permissions '0644'.
-	-:1065: CHECK: Avoid CamelCase: <bValue>
-	-:1072: CHECK: Avoid CamelCase: <bEvent>
-	-:1090: CHECK: Avoid CamelCase: <bSelector>
-	-:1509: CHECK: Prefer using the BIT macro
-	-:1510: CHECK: Prefer using the BIT macro
-	-:1511: CHECK: Prefer using the BIT macro
-	-:1512: CHECK: Prefer using the BIT macro
-	-:1513: CHECK: Prefer using the BIT macro
-	-:1514: CHECK: Prefer using the BIT macro
-	-:1515: CHECK: Prefer using the BIT macro
-	-:1516: CHECK: Prefer using the BIT macro
-	-:1517: CHECK: Prefer using the BIT macro
-	-:1518: CHECK: Prefer using the BIT macro
-	-:1519: CHECK: Prefer using the BIT macro
-	-:1520: CHECK: Prefer using the BIT macro
-
-
-Error #512 when building PDF docs
+> 
+> 
+> Best,
+> 
+> Max
+> 
 
