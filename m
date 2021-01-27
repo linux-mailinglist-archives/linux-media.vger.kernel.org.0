@@ -2,107 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D36AC305903
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 12:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34B4030591D
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 12:05:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236118AbhA0K7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 05:59:32 -0500
-Received: from mx2.suse.de ([195.135.220.15]:46604 "EHLO mx2.suse.de"
+        id S236409AbhA0LDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 06:03:23 -0500
+Received: from mout02.posteo.de ([185.67.36.66]:54891 "EHLO mout02.posteo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236007AbhA0K5w (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 05:57:52 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611745026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KNfOaCzUHOdUdJ/TqcQ2MmdjRFgh4Um7ViH2fY+0P1o=;
-        b=Osv0B8NTTHLSjRsWyItdGALjB1hmRVEfoeriP2Empr4NuhKsZOwIKcW8ZLdySJ34JX62OV
-        vXFExcsQ4aRL2zV3o9PZVl4kF7AaidDuXnH/tHCl/MDFBVtiB1QGxtaSDGyjtvGyamPMQg
-        gEyFuLN0R70gEluj9kfRaQCanEcC+uU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id EE9ABAD57;
-        Wed, 27 Jan 2021 10:57:05 +0000 (UTC)
-Date:   Wed, 27 Jan 2021 11:57:03 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Kalesh Singh <kaleshsingh@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        kernel-team <kernel-team@android.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
-Message-ID: <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
-References: <20210126225138.1823266-1-kaleshsingh@google.com>
- <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+        id S236319AbhA0LBr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Jan 2021 06:01:47 -0500
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id EDC492400FE
+        for <linux-media@vger.kernel.org>; Wed, 27 Jan 2021 12:00:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1611745214; bh=cfJ9Jfr9FCxI5fYsZ+W4d460cgbOGtrL435Q35xiGqs=;
+        h=Subject:To:From:Date:From;
+        b=XuvHjWM5JhG2WYmar6vBhv7IjtMg0PM1w+ENED5D4DO+TTroWNpO6tmrCgV3mvCvS
+         COtclGC/xw2gk+KklttYoq1EFfXlBMI9bHC0GqIS/uNnugZnb1Aso0gFdwg8vHxcFB
+         lEFjZQGJ6U+TkL5os05c4o5FBES2dbT6l5YADZ5cwbRzbgIQ1DWkSQc15nOI3B2G/o
+         kCYVmjNEUzD6g0mZ2kv5lplhkcAYy8qgfKvWrTu6JR6mPN3nBBf4b90mJmxfWnT5Qg
+         MgsqQb+ClrKeMLEb2XVutIfkOZnvZ+62oTQAVcjgfvI2pTneUXDl+hwCMqAlcsRu3c
+         9V+Yb39khlgyw==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4DQgc600J3z9rxQ;
+        Wed, 27 Jan 2021 12:00:05 +0100 (CET)
+Subject: [PATCH v2] v4l2-ctl: print delta to current clock in verbose mode
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+References: <71a724ea-ffd4-25f5-b1ca-40802a625b62@posteo.de>
+ <400c6a61-b778-0400-4ec2-cb254b9c67d5@xs4all.nl>
+ <cce03638-168e-f7f7-a917-854310c64745@posteo.de>
+ <0ccd746f-3555-11e0-9ff7-d2f39ba4685a@xs4all.nl>
+From:   Max Schulze <max.schulze@posteo.de>
+Message-ID: <75ae6722-0909-a90a-5ddc-5cd1f735bc1d@posteo.de>
+Date:   Wed, 27 Jan 2021 12:00:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+In-Reply-To: <0ccd746f-3555-11e0-9ff7-d2f39ba4685a@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed 27-01-21 11:47:29, Jann Horn wrote:
-> +jeffv from Android
-> 
-> On Tue, Jan 26, 2021 at 11:51 PM Kalesh Singh <kaleshsingh@google.com> wrote:
-> > In order to measure how much memory a process actually consumes, it is
-> > necessary to include the DMA buffer sizes for that process in the memory
-> > accounting. Since the handle to DMA buffers are raw FDs, it is important
-> > to be able to identify which processes have FD references to a DMA buffer.
-> 
-> Or you could try to let the DMA buffer take a reference on the
-> mm_struct and account its size into the mm_struct? That would probably
-> be nicer to work with than having to poke around in procfs separately
-> for DMA buffers.
+If the Buffer Timestamp Clock is _MONOTONIC, print the delta
+to the current clock time
 
-Yes that would make some sense to me as well but how do you know that
-the process actually uses a buffer? If it mmaps it then you already have
-that information via /proc/<pid>/maps. My understanding of dma-buf is
-really coarse but my impression is that you can consume the memory via
-standard read syscall as well. How would you account for that.
+needs --stream-show-delta-now together with --verbose
 
-[...]
-Skipping over a large part of your response but I do agree that the
-interface is really elaborate to drill down to the information.
 
-> I'm not convinced that introducing a new procfs file for this is the
-> right way to go. And the idea of having to poke into multiple
-> different files in procfs and in sysfs just to be able to compute a
-> proper memory usage score for a process seems weird to me. "How much
-> memory is this process using" seems like the kind of question the
-> kernel ought to be able to answer (and the kernel needs to be able to
-> answer somewhat accurately so that its own OOM killer can do its job
-> properly)?
+Signed-off-by: Max Schuze <max.schulze@posteo.de>
+---
 
-Well, shared buffers are tricky but it is true that we already consider
-shmem in badness so this wouldn't go out of line. Kernel oom killer
-could be more clever with these special fds though and query for buffer
-size directly.
+Changes since v1:
+* Hide behind command-line Option
+
+  utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 12 +++++++++++-
+  utils/v4l2-ctl/v4l2-ctl.cpp           |  1 +
+  utils/v4l2-ctl/v4l2-ctl.h             |  1 +
+  3 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp 
+b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+index a3580595..df465561 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+@@ -326,6 +326,10 @@ void streaming_usage()
+             "  --stream-out-dmabuf\n"
+             "                     output video using dmabuf 
+[VIDIOC_(D)QBUF]\n"
+             "                     Requires a corresponding 
+--stream-mmap option.\n"
++           "  --stream-show-delta-now\n"
++           "                     output the difference between the 
+buffer timestamp and current\n"
++           "                     clock, if the buffer timestamp source 
+is the monotonic clock.\n"
++           "                     requires --verbose\n"
+             "  --list-patterns    list available patterns for use with 
+--stream-pattern.\n"
+             "  --list-buffers     list all video buffers 
+[VIDIOC_QUERYBUF]\n"
+             "  --list-buffers-out list all video output buffers 
+[VIDIOC_QUERYBUF]\n"
+@@ -556,9 +560,15 @@ static void print_concise_buffer(FILE *f, 
+cv4l_buffer &buf, cv4l_fmt &fmt,
+          double ts = buf.g_timestamp().tv_sec + 
+buf.g_timestamp().tv_usec / 1000000.0;
+          fprintf(f, " ts: %.06f", ts);
+          if (last_ts <= 0.0)
+-            fprintf(f, " delta: %.03f ms", (ts - last_ts) * 1000.0);
++            fprintf(f, " delta last: %.03f ms", (ts - last_ts) * 1000.0);
+          last_ts = ts;
+
++        if (options[OptStreamShowDeltaNow] && (buf.g_flags() & 
+V4L2_BUF_FLAG_TIMESTAMP_MASK) == V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC) {
++            timespec ts_clock;
++            clock_gettime(CLOCK_MONOTONIC, &ts_clock);
++            fprintf(f, " delta now: %+.03f ms", ((ts_clock.tv_sec + 
+ts_clock.tv_nsec / 1000000000.0) - ts) * 1000.0);
++        }
++
+          if (fps_ts.has_fps(true))
+              fprintf(stderr, " fps: %.02f", fps_ts.fps());
+
+diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+index 6da4698a..4e179f77 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+@@ -265,6 +265,7 @@ static struct option long_options[] = {
+      {"stream-out-mmap", optional_argument, nullptr, OptStreamOutMmap},
+      {"stream-out-user", optional_argument, nullptr, OptStreamOutUser},
+      {"stream-out-dmabuf", no_argument, nullptr, OptStreamOutDmaBuf},
++    {"stream-show-delta-now", no_argument, nullptr, 
+OptStreamShowDeltaNow},
+      {"list-patterns", no_argument, nullptr, OptListPatterns},
+      {"version", no_argument, nullptr, OptVersion},
+      {nullptr, 0, nullptr, 0}
+diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+index a4f193cc..909b96e4 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.h
++++ b/utils/v4l2-ctl/v4l2-ctl.h
+@@ -245,6 +245,7 @@ enum Option {
+      OptStreamOutMmap,
+      OptStreamOutUser,
+      OptStreamOutDmaBuf,
++    OptStreamShowDeltaNow,
+      OptListPatterns,
+      OptHelpTuner,
+      OptHelpIO,
 -- 
-Michal Hocko
-SUSE Labs
+2.29.0
+
+
