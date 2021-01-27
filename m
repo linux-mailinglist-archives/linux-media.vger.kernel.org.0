@@ -2,398 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DCCB305AEB
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:12:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3014305AFE
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:16:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237662AbhA0MLu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 07:11:50 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41960 "EHLO mx2.suse.de"
+        id S237265AbhA0MPe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 07:15:34 -0500
+Received: from mga06.intel.com ([134.134.136.31]:31181 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237664AbhA0MIs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 07:08:48 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id ADD03AC9B;
-        Wed, 27 Jan 2021 12:08:06 +0000 (UTC)
-Subject: Re: [PATCH v4 04/13] drm/shmem-helper: Provide a vmap function for
- short-term mappings
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     sam@ravnborg.org, dri-devel@lists.freedesktop.org,
-        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
-        hdegoede@redhat.com, kraxel@redhat.com, airlied@redhat.com,
-        virtualization@lists.linux-foundation.org, sean@poorly.run,
-        linux-media@vger.kernel.org
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-5-tzimmermann@suse.de>
- <X/yB3LC79f/zWTwG@phenom.ffwll.local>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <006b7d47-e7dd-8fa6-6cf1-eff194d7b30f@suse.de>
-Date:   Wed, 27 Jan 2021 13:08:05 +0100
+        id S237635AbhA0MN6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Jan 2021 07:13:58 -0500
+IronPort-SDR: T4yBvBEXhw7OFVUj9zQcC0cpl/BKeEqD8OaCqUt2B3YlII2t5QeKG8LaFPpAWgzgZoxM1N1nsU
+ mLvGF6ngX6nw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="241587601"
+X-IronPort-AV: E=Sophos;i="5.79,379,1602572400"; 
+   d="scan'208";a="241587601"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 04:12:00 -0800
+IronPort-SDR: meMHncnvbafvUEf9hMslrOzVEv2YrjcESH/4LLcraCtfZ5SfEGaNYLXB+pkcAbi0B08ClPRJtk
+ P7aPBswCKo5w==
+X-IronPort-AV: E=Sophos;i="5.79,379,1602572400"; 
+   d="scan'208";a="362412240"
+Received: from msazhin-mobl1.ccr.corp.intel.com (HELO [10.252.54.105]) ([10.252.54.105])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 04:11:58 -0800
+Subject: Re: [PATCH] RFC: dma-fence: Document recoverable page fault
+ implications
+To:     Felix Kuehling <felix.kuehling@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@intel.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20210121194056.1734409-1-daniel.vetter@ffwll.ch>
+ <6d373177-2645-1d67-9c14-dcad87c4f4d9@amd.com>
+From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <68740fcf-530e-b929-1c98-5810fc97ed23@linux.intel.com>
+Date:   Wed, 27 Jan 2021 13:11:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <X/yB3LC79f/zWTwG@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tRlTM4HNzrgFrkMWIRsGqWWdQVVBk3euU"
+In-Reply-To: <6d373177-2645-1d67-9c14-dcad87c4f4d9@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tRlTM4HNzrgFrkMWIRsGqWWdQVVBk3euU
-Content-Type: multipart/mixed; boundary="upjnMjSq5bX9GpDTGFit6wkgbrPPC1F2R";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
- hdegoede@redhat.com, kraxel@redhat.com, airlied@redhat.com,
- virtualization@lists.linux-foundation.org, sean@poorly.run,
- linux-media@vger.kernel.org
-Message-ID: <006b7d47-e7dd-8fa6-6cf1-eff194d7b30f@suse.de>
-Subject: Re: [PATCH v4 04/13] drm/shmem-helper: Provide a vmap function for
- short-term mappings
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-5-tzimmermann@suse.de>
- <X/yB3LC79f/zWTwG@phenom.ffwll.local>
-In-Reply-To: <X/yB3LC79f/zWTwG@phenom.ffwll.local>
-
---upjnMjSq5bX9GpDTGFit6wkgbrPPC1F2R
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 11.01.21 um 17:50 schrieb Daniel Vetter:
-> On Fri, Jan 08, 2021 at 10:43:31AM +0100, Thomas Zimmermann wrote:
->> Implementations of the vmap/vunmap GEM callbacks may perform pinning
->> of the BO and may acquire the associated reservation object's lock.
->> Callers that only require a mapping of the contained memory can thus
->> interfere with other tasks that require exact pinning, such as scanout=
-=2E
->> This is less of an issue with private SHMEM buffers, but may happen
->> with imported ones.
+Op 27-01-2021 om 01:22 schreef Felix Kuehling:
+> Am 2021-01-21 um 2:40 p.m. schrieb Daniel Vetter:
+>> Recently there was a fairly long thread about recoreable hardware page
+>> faults, how they can deadlock, and what to do about that.
 >>
->> Therefore provide the new interfaces drm_gem_shmem_vmap_local() and
->> drm_gem_shmem_vunmap_local(), which only perform the vmap/vunmap
->> operations. Callers have to hold the reservation lock while the mappin=
-g
->> persists.
+>> While the discussion is still fresh I figured good time to try and
+>> document the conclusions a bit.
 >>
->> This patch also connects GEM SHMEM helpers to GEM object functions wit=
-h
->> equivalent functionality.
+>> References: https://lore.kernel.org/dri-devel/20210107030127.20393-1-Felix.Kuehling@amd.com/
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@intel.com>
+>> Cc: "Christian König" <christian.koenig@amd.com>
+>> Cc: Jerome Glisse <jglisse@redhat.com>
+>> Cc: Felix Kuehling <felix.kuehling@amd.com>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>> Cc: linux-media@vger.kernel.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> --
+>> I'll be away next week, but figured I'll type this up quickly for some
+>> comments and to check whether I got this all roughly right.
 >>
->> v4:
->> 	* call dma_buf_{vmap,vunmap}_local() where necessary (Daniel)
->> 	* move driver changes into separate patches (Daniel)
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Critique very much wanted on this, so that we can make sure hw which
+>> can't preempt (with pagefaults pending) like gfx10 has a clear path to
+>> support page faults in upstream. So anything I missed, got wrong or
+>> like that would be good.
+>> -Daniel
 >> ---
->>   drivers/gpu/drm/drm_gem_shmem_helper.c | 90 +++++++++++++++++++++++-=
---
->>   include/drm/drm_gem_shmem_helper.h     |  2 +
->>   2 files changed, 84 insertions(+), 8 deletions(-)
+>>  Documentation/driver-api/dma-buf.rst | 66 ++++++++++++++++++++++++++++
+>>  1 file changed, 66 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/=
-drm_gem_shmem_helper.c
->> index 9825c378dfa6..298832b2b43b 100644
->> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -32,6 +32,8 @@ static const struct drm_gem_object_funcs drm_gem_shm=
-em_funcs =3D {
->>   	.get_sg_table =3D drm_gem_shmem_get_sg_table,
->>   	.vmap =3D drm_gem_shmem_vmap,
->>   	.vunmap =3D drm_gem_shmem_vunmap,
->> +	.vmap_local =3D drm_gem_shmem_vmap_local,
->> +	.vunmap_local =3D drm_gem_shmem_vunmap_local,
->>   	.mmap =3D drm_gem_shmem_mmap,
->>   };
->>  =20
->> @@ -261,7 +263,8 @@ void drm_gem_shmem_unpin(struct drm_gem_object *ob=
-j)
->>   }
->>   EXPORT_SYMBOL(drm_gem_shmem_unpin);
->>  =20
->> -static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shm=
-em, struct dma_buf_map *map)
->> +static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shm=
-em, struct dma_buf_map *map,
->> +				     bool local)
->=20
-> This is a bit spaghetti and also has the problem that we're not changin=
-g
-> shmem->vmap_use_count under different locks, depending upon which path
-> we're taking.
->=20
-> I think the cleanest would be if we pull the if (import_attach) case ou=
-t
-> of the _locked() version completely, for all cases, and also outside of=
-
-> the shmem->vmap_lock. This means no caching of vmaps in the shmem layer=
-
-> anymore for imported buffers, but this is no longer a problem: We cache=
-
-> them in the exporters instead (I think at least, if not maybe need to f=
-ix
-> that where it's expensive).
-
-There's no vmap refcounting in amdgpu AFAICT. So importing pages from=20
-there into an SHMEM object has the potential of breaking. IIRC same fro=20
-radeon and nouveau.
-
-So I'm somewhat reluctant to making this change. I guess I'll look=20
-elsewhere first to fix some of the locking issues (e.g., my recent ast=20
-cursor patches).
-
-Best regards
-Thomas
-
->=20
-> Other option would be to unly pull it out for the _vmap_local case, but=
-
-> that's a bit ugly because no longer symmetrical in the various paths.
->=20
->>   {
->>   	struct drm_gem_object *obj =3D &shmem->base;
->>   	int ret =3D 0;
->> @@ -272,7 +275,10 @@ static int drm_gem_shmem_vmap_locked(struct drm_g=
-em_shmem_object *shmem, struct
->>   	}
->>  =20
->>   	if (obj->import_attach) {
->> -		ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
->> +		if (local)
->> +			ret =3D dma_buf_vmap_local(obj->import_attach->dmabuf, map);
->> +		else
->> +			ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
->>   		if (!ret) {
->>   			if (WARN_ON(map->is_iomem)) {
->>   				ret =3D -EIO;
->> @@ -313,7 +319,7 @@ static int drm_gem_shmem_vmap_locked(struct drm_ge=
-m_shmem_object *shmem, struct
->>   	return ret;
->>   }
->>  =20
->> -/*
->> +/**
->>    * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM obj=
-ect
->>    * @shmem: shmem GEM object
->>    * @map: Returns the kernel virtual address of the SHMEM GEM object'=
-s backing
->> @@ -339,15 +345,53 @@ int drm_gem_shmem_vmap(struct drm_gem_object *ob=
-j, struct dma_buf_map *map)
->>   	ret =3D mutex_lock_interruptible(&shmem->vmap_lock);
->>   	if (ret)
->>   		return ret;
->> -	ret =3D drm_gem_shmem_vmap_locked(shmem, map);
->> +	ret =3D drm_gem_shmem_vmap_locked(shmem, map, false);
->>   	mutex_unlock(&shmem->vmap_lock);
->>  =20
->>   	return ret;
->>   }
->>   EXPORT_SYMBOL(drm_gem_shmem_vmap);
->>  =20
->> +/**
->> + * drm_gem_shmem_vmap_local - Create a virtual mapping for a shmem GE=
-M object
->> + * @shmem: shmem GEM object
->> + * @map: Returns the kernel virtual address of the SHMEM GEM object's=
- backing
->> + *       store.
->> + *
->> + * This function makes sure that a contiguous kernel virtual address =
-mapping
->> + * exists for the buffer backing the shmem GEM object.
->> + *
->> + * The function is called with the BO's reservation object locked. Ca=
-llers must
->> + * hold the lock until after unmapping the buffer.
->> + *
->> + * This function can be used to implement &drm_gem_object_funcs.vmap_=
-local. But
->> + * it can also be called by drivers directly, in which case it will h=
-ide the
->> + * differences between dma-buf imported and natively allocated object=
-s.
->=20
-> So for the other callbacks I tried to make sure we have different entry=
-
-> points for this, since it's not really the same thing and because of th=
-e
-> locking mess we have with dma_resv_lock vs various pre-existing local
-> locking scheme, it's easy to get a mess.
->=20
-> I think the super clean version here would be to also export just the
-> internal stuff for the ->v(un)map_local hooks, but that's maybe a bit t=
-oo
-> much boilerplate for no real gain.
-> -Daniel
->=20
->> + *
->> + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vu=
-nmap_local().
->> + *
->> + * Returns:
->> + * 0 on success or a negative error code on failure.
->> + */
->> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_b=
-uf_map *map)
->> +{
->> +	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
->> +	int ret;
+>> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+>> index a2133d69872c..e924c1e4f7a3 100644
+>> --- a/Documentation/driver-api/dma-buf.rst
+>> +++ b/Documentation/driver-api/dma-buf.rst
+>> @@ -257,3 +257,69 @@ fences in the kernel. This means:
+>>    userspace is allowed to use userspace fencing or long running compute
+>>    workloads. This also means no implicit fencing for shared buffers in these
+>>    cases.
 >> +
->> +	dma_resv_assert_held(obj->resv);
+>> +Recoverable Hardware Page Faults Implications
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >> +
->> +	ret =3D mutex_lock_interruptible(&shmem->vmap_lock);
->> +	if (ret)
->> +		return ret;
->> +	ret =3D drm_gem_shmem_vmap_locked(shmem, map, true);
->> +	mutex_unlock(&shmem->vmap_lock);
+>> +Modern hardware supports recoverable page faults, which has a lot of
+>> +implications for DMA fences.
 >> +
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_vmap_local);
+>> +First, a pending page fault obviously holds up the work that's running on the
+>> +accelerator and a memory allocation is usually required to resolve the fault.
+>> +But memory allocations are not allowed to gate completion of DMA fences, which
+>> +means any workload using recoverable page faults cannot use DMA fences for
+>> +synchronization. Synchronization fences controlled by userspace must be used
+>> +instead.
 >> +
->>   static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object =
-*shmem,
->> -					struct dma_buf_map *map)
->> +					struct dma_buf_map *map, bool local)
->>   {
->>   	struct drm_gem_object *obj =3D &shmem->base;
->>  =20
->> @@ -358,7 +402,10 @@ static void drm_gem_shmem_vunmap_locked(struct dr=
-m_gem_shmem_object *shmem,
->>   		return;
->>  =20
->>   	if (obj->import_attach)
->> -		dma_buf_vunmap(obj->import_attach->dmabuf, map);
->> +		if (local)
->> +			dma_buf_vunmap_local(obj->import_attach->dmabuf, map);
->> +		else
->> +			dma_buf_vunmap(obj->import_attach->dmabuf, map);
->>   	else
->>   		vunmap(shmem->vaddr);
->>  =20
->> @@ -366,7 +413,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm=
-_gem_shmem_object *shmem,
->>   	drm_gem_shmem_put_pages(shmem);
->>   }
->>  =20
->> -/*
->> +/**
->>    * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM obj=
-ect
->>    * @shmem: shmem GEM object
->>    * @map: Kernel virtual address where the SHMEM GEM object was mappe=
-d
->> @@ -384,11 +431,38 @@ void drm_gem_shmem_vunmap(struct drm_gem_object =
-*obj, struct dma_buf_map *map)
->>   	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
->>  =20
->>   	mutex_lock(&shmem->vmap_lock);
->> -	drm_gem_shmem_vunmap_locked(shmem, map);
->> +	drm_gem_shmem_vunmap_locked(shmem, map, false);
->>   	mutex_unlock(&shmem->vmap_lock);
->>   }
->>   EXPORT_SYMBOL(drm_gem_shmem_vunmap);
->>  =20
->> +/**
->> + * drm_gem_shmem_vunmap_local - Unmap a virtual mapping fo a shmem GE=
-M object
->> + * @shmem: shmem GEM object
->> + * @map: Kernel virtual address where the SHMEM GEM object was mapped=
-
->> + *
->> + * This function cleans up a kernel virtual address mapping acquired =
-by
->> + * drm_gem_shmem_vmap_local(). The mapping is only removed when the u=
-se count
->> + * drops to zero.
->> + *
->> + * The function is called with the BO's reservation object locked.
->> + *
->> + * This function can be used to implement &drm_gem_object_funcs.vmap_=
-local.
->> + * But it can also be called by drivers directly, in which case it wi=
-ll hide
->> + * the differences between dma-buf imported and natively allocated ob=
-jects.
->> + */
->> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dm=
-a_buf_map *map)
->> +{
->> +	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
+>> +On GPUs this poses a problem, because current desktop compositor protocols on
+>> +Linus rely on DMA fences, which means without an entirely new userspace stack
+>> +built on top of userspace fences, they cannot benefit from recoverable page
+>> +faults. The exception is when page faults are only used as migration hints and
+>> +never to on-demand fill a memory request. For now this means recoverable page
+>> +faults on GPUs are limited to pure compute workloads.
 >> +
->> +	dma_resv_assert_held(obj->resv);
+>> +Furthermore GPUs usually have shared resources between the 3D rendering and
+>> +compute side, like compute units or command submission engines. If both a 3D
+>> +job with a DMA fence and a compute workload using recoverable page faults are
+>> +pending they could deadlock:
 >> +
->> +	mutex_lock(&shmem->vmap_lock);
->> +	drm_gem_shmem_vunmap_locked(shmem, map, true);
->> +	mutex_unlock(&shmem->vmap_lock);
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_vunmap_local);
+>> +- The 3D workload might need to wait for the compute job to finish and release
+>> +  hardware resources first.
 >> +
->>   struct drm_gem_shmem_object *
->>   drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
->>   				 struct drm_device *dev, size_t size,
->> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_=
-shmem_helper.h
->> index 434328d8a0d9..3f59bdf749aa 100644
->> --- a/include/drm/drm_gem_shmem_helper.h
->> +++ b/include/drm/drm_gem_shmem_helper.h
->> @@ -114,7 +114,9 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_=
-object *shmem);
->>   int drm_gem_shmem_pin(struct drm_gem_object *obj);
->>   void drm_gem_shmem_unpin(struct drm_gem_object *obj);
->>   int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_ma=
-p *map);
->> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_b=
-uf_map *map);
->>   void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf=
-_map *map);
->> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dm=
-a_buf_map *map);
->>  =20
->>   int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv);
->>  =20
->> --=20
->> 2.29.2
->>
->=20
+>> +- The compute workload might be stuck in a page fault, because the memory
+>> +  allocation is waiting for the DMA fence of the 3D workload to complete.
+>> +
+>> +There are a few ways to prevent this problem:
+>> +
+>> +- Compute workloads can always be preempted, even when a page fault is pending
+>> +  and not yet repaired. Not all hardware supports this.
+>> +
+>> +- DMA fence workloads and workloads which need page fault handling have
+>> +  independent hardware resources to guarantee forward progress. This could be
+>> +  achieved through e.g. through dedicated engines and minimal compute unit
+>> +  reservations for DMA fence workloads.
+>> +
+>> +- The reservation approach could be further refined by only reserving the
+>> +  hardware resources for DMA fence workloads when they are in-flight. This must
+>> +  cover the time from when the DMA fence is visible to other threads up to
+>> +  moment when fence is completed through dma_fence_signal().
+>> +
+>> +- As a last resort, if the hardware provides no useful reservation mechanics,
+>> +  all workloads must be flushed from the GPU when switching between jobs
+>> +  requiring DMA fences or jobs requiring page fault handling: This means all DMA
+>> +  fences must complete before a compute job with page fault handling can be
+>> +  inserted into the scheduler queue. And vice versa, before a DMA fence can be
+>> +  made visible anywhere in the system, all compute workloads must be preempted
+>> +  to guarantee all pending GPU page faults are flushed.
+> I thought of another possible workaround:
+>
+>   * Partition the memory. Servicing of page faults will use a separate
+>     memory pool that can always be allocated from without waiting for
+>     fences. This includes memory for page tables and memory for
+>     migrating data to. You may steal memory from other processes that
+>     can page fault, so no fence waiting is necessary. Being able to
+>     steal memory at any time also means there are basically no
+>     out-of-memory situations you need to worry about. Even page tables
+>     (except the root page directory of each process) can be stolen in
+>     the worst case.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+I think 'overcommit' would be a nice way to describe this. But I'm not
+sure how easy this is to implement in practice. You would basically need
+to create your own memory manager for this.
 
+But from a design point of view, definitely a valid solution.
 
---upjnMjSq5bX9GpDTGFit6wkgbrPPC1F2R--
+But this looks good, those solutions are definitely the valid options we
+can choose from.
 
---tRlTM4HNzrgFrkMWIRsGqWWdQVVBk3euU
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+~Maarten
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmARV6UFAwAAAAAACgkQlh/E3EQov+CQ
-IxAArVKjavIQkE79NPzk+4QLlvTyQYI4dq9H7cIRF6svN5vwwWuykUf+jUqEnpgk5wQJdCxb9fzu
-HvxKDh1sMA1uzuIxuHyI3TJSus8ry87d1o+DyXjf/kL+IK8Yb1SagLWYARBIKW1T7UiHoYY+xRH7
-3YtqtTbhPHcbMaOcUhgxi2lNQiI9tIibZ/2H7IAtX6w6TGKlOBbEHDHuASwYANg90KNXTEHd96Rj
-5O67HhP7RHgwmIOW68Jh+XIQGAoBFqhYgMJgsMxrx1IUaxgN40tvm4w2xYklXPjqO8ND8KgsvF4P
-6znmUmVpUnuRRKORYIUB0AXmzGEurE7C337MebDOTxJOkmURk5NHYIIVIMsRWt9cJVj3oX/vHEqV
-d/ExWXcsXZQpuGXk8XTGRy5sz5Mf4wC4jUQ93wdOX8UUF1WiQcoWfw2SrAHMkFIXs77ClWftfJeK
-ry3C+qYopYGFTin+KRahZtcwpohhCOeGzAjavucxNjEqrkxA7r/IzOlJJAX0UXzDrcn3aET8e0qy
-xvSp8SJWYF2m6UczwhrdhrxoSrIYV1e5DIh8KrWtKPtVdpfWb6dlZTY8Z92TVTa4iP2IwUyjKFqL
-GYrccYjUVJt23/guXcYj1xyeHAcQ+UNON3exOHKmyirp0m8jQytEi74p7ELMlRGWYUywHuSmOcsh
-BlM=
-=9bMm
------END PGP SIGNATURE-----
-
---tRlTM4HNzrgFrkMWIRsGqWWdQVVBk3euU--
