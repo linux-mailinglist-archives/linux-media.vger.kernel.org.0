@@ -2,163 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E385305B49
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C709D305B60
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 13:30:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237709AbhA0M0C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 07:26:02 -0500
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:44460 "EHLO
-        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237723AbhA0MYg (ORCPT
+        id S1343515AbhA0M3n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 07:29:43 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:51963 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233266AbhA0M0w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 07:24:36 -0500
-Received: by mail-wr1-f44.google.com with SMTP id d16so1663987wro.11;
-        Wed, 27 Jan 2021 04:24:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ShB3cnXbxrmD9a+bdXYQdwTEtb4JqHT3bdcJ08qiOYM=;
-        b=K4N3DUw1JbX2KkHEBhRTAmorhclvTBMN8JFu0pIWIAu9QQ0aH9qd3Rppn8HCFsFlv9
-         1LvZuYMCsHDsN/5MQ3Vn+ifvIw4O7LJwXVGdNQThM1wa3ZPsjnXnQJJ10auYh/McayEz
-         4Nwdg9lgjmgpVYF/59RfwmcJyl0x2sdhoEv863GXYO237ke252EpMbqWzN/UvGBKBgJi
-         Cus6S4EWge1zbBea1ud/0zUdRg9SVmA3Ze/Eafvx1a5fGGJupLpyFWVPoTZ9xfii2z7E
-         fTX06gxafRWxqPC/NcbtYjZCV7wLsG2eqpnDQ++gm7+qohpqzCm95+EY166NTZIsSSuI
-         gDGg==
-X-Gm-Message-State: AOAM532d6O0XE6bH0ks2pvMhIepiv17PtxL2wEt4cg3MfL4Ew8J3W397
-        bzHIF15JoSlBytt3BUh95Mo=
-X-Google-Smtp-Source: ABdhPJzhDxEpDBEc1vtDjMlmipHrb96zdgWsWtS3oEMrAA/05Zb3TzAV22yLxNp4CFki4xmeOC8Zvg==
-X-Received: by 2002:a5d:66ce:: with SMTP id k14mr10947071wrw.397.1611750234180;
-        Wed, 27 Jan 2021 04:23:54 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id g12sm2325875wmh.14.2021.01.27.04.23.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 04:23:53 -0800 (PST)
-Date:   Wed, 27 Jan 2021 13:23:51 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 1/4] dt-bindings: media: imx258: add bindings for
- IMX258 sensor
-Message-ID: <20210127122351.nokesldtzq4wchiq@kozik-lap>
-References: <20201118202715.6692-1-krzk@kernel.org>
- <20210122091822.GB27155@paasikivi.fi.intel.com>
+        Wed, 27 Jan 2021 07:26:52 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 4jtDlXrtHI2394jtHlhHxa; Wed, 27 Jan 2021 13:25:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611750347; bh=5pnR9efidnDm0mE/2lo2491Qu6WM408Ua+znGofrnok=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=vafleieXoGTn0LiFzQRDJhPuIWcKMPDuK47p9kQRA8sT02yjTJrQGmRPaFtXnDPbS
+         jdfaV0lSUQix+L/n25N/UOb+S+icROm8r3e/owC/CPQ58aDKsudbZsUcAitxGICMRB
+         gm94zN2950r5DsXz9mbrxfqvi1UJ4CYY4KQ6bp7m0agloO+1nDiTgqth/6lGzbQl/w
+         AV0WY3drm7AgfuCksec2LdwyvyuVyxTAJuzOYgRSTrV0L9NlBuE/jLwQgWXvY55m05
+         VFnyFYK+dgpB/dHXb4gP77Pm75DylUP+FDv3iF9vriUUHzivHfF01wajSH808LR92k
+         /bhgefovyw0Pw==
+Subject: Re: [PATCH v2 1/4] v4l2-ctrl: Make display delay and display enable
+ std controls
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20210115092607.29849-1-stanimir.varbanov@linaro.org>
+ <20210115092607.29849-2-stanimir.varbanov@linaro.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <22d84616-b7d1-095b-3bec-e894e19b72ca@xs4all.nl>
+Date:   Wed, 27 Jan 2021 13:25:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210115092607.29849-2-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210122091822.GB27155@paasikivi.fi.intel.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOAL65zyTC//yHf/SmChGe0Jj5VEkIjPCNGV7ilNw4tN8cO5MWSM5f3QdN+ufKM58/AmsOQO6nCGisvrRbS4o/dhFAJuVkb9X6ylRBP/QdPyVfKH4RH3
+ E0XWsN8GxEAv4AmTIpoUb9D3NLEnEbS1lYrn4GhJQecYVmVuusHQmw/0drz8ROI62ZXeXkdL8P6VVopyBQ71xFPwIb3qiQJq1YPL2px3ccG9uiEMp6ku7J2o
+ +aZBgpRLKqKEd/FaRHk21gZvubkwEl+R4VEU2b56LbebblSLuhctk1357AX4LHjUdjWpmeKOeQAtUNYYB9KjS2mpNa/troYb0nYVkPBadeaTelhpQjwVBWKK
+ eDLvOXiNhxBEpFHYZI1KTW+QV9yUxQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 22, 2021 at 11:18:22AM +0200, Sakari Ailus wrote:
-> Hi Krysztof,
+On 15/01/2021 10:26, Stanimir Varbanov wrote:
+> Make display delay and display delay enable MFC controls standard v4l
+> controls. This will allow reuse of the controls for other decoder
+> drivers. Also the new proposed controls are now codec agnostic because
+> they could be used for any codec.
 > 
-> On Wed, Nov 18, 2020 at 09:27:12PM +0100, Krzysztof Kozlowski wrote:
-> > Add bindings for the IMX258 camera sensor.  The bindings, just like the
-> > driver, are quite limited, e.g. do not support regulator supplies.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > 
-> > ---
-> > 
-> > Changes since v4:
-> > 1. Add clock-lanes,
-> > 2. Add Rob's review,
-> > 3. Add one more example and extend existing one,
-> > 4. Add common clock properties (assigned-*).
-> > 
-> > Changes since v3:
-> > 1. Document also two lane setup.
-> > 
-> > Changes since v2:
-> > 1. Remove clock-frequency, add reset GPIOs, add supplies.
-> > 2. Use additionalProperties.
-> > 
-> > Changes since v1:
-> > 1. None
-> > ---
-> >  .../devicetree/bindings/media/i2c/imx258.yaml | 140 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  2 files changed, 141 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> > new file mode 100644
-> > index 000000000000..4a3471fb88a1
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> > @@ -0,0 +1,140 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
-> > +
-> > +maintainers:
-> > +  - Krzysztof Kozlowski <krzk@kernel.org>
-> > +
-> > +description: |-
-> > +  IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
-> > +  type stacked image sensor with a square pixel array of size 4208 x 3120. It
-> > +  is programmable through I2C interface.  Image data is sent through MIPI
-> > +  CSI-2.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sony,imx258
-> > +
-> > +  assigned-clocks: true
-> > +  assigned-clock-parents: true
-> > +  assigned-clock-rates: true
-> > +
-> > +  clocks:
-> > +    description:
-> > +      Clock frequency from 6 to 27 MHz.
-> > +    maxItems: 1
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  reset-gpios:
-> > +    description: |-
-> > +      Reference to the GPIO connected to the XCLR pin, if any.
-> > +
-> > +  vana-supply:
-> > +    description:
-> > +      Analog voltage (VANA) supply, 2.7 V
-> > +
-> > +  vdig-supply:
-> > +    description:
-> > +      Digital I/O voltage (VDIG) supply, 1.2 V
-> > +
-> > +  vif-supply:
-> > +    description:
-> > +      Interface voltage (VIF) supply, 1.8 V
-> > +
-> > +  # See ../video-interfaces.txt for more details
-> > +  port:
-> > +    type: object
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +        properties:
-> > +          clock-lanes:
-> > +            const: 0
-> 
-> This is redundant. Please remove, same for the examples. Can be a separate
-> patch, too.
-> 
-> With this change the set seems good to me.
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-OK, I'll remove it and send a v7.
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Best regards,
-Krzysztof
+Thanks!
+
+	Hans
+
+> ---
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst   | 15 +++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c              |  4 ++++
+>  include/uapi/linux/v4l2-controls.h                |  3 +++
+>  3 files changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 00944e97d638..5d7c47837035 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -679,6 +679,21 @@ enum v4l2_mpeg_video_frame_skip_mode -
+>      otherwise the decoder expects a single frame in per buffer.
+>      Applicable to the decoder, all codecs.
+>  
+> +``V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE (boolean)``
+> +    If the display delay is enabled then the decoder is forced to return
+> +    a CAPTURE buffer (decoded frame) after processing a certain number
+> +    of OUTPUT buffers. The delay can be set through
+> +    ``V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY``. This
+> +    feature can be used for example for generating thumbnails of videos.
+> +    Applicable to the decoder.
+> +
+> +``V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY (integer)``
+> +    Display delay value for decoder. The decoder is forced to
+> +    return a decoded frame after the set 'display delay' number of
+> +    frames. If this number is low it may result in frames returned out
+> +    of display order, in addition the hardware may still be using the
+> +    returned buffer as a reference picture for subsequent frames.
+> +
+>  ``V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE (boolean)``
+>      Enable writing sample aspect ratio in the Video Usability
+>      Information. Applicable to the H264 encoder.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index f7b310240af2..2ae305d6db01 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -874,6 +874,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
+>  	case V4L2_CID_MPEG_VIDEO_MAX_REF_PIC:			return "Max Number of Reference Pics";
+>  	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:		return "Frame Skip Mode";
+> +	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY:		return "Display Delay";
+> +	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE:	return "Display Delay Enable";
+>  	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:		return "H263 I-Frame QP Value";
+>  	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:		return "H263 P-Frame QP Value";
+>  	case V4L2_CID_MPEG_VIDEO_H263_B_FRAME_QP:		return "H263 B-Frame QP Value";
+> @@ -1241,6 +1243,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_FLASH_READY:
+>  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
+>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:
+> +	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE:
+>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
+>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
+>  	case V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM:
+> @@ -1276,6 +1279,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:
+>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
+> +	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY:
+>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 039c0d7add1b..4b361fdce231 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -797,6 +797,9 @@ enum v4l2_mpeg_video_frame_skip_mode {
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP        (V4L2_CID_CODEC_BASE + 651)
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP        (V4L2_CID_CODEC_BASE + 652)
+>  
+> +#define V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY		(V4L2_CID_CODEC_BASE + 653)
+> +#define V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE	(V4L2_CID_CODEC_BASE + 654)
+> +
+>  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+>  #define V4L2_CID_CODEC_CX2341X_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1000)
+>  #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE		(V4L2_CID_CODEC_CX2341X_BASE+0)
+> 
 
