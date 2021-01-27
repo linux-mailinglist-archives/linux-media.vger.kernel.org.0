@@ -2,145 +2,436 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C04C3056B8
-	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 10:21:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF591305681
+	for <lists+linux-media@lfdr.de>; Wed, 27 Jan 2021 10:09:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234713AbhA0JUf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 04:20:35 -0500
-Received: from mail-vi1eur05on2067.outbound.protection.outlook.com ([40.107.21.67]:57255
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233083AbhA0JHq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 04:07:46 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LDJdLL5Sst0DEf6qdrA5NGbiQZNkLXC/YmOBlsbdFkSAo+XGrQCG9YCN/zwTZb5tTxAVhTl3c2IjEbtbknJuPKRdefMDf9icwkJA5ndVcjH+Uasd+1d+eZ5Cqkr68+UNkZtsnKQTVCg4YwetAwhAO+CUov6xOYocOm1yC9p9znFRT3WDKwfFMSoP852ggTKTrQ+2f0rro5OQKZ9U4JnpQThRXCZ/hdDIeu2WpI1Z4hc7lQ7BBJKOBFlLJqZWzQKnFSOqXbeoaTYYc3GjmdXrWUj4FwBar/wA/KOD1XcPOR555Y1gaCqtWxKqvnzk20W48e35TIYQt2OHnXl85aodgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hJ9D6wUCOmhV5ZTraNjnEVJgT2jCXhX0NtGyGMUMmu8=;
- b=LKjbGzudaSpMXp48LcwFGvD+p8itr/5eE8suQIlBx5kjnXQS6jxlZ/8OOay6fx++WNDRCKbyHWRklbN+93lrv1y9pQB61E8ULc9Xi7Ct7qP/K9IKvBEiN4cKrnpLEdzTckYAPRzJyPRPr8q/Rkap9XOirWR9wNG//gP+NbncZtUqKwBOdV5EX0Bl5iVy6wc23x70BfAPU4CzNZyRA696a47M4IOQ6nt68XlgZCRSEJafK266kEXQFmc2gPvrDmQHr1pYVAkz1xVz2HGpas8SpJmMqfIxzV+0i3wztstmM2qIyLVlXn/curzgz9B78yL/gZJIMek80kR12GmUcnf2nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hJ9D6wUCOmhV5ZTraNjnEVJgT2jCXhX0NtGyGMUMmu8=;
- b=bJ3eNLZDY1wKES7pLfkG7bRLzONiHdrR0iRWu7jUvlOhvbqtLJMm4iQ0vz9li67kTBlTF4UckK79NsD4h+1xeINEL+biUjgO2igx5WwhYR0U3Bym8PfBT+EjiLCyBbLoWUTdiF5EPzn4icKz+Nas3uZc2GYnGzd6uNT3fCmfqLA=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=none action=none
- header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB2975.eurprd04.prod.outlook.com (2603:10a6:802:9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Wed, 27 Jan
- 2021 09:03:49 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3805.016; Wed, 27 Jan 2021
- 09:03:49 +0000
-From:   Liu Ying <victor.liu@nxp.com>
-To:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
-        a.hajda@samsung.com, narmstrong@baylibre.com,
-        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
-Subject: [PATCH v3 14/14] MAINTAINERS: add maintainer for DRM bridge drivers for i.MX SoCs
-Date:   Wed, 27 Jan 2021 16:51:28 +0800
-Message-Id: <1611737488-2791-15-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
-References: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
-Content-Type: text/plain
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR02CA0049.apcprd02.prod.outlook.com
- (2603:1096:4:54::13) To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+        id S234675AbhA0JJI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 04:09:08 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47384 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234367AbhA0JGS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Jan 2021 04:06:18 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1611738329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Frtjky50lhuCvhdjT76CPWeRZ4wg+efgdrWBbOOrsRo=;
+        b=HEdTRyd7SvJg/XAQxhbRI7kwZArGDUP8Bfa5ruY6Zz9Lh5KvanjsFGFvcYG6e9Yk0sX6/n
+        g42Pxw2b/GcalFfAglpeh+HvgT/22fH/pleNNTn0H5tDOKQNrO70p+2tBQ/+gqeupvnPut
+        W9oZam+8xUskfiC8LH/7tPEML5Q4Acc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0FEBFAD57;
+        Wed, 27 Jan 2021 09:05:29 +0000 (UTC)
+Date:   Wed, 27 Jan 2021 10:05:26 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     surenb@google.com, minchan@kernel.org, gregkh@linuxfoundation.org,
+        hridya@google.com, jannh@google.com, kernel-team@android.com,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+Message-ID: <20210127090526.GB827@dhcp22.suse.cz>
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by SG2PR02CA0049.apcprd02.prod.outlook.com (2603:1096:4:54::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 09:03:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 915de6bb-e053-4f93-d379-08d8c2a275d6
-X-MS-TrafficTypeDiagnostic: VI1PR04MB2975:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB2975477D205CD0329DDEB2A698BB0@VI1PR04MB2975.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Nux30k/YVL2pZRgJ0arwDTlf1fyhl5psiAvs2TXmgc/qO9Xo2Hh42dGxyaPHf3hsmXT6+PrEBLHVyLpie6xgaRj+naT4GEurJxRPH2x9GyAT1Ud2VBTe10A5RH4qmgL8NmSKWf+Kvw9K6kNWAfMRvXlZ1WjZADNm4Eb68J1yqguFLNsVl+NvkgylT3+oTEAtZjFBITQy7IVimpS5UGUniCUQl+ooUQhan9Lebx/xyLBn8RH1zSLLqGQ3lVRORIyDMN/y1g70yrEw81BguNMjpZu0s9iHKNGGPp4r8QCvCEC8q84lL0Cs2JDm7kOSceVbBxfTvzP4Jw9Tzf4HVmcN6Q2lwDwUt0EwRwnUR7ETlRsW+M1HFcirzUFyWRRr/6hyDnOK3ghz8d+hNyx8fH395W3yNFCWJ/Kj14GMTtAr+ei88LxsLrdt72Y6AyCenLoKrznB/dG72pU//esIP9dUsq1saBDwtDJrqeGz85ZPHy3YIn2NtKCwF24Qk4W0M+7Jh2Q16Z8cF/TkzC7SeBzWasznaAjOhv3UjzwPYCfgdx7Ome6NUenkGPrZTOk2dQwPg6Jqetnv4o+aAWPDJb1YQQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB3983.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(6029001)(4636009)(376002)(366004)(346002)(39860400002)(136003)(396003)(8936002)(2616005)(6486002)(66946007)(186003)(6666004)(956004)(7416002)(4326008)(36756003)(69590400011)(6506007)(8676002)(316002)(5660300002)(16526019)(86362001)(478600001)(6512007)(2906002)(52116002)(66556008)(26005)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?dtUyFQHFLrf84zD4zm2fi+DGiDQNG50E5/KpP/dDfhr1WkUY7cm2L871LLZZ?=
- =?us-ascii?Q?wXncraZ/NJxN7bChijt4Bowdg2R9d8kfcnPofHjY+glq3dh9FJVAb7f4yCkh?=
- =?us-ascii?Q?+lt0AoM7lfJ6FVm55j9tBJ/+Qxy1t86fa1rzEAAtMBsEOy0QsKINQJ1hbXTy?=
- =?us-ascii?Q?Sz9BMyuKqdt32xBRVfLCUdlSTHum95pv8QSc/doy6D6IvkwdAbZIUNdk+yl9?=
- =?us-ascii?Q?d+pfJ3PC6EcEbAEB07y+NHi565+fp3a0pdFxFXthDifhJEwQQ3YWT2UtzI2k?=
- =?us-ascii?Q?3Nv/DPcNxndxYMDjURciqqW1DHAlgIbyiS09mgqQEizXWmSobFOCRNyuRR7g?=
- =?us-ascii?Q?7jjxwBVWRSkcxUym+7wh0UsuQXgQPteLszM3NTLpvEEro0YSXwiSZ/JGGdi0?=
- =?us-ascii?Q?uzsEZAKyVCoTFmLdBTBTVkDCxG2TSXVyKOI6lEvJSaBpqpnk2MCt47l0HCjv?=
- =?us-ascii?Q?t4GxNttlltjjQOV9Uc1VyjMN1f1BhM7TNh/uFff4qCsFlK0ErmZ+PZDMk0oT?=
- =?us-ascii?Q?ZeCwpCkcGfZZ+TMUSE/BNisp3y2lkB6/OmWFxFJBlPI6oXZJmISi25UMv33q?=
- =?us-ascii?Q?hTqil3AyDIwoDMkOABUEONZOtEr/FpYKp+PqURQk0ehuuIsPvr0mpD2C45Bi?=
- =?us-ascii?Q?/sq/Y4giSsw8dHP4gFpIewpKixLnyhpp6+ineFJ84YPfLKdPhkzIs9PR1kLf?=
- =?us-ascii?Q?84q2w7sSbxHvCF0tIfcrwyOPX3f5mbbBTM0/Gz2KqpZYwbnsBPk44oeWzIL8?=
- =?us-ascii?Q?r5Y9gdIoqSTI+55fFFTG7azcL6z20lSX1wwrSN5ODH2EkU0mJjuOC8ckwk0J?=
- =?us-ascii?Q?jeTaSMQuJ3waRlBcWIutpCZg8gtsWqPTXKWvoKMgH7RDKUW50HZGpHk4KZJC?=
- =?us-ascii?Q?dmg1nEe4coJqCBWHQLTG9VSJgw/+94iGy8qelDHIamTXLJwqRhL2xW3JJ3VI?=
- =?us-ascii?Q?7yqBzdL4OrfJNAU9JxKlEd3CleMImP/ZA2LK1z2x+z3r5DmnKZt2z16qXsgm?=
- =?us-ascii?Q?rcR5lPG1gc05ojjceXTCFD18h4w9VPr0d99ErmdKXPrK6cbaCWlpDvGjcQBB?=
- =?us-ascii?Q?WF7MIPmP?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 915de6bb-e053-4f93-d379-08d8c2a275d6
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 09:03:49.8054
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KouCFYj3axLEIZ3DsWV67MbPBUL3Xzptnk1qtkV2+eBm/647PDxSADeYgp0FpSS5tW3o+7UkpGvO1M21Zswu+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB2975
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210126225138.1823266-1-kaleshsingh@google.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add myself as the maintainer of DRM bridge drivers for i.MX SoCs.
+[Cc linux-api as this is a new user interface]
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v2->v3:
-* No change.
+On Tue 26-01-21 22:51:28, Kalesh Singh wrote:
+> In order to measure how much memory a process actually consumes, it is
+> necessary to include the DMA buffer sizes for that process in the memory
+> accounting. Since the handle to DMA buffers are raw FDs, it is important
+> to be able to identify which processes have FD references to a DMA buffer.
+> 
+> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> /proc/<pid>/fdinfo -- both of which are only root readable, as follows:
+>   1. Do a readlink on each FD.
+>   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+>   3. stat the file to get the dmabuf inode number.
+>   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
+> 
+> Android captures per-process system memory state when certain low memory
+> events (e.g a foreground app kill) occur, to identify potential memory
+> hoggers. To include a process’s dmabuf usage as part of its memory state,
+> the data collection needs to be fast enough to reflect the memory state at
+> the time of such events.
+> 
+> Since reading /proc/<pid>/fd/ and /proc/<pid>/fdinfo/ requires root
+> privileges, this approach is not suitable for production builds. Granting
+> root privileges even to a system process increases the attack surface and
+> is highly undesirable. Additionally this is slow as it requires many
+> context switches for searching and getting the dma-buf info.
+> 
+> With the addition of per-buffer dmabuf stats in sysfs [1], the DMA buffer
+> details can be queried using their unique inode numbers.
+> 
+> This patch proposes adding a /proc/<pid>/task/<tid>/dmabuf_fds interface.
+> 
+> /proc/<pid>/task/<tid>/dmabuf_fds contains a list of inode numbers for
+> every DMA buffer FD that the task has. Entries with the same inode
+> number can appear more than once, indicating the total FD references
+> for the associated DMA buffer.
+> 
+> If a thread shares the same files as the group leader then its
+> dmabuf_fds file will be empty, as these dmabufs are reported by the
+> group leader.
+> 
+> The interface requires PTRACE_MODE_READ_FSCRED (same as /proc/<pid>/maps)
+> and allows the efficient accounting of per-process DMA buffer usage without
+> requiring root privileges. (See data below)
+> 
+> Performance Comparison:
+> -----------------------
+> 
+> The following data compares the time to capture the sizes of all DMA
+> buffers referenced by FDs for all processes on an arm64 android device.
+> 
+> -------------------------------------------------------
+>                    |  Core 0 (Little)  |  Core 7 (Big) |
+> -------------------------------------------------------
+> >From <pid>/fdinfo  |      318 ms       |     145 ms    |
+> -------------------------------------------------------
+> Inodes from        |      114 ms       |      27 ms    |
+> dmabuf_fds;        |    (2.8x  ^)      |   (5.4x  ^)   |
+> data from sysfs    |                   |               |
+> -------------------------------------------------------
+> 
+> It can be inferred that in the worst case there is a 2.8x speedup for
+> determining per-process DMA buffer FD sizes, when using the proposed
+> interfaces.
+> 
+> [1] https://lore.kernel.org/dri-devel/20210119225723.388883-1-hridya@google.com/
+> 
+> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> ---
+>  Documentation/filesystems/proc.rst |  30 ++++++
+>  drivers/dma-buf/dma-buf.c          |   7 +-
+>  fs/proc/Makefile                   |   1 +
+>  fs/proc/base.c                     |   1 +
+>  fs/proc/dma_bufs.c                 | 159 +++++++++++++++++++++++++++++
+>  fs/proc/internal.h                 |   1 +
+>  include/linux/dma-buf.h            |   5 +
+>  7 files changed, 198 insertions(+), 6 deletions(-)
+>  create mode 100644 fs/proc/dma_bufs.c
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 2fa69f710e2a..757dd47ab679 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -47,6 +47,7 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+>    3.10  /proc/<pid>/timerslack_ns - Task timerslack value
+>    3.11	/proc/<pid>/patch_state - Livepatch patch operation state
+>    3.12	/proc/<pid>/arch_status - Task architecture specific information
+> +  3.13	/proc/<pid>/task/<tid>/dmabuf_fds - DMA buffers referenced by an FD
+>  
+>    4	Configuring procfs
+>    4.1	Mount options
+> @@ -2131,6 +2132,35 @@ AVX512_elapsed_ms
+>    the task is unlikely an AVX512 user, but depends on the workload and the
+>    scheduling scenario, it also could be a false negative mentioned above.
+>  
+> +3.13 /proc/<pid>/task/<tid>/dmabuf_fds - DMA buffers referenced by an FD
+> +-------------------------------------------------------------------------
+> +This file  exposes a list of the inode numbers for every DMA buffer
+> +FD that the task has.
+> +
+> +The same inode number can appear more than once, indicating the total
+> +FD references for the associated DMA buffer.
+> +
+> +The inode number can be used to lookup the DMA buffer information in
+> +the sysfs interface /sys/kernel/dmabuf/buffers/<inode-no>/.
+> +
+> +Example Output
+> +~~~~~~~~~~~~~~
+> +$ cat /proc/612/task/612/dmabuf_fds
+> +30972 30973 45678 49326
+> +
+> +Permission to access this file is governed by a ptrace access mode
+> +PTRACE_MODE_READ_FSCREDS.
+> +
+> +Threads can have different files when created without specifying
+> +the CLONE_FILES flag. For this reason the interface is presented as
+> +/proc/<pid>/task/<tid>/dmabuf_fds and not /proc/<pid>/dmabuf_fds.
+> +This simplifies kernel code and aggregation can be handled in
+> +userspace.
+> +
+> +If a thread has the same files as its group leader, then its dmabuf_fds
+> +file will be empty as these dmabufs are already reported by the
+> +group leader.
+> +
+>  Chapter 4: Configuring procfs
+>  =============================
+>  
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 9ad6397aaa97..0660c06be4c6 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -29,8 +29,6 @@
+>  #include <uapi/linux/dma-buf.h>
+>  #include <uapi/linux/magic.h>
+>  
+> -static inline int is_dma_buf_file(struct file *);
+> -
+>  struct dma_buf_list {
+>  	struct list_head head;
+>  	struct mutex lock;
+> @@ -434,10 +432,7 @@ static const struct file_operations dma_buf_fops = {
+>  	.show_fdinfo	= dma_buf_show_fdinfo,
+>  };
+>  
+> -/*
+> - * is_dma_buf_file - Check if struct file* is associated with dma_buf
+> - */
+> -static inline int is_dma_buf_file(struct file *file)
+> +int is_dma_buf_file(struct file *file)
+>  {
+>  	return file->f_op == &dma_buf_fops;
+>  }
+> diff --git a/fs/proc/Makefile b/fs/proc/Makefile
+> index bd08616ed8ba..91a67f43ddf4 100644
+> --- a/fs/proc/Makefile
+> +++ b/fs/proc/Makefile
+> @@ -16,6 +16,7 @@ proc-y	+= cmdline.o
+>  proc-y	+= consoles.o
+>  proc-y	+= cpuinfo.o
+>  proc-y	+= devices.o
+> +proc-y	+= dma_bufs.o
+>  proc-y	+= interrupts.o
+>  proc-y	+= loadavg.o
+>  proc-y	+= meminfo.o
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index b3422cda2a91..af15a60b9831 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -3598,6 +3598,7 @@ static const struct pid_entry tid_base_stuff[] = {
+>  #ifdef CONFIG_SECCOMP_CACHE_DEBUG
+>  	ONE("seccomp_cache", S_IRUSR, proc_pid_seccomp_cache),
+>  #endif
+> +	REG("dmabuf_fds", 0444, proc_tid_dmabuf_fds_operations),
+>  };
+>  
+>  static int proc_tid_base_readdir(struct file *file, struct dir_context *ctx)
+> diff --git a/fs/proc/dma_bufs.c b/fs/proc/dma_bufs.c
+> new file mode 100644
+> index 000000000000..46ea9cf968ed
+> --- /dev/null
+> +++ b/fs/proc/dma_bufs.c
+> @@ -0,0 +1,159 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Per-process DMA-BUF Stats
+> + *
+> + * Copyright (C) 2021 Google LLC.
+> + */
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/fdtable.h>
+> +#include <linux/ptrace.h>
+> +#include <linux/seq_file.h>
+> +
+> +#include "internal.h"
+> +
+> +struct dmabuf_fds_private {
+> +	struct inode *inode;
+> +	struct task_struct *task;
+> +	struct file *dmabuf_file;
+> +};
+> +
+> +static loff_t *next_dmabuf(struct dmabuf_fds_private *priv,
+> +		loff_t *pos)
+> +{
+> +	struct fdtable *fdt;
+> +	struct file *file;
+> +
+> +	rcu_read_lock();
+> +	fdt = files_fdtable(priv->task->files);
+> +	for (; *pos < fdt->max_fds; ++*pos) {
+> +		file = files_lookup_fd_rcu(priv->task->files, (unsigned int) *pos);
+> +		if (file && is_dma_buf_file(file) && get_file_rcu(file)) {
+> +			priv->dmabuf_file = file;
+> +			break;
+> +		}
+> +	}
+> +	if (*pos >= fdt->max_fds)
+> +		pos = NULL;
+> +	rcu_read_unlock();
+> +
+> +	return pos;
+> +}
+> +
+> +static void *dmabuf_fds_seq_start(struct seq_file *s, loff_t *pos)
+> +{
+> +	struct dmabuf_fds_private *priv = s->private;
+> +	struct files_struct *group_leader_files;
+> +
+> +	priv->task = get_proc_task(priv->inode);
+> +
+> +	if (!priv->task)
+> +		return ERR_PTR(-ESRCH);
+> +
+> +	/* Hold task lock for duration that files need to be stable */
+> +	task_lock(priv->task);
+> +
+> +	/*
+> +	 * If this task is not the group leader but shares the same files, leave file empty.
+> +	 * These dmabufs are already reported in the group leader's dmabuf_fds.
+> +	 */
+> +	group_leader_files = priv->task->group_leader->files;
+> +	if (priv->task != priv->task->group_leader && priv->task->files == group_leader_files) {
+> +		task_unlock(priv->task);
+> +		put_task_struct(priv->task);
+> +		priv->task = NULL;
+> +		return NULL;
+> +	}
+> +
+> +	return next_dmabuf(priv, pos);
+> +}
+> +
+> +static void *dmabuf_fds_seq_next(struct seq_file *s, void *v, loff_t *pos)
+> +{
+> +	++*pos;
+> +	return next_dmabuf(s->private, pos);
+> +}
+> +
+> +static void dmabuf_fds_seq_stop(struct seq_file *s, void *v)
+> +{
+> +	struct dmabuf_fds_private *priv = s->private;
+> +
+> +	if (priv->task) {
+> +		task_unlock(priv->task);
+> +		put_task_struct(priv->task);
+> +
+> +	}
+> +	if (priv->dmabuf_file)
+> +		fput(priv->dmabuf_file);
+> +}
+> +
+> +static int dmabuf_fds_seq_show(struct seq_file *s, void *v)
+> +{
+> +	struct dmabuf_fds_private *priv = s->private;
+> +	struct file *file = priv->dmabuf_file;
+> +	struct dma_buf *dmabuf = file->private_data;
+> +
+> +	if (!dmabuf)
+> +		return -ESRCH;
+> +
+> +	seq_printf(s, "%8lu ", file_inode(file)->i_ino);
+> +
+> +	fput(priv->dmabuf_file);
+> +	priv->dmabuf_file = NULL;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct seq_operations proc_tid_dmabuf_fds_seq_ops = {
+> +	.start = dmabuf_fds_seq_start,
+> +	.next  = dmabuf_fds_seq_next,
+> +	.stop  = dmabuf_fds_seq_stop,
+> +	.show  = dmabuf_fds_seq_show
+> +};
+> +
+> +static int proc_dmabuf_fds_open(struct inode *inode, struct file *file,
+> +		     const struct seq_operations *ops)
+> +{
+> +	struct dmabuf_fds_private *priv;
+> +	struct task_struct *task;
+> +	bool allowed = false;
+> +
+> +	task = get_proc_task(inode);
+> +	if (!task)
+> +		return -ESRCH;
+> +
+> +	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
+> +	put_task_struct(task);
+> +
+> +	if (!allowed)
+> +		return -EACCES;
+> +
+> +	priv = __seq_open_private(file, ops, sizeof(*priv));
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->inode = inode;
+> +	priv->task = NULL;
+> +	priv->dmabuf_file = NULL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int proc_dmabuf_fds_release(struct inode *inode, struct file *file)
+> +{
+> +	return seq_release_private(inode, file);
+> +}
+> +
+> +static int tid_dmabuf_fds_open(struct inode *inode, struct file *file)
+> +{
+> +	return proc_dmabuf_fds_open(inode, file,
+> +			&proc_tid_dmabuf_fds_seq_ops);
+> +}
+> +
+> +const struct file_operations proc_tid_dmabuf_fds_operations = {
+> +	.open		= tid_dmabuf_fds_open,
+> +	.read		= seq_read,
+> +	.llseek		= seq_lseek,
+> +	.release	= proc_dmabuf_fds_release,
+> +};
+> +
+> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+> index f60b379dcdc7..4ca74220db9c 100644
+> --- a/fs/proc/internal.h
+> +++ b/fs/proc/internal.h
+> @@ -303,6 +303,7 @@ extern const struct file_operations proc_pid_smaps_operations;
+>  extern const struct file_operations proc_pid_smaps_rollup_operations;
+>  extern const struct file_operations proc_clear_refs_operations;
+>  extern const struct file_operations proc_pagemap_operations;
+> +extern const struct file_operations proc_tid_dmabuf_fds_operations;
+>  
+>  extern unsigned long task_vsize(struct mm_struct *);
+>  extern unsigned long task_statm(struct mm_struct *,
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index cf72699cb2bc..087e11f7f193 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -27,6 +27,11 @@ struct device;
+>  struct dma_buf;
+>  struct dma_buf_attachment;
+>  
+> +/**
+> + * Check if struct file* is associated with dma_buf.
+> + */
+> +int is_dma_buf_file(struct file *file);
+> +
+>  /**
+>   * struct dma_buf_ops - operations possible on struct dma_buf
+>   * @vmap: [optional] creates a virtual mapping for the buffer into kernel
+> -- 
+> 2.30.0.280.ga3ce27912f-goog
 
-v1->v2:
-* No change.
-
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d241b8..d96c917 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5892,6 +5892,16 @@ F:	Documentation/devicetree/bindings/display/imx/
- F:	drivers/gpu/drm/imx/
- F:	drivers/gpu/ipu-v3/
- 
-+DRM DRIVERS FOR FREESCALE IMX BRIDGE
-+M:	Liu Ying <victor.liu@nxp.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-+F:	drivers/gpu/drm/bridge/imx/
-+
- DRM DRIVERS FOR GMA500 (Poulsbo, Moorestown and derivative chipsets)
- M:	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
- L:	dri-devel@lists.freedesktop.org
 -- 
-2.7.4
-
+Michal Hocko
+SUSE Labs
