@@ -2,99 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EF613080E1
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 23:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90C1C3081D6
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jan 2021 00:29:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbhA1WBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 17:01:16 -0500
-Received: from smtp2.macqel.be ([109.135.2.61]:25713 "EHLO smtp2.macqel.be"
+        id S231799AbhA1X3Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 18:29:25 -0500
+Received: from mga06.intel.com ([134.134.136.31]:55147 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229596AbhA1WBL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jan 2021 17:01:11 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.macqel.be (Postfix) with ESMTP id 748D8130D3D;
-        Thu, 28 Jan 2021 23:00:20 +0100 (CET)
-X-Virus-Scanned: amavisd-new at macqel.be
-Received: from smtp2.macqel.be ([127.0.0.1])
-        by localhost (mail.macqel.be [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id s0elgoRQjQxI; Thu, 28 Jan 2021 23:00:09 +0100 (CET)
-Received: from frolo.macqel.be (frolo.macqel [10.1.40.73])
-        by smtp2.macqel.be (Postfix) with ESMTP id DBEA3130D3B;
-        Thu, 28 Jan 2021 23:00:09 +0100 (CET)
-Received: by frolo.macqel.be (Postfix, from userid 1000)
-        id B58EABEC0C8; Thu, 28 Jan 2021 23:00:09 +0100 (CET)
-Date:   Thu, 28 Jan 2021 23:00:09 +0100
-From:   Philippe De Muyter <phdm@macq.eu>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: UTC timestamps in v4l2 buffers
-Message-ID: <20210128220009.GA7708@frolo.macqel>
-References: <20210108125334.GA30740@frolo.macqel> <e3c363b505cef5a7310ae293bccf6fac43fa71c2.camel@ndufresne.ca>
+        id S231645AbhA1X3T (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 Jan 2021 18:29:19 -0500
+IronPort-SDR: +D+eCNrfk5MvQp6uFh98y8H3pkxk0rjufz1J18yq3jonoyC8WhIl0edG+3OgkczZif0LELRYRy
+ LyWgt364o2Fw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="241856473"
+X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
+   d="scan'208";a="241856473"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 15:27:33 -0800
+IronPort-SDR: hlr8EkA9peJ/k/cPmqW8tP0oIOQguldpmVA+yYsXDKWOaT8MJr+JcfiX2QqN9sXlLPhoFtmUzM
+ zaLbHek99NSg==
+X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
+   d="scan'208";a="411236742"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 15:27:29 -0800
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id C8A2521B1D;
+        Fri, 29 Jan 2021 01:27:27 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1l5GhF-0004FG-ON; Fri, 29 Jan 2021 01:27:29 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v9 3/7] Documentation: ACPI: Document _PRE object usage for enum power state
+Date:   Fri, 29 Jan 2021 01:27:25 +0200
+Message-Id: <20210128232729.16064-3-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e3c363b505cef5a7310ae293bccf6fac43fa71c2.camel@ndufresne.ca>
-User-Agent: Mutt/1.5.16 (2007-06-09)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Nicolas,
+Document the use of the _PRE object for setting desirable power state
+during probe.
 
-On Thu, Jan 28, 2021 at 03:14:03PM -0500, Nicolas Dufresne wrote:
-> Le vendredi 08 janvier 2021 à 13:53 +0100, Philippe De Muyter a écrit :
-> > Hello,
-> > 
-> > I need to have the v4l2 buffers of my camera sensor timestamped with a
-> > precise (1ms) UTC timestamp, in order to be able to match images from cameras
-> > from several computers (that are of course synchronised with NTP, GPS or PTP).
-> > 
-> > While I had that some years ago and still have in computers running
-> > freescale's 4.1.15 port for imx6q, I have now discovered that 8 years ago
-> > a decision has been taken by the v4l2 maintainers to switch the timestamp
-> > of the v4l2 buffers to CLOCK_MONOTONIC, which is useless when one needs
-> > to synchronise timestamps of images taken by cameras on different computers,
-> > which of course were not booted at the same time.
-> > 
-> > At that time a new flag "V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC" was introduced
-> > to tell new users that the timestamp was no more the old and not standardized
-> > behaviour for timestamp, but the new CLOCK_MONOTONIC-based timestamp, but
-> > no other flag for UTC or way to choose which kind of timestamp one wants.
-> > 
-> > Are there since then new standardized or work-in-progess flag to tell users
-> > that the timestamp is UTC, and way to ask the camera-acquisistion driver to
-> > give that UTC timestamp instead of the CLOCK_MONOTONIC one ?
-> 
-> Considering the CLOCK_MONOTONIC and CLOCK_REALTIME have the same slope (respond
-> to adjtime), you can probably just sample both clock in your application in
-> order to maintain a delta between both clocks. The more often your sample it,
-> the more precise you can derive. Don't forget to read REALTIME/MONOTONIC and
-> MONOTONIC/REALTIME orders, so you can averate to the real value. (GStreamer
-> needs to be improved in this regard).
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ Documentation/firmware-guide/acpi/index.rst   |  1 +
+ .../firmware-guide/acpi/low-power-probe.rst   | 51 +++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ create mode 100644 Documentation/firmware-guide/acpi/low-power-probe.rst
 
-I am now actually working with nvidia jetson modules, with a 4.9-based
-kernel containing added, but not mainstream, nvidia drivers.  Nvidia jetson
-modules contain a separate cpu called rtcpu that does only image capture
-and timestamps the captured frames with its clock ticking at 32 ns, and
-then does exactly what you explain above to convert it to the MONOTONIC clock.
-I have modified that code to convert it to the REALTIME clock instead, so
-my driver really provides a very precise UTC timestamp with each captured frame.
-Unfortunately v4l2src simply discards my UTC timestamp and replaces it by
-what seems to be the MONOTONIC clock. It does not matter if I tag my timestamp
-with V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC or V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN,
-the result stay identical.
+diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+index f72b5f1769fb2..d02712acccbc0 100644
+--- a/Documentation/firmware-guide/acpi/index.rst
++++ b/Documentation/firmware-guide/acpi/index.rst
+@@ -25,5 +25,6 @@ ACPI Support
+    acpi-lid
+    lpit
+    video_extension
++   low-power-probe
+    extcon-intel-int3496
+    intel-pmc-mux
+diff --git a/Documentation/firmware-guide/acpi/low-power-probe.rst b/Documentation/firmware-guide/acpi/low-power-probe.rst
+new file mode 100644
+index 0000000000000..3437f8c8f233a
+--- /dev/null
++++ b/Documentation/firmware-guide/acpi/low-power-probe.rst
+@@ -0,0 +1,51 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++Probing IÂ²C devices in low power state
++======================================
++
++Introduction
++============
++
++In some cases it may be preferred to leave certain devices powered off for the
++entire system bootup if powering on these devices has adverse side effects,
++beyond just powering on the said device.
++
++How it works
++============
++
++The _PRE object that evaluates to integer 0 may be used to tell Linux that the
++device should remain in the low power state during probe. If the driver
++indicates its support for this by setting the I2C_DRV_FL_ALLOW_LOW_POWER_PROBE
++flag in struct i2c_driver.flags field and the _PRE object evaluates to integer
++0, the device will not be powered on for probe.
++
++The downside is that as the device is not powered on, even if there's a problem
++with the device, the driver likely probes just fine but the first user will
++find out the device doesn't work, instead of a failure at probe time. This
++feature should thus be used sparingly.
++
++Example
++=======
++
++An ASL example describing an ACPI device using this property looks like
++this. Some objects not relevant from the example point of view have been
++omitted.
++
++.. code-block:: text
++
++	Device (CAM0)
++        {
++		Name (_HID, "SONY319A")
++		Name (_UID, Zero)
++		Name (_CRS, ResourceTemplate ()
++		{
++			I2cSerialBus(0x0020, ControllerInitiated, 0x00061A80,
++				     AddressingMode7Bit, "\\_SB.PCI0.I2C0",
++				     0x00, ResourceConsumer)
++		})
++		Name (_PRE, 0, NotSerialized)
++		{
++			Return (0x0)
++                }
++	}
+-- 
+2.20.1
 
-This is with gstreamer-1.14.
-
-I still do not understand why v4l2 requires that the timestamp associated to
-buffers are based on the MONOTONIC clock, and why v4l2src discards a 
-REALTIME clock if v4l2 gives it.  On a well synchronized system, the
-REALTIME clock is as monotonic as the MONOTONIC clock, except when a leap
-second is sometimes subtracted at the end of June or December, and I can
-live with that.  gstreamer may use its own clock for internal purposes,
-but why forbid drivers to provide a REALTIME clock based timestamp ?
-
-just my 2 cents
-
-Philippe
