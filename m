@@ -2,138 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D269C30732D
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 10:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 447FD30735C
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 11:05:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232090AbhA1Juu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 04:50:50 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:58577 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231674AbhA1JuH (ORCPT
+        id S232364AbhA1KCn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 05:02:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231267AbhA1KCS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jan 2021 04:50:07 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id CC34B580777;
-        Thu, 28 Jan 2021 04:48:53 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 28 Jan 2021 04:48:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=TV859JvWohvleWj2mlFpPgmtkri
-        A19iCS+DM5VX5zO4=; b=fA7G8+msT4KYcqnHIgLxQP+PqklcjUp1JZ+v1tH8kqI
-        bfcRaN8oQIGt8feTaYgoQ797EGT4peyAf0gzWMd1ognhfVbmYQgBmhgw60DKKwyF
-        OkCr7MzW/hkSHxjIGOjhi3L4+CQIUvZJMCv1ClRvZk1ejkP+0D978Y1mC77LWaDR
-        2Qv8RqW46xThBokYMhl4Yl41IQKtMc3cBQDW+qUa7K+knCKcRhd25b4DxnyEE5t8
-        AIKB0H3hBJmhaO4BCdg+bMMJyym8WZO3ys5RNKNbU9VU93sxoN3eGAliw8DcVBVx
-        JH4ElzvJB47Sm3xtSSMHKG/jLO4fGowAXci8hEdVKyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TV859J
-        vWohvleWj2mlFpPgmtkriA19iCS+DM5VX5zO4=; b=GhODBhboPsDZZcXYC4C7Fd
-        GFtz/Nerkl/LyDWteUwO2WVRURMcZxsQI0bjETRzoTCgrm98a5xmbZ5rz4aWcPAb
-        37/I6AevS2omsNi94Dg9Iuv3BkbAgDdthef/2hVImSL/KMUjm8bCZouiSKutu2Z8
-        OkfFwvjnnFGQXr89HTfrIE/jdbfudB6aqaiw2H2JkmkzmwwgZhopwXLeFfHgJvSj
-        hR6t43g22N9fMI2DVNp46biqC8hYjHbDXioBnwU0HSokS/RIg2HsquQKUErjHAf6
-        rZxT0HDTScO+FLCBgAu9u8fYNTa2r+fdU64CTm+8MljxCKaWRXFJsz6f+2/8pPHg
-        ==
-X-ME-Sender: <xms:g4gSYIpPEYZg8W6QasCiNpwsxO1K-SEnjT7vF-e1MbYr55R98toN8A>
-    <xme:g4gSYOr1AupiGrRkxJrRal_nRoEO_AbaZBNnJ3kipsX0Tw33xWhOdNeYYaXbpePIQ
-    G_5rlnsk7RPVvvhKMI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgddtiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hIgSYNNIS-Nmwee4hfp0b5Qp-_i8qySVH2DpNB95c9EPMkKTxfk8Og>
-    <xmx:hIgSYP7_4ssmloHnIfI11jndKRxEOFAwppQu-ik5BnIFnz91qSUxqA>
-    <xmx:hIgSYH73EECJsEFmHEaqT4sNbcaS0WmWjG9WYdw9QTnZaRDLjO9daA>
-    <xmx:hYgSYPw-gWN3drIkmH5-4V--xcluONBqCQoJdFkYBzfFU06BT9yMfw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B2A7D24005A;
-        Thu, 28 Jan 2021 04:48:51 -0500 (EST)
-Date:   Thu, 28 Jan 2021 10:48:49 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/15] drm/vc4: hdmi: Add CEC support for the BCM2711
-Message-ID: <20210128094849.5hxx6ui3tgkmu5p5@gilmour>
-References: <20210111142309.193441-1-maxime@cerno.tech>
- <acd2ba9f35732ba3fb7c31ba05132434ec99fd66.camel@suse.de>
+        Thu, 28 Jan 2021 05:02:18 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E641AC061573;
+        Thu, 28 Jan 2021 02:01:36 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id a8so6798090lfi.8;
+        Thu, 28 Jan 2021 02:01:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=w7zs4vtlCOUzPk4JPVodMGjOwCX7vvMr8Eyh0CtBlKY=;
+        b=aBdiFZ6Y4Kp+nOhlgpCK6Z6WTIvAH7uPf6Dw5GNH8lHwqAWrTPwgv7vL2KYjq02Vzf
+         shdsv89u8LsaAAr4C9B70PX49KyEWjk11sBOUQy5cKQC7sAnotKMqxOnFd5pwGXnuYyy
+         l4f3pSmC2a8RsLkHnRek405USQ2daHF00hHJonK1HWU4GiqNMZaAeTUGMoThii0wUOzP
+         NDy6YjY8kZgEdVBQIdn4njsH+p0ACV44wG9Nd5DeSV8KqfTab60BZgHhtRoUq+xmcC5v
+         I+zA3q+ohcTZQbquqDT8HBeN8YzAWKtplRBAFKkGxorn+I+YQQvbBqrzdDKBAsHw2dtU
+         037A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=w7zs4vtlCOUzPk4JPVodMGjOwCX7vvMr8Eyh0CtBlKY=;
+        b=oQ8AleDfmz1mLGLP5QEKKcjP/PUKYwB+aS7fH3FwnANGjxJFk7GvskSnTPfULf4l6G
+         ckKJ7Mnh0jaD/gwNb+CTdSUR5v/Cs3yfzNVTCfRdG8HbpyVAn13ImK/J2cmSCu8Tqdpm
+         gD5PxQvVwLS5plNfehibC80jKLpAkPNsUGnjVKMnUJwolZVhlQxNtqjmv4csky1H+o5k
+         qj9ZVP3niZKz/dvjz3+CK8AcdU/qPB4tHRz0M6vhNK+IiSXxg84PfQfIkv+1z08DqtQO
+         GdlLd0NmJGDUDgl6mDfhOau77PJav3tMhP7bIOG6gzP8GuERcpIS5OdI+ZtlESzo0pZQ
+         g+5A==
+X-Gm-Message-State: AOAM532suIXNBBI2/3FAc6Z+AeTGtDhMDdeT/CaiQSSmcLpYu6P25wRr
+        oBSb/FOBW/dHJs1kJzJnpvA=
+X-Google-Smtp-Source: ABdhPJzKkeFNRZJelT7Yxb3Qx2K7wJW+lwf6EmPqVdUlg7UlihZ29bW2xvQP6sUABgj7ntHv7PIcuQ==
+X-Received: by 2002:a19:7507:: with SMTP id y7mr6874145lfe.334.1611828094763;
+        Thu, 28 Jan 2021 02:01:34 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id y20sm1830647ljh.124.2021.01.28.02.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 02:01:34 -0800 (PST)
+Date:   Thu, 28 Jan 2021 12:01:30 +0200
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
+        Michel Lespinasse <walken@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+Message-ID: <20210128120130.50aa9a74@eldfell>
+In-Reply-To: <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+        <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+        <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
+        <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="puhomd6fgdwr2xp5"
-Content-Disposition: inline
-In-Reply-To: <acd2ba9f35732ba3fb7c31ba05132434ec99fd66.camel@suse.de>
+ boundary="Sig_/EjrvI7yGo=jgR=BTk/_==YI"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---puhomd6fgdwr2xp5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+On Wed, 27 Jan 2021 12:01:55 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-On Mon, Jan 25, 2021 at 10:03:44PM +0100, Nicolas Saenz Julienne wrote:
-> Hi,
+> Somewhat correct. This interface here really doesn't make sense since=20
+> the file descriptor representation of DMA-buf is only meant to be used=20
+> for short term usage.
 >=20
-> On Mon, 2021-01-11 at 15:22 +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Here's a series introducing the CEC support for the BCM2711 found on the
-> > RaspberryPi4.
-> >=20
-> > The BCM2711 HDMI controller uses a similar layout for the CEC registers=
-, the
-> > main difference being that the interrupt handling part is now shared be=
-tween
-> > both HDMI controllers.
-> >=20
-> > This series is mainly about fixing a couple of bugs, reworking the driv=
-er to
-> > support having two different interrupts, one for each direction, provid=
-ed by an
-> > external irqchip, and enables the irqchip driver for the controller we =
-have.
-> >=20
-> > This has been tested on an RPi3 and RPi4, but requires the latest firmw=
-are.
-> > It's is based on the 10 and 12 bpc series.
+> E.g. the idea is that you can export a DMA-buf fd from your device=20
+> driver, transfer that to another process and then import it again into a=
+=20
+> device driver.
 >=20
-> I applied patches #1 and #14 for-next. I'm waiting on Hans' testing for #=
-15.
+> Keeping a long term reference to a DMA-buf fd sounds like a design bug=20
+> in userspace to me.
 
-I've applied to drm-misc-next the patches 2 to 13
+Except keeping the fd is exactly what userspace must do if it wishes to
+re-use the buffer without passing a new fd over IPC again. Particularly
+Wayland compositors need to keep the client buffer dmabuf fd open after
+receiving it, so that they can re-import it to EGL to ensure updated
+contents are correctly flushed as EGL has no other API for it.
 
-Maxime
+That is my vague understanding, and what Weston implements. You can say
+it's a bad userspace API design in EGL, but what else can we do?
 
---puhomd6fgdwr2xp5
-Content-Type: application/pgp-signature; name="signature.asc"
+However, in the particular case of Wayland, the shared dmabufs should
+be accounted to the Wayland client process. OOM-killing the client
+process will eventually free the dmabuf, also the Wayland server
+references to it. Killing the Wayland server (compositor, display
+server) OTOH is something that should not be done as long as there are
+e.g. Wayland clients to be killed.
+
+Unfortunately(?), Wayland clients do not have a reason to keep the
+dmabuf fd open themselves, so they probably close it as soon as it has
+been sent to a display server. So the process that should be OOM-killed
+does not have an open fd for the dmabuf (but probably has something
+else, but not an mmap for CPU). Buffer re-use in Wayland does not
+require re-sending the dmabuf fd over IPC.
+
+(In general, dmabufs are never mmapped for CPU. They are accessed by
+devices.)
+
+
+Thanks,
+pq
+
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYBKIgQAKCRDj7w1vZxhR
-xcFjAQDyhilWiZOnBtF/6Ds6w1BfcUQewBo/s/AMDRirS7HODgD/RWnajJxfaPQ/
-BJAVsfoxNFRZbgY7Cl/919hBHx8nfA8=
-=F65t
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmASi3oACgkQI1/ltBGq
+qqdcrA//X9uN75QyHDm8jqei3p8rmD/duy0jDCn6W2DbNy+6VM79pp8ZjqqdpeEp
+ZLe9ivqRVUOCUclKfiG2d0/vdgYwU2xnkWYSz0KUNP5pVE+4nZY3O/SA+SQcefkg
+KwfFhyM0XXm8eTVLVl5h+1dMMQ8tWkXpEwXqed4l0/478wepY8srMWoH3YRBxpiE
+q/PSkaWrRegUA8nYHp65kLVAAgP2kOeylAO/DmmtGye12AGMlNESNJHYuHPyc/wT
+Aos56muFTYYGhkICx+eqTsJBCr8mk32rFyIj/dinUcXUyvbj+sUt9eTZVAazsjjx
+NLC3zr3OSnKjQz2+kkXeGIHqTBCEWXFw3VHsPQLv7pf6XPqxJVoWtgHvzvTVduzo
+3Oxff1eYaBN54Evn1xLWLdEGhqc7wqH6RFYDnKhbOxWmBujXHpdF8Ge5xNfPauBP
+gFAtgtHJIyyu/j+CCCo1z25ToKsGTuiJnbXalIrlmWNeIq8m7XKZ3JjhR3WYZOJU
+MEOXDkeVcodCfo0ZueGvTj5meY6eJ1LIBdWBmT0h1/xA/fBocbRADBFgez42NN5s
+ro5soi7B49KRuSygUPsaSMnjpr32NwCIrQIzGtZQzgJVfRPSdke9ZD1wNle9jAXY
+B7ZbDZmlD1St8rxL+usyhRjZdUoKXjfG8d72ss37EHIhch+3CEQ=
+=oEE0
 -----END PGP SIGNATURE-----
 
---puhomd6fgdwr2xp5--
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI--
