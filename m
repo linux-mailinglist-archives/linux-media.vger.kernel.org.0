@@ -2,103 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC1E8307DF1
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 19:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F33307F4E
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 21:16:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231976AbhA1S2M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 13:28:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36976 "EHLO
+        id S229893AbhA1UQH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 15:16:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231971AbhA1SZr (ORCPT
+        with ESMTP id S231166AbhA1UOq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jan 2021 13:25:47 -0500
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CEDBC061353
-        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 10:24:54 -0800 (PST)
-Received: by mail-qv1-xf4a.google.com with SMTP id a12so3485715qvo.3
-        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 10:24:54 -0800 (PST)
+        Thu, 28 Jan 2021 15:14:46 -0500
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98667C061793
+        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 12:14:06 -0800 (PST)
+Received: by mail-qk1-x729.google.com with SMTP id a19so6609979qka.2
+        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 12:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:cc;
-        bh=WO1Ps+Nvd/JhtfCCjwBjp1ZIkFI1epnqyV7iKoI3o6M=;
-        b=kRyxNq1z6aP1oLR+T1rDCvOOEGgGBd0NT0WYQCd9JMMaGJ9KZ64ABn23wgetcIYIqk
-         UgxIRZh2IxqO8TLPZAYS8UscufK7YBfdmAnzf6Thg7OwTRAEIGh+lDriUPVXWyxVBiTP
-         vSV+VOHOKLatUnPHfVn57s9k68KhZe3ouL0kZrzVPeKvib0crdbJF5QcUQ1R/vr/lvxZ
-         5FoHOJuQQruMx2fhUaWETT1ilWgTRt+Oqxwg68GfvRRZWi93epDFMlQxz0rY8QA5fdyj
-         Y+WmVV46ZuoEnJrUkdOejUENnnnRes25LJGmKOMoa3ThqhEgE87zWQ8qkxgyvDzhhRdC
-         5vGg==
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=17segdp+uikKZKVyOFpvIRxoa/UbxNz085ktkzI8x7Q=;
+        b=SgvfNtp7p+4f5GHbfrFv0NEcGPW70CPsByJCD826gbdGo6rMdBJu25f0aXEbmL6tmJ
+         SsD96oDwDBJbpUDC5u47HVuQrgetUQmX0f28AulAZfKYOHZBUqRIFeeQjfkteY+58p+w
+         /FY9LVBdDY3kyC1EPVqL9hBdX9RVxFypjUqEkCcP7CSBeGK2NCTQEgYPzG+1Hk0i0XDy
+         mn5lST0BY+OOxdNxEQ5x3E8ML3Rmbzl9Sz9ehVLyck1pzfNXpTX6FWzM9MFgsEXQa34+
+         WpAXiYrio6/Fask+aPmvxJcQ1FG7sN9jlFtfpb0me0Omfe3KExUrSp2gsCS+90J0a3ju
+         o+Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=WO1Ps+Nvd/JhtfCCjwBjp1ZIkFI1epnqyV7iKoI3o6M=;
-        b=pxQj3ifJ7Faodav9L5+UCTLOz+ZSau0iwhgGXu1GItJ8vQWgemzSQ5SRzGmNgATY0J
-         fF6pBr8mzkQ5dad6EqY1Hv7+mgVY1rUx2aNgxQV8m5MeyfzKkcYf9aen0Ouq7sFVePh0
-         UIgbgyCg1FQYJYTAqrRXz5aAnQlcwzdllMnufz5fFIBVBFCllSRNJ7/uxaXhj9UlWx0c
-         NcRUXL/4254tiKep6Eu/aoiFGt4TeA7qk2OnpC+vwwS2kCbT52npoJdoi+zGTmpGX2i3
-         ohbjFr8cFadVJ8kMXRMq2h4d7HdsiPWlbGQKjo3RvZN5DHVSU0uszv71Vif346Am72ja
-         y9Cg==
-X-Gm-Message-State: AOAM530GZ5RwIhKNmIdmID3D4TWJt5YaFtwmGMmXp2xdcAjHylCOZEyS
-        xre7dwOOXTxvtHEHilBUB9edLioncpReQgXB0w==
-X-Google-Smtp-Source: ABdhPJxHCqtX2ZHgnqn1x3DYKD86aE5WR934LTPVMRYPiTVg9KKNFMi3ScBW4vQ0zl65Lu8rIgzHGPhMjlBRyKwGrA==
-Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
-X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
- (user=kaleshsingh job=sendgmr) by 2002:ad4:4b6d:: with SMTP id
- m13mr614841qvx.56.1611858293408; Thu, 28 Jan 2021 10:24:53 -0800 (PST)
-Date:   Thu, 28 Jan 2021 18:24:31 +0000
-In-Reply-To: <20210128182432.2216573-1-kaleshsingh@google.com>
-Message-Id: <20210128182432.2216573-3-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20210128182432.2216573-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
-Subject: [PATCH 2/2] dmabuf: Add dmabuf inode no to fdinfo
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
-        surenb@google.com, minchan@kernel.org, hridya@google.com,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=17segdp+uikKZKVyOFpvIRxoa/UbxNz085ktkzI8x7Q=;
+        b=LetRsFLoE32hSUvdTxSb1C430koo22niitEcnsKRsn2dAOboOVNRij1N7EaoRBbdar
+         qWl8bV1r6mshYFELOKCwXssFPzdOn9ux74Asis/p1SOVQZSxLgt/q1uKnV3c91kttGMl
+         0iYk5jru0Fe4MR9rJUTtvLJ8wDrJDJgFYImLxidKhotkCOjbPXCp05j/ruZIRDiuByRn
+         4cX61phnz1nzQ57hKTn75O1ybI+vLXVJwuZiJITqhKr+JcKCTpfynwHWYfFJxBcgLJri
+         h2zgTewptHZJOEkTe6wAzjIvgVV6cu820TpvExZ+nIomS6y7+NB5Dd0XIxfmHvpJAPNz
+         JhJA==
+X-Gm-Message-State: AOAM531a/20uosLICh8h11r419A7rekbkYMc0zS5e4B1HoEGe3WQKgko
+        4WufpfECQcaKy7ERXVkC4E3T5lt+zbESwf6p
+X-Google-Smtp-Source: ABdhPJy1PSBHmjAFPcoMkltA1j/fYo4nAkx04/IJgyfU6shV0ln0WoOUeErKhqUdRPt62bU2ZJYO/A==
+X-Received: by 2002:a37:555:: with SMTP id 82mr978321qkf.320.1611864845786;
+        Thu, 28 Jan 2021 12:14:05 -0800 (PST)
+Received: from nicolas-tpx395.lan (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id c15sm4030925qkj.129.2021.01.28.12.14.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 12:14:05 -0800 (PST)
+Message-ID: <e3c363b505cef5a7310ae293bccf6fac43fa71c2.camel@ndufresne.ca>
+Subject: Re: UTC timestamps in v4l2 buffers
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Philippe De Muyter <phdm@macq.eu>, linux-media@vger.kernel.org
+Date:   Thu, 28 Jan 2021 15:14:03 -0500
+In-Reply-To: <20210108125334.GA30740@frolo.macqel>
+References: <20210108125334.GA30740@frolo.macqel>
 Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+User-Agent: Evolution 3.38.2 (3.38.2-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The dmabuf inode number allows userspace to uniquely identify the buffer
-and avoids a dependency on /proc/<pid>/fd/* when accounting per-process
-DMA buffer sizes.
+Le vendredi 08 janvier 2021 à 13:53 +0100, Philippe De Muyter a écrit :
+> Hello,
+> 
+> I need to have the v4l2 buffers of my camera sensor timestamped with a
+> precise (1ms) UTC timestamp, in order to be able to match images from cameras
+> from several computers (that are of course synchronised with NTP, GPS or PTP).
+> 
+> While I had that some years ago and still have in computers running
+> freescale's 4.1.15 port for imx6q, I have now discovered that 8 years ago
+> a decision has been taken by the v4l2 maintainers to switch the timestamp
+> of the v4l2 buffers to CLOCK_MONOTONIC, which is useless when one needs
+> to synchronise timestamps of images taken by cameras on different computers,
+> which of course were not booted at the same time.
+> 
+> At that time a new flag "V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC" was introduced
+> to tell new users that the timestamp was no more the old and not standardized
+> behaviour for timestamp, but the new CLOCK_MONOTONIC-based timestamp, but
+> no other flag for UTC or way to choose which kind of timestamp one wants.
+> 
+> Are there since then new standardized or work-in-progess flag to tell users
+> that the timestamp is UTC, and way to ask the camera-acquisistion driver to
+> give that UTC timestamp instead of the CLOCK_MONOTONIC one ?
 
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
----
- drivers/dma-buf/dma-buf.c | 1 +
- 1 file changed, 1 insertion(+)
+Considering the CLOCK_MONOTONIC and CLOCK_REALTIME have the same slope (respond
+to adjtime), you can probably just sample both clock in your application in
+order to maintain a delta between both clocks. The more often your sample it,
+the more precise you can derive. Don't forget to read REALTIME/MONOTONIC and
+MONOTONIC/REALTIME orders, so you can averate to the real value. (GStreamer
+needs to be improved in this regard).
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 9ad6397aaa97..d869099ede83 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -414,6 +414,7 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
- {
- 	struct dma_buf *dmabuf = file->private_data;
- 
-+	seq_printf(m, "dmabuf_inode_no:\t%lu\n", file_inode(file)->i_ino);
- 	seq_printf(m, "size:\t%zu\n", dmabuf->size);
- 	/* Don't count the temporary reference taken inside procfs seq_show */
- 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
--- 
-2.30.0.365.g02bc693789-goog
+> 
+> Best regards.
+> 
+> Philippe
+> 
+
 
