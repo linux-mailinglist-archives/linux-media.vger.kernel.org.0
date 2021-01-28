@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20E7D3075C9
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 13:18:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56B2C3075CA
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 13:18:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231634AbhA1MRB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 07:17:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42442 "EHLO
+        id S231602AbhA1MRF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 07:17:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbhA1MQn (ORCPT
+        with ESMTP id S231607AbhA1MQn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 28 Jan 2021 07:16:43 -0500
 Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 836AEC061786
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BBCC061788
         for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 04:14:39 -0800 (PST)
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 89363634C98;
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id AE07D634C99;
         Thu, 28 Jan 2021 14:12:39 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -35,9 +35,9 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
         Robert Foss <robert.foss@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v4 11/14] media: v4l2-async: Fix incorrect comment
-Date:   Thu, 28 Jan 2021 14:09:42 +0200
-Message-Id: <20210128120945.5062-12-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 12/14] media: v4l2-async: Discourage use of v4l2_async_notifier_add_subdev
+Date:   Thu, 28 Jan 2021 14:09:43 +0200
+Message-Id: <20210128120945.5062-13-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210128120945.5062-1-sakari.ailus@linux.intel.com>
 References: <20210128120945.5062-1-sakari.ailus@linux.intel.com>
@@ -49,34 +49,107 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Ezequiel Garcia <ezequiel@collabora.com>
 
-The v4l2_async_notifier_cleanup() documentation mentions
-v4l2_fwnode_reference_parse_sensor_common, which was actually
-introduced as v4l2_async_notifier_parse_fwnode_sensor_common(),
-in commit 7a9ec808ad46 ("media: v4l: fwnode: Add convenience function for
-parsing common external refs").
+Most -if not all- use-cases are expected to be covered by one of:
+v4l2_async_notifier_add_fwnode_subdev,
+v4l2_async_notifier_add_fwnode_remote_subdev or
+v4l2_async_notifier_add_i2c_subdev.
 
-The function drivers do use is
-v4l2_async_register_subdev_sensor_common().
+We'd like to discourage drivers from using v4l2_async_notifier_add_subdev,
+so rename it as __v4l2_async_notifier_add_subdev. This is
+typically a good hint for drivers to avoid using the function.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- include/media/v4l2-async.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/v4l2-core/v4l2-async.c  | 8 ++++----
+ drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
+ include/media/v4l2-async.h            | 9 +++++++--
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index ed603ae63cad..d848db962dc7 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -611,7 +611,7 @@ void v4l2_async_notifier_cleanup(struct v4l2_async_notifier *notifier)
+ }
+ EXPORT_SYMBOL_GPL(v4l2_async_notifier_cleanup);
+ 
+-int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
++int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+ 				   struct v4l2_async_subdev *asd)
+ {
+ 	int ret;
+@@ -628,7 +628,7 @@ int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+ 	mutex_unlock(&list_lock);
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_subdev);
++EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_subdev);
+ 
+ struct v4l2_async_subdev *
+ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+@@ -645,7 +645,7 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+ 	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+ 	asd->match.fwnode = fwnode_handle_get(fwnode);
+ 
+-	ret = v4l2_async_notifier_add_subdev(notifier, asd);
++	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+ 	if (ret) {
+ 		fwnode_handle_put(fwnode);
+ 		kfree(asd);
+@@ -695,7 +695,7 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+ 	asd->match.i2c.adapter_id = adapter_id;
+ 	asd->match.i2c.address = address;
+ 
+-	ret = v4l2_async_notifier_add_subdev(notifier, asd);
++	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+ 	if (ret) {
+ 		kfree(asd);
+ 		return ERR_PTR(ret);
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index c1c2b3060532..63be16c8eb83 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -822,7 +822,7 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+ 	if (ret < 0)
+ 		goto out_err;
+ 
+-	ret = v4l2_async_notifier_add_subdev(notifier, asd);
++	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+ 	if (ret < 0) {
+ 		/* not an error if asd already exists */
+ 		if (ret == -EEXIST)
 diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-index 8815e233677e..f2cac0931372 100644
+index f2cac0931372..173f3e0efc1e 100644
 --- a/include/media/v4l2-async.h
 +++ b/include/media/v4l2-async.h
-@@ -250,7 +250,7 @@ void v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier);
-  * notifier after calling
-  * @v4l2_async_notifier_add_subdev,
-  * @v4l2_async_notifier_parse_fwnode_endpoints or
-- * @v4l2_fwnode_reference_parse_sensor_common.
-+ * @v4l2_async_register_subdev_sensor_common.
+@@ -133,17 +133,22 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
+ void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier);
+ 
+ /**
+- * v4l2_async_notifier_add_subdev - Add an async subdev to the
++ * __v4l2_async_notifier_add_subdev - Add an async subdev to the
+  *				notifier's master asd list.
   *
-  * There is no harm from calling v4l2_async_notifier_cleanup in other
-  * cases as long as its memory has been zeroed after it has been
+  * @notifier: pointer to &struct v4l2_async_notifier
+  * @asd: pointer to &struct v4l2_async_subdev
+  *
++ * \warning: Drivers should avoid using this function and instead use one of:
++ * @v4l2_async_notifier_add_fwnode_subdev,
++ * @v4l2_async_notifier_add_fwnode_remote_subdev or
++ * @v4l2_async_notifier_add_i2c_subdev.
++ *
+  * Call this function before registering a notifier to link the provided @asd to
+  * the notifiers master @asd_list. The @asd must be allocated with k*alloc() as
+  * it will be freed by the framework when the notifier is destroyed.
+  */
+-int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
++int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+ 				   struct v4l2_async_subdev *asd);
+ 
+ /**
 -- 
 2.29.2
 
