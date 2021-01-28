@@ -2,153 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD14E3081E5
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jan 2021 00:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 385D4308216
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jan 2021 00:48:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbhA1XaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 18:30:00 -0500
-Received: from mga11.intel.com ([192.55.52.93]:4529 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231716AbhA1X3X (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jan 2021 18:29:23 -0500
-IronPort-SDR: mgDMOhO0nkpXPz0URwuX/JYXp7F6/ziXjT36x6R656MO+bQwAqC3eFDHjFhDB1NlJcYbloZdoV
- 1CX4P6gmORUA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="176824531"
-X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
-   d="scan'208";a="176824531"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 15:27:37 -0800
-IronPort-SDR: lFKxtB3Xuv8REmfggSX5QXJUb9ljAv5w+FI+6V5ANE0nQPHo+aHt6ZEJOPMoIwaYdjMIqjYMUR
- 2ISAMVKwfpfg==
-X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
-   d="scan'208";a="354359332"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 15:27:34 -0800
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id E27F82230C;
-        Fri, 29 Jan 2021 01:27:27 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1l5GhF-0004FT-Rc; Fri, 29 Jan 2021 01:27:29 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v9 7/7] at24: Support probing while off
-Date:   Fri, 29 Jan 2021 01:27:29 +0200
-Message-Id: <20210128232729.16064-7-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
-References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+        id S229832AbhA1XsG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 18:48:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50090 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229825AbhA1XsD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 Jan 2021 18:48:03 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A9CC061573
+        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 15:47:23 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id dj23so8575830edb.13
+        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 15:47:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=liddicott-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BxF95Zt/GG7qY57hm1gODfTs0qW6vbXTUyTv/KspY6s=;
+        b=HkRToUHrzqUD5jy+52VFi6KiXs8Ro2FdmP3IA0EmtNsvY3BRCvW0x8SlWUxpdVzw7i
+         QsomK4NBNXvECG5l1LmxhtAGzvh3XNdU55mcxW0rdyGy+FYOdMZXSFjfkK/XsTotPjyO
+         5H+TJsUmIAvIG9MG7ZSUyoAxqV6P7E3qKGEn6OoTc7X214zBBMEJGI/Aop0cj6a5H0kE
+         CQIQbbVPwS7QBjPeY/PomLtLWdumHEMgVtq4plBlmZmQ4ytZkpYxd+aeylC/hbjtSps6
+         3FncIKHIYIR8xi2tixITiIMwyLuDznl1Op2xYxt5wwtxMhZ67Ncbb5D7/2BvYJg4uayR
+         Q9fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BxF95Zt/GG7qY57hm1gODfTs0qW6vbXTUyTv/KspY6s=;
+        b=WFQ9ppu4TGzkC3YtxF9d9yAfA0phaqLzFLQwWppNoMQ2ImEsDZ5rUUzJSpVqcWFEgd
+         S8BfwPTUjplzHhKrMvGqypCFreZZW6kdKhh0Wu5KN+1ry1exhRwiDEgFek+VITo9DzZA
+         yEnVXN3joSqbyvc1T5+YuUzeJ4gGucPcrdY3jvTRd1p0YZspLKncUSa03HjZnYHmCDaW
+         IFseQUu8u83AMagBSfzIVChEmTKIub6lsLSAvC7ubfDZHPINKz9tW7IxYEA63WBTZFrK
+         W8hFwP7QNqgU2GC/Ne0m0GI0TSBZUsAdtjHqa0K5dHIZbN+QFCnTunhR2gxzm1UTCccw
+         4mrQ==
+X-Gm-Message-State: AOAM531O/JavnRjWFkVM/PbYEUwh9bb1E68IPNK1ZZ4HoanN15FIzo5k
+        801G+vgo5Xo2xUm7CaNrKZ86H7UhogwJGctn
+X-Google-Smtp-Source: ABdhPJyNXDun+awvMdFbWUjosaE0T0+6l/Ae1vuWgUmRn3MGpzn1aLJaLiqMxJk44KnhPKs/jhxDrQ==
+X-Received: by 2002:aa7:df0c:: with SMTP id c12mr2327599edy.304.1611877641691;
+        Thu, 28 Jan 2021 15:47:21 -0800 (PST)
+Received: from localhost.localdomain ([90.254.100.128])
+        by smtp.gmail.com with ESMTPSA id gj9sm2988857ejb.107.2021.01.28.15.47.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 15:47:20 -0800 (PST)
+From:   Simon Liddicott <simon@liddicott.com>
+To:     linux-media@vger.kernel.org, sean@mess.org
+Cc:     Simon Liddicott <simon@liddicott.com>
+Subject: [PATCH] dtv-scan-tables: latest UK changes
+Date:   Thu, 28 Jan 2021 23:46:22 +0000
+Message-Id: <20210128234622.75009-1-simon@liddicott.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In certain use cases (where the chip is part of a camera module, and the
-camera module is wired together with a camera privacy LED), powering on
-the device during probe is undesirable. Add support for the at24 to
-execute probe while being powered off. For this to happen, a hint in form
-of a device property is required from the firmware.
+only includes transmitters where there have been changes
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Simon Liddicott <simon@liddicott.com>
 ---
- drivers/misc/eeprom/at24.c | 43 +++++++++++++++++++++++---------------
- 1 file changed, 26 insertions(+), 17 deletions(-)
+ dvb-t/uk-MoelyParc   |  6 +++---
+ dvb-t/uk-Saddleworth | 14 +++++++-------
+ dvb-t/uk-Storeton    | 10 +++++-----
+ dvb-t/uk-WinterHill  | 18 +++++++++---------
+ 4 files changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/misc/eeprom/at24.c b/drivers/misc/eeprom/at24.c
-index 926408b41270c..dd0b3f24e3808 100644
---- a/drivers/misc/eeprom/at24.c
-+++ b/drivers/misc/eeprom/at24.c
-@@ -595,6 +595,7 @@ static int at24_probe(struct i2c_client *client)
- 	bool i2c_fn_i2c, i2c_fn_block;
- 	unsigned int i, num_addresses;
- 	struct at24_data *at24;
-+	bool low_power;
- 	struct regmap *regmap;
- 	bool writable;
- 	u8 test_byte;
-@@ -750,14 +751,16 @@ static int at24_probe(struct i2c_client *client)
+diff --git a/dvb-t/uk-MoelyParc b/dvb-t/uk-MoelyParc
+index 39655a0..6f7b23d 100644
+--- a/dvb-t/uk-MoelyParc
++++ b/dvb-t/uk-MoelyParc
+@@ -3,7 +3,7 @@
+ # <https://www.freeview.co.uk/help/coverage-checker/detailed-view/download/CH7 5UU>
+ #----------------------------------------------------------------------------------------------
+ # location and provider: UK, Moel y Parc
+-# date (yyyy-mm-dd)    : 2020-07-10
++# date (yyyy-mm-dd)    : 2021-01-28
+ #
+ #----------------------------------------------------------------------------------------------
+ [C45 BBC A]
+@@ -43,9 +43,9 @@
+ 	STREAM_ID = 0
+ 	INVERSION = AUTO
  
- 	i2c_set_clientdata(client, at24);
+-[C51- SDN]
++[C33 SDN]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 713833000
++	FREQUENCY = 570000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 3/4
+ 	CODE_RATE_LP = NONE
+diff --git a/dvb-t/uk-Saddleworth b/dvb-t/uk-Saddleworth
+index f1c9ec2..56e70f5 100644
+--- a/dvb-t/uk-Saddleworth
++++ b/dvb-t/uk-Saddleworth
+@@ -3,7 +3,7 @@
+ # <https://www.freeview.co.uk/help/coverage-checker/detailed-view/download/OL3 5RU>
+ #----------------------------------------------------------------------------------------------
+ # location and provider: UK, Saddleworth
+-# date (yyyy-mm-dd)    : 2020-07-10
++# date (yyyy-mm-dd)    : 2021-01-28
+ #
+ #----------------------------------------------------------------------------------------------
+ [C45 BBC A]
+@@ -18,9 +18,9 @@
+ 	HIERARCHY = NONE
+ 	INVERSION = AUTO
  
--	err = regulator_enable(at24->vcc_reg);
--	if (err) {
--		dev_err(dev, "Failed to enable vcc regulator\n");
--		return err;
--	}
-+	low_power = acpi_dev_state_low_power(&client->dev);
-+	if (!low_power) {
-+		err = regulator_enable(at24->vcc_reg);
-+		if (err) {
-+			dev_err(dev, "Failed to enable vcc regulator\n");
-+			return err;
-+		}
+-[C39+ D3&4]
++[C39 D3&4]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 618167000
++	FREQUENCY = 618000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 2/3
+ 	CODE_RATE_LP = NONE
+@@ -43,9 +43,9 @@
+ 	STREAM_ID = 0
+ 	INVERSION = AUTO
  
--	/* enable runtime pm */
--	pm_runtime_set_active(dev);
-+		pm_runtime_set_active(dev);
-+	}
- 	pm_runtime_enable(dev);
+-[C51- SDN]
++[C33 SDN]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 713833000
++	FREQUENCY = 570000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 3/4
+ 	CODE_RATE_LP = NONE
+@@ -55,9 +55,9 @@
+ 	HIERARCHY = NONE
+ 	INVERSION = AUTO
  
- 	at24->nvmem = devm_nvmem_register(dev, &nvmem_config);
-@@ -768,14 +771,17 @@ static int at24_probe(struct i2c_client *client)
- 	}
+-[C52+ ARQ A]
++[C36 ARQ A]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 722167000
++	FREQUENCY = 594000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 3/4
+ 	CODE_RATE_LP = NONE
+diff --git a/dvb-t/uk-Storeton b/dvb-t/uk-Storeton
+index 5d51e4e..ce31b72 100644
+--- a/dvb-t/uk-Storeton
++++ b/dvb-t/uk-Storeton
+@@ -3,7 +3,7 @@
+ # <https://www.freeview.co.uk/help/coverage-checker/detailed-view/download/CH63 2RH>
+ #----------------------------------------------------------------------------------------------
+ # location and provider: UK, Storeton
+-# date (yyyy-mm-dd)    : 2020-07-10
++# date (yyyy-mm-dd)    : 2021-01-28
+ #
+ #----------------------------------------------------------------------------------------------
+ [C28 BBC A]
+@@ -67,9 +67,9 @@
+ 	HIERARCHY = NONE
+ 	INVERSION = AUTO
  
- 	/*
--	 * Perform a one-byte test read to verify that the
--	 * chip is functional.
-+	 * Perform a one-byte test read to verify that the chip is functional,
-+	 * unless powering on the device is to be avoided during probe (i.e.
-+	 * it's powered off right now).
- 	 */
--	err = at24_read(at24, 0, &test_byte, 1);
--	if (err) {
--		pm_runtime_disable(dev);
--		regulator_disable(at24->vcc_reg);
--		return -ENODEV;
-+	if (!low_power) {
-+		err = at24_read(at24, 0, &test_byte, 1);
-+		if (err) {
-+			pm_runtime_disable(dev);
-+			regulator_disable(at24->vcc_reg);
-+			return -ENODEV;
-+		}
- 	}
+-[C29 ARQ B]
++[C30 ARQ B]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 538000000
++	FREQUENCY = 546000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 3/4
+ 	CODE_RATE_LP = NONE
+@@ -79,9 +79,9 @@
+ 	HIERARCHY = NONE
+ 	INVERSION = AUTO
  
- 	pm_runtime_idle(dev);
-@@ -795,9 +801,11 @@ static int at24_remove(struct i2c_client *client)
- 	struct at24_data *at24 = i2c_get_clientdata(client);
+-[C30 L-LIV]
++[C43 L-LIV]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 546000000
++	FREQUENCY = 650000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 3/4
+ 	CODE_RATE_LP = NONE
+diff --git a/dvb-t/uk-WinterHill b/dvb-t/uk-WinterHill
+index 97895b5..13dc78f 100644
+--- a/dvb-t/uk-WinterHill
++++ b/dvb-t/uk-WinterHill
+@@ -3,7 +3,7 @@
+ # <https://www.freeview.co.uk/help/coverage-checker/detailed-view/download/BL6 6SL>
+ #----------------------------------------------------------------------------------------------
+ # location and provider: UK, Winter Hill
+-# date (yyyy-mm-dd)    : 2020-07-10
++# date (yyyy-mm-dd)    : 2021-01-28
+ #
+ #----------------------------------------------------------------------------------------------
+ [C32 BBC A]
+@@ -18,9 +18,9 @@
+ 	HIERARCHY = NONE
+ 	INVERSION = AUTO
  
- 	pm_runtime_disable(&client->dev);
--	if (!pm_runtime_status_suspended(&client->dev))
--		regulator_disable(at24->vcc_reg);
--	pm_runtime_set_suspended(&client->dev);
-+	if (!acpi_dev_state_low_power(&client->dev)) {
-+		if (!pm_runtime_status_suspended(&client->dev))
-+			regulator_disable(at24->vcc_reg);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
+-[C59 D3&4]
++[C34 D3&4]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 778000000
++	FREQUENCY = 578000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 2/3
+ 	CODE_RATE_LP = NONE
+@@ -30,9 +30,9 @@
+ 	HIERARCHY = NONE
+ 	INVERSION = AUTO
  
- 	return 0;
- }
-@@ -834,6 +842,7 @@ static struct i2c_driver at24_driver = {
- 	.probe_new = at24_probe,
- 	.remove = at24_remove,
- 	.id_table = at24_ids,
-+	.flags = I2C_DRV_FL_ALLOW_LOW_POWER_PROBE,
- };
+-[C54- BBC B HD]
++[C35 BBC B HD]
+ 	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 737833000
++	FREQUENCY = 586000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 2/3
+ 	CODE_RATE_LP = NONE
+@@ -43,9 +43,9 @@
+ 	STREAM_ID = 0
+ 	INVERSION = AUTO
  
- static int __init at24_init(void)
+-[C58 SDN]
++[C29 SDN]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 770000000
++	FREQUENCY = 538000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 3/4
+ 	CODE_RATE_LP = NONE
+@@ -55,9 +55,9 @@
+ 	HIERARCHY = NONE
+ 	INVERSION = AUTO
+ 
+-[C49 ARQ A]
++[C31 ARQ A]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 698000000
++	FREQUENCY = 554000000
+ 	BANDWIDTH_HZ = 8000000
+ 	CODE_RATE_HP = 3/4
+ 	CODE_RATE_LP = NONE
 -- 
-2.20.1
+2.30.0
 
