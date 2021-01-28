@@ -2,93 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93C1730783A
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 15:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 618F630783F
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 15:39:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbhA1Og3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 09:36:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231489AbhA1Og0 (ORCPT
+        id S231817AbhA1OhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 09:37:11 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:46111 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231434AbhA1OhK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jan 2021 09:36:26 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03AD9C061788
-        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 06:35:45 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id p21so7853669lfu.11
-        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 06:35:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4HZ6vN2eEe9xlgJg6Acm1pXtbaRzCfTxTjwFlP4TFpU=;
-        b=Dh6TtiOQldz7ctr2Vjc++l9sPFfbz1uIReK71LDhdAY7CMAfgSiOEAqExkoDQ4raee
-         yiBKxu4aZyluG12epsDcVxU1V39k8CXSIeMG/3bOPvOWIoLFk8h0swTVl/glwTbkpjmk
-         y56Bs8b22Ho+WA8dKqByZ9YpfuqOno7Df/De+xGLZEw6jy4cAjXsHChNzqt//SrwbPv/
-         MFHIA7jAk/+jRjq2aXWCXav5v0/3LTauDbWHHZq5QthKDu2DlkOk0hEKjvSEHG23GPwW
-         gggykyjVJ2IFuEciGMa8k0nx5G7Ug4zbvGdN9ksTDPu6JgRXIwl+ERrbHJbY6IRIJlWM
-         IF0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4HZ6vN2eEe9xlgJg6Acm1pXtbaRzCfTxTjwFlP4TFpU=;
-        b=hRuEt4jdNmarZhESnbxKb8w8PItAP9+7KmKmrrgrnBqrpN7x27sh0R8GfcIwvHtI8B
-         iCshhirhbkUYdw4BqhKZyS762rJcrQCRwLEEXtpKnI9zrl1nmY4e6AuTGROGvJNerkJO
-         C3tHgHbwEfFEvu7LTFZz9gDYSZ94g4aHnb11PJxtf61z9hykFAfFraFUhUbqp5gARGc1
-         P2IsXUHewRV8djZ9iaHuVppLRJuCrZ84B8bV7MD79H42T95qHPtgf9MlO9eWhNdCOO4d
-         spnhmzdVbQsFtmPRbi3XNUy0tLbethnUsCyc+wzsm7ox7ESeh6nkJCkMu0XnwAq5KKDw
-         /LoA==
-X-Gm-Message-State: AOAM533Wu7syEQierh5TmkpzqxOtbIsNNLmBdjfTY6gCH/JNpeWsn3sc
-        gSqRX0RuRYC++Gxysf4IwCUig/rceE6u7xS9IRME/g==
-X-Google-Smtp-Source: ABdhPJwqwI0JXhluBVDgebMB/GJcLtoIuHaluDFZq7+Xj1RNJkY2OfC2kWQ4Clsu3GEZqQhCkC1nm3F37DJn50NMaO8=
-X-Received: by 2002:ac2:5d51:: with SMTP id w17mr5544918lfd.343.1611844543382;
- Thu, 28 Jan 2021 06:35:43 -0800 (PST)
+        Thu, 28 Jan 2021 09:37:10 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 58PGlEyASE1Ic58PKlxLUc; Thu, 28 Jan 2021 15:36:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611844587; bh=qtRz0odOLdwb8vOMzkND6Rqy1duafP13UBxmDm7df/8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=s9wMYPhz6Yzqbc/IykD7zqJM1UIPMmvUTVZbFTJJtZ1rTRMk76qn6ez7VVF0GAZ/3
+         QvaysUNC/IXyW4J1IQjemsxmx+NIr8a2yDwUjUI5W8omn4utaEzizmXvmVliZQ+YnV
+         m6VyfsqCKQj5W5GhB+SnCzOhikzF3TR/e2wLU1UDWBEFSZS/CZJlcPN2JHkAxrbdVr
+         gGl4EQQ65cr/OsX88aFHEZ/gby0YIFVu2VJ+NdpJ6jHkHcJOH26sZsEzAxVwlCkGz1
+         QCJZA8MH04kJLqtMjmKEUGp1FJP1XF3TlEC7n8WMaJvd20WsKI4NR6I1CtDcAlj3KT
+         DdIAikepEn0Mg==
+Subject: Re: [PATCH v4l-utils] test-media: add support for vidtv
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+References: <20210105131725.1191046-1-dwlsalmeida@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b92398de-3c01-8be8-1cc7-887c645f6951@xs4all.nl>
+Date:   Thu, 28 Jan 2021 15:36:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210126204240.418297-1-hridya@google.com> <YBFXPbePURupbe+y@kroah.com>
- <CAO_48GHrpi9XxPhP2evwH_ZJmbVSWqxCvsYg6S2Syh-mrWBHzA@mail.gmail.com>
- <c0684400-c1e2-0ebd-ad09-cb7b24db5764@gmail.com> <CAO_48GGsOTLdqAQMO9vrLtWAKG6spByMC-GXwDv_f3ENvpemfA@mail.gmail.com>
- <Fu3J-fHQvkd_umZraMnhxQhFJR_JCDmgUssMBA4GJgRwo4UpIPKvVSh51Os9FQkABkhSL6tmEAV4vwBZa7hFWFTgujmjaBmrgqJJ75KM8ZU=@emersion.fr>
-In-Reply-To: <Fu3J-fHQvkd_umZraMnhxQhFJR_JCDmgUssMBA4GJgRwo4UpIPKvVSh51Os9FQkABkhSL6tmEAV4vwBZa7hFWFTgujmjaBmrgqJJ75KM8ZU=@emersion.fr>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Thu, 28 Jan 2021 20:05:32 +0530
-Message-ID: <CAO_48GEzi2b5M8Gv2E2L1s76VcPksA812ZqY1ihbpxkDkwb5_A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3] dmabuf: Add the capability to expose
- DMA-BUF stats in sysfs
-To:     Simon Ser <contact@emersion.fr>
-Cc:     Christian Koenig <christian.koenig@amd.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        kernel test robot <lkp@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        hyesoo.yu@samsung.com, Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210105131725.1191046-1-dwlsalmeida@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGvIECnHSkRT9Rfda5SSU5Xy0nLpCFk82lf89TR6wLtylkJWXNF+dfuClSI1mwdzzQwqM/yY6/PXl3kkHoOopz2vQi2B9xh6ldiph+6njFAB3GvKICbl
+ LPJlLDhQVFi0ebB1XTpWqlvulZUwx11CvxyxqxwmXznDFMpRyPFGv9qUN0J+zmku3M+bfwuUDF6dGDnDqhhN7FjyrXsfqdiiE0TjexkWbGfLaBtbN6ASrlw3
+ g4H12VGZj8WF9O/MEyw18E36F+jEK4kSUXYOWjPskomCicwn+6dc6Uu2NaVmRkMqbNyDzEP8OlUDMtC+W8aCpLdTnVy5t4CMBEpJSjc4ybgSE2JdSmcS73Dz
+ N+DHAUt6B7beMEhTwgkAXagnKrieng==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Simon,
+Hi Daniel,
 
-On Thu, 28 Jan 2021 at 20:01, Simon Ser <contact@emersion.fr> wrote:
->
-> On Thursday, January 28th, 2021 at 1:03 PM, Sumit Semwal <sumit.semwal@linaro.org> wrote:
->
-> > Since he didn't comment over Hridya's last clarification about the
-> > tracepoints to track total GPU memory allocations being orthogonal to
-> > this series, I assumed he agreed with it.
->
-> IIRC he's away this week. (I don't remember when he comes back.)
->
-> > Daniel, do you still have objections around adding this patch in?
->
-> (Adding him explicitly in CC)
-Thanks for doing this!
+On 05/01/2021 14:17, Daniel W. S. Almeida wrote:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Add support for vidtv at the test-media script so that automated testing
+> is possible. Proper compliance tests are still pending.
 
-Best,
-Sumit.
+I've tried this, but something is wrong: 'media-ctl -p' shows an empty
+topology, ditto with contrib/test/mc_nextgen_test.
+
+For the same reason 'v4l2-compliance -M0' fails with:
+
+ fail: v4l2-test-media.cpp(120): !topology.num_entities
+
+I'm not sure what's going on here, but it needs some more work.
+
+In the meantime I'll merge this patch since it doesn't hurt.
+
+Regards,
+
+	Hans
+
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  contrib/test/test-media | 72 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+> 
+> diff --git a/contrib/test/test-media b/contrib/test/test-media
+> index 1c1d2e37b..86a2e081a 100755
+> --- a/contrib/test/test-media
+> +++ b/contrib/test/test-media
+> @@ -4,6 +4,7 @@
+>  #
+>  # Copyright 2019 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>  
+> +vidtv=0
+>  vivid=0
+>  vim2m=0
+>  vimc=0
+> @@ -51,6 +52,7 @@ if [ -z "$1" ]; then
+>  	echo "-32: use v4l2-ctl-32 and v4l2-compliance-32 to test the 32 bit compat layer"
+>  	echo
+>  	echo Test Targets:
+> +	echo "vidtv: test the vidtv driver"
+>  	echo "vivid: test the vivid driver"
+>  	echo "vim2m: test the vim2m driver"
+>  	echo "vimc: test the vimc driver"
+> @@ -96,6 +98,7 @@ while [ ! -z "$1" ]; do
+>  		fi
+>  		;;
+>  	all)
+> +		vidtv=1
+>  		vivid=1
+>  		vim2m=1
+>  		vimc=1
+> @@ -109,6 +112,9 @@ while [ ! -z "$1" ]; do
+>  		vimc=1
+>  		vicodec=1
+>  		;;
+> +	vidtv)
+> +		vidtv=1
+> +		;;
+>  	vivid)
+>  		vivid=1
+>  		;;
+> @@ -162,6 +168,72 @@ $v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-out -o1 -x width=3840,height=21
+>  
+>  echo
+>  
+> +if [ $vidtv -eq 1 ]; then
+> +	rmmod vidtv 2&>/dev/null
+> +	modprobe vidtv
+> +	sleep 2
+> +	dmesg -n notice
+> +	echo
+> +
+> +	if ! media-ctl -d platform:vidtv -p ; then
+> +		echo "FAIL: the vidtv module failed to load" | tee -a $tmp
+> +		echo "Grand Total for vidtv: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
+> +		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
+> +		rmmod vidtv
+> +		exit 0
+> +	fi
+> +
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo unbind vidtv
+> +	echo
+> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
+> +	sleep $unbind_time
+> +	echo
+> +	echo rebind vidtv
+> +	echo
+> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/bind
+> +	sleep 1
+> +	echo
+> +	echo second unbind vidtv
+> +	echo
+> +	sleep 1
+> +	echo
+> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
+> +	sleep $reunbind_time
+> +	echo
+> +	echo rmmod vidtv
+> +	echo
+> +	rmmod vidtv
+> +	sleep $rmmod_time
+> +	if [ $kmemleak -eq 1 ]; then
+> +		echo
+> +		echo kmemleak results for vidtv:
+> +		echo
+> +		echo scan >/sys/kernel/debug/kmemleak
+> +		cat /sys/kernel/debug/kmemleak
+> +		echo
+> +		echo end of kmemleak results
+> +		echo clear >/sys/kernel/debug/kmemleak
+> +	fi
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +
+> +fi
+> +
+>  if [ $vivid -eq 1 ]; then
+>  	dmesg -n notice
+>  	echo
+> 
+
