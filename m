@@ -2,123 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E54430688C
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 01:22:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A267306C50
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 05:36:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbhA1AUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Jan 2021 19:20:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58626 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231313AbhA1AT4 (ORCPT
+        id S229748AbhA1Efr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Jan 2021 23:35:47 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:42239 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229606AbhA1Efq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Jan 2021 19:19:56 -0500
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04706C061756
-        for <linux-media@vger.kernel.org>; Wed, 27 Jan 2021 16:19:09 -0800 (PST)
-Received: by mail-vs1-xe34.google.com with SMTP id o186so2142926vso.1
-        for <linux-media@vger.kernel.org>; Wed, 27 Jan 2021 16:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=u/NBHzGj6RokVMEH71m80tmfbt8SHqB96rb6JwsurCk=;
-        b=T/WXzvosHH5zwOZyRYu2qakrrk+itFzF4Wls6TyBLH/P5QqLfYaiAfFyjfg3ZEqXff
-         wC9Y5Okq5Jmd29IAWb/tflaOJ9fqF/4lbVUdn1qFLL7jJeTtHqA3PlDi21HgTuquz/yK
-         QF646m1gMkWvYbLO1YB3IF7BDYN7PHx3T16wg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=u/NBHzGj6RokVMEH71m80tmfbt8SHqB96rb6JwsurCk=;
-        b=NnJdnDyc/eWjEVcEJyeX8SdbXCY94SMcZMHz4dSf2QlxuOBdLghZc/8ND19bme7Znx
-         khWF7VjdAv61X6HGzYjMrLartUJEPlsWQ7jTFBE4nGaSwj8WztMeWKkFzRxBayNRG1HW
-         w9p6FUrqNIXWKPu3NUr4aLza5Ag0QxFq5zAnvVJTrdI4bMAIUT3NPJkJl+T14VZ7YiVL
-         2ChAJzTMCeQ2LU/aKBpNf9JWuOr3xRlskISLxmiKwWANoy1MwKp88ly2AQZ7FyZqOEKH
-         rbaDQy5wrt8OtY1gCdw6rHgKn7zU2AZhQQhxROG1WoBeA6QQDBhfKIn+QvxAhGREF8M5
-         l0Kw==
-X-Gm-Message-State: AOAM530fiOKc3ZbHuRYkM8kuOUnmq+dTszKqBh5ArYwsesZ+RO8gAekk
-        S+ViBv4IMJSL1NrlvkDU0AWdq5WPOALzJc1mHHSzWw==
-X-Google-Smtp-Source: ABdhPJy/H0ngURD41PlYIJ7XMA7FJ+OWK5Oxyz6Jo3NZy9LGRsOIOKdJvEB+XWo1PMjlj+fxLTli5mMGDmUwNPLC5co=
-X-Received: by 2002:a05:6102:34f:: with SMTP id e15mr10058573vsa.21.1611793148398;
- Wed, 27 Jan 2021 16:19:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20210127144930.2158242-1-robert.foss@linaro.org> <20210127144930.2158242-6-robert.foss@linaro.org>
-In-Reply-To: <20210127144930.2158242-6-robert.foss@linaro.org>
-From:   Nicolas Boichat <drinkcat@chromium.org>
-Date:   Thu, 28 Jan 2021 08:18:57 +0800
-Message-ID: <CANMq1KCUUg3rozY3=snz7YCNwPbbxZtJftCj-a=QPLp2XFSXwA@mail.gmail.com>
-Subject: Re: [PATCH v3 05/22] media: camss: Refactor VFE HW version support
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, shawnguo@kernel.org,
-        leoyang.li@nxp.com, Geert Uytterhoeven <geert+renesas@glider.be>,
-        Arnd Bergmann <arnd@arndb.de>, Anson.Huang@nxp.com,
-        michael@walle.cc, agx@sigxcpu.org, max.oss.09@gmail.com,
-        angelogioacchino.delregno@somainline.org,
-        linux-arm-msm@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 27 Jan 2021 23:35:46 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 4z1JlBidPE1Ic4z1KlvkLY; Thu, 28 Jan 2021 05:35:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1611808502; bh=30UiB+BAURLeFH/pzCgP8e/zAPb8Vyz5jHxb2/vs4yA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=aIVo48uwOiYNv2Ja5JPg0cVijHwQBe1qB9dzKXu/i8bXEZhG7ZtOAFVC9OBreyZKX
+         3TABJ3vhGO7fMcWfCEOXASz2F3qCengLt9ZbzgZuftURFloK8lLVA7/RlxRXtvho+w
+         DKqEjzijuK8yw0+FPVttQsNtAiFN/0snY1h/3JjMcxYp8/ykELdQAT+8fNc35RIaYV
+         xNGZuVTnI34TJ/CYGsNYnqzu23HqaNHGlW1vpfQQSZhNLIcHDYx5YW/Y7pjs1m7HqF
+         6YovldoWQ0cGGbygRIaviWwTb6HcOSFKP4GtHhmv9bfz7FgvUUwN/bZ2AhfadOpHAA
+         wX8wm5pTIZ8eQ==
+Message-ID: <86de9cb9ffe87b1e5b1e973af1b92003@smtp-cloud9.xs4all.net>
+Date:   Thu, 28 Jan 2021 05:35:01 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfGT0a0xCZvd4hTPiryu/mJrpxd+x0Zfu6Y+k4MZVPYUV4t0tMpZYBjlzFvg1JaCxzv78G8+n/kZwHQ8tUOTP3Bg65wpsXoAmbQB3ca8tkAHVJSmpxj1l
+ q2Cxso6GbK2iL9+4MWD7RMzg6jwCsgILyxrIN9EHWo/O5Wy/Gzp5D8a3RkmhgV5YGv/rcNE/msnqrJkeqbDyrYIM+fdyKfwm6JnAl9Pc9fTeU1cqHo4mUtFE
+ iulhsA01jP9sCQpl4AZ98Q==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 10:56 PM Robert Foss <robert.foss@linaro.org> wrote:
->
-> In order to support Qualcomm ISP hardware architectures that diverge
-> from older architectures, the VFE subdevice driver needs to be refactored
-> to better abstract the different ISP architectures.
->
-> Gen1 represents the CAMSS ISP architecture. The ISP architecture developed
-> after CAMSS, Titan, will be referred to as Gen2.
->
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
-> [snip]
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-8.c b/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-> new file mode 100644
-> index 000000000000..153e0e20664e
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-> [snip]
-> +/*
-> + * vfe_isr - VFE module interrupt handler
-> + * @irq: Interrupt line
-> + * @dev: VFE device
-> + *
-> + * Return IRQ_HANDLED on success
-> + */
-> +static irqreturn_t vfe_isr(int irq, void *dev)
-> +{
-> +       struct vfe_device *vfe = dev;
-> +       u32 value0, value1;
-> +       int i, j;
-> +
-> +       vfe->ops->isr_read(vfe, &value0, &value1);
-> +
-> +       trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
-> +                    value0, value1);
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Please do not use trace_printk in production code [1,2], it is only
-meant for debug use. Consider using trace events, or dev_dbg.
+Results of the daily build of media_tree:
 
-[1] https://elixir.bootlin.com/linux/v5.8/source/kernel/trace/trace.c#L3158
-[2] https://elixir.bootlin.com/linux/v5.8/source/include/linux/kernel.h#L766
+date:			Thu Jan 28 05:00:09 CET 2021
+media-tree git hash:	f0ddb4e9911665b9ad68fe94e0faaaff5953902e
+media_build git hash:	f6e3542673d19355e8e42be40f5fc78431d611c5
+v4l-utils git hash:	50b900640bab942f4f2504223680ac7d72d16e8b
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7087-gdbdb27615
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 01932d8c0f1bcf9780263707cc9aa0af06014d36
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> [snip]
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 0 strcpy(), 1 strncpy(), 0 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.238-i686: ERRORS
+linux-4.4.238-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.238-i686: ERRORS
+linux-4.9.238-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.200-i686: ERRORS
+linux-4.14.200-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.149-i686: ERRORS
+linux-4.19.149-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.69-i686: ERRORS
+linux-5.4.69-x86_64: ERRORS
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
