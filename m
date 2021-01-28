@@ -2,360 +2,333 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F03F307A13
-	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 16:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9F5E307B43
+	for <lists+linux-media@lfdr.de>; Thu, 28 Jan 2021 17:49:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231210AbhA1Pwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 10:52:34 -0500
-Received: from mail-dm6nam12on2067.outbound.protection.outlook.com ([40.107.243.67]:50593
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231204AbhA1Pwc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jan 2021 10:52:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EnNDrftnqM8q+b/SIjNvsyXzpNoDB/sEe+Ctd31rSKSSdOpAAwjB6bWKuI5hzIKgQInPLI9ZK873pooaKAVaHVUW87TnyVARKfNM+1csBo0pXVYEtVa7l00WMoOpbvRQC7OuiwqchB9c95CPgo8qU3jdvaSBTMRyeVDL8ObKiPpDnL770xGFXGEnPxrPlvsy9nrjPC+pdi/G/b0SlkObPlkuj9kp9LeDFf7rlhOB0ZlzdZ47UuziQJoPL903k87mMHGdQmeiwu7mxiyqssV7OJXlSIEtxRXCuTbaU4mC0Zw2nXnYGKB+FzwjWc1uFiGTxi8HozmTTD8R8rYit6BQ6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6YGUdpB46iYQO/O9eu++i+D7oar6n4WR1pI/yUXhcw0=;
- b=nwAV5Exeo6vqXsapxKBoyzcLwXvuhE6z1RW7/g/KR6kBA5eme/4fCqHVOhT838kTbz3ioo8s0K4ucOQpMxBVBHEZqsxSHcw7sTrw36jXJvgrQ3xcUSS1mTANDEMHZmU96bHBHou7ydyplLyQlkLn3ArB1b+NjCh3DCIUuKzCN8iMTrKgM9CmRNsnSlKPDekywMjGxfKISny0bbI3jIyobDyWcTVzdTty+76g7efgp18Pkw/TBaeo/r7hj0/6AQkrabVUGjEJAofl0oqPCnPUb+7iKOq+dimD4l264ac4QGZ9/P/XntBerOFn0FDDZc2cBHT2OJ0AOJVV2cfJI+Y9+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6YGUdpB46iYQO/O9eu++i+D7oar6n4WR1pI/yUXhcw0=;
- b=x2G2I0ad//xZrFGJ8v6iwEzFiC3uQPOOQvg+a1chYUDvEwA9XV9nj2o978KQjNbzQ7nj443unbVqi+SswszhzLxutzJYRspAZRH4rgusiOexJno21iI3P8R9V2CABDLtSVP6gzHTwFK7Lid9bI7bXLOt3ufGUw+yxCvrNwltb1U=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4357.namprd12.prod.outlook.com (2603:10b6:208:262::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Thu, 28 Jan
- 2021 15:47:03 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3784.019; Thu, 28 Jan 2021
- 15:47:03 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH] RFC: dma-fence: Document recoverable page
- fault implications
-To:     Felix Kuehling <felix.kuehling@amd.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     linaro-mm-sig@lists.linaro.org, Jerome Glisse <jglisse@redhat.com>,
-        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-media@vger.kernel.org
-References: <20210121194056.1734409-1-daniel.vetter@ffwll.ch>
- <6d373177-2645-1d67-9c14-dcad87c4f4d9@amd.com>
- <68740fcf-530e-b929-1c98-5810fc97ed23@linux.intel.com>
- <1e38efbc-ec52-e436-21e4-49a0d074b57b@amd.com>
- <18e7efbd-3d10-5ad1-49c9-7e26f0a27ef2@amd.com>
- <c9c8d386-87a1-6678-b5c6-854de210d8d3@gmail.com>
- <65b7a61c-b4b9-a210-5a37-0f69d01f667c@amd.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <d838b9a2-b728-5a69-ee61-1e1ee7cfa714@amd.com>
-Date:   Thu, 28 Jan 2021 16:46:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <65b7a61c-b4b9-a210-5a37-0f69d01f667c@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM3PR04CA0144.eurprd04.prod.outlook.com (2603:10a6:207::28)
- To MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+        id S232670AbhA1Qql (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 11:46:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43662 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232657AbhA1QoK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 Jan 2021 11:44:10 -0500
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3797C06178A
+        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 08:43:29 -0800 (PST)
+Received: by mail-il1-x12e.google.com with SMTP id p15so5086877ilq.8
+        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 08:43:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=au/rWxVLXC+jhFOhYtTmIM0u2Qs05NxR7vYgq9rMjTg=;
+        b=Mg4cII1XQ+Mj3Sw1csKsWnqF12MNlEnokkufPkrXXu7gJrxx02m3M+fDmUGTni+FI3
+         QBHDdU156bpR33lm1BiGFqMeaaw3IU8MyoLDP6G3+Y4VKiLX1ALLM+b5bfqz5vBHGe3A
+         /LLAfGUJx5Luyra6DHcApAVueuuWhwSPHnot4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=au/rWxVLXC+jhFOhYtTmIM0u2Qs05NxR7vYgq9rMjTg=;
+        b=pOw9kDHTeNi7cVxYE2YwCKUM/29Kg6WmeiuLi3ju4dn00PH0WLpPU8XL/A3hXDl27f
+         INfPz3URpfVH6llsIEzlyWcPOdjvNDRCumwmTzVCmRWWrLk+Y8uUXvvZQKIDeFceAw3G
+         s2beYfPk7hT/NKEacsXYDrbbS5YfYuMVDXZjk6M7mvqEcmWbjgkxCMdqcPPZwryExUFc
+         J1PtlpyLDJd1viUnwcGikuMSddqPzdAMUkqXQ52qastfXyfmMHR7vWhXPCRJuDQD+aYw
+         GoSZ+VIv7LplDd4nsL0TbCwnWTWIfL7jP8r9qIOYZVhuzTWpgSPn5kpWJfzov/pzveKe
+         k7qw==
+X-Gm-Message-State: AOAM530fDXO2wHOkgZJSQrq0gzu00uWUPcrwpLDSbDxeCH8Kpl0f5Azz
+        oQhqRC2l7NUIYe9pnJbYCt5A3RUvVqR6kcnM
+X-Google-Smtp-Source: ABdhPJzbim4AEgA++SdneYtStOj++cwLh76vGqJkGQJqnX+5JiR6kpQIB91ZmEyYGMMMGD624N4fzA==
+X-Received: by 2002:a05:6e02:d42:: with SMTP id h2mr10654231ilj.204.1611852208814;
+        Thu, 28 Jan 2021 08:43:28 -0800 (PST)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com. [209.85.166.181])
+        by smtp.gmail.com with ESMTPSA id r1sm2820060iot.8.2021.01.28.08.43.27
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jan 2021 08:43:27 -0800 (PST)
+Received: by mail-il1-f181.google.com with SMTP id d6so5816815ilo.6
+        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 08:43:27 -0800 (PST)
+X-Received: by 2002:a05:6e02:13c1:: with SMTP id v1mr13889942ilj.89.1611852206979;
+ Thu, 28 Jan 2021 08:43:26 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM3PR04CA0144.eurprd04.prod.outlook.com (2603:10a6:207::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Thu, 28 Jan 2021 15:47:01 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 45d0ccb9-e853-47f4-c44c-08d8c3a3f529
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4357:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43570965518183DC275C891D83BA9@MN2PR12MB4357.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qeoARvnhkew/Mql3yT8WA6X3ku3NdgUyvd/HUNviImUzJ0eLjDjKJpc4OWAqDL9OxwcSHTfRUbdT4Bf0l9GGegw13DanGrMwx1k9g72thHJNslpg7zTdy/EQpzEwWnQyGBNUzcCAUb8Yn8PdvPKA0Nbl+th1YF/FuP+e0hb5cv5ByUPJb1aOWaop6+4Ytvg5pb5g2VvrxJB55b1O7n9zMFQoVPf7kVLo7lHA7+qRcpaDcn7J/0GeEXrvfzifvAA5ebwjBPvm8OxDAI0oOT7Z1B0iVt/NyzRqNGBIEIrrYCfb++6djEcd9svWIOmU36HO7aHZANNFnSmOfIozxwwmYu2U5cCeQTAKy4EiPqO1by/VxLE/9FB4xwIwjvXFnxnTIUjoYc5dlA+k3UZT6cFWb1MKC1tVhHQ5adFANLd8dGEFiSx9P+sTyQf55AgsYbwWzO//V27KCT0jo/azPX7krPrUqSXKCUQBJFKNygpVLrZLSNlOxjWXEH+mZaDlLm6LDxEj8ji4P8lpyOth5q6Y+UPZZWUwlqmS86X2BsHHiYiNrEI4gpGkr+3Nq+Z4XNrABKDgLwwYqmudmx6T5p4foa0IvbBpwHFeFKFkjWNLS11wYeA7Vj0EeV58NDQHL+mSeVuaal4oaJVTDKSEDEPg93mPilL6JKk05cRIJTO6MHVbKZdhj8COH3GoXwOMVsMF
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(366004)(136003)(39860400002)(346002)(2906002)(8676002)(86362001)(30864003)(45080400002)(54906003)(110136005)(4326008)(5660300002)(966005)(31696002)(478600001)(6666004)(52116002)(66574015)(2616005)(316002)(36756003)(6486002)(186003)(16526019)(66556008)(31686004)(8936002)(83380400001)(66476007)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RlYzOFI4WjhKZUF4elJSZUVGK1NpTWc1SUx4aGZDQ3IwYUt3YXVGTWRseVp5?=
- =?utf-8?B?VndkZ3BjN0d3TmxOZWp3MmJTbmtHaW9YbFRNZ2tHYjVWZmtsY1AycTdwcSt6?=
- =?utf-8?B?NlhJQmlwUU13VlJUUlZ5RjV1N2NSeEtDc1c3czZxV2hnN0Q5RGtORXkvbjdO?=
- =?utf-8?B?MTQvSm5UY1VtUmhHbVB4VjFleFVkSDVDOG40Z2VVd1NlcVVld25YU3JQN3E1?=
- =?utf-8?B?VWR3c1BpQTdYckpDa0JyY2lZRi9iTlJtM2lFUlp3TXAvQkdvTzR4VE8yeW40?=
- =?utf-8?B?UXBJNitsM0RFdWZKY3lueHYxQjB0RldmS3l4UkhlY2JIeFJ0WmpKODJVOU9v?=
- =?utf-8?B?NjVBZm9aMkw1MU5mR3RUR1o3NjA5bWlPdXY1OHlWSXlqUWFnNnppN21BLzNC?=
- =?utf-8?B?MXM0TlJyc2JsNGFpUlZTK1hqS0NWVlpiTDZNalRhd3RLRm41Rzl2d0MxK1Ir?=
- =?utf-8?B?WEdHa3VuNjNhcTRHeCtrRjA3NXhxRHZJeFZEbFdZODhuQWVsVllvMWtRYVJE?=
- =?utf-8?B?dVQyRVhsek55NHE0eGJZRk1vRUNLWmVGOS8vbEczMjYyRzYrRFdWQ29PbWMv?=
- =?utf-8?B?UGVidXZnM3dXOFBiQ0xqU1dmWVdRS0NXLzNXUGptQTl5L0RDdzhVYXBZVEQ1?=
- =?utf-8?B?eGxjTXZvUUs1ZHhJRm9ja01ZdlFSVUEzRVF6NXV4VjlIT01TcHZJbmtOS1p3?=
- =?utf-8?B?eUh6Y2s1WHVkYkROMGo5TlJKVVpRNlFOK1ZFVHl4ait0N3YzYUtVdU5MYXg5?=
- =?utf-8?B?SmFMc2JJRzZtcTRJVDVDNXBYR0dNS3FadDRKV01hRHp0R3hDTWxrNGNKY1Q5?=
- =?utf-8?B?VVN0SkZheG9PUXp3TVJ2V0FlN2NFTEdlNXl1cEg2YUpRWWhyUFBjcEdVSE1q?=
- =?utf-8?B?cmU2YjU3eXQzZE80NlkzV1pwQVpYS3VMMGNhL1AwWEhpZ1pjbUlUUm9qOTZZ?=
- =?utf-8?B?eVhBSjByV2prVlhYeGVGaHFKWVV6UGZTZThWWnhxRGEyYWZGYmNDQlN1bjIr?=
- =?utf-8?B?bkVHVFVKZmRqVGZpY0ZOUXZXY2tVLzNGbzI5Z1MrRVpXQUY3MGFVRW03Y3Nq?=
- =?utf-8?B?Tmhab2ZONFNJY3UwVWdQbXBRRkU1eHdUS1N1L2xGak1Sc0c3ZDJQeW96M2pn?=
- =?utf-8?B?cmxlTGlheG9QTDFrQnVOVm55WWcxc3RZbVNwUGJtcjRtTGlhWEdHM2w0bkZ3?=
- =?utf-8?B?VUtGc1lGVG14ajZIVUNpVWM0NVcycDBlWHY2T0pjYlZFWmpsekpLK3ZLVVBF?=
- =?utf-8?B?akRRRFVrOTJScGg4c1hLSU5iYXdmclBGeFJVem90aG5jTG53OEJkMXJaMSt5?=
- =?utf-8?B?K2h2Mk1MRjUvcXlJMXFqSytoaWZKZHF4L0oyREVtWHM1OEJWWnBOYVNzUk90?=
- =?utf-8?B?TlhvZ0JFWStndVpNbGVGTS80UkQ0VURpZm5JSkIzUGl6Z0FCaitMZ1pUb2F3?=
- =?utf-8?B?bGI1aVZjQTFRYUZpSXVidmxHVVFhdXd1eUh2bDlIejN0dEFHOFZRVGtiWU5u?=
- =?utf-8?Q?vbsBvo4hjLaXIq1OA0kjEczxxPo?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45d0ccb9-e853-47f4-c44c-08d8c3a3f529
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 15:47:03.8432
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eOvPXibaq2dS2hWW/C5N3NAAsYb3qsnSkQNY4ZmRodGkcqSLsQXTKkTDkXqoR1yf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4357
+References: <20210128145837.2250561-1-hch@lst.de> <20210128145837.2250561-7-hch@lst.de>
+In-Reply-To: <20210128145837.2250561-7-hch@lst.de>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 28 Jan 2021 17:43:15 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvbfgpmPyMjKxLqcv4zzPaG2QLR+ipszy5e6ku==Mg8AA@mail.gmail.com>
+Message-ID: <CANiDSCvbfgpmPyMjKxLqcv4zzPaG2QLR+ipszy5e6ku==Mg8AA@mail.gmail.com>
+Subject: Re: [PATCH 6/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 28.01.21 um 16:39 schrieb Felix Kuehling:
-> Am 2021-01-28 um 2:39 a.m. schrieb Christian König:
->> Am 27.01.21 um 23:00 schrieb Felix Kuehling:
->>> Am 2021-01-27 um 7:16 a.m. schrieb Christian König:
->>>> Am 27.01.21 um 13:11 schrieb Maarten Lankhorst:
->>>>> Op 27-01-2021 om 01:22 schreef Felix Kuehling:
->>>>>> Am 2021-01-21 um 2:40 p.m. schrieb Daniel Vetter:
->>>>>>> Recently there was a fairly long thread about recoreable hardware
->>>>>>> page
->>>>>>> faults, how they can deadlock, and what to do about that.
->>>>>>>
->>>>>>> While the discussion is still fresh I figured good time to try and
->>>>>>> document the conclusions a bit.
->>>>>>>
->>>>>>> References:
->>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F20210107030127.20393-1-Felix.Kuehling%40amd.com%2F&amp;data=04%7C01%7Cfelix.kuehling%40amd.com%7C4e4884be55d74c4dda1408d8c35fd0ab%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637474163592260552%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=y2VzC4vbfMi0ctyerAHfqODZ6tthz1FUDwpMCp0PIrQ%3D&amp;reserved=0
->>>>>>>
->>>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>>>>> Cc: Thomas Hellström <thomas.hellstrom@intel.com>
->>>>>>> Cc: "Christian König" <christian.koenig@amd.com>
->>>>>>> Cc: Jerome Glisse <jglisse@redhat.com>
->>>>>>> Cc: Felix Kuehling <felix.kuehling@amd.com>
->>>>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>>>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>>>>> Cc: linux-media@vger.kernel.org
->>>>>>> Cc: linaro-mm-sig@lists.linaro.org
->>>>>>> -- 
->>>>>>> I'll be away next week, but figured I'll type this up quickly for
->>>>>>> some
->>>>>>> comments and to check whether I got this all roughly right.
->>>>>>>
->>>>>>> Critique very much wanted on this, so that we can make sure hw which
->>>>>>> can't preempt (with pagefaults pending) like gfx10 has a clear
->>>>>>> path to
->>>>>>> support page faults in upstream. So anything I missed, got wrong or
->>>>>>> like that would be good.
->>>>>>> -Daniel
->>>>>>> ---
->>>>>>>     Documentation/driver-api/dma-buf.rst | 66
->>>>>>> ++++++++++++++++++++++++++++
->>>>>>>     1 file changed, 66 insertions(+)
->>>>>>>
->>>>>>> diff --git a/Documentation/driver-api/dma-buf.rst
->>>>>>> b/Documentation/driver-api/dma-buf.rst
->>>>>>> index a2133d69872c..e924c1e4f7a3 100644
->>>>>>> --- a/Documentation/driver-api/dma-buf.rst
->>>>>>> +++ b/Documentation/driver-api/dma-buf.rst
->>>>>>> @@ -257,3 +257,69 @@ fences in the kernel. This means:
->>>>>>>       userspace is allowed to use userspace fencing or long running
->>>>>>> compute
->>>>>>>       workloads. This also means no implicit fencing for shared
->>>>>>> buffers in these
->>>>>>>       cases.
->>>>>>> +
->>>>>>> +Recoverable Hardware Page Faults Implications
->>>>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>>>> +
->>>>>>> +Modern hardware supports recoverable page faults, which has a
->>>>>>> lot of
->>>>>>> +implications for DMA fences.
->>>>>>> +
->>>>>>> +First, a pending page fault obviously holds up the work that's
->>>>>>> running on the
->>>>>>> +accelerator and a memory allocation is usually required to resolve
->>>>>>> the fault.
->>>>>>> +But memory allocations are not allowed to gate completion of DMA
->>>>>>> fences, which
->>>>>>> +means any workload using recoverable page faults cannot use DMA
->>>>>>> fences for
->>>>>>> +synchronization. Synchronization fences controlled by userspace
->>>>>>> must be used
->>>>>>> +instead.
->>>>>>> +
->>>>>>> +On GPUs this poses a problem, because current desktop compositor
->>>>>>> protocols on
->>>>>>> +Linus rely on DMA fences, which means without an entirely new
->>>>>>> userspace stack
->>>>>>> +built on top of userspace fences, they cannot benefit from
->>>>>>> recoverable page
->>>>>>> +faults. The exception is when page faults are only used as
->>>>>>> migration hints and
->>>>>>> +never to on-demand fill a memory request. For now this means
->>>>>>> recoverable page
->>>>>>> +faults on GPUs are limited to pure compute workloads.
->>>>>>> +
->>>>>>> +Furthermore GPUs usually have shared resources between the 3D
->>>>>>> rendering and
->>>>>>> +compute side, like compute units or command submission engines. If
->>>>>>> both a 3D
->>>>>>> +job with a DMA fence and a compute workload using recoverable page
->>>>>>> faults are
->>>>>>> +pending they could deadlock:
->>>>>>> +
->>>>>>> +- The 3D workload might need to wait for the compute job to finish
->>>>>>> and release
->>>>>>> +  hardware resources first.
->>>>>>> +
->>>>>>> +- The compute workload might be stuck in a page fault, because the
->>>>>>> memory
->>>>>>> +  allocation is waiting for the DMA fence of the 3D workload to
->>>>>>> complete.
->>>>>>> +
->>>>>>> +There are a few ways to prevent this problem:
->>>>>>> +
->>>>>>> +- Compute workloads can always be preempted, even when a page
->>>>>>> fault is pending
->>>>>>> +  and not yet repaired. Not all hardware supports this.
->>>>>>> +
->>>>>>> +- DMA fence workloads and workloads which need page fault handling
->>>>>>> have
->>>>>>> +  independent hardware resources to guarantee forward progress.
->>>>>>> This could be
->>>>>>> +  achieved through e.g. through dedicated engines and minimal
->>>>>>> compute unit
->>>>>>> +  reservations for DMA fence workloads.
->>>>>>> +
->>>>>>> +- The reservation approach could be further refined by only
->>>>>>> reserving the
->>>>>>> +  hardware resources for DMA fence workloads when they are
->>>>>>> in-flight. This must
->>>>>>> +  cover the time from when the DMA fence is visible to other
->>>>>>> threads up to
->>>>>>> +  moment when fence is completed through dma_fence_signal().
->>>>>>> +
->>>>>>> +- As a last resort, if the hardware provides no useful reservation
->>>>>>> mechanics,
->>>>>>> +  all workloads must be flushed from the GPU when switching
->>>>>>> between jobs
->>>>>>> +  requiring DMA fences or jobs requiring page fault handling: This
->>>>>>> means all DMA
->>>>>>> +  fences must complete before a compute job with page fault
->>>>>>> handling can be
->>>>>>> +  inserted into the scheduler queue. And vice versa, before a DMA
->>>>>>> fence can be
->>>>>>> +  made visible anywhere in the system, all compute workloads must
->>>>>>> be preempted
->>>>>>> +  to guarantee all pending GPU page faults are flushed.
->>>>>> I thought of another possible workaround:
->>>>>>
->>>>>>      * Partition the memory. Servicing of page faults will use a
->>>>>> separate
->>>>>>        memory pool that can always be allocated from without
->>>>>> waiting for
->>>>>>        fences. This includes memory for page tables and memory for
->>>>>>        migrating data to. You may steal memory from other processes
->>>>>> that
->>>>>>        can page fault, so no fence waiting is necessary. Being able to
->>>>>>        steal memory at any time also means there are basically no
->>>>>>        out-of-memory situations you need to worry about. Even page
->>>>>> tables
->>>>>>        (except the root page directory of each process) can be
->>>>>> stolen in
->>>>>>        the worst case.
->>>>> I think 'overcommit' would be a nice way to describe this. But I'm not
->>>>> sure how easy this is to implement in practice. You would basically
->>>>> need
->>>>> to create your own memory manager for this.
->>>> Well you would need a completely separate pool for both device as well
->>>> as system memory.
->>>>
->>>> E.g. on boot we say we steal X GB system memory only for HMM.
->>> Why? The GPU driver doesn't need to allocate system memory for HMM.
->>> Migrations to system memory are handled by the kernel's handle_mm_fault
->>> and page allocator and swap logic.
->> And that one depends on dma_fence completion because you can easily
->> need to wait for an MMU notifier callback.
-> I see, the GFX MMU notifier for userpointers in amdgpu currently waits
-> for fences. For the KFD MMU notifier I am planning to fix this by
-> causing GPU page faults instead of preempting the queues. Can we limit
-> userptrs in amdgpu to engines that can page fault. Basically make it
-> illegal to attach userptr BOs to graphics CS BO lists, so they can only
-> be used in user mode command submissions, which can page fault. Then the
-> GFX MMU notifier could invalidate PTEs and would not have to wait for
-> fences.
-
-It's not only the MMU notifier, the TTM shrinker I'm adding needs to 
-wait for dma_fences as well.
-
-And apart from that we can't limit userptrs since they are part of the 
-UAPI and Vulkan/OpenGL.
-
->> As Maarten wrote when you want to go down this route you need a
->> complete separate memory management parallel to the one of the kernel.
-> Not really. I'm trying to make the GPU memory management more similar to
-> what the kernel does for system memory.
+On Thu, Jan 28, 2021 at 4:03 PM Christoph Hellwig <hch@lst.de> wrote:
 >
-> I understood Maarten's comment as "I'm creating a new memory manager and
-> not using TTM any more". This is true. The idea is that this portion of
-> VRAM would be managed more like system memory.
-
-I don't think that will fly. We can have the backing store which TTM 
-uses for allocation shared with HMM.
-
-But essentially both TTM allocations needs to be able to put pressure on 
-HMM allocations as well as the other way around.
-
-Regards,
-Christian.
-
+> From: Ricardo Ribalda <ribalda@chromium.org>
 >
-> Regards,
->    Felix
+> On architectures where the is no coherent caching such as ARM use the
+> dma_alloc_noncontiguos API and handle manually the cache flushing using
+> dma_sync_sgtable().
 >
+> With this patch on the affected architectures we can measure up to 20x
+> performance improvement in uvc_video_copy_data_work().
 >
->> Regards,
->> Christian.
->>
->>>    It doesn't depend on any fences, so
->>> it cannot deadlock with any GPU driver-managed memory. The GPU driver
->>> gets involved in the MMU notifier to invalidate device page tables. But
->>> that also doesn't need to wait for any fences.
->>>
->>> And if the kernel runs out of pageable memory, you're in trouble anyway.
->>> The OOM killer will step in, nothing new there.
->>>
->>> Regards,
->>>     Felix
->>>
->>>
->>>>> But from a design point of view, definitely a valid solution.
->>>> I think the restriction above makes it pretty much unusable.
->>>>
->>>>> But this looks good, those solutions are definitely the valid
->>>>> options we
->>>>> can choose from.
->>>> It's certainly worth noting, yes. And just to make sure that nobody
->>>> has the idea to reserve only device memory.
->>>>
->>>> Christian.
->>>>
->>>>> ~Maarten
->>>>>
->>> _______________________________________________
->>> Linaro-mm-sig mailing list
->>> Linaro-mm-sig@lists.linaro.org
->>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.linaro.org%2Fmailman%2Flistinfo%2Flinaro-mm-sig&amp;data=04%7C01%7Cfelix.kuehling%40amd.com%7C4e4884be55d74c4dda1408d8c35fd0ab%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637474163592260552%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=gQj51eDK8OUWoQcbYliY639jOPleRjyLY3Q16nj2PL0%3D&amp;reserved=0
->>>
+> Eg: aarch64 with an external usb camera
+>
+> NON_CONTIGUOUS
+> frames:  999
+> packets: 999
+> empty:   0 (0 %)
+> errors:  0
+> invalid: 0
+> pts: 0 early, 0 initial, 999 ok
+> scr: 0 count ok, 0 diff ok
+> sof: 2048 <= sof <= 0, freq 0.000 kHz
+> bytes 67034480 : duration 33303
+> FPS: 29.99
+> URB: 523446/4993 uS/qty: 104.836 avg 132.532 std 13.230 min 831.094 max (uS)
+> header: 76564/4993 uS/qty: 15.334 avg 15.229 std 3.438 min 186.875 max (uS)
+> latency: 468945/4992 uS/qty: 93.939 avg 132.577 std 9.531 min 824.010 max (uS)
+> decode: 54161/4993 uS/qty: 10.847 avg 6.313 std 1.614 min 111.458 max (uS)
+> raw decode speed: 9.931 Gbits/s
+> raw URB handling speed: 1.025 Gbits/s
+> throughput: 16.102 Mbits/s
+> URB decode CPU usage 0.162600 %
+>
+> COHERENT
+> frames:  999
+> packets: 999
+> empty:   0 (0 %)
+> errors:  0
+> invalid: 0
+> pts: 0 early, 0 initial, 999 ok
+> scr: 0 count ok, 0 diff ok
+> sof: 2048 <= sof <= 0, freq 0.000 kHz
+> bytes 54683536 : duration 33302
+> FPS: 29.99
+> URB: 1478135/4000 uS/qty: 369.533 avg 390.357 std 22.968 min 3337.865 max (uS)
+> header: 79761/4000 uS/qty: 19.940 avg 18.495 std 1.875 min 336.719 max (uS)
+> latency: 281077/4000 uS/qty: 70.269 avg 83.102 std 5.104 min 735.000 max (uS)
+> decode: 1197057/4000 uS/qty: 299.264 avg 318.080 std 1.615 min 2806.667 max (uS)
+> raw decode speed: 365.470 Mbits/s
+> raw URB handling speed: 295.986 Mbits/s
+> throughput: 13.136 Mbits/s
+> URB decode CPU usage 3.594500 %
+>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 76 ++++++++++++++++++++++---------
+>  drivers/media/usb/uvc/uvcvideo.h  |  4 +-
+>  2 files changed, 57 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index a6a441d92b9488..9c051b55dc7bc6 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+>  #include <linux/usb.h>
+> +#include <linux/usb/hcd.h>
+>  #include <linux/videodev2.h>
+>  #include <linux/vmalloc.h>
+>  #include <linux/wait.h>
+> @@ -1097,6 +1098,23 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>         return data[0];
+>  }
+>
+> +static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
+> +{
+> +       return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
+> +}
+> +
+> +static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
+> +{
+> +       struct device *dma_dev = dma_dev = stream_to_dmadev(uvc_urb->stream);
+> +
+> +       if (for_device)
+> +               dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
+> +                                           DMA_FROM_DEVICE);
+> +       else
+> +               dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt,
+> +                                        DMA_FROM_DEVICE);
+> +}
+> +
+>  /*
+>   * uvc_video_decode_data_work: Asynchronous memcpy processing
+>   *
+> @@ -1118,6 +1136,8 @@ static void uvc_video_copy_data_work(struct work_struct *work)
+>                 uvc_queue_buffer_release(op->buf);
+>         }
+>
+> +       uvc_urb_dma_sync(uvc_urb, true);
+> +
+>         ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
+>         if (ret < 0)
+>                 uvc_printk(KERN_ERR, "Failed to resubmit video URB (%d).\n",
+> @@ -1539,10 +1559,12 @@ static void uvc_video_complete(struct urb *urb)
+>          * Process the URB headers, and optionally queue expensive memcpy tasks
+>          * to be deferred to a work queue.
+>          */
+> +       uvc_urb_dma_sync(uvc_urb, false);
+>         stream->decode(uvc_urb, buf, buf_meta);
+>
+>         /* If no async work is needed, resubmit the URB immediately. */
+>         if (!uvc_urb->async_operations) {
+> +               uvc_urb_dma_sync(uvc_urb, true);
+>                 ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
+>                 if (ret < 0)
+>                         uvc_printk(KERN_ERR,
+> @@ -1559,24 +1581,47 @@ static void uvc_video_complete(struct urb *urb)
+>   */
+>  static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+>  {
+> +       struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
+>         struct uvc_urb *uvc_urb;
+>
+>         for_each_uvc_urb(uvc_urb, stream) {
+>                 if (!uvc_urb->buffer)
+>                         continue;
+>
+> -#ifndef CONFIG_DMA_NONCOHERENT
+> -               usb_free_coherent(stream->dev->udev, stream->urb_size,
+> -                                 uvc_urb->buffer, uvc_urb->dma);
+> -#else
+> -               kfree(uvc_urb->buffer);
+> -#endif
+> +               dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
+> +               dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
+> +                                      uvc_urb->dma, DMA_BIDIRECTIONAL);
 
+Maybe DMA_FROM_DEVICE instead of DMA_BIDIRECTIONAL ?
+
+> +
+>                 uvc_urb->buffer = NULL;
+>         }
+>
+>         stream->urb_size = 0;
+>  }
+>
+> +static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
+> +                                struct uvc_urb *uvc_urb, gfp_t gfp_flags)
+> +{
+> +       struct device *dma_dev = stream_to_dmadev(stream);
+> +
+> +
+> +       uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> +                                              &uvc_urb->dma, DMA_BIDIRECTIONAL,
+> +                                              gfp_flags);
+> +       if (!uvc_urb->sgt)
+> +               return false;
+> +
+> +       uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
+> +                                                uvc_urb->sgt);
+> +       if (!uvc_urb->buffer) {
+> +               dma_free_noncontiguous(dma_dev, stream->urb_size,
+> +                                      uvc_urb->sgt, uvc_urb->dma,
+> +                                      DMA_BIDIRECTIONAL);
+> +               return false;
+> +       }
+> +
+> +       return true;
+> +}
+> +
+>  /*
+>   * Allocate transfer buffers. This function can be called with buffers
+>   * already allocated when resuming from suspend, in which case it will
+> @@ -1607,19 +1652,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+>
+>         /* Retry allocations until one succeed. */
+>         for (; npackets > 1; npackets /= 2) {
+> +               stream->urb_size = psize * npackets;
+>                 for (i = 0; i < UVC_URBS; ++i) {
+>                         struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+>
+> -                       stream->urb_size = psize * npackets;
+> -#ifndef CONFIG_DMA_NONCOHERENT
+> -                       uvc_urb->buffer = usb_alloc_coherent(
+> -                               stream->dev->udev, stream->urb_size,
+> -                               gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+> -#else
+> -                       uvc_urb->buffer =
+> -                           kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+> -#endif
+> -                       if (!uvc_urb->buffer) {
+> +                       if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+>                                 uvc_free_urb_buffers(stream);
+>                                 break;
+>                         }
+> @@ -1728,12 +1765,8 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
+>                 urb->context = uvc_urb;
+>                 urb->pipe = usb_rcvisocpipe(stream->dev->udev,
+>                                 ep->desc.bEndpointAddress);
+> -#ifndef CONFIG_DMA_NONCOHERENT
+>                 urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
+>                 urb->transfer_dma = uvc_urb->dma;
+> -#else
+> -               urb->transfer_flags = URB_ISO_ASAP;
+> -#endif
+>                 urb->interval = ep->desc.bInterval;
+>                 urb->transfer_buffer = uvc_urb->buffer;
+>                 urb->complete = uvc_video_complete;
+> @@ -1793,10 +1826,8 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+>
+>                 usb_fill_bulk_urb(urb, stream->dev->udev, pipe, uvc_urb->buffer,
+>                                   size, uvc_video_complete, uvc_urb);
+> -#ifndef CONFIG_DMA_NONCOHERENT
+>                 urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
+>                 urb->transfer_dma = uvc_urb->dma;
+> -#endif
+>
+>                 uvc_urb->urb = urb;
+>         }
+> @@ -1891,6 +1922,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+>
+>         /* Submit the URBs. */
+>         for_each_uvc_urb(uvc_urb, stream) {
+> +               uvc_urb_dma_sync(uvc_urb, true);
+>                 ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
+>                 if (ret < 0) {
+>                         uvc_printk(KERN_ERR, "Failed to submit URB %u (%d).\n",
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index a3dfacf069c44d..a386114bd22999 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -521,7 +521,8 @@ struct uvc_copy_op {
+>   * @urb: the URB described by this context structure
+>   * @stream: UVC streaming context
+>   * @buffer: memory storage for the URB
+> - * @dma: DMA coherent addressing for the urb_buffer
+> + * @dma: Allocated DMA handle
+> + * @sgt: sgt_table with the urb locations in memory
+>   * @async_operations: counter to indicate the number of copy operations
+>   * @copy_operations: work descriptors for asynchronous copy operations
+>   * @work: work queue entry for asynchronous decode
+> @@ -532,6 +533,7 @@ struct uvc_urb {
+>
+>         char *buffer;
+>         dma_addr_t dma;
+> +       struct sg_table *sgt;
+>
+>         unsigned int async_operations;
+>         struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
+> --
+> 2.29.2
+>
+
+
+-- 
+Ricardo Ribalda
