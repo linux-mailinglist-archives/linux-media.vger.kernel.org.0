@@ -2,115 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01EFD308331
-	for <lists+linux-media@lfdr.de>; Fri, 29 Jan 2021 02:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 773AC308407
+	for <lists+linux-media@lfdr.de>; Fri, 29 Jan 2021 04:03:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231703AbhA2BYG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Jan 2021 20:24:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231667AbhA2BYF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Jan 2021 20:24:05 -0500
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3855EC06174A
-        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 17:23:25 -0800 (PST)
-Received: by mail-vs1-xe34.google.com with SMTP id i12so1091385vsq.6
-        for <linux-media@vger.kernel.org>; Thu, 28 Jan 2021 17:23:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sjkb6yXWtZ9Sxv1/gNdqQbGBoN1+dPLaicMA2ZT6rNM=;
-        b=iCLYU3fuPsvJZltkAom5unfVux3qbx/84SoQSmqh5RtsiImcrCdGMT31C6+1ENMBLS
-         0+LRiLAsmRhmOFQ5Q3GHbyu5aZ74aQkQRyaA63MegeLEXfmWLspArV+SQzI3/B/1cGxJ
-         1rQ42u/3utf0mvm4yEsRiVY+BSTy3WgKy9UUCY1jQR27gxY3lKBZJ2MjQvlH/Y3jc8R5
-         O3KBn5Wfuxbpq3cWKoGssSVuk/IPGSipcB70yiVvVwUkdP1OYGYUTRRJlSo87uQH/33A
-         B+txLKIct1lZEOxXRo12HH2AlAlcCOCVY8UJXBD8D02HEcysxUof5gYWcOYymjgwUMGv
-         a2ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sjkb6yXWtZ9Sxv1/gNdqQbGBoN1+dPLaicMA2ZT6rNM=;
-        b=i5N8o7qIJmKxkqAv7YZCaFf9y75VfS/nmpLA2BFzjlHtAAXinJ1nmmKYyDZE4mSriS
-         KF2devDZxbZby1xiHKr9E9hKuWEffldWbkDiaPWcm3+iWjxjKAb3cPAssLm8jTgQbGvA
-         7mTM7MBQTyutFRDJix90cWDofaiQqN4OnhrK7NERoeaJafrv7cEb0lLlXuMVm0QxcM4S
-         rSd+YV00a4obLZi7A4vPHC1bCrIdcdIIkbPHDuzkP0N4TjFJfFKxK62o1zHlIplaCRSI
-         Hod66IFFr+AkIG0obmtGeGHoYiW59HyJ0OX5upGXvIInZXhh8lVTwAFhgRwzaNcBycj6
-         N2UA==
-X-Gm-Message-State: AOAM533iAnMSXsejJ1At+B2ppM2MYNUK3s5z46G14/fM35UHGwUhRY1l
-        vzxVo34Dq6eZViRztuugGEhp3kqX9qAVxl7Uk1997w==
-X-Google-Smtp-Source: ABdhPJzvSoHd4aqU6Cv8LKu9Sl0lIJ7bapX7TwH6WxQlYBY8b93nG65hR4r/fmD0J1GnGIrVHo0uyX2Ku496O34Z6ik=
-X-Received: by 2002:a67:f810:: with SMTP id l16mr1395266vso.41.1611883403850;
- Thu, 28 Jan 2021 17:23:23 -0800 (PST)
+        id S231627AbhA2DCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Jan 2021 22:02:25 -0500
+Received: from mga17.intel.com ([192.55.52.151]:19369 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231165AbhA2DCW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 Jan 2021 22:02:22 -0500
+IronPort-SDR: 2ZcYV/v0WKseXMDg/K5RQGtalukVjAJoeBhxYfboAFnXV2tumRx8Vy4h/V2dT3f0XR9RNymxCZ
+ s5MT/rLUMndw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="160126206"
+X-IronPort-AV: E=Sophos;i="5.79,384,1602572400"; 
+   d="scan'208";a="160126206"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 19:00:35 -0800
+IronPort-SDR: +s0t3ZEm8a1DjXCD2DkMMFhlWiEt5E+0aOI34/n8D2J9v7SGiPB1Q2f8PJX507LuU2oGIYFWb8
+ B6Z9j75GUHFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,384,1602572400"; 
+   d="scan'208";a="370121088"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
+  by orsmga002.jf.intel.com with ESMTP; 28 Jan 2021 19:00:31 -0800
+Subject: Re: [PATCH v9 6/7] media: i2c: imx319: Support probe while the device
+ is off
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+ <20210128232729.16064-6-sakari.ailus@linux.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <f2a3ed14-ecb8-1bab-a959-f63adb370ad6@linux.intel.com>
+Date:   Fri, 29 Jan 2021 10:58:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201003040257.62768-1-john.stultz@linaro.org>
- <20201003040257.62768-8-john.stultz@linaro.org> <20201008115101.4qi6wh3hhkb6krg5@DESKTOP-E1NTVVP.localdomain>
- <CALAqxLWrbgHoh=BCnuB4US77AOPMYmgGrE85WT6DYnEV-bad-A@mail.gmail.com>
-In-Reply-To: <CALAqxLWrbgHoh=BCnuB4US77AOPMYmgGrE85WT6DYnEV-bad-A@mail.gmail.com>
-From:   Daniel Mentz <danielmentz@google.com>
-Date:   Thu, 28 Jan 2021 17:23:12 -0800
-Message-ID: <CAE2F3rBSADvPsFYyDAaPbEaFGNVKbgwOuakkD+MLwa0J-09Dcg@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] dma-buf: system_heap: Add a system-uncached heap
- re-using the system heap
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Brian Starkey <brian.starkey@arm.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>, nd <nd@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210128232729.16064-6-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 12:04 PM John Stultz <john.stultz@linaro.org> wrote:
->
-> On Thu, Oct 8, 2020 at 4:51 AM Brian Starkey <brian.starkey@arm.com> wrote:
-> > On Sat, Oct 03, 2020 at 04:02:57AM +0000, John Stultz wrote:
-> > > @@ -393,6 +424,16 @@ static int system_heap_allocate(struct dma_heap *heap,
-> > >               /* just return, as put will call release and that will free */
-> > >               return ret;
-> > >       }
-> > > +
-> > > +     /*
-> > > +      * For uncached buffers, we need to initially flush cpu cache, since
-> > > +      * the __GFP_ZERO on the allocation means the zeroing was done by the
-> > > +      * cpu and thus it is likely cached. Map (and implicitly flush) it out
-> > > +      * now so we don't get corruption later on.
-> > > +      */
-> > > +     if (buffer->uncached)
-> > > +             dma_map_sgtable(dma_heap_get_dev(heap), table, DMA_BIDIRECTIONAL, 0);
-> >
-> > Do we have to keep this mapping around for the entire lifetime of the
-> > buffer?
->
-> Yea, I guess we can just map and unmap it right there.  It will look a
-> little absurd, but that sort of aligns with your next point.
->
-> > Also, this problem (and solution) keeps lingering around. It really
-> > feels like there should be a better way to solve "clean the linear
-> > mapping all the way to DRAM", but I don't know what that should be.
->
-> Yea, something better here would be nice...
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 
-In ION, we had a little helper function named
-ion_buffer_prep_noncached that called arch_dma_prep_coherent() on all
-sg entries like so
+On 1/29/21 7:27 AM, Sakari Ailus wrote:
+> From: Rajmohan Mani <rajmohan.mani@intel.com>
+> 
+> Tell ACPI device PM code that the driver supports the device being powered
+> off when the driver's probe function is entered.
+> 
+> Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/imx319.c | 72 +++++++++++++++++++++++---------------
+>  1 file changed, 44 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
+> index 8473c0bbb35d6..e0b22e9318fed 100644
+> --- a/drivers/media/i2c/imx319.c
+> +++ b/drivers/media/i2c/imx319.c
+> @@ -140,6 +140,8 @@ struct imx319 {
+>  
+>  	/* Streaming on/off */
+>  	bool streaming;
+> +	/* True if the device has been identified */
+> +	bool identified;
+>  };
+>  
+>  static const struct imx319_reg imx319_global_regs[] = {
+> @@ -2084,6 +2086,31 @@ imx319_set_pad_format(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +/* Verify chip ID */
+> +static int imx319_identify_module(struct imx319 *imx319)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&imx319->sd);
+> +	int ret;
+> +	u32 val;
+> +
+> +	if (imx319->identified)
+> +		return 0;
+> +
+> +	ret = imx319_read_reg(imx319, IMX319_REG_CHIP_ID, 2, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val != IMX319_CHIP_ID) {
+> +		dev_err(&client->dev, "chip id mismatch: %x!=%x",
+> +			IMX319_CHIP_ID, val);
+> +		return -EIO;
+> +	}
+> +
+> +	imx319->identified = true;
+> +
+> +	return 0;
+> +}
+> +
+>  /* Start streaming */
+>  static int imx319_start_streaming(struct imx319 *imx319)
+>  {
+> @@ -2091,6 +2118,10 @@ static int imx319_start_streaming(struct imx319 *imx319)
+>  	const struct imx319_reg_list *reg_list;
+>  	int ret;
+>  
+> +	ret = imx319_identify_module(imx319);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/* Global Setting */
+>  	reg_list = &imx319_global_setting;
+>  	ret = imx319_write_regs(imx319, reg_list->regs, reg_list->num_of_regs);
+> @@ -2208,26 +2239,6 @@ static int __maybe_unused imx319_resume(struct device *dev)
+>  	return ret;
+>  }
+>  
+> -/* Verify chip ID */
+> -static int imx319_identify_module(struct imx319 *imx319)
+> -{
+> -	struct i2c_client *client = v4l2_get_subdevdata(&imx319->sd);
+> -	int ret;
+> -	u32 val;
+> -
+> -	ret = imx319_read_reg(imx319, IMX319_REG_CHIP_ID, 2, &val);
+> -	if (ret)
+> -		return ret;
+> -
+> -	if (val != IMX319_CHIP_ID) {
+> -		dev_err(&client->dev, "chip id mismatch: %x!=%x",
+> -			IMX319_CHIP_ID, val);
+> -		return -EIO;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static const struct v4l2_subdev_core_ops imx319_subdev_core_ops = {
+>  	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+>  	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> @@ -2422,6 +2433,7 @@ static struct imx319_hwcfg *imx319_get_hwcfg(struct device *dev)
+>  static int imx319_probe(struct i2c_client *client)
+>  {
+>  	struct imx319 *imx319;
+> +	bool low_power;
+>  	int ret;
+>  	u32 i;
+>  
+> @@ -2434,11 +2446,14 @@ static int imx319_probe(struct i2c_client *client)
+>  	/* Initialize subdev */
+>  	v4l2_i2c_subdev_init(&imx319->sd, client, &imx319_subdev_ops);
+>  
+> -	/* Check module identity */
+> -	ret = imx319_identify_module(imx319);
+> -	if (ret) {
+> -		dev_err(&client->dev, "failed to find sensor: %d", ret);
+> -		goto error_probe;
+> +	low_power = acpi_dev_state_low_power(&client->dev);
+> +	if (!low_power) {
+> +		/* Check module identity */
+> +		ret = imx319_identify_module(imx319);
+> +		if (ret) {
+> +			dev_err(&client->dev, "failed to find sensor: %d", ret);
+> +			goto error_probe;
+> +		}
+>  	}
+>  
+>  	imx319->hwcfg = imx319_get_hwcfg(&client->dev);
+> @@ -2491,10 +2506,10 @@ static int imx319_probe(struct i2c_client *client)
+>  		goto error_media_entity;
+>  
+>  	/*
+> -	 * Device is already turned on by i2c-core with ACPI domain PM.
+> -	 * Enable runtime PM and turn off the device.
+> +	 * Don't set the device's state to active if it's in a low power state.
+>  	 */
+> -	pm_runtime_set_active(&client->dev);
+> +	if (!low_power)
+> +		pm_runtime_set_active(&client->dev);
+>  	pm_runtime_enable(&client->dev);
+>  	pm_runtime_idle(&client->dev);
+>  
+> @@ -2547,6 +2562,7 @@ static struct i2c_driver imx319_i2c_driver = {
+>  	},
+>  	.probe_new = imx319_probe,
+>  	.remove = imx319_remove,
+> +	.flags = I2C_DRV_FL_ALLOW_LOW_POWER_PROBE,
+>  };
+>  module_i2c_driver(imx319_i2c_driver);
+>  
+> 
 
-for_each_sg(table->sgl, sg, table->orig_nents, i)
-        arch_dma_prep_coherent(sg_page(sg), sg->length);
-
-Would that help?
+-- 
+Best regards,
+Bingbu Cao
