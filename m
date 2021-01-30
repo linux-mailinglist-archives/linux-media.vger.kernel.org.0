@@ -2,142 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1FB03095A6
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 14:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3410F30963F
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 16:31:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230080AbhA3N5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jan 2021 08:57:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59194 "EHLO
+        id S232036AbhA3O4H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jan 2021 09:56:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbhA3N5T (ORCPT
+        with ESMTP id S232043AbhA3OvC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jan 2021 08:57:19 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F492C061573;
-        Sat, 30 Jan 2021 05:56:39 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 548D9C6379; Sat, 30 Jan 2021 13:56:36 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1612014996; bh=o+v5JicLaYZiiRnM4H+3R6+OQDhXMGSY4o+W8jt2QpQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=E9kzjPMtTcsHRb5FETTLtBs0e/ePeCmkTm8YX6wf/MkMb1qgMyMt8SzjUZopv800q
-         kYRaObm25smCovOevAbxUK9YWmjHNo3z6xX7s0zZ3hN/wM8DSOly5Z+qxgWo3CtK/z
-         nc8MSxZiVR+QGKmXFA4Q2RhyjE487QSCFxGK0jT3O3AMIula3LB9dSYn+5IgbTecjI
-         yvPgnikU5AyruhKqTajlUNsBOzLJVEG9OGy43NXYWq4PbOGy5Ht22G66N9JqTwkp6s
-         WqoDiMYojn/VElgxRzHWxd8PibMKQ3A8ZayhTtG8E4T/oU+j/VSDl90HAshBBYPQMy
-         1dWeoGmKpugTw==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Laz Lev <lazlev@web.de>, stable@vger.kernel.org
-Subject: [PATCH] media: smipcie: fix interrupt handling and IR timeout
-Date:   Sat, 30 Jan 2021 13:56:36 +0000
-Message-Id: <20210130135636.20834-1-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
+        Sat, 30 Jan 2021 09:51:02 -0500
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AF0C0613ED
+        for <linux-media@vger.kernel.org>; Sat, 30 Jan 2021 06:50:22 -0800 (PST)
+Received: by mail-qv1-xf2e.google.com with SMTP id a1so5933026qvd.13
+        for <linux-media@vger.kernel.org>; Sat, 30 Jan 2021 06:50:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=yaerobi-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CW/F06AVJFUTvuLKKSGAi/rzJobDHkRkV5w1mLI/Gdo=;
+        b=ffso8FpE3hSmTAiXXmzJpkpDQj4OTXWkL9TsdjDQc1/XMgM2T6nFkXDljYPRwy2qGP
+         /z95ABv/S7xmFunK0BzlXW35aPmvShFulP6Fve0xhYVptsIt1QmMHXhEPRuLk/Eodo6F
+         MmWPb8bHNt+DJyrBlirkf/CvdGfMrhQYgeHNPub4fXOLQ4WuZrawwlnk/zm39M4Skxsq
+         /WqYsM5L/uGvgEI19v3AmjsIvv+BjzYTFwsRJkOw8lP/d3tNNATjE/BAlgYiMwgSllS7
+         pVjYBoa4X9SiSAo6uc9AqbSeNtdcigXDLhv51S2Oy9nk5J/YHzomVUnxr1tiZFc5pfeQ
+         pUqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CW/F06AVJFUTvuLKKSGAi/rzJobDHkRkV5w1mLI/Gdo=;
+        b=SwfpE0UNYlGqCADzUk0BznQIOUP+ap8TWAommDUeh62vVtAquGUJuHZzvMnetaI8cn
+         ymQ6QpTQSXkbQkIunskUmmuppkrFemNKS5vDLa+57cOdPNH6E6Ad/7S+GkP4MtpIh1tM
+         qLpkPzoxiHDN75+83WmuH6K9gecFpifqqS0b3+VEH4g86vm8/zMCIloLSY96gSJYo/fZ
+         khMs0vEKYMPMP9fHO8iIGgk4+iRZywealT0pCZT/SSt7e/8lkRdQtieD/RWhhk5eKvzZ
+         jyeUBUDp3zyOgASp6LUVdeNeD4By6GGy20OWUBKgAWMpDglb8KXMF8T7J+J6l6s+rl3G
+         J6Ug==
+X-Gm-Message-State: AOAM53011e3yUTkTdVPd9Y+muN2OLGjRH1+uEMaxvZ72NfzoN6f7JRYX
+        TiRvcvMDUyddbEtctFaa0pP4rA==
+X-Google-Smtp-Source: ABdhPJxrnESdmE1m6PCli3OT5InLB/0y+LkfIgYQI1cUPU4kSrxh8OMpqzFlVhVqvpkL30TE9EzFGg==
+X-Received: by 2002:a05:6214:1703:: with SMTP id db3mr8235225qvb.43.1612018221413;
+        Sat, 30 Jan 2021 06:50:21 -0800 (PST)
+Received: from debian (host15.190-136-155.telecom.net.ar. [190.136.155.15])
+        by smtp.gmail.com with ESMTPSA id c20sm8322111qtj.29.2021.01.30.06.50.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Jan 2021 06:50:20 -0800 (PST)
+Date:   Sat, 30 Jan 2021 11:50:15 -0300
+From:   Emmanuel Arias <eamanu@yaerobi.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     m.tretter@pengutronix.de, kernel@pengutronix.de,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: allegro-dvt: Use __packed sentence
+Message-ID: <YBVyJylm6qek7WvL@debian>
+References: <YBRpstkOi685uHef@debian>
+ <YBUeG38fOvMkYgIp@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YBUeG38fOvMkYgIp@kroah.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the first IR message, interrupts are no longer received. In addition,
-the code generates a timeout IR message of 10ms but sets the timeout value
-to 100ms, so no timeout was ever generated.
+Hi,
 
-Fixes: a49a7a4635de ("media: smipcie: add universal ir capability")
+> 
+> Spelling check please?
+> 
+> And _why_ are you making this change, what does this do "better" than
+> the original?
+>
+Actually, I'm really new here, and this is my first patch. I run the
+checkpatch.pl, and give me that recommendation. 
 
-Tested-by: Laz Lev <lazlev@web.de>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=204317
-Cc: stable@vger.kernel.org # v5.2+
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/pci/smipcie/smipcie-ir.c | 46 +++++++++++++++-----------
- 1 file changed, 26 insertions(+), 20 deletions(-)
+I would like to look the David comments.
 
-diff --git a/drivers/media/pci/smipcie/smipcie-ir.c b/drivers/media/pci/smipcie/smipcie-ir.c
-index e6b74e161a05..c0604d9c7011 100644
---- a/drivers/media/pci/smipcie/smipcie-ir.c
-+++ b/drivers/media/pci/smipcie/smipcie-ir.c
-@@ -60,38 +60,44 @@ static void smi_ir_decode(struct smi_rc *ir)
- {
- 	struct smi_dev *dev = ir->dev;
- 	struct rc_dev *rc_dev = ir->rc_dev;
--	u32 dwIRControl, dwIRData;
--	u8 index, ucIRCount, readLoop;
-+	u32 control, data;
-+	u8 index, ir_count, read_loop;
- 
--	dwIRControl = smi_read(IR_Init_Reg);
-+	control = smi_read(IR_Init_Reg);
- 
--	if (dwIRControl & rbIRVld) {
--		ucIRCount = (u8) smi_read(IR_Data_Cnt);
-+	dev_dbg(&rc_dev->dev, "ircontrol: 0x%08x\n", control);
- 
--		readLoop = ucIRCount/4;
--		if (ucIRCount % 4)
--			readLoop += 1;
--		for (index = 0; index < readLoop; index++) {
--			dwIRData = smi_read(IR_DATA_BUFFER_BASE + (index * 4));
-+	if (control & rbIRVld) {
-+		ir_count = (u8)smi_read(IR_Data_Cnt);
- 
--			ir->irData[index*4 + 0] = (u8)(dwIRData);
--			ir->irData[index*4 + 1] = (u8)(dwIRData >> 8);
--			ir->irData[index*4 + 2] = (u8)(dwIRData >> 16);
--			ir->irData[index*4 + 3] = (u8)(dwIRData >> 24);
-+		dev_dbg(&rc_dev->dev, "ircount %d\n", ir_count);
-+
-+		read_loop = ir_count / 4;
-+		if (ir_count % 4)
-+			read_loop += 1;
-+		for (index = 0; index < read_loop; index++) {
-+			data = smi_read(IR_DATA_BUFFER_BASE + (index * 4));
-+			dev_dbg(&rc_dev->dev, "IRData 0x%08x\n", data);
-+
-+			ir->irData[index * 4 + 0] = (u8)(data);
-+			ir->irData[index * 4 + 1] = (u8)(data >> 8);
-+			ir->irData[index * 4 + 2] = (u8)(data >> 16);
-+			ir->irData[index * 4 + 3] = (u8)(data >> 24);
- 		}
--		smi_raw_process(rc_dev, ir->irData, ucIRCount);
--		smi_set(IR_Init_Reg, rbIRVld);
-+		smi_raw_process(rc_dev, ir->irData, ir_count);
- 	}
- 
--	if (dwIRControl & rbIRhighidle) {
-+	if (control & rbIRhighidle) {
- 		struct ir_raw_event rawir = {};
- 
-+		dev_dbg(&rc_dev->dev, "high idle\n");
-+
- 		rawir.pulse = 0;
- 		rawir.duration = SMI_SAMPLE_PERIOD * SMI_SAMPLE_IDLEMIN;
- 		ir_raw_event_store_with_filter(rc_dev, &rawir);
--		smi_set(IR_Init_Reg, rbIRhighidle);
- 	}
- 
-+	smi_set(IR_Init_Reg, rbIRVld);
- 	ir_raw_event_handle(rc_dev);
- }
- 
-@@ -150,7 +156,7 @@ int smi_ir_init(struct smi_dev *dev)
- 	rc_dev->dev.parent = &dev->pci_dev->dev;
- 
- 	rc_dev->map_name = dev->info->rc_map;
--	rc_dev->timeout = MS_TO_US(100);
-+	rc_dev->timeout = SMI_SAMPLE_PERIOD * SMI_SAMPLE_IDLEMIN;
- 	rc_dev->rx_resolution = SMI_SAMPLE_PERIOD;
- 
- 	ir->rc_dev = rc_dev;
-@@ -173,7 +179,7 @@ void smi_ir_exit(struct smi_dev *dev)
- 	struct smi_rc *ir = &dev->ir;
- 	struct rc_dev *rc_dev = ir->rc_dev;
- 
--	smi_ir_stop(ir);
- 	rc_unregister_device(rc_dev);
-+	smi_ir_stop(ir);
- 	ir->rc_dev = NULL;
- }
--- 
-2.29.2
+Thanks!
+eamanu
 
+> thanks,
+> 
+> greg k-h
