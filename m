@@ -2,295 +2,303 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0893D30931B
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 10:17:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A568030950A
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 13:01:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233325AbhA3JQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jan 2021 04:16:47 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:40124 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231954AbhA3JQg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jan 2021 04:16:36 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l5mM9-002s8o-R5; Sat, 30 Jan 2021 09:15:50 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l5mPh-0003H7-Fs; Sat, 30 Jan 2021 09:19:29 +0000
-Date:   Sat, 30 Jan 2021 09:19:29 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <725701836.1.1611998369483@builder.linuxtv.org>
-In-Reply-To: <1969784482.0.1611911981878@builder.linuxtv.org>
-References: <1969784482.0.1611911981878@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3383
+        id S229885AbhA3MBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jan 2021 07:01:25 -0500
+Received: from smtp12.smtpout.orange.fr ([80.12.242.134]:53186 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229842AbhA3MBZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 30 Jan 2021 07:01:25 -0500
+Received: from localhost.localdomain ([92.131.99.25])
+        by mwinf5d35 with ME
+        id NuY32400A0Ys01Y03uY3bc; Sat, 30 Jan 2021 07:32:04 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 30 Jan 2021 07:32:04 +0100
+X-ME-IP: 92.131.99.25
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        romain.perier@gmail.com, allen.lkml@gmail.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH resend] media: ngene: switch from 'pci_' to 'dma_' API
+Date:   Sat, 30 Jan 2021 07:32:00 +0100
+Message-Id: <20210130063200.752615-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3383/display/redirect>
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-Changes:
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
+
+When memory is allocated, GFP_KERNEL can be used because in all cases,
+it is called from a probe function and no lock is taken in the between.
+
+The call chain is:
+  ngene_probe                       (probe function, used in ngene-cards.c)
+    --> ngene_get_buffers
+      --> AllocCommonBuffers                  (call dma_alloc_coherent)
+        --> create_ring_buffer                (call dma_alloc_coherent)
+        --> AllocateRingBuffers               (call dma_alloc_coherent)
 
 
-------------------------------------------
-[...truncated 6.35 KB...]
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_async.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v5.0_gpio.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
-Preparing to compile for kernel version 4.19.0
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
 
-***WARNING:*** You do not have the full kernel sources installed.
-This does not prevent you from building the v4l-dvb tree if you have the
-kernel headers, but the full kernel source may be required in order to use
-make menuconfig / xconfig / qconfig.
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
 
-If you are experiencing problems building the v4l-dvb tree, please try
-building against a vanilla kernel before reporting a bug.
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
 
-Vanilla kernels are available at http://kernel.org.
-On most distros, this will compile a newly downloaded kernel:
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
 
-cp /boot/config-`uname -r` <your kernel dir>/.config
-cd <your kernel dir>
-make all modules_install install
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
 
-Please see your distro's web site for instructions to build a new kernel.
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
 
-WARNING: This is the V4L/DVB backport tree, with experimental drivers
-	 backported to run on legacy kernels from the development tree at:
-		http://git.linuxtv.org/media-tree.git.
-	 It is generally safe to use it for testing a new driver or
-	 feature, but its usage on production environments is risky.
-	 Don't use it in production. You've been warned.
-CEC_CROS_EC: Requires at least kernel 9.255.255
-V4L2_H264: Requires at least kernel 9.255.255
-VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
-VIDEO_OMAP3: Requires at least kernel 9.255.255
-VIDEO_IMX274: Requires at least kernel 9.255.255
-SND_BT87X: Requires at least kernel 9.255.255
-INTEL_ATOMISP: Requires at least kernel 9.255.255
-VIDEO_HANTRO: Requires at least kernel 9.255.255
-VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
-VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
-Created default (all yes) .config file
-./scripts/fix_kconfig.pl
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-./scripts/make_myconfig.pl
-[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
-perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
-creating symbolic links...
-Kernel build directory is /lib/modules/4.19.0-5-amd64/build
-make -C ../linux apply_patches
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Patches for 4.19.0-5-amd64 already applied.
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
-make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov02a10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9734.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13858.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9p031.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9t112.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v011.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9v111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sr030pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/noon010pc30.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rj54n1cb0c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6aa.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k6a3.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k4ecgx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5k5baf.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5c73m3-ctrls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adp1653.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3560.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lm3646.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak881x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-kbd-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ml86v7667.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2659.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc358743.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/hi556.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx214.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx219.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx258.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx290.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx319.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imx355.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rdacm20.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/max9271.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/st-mipid02.o>
-In file included from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-core.h>:18,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/media/videobuf2-v4l2.h>:16,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.c>:32:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/../linux/include/linux/dma-buf.h>:16:10: fatal error: linux/dma-buf-map.h: No such file or directory
- #include <linux/dma-buf-map.h>
-          ^~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/video-i2c.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
-make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[3]: *** [Makefile:146: sub-make] Error 2
-make[2]: *** [Makefile:8: all] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 533
-Build step 'Execute shell' marked build as failure
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/ngene/ngene-core.c | 56 ++++++++++++++--------------
+ 1 file changed, 28 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/media/pci/ngene/ngene-core.c b/drivers/media/pci/ngene/ngene-core.c
+index f9f94f47d76b..07f342db6701 100644
+--- a/drivers/media/pci/ngene/ngene-core.c
++++ b/drivers/media/pci/ngene/ngene-core.c
+@@ -763,23 +763,22 @@ static void free_ringbuffer(struct ngene *dev, struct SRingBufferDescriptor *rb)
+ 
+ 	for (j = 0; j < rb->NumBuffers; j++, Cur = Cur->Next) {
+ 		if (Cur->Buffer1)
+-			pci_free_consistent(dev->pci_dev,
+-					    rb->Buffer1Length,
+-					    Cur->Buffer1,
+-					    Cur->scList1->Address);
++			dma_free_coherent(&dev->pci_dev->dev,
++					  rb->Buffer1Length, Cur->Buffer1,
++					  Cur->scList1->Address);
+ 
+ 		if (Cur->Buffer2)
+-			pci_free_consistent(dev->pci_dev,
+-					    rb->Buffer2Length,
+-					    Cur->Buffer2,
+-					    Cur->scList2->Address);
++			dma_free_coherent(&dev->pci_dev->dev,
++					  rb->Buffer2Length, Cur->Buffer2,
++					  Cur->scList2->Address);
+ 	}
+ 
+ 	if (rb->SCListMem)
+-		pci_free_consistent(dev->pci_dev, rb->SCListMemSize,
+-				    rb->SCListMem, rb->PASCListMem);
++		dma_free_coherent(&dev->pci_dev->dev, rb->SCListMemSize,
++				  rb->SCListMem, rb->PASCListMem);
+ 
+-	pci_free_consistent(dev->pci_dev, rb->MemSize, rb->Head, rb->PAHead);
++	dma_free_coherent(&dev->pci_dev->dev, rb->MemSize, rb->Head,
++			  rb->PAHead);
+ }
+ 
+ static void free_idlebuffer(struct ngene *dev,
+@@ -813,15 +812,13 @@ static void free_common_buffers(struct ngene *dev)
+ 	}
+ 
+ 	if (dev->OverflowBuffer)
+-		pci_free_consistent(dev->pci_dev,
+-				    OVERFLOW_BUFFER_SIZE,
+-				    dev->OverflowBuffer, dev->PAOverflowBuffer);
++		dma_free_coherent(&dev->pci_dev->dev, OVERFLOW_BUFFER_SIZE,
++				  dev->OverflowBuffer, dev->PAOverflowBuffer);
+ 
+ 	if (dev->FWInterfaceBuffer)
+-		pci_free_consistent(dev->pci_dev,
+-				    4096,
+-				    dev->FWInterfaceBuffer,
+-				    dev->PAFWInterfaceBuffer);
++		dma_free_coherent(&dev->pci_dev->dev, 4096,
++				  dev->FWInterfaceBuffer,
++				  dev->PAFWInterfaceBuffer);
+ }
+ 
+ /****************************************************************************/
+@@ -848,7 +845,7 @@ static int create_ring_buffer(struct pci_dev *pci_dev,
+ 	if (MemSize < 4096)
+ 		MemSize = 4096;
+ 
+-	Head = pci_alloc_consistent(pci_dev, MemSize, &tmp);
++	Head = dma_alloc_coherent(&pci_dev->dev, MemSize, &tmp, GFP_KERNEL);
+ 	PARingBufferHead = tmp;
+ 
+ 	if (!Head)
+@@ -899,7 +896,8 @@ static int AllocateRingBuffers(struct pci_dev *pci_dev,
+ 	if (SCListMemSize < 4096)
+ 		SCListMemSize = 4096;
+ 
+-	SCListMem = pci_alloc_consistent(pci_dev, SCListMemSize, &tmp);
++	SCListMem = dma_alloc_coherent(&pci_dev->dev, SCListMemSize, &tmp,
++				       GFP_KERNEL);
+ 
+ 	PASCListMem = tmp;
+ 	if (SCListMem == NULL)
+@@ -918,8 +916,8 @@ static int AllocateRingBuffers(struct pci_dev *pci_dev,
+ 	for (i = 0; i < pRingBuffer->NumBuffers; i += 1, Cur = Cur->Next) {
+ 		u64 PABuffer;
+ 
+-		void *Buffer = pci_alloc_consistent(pci_dev, Buffer1Length,
+-						    &tmp);
++		void *Buffer = dma_alloc_coherent(&pci_dev->dev,
++						  Buffer1Length, &tmp, GFP_KERNEL);
+ 		PABuffer = tmp;
+ 
+ 		if (Buffer == NULL)
+@@ -951,7 +949,8 @@ static int AllocateRingBuffers(struct pci_dev *pci_dev,
+ 		if (!Buffer2Length)
+ 			continue;
+ 
+-		Buffer = pci_alloc_consistent(pci_dev, Buffer2Length, &tmp);
++		Buffer = dma_alloc_coherent(&pci_dev->dev, Buffer2Length,
++					    &tmp, GFP_KERNEL);
+ 		PABuffer = tmp;
+ 
+ 		if (Buffer == NULL)
+@@ -1040,17 +1039,18 @@ static int AllocCommonBuffers(struct ngene *dev)
+ {
+ 	int status = 0, i;
+ 
+-	dev->FWInterfaceBuffer = pci_alloc_consistent(dev->pci_dev, 4096,
+-						     &dev->PAFWInterfaceBuffer);
++	dev->FWInterfaceBuffer = dma_alloc_coherent(&dev->pci_dev->dev, 4096,
++						    &dev->PAFWInterfaceBuffer,
++						    GFP_KERNEL);
+ 	if (!dev->FWInterfaceBuffer)
+ 		return -ENOMEM;
+ 	dev->hosttongene = dev->FWInterfaceBuffer;
+ 	dev->ngenetohost = dev->FWInterfaceBuffer + 256;
+ 	dev->EventBuffer = dev->FWInterfaceBuffer + 512;
+ 
+-	dev->OverflowBuffer = pci_zalloc_consistent(dev->pci_dev,
+-						    OVERFLOW_BUFFER_SIZE,
+-						    &dev->PAOverflowBuffer);
++	dev->OverflowBuffer = dma_alloc_coherent(&dev->pci_dev->dev,
++						 OVERFLOW_BUFFER_SIZE,
++						 &dev->PAOverflowBuffer, GFP_KERNEL);
+ 	if (!dev->OverflowBuffer)
+ 		return -ENOMEM;
+ 
+-- 
+2.25.1
+
