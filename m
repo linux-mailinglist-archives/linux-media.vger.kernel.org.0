@@ -2,86 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3410F30963F
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 16:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F10E30972D
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 18:24:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232036AbhA3O4H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jan 2021 09:56:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232043AbhA3OvC (ORCPT
+        id S231565AbhA3RY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jan 2021 12:24:26 -0500
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:37195 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229498AbhA3RYZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jan 2021 09:51:02 -0500
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AF0C0613ED
-        for <linux-media@vger.kernel.org>; Sat, 30 Jan 2021 06:50:22 -0800 (PST)
-Received: by mail-qv1-xf2e.google.com with SMTP id a1so5933026qvd.13
-        for <linux-media@vger.kernel.org>; Sat, 30 Jan 2021 06:50:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yaerobi-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CW/F06AVJFUTvuLKKSGAi/rzJobDHkRkV5w1mLI/Gdo=;
-        b=ffso8FpE3hSmTAiXXmzJpkpDQj4OTXWkL9TsdjDQc1/XMgM2T6nFkXDljYPRwy2qGP
-         /z95ABv/S7xmFunK0BzlXW35aPmvShFulP6Fve0xhYVptsIt1QmMHXhEPRuLk/Eodo6F
-         MmWPb8bHNt+DJyrBlirkf/CvdGfMrhQYgeHNPub4fXOLQ4WuZrawwlnk/zm39M4Skxsq
-         /WqYsM5L/uGvgEI19v3AmjsIvv+BjzYTFwsRJkOw8lP/d3tNNATjE/BAlgYiMwgSllS7
-         pVjYBoa4X9SiSAo6uc9AqbSeNtdcigXDLhv51S2Oy9nk5J/YHzomVUnxr1tiZFc5pfeQ
-         pUqw==
+        Sat, 30 Jan 2021 12:24:25 -0500
+Received: by mail-ot1-f50.google.com with SMTP id h14so11952748otr.4;
+        Sat, 30 Jan 2021 09:24:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CW/F06AVJFUTvuLKKSGAi/rzJobDHkRkV5w1mLI/Gdo=;
-        b=SwfpE0UNYlGqCADzUk0BznQIOUP+ap8TWAommDUeh62vVtAquGUJuHZzvMnetaI8cn
-         ymQ6QpTQSXkbQkIunskUmmuppkrFemNKS5vDLa+57cOdPNH6E6Ad/7S+GkP4MtpIh1tM
-         qLpkPzoxiHDN75+83WmuH6K9gecFpifqqS0b3+VEH4g86vm8/zMCIloLSY96gSJYo/fZ
-         khMs0vEKYMPMP9fHO8iIGgk4+iRZywealT0pCZT/SSt7e/8lkRdQtieD/RWhhk5eKvzZ
-         jyeUBUDp3zyOgASp6LUVdeNeD4By6GGy20OWUBKgAWMpDglb8KXMF8T7J+J6l6s+rl3G
-         J6Ug==
-X-Gm-Message-State: AOAM53011e3yUTkTdVPd9Y+muN2OLGjRH1+uEMaxvZ72NfzoN6f7JRYX
-        TiRvcvMDUyddbEtctFaa0pP4rA==
-X-Google-Smtp-Source: ABdhPJxrnESdmE1m6PCli3OT5InLB/0y+LkfIgYQI1cUPU4kSrxh8OMpqzFlVhVqvpkL30TE9EzFGg==
-X-Received: by 2002:a05:6214:1703:: with SMTP id db3mr8235225qvb.43.1612018221413;
-        Sat, 30 Jan 2021 06:50:21 -0800 (PST)
-Received: from debian (host15.190-136-155.telecom.net.ar. [190.136.155.15])
-        by smtp.gmail.com with ESMTPSA id c20sm8322111qtj.29.2021.01.30.06.50.18
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=pXuQbzH1HhbE+f1usaw5pbQpp7LXrV9fgnnlovgh3z8=;
+        b=FrJFyt9H2afVCY5Fua7uTzevccdwrBh0s3FmT3EJ16onBevk7/uzWYztdO5G1mqOs2
+         IyDxlyCR69iZmE0J96AKA6LBduTZRJQWgMWQqIQsZO8/NWKWJ+MzbcG8TTzkN7itPD+s
+         fmm+wclsi8r2ajvxJE9qXZeH91lMBu2ptt9e5kTsZIuUL2alG88oTHB8DaJIPhXVc2dG
+         rQ1TDHiLY6ZOzXS81lVyQ1Uv+r6koZChKGjeTy53501/Fk8tobo7IMJj8EXjJQY6lE/z
+         6tZvUrqTcR4Tlgpqr03K3Q19JNfL8OyI1oo4FVvoYhMiO6VbNH41u7wFE/h+FdMkcyVl
+         TE8Q==
+X-Gm-Message-State: AOAM530WJFkYITHyIsTO4i1EWW8MGmoWOyy/tcTsmnPKTLG+1x/wIhPJ
+        ecs4YSWEhWtivu09/soIBA==
+X-Google-Smtp-Source: ABdhPJyC2w56EW+vPolgtnxys1vpJEGvBhlMP/2uRtJ5IE0ERqsRBTtx7mfXHFhBD2cviSyGXrCBNg==
+X-Received: by 2002:a05:6830:230b:: with SMTP id u11mr6704466ote.184.1612027424559;
+        Sat, 30 Jan 2021 09:23:44 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id t16sm2842618otc.30.2021.01.30.09.23.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 06:50:20 -0800 (PST)
-Date:   Sat, 30 Jan 2021 11:50:15 -0300
-From:   Emmanuel Arias <eamanu@yaerobi.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     m.tretter@pengutronix.de, kernel@pengutronix.de,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: allegro-dvt: Use __packed sentence
-Message-ID: <YBVyJylm6qek7WvL@debian>
-References: <YBRpstkOi685uHef@debian>
- <YBUeG38fOvMkYgIp@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBUeG38fOvMkYgIp@kroah.com>
+        Sat, 30 Jan 2021 09:23:42 -0800 (PST)
+Received: (nullmailer pid 1419425 invoked by uid 1000);
+        Sat, 30 Jan 2021 17:23:40 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     michael@walle.cc, leoyang.li@nxp.com, linux-media@vger.kernel.org,
+        todor.too@gmail.com, bjorn.andersson@linaro.org,
+        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
+        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
+        catalin.marinas@arm.com, mchehab@kernel.org,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Anson.Huang@nxp.com, geert+renesas@glider.be, arnd@arndb.de,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Marek <jonathan@marek.ca>, shawnguo@kernel.org,
+        linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        agx@sigxcpu.org, Tomasz Figa <tfiga@chromium.org>,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        robh+dt@kernel.org, angelogioacchino.delregno@somainline.org,
+        max.oss.09@gmail.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        will@kernel.org, agross@kernel.org
+In-Reply-To: <20210127144930.2158242-16-robert.foss@linaro.org>
+References: <20210127144930.2158242-1-robert.foss@linaro.org> <20210127144930.2158242-16-robert.foss@linaro.org>
+Subject: Re: [PATCH v3 15/22] dt-bindings: media: camss: Add qcom, sdm660-camss binding
+Date:   Sat, 30 Jan 2021 11:23:40 -0600
+Message-Id: <1612027420.831924.1419424.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
+On Wed, 27 Jan 2021 15:49:23 +0100, Robert Foss wrote:
+> Add bindings for qcom,sdm660-camss in order to support the camera
+> subsystem on SDM630/660 and SDA variants.
 > 
-> Spelling check please?
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
 > 
-> And _why_ are you making this change, what does this do "better" than
-> the original?
->
-Actually, I'm really new here, and this is my first patch. I run the
-checkpatch.pl, and give me that recommendation. 
-
-I would like to look the David comments.
-
-Thanks!
-eamanu
-
-> thanks,
+> Changes since v2
+>  - Rob: Add new line at end of file
+>  - Rob: Remove redundant descriptions
+>  - Rob: Add power domain description
+>  - Rob: Make clock-lanes a constant
+>  - Rob: Rework to conform to new port schema
+>  - Add max & minItems to data-lanes
+>  - Remove ports requirement - endpoint & reg
+>  - Added Angelo as binding maintainer
+>  - Removed Todor as binding maintainer
 > 
-> greg k-h
+> 
+>  .../bindings/media/qcom,sdm660-camss.yaml     | 398 ++++++++++++++++++
+>  1 file changed, 398 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/media/qcom,sdm660-camss.example.dts:21:18: fatal error: dt-bindings/clock/qcom,mmcc-sdm660.h: No such file or directory
+   21 |         #include <dt-bindings/clock/qcom,mmcc-sdm660.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:344: Documentation/devicetree/bindings/media/qcom,sdm660-camss.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1370: dt_binding_check] Error 2
+
+See https://patchwork.ozlabs.org/patch/1432255
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
