@@ -2,115 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F10E30972D
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 18:24:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BB5F309783
+	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 19:24:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231565AbhA3RY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jan 2021 12:24:26 -0500
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:37195 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbhA3RYZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jan 2021 12:24:25 -0500
-Received: by mail-ot1-f50.google.com with SMTP id h14so11952748otr.4;
-        Sat, 30 Jan 2021 09:24:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=pXuQbzH1HhbE+f1usaw5pbQpp7LXrV9fgnnlovgh3z8=;
-        b=FrJFyt9H2afVCY5Fua7uTzevccdwrBh0s3FmT3EJ16onBevk7/uzWYztdO5G1mqOs2
-         IyDxlyCR69iZmE0J96AKA6LBduTZRJQWgMWQqIQsZO8/NWKWJ+MzbcG8TTzkN7itPD+s
-         fmm+wclsi8r2ajvxJE9qXZeH91lMBu2ptt9e5kTsZIuUL2alG88oTHB8DaJIPhXVc2dG
-         rQ1TDHiLY6ZOzXS81lVyQ1Uv+r6koZChKGjeTy53501/Fk8tobo7IMJj8EXjJQY6lE/z
-         6tZvUrqTcR4Tlgpqr03K3Q19JNfL8OyI1oo4FVvoYhMiO6VbNH41u7wFE/h+FdMkcyVl
-         TE8Q==
-X-Gm-Message-State: AOAM530WJFkYITHyIsTO4i1EWW8MGmoWOyy/tcTsmnPKTLG+1x/wIhPJ
-        ecs4YSWEhWtivu09/soIBA==
-X-Google-Smtp-Source: ABdhPJyC2w56EW+vPolgtnxys1vpJEGvBhlMP/2uRtJ5IE0ERqsRBTtx7mfXHFhBD2cviSyGXrCBNg==
-X-Received: by 2002:a05:6830:230b:: with SMTP id u11mr6704466ote.184.1612027424559;
-        Sat, 30 Jan 2021 09:23:44 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t16sm2842618otc.30.2021.01.30.09.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 09:23:42 -0800 (PST)
-Received: (nullmailer pid 1419425 invoked by uid 1000);
-        Sat, 30 Jan 2021 17:23:40 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     michael@walle.cc, leoyang.li@nxp.com, linux-media@vger.kernel.org,
-        todor.too@gmail.com, bjorn.andersson@linaro.org,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        catalin.marinas@arm.com, mchehab@kernel.org,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Anson.Huang@nxp.com, geert+renesas@glider.be, arnd@arndb.de,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Marek <jonathan@marek.ca>, shawnguo@kernel.org,
-        linux-kernel@vger.kernel.org,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        agx@sigxcpu.org, Tomasz Figa <tfiga@chromium.org>,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        robh+dt@kernel.org, angelogioacchino.delregno@somainline.org,
-        max.oss.09@gmail.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        will@kernel.org, agross@kernel.org
-In-Reply-To: <20210127144930.2158242-16-robert.foss@linaro.org>
-References: <20210127144930.2158242-1-robert.foss@linaro.org> <20210127144930.2158242-16-robert.foss@linaro.org>
-Subject: Re: [PATCH v3 15/22] dt-bindings: media: camss: Add qcom, sdm660-camss binding
-Date:   Sat, 30 Jan 2021 11:23:40 -0600
-Message-Id: <1612027420.831924.1419424.nullmailer@robh.at.kernel.org>
+        id S230080AbhA3SY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jan 2021 13:24:29 -0500
+Received: from mout01.posteo.de ([185.67.36.65]:45753 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229620AbhA3SY3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 30 Jan 2021 13:24:29 -0500
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 0689A16005C
+        for <linux-media@vger.kernel.org>; Sat, 30 Jan 2021 19:23:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1612031011; bh=PAVtGHP/X3RKa2QIrUVrFSqYCXz1XmMVCSirZqIySLQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GvjFOtwJqwbthmLOXgPINp8I4QkeuepTKPIMRACAiD7+04cvF5fkT+u6peTCu7yP6
+         YZCLr94gslPlQ5qyyW2301DSFYPXghrCtKxVL0+m9wi8S3FsrT78EFAqNSKPRPqPt0
+         Ck4T6E+Rt10G9WDkLwVjiGStOo6/bOWBbuUkExPZIH0Udp4z+jncXGrsneNCs0pfQE
+         8D6Pd2iS04DB1DXEaxbUiHs0/sY4fpYKvQoQMZDZjOrvC5FzasTsl1WuJPMkFQSlVT
+         kOenrajh0NuNFJN+0RcXLM5ZO/om83UOBWJSJg99hAjx59BRJM9wneMpndI0DwDr4s
+         GClwfIt56NgYQ==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4DSjJL1FTTz6tmK;
+        Sat, 30 Jan 2021 19:23:30 +0100 (CET)
+From:   Sebastian Fricke <sebastian.fricke@posteo.net>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
+        sakari.ailus@linux.intel.com,
+        Sebastian Fricke <sebastian.fricke@posteo.net>
+Subject: [PATCH 0/1] OV13850 image sensor driver
+Date:   Sat, 30 Jan 2021 19:23:12 +0100
+Message-Id: <20210130182313.32903-1-sebastian.fricke@posteo.net>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 27 Jan 2021 15:49:23 +0100, Robert Foss wrote:
-> Add bindings for qcom,sdm660-camss in order to support the camera
-> subsystem on SDM630/660 and SDA variants.
-> 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
-> 
-> Changes since v2
->  - Rob: Add new line at end of file
->  - Rob: Remove redundant descriptions
->  - Rob: Add power domain description
->  - Rob: Make clock-lanes a constant
->  - Rob: Rework to conform to new port schema
->  - Add max & minItems to data-lanes
->  - Remove ports requirement - endpoint & reg
->  - Added Angelo as binding maintainer
->  - Removed Todor as binding maintainer
-> 
-> 
->  .../bindings/media/qcom,sdm660-camss.yaml     | 398 ++++++++++++++++++
->  1 file changed, 398 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> 
+Hello,
 
-My bot found errors running 'make dt_binding_check' on your patch:
+I would like to start a discussion about how I should proceed with the OV13850 driver, which I ported from the Rockchip BSP kernel [1], added new features, and started to refactor. My goal is to merge the driver with the upstream kernel and I would like to maintain it as well.
+One of the biggest problems that I am currently facing is the lack of information from Omnivision, I have requested a datasheet but was just brushed aside, as I don't provide enough financial incentive for them :(.
 
-yamllint warnings/errors:
+This means there is a list of registers, that I found in the downstream driver, that I cannot locate on the leaked datasheet [2]. I don't have too many experiences in reverse-engineering and so before I spend too much time guessing what these registers do, I thought I might ask here for advice. This is also the major reason for this driver still being register list based, I would really like to change that as register list based drivers feel like big black boxes, especially when access to data-sheets is restricted.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/qcom,sdm660-camss.example.dts:21:18: fatal error: dt-bindings/clock/qcom,mmcc-sdm660.h: No such file or directory
-   21 |         #include <dt-bindings/clock/qcom,mmcc-sdm660.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:344: Documentation/devicetree/bindings/media/qcom,sdm660-camss.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1370: dt_binding_check] Error 2
+My ultimate goal for this driver would be to switch to register maps instead of raw i2c access, to change the driver from a register list based driver to a freely configurable sensor driver, figure out what the unknown registers do, and drop everything that is not required, and overall improve the driver to correspond with the latest kernel APIs.
 
-See https://patchwork.ozlabs.org/patch/1432255
+Here is a list of things that I currently adjusted:
+- Label all registers, that are located on the data-sheet in order to make the code more descriptive on its own
+- Add the get_selection subdev IOCTL
+- Enable event handling
+- Add controls for toggling horizontal mirror and vertical flip
+- Remove the Rockchip camera module header file, that was used to add further information about the camera in the device tree, as well user-configurations for AWB. I removed this feature after comparing my driver to multiple drivers and none of the others used a similar mechanism.
+- Remove multiple if-guards around code blocks, this change was again inspired by the comparison to other drivers
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+There are a few things, that I have not been able to test so far, because I lack the proper hardware:
+- The full-resolution 4224x3136 as the platform I am working on (rkisp1) only permits resolutions until: 4032x3024
+- The r2a register list as my device only fits to r1a
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+And here is a list of questions, where I hope to find an answer here:
+- The datasheet mentions that the FORMAT_0 register can be set to `vbin` and `vbinf`, what does the `f` mean? I have already searched for acronymns but couldn't find anything.
+- The datasheet mentions a few registers to configure the white balance manually, I played around with these but couldn't see any visual difference. Does that automatically mean that the datasheet doesn't match the device or is there maybe another mechanism that overwrites my changes? [2] (section 5-9)
 
-pip3 install dtschema --upgrade
+[1] - https://github.com/friendlyarm/kernel-rockchip/blob/nanopi4-linux-v4.4.y/drivers/media/i2c/ov13850.c
+[2] - http://download.tfirefly.com/product/RK3288/Docs/Peripherals/OV13850%20datasheet/Sensor_OV13850-G04A_OmniVision_SpecificationV1.pdf
 
-Please check and re-submit.
+By the way, if anyone is interested, I write about my progress with the driver here: https://sebastianfricke.me/porting-the-ov13850-camera/
+
+Sebastian Fricke (1):
+  media: i2c: OV13850 image sensor support
+
+ .../bindings/media/i2c/ovti,ov13850.yaml      |  125 ++
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   12 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov13850.c                   | 1774 +++++++++++++++++
+ 5 files changed, 1920 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov13850.yaml
+ create mode 100644 drivers/media/i2c/ov13850.c
+
+-- 
+2.25.1
 
