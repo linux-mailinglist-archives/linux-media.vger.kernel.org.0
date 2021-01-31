@@ -2,78 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0592930982D
-	for <lists+linux-media@lfdr.de>; Sat, 30 Jan 2021 21:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CCFF309A43
+	for <lists+linux-media@lfdr.de>; Sun, 31 Jan 2021 05:45:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231997AbhA3UIg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Jan 2021 15:08:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49454 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231969AbhA3UIf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Jan 2021 15:08:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 011D664E0A;
-        Sat, 30 Jan 2021 20:07:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612037273;
-        bh=x8Crvp4hO+MM9PupNownbjZAszD9knrYm8r8VHGpIyg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bO70FB5lVgx3qlTuLEPcVZgMlgcS6RPoLGDL4So53PwufFvm0JIYhxds04lQcg532
-         +Lw9bpsuOtw51MkSml+oVgkYw3kmrKmspB4x8bwjcXoBu18E6/ZfBiqMB2zQDrE0zX
-         ozOiPMKmVugPc5jjJNA5tyNJflctqdtRK5YHnbPhQz/LyZXazwJVstnLItyZnRK3dG
-         HsNn/rfTZSwSH1T7X3YKnn9AKII6mIgugXNprZ68U6UAUFr6J7pFl6to88UvfbUVyy
-         CoB9H0Yq8jA/GcR8ddROnJ5hA89MySyEnZ7jIRoAAw6nvxe93Ip/QWv8p2wHJI7hPp
-         EuybGWY1ZRPrQ==
-Date:   Sat, 30 Jan 2021 13:07:51 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Helen Koike <helen.koike@collabora.com>, kbuild-all@lists.01.org,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
- `drivers/media/platform/rockchip/rkisp1/rkisp1-capture.o' being placed in
- section `.eh_frame'
-Message-ID: <20210130200751.GA2853543@localhost>
-References: <202101310313.LdtIZjU6-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202101310313.LdtIZjU6-lkp@intel.com>
+        id S229921AbhAaEpX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Jan 2021 23:45:23 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57867 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229825AbhAaEpT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 30 Jan 2021 23:45:19 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 64YXlXDFxE1Ic64YYl5ali; Sun, 31 Jan 2021 05:41:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1612068111; bh=+2ytCafLIrfioJ6cX2wu9d0h1xa/zyX2T1XjT/2DzaY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=wdcTuOCTa8qpE4+/0EfKNVx0WSHWRkTvNuoeceEHbi+mwAkT++v2jGCGdd39vD98J
+         5h0I9ortokr8zgdUna8dkVEE5Sb6/ADLOEw1q1vlWRcKGLjxW4sHY3P1Q62vh1urEJ
+         vhiBDGn+kBrDfERh6v8eFqjhXIs4Sb9sAaVLjKFrAn3wqw5yzMg56Qr6lVwzfO9zjs
+         C8v1400cDovKsRt1aq3UB+ZqS15ppITK52xlraHp8WtQrT/N/iJDzUzA0/e4Bsuw3u
+         gmm+dIHDA6OSoexfFBtGHco3LrZgixHeVqKs28hAiMy5YwGZLI3/nj4dUc5yq+8YpS
+         aNbDWH+Pl8G3A==
+Message-ID: <fd0b35f92eca63d4c4fc874404ffc513@smtp-cloud9.xs4all.net>
+Date:   Sun, 31 Jan 2021 05:41:49 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfAjPKb7AJVJ1Fgu7ZJU64zFxv6Jbkqx4CpwaZLGKU3dWtK4L8NzmvjZTk7aADZY+jZMT9q4VFOo2G4baNlAR0HrtraNFlMpd72lF3Hpgrw5uDrMjcC7h
+ j7t45y0g4AMt9Yg+q6YyFM5UR7wtU86QyyzCfyTO7cd1BggoHBq0qY8DeF2NjChMC1kMCccNsLoCtithlCN4vy9iEUgQKvwh+UGgcqJ+u93nxH6E5h0tJ6TG
+ R7jwrRG9dsIPDKYbI1pbYA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jan 31, 2021 at 03:52:15AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0e9bcda5d286f4a26a5407bb38f55c55b453ecfb
-> commit: e6938cc1cb7763a363f62b78147f1f2fb972f49c media: rockchip: rkisp1: destage Rockchip ISP1 driver
-> date:   3 months ago
-> config: arm64-randconfig-r013-20210130 (attached as .config)
-> compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 275c6af7d7f1ed63a03d05b4484413e447133269)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e6938cc1cb7763a363f62b78147f1f2fb972f49c
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout e6938cc1cb7763a363f62b78147f1f2fb972f49c
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm64 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from `drivers/input/input.o' being placed in section `.eh_frame'
->    aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from `drivers/input/input-compat.o' being placed in section `.eh_frame'
->    aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from `drivers/input/input-mt.o' being placed in section `.eh_frame'
->    aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from `drivers/input/input-poller.o' being placed in section `.eh_frame'
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-https://lore.kernel.org/lkml/20210130004650.2682422-1-nathan@kernel.org/
+Results of the daily build of media_tree:
 
-Cheers,
-Nathan
+date:			Sun Jan 31 05:00:11 CET 2021
+media-tree git hash:	f0ddb4e9911665b9ad68fe94e0faaaff5953902e
+media_build git hash:	e980c694ef8ab2b472ecc26edaf97af214e587aa
+v4l-utils git hash:	70404b870f12165278fe9ee9b3d6c7932478eb83
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7087-gdbdb27615
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 0 strcpy(), 1 strncpy(), 0 strlcpy()
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2963, Succeeded: 2962, Failed: 1, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
