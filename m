@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A6C930A47A
-	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 10:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91B1B30A47C
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 10:38:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232892AbhBAJhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 04:37:47 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46815 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232509AbhBAJhq (ORCPT
+        id S232894AbhBAJhs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Feb 2021 04:37:48 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:57635 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232890AbhBAJhr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Feb 2021 04:37:46 -0500
+        Mon, 1 Feb 2021 04:37:47 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 6VdjlublEefbk6VdnlfvZi; Mon, 01 Feb 2021 10:37:03 +0100
+        id 6VdjlublEefbk6VdnlfvZr; Mon, 01 Feb 2021 10:37:03 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612172223; bh=DkNNwRtMlKHsIWFqX2Lp3HevWj3aKF0UkiTP7rpd2Qs=;
+        t=1612172223; bh=85XpFs+a2BCZuvt8ezGGmr/FGhvvQibEvXyQ65II7cs=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=jxvl4g7GG4H+rRzVf/r1kVnjSzWnWFyGuX1VvWlCddTmLD5LkDnx7hrnUbxBlYtR6
-         G+nfcgmWgJvAx7aeFPzzJxukR6oP6l9BGP4RdNF4La9geUAX0trrFZhCAIAnpZra4W
-         MCNwwbEk/EAVr13WR0Zlrq9vzcNGLnXC6g9WqETPEyDtLLDKufkv8lxZ9XHb2DRADk
-         po2W0mJJyP53jKE9tWxy12z12Va4v/t4MndNghSACVnQNTYNx+XuIQ1FUeazDvN4Lk
-         z/YJEGlmw17wlHjnn3h5LInGcJbV5kJfFLTBnKUlBWeu9um8f9bmXTKvbAPPqsxp81
-         OKc+n1LN5n5Fw==
+        b=TjtQGeb94tR60iPEqP29TcGZPWHPsp4Pzoy4VEHDV4dt8NfA5ux7KWkUlo/CJZy+2
+         vTvFvSRVHsRLC+cpp1yDHA8UJgf4qwGce5xv9BQ62CEtdmjj+xiZs7r/k/4rmxbPed
+         VQsR3SU/XdFSRhQ135y3WnGC3r7LIgSqFhprWGsdnrvzvx9L3o4AR3DrupIfNxbeD7
+         UbgWoSGKAzjqfENS9jInc+p5S8WgCqMkr1tOMHc8Q53HKzKUuXCuix8eR+9uDpB+N/
+         e+tLZ+MGSS8QbD9j1hs4+EEykVuiqeoNuC6H/XS+9Msq/20e8vfCOfnx9348KlS2c3
+         j8PmbgX32b6Aw==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 1/2] v4l2-dev: add /sys media_dev attr for video devices
-Date:   Mon,  1 Feb 2021 10:36:58 +0100
-Message-Id: <20210201093659.2945449-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 2/2] dvbdev: add /sys media_dev attr for dvb devices
+Date:   Mon,  1 Feb 2021 10:36:59 +0100
+Message-Id: <20210201093659.2945449-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210201093659.2945449-1-hverkuil-cisco@xs4all.nl>
 References: <20210201093659.2945449-1-hverkuil-cisco@xs4all.nl>
@@ -44,86 +44,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create a media_dev attribute in /sys for each video device
+Create a media_dev attribute in /sys for each dvb device
 which contains the media device major and minor number (or
 is empty if there is no associated media device).
 
-It is not created if the CONFIG_MEDIA_CONTROLLER is not
+It is not created if the CONFIG_MEDIA_CONTROLLER_DVB is not
 defined.
 
 This makes it possible for applications like v4l2-compliance
-to find the associated media controller of a video device.
+to find the associated media controller of a dvb device.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 48 +++++++++++++++++++++++++++++-
- 1 file changed, 47 insertions(+), 1 deletion(-)
+ drivers/media/dvb-core/dvbdev.c | 46 +++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index b6a72d297775..85b94b25aba2 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -87,13 +87,59 @@ static ssize_t name_show(struct device *cd,
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 5ff7bedee247..e63cee1fc331 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -452,6 +452,49 @@ static int dvb_register_media_device(struct dvb_device *dvbdev,
+ 	return 0;
  }
- static DEVICE_ATTR_RO(name);
  
-+#if defined(CONFIG_MEDIA_CONTROLLER)
++#if defined(CONFIG_MEDIA_CONTROLLER_DVB)
 +static ssize_t media_dev_show(struct device *cd,
 +			 struct device_attribute *attr, char *buf)
 +{
-+	struct video_device *vdev = to_video_device(cd);
-+	struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
++	struct dvb_device *dvbdev = dev_get_drvdata(cd);
 +
 +	buf[0] = '\0';
-+	if (!v4l2_dev->mdev)
++	if (!dvbdev->adapter->mdev)
 +		return 0;
 +	return sprintf(buf, "%u:%u\n",
-+		       MAJOR(v4l2_dev->mdev->devnode->dev.devt),
-+		       MINOR(v4l2_dev->mdev->devnode->dev.devt));
++		       MAJOR(dvbdev->adapter->mdev->devnode->dev.devt),
++		       MINOR(dvbdev->adapter->mdev->devnode->dev.devt));
 +}
-+
 +static DEVICE_ATTR_RO(media_dev);
-+#endif
 +
-+static umode_t video_device_attr_is_visible(struct kobject *kobj,
-+					    struct attribute *attr, int n)
++static umode_t dvb_device_attr_is_visible(struct kobject *kobj,
++					  struct attribute *attr, int n)
 +{
-+	struct video_device *vdev = to_video_device(kobj_to_dev(kobj));
++	struct dvb_device *dvbdev = dev_get_drvdata(kobj_to_dev(kobj));
 +
-+#if defined(CONFIG_MEDIA_CONTROLLER)
 +	if (attr == &dev_attr_media_dev.attr) {
-+		struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
-+
-+		if (!v4l2_dev->mdev)
++		if (!dvbdev->adapter->mdev)
 +			return 0;
 +	}
-+#endif
 +	return attr->mode;
 +}
 +
- static struct attribute *video_device_attrs[] = {
- 	&dev_attr_name.attr,
- 	&dev_attr_dev_debug.attr,
- 	&dev_attr_index.attr,
-+#if defined(CONFIG_MEDIA_CONTROLLER)
++static struct attribute *dvb_device_attrs[] = {
 +	&dev_attr_media_dev.attr,
-+#endif
- 	NULL,
- };
--ATTRIBUTE_GROUPS(video_device);
-+
-+static const struct attribute_group video_device_group = {
-+	.is_visible = video_device_attr_is_visible,
-+	.attrs = video_device_attrs,
++	NULL,
 +};
 +
-+static const struct attribute_group *video_device_groups[] = {
-+	&video_device_group,
++static const struct attribute_group dvb_device_group = {
++	.is_visible = dvb_device_attr_is_visible,
++	.attrs = dvb_device_attrs,
++};
++
++static const struct attribute_group *dvb_device_groups[] = {
++	&dvb_device_group,
 +	NULL
 +};
++#endif
++
+ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 			const struct dvb_device *template, void *priv,
+ 			enum dvb_device_type type, int demux_sink_pads)
+@@ -1056,6 +1099,9 @@ static int __init init_dvbdev(void)
+ 	}
+ 	dvb_class->dev_uevent = dvb_uevent;
+ 	dvb_class->devnode = dvb_devnode;
++#if defined(CONFIG_MEDIA_CONTROLLER_DVB)
++	dvb_class->dev_groups = dvb_device_groups;
++#endif
+ 	return 0;
  
- /*
-  *	Active devices
+ error:
 -- 
 2.29.2
 
