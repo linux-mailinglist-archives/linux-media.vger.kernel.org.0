@@ -2,127 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91B1B30A47C
-	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 10:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8CC30A49D
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 10:48:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbhBAJhs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 04:37:48 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:57635 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232890AbhBAJhr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Feb 2021 04:37:47 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 6VdjlublEefbk6VdnlfvZr; Mon, 01 Feb 2021 10:37:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612172223; bh=85XpFs+a2BCZuvt8ezGGmr/FGhvvQibEvXyQ65II7cs=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=TjtQGeb94tR60iPEqP29TcGZPWHPsp4Pzoy4VEHDV4dt8NfA5ux7KWkUlo/CJZy+2
-         vTvFvSRVHsRLC+cpp1yDHA8UJgf4qwGce5xv9BQ62CEtdmjj+xiZs7r/k/4rmxbPed
-         VQsR3SU/XdFSRhQ135y3WnGC3r7LIgSqFhprWGsdnrvzvx9L3o4AR3DrupIfNxbeD7
-         UbgWoSGKAzjqfENS9jInc+p5S8WgCqMkr1tOMHc8Q53HKzKUuXCuix8eR+9uDpB+N/
-         e+tLZ+MGSS8QbD9j1hs4+EEykVuiqeoNuC6H/XS+9Msq/20e8vfCOfnx9348KlS2c3
-         j8PmbgX32b6Aw==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+        id S232593AbhBAJsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Feb 2021 04:48:47 -0500
+Received: from retiisi.eu ([95.216.213.190]:60090 "EHLO hillosipuli.retiisi.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232290AbhBAJsr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Feb 2021 04:48:47 -0500
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 7B5EE634C92;
+        Mon,  1 Feb 2021 11:46:47 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 2/2] dvbdev: add /sys media_dev attr for dvb devices
-Date:   Mon,  1 Feb 2021 10:36:59 +0100
-Message-Id: <20210201093659.2945449-3-hverkuil-cisco@xs4all.nl>
+Cc:     djrscally@gmail.com
+Subject: [PATCH 1/1] Documentation: media: camera-sensor: The unit of hblank is pixels
+Date:   Mon,  1 Feb 2021 11:39:14 +0200
+Message-Id: <20210201093914.12994-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210201093659.2945449-1-hverkuil-cisco@xs4all.nl>
-References: <20210201093659.2945449-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfJDubjhqzPc4SJmxZIbFvxw6EAT4hJ12G3mVbbxZxJq6c14eVSZaoiFEc9KLQdj3elkTi2l9laRPE2p/IkvBPznQcJmLbgYtttNWWyhL6cYDP8/N4yWW
- kacmTi1cUmMwmwBUNB2uQYTVUMlyVmuoMozCDMe973vwzV0ff5x0bonak+xCXjC7BFnEY2/Wnqj4gfDi1lj7udO6IK/rllTUFDjOPBlz+Ae70wfTccy+5kLE
- AbcQIrbERLm76QG5i99DcVvG3Ppa0JKF5vW/ijBUumQBqnST6X+d1SBETRRxUuOwdYKsRR4fbZFMwVRZ7vWA3YC+uppijtiYtWDGoPM5rz0=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create a media_dev attribute in /sys for each dvb device
-which contains the media device major and minor number (or
-is empty if there is no associated media device).
+The unit of the horizontal blanking control on raw sensors is pixels, not
+lines. Document this correctly.
 
-It is not created if the CONFIG_MEDIA_CONTROLLER_DVB is not
-defined.
-
-This makes it possible for applications like v4l2-compliance
-to find the associated media controller of a dvb device.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: e4cf8c58af75 ("media: Documentation: media: Document how to write camera sensor drivers")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/dvb-core/dvbdev.c | 46 +++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ Documentation/driver-api/media/camera-sensor.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 5ff7bedee247..e63cee1fc331 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -452,6 +452,49 @@ static int dvb_register_media_device(struct dvb_device *dvbdev,
- 	return 0;
- }
+diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+index 3fc378b3b269..9c863e3a79ba 100644
+--- a/Documentation/driver-api/media/camera-sensor.rst
++++ b/Documentation/driver-api/media/camera-sensor.rst
+@@ -94,9 +94,10 @@ large variety of devices beyond camera sensors. Devices that have no analogue
+ crop, use the full source image size, i.e. pixel array size.
  
-+#if defined(CONFIG_MEDIA_CONTROLLER_DVB)
-+static ssize_t media_dev_show(struct device *cd,
-+			 struct device_attribute *attr, char *buf)
-+{
-+	struct dvb_device *dvbdev = dev_get_drvdata(cd);
-+
-+	buf[0] = '\0';
-+	if (!dvbdev->adapter->mdev)
-+		return 0;
-+	return sprintf(buf, "%u:%u\n",
-+		       MAJOR(dvbdev->adapter->mdev->devnode->dev.devt),
-+		       MINOR(dvbdev->adapter->mdev->devnode->dev.devt));
-+}
-+static DEVICE_ATTR_RO(media_dev);
-+
-+static umode_t dvb_device_attr_is_visible(struct kobject *kobj,
-+					  struct attribute *attr, int n)
-+{
-+	struct dvb_device *dvbdev = dev_get_drvdata(kobj_to_dev(kobj));
-+
-+	if (attr == &dev_attr_media_dev.attr) {
-+		if (!dvbdev->adapter->mdev)
-+			return 0;
-+	}
-+	return attr->mode;
-+}
-+
-+static struct attribute *dvb_device_attrs[] = {
-+	&dev_attr_media_dev.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group dvb_device_group = {
-+	.is_visible = dvb_device_attr_is_visible,
-+	.attrs = dvb_device_attrs,
-+};
-+
-+static const struct attribute_group *dvb_device_groups[] = {
-+	&dvb_device_group,
-+	NULL
-+};
-+#endif
-+
- int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 			const struct dvb_device *template, void *priv,
- 			enum dvb_device_type type, int demux_sink_pads)
-@@ -1056,6 +1099,9 @@ static int __init init_dvbdev(void)
- 	}
- 	dvb_class->dev_uevent = dvb_uevent;
- 	dvb_class->devnode = dvb_devnode;
-+#if defined(CONFIG_MEDIA_CONTROLLER_DVB)
-+	dvb_class->dev_groups = dvb_device_groups;
-+#endif
- 	return 0;
+ Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+-``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+-pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+-unit of that control is Hz.
++``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
++is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate is
++specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The unit of that
++control is Hz.
  
- error:
+ Register list based drivers need to implement read-only sub-device nodes for the
+ purpose. Devices that are not register list based need these to configure the
 -- 
 2.29.2
 
