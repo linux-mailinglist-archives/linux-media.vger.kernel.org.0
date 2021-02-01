@@ -2,119 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F31030A7F5
-	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 13:50:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CC3330A833
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 14:03:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231528AbhBAMtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 07:49:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231299AbhBAMti (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Feb 2021 07:49:38 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D3A2C061573
-        for <linux-media@vger.kernel.org>; Mon,  1 Feb 2021 04:48:57 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id c127so13047518wmf.5
-        for <linux-media@vger.kernel.org>; Mon, 01 Feb 2021 04:48:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=NzOSfwStoSLxKRsgsNQZLr8nr63oG16ullT8zW23Rvo=;
-        b=bZMrorON+xVJzzUryuWr+rRPJeVqrF1MZIWF1dMwmeIOzctkdDmVxGijJiTbhwj6na
-         lN8PyH/JthnmFwDDZF3BKbCtHsfXZ8Dk0D1JfOB4txOfpt0e2kDrVn7NRmC/bBYe2dUp
-         bD+VEoEKA2FiOzvg7agYTQAE6hPdoriCwhDltGkRpH210SzZcVbZgW3XeXJDgh8FFOb8
-         FxqY9xL4C/npjKhiNXDp4Vswob5fFXnP21yqh6TSQvCgI0Tj7uqaenecxXahsi/Dgw+j
-         MCmCx+ymbwvLxy745EMyIwPUzXNZtbgMNeqNjjF8uy5WDhb6dyaDVMcTvn25wqVtlXqt
-         ThVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=NzOSfwStoSLxKRsgsNQZLr8nr63oG16ullT8zW23Rvo=;
-        b=R+27WdfRnfYnKoORjd51T1F0/fxeTp2EW592O4sCB5fa2kDhFsBZ+i3TZb7VDb2v1b
-         QZgU5H/iepj8tYj5bcS7Idw5O+t9BZh8zYZr4xGe0PI3Dhz3y37nf3jdlqJTBLV23aM0
-         +xJMDCI/FQgfSgRe8OyNfadHNn7b2WZmqOrosg22d7m3pejZUufSxT/THXVPnWUjMOM1
-         rc1KwqgpFq1DnG6CdqwZ0gGuj7t/ZSXRsZuS7WEac9yRBCJYa1QbmOGUFAkkQcVXmYGB
-         7oNHVA1bHUHYkdGueP0Xggmsmn3tH7i5t3YcHo/OMKdKOgLGx7+7mHuS6CjV6UyNNG64
-         7FeQ==
-X-Gm-Message-State: AOAM532TNvbBmqTiNMA2ysGs2/qBLOehESm5GonRqg7nqPV8U//8L5aC
-        SlIR6PJ22XPSllacvnQGUSL2hmTe5C0MvZOsempfIWRIYjh4Fw==
-X-Google-Smtp-Source: ABdhPJzSAg4lMUuWEnclr/J5VmpwNwCB6hEkMav0oZFLxDki4OXT1xTa3shuOdev1M5NZjV5lu7LfyTaz15dUyq5RS4=
-X-Received: by 2002:a1c:bc46:: with SMTP id m67mr5818767wmf.82.1612183735693;
- Mon, 01 Feb 2021 04:48:55 -0800 (PST)
+        id S231444AbhBANCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Feb 2021 08:02:24 -0500
+Received: from mga02.intel.com ([134.134.136.20]:45162 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231407AbhBANCV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Feb 2021 08:02:21 -0500
+IronPort-SDR: ue53PEkyxzdVwtxhJPzr2oGFQ+6EvC4gK237e+cHWxjFchTUEWY6xFxW9xVjDC3gTgZ2NXoj6g
+ u8Na4tv4j5+g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="167783514"
+X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
+   d="scan'208";a="167783514"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 05:00:34 -0800
+IronPort-SDR: CEJO6CGtuOUZzqRMf3c5sa+tOuMc4nu8NACV8ZJ3VqfOg7lwAXvQdYIC9VSjK/E5E4haESLHqS
+ fun0trDq3GjQ==
+X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
+   d="scan'208";a="395602638"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 05:00:31 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id D281E2074F; Mon,  1 Feb 2021 15:00:29 +0200 (EET)
+Date:   Mon, 1 Feb 2021 15:00:29 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v8 0/5] media: i2c: Add RDACM21 camera module
+Message-ID: <20210201130029.GM32460@paasikivi.fi.intel.com>
+References: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
+ <20210201085440.zcc5kuu4gyiyasvy@uno.localdomain>
 MIME-Version: 1.0
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 1 Feb 2021 12:48:39 +0000
-Message-ID: <CAPY8ntCzAMsfujidsLKcL=f61T7WmioWSeaHL2hKmEn1jrnZ=A@mail.gmail.com>
-Subject: Stateful Video Decoder interface vs M2M framework
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210201085440.zcc5kuu4gyiyasvy@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All.
+Hi Jacopo,
 
-I'm currently doing battle with the stateful video decoder API for
-video decode on the Raspberry Pi.
+On Mon, Feb 01, 2021 at 09:54:40AM +0100, Jacopo Mondi wrote:
+> Hi Sakari,
+> 
+> On Thu, Jan 14, 2021 at 06:04:24PM +0100, Jacopo Mondi wrote:
+> > One more iteration to squash in all the fixups sent in v7 and address
+> > a comment from Sergei in [2/5] commit message.
+> >
+> > All patches now reviewed and hopefully ready to be collected!
+> 
+> All patches seems reviewed, do you think we can still collect this for
+> the v5.12 merge window ?
 
-Reading the descriptive docs[1] there is no obligation to
-STREAMON(CAPTURE) before feeding in OUTPUT buffers and waiting for
-V4L2_EVENT_SOURCE_CHANGE to configure the CAPTURE queue. Great! It
-makes my colleague who is working on the userspace side happy as it
-saves a config step of allocating buffers that are never needed.
+The set seems good to me. There was some fuzz in the DT binding patch; I
+hope the resolution is ok:
 
-I have been using the v4l2_mem2mem framework, same as some other
-decoders. We use v4l2_m2m in the buffered mode as it's actually
-remoted over to the VPU via the MMAL API, and so the src and dest are
-asynchronous from V4L2's perspective.
+<URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?id=c9930c965596af73c61e1a6a9ef2d2128582ef38>
 
-Said colleague then complained that he couldn't follow the flow
-described in the docs linked above as it never produced the
-V4L2_EVENT_SOURCE_CHANGE event.
+Feel free to cc me on the next time. :-)
 
-Digging into it, it's the v4l2_mem2mem framework stopping me.
-__v4l2_m2m_try_queue[2] has
-    if (!m2m_ctx->out_q_ctx.q.streaming
-        || !m2m_ctx->cap_q_ctx.q.streaming) {
-        dprintk("Streaming needs to be on for both queues\n");
-        return;
-    }
-So I'm never going to get any of the OUTPUT buffers even queued to my
-driver until STREAMON(CAPTURE). That contradicts the documentation :-(
+-- 
+Regards,
 
-Now I can see that on a non-buffered M2M device you have to have both
-OUTPUT and CAPTURE enabled because it wants to produce a CAPTURE
-buffer for every OUTPUT buffer on a 1:1 basis. On a buffered codec
-tweaking that one clause to
-    if (!m2m_ctx->out_q_ctx.buffered &&
-        (!m2m_ctx->out_q_ctx.q.streaming ||
-         !m2m_ctx->cap_q_ctx.q.streaming)) {
-solves the problem, but is that a generic solution? I don't have any
-other platforms to test against.
-
-However it poses a larger question for my colleague as to what
-behaviour he can rely on in userspace. Is there a way for userspace to
-know whether it is permitted on a specific codec implementation to
-follow the docs and not STREAMON(CAPTURE) until
-V4L2_EVENT_SOURCE_CHANGE? If not then the documentation is invalid for
-many devices.
-
-On a very brief survey of a few existing drivers I see:
-- the Coda driver uses v4l2_m2m in the same mode as my driver, so
-presumably it's not currently going to be following the documentation
-but the above change should make it do so.
-- meson/vdec doesn't work in buffered mode, so it's never going to be
-able to follow the docs. There is a TODO stating that (although
-implying it's mainly on MPEG1 & 2).
-- mtk-vcodec is also not in buffered mode, and appears to have
-secondary checks that it has both a src and dst buffer before passing
-anything to the hardware. Is there any way for that to be able to
-follow the docs?
-
-Guidance please.
-
-Thanks
-  Dave
-
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-decoder.html#initialization
-[2] https://git.linuxtv.org/media_tree.git/tree/drivers/media/v4l2-core/v4l2-mem2mem.c#n303
+Sakari Ailus
