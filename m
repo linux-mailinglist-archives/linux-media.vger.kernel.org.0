@@ -2,64 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AA8530CEFB
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 23:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E2B30A003
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 02:30:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235844AbhBBWe3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Feb 2021 17:34:29 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:61037 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S230091AbhBBWeU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Feb 2021 17:34:20 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=Z/qoYR5e93G/1E5Uh8tLreepyziGYShILI7fcXozE97A3DqZKBadv9kcBZBcmHZnqAUcLkt0g+COxgI6WqJ5gdfKqksQSW540KJaAE4DNiZ+EZYtErJhsiZnZCgjfp9yI8W2dpgN2EsH5zUvgVY6Bl2MWU8ziaGqy1DCXSk4DXXi+2CTtkJX9uQrf2ohPvP7bhav6zr4dJxTQjQYoopWjV3h9j7RqQq/UIXqX3VBjVDZARoXQTZUB0KN0A
-        F7X8DeijiSCFEdYkkdQwasjHi3K0B6KloKBXegK0TgQ39PHt5t2MVnmtmeZadY0DbdImfujjk25mqjLTG700JJRoTl9A==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Sat, 30 Jan 2021 02:14:15 +0000
-Message-ID: <B0CC978E-0149-4652-A2D0-17DE1F49BCC1@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Sat, 30 Jan 2021 02:14:13 -0000
+        id S231149AbhBAB3M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Jan 2021 20:29:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58904 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230134AbhBAB3K (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 31 Jan 2021 20:29:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E998CC061573
+        for <linux-media@vger.kernel.org>; Sun, 31 Jan 2021 17:28:29 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CB74556;
+        Mon,  1 Feb 2021 02:28:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1612142906;
+        bh=e49V97/JGvAkXHuM3RgAN0QOb5KjVlBzT2JcgJQ2yfA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TcsgxbpuL3JDl0F4lg+R+eds4aIqm5+AXLnI53IKMGSXcogYR4xH/BSsuuf1+ecCN
+         XdxLD5/KDYq/5X4cLClLmtBzHmnwMP7z2BWhrazOKe97kbMR2qMG0aNvhg9fQP02mR
+         kbbskWCHfashAzqou6ovLupfquHREdK+tZmq1NHg=
+Date:   Mon, 1 Feb 2021 03:28:06 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Adrian Fiergolski <adrian.fiergolski@fastree3d.com>,
+        niklas.soderlund+renesas@ragnatech.se, linux-media@vger.kernel.org,
+        vishal.sagar@xilinx.com
+Subject: Re: v4l: status of 'add support for multiplexed streams' patch
+Message-ID: <YBdZJpTfgiipt3IK@pendragon.ideasonboard.com>
+References: <ad1f038f-f067-89f6-9dc6-4b423d719fc5@fastree3d.com>
+ <20210129222654.GL32460@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210129222654.GL32460@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hello,
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+On Sat, Jan 30, 2021 at 12:26:54AM +0200, Sakari Ailus wrote:
+> On Mon, Jan 25, 2021 at 03:08:56PM +0100, Adrian Fiergolski wrote:
+> > Dear Niklas,
+> > 
+> > Thank you for your 'v4l: add support for multiplexed streams' patch [1].
+> > 
+> > What is the status of merging your development with v4l-utils? Version
+> > 1.16.5 doesn't provide --get/set-routing options. Also in the master of
+> > v4l-utils I haven't found your code.
+> > 
+> > What is the current way of changing routing the video switches (e.g.
+> > xilinx-axis-swtich which is not yet in the mainstream kernel)?
+> > 
+> > [1] https://lwn.net/Articles/782479/
+> 
+> I seem to have something here:
+> 
+> <URL:https://git.retiisi.eu/?p=~sailus/v4l-utils.git;a=shortlog;h=refs/heads/routing>
+> 
+> It hasn't been tested for some time though. The header update patches need
+> to be reworked but the media-ctl + libv4l2subdev patches probably rebase
+> just fine.
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+I've recently rebased the latest version of the patches (exclusing the
+changes to the Renesas drivers) that was posted to the linux-media
+mailing list, and have pushed the result to 
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+	git://linuxtv.org/pinchartl/media.git muxed-streams
 
+This has only been compile-tested so far, and I hope to test it on real
+hardware soon.
+
+-- 
 Regards,
-Ms. Reem.
 
+Laurent Pinchart
