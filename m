@@ -2,108 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E34CF30A491
-	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 10:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16FD930A47B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 10:38:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232363AbhBAJon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 04:44:43 -0500
-Received: from smtp2.macqel.be ([109.135.2.61]:26097 "EHLO smtp2.macqel.be"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231598AbhBAJon (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Feb 2021 04:44:43 -0500
-X-Greylist: delayed 554 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Feb 2021 04:44:42 EST
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.macqel.be (Postfix) with ESMTP id 8B168158AC7;
-        Mon,  1 Feb 2021 10:34:42 +0100 (CET)
-X-Virus-Scanned: amavisd-new at macqel.be
-Received: from smtp2.macqel.be ([127.0.0.1])
-        by localhost (mail.macqel.be [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id VgeHPe7ClAmH; Mon,  1 Feb 2021 10:34:40 +0100 (CET)
-Received: from perdita.MACQEL (perdita.macqel [10.1.40.53])
-        by smtp2.macqel.be (Postfix) with ESMTP id C6540158AC3;
-        Mon,  1 Feb 2021 10:34:40 +0100 (CET)
-Received: from perdita.MACQEL (localhost [127.0.0.1])
-        by perdita.MACQEL (8.14.4/8.14.4/SuSE Linux 0.8) with ESMTP id 1119YcYJ028880;
-        Mon, 1 Feb 2021 10:34:40 +0100
-Received: (from p6@localhost)
-        by perdita.MACQEL (8.14.4/8.14.4/Submit) id 1119YcdU028868;
-        Mon, 1 Feb 2021 10:34:38 +0100
-X-Authentication-Warning: perdita.MACQEL: p6 set sender to phdm@macq.eu using -f
-From:   Philippe De Muyter <phdm@macqel.be>
+        id S232893AbhBAJhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Feb 2021 04:37:47 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58523 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232543AbhBAJhq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Feb 2021 04:37:46 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 6VdjlublEefbk6VdmlfvZN; Mon, 01 Feb 2021 10:37:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1612172223; bh=CTrNeAoMCcGpFu9wWYVKPqIs2YUAC+bm3dqEH9Be+VQ=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=Qsqse6TPJn2lHOIwdJM9gz1Ika4TNSrFedzlYJ5SVluLRAkDiJfNyyyw7A7UiabVm
+         DitUe63J/RrVGR4RBYnpirnE772gFlgyKUpTQvhArW0ZzqgLwDsp0ENKxY0MKsFcXW
+         bXCVMWWg6CgSsguLFd8BtjoJ2d5SMDkvTmSizoYSxYi3/Hy/Ied3wXc7dTsLAD7aHd
+         3qpAwfFMlEHdRLvZf/LWSQcd6QktJXi9gHJLmYR5Qe3Yeo8FRcbyzuXx+qV52mfzJa
+         15Dx5wOqiTjLPY205gYfJ7/uHcQdD3OSlnARj3dkAWKeACzYe6GpO/Sp79LQhbAo48
+         LzgGEyYN/ImuQ==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Philippe De Muyter <phdm@macqel.be>
-Subject: [PATCH] media: add V4L2_BUF_FLAG_TIMESTAMP_UTC and V4L2_BUF_FLAG_TIMESTAMP_TAI.
-Date:   Mon,  1 Feb 2021 10:34:08 +0100
-Message-Id: <1612172048-28830-1-git-send-email-phdm@macqel.be>
-X-Mailer: git-send-email 1.8.4
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCHv2 0/2] Add /sys media_dev attr for V4L/DVB devices
+Date:   Mon,  1 Feb 2021 10:36:57 +0100
+Message-Id: <20210201093659.2945449-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfJDubjhqzPc4SJmxZIbFvxw6EAT4hJ12G3mVbbxZxJq6c14eVSZaoiFEc9KLQdj3elkTi2l9laRPE2p/IkvBPznQcJmLbgYtttNWWyhL6cYDP8/N4yWW
+ kacmTi1cUmMwm1EafjxJN2o24vOP5hhzFb+lyEquUoCog64hOox2ta/87g4u27HHCr3NUPzb2p0JpUrlAqbxg4kn/3MDiWljZQv6bPfAv7S91wE8BbNM4ZiQ
+ yyJ2Ucc8b3TQlJOt3HQnU3fOxHH8jzbtXTJCY5XLYIj67Qm1Hpn8O8Ogk4LexTOX
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN and
-V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC were added long ago, no other flag
-was introduced to indicate precisely the reference clock used for
-timestamps associated to v4l2 buffers.  Add here the ability for drivers
-to use the realtime (= UTC) or TAI clock.
+A long standing issue is how to find the associated media device for
+a V4L or DVB device node. This is primarily useful for applications
+like v4l2-ctl and v4l2-compliance.
 
-Signed-off-by: Philippe De Muyter <phdm@macqel.be>
----
- Documentation/userspace-api/media/v4l/buffer.rst | 14 ++++++++++++++
- include/trace/events/v4l2.h                      |  2 ++
- include/uapi/linux/videodev2.h                   |  2 ++
- 3 files changed, 18 insertions(+)
+Until recently these applications relied on /sys and the fact that
+the media device was accessible in /sys via:
 
-diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-index 1b0fdc1..44cb59b 100644
---- a/Documentation/userspace-api/media/v4l/buffer.rst
-+++ b/Documentation/userspace-api/media/v4l/buffer.rst
-@@ -637,6 +637,20 @@ Buffer Flags
-       - The buffer timestamp has been taken from the ``CLOCK_MONOTONIC``
- 	clock. To access the same clock outside V4L2, use
- 	:c:func:`clock_gettime`.
-+    * .. _`V4L2-BUF-FLAG-TIMESTAMP-UTC`:
-+
-+      - ``V4L2_BUF_FLAG_TIMESTAMP_UTC``
-+      - 0x00008000
-+      - The buffer timestamp has been taken from the ``CLOCK_REALTIME``
-+	clock. To access the same clock outside V4L2, use
-+	:c:func:`clock_gettime`.
-+    * .. _`V4L2-BUF-FLAG-TIMESTAMP-TAI`:
-+
-+      - ``V4L2_BUF_FLAG_TIMESTAMP_TAI``
-+      - 0x0000a000
-+      - The buffer timestamp has been taken from the ``CLOCK_TAI``
-+	clock. To access the same clock outside V4L2, use
-+	:c:func:`clock_gettime`.
-     * .. _`V4L2-BUF-FLAG-TIMESTAMP-COPY`:
- 
-       - ``V4L2_BUF_FLAG_TIMESTAMP_COPY``
-diff --git a/include/trace/events/v4l2.h b/include/trace/events/v4l2.h
-index 248bc09..ce93c88 100644
---- a/include/trace/events/v4l2.h
-+++ b/include/trace/events/v4l2.h
-@@ -88,6 +88,8 @@
- 		{ V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN,   "TIMESTAMP_UNKNOWN" },   \
- 		{ V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC, "TIMESTAMP_MONOTONIC" }, \
- 		{ V4L2_BUF_FLAG_TIMESTAMP_COPY,	     "TIMESTAMP_COPY" },      \
-+		{ V4L2_BUF_FLAG_TIMESTAMP_UTC,	     "TIMESTAMP_UTC" },       \
-+		{ V4L2_BUF_FLAG_TIMESTAMP_TAI,	     "TIMESTAMP_TAI" },       \
- 		{ V4L2_BUF_FLAG_LAST,                "LAST" })
- 
- #define show_timecode_flags(flags)					  \
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 79dbde3..87502ab 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1101,6 +1101,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
- #define V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN		0x00000000
- #define V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC	0x00002000
- #define V4L2_BUF_FLAG_TIMESTAMP_COPY		0x00004000
-+#define V4L2_BUF_FLAG_TIMESTAMP_UTC		0x00008000
-+#define V4L2_BUF_FLAG_TIMESTAMP_TAI		0x0000a000
- /* Timestamp sources. */
- #define V4L2_BUF_FLAG_TSTAMP_SRC_MASK		0x00070000
- #define V4L2_BUF_FLAG_TSTAMP_SRC_EOF		0x00000000
+/sys/class/video4linux/videoX/device/mediaY/
+
+But commit ee494cf377e1 ("media: v4l2-device: Link subdevices to their
+parent devices if available") broke that scheme for subdevices. That
+scheme was rather a hack anyway.
+
+Attempts to report the major/minor number of the media device via the
+public API (i.e. by extending VIDIOC_QUERYCAP or VIDIOC_SUBDEV_QUERYCAP)
+failed, so this patch series now just adds a media_dev attribute when a
+V4L or DVB device node is created. This attribute contains the major:minor
+of the media device. It is only created if the device node is actually
+associated with a media controller.
+
+This issue was reported by Sebastian Frick:
+
+https://lore.kernel.org/linux-media/20210120183054.5ltnjdtrmumplevt@basti-TUXEDO-Book-XA1510/T/#t
+
+Regards,
+
+	Hans
+
+Changes since v1: use the is_visible callback to ensure the attribute
+is only shown if mdev is non-NULL.
+
+Hans Verkuil (2):
+  v4l2-dev: add /sys media_dev attr for video devices
+  dvbdev: add /sys media_dev attr for dvb devices
+
+ drivers/media/dvb-core/dvbdev.c    | 46 ++++++++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-dev.c | 48 +++++++++++++++++++++++++++++-
+ 2 files changed, 93 insertions(+), 1 deletion(-)
+
 -- 
-1.8.4
+2.29.2
 
