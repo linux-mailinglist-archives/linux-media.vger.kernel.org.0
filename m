@@ -2,31 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60DEE30A32E
-	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 09:20:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0E830A33F
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 09:23:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232482AbhBAITQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 03:19:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48684 "EHLO mx2.suse.de"
+        id S232413AbhBAIWx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Feb 2021 03:22:53 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49908 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229558AbhBAITO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Feb 2021 03:19:14 -0500
+        id S232303AbhBAIWw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Feb 2021 03:22:52 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 76CFFAEAC;
-        Mon,  1 Feb 2021 08:18:32 +0000 (UTC)
-Date:   Mon, 01 Feb 2021 09:18:32 +0100
-Message-ID: <s5h5z3cjj53.wl-tiwai@suse.de>
+        by mx2.suse.de (Postfix) with ESMTP id 5AC45ACB7;
+        Mon,  1 Feb 2021 08:22:10 +0000 (UTC)
+Date:   Mon, 01 Feb 2021 09:22:10 +0100
+Message-ID: <s5h4kiwjiz1.wl-tiwai@suse.de>
 From:   Takashi Iwai <tiwai@suse.de>
 To:     Sean Young <sean@mess.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     Robert Foss <robert.foss@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Stefan Seyfried <seife+kernel@b1-systems.com>
-Subject: Re: [PATCH 1/2] media: dvb-usb: Fix memory leak at error in dvb_usb_device_init()
-In-Reply-To: <20210131145320.GA4886@gofer.mess.org>
+Subject: Re: [PATCH 2/2] media: dvb-usb: Fix use-after-free access
+In-Reply-To: <20210131150456.GB4886@gofer.mess.org>
 References: <20210120102057.21143-1-tiwai@suse.de>
-        <20210120102057.21143-2-tiwai@suse.de>
-        <20210131145320.GA4886@gofer.mess.org>
+        <20210120102057.21143-3-tiwai@suse.de>
+        <CAG3jFyuTJ5sj_YYYfFO0LAFN-RM4QdmLV7w4ng9pb9eJkO4FiQ@mail.gmail.com>
+        <20210131150456.GB4886@gofer.mess.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
  FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
  (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -36,47 +39,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 31 Jan 2021 15:53:20 +0100,
+On Sun, 31 Jan 2021 16:04:56 +0100,
 Sean Young wrote:
 > 
-> On Wed, Jan 20, 2021 at 11:20:56AM +0100, Takashi Iwai wrote:
-> > dvb_usb_device_init() allocates a dvb_usb_device object, but it
-> > doesn't release it even when returning an error.  The callers don't
-> > seem caring it as well, hence those memories are leaked.
-> > 
-> > This patch assures releasing the memory at the error path in
-> > dvb_usb_device_init().  Also it makes sure that USB intfdata is reset
-> > and don't return the bogus pointer to the caller at the error path,
-> > too.
-> > 
-> > Cc: <stable@vger.kernel.org>
-> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> > ---
-> >  drivers/media/usb/dvb-usb/dvb-usb-init.c | 18 ++++++++++++------
-> >  1 file changed, 12 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> > index c1a7634e27b4..5befec87f26a 100644
-> > --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> > +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> > @@ -281,15 +281,21 @@ int dvb_usb_device_init(struct usb_interface *intf,
-> >  
-> >  	usb_set_intfdata(intf, d);
-> >  
-> > -	if (du != NULL)
-> > +	ret = dvb_usb_init(d, adapter_nums);
+> Hi Takashi,
 > 
-> dvb_usb_init() has different errors paths. 
+> On Fri, Jan 22, 2021 at 04:47:44PM +0100, Robert Foss wrote:
+> > Hey Takashi,
+> > 
+> > This patch is generating a checkpatch warning, but I think it is
+> > spurious and can be ignored.
 > 
-> 1. It can return -ENOMEM if it cannot kzalloc(). No other side affects.
-> 2. It can return an error if dvb_usb_i2c_init() or dvb_usb_adapter_init()
->    fails. In this case, dvb_usb_exit() is called, which frees 
->    struct dvb_usb_device*
-> 
-> In the last case we now have a double free.
+> The checkpatch warning isn't superious and should really be corrected.
 
-A good catch, indeed the function has inconsistent behavior.
-I'll update the patch and resubmit to address it.
+It's case-by-case, checkpatch is no bible by itself.  In this
+particular case, it was rather a false-positive of checkpatch: the
+commit reference including a line-break.
+
+This issue has been always annoying and I wish this will be dropped
+from checkpatch in near future...
 
 
 thanks,
