@@ -2,70 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B337031117F
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 20:51:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 094143111AF
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 21:01:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233209AbhBESGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 13:06:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233204AbhBEPU5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 10:20:57 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B68C06178B;
-        Fri,  5 Feb 2021 09:02:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=0/2zA/ADyjfnzZtoneWuo/iMnZWI+oIUh5vAI8TSf+o=; b=e6QN9UR8LxwF3qh1dohmBgkgqD
-        ZOx3nOTe1bD+b5NtriH8rZd/c7sU/akXkoos3ir3JybpwITbBSLoaQo0cUjO6URDXqR74kHJl5xGN
-        WOMU+zOSNkAzU2TFLUzgiZMK+lnZWmqubb18TSYHaVu1A4HfXxIxE1CLJGCXL6imYSr4yd1gBj27A
-        hAsBi/6udbKE+DMfM+gIv+D+WndT27eNRZonLWqn17YQoVyjhQ2kdXxAVwVOymqOdZeu1ompBdaoE
-        3+J6Jomoqztoh43sx3rujPOis0w/SNYBmgCzEJNjIVGZwNNcapq5bZqSVA+4BF1IkwR06cqr1c13S
-        ByJ+7xmg==;
-Received: from [2601:1c0:6280:3f0::aec2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l84Ux-0002GV-VX; Fri, 05 Feb 2021 17:02:24 +0000
-Subject: Re: [PATCH] include: media: davinci: Fixed up few trivial spellings
- in the file isif.h
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        prabhakar.csengg@gmail.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210205092117.551317-1-unixbhaskar@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <582f7b77-ba55-083e-9cd2-f4f0cb6dbbb7@infradead.org>
-Date:   Fri, 5 Feb 2021 09:02:20 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S233226AbhBESRf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 13:17:35 -0500
+Received: from [20.39.40.203] ([20.39.40.203]:55697 "EHLO optinix.in"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S233183AbhBEPTk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 10:19:40 -0500
+dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
+        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
+        b=JFt3cjfr2gf0oZFNAIkKMxcz4dJD/YGkc0fGvOoSd3DydZ6om7JzTU837vBFVq1NIPU0D2QA5BLHZXE1+7cBmkJlbZjYCUFmJkkaBVbP88e4KHnDVRcctmBLIZ1pL5VerRqjcciKkL4DSuyXFJlGk3Z0CRoskvUoLBM7ZhpxLeqIU2BKsbHQXJZ1h2qHQhaHiD+VrGx+bGKjZzbhmRvwLDQIByq6jRcjht5MzYCcxpzOzp/k+Dev9dQj7B
+        WId68CyP4XonlI4wIMRo1xiGfUtKZ+P3cZo2ejPWBjr+ynq3dK3OxibTTEKfmOc5W1zmJFMAPQ+ZKxsa3M4d1PiYxHmg==
+Received: from User (Unknown [52.231.31.5])
+        by optinix.in with ESMTP
+        ; Mon, 1 Feb 2021 08:50:14 +0000
+Message-ID: <D474448D-A325-42CC-A881-8334C6C84BA7@optinix.in>
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <support@digitalsol.in>
+Subject: Re:read
+Date:   Mon, 1 Feb 2021 08:50:13 -0000
 MIME-Version: 1.0
-In-Reply-To: <20210205092117.551317-1-unixbhaskar@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain;
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/5/21 1:21 AM, Bhaskar Chowdhury wrote:
-> 
-> 
-> Several spelling fixes throughout the file.
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Hello,
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-> ---
->  include/media/davinci/isif.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/media/davinci/isif.h b/include/media/davinci/isif.h
-> index e66589c4022d..8369acd26e7e 100644
-> --- a/include/media/davinci/isif.h
-> +++ b/include/media/davinci/isif.h
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
--- 
-~Randy
+Regards,
+Ms. Reem.
 
