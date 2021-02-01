@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0FC930A63E
-	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 12:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 144F530A65F
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 12:21:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233328AbhBALLZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 06:11:25 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44307 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233111AbhBALLY (ORCPT
+        id S233475AbhBALVI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Feb 2021 06:21:08 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:32809 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233219AbhBALVH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Feb 2021 06:11:24 -0500
+        Mon, 1 Feb 2021 06:21:07 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 6X6LlvAM3efbk6X6PlgJ8O; Mon, 01 Feb 2021 12:10:41 +0100
+        id 6XFklvDwlefbk6XFnlgLOh; Mon, 01 Feb 2021 12:20:23 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612177841; bh=k7XvEqsBC7bcNOg0zjPfcOkYLx7D9V/L2aLQPgX7CsU=;
+        t=1612178423; bh=hszt98APAs4vtpYcEWGqcYnvbnBQJqUfs1RIQxxIaL0=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=RclMAo3i5fIXLP0QhPrBTixnN65teTphdKfrtsCw8/t6+xJsAdWuoJ/qSpNEoC52D
-         j1sJLibWQia4Y5w4XjCAFRlq2UyHM6Mk7DXoYXR6Ab4JciTIfS/sq9dpT3UAiUgfLs
-         WjnyENh+VnlGFixhM5NolMavxJMqlOjbzFyrKkdAxDd+HUSRrD/XfjOri6f9XGHqc3
-         RP4vGCilgnec+7gvPwcyNPGKfM8T7WptmLhg+FDQ4wGLiRwhaC3vAUglcpmtlGnkYM
-         wqycW2RxaNkZghrAq5yAayRD/PQdtNZXFtY7+bGg01Th0Ng9ZaG1KrzCQgmlyAUdxL
-         xdLusXfewoZUQ==
+        b=mhVpvMAQfmvHHyu+Dr6UiAtN3UwAkGlvwEwepiaM3yx7VY2YF8J6dG+DT8u+1WItC
+         ApYO/0V1XD4ni9vrzxbKNFYvBl9Kukxwf7b95knTKBoruqG4lC4eVSp8NEw6b+1FwI
+         oSjiOIX1RqdrS0+q7z/Mt3sWu64/PbjoeoMAqwZ2J2mN6xJKO3vNwrcCxu3JiP2ZCI
+         3PSBKkSAK5NGE2qy4DtNa1pj4J2jLzH4PyhqxbT8BBj5u5mV3h/2PcUiYfIINTqedp
+         pmfSxaMXmYWeLqHGAKRaZ/0dgsPBmjkCaqz53pYCbHHvW9IWnGE63iZCBForC6F/qX
+         WpBDMElc9zS4Q==
 Subject: Re: [PATCH v6 1/2] media: v4l2-ctrl: add controls for long term
  reference.
 To:     Dikshita Agarwal <dikshita@codeaurora.org>,
@@ -34,8 +34,8 @@ Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 References: <1611553919-17919-1-git-send-email-dikshita@codeaurora.org>
  <1611553919-17919-2-git-send-email-dikshita@codeaurora.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <9b5bd3aa-ca42-0c0f-dfde-de86b27affe4@xs4all.nl>
-Date:   Mon, 1 Feb 2021 12:10:37 +0100
+Message-ID: <d20ba57f-54a7-5a61-a64b-2d9433b79281@xs4all.nl>
+Date:   Mon, 1 Feb 2021 12:20:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
@@ -43,10 +43,10 @@ In-Reply-To: <1611553919-17919-2-git-send-email-dikshita@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOc4NvLP67ObFJSxe+3fAIL6QL0HFM2ei6OhPQQAb1b64+tbKV6/8JJiqD/psszXSoHK2KzXBFJvjBDnWhGrlE9mv7RVkwFyfkhqhRf+BTlFs+SI+zZt
- i7FX+IcuaOqLlp0taH8F1jsoL406gkvwl7c4lRB7b7y/4ABZt5rqY0AFghVONuB+rbv1oIu9UE0fCxEcQhiITCP990JvzLhE+8PI83H5i+SlQHUaRF0GXUBe
- xWJj/RVuX1XZl2MCSte+oUDspTYEwOVbqafv89ZXRxNAZxMVl1T8tCKKcIQOA3GfoRndSOQjZZk2FE2oOJg04886X2Gug1aJ9nAgEuHWdFcVtnyfz4vGiKuu
- UVs8wDa40r9GVcDtUTSdFL0iWOCuyGUy8II/eWmO9NSBAXwK9os=
+X-CMAE-Envelope: MS4xfDVn+00m4tzB2wKDHfLZEKb52G2SPVDITu9AZKkJZ+V/WJ46uu4QXa7ijEdPAGLUxYjtFLWAjvsP2AZUX29AKgBWP9z9L7ny+hmviy/2OBE2BiluzEuP
+ B8GjzK3z/pE8LqK3G/uDyITt+2xOIC5uNJBUuLUosB1N61fm5WDSlEwOLUUMV0ZpMLuUzuhkKxvmO1Rdm0vtthyahzxGOwA/6TYkcz+4gQDMq6bhI1cz//5P
+ whLdwnkqdgIDPL81LbzzrGqbfgMtsHxNChXBGBN6tivwdkiDpfgkDoeiQMEuaOJvv2oz1vULReYzvx5Ot5BVLfsgbMwpBIF9PDJwK3wJJJjMUwqIIZf2Q6BY
+ VP6xgEOyN0LH4rqpbUDsCpYrY06BnfZvaFlux0qmcRFXVyBv4TE=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -75,29 +75,28 @@ On 25/01/2021 06:51, Dikshita Agarwal wrote:
 > +
 > +``V4L2_CID_MPEG_VIDEO_LTR_COUNT (integer)``
 > +       Specifies the number of Long Term Reference (LTR) frames encoder needs
-
-frames encoder -> frames the encoder
-
 > +       to generate or keep. This is applicable to the H264 and HEVC encoders.
-
-Isn't this really the maximum number of LTR frames? I.e., the actual number
-of LTR frames is something that is determined by userspace, right?
-
-And you say 'generate or keep': but the encoder doesn't generate LTR frames,
-they are marked as such by userspace. So this text would be just: "to keep".
-
-Or am I wrong?
-
-Regards,
-
-	Hans
-
 > +
 > +``V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX (integer)``
 > +       The current frame is marked as a Long Term Reference (LTR) frame
 > +       and given this LTR index which ranges from 0 to LTR_COUNT-1.
 > +       This is applicable to the H264 and HEVC encoders and can be applied using
 > +       Request API.
+
+You mentioned in reply to my comment that the venus driver didn't support the
+Request API that it is also possible to use it without that API.
+
+But that requires more precise documentation. I assume that without the Request
+API you would set this control, then queue the buffer containing the frame this
+control should apply to, then wait until it is dequeued. Since that's the only
+way you can be certain this control is applied to the correct frame.
+
+Is this indeed what you do in your application?
+
+Regards,
+
+	Hans
+
 > +       Source Rec. ITU-T H.264 (06/2019); Table 7.9
 > +
 > +``V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES (bitmask)``
