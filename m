@@ -2,181 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A175830B181
-	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 21:19:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E85330B190
+	for <lists+linux-media@lfdr.de>; Mon,  1 Feb 2021 21:28:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231221AbhBAUSH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 15:18:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbhBAUSG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Feb 2021 15:18:06 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E51C061756
-        for <linux-media@vger.kernel.org>; Mon,  1 Feb 2021 12:17:26 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id B93EF1F44415
-Subject: Re: [PATCH v4 14/14] media: Clarify v4l2-async subdevice addition API
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20210128120945.5062-1-sakari.ailus@linux.intel.com>
- <20210128120945.5062-15-sakari.ailus@linux.intel.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <f8964e52-673e-405f-0bc6-eb3562b6065a@collabora.com>
-Date:   Mon, 1 Feb 2021 17:17:15 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S230479AbhBAU1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Feb 2021 15:27:54 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33826 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229963AbhBAU1y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Feb 2021 15:27:54 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB8EF556;
+        Mon,  1 Feb 2021 21:27:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1612211231;
+        bh=slOCyZwZYJE/Ra0ghG6cflsZxibE4h5qplcMeUnmvZ4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b4qYl3yUb/hKtA3faV1zYpztbYbPYHxLFkT3CyepTvmWU+ZubKJbNCuELqRoE8J96
+         bY5HspJ5kMbT9VQl9KM0zNwfKNd9bg4j/59QSkLc5ImT/co5rqNtkzL9qY5LxuKqzs
+         b89OYBEimmXPfuIcspjKvrHpZcwBNhUiGgbcIFho=
+Date:   Mon, 1 Feb 2021 22:26:49 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCHv2 1/2] v4l2-dev: add /sys media_dev attr for video devices
+Message-ID: <YBhkCYUnWjog3dBO@pendragon.ideasonboard.com>
+References: <20210201093659.2945449-1-hverkuil-cisco@xs4all.nl>
+ <20210201093659.2945449-2-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20210128120945.5062-15-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20210201093659.2945449-2-hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
+Thank you for the patch.
 
-On 1/28/21 9:09 AM, Sakari Ailus wrote:
-> From: Ezequiel Garcia <ezequiel@collabora.com>
+On Mon, Feb 01, 2021 at 10:36:58AM +0100, Hans Verkuil wrote:
+> Create a media_dev attribute in /sys for each video device
+> which contains the media device major and minor number (or
+> is empty if there is no associated media device).
 > 
-> Now that most users of v4l2_async_notifier_add_subdev have been converted,
-> let's fix the documentation so it's more clear how the v4l2-async API
-> should be used.
+> It is not created if the CONFIG_MEDIA_CONTROLLER is not
+> defined.
 > 
-> Document functions that drivers should use, and their purpose.
+> This makes it possible for applications like v4l2-compliance
+> to find the associated media controller of a video device.
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  .../driver-api/media/v4l2-subdev.rst          | 41 ++++++++++++++++---
->  include/media/v4l2-async.h                    | 15 +++++--
->  2 files changed, 47 insertions(+), 9 deletions(-)
+>  drivers/media/v4l2-core/v4l2-dev.c | 48 +++++++++++++++++++++++++++++-
+>  1 file changed, 47 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 0e82c77cf3e2..a6b82b9c8210 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -201,11 +201,42 @@ Before registering the notifier, bridge drivers must do two things:
->  first, the notifier must be initialized using the
->  :c:func:`v4l2_async_notifier_init`. Second, bridge drivers can then
->  begin to form a list of subdevice descriptors that the bridge device
-> -needs for its operation. Subdevice descriptors are added to the notifier
-> -using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
-> -takes two arguments: a pointer to struct :c:type:`v4l2_async_notifier`,
-> -and a pointer to the subdevice descripter, which is of type struct
-> -:c:type:`v4l2_async_subdev`.
-> +needs for its operation. Several functions are available, to add subdevice
-> +descriptors to a notifier, depending on the type of device and the needs of the
-> +driver.
-> +
-> +:c:func:`v4l2_async_register_subdev_sensor_common` is a helper function for
-> +sensor drivers registering their own async sub-device, but it also supports
-> +registering lens and flash devices. The function registers an async notifier for
-> +the sub-device which is unregistered with the async sub-device.
-> +
-> +:c:func:`v4l2_async_notifier_add_fwnode_remote_subdev`,
-> +:c:func:`v4l2_async_notifier_add_fwnode_subdev` and
-> +:c:func:`v4l2_async_notifier_add_i2c_subdev` are for bridge and ISP drivers for
-> +registering their async sub-devices.
-
-If I understand correctly, these functions are for bridge and ISP drivers to tell
-the framework they are waiting asynchronously for another sub-device.
-I wonder if this could be re-phrased a bit to convey that.
-
-Shouldn't __v4l2_async_notifier_add_subdev() and v4l2_async_notifier_parse_fwnode_endpoints()
-also be mentioned here?
-Or maybe just don't mention __v4l2_async_notifier_add_subdev() here to discourage its usage.
-
-I see that v4l2_async_notifier_parse_fwnode_endpoints() is only used by sun6i_csi.c,
-I wonder if sun6i is a special case of if we could use one of those 3 functions instead
-and discourage the usage of v4l2_async_notifier_parse_fwnode_endpoints() as well.
-
-> +
-> +These functions allocate an async sub-device descriptor which is of type struct
-> +:c:type:`v4l2_async_subdev` embedded in a driver-specific struct. The &struct
-> +:c:type:`v4l2_async_subdev` shall be the first member of this struct:
-> +
-> +.. code-block:: c
-> +
-> +	struct my_async_subdev {
-> +		struct v4l2_async_subdev asd;
-> +		...
-> +	};
-> +
-> +	struct my_async_subdev *my_asd;
-> +	struct fwnode_handle *ep;
-> +
-> +	...
-> +
-> +	my_asd = v4l2_async_notifier_add_fwnode_remote_subdev(&notifier, ep,
-> +							      struct my_async_subdev);
-> +	fwnode_handle_put(ep);
-> +
-> +	if (IS_ERR(asd))
-> +		return PTR_ERR(asd);
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index b6a72d297775..85b94b25aba2 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -87,13 +87,59 @@ static ssize_t name_show(struct device *cd,
+>  }
+>  static DEVICE_ATTR_RO(name);
 >  
->  The V4L2 core will then use these descriptors to match asynchronously
->  registered subdevices to them. If a match is detected the ``.bound()``
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index b94f0a0a8042..6dac6cb6290f 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -128,7 +128,12 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
->   * @notifier: pointer to &struct v4l2_async_notifier
->   *
->   * This function initializes the notifier @asd_list. It must be called
-> - * before the first call to @v4l2_async_notifier_add_subdev.
-> + * before adding a subdevice to a notifier, using one of:
-> + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> + * @v4l2_async_notifier_add_fwnode_subdev,
-> + * @v4l2_async_notifier_add_i2c_subdev,
-> + * @v4l2_async_notifier_add_subdev or
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +static ssize_t media_dev_show(struct device *cd,
+> +			 struct device_attribute *attr, char *buf)
+> +{
+> +	struct video_device *vdev = to_video_device(cd);
+> +	struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
+> +
+> +	buf[0] = '\0';
+> +	if (!v4l2_dev->mdev)
+> +		return 0;
+> +	return sprintf(buf, "%u:%u\n",
+> +		       MAJOR(v4l2_dev->mdev->devnode->dev.devt),
+> +		       MINOR(v4l2_dev->mdev->devnode->dev.devt));
 
-v4l2_async_notifier_add_subdev() was renamed on patch 12/14.
+Could v4l2-dev->mdev be set to null between time of check and time of
+use, or are sysfs properties guaranteed to be removed first ?
 
-Maybe just don't mention it here to discourage its usage?
+I'm still not convinced that this is the right way to go from a
+userspace point of view. I believe we should shift from the paradigm of
+a video node belonging to a media device to a media device that contains
+video nodes. This means that userspace should use the media device as
+the entry point, and find video nodes from the media graph, instead of
+going the other way around. That's the only sensible way to handle
+complex devices, and is really a mindset change that should be pushed to
+all userspace applications. It will obviously take time and effort, but
+if we don't start by eating our own dogfood, we'll never succeed.
 
-> + * @v4l2_async_notifier_parse_fwnode_endpoints.
->   */
->  void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier);
+I'm thus not opposed to this patch series so much that I would like it
+to not being merged, but I believe it's a step in the wrong direction.
+With time I've learnt that I can't prevent every step I consider wrong
+to be taken (and I also make mistakes, so who knows :-)).
+
+> +}
+> +
+> +static DEVICE_ATTR_RO(media_dev);
+> +#endif
+> +
+> +static umode_t video_device_attr_is_visible(struct kobject *kobj,
+> +					    struct attribute *attr, int n)
+> +{
+> +	struct video_device *vdev = to_video_device(kobj_to_dev(kobj));
+> +
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +	if (attr == &dev_attr_media_dev.attr) {
+> +		struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
+> +
+> +		if (!v4l2_dev->mdev)
+> +			return 0;
+> +	}
+> +#endif
+> +	return attr->mode;
+> +}
+> +
+>  static struct attribute *video_device_attrs[] = {
+>  	&dev_attr_name.attr,
+>  	&dev_attr_dev_debug.attr,
+>  	&dev_attr_index.attr,
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +	&dev_attr_media_dev.attr,
+> +#endif
+>  	NULL,
+>  };
+> -ATTRIBUTE_GROUPS(video_device);
+> +
+> +static const struct attribute_group video_device_group = {
+> +	.is_visible = video_device_attr_is_visible,
+> +	.attrs = video_device_attrs,
+> +};
+> +
+> +static const struct attribute_group *video_device_groups[] = {
+> +	&video_device_group,
+> +	NULL
+> +};
 >  
-> @@ -262,9 +267,11 @@ void v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier);
->   * sub-devices allocated for the purposes of the notifier but not the notifier
->   * itself. The user is responsible for calling this function to clean up the
->   * notifier after calling
-> - * @v4l2_async_notifier_add_subdev,
-> - * @v4l2_async_notifier_parse_fwnode_endpoints or
-> - * @v4l2_async_register_subdev_sensor_common.
-> + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> + * @v4l2_async_notifier_add_fwnode_subdev,
-> + * @v4l2_async_notifier_add_i2c_subdev,
-> + * @v4l2_async_notifier_add_subdev or
+>  /*
+>   *	Active devices
 
-Same here.
+-- 
+Regards,
 
-
-Thanks
-Helen
-
-> + * @v4l2_async_notifier_parse_fwnode_endpoints.
->   *
->   * There is no harm from calling v4l2_async_notifier_cleanup in other
->   * cases as long as its memory has been zeroed after it has been
-> 
+Laurent Pinchart
