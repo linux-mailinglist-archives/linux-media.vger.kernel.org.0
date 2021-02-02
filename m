@@ -2,212 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51DBB30BEF6
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 14:03:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2F4330BF2C
+	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 14:20:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231704AbhBBNA6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Feb 2021 08:00:58 -0500
-Received: from mga02.intel.com ([134.134.136.20]:57830 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231687AbhBBNAy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Feb 2021 08:00:54 -0500
-IronPort-SDR: zWzTc0leJTpCvUHUgiAthhOSlD+cJdsY0WKIP+z5f3C4yN8FoFg8qYLJs1K145yfjrizKNCLzb
- 3nv5UJchEBkg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="167954168"
-X-IronPort-AV: E=Sophos;i="5.79,395,1602572400"; 
-   d="scan'208";a="167954168"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 04:59:07 -0800
-IronPort-SDR: FK9hWrVAKwQQki6XO5cafObwNcDTCd1ufpY6Jbq7JUx7MIfKFfpPcNnzafOkN4QV3TlFOn/lPv
- pBEs+Lq069hA==
-X-IronPort-AV: E=Sophos;i="5.79,395,1602572400"; 
-   d="scan'208";a="575484265"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 04:59:03 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 0F0E0207DF; Tue,  2 Feb 2021 14:59:01 +0200 (EET)
-Date:   Tue, 2 Feb 2021 14:59:01 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH v4 14/14] media: Clarify v4l2-async subdevice addition API
-Message-ID: <20210202125900.GQ32460@paasikivi.fi.intel.com>
-References: <20210128120945.5062-1-sakari.ailus@linux.intel.com>
- <20210128120945.5062-15-sakari.ailus@linux.intel.com>
- <f8964e52-673e-405f-0bc6-eb3562b6065a@collabora.com>
+        id S232284AbhBBNSV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Feb 2021 08:18:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232238AbhBBNR5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Feb 2021 08:17:57 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DEDDC061573
+        for <linux-media@vger.kernel.org>; Tue,  2 Feb 2021 05:17:15 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id p21so27863321lfu.11
+        for <linux-media@vger.kernel.org>; Tue, 02 Feb 2021 05:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TDZmuVOZ4D4zsuoBFHIoHjvTYlVzvEb7eizkdN/yG84=;
+        b=hexouicT0c3lnJnT2ROMxtDAWrsWidv6+KXwrpP3ZKdQaDXpM6eAKcCDPxA/geCn18
+         Lq+74nVOkS0UtGJ5E9Q7v6FSJk1TiO+jB+Zc0mZUk8GKfAqCXzyqTwBqqmksMny8BDFg
+         NEt5MnwKaMcmodDfcswZl4Z9rMalvdUFdIJO8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TDZmuVOZ4D4zsuoBFHIoHjvTYlVzvEb7eizkdN/yG84=;
+        b=i2S6R4DB9acudlKPZ4DhyG316tRm9inUUUIeR9JRcmBQh78TAD7r/7WdEr2LZGqhK6
+         AlJyjr9zegCK3c8pgWq/fv0yLYTIGZiZ1hIP6Zjzn6+wHsC4sS6CIrKQzg5zED+Wijnm
+         bbRsOfYyWkmDiFwOhFbLZaROjmz5mEBzxFZmoj1WP9M7APr0GU7YfooX6HeWMiUfvvk4
+         5mAHzkqlA/4pXxQTrH1WpxjCeMozQnASiXXY9YEgKBVkxZ8vxRyg88jVx+nKCE6NhfDi
+         IG5Wui2TUlfUuLcUdYhGOe6DY1zI99MoAVpPB+9iVR7sG5wjPlqPIo1XdQ8G/7pxNVR1
+         wWEQ==
+X-Gm-Message-State: AOAM5325SUFJxLHz5jVR8iRNqrOcVtlWZ27y1zV2P+lSp5GxSfIl+gY4
+        mOQkXfcihDpNkVgWo7YES2W5/MzyAeo9K4fY
+X-Google-Smtp-Source: ABdhPJw1XzabYV2O3V6zOX2b21ThYYXJX6LAaF92y7exLKDUnU4cCyYiZiCks3biOU1/x658JI/icw==
+X-Received: by 2002:a19:8cc:: with SMTP id 195mr10541082lfi.504.1612271833512;
+        Tue, 02 Feb 2021 05:17:13 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id v144sm3290340lfa.31.2021.02.02.05.17.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Feb 2021 05:17:12 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id f1so27881632lfu.3
+        for <linux-media@vger.kernel.org>; Tue, 02 Feb 2021 05:17:12 -0800 (PST)
+X-Received: by 2002:ac2:561b:: with SMTP id v27mr11255791lfd.233.1612271832031;
+ Tue, 02 Feb 2021 05:17:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8964e52-673e-405f-0bc6-eb3562b6065a@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CAPY8ntCzAMsfujidsLKcL=f61T7WmioWSeaHL2hKmEn1jrnZ=A@mail.gmail.com>
+ <CAPBb6MVj9QT+NrWjt+c2uFKWSzveMCBt4YJfnOz_MN0hDemcpw@mail.gmail.com> <CAPY8ntDZ1uPwvz9Yz5yLaByU45cocuHmTbUheraTEUK7R-Jz8Q@mail.gmail.com>
+In-Reply-To: <CAPY8ntDZ1uPwvz9Yz5yLaByU45cocuHmTbUheraTEUK7R-Jz8Q@mail.gmail.com>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Tue, 2 Feb 2021 22:16:59 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXCtCkPpL+4TU9eScKrmq2BwrjpCpECAxaTuk0HbZSpHA@mail.gmail.com>
+Message-ID: <CAPBb6MXCtCkPpL+4TU9eScKrmq2BwrjpCpECAxaTuk0HbZSpHA@mail.gmail.com>
+Subject: Re: Stateful Video Decoder interface vs M2M framework
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
+Hi Dave,
 
-On Mon, Feb 01, 2021 at 05:17:15PM -0300, Helen Koike wrote:
-> 
-> 
-> On 1/28/21 9:09 AM, Sakari Ailus wrote:
-> > From: Ezequiel Garcia <ezequiel@collabora.com>
-> > 
-> > Now that most users of v4l2_async_notifier_add_subdev have been converted,
-> > let's fix the documentation so it's more clear how the v4l2-async API
-> > should be used.
-> > 
-> > Document functions that drivers should use, and their purpose.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../driver-api/media/v4l2-subdev.rst          | 41 ++++++++++++++++---
-> >  include/media/v4l2-async.h                    | 15 +++++--
-> >  2 files changed, 47 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> > index 0e82c77cf3e2..a6b82b9c8210 100644
-> > --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> > @@ -201,11 +201,42 @@ Before registering the notifier, bridge drivers must do two things:
-> >  first, the notifier must be initialized using the
-> >  :c:func:`v4l2_async_notifier_init`. Second, bridge drivers can then
-> >  begin to form a list of subdevice descriptors that the bridge device
-> > -needs for its operation. Subdevice descriptors are added to the notifier
-> > -using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
-> > -takes two arguments: a pointer to struct :c:type:`v4l2_async_notifier`,
-> > -and a pointer to the subdevice descripter, which is of type struct
-> > -:c:type:`v4l2_async_subdev`.
-> > +needs for its operation. Several functions are available, to add subdevice
-> > +descriptors to a notifier, depending on the type of device and the needs of the
-> > +driver.
-> > +
-> > +:c:func:`v4l2_async_register_subdev_sensor_common` is a helper function for
-> > +sensor drivers registering their own async sub-device, but it also supports
-> > +registering lens and flash devices. The function registers an async notifier for
-> > +the sub-device which is unregistered with the async sub-device.
-> > +
-> > +:c:func:`v4l2_async_notifier_add_fwnode_remote_subdev`,
-> > +:c:func:`v4l2_async_notifier_add_fwnode_subdev` and
-> > +:c:func:`v4l2_async_notifier_add_i2c_subdev` are for bridge and ISP drivers for
-> > +registering their async sub-devices.
-> 
-> If I understand correctly, these functions are for bridge and ISP drivers to tell
-> the framework they are waiting asynchronously for another sub-device.
-> I wonder if this could be re-phrased a bit to convey that.
+On Tue, Feb 2, 2021 at 2:09 AM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Alex
+>
+> Thanks for the response.
+>
+> On Mon, 1 Feb 2021 at 13:58, Alexandre Courbot <acourbot@chromium.org> wrote:
+> >
+> > Hi,
+> >
+> > On Mon, Feb 1, 2021 at 9:49 PM Dave Stevenson
+> > <dave.stevenson@raspberrypi.com> wrote:
+> > >
+> > > Hi All.
+> > >
+> > > I'm currently doing battle with the stateful video decoder API for
+> > > video decode on the Raspberry Pi.
+> > >
+> > > Reading the descriptive docs[1] there is no obligation to
+> > > STREAMON(CAPTURE) before feeding in OUTPUT buffers and waiting for
+> > > V4L2_EVENT_SOURCE_CHANGE to configure the CAPTURE queue. Great! It
+> > > makes my colleague who is working on the userspace side happy as it
+> > > saves a config step of allocating buffers that are never needed.
+> > >
+> > > I have been using the v4l2_mem2mem framework, same as some other
+> > > decoders. We use v4l2_m2m in the buffered mode as it's actually
+> > > remoted over to the VPU via the MMAL API, and so the src and dest are
+> > > asynchronous from V4L2's perspective.
+> > >
+> > > Said colleague then complained that he couldn't follow the flow
+> > > described in the docs linked above as it never produced the
+> > > V4L2_EVENT_SOURCE_CHANGE event.
+> > >
+> > > Digging into it, it's the v4l2_mem2mem framework stopping me.
+> > > __v4l2_m2m_try_queue[2] has
+> > >     if (!m2m_ctx->out_q_ctx.q.streaming
+> > >         || !m2m_ctx->cap_q_ctx.q.streaming) {
+> > >         dprintk("Streaming needs to be on for both queues\n");
+> > >         return;
+> > >     }
+> > > So I'm never going to get any of the OUTPUT buffers even queued to my
+> > > driver until STREAMON(CAPTURE). That contradicts the documentation :-(
+> > >
+> > > Now I can see that on a non-buffered M2M device you have to have both
+> > > OUTPUT and CAPTURE enabled because it wants to produce a CAPTURE
+> > > buffer for every OUTPUT buffer on a 1:1 basis. On a buffered codec
+> > > tweaking that one clause to
+> > >     if (!m2m_ctx->out_q_ctx.buffered &&
+> > >         (!m2m_ctx->out_q_ctx.q.streaming ||
+> > >          !m2m_ctx->cap_q_ctx.q.streaming)) {
+> > > solves the problem, but is that a generic solution? I don't have any
+> > > other platforms to test against.
+> >
+> > As you said you cannot rely on the v4l2_m2m_try_schedule() to run the
+> > jobs until both queues are streaming. This is one point where stateful
+> > decoders do not fit with the expectation from M2M that 1 input buffer
+> > == 1 output buffer. How to work around this limitation depends on the
+> > design of the underlying hardware, but for example the mtk-vcodec
+> > driver passes the OUTPUT buffers to its hardware in its vb2 buf_queue
+> > hook:
+> >
+> > https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c#L1220
+> >
+> > This allows the hardware to start processing the stream until it
+> > reports the expected resolution, after which the CAPTURE buffers can
+> > be allocated and the CAPTURE queue started.
+> >
+> > Queueing OUTPUT buffers in the buf_queue hook can be done as a general
+> > rule if the hardware expects input and output buffers to be queued
+> > independently. You can also switch to a more traditional M2M scheme
+> > once both queues are running if this fits the driver better.
+>
+> Is it deliberate that v4l2_m2m_try_schedule enforces both queues being
+> active in buffered mode, or an oversight?
 
-This applies to all async sub-devices, also those registered indirectly by
-the sensor driver. I'll see if I could improve it for v5.
+IIUC that's what the M2M framework expects, historically. It needs
+both ends of "memory to memory" in order to do its work, and this
+matched well with the first devices using this framework. Stateful
+decoders are also "memory to memory", but in the broader sense, both
+queues being asynchronous. So while it saves some effort to reuse some
+of the M2M helpers, the whole framework cannot be used as it was
+originally intended.
 
-> Shouldn't __v4l2_async_notifier_add_subdev() and v4l2_async_notifier_parse_fwnode_endpoints()
-> also be mentioned here?
-> Or maybe just don't mention __v4l2_async_notifier_add_subdev() here to discourage its usage.
-> 
-> I see that v4l2_async_notifier_parse_fwnode_endpoints() is only used by sun6i_csi.c,
-> I wonder if sun6i is a special case of if we could use one of those 3 functions instead
-> and discourage the usage of v4l2_async_notifier_parse_fwnode_endpoints() as well.
+>
+> I'm happy to switch to a custom qbuf on the OUTPUT queue if we must,
+> but at least for drivers using the buffered mode of v4l2_m2m it seems
+> unnecessary except for this one conditional.
+>
+> > >
+> > > However it poses a larger question for my colleague as to what
+> > > behaviour he can rely on in userspace. Is there a way for userspace to
+> > > know whether it is permitted on a specific codec implementation to
+> > > follow the docs and not STREAMON(CAPTURE) until
+> > > V4L2_EVENT_SOURCE_CHANGE? If not then the documentation is invalid for
+> > > many devices.
+> >
+> > The documentation should be correct for most if not all stateful
+> > decoders in the tree. I know firsthand that at least mtk-vcodec and
+> > venus are compliant.
+>
+> mtk-vcodec I can see as being compliant now - thanks for your explanation.
+>
+> venus appears to ignore the v4l2_m2m job scheduling side (device_run
+> is empty), has a good rummage in the v4l2_m2m buffer queues from
+> venus_helper_process_initial_out_bufs, and then has a custom vb2_ops
+> buf_queue to queue the buffer with v4l2_m2m and then immediately kick
+> the processing thread.
+>
+> Now knowing where to look, coda appears to have a custom code path in
+> coda_buf_queue to handle the startup phase, and then drops into a more
+> generic path once initialised.
+>
+> v4l2_m2m seems to be so close to doing what is needed for the
+> stateless decoders that it seems odd that it's requiring what looks
+> like bodging to all stateless decoders. I guess it's just the way
+> things have evolved over time.
 
-I left out these two because the former is not intended to be used by
-drivers and the latter is deprecated. Once the sun6i driver is converted,
-the function can be removed.
+Yeah, what we really need here are encoder and stateful/stateless
+decoder helpers (that may or may not rely on M2M) that manage the
+queues as expected, while also enforcing the specification. Coming
+with a design that works for all drivers is not easy though.
 
-> 
-> > +
-> > +These functions allocate an async sub-device descriptor which is of type struct
-> > +:c:type:`v4l2_async_subdev` embedded in a driver-specific struct. The &struct
-> > +:c:type:`v4l2_async_subdev` shall be the first member of this struct:
-> > +
-> > +.. code-block:: c
-> > +
-> > +	struct my_async_subdev {
-> > +		struct v4l2_async_subdev asd;
-> > +		...
-> > +	};
-> > +
-> > +	struct my_async_subdev *my_asd;
-> > +	struct fwnode_handle *ep;
-> > +
-> > +	...
-> > +
-> > +	my_asd = v4l2_async_notifier_add_fwnode_remote_subdev(&notifier, ep,
-> > +							      struct my_async_subdev);
-> > +	fwnode_handle_put(ep);
-> > +
-> > +	if (IS_ERR(asd))
-> > +		return PTR_ERR(asd);
-> >  
-> >  The V4L2 core will then use these descriptors to match asynchronously
-> >  registered subdevices to them. If a match is detected the ``.bound()``
-> > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> > index b94f0a0a8042..6dac6cb6290f 100644
-> > --- a/include/media/v4l2-async.h
-> > +++ b/include/media/v4l2-async.h
-> > @@ -128,7 +128,12 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
-> >   * @notifier: pointer to &struct v4l2_async_notifier
-> >   *
-> >   * This function initializes the notifier @asd_list. It must be called
-> > - * before the first call to @v4l2_async_notifier_add_subdev.
-> > + * before adding a subdevice to a notifier, using one of:
-> > + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> > + * @v4l2_async_notifier_add_fwnode_subdev,
-> > + * @v4l2_async_notifier_add_i2c_subdev,
-> > + * @v4l2_async_notifier_add_subdev or
-> 
-> v4l2_async_notifier_add_subdev() was renamed on patch 12/14.
-> 
-> Maybe just don't mention it here to discourage its usage?
-
-I wanted to keep it here since it is possible to use it, and using it
-requires initialising and cleaning up. The documentation also applies to
-the framework.
-
-The ReST documentation is more driver developer oriented.
-
-> 
-> > + * @v4l2_async_notifier_parse_fwnode_endpoints.
-> >   */
-> >  void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier);
-> >  
-> > @@ -262,9 +267,11 @@ void v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier);
-> >   * sub-devices allocated for the purposes of the notifier but not the notifier
-> >   * itself. The user is responsible for calling this function to clean up the
-> >   * notifier after calling
-> > - * @v4l2_async_notifier_add_subdev,
-> > - * @v4l2_async_notifier_parse_fwnode_endpoints or
-> > - * @v4l2_async_register_subdev_sensor_common.
-> > + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> > + * @v4l2_async_notifier_add_fwnode_subdev,
-> > + * @v4l2_async_notifier_add_i2c_subdev,
-> > + * @v4l2_async_notifier_add_subdev or
-> 
-> Same here.
-> 
-> 
-> Thanks
-> Helen
-> 
-> > + * @v4l2_async_notifier_parse_fwnode_endpoints.
-> >   *
-> >   * There is no harm from calling v4l2_async_notifier_cleanup in other
-> >   * cases as long as its memory has been zeroed after it has been
-> > 
-
--- 
-Kind regards,
-
-Sakari Ailus
+Cheers,
+Alex.
