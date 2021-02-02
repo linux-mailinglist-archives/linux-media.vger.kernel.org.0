@@ -2,173 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E104630CA9B
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 19:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BDE230C0CA
+	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 15:08:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239141AbhBBSy5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Feb 2021 13:54:57 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45906 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233679AbhBBOCO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Feb 2021 09:02:14 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 2DC1A1F44D83
-Subject: Re: [PATCH v5 13/13] media: Clarify v4l2-async subdevice addition API
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20210202135611.13920-1-sakari.ailus@linux.intel.com>
- <20210202135611.13920-14-sakari.ailus@linux.intel.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <969fb716-9d0b-cc44-1b5a-9def016c8f6b@collabora.com>
-Date:   Tue, 2 Feb 2021 11:01:21 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S233845AbhBBOG5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Feb 2021 09:06:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233797AbhBBOEu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Feb 2021 09:04:50 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E43FC06174A
+        for <linux-media@vger.kernel.org>; Tue,  2 Feb 2021 06:04:09 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id v15so20620911wrx.4
+        for <linux-media@vger.kernel.org>; Tue, 02 Feb 2021 06:04:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=d1+IBxBT9tSPUjHykQz7xx/LX6WrnCN2wV67HrbifMs=;
+        b=C+fg493h2nPGEZN0gct3cjZSNTmVy/KeUueauEnwdp8qrNzKsUs4PJu5LWgd6nW63U
+         kkr5Ur3SbL0D6HdW2d1PRH0QR2rrPGcot1VAd0nmQluZ3RB4lhKWIzr0s9fvj5CuDaCg
+         P8B7zGg2ax1eZXi7rUBvheV6NNZSaO9udf6ho=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=d1+IBxBT9tSPUjHykQz7xx/LX6WrnCN2wV67HrbifMs=;
+        b=gH6krmNXY1pHhJRxzUJQfUpVqjAWSZcSIPpqxBMzwQmilgA+kODwnN9c//LNSZGQSz
+         7J5wzkz1mJT8iFdtuD5Z1A1z/76qLCQz1vw/Hz0Sbsk9ImcNw7blSLFcQJOOmjZn76+9
+         kw1/yhO28KIDqwRRmuxRctPJCe/2HqQ/0NBjAyM9P2rIin00BDohw0RYdS5v4eWuUdlr
+         HfOm4TNZRg0ZCP6NefGS53v7CrtUxzKGjRKf/76yRYc1rFBvD7wK2C00CmF1B6q0ehmr
+         +GquFovsS1rq0HLTGCK6Vp789+WHtaE81cDycxB4g7r7AkIBN9j1yXYy7jFdehj3yawF
+         cBQA==
+X-Gm-Message-State: AOAM53071pgSx/6P055yQfGacxKitPMcIsb+DJfF1KMqEfovIbGEqpib
+        X9QQ3c8WaQ0TrBQgwm3hkhPUEg==
+X-Google-Smtp-Source: ABdhPJzb1/8p4uBAV7ynZfF+MQBtACzxaTYoZH4MZj8LWMrkQgVqms1j+44lTPSaelKZa0f34rUQCg==
+X-Received: by 2002:adf:e384:: with SMTP id e4mr23960042wrm.13.1612274648010;
+        Tue, 02 Feb 2021 06:04:08 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id s23sm3211821wmc.29.2021.02.02.06.04.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 06:04:07 -0800 (PST)
+Date:   Tue, 2 Feb 2021 15:04:05 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Sandeep Patil <sspatil@google.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Jones <jajones@nvidia.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Mentz <danielmentz@google.com>
+Subject: Re: [RFC][PATCH 2/3] dma-buf: system_heap: Add pagepool support to
+ system heap
+Message-ID: <YBlb1V62cFP9Fz1/@phenom.ffwll.local>
+Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Sandeep Patil <sspatil@google.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Mentz <danielmentz@google.com>
+References: <20201217230612.32397-1-john.stultz@linaro.org>
+ <20201217230612.32397-2-john.stultz@linaro.org>
+ <X9y+YZujWBTHMuH3@phenom.ffwll.local>
+ <CALAqxLVtYVGSSYtFmMK6oM9JSEmY4RAXra89sECL2Z4YGPic0Q@mail.gmail.com>
+ <X+Ec+xVhyIUa7IsJ@phenom.ffwll.local>
+ <CALAqxLWdq9pKpFLzXmV60LQHpu8BgckDuX1HX5hY4jspHvLK5Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210202135611.13920-14-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALAqxLWdq9pKpFLzXmV60LQHpu8BgckDuX1HX5hY4jspHvLK5Q@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On 2/2/21 10:56 AM, Sakari Ailus wrote:
-> From: Ezequiel Garcia <ezequiel@collabora.com>
+On Fri, Jan 22, 2021 at 05:28:32PM -0800, John Stultz wrote:
+> On Mon, Dec 21, 2020 at 2:09 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Fri, Dec 18, 2020 at 05:16:56PM -0800, John Stultz wrote:
+> > > On Fri, Dec 18, 2020 at 6:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > On Thu, Dec 17, 2020 at 11:06:11PM +0000, John Stultz wrote:
+> > > > > Reuse/abuse the pagepool code from the network code to speed
+> > > > > up allocation performance.
+> > > > >
+> > > > > This is similar to the ION pagepool usage, but tries to
+> > > > > utilize generic code instead of a custom implementation.
+> > > >
+> > > > We also have one of these in ttm. I think we should have at most one of
+> > > > these for the gpu ecosystem overall, maybe as a helper that can be plugged
+> > > > into all the places.
+> > > >
+> > > > Or I'm kinda missing something, which could be since I only glanced at
+> > > > yours for a bit. But it's also called page pool for buffer allocations,
+> > > > and I don't think there's that many ways to implement that really :-)
+> > >
+> > > Yea, when I was looking around the ttm one didn't seem quite as
+> > > generic as the networking one, which more easily fit in here.
+> >
+> > Oops, I didn't look that closely and didn't realize you're reusing the one
+> > from net/core/.
+> >
+> > > The main benefit for the system heap is not so much the pool itself
+> > > (the normal page allocator is pretty good), as it being able to defer
+> > > the free and zero the pages in a background thread, so the pool is
+> > > effectively filled with pre-zeroed pages.
+> > >
+> > > But I'll take another look at the ttm implementation and see if it can
+> > > be re-used or the shared code refactored and pulled out somehow.
+> >
+> > I think moving the page_pool from net into lib and using it in ttm might
+> > also be an option. Lack of shrinker in the networking one might be a bit a
+> > problem.
 > 
-> Now that most users of v4l2_async_notifier_add_subdev have been converted,
-> let's fix the documentation so it's more clear how the v4l2-async API
-> should be used.
+> Yea. I've been looking at this, to see how to abstract out a generic
+> pool implementation, but each pool implementation has been tweaked for
+> the specific use cases, so a general abstraction is a bit tough right
+> off.
 > 
-> Document functions that drivers should use, and their purpose.
+> For example the ttm pool's handling allocations both from alloc_pages
+> and dma_alloc in a pool, where the net page pool only uses alloc_pages
+> (but can pre map via dma_map_attr).
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../driver-api/media/v4l2-subdev.rst          | 48 +++++++++++++++----
->  include/media/v4l2-async.h                    | 15 ++++--
->  2 files changed, 50 insertions(+), 13 deletions(-)
+> And as you mentioned, the networking page pool is statically sized
+> where the ttm pool is dynamic and shrinker controlled.
 > 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 0e82c77cf3e2..8b53da2f9c74 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -197,15 +197,45 @@ unregister the notifier the driver has to call
->  takes two arguments: a pointer to struct :c:type:`v4l2_device` and a
->  pointer to struct :c:type:`v4l2_async_notifier`.
->  
-> -Before registering the notifier, bridge drivers must do two things:
-> -first, the notifier must be initialized using the
-> -:c:func:`v4l2_async_notifier_init`. Second, bridge drivers can then
-> -begin to form a list of subdevice descriptors that the bridge device
-> -needs for its operation. Subdevice descriptors are added to the notifier
-> -using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
-> -takes two arguments: a pointer to struct :c:type:`v4l2_async_notifier`,
-> -and a pointer to the subdevice descripter, which is of type struct
-> -:c:type:`v4l2_async_subdev`.
-> +Before registering the notifier, bridge drivers must do two things: first, the
-> +notifier must be initialized using the :c:func:`v4l2_async_notifier_init`.
-> +Second, bridge drivers can then begin to form a list of subdevice descriptors
-> +that the bridge device needs for its operation. Several functions are available
-> +to add subdevice descriptors to a notifier, depending on the type of device and
-> +the needs of the driver.
-> +
-> +:c:func:`v4l2_async_notifier_add_fwnode_remote_subdev` and
-> +:c:func:`v4l2_async_notifier_add_i2c_subdev` are for bridge and ISP drivers for
-> +registering their async sub-devices with the notifier.
-> +
-> +:c:func:`v4l2_async_register_subdev_sensor_common` is a helper function for
-> +sensor drivers registering their own async sub-device, but it also registers a
-> +notifier and further registers async sub-devices for lens and flash devices
-> +found in firmware. The notifier for the sub-device is unregistered with the
-> +async sub-device.
-> +
-> +These functions allocate an async sub-device descriptor which is of type struct
-> +:c:type:`v4l2_async_subdev` embedded in a driver-specific struct. The &struct
-> +:c:type:`v4l2_async_subdev` shall be the first member of this struct:
-> +
-> +.. code-block:: c
-> +
-> +	struct my_async_subdev {
-> +		struct v4l2_async_subdev asd;
-> +		...
-> +	};
-> +
-> +	struct my_async_subdev *my_asd;
-> +	struct fwnode_handle *ep;
-> +
-> +	...
-> +
-> +	my_asd = v4l2_async_notifier_add_fwnode_remote_subdev(&notifier, ep,
-> +							      struct my_async_subdev);
-> +	fwnode_handle_put(ep);
-> +
-> +	if (IS_ERR(asd))
-> +		return PTR_ERR(asd);
->  
->  The V4L2 core will then use these descriptors to match asynchronously
->  registered subdevices to them. If a match is detected the ``.bound()``
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 192a11bdc4ad..6dac6cb6290f 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -128,7 +128,12 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
->   * @notifier: pointer to &struct v4l2_async_notifier
->   *
->   * This function initializes the notifier @asd_list. It must be called
-> - * before the first call to @v4l2_async_notifier_add_subdev.
-> + * before adding a subdevice to a notifier, using one of:
-> + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> + * @v4l2_async_notifier_add_fwnode_subdev,
-> + * @v4l2_async_notifier_add_i2c_subdev,
-> + * @v4l2_async_notifier_add_subdev or
-
-s/v4l2_async_notifier_add_subdev/__v4l2_async_notifier_add_subdev no? Since
-it got renamed on patch 11/13, or am I missing something?
-
-> + * @v4l2_async_notifier_parse_fwnode_endpoints.
-
-Should we mention this is deprecated? maybe just a parenthesis "(deprecated)"
-
->   */
->  void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier);
->  
-> @@ -262,9 +267,11 @@ void v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier);
->   * sub-devices allocated for the purposes of the notifier but not the notifier
->   * itself. The user is responsible for calling this function to clean up the
->   * notifier after calling
-> - * @v4l2_async_notifier_add_subdev,
-> - * @v4l2_async_notifier_parse_fwnode_endpoints or
-> - * @v4l2_fwnode_reference_parse_sensor_common.
-> + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> + * @v4l2_async_notifier_add_fwnode_subdev,
-> + * @v4l2_async_notifier_add_i2c_subdev,
-> + * @v4l2_async_notifier_add_subdev or
-
-Same here.
-
-Regards,
-Helen
-
-> + * @v4l2_async_notifier_parse_fwnode_endpoints.
->   *
->   * There is no harm from calling v4l2_async_notifier_cleanup in other
->   * cases as long as its memory has been zeroed after it has been
+> Further, as the ttm pool is utilized for keeping pools of pages set
+> for specific cache types, it makes it difficult to abstract that out
+> as we have to be able to reset the caching (set_pages_wb()) when
+> shrinking, so that would also have to be pushed down into the pool
+> attributes as well.
 > 
+> So far, in my attempts to share an abstraction for both the net
+> page_pool and the ttm page pool, it seems to make the code complexity
+> worse on both sides -  so while I'm interested in continuing to try to
+> find a way to share code here, I'm not sure it makes sense to hold up
+> this series (which is already re-using an existing implementation and
+> provide a performance bump in microbenchmarks) for the
+> grand-unified-page-pool. Efforts to refactor the ttm pool and net page
+> pool can continue on indepently, and I'd be happy to move the system
+> heap to whatever that ends up being.
+
+The thing is, I'm not sure sharing code with net/core is a really good
+idea, at least it seems like we have some impendence mismatch with the ttm
+pool. And going forward I expect sooner or later we need alignment between
+the pools/caches under drm with dma-buf heap pools a lot more than between
+dma-buf and net/core.
+
+So this feels like a bit code sharing for code sharing's sake and not
+where it makes sense. Expecting net/core and gpu stacks to have the exact
+same needs for a page pool allocator has good chances to bite us in the
+long run.
+-Daniel
+
+> 
+> thanks
+> -john
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
