@@ -2,77 +2,279 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2D630CA14
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 19:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A5F930CA5A
+	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 19:46:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238518AbhBBSiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Feb 2021 13:38:10 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:44646 "EHLO vps0.lunn.ch"
+        id S238947AbhBBSqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Feb 2021 13:46:01 -0500
+Received: from mga01.intel.com ([192.55.52.88]:56267 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234494AbhBBSfg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Feb 2021 13:35:36 -0500
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1l70Vp-003peC-0L
-        for linux-media@vger.kernel.org; Tue, 02 Feb 2021 19:34:53 +0100
-Date:   Tue, 2 Feb 2021 19:34:52 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     linux-media@vger.kernel.org
-Subject: Philips SPC 900NC: kernel/dma/mapping.c WARNING
-Message-ID: <YBmbTHGSWSbcH0mQ@lunn.ch>
+        id S233601AbhBBSmR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Feb 2021 13:42:17 -0500
+IronPort-SDR: 7+Ebp8P/sCdQbkZqj41cQh/oySY3OuH3IXlfb8/kmsiIHZLfl3LWMkXhBzyUfZOOXIAFf67KmH
+ XFsHSefpf1AA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="199839406"
+X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; 
+   d="scan'208";a="199839406"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 10:41:25 -0800
+IronPort-SDR: gvzDX6HxqwkR7FM9pX3K5Xq1CNIsxbpH7uoEGUDqxQwXZcvWzGFzg9Iz9roBC59JZ1eMA13SRW
+ DQ9jF20g6B0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; 
+   d="scan'208";a="582138180"
+Received: from lkp-server02.sh.intel.com (HELO 625d3a354f04) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 02 Feb 2021 10:41:23 -0800
+Received: from kbuild by 625d3a354f04 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1l70c6-0009bJ-WD; Tue, 02 Feb 2021 18:41:22 +0000
+Date:   Wed, 03 Feb 2021 02:40:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 0b9112a58836ad6a7e84eebec06a2de9778b7573
+Message-ID: <60199cbb.B1baTbUktQAxZoIC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Folks
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: 0b9112a58836ad6a7e84eebec06a2de9778b7573  Merge tag 'v5.11-rc6' into patchwork
 
-My pwc: Philips SPC 900NC USB webcam broke with the Debian v5.10
-kernel. It worked fine with the Debian v5.9 kernel. Plain 5.11-rc6 is
-also broken in the same way:
+elapsed time: 1999m
 
-[   61.314999] ------------[ cut here ]------------
-[   61.315002] WARNING: CPU: 2 PID: 3057 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x141/0x200
-[   61.315099] CPU: 2 PID: 3057 Comm: v4l2src0:src Tainted: G            E     5.11.0-rc6 #1
-[   61.315101] Hardware name: Shuttle Inc. SH87R/FH87, BIOS 1.02 06/26/2013
-[   61.315102] RIP: 0010:dma_map_page_attrs+0x141/0x200
-[   61.315104] Code: 89 c8 4c 89 df e8 9f 22 00 00 49 89 c2 eb 8c 48 85 c0 74 0c 48 39 d8 48 0f 47 c3 e9 76 ff ff ff 48 89 d8 e9 6e ff ff ff 0f 0b <0f> 0b 49 c7 c2 ff ff ff ff e9 63 ff ff ff 49 89 f2 4c 2b 50 18 e9
-[   61.315106] RSP: 0018:ffffbcae81ef3cb0 EFLAGS: 00010246
-[   61.315107] RAX: 0000000000000000 RBX: ffff9aa43e935e00 RCX: 0000000000000002
-[   61.315109] RDX: 0000000000002580 RSI: ffffe52c85e96200 RDI: ffff9aa6099100a0
-[   61.315110] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-[   61.315110] R10: 0000000000000000 R11: ffff9aa6099100a0 R12: ffff9aa609910000
-[   61.315111] R13: ffff9aa3fa588000 R14: ffff9aa387f40000 R15: 0000000000000000
-[   61.315112] FS:  00007f7f16ffd700(0000) GS:ffff9aaa9fc80000(0000) knlGS:0000000000000000
-[   61.315114] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   61.315115] CR2: 00007f150019cfb8 CR3: 0000000118960006 CR4: 00000000001706e0
-[   61.315116] Call Trace:
-[   61.315121]  start_streaming+0x28b/0x490 [pwc]
-[   61.315126]  vb2_start_streaming+0x63/0x100 [videobuf2_common]
-[   61.315132]  vb2_core_streamon+0x54/0xb0 [videobuf2_common]
-[   61.315135]  __video_do_ioctl+0x39e/0x3d0 [videodev]
-[   61.315152]  video_usercopy+0x19b/0x6e0 [videodev]
-[   61.315159]  ? v4l_print_control+0x20/0x20 [videodev]
-[   61.315166]  v4l2_ioctl+0x48/0x50 [videodev]
-[   61.315172]  __x64_sys_ioctl+0x83/0xb0
-[   61.315176]  do_syscall_64+0x33/0x80
-[   61.315179]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   61.315182] RIP: 0033:0x7f7f5b7bacc7
-[   61.315184] Code: 00 00 00 48 8b 05 c9 91 0c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 99 91 0c 00 f7 d8 64 89 01 48
-[   61.315186] RSP: 002b:00007f7f16ffc848 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[   61.315187] RAX: ffffffffffffffda RBX: 00005577ed87ef70 RCX: 00007f7f5b7bacc7
-[   61.315188] RDX: 00005577ed8ebd10 RSI: 0000000040045612 RDI: 0000000000000019
-[   61.315189] RBP: 00005577ed8ebd00 R08: 0000000000000008 R09: 0000000000000000
-[   61.315190] R10: 00005577ed992ec0 R11: 0000000000000246 R12: 0000000000000000
-[   61.315190] R13: 00007f7f0800fec0 R14: 0000000000000004 R15: 0000000000000001
-[   61.315192] ---[ end trace a19ebd2ccc8ab0f7 ]---
-[   61.315194] pwc: Failed to allocate urb buffer 0
-[   61.489610] pwc: Failed to allocate urb buffer 0
+configs tested: 217
+configs skipped: 3
 
-Before i start a git bisect, anybody have any ideas?  Have other media
-drivers had the same problem recently?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Thanks
-	Andrew
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                      tqm8xx_defconfig
+powerpc                     redwood_defconfig
+arm                        shmobile_defconfig
+arm                           sama5_defconfig
+sparc64                             defconfig
+mips                 decstation_r4k_defconfig
+m68k                       m5208evb_defconfig
+mips                      pic32mzda_defconfig
+powerpc                    klondike_defconfig
+m68k                         amcore_defconfig
+powerpc                      ppc64e_defconfig
+arc                        vdk_hs38_defconfig
+powerpc                          g5_defconfig
+arm                          iop32x_defconfig
+powerpc                   currituck_defconfig
+riscv                          rv32_defconfig
+m68k                            q40_defconfig
+m68k                             allmodconfig
+powerpc                  storcenter_defconfig
+arm                           h5000_defconfig
+sh                           se7619_defconfig
+m68k                         apollo_defconfig
+csky                                defconfig
+c6x                        evmc6472_defconfig
+um                            kunit_defconfig
+sh                               allmodconfig
+sh                          rsk7203_defconfig
+powerpc                    adder875_defconfig
+powerpc                 mpc8313_rdb_defconfig
+m68k                          amiga_defconfig
+arm                       versatile_defconfig
+s390                             alldefconfig
+arm                          exynos_defconfig
+sh                              ul2_defconfig
+powerpc                 mpc834x_mds_defconfig
+arm                      footbridge_defconfig
+arm                       multi_v4t_defconfig
+sh                           sh2007_defconfig
+mips                malta_kvm_guest_defconfig
+powerpc                        fsp2_defconfig
+m68k                          sun3x_defconfig
+sh                             shx3_defconfig
+m68k                        m5272c3_defconfig
+i386                             allyesconfig
+mips                            ar7_defconfig
+sh                   secureedge5410_defconfig
+mips                         mpc30x_defconfig
+m68k                          hp300_defconfig
+powerpc                    mvme5100_defconfig
+arm                          gemini_defconfig
+arc                        nsim_700_defconfig
+arm                         palmz72_defconfig
+mips                  decstation_64_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                     powernv_defconfig
+mips                          rb532_defconfig
+powerpc                     tqm8540_defconfig
+sh                      rts7751r2d1_defconfig
+powerpc                    amigaone_defconfig
+sh                          r7780mp_defconfig
+arm                             ezx_defconfig
+powerpc                         ps3_defconfig
+sh                          kfr2r09_defconfig
+nios2                         10m50_defconfig
+arm                      pxa255-idp_defconfig
+arm                        mini2440_defconfig
+powerpc                 mpc85xx_cds_defconfig
+arm                            mmp2_defconfig
+powerpc                     tqm8555_defconfig
+arm                            hisi_defconfig
+m68k                            mac_defconfig
+m68k                           sun3_defconfig
+riscv                            allmodconfig
+powerpc                 mpc8560_ads_defconfig
+powerpc64                        alldefconfig
+sh                     magicpanelr2_defconfig
+h8300                            allyesconfig
+sh                           se7206_defconfig
+arc                         haps_hs_defconfig
+mips                        qi_lb60_defconfig
+ia64                            zx1_defconfig
+m68k                        stmark2_defconfig
+arm                       aspeed_g4_defconfig
+sh                           se7712_defconfig
+um                             i386_defconfig
+arm                          pxa910_defconfig
+xtensa                         virt_defconfig
+arm                      tct_hammer_defconfig
+powerpc                     tqm5200_defconfig
+mips                         db1xxx_defconfig
+powerpc                     tqm8560_defconfig
+arm                           h3600_defconfig
+arm                            pleb_defconfig
+mips                        maltaup_defconfig
+arm                           tegra_defconfig
+arm                     davinci_all_defconfig
+powerpc                     taishan_defconfig
+arm                        neponset_defconfig
+powerpc                 mpc8315_rdb_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                        keystone_defconfig
+sh                          lboxre2_defconfig
+sh                ecovec24-romimage_defconfig
+powerpc                 mpc837x_mds_defconfig
+arm                            mps2_defconfig
+mips                        bcm63xx_defconfig
+sh                        sh7763rdp_defconfig
+arm                         s5pv210_defconfig
+ia64                         bigsur_defconfig
+mips                      maltaaprp_defconfig
+powerpc                    socrates_defconfig
+arm                         s3c6400_defconfig
+ia64                          tiger_defconfig
+powerpc                      pmac32_defconfig
+mips                       lemote2f_defconfig
+c6x                        evmc6457_defconfig
+mips                           ip27_defconfig
+arm                        realview_defconfig
+arm                      integrator_defconfig
+s390                       zfcpdump_defconfig
+alpha                            alldefconfig
+mips                        omega2p_defconfig
+mips                      bmips_stb_defconfig
+xtensa                  audio_kc705_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a001-20210201
+i386                 randconfig-a005-20210201
+i386                 randconfig-a003-20210201
+i386                 randconfig-a006-20210201
+i386                 randconfig-a002-20210201
+i386                 randconfig-a004-20210201
+i386                 randconfig-a001-20210202
+i386                 randconfig-a005-20210202
+i386                 randconfig-a003-20210202
+i386                 randconfig-a006-20210202
+i386                 randconfig-a002-20210202
+i386                 randconfig-a004-20210202
+x86_64               randconfig-a013-20210202
+x86_64               randconfig-a014-20210202
+x86_64               randconfig-a015-20210202
+x86_64               randconfig-a016-20210202
+x86_64               randconfig-a011-20210202
+x86_64               randconfig-a012-20210202
+x86_64               randconfig-a006-20210201
+x86_64               randconfig-a001-20210201
+x86_64               randconfig-a005-20210201
+x86_64               randconfig-a002-20210201
+x86_64               randconfig-a004-20210201
+x86_64               randconfig-a003-20210201
+i386                 randconfig-a013-20210202
+i386                 randconfig-a016-20210202
+i386                 randconfig-a014-20210202
+i386                 randconfig-a012-20210202
+i386                 randconfig-a015-20210202
+i386                 randconfig-a011-20210202
+i386                 randconfig-a013-20210201
+i386                 randconfig-a016-20210201
+i386                 randconfig-a014-20210201
+i386                 randconfig-a012-20210201
+i386                 randconfig-a015-20210201
+i386                 randconfig-a011-20210201
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a006-20210202
+x86_64               randconfig-a001-20210202
+x86_64               randconfig-a005-20210202
+x86_64               randconfig-a002-20210202
+x86_64               randconfig-a004-20210202
+x86_64               randconfig-a003-20210202
+x86_64               randconfig-a013-20210201
+x86_64               randconfig-a014-20210201
+x86_64               randconfig-a015-20210201
+x86_64               randconfig-a016-20210201
+x86_64               randconfig-a011-20210201
+x86_64               randconfig-a012-20210201
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
