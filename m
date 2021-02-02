@@ -2,17 +2,17 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEEA530CBA4
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 20:32:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BAE930C080
+	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 15:00:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234105AbhBBTbi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Feb 2021 14:31:38 -0500
-Received: from retiisi.eu ([95.216.213.190]:45364 "EHLO hillosipuli.retiisi.eu"
+        id S233574AbhBBN7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Feb 2021 08:59:51 -0500
+Received: from retiisi.eu ([95.216.213.190]:45198 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233485AbhBBN6D (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Feb 2021 08:58:03 -0500
+        id S233481AbhBBN6C (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Feb 2021 08:58:02 -0500
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 94D79634C97;
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id AC427634C98;
         Tue,  2 Feb 2021 15:56:08 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -31,9 +31,9 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
         Robert Foss <robert.foss@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v5 02/13] media: atmel: Use v4l2_async_notifier_add_fwnode_remote_subdev
-Date:   Tue,  2 Feb 2021 15:56:00 +0200
-Message-Id: <20210202135611.13920-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH v5 03/13] media: stm32: Use v4l2_async_notifier_add_fwnode_remote_subdev
+Date:   Tue,  2 Feb 2021 15:56:01 +0200
+Message-Id: <20210202135611.13920-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210202135611.13920-1-sakari.ailus@linux.intel.com>
 References: <20210202135611.13920-1-sakari.ailus@linux.intel.com>
@@ -53,45 +53,188 @@ This fixes a misuse of the API, as v4l2_async_notifier_add_subdev
 should get a kmalloc'ed struct v4l2_async_subdev,
 removing some boilerplate code while at it.
 
+Use the appropriate helper v4l2_async_notifier_add_fwnode_remote_subdev,
+which handles the needed setup, instead of open-coding it.
+
+This results in removal of the now unneeded driver-specific state
+struct dcmi_graph_entity, keeping track of just the source
+subdevice.
+
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Reviewed-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/atmel/atmel-isc.h      |  1 +
- drivers/media/platform/atmel/atmel-isi.c      | 46 ++++++-------------
- .../media/platform/atmel/atmel-sama5d2-isc.c  | 44 ++++++------------
- 3 files changed, 29 insertions(+), 62 deletions(-)
+ drivers/media/platform/stm32/stm32-dcmi.c | 86 ++++++++---------------
+ 1 file changed, 30 insertions(+), 56 deletions(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-index 24b784b893d6..fab8eca58d93 100644
---- a/drivers/media/platform/atmel/atmel-isc.h
-+++ b/drivers/media/platform/atmel/atmel-isc.h
-@@ -41,6 +41,7 @@ struct isc_buffer {
- struct isc_subdev_entity {
- 	struct v4l2_subdev		*sd;
- 	struct v4l2_async_subdev	*asd;
-+	struct device_node		*epn;
- 	struct v4l2_async_notifier      notifier;
+diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+index b745f1342c2e..142f63d07dcd 100644
+--- a/drivers/media/platform/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/stm32/stm32-dcmi.c
+@@ -99,13 +99,6 @@ enum state {
  
- 	u32 pfe_cfg0;
-diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
-index d74aa73f26be..c1a6dd7af002 100644
---- a/drivers/media/platform/atmel/atmel-isi.c
-+++ b/drivers/media/platform/atmel/atmel-isi.c
-@@ -70,7 +70,6 @@ struct frame_buffer {
- struct isi_graph_entity {
- 	struct device_node *node;
+ #define OVERRUN_ERROR_THRESHOLD	3
  
+-struct dcmi_graph_entity {
 -	struct v4l2_async_subdev asd;
+-
+-	struct device_node *remote_node;
+-	struct v4l2_subdev *source;
+-};
+-
+ struct dcmi_format {
+ 	u32	fourcc;
+ 	u32	mbus_code;
+@@ -139,7 +132,7 @@ struct stm32_dcmi {
+ 	struct v4l2_device		v4l2_dev;
+ 	struct video_device		*vdev;
+ 	struct v4l2_async_notifier	notifier;
+-	struct dcmi_graph_entity	entity;
++	struct v4l2_subdev		*source;
+ 	struct v4l2_format		fmt;
+ 	struct v4l2_rect		crop;
+ 	bool				do_crop;
+@@ -610,7 +603,7 @@ static int dcmi_pipeline_s_fmt(struct stm32_dcmi *dcmi,
+ 			       struct v4l2_subdev_pad_config *pad_cfg,
+ 			       struct v4l2_subdev_format *format)
+ {
+-	struct media_entity *entity = &dcmi->entity.source->entity;
++	struct media_entity *entity = &dcmi->source->entity;
  	struct v4l2_subdev *subdev;
+ 	struct media_pad *sink_pad = NULL;
+ 	struct media_pad *src_pad = NULL;
+@@ -1018,7 +1011,7 @@ static int dcmi_try_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f,
+ 	}
+ 
+ 	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+-	ret = v4l2_subdev_call(dcmi->entity.source, pad, set_fmt,
++	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+ 			       &pad_cfg, &format);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1152,7 +1145,7 @@ static int dcmi_get_sensor_format(struct stm32_dcmi *dcmi,
+ 	};
+ 	int ret;
+ 
+-	ret = v4l2_subdev_call(dcmi->entity.source, pad, get_fmt, NULL, &fmt);
++	ret = v4l2_subdev_call(dcmi->source, pad, get_fmt, NULL, &fmt);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1181,7 +1174,7 @@ static int dcmi_set_sensor_format(struct stm32_dcmi *dcmi,
+ 	}
+ 
+ 	v4l2_fill_mbus_format(&format.format, pix, sd_fmt->mbus_code);
+-	ret = v4l2_subdev_call(dcmi->entity.source, pad, set_fmt,
++	ret = v4l2_subdev_call(dcmi->source, pad, set_fmt,
+ 			       &pad_cfg, &format);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1204,7 +1197,7 @@ static int dcmi_get_sensor_bounds(struct stm32_dcmi *dcmi,
+ 	/*
+ 	 * Get sensor bounds first
+ 	 */
+-	ret = v4l2_subdev_call(dcmi->entity.source, pad, get_selection,
++	ret = v4l2_subdev_call(dcmi->source, pad, get_selection,
+ 			       NULL, &bounds);
+ 	if (!ret)
+ 		*r = bounds.r;
+@@ -1385,7 +1378,7 @@ static int dcmi_enum_framesizes(struct file *file, void *fh,
+ 
+ 	fse.code = sd_fmt->mbus_code;
+ 
+-	ret = v4l2_subdev_call(dcmi->entity.source, pad, enum_frame_size,
++	ret = v4l2_subdev_call(dcmi->source, pad, enum_frame_size,
+ 			       NULL, &fse);
+ 	if (ret)
+ 		return ret;
+@@ -1402,7 +1395,7 @@ static int dcmi_g_parm(struct file *file, void *priv,
+ {
+ 	struct stm32_dcmi *dcmi = video_drvdata(file);
+ 
+-	return v4l2_g_parm_cap(video_devdata(file), dcmi->entity.source, p);
++	return v4l2_g_parm_cap(video_devdata(file), dcmi->source, p);
+ }
+ 
+ static int dcmi_s_parm(struct file *file, void *priv,
+@@ -1410,7 +1403,7 @@ static int dcmi_s_parm(struct file *file, void *priv,
+ {
+ 	struct stm32_dcmi *dcmi = video_drvdata(file);
+ 
+-	return v4l2_s_parm_cap(video_devdata(file), dcmi->entity.source, p);
++	return v4l2_s_parm_cap(video_devdata(file), dcmi->source, p);
+ }
+ 
+ static int dcmi_enum_frameintervals(struct file *file, void *fh,
+@@ -1432,7 +1425,7 @@ static int dcmi_enum_frameintervals(struct file *file, void *fh,
+ 
+ 	fie.code = sd_fmt->mbus_code;
+ 
+-	ret = v4l2_subdev_call(dcmi->entity.source, pad,
++	ret = v4l2_subdev_call(dcmi->source, pad,
+ 			       enum_frame_interval, NULL, &fie);
+ 	if (ret)
+ 		return ret;
+@@ -1452,7 +1445,7 @@ MODULE_DEVICE_TABLE(of, stm32_dcmi_of_match);
+ static int dcmi_open(struct file *file)
+ {
+ 	struct stm32_dcmi *dcmi = video_drvdata(file);
+-	struct v4l2_subdev *sd = dcmi->entity.source;
++	struct v4l2_subdev *sd = dcmi->source;
+ 	int ret;
+ 
+ 	if (mutex_lock_interruptible(&dcmi->lock))
+@@ -1483,7 +1476,7 @@ static int dcmi_open(struct file *file)
+ static int dcmi_release(struct file *file)
+ {
+ 	struct stm32_dcmi *dcmi = video_drvdata(file);
+-	struct v4l2_subdev *sd = dcmi->entity.source;
++	struct v4l2_subdev *sd = dcmi->source;
+ 	bool fh_singular;
+ 	int ret;
+ 
+@@ -1616,7 +1609,7 @@ static int dcmi_formats_init(struct stm32_dcmi *dcmi)
+ {
+ 	const struct dcmi_format *sd_fmts[ARRAY_SIZE(dcmi_formats)];
+ 	unsigned int num_fmts = 0, i, j;
+-	struct v4l2_subdev *subdev = dcmi->entity.source;
++	struct v4l2_subdev *subdev = dcmi->source;
+ 	struct v4l2_subdev_mbus_code_enum mbus_code = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 	};
+@@ -1675,7 +1668,7 @@ static int dcmi_formats_init(struct stm32_dcmi *dcmi)
+ static int dcmi_framesizes_init(struct stm32_dcmi *dcmi)
+ {
+ 	unsigned int num_fsize = 0;
+-	struct v4l2_subdev *subdev = dcmi->entity.source;
++	struct v4l2_subdev *subdev = dcmi->source;
+ 	struct v4l2_subdev_frame_size_enum fse = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.code = dcmi->sd_format->mbus_code,
+@@ -1727,14 +1720,13 @@ static int dcmi_graph_notify_complete(struct v4l2_async_notifier *notifier)
+ 	 * we search for the source subdevice
+ 	 * in order to expose it through V4L2 interface
+ 	 */
+-	dcmi->entity.source =
+-		media_entity_to_v4l2_subdev(dcmi_find_source(dcmi));
+-	if (!dcmi->entity.source) {
++	dcmi->source = media_entity_to_v4l2_subdev(dcmi_find_source(dcmi));
++	if (!dcmi->source) {
+ 		dev_err(dcmi->dev, "Source subdevice not found\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	dcmi->vdev->ctrl_handler = dcmi->entity.source->ctrl_handler;
++	dcmi->vdev->ctrl_handler = dcmi->source->ctrl_handler;
+ 
+ 	ret = dcmi_formats_init(dcmi);
+ 	if (ret) {
+@@ -1813,46 +1805,28 @@ static const struct v4l2_async_notifier_operations dcmi_graph_notify_ops = {
+ 	.complete = dcmi_graph_notify_complete,
  };
  
-@@ -1136,45 +1135,26 @@ static const struct v4l2_async_notifier_operations isi_graph_notify_ops = {
- 	.complete = isi_graph_notify_complete,
- };
- 
--static int isi_graph_parse(struct atmel_isi *isi, struct device_node *node)
+-static int dcmi_graph_parse(struct stm32_dcmi *dcmi, struct device_node *node)
 -{
 -	struct device_node *ep = NULL;
 -	struct device_node *remote;
@@ -106,140 +249,47 @@ index d74aa73f26be..c1a6dd7af002 100644
 -		return -EINVAL;
 -
 -	/* Remote node to connect */
--	isi->entity.node = remote;
--	isi->entity.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
--	isi->entity.asd.match.fwnode = of_fwnode_handle(remote);
+-	dcmi->entity.remote_node = remote;
+-	dcmi->entity.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+-	dcmi->entity.asd.match.fwnode = of_fwnode_handle(remote);
 -	return 0;
 -}
 -
- static int isi_graph_init(struct atmel_isi *isi)
+ static int dcmi_graph_init(struct stm32_dcmi *dcmi)
  {
 +	struct v4l2_async_subdev *asd;
 +	struct device_node *ep;
  	int ret;
  
 -	/* Parse the graph to extract a list of subdevice DT nodes. */
--	ret = isi_graph_parse(isi, isi->dev->of_node);
+-	ret = dcmi_graph_parse(dcmi, dcmi->dev->of_node);
 -	if (ret < 0) {
--		dev_err(isi->dev, "Graph parsing failed\n");
+-		dev_err(dcmi->dev, "Failed to parse graph\n");
 -		return ret;
--	}
-+	ep = of_graph_get_next_endpoint(isi->dev->of_node, NULL);
-+	if (!ep)
++	ep = of_graph_get_next_endpoint(dcmi->dev->of_node, NULL);
++	if (!ep) {
++		dev_err(dcmi->dev, "Failed to get next endpoint\n");
 +		return -EINVAL;
+ 	}
  
- 	v4l2_async_notifier_init(&isi->notifier);
+ 	v4l2_async_notifier_init(&dcmi->notifier);
  
--	ret = v4l2_async_notifier_add_subdev(&isi->notifier, &isi->entity.asd);
+-	ret = v4l2_async_notifier_add_subdev(&dcmi->notifier,
+-					     &dcmi->entity.asd);
 -	if (ret) {
--		of_node_put(isi->entity.node);
--		return ret;
--	}
 +	asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+						&isi->notifier,
-+						of_fwnode_handle(ep),
-+						sizeof(*asd));
++		&dcmi->notifier, of_fwnode_handle(ep), sizeof(*asd));
++
 +	of_node_put(ep);
 +
-+	if (IS_ERR(asd))
++	if (IS_ERR(asd)) {
+ 		dev_err(dcmi->dev, "Failed to add subdev notifier\n");
+-		of_node_put(dcmi->entity.remote_node);
+-		return ret;
 +		return PTR_ERR(asd);
- 
- 	isi->notifier.ops = &isi_graph_notify_ops;
- 
-diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-index a3304f49e499..9ee2cd194f93 100644
---- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-+++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-@@ -57,7 +57,7 @@
- static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- {
- 	struct device_node *np = dev->of_node;
--	struct device_node *epn = NULL, *rem;
-+	struct device_node *epn = NULL;
- 	struct isc_subdev_entity *subdev_entity;
- 	unsigned int flags;
- 	int ret;
-@@ -71,17 +71,9 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- 		if (!epn)
- 			return 0;
- 
--		rem = of_graph_get_remote_port_parent(epn);
--		if (!rem) {
--			dev_notice(dev, "Remote device at %pOF not found\n",
--				   epn);
--			continue;
--		}
--
- 		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
- 						 &v4l2_epn);
- 		if (ret) {
--			of_node_put(rem);
- 			ret = -EINVAL;
- 			dev_err(dev, "Could not parse the endpoint\n");
- 			break;
-@@ -90,21 +82,10 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- 		subdev_entity = devm_kzalloc(dev, sizeof(*subdev_entity),
- 					     GFP_KERNEL);
- 		if (!subdev_entity) {
--			of_node_put(rem);
--			ret = -ENOMEM;
--			break;
--		}
--
--		/* asd will be freed by the subsystem once it's added to the
--		 * notifier list
--		 */
--		subdev_entity->asd = kzalloc(sizeof(*subdev_entity->asd),
--					     GFP_KERNEL);
--		if (!subdev_entity->asd) {
--			of_node_put(rem);
- 			ret = -ENOMEM;
- 			break;
- 		}
-+		subdev_entity->epn = epn;
- 
- 		flags = v4l2_epn.bus.parallel.flags;
- 
-@@ -121,12 +102,10 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- 			subdev_entity->pfe_cfg0 |= ISC_PFE_CFG0_CCIR_CRC |
- 					ISC_PFE_CFG0_CCIR656;
- 
--		subdev_entity->asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
--		subdev_entity->asd->match.fwnode = of_fwnode_handle(rem);
- 		list_add_tail(&subdev_entity->list, &isc->subdev_entities);
- 	}
--
- 	of_node_put(epn);
-+
- 	return ret;
- }
- 
-@@ -228,13 +207,20 @@ static int atmel_isc_probe(struct platform_device *pdev)
  	}
  
- 	list_for_each_entry(subdev_entity, &isc->subdev_entities, list) {
-+		struct v4l2_async_subdev *asd;
-+
- 		v4l2_async_notifier_init(&subdev_entity->notifier);
- 
--		ret = v4l2_async_notifier_add_subdev(&subdev_entity->notifier,
--						     subdev_entity->asd);
--		if (ret) {
--			fwnode_handle_put(subdev_entity->asd->match.fwnode);
--			kfree(subdev_entity->asd);
-+		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
-+					&subdev_entity->notifier,
-+					of_fwnode_handle(subdev_entity->epn),
-+					sizeof(*asd));
-+
-+		of_node_put(subdev_entity->epn);
-+		subdev_entity->epn = NULL;
-+
-+		if (IS_ERR(asd)) {
-+			ret = PTR_ERR(asd);
- 			goto cleanup_subdev;
- 		}
- 
+ 	dcmi->notifier.ops = &dcmi_graph_notify_ops;
 -- 
 2.29.2
 
