@@ -2,111 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 687BB30CF4A
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 23:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D368E30CF78
+	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 23:58:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235645AbhBBWpH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Feb 2021 17:45:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49704 "EHLO
+        id S235830AbhBBW4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Feb 2021 17:56:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235710AbhBBWop (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Feb 2021 17:44:45 -0500
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065B7C06178A
-        for <linux-media@vger.kernel.org>; Tue,  2 Feb 2021 14:44:05 -0800 (PST)
-Received: by mail-oo1-xc35.google.com with SMTP id d3so1598044ool.7
-        for <linux-media@vger.kernel.org>; Tue, 02 Feb 2021 14:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0vZ3YcfNTrEDHTub1a0I5in6++E8pUyLjuHipyelgv0=;
-        b=TlroDxZALA7adkHZsaLn1EdLYcWFwjy/3DgjeuOlax5HyLXb2Cp95fHSAlmqX21Ysb
-         0mRW1xup6B6Tn6VR8We5RAs/VXNQQvk9sBYcWAtYWa6y58h0R7pfEsKfhtA2V0ksS62D
-         pb6fvoYVyg5Cg8MWqgxGN+glnTC0aUG8Xnu+6AT/Tc3INbxegw0vwtwiH7k1C9lCCX3L
-         9W4f1CZdzXP12/zH5ccXgZiRcmedOSaG1ZmCZ5s51ItZHvH+JjmwEb2pmxkTRcasuzzp
-         DwPIC1OCcbEIUzW3iZTX/8XpVla4lVJYMS4nyZ7atVnZq7sDWkhE68YA9pBFiTwNwTrz
-         Oc/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0vZ3YcfNTrEDHTub1a0I5in6++E8pUyLjuHipyelgv0=;
-        b=eCtkVgeUAAkpemLlsiHzhsnzFmQ2zbmjWGBWksgLiu6I6cE3o3rmA7VzY2/YmBTwtk
-         QeTL3W07RZLufX9ISK8tCmHxkpUnJLBZzA2ovtqsxkZaHBQ50xg9sxTvEzLn3d02MYp1
-         fKyNJBnIA90da1eP0zuAOpQYupVbX4BFiXyvy9DYWGQI7L3LwHtiztSwg041fzFNrxLi
-         iU3JAw6/PyI1JhP2qmUTL6g+CoAsYcGHM+Sr71YCp/ubhnbdOBBvKrn11E48rgbQ81QG
-         3AjlwRuEfl0tOCV9q6pKUh3kyxy2IGBi2gBJSVVxw0UFt/q0+TImUG8TqKJB5/cu60MR
-         GY3Q==
-X-Gm-Message-State: AOAM5339h+PqAzW7Tu5sN+HphEqKenwgNHccVo0fq6t9wNoUOdQbZ5vT
-        rjhgUMBlWntaZkbBJFoOr9VLXA==
-X-Google-Smtp-Source: ABdhPJyQxK7ApxN5cN8J+Y8i+q7EZN3p5maNtMDesuW24WwOPyUgHgXZbgEd5Gzl2zG7lxSemAT0Gg==
-X-Received: by 2002:a4a:8c6b:: with SMTP id v40mr28142ooj.23.1612305844299;
-        Tue, 02 Feb 2021 14:44:04 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id 7sm72819oiz.43.2021.02.02.14.44.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 14:44:03 -0800 (PST)
-Date:   Tue, 2 Feb 2021 16:44:01 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     agross@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
-        robh+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        shawnguo@kernel.org, leoyang.li@nxp.com, geert+renesas@glider.be,
-        arnd@arndb.de, Anson.Huang@nxp.com, michael@walle.cc,
-        agx@sigxcpu.org, max.oss.09@gmail.com,
-        angelogioacchino.delregno@somainline.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [PATCH v3 19/22] arm64: defconfig: Build Qcom CAMSS as module
-Message-ID: <YBnVsUTapsiosHtF@builder.lan>
-References: <20210127144930.2158242-1-robert.foss@linaro.org>
- <20210127144930.2158242-20-robert.foss@linaro.org>
+        with ESMTP id S235664AbhBBW4k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Feb 2021 17:56:40 -0500
+X-Greylist: delayed 13677 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 02 Feb 2021 14:56:00 PST
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19228C061573
+        for <linux-media@vger.kernel.org>; Tue,  2 Feb 2021 14:56:00 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dbd4xkyj7wcfw2k22jcct-3.rev.dnainternet.fi [IPv6:2001:14ba:8f1:3400:fb90:892b:22d6:3885])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id C1F1120050;
+        Wed,  3 Feb 2021 00:55:57 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1612306557;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZTFruHwLMJbgU4LK+neB59RMbbHppgT3XTu5fYt7y9w=;
+        b=nyjdzOyKIHqFOcPZc4FOnsSqY49FIk5OvjbKRljOSI7w7ENweVBPR3eaCaUbg3JY1aoP71
+        LF8/pgMGklOxg7DUDp2qjox916ZdLLp3mj9Z/rmPKosLVGJ6wTAu2sw/CentmpwiVxsfIu
+        x3gJySM9s2sr2pokFFyCddJAiE0iIUM=
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 873FD634C8D;
+        Wed,  3 Feb 2021 00:55:52 +0200 (EET)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.org.uk)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1l74aT-0000a0-1S; Wed, 03 Feb 2021 00:55:57 +0200
+Date:   Wed, 3 Feb 2021 00:55:57 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     michael.srba@seznam.cz
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 1/1] media: i2c: imx219: add 1% tolerance on clock
+ frequency
+Message-ID: <20210202225556.GF3@valkosipuli.retiisi.org.uk>
+References: <20201222093231.13438-1-michael.srba@seznam.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210127144930.2158242-20-robert.foss@linaro.org>
+In-Reply-To: <20201222093231.13438-1-michael.srba@seznam.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1612306557; a=rsa-sha256; cv=none;
+        b=j7WcuO2SY1xaGbipZll9Gv8weTx9W3nfe3FRfljyLUVtCnLobl8DsdwRWtQRJy7vdldK6l
+        oRleaJM1XIeWTjYaoYZ7xN8xF9wUPWuZl2kYKACkoSc2j0zrDpUCgoFthuOJbO1JSNOZu2
+        TGxvbmHI+j0RrPWgMthOGHK544wMVGY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1612306557;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZTFruHwLMJbgU4LK+neB59RMbbHppgT3XTu5fYt7y9w=;
+        b=YZUDHrMiUVAYfSz8NpwGHzBkLM8XE+fRJXjbUzuDnKId6T08t8RzdydqZkqduYek7yAWxg
+        eFJfTYW6CGPGZSJFXLwiA5ox/LXNsP7eqb1VglH38eoDDLHZ+TEIAbvEkq88a29E7yaLdx
+        AaJcyjq62w0IVk/ZzBu5kzSdiwQ2cN0=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed 27 Jan 08:49 CST 2021, Robert Foss wrote:
+Hi Michael,
 
-> Build camera ISP driver as a module.
+On Tue, Dec 22, 2020 at 10:32:31AM +0100, michael.srba@seznam.cz wrote:
+> From: Michael Srba <Michael.Srba@seznam.cz>
 > 
-
-Isn't this enabled since b47c5fc15d88 ("arm64: defconfig: Enable
-Qualcomm CAMCC, CAMSS and CCI drivers")?
-
-Regards,
-Bjorn
-
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> This patch adds 1% tolerance on input clock frequency, similar to other
+> camera sensor drivers.
+> 
+> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+> 
 > ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index 838301650a79..cb224d2af6a0 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -640,6 +640,7 @@ CONFIG_VIDEO_RENESAS_FDP1=m
->  CONFIG_VIDEO_RENESAS_FCP=m
->  CONFIG_VIDEO_RENESAS_VSP1=m
->  CONFIG_SDR_PLATFORM_DRIVERS=y
-> +CONFIG_VIDEO_QCOM_CAMSS=m
->  CONFIG_VIDEO_RCAR_DRIF=m
->  CONFIG_VIDEO_IMX219=m
->  CONFIG_VIDEO_OV5645=m
-> -- 
-> 2.27.0
+> changes since v1: default to exactly 24MHz when `clock-frequency` is not 
+> present
+> changes since v2: remove the ability to set the clock to a specific
+> frequency, since assigned-clocks + assigned-clock-rates can be used 1:1
+> for the same purpose
 > 
+> ---
+>  drivers/media/i2c/imx219.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f64c0ef7a897..fd2157eadac4 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1443,8 +1443,9 @@ static int imx219_probe(struct i2c_client *client)
+>  		return PTR_ERR(imx219->xclk);
+>  	}
+>  
+> +	/* this driver currently expects 24MHz; allow 1% tolerance */
+>  	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> -	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> +	if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+
+Where do you need this? Do you have a system where you get a frequency
+that's a bit off?
+
+I don't think this is the right way to fix this but on the other hand for
+register list based drivers there hardly is one.
+
+>  		dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>  			imx219->xclk_freq);
+>  		return -EINVAL;
+
+-- 
+Regards,
+
+Sakari Ailus
