@@ -2,170 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B90B30CDD4
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 22:19:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36FFA30CE08
+	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 22:40:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbhBBVQx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Feb 2021 16:16:53 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:58954 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229566AbhBBVQx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Feb 2021 16:16:53 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l731u-0088Mf-J7; Tue, 02 Feb 2021 21:16:10 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l735T-0005hE-7N; Tue, 02 Feb 2021 21:19:51 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.12] More V4L2 patches (#71273)
-Date:   Tue,  2 Feb 2021 21:19:51 +0000
-Message-Id: <20210202211951.21854-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210202204305.GE3@valkosipuli.retiisi.org.uk>
-References: 
+        id S232882AbhBBVie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Feb 2021 16:38:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35388 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229838AbhBBVia (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Feb 2021 16:38:30 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D54B8C061573;
+        Tue,  2 Feb 2021 13:37:49 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id m13so22008253wro.12;
+        Tue, 02 Feb 2021 13:37:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=7sbRv34G9nwM4Oill4EvovSGDH2apzVxRGbxUO3DzjY=;
+        b=pL6r7tDODHDTQlM/aw1WBH0QW4Ibvg0ffyIocjQCbo+WphWYOAEKMhqehWCiN6ngOo
+         cfeR0t1R9AkSW7rkMKi0iw7Y0ipqMFQXTLFK5iWlXVf0l9aTmNsQH60bJANph/tfrtSg
+         nRU9gT4AKmrXXQ3+ADSmK2S7aicSoFnHCcssbwktzX95fw7V14uO95JMyFjeeVQ46t7Y
+         lpbLsyq9t4RGfnHMCJElSYCaYPX5iu/tEeRr4yGjDQddA++/51YlYCs8g9NSooOE0HCy
+         T20WjH6Oky0eJjGpv458EPKOM22kxKaopwTEdNsLHnMzV/TIK3DEa2jJGSJ4zfdc6KvL
+         Mcpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=7sbRv34G9nwM4Oill4EvovSGDH2apzVxRGbxUO3DzjY=;
+        b=avi/qlvzykt0SSZQ2FXB+7x4EtCuv6q4ToPgEEnWR4wS+V/slKOfmys3oY9bZtZ6ln
+         AUqoKfsdtxgLiqsd6nvM8FsWCcm1P5Z7EsHr0SduuqvdjeGIovwVp60RGEa431C2ziVC
+         KLkC5oSkK48x28LoGY/uzPEbfUvDj9P6DDABxh4YcX1sHShp5ZUHwRbIYJgWPPDYwOC4
+         08M0PPT2BtyVH4MPoCyvhGxgyJ/uOLC96X+UUhkRlJ40bX0wMNUzSc3iic7LCpan6df2
+         lu2APo85pMqT9RnHOA/J6IV66q5sOa/lLnvH1M2cZxfdb7MnfHv2I60IJzDI0VL6EFwA
+         j1Yg==
+X-Gm-Message-State: AOAM531ZkO3ArKhicqiZ3YLFIr1l5jRVZMNFw0IhSVLz/YRUCfUUuJAF
+        BmJmv7RzfySYViD0zELwMkI=
+X-Google-Smtp-Source: ABdhPJzzQ8CHgZu5GUkR+43ZYKSCBz1/COAvPolbGUTsNP6zOhR+ZzX1tNnF2jx0WwL41SesZiuGgw==
+X-Received: by 2002:adf:e7d0:: with SMTP id e16mr61857wrn.363.1612301868555;
+        Tue, 02 Feb 2021 13:37:48 -0800 (PST)
+Received: from [192.168.1.211] ([2.31.224.123])
+        by smtp.gmail.com with ESMTPSA id m18sm7138042wmq.1.2021.02.02.13.37.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Feb 2021 13:37:47 -0800 (PST)
+Subject: Re: [PATCH 1/1] ipu3-cio2: Build bridge only if ACPI is enabled
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Yong Zhi <yong.zhi@intel.com>
+References: <20210202201440.10613-1-sakari.ailus@linux.intel.com>
+ <070d3585-e21c-0bef-3740-d38fcd106f25@infradead.org>
+ <20210202203022.GX32460@paasikivi.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <2102444d-8a2b-cae7-9266-903eb14a7c21@gmail.com>
+Date:   Tue, 2 Feb 2021 21:37:47 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210202203022.GX32460@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210202204305.GE3@valkosipuli.retiisi.org.uk/
-Build log: https://builder.linuxtv.org/job/patchwork/88530/
-Build time: 00:28:02
-Link: https://lore.kernel.org/linux-media/20210202204305.GE3@valkosipuli.retiisi.org.uk
-
-gpg: Signature made Tue 02 Feb 2021 08:37:35 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
-
-Summary: got 15/40 patches with issues, being 0 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch:
-
-   checkpatch.pl:
-	$ cat patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:58: CHECK: Lines should not end with a '('
-	-:132: CHECK: Lines should not end with a '('
-	-:179: CHECK: Lines should not end with a '('
-	-:230: CHECK: Alignment should match open parenthesis
-	-:313: CHECK: Lines should not end with a '('
-	-:384: CHECK: Lines should not end with a '('
-	-:424: CHECK: Lines should not end with a '('
-	-:467: CHECK: Lines should not end with a '('
-	-:499: CHECK: Lines should not end with a '('
-
-patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:96: CHECK: Lines should not end with a '('
-	-:188: CHECK: Lines should not end with a '('
-
-patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch:
-
-   checkpatch.pl:
-	$ cat patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:238: CHECK: Lines should not end with a '('
-
-patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:69: CHECK: Lines should not end with a '('
-
-patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch:
-
-   checkpatch.pl:
-	$ cat patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:53: CHECK: Lines should not end with a '('
-
-patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch:
-
-   checkpatch.pl:
-	$ cat patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:51: CHECK: Alignment should match open parenthesis
-
-patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch:
-
-   checkpatch.pl:
-	$ cat patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:116: CHECK: Alignment should match open parenthesis
-	-:156: CHECK: Lines should not end with a '('
-
-patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch:
-
-   checkpatch.pl:
-	$ cat patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:63: CHECK: Lines should not end with a '('
-	-:89: CHECK: Lines should not end with a '('
-
-patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch:
-
-   checkpatch.pl:
-	$ cat patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:35: CHECK: Alignment should match open parenthesis
-	-:104: CHECK: Alignment should match open parenthesis
-
-patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch:
-
-   checkpatch.pl:
-	$ cat patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:123: CHECK: Lines should not end with a '('
-	-:262: CHECK: Lines should not end with a '('
-	-:279: CHECK: Lines should not end with a '('
-	-:325: CHECK: Lines should not end with a '('
-	-:409: CHECK: Alignment should match open parenthesis
-	-:436: CHECK: Lines should not end with a '('
-	-:473: CHECK: Alignment should match open parenthesis
-	-:576: CHECK: Lines should not end with a '('
-	-:769: CHECK: Alignment should match open parenthesis
-	-:789: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
-	-:805: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
-	-:821: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
-
-patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch:
-
-   checkpatch.pl:
-	$ cat patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:23: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:101: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0033-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch:
-
-   checkpatch.pl:
-	$ cat patches/0033-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:41: CHECK: Alignment should match open parenthesis
-
-patches/0035-media-ov9640-Use-the-generic-clock-framework.patch:
-
-   checkpatch.pl:
-	$ cat patches/0035-media-ov9640-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0037-media-ov6650-Use-the-generic-clock-framework.patch:
-
-   checkpatch.pl:
-	$ cat patches/0037-media-ov6650-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0038-media-Remove-the-legacy-v4l2-clk-API.patch:
-
-   checkpatch.pl:
-	$ cat patches/0038-media-Remove-the-legacy-v4l2-clk-API.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:33: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-
-Error #512 when building PDF docs
-
+On 02/02/2021 20:30, Sakari Ailus wrote:
+> On Tue, Feb 02, 2021 at 12:24:54PM -0800, Randy Dunlap wrote:
+>> On 2/2/21 12:14 PM, Sakari Ailus wrote:
+>>> ipu3-cio2-bridge uses several features of the ACPI framework that have no
+>>> meaningful replacement when ACPI is disabled. Instead of adding #ifdefs to
+>>> the affected places, only build the bridge code if CONFIG_ACPI is enabled.
+>>>
+>>> Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
+>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+>> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+> Thanks! I'll include this in a pull request to Mauro shortly.
+>
+Ah - thank you both; sorry to have missed that.
