@@ -2,152 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 502E130B6A7
-	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 05:47:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35F9430B84C
+	for <lists+linux-media@lfdr.de>; Tue,  2 Feb 2021 08:06:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231726AbhBBEpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Feb 2021 23:45:35 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:45683 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231747AbhBBEpa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Feb 2021 23:45:30 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 6nYUl3duvW4yN6nYVlWPRt; Tue, 02 Feb 2021 05:44:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612241087; bh=n8AL1r8nX0fPMDjaqNKFvF8wAPGwzsaAvto8xKrfF+A=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=J7d+L0pK7bIKcVV1+i57SPCmei6WCQU6u0vGgLTOlkZl5JBMmjVgPvoQZD/LRi97f
-         TeXzz6E28r7nzBnft88+oXJ5FNuNFdqumNDj87ns0DwxLYRZDdZAGrCgr8c10k/Mdv
-         RijiFy2V9x7kaXZwIdEM74SlpxVku14pXTL37DojkhWw0op0yzFhG6Byjm04SiCT0h
-         y1r5rNz5kW/qFqCpCncS2f2jBXY2wFwkUKe/Pm3hezMAhjvs924hzpY9O2ax31ovAP
-         65sNCcfY3YzTKSZKcQIwnZB0/j2SX0cX8y007ct8V02USKyeVI9d2GNurgEg/IoF+9
-         8fo7wpJ1UZcMw==
-Message-ID: <b372ee5f8203674ecda8d8debd54d65b@smtp-cloud8.xs4all.net>
-Date:   Tue, 02 Feb 2021 05:44:46 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfMTslgrcoAqgliC3DnPq8a4tQDF4lwoDKEB2g6q5U1iexzlP2GMqgt4h17FSTGsC7J3XTvLKs4UU8B98RMTAxv++8dEdLeqrab5oi5pzPa1s0NFxZfjJ
- yPeDeK4ZlzsO0cis43/6Dvk6TuC3mB8K1oV8tmSkVkqVfiu1yK10IowNs/+xwWrKbMwWT3nXumr2EgZnziK5qB1lXxTOcDBUQ52Vdl7JCR8lLfQPDsQcmjDh
- qT+xjaZIxa0myzSVlKoaHQ==
+        id S232250AbhBBHEi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Feb 2021 02:04:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232429AbhBBHEd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Feb 2021 02:04:33 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8A96C061573;
+        Mon,  1 Feb 2021 23:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tBP6AtIkMrM+Ev+R7wP7xBQMTerQ6VlEXrvmiPe+MLs=; b=MALRJpA5D6Md9oQRdFOJ2QLDzX
+        6lrzxsVryKxlxjPJDrfyR08pgBFY2XL7QGu1RBfmVpjG9zvuMqQxneIaX9dZEnjyGefb6FcrzgxzE
+        o3XxbovGKbOC4mJjqTkQOERYx2O5rk5P2gjCfoo2DAZe+vCxZV8g4DMxpN0qalCI/hpDhvOVm4lgN
+        mxPa1gZptd7rhi3wN5/s8xy2skHCMadcF2yZBTOAUkOyE6CmrljZwmGI1XsoLCrOx4/AVZe/B95Cn
+        88eo9tsaesh1izZGrAPszUYqrMbwdxhU+EOQJrX7ELc6q4vtMjs0Q4az36G/y7JpAsCm6MNnwc8ku
+        HPXAWDzw==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1l6piq-00Epu1-L3; Tue, 02 Feb 2021 07:03:36 +0000
+Date:   Tue, 2 Feb 2021 07:03:36 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "(Exiting) Benjamin Gaignard" <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>, labbott@redhat.com,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Christian K??nig <christian.koenig@amd.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        ??rjan Eide <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Jones <jajones@nvidia.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH 1/1] dma-buf: heaps: Map system heap pages as managed by
+ linux vm
+Message-ID: <20210202070336.GA3535861@infradead.org>
+References: <20210128083817.314315-1-surenb@google.com>
+ <20210128091348.GA1962975@infradead.org>
+ <CAJuCfpFUhJozS98WJpH0KQKBzyGXvqS1fitu-mgSyhaJ1xL8SQ@mail.gmail.com>
+ <YBMAGRIwcbPF17cU@google.com>
+ <CAJuCfpF78RYedBoAgkDdgMdfSmNwC2AQk-zZxAqkhCdtBB9gtQ@mail.gmail.com>
+ <CAJuCfpH5nwvtMR+32G0-xa_hY-b_Hnw=Figqq9xcsTGgJhOiww@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpH5nwvtMR+32G0-xa_hY-b_Hnw=Figqq9xcsTGgJhOiww@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+IMHO the
 
-Results of the daily build of media_tree:
+	BUG_ON(vma->vm_flags & VM_PFNMAP);
 
-date:			Tue Feb  2 05:00:12 CET 2021
-media-tree git hash:	0b9112a58836ad6a7e84eebec06a2de9778b7573
-media_build git hash:	e980c694ef8ab2b472ecc26edaf97af214e587aa
-v4l-utils git hash:	70404b870f12165278fe9ee9b3d6c7932478eb83
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7087-gdbdb27615
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
-
-linux-git-sh: OK
-linux-git-powerpc64: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 0 strcpy(), 1 strncpy(), 0 strlcpy()
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.1-i686: OK
-linux-5.10.1-x86_64: OK
-linux-5.11-rc1-i686: OK
-linux-5.11-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+in vm_insert_page should just become a WARN_ON_ONCE with an error
+return, and then we just need to gradually fix up the callers that
+trigger it instead of coming up with workarounds like this.
