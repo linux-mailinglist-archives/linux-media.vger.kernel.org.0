@@ -2,138 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB2C30D897
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 12:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88C1A30DABF
+	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 14:13:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234342AbhBCLZq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 06:25:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43308 "EHLO
+        id S229774AbhBCNMX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 08:12:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234258AbhBCLYX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 06:24:23 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C34FC061786
-        for <linux-media@vger.kernel.org>; Wed,  3 Feb 2021 03:23:43 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id q72so2796807pjq.2
-        for <linux-media@vger.kernel.org>; Wed, 03 Feb 2021 03:23:43 -0800 (PST)
+        with ESMTP id S230346AbhBCNLv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 08:11:51 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C258CC061573
+        for <linux-media@vger.kernel.org>; Wed,  3 Feb 2021 05:11:10 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id l12so4388045wmq.2
+        for <linux-media@vger.kernel.org>; Wed, 03 Feb 2021 05:11:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RnlKEoqL6Uqu9RS0As6U8cIWvU/IELkyhrvevpKdgbw=;
-        b=UCJf7UQE4VrPAHUTxOeE0IsNKU7wvCbx6VNRvt7n1unumgU7/r9krB7H9HQ61DJiq+
-         rnu5L10YfSJBjuiZ3N1FUsO3PkE9uYMpjMw/S29sRWVd3poQWAQv55ENSei9Qw6cz9fa
-         72ShS/6wQajSwGt31iYAFb57X45dXvNZrdCqQl57Wndd8w67cVNN2SVhJaDdiD/d0UQ1
-         oyZpzeGoACyQVnDntN6hG2HHs6omTr2dyLZRvner+OzUl66HeiZHqQbK/nXFMJy8KwAr
-         /jEwW4qxdj5DTG+jZPsN7itsc07ZVORplhBsVcObF66SU/pBhWlN1zDU6BCe7jzAgOMA
-         OKEg==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=98vsBgcuoDvTfqJfjl4OuTtzO0K+8P+ZFHH2fOEBr9I=;
+        b=jd1iAvIHF4AVVO6VuPQIh6f2ZResVSPpdGyQEO02get32t/v8d0ribVW+kvX/HsT21
+         DhdHrt+OWOr3qaph7KbNXw7lh9rHHU7QuWm2X2yQMV91B8yQB9BpuCWNEFY+SIqJRYHH
+         52nh8KRyM9ERegbfqOlbaISBRc7atx8+aCDfs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RnlKEoqL6Uqu9RS0As6U8cIWvU/IELkyhrvevpKdgbw=;
-        b=s2I7mKNCfnJ+Ol+WJHXVNKvVDR6Q24qew6RoIm5judEBYf1LU1dMz4CCUSlr17OtL7
-         e78GnbapWVmPykUrxqxACzbLZrriz870vnNBuS6dD34XLWZr+Cfq8RQgASqGK1/VEHit
-         t581GZBT0cz5U11EtX2KbHjOrDyTI6ccgdY1rVBQyxlLlWBdlFpxUIhDjuhbfhQjmFvS
-         D+HwqJG1wOpihQTtH6hXsyMj592pAJn/erNArsrFBdGhX+dQtbb6I0hskkILsXL2J4qY
-         RVYBUDK8NVAfDa/BPOfH/1a4aNAmK6g4bQ/03IEelRKywjwtSGX0EBypmZUmvlf4kEqo
-         PlEQ==
-X-Gm-Message-State: AOAM5333leybqFFRdZ5mRHuPZayAUW/x8WNerw6PvWtWjAaKpWDUC2UE
-        Ko22UwyShrtTu3Vdheh+0hGDpAasDuyh6rOdKEqcvQ==
-X-Google-Smtp-Source: ABdhPJx4nQQVdUgmUlxyoMXLNsuDGqeQE8pvJ48nGJ398xMHkV8QhPQ2xHWO0IiNyMsiTwLSd+9zeJn/fk9UacodvKA=
-X-Received: by 2002:a17:90a:9414:: with SMTP id r20mr2615124pjo.222.1612351422042;
- Wed, 03 Feb 2021 03:23:42 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=98vsBgcuoDvTfqJfjl4OuTtzO0K+8P+ZFHH2fOEBr9I=;
+        b=fJXWQLmWuXXAdw9Fkg3/+i7rFjCvCuDWVN18WI/9Dt0niVYPmnXwx+WD1Lgm1jRDe9
+         AGCpT9DxUF7UCPzYRk4aVk4Z2A/qLt9aR2NueTnZeWkiSKbvDtXafaELq+TZy7uFoxyi
+         Jtpqm9KqdEyBjMS6MpaYTZKn9GXuZJPo7trgVBwPIRVeLFqcbLA4AlhDuYRssFFXwTV8
+         jTYviZvbEJqDo2PTRhlIEj0CleeIM2TugV2rGjPukM2m1spwOIAOHzKr4Gjii97AF5ej
+         FHFoR2Lj+Axr4fEr1G3WmZ4jFxwMMgIcJeo5vgGLuiqklbtgd0R8ZeAJ7o1ib4Dx64IQ
+         IHPA==
+X-Gm-Message-State: AOAM533EhsvBkO9OAItNQ2MVHGZwgStTzdlMDGNMlNnzh7zsI/L95kfu
+        cixcQLyo9qYX1oLfyjrwaY1vuw==
+X-Google-Smtp-Source: ABdhPJw5NP169kixDu9IIGlSVUkDflz1tcmHpKTjH9q2Q6cRcxxbMfh5YnqTQYWO0Bv47jyYbkn/Cg==
+X-Received: by 2002:a05:600c:2305:: with SMTP id 5mr846961wmo.183.1612357869563;
+        Wed, 03 Feb 2021 05:11:09 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id h1sm3691810wrr.73.2021.02.03.05.11.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 05:11:08 -0800 (PST)
+Date:   Wed, 3 Feb 2021 14:11:07 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        David Airlie <airlied@linux.ie>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] drm/todo: Add entry for moving to dma_resv_lock
+Message-ID: <YBqg6x8jWIAe2IpH@phenom.ffwll.local>
+References: <20210122133624.1751802-1-daniel.vetter@ffwll.ch>
+ <97c93ad7-9aa1-dcf7-42a9-4f8076eeb135@suse.de>
 MIME-Version: 1.0
-References: <20210127144930.2158242-1-robert.foss@linaro.org>
- <20210127144930.2158242-16-robert.foss@linaro.org> <1612027420.831924.1419424.nullmailer@robh.at.kernel.org>
-In-Reply-To: <1612027420.831924.1419424.nullmailer@robh.at.kernel.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Wed, 3 Feb 2021 12:23:30 +0100
-Message-ID: <CAG3jFytNc39y4XR4j-b8mrxjUQPmoejJA6NZfszib2ZO3V_CFA@mail.gmail.com>
-Subject: Re: [PATCH v3 15/22] dt-bindings: media: camss: Add qcom,
- sdm660-camss binding
-To:     Rob Herring <robh@kernel.org>
-Cc:     michael@walle.cc, leoyang.li@nxp.com,
-        linux-media <linux-media@vger.kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Anson.Huang@nxp.com, Geert Uytterhoeven <geert+renesas@glider.be>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Marek <jonathan@marek.ca>, shawnguo@kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        agx@sigxcpu.org, Tomasz Figa <tfiga@chromium.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        angelogioacchino.delregno@somainline.org, max.oss.09@gmail.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <97c93ad7-9aa1-dcf7-42a9-4f8076eeb135@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 30 Jan 2021 at 18:23, Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, 27 Jan 2021 15:49:23 +0100, Robert Foss wrote:
-> > Add bindings for qcom,sdm660-camss in order to support the camera
-> > subsystem on SDM630/660 and SDA variants.
-> >
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+On Fri, Jan 22, 2021 at 03:06:44PM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 22.01.21 um 14:36 schrieb Daniel Vetter:
+> > Requested by Thomas. I think it justifies a new level, since I tried
+> > to make some forward progress on this last summer, and gave up (for
+> > now). This is very tricky.
+> 
+> Adding it to the TODO list is a first step. :)
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Applied.
+-Daniel
+
+> 
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
 > > ---
-> >
-> > Changes since v2
-> >  - Rob: Add new line at end of file
-> >  - Rob: Remove redundant descriptions
-> >  - Rob: Add power domain description
-> >  - Rob: Make clock-lanes a constant
-> >  - Rob: Rework to conform to new port schema
-> >  - Add max & minItems to data-lanes
-> >  - Remove ports requirement - endpoint & reg
-> >  - Added Angelo as binding maintainer
-> >  - Removed Todor as binding maintainer
-> >
-> >
-> >  .../bindings/media/qcom,sdm660-camss.yaml     | 398 ++++++++++++++++++
-> >  1 file changed, 398 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> >
->
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> Documentation/devicetree/bindings/media/qcom,sdm660-camss.example.dts:21:18: fatal error: dt-bindings/clock/qcom,mmcc-sdm660.h: No such file or directory
->    21 |         #include <dt-bindings/clock/qcom,mmcc-sdm660.h>
->       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[1]: *** [scripts/Makefile.lib:344: Documentation/devicetree/bindings/media/qcom,sdm660-camss.example.dt.yaml] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [Makefile:1370: dt_binding_check] Error 2
+> >   Documentation/gpu/todo.rst | 19 +++++++++++++++++++
+> >   1 file changed, 19 insertions(+)
+> > 
+> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > index dea9082c0e5f..f872d3d33218 100644
+> > --- a/Documentation/gpu/todo.rst
+> > +++ b/Documentation/gpu/todo.rst
+> > @@ -23,6 +23,9 @@ Advanced: Tricky tasks that need fairly good understanding of the DRM subsystem
+> >   and graphics topics. Generally need the relevant hardware for development and
+> >   testing.
+> > +Expert: Only attempt these if you've successfully completed some tricky
+> > +refactorings already and are an expert in the specific area
+> > +
+> >   Subsystem-wide refactorings
+> >   ===========================
+> > @@ -168,6 +171,22 @@ Contact: Daniel Vetter, respective driver maintainers
+> >   Level: Advanced
+> > +Move Buffer Object Locking to dma_resv_lock()
+> > +---------------------------------------------
+> > +
+> > +Many drivers have their own per-object locking scheme, usually using
+> > +mutex_lock(). This causes all kinds of trouble for buffer sharing, since
+> > +depending which driver is the exporter and importer, the locking hierarchy is
+> > +reversed.
+> > +
+> > +To solve this we need one standard per-object locking mechanism, which is
+> > +dma_resv_lock(). This lock needs to be called as the outermost lock, with all
+> > +other driver specific per-object locks removed. The problem is tha rolling out
+> > +the actual change to the locking contract is a flag day, due to struct dma_buf
+> > +buffer sharing.
+> > +
+> > +Level: Expert
+> > +
+> >   Convert logging to drm_* functions with drm_device paramater
+> >   ------------------------------------------------------------
+> > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Felix Imendörffer
+> 
 
-This is expected and mentioned in the cover letter due to a dependency
-on an as of yet unmerged mmcc-sdm660 series.
 
->
-> See https://patchwork.ozlabs.org/patch/1432255
->
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit.
->
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
