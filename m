@@ -2,95 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 151BB30D400
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 08:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C8A430E811
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 00:59:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232026AbhBCHXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 02:23:52 -0500
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:34219 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231465AbhBCHXv (ORCPT
+        id S233997AbhBCX5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 18:57:45 -0500
+Received: from 198-20-226-115.unifiedlayer.com ([198.20.226.115]:41668 "EHLO
+        198-20-226-115.unifiedlayer.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233315AbhBCX5m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Feb 2021 02:23:51 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R861e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0UNkEs0-_1612336976;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UNkEs0-_1612336976)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 03 Feb 2021 15:23:04 +0800
-From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To:     alexander.deucher@amd.com
-Cc:     christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] drm/amdgpu:  convert sysfs sprintf/snprintf family to sysfs_emit
-Date:   Wed,  3 Feb 2021 15:22:53 +0800
-Message-Id: <1612336973-70151-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        Wed, 3 Feb 2021 18:57:42 -0500
+X-Greylist: delayed 59540 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 18:57:38 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=carnivalassure.com.bd; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=miRpAdBSO5eDo01VDX+EK9bqGCmqMjXHS3kO16T6iWw=; b=rgk1ikauAU1hvTn54IcRsZV7jN
+        7ew7UnoHYswDbiAn0BwsDPvi1y7NYnu6spVFzd7wuCzuSXaeHSKXCbOKsfovgDS9G8VDov60T9hnO
+        az+ZrAdd9l4q7KVCSxwWKCfCVJbfHTSf42W46YnBkpxHquHw5LLqdFj5EdNb7huiQ1YCWmqOknYH9
+        SyIGPObfTFO7iFaqVfyi8Xbiiafcx4hzvN/iZIY/q1CFEZM+hVR0h+YPMSL3k9qRCiHtO0Ucth7ip
+        RJzG/T6UUDEki2hIinuZoSZa3/L4hnnytmaQT+A2HqKGkNS4nukEOez1R6NMYmAg56m6DyuuzrLgl
+        lDuKQ5eg==;
+Received: from [127.0.0.1] (port=45986 helo=dot.dotlines.com.sg)
+        by dot.dotlines.com.sg with esmtpa (Exim 4.93)
+        (envelope-from <noreply@carnivalassure.com.bd>)
+        id 1l7CVc-0005Wr-DK; Wed, 03 Feb 2021 01:23:28 -0600
+MIME-Version: 1.0
+Date:   Wed, 03 Feb 2021 01:23:26 -0600
+From:   Francois Pinault <noreply@carnivalassure.com.bd>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Organization: Donation
+Reply-To: francoispinault1936@outlook.com
+Mail-Reply-To: francoispinault1936@outlook.com
+Message-ID: <1a89ab2763fcfd9504c577b99b1b1baa@carnivalassure.com.bd>
+X-Sender: noreply@carnivalassure.com.bd
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - dot.dotlines.com.sg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - carnivalassure.com.bd
+X-Get-Message-Sender-Via: dot.dotlines.com.sg: authenticated_id: noreply@carnivalassure.com.bd
+X-Authenticated-Sender: dot.dotlines.com.sg: noreply@carnivalassure.com.bd
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following coccicheck warning:
 
-./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:207:8-16: WARNING: use
-scnprintf or sprintf.
 
- ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:185:8-16: WARNING: use
-scnprintf or sprintf.
-
-./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:163:8-16: WARNING: use
-scnprintf or sprintf.
-
-./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:139:8-16: WARNING: use
-scnprintf or sprintf.
-
-Reported-by: Abaci Robot<abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index cab1eba..89b5e7c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -136,7 +136,7 @@ static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	uint64_t cnt = amdgpu_asic_get_pcie_replay_count(adev);
- 
--	return snprintf(buf, PAGE_SIZE, "%llu\n", cnt);
-+	return sysfs_emit(buf, "%llu\n", cnt);
- }
- 
- static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
-@@ -160,7 +160,7 @@ static ssize_t amdgpu_device_get_product_name(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_name);
-+	return sysfs_emit(buf, "%s\n", adev->product_name);
- }
- 
- static DEVICE_ATTR(product_name, S_IRUGO,
-@@ -182,7 +182,7 @@ static ssize_t amdgpu_device_get_product_number(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_number);
-+	return sysfs_emit(buf, "%s\n", adev->product_number);
- }
- 
- static DEVICE_ATTR(product_number, S_IRUGO,
-@@ -204,7 +204,7 @@ static ssize_t amdgpu_device_get_serial_number(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->serial);
-+	return sysfs_emit(buf, "%s\n", adev->serial);
- }
- 
- static DEVICE_ATTR(serial_number, S_IRUGO,
 -- 
-1.8.3.1
+Hallo, ich bin Herr Francois Pinault, ich habe Ihnen gespendet. Sie 
+können mein Profil auf Wikipedia, Google oder Forbes überprüfen.
 
+Für Ihren Spendenanspruch und weitere Informationen kontaktieren Sie 
+mich umgehend unter francoispinault1936@outlook.com
+
+Mit freundlichen Grüßen,
+Herr Francois Pinault
