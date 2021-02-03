@@ -2,171 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C3EB30D33C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 06:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 151BB30D400
+	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 08:25:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231556AbhBCF5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 00:57:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbhBCF5H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 00:57:07 -0500
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F61BC06174A
-        for <linux-media@vger.kernel.org>; Tue,  2 Feb 2021 21:56:27 -0800 (PST)
-Received: by mail-ot1-x329.google.com with SMTP id 63so22339393oty.0
-        for <linux-media@vger.kernel.org>; Tue, 02 Feb 2021 21:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=JK+v/H9Y5ZpRZhdXAC5BUOgw8LiPelyQG0wSqPcrtWI=;
-        b=fR9fmJIUrOuAx4WrH055RjPXJ7h71Ne+Me1+7Vja0BEHf3Jb9pGFvE4EIUK8lfLyoC
-         PyfACCCxnCjU7DOX4XiAULuPtRAjdAulHDKHQXXFO9wekCHP5rWUmmagMBPUKlf6RIU2
-         slND/I0sFpiR/zmnZnRwdsFOOU8BYsbJStTSuwEecddQmBEIkzulKqdKxHUgZS/vGzeZ
-         ei+tG04r4OkQKHDMDOcK/fDVaf9t5WJ7TnFC1QIxGkEKGNNiKiqetxt2bjOLQm/D11tb
-         J5D4jz3b1r4mkm1Lk2mC6zc0a5BVVjPccq8PZ3v7BDWaXpvtA7c1UrwS/txd45nyoL+m
-         IjtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=JK+v/H9Y5ZpRZhdXAC5BUOgw8LiPelyQG0wSqPcrtWI=;
-        b=f173JbLFDRjNsK4/iXOYj2Q5iJkzUl77eB0TfIwg1ud0vQbHhGE7MuErFLOvEVpo36
-         nSUmXejEPAWzo5xognMYnP/UC/SHGTILMBYkcxa+YABgZdogrx5Q4XOMETbEXS3uIiiD
-         SvoO5Fzi30IUmvAJwRCnpXJX1/rdO8zpxEQzFniyr6GWeh2grRa4XqUEt1MAFid7EPYs
-         QEJ8D7IUWQII7rOE2YGBLdAwf/CZIE3ZRh5B6VBENEJx1GQM4Pf3yGurkUeBA+jI04Lk
-         7KbNxwKTyOsTctyvHQYJFy3RT+AVVqwjlnNaMgVZE/6pw3SsAs2PQjqbXJ7KxYdUGfY4
-         y72Q==
-X-Gm-Message-State: AOAM5303bGIenUQMTirngJK8FY1tjJsnwOAmfNwypxAbgzo78kP4wm7p
-        C0sqJ+NxNt89WPkkEoAKwgm4FtJcNnrYst//nQe6VQ==
-X-Google-Smtp-Source: ABdhPJy2RJSM/IQLXgr2vBtIZODFBoIES8ezKQ2K+tCeiev7PYCR07s4A6wgMtyVX7p7mQXjnJqS3/so5tjVOUB5lPE=
-X-Received: by 2002:a9d:2c2:: with SMTP id 60mr975041otl.70.1612331786600;
- Tue, 02 Feb 2021 21:56:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20201217230612.32397-1-john.stultz@linaro.org>
- <20201217230612.32397-2-john.stultz@linaro.org> <X9y+YZujWBTHMuH3@phenom.ffwll.local>
- <CALAqxLVtYVGSSYtFmMK6oM9JSEmY4RAXra89sECL2Z4YGPic0Q@mail.gmail.com>
- <X+Ec+xVhyIUa7IsJ@phenom.ffwll.local> <CALAqxLWdq9pKpFLzXmV60LQHpu8BgckDuX1HX5hY4jspHvLK5Q@mail.gmail.com>
- <YBlb1V62cFP9Fz1/@phenom.ffwll.local>
-In-Reply-To: <YBlb1V62cFP9Fz1/@phenom.ffwll.local>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 2 Feb 2021 21:56:14 -0800
-Message-ID: <CALAqxLVNBGLeCnZ1SMj+bPWTTOMADUw7ioz7zaGRZPC79PpBqg@mail.gmail.com>
-Subject: Re: [RFC][PATCH 2/3] dma-buf: system_heap: Add pagepool support to
- system heap
-To:     John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Sandeep Patil <sspatil@google.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        James Jones <jajones@nvidia.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S232026AbhBCHXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 02:23:52 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:34219 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231465AbhBCHXv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Feb 2021 02:23:51 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R861e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0UNkEs0-_1612336976;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UNkEs0-_1612336976)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 03 Feb 2021 15:23:04 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] drm/amdgpu:  convert sysfs sprintf/snprintf family to sysfs_emit
+Date:   Wed,  3 Feb 2021 15:22:53 +0800
+Message-Id: <1612336973-70151-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 2, 2021 at 6:04 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Jan 22, 2021 at 05:28:32PM -0800, John Stultz wrote:
-> > On Mon, Dec 21, 2020 at 2:09 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Fri, Dec 18, 2020 at 05:16:56PM -0800, John Stultz wrote:
-> > > > On Fri, Dec 18, 2020 at 6:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > On Thu, Dec 17, 2020 at 11:06:11PM +0000, John Stultz wrote:
-> > > > > > Reuse/abuse the pagepool code from the network code to speed
-> > > > > > up allocation performance.
-> > > > > >
-> > > > > > This is similar to the ION pagepool usage, but tries to
-> > > > > > utilize generic code instead of a custom implementation.
-> > > > >
-> > > > > We also have one of these in ttm. I think we should have at most one of
-> > > > > these for the gpu ecosystem overall, maybe as a helper that can be plugged
-> > > > > into all the places.
-> > > > >
-> > > > > Or I'm kinda missing something, which could be since I only glanced at
-> > > > > yours for a bit. But it's also called page pool for buffer allocations,
-> > > > > and I don't think there's that many ways to implement that really :-)
-> > > >
-> > > > Yea, when I was looking around the ttm one didn't seem quite as
-> > > > generic as the networking one, which more easily fit in here.
-> > >
-> > > Oops, I didn't look that closely and didn't realize you're reusing the one
-> > > from net/core/.
-> > >
-> > > > The main benefit for the system heap is not so much the pool itself
-> > > > (the normal page allocator is pretty good), as it being able to defer
-> > > > the free and zero the pages in a background thread, so the pool is
-> > > > effectively filled with pre-zeroed pages.
-> > > >
-> > > > But I'll take another look at the ttm implementation and see if it can
-> > > > be re-used or the shared code refactored and pulled out somehow.
-> > >
-> > > I think moving the page_pool from net into lib and using it in ttm might
-> > > also be an option. Lack of shrinker in the networking one might be a bit a
-> > > problem.
-> >
-> > Yea. I've been looking at this, to see how to abstract out a generic
-> > pool implementation, but each pool implementation has been tweaked for
-> > the specific use cases, so a general abstraction is a bit tough right
-> > off.
-> >
-> > For example the ttm pool's handling allocations both from alloc_pages
-> > and dma_alloc in a pool, where the net page pool only uses alloc_pages
-> > (but can pre map via dma_map_attr).
-> >
-> > And as you mentioned, the networking page pool is statically sized
-> > where the ttm pool is dynamic and shrinker controlled.
-> >
-> > Further, as the ttm pool is utilized for keeping pools of pages set
-> > for specific cache types, it makes it difficult to abstract that out
-> > as we have to be able to reset the caching (set_pages_wb()) when
-> > shrinking, so that would also have to be pushed down into the pool
-> > attributes as well.
-> >
-> > So far, in my attempts to share an abstraction for both the net
-> > page_pool and the ttm page pool, it seems to make the code complexity
-> > worse on both sides -  so while I'm interested in continuing to try to
-> > find a way to share code here, I'm not sure it makes sense to hold up
-> > this series (which is already re-using an existing implementation and
-> > provide a performance bump in microbenchmarks) for the
-> > grand-unified-page-pool. Efforts to refactor the ttm pool and net page
-> > pool can continue on indepently, and I'd be happy to move the system
-> > heap to whatever that ends up being.
->
-> The thing is, I'm not sure sharing code with net/core is a really good
-> idea, at least it seems like we have some impendence mismatch with the ttm
-> pool. And going forward I expect sooner or later we need alignment between
-> the pools/caches under drm with dma-buf heap pools a lot more than between
-> dma-buf and net/core.
+Fix the following coccicheck warning:
 
-I mean...  I don't think you're wrong here, but it was your suggestion.
+./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:207:8-16: WARNING: use
+scnprintf or sprintf.
 
-> So this feels like a bit code sharing for code sharing's sake and not
-> where it makes sense. Expecting net/core and gpu stacks to have the exact
-> same needs for a page pool allocator has good chances to bite us in the
-> long run.
+ ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:185:8-16: WARNING: use
+scnprintf or sprintf.
 
-Again, I agree with you at the high level here (dmabuf system heap and
-ttm page pooling are conceptually more likely to align, and
-duplication of buffer pools is non-optimal), but there's still the
-practical aspect of the ttm pool being pretty tied to the ttm code
-(utilizing ttm contexts, fixed MAX_ORDER*TTM_NUM_CACHING_TYPES
-subpools per pool + 4 global sub-pools for only x86).
+./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:163:8-16: WARNING: use
+scnprintf or sprintf.
 
-So... I guess I'll go for another pass at trying to pull something
-generic out of the ttm_pool, but the cynic in me suspects folks will
-just object to any inefficiencies added in order to do so (the
-code-sharing for its own sake argument above) and I'll be back to
-where I am now. But we'll see.
+./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:139:8-16: WARNING: use
+scnprintf or sprintf.
 
-thanks
--john
+Reported-by: Abaci Robot<abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index cab1eba..89b5e7c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -136,7 +136,7 @@ static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 	uint64_t cnt = amdgpu_asic_get_pcie_replay_count(adev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%llu\n", cnt);
++	return sysfs_emit(buf, "%llu\n", cnt);
+ }
+ 
+ static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
+@@ -160,7 +160,7 @@ static ssize_t amdgpu_device_get_product_name(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_name);
++	return sysfs_emit(buf, "%s\n", adev->product_name);
+ }
+ 
+ static DEVICE_ATTR(product_name, S_IRUGO,
+@@ -182,7 +182,7 @@ static ssize_t amdgpu_device_get_product_number(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_number);
++	return sysfs_emit(buf, "%s\n", adev->product_number);
+ }
+ 
+ static DEVICE_ATTR(product_number, S_IRUGO,
+@@ -204,7 +204,7 @@ static ssize_t amdgpu_device_get_serial_number(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n", adev->serial);
++	return sysfs_emit(buf, "%s\n", adev->serial);
+ }
+ 
+ static DEVICE_ATTR(serial_number, S_IRUGO,
+-- 
+1.8.3.1
+
