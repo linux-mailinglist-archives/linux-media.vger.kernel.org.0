@@ -2,262 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2A3030DF7A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 17:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6E9630DFCC
+	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 17:36:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234931AbhBCQQB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 11:16:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49906 "EHLO
+        id S231191AbhBCQeu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 11:34:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235022AbhBCQPV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 11:15:21 -0500
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5888C061786
-        for <linux-media@vger.kernel.org>; Wed,  3 Feb 2021 08:14:40 -0800 (PST)
-Received: by mail-oi1-x22b.google.com with SMTP id d20so377661oiw.10
-        for <linux-media@vger.kernel.org>; Wed, 03 Feb 2021 08:14:40 -0800 (PST)
+        with ESMTP id S230180AbhBCQed (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 11:34:33 -0500
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8470C061786;
+        Wed,  3 Feb 2021 08:33:53 -0800 (PST)
+Received: by mail-qk1-x734.google.com with SMTP id a19so282810qka.2;
+        Wed, 03 Feb 2021 08:33:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bCfZ/a/6NOr6nE7maD0+c3yfEPShyNSVY7EhDvteykY=;
-        b=F30Nrt9vPiAB/zyqMpbpGMCX5+9GbissyHIBmWRmyMfHwYjqRyqHPvGGNSQswndDl8
-         ueuYjPhiYQRYrUuuoE2fCSgdN6wSgEVa4WV8ZAaC0Pdwh0MqPavWRi9wHjisevfaVscM
-         tKXh1rpbVgrfZgdHoSxmfIAY/17F42+Ith6ME=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=CnmcPCrNkYlOAKp0TeVXo4eNgCaDjLZITNcPd4Ycqpk=;
+        b=s3sFCaxmvisX+PBcIC7OMJ+1p8o/D2AywhXWE4Tzyg675Jgj/13ioZOql1XNJkeKyy
+         AYnL3/u4IY7fm7E1XPW/dLUSJUUCV9NDXsGYNN4eRTKlBg6yWs2Yb/hvt/oNftySEaIw
+         3AZ+nmHWgFVQjj5DK7E4qIzJYI7igwFYuq219MJ48cMxPhx5lacVjZxI9PDTKHWY8pEg
+         hmpIIx0MA7erEheWe63cfKm50g8I5hFr48rYSkUBkkFWPmX5d35vU18lMnaXjq+b4eL5
+         Q/FslB4de8wVSBxJMXz8RuD/L8hj1tiRBNM8P8mGmsl9vb7ih17K1NWWjHqPBba7CjAM
+         PqRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bCfZ/a/6NOr6nE7maD0+c3yfEPShyNSVY7EhDvteykY=;
-        b=T71ZsHtrN73NKTMP/pemrfkJapSX10ASSPxxscjrvu7n9nYoXw8oTcybHYKJPbIG8M
-         f+OYSfz33QCQi8Itcsjh9SGazgzNWhtYuTc5qHXWl+uCpOjQSKZAf/tYdKEQoDvBhAX0
-         6xVhdLqc1u3b6irX1EJTbuVcMDj+MQqaUWkA16CrJ4wXa3HTd54NUoQBKUHg2R7DDBBH
-         BMaDXteKKQggMmS+6FsjZqQfMyY+zBxPp/YzolCHFfeomwqF4mT7f3jHImWYq6eExaFi
-         jpgS+y8wLYSuUvMJbdi2WvLRfFIMe5+brt3SGPiYXzQ3aPdfPVgZQRyCXTb3qT6YonN5
-         /htw==
-X-Gm-Message-State: AOAM5329n8GYhgtoE9rnqPYgeYRB+CQqvBiAbH2syqhHHpie3x5f+OAj
-        HfqnA9g/kz8xGDJhn0pIvcJfPMvBOIOFI31qLZYDig==
-X-Google-Smtp-Source: ABdhPJxC2Hr09yAlU46Rq8Zw9mzo14g2j/8RncSJTzh5gFRD/Uq7tpWlsM64N23HZFbUWxoY/ZCynmvy0uA3EPvqdek=
-X-Received: by 2002:aca:1906:: with SMTP id l6mr2422037oii.101.1612368880228;
- Wed, 03 Feb 2021 08:14:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
- <20201127164131.2244124-13-daniel.vetter@ffwll.ch> <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
- <YAbtZBU5PMr68q9E@kroah.com> <CAKMK7uGHSgetm7mDso6_vj+aGrR4u+ChwHb3k0QvgG0K6X2fPg@mail.gmail.com>
- <YAb4yD4IbpQ3qhJG@kroah.com> <CAKMK7uF9RfqhOGzcjgXTY62-dFS7ELr+uHuRDhEjOcO-kSgY+w@mail.gmail.com>
-In-Reply-To: <CAKMK7uF9RfqhOGzcjgXTY62-dFS7ELr+uHuRDhEjOcO-kSgY+w@mail.gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 3 Feb 2021 17:14:29 +0100
-Message-ID: <CAKMK7uG7QiP6m5jfidn7AWVhXp1JUZNpgpNPWOV6bqo9H+7vXA@mail.gmail.com>
-Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Linux PCI <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=CnmcPCrNkYlOAKp0TeVXo4eNgCaDjLZITNcPd4Ycqpk=;
+        b=HJeOU8RB44slZ6i5q3fzll321yFppiFS5nqNbwv21h0gf06dWtBC6VxuRZXfLqVLvr
+         QaKvZ587IUTrd2Nt2otVXWFesvGVmYGXC6wS81JJGvueb+yY2OondLrJMglRArO7ZetJ
+         nWwlPB19f2xtmURR2cXfkhK92UBGd9x2f7/pGNA05n/2c0xEY3oQ512hcUs8whI8L+J3
+         g+pQqRpYVTNFxvAzGZJst8fUTg5/1S56V4kiGc0T0xf7kK9Ltf6CsH8nuNE/scKy/CfT
+         SlQ5GcBI0Jn9kXju0ech6elLUdhsSBU5+g4a/vhnl8Knv4x47YCkgYponxuu8Jcvuwfd
+         kbOA==
+X-Gm-Message-State: AOAM532oxuvZO/nl8upuj6OT8CBM8fFNQsWrSy/IGMGwk/FyorHsbP3R
+        onW9L0pDfe/wQxz2GGrJAXGK+VKPjcg=
+X-Google-Smtp-Source: ABdhPJwUFklIEeVdPq27NlqwhPYvH8uz9dFYESjlSJyzlnInL5YblHliuTp2Kr+ZHnsJbQvje0r34g==
+X-Received: by 2002:a05:620a:530:: with SMTP id h16mr3377043qkh.136.1612370032688;
+        Wed, 03 Feb 2021 08:33:52 -0800 (PST)
+Received: from localhost.localdomain ([198.52.185.246])
+        by smtp.gmail.com with ESMTPSA id e5sm1719093qtp.86.2021.02.03.08.33.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 08:33:52 -0800 (PST)
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+X-Google-Original-From: Sven Van Asbroeck <TheSven73@gmail.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sven Van Asbroeck <thesven73@gmail.com>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [BUG REPORT] media: coda: mpeg4 decode corruption on i.MX6qp only
+Date:   Wed,  3 Feb 2021 11:33:48 -0500
+Message-Id: <20210203163348.30686-1-TheSven73@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 5:03 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
->
-> On Tue, Jan 19, 2021 at 4:20 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Jan 19, 2021 at 03:34:47PM +0100, Daniel Vetter wrote:
-> > > On Tue, Jan 19, 2021 at 3:32 PM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Tue, Jan 19, 2021 at 09:17:55AM +0100, Daniel Vetter wrote:
-> > > > > On Fri, Nov 27, 2020 at 5:42 PM Daniel Vetter <daniel.vetter@ffwl=
-l.ch> wrote:
-> > > > > >
-> > > > > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver cl=
-aims
-> > > > > > the region") /dev/kmem zaps ptes when the kernel requests exclu=
-sive
-> > > > > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, t=
-his is
-> > > > > > the default for all driver uses.
-> > > > > >
-> > > > > > Except there's two more ways to access PCI BARs: sysfs and proc=
- mmap
-> > > > > > support. Let's plug that hole.
-> > > > > >
-> > > > > > For revoke_devmem() to work we need to link our vma into the sa=
-me
-> > > > > > address_space, with consistent vma->vm_pgoff. ->pgoff is alread=
-y
-> > > > > > adjusted, because that's how (io_)remap_pfn_range works, but fo=
-r the
-> > > > > > mapping we need to adjust vma->vm_file->f_mapping. The cleanest=
- way is
-> > > > > > to adjust this at at ->open time:
-> > > > > >
-> > > > > > - for sysfs this is easy, now that binary attributes support th=
-is. We
-> > > > > >   just set bin_attr->mapping when mmap is supported
-> > > > > > - for procfs it's a bit more tricky, since procfs pci access ha=
-s only
-> > > > > >   one file per device, and access to a specific resources first=
- needs
-> > > > > >   to be set up with some ioctl calls. But mmap is only supporte=
-d for
-> > > > > >   the same resources as sysfs exposes with mmap support, and ot=
-herwise
-> > > > > >   rejected, so we can set the mapping unconditionally at open t=
-ime
-> > > > > >   without harm.
-> > > > > >
-> > > > > > A special consideration is for arch_can_pci_mmap_io() - we need=
- to
-> > > > > > make sure that the ->f_mapping doesn't alias between ioport and=
- iomem
-> > > > > > space. There's only 2 ways in-tree to support mmap of ioports: =
-generic
-> > > > > > pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the sin=
-gle
-> > > > > > architecture hand-rolling. Both approach support ioport mmap th=
-rough a
-> > > > > > special pfn range and not through magic pte attributes. Aliasin=
-g is
-> > > > > > therefore not a problem.
-> > > > > >
-> > > > > > The only difference in access checks left is that sysfs PCI mma=
-p does
-> > > > > > not check for CAP_RAWIO. I'm not really sure whether that shoul=
-d be
-> > > > > > added or not.
-> > > > > >
-> > > > > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > > > > > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > > > > Cc: Kees Cook <keescook@chromium.org>
-> > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > > > > Cc: John Hubbard <jhubbard@nvidia.com>
-> > > > > > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > > > > > Cc: Jan Kara <jack@suse.cz>
-> > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > Cc: linux-mm@kvack.org
-> > > > > > Cc: linux-arm-kernel@lists.infradead.org
-> > > > > > Cc: linux-samsung-soc@vger.kernel.org
-> > > > > > Cc: linux-media@vger.kernel.org
-> > > > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > > > > Cc: linux-pci@vger.kernel.org
-> > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > > > --
-> > > > > > v2:
-> > > > > > - Totally new approach: Adjust filp->f_mapping at open time. No=
-te that
-> > > > > >   this now works on all architectures, not just those support
-> > > > > >   ARCH_GENERIC_PCI_MMAP_RESOURCE
-> > > > > > ---
-> > > > > >  drivers/pci/pci-sysfs.c | 4 ++++
-> > > > > >  drivers/pci/proc.c      | 1 +
-> > > > > >  2 files changed, 5 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > > > > > index d15c881e2e7e..3f1c31bc0b7c 100644
-> > > > > > --- a/drivers/pci/pci-sysfs.c
-> > > > > > +++ b/drivers/pci/pci-sysfs.c
-> > > > > > @@ -929,6 +929,7 @@ void pci_create_legacy_files(struct pci_bus=
- *b)
-> > > > > >         b->legacy_io->read =3D pci_read_legacy_io;
-> > > > > >         b->legacy_io->write =3D pci_write_legacy_io;
-> > > > > >         b->legacy_io->mmap =3D pci_mmap_legacy_io;
-> > > > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
-> > > > > >         pci_adjust_legacy_attr(b, pci_mmap_io);
-> > > > > >         error =3D device_create_bin_file(&b->dev, b->legacy_io)=
-;
-> > > > > >         if (error)
-> > > > > > @@ -941,6 +942,7 @@ void pci_create_legacy_files(struct pci_bus=
- *b)
-> > > > > >         b->legacy_mem->size =3D 1024*1024;
-> > > > > >         b->legacy_mem->attr.mode =3D 0600;
-> > > > > >         b->legacy_mem->mmap =3D pci_mmap_legacy_mem;
-> > > > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
-> > > > >
-> > > > > Unlike the normal pci stuff below, the legacy files here go boom
-> > > > > because they're set up much earlier in the boot sequence. This on=
-ly
-> > > > > affects HAVE_PCI_LEGACY architectures, which aren't that many. So=
- what
-> > > > > should we do here now:
-> > > > > - drop the devmem revoke for these
-> > > > > - rework the init sequence somehow to set up these files a lot la=
-ter
-> > > > > - redo the sysfs patch so that it doesn't take an address_space
-> > > > > pointer, but instead a callback to get at that (since at open tim=
-e
-> > > > > everything is set up). Imo rather ugly
-> > > > > - ditch this part of the series (since there's not really any tak=
-ers
-> > > > > for the latter parts it might just not make sense to push for thi=
-s)
-> > > > > - something else?
-> > > > >
-> > > > > Bjorn, Greg, thoughts?
-> > > >
-> > > > What sysfs patch are you referring to here?
-> > >
-> > > Currently in linux-next:
-> > >
-> > > commit 74b30195395c406c787280a77ae55aed82dbbfc7 (HEAD ->
-> > > topic/iomem-mmap-vs-gup, drm/topic/iomem-mmap-vs-gup)
-> > > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Date:   Fri Nov 27 17:41:25 2020 +0100
-> > >
-> > >    sysfs: Support zapping of binary attr mmaps
-> > >
-> > > Or the patch right before this one in this submission here:
-> > >
-> > > https://lore.kernel.org/dri-devel/20201127164131.2244124-12-daniel.ve=
-tter@ffwll.ch/
-> >
-> > Ah.  Hm, a callback in the sysfs file logic seems really hairy, so I
-> > would prefer that not happen.  If no one really needs this stuff, why
-> > not just drop it like you mention?
->
-> Well it is needed, but just on architectures I don't care about much.
-> Most relevant is perhaps powerpc (that's where Stephen hit the issue).
-> I do wonder whether we could move the legacy pci files setup to where
-> the modern stuff is set up from pci_create_resource_files() or maybe
-> pci_create_sysfs_dev_files() even for HAVE_PCI_LEGACY. I think that
-> might work, but since it's legacy flow on some funny architectures
-> (alpha, itanium, that kind of stuff) I have no idea what kind of
-> monsters I'm going to anger :-)
+From: Sven Van Asbroeck <thesven73@gmail.com>
 
-Back from a week of vacation, I looked at this again and I think
-shouldn't be hard to fix this with the sam trick
-pci_create_sysfs_dev_files() uses: As long as sysfs_initialized isn't
-set we skip, and then later on when the vfs is up&running we can
-initialize everything.
+We have observed that under certain repeatable circumstances, the CODA
+mem2mem device consistently generates corrupted frames. This happens only
+on an i.MX6qp (Plus) - the classic imx6q is not affected.
 
-To be able to apply the same thing to pci_create_legacy_files() I
-think all I need is to iterate overa all struct pci_bus in
-pci_sysfs_init() and we're good. Unfortunately I didn't find any
-for_each_pci_bus(), so how do I do that?
+This happens when the virtual X screen is wider than 0x900 pixels (1).
 
-Thanks, Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Quite strange, because CODA is a mem2mem device, and is presumably not touching
+any of the IPU/GPU2D/GPU3D infrastructure used by X. Except if there is a hidden
+dependency somehow.
+
+I have captured and visualized generated CODA frames as follows:
+gst-launch-1.0 playbin uri=file:///home/default/nycTrain1080p.mp4 flags=0x45
+    video-sink='multifilesink location=frame%d.yuv'
+See (2) for how I converted the raw YUV frame to a PNG image.
+
+For example, the following will break CODA mpeg4 decode (width >= 0x900):
+# xrandr --fb 2400x1088
+Screen 0: minimum 1 x 1, current 2400 x 1088, maximum 4096 x 4096
+HDMI1 disconnected (normal left inverted right x axis y axis)
+LVDS1 connected primary 1280x800+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
+   1280x800      59.79*+
+
+Resulting frame when dumped with multifilesink (NOT written to the display):
+https://gitlab.com/TheSven73/coda-investigation/-/blob/master/stripes.png
+
+And the following will restore CODA mpeg4 decode (width < 0x900):
+# xrandr --fb 2300x1088
+Screen 0: minimum 1 x 1, current 2300 x 1088, maximum 4096 x 4096
+HDMI1 disconnected (normal left inverted right x axis y axis)
+LVDS1 connected primary 1280x800+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
+   1280x800      59.79*+
+
+Resulting frame when dumped with multifilesink (NOT written to the display):
+https://gitlab.com/TheSven73/coda-investigation/-/blob/master/ok.png
+
+Additional info:
+- only the virtual X screen width seems to trigger the issue, it is
+  independent of the height.
+- issue seems independent of the pixel format. Forcing CODA to output NV12
+  shows the same behaviour.
+
+System description:
+- i.MX6 QuadPlus:
+[    0.144518] CPU identified as i.MX6QP, silicon rev 1.1
+- mainline Linux v5.9.16 with a small private patchset on top
+  (patchset does not touch CODA)
+- CODA960 silicon contained within i.MX6 QuadPlus:
+[ 4798.510033] coda 2040000.vpu: Firmware code revision: 46076
+[ 4798.515916] coda 2040000.vpu: Initialized CODA960.
+[ 4798.520779] coda 2040000.vpu: Firmware version: 3.1.1
+- gstreamer from buildroot:
+gst-launch-1.0 version 1.16.2
+GStreamer 1.16.2
+- X from buildroot, using armada and etnadrm_gpu plugins:
+X.Org X Server 1.20.7
+X Protocol Version 11, Revision 0
+[    99.527] (II) LoadModule: "armada"
+[    99.527] (II) Loading /usr/lib/xorg/modules/drivers/armada_drv.so
+[    99.538] (II) Module armada: vendor="X.Org Foundation"
+[    99.538] 	compiled for 1.20.7, module version = 0.0.0
+[    99.538] 	Module class: X.Org Video Driver
+[    99.538] 	ABI class: X.Org Video Driver, version 24.1
+[    99.538] (II) armada: Support for Marvell LCD Controller: 88AP510
+[    99.539] (II) armada: Support for Freescale IPU: i.MX6
+[    99.545] (II) armada(0): Added screen for KMS device /dev/dri/card1
+[    99.561] (II) armada(0): hardware: imx-drm
+[    99.563] (**) armada(0): Option "AccelModule" "etnadrm_gpu"
+[    99.563] (II) Loading sub module "etnadrm_gpu"
+[    99.563] (II) LoadModule: "etnadrm_gpu"
+[    99.564] (II) Loading /usr/lib/xorg/modules/drivers/etnadrm_gpu.so
+[    99.576] (II) Module Etnaviv GPU driver (DRM): vendor="X.Org Foundation"
+[    99.576] 	compiled for 1.20.7, module version = 0.0.0
+
+
+(1) When using multiple displays, the virtual X screen is typically the bounding
+    rectangle which includes all screens. That's why it can become wider than
+    1920 pixels.
+
+(2)
+
+# Convert raw YUYV to PNG
+# Python, runs out of the box on a stock Google Colab notebook
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+
+img = np.fromfile('frame1.yuv', dtype=np.uint8)
+# YUYV has two 8-bit channels per pixel
+img.shape = (1088, 1920, 2)
+
+img2 = cv2.cvtColor(img, cv2.COLOR_YUV2RGB_YUYV)
+plt.imshow(img2)
+matplotlib.image.imsave('frame1.png', img2)
+
+To: Philipp Zabel <p.zabel@pengutronix.de>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
