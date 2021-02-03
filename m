@@ -2,150 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D38B30D484
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 09:02:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED81330D4AA
+	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 09:07:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232146AbhBCIAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 03:00:45 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37227 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231738AbhBCIAm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Feb 2021 03:00:42 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 7D4slul1CE1Ic7D4wlHU5h; Wed, 03 Feb 2021 08:59:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612339199; bh=TOLLB3ew23avYS6JOfl7KTi+HABJ45/s8cNDCQDq4ao=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vrKVc8e436ExADb/YSwUis5j99xjkbC+YsakJCmNWYZYIPQ2gQg0olOmgp2Nnp/hy
-         Diy5p7BjzQj1rBM2+harUcYWlnkIg1+MPJW9YE3ue9vlbiK35Z/6sTkbMM8HPrchER
-         Zvi4bQRs2tn9Re0iO51+JIQPuRlRbyhCFJq8FpQ5T1i9cr8vb1KdZUOpWWyovqVD0a
-         1S55uz9lQcm8Ug7yNUy60AUEGusU7uQRCxs7xvKCMUK9D6trkMTiah446FMpo6b8cU
-         TENIu22EE43tPUEy3jVkAcNBwMt3JhpJgIhGpVGX68rEtwYr499lSv9FIN/exIObaY
-         ZkMDPxT4pEmhw==
-Subject: Re: [PATCHv3 0/4] Add /sys media_dev attr for V4L/DVB devices
-To:     Sebastian Fricke <sebastian.fricke@posteo.net>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20210202144926.620104-1-hverkuil-cisco@xs4all.nl>
- <20210203052540.bh7gnungml6l3gtv@basti-TUXEDO-Book-XA1510>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <eb2a92be-e399-8b84-10d5-48c89c8b61d5@xs4all.nl>
-Date:   Wed, 3 Feb 2021 08:59:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20210203052540.bh7gnungml6l3gtv@basti-TUXEDO-Book-XA1510>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S232388AbhBCIHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 03:07:11 -0500
+Received: from mail-mw2nam10on2085.outbound.protection.outlook.com ([40.107.94.85]:16737
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232611AbhBCIHD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Feb 2021 03:07:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TFKyI7ITqPi1c2Lh1oHWlzGlp29fH7qHFHflQLPJ2W64baMO9YJK0g5SgSyYaOgf8yD1nIHsPPMT7o7yRV9YSzHjATz4piL6aEvvTiRxsO3O5X4Kizlsv1nWR4NPfqFrvYqa46e1AuVUGKdQh8Jdv+2+JHUTFlE70x1JhxQLqVQGzMa81MUJ2lmkfV/v/vLQ9LV4aSJHqJf3I6f8vYuA7tnQ0aL6jZkzhCrqCUxcs1xeXVKKRc45b16gum1ix2hWdAHmvyFHZt85jHvMj1lNAETjpesHMgQubkPpTqPf9U+lFW/XKMDJspto5VR3JDa4zKt/Lxc02MoAkpCFukwhJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e8CeD//g3xEEY+xtR5NSL5rmoGxSpgvSTVlSIold9HM=;
+ b=YyUM21kjusPHq4Fy96HYvP1Z6N60YOziuQ2CNY3VKnQYAZhSZaYMAstvXVU8+VFISEd+5DPfX36dBzpgF+OCiCISkocn/HRCY5rCumcaBBtkgVEnnTjCHYM68djQWXe609Ap+kTr7g29ro1hYvwxMG1DcNg8/fk9NjbOvNUim1pCqd2XqquNxAPTzeWWpx6WzKyhTuowE17yXBe28YTNQuNQOyIpUAv1kIagMAve7vMA9eZmUSzLVZczNM+0UEzM2kI8qsB4eXHEK/gokDvkt0ZVfCAou407FwnXj/DbR5Q74YFKHsAnp2ZvWfXaOidfZdgxwRE/1ZOBQ2GmUgo0JA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e8CeD//g3xEEY+xtR5NSL5rmoGxSpgvSTVlSIold9HM=;
+ b=HM0CjR9JPZD7NlgKtt88Q2WPH5IO58T92wKMQVuj9zt2zgwhhf0ej1yEJMC0L1DrG6HpK7b7cWeOOcTZ8SYwIg/lIVZWf5O7in/vpTFbhV7c+sMcC+zb+XJ/rxdxqatqLq9ozkwQb9ckGSTw5cb6GXHIQhFteb/FDRGzS0NINmk=
+Authentication-Results: android.com; dkim=none (message not signed)
+ header.d=none;android.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (10.255.86.19) by
+ MN2PR12MB3840.namprd12.prod.outlook.com (10.255.239.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.21; Wed, 3 Feb 2021 08:06:05 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3805.024; Wed, 3 Feb 2021
+ 08:06:05 +0000
+Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Map system heap pages as managed
+ by linux vm
+To:     Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Liam Mark <lmark@codeaurora.org>, labbott@redhat.com,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?Q?=c3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Jones <jajones@nvidia.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+References: <20210203003134.2422308-1-surenb@google.com>
+ <20210203003134.2422308-2-surenb@google.com> <YBn+yWIE9eXbgQ2K@google.com>
+ <CAJuCfpHCCD6ruxQAZP8pTZxz44F7pDKY59QznxFv0nQ+-9VaQA@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <1ea3d79a-2413-bba5-147e-e24df3f91ce0@amd.com>
+Date:   Wed, 3 Feb 2021 09:05:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <CAJuCfpHCCD6ruxQAZP8pTZxz44F7pDKY59QznxFv0nQ+-9VaQA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLr0I//XJIKUAFbbmLJCfJr/HJXfauCEbPmaaTBzajlwoDr1QM9ogKZWE1WcYV6c6ZLOmt/xfz2kNO67vpp519Hp5k2Dw51Twc97rwO/bkePl0eD+Fip
- JskDi52qgGNgGQHt/sQb8BmXQlWpVKyLs9D5t77Difpr/YGPjzOYnDL1Tlv1DfiXFNktCTZ9mT9BvXYkUx3z4p0w2AvuPSIW5KO47XV4WFGAyetmzkibpP74
- tTgKvD2/HHpcyiRxpmT5+Hu6E18cYFXu6OpXG3h4lbJpBADwcUSDg1ENGK32sIC91CkSUOW31Ikh9ItdDqos2eoRqPkBM9LUQWIXQ/odNik=
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR10CA0002.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::12) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR10CA0002.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend Transport; Wed, 3 Feb 2021 08:06:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 189a3e28-837a-494f-d0b3-08d8c81a8e19
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3840:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3840CC7322A157ABA3043B4F83B49@MN2PR12MB3840.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zq5djfQMdsAyOoZE0F2X20KBgZ5i9Madmu/lnsa2ioccPSo+HkYb93JNTSzQT0L6yahZFo+oPQn39ecm96p3yrieGeuqyFM7aY29Y/NQu6HseGwrBpDdZTGd1GRe1Dh+wom1XVWchR6BeAager7Lf250kh2A6x6FtrclkqhXprlovrRbzYThzEcHfb/Tn6exIYhfePDddv9pTKtycGSGsnAI7o51m0+ZUTqjwTJVg/7nLf/DkBANOYIQ66/8Ssqz8mQcvYhA158NukTQWZFGGMqH1vLQiJPCCYsnof2Rz6KC6T73cI+NRESBZi3aO353s1QeBC5G4/fQgl5JigQDE5PB4D+lPOFhedOzDz7hpDv+XUKkABorLX+jB0uY0/gsTgm12XYgDE0578FCjKnCVr++rYKw7dQbLTdMHfzbVaBvq3i5snrw+lKaeZXwheTwiijxBRnQ25uwSJxzXGsjs2EshmaGPEVP++v1WD6M22/qCVgMRdJHt5kDX0RubKvvwI8f+PvDOULT/aNbIARFugQHmvwjMWn2KA6cXwMpEO+tkiRl1civqXhD5dLRcQmA89c5iAV4mnyDVAmF5Wh7FtEb0QN480X2Efs0Kagc282qLdohCN5fWCwfCOQscV4O6+WT2Wudo2tPPwhfk8G/tKc3EQ2h8Szah6fNuBJ2hXrzZK52FfMQi/BipUX5hYrk
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(346002)(366004)(396003)(6666004)(16526019)(31696002)(53546011)(186003)(66476007)(86362001)(5660300002)(316002)(54906003)(110136005)(7416002)(31686004)(6486002)(45080400002)(2906002)(478600001)(966005)(4326008)(2616005)(8936002)(66946007)(36756003)(52116002)(8676002)(66556008)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Sjk0RHJHRzhoWFNnT1BoSFBMR2VQb25IeXpJSzIwVk41emh0MkYwV2xJcHFz?=
+ =?utf-8?B?VE1GU3FkcW81V3diQVZ0a2FDOC9RQ3FKeE01WHI0MVFqNFBxM3BxallTYTlr?=
+ =?utf-8?B?OE1mS2YrM1dnSGtNcGZkVWNyQktaN3VEcjViZ0JESFFKQWwwV29DOEZrQzRa?=
+ =?utf-8?B?UnVNazBOZzFGQkVFNkpVcnp2aHQrK3F4NzV0T05LckhXME9SbktoRnY5Rzdn?=
+ =?utf-8?B?ZmNtaW9MQ1B2Z1BPRXVFaTIyV21iK0pFYWpPTEppWG8zamZzOFI5TXhTalRL?=
+ =?utf-8?B?RmJXa0ZUcTVub0pmQ21RZDRsRGpSdVFKeFBEWTgrbnVKT084bXNnVWlvelFI?=
+ =?utf-8?B?ZWhyVU8xVEkwWEJUNHZoNUJXVW82cDNaR2t1ckg3Y0pGMUducVJ3VFlwMVF4?=
+ =?utf-8?B?c283UDBkbjhVTm1yeWZMaFl2NG4rdGZFOERyZHFibGVzTmkveWdYNmN1K0Jv?=
+ =?utf-8?B?eDkrdTFCOWNXWDh6NFBETEFydjJtVmRYWlR4NTNsS0RSc041M3JOT1JvNFJV?=
+ =?utf-8?B?TGNDbGtNa3ZZeGZ5RGtqTmlRS3VWL2puN3hKN1JjZklvenBLbkxuZTk0RTV2?=
+ =?utf-8?B?Zm5FckRicjdXR3cxeVhOZmhCbmJnZ1hLYXNLUHZSNTFLRFdSM1B5MU5hWmRk?=
+ =?utf-8?B?Sk5LTGo5SSttL2VSUWZLaW5uSkJqU2VHZmRCL0UzbTlLRk9HNEtNSjM0NmFv?=
+ =?utf-8?B?VG5EcWV1bTZmSmpUajY5SjZua3ZGWVNSOUN3WjBFZk5FWDBhOXdJeDNSRUJ0?=
+ =?utf-8?B?MkhNSGhUbFpHVkxJV0s5bDV4eElmbDExbFpqejduc2YyWnlmSWJoL3JlSUlL?=
+ =?utf-8?B?cjIwVDBEeFNERFFrbmlra3ZuUjVpQytQRWZTdDZXYVkwSHUzWmlHVzFmQldK?=
+ =?utf-8?B?eVlkaGpQY3pXVlFJYWFLamhZOVZHTEdGNHVFanRQeFlLRG56dGVMdHkvRkc3?=
+ =?utf-8?B?T1gvSjg4VmUzaWJIdHBtNWFURnZoQmk0SGZ2ZUJ5VDdBTmNYayt0MGtUVDg5?=
+ =?utf-8?B?Y25nNnd1K1NSL1BuWTQ1ak9hN0FOSFVITXE0N3l0ZXNFaEVEcDM5Sk9FUVBS?=
+ =?utf-8?B?djRubFgvV0hWU2ZpMXovV09sY041UlBKZ1NweHBLb2dKalVqZFJVelFER2t5?=
+ =?utf-8?B?OElkNi91dUh6YUt5R3plRDNCd1dveDcrV3hXOTFuTWJwcGl4WlJEa1ZCMU43?=
+ =?utf-8?B?b1hQL1BpMmdaMzJNeHNsRWZYWHR6eU80dVY0V25SM1cxNy9QUWdKN0NxYVFF?=
+ =?utf-8?B?STk4N2E0SWV2V3lLeDZlVVJJR0VaZFB2cm1OMUh5UWZCL1ZpSlp4RzdRWksx?=
+ =?utf-8?B?SThyRU8rSkpZaEZ0VXBDVTBNdDNUNThaSHI4T3pDVkt6L3FRWEMxRmlyT3ZT?=
+ =?utf-8?B?enlZeUhkQmptU0lyYVdyNGRBZVNKQk9TMGZ4OEVMcEdkYTYwanVOUGRuS0NJ?=
+ =?utf-8?B?dk1RRHZ1WHpmcHVpSURaaThRbkEzV0FSU0JPejNYbEJSTVdOWTNaSUI3NE5N?=
+ =?utf-8?B?OUpOTWJ4clp3WHlNajRzd2RsRnVlR0ZoVmFhT2piYzZRa0lkZUJEOHZmZHN4?=
+ =?utf-8?B?b051ZHpZUE1aOVVSeS9sY0NCZWNFMWhyRklvaDlTZUVPOTUxYlU1ZEtWdTVL?=
+ =?utf-8?B?Nk5sVXN1dkZxbjNoK0lDck95eXpSTzNnekdhd2dtWEM5V1M4V05Pa0R0UHlL?=
+ =?utf-8?B?V2dNN3VtN0FBamNObnI5MXgvYjhGenlCTExXODJLb0ZCcWVGWVlFU2gyRlo2?=
+ =?utf-8?B?cisvc25TMk5SWXk1THkzMTZRS2N4dGpudDZsUDhCbHQ1dzJxS28xVVBaQ093?=
+ =?utf-8?B?VUx3UFdTK2xOM3g2TytOTklOaTZ6UWEwU0RFTnZpVDk0L1JOemNsQnpvd1Nv?=
+ =?utf-8?Q?W7YVtXuC7fG03?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 189a3e28-837a-494f-d0b3-08d8c81a8e19
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2021 08:06:05.5304
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vVKY6FGP9DhQgU76gqH0t+7inF6HhvL+8D3r0C5rFHpu8m+SUfNCc13ZVcWL5Kro
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3840
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/02/2021 06:25, Sebastian Fricke wrote:
-> Hey Hans,
-> 
-> I have tested your patch with the same routine, that we've discussed in
-> the previous mail series. Here are the results:
-> https://paste.debian.net/1183755/
-> 
-> You probably still have to adjust the compliance tool, right?
+Am 03.02.21 um 03:02 schrieb Suren Baghdasaryan:
+> On Tue, Feb 2, 2021 at 5:39 PM Minchan Kim <minchan@kernel.org> wrote:
+>> On Tue, Feb 02, 2021 at 04:31:34PM -0800, Suren Baghdasaryan wrote:
+>>> Currently system heap maps its buffers with VM_PFNMAP flag using
+>>> remap_pfn_range. This results in such buffers not being accounted
+>>> for in PSS calculations because vm treats this memory as having no
+>>> page structs. Without page structs there are no counters representing
+>>> how many processes are mapping a page and therefore PSS calculation
+>>> is impossible.
+>>> Historically, ION driver used to map its buffers as VM_PFNMAP areas
+>>> due to memory carveouts that did not have page structs [1]. That
+>>> is not the case anymore and it seems there was desire to move away
+>>> from remap_pfn_range [2].
+>>> Dmabuf system heap design inherits this ION behavior and maps its
+>>> pages using remap_pfn_range even though allocated pages are backed
+>>> by page structs.
+>>> Replace remap_pfn_range with vm_insert_page, following Laura's suggestion
+>>> in [1]. This would allow correct PSS calculation for dmabufs.
+>>>
+>>> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdriverdev-devel.linuxdriverproject.narkive.com%2Fv0fJGpaD%2Fusing-ion-memory-for-direct-io&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cb4c145b86dd0472c943c08d8c7e7ba4b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637479145389160353%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=W1N%2B%2BlcFDaRSvXdSPe5hPNMRByHfGkU7Uc3cmM3FCTU%3D&amp;reserved=0
+>>> [2] https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdriverdev.linuxdriverproject.org%2Fpipermail%2Fdriverdev-devel%2F2018-October%2F127519.html&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cb4c145b86dd0472c943c08d8c7e7ba4b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637479145389160353%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=jQxSzKEr52lUcAIx%2FuBHMJ7yOgof%2FVMlW9%2BB2f%2FoS%2FE%3D&amp;reserved=0
+>>> (sorry, could not find lore links for these discussions)
+>>>
+>>> Suggested-by: Laura Abbott <labbott@kernel.org>
+>>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>> Reviewed-by: Minchan Kim <minchan@kernel.org>
+>>
+>> A note: This patch makes dmabuf system heap accounted as PSS so
+>> if someone has relies on the size, they will see the bloat.
+>> IIRC, there was some debate whether PSS accounting for their
+>> buffer is correct or not. If it'd be a problem, we need to
+>> discuss how to solve it(maybe, vma->vm_flags and reintroduce
+>> remap_pfn_range for them to be respected).
+> I did not see debates about not including *mapped* dmabufs into PSS
+> calculation. I remember people were discussing how to account dmabufs
+> referred only by the FD but that is a different discussion. If the
+> buffer is mapped into the address space of a process then IMHO
+> including it into PSS of that process is not controversial.
 
-That's correct. I'm waiting for this to get the OK before I work
-on v4l-utils.
+Well, I think it is. And to be honest this doesn't looks like a good 
+idea to me since it will eventually lead to double accounting of system 
+heap DMA-bufs.
 
-> 
-> Here is how the media_dev node looks like for me:
-> ```
-> basti@nanopct4:~$ cat /sys/class/video4linux/v4l-subdev3/media_dev
-> 240:0
-> # corresponds to:
-> basti@nanopct4:~$ ls -l /dev/
-> ...
-> crw-rw---- 1 root video   240,   0 Feb  3 06:10 media0
-> ...
-> # leads to:
-> basti@nanopct4:~$ cat /sys/dev/char/240:0/model
-> rkisp1
+As discussed multiple times it is illegal to use the struct page of a 
+DMA-buf. This case here is a bit special since it is the owner of the 
+pages which does that, but I'm not sure if this won't cause problems 
+elsewhere as well.
 
-Nice.
+A more appropriate solution would be to held processes accountable for 
+resources they have allocated through device drivers.
 
 Regards,
-
-	Hans
-
-> ```
-> 
-> Greetings and thank you,
-> Sebastian
-> 
-> On 02.02.2021 15:49, Hans Verkuil wrote:
->> A long standing issue is how to find the associated media device for
->> a V4L or DVB device node. This is primarily useful for applications
->> like v4l2-ctl and v4l2-compliance.
->>
->> Until recently these applications relied on /sys and the fact that
->> the media device was accessible in /sys via:
->>
->> /sys/class/video4linux/videoX/device/mediaY/
->>
->> But commit ee494cf377e1 ("media: v4l2-device: Link subdevices to their
->> parent devices if available") broke that scheme for subdevices. That
->> scheme was rather a hack anyway.
->>
->> Attempts to report the major/minor number of the media device via the
->> public API (i.e. by extending VIDIOC_QUERYCAP or VIDIOC_SUBDEV_QUERYCAP)
->> failed, so this patch series now just adds a media_dev attribute when a
->> V4L or DVB device node is created. This attribute contains the major:minor
->> of the media device. It is only created if the device node is actually
->> associated with a media controller.
->>
->> The original idea for this v3 was to store the media device minor/major
->> at the time of the device node registration, however the media device
->> node is typically created last, so this information isn't known yet.
->>
->> Instead a new media_device_devt() function was added that returns the
->> dev_t of the media device node safely.
->>
->> In addition a patch was added for vim2m to ensure that the v4l2_dev.mdev
->> is set before video_register_device() to ensure that the media_dev
->> attribute is created.
->>
->> This issue was reported by Sebastian Frick:
->>
->> https://lore.kernel.org/linux-media/20210120183054.5ltnjdtrmumplevt@basti-TUXEDO-Book-XA1510/T/#t
->>
->> Regards,
->>
->>        Hans
->>
->> Changes since v2: add new media_device_devt function.
->>        Add vim2m patch: v4l2_dev.mdev was set too late.
->>
->> Changes since v1: use the is_visible callback to ensure the attribute
->>        is only shown if mdev is non-NULL.
->>
->> Hans Verkuil (4):
->>  vim2m: intialize the media device earlier
->>  media-device: add media_device_devt function
->>  v4l2-dev: add /sys media_dev attr for V4L2 devices
->>  dvbdev: add /sys media_dev attr for DVB devices
->>
->> drivers/media/dvb-core/dvbdev.c    | 45 +++++++++++++++++++++++++++
->> drivers/media/mc/mc-device.c       | 16 ++++++++++
->> drivers/media/test-drivers/vim2m.c | 14 +++++----
->> drivers/media/v4l2-core/v4l2-dev.c | 49 +++++++++++++++++++++++++++++-
->> include/media/media-device.h       | 10 ++++++
->> 5 files changed, 127 insertions(+), 7 deletions(-)
->>
->> -- 
->> 2.29.2
->>
-
+Christian.
