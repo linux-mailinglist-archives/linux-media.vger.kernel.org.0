@@ -2,149 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 033D630E410
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 21:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 660E430E43E
+	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 21:51:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232027AbhBCUar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 15:30:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48644 "EHLO
+        id S232566AbhBCUu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 15:50:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231886AbhBCUaq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 15:30:46 -0500
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A04E4C061573
-        for <linux-media@vger.kernel.org>; Wed,  3 Feb 2021 12:30:04 -0800 (PST)
-Received: by mail-oi1-x22f.google.com with SMTP id h192so1302172oib.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Feb 2021 12:30:04 -0800 (PST)
+        with ESMTP id S232535AbhBCUuW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 15:50:22 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C129AC061786
+        for <linux-media@vger.kernel.org>; Wed,  3 Feb 2021 12:49:40 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id b145so608723pfb.4
+        for <linux-media@vger.kernel.org>; Wed, 03 Feb 2021 12:49:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eNYLKrHHFpo2W+MgM64k66uhU/rYD0kH/7hNDtjliGE=;
-        b=DIeJeHCeI1SX9JRP36sM+W6rFO4OdsJpfGTkBtUBqCnklQGL6KVyuYn41Odc9/rLLe
-         ISiwA+5txu4Ckq5KLKgiP0C/6WCuG77XxYxfBn96xe5UwbX1KuUtHivcIwEaeYETczwR
-         NVLOPhppjYD4HewAedlleI8pu+9/HV0nd48To=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc
+         :content-transfer-encoding;
+        bh=M8lFoGv6mHlkS4pfcEZxXT0GjlBrKSHlOVSDDjgilMk=;
+        b=rM1xvLKChJbMhPiPxDWEcePASMy0cf8HeErbywGhn2uz/vxUt3AWciE3Uj63Z9rkey
+         3clwXdhoaZ9tcupljd+xCp/yiRwzX/ekcHuZsIbhXa17Qm+44qBkGfi0JFpr2BfLDeUP
+         uL4Jo+ge5eJYzKr58jmA5TrlIeovIVSgJdXR6bfIIoYV+m7rgmaz3WLeyQzZxEEjpNnU
+         UNyxblr37Vse2cJev1TBfQXLjVuw5otZVV5JNNT8jZRq/IIGsHa9JjamNNJP/gdZTaZo
+         +iWKjsNqQHVX2hrRwm0Ki4jIyyS7RT2xYbuq6koIXVc5C5NFulhXVP9qaCbJ3Xt/zb+N
+         PvcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eNYLKrHHFpo2W+MgM64k66uhU/rYD0kH/7hNDtjliGE=;
-        b=l/PTRtERY1wDkUbs6o0HpCLtCm/L2biViPxvVZKgu1ucvDBcfzOApOeeASoQKjiIaP
-         J0cqO6l0wr9C1ifY0dP4B5MUyoZ9oODdAuSu/A2SL4TdIrtvLgnd/4f8Hr1VA+zhU47v
-         Yw287R2SWVbQfQjxSo+a0lOZSvs11veUDCg6aNVKag/5DW8DA4xhejmj6rLAVUeYCSDm
-         I+KLaXotvmNJbePhfkfIYgi/u4iIoIJh1Brb1SLz2qrUhynG9oVTRdvXeBW344IfF0BG
-         bOaONqGYHenaqxlk0urgv1w9V15Wz0NqpcWcTh2qeX+ZT/AhrGCDF9yFpDnchTyQ0gH+
-         isCQ==
-X-Gm-Message-State: AOAM532nQRRMMvLGpSFFsRIZCKbXOREkBZlug8u7U6adsHmkfsiX5AlZ
-        0w4XA+hokz/PdmsS3/jd4Rq1MiDfb3K+eOAuk82GUg==
-X-Google-Smtp-Source: ABdhPJyZhpy+g0VGu5Ql8GRoYkjiipujRTnm3ivUEZ35jHpMHly6+eUAlEp4YwgW+F7ju02Z87k8fcr1y7ezggeHw5s=
-X-Received: by 2002:aca:4ac5:: with SMTP id x188mr2940752oia.14.1612384203966;
- Wed, 03 Feb 2021 12:30:03 -0800 (PST)
+         :message-id:subject:cc:content-transfer-encoding;
+        bh=M8lFoGv6mHlkS4pfcEZxXT0GjlBrKSHlOVSDDjgilMk=;
+        b=eEhhssP8b49u7d1ljtfesdrgI0Bmp0bnl/uX896FzHg0Z8+5g6l++MaanqnH9ytt4z
+         fueqVdUKaV0LFMiGkNllAjF16spyrjCsZGNf+mNyiOfBUR+DHkySEpSipHrflmf84vVo
+         MPDt1pAcfLh7ha5DTYv7IOHHXIZwZJffOLnq6xz8sb3sn3UhHB1dtkMHIiJu89uxBWs6
+         JbwAEpDt5SomZwrbGWF48B5iKvd+vg+oeTNZNOAEYXUFChDhOq6DyfGPbGhou/RzFKi3
+         m3vNDLgHHeyhVfJfMKiLquWIS5BzKBOIO2z8vnYYiBK7oXHUDnjbtFPB9pkJddG5zfHK
+         tUXg==
+X-Gm-Message-State: AOAM532jh8HZqoRCxCTHKoisG46y1pHw22WZ4BWkR4j7i9E66OxlEm3z
+        uK+WFy0qudzGxVFF0jOC9Z2V5mDdQJBJUyBcE6dhXA==
+X-Received: by 2002:aa7:910a:0:b029:1c8:9947:305c with SMTP id
+ 10-20020aa7910a0000b02901c89947305cmt3620824pfh.75.1612385380012; Wed, 03 Feb
+ 2021 12:49:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20210203003134.2422308-1-surenb@google.com> <20210203015553.GX308988@casper.infradead.org>
- <CAKMK7uHnNdjOYX5Rhj=uGMz7hSz12JhgkZJCfiqgkpjXnMfL4A@mail.gmail.com> <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
-In-Reply-To: <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 3 Feb 2021 21:29:52 +0100
-Message-ID: <CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] mm: replace BUG_ON in vm_insert_page
- with a return of an error
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
+References: <20210128182432.2216573-1-kaleshsingh@google.com>
+In-Reply-To: <20210128182432.2216573-1-kaleshsingh@google.com>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Wed, 3 Feb 2021 15:49:27 -0500
+Message-ID: <CAC_TJvdUN27PsjnehS03UQB=LdQUo9KJK=q1bgxJnZh2FJzXjw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Allow reading process DMA buf stats from fdinfo
+Cc:     Jann Horn <jannh@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
         <linaro-mm-sig@lists.linaro.org>,
-        Sandeep Patil <sspatil@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        James Jones <jajones@nvidia.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        John Stultz <john.stultz@linaro.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 3, 2021 at 9:20 PM Suren Baghdasaryan <surenb@google.com> wrote:
+On Thu, Jan 28, 2021 at 1:24 PM Kalesh Singh <kaleshsingh@google.com> wrote=
+:
 >
-> On Wed, Feb 3, 2021 at 12:52 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > On Wed, Feb 3, 2021 at 2:57 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > On Tue, Feb 02, 2021 at 04:31:33PM -0800, Suren Baghdasaryan wrote:
-> > > > Replace BUG_ON(vma->vm_flags & VM_PFNMAP) in vm_insert_page with
-> > > > WARN_ON_ONCE and returning an error. This is to ensure users of the
-> > > > vm_insert_page that set VM_PFNMAP are notified of the wrong flag usage
-> > > > and get an indication of an error without panicing the kernel.
-> > > > This will help identifying drivers that need to clear VM_PFNMAP before
-> > > > using dmabuf system heap which is moving to use vm_insert_page.
-> > >
-> > > NACK.
-> > >
-> > > The system may not _panic_, but it is clearly now _broken_.  The device
-> > > doesn't work, and so the system is useless.  You haven't really improved
-> > > anything here.  Just bloated the kernel with yet another _ONCE variable
-> > > that in a normal system will never ever ever be triggered.
-> >
-> > Also, what the heck are you doing with your drivers? dma-buf mmap must
-> > call dma_buf_mmap(), even for forwarded/redirected mmaps from driver
-> > char nodes. If that doesn't work we have some issues with the calling
-> > contract for that function, not in vm_insert_page.
+> Android captures per-process system memory state when certain low memory
+> events (e.g a foreground app kill) occur, to identify potential memory
+> hoggers. In order to measure how much memory a process actually consumes,
+> it is necessary to include the DMA buffer sizes for that process in the
+> memory accounting. Since the handle to DMA buffers are raw FDs, it is
+> important to be able to identify which processes have FD references to
+> a DMA buffer.
 >
-> The particular issue I observed (details were posted in
-> https://lore.kernel.org/patchwork/patch/1372409) is that DRM drivers
-> set VM_PFNMAP flag (via a call to drm_gem_mmap_obj) before calling
-> dma_buf_mmap. Some drivers clear that flag but some don't. I could not
-> find the answer to why VM_PFNMAP is required for dmabuf mappings and
-> maybe someone can explain that here?
-> If there is a reason to set this flag other than historical use of
-> carveout memory then we wanted to catch such cases and fix the drivers
-> that moved to using dmabuf heaps. However maybe there are other
-> reasons and if so I would be very grateful if someone could explain
-> them. That would help me to come up with a better solution.
+> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> /proc/<pid>/fdinfo -- both are only readable by the process owner,
+> as follows:
+>   1. Do a readlink on each FD.
+>   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD=
+.
+>   3. stat the file to get the dmabuf inode number.
+>   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
 >
-> > Finally why exactly do we need to make this switch for system heap?
-> > I've recently looked at gup usage by random drivers, and found a lot
-> > of worrying things there. gup on dma-buf is really bad idea in
-> > general.
+> Accessing other processes=E2=80=99 fdinfo requires root privileges. This =
+limits
+> the use of the interface to debugging environments and is not suitable
+> for production builds.  Granting root privileges even to a system process
+> increases the attack surface and is highly undesirable.
 >
-> The reason for the switch is to be able to account dmabufs allocated
-> using dmabuf heaps to the processes that map them. The next patch in
-> this series https://lore.kernel.org/patchwork/patch/1374851
-> implementing the switch contains more details and there is an active
-> discussion there. Would you mind joining that discussion to keep it in
-> one place?
+> This series proposes making the requirement to read fdinfo less strict
+> with PTRACE_MODE_READ.
+>
 
-How many semi-unrelated buffer accounting schemes does google come up with?
+Hi everyone,
 
-We're at three with this one.
+I will send v2 of this patch series. Please let me know if you have
+any other comments or feedback, that should be addressed in the new
+version.
 
-And also we _cannot_ required that all dma-bufs are backed by struct
-page, so requiring struct page to make this work is a no-go.
+Thanks,
+Kalesh
 
-Second, we do not want to all get_user_pages and friends to work on
-dma-buf, it causes all kinds of pain. Yes on SoC where dma-buf are
-exclusively in system memory you can maybe get away with this, but
-dma-buf is supposed to work in more places than just Android SoCs.
-
-If you want to account dma-bufs, and gpu memory in general, I'd say
-the solid solution is cgroups. There's patches floating around. And
-given that Google Android can't even agree internally on what exactly
-you want I'd say we just need to cut over to that and make it happen.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Kalesh Singh (2):
+>   procfs: Allow reading fdinfo with PTRACE_MODE_READ
+>   dmabuf: Add dmabuf inode no to fdinfo
+>
+>  drivers/dma-buf/dma-buf.c |  1 +
+>  fs/proc/base.c            |  4 ++--
+>  fs/proc/fd.c              | 15 ++++++++++++++-
+>  3 files changed, 17 insertions(+), 3 deletions(-)
+>
+> --
+> 2.30.0.365.g02bc693789-goog
+>
