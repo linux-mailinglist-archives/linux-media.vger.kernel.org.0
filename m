@@ -2,183 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DCD630E50F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 22:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D51F30E531
+	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 22:54:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231504AbhBCVm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 16:42:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231439AbhBCVmU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Feb 2021 16:42:20 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC916C061573
-        for <linux-media@vger.kernel.org>; Wed,  3 Feb 2021 13:41:39 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id z6so961218wrq.10
-        for <linux-media@vger.kernel.org>; Wed, 03 Feb 2021 13:41:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g4TI1e7gQdTzltegKMdoZTR4RsT2JvIHbsFUh2uPQzU=;
-        b=BWgJOLtrDCoblhxCADfA5HwY5ztg05LdbfMnsPIz4WfJRARQx4tJEbHG07ut8uNwei
-         YA8MgKi2Q3kg6ukx8y/T5zKTLrme2FDvRWV4SpjbJ1svYtEfU1tgUfoCVpOxPNgvrbr0
-         ZJ6ZZv4OE/mOI6mXWfMv1lvM6ZhISk0nY5h2+xAtEKX9GRBrS/mSI3zLDtkiMNssM4DP
-         jgU4l2Jkw/Ii4akKrmYPSBRKA180uhZIXBol+q2DRMOiLT2zKDa6LA+YU2hgnMbnM46M
-         bWbbWwIxkNiKgVrZXqn6nyNIXV7AWnBr/oe7ru+KUiRnyqjv8fZryF8bNUL9e788QxWP
-         YDLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g4TI1e7gQdTzltegKMdoZTR4RsT2JvIHbsFUh2uPQzU=;
-        b=GnSrgyfkqe/rngCl0vdkBDkZrWF2tnFaqSOAQRctScZGzD4U9d7rC1vZcP8nGxkCt4
-         y7icP2ax7ExawwR1GRq55wTOuUHapE78tTueVlZfGutyJb0/Iu6Pf2uqJbnVkJXRanLJ
-         rntZKMGoI582zJ34pX+UDBG/FtplBY4hUATPcnj8zZIrJ4XWzOsNkxN/dF75wdY3b/MD
-         ssWMwVdmkhtwwnUS0+93IuH9IuN39AnPM7Lx9sSOO4wiZG7pCwNlr8jeU/Duo2W1S1PV
-         +maMaCCxDGDCxiW2rlnfo4ab0jHx/TihoL5JX4pGJ7kK/ndiiptZmLQ2FHYKofyHknf4
-         VbPg==
-X-Gm-Message-State: AOAM532sqT/AQydCIuNITvtdqUfGs6zxf9srtD818uBUWLs/JH2244Te
-        SH8tbj45Mg7iuAqRIdIwwEKojzdWVlHx9J9uaBzPKA==
-X-Google-Smtp-Source: ABdhPJzzh/22FCOvdxdEB1nz5RwcUyDObG7CumW8G2BNoPbJyps54cEi6LEoHpcOS3UqBhEPnFBnf/YNKMZ2wK03ovA=
-X-Received: by 2002:a5d:453b:: with SMTP id j27mr5802147wra.92.1612388498425;
- Wed, 03 Feb 2021 13:41:38 -0800 (PST)
+        id S231755AbhBCVyb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 16:54:31 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44986 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229973AbhBCVya (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Feb 2021 16:54:30 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l7Q5s-009r9O-5H; Wed, 03 Feb 2021 21:53:48 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l7Q9R-0006b6-IW; Wed, 03 Feb 2021 21:57:29 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v2 for 5.12] More V4L2 patches (#71294)
+Date:   Wed,  3 Feb 2021 21:57:29 +0000
+Message-Id: <20210203215729.25319-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210203213507.GA3@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-References: <20210203003134.2422308-1-surenb@google.com> <20210203015553.GX308988@casper.infradead.org>
- <CAKMK7uHnNdjOYX5Rhj=uGMz7hSz12JhgkZJCfiqgkpjXnMfL4A@mail.gmail.com>
- <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
- <CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com> <CAKMK7uETu_m+=MHyPmqBbEP__qjMF_wmr4c2BiVTPcwE8c+5Mg@mail.gmail.com>
-In-Reply-To: <CAKMK7uETu_m+=MHyPmqBbEP__qjMF_wmr4c2BiVTPcwE8c+5Mg@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 3 Feb 2021 13:41:26 -0800
-Message-ID: <CAJuCfpHC6P5cJh-1hv=vjGHCCkM6mA_p19H6tCZmCDxhTuASkQ@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] mm: replace BUG_ON in vm_insert_page
- with a return of an error
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Sandeep Patil <sspatil@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        James Jones <jajones@nvidia.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        John Stultz <john.stultz@linaro.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 3, 2021 at 1:25 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Wed, Feb 3, 2021 at 9:29 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > On Wed, Feb 3, 2021 at 9:20 PM Suren Baghdasaryan <surenb@google.com> wrote:
-> > >
-> > > On Wed, Feb 3, 2021 at 12:52 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > >
-> > > > On Wed, Feb 3, 2021 at 2:57 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > > > >
-> > > > > On Tue, Feb 02, 2021 at 04:31:33PM -0800, Suren Baghdasaryan wrote:
-> > > > > > Replace BUG_ON(vma->vm_flags & VM_PFNMAP) in vm_insert_page with
-> > > > > > WARN_ON_ONCE and returning an error. This is to ensure users of the
-> > > > > > vm_insert_page that set VM_PFNMAP are notified of the wrong flag usage
-> > > > > > and get an indication of an error without panicing the kernel.
-> > > > > > This will help identifying drivers that need to clear VM_PFNMAP before
-> > > > > > using dmabuf system heap which is moving to use vm_insert_page.
-> > > > >
-> > > > > NACK.
-> > > > >
-> > > > > The system may not _panic_, but it is clearly now _broken_.  The device
-> > > > > doesn't work, and so the system is useless.  You haven't really improved
-> > > > > anything here.  Just bloated the kernel with yet another _ONCE variable
-> > > > > that in a normal system will never ever ever be triggered.
-> > > >
-> > > > Also, what the heck are you doing with your drivers? dma-buf mmap must
-> > > > call dma_buf_mmap(), even for forwarded/redirected mmaps from driver
-> > > > char nodes. If that doesn't work we have some issues with the calling
-> > > > contract for that function, not in vm_insert_page.
-> > >
-> > > The particular issue I observed (details were posted in
-> > > https://lore.kernel.org/patchwork/patch/1372409) is that DRM drivers
-> > > set VM_PFNMAP flag (via a call to drm_gem_mmap_obj) before calling
-> > > dma_buf_mmap. Some drivers clear that flag but some don't. I could not
-> > > find the answer to why VM_PFNMAP is required for dmabuf mappings and
-> > > maybe someone can explain that here?
-> > > If there is a reason to set this flag other than historical use of
-> > > carveout memory then we wanted to catch such cases and fix the drivers
-> > > that moved to using dmabuf heaps. However maybe there are other
-> > > reasons and if so I would be very grateful if someone could explain
-> > > them. That would help me to come up with a better solution.
-> > >
-> > > > Finally why exactly do we need to make this switch for system heap?
-> > > > I've recently looked at gup usage by random drivers, and found a lot
-> > > > of worrying things there. gup on dma-buf is really bad idea in
-> > > > general.
-> > >
-> > > The reason for the switch is to be able to account dmabufs allocated
-> > > using dmabuf heaps to the processes that map them. The next patch in
-> > > this series https://lore.kernel.org/patchwork/patch/1374851
-> > > implementing the switch contains more details and there is an active
-> > > discussion there. Would you mind joining that discussion to keep it in
-> > > one place?
-> >
-> > How many semi-unrelated buffer accounting schemes does google come up with?
-> >
-> > We're at three with this one.
-> >
-> > And also we _cannot_ required that all dma-bufs are backed by struct
-> > page, so requiring struct page to make this work is a no-go.
-> >
-> > Second, we do not want to all get_user_pages and friends to work on
-> > dma-buf, it causes all kinds of pain. Yes on SoC where dma-buf are
-> > exclusively in system memory you can maybe get away with this, but
-> > dma-buf is supposed to work in more places than just Android SoCs.
->
-> I just realized that vm_inser_page doesn't even work for CMA, it would
-> upset get_user_pages pretty badly - you're trying to pin a page in
-> ZONE_MOVEABLE but you can't move it because it's rather special.
-> VM_SPECIAL is exactly meant to catch this stuff.
+From: builder@linuxtv.org
 
-Thanks for the input, Daniel! Let me think about the cases you pointed out.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210203213507.GA3@valkosipuli.retiisi.org.uk/
+Build log: https://builder.linuxtv.org/job/patchwork/88678/
+Build time: 00:16:05
+Link: https://lore.kernel.org/linux-media/20210203213507.GA3@valkosipuli.retiisi.org.uk
 
-IMHO, the issue with PSS is the difficulty of calculating this metric
-without struct page usage. I don't think that problem becomes easier
-if we use cgroups or any other API. I wanted to enable existing PSS
-calculation mechanisms for the dmabufs known to be backed by struct
-pages (since we know how the heap allocated that memory), but sounds
-like this would lead to problems that I did not consider.
-Thanks,
-Suren.
+gpg: Signature made Wed 03 Feb 2021 09:30:39 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Can't check signature: No public key
 
-> -Daniel
->
-> > If you want to account dma-bufs, and gpu memory in general, I'd say
-> > the solid solution is cgroups. There's patches floating around. And
-> > given that Google Android can't even agree internally on what exactly
-> > you want I'd say we just need to cut over to that and make it happen.
-> >
-> > Cheers, Daniel
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Summary: got 17/43 patches with issues, being 0 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch:
+
+   checkpatch.pl:
+	$ cat patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:58: CHECK: Lines should not end with a '('
+	-:132: CHECK: Lines should not end with a '('
+	-:179: CHECK: Lines should not end with a '('
+	-:230: CHECK: Alignment should match open parenthesis
+	-:313: CHECK: Lines should not end with a '('
+	-:384: CHECK: Lines should not end with a '('
+	-:424: CHECK: Lines should not end with a '('
+	-:467: CHECK: Lines should not end with a '('
+	-:499: CHECK: Lines should not end with a '('
+
+patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:96: CHECK: Lines should not end with a '('
+	-:188: CHECK: Lines should not end with a '('
+
+patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch:
+
+   checkpatch.pl:
+	$ cat patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:238: CHECK: Lines should not end with a '('
+
+patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch:
+
+   checkpatch.pl:
+	$ cat patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:69: CHECK: Lines should not end with a '('
+
+patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch:
+
+   checkpatch.pl:
+	$ cat patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:53: CHECK: Lines should not end with a '('
+
+patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch:
+
+   checkpatch.pl:
+	$ cat patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:51: CHECK: Alignment should match open parenthesis
+
+patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch:
+
+   checkpatch.pl:
+	$ cat patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:116: CHECK: Alignment should match open parenthesis
+	-:156: CHECK: Lines should not end with a '('
+
+patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch:
+
+   checkpatch.pl:
+	$ cat patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:63: CHECK: Lines should not end with a '('
+	-:89: CHECK: Lines should not end with a '('
+
+patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch:
+
+   checkpatch.pl:
+	$ cat patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:35: CHECK: Alignment should match open parenthesis
+	-:104: CHECK: Alignment should match open parenthesis
+
+patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch:
+
+   checkpatch.pl:
+	$ cat patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:124: CHECK: Lines should not end with a '('
+	-:263: CHECK: Lines should not end with a '('
+	-:280: CHECK: Lines should not end with a '('
+	-:326: CHECK: Lines should not end with a '('
+	-:410: CHECK: Alignment should match open parenthesis
+	-:437: CHECK: Lines should not end with a '('
+	-:474: CHECK: Alignment should match open parenthesis
+	-:577: CHECK: Lines should not end with a '('
+	-:770: CHECK: Alignment should match open parenthesis
+	-:790: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
+	-:806: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
+	-:822: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
+
+patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch:
+
+   checkpatch.pl:
+	$ cat patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:23: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:101: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0032-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch:
+
+   checkpatch.pl:
+	$ cat patches/0032-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:41: CHECK: Alignment should match open parenthesis
+
+patches/0034-media-ov9640-Use-the-generic-clock-framework.patch:
+
+   checkpatch.pl:
+	$ cat patches/0034-media-ov9640-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0036-media-ov6650-Use-the-generic-clock-framework.patch:
+
+   checkpatch.pl:
+	$ cat patches/0036-media-ov6650-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0037-media-Remove-the-legacy-v4l2-clk-API.patch:
+
+   checkpatch.pl:
+	$ cat patches/0037-media-Remove-the-legacy-v4l2-clk-API.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:33: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0041-media-ov8856-Configure-sensor-for-GRBG-Bayer-for-all.patch:
+
+   checkpatch.pl:
+	$ cat patches/0041-media-ov8856-Configure-sensor-for-GRBG-Bayer-for-all.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:20: WARNING: Use a single space after To:
+	-:20: ERROR: Unrecognized email address: ''
+	-:57: ERROR: Missing Signed-off-by: line by nominal patch author ''
+
+patches/0043-media-i2c-Add-imx334-camera-sensor-driver.patch:
+
+   checkpatch.pl:
+	$ cat patches/0043-media-i2c-Add-imx334-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:228: CHECK: struct mutex definition without comment
+
+
+Error #512 when building PDF docs
+
