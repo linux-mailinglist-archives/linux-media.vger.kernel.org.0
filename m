@@ -2,64 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3ECB30F7A4
-	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 17:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 043D030F813
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 17:36:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237935AbhBDQXB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 11:23:01 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:43318 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237988AbhBDQWm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Feb 2021 11:22:42 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l7hOK-00CGqj-Am; Thu, 04 Feb 2021 16:22:00 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l7hRs-0006kW-J9; Thu, 04 Feb 2021 16:25:42 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.12] Various fixes (#71298)
-Date:   Thu,  4 Feb 2021 16:25:40 +0000
-Message-Id: <20210204162540.25903-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <54287eeb-4617-dc1a-d77c-1870e81d5ca8@xs4all.nl>
-References: 
+        id S237121AbhBDQfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 11:35:11 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:56437 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237893AbhBDQev (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 11:34:51 -0500
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1l7hZs-0007Ok-FC; Thu, 04 Feb 2021 16:33:56 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Jean-Christophe Trotin <jean-christophe.trotin@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: sti: make a const array static, makes object smaller
+Date:   Thu,  4 Feb 2021 16:33:56 +0000
+Message-Id: <20210204163356.105945-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+From: Colin Ian King <colin.king@canonical.com>
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/54287eeb-4617-dc1a-d77c-1870e81d5ca8@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/88790/
-Build time: 00:03:57
-Link: https://lore.kernel.org/linux-media/54287eeb-4617-dc1a-d77c-1870e81d5ca8@xs4all.nl
+Don't populate the const array bws on the stack but instead it
+static. Makes the object code smaller by 8 bytes:
 
-gpg: Signature made Thu 04 Feb 2021 04:08:14 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+Before:
+   text	   data	    bss	    dec	    hex	filename
+  12504	   4568	      0	  17072	   42b0	media/platform/sti/hva/hva-h264.o
 
-Summary: got 1/5 patches with issues, being 0 at build time, plus one error when buinding PDF document
+After:
+   text	   data	    bss	    dec	    hex	filename
+  12272	   4792	      0	  17064	   42a8	media/platform/sti/hva/hva-h264.o
 
-Error/warnings:
+(gcc version 10.2.0)
 
-patches/0002-media-pci-fix-spelling-typo-of-frimware.patch:
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/media/platform/sti/hva/hva-h264.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-   checkpatch.pl:
-	$ cat patches/0002-media-pci-fix-spelling-typo-of-frimware.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:23: CHECK: Avoid CamelCase: <Load>
-
-
-Error #512 when building PDF docs
+diff --git a/drivers/media/platform/sti/hva/hva-h264.c b/drivers/media/platform/sti/hva/hva-h264.c
+index c34f7cf5aed2..98cb00d2d868 100644
+--- a/drivers/media/platform/sti/hva/hva-h264.c
++++ b/drivers/media/platform/sti/hva/hva-h264.c
+@@ -428,8 +428,10 @@ static int hva_h264_fill_slice_header(struct hva_ctx *pctx,
+ 	 */
+ 	struct device *dev = ctx_to_dev(pctx);
+ 	int  cabac = V4L2_MPEG_VIDEO_H264_ENTROPY_MODE_CABAC;
+-	const unsigned char slice_header[] = { 0x00, 0x00, 0x00, 0x01,
+-					       0x41, 0x34, 0x07, 0x00};
++	static const unsigned char slice_header[] = {
++		0x00, 0x00, 0x00, 0x01,
++		0x41, 0x34, 0x07, 0x00
++	};
+ 	int idr_pic_id = frame_num % 2;
+ 	enum hva_picture_coding_type type;
+ 	u32 frame_order = frame_num % ctrls->gop_size;
+@@ -488,7 +490,7 @@ static int hva_h264_fill_data_nal(struct hva_ctx *pctx,
+ 				  unsigned int stream_size, unsigned int *size)
+ {
+ 	struct device *dev = ctx_to_dev(pctx);
+-	const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
++	static const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
+ 
+ 	dev_dbg(dev, "%s   %s stuffing bytes %d\n", pctx->name, __func__,
+ 		stuffing_bytes);
+@@ -521,7 +523,7 @@ static int hva_h264_fill_sei_nal(struct hva_ctx *pctx,
+ 				 u8 *addr, u32 *size)
+ {
+ 	struct device *dev = ctx_to_dev(pctx);
+-	const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
++	static const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
+ 	struct hva_h264_stereo_video_sei info;
+ 	u8 offset = 7;
+ 	u8 msg = 0;
+-- 
+2.29.2
 
