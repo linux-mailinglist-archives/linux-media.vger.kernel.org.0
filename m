@@ -2,184 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D51F30E531
-	for <lists+linux-media@lfdr.de>; Wed,  3 Feb 2021 22:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2014530EB95
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 05:40:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231755AbhBCVyb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Feb 2021 16:54:31 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:44986 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229973AbhBCVya (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Feb 2021 16:54:30 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l7Q5s-009r9O-5H; Wed, 03 Feb 2021 21:53:48 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1l7Q9R-0006b6-IW; Wed, 03 Feb 2021 21:57:29 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL v2 for 5.12] More V4L2 patches (#71294)
-Date:   Wed,  3 Feb 2021 21:57:29 +0000
-Message-Id: <20210203215729.25319-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210203213507.GA3@valkosipuli.retiisi.org.uk>
-References: 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S229783AbhBDEkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Feb 2021 23:40:32 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59765 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229609AbhBDEkb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Feb 2021 23:40:31 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 7WQll26noE1Ic7WQmlLX13; Thu, 04 Feb 2021 05:39:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1612413589; bh=nfqH69+QBFc9etYAi6VzToX3Yttxy0mMK8womilKo3E=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=KOzPUu4QdcUDyG7MBL3q4H6FKFPGg5JMJ2rfNvsoUHIsELtphO49CJAZXxdBTcgqq
+         debUOgtgdJznZVIKWFER6L1IMWDU6nOr8k/zKH/fC4/Ojh0WD9c+zr0lF74xEyj3Om
+         EjdfZ+kq4YK6DibmWd/ajCGxWlA5sv03nOkVg5GNPobKXgIsgzHK+y554TiG4PcpAz
+         lo6NNbKjLTsIe0kfFxJPRejXts6g7lVxcq6JvwZU8fX7szC9Pg8tba6Hi6ALOKUT13
+         sVShrdlEUek7GR48JmKJ7vvtYtREKFHtWMg3l2UihqX1BxbbEAcm2R/ypj0FrKswOl
+         rSsL+qJE7Vv3Q==
+Message-ID: <849d94246447a4849288ad3807337c4c@smtp-cloud9.xs4all.net>
+Date:   Thu, 04 Feb 2021 05:39:47 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfKVg48jGxm63WAVSAz5eT4BDymOSgJIoIqviO4RDYWdTT5lwuSMBJPwVnfVBFrTuNvN/XwQm8sPKvk41otRODv3sAYTZ4QnE6q4HYyxQ1Lxp3mrx7Ie7
+ TcgujkQ7g9ZSvcOJ2lBBFDoCF17586tNvXC7VXUihPaS7e7v9LoZzM6Y+CiQoxIpOuKB0I4SFDLLjj+Zf6umk80biHpCUrKASckEzRSOW3MGyHci/43dsYey
+ femCG6x7f5x1orSrZdyWXQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210203213507.GA3@valkosipuli.retiisi.org.uk/
-Build log: https://builder.linuxtv.org/job/patchwork/88678/
-Build time: 00:16:05
-Link: https://lore.kernel.org/linux-media/20210203213507.GA3@valkosipuli.retiisi.org.uk
+Results of the daily build of media_tree:
 
-gpg: Signature made Wed 03 Feb 2021 09:30:39 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
+date:			Thu Feb  4 05:00:11 CET 2021
+media-tree git hash:	0b9112a58836ad6a7e84eebec06a2de9778b7573
+media_build git hash:	e980c694ef8ab2b472ecc26edaf97af214e587aa
+v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7087-gdbdb27615
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Summary: got 17/43 patches with issues, being 0 at build time, plus one error when buinding PDF document
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-x86_64: OK
+linux-git-i686: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 0 strcpy(), 1 strncpy(), 0 strlcpy()
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: OK
 
-Error/warnings:
+Detailed results are available here:
 
-patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch:
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-   checkpatch.pl:
-	$ cat patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:58: CHECK: Lines should not end with a '('
-	-:132: CHECK: Lines should not end with a '('
-	-:179: CHECK: Lines should not end with a '('
-	-:230: CHECK: Alignment should match open parenthesis
-	-:313: CHECK: Lines should not end with a '('
-	-:384: CHECK: Lines should not end with a '('
-	-:424: CHECK: Lines should not end with a '('
-	-:467: CHECK: Lines should not end with a '('
-	-:499: CHECK: Lines should not end with a '('
+Detailed regression test results are available here:
 
-patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch:
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
-   checkpatch.pl:
-	$ cat patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:96: CHECK: Lines should not end with a '('
-	-:188: CHECK: Lines should not end with a '('
+Full logs are available here:
 
-patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch:
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
 
-   checkpatch.pl:
-	$ cat patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:238: CHECK: Lines should not end with a '('
+The Media Infrastructure API from this daily build is here:
 
-patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:69: CHECK: Lines should not end with a '('
-
-patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch:
-
-   checkpatch.pl:
-	$ cat patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:53: CHECK: Lines should not end with a '('
-
-patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch:
-
-   checkpatch.pl:
-	$ cat patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:51: CHECK: Alignment should match open parenthesis
-
-patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch:
-
-   checkpatch.pl:
-	$ cat patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:116: CHECK: Alignment should match open parenthesis
-	-:156: CHECK: Lines should not end with a '('
-
-patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch:
-
-   checkpatch.pl:
-	$ cat patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:63: CHECK: Lines should not end with a '('
-	-:89: CHECK: Lines should not end with a '('
-
-patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch:
-
-   checkpatch.pl:
-	$ cat patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:35: CHECK: Alignment should match open parenthesis
-	-:104: CHECK: Alignment should match open parenthesis
-
-patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch:
-
-   checkpatch.pl:
-	$ cat patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:124: CHECK: Lines should not end with a '('
-	-:263: CHECK: Lines should not end with a '('
-	-:280: CHECK: Lines should not end with a '('
-	-:326: CHECK: Lines should not end with a '('
-	-:410: CHECK: Alignment should match open parenthesis
-	-:437: CHECK: Lines should not end with a '('
-	-:474: CHECK: Alignment should match open parenthesis
-	-:577: CHECK: Lines should not end with a '('
-	-:770: CHECK: Alignment should match open parenthesis
-	-:790: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
-	-:806: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
-	-:822: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
-
-patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch:
-
-   checkpatch.pl:
-	$ cat patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:23: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:101: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0032-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch:
-
-   checkpatch.pl:
-	$ cat patches/0032-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:41: CHECK: Alignment should match open parenthesis
-
-patches/0034-media-ov9640-Use-the-generic-clock-framework.patch:
-
-   checkpatch.pl:
-	$ cat patches/0034-media-ov9640-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0036-media-ov6650-Use-the-generic-clock-framework.patch:
-
-   checkpatch.pl:
-	$ cat patches/0036-media-ov6650-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0037-media-Remove-the-legacy-v4l2-clk-API.patch:
-
-   checkpatch.pl:
-	$ cat patches/0037-media-Remove-the-legacy-v4l2-clk-API.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:33: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0041-media-ov8856-Configure-sensor-for-GRBG-Bayer-for-all.patch:
-
-   checkpatch.pl:
-	$ cat patches/0041-media-ov8856-Configure-sensor-for-GRBG-Bayer-for-all.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: Use a single space after To:
-	-:20: ERROR: Unrecognized email address: ''
-	-:57: ERROR: Missing Signed-off-by: line by nominal patch author ''
-
-patches/0043-media-i2c-Add-imx334-camera-sensor-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0043-media-i2c-Add-imx334-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:228: CHECK: struct mutex definition without comment
-
-
-Error #512 when building PDF docs
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
