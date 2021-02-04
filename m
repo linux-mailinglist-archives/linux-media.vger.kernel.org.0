@@ -2,267 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E0530F795
-	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 17:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3ECB30F7A4
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 17:26:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237847AbhBDQVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 11:21:17 -0500
-Received: from meesny.iki.fi ([195.140.195.201]:47862 "EHLO meesny.iki.fi"
+        id S237935AbhBDQXB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 11:23:01 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:43318 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237425AbhBDQUw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Feb 2021 11:20:52 -0500
-Received: from hillosipuli.retiisi.eu (dbd4xkyj7wcfw2k22jcct-3.rev.dnainternet.fi [IPv6:2001:14ba:8f1:3400:fb90:892b:22d6:3885])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 20EDC200E0
-        for <linux-media@vger.kernel.org>; Thu,  4 Feb 2021 18:20:06 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1612455606;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=OcnhmdPRJAW5W9PSJhaVONtl+e8VkCK6jeDV1L1q48I=;
-        b=pr0OPmj7KR3oKrc/l9HOwcB9LiYzahBrof0QtIKpEeJY+POOPfJqxOY+Nok1MD9YAGqXH3
-        i1bi2kRZ2TX5/C4GpIH4Tfc1Z3XaH57ZLs8GPkIxxh2vPpX9T6shGfXLS9pXSveVrs8T3j
-        vUu7WavkTkJ/aolvHr5bpuLcwz4YU4k=
-Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 98C14634C89
-        for <linux-media@vger.kernel.org>; Thu,  4 Feb 2021 18:19:53 +0200 (EET)
-Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.org.uk)
-        by valkosipuli.localdomain with esmtp (Exim 4.92)
-        (envelope-from <sakari.ailus@iki.fi>)
-        id 1l7hMT-0000x4-H9
-        for linux-media@vger.kernel.org; Thu, 04 Feb 2021 18:20:05 +0200
-Date:   Thu, 4 Feb 2021 18:20:05 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL v3 for 5.12] More V4L2 patches
-Message-ID: <20210204162005.GD3@valkosipuli.retiisi.org.uk>
+        id S237988AbhBDQWm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Feb 2021 11:22:42 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l7hOK-00CGqj-Am; Thu, 04 Feb 2021 16:22:00 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l7hRs-0006kW-J9; Thu, 04 Feb 2021 16:25:42 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.12] Various fixes (#71298)
+Date:   Thu,  4 Feb 2021 16:25:40 +0000
+Message-Id: <20210204162540.25903-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <54287eeb-4617-dc1a-d77c-1870e81d5ca8@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1612455606; a=rsa-sha256; cv=none;
-        b=yQw5iUrl/mOAtoEErQDxi00XZcHI9cA2ldZIKGm0V8wpwIEAsjFE+g3zBZ8QOaYI05xQ2c
-        0XSco2r+Gk6H+KhCfi3jH3UEK/NydARy2bVLbEcxcX6Q0Arvz4yngdhC3yzpCtGjAk8B3H
-        3AfqsNJP5dirKA/v7ZWON0cW2NX+e2Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1612455606;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=OcnhmdPRJAW5W9PSJhaVONtl+e8VkCK6jeDV1L1q48I=;
-        b=d0IC12PSn1kQLJ1Vx3LVDj5L5GoZeNTRtnD2Vrt9rKErFdy1gh9CXtlgalBYWYXvWKU2M9
-        EzWGblt8obSn9CrTRET9W0H0trcuNleU19D70sQ1VYVfC5QcnHqPnVztlO03lEnzMJz4Nl
-        4yI8petyl7Z7XQ0qmoDqsvKbZgBpIt0=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-This pull request contains quite a bunch of different patches, but to name
-a few, there are:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/54287eeb-4617-dc1a-d77c-1870e81d5ca8@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/88790/
+Build time: 00:03:57
+Link: https://lore.kernel.org/linux-media/54287eeb-4617-dc1a-d77c-1870e81d5ca8@xs4all.nl
 
-- Ezequiel's V4L2 async cleanup and V4L2 clock removal serieses,
-- RDACM21 camera module driver,
-- Imx258 raw camera driver,
-- Nice improvement for V4L2 async subdev struct allocation by Laurent and
-- Random fixes here and there.
+gpg: Signature made Thu 04 Feb 2021 04:08:14 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Since v1:
+Summary: got 1/5 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-- Add IMX334 driver + DT bindings
-- Add ov8856 driver fix
-- Add LINK_FREQ to IMX219 driver
-- Fix vflip/hflip in ov5675 driver
-- Dropped a minor documentation fix from me, merged with another bigger
-  patch not yet in this pull request
+Error/warnings:
 
-Since v2:
+patches/0002-media-pci-fix-spelling-typo-of-frimware.patch:
 
-- Add missing assigned-clock-parents property in IMX334 binding example.
-
-Please pull.
+   checkpatch.pl:
+	$ cat patches/0002-media-pci-fix-spelling-typo-of-frimware.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:23: CHECK: Avoid CamelCase: <Load>
 
 
-The following changes since commit 0b9112a58836ad6a7e84eebec06a2de9778b7573:
+Error #512 when building PDF docs
 
-  Merge tag 'v5.11-rc6' into patchwork (2021-02-01 10:03:45 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.12-5.2-signed
-
-for you to fetch changes up to d1c31eae25038c74328feff57054fcf4b88e388e:
-
-  media: i2c: Add imx334 camera sensor driver (2021-02-04 18:18:09 +0200)
-
-----------------------------------------------------------------
-More V4L2 patches
-
-----------------------------------------------------------------
-Andrey Konovalov (1):
-      media: i2c: imx219: Implement V4L2_CID_LINK_FREQ control
-
-Colin Ian King (1):
-      media: i2c: fix spelling mistakes: "enpoint" -> "endpoint"
-
-Dan Carpenter (1):
-      media: i2c: ov5648: remove unnecessary NULL check
-
-Ezequiel Garcia (19):
-      media: v4l2-async: Remove V4L2_ASYNC_MATCH_DEVNAME
-      media: v4l2-async: Clean v4l2_async_notifier_add_fwnode_remote_subdev
-      media: atmel: Use v4l2_async_notifier_add_fwnode_remote_subdev
-      media: stm32: Use v4l2_async_notifier_add_fwnode_remote_subdev
-      media: exynos4-is: Use v4l2_async_notifier_add_fwnode_remote_subdev
-      media: st-mipid02: Use v4l2_async_notifier_add_fwnode_remote_subdev
-      media: cadence: Use v4l2_async_notifier_add_fwnode_remote_subdev
-      media: marvell-ccic: Use v4l2_async_notifier_add_*_subdev
-      media: renesas-ceu: Use v4l2_async_notifier_add_*_subdev
-      media: pxa-camera: Use v4l2_async_notifier_add_*_subdev
-      media: davinci: vpif_display: Remove unused v4l2-async code
-      media: v4l2-async: Discourage use of v4l2_async_notifier_add_subdev
-      media: Clarify v4l2-async subdevice addition API
-      media: mach-pxa: Register the camera sensor fixed-rate clock
-      media: pxa_camera: Drop the v4l2-clk clock register
-      media: ov9640: Use the generic clock framework
-      media: mt9m111: Use the generic clock framework
-      media: ov6650: Use the generic clock framework
-      media: Remove the legacy v4l2-clk API
-
-Jacopo Mondi (5):
-      media: i2c: Add driver for RDACM21 camera module
-      dt-bindings: media: max9286: Document 'maxim,reverse-channel-microvolt'
-      media: i2c: max9286: Break-out reverse channel setup
-      media: i2c: max9286: Make channel amplitude programmable
-      media: i2c: max9286: Configure reverse channel amplitude
-
-Krzysztof Kozlowski (4):
-      dt-bindings: media: imx258: add bindings for IMX258 sensor
-      media: i2c: imx258: add support for binding via device tree
-      media: i2c: imx258: simplify getting state container
-      media: i2c: imx258: get clock from device properties and enable it via runtime PM
-
-Laurent Pinchart (1):
-      media: v4l2-async: Improve v4l2_async_notifier_add_*_subdev() API
-
-Lubomir Rintel (1):
-      media: marvell-ccic: power up the device on mclk enable
-
-Martina Krasteva (2):
-      dt-bindings: media: Add bindings for imx334
-      media: i2c: Add imx334 camera sensor driver
-
-Ricardo Ribalda (2):
-      media: ipu3-cio2: Do not zero reserved fields
-      media: staging/intel-ipu3: Do not zero reserved fields
-
-Rikard Falkeborn (1):
-      media: i2c: rdacm20: Constify static structs
-
-Robert Foss (1):
-      media: ov8856: Configure sensor for GRBG Bayer for all modes
-
-Sakari Ailus (2):
-      dt-bindings: Remove old ov5647.yaml file, update ovti,ov5647.yaml
-      ipu3-cio2: Build bridge only if ACPI is enabled
-
-Shawn Tu (1):
-      ov5675: fix vflip/hflip control
-
-Tomi Valkeinen (1):
-      media: i2c: max9286: fix access to unallocated memory
-
- .../devicetree/bindings/media/i2c/imx258.yaml      |  134 +++
- .../bindings/media/i2c/maxim,max9286.yaml          |   22 +
- .../devicetree/bindings/media/i2c/ov5647.yaml      |   76 --
- .../devicetree/bindings/media/i2c/ovti,ov5647.yaml |   20 +-
- .../devicetree/bindings/media/i2c/sony,imx334.yaml |   91 ++
- Documentation/driver-api/media/v4l2-clocks.rst     |   31 -
- Documentation/driver-api/media/v4l2-core.rst       |    1 -
- Documentation/driver-api/media/v4l2-subdev.rst     |   48 +-
- MAINTAINERS                                        |   22 +
- arch/arm/mach-pxa/devices.c                        |    8 +
- drivers/media/i2c/Kconfig                          |   27 +
- drivers/media/i2c/Makefile                         |    3 +
- drivers/media/i2c/imx219.c                         |   15 +-
- drivers/media/i2c/imx258.c                         |   82 +-
- drivers/media/i2c/imx334.c                         | 1131 ++++++++++++++++++++
- drivers/media/i2c/max9286.c                        |   74 +-
- drivers/media/i2c/mt9m111.c                        |   17 +-
- drivers/media/i2c/ov5648.c                         |    4 +-
- drivers/media/i2c/ov5675.c                         |    6 +-
- drivers/media/i2c/ov6650.c                         |   28 +-
- drivers/media/i2c/ov8856.c                         |    4 +-
- drivers/media/i2c/ov8865.c                         |    2 +-
- drivers/media/i2c/ov9640.c                         |   15 +-
- drivers/media/i2c/ov9640.h                         |    2 +-
- drivers/media/i2c/rdacm20.c                        |    4 +-
- drivers/media/i2c/rdacm21.c                        |  623 +++++++++++
- drivers/media/i2c/st-mipid02.c                     |   21 +-
- drivers/media/pci/intel/ipu3/Kconfig               |    2 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |   18 +-
- drivers/media/platform/am437x/am437x-vpfe.c        |    2 +-
- drivers/media/platform/atmel/atmel-isc.h           |    1 +
- drivers/media/platform/atmel/atmel-isi.c           |   46 +-
- drivers/media/platform/atmel/atmel-sama5d2-isc.c   |   44 +-
- drivers/media/platform/cadence/cdns-csi2rx.c       |   17 +-
- drivers/media/platform/davinci/vpif_capture.c      |    2 +-
- drivers/media/platform/davinci/vpif_display.c      |   86 +-
- drivers/media/platform/davinci/vpif_display.h      |    1 -
- drivers/media/platform/exynos4-is/media-dev.c      |   25 +-
- drivers/media/platform/exynos4-is/media-dev.h      |    2 +-
- drivers/media/platform/marvell-ccic/cafe-driver.c  |   14 +-
- drivers/media/platform/marvell-ccic/mcam-core.c    |   12 +-
- drivers/media/platform/marvell-ccic/mcam-core.h    |    1 -
- drivers/media/platform/marvell-ccic/mmp-driver.c   |   11 +-
- drivers/media/platform/omap3isp/isp.c              |   74 +-
- drivers/media/platform/pxa_camera.c                |   83 +-
- drivers/media/platform/qcom/camss/camss.c          |   11 +-
- drivers/media/platform/rcar-vin/rcar-core.c        |    5 +-
- drivers/media/platform/rcar-vin/rcar-csi2.c        |    2 +-
- drivers/media/platform/rcar_drif.c                 |    2 +-
- drivers/media/platform/renesas-ceu.c               |   56 +-
- .../media/platform/rockchip/rkisp1/rkisp1-dev.c    |   15 +-
- drivers/media/platform/stm32/stm32-dcmi.c          |   87 +-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c |    9 +-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h |    1 -
- drivers/media/platform/ti-vpe/cal.c                |   12 +-
- drivers/media/platform/video-mux.c                 |   14 +-
- drivers/media/platform/xilinx/xilinx-vipp.c        |   10 +-
- drivers/media/v4l2-core/Makefile                   |    2 +-
- drivers/media/v4l2-core/v4l2-async.c               |   95 +-
- drivers/media/v4l2-core/v4l2-clk.c                 |  321 ------
- drivers/media/v4l2-core/v4l2-fwnode.c              |    6 +-
- drivers/staging/media/imx/imx-media-csi.c          |   14 +-
- drivers/staging/media/imx/imx-media-of.c           |    2 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c         |   19 +-
- drivers/staging/media/imx/imx7-media-csi.c         |   16 +-
- drivers/staging/media/imx/imx7-mipi-csis.c         |   15 +-
- drivers/staging/media/ipu3/ipu3-v4l2.c             |    3 -
- drivers/staging/media/tegra-video/vi.c             |   10 +-
- include/media/davinci/vpif_types.h                 |    2 -
- include/media/v4l2-async.h                         |   89 +-
- include/media/v4l2-clk.h                           |   73 --
- 71 files changed, 2620 insertions(+), 1223 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.yaml
- create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
- delete mode 100644 Documentation/driver-api/media/v4l2-clocks.rst
- create mode 100644 drivers/media/i2c/imx334.c
- create mode 100644 drivers/media/i2c/rdacm21.c
- delete mode 100644 drivers/media/v4l2-core/v4l2-clk.c
- delete mode 100644 include/media/v4l2-clk.h
-
--- 
-Kind regards,
-
-Sakari Ailus
