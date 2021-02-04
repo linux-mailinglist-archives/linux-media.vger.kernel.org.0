@@ -2,195 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBE1130EE38
-	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 09:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7884E30EF71
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 10:17:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234982AbhBDIRk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 03:17:40 -0500
-Received: from mail-dm6nam11on2081.outbound.protection.outlook.com ([40.107.223.81]:5857
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234985AbhBDIRe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Feb 2021 03:17:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Km+BV/Vd48YdES4Dr0B6atESWXrpDxxqrPkuqlOAonMSsYiNZjTVm4w5PvOoEC1urZZYtuSm/rCxpQaqkjiDBzDXtLvN4845ut6dvmcjGDxhVJZkvrdTa/ZOUntx+soC8ToIYy2sFskFcCmm8+ZCI/acrMry00SUodfBP79BQ0mN22Xe0iYm6spqAr+eHxydESENJZXpv82H7ggBNfC1/zM9ONjsV6kk7SRd167rs4zaTgKp1ZT8LvIHXs3JKxH3AMWFyyL9+Qf3nASV21tnn35Yo5xh2W80R77cV4owzBZ/DABkN8v5SP6YDCizrJwceqCstFZxx0xots+0sNflIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5YA8rfWzdX4Xqt2zKyCwtuidKecY3Wi3nxre6h7sYMc=;
- b=bV6GNRJ2Sx8qGRaIO7Re28CMoF1Ods9Mpou7E3HMTfU7hp3dBfxasDHqPgvnjGqa9PRQnWBA8goCwSXtyehhhmfeNktfgoTbgxI4ekL5eOSakFOSWaFApgrVP997i6u+12zZRvp/Uhsq01nn4oJmwKXTtHHYQ3+uh21oPz4bwq2ng/PyYrUSv0h35kUBAFWgg8vcheWJyPeIz3DnS6AUjq0iUmV8ImJvNxYLFTb5MKoKGvTQyn7QBx96Hv2iuXDTL+cfNpbRkQWqCkl3kIAVJZOspAXr8Fe+EVahkGWEmS6O6S2e1g+VjkyNwJPFUhBmQ3mqCRBgPdPjH9EWKRB6DQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5YA8rfWzdX4Xqt2zKyCwtuidKecY3Wi3nxre6h7sYMc=;
- b=Ss0XaBoDm1pF/exGWAIri268HEYnSibFjSm6X3O8kvuxsmCjywxLry5+5z5Sx7LcHr4H4/JnTLeYqO8BxwVM2LPFbtKeQa3M70YCAP8BbwpgFvCYpWtynAoqrkXHJZ4lxMM2luCu+E8nbQnW5/de0NTUtbPCcDLTlmxNIPw3tac=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4520.namprd12.prod.outlook.com (2603:10b6:208:26f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Thu, 4 Feb
- 2021 08:16:39 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3805.024; Thu, 4 Feb 2021
- 08:16:39 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] mm: replace BUG_ON in vm_insert_page
- with a return of an error
-To:     Suren Baghdasaryan <surenb@google.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Sandeep Patil <sspatil@google.com>,
+        id S235129AbhBDJPN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 04:15:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235177AbhBDJOk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 04:14:40 -0500
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976F0C0613D6
+        for <linux-media@vger.kernel.org>; Thu,  4 Feb 2021 01:13:59 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id u66so1093017oig.9
+        for <linux-media@vger.kernel.org>; Thu, 04 Feb 2021 01:13:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=RTzUaR2l9Y+wonn/5AaTUIe22c6Cvk8bS3lsdUKi7C4=;
+        b=PlBUd4Py28pehHqU06+ihr1l7h0vSS4JISmS5j2ah1UZ+e8VoB9doYac74bcQDZl7B
+         jYXUClMz2yJNHpgQL2WASwpxpv0GTKchb2om/0uCvplSJ3hklaRcTKDvfuqxPTTlmgMy
+         eGRc6uggEdgrHWuaNQN61koxVhscZ/zAGFRnY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=RTzUaR2l9Y+wonn/5AaTUIe22c6Cvk8bS3lsdUKi7C4=;
+        b=Az/vzUCNx9gZZVbzrLW5kyvc0mNMC7xN4y7la8s6e6h6kflPDF/IxY81NraEReLn/s
+         GaP5dTwIE4sUwJbMsUHlm2FqhM72XsF8WuwXYyOwxhC0xl/6JSA0s/GercYo9RSSoiBD
+         1vjPeWE6opWGvy3xsH33m/Zj3bricEqtNHbBSYJwW8SvzxTqRIE5van9BTbArhKBP/bh
+         uQkDFBB7wEB0Td2dQmaUnBv07sPM01u6c9yc7B/RWdizxkaxOBaNEbhhM0tIXodP7uoF
+         Bb690zBUsmv9PTLRgzkxgsLUDgTkETwAmPbA2jboJbBiiL3RACHJ+HryFnVGCCUSdBhS
+         BQmw==
+X-Gm-Message-State: AOAM531BSsVPSTTLABzeNWOT5OBw59XZa3gpkW/yHDS8z3PfXZZPLJhd
+        epnS0bd4KLRrXgBurqZ33wl/CrmX/LIzAs0AVXqJIA==
+X-Google-Smtp-Source: ABdhPJysDYIHlHu6+BiphwjplLKS1acWqikv5lmtyYRwu4CezcY5Vj2C2488GYPUOuwTLROyI3YiWCjctUrsusXcAqE=
+X-Received: by 2002:aca:1906:: with SMTP id l6mr4613717oii.101.1612430038909;
+ Thu, 04 Feb 2021 01:13:58 -0800 (PST)
+MIME-Version: 1.0
+References: <20210126204240.418297-1-hridya@google.com> <YBFXPbePURupbe+y@kroah.com>
+ <CAO_48GHrpi9XxPhP2evwH_ZJmbVSWqxCvsYg6S2Syh-mrWBHzA@mail.gmail.com>
+ <c0684400-c1e2-0ebd-ad09-cb7b24db5764@gmail.com> <CAO_48GGsOTLdqAQMO9vrLtWAKG6spByMC-GXwDv_f3ENvpemfA@mail.gmail.com>
+ <CAKMK7uEwm5tLT3fo_+QtzUthht3JLkhCpZ+6yJ2XSB6U4Qp5wg@mail.gmail.com>
+ <CA+wgaPPmTQ2x37rMVsEW=D-adHHyp12sTAh-Gfq3Fn0rOBBHQA@mail.gmail.com>
+ <YBp6LJhg6mTN1U5G@phenom.ffwll.local> <CA+wgaPN-e1h8OHAJ4y9Cj+hoiWeOz2gizMAvoSnBQKvexi8ayQ@mail.gmail.com>
+ <3a5e5164-e6d5-c487-71d8-910f943aee1a@amd.com>
+In-Reply-To: <3a5e5164-e6d5-c487-71d8-910f943aee1a@amd.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Thu, 4 Feb 2021 10:13:47 +0100
+Message-ID: <CAKMK7uF0=Xqtiny4Ad7GDRKxdoLvF7PiXVm-2FVFQyPe77PN6w@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v3] dmabuf: Add the capability to expose
+ DMA-BUF stats in sysfs
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
         Android Kernel Team <kernel-team@android.com>,
-        James Jones <jajones@nvidia.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        John Stultz <john.stultz@linaro.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
+        kernel test robot <lkp@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        Hyesoo Yu <hyesoo.yu@samsung.com>,
+        Suren Baghdasaryan <surenb@google.com>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
         <linux-media@vger.kernel.org>
-References: <20210203003134.2422308-1-surenb@google.com>
- <20210203015553.GX308988@casper.infradead.org>
- <CAKMK7uHnNdjOYX5Rhj=uGMz7hSz12JhgkZJCfiqgkpjXnMfL4A@mail.gmail.com>
- <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
- <CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com>
- <CAKMK7uETu_m+=MHyPmqBbEP__qjMF_wmr4c2BiVTPcwE8c+5Mg@mail.gmail.com>
- <CAJuCfpHC6P5cJh-1hv=vjGHCCkM6mA_p19H6tCZmCDxhTuASkQ@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <ced1c1be-e731-946e-e9ce-919520fe935a@amd.com>
-Date:   Thu, 4 Feb 2021 09:16:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAJuCfpHC6P5cJh-1hv=vjGHCCkM6mA_p19H6tCZmCDxhTuASkQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR10CA0130.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:e6::47) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR10CA0130.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::47) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend Transport; Thu, 4 Feb 2021 08:16:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: da2081e2-9b20-400b-4e6b-08d8c8e53295
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4520:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB45204D167705331452E2FAE283B39@MN2PR12MB4520.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 36/egyZdwo7iUIUvAt5F/1TS0k1hDVQqUP9xDFgEgNZbx4+EitjVU/b0xCg+uhItlgckzzT1dj+ckkOnJj1xveeHuW21EjWbtSLZlJU/ZHeAfZ0cTz9mDg0b74wNM4LE+LBU9xGGlRKn2uqlTQZie+Ujzytu0HbyHD5AMa8FbFJHOSFCOLQ7ah9MM9gEieG1+v/YHvvk1f7QutWrUkUyE7c5SLRKtncYSkofEHhaEYiVI1hW9hX7XWhOEF8gyGpSJGaO8xWA+OAHfxHubN+sJC5L2EClbPxS3f13tKmWMj1bXtF+gl3F0j3mgu18S7ukorhbdsM+obPVVU+Ule3V8OC7T9Rht5gedIV84G4fAt9b4pkA1IR726TdNmBuD0o0o7GP1fxLNUhAF5zy0kW57FyOsSHB72lzDrLrFmNlIxEyN7Gi77CKGr4/vKq/8+GxP1I4sXhnRV4nz+7Ed3rbamAMCwfPTNBPbNePBwT8/pUa1YRkA2S3Tx5G0LzKckWV6yxMEsIsR5SzFVumLz/fbBTeK1iZHY9D/Ae9FSrry11m/tIaSbQWz9jnGjYIwG/Gou4ubgaZzPb8TsThkmJ+YvUvUk43dmfjQAtRGF4dwBs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(396003)(136003)(366004)(346002)(31696002)(186003)(6666004)(5660300002)(52116002)(66476007)(86362001)(36756003)(478600001)(2616005)(16526019)(4326008)(6486002)(316002)(83380400001)(8936002)(31686004)(8676002)(110136005)(66946007)(7416002)(2906002)(54906003)(66556008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NDdsT2ZvVS9MaTNhZ0o1UndzZUZjRW5rZ3JXb2xFYXZ6NFRVanJNM3d2MUNL?=
- =?utf-8?B?Sys0MGtCOW1tTW9hZTNXT0d4Vm52TWpjdlZoNzdNUkw4dmFSdWJ3MUREUnMv?=
- =?utf-8?B?N0VpbElRbXRDQUtpNGJ6QUtWWHh0VEl4cURlS3BoWXM1SW44T0VONVNJVm1w?=
- =?utf-8?B?NEJtaWExdnZjMGY1R014YUxUQXNKbW8vWFlOYWR3dkdkREVVTTZaMHlnWVlv?=
- =?utf-8?B?UG51bE9XU2tscWtPV3lKTk0yRjNocHROdWRrTUY4c1NNTmUwb0F6Q0I3YnJ0?=
- =?utf-8?B?UDl3bFQ1L2JrUUR6WkZFaDRGanRRVEorcDFhaDlGUS9qSlVoMFpmVmdmK2Zs?=
- =?utf-8?B?NVpyRU5pK3FyUlZXeHJhcVVEczUxaXEzYlBZaG1nUmFTcytpbVA4OFA5d1Ra?=
- =?utf-8?B?OERybEpIbzczVVUvNHVnQmVnWXE0NEc1aEFVcVdPMDEvZG0yRURBQkMvclJn?=
- =?utf-8?B?OTQxQjNMN1ZXeXRRWWJtQ3hzNU56R1lVdHpyeFVySVZmMEkvbnFZKzg0bkFz?=
- =?utf-8?B?T0VSK1NuRnBzSjYrcktRUTFkNVE1Q1NRWHREZk1wdzF5U1dWMVFxQkdmVEdp?=
- =?utf-8?B?b1haUWJ1Z0ZiTnRNZnZuU0kvaUl5aTI3TWxMa0hPZGQ2ZkVxMi9mT3EyVlBn?=
- =?utf-8?B?eCs5cDdabjRHOE0wTVFXVlpqbjVPSlZGeS9HWFZ0UjAzcWJkak5jVlFISTVz?=
- =?utf-8?B?dHgyZnExNC9IKzFiT3laZ3dNSzRxSWJFOWdLdFJIT200ZHhqRmdvVnBYQS82?=
- =?utf-8?B?Q1ErVkpTeDV4Y0dKT2M1S2FlL3hpR1dRT29XWWU1MmlBRTJXbTB5dHA4NGxF?=
- =?utf-8?B?OGo3QWVJSFpvVi9kY0ZhTzJELzFCRTF2MER5SnFoVFhaUE1tcmtieHRuaE1V?=
- =?utf-8?B?OThIM1JJcW1TRHQ1RDJZakFVSWtqdzhqZG5EaFcrbldUakgxa21WZ3AxYmJT?=
- =?utf-8?B?NnZFRlg4VTJBUGFpZ0xEd1E1WkdXVEtTQ2hac01vblRXTXU4eEwrTFo2c0ZU?=
- =?utf-8?B?QmJWa0xoWFRtYnIwc3dYckw3WGlxajl1M1FQbXEvaHBLYWwwUCtkNDIydFJk?=
- =?utf-8?B?aFkzZm1KM2ZVRytPSE5JcG11b1J0dkN3WFNpOHZZZWdyTm1EcnJUMWxXRmI2?=
- =?utf-8?B?TnR0elJ4dHAyVFA4UnFVWXJYVFdtbFVpR01RL3B3d1VSOUhwd0ptMVpzcFJ0?=
- =?utf-8?B?d3NyblpnUlBFSDhHT3RuV1ZFME1wZllVTFRWdFVYeWtqQ0h5RHhxZHpVWHI3?=
- =?utf-8?B?RU14enZTZVFMMld6OWdKUWJEY2hNamxOUk11eG5OQnJzTXQ2b2JhL0E4Tk1y?=
- =?utf-8?B?NmkwV1VTS1B6OXM5TWF6QmwzT1l4bXlVSEpGekNFcmhadDluNk9lSFRPeXBi?=
- =?utf-8?B?a09zZVZGRFprTGZUWXVoZUtSMFBYMTZwQ0tQaHlMS24rRHRLbDlqQllPZjRH?=
- =?utf-8?B?UUlnL3FubzVQY2hKWTNnRWJkRjZkalBqUGZkc0ZwQ0dLRFRsM2k5SktiYXlI?=
- =?utf-8?B?ajR2MVFvQS9xc2VZL2RCTEUzSEN4dm13TmlNSzZGNU51Y3BRdHYxZkxQd0lx?=
- =?utf-8?B?aWErUFlOUngrYzhoSHBwck9tTk5UR3Y0cG96NVU4VElBaHY4VnAzU2lOUTJR?=
- =?utf-8?B?RENmL1JQUWYybWVtUHhZK3F1VXN4UmRuK0kwaGhvV1JYYVNoWGU4Z3FyeWlC?=
- =?utf-8?B?V2d4Ukg3ZG5Xdi9NVmxCSjk4czhuU2poUVVLeThvT0xjRFJTdzVvUDVyTGJh?=
- =?utf-8?B?WEVJTGNlUitKNWJkNEsyZGR6aXNHMlorN0JYaFZsbE1rMzE0VDdZNTFkbzNY?=
- =?utf-8?B?VmYyd0ZsZFlBd3VCOUJuOE52dW5jQ2p2b1pIOEZmSk54Qlp2VlREU0dsbFBt?=
- =?utf-8?Q?YaBIQBh9Tk5Fc?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da2081e2-9b20-400b-4e6b-08d8c8e53295
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2021 08:16:39.6905
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bV2aDlLF80vyeCOLaMX9iN2vT70tGipmbr2ZN6sztIt/4dqEGhN8gnnaUmrI4JeE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4520
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 03.02.21 um 22:41 schrieb Suren Baghdasaryan:
-> [SNIP]
->>> How many semi-unrelated buffer accounting schemes does google come up with?
->>>
->>> We're at three with this one.
->>>
->>> And also we _cannot_ required that all dma-bufs are backed by struct
->>> page, so requiring struct page to make this work is a no-go.
->>>
->>> Second, we do not want to all get_user_pages and friends to work on
->>> dma-buf, it causes all kinds of pain. Yes on SoC where dma-buf are
->>> exclusively in system memory you can maybe get away with this, but
->>> dma-buf is supposed to work in more places than just Android SoCs.
->> I just realized that vm_inser_page doesn't even work for CMA, it would
->> upset get_user_pages pretty badly - you're trying to pin a page in
->> ZONE_MOVEABLE but you can't move it because it's rather special.
->> VM_SPECIAL is exactly meant to catch this stuff.
-> Thanks for the input, Daniel! Let me think about the cases you pointed out.
+On Thu, Feb 4, 2021 at 9:13 AM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
 >
-> IMHO, the issue with PSS is the difficulty of calculating this metric
-> without struct page usage. I don't think that problem becomes easier
-> if we use cgroups or any other API. I wanted to enable existing PSS
-> calculation mechanisms for the dmabufs known to be backed by struct
-> pages (since we know how the heap allocated that memory), but sounds
-> like this would lead to problems that I did not consider.
-
-Yeah, using struct page indeed won't work. We discussed that multiple 
-times now and Daniel even has a patch to mangle the struct page pointers 
-inside the sg_table object to prevent abuse in that direction.
-
-On the other hand I totally agree that we need to do something on this 
-side which goes beyong what cgroups provide.
-
-A few years ago I came up with patches to improve the OOM killer to 
-include resources bound to the processes through file descriptors. I 
-unfortunately can't find them of hand any more and I'm currently to busy 
-to dig them up.
-
-In general I think we need to make it possible that both the in kernel 
-OOM killer as well as userspace processes and handlers have access to 
-that kind of data.
-
-The fdinfo approach as suggested in the other thread sounds like the 
-easiest solution to me.
-
-Regards,
-Christian.
-
-> Thanks,
-> Suren.
+> Am 03.02.21 um 21:14 schrieb Hridya Valsaraju:
+> > On Wed, Feb 3, 2021 at 2:25 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >> On Mon, Feb 01, 2021 at 01:02:30PM -0800, Hridya Valsaraju wrote:
+> >>> On Mon, Feb 1, 2021 at 10:37 AM Daniel Vetter <daniel@ffwll.ch> wrote=
+:
+> >>>> On Thu, Jan 28, 2021 at 1:03 PM Sumit Semwal <sumit.semwal@linaro.or=
+g> wrote:
+> >>>>> On Thu, 28 Jan 2021 at 17:23, Christian K=C3=B6nig
+> >>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>>> Am 28.01.21 um 12:00 schrieb Sumit Semwal:
+> >>>>>>> Hi Hridya,
+> >>>>>>>
+> >>>>>>> On Wed, 27 Jan 2021 at 17:36, Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+> >>>>>>>> On Tue, Jan 26, 2021 at 12:42:36PM -0800, Hridya Valsaraju wrote=
+:
+> >>>>>>>>> This patch allows statistics to be enabled for each DMA-BUF in
+> >>>>>>>>> sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
+> >>>>>>>>>
+> >>>>>>>>> The following stats will be exposed by the interface:
+> >>>>>>>>>
+> >>>>>>>>> /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
+> >>>>>>>>> /sys/kernel/dmabuf/buffers/<inode_number>/size
+> >>>>>>>>> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_u=
+id>/device
+> >>>>>>>>> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_u=
+id>/map_counter
+> >>>>>>>>>
+> >>>>>>>>> The inode_number is unique for each DMA-BUF and was added earli=
+er [1]
+> >>>>>>>>> in order to allow userspace to track DMA-BUF usage across diffe=
+rent
+> >>>>>>>>> processes.
+> >>>>>>>>>
+> >>>>>>>>> Currently, this information is exposed in
+> >>>>>>>>> /sys/kernel/debug/dma_buf/bufinfo.
+> >>>>>>>>> However, since debugfs is considered unsafe to be mounted in pr=
+oduction,
+> >>>>>>>>> it is being duplicated in sysfs.
+> >>>>>>>>>
+> >>>>>>>>> This information will be used to derive DMA-BUF
+> >>>>>>>>> per-exporter stats and per-device usage stats for Android Bug r=
+eports.
+> >>>>>>>>> The corresponding userspace changes can be found at [2].
+> >>>>>>>>> Telemetry tools will also capture this information(along with o=
+ther
+> >>>>>>>>> memory metrics) periodically as well as on important events lik=
+e a
+> >>>>>>>>> foreground app kill (which might have been triggered by Low Mem=
+ory
+> >>>>>>>>> Killer). It will also contribute to provide a snapshot of the s=
+ystem
+> >>>>>>>>> memory usage on other events such as OOM kills and Application =
+Not
+> >>>>>>>>> Responding events.
+> >>>>>>>>>
+> >>>>>>>>> A shell script that can be run on a classic Linux environment t=
+o read
+> >>>>>>>>> out the DMA-BUF statistics can be found at [3](suggested by Joh=
+n
+> >>>>>>>>> Stultz).
+> >>>>>>>>>
+> >>>>>>>>> The patch contains the following improvements over the previous=
+ version:
+> >>>>>>>>> 1) Each attachment is represented by its own directory to allow=
+ creating
+> >>>>>>>>> a symlink to the importing device and to also provide room for =
+future
+> >>>>>>>>> expansion.
+> >>>>>>>>> 2) The number of distinct mappings of each attachment is expose=
+d in a
+> >>>>>>>>> separate file.
+> >>>>>>>>> 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buff=
+ers
+> >>>>>>>>> inorder to make the interface expandable in future.
+> >>>>>>>>>
+> >>>>>>>>> All of the improvements above are based on suggestions/feedback=
+ from
+> >>>>>>>>> Daniel Vetter and Christian K=C3=B6nig.
+> >>>>>>>>>
+> >>>>>>>>> [1]: https://nam11.safelinks.protection.outlook.com/?url=3Dhttp=
+s%3A%2F%2Flore.kernel.org%2Fpatchwork%2Fpatch%2F1088791%2F&amp;data=3D04%7C=
+01%7Cchristian.koenig%40amd.com%7C32ff828b838e44b1de6f08d8c8805913%7C3dd896=
+1fe4884e608e11a82d994e183d%7C0%7C0%7C637479800886768855%7CUnknown%7CTWFpbGZ=
+sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1=
+000&amp;sdata=3DimVoJbadV221%2F6u32diSyEICLk7WUNakz8G742RPSaA%3D&amp;reserv=
+ed=3D0
+> >>>>>>>>> [2]: https://nam11.safelinks.protection.outlook.com/?url=3Dhttp=
+s%3A%2F%2Fandroid-review.googlesource.com%2Fq%2Ftopic%3A%2522dmabuf-sysfs%2=
+522&amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7C32ff828b838e44b1de6f0=
+8d8c8805913%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637479800886778838=
+%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
+wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DX78MH6IvdcE1mGMngrVdBYooi93vpjvfLU9kQHj=
+ZyKo%3D&amp;reserved=3D0+(status:open%20OR%20status:merged)
+> >>>>>>>>> [3]: https://nam11.safelinks.protection.outlook.com/?url=3Dhttp=
+s%3A%2F%2Fandroid-review.googlesource.com%2Fc%2Fplatform%2Fsystem%2Fmemory%=
+2Flibmeminfo%2F%2B%2F1549734&amp;data=3D04%7C01%7Cchristian.koenig%40amd.co=
+m%7C32ff828b838e44b1de6f08d8c8805913%7C3dd8961fe4884e608e11a82d994e183d%7C0=
+%7C0%7C637479800886778838%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQI=
+joiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DJH7m5yspXKDqVX=
+5DB380cnU4kWNSyh6ctDaphJvOyw8%3D&amp;reserved=3D0
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> >>>>>>>>> Reported-by: kernel test robot <lkp@intel.com>
+> >>>>>>> Thanks for the patch!
+> >>>>>>>
+> >>>>>>> Christian: If you're satisfied with the explanation around not
+> >>>>>>> directly embedding kobjects into the dma_buf and dma_buf_attachme=
+nt
+> >>>>>>> structs, then with Greg's r-b from sysfs PoV, I think we can merg=
+e it.
+> >>>>>>> Please let me know if you feel otherwise!
+> >>>>>>   From the technical side it looks clean to me, feel free to add m=
+y
+> >>>>>> acked-by while pushing.
+> >>>>>>
+> >>>>>> But I would at least try to convince Daniel on the design. At leas=
+t some
+> >>>>>> of his concerns seems to be valid and keep in mind that we need to
+> >>>>>> support this interface forever.
+> >>>>> Naturally.
+> >>>>>
+> >>>>> Since he didn't comment over Hridya's last clarification about the
+> >>>>> tracepoints to track total GPU memory allocations being orthogonal =
+to
+> >>>>> this series, I assumed he agreed with it.
+> >>>> The tracepoint being orthogonal didn't really look convincing to me,
+> >>>> since I do expect we'll need that at a much more generic level, at
+> >>>> allocators. Whether that's dma-buf heaps or in drm or wherever. And =
+we
+> >>>> probably also need that to somehow align with cgroups accounting.
+> >>>>
+> >>>> But I guess for this it should be easy to extend however we see fit,
+> >>>> so retrofitting allocator sources and anything else we want/need for
+> >>>> the overall gpu memory account shouldn't be a problem. Also, it's
+> >>>> first, so the proof for showing it all works together is more on the
+> >>>> tracepoints :-)
+> >>>>
+> >>>>> Daniel, do you still have objections around adding this patch in?
+> >>>> Needs docs (especially the uapi I think would be useful to document)=
+,
+> >>>> igt tests, that kind of stuff still I think? It's meant to be generi=
+c
+> >>>> uapi across drivers, generally we're a pile stricter for that (and y=
+es
+> >>>> dma-buf heaps I think didn't do all that, so maybe there's an argume=
+nt
+> >>>> for doing this a bit more sloppy or at least "the testsuite is
+> >>>> somewhere else").
+> >>> Thank you for taking another look Daniel!
+> >>>
+> >>> I will try adding an IGT test for the sysfs files. Other than the
+> >>> documentation in
+> >>> Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers(included in the
+> >>> patch), is there another place you would like to see the documentatio=
+n
+> >>> copied to?
+> >> So just read the other thread, and sounds like Christian K=C3=B6nig br=
+ought up
+> >> a solid concern with dma-buf fds generally not staying around for much=
+.
+> > Thank you for the reply Daniel! Could you please elaborate on the
+> > connection with the other thread you mentioned? I am a little confused
+> > since this patch does not deal with tracking DMA-BUF fds.
 >
+> In general DMA-buf fd are meant to be a temporary transport vehicle to
+> interchange the data between processes.
+>
+> This here sounds like Android is using them as a long term reference.
+> That is not necessary a good idea and causes multiple issues.
+>
+> On of those issues you try to address here, but Daniel is question now
+> why do you have this problem in the first place?
+
+Afaik it's how Android works, lots more fd passing than we do (that's
+also why Android has sync_file, i.e. pass a sync fd around every
+frame, whereas we have drm_syncobj, i.e. pass the sync container
+object fd once around at startup and be done).
+
+I more meant that now I'm leaning more towards "we really need a
+unified *pu buffer reporting scheme" before signing up to something
+that only works for very limited use cases.
+
+The other thing that popped up is that between this patch, the virtio
+tracepoint there's now a 3rd patch from google Android to account xpu
+buffer memory in some cases (but only some, only partially). So really
+this gap-fillers here don't work, and we need something that really
+looks at the entire problem and figures out how to account that
+memory. Which is probably cgroups, but we'll see.
+
+I asked John to set up some meeting at least with the Android side so
+we can start to figure this out for real.
+-Daniel
+
+>
+> Regards,
+> Christian.
+>
+> >
+> > Regards,
+> > Hridya
+> >
+> >> So I'm leaning more towards "this sounds like it's going to be useful =
+for
+> >> Android only, nothing else" concern.
+> >> -Daniel
+> >>
 >
 
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
