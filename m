@@ -2,223 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22B6930F028
-	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 11:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB9030F07E
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 11:25:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235311AbhBDKGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 05:06:30 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50977 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232838AbhBDKGZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Feb 2021 05:06:25 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 7bW6lHLD4W4yN7bW9lc0C2; Thu, 04 Feb 2021 11:05:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612433142; bh=yAXC53mYOMWxeyXb4NHgAo5+WHbJZU+POp1z/V97ZRA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=et2wEZN5HKlQmzAeOk4U67mtHQLqpMys1zgho6qwXgnfc8n97mpebs9TNgQgyqMRu
-         z7r2kaNLLdZ1OL7tffEy5n6kiyGAe9zrCvBGE4/jzWCt3BYwz/KpnZE23gwGZB7BJx
-         GIinaelWucbqAAiejiqkWXYFLgOzMPG6hZSPcBb3f4/34aILZb/dPbY1s37LdrcZdo
-         Kgz6LhISsb82R8lflTGJUNBhSUJZqp0aHPrfWePp1RJ6dTUAdswVpUy8XNyhlrGIBr
-         FPPAH4y6BsB7xsLn/WcEtLgz4gvTGqKyDIU2CpOg8BHd8pJBiaVjfSbdwCxEqfuMWR
-         9jRnxxYORr0/Q==
-Subject: Re: [PATCH v6 1/2] media: v4l2-ctrl: add controls for long term
- reference.
-To:     dikshita@codeaurora.org
-Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1611553919-17919-1-git-send-email-dikshita@codeaurora.org>
- <1611553919-17919-2-git-send-email-dikshita@codeaurora.org>
- <d20ba57f-54a7-5a61-a64b-2d9433b79281@xs4all.nl>
- <6e59d1bee1d0f1b64aab77959bb22e6e@codeaurora.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <2a6bf75f-a44c-e921-55a0-abd6d6eaf67f@xs4all.nl>
-Date:   Thu, 4 Feb 2021 11:05:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S235315AbhBDKYT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 05:24:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235358AbhBDKYR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 05:24:17 -0500
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AD6C061573
+        for <linux-media@vger.kernel.org>; Thu,  4 Feb 2021 02:23:37 -0800 (PST)
+Received: by mail-ot1-x32d.google.com with SMTP id d7so2886338otf.3
+        for <linux-media@vger.kernel.org>; Thu, 04 Feb 2021 02:23:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=XcgEW3mAYPX38OWQ50gNyoqFplO8jrqalewwDA0jJOE=;
+        b=YHA9xoBzq1LX0ETuIqq+7M2+Hnbb0ehp2yvYqQb4GOhhJPMSN3U0QTEpDUARMXC1HY
+         MXMnQ2EV3hmX4Fu1ljjOugipjxZO2S6o/TlKawHs9SpSwEIB/fWlPLtbEr1PEBTQArwm
+         gpsPmYli7yMR11+sEXcxnzrMHqvN3KCEdUpnw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=XcgEW3mAYPX38OWQ50gNyoqFplO8jrqalewwDA0jJOE=;
+        b=gPjCO0lFeHdPwkpKWFVReP2fWKaRXtUVt+NW9QKvW3QKH/784DHwt0/z9zJrKSbxJV
+         MEV33ckKXAVafgV4EJx9XF0ycemB35oleoF827GKUgHlHYUFmj+p28HAabfTglUO9zJM
+         ry4rmBXu7Vgdw4aCm9bSbzU9dJ+keFE6mFGKoU6S+adLBfCSF8+sTJxA8poINoNiaYnD
+         so0wDvefzRP7/N9MFMKc5SHnVXGQQjQ39DawTqzfbvTQwUPjK69cFbbCZq+PZgqV9MrF
+         8xUjuZDLaCxlznTPTx1fGQ6PBUQ2LWLSFj242GpdZ8Sr86cPCxfqC+vISjodsoyx/c5o
+         CIJg==
+X-Gm-Message-State: AOAM5326YU312mB51I3KbIMgGHzsukkLxkpyGJZubNfyJJvy0X/CJ/M2
+        KKjWhOquQsPwdnU+aVJRcYkS4G3gCsXo4UYkGaL7kH/+fRKGag==
+X-Google-Smtp-Source: ABdhPJzddeDp5OzUDd1HqtYjqPJri1JJBUg1S8JFKKQ3zalVUTBaKJqBAv/x2Tx9XPv1Q79n65DE9uF+y8y59uO90FY=
+X-Received: by 2002:a9d:2265:: with SMTP id o92mr5162902ota.188.1612434216704;
+ Thu, 04 Feb 2021 02:23:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6e59d1bee1d0f1b64aab77959bb22e6e@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMA53xV7GeJVLhzthRb9CfQDc/W8Hlyn2srB8VnNs5QiXMVYoe0bSupnZQIwCy0Pe3dby/vke4r1MkfMV9YLjSoS+F0eGgICK9yziQ3n34FmnCu3TuC1
- ciMVzzlYBfN41RmCzQi/S0CBOvxqniAjO4k18GWhJnanv3swO/jYfZms5u397uFM3SSHbQ93OLiC7PtvmbTTcf5Z0IvILOt59zFvftAy+muq3ljjxUUTBc9U
- n4XN/6BV/wai5EmVA+5iD505inFj+doD8K/bxmQvGWphZQd9dAEeknI49FswcSevrynOvZLGfKXDDZjraiTyiE+TZQCmqhueMvbIY4WvMGhzwvW79Vq5S5cB
- xAffUuqJTnoQ8ZUKjsM0JO8OT5WuswnqaZxBfrBsaSQjEgjddXI=
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+ <20201127164131.2244124-13-daniel.vetter@ffwll.ch> <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
+ <YAbtZBU5PMr68q9E@kroah.com> <CAKMK7uGHSgetm7mDso6_vj+aGrR4u+ChwHb3k0QvgG0K6X2fPg@mail.gmail.com>
+ <YAb4yD4IbpQ3qhJG@kroah.com> <CAKMK7uF9RfqhOGzcjgXTY62-dFS7ELr+uHuRDhEjOcO-kSgY+w@mail.gmail.com>
+ <CAKMK7uG7QiP6m5jfidn7AWVhXp1JUZNpgpNPWOV6bqo9H+7vXA@mail.gmail.com>
+In-Reply-To: <CAKMK7uG7QiP6m5jfidn7AWVhXp1JUZNpgpNPWOV6bqo9H+7vXA@mail.gmail.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Thu, 4 Feb 2021 11:23:25 +0100
+Message-ID: <CAKMK7uGbr0BQT65FT5iTBtiuorun+TtJdMyR2p_OAdfpHxCskg@mail.gmail.com>
+Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/02/2021 06:01, dikshita@codeaurora.org wrote:
-> On 2021-02-01 16:50, Hans Verkuil wrote:
->> On 25/01/2021 06:51, Dikshita Agarwal wrote:
->>> Long Term Reference (LTR) frames are the frames that are encoded
->>> sometime in the past and stored in the DPB buffer list to be used
->>> as reference to encode future frames.
->>> This change adds controls to enable this feature.
->>>
->>> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
->>> ---
->>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst        | 18 
->>> ++++++++++++++++++
->>>  drivers/media/v4l2-core/v4l2-ctrls.c                   | 14 
->>> ++++++++++++++
->>>  include/uapi/linux/v4l2-controls.h                     |  3 +++
->>>  3 files changed, 35 insertions(+)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
->>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> index 400774c..a37d460 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> @@ -3637,3 +3637,21 @@ enum v4l2_mpeg_video_hevc_size_of_length_field 
->>> -
->>>        - Selecting this value specifies that HEVC slices are expected
->>>          to be prefixed by Annex B start codes. According to 
->>> :ref:`hevc`
->>>          valid start codes can be 3-bytes 0x000001 or 4-bytes 
->>> 0x00000001.
->>> +
->>> +``V4L2_CID_MPEG_VIDEO_LTR_COUNT (integer)``
->>> +       Specifies the number of Long Term Reference (LTR) frames 
->>> encoder needs
->>> +       to generate or keep. This is applicable to the H264 and HEVC 
->>> encoders.
->>> +
->>> +``V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX (integer)``
->>> +       The current frame is marked as a Long Term Reference (LTR) 
->>> frame
->>> +       and given this LTR index which ranges from 0 to LTR_COUNT-1.
->>> +       This is applicable to the H264 and HEVC encoders and can be 
->>> applied using
->>> +       Request API.
->>
->> You mentioned in reply to my comment that the venus driver didn't 
->> support the
->> Request API that it is also possible to use it without that API.
->>
->> But that requires more precise documentation. I assume that without the 
->> Request
->> API you would set this control, then queue the buffer containing the 
->> frame this
->> control should apply to, then wait until it is dequeued. Since that's 
->> the only
->> way you can be certain this control is applied to the correct frame.
->>
->> Is this indeed what you do in your application?
->>
->> Regards,
->>
->> 	Hans
->>
-> Hi Hans,
-> 
-> Yes, It is possible without request API as well in a non-synchronized 
-> way.
-> And we don't need to wait for the frame to be dequeued.
-> The driver implementation ensures that whenever the LTR control is 
-> received,
-> it applies to the frame received after that. Not to frame which would be 
-> encoded next.
-> So that it is at least synchronized between driver & encoder.
+On Wed, Feb 3, 2021 at 5:14 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote=
+:
+>
+> On Tue, Jan 19, 2021 at 5:03 PM Daniel Vetter <daniel.vetter@ffwll.ch> wr=
+ote:
+> >
+> > On Tue, Jan 19, 2021 at 4:20 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Tue, Jan 19, 2021 at 03:34:47PM +0100, Daniel Vetter wrote:
+> > > > On Tue, Jan 19, 2021 at 3:32 PM Greg Kroah-Hartman
+> > > > <gregkh@linuxfoundation.org> wrote:
+> > > > >
+> > > > > On Tue, Jan 19, 2021 at 09:17:55AM +0100, Daniel Vetter wrote:
+> > > > > > On Fri, Nov 27, 2020 at 5:42 PM Daniel Vetter <daniel.vetter@ff=
+wll.ch> wrote:
+> > > > > > >
+> > > > > > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver =
+claims
+> > > > > > > the region") /dev/kmem zaps ptes when the kernel requests exc=
+lusive
+> > > > > > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM,=
+ this is
+> > > > > > > the default for all driver uses.
+> > > > > > >
+> > > > > > > Except there's two more ways to access PCI BARs: sysfs and pr=
+oc mmap
+> > > > > > > support. Let's plug that hole.
+> > > > > > >
+> > > > > > > For revoke_devmem() to work we need to link our vma into the =
+same
+> > > > > > > address_space, with consistent vma->vm_pgoff. ->pgoff is alre=
+ady
+> > > > > > > adjusted, because that's how (io_)remap_pfn_range works, but =
+for the
+> > > > > > > mapping we need to adjust vma->vm_file->f_mapping. The cleane=
+st way is
+> > > > > > > to adjust this at at ->open time:
+> > > > > > >
+> > > > > > > - for sysfs this is easy, now that binary attributes support =
+this. We
+> > > > > > >   just set bin_attr->mapping when mmap is supported
+> > > > > > > - for procfs it's a bit more tricky, since procfs pci access =
+has only
+> > > > > > >   one file per device, and access to a specific resources fir=
+st needs
+> > > > > > >   to be set up with some ioctl calls. But mmap is only suppor=
+ted for
+> > > > > > >   the same resources as sysfs exposes with mmap support, and =
+otherwise
+> > > > > > >   rejected, so we can set the mapping unconditionally at open=
+ time
+> > > > > > >   without harm.
+> > > > > > >
+> > > > > > > A special consideration is for arch_can_pci_mmap_io() - we ne=
+ed to
+> > > > > > > make sure that the ->f_mapping doesn't alias between ioport a=
+nd iomem
+> > > > > > > space. There's only 2 ways in-tree to support mmap of ioports=
+: generic
+> > > > > > > pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the s=
+ingle
+> > > > > > > architecture hand-rolling. Both approach support ioport mmap =
+through a
+> > > > > > > special pfn range and not through magic pte attributes. Alias=
+ing is
+> > > > > > > therefore not a problem.
+> > > > > > >
+> > > > > > > The only difference in access checks left is that sysfs PCI m=
+map does
+> > > > > > > not check for CAP_RAWIO. I'm not really sure whether that sho=
+uld be
+> > > > > > > added or not.
+> > > > > > >
+> > > > > > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > > > > > > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> > > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > > > > > > Cc: Kees Cook <keescook@chromium.org>
+> > > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > > > > > Cc: John Hubbard <jhubbard@nvidia.com>
+> > > > > > > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> > > > > > > Cc: Jan Kara <jack@suse.cz>
+> > > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > > > > Cc: linux-mm@kvack.org
+> > > > > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > > > > Cc: linux-samsung-soc@vger.kernel.org
+> > > > > > > Cc: linux-media@vger.kernel.org
+> > > > > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > > > > > > Cc: linux-pci@vger.kernel.org
+> > > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > > > > --
+> > > > > > > v2:
+> > > > > > > - Totally new approach: Adjust filp->f_mapping at open time. =
+Note that
+> > > > > > >   this now works on all architectures, not just those support
+> > > > > > >   ARCH_GENERIC_PCI_MMAP_RESOURCE
+> > > > > > > ---
+> > > > > > >  drivers/pci/pci-sysfs.c | 4 ++++
+> > > > > > >  drivers/pci/proc.c      | 1 +
+> > > > > > >  2 files changed, 5 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.=
+c
+> > > > > > > index d15c881e2e7e..3f1c31bc0b7c 100644
+> > > > > > > --- a/drivers/pci/pci-sysfs.c
+> > > > > > > +++ b/drivers/pci/pci-sysfs.c
+> > > > > > > @@ -929,6 +929,7 @@ void pci_create_legacy_files(struct pci_b=
+us *b)
+> > > > > > >         b->legacy_io->read =3D pci_read_legacy_io;
+> > > > > > >         b->legacy_io->write =3D pci_write_legacy_io;
+> > > > > > >         b->legacy_io->mmap =3D pci_mmap_legacy_io;
+> > > > > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
+> > > > > > >         pci_adjust_legacy_attr(b, pci_mmap_io);
+> > > > > > >         error =3D device_create_bin_file(&b->dev, b->legacy_i=
+o);
+> > > > > > >         if (error)
+> > > > > > > @@ -941,6 +942,7 @@ void pci_create_legacy_files(struct pci_b=
+us *b)
+> > > > > > >         b->legacy_mem->size =3D 1024*1024;
+> > > > > > >         b->legacy_mem->attr.mode =3D 0600;
+> > > > > > >         b->legacy_mem->mmap =3D pci_mmap_legacy_mem;
+> > > > > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
+> > > > > >
+> > > > > > Unlike the normal pci stuff below, the legacy files here go boo=
+m
+> > > > > > because they're set up much earlier in the boot sequence. This =
+only
+> > > > > > affects HAVE_PCI_LEGACY architectures, which aren't that many. =
+So what
+> > > > > > should we do here now:
+> > > > > > - drop the devmem revoke for these
+> > > > > > - rework the init sequence somehow to set up these files a lot =
+later
+> > > > > > - redo the sysfs patch so that it doesn't take an address_space
+> > > > > > pointer, but instead a callback to get at that (since at open t=
+ime
+> > > > > > everything is set up). Imo rather ugly
+> > > > > > - ditch this part of the series (since there's not really any t=
+akers
+> > > > > > for the latter parts it might just not make sense to push for t=
+his)
+> > > > > > - something else?
+> > > > > >
+> > > > > > Bjorn, Greg, thoughts?
+> > > > >
+> > > > > What sysfs patch are you referring to here?
+> > > >
+> > > > Currently in linux-next:
+> > > >
+> > > > commit 74b30195395c406c787280a77ae55aed82dbbfc7 (HEAD ->
+> > > > topic/iomem-mmap-vs-gup, drm/topic/iomem-mmap-vs-gup)
+> > > > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > Date:   Fri Nov 27 17:41:25 2020 +0100
+> > > >
+> > > >    sysfs: Support zapping of binary attr mmaps
+> > > >
+> > > > Or the patch right before this one in this submission here:
+> > > >
+> > > > https://lore.kernel.org/dri-devel/20201127164131.2244124-12-daniel.=
+vetter@ffwll.ch/
+> > >
+> > > Ah.  Hm, a callback in the sysfs file logic seems really hairy, so I
+> > > would prefer that not happen.  If no one really needs this stuff, why
+> > > not just drop it like you mention?
+> >
+> > Well it is needed, but just on architectures I don't care about much.
+> > Most relevant is perhaps powerpc (that's where Stephen hit the issue).
+> > I do wonder whether we could move the legacy pci files setup to where
+> > the modern stuff is set up from pci_create_resource_files() or maybe
+> > pci_create_sysfs_dev_files() even for HAVE_PCI_LEGACY. I think that
+> > might work, but since it's legacy flow on some funny architectures
+> > (alpha, itanium, that kind of stuff) I have no idea what kind of
+> > monsters I'm going to anger :-)
+>
+> Back from a week of vacation, I looked at this again and I think
+> shouldn't be hard to fix this with the sam trick
+> pci_create_sysfs_dev_files() uses: As long as sysfs_initialized isn't
+> set we skip, and then later on when the vfs is up&running we can
+> initialize everything.
+>
+> To be able to apply the same thing to pci_create_legacy_files() I
+> think all I need is to iterate overa all struct pci_bus in
+> pci_sysfs_init() and we're good. Unfortunately I didn't find any
+> for_each_pci_bus(), so how do I do that?
 
-This is highly driver dependent. I'm not even sure this is true for the venus
-driver: if you prequeue, say, 4 output buffers to the encoder and call
-V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX after the second buffer (so it should
-apply to the third), and only after the fourth you call VIDIOC_STREAMON,
-does the venus driver still keep track of the order of the queued buffers
-and when these controls are set? Once STREAMON is called it looks like it
-stays synced since everything is queued into a command queue, if I understand
-the code correctly.
-
-The problem is that when controls are applied in relation to queued buffers
-is not defined, unless you use the Request API. Typically controls are applied
-immediately, so the venus driver is a bit of an anomaly in that respect.
-
-You can make an explicit requirement that these controls apply to the next
-queued buffer if no request API is used, but you really must be 100% certain
-that the venus driver does that right (and as mentioned, I have my doubts about
-the case where you queue buffers before calling STREAMON).
-
-Regards,
-
-	Hans
-
-> 
-> Thanks,
-> Dikshita
-> 
->>> +       Source Rec. ITU-T H.264 (06/2019); Table 7.9
->>> +
->>> +``V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES (bitmask)``
->>> +       Specifies the Long Term Reference (LTR) frame(s) to be used 
->>> for
->>> +       encoding the current frame.
->>> +       This provides a bitmask which consists of bits [0, 
->>> LTR_COUNT-1].
->>> +       This is applicable to the H264 and HEVC encoders and can be 
->>> applied using
->>> +       Request API.
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c 
->>> b/drivers/media/v4l2-core/v4l2-ctrls.c
->>> index 16ab54f..84c1eb8 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->>> @@ -950,6 +950,9 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV 
->>> Search Range";
->>>  	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence 
->>> Header";
->>>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
->>> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
->>> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "Frame LTR Index";
->>> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
->>>  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice 
->>> Parameters";
->>>  	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 
->>> Quantization Matrices";
->>>  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
->>> @@ -1277,6 +1280,17 @@ void v4l2_ctrl_fill(u32 id, const char **name, 
->>> enum v4l2_ctrl_type *type,
->>>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
->>>  		*type = V4L2_CTRL_TYPE_INTEGER;
->>>  		break;
->>> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
->>> +		*type = V4L2_CTRL_TYPE_INTEGER;
->>> +		break;
->>> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
->>> +		*type = V4L2_CTRL_TYPE_INTEGER;
->>> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
->>> +		break;
->>> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
->>> +		*type = V4L2_CTRL_TYPE_BITMASK;
->>> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
->>> +		break;
->>>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
->>>  	case V4L2_CID_PAN_RESET:
->>>  	case V4L2_CID_TILT_RESET:
->>> diff --git a/include/uapi/linux/v4l2-controls.h 
->>> b/include/uapi/linux/v4l2-controls.h
->>> index af8dda2..c0bb87b 100644
->>> --- a/include/uapi/linux/v4l2-controls.h
->>> +++ b/include/uapi/linux/v4l2-controls.h
->>> @@ -422,6 +422,9 @@ enum v4l2_mpeg_video_multi_slice_mode {
->>>  #define 
->>> V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+227)
->>>  #define 
->>> V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
->>>  #define 
->>> V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
->>> +#define V4L2_CID_MPEG_VIDEO_LTR_COUNT			(V4L2_CID_CODEC_BASE+230)
->>> +#define 
->>> V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX		(V4L2_CID_CODEC_BASE+231)
->>> +#define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+232)
->>>
->>>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
->>>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
->>>
-
+pci_find_next_bus() seems to be the answer I want. I'll see whether
+that works and then send out new patches.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
