@@ -2,167 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90FDC310010
-	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 23:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E85931007D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 00:09:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229894AbhBDWYw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 17:24:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33222 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229534AbhBDWYv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Feb 2021 17:24:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A10F664FAA;
-        Thu,  4 Feb 2021 22:24:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612477449;
-        bh=JutpsfoRnwZiwX9WSRX+9vPCxj9lG7YuiARSCN/pfb8=;
+        id S230055AbhBDXHI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 18:07:08 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45516 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229787AbhBDXHH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 18:07:07 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 634BE2C1;
+        Fri,  5 Feb 2021 00:06:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1612479984;
+        bh=5mfjUDIjzrQ0G2Tnn3FA0z/FO3mYImkGcjTSq1rho08=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R4EZehMHVo5fn0vaQZAo7gB2GbIMgL9Qiush/t7IxMNPcsOg65YtqQLWvt4bMJG5r
-         9lA0cGGOXqj2x+6Sp6C+nsCP9UpoVG7H2Kxadl5eCcGEWjM0L1VWnTD+yhLy8bbnsj
-         U4aqcqXxREXCmyDZNMlany8b0SXougiBRi6sN4iQGcB5bfs1R3oWkHK+yVzaMfmSXq
-         rZsWXNB+48T84kW+wWsLjJRqtCcgMiozGaAzlgcOvMHWIqJm9nQDeLygHVBngpqhMd
-         m0VgANBrq/FqFnSDuQpzpaQ4th8XfYs1SbCzwN0SE6+YWLxM1aHUhPjKLibKF95OFJ
-         oFe7uv9RQ7SFw==
-Received: by pali.im (Postfix)
-        id 42B99736; Thu,  4 Feb 2021 23:24:07 +0100 (CET)
-Date:   Thu, 4 Feb 2021 23:24:07 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, linux-mm@kvack.org,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        Oliver O'Halloran <oohall@gmail.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Subject: Re: [PATCH 1/2] PCI: also set up legacy files only after sysfs init
-Message-ID: <20210204222407.pkx7wvmcvugdwqdd@pali>
-References: <20210204165831.2703772-2-daniel.vetter@ffwll.ch>
- <20210204215019.GA104698@bjorn-Precision-5520>
+        b=Aqv9OAmWasoX3vgO+Aw7X9NGYNbi/OFQ6RigKzEpRhxM/2vuXOTaZq49FXUW4dtnu
+         dkVlTLJk2qaM38ceiPEu2e8e2yA7V4H6XktRCpHz4j448wD5Eb3shwV2WHfAcH0ER8
+         WIXe1e3/pUrsqTusW/BxqNSNr1kV4GzZuVuAdVx0=
+Date:   Fri, 5 Feb 2021 01:06:02 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCHv2 1/2] v4l2-dev: add /sys media_dev attr for video devices
+Message-ID: <YBx92soRe2Fk5CVW@pendragon.ideasonboard.com>
+References: <20210201093659.2945449-1-hverkuil-cisco@xs4all.nl>
+ <20210201093659.2945449-2-hverkuil-cisco@xs4all.nl>
+ <YBhkCYUnWjog3dBO@pendragon.ideasonboard.com>
+ <c3757e32-5f4e-83b1-0b72-b7edceec8e06@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210204215019.GA104698@bjorn-Precision-5520>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <c3757e32-5f4e-83b1-0b72-b7edceec8e06@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thursday 04 February 2021 15:50:19 Bjorn Helgaas wrote:
-> [+cc Oliver, Pali, Krzysztof]
+Hi Hans,
 
-Just to note that extending or using sysfs_initialized introduces
-another race condition into kernel code which results in PCI fatal
-errors. Details are in email discussion which Bjorn already sent.
+On Tue, Feb 02, 2021 at 10:48:15AM +0100, Hans Verkuil wrote:
+> On 01/02/2021 21:26, Laurent Pinchart wrote:
+> > On Mon, Feb 01, 2021 at 10:36:58AM +0100, Hans Verkuil wrote:
+> >> Create a media_dev attribute in /sys for each video device
+> >> which contains the media device major and minor number (or
+> >> is empty if there is no associated media device).
+> >>
+> >> It is not created if the CONFIG_MEDIA_CONTROLLER is not
+> >> defined.
+> >>
+> >> This makes it possible for applications like v4l2-compliance
+> >> to find the associated media controller of a video device.
+> >>
+> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >> ---
+> >>  drivers/media/v4l2-core/v4l2-dev.c | 48 +++++++++++++++++++++++++++++-
+> >>  1 file changed, 47 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> >> index b6a72d297775..85b94b25aba2 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> >> @@ -87,13 +87,59 @@ static ssize_t name_show(struct device *cd,
+> >>  }
+> >>  static DEVICE_ATTR_RO(name);
+> >>  
+> >> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> >> +static ssize_t media_dev_show(struct device *cd,
+> >> +			 struct device_attribute *attr, char *buf)
+> >> +{
+> >> +	struct video_device *vdev = to_video_device(cd);
+> >> +	struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
+> >> +
+> >> +	buf[0] = '\0';
+> >> +	if (!v4l2_dev->mdev)
+> >> +		return 0;
+> >> +	return sprintf(buf, "%u:%u\n",
+> >> +		       MAJOR(v4l2_dev->mdev->devnode->dev.devt),
+> >> +		       MINOR(v4l2_dev->mdev->devnode->dev.devt));
+> > 
+> > Could v4l2-dev->mdev be set to null between time of check and time of
+> > use, or are sysfs properties guaranteed to be removed first ?
+> 
+> After checking device_del() I see that these attributes are removed
+> before the device node itself is removed. However, I am not 100% certain
+> that all drivers will postpone unregistering the media device node until
+> all other device nodes are unregistered.
+> 
+> I think it would be safer to copy v4l2_dev->mdev->devnode->dev.devt into
+> struct video_device at registration time. It's more robust.
+> 
+> > I'm still not convinced that this is the right way to go from a
+> > userspace point of view. I believe we should shift from the paradigm of
+> > a video node belonging to a media device to a media device that contains
+> > video nodes. This means that userspace should use the media device as
+> > the entry point, and find video nodes from the media graph, instead of
+> > going the other way around. That's the only sensible way to handle
+> > complex devices, and is really a mindset change that should be pushed to
+> > all userspace applications. It will obviously take time and effort, but
+> > if we don't start by eating our own dogfood, we'll never succeed.
+> > 
+> > I'm thus not opposed to this patch series so much that I would like it
+> > to not being merged, but I believe it's a step in the wrong direction.
+> > With time I've learnt that I can't prevent every step I consider wrong
+> > to be taken (and I also make mistakes, so who knows :-)).
+> 
+> I completely agree with you, but the reality is that many V4L2 drivers do
+> not use the media controller, and that is not something that will change.
 
-> s/also/Also/ in subject
+But those also do not expose subdevs to userspace, and don't require
+using the media controller API in v4l2-compliance for instance. I'm not
+saying we need to drop the existing way of accessing video devices
+overnight, but for applications that need to link video devices and
+media controller devices, I think they should go from media controller
+to video device.
+
+> I honestly do not see why having a reference to the actual associated media
+> device would be a bad thing: it will only ensure that v4l2-ctl/compliance
+> can tell the user that that device is part of a media controller.
+>
+> I don't see how or why applications would want to abuse this.
+
+My issue with it is that it will give applications a way to do things
+incorrectly. There's no reason they should use this API, but we all know
+there's a large difference between what applications should do and what
+they end up doing :-)
+
+When it comes to v4l2-compliance, I think it's important to lead by
+example, and show how to go from media device to video device instead of
+the other way around. Of course, until all drivers implement a media
+device (which will not happen overnight, but it could also be fairly
+easily automated if we wanted to, with very minimal changes to most
+drivers), we will still need to support operation on video nodes
+directly without a media device.
+
+> I'll post a v3 of this series.
 > 
-> On Thu, Feb 04, 2021 at 05:58:30PM +0100, Daniel Vetter wrote:
-> > We are already doing this for all the regular sysfs files on PCI
-> > devices, but not yet on the legacy io files on the PCI buses. Thus far
-> > now problem, but in the next patch I want to wire up iomem revoke
-> > support. That needs the vfs up an running already to make so that
-> > iomem_get_mapping() works.
-> 
-> s/now problem/no problem/
-> s/an running/and running/
-> s/so that/sure that/ ?
-> 
-> iomem_get_mapping() doesn't exist; I don't know what that should be.
-> 
-> > Wire it up exactly like the existing code. Note that
-> > pci_remove_legacy_files() doesn't need a check since the one for
-> > pci_bus->legacy_io is sufficient.
-> 
-> I'm not sure exactly what you mean by "the existing code."  I could
-> probably figure it out, but it would save time to mention the existing
-> function here.
-> 
-> This looks like another instance where we should really apply Oliver's
-> idea of converting these to attribute_groups [1].
-> 
-> The cover letter mentions options discussed with Greg in [2], but I
-> don't think the "sysfs_initialized" hack vs attribute_groups was part
-> of that discussion.
-> 
-> It's not absolutely a show-stopper, but it *is* a shame to extend the
-> sysfs_initialized hack if attribute_groups could do this more cleanly
-> and help solve more than one issue.
-> 
-> Bjorn
-> 
-> [1] https://lore.kernel.org/r/CAOSf1CHss03DBSDO4PmTtMp0tCEu5kScn704ZEwLKGXQzBfqaA@mail.gmail.com
-> [2] https://lore.kernel.org/dri-devel/CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com/
-> 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: Jérôme Glisse <jglisse@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: linux-pci@vger.kernel.org
-> > ---
-> >  drivers/pci/pci-sysfs.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > index fb072f4b3176..0c45b4f7b214 100644
-> > --- a/drivers/pci/pci-sysfs.c
-> > +++ b/drivers/pci/pci-sysfs.c
-> > @@ -927,6 +927,9 @@ void pci_create_legacy_files(struct pci_bus *b)
-> >  {
-> >  	int error;
-> >  
-> > +	if (!sysfs_initialized)
-> > +		return;
-> > +
-> >  	b->legacy_io = kcalloc(2, sizeof(struct bin_attribute),
-> >  			       GFP_ATOMIC);
-> >  	if (!b->legacy_io)
-> > @@ -1448,6 +1451,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
-> >  static int __init pci_sysfs_init(void)
-> >  {
-> >  	struct pci_dev *pdev = NULL;
-> > +	struct pci_bus *pbus = NULL;
-> >  	int retval;
-> >  
-> >  	sysfs_initialized = 1;
-> > @@ -1459,6 +1463,9 @@ static int __init pci_sysfs_init(void)
-> >  		}
-> >  	}
-> >  
-> > +	while ((pbus = pci_find_next_bus(pbus)))
-> > +		pci_create_legacy_files(pbus);
-> > +
-> >  	return 0;
-> >  }
-> >  late_initcall(pci_sysfs_init);
-> > -- 
-> > 2.30.0
-> > 
-> > 
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> >> +}
+> >> +
+> >> +static DEVICE_ATTR_RO(media_dev);
+> >> +#endif
+> >> +
+> >> +static umode_t video_device_attr_is_visible(struct kobject *kobj,
+> >> +					    struct attribute *attr, int n)
+> >> +{
+> >> +	struct video_device *vdev = to_video_device(kobj_to_dev(kobj));
+> >> +
+> >> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> >> +	if (attr == &dev_attr_media_dev.attr) {
+> >> +		struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
+> >> +
+> >> +		if (!v4l2_dev->mdev)
+> >> +			return 0;
+> >> +	}
+> >> +#endif
+> >> +	return attr->mode;
+> >> +}
+> >> +
+> >>  static struct attribute *video_device_attrs[] = {
+> >>  	&dev_attr_name.attr,
+> >>  	&dev_attr_dev_debug.attr,
+> >>  	&dev_attr_index.attr,
+> >> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> >> +	&dev_attr_media_dev.attr,
+> >> +#endif
+> >>  	NULL,
+> >>  };
+> >> -ATTRIBUTE_GROUPS(video_device);
+> >> +
+> >> +static const struct attribute_group video_device_group = {
+> >> +	.is_visible = video_device_attr_is_visible,
+> >> +	.attrs = video_device_attrs,
+> >> +};
+> >> +
+> >> +static const struct attribute_group *video_device_groups[] = {
+> >> +	&video_device_group,
+> >> +	NULL
+> >> +};
+> >>  
+> >>  /*
+> >>   *	Active devices
+
+-- 
+Regards,
+
+Laurent Pinchart
