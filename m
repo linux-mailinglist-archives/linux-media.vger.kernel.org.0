@@ -2,192 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 979103100BD
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 00:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A94BC3100BB
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 00:30:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbhBDXaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 18:30:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57826 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbhBDXaO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 18:30:14 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F19FC06178C
-        for <linux-media@vger.kernel.org>; Thu,  4 Feb 2021 15:29:59 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id m7so4866077ybm.19
-        for <linux-media@vger.kernel.org>; Thu, 04 Feb 2021 15:29:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:cc
-         :content-transfer-encoding;
-        bh=DDQzxO36o6mrG/7K72IGYqFtZmZCZagcSZoIJct7BXY=;
-        b=lKA+G8wZwzc3KJjfEbk4USd/5AVvIdDVeMqb73oE9zBHWMZoft6gFKDOCePms0HPGp
-         IpnAmcQPaJqYzhqs4VxxZC2o6/RZ/j5MJHU506eq+wz0Kr/o5Bqyr8NtakeP4tNzVayK
-         i4uqXx2mJwpp7gFTlPgCqkmcAAnU1hJ5Od8hNOtrD2rvM4Bv5eQodRsQ3Nbv41EYSlj6
-         QIkP+5XgiBOggGll6NMhjXYbeQvpSVtgbaWyekgEHyE8uT0kDLBHzAO8Q2g0J/qrcZqc
-         4I6ra63n/sjej0sFgwE/GkqMywm97NzAFEwHafPA+4J8xTPVBMHAUXrR3IlMDzqYSjeR
-         6m0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :cc:content-transfer-encoding;
-        bh=DDQzxO36o6mrG/7K72IGYqFtZmZCZagcSZoIJct7BXY=;
-        b=bNMd4SdH3NmQX2clLnFPUTvVIHvMwFM0jBReYkNgC3wkV54CnbETOeZ5LaaUFjDTUS
-         6XXzys6GIiK++8WuaNsLvWUJpWbGxWTqz4HOojcpwlGAhY3KG8Fi/eyNVR692XaoWrwr
-         TMHlUYLq7G3yiGIlfb6LgXYtR49KYLPDdI88jhI32D5W0nPugqI3jCueVqeHv1+aoGsF
-         2tznGNlAmWS/BDXC4xRTiZKSFrHK14SO+ERC6mtb94iA6Bty+gYUaw0gVRqUim9B4sVP
-         TxnKF6fDt2WYXHn8aKqyUPeqf7CjrapVFGvvJTdXCzurDQzk4xWxsnxi8XCzmafF2U1c
-         /juA==
-X-Gm-Message-State: AOAM531AqG3EgIBHE8XuCBFdBaf0UKVubghu13rYCXjdwEeU15xANeJt
-        8+bc1Y+pUKvVdofMN+Q1zVAz0i+FvXX6wer+JQ==
-X-Google-Smtp-Source: ABdhPJxuX5H3dPiFCh9g9xC89BwbDPdhdkk9a69MMrBZXYzdZFIf3f0iRjx/t1FkfEnOk7GPoDaKkXJi/cFoZs5jWQ==
-Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
-X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
- (user=kaleshsingh job=sendgmr) by 2002:a25:450:: with SMTP id
- 77mr162814ybe.39.1612481398666; Thu, 04 Feb 2021 15:29:58 -0800 (PST)
-Date:   Thu,  4 Feb 2021 23:28:49 +0000
-Message-Id: <20210204232854.451676-1-kaleshsingh@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCH v2 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
-        surenb@google.com, minchan@kernel.org, hridya@google.com,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-To:     unlisted-recipients:; (no To-header on input)
+        id S230174AbhBDXaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 18:30:02 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:49416 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230179AbhBDX37 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Feb 2021 18:29:59 -0500
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1l7o3f-004HTA-Vw; Fri, 05 Feb 2021 00:29:07 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        stable@vger.kernel.org
+Subject: [PATCH] media: pwc-if: Use USB controller device when mapping DMA buffer
+Date:   Fri,  5 Feb 2021 00:28:51 +0100
+Message-Id: <20210204232851.1020416-1-andrew@lunn.ch>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Android captures per-process system memory state when certain low memory
-events (e.g a foreground app kill) occur, to identify potential memory
-hoggers. In order to measure how much memory a process actually consumes,
-it is necessary to include the DMA buffer sizes for that process in the
-memory accounting. Since the handle to DMA buffers are raw FDs, it is
-important to be able to identify which processes have FD references to
-a DMA buffer.
+This fixes a WARN_ON_ONCE(!dev->dma_mask) in dma_map_page_attrs().
+The PWC driver does not perform DMA operations itself. The USB bus
+controller does. Hence the mapping should be performed for that
+device. The bus controller has the DMA mask set, since it actually
+interacts with the hardware, where as the PWC driver does not.
 
-Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
-/proc/<pid>/fdinfo -- both are only readable by the process owner,
-as follows:
-  1. Do a readlink on each FD.
-  2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
-  3. stat the file to get the dmabuf inode number.
-  4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
-
-Accessing other processes=E2=80=99 fdinfo requires root privileges. This li=
-mits
-the use of the interface to debugging environments and is not suitable
-for production builds.  Granting root privileges even to a system process
-increases the attack surface and is highly undesirable.
-
-Since fdinfo doesn't permit reading process memory and manipulating
-process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
-
-Suggested-by: Jann Horn <jannh@google.com>
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Cc: <stable@vger.kernel.org> # 5.10
+Signed-off-by: Andrew Lunn <andrew@lunn.ch>
 ---
 
-Changes in v2:
-  - Update patch desciption
+I don't hang out in the media subsystem mailing list, being a network
+hacker. So i don't know the local customs here.
 
- fs/proc/base.c |  4 ++--
- fs/proc/fd.c   | 15 ++++++++++++++-
- 2 files changed, 16 insertions(+), 3 deletions(-)
+This patch is based on git://linuxtv.org/media_tree.git branch fixes.
+Please let me know if it needs rebasing to somewhere else.
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index b3422cda2a91..a37f9de7103f 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -3160,7 +3160,7 @@ static const struct pid_entry tgid_base_stuff[] =3D {
- 	DIR("task",       S_IRUGO|S_IXUGO, proc_task_inode_operations, proc_task_=
-operations),
- 	DIR("fd",         S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_oper=
-ations),
- 	DIR("map_files",  S_IRUSR|S_IXUSR, proc_map_files_inode_operations, proc_=
-map_files_operations),
--	DIR("fdinfo",     S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdi=
-nfo_operations),
-+	DIR("fdinfo",     S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdi=
-nfo_operations),
- 	DIR("ns",	  S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_op=
-erations),
- #ifdef CONFIG_NET
- 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_op=
-erations),
-@@ -3504,7 +3504,7 @@ static const struct inode_operations proc_tid_comm_in=
-ode_operations =3D {
-  */
- static const struct pid_entry tid_base_stuff[] =3D {
- 	DIR("fd",        S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_opera=
-tions),
--	DIR("fdinfo",    S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdin=
-fo_operations),
-+	DIR("fdinfo",    S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdin=
-fo_operations),
- 	DIR("ns",	 S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_ope=
-rations),
- #ifdef CONFIG_NET
- 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_op=
-erations),
-diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index cb51763ed554..585e213301f9 100644
---- a/fs/proc/fd.c
-+++ b/fs/proc/fd.c
-@@ -6,6 +6,7 @@
- #include <linux/fdtable.h>
- #include <linux/namei.h>
- #include <linux/pid.h>
-+#include <linux/ptrace.h>
- #include <linux/security.h>
- #include <linux/file.h>
- #include <linux/seq_file.h>
-@@ -72,6 +73,18 @@ static int seq_show(struct seq_file *m, void *v)
-=20
- static int seq_fdinfo_open(struct inode *inode, struct file *file)
+I did not do a git bisect. I do know v5.9 works, v5.10 regressed. I
+cannot give an exact Fixes: tag as a result. It would be nice to get
+it into stable for 5.10, but it does not need to go any further back.
+
+drivers/media/usb/pwc/pwc-if.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/usb/pwc/pwc-if.c b/drivers/media/usb/pwc/pwc-if.c
+index 61869636ec61..406cc0268c7b 100644
+--- a/drivers/media/usb/pwc/pwc-if.c
++++ b/drivers/media/usb/pwc/pwc-if.c
+@@ -461,7 +461,7 @@ static int pwc_isoc_init(struct pwc_device *pdev)
+ 		urb->pipe = usb_rcvisocpipe(udev, pdev->vendpoint);
+ 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
+ 		urb->transfer_buffer_length = ISO_BUFFER_SIZE;
+-		urb->transfer_buffer = pwc_alloc_urb_buffer(&udev->dev,
++		urb->transfer_buffer = pwc_alloc_urb_buffer(udev->bus->controller,
+ 							    urb->transfer_buffer_length,
+ 							    &urb->transfer_dma);
+ 		if (urb->transfer_buffer == NULL) {
+@@ -515,6 +515,7 @@ static void pwc_iso_stop(struct pwc_device *pdev)
+ 
+ static void pwc_iso_free(struct pwc_device *pdev)
  {
-+	bool allowed =3D false;
-+	struct task_struct *task =3D get_proc_task(inode);
-+
-+	if (!task)
-+		return -ESRCH;
-+
-+	allowed =3D ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
-+	put_task_struct(task);
-+
-+	if (!allowed)
-+		return -EACCES;
-+
- 	return single_open(file, seq_show, inode);
- }
-=20
-@@ -307,7 +320,7 @@ static struct dentry *proc_fdinfo_instantiate(struct de=
-ntry *dentry,
- 	struct proc_inode *ei;
- 	struct inode *inode;
-=20
--	inode =3D proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUSR);
-+	inode =3D proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUGO);
- 	if (!inode)
- 		return ERR_PTR(-ENOENT);
-=20
---=20
-2.30.0.365.g02bc693789-goog
++	struct usb_device *udev = pdev->udev;
+ 	int i;
+ 
+ 	/* Freeing ISOC buffers one by one */
+@@ -524,7 +525,7 @@ static void pwc_iso_free(struct pwc_device *pdev)
+ 		if (urb) {
+ 			PWC_DEBUG_MEMORY("Freeing URB\n");
+ 			if (urb->transfer_buffer)
+-				pwc_free_urb_buffer(&urb->dev->dev,
++				pwc_free_urb_buffer(udev->bus->controller,
+ 						    urb->transfer_buffer_length,
+ 						    urb->transfer_buffer,
+ 						    urb->transfer_dma);
+-- 
+2.30.0
 
