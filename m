@@ -2,270 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEB9030F07E
-	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 11:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A67930F0E6
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 11:37:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235315AbhBDKYT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 05:24:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235358AbhBDKYR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 05:24:17 -0500
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AD6C061573
-        for <linux-media@vger.kernel.org>; Thu,  4 Feb 2021 02:23:37 -0800 (PST)
-Received: by mail-ot1-x32d.google.com with SMTP id d7so2886338otf.3
-        for <linux-media@vger.kernel.org>; Thu, 04 Feb 2021 02:23:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XcgEW3mAYPX38OWQ50gNyoqFplO8jrqalewwDA0jJOE=;
-        b=YHA9xoBzq1LX0ETuIqq+7M2+Hnbb0ehp2yvYqQb4GOhhJPMSN3U0QTEpDUARMXC1HY
-         MXMnQ2EV3hmX4Fu1ljjOugipjxZO2S6o/TlKawHs9SpSwEIB/fWlPLtbEr1PEBTQArwm
-         gpsPmYli7yMR11+sEXcxnzrMHqvN3KCEdUpnw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XcgEW3mAYPX38OWQ50gNyoqFplO8jrqalewwDA0jJOE=;
-        b=gPjCO0lFeHdPwkpKWFVReP2fWKaRXtUVt+NW9QKvW3QKH/784DHwt0/z9zJrKSbxJV
-         MEV33ckKXAVafgV4EJx9XF0ycemB35oleoF827GKUgHlHYUFmj+p28HAabfTglUO9zJM
-         ry4rmBXu7Vgdw4aCm9bSbzU9dJ+keFE6mFGKoU6S+adLBfCSF8+sTJxA8poINoNiaYnD
-         so0wDvefzRP7/N9MFMKc5SHnVXGQQjQ39DawTqzfbvTQwUPjK69cFbbCZq+PZgqV9MrF
-         8xUjuZDLaCxlznTPTx1fGQ6PBUQ2LWLSFj242GpdZ8Sr86cPCxfqC+vISjodsoyx/c5o
-         CIJg==
-X-Gm-Message-State: AOAM5326YU312mB51I3KbIMgGHzsukkLxkpyGJZubNfyJJvy0X/CJ/M2
-        KKjWhOquQsPwdnU+aVJRcYkS4G3gCsXo4UYkGaL7kH/+fRKGag==
-X-Google-Smtp-Source: ABdhPJzddeDp5OzUDd1HqtYjqPJri1JJBUg1S8JFKKQ3zalVUTBaKJqBAv/x2Tx9XPv1Q79n65DE9uF+y8y59uO90FY=
-X-Received: by 2002:a9d:2265:: with SMTP id o92mr5162902ota.188.1612434216704;
- Thu, 04 Feb 2021 02:23:36 -0800 (PST)
+        id S235589AbhBDKcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 05:32:55 -0500
+Received: from relay10.mail.gandi.net ([217.70.178.230]:57169 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235549AbhBDKb1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 05:31:27 -0500
+Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id CD104240008;
+        Thu,  4 Feb 2021 10:30:38 +0000 (UTC)
+Date:   Thu, 4 Feb 2021 11:31:00 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] Documentation: media: Improve camera sensor
+ documentation
+Message-ID: <20210204103100.hnro2sh6bnuth5lu@uno.localdomain>
+References: <20210203165038.4964-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
- <20201127164131.2244124-13-daniel.vetter@ffwll.ch> <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
- <YAbtZBU5PMr68q9E@kroah.com> <CAKMK7uGHSgetm7mDso6_vj+aGrR4u+ChwHb3k0QvgG0K6X2fPg@mail.gmail.com>
- <YAb4yD4IbpQ3qhJG@kroah.com> <CAKMK7uF9RfqhOGzcjgXTY62-dFS7ELr+uHuRDhEjOcO-kSgY+w@mail.gmail.com>
- <CAKMK7uG7QiP6m5jfidn7AWVhXp1JUZNpgpNPWOV6bqo9H+7vXA@mail.gmail.com>
-In-Reply-To: <CAKMK7uG7QiP6m5jfidn7AWVhXp1JUZNpgpNPWOV6bqo9H+7vXA@mail.gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 4 Feb 2021 11:23:25 +0100
-Message-ID: <CAKMK7uGbr0BQT65FT5iTBtiuorun+TtJdMyR2p_OAdfpHxCskg@mail.gmail.com>
-Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Linux PCI <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210203165038.4964-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 3, 2021 at 5:14 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote=
-:
->
-> On Tue, Jan 19, 2021 at 5:03 PM Daniel Vetter <daniel.vetter@ffwll.ch> wr=
-ote:
-> >
-> > On Tue, Jan 19, 2021 at 4:20 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Tue, Jan 19, 2021 at 03:34:47PM +0100, Daniel Vetter wrote:
-> > > > On Tue, Jan 19, 2021 at 3:32 PM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > >
-> > > > > On Tue, Jan 19, 2021 at 09:17:55AM +0100, Daniel Vetter wrote:
-> > > > > > On Fri, Nov 27, 2020 at 5:42 PM Daniel Vetter <daniel.vetter@ff=
-wll.ch> wrote:
-> > > > > > >
-> > > > > > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver =
-claims
-> > > > > > > the region") /dev/kmem zaps ptes when the kernel requests exc=
-lusive
-> > > > > > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM,=
- this is
-> > > > > > > the default for all driver uses.
-> > > > > > >
-> > > > > > > Except there's two more ways to access PCI BARs: sysfs and pr=
-oc mmap
-> > > > > > > support. Let's plug that hole.
-> > > > > > >
-> > > > > > > For revoke_devmem() to work we need to link our vma into the =
-same
-> > > > > > > address_space, with consistent vma->vm_pgoff. ->pgoff is alre=
-ady
-> > > > > > > adjusted, because that's how (io_)remap_pfn_range works, but =
-for the
-> > > > > > > mapping we need to adjust vma->vm_file->f_mapping. The cleane=
-st way is
-> > > > > > > to adjust this at at ->open time:
-> > > > > > >
-> > > > > > > - for sysfs this is easy, now that binary attributes support =
-this. We
-> > > > > > >   just set bin_attr->mapping when mmap is supported
-> > > > > > > - for procfs it's a bit more tricky, since procfs pci access =
-has only
-> > > > > > >   one file per device, and access to a specific resources fir=
-st needs
-> > > > > > >   to be set up with some ioctl calls. But mmap is only suppor=
-ted for
-> > > > > > >   the same resources as sysfs exposes with mmap support, and =
-otherwise
-> > > > > > >   rejected, so we can set the mapping unconditionally at open=
- time
-> > > > > > >   without harm.
-> > > > > > >
-> > > > > > > A special consideration is for arch_can_pci_mmap_io() - we ne=
-ed to
-> > > > > > > make sure that the ->f_mapping doesn't alias between ioport a=
-nd iomem
-> > > > > > > space. There's only 2 ways in-tree to support mmap of ioports=
-: generic
-> > > > > > > pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the s=
-ingle
-> > > > > > > architecture hand-rolling. Both approach support ioport mmap =
-through a
-> > > > > > > special pfn range and not through magic pte attributes. Alias=
-ing is
-> > > > > > > therefore not a problem.
-> > > > > > >
-> > > > > > > The only difference in access checks left is that sysfs PCI m=
-map does
-> > > > > > > not check for CAP_RAWIO. I'm not really sure whether that sho=
-uld be
-> > > > > > > added or not.
-> > > > > > >
-> > > > > > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > > > > > > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > > > > > Cc: Kees Cook <keescook@chromium.org>
-> > > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > > > > > Cc: John Hubbard <jhubbard@nvidia.com>
-> > > > > > > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > > > > > > Cc: Jan Kara <jack@suse.cz>
-> > > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > > Cc: linux-mm@kvack.org
-> > > > > > > Cc: linux-arm-kernel@lists.infradead.org
-> > > > > > > Cc: linux-samsung-soc@vger.kernel.org
-> > > > > > > Cc: linux-media@vger.kernel.org
-> > > > > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > > > > > Cc: linux-pci@vger.kernel.org
-> > > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > > > > --
-> > > > > > > v2:
-> > > > > > > - Totally new approach: Adjust filp->f_mapping at open time. =
-Note that
-> > > > > > >   this now works on all architectures, not just those support
-> > > > > > >   ARCH_GENERIC_PCI_MMAP_RESOURCE
-> > > > > > > ---
-> > > > > > >  drivers/pci/pci-sysfs.c | 4 ++++
-> > > > > > >  drivers/pci/proc.c      | 1 +
-> > > > > > >  2 files changed, 5 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.=
-c
-> > > > > > > index d15c881e2e7e..3f1c31bc0b7c 100644
-> > > > > > > --- a/drivers/pci/pci-sysfs.c
-> > > > > > > +++ b/drivers/pci/pci-sysfs.c
-> > > > > > > @@ -929,6 +929,7 @@ void pci_create_legacy_files(struct pci_b=
-us *b)
-> > > > > > >         b->legacy_io->read =3D pci_read_legacy_io;
-> > > > > > >         b->legacy_io->write =3D pci_write_legacy_io;
-> > > > > > >         b->legacy_io->mmap =3D pci_mmap_legacy_io;
-> > > > > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
-> > > > > > >         pci_adjust_legacy_attr(b, pci_mmap_io);
-> > > > > > >         error =3D device_create_bin_file(&b->dev, b->legacy_i=
-o);
-> > > > > > >         if (error)
-> > > > > > > @@ -941,6 +942,7 @@ void pci_create_legacy_files(struct pci_b=
-us *b)
-> > > > > > >         b->legacy_mem->size =3D 1024*1024;
-> > > > > > >         b->legacy_mem->attr.mode =3D 0600;
-> > > > > > >         b->legacy_mem->mmap =3D pci_mmap_legacy_mem;
-> > > > > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
-> > > > > >
-> > > > > > Unlike the normal pci stuff below, the legacy files here go boo=
-m
-> > > > > > because they're set up much earlier in the boot sequence. This =
-only
-> > > > > > affects HAVE_PCI_LEGACY architectures, which aren't that many. =
-So what
-> > > > > > should we do here now:
-> > > > > > - drop the devmem revoke for these
-> > > > > > - rework the init sequence somehow to set up these files a lot =
-later
-> > > > > > - redo the sysfs patch so that it doesn't take an address_space
-> > > > > > pointer, but instead a callback to get at that (since at open t=
-ime
-> > > > > > everything is set up). Imo rather ugly
-> > > > > > - ditch this part of the series (since there's not really any t=
-akers
-> > > > > > for the latter parts it might just not make sense to push for t=
-his)
-> > > > > > - something else?
-> > > > > >
-> > > > > > Bjorn, Greg, thoughts?
-> > > > >
-> > > > > What sysfs patch are you referring to here?
-> > > >
-> > > > Currently in linux-next:
-> > > >
-> > > > commit 74b30195395c406c787280a77ae55aed82dbbfc7 (HEAD ->
-> > > > topic/iomem-mmap-vs-gup, drm/topic/iomem-mmap-vs-gup)
-> > > > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > Date:   Fri Nov 27 17:41:25 2020 +0100
-> > > >
-> > > >    sysfs: Support zapping of binary attr mmaps
-> > > >
-> > > > Or the patch right before this one in this submission here:
-> > > >
-> > > > https://lore.kernel.org/dri-devel/20201127164131.2244124-12-daniel.=
-vetter@ffwll.ch/
-> > >
-> > > Ah.  Hm, a callback in the sysfs file logic seems really hairy, so I
-> > > would prefer that not happen.  If no one really needs this stuff, why
-> > > not just drop it like you mention?
-> >
-> > Well it is needed, but just on architectures I don't care about much.
-> > Most relevant is perhaps powerpc (that's where Stephen hit the issue).
-> > I do wonder whether we could move the legacy pci files setup to where
-> > the modern stuff is set up from pci_create_resource_files() or maybe
-> > pci_create_sysfs_dev_files() even for HAVE_PCI_LEGACY. I think that
-> > might work, but since it's legacy flow on some funny architectures
-> > (alpha, itanium, that kind of stuff) I have no idea what kind of
-> > monsters I'm going to anger :-)
->
-> Back from a week of vacation, I looked at this again and I think
-> shouldn't be hard to fix this with the sam trick
-> pci_create_sysfs_dev_files() uses: As long as sysfs_initialized isn't
-> set we skip, and then later on when the vfs is up&running we can
-> initialize everything.
->
-> To be able to apply the same thing to pci_create_legacy_files() I
-> think all I need is to iterate overa all struct pci_bus in
-> pci_sysfs_init() and we're good. Unfortunately I didn't find any
-> for_each_pci_bus(), so how do I do that?
+Hi Sakari,
 
-pci_find_next_bus() seems to be the answer I want. I'll see whether
-that works and then send out new patches.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Wed, Feb 03, 2021 at 06:50:38PM +0200, Sakari Ailus wrote:
+> Modernise the documentation to make it more precise and update the use of
+> pixel rate control. In particular:
+>
+> - Use non-proportional font for file names, properties as well as
+>   controls.
+>
+> - The unit of the HBLANK control is pixels, not lines.
+>
+> - The unit of PIXEL_RATE control is pixels per second, not Hz.
+>
+> - Separate CSI-2 and parallel documentation. CSI-2 already has its own
+>   section.
+>
+> - Include all DT properties needed for assigned clocks.
+>
+> - SMIA driver's new name is CCS driver.
+>
+> - The PIXEL_RATE control denotes pixel rate on the pixel array on camera
+>   sensors. Do not suggest it is used to tell the maximum pixel rate on the
+>   bus anymore.
+>
+> Fixes: e4cf8c58af75 ("media: Documentation: media: Document how to write camera sensor drivers")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> This replaces an earlier patch here:
+>
+> <URL:https://patchwork.linuxtv.org/project/linux-media/patch/20210201093914.12994-1-sakari.ailus@linux.intel.com/>
+>
+>  .../driver-api/media/camera-sensor.rst        | 47 +++++++++----------
+>  Documentation/driver-api/media/csi2.rst       | 36 +++++++-------
+>  2 files changed, 43 insertions(+), 40 deletions(-)
+>
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index 3fc378b3b269..4e2efa6e8fa1 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -8,6 +8,15 @@ CSI-2
+>
+>  Please see what is written on :ref:`MIPI_CSI_2`.
+>
+> +Parallel (BT.601 and BT.656)
+> +----------------------------
+> +
+> +For camera sensors that are connected to a bus where transmitter and receiver
+> +require common configuration set by drivers, such as CSI-2 or parallel (BT.601
+> +or BT.656) bus, the ``V4L2_CID_LINK_FREQ`` control is mandatory on transmitter
+> +drivers. Receiver drivers can use the ``V4L2_CID_LINK_FREQ`` to query the
+> +frequency used on the bus.
+> +
+
+Is this really part of the 'Parallel.." subsection ? It describes
+something that applies to both busses. Actually, do parallel receivers
+need to know the pixel clock lane frequency ? Actually yes, I see
+omap3isp/ispvideo.c using the control to validate the frequency
+against some platform constraints.
+
+So yes, this applies to both parallel and CSI-2, so I would not place
+it in the "Parallel" section
+
+>  Handling clocks
+>  ---------------
+>
+> @@ -26,15 +35,16 @@ user.
+>  ACPI
+>  ~~~~
+>
+> -Read the "clock-frequency" _DSD property to denote the frequency. The driver can
+> -rely on this frequency being used.
+> +Read the ``clock-frequency`` _DSD property to denote the frequency. The driver
+> +can rely on this frequency being used.
+>
+>  Devicetree
+>  ~~~~~~~~~~
+>
+> -The currently preferred way to achieve this is using "assigned-clock-rates"
+> -property. See Documentation/devicetree/bindings/clock/clock-bindings.txt for
+> -more information. The driver then gets the frequency using clk_get_rate().
+> +The currently preferred way to achieve this is using ``assigned-clocks``,
+> +``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See
+> +``Documentation/devicetree/bindings/clock/clock-bindings.txt`` for more
+> +information. The driver then gets the frequency using ``clk_get_rate()``.
+>
+>  This approach has the drawback that there's no guarantee that the frequency
+>  hasn't been modified directly or indirectly by another driver, or supported by
+> @@ -55,7 +65,8 @@ processing pipeline as one or more sub-devices with different cropping and
+>  scaling configurations. The output size of the device is the result of a series
+>  of cropping and scaling operations from the device's pixel array's size.
+>
+> -An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
+> +An example of such a driver is the CCS driver (see
+> +``drivers/media/i2c/ccs``).
+
+Do you need to break the line ?
+
+>
+>  Register list based drivers
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> @@ -67,7 +78,7 @@ level are independent. How a driver picks such configuration is based on the
+>  format set on a source pad at the end of the device's internal pipeline.
+>
+>  Most sensor drivers are implemented this way, see e.g.
+> -drivers/media/i2c/imx319.c for an example.
+> +``drivers/media/i2c/imx319.c`` for an example.
+>
+>  Frame interval configuration
+>  ----------------------------
+> @@ -94,9 +105,10 @@ large variety of devices beyond camera sensors. Devices that have no analogue
+>  crop, use the full source image size, i.e. pixel array size.
+>
+>  Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> -``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+> -pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+> -unit of that control is Hz.
+> +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> +sub-device. The unit of that control is pixels per second.
+
+Awesome, having the VBLANK cotrol unit specified is good. Do we need to say
+the unit is 'frame lines, including blankings' or is it implied ?
+
+Also note that in V4L2 the EXPOSURE control has currently no unit
+specified as well and drivers implement it differently :(
+
+>
+>  Register list based drivers need to implement read-only sub-device nodes for the
+>  purpose. Devices that are not register list based need these to configure the
+> @@ -132,7 +144,7 @@ runtime PM support to the sensor driver you are using. Likewise, new drivers
+>  should not use s_power.
+>
+>  Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
+> -``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
+> +``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI
+>  and DT based systems.
+>
+>  Control framework
+> @@ -150,16 +162,3 @@ used to obtain device's power state after the power state transition:
+>  The function returns a non-zero value if it succeeded getting the power count or
+>  runtime PM was disabled, in either of which cases the driver may proceed to
+>  access the device.
+> -
+> -Controls
+> ---------
+> -
+> -For camera sensors that are connected to a bus where transmitter and receiver
+> -require common configuration set by drivers, such as CSI-2 or parallel (BT.601
+> -or BT.656) bus, the ``V4L2_CID_LINK_FREQ`` control is mandatory on transmitter
+> -drivers. Receiver drivers can use the ``V4L2_CID_LINK_FREQ`` to query the
+> -frequency used on the bus.
+> -
+> -The transmitter drivers should also implement ``V4L2_CID_PIXEL_RATE`` control in
+> -order to tell the maximum pixel rate to the receiver. This is required on raw
+> -camera sensors.
+> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
+> index 11c52b0be8b8..c79df33bdeaa 100644
+> --- a/Documentation/driver-api/media/csi2.rst
+> +++ b/Documentation/driver-api/media/csi2.rst
+> @@ -19,21 +19,18 @@ be used for CSI-2 interfaces.
+>  Transmitter drivers
+>  -------------------
+>
+> -CSI-2 transmitter, such as a sensor or a TV tuner, drivers need to
+> -provide the CSI-2 receiver with information on the CSI-2 bus
+> -configuration. These include the V4L2_CID_LINK_FREQ and
+> -V4L2_CID_PIXEL_RATE controls and
+> -(:c:type:`v4l2_subdev_video_ops`->s_stream() callback). These
+> -interface elements must be present on the sub-device represents the
+> -CSI-2 transmitter.
+> -
+> -The V4L2_CID_LINK_FREQ control is used to tell the receiver driver the
+> -frequency (and not the symbol rate) of the link. The V4L2_CID_PIXEL_RATE
+> -control may be used by the receiver to obtain the pixel rate the transmitter
+> -uses. The :c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an
+> -ability to start and stop the stream.
+> -
+> -The value of the V4L2_CID_PIXEL_RATE is calculated as follows::
+> +CSI-2 transmitter, such as a sensor or a TV tuner, drivers need to provide the
+
+CSI-2 transmitters ?
+
+> +CSI-2 receiver with information on the CSI-2 bus configuration. These include
+> +the ``V4L2_CID_LINK_FREQ`` control and
+> +(:c:type:`v4l2_subdev_video_ops`->s_stream() callback). These interface elements
+> +must be present on the sub-device representing the CSI-2 transmitter.
+> +
+> +The ``V4L2_CID_LINK_FREQ`` control is used to tell the receiver driver the
+> +frequency (and not the symbol rate) of the link. The
+> +:c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an ability to
+> +start and stop the stream.
+> +
+> +The pixel rate on the bus is calculated as follows::
+>
+>  pixel_rate = link_freq * 2 * nr_of_lanes * 16 / k / bits_per_sample
+
+What's 'k' and why '* 16' ?
+Isn't the bus pixel rate simply
+
+        link_freq * 2 * nr_of_lanes / bits_per_sample ?
+
+>
+> @@ -45,7 +42,7 @@ where
+>     * - variable or constant
+>       - description
+>     * - link_freq
+> -     - The value of the V4L2_CID_LINK_FREQ integer64 menu item.
+> +     - The value of the ``V4L2_CID_LINK_FREQ`` integer64 menu item.
+>     * - nr_of_lanes
+>       - Number of data lanes used on the CSI-2 link. This can
+>         be obtained from the OF endpoint configuration.
+> @@ -56,6 +53,13 @@ where
+>     * - k
+>       - 16 for D-PHY and 7 for C-PHY
+>
+> +.. note::
+> +
+> +	The pixel rate calculated this way is **not** the same as the pixel rate
+> +	on the camera sensor's pixel array, and should not be used as the value
+> +	of the control (unless the value also matches the rate on the pixel
+> +	array).
+
+I would say
+
+        The pixel rate calculated this way is **not** the same as the
+        pixel sampling rate on the sensor's pixel matrix, but only
+        represents the pixel transmission rate on the bus.
+
+Followed by a description of what PIXEL_RATE represents and how it
+should be used, to make it clear the two are different.
+
+        The pixel matrix sampling rate is instead used to calculate
+        the sensor timings, in example to transform an image exposure
+        duration from unit of lines in wall-clock time.
+
+Please be aware that the controls documentation reports:
+
+``V4L2_CID_LINK_FREQ (integer menu)``
+    Data bus frequency. Together with the media bus pixel code, bus type
+    (clock cycles per sample), the data bus frequency defines the pixel
+    rate (``V4L2_CID_PIXEL_RATE``) in the pixel array (or possibly
+    elsewhere, if the device is not an image sensor). The frame rate can
+    be calculated from the pixel clock, image width and height and
+    horizontal and vertical blanking. While the pixel rate control may
+    be defined elsewhere than in the subdev containing the pixel array,
+    the frame rate cannot be obtained from that information. This is
+    because only on the pixel array it can be assumed that the vertical
+    and horizontal blanking information is exact: no other blanking is
+    allowed in the pixel array. The selection of frame rate is performed
+    by selecting the desired horizontal and vertical blanking. The unit
+    of this control is Hz.
+
+``V4L2_CID_PIXEL_RATE (64-bit integer)``
+    Pixel rate in the source pads of the subdev. This control is
+    read-only and its unit is pixels / second.
+
+I think these needs to be reworked to make it clear PIXEL_RATE !=
+pixel sampling rate.
+
+Would you like to do so if you agree, or should I send a patch on top
+of this one ?
+
+> +
+
+Thanks, much apreciated effort.
+
+>  The transmitter drivers must, if possible, configure the CSI-2
+>  transmitter to *LP-11 mode* whenever the transmitter is powered on but
+>  not active, and maintain *LP-11 mode* until stream on. Only at stream
+> --
+> 2.29.2
+>
