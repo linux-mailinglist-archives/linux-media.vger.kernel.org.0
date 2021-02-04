@@ -2,128 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F36231007B
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 00:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 979103100BD
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 00:30:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbhBDXHA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 18:07:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38782 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229787AbhBDXG6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Feb 2021 18:06:58 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E14A64D9D;
-        Thu,  4 Feb 2021 23:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612479977;
-        bh=2yrQoi07tSr3GqEztnm6rCdEQC9o4rSjgEng2ClYQak=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LgO4ASIb40EkgS5QUIrz31ZXO+KtNJO2DVty+vGFXrR25WNxSEfhpqgoDnW0Sc57M
-         +Okydb53JOlHovRe3gN96g8AAslzWF7U37VQg0HN9Ez81TcDR1OqShEnNRQiMsBqMN
-         0W10WBbhbPnqDUEbOgOt8QhlexG4IWMkMnbdKLkg1IyuaoDIv2opvy3hgMcehd0uyS
-         8iR1HPvmJ5beUeU1koXRIuo1Dhu9hZ3PDLszFoft2jRmZtVUmpit0OQ3CvCqxOUB/k
-         vlhvHVYsxhpNEz3Zo9s+DZl45xsyxY46dUw5kFvT8kN8lMB0CbeeZc2lmz1k1Jy+dP
-         jPPC/e3SA9Ugg==
-Received: by mail-ej1-f47.google.com with SMTP id hs11so8570181ejc.1;
-        Thu, 04 Feb 2021 15:06:17 -0800 (PST)
-X-Gm-Message-State: AOAM530tweY9P05wXLrWJgyXJ+faf8gpXs3zX4OJPV3R0S/eSi1ayXqt
-        PqeJaemH/MhNV21g06ELEmC/obLtTzO0ZsLPAw==
-X-Google-Smtp-Source: ABdhPJyPjFOTPT0jH+zG0qjs4Py4MMPiXwafYcoMdMZUPPpd+AV2YfCVLMo4epWY2VUqB7scUFvuB/IXyikfDLpQJwo=
-X-Received: by 2002:a17:906:57cd:: with SMTP id u13mr1304383ejr.341.1612479975730;
- Thu, 04 Feb 2021 15:06:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20210203135441.136-1-martinax.krasteva@linux.intel.com>
- <20210203135441.136-2-martinax.krasteva@linux.intel.com> <1612452057.710530.452037.nullmailer@robh.at.kernel.org>
- <20210204161654.GC32460@paasikivi.fi.intel.com>
-In-Reply-To: <20210204161654.GC32460@paasikivi.fi.intel.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 4 Feb 2021 17:06:04 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJDwtUQEe7RTaNsCkbLr+WO-RS5QuGsQwtAmmm5nkcw_Q@mail.gmail.com>
-Message-ID: <CAL_JsqJDwtUQEe7RTaNsCkbLr+WO-RS5QuGsQwtAmmm5nkcw_Q@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] dt-bindings: media: Add bindings for imx334
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Martina Krasteva <martinax.krasteva@linux.intel.com>,
-        gjorgjix.rosikopulos@linux.intel.com, devicetree@vger.kernel.org,
-        Daniele Alessandrelli <daniele.alessandrelli@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        paul.j.murphy@linux.intel.com
+        id S230205AbhBDXaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 18:30:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57826 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230177AbhBDXaO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 18:30:14 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F19FC06178C
+        for <linux-media@vger.kernel.org>; Thu,  4 Feb 2021 15:29:59 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id m7so4866077ybm.19
+        for <linux-media@vger.kernel.org>; Thu, 04 Feb 2021 15:29:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:cc
+         :content-transfer-encoding;
+        bh=DDQzxO36o6mrG/7K72IGYqFtZmZCZagcSZoIJct7BXY=;
+        b=lKA+G8wZwzc3KJjfEbk4USd/5AVvIdDVeMqb73oE9zBHWMZoft6gFKDOCePms0HPGp
+         IpnAmcQPaJqYzhqs4VxxZC2o6/RZ/j5MJHU506eq+wz0Kr/o5Bqyr8NtakeP4tNzVayK
+         i4uqXx2mJwpp7gFTlPgCqkmcAAnU1hJ5Od8hNOtrD2rvM4Bv5eQodRsQ3Nbv41EYSlj6
+         QIkP+5XgiBOggGll6NMhjXYbeQvpSVtgbaWyekgEHyE8uT0kDLBHzAO8Q2g0J/qrcZqc
+         4I6ra63n/sjej0sFgwE/GkqMywm97NzAFEwHafPA+4J8xTPVBMHAUXrR3IlMDzqYSjeR
+         6m0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :cc:content-transfer-encoding;
+        bh=DDQzxO36o6mrG/7K72IGYqFtZmZCZagcSZoIJct7BXY=;
+        b=bNMd4SdH3NmQX2clLnFPUTvVIHvMwFM0jBReYkNgC3wkV54CnbETOeZ5LaaUFjDTUS
+         6XXzys6GIiK++8WuaNsLvWUJpWbGxWTqz4HOojcpwlGAhY3KG8Fi/eyNVR692XaoWrwr
+         TMHlUYLq7G3yiGIlfb6LgXYtR49KYLPDdI88jhI32D5W0nPugqI3jCueVqeHv1+aoGsF
+         2tznGNlAmWS/BDXC4xRTiZKSFrHK14SO+ERC6mtb94iA6Bty+gYUaw0gVRqUim9B4sVP
+         TxnKF6fDt2WYXHn8aKqyUPeqf7CjrapVFGvvJTdXCzurDQzk4xWxsnxi8XCzmafF2U1c
+         /juA==
+X-Gm-Message-State: AOAM531AqG3EgIBHE8XuCBFdBaf0UKVubghu13rYCXjdwEeU15xANeJt
+        8+bc1Y+pUKvVdofMN+Q1zVAz0i+FvXX6wer+JQ==
+X-Google-Smtp-Source: ABdhPJxuX5H3dPiFCh9g9xC89BwbDPdhdkk9a69MMrBZXYzdZFIf3f0iRjx/t1FkfEnOk7GPoDaKkXJi/cFoZs5jWQ==
+Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
+X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:a25:450:: with SMTP id
+ 77mr162814ybe.39.1612481398666; Thu, 04 Feb 2021 15:29:58 -0800 (PST)
+Date:   Thu,  4 Feb 2021 23:28:49 +0000
+Message-Id: <20210204232854.451676-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH v2 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
+        surenb@google.com, minchan@kernel.org, hridya@google.com,
+        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 10:17 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Rob,
->
-> On Thu, Feb 04, 2021 at 09:20:57AM -0600, Rob Herring wrote:
-> > On Wed, 03 Feb 2021 13:54:40 +0000, Martina Krasteva wrote:
-> > > From: Martina Krasteva <martinax.krasteva@intel.com>
-> > >
-> > > - Add dt-bindings documentation for Sony imx334 sensor driver.
-> > > - Add MAINTAINERS entry for Sony imx334 binding documentation.
-> > >
-> > > Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
-> > > Reviewed-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
-> > > Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> > > Acked-by: Paul J. Murphy <paul.j.murphy@intel.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/sony,imx334.yaml | 90 ++++++++++++++++++++++
-> > >  MAINTAINERS                                        |  8 ++
-> > >  2 files changed, 98 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> > >
-> >
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > Error: Documentation/devicetree/bindings/media/i2c/sony,imx334.example.dts:28.17-18 syntax error
-> > FATAL ERROR: Unable to parse input tree
+Android captures per-process system memory state when certain low memory
+events (e.g a foreground app kill) occur, to identify potential memory
+hoggers. In order to measure how much memory a process actually consumes,
+it is necessary to include the DMA buffer sizes for that process in the
+memory accounting. Since the handle to DMA buffers are raw FDs, it is
+important to be able to identify which processes have FD references to
+a DMA buffer.
 
-That's usually a missing header for #defines.
+Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+/proc/<pid>/fdinfo -- both are only readable by the process owner,
+as follows:
+  1. Do a readlink on each FD.
+  2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+  3. stat the file to get the dmabuf inode number.
+  4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
 
-> > make[1]: *** [scripts/Makefile.lib:344: Documentation/devicetree/bindings/media/i2c/sony,imx334.example.dt.yaml] Error 1
-> > make[1]: *** Waiting for unfinished jobs....
-> > make: *** [Makefile:1370: dt_binding_check] Error 2
-> >
-> > See https://patchwork.ozlabs.org/patch/1435383
-> >
-> > This check can fail if there are any dependencies. The base for a patch
-> > series is generally the most recent rc1.
-> >
-> > If you already ran 'make dt_binding_check' and didn't see the above
-> > error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> > date:
-> >
-> > pip3 install dtschema --upgrade
-> >
-> > Please check and re-submit.
->
-> Thanks for reporting this. The example was apparently missing the
-> assigned-clock-parents property. I'll squash the following change to the
-> patch:
+Accessing other processes=E2=80=99 fdinfo requires root privileges. This li=
+mits
+the use of the interface to debugging environments and is not suitable
+for production builds.  Granting root privileges even to a system process
+increases the attack surface and is highly undesirable.
 
-Doubtful. That would be a more specific schema error.
+Since fdinfo doesn't permit reading process memory and manipulating
+process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
 
->
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> index 3145e94d043e7..4217fbea0735a 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> @@ -76,6 +76,7 @@ examples:
->              clocks = <&imx334_clk>
->
->              assigned-clocks = <&imx334_clk>;
-> +            assigned-clock-parents = <&imx334_clk_parent>;
->              assigned-clock-rates = <24000000>;
->
->              port {
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+Suggested-by: Jann Horn <jannh@google.com>
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+---
+
+Changes in v2:
+  - Update patch desciption
+
+ fs/proc/base.c |  4 ++--
+ fs/proc/fd.c   | 15 ++++++++++++++-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index b3422cda2a91..a37f9de7103f 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3160,7 +3160,7 @@ static const struct pid_entry tgid_base_stuff[] =3D {
+ 	DIR("task",       S_IRUGO|S_IXUGO, proc_task_inode_operations, proc_task_=
+operations),
+ 	DIR("fd",         S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_oper=
+ations),
+ 	DIR("map_files",  S_IRUSR|S_IXUSR, proc_map_files_inode_operations, proc_=
+map_files_operations),
+-	DIR("fdinfo",     S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdi=
+nfo_operations),
++	DIR("fdinfo",     S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdi=
+nfo_operations),
+ 	DIR("ns",	  S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_op=
+erations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_op=
+erations),
+@@ -3504,7 +3504,7 @@ static const struct inode_operations proc_tid_comm_in=
+ode_operations =3D {
+  */
+ static const struct pid_entry tid_base_stuff[] =3D {
+ 	DIR("fd",        S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_opera=
+tions),
+-	DIR("fdinfo",    S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdin=
+fo_operations),
++	DIR("fdinfo",    S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdin=
+fo_operations),
+ 	DIR("ns",	 S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_ope=
+rations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_op=
+erations),
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index cb51763ed554..585e213301f9 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -6,6 +6,7 @@
+ #include <linux/fdtable.h>
+ #include <linux/namei.h>
+ #include <linux/pid.h>
++#include <linux/ptrace.h>
+ #include <linux/security.h>
+ #include <linux/file.h>
+ #include <linux/seq_file.h>
+@@ -72,6 +73,18 @@ static int seq_show(struct seq_file *m, void *v)
+=20
+ static int seq_fdinfo_open(struct inode *inode, struct file *file)
+ {
++	bool allowed =3D false;
++	struct task_struct *task =3D get_proc_task(inode);
++
++	if (!task)
++		return -ESRCH;
++
++	allowed =3D ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
++	put_task_struct(task);
++
++	if (!allowed)
++		return -EACCES;
++
+ 	return single_open(file, seq_show, inode);
+ }
+=20
+@@ -307,7 +320,7 @@ static struct dentry *proc_fdinfo_instantiate(struct de=
+ntry *dentry,
+ 	struct proc_inode *ei;
+ 	struct inode *inode;
+=20
+-	inode =3D proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUSR);
++	inode =3D proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUGO);
+ 	if (!inode)
+ 		return ERR_PTR(-ENOENT);
+=20
+--=20
+2.30.0.365.g02bc693789-goog
+
