@@ -2,91 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 043D030F813
-	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 17:36:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 223D630F86B
+	for <lists+linux-media@lfdr.de>; Thu,  4 Feb 2021 17:49:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237121AbhBDQfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 11:35:11 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:56437 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237893AbhBDQev (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Feb 2021 11:34:51 -0500
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <colin.king@canonical.com>)
-        id 1l7hZs-0007Ok-FC; Thu, 04 Feb 2021 16:33:56 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Jean-Christophe Trotin <jean-christophe.trotin@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: platform: sti: make a const array static, makes object smaller
-Date:   Thu,  4 Feb 2021 16:33:56 +0000
-Message-Id: <20210204163356.105945-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.29.2
+        id S238136AbhBDQsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Feb 2021 11:48:52 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:45692 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238131AbhBDQo3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Feb 2021 11:44:29 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l7hjL-00CIDS-0X; Thu, 04 Feb 2021 16:43:43 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l7hmu-0002qg-RK; Thu, 04 Feb 2021 16:47:24 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v3 for 5.12] More V4L2 patches (#71300)
+Date:   Thu,  4 Feb 2021 16:47:24 +0000
+Message-Id: <20210204164724.10893-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210204162005.GD3@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+From: builder@linuxtv.org
 
-Don't populate the const array bws on the stack but instead it
-static. Makes the object code smaller by 8 bytes:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210204162005.GD3@valkosipuli.retiisi.org.uk/
+Build log: https://builder.linuxtv.org/job/patchwork/88791/
+Build time: 00:16:22
+Link: https://lore.kernel.org/linux-media/20210204162005.GD3@valkosipuli.retiisi.org.uk
 
-Before:
-   text	   data	    bss	    dec	    hex	filename
-  12504	   4568	      0	  17072	   42b0	media/platform/sti/hva/hva-h264.o
+gpg: Signature made Thu 04 Feb 2021 04:18:17 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Can't check signature: No public key
 
-After:
-   text	   data	    bss	    dec	    hex	filename
-  12272	   4792	      0	  17064	   42a8	media/platform/sti/hva/hva-h264.o
+Summary: got 17/43 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-(gcc version 10.2.0)
+Error/warnings:
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/platform/sti/hva/hva-h264.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch:
 
-diff --git a/drivers/media/platform/sti/hva/hva-h264.c b/drivers/media/platform/sti/hva/hva-h264.c
-index c34f7cf5aed2..98cb00d2d868 100644
---- a/drivers/media/platform/sti/hva/hva-h264.c
-+++ b/drivers/media/platform/sti/hva/hva-h264.c
-@@ -428,8 +428,10 @@ static int hva_h264_fill_slice_header(struct hva_ctx *pctx,
- 	 */
- 	struct device *dev = ctx_to_dev(pctx);
- 	int  cabac = V4L2_MPEG_VIDEO_H264_ENTROPY_MODE_CABAC;
--	const unsigned char slice_header[] = { 0x00, 0x00, 0x00, 0x01,
--					       0x41, 0x34, 0x07, 0x00};
-+	static const unsigned char slice_header[] = {
-+		0x00, 0x00, 0x00, 0x01,
-+		0x41, 0x34, 0x07, 0x00
-+	};
- 	int idr_pic_id = frame_num % 2;
- 	enum hva_picture_coding_type type;
- 	u32 frame_order = frame_num % ctrls->gop_size;
-@@ -488,7 +490,7 @@ static int hva_h264_fill_data_nal(struct hva_ctx *pctx,
- 				  unsigned int stream_size, unsigned int *size)
- {
- 	struct device *dev = ctx_to_dev(pctx);
--	const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
-+	static const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
- 
- 	dev_dbg(dev, "%s   %s stuffing bytes %d\n", pctx->name, __func__,
- 		stuffing_bytes);
-@@ -521,7 +523,7 @@ static int hva_h264_fill_sei_nal(struct hva_ctx *pctx,
- 				 u8 *addr, u32 *size)
- {
- 	struct device *dev = ctx_to_dev(pctx);
--	const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
-+	static const u8 start[] = { 0x00, 0x00, 0x00, 0x01 };
- 	struct hva_h264_stereo_video_sei info;
- 	u8 offset = 7;
- 	u8 msg = 0;
--- 
-2.29.2
+   checkpatch.pl:
+	$ cat patches/0007-media-v4l2-async-Clean-v4l2_async_notifier_add_fwnod.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:58: CHECK: Lines should not end with a '('
+	-:132: CHECK: Lines should not end with a '('
+	-:179: CHECK: Lines should not end with a '('
+	-:230: CHECK: Alignment should match open parenthesis
+	-:313: CHECK: Lines should not end with a '('
+	-:384: CHECK: Lines should not end with a '('
+	-:424: CHECK: Lines should not end with a '('
+	-:467: CHECK: Lines should not end with a '('
+	-:499: CHECK: Lines should not end with a '('
+
+patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-atmel-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:96: CHECK: Lines should not end with a '('
+	-:188: CHECK: Lines should not end with a '('
+
+patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch:
+
+   checkpatch.pl:
+	$ cat patches/0009-media-stm32-Use-v4l2_async_notifier_add_fwnode_remot.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:238: CHECK: Lines should not end with a '('
+
+patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch:
+
+   checkpatch.pl:
+	$ cat patches/0010-media-exynos4-is-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:69: CHECK: Lines should not end with a '('
+
+patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch:
+
+   checkpatch.pl:
+	$ cat patches/0011-media-st-mipid02-Use-v4l2_async_notifier_add_fwnode_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:53: CHECK: Lines should not end with a '('
+
+patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch:
+
+   checkpatch.pl:
+	$ cat patches/0013-media-marvell-ccic-Use-v4l2_async_notifier_add_-_sub.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:51: CHECK: Alignment should match open parenthesis
+
+patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch:
+
+   checkpatch.pl:
+	$ cat patches/0014-media-renesas-ceu-Use-v4l2_async_notifier_add_-_subd.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:116: CHECK: Alignment should match open parenthesis
+	-:156: CHECK: Lines should not end with a '('
+
+patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch:
+
+   checkpatch.pl:
+	$ cat patches/0015-media-pxa-camera-Use-v4l2_async_notifier_add_-_subde.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:63: CHECK: Lines should not end with a '('
+	-:89: CHECK: Lines should not end with a '('
+
+patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch:
+
+   checkpatch.pl:
+	$ cat patches/0017-media-v4l2-async-Discourage-use-of-v4l2_async_notifi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:35: CHECK: Alignment should match open parenthesis
+	-:104: CHECK: Alignment should match open parenthesis
+
+patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch:
+
+   checkpatch.pl:
+	$ cat patches/0018-media-v4l2-async-Improve-v4l2_async_notifier_add_-_s.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:124: CHECK: Lines should not end with a '('
+	-:263: CHECK: Lines should not end with a '('
+	-:280: CHECK: Lines should not end with a '('
+	-:326: CHECK: Lines should not end with a '('
+	-:410: CHECK: Alignment should match open parenthesis
+	-:437: CHECK: Lines should not end with a '('
+	-:474: CHECK: Alignment should match open parenthesis
+	-:577: CHECK: Lines should not end with a '('
+	-:770: CHECK: Alignment should match open parenthesis
+	-:790: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
+	-:806: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
+	-:822: CHECK: Macro argument '__type' may be better as '(__type)' to avoid precedence issues
+
+patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch:
+
+   checkpatch.pl:
+	$ cat patches/0020-dt-bindings-Remove-old-ov5647.yaml-file-update-ovti-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:23: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:101: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0032-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch:
+
+   checkpatch.pl:
+	$ cat patches/0032-media-mach-pxa-Register-the-camera-sensor-fixed-rate.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:41: CHECK: Alignment should match open parenthesis
+
+patches/0034-media-ov9640-Use-the-generic-clock-framework.patch:
+
+   checkpatch.pl:
+	$ cat patches/0034-media-ov9640-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0036-media-ov6650-Use-the-generic-clock-framework.patch:
+
+   checkpatch.pl:
+	$ cat patches/0036-media-ov6650-Use-the-generic-clock-framework.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0037-media-Remove-the-legacy-v4l2-clk-API.patch:
+
+   checkpatch.pl:
+	$ cat patches/0037-media-Remove-the-legacy-v4l2-clk-API.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:33: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0041-media-ov8856-Configure-sensor-for-GRBG-Bayer-for-all.patch:
+
+   checkpatch.pl:
+	$ cat patches/0041-media-ov8856-Configure-sensor-for-GRBG-Bayer-for-all.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:20: WARNING: Use a single space after To:
+	-:20: ERROR: Unrecognized email address: ''
+	-:57: ERROR: Missing Signed-off-by: line by nominal patch author ''
+
+patches/0043-media-i2c-Add-imx334-camera-sensor-driver.patch:
+
+   checkpatch.pl:
+	$ cat patches/0043-media-i2c-Add-imx334-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:228: CHECK: struct mutex definition without comment
+
+
+Error #512 when building PDF docs
 
