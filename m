@@ -2,397 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21404311066
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 19:54:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80D26311024
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 19:42:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232767AbhBERKy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 12:10:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
+        id S233580AbhBEQ7K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 11:59:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233711AbhBEQ3D (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 11:29:03 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50BCBC0613D6
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 10:10:44 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id c12so8673621wrc.7
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 10:10:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SMWBiaCjZ8IaLrycEYBNrZsO7mfYYYt0PFkXkXHcQ2g=;
-        b=oFB5FHYTKFg80jxGzrbq386XoYU/aS4+2+wwb6OktgcSK9Xfd7Ssbj3QDhi3wATl4X
-         gxLPYUY4VNCmb+IvXG83enmpxQW1/OdIImpnbip/aukx316+hrjLa5oUMblL5/fjuklU
-         mmJl3ja1J/I5DnnDO4AiFbGwksmtaNNpXS83V3WqkxEhTOGnNCOgwOJcta5LI5lwef5c
-         hd8IER6MDuLYxO9zYEHFco+TAYENIKWWE/b1era1nZ/Bi7nVBDuDq2RIVD7zAoXj2cph
-         1tldLpCobF1lPznHpNfZSCDJYnPPYZ9WLFVBPY/SwP9HNQ+S+mzkaZVey5UlN6SsS8mE
-         VZmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SMWBiaCjZ8IaLrycEYBNrZsO7mfYYYt0PFkXkXHcQ2g=;
-        b=s6BBcFTbqeNE4vB1KJXqIJNV6Mt9mAY40fiZQLmStTzYCeHdNVJngIB+MeOI/oUfhx
-         qA/QwEYhaIvMIWa1R8OGhu6kR1rIey7yrw/DrdvObnNZclGrV7LAJXiHCz+zfU9duQIF
-         lzgGrAbsSaffB6XBNku2ftIFEBv50uNjj9wDKNI4cA5eu2cGQi050Qc2pUCmYZEaX+zB
-         6hyeHyJTvEL62lslwiIGPZhV3/aNCdOCzZBAFNNRA8K29kWxCCa4biiLIs57hbPEjnCZ
-         8OaIxTrSfQ3cEvYFtpvXYobGS/mB3f1tG9a+BotV/+pz0KH9jqRnpTITlQcjBJ4VokRn
-         78MQ==
-X-Gm-Message-State: AOAM5319cbv9vsYOmDYxY1JLhXSdH0wtA7bHNv3ugJztfGaRzt7nyiJe
-        lzA974okoa0eKvlSy/UsaGSiHed0AXZbMQ==
-X-Google-Smtp-Source: ABdhPJwniytCIhkdqKk9C4HKf/KWVlc+8hN8rFoAgl4tjvR3//P4Y5q//Rs6A6IUThd/z1xc8RGsdg==
-X-Received: by 2002:a5d:4d0b:: with SMTP id z11mr6412138wrt.388.1612548642552;
-        Fri, 05 Feb 2021 10:10:42 -0800 (PST)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id r15sm13248568wrj.61.2021.02.05.10.10.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 10:10:41 -0800 (PST)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        stanimir.varbanov@linaro.org
-Cc:     bryan.odonoghue@linaro.org, dmitry.baryshkov@linaro.org
-Subject: [RESEND PATCH v2] media: venus: core, venc, vdec: Fix probe dependency error
-Date:   Fri,  5 Feb 2021 18:11:49 +0000
-Message-Id: <20210205181149.1828547-1-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.29.2
+        with ESMTP id S233498AbhBEQ5h (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 11:57:37 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84D4C061574;
+        Fri,  5 Feb 2021 10:39:19 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 1A1F41F46981
+Subject: Re: [RFC PATCH v6 00/11] media: v4l2: Add extended fmt and buffer
+ ioctls
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, mchehab@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        boris.brezillon@collabora.com, hiroh@chromium.org,
+        nicolas@ndufresne.ca, Brian.Starkey@arm.com, kernel@collabora.com,
+        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+        frkoenig@chromium.org, stanimir.varbanov@linaro.org,
+        tfiga@chromium.org
+References: <20210114180738.1758707-1-helen.koike@collabora.com>
+Message-ID: <2e2fc518-9c71-b82c-4630-7985bbdc544a@collabora.com>
+Date:   Fri, 5 Feb 2021 15:39:08 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210114180738.1758707-1-helen.koike@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit aaaa93eda64b ("media] media: venus: venc: add video encoder files")
-is the last in a series of three commits to add core.c vdec.c and venc.c
-adding core, encoder and decoder.
+Hello,
 
-The encoder and decoder check for core drvdata as set and return -EPROBE_DEFER
-if it has not been set, however both the encoder and decoder rely on
-core.v4l2_dev as valid.
+On 1/14/21 3:07 PM, Helen Koike wrote:
+> Hello,
+> 
+> This is v6 of the Extended API for formats and buffers (see below the new API).
+> 
+> The new API comes for free for old drivers through the conversion layer, which
+> is independent of vb2.
+> 
+> I completly refactored several patches. I would like to request comments not
+> only in the uAPI, but also the kAPI for drivers, and I would appreciate any
+> ideas on improving the quality of the code (in short: please review everything).
+> 
+> NOTE: The Ext API wans't tested yet. My next step is to patch v4l2-compliance.
 
-core.v4l2_dev will not be valid until v4l2_device_register() has completed
-in core.c's probe().
+I implemented on libcamera to test it, please check:
 
-Normally this is never seen however, Dmitry reported the following
-backtrace when compiling drivers and firmware directly into a kernel image.
+    https://lists.libcamera.org/pipermail/libcamera-devel/2021-February/017169.html
 
-[    5.259968] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
-[    5.269850] sd 0:0:0:3: [sdd] Optimal transfer size 524288 bytes
-[    5.275505] Workqueue: events deferred_probe_work_func
-[    5.275513] pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
-[    5.441211] usb 2-1: new SuperSpeedPlus Gen 2 USB device number 2 using xhci-hcd
-[    5.442486] pc : refcount_warn_saturate+0x140/0x148
-[    5.493756] hub 2-1:1.0: USB hub found
-[    5.496266] lr : refcount_warn_saturate+0x140/0x148
-[    5.500982] hub 2-1:1.0: 4 ports detected
-[    5.503440] sp : ffff80001067b730
-[    5.503442] x29: ffff80001067b730
-[    5.592660] usb 1-1: new high-speed USB device number 2 using xhci-hcd
-[    5.598478] x28: ffff6c6bc1c379b8
-[    5.598480] x27: ffffa5c673852960 x26: ffffa5c673852000
-[    5.598484] x25: ffff6c6bc1c37800 x24: 0000000000000001
-[    5.810652] x23: 0000000000000000 x22: ffffa5c673bc7118
-[    5.813777] hub 1-1:1.0: USB hub found
-[    5.816108] x21: ffffa5c674440000 x20: 0000000000000001
-[    5.820846] hub 1-1:1.0: 4 ports detected
-[    5.825415] x19: ffffa5c6744f4000 x18: ffffffffffffffff
-[    5.825418] x17: 0000000000000000 x16: 0000000000000000
-[    5.825421] x15: 00000a4810c193ba x14: 0000000000000000
-[    5.825424] x13: 00000000000002b8 x12: 000000000000f20a
-[    5.825427] x11: 000000000000f20a x10: 0000000000000038
-[    5.845447] usb 2-1.1: new SuperSpeed Gen 1 USB device number 3 using xhci-hcd
-[    5.845904]
-[    5.845905] x9 : 0000000000000000 x8 : ffff6c6d36fae780
-[    5.871208] x7 : ffff6c6d36faf240 x6 : 0000000000000000
-[    5.876664] x5 : 0000000000000004 x4 : 0000000000000085
-[    5.882121] x3 : 0000000000000119 x2 : ffffa5c6741ef478
-[    5.887578] x1 : 3acbb3926faf5f00 x0 : 0000000000000000
-[    5.893036] Call trace:
-[    5.895551]  refcount_warn_saturate+0x140/0x148
-[    5.900202]  __video_register_device+0x64c/0xd10
-[    5.904944]  venc_probe+0xc4/0x148
-[    5.908444]  platform_probe+0x68/0xe0
-[    5.912210]  really_probe+0x118/0x3e0
-[    5.915977]  driver_probe_device+0x5c/0xc0
-[    5.920187]  __device_attach_driver+0x98/0xb8
-[    5.924661]  bus_for_each_drv+0x68/0xd0
-[    5.928604]  __device_attach+0xec/0x148
-[    5.932547]  device_initial_probe+0x14/0x20
-[    5.936845]  bus_probe_device+0x9c/0xa8
-[    5.940788]  device_add+0x3e8/0x7c8
-[    5.944376]  of_device_add+0x4c/0x60
-[    5.948056]  of_platform_device_create_pdata+0xbc/0x140
-[    5.953425]  of_platform_bus_create+0x17c/0x3c0
-[    5.958078]  of_platform_populate+0x80/0x110
-[    5.962463]  venus_probe+0x2ec/0x4d8
-[    5.966143]  platform_probe+0x68/0xe0
-[    5.969907]  really_probe+0x118/0x3e0
-[    5.973674]  driver_probe_device+0x5c/0xc0
-[    5.977882]  __device_attach_driver+0x98/0xb8
-[    5.982356]  bus_for_each_drv+0x68/0xd0
-[    5.986298]  __device_attach+0xec/0x148
-[    5.990242]  device_initial_probe+0x14/0x20
-[    5.994539]  bus_probe_device+0x9c/0xa8
-[    5.998481]  deferred_probe_work_func+0x74/0xb0
-[    6.003132]  process_one_work+0x1e8/0x360
-[    6.007254]  worker_thread+0x208/0x478
-[    6.011106]  kthread+0x150/0x158
-[    6.014431]  ret_from_fork+0x10/0x30
-[    6.018111] ---[ end trace f074246b1ecdb466 ]---
+Thanks,
+Helen
 
-This patch fixes by
-
-- Only setting drvdata after v4l2_device_register() completes
-- Moving v4l2_device_register() so that suspend/reume in core::probe()
-  stays as-is
-- Changes pm_ops->core_function() to take struct venus_core not struct
-  device
-- Minimal rework of v4l2_device_*register in probe/remove
-
-Link: https://lore.kernel.org/linux-media/d7d114fe-6255-5672-e91c-2558d56da745@linaro.org/T/#m9bc6892d0c25a544364b71cb123e3217c0c02111
-Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Fixes: aaaa93eda64b ("media] media: venus: venc: add video encoder files")
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/venus/core.c      | 30 ++++++++++---------
- .../media/platform/qcom/venus/pm_helpers.c    | 30 ++++++++-----------
- .../media/platform/qcom/venus/pm_helpers.h    |  7 +++--
- 3 files changed, 33 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 1471c7f9c89d..360f3bc60797 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -218,7 +218,6 @@ static int venus_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	core->dev = dev;
--	platform_set_drvdata(pdev, core);
- 
- 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	core->base = devm_ioremap_resource(dev, r);
-@@ -248,7 +247,7 @@ static int venus_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 
- 	if (core->pm_ops->core_get) {
--		ret = core->pm_ops->core_get(dev);
-+		ret = core->pm_ops->core_get(core);
- 		if (ret)
- 			return ret;
- 	}
-@@ -273,6 +272,12 @@ static int venus_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_core_put;
- 
-+	ret = v4l2_device_register(dev, &core->v4l2_dev);
-+	if (ret)
-+		goto err_core_deinit;
-+
-+	platform_set_drvdata(pdev, core);
-+
- 	pm_runtime_enable(dev);
- 
- 	ret = pm_runtime_get_sync(dev);
-@@ -307,10 +312,6 @@ static int venus_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_venus_shutdown;
- 
--	ret = v4l2_device_register(dev, &core->v4l2_dev);
--	if (ret)
--		goto err_core_deinit;
--
- 	ret = pm_runtime_put_sync(dev);
- 	if (ret) {
- 		pm_runtime_get_noresume(dev);
-@@ -323,8 +324,6 @@ static int venus_probe(struct platform_device *pdev)
- 
- err_dev_unregister:
- 	v4l2_device_unregister(&core->v4l2_dev);
--err_core_deinit:
--	hfi_core_deinit(core, false);
- err_venus_shutdown:
- 	venus_shutdown(core);
- err_runtime_disable:
-@@ -332,9 +331,11 @@ static int venus_probe(struct platform_device *pdev)
- 	pm_runtime_set_suspended(dev);
- 	pm_runtime_disable(dev);
- 	hfi_destroy(core);
-+err_core_deinit:
-+	hfi_core_deinit(core, false);
- err_core_put:
- 	if (core->pm_ops->core_put)
--		core->pm_ops->core_put(dev);
-+		core->pm_ops->core_put(core);
- 	return ret;
- }
- 
-@@ -360,14 +361,15 @@ static int venus_remove(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 
- 	if (pm_ops->core_put)
--		pm_ops->core_put(dev);
-+		pm_ops->core_put(core);
-+
-+	v4l2_device_unregister(&core->v4l2_dev);
- 
- 	hfi_destroy(core);
- 
- 	icc_put(core->video_path);
- 	icc_put(core->cpucfg_path);
- 
--	v4l2_device_unregister(&core->v4l2_dev);
- 	mutex_destroy(&core->pm_lock);
- 	mutex_destroy(&core->lock);
- 	venus_dbgfs_deinit(core);
-@@ -394,7 +396,7 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
- 		return ret;
- 
- 	if (pm_ops->core_power) {
--		ret = pm_ops->core_power(dev, POWER_OFF);
-+		ret = pm_ops->core_power(core, POWER_OFF);
- 		if (ret)
- 			return ret;
- 	}
-@@ -412,7 +414,7 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
- err_video_path:
- 	icc_set_bw(core->cpucfg_path, kbps_to_icc(1000), 0);
- err_cpucfg_path:
--	pm_ops->core_power(dev, POWER_ON);
-+	pm_ops->core_power(core, POWER_ON);
- 
- 	return ret;
- }
-@@ -432,7 +434,7 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
- 		return ret;
- 
- 	if (pm_ops->core_power) {
--		ret = pm_ops->core_power(dev, POWER_ON);
-+		ret = pm_ops->core_power(core, POWER_ON);
- 		if (ret)
- 			return ret;
- 	}
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index 43c4e3d9e281..e349d01422c5 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -277,16 +277,13 @@ static int load_scale_v1(struct venus_inst *inst)
- 	return 0;
- }
- 
--static int core_get_v1(struct device *dev)
-+static int core_get_v1(struct venus_core *core)
- {
--	struct venus_core *core = dev_get_drvdata(dev);
--
- 	return core_clks_get(core);
- }
- 
--static int core_power_v1(struct device *dev, int on)
-+static int core_power_v1(struct venus_core *core, int on)
- {
--	struct venus_core *core = dev_get_drvdata(dev);
- 	int ret = 0;
- 
- 	if (on == POWER_ON)
-@@ -753,12 +750,12 @@ static int venc_power_v4(struct device *dev, int on)
- 	return ret;
- }
- 
--static int vcodec_domains_get(struct device *dev)
-+static int vcodec_domains_get(struct venus_core *core)
- {
- 	int ret;
- 	struct opp_table *opp_table;
- 	struct device **opp_virt_dev;
--	struct venus_core *core = dev_get_drvdata(dev);
-+	struct device *dev = core->dev;
- 	const struct venus_resources *res = core->res;
- 	struct device *pd;
- 	unsigned int i;
-@@ -809,9 +806,8 @@ static int vcodec_domains_get(struct device *dev)
- 	return ret;
- }
- 
--static void vcodec_domains_put(struct device *dev)
-+static void vcodec_domains_put(struct venus_core *core)
- {
--	struct venus_core *core = dev_get_drvdata(dev);
- 	const struct venus_resources *res = core->res;
- 	unsigned int i;
- 
-@@ -834,9 +830,9 @@ static void vcodec_domains_put(struct device *dev)
- 	dev_pm_opp_detach_genpd(core->opp_table);
- }
- 
--static int core_get_v4(struct device *dev)
-+static int core_get_v4(struct venus_core *core)
- {
--	struct venus_core *core = dev_get_drvdata(dev);
-+	struct device *dev = core->dev;
- 	const struct venus_resources *res = core->res;
- 	int ret;
- 
-@@ -875,7 +871,7 @@ static int core_get_v4(struct device *dev)
- 		}
- 	}
- 
--	ret = vcodec_domains_get(dev);
-+	ret = vcodec_domains_get(core);
- 	if (ret) {
- 		if (core->has_opp_table)
- 			dev_pm_opp_of_remove_table(dev);
-@@ -886,14 +882,14 @@ static int core_get_v4(struct device *dev)
- 	return 0;
- }
- 
--static void core_put_v4(struct device *dev)
-+static void core_put_v4(struct venus_core *core)
- {
--	struct venus_core *core = dev_get_drvdata(dev);
-+	struct device *dev = core->dev;
- 
- 	if (legacy_binding)
- 		return;
- 
--	vcodec_domains_put(dev);
-+	vcodec_domains_put(core);
- 
- 	if (core->has_opp_table)
- 		dev_pm_opp_of_remove_table(dev);
-@@ -901,9 +897,9 @@ static void core_put_v4(struct device *dev)
- 
- }
- 
--static int core_power_v4(struct device *dev, int on)
-+static int core_power_v4(struct venus_core *core, int on)
- {
--	struct venus_core *core = dev_get_drvdata(dev);
-+	struct device *dev = core->dev;
- 	struct device *pmctrl = core->pmdomains[0];
- 	int ret = 0;
- 
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.h b/drivers/media/platform/qcom/venus/pm_helpers.h
-index aa2f6afa2354..a492c50c5543 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.h
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.h
-@@ -4,14 +4,15 @@
- #define __VENUS_PM_HELPERS_H__
- 
- struct device;
-+struct venus_core;
- 
- #define POWER_ON	1
- #define POWER_OFF	0
- 
- struct venus_pm_ops {
--	int (*core_get)(struct device *dev);
--	void (*core_put)(struct device *dev);
--	int (*core_power)(struct device *dev, int on);
-+	int (*core_get)(struct venus_core *core);
-+	void (*core_put)(struct venus_core *core);
-+	int (*core_power)(struct venus_core *core, int on);
- 
- 	int (*vdec_get)(struct device *dev);
- 	void (*vdec_put)(struct device *dev);
--- 
-2.29.2
-
+> 
+> Regression tests - v4l2-compliance with test-media script:
+> 	vivid: http://ix.io/2M0G - Final Summary: 1856, Succeeded: 1856, Failed: 0, Warnings: 0)
+> 	vimc: http://ix.io/2M0I - Final Summary: 488, Succeeded: 488, Failed: 0, Warnings: 0
+> 
+> Git: https://gitlab.collabora.com/koike/linux/-/tree/v4l2/ext-api/v6
+> 
+> v5: https://patchwork.linuxtv.org/project/linux-media/cover/20200804192939.2251988-1-helen.koike@collabora.com/
+> v4: https://patchwork.linuxtv.org/project/linux-media/cover/20200717115435.2632623-1-helen.koike@collabora.com/
+> v3: https://patchwork.linuxtv.org/cover/59345/
+> v2: https://patchwork.kernel.org/project/linux-media/list/?series=101153
+> v1: https://patchwork.kernel.org/project/linux-media/list/?series=93707
+> 
+> Conversion layer:
+> =================
+> 
+> * Old drivers implementing only ops->vidioc_*_fmt_vid_cap supports
+>   VIDIOC_*_EXT_PIX_FMT automatically with limitations[1].
+> 
+> * New drivers implementing only ops->vidioc_*_ext_pix_fmt_vid_cap supports
+>   VIDIOC_*_FMT automatically.
+> 
+> * Old drivers implementing only ops->vidioc_*buf support
+>   VIDIOC_EXT_*BUF automatically with limitations[2].
+> 
+> * New drivers should implement both ops->vidioc_*buf and ops->vidioc_*buf
+>   to overcome limitations[2] and support both APIs.
+>   Which is easy with vb2:
+>      static const struct v4l2_ioctl_ops ioctl_ops = {
+>      ...
+>      +      .vidioc_ext_qbuf = vb2_ioctl_ext_qbuf,
+>      +      .vidioc_ext_dqbuf = vb2_ioctl_ext_dqbuf,
+>      ...
+>      }
+>      ...
+>      +      /* Inform vb2 how to split the memory buffer in case a single one is used */
+>      +      vb2_set_pixelformat(dev->pixelformat)
+> 
+> [1] There are some limitations in the conversion such as modifiers that are
+>     ignored when converting v4l2_ext_pix_format to v4l_format
+> 
+> [2] Ext API allows a single buffer with planes placed in random locations,
+>     which is not possible with v4l2_buffer.
+> 
+> 
+> Major changes in v6:
+> ====================
+> 
+> Fixed color planes vs memory planes handling.
+> 
+> Removed VIDIOC_EXT_PREPARE_BUF, since this is an optimization, it doesn't blocks
+> the API, we can add it later (my goal was to simplify this patchset).
+> 
+> Removed VIDIOC_EXT_CREATE_BUFS, since this is useful only to MMAP (thus low priority)
+> with the new format.
+> Classic VIDIOC_CREATE_BUFS and VIDIOC_REQBUFS can still be used.
+> 
+> Reformulated conversion layer as per above.
+> 
+> Removed conversions in vb2, it is easier to add hooks to drivers.
+> 
+> Fixed vb2 to allow Ext API only to Video types.
+> 
+> API updates:
+> * remove buffer and plane lengths
+> * move `memory` field to v4l2_ext_buffer instead of v4l2_ext_plane
+> * remove struct v4l2_plane_ext_pix_format
+> * reordering
+> 
+> Make Ext API valid only for Video types, and not for touch, vbi, meta, etc.
+> 
+> Sereval code refactoring, simplification, fixes and applied suggestions from v5.
+> 
+> New API (for convenience):
+> ==========================
+> 
+> int ioctl(int fd, VIDIOC_G_EXT_PIX_FMT, struct v4l2_ext_pix_format *argp)
+> int ioctl(int fd, VIDIOC_S_EXT_PIX_FMT, struct v4l2_ext_pix_format *argp)
+> int ioctl(int fd, VIDIOC_TRY_EXT_PIX_FMT, struct v4l2_ext_pix_format *argp)
+> int ioctl(int fd, VIDIOC_EXT_QBUF, struct v4l2_ext_buffer *argp)
+> int ioctl(int fd, VIDIOC_EXT_DQBUF, struct v4l2_ext_buffer *argp)
+> 
+> struct v4l2_ext_pix_format {
+> 	__u32 type;
+> 	__u32 width;
+> 	__u32 height;
+> 	__u32 field;
+> 	struct v4l2_plane_pix_format plane_fmt[VIDEO_MAX_PLANES];
+> 	__u32 pixelformat;
+> 	__u64 modifier;
+> 	__u32 colorspace;
+> 	__u32 xfer_func;
+> 	union {
+> 		__u32 ycbcr_enc;
+> 		__u32 hsv_enc;
+> 	};
+> 	__u32 quantization;
+> 	__u32 reserved[9];
+> };
+> 
+> struct v4l2_ext_buffer {
+> 	__u32 index;
+> 	__u32 type;
+> 	__u32 field;
+> 	__u32 sequence;
+> 	__u64 flags;
+> 	__u64 timestamp;
+> 	__u32 memory;
+> 	__s32 request_fd;
+> 	struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
+> 	__u32 reserved[10];
+> };
+> 
+> struct v4l2_ext_plane {
+> 	__u32 offset;
+> 	__u32 bytesused;
+> 	union {
+> 		__u32 mmap_offset;
+> 		__u64 userptr;
+> 		__s32 dmabuf_fd;
+> 	} m;
+> 	__u32 reserved[6];
+> };
+> 
+> Helen Koike (11):
+>   media: v4l2-common: add normalized pixelformat field to struct
+>     v4l2_format_info
+>   media: v4l2: Extend pixel formats to unify single/multi-planar
+>     handling (and more)
+>   media: v4l2: Add extended buffer (de)queue operations for video types
+>   media: videobuf2-v4l2: reorganize flags handling
+>   media: videobuf2: Expose helpers for Ext qbuf/dqbuf
+>   media: vivid: use vb2_ioctls_ext_{d}qbuf hooks
+>   media: vimc: use vb2_ioctls_ext_{d}qbuf hooks
+>   media: mediabus: Add helpers to convert a ext_pix format to/from a
+>     mbus_fmt
+>   media: vivid: Convert to v4l2_ext_pix_format
+>   media: vimc: Convert to v4l2_ext_pix_format
+>   media: docs: add documentation for the Extended API
+> 
+>  .../userspace-api/media/v4l/buffer.rst        |   5 +
+>  .../userspace-api/media/v4l/common.rst        |   1 +
+>  .../userspace-api/media/v4l/dev-capture.rst   |   6 +
+>  .../userspace-api/media/v4l/dev-output.rst    |   6 +
+>  .../userspace-api/media/v4l/ext-api.rst       |  89 +++
+>  .../userspace-api/media/v4l/format.rst        |  18 +-
+>  .../userspace-api/media/v4l/user-func.rst     |   5 +
+>  .../media/v4l/vidioc-ext-qbuf.rst             | 188 +++++
+>  .../media/v4l/vidioc-g-ext-pix-fmt.rst        | 116 +++
+>  .../userspace-api/media/v4l/vidioc-qbuf.rst   |   2 +-
+>  .../media/common/videobuf2/videobuf2-core.c   |  46 +-
+>  .../media/common/videobuf2/videobuf2-v4l2.c   | 500 +++++++++---
+>  .../media/test-drivers/vimc/vimc-capture.c    |  57 +-
+>  drivers/media/test-drivers/vimc/vimc-common.c |   6 +-
+>  drivers/media/test-drivers/vimc/vimc-common.h |   2 +-
+>  drivers/media/test-drivers/vivid/vivid-core.c | 209 ++---
+>  .../media/test-drivers/vivid/vivid-vid-cap.c  | 203 ++---
+>  .../media/test-drivers/vivid/vivid-vid-cap.h  |  15 +-
+>  .../media/test-drivers/vivid/vivid-vid-out.c  | 198 ++---
+>  .../media/test-drivers/vivid/vivid-vid-out.h  |  15 +-
+>  drivers/media/v4l2-core/v4l2-common.c         |  16 +-
+>  drivers/media/v4l2-core/v4l2-dev.c            |  31 +-
+>  drivers/media/v4l2-core/v4l2-ioctl.c          | 722 +++++++++++++++++-
+>  include/media/v4l2-common.h                   |   3 +
+>  include/media/v4l2-ioctl.h                    |  36 +
+>  include/media/v4l2-mediabus.h                 |  42 +
+>  include/media/videobuf2-core.h                |  33 +-
+>  include/media/videobuf2-v4l2.h                |   8 +-
+>  include/uapi/linux/videodev2.h                |  96 +++
+>  29 files changed, 2131 insertions(+), 543 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/ext-api.rst
+>  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-ext-qbuf.rst
+>  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-g-ext-pix-fmt.rst
+> 
