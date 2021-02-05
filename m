@@ -2,317 +2,397 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3BF9311539
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 23:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16488311589
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 23:43:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233133AbhBEWZi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 17:25:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41512 "EHLO
+        id S232921AbhBEWcx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 17:32:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232583AbhBEOZQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 09:25:16 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53A0C061A32
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 07:51:50 -0800 (PST)
-Received: from [IPv6:2003:c7:cf1c:ce00:c5f9:7f5:ebcd:ea47] (p200300c7cf1cce00c5f907f5ebcdea47.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:ce00:c5f9:7f5:ebcd:ea47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CF60F1F466F8;
-        Fri,  5 Feb 2021 14:05:24 +0000 (GMT)
-Subject: Re: [PATCH RFC 08/11] media: rockchip: rkisp1: make some isp-param
- functions variable
-To:     Heiko Stuebner <heiko@sntech.de>, ezequiel@collabora.com,
-        helen.koike@collabora.com, Laurent.pinchart@ideasonboard.com
-Cc:     linux-rockchip@lists.infradead.org,
-        christoph.muellner@theobroma-systems.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-References: <20210108193311.3423236-1-heiko@sntech.de>
- <20210108193311.3423236-9-heiko@sntech.de>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <7c06bf28-2629-1f8d-1e55-d86ad792d6bf@collabora.com>
-Date:   Fri, 5 Feb 2021 15:05:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S232396AbhBEOQB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 09:16:01 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D90C061D7D
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 07:53:46 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id w4so6401917wmi.4
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 07:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SMWBiaCjZ8IaLrycEYBNrZsO7mfYYYt0PFkXkXHcQ2g=;
+        b=X3kvGdbVU0yka/y4E5MM8HaLwhA2THI8FKrFE16Mnnk2g/PPAf0vlOkP9Xx/EexDCk
+         rvEP1iDAMbuWW+advnmF3KIcItki8oQm/yqZnstRrlOWEiy9CtXe6hdDgmdaBlIhDw/U
+         VSmp8M0/oRFsGt9YzCIgRawIKErGGTRKYKhvvWDFcX8WI308LyhZEY1TTf5v5Ngf+EOU
+         FuPiZRk13Jvd0seHqpiVj0May1xb452OV/2WcvHIXV+sDzlvo/81U5lXmpNQ13IoMMPl
+         0ifuOFJNuOLoZ3SNrXwEnwdX8ndD/VD1k4qDK/CvWIpkH/1UAEwRvu0t/FX8gBEHV22Q
+         fBUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SMWBiaCjZ8IaLrycEYBNrZsO7mfYYYt0PFkXkXHcQ2g=;
+        b=JOA6N/MibbHrWZvUbgygJDnRFC2oqSPXi8FZHiwqVTFV5vNHv3L5OFSG6o6yMZgOy0
+         wMeJA6xaKeQHWngoo+x/wpyUfMRB4YezFHGr1uDMWdNtxo3RhLM5rBqqK9D4sm+ccMJk
+         tsMLvyZjM/g3XkYt06Bi1bSt257G/7TnHscjIims7OPxAa/nl/eLlI5PhIectrZv8HIe
+         tq8z+Jj8c/1UEfPlfPFVvJXo/MVdn0zasHYlDz84G6aZRXvWUPrXe8tOOy8ey8ilLHDe
+         ZROHlIwvRBDYuewDds4Z0y/cxHYU8CFSv6GKPBk9EtkaASgvsbym0NFLFGpYmosLWnfj
+         KJ/w==
+X-Gm-Message-State: AOAM532ZD5/Dlk+x0Cr0HELBbF9blwbEBzU3xwSn265PxAkpxsu/dGL7
+        slQy8pyeGtWqN2ZlclchCu29kQQNKvgsaA==
+X-Google-Smtp-Source: ABdhPJyfZfpW4F+8mUhwSU26AfHH1jbJYwlddHWLwH/sQ4HI5HnS+VfGGh3K1F32lcRIt9VQTm2bhg==
+X-Received: by 2002:a05:600c:2f81:: with SMTP id t1mr3786989wmn.186.1612534061701;
+        Fri, 05 Feb 2021 06:07:41 -0800 (PST)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id h1sm12065665wrr.73.2021.02.05.06.07.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 06:07:40 -0800 (PST)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     stanimir.varbanov@linaro.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     bryan.odonoghue@linaro.org, dmitry.baryshkov@linaro.org
+Subject: [PATCH v2] media: venus: core, venc, vdec: Fix probe dependency error
+Date:   Fri,  5 Feb 2021 14:08:59 +0000
+Message-Id: <20210205140859.1750364-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210108193311.3423236-9-heiko@sntech.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Commit aaaa93eda64b ("media] media: venus: venc: add video encoder files")
+is the last in a series of three commits to add core.c vdec.c and venc.c
+adding core, encoder and decoder.
 
+The encoder and decoder check for core drvdata as set and return -EPROBE_DEFER
+if it has not been set, however both the encoder and decoder rely on
+core.v4l2_dev as valid.
 
-Am 08.01.21 um 20:33 schrieb Heiko Stuebner:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> 
-> The isp block evolved in subsequent socs, so some functions
-> will behave differently on newer variants.
-> 
-> Therefore make it possible to override the needed params functions.
-> 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> ---
->   .../platform/rockchip/rkisp1/rkisp1-common.h  | 30 ++++++++
->   .../platform/rockchip/rkisp1/rkisp1-params.c  | 76 ++++++++++++-------
->   2 files changed, 77 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index 7678eabc9ffc..4034a05ef9d2 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -258,11 +258,39 @@ struct rkisp1_stats {
->   	struct v4l2_format vdev_fmt;
->   };
->   
-> +struct rkisp1_params;
-> +struct rkisp1_params_ops {
+core.v4l2_dev will not be valid until v4l2_device_register() has completed
+in core.c's probe().
 
-could you add a short inline doc of this stuct?
+Normally this is never seen however, Dmitry reported the following
+backtrace when compiling drivers and firmware directly into a kernel image.
 
-> +	void (*lsc_matrix_config)(struct rkisp1_params *params,
-> +				  const struct rkisp1_cif_isp_lsc_config *pconfig);
-> +	void (*goc_config)(struct rkisp1_params *params,
-> +			   const struct rkisp1_cif_isp_goc_config *arg);
-> +	void (*awb_meas_config)(struct rkisp1_params *params,
-> +				const struct rkisp1_cif_isp_awb_meas_config *arg);
-> +	void (*awb_meas_enable)(struct rkisp1_params *params,
-> +				const struct rkisp1_cif_isp_awb_meas_config *arg,
-> +				bool en);
-> +	void (*awb_gain_config)(struct rkisp1_params *params,
-> +				const struct rkisp1_cif_isp_awb_gain_config *arg);
-> +	void (*aec_config)(struct rkisp1_params *params,
-> +			   const struct rkisp1_cif_isp_aec_config *arg);
-> +	void (*hst_config)(struct rkisp1_params *params,
-> +			   const struct rkisp1_cif_isp_hst_config *arg);
-> +	void (*hst_enable)(struct rkisp1_params *params,
-> +			   const struct rkisp1_cif_isp_hst_config *arg, bool en);
-> +	void (*afm_config)(struct rkisp1_params *params,
-> +			   const struct rkisp1_cif_isp_afc_config *arg);
-> +};
-> +
-> +struct rkisp1_params_config {
-> +	const int gamma_out_max_samples;
-> +};
-> +
->   /*
->    * struct rkisp1_params - ISP input parameters device
->    *
->    * @vnode:		video node
->    * @rkisp1:		pointer to the rkisp1 device
-> + * @ops:		pointer to the variant-specific operations
+[    5.259968] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+[    5.269850] sd 0:0:0:3: [sdd] Optimal transfer size 524288 bytes
+[    5.275505] Workqueue: events deferred_probe_work_func
+[    5.275513] pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
+[    5.441211] usb 2-1: new SuperSpeedPlus Gen 2 USB device number 2 using xhci-hcd
+[    5.442486] pc : refcount_warn_saturate+0x140/0x148
+[    5.493756] hub 2-1:1.0: USB hub found
+[    5.496266] lr : refcount_warn_saturate+0x140/0x148
+[    5.500982] hub 2-1:1.0: 4 ports detected
+[    5.503440] sp : ffff80001067b730
+[    5.503442] x29: ffff80001067b730
+[    5.592660] usb 1-1: new high-speed USB device number 2 using xhci-hcd
+[    5.598478] x28: ffff6c6bc1c379b8
+[    5.598480] x27: ffffa5c673852960 x26: ffffa5c673852000
+[    5.598484] x25: ffff6c6bc1c37800 x24: 0000000000000001
+[    5.810652] x23: 0000000000000000 x22: ffffa5c673bc7118
+[    5.813777] hub 1-1:1.0: USB hub found
+[    5.816108] x21: ffffa5c674440000 x20: 0000000000000001
+[    5.820846] hub 1-1:1.0: 4 ports detected
+[    5.825415] x19: ffffa5c6744f4000 x18: ffffffffffffffff
+[    5.825418] x17: 0000000000000000 x16: 0000000000000000
+[    5.825421] x15: 00000a4810c193ba x14: 0000000000000000
+[    5.825424] x13: 00000000000002b8 x12: 000000000000f20a
+[    5.825427] x11: 000000000000f20a x10: 0000000000000038
+[    5.845447] usb 2-1.1: new SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+[    5.845904]
+[    5.845905] x9 : 0000000000000000 x8 : ffff6c6d36fae780
+[    5.871208] x7 : ffff6c6d36faf240 x6 : 0000000000000000
+[    5.876664] x5 : 0000000000000004 x4 : 0000000000000085
+[    5.882121] x3 : 0000000000000119 x2 : ffffa5c6741ef478
+[    5.887578] x1 : 3acbb3926faf5f00 x0 : 0000000000000000
+[    5.893036] Call trace:
+[    5.895551]  refcount_warn_saturate+0x140/0x148
+[    5.900202]  __video_register_device+0x64c/0xd10
+[    5.904944]  venc_probe+0xc4/0x148
+[    5.908444]  platform_probe+0x68/0xe0
+[    5.912210]  really_probe+0x118/0x3e0
+[    5.915977]  driver_probe_device+0x5c/0xc0
+[    5.920187]  __device_attach_driver+0x98/0xb8
+[    5.924661]  bus_for_each_drv+0x68/0xd0
+[    5.928604]  __device_attach+0xec/0x148
+[    5.932547]  device_initial_probe+0x14/0x20
+[    5.936845]  bus_probe_device+0x9c/0xa8
+[    5.940788]  device_add+0x3e8/0x7c8
+[    5.944376]  of_device_add+0x4c/0x60
+[    5.948056]  of_platform_device_create_pdata+0xbc/0x140
+[    5.953425]  of_platform_bus_create+0x17c/0x3c0
+[    5.958078]  of_platform_populate+0x80/0x110
+[    5.962463]  venus_probe+0x2ec/0x4d8
+[    5.966143]  platform_probe+0x68/0xe0
+[    5.969907]  really_probe+0x118/0x3e0
+[    5.973674]  driver_probe_device+0x5c/0xc0
+[    5.977882]  __device_attach_driver+0x98/0xb8
+[    5.982356]  bus_for_each_drv+0x68/0xd0
+[    5.986298]  __device_attach+0xec/0x148
+[    5.990242]  device_initial_probe+0x14/0x20
+[    5.994539]  bus_probe_device+0x9c/0xa8
+[    5.998481]  deferred_probe_work_func+0x74/0xb0
+[    6.003132]  process_one_work+0x1e8/0x360
+[    6.007254]  worker_thread+0x208/0x478
+[    6.011106]  kthread+0x150/0x158
+[    6.014431]  ret_from_fork+0x10/0x30
+[    6.018111] ---[ end trace f074246b1ecdb466 ]---
 
-maybe change the doc here to "version-specific operations according to rkisp1_cif_isp_version"
+This patch fixes by
 
->    * @config_lock:	locks the buffer list 'params'
->    * @params:		queue of rkisp1_buffer
->    * @vdev_fmt:		v4l2_format of the metadata format
-> @@ -272,6 +300,8 @@ struct rkisp1_stats {
->   struct rkisp1_params {
->   	struct rkisp1_vdev_node vnode;
->   	struct rkisp1_device *rkisp1;
-> +	struct rkisp1_params_ops *ops;
-> +	struct rkisp1_params_config *config;
+- Only setting drvdata after v4l2_device_register() completes
+- Moving v4l2_device_register() so that suspend/reume in core::probe()
+  stays as-is
+- Changes pm_ops->core_function() to take struct venus_core not struct
+  device
+- Minimal rework of v4l2_device_*register in probe/remove
 
-I think the field 'config' is not needed, see my comment in patch 10/11
+Link: https://lore.kernel.org/linux-media/d7d114fe-6255-5672-e91c-2558d56da745@linaro.org/T/#m9bc6892d0c25a544364b71cb123e3217c0c02111
+Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: aaaa93eda64b ("media] media: venus: venc: add video encoder files")
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.c      | 30 ++++++++++---------
+ .../media/platform/qcom/venus/pm_helpers.c    | 30 ++++++++-----------
+ .../media/platform/qcom/venus/pm_helpers.h    |  7 +++--
+ 3 files changed, 33 insertions(+), 34 deletions(-)
 
->   
->   	spinlock_t config_lock; /* locks the buffers list 'params' */
->   	struct list_head params;
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> index 6af4d551ffb5..008584caaad0 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> @@ -185,8 +185,8 @@ static void rkisp1_bls_config(struct rkisp1_params *params,
->   
->   /* ISP LS correction interface function */
->   static void
-> -rkisp1_lsc_correct_matrix_config(struct rkisp1_params *params,
-> -				 const struct rkisp1_cif_isp_lsc_config *pconfig)
-> +rkisp1_lsc_matrix_config(struct rkisp1_params *params,
-> +			 const struct rkisp1_cif_isp_lsc_config *pconfig)
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 1471c7f9c89d..360f3bc60797 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -218,7 +218,6 @@ static int venus_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	core->dev = dev;
+-	platform_set_drvdata(pdev, core);
+ 
+ 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	core->base = devm_ioremap_resource(dev, r);
+@@ -248,7 +247,7 @@ static int venus_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 
+ 	if (core->pm_ops->core_get) {
+-		ret = core->pm_ops->core_get(dev);
++		ret = core->pm_ops->core_get(core);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -273,6 +272,12 @@ static int venus_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_core_put;
+ 
++	ret = v4l2_device_register(dev, &core->v4l2_dev);
++	if (ret)
++		goto err_core_deinit;
++
++	platform_set_drvdata(pdev, core);
++
+ 	pm_runtime_enable(dev);
+ 
+ 	ret = pm_runtime_get_sync(dev);
+@@ -307,10 +312,6 @@ static int venus_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_venus_shutdown;
+ 
+-	ret = v4l2_device_register(dev, &core->v4l2_dev);
+-	if (ret)
+-		goto err_core_deinit;
+-
+ 	ret = pm_runtime_put_sync(dev);
+ 	if (ret) {
+ 		pm_runtime_get_noresume(dev);
+@@ -323,8 +324,6 @@ static int venus_probe(struct platform_device *pdev)
+ 
+ err_dev_unregister:
+ 	v4l2_device_unregister(&core->v4l2_dev);
+-err_core_deinit:
+-	hfi_core_deinit(core, false);
+ err_venus_shutdown:
+ 	venus_shutdown(core);
+ err_runtime_disable:
+@@ -332,9 +331,11 @@ static int venus_probe(struct platform_device *pdev)
+ 	pm_runtime_set_suspended(dev);
+ 	pm_runtime_disable(dev);
+ 	hfi_destroy(core);
++err_core_deinit:
++	hfi_core_deinit(core, false);
+ err_core_put:
+ 	if (core->pm_ops->core_put)
+-		core->pm_ops->core_put(dev);
++		core->pm_ops->core_put(core);
+ 	return ret;
+ }
+ 
+@@ -360,14 +361,15 @@ static int venus_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(dev);
+ 
+ 	if (pm_ops->core_put)
+-		pm_ops->core_put(dev);
++		pm_ops->core_put(core);
++
++	v4l2_device_unregister(&core->v4l2_dev);
+ 
+ 	hfi_destroy(core);
+ 
+ 	icc_put(core->video_path);
+ 	icc_put(core->cpucfg_path);
+ 
+-	v4l2_device_unregister(&core->v4l2_dev);
+ 	mutex_destroy(&core->pm_lock);
+ 	mutex_destroy(&core->lock);
+ 	venus_dbgfs_deinit(core);
+@@ -394,7 +396,7 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+ 		return ret;
+ 
+ 	if (pm_ops->core_power) {
+-		ret = pm_ops->core_power(dev, POWER_OFF);
++		ret = pm_ops->core_power(core, POWER_OFF);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -412,7 +414,7 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+ err_video_path:
+ 	icc_set_bw(core->cpucfg_path, kbps_to_icc(1000), 0);
+ err_cpucfg_path:
+-	pm_ops->core_power(dev, POWER_ON);
++	pm_ops->core_power(core, POWER_ON);
+ 
+ 	return ret;
+ }
+@@ -432,7 +434,7 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ 		return ret;
+ 
+ 	if (pm_ops->core_power) {
+-		ret = pm_ops->core_power(dev, POWER_ON);
++		ret = pm_ops->core_power(core, POWER_ON);
+ 		if (ret)
+ 			return ret;
+ 	}
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index 43c4e3d9e281..e349d01422c5 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -277,16 +277,13 @@ static int load_scale_v1(struct venus_inst *inst)
+ 	return 0;
+ }
+ 
+-static int core_get_v1(struct device *dev)
++static int core_get_v1(struct venus_core *core)
+ {
+-	struct venus_core *core = dev_get_drvdata(dev);
+-
+ 	return core_clks_get(core);
+ }
+ 
+-static int core_power_v1(struct device *dev, int on)
++static int core_power_v1(struct venus_core *core, int on)
+ {
+-	struct venus_core *core = dev_get_drvdata(dev);
+ 	int ret = 0;
+ 
+ 	if (on == POWER_ON)
+@@ -753,12 +750,12 @@ static int venc_power_v4(struct device *dev, int on)
+ 	return ret;
+ }
+ 
+-static int vcodec_domains_get(struct device *dev)
++static int vcodec_domains_get(struct venus_core *core)
+ {
+ 	int ret;
+ 	struct opp_table *opp_table;
+ 	struct device **opp_virt_dev;
+-	struct venus_core *core = dev_get_drvdata(dev);
++	struct device *dev = core->dev;
+ 	const struct venus_resources *res = core->res;
+ 	struct device *pd;
+ 	unsigned int i;
+@@ -809,9 +806,8 @@ static int vcodec_domains_get(struct device *dev)
+ 	return ret;
+ }
+ 
+-static void vcodec_domains_put(struct device *dev)
++static void vcodec_domains_put(struct venus_core *core)
+ {
+-	struct venus_core *core = dev_get_drvdata(dev);
+ 	const struct venus_resources *res = core->res;
+ 	unsigned int i;
+ 
+@@ -834,9 +830,9 @@ static void vcodec_domains_put(struct device *dev)
+ 	dev_pm_opp_detach_genpd(core->opp_table);
+ }
+ 
+-static int core_get_v4(struct device *dev)
++static int core_get_v4(struct venus_core *core)
+ {
+-	struct venus_core *core = dev_get_drvdata(dev);
++	struct device *dev = core->dev;
+ 	const struct venus_resources *res = core->res;
+ 	int ret;
+ 
+@@ -875,7 +871,7 @@ static int core_get_v4(struct device *dev)
+ 		}
+ 	}
+ 
+-	ret = vcodec_domains_get(dev);
++	ret = vcodec_domains_get(core);
+ 	if (ret) {
+ 		if (core->has_opp_table)
+ 			dev_pm_opp_of_remove_table(dev);
+@@ -886,14 +882,14 @@ static int core_get_v4(struct device *dev)
+ 	return 0;
+ }
+ 
+-static void core_put_v4(struct device *dev)
++static void core_put_v4(struct venus_core *core)
+ {
+-	struct venus_core *core = dev_get_drvdata(dev);
++	struct device *dev = core->dev;
+ 
+ 	if (legacy_binding)
+ 		return;
+ 
+-	vcodec_domains_put(dev);
++	vcodec_domains_put(core);
+ 
+ 	if (core->has_opp_table)
+ 		dev_pm_opp_of_remove_table(dev);
+@@ -901,9 +897,9 @@ static void core_put_v4(struct device *dev)
+ 
+ }
+ 
+-static int core_power_v4(struct device *dev, int on)
++static int core_power_v4(struct venus_core *core, int on)
+ {
+-	struct venus_core *core = dev_get_drvdata(dev);
++	struct device *dev = core->dev;
+ 	struct device *pmctrl = core->pmdomains[0];
+ 	int ret = 0;
+ 
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.h b/drivers/media/platform/qcom/venus/pm_helpers.h
+index aa2f6afa2354..a492c50c5543 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.h
++++ b/drivers/media/platform/qcom/venus/pm_helpers.h
+@@ -4,14 +4,15 @@
+ #define __VENUS_PM_HELPERS_H__
+ 
+ struct device;
++struct venus_core;
+ 
+ #define POWER_ON	1
+ #define POWER_OFF	0
+ 
+ struct venus_pm_ops {
+-	int (*core_get)(struct device *dev);
+-	void (*core_put)(struct device *dev);
+-	int (*core_power)(struct device *dev, int on);
++	int (*core_get)(struct venus_core *core);
++	void (*core_put)(struct venus_core *core);
++	int (*core_power)(struct venus_core *core, int on);
+ 
+ 	int (*vdec_get)(struct device *dev);
+ 	void (*vdec_put)(struct device *dev);
+-- 
+2.29.2
 
-This is just a renaming of the function , I don't think this is needed
-
-Thanks,
-Dafna
-
->   {
->   	unsigned int isp_lsc_status, sram_addr, isp_lsc_table_sel, i, j, data;
->   
-> @@ -265,7 +265,7 @@ static void rkisp1_lsc_config(struct rkisp1_params *params,
->   	lsc_ctrl = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_LSC_CTRL);
->   	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_LSC_CTRL,
->   				RKISP1_CIF_ISP_LSC_CTRL_ENA);
-> -	rkisp1_lsc_correct_matrix_config(params, arg);
-> +	params->ops->lsc_matrix_config(params, arg);
->   
->   	for (i = 0; i < RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE / 2; i++) {
->   		/* program x size tables */
-> @@ -391,7 +391,7 @@ static void rkisp1_goc_config(struct rkisp1_params *params,
->   				RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
->   	rkisp1_write(params->rkisp1, arg->mode, RKISP1_CIF_ISP_GAMMA_OUT_MODE);
->   
-> -	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES; i++)
-> +	for (i = 0; i < params->config->gamma_out_max_samples; i++)
->   		rkisp1_write(params->rkisp1, arg->gamma_y[i],
->   			     RKISP1_CIF_ISP_GAMMA_OUT_Y_0 + i * 4);
->   }
-> @@ -968,8 +968,8 @@ rkisp1_isp_isr_other_config(struct rkisp1_params *params,
->   	    (module_cfg_update & RKISP1_CIF_ISP_MODULE_AWB_GAIN)) {
->   		/* update awb gains */
->   		if (module_cfg_update & RKISP1_CIF_ISP_MODULE_AWB_GAIN)
-> -			rkisp1_awb_gain_config(params,
-> -					       &new_params->others.awb_gain_config);
-> +			params->ops->awb_gain_config(params,
-> +						     &new_params->others.awb_gain_config);
->   
->   		if (module_en_update & RKISP1_CIF_ISP_MODULE_AWB_GAIN) {
->   			if (module_ens & RKISP1_CIF_ISP_MODULE_AWB_GAIN)
-> @@ -1037,8 +1037,8 @@ rkisp1_isp_isr_other_config(struct rkisp1_params *params,
->   	    (module_cfg_update & RKISP1_CIF_ISP_MODULE_GOC)) {
->   		/* update goc config */
->   		if (module_cfg_update & RKISP1_CIF_ISP_MODULE_GOC)
-> -			rkisp1_goc_config(params,
-> -					  &new_params->others.goc_config);
-> +			params->ops->goc_config(params,
-> +						&new_params->others.goc_config);
->   
->   		if (module_en_update & RKISP1_CIF_ISP_MODULE_GOC) {
->   			if (module_ens & RKISP1_CIF_ISP_MODULE_GOC)
-> @@ -1124,20 +1124,20 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
->   	    (module_cfg_update & RKISP1_CIF_ISP_MODULE_AWB)) {
->   		/* update awb config */
->   		if (module_cfg_update & RKISP1_CIF_ISP_MODULE_AWB)
-> -			rkisp1_awb_meas_config(params,
-> -					       &new_params->meas.awb_meas_config);
-> +			params->ops->awb_meas_config(params,
-> +						     &new_params->meas.awb_meas_config);
->   
->   		if (module_en_update & RKISP1_CIF_ISP_MODULE_AWB)
-> -			rkisp1_awb_meas_enable(params,
-> -					       &new_params->meas.awb_meas_config,
-> -					       !!(module_ens & RKISP1_CIF_ISP_MODULE_AWB));
-> +			params->ops->awb_meas_enable(params,
-> +						     &new_params->meas.awb_meas_config,
-> +						     !!(module_ens & RKISP1_CIF_ISP_MODULE_AWB));
->   	}
->   
->   	if ((module_en_update & RKISP1_CIF_ISP_MODULE_AFC) ||
->   	    (module_cfg_update & RKISP1_CIF_ISP_MODULE_AFC)) {
->   		/* update afc config */
->   		if (module_cfg_update & RKISP1_CIF_ISP_MODULE_AFC)
-> -			rkisp1_afm_config(params,
-> +			params->ops->afm_config(params,
->   					  &new_params->meas.afc_config);
->   
->   		if (module_en_update & RKISP1_CIF_ISP_MODULE_AFC) {
-> @@ -1156,21 +1156,21 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
->   	    (module_cfg_update & RKISP1_CIF_ISP_MODULE_HST)) {
->   		/* update hst config */
->   		if (module_cfg_update & RKISP1_CIF_ISP_MODULE_HST)
-> -			rkisp1_hst_config(params,
-> -					  &new_params->meas.hst_config);
-> +			params->ops->hst_config(params,
-> +						&new_params->meas.hst_config);
->   
->   		if (module_en_update & RKISP1_CIF_ISP_MODULE_HST)
-> -			rkisp1_hst_enable(params,
-> -					  &new_params->meas.hst_config,
-> -					  !!(module_ens & RKISP1_CIF_ISP_MODULE_HST));
-> +			params->ops->hst_enable(params,
-> +						&new_params->meas.hst_config,
-> +						!!(module_ens & RKISP1_CIF_ISP_MODULE_HST));
->   	}
->   
->   	if ((module_en_update & RKISP1_CIF_ISP_MODULE_AEC) ||
->   	    (module_cfg_update & RKISP1_CIF_ISP_MODULE_AEC)) {
->   		/* update aec config */
->   		if (module_cfg_update & RKISP1_CIF_ISP_MODULE_AEC)
-> -			rkisp1_aec_config(params,
-> -					  &new_params->meas.aec_config);
-> +			params->ops->aec_config(params,
-> +						&new_params->meas.aec_config);
->   
->   		if (module_en_update & RKISP1_CIF_ISP_MODULE_AEC) {
->   			if (module_ens & RKISP1_CIF_ISP_MODULE_AEC)
-> @@ -1272,20 +1272,20 @@ static void rkisp1_params_config_parameter(struct rkisp1_params *params)
->   {
->   	struct rkisp1_cif_isp_hst_config hst = rkisp1_hst_params_default_config;
->   
-> -	rkisp1_awb_meas_config(params, &rkisp1_awb_params_default_config);
-> -	rkisp1_awb_meas_enable(params, &rkisp1_awb_params_default_config,
-> -			       true);
-> +	params->ops->awb_meas_config(params, &rkisp1_awb_params_default_config);
-> +	params->ops->awb_meas_enable(params, &rkisp1_awb_params_default_config,
-> +				     true);
->   
-> -	rkisp1_aec_config(params, &rkisp1_aec_params_default_config);
-> +	params->ops->aec_config(params, &rkisp1_aec_params_default_config);
->   	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_EXP_CTRL,
->   			      RKISP1_CIF_ISP_EXP_ENA);
->   
-> -	rkisp1_afm_config(params, &rkisp1_afc_params_default_config);
-> +	params->ops->afm_config(params, &rkisp1_afc_params_default_config);
->   	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_AFM_CTRL,
->   			      RKISP1_CIF_ISP_AFM_ENA);
->   
->   	memset(hst.hist_weight, 0x01, sizeof(hst.hist_weight));
-> -	rkisp1_hst_config(params, &hst);
-> +	params->ops->hst_config(params, &hst);
->   	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_HIST_PROP,
->   			      ~RKISP1_CIF_ISP_HIST_PROP_MODE_MASK |
->   			      rkisp1_hst_params_default_config.mode);
-> @@ -1330,7 +1330,7 @@ void rkisp1_params_disable(struct rkisp1_params *params)
->   				RKISP1_CIF_ISP_DEMOSAIC_BYPASS);
->   	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_FILT_MODE,
->   				RKISP1_CIF_ISP_FLT_ENA);
-> -	rkisp1_awb_meas_enable(params, NULL, false);
-> +	params->ops->awb_meas_enable(params, NULL, false);
->   	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CTRL,
->   				RKISP1_CIF_ISP_CTRL_ISP_AWB_ENA);
->   	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_EXP_CTRL,
-> @@ -1338,7 +1338,7 @@ void rkisp1_params_disable(struct rkisp1_params *params)
->   	rkisp1_ctk_enable(params, false);
->   	rkisp1_param_clear_bits(params, RKISP1_CIF_C_PROC_CTRL,
->   				RKISP1_CIF_C_PROC_CTR_ENABLE);
-> -	rkisp1_hst_enable(params, NULL, false);
-> +	params->ops->hst_enable(params, NULL, false);
->   	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_AFM_CTRL,
->   				RKISP1_CIF_ISP_AFM_ENA);
->   	rkisp1_ie_enable(params, false);
-> @@ -1346,6 +1346,22 @@ void rkisp1_params_disable(struct rkisp1_params *params)
->   				RKISP1_CIF_ISP_DPF_MODE_EN);
->   }
->   
-> +static struct rkisp1_params_ops rkisp1_params_ops = {
-> +	.lsc_matrix_config = rkisp1_lsc_matrix_config,
-> +	.goc_config = rkisp1_goc_config,
-> +	.awb_meas_config = rkisp1_awb_meas_config,
-> +	.awb_meas_enable = rkisp1_awb_meas_enable,
-> +	.awb_gain_config = rkisp1_awb_gain_config,
-> +	.aec_config = rkisp1_aec_config,
-> +	.hst_config = rkisp1_hst_config,
-> +	.hst_enable = rkisp1_hst_enable,
-> +	.afm_config = rkisp1_afm_config,
-> +};
-> +
-> +static struct rkisp1_params_config rkisp1_params_config = {
-> +	.gamma_out_max_samples = 17,
-> +};> +
->   static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
->   					   struct v4l2_fmtdesc *f)
->   {
-> @@ -1512,6 +1528,8 @@ static void rkisp1_init_params(struct rkisp1_params *params)
->   		V4L2_META_FMT_RK_ISP1_PARAMS;
->   	params->vdev_fmt.fmt.meta.buffersize =
->   		sizeof(struct rkisp1_params_cfg);
-> +	params->ops = &rkisp1_params_ops;
-> +	params->config = &rkisp1_params_config;
->   }
->   
->   int rkisp1_params_register(struct rkisp1_device *rkisp1)
-> 
