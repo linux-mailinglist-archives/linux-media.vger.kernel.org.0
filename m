@@ -2,175 +2,374 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEE6C3114D8
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 23:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A0EC311483
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 23:07:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232716AbhBEWQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 17:16:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232683AbhBEOg1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 09:36:27 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0590FC0613D6
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 08:14:33 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id s23so4840808pgh.11
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 08:14:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=uaau4sgQ9hT4TilyNvussNtYWDpCQq4C5pX2PL2MkbA=;
-        b=RQiutqdV9uKt5WpY7LmQnqOyik8QlV/xIC11t47Cxy6iPhsjdv7Kgt4t0vvK0ioHfm
-         evdTtgL4mXNsmg2lYfDsBg0vDtJuclK/YKze5J5lernt3k/bnB7sosOWua7eWz5n3xFd
-         Y9T09TOUDCpONnIP8oi8aST0SHKdlM7bsgcVwdzBVRwXa4+ypaC8v7qimmBPM/XVG0AH
-         6eeSMwZmJAYY73o5aDxUKihBsBtIdgCDSRiH35nqLpdz9zwJ34Pztdz4ltqVTgpzQEMI
-         Tqna40GWas6ybMNlVQ9D1coNYLz0CBr+9t8ic2Siyy66vvOie3xSqZPi5Kq7wjUtOV6h
-         tcjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uaau4sgQ9hT4TilyNvussNtYWDpCQq4C5pX2PL2MkbA=;
-        b=ax7I17kyV2H2LlU4hunkIPV+TNDBTpPv2Tbwb20lHTrWo3buT02Ip2fPTmBSMRHrCU
-         uNdqVm1QZaWVkJXrOup8lS1jZ5clr4KCVU3fVwR6z4PA/YtaQlX+/TAmQ38fCY/Zgv1H
-         UaMtixqG3LGLbwMDGAPUPCyOwpRKy2g+8fCPOe8mDy16lorJzta6Kx7rD6AaVBqAa4Mn
-         wyGT4f+fy253iBod8Qt7mAEbM4vrkLfRiaAxho8YUbqn+K7H2HN8QLnBY0fXU4qwMbut
-         q/c+DX3sD3Y579L3HvRPwEFi0GV2Sy4qKY6OYYAlrOrff0Im/BdByDSYa172nYO0hwGt
-         NeFw==
-X-Gm-Message-State: AOAM531TRLg/m6bKfuXSQsUH+WmMpu4rNUbu2l24dHRorYAEiOCUAbTK
-        wdVU+whBevEhb8adJLCCuJJLvBjYarOeC1dcgmQyQngIOxrgJg==
-X-Google-Smtp-Source: ABdhPJw/KUgUzSu9HyWsw7w094KKGV8UazdOBjJhfXTEooNN4RSJLHuY9UsurqCqtD67VvrC4YI+d1km2qWrSXarE8o=
-X-Received: by 2002:a63:5309:: with SMTP id h9mr4691610pgb.19.1612538034909;
- Fri, 05 Feb 2021 07:13:54 -0800 (PST)
+        id S233049AbhBEWHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 17:07:11 -0500
+Received: from mga18.intel.com ([134.134.136.126]:49958 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231384AbhBEOxS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 09:53:18 -0500
+IronPort-SDR: OAc6GoNASyggLzR2djNkYJZU5kt8k0c56+Ze21Lu4rySHVaadc5Icp+MTIB91G+2OkUQevIfLj
+ 7g1AA56fasbw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="169128878"
+X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; 
+   d="scan'208";a="169128878"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 08:21:22 -0800
+IronPort-SDR: Sze4DhJ9YCwRroIaYGt25LkeT7WTrvlr14ciMxwJU5yAQROrnsfmqDrDFVGdQe0Q772uG1LfGj
+ UmbtymA2RzSQ==
+X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; 
+   d="scan'208";a="581344449"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 08:21:20 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 4E726205D2; Fri,  5 Feb 2021 18:21:18 +0200 (EET)
+Date:   Fri, 5 Feb 2021 18:21:18 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] Documentation: media: Improve camera sensor
+ documentation
+Message-ID: <20210205162118.GH32460@paasikivi.fi.intel.com>
+References: <20210203165038.4964-1-sakari.ailus@linux.intel.com>
+ <20210204103100.hnro2sh6bnuth5lu@uno.localdomain>
+ <40172887-1ad3-ab8c-69b0-0ac31f16f534@linaro.org>
 MIME-Version: 1.0
-References: <20210205022328.481524-1-kaleshsingh@google.com>
- <20210205022328.481524-2-kaleshsingh@google.com> <df97ba85-2291-487a-8af0-84398f9e8188@amd.com>
-In-Reply-To: <df97ba85-2291-487a-8af0-84398f9e8188@amd.com>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Fri, 5 Feb 2021 10:13:43 -0500
-Message-ID: <CAC_TJvfZ4G8oL1c6kgBVvmjeXYPpf3ziRp+BEWqiEKYK1mhbDg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] dmabuf: Add dmabuf inode number to /proc/*/fdinfo
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Jann Horn <jannh@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Anand K Mistry <amistry@google.com>,
-        NeilBrown <neilb@suse.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <40172887-1ad3-ab8c-69b0-0ac31f16f534@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 5, 2021 at 2:56 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
->
-> Am 05.02.21 um 03:23 schrieb Kalesh Singh:
-> > If a FD refers to a DMA buffer add the DMA buffer inode number to
-> > /proc/<pid>/fdinfo/<FD> and /proc/<pid>/task/<tid>/fdindo/<FD>.
-> >
-> > The dmabuf inode number allows userspace to uniquely identify the buffe=
-r
-> > and avoids a dependency on /proc/<pid>/fd/* when accounting per-process
-> > DMA buffer sizes.
->
-> BTW: Why do we make this DMA-buf specific? Couldn't we always print the
-> inode number for all fds?
+Hi Andrey and Jacopo,
 
-Good point. We can make this a common field instead of DMA buf
-specific. I will update in the next version.
+On Thu, Feb 04, 2021 at 03:39:14PM +0300, Andrey Konovalov wrote:
+> Hi Jacopo,
+> 
+> On 04.02.2021 13:31, Jacopo Mondi wrote:
+> > Hi Sakari,
+> > 
+> > On Wed, Feb 03, 2021 at 06:50:38PM +0200, Sakari Ailus wrote:
+> > > Modernise the documentation to make it more precise and update the use of
+> > > pixel rate control. In particular:
+> > > 
+> > > - Use non-proportional font for file names, properties as well as
+> > >    controls.
+> > > 
+> > > - The unit of the HBLANK control is pixels, not lines.
+> > > 
+> > > - The unit of PIXEL_RATE control is pixels per second, not Hz.
+> > > 
+> > > - Separate CSI-2 and parallel documentation. CSI-2 already has its own
+> > >    section.
+> > > 
+> > > - Include all DT properties needed for assigned clocks.
+> > > 
+> > > - SMIA driver's new name is CCS driver.
+> > > 
+> > > - The PIXEL_RATE control denotes pixel rate on the pixel array on camera
+> > >    sensors. Do not suggest it is used to tell the maximum pixel rate on the
+> > >    bus anymore.
+> > > 
+> > > Fixes: e4cf8c58af75 ("media: Documentation: media: Document how to write camera sensor drivers")
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > > This replaces an earlier patch here:
+> > > 
+> > > <URL:https://patchwork.linuxtv.org/project/linux-media/patch/20210201093914.12994-1-sakari.ailus@linux.intel.com/>
+> > > 
+> > >   .../driver-api/media/camera-sensor.rst        | 47 +++++++++----------
+> > >   Documentation/driver-api/media/csi2.rst       | 36 +++++++-------
+> > >   2 files changed, 43 insertions(+), 40 deletions(-)
+> > > 
+> > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > index 3fc378b3b269..4e2efa6e8fa1 100644
+> > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > @@ -8,6 +8,15 @@ CSI-2
+> > > 
+> > >   Please see what is written on :ref:`MIPI_CSI_2`.
+> > > 
+> > > +Parallel (BT.601 and BT.656)
+> > > +----------------------------
+> > > +
+> > > +For camera sensors that are connected to a bus where transmitter and receiver
+> > > +require common configuration set by drivers, such as CSI-2 or parallel (BT.601
+> > > +or BT.656) bus, the ``V4L2_CID_LINK_FREQ`` control is mandatory on transmitter
+> > > +drivers. Receiver drivers can use the ``V4L2_CID_LINK_FREQ`` to query the
+> > > +frequency used on the bus.
+> > > +
+> > 
+> > Is this really part of the 'Parallel.." subsection ? It describes
+> > something that applies to both busses. Actually, do parallel receivers
+> > need to know the pixel clock lane frequency ? Actually yes, I see
+> > omap3isp/ispvideo.c using the control to validate the frequency
+> > against some platform constraints.
+> > 
+> > So yes, this applies to both parallel and CSI-2, so I would not place
+> > it in the "Parallel" section
 
-Thanks,
-Kalesh
->
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > ---
-> > Changes in v3:
-> >    - Add documentation in proc.rst
-> > Changes in v2:
-> >    - Update patch description
-> >
-> >   Documentation/filesystems/proc.rst | 17 +++++++++++++++++
-> >   drivers/dma-buf/dma-buf.c          |  1 +
-> >   2 files changed, 18 insertions(+)
-> >
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesys=
-tems/proc.rst
-> > index 2fa69f710e2a..fdd38676f57f 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -2031,6 +2031,23 @@ details]. 'it_value' is remaining time until the=
- timer expiration.
-> >   with TIMER_ABSTIME option which will be shown in 'settime flags', but=
- 'it_value'
-> >   still exhibits timer's remaining time.
-> >
-> > +DMA Buffer files
-> > +~~~~~~~~~~~~~~~~
-> > +
-> > +::
-> > +
-> > +     pos:    0
-> > +     flags:  04002
-> > +     mnt_id: 9
-> > +     dmabuf_inode_no: 63107
-> > +     size:   32768
-> > +     count:  2
-> > +     exp_name:  system-heap
-> > +
-> > +where 'dmabuf_inode_no' is the unique inode number of the DMA buffer f=
-ile.
-> > +'size' is the size of the DMA buffer in bytes. 'count' is the file cou=
-nt of
-> > +the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter=
-.
-> > +
-> >   3.9 /proc/<pid>/map_files - Information about memory mapped files
-> >   ---------------------------------------------------------------------
-> >   This directory contains symbolic links which represent memory mapped =
-files
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 9ad6397aaa97..d869099ede83 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -414,6 +414,7 @@ static void dma_buf_show_fdinfo(struct seq_file *m,=
- struct file *file)
-> >   {
-> >       struct dma_buf *dmabuf =3D file->private_data;
-> >
-> > +     seq_printf(m, "dmabuf_inode_no:\t%lu\n", file_inode(file)->i_ino)=
-;
-> >       seq_printf(m, "size:\t%zu\n", dmabuf->size);
-> >       /* Don't count the temporary reference taken inside procfs seq_sh=
-ow */
-> >       seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
->
+I'll see if these could be unified in a nice way.
+
+> > 
+> > >   Handling clocks
+> > >   ---------------
+> > > 
+> > > @@ -26,15 +35,16 @@ user.
+> > >   ACPI
+> > >   ~~~~
+> > > 
+> > > -Read the "clock-frequency" _DSD property to denote the frequency. The driver can
+> > > -rely on this frequency being used.
+> > > +Read the ``clock-frequency`` _DSD property to denote the frequency. The driver
+> > > +can rely on this frequency being used.
+> > > 
+> > >   Devicetree
+> > >   ~~~~~~~~~~
+> > > 
+> > > -The currently preferred way to achieve this is using "assigned-clock-rates"
+> > > -property. See Documentation/devicetree/bindings/clock/clock-bindings.txt for
+> > > -more information. The driver then gets the frequency using clk_get_rate().
+> > > +The currently preferred way to achieve this is using ``assigned-clocks``,
+> > > +``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See
+> > > +``Documentation/devicetree/bindings/clock/clock-bindings.txt`` for more
+> > > +information. The driver then gets the frequency using ``clk_get_rate()``.
+> > > 
+> > >   This approach has the drawback that there's no guarantee that the frequency
+> > >   hasn't been modified directly or indirectly by another driver, or supported by
+> > > @@ -55,7 +65,8 @@ processing pipeline as one or more sub-devices with different cropping and
+> > >   scaling configurations. The output size of the device is the result of a series
+> > >   of cropping and scaling operations from the device's pixel array's size.
+> > > 
+> > > -An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
+> > > +An example of such a driver is the CCS driver (see
+> > > +``drivers/media/i2c/ccs``).
+> > 
+> > Do you need to break the line ?
+
+Indeed not anymore. :-)
+
+> > 
+> > > 
+> > >   Register list based drivers
+> > >   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > @@ -67,7 +78,7 @@ level are independent. How a driver picks such configuration is based on the
+> > >   format set on a source pad at the end of the device's internal pipeline.
+> > > 
+> > >   Most sensor drivers are implemented this way, see e.g.
+> > > -drivers/media/i2c/imx319.c for an example.
+> > > +``drivers/media/i2c/imx319.c`` for an example.
+> > > 
+> > >   Frame interval configuration
+> > >   ----------------------------
+> > > @@ -94,9 +105,10 @@ large variety of devices beyond camera sensors. Devices that have no analogue
+> > >   crop, use the full source image size, i.e. pixel array size.
+> > > 
+> > >   Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > > -``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+> > > -pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+> > > -unit of that control is Hz.
+> > > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > > +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > > +sub-device. The unit of that control is pixels per second.
+> > 
+> > Awesome, having the VBLANK cotrol unit specified is good. Do we need to say
+> > the unit is 'frame lines, including blankings' or is it implied ?
+
+For this class of hardware it is implied but it wouldn't hurt to document
+that here.
+
+> > 
+> > Also note that in V4L2 the EXPOSURE control has currently no unit
+> > specified as well and drivers implement it differently :(
+
+Yes, well. Also some (at least some old OV sensors) sensors have different
+units on e.g. exposure. So perhaps the above should be changed to "should"
+form? That's of course annoying for the user space.
+
+> > 
+> > > 
+> > >   Register list based drivers need to implement read-only sub-device nodes for the
+> > >   purpose. Devices that are not register list based need these to configure the
+> > > @@ -132,7 +144,7 @@ runtime PM support to the sensor driver you are using. Likewise, new drivers
+> > >   should not use s_power.
+> > > 
+> > >   Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
+> > > -``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
+> > > +``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI
+> > >   and DT based systems.
+> > > 
+> > >   Control framework
+> > > @@ -150,16 +162,3 @@ used to obtain device's power state after the power state transition:
+> > >   The function returns a non-zero value if it succeeded getting the power count or
+> > >   runtime PM was disabled, in either of which cases the driver may proceed to
+> > >   access the device.
+> > > -
+> > > -Controls
+> > > ---------
+> > > -
+> > > -For camera sensors that are connected to a bus where transmitter and receiver
+> > > -require common configuration set by drivers, such as CSI-2 or parallel (BT.601
+> > > -or BT.656) bus, the ``V4L2_CID_LINK_FREQ`` control is mandatory on transmitter
+> > > -drivers. Receiver drivers can use the ``V4L2_CID_LINK_FREQ`` to query the
+> > > -frequency used on the bus.
+> > > -
+> > > -The transmitter drivers should also implement ``V4L2_CID_PIXEL_RATE`` control in
+> > > -order to tell the maximum pixel rate to the receiver. This is required on raw
+> > > -camera sensors.
+> > > diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
+> > > index 11c52b0be8b8..c79df33bdeaa 100644
+> > > --- a/Documentation/driver-api/media/csi2.rst
+> > > +++ b/Documentation/driver-api/media/csi2.rst
+> > > @@ -19,21 +19,18 @@ be used for CSI-2 interfaces.
+> > >   Transmitter drivers
+> > >   -------------------
+> > > 
+> > > -CSI-2 transmitter, such as a sensor or a TV tuner, drivers need to
+> > > -provide the CSI-2 receiver with information on the CSI-2 bus
+> > > -configuration. These include the V4L2_CID_LINK_FREQ and
+> > > -V4L2_CID_PIXEL_RATE controls and
+> > > -(:c:type:`v4l2_subdev_video_ops`->s_stream() callback). These
+> > > -interface elements must be present on the sub-device represents the
+> > > -CSI-2 transmitter.
+> > > -
+> > > -The V4L2_CID_LINK_FREQ control is used to tell the receiver driver the
+> > > -frequency (and not the symbol rate) of the link. The V4L2_CID_PIXEL_RATE
+> > > -control may be used by the receiver to obtain the pixel rate the transmitter
+> > > -uses. The :c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an
+> > > -ability to start and stop the stream.
+> > > -
+> > > -The value of the V4L2_CID_PIXEL_RATE is calculated as follows::
+> > > +CSI-2 transmitter, such as a sensor or a TV tuner, drivers need to provide the
+> > 
+> > CSI-2 transmitters ?
+
+Yes.
+
+> > 
+> > > +CSI-2 receiver with information on the CSI-2 bus configuration. These include
+> > > +the ``V4L2_CID_LINK_FREQ`` control and
+> > > +(:c:type:`v4l2_subdev_video_ops`->s_stream() callback). These interface elements
+> > > +must be present on the sub-device representing the CSI-2 transmitter.
+> > > +
+> > > +The ``V4L2_CID_LINK_FREQ`` control is used to tell the receiver driver the
+> > > +frequency (and not the symbol rate) of the link. The
+> > > +:c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an ability to
+> > > +start and stop the stream.
+> > > +
+> > > +The pixel rate on the bus is calculated as follows::
+> > > 
+> > >   pixel_rate = link_freq * 2 * nr_of_lanes * 16 / k / bits_per_sample
+> > 
+> > What's 'k' and why '* 16' ?
+> 
+> This is explained below (see at --->).
+> 
+> > Isn't the bus pixel rate simply
+> > 
+> >          link_freq * 2 * nr_of_lanes / bits_per_sample ?
+> 
+> This is correct for D-PHY only (k == 16). For C-PHY different value of k
+> must be used.
+> 
+> > > 
+> > > @@ -45,7 +42,7 @@ where
+> > >      * - variable or constant
+> > >        - description
+> > >      * - link_freq
+> > > -     - The value of the V4L2_CID_LINK_FREQ integer64 menu item.
+> > > +     - The value of the ``V4L2_CID_LINK_FREQ`` integer64 menu item.
+> > >      * - nr_of_lanes
+> > >        - Number of data lanes used on the CSI-2 link. This can
+> > >          be obtained from the OF endpoint configuration.
+> > > @@ -56,6 +53,13 @@ where
+> 
+> The 'k' definition is here
+> --->
+> > >      * - k
+> > >        - 16 for D-PHY and 7 for C-PHY
+> > > +.. note::
+> > > +
+> > > +	The pixel rate calculated this way is **not** the same as the pixel rate
+> > > +	on the camera sensor's pixel array, and should not be used as the value
+> > > +	of the control (unless the value also matches the rate on the pixel
+> > > +	array).
+> > 
+> > I would say
+> > 
+> >          The pixel rate calculated this way is **not** the same as the
+> >          pixel sampling rate on the sensor's pixel matrix, but only
+> >          represents the pixel transmission rate on the bus.
+> 
+> This sounds OK for me. Just maybe the "is **not** the same" statement
+> is a bit too strong. I would say "may be **not** the same", as for most
+> of the current camera sensor drivers these two rates have the same value
+> (though a modification to a driver can change that any time).
+
+Seems good to me. I'll update this for v2.
+
+> 
+> > Followed by a description of what PIXEL_RATE represents and how it
+> > should be used, to make it clear the two are different.
+> > 
+> >          The pixel matrix sampling rate is instead used to calculate
+> >          the sensor timings, in example to transform an image exposure
+> >          duration from unit of lines in wall-clock time.
+> > 
+> > Please be aware that the controls documentation reports:
+> > 
+> > ``V4L2_CID_LINK_FREQ (integer menu)``
+> >      Data bus frequency.
+> 
+> Yeah... This:
+> 
+> >                          Together with the media bus pixel code, bus type
+> >      (clock cycles per sample), the data bus frequency defines the pixel
+> >      rate (``V4L2_CID_PIXEL_RATE``) in the pixel array (or possibly
+> >      elsewhere, if the device is not an image sensor).
+> 
+> - isn't (always) true...
+> 
+> > The frame rate can
+> >      be calculated from the pixel clock, image width and height and
+> >      horizontal and vertical blanking. While the pixel rate control may
+> >      be defined elsewhere than in the subdev containing the pixel array,
+> >      the frame rate cannot be obtained from that information. This is
+> >      because only on the pixel array it can be assumed that the vertical
+> >      and horizontal blanking information is exact: no other blanking is
+> >      allowed in the pixel array. The selection of frame rate is performed
+> >      by selecting the desired horizontal and vertical blanking. The unit
+> >      of this control is Hz.
+> > 
+> > ``V4L2_CID_PIXEL_RATE (64-bit integer)``
+> >      Pixel rate in the source pads of the subdev. This control is
+> >      read-only and its unit is pixels / second.
+> > 
+> > I think these needs to be reworked to make it clear PIXEL_RATE !=
+> > pixel sampling rate.
+> 
+> I second that.
+
+Agreed. I'll come up with something for these in v2.
+
+> 
+> > Would you like to do so if you agree, or should I send a patch on top
+> > of this one ?
+> > 
+> > > +
+> > 
+> > Thanks, much apreciated effort.
+> 
+> +1
+
+Thanks!
+
+-- 
+Regards,
+
+Sakari Ailus
