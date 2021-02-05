@@ -2,152 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F366E31041F
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 05:40:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C454231050D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 07:44:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbhBEEkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Feb 2021 23:40:15 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:47127 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229586AbhBEEkO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Feb 2021 23:40:14 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 7stvlKYIvefbk7stwlsuZC; Fri, 05 Feb 2021 05:39:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612499965; bh=mFVTbZeQ5shKSdhwqZF14OZ77SS/m4xz/qsO3OlMKac=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ffXqdO7jM3OLBlmis6+FT7T93pjtILyqy9RaDd50ScofZfNZR+DZ8ZgXDI8rQBPcg
-         sfB8A1zsLlX82q8op+63DqekLbb7BH8fKY+LD3zl+s7cf6Lt472sgnkQ64nw9dM7cD
-         HCzCwx1WOatSr+QPIhRB40lCe2Z1uAcitiwaLIGXEDsn63TERuoQ4IeUOmLl9oM+Ha
-         r2QgfkiIsBcyVdhQTPzT/yxTwbvoSEx1NGGTYtUBatUBmpkkUvyfaCzkfMwv/X/qM4
-         zN67xmqS1LIlp9uoARD668gxC9tDIYR++KcenE6IAGLz/Kmab/C19Jl5RYcmdQy/TD
-         Xt0QitAxvwYJg==
-Message-ID: <2d24109dd5c88a94d6f69569c9dbe101@smtp-cloud7.xs4all.net>
-Date:   Fri, 05 Feb 2021 05:39:23 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfEsaX5HhmqaFOYvvrpf6y+svAkY+YZE5H0C/h0MrYbksjYvL6pwVDewCvBTf352HGsZZOw6zt5A4ztlXwMlb41cSgYI93kuhZt8pSogr7vVeiYs+rfIn
- XzXGDZy65tH76+FbBV+dgqLTvejzRb+qYsQhqyeBKQ6xI2E+6JcBnBINa7zrEOanU302/DlMAG5rSIFQJgaLZxZyKS/nA297lV99f/mllWGx8MNAcTF9MTES
- oKVSLFRMAkjOaqe/rkWbbQ==
+        id S231169AbhBEGoi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 01:44:38 -0500
+Received: from mout01.posteo.de ([185.67.36.65]:46804 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230483AbhBEGoh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 01:44:37 -0500
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 7473016005F
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 07:43:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1612507419; bh=8zUn+UyozeAseEbIW29rRlgrAkKAcwU7JN9yB32OBVU=;
+        h=Date:From:To:Cc:Subject:From;
+        b=nxK5M0KsURI7H8q7N/u7Z5J40DfSmNln6h/rtHagaUbtb/h3fDvIEHpOyKDQ6Ppxk
+         5BCcMFNUpaQMZx71PIv3eSlcHr1Hsd9NeFXGkWZg5jI5slYy+6wwBwWT2avZql8Wtv
+         aI+Iw0bjBgv5HPfxjAN5gKAza50eCOCktUh1hBUGp4+Aq20GcBqezetx2gQdvVvUwb
+         X8pm0B43c1TcA+tFJ5R7esBcFOz44IqE0fTqopArBLgvW3PWsBdtPtw45KPjyYQreA
+         TA0+TOUFYljkM6ZkAqwVbLku1/ZS9wu4PZur0lWUuHw0SQlKciR2J/hbKY/A4ca4/2
+         WMZpdjYeFI1AA==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4DX5V03kQNz6tmM;
+        Fri,  5 Feb 2021 07:43:36 +0100 (CET)
+Date:   Fri, 5 Feb 2021 07:43:35 +0100
+From:   Sebastian Fricke <sebastian.fricke@posteo.net>
+To:     Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        hjc@rock-chips.com, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        cmuellner@linux.com
+Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
+Message-ID: <20210205064335.6c3gs3h3pgvhceku@basti-TUXEDO-Book-XA1510>
+References: <20210202145632.1263136-1-heiko@sntech.de>
+ <20210203181422.txbd6kvujlmz4nju@basti-TUXEDO-Book-XA1510>
+ <16624224.lhrHg4fidi@diego>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <16624224.lhrHg4fidi@diego>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hey Heiko,
 
-Results of the daily build of media_tree:
+On 03.02.2021 20:54, Heiko Stübner wrote:
+>Hi Sebastian,
+>
+>Am Mittwoch, 3. Februar 2021, 19:14:22 CET schrieb Sebastian Fricke:
+>> Hey Heiko,
+>>
+>> I have tested your patch set on my nanoPC-T4, here is a complete log
+>> with:
+>> - relevant kernel log entries
+>> - system information
+>> - media ctl output
+>> - sysfs entry information
+>>
+>> https://paste.debian.net/1183874/
+>>
+>> Additionally, to your patchset I have applied the following patches:
+>> https://github.com/initBasti/Linux_kernel_media_tree_fork/commits/dual_cam_setup
+>>
+>> And just to not cause confusion the `media_dev` entries come from this
+>> unmerged series:
+>> https://patchwork.kernel.org/project/linux-media/list/?series=426269
+>>
+>> I have actually been able to stream with both of my cameras at the same
+>> time using the libcamera cam command.
+>> I would like to thank you a lot for making this possible.
+>
+>Thanks for testing a dual camera setup. On my board I could only test
+>the second ISP. And really glad it works for you tool :-) .
+>
+>Out of curiosity, do you also see that green tint in the images the cameras
+>produce?
 
-date:			Fri Feb  5 05:00:10 CET 2021
-media-tree git hash:	0b9112a58836ad6a7e84eebec06a2de9778b7573
-media_build git hash:	e980c694ef8ab2b472ecc26edaf97af214e587aa
-v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7349-g7fcfe2595
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Yes, I do. Actually, I currently have two forms of a green tint, on my
+OV13850 everything is quite dark and greenish, which is caused by the
+missing 3A algorithms. On my OV4689, I have big patches of the image
+with bright green color and flickering, I investigated if this is
+connected to the 2nd ISP instance, but that doesn't seem to be the case
+as I have the same results when I switch the CSI ports of the cameras.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 0 strcpy(), 1 strncpy(), 0 strlcpy()
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.1-i686: OK
-linux-5.10.1-x86_64: OK
-linux-5.11-rc1-i686: OK
-linux-5.11-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+I have found another issue, while testing I discovered following
+issue:
+When I start the system with an HDMI monitor connected, then the camera
+on the 2nd port doesn't work. This is probably because the RX/TX is
+reserved as a TX.
+But it made me wonder because if the system has an RX, a TX, and
+an RX/TX, why isn't the pure TX used by the monitor and the
+cameras take RX and RX/TX?
+Or do you think that this is maybe a malfunction of this patch?
 
-Detailed results are available here:
+>
+>Thanks
+>Heiko
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+Greetings,
+Sebastian
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+>
+>
+>> If you like to you can add:
+>> Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+>>
+>> On 02.02.2021 15:56, Heiko Stuebner wrote:
+>> >The rk3399 has two ISPs and right now only the first one is usable.
+>> >The second ISP is connected to the TXRX dphy on the soc.
+>> >
+>> >The phy of ISP1 is only accessible through the DSI controller's
+>> >io-memory, so this series adds support for simply using the dsi
+>> >controller is a phy if needed.
+>> >
+>> >That solution is needed at least on rk3399 and rk3288 but no-one
+>> >has looked at camera support on rk3288 at all, so right now
+>> >only implement the rk3399 specifics.
+>> >
+>> >
+>> >Heiko Stuebner (6):
+>> >  drm/rockchip: dsi: add own additional pclk handling
+>> >  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
+>> >  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
+>> >  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
+>> >  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
+>> >  arm64: dts: rockchip: add isp1 node on rk3399
+>> >
+>> > .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
+>> > arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
+>> > drivers/gpu/drm/rockchip/Kconfig              |   2 +
+>> > .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 342 ++++++++++++++++++
+>> > 4 files changed, 384 insertions(+)
+>> >
+>>
+>
+>
+>
+>
