@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 419A13106FE
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:49:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF1EC310712
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:53:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbhBEIr7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 03:47:59 -0500
-Received: from mail-mw2nam12on2067.outbound.protection.outlook.com ([40.107.244.67]:56480
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        id S229752AbhBEIv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 03:51:59 -0500
+Received: from mail-bn8nam11on2075.outbound.protection.outlook.com ([40.107.236.75]:31841
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229651AbhBEIr5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Feb 2021 03:47:57 -0500
+        id S229618AbhBEIv5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 03:51:57 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VE20xaYq5Kz1w5oxaMvxP9A0oS9CK+p8kruHevjhcZyskfSSmrbLcMjx7934SdnAvkhx5JQGtmApwvhuFGw8VUE3YFFJrw9PedmbUSYdeyFDj6b8rUDMXcRQhj7dpZf40sfW8kTwbEqIohzfMJqmmf+PAmeiYpSzHww7lCvUPygtEpvMwIfOf5vxVVESViGZK9WRYDWM846FtloHjg01yGf7aIDGUf0S+NkLMucUF7DZvD+b84k6912Sdplu8FQ4vRAoCfRpwXVd5wUmwc7q7mF3EBpXtau2irSvW83vFXOk0IDvMdvbvnABAtFrPoOgAYT5EQfPq+zDRJADS9B/qw==
+ b=Y6Pz6J6rgkR42dypFDsnFFhMdyaJvZJrzVAWOm0d1Z9FdeB/Le7BzWss6dBtuRFvF/grczMIXrFa79rkibsV5gribDR7tdG5/UO7Zata7YHmGITk1f6f7h6K7Fx8E/78bsJB0yUdLUR8MJu8KvooYZVXV8LFBSSG165E8YeNqak8GAg5aeZBJAtlnHhy4m/2fgM72SWCxX7R2FYykxh6tC8M3HC8X7thDn2nuvlVNbH6lOVGxewq7pAJMo/OMznKjpC+9ZVEVdQWu0x/KhwjLhkJTx8Q4UjchWVA1gpKrscJ51+C+4plCgoptcYPOyapkVnAXe6UINQ/QK5syf9Ilw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PVnwuWvSaJi7gKWNowvjs6bBtf98dxvM09LldPsbdFM=;
- b=ifVmW4XXH4CHiPP0L6/pEaxU+1tf5eTmRoLZh0fPP354DFEqh0TJ9Cc/jthU+BrGMfFBcfDFiTLV5MVKOu8OV4FaVRUqeEqD1fJdhSeC+Bk3y3a0XXl6z8OrJJ3QYvAAfXUUmFWD4UNBDoV9ARE7qintyKAA1UO8WkqasykVuOSMNRlNfV4zLA75BxFV5mFA7pbCB+yl1GNAqOhIjkAKxlx4Be21tbDm01Yj2+yMb0vexqAoC8JujqHEg1CE7Jq3fa9JtTw7hgnTO2uB+nrDg8eioUP93k3FJiHaDShteMt2YacqndYt062hoGtTncHg3QT7dl2MowtEThYNBPz+ZQ==
+ bh=e+O+WE+wgw/rRrjMA6U0TSX1otQT8BiVNpgkLxI6Po4=;
+ b=mwqO+PWCExd9dfgu1YrWpI77tvG2LvI8W8wQPpQss8VpN5S/3djqXkyScKsmlj/mZN2XDoXZMv9ZHs0VR0bO2aP1gUS1YlIF7IAtsI9gx6eLB57HAXT5MMF8syMpRoj/s0YojslGA0jfu9vDNUaSHKvu18VL1FU11BGZYZqBv/to12G0EykxRRyN6bKq/iOIWxFl4+BnPIoyzyZf56dL8MZE0Pk/2Ut0mYdEi2CmQuxVO62Qp/d4rCL89P2bTHjYQrj1GCFBjIrPmgAaSAZWjZsPmFOgrbxqx25SNpywtQ57uxO91YjL6TB8lKBPPmSNXs85BwDxoaMkwDS5QhoB+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PVnwuWvSaJi7gKWNowvjs6bBtf98dxvM09LldPsbdFM=;
- b=4cgzdVQ7P1B3d8O6MZ1aa4MvLQXJWjHgmkcwrZ4mqgnL58kVdaXiAev7TB48H9xccxWREPFhcYd8l9QH9cnCKk8eb33qixKiXk8Obz3u71BSe36SDedEB1WMwfI/HbEIkN2eo6S58aaJ239Kvl9J4S4aRaGdDCbT2CAMi9Msd84=
+ bh=e+O+WE+wgw/rRrjMA6U0TSX1otQT8BiVNpgkLxI6Po4=;
+ b=4k7x2R2HlmdezC+fXsxZRxb9JuEGMmpXdzj+kXZC0PhsFP2+eTRVt2ZTPK4eCa7d4ysNjA8/nahEq92tEjnik8tB7pqnq78Czqzr2OQuAT2J59spW8ekcRsIRrE+eXO0636eWkPzCWxOwF/gy878oeI3rTX2u0qc/rVCWEM2iIw=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none;lists.freedesktop.org; dmarc=none action=none
  header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2419.namprd12.prod.outlook.com (2603:10b6:207:44::27) with
+ by MN2PR12MB4608.namprd12.prod.outlook.com (2603:10b6:208:fd::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20; Fri, 5 Feb
- 2021 08:47:01 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.24; Fri, 5 Feb
+ 2021 08:51:00 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3825.023; Fri, 5 Feb 2021
- 08:47:01 +0000
-Subject: Re: [RFC][PATCH v6 1/7] drm: Add a sharable drm page-pool
- implementation
+ 08:51:00 +0000
+Subject: Re: [RFC][PATCH v6 4/7] drm: ttm_pool: Rework ttm_pool to use
+ drm_page_pool
 To:     John Stultz <john.stultz@linaro.org>,
         lkml <linux-kernel@vger.kernel.org>
 Cc:     Daniel Vetter <daniel@ffwll.ch>,
@@ -59,84 +59,116 @@ Cc:     Daniel Vetter <daniel@ffwll.ch>,
         James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org
 References: <20210205080621.3102035-1-john.stultz@linaro.org>
- <20210205080621.3102035-2-john.stultz@linaro.org>
+ <20210205080621.3102035-5-john.stultz@linaro.org>
 From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
-Date:   Fri, 5 Feb 2021 09:46:54 +0100
+Message-ID: <28ba71e1-0101-6cb6-5909-df0c4fc0c4d6@amd.com>
+Date:   Fri, 5 Feb 2021 09:50:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20210205080621.3102035-2-john.stultz@linaro.org>
+In-Reply-To: <20210205080621.3102035-5-john.stultz@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR02CA0018.eurprd02.prod.outlook.com
- (2603:10a6:208:3e::31) To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM0PR10CA0086.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::39) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR02CA0018.eurprd02.prod.outlook.com (2603:10a6:208:3e::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19 via Frontend Transport; Fri, 5 Feb 2021 08:46:59 +0000
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR10CA0086.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19 via Frontend Transport; Fri, 5 Feb 2021 08:50:55 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 354ff368-24c6-42c4-41c8-08d8c9b29af4
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2419:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB241949DF191D0078E06BEBA883B29@BL0PR12MB2419.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Office365-Filtering-Correlation-Id: 0980959a-2fe6-4eac-1632-08d8c9b32926
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4608:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4608868E601FE228A4060A4F83B29@MN2PR12MB4608.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +Momtrf1jpZhr9sXMolKl8LqowZ9I9r4kScZQsl+10fuDY0zfL0AmsEH/6ud583pqMp5YCLtXusGetzToSbOGjBlYUklwGsEVEJnuLIrSvM3a5hC7Cw3FJ5pZqDg0kVB/NbGWaZCN9mPTTXY+KrBGYeolS8+tdJjt7TbIGf215WfyEsOy0fIPAuN1fn9b+/NRTFXvIWMjS81FYVCHP0n+NYb1iX7XqWElW52W0+2X2XFFfjfcy+xPO5K/yicKO6iiZ3ieWJY/7D6xQxgv8yyJwCnGqP3JW23z/3F5rLjRWk9h9NYAVxjqkNhGoNnFpdIVRcnpDvDFK91Q/PPmPCvjL+uI+5rj+x/OX1Dhu5b2StieTNJpio5LIKk7BRnfsGeKJ+5dLEWwiDHX6/ekPjyT027U+8yWaYSqKHN1CZGncZSwSnzbNqabI8o35h5zEjqeSJ2F3NPuwMtBL8U9M+nM/wuF6M/CjOdflq3o/uLSpE26+AB3ztVsgGtuKGnZ0yDLKY3seG55iyTtD08WzCb1Mp2uJ0nOPRL811RVRq4edIa2lzJsTKuHcRjsdEeSoMd9lY1xS/XjNLB097V1rwt9JXHqPhzzI8CQscRe9n8WRE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(366004)(376002)(39860400002)(6666004)(4326008)(8676002)(31686004)(16526019)(83380400001)(478600001)(86362001)(316002)(186003)(36756003)(66946007)(30864003)(110136005)(54906003)(66574015)(66476007)(52116002)(2906002)(6486002)(2616005)(31696002)(5660300002)(8936002)(66556008)(7416002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?U1B5bm1lYWFLenpBa2NuY2JERDljUWkxVnRucEEwSERWeFhIQ1JjNFBoU1pD?=
- =?utf-8?B?b1FoSmxuTHRNZC9mamZoSml5TzhYMWZsQ3FOdGlHa01hUEdaN1pWZnpFOE9T?=
- =?utf-8?B?RWpJbzRFdzIvbitwbDVwL1lnRzF0RWNucW9NMUd6dWs4SlRvV0psNiswSkRr?=
- =?utf-8?B?NHRQVDFvTWJzNWJJM2ZNeVFKVXU3MzVqWVZEdDZHRjhqbEdzVXducDlIUjFX?=
- =?utf-8?B?SGg2UUZqOWxmY2NBMnk3SHZLVFNHa1hTcGwycUdFWStnMU4xQTRLN2I3d2dh?=
- =?utf-8?B?TVVRVURwMTN0RkFxZVd6dENyU2w2MFZ2bDZFeW9pWGMxSFViTUJTSmkwTWd3?=
- =?utf-8?B?VFZ4SFVqN3hJUldtSmJHUkQrZS82UW1mY2NEaCsyZnZnMHhHbVdxQk5Ecm9O?=
- =?utf-8?B?NzYzcGc5OE1UMHlNZFd6dkpnUHF5VUx4L3BnbFdqQ3hxczhRWXF3KzNKRVQr?=
- =?utf-8?B?TGFsVDZWT09QeHlheFJFQVA5amlXOE40bXBrajFxK2dOeFkrUG5aTXoyeG5U?=
- =?utf-8?B?TlZEVzdqclFwRmdrSXh0RFhSSVg3TlI1SkpMc1BISmsrVkNLdjl1aHlWUW9t?=
- =?utf-8?B?MXBJWjZrM1V6M2ZvYWpPblR4bXpCd3VBVGFLQXR2UHRlMGVTZVhnRUtZMHRL?=
- =?utf-8?B?dUlJN2ZHL1NQeFd3VUd1RDMxR3ZUWFBFK2lNMzByL05YYUtRNVgwQWdnQThL?=
- =?utf-8?B?SVFVRWphQlZsUWZWb0MzQTIrdUNhMnpHdjlPNWhJamdoak9hVVBpMDIzNHBy?=
- =?utf-8?B?NkRrMFhQRVlkamZvcjUwZ0RtU29YeEU5UmkrMVUyYStOMzhMUFVQN3VNNFM1?=
- =?utf-8?B?K0FudG5yM0JXTTQ4YUVTWWZYby8yS0IxWWh3aktKMjVxaU1UeGRXWnBKVGlH?=
- =?utf-8?B?eG9zTjA3cmVLTmlpUGdsS2luNXA2SDVBODMyM2h6Tk5iVllnSFgrTGpPV20y?=
- =?utf-8?B?KzNiam1tY0dRMnNLU2hybS9lL0FwY3EyYklxWTZ3MWxPcWRKWFlTSEpWQmt5?=
- =?utf-8?B?Wkc4ZnpGaEhtc3FvSmhCTkVXcFFjZkJua2dnTWh3UitmLzFpSk9La3BvbnVY?=
- =?utf-8?B?N3Evc0hWL0ZUWjA4K1JDUTRHRi9SR2w5VGxLMHd5M2dRWjdscFArbUowSXha?=
- =?utf-8?B?cHJaQkpXeEozNjVBcVk2Y2JVMU1BdFJ2enlMTzBkMlAvaWVFRnN4TFo4cVAr?=
- =?utf-8?B?Nk1yemhtNWhRenVsYXFHdk9BY1hGVy9zVlRzeXhEM1FOWEdxdW1jeXNsR0RU?=
- =?utf-8?B?SlNMeTV6TlZQQVZybVRFVnNEbk0yMkxzME5FenVQKzRHekNRNnZBRFBGcGtE?=
- =?utf-8?B?LzgvVGFUelkyWjBkS016TURZYUpQNUNkSGJid2twSVlkNHBuWEVRdHF2cFM2?=
- =?utf-8?B?UnRDd2hYMUhQRVE4NnY4aUJ2SUtSWnFtK01uM0N3Y1FOcmtkK0J1U2pYcWo4?=
- =?utf-8?B?OVA3UjF6RWRFak0xU09MYlQxVXJVODY2L0JXVEtUQXZVU25ZeWtPcTFwUk1j?=
- =?utf-8?B?SjRtNTNzM0wycFl6dHovUGxnK01KNkRPenpmamFTbDloS1NKR3p3VXZkVzMy?=
- =?utf-8?B?MTU2azdobnBRWExFaGY1WjhWTnk2OEc4aUZVTWdobkxPSXd2T3VQVWJPOERD?=
- =?utf-8?B?UmtrVEdVY3VMWW0xdWJFMGgzaVRJa3gybjFURDNjNGk4bDZhMUpLSjFKNnRK?=
- =?utf-8?B?TjlxekRyRzhnckovbHNQT3NrN1BTTks1VDByellCYll6dG90ZWs5VW5pMWN6?=
- =?utf-8?B?WWtTVlRyS1dlUWt2VmkydndjR1ZGS0t1U0JabmprZG55VkRNRWF5aitLdUNp?=
- =?utf-8?B?Q3ArQ1pQamk0dWxhUDBYVGw0Ui90dEhxVHltM08yVURtYi9pVkdid01pS0pL?=
- =?utf-8?Q?PxmbTRmtMZu8O?=
+X-Microsoft-Antispam-Message-Info: 2VAnDLotcpVEwghTkf/MAR64PYZ2QuZyWeRAjp2lCi58u+Pq8fGJI0Act2KE2bG+BaqUc2rAhXvw18RcD2Q7IGr3uYg7B4diwtt2b4LJE2HJmcKPi8fXr+TzK4v+eFeD8mOvFtfubsKU3XhZXtWnqzWtxNghP/KLSC2qGLZl2KdQwYV2wf4qu8zfmSW5lv1SHTzrCkzIsxmy1TBEiDBsTveZoGsKNbBlg5t72ZZcjer2gvE+iFam6rfbv+5M1M5/9GLmn7dVlozctMQCNZA+zT0PEbLfMxMG6kNPylq3t3j9MGqt6WYmfUQAOA0cibVE0Z6hIJEXBZ8CqSpj8U84/Tk529ODSD2vv0AkV5H6YWsvhCIqgnCoRefVR8cR78DHj6z/poaSCIWcz2RNgbP7YCDJFEZl3y9WZCR8bfm78PRsHoEbRVjMaDqaeCQx+FkvJ8Y6aay95UYdXAMZb54v4fwAOeY0haVhtXMICO17jU/GSyQfREGSAUhGggWgzNnBr7qF88lOsWqw7p5eEQPTpyf93+HwPmf4/S3N/tyxgm5t4owWQwzz3QnodNgKsJyZBGt5bKVytgPhea1XfM3ihLD1oLQHqo3gIy8ZkKbIU/s=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(39860400002)(346002)(136003)(396003)(83380400001)(8936002)(110136005)(8676002)(54906003)(316002)(31686004)(31696002)(5660300002)(66946007)(86362001)(30864003)(66556008)(66476007)(186003)(6666004)(52116002)(16526019)(4326008)(2906002)(7416002)(2616005)(6486002)(36756003)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cGVlV3J1eEMrNGJsRVBqM2dsdHhyQzJ6WTBYQVMxTFY0YmltdGZ2V3FPWVBq?=
+ =?utf-8?B?akMvUU4rMVhKcWFwaDhpVm5pd1lBQTg0SXVab0lNUzZDa3R5QytMN1l4dUIv?=
+ =?utf-8?B?RUZDZlJRWHdOL0NGREk0Q3QwMHZDNU5naDNlNVFUZ3RIcUhWS1JuOEFURGlW?=
+ =?utf-8?B?S3d5Yjl5cDdrNVlhYXJyRFhhZVowWXNxNnFVVElwUy85WHhiaHY1My9qcXlw?=
+ =?utf-8?B?bmJZK2JYVklnL1BVWW1ISWJlenIzdTRoaU9KWmxoSHQ5THNHRlVwK1dwdUxW?=
+ =?utf-8?B?a0l4eUMreHR2TVkzZnZscTZHSmFRMlBKd1pRNDNvbnY1UEhtaFUrY2FNaFR4?=
+ =?utf-8?B?NGdRSDJPY2E0ZHoxSTNUSWwvUWg0YVc3bHpLTnlGckovalM4Z1pIQlR2Wks5?=
+ =?utf-8?B?bFV2MmhROStuekJ6NzFKdjZPaC81K2VFbTcxMmhtN3ovekNSUzN5LzRTeUxL?=
+ =?utf-8?B?aWdnUlF6ZjJYWGhnSmZtVEhBei83Vm1LYWJUcWtpV1J1NHFYNno5aTZGU2JB?=
+ =?utf-8?B?K3psb1ViQzZzSThHVk1ENU9tYkNLL0lXTXRhYnBOSjhWNFVYUmsyOHVVMDFV?=
+ =?utf-8?B?S0g4V241WGtpNWsyRmxlODV0R05TMEVxTG42Rkh2dVNUK3RYV2czbTBMcks5?=
+ =?utf-8?B?RFhXUGI2WlIrbDRhYjlqVmVxWVVpcDhDUUgycGF3YnJpSTlSVXRwMUNBSy82?=
+ =?utf-8?B?d0NrWTFhWE10WXRWL3F6QWhic0pRNVEzRzkveG5IVm1jd0QrN0orNDhjMmNC?=
+ =?utf-8?B?LzJKZlkxUEE5b2J1RDh6Tm5UZU9UVHZSS2hLMjg5TjVCV3RoaCtNbVZEUmJQ?=
+ =?utf-8?B?NVV4S1B2eHA3SlgvSFFsZUJ6UEhkQVcwZVMrU3R1RzA3cWt5Z3U3ZkdrWGVp?=
+ =?utf-8?B?YWIvZFltZDBxVHF4WC9wTS9wVGdmTzc2Vlc4Nm1UUlcxNklUakZPS3dWYm9q?=
+ =?utf-8?B?dUR0cVFnNjJVWXlNSGlaSWN2cTFSS1lVNG5hWHJrbUlkMVFlbEZsUGVnWVdZ?=
+ =?utf-8?B?WDNPZ21IanRLS1NVY0Znc0swSEIwMlV5NDhna2dPUUtHM0NVNEJlWHF4ak12?=
+ =?utf-8?B?M25iOXpOQk5VN0l0U3VZVEZQTW1jTXUwcUwwaGIvR3daaHVoVHdhV25nNTJn?=
+ =?utf-8?B?SEg0RjdJd3d0S2tLTkFkUTVGT3dXLzMxWEhSdnVxRjRnc2ozYmwzS3NTdTMz?=
+ =?utf-8?B?MktRQi81ekpDRUlQSXVqNXZOQzZ0T2lsbGIyd3lqZmpFYnFUNGVNK1ppYmZa?=
+ =?utf-8?B?ZFVqcENKNmZQbzFlNzV1RU04dEtNT3IzTkw1S2Uwd2tUajJXZkVxZGQxSlRx?=
+ =?utf-8?B?QUpEV2pkNWx6ZFVINnF6VGxPZ2lEYUxURUJuN054Y0hwOWl1WTZKdkZ2Zmp1?=
+ =?utf-8?B?WlFFSEhBNkJGRVBwQ1gvUzRXY0daN1VleTQvRXNjRUY3cVltVXNSeE5YTnN0?=
+ =?utf-8?B?OGFWcXJUQkpVd1IyTE5EWjNnMEZzWnlKK01PL0JkclZONjFMalBGZThSNm53?=
+ =?utf-8?B?Z1pRM0FPYkp2SFV1UFQ2YUFiUUhjcU1EZ1U3blg3RVdvM1VkTXFFQVZ1aVk4?=
+ =?utf-8?B?LzcxS2ptMVBCYlBxOW8ybWdMbHZ2US9VczZ4Rk1xdlN1NWNWUlRpZ0NxZi9X?=
+ =?utf-8?B?NnZHWXV3YVVHbzZtS2lpZzlHN3dGdUErNkY3ODZUVTZSQzdyQXVLOFlNM0U4?=
+ =?utf-8?B?VzdMck16UEhTVGhjYk9aK1EvVTlheEZCekwzMldXRGJjYTlBdERJOWpidnRi?=
+ =?utf-8?B?b3ZTU09KQ1hXQ0pPYzhaRzVDOEpudWdaTlZiZ2pIclZWK2ZjQVRaTkRpVjB2?=
+ =?utf-8?B?Wm9HVUdVdVdhdHVtbCtLYkZiaVcrek11UkFva2Z2L01qVnhsTmRmQks5N09Q?=
+ =?utf-8?Q?5xbxnk7hZlrjk?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 354ff368-24c6-42c4-41c8-08d8c9b29af4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0980959a-2fe6-4eac-1632-08d8c9b32926
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 08:47:01.7393
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 08:51:00.3753
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rDAdN3Qm2WkgUXbW+p5KocSClCUw/0yGnfGZ3UZdlwIWBPlrXOFWicgCPP/78xg3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2419
+X-MS-Exchange-CrossTenant-UserPrincipalName: wDrI3YEauqNOiTGc+l1U58ugNkpIkjwtIbMnzbqENmO8v0mzpO3ypncI1+wEdKtM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4608
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Am 05.02.21 um 09:06 schrieb John Stultz:
-> This adds a shrinker controlled page pool, closely
-> following the ttm_pool logic, which is abstracted out
-> a bit so it can be used by other non-ttm drivers.
+> This patch reworks the ttm_pool logic to utilize the recently
+> added drm_page_pool code.
+>
+> Basically all the ttm_pool_type structures are replaced with
+> drm_page_pool pointers, and since the drm_page_pool logic has
+> its own shrinker, we can remove all of the ttm_pool shrinker
+> logic.
+>
+> NOTE: There is one mismatch in the interfaces I'm not totally
+> happy with. The ttm_pool tracks all of its pooled pages across
+> a number of different pools, and tries to keep this size under
+> the specified page_pool_size value. With the drm_page_pool,
+> there may other users, however there is still one global
+> shrinker list of pools. So we can't easily reduce the ttm
+> pool under the ttm specified size without potentially doing
+> a lot of shrinking to other non-ttm pools. So either we can:
+>    1) Try to split it so each user of drm_page_pools manages its
+>       own pool shrinking.
+>    2) Push the max value into the drm_page_pool, and have it
+>       manage shrinking to fit under that global max. Then share
+>       those size/max values out so the ttm_pool debug output
+>       can have more context.
+>
+> I've taken the second path in this patch set, but wanted to call
+> it out so folks could look closely.
+
+Option 3: Move the debugging code into the drm_page_pool as well.
+
+I strong think that will be a hard requirement from Daniel for 
+upstreaming this.
+
+Christian.
+
+>
+> Thoughts would be greatly appreciated here!
 >
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: Christian Koenig <christian.koenig@amd.com>
@@ -158,350 +190,393 @@ Am 05.02.21 um 09:06 schrieb John Stultz:
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: John Stultz <john.stultz@linaro.org>
 > ---
->   drivers/gpu/drm/Kconfig     |   4 +
->   drivers/gpu/drm/Makefile    |   1 +
->   drivers/gpu/drm/page_pool.c | 220 ++++++++++++++++++++++++++++++++++++
->   include/drm/page_pool.h     |  54 +++++++++
->   4 files changed, 279 insertions(+)
->   create mode 100644 drivers/gpu/drm/page_pool.c
->   create mode 100644 include/drm/page_pool.h
+>   drivers/gpu/drm/Kconfig        |   1 +
+>   drivers/gpu/drm/ttm/ttm_pool.c | 199 +++++++--------------------------
+>   include/drm/ttm/ttm_pool.h     |  23 +---
+>   3 files changed, 41 insertions(+), 182 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 0973f408d75f..d16bf340ed2e 100644
+> index d16bf340ed2e..d427abefabfb 100644
 > --- a/drivers/gpu/drm/Kconfig
 > +++ b/drivers/gpu/drm/Kconfig
-> @@ -174,6 +174,10 @@ config DRM_DP_CEC
->   	  Note: not all adapters support this feature, and even for those
->   	  that do support this they often do not hook up the CEC pin.
->   
-> +config DRM_PAGE_POOL
-> +	bool
-> +	depends on DRM
-> +
+> @@ -181,6 +181,7 @@ config DRM_PAGE_POOL
 >   config DRM_TTM
 >   	tristate
 >   	depends on DRM && MMU
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index fefaff4c832d..877e0111ed34 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) += drm_agpsupport.o
->   drm-$(CONFIG_PCI) += drm_pci.o
->   drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
->   drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
-> +drm-$(CONFIG_DRM_PAGE_POOL) += page_pool.o
->   
->   drm_vram_helper-y := drm_gem_vram_helper.o
->   obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
-> diff --git a/drivers/gpu/drm/page_pool.c b/drivers/gpu/drm/page_pool.c
-> new file mode 100644
-> index 000000000000..2139f86e6ca7
-> --- /dev/null
-> +++ b/drivers/gpu/drm/page_pool.c
-> @@ -0,0 +1,220 @@
-> +// SPDX-License-Identifier: GPL-2.0
-
-Please use a BSD/MIT compatible license if you want to copy this from 
-the TTM code.
-
-> +/*
-> + * DRM page pool system
-> + *
-> + * Copyright (C) 2020 Linaro Ltd.
-> + *
-> + * Based on the ION page pool code
-> + * Copyright (C) 2011 Google, Inc.
-> + * As well as the ttm_pool code
-> + * Copyright (C) 2020 Advanced Micro Devices, Inc.
-> + */
-> +
-> +#include <linux/freezer.h>
-> +#include <linux/list.h>
-> +#include <linux/slab.h>
-> +#include <linux/swap.h>
-> +#include <linux/sched/signal.h>
+> +	select DRM_PAGE_POOL
+>   	help
+>   	  GPU memory management subsystem for devices with multiple
+>   	  GPU memory types. Will be enabled automatically if a device driver
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index eca36678f967..dbbaf55ca5df 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -37,6 +37,7 @@
+>   #ifdef CONFIG_X86
+>   #include <asm/set_memory.h>
+>   #endif
 > +#include <drm/page_pool.h>
+>   #include <drm/ttm/ttm_pool.h>
+>   #include <drm/ttm/ttm_bo_driver.h>
+>   #include <drm/ttm/ttm_tt.h>
+> @@ -63,15 +64,13 @@ module_param(page_pool_size, ulong, 0644);
+>   
+>   static atomic_long_t allocated_pages;
+>   
+> -static struct ttm_pool_type global_write_combined[MAX_ORDER];
+> -static struct ttm_pool_type global_uncached[MAX_ORDER];
+> +static struct drm_page_pool *global_write_combined[MAX_ORDER];
+> +static struct drm_page_pool *global_uncached[MAX_ORDER];
+>   
+> -static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
+> -static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
+> +static struct drm_page_pool *global_dma32_write_combined[MAX_ORDER];
+> +static struct drm_page_pool *global_dma32_uncached[MAX_ORDER];
+>   
+>   static struct mutex shrinker_lock;
+> -static struct list_head shrinker_list;
+> -static struct shrinker mm_shrinker;
+>   
+>   /* Allocate pages of size 1 << order with the given gfp_flags */
+>   static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+> @@ -223,79 +222,26 @@ static void ttm_pool_unmap(struct ttm_pool *pool, dma_addr_t dma_addr,
+>   		       DMA_BIDIRECTIONAL);
+>   }
+>   
+> -/* Give pages into a specific pool_type */
+> -static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p)
+> -{
+> -	spin_lock(&pt->lock);
+> -	list_add(&p->lru, &pt->pages);
+> -	spin_unlock(&pt->lock);
+> -	atomic_long_add(1 << pt->order, &allocated_pages);
+> -}
+> -
+> -/* Take pages from a specific pool_type, return NULL when nothing available */
+> -static struct page *ttm_pool_type_take(struct ttm_pool_type *pt)
+> -{
+> -	struct page *p;
+> -
+> -	spin_lock(&pt->lock);
+> -	p = list_first_entry_or_null(&pt->pages, typeof(*p), lru);
+> -	if (p) {
+> -		atomic_long_sub(1 << pt->order, &allocated_pages);
+> -		list_del(&p->lru);
+> -	}
+> -	spin_unlock(&pt->lock);
+> -
+> -	return p;
+> -}
+> -
+> -/* Initialize and add a pool type to the global shrinker list */
+> -static void ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
+> -			       enum ttm_caching caching, unsigned int order)
+> -{
+> -	pt->pool = pool;
+> -	pt->caching = caching;
+> -	pt->order = order;
+> -	spin_lock_init(&pt->lock);
+> -	INIT_LIST_HEAD(&pt->pages);
+> -
+> -	mutex_lock(&shrinker_lock);
+> -	list_add_tail(&pt->shrinker_list, &shrinker_list);
+> -	mutex_unlock(&shrinker_lock);
+> -}
+> -
+> -/* Remove a pool_type from the global shrinker list and free all pages */
+> -static void ttm_pool_type_fini(struct ttm_pool_type *pt)
+> -{
+> -	struct page *p, *tmp;
+> -
+> -	mutex_lock(&shrinker_lock);
+> -	list_del(&pt->shrinker_list);
+> -	mutex_unlock(&shrinker_lock);
+> -
+> -	list_for_each_entry_safe(p, tmp, &pt->pages, lru)
+> -		ttm_pool_free_page(p, pt->order);
+> -}
+> -
+>   /* Return the pool_type to use for the given caching and order */
+> -static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+> +static struct drm_page_pool *ttm_pool_select_type(struct ttm_pool *pool,
+>   						  enum ttm_caching caching,
+>   						  unsigned int order)
+>   {
+>   	if (pool->use_dma_alloc)
+> -		return &pool->caching[caching].orders[order];
+> +		return pool->caching[caching].orders[order];
+>   
+>   #ifdef CONFIG_X86
+>   	switch (caching) {
+>   	case ttm_write_combined:
+>   		if (pool->use_dma32)
+> -			return &global_dma32_write_combined[order];
+> +			return global_dma32_write_combined[order];
+>   
+> -		return &global_write_combined[order];
+> +		return global_write_combined[order];
+>   	case ttm_uncached:
+>   		if (pool->use_dma32)
+> -			return &global_dma32_uncached[order];
+> +			return global_dma32_uncached[order];
+>   
+> -		return &global_uncached[order];
+> +		return global_uncached[order];
+>   	default:
+>   		break;
+>   	}
+> @@ -304,30 +250,6 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+>   	return NULL;
+>   }
+>   
+> -/* Free pages using the global shrinker list */
+> -static unsigned int ttm_pool_shrink(void)
+> -{
+> -	struct ttm_pool_type *pt;
+> -	unsigned int num_freed;
+> -	struct page *p;
+> -
+> -	mutex_lock(&shrinker_lock);
+> -	pt = list_first_entry(&shrinker_list, typeof(*pt), shrinker_list);
+> -
+> -	p = ttm_pool_type_take(pt);
+> -	if (p) {
+> -		ttm_pool_free_page(p, pt->order);
+> -		num_freed = 1 << pt->order;
+> -	} else {
+> -		num_freed = 0;
+> -	}
+> -
+> -	list_move_tail(&pt->shrinker_list, &shrinker_list);
+> -	mutex_unlock(&shrinker_lock);
+> -
+> -	return num_freed;
+> -}
+> -
+>   /* Return the allocation order based for a page */
+>   static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+>   {
+> @@ -377,10 +299,10 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   	for (order = min(MAX_ORDER - 1UL, __fls(num_pages)); num_pages;
+>   	     order = min_t(unsigned int, order, __fls(num_pages))) {
+>   		bool apply_caching = false;
+> -		struct ttm_pool_type *pt;
+> +		struct drm_page_pool *pt;
+>   
+>   		pt = ttm_pool_select_type(pool, tt->caching, order);
+> -		p = pt ? ttm_pool_type_take(pt) : NULL;
+> +		p = pt ? drm_page_pool_fetch(pt) : NULL;
+>   		if (p) {
+>   			apply_caching = true;
+>   		} else {
+> @@ -462,7 +384,7 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
+>   	for (i = 0; i < tt->num_pages; ) {
+>   		struct page *p = tt->pages[i];
+>   		unsigned int order, num_pages;
+> -		struct ttm_pool_type *pt;
+> +		struct drm_page_pool *pt;
+>   
+>   		order = ttm_pool_page_order(pool, p);
+>   		num_pages = 1ULL << order;
+> @@ -473,15 +395,12 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
+>   
+>   		pt = ttm_pool_select_type(pool, tt->caching, order);
+>   		if (pt)
+> -			ttm_pool_type_give(pt, tt->pages[i]);
+> +			drm_page_pool_add(pt, tt->pages[i]);
+>   		else
+>   			ttm_pool_free_page(tt->pages[i], order);
+>   
+>   		i += num_pages;
+>   	}
+> -
+> -	while (atomic_long_read(&allocated_pages) > page_pool_size)
+> -		ttm_pool_shrink();
+>   }
+>   EXPORT_SYMBOL(ttm_pool_free);
+>   
+> @@ -508,8 +427,8 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+>   
+>   	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>   		for (j = 0; j < MAX_ORDER; ++j)
+> -			ttm_pool_type_init(&pool->caching[i].orders[j],
+> -					   pool, i, j);
+> +			pool->caching[i].orders[j] = drm_page_pool_create(j,
+> +							ttm_pool_free_page);
+>   }
+>   
+>   /**
+> @@ -526,33 +445,18 @@ void ttm_pool_fini(struct ttm_pool *pool)
+>   
+>   	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>   		for (j = 0; j < MAX_ORDER; ++j)
+> -			ttm_pool_type_fini(&pool->caching[i].orders[j]);
+> +			drm_page_pool_destroy(pool->caching[i].orders[j]);
+>   }
+>   
+>   #ifdef CONFIG_DEBUG_FS
+> -/* Count the number of pages available in a pool_type */
+> -static unsigned int ttm_pool_type_count(struct ttm_pool_type *pt)
+> -{
+> -	unsigned int count = 0;
+> -	struct page *p;
+> -
+> -	spin_lock(&pt->lock);
+> -	/* Only used for debugfs, the overhead doesn't matter */
+> -	list_for_each_entry(p, &pt->pages, lru)
+> -		++count;
+> -	spin_unlock(&pt->lock);
+> -
+> -	return count;
+> -}
+> -
+>   /* Dump information about the different pool types */
+> -static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
+> +static void ttm_pool_debugfs_orders(struct drm_page_pool **pt,
+>   				    struct seq_file *m)
+>   {
+>   	unsigned int i;
+>   
+>   	for (i = 0; i < MAX_ORDER; ++i)
+> -		seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
+> +		seq_printf(m, " %8u", drm_page_pool_get_size(pt[i]));
+>   	seq_puts(m, "\n");
+>   }
+>   
+> @@ -602,7 +506,10 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
+>   	}
+>   
+>   	seq_printf(m, "\ntotal\t: %8lu of %8lu\n",
+> -		   atomic_long_read(&allocated_pages), page_pool_size);
+> +		   atomic_long_read(&allocated_pages),
+> +		   drm_page_pool_get_max());
+> +	seq_printf(m, "(%8lu in non-ttm pools)\n", drm_page_pool_get_total() -
+> +					atomic_long_read(&allocated_pages));
+>   
+>   	mutex_unlock(&shrinker_lock);
+>   
+> @@ -612,28 +519,6 @@ EXPORT_SYMBOL(ttm_pool_debugfs);
+>   
+>   #endif
+>   
+> -/* As long as pages are available make sure to release at least one */
+> -static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
+> -					    struct shrink_control *sc)
+> -{
+> -	unsigned long num_freed = 0;
+> -
+> -	do
+> -		num_freed += ttm_pool_shrink();
+> -	while (!num_freed && atomic_long_read(&allocated_pages));
+> -
+> -	return num_freed;
+> -}
+> -
+> -/* Return the number of pages available or SHRINK_EMPTY if we have none */
+> -static unsigned long ttm_pool_shrinker_count(struct shrinker *shrink,
+> -					     struct shrink_control *sc)
+> -{
+> -	unsigned long num_pages = atomic_long_read(&allocated_pages);
+> -
+> -	return num_pages ? num_pages : SHRINK_EMPTY;
+> -}
+> -
+>   /**
+>    * ttm_pool_mgr_init - Initialize globals
+>    *
+> @@ -648,24 +533,21 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>   	if (!page_pool_size)
+>   		page_pool_size = num_pages;
+>   
+> +	drm_page_pool_set_max(page_pool_size);
 > +
-> +static LIST_HEAD(pool_list);
-> +static DEFINE_MUTEX(pool_list_lock);
-> +static atomic_long_t total_pages;
-> +static unsigned long page_pool_max;
-> +MODULE_PARM_DESC(page_pool_max, "Number of pages in the WC/UC/DMA pool");
-> +module_param(page_pool_max, ulong, 0644);
-> +
-> +void drm_page_pool_set_max(unsigned long max)
-> +{
-> +	/* only write once */
-> +	if (!page_pool_max)
-> +		page_pool_max = max;
-> +}
-> +
-> +unsigned long drm_page_pool_get_max(void)
-> +{
-> +	return page_pool_max;
-> +}
-> +
-> +unsigned long drm_page_pool_get_total(void)
-> +{
-> +	return atomic_long_read(&total_pages);
-> +}
-> +
-> +int drm_page_pool_get_size(struct drm_page_pool *pool)
-> +{
-> +	int ret;
-> +
-> +	spin_lock(&pool->lock);
-> +	ret = pool->count;
-> +	spin_unlock(&pool->lock);
-
-Maybe use an atomic for the count instead?
-
-> +	return ret;
-> +}
-> +
-> +static inline unsigned int drm_page_pool_free_pages(struct drm_page_pool *pool,
-> +						    struct page *page)
-> +{
-> +	return pool->free(page, pool->order);
-> +}
-> +
-> +static int drm_page_pool_shrink_one(void);
-> +
-> +void drm_page_pool_add(struct drm_page_pool *pool, struct page *page)
-> +{
-> +	spin_lock(&pool->lock);
-> +	list_add_tail(&page->lru, &pool->items);
-> +	pool->count++;
-> +	atomic_long_add(1 << pool->order, &total_pages);
-> +	spin_unlock(&pool->lock);
-> +
-> +	mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABLE,
-> +			    1 << pool->order);
-
-Hui what? What should that be good for?
-
-> +
-> +	/* make sure we don't grow too large */
-> +	while (page_pool_max && atomic_long_read(&total_pages) > page_pool_max)
-> +		drm_page_pool_shrink_one();
-> +}
-> +EXPORT_SYMBOL_GPL(drm_page_pool_add);
-> +
-> +static struct page *drm_page_pool_remove(struct drm_page_pool *pool)
-> +{
-> +	struct page *page;
-> +
-> +	if (!pool->count)
-> +		return NULL;
-
-Better use list_first_entry_or_null instead of checking the count.
-
-This way you can also pull the lock into the function.
-
-> +
-> +	page = list_first_entry(&pool->items, struct page, lru);
-> +	pool->count--;
-> +	atomic_long_sub(1 << pool->order, &total_pages);
-> +
-> +	list_del(&page->lru);
-> +	mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABLE,
-> +			    -(1 << pool->order));
-> +	return page;
-> +}
-> +
-> +struct page *drm_page_pool_fetch(struct drm_page_pool *pool)
-> +{
-> +	struct page *page = NULL;
-> +
-> +	if (!pool) {
-> +		WARN_ON(!pool);
-> +		return NULL;
-> +	}
-> +
-> +	spin_lock(&pool->lock);
-> +	page = drm_page_pool_remove(pool);
-> +	spin_unlock(&pool->lock);
-> +
-> +	return page;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_page_pool_fetch);
-> +
-> +struct drm_page_pool *drm_page_pool_create(unsigned int order,
-> +					   int (*free_page)(struct page *p, unsigned int order))
-> +{
-> +	struct drm_page_pool *pool = kmalloc(sizeof(*pool), GFP_KERNEL);
-
-Why not making this an embedded object? We should not see much dynamic 
-pool creation.
-
-> +
-> +	if (!pool)
-> +		return NULL;
-> +
-> +	pool->count = 0;
-> +	INIT_LIST_HEAD(&pool->items);
-> +	pool->order = order;
-> +	pool->free = free_page;
-> +	spin_lock_init(&pool->lock);
-> +	INIT_LIST_HEAD(&pool->list);
-> +
-> +	mutex_lock(&pool_list_lock);
-> +	list_add(&pool->list, &pool_list);
-> +	mutex_unlock(&pool_list_lock);
-> +
-> +	return pool;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_page_pool_create);
-> +
-> +void drm_page_pool_destroy(struct drm_page_pool *pool)
-> +{
-> +	struct page *page;
-> +
-> +	/* Remove us from the pool list */
-> +	mutex_lock(&pool_list_lock);
-> +	list_del(&pool->list);
-> +	mutex_unlock(&pool_list_lock);
-> +
-> +	/* Free any remaining pages in the pool */
-> +	spin_lock(&pool->lock);
-
-Locking should be unnecessary when the pool is destroyed anyway.
-
-> +	while (pool->count) {
-> +		page = drm_page_pool_remove(pool);
-> +		spin_unlock(&pool->lock);
-> +		drm_page_pool_free_pages(pool, page);
-> +		spin_lock(&pool->lock);
-> +	}
-> +	spin_unlock(&pool->lock);
-> +
-> +	kfree(pool);
-> +}
-> +EXPORT_SYMBOL_GPL(drm_page_pool_destroy);
-> +
-> +static int drm_page_pool_shrink_one(void)
-> +{
-> +	struct drm_page_pool *pool;
-> +	struct page *page;
-> +	int nr_freed = 0;
-> +
-> +	mutex_lock(&pool_list_lock);
-> +	pool = list_first_entry(&pool_list, typeof(*pool), list);
-> +
-> +	spin_lock(&pool->lock);
-> +	page = drm_page_pool_remove(pool);
-> +	spin_unlock(&pool->lock);
-> +
-> +	if (page)
-> +		nr_freed = drm_page_pool_free_pages(pool, page);
-> +
-> +	list_move_tail(&pool->list, &pool_list);
-
-Better to move this up, directly after the list_first_entry().
-
-> +	mutex_unlock(&pool_list_lock);
-> +
-> +	return nr_freed;
-> +}
-> +
-> +static unsigned long drm_page_pool_shrink_count(struct shrinker *shrinker,
-> +						struct shrink_control *sc)
-> +{
-> +	unsigned long count =  atomic_long_read(&total_pages);
-> +
-> +	return count ? count : SHRINK_EMPTY;
-> +}
-> +
-> +static unsigned long drm_page_pool_shrink_scan(struct shrinker *shrinker,
-> +					       struct shrink_control *sc)
-> +{
-> +	int to_scan = sc->nr_to_scan;
-> +	int nr_total = 0;
-> +
-> +	if (to_scan == 0)
-> +		return 0;
-> +
-> +	do {
-> +		int nr_freed = drm_page_pool_shrink_one();
-> +
-> +		to_scan -= nr_freed;
-> +		nr_total += nr_freed;
-> +	} while (to_scan >= 0 && atomic_long_read(&total_pages));
-> +
-> +	return nr_total;
-> +}
-> +
-> +static struct shrinker pool_shrinker = {
-> +	.count_objects = drm_page_pool_shrink_count,
-> +	.scan_objects = drm_page_pool_shrink_scan,
-> +	.seeks = 1,
-> +	.batch = 0,
-> +};
-> +
-> +int drm_page_pool_init_shrinker(void)
-> +{
-> +	return register_shrinker(&pool_shrinker);
-> +}
-> +module_init(drm_page_pool_init_shrinker);
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/include/drm/page_pool.h b/include/drm/page_pool.h
-> new file mode 100644
-> index 000000000000..47e240b2bc69
-> --- /dev/null
-> +++ b/include/drm/page_pool.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +/*
-> + * Copyright 2020 Advanced Micro Devices, Inc.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> + * OTHER DEALINGS IN THE SOFTWARE.
-> + *
-> + * Authors: Christian König
-> + */
-> +
-> +#ifndef _DRM_PAGE_POOL_H_
-> +#define _DRM_PAGE_POOL_H_
-> +
-> +#include <linux/mmzone.h>
-> +#include <linux/llist.h>
-> +#include <linux/spinlock.h>
-> +
-> +struct drm_page_pool {
-> +	int count;
-> +	struct list_head items;
-> +
-> +	int order;
-> +	int (*free)(struct page *p, unsigned int order);
-> +
-> +	spinlock_t lock;
-> +	struct list_head list;
-> +};
-> +
-> +void drm_page_pool_set_max(unsigned long max);
-> +unsigned long drm_page_pool_get_max(void);
-> +unsigned long drm_page_pool_get_total(void);
-> +int drm_page_pool_get_size(struct drm_page_pool *pool);
-> +struct page *drm_page_pool_fetch(struct drm_page_pool *pool);
-> +void drm_page_pool_add(struct drm_page_pool *pool, struct page *page);
-> +struct drm_page_pool *drm_page_pool_create(unsigned int order,
-> +					   int (*free_page)(struct page *p, unsigned int order));
-> +void drm_page_pool_destroy(struct drm_page_pool *pool);
-> +
-> +#endif
+>   	mutex_init(&shrinker_lock);
+> -	INIT_LIST_HEAD(&shrinker_list);
+>   
+>   	for (i = 0; i < MAX_ORDER; ++i) {
+> -		ttm_pool_type_init(&global_write_combined[i], NULL,
+> -				   ttm_write_combined, i);
+> -		ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
+> -
+> -		ttm_pool_type_init(&global_dma32_write_combined[i], NULL,
+> -				   ttm_write_combined, i);
+> -		ttm_pool_type_init(&global_dma32_uncached[i], NULL,
+> -				   ttm_uncached, i);
+> +		global_write_combined[i] = drm_page_pool_create(i,
+> +							ttm_pool_free_page);
+> +		global_uncached[i] = drm_page_pool_create(i,
+> +							ttm_pool_free_page);
+> +		global_dma32_write_combined[i] = drm_page_pool_create(i,
+> +							ttm_pool_free_page);
+> +		global_dma32_uncached[i] = drm_page_pool_create(i,
+> +							ttm_pool_free_page);
+>   	}
+> -
+> -	mm_shrinker.count_objects = ttm_pool_shrinker_count;
+> -	mm_shrinker.scan_objects = ttm_pool_shrinker_scan;
+> -	mm_shrinker.seeks = 1;
+> -	return register_shrinker(&mm_shrinker);
+> +	return 0;
+>   }
+>   
+>   /**
+> @@ -678,13 +560,10 @@ void ttm_pool_mgr_fini(void)
+>   	unsigned int i;
+>   
+>   	for (i = 0; i < MAX_ORDER; ++i) {
+> -		ttm_pool_type_fini(&global_write_combined[i]);
+> -		ttm_pool_type_fini(&global_uncached[i]);
+> +		drm_page_pool_destroy(global_write_combined[i]);
+> +		drm_page_pool_destroy(global_uncached[i]);
+>   
+> -		ttm_pool_type_fini(&global_dma32_write_combined[i]);
+> -		ttm_pool_type_fini(&global_dma32_uncached[i]);
+> +		drm_page_pool_destroy(global_dma32_write_combined[i]);
+> +		drm_page_pool_destroy(global_dma32_uncached[i]);
+>   	}
+> -
+> -	unregister_shrinker(&mm_shrinker);
+> -	WARN_ON(!list_empty(&shrinker_list));
+>   }
+> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> index 4321728bdd11..460ab232fd22 100644
+> --- a/include/drm/ttm/ttm_pool.h
+> +++ b/include/drm/ttm/ttm_pool.h
+> @@ -36,27 +36,6 @@ struct ttm_tt;
+>   struct ttm_pool;
+>   struct ttm_operation_ctx;
+>   
+> -/**
+> - * ttm_pool_type - Pool for a certain memory type
+> - *
+> - * @pool: the pool we belong to, might be NULL for the global ones
+> - * @order: the allocation order our pages have
+> - * @caching: the caching type our pages have
+> - * @shrinker_list: our place on the global shrinker list
+> - * @lock: protection of the page list
+> - * @pages: the list of pages in the pool
+> - */
+> -struct ttm_pool_type {
+> -	struct ttm_pool *pool;
+> -	unsigned int order;
+> -	enum ttm_caching caching;
+> -
+> -	struct list_head shrinker_list;
+> -
+> -	spinlock_t lock;
+> -	struct list_head pages;
+> -};
+> -
+>   /**
+>    * ttm_pool - Pool for all caching and orders
+>    *
+> @@ -71,7 +50,7 @@ struct ttm_pool {
+>   	bool use_dma32;
+>   
+>   	struct {
+> -		struct ttm_pool_type orders[MAX_ORDER];
+> +		struct drm_page_pool *orders[MAX_ORDER];
+>   	} caching[TTM_NUM_CACHING_TYPES];
+>   };
+>   
 
