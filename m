@@ -2,271 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3DA310BC8
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 14:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E62B310BEA
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 14:37:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbhBEN0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 08:26:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbhBENXu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 08:23:50 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F0FC0613D6
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 05:23:09 -0800 (PST)
-Received: from [IPv6:2003:c7:cf1c:ce00:c5f9:7f5:ebcd:ea47] (p200300c7cf1cce00c5f907f5ebcdea47.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:ce00:c5f9:7f5:ebcd:ea47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8131B1F466B9;
-        Fri,  5 Feb 2021 13:23:07 +0000 (GMT)
-Subject: Re: [PATCH RFC 06/11] media: rockchip: rkisp1: allow separate
- interrupts
-To:     Heiko Stuebner <heiko@sntech.de>, ezequiel@collabora.com,
-        helen.koike@collabora.com, Laurent.pinchart@ideasonboard.com
-Cc:     linux-rockchip@lists.infradead.org,
-        christoph.muellner@theobroma-systems.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-References: <20210108193311.3423236-1-heiko@sntech.de>
- <20210108193311.3423236-7-heiko@sntech.de>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <584c3ef0-b7af-0c36-3747-ca3ebd0a0cca@collabora.com>
-Date:   Fri, 5 Feb 2021 14:23:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S230310AbhBENfb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 08:35:31 -0500
+Received: from mga12.intel.com ([192.55.52.136]:60933 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229983AbhBENcR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 08:32:17 -0500
+IronPort-SDR: Nwo79IGYWACtfeBduVxN6zwVZzOXTf3WM5iRVIIG6BCkbMQc3r/Dwm7xEGv0qNiZPuxauOKNCG
+ +X4CYvTJkJ+w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="160589442"
+X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; 
+   d="scan'208";a="160589442"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 05:24:57 -0800
+IronPort-SDR: 3bagWk4ieSh14Im4ioZBhHx7ofbCZFl1vELks+rDk6fQj6QdMIrEGvtzwLd6ZjUTYSPi/25Yno
+ lOM/DDvfizCQ==
+X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; 
+   d="scan'208";a="373390605"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 05:24:53 -0800
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 7F8AA20168;
+        Fri,  5 Feb 2021 15:24:51 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1l816f-0005GC-7e; Fri, 05 Feb 2021 15:25:05 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v10 0/7] Support running driver's probe for a device powered off
+Date:   Fri,  5 Feb 2021 15:24:58 +0200
+Message-Id: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210108193311.3423236-7-heiko@sntech.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hello everyone,
 
-Am 08.01.21 um 20:33 schrieb Heiko Stuebner:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> 
-> Depending on the per-soc implementation there can be one interrupt
-> for isp, mipi and capture events or separate per-event interrupts.
-> 
-> So simply check for the presence of a named "mi" interrupt
-> to differentiate between the two cases.
-> 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> ---
->   .../platform/rockchip/rkisp1/rkisp1-capture.c |  9 ++-
->   .../platform/rockchip/rkisp1/rkisp1-common.h  |  7 ++-
->   .../platform/rockchip/rkisp1/rkisp1-dev.c     | 58 ++++++++++++++-----
->   .../platform/rockchip/rkisp1/rkisp1-isp.c     | 16 +++--
->   4 files changed, 69 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index 5f6c9d1623e4..f70c66c2a1d7 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -685,12 +685,17 @@ static void rkisp1_handle_buffer(struct rkisp1_capture *cap)
->   	spin_unlock(&cap->buf.lock);
->   }
->   
-> -void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
-> +irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
->   {
-> +	struct device *dev = ctx;
-> +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->   	unsigned int i;
->   	u32 status;
->   
->   	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
-> +	if (!status)
-> +		return IRQ_NONE;
-> +
->   	rkisp1_write(rkisp1, status, RKISP1_CIF_MI_ICR);
->   
->   	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
-> @@ -718,6 +723,8 @@ void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
->   		cap->is_streaming = false;
->   		wake_up(&cap->done);
->   	}
-> +
-> +	return IRQ_HANDLED;
->   }
->   
->   /* ----------------------------------------------------------------------------
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index 038c303a8aed..44f333bf5d6a 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -12,6 +12,7 @@
->   #define _RKISP1_COMMON_H
->   
->   #include <linux/clk.h>
-> +#include <linux/interrupt.h>
->   #include <linux/mutex.h>
->   #include <linux/rkisp1-config.h>
->   #include <media/media-device.h>
-> @@ -460,9 +461,9 @@ void rkisp1_params_configure(struct rkisp1_params *params,
->   void rkisp1_params_disable(struct rkisp1_params *params);
->   
->   /* irq handlers */
-> -void rkisp1_isp_isr(struct rkisp1_device *rkisp1);
-> -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
-> -void rkisp1_capture_isr(struct rkisp1_device *rkisp1);
-> +irqreturn_t rkisp1_isp_isr(int irq, void *ctx);
-> +irqreturn_t rkisp1_mipi_isr(int irq, void *ctx);
-> +irqreturn_t rkisp1_capture_isr(int irq, void *ctx);
->   void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris);
->   void rkisp1_params_isr(struct rkisp1_device *rkisp1);
->   
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index 68da1eed753d..96afc1d1a914 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -389,18 +389,15 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
->   
->   static irqreturn_t rkisp1_isr(int irq, void *ctx)
->   {
-> -	struct device *dev = ctx;
-> -	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> -
->   	/*
->   	 * Call rkisp1_capture_isr() first to handle the frame that
->   	 * potentially completed using the current frame_sequence number before
->   	 * it is potentially incremented by rkisp1_isp_isr() in the vertical
->   	 * sync.
->   	 */
-> -	rkisp1_capture_isr(rkisp1);
-> -	rkisp1_isp_isr(rkisp1);
-> -	rkisp1_mipi_isr(rkisp1);
-> +	rkisp1_capture_isr(irq, ctx);
-> +	rkisp1_isp_isr(irq, ctx);
-> +	rkisp1_mipi_isr(irq, ctx);
->   
->   	return IRQ_HANDLED;
+These patches enable calling (and finishing) a driver's probe function
+without powering on the respective device on busses where the practice is
+to power on the device for probe. While it generally is a driver's job to
+check the that the device is there, there are cases where it might be
+undesirable. (In this case it stems from a combination of hardware design
+and user expectations; see below.) The downside with this change is that
+if there is something wrong with the device, it will only be found at the
+time the device is used. In this case (the camera sensors + EEPROM in a
+sensor) I don't see any tangible harm from that though.
 
-I remember we had a patch that check if all the rkisp1_*_isr calls return IRQ_NONE then we also return IRQ_NONE from here
-instead of always returning IRQ_HANDLED. I think now it is the opportunity to add this.
-Maybe better in a separate patch before this one, where you only change the rkisp1_*_isr signatures and return
-the right value from rkisp1_isr
+An indication both from the driver and the firmware is required to allow
+the device's power state to remain off during probe (see the second patch).
 
-Thanks,
-Dafna
 
->   }
-> @@ -481,15 +478,50 @@ static int rkisp1_probe(struct platform_device *pdev)
->   	if (IS_ERR(rkisp1->base_addr))
->   		return PTR_ERR(rkisp1->base_addr);
->   
-> -	irq = platform_get_irq(pdev, 0);
-> -	if (irq < 0)
-> +	irq = platform_get_irq_byname_optional(pdev, "mi");
-> +	if (irq == -EPROBE_DEFER) {
->   		return irq;
-> +	} else if (irq < 0) {
-> +		irq = platform_get_irq(pdev, 0);
-> +		if (irq < 0)
-> +			return irq;
-> +
-> +		ret = devm_request_irq(dev, irq, rkisp1_isr, IRQF_SHARED,
-> +				       dev_driver_string(dev), dev);
-> +		if (ret) {
-> +			dev_err(dev, "request irq failed: %d\n", ret);
-> +			return ret;
-> +		}
-> +	} else {
-> +		/* we test-got the MI (capture) interrupt */
-> +		ret = devm_request_irq(dev, irq, rkisp1_capture_isr, IRQF_SHARED,
-> +				       dev_driver_string(dev), dev);
-> +		if (ret) {
-> +			dev_err(dev, "request mi irq failed: %d\n", ret);
-> +			return ret;
-> +		}
->   
-> -	ret = devm_request_irq(dev, irq, rkisp1_isr, IRQF_SHARED,
-> -			       dev_driver_string(dev), dev);
-> -	if (ret) {
-> -		dev_err(dev, "request irq failed: %d\n", ret);
-> -		return ret;
-> +		irq = platform_get_irq_byname_optional(pdev, "mipi");
-> +		if (irq < 0)
-> +			return irq;
-> +
-> +		ret = devm_request_irq(dev, irq, rkisp1_mipi_isr, IRQF_SHARED,
-> +				       dev_driver_string(dev), dev);
-> +		if (ret) {
-> +			dev_err(dev, "request mipi irq failed: %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		irq = platform_get_irq_byname_optional(pdev, "isp");
-> +		if (irq < 0)
-> +			return irq;
-> +
-> +		ret = devm_request_irq(dev, irq, rkisp1_isp_isr, IRQF_SHARED,
-> +				       dev_driver_string(dev), dev);
-> +		if (ret) {
-> +			dev_err(dev, "request isp irq failed: %d\n", ret);
-> +			return ret;
-> +		}
->   	}
->   
->   	rkisp1->irq = irq;
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 889982d8ca41..84440aa71210 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -1056,13 +1056,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
->    * Interrupt handlers
->    */
->   
-> -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
-> +irqreturn_t rkisp1_mipi_isr(int irq, void *ctx)
->   {
-> +	struct device *dev = ctx;
-> +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->   	u32 val, status;
->   
->   	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
->   	if (!status)
-> -		return;
-> +		return IRQ_NONE;
->   
->   	rkisp1_write(rkisp1, status, RKISP1_CIF_MIPI_ICR);
->   
-> @@ -1097,6 +1099,8 @@ void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
->   	} else {
->   		rkisp1->debug.mipi_error++;
->   	}
-> +
-> +	return IRQ_HANDLED;
->   }
->   
->   static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-> @@ -1109,13 +1113,15 @@ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
->   	v4l2_event_queue(isp->sd.devnode, &event);
->   }
->   
-> -void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
-> +irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
->   {
-> +	struct device *dev = ctx;
-> +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->   	u32 status, isp_err;
->   
->   	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
->   	if (!status)
-> -		return;
-> +		return IRQ_NONE;
->   
->   	rkisp1_write(rkisp1, status, RKISP1_CIF_ISP_ICR);
->   
-> @@ -1157,4 +1163,6 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
->   		 */
->   		rkisp1_params_isr(rkisp1);
->   	}
-> +
-> +	return IRQ_HANDLED;
->   }
-> 
+The use case is such that there is a privacy LED next to an integrated
+user-facing laptop camera, and this LED is there to signal the user that
+the camera is recording a video or capturing images. That LED also happens
+to be wired to one of the power supplies of the camera, so whenever you
+power on the camera, the LED will be lit, whether images are captured from
+the camera --- or not. There's no way to implement this differently
+without additional software control (allowing of which is itself a
+hardware design decision) on most CSI-2-connected camera sensors as they
+simply have no pin to signal the camera streaming state.
+
+This is also what happens during driver probe: the camera will be powered
+on by the I²C subsystem calling dev_pm_domain_attach() and the device is
+already powered on when the driver's own probe function is called. To the
+user this visible during the boot process as a blink of the privacy LED,
+suggesting that the camera is recording without the user having used an
+application to do that. From the end user's point of view the behaviour is
+not expected and for someone unfamiliar with internal workings of a
+computer surely seems quite suspicious --- even if images are not being
+actually captured.
+
+I've tested these on linux-next master.
+
+since v9 <URL:https://lore.kernel.org/linux-acpi/CAJZ5v0jjgy2KXOw5pyshvaEVzLctu4jsgYK1+YDA+8sZfp-6mw@mail.gmail.com/T/#m003f56b33350772364b1f5c832e9025677107933>:
+
+- Use _DSE object designed for the very purpose of designating intended
+  device probe power state instead of _PRE.
+
+- Rework documentation to reflect the property to _DSE changes (missed in
+  v9).
+
+- Put maximum device enumeration power state in struct acpi_device_power,
+  instead of a flag in struct acpi_device_power_flags. The default is
+  ACPI_STATE_D0.
+
+- i2c_acpi_allow_low_power_probe() now returns true if the desired power
+  state is greater or equal to the current device power state.
+
+- Rename local variable low_power as off_during_probe.
+
+since v8 <URL:https://lore.kernel.org/patchwork/cover/1300068/>:
+
+- Make use of ACPI _PRE object instead of a _DSD property (new patch,
+  1st), align documentation with that.
+
+- Added a blank line.
+
+- Rebased on current linux-next master.
+
+since v7 <URL:https://lore.kernel.org/linux-acpi/20200901210333.8462-1-sakari.ailus@linux.intel.com/>:
+
+- Reorder documentation patch right after the implemenation in the I²C
+  framework.
+
+- Rename allow-low-power-probe property as i2c-allow-low-power-probe.
+
+- Remove extra "property" from the description of the
+  i2c-allow-low-power-probe property and mention it's a device property.
+
+- Add an example to the documentation and refer to the _DSD property spec.
+
+since v6 <URL:https://lore.kernel.org/linux-acpi/20200826115432.6103-1-sakari.ailus@linux.intel.com/>:
+
+- Use u32 for the flags field in struct i2c_driver.
+
+- Use acpi_dev_get_property to read the allow-low-power-probe property.
+
+since v5 <URL:https://lore.kernel.org/linux-acpi/20200810142747.12400-1-sakari.ailus@linux.intel.com/>:
+
+- Identify sensors when they're first powered on. In previous versions, if
+  this wasn't in probe, it was not done at all.
+
+- Return allow_low_power_probe() only for ACPI devices, i.e. OF systems
+  are not affected by these changes.
+
+- Document that I2C_DRV_FL_ALLOW_LOW_POWER_PROBE flag only applies to ACPI
+  drivers.
+
+- Fix extra regulator_disable in at24 driver's remove function when the
+  device was already in low power state.
+
+since v4 <URL:https://lore.kernel.org/linux-acpi/20200121134157.20396-1-sakari.ailus@linux.intel.com/>:
+
+- Rename "probe-low-power" property as "allow-low-power-probe". This is
+  taken into account in function and file naming, too.
+
+- Turn probe_low_power field in struct i2c_driver into flags field.
+
+- Rebase on Wolfram's i2c/for-next branch that contains the removal of the
+  support for disabling I²C core IRQ mappings (commit
+  0c2a34937f7e4c4776bb261114c475392da2355c).
+
+- Change wording for "allow-low-power-probe" property in ACPI
+  documentation.
+
+since v3 <URL:https://lore.kernel.org/linux-acpi/20200109154529.19484-1-sakari.ailus@linux.intel.com/T/#t>:
+
+- Rework the 2nd patch based on Rafael's comments
+
+	- Rework description of the ACPI low power state helper function,
+	  according to Rafael's text.
+
+	- Rename and rework the same function as
+	  acpi_dev_state_low_power().
+
+	- Reflect the changes in commit message as well.
+
+- Added a patch to document the probe-low-power _DSD property.
+
+since v2 <URL:https://patchwork.kernel.org/cover/11114255/>:
+
+- Remove extra CONFIG_PM ifdefs; these are not needed.
+
+- Move the checks for power state hints from drivers/base/dd.c to
+  drivers/i2c/i2c-base-core.c; these are I²C devices anyway.
+
+- Move the probe_low_power field from struct device_driver to struct
+  i2c_driver.
+
+since v1:
+
+- Rename probe_powered_off struct device field as probe_low_power and
+  reflect the similar naming to the patches overall.
+
+- Work with CONFIG_PM disabled, too.
+
+Rajmohan Mani (1):
+  media: i2c: imx319: Support probe while the device is off
+
+Sakari Ailus (6):
+  ACPI: scan: Obtain device's desired enumeration power state
+  i2c: Allow an ACPI driver to manage the device's power state during
+    probe
+  Documentation: ACPI: Document _DSE object usage for enum power state
+  ACPI: Add a convenience function to tell a device is in low power
+    state
+  ov5670: Support probe whilst the device is in a low power state
+  at24: Support probing while off
+
+ Documentation/firmware-guide/acpi/index.rst   |  1 +
+ .../firmware-guide/acpi/low-power-probe.rst   | 69 +++++++++++++++++
+ drivers/acpi/device_pm.c                      | 23 ++++++
+ drivers/acpi/scan.c                           |  4 +
+ drivers/i2c/i2c-core-acpi.c                   | 10 +++
+ drivers/i2c/i2c-core-base.c                   |  9 ++-
+ drivers/media/i2c/imx319.c                    | 72 +++++++++++-------
+ drivers/media/i2c/ov5670.c                    | 76 +++++++++++--------
+ drivers/misc/eeprom/at24.c                    | 43 ++++++-----
+ include/acpi/acpi_bus.h                       |  1 +
+ include/linux/acpi.h                          |  6 ++
+ include/linux/i2c.h                           | 19 +++++
+ 12 files changed, 255 insertions(+), 78 deletions(-)
+ create mode 100644 Documentation/firmware-guide/acpi/low-power-probe.rst
+
+-- 
+2.20.1
+
