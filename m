@@ -2,60 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73F8D310B73
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 13:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5C87310BB4
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 14:20:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232315AbhBEM5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 07:57:43 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:50262 "EHLO vps0.lunn.ch"
+        id S229841AbhBENSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 08:18:53 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:50320 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232401AbhBEMyM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Feb 2021 07:54:12 -0500
+        id S229772AbhBENNx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 08:13:53 -0500
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
         (envelope-from <andrew@lunn.ch>)
-        id 1l80bx-004N5I-SV; Fri, 05 Feb 2021 13:53:21 +0100
-Date:   Fri, 5 Feb 2021 13:53:21 +0100
+        id 1l80v0-004NIN-8L; Fri, 05 Feb 2021 14:13:02 +0100
+Date:   Fri, 5 Feb 2021 14:13:02 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Takashi Iwai <tiwai@suse.de>,
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Matwey V. Kornilov" <matwey@sai.msu.ru>,
         Robert Foss <robert.foss@linaro.org>
 Subject: Re: [PATCH] media: pwc: Fix the URB buffer allocation
-Message-ID: <YB0/wTjYqE9IgtXZ@lunn.ch>
+Message-ID: <YB1EXirrstMlg/vA@lunn.ch>
 References: <20210121202855.17400-1-tiwai@suse.de>
  <7afd0612-de36-60b1-6650-6f8de24a7145@xs4all.nl>
+ <YB0/wTjYqE9IgtXZ@lunn.ch>
+ <s5h1rdu4qgo.wl-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7afd0612-de36-60b1-6650-6f8de24a7145@xs4all.nl>
+In-Reply-To: <s5h1rdu4qgo.wl-tiwai@suse.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 01:36:43PM +0100, Hans Verkuil wrote:
-> Hi Takashi,
-> 
-> Thank you for this patch, but it clashes with another patch trying to do the same thing
-> that has already been merged in our tree:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210104170007.20625-1-matwey@sai.msu.ru/
-> 
-> I do prefer your patch over the one already merged since it is a bit simpler, but
-> shouldn't the calls to dma_sync_single_for_cpu() and dma_sync_single_for_device()
-> in pwc-if.c also use urb->dev->bus->controller?
-> 
-> Also, Matwey's patch uses urb->dev->bus->sysdev instead of urb->dev->bus->controller.
-> How does 'sysdev' relate to 'controller'? I think 'controller' is the right device to
-> use, but either seems to work when I test it with my pwc webcam.
+Hi Takashi
 
-Hi Hans
+> Indeed, looks so.  In most cases, this doesn't matter since both point
+> to the same device object.  In some cases like xhci-plat HCD, they
+> differ.  And sysdev  might be a better choice from the consistency
+> POV.
+> 
+> But this brought an interesting question, too.  eg. USB chipidea
+> HCD uses platform devices for both controller and sysdev, and I
+> couldn't find any DMA mask setup.  So, no matter what to use, the uwc
+> driver would be broken on this...  Maybe it's just not covered.
 
-A quick grep in driver/usb show that all but one dma mapping operation
-use sysdev. The one other case uses controller. So the numbers suggest
-controller is wrong, sysdev is correct.
+Did you do a git bisect to see what actually broke it?  "1161db6776bd:
+media: usb: pwc: Don't use coherent DMA buffers for ISO transfer"
+introduced the code, not the regression. If we understand the
+regression, that might give us the answer about chipidea.
 
-But maybe ask GregKH?
-
-	   Andrew
+	    Andrew
