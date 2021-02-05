@@ -2,227 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE730311971
-	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 04:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B78F3119E3
+	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 04:23:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231691AbhBFDFU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 22:05:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231905AbhBFCxb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 21:53:31 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B02C08ECAF
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 14:39:06 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id u14so7112308wmq.4
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 14:39:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=t5Gn3UKnHmz7y35xPv/AAaJUGOdlL1SVmYKp08hQa2A=;
-        b=AKkqkC46A7/1BRDDGxRGLEZxNtnADzQGWuquqnpFdYydocW8BHy39p41Ef8RbZGQPw
-         Fk64CTFRIqDAFE3KY7pnYz/E1CMMhZszPNA0PZrpq9pf5j3BMFf8K6qaiv6ISRN9rS0i
-         LrbC4G9p6XDtciagWCIb3aiH0HRLK8ZdbSeRRFaQnm0jSJXtMz0AqpUsaRnpyKJwrP+h
-         dDbw2Dycw2PlGIT3GSAGSGxZpyTtbxo17rO6TaKN//bfVmQtefgRk4Klajwl8FSeSvgt
-         pFoJwxy6/3m1AmAwBFY+lcrBwCL+mZzWdkT4EXQ6Wsz4XadkWUjx0Ww1kop1pMSsm4hn
-         w8sQ==
+        id S230191AbhBFDWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 22:22:39 -0500
+Received: from mail-yb1-f182.google.com ([209.85.219.182]:41990 "EHLO
+        mail-yb1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231781AbhBFDPL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 22:15:11 -0500
+Received: by mail-yb1-f182.google.com with SMTP id b187so8721054ybg.9;
+        Fri, 05 Feb 2021 19:14:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=t5Gn3UKnHmz7y35xPv/AAaJUGOdlL1SVmYKp08hQa2A=;
-        b=P6IxHLowrv2wX4hfStgagVya/qT8Dhw/PCvRipXFiU5Q1vVoMzSjcpaidSGYVNB/xp
-         LQnXuDDxOaWHdZ+pMTHsEGqR4hYI6YhaeqNNvNJYMfuphauKlBeWkqLTMVpueiL6crQQ
-         mGPCP4/uKrbcfGil4IqlI1MR/E3SPf/BjhROXSnKaOIGsXUT2gRI+rk2DJI4iZE1jzZZ
-         Ys5MmodJP7g7qfxuvRN2JdbLokogJd3h4RAfdsQY2m+KYSyJTOce/pZPhkcBJNUG8S8r
-         pnEfUKjhYIm3ORX3VRJsNrCaKkMR38no1WN4W8F3yuZ2oTktz6YlO3k08hLypl3E/2uX
-         tagg==
-X-Gm-Message-State: AOAM531S/hfqVoOSbmYZdCH9i1pgmgsu863EfcUYK71izrs5TRXI+BbP
-        W3VsB2M33q9Tf10OcKYiQbg/U2XgSOrp8VN/qHvZ+w==
-X-Google-Smtp-Source: ABdhPJy0sTM7b46RxdYwLPh10drgFMSgljzItLlUxvVIt+nz3DMnRfObLWe428PmKlhcwdjP+4xBZrSJQPA0kUzdbuA=
-X-Received: by 2002:a05:600c:4e92:: with SMTP id f18mr5220472wmq.126.1612564745104;
- Fri, 05 Feb 2021 14:39:05 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=A/9Ih9622NVTzrZPwCYg0qngEXggsHsaO2OKN20W6PE=;
+        b=CfftJvEjfHC0NgoVCz928Q4tvUKaMf3r2cE8+sJW5eoiUo8z+pHVsHnrUHnw8miou/
+         abj6+ulWDeSoJKt5pFQZr4ceJYv2+WMvTK9gz0wEYfIFFlXbs+ytiNcZ7N+tDwbSXfJj
+         0ZDtd3dkImTElBL9qf4HX02A8wpV8tdvyMPjw0N18WnpE42nxF9p7zL+PiDVh8bzThSl
+         Uz+zIwieOQ0FT1eiB09O6u/ZtZOcXQuw7byLuwcBfMkxJE3inUVdcji22IqA9vETH9Sv
+         KoO1+Plo878rccXKdqycjqUAHhhcg7PZaQzWgM+U5ryvsjgUgcWYPwJs/o1VHoHpZ+cf
+         9urg==
+X-Gm-Message-State: AOAM530NFdzOREcL56BVUiuVNNpmRuMjRMPjEBVWAjpzvEcXllJfEMKJ
+        0M6QIOOiLb0u/Yc+2A9U5OIvZULUJA==
+X-Google-Smtp-Source: ABdhPJyOibYhklMZaYhw1NqTq4B3G/M82Lf2xbPpvAKKblvYXBpctsn3mrDEoKTpEDRl2i/3LBnClQ==
+X-Received: by 2002:a9d:7699:: with SMTP id j25mr4952858otl.202.1612565757307;
+        Fri, 05 Feb 2021 14:55:57 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id q8sm1403961oth.65.2021.02.05.14.55.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 14:55:56 -0800 (PST)
+Received: (nullmailer pid 3912199 invoked by uid 1000);
+        Fri, 05 Feb 2021 22:55:54 -0000
+Date:   Fri, 5 Feb 2021 16:55:54 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, hyesoo.yu@samsung.com,
+        david@redhat.com, mhocko@suse.com, surenb@google.com,
+        pullip.cho@samsung.com, joaodias@google.com, hridya@google.com,
+        john.stultz@linaro.org, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        hch@infradead.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 3/4] dt-bindings: reserved-memory: Make DMA-BUF CMA
+ heap DT-configurable
+Message-ID: <20210205225554.GA3881594@robh.at.kernel.org>
+References: <20210121175502.274391-1-minchan@kernel.org>
+ <20210121175502.274391-4-minchan@kernel.org>
 MIME-Version: 1.0
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
- <20210205080621.3102035-2-john.stultz@linaro.org> <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
- <CALAqxLWZkUFvJX5r2OU2erW4tU3j=+u==VTyzYkt+95LwwVCUA@mail.gmail.com>
-In-Reply-To: <CALAqxLWZkUFvJX5r2OU2erW4tU3j=+u==VTyzYkt+95LwwVCUA@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Fri, 5 Feb 2021 14:38:53 -0800
-Message-ID: <CAJuCfpEkKfci_spdEAQKk1o_qoS53y-=i_zjqrDKeyW44AG+BQ@mail.gmail.com>
-Subject: Re: [RFC][PATCH v6 1/7] drm: Add a sharable drm page-pool implementation
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210121175502.274391-4-minchan@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 5, 2021 at 12:47 PM John Stultz <john.stultz@linaro.org> wrote:
->
-> On Fri, Feb 5, 2021 at 12:47 AM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> > Am 05.02.21 um 09:06 schrieb John Stultz:
-> > > diff --git a/drivers/gpu/drm/page_pool.c b/drivers/gpu/drm/page_pool.=
-c
-> > > new file mode 100644
-> > > index 000000000000..2139f86e6ca7
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/page_pool.c
-> > > @@ -0,0 +1,220 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> >
-> > Please use a BSD/MIT compatible license if you want to copy this from
-> > the TTM code.
->
-> Hrm. This may be problematic, as it's not just TTM code, but some of
-> the TTM logic integrated into a page-pool implementation I wrote based
-> on logic from the ION code (which was GPL-2.0 before it was dropped).
-> So I don't think I can just make it MIT.  Any extra context on the
-> need for MIT, or suggestions on how to best resolve this?
->
-> > > +int drm_page_pool_get_size(struct drm_page_pool *pool)
-> > > +{
-> > > +     int ret;
-> > > +
-> > > +     spin_lock(&pool->lock);
-> > > +     ret =3D pool->count;
-> > > +     spin_unlock(&pool->lock);
-> >
-> > Maybe use an atomic for the count instead?
-> >
->
-> I can do that, but am curious as to the benefit? We are mostly using
-> count where we already have to take the pool->lock anyway, and this
-> drm_page_pool_get_size() is only used for debugfs output so far, so I
-> don't expect it to be a hot path.
->
->
-> > > +void drm_page_pool_add(struct drm_page_pool *pool, struct page *page=
-)
-> > > +{
-> > > +     spin_lock(&pool->lock);
-> > > +     list_add_tail(&page->lru, &pool->items);
-> > > +     pool->count++;
-> > > +     atomic_long_add(1 << pool->order, &total_pages);
-> > > +     spin_unlock(&pool->lock);
-> > > +
-> > > +     mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABL=
-E,
-> > > +                         1 << pool->order);
-> >
-> > Hui what? What should that be good for?
->
-> This is a carryover from the ION page pool implementation:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/staging/android/ion/ion_page_pool.c?h=3Dv5.10#n28
->
-> My sense is it helps with the vmstat/meminfo accounting so folks can
-> see the cached pages are shrinkable/freeable. This maybe falls under
-> other dmabuf accounting/stats discussions, so I'm happy to remove it
-> for now, or let the drivers using the shared page pool logic handle
-> the accounting themselves?
+On Thu, Jan 21, 2021 at 09:55:01AM -0800, Minchan Kim wrote:
+> From: Hyesoo Yu <hyesoo.yu@samsung.com>
+> 
+> Document devicetree binding for chunk cma heap on dma heap framework.
+> 
+> The DMA chunk heap supports the bulk allocation of higher order pages.
+> 
+> The chunk heap's allocator allocates from the CMA area. It is optimized
+> to perform bulk allocation of higher order pages in an efficient manner.
+> For this purpose, the heap needs an exclusive CMA area that will only be
+> used for allocation by the heap. This is the reason why we need to use
+> the DT to create and configure a reserved memory region for use by the
+> chunk CMA heap driver. Since all allocation from DMA-BUF heaps happen
+> from the user-space, there is no other appropriate device-driver that
+> we can use to register the chunk CMA heap and configure the reserved
+> memory region for its use.
 
-Yep, ION pools were accounted for as reclaimable kernel memory because
-they could be dropped when the system is under memory pressure.
+LWN tells me we don't need carve outs any more[1]: "CMA now relies on 
+compaction and no longer uses a carved-out memory region."
 
->
->
-> > > +static struct page *drm_page_pool_remove(struct drm_page_pool *pool)
-> > > +{
-> > > +     struct page *page;
-> > > +
-> > > +     if (!pool->count)
-> > > +             return NULL;
-> >
-> > Better use list_first_entry_or_null instead of checking the count.
-> >
-> > This way you can also pull the lock into the function.
->
-> Yea, that cleans a number of things up nicely. Thank you!
->
->
-> > > +struct drm_page_pool *drm_page_pool_create(unsigned int order,
-> > > +                                        int (*free_page)(struct page=
- *p, unsigned int order))
-> > > +{
-> > > +     struct drm_page_pool *pool =3D kmalloc(sizeof(*pool), GFP_KERNE=
-L);
-> >
-> > Why not making this an embedded object? We should not see much dynamic
-> > pool creation.
->
-> Yea, it felt cleaner at the time this way, but I think I will need to
-> switch to an embedded object in order to resolve the memory usage
-> issue you pointed out with growing the ttm_pool_dma, so thank you for
-> the suggestion!
->
->
-> > > +void drm_page_pool_destroy(struct drm_page_pool *pool)
-> > > +{
-> > > +     struct page *page;
-> > > +
-> > > +     /* Remove us from the pool list */
-> > > +     mutex_lock(&pool_list_lock);
-> > > +     list_del(&pool->list);
-> > > +     mutex_unlock(&pool_list_lock);
-> > > +
-> > > +     /* Free any remaining pages in the pool */
-> > > +     spin_lock(&pool->lock);
-> >
-> > Locking should be unnecessary when the pool is destroyed anyway.
->
-> I guess if we've already pruned ourself from the pool list, then your
-> right, we can't race with the shrinker and it's maybe not necessary.
-> But it also seems easier to consistently follow the locking rules in a
-> very unlikely path rather than leaning on subtlety.  Either way, I
-> think this becomes moot if I make the improvements you suggest to
-> drm_page_pool_remove().
->
-> > > +static int drm_page_pool_shrink_one(void)
-> > > +{
-> > > +     struct drm_page_pool *pool;
-> > > +     struct page *page;
-> > > +     int nr_freed =3D 0;
-> > > +
-> > > +     mutex_lock(&pool_list_lock);
-> > > +     pool =3D list_first_entry(&pool_list, typeof(*pool), list);
-> > > +
-> > > +     spin_lock(&pool->lock);
-> > > +     page =3D drm_page_pool_remove(pool);
-> > > +     spin_unlock(&pool->lock);
-> > > +
-> > > +     if (page)
-> > > +             nr_freed =3D drm_page_pool_free_pages(pool, page);
-> > > +
-> > > +     list_move_tail(&pool->list, &pool_list);
-> >
-> > Better to move this up, directly after the list_first_entry().
->
-> Sounds good!
->
-> Thanks so much for your review and feedback! I'll try to get some of
-> the easy suggestions integrated, and will have to figure out what to
-> do about the re-licensing request.
->
-> thanks
-> -john
+So why do we need this?
+
+[1] https://lwn.net/Articles/839216/
+
+> 
+> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> ---
+>  .../reserved-memory/dma_heap_chunk.yaml       | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml b/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
+> new file mode 100644
+> index 000000000000..00db0ae6af61
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/reserved-memory/dma_heap_chunk.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/reserved-memory/dma_heap_chunk.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Device tree binding for chunk heap on DMA HEAP FRAMEWORK
+> +
+> +description: |
+> +  The DMA chunk heap is backed by the Contiguous Memory Allocator (CMA) and
+> +  supports bulk allocation of fixed size pages.
+> +
+> +maintainers:
+> +  - Hyesoo Yu <hyesoo.yu@samsung.com>
+> +  - John Stultz <john.stultz@linaro.org>
+> +  - Minchan Kim <minchan@kernel.org>
+> +  - Hridya Valsaraju<hridya@google.com>
+> +
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - dma_heap,chunk
+
+Convention is vendor,thing and 'dma_heap' is not a vendor. Also, '-' is 
+preferred over '_'.
+
+> +
+> +  chunk-order:
+> +    description: |
+> +            order of pages that will get allocated from the chunk DMA heap.
+
+Page size depends on Linux configuration. And 'order' is very much a 
+Linuxism.
+
+> +    maxItems: 1
+> +
+> +  size:
+> +    maxItems: 1
+> +
+> +  alignment:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - size
+> +  - alignment
+> +  - chunk-order
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    reserved-memory {
+> +        #address-cells = <2>;
+> +        #size-cells = <1>;
+> +
+> +        chunk_memory: chunk_memory {
+> +            compatible = "dma_heap,chunk";
+> +            size = <0x3000000>;
+> +            alignment = <0x0 0x00010000>;
+> +            chunk-order = <4>;
+> +        };
+> +    };
+> -- 
+> 2.30.0.296.g2bfb1c46d8-goog
+> 
