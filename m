@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58138310657
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:12:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06574310650
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:12:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbhBEIKw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 03:10:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55746 "EHLO
+        id S231681AbhBEIIZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 03:08:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231642AbhBEIHy (ORCPT
+        with ESMTP id S231645AbhBEIHy (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 03:07:54 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A14DC0617AB
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 00:06:35 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id j12so3804929pfj.12
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 00:06:35 -0800 (PST)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04FB6C06121C
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 00:06:38 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id a16so3160492plh.8
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 00:06:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yMZdJ0QWB5DNKnFHigbppJEmTH0pjOtMvlOhSROm3JY=;
-        b=nfLDuNHQ7ZcZflve1/8UmLWBj8jyZiNGQlPhmo+1M1jX2NTBI5msB5R/I8HxVPvfEI
-         WKRNzypQ5JSVIarCR0s4fQN/IatdOed8ouHCkOv5gnJM7RYP9W8B47g7dv5V4KZg+kWu
-         rvjx1QjHKBK6rKaqoDNT0MIqxOA2I2egeRQ6X1Um7QegAUGtC599EjWM8q2plzF+nc0X
-         gIs1aKuT1Oov7b+3Gs5c+egn5SRmRYjkoygmqGB0FQf6MWRb1piXXBO1+X8LuBjehmw/
-         fJY7hqdHEsT4ATXu44P8446oCj5ppp3yvb4LVoLe/6MU3tjtB6oe6XCYkUA7kD91vnMl
-         dsUA==
+        bh=0h7G7Mj4IDj8rnVWNvWrWgFawKxEQo6DQAh97xBXxA8=;
+        b=P4T3dsp/zg51lMl4zVUf/FfHVV74HZD0vbohhptRcrdr0GN+iZ8l7eE+Lh0lnG36oT
+         +ff+ITPYx4UU/QAaW/aRUrQgtrd/SUj3jzRJRe+66kwapWq268jPw/MJ5Wivjs5d4WP+
+         64CdRi6IhGvJrhthmEfquhDnx/BK83ex+AKJq2529nm44TPxgZpzVArlsZh8Cvj9FxyW
+         v/ha42GRHLrv1AOqdfnf872X+O/4k8oQ56mDhZvKsLMVUovAwYIHnFozqYRqrSA3R1Q/
+         c19J3l2jnK7WsyUKR26mT71wU+FLRMTRkYPcgS8Or2OPtfLmbimHg7ESI1H160PH00jX
+         8jsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yMZdJ0QWB5DNKnFHigbppJEmTH0pjOtMvlOhSROm3JY=;
-        b=MfrHDHGVLeODIB446oiWk43VZKD3DScd0pzYm60qOmV7nk2HEkA8vGewnnG8coCLt/
-         NnhedjGwrYyC/x+BLq6l9qlyGtRb/WEPiyckiSzx9BtsN02f+ANvzBLohjCXrZ7JQsR+
-         zZf4QAZAi5s8Q5WKnwckOCcR3nn8WG4zBET1RByCZKgWxYs1GeFaFeZHnFlWMpUXccBd
-         1DK6L6Gv2mzI8fWeCWDJg/eh5mxK4EJzN+ifAuAFCKjEsIybUE04o8MWh8alO4FO6MFq
-         lgQQq0lTbagIUfbA6tIsW+8JorVslEOCtt+wSQ5BRoMPp0CTtg/Qhk0sjzEmTKbXnhj8
-         uv1A==
-X-Gm-Message-State: AOAM532GmuaYvHuimM0KjmQ6sao+rnuaCS9Cubo14uzhQb7dXrRIwPFg
-        lBlb1HfVp9KPc8+2u368cKMLTw==
-X-Google-Smtp-Source: ABdhPJy1ZrVvZuAN8XXMihWVOe0E6t1BYjetV+cMvLtvHpEEF+0vQTnbj3TeYmWqXnNUyDsbUz3aMg==
-X-Received: by 2002:a62:7b90:0:b029:1be:9e89:1db5 with SMTP id w138-20020a627b900000b02901be9e891db5mr3367319pfc.35.1612512395009;
-        Fri, 05 Feb 2021 00:06:35 -0800 (PST)
+        bh=0h7G7Mj4IDj8rnVWNvWrWgFawKxEQo6DQAh97xBXxA8=;
+        b=RWV1XpALZtvJmegoyT8sXF1fWw+2wNORpjvLIFrJ0oJfliU1LOqO1KHtarfdks0fso
+         PwIb3RgSBhq2PxU+O/FEr0c7N0XgyqSulBoeQnQE3HcTovn5CuGRg9NMLaPtJEwqjp0o
+         dJDvC0txBKuUcHq9/FC28ELY0XByvGVAHKMDxkqvkMqLOaIfjGBkDopgNy5V5WRohs7w
+         SgySRryJhI2z3kFsEEt9Wh1Bmr1tNowyyhN1WSd7MlnIL5PE7WJ2kXaAGxahIRcoxlCa
+         PKCfikMQl+/07f60JruH4EwdNh+Y0wC5bVW4Te47xQt8PTTXK+QWtn0vyrwml1HB/s9p
+         d3rA==
+X-Gm-Message-State: AOAM533cWrAML25kc0NE/IxIfif+9+H//OBE94AG4XOZEMxoFl7Hqyks
+        kDyocnYIoSL6ObkX8OgRj87T3A==
+X-Google-Smtp-Source: ABdhPJwmeSiEy8q5ju3zjwrXliGZIHlzYK+gBb189/+0rR+aqgg3u0rJgcGBcFQZL55Ljr3xsdHWqg==
+X-Received: by 2002:a17:902:e844:b029:de:5abb:7df1 with SMTP id t4-20020a170902e844b02900de5abb7df1mr3247903plg.55.1612512397486;
+        Fri, 05 Feb 2021 00:06:37 -0800 (PST)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id 32sm9520070pgq.80.2021.02.05.00.06.32
+        by smtp.gmail.com with ESMTPSA id 32sm9520070pgq.80.2021.02.05.00.06.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 00:06:34 -0800 (PST)
+        Fri, 05 Feb 2021 00:06:36 -0800 (PST)
 From:   John Stultz <john.stultz@linaro.org>
 To:     lkml <linux-kernel@vger.kernel.org>
 Cc:     John Stultz <john.stultz@linaro.org>,
@@ -67,9 +67,9 @@ Cc:     John Stultz <john.stultz@linaro.org>,
         Simon Ser <contact@emersion.fr>,
         James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org
-Subject: [RFC][PATCH v6 5/7] dma-buf: heaps: Add deferred-free-helper library code
-Date:   Fri,  5 Feb 2021 08:06:19 +0000
-Message-Id: <20210205080621.3102035-6-john.stultz@linaro.org>
+Subject: [RFC][PATCH v6 6/7] dma-buf: system_heap: Add drm pagepool support to system heap
+Date:   Fri,  5 Feb 2021 08:06:20 +0000
+Message-Id: <20210205080621.3102035-7-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205080621.3102035-1-john.stultz@linaro.org>
 References: <20210205080621.3102035-1-john.stultz@linaro.org>
@@ -80,16 +80,11 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch provides infrastructure for deferring buffer frees.
+Utilize the drm pagepool code to speed up allocation
+performance.
 
-This is a feature ION provided which when used with some form
-of a page pool, provides a nice performance boost in an
-allocation microbenchmark. The reason it helps is it allows the
-page-zeroing to be done out of the normal allocation/free path,
-and pushed off to a kthread.
-
-As not all heaps will find this useful, its implemented as
-a optional helper library that heaps can utilize.
+This is similar to the ION pagepool usage, but tries to
+utilize generic code instead of a custom implementation.
 
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Christian Koenig <christian.koenig@amd.com>
@@ -112,259 +107,139 @@ Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
 v2:
-* Fix sleep in atomic issue from using a mutex, by switching
-  to a spinlock as Reported-by: kernel test robot <oliver.sang@intel.com>
-* Cleanup API to use a reason enum for clarity and add some documentation
-  comments as suggested by Suren Baghdasaryan.
+* Fix build issue caused by selecting PAGE_POOL w/o NET
+  as Reported-by: kernel test robot <lkp@intel.com>
 v3:
-* Minor tweaks so it can be built as a module
-* A few small fixups suggested by Daniel Mentz
-v4:
-* Tweak from Daniel Mentz to make sure the shrinker
-  count/freed values are tracked in pages not bytes
+* Simplify the page zeroing logic a bit by using kmap_atomic
+  instead of vmap as suggested by Daniel Mentz
 v5:
-* Fix up page count tracking as suggested by Suren Baghdasaryan
+* Shift away from networking page pool completely to
+  dmabuf page pool implementation
+v6:
+* Switch again to using the drm_page_pool code shared w/
+  ttm_pool
 ---
- drivers/dma-buf/heaps/Kconfig                |   3 +
- drivers/dma-buf/heaps/Makefile               |   1 +
- drivers/dma-buf/heaps/deferred-free-helper.c | 145 +++++++++++++++++++
- drivers/dma-buf/heaps/deferred-free-helper.h |  55 +++++++
- 4 files changed, 204 insertions(+)
- create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.c
- create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.h
+ drivers/dma-buf/heaps/Kconfig       |  1 +
+ drivers/dma-buf/heaps/system_heap.c | 56 +++++++++++++++++++++++++++--
+ 2 files changed, 54 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c4226..f7aef8bc7119 100644
+index f7aef8bc7119..7e28934e0def 100644
 --- a/drivers/dma-buf/heaps/Kconfig
 +++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,3 +1,6 @@
-+config DMABUF_HEAPS_DEFERRED_FREE
-+	tristate
-+
+@@ -4,6 +4,7 @@ config DMABUF_HEAPS_DEFERRED_FREE
  config DMABUF_HEAPS_SYSTEM
  	bool "DMA-BUF System Heap"
  	depends on DMABUF_HEAPS
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 974467791032..4e7839875615 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_DMABUF_HEAPS_DEFERRED_FREE) += deferred-free-helper.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/deferred-free-helper.c b/drivers/dma-buf/heaps/deferred-free-helper.c
-new file mode 100644
-index 000000000000..672c3d5872e9
---- /dev/null
-+++ b/drivers/dma-buf/heaps/deferred-free-helper.c
-@@ -0,0 +1,145 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Deferred dmabuf freeing helper
-+ *
-+ * Copyright (C) 2020 Linaro, Ltd.
-+ *
-+ * Based on the ION page pool code
-+ * Copyright (C) 2011 Google, Inc.
-+ */
++	select DRM_PAGE_POOL
+ 	help
+ 	  Choose this option to enable the system dmabuf heap. The system heap
+ 	  is backed by pages from the buddy allocator. If in doubt, say Y.
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 17e0e9a68baf..6d39e9f32e36 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -21,6 +21,8 @@
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
+ 
++#include <drm/page_pool.h>
 +
-+#include <linux/freezer.h>
-+#include <linux/list.h>
-+#include <linux/slab.h>
-+#include <linux/swap.h>
-+#include <linux/sched/signal.h>
-+
-+#include "deferred-free-helper.h"
-+
-+static LIST_HEAD(free_list);
-+static size_t list_size_pages;
-+wait_queue_head_t freelist_waitqueue;
-+struct task_struct *freelist_task;
-+static DEFINE_SPINLOCK(free_list_lock);
-+
-+static inline size_t size_to_pages(size_t size)
+ static struct dma_heap *sys_heap;
+ 
+ struct system_heap_buffer {
+@@ -53,6 +55,7 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, LOW_ORDER_GFP, LOW_ORDER_GFP};
+  */
+ static const unsigned int orders[] = {8, 4, 0};
+ #define NUM_ORDERS ARRAY_SIZE(orders)
++struct drm_page_pool *pools[NUM_ORDERS];
+ 
+ static struct sg_table *dup_sg_table(struct sg_table *table)
+ {
+@@ -281,18 +284,49 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ 	dma_buf_map_clear(map);
+ }
+ 
++static int system_heap_free_pages(struct page *p, unsigned int order)
 +{
-+	if (!size)
-+		return 0;
-+	return ((size - 1) >> PAGE_SHIFT) + 1;
++	__free_pages(p, order);
++	return 1 << order;
 +}
 +
-+void deferred_free(struct deferred_freelist_item *item,
-+		   void (*free)(struct deferred_freelist_item*,
-+				enum df_reason),
-+		   size_t size)
++static int system_heap_zero_buffer(struct system_heap_buffer *buffer)
 +{
-+	unsigned long flags;
++	struct sg_table *sgt = &buffer->sg_table;
++	struct sg_page_iter piter;
++	struct page *p;
++	void *vaddr;
++	int ret = 0;
 +
-+	INIT_LIST_HEAD(&item->list);
-+	item->size = size;
-+	item->free = free;
-+
-+	spin_lock_irqsave(&free_list_lock, flags);
-+	list_add(&item->list, &free_list);
-+	list_size_pages += size_to_pages(size);
-+	spin_unlock_irqrestore(&free_list_lock, flags);
-+	wake_up(&freelist_waitqueue);
-+}
-+EXPORT_SYMBOL_GPL(deferred_free);
-+
-+static size_t free_one_item(enum df_reason reason)
-+{
-+	unsigned long flags;
-+	size_t nr_pages;
-+	struct deferred_freelist_item *item;
-+
-+	spin_lock_irqsave(&free_list_lock, flags);
-+	if (list_empty(&free_list)) {
-+		spin_unlock_irqrestore(&free_list_lock, flags);
-+		return 0;
-+	}
-+	item = list_first_entry(&free_list, struct deferred_freelist_item, list);
-+	list_del(&item->list);
-+	nr_pages = size_to_pages(item->size);
-+	list_size_pages -= nr_pages;
-+	spin_unlock_irqrestore(&free_list_lock, flags);
-+
-+	item->free(item, reason);
-+	return nr_pages;
-+}
-+
-+static unsigned long get_freelist_size_pages(void)
-+{
-+	unsigned long size;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&free_list_lock, flags);
-+	size = list_size_pages;
-+	spin_unlock_irqrestore(&free_list_lock, flags);
-+	return size;
-+}
-+
-+static unsigned long freelist_shrink_count(struct shrinker *shrinker,
-+					   struct shrink_control *sc)
-+{
-+	return get_freelist_size_pages();
-+}
-+
-+static unsigned long freelist_shrink_scan(struct shrinker *shrinker,
-+					  struct shrink_control *sc)
-+{
-+	unsigned long total_freed = 0;
-+
-+	if (sc->nr_to_scan == 0)
-+		return 0;
-+
-+	while (total_freed < sc->nr_to_scan) {
-+		size_t pages_freed = free_one_item(DF_UNDER_PRESSURE);
-+
-+		if (!pages_freed)
-+			break;
-+
-+		total_freed += pages_freed;
++	for_each_sgtable_page(sgt, &piter, 0) {
++		p = sg_page_iter_page(&piter);
++		vaddr = kmap_atomic(p);
++		memset(vaddr, 0, PAGE_SIZE);
++		kunmap_atomic(vaddr);
 +	}
 +
-+	return total_freed;
++	return ret;
 +}
 +
-+static struct shrinker freelist_shrinker = {
-+	.count_objects = freelist_shrink_count,
-+	.scan_objects = freelist_shrink_scan,
-+	.seeks = DEFAULT_SEEKS,
-+	.batch = 0,
-+};
+ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
+ {
+ 	struct system_heap_buffer *buffer = dmabuf->priv;
+ 	struct sg_table *table;
+ 	struct scatterlist *sg;
+-	int i;
++	int i, j;
 +
-+static int deferred_free_thread(void *data)
-+{
-+	while (true) {
-+		wait_event_freezable(freelist_waitqueue,
-+				     get_freelist_size_pages() > 0);
++	/* Zero the buffer pages before adding back to the pool */
++	system_heap_zero_buffer(buffer);
+ 
+ 	table = &buffer->sg_table;
+ 	for_each_sg(table->sgl, sg, table->nents, i) {
+ 		struct page *page = sg_page(sg);
+ 
+-		__free_pages(page, compound_order(page));
++		for (j = 0; j < NUM_ORDERS; j++) {
++			if (compound_order(page) == orders[j])
++				break;
++		}
++		drm_page_pool_add(pools[j], page);
+ 	}
+ 	sg_free_table(table);
+ 	kfree(buffer);
+@@ -323,7 +357,9 @@ static struct page *alloc_largest_available(unsigned long size,
+ 		if (max_order < orders[i])
+ 			continue;
+ 
+-		page = alloc_pages(order_flags[i], orders[i]);
++		page = drm_page_pool_fetch(pools[i]);
++		if (!page)
++			page = alloc_pages(order_flags[i], orders[i]);
+ 		if (!page)
+ 			continue;
+ 		return page;
+@@ -428,6 +464,20 @@ static const struct dma_heap_ops system_heap_ops = {
+ static int system_heap_create(void)
+ {
+ 	struct dma_heap_export_info exp_info;
++	int i;
 +
-+		free_one_item(DF_NORMAL);
++	for (i = 0; i < NUM_ORDERS; i++) {
++		pools[i] = drm_page_pool_create(orders[i],
++						system_heap_free_pages);
++		if (IS_ERR(pools[i])) {
++			int j;
++
++			pr_err("%s: page pool creation failed!\n", __func__);
++			for (j = 0; j < i; j++)
++				drm_page_pool_destroy(pools[j]);
++			return PTR_ERR(pools[i]);
++		}
 +	}
-+
-+	return 0;
-+}
-+
-+static int deferred_freelist_init(void)
-+{
-+	list_size_pages = 0;
-+
-+	init_waitqueue_head(&freelist_waitqueue);
-+	freelist_task = kthread_run(deferred_free_thread, NULL,
-+				    "%s", "dmabuf-deferred-free-worker");
-+	if (IS_ERR(freelist_task)) {
-+		pr_err("Creating thread for deferred free failed\n");
-+		return -1;
-+	}
-+	sched_set_normal(freelist_task, 19);
-+
-+	return register_shrinker(&freelist_shrinker);
-+}
-+module_init(deferred_freelist_init);
-+MODULE_LICENSE("GPL v2");
-+
-diff --git a/drivers/dma-buf/heaps/deferred-free-helper.h b/drivers/dma-buf/heaps/deferred-free-helper.h
-new file mode 100644
-index 000000000000..18b44ac86ef6
---- /dev/null
-+++ b/drivers/dma-buf/heaps/deferred-free-helper.h
-@@ -0,0 +1,55 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef DEFERRED_FREE_HELPER_H
-+#define DEFERRED_FREE_HELPER_H
-+
-+/**
-+ * df_reason - enum for reason why item was freed
-+ *
-+ * This provides a reason for why the free function was called
-+ * on the item. This is useful when deferred_free is used in
-+ * combination with a pagepool, so under pressure the page can
-+ * be immediately freed.
-+ *
-+ * DF_NORMAL:         Normal deferred free
-+ *
-+ * DF_UNDER_PRESSURE: Free was called because the system
-+ *                    is under memory pressure. Usually
-+ *                    from a shrinker. Avoid allocating
-+ *                    memory in the free call, as it may
-+ *                    fail.
-+ */
-+enum df_reason {
-+	DF_NORMAL,
-+	DF_UNDER_PRESSURE,
-+};
-+
-+/**
-+ * deferred_freelist_item - item structure for deferred freelist
-+ *
-+ * This is to be added to the structure for whatever you want to
-+ * defer freeing on.
-+ *
-+ * @size: size of the item to be freed
-+ * @free: function pointer to be called when freeing the item
-+ * @list: list entry for the deferred list
-+ */
-+struct deferred_freelist_item {
-+	size_t size;
-+	void (*free)(struct deferred_freelist_item *i,
-+		     enum df_reason reason);
-+	struct list_head list;
-+};
-+
-+/**
-+ * deferred_free - call to add item to the deferred free list
-+ *
-+ * @item: Pointer to deferred_freelist_item field of a structure
-+ * @free: Function pointer to the free call
-+ * @size: Size of the item to be freed
-+ */
-+void deferred_free(struct deferred_freelist_item *item,
-+		   void (*free)(struct deferred_freelist_item *i,
-+				enum df_reason reason),
-+		   size_t size);
-+#endif
+ 
+ 	exp_info.name = "system";
+ 	exp_info.ops = &system_heap_ops;
 -- 
 2.25.1
 
