@@ -2,202 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFAF431065D
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA24E310675
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:18:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbhBEIL4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 03:11:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231630AbhBEIHw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 03:07:52 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00908C06121E
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 00:06:39 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id x23so2318000pfn.6
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 00:06:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GOndOP8F+BfXNLjrSX9CtfpObuYsc9aU1JNxbRzKav4=;
-        b=Nn+MlC5tKBHafRdbSa7S8DmObCjHIWlNYVXwMR2RRmFpY/1YFN/JejT9MseDX0khO/
-         Piwh7OqAi92p946kQ+P8IdpWiNbpooftChpefls8Lmv9U8Q7rleVcIwXuOnqu/4BQzC+
-         goprUTNEMoRlSmp6To1gKsxWw6vM72Yr5P7HEGj5Yi9M5drA9jSPHpz65qDMqWz+R6RX
-         v/NGL7oFcwvXJOVn5S/LHz+ARYcnN5bywATDFLipVqQsms2hfi5V5SGE6jH3LGHk0hhg
-         /aqgi5o6SNZzoeZBdlWnAv3EE3rtQ2IxAYedQIia3hiO+oABFCiB/SacNV9a2foTJouk
-         GRDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GOndOP8F+BfXNLjrSX9CtfpObuYsc9aU1JNxbRzKav4=;
-        b=dspnbcHNC2dtZGPOzAXiljXwnJIuw1oxahl6Nkl9NYHuAmci4caXRZ1fys/HXX1yHE
-         J+vwMGv5yERDwLP9NhSv0RoJajEnGlIeatkpFovHNklbSxHAgkP7Sa9LZWOdJ+z9EA9W
-         H8gYWP+BsbXj4FkZTklB9Lyj5meCrJ0+dwPp0z4cmZkjLrzrOBq/zcKzqOrRTx9T8mp2
-         0bKegRGT8vu2LP0esInJZMcCsQK4E74Mbz2WEUqM78rzowNWrbZJv4J4mWWZZQSjjSqN
-         9Qki84ZF2eWyLMwAskQ1Kl2HhIF8UhTwJH4Em6Ud6Eoc/VNBAFty+IPKzFlouUhvLRnz
-         dZ9A==
-X-Gm-Message-State: AOAM532Vj1KUOgn93hFN0s2dAaEZ/PPfHJbCzyohFZz4hCfFsnKofhMd
-        ciqghUnK3ok4xbwJDfeCTA9vLA==
-X-Google-Smtp-Source: ABdhPJx+FpGulW/NuF4+mtl7ogJq0jqebiVtB3k4/SZDAmxf9F1Xx8HSTD5aCBfLoqE9Pbnctuk3TQ==
-X-Received: by 2002:aa7:9538:0:b029:1d6:ccef:72ad with SMTP id c24-20020aa795380000b02901d6ccef72admr3319521pfp.64.1612512399559;
-        Fri, 05 Feb 2021 00:06:39 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id 32sm9520070pgq.80.2021.02.05.00.06.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 00:06:38 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [RFC][PATCH v6 7/7] dma-buf: system_heap: Add deferred freeing to the system heap
-Date:   Fri,  5 Feb 2021 08:06:21 +0000
-Message-Id: <20210205080621.3102035-8-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210205080621.3102035-1-john.stultz@linaro.org>
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
+        id S231594AbhBEIQt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 5 Feb 2021 03:16:49 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:41336 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231400AbhBEIQq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 03:16:46 -0500
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1l7wHL-0000bu-I7; Fri, 05 Feb 2021 09:15:47 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        hjc@rock-chips.com, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        cmuellner@linux.com
+Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
+Date:   Fri, 05 Feb 2021 09:15:47 +0100
+Message-ID: <5271305.e9J7NaK4W3@diego>
+In-Reply-To: <20210205064335.6c3gs3h3pgvhceku@basti-TUXEDO-Book-XA1510>
+References: <20210202145632.1263136-1-heiko@sntech.de> <16624224.lhrHg4fidi@diego> <20210205064335.6c3gs3h3pgvhceku@basti-TUXEDO-Book-XA1510>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Utilize the deferred free helper library in the system heap.
+Hi Sebastian,
 
-This provides a nice performance bump and puts the
-system heap performance on par with ION.
+Am Freitag, 5. Februar 2021, 07:43:35 CET schrieb Sebastian Fricke:
+> On 03.02.2021 20:54, Heiko Stübner wrote:
+> >Am Mittwoch, 3. Februar 2021, 19:14:22 CET schrieb Sebastian Fricke:
+> >> I have tested your patch set on my nanoPC-T4, here is a complete log
+> >> with:
+> >> - relevant kernel log entries
+> >> - system information
+> >> - media ctl output
+> >> - sysfs entry information
+> >>
+> >> https://paste.debian.net/1183874/
+> >>
+> >> Additionally, to your patchset I have applied the following patches:
+> >> https://github.com/initBasti/Linux_kernel_media_tree_fork/commits/dual_cam_setup
+> >>
+> >> And just to not cause confusion the `media_dev` entries come from this
+> >> unmerged series:
+> >> https://patchwork.kernel.org/project/linux-media/list/?series=426269
+> >>
+> >> I have actually been able to stream with both of my cameras at the same
+> >> time using the libcamera cam command.
+> >> I would like to thank you a lot for making this possible.
+> >
+> >Thanks for testing a dual camera setup. On my board I could only test
+> >the second ISP. And really glad it works for you tool :-) .
+> >
+> >Out of curiosity, do you also see that green tint in the images the cameras
+> >produce?
+> 
+> Yes, I do. Actually, I currently have two forms of a green tint, on my
+> OV13850 everything is quite dark and greenish, which is caused by the
+> missing 3A algorithms. On my OV4689, I have big patches of the image
+> with bright green color and flickering, I investigated if this is
+> connected to the 2nd ISP instance, but that doesn't seem to be the case
+> as I have the same results when I switch the CSI ports of the cameras.
+> 
+> I have found another issue, while testing I discovered following
+> issue:
+> When I start the system with an HDMI monitor connected, then the camera
+> on the 2nd port doesn't work. This is probably because the RX/TX is
+> reserved as a TX.
+> But it made me wonder because if the system has an RX, a TX, and
+> an RX/TX, why isn't the pure TX used by the monitor and the
+> cameras take RX and RX/TX?
+> Or do you think that this is maybe a malfunction of this patch?
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Ã˜rjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
-v2:
-* Rework deferred-free api to use reason enum as suggested by
-  Suren Baghdasaryan
----
- drivers/dma-buf/heaps/Kconfig       |  1 +
- drivers/dma-buf/heaps/system_heap.c | 31 ++++++++++++++++++++++-------
- 2 files changed, 25 insertions(+), 7 deletions(-)
+I don't think it is an issue with this specific series, but still puzzling.
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index 7e28934e0def..10632ccfb4a5 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -5,6 +5,7 @@ config DMABUF_HEAPS_SYSTEM
- 	bool "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	select DRM_PAGE_POOL
-+	select DMABUF_HEAPS_DEFERRED_FREE
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
- 	  is backed by pages from the buddy allocator. If in doubt, say Y.
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 6d39e9f32e36..042244407db5 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -22,6 +22,7 @@
- #include <linux/vmalloc.h>
- 
- #include <drm/page_pool.h>
-+#include "deferred-free-helper.h"
- 
- static struct dma_heap *sys_heap;
- 
-@@ -33,6 +34,7 @@ struct system_heap_buffer {
- 	struct sg_table sg_table;
- 	int vmap_cnt;
- 	void *vaddr;
-+	struct deferred_freelist_item deferred_free;
- };
- 
- struct dma_heap_attachment {
-@@ -308,30 +310,45 @@ static int system_heap_zero_buffer(struct system_heap_buffer *buffer)
- 	return ret;
- }
- 
--static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
-+static void system_heap_buf_free(struct deferred_freelist_item *item,
-+				 enum df_reason reason)
- {
--	struct system_heap_buffer *buffer = dmabuf->priv;
-+	struct system_heap_buffer *buffer;
- 	struct sg_table *table;
- 	struct scatterlist *sg;
- 	int i, j;
- 
-+	buffer = container_of(item, struct system_heap_buffer, deferred_free);
- 	/* Zero the buffer pages before adding back to the pool */
--	system_heap_zero_buffer(buffer);
-+	if (reason == DF_NORMAL)
-+		if (system_heap_zero_buffer(buffer))
-+			reason = DF_UNDER_PRESSURE; // On failure, just free
- 
- 	table = &buffer->sg_table;
- 	for_each_sg(table->sgl, sg, table->nents, i) {
- 		struct page *page = sg_page(sg);
- 
--		for (j = 0; j < NUM_ORDERS; j++) {
--			if (compound_order(page) == orders[j])
--				break;
-+		if (reason == DF_UNDER_PRESSURE) {
-+			__free_pages(page, compound_order(page));
-+		} else {
-+			for (j = 0; j < NUM_ORDERS; j++) {
-+				if (compound_order(page) == orders[j])
-+					break;
-+			}
-+			drm_page_pool_add(pools[j], page);
- 		}
--		drm_page_pool_add(pools[j], page);
- 	}
- 	sg_free_table(table);
- 	kfree(buffer);
- }
- 
-+static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct system_heap_buffer *buffer = dmabuf->priv;
-+
-+	deferred_free(&buffer->deferred_free, system_heap_buf_free, buffer->len);
-+}
-+
- static const struct dma_buf_ops system_heap_buf_ops = {
- 	.attach = system_heap_attach,
- 	.detach = system_heap_detach,
--- 
-2.25.1
+I.e. the DPHYs are actually only relevant to the DSI controllers,
+with TX0 being connected to DSI0 and TX1RX1 being connected
+to DSI1. So having an hdmi display _in theory_ shouldn't matter at all.
+
+Out of curiosity what happens, when you boot without hdmi connected
+turn on the cameras, connect the hdmi after this, try the cameras again?
+
+
+Heiko
+
+> 
+> >
+> >Thanks
+> >Heiko
+> 
+> Greetings,
+> Sebastian
+> 
+> >
+> >
+> >> If you like to you can add:
+> >> Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+> >>
+> >> On 02.02.2021 15:56, Heiko Stuebner wrote:
+> >> >The rk3399 has two ISPs and right now only the first one is usable.
+> >> >The second ISP is connected to the TXRX dphy on the soc.
+> >> >
+> >> >The phy of ISP1 is only accessible through the DSI controller's
+> >> >io-memory, so this series adds support for simply using the dsi
+> >> >controller is a phy if needed.
+> >> >
+> >> >That solution is needed at least on rk3399 and rk3288 but no-one
+> >> >has looked at camera support on rk3288 at all, so right now
+> >> >only implement the rk3399 specifics.
+> >> >
+> >> >
+> >> >Heiko Stuebner (6):
+> >> >  drm/rockchip: dsi: add own additional pclk handling
+> >> >  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
+> >> >  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
+> >> >  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
+> >> >  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
+> >> >  arm64: dts: rockchip: add isp1 node on rk3399
+> >> >
+> >> > .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
+> >> > arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
+> >> > drivers/gpu/drm/rockchip/Kconfig              |   2 +
+> >> > .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 342 ++++++++++++++++++
+> >> > 4 files changed, 384 insertions(+)
+> >> >
+> >>
+> >
+> >
+> >
+> >
+> 
+
+
+
 
