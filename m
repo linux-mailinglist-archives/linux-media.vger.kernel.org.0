@@ -2,109 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D273107C3
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 10:26:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0BDA3107C7
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 10:27:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbhBEJXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 04:23:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42094 "EHLO
+        id S229562AbhBEJZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 04:25:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbhBEJPr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 04:15:47 -0500
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66FE1C061793
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 01:15:07 -0800 (PST)
-Received: by mail-oi1-x22f.google.com with SMTP id y199so4771685oia.4
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 01:15:07 -0800 (PST)
+        with ESMTP id S230385AbhBEJWM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 04:22:12 -0500
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106E5C061786;
+        Fri,  5 Feb 2021 01:21:32 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id w11so3092677qvz.12;
+        Fri, 05 Feb 2021 01:21:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bXNMzkZKAQHAIrPBhbAfZJ1F8VP6J4t5+TSc68lOL4Y=;
-        b=a+ji2SzyZm3n8vVEHzAMZc8QntIgLAYyHbAXu1DjdIj2YXSB95Kk9f0X7dpvSIMx4b
-         ZOgF3PKpF755HKCdIJr6U5t6zLzDDh9y1RUPzOpqu9dSY2DlYKR39mapqWK/IkqzmmOQ
-         jhaJmkwjl1dKvNndYYw0eyycjistU6FYnbvB0=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N7fgwypp4YPR553ca/WI+V8jkPwnVoWzOdVAmQVNAJ4=;
+        b=SLxlenj3qh6XUadPrXruXWQHSxYcAwnujUe/KB5fbjI8+BfelE60wAvUyZpnPU9rwb
+         xPIIKwhOTUlxiOACLECfkDXCP30BIhLT60oDwbx/agA9qGLfzqgac4DGEqOMUGjftIDI
+         gn2gIcpFn6NWY2rKkaS2X+ookgFJ/DjogAyLTrfJDOTn3mi3Qu72sTW8iIgHHM0MfY0W
+         Oq113UYQGFk/O8/g09NhOY0zHxYQesGq7QmSJDtEOS/aDJ8HMn6LzVlHTrlDsm1Tj5OK
+         J1csX7TdgINEJlwxEnwK859xJVobVjCd6BGtHg0bCg8yKp9TfrOuyYDNSHU8yxKZUbHm
+         RDag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bXNMzkZKAQHAIrPBhbAfZJ1F8VP6J4t5+TSc68lOL4Y=;
-        b=emGJ2Zi716eHQ8u2U/na8ZMZhrhBj1up1ZVfM4l037jYgQV+wHeyc9akWsHnkHpojf
-         UkD4iJfq2i96bxmHvmfn8Bd5vRP1SQ6nZy8pb4Z43skclzwZQ7VGuqHYM2AQLV6vpJI/
-         MmffLUJ2mgsqvIzTyIdwF3fNq7bDDxiK+24+8tM6KyFP7OeyNnAmt/d1OtrUEDzMyvZW
-         3IslELVC30YoKHvnEEAUUPSIM3n0CYD4rdL5NKr8HlTMZKKo+LwShu9Hup+xR5IAoCSM
-         T/e5JnkTSU/zw+jT2k4za5P14zYilNvIUzZjP5O2OpWhUf6PT+Hk3ePMAJZ6MrNrZiRr
-         sJEQ==
-X-Gm-Message-State: AOAM531Gr64fFxpCxBsMU1oF57hyaQyFqcaM1hxSqytopIHdEbF+6BDZ
-        K94SKdG4woi7oRaxQgSoeh/xMJaiKhb38y3Yv9RYYw==
-X-Google-Smtp-Source: ABdhPJxEMaYu1JXRr4pq0v6xG4RV1wNpt4QeaMRtr7VxclNNU/6kd9mpU8CVuZPrSywCRKR/06lHELNic7Bm/GFyf1k=
-X-Received: by 2002:aca:df42:: with SMTP id w63mr2473363oig.128.1612516506743;
- Fri, 05 Feb 2021 01:15:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N7fgwypp4YPR553ca/WI+V8jkPwnVoWzOdVAmQVNAJ4=;
+        b=YiZWXeI3VkD1KE6FcqIqtHrWstEiB/nlSvIEG6sjoWBrxEmldxTXHC/7sYYMiiTVw5
+         HNTK7v41zmCCemSCEEvNm1HyQSg0pqutPX4VEenQPltB486BNZYDXo9uXVLkMogQcczh
+         NsjwdzymalTgKUHQDOb6wCjcn1KYwPMiP3zY+0h8i2vwjr3i/zo06oJr+ghavqbk/z1H
+         9AsLvVkfniJZ/6F1ewQb6E07Wgol+xes9JDusm5oMJN6uYBv37DOCPbv8/v2KL5m2ijB
+         rOyvSnmrjpvo3UeGwPSpfLCcusiXbp/sbiWoVGmjs4BU1G4qhB7k5foYkqst5CsbSkDF
+         kodA==
+X-Gm-Message-State: AOAM533imlVUFTSkVoRFO6rftR5TgqCjfDAPU4APIzBsZN/0eFzI9xRL
+        o43ZWZYiqFzX0YB/0qVGZ+8=
+X-Google-Smtp-Source: ABdhPJwhpIvyUYniT+6ai0YzH9d0y2S7HEGc/+kYw2hgTPFqMQc194Y8y6X06YWj1bO9cTq4AkfxZQ==
+X-Received: by 2002:a0c:b66c:: with SMTP id q44mr3329930qvf.3.1612516891334;
+        Fri, 05 Feb 2021 01:21:31 -0800 (PST)
+Received: from localhost.localdomain ([156.146.36.157])
+        by smtp.gmail.com with ESMTPSA id r4sm8309032qkf.112.2021.02.05.01.21.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 01:21:30 -0800 (PST)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     prabhakar.csengg@gmail.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] include: media: davinci: Fixed up few trivial spellings in the file isif.h
+Date:   Fri,  5 Feb 2021 14:51:17 +0530
+Message-Id: <20210205092117.551317-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <20210203211948.2529297-1-daniel.vetter@ffwll.ch>
- <20210204161339.GX4718@ziepe.ca> <CAKMK7uEZvEEQXQeM=t-7uZEvga2GMhctp=WQgeSetG0GKTRsHA@mail.gmail.com>
- <20210204183808.GY4718@ziepe.ca> <CAKMK7uFBzF00zTzAE5b7PJFUfmxp5ExbSQxfcOfd_P6dPm7k9A@mail.gmail.com>
- <20210204200918.GA4718@ziepe.ca> <CAKMK7uEU_TJEUF2go6WRuVn+=-DSD5kRw1beJhC_1Y4HTXbYVQ@mail.gmail.com>
- <20210204205927.GD4718@ziepe.ca>
-In-Reply-To: <20210204205927.GD4718@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri, 5 Feb 2021 10:14:55 +0100
-Message-ID: <CAKMK7uH8yLtdzZkSLEfmbooDJSxaKPLXcHP_-xssJbDZz-eHMw@mail.gmail.com>
-Subject: Re: [PATCH] RFC: dma-buf: Require VM_SPECIAL vma for mmap
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 9:59 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Thu, Feb 04, 2021 at 09:19:57PM +0100, Daniel Vetter wrote:
-> > On Thu, Feb 4, 2021 at 9:09 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > >
-> > > On Thu, Feb 04, 2021 at 08:59:59PM +0100, Daniel Vetter wrote:
-> > >
-> > > > So I think just checking for VM_PFNMAP after the vma is set up should
-> > > > be enough to guarantee we'll only have pte_special ptes in there,
-> > > > ever. But I'm not sure, this stuff all isn't really documented much
-> > > > and the code is sometimes a maze (to me at least).
-> > >
-> > > Yes, that makes sense. VM_PFNMAP and !VM_MIXEDMAP seems like the right
-> > > check after the VMA is populated
-> > >
-> > > But how do you stuff special pfns into a VMA outside the fault
-> > > handler?
-> >
-> > Many drivers we have don't have dynamic buffer management (kinda
-> > overkill for a few framebuffers on a display-only IP block), so the
-> > just remap_pfn_range on ->mmap, and don't have a fault handler at all.
->
-> remap_pfn_range() makes sense, do you expect drivers using struct page
-> backed memory to call that as well?
 
-All the ones using CMA through dma_alloc_coherent end up in there with
-the dma_mmap_wc function. So yeah we have tons already.
 
-The drivers with dynamic memory management all use vm_insert_pfn, even
-when the buffer is in system memory and struct page backed. I think
-those are the two cases. There's another mmap in drm/i915, but that
-should never leave intel-specific userspace, and I think we're also
-phasing it out somewhat. Either way, should never show up in a shared
-buffer usecase, ever, so I think we can ignore it.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Several spelling fixes throughout the file.
+
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ include/media/davinci/isif.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/include/media/davinci/isif.h b/include/media/davinci/isif.h
+index e66589c4022d..8369acd26e7e 100644
+--- a/include/media/davinci/isif.h
++++ b/include/media/davinci/isif.h
+@@ -177,7 +177,7 @@ struct isif_black_clamp {
+ 	 * 1 - clamp value calculated separately for all colors
+ 	 */
+ 	__u8 bc_mode_color;
+-	/* Vrtical start position for bc subtraction */
++	/* Vertical start position for bc subtraction */
+ 	__u16 vert_start_sub;
+ 	/* Black clamp for horizontal direction */
+ 	struct isif_horz_bclamp horz;
+@@ -193,7 +193,7 @@ struct isif_color_space_conv {
+ 	/* Enable color space conversion */
+ 	__u8 en;
+ 	/*
+-	 * csc coeffient table. S8Q5, M00 at index 0, M01 at index 1, and
++	 * csc coefficient table. S8Q5, M00 at index 0, M01 at index 1, and
+ 	 * so forth
+ 	 */
+ 	struct isif_float_8 coeff[ISIF_CSC_NUM_COEFF];
+@@ -340,7 +340,7 @@ struct isif_data_formatter {
+ };
+
+ struct isif_df_csc {
+-	/* Color Space Conversion confguration, 0 - csc, 1 - df */
++	/* Color Space Conversion configuration, 0 - csc, 1 - df */
+ 	__u8 df_or_csc;
+ 	/* csc configuration valid if df_or_csc is 0 */
+ 	struct isif_color_space_conv csc;
+@@ -406,7 +406,7 @@ struct isif_config_params_raw {
+ 	struct isif_linearize linearize;
+ 	/* Data formatter or CSC */
+ 	struct isif_df_csc df_csc;
+-	/* Defect Pixel Correction (DFC) confguration */
++	/* Defect Pixel Correction (DFC) configuration */
+ 	struct isif_dfc dfc;
+ 	/* Black/Digital Clamp configuration */
+ 	struct isif_black_clamp bclamp;
+--
+2.30.0
+
