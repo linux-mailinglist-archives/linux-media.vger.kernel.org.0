@@ -2,154 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02CEB310BE9
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 14:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE493310BFC
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 14:41:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230243AbhBENfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 08:35:07 -0500
-Received: from mga09.intel.com ([134.134.136.24]:26783 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229986AbhBENcR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Feb 2021 08:32:17 -0500
-IronPort-SDR: G9HSbYOHf+zjsiFuHRdL+Ci5DUgBv9+0ButCcvbE8HE3aOrG2gLQRT1BUQMSiBCGNFFXUkC8KV
- mITvep/RDx2g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="181578728"
-X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; 
-   d="scan'208";a="181578728"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 05:25:01 -0800
-IronPort-SDR: SVoxw9OfMZrC1wXygP9As+pPtInJSF7e03U1YzeFhiToz+fW9LiChSsdA7BMCqI6HNA7EralAs
- YfvjIXRMh0qg==
-X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; 
-   d="scan'208";a="357959766"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 05:24:58 -0800
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id B1680216F2;
-        Fri,  5 Feb 2021 15:24:51 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1l816f-0005GX-G0; Fri, 05 Feb 2021 15:25:05 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S231282AbhBENjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 08:39:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230494AbhBENhU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 08:37:20 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA81C06178B
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 05:36:39 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id m13so7669603wro.12
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 05:36:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1gQoFS6ud405970AWgVagisJdKuspo0iHcNG3yO+v+Y=;
+        b=ZFx74dwXRN8XJoI8vReT6nG84gTmG6QDsKTETcJ06jTJw70JqS2qOLWzaeIPJLa2+q
+         i3A1Tex+NtYld5e4GVoxTw0izBPXMnjweumu4hA9cypntxtKgmAi+PLJzkGHZ1RqPeVy
+         tW/D5qIVWDn/14kg51lcnIhmcjtyQwf70EOXU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1gQoFS6ud405970AWgVagisJdKuspo0iHcNG3yO+v+Y=;
+        b=nvyMXf2tfDApr0KLHdG/c9NZ4exYvAlW5lRxh2MuRlJwCP2iZ3ms5nyftVgAZzJPWN
+         nnCM8n4temV/if8XRjMpFLWRbuBR4NDinuKdAHz4Fh/IH4fUzcrqv0mD+n+yehzP427V
+         KFYHGsjKaBiWm51oohcpyk8xV9Wu+bFxbS0y1ehZn82pDMLLJg7IGgu2/f4dtvs4J0fR
+         2JIbpnZs9nqXENnVaAOpGDSKAS4LEYBiuFEt2ZPwv2pLcjc9lMBO89f6jgKQUMSDAX32
+         yfjcXmO40W0n41p7E6ZZOIJBmxcOSNMjr+54lX1+4X1v+vo60ZTLCdfDU0060bcZMjus
+         pcIA==
+X-Gm-Message-State: AOAM533ZTO/tAwZmavI7eXung5Udf8dbSt5oP/WehKrQ4+czL/p8upri
+        HB6QPxBPs8ThxlbBHusCbLLFIw==
+X-Google-Smtp-Source: ABdhPJzWE2gxGEZn4lzZcDo3tutehy5qX/E9j/4aIeZc6b9+p2my5zf6hrvCeUW2K6Drt8e7TSvqBw==
+X-Received: by 2002:a5d:5283:: with SMTP id c3mr4938476wrv.319.1612532197971;
+        Fri, 05 Feb 2021 05:36:37 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id z8sm11944234wrh.83.2021.02.05.05.36.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 05:36:37 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v10 7/7] at24: Support probing while off
-Date:   Fri,  5 Feb 2021 15:25:05 +0200
-Message-Id: <20210205132505.20173-8-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
-References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
+Subject: [PATCH] PCI: Also set up legacy files only after sysfs init
+Date:   Fri,  5 Feb 2021 14:36:32 +0100
+Message-Id: <20210205133632.2827730-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <d958eb8e32d5dd6ffd981b92cd54fe7b3fcebab9>
+References: <d958eb8e32d5dd6ffd981b92cd54fe7b3fcebab9>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In certain use cases (where the chip is part of a camera module, and the
-camera module is wired together with a camera privacy LED), powering on
-the device during probe is undesirable. Add support for the at24 to
-execute probe while being powered off. For this to happen, a hint in form
-of a device property is required from the firmware.
+We are already doing this for all the regular sysfs files on PCI
+devices, but not yet on the legacy io files on the PCI buses. Thus far
+no problem, but in the next patch I want to wire up iomem revoke
+support. That needs the vfs up and running already to make sure that
+iomem_get_mapping() works.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Wire it up exactly like the existing code in
+pci_create_sysfs_dev_files(). Note that pci_remove_legacy_files()
+doesn't need a check since the one for pci_bus->legacy_io is
+sufficient.
+
+An alternative solution would be to implement a callback in sysfs to
+set up the address space from iomem_get_mapping() when userspace calls
+mmap(). This also works, but Greg didn't really like that just to work
+around an ordering issue when the kernel loads initially.
+
+v2: Improve commit message (Bjorn)
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: John Hubbard <jhubbard@nvidia.com>
+Cc: Jérôme Glisse <jglisse@redhat.com>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-mm@kvack.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org
 ---
- drivers/misc/eeprom/at24.c | 43 +++++++++++++++++++++++---------------
- 1 file changed, 26 insertions(+), 17 deletions(-)
+ drivers/pci/pci-sysfs.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/misc/eeprom/at24.c b/drivers/misc/eeprom/at24.c
-index 926408b41270c..69a5e4023d9e1 100644
---- a/drivers/misc/eeprom/at24.c
-+++ b/drivers/misc/eeprom/at24.c
-@@ -595,6 +595,7 @@ static int at24_probe(struct i2c_client *client)
- 	bool i2c_fn_i2c, i2c_fn_block;
- 	unsigned int i, num_addresses;
- 	struct at24_data *at24;
-+	bool off_during_probe;
- 	struct regmap *regmap;
- 	bool writable;
- 	u8 test_byte;
-@@ -750,14 +751,16 @@ static int at24_probe(struct i2c_client *client)
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index fb072f4b3176..0c45b4f7b214 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -927,6 +927,9 @@ void pci_create_legacy_files(struct pci_bus *b)
+ {
+ 	int error;
  
- 	i2c_set_clientdata(client, at24);
++	if (!sysfs_initialized)
++		return;
++
+ 	b->legacy_io = kcalloc(2, sizeof(struct bin_attribute),
+ 			       GFP_ATOMIC);
+ 	if (!b->legacy_io)
+@@ -1448,6 +1451,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
+ static int __init pci_sysfs_init(void)
+ {
+ 	struct pci_dev *pdev = NULL;
++	struct pci_bus *pbus = NULL;
+ 	int retval;
  
--	err = regulator_enable(at24->vcc_reg);
--	if (err) {
--		dev_err(dev, "Failed to enable vcc regulator\n");
--		return err;
--	}
-+	off_during_probe = acpi_dev_state_low_power(&client->dev);
-+	if (!off_during_probe) {
-+		err = regulator_enable(at24->vcc_reg);
-+		if (err) {
-+			dev_err(dev, "Failed to enable vcc regulator\n");
-+			return err;
-+		}
- 
--	/* enable runtime pm */
--	pm_runtime_set_active(dev);
-+		pm_runtime_set_active(dev);
-+	}
- 	pm_runtime_enable(dev);
- 
- 	at24->nvmem = devm_nvmem_register(dev, &nvmem_config);
-@@ -768,14 +771,17 @@ static int at24_probe(struct i2c_client *client)
+ 	sysfs_initialized = 1;
+@@ -1459,6 +1463,9 @@ static int __init pci_sysfs_init(void)
+ 		}
  	}
  
- 	/*
--	 * Perform a one-byte test read to verify that the
--	 * chip is functional.
-+	 * Perform a one-byte test read to verify that the chip is functional,
-+	 * unless powering on the device is to be avoided during probe (i.e.
-+	 * it's powered off right now).
- 	 */
--	err = at24_read(at24, 0, &test_byte, 1);
--	if (err) {
--		pm_runtime_disable(dev);
--		regulator_disable(at24->vcc_reg);
--		return -ENODEV;
-+	if (!off_during_probe) {
-+		err = at24_read(at24, 0, &test_byte, 1);
-+		if (err) {
-+			pm_runtime_disable(dev);
-+			regulator_disable(at24->vcc_reg);
-+			return -ENODEV;
-+		}
- 	}
- 
- 	pm_runtime_idle(dev);
-@@ -795,9 +801,11 @@ static int at24_remove(struct i2c_client *client)
- 	struct at24_data *at24 = i2c_get_clientdata(client);
- 
- 	pm_runtime_disable(&client->dev);
--	if (!pm_runtime_status_suspended(&client->dev))
--		regulator_disable(at24->vcc_reg);
--	pm_runtime_set_suspended(&client->dev);
-+	if (!acpi_dev_state_low_power(&client->dev)) {
-+		if (!pm_runtime_status_suspended(&client->dev))
-+			regulator_disable(at24->vcc_reg);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
- 
++	while ((pbus = pci_find_next_bus(pbus)))
++		pci_create_legacy_files(pbus);
++
  	return 0;
  }
-@@ -834,6 +842,7 @@ static struct i2c_driver at24_driver = {
- 	.probe_new = at24_probe,
- 	.remove = at24_remove,
- 	.id_table = at24_ids,
-+	.flags = I2C_DRV_FL_ALLOW_LOW_POWER_PROBE,
- };
- 
- static int __init at24_init(void)
+ late_initcall(pci_sysfs_init);
 -- 
-2.20.1
+2.30.0
 
