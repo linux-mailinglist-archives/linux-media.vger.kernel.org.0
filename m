@@ -2,114 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0BDA3107C7
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 10:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 923DE3107EB
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 10:34:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbhBEJZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 04:25:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
+        id S229975AbhBEJc4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 04:32:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230385AbhBEJWM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 04:22:12 -0500
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106E5C061786;
-        Fri,  5 Feb 2021 01:21:32 -0800 (PST)
-Received: by mail-qv1-xf2a.google.com with SMTP id w11so3092677qvz.12;
-        Fri, 05 Feb 2021 01:21:32 -0800 (PST)
+        with ESMTP id S230127AbhBEJYB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 04:24:01 -0500
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F07AC0613D6
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 01:23:21 -0800 (PST)
+Received: by mail-ot1-x333.google.com with SMTP id d1so6219052otl.13
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 01:23:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N7fgwypp4YPR553ca/WI+V8jkPwnVoWzOdVAmQVNAJ4=;
-        b=SLxlenj3qh6XUadPrXruXWQHSxYcAwnujUe/KB5fbjI8+BfelE60wAvUyZpnPU9rwb
-         xPIIKwhOTUlxiOACLECfkDXCP30BIhLT60oDwbx/agA9qGLfzqgac4DGEqOMUGjftIDI
-         gn2gIcpFn6NWY2rKkaS2X+ookgFJ/DjogAyLTrfJDOTn3mi3Qu72sTW8iIgHHM0MfY0W
-         Oq113UYQGFk/O8/g09NhOY0zHxYQesGq7QmSJDtEOS/aDJ8HMn6LzVlHTrlDsm1Tj5OK
-         J1csX7TdgINEJlwxEnwK859xJVobVjCd6BGtHg0bCg8yKp9TfrOuyYDNSHU8yxKZUbHm
-         RDag==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=sS/Xd09oO/Yz7Hj4c1pMXiQx4PAyc9TbJHEWESq/zdk=;
+        b=F2M9IQ0Mcwqf9L0EvHG8jvCxSS3P6nZN7xpdji0YW2Vb0bIMHJ0EICfSmJXH13+OEm
+         krPXGvlWcY44Pt7pUr/D3V+F0v5YY7w63OxZE08ttweY89J8zqB7lHIAILmCZ9ny2YqN
+         9zo+EbKF4hd8YpcfyTU2+f4zh7/eT3IqgIEvo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N7fgwypp4YPR553ca/WI+V8jkPwnVoWzOdVAmQVNAJ4=;
-        b=YiZWXeI3VkD1KE6FcqIqtHrWstEiB/nlSvIEG6sjoWBrxEmldxTXHC/7sYYMiiTVw5
-         HNTK7v41zmCCemSCEEvNm1HyQSg0pqutPX4VEenQPltB486BNZYDXo9uXVLkMogQcczh
-         NsjwdzymalTgKUHQDOb6wCjcn1KYwPMiP3zY+0h8i2vwjr3i/zo06oJr+ghavqbk/z1H
-         9AsLvVkfniJZ/6F1ewQb6E07Wgol+xes9JDusm5oMJN6uYBv37DOCPbv8/v2KL5m2ijB
-         rOyvSnmrjpvo3UeGwPSpfLCcusiXbp/sbiWoVGmjs4BU1G4qhB7k5foYkqst5CsbSkDF
-         kodA==
-X-Gm-Message-State: AOAM533imlVUFTSkVoRFO6rftR5TgqCjfDAPU4APIzBsZN/0eFzI9xRL
-        o43ZWZYiqFzX0YB/0qVGZ+8=
-X-Google-Smtp-Source: ABdhPJwhpIvyUYniT+6ai0YzH9d0y2S7HEGc/+kYw2hgTPFqMQc194Y8y6X06YWj1bO9cTq4AkfxZQ==
-X-Received: by 2002:a0c:b66c:: with SMTP id q44mr3329930qvf.3.1612516891334;
-        Fri, 05 Feb 2021 01:21:31 -0800 (PST)
-Received: from localhost.localdomain ([156.146.36.157])
-        by smtp.gmail.com with ESMTPSA id r4sm8309032qkf.112.2021.02.05.01.21.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 01:21:30 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     prabhakar.csengg@gmail.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] include: media: davinci: Fixed up few trivial spellings in the file isif.h
-Date:   Fri,  5 Feb 2021 14:51:17 +0530
-Message-Id: <20210205092117.551317-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sS/Xd09oO/Yz7Hj4c1pMXiQx4PAyc9TbJHEWESq/zdk=;
+        b=ihJZ0pQypcAcN8DCqvtuJJm+g2bcV7ch4NdVeMxybgjNbwLxX1pmF2FmfkBdVA1t4h
+         q8xKk15aB1bDsmph68iESoS5GRK/5JbzLcNOK6/tZ8U5Wx8I2oBifajYlOxaGf8hd/XN
+         ZoE5eTrDL+5A/7EtIxuEMlgpzeTZBEaXqjQd1Vy85/Rr8mZZJUutmdsd0A2TNtjGMflg
+         z4myWU2aLoSvVKUuA+L5j93y6qfce7e9G8M5TzDg15fJU0FphbjYR2cEOwFWQhyZkwtw
+         2MK7YLu/VjgerK8BGDoItvvw22ngofQpN5dbic5t78omYeGkedjRyNKcVBqW3fPW9DVq
+         Rw9w==
+X-Gm-Message-State: AOAM533uxCQm8uMxyjnvqzXzjjKZHtjUBeErts5iDId3IlS9sFxjd0j2
+        n04imNE9VwAA6kN6kDdI1M+Nxv+8zCICW8Fjdpg8/U5GGmXZuYKF
+X-Google-Smtp-Source: ABdhPJyvqwxmtXpTV9ZKIAiLz9FmmOsfNWEZVdMA32uQT+RmaGjI6VWxp+i56z1wSxB5hntfBMxUSK7fieqhiVOdzSE=
+X-Received: by 2002:a9d:6c96:: with SMTP id c22mr2681535otr.303.1612517000615;
+ Fri, 05 Feb 2021 01:23:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210204165831.2703772-2-daniel.vetter@ffwll.ch> <20210204215019.GA104698@bjorn-Precision-5520>
+In-Reply-To: <20210204215019.GA104698@bjorn-Precision-5520>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri, 5 Feb 2021 10:23:09 +0100
+Message-ID: <CAKMK7uFczzNCDmakn1mxdjpeFaTcdayG4pVedq_f11gYnPbMRw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] PCI: also set up legacy files only after sysfs init
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux MM <linux-mm@kvack.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "Oliver O'Halloran" <oohall@gmail.com>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Feb 4, 2021 at 10:50 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> [+cc Oliver, Pali, Krzysztof]
+>
+> s/also/Also/ in subject
+>
+> On Thu, Feb 04, 2021 at 05:58:30PM +0100, Daniel Vetter wrote:
+> > We are already doing this for all the regular sysfs files on PCI
+> > devices, but not yet on the legacy io files on the PCI buses. Thus far
+> > now problem, but in the next patch I want to wire up iomem revoke
+> > support. That needs the vfs up an running already to make so that
+> > iomem_get_mapping() works.
+>
+> s/now problem/no problem/
+> s/an running/and running/
+> s/so that/sure that/ ?
+>
+> iomem_get_mapping() doesn't exist; I don't know what that should be.
+
+Series is based on top of linux-next, where iomem_get_mapping exists.
+This patch fixes the 2nd patch in this series, which I had to take out
+of my branch because it failed.
+
+> > Wire it up exactly like the existing code. Note that
+> > pci_remove_legacy_files() doesn't need a check since the one for
+> > pci_bus->legacy_io is sufficient.
+>
+> I'm not sure exactly what you mean by "the existing code."  I could
+> probably figure it out, but it would save time to mention the existing
+> function here.
+
+Sorry, I meant the existing code in pci_create_sysfs_dev_files().
+
+> This looks like another instance where we should really apply Oliver's
+> idea of converting these to attribute_groups [1].
+>
+> The cover letter mentions options discussed with Greg in [2], but I
+> don't think the "sysfs_initialized" hack vs attribute_groups was part
+> of that discussion.
+
+Hm not sure the attribute_groups works. The problem is that I cant set
+up the attributes before the vfs layer is initialized, because before
+that point the iomem_get_mapping function doesn't return anything
+useful (well it crashes), because it needs to have an inode available.
+
+So if you want to set up the attributes earlier, we'd need some kind
+of callback, which Greg didn't like.
+
+> It's not absolutely a show-stopper, but it *is* a shame to extend the
+> sysfs_initialized hack if attribute_groups could do this more cleanly
+> and help solve more than one issue.
+
+So I think I have yet another init ordering problem here, but not sure.
+-Daniel
+
+>
+> Bjorn
+>
+> [1] https://lore.kernel.org/r/CAOSf1CHss03DBSDO4PmTtMp0tCEu5kScn704ZEwLKG=
+XQzBfqaA@mail.gmail.com
+> [2] https://lore.kernel.org/dri-devel/CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJ=
+U9vLfm2jjufAZ5YQ@mail.gmail.com/
+>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: John Hubbard <jhubbard@nvidia.com>
+> > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-samsung-soc@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: linux-pci@vger.kernel.org
+> > ---
+> >  drivers/pci/pci-sysfs.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> > index fb072f4b3176..0c45b4f7b214 100644
+> > --- a/drivers/pci/pci-sysfs.c
+> > +++ b/drivers/pci/pci-sysfs.c
+> > @@ -927,6 +927,9 @@ void pci_create_legacy_files(struct pci_bus *b)
+> >  {
+> >       int error;
+> >
+> > +     if (!sysfs_initialized)
+> > +             return;
+> > +
+> >       b->legacy_io =3D kcalloc(2, sizeof(struct bin_attribute),
+> >                              GFP_ATOMIC);
+> >       if (!b->legacy_io)
+> > @@ -1448,6 +1451,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *p=
+dev)
+> >  static int __init pci_sysfs_init(void)
+> >  {
+> >       struct pci_dev *pdev =3D NULL;
+> > +     struct pci_bus *pbus =3D NULL;
+> >       int retval;
+> >
+> >       sysfs_initialized =3D 1;
+> > @@ -1459,6 +1463,9 @@ static int __init pci_sysfs_init(void)
+> >               }
+> >       }
+> >
+> > +     while ((pbus =3D pci_find_next_bus(pbus)))
+> > +             pci_create_legacy_files(pbus);
+> > +
+> >       return 0;
+> >  }
+> >  late_initcall(pci_sysfs_init);
+> > --
+> > 2.30.0
+> >
+> >
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
 
-Several spelling fixes throughout the file.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- include/media/davinci/isif.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/include/media/davinci/isif.h b/include/media/davinci/isif.h
-index e66589c4022d..8369acd26e7e 100644
---- a/include/media/davinci/isif.h
-+++ b/include/media/davinci/isif.h
-@@ -177,7 +177,7 @@ struct isif_black_clamp {
- 	 * 1 - clamp value calculated separately for all colors
- 	 */
- 	__u8 bc_mode_color;
--	/* Vrtical start position for bc subtraction */
-+	/* Vertical start position for bc subtraction */
- 	__u16 vert_start_sub;
- 	/* Black clamp for horizontal direction */
- 	struct isif_horz_bclamp horz;
-@@ -193,7 +193,7 @@ struct isif_color_space_conv {
- 	/* Enable color space conversion */
- 	__u8 en;
- 	/*
--	 * csc coeffient table. S8Q5, M00 at index 0, M01 at index 1, and
-+	 * csc coefficient table. S8Q5, M00 at index 0, M01 at index 1, and
- 	 * so forth
- 	 */
- 	struct isif_float_8 coeff[ISIF_CSC_NUM_COEFF];
-@@ -340,7 +340,7 @@ struct isif_data_formatter {
- };
-
- struct isif_df_csc {
--	/* Color Space Conversion confguration, 0 - csc, 1 - df */
-+	/* Color Space Conversion configuration, 0 - csc, 1 - df */
- 	__u8 df_or_csc;
- 	/* csc configuration valid if df_or_csc is 0 */
- 	struct isif_color_space_conv csc;
-@@ -406,7 +406,7 @@ struct isif_config_params_raw {
- 	struct isif_linearize linearize;
- 	/* Data formatter or CSC */
- 	struct isif_df_csc df_csc;
--	/* Defect Pixel Correction (DFC) confguration */
-+	/* Defect Pixel Correction (DFC) configuration */
- 	struct isif_dfc dfc;
- 	/* Black/Digital Clamp configuration */
- 	struct isif_black_clamp bclamp;
---
-2.30.0
-
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
