@@ -2,101 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 825773118FD
-	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 03:53:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2ACD3118FA
+	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 03:53:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231438AbhBFCwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 21:52:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39932 "EHLO
+        id S230424AbhBFCwO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 21:52:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbhBFCr6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 21:47:58 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF72AC08ECB4;
-        Fri,  5 Feb 2021 14:55:13 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id g10so9490029wrx.1;
-        Fri, 05 Feb 2021 14:55:13 -0800 (PST)
+        with ESMTP id S231347AbhBFCno (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 21:43:44 -0500
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB1AC08ED3F
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 15:21:07 -0800 (PST)
+Received: by mail-qk1-x733.google.com with SMTP id u20so8674459qku.7
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 15:21:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ELbdu45E+fwWUalqR1cagJZao7VVOdmmwE0d8K0Emng=;
-        b=GrB/byZLS9lHFpP1Pz7KrqF3wSBFqdsQR4zD2yzxYP+8H3QIyj1R2zgKNcX4lz1uhx
-         8lVYR6Tf6WrsaRC4jwUjR4PC/0gk5DZyeimty+fPJ2psBFhcFTkqMkHX7hQrCIVujqmE
-         l3ns6PtJpcw2CHsnhh/6XvT+n/5LSjp964KaFK23xbiT263vl8mozu5TAZa//OYbMABW
-         CzePnac4DNgM/R/wH9Px7yFFf+GpxxPELMJpC7ts8Ri2+e4NudTgT28jSmR9Hu4+NfGo
-         cGfzAtThLT5KIE0dkFvE+ixxCVnImFPpLxU8j2MHjPCfm4ZT2kl5v8eLwmARX7OcKmN1
-         ERhQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SkxWmY1OEi5ew/OSKLvpq24apidSW6DwKqLmpKsAI24=;
+        b=dhJm5DFgG5FfOYeun7i2ErLsVXGm89DNuESD4ai0pZA9JRMXOL49fcDBKB7extQ27X
+         Tu9PDANUQC4qGLS7Z7bZB6dQ1IOZRIUKeugve68PY0ozncrU6jqeTYyZ7BqteTcuQOpW
+         8nu7d+SvxvYW9YIgUXskMc9cXCKatE1mnSXJg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ELbdu45E+fwWUalqR1cagJZao7VVOdmmwE0d8K0Emng=;
-        b=RRLiDqR1whO/wBt96/BUkHIzotrwDQyfQ8uX1xXDROdVFEbYSeO5ZH+MTUaMi06siM
-         YLFl0X9lwFUbYN36Det2rsePwfp88ckmjqYrg4d3m7tM0DhwFBm821sk1AiajApkeSzp
-         kCaIUglV8JexN1hXAsYTr+4CnmrdTWRQT6nrNz+lHjps0VGaXImLrYdVim6933PvuD6H
-         2+sNPYMBm3bgTfa1A7o3dVVXa8QfEQ2jGU8sBP+tWXykSNKrMDvMLog+kvfcWTP+fPlA
-         QooeZxugIKbvKZPIOgLvF3qhmpI/b0tZXfVLaG19L9VVMnxStpvgjmhh4F6ShaCfciSi
-         tInQ==
-X-Gm-Message-State: AOAM533SQXik1gRW3kkqGzJHETJnGutqmEHsaqBQr12gpRgue/dx7s3s
-        FLCIQ5YOgv8jQmVdfFc19bU=
-X-Google-Smtp-Source: ABdhPJz7Z7Vz0wo6DigSr85yDR3SxRtSvzarroagSWAz+ILQ3tjOZEE+g2NHGRLblsr/k3Ls2u2icQ==
-X-Received: by 2002:adf:9546:: with SMTP id 64mr92222wrs.247.1612565712393;
-        Fri, 05 Feb 2021 14:55:12 -0800 (PST)
-Received: from warrior.lan ([2a03:7380:2407:423c:1171:fd22:1b63:1bcd])
-        by smtp.gmail.com with ESMTPSA id z63sm10191489wme.8.2021.02.05.14.55.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 14:55:11 -0800 (PST)
-From:   Maxim Mikityanskiy <maxtram95@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Federico Simoncelli <fsimonce@redhat.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Lubomir Rintel <lkundrak@v3.sk>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Maxim Mikityanskiy <maxtram95@gmail.com>
-Subject: [PATCH] media: usbtv: Fix deadlock on suspend
-Date:   Sat,  6 Feb 2021 00:51:39 +0200
-Message-Id: <20210205225139.7986-1-maxtram95@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SkxWmY1OEi5ew/OSKLvpq24apidSW6DwKqLmpKsAI24=;
+        b=jsuTe2aEuC1Y9xqCit1oYtkx+U+9wN3debkNFwhCc99DTCJxktKDFhn9UoLuJfOtyN
+         y3CuYzhPfcNybgGiDvpb9FHBwLDI8Tkl2sYR0rsRthGDMbSZ6MCa7nVfv7N0p1Tdl/a1
+         rPi6ZYvdijlSd1cuM4/oiFJ0bnfbcH/5gc++8D9VsH8e1vjVh6eGuYUStfoMxv8iQJWD
+         sRmJqEgWgS4TqTarDFvTRGwY1Du76ZBteT6m6x8qOYukRFhE2zD7cGeMB9YbM9km1JDF
+         wnP/ZOv6Qh6o2INM9KfagSdEjdpXdDTNdoL5wV883i63Jtg6JoFF7ReM0X5NKdvY3ZvZ
+         arhQ==
+X-Gm-Message-State: AOAM532TpOjGXtlI2dyTOQzqd9oqaXVXX9rXKvTjNLSTRxOlUDSKexOh
+        hnwsY4DX0c7O6AChY2891/kEqEUtrd36uA==
+X-Google-Smtp-Source: ABdhPJzorhvOlwriAyrhgD5nImbW5hZ4iyb0Vyb6IqQ0mfZ+KjDjow3zV4u6lcOGWm9cguwgLQKUBA==
+X-Received: by 2002:a05:620a:918:: with SMTP id v24mr6920644qkv.350.1612567266211;
+        Fri, 05 Feb 2021 15:21:06 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id d71sm10473820qkc.75.2021.02.05.15.21.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Feb 2021 15:21:05 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id c3so8400975ybi.3
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 15:21:04 -0800 (PST)
+X-Received: by 2002:a25:b048:: with SMTP id e8mr10485056ybj.0.1612567264272;
+ Fri, 05 Feb 2021 15:21:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210202194752.247301-1-swboyd@chromium.org>
+In-Reply-To: <20210202194752.247301-1-swboyd@chromium.org>
+From:   Fritz Koenig <frkoenig@chromium.org>
+Date:   Fri, 5 Feb 2021 15:20:53 -0800
+X-Gmail-Original-Message-ID: <CAMfZQbyM-3mMchUgFZgiX48x7WG=BG=dZ6aBwAyu-K_y05=qkw@mail.gmail.com>
+Message-ID: <CAMfZQbyM-3mMchUgFZgiX48x7WG=BG=dZ6aBwAyu-K_y05=qkw@mail.gmail.com>
+Subject: Re: [PATCH -next] media: venus: Include io.h for memremap()
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-usbtv doesn't support power management, so on system suspend the
-.disconnect callback of the driver is called. The teardown sequence
-includes a call to snd_card_free. Its implementation waits until the
-refcount of the sound card device drops to zero, however, if its file is
-open, snd_card_file_add takes a reference, which can't be dropped during
-the suspend, because the userspace processes are already frozen at this
-point. snd_card_free waits for completion forever, leading to a hang on
-suspend.
+On Tue, Feb 2, 2021 at 11:51 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> This file uses memremap() now, so we should include io.h instead of
+> relying on any sort of implicit include elsewhere.
+>
+> Cc: Dikshita Agarwal <dikshita@codeaurora.org>
+> Fixes: 0ca0ca980505 ("media: venus: core: add support to dump FW region")
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 1471c7f9c89d..915b3ed8ed64 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -5,6 +5,7 @@
+>   */
+>  #include <linux/init.h>
+>  #include <linux/interconnect.h>
+> +#include <linux/io.h>
+>  #include <linux/ioctl.h>
+>  #include <linux/delay.h>
+>  #include <linux/devcoredump.h>
+>
+> base-commit: 0ca0ca9805055bb0efc16890f9d6433c65bd07cc
+> --
+> https://chromeos.dev
 
-This commit fixes this deadlock condition by replacing snd_card_free
-with snd_card_free_when_closed, that doesn't wait until all references
-are released, allowing suspend to progress.
-
-Fixes: 63ddf68de52e ("[media] usbtv: add audio support")
-Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
----
- drivers/media/usb/usbtv/usbtv-audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/usbtv/usbtv-audio.c b/drivers/media/usb/usbtv/usbtv-audio.c
-index b57e94fb1977..333bd305a4f9 100644
---- a/drivers/media/usb/usbtv/usbtv-audio.c
-+++ b/drivers/media/usb/usbtv/usbtv-audio.c
-@@ -371,7 +371,7 @@ void usbtv_audio_free(struct usbtv *usbtv)
- 	cancel_work_sync(&usbtv->snd_trigger);
- 
- 	if (usbtv->snd && usbtv->udev) {
--		snd_card_free(usbtv->snd);
-+		snd_card_free_when_closed(usbtv->snd);
- 		usbtv->snd = NULL;
- 	}
- }
--- 
-2.30.0
-
+Reviewed-by: Fritz Koenig <frkoenig@chromium.org>
