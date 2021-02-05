@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FFEE31153B
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 23:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BF9311539
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 23:32:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233152AbhBEWZm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 17:25:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
+        id S233133AbhBEWZi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 17:25:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232644AbhBEOaP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 09:30:15 -0500
+        with ESMTP id S232583AbhBEOZQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 09:25:16 -0500
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A76DC0613D6
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 06:05:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53A0C061A32
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 07:51:50 -0800 (PST)
 Received: from [IPv6:2003:c7:cf1c:ce00:c5f9:7f5:ebcd:ea47] (p200300c7cf1cce00c5f907f5ebcdea47.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:ce00:c5f9:7f5:ebcd:ea47])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
