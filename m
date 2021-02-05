@@ -2,348 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 790623106AE
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32DDE3106BD
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 09:33:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbhBEI3m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 03:29:42 -0500
-Received: from mail-mw2nam08on2046.outbound.protection.outlook.com ([40.107.101.46]:59580
-        "EHLO NAM04-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229492AbhBEI3k (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Feb 2021 03:29:40 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gaSdwLpVxQZVb6ptEcXHBuFaQBoObnYNkRw/8Z4bE0ahRi7jnvF947TofScnkwwiHT0f8BCsJuoHSdRxRe4IVawLsCf2T+LIVm2p5eQjNdNU1AK7UQZij/baQlLiQof/Td1H+Z4hRlQ00jvEV1l3OZJRfwfB0oJvTLoMe8JNZxRTUuQu+m9uzfsZbSQM3YAClMaOeOViQicctXIVhlFbBSCFHlRAe6U0KNIDcUp8emnh2naghzB4jNzPkas0OYmp3ZWXkifEkryqXjuJiu2NnHz3/e5CjCLUpGE5ooN4n5cuWuk9ZWs9Sm0uI5miPznNcYk51F23acrY/Y1U7wHRoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QzINmfy8dPo2ojH3jon8BRNtk7Db/nPHGeuPcQm8H0Y=;
- b=TN4RJTt1QDSXuyR48dWFNiwqs16WAcmAErC+tZmiL12FV7dIW60Rb+owxhzZF4qfzD+dO/lqmyOSNglYhAbGK7X3j8unyLu18JrnfqQh70FxFXv1AvPSM0DPx1ol8IuOXz2hQ5sINKjy+U7KhQVF8vvYczdmqy/ZF7YkyhUte0zBFLenlSaXnrE2j6c3IU/PjehR3pw6p1WI1+IuB3f6O0hcidLV1DbdLByVrGY6YOdCiHTe/LvPiAVQOcK8U6nrjSkD+Uw+h7un8pdb7sCX4z0Jqphp9oPSBCY8WojwbOdNF213Co/2OJD1Ghkwwqoz8ngMDnTsnp45FTwW11tn1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QzINmfy8dPo2ojH3jon8BRNtk7Db/nPHGeuPcQm8H0Y=;
- b=FRzda2g/Y0sxFC0SHMWbZtklJ/COWHECPbGXx0b35PuHbJKrDRa9TP5H/qz03WIYr4iKvo8GiLToObl3KfgEZkJHlGbNwdvg6XTwVrTxfa5LrbjLErL8LTRy71G9uDDVMDkrcPutZuYKi/tahY71uxoHUKJYf8V3OUWgdPT3nvA=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=none action=none
- header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2579.namprd12.prod.outlook.com (2603:10b6:207:4d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.24; Fri, 5 Feb
- 2021 08:28:46 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3825.023; Fri, 5 Feb 2021
- 08:28:46 +0000
-Subject: Re: [RFC][PATCH v6 3/7] drm: ttm_pool: Rework ttm_pool_free_page to
- allow us to use it as a function pointer
-To:     John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?Q?=c3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
- <20210205080621.3102035-4-john.stultz@linaro.org>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <8a4cacb7-3042-53c7-02fe-de18cc49fc0e@amd.com>
-Date:   Fri, 5 Feb 2021 09:28:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210205080621.3102035-4-john.stultz@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR06CA0106.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::47) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S229581AbhBEIcx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 03:32:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60932 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229741AbhBEIcM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 03:32:12 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E6FC0613D6
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 00:31:25 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id l12so6702949wry.2
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 00:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=cnbtlhftON2tr/Yul5ggUwLQUVVG74MtIf1Px5ty5Rk=;
+        b=ORtEkYS5dQTLhF9738x/awDg2GI5hmKtIE1WUH8B534q0OjQINgLdIRevHsydNulWE
+         1M6K9yLx6n7PyBowwqc0dIAWAaCm27vo3qzIIvvnObG5fl0tzMbQGFzNC4xLcDWbvAwu
+         /ymrmBEOdak+37EMqfPjmnL/y2sSzVnExDTxa/RZ1A0qPnJNRLtYRDO33UrB38DzWvRd
+         kLlNO73RXo7N31aFvDkv+4PBVekrdOXSQxEmudADLdlbXYSu2jlbhVObcBHc8oMEOAOX
+         RSGUVT+CS5TuwYWmaoe2bVEMU0Pnes7tzRBKiLLf/GEJHopVYh2tdohHpujYQdi/aOha
+         3nWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=cnbtlhftON2tr/Yul5ggUwLQUVVG74MtIf1Px5ty5Rk=;
+        b=STu+fpagBe4Mp+TdXsk3OvPGfHBDCs/XzHEuVZP/aP+9+mYGzD5r8UhMdWL1ICouBi
+         tIVw+FhhSocVli/7J7OyKneYURVLaqq0skREdzaiq3luahKq2e/leLYR2qsSZcfvr3yM
+         UhemvPXa+fVIp3Fbwz7OONnv9X34EAofckuQIkoMPR610nM43+sgn8tJ1mrarjMPKSQh
+         XFEA5CdloQCQFG+DSPjyJ8qE6Wdd/405n+JUGTsSRbLqM7uvHlgyG8YYOijuXxJMZFx1
+         DTx2udTWEoLlXHM6Gqs6gHNPHKbTu/BQmMZBgF04lus5F/q8QomPtQZGUT0wJNiqW5Ck
+         3JYQ==
+X-Gm-Message-State: AOAM5333vGWzytR7ygcmOgBb3dxRdVH+wSjQrT63KhXm5KNuGVdc661J
+        w5Ar9GXxsZOlcX3PagR90Dq4Zw==
+X-Google-Smtp-Source: ABdhPJzJw079SMAPUuPOPB7XYZekEbkVClDRMNWCQsobLfyoVI/MLGw9I3YFCtamU1Bue7m72FRA3Q==
+X-Received: by 2002:a05:6000:84:: with SMTP id m4mr3564432wrx.219.1612513884697;
+        Fri, 05 Feb 2021 00:31:24 -0800 (PST)
+Received: from [192.168.0.4] (hst-221-36.medicom.bg. [84.238.221.36])
+        by smtp.googlemail.com with ESMTPSA id g16sm7873402wmi.30.2021.02.05.00.31.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Feb 2021 00:31:24 -0800 (PST)
+Subject: Re: [PATCH] media: venus: core, venc, vdec: Fix probe dependency
+ error
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc:     dmitry.baryshkov@linaro.org
+References: <20210204125614.1453916-1-bryan.odonoghue@linaro.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <836fac64-81b3-2048-c440-8c41cd185e94@linaro.org>
+Date:   Fri, 5 Feb 2021 10:31:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR06CA0106.eurprd06.prod.outlook.com (2603:10a6:208:fa::47) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20 via Frontend Transport; Fri, 5 Feb 2021 08:28:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 8a9fdd33-e6e3-41dc-bbf5-08d8c9b00e2b
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2579:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB25797888A5FAA4303B00716E83B29@BL0PR12MB2579.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vSYazm+AQ/0On5BHguGWNX6BUAXq0x/76vHw9L8qaOB2rtaRoyGDyFufVYh/gmxVGEE3m/sXFRAtgaSsyVPlpp/FRzMm6MUfZFZHuKMQa0qVUVhSbvn9fOfZThba0NnS2iEFTV641ronut7/KVWLaC8BpQEnbq8BvBGpGtrpjvdHbTSMQFKrF6MwXmslc+lKzNr66m8cZw5XtukeObpgynIBg15YoMDJ7xa4xo53cztUc66CjQv0svPdZWOgXc2UwXQ27R4IQlO71QxBPsJrQ9nJ/yenOh/5oc1Ych54x9sOMZW0qwGnYqxKi/BTeJYq4W1lLhIl1FsyGF11Snm/Usn12gRo49iKlXI3PjlcdDvAYY3wJGbK81vk+VztbWdYWkxxY3IWJuuf1jwiqVAOeB1HrNTVZp3BtiY7yROf5Zx9bIUM3jcE8fbgD7PrT5VBSWDsfxUusC8T6NfU3JGQjgL20Z0OJ1Dv0YAdRcIBhhUaS0GFRE2BSVPU2thdM+TC/2fFmjl2zB2tDXGXjLW4QSXSJI+BCkG+hurmJmLHFuxEnC6UJ2tzBvmPx0qmhfeiLBad1HgyzRAKy/gPz478hu1U5exCxrn0F0SslBSJuXY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(66556008)(66946007)(36756003)(6486002)(7416002)(86362001)(186003)(16526019)(6666004)(478600001)(2616005)(4326008)(2906002)(31686004)(110136005)(83380400001)(54906003)(66476007)(5660300002)(8676002)(316002)(52116002)(8936002)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?U2hDQ2ZmTm5vcGZFd0pPOElyb1dIbnJUTytLdHBBTm5nelRYcXVUai8wV3BP?=
- =?utf-8?B?M1RaVzhyQUZqSzh6NFVhTFBGclhoSGJ6cWRpM2Y1clFTWFhqaTJFbmczSUh2?=
- =?utf-8?B?MWxwbTR4L2IvVHdmTTVySmpBcTBUV2ZYS0pEaVhWTXFSNVczR1UvdUNFRGZs?=
- =?utf-8?B?bTRucTFGamZrb2I5dE9ZZU5zVzk2Y0Z5MHhSL1lsdUJ3bFlTUStPVWFza0RF?=
- =?utf-8?B?Z2pqUy9xWHJPdkM5RlNlMkphM3lWbUlMblcyUnYwMjdjN1AyZXp6SURSUlVk?=
- =?utf-8?B?SFJndXRqSTJtLzBlMGI1ZkJuZEEyQ0tqREtCcU5yZ3A3K1V2T2p2S2lBTjQ2?=
- =?utf-8?B?OWZUN1F4aldZaHhLakFCV2h3MmRnaGtwWmVKcmZYMlJqbm1aMnVVVGZaa21n?=
- =?utf-8?B?cng2aDFaQjkxUVhjcW93UnprMkVtU3ozYW5RYjlNenRQQ2lkeFpJSVBkZVIw?=
- =?utf-8?B?ajAzLzV3SzJrdzhSNlV1cS9OZXVJaEFSTzg1am1MU0J0NmJsZlRXQm5nNlpo?=
- =?utf-8?B?c1NBanJXanZGUDd6VGlMZjZhS2FTOXhRemdqWkg0anpnc3VqWmpPR1JSRGRP?=
- =?utf-8?B?YzFPSGFjZW14OEVXR0xxM2RkbzF1RWtUM0lQTHQxbUZFQ3hIMTNRdTBSQi9W?=
- =?utf-8?B?YnBrTTZ4Yy9IemJ0czJDREJNc3oyR29WYXlqb1dNRFFUOXAxSHBLeW4yaXlq?=
- =?utf-8?B?ZmxNVTJvOEErL1FPeHVFUEYwaHBkT0RZeW93dTVVeEJrb1Baelg1SXNXNUlv?=
- =?utf-8?B?MCtTNXh4NExzc01LVk10M2JQdUg3b1QwRVB5RDJHR0hWN0VmNlowQStRUng3?=
- =?utf-8?B?RzJDWDJuWjZsaDB3TU9ESVZESE9LOUFkcjVVUU12Qy8xWnhnWjN3Z0VFNmU5?=
- =?utf-8?B?U1FpMDZYMVV2aVFhdDZSaGErZFlVWUpyN1FtWmdKYk5EM1V3UjBmYTY5S0o4?=
- =?utf-8?B?OG5aTmxZaUtTdkJ1RTFKdmdOZTBnMHdsaDAzUEZHbVR3MTVWb1YxT0lpT1Ur?=
- =?utf-8?B?ZmFrR1lia0dac0VDaEQzZnl4TTZPcEZBcDZYVS9IUFpvNThuU0dJZDZTK1FU?=
- =?utf-8?B?akloWkRWcjMvTHVDVWE3MzRHb2l5ZzRSZldhS1NWampReDNaY1ZJbUlCUkVv?=
- =?utf-8?B?YnZHRERLbDRGd2VsTU5idmVoTFQzcURKWG1Ddkg2NnR0aklKNWVvdkY1UXdp?=
- =?utf-8?B?Y3N0VjM4ZkZlanFodG9WUFhacGQwUEZmaXBETUFpYXQ4dVhZZHNzbUpGMjg3?=
- =?utf-8?B?RFYxakJaNFcyb05IcHhqVHFhUEVmT0tHeitBYjMzdWhTQXRRbW5YNUZjYzhE?=
- =?utf-8?B?VGd3bW5iUnNtQkVBWWQzbWo3alhUZEE3WFU0WkVOendPOHp3WW14MHhXVnFk?=
- =?utf-8?B?SEpNUGF2RTVtRkdGMnNoa08wUkdkWmlQYW9MeXpaKzJkb1dYMVM1R3VRQUpm?=
- =?utf-8?B?OXltTGxkeVl6Skp4RG1FY3RDejgwUDdGNjNmVU94RnpiTE5HYXk3MGxQUmZD?=
- =?utf-8?B?bXQyVmM0RHVYRjA5ZUgyQUJnMXQrK2lnWS9XaGJFUHNUWEkzNThacVl3d21U?=
- =?utf-8?B?ODU5akRtbkZ5dmNrRFoyQ0hlYWd4QXJLczNBYmQxdDlFUDFvZXdMWTlRSm5E?=
- =?utf-8?B?cWJaTWc2OEtvUHhXRUNKWWhZaG1YZE54S05ERUV5eHRIa3F5K3VvMExoRWtJ?=
- =?utf-8?B?UWRYM0hEbTZtYVdBRFE4S1AwNVB4clIzQkhSSm9VaVBVenJwejB1ZFJRMTc5?=
- =?utf-8?B?aHJxbCs1RXlzbHFhSXJLV1RHd1U2dllTeUVIRFNMc0liTzBIV09NU1BwMEF3?=
- =?utf-8?B?U0FYQ0tkQVlXQ0hlZmR2YzdTMFVwajZhTkZUSHVUK3EwU0ZSZnl4OXpaV0tz?=
- =?utf-8?Q?GFbdPHKag4I9B?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a9fdd33-e6e3-41dc-bbf5-08d8c9b00e2b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 08:28:46.4737
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XslRLQjy+h+YdUKGSKtTQKuhs/4qpOz5lTOquBhC544IJr9qTTxzXW/LJPFY+0pj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2579
+In-Reply-To: <20210204125614.1453916-1-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.02.21 um 09:06 schrieb John Stultz:
-> This refactors ttm_pool_free_page(), and by adding extra entries
-> to ttm_pool_page_dat, we then use it for all allocations, which
-> allows us to simplify the arguments needed to be passed to
-> ttm_pool_free_page().
+Hi Bryan,
 
-This is a clear NAK since the peer page data is just a workaround for 
-the DMA-API hack to grab pages from there.
+Thanks for the fix!
 
-Adding this to all pages would increase the memory footprint drastically.
+On 2/4/21 2:56 PM, Bryan O'Donoghue wrote:
+> Commit aaaa93eda64b ("media] media: venus: venc: add video encoder files")
+> is the last in a series of three commits to add core.c vdec.c and venc.c
+> adding core, encoder and decoder.
+> 
+> The encoder and decoder check for core drvdata as set and return -EPROBE_DEFER
+> if it has not been set, however both the encoder and decoder rely on
+> core.v4l2_dev as valid.
+> 
+> core.v4l2_dev will not be valid until v4l2_device_register() has completed
+> in core.c's probe().
+> 
+> Normally this is never seen however, Dmitry reported the following
+> backtrace when compiling drivers and firmware directly into a kernel image.
+> 
+> [    5.259968] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+> [    5.269850] sd 0:0:0:3: [sdd] Optimal transfer size 524288 bytes
+> [    5.275505] Workqueue: events deferred_probe_work_func
+> [    5.275513] pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
+> [    5.441211] usb 2-1: new SuperSpeedPlus Gen 2 USB device number 2 using xhci-hcd
+> [    5.442486] pc : refcount_warn_saturate+0x140/0x148
+> [    5.493756] hub 2-1:1.0: USB hub found
+> [    5.496266] lr : refcount_warn_saturate+0x140/0x148
+> [    5.500982] hub 2-1:1.0: 4 ports detected
+> [    5.503440] sp : ffff80001067b730
+> [    5.503442] x29: ffff80001067b730
+> [    5.592660] usb 1-1: new high-speed USB device number 2 using xhci-hcd
+> [    5.598478] x28: ffff6c6bc1c379b8
+> [    5.598480] x27: ffffa5c673852960 x26: ffffa5c673852000
+> [    5.598484] x25: ffff6c6bc1c37800 x24: 0000000000000001
+> [    5.810652] x23: 0000000000000000 x22: ffffa5c673bc7118
+> [    5.813777] hub 1-1:1.0: USB hub found
+> [    5.816108] x21: ffffa5c674440000 x20: 0000000000000001
+> [    5.820846] hub 1-1:1.0: 4 ports detected
+> [    5.825415] x19: ffffa5c6744f4000 x18: ffffffffffffffff
+> [    5.825418] x17: 0000000000000000 x16: 0000000000000000
+> [    5.825421] x15: 00000a4810c193ba x14: 0000000000000000
+> [    5.825424] x13: 00000000000002b8 x12: 000000000000f20a
+> [    5.825427] x11: 000000000000f20a x10: 0000000000000038
+> [    5.845447] usb 2-1.1: new SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+> [    5.845904]
+> [    5.845905] x9 : 0000000000000000 x8 : ffff6c6d36fae780
+> [    5.871208] x7 : ffff6c6d36faf240 x6 : 0000000000000000
+> [    5.876664] x5 : 0000000000000004 x4 : 0000000000000085
+> [    5.882121] x3 : 0000000000000119 x2 : ffffa5c6741ef478
+> [    5.887578] x1 : 3acbb3926faf5f00 x0 : 0000000000000000
+> [    5.893036] Call trace:
+> [    5.895551]  refcount_warn_saturate+0x140/0x148
+> [    5.900202]  __video_register_device+0x64c/0xd10
+> [    5.904944]  venc_probe+0xc4/0x148
+> [    5.908444]  platform_probe+0x68/0xe0
+> [    5.912210]  really_probe+0x118/0x3e0
+> [    5.915977]  driver_probe_device+0x5c/0xc0
+> [    5.920187]  __device_attach_driver+0x98/0xb8
+> [    5.924661]  bus_for_each_drv+0x68/0xd0
+> [    5.928604]  __device_attach+0xec/0x148
+> [    5.932547]  device_initial_probe+0x14/0x20
+> [    5.936845]  bus_probe_device+0x9c/0xa8
+> [    5.940788]  device_add+0x3e8/0x7c8
+> [    5.944376]  of_device_add+0x4c/0x60
+> [    5.948056]  of_platform_device_create_pdata+0xbc/0x140
+> [    5.953425]  of_platform_bus_create+0x17c/0x3c0
+> [    5.958078]  of_platform_populate+0x80/0x110
+> [    5.962463]  venus_probe+0x2ec/0x4d8
+> [    5.966143]  platform_probe+0x68/0xe0
+> [    5.969907]  really_probe+0x118/0x3e0
+> [    5.973674]  driver_probe_device+0x5c/0xc0
+> [    5.977882]  __device_attach_driver+0x98/0xb8
+> [    5.982356]  bus_for_each_drv+0x68/0xd0
+> [    5.986298]  __device_attach+0xec/0x148
+> [    5.990242]  device_initial_probe+0x14/0x20
+> [    5.994539]  bus_probe_device+0x9c/0xa8
+> [    5.998481]  deferred_probe_work_func+0x74/0xb0
+> [    6.003132]  process_one_work+0x1e8/0x360
+> [    6.007254]  worker_thread+0x208/0x478
+> [    6.011106]  kthread+0x150/0x158
+> [    6.014431]  ret_from_fork+0x10/0x30
+> [    6.018111] ---[ end trace f074246b1ecdb466 ]---
+> 
+> This patch fixes by
+> 
+> - Making core.v4l2_dev into core->v4l_dev
+> - Only setting core->v4l2_dev when v4l2_device_register() completes
+> - Deferring encoder/decoder probe until core->v4l2_dev is set
 
-christian.
+Why not just move platform_set_drvdata(pdev, core) at the end of
+venus_probe() after we registered v4l2_dev? I think this way we will
+avoid this v4l2_dev gymnastics.
 
->
-> This is critical for allowing the free function to be called
-> by the sharable drm_page_pool logic.
->
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Christian Koenig <christian.koenig@amd.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Liam Mark <lmark@codeaurora.org>
-> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Sandeep Patil <sspatil@google.com>
-> Cc: Daniel Mentz <danielmentz@google.com>
-> Cc: Ørjan Eide <orjan.eide@arm.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: James Jones <jajones@nvidia.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> 
+> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Fixes: aaaa93eda64b ("media] media: venus: venc: add video encoder files")
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->   drivers/gpu/drm/ttm/ttm_pool.c | 60 ++++++++++++++++++----------------
->   1 file changed, 32 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index c0274e256be3..eca36678f967 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -44,10 +44,14 @@
->   /**
->    * struct ttm_pool_page_dat - Helper object for coherent DMA mappings
->    *
-> + * @pool: ttm_pool pointer the page was allocated by
-> + * @caching: the caching value the allocated page was configured for
->    * @addr: original DMA address returned for the mapping
->    * @vaddr: original vaddr return for the mapping and order in the lower bits
->    */
->   struct ttm_pool_page_dat {
-> +	struct ttm_pool *pool;
-> +	enum ttm_caching caching;
->   	dma_addr_t addr;
->   	unsigned long vaddr;
->   };
-> @@ -71,13 +75,20 @@ static struct shrinker mm_shrinker;
->   
->   /* Allocate pages of size 1 << order with the given gfp_flags */
->   static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
-> -					unsigned int order)
-> +					unsigned int order, enum ttm_caching caching)
->   {
->   	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
->   	struct ttm_pool_page_dat *dat;
->   	struct page *p;
->   	void *vaddr;
->   
-> +	dat = kmalloc(sizeof(*dat), GFP_KERNEL);
-> +	if (!dat)
-> +		return NULL;
-> +
-> +	dat->pool = pool;
-> +	dat->caching = caching;
-> +
->   	/* Don't set the __GFP_COMP flag for higher order allocations.
->   	 * Mapping pages directly into an userspace process and calling
->   	 * put_page() on a TTM allocated page is illegal.
-> @@ -88,15 +99,13 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
->   
->   	if (!pool->use_dma_alloc) {
->   		p = alloc_pages(gfp_flags, order);
-> -		if (p)
-> -			p->private = order;
-> +		if (!p)
-> +			goto error_free;
-> +		dat->vaddr = order;
-> +		p->private = (unsigned long)dat;
->   		return p;
->   	}
->   
-> -	dat = kmalloc(sizeof(*dat), GFP_KERNEL);
-> -	if (!dat)
-> -		return NULL;
-> -
->   	if (order)
->   		attr |= DMA_ATTR_NO_WARN;
->   
-> @@ -123,34 +132,34 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
->   }
->   
->   /* Reset the caching and pages of size 1 << order */
-> -static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
-> -			       unsigned int order, struct page *p)
-> +static int ttm_pool_free_page(struct page *p, unsigned int order)
->   {
->   	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
-> -	struct ttm_pool_page_dat *dat;
-> +	struct ttm_pool_page_dat *dat = (void *)p->private;
->   	void *vaddr;
->   
->   #ifdef CONFIG_X86
->   	/* We don't care that set_pages_wb is inefficient here. This is only
->   	 * used when we have to shrink and CPU overhead is irrelevant then.
->   	 */
-> -	if (caching != ttm_cached && !PageHighMem(p))
-> +	if (dat->caching != ttm_cached && !PageHighMem(p))
->   		set_pages_wb(p, 1 << order);
->   #endif
->   
-> -	if (!pool || !pool->use_dma_alloc) {
-> +	if (!dat->pool || !dat->pool->use_dma_alloc) {
->   		__free_pages(p, order);
-> -		return;
-> +		goto out;
->   	}
->   
->   	if (order)
->   		attr |= DMA_ATTR_NO_WARN;
->   
-> -	dat = (void *)p->private;
->   	vaddr = (void *)(dat->vaddr & PAGE_MASK);
-> -	dma_free_attrs(pool->dev, (1UL << order) * PAGE_SIZE, vaddr, dat->addr,
-> +	dma_free_attrs(dat->pool->dev, (1UL << order) * PAGE_SIZE, vaddr, dat->addr,
->   		       attr);
-> +out:
->   	kfree(dat);
-> +	return 1 << order;
->   }
->   
->   /* Apply a new caching to an array of pages */
-> @@ -264,7 +273,7 @@ static void ttm_pool_type_fini(struct ttm_pool_type *pt)
->   	mutex_unlock(&shrinker_lock);
->   
->   	list_for_each_entry_safe(p, tmp, &pt->pages, lru)
-> -		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
-> +		ttm_pool_free_page(p, pt->order);
->   }
->   
->   /* Return the pool_type to use for the given caching and order */
-> @@ -307,7 +316,7 @@ static unsigned int ttm_pool_shrink(void)
->   
->   	p = ttm_pool_type_take(pt);
->   	if (p) {
-> -		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
-> +		ttm_pool_free_page(p, pt->order);
->   		num_freed = 1 << pt->order;
->   	} else {
->   		num_freed = 0;
-> @@ -322,13 +331,9 @@ static unsigned int ttm_pool_shrink(void)
->   /* Return the allocation order based for a page */
->   static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
->   {
-> -	if (pool->use_dma_alloc) {
-> -		struct ttm_pool_page_dat *dat = (void *)p->private;
-> -
-> -		return dat->vaddr & ~PAGE_MASK;
-> -	}
-> +	struct ttm_pool_page_dat *dat = (void *)p->private;
->   
-> -	return p->private;
-> +	return dat->vaddr & ~PAGE_MASK;
->   }
->   
->   /**
-> @@ -379,7 +384,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->   		if (p) {
->   			apply_caching = true;
->   		} else {
-> -			p = ttm_pool_alloc_page(pool, gfp_flags, order);
-> +			p = ttm_pool_alloc_page(pool, gfp_flags, order, tt->caching);
->   			if (p && PageHighMem(p))
->   				apply_caching = true;
->   		}
-> @@ -428,13 +433,13 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->   	ttm_mem_global_free_page(&ttm_mem_glob, p, (1 << order) * PAGE_SIZE);
->   
->   error_free_page:
-> -	ttm_pool_free_page(pool, tt->caching, order, p);
-> +	ttm_pool_free_page(p, order);
->   
->   error_free_all:
->   	num_pages = tt->num_pages - num_pages;
->   	for (i = 0; i < num_pages; ) {
->   		order = ttm_pool_page_order(pool, tt->pages[i]);
-> -		ttm_pool_free_page(pool, tt->caching, order, tt->pages[i]);
-> +		ttm_pool_free_page(tt->pages[i], order);
->   		i += 1 << order;
->   	}
->   
-> @@ -470,8 +475,7 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
->   		if (pt)
->   			ttm_pool_type_give(pt, tt->pages[i]);
->   		else
-> -			ttm_pool_free_page(pool, tt->caching, order,
-> -					   tt->pages[i]);
-> +			ttm_pool_free_page(tt->pages[i], order);
->   
->   		i += num_pages;
->   	}
+>  drivers/media/platform/qcom/venus/core.c | 14 +++++++++++---
+>  drivers/media/platform/qcom/venus/core.h |  2 +-
+>  drivers/media/platform/qcom/venus/vdec.c |  4 ++--
+>  drivers/media/platform/qcom/venus/venc.c |  4 ++--
+>  4 files changed, 16 insertions(+), 8 deletions(-)
+> 
 
+
+-- 
+regards,
+Stan
