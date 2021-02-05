@@ -2,229 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91CBE3108FB
-	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 11:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2588310953
+	for <lists+linux-media@lfdr.de>; Fri,  5 Feb 2021 11:43:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbhBEKYl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 05:24:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55898 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231228AbhBEKWl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Feb 2021 05:22:41 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8DCF064E55;
-        Fri,  5 Feb 2021 10:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612520519;
-        bh=vTdK7tqpnai+N4Mr1MYvbIdxctZy8n6ZlIZgJ2TTGIs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aw9IX3t8/+kJNRGDZ+eN+AcOe96RKkF8t8qkjRXLa5ntx8zUbf71H7CUidQRP/3oy
-         /jYL5MOzNTkXCNVb+pWxV8zK/1XWdVgzZi8nk/3ExJgEbVYSOS32dh8UG2wBx57LbT
-         OfJqPh+TzyXNYzzIQJO8xNFIIAvNiGmkVtRk+/nwkolGXcSYv9TH6LThlKK8ci0QPF
-         et1/cuIWO6xPGl6ZAON1zoRCnud1K6EP3sTct9KVU3TGucYouiF7zH/V758kBhQQB7
-         LyqKl1Z8P4+8ePkkWvfs31Oj9jOtCO+JuKcTd7+EAmVmnnXr+rST7vmtWkEsN6rZhM
-         4Y7uHIzJ0CqJQ==
-Received: by pali.im (Postfix)
-        id 41ADC8A2; Fri,  5 Feb 2021 11:21:57 +0100 (CET)
-Date:   Fri, 5 Feb 2021 11:21:57 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Oliver O'Halloran <oohall@gmail.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Subject: Re: [PATCH 1/2] PCI: also set up legacy files only after sysfs init
-Message-ID: <20210205102157.n7avchjbzwbfkpdm@pali>
-References: <20210204165831.2703772-2-daniel.vetter@ffwll.ch>
- <20210204215019.GA104698@bjorn-Precision-5520>
- <20210204222407.pkx7wvmcvugdwqdd@pali>
- <CAKMK7uFeZpc4oV2GNRdP_EXmYqacg5o3jPegqqaFZZYqqRutFA@mail.gmail.com>
- <20210205100449.w2vzqozgnolxqh4h@pali>
- <CAKMK7uG9NsEzFfapZa4KF6sw0=CuD6Pyk5=7WhjxgFBut4uJkw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        id S231366AbhBEKlp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 05:41:45 -0500
+Received: from mail-mw2nam12on2046.outbound.protection.outlook.com ([40.107.244.46]:15649
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231546AbhBEKhF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Feb 2021 05:37:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RBLEx6B2VZKcA9oyzI3cIH13uK29bHCfLUeWKyA6LlmKGGEwxF/yHBlLyNi2QIn+LQYWMEgZAqOnYxzEfXh6oA9Q6CkzFRnFYBSzOad10FKQEOwvh42Q/hLzbuDIwmMIPTpkjoDrVz066UbJCcIsg1mUeNZUaAUGOUqgV6zuaIVHD1AkPiW7SqLo4ON/iyIlgsSRx/tZ467rA61iZiZu8WMKpSRAYbd4iRe9HZxH8tohfiyBle/jhCfP3v1z9qbp0JBd16GdshNl6SIlDQDm/qAzIqH1zEE5PbaewPXYqX5v345OYbnaOZcG/5+FOYbdn33ivvO1wI0kgDWakHhSkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jjtMvA23UpP9595/61adkwqEcNI/T/ErIEX68PTmikQ=;
+ b=JyfgbPX2/V6H/kPsi5MhFv/z5mcOXjMV5bfLm8UVJCtPE3ZLtM094kYE4A7hTIgnD2IFza8vpZvXSA39bu+4sSha2fk071+0npbJUyJ53zYMpca+YeleY78OnkUH+/R9lLlvVnlDb/WtKYjVZ/QemykCoyW2JzoexCb6C6p/VmNIrYF24YrpVlW23vYpCBdztZYvRjCiA7E9ekeLr/W27skDeBO8ROfe5M+VaIJfqXI/3iA5K8ZazSCNshdMzuKUQ9gCcbD4EXZ2+BOKmNxRxoZRenmUt/rM7/yaZAMot8gbcztMH6Gdev1SZwbSqPOVTg5exFadzL2uU4ateBQUnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jjtMvA23UpP9595/61adkwqEcNI/T/ErIEX68PTmikQ=;
+ b=fasUYsFrobiDGSVOozV5f/JY14GUg+CW+00o4j0/lE55YCwH5p7C0kuu+afIyu9k2ESiHbZky6GuokJigWd1HURrbZK3PUjhlNYXmUJKogmenol1XYZlr+V3lYb08VxQT+BqOHjveKx8F1z99krnuWGFW+5P/cFNAYh2FtYkTvs=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=none action=none
+ header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4898.namprd12.prod.outlook.com (2603:10b6:208:1c7::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17; Fri, 5 Feb
+ 2021 10:36:10 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3825.023; Fri, 5 Feb 2021
+ 10:36:10 +0000
+Subject: Re: [RFC][PATCH v6 0/7] Generic page pool & deferred freeing for
+ system dmabuf heap
+To:     John Stultz <john.stultz@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        =?UTF-8?Q?=c3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+References: <20210205080621.3102035-1-john.stultz@linaro.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <0864e2a8-3a44-e7db-828f-abdac7c64471@amd.com>
+Date:   Fri, 5 Feb 2021 11:36:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20210205080621.3102035-1-john.stultz@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKMK7uG9NsEzFfapZa4KF6sw0=CuD6Pyk5=7WhjxgFBut4uJkw@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM9P195CA0030.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21f::35) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM9P195CA0030.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.21 via Frontend Transport; Fri, 5 Feb 2021 10:36:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 281f19d8-414e-4f1d-8aee-08d8c9c1da17
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4898:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4898FD111BA1336ADA40D09583B29@BL0PR12MB4898.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: juBsqG6hgm0EgaBSjX1fojEMJ39dQYBil5ObRyBUJH4X56W+NRZcIyqVojmbr2VrFk1FUYuGfL9nGO1Fic2tLeRYYM67Lns5WKIaD8Ki2Sb6PP4D1oBjsTuP92ZC8QsuoiKRFDfgilHkx0Fh3y3L6FxzfZj1cxAEOy6cuUe1hhQEAq5ZS9bkmJrALXobNmYdq+o7pU6G/OSioqMW70aZjaHKSyRrEjcWbHz8CR/hoxX3ucycsmjhEHMpf3yaRlCs9Wju2U/h+JhlPZR69DT5UES3mtEfBpNbfkdk03eiMKnUaGAiep8ZewupJPncpT1jiBJKakCH2Ip3PQrQkQ3zSS5pGvnp9/mhR1GvCaXiaNL17o7+ytp79YmFnESe5luuHQtX4hn9SUrEFLBybzuuaA5Ntxx1lPKaYRaX4u+kiJc7Z+1Fv4++qXBs/r2kmvk985s5rhivrk/CEPd65acaZybQbFtXLy9f6Yji3OF74btS7NUaB6q/gFO9+pu1zhEDW2zavyXpUauPh87z9G1vPhsoyRv3iy5uNWC4qKh4hJmY7NmUNmCVjoEkfsksHzP+wbVXsfwJuFiVQdeSFtwo5saMHmplWiU58ZS8hWQCmMRaJ+5TGrlLPDcPXZzYbzmVuwl0KtmHTVTw8RMILRcap2SZT/wJDTv8Eku1kAY47078eHkfbYXhek68QjMnW/CzxUrPuF49ZTLrmpPW88nH/g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(366004)(346002)(39860400002)(136003)(16526019)(186003)(6486002)(6666004)(8676002)(86362001)(2906002)(7416002)(31696002)(31686004)(83380400001)(966005)(5660300002)(2616005)(478600001)(8936002)(36756003)(45080400002)(66556008)(54906003)(66946007)(110136005)(316002)(52116002)(66476007)(4326008)(41533002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?enV6SktXZ3ZIbllhUi82amxnNzNJQlc1UXp2VGFFSmhFdnJaM3lOY1d1NzY5?=
+ =?utf-8?B?OFhsbENrdzJkQmxjMWNCOTZ4OEZKSkg5SkROckpuNUdHLy9pZ2plQXlTOElv?=
+ =?utf-8?B?QVRkOXFrc3RoZnVXajlIYnZFRjZxcW1VVktuMExWU0N0cHA4blFnVnU2N3NI?=
+ =?utf-8?B?STd2UlFhL3EvVGZ1akF0QmduRHZuMXFUVGNmeHpLUTlPQXNoVE1hWEtwbTU0?=
+ =?utf-8?B?NnhlVHY0M3h6U0tzRFBlemVQd0ZKckp1ODNnVXRoOTdQYVlibEI4U3B0MDA3?=
+ =?utf-8?B?ZEVDUVhXOTFoSnF0cXR1OXE5b3lNU09SVmpIWjZLVjRnQ3dRRTBuM3VRVkhi?=
+ =?utf-8?B?SDVKK1lPdWFwNmJhMmM0Y1prSTN0L3VWMnZqaHFpV2dpeW9uT2l6S3RrSCt4?=
+ =?utf-8?B?TzFROEMvaDdTTVdYZjdldVJkcnhpZG9kK3pSVllpSmtjZ2pMcFk1WjM1THhP?=
+ =?utf-8?B?NUhVVkpXWWlTT1BRZkN2YXFneFhQelVUN2JmV25tM1d5K1BGZWlJR2tuVHVF?=
+ =?utf-8?B?TTN0UWZUT05iT21rQlBxREZzSW9Va3JFZHJ4cFBocGNEZEVUbGYrZzhKOXRH?=
+ =?utf-8?B?bHh0ckJXWG54cTBYSmoyOHdqanNxZkYxL2NMSVFLdktsZUMrWWZLMWNKUy9q?=
+ =?utf-8?B?TjdGY0E4S2poUnRZdmJNeXdqR1UxL0hFelp5OGV5V3lyVmF6cWMyZ0ZlNTBq?=
+ =?utf-8?B?RU1OeGNMakFtN25OUTVlWHFUQ0RKTDZoQi9iNzgyNlBDa2xxTnFPK2dWdlZk?=
+ =?utf-8?B?NXllWGRveDVjYmJoVzJSVXlkMGtaT1Y1RzV4NWtFQURaME1NKzE5VkdsaEVZ?=
+ =?utf-8?B?c2J4dHE1clFJQSt0QmM1UHZPNFUvLzlpZ1k1Q1FieGRyVUE5R1JwOWxHVkVY?=
+ =?utf-8?B?aGhHZWVQOHFIMHkwRmo4MFkvUzNNS21WRmJqa1dWRWtwTGRyVjRZM1lyV1Zu?=
+ =?utf-8?B?VjRtWmpMS1ZlWllhYityZWRlUGtXV3BVLzlmdXU2dnFwWC9rbjRVdmZ0VUNT?=
+ =?utf-8?B?YVgzd0FGVjZzZUZ0TXUxQzhXSGhiU25nbzdzREdWd1d1Tmx0Y254ZmVMc0ZL?=
+ =?utf-8?B?Q1NlcjN5cVBYN2d3UzFQZUR6d002c0ZCeFZHeVNpQmVsS0FLNEVjNnhzaWlH?=
+ =?utf-8?B?UVNWSExxT20wbW51YkdBeFc2SmRGR2VweEdZWWhKVkg4RmNOVDJ3Z0QzekRZ?=
+ =?utf-8?B?U1VFVWNONzBadkE4aWlwaEhSb3c1KzZMZW12a1JBZ0l6UC9FdmxOZ2x3LytZ?=
+ =?utf-8?B?cytmcXZ6aGtJaUNMQUVpcVV3K0YvMXRYcGlIQmdaRnpxSStWZEdzU3IvYzMy?=
+ =?utf-8?B?Z3Fzc0hvVi9rS0lMQ08xbElSdjh3eGVaQXUwNVFBSkI5MHJkVkdNMU00T3hJ?=
+ =?utf-8?B?ZXQyUnNNWExPaERGdHNsYlZieWJ6R2hFWVBkanptQjAvNzltOXpJbDhtQ1o2?=
+ =?utf-8?B?Y1NEbWcwOFJjSTBMVHBCa0F2N0thTGN4TGwwdUNhZmdxbzlwaVlOaVRyTUYz?=
+ =?utf-8?B?ZVJiZjREYjVDTG1CeGRhTTlWNURWV0o2ZlI0UENad1M1K2s4SzhrV2hJZ0hi?=
+ =?utf-8?B?ZXdKdTZ5dWlkMFA2cUVYaDRZaUJRYkxuR1FxVnhjNzRxRjRnV1J6S3FVL3pl?=
+ =?utf-8?B?MW5YaVA4TUJnTlFpcGxscjRLVjhlOXZjNGlvUDEyaWlNaXF6cXFDa0RXUm5x?=
+ =?utf-8?B?OEZ1YlZKSisyWkthajZFQVJkZGNyVHNyKzB4NkV6d2ZNQUphVlUwUG9RbUNI?=
+ =?utf-8?B?LzRuRjV5bDBHanZqYzJTU2gzbURpSFBoSlRibHg5SU9Xc0tNcmYvakRpSjRL?=
+ =?utf-8?B?RVlKZldXSkJES2VNd2VYQ25SdENxYXlqNHliL0pUMlZhcXVPL29FdFV4YlIz?=
+ =?utf-8?Q?1hyakYX6Sn3yG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 281f19d8-414e-4f1d-8aee-08d8c9c1da17
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 10:36:10.0770
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cMN98aisSn71wtx0kzYhwTXEC0jg/0Z8jePAmQP65KWwuPRkhBdIXC2a9PDgQNLx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4898
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Friday 05 February 2021 11:16:00 Daniel Vetter wrote:
-> On Fri, Feb 5, 2021 at 11:04 AM Pali Rohár <pali@kernel.org> wrote:
-> >
-> > On Friday 05 February 2021 10:59:50 Daniel Vetter wrote:
-> > > On Thu, Feb 4, 2021 at 11:24 PM Pali Rohár <pali@kernel.org> wrote:
-> > > >
-> > > > On Thursday 04 February 2021 15:50:19 Bjorn Helgaas wrote:
-> > > > > [+cc Oliver, Pali, Krzysztof]
-> > > >
-> > > > Just to note that extending or using sysfs_initialized introduces
-> > > > another race condition into kernel code which results in PCI fatal
-> > > > errors. Details are in email discussion which Bjorn already sent.
-> > >
-> > > Yeah I wondered why this doesn't race.
-> >
-> > It races, but with smaller probability. I have not seen this race
-> > condition on x86. But I was able to reproduce it with native PCIe
-> > drivers on ARM64 (Marvell Armada 3720; pci-aardvark). In mentioned
-> > discussion I wrote when this race condition happen. But I understand
-> > that it is hard to simulate it.
-> 
-> btw I looked at your patch, and isn't that just reducing the race window?
+Am 05.02.21 um 09:06 schrieb John Stultz:
+> This series is starting to get long, so I figured I'd add a
+> short cover letter for context.
+>
+> The point of this series is trying to add both deferred-freeing
+> logic as well as a page pool to the DMA-BUF system heap.
+>
+> This is desired, as the combination of deferred freeing along
+> with the page pool allows us to offload page-zeroing out of
+> the allocation hot path. This was done originally with ION
+> and this patch series allows the DMA-BUF system heap to match
+> ION's system heap allocation performance in a simple
+> microbenchmark [1] (ION re-added to the kernel for comparision,
+> running on an x86 vm image):
+>
+> ./dmabuf-heap-bench -i 0 1 system
+> Testing dmabuf system vs ion heaptype 0 (flags: 0x1)
+> ---------------------------------------------
+> dmabuf heap: alloc 4096 bytes 5000 times in 86572223 ns          17314 ns/call
+> ion heap:    alloc 4096 bytes 5000 times in 97442526 ns          19488 ns/call
+> dmabuf heap: alloc 1048576 bytes 5000 times in 196635057 ns      39327 ns/call
+> ion heap:    alloc 1048576 bytes 5000 times in 357323629 ns      71464 ns/call
+> dmabuf heap: alloc 8388608 bytes 5000 times in 3165445534 ns     633089 ns/call
+> ion heap:    alloc 8388608 bytes 5000 times in 3699591271 ns     739918 ns/call
+> dmabuf heap: alloc 33554432 bytes 5000 times in 13327402517 ns   2665480 ns/call
+> ion heap:    alloc 33554432 bytes 5000 times in 15292352796 ns   3058470 ns/call
+>
+> Daniel didn't like earlier attempts to re-use the network
+> page-pool code to achieve this, and suggested the ttm_pool be
+> used instead. This required pulling the fairly tightly knit
+> ttm_pool logic apart, but after many failed attmempts I think
+> I found a workable abstraction to split out shared logic.
+>
+> So this series contains a new generic drm_page_pool helper
+> library, converts the ttm_pool to use it, and then adds the
+> dmabuf deferred freeing and adds support to the dmabuf system
+> heap to use both deferred freeing and the new drm_page_pool.
+>
+> Input would be greatly appreciated. Testing as well, as I don't
+> have any development hardware that utilizes the ttm pool.
 
-I probably have not wrote reply to that thread and only to Krzysztof on
-IRC, but my "hack" really does not solve that race condition. And as you
-wrote it only reduced occurrence on tested HW.
+We can easily do the testing and the general idea sounds solid to me.
 
-Krzysztof wrote that would look at this issue and try to solve it
-properly. So I have not doing more investigation on that my "hack"
-patch, race conditions are hard to catch and solve...
+I see three major things we need to clean up here.
+1. The licensing, you are moving from BSD/MIT to GPL2.
+2. Don't add any new overhead to the TTM pool, especially allocating a 
+private object per page is a no-go.
+3. What are you doing with the reclaim stuff and why?
+4. Keeping the documentation would be nice to have.
 
-> I think we have a very similar problem in drm, where the
-> drm_dev_register() for the overall device (which also registers all
-> drm_connector) can race with the hotplug of an individual connector in
-> drm_connector_register() which is hotplugged at runtime.
-> 
-> I went with a per-connector registered boolean + a lock to make sure
-> that really only one of the two call paths can end up registering the
-> connector. Part of registering connectors is setting up sysfs files,
-> so I think it's exactly the same problem as here.
-> 
-> Cheers, Daniel
-> 
-> >
-> > > but since the history goes back
-> > > to pre-git times I figured it would have been addressed somehow
-> > > already if it indeed does race.
-> > > -Daniel
-> > >
-> > > > > s/also/Also/ in subject
-> > > > >
-> > > > > On Thu, Feb 04, 2021 at 05:58:30PM +0100, Daniel Vetter wrote:
-> > > > > > We are already doing this for all the regular sysfs files on PCI
-> > > > > > devices, but not yet on the legacy io files on the PCI buses. Thus far
-> > > > > > now problem, but in the next patch I want to wire up iomem revoke
-> > > > > > support. That needs the vfs up an running already to make so that
-> > > > > > iomem_get_mapping() works.
-> > > > >
-> > > > > s/now problem/no problem/
-> > > > > s/an running/and running/
-> > > > > s/so that/sure that/ ?
-> > > > >
-> > > > > iomem_get_mapping() doesn't exist; I don't know what that should be.
-> > > > >
-> > > > > > Wire it up exactly like the existing code. Note that
-> > > > > > pci_remove_legacy_files() doesn't need a check since the one for
-> > > > > > pci_bus->legacy_io is sufficient.
-> > > > >
-> > > > > I'm not sure exactly what you mean by "the existing code."  I could
-> > > > > probably figure it out, but it would save time to mention the existing
-> > > > > function here.
-> > > > >
-> > > > > This looks like another instance where we should really apply Oliver's
-> > > > > idea of converting these to attribute_groups [1].
-> > > > >
-> > > > > The cover letter mentions options discussed with Greg in [2], but I
-> > > > > don't think the "sysfs_initialized" hack vs attribute_groups was part
-> > > > > of that discussion.
-> > > > >
-> > > > > It's not absolutely a show-stopper, but it *is* a shame to extend the
-> > > > > sysfs_initialized hack if attribute_groups could do this more cleanly
-> > > > > and help solve more than one issue.
-> > > > >
-> > > > > Bjorn
-> > > > >
-> > > > > [1] https://lore.kernel.org/r/CAOSf1CHss03DBSDO4PmTtMp0tCEu5kScn704ZEwLKGXQzBfqaA@mail.gmail.com
-> > > > > [2] https://lore.kernel.org/dri-devel/CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com/
-> > > > >
-> > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > > > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > > > > Cc: Kees Cook <keescook@chromium.org>
-> > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > > > > Cc: John Hubbard <jhubbard@nvidia.com>
-> > > > > > Cc: Jérôme Glisse <jglisse@redhat.com>
-> > > > > > Cc: Jan Kara <jack@suse.cz>
-> > > > > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > Cc: linux-mm@kvack.org
-> > > > > > Cc: linux-arm-kernel@lists.infradead.org
-> > > > > > Cc: linux-samsung-soc@vger.kernel.org
-> > > > > > Cc: linux-media@vger.kernel.org
-> > > > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > > > > Cc: linux-pci@vger.kernel.org
-> > > > > > ---
-> > > > > >  drivers/pci/pci-sysfs.c | 7 +++++++
-> > > > > >  1 file changed, 7 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > > > > > index fb072f4b3176..0c45b4f7b214 100644
-> > > > > > --- a/drivers/pci/pci-sysfs.c
-> > > > > > +++ b/drivers/pci/pci-sysfs.c
-> > > > > > @@ -927,6 +927,9 @@ void pci_create_legacy_files(struct pci_bus *b)
-> > > > > >  {
-> > > > > >     int error;
-> > > > > >
-> > > > > > +   if (!sysfs_initialized)
-> > > > > > +           return;
-> > > > > > +
-> > > > > >     b->legacy_io = kcalloc(2, sizeof(struct bin_attribute),
-> > > > > >                            GFP_ATOMIC);
-> > > > > >     if (!b->legacy_io)
-> > > > > > @@ -1448,6 +1451,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
-> > > > > >  static int __init pci_sysfs_init(void)
-> > > > > >  {
-> > > > > >     struct pci_dev *pdev = NULL;
-> > > > > > +   struct pci_bus *pbus = NULL;
-> > > > > >     int retval;
-> > > > > >
-> > > > > >     sysfs_initialized = 1;
-> > > > > > @@ -1459,6 +1463,9 @@ static int __init pci_sysfs_init(void)
-> > > > > >             }
-> > > > > >     }
-> > > > > >
-> > > > > > +   while ((pbus = pci_find_next_bus(pbus)))
-> > > > > > +           pci_create_legacy_files(pbus);
-> > > > > > +
-> > > > > >     return 0;
-> > > > > >  }
-> > > > > >  late_initcall(pci_sysfs_init);
-> > > > > > --
-> > > > > > 2.30.0
-> > > > > >
-> > > > > >
-> > > > > > _______________________________________________
-> > > > > > linux-arm-kernel mailing list
-> > > > > > linux-arm-kernel@lists.infradead.org
-> > > > > > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
-> 
-> 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Regards,
+Christian.
+
+>
+> thanks
+> -john
+>
+> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fandroid.googlesource.com%2Fplatform%2Fsystem%2Fmemory%2Flibdmabufheap%2F%2B%2Frefs%2Fheads%2Fmaster%2Ftests%2Fdmabuf_heap_bench.c&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C2dc4d6cb3ee246558b9e08d8c9acef9a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637481091933715561%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=oMgVsrdlwS%2BqZuuatjTiWDzMU9SiUW5eRar5xwT%2BHYQ%3D&amp;reserved=0
+>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Liam Mark <lmark@codeaurora.org>
+> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> Cc: Laura Abbott <labbott@kernel.org>
+> Cc: Brian Starkey <Brian.Starkey@arm.com>
+> Cc: Hridya Valsaraju <hridya@google.com>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Sandeep Patil <sspatil@google.com>
+> Cc: Daniel Mentz <danielmentz@google.com>
+> Cc: Ørjan Eide <orjan.eide@arm.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: James Jones <jajones@nvidia.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+>
+> John Stultz (7):
+>    drm: Add a sharable drm page-pool implementation
+>    drm: ttm_pool: Rename the ttm_pool_dma structure to ttm_pool_page_dat
+>    drm: ttm_pool: Rework ttm_pool_free_page to allow us to use it as a
+>      function pointer
+>    drm: ttm_pool: Rework ttm_pool to use drm_page_pool
+>    dma-buf: heaps: Add deferred-free-helper library code
+>    dma-buf: system_heap: Add drm pagepool support to system heap
+>    dma-buf: system_heap: Add deferred freeing to the system heap
+>
+>   drivers/dma-buf/heaps/Kconfig                |   5 +
+>   drivers/dma-buf/heaps/Makefile               |   1 +
+>   drivers/dma-buf/heaps/deferred-free-helper.c | 145 ++++++++++
+>   drivers/dma-buf/heaps/deferred-free-helper.h |  55 ++++
+>   drivers/dma-buf/heaps/system_heap.c          |  77 ++++-
+>   drivers/gpu/drm/Kconfig                      |   5 +
+>   drivers/gpu/drm/Makefile                     |   1 +
+>   drivers/gpu/drm/page_pool.c                  | 220 +++++++++++++++
+>   drivers/gpu/drm/ttm/ttm_pool.c               | 278 ++++++-------------
+>   include/drm/page_pool.h                      |  54 ++++
+>   include/drm/ttm/ttm_pool.h                   |  23 +-
+>   11 files changed, 639 insertions(+), 225 deletions(-)
+>   create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.c
+>   create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.h
+>   create mode 100644 drivers/gpu/drm/page_pool.c
+>   create mode 100644 include/drm/page_pool.h
+>
+
