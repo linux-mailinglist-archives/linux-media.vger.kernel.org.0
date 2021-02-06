@@ -2,140 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F2D311BAA
-	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 06:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D60E311BEA
+	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 08:22:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbhBFFsi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Feb 2021 00:48:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51192 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbhBFFsf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Feb 2021 00:48:35 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28EE6C0613D6
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 21:47:55 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id cl8so4774758pjb.0
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 21:47:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ysXoxmHGWekWNyITP0f9QwT2Iyo77pJXB4WoqmtP4Co=;
-        b=MLL+lNMZWZo9tRRfPkaLmM7dZ/6WNlE+hPWt8/xKtrnExLFYxkcpBZnolJqOVe3y2r
-         RoCyhZ01Av+Cj2obyhiM3Aq29N4MBK5Q9cXxb9QZt6FCd8QUu2wfgzR4U/A1x6CxPHvs
-         enRyhpFs8icHd/u53gN54C31eGfENGEDLoSz6X6BcJFl39I9Hs7ODAewm8PFf66AotKD
-         51L2HrkgbHGQjJG09XzKFPq58sEPDQd98Rn7kcGJpTmTYTkzWOFB/N5S0YZ1sK7KOBRK
-         TbHzs2ONwl6u+jm3zgWj6ylyiBm4oHVJa0z6iKOyg7KuSQ89+15gS84yDDM7ohuJ0B8n
-         pLmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ysXoxmHGWekWNyITP0f9QwT2Iyo77pJXB4WoqmtP4Co=;
-        b=qgmFAhUA/TEHuwiE9lUmTmGBL4z5HbpXHUJMIK+s5XF5DYvvk+ICuwWJozh3/yBdId
-         puVpRBWR/yBPrr37uBSrn1eYJTKcKGUTjcve6d50PpvFVSh42eg8gJ6Ggmqw4lOQi/d3
-         Mqz9/0m4cvuq/C0AksjHXNP6T4jDRRtT1GZg0ch4JmI7ffcKA4MuPSW98m/bOFHsqz2W
-         nPvKrarOVrdJLd92awSDOjv8LziknbbJyzDCWCZMqQI2IVMnHMuGWLdDhtNhXzCoRt2c
-         5Dl7zWyc13CDzDo6UeB/+ASOb+1H7Ibtan7nj5HVDcV3aUR3TTy2L1j/Fa24KGMTdLsf
-         spEg==
-X-Gm-Message-State: AOAM533jO/KOJCrrUsJ+deYgOv/eRN1e2qf4ba1kFeUv4RO6GEThPix6
-        /B0AYLQ5we/fd7B46cqDmYYt7A==
-X-Google-Smtp-Source: ABdhPJzmd8A00mIxv5h6tiX3iJxykxthFlYvrr/Jc67oyFQ7FQBCfqGGUdNmJMiuKKMKjea51Dr8ww==
-X-Received: by 2002:a17:90b:4c10:: with SMTP id na16mr7320475pjb.49.1612590474659;
-        Fri, 05 Feb 2021 21:47:54 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id ob6sm9200211pjb.30.2021.02.05.21.47.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 21:47:53 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [RFC][PATCH 2/2] dma-buf: heaps: Fix the name used when exporting dmabufs to be the actual heap name
-Date:   Sat,  6 Feb 2021 05:47:48 +0000
-Message-Id: <20210206054748.378300-2-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210206054748.378300-1-john.stultz@linaro.org>
-References: <20210206054748.378300-1-john.stultz@linaro.org>
+        id S229646AbhBFHVc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Feb 2021 02:21:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50570 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229522AbhBFHVa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 6 Feb 2021 02:21:30 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1874E64EB9;
+        Sat,  6 Feb 2021 07:20:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1612596049;
+        bh=xdg+P2Qc0twWG80mc917q0suMB4BOviqUgCbHNfbBos=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SsZtTDrEbppS+wSks1Hq0AMqCTxk1HExT5dtEj6uRz+9sbcwaRSpwm5xE/E1G1ffI
+         XwKjgWK/E0y50hzOrWiYVX2rQfWvtZO1vA+n/ddjw9MoAfFu/SRVL+jBf5DG7dXHN6
+         iAd6RmtV32zeVoDbYhe6HOQIT497oT5cpNiOgrTs=
+Date:   Sat, 6 Feb 2021 08:20:45 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Tony Battersby <tonyb@cybernetics.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Jari Ruusu <jariruusu@protonmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        Christoph Biedl <linux-kernel.bfrz@manchmal.in-ulm.de>,
+        linux-media@vger.kernel.org
+Subject: Re: Kernel version numbers after 4.9.255 and 4.4.255
+Message-ID: <YB5DTUiurAwqZbz1@kroah.com>
+References: <a85b7749-38b2-8ce9-c15a-8acb9a54c5b5@kernel.org>
+ <0b12bac9-1b4e-ec4a-8a45-5eb3f1dbbeca@cybernetics.com>
+ <20210205191105.128c6e48@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210205191105.128c6e48@coco.lan>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-By default dma_buf_export() sets the exporter name to be
-KBUILD_MODNAME. Unfortunately this may not be identical to the
-string used as the heap name (ie: "system" vs "system_heap").
+On Fri, Feb 05, 2021 at 07:11:05PM +0100, Mauro Carvalho Chehab wrote:
+> Em Fri, 5 Feb 2021 12:31:05 -0500
+> Tony Battersby <tonyb@cybernetics.com> escreveu:
+> 
+> > On 2/4/21 6:00 AM, Jiri Slaby wrote:
+> > > Agreed. But currently, sublevel won't "wrap", it will "overflow" to 
+> > > patchlevel. And that might be a problem. So we might need to update the 
+> > > header generation using e.g. "sublevel & 0xff" (wrap around) or 
+> > > "sublevel > 255 : 255 : sublevel" (be monotonic and get stuck at 255).
+> > >
+> > > In both LINUX_VERSION_CODE generation and KERNEL_VERSION proper.  
+> > 
+> > My preference would be to be monotonic and get stuck at 255 to avoid
+> > breaking out-of-tree modules.  If needed, add another macro that
+> > increases the number of bits that can be used to check for sublevels >
+> > 255, while keeping the old macros for compatibility reasons.  Since
+> > sublevels > 255 have never existed before, any such checks must be
+> > newly-added, so they can be required to use the new macros.
+> > 
+> > I do not run the 4.4/4.9 kernels usually, but I do sometimes test a wide
+> > range of kernels from 3.18 (gasp!) up to the latest when bisecting,
+> > benchmarking, or debugging problems.  And I use a number of out-of-tree
+> > modules that rely on the KERNEL_VERSION to make everything work.  Some
+> > out-of-tree modules like an updated igb network driver might be needed
+> > to make it possible to test the old kernel on particular hardware.
+> > 
+> > In the worst case, I can patch LINUX_VERSION_CODE and KERNEL_VERSION
+> > locally to make out-of-tree modules work.  Or else just not test kernels
+> > with sublevel > 255.
+> 
+> Overflowing LINUX_VERSION_CODE breaks media applications. Several media
+> APIs have an ioctl that returns the Kernel version:
+> 
+> 	drivers/media/cec/core/cec-api.c:       caps.version = LINUX_VERSION_CODE;
+> 	drivers/media/mc/mc-device.c:   info->media_version = LINUX_VERSION_CODE;
+> 	drivers/media/v4l2-core/v4l2-ioctl.c:   cap->version = LINUX_VERSION_CODE;
+> 	drivers/media/v4l2-core/v4l2-subdev.c:          cap->version = LINUX_VERSION_CODE;
 
-This can cause some minor confusion with tooling, and there is
-the future potential where multiple heap types may be exported
-by the same module (but would all have the same name).
+This always struck me as odd, because why can't they just use the
+uname(2) syscall instead?
 
-So to avoid all this, set the exporter exp_name to the heap name.
+> Those can be used by applications in order to enable some features that
+> are available only after certain Kernel versions.
+> 
+> This is somewhat deprecated, in favor of the usage of some other
+> capability fields, but for instance, the v4l2-compliance userspace tool
+> have two such checks:
+> 
+> 	utils/v4l2-compliance/v4l2-compliance.cpp
+> 	640:	fail_on_test((vcap.version >> 16) < 3);
+> 	641:	if (vcap.version >= 0x050900)  // Present from 5.9.0 onwards
+> 
+> As far as I remember, all such checks are against major.minor. So,
+> something like:
+> 
+> 	sublevel = (sublevel > 0xff) ? 0xff : sublevel;
+> 
+> inside KERNEL_VERSION macro should fix such regression at -stable.
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Ã˜rjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/heaps/cma_heap.c    | 1 +
- drivers/dma-buf/heaps/system_heap.c | 1 +
- 2 files changed, 2 insertions(+)
+I think if we clamp KERNEL_VERSION at 255 we should be fine for anyone
+checking this type of thing.  Sasha has posted patches to do this.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 364fc2f3e499..62465d61ccc7 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -339,6 +339,7 @@ static int cma_heap_allocate(struct dma_heap *heap,
- 	buffer->pagecount = pagecount;
- 
- 	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
- 	exp_info.ops = &cma_heap_buf_ops;
- 	exp_info.size = buffer->len;
- 	exp_info.flags = fd_flags;
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 17e0e9a68baf..2d4afc79c700 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -388,6 +388,7 @@ static int system_heap_allocate(struct dma_heap *heap,
- 	}
- 
- 	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
- 	exp_info.ops = &system_heap_buf_ops;
- 	exp_info.size = buffer->len;
- 	exp_info.flags = fd_flags;
--- 
-2.25.1
+thanks,
 
+greg k-h
