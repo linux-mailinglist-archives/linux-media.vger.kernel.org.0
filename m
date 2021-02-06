@@ -2,176 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADF36311F87
-	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 19:54:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8807231202A
+	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 22:23:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229626AbhBFSxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Feb 2021 13:53:30 -0500
-Received: from mga06.intel.com ([134.134.136.31]:3168 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231320AbhBFSxN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 6 Feb 2021 13:53:13 -0500
-IronPort-SDR: L3m11PqJGQ9is2MU3SdPKBJ+037ODDlLYmBtqPLhBZAT3WINrbJ4WFH23sryMmFXwfMQ9jlnZX
- 15XYK8uW4ckw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9887"; a="243058114"
-X-IronPort-AV: E=Sophos;i="5.81,158,1610438400"; 
-   d="scan'208";a="243058114"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2021 10:52:26 -0800
-IronPort-SDR: xWVzSq+CzCpNzfe1YNzzme6pG9bI0gomVeNfRur2OGV9o4+LnEVhMqDZRuZfAayl14BZc3Gy72
- Wi/gV6mXLW1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,158,1610438400"; 
-   d="scan'208";a="410128929"
-Received: from lkp-server02.sh.intel.com (HELO 8b832f01bb9c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Feb 2021 10:52:25 -0800
-Received: from kbuild by 8b832f01bb9c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1l8Sgy-0002Yy-V3; Sat, 06 Feb 2021 18:52:24 +0000
-Date:   Sun, 07 Feb 2021 02:51:25 +0800
-From:   kernel test robot <lkp@intel.com>
+        id S229548AbhBFVW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Feb 2021 16:22:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229522AbhBFVW2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Feb 2021 16:22:28 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E0AC06174A;
+        Sat,  6 Feb 2021 13:21:47 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id a8so15998876lfi.8;
+        Sat, 06 Feb 2021 13:21:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6ANZHZLXQhY84IBPjPl5swjkNUaxy3iGTDmC43M6g6Y=;
+        b=jFW8xNhNH95y88lpOXlxaKWGseqrow8q1+F87WILYVTOY0DoJbUxCT+mIEFbfB2AIg
+         JFRq4bQ0jFHwq6MpZvqTmyuVgRSbz+DvHQJWVRu1ovaDo2VByBlfvexeNGqMEC5t4uQF
+         CM7K/CXjMGpUoYJkpXox2/3rGBUUG1sxmc1nErLM0+Dr5oXGRcrNnbebfl+bQ0itqfG2
+         5CkTOt/yZSB2mpIuOAck8kKrJTl3W5QSqcqmygGX0Gb+ZyDT11zRQAbSyaGUdwXxS1+o
+         6guBXZBmmDLq2NFRDU0EdznyMpGMvCGlDAqoAZC79ZiZNn8iLw5b7ZtTGNhCqdMV1hu9
+         2D4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6ANZHZLXQhY84IBPjPl5swjkNUaxy3iGTDmC43M6g6Y=;
+        b=XbZkxCF37Wsjl9yID4EjSmVJz7z5UOnYTLwAxjYAR4e/CoVdGM6BVFrFjyFUZdqLHy
+         o7QIpjZDXneXvqXA9oDarqT2tnZLBBGbnPW681Q1Kx34IFV6c1EfNo1ye08ouhy4E7be
+         JB+9lffCJlfo/UZFlSU9hCPkGJ5w2SnzV5JG7DG7Gz1139mEPjh+hJPWczvs+sCHEiLV
+         ExlfRMnh2MAuY6w9nWX/AwH0xue/fW32ia/2SV3tVr98mRTUDt2L+URFvMOgmdjdTyN7
+         Y+00lwD26nPZoRaMa7/BoTstHbVv9L5n7E3EDMS+RzwpN6qE/GmGbj3VzPIzxUkO7CNM
+         VJcA==
+X-Gm-Message-State: AOAM531uj9A+1TxfD8uuY8F6GpEJtQ7L+s5cXbqYFWSUtcS9IGEW5f+j
+        xOKsPTgBXgoJBmGGl7AGEQM=
+X-Google-Smtp-Source: ABdhPJyIM70tojreBlHvQft2bbzYB07X7DVTWDCXIVcoEmiX0o/EBX9Fi251aaUz5XpxIqQQtSvvFA==
+X-Received: by 2002:a05:6512:3243:: with SMTP id c3mr6138178lfr.559.1612646506020;
+        Sat, 06 Feb 2021 13:21:46 -0800 (PST)
+Received: from localhost.localdomain (h-158-174-22-164.NA.cust.bahnhof.se. [158.174.22.164])
+        by smtp.gmail.com with ESMTPSA id a11sm1406590lfi.197.2021.02.06.13.21.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Feb 2021 13:21:45 -0800 (PST)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 063b811f34650bf88e24998eb9c094607cb3b53e
-Message-ID: <601ee52d.hECE63o4T/pg5OIc%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] media: usbtv: constify static structs
+Date:   Sat,  6 Feb 2021 22:21:39 +0100
+Message-Id: <20210206212139.34991-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-tree
-branch HEAD: 063b811f34650bf88e24998eb9c094607cb3b53e  media: uvc: strncpy -> strscpy
+Constify two static structs which are never modified to allow the
+compiler to put them in read-only memory.
 
-elapsed time: 1191m
+The only usage of norm_params is only read from it in
+usbtv_configure_for_norm(). Making it const shrinks the resulting
+ko-file with 300 bytes (tested with gcc 10).
 
-configs tested: 114
-configs skipped: 2
+The only usage of usbtv_ioctl_ops is to put its address to the ioctl_ops
+field in the video_device struct. Making it const moves ~1kb to
+read-only memory.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                      tqm8xx_defconfig
-m68k                            q40_defconfig
-powerpc                     tqm5200_defconfig
-openrisc                            defconfig
-sh                             shx3_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm64                            alldefconfig
-powerpc                       holly_defconfig
-mips                           xway_defconfig
-parisc                generic-64bit_defconfig
-arm                           u8500_defconfig
-arm                           tegra_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arm                    vt8500_v6_v7_defconfig
-mips                         rt305x_defconfig
-h8300                       h8s-sim_defconfig
-h8300                     edosk2674_defconfig
-mips                malta_qemu_32r6_defconfig
-mips                        bcm47xx_defconfig
-mips                          rm200_defconfig
-powerpc                     asp8347_defconfig
-arm                        realview_defconfig
-arm                  colibri_pxa270_defconfig
-m68k                          multi_defconfig
-sh                           se7206_defconfig
-arm                          exynos_defconfig
-powerpc                    amigaone_defconfig
-mips                         mpc30x_defconfig
-powerpc                     mpc512x_defconfig
-arm                          imote2_defconfig
-arm                       imx_v4_v5_defconfig
-sh                           se7619_defconfig
-sh                 kfr2r09-romimage_defconfig
-m68k                       m5475evb_defconfig
-powerpc                      bamboo_defconfig
-mips                      loongson3_defconfig
-powerpc                     stx_gp3_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210205
-i386                 randconfig-a005-20210205
-i386                 randconfig-a003-20210205
-i386                 randconfig-a006-20210205
-i386                 randconfig-a002-20210205
-i386                 randconfig-a004-20210205
-x86_64               randconfig-a013-20210204
-x86_64               randconfig-a014-20210204
-x86_64               randconfig-a015-20210204
-x86_64               randconfig-a011-20210204
-x86_64               randconfig-a016-20210204
-x86_64               randconfig-a012-20210204
-i386                 randconfig-a013-20210205
-i386                 randconfig-a016-20210205
-i386                 randconfig-a014-20210205
-i386                 randconfig-a012-20210205
-i386                 randconfig-a015-20210205
-i386                 randconfig-a011-20210205
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a006-20210204
-x86_64               randconfig-a001-20210204
-x86_64               randconfig-a005-20210204
-x86_64               randconfig-a002-20210204
-x86_64               randconfig-a004-20210204
-x86_64               randconfig-a003-20210204
-
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/media/usb/usbtv/usbtv-video.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
+index 3b4a2e769230..a714ad77ca8e 100644
+--- a/drivers/media/usb/usbtv/usbtv-video.c
++++ b/drivers/media/usb/usbtv/usbtv-video.c
+@@ -47,7 +47,7 @@
+ 
+ #include "usbtv.h"
+ 
+-static struct usbtv_norm_params norm_params[] = {
++static const struct usbtv_norm_params norm_params[] = {
+ 	{
+ 		.norm = V4L2_STD_525_60,
+ 		.cap_width = 720,
+@@ -63,7 +63,7 @@ static struct usbtv_norm_params norm_params[] = {
+ static int usbtv_configure_for_norm(struct usbtv *usbtv, v4l2_std_id norm)
+ {
+ 	int i, ret = 0;
+-	struct usbtv_norm_params *params = NULL;
++	const struct usbtv_norm_params *params = NULL;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(norm_params); i++) {
+ 		if (norm_params[i].norm & norm) {
+@@ -685,7 +685,7 @@ static int usbtv_s_input(struct file *file, void *priv, unsigned int i)
+ 	return usbtv_select_input(usbtv, i);
+ }
+ 
+-static struct v4l2_ioctl_ops usbtv_ioctl_ops = {
++static const struct v4l2_ioctl_ops usbtv_ioctl_ops = {
+ 	.vidioc_querycap = usbtv_querycap,
+ 	.vidioc_enum_input = usbtv_enum_input,
+ 	.vidioc_enum_fmt_vid_cap = usbtv_enum_fmt_vid_cap,
+-- 
+2.30.0
+
