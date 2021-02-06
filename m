@@ -2,228 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DC79311C27
-	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 09:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 686B0311C5B
+	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 10:25:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbhBFIas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Feb 2021 03:30:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55848 "EHLO mail.kernel.org"
+        id S229554AbhBFJYw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Feb 2021 04:24:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34488 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229537AbhBFIan (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 6 Feb 2021 03:30:43 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C872064E88;
-        Sat,  6 Feb 2021 08:29:57 +0000 (UTC)
+        id S229531AbhBFJYt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 6 Feb 2021 04:24:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DAC2864FC9;
+        Sat,  6 Feb 2021 09:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612600202;
-        bh=r/ABb1lAdnXjCIrnwX9wTAPGKbOffeD05N2rbKPU8vI=;
+        s=k20201202; t=1612603448;
+        bh=+Bj2aBDPb+7vXu9XFa06X2d1541MI0v3tMUy+24u4P4=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dyoMojArGXKFKAiatYr1B0taRVYOK0mX+8TfBDysBRUeytYvQF5YV9TxaR2RWo6Yy
-         SVHR4TMYNc02lSCtfkMTXGSyQ9FM0kkQ7228E6mcZVSmJ/L0f/txzNUQ/UVSDXVvv9
-         oR9dv7oeCrx7PhnE1+QVpA+NMp9h2J6GnIRebx3JermavhaZZY0FBSkUci4kKcu3gt
-         RH2hsckwzm4BtMKih2y6uAgMl2izdCNJ9aZmxz25Yuk1twoHTLHiQa7uV+R3wXpWg0
-         my1gPu6vP/8hi/BkYGufBdSbZtz8X34p/hh/ekboA/PcAUfwPKyEvrh2q9TJoxqQbO
-         97TGuBu597eIg==
-Date:   Sat, 6 Feb 2021 09:29:54 +0100
+        b=Xfq7NrthZYNDAMPG3VPACjpYz7csky0jjfWgGeApn5J+5moo0LPEglFye9tVGp+jM
+         pXY01bZSAiwJS1zrj+sUE5hNhJMNfMIXDSSUC1jB3PlO1fU1CWZT6EhbYsAXV1G7tj
+         ekf76ttnhAJr+5Aabt0NMs2ewuQNNiWdqvkGG3cGTUtiEZL1rI8Wr9pwzgS+89wM63
+         r3yAAUoZ/MeVWDr23ShinwHdDu5QSMn8rK96P7aa44s50thT5tFQ4prCEI/vMXoNRw
+         PeHWQbViFtu049jN8vpVwHTPriF+zDMRgm9vd0PAOr4Lv7EneqlDBhV0ALZZ0+9pJO
+         xxQ6RGbFLHRAA==
+Date:   Sat, 6 Feb 2021 10:24:02 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH v5 13/13] media: Clarify v4l2-async subdevice addition
- API
-Message-ID: <20210206092954.1c75e92c@coco.lan>
-In-Reply-To: <20210202135611.13920-14-sakari.ailus@linux.intel.com>
-References: <20210202135611.13920-1-sakari.ailus@linux.intel.com>
-        <20210202135611.13920-14-sakari.ailus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Tony Battersby <tonyb@cybernetics.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Jari Ruusu <jariruusu@protonmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        Christoph Biedl <linux-kernel.bfrz@manchmal.in-ulm.de>,
+        linux-media@vger.kernel.org
+Subject: Re: Kernel version numbers after 4.9.255 and 4.4.255
+Message-ID: <20210206102402.2611b23f@coco.lan>
+In-Reply-To: <YB5DTUiurAwqZbz1@kroah.com>
+References: <a85b7749-38b2-8ce9-c15a-8acb9a54c5b5@kernel.org>
+        <0b12bac9-1b4e-ec4a-8a45-5eb3f1dbbeca@cybernetics.com>
+        <20210205191105.128c6e48@coco.lan>
+        <YB5DTUiurAwqZbz1@kroah.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue,  2 Feb 2021 15:56:11 +0200
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+Em Sat, 6 Feb 2021 08:20:45 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-> From: Ezequiel Garcia <ezequiel@collabora.com>
-> 
-> Now that most users of v4l2_async_notifier_add_subdev have been converted,
-> let's fix the documentation so it's more clear how the v4l2-async API
-> should be used.
-> 
-> Document functions that drivers should use, and their purpose.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../driver-api/media/v4l2-subdev.rst          | 48 +++++++++++++++----
->  include/media/v4l2-async.h                    | 15 ++++--
->  2 files changed, 50 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 0e82c77cf3e2..8b53da2f9c74 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -197,15 +197,45 @@ unregister the notifier the driver has to call
->  takes two arguments: a pointer to struct :c:type:`v4l2_device` and a
->  pointer to struct :c:type:`v4l2_async_notifier`.
->  
-> -Before registering the notifier, bridge drivers must do two things:
-> -first, the notifier must be initialized using the
-> -:c:func:`v4l2_async_notifier_init`. Second, bridge drivers can then
-> -begin to form a list of subdevice descriptors that the bridge device
-> -needs for its operation. Subdevice descriptors are added to the notifier
-> -using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
-> -takes two arguments: a pointer to struct :c:type:`v4l2_async_notifier`,
-> -and a pointer to the subdevice descripter, which is of type struct
-> -:c:type:`v4l2_async_subdev`.
-> +Before registering the notifier, bridge drivers must do two things: first, the
-> +notifier must be initialized using the :c:func:`v4l2_async_notifier_init`.
-> +Second, bridge drivers can then begin to form a list of subdevice descriptors
-> +that the bridge device needs for its operation. Several functions are available
-> +to add subdevice descriptors to a notifier, depending on the type of device and
-> +the needs of the driver.
-> +
-> +:c:func:`v4l2_async_notifier_add_fwnode_remote_subdev` and
-> +:c:func:`v4l2_async_notifier_add_i2c_subdev` are for bridge and ISP drivers for
-> +registering their async sub-devices with the notifier.
-> +
-> +:c:func:`v4l2_async_register_subdev_sensor_common` is a helper function for
-> +sensor drivers registering their own async sub-device, but it also registers a
-> +notifier and further registers async sub-devices for lens and flash devices
-> +found in firmware. The notifier for the sub-device is unregistered with the
-> +async sub-device.
-> +
-> +These functions allocate an async sub-device descriptor which is of type struct
-> +:c:type:`v4l2_async_subdev` embedded in a driver-specific struct. The &struct
-> +:c:type:`v4l2_async_subdev` shall be the first member of this struct:
+> On Fri, Feb 05, 2021 at 07:11:05PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Fri, 5 Feb 2021 12:31:05 -0500
+> > Tony Battersby <tonyb@cybernetics.com> escreveu:
+> >  =20
+> > > On 2/4/21 6:00 AM, Jiri Slaby wrote: =20
+> > > > Agreed. But currently, sublevel won't "wrap", it will "overflow" to=
+=20
+> > > > patchlevel. And that might be a problem. So we might need to update=
+ the=20
+> > > > header generation using e.g. "sublevel & 0xff" (wrap around) or=20
+> > > > "sublevel > 255 : 255 : sublevel" (be monotonic and get stuck at 25=
+5).
+> > > >
+> > > > In both LINUX_VERSION_CODE generation and KERNEL_VERSION proper.   =
+=20
+> > >=20
+> > > My preference would be to be monotonic and get stuck at 255 to avoid
+> > > breaking out-of-tree modules.=C2=A0 If needed, add another macro that
+> > > increases the number of bits that can be used to check for sublevels >
+> > > 255, while keeping the old macros for compatibility reasons.=C2=A0 Si=
+nce
+> > > sublevels > 255 have never existed before, any such checks must be
+> > > newly-added, so they can be required to use the new macros.
+> > >=20
+> > > I do not run the 4.4/4.9 kernels usually, but I do sometimes test a w=
+ide
+> > > range of kernels from 3.18 (gasp!) up to the latest when bisecting,
+> > > benchmarking, or debugging problems.=C2=A0 And I use a number of out-=
+of-tree
+> > > modules that rely on the KERNEL_VERSION to make everything work.=C2=
+=A0 Some
+> > > out-of-tree modules like an updated igb network driver might be needed
+> > > to make it possible to test the old kernel on particular hardware.
+> > >=20
+> > > In the worst case, I can patch LINUX_VERSION_CODE and KERNEL_VERSION
+> > > locally to make out-of-tree modules work.=C2=A0 Or else just not test=
+ kernels
+> > > with sublevel > 255. =20
+> >=20
+> > Overflowing LINUX_VERSION_CODE breaks media applications. Several media
+> > APIs have an ioctl that returns the Kernel version:
+> >=20
+> > 	drivers/media/cec/core/cec-api.c:       caps.version =3D LINUX_VERSION=
+_CODE;
+> > 	drivers/media/mc/mc-device.c:   info->media_version =3D LINUX_VERSION_=
+CODE;
+> > 	drivers/media/v4l2-core/v4l2-ioctl.c:   cap->version =3D LINUX_VERSION=
+_CODE;
+> > 	drivers/media/v4l2-core/v4l2-subdev.c:          cap->version =3D LINUX=
+_VERSION_CODE; =20
+>=20
+> This always struck me as odd, because why can't they just use the
+> uname(2) syscall instead?
 
+I agree that this is odd on upstream Kernels.
 
-There's absolutely no need anymore to use:
+On backported ones, this should be filled with the version of the V4L2 core.
 
-	struct :c:type:`v4l2_async_subdev`
+We maintain a tree that allows running older Kernels with the latest V4L2
+media drivers and subsystem. On such tree, there's a patch that replaces
+LINUX_VERSION_CODE macro to V4L2_VERSION:
 
-or
-	:c:func:`v4l2_async_notifier_add_fwnode_remote_subdev`
+	https://git.linuxtv.org/media_build.git/tree/backports/api_version.patch
 
-In a matter of fact, this can even cause troubles with newer versions of
-Sphinx, as, after version 3.0, structs should be declared as:
+There's a logic here which gets the version of the V4L2 used at the
+build. So, right now, it is filled with:
 
-	:c:struct:`foo`
+	#define V4L2_VERSION 330496 /* 0x050b00 */
 
-Our building system has gained a few years ago a Sphinx extension that
-will automatically use the right markup, if all structs are declared
-as:
-	struct foo
+In other words, even if you run the backported driver on, let's say, Kernel
+4.8, those calls will tell that the driver's version is from Kernel
+5.11.
 
-and all functions as:
+-
 
-	bar()
+Providing a little of history behind those, this came together with the
+V4L version 2 API developed during Kernel 2.5.x and merged at Kernel
+2.6.0.=20
 
-So, the last two paragraphs could be simply:
+When such API was originally introduced, this field was meant to=20
+contain the driver's version. The problem is that people used to change
+the drivers (even with major rewrites) without changing its version.
 
-	v4l2_async_register_subdev_sensor_common() is a helper function for
-	sensor drivers registering their own async sub-device, but it also registers a
-	notifier and further registers async sub-devices for lens and flash devices
-	found in firmware. The notifier for the sub-device is unregistered with the
-	async sub-device.
+We ended by standardizing it everywhere, filling those at the media core,
+instead of doing it at driver's level - and using the Kernel version.
 
-	These functions allocate an async sub-device descriptor which is of type
-	struct v4l2_async_subdev embedded in a driver-specific struct. The 
-	struct v4l2_async_subdev shall be the first member of this struct:
+This way, developers won't need to be concerned of keeping this
+updated as the subsystem evolves.
 
-PS.: I guess the automarkup.py would accept having something like:
+With time, we also improved the V4L2 API in a way that applications can
+be able to directly detect the core/driver functionalities without needing
+to rely on such fields. So, I guess recent versions of most open source
+applications nowadays don't use it.
 
-	very big line here with lots of words... struct
-	foo
+> > Those can be used by applications in order to enable some features that
+> > are available only after certain Kernel versions.
+> >=20
+> > This is somewhat deprecated, in favor of the usage of some other
+> > capability fields, but for instance, the v4l2-compliance userspace tool
+> > have two such checks:
+> >=20
+> > 	utils/v4l2-compliance/v4l2-compliance.cpp
+> > 	640:	fail_on_test((vcap.version >> 16) < 3);
+> > 	641:	if (vcap.version >=3D 0x050900)  // Present from 5.9.0 onwards
+> >=20
+> > As far as I remember, all such checks are against major.minor. So,
+> > something like:
+> >=20
+> > 	sublevel =3D (sublevel > 0xff) ? 0xff : sublevel;
+> >=20
+> > inside KERNEL_VERSION macro should fix such regression at -stable. =20
+>=20
+> I think if we clamp KERNEL_VERSION at 255 we should be fine for anyone
+> checking this type of thing.  Sasha has posted patches to do this.
 
-IMHO, for people reading the text files, it is a lot easier to keep
-"struct foo" at the same line, like:
+Yes, this should be enough.
 
-	very big line here with lots of words... 
-	struct foo
+As far as I remember, when opensource apps use the version from the API,
+since Kernel 3.0, they always check only for major.minor.
 
-
-> +
-> +.. code-block:: c
-> +
-> +	struct my_async_subdev {
-> +		struct v4l2_async_subdev asd;
-> +		...
-> +	};
-> +
-> +	struct my_async_subdev *my_asd;
-> +	struct fwnode_handle *ep;
-> +
-> +	...
-> +
-> +	my_asd = v4l2_async_notifier_add_fwnode_remote_subdev(&notifier, ep,
-> +							      struct my_async_subdev);
-> +	fwnode_handle_put(ep);
-> +
-> +	if (IS_ERR(asd))
-> +		return PTR_ERR(asd);
->  
->  The V4L2 core will then use these descriptors to match asynchronously
->  registered subdevices to them. If a match is detected the ``.bound()``
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 192a11bdc4ad..6dac6cb6290f 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -128,7 +128,12 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
->   * @notifier: pointer to &struct v4l2_async_notifier
->   *
->   * This function initializes the notifier @asd_list. It must be called
-> - * before the first call to @v4l2_async_notifier_add_subdev.
-> + * before adding a subdevice to a notifier, using one of:
-> + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> + * @v4l2_async_notifier_add_fwnode_subdev,
-> + * @v4l2_async_notifier_add_i2c_subdev,
-> + * @v4l2_async_notifier_add_subdev or
-> + * @v4l2_async_notifier_parse_fwnode_endpoints.
-
-The markups here are wrong:
-
-'@foo' is to be used for literal blocks. It won't produce
-any cross-references. The right way to describe functions is to
-write it as:
-	foo()
-
->   */
->  void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier);
->  
-> @@ -262,9 +267,11 @@ void v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier);
->   * sub-devices allocated for the purposes of the notifier but not the notifier
->   * itself. The user is responsible for calling this function to clean up the
->   * notifier after calling
-> - * @v4l2_async_notifier_add_subdev,
-> - * @v4l2_async_notifier_parse_fwnode_endpoints or
-> - * @v4l2_fwnode_reference_parse_sensor_common.
-> + * @v4l2_async_notifier_add_fwnode_remote_subdev,
-> + * @v4l2_async_notifier_add_fwnode_subdev,
-> + * @v4l2_async_notifier_add_i2c_subdev,
-> + * @v4l2_async_notifier_add_subdev or
-> + * @v4l2_async_notifier_parse_fwnode_endpoints.
->   *
->   * There is no harm from calling v4l2_async_notifier_cleanup in other
->   * cases as long as its memory has been zeroed after it has been
-
-Please send a followup patch.
+So, the only problem with those APIs are due to overflows. Setting
+sublevel to any value beteen 0-255 should work, from V4L2 API
+standpoint.
 
 Thanks,
 Mauro
