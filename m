@@ -2,121 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FB633119DE
-	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 04:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3B82311AFF
+	for <lists+linux-media@lfdr.de>; Sat,  6 Feb 2021 05:41:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229979AbhBFDW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Feb 2021 22:22:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37188 "EHLO
+        id S230229AbhBFEj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Feb 2021 23:39:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbhBFCbe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 21:31:34 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E07C033269
-        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 16:59:47 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id c3so8568549ybi.3
-        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 16:59:47 -0800 (PST)
+        with ESMTP id S231311AbhBFEjc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Feb 2021 23:39:32 -0500
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04ABFC061756
+        for <linux-media@vger.kernel.org>; Fri,  5 Feb 2021 20:38:51 -0800 (PST)
+Received: by mail-ua1-x930.google.com with SMTP id i3so2847501uai.3
+        for <linux-media@vger.kernel.org>; Fri, 05 Feb 2021 20:38:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mk056QhOZowFW0fikbcbrxwQxYCIEOoIKIEdZOiLW10=;
-        b=EKCfGaj37EcLyIp6Y09ApzOUL1lHXqY9zlGRueUA4oS14Udv9rF2P9CnN4FkGB3nVh
-         aOygklsziglYn6RKwmBVneif8SjKcggy7U/ymSF0l3k4CFfKNE2/0Hd8hChDSIaGQ/pF
-         qTwHWlDoZH0yhjdXLOLxqLE7abrJ0EM1e3Ip2N+22MkDvCs+97743DiLqyZLxnQyfRiB
-         w1bsCJzyQ8imgRTINHtBvs+Aj5GGx3jnI9tnSYqydos03KXxDuctNXuF5zjkcMn0SERE
-         dhdUH2EAChuoJgXM8Wsl9A7LeV8HHRbowaYYW0IKurNKBoUI5GI7wAexYe2WBHNHA1z8
-         6yrw==
+        bh=7tNqLsfYX9gzibf9LwB4HQxkaRZ+2tGUkdroBxSOk2A=;
+        b=jeSp4ZWDa+2AdP7dQ54QhQ4gHYklqrtRaIc6KBcRn6T9e2cVRq02Ci0Ua4KWN2Dig+
+         QXUR9aNriY9noKbl1c0FLmhZCNjx41o0W9Km6L8+l3H28qzvTIXR/Vt+VfQmlLdIF1l4
+         AglCrYVfTUI88jvaJHN5Ali1/jP5vX9C4P8oQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mk056QhOZowFW0fikbcbrxwQxYCIEOoIKIEdZOiLW10=;
-        b=o8Ml8Q8XEnXzDxwSmt2q5dcJOTiu++wRy5s9W55QasSo+SJyUsgQb7GM8VBb6ZGxrA
-         kxXdafYILGqC18gRHyp5fszwRDoansBCcoSfxwhLp+xoqjBxJhvimcEBMQX+3JFPxTgB
-         VZef5ldY1ZjyQQga15NsCup2qqdgxvsT0N9qoibndsZ3vEuboNNt25FciMqBaegEQCJj
-         tzKZKuRzLrB/NcACOXVJzTZxjeLH1vU8uMlXYNVE2bJmR+3cc70U2gVB/hmkXzWm/FX5
-         WKlYsVofBZDldOma085ywNbHZOUiABNkDBbOs4Fn/qHp7dcjjiNju5szgsYDQ+SbyGvb
-         2igQ==
-X-Gm-Message-State: AOAM533zKQjmvdYBdktMN8qYWuPgTngcJXDrpctsZ9OWtD/tkOxCWHk/
-        PvUPr5dA6CPwpNZ3LYjwiPw77CrPzaW2/InI4jK34O/63SW55w==
-X-Google-Smtp-Source: ABdhPJyt2Ib7fYw0+QbLiq6NjOPtTv9dUjbWubBwYHbFhj4ceIJwT1Cl+MlLlxKAJj9BlPcmZdnUnGv0k7r6I3KctnY=
-X-Received: by 2002:a25:ef0e:: with SMTP id g14mr10060168ybd.372.1612573186526;
- Fri, 05 Feb 2021 16:59:46 -0800 (PST)
+        bh=7tNqLsfYX9gzibf9LwB4HQxkaRZ+2tGUkdroBxSOk2A=;
+        b=eFfA/V2eNPSAGVfFmnsLZZ8jEMJNnXPnnIbGK46URcUxqYHaA8Jz/wRxPuerNhI9KB
+         EL18YsfQROX6ayTg4KWBvBf5B+h46a23EKdkkLvFAFkmfEAidm65oSYpofvsbaP7DJG/
+         peO1zgxdjFH6+uV0J+fQGth53r5sBMJgjTWple52dMIQq3EVBdbz8biwQHf1AEOkS6HG
+         ZHPtOU68UMjQJ1bMaGosY/Dv0dqZyEuOtifl4sYWrXKRs6IJALjZJJ9Y2u+BFzPOwKDM
+         2O3CWdqxmLIbIGh/wA/ZH39UzBVumccOilqXurqdE8NKezxNpnCMg8AX+MJAISnMhkhu
+         S1ng==
+X-Gm-Message-State: AOAM5323GgTs53eE22FyjpamSdordSqRfrdzVnP3s0CkaNkBhZ7UB+7K
+        v7U4ZoFg3VfIe9QzKnv/1XRLGcUojNabOBGciuL58g==
+X-Google-Smtp-Source: ABdhPJxSHD2bpO8QMNrO1PfovadiW1b4ieesCYcbVLPKGrkZ6vddV0zbMaKl8blR8MYOamb7kehPbnr1ttSffkVpJlY=
+X-Received: by 2002:ab0:3043:: with SMTP id x3mr5342812ual.88.1612586330175;
+ Fri, 05 Feb 2021 20:38:50 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMfZQbzay0+tyYvZmF_L=iYfp+F02iz3qz=a=J1Yuf55P=RebA@mail.gmail.com>
- <211ad9f0-f888-61dc-656f-10c1c6c97aad@ideasonboard.com>
-In-Reply-To: <211ad9f0-f888-61dc-656f-10c1c6c97aad@ideasonboard.com>
-From:   Fritz Koenig <frkoenig@google.com>
-Date:   Fri, 5 Feb 2021 16:59:35 -0800
-Message-ID: <CAMfZQbwrSDa9vzXND8agaJMti1qG-_XKVx-5-J7MoGBxVVi8fg@mail.gmail.com>
-Subject: Re: V4L2 logging for multiple streams
-To:     kieran.bingham+renesas@ideasonboard.com
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <20210205104414.299732-1-robert.foss@linaro.org> <20210205104414.299732-4-robert.foss@linaro.org>
+In-Reply-To: <20210205104414.299732-4-robert.foss@linaro.org>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Sat, 6 Feb 2021 12:38:39 +0800
+Message-ID: <CANMq1KDN8TLhUPH2i_S3gCQAU0nM9b_aYnNs-o3rETYgp5-pHw@mail.gmail.com>
+Subject: Re: [PATCH v4 03/22] media: camss: Replace trace_printk() with dev_dbg()
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        angelogioacchino.delregno@somainline.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Devicetree List <devicetree@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
+        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Marek <jonathan@marek.ca>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 2:07 AM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
+On Fri, Feb 5, 2021 at 6:44 PM Robert Foss <robert.foss@linaro.org> wrote:
 >
-> Hi Fritz,
+> trace_printk() should not be used in production code,
+> since extra memory is used for special buffers whenever
+> trace_puts() is used.
 >
-> On 16/01/2021 04:33, Fritz Koenig wrote:
-> > Hi,
-> >
-> > I'm trying to sort some issues with regards to decoding multiple
-> > streams at once.  Logging can be helpful with messages like this:
-> >
-> > [105188.500450] video2: VIDIOC_STREAMOFF: type=vid-out-mplane
-> >
+> Replace it with dev_dbg() which provides all of the desired
+> debugging functionality.
 >
-> The type is telling you useful information there, is that what you are
-> after?
->
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> Suggested-by: Nicolas Boichat <drinkcat@chromium.org>
 
-Sorry, I don't think I explained it well.  Here I'm decoding 3
-different streams at the same time, say 1080x720, 640x480, and
-320x240.  Nothing that denotes which is which is present in this level
-of logging.  I understand the distinction between the CAPTURE and
-OUTPUT queues.  I have found that at least for the venus driver, that
-information is not exported anywhere.
+Thanks!
 
-This was also meant as a more general question of how to separate the
-debugging information.  I've done that by creating trampoline
-functions that print out the context information before calling
-v4l2_m2m_ioctl_streamon/v4l2_m2m_ioctl_streamoff etc.  But it's a
-patch that I have to maintain locally.
+Reviewed-by: Nicolas Boichat <drinkcat@chromium.org>
 
--Fritz
-
-> > but when I have:
-> >
-> > [105188.498697] video2: VIDIOC_STREAMOFF: type=vid-out-mplane
-> > [105188.498715] video2: VIDIOC_STREAMOFF: type=vid-cap-mplane
-> > [105188.499116] video2: VIDIOC_UNSUBSCRIBE_EVENT: type=0x5, id=0x0, flags=0x0
-> > [105188.500450] video2: VIDIOC_STREAMOFF: type=vid-out-mplane
-> > [105188.500467] video2: VIDIOC_STREAMOFF: type=vid-cap-mplane
-> > [105188.500611] video2: VIDIOC_UNSUBSCRIBE_EVENT: type=0x5, id=0x0, flags=0x0
-> > [105188.501879] video2: VIDIOC_UNSUBSCRIBE_EVENT: type=0x5, id=0x0, flags=0x0
-> > [105188.502276] video2: VIDIOC_STREAMOFF: type=vid-out-mplane
-> > [105188.502331] video2: VIDIOC_STREAMOFF: type=vid-cap-mplane
-> >
-> > I can't tell which stream VIDIOC_STREAMOFF is associated with.  Is
-> > there a logging option that I'm missing that would help indicate which
-> > stream that ioctl is associated with.
+> ---
 >
-> The type expresses if it's from an output queue or a capture queue.
->
->   type=vid-out-mplane : Output queue
->   type=vid-cap-mplane : Capture queue
+> Changes since v3:
+>  - Nicolas: Create this patch
 >
 >
-> That's not so helpful/useful on the UNSUBSCRIBE_EVENT lines though, but
-> your specific request is regarding STREAMOFF.
+>  drivers/media/platform/qcom/camss/camss-vfe-4-1.c | 5 +++--
+>  drivers/media/platform/qcom/camss/camss-vfe-4-7.c | 5 +++--
+>  2 files changed, 6 insertions(+), 4 deletions(-)
 >
-> I hope that helps you read the logs a little.
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
+> index a1b56b89130d..85b9bcbc7321 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
 >
+> +#include "camss.h"
+>  #include "camss-vfe.h"
+>
+>  #define VFE_0_HW_VERSION               0x000
+> @@ -936,8 +937,8 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+>
+>         vfe->ops->isr_read(vfe, &value0, &value1);
+>
+> -       trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
+> -                    value0, value1);
+> +       dev_dbg(vfe->camss->dev, "VFE: status0 = 0x%08x, status1 = 0x%08x\n",
+> +               value0, value1);
+>
+>         if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
+>                 vfe->isr_ops.reset_ack(vfe);
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
+> index 84c33b8f9fe3..f7e00a2de393 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+>
+> +#include "camss.h"
+>  #include "camss-vfe.h"
+>
+>  #define VFE_0_HW_VERSION               0x000
+> @@ -1069,8 +1070,8 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+>
+>         vfe->ops->isr_read(vfe, &value0, &value1);
+>
+> -       trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
+> -                    value0, value1);
+> +       dev_dbg(vfe->camss->dev, "VFE: status0 = 0x%08x, status1 = 0x%08x\n",
+> +               value0, value1);
+>
+>         if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
+>                 vfe->isr_ops.reset_ack(vfe);
 > --
-> Kieran
+> 2.27.0
+>
