@@ -2,216 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84FC63126FF
-	for <lists+linux-media@lfdr.de>; Sun,  7 Feb 2021 19:57:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA885312743
+	for <lists+linux-media@lfdr.de>; Sun,  7 Feb 2021 20:45:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbhBGS5P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Feb 2021 13:57:15 -0500
-Received: from mga06.intel.com ([134.134.136.31]:40677 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229510AbhBGS5K (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 7 Feb 2021 13:57:10 -0500
-IronPort-SDR: Sd/Yr1npGpm6mEQQqlodFjU5SBjYd+g44kSkI6/C2PzK5/V+dOM/m0KFFctrm5xbqmYj8Db6dv
- B5RKln33vn8Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9888"; a="243125300"
-X-IronPort-AV: E=Sophos;i="5.81,160,1610438400"; 
-   d="scan'208";a="243125300"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2021 10:56:28 -0800
-IronPort-SDR: xkR73qO8A6MzkDmKgaQco8XbNrKdLjKNSCaZdDR79NqYkdRKddUkJEMl4p+EAtElnHVMhBQD1x
- Jazzc18thRVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,160,1610438400"; 
-   d="scan'208";a="435333956"
-Received: from lkp-server02.sh.intel.com (HELO 8b832f01bb9c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2021 10:56:27 -0800
-Received: from kbuild by 8b832f01bb9c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1l8pEQ-00031S-RJ; Sun, 07 Feb 2021 18:56:26 +0000
-Date:   Mon, 08 Feb 2021 02:56:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 9746b11715c3949241e2d88cb9057da4adab7e02
-Message-ID: <602037cd.cl0hlPtWO7qqfFZb%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229564AbhBGTos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Feb 2021 14:44:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229445AbhBGTor (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Feb 2021 14:44:47 -0500
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39FE6C06174A;
+        Sun,  7 Feb 2021 11:44:06 -0800 (PST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4DYfjW6BGkz9sVv;
+        Mon,  8 Feb 2021 06:43:58 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1612727043;
+        bh=ltYiGt6TK6vuybpo1dLZBhXtXG3N1/IDk2y8vCNNrNg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OdsSPBrR5hSgqYTpRuQMpKb3f2js+RSyh4nmFUAt7LiRVAC0i3QS3LIoyxOaHTp1V
+         LKIzOka8qvU1BgDTjGStfoH+XuR7IDQa97RDMXp1SRs8tkUbgVv57nZtYSA1F71zrY
+         fmULOihQhnCQMf8Atc02eLO6w/cIZhgg42gZ1MASduzoRUPLtA6d9lzT+0y9LejnFa
+         4OV+XEvRj9rl8VoCtl7TCMyv4TiZrFGlTpUqig0Ndy8tt8mXd7GeheZSOrksovoco6
+         x4k7i2QwFO1Ya+RwCPAdo552llREoVir+txgmzrpvNLM/yEpUldGzuQfWe8iDYAnp+
+         65klvrKV+iROg==
+Date:   Mon, 8 Feb 2021 06:43:57 +1100
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 0/2] pci sysfs file iomem revoke support
+Message-ID: <20210208064357.29b3df55@canb.auug.org.au>
+In-Reply-To: <20210204165831.2703772-1-daniel.vetter@ffwll.ch>
+References: <20210204165831.2703772-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/HZXOMZy1qKTf=dgNtb2Lic5";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-tree
-branch HEAD: 9746b11715c3949241e2d88cb9057da4adab7e02  media: i2c: Add imx334 camera sensor driver
+--Sig_/HZXOMZy1qKTf=dgNtb2Lic5
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-i386-tinyconfig vmlinux size:
+Hi Daniel,
 
-+-------+-------------------------------------------+------------------------------------------+
-| DELTA |                  SYMBOL                   |                  COMMIT                  |
-+-------+-------------------------------------------+------------------------------------------+
-| +1154 | TOTAL                                     | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-| +1148 | TEXT                                      | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-|  +134 | software_node_graph_parse_endpoint()      | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-|  +130 | software_node_graph_get_next_endpoint()   | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-|  +101 | kernel_fpu_begin_mask()                   | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-|   +91 | shrink_page_list()                        | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-|   +75 | swnode_graph_find_next_port()             | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-|   +66 | software_node_graph_get_remote_endpoint() | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-|   -87 | kernel_fpu_begin()                        | 5c8fe583cce5..9746b11715c3 (ALL COMMITS) |
-+-------+-------------------------------------------+------------------------------------------+
+On Thu,  4 Feb 2021 17:58:29 +0100 Daniel Vetter <daniel.vetter@ffwll.ch> w=
+rote:
+>
+> Hi all,
+>=20
+> This is a revised version of patch 12 from my series to lock down some
+> follow_pfn vs VM_SPECIAL races:
+>=20
+> https://lore.kernel.org/dri-devel/CAKwvOdnSrsnTgPEuQJyaOTSkTP2dR9208Y66HQ=
+G_h1e2LKfqtw@mail.gmail.com/
+>=20
+> Stephen reported an issue on HAVE_PCI_LEGACY platforms which this patch
+> set tries to address. Previous patches are all still in linux-next.
+>=20
+> Stephen, would be awesome if you can give this a spin.
 
-elapsed time: 2024m
+OK, I applied the 2 patches on top of next-20210205 and it no longer
+panics for my simple boot test (PowerPC pseries_le_defconfig under
+qemu).
 
-configs tested: 138
-configs skipped: 4
+--=20
+Cheers,
+Stephen Rothwell
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+--Sig_/HZXOMZy1qKTf=dgNtb2Lic5
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arc                              allyesconfig
-mips                           ip27_defconfig
-m68k                       m5249evb_defconfig
-m68k                          sun3x_defconfig
-arm                        mvebu_v7_defconfig
-powerpc                 mpc8540_ads_defconfig
-mips                  maltasmvp_eva_defconfig
-arm                        spear6xx_defconfig
-arm                          pcm027_defconfig
-powerpc                     pseries_defconfig
-powerpc                     tqm8540_defconfig
-arm                         bcm2835_defconfig
-powerpc                 mpc8560_ads_defconfig
-arm                           stm32_defconfig
-arm                          pxa3xx_defconfig
-sh                          landisk_defconfig
-arm                          moxart_defconfig
-s390                             allmodconfig
-powerpc                     kmeter1_defconfig
-xtensa                  cadence_csp_defconfig
-sh                   sh7724_generic_defconfig
-arm                         at91_dt_defconfig
-powerpc                      mgcoge_defconfig
-powerpc                      obs600_defconfig
-powerpc                     sbc8548_defconfig
-mips                          rm200_defconfig
-powerpc                     asp8347_defconfig
-arm                        realview_defconfig
-arm                  colibri_pxa270_defconfig
-m68k                          multi_defconfig
-sh                               j2_defconfig
-sh                   sh7770_generic_defconfig
-sh                            migor_defconfig
-sh                     magicpanelr2_defconfig
-mips                     cu1830-neo_defconfig
-powerpc                   bluestone_defconfig
-arm                     eseries_pxa_defconfig
-m68k                          atari_defconfig
-m68k                       bvme6000_defconfig
-xtensa                              defconfig
-powerpc                    socrates_defconfig
-arm                        mvebu_v5_defconfig
-powerpc                  storcenter_defconfig
-ia64                            zx1_defconfig
-powerpc                    sam440ep_defconfig
-arm                        cerfcube_defconfig
-arm                           viper_defconfig
-microblaze                          defconfig
-arm                         nhk8815_defconfig
-arm                     davinci_all_defconfig
-powerpc                     tqm8541_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc                    ge_imp3a_defconfig
-xtensa                         virt_defconfig
-sh                          rsk7203_defconfig
-sh                          r7780mp_defconfig
-arm                     am200epdkit_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210206
-i386                 randconfig-a005-20210206
-i386                 randconfig-a003-20210206
-i386                 randconfig-a006-20210206
-i386                 randconfig-a002-20210206
-i386                 randconfig-a004-20210206
-x86_64               randconfig-a013-20210206
-x86_64               randconfig-a014-20210206
-x86_64               randconfig-a015-20210206
-x86_64               randconfig-a011-20210206
-x86_64               randconfig-a016-20210206
-x86_64               randconfig-a012-20210206
-i386                 randconfig-a013-20210206
-i386                 randconfig-a016-20210206
-i386                 randconfig-a014-20210206
-i386                 randconfig-a012-20210206
-i386                 randconfig-a015-20210206
-i386                 randconfig-a011-20210206
-x86_64               randconfig-a006-20210207
-x86_64               randconfig-a001-20210207
-x86_64               randconfig-a005-20210207
-x86_64               randconfig-a002-20210207
-x86_64               randconfig-a004-20210207
-x86_64               randconfig-a003-20210207
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+-----BEGIN PGP SIGNATURE-----
 
-clang tested configs:
-x86_64               randconfig-a006-20210206
-x86_64               randconfig-a001-20210206
-x86_64               randconfig-a005-20210206
-x86_64               randconfig-a002-20210206
-x86_64               randconfig-a004-20210206
-x86_64               randconfig-a003-20210206
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAgQv0ACgkQAVBC80lX
+0Gyo1gf/SH1pSdhNbE2Vt94tyktGdYja0lGsoy/TOEl6OehIzW4kK0pdTbMpnvVY
+bZ4/Me/eSj1UHkLGtXs/MHsIE98xJQVWxRYU4xYcOAuklIS6ePVtxu0cm6wGQrbx
+Iieo/JSqtCtf2U03bfjfVc+wn3o/4pK8tx6mUqsYfZ1RL8txxXeCEgHPRHqkphF6
+whFQKsvUIx0KUb+Vo86YhO7V5/EAtG22De7pSyE+ssE9FTDjMBeBNwNcTy3xIzOg
+8ucfuK7YES+QCflvMtnEOynP5ZDTMZY/OVs0DDrWwL4/klrS4kZ/p63qJasVazcg
+m7Vno/Hve3fT0kdlrxLU7ratx/u7fw==
+=Zm2+
+-----END PGP SIGNATURE-----
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--Sig_/HZXOMZy1qKTf=dgNtb2Lic5--
