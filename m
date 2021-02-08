@@ -2,180 +2,312 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED7F312EA9
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 11:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8060A312F33
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 11:39:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232045AbhBHKOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 05:14:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43234 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232470AbhBHKJ3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 05:09:29 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9379BC061788
-        for <linux-media@vger.kernel.org>; Mon,  8 Feb 2021 02:08:48 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id q7so16281523wre.13
-        for <linux-media@vger.kernel.org>; Mon, 08 Feb 2021 02:08:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=0pOHlp3YfmPQ6aHp/8FB8TarZqCW4k9p2xOGz6n9MDg=;
-        b=d0kQAFm7tei2XxZSgVD38fMf+wEOst/QXqkIwC7c7+FGD9nWzqN0bib59r4MF5dh5a
-         28Bqrogt48urasAsA0+opmN5trx4wdmhECFI5EC4xeMnqyDj3zSZp64O+RP0wjO4TWZv
-         3RdQuFtbld1C1h8PdndhUeNBuGZ5FRIEC/2zQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=0pOHlp3YfmPQ6aHp/8FB8TarZqCW4k9p2xOGz6n9MDg=;
-        b=Bl0KuGhGFyg8jDKe81DMxii2LFamAWhrIlP75rXZbis4j3grq5VoEWmCX/SWxvrxvP
-         Z/Mermp72GCHq3vxgruFrNt1FQQpPgNTSrr3q5S56wgbh+tnT3pCfCZkm7ZzSQAJUFE8
-         TnSslFZJ/kXHgH4R899BxST/Q7mNYzsNQFpaW3nC6M6AdPS+1LwYvgiDExSNYmaOHwEN
-         TRiLIxut6GVy717VTrqQ4VJvxfn3JZq7OSmconJh1u8vdsR5QCIc8Z53XL54msn0KXN8
-         0wRcIF6m2mSw6YqMLzbLgqTZFJM6IMMcOoMlbRB29OeYTfzWtSk2u2odGVyaWve0u1cx
-         pghg==
-X-Gm-Message-State: AOAM533xwjZDv/H5JVsBiqYxar5w4YUNNP7HEgtMnGC9DH06PzpKR/rI
-        eCUsj0naulclEX4mVoJVmNRzAw==
-X-Google-Smtp-Source: ABdhPJzJ1HgP5N/LeOlDB3NYZUOuI03t3dodjSugSJHVqish8RwUT2TL18EPp5qcKUwbVn1nAmPTYA==
-X-Received: by 2002:a05:6000:18ac:: with SMTP id b12mr19274155wri.77.1612778927278;
-        Mon, 08 Feb 2021 02:08:47 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b138sm19614011wmb.35.2021.02.08.02.08.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 02:08:46 -0800 (PST)
-Date:   Mon, 8 Feb 2021 11:08:44 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [RFC][PATCH 2/2] dma-buf: heaps: Fix the name used when
- exporting dmabufs to be the actual heap name
-Message-ID: <YCENrGofdwVg2LMe@phenom.ffwll.local>
-Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20210206054748.378300-1-john.stultz@linaro.org>
- <20210206054748.378300-2-john.stultz@linaro.org>
+        id S232431AbhBHKj0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 05:39:26 -0500
+Received: from mga03.intel.com ([134.134.136.65]:44689 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232574AbhBHKhq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Feb 2021 05:37:46 -0500
+IronPort-SDR: c9IsHp9RRq7e32ALCUFiNsavslBp8dppdTrSV3vsTT639fcTQfXgFm4BqirAr+TVXBodwWH7dv
+ JIDlitp/Hyfg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9888"; a="181756396"
+X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; 
+   d="scan'208";a="181756396"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 02:32:51 -0800
+IronPort-SDR: LDaMR48YdexvfIeM28F56eQ26H9WHFlfY8jjxneE5m2Nht6HM+Du5WlUl1yYyVswRsrSgGO2BF
+ b1dzjnNV+x2Q==
+X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; 
+   d="scan'208";a="577617694"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 02:32:46 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 4BF052082C; Mon,  8 Feb 2021 12:32:44 +0200 (EET)
+Date:   Mon, 8 Feb 2021 12:32:44 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Robert Foss <robert.foss@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH v5 11/13] media: v4l2-async: Discourage use of
+ v4l2_async_notifier_add_subdev
+Message-ID: <20210208103244.GQ32460@paasikivi.fi.intel.com>
+References: <20210202135611.13920-1-sakari.ailus@linux.intel.com>
+ <20210202135611.13920-12-sakari.ailus@linux.intel.com>
+ <20210206091546.1497bbcb@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210206054748.378300-2-john.stultz@linaro.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20210206091546.1497bbcb@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Feb 06, 2021 at 05:47:48AM +0000, John Stultz wrote:
-> By default dma_buf_export() sets the exporter name to be
-> KBUILD_MODNAME. Unfortunately this may not be identical to the
-> string used as the heap name (ie: "system" vs "system_heap").
-> 
-> This can cause some minor confusion with tooling, and there is
-> the future potential where multiple heap types may be exported
-> by the same module (but would all have the same name).
-> 
-> So to avoid all this, set the exporter exp_name to the heap name.
-> 
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Liam Mark <lmark@codeaurora.org>
-> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Sandeep Patil <sspatil@google.com>
-> Cc: Daniel Mentz <danielmentz@google.com>
-> Cc: Ørjan Eide <orjan.eide@arm.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: James Jones <jajones@nvidia.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: John Stultz <john.stultz@linaro.org>
+Hi Mauro,
 
-Looks reasonable to me.
+Thanks for the review.
 
-I guess the main worry is "does this mean heap names become uapi", in
-which case I'm maybe not so sure anymore how this will tie into the
-overall gpu memory accounting story.
-
-Since for dma-buf heaps one name per buffer is perfectly fine, since
-dma-buf heaps aren't very dynamic. But on discrete gpu drivers buffers
-move, so baking in the assumption that "exporter name = resource usage for
-this buffer" is broken.
-
-So I'm not sure we shouldn't instead name all the dma-buf heaps as
-"dma-buf heaps" to stop this :-)
--Daniel
-
-> ---
->  drivers/dma-buf/heaps/cma_heap.c    | 1 +
->  drivers/dma-buf/heaps/system_heap.c | 1 +
->  2 files changed, 2 insertions(+)
+On Sat, Feb 06, 2021 at 09:15:46AM +0100, Mauro Carvalho Chehab wrote:
+> Em Tue,  2 Feb 2021 15:56:09 +0200
+> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 > 
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index 364fc2f3e499..62465d61ccc7 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -339,6 +339,7 @@ static int cma_heap_allocate(struct dma_heap *heap,
->  	buffer->pagecount = pagecount;
->  
->  	/* create the dmabuf */
-> +	exp_info.exp_name = dma_heap_get_name(heap);
->  	exp_info.ops = &cma_heap_buf_ops;
->  	exp_info.size = buffer->len;
->  	exp_info.flags = fd_flags;
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 17e0e9a68baf..2d4afc79c700 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -388,6 +388,7 @@ static int system_heap_allocate(struct dma_heap *heap,
->  	}
->  
->  	/* create the dmabuf */
-> +	exp_info.exp_name = dma_heap_get_name(heap);
->  	exp_info.ops = &system_heap_buf_ops;
->  	exp_info.size = buffer->len;
->  	exp_info.flags = fd_flags;
-> -- 
-> 2.25.1
+> > From: Ezequiel Garcia <ezequiel@collabora.com>
+> > 
+> > Most -if not all- use-cases are expected to be covered by one of:
+> > v4l2_async_notifier_add_fwnode_subdev,
+> > v4l2_async_notifier_add_fwnode_remote_subdev or
+> > v4l2_async_notifier_add_i2c_subdev.
 > 
+> Actually, all cases outside V4L2 core:
+> 
+> $ git grep v4l2_async_notifier_add_subdev
+> Documentation/driver-api/media/v4l2-subdev.rst:using the :c:func:`v4l2_async_notifier_add_subdev` call. This function
+> drivers/media/v4l2-core/v4l2-async.c:int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+> drivers/media/v4l2-core/v4l2-async.c:EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_subdev);
+> drivers/media/v4l2-core/v4l2-async.c:   ret = v4l2_async_notifier_add_subdev(notifier, asd);
+> drivers/media/v4l2-core/v4l2-async.c:   ret = v4l2_async_notifier_add_subdev(notifier, asd);
+> drivers/media/v4l2-core/v4l2-fwnode.c:  ret = v4l2_async_notifier_add_subdev(notifier, asd);
+> include/media/v4l2-async.h: * before the first call to @v4l2_async_notifier_add_subdev.
+> include/media/v4l2-async.h: * v4l2_async_notifier_add_subdev - Add an async subdev to the
+> include/media/v4l2-async.h:int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+> include/media/v4l2-async.h: * @v4l2_async_notifier_add_subdev,
+> 
+> 
+> > 
+> > We'd like to discourage drivers from using v4l2_async_notifier_add_subdev,
+> > so rename it as __v4l2_async_notifier_add_subdev. This is
+> > typically a good hint for drivers to avoid using the function.
+> 
+> IMO, the best here would be to create a header file:
+> 
+> 	drivers/media/v4l2-core/v4l2-async-priv.h
+> 
+> and move v4l2_async_notifier_add_subdev from include/media/v4l2-async.h.
+> 
+> This will warrant that only the V4L2 core would have access to it.
+> Also, it is a lot better than adding something like this:
+
+It'd be the first header in the directory. I suppose there are other
+functions that could have the prototype there.
+
+I'll still see if there could be other options for this.
+
+The topic of split into modules of v4l2-async and v4l2-fwnode was also
+discussed recently, and it's obviously related to this. The two are
+virtually always used together and so would make sense to be in the same
+module. In practice this would mean moving v4l2-async out of videodev2. The
+module wouldn't be large but the vast majority of regular laptop and
+desktop PC users are having this in memory needlessly.
+
+> 
+> > + * \warning: Drivers should avoid using this function and instead use one of:
+> > + * @v4l2_async_notifier_add_fwnode_subdev,
+> > + * @v4l2_async_notifier_add_fwnode_remote_subdev or
+> > + * @v4l2_async_notifier_add_i2c_subdev.
+> > + *
+> 
+> 
+> Please submit a followup patch.
+
+Yes.
+
+> 
+> -
+> 
+> On a separate but related note, The names of the async notifiers are
+> too big, causing lots of coding style warnings, like:
+> 
+> +       asd = v4l2_async_notifier_add_fwnode_remote_subdev(
+> +               &fmd->subdev_notifier, of_fwnode_handle(ep), sizeof(*asd));
+> ...
+> +                       asd = v4l2_async_notifier_add_fwnode_remote_subdev(
+> +                               &isp->notifier, ep, sizeof(*isd));
+
+We started with lots of variants of similar functions over time, so I
+preferred to keep the names descriptive. Now that we've settled to a small
+number of them, it's also worth seeing whether there could be room for
+shorter but still descriptive names without allowing for such variance we
+no longer need.
+
+> 
+> Ending a line with an open parenthesis is not natural: you won't see
+> any good written English texts (or on any other natural language) that would
+> have a line ending with a '('.
+
+This is C, not English, and I'm sure we could have a long debate on the
+topic. :-) But maybe we don't need to.
+
+> 
+> While I understand that the name describes precisely what those 
+> functions, such non-intuitive usage of parenthesis makes the line
+> obfuscated, for no good reason.
+> 
+> Also, the entire meaning of the V4L2 async API is to allow subdevs
+> to be registered later. So, IMHO, the namespace for those 3
+> calls could be simplified to:
+> 
+> 	v4l2_async_notifier_add_fwnode(),
+> 	v4l2_async_notifier_add_fwnode_remote()
+> 	v4l2_async_notifier_add_i2c().
+
+Yes, I had actually the same in mind. Seems reasonable.
+
+> 
+> Also, we should place at least the first argument afer the
+> parenthesis, even if this would violate the 80 columns
+> coding style rule[1]. 
+> 
+> So, the above examples would be written as:
+> 
+> 
+>         asd = v4l2_async_notifier_add_fwnode_remote(&fmd->subdev_notifier,
+> 						    of_fwnode_handle(ep),
+> 						    sizeof(*asd));
+> 
+> and:
+> 
+>                         asd = v4l2_async_notifier_add_fwnode_remote(&isp->notifier,
+> 								    ep,
+> 								    sizeof(*isd));
+> 
+> Which better matches the Kernel coding style, and it is way easier to
+> review, as the brain will see the parenthesis just like it would on
+> a natural language.
+> 
+> [1] The 80 columns warning is a "soft" coding style violation. It serves
+> as a reference that either the function code is becoming too complex with too
+> many loops, or that the function names are becoming too big. As it produces
+> lots of false positives, and people were breaking strings or finishing
+> lines with open parenthesis, this rule got relaxed, and checkpatch now
+> warns only (by default) if the line has more than 100 columns.
+
+The coding style refers to it as the "preferred limit", indeed. But there
+are conditions how exceeding that is allowed.
+
+Note that aligning the function arguments on the following lines to right
+of the opening parenthesis is also referred to as a "very commonly used
+style", i.e. there is no suggestion it is a requirement. That is certainly
+my preference as well, but I guess it's the priority of these preferences
+that we'd be discussing.
+
+Let's see how much making the names shorter helps.
+
+> 
+> 
+> > 
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Helen Koike <helen.koike@collabora.com>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-async.c  | 8 ++++----
+> >  drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
+> >  include/media/v4l2-async.h            | 9 +++++++--
+> >  3 files changed, 12 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index ed603ae63cad..d848db962dc7 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -611,7 +611,7 @@ void v4l2_async_notifier_cleanup(struct v4l2_async_notifier *notifier)
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_async_notifier_cleanup);
+> >  
+> > -int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+> > +int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+> >  				   struct v4l2_async_subdev *asd)
+> >  {
+> >  	int ret;
+> > @@ -628,7 +628,7 @@ int v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+> >  	mutex_unlock(&list_lock);
+> >  	return ret;
+> >  }
+> > -EXPORT_SYMBOL_GPL(v4l2_async_notifier_add_subdev);
+> > +EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_subdev);
+> >  
+> >  struct v4l2_async_subdev *
+> >  v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+> > @@ -645,7 +645,7 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+> >  	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+> >  	asd->match.fwnode = fwnode_handle_get(fwnode);
+> >  
+> > -	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+> > +	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+> >  	if (ret) {
+> >  		fwnode_handle_put(fwnode);
+> >  		kfree(asd);
+> > @@ -695,7 +695,7 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+> >  	asd->match.i2c.adapter_id = adapter_id;
+> >  	asd->match.i2c.address = address;
+> >  
+> > -	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+> > +	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+> >  	if (ret) {
+> >  		kfree(asd);
+> >  		return ERR_PTR(ret);
+> > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > index c1c2b3060532..63be16c8eb83 100644
+> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > @@ -822,7 +822,7 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+> >  	if (ret < 0)
+> >  		goto out_err;
+> >  
+> > -	ret = v4l2_async_notifier_add_subdev(notifier, asd);
+> > +	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
+> >  	if (ret < 0) {
+> >  		/* not an error if asd already exists */
+> >  		if (ret == -EEXIST)
+> > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> > index 8815e233677e..b113329582ff 100644
+> > --- a/include/media/v4l2-async.h
+> > +++ b/include/media/v4l2-async.h
+> > @@ -133,17 +133,22 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
+> >  void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier);
+> >  
+> >  /**
+> > - * v4l2_async_notifier_add_subdev - Add an async subdev to the
+> > + * __v4l2_async_notifier_add_subdev - Add an async subdev to the
+> >   *				notifier's master asd list.
+> >   *
+> >   * @notifier: pointer to &struct v4l2_async_notifier
+> >   * @asd: pointer to &struct v4l2_async_subdev
+> >   *
+> > + * \warning: Drivers should avoid using this function and instead use one of:
+> > + * @v4l2_async_notifier_add_fwnode_subdev,
+> > + * @v4l2_async_notifier_add_fwnode_remote_subdev or
+> > + * @v4l2_async_notifier_add_i2c_subdev.
+> > + *
+> 
+> The markups here are violating kernel-doc. Functions should be declared
+> as:
+> 
+>     * v4l2_async_notifier_add_fwnode_subdev(),
+>     * v4l2_async_notifier_add_fwnode_remote_subdev() or
+>     * v4l2_async_notifier_add_i2c_subdev().
+> 
+> Please address it on a followup patch.
+
+Sure.
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Kind regards,
+
+Sakari Ailus
