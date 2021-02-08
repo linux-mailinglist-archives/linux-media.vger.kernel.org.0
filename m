@@ -2,98 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA723312B57
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 08:59:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E52EF312B6D
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 09:03:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230013AbhBHH7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 02:59:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34604 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229984AbhBHH7Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Feb 2021 02:59:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612771076;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=l3awWSy5e6riy2O68pZN3zZ2GQr/MiEbcpjT4NcEwmQ=;
-        b=Vx+sFP5LwVsS+EeLy+XFMpSav652lQqoVE333Yl9JsRM+9As1690zT5W2exmr3CahrPyok
-        k2jyGPbmzt/ou35dRVgHIHbYjbDXEc2LiEaHaMeWuY0/3DPhf9IVYsfLogorCR7aTfRVVq
-        NAzWjNq9SuvTEZeLlkwdhjYJ1JhblKI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-XTrgxfrMO46qeBaXVqHbnw-1; Mon, 08 Feb 2021 02:57:52 -0500
-X-MC-Unique: XTrgxfrMO46qeBaXVqHbnw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6244B91284;
-        Mon,  8 Feb 2021 07:57:50 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-170.ams2.redhat.com [10.36.112.170])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D36F91A86F;
-        Mon,  8 Feb 2021 07:57:49 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 4195E18000AF; Mon,  8 Feb 2021 08:57:48 +0100 (CET)
-Date:   Mon, 8 Feb 2021 08:57:48 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Vivek Kasireddy <vivek.kasireddy@intel.com>,
-        virtualization@lists.linux-foundation.org,
-        dri-devel@lists.freedesktop.org, daniel.vetter@intel.com,
-        daniel.vetter@ffwll.ch, dongwon.kim@intel.com,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        id S230177AbhBHIDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 03:03:04 -0500
+Received: from mga11.intel.com ([192.55.52.93]:18280 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230035AbhBHIDB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Feb 2021 03:03:01 -0500
+IronPort-SDR: ZcNOVZe4/w3Z7NYH82bFU6LUYH4nRsA3ohPgEY4xik48UUJLbLlDbYiipSeLP4ft0LRlZY9K+H
+ XjAVYb7jlOYA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9888"; a="178165608"
+X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; 
+   d="scan'208";a="178165608"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 00:01:14 -0800
+IronPort-SDR: TAeApzPzcsHD2nkD1WnSRdfB3aHdH4EvqMFWDF9iS82Szz7Zcm8ei8sWTroW7XKGJkXXa2l5iG
+ 3XsPj8VbOElQ==
+X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; 
+   d="scan'208";a="577574042"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 00:01:10 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id A08E22082C; Mon,  8 Feb 2021 10:01:08 +0200 (EET)
+Date:   Mon, 8 Feb 2021 10:01:08 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-i2c@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
         linux-media@vger.kernel.org
-Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
-Message-ID: <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
-References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
- <20210203073517.1908882-3-vivek.kasireddy@intel.com>
- <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+Subject: Re: [PATCH v10 3/7] Documentation: ACPI: Document _DSE object usage
+ for enum power state
+Message-ID: <20210208080108.GL32460@paasikivi.fi.intel.com>
+References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
+ <20210205132505.20173-4-sakari.ailus@linux.intel.com>
+ <4894ef52-71f5-c651-c45b-4788f0e24162@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YB1sRx1GrT8rATEg@phenom.ffwll.local>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4894ef52-71f5-c651-c45b-4788f0e24162@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+Hi Randy,
 
-> > +/* extract pages referenced by sgt */
-> > +static struct page **extr_pgs(struct sg_table *sgt, int *nents, int *last_len)
+On Fri, Feb 05, 2021 at 04:56:47PM -0800, Randy Dunlap wrote:
+> On 2/5/21 5:25 AM, Sakari Ailus wrote:
+> > Document the use of the _DSE object for setting desirable power state
+> > during probe.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> > ---
+> >  Documentation/firmware-guide/acpi/index.rst   |  1 +
+> >  .../firmware-guide/acpi/low-power-probe.rst   | 69 +++++++++++++++++++
+> >  2 files changed, 70 insertions(+)
+> >  create mode 100644 Documentation/firmware-guide/acpi/low-power-probe.rst
+> > 
 > 
-> Nack, this doesn't work on dma-buf. And it'll blow up at runtime when you
-> enable the very recently merged CONFIG_DMABUF_DEBUG (would be good to test
-> with that, just to make sure).
+> > diff --git a/Documentation/firmware-guide/acpi/low-power-probe.rst b/Documentation/firmware-guide/acpi/low-power-probe.rst
+> > new file mode 100644
+> > index 0000000000000..b96804d959a6c
+> > --- /dev/null
+> > +++ b/Documentation/firmware-guide/acpi/low-power-probe.rst
+> > @@ -0,0 +1,69 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +======================================
+> > +Probing I²C devices in low power state
+> > +======================================
+> > +
+> > +Introduction
+> > +============
+> > +
+> > +In some cases it may be preferred to leave certain devices powered off for the
+> > +entire system bootup if powering on these devices has adverse side effects,
+> > +beyond just powering on the said device.
+> > +
+> > +How it works
+> > +============
+> >
+> 
+> Hi,
+> 
+> Please don't use ============ underlines for all section levels.
 
-> Aside from this, for virtio/kvm use-cases we've already merged the udmabuf
-> driver. Does this not work for your usecase?
+The sections under the title are intended to be on the same level.
 
-udmabuf can be used on the host side to make a collection of guest pages
-available as host dmabuf.  It's part of the puzzle, but not a complete
-solution.
+-- 
+Regards,
 
-As I understand it the intended workflow is this:
-
-  (1) guest gpu driver exports some object as dma-buf
-  (2) dma-buf is imported into this new driver.
-  (3) driver sends the pages to the host.
-  (4) hypervisor uses udmabuf to create a host dma-buf.
-  (5) host dma-buf is passed on.
-
-And step (3) is the problematic one as this will not
-work in case the dma-buf doesn't live in guest ram but
-in -- for example -- gpu device memory.
-
-Reversing the driver roles in the guest (virtio driver
-allocates pages and exports the dma-buf to the guest
-gpu driver) should work fine.
-
-Which btw is something you can do today with virtio-gpu.
-Maybe it makes sense to have the option to run virtio-gpu
-in render-only mode for that use case.
-
-take care,
-  Gerd
-
+Sakari Ailus
