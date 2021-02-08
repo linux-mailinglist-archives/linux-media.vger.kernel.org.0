@@ -2,111 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFB9B3140F2
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 21:51:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FEAA314104
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 21:55:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233253AbhBHUv2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 15:51:28 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:40601 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234165AbhBHUr5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Feb 2021 15:47:57 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 9DQvljoPhefbk9DQyl6Qwn; Mon, 08 Feb 2021 21:47:01 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612817221; bh=hBtbVvAGLO4OYj5idcoGs6+65GhkktNma5gOZmEtlho=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=gb7GKpbCxUvGUroLptUEEfODKhxNzlpog9ZOj9u/VDQNDOsYxHM1Lg1yr7ETpWEgu
-         9dgxkAT+k/8BbpdnDuc6skxpMT31Ebpd3L6JdRjqCeTQK3+U2x8tPJttpI8hnoEztw
-         EDZrGbu4Y5v/DfMDpFVYU/aAGai+Db+RqqjH/Qjw1INA8cJECjWBGK2IE+rJXz8wxo
-         WfJz2vi7Y9MqfwRJ0DaXwcnQcx1/NtfyHTewuhPcJmq5XT6IUAB3oEpHSU+5Nyu45+
-         X8+72rEJ3y/gwPtUmN/dN9fZn4fQZwohY0D0Ei03uFFidl8L5Fj1g2Mzx2+FN/SxLa
-         TeBdhUTLd+UDg==
-Subject: Re: [PATCH AUTOSEL 5.10 14/36] media: rkisp1: uapi: change hist_bins
- array type from __u16 to __u32
-To:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
-References: <20210208175806.2091668-1-sashal@kernel.org>
- <20210208175806.2091668-14-sashal@kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <12c8f50e-3bba-5936-6e67-55bd928a75c7@xs4all.nl>
-Date:   Mon, 8 Feb 2021 21:46:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S231480AbhBHUyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 15:54:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230379AbhBHUvp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 15:51:45 -0500
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A642C06178B
+        for <linux-media@vger.kernel.org>; Mon,  8 Feb 2021 12:51:05 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id f19so19078377ljn.5
+        for <linux-media@vger.kernel.org>; Mon, 08 Feb 2021 12:51:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kTFr32bptu4tOZwE0ZuGkak5YWm4TyXH6EjCXCSCQOU=;
+        b=fPkzJbfpY+rbqdzJyziCHL3LEul1WLLgf9TH3sO7UeY8/hZX3BuGEkSnMQTxrVxgmj
+         ynhhO6rKYSPCXJzljB/G5dh6D/6Ab9HjYEOh0JNLDUnhL9Bikm3ewTtK18vfQq2JEyDk
+         ZoW1LOAZ/DtcyppPbMaaXx48jvwDNvRjtHbftv8dLi2aOqVg0dhKdu5JcwKXY0Yfm8Wa
+         3YV9RLPJldP9edDqzPioO0VvHZMQunOEaQW3flqc42qLTH3EUWMaagZsHCE/moBpwaxa
+         3FBGgOlKrnB2Q2B7fz23YgzJDLywONpw9qFuo2JaPFyazzfndglQVbDBP++hmmXx2aqB
+         7/jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kTFr32bptu4tOZwE0ZuGkak5YWm4TyXH6EjCXCSCQOU=;
+        b=QmpIO4SIC9/ksAKyaCPLcqcDw8W1ju0WOEPnNV7eQGBA7ubpaaddtiUEfU5ayq0S4q
+         sX+Tgi/XZOsG9qaQpOw4cIbYu5hgugO762d3sAPNn4narUOF7u1XB5UCnzTYPMuxyVPU
+         uclX7eaBRbqyJCWHxcwwZ0qa+Gbyym2cPDzfYmtvWf0nxRzzUvjjIXs55uiUYCoQF/5F
+         U7d/eaHC+tvtCUf8ElpctxZ05wsKfWLj9l5+8UFPQ6+oPn2zif0FxTNtAjTxVcTbggej
+         MW3Eb2fhiv/vHnt1YP1nX51kFGjQ5HLbVgzLZd4JNb/vnNwwsyXlKRORR/WrfKjkGsYc
+         SK4w==
+X-Gm-Message-State: AOAM533OJIPFF8UJABnjiu6MFcjlspxVLGAPMkofgq6AJrJN8sN6EvkA
+        M85tOHJafv3iLnkANE1axMbGdRql7YCpUbMI2GcLwQ==
+X-Google-Smtp-Source: ABdhPJzyLwGZIsnnaLCIXwnTE+bBhjn+823+aLJKw6/rPEzO6bZdXDtpP894AzuNEnj/AFCYBAmeFM6AKDOaToIttGM=
+X-Received: by 2002:a2e:8090:: with SMTP id i16mr12425346ljg.257.1612817463364;
+ Mon, 08 Feb 2021 12:51:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210208175806.2091668-14-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJhCeXUzkkqo0jowHBlu9YVGkP/aghLIMh5Hkta0qWJeAWbHKN24RajccQ2yh7Zx/DpycHW76g4/m1ZTzeFTVt0CyWVY01DtTR+0DDvKDrfKsbXluWUF
- rFjWHQScFO16gKpQAQv86bhaa6kuQ/37VCKQbcRjucuopqxEy1eS3mGLd+cVjdp1hUGev6lEifcfBiye8nKL2d7z0TPn9vxTd0cummmqITqE9uHQqcdROt/e
- dZzJosd9arQlhI1gAmJoXOOEPVZtuhQ7lTrrjyU2mUWJmK+aTq/OeoNZHmzOVoj5bnfWB65Lr5iASsskDg7o7Y3Q7P39cYHMl+lKlJfaupDhI8Xp9AHfMNIX
- 7qQxWhB1BaCdxAxA/NohsX+tbbWpJ3GgM2Q16xsTW2YFf+O0e7buN3Oh1T+1n4wM8IJfy5Bq1htMaPppGKdnD/q42g0Jgt8kKgBFjcnCc3QzH1P/U04=
+References: <20210206054748.378300-1-john.stultz@linaro.org>
+ <20210206054748.378300-2-john.stultz@linaro.org> <YCENrGofdwVg2LMe@phenom.ffwll.local>
+In-Reply-To: <YCENrGofdwVg2LMe@phenom.ffwll.local>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Mon, 8 Feb 2021 12:50:49 -0800
+Message-ID: <CALAqxLV2Sikxnr3-k94nqcF5vz+jsekhhUrmXEKkwzwwu4up8g@mail.gmail.com>
+Subject: Re: [RFC][PATCH 2/2] dma-buf: heaps: Fix the name used when exporting
+ dmabufs to be the actual heap name
+To:     John Stultz <john.stultz@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/02/2021 18:57, Sasha Levin wrote:
-> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> 
-> [ Upstream commit 31f190e0ccac8b75d33fdc95a797c526cf9b149e ]
-> 
-> Each entry in the array is a 20 bits value composed of 16 bits unsigned
-> integer and 4 bits fractional part. So the type should change to __u32.
-> In addition add a documentation of how the measurements are done.
+On Mon, Feb 8, 2021 at 2:08 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Sat, Feb 06, 2021 at 05:47:48AM +0000, John Stultz wrote:
+> > By default dma_buf_export() sets the exporter name to be
+> > KBUILD_MODNAME. Unfortunately this may not be identical to the
+> > string used as the heap name (ie: "system" vs "system_heap").
+> >
+> > This can cause some minor confusion with tooling, and there is
+> > the future potential where multiple heap types may be exported
+> > by the same module (but would all have the same name).
+> >
+> > So to avoid all this, set the exporter exp_name to the heap name.
+> >
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Liam Mark <lmark@codeaurora.org>
+> > Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> > Cc: Laura Abbott <labbott@kernel.org>
+> > Cc: Brian Starkey <Brian.Starkey@arm.com>
+> > Cc: Hridya Valsaraju <hridya@google.com>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Cc: Sandeep Patil <sspatil@google.com>
+> > Cc: Daniel Mentz <danielmentz@google.com>
+> > Cc: =C3=98rjan Eide <orjan.eide@arm.com>
+> > Cc: Robin Murphy <robin.murphy@arm.com>
+> > Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: James Jones <jajones@nvidia.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: John Stultz <john.stultz@linaro.org>
+>
+> Looks reasonable to me.
+>
+> I guess the main worry is "does this mean heap names become uapi", in
+> which case I'm maybe not so sure anymore how this will tie into the
+> overall gpu memory accounting story.
+>
+> Since for dma-buf heaps one name per buffer is perfectly fine, since
+> dma-buf heaps aren't very dynamic. But on discrete gpu drivers buffers
+> move, so baking in the assumption that "exporter name =3D resource usage =
+for
+> this buffer" is broken.
 
-Dafna, Helen, does it make sense at all to backport these three patches to
-when rkisp1 was a staging driver?
+I suspect I'm missing a subtlety in what you're describing. My sense
+of the exporter name doesn't account for a buffer's usage, it just
+describes what code allocated it and implicitly which dmabuf_ops
+handles it.  Maybe could you give a more specific example of what
+you're hoping to avoid?
 
-I would be inclined not to backport this.
+To me this patch is mostly just a consistency/least-surprise thing, so
+the heaps exporter name matches the string used for the heap's chardev
+device (the interface used to allocate it) in output like
+debugfs/dma_buf/bufinfo.
 
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> index 432cb6be55b47..c19fe059c2442 100644
-> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> @@ -848,13 +848,18 @@ struct rkisp1_cif_isp_af_stat {
->  /**
->   * struct rkisp1_cif_isp_hist_stat - statistics histogram data
->   *
-> - * @hist_bins: measured bin counters
-> + * @hist_bins: measured bin counters. Each bin is a 20 bits unsigned fixed point
-> + *	       type. Bits 0-4 are the fractional part and bits 5-19 are the
-> + *	       integer part.
->   *
-> - * Measurement window divided into 25 sub-windows, set
-> - * with ISP_HIST_XXX
-> + * The window of the measurements area is divided to 5x5 sub-windows. The
-> + * histogram is then computed for each sub-window independently and the final
-> + * result is a weighted average of the histogram measurements on all
-> + * sub-windows. The window of the measurements area and the weight of each
-> + * sub-window are configurable using struct @rkisp1_cif_isp_hst_config.
->   */
->  struct rkisp1_cif_isp_hist_stat {
-> -	__u16 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
-> +	__u32 hist_bins[RKISP1_CIF_ISP_HIST_BIN_N_MAX];
->  };
->  
->  /**
-> 
-
+thanks
+-john
