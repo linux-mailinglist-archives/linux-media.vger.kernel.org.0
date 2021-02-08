@@ -2,137 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E68273142F7
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 23:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 248EA3143AB
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 00:24:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231991AbhBHW16 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 17:27:58 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41356 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231778AbhBHW1m (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 17:27:42 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 926B83D7;
-        Mon,  8 Feb 2021 23:26:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1612823217;
-        bh=QWPBe4b7t4Qbl86pG4P2aQknuZ5To8weamOYJFtaBtw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MGftqJw9+hRrW4HfNMhrrm27f4easyhCtFUccLY52O6QHLBKqOubZX7bDVY5UHVyz
-         QkBx4sj5bB5JzBhQBzEvAFAs4gZlaNdWDY3tGHft/i/r8fg/wc+RnsIIO4Q2tnkp6f
-         8qN0y5o7Xwq+jjf1xPl/lb9NgQ3JurR4PgbLVuqc=
-Date:   Tue, 9 Feb 2021 00:26:33 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] media: i2c: Kconfig: Make MAX9271 a module
-Message-ID: <YCG6mV9v+KXT7K+W@pendragon.ideasonboard.com>
-References: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
- <20210208202147.GZ32460@paasikivi.fi.intel.com>
+        id S230396AbhBHXYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 18:24:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229913AbhBHXYc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 18:24:32 -0500
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D666CC06178A
+        for <linux-media@vger.kernel.org>; Mon,  8 Feb 2021 15:23:51 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id d20so17482682oiw.10
+        for <linux-media@vger.kernel.org>; Mon, 08 Feb 2021 15:23:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=02Fg2L/cP5O7yEA4aDL/0wbnSxjB/HCeUwPhCj0v2gs=;
+        b=fsN5YCV/mulJoJ47yEU+cNQ+BMgru+mQR+5hsX98yZsDYTQ2eoyPicl2LApff+GBWH
+         Oill4Ay5CEe0yvmu+p55TC0osIvP+XveznYfzjSff6j7ZmulDiZP70DRfkibSFb44ihB
+         /vScocqKsR96xgZKUDi93txyQXg+NpyOn9aVM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=02Fg2L/cP5O7yEA4aDL/0wbnSxjB/HCeUwPhCj0v2gs=;
+        b=We5KY+zVmHpd9mB1ruSBoH1ncSYTE7SZWLMjXVYOqh2hb2zbQVSJJNEMZ0D1dWlWxq
+         HNM1ZA1aZ57ihR2NcQ1GLfuuF0bFwRnZUnG4viBxl8aFxRf68VkPJNxbF/kVdAOdyyZq
+         JYMdR1teRSLOPAaPAZc2xzITYPVWVJEYCb94DCMODPzoxacfw91afJvWe3Tp2t0UMXGQ
+         zztPAw/nG4kLLR+q3xwVQTVZdZA+4SXXq4G2DgpmJWqNxacIw8vAKBVxRg3YzJTWvNwI
+         Zduc7n3T+jpT+6DgWZNW34WXhlP9YoEGGXb/nNPeB+COPguJie7caLJppRGWEcrRqK3z
+         I+1g==
+X-Gm-Message-State: AOAM5334yvrcgFyhokxGwxiB7hUd7YXBHpU11PcKzrhjYLyxBrHX5BKL
+        HFfhckJhEiwIDAYsOyXq7r7sqQ==
+X-Google-Smtp-Source: ABdhPJzW4ZKjg72PScgkzDJMPPF7mK3cqkqqKQiSQt7DyqfZNSsHm7bj68ptwMEMriHGlA4GxXV62Q==
+X-Received: by 2002:aca:4508:: with SMTP id s8mr758346oia.118.1612826631286;
+        Mon, 08 Feb 2021 15:23:51 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id x13sm400036otg.79.2021.02.08.15.23.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Feb 2021 15:23:50 -0800 (PST)
+Subject: Re: [PATCH 1/5] kselftests: dmabuf-heaps: Fix Makefile's inclusion of
+ the kernel's usr/include dir
+To:     John Stultz <john.stultz@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Cc:     Shuah Khan <shuah@kernel.org>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kselftest@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20210129030514.1231773-1-john.stultz@linaro.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <27bd6340-617a-37a2-d17f-8e50b5d5362f@linuxfoundation.org>
+Date:   Mon, 8 Feb 2021 16:23:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210208202147.GZ32460@paasikivi.fi.intel.com>
+In-Reply-To: <20210129030514.1231773-1-john.stultz@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari and Jacopo,
-
-On Mon, Feb 08, 2021 at 10:21:47PM +0200, Sakari Ailus wrote:
-> On Mon, Feb 08, 2021 at 07:20:06PM +0100, Jacopo Mondi wrote:
-> > With the introduction of the RDACM21 camera module support in
-> > commit a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-> > the symbols defined by the max9271 library were exported twice
-> > if multiple users of the library were compiled in at the same time.
-> > 
-> > In example:
-> > WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
-> > 'max9271_set_serial_link' exported twice. Previous export was in
-> > drivers/media/i2c/rdacm20-camera_module.ko
-> > 
-> > Fix this by making the rdacm21 file a module and have the driver
-> > using its functions select it.
-> > 
-> > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-> > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/Kconfig  | 5 +++++
-> >  drivers/media/i2c/Makefile | 7 +++----
-> >  2 files changed, 8 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index 2d3dc0d82f9e..84645f751da3 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
-> > 
-> >  source "drivers/media/i2c/m5mols/Kconfig"
-> > 
-> > +config VIDEO_MAX9271
+On 1/28/21 8:05 PM, John Stultz wrote:
+> Copied in from somewhere else, the makefile was including
+> the kerne's usr/include dir, which caused the asm/ioctl.h file
+> to be used.
 > 
-> How about calling this VIDEO_MAX9271_HELPER instead? It's not a driver in
-> the proper sense of the word.
-
-Not all Kconfig symbols refer to drivers. Should we rename V4L2_FWNODE
-to V4L2_FWNODE_HELPER ? :-)
-
-Of course the MAX9271 name may lead someone to believe that the symbol
-refers to a driver. If you think we should really make this explicit,
-I'd have a preference for LIB instead of HELPER.
-
-Either way,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Unfortunately, that file has different values for _IOC_SIZEBITS
+> and _IOC_WRITE than include/uapi/asm-generic/ioctl.h which then
+> causes the _IOCW macros to give the wrong ioctl numbers,
+> specifically for DMA_BUF_IOCTL_SYNC.
 > 
-> > +	tristate
-> > +
-> >  config VIDEO_RDACM20
-> >  	tristate "IMI RDACM20 camera support"
-> >  	depends on I2C
-> >  	select V4L2_FWNODE
-> >  	select VIDEO_V4L2_SUBDEV_API
-> >  	select MEDIA_CONTROLLER
-> > +	select VIDEO_MAX9271
-> >  	help
-> >  	  This driver supports the IMI RDACM20 GMSL camera, used in
-> >  	  ADAS systems.
-> > @@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
-> >  	select V4L2_FWNODE
-> >  	select VIDEO_V4L2_SUBDEV_API
-> >  	select MEDIA_CONTROLLER
-> > +	select VIDEO_MAX9271
-> >  	help
-> >  	  This driver supports the IMI RDACM21 GMSL camera, used in
-> >  	  ADAS systems.
-> > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> > index 6bd22d63e1a7..c34a7de3158b 100644
-> > --- a/drivers/media/i2c/Makefile
-> > +++ b/drivers/media/i2c/Makefile
-> > @@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
-> >  obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
-> >  obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
-> >  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
-> > -rdacm20-camera_module-objs	:= rdacm20.o max9271.o
-> > -obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
-> > -rdacm21-camera_module-objs	:= rdacm21.o max9271.o
-> > -obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
-> > +obj-$(CONFIG_VIDEO_MAX9271)	+= max9271.o
-> > +obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
-> > +obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
-> >  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
-> > 
-> >  obj-$(CONFIG_SDR_MAX2175) += max2175.o
+> This patch simply removes the extra include from the Makefile
+> 
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Brian Starkey <brian.starkey@arm.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Laura Abbott <labbott@kernel.org>
+> Cc: Hridya Valsaraju <hridya@google.com>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Sandeep Patil <sspatil@google.com>
+> Cc: Daniel Mentz <danielmentz@google.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kselftest@vger.kernel.org
+> Fixes: a8779927fd86c ("kselftests: Add dma-heap test")
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> ---
+>   tools/testing/selftests/dmabuf-heaps/Makefile | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/dmabuf-heaps/Makefile b/tools/testing/selftests/dmabuf-heaps/Makefile
+> index 607c2acd2082..604b43ece15f 100644
+> --- a/tools/testing/selftests/dmabuf-heaps/Makefile
+> +++ b/tools/testing/selftests/dmabuf-heaps/Makefile
+> @@ -1,5 +1,5 @@
+>   # SPDX-License-Identifier: GPL-2.0
+> -CFLAGS += -static -O3 -Wl,-no-as-needed -Wall -I../../../../usr/include
+> +CFLAGS += -static -O3 -Wl,-no-as-needed -Wall
+>   
+>   TEST_GEN_PROGS = dmabuf-heap
+>   
+> 
 
--- 
-Regards,
+Thanks John for all these 5 fix and cleanup patches.
 
-Laurent Pinchart
+Applied to linux-kselftest next for 5.12-rc1
+
+thanks,
+-- Shuah
