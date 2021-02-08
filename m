@@ -2,106 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99B75313D40
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 19:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C02DC314004
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 21:12:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235601AbhBHSWH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 13:22:07 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:58371 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235544AbhBHSU4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 13:20:56 -0500
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 2AFF8200008;
-        Mon,  8 Feb 2021 18:19:53 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] media: i2c: Kconfig: Make MAX9271 a module
-Date:   Mon,  8 Feb 2021 19:20:06 +0100
-Message-Id: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.30.0
+        id S235161AbhBHULZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 15:11:25 -0500
+Received: from retiisi.eu ([95.216.213.190]:57072 "EHLO hillosipuli.retiisi.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235241AbhBHUKw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Feb 2021 15:10:52 -0500
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id B3728634C87;
+        Mon,  8 Feb 2021 22:08:33 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-media@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: [PATCH v6 0/3] Add %p4cc printk modifier for V4L2 and DRM fourcc codes
+Date:   Mon,  8 Feb 2021 22:09:00 +0200
+Message-Id: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With the introduction of the RDACM21 camera module support in
-commit a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-the symbols defined by the max9271 library were exported twice
-if multiple users of the library were compiled in at the same time.
+Hi all,
 
-In example:
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
-'max9271_set_serial_link' exported twice. Previous export was in
-drivers/media/i2c/rdacm20-camera_module.ko
+This set adds support for %p4cc printk modifier for printing V4L2 and DRM
+fourcc codes. The codes are cumbersome to print manually and by adding the
+modifier, this task is saved from the V4L2 and DRM frameworks as well as
+related drivers. DRM actually had it handled in a way (see 3rd patch) but
+the printk modifier makes printing the format easier even there. On V4L2
+side it saves quite a few lines of repeating different implementations of
+printing the 4cc codes.
 
-Fix this by making the rdacm21 file a module and have the driver
-using its functions select it.
+Further work will include converting the V4L2 drivers doing the same, as
+well as converting DRM drivers from drm_get_format_name() to plain %p4cc.
+I left these out from this version since individual drivers are easier
+changed without dealing with multiple trees.
 
-Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/i2c/Kconfig  | 5 +++++
- drivers/media/i2c/Makefile | 7 +++----
- 2 files changed, 8 insertions(+), 4 deletions(-)
+If DRM folks would prefer to convert drivers to %p4cc directly instead I
+have no problem dropping the 3rd patch. Nearly all uses in DRM are in
+printk family of functions that can readily use %p4cc instead of the
+current arrangement that relies on caller-allocated temporary buffer.
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 2d3dc0d82f9e..84645f751da3 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
+Since v5:
 
- source "drivers/media/i2c/m5mols/Kconfig"
+- Added V4L2 core conversion to %p4cc, as well as change the DRM
+  fourcc printing function to use %p4cc.
 
-+config VIDEO_MAX9271
-+	tristate
-+
- config VIDEO_RDACM20
- 	tristate "IMI RDACM20 camera support"
- 	depends on I2C
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
-+	select VIDEO_MAX9271
- 	help
- 	  This driver supports the IMI RDACM20 GMSL camera, used in
- 	  ADAS systems.
-@@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
-+	select VIDEO_MAX9271
- 	help
- 	  This driver supports the IMI RDACM21 GMSL camera, used in
- 	  ADAS systems.
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 6bd22d63e1a7..c34a7de3158b 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
- obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
- obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
- obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
--rdacm20-camera_module-objs	:= rdacm20.o max9271.o
--obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
--rdacm21-camera_module-objs	:= rdacm21.o max9271.o
--obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
-+obj-$(CONFIG_VIDEO_MAX9271)	+= max9271.o
-+obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
-+obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
- obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+- Add missing checkpatch.pl checks for %p4cc modifier.
 
- obj-$(CONFIG_SDR_MAX2175) += max2175.o
---
-2.30.0
+Sakari Ailus (3):
+  lib/vsprintf: Add support for printing V4L2 and DRM fourccs
+  v4l: ioctl: Use %p4cc printk modifier to print FourCC codes
+  drm/fourcc: Switch to %p4cc format modifier
+
+ Documentation/core-api/printk-formats.rst | 16 +++++
+ drivers/gpu/drm/drm_fourcc.c              | 16 +----
+ drivers/media/v4l2-core/v4l2-ioctl.c      | 85 ++++++-----------------
+ lib/test_printf.c                         | 17 +++++
+ lib/vsprintf.c                            | 51 ++++++++++++++
+ scripts/checkpatch.pl                     |  6 +-
+ 6 files changed, 112 insertions(+), 79 deletions(-)
+
+-- 
+2.29.2
 
