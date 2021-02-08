@@ -2,179 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15490312D47
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 10:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97CD1312D8A
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 10:42:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231475AbhBHJ2z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 04:28:55 -0500
-Received: from mga18.intel.com ([134.134.136.126]:24640 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231485AbhBHJ0w (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Feb 2021 04:26:52 -0500
-IronPort-SDR: S/ISST09jyy+SUtOmfOlWAIbfIuC77OMlpSg9QeUcffugya2Uwt5tnZoqY4xVaCfZVwDtP+HHI
- ZLrhAJX4YLkw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9888"; a="169367583"
-X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; 
-   d="scan'208";a="169367583"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 01:24:59 -0800
-IronPort-SDR: XYpLvQcUd8ACZzWwabhcolCGs9tvWytDztxdqt31uv3R2FeAha3J2H6UmpoVe1LOhvp8Sn/oOr
- muZR2i5HUOJg==
-X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; 
-   d="scan'208";a="435568358"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 01:24:57 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 0DCF22082C; Mon,  8 Feb 2021 11:24:25 +0200 (EET)
-Date:   Mon, 8 Feb 2021 11:24:25 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-next@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: fix max9271 build dependencies
-Message-ID: <20210208092424.GP32460@paasikivi.fi.intel.com>
-References: <20210208113208.35449879@canb.auug.org.au>
- <20210208065315.1914616-1-mchehab+huawei@kernel.org>
- <20210208072701.GI32460@paasikivi.fi.intel.com>
- <20210208083616.3iulzo56mhn4ymmq@uno.localdomain>
- <20210208084147.GN32460@paasikivi.fi.intel.com>
- <20210208100822.76ca0c2e@coco.lan>
+        id S231772AbhBHJlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 04:41:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36716 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231803AbhBHJjj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 04:39:39 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70B3C06174A
+        for <linux-media@vger.kernel.org>; Mon,  8 Feb 2021 01:38:58 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id i5so3909285wmq.2
+        for <linux-media@vger.kernel.org>; Mon, 08 Feb 2021 01:38:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4DGQGSkzgcC/dD62BvVBWWA5K9GNya/Azc5NShmkw9c=;
+        b=BrF/s6CFFF8+P8/zewQpBGItF+0CBq4qQd9jwH9BX0gBhEOrrAE2Y9DeVv1Cqe+PG8
+         6swWNn4rPizD3NE4gk7zMHMrff4n8Jw6MeEUPj/T7JVyk0TWvzClJxyWB7BHRmbp0HZ3
+         hmE8E4eLRrUsCuFl148JcoJmWT9mJ8KGdVsi8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4DGQGSkzgcC/dD62BvVBWWA5K9GNya/Azc5NShmkw9c=;
+        b=BQHL59eccLSPDtTrYkmE6KR7Q0WQlMtfFPb4Nyoh4X96aJr+qx7/MJxQqrDKCveqvz
+         kFuwmGlRdLBCXUoMufgi23cyWz8WafmpGsyV9Ka6UHtBvVyBcKbGpPpx5nCuFLfmB6ZM
+         Yoh9Ej4UAZWTXLhJq4ZZvHYomtmKAMivoXpM6QdeWDzKj37oY6C5/HnpuIKHfAfb1S9t
+         hVzYoo1+rFNu2KF6TpdKqfnGF01qgwRKIITqMBE/UjGuyh8yP25hpzWkrIu0vXKa/Z4R
+         UZZvShCDYWCJk5FCO4qc2Vz8AajAWX4p9I6PO8y5GhXlGVLsVQo4UG6ku3UHGhX6rYgF
+         dXTA==
+X-Gm-Message-State: AOAM533qRbp/YiOTkGIwyJ2uEeC5DLQzgYcm3mMK97yFW566z2dj/xoi
+        vB6+dTygPrmqpoZwmJYMjHK333TNVD+mMvyp
+X-Google-Smtp-Source: ABdhPJzGAETbO5Jt6ZRC/GR0bn81heDLrjvHU05CkeKS+oGw67H4ItRzjTTOIwnpoRRmCRR+dmsFNw==
+X-Received: by 2002:a1c:9a12:: with SMTP id c18mr13723288wme.146.1612777137507;
+        Mon, 08 Feb 2021 01:38:57 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id v15sm1548194wra.61.2021.02.08.01.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 01:38:56 -0800 (PST)
+Date:   Mon, 8 Feb 2021 10:38:54 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Vivek Kasireddy <vivek.kasireddy@intel.com>,
+        virtualization@lists.linux-foundation.org,
+        dri-devel@lists.freedesktop.org, daniel.vetter@intel.com,
+        daniel.vetter@ffwll.ch, dongwon.kim@intel.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        linux-media@vger.kernel.org
+Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Message-ID: <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
+ <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210208100822.76ca0c2e@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 08, 2021 at 10:08:22AM +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 8 Feb 2021 10:41:47 +0200
-> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+On Mon, Feb 08, 2021 at 08:57:48AM +0100, Gerd Hoffmann wrote:
+>   Hi,
 > 
-> > Hi Jacopo,
+> > > +/* extract pages referenced by sgt */
+> > > +static struct page **extr_pgs(struct sg_table *sgt, int *nents, int *last_len)
 > > 
-> > On Mon, Feb 08, 2021 at 09:36:16AM +0100, Jacopo Mondi wrote:
-> > > Hello everyone,
-> > > 
-> > > On Mon, Feb 08, 2021 at 09:27:01AM +0200, Sakari Ailus wrote:  
-> > > > Hi Mauro,
-> > > >
-> > > > Thanks for the patch.  
-> > > 
-> > > Sorry, that's cleary an oversight from my side.
-> > > Thanks for tackling it.
-> > >   
-> > > >
-> > > > On Mon, Feb 08, 2021 at 07:53:15AM +0100, Mauro Carvalho Chehab wrote:  
-> > > > > As described on its c file, the Maxim MAX9271 GMSL serializer isn't a
-> > > > > self-contained driver, as MAX9271 is usually embedded in camera modules
-> > > > > with at least one image sensor and optional additional components,
-> > > > > such as uController units or ISPs/DSPs.
-> > > > >
-> > > > > After chanseset a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module"),
-> > > > > there are now two drivers currently needing it: rdacm20 and rdacm21.
-> > > > >
-> > > > > Building with allmodconfig is now causing those warnings:
-> > > > >
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_serial_link' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_configure_i2c' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_high_threshold' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_configure_gmsl_link' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_clear_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_enable_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_disable_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_verify_id' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_address' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_deserializer_address' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > > 	WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_translation' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-> > > > >
-> > > > > Address the issue by adding a Kconfig item for it, that it is
-> > > > > seleced if either one of the modules that need max9271 is used.
-> > > > >
-> > > > > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > > > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-> > > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > > > ---
-> > > > >  drivers/media/i2c/Kconfig  | 10 ++++++++++
-> > > > >  drivers/media/i2c/Makefile |  8 ++++----
-> > > > >  2 files changed, 14 insertions(+), 4 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > > > index 2d3dc0d82f9e..a6802195d583 100644
-> > > > > --- a/drivers/media/i2c/Kconfig
-> > > > > +++ b/drivers/media/i2c/Kconfig
-> > > > > @@ -712,6 +712,16 @@ config VIDEO_ST_MIPID02
-> > > > >  	  module will be called st-mipid02.
-> > > > >  endmenu
-> > > > >
-> > > > > +#
-> > > > > +# Camera ancillary chips
-> > > > > +#
-> > > > > +
-> > > > > +# MAX9271 is usually embedded in camera modules
-> > > > > +config VIDEO_MAX9271_SERIALIZER
-> > > > > +	tristate
-> > > > > +	default y
-> > > > > +	depends on VIDEO_RDACM20 || VIDEO_RDACM21
-> > > > > +  
-> > > >
-> > > > I'd instead make the RDACM drivers depend on this one instead. The RDACM20
-> > > > driver directly depends on the symbols in the MAX9271 driver.
+> > Nack, this doesn't work on dma-buf. And it'll blow up at runtime when you
+> > enable the very recently merged CONFIG_DMABUF_DEBUG (would be good to test
+> > with that, just to make sure).
 > 
-> While such solution is technically OK, it will make harder for the ones
-> wanting to use the RDACM drivers, because those two drivers will be
-> ridden at the config menu, until MAX9271 got selected.
+> > Aside from this, for virtio/kvm use-cases we've already merged the udmabuf
+> > driver. Does this not work for your usecase?
 > 
-> With the above solution, this driver will be auto-selected if either
-> RDACM20 or RDACM21 is needed.
-> 
-> Btw, this is exactly the same strategy we use for tuner I2C modules:
-> the user doesn't need to know that his board uses tuner "foo" or "bar".
-> All it needs is to know that it will require, for instance, the em28xx
-> driver.
-> 
-> > > >  
-> > > 
-> > > OTOH I it makes sense to have MAX9271 depend on the camera modules, as
-> > > selecting the serializer alone is not that useful.
-> > > 
-> > > Could the two camera modules symbols instead select the MAX9271 one ?  
-> > 
-> > MAX9271 could be used elsewhere than in RDACM* devices.
-> 
-> Sure, but then it is just a matter of adding the other driver there:
-> 
-> 	depends on VIDEO_RDACM20 || VIDEO_RDACM21 || VIDEO_FOO
-> 
-> To be frank, I doubt that we'll end having dozens of boards with this.
-> If we end having lots of drivers, we can work on a different
+> udmabuf can be used on the host side to make a collection of guest pages
+> available as host dmabuf.  It's part of the puzzle, but not a complete
 > solution.
-
-Also note that there will be combinations of something compiled as a module
-and another driver linked directly to the kernel.
-
-So each of the RDACM drivers would likely also need:
-
-	depends on VIDEO_MAX9271_SERIALIZER || !VIDEO_MAX9271_SERIALIZER
-
 > 
-> > 
-> > Also, as select does not handle dependencies, all drivers that need MAX9271
-> > would have to include the dependencies of MAX9271.
+> As I understand it the intended workflow is this:
 > 
-> Yes. "Depends on" handles any dependencies that are required for building
-> MAX9271. In this specific case, the dependencies are the same, so select
-> could equally work.
+>   (1) guest gpu driver exports some object as dma-buf
+>   (2) dma-buf is imported into this new driver.
+>   (3) driver sends the pages to the host.
+>   (4) hypervisor uses udmabuf to create a host dma-buf.
+>   (5) host dma-buf is passed on.
+> 
+> And step (3) is the problematic one as this will not
+> work in case the dma-buf doesn't live in guest ram but
+> in -- for example -- gpu device memory.
 
-Sure.
+Yup, vram or similar special ram is the reason why an importer can't look
+at the pages behind a dma-buf sg table.
 
+> Reversing the driver roles in the guest (virtio driver
+> allocates pages and exports the dma-buf to the guest
+> gpu driver) should work fine.
+
+Yup, this needs to flow the other way round than in these patches.
+
+> Which btw is something you can do today with virtio-gpu.
+> Maybe it makes sense to have the option to run virtio-gpu
+> in render-only mode for that use case.
+
+Yeah that sounds like a useful addition.
+
+Also, the same flow should work for real gpus passed through as pci
+devices. What we need is some way to surface the dma-buf on the guest
+side, which I think doesn't exist yet stand-alone. But this role could be
+fulfilled by virtio-gpu in render-only mode I think. And (assuming I've
+understood the recent discussions around virtio dma-buf sharing using
+virtio ids) this would give you some neat zero-copy tricks for free if you
+share multiple devices.
+
+Also if you really want seamless buffer sharing between devices that are
+passed to the guest and devices on the host side (like displays I guess?
+or maybe video encode if this is for cloug gaming?), then using virtio-gpu
+in render mode should also allow you to pass the dma_fence back&forth.
+Which we'll need too, not just the dma-buf.
+
+So at a first guess I'd say "render-only virtio-gpu mode" sounds like
+something rather useful. But I might be totally off here.
+
+Cheers, Daniel
 -- 
-Kind regards,
-
-Sakari Ailus
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
