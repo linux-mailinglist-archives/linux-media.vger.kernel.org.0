@@ -2,90 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E64BA313301
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 14:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B44E313344
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 14:29:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230029AbhBHNMA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 08:12:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54382 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229993AbhBHNLt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Feb 2021 08:11:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3219764E85;
-        Mon,  8 Feb 2021 13:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612789869;
-        bh=DhCfAvO4/Izxym8gYZJsjsSzL8u4lIOArAufKfQ5KWg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=E41nSyaObGZmRvYnJMugLW6g9aKHgkpjh4OmKX5Tx0K/jv8gNoo2b3Zxh8Jv3mOyM
-         7uAsI3O7G8jlNfZ24kG1I5EqBjpm3B0TT334Xo0XvdH7nSbR/udPLFI8qlrNVB+xTJ
-         Y0J2+aGxOrveBbiu5pWFuwcog8eEgNRfi2/Z7IO7Tr2KwwjOz3LkmrK76F2ANbiqQm
-         HzdQiAyWmCKpjyK6tBLA2HnDjsa0rhucinKudTu/B1zhRKDIIQIMeiY0edVcpgiHrb
-         /yZifOQa/AP3UKFeRoHGa3LFw2FzfyXimLX4c37V9+XCsijRy61IswXf8LK/CHmffv
-         443ZbYvgzYF+g==
-Date:   Mon, 8 Feb 2021 14:11:02 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-next@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: fix max9271 build dependencies
-Message-ID: <20210208141102.3d5999dd@coco.lan>
-In-Reply-To: <20210208114142.skwc22xps5xiqdyo@uno.localdomain>
-References: <20210208113208.35449879@canb.auug.org.au>
-        <20210208065315.1914616-1-mchehab+huawei@kernel.org>
-        <20210208072701.GI32460@paasikivi.fi.intel.com>
-        <20210208083616.3iulzo56mhn4ymmq@uno.localdomain>
-        <20210208084147.GN32460@paasikivi.fi.intel.com>
-        <20210208100822.76ca0c2e@coco.lan>
-        <20210208092424.GP32460@paasikivi.fi.intel.com>
-        <20210208110723.4859ddda@coco.lan>
-        <YCEhVrSFpqX1Th4x@pendragon.ideasonboard.com>
-        <20210208114142.skwc22xps5xiqdyo@uno.localdomain>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229822AbhBHN3K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 08:29:10 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:41685 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230144AbhBHN2z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 08:28:55 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 77E4BE0014;
+        Mon,  8 Feb 2021 13:28:11 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] media: i2c: rdamc21: Fix warning on u8 cast
+Date:   Mon,  8 Feb 2021 14:27:49 +0100
+Message-Id: <20210208132749.97738-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 8 Feb 2021 12:41:42 +0100
-Jacopo Mondi <jacopo@jmondi.org> escreveu:
+Sparse reports a warning on a cast to u8 of a 16 bits constant.
 
-> > > If you do, instead:
-> > >
-> > >     if VIDEO_V4L2 && I2C
-> > > 	config VIDEO_MAX9271_SERIALIZER
-> > > 		tristate
-> > >
-> > > 	config VIDEO_RDACM20
-> > > 		select VIDEO_MAX9271_SERIALIZER
-> > > 		...
-> > >
-> > > 	config VIDEO_RDACM21
-> > > 		select VIDEO_MAX9271_SERIALIZER
-> > > 		...
-> > >     endif
-> > >
-> > > Then you also won't need:
-> > > 	depends on VIDEO_MAX9271_SERIALIZER || !VIDEO_MAX9271_SERIALIZER
-> > >
-> > > As select should do the right thing in this case, ensuring that MAX9271
-> > > will be builtin either if RDACM20 or RDACM21 is builtin.  
-> >
-> > I also vote for usage of "select".
-> >  
-> 
-> I would prefer that too, I was concerned about possible un-met
-> dependencies, as Sakari pointed out, but the current situation is no
-> better, as the only Kconfig symbols where those can be listed are the
-> camera modules one.
+drivers/media/i2c/rdacm21.c:348:62: warning: cast truncates bits
+from constant value (300a becomes a)
 
-Works for me. I'll make a patch for it.
+Even if the behaviour is intended, silence the sparse warning replacing
+the cast with a bitwise & operation.
 
-Thanks,
-Mauro
+Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ drivers/media/i2c/rdacm21.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+index dcc21515e5a4..179d107f494c 100644
+--- a/drivers/media/i2c/rdacm21.c
++++ b/drivers/media/i2c/rdacm21.c
+@@ -345,7 +345,7 @@ static int ov10640_initialize(struct rdacm21_device *dev)
+ 	/* Read OV10640 ID to test communications. */
+ 	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
+ 	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
+-	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, (u8)OV10640_CHIP_ID);
++	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, OV10640_CHIP_ID & 0xff);
+
+ 	/* Trigger SCCB slave transaction and give it some time to complete. */
+ 	ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
+--
+2.30.0
+
