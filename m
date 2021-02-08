@@ -2,152 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E879A3129C0
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 05:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A10AD3129E4
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 06:20:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbhBHEex (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Feb 2021 23:34:53 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:39869 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229615AbhBHEew (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 7 Feb 2021 23:34:52 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 8yFQleI2Zefbk8yFRl2m5u; Mon, 08 Feb 2021 05:34:05 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612758845; bh=iAwAXiNeemaG96wBkkzsdMSIoK2B5d6h1VhUMs2dDj0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=QQsbYXv4c0iMWLdgUPUVBW3knVcP1+73tfAiydh46vi/ehZty3gDXtYZS1hpY5f4c
-         wfSa8Qufm170su9jdVipdw+ON5yP57/6vbBuqn14YPx1GcKiOrSg/j5qbqzp1L25ZJ
-         deU3XtBG5yfCNjGvg52X4Ir4cH0r6xtiXKWIJpOTQFBozD2g6ZM4GwHXd50t1uR24H
-         pTL0peWH/w8o7mennCwIwudPpiZRfUOLsEk2JuxYeEPa7Llz9jowYvOsF/mGg9Om3h
-         s82yyEklC7kA3rsTT4VEV7FwKt3bbu8MxtHfUbHm/X0lWoGwG5He5FLpEifhJjZxsa
-         bdXCEvzpr1ZCg==
-Message-ID: <761687537b8329eec19d4371ed46be6b@smtp-cloud7.xs4all.net>
-Date:   Mon, 08 Feb 2021 05:34:04 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfMg9J2cTv8URJXT+nXfW/Ye58GFUNvggjuh0jPmsOm89cFoAEgGTZn3bE8Nk6WOe4bM7EzpmAiwaO1qrRBSHtaSY/JA+X8GaLL7DUP/qxxVd0G5iYrsP
- 6kPYmMF9ZNKCivlOvmyGv/QRABJto3i5eyXySjcSe1gbdy2m2aZfLSD3XqlyUv0z5YFIxedPKMaU8v2SkyVHDeUCQ5HU24FJZnZ1yblFc62xT+CWMvhX5Yd/
- ZqZczMIQYExLwUHYNfZDIQ==
+        id S229565AbhBHFTq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 00:19:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229453AbhBHFTp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 00:19:45 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A9CC061756;
+        Sun,  7 Feb 2021 21:19:05 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id a16so7183488plh.8;
+        Sun, 07 Feb 2021 21:19:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mqsr8rkLfqpOE2FWxVDf35jXr09/PzAFAasrds1i32Q=;
+        b=TH814+FIgkw5Nwo9ObaMWOcJlW2Hh7hsrlBQaUrSclETVIFhAXJVspuPXAiG+0pfyA
+         cotIEqiz1piv77TF+mC4SeYJ1KugSbieP56GDHlyK++Pe4XjvKdfRKOYnbxvD0lRXoQa
+         n4WXSisSfJPbeMKtPx7M7YP1HZVfdHMvDdUlII3lT4HuIc5ak6ueJErLCGkB32UdNG98
+         AAiMx2V9tcNBfKdfxffg8k7N1yMc1BXAbOGhEELZexL1lwF2KWMS33tvwPrftxG3eAxm
+         RQ6/IDN78qubElIhXWqwQiFcIrDWRZOhwskGcu97shTDGydoYGqG8xqQEDhdpaWXbpSV
+         woBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mqsr8rkLfqpOE2FWxVDf35jXr09/PzAFAasrds1i32Q=;
+        b=RA86JBUlv/8PzXfr5c5t5NQ1RUIgT1F6qGNdXo2ZPOTKXZOaxryDneIjzbguTZFtfq
+         Fs728l8pUHzqQYJKrEpknuBI0rJMOLIvzaNcjht5b4MROVUfYW9fu6XIV0QTrKLaVTEV
+         Kv1nQ0GwxGlDMTLVdRkye1OT1wA+LESfRwXhpXyqgMXtYQcNdTY2rF4rea0Dh1p0jP6P
+         GSN5oooUM+lYyOlbNpuMTSddaxbtpCX5WNyvT0MppGSynsksYb8yc2eEn0HHXE8e/SzL
+         QIzLd4i62oGuPgCLN+YhBrNypvEobe7DzKetLw6Ibvp2NebprM1tLEN1woaGB+ws3U4Q
+         nOlQ==
+X-Gm-Message-State: AOAM533TYAtLOzKL5nsjM63MGYAmyfx7IfzsEr0eEUwcZwCWsxMOgGzo
+        v8IF9JllRAtKTEF2+kczoA8=
+X-Google-Smtp-Source: ABdhPJy5yVAFDziJbToPQj71lV5UZ1A2Pok5+B47uY6iWi4GFEAKB/g7EFqBdIFGTDJIWRh1qiP0bw==
+X-Received: by 2002:a17:90b:4a0b:: with SMTP id kk11mr15511727pjb.95.1612761544828;
+        Sun, 07 Feb 2021 21:19:04 -0800 (PST)
+Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id 1sm14644458pjk.34.2021.02.07.21.19.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Feb 2021 21:19:03 -0800 (PST)
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomasz Figa <tomasz.figa@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sergey.senozhatsky@gmail.com
+Subject: [PATCHv2 0/3] Add UVC 1.5 Region Of Interest control to uvcvideo
+Date:   Mon,  8 Feb 2021 14:17:46 +0900
+Message-Id: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+	Hello,
 
-Results of the daily build of media_tree:
+	RFC
 
-date:			Mon Feb  8 05:00:10 CET 2021
-media-tree git hash:	9746b11715c3949241e2d88cb9057da4adab7e02
-media_build git hash:	e980c694ef8ab2b472ecc26edaf97af214e587aa
-v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7349-g7fcfe2595
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+This patch set adds UVC 1.5 Region of Interest support.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: WARNINGS
-linux-5.1.21-x86_64: WARNINGS
-linux-5.2.21-i686: WARNINGS
-linux-5.2.21-x86_64: WARNINGS
-linux-5.3.18-i686: WARNINGS
-linux-5.3.18-x86_64: WARNINGS
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: WARNINGS
-linux-5.5.19-x86_64: WARNINGS
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.1-i686: OK
-linux-5.10.1-x86_64: OK
-linux-5.11-rc1-i686: OK
-linux-5.11-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+v1->v2:
+- Address Laurent's comments
 
-Detailed results are available here:
+Sergey Senozhatsky (3):
+  media: v4l UAPI docs: document ROI selection targets
+  media: uvcvideo: add ROI auto controls
+  media: uvcvideo: add UVC 1.5 ROI control
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+ .../media/v4l/ext-ctrls-camera.rst            |  25 +++
+ .../media/v4l/selection-api-configuration.rst |  23 +++
+ .../media/v4l/v4l2-selection-targets.rst      |  21 +++
+ drivers/media/usb/uvc/uvc_ctrl.c              |  19 +++
+ drivers/media/usb/uvc/uvc_v4l2.c              | 143 +++++++++++++++++-
+ include/uapi/linux/usb/video.h                |   1 +
+ include/uapi/linux/v4l2-common.h              |   8 +
+ include/uapi/linux/v4l2-controls.h            |   9 ++
+ 8 files changed, 246 insertions(+), 3 deletions(-)
 
-Detailed regression test results are available here:
+-- 
+2.30.0
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
