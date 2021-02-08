@@ -2,130 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F10B6314064
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 21:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 315C93140C2
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 21:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236866AbhBHUY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 15:24:58 -0500
-Received: from mga02.intel.com ([134.134.136.20]:51829 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236833AbhBHUXh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Feb 2021 15:23:37 -0500
-IronPort-SDR: zzYnv3LtoB005kWmfBDBMZDWhlcyrGGaW7owBxSl/Z5ZBxXUrzoGIxmrbNnjzsRqzMidI4zAK+
- 9hbKhX4RjeBQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168898420"
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
-   d="scan'208";a="168898420"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 12:21:51 -0800
-IronPort-SDR: D3ifbHwtH5uTd1WA/Ljp2FMEDMmcEdeaxPZP6u3SGlkNCW81vNNfUbNzuieTVgq+6wO7qTobuJ
- XOxPH7wqgN7g==
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
-   d="scan'208";a="411187625"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 12:21:49 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 79D17209D5; Mon,  8 Feb 2021 22:21:47 +0200 (EET)
-Date:   Mon, 8 Feb 2021 22:21:47 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S232256AbhBHUoP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 15:44:15 -0500
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:33132 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233895AbhBHUnc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 15:43:32 -0500
+Received: by mail-oi1-f169.google.com with SMTP id g84so3267013oib.0;
+        Mon, 08 Feb 2021 12:43:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lqbgn1lmL2cL5DYt9q9nSP49gv4U9EE3rDHuAVIFwLs=;
+        b=qft/sYYcFols294PwjcWccS/8VoqdKqyiSBSO1dy0mEKZw8g3BDBih3TRlzM1rl89x
+         v5jXmEjGvcU7F9Pxog1yOvWroSCwD06NmzErxUpMEt/fqd2iZg3KfNwwQb51wJUrUowY
+         JdZvCfPPfXI2Ps829WLfl2/PVH1Ap14zhC0UFHfZzTWAYAFVedEWipbjV21BuBie42h5
+         u4fher8C8z4TRJJH5lPE2p1LoAfuPnlrWyuCBk7diRutxuDa5kODwzd3jivE/DoEJG1L
+         uz98IulDElB2oIFYRgC9pPQpQja+dRPLuelu24fQaS4ARJ/9nGqLvbst8ulF8cxw2fDJ
+         c/8A==
+X-Gm-Message-State: AOAM532MmTg1RYfrLCiwEqfGpMUOFU2MBbhzBYEncG8OYl6deJALiFr7
+        /pfRmspWbXnRKwGPj6OhhiJLjhF7D5k5zdUcszA=
+X-Google-Smtp-Source: ABdhPJz342gs0SyK+2LHxFAU3QnGS+KMkgrV2esOCBS31UAWInYufgEEIXTFIpfhS9P27GfLBpAqGa3aFe5x61xVjPs=
+X-Received: by 2002:aca:d8c6:: with SMTP id p189mr386047oig.54.1612816971168;
+ Mon, 08 Feb 2021 12:42:51 -0800 (PST)
+MIME-Version: 1.0
+References: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 8 Feb 2021 21:42:39 +0100
+Message-ID: <CAMuHMdVgci8nJr_JDSPX1BdXpJkS9asBH7htsEdNVPSR9m06iQ@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: Kconfig: Make MAX9271 a module
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Next <linux-next@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] media: i2c: Kconfig: Make MAX9271 a module
-Message-ID: <20210208202147.GZ32460@paasikivi.fi.intel.com>
-References: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-On Mon, Feb 08, 2021 at 07:20:06PM +0100, Jacopo Mondi wrote:
+Thanks for your patch!
+
+On Mon, Feb 8, 2021 at 7:22 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
 > With the introduction of the RDACM21 camera module support in
 > commit a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
 > the symbols defined by the max9271 library were exported twice
 > if multiple users of the library were compiled in at the same time.
-> 
+>
 > In example:
 > WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
 > 'max9271_set_serial_link' exported twice. Previous export was in
 > drivers/media/i2c/rdacm20-camera_module.ko
-> 
+>
 > Fix this by making the rdacm21 file a module and have the driver
+
+max9271
+
 > using its functions select it.
-> 
+>
 > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
 > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/Kconfig  | 5 +++++
->  drivers/media/i2c/Makefile | 7 +++----
->  2 files changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 2d3dc0d82f9e..84645f751da3 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
-> 
->  source "drivers/media/i2c/m5mols/Kconfig"
-> 
-> +config VIDEO_MAX9271
 
-How about calling this VIDEO_MAX9271_HELPER instead? It's not a driver in
-the proper sense of the word.
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Gr{oetje,eeting}s,
 
-> +	tristate
-> +
->  config VIDEO_RDACM20
->  	tristate "IMI RDACM20 camera support"
->  	depends on I2C
->  	select V4L2_FWNODE
->  	select VIDEO_V4L2_SUBDEV_API
->  	select MEDIA_CONTROLLER
-> +	select VIDEO_MAX9271
->  	help
->  	  This driver supports the IMI RDACM20 GMSL camera, used in
->  	  ADAS systems.
-> @@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
->  	select V4L2_FWNODE
->  	select VIDEO_V4L2_SUBDEV_API
->  	select MEDIA_CONTROLLER
-> +	select VIDEO_MAX9271
->  	help
->  	  This driver supports the IMI RDACM21 GMSL camera, used in
->  	  ADAS systems.
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index 6bd22d63e1a7..c34a7de3158b 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
->  obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
->  obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
->  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
-> -rdacm20-camera_module-objs	:= rdacm20.o max9271.o
-> -obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
-> -rdacm21-camera_module-objs	:= rdacm21.o max9271.o
-> -obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
-> +obj-$(CONFIG_VIDEO_MAX9271)	+= max9271.o
-> +obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
-> +obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
->  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
-> 
->  obj-$(CONFIG_SDR_MAX2175) += max2175.o
+                        Geert
 
--- 
-Kind regards,
 
-Sakari Ailus
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
