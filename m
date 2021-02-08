@@ -2,97 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58519313C3C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 19:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B8EF313CB3
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 19:09:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235198AbhBHSDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 13:03:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46602 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235255AbhBHSAW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Feb 2021 13:00:22 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F0FBA64EB7;
-        Mon,  8 Feb 2021 17:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612807109;
-        bh=fZ0q/Z5Lh3LPbA+cPQP/1TqciNmcQO72beAeGZG/7fs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=diVMDA2rm+01grMPXMSUp9vyWtJgF5b47eoDPgXt907fVqHKWGhPE1tRNCGxUi1jB
-         0Hix7BnbuAWL8Nlq8DIRl7MbkuZ5DVcfLTcZrgm7soXX1I0TkFdojZ4Sw0VPzYdn1b
-         hRJIlz8PpnHU9EAJlr6L5WxvWspPdhy6G86jpY5oOCfPAH7LF2yTBA1CO+z780XAy/
-         obfbIxyqQ8ux7MUKuyt2g4kZiGHSzwbTPYj19a58RDMKhfeYd2WvCuQBm//WgGJM9F
-         Db62m8X5Tggvx00nth2/NUg7FFf5JF71uCQfrHUaqiv1QKt64KYrU0z97PW8nR/H9A
-         Zo8LgWlNDK3Yw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH AUTOSEL 5.10 16/36] media: rkisp1: stats: mask the hist_bins values
-Date:   Mon,  8 Feb 2021 12:57:46 -0500
-Message-Id: <20210208175806.2091668-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210208175806.2091668-1-sashal@kernel.org>
-References: <20210208175806.2091668-1-sashal@kernel.org>
+        id S235416AbhBHSIq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 13:08:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235417AbhBHSFw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 13:05:52 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19873C0611C2
+        for <linux-media@vger.kernel.org>; Mon,  8 Feb 2021 10:02:50 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id u25so23679971lfc.2
+        for <linux-media@vger.kernel.org>; Mon, 08 Feb 2021 10:02:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Gqu9h0id+w+7V6CVFEqbAEdHRrinmkebpGlAQt4kbuk=;
+        b=jA1UPfg+UJfwwx/gmdzqUJAVbw0lGSuN7P95LjM5eq5iVa2lPpevInPm5bMpf+xC7G
+         MFEPN8cWvWgADUDXFLQbZeOo36LnX+D+zsCQKx9AIfg9kDJ+KARC068fAB6FAvqyzX+V
+         K/J0iyWgKrsCyxicsHz9W+dwCECmuoUD3mnASufrRFCixQClJgRjDyFDSViz2F06jhOy
+         GKhwsLTYL9CrsuXB2qokSQxqaM66PVn1x6qAASmDaShfURMhzcibR1iamrwp9oO7xE8L
+         ImccXINYxP94EJywNhhhcR642FqwpWbR7ylc+tCpgCsgE8c9Qkz49roiiBHtweEWxhS+
+         tXsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Gqu9h0id+w+7V6CVFEqbAEdHRrinmkebpGlAQt4kbuk=;
+        b=RYokIJuYwXsqdmNQlCW7IXzKvb3EbR4bW3JWxHdeVhzLt53AY8Tsh7KV973v2SzHnO
+         sQ5zLRQuhNV1sbTR84TE//4J7odaPh1mS0YU/yO96x9h7tcY4/4YlBWt55GSHqCgc+uv
+         jC2Ec00yuXJYCb6I9F0lTCyuAI22hn3+ic/aMmL1//ObCTRwbI5/IEoFMg6v6hrRg3Z1
+         RfB2twderqmU8ITCeBWqmgON/e7forpCo99Kcsq071BP5ye/gPFtyl2bq+4ci7z8DIHR
+         KShCTmOJ+EJj8a0/HbZ99WPP9GVhY9V+DtNKg9nH5DjzXc7aSJ7EolsZLA/9lDle3olc
+         y6NQ==
+X-Gm-Message-State: AOAM533OUDfMiyiBY1nhUhe3JQqt8m7alWBPzjPI15/3ZN1gVD08ZmsJ
+        BHfxrTES6M9YqHv8+vUH0kpSIg==
+X-Google-Smtp-Source: ABdhPJzkc7zj1dm1sjw3sF4+OsY7b5tFhLS7Nrx2zUCg2F803d9cug2l2XpxACDUy8bxxZvlskPTIw==
+X-Received: by 2002:a05:6512:3457:: with SMTP id j23mr7557472lfr.305.1612807368198;
+        Mon, 08 Feb 2021 10:02:48 -0800 (PST)
+Received: from [192.168.118.216] ([85.249.43.69])
+        by smtp.gmail.com with ESMTPSA id v24sm671458ljg.27.2021.02.08.10.02.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Feb 2021 10:02:47 -0800 (PST)
+Subject: Re: [PATCH v4 11/22] media: camss: Add support for CSIPHY hardware
+ version Titan 170
+To:     Robert Foss <robert.foss@linaro.org>, todor.too@gmail.com,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        robh+dt@kernel.org, angelogioacchino.delregno@somainline.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Nicolas Boichat <drinkcat@chromium.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
+        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Marek <jonathan@marek.ca>
+References: <20210205104414.299732-1-robert.foss@linaro.org>
+ <20210205104414.299732-12-robert.foss@linaro.org>
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+Message-ID: <104e9dad-6819-119e-8f76-d83473374642@linaro.org>
+Date:   Mon, 8 Feb 2021 21:02:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20210205104414.299732-12-robert.foss@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Hi Robert,
 
-[ Upstream commit a802a0430b863f03bc01aaea2d2bf6ff464f03e7 ]
+Thank you for your patchset!
 
-hist_bins is an array of type __u32. Each entry represents
-a 20 bit value. So mask out the unused bits.
+On 05.02.2021 13:44, Robert Foss wrote:
+> Add register definitions for version 170 of the Titan architecture
+> and implement support for the CSIPHY subdevice.
+> 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>   .../qcom/camss/camss-csiphy-3ph-1-0.c         | 182 ++++++++++++++++--
+>   .../media/platform/qcom/camss/camss-csiphy.c  |  66 +++++--
+>   drivers/media/platform/qcom/camss/camss.c     |  74 +++++++
+>   3 files changed, 290 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 97cb9de85031..148b8c50382c 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -47,6 +47,105 @@
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID	BIT(1)
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(n)	(0x8b0 + 0x4 * (n))
+>   
+> +#define CSIPHY_DEFAULT_PARAMS            0
+> +#define CSIPHY_LANE_ENABLE               1
+> +#define CSIPHY_SETTLE_CNT_LOWER_BYTE     2
+> +#define CSIPHY_SETTLE_CNT_HIGHER_BYTE    3
+> +#define CSIPHY_DNP_PARAMS                4
+> +#define CSIPHY_2PH_REGS                  5
+> +#define CSIPHY_3PH_REGS                  6
+> +
+> +struct csiphy_reg_t {
+> +	int32_t  reg_addr;
+> +	int32_t  reg_data;
+> +	int32_t  delay;
+> +	uint32_t csiphy_param_type;
+> +};
+> +
+> +static const struct
+> +csiphy_reg_t lane_regs_sdm845[5][14] = {
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Acked-by: Helen Koike <helen.koike@collabora.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/staging/media/rkisp1/rkisp1-regs.h  | 1 +
- drivers/staging/media/rkisp1/rkisp1-stats.c | 8 +++++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+<snip>
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-regs.h b/drivers/staging/media/rkisp1/rkisp1-regs.h
-index 049f6c3a11df5..5819e58b2e557 100644
---- a/drivers/staging/media/rkisp1/rkisp1-regs.h
-+++ b/drivers/staging/media/rkisp1/rkisp1-regs.h
-@@ -365,6 +365,7 @@
- #define RKISP1_CIF_ISP_MAX_HIST_PREDIVIDER		0x0000007F
- #define RKISP1_CIF_ISP_HIST_ROW_NUM			5
- #define RKISP1_CIF_ISP_HIST_COLUMN_NUM			5
-+#define RKISP1_CIF_ISP_HIST_GET_BIN(x)			((x) & 0x000FFFFF)
- 
- /* AUTO FOCUS MEASUREMENT:  ISP_AFM_CTRL */
- #define RKISP1_ISP_AFM_CTRL_ENABLE			BIT(0)
-diff --git a/drivers/staging/media/rkisp1/rkisp1-stats.c b/drivers/staging/media/rkisp1/rkisp1-stats.c
-index 8fdf646c4b75b..e52ba9b154e90 100644
---- a/drivers/staging/media/rkisp1/rkisp1-stats.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-stats.c
-@@ -251,9 +251,11 @@ static void rkisp1_stats_get_hst_meas(struct rkisp1_stats *stats,
- 	unsigned int i;
- 
- 	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
--	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++)
--		pbuf->params.hist.hist_bins[i] =
--			rkisp1_read(rkisp1, RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
-+	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX; i++) {
-+		u32 reg_val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_HIST_BIN_0 + i * 4);
-+
-+		pbuf->params.hist.hist_bins[i] = RKISP1_CIF_ISP_HIST_GET_BIN(reg_val);
-+	}
- }
- 
- static void rkisp1_stats_get_bls_meas(struct rkisp1_stats *stats,
--- 
-2.27.0
+> @@ -208,6 +294,66 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
+>   
+>   	val = CSIPHY_3PH_LNn_MISC1_IS_CLKLANE;
+>   	writel_relaxed(val, csiphy->base + CSIPHY_3PH_LNn_MISC1(l));
+> +}
+> +
+> +static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
+> +				     u8 settle_cnt)
+> +{
+> +	int i, l;
+> +	u32 val;
+> +
+> +	for (l = 0; l < 5; l++) {
+> +		for (i = 0; i < 14; i++) {
+> +			struct csiphy_reg_t *r = &lane_regs_sdm845[l][i];
 
+- this line gives me a compilation warning :
+warning: initialization discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   306 |    struct csiphy_reg_t *r = &lane_regs_sdm845[l][i];
+
+Change it to:
+	const struct csiphy_reg_t *r = &lane_regs_sdm845[l][i];
+?
+
+Thanks,
+Andrey
