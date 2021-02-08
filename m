@@ -2,91 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A10AD3129E4
-	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 06:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D8003129E5
+	for <lists+linux-media@lfdr.de>; Mon,  8 Feb 2021 06:20:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbhBHFTq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 00:19:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37508 "EHLO
+        id S229654AbhBHFTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 00:19:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbhBHFTp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 00:19:45 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A9CC061756;
-        Sun,  7 Feb 2021 21:19:05 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id a16so7183488plh.8;
-        Sun, 07 Feb 2021 21:19:05 -0800 (PST)
+        with ESMTP id S229453AbhBHFTu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 00:19:50 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7684DC061786;
+        Sun,  7 Feb 2021 21:19:10 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id e12so7195223pls.4;
+        Sun, 07 Feb 2021 21:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mqsr8rkLfqpOE2FWxVDf35jXr09/PzAFAasrds1i32Q=;
-        b=TH814+FIgkw5Nwo9ObaMWOcJlW2Hh7hsrlBQaUrSclETVIFhAXJVspuPXAiG+0pfyA
-         cotIEqiz1piv77TF+mC4SeYJ1KugSbieP56GDHlyK++Pe4XjvKdfRKOYnbxvD0lRXoQa
-         n4WXSisSfJPbeMKtPx7M7YP1HZVfdHMvDdUlII3lT4HuIc5ak6ueJErLCGkB32UdNG98
-         AAiMx2V9tcNBfKdfxffg8k7N1yMc1BXAbOGhEELZexL1lwF2KWMS33tvwPrftxG3eAxm
-         RQ6/IDN78qubElIhXWqwQiFcIrDWRZOhwskGcu97shTDGydoYGqG8xqQEDhdpaWXbpSV
-         woBw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=tqO60tUqU9nr/XMWsc6/Nywy5Se8rNTmCzmhTijHWqw=;
+        b=EyjSoTUlvvCBWWcYTD5qORfML23WNYrePGcDk9Skk4+7Mt9Eucactnh8SBiixe6crI
+         h4AZp5VpxHyYxHJ99oYxrvagzkVTCPN90jOrFGBSMgoDuYFiNhO5K+Abz+u4OVvt7Sh8
+         mSCdh5iG6OwEDP+N92CjnhmLhQ6W4hNTVX5mWXbHQMXzLetHk3pVJvVhbGOpnQAzeEXE
+         rp39Q+kLjazS0YEwb9K18FUzWgh1I5yW/XFsI9UD1e2d4B5aVlWZpKqxfTmWQ8O6V713
+         Z7caLQtAQSH2KekybAU1meulj2X9ZJgBpINBfo/yzJvcKpB2mykiScbKNJMQoJZ/G6iz
+         TV3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mqsr8rkLfqpOE2FWxVDf35jXr09/PzAFAasrds1i32Q=;
-        b=RA86JBUlv/8PzXfr5c5t5NQ1RUIgT1F6qGNdXo2ZPOTKXZOaxryDneIjzbguTZFtfq
-         Fs728l8pUHzqQYJKrEpknuBI0rJMOLIvzaNcjht5b4MROVUfYW9fu6XIV0QTrKLaVTEV
-         Kv1nQ0GwxGlDMTLVdRkye1OT1wA+LESfRwXhpXyqgMXtYQcNdTY2rF4rea0Dh1p0jP6P
-         GSN5oooUM+lYyOlbNpuMTSddaxbtpCX5WNyvT0MppGSynsksYb8yc2eEn0HHXE8e/SzL
-         QIzLd4i62oGuPgCLN+YhBrNypvEobe7DzKetLw6Ibvp2NebprM1tLEN1woaGB+ws3U4Q
-         nOlQ==
-X-Gm-Message-State: AOAM533TYAtLOzKL5nsjM63MGYAmyfx7IfzsEr0eEUwcZwCWsxMOgGzo
-        v8IF9JllRAtKTEF2+kczoA8=
-X-Google-Smtp-Source: ABdhPJy5yVAFDziJbToPQj71lV5UZ1A2Pok5+B47uY6iWi4GFEAKB/g7EFqBdIFGTDJIWRh1qiP0bw==
-X-Received: by 2002:a17:90b:4a0b:: with SMTP id kk11mr15511727pjb.95.1612761544828;
-        Sun, 07 Feb 2021 21:19:04 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=tqO60tUqU9nr/XMWsc6/Nywy5Se8rNTmCzmhTijHWqw=;
+        b=NlzTUrGH3pMkVb1Vk9YPEftJGV6/qNZN5lTqWHz9wfYcn11AQXQsTifpQ+//BY6mmH
+         +8i5WF0SDCke8cBdaVKGk+Sstv42HCgtnr4mlvCzSBrq0Y+koGGtYlsweULNrK5/Zygf
+         1ybLApf5e50JZpXNE576zZOTm/NnFBhipRhJBZ2MdZSNF6ewmCwZ5DbLO5pYoKFFVDTF
+         ij7zm8B9z4KT5YoH5ra9v5cBV6j8O0zWaxnVoOY00cUIwb07VI+V9fsjEOQZ4PuLCnnm
+         AfezI6b76TIJHPkdWJq3g+0+HWPSkrjNN2MlbZH2waY13uaXvv8r3yzUD1JuGvSaTaya
+         kEsA==
+X-Gm-Message-State: AOAM533qth50goL5n0i+KkZnCl6JjKtDoOONuR9ebfM8QvgYgPQSEY4M
+        RM2loUlmeMxDGNwhl8ZrIeY=
+X-Google-Smtp-Source: ABdhPJyZEbLLoLgU1W8k6pSQYnLWWjWewiSfuvEx0NMO4jvbGSkY/ErOBSlqFP2PvKWKRqYJ9fgUmw==
+X-Received: by 2002:a17:90a:4548:: with SMTP id r8mr15489260pjm.16.1612761549914;
+        Sun, 07 Feb 2021 21:19:09 -0800 (PST)
 Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id 1sm14644458pjk.34.2021.02.07.21.19.01
+        by smtp.gmail.com with ESMTPSA id 1sm14644458pjk.34.2021.02.07.21.19.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Feb 2021 21:19:03 -0800 (PST)
+        Sun, 07 Feb 2021 21:19:09 -0800 (PST)
 From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Tomasz Figa <tomasz.figa@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sergey.senozhatsky@gmail.com
-Subject: [PATCHv2 0/3] Add UVC 1.5 Region Of Interest control to uvcvideo
-Date:   Mon,  8 Feb 2021 14:17:46 +0900
-Message-Id: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
+        sergey.senozhatsky@gmail.com,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCHv2 1/3] media: v4l UAPI docs: document ROI selection targets
+Date:   Mon,  8 Feb 2021 14:17:47 +0900
+Message-Id: <20210208051749.1785246-2-sergey.senozhatsky@gmail.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
+References: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-	Hello,
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
 
-	RFC
+Document new v4l2-selection target which will be used for the
+Region of Interest v4l2 control.
 
-This patch set adds UVC 1.5 Region of Interest support.
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ .../media/v4l/selection-api-configuration.rst | 23 +++++++++++++++++++
+ .../media/v4l/v4l2-selection-targets.rst      | 21 +++++++++++++++++
+ include/uapi/linux/v4l2-common.h              |  8 +++++++
+ 3 files changed, 52 insertions(+)
 
-v1->v2:
-- Address Laurent's comments
-
-Sergey Senozhatsky (3):
-  media: v4l UAPI docs: document ROI selection targets
-  media: uvcvideo: add ROI auto controls
-  media: uvcvideo: add UVC 1.5 ROI control
-
- .../media/v4l/ext-ctrls-camera.rst            |  25 +++
- .../media/v4l/selection-api-configuration.rst |  23 +++
- .../media/v4l/v4l2-selection-targets.rst      |  21 +++
- drivers/media/usb/uvc/uvc_ctrl.c              |  19 +++
- drivers/media/usb/uvc/uvc_v4l2.c              | 143 +++++++++++++++++-
- include/uapi/linux/usb/video.h                |   1 +
- include/uapi/linux/v4l2-common.h              |   8 +
- include/uapi/linux/v4l2-controls.h            |   9 ++
- 8 files changed, 246 insertions(+), 3 deletions(-)
-
+diff --git a/Documentation/userspace-api/media/v4l/selection-api-configuration.rst b/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
+index fee49bf1a1c0..9f69d71803f6 100644
+--- a/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
++++ b/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
+@@ -135,3 +135,26 @@ and the height of rectangles obtained using ``V4L2_SEL_TGT_CROP`` and
+ ``V4L2_SEL_TGT_COMPOSE`` targets. If these are not equal then the
+ scaling is applied. The application can compute the scaling ratios using
+ these values.
++
++Configuration of Region of Interest (ROI)
++=========================================
++
++The range of coordinates of the top left corner, width and height of
++areas that can be ROI is given by the ``V4L2_SEL_TGT_ROI_BOUNDS`` target.
++It is recommended for the driver developers to put the top/left corner
++at position ``(0,0)``. The rectangle's coordinates are in global sensor
++coordinates. The units are in pixels and independent of the field of view.
++They are not impacted by any cropping or scaling that is currently being
++used.
++
++The top left corner, width and height of the Region of Interest area
++currently being employed by the device is given by the
++``V4L2_SEL_TGT_ROI_CURRENT`` target. It uses the same coordinate system
++as ``V4L2_SEL_TGT_ROI_BOUNDS``.
++
++In order to change active ROI top left, width and height coordinates
++use ``V4L2_SEL_TGT_ROI`` target.
++
++Each capture device has a default ROI rectangle, given by the
++``V4L2_SEL_TGT_ROI_DEFAULT`` target. Drivers shall set the ROI rectangle
++to the default when the driver is first loaded, but not later.
+diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+index e877ebbdb32e..cb3809418fa6 100644
+--- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
++++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+@@ -69,3 +69,24 @@ of the two interfaces they are used.
+ 	modified by hardware.
+       - Yes
+       - No
++    * - ``V4L2_SEL_TGT_ROI_CURRENT``
++      - 0x0200
++      - Current Region of Interest rectangle.
++      - Yes
++      - No
++    * - ``V4L2_SEL_TGT_ROI_DEFAULT``
++      - 0x0201
++      - Suggested Region of Interest rectangle.
++      - Yes
++      - No
++    * - ``V4L2_SEL_TGT_ROI_BOUNDS``
++      - 0x0202
++      - Bounds of the Region of Interest rectangle. All valid ROI rectangles fit
++	inside the ROI bounds rectangle.
++      - Yes
++      - No
++    * - ``V4L2_SEL_TGT_ROI``
++      - 0x0203
++      - Sets the new Region of Interest rectangle.
++      - Yes
++      - No
+diff --git a/include/uapi/linux/v4l2-common.h b/include/uapi/linux/v4l2-common.h
+index 7d21c1634b4d..d0c108fba638 100644
+--- a/include/uapi/linux/v4l2-common.h
++++ b/include/uapi/linux/v4l2-common.h
+@@ -78,6 +78,14 @@
+ #define V4L2_SEL_TGT_COMPOSE_BOUNDS	0x0102
+ /* Current composing area plus all padding pixels */
+ #define V4L2_SEL_TGT_COMPOSE_PADDED	0x0103
++/* Current Region of Interest area */
++#define V4L2_SEL_TGT_ROI_CURRENT	0x0200
++/* Default Region of Interest area */
++#define V4L2_SEL_TGT_ROI_DEFAULT	0x0201
++/* Region of Interest bounds */
++#define V4L2_SEL_TGT_ROI_BOUNDS	0x0202
++/* Set Region of Interest area */
++#define V4L2_SEL_TGT_ROI		0x0203
+ 
+ /* Selection flags */
+ #define V4L2_SEL_FLAG_GE		(1 << 0)
 -- 
 2.30.0
 
