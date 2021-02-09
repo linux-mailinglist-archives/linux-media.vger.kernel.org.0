@@ -2,117 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4578314DAF
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 11:59:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E278314DDF
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 12:08:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231891AbhBIK6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 05:58:10 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:42968 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230253AbhBIKzu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 05:55:50 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 119AsCt8095823;
-        Tue, 9 Feb 2021 10:55:04 GMT
+        id S232141AbhBILIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Feb 2021 06:08:05 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:47678 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232054AbhBILFx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 06:05:53 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 119AxO3U067482;
+        Tue, 9 Feb 2021 11:05:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=xtYogTAfql/Tqk+4+VAYBRVj913mJOXSN7dD/2+g+i4=;
- b=aFQOZaE/MoU2249QEx1oKT36iKvznbnl6OmiTCukijOHgq6kZtmbwosQr+t6Jf3SiweH
- LfMOcYbMySTBT1Dp6AmSSJH4Ys87TgEi42ICVtG/yapnVf05iNC0tw1NRJOgqlBSWM9U
- VYykbG0GepZXG8Q0F0OB+V1AFKYDTRc1FpTZB6gelIGUb0kcg7YRYqxBacwVhRQr9cgC
- uMsvPFN/riRDbRoqWzA7NJr98AyswKYON8CejnQUOjEQlcp5mYajG9fVMlOEJvVa3+Jk
- f9SdR8EX8wh/Vis+O/pSLCtUZpJbz4x+Qj8o5MPQR7G/+DVbMfyinZYNotwoHHAW04B9 AA== 
+ bh=tEspa8XmO0tZoYE7LGX0k3IPGylPqpy6j7/xnL9v1DI=;
+ b=MwSgByMGHvGerBWImQC17OhwxscGsq+IkgYpaAqEuFJZ1N9rEfyGNmRcxO2aKmPnMYb8
+ zDNoPIbT7KqabE22+sdJeL0I019dso5OPHnA5+aRkVeVvRUuY/TvgYTNp5pxNfYbC2TK
+ JgY2BNbpvChy36dzeNvi1qtoZpDvekzCsqiYzjPU29u7BB+OsGvXdCyRpMraz09+tAyV
+ L+CjQ64wm+psFPEJwLliFKyqlSngiYHrK5a8xoovlinjIrKnFh+hz9aREkrzAyeElQ8t
+ Dz28rI3fBzZR+MDK314bD5In+yw9cuIoY3X8oJEsfA0hQ07xznbt6g1m29sZZfCAsvpV gw== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2120.oracle.com with ESMTP id 36hkrmy0jw-1
+        by aserp2120.oracle.com with ESMTP id 36hk2kf3er-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 09 Feb 2021 10:55:04 +0000
+        Tue, 09 Feb 2021 11:05:01 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 119AnsKc010388;
-        Tue, 9 Feb 2021 10:54:55 GMT
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 119Atv8o026988;
+        Tue, 9 Feb 2021 11:04:59 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 36j4pnhynp-1
+        by aserp3030.oracle.com with ESMTP id 36j4pnj9jf-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 09 Feb 2021 10:54:55 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 119AssNl002725;
-        Tue, 9 Feb 2021 10:54:54 GMT
+        Tue, 09 Feb 2021 11:04:59 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 119B4vsn010865;
+        Tue, 9 Feb 2021 11:04:57 GMT
 Received: from mwanda (/102.36.221.92)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 09 Feb 2021 02:54:53 -0800
-Date:   Tue, 9 Feb 2021 13:54:48 +0300
+        with ESMTP ; Tue, 09 Feb 2021 03:04:56 -0800
+Date:   Tue, 9 Feb 2021 14:04:48 +0300
 From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     martinax.krasteva@intel.com
-Cc:     linux-media@vger.kernel.org
-Subject: [bug report] media: i2c: Add imx334 camera sensor driver
-Message-ID: <YCJp+LrFNtVWAmr7@mwanda>
+To:     "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>
+Cc:     Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: i2c: imx334: Fix an error message
+Message-ID: <YCJsUCngklBkJMgw@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-Proofpoint-IMR: 1
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9889 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
  mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102090056
+ engine=8.12.0-2009150000 definitions=main-2102090057
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9889 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
- priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 mlxscore=0
- suspectscore=0 mlxlogscore=999 adultscore=0 clxscore=1011
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102090056
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
+ priorityscore=1501 clxscore=1011 impostorscore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102090057
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Martina Krasteva,
+The "ret" variable is uninitialized in this error message.
 
-The patch 9746b11715c3: "media: i2c: Add imx334 camera sensor driver"
-from Feb 3, 2021, leads to the following static checker warning:
+Fixes: 9746b11715c3 ("media: i2c: Add imx334 camera sensor driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+When new drivers are merged into the kernel, then could we use the
+driver prefix?  In other words something like this:
 
-	drivers/media/i2c/imx334.c:721 imx334_set_stream()
-	warn: pm_runtime_get_sync() also returns 1 on success
+media: i2c/imx334: Add imx334 camera sensor driver
 
-drivers/media/i2c/imx334.c
-   707  static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
-   708  {
-   709          struct imx334 *imx334 = to_imx334(sd);
-   710          int ret;
-   711  
-   712          mutex_lock(&imx334->mutex);
-   713  
-   714          if (imx334->streaming == enable) {
-   715                  mutex_unlock(&imx334->mutex);
-   716                  return 0;
-   717          }
-   718  
-   719          if (enable) {
-   720                  ret = pm_runtime_get_sync(imx334->dev);
-   721                  if (ret)
+ drivers/media/i2c/imx334.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This needs to be: "if (ret < 0)"
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index 07e31bc2ef18..7fbea7caef42 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -790,8 +790,9 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
+ 	imx334->reset_gpio = devm_gpiod_get_optional(imx334->dev, "reset",
+ 						     GPIOD_OUT_LOW);
+ 	if (IS_ERR(imx334->reset_gpio)) {
++		ret = PTR_ERR(imx334->reset_gpio);
+ 		dev_err(imx334->dev, "failed to get reset gpio %d", ret);
+-		return PTR_ERR(imx334->reset_gpio);
++		return ret;
+ 	}
+ 
+ 	/* Get sensor input clock */
+-- 
+2.30.0
 
-   722                          goto error_power_off;
-   723  
-   724                  ret = imx334_start_streaming(imx334);
-   725                  if (ret)
-   726                          goto error_power_off;
-   727          } else {
-   728                  imx334_stop_streaming(imx334);
-   729                  pm_runtime_put(imx334->dev);
-   730          }
-   731  
-   732          imx334->streaming = enable;
-   733  
-   734          mutex_unlock(&imx334->mutex);
-   735  
-   736          return 0;
-   737  
-   738  error_power_off:
-   739          pm_runtime_put(imx334->dev);
-   740          mutex_unlock(&imx334->mutex);
-   741  
-   742          return ret;
-   743  }
-
-regards,
-dan carpenter
