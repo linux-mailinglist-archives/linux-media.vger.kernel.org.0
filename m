@@ -2,119 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B07DC31477B
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 05:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAAF73147A4
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 05:42:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230156AbhBIEWz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Feb 2021 23:22:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbhBIEWT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Feb 2021 23:22:19 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C1D1C061786;
-        Mon,  8 Feb 2021 20:20:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=sYOLrwkXkQ/wTBJL5CfjQNM5168BJkTC/1z/8YWcojM=; b=fXwKS7sS3ah1LrEF+esyJcwvzu
-        Bxb3S0w0CGziI/jeD3PBUvQZ1ARrIZps/0mnrkbgZP8fJp57AByyUYYYDYnpGVd8hPZJHuPCtRWVa
-        0PjVV4i6KMkzjyCtARsptGPqE32u83SEdj8aCIRnS1eMXVHWBuEYZ6iWpwHElI/bM0upLiSsB/Dr+
-        Uqw8N/4sGy6MQ2FvWyUMBTvfcTmRkPX+xNbDg4+PleAv6Zk0hpRlpgNwSoR/vlld8ZG/c1UFhzTTZ
-        Tc2RUH7WrMyposFC9fSmnu4kLVso7oNoiNmzpUlO1VxqfuhTLeymc5ojYFMlc+TspDNMgvtLXhjnP
-        vsW8zHYA==;
-Received: from [2601:1c0:6280:3f0::cf3b]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l9KVV-0005YF-Sp; Tue, 09 Feb 2021 04:20:10 +0000
-Subject: Re: mmotm 2021-02-08-15-44 uploaded (drivers/media/i2c/rdacm2*.c)
-To:     akpm@linux-foundation.org, broonie@kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-next@vger.kernel.org, mhocko@suse.cz,
-        mm-commits@vger.kernel.org, sfr@canb.auug.org.au,
-        linux-media <linux-media@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-References: <20210208234508.iCc6kmL1z%akpm@linux-foundation.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2a0149a9-b1ae-6d41-f4d7-04108fcd1431@infradead.org>
-Date:   Mon, 8 Feb 2021 20:20:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <20210208234508.iCc6kmL1z%akpm@linux-foundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S230319AbhBIElD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Feb 2021 23:41:03 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:45769 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230346AbhBIEjt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Feb 2021 23:39:49 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 9KnplodW7W4yN9KnqlnNO5; Tue, 09 Feb 2021 05:39:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1612845546; bh=Ig8pZZcOIr03OkzPmib9+CpdNBmGIZTD+851b6+mig4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=XzreKn4xhCFMCHlf9we9Mxq+iqkPFAcJvFcOus1lK8GB/RrCvuIJWJnWSBgN1hxB0
+         yJFirnufWcY67TcQJnX0u0QqDBEwGysyY0oRgnqIItzaUICoCjv89znd2bsMLA0f+i
+         E5SFJq33OfFzpHhhM9kIbzqYQhSuWie0TgtGGRtmUsczPlDEXQmYC1sRcwAs/1xXFb
+         ykd+wLPFpQwailSyVU6EXfawUIX0Fglz143+CgY1KZ6AlENBmHl5qMeOQOxopF7GTo
+         PLFijAOXEfXh2rUvvAQ8TPBWLLqwuMyfmQSVbqtRMk52tvVkV7081QoxsS3oPI+Cik
+         kXXSSwjG7k2Hg==
+Message-ID: <9c6cf4afb1313407f4f277d58b70a18b@smtp-cloud8.xs4all.net>
+Date:   Tue, 09 Feb 2021 05:39:05 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfIhvbFXZWomM52a7amN9SDzdZPVMogoRllfrk0/HPVq4uTcdgprN2wbTaSGmH7gCT0Q/Jchg7ObkcD5SFS9GOVMpksUiTwZVy2R/LlarQvGZx7OvZE1M
+ MOGFyyQaAwKkL1WozFoGrNXrvn6pAburAPdlVzRrgPEe2Eo/Jxcbv1HAscoFSXGuwsI9C4e09p6SsE9if41QpyiQtNtB4ZYeOJuLFpi5jp3Q/iSzqMLRDKtf
+ v9tF55X/kbWnwdhS/0DMNw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/8/21 3:45 PM, akpm@linux-foundation.org wrote:
-> The mm-of-the-moment snapshot 2021-02-08-15-44 has been uploaded to
-> 
->    https://www.ozlabs.org/~akpm/mmotm/
-> 
-> mmotm-readme.txt says
-> 
-> README for mm-of-the-moment:
-> 
-> https://www.ozlabs.org/~akpm/mmotm/
-> 
-> This is a snapshot of my -mm patch queue.  Uploaded at random hopefully
-> more than once a week.
-> 
-> You will need quilt to apply these patches to the latest Linus release (5.x
-> or 5.x-rcY).  The series file is in broken-out.tar.gz and is duplicated in
-> https://ozlabs.org/~akpm/mmotm/series
-> 
-> The file broken-out.tar.gz contains two datestamp files: .DATE and
-> .DATE-yyyy-mm-dd-hh-mm-ss.  Both contain the string yyyy-mm-dd-hh-mm-ss,
-> followed by the base kernel version against which this patch series is to
-> be applied.
-> 
-> This tree is partially included in linux-next.  To see which patches are
-> included in linux-next, consult the `series' file.  Only the patches
-> within the #NEXT_PATCHES_START/#NEXT_PATCHES_END markers are included in
-> linux-next.
-> 
-> 
-> A full copy of the full kernel tree with the linux-next and mmotm patches
-> already applied is available through git within an hour of the mmotm
-> release.  Individual mmotm releases are tagged.  The master branch always
-> points to the latest release, so it's constantly rebasing.
-> 
-> 	https://github.com/hnaz/linux-mm
-> 
-> The directory https://www.ozlabs.org/~akpm/mmots/ (mm-of-the-second)
-> contains daily snapshots of the -mm tree.  It is updated more frequently
-> than mmotm, and is untested.
-> 
-> A git copy of this tree is also available at
-> 
-> 	https://github.com/hnaz/linux-mm
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-on x86_64:
-CONFIG_VIDEO_RDACM20=m
-CONFIG_VIDEO_RDACM21=m
+Results of the daily build of media_tree:
 
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_serial_link' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_configure_i2c' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_high_threshold' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_configure_gmsl_link' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_clear_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_enable_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_disable_gpios' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_verify_id' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_address' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_deserializer_address' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module: 'max9271_set_translation' exported twice. Previous export was in drivers/media/i2c/rdacm20-camera_module.ko
+date:			Tue Feb  9 05:00:11 CET 2021
+media-tree git hash:	9746b11715c3949241e2d88cb9057da4adab7e02
+media_build git hash:	a236fddff61e8357f3070effdf23e9b5f20b26e6
+v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7349-g7fcfe2595
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-powerpc64: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.200-i686: ERRORS
+linux-4.14.200-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: WARNINGS
+linux-5.0.21-x86_64: WARNINGS
+linux-5.1.21-i686: WARNINGS
+linux-5.1.21-x86_64: WARNINGS
+linux-5.2.21-i686: WARNINGS
+linux-5.2.21-x86_64: WARNINGS
+linux-5.3.18-i686: WARNINGS
+linux-5.3.18-x86_64: WARNINGS
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: WARNINGS
+linux-5.5.19-x86_64: WARNINGS
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
 
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
