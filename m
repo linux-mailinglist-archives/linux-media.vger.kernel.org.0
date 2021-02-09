@@ -2,90 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6FA83150B2
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 14:47:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CBAE3150DA
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 14:53:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231705AbhBINqy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 08:46:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46464 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231309AbhBINpF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Feb 2021 08:45:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 17EA264E0D;
-        Tue,  9 Feb 2021 13:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612878262;
-        bh=4h3GT5egqwm04FikNjpgIj9VjhyE6EXY+YLLVJe3RDo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R2CGMQtHpql1DsKZunw3zR/88ekQ3bGZVifWAMMQZbcrbzj/NWABv4t2+iLdPa4Ds
-         NRMF3396ygWqbmUrt8D+qmg4vU9yS+mGNxsjtQwIMgTCfQR2WtsCCR1yVA/CLLJqq8
-         p616TPIdWDd8m/vaNxp8Utv+/hyTawkZFCMFcVp4=
-Date:   Tue, 9 Feb 2021 14:44:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        devel@driverdev.osuosl.org,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.10 14/36] media: rkisp1: uapi: change hist_bins
- array type from __u16 to __u32
-Message-ID: <YCKRsxE23f7zJtkO@kroah.com>
-References: <20210208175806.2091668-1-sashal@kernel.org>
- <20210208175806.2091668-14-sashal@kernel.org>
- <12c8f50e-3bba-5936-6e67-55bd928a75c7@xs4all.nl>
- <e086d0f4-c5f0-e38c-8937-593852ac0b50@collabora.com>
- <YCKH0HvTxeYKg1xf@kroah.com>
- <3413d0af-bc8e-4a9d-e0a2-eea98febd4e9@xs4all.nl>
+        id S231585AbhBINwX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Feb 2021 08:52:23 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:56982 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231310AbhBINuu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 08:50:50 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 119Dhtw8165157;
+        Tue, 9 Feb 2021 13:49:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=d1jjadXMBwzrdg7nO1YU2bytlbDpho1QhHt2OrlPiP4=;
+ b=Ly7Jo6vxjsJTxqoDenLAtR6VGz6j1oQEwntIA2A+zt5/eo2c+DNuxTuV6vYbA5qAEaIg
+ 3rF71XRkSccftnGX2j/j6wwOu5uIwYWH5sjdCihTo4jRRojrOyGHU1zEaYXbrf1G0qMR
+ U8VabPP+PDnW1EGYrwssD+PAfmfItFdQR5Qj4VNB85GNY6LwAvORyOAYAQiZpj0P1fdp
+ 7sCeKB6CdO9Lc1TCTBdVZeYrMQXZquQ8+H/4veiTcmGi+6fl6Ju36+t7yo+8t0xqzphY
+ bPH/we6g/XKX1kWNe/fRg6OAyyVMVkUUHA4nCdvvkEo+WnkWiNzNeMz6fwQbldO1SPdM HQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2130.oracle.com with ESMTP id 36hgmafmk5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 09 Feb 2021 13:49:58 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 119DnteM079481;
+        Tue, 9 Feb 2021 13:49:57 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 36j4pnqbgx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 09 Feb 2021 13:49:56 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 119DnnZn019201;
+        Tue, 9 Feb 2021 13:49:49 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 09 Feb 2021 05:49:48 -0800
+Date:   Tue, 9 Feb 2021 16:49:39 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: imx334: Fix an error message
+Message-ID: <20210209134938.GP2696@kadam>
+References: <YCJsUCngklBkJMgw@mwanda>
+ <20210209120804.GD32460@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3413d0af-bc8e-4a9d-e0a2-eea98febd4e9@xs4all.nl>
+In-Reply-To: <20210209120804.GD32460@paasikivi.fi.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9889 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102090071
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9889 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ spamscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0
+ suspectscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102090070
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 02:39:41PM +0100, Hans Verkuil wrote:
-> On 09/02/2021 14:02, Greg Kroah-Hartman wrote:
-> > On Tue, Feb 09, 2021 at 01:45:35PM +0100, Dafna Hirschfeld wrote:
-> >>
-> >>
-> >> Am 08.02.21 um 21:46 schrieb Hans Verkuil:
-> >>> On 08/02/2021 18:57, Sasha Levin wrote:
-> >>>> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >>>>
-> >>>> [ Upstream commit 31f190e0ccac8b75d33fdc95a797c526cf9b149e ]
-> >>>>
-> >>>> Each entry in the array is a 20 bits value composed of 16 bits unsigned
-> >>>> integer and 4 bits fractional part. So the type should change to __u32.
-> >>>> In addition add a documentation of how the measurements are done.
-> >>>
-> >>> Dafna, Helen, does it make sense at all to backport these three patches to
-> >>> when rkisp1 was a staging driver?
-> >>>
-> >>> I would be inclined not to backport this.
-> >>
-> >> I also don't think it makes sense since this changes the uapi and it is not really a bug fix.
+On Tue, Feb 09, 2021 at 02:08:04PM +0200, Sakari Ailus wrote:
+> Hi Dan,
+> 
+> On Tue, Feb 09, 2021 at 02:04:48PM +0300, Dan Carpenter wrote:
+> > The "ret" variable is uninitialized in this error message.
 > > 
-> > Why was it ok to change the uapi in a newer kernel and not an older one?
+> > Fixes: 9746b11715c3 ("media: i2c: Add imx334 camera sensor driver")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 > 
-> In the older kernels this was a staging driver and the driver API was not public.
-> It's debatable whether there is any benefit from trying to backport patches like
-> this to a staging driver like that.
+> Thanks for the patch. This has been already addressed by a patch from Hans
+> (but not merged yet):
 > 
-> Also, these backports are incomplete, there are other patches that would need to
-> be applied to make this work. Applying just these three patches without the other
-> three (commits 66d81de7ea9d, fc672d806bd7 and ef357e02b6c4) makes it very messy
-> indeed.
+> <URL:https://patchwork.linuxtv.org/project/linux-media/patch/917ccfef-b93e-4d90-0b5a-4974145ab187@xs4all.nl/>
 > 
-> I'd just leave the staging driver in older kernels as-is. Certainly don't just
-> apply these three patches without the other three commits, that would make it
-> even worse.
+> > ---
+> > When new drivers are merged into the kernel, then could we use the
+> > driver prefix?  In other words something like this:
+> > 
+> > media: i2c/imx334: Add imx334 camera sensor driver
+> 
+> We've usually had driver's name and Mauro's scripts add media: prefix ---
+> unless it's already there. Are you suggesting also the bus should be part
+> of it?
 
-Fair enough, Sasha, can you drop these?
+No, what I'm saying is when people add a new driver they do:
 
-thanks,
+[PATCH] subsystem: Add new driver for foo345
 
-greg k-h
+But it would be better if they added "foo345" to the prefix.
+
+[PATCH] subsystem: foo345: Add new driver for foo345
+
+Doing it the way that I'm suggesting has become more common for the past
+four years.  Four years ago was when I started complaining that I can't
+guess the correct prefix for new drivers.  That was also the last time
+that someone complained to me that I had used the incorrect patch prefix.
+I would argue that Hans used the wrong patch prefix for his patch so
+maybe we have just become more mellow these days.
+
+And also I'm surprised that Mauro adds the media: prefix for you instead
+of making everyone do it themselves...  He's the only person who does
+this that I know of.
+
+regards,
+dan carpenter
