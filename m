@@ -2,108 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A634C3153C5
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 17:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 473E43153C1
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 17:26:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232825AbhBIQZp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 11:25:45 -0500
-Received: from mga02.intel.com ([134.134.136.20]:17253 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232814AbhBIQZg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S231355AbhBIQZg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 9 Feb 2021 11:25:36 -0500
-IronPort-SDR: ym0iuQY2FX9LiyE2ZsxsNhxXRoap+8iVZcFoy4IZT0FxVb0zsDRghdfVyq+ygpbDiKJ4v7/Iga
- UNWVi4Ig7X8w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="169032185"
-X-IronPort-AV: E=Sophos;i="5.81,165,1610438400"; 
-   d="scan'208";a="169032185"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 08:23:49 -0800
-IronPort-SDR: xHdI5y8rC6KV+cXeXn6S8HlQ+eoX0wTgOEDIuAns3YtTuNrvpwktjbmW8v11u4v6gGJjhV4CHc
- GyY7JGwAf3Qw==
-X-IronPort-AV: E=Sophos;i="5.81,165,1610438400"; 
-   d="scan'208";a="436239479"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 08:23:46 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 068EC206D0; Tue,  9 Feb 2021 18:23:44 +0200 (EET)
-Date:   Tue, 9 Feb 2021 18:23:43 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v10 7/7] at24: Support probing while off
-Message-ID: <20210209162343.GF32460@paasikivi.fi.intel.com>
-References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
- <20210205132505.20173-8-sakari.ailus@linux.intel.com>
- <CAMpxmJU7J9JBSwCN+GLDpuOL=iZ1PH=oZZuGiAyovuf2TQ=o9A@mail.gmail.com>
- <CAJZ5v0jUqtYDpBn-ezsftCrY=9iD3sAKhyyFf_+CMkthLnsZow@mail.gmail.com>
- <CAMpxmJW61Bd1SR3-i6=OV6RgafiEdfp4sNN0M6EYa7NSeOTFKg@mail.gmail.com>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38198 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232788AbhBIQZ2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 11:25:28 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9517C061756
+        for <linux-media@vger.kernel.org>; Tue,  9 Feb 2021 08:24:48 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id v15so22677340wrx.4
+        for <linux-media@vger.kernel.org>; Tue, 09 Feb 2021 08:24:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9TLaDgatP2Xt+egeFYNr+TucPIqd2fc4Kcp37i6XeZU=;
+        b=FD1tuZpn5SYSBKRk3kPF5/MnZlYbpREUTYB6CmvrYS0Ym1EliV4yWp6zuDT0NtdM5Y
+         YZhtMr/577XlxPCUYFpAVdL7VWzTmgK8U5bDQF3mb2A0+6wIPW1L/nO0wgj6qjX1LfMp
+         wp80W7qzQvL+dEGhWGma4JfSli/2NO+z0x3PDxtxhTKNpJ8mBsVrIovXqGM+zIqWoQPd
+         3RIBQR/Y6Wfm/J3mrZCarPbkLVmJBCRbZwCHgcabJaJBAu5hft22GZzDf2uTpXZtD3um
+         QDtZjTeXUauNKlWqOJkO6Yt10FRThJHRK//FxESmaRH2xdNiWqoodatcOccRwwiJIidF
+         2f/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9TLaDgatP2Xt+egeFYNr+TucPIqd2fc4Kcp37i6XeZU=;
+        b=i5nVZ+z/dGCmcgX7YOzQZ70cs+lT9A0eeBF/WfH5kxwC8yjJTuVZh+GUTDP7K7u4wi
+         lT3qlgYM1kdUVqyj0LE64gn+I5RKpjDdFq9CyFfqUzG1ByrJfsW5AZo1UvoHakplrUaq
+         LJPvSSvE5ps2f+T2j/486nLQBB6rW9Xe9sdtV+hkhIdDlD+2XAZy5aHm6PgzqUlnCZaF
+         bZvlh3NH/JqmNV7uRnN5I//ddzp1nS+l/2IYp64Pi/j+HilRyBKzN0cdxgf5p7GYz3rn
+         r1GHU65Q6E2vtcSo09uBMexlLY9AVWgijErex8s80meED9IVNydOROC5G9fGAiDl+uaX
+         tTtQ==
+X-Gm-Message-State: AOAM533h7NTncPXmaZbIpaRB/Qpo144vVoL8/IkxsDoU8N8HLHTLPY8c
+        bAWQuusXVoCHOxfiLFzVUi/MWBf5yzub69vA
+X-Google-Smtp-Source: ABdhPJyxeaadeTUv+5Rwwh3zng/Xfb/iEXbKMQphunUGXsEyzUeJxyIHW1T+IOn4QcnZX7sv5VblwA==
+X-Received: by 2002:a05:6000:1374:: with SMTP id q20mr25458524wrz.44.1612887886375;
+        Tue, 09 Feb 2021 08:24:46 -0800 (PST)
+Received: from localhost.localdomain (hst-221-125.medicom.bg. [84.238.221.125])
+        by smtp.gmail.com with ESMTPSA id w8sm45210wrm.21.2021.02.09.08.24.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 08:24:45 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v5 0/5] HDR10 static metadata
+Date:   Tue,  9 Feb 2021 18:24:20 +0200
+Message-Id: <20210209162425.3970393-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMpxmJW61Bd1SR3-i6=OV6RgafiEdfp4sNN0M6EYa7NSeOTFKg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bartosz, Rafael,
+Changes since v4:
+  * 1/5 - fixed a typo (Hans)
+  * 2/5 - add some mode info about new colorimetry class (Hans)
+  * 4/5 - correct cd/m2 -> cd/m\ :sup:`2`
+        - change to US spelling for color word
+        - use correct v4l2_ctrl_type in videodev2.h.rst.exceptions
+        - documented p_hdr10_cll and p_hdr10_mastering in vidioc-g-ext-ctrls.rst
 
-On Tue, Feb 09, 2021 at 04:49:37PM +0100, Bartosz Golaszewski wrote:
-> On Mon, Feb 8, 2021 at 5:54 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >
-> > On Mon, Feb 8, 2021 at 5:44 PM Bartosz Golaszewski
-> > <bgolaszewski@baylibre.com> wrote:
-> > >
-> > > On Fri, Feb 5, 2021 at 2:25 PM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> > > >
-> > > > In certain use cases (where the chip is part of a camera module, and the
-> > > > camera module is wired together with a camera privacy LED), powering on
-> > > > the device during probe is undesirable. Add support for the at24 to
-> > > > execute probe while being powered off. For this to happen, a hint in form
-> > > > of a device property is required from the firmware.
-> > > >
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-> > > > ---
-> > >
-> > > I'll ack this but I still claim that the name
-> > > acpi_dev_state_low_power() is super misleading for this use-case and
-> > > I've been saying that for 10 versions now with everyone just ignoring
-> > > my remarks. :/
-> >
-> > Well, the function in question simply checks if the current ACPI power
-> > state of the device is different from "full power", so its name
-> > appears to be quite adequate to me.
-> >
-> > If the way in which it is used is confusing, though, I guess
-> > explaining what's going on would be welcome.
-> >
-> 
-> Yes, I have explained it multiple time already - last time at v9 of this series:
-> 
->     https://www.spinics.net/lists/kernel/msg3816807.html
+Comments are welcome!        
 
-How about adding this to the description of acpi_dev_state_low_power():
+regards,
+Stan
+        
+Stanimir Varbanov (5):
+  v4l: Add new Colorimetry Class
+  docs: Document colorimetry class
+  v4l: Add HDR10 static metadata controls
+  docs: Document CLL and Mastering display colorimetry controls
+  venus: venc: Add support for CLL and Mastering display controls
 
------------8<--------------
- * This function is intended to be used by drivers to tell whether the device
- * is in low power state (D1--D3cold) in driver's probe or remove function. See
- * Documentation/firmware-guide/acpi/low-power-probe.rst for more information.
------------8<--------------
+ .../userspace-api/media/v4l/common.rst        |  1 +
+ .../media/v4l/ext-ctrls-colorimetry.rst       | 93 +++++++++++++++++++
+ .../media/v4l/vidioc-g-ext-ctrls.rst          | 12 +++
+ .../media/videodev2.h.rst.exceptions          |  2 +
+ drivers/media/platform/qcom/venus/core.h      |  2 +
+ drivers/media/platform/qcom/venus/hfi_cmds.c  |  8 ++
+ .../media/platform/qcom/venus/hfi_helper.h    | 20 ++++
+ drivers/media/platform/qcom/venus/venc.c      | 29 ++++++
+ .../media/platform/qcom/venus/venc_ctrls.c    | 16 +++-
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 74 ++++++++++++++-
+ include/media/v4l2-ctrls.h                    |  4 +
+ include/uapi/linux/v4l2-controls.h            | 35 +++++++
+ include/uapi/linux/videodev2.h                |  3 +
+ 13 files changed, 297 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
 
 -- 
-Kind regards,
+2.25.1
 
-Sakari Ailus
