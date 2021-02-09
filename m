@@ -2,106 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90385315099
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 14:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFCC93150A5
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 14:45:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbhBINnM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 08:43:12 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:38087 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231135AbhBINkl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Feb 2021 08:40:41 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 9TEzlxyODfJJC9TF2lblLA; Tue, 09 Feb 2021 14:39:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612877985; bh=wDKgogZmfV7JshEhGuqAk/26415rZeY12aI+VdHdmbk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=TMp21cuI1Mu94Zo4VdnvDAipJ5u1BCz7VPbfNqxdUqkwEgZ10ZR4drEK/648XVgIH
-         USPKPKEgdOD3J/M2y7JtSsIXheg1ZCU68KuyDv5FKH5HiDalPnD+wkut3mvO1SbJpw
-         SVpeGiaBnXf+WazLI8RXJoNNA6j5/mouJ/QNV8A9075kIC4YVg6GtoVXkIu2uA0T9Y
-         wCb/oqYr8/kcNDLtNzE5tnV1Ap8N0rXNmq32LAMOAlqYQrSe9n9JOd6zHx4BNjjsBm
-         Ih9hCmiN2wOEyhWVny6m9cGew4d3PY1A7MohQxMPnGcJhHima8u4TUOdzYBntGe1At
-         ak70rDyLpM4vw==
-Subject: Re: [PATCH AUTOSEL 5.10 14/36] media: rkisp1: uapi: change hist_bins
- array type from __u16 to __u32
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        devel@driverdev.osuosl.org,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org
-References: <20210208175806.2091668-1-sashal@kernel.org>
- <20210208175806.2091668-14-sashal@kernel.org>
- <12c8f50e-3bba-5936-6e67-55bd928a75c7@xs4all.nl>
- <e086d0f4-c5f0-e38c-8937-593852ac0b50@collabora.com>
- <YCKH0HvTxeYKg1xf@kroah.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <3413d0af-bc8e-4a9d-e0a2-eea98febd4e9@xs4all.nl>
-Date:   Tue, 9 Feb 2021 14:39:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S230308AbhBINpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Feb 2021 08:45:39 -0500
+Received: from lahtoruutu.iki.fi ([185.185.170.37]:51034 "EHLO
+        lahtoruutu.iki.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231636AbhBINnh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 08:43:37 -0500
+Received: from hillosipuli.retiisi.eu (dbd4xkyj7wcfw2k22jcct-3.rev.dnainternet.fi [IPv6:2001:14ba:8f1:3400:fb90:892b:22d6:3885])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 69E421B00107
+        for <linux-media@vger.kernel.org>; Tue,  9 Feb 2021 15:42:50 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1612878170;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=J7CAsJ7LT4/hO00gmjdPpEclkZGwO+X/rhBP6PwE93M=;
+        b=OczqD64IPR7Kk+CSOu8HNXtmiO/m7Q0B9yPfZoug3ayeHj/k4xhtT4jI6D8A7AZ5/GDFBG
+        K/pb9wQcDEkk7AUNZMIeIrUPwIC8u04TccxGbsjeCZ3XzrgXseAW1NSj2dtCu+538OIFFq
+        Vazy/YcLSMsEQoAv7LcBech79Lz/4yan7ZA3EfVFAxd5JbY++QcNnerRMkJY7SXUjYbGht
+        cQerBbiey3R1K78sHDcWlUUJRNP+qVKG0IHPaZNQasLMHgVG3UE43zaciP5BsgWqC1FEju
+        zCifqpBtMmTldNCNg0+IDwCESjaBxGnSvAbuAozYxWX7/Ynas1vFpRSF2+myHw==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E016B634C93
+        for <linux-media@vger.kernel.org>; Tue,  9 Feb 2021 15:42:14 +0200 (EET)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.org.uk)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1l9THz-0005Cn-PG
+        for linux-media@vger.kernel.org; Tue, 09 Feb 2021 15:42:47 +0200
+Date:   Tue, 9 Feb 2021 15:42:47 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for 5.12] IMX334 fix
+Message-ID: <20210209134247.GH3@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <YCKH0HvTxeYKg1xf@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfB1UCHFFh/Ei5Mx3bDBWVch7Hs7bPP+TGm9rL8g9DcTqiZnMVRIAXXVymemK5/rft1wcwX7NFK4VP/ysfuNY2P7eTJB7XqxUb+QQDHem8QjOscUnsO27
- P3KAerXqMc+5J07IfE81LLeCngHJBv42cV/iFrbO3beqD/Yv+tTuC4kIWih+mQq3EJCTvRhkAOaO137DuO+HpDQSOgAhntAj7y184IBJWXzPzCrynqgiGuBf
- haCiaAvwNo6qf4mITC5QaTASdKMl5daa8ctXFC30LHyrKrq8ASsUdjB0WvmVD4zDrPGOFI7qYsxsO9pegszXZn3q9qZChHs7n9ElODXzsioIRjE0Vfn647Eg
- bNUVePmfUYGaAdwrTQeulumxi99zpHHbKtBugrJp68BPd683kNI+n6OWNXTsckmTa3ij1TfO09gpmTwjnwc1x9pGelKYM+yMqwwGJ6UdTVZzOe4M03AQlFbi
- zlIzIIJ6QubxPWR06rQinp6usR/9Xq5S78NQoA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1612878170; a=rsa-sha256;
+        cv=none;
+        b=P9qJKv5zQedu81j+k3GEgqvB/AFzKobGYjVEou+hLOoStoFHbQBKD/m+zZcs5kqszarc1/
+        cogyavTKi5GxeosJ72NVX4gLjkiSkYwZfFkTiBwtCeqeSgcFqHbVsGvtX7m29WSHe2ubaJ
+        Or7Dysmfyu9mQc0+1fdkTR36jYZ4hTa6tjNeQharRcw0R1nyL14eRPE74DiEmTlm6HdCD6
+        iOPEE73oiWB7+vt7Pq3WAUR4fCeydEB5zXWvLA+BI/1g675p+4LwBtbezNhU0uIpsrgYvf
+        IcAF18U1nfPUZSZqPUhB7xfiELGzid61c4zRmB5jWJfgoIOsiwbVlUlXWb/WVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1612878170;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=J7CAsJ7LT4/hO00gmjdPpEclkZGwO+X/rhBP6PwE93M=;
+        b=EfuVBFvJINNSY/iFUt/HLt6NuxsdXnKvEKozSictxGcPFz8xrpj4KEzMWxRPN/+0715rYF
+        RAAZQoyC8CMgeJoFBivKsxfgpeRZA9EkHC5hQcOVxBSCEsIbWgfpKcIqqvH0ztCj7Fj8D1
+        M4r8a2p3xi3nRdU7EQ2Ngjb2WSR1D/OMeEuZofS6ZKhmjYO9ltJSmP4uNWbSDP+NxtYDbz
+        EA7w+dX3XVzQ8LsFF6vgC8HAcBZHFa801/P3XTV77EY7QerXAoqgRDpuoStOgmi7yHhE9c
+        Nesykrl8fT7+WmW+O8jatJo9Y0CIEMr4+Gv9c9OZvEluj92Bai/CQ4mGwoA2Rg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/02/2021 14:02, Greg Kroah-Hartman wrote:
-> On Tue, Feb 09, 2021 at 01:45:35PM +0100, Dafna Hirschfeld wrote:
->>
->>
->> Am 08.02.21 um 21:46 schrieb Hans Verkuil:
->>> On 08/02/2021 18:57, Sasha Levin wrote:
->>>> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>
->>>> [ Upstream commit 31f190e0ccac8b75d33fdc95a797c526cf9b149e ]
->>>>
->>>> Each entry in the array is a 20 bits value composed of 16 bits unsigned
->>>> integer and 4 bits fractional part. So the type should change to __u32.
->>>> In addition add a documentation of how the measurements are done.
->>>
->>> Dafna, Helen, does it make sense at all to backport these three patches to
->>> when rkisp1 was a staging driver?
->>>
->>> I would be inclined not to backport this.
->>
->> I also don't think it makes sense since this changes the uapi and it is not really a bug fix.
-> 
-> Why was it ok to change the uapi in a newer kernel and not an older one?
+Hi Mauro,
 
-In the older kernels this was a staging driver and the driver API was not public.
-It's debatable whether there is any benefit from trying to backport patches like
-this to a staging driver like that.
+Here's a fix for the IMX334 driver compiler warning.
 
-Also, these backports are incomplete, there are other patches that would need to
-be applied to make this work. Applying just these three patches without the other
-three (commits 66d81de7ea9d, fc672d806bd7 and ef357e02b6c4) makes it very messy
-indeed.
+Please pull.
 
-I'd just leave the staging driver in older kernels as-is. Certainly don't just
-apply these three patches without the other three commits, that would make it
-even worse.
 
-Regards,
+The following changes since commit 9746b11715c3949241e2d88cb9057da4adab7e02:
 
-	Hans
+  media: i2c: Add imx334 camera sensor driver (2021-02-06 09:42:24 +0100)
 
-> 
-> thanks,
-> 
-> greg k-h
-> 
+are available in the Git repository at:
 
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.12-6-signed
+
+for you to fetch changes up to 0ea9940a83734f698c2bfe77794b4f257d872b44:
+
+  imx334: 'ret' is uninitialized, should have been PTR_ERR() (2021-02-08 14:17:02 +0200)
+
+----------------------------------------------------------------
+IMX334 fix
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      imx334: 'ret' is uninitialized, should have been PTR_ERR()
+
+ drivers/media/i2c/imx334.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+-- 
+Sakari Ailus
