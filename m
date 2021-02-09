@@ -2,93 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CA30315866
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 22:16:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F79231590A
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 23:00:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234380AbhBIVNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 16:13:47 -0500
-Received: from sauhun.de ([88.99.104.3]:33320 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233684AbhBIVF7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Feb 2021 16:05:59 -0500
-Received: from localhost (p5486c396.dip0.t-ipconnect.de [84.134.195.150])
-        by pokefinder.org (Postfix) with ESMTPSA id 731632C04E4;
-        Tue,  9 Feb 2021 22:04:13 +0100 (CET)
-Date:   Tue, 9 Feb 2021 22:04:10 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-i2c@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 2/7] i2c: Allow an ACPI driver to manage the device's
- power state during probe
-Message-ID: <20210209210410.GA2380@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@the-dreams.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-i2c@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
- <20210205132505.20173-3-sakari.ailus@linux.intel.com>
+        id S233156AbhBIVzJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Feb 2021 16:55:09 -0500
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:60033
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234385AbhBIVOj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Feb 2021 16:14:39 -0500
+X-IronPort-AV: E=Sophos;i="5.81,166,1610406000"; 
+   d="scan'208";a="372589600"
+Received: from palace.lip6.fr ([132.227.105.202])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-SHA; 09 Feb 2021 22:13:37 +0100
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kernel-janitors@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Andy Walls <awalls@md.metrocast.net>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Subject: [PATCH] media: use getter/setter functions
+Date:   Tue,  9 Feb 2021 22:13:33 +0100
+Message-Id: <20210209211333.1261893-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
-Content-Disposition: inline
-In-Reply-To: <20210205132505.20173-3-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Use getter and setter functions, for a variety of data types.
 
---cNdxnHkX5QqsyA0e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
+---
+ drivers/media/pci/ivtv/ivtv-driver.c  |    2 +-
+ drivers/media/platform/fsl-viu.c      |    6 +++---
+ drivers/media/platform/pxa_camera.c   |    4 ++--
+ drivers/media/radio/radio-maxiradio.c |    2 +-
+ drivers/media/spi/cxd2880-spi.c       |    4 ++--
+ 5 files changed, 9 insertions(+), 9 deletions(-)
 
-> + * @I2C_DRV_FL_ALLOW_LOW_POWER_PROBE: Let the ACPI driver manage the device's
-> + *				      power state during probe and remove
+diff --git a/drivers/media/pci/ivtv/ivtv-driver.c b/drivers/media/pci/ivtv/ivtv-driver.c
+index 6e448cb3b51c..c4a069b3b9d1 100644
+--- a/drivers/media/pci/ivtv/ivtv-driver.c
++++ b/drivers/media/pci/ivtv/ivtv-driver.c
+@@ -1393,7 +1393,7 @@ int ivtv_init_on_first_open(struct ivtv *itv)
+ 
+ static void ivtv_remove(struct pci_dev *pdev)
+ {
+-	struct v4l2_device *v4l2_dev = dev_get_drvdata(&pdev->dev);
++	struct v4l2_device *v4l2_dev = pci_get_drvdata(pdev);
+ 	struct ivtv *itv = to_ivtv(v4l2_dev);
+ 	int i;
+ 
+diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
+index 4077217777f9..931ec0727cd3 100644
+--- a/drivers/media/spi/cxd2880-spi.c
++++ b/drivers/media/spi/cxd2880-spi.c
+@@ -535,7 +535,7 @@ cxd2880_spi_probe(struct spi_device *spi)
+ 
+ 	dvb_spi->spi = spi;
+ 	mutex_init(&dvb_spi->spi_mutex);
+-	dev_set_drvdata(&spi->dev, dvb_spi);
++	spi_set_drvdata(spi, dvb_spi);
+ 	config.spi = spi;
+ 	config.spi_mutex = &dvb_spi->spi_mutex;
+ 
+@@ -632,7 +632,7 @@ cxd2880_spi_remove(struct spi_device *spi)
+ 		return -EINVAL;
+ 	}
+ 
+-	dvb_spi = dev_get_drvdata(&spi->dev);
++	dvb_spi = spi_get_drvdata(spi);
+ 
+ 	if (!dvb_spi) {
+ 		pr_err("failed\n");
+diff --git a/drivers/media/radio/radio-maxiradio.c b/drivers/media/radio/radio-maxiradio.c
+index ad488ecbd16c..de107e2cbcd6 100644
+--- a/drivers/media/radio/radio-maxiradio.c
++++ b/drivers/media/radio/radio-maxiradio.c
+@@ -176,7 +176,7 @@ static int maxiradio_probe(struct pci_dev *pdev,
+ 
+ static void maxiradio_remove(struct pci_dev *pdev)
+ {
+-	struct v4l2_device *v4l2_dev = dev_get_drvdata(&pdev->dev);
++	struct v4l2_device *v4l2_dev = pci_get_drvdata(pdev);
+ 	struct maxiradio *dev = to_maxiradio(v4l2_dev);
+ 
+ 	snd_tea575x_exit(&dev->tea);
+diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
+index 75fad9689c90..88a16cfeced8 100644
+--- a/drivers/media/platform/pxa_camera.c
++++ b/drivers/media/platform/pxa_camera.c
+@@ -2398,7 +2398,7 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 
+ 	pxa_camera_activate(pcdev);
+ 
+-	dev_set_drvdata(&pdev->dev, pcdev);
++	platform_set_drvdata(pdev, pcdev);
+ 	err = v4l2_device_register(&pdev->dev, &pcdev->v4l2_dev);
+ 	if (err)
+ 		goto exit_deactivate;
+@@ -2455,7 +2455,7 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 
+ static int pxa_camera_remove(struct platform_device *pdev)
+ {
+-	struct pxa_camera_dev *pcdev = dev_get_drvdata(&pdev->dev);
++	struct pxa_camera_dev *pcdev = platform_get_drvdata(pdev);
+ 
+ 	pxa_camera_deactivate(pcdev);
+ 	tasklet_kill(&pcdev->task_eof);
+diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
+index 1f1042d5c865..a4bfa70b49b2 100644
+--- a/drivers/media/platform/fsl-viu.c
++++ b/drivers/media/platform/fsl-viu.c
+@@ -1529,7 +1529,7 @@ static int viu_of_probe(struct platform_device *op)
+ 
+ static int viu_of_remove(struct platform_device *op)
+ {
+-	struct v4l2_device *v4l2_dev = dev_get_drvdata(&op->dev);
++	struct v4l2_device *v4l2_dev = platform_get_drvdata(op);
+ 	struct viu_dev *dev = container_of(v4l2_dev, struct viu_dev, v4l2_dev);
+ 	struct v4l2_subdev *sdev = list_entry(v4l2_dev->subdevs.next,
+ 					      struct v4l2_subdev, list);
+@@ -1550,7 +1550,7 @@ static int viu_of_remove(struct platform_device *op)
+ #ifdef CONFIG_PM
+ static int viu_suspend(struct platform_device *op, pm_message_t state)
+ {
+-	struct v4l2_device *v4l2_dev = dev_get_drvdata(&op->dev);
++	struct v4l2_device *v4l2_dev = platform_get_drvdata(op);
+ 	struct viu_dev *dev = container_of(v4l2_dev, struct viu_dev, v4l2_dev);
+ 
+ 	clk_disable(dev->clk);
+@@ -1559,7 +1559,7 @@ static int viu_suspend(struct platform_device *op, pm_message_t state)
+ 
+ static int viu_resume(struct platform_device *op)
+ {
+-	struct v4l2_device *v4l2_dev = dev_get_drvdata(&op->dev);
++	struct v4l2_device *v4l2_dev = platform_get_drvdata(op);
+ 	struct viu_dev *dev = container_of(v4l2_dev, struct viu_dev, v4l2_dev);
+ 
+ 	clk_enable(dev->clk);
 
-Well, for the functional change, I am happy if the ACPI guys are happy.
-The only minor nit for me would be removing the "_FL" snipplet from the
-name of the define because I think it is clear enough that this is a
-flag. If you need to resend anyhow, maybe it is worth a thought. It is
-not a big issue, so anyway:
-
-Acked-by: Wolfram Sang <wsa@kernel.org>
-
-because I assume this will go in via the ACPI tree?
-
-
---cNdxnHkX5QqsyA0e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAi+MYACgkQFA3kzBSg
-Kba6/xAAtMdyI3C2JF5zUtXQxsmy1dTtr0C3ypMSMTb22o36hVCD5m0MrEk1Ism2
-FTlAoKDK2RhPjsANQLuDg5GyktNmk0aNX1ucmromKdNfHHnJQcEtKWSDm0lVEyyy
-b5RJnv1Zu7zc+Xk5sHKnfidY6YyGXx+HwS8D+w5UNvcTf/dpyhZLIEvn6Dl8tU1E
-WRsrMgmXqDVjEUukEr/j/g+ZwqjMfSj1be9hl3yPp29i4qaSmgKygp2i3/4iOC3f
-IXMIV/pOEN/rMbRCYeTBBccmsH3u67xXV2XFjHs6G2mMQ7n8ydbpAZjtkcQDh4Df
-ZWBzAWdIhtDZBEZ0CiyzcgnSP6QGLtNGfHGUYjuq7Sg8ea7kP1Acm1WHhwXcdvgT
-ZCuNSw48Cc8KYTjpJ4amx6HHmhFs/JcOu+j+psGVg3B/s7L3A+uq6iX6vBKgRcQ6
-0MS8VT04R+F1Z1UaFlIbidQbp/se2PCaUs7182afHSWnESwtebZ0y2oKwWvnmC6F
-/TmC3maOf0a1bUyV6tbAZ6fY5H5zQue+pzhsBfIALgYGe9mQsHDU+W7yklmYTwP8
-jxquIbwNqtwaaG0BHiAnCmH2eRIyM/yDDl0RLKqD6m3HSEM3vJaeBS2adzjShXnp
-pekggUfypFw/gpc5axQAEHkoGST+/M8g9ekR2EZ8IYdQZc1SVz8=
-=10SL
------END PGP SIGNATURE-----
-
---cNdxnHkX5QqsyA0e--
