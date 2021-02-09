@@ -2,114 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EBAB3151F1
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 15:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11C4331532E
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 16:51:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232119AbhBIOrN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 09:47:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45192 "EHLO
+        id S232489AbhBIPul (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Feb 2021 10:50:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbhBIOrH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 09:47:07 -0500
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA304C061788
-        for <linux-media@vger.kernel.org>; Tue,  9 Feb 2021 06:46:26 -0800 (PST)
-Received: by mail-il1-x12e.google.com with SMTP id o7so11776885ils.2
-        for <linux-media@vger.kernel.org>; Tue, 09 Feb 2021 06:46:26 -0800 (PST)
+        with ESMTP id S232294AbhBIPua (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 10:50:30 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B82BC0613D6
+        for <linux-media@vger.kernel.org>; Tue,  9 Feb 2021 07:49:49 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id q2so24375281edi.4
+        for <linux-media@vger.kernel.org>; Tue, 09 Feb 2021 07:49:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qVmduRDg6ZoezGmMc2NOjO9dKMtO5r7SHhLDuNpUA1w=;
-        b=WFrX2nLmj6lzLxXwwRLmHplG+/4tGaqXd5F9tKmrpv0+CO88dg427I0RaNJUHcUdtl
-         s+UXjDspolANS3R9Rg9KKCc/sy5aAZFcT22cgFhNe08kUqAs0wzlF+V6nniyL9Nz/4ff
-         ABijo72HwNtukB2a0YkAo0BBqtLdSTQT9enFU=
+        bh=VecoGZ4GzWVFIM0otW3JLzPjrBseKAGL1qDTMuL9rhQ=;
+        b=CIlh381kw95e85vYr57RlSuDC8kY8uEDiHm3Z8pePwVEf5EWMktOAJ8fGRfI8LyX79
+         kO9nexVJp1Drhi5KDy+WElL2nlFVJNS4sVk60qwTKrQjxfmYIaG63VGkNeCsomyiLBGB
+         ympVvtXZztYSxkyGsegiNStxZyW3MiGeRjmRTq8b6fYNiohin0XYQA0pMZPKtkC6ecEl
+         pQqqwB4hWjBMRzfrJKQiuAT+/W9aP9UU3cFW4cBq8WMuMntzUHQ3LOqpc3+qdriViebo
+         S+js95KFw5dV3JIc7xY0dJlwoY/0500CIrFUNNQhH2I2/yOgoOLP3mp7ZpaTltK07skQ
+         cynA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qVmduRDg6ZoezGmMc2NOjO9dKMtO5r7SHhLDuNpUA1w=;
-        b=mr3QeEa5EZcpREwNekX2bbQdzECuYxn066Y8PyR9jLQBzDOCjGZrEIOUXtb7bI5Sm7
-         yXqhfAIttblc24pzrWXdD+ohyFPOex3iyUf43u+czW+hr27j+nwC6CqK9ZASONnQUq2r
-         5uFOut3bIsh1KpMQX02FkUc1lCby31RZcMGrD8aaPN2IZOwZgdF51SvPAWW6HwhHk4D7
-         457BCFKfEAsARjtFmT87frhFZZuZ2LZOMtec5JDCDugbz8LacfPqPyEt0yJ6ayFg2dkO
-         I6LxrMgxbhDS2VAlqca9PuD3BMjErtevFOfI9CYwpDELfYfmiQfBf3wPFh3inGL7jgO+
-         ESTA==
-X-Gm-Message-State: AOAM532XFjUw2GPo/rkwdjx9H5ITJ7kex6aY3fWCHpVbSRK9xNxc0wFr
-        xuyZQCEHEr8zt/6+xM76hu6R2SyiYJo7Zl7b
-X-Google-Smtp-Source: ABdhPJxm6p0pUkSKZTLXO1HYSCpFAI/FRhpA+hpTR/eMuxR+A/bCcngshfwv58E+ob1g0m9Ibp9ucw==
-X-Received: by 2002:a05:6e02:1066:: with SMTP id q6mr2229782ilj.137.1612881986061;
-        Tue, 09 Feb 2021 06:46:26 -0800 (PST)
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com. [209.85.166.175])
-        by smtp.gmail.com with ESMTPSA id c6sm10624571ioc.26.2021.02.09.06.46.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Feb 2021 06:46:25 -0800 (PST)
-Received: by mail-il1-f175.google.com with SMTP id y5so16304405ilg.4
-        for <linux-media@vger.kernel.org>; Tue, 09 Feb 2021 06:46:24 -0800 (PST)
-X-Received: by 2002:a05:6e02:1d0e:: with SMTP id i14mr18857395ila.69.1612881984309;
- Tue, 09 Feb 2021 06:46:24 -0800 (PST)
+        bh=VecoGZ4GzWVFIM0otW3JLzPjrBseKAGL1qDTMuL9rhQ=;
+        b=fs2wTk6PLqYkiWT+wc9vtHnYv39ghcmPwC34wEgOKBHw0Fl9aCoc+r/TmCC+gDmsR9
+         UxvL9iJb413ulz63wHIUJrfDrp86PeLTxufSiEBLYufX7IvkJkMIaHJZcWF7hVCy3AvX
+         8LGpfEL4T+LlJ2lriHKIAI4ehG3qh91IzS/f1sHcvHH1PBTt3JngIZJQFu++pXiTK+Q2
+         wsI+OZmnsxTOj/P01Qf72TdDAOF7/nLkERvu85j/+s7lQhOoi3qHK5+PSMwXuUB6t4F7
+         e+WZ5jfE3WtYRtVTdA9cfo9l3AepJT8EuE7SFykNSKFgTngur1UL5IqyTfGgZ8MjZmjp
+         x8IQ==
+X-Gm-Message-State: AOAM530qms1VFjoAhcE6pl1OORstRD3b8xXobLFX6jY0zrQt9NE+vKL0
+        yrXjL9F3xYQtW/4oBFo6sJVIfn6mH+cI+/QlG1KK7Q==
+X-Google-Smtp-Source: ABdhPJxY4AjMbkZIQt1FqfH6XSv98lRusycD/W81ImCx2ZhTZq/tiEGg+xyJm+Pfkabf+n79kGMITiS2GYWaVpasTic=
+X-Received: by 2002:aa7:c98e:: with SMTP id c14mr20178301edt.213.1612885788168;
+ Tue, 09 Feb 2021 07:49:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20210202095110.1215346-1-hch@lst.de> <20210207184855.GA27553@lst.de>
- <CAAFQd5BzAvgiTLGFse+ZWUrFtZ1Ysf+p+e-4rW8gq_iP0xhWEA@mail.gmail.com>
- <20210209082213.GA31902@lst.de> <CANiDSCuzKczCnAdC9b0r-6WVBFYXYnvQHKbxSeYq2QW1uVsDLQ@mail.gmail.com>
-In-Reply-To: <CANiDSCuzKczCnAdC9b0r-6WVBFYXYnvQHKbxSeYq2QW1uVsDLQ@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 9 Feb 2021 15:46:13 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvPodsmcOi1fMwvZsyMxWsRQWNT7VkbZs4=XePYXfiXow@mail.gmail.com>
-Message-ID: <CANiDSCvPodsmcOi1fMwvZsyMxWsRQWNT7VkbZs4=XePYXfiXow@mail.gmail.com>
-Subject: Re: add a new dma_alloc_noncontiguous API v2
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
+ <20210205132505.20173-8-sakari.ailus@linux.intel.com> <CAMpxmJU7J9JBSwCN+GLDpuOL=iZ1PH=oZZuGiAyovuf2TQ=o9A@mail.gmail.com>
+ <CAJZ5v0jUqtYDpBn-ezsftCrY=9iD3sAKhyyFf_+CMkthLnsZow@mail.gmail.com>
+In-Reply-To: <CAJZ5v0jUqtYDpBn-ezsftCrY=9iD3sAKhyyFf_+CMkthLnsZow@mail.gmail.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Tue, 9 Feb 2021 16:49:37 +0100
+Message-ID: <CAMpxmJW61Bd1SR3-i6=OV6RgafiEdfp4sNN0M6EYa7NSeOTFKg@mail.gmail.com>
+Subject: Re: [PATCH v10 7/7] at24: Support probing while off
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christoph
-
-I have tested it in both arm and x86, since there are not significant
-changes with the previous version I did not do a performance test.
-
-Thanks!
-
-
-On Tue, Feb 9, 2021 at 9:29 AM Ricardo Ribalda <ribalda@chromium.org> wrote:
+On Mon, Feb 8, 2021 at 5:54 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
 >
-> Hi Christoph
->
-> On Tue, Feb 9, 2021 at 9:22 AM Christoph Hellwig <hch@lst.de> wrote:
+> On Mon, Feb 8, 2021 at 5:44 PM Bartosz Golaszewski
+> <bgolaszewski@baylibre.com> wrote:
 > >
-> > On Mon, Feb 08, 2021 at 08:33:50PM +0900, Tomasz Figa wrote:
-> > > Sorry for the delay. The whole series looks very good to me. Thanks a lot.
+> > On Fri, Feb 5, 2021 at 2:25 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
 > > >
+> > > In certain use cases (where the chip is part of a camera module, and the
+> > > camera module is wired together with a camera privacy LED), powering on
+> > > the device during probe is undesirable. Add support for the at24 to
+> > > execute probe while being powered off. For this to happen, a hint in form
+> > > of a device property is required from the firmware.
+> > >
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > > > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> > > ---
 > >
-> > Thanks.
-> >
-> > Ricardo, do the uvcvideo changes look good to you?  I'd like to queue
-> > the series up for this merge window.
-
-Tested-by: Ricardo Ribalda <ribalda@chromium.org>
-
+> > I'll ack this but I still claim that the name
+> > acpi_dev_state_low_power() is super misleading for this use-case and
+> > I've been saying that for 10 versions now with everyone just ignoring
+> > my remarks. :/
 >
-> Let me test them in real hardware today.
+> Well, the function in question simply checks if the current ACPI power
+> state of the device is different from "full power", so its name
+> appears to be quite adequate to me.
 >
-> Thanks!
+> If the way in which it is used is confusing, though, I guess
+> explaining what's going on would be welcome.
 >
->
-> --
-> Ricardo Ribalda
 
+Yes, I have explained it multiple time already - last time at v9 of this series:
 
+    https://www.spinics.net/lists/kernel/msg3816807.html
 
--- 
-Ricardo Ribalda
+Bartosz
+
+> > Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
