@@ -2,169 +2,371 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E021314874
-	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 07:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36A323148FC
+	for <lists+linux-media@lfdr.de>; Tue,  9 Feb 2021 07:39:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbhBIGHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 01:07:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46390 "EHLO
+        id S230303AbhBIGil (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Feb 2021 01:38:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbhBIGHa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 01:07:30 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61415C061786
-        for <linux-media@vger.kernel.org>; Mon,  8 Feb 2021 22:06:50 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id e18so20797979lja.12
-        for <linux-media@vger.kernel.org>; Mon, 08 Feb 2021 22:06:50 -0800 (PST)
+        with ESMTP id S230250AbhBIGid (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Feb 2021 01:38:33 -0500
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5ADC061786
+        for <linux-media@vger.kernel.org>; Mon,  8 Feb 2021 22:37:52 -0800 (PST)
+Received: by mail-oi1-x231.google.com with SMTP id 18so7246894oiz.7
+        for <linux-media@vger.kernel.org>; Mon, 08 Feb 2021 22:37:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=bFTwqrQOTlvInkNf0kKdtf4ltTQxpHoLu4FqF5dCdQo=;
-        b=rdjuJ2gtSC65AiMzUutBnOi521KBaQqXUXIZ75BtduxsdrzHOoc8/KEGR8b0fL2OTD
-         NqoRxhDmDihdffowk+nfprgxDkneP/ClGEH0Rw3QS07+TjhqaIQao7u8SmPkKAlvmF2j
-         02STEAAA2wlu5SieMs4bzC2IYvMXYHPHtN40kV9bhdTyzPFI9xd+4a2qI9NJ01NYnsiX
-         z3R+bCwu/RAonK7HoH20rp9LOPvI8CGgO+NSkouNuToG000yqFJoVzNWHwRx0OP/UV+0
-         SnVOi5NjKPpapwoM7wYFCqr6wp3QXMGwzeqYTX/WNxhpMN7sUabhtsxgREVD7frjlZzX
-         HMUQ==
+        bh=uKwmXITA6wB/hXNJ06GHOX+4ELglgfbmlX7z0QrZV+Q=;
+        b=WyN386J7AVcRc6L1PLqWjNVXnbmyD5eDckmF/GXTzrLlrp1QbN9El8jadojDpbY80Y
+         7MoIq1RBuOo4gi2KkBAWajKFnYyPaCTpX5ztZWaMUWPBwAH5YY1I9mZ1nCEoNPSwm9W6
+         BnicckcXWxOSDnzCxUMZWMbUkFJ4ZzkXby03A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bFTwqrQOTlvInkNf0kKdtf4ltTQxpHoLu4FqF5dCdQo=;
-        b=XVXbV8gBPYEm23Hzo/lwJp80NZwtzskriWa69RDG7gGeVFaO2WaDnW7ZoUhpXNaXnG
-         rlrkj7OyympYYNTAnaejlOd2wzFtmJFamygLKLQE0s6rDJqGqI9Z5JZBG+Sx8OF+/rWe
-         +vEL9gnoPbeHKuetScN1oon0+vMXiHIV+rnmomsLP388FMi77uzY0Ouy8Y+bDRAUK3vA
-         r25zEVb2iYZs7NgmPOkfBBoAElyZMuMZfWTU4xSwancn10SN1uxui997FkkV+OswcI48
-         OmrHgj6vmxLQwXVx6FvQ0mRWr0juRvF1jo9AJeT/dLGlXdivQbJqzshw6JzQx9StGdN7
-         bFLA==
-X-Gm-Message-State: AOAM5318rqbZGRLYe1+V9l7Bw5FcD5imMdzhYRPP+pvsDh/DHM5mFa85
-        2YKWDxZ9q4UKFHXIFC5PxZcHV5oi/J7yW4KGUETIgQ==
-X-Google-Smtp-Source: ABdhPJyN4XoqzaWGUvPkIR0yrDQgDnrzfxCrV90pQln7s/bGvUOeWk45ZzLS/ufx3d3XNszY+sRsl+X5orkFZeOpMQI=
-X-Received: by 2002:a2e:3018:: with SMTP id w24mr13882499ljw.333.1612850808847;
- Mon, 08 Feb 2021 22:06:48 -0800 (PST)
+        bh=uKwmXITA6wB/hXNJ06GHOX+4ELglgfbmlX7z0QrZV+Q=;
+        b=ZIkI0JzvfQoM6CL4cTrWOh1LA/2ihTsMmppLzOL2UjZ+KrpGdXb59ir8J6Fknj2tuT
+         No5Q0U2DYVBvimINJYN/qhGZMVwTG30j85/fW2hhYEjHnRj+6w4FJ2uCn1ePs8IviytG
+         imru2Jm2jUZX+JOCZaX80Tp47JG0B0FmYQi649lzcvleMxd/5GZbD6ftOEOvF9Uid10h
+         TOMjDM+SSjwA/qyMO/WKQf1dLQ08bGh4vPrCxwErplS+JvNDlqlCVc8pigXv/IQsVROs
+         sLOO/PJY71/aAXT+bOedMJNC+M4obdQ6UVjm7uJDMntdHz3YQQRcvLKzD3o64kfZ1v9X
+         TLOw==
+X-Gm-Message-State: AOAM533pnIXJD/C2RX66yaXh6vfmkTx6RS53I8jOg2QbP0IcsYDPDovQ
+        9vuC2W681kYJe5qNd6lH1JARH9Zosw2H0QsCMTsfCA==
+X-Google-Smtp-Source: ABdhPJzofU85Bogm6rzI7FWY06ZKH4jIwJIWrW2rTfRlFeiEI9YxspU6A4Uno7il3GGwq8KtmYyxeWm8v6rDr46i0Oo=
+X-Received: by 2002:aca:1906:: with SMTP id l6mr1536067oii.101.1612852672197;
+ Mon, 08 Feb 2021 22:37:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20210206054748.378300-1-john.stultz@linaro.org>
- <20210206054748.378300-2-john.stultz@linaro.org> <YCENrGofdwVg2LMe@phenom.ffwll.local>
- <CALAqxLV2Sikxnr3-k94nqcF5vz+jsekhhUrmXEKkwzwwu4up8g@mail.gmail.com>
- <CAKMK7uECMOO5jx4433uDuMq=MBaBEYaLe6ysrT_pshrr6Bf9dA@mail.gmail.com> <CAO_48GGA9FajZ3FE---udupHTGSkafTf7MK01H4h4-NfR1DerA@mail.gmail.com>
-In-Reply-To: <CAO_48GGA9FajZ3FE---udupHTGSkafTf7MK01H4h4-NfR1DerA@mail.gmail.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Mon, 8 Feb 2021 22:06:36 -0800
-Message-ID: <CALAqxLXo3-2a5uOnmUd1WGfwtkb=5=2kauzgwi5CQzj=-K9k9Q@mail.gmail.com>
-Subject: Re: [RFC][PATCH 2/2] dma-buf: heaps: Fix the name used when exporting
- dmabufs to be the actual heap name
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
+References: <20210121194056.1734409-1-daniel.vetter@ffwll.ch>
+ <6d373177-2645-1d67-9c14-dcad87c4f4d9@amd.com> <68740fcf-530e-b929-1c98-5810fc97ed23@linux.intel.com>
+ <1e38efbc-ec52-e436-21e4-49a0d074b57b@amd.com> <18e7efbd-3d10-5ad1-49c9-7e26f0a27ef2@amd.com>
+ <c9c8d386-87a1-6678-b5c6-854de210d8d3@gmail.com> <65b7a61c-b4b9-a210-5a37-0f69d01f667c@amd.com>
+ <CAP+8YyG1Yupdqvrp4uUunYkVeZvhWB4rojfAtuSwMmqXRj44oQ@mail.gmail.com>
+In-Reply-To: <CAP+8YyG1Yupdqvrp4uUunYkVeZvhWB4rojfAtuSwMmqXRj44oQ@mail.gmail.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Tue, 9 Feb 2021 07:37:40 +0100
+Message-ID: <CAKMK7uFwdmV007YhCF8ZDkzNFT71RapLPL5zHgjjsFd9huoUEg@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] RFC: dma-fence: Document recoverable page
+ fault implications
+To:     Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc:     Felix Kuehling <felix.kuehling@amd.com>,
+        "Koenig, Christian" <christian.koenig@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 8, 2021 at 10:03 PM Sumit Semwal <sumit.semwal@linaro.org> wrot=
-e:
+On Tue, Feb 9, 2021 at 4:13 AM Bas Nieuwenhuizen
+<bas@basnieuwenhuizen.nl> wrote:
 >
-> Hi Daniel,
->
-> On Tue, 9 Feb 2021 at 02:36, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Jan 28, 2021 at 4:40 PM Felix Kuehling <felix.kuehling@amd.com> w=
+rote:
 > >
-> > On Mon, Feb 8, 2021 at 9:51 PM John Stultz <john.stultz@linaro.org> wro=
-te:
-> > > On Mon, Feb 8, 2021 at 2:08 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > On Sat, Feb 06, 2021 at 05:47:48AM +0000, John Stultz wrote:
-> > > > > By default dma_buf_export() sets the exporter name to be
-> > > > > KBUILD_MODNAME. Unfortunately this may not be identical to the
-> > > > > string used as the heap name (ie: "system" vs "system_heap").
-> > > > >
-> > > > > This can cause some minor confusion with tooling, and there is
-> > > > > the future potential where multiple heap types may be exported
-> > > > > by the same module (but would all have the same name).
-> > > > >
-> > > > > So to avoid all this, set the exporter exp_name to the heap name.
-> > > > >
-> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > > Cc: Liam Mark <lmark@codeaurora.org>
-> > > > > Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> > > > > Cc: Laura Abbott <labbott@kernel.org>
-> > > > > Cc: Brian Starkey <Brian.Starkey@arm.com>
-> > > > > Cc: Hridya Valsaraju <hridya@google.com>
-> > > > > Cc: Suren Baghdasaryan <surenb@google.com>
-> > > > > Cc: Sandeep Patil <sspatil@google.com>
-> > > > > Cc: Daniel Mentz <danielmentz@google.com>
-> > > > > Cc: =C3=98rjan Eide <orjan.eide@arm.com>
-> > > > > Cc: Robin Murphy <robin.murphy@arm.com>
-> > > > > Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > Cc: Simon Ser <contact@emersion.fr>
-> > > > > Cc: James Jones <jajones@nvidia.com>
-> > > > > Cc: linux-media@vger.kernel.org
-> > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > Signed-off-by: John Stultz <john.stultz@linaro.org>
-> > > >
-> > > > Looks reasonable to me.
-> > > >
-> > > > I guess the main worry is "does this mean heap names become uapi", =
-in
-> > > > which case I'm maybe not so sure anymore how this will tie into the
-> > > > overall gpu memory accounting story.
-> > > >
-> > > > Since for dma-buf heaps one name per buffer is perfectly fine, sinc=
+> > Am 2021-01-28 um 2:39 a.m. schrieb Christian K=C3=B6nig:
+> > > Am 27.01.21 um 23:00 schrieb Felix Kuehling:
+> > >> Am 2021-01-27 um 7:16 a.m. schrieb Christian K=C3=B6nig:
+> > >>> Am 27.01.21 um 13:11 schrieb Maarten Lankhorst:
+> > >>>> Op 27-01-2021 om 01:22 schreef Felix Kuehling:
+> > >>>>> Am 2021-01-21 um 2:40 p.m. schrieb Daniel Vetter:
+> > >>>>>> Recently there was a fairly long thread about recoreable hardwar=
 e
-> > > > dma-buf heaps aren't very dynamic. But on discrete gpu drivers buff=
-ers
-> > > > move, so baking in the assumption that "exporter name =3D resource =
-usage for
-> > > > this buffer" is broken.
+> > >>>>>> page
+> > >>>>>> faults, how they can deadlock, and what to do about that.
+> > >>>>>>
+> > >>>>>> While the discussion is still fresh I figured good time to try a=
+nd
+> > >>>>>> document the conclusions a bit.
+> > >>>>>>
+> > >>>>>> References:
+> > >>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
+F%2Flore.kernel.org%2Fdri-devel%2F20210107030127.20393-1-Felix.Kuehling%40a=
+md.com%2F&amp;data=3D04%7C01%7Cfelix.kuehling%40amd.com%7C4e4884be55d74c4dd=
+a1408d8c35fd0ab%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63747416359226=
+0552%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik=
+1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3Dy2VzC4vbfMi0ctyerAHfqODZ6tthz1FUDwp=
+MCp0PIrQ%3D&amp;reserved=3D0
+> > >>>>>>
+> > >>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > >>>>>> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@intel.com>
+> > >>>>>> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > >>>>>> Cc: Jerome Glisse <jglisse@redhat.com>
+> > >>>>>> Cc: Felix Kuehling <felix.kuehling@amd.com>
+> > >>>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > >>>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > >>>>>> Cc: linux-media@vger.kernel.org
+> > >>>>>> Cc: linaro-mm-sig@lists.linaro.org
+> > >>>>>> --
+> > >>>>>> I'll be away next week, but figured I'll type this up quickly fo=
+r
+> > >>>>>> some
+> > >>>>>> comments and to check whether I got this all roughly right.
+> > >>>>>>
+> > >>>>>> Critique very much wanted on this, so that we can make sure hw w=
+hich
+> > >>>>>> can't preempt (with pagefaults pending) like gfx10 has a clear
+> > >>>>>> path to
+> > >>>>>> support page faults in upstream. So anything I missed, got wrong=
+ or
+> > >>>>>> like that would be good.
+> > >>>>>> -Daniel
+> > >>>>>> ---
+> > >>>>>>    Documentation/driver-api/dma-buf.rst | 66
+> > >>>>>> ++++++++++++++++++++++++++++
+> > >>>>>>    1 file changed, 66 insertions(+)
+> > >>>>>>
+> > >>>>>> diff --git a/Documentation/driver-api/dma-buf.rst
+> > >>>>>> b/Documentation/driver-api/dma-buf.rst
+> > >>>>>> index a2133d69872c..e924c1e4f7a3 100644
+> > >>>>>> --- a/Documentation/driver-api/dma-buf.rst
+> > >>>>>> +++ b/Documentation/driver-api/dma-buf.rst
+> > >>>>>> @@ -257,3 +257,69 @@ fences in the kernel. This means:
+> > >>>>>>      userspace is allowed to use userspace fencing or long runni=
+ng
+> > >>>>>> compute
+> > >>>>>>      workloads. This also means no implicit fencing for shared
+> > >>>>>> buffers in these
+> > >>>>>>      cases.
+> > >>>>>> +
+> > >>>>>> +Recoverable Hardware Page Faults Implications
+> > >>>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >>>>>> +
+> > >>>>>> +Modern hardware supports recoverable page faults, which has a
+> > >>>>>> lot of
+> > >>>>>> +implications for DMA fences.
+> > >>>>>> +
+> > >>>>>> +First, a pending page fault obviously holds up the work that's
+> > >>>>>> running on the
+> > >>>>>> +accelerator and a memory allocation is usually required to reso=
+lve
+> > >>>>>> the fault.
+> > >>>>>> +But memory allocations are not allowed to gate completion of DM=
+A
+> > >>>>>> fences, which
+> > >>>>>> +means any workload using recoverable page faults cannot use DMA
+> > >>>>>> fences for
+> > >>>>>> +synchronization. Synchronization fences controlled by userspace
+> > >>>>>> must be used
+> > >>>>>> +instead.
+> > >>>>>> +
+> > >>>>>> +On GPUs this poses a problem, because current desktop composito=
+r
+> > >>>>>> protocols on
+> > >>>>>> +Linus rely on DMA fences, which means without an entirely new
+> > >>>>>> userspace stack
+> > >>>>>> +built on top of userspace fences, they cannot benefit from
+> > >>>>>> recoverable page
+> > >>>>>> +faults. The exception is when page faults are only used as
+> > >>>>>> migration hints and
+> > >>>>>> +never to on-demand fill a memory request. For now this means
+> > >>>>>> recoverable page
+> > >>>>>> +faults on GPUs are limited to pure compute workloads.
+> > >>>>>> +
+> > >>>>>> +Furthermore GPUs usually have shared resources between the 3D
+> > >>>>>> rendering and
+> > >>>>>> +compute side, like compute units or command submission engines.=
+ If
+> > >>>>>> both a 3D
+> > >>>>>> +job with a DMA fence and a compute workload using recoverable p=
+age
+> > >>>>>> faults are
+> > >>>>>> +pending they could deadlock:
+> > >>>>>> +
+> > >>>>>> +- The 3D workload might need to wait for the compute job to fin=
+ish
+> > >>>>>> and release
+> > >>>>>> +  hardware resources first.
+> > >>>>>> +
+> > >>>>>> +- The compute workload might be stuck in a page fault, because =
+the
+> > >>>>>> memory
+> > >>>>>> +  allocation is waiting for the DMA fence of the 3D workload to
+> > >>>>>> complete.
+> > >>>>>> +
+> > >>>>>> +There are a few ways to prevent this problem:
+> > >>>>>> +
+> > >>>>>> +- Compute workloads can always be preempted, even when a page
+> > >>>>>> fault is pending
+> > >>>>>> +  and not yet repaired. Not all hardware supports this.
+> > >>>>>> +
+> > >>>>>> +- DMA fence workloads and workloads which need page fault handl=
+ing
+> > >>>>>> have
+> > >>>>>> +  independent hardware resources to guarantee forward progress.
+> > >>>>>> This could be
+> > >>>>>> +  achieved through e.g. through dedicated engines and minimal
+> > >>>>>> compute unit
+> > >>>>>> +  reservations for DMA fence workloads.
+> > >>>>>> +
+> > >>>>>> +- The reservation approach could be further refined by only
+> > >>>>>> reserving the
+> > >>>>>> +  hardware resources for DMA fence workloads when they are
+> > >>>>>> in-flight. This must
+> > >>>>>> +  cover the time from when the DMA fence is visible to other
+> > >>>>>> threads up to
+> > >>>>>> +  moment when fence is completed through dma_fence_signal().
+> > >>>>>> +
+> > >>>>>> +- As a last resort, if the hardware provides no useful reservat=
+ion
+> > >>>>>> mechanics,
+> > >>>>>> +  all workloads must be flushed from the GPU when switching
+> > >>>>>> between jobs
+> > >>>>>> +  requiring DMA fences or jobs requiring page fault handling: T=
+his
+> > >>>>>> means all DMA
+> > >>>>>> +  fences must complete before a compute job with page fault
+> > >>>>>> handling can be
+> > >>>>>> +  inserted into the scheduler queue. And vice versa, before a D=
+MA
+> > >>>>>> fence can be
+> > >>>>>> +  made visible anywhere in the system, all compute workloads mu=
+st
+> > >>>>>> be preempted
+> > >>>>>> +  to guarantee all pending GPU page faults are flushed.
+> > >>>>> I thought of another possible workaround:
+> > >>>>>
+> > >>>>>     * Partition the memory. Servicing of page faults will use a
+> > >>>>> separate
+> > >>>>>       memory pool that can always be allocated from without
+> > >>>>> waiting for
+> > >>>>>       fences. This includes memory for page tables and memory for
+> > >>>>>       migrating data to. You may steal memory from other processe=
+s
+> > >>>>> that
+> > >>>>>       can page fault, so no fence waiting is necessary. Being abl=
+e to
+> > >>>>>       steal memory at any time also means there are basically no
+> > >>>>>       out-of-memory situations you need to worry about. Even page
+> > >>>>> tables
+> > >>>>>       (except the root page directory of each process) can be
+> > >>>>> stolen in
+> > >>>>>       the worst case.
+> > >>>> I think 'overcommit' would be a nice way to describe this. But I'm=
+ not
+> > >>>> sure how easy this is to implement in practice. You would basicall=
+y
+> > >>>> need
+> > >>>> to create your own memory manager for this.
+> > >>> Well you would need a completely separate pool for both device as w=
+ell
+> > >>> as system memory.
+> > >>>
+> > >>> E.g. on boot we say we steal X GB system memory only for HMM.
+> > >> Why? The GPU driver doesn't need to allocate system memory for HMM.
+> > >> Migrations to system memory are handled by the kernel's handle_mm_fa=
+ult
+> > >> and page allocator and swap logic.
 > > >
-> > > I suspect I'm missing a subtlety in what you're describing. My sense
-> > > of the exporter name doesn't account for a buffer's usage, it just
-> > > describes what code allocated it and implicitly which dmabuf_ops
-> > > handles it.  Maybe could you give a more specific example of what
-> > > you're hoping to avoid?
+> > > And that one depends on dma_fence completion because you can easily
+> > > need to wait for an MMU notifier callback.
 > >
-> > Just paranoia really - on the linux side where we allocate most
-> > buffers (even shared ones) with the driver, that allocator info isn't
-> > that meaningful, it really just tells you which code
-> > allocated/exported that dma-buf.
-> >
-> > But on Android, where all shared buffers come from specific heaps, it
-> > is rather meaningful information. So I wondered whether e.g. the
-> > android dmabuf debug tool uses that to collect per-heap stats, but
-> > sounds like no right now. Plus with the chat we've had I think we have
-> > a long-term plan for how to expose that information properly.
-> >
-> > > To me this patch is mostly just a consistency/least-surprise thing, s=
-o
-> > > the heaps exporter name matches the string used for the heap's charde=
-v
-> > > device (the interface used to allocate it) in output like
-> > > debugfs/dma_buf/bufinfo.
-> >
-> > Yeah for debug this makes sense. a-b: me if you want that somewhere on
-> > the patches.
+> > I see, the GFX MMU notifier for userpointers in amdgpu currently waits
+> > for fences. For the KFD MMU notifier I am planning to fix this by
+> > causing GPU page faults instead of preempting the queues. Can we limit
+> > userptrs in amdgpu to engines that can page fault. Basically make it
+> > illegal to attach userptr BOs to graphics CS BO lists, so they can only
+> > be used in user mode command submissions, which can page fault. Then th=
+e
+> > GFX MMU notifier could invalidate PTEs and would not have to wait for
+> > fences.
 >
-> Great that this got sorted; I'll apply both the patches of this series
-> to drm-misc-next, with your a-b.
+> sadly graphics + userptr is already exposed via Mesa.
 
-Before you do, let me spin a v2 as I got some minor tweaks needed
-(using const char*) to fix the kbuild bot errors.
+This is not about userptr, we fake userptr entirely in software. It's
+about exposing recoverable gpu page faults (which would make userptr
+maybe more efficient since we could do on-demand paging). userptr
+itself isn't a problem, but it is part of the reasons why this is
+tricky.
 
-thanks
--john
+Christian/Felix, I think for kernel folks this is clear enough that I
+don't need to clarify this in the text?
+-Daniel
+
+>
+> >
+> >
+> > >
+> > > As Maarten wrote when you want to go down this route you need a
+> > > complete separate memory management parallel to the one of the kernel=
+.
+> >
+> > Not really. I'm trying to make the GPU memory management more similar t=
+o
+> > what the kernel does for system memory.
+> >
+> > I understood Maarten's comment as "I'm creating a new memory manager an=
+d
+> > not using TTM any more". This is true. The idea is that this portion of
+> > VRAM would be managed more like system memory.
+> >
+> > Regards,
+> >   Felix
+> >
+> >
+> > >
+> > > Regards,
+> > > Christian.
+> > >
+> > >>   It doesn't depend on any fences, so
+> > >> it cannot deadlock with any GPU driver-managed memory. The GPU drive=
+r
+> > >> gets involved in the MMU notifier to invalidate device page tables. =
+But
+> > >> that also doesn't need to wait for any fences.
+> > >>
+> > >> And if the kernel runs out of pageable memory, you're in trouble any=
+way.
+> > >> The OOM killer will step in, nothing new there.
+> > >>
+> > >> Regards,
+> > >>    Felix
+> > >>
+> > >>
+> > >>>> But from a design point of view, definitely a valid solution.
+> > >>> I think the restriction above makes it pretty much unusable.
+> > >>>
+> > >>>> But this looks good, those solutions are definitely the valid
+> > >>>> options we
+> > >>>> can choose from.
+> > >>> It's certainly worth noting, yes. And just to make sure that nobody
+> > >>> has the idea to reserve only device memory.
+> > >>>
+> > >>> Christian.
+> > >>>
+> > >>>> ~Maarten
+> > >>>>
+> > >> _______________________________________________
+> > >> Linaro-mm-sig mailing list
+> > >> Linaro-mm-sig@lists.linaro.org
+> > >> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F=
+lists.linaro.org%2Fmailman%2Flistinfo%2Flinaro-mm-sig&amp;data=3D04%7C01%7C=
+felix.kuehling%40amd.com%7C4e4884be55d74c4dda1408d8c35fd0ab%7C3dd8961fe4884=
+e608e11a82d994e183d%7C0%7C0%7C637474163592260552%7CUnknown%7CTWFpbGZsb3d8ey=
+JWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp=
+;sdata=3DgQj51eDK8OUWoQcbYliY639jOPleRjyLY3Q16nj2PL0%3D&amp;reserved=3D0
+> > >>
+> > >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
