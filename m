@@ -2,281 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2A3B315FFF
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 08:24:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49883316090
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 09:07:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232454AbhBJHY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Feb 2021 02:24:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34820 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232431AbhBJHYM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 02:24:12 -0500
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBBFDC06174A;
-        Tue,  9 Feb 2021 23:23:31 -0800 (PST)
-Received: by mail-qk1-x735.google.com with SMTP id q85so790151qke.8;
-        Tue, 09 Feb 2021 23:23:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=bH3CLqRvXgD6BHuxlu5Bhk4vl9wgjCKKNXoHMPR2Lcc=;
-        b=Yzt5Hpj9i7PfYZhFApfZABl/PTdrcxUVYhOrJW1bgBxqcRtMdg5tsGs1k3/NwmDNay
-         xMvGyGvqQuqOkKYCyVtX/rsmUsFP7A1T/eOw+fmo+2QkfZdyDA7w359qI+IX1hpAXxw3
-         BUEh3a8nypugaZFPI5Oc60VT6H7DIRZqjpgbYUZ7YeVtNZXVLlj8XhFegm1aC4LzXOui
-         bRjDHpwoBA/t0SXJESNeonSGBJK/UVKH++Iz6pIeAA+VvtY3Jb8IvdjeU1GipmbiDTp4
-         hU9PdI1p0Nih54uRp98T5FYOw4mM2ugggHEkZ9sIW/1s5IbjmxwvOiscSw0SC5uNss6v
-         8iEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=bH3CLqRvXgD6BHuxlu5Bhk4vl9wgjCKKNXoHMPR2Lcc=;
-        b=WDwX+fiIosjhZEiB4DKW7X+zUwkhzFlGdkz49mgwJiobeHiVb9dELKaFQFTqaG7aIh
-         q2EwDlNr+FG7N6PDX9fwVWzb66S951f5xdI4jIJYX3gpeThL0wnhnJ7U04hTM73ZEpva
-         dwk4aUvhA8wXAMasFvcsVnGpRZp7oNZnehdmYaJ6AipIwyrLj6POBXQZAc79vlhayhlz
-         DCoPwCMspQxnBsF4DOBvqv6jyyH+fz9r1U+/E9srcyaStAFHb9FX5hsSwWuxVFcqMFnD
-         mkEFKvwtDcWzPKXKGai3sZkaSy6v6RdG0bCfc6ltRLGrE02OgoJCv1pCDbMU+V14gHEg
-         wjxQ==
-X-Gm-Message-State: AOAM530zypqBVGY7c74vMslG2HpZwPjIza7+8q0hr+kfqxBmY5R5907v
-        RD+J4m9VoIUyXT46bM6G5DcwJiQtNsYV1KGblgM=
-X-Google-Smtp-Source: ABdhPJzPIkI/irmo4GENEMD8ZncH2Gf9+Gkzoe4LA/sBa7nG+9/Ob63hbDyWlyDi/aWXu1ddZO8B6hVC2WsENXa8n1M=
-X-Received: by 2002:a37:d01:: with SMTP id 1mr2142832qkn.247.1612941810860;
- Tue, 09 Feb 2021 23:23:30 -0800 (PST)
+        id S233489AbhBJIGe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 03:06:34 -0500
+Received: from mail-dm6nam12on2080.outbound.protection.outlook.com ([40.107.243.80]:58401
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229974AbhBJIG3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Feb 2021 03:06:29 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ic6NZNX6e8sAAp8R7X6ZZYNskfeQWFdnrnD5x4vepuZE50gpFzCg156Sw5Vh77h8KbDVEyzAa7VWhbdjx+BQs7ClOmkxzQYUbXkqxxXJ3D453LgXavCYLBXF0EF7Cw1nUj9iHW5XJMfWTJUlfDzbVyC6e/rWtgeAm+S+Le2AM688mXv86pBy3Nn6/Tg9yBfxZB17ae6L4SnKMDUVs6JWoNLB/7B3WzUKaEjCIo9UEkNH3buaBPLYiKH4CPwAoRP5CUibxJJ65j15TuHAclVAY9Z4ZfOtGqdTf/2OPdErBS2KJ9ATtBOoi2669QHyRgOmDyADpa1ZAdZ5P5ivIacAjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rl3167aigB5XKb1aaYpUksHpjgXFWRZLiDrbq4tkrGU=;
+ b=AgzcvVNrjIfVwJC3MNjVskhei2mw16+PcpkDV68rG5+ihh78xpAftW6Gww82pziOFiRy7oFfVKWsln8R3uZ5e34SV3lENwIydOUD9u18NiC92zPpviRdNnecZblFuQWbQRETmAqd2NifmQ5xk1PUPhQtYjnLo14spu+aOmCT4p54yac3mqVvH9cuUCEbwzqQLD5sC2rYkTBWeot5nCPMSqPl8i/qnxJsCue/9FLdIDDN0vPrBYq90IUxRGm1D0nE1z0xpMu637nQdrtGLccrzKhEyaQDCC1mrCWQYzW3+x4xz5Vcohw4+9c98b7+bW9uuX9CU7mgPMaXh8uwZhORNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rl3167aigB5XKb1aaYpUksHpjgXFWRZLiDrbq4tkrGU=;
+ b=yCz7CGnBoRfQOYX/Tov7eLi6RxhMpYXWNkbDTf/0FRe5K1+SlE2E89M0AMwYe3MlPk/Y+tqjEfpt/MRaaEXDc9PthOrNCy1W8IFmZUJCCbFx2moDKfUTo1XlhNkBVreb3wWFN0iEshwvW49llHdD0pfB6gYkQYjzuv/0xTGylY8=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Wed, 10 Feb
+ 2021 08:05:33 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3846.027; Wed, 10 Feb 2021
+ 08:05:33 +0000
+Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+To:     "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "Vetter, Daniel" <daniel.vetter@intel.com>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+        "Kim, Dongwon" <dongwon.kim@intel.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
+ <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+ <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+ <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
+ <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
+ <2ef01dc941684a15a4f30e6239ae42df@intel.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <8ac10b1d-3d64-4e39-42e6-6c65b61f0794@amd.com>
+Date:   Wed, 10 Feb 2021 09:05:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <2ef01dc941684a15a4f30e6239ae42df@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:1e1:ad6e:a509:1753]
+X-ClientProxiedBy: AM4PR0302CA0025.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::38) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-From:   Alexander Kapshuk <alexander.kapshuk@gmail.com>
-Date:   Wed, 10 Feb 2021 09:22:54 +0200
-Message-ID: <CAJ1xhMX6O__JbVi7izHvEcGVoBT_6h95fhsZPqQuSzVkhPugBA@mail.gmail.com>
-Subject: [nouveau] WARNING: possible circular locking dependency detected in linux-next
-To:     Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     sumit.semwal@linaro.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ML nouveau <nouveau@lists.freedesktop.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Linux-Next <linux-next@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:1e1:ad6e:a509:1753] (2a02:908:1252:fb60:1e1:ad6e:a509:1753) by AM4PR0302CA0025.eurprd03.prod.outlook.com (2603:10a6:205:2::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27 via Frontend Transport; Wed, 10 Feb 2021 08:05:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 4a56c7f8-7e60-4ccf-d4d6-08d8cd9aa40b
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4061:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB40612F27E625DDF6205DF0B5838D9@MN2PR12MB4061.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fcjh5oxpMOgQHDKExHPDlA++rk+MkCqcsVE9z8yBJMk+ADCsj9U7EUcGPRlm82RkFNfWHrCSSWTJpeYu7sOSvsFdCAYT2aHeFt7cvLIh0+mErSdil0h1ZzYLSNYIRn49/2WU94wqXz8MzWij67PmIop6u2RALGMcos4dbaLbHyPyOY2BrqhNT6p1kMqmezdmZ453qpvOx1jmRM2LpkWkKwQoSqs+SqmFZ8evrt/stM/+P4dSj/4qy9+KjkmxQLfGRV1a7AiFUVTLIexF0S1Td3w5t++X+T3bUCddARmFen8lEECFKdxKXI3sAbp1xDm27gRysI4g5lM2A87f25dBuLrhta5GCzqEjqPRqv9OZ2Xal7Ej2xcvGaL1R+doB6zkTeNDAVuyHFlsNP4s6ocXTImmV5N067C5WdjbHkar9DK5RmmCCPjN6sLYB5+0dLRzN12ITLjegAQxa7rxN+J6aBwKjjIJyzkwPslpKQf3R9HYwhETXNuztsEcIHpAyIoQGadotGNGNIP6CwEfO9u3IM7sEwxKc8jvtGUflVTbOZuZ5YDMtmfQU4kH3cO122ppetrvHLpMwItMxDnSDo80MJVQBQm1jqTRBRxLmnxD+tI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(396003)(376002)(39860400002)(366004)(186003)(16526019)(86362001)(2616005)(8936002)(7416002)(83380400001)(66556008)(66946007)(2906002)(66476007)(53546011)(31696002)(6666004)(5660300002)(54906003)(36756003)(31686004)(52116002)(478600001)(6486002)(316002)(110136005)(8676002)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?YWIzbUdNTm9MWUFRa2hnQjFnVTJXUW1zMUE3MlFJenYwUnJaaUN1Qm1ONjFS?=
+ =?utf-8?B?L0hqaVJudkczL05JaGl2Z3lkZVoveHFOMm5iMmQ3NkxkRjI1aVhNMGRBdzI0?=
+ =?utf-8?B?Y2x5L3M5aE12dFgxT1pZVjR3dTlmM3ZFS3k4dm9lRjgzVFlIelk3UXdadGpI?=
+ =?utf-8?B?U3hNSUVHUGtsdXdmd1ZxR2dZdjd3eE5PdGpxUzhhb0FSaVpNNmR5NkV3OU44?=
+ =?utf-8?B?dll6VW5tL3MrMXhzdzJ3eS9hWDEyNndpc2tlUGt0U05NOGRURERPemRQQVdv?=
+ =?utf-8?B?SlAwcGsvSHlTRnlFcmltMGJYK1hOVEVGOE9SSGVsNW53ck0zSHRMRm5seDdP?=
+ =?utf-8?B?U3VZU3FKN1JwSjhxWUxoYWo3d3IyUkt2V05WQUsrRmlhR0JQKys5bzZQcFZZ?=
+ =?utf-8?B?elEyZzZCZEd4WHRpMTRiNkhlR2dUUUdwRUpLQ0phelRsemxkL2tnNW5CbXdO?=
+ =?utf-8?B?WncvQ0xmcWxZN3JkbzY3NW54Qld5ZXRVTDcrZlJMa1U1eFVFcllQQzU3SFo4?=
+ =?utf-8?B?QkM2c0liSGVaUkNSY0xCM043bXp1ZW00SFZlQ21aVTNFaDZIdUE1UXVTdVA5?=
+ =?utf-8?B?aU1EZVlLcExKditNb1pQUjhDSGpIdnFPZkxsV3VmamRKNnF1clV3eFhWUHJZ?=
+ =?utf-8?B?dFFOM1NVOUkySVA1WVBVaUxtTFlNejhPaDcvZTg1cGJ0TmNHTjdFbFNTTGRI?=
+ =?utf-8?B?RytBbmJNR2pJVCtPVnJoZ3l0QnFGZitGOURsZ2lvYUVhQ2NWMTZlKzJTaCtt?=
+ =?utf-8?B?WDRJRWIwb2YwelYrcEJsTXFrR1hoK001b0xETGJVa2Zmcnh0c3B2T2RncEcx?=
+ =?utf-8?B?cmF2bkZnT0NlTmJleEhXK0piNDd5MXh6WDJRV1BVSmU1aEIyaTgwc1N4Tmt2?=
+ =?utf-8?B?eDVQT0YrT1lVaStoZllQeWR6emI4b0hiUWNmeE8rdllPbjRieldtMUFzeksw?=
+ =?utf-8?B?TnZJS2x5UVJmNldMMm5wSnlZUHo4LzZaVFZvTzVibkd5RW04MWkyUUhBT21n?=
+ =?utf-8?B?ejU5ZDc3eldqSUtaM21LUUwvL2x3RS81dm9uSWJIVzRkZTN5dkNyVkVubENv?=
+ =?utf-8?B?aFdaV2s4UDNEU3JyYkZJSldrRHhYRkVmRTlhVERUZExBRk40czJJNVR5N05J?=
+ =?utf-8?B?RjQxY1RTelpSeWx2NFNOcXBSY2FZYjgxSlBjL3JnMVUzVVREMjVVTnBiSDJH?=
+ =?utf-8?B?Q0l3Vlk2R3c0WDVYQlo5Q0VjNE9hMGFYdldJcVlZRm9WenJZekE2cExPdHI5?=
+ =?utf-8?B?VHkyQzV1bWdpODQrM3dYM2RFZkZNRmZLbExtelh4Nk04dTc4azF6a3JaaEh5?=
+ =?utf-8?B?TkhYNmhuSCs2ZDhKVXEyd3dINkxaK0VSclg0TlUwTGt6eThNNkE4S0N3TnNk?=
+ =?utf-8?B?dUVxT2V4MzRCdlU5QkZiV3I2UUZNN0p4N2dKUWRCaE1kb0NKc2d0bXRTUU9k?=
+ =?utf-8?B?S2FhWXBub0w5QnRab2h2Kys1YkxJdSs3Rm5SekxZVURYbTVaVW4ybjMrdVk3?=
+ =?utf-8?B?WGVhUTR1V1NBSnE0WmxKalNpM1hwa1JJTWFVamhXU2NoSjZTcjlYdmFzN2Qy?=
+ =?utf-8?B?QlhjVTZ6WjZnelFqdjhFRmptcXUwNkE0bWZTYXdRQ0Q0SWlidGh5WFFxd1Nx?=
+ =?utf-8?B?WGd3TEtURjhsNDd2ZU84T0tZT3YrSmh1d0tsOHpCR0tKRWRmUmxLVHFPenEy?=
+ =?utf-8?B?M1dTY2p2OHkybmFCTHJZQnFaN1Y1SDdJcnlFSHU5OVlCZ3V2ODFwWnQ1emtQ?=
+ =?utf-8?B?cUtFTzFlT0hPTzRrR010UGRTWnBmSUw5c20zVnVUYVdDaVdsUGhhVlNYQkJR?=
+ =?utf-8?B?d3hkSDNjTDNCUW1ITzBXKy9SR0poWDE0UEVwTFlESWtxSFlYNkVxTjdIUG1O?=
+ =?utf-8?Q?mnKuZVkTazylW?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a56c7f8-7e60-4ccf-d4d6-08d8cd9aa40b
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2021 08:05:33.7549
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MJJ+wpJm1/X74N7lfQiRNyVgoFkrcAEyp/E5mjG7n5MT8SOC4xd0CQtiGRr6rg1E
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I've been seeing these warnings for a couple of weeks now. Any
-pointers on how to address this would be much appreciated.
+Hi Vivek,
 
-[   57.207457] ======================================================
-[   57.207470] WARNING: possible circular locking dependency detected
-[   57.207483] 5.11.0-rc7-next-20210209 #142 Tainted: G        W
-[   57.207497] ------------------------------------------------------
-[   57.207508] Xorg/459 is trying to acquire lock:
-[   57.207521] ffff888016edc518 (&cli->mutex){+.+.}-{3:3}, at:
-nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
---------------------------------------------------------
-[faddr2line]
-nouveau_bo_move+0x4bf/0x2ec0:
-nouveau_bo_move_m2mf at
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:804
-(inlined by) nouveau_bo_move at
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:1024
+Am 10.02.21 um 05:47 schrieb Kasireddy, Vivek:
+> Hi Gerd,
+>
+>> -----Original Message-----
+>> From: Gerd Hoffmann <kraxel@redhat.com>
+>> Sent: Tuesday, February 09, 2021 12:45 AM
+>> To: Kasireddy, Vivek <vivek.kasireddy@intel.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>; virtualization@lists.linux-foundation.org; dri-
+>> devel@lists.freedesktop.org; Vetter, Daniel <daniel.vetter@intel.com>;
+>> daniel.vetter@ffwll.ch; Kim, Dongwon <dongwon.kim@intel.com>;
+>> sumit.semwal@linaro.org; christian.koenig@amd.com; linux-media@vger.kernel.org
+>> Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+>>
+>>    Hi,
+>>
+>>>>>> Nack, this doesn't work on dma-buf. And it'll blow up at runtime
+>>>>>> when you enable the very recently merged CONFIG_DMABUF_DEBUG (would
+>>>>>> be good to test with that, just to make sure).
+>>> [Kasireddy, Vivek] Although, I have not tested it yet but it looks like this will
+>>> throw a wrench in our solution as we use sg_next to iterate over all the struct page *
+>>> and get their PFNs. I wonder if there is any other clean way to get the PFNs of all
+>>> the pages associated with a dmabuf.
+>> Well, there is no guarantee that dma-buf backing storage actually has
+>> struct page ...
+> [Kasireddy, Vivek] What if I do mmap() on the fd followed by mlock() or mmap()
+> followed by get_user_pages()? If it still fails, would ioremapping the device memory
+> and poking at the backing storage be an option? Or, if I bind the passthrough'd GPU device
+> to vfio-pci and tap into the memory region associated with the device memory, can it be
+> made to work?
 
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:800,804
-if (drm_drv_uses_atomic_modeset(drm->dev))
-        mutex_lock(&cli->mutex);
-else
-        mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
-ret = nouveau_fence_sync(nouveau_bo(bo), chan, true, ctx->interruptible);
---------------------------------------------------------
-[   57.207923]
-               but task is already holding lock:
-[   57.207934] ffff88801f49e9a0
-(reservation_ww_class_mutex){+.+.}-{3:3}, at:
-nouveau_bo_pin+0xc1/0xb60 [nouveau]
---------------------------------------------------------
-[faddr2line]
-nouveau_bo_pin+0xc1/0xb60:
-ttm_bo_reserve at /home/sasha/linux-next/./include/drm/ttm/ttm_bo_driver.h:152
-(inlined by) nouveau_bo_pin at
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:424
+get_user_pages() is not allowed on mmaped DMA-bufs in the first place.
 
-/home/sasha/linux-next/include/drm/ttm/ttm_bo_driver.h:148,154
-if (interruptible)
-        ret = dma_resv_lock_interruptible(bo->base.resv, ticket);
-else
-        ret = dma_resv_lock(bo->base.resv, ticket);
-if (ret == -EINTR)
-        return -ERESTARTSYS;
-return ret;
---------------------------------------------------------
-[   57.208317]
-               which lock already depends on the new lock.
+Daniel is currently adding code to make sure that this is never ever used.
 
-[   57.208329]
-               the existing dependency chain (in reverse order) is:
-[   57.208340]
-               -> #1 (reservation_ww_class_mutex){+.+.}-{3:3}:
-[   57.208373]        __ww_mutex_lock.constprop.0+0x18a/0x2d40
-[   57.208395]        nouveau_bo_pin+0xc1/0xb60 [nouveau]
-[   57.208753]        nouveau_channel_prep+0x2c6/0xba0 [nouveau]
-[   57.209105]        nouveau_channel_new+0x127/0x2020 [nouveau]
-[   57.209457]        nouveau_abi16_ioctl_channel_alloc+0x33b/0xdf0 [nouveau]
-[   57.209809]        drm_ioctl_kernel+0x1cb/0x260
-[   57.209826]        drm_ioctl+0x420/0x850
-[   57.209841]        nouveau_drm_ioctl+0xdf/0x210 [nouveau]
-[   57.210198]        __x64_sys_ioctl+0x122/0x190
-[   57.210214]        do_syscall_64+0x33/0x40
-[   57.210230]        entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   57.210247]
-               -> #0 (&cli->mutex){+.+.}-{3:3}:
-[   57.210280]        __lock_acquire+0x2a01/0x5ab0
-[   57.210298]        lock_acquire+0x1a9/0x690
-[   57.210314]        __mutex_lock+0x125/0x1140
-[   57.210329]        nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.210686]        ttm_bo_handle_move_mem+0x1b6/0x570 [ttm]
-[   57.210719]        ttm_bo_validate+0x316/0x420 [ttm]
-[   57.210750]        nouveau_bo_pin+0x3c4/0xb60 [nouveau]
-[   57.211107]        nv50_wndw_prepare_fb+0x117/0xcb0 [nouveau]
-[   57.211460]        drm_atomic_helper_prepare_planes+0x1ec/0x600
-[   57.211477]        nv50_disp_atomic_commit+0x189/0x530 [nouveau]
-[   57.211833]        drm_atomic_helper_update_plane+0x2ac/0x380
-[   57.211849]        drm_mode_cursor_universal+0x3f3/0xb40
-[   57.211865]        drm_mode_cursor_common+0x27b/0x930
-[   57.211880]        drm_mode_cursor_ioctl+0x95/0xd0
-[   57.211895]        drm_ioctl_kernel+0x1cb/0x260
-[   57.211910]        drm_ioctl+0x420/0x850
-[   57.211925]        nouveau_drm_ioctl+0xdf/0x210 [nouveau]
-[   57.212281]        __x64_sys_ioctl+0x122/0x190
-[   57.212297]        do_syscall_64+0x33/0x40
-[   57.212312]        entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   57.212328]
-               other info that might help us debug this:
+> And, I noticed that for PFNs that do not have valid struct page associated with it, KVM
+> does a memremap() to access/map them. Is this an option?
 
-[   57.212339]  Possible unsafe locking scenario:
+No, even for system memory which has a valid struct page touching it 
+when it is part of a DMA-buf is illegal since the reference count and 
+mapping fields in struct page might be used for something different.
 
-[   57.212350]        CPU0                    CPU1
-[   57.212360]        ----                    ----
-[   57.212370]   lock(reservation_ww_class_mutex);
-[   57.212390]                                lock(&cli->mutex);
-[   57.212410]                                lock(reservation_ww_class_mutex);
-[   57.212430]   lock(&cli->mutex);
-[   57.212449]
-                *** DEADLOCK ***
+Keep in mind that struct page is a heavily overloaded structure for 
+different use cases. You can't just use it for a different use case than 
+what the owner of the page has intended it.
 
-[   57.212460] 3 locks held by Xorg/459:
-[   57.212473]  #0: ffffc9000044fb38
-(crtc_ww_class_acquire){+.+.}-{0:0}, at:
-drm_mode_cursor_common+0x1fd/0x930
-[   57.212520]  #1: ffff88800d9f2098
-(crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0xdb/0x4c0
-[   57.212564]  #2: ffff88801f49e9a0
-(reservation_ww_class_mutex){+.+.}-{3:3}, at:
-nouveau_bo_pin+0xc1/0xb60 [nouveau]
-[   57.212949]
-               stack backtrace:
-[   57.212961] CPU: 0 PID: 459 Comm: Xorg Tainted: G        W
-5.11.0-rc7-next-20210209 #142
-[   57.212979] Hardware name: Gigabyte Technology Co., Ltd.
-P35-S3G/P35-S3G, BIOS F4 07/10/2008
-[   57.212992] Call Trace:
-[   57.213007]  dump_stack+0x9a/0xcc
-[   57.213029]  check_noncircular+0x25f/0x2e0
-[   57.213049]  ? print_circular_bug+0x460/0x460
-[   57.213075]  ? alloc_chain_hlocks+0x1e4/0x530
-[   57.213095]  __lock_acquire+0x2a01/0x5ab0
-[   57.213119]  ? nvkm_ioctl+0x34a/0x6d0 [nouveau]
-[   57.213400]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.213421]  ? memcpy+0x39/0x60
-[   57.213440]  ? nvif_object_mthd+0x20e/0x250 [nouveau]
-[   57.213717]  lock_acquire+0x1a9/0x690
-[   57.213736]  ? nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.214097]  ? lock_release+0x610/0x610
-[   57.214115]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.214134]  ? memcpy+0x39/0x60
-[   57.214152]  ? nvif_object_mthd+0x20e/0x250 [nouveau]
-[   57.214431]  __mutex_lock+0x125/0x1140
-[   57.214448]  ? nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.214808]  ? nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.215167]  ? ttm_bo_wait+0x88/0xc0 [ttm]
-[   57.215201]  ? mutex_lock_io_nested+0xfe0/0xfe0
-[   57.215220]  ? nouveau_mem_map+0x1d3/0x3b0 [nouveau]
-[   57.215579]  ? nvif_vmm_put+0x140/0x140 [nouveau]
-[   57.215856]  ? nouveau_gem_ioctl_info+0xb0/0xb0 [nouveau]
-[   57.216220]  nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.216586]  ? unmap_mapping_pages+0xca/0x240
-[   57.216605]  ? spin_bug+0x100/0x100
-[   57.216621]  ? do_wp_page+0xf20/0xf20
-[   57.216640]  ? nouveau_bo_move_ntfy.constprop.0+0x620/0x620 [nouveau]
-[   57.217000]  ? _raw_spin_unlock+0x1a/0x30
-[   57.217017]  ? ttm_bo_add_move_fence.constprop.0+0x1a0/0x2a0 [ttm]
-[   57.217055]  ttm_bo_handle_move_mem+0x1b6/0x570 [ttm]
-[   57.217092]  ttm_bo_validate+0x316/0x420 [ttm]
-[   57.217127]  ? ttm_bo_bounce_temp_buffer+0x1e0/0x1e0 [ttm]
-[   57.217162]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.217181]  ? __mutex_unlock_slowpath+0xe2/0x610
-[   57.217203]  ? nouveau_bo_placement_set+0xa6/0x420 [nouveau]
-[   57.217564]  nouveau_bo_pin+0x3c4/0xb60 [nouveau]
-[   57.217927]  ? nouveau_bo_sync_for_device+0x3c0/0x3c0 [nouveau]
-[   57.218289]  ? find_held_lock+0x2d/0x110
-[   57.218309]  nv50_wndw_prepare_fb+0x117/0xcb0 [nouveau]
-[   57.218669]  ? nv50_wndw_destroy+0x200/0x200 [nouveau]
-[   57.219028]  ? rcu_read_lock_sched_held+0x3a/0x70
-[   57.219047]  ? module_assert_mutex_or_preempt+0x39/0x70
-[   57.219065]  ? __module_address+0x30/0x310
-[   57.219086]  drm_atomic_helper_prepare_planes+0x1ec/0x600
-[   57.219105]  ? lockdep_init_map_type+0x2c3/0x770
-[   57.219126]  nv50_disp_atomic_commit+0x189/0x530 [nouveau]
-[   57.219488]  drm_atomic_helper_update_plane+0x2ac/0x380
-[   57.219510]  drm_mode_cursor_universal+0x3f3/0xb40
-[   57.219533]  ? setplane_internal+0x5f0/0x5f0
-[   57.219557]  ? ww_mutex_lock_interruptible+0x2f/0x160
-[   57.219577]  drm_mode_cursor_common+0x27b/0x930
-[   57.219598]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.219617]  ? drm_mode_cursor_universal+0xb40/0xb40
-[   57.219642]  ? find_held_lock+0x2d/0x110
-[   57.219661]  ? drm_mode_setplane+0x850/0x850
-[   57.219677]  drm_mode_cursor_ioctl+0x95/0xd0
-[   57.219694]  ? drm_mode_setplane+0x850/0x850
-[   57.219711]  ? lock_acquire+0x1a9/0x690
-[   57.219732]  ? drm_is_current_master+0x65/0x120
-[   57.219750]  drm_ioctl_kernel+0x1cb/0x260
-[   57.219767]  ? drm_setversion+0x800/0x800
-[   57.219789]  drm_ioctl+0x420/0x850
-[   57.219807]  ? drm_mode_setplane+0x850/0x850
-[   57.219824]  ? drm_version+0x390/0x390
-[   57.219841]  ? __pm_runtime_resume+0x7a/0x100
-[   57.219862]  ? do_user_addr_fault+0x25f/0xaf0
-[   57.219882]  ? lockdep_hardirqs_on_prepare+0x273/0x3e0
-[   57.219900]  ? _raw_spin_unlock_irqrestore+0x34/0x40
-[   57.219917]  ? trace_hardirqs_on+0x32/0x120
-[   57.219940]  nouveau_drm_ioctl+0xdf/0x210 [nouveau]
-[   57.220301]  __x64_sys_ioctl+0x122/0x190
-[   57.220321]  do_syscall_64+0x33/0x40
-[   57.220338]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   57.220356] RIP: 0033:0x7f4e52905f6b
-[   57.220374] Code: ff ff ff 85 c0 79 8b 49 c7 c4 ff ff ff ff 5b 5d
-4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00
-00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d d5 ae 0c 00 f7 d8 64 89
-01 48
-[   57.220392] RSP: 002b:00007fff974a0258 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[   57.220413] RAX: ffffffffffffffda RBX: 00007fff974a0290 RCX: 00007f4e52905f6b
-[   57.220428] RDX: 00007fff974a0290 RSI: 00000000c01c64a3 RDI: 000000000000000a
-[   57.220442] RBP: 00000000c01c64a3 R08: 0000000000000040 R09: 0000000000000001
-[   57.220455] R10: 00007f4e52d761c0 R11: 0000000000000246 R12: 0000565035263610
-[   57.220469] R13: 000000000000000a R14: 0000000000000000 R15: 0000000000000209
-[  158.611112] perf: interrupt took too long (2503 > 2500), lowering
-kernel.perf_event_max_sample_rate to 79000
-[  319.835187] perf: interrupt took too long (3138 > 3128), lowering
-kernel.perf_event_max_sample_rate to 63000
-[  358.920047] nouveau 0000:01:00.0: Direct firmware load for
-nouveau/nv84_xuc00f failed with error -2
-[  358.920095] nouveau 0000:01:00.0: vp: unable to load firmware
-nouveau/nv84_xuc00f
-[  358.920107] nouveau 0000:01:00.0: vp: init failed, -2
-[  358.920523] nouveau 0000:01:00.0: Direct firmware load for
-nouveau/nv84_xuc103 failed with error -2
-[  358.920556] nouveau 0000:01:00.0: bsp: unable to load firmware
-nouveau/nv84_xuc103
-[  358.920565] nouveau 0000:01:00.0: bsp: init failed, -2
+Regards,
+Christian.
 
-Thanks.
-Alexander Kapshuk
+>
+>>> [Kasireddy, Vivek] To exclude such cases, would it not be OK to limit the scope
+>>> of this solution (Vdmabuf) to make it clear that the dma-buf has to live in Guest RAM?
+>>> Or, are there any ways to pin the dma-buf pages in Guest RAM to make this
+>>> solution work?
+>> At that point it becomes (i915) driver-specific.  If you go that route
+>> it doesn't look that useful to use dma-bufs in the first place ...
+> [Kasireddy, Vivek] I prefer not to make this driver specific if possible.
+>
+>>> IIUC, Virtio GPU is used to present a virtual GPU to the Guest and all the rendering
+>>> commands are captured and forwarded to the Host GPU via Virtio.
+>> You don't have to use the rendering pipeline.  You can let the i915 gpu
+>> render into a dma-buf shared with virtio-gpu, then use virtio-gpu only for
+>> buffer sharing with the host.
+> [Kasireddy, Vivek] Is this the most viable path forward? I am not sure how complex or
+> feasible it would be but I'll look into it.
+> Also, not using the rendering capabilities of virtio-gpu and turning it into a sharing only
+> device means there would be a giant mode switch with a lot of if() conditions sprinkled
+> across. Are you OK with that?
+>
+> Thanks,
+> Vivek
+>> take care,
+>>    Gerd
+
