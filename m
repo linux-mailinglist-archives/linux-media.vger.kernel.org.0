@@ -2,141 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD0B2316163
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 09:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0982D3161FC
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 10:20:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230495AbhBJIr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Feb 2021 03:47:29 -0500
-Received: from mga11.intel.com ([192.55.52.93]:27146 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230144AbhBJInE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 03:43:04 -0500
-IronPort-SDR: Wd7mOY1noQP1TXttbVX4B5VLRPMFxAIl0wLN9GZjbzk06o++J6mp7+RF2PSxqpyvXrD7HR23DL
- AmHudyQiIyrg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="178525418"
-X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
-   d="scan'208";a="178525418"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 00:41:18 -0800
-IronPort-SDR: YoH+gspjY3sHrBSfpvthur+rWTZN8iyc+XAnaJ0hDleOFJ0PyOzvmgyzqM2g4ROgkdo7pX3HZj
- lG9CHO9ObDSQ==
-X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
-   d="scan'208";a="436597931"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 00:41:15 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 73038201E1;
-        Wed, 10 Feb 2021 10:41:13 +0200 (EET)
-Date:   Wed, 10 Feb 2021 10:41:13 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v10 7/7] at24: Support probing while off
-Message-ID: <20210210080311.GA3@paasikivi.fi.intel.com>
-References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
- <20210205132505.20173-8-sakari.ailus@linux.intel.com>
- <CAMpxmJU7J9JBSwCN+GLDpuOL=iZ1PH=oZZuGiAyovuf2TQ=o9A@mail.gmail.com>
- <CAJZ5v0jUqtYDpBn-ezsftCrY=9iD3sAKhyyFf_+CMkthLnsZow@mail.gmail.com>
- <CAMpxmJW61Bd1SR3-i6=OV6RgafiEdfp4sNN0M6EYa7NSeOTFKg@mail.gmail.com>
- <20210209162343.GF32460@paasikivi.fi.intel.com>
- <CAJZ5v0h2=zKNMictJtJE5LuEi9E3n=Uf-xNO3udHxL2hqXL7Fg@mail.gmail.com>
- <20210209165418.GG32460@paasikivi.fi.intel.com>
- <CAJZ5v0jc9HZ-Qa9ooN40sgispqo5BUE6ngnVMCqAO3qnUU+uqw@mail.gmail.com>
+        id S229736AbhBJJUY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 04:20:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21162 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230280AbhBJJSR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Feb 2021 04:18:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612948609;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KajS67I+i5BpKQ99uXSNDjgQPmQkOT9qLUWTp/ktN+o=;
+        b=cd6GH2HE5uGBHOqAy3AqfVwBYdT2c71usiDKFdrs5aV2MvkiD5+qfC5XE24uQgOxD4ooon
+        42j3sHSyhcvR2bp1kgz8uH+/cEFkDY7cMoLerBcWDmrOM5FOuVQ9RwLXqNMZ5ZdQv9gbhE
+        vY0iSV68M9+AsHlg3s4oSoJ0ExmQL7I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-1xqaUBcyOBi7KIZWJaDH_w-1; Wed, 10 Feb 2021 04:16:45 -0500
+X-MC-Unique: 1xqaUBcyOBi7KIZWJaDH_w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC397BBEE4;
+        Wed, 10 Feb 2021 09:16:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-161.ams2.redhat.com [10.36.112.161])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B68C10016F6;
+        Wed, 10 Feb 2021 09:16:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id B59A418000AB; Wed, 10 Feb 2021 10:16:41 +0100 (CET)
+Date:   Wed, 10 Feb 2021 10:16:41 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "Vetter, Daniel" <daniel.vetter@intel.com>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+        "Kim, Dongwon" <dongwon.kim@intel.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Message-ID: <20210210091641.ahjtgcdalw7viuei@sirius.home.kraxel.org>
+References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
+ <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+ <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+ <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
+ <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
+ <2ef01dc941684a15a4f30e6239ae42df@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0jc9HZ-Qa9ooN40sgispqo5BUE6ngnVMCqAO3qnUU+uqw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <2ef01dc941684a15a4f30e6239ae42df@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 05:58:12PM +0100, Rafael J. Wysocki wrote:
-> On Tue, Feb 9, 2021 at 5:54 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > On Tue, Feb 09, 2021 at 05:42:45PM +0100, Rafael J. Wysocki wrote:
-> > > On Tue, Feb 9, 2021 at 5:23 PM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> > > >
-> > > > Hi Bartosz, Rafael,
-> > > >
-> > > > On Tue, Feb 09, 2021 at 04:49:37PM +0100, Bartosz Golaszewski wrote:
-> > > > > On Mon, Feb 8, 2021 at 5:54 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > > > >
-> > > > > > On Mon, Feb 8, 2021 at 5:44 PM Bartosz Golaszewski
-> > > > > > <bgolaszewski@baylibre.com> wrote:
-> > > > > > >
-> > > > > > > On Fri, Feb 5, 2021 at 2:25 PM Sakari Ailus
-> > > > > > > <sakari.ailus@linux.intel.com> wrote:
-> > > > > > > >
-> > > > > > > > In certain use cases (where the chip is part of a camera module, and the
-> > > > > > > > camera module is wired together with a camera privacy LED), powering on
-> > > > > > > > the device during probe is undesirable. Add support for the at24 to
-> > > > > > > > execute probe while being powered off. For this to happen, a hint in form
-> > > > > > > > of a device property is required from the firmware.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > > > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-> > > > > > > > ---
-> > > > > > >
-> > > > > > > I'll ack this but I still claim that the name
-> > > > > > > acpi_dev_state_low_power() is super misleading for this use-case and
-> > > > > > > I've been saying that for 10 versions now with everyone just ignoring
-> > > > > > > my remarks. :/
-> > > > > >
-> > > > > > Well, the function in question simply checks if the current ACPI power
-> > > > > > state of the device is different from "full power", so its name
-> > > > > > appears to be quite adequate to me.
-> > > > > >
-> > > > > > If the way in which it is used is confusing, though, I guess
-> > > > > > explaining what's going on would be welcome.
-> > > > > >
-> > > > >
-> > > > > Yes, I have explained it multiple time already - last time at v9 of this series:
-> > > > >
-> > > > >     https://www.spinics.net/lists/kernel/msg3816807.html
-> > > >
-> > > > How about adding this to the description of acpi_dev_state_low_power():
-> > > >
-> > > > -----------8<--------------
-> > > >  * This function is intended to be used by drivers to tell whether the device
-> > > >  * is in low power state (D1--D3cold) in driver's probe or remove function. See
-> > > >  * Documentation/firmware-guide/acpi/low-power-probe.rst for more information.
-> > > > -----------8<--------------
-> > >
-> > > This information is already there in the kerneldoc description of that
-> > > function AFAICS.
-> >
-> > Ok, the D states are mentioned already. But how to use it is not, nor
-> > there's a reference to the ReST file. I think that wouldn't hurt.
-> >
-> > >
-> > > I was thinking about adding an explanation comment to the caller.
-> >
-> > I think it'd be best if the function name would convey that without a
-> > comment that should then be added to all callers. How about calling the
-> > function e.g. acpi_dev_state_d0() and negating the return value? The D0
-> > state is well defined and we could do this without adding new terms.
-> 
-> That would work for me.
+> > You don't have to use the rendering pipeline.  You can let the i915 gpu
+> > render into a dma-buf shared with virtio-gpu, then use virtio-gpu only for
+> > buffer sharing with the host.
+> [Kasireddy, Vivek] Is this the most viable path forward? I am not sure how complex or 
+> feasible it would be but I'll look into it.
+> Also, not using the rendering capabilities of virtio-gpu and turning it into a sharing only
+> device means there would be a giant mode switch with a lot of if() conditions sprinkled
+> across. Are you OK with that?
 
-Bartosz, would that work for you?
+Hmm, why a big mode switch?  You should be able to do that without
+modifying the virtio-gpu guest driver.  On the host side qemu needs
+some work to support the most recent virtio-gpu features like the
+buffer uuids (assuming you use qemu userspace), right now those
+are only supported by crosvm.
 
-I'd call the temporary variable in the at24 driver e.g. "full_power".
+It might be useful to add support for display-less virtio-gpu, i.e.
+"qemu -device virtio-gpu-pci,max_outputs=0".  Right now the linux
+driver throws an error in case no output (crtc) is present.  Should
+be fixable without too much effort though, effectively the sanity
+check would have to be moved from driver initialization to commands
+like SET_SCANOUT which manage the outputs.
 
--- 
-Regards,
+take care,
+  Gerd
 
-Sakari Ailus
