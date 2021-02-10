@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28FE53172BA
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 22:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD5073172C7
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 23:01:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232392AbhBJVy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Feb 2021 16:54:26 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:36014 "EHLO www.linuxtv.org"
+        id S232804AbhBJWAm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 17:00:42 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:36710 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232312AbhBJVyZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 16:54:25 -0500
+        id S231642AbhBJWAl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Feb 2021 17:00:41 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1l9xQc-003UIN-5I; Wed, 10 Feb 2021 21:53:42 +0000
+        id 1l9xWf-003UdZ-HC; Wed, 10 Feb 2021 21:59:57 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1l9xUD-000879-Of; Wed, 10 Feb 2021 21:57:26 +0000
-Date:   Wed, 10 Feb 2021 21:57:25 +0000 (UTC)
+        id 1l9xaI-0000Xc-C6; Wed, 10 Feb 2021 22:03:42 +0000
+Date:   Wed, 10 Feb 2021 22:03:42 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1193795676.7.1612994245741@builder.linuxtv.org>
-Subject: Build failed in Jenkins: kernel_media_pipeline #186
+Message-ID: <2125977196.8.1612994622359@builder.linuxtv.org>
+Subject: Build failed in Jenkins: kernel_media_pipeline #187
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -36,109 +36,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/kernel_media_pipeline/186/display/redirect>
+See <https://builder.linuxtv.org/job/kernel_media_pipeline/187/display/redirect>
 
 Changes:
 
 
 ------------------------------------------
-Started by user Mauro Carvalho Chehab
-Running in Durability level: PERFORMANCE_OPTIMIZED
-[Pipeline] Start of Pipeline
-[Pipeline] node
-Running on Jenkins in /var/lib/jenkins/workspace/kernel_media_pipeline
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (build)
-[Pipeline] parallel
-[Pipeline] { (Branch: i386 and docs)
-[Pipeline] { (Branch: x86_64 (builtin/mod))
-[Pipeline] { (Branch: arm/aarch64 (builtin))
-[Pipeline] stage
-[Pipeline] { (i386 and docs)
-[Pipeline] stage
-[Pipeline] { (x86_64 (builtin/mod))
-[Pipeline] stage
-[Pipeline] { (arm/aarch64 (builtin))
-[Pipeline] node
-[Pipeline] node
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/kernel_media_pipeline
-Running on slave2 in /var/lib/jenkins/workspace/kernel_media_pipeline
-Running on Jenkins in /var/lib/jenkins/workspace/kernel_media_pipeline@2
-[Pipeline] {
-[Pipeline] {
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (docs)
-[Pipeline] checkout
-[Pipeline] checkout
-The recommended git tool is: NONE
+[...truncated 79 lines...]
 No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-The recommended git tool is: NONE
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/kernel_media_pipeline@2
-[Pipeline] {
-[Pipeline] checkout
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
-No credentials specified
-The recommended git tool is: NONE
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-Fetching changes from the remote Git repository
-No credentials specified
-Fetching changes from the remote Git repository
-Checking out Revision ce79aecf608469b8b8e422928e6fca50b6ca7133 (refs/remotes/origin/master)
-Checking out Revision ce79aecf608469b8b8e422928e6fca50b6ca7133 (refs/remotes/origin/master)
- > git rev-parse --is-inside-work-tree # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f ce79aecf608469b8b8e422928e6fca50b6ca7133 # timeout=10
- > git rev-parse --is-inside-work-tree # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f ce79aecf608469b8b8e422928e6fca50b6ca7133 # timeout=10
-Commit message: "media: i2c: max9271: Add MODULE_* macros"
 The recommended git tool is: NONE
 No credentials specified
 The recommended git tool is: NONE
 No credentials specified
 Commit message: "media: i2c: max9271: Add MODULE_* macros"
  > git rev-list --no-walk ce79aecf608469b8b8e422928e6fca50b6ca7133 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse HEAD^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
 [GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_tree.git'
 [GitCheckoutListener] Found previous build 'kernel_media_pipeline #185' that contains recorded Git commits
 [GitCheckoutListener] -> Starting recording of new commits since 'ce79aecf608469b8b8e422928e6fca50b6ca7133'
 [GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@31f84da'
 [GitCheckoutListener] -> No new commits found
-The recommended git tool is: NONE
 [Pipeline] sh
-No credentials specified
-The recommended git tool is: NONE
-No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_tree.git'
+[GitCheckoutListener] Found previous build 'kernel_media_pipeline #185' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'ce79aecf608469b8b8e422928e6fca50b6ca7133'
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@31f84da'
+[GitCheckoutListener] -> No new commits found
+[Pipeline] sh
 + export CCACHE_DIR=/var/lib/jenkins/.ccache
 + export PATH=/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
 + make O=docs allmodconfig
 make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/docs'
   GEN     Makefile
- > git rev-parse HEAD^{commit} # timeout=10
 [GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_tree.git'
 [GitCheckoutListener] Found previous build 'kernel_media_pipeline #185' that contains recorded Git commits
 [GitCheckoutListener] -> Starting recording of new commits since 'ce79aecf608469b8b8e422928e6fca50b6ca7133'
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@58d5356'
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@31f84da'
 [GitCheckoutListener] -> No new commits found
 [Pipeline] sh
  > git rev-parse HEAD^{commit} # timeout=10
@@ -146,6 +83,12 @@ make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/
 + export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
 + make O=x86_64_mod allmodconfig
 make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline/x86_64_mod'
+  GEN     Makefile
+ > git rev-parse HEAD^{commit} # timeout=10
++ export CCACHE_DIR=/var/lib/jenkins/.ccache
++ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
++ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- allyesconfig
+make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/arm_yes'
   GEN     Makefile
 #
 # No change to .config
@@ -157,13 +100,98 @@ make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/
 # No change to .config
 #
 make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline/x86_64_mod'
-+ ./scripts/config -d CHECK_SIGNATURE
++ ./scripts/config -f x86_64_mod/.config -d CHECK_SIGNATURE
+bad command: -f
+Manipulate options in a .config file from the command line.
+Usage:
+config options command ...
+commands:
+	--enable|-e option   Enable option
+	--disable|-d option  Disable option
+	--module|-m option   Turn option into a module
+	--set-str option string
+	                     Set option to "string"
+	--set-val option value
+	                     Set option to value
+	--undefine|-u option Undefine option
+	--state|-s option    Print state of option (n,y,m,undef)
+
+	--enable-after|-E beforeopt option
+                             Enable option directly after other option
+	--disable-after|-D beforeopt option
+                             Disable option directly after other option
+	--module-after|-M beforeopt option
+                             Turn option into module directly after other option
+
+	commands can be repeated multiple times
+
+options:
+	--file config-file   .config file to change (default .config)
+	--keep-case|-k       Keep next symbols' case (dont' upper-case it)
+
+config doesn't check the validity of the .config file. This is done at next
+make time.
+
+By default, config will upper-case the given symbol. Use --keep-case to keep
+the case of all following symbols unchanged.
+
+config uses 'CONFIG_' as the default symbol prefix. Set the environment
+variable CONFIG_ to the prefix to use. Eg.: CONFIG_="FOO_" config ...
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+Failed in branch x86_64 (builtin/mod)
+#
+# No change to .config
+#
+make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/arm_yes'
++ ./scripts/config -f arm_yes/.config -d CHECK_SIGNATURE
+bad command: -f
+Manipulate options in a .config file from the command line.
+Usage:
+config options command ...
+commands:
+	--enable|-e option   Enable option
+	--disable|-d option  Disable option
+	--module|-m option   Turn option into a module
+	--set-str option string
+	                     Set option to "string"
+	--set-val option value
+	                     Set option to value
+	--undefine|-u option Undefine option
+	--state|-s option    Print state of option (n,y,m,undef)
+
+	--enable-after|-E beforeopt option
+                             Enable option directly after other option
+	--disable-after|-D beforeopt option
+                             Disable option directly after other option
+	--module-after|-M beforeopt option
+                             Turn option into module directly after other option
+
+	commands can be repeated multiple times
+
+options:
+	--file config-file   .config file to change (default .config)
+	--keep-case|-k       Keep next symbols' case (dont' upper-case it)
+
+config doesn't check the validity of the .config file. This is done at next
+make time.
+
+By default, config will upper-case the given symbol. Use --keep-case to keep
+the case of all following symbols unchanged.
+
+config uses 'CONFIG_' as the default symbol prefix. Set the environment
+variable CONFIG_ to the prefix to use. Eg.: CONFIG_="FOO_" config ...
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+Failed in branch arm/aarch64 (builtin)
   GEN     Makefile
   DESCEND  objtool
-grep: .config: No such file or directory
-+ ./scripts/config -d CONFIG_DEBUG_INFO
-+ make O=x86_64_mod -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline/x86_64_mod'
   CALL    ../scripts/atomic/check-atomics.sh
   CALL    ../scripts/checksyscalls.sh
   CHK     include/generated/compile.h
@@ -190,32 +218,7 @@ Warning: /sys/class/leds/<led>/repeat is defined 2 times:  ../Documentation/ABI/
 Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  ../Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  ../Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
   SPHINX  htmldocs --> file:///var/lib/jenkins/workspace/kernel_media_pipeline@2/docs/Documentation/output
 make[3]: Nothing to be done for 'html'.
-***
-*** The source tree is not clean, please run 'make mrproper'
-*** in /var/lib/jenkins/workspace/kernel_media_pipeline
-***
-make[1]: *** [/var/lib/jenkins/workspace/kernel_media_pipeline/Makefile:547: outputmakefile] Error 1
-make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline/x86_64_mod'
-make: *** [Makefile:185: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision ce79aecf608469b8b8e422928e6fca50b6ca7133 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f ce79aecf608469b8b8e422928e6fca50b6ca7133 # timeout=10
 enabling CJK for LaTeX builder
-Commit message: "media: i2c: max9271: Add MODULE_* macros"
-[GitCheckoutListener] Skipping recording, since SCM 'git git://linuxtv.org/media_tree.git' already has been processed
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/arm_yes'
-  GEN     Makefile
 make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/docs'
 [Pipeline] }
 [Pipeline] // node
@@ -236,27 +239,43 @@ make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/
 # No change to .config
 #
 make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/i386'
-+ ./scripts/config -d CHECK_SIGNATURE
-grep: .config: No such file or directory
-+ ./scripts/config -d CONFIG_DEBUG_INFO
-+ make O=i386 ARCH=i386 -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/i386'
-#
-# No change to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/arm_yes'
-+ ./scripts/config -d CHECK_SIGNATURE
-grep: .config: No such file or directory
-+ ./scripts/config -d CONFIG_DEBUG_INFO
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/arm_yes'
-***
-*** The source tree is not clean, please run 'make ARCH=i386 mrproper'
-*** in /var/lib/jenkins/workspace/kernel_media_pipeline@2
-***
-make[1]: *** [/var/lib/jenkins/workspace/kernel_media_pipeline@2/Makefile:547: outputmakefile] Error 1
-make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/i386'
-make: *** [Makefile:185: __sub-make] Error 2
++ ./scripts/config -f i386/.config -d CHECK_SIGNATURE
+bad command: -f
+Manipulate options in a .config file from the command line.
+Usage:
+config options command ...
+commands:
+	--enable|-e option   Enable option
+	--disable|-d option  Disable option
+	--module|-m option   Turn option into a module
+	--set-str option string
+	                     Set option to "string"
+	--set-val option value
+	                     Set option to value
+	--undefine|-u option Undefine option
+	--state|-s option    Print state of option (n,y,m,undef)
+
+	--enable-after|-E beforeopt option
+                             Enable option directly after other option
+	--disable-after|-D beforeopt option
+                             Disable option directly after other option
+	--module-after|-M beforeopt option
+                             Turn option into module directly after other option
+
+	commands can be repeated multiple times
+
+options:
+	--file config-file   .config file to change (default .config)
+	--keep-case|-k       Keep next symbols' case (dont' upper-case it)
+
+config doesn't check the validity of the .config file. This is done at next
+make time.
+
+By default, config will upper-case the given symbol. Use --keep-case to keep
+the case of all following symbols unchanged.
+
+config uses 'CONFIG_' as the default symbol prefix. Set the environment
+variable CONFIG_ to the prefix to use. Eg.: CONFIG_="FOO_" config ...
 [Pipeline] }
 [Pipeline] // node
 [Pipeline] }
@@ -267,19 +286,6 @@ make: *** [Makefile:185: __sub-make] Error 2
 [Pipeline] // stage
 [Pipeline] }
 Failed in branch i386 and docs
-***
-*** The source tree is not clean, please run 'make mrproper'
-*** in /var/lib/jenkins/workspace/kernel_media_pipeline@2
-***
-make[1]: *** [/var/lib/jenkins/workspace/kernel_media_pipeline@2/Makefile:547: outputmakefile] Error 1
-make[1]: Leaving directory '/var/lib/jenkins/workspace/kernel_media_pipeline@2/arm_yes'
-make: *** [Makefile:185: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch arm/aarch64 (builtin)
 [Pipeline] // parallel
 [Pipeline] }
 [Pipeline] // stage
