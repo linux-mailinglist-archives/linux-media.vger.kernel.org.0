@@ -2,81 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FB083171DA
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 22:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77BEC3171E7
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 22:05:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232311AbhBJVCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Feb 2021 16:02:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51498 "EHLO mail.kernel.org"
+        id S232735AbhBJVFC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 16:05:02 -0500
+Received: from mga11.intel.com ([192.55.52.93]:45271 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232343AbhBJVCd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 16:02:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8860064ED0;
-        Wed, 10 Feb 2021 21:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612990912;
-        bh=yTX2pW8uQGXiirQGlQTPqGLyF37JnySPC1tXe+4P2lQ=;
-        h=Date:From:To:Cc:Subject:From;
-        b=VC131B77LJ8tPnT3qZlg9vAit8wRwB7hbTJBvgRvL29ugUt4sSm05NTEypw4IzL2C
-         wG2EJsk9Lj35n+TczZJWoDzSKw14ibew2/w2KJ7Zq2spJ4sjroo/esjA+/6N1k7GFT
-         eLcy1xJlK0dchyUZne4csQYfIcdtgfyHBdmnoy1v0ZYFT6mi7aOB410zSnTadd6GFL
-         iXLJtz2eT0oT5M9m00MaWXVspCNuDuYaA+293PSthpnBGQ12JEowarTvSICYdsXbXF
-         xUvynz/xlM4WE5uKGPpuLlSS+7TSRogs9j4qRA1vREIGicL/OOtKQZ7iWQzb6HxHIE
-         JkXbyXazylJKg==
-Date:   Wed, 10 Feb 2021 15:01:49 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S232602AbhBJVFA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Feb 2021 16:05:00 -0500
+IronPort-SDR: Do12InMSPhptCVHBXSWMUe4TxsfzpXfVcuT/wMDiVyCTCQhWNhy5NvdBVYqB/eyeNuhD9FboUf
+ cHeppZ5bMQPg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="178642631"
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
+   d="scan'208";a="178642631"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 13:03:08 -0800
+IronPort-SDR: TRsLjxcExqvxBTIs/gaxWi3GsYIua5c2s2KCNNinaewD13f7bBzd9MxZrC858yxAqKhAqbOGSd
+ PXk4IX9DMYcQ==
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
+   d="scan'208";a="361478356"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 13:03:05 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 5E4EC2011B;
+        Wed, 10 Feb 2021 23:03:03 +0200 (EET)
+Date:   Wed, 10 Feb 2021 23:03:03 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Colin King <colin.king@canonical.com>
+Cc:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: [PATCH v2][next] media: uvcvideo: Remove duplicate assignments to
- pointer dma_dev
-Message-ID: <20210210210149.GA842694@embeddedor>
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] media: i2c: imx334: Fix a read of the
+ uninitialized variable ret
+Message-ID: <20210210210303.GE3@paasikivi.fi.intel.com>
+References: <20210210190752.146631-1-colin.king@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210210190752.146631-1-colin.king@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove redundant assignments to pointer dma_dev.
+Hi Colin,
 
-Fixes: fdcd02a641e2 ("media: uvcvideo: Use dma_alloc_noncontiguos API")
-Addresses-Coverity-ID: 1501703 ("Evaluation order violation")
-Addresses-Coverity-ID: 1501692 ("Evaluation order violation")
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
-Changes in v2:
- - Remove another redundant assignment in function
-   uvc_free_urb_buffers().
+On Wed, Feb 10, 2021 at 07:07:52PM +0000, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Currently there is a dev_err error message that is printing the
+> error status in variable ret (that has not been set) instead of
+> the correct error status from imx334->reset_gpio.  Fix this.
+> 
+> Addresses-Coverity: ("Uninitialized scalar variable")
+> Fixes: 9746b11715c3 ("media: i2c: Add imx334 camera sensor driver")
+> 
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  drivers/media/i2c/imx334.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+> index 07e31bc2ef18..f8b1caf26c9b 100644
+> --- a/drivers/media/i2c/imx334.c
+> +++ b/drivers/media/i2c/imx334.c
+> @@ -790,7 +790,8 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
+>  	imx334->reset_gpio = devm_gpiod_get_optional(imx334->dev, "reset",
+>  						     GPIOD_OUT_LOW);
+>  	if (IS_ERR(imx334->reset_gpio)) {
+> -		dev_err(imx334->dev, "failed to get reset gpio %d", ret);
+> +		dev_err(imx334->dev, "failed to get reset gpio %ld",
+> +			IS_ERR_VALUE(imx334->reset_gpio));
+>  		return PTR_ERR(imx334->reset_gpio);
+>  	}
 
- drivers/media/usb/uvc/uvc_video.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks for the patch. This has been already addressed by another patch
+here, and has just been applied to linux-media master.
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index dc81f9a86eca..6f2f308d86fe 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1105,7 +1105,7 @@ static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
- 
- static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
- {
--	struct device *dma_dev = dma_dev = stream_to_dmadev(uvc_urb->stream);
-+	struct device *dma_dev = stream_to_dmadev(uvc_urb->stream);
- 
- 	if (for_device) {
- 		dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
-@@ -1586,7 +1586,7 @@ static void uvc_video_complete(struct urb *urb)
-  */
- static void uvc_free_urb_buffers(struct uvc_streaming *stream)
- {
--	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
-+	struct device *dma_dev = stream_to_dmadev(stream);
- 	struct uvc_urb *uvc_urb;
- 
- 	for_each_uvc_urb(uvc_urb, stream) {
+commit c702e2f70275dbc5373aef50c450cf9c5730636c
+Author: Hans Verkuil <hverkuil@xs4all.nl>
+Date:   Mon Feb 8 12:32:29 2021 +0100
+
+    media: imx334: 'ret' is uninitialized, should have been PTR_ERR()
+    
+    Fix this compiler warning:
+    
+    drivers/media/i2c/imx334.c: In function 'imx334_parse_hw_config':
+    include/linux/dev_printk.h:112:2: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+      112 |  _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
+          |  ^~~~~~~~
+    drivers/media/i2c/imx334.c:783:6: note: 'ret' was declared here
+      783 |  int ret;
+          |      ^~~
+    
+    Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+    Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
 -- 
-2.27.0
+Kind regards,
 
+Sakari Ailus
