@@ -2,240 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E5CF3164F8
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 12:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A37773166A8
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 13:29:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231132AbhBJLSg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 10 Feb 2021 06:18:36 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:43976 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230104AbhBJLQ2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 06:16:28 -0500
-Received: from [95.90.166.74] (helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1l9nT8-0003jk-D7; Wed, 10 Feb 2021 12:15:38 +0100
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     Sebastian Fricke <sebastian.fricke@posteo.net>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        hjc@rock-chips.com, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        cmuellner@linux.com
-Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
-Date:   Wed, 10 Feb 2021 12:15:37 +0100
-Message-ID: <808992741.0ifERbkFSE@diego>
-In-Reply-To: <5860385.iIbC2pHGDl@diego>
-References: <20210202145632.1263136-1-heiko@sntech.de> <5271305.e9J7NaK4W3@diego> <5860385.iIbC2pHGDl@diego>
+        id S231617AbhBJM2v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 07:28:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231817AbhBJM1p (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Feb 2021 07:27:45 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E65C0613D6
+        for <linux-media@vger.kernel.org>; Wed, 10 Feb 2021 04:27:04 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id q2so2742115edi.4
+        for <linux-media@vger.kernel.org>; Wed, 10 Feb 2021 04:27:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Phx2Df+hBBWF6//uqqDU9bgwk8wPxGzI8wPThN0e6e4=;
+        b=XWEkebRiibdEdE+6ZB77pkBDh+47f7G/U8vuVdUs3ojDxrmD+oIRSWGm5kX5MXCP3L
+         8FOw4XysMFBMfDCFK8HdIucqIu9o0gChIV8kqjE01MFl65rUCpSPso/3leXmhQch2tYd
+         O5bhkzF/tafxn+1JrQIFDtPYHfUVBDSm/vzvn6Semntf5QSpf3XIsRH6aPDS2FdzsriJ
+         NyKxsx2ZIxSV/G0Q+hHt8Y5ofXa1XgUI4Z4Hz2UDxq3XrOD2IknCK8R+7oL5mdybpmU0
+         djiKokRfEBYKqIwNmiJsY9cG4LzSv8D6grvkhuaWb4XJeeE1D/StTKSbGG5UGVcxT8aU
+         eQzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Phx2Df+hBBWF6//uqqDU9bgwk8wPxGzI8wPThN0e6e4=;
+        b=JvHlcdYkSSCFsNrpZy9sMDwKczwbB1V23mDPMI9J+OqcWzwoJJ9ZataLziqpPi11Bp
+         CEG+plHDm0689D2Ga35h0/JhC/T5bp/qHQbEnNunglJRQV1O2NA+XKUSoBCdUXg5nqzo
+         vzViBuX8gy2kWKB685yqmOzcunJgirc1aSGkpDvKjPzTVs/Td2qMycR5uKCexM2HBzBu
+         gNjQlQUYaazeTZWwjClrhowysNfZxzUhW16alKgrVcoRIl6mLZVjqMOVCimJ5ihuP0I6
+         Tde3y5uerVnEIUaBKWcwraRnGuMNYH0usR6IVKOXfL3EwzExD21YyBK4phvpnZHUhFZU
+         i5Mw==
+X-Gm-Message-State: AOAM530kCzI6h9OI0JEeCeUPakU6P/VPwFQdgWQV4EDA8sight63qDGy
+        5JzVeTnEaivVcmfRSBspxjokSNbHz/Qnc41OV3iWtg==
+X-Google-Smtp-Source: ABdhPJw4C1QO6SGuO1XGeekpJcbdpNnmdoqCX6g5HqEjse/xlq4shvpaq+kQrErxohP4VuoElKjQrAOmM15IICl0GCQ=
+X-Received: by 2002:a50:fe11:: with SMTP id f17mr2919405edt.88.1612960022961;
+ Wed, 10 Feb 2021 04:27:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
+References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
+ <20210205132505.20173-8-sakari.ailus@linux.intel.com> <CAMpxmJU7J9JBSwCN+GLDpuOL=iZ1PH=oZZuGiAyovuf2TQ=o9A@mail.gmail.com>
+ <CAJZ5v0jUqtYDpBn-ezsftCrY=9iD3sAKhyyFf_+CMkthLnsZow@mail.gmail.com>
+ <CAMpxmJW61Bd1SR3-i6=OV6RgafiEdfp4sNN0M6EYa7NSeOTFKg@mail.gmail.com>
+ <20210209162343.GF32460@paasikivi.fi.intel.com> <CAJZ5v0h2=zKNMictJtJE5LuEi9E3n=Uf-xNO3udHxL2hqXL7Fg@mail.gmail.com>
+ <20210209165418.GG32460@paasikivi.fi.intel.com> <CAJZ5v0jc9HZ-Qa9ooN40sgispqo5BUE6ngnVMCqAO3qnUU+uqw@mail.gmail.com>
+ <20210210080311.GA3@paasikivi.fi.intel.com>
+In-Reply-To: <20210210080311.GA3@paasikivi.fi.intel.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Wed, 10 Feb 2021 13:26:51 +0100
+Message-ID: <CAMpxmJWogKNk3me76_O2nyaJCQO-Amb=rmhM9APEhFLd9ui4rg@mail.gmail.com>
+Subject: Re: [PATCH v10 7/7] at24: Support probing while off
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sebastian,
-
-Am Freitag, 5. Februar 2021, 15:55:56 CET schrieb Heiko Stübner:
-> Hi Sebastian,
-> 
-> I did some tests myself today as well and can confirm your
-> hdmi related finding - at least when plugged in on boot.
-> 
-> I tried some combinations of camera vs. hdmi and it seems
-> really only when hdmi is plugged in on boot
-
-as you can see in v2, it should work now even with hdmi
-connected on boot. My patch ignored the grf-clock when
-doing the grf-based init.
-
-All clocks are on during boot and I guess the hdmi-driver
-did disable it after its probe. The phy_power_on functions
-did handle it correctly already, so it was only happening
-with hdmi connected on boot.
-
-
-Btw. do you plan on submitting your ov13850 driver
-soonish?
-
-
-Heiko
-
-
-> 
-> (1)
-> - boot
-> - camera
-> --> works
-> 
-> (2)
-> - boot
-> - camera
-> - hdmi plugged in
-> - hdmi works
-> - camera
-> --> works
-> 
-> (3)
-> - hdmi plugged in
-> - boot
-> - hdmi works
-> - camera
-> --> camera doesn't work
-> 
-> (4)
-> - boot
-> - hdmi plugged in
-> - hdmi works
-> - camera
-> -> camera works
-> 
-> 
-> With a bit of brute-force [0] it seems the camera also works again even
-> with hdmi connected on boot. So conclusion would be that some clock
-> is misbehaving.
-> 
-> Now we'll "only" need to find out which one that is.
-> 
-> 
-> Heiko
-> 
-> 
-> [0]
-> Don't disable any clock gates
-> 
-> diff --git a/drivers/clk/clk-gate.c b/drivers/clk/clk-gate.c
-> index 070dc47e95a1..8daf1fc3388c 100644
-> --- a/drivers/clk/clk-gate.c
-> +++ b/drivers/clk/clk-gate.c
-> @@ -61,6 +61,9 @@ static void clk_gate_endisable(struct clk_hw *hw, int enable)
->  
->         set ^= enable;
->  
-> +if (!enable)
-> +return;
-> +
->         if (gate->lock)
->                 spin_lock_irqsave(gate->lock, flags);
->         else
-> 
-> 
-> 
-> Am Freitag, 5. Februar 2021, 09:15:47 CET schrieb Heiko Stübner:
-> > Hi Sebastian,
-> > 
-> > Am Freitag, 5. Februar 2021, 07:43:35 CET schrieb Sebastian Fricke:
-> > > On 03.02.2021 20:54, Heiko Stübner wrote:
-> > > >Am Mittwoch, 3. Februar 2021, 19:14:22 CET schrieb Sebastian Fricke:
-> > > >> I have tested your patch set on my nanoPC-T4, here is a complete log
-> > > >> with:
-> > > >> - relevant kernel log entries
-> > > >> - system information
-> > > >> - media ctl output
-> > > >> - sysfs entry information
-> > > >>
-> > > >> https://paste.debian.net/1183874/
-> > > >>
-> > > >> Additionally, to your patchset I have applied the following patches:
-> > > >> https://github.com/initBasti/Linux_kernel_media_tree_fork/commits/dual_cam_setup
-> > > >>
-> > > >> And just to not cause confusion the `media_dev` entries come from this
-> > > >> unmerged series:
-> > > >> https://patchwork.kernel.org/project/linux-media/list/?series=426269
-> > > >>
-> > > >> I have actually been able to stream with both of my cameras at the same
-> > > >> time using the libcamera cam command.
-> > > >> I would like to thank you a lot for making this possible.
+On Wed, Feb 10, 2021 at 9:41 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> On Tue, Feb 09, 2021 at 05:58:12PM +0100, Rafael J. Wysocki wrote:
+> > On Tue, Feb 9, 2021 at 5:54 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > On Tue, Feb 09, 2021 at 05:42:45PM +0100, Rafael J. Wysocki wrote:
+> > > > On Tue, Feb 9, 2021 at 5:23 PM Sakari Ailus
+> > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > >
+> > > > > Hi Bartosz, Rafael,
+> > > > >
+> > > > > On Tue, Feb 09, 2021 at 04:49:37PM +0100, Bartosz Golaszewski wrote:
+> > > > > > On Mon, Feb 8, 2021 at 5:54 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> > > > > > >
+> > > > > > > On Mon, Feb 8, 2021 at 5:44 PM Bartosz Golaszewski
+> > > > > > > <bgolaszewski@baylibre.com> wrote:
+> > > > > > > >
+> > > > > > > > On Fri, Feb 5, 2021 at 2:25 PM Sakari Ailus
+> > > > > > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > > > > > >
+> > > > > > > > > In certain use cases (where the chip is part of a camera module, and the
+> > > > > > > > > camera module is wired together with a camera privacy LED), powering on
+> > > > > > > > > the device during probe is undesirable. Add support for the at24 to
+> > > > > > > > > execute probe while being powered off. For this to happen, a hint in form
+> > > > > > > > > of a device property is required from the firmware.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > > > > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> > > > > > > > > ---
+> > > > > > > >
+> > > > > > > > I'll ack this but I still claim that the name
+> > > > > > > > acpi_dev_state_low_power() is super misleading for this use-case and
+> > > > > > > > I've been saying that for 10 versions now with everyone just ignoring
+> > > > > > > > my remarks. :/
+> > > > > > >
+> > > > > > > Well, the function in question simply checks if the current ACPI power
+> > > > > > > state of the device is different from "full power", so its name
+> > > > > > > appears to be quite adequate to me.
+> > > > > > >
+> > > > > > > If the way in which it is used is confusing, though, I guess
+> > > > > > > explaining what's going on would be welcome.
+> > > > > > >
+> > > > > >
+> > > > > > Yes, I have explained it multiple time already - last time at v9 of this series:
+> > > > > >
+> > > > > >     https://www.spinics.net/lists/kernel/msg3816807.html
+> > > > >
+> > > > > How about adding this to the description of acpi_dev_state_low_power():
+> > > > >
+> > > > > -----------8<--------------
+> > > > >  * This function is intended to be used by drivers to tell whether the device
+> > > > >  * is in low power state (D1--D3cold) in driver's probe or remove function. See
+> > > > >  * Documentation/firmware-guide/acpi/low-power-probe.rst for more information.
+> > > > > -----------8<--------------
 > > > >
-> > > >Thanks for testing a dual camera setup. On my board I could only test
-> > > >the second ISP. And really glad it works for you tool :-) .
+> > > > This information is already there in the kerneldoc description of that
+> > > > function AFAICS.
+> > >
+> > > Ok, the D states are mentioned already. But how to use it is not, nor
+> > > there's a reference to the ReST file. I think that wouldn't hurt.
+> > >
 > > > >
-> > > >Out of curiosity, do you also see that green tint in the images the cameras
-> > > >produce?
-> > > 
-> > > Yes, I do. Actually, I currently have two forms of a green tint, on my
-> > > OV13850 everything is quite dark and greenish, which is caused by the
-> > > missing 3A algorithms. On my OV4689, I have big patches of the image
-> > > with bright green color and flickering, I investigated if this is
-> > > connected to the 2nd ISP instance, but that doesn't seem to be the case
-> > > as I have the same results when I switch the CSI ports of the cameras.
-> > > 
-> > > I have found another issue, while testing I discovered following
-> > > issue:
-> > > When I start the system with an HDMI monitor connected, then the camera
-> > > on the 2nd port doesn't work. This is probably because the RX/TX is
-> > > reserved as a TX.
-> > > But it made me wonder because if the system has an RX, a TX, and
-> > > an RX/TX, why isn't the pure TX used by the monitor and the
-> > > cameras take RX and RX/TX?
-> > > Or do you think that this is maybe a malfunction of this patch?
-> > 
-> > I don't think it is an issue with this specific series, but still puzzling.
-> > 
-> > I.e. the DPHYs are actually only relevant to the DSI controllers,
-> > with TX0 being connected to DSI0 and TX1RX1 being connected
-> > to DSI1. So having an hdmi display _in theory_ shouldn't matter at all.
-> > 
-> > Out of curiosity what happens, when you boot without hdmi connected
-> > turn on the cameras, connect the hdmi after this, try the cameras again?
-> > 
-> > 
-> > Heiko
-> > 
-> > > 
-> > > >
-> > > >Thanks
-> > > >Heiko
-> > > 
-> > > Greetings,
-> > > Sebastian
-> > > 
-> > > >
-> > > >
-> > > >> If you like to you can add:
-> > > >> Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
-> > > >>
-> > > >> On 02.02.2021 15:56, Heiko Stuebner wrote:
-> > > >> >The rk3399 has two ISPs and right now only the first one is usable.
-> > > >> >The second ISP is connected to the TXRX dphy on the soc.
-> > > >> >
-> > > >> >The phy of ISP1 is only accessible through the DSI controller's
-> > > >> >io-memory, so this series adds support for simply using the dsi
-> > > >> >controller is a phy if needed.
-> > > >> >
-> > > >> >That solution is needed at least on rk3399 and rk3288 but no-one
-> > > >> >has looked at camera support on rk3288 at all, so right now
-> > > >> >only implement the rk3399 specifics.
-> > > >> >
-> > > >> >
-> > > >> >Heiko Stuebner (6):
-> > > >> >  drm/rockchip: dsi: add own additional pclk handling
-> > > >> >  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
-> > > >> >  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
-> > > >> >  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
-> > > >> >  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
-> > > >> >  arm64: dts: rockchip: add isp1 node on rk3399
-> > > >> >
-> > > >> > .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
-> > > >> > arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
-> > > >> > drivers/gpu/drm/rockchip/Kconfig              |   2 +
-> > > >> > .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 342 ++++++++++++++++++
-> > > >> > 4 files changed, 384 insertions(+)
-> > > >> >
-> > > >>
-> > > >
-> > > >
-> > > >
-> > > >
-> > > 
-> > 
-> > 
-> 
-> 
+> > > > I was thinking about adding an explanation comment to the caller.
+> > >
+> > > I think it'd be best if the function name would convey that without a
+> > > comment that should then be added to all callers. How about calling the
+> > > function e.g. acpi_dev_state_d0() and negating the return value? The D0
+> > > state is well defined and we could do this without adding new terms.
+> >
+> > That would work for me.
+>
+> Bartosz, would that work for you?
+>
+> I'd call the temporary variable in the at24 driver e.g. "full_power".
+>
 
+Yes, that works, go ahead and thank you.
 
-
-
+Bartosz
