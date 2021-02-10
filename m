@@ -2,78 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B7CD31735D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 23:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ED1731735F
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 23:30:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233454AbhBJW3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Feb 2021 17:29:22 -0500
-Received: from mga04.intel.com ([192.55.52.120]:13270 "EHLO mga04.intel.com"
+        id S231897AbhBJW3r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 17:29:47 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:40372 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233231AbhBJW3U (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 17:29:20 -0500
-IronPort-SDR: 6+RfduXYzluN3zFtHuKW2QgWX099b7aYUULdRsCK7udSE/CNPPvMpLU0WyXEJNgqBJJvwtlBAq
- iQjFKttJAH+g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="179604665"
-X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
-   d="scan'208";a="179604665"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 14:27:28 -0800
-IronPort-SDR: nDXiYRkUJhAiSE75pYaCXSq6Um6G1p5XlHc+q8pJ4F24vpuu2T8A/3GQth18rtFulhkgZF982K
- GwRnHHgiW9TQ==
-X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
-   d="scan'208";a="489084676"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 14:27:25 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 10BD420488;
-        Thu, 11 Feb 2021 00:27:23 +0200 (EET)
-Date:   Thu, 11 Feb 2021 00:27:23 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 2/7] i2c: Allow an ACPI driver to manage the device's
- power state during probe
-Message-ID: <20210210222722.GF3@paasikivi.fi.intel.com>
-References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
- <20210205132505.20173-3-sakari.ailus@linux.intel.com>
- <20210209210410.GA2380@kunai>
+        id S233448AbhBJW3a (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Feb 2021 17:29:30 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l9xyT-003WPu-6S; Wed, 10 Feb 2021 22:28:41 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1l9y26-0007L8-3g; Wed, 10 Feb 2021 22:32:26 +0000
+Date:   Wed, 10 Feb 2021 22:32:26 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <372678285.9.1612996346080@builder.linuxtv.org>
+Subject: Jenkins build is back to normal : kernel_media_pipeline #188
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210209210410.GA2380@kunai>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: kernel_media_pipeline
+X-Jenkins-Result: SUCCESS
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 10:04:10PM +0100, Wolfram Sang wrote:
-> 
-> > + * @I2C_DRV_FL_ALLOW_LOW_POWER_PROBE: Let the ACPI driver manage the device's
-> > + *				      power state during probe and remove
-> 
-> Well, for the functional change, I am happy if the ACPI guys are happy.
-> The only minor nit for me would be removing the "_FL" snipplet from the
+See <https://builder.linuxtv.org/job/kernel_media_pipeline/188/display/redirect>
 
-I'm actually renaming this as I2C_DRV_ACPI_WAIVE_D0_PROBE, with similar
-changes to the function names. I opportunistically assume the ack holds
-still. :-) I'll post v11 soon.
-
-> name of the define because I think it is clear enough that this is a
-> flag. If you need to resend anyhow, maybe it is worth a thought. It is
-> not a big issue, so anyway:
-> 
-> Acked-by: Wolfram Sang <wsa@kernel.org>
-> 
-> because I assume this will go in via the ACPI tree?
-> 
-
--- 
-Sakari Ailus
