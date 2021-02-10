@@ -2,139 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B8E3315E54
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 05:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57BA5315F54
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 07:22:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230320AbhBJEsU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 9 Feb 2021 23:48:20 -0500
-Received: from mga01.intel.com ([192.55.52.88]:12164 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230305AbhBJEsS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Feb 2021 23:48:18 -0500
-IronPort-SDR: gIF13PoYIVS5DBx0NC8nA1fGBx8B4LmrVM8hA6egafJPYawF2TVIDSjjiBp/IoqrRfm390aLit
- YewC2jepN+6w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="201112254"
-X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
-   d="scan'208";a="201112254"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 20:47:37 -0800
-IronPort-SDR: 8EC8R07VArU+UoK5+habZ6og9xLT3HySHjD+4ostF+kznOsPB6hf5vjVM/Qp88JpYTG6GYi2Dz
- +8fORKQQ+f4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
-   d="scan'208";a="361167002"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
-  by fmsmga007.fm.intel.com with ESMTP; 09 Feb 2021 20:47:37 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 9 Feb 2021 20:47:37 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 9 Feb 2021 20:47:36 -0800
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.002;
- Tue, 9 Feb 2021 20:47:36 -0800
-From:   "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To:     Gerd Hoffmann <kraxel@redhat.com>
-CC:     Daniel Vetter <daniel@ffwll.ch>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "Vetter, Daniel" <daniel.vetter@intel.com>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
-        "Kim, Dongwon" <dongwon.kim@intel.com>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
-Thread-Topic: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
-Thread-Index: AQHW+gCTpvRVWdGfdEuO7KEMCe95EKpKQvKAgAQvVwCAABxAAIAAXFfggAEm5oCAAH4bcA==
-Date:   Wed, 10 Feb 2021 04:47:36 +0000
-Message-ID: <2ef01dc941684a15a4f30e6239ae42df@intel.com>
-References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
- <20210203073517.1908882-3-vivek.kasireddy@intel.com>
- <YB1sRx1GrT8rATEg@phenom.ffwll.local>
- <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
- <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
- <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
- <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
-In-Reply-To: <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S230286AbhBJGWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 01:22:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231328AbhBJGWE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Feb 2021 01:22:04 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C38AC061756
+        for <linux-media@vger.kernel.org>; Tue,  9 Feb 2021 22:10:07 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id i8so1871957ejc.7
+        for <linux-media@vger.kernel.org>; Tue, 09 Feb 2021 22:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wwlKP1RTFNLDabVbts09rwYJYD2gNRuoRgrutcdNUcA=;
+        b=YktyyTdnCMLomK78yb17A6z9gU6O3heQRRJUqp3xYfwVkA8xGCFeZDl5GXnE0PkGFw
+         NdkDcJvEBCP1HWIrbMH+wfQHPqi/DfzN+V3sMy8uax8LciAjCd+PaUVTE8ffNDQldi1f
+         TVe2fm3XMF7NaaFawhKRn2WPMzUK3EnTiCmV0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wwlKP1RTFNLDabVbts09rwYJYD2gNRuoRgrutcdNUcA=;
+        b=LHur2eH4G6wmnDFNjFkBMFoJlfREisL0sOIQQcRBi9gbpjtOFnMwKKrqvay+mpbNA6
+         IK8dYf40a/b8MxLC58zMiVH8eX9jr5GuOfq9phkCpB3zzi4M8aqit42I354JQW7TNke0
+         Ldlmm9MONVxcvEZmt9ZmVEnCyQ8ZIJQL32lwMNymoC5/zmo8puAWaHDxL7P1IvnkN20p
+         Fi5ai/bV17eJ/xp1h86bO9+Uu1UdOt4E0QScG67G+KWUhNxU/sh2k8VxKmU5MmbgkNhp
+         mDtLTjyxwJG7jftZzBWF6b+5j4ArCrYbmDLazOjen5crJMNnlC18uyluvQtJsyBehDtq
+         Re2g==
+X-Gm-Message-State: AOAM5303GouGU24kgdaKkWIFaX8DFTdxn5sR53W+wcIkiJS4+v61CghM
+        F3/lr64dDudeUY4cFLTFU6/8m3dAV9U7PA==
+X-Google-Smtp-Source: ABdhPJz5aNVTqc+h02wMSRkig1yx1tRYLqqKUzdKEoNZ55o3fi5jmrllCo0FLbh6H4n7+mSoIAcZqg==
+X-Received: by 2002:a17:906:a20e:: with SMTP id r14mr1382245ejy.404.1612937405647;
+        Tue, 09 Feb 2021 22:10:05 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by smtp.gmail.com with ESMTPSA id p16sm306236edw.44.2021.02.09.22.10.02
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Feb 2021 22:10:03 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id w4so794695wmi.4
+        for <linux-media@vger.kernel.org>; Tue, 09 Feb 2021 22:10:02 -0800 (PST)
+X-Received: by 2002:a1c:107:: with SMTP id 7mr1346852wmb.28.1612937401698;
+ Tue, 09 Feb 2021 22:10:01 -0800 (PST)
 MIME-Version: 1.0
+References: <20201209161510.31399-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20201209161510.31399-1-dafna.hirschfeld@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 10 Feb 2021 15:09:50 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5ChELzM8suj5SGZXLPQJgciAmx-chumTe3=g5VSo+Hzjg@mail.gmail.com>
+Message-ID: <CAAFQd5ChELzM8suj5SGZXLPQJgciAmx-chumTe3=g5VSo+Hzjg@mail.gmail.com>
+Subject: Re: [PATCH] media: rkisp1: rsz: crash fix when setting src format
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gerd,
+On Thu, Dec 10, 2020 at 1:15 AM Dafna Hirschfeld
+<dafna.hirschfeld@collabora.com> wrote:
+>
+> When setting the source media bus code in the resizer,
+> we first check that the current media bus code in the
+> source is yuv encoded format. This is done by
+> retrieving the data from the formats list of the isp
+> entity. This cause a crash when the media bus code on the
+> source is YUYV8_1_5X8 which is not supported by the isp
+> entity. Instead we should test the sink format of the resizer
+> which is guaranteed to be supported by the isp entity.
+>
+> Fixes: 251b6eebb6c49 ("media: staging: rkisp1: rsz: Add support to more YUV encoded mbus codes on src pad")
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> index 813670ed9577..79deed8adcea 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -520,14 +520,15 @@ static void rkisp1_rsz_set_src_fmt(struct rkisp1_resizer *rsz,
+>                                    struct v4l2_mbus_framefmt *format,
+>                                    unsigned int which)
+>  {
+> -       const struct rkisp1_isp_mbus_info *mbus_info;
+> -       struct v4l2_mbus_framefmt *src_fmt;
+> +       const struct rkisp1_isp_mbus_info *sink_mbus_info;
+> +       struct v4l2_mbus_framefmt *src_fmt, *sink_fmt;
+>
+> +       sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SINK, which);
+>         src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
+> -       mbus_info = rkisp1_isp_mbus_info_get(src_fmt->code);
+> +       sink_mbus_info = rkisp1_isp_mbus_info_get(sink_fmt->code);
+>
+>         /* for YUV formats, userspace can change the mbus code on the src pad if it is supported */
+> -       if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV &&
+> +       if (sink_mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV &&
+>             rkisp1_rsz_get_yuv_mbus_info(format->code))
+>                 src_fmt->code = format->code;
+>
+> --
+> 2.17.1
+>
 
-> -----Original Message-----
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> Sent: Tuesday, February 09, 2021 12:45 AM
-> To: Kasireddy, Vivek <vivek.kasireddy@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>; virtualization@lists.linux-foundation.org; dri-
-> devel@lists.freedesktop.org; Vetter, Daniel <daniel.vetter@intel.com>;
-> daniel.vetter@ffwll.ch; Kim, Dongwon <dongwon.kim@intel.com>;
-> sumit.semwal@linaro.org; christian.koenig@amd.com; linux-media@vger.kernel.org
-> Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
-> 
->   Hi,
-> 
-> > > > > Nack, this doesn't work on dma-buf. And it'll blow up at runtime
-> > > > > when you enable the very recently merged CONFIG_DMABUF_DEBUG (would
-> > > > > be good to test with that, just to make sure).
-> > [Kasireddy, Vivek] Although, I have not tested it yet but it looks like this will
-> > throw a wrench in our solution as we use sg_next to iterate over all the struct page *
-> > and get their PFNs. I wonder if there is any other clean way to get the PFNs of all
-> > the pages associated with a dmabuf.
-> 
-> Well, there is no guarantee that dma-buf backing storage actually has
-> struct page ...
-[Kasireddy, Vivek] What if I do mmap() on the fd followed by mlock() or mmap()
-followed by get_user_pages()? If it still fails, would ioremapping the device memory
-and poking at the backing storage be an option? Or, if I bind the passthrough'd GPU device
-to vfio-pci and tap into the memory region associated with the device memory, can it be
-made to work? 
+Gentle ping on this patch. I think it should also go to stable, as it
+fixes a crash.
 
-And, I noticed that for PFNs that do not have valid struct page associated with it, KVM
-does a memremap() to access/map them. Is this an option?
-
-> 
-> > [Kasireddy, Vivek] To exclude such cases, would it not be OK to limit the scope
-> > of this solution (Vdmabuf) to make it clear that the dma-buf has to live in Guest RAM?
-> > Or, are there any ways to pin the dma-buf pages in Guest RAM to make this
-> > solution work?
-> 
-> At that point it becomes (i915) driver-specific.  If you go that route
-> it doesn't look that useful to use dma-bufs in the first place ...
-[Kasireddy, Vivek] I prefer not to make this driver specific if possible.
-
-> 
-> > IIUC, Virtio GPU is used to present a virtual GPU to the Guest and all the rendering
-> > commands are captured and forwarded to the Host GPU via Virtio.
-> 
-> You don't have to use the rendering pipeline.  You can let the i915 gpu
-> render into a dma-buf shared with virtio-gpu, then use virtio-gpu only for
-> buffer sharing with the host.
-[Kasireddy, Vivek] Is this the most viable path forward? I am not sure how complex or 
-feasible it would be but I'll look into it.
-Also, not using the rendering capabilities of virtio-gpu and turning it into a sharing only
-device means there would be a giant mode switch with a lot of if() conditions sprinkled
-across. Are you OK with that?
-
-Thanks,
-Vivek
-> 
-> take care,
->   Gerd
-
+Best regards,
+Tomasz
