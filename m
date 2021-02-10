@@ -2,67 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57EB4317499
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 00:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE33D3174B6
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 00:51:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233966AbhBJXnO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Feb 2021 18:43:14 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41978 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233955AbhBJXnN (ORCPT
+        id S231547AbhBJXuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 18:50:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49648 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233949AbhBJXuR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 18:43:13 -0500
+        Wed, 10 Feb 2021 18:50:17 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E4CC06174A;
+        Wed, 10 Feb 2021 15:49:37 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EEDE845E;
-        Thu, 11 Feb 2021 00:42:30 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D12445E;
+        Thu, 11 Feb 2021 00:49:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613000551;
-        bh=F8M0gSMAeLtKdCNlwOMgSLqVGq6ljgVV0EdOao2CbA4=;
+        s=mail; t=1613000973;
+        bh=MlMMJDIllbHroxxS5PfHR4lyjqzjRXrCAXqI9l8C7fE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aHEDF/gWuFQk613AydGAp8/l+kl3EA6POw91pmmG940EsWRyCxOFrP/IBw8KThqw7
-         cmm1Vn7RxICJmf/M04QJq8Q0Klzvl+Ku9eK9JXtz1RdNBQ74OPeYIsFRWAJK5cCBtI
-         oAC2WUrq5YC4zfQG/8RXb0gMvFle3DYNbtCQMcB4=
-Date:   Thu, 11 Feb 2021 01:42:07 +0200
+        b=rZwSw4cSoEsy8CtGOULfWaKylP5BwxwR1DoMe36vp980q3gv8FzRClqvyZWItWla4
+         gNPJLqNXTOZ9XtCoBZ2XOkvKiiVY3Df/cKvMz4rRGdzVZTtbRmHszL2jL6//LiSBaA
+         2+80mvrDVUH3bYkoIOJWK2+ujD5iFmenHJppAhBA=
+Date:   Thu, 11 Feb 2021 01:49:09 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Colin King <colin.king@canonical.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
         Ricardo Ribalda <ribalda@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2][next] media: uvcvideo: Remove duplicate assignments
- to pointer dma_dev
-Message-ID: <YCRvTzUhnACWcNPT@pendragon.ideasonboard.com>
-References: <20210210210149.GA842694@embeddedor>
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH][next][V2] media: uvcvideo: remove duplicated dma_dev
+ assignments
+Message-ID: <YCRw9YRQSbC7FmjV@pendragon.ideasonboard.com>
+References: <20210210191942.147083-1-colin.king@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210210210149.GA842694@embeddedor>
+In-Reply-To: <20210210191942.147083-1-colin.king@canonical.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gustavo,
+Hi Colin,
+
+(CC'ing Christoph)
 
 Thank you for the patch.
 
-On Wed, Feb 10, 2021 at 03:01:49PM -0600, Gustavo A. R. Silva wrote:
-> Remove redundant assignments to pointer dma_dev.
+On Wed, Feb 10, 2021 at 07:19:42PM +0000, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
 > 
+> The assignment to dma_dev has been performed twice in one
+> statement. Fix this by removing the extraneous assignment.
+> 
+> Addresses-Coverity: ("Evaluation order violation")
 > Fixes: fdcd02a641e2 ("media: uvcvideo: Use dma_alloc_noncontiguos API")
-> Addresses-Coverity-ID: 1501703 ("Evaluation order violation")
-> Addresses-Coverity-ID: 1501692 ("Evaluation order violation")
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-Colin King has already submitted the same patch ("[PATCH][next][V2]
-media: uvcvideo: remove duplicated dma_dev assignments"). As they're
-identical, I can only decide to use the first patch that reached my
-mailbox.
+The fix looks good to me,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+As I wasn't CC'ed on the offending patch, and given that it didn't get
+merged through the linux-media tree and isn't in the linux-media master
+branch, I'll let Ricardo and Christoph deal with the fallout for
+linux-next.
 
 > ---
-> Changes in v2:
->  - Remove another redundant assignment in function
->    uvc_free_urb_buffers().
 > 
+> V2:  Fix 2nd occurrence of this same issue.
+> 
+> ---
 >  drivers/media/usb/uvc/uvc_video.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
