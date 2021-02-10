@@ -2,152 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65AE6315E43
-	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 05:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B8E3315E54
+	for <lists+linux-media@lfdr.de>; Wed, 10 Feb 2021 05:48:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbhBJEkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Feb 2021 23:40:14 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33927 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229690AbhBJEkO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Feb 2021 23:40:14 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 9hHmlClRXRVmf9hHnlOF8L; Wed, 10 Feb 2021 05:39:31 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612931971; bh=fhUCEtCKLmRyKtM4FreDCILtTv9+rEZy2W/iTDmBnZU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=K8D+oWUtISRDWKxbScI3G7kjKtAKZIONFRtt4QwRGKe8VmvvMhtMKz0Z+S6t/If9v
-         ilUI97LdyS1LXPqsr6BvlH9uwyqM85VDgMkRWnTZqMBsBN0kXFhByqKXjJRN8JEi3T
-         PYCJxLp0pMY0Tj3/fE0AnHtnEPBl8YMH73MmLBzCEhfQ63BTGPEhBMqJw4wjwngx3O
-         a6EXrclRXx5KtNwI10Ufnmj1x7rfW4DN8rifYuH89I3Tx0xUmlJLoxLzePay5MRsY5
-         /sQsvmlIcpdvEldVoV7lkGGVl3mh2NN+NS3x5tLg9h3QMsCSTyU0jwPipWJj/kpqCZ
-         xlDyKRsjK0zjQ==
-Message-ID: <1b5828d6f4b15376ea7a58b2b6011ed8@smtp-cloud7.xs4all.net>
-Date:   Wed, 10 Feb 2021 05:39:30 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfME6PbtzT+Zygy0dJExeVxVnPVcK97D400G1qTtIFsJwU7Q7mQgAAPZ+K1PkET+a9HZV5298LSS17d7cgqWaTR/bM09nFjas2tWI0cGnUOQD/Mvr5kDN
- sk83IMuJ4LvmWqzrhiUa3oIw3G5bf7wau9AsORw7fZTq7tpztZhFXwx24dnn+I2Zt0Jta31mwL6LCb48tGktpbq71OVlcy4nKee4UbMeS5oV8K4Y/2N+Ko4S
- WQoF3jhmvQiCd1bGdRY40w==
+        id S230320AbhBJEsU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 9 Feb 2021 23:48:20 -0500
+Received: from mga01.intel.com ([192.55.52.88]:12164 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230305AbhBJEsS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Feb 2021 23:48:18 -0500
+IronPort-SDR: gIF13PoYIVS5DBx0NC8nA1fGBx8B4LmrVM8hA6egafJPYawF2TVIDSjjiBp/IoqrRfm390aLit
+ YewC2jepN+6w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="201112254"
+X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
+   d="scan'208";a="201112254"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 20:47:37 -0800
+IronPort-SDR: 8EC8R07VArU+UoK5+habZ6og9xLT3HySHjD+4ostF+kznOsPB6hf5vjVM/Qp88JpYTG6GYi2Dz
+ +8fORKQQ+f4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
+   d="scan'208";a="361167002"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+  by fmsmga007.fm.intel.com with ESMTP; 09 Feb 2021 20:47:37 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 9 Feb 2021 20:47:37 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 9 Feb 2021 20:47:36 -0800
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.002;
+ Tue, 9 Feb 2021 20:47:36 -0800
+From:   "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+CC:     Daniel Vetter <daniel@ffwll.ch>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "Vetter, Daniel" <daniel.vetter@intel.com>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+        "Kim, Dongwon" <dongwon.kim@intel.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: RE: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Thread-Topic: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Thread-Index: AQHW+gCTpvRVWdGfdEuO7KEMCe95EKpKQvKAgAQvVwCAABxAAIAAXFfggAEm5oCAAH4bcA==
+Date:   Wed, 10 Feb 2021 04:47:36 +0000
+Message-ID: <2ef01dc941684a15a4f30e6239ae42df@intel.com>
+References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
+ <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+ <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+ <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
+ <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
+In-Reply-To: <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Gerd,
 
-Results of the daily build of media_tree:
+> -----Original Message-----
+> From: Gerd Hoffmann <kraxel@redhat.com>
+> Sent: Tuesday, February 09, 2021 12:45 AM
+> To: Kasireddy, Vivek <vivek.kasireddy@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>; virtualization@lists.linux-foundation.org; dri-
+> devel@lists.freedesktop.org; Vetter, Daniel <daniel.vetter@intel.com>;
+> daniel.vetter@ffwll.ch; Kim, Dongwon <dongwon.kim@intel.com>;
+> sumit.semwal@linaro.org; christian.koenig@amd.com; linux-media@vger.kernel.org
+> Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+> 
+>   Hi,
+> 
+> > > > > Nack, this doesn't work on dma-buf. And it'll blow up at runtime
+> > > > > when you enable the very recently merged CONFIG_DMABUF_DEBUG (would
+> > > > > be good to test with that, just to make sure).
+> > [Kasireddy, Vivek] Although, I have not tested it yet but it looks like this will
+> > throw a wrench in our solution as we use sg_next to iterate over all the struct page *
+> > and get their PFNs. I wonder if there is any other clean way to get the PFNs of all
+> > the pages associated with a dmabuf.
+> 
+> Well, there is no guarantee that dma-buf backing storage actually has
+> struct page ...
+[Kasireddy, Vivek] What if I do mmap() on the fd followed by mlock() or mmap()
+followed by get_user_pages()? If it still fails, would ioremapping the device memory
+and poking at the backing storage be an option? Or, if I bind the passthrough'd GPU device
+to vfio-pci and tap into the memory region associated with the device memory, can it be
+made to work? 
 
-date:			Wed Feb 10 05:00:09 CET 2021
-media-tree git hash:	7f03d9fefcc55ed4882338126ef1f6b6778ea21f
-media_build git hash:	a236fddff61e8357f3070effdf23e9b5f20b26e6
-v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7349-g7fcfe2595
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+And, I noticed that for PFNs that do not have valid struct page associated with it, KVM
+does a memremap() to access/map them. Is this an option?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.1-i686: OK
-linux-5.10.1-x86_64: OK
-linux-5.11-rc1-i686: OK
-linux-5.11-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+> 
+> > [Kasireddy, Vivek] To exclude such cases, would it not be OK to limit the scope
+> > of this solution (Vdmabuf) to make it clear that the dma-buf has to live in Guest RAM?
+> > Or, are there any ways to pin the dma-buf pages in Guest RAM to make this
+> > solution work?
+> 
+> At that point it becomes (i915) driver-specific.  If you go that route
+> it doesn't look that useful to use dma-bufs in the first place ...
+[Kasireddy, Vivek] I prefer not to make this driver specific if possible.
 
-Detailed results are available here:
+> 
+> > IIUC, Virtio GPU is used to present a virtual GPU to the Guest and all the rendering
+> > commands are captured and forwarded to the Host GPU via Virtio.
+> 
+> You don't have to use the rendering pipeline.  You can let the i915 gpu
+> render into a dma-buf shared with virtio-gpu, then use virtio-gpu only for
+> buffer sharing with the host.
+[Kasireddy, Vivek] Is this the most viable path forward? I am not sure how complex or 
+feasible it would be but I'll look into it.
+Also, not using the rendering capabilities of virtio-gpu and turning it into a sharing only
+device means there would be a giant mode switch with a lot of if() conditions sprinkled
+across. Are you OK with that?
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+Thanks,
+Vivek
+> 
+> take care,
+>   Gerd
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
