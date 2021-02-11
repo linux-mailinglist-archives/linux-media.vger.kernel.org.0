@@ -2,158 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 450C2318D7C
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 15:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87865318DB5
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 15:56:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232152AbhBKOfZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 09:35:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40762 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232157AbhBKOdU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Feb 2021 09:33:20 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F590C0613D6
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 06:32:39 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id S230179AbhBKOwH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 11 Feb 2021 09:52:07 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:51358 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231282AbhBKOod (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Feb 2021 09:44:33 -0500
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
-        (envelope-from <pza@pengutronix.de>)
-        id 1lAD1G-0008Ve-Le; Thu, 11 Feb 2021 15:32:34 +0100
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <pza@pengutronix.de>)
-        id 1lAD1F-0006r5-Kf; Thu, 11 Feb 2021 15:32:33 +0100
-Date:   Thu, 11 Feb 2021 15:32:33 +0100
-From:   Philipp Zabel <pza@pengutronix.de>
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [BUG REPORT] media: coda: mpeg4 decode corruption on i.MX6qp only
-Message-ID: <20210211143233.GA1360@pengutronix.de>
-References: <20210203163348.30686-1-TheSven73@gmail.com>
- <804285cff81878a2c188d1b823182114f891ca38.camel@ndufresne.ca>
- <CAGngYiWt9Q4jWksiniC6vqUw29L3mOFuQpw7Dz_BK9Ye9FbQ1Q@mail.gmail.com>
+        (envelope-from <heiko@sntech.de>)
+        id 1lADAX-0002Dn-Fl; Thu, 11 Feb 2021 15:42:09 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        hjc@rock-chips.com, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        cmuellner@linux.com
+Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
+Date:   Thu, 11 Feb 2021 15:42:08 +0100
+Message-ID: <16789691.tv2OnDr8pf@diego>
+In-Reply-To: <20210211052515.qdqe256cipdwwrz6@basti-TUXEDO-Book-XA1510>
+References: <20210202145632.1263136-1-heiko@sntech.de> <808992741.0ifERbkFSE@diego> <20210211052515.qdqe256cipdwwrz6@basti-TUXEDO-Book-XA1510>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGngYiWt9Q4jWksiniC6vqUw29L3mOFuQpw7Dz_BK9Ye9FbQ1Q@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 15:17:42 up 71 days,  2:44, 112 users,  load average: 0.11, 0.12,
- 0.21
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sven,
+Hi Sebastian,
 
-On Wed, Feb 10, 2021 at 01:29:29PM -0500, Sven Van Asbroeck wrote:
-> Found it!
+Am Donnerstag, 11. Februar 2021, 06:25:15 CET schrieb Sebastian Fricke:
+> Hey Heiko,
 > 
-> The i.MX6QuadPlus has two pairs of PREs, which use the extended
-> section of the iRAM. The Classic does not have any PREs or extended
-> iRAM:
+> On 10.02.2021 12:15, Heiko Stübner wrote:
+> >Hi Sebastian,
+> >
+> >Am Freitag, 5. Februar 2021, 15:55:56 CET schrieb Heiko Stübner:
+> >> Hi Sebastian,
+> >>
+> >> I did some tests myself today as well and can confirm your
+> >> hdmi related finding - at least when plugged in on boot.
+> >>
+> >> I tried some combinations of camera vs. hdmi and it seems
+> >> really only when hdmi is plugged in on boot
+> >
+> >as you can see in v2, it should work now even with hdmi
+> >connected on boot. My patch ignored the grf-clock when
+> >doing the grf-based init.
+> >
+> >All clocks are on during boot and I guess the hdmi-driver
+> >did disable it after its probe. The phy_power_on functions
+> >did handle it correctly already, so it was only happening
+> >with hdmi connected on boot.
 > 
-> pre1: pre@21c8000 {
->    compatible = "fsl,imx6qp-pre";
->     <snip>
->     fsl,iram = <&ocram2>;
-> };
+> Thank you very much for solving that problem, I've tested the scenarios
+> described below and it works like a charm. (With your V2)
+> >
+> >
+> >Btw. do you plan on submitting your ov13850 driver
+> >soonish?
 > 
-> pre3: pre@21ca000 {
->     compatible = "fsl,imx6qp-pre";
->     <snip>
->     fsl,iram = <&ocram3>;
-> };
+> Actually, I have posted the patch already see here:
+> https://patchwork.kernel.org/project/linux-media/patch/20210130182313.32903-2-sebastian.fricke@posteo.net/
+
+very cool to see
+
+> I currently review the requested changes and questions and will soon
+> post a second version, but I expect quite some time until it is actually
+> merged.
+
+could you Cc me on future versions?
+
+
+Thanks
+Heiko
 > 
-> The CODA (VPU) driver uses the common section of iRAM:
+> Greetings,
+> Sebastian
 > 
-> vpu: vpu@2040000 {
->     compatible = "cnm,coda960";
->     <snip>
->     iram = <&ocram>;
-> };
+> >
+> >
+> >>
+> >> (1)
+> >> - boot
+> >> - camera
+> >> --> works
+> >>
+> >> (2)
+> >> - boot
+> >> - camera
+> >> - hdmi plugged in
+> >> - hdmi works
+> >> - camera
+> >> --> works
+> >>
+> >> (3)
+> >> - hdmi plugged in
+> >> - boot
+> >> - hdmi works
+> >> - camera
+> >> --> camera doesn't work
+> >>
+> >> (4)
+> >> - boot
+> >> - hdmi plugged in
+> >> - hdmi works
+> >> - camera
+> >> -> camera works
+> >>
+> >>
+> >> With a bit of brute-force [0] it seems the camera also works again even
+> >> with hdmi connected on boot. So conclusion would be that some clock
+> >> is misbehaving.
+> >>
+> >> Now we'll "only" need to find out which one that is.
+> >>
+> >>
+> >> Heiko
+> >>
+> >>
+> >> [0]
+> >> Don't disable any clock gates
+> >>
+> >> diff --git a/drivers/clk/clk-gate.c b/drivers/clk/clk-gate.c
+> >> index 070dc47e95a1..8daf1fc3388c 100644
+> >> --- a/drivers/clk/clk-gate.c
+> >> +++ b/drivers/clk/clk-gate.c
+> >> @@ -61,6 +61,9 @@ static void clk_gate_endisable(struct clk_hw *hw, int enable)
+> >>
+> >>         set ^= enable;
+> >>
+> >> +if (!enable)
+> >> +return;
+> >> +
+> >>         if (gate->lock)
+> >>                 spin_lock_irqsave(gate->lock, flags);
+> >>         else
+> >>
+> >>
+> >>
+> >> Am Freitag, 5. Februar 2021, 09:15:47 CET schrieb Heiko Stübner:
+> >> > Hi Sebastian,
+> >> >
+> >> > Am Freitag, 5. Februar 2021, 07:43:35 CET schrieb Sebastian Fricke:
+> >> > > On 03.02.2021 20:54, Heiko Stübner wrote:
+> >> > > >Am Mittwoch, 3. Februar 2021, 19:14:22 CET schrieb Sebastian Fricke:
+> >> > > >> I have tested your patch set on my nanoPC-T4, here is a complete log
+> >> > > >> with:
+> >> > > >> - relevant kernel log entries
+> >> > > >> - system information
+> >> > > >> - media ctl output
+> >> > > >> - sysfs entry information
+> >> > > >>
+> >> > > >> https://paste.debian.net/1183874/
+> >> > > >>
+> >> > > >> Additionally, to your patchset I have applied the following patches:
+> >> > > >> https://github.com/initBasti/Linux_kernel_media_tree_fork/commits/dual_cam_setup
+> >> > > >>
+> >> > > >> And just to not cause confusion the `media_dev` entries come from this
+> >> > > >> unmerged series:
+> >> > > >> https://patchwork.kernel.org/project/linux-media/list/?series=426269
+> >> > > >>
+> >> > > >> I have actually been able to stream with both of my cameras at the same
+> >> > > >> time using the libcamera cam command.
+> >> > > >> I would like to thank you a lot for making this possible.
+> >> > > >
+> >> > > >Thanks for testing a dual camera setup. On my board I could only test
+> >> > > >the second ISP. And really glad it works for you tool :-) .
+> >> > > >
+> >> > > >Out of curiosity, do you also see that green tint in the images the cameras
+> >> > > >produce?
+> >> > >
+> >> > > Yes, I do. Actually, I currently have two forms of a green tint, on my
+> >> > > OV13850 everything is quite dark and greenish, which is caused by the
+> >> > > missing 3A algorithms. On my OV4689, I have big patches of the image
+> >> > > with bright green color and flickering, I investigated if this is
+> >> > > connected to the 2nd ISP instance, but that doesn't seem to be the case
+> >> > > as I have the same results when I switch the CSI ports of the cameras.
+> >> > >
+> >> > > I have found another issue, while testing I discovered following
+> >> > > issue:
+> >> > > When I start the system with an HDMI monitor connected, then the camera
+> >> > > on the 2nd port doesn't work. This is probably because the RX/TX is
+> >> > > reserved as a TX.
+> >> > > But it made me wonder because if the system has an RX, a TX, and
+> >> > > an RX/TX, why isn't the pure TX used by the monitor and the
+> >> > > cameras take RX and RX/TX?
+> >> > > Or do you think that this is maybe a malfunction of this patch?
+> >> >
+> >> > I don't think it is an issue with this specific series, but still puzzling.
+> >> >
+> >> > I.e. the DPHYs are actually only relevant to the DSI controllers,
+> >> > with TX0 being connected to DSI0 and TX1RX1 being connected
+> >> > to DSI1. So having an hdmi display _in theory_ shouldn't matter at all.
+> >> >
+> >> > Out of curiosity what happens, when you boot without hdmi connected
+> >> > turn on the cameras, connect the hdmi after this, try the cameras again?
+> >> >
+> >> >
+> >> > Heiko
+> >> >
+> >> > >
+> >> > > >
+> >> > > >Thanks
+> >> > > >Heiko
+> >> > >
+> >> > > Greetings,
+> >> > > Sebastian
+> >> > >
+> >> > > >
+> >> > > >
+> >> > > >> If you like to you can add:
+> >> > > >> Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+> >> > > >>
+> >> > > >> On 02.02.2021 15:56, Heiko Stuebner wrote:
+> >> > > >> >The rk3399 has two ISPs and right now only the first one is usable.
+> >> > > >> >The second ISP is connected to the TXRX dphy on the soc.
+> >> > > >> >
+> >> > > >> >The phy of ISP1 is only accessible through the DSI controller's
+> >> > > >> >io-memory, so this series adds support for simply using the dsi
+> >> > > >> >controller is a phy if needed.
+> >> > > >> >
+> >> > > >> >That solution is needed at least on rk3399 and rk3288 but no-one
+> >> > > >> >has looked at camera support on rk3288 at all, so right now
+> >> > > >> >only implement the rk3399 specifics.
+> >> > > >> >
+> >> > > >> >
+> >> > > >> >Heiko Stuebner (6):
+> >> > > >> >  drm/rockchip: dsi: add own additional pclk handling
+> >> > > >> >  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
+> >> > > >> >  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
+> >> > > >> >  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
+> >> > > >> >  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
+> >> > > >> >  arm64: dts: rockchip: add isp1 node on rk3399
+> >> > > >> >
+> >> > > >> > .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
+> >> > > >> > arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
+> >> > > >> > drivers/gpu/drm/rockchip/Kconfig              |   2 +
+> >> > > >> > .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 342 ++++++++++++++++++
+> >> > > >> > 4 files changed, 384 insertions(+)
+> >> > > >> >
+> >> > > >>
+> >> > > >
+> >> > > >
+> >> > > >
+> >> > > >
+> >> > >
+> >> >
+> >> >
+> >>
+> >>
+> >
+> >
+> >
+> >
 > 
-> The VPU or the PREs are overrunning their assigned iRAM area. How do I
-> know? Because if I change the PRE iRAM order, the problem disappears!
-> 
-> PRE1: ocram2 change to ocram3
-> PRE2: ocram2 change to ocram3
-> PRE3: ocram3 change to ocram2
-> PRE4: ocram3 change to ocram2
 
-Thank you for debugging this. Given that CODA uses the OCRAM address
-range 0x900000-0x940000 and the PREs use OCRAM2 at 0x940000-0x960000
-and OCRAM3 at 0x960000-0x980000, it seems unlikely that the PREs would
-overrun into the CODA iRAM. But maybe there is some stride related
-overflow that causes it to write at negative offsets or some other kind
-of oversight.
 
-Could you check /sys/kernel/debug/dri/?/state while running the error case?
 
-Another thing that might help to identify who is writing where might be to
-clear the whole OCRAM region and dump it after running only decode or only
-PRE/PRG scanout, for example:
 
-----------8<----------
-/* Clear OCRAM */
-#include <fcntl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <unistd.h>
-
-#define OCRAM_START	0x900000
-#define OCRAM_SIZE	0x80000
-
-int main(int argc, char *argv[])
-{
-	int fd = open("/dev/mem", O_RDWR | O_SYNC);
-	void *map = mmap(NULL, OCRAM_SIZE, PROT_WRITE, MAP_SHARED, fd, OCRAM_START);
-	if (map == MAP_FAILED)
-		return EXIT_FAILURE;
-	memset(map, 0, OCRAM_SIZE);
-	munmap(map, OCRAM_SIZE);
-	close(fd);
-	return EXIT_SUCCESS;
-}
----------->8----------
-
-----------8<----------
-/* Dump OCRAM to stdout */
-#include <fcntl.h>
-#include <stdlib.h>
-#include <sys/mman.h>
-#include <unistd.h>
-
-#define OCRAM_START	0x900000
-#define OCRAM_SIZE	0x80000
-
-int main(int argc, char *argv[])
-{
-	int fd = open("/dev/mem", O_RDONLY | O_SYNC);
-	void *map = mmap(NULL, OCRAM_SIZE, PROT_READ, MAP_SHARED, fd, OCRAM_START);
-	if (map == MAP_FAILED)
-		return EXIT_FAILURE;
-	write(1, map, OCRAM_SIZE);
-	munmap(map, OCRAM_SIZE);
-	close(fd);
-	return EXIT_SUCCESS;
-}
----------->8----------
-
-regards
-Philipp
