@@ -2,107 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D064A318BF6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 14:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF94E318C90
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 14:51:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231315AbhBKNXx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 08:23:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53636 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231907AbhBKNVZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Feb 2021 08:21:25 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A1BC061574
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 05:20:42 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id n201so5589212iod.12
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 05:20:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JCKRoPINZ+vg1pxHvLz7YyDZ6J4aOJvyJXVgjObIKG4=;
-        b=mGtVpa0p8+nSp/876Rbyd65LQvkTFLdveKIyns6pGgv6mx2iRe0YWPRl3iis9qOqvg
-         SWS5kLaKLirExWjuhlC2pM8F8OODaHEmGJjxA5or2xmJkXM8I9eOSsM2oHc7TLfOl25g
-         PlNP7gQIMu8xOmSaw+laMsyYggSZn0rR09/To=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JCKRoPINZ+vg1pxHvLz7YyDZ6J4aOJvyJXVgjObIKG4=;
-        b=oU7E6XPiB56HH+pPK2Yvx1G+8GGVrW5oucqWNDiM/DOMkikho4qkQsLCgfTGgnGwlt
-         1sVz3rcBXR3l9JN/CzXe127PAZVByKIiVK5VN8YvY7lRidzPrOJf4bm8u72FykHr5WJM
-         ya62pM3ryF7OJG8Y1oBtPCNb0wydGrv5zwgR+q0DwHyJkDPfAN8JxqbdlsdkUmfFW0Oq
-         uUZJEM4I8YrfjzwL4GNmNDv18ihx2ZylwhwZFLVanXyQKfrPwghMUqeBWHtJCpzblljf
-         m+jHyAFG1xqblogRBq4HRzb5Unb0Ka7XyKKhSJGoHO/aFkRQm4WldaikOvutIN0QFHHC
-         zOQg==
-X-Gm-Message-State: AOAM532A5eJ/gLBmAS0RsWJII1z27NCc0GZbLGNGDVcgXlJOh4pVeOqM
-        97lmD9ZPWJkP+WT67Z1vmeDAayOn0wTr/w==
-X-Google-Smtp-Source: ABdhPJxKEkEE3+ztF4vgj/GdTOkGG6D/2uQjFCI22v7rUfGUTtqY9VOwYBc59LQuJnH0XVK030RKXQ==
-X-Received: by 2002:a6b:da03:: with SMTP id x3mr5231156iob.127.1613049642092;
-        Thu, 11 Feb 2021 05:20:42 -0800 (PST)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com. [209.85.166.48])
-        by smtp.gmail.com with ESMTPSA id v1sm2607952ilm.35.2021.02.11.05.20.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Feb 2021 05:20:41 -0800 (PST)
-Received: by mail-io1-f48.google.com with SMTP id u8so5581885ior.13
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 05:20:41 -0800 (PST)
-X-Received: by 2002:a02:8642:: with SMTP id e60mr8507360jai.13.1613049640964;
- Thu, 11 Feb 2021 05:20:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20210202095110.1215346-1-hch@lst.de> <20210207184855.GA27553@lst.de>
- <CAAFQd5BzAvgiTLGFse+ZWUrFtZ1Ysf+p+e-4rW8gq_iP0xhWEA@mail.gmail.com>
- <20210209082213.GA31902@lst.de> <CANiDSCuzKczCnAdC9b0r-6WVBFYXYnvQHKbxSeYq2QW1uVsDLQ@mail.gmail.com>
- <CANiDSCvPodsmcOi1fMwvZsyMxWsRQWNT7VkbZs4=XePYXfiXow@mail.gmail.com>
- <20210209170217.GA10199@lst.de> <CANiDSCs8dXVoWuwkVs=v+=s770MpzH1xiDuj-080-98ynuz97g@mail.gmail.com>
- <20210211130625.GA20155@lst.de>
-In-Reply-To: <20210211130625.GA20155@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 11 Feb 2021 14:20:30 +0100
-X-Gmail-Original-Message-ID: <CANiDSCupVLQMbJVKrrKBJvJxHgteeVFik7LAJy5zbUi2ESwsGA@mail.gmail.com>
-Message-ID: <CANiDSCupVLQMbJVKrrKBJvJxHgteeVFik7LAJy5zbUi2ESwsGA@mail.gmail.com>
-Subject: Re: add a new dma_alloc_noncontiguous API v2
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
+        id S231592AbhBKNtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Feb 2021 08:49:40 -0500
+Received: from mga04.intel.com ([192.55.52.120]:57467 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231773AbhBKNoo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Feb 2021 08:44:44 -0500
+IronPort-SDR: V9Z0MDazPefcEiPOmT5mVNW9/VA/Iv0T/aHD8t2RfthU+hZWhwlpZKcTKHL9B0NJ3obcSLmv7s
+ hw2x/WEIQnmw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="179681627"
+X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
+   d="scan'208";a="179681627"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 05:40:55 -0800
+IronPort-SDR: 3/g9rHoUGKCSLDwy9exsPNdZsAkp4+g0aD3JWJOZicKdIuLCuFfEZZbCmb06NH4DcpVJ8FpSel
+ UyTPHtK/594A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
+   d="scan'208";a="362505796"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga006.jf.intel.com with ESMTP; 11 Feb 2021 05:40:46 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id C2FFBDE; Thu, 11 Feb 2021 15:40:45 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mike Rapoport <rppt@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+        Sumit Gupta <sumitg@nvidia.com>, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org, linux-pm@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mark Gross <mgross@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-acpi@vger.kernel.org
+Subject: [PATCH v1 0/9] x86/platform: Remove SFI framework and users
+Date:   Thu, 11 Feb 2021 15:39:59 +0200
+Message-Id: <20210211134008.38282-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HI Christoph
+This is last part of Intel MID (SFI based) removal. We have no more users of it
+in the kernel and since SFI has been marked Obsolete for a few years already,
+Remove all the stuff altogether.
 
-On Thu, Feb 11, 2021 at 2:06 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Thu, Feb 11, 2021 at 10:08:18AM +0100, Ricardo Ribalda wrote:
-> > Hi Christoph
-> >
-> > What are your merge plans for the uvc change?
-> > http://git.infradead.org/users/hch/dma-mapping.git/commit/3dc47131f8aacc2093f68a9971d24c754e435520
-> >
-> > Are you going to remove the patch on your Merge request and then send
-> > it for review to Laurent? or merge it through your tree with a S-o-B
-> > him?
->
-> I though I had all the ACKs to queue it up.  Is that not what was
-> intended?  Queueing up the API without a user is generally a bad idea.
->
+Note, the more recent platforms (Intel Merrifield and Moorefield) still work as
+long as they provide correct ACPI tables.
 
-I am pretty sure we need the ack from Laurent. He maintains uvc
+The series requires two prerequisite branches to be pulled first, i.e.
+- one form Rafael's PM tree (currently bleeding-edge)
+- one form TIP tree (x86/platform), actually only one patch is needed from it
 
-@Laurent Pinchart what are your thoughts?
+Due to above it's convenient to proceed all of these via Rafael's PM tree,
 
-Thanks!
+Note, atomisp change is tagged by Sakari on behalf of media tree maintainers.
 
+Andy Shevchenko (9):
+  media: atomisp: Remove unused header
+  cpufreq: sfi-cpufreq: Remove driver for deprecated firmware
+  sfi: Remove framework for deprecated firmware
+  x86/PCI: Get rid of custom x86 model comparison
+  x86/PCI: Describe @reg for type1_access_ok()
+  x86/platform/intel-mid: Get rid of intel_scu_ipc_legacy.h
+  x86/platform/intel-mid: Drop unused __intel_mid_cpu_chip and Co.
+  x86/platform/intel-mid: Remove unused header inclusion in intel-mid.h
+  x86/platform/intel-mid: Update Copyright year and drop file names
+
+ Documentation/ABI/testing/sysfs-firmware-sfi  |  15 -
+ Documentation/ABI/testing/sysfs-platform-kim  |   2 +-
+ MAINTAINERS                                   |   7 -
+ arch/x86/Kconfig                              |   7 +-
+ arch/x86/include/asm/intel-mid.h              |  65 +--
+ arch/x86/include/asm/intel_scu_ipc.h          |   2 -
+ arch/x86/include/asm/intel_scu_ipc_legacy.h   |  74 ---
+ arch/x86/include/asm/platform_sst_audio.h     |   2 -
+ arch/x86/kernel/apic/io_apic.c                |   4 +-
+ arch/x86/kernel/setup.c                       |   2 -
+ arch/x86/pci/intel_mid_pci.c                  |  18 +-
+ arch/x86/pci/mmconfig-shared.c                |   6 +-
+ arch/x86/platform/Makefile                    |   1 -
+ arch/x86/platform/intel-mid/Makefile          |   5 -
+ .../platform/intel-mid/device_libs/Makefile   |  23 -
+ .../intel-mid/device_libs/platform_bcm43xx.c  | 101 ----
+ .../intel-mid/device_libs/platform_bma023.c   |  16 -
+ .../intel-mid/device_libs/platform_bt.c       | 101 ----
+ .../intel-mid/device_libs/platform_emc1403.c  |  39 --
+ .../device_libs/platform_gpio_keys.c          |  81 ---
+ .../intel-mid/device_libs/platform_lis331.c   |  37 --
+ .../intel-mid/device_libs/platform_max7315.c  |  77 ---
+ .../intel-mid/device_libs/platform_mpu3050.c  |  32 --
+ .../device_libs/platform_mrfld_pinctrl.c      |  39 --
+ .../device_libs/platform_mrfld_rtc.c          |  44 --
+ .../intel-mid/device_libs/platform_mrfld_sd.c |  43 --
+ .../device_libs/platform_mrfld_spidev.c       |  50 --
+ .../device_libs/platform_pcal9555a.c          |  95 ----
+ .../intel-mid/device_libs/platform_tc35876x.c |  42 --
+ .../intel-mid/device_libs/platform_tca6416.c  |  53 --
+ arch/x86/platform/intel-mid/intel-mid.c       |  27 +-
+ arch/x86/platform/intel-mid/sfi.c             | 419 --------------
+ arch/x86/platform/sfi/Makefile                |   2 -
+ arch/x86/platform/sfi/sfi.c                   | 100 ----
+ drivers/Makefile                              |   2 +-
+ drivers/cpufreq/Kconfig.x86                   |  10 -
+ drivers/cpufreq/Makefile                      |   1 -
+ drivers/cpufreq/sfi-cpufreq.c                 | 127 -----
+ drivers/platform/x86/intel_scu_pcidrv.c       |  22 +-
+ drivers/sfi/Kconfig                           |  18 -
+ drivers/sfi/Makefile                          |   4 -
+ drivers/sfi/sfi_acpi.c                        | 214 -------
+ drivers/sfi/sfi_core.c                        | 522 ------------------
+ drivers/sfi/sfi_core.h                        |  81 ---
+ .../atomisp/include/linux/atomisp_platform.h  |   1 -
+ include/linux/sfi.h                           | 210 -------
+ include/linux/sfi_acpi.h                      |  93 ----
+ init/main.c                                   |   2 -
+ 48 files changed, 37 insertions(+), 2901 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-firmware-sfi
+ delete mode 100644 arch/x86/include/asm/intel_scu_ipc_legacy.h
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/Makefile
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_bcm43xx.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_bma023.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_bt.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_emc1403.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_gpio_keys.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_lis331.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_max7315.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mpu3050.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_pinctrl.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_rtc.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_sd.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_spidev.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_pcal9555a.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_tc35876x.c
+ delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_tca6416.c
+ delete mode 100644 arch/x86/platform/intel-mid/sfi.c
+ delete mode 100644 arch/x86/platform/sfi/Makefile
+ delete mode 100644 arch/x86/platform/sfi/sfi.c
+ delete mode 100644 drivers/cpufreq/sfi-cpufreq.c
+ delete mode 100644 drivers/sfi/Kconfig
+ delete mode 100644 drivers/sfi/Makefile
+ delete mode 100644 drivers/sfi/sfi_acpi.c
+ delete mode 100644 drivers/sfi/sfi_core.c
+ delete mode 100644 drivers/sfi/sfi_core.h
+ delete mode 100644 include/linux/sfi.h
+ delete mode 100644 include/linux/sfi_acpi.h
 
 -- 
-Ricardo Ribalda
+2.30.0
+
