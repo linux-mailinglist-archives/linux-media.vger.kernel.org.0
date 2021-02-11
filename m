@@ -2,346 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03145318E24
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 16:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1B8F318E94
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 16:32:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbhBKPVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 10:21:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbhBKPRm (ORCPT
+        id S230249AbhBKP3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Feb 2021 10:29:36 -0500
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:43719 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230401AbhBKPZW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Feb 2021 10:17:42 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DFDC061756;
-        Thu, 11 Feb 2021 07:15:57 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id v15so4533264wrx.4;
-        Thu, 11 Feb 2021 07:15:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lZHVApcCWyA/8G+Vaa9rcXK9Y7YUgpJhNCfsVhlO7KQ=;
-        b=scBiQk60X2gk/6gUlWAr734kTE4d6HixZOdJe0nluaRgsNF0KbMoEnYQWoecNX+Aew
-         Rk1ySdDI57G6Cwvv1ojZUqUjPmint5Ig96dNwjhPUzE7Z09YoNHt47YnLmzodhxVQzTM
-         gfOXMIWD186OfkoaVqkD0zrkF3VjNRa7SjpOg8DMZM3IRB8S5+iB47hLGGIxaLgijyYb
-         32sxHBVs2jMHBIvCU661T5GeXkG9xfAG4mpbYYpwc2wR/k2cQGS0LQm2a/lPGdvbTC1W
-         soe3nmYE+NMKfmVR0tiwIgE6gdDNsfaVv2Nl33LiVsSx5y5mJ/5CegsN4ixo79DJ7eHB
-         3+kg==
+        Thu, 11 Feb 2021 10:25:22 -0500
+Received: by mail-ot1-f50.google.com with SMTP id l23so5434365otn.10;
+        Thu, 11 Feb 2021 07:25:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lZHVApcCWyA/8G+Vaa9rcXK9Y7YUgpJhNCfsVhlO7KQ=;
-        b=osAAMdPecqmJazOLmOkv1OJY7ype/1SXt7rHJZF/DLZP/1nVvWHWp6Zvbt8V2B4Tu7
-         7lC6WDrxFHDD4MEAJnpFLIBYxjbym5FgFg6DtNRMQAIbAYYkKkjrPqUlhoylY/XhT10a
-         9FyTNBTabq51jkYXRrasLob0Z8GNuYdAB89EAyrcnnOrcYYJCgd7aFr2r1/3RN4hem10
-         gqr0gP2HqKc4U/BP+lSYKxzO/VoYqg+nx26CmW8F8bCfVQet9mqpRG24YPeRi1wdoEHN
-         2Ly7p3/7xdzttA5LRgP+kpVRfIH9af3wyNcK+4t7MSjfPv7BxcNmRnaIyUh3F8a8HH0c
-         e6Ww==
-X-Gm-Message-State: AOAM530xlAL5RqIjtHlyFdNSvq3jkEaEObog7hEtP5PMN/5dpSiMoRDj
-        ibXgZU2Ef4PXVnGXx3hIkY9MmTME89hRlI8DNbY=
-X-Google-Smtp-Source: ABdhPJzDHDfUuUKLh422HAass74bwzNGlcpsuleYmnUY24E/Nlt7GA4fbgJZPCUYCYhUSRlPsrFUuvOzJB9anw9UoU8=
-X-Received: by 2002:adf:e511:: with SMTP id j17mr6388594wrm.251.1613056556298;
- Thu, 11 Feb 2021 07:15:56 -0800 (PST)
+        bh=PQ9USaj8aoRMWJzKKwNkcbQFrxvetYryQTdhS4q9G7A=;
+        b=iUrM01+Hr/rWD/bUZTfuHqrbEoa8Nm7F3yiHVWcTrnNMefNqn1XRNNTBc3sklwOprz
+         KqmnjsHn3ZjrE1uOvD8zF1g8cmuqbqQTreZKBGktIF6si009XwRrByqlbhVP2u3kIUiU
+         GBQkHSRcKNR03UqufkB0nISyJK+vR52/4z/kxr+PHxKRFt0Ehg8Zg0dvqCoeqPV8rZw4
+         0Twbsv7q/sEuagq+6gVK11QDPA2Ugh5+KVx84WYJe1g4a3eRTyq+8WT1IrKRCSHdJRfr
+         pLdEDJ+q3p2jPbH05f5k1XrPyo1QXcHeQ1QSwVC9h4MC2lOezF1kcARboCTD7yIIcnV9
+         RcIg==
+X-Gm-Message-State: AOAM531swaetPrCjXW1g70ptOySNiFYbrhC9t2dasuYpJqYdu3WC9Nur
+        COrPBiKtujp9IFMeWAKRx9JigNitcb1JPt863co=
+X-Google-Smtp-Source: ABdhPJx/Qv3WQLwulqK/jrqspjtA9/BhSoJkBeqS067Mfk/d5YZpSsZrbk+80BXNc0a2mZa+QbnkdQi4qFhLhIw2oNs=
+X-Received: by 2002:a05:6830:1481:: with SMTP id s1mr6255740otq.206.1613057080591;
+ Thu, 11 Feb 2021 07:24:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20210203163348.30686-1-TheSven73@gmail.com> <804285cff81878a2c188d1b823182114f891ca38.camel@ndufresne.ca>
- <CAGngYiWt9Q4jWksiniC6vqUw29L3mOFuQpw7Dz_BK9Ye9FbQ1Q@mail.gmail.com> <20210211143233.GA1360@pengutronix.de>
-In-Reply-To: <20210211143233.GA1360@pengutronix.de>
-From:   Sven Van Asbroeck <thesven73@gmail.com>
-Date:   Thu, 11 Feb 2021 10:15:45 -0500
-Message-ID: <CAGngYiVKn8P6vPQK65rpVD2h4rD6vbjjTOpEP3nqt3kOiYxpkw@mail.gmail.com>
-Subject: Re: [BUG REPORT] media: coda: mpeg4 decode corruption on i.MX6qp only
-To:     Philipp Zabel <pza@pengutronix.de>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+References: <20210211134008.38282-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210211134008.38282-1-andriy.shevchenko@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 11 Feb 2021 16:24:29 +0100
+Message-ID: <CAJZ5v0gzd0Xwd006P3PUutKcVRqLNxmREBB-QW85BRMBArbBVw@mail.gmail.com>
+Subject: Re: [PATCH v1 0/9] x86/platform: Remove SFI framework and users
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mike Rapoport <rppt@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+        Sumit Gupta <sumitg@nvidia.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@driverdev.osuosl.org, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mark Gross <mgross@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp, thank you so much for looking into this, I really appreciate it !
-
-On Thu, Feb 11, 2021 at 9:32 AM Philipp Zabel <pza@pengutronix.de> wrote:
+On Thu, Feb 11, 2021 at 2:50 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> Another thing that might help to identify who is writing where might be to
-> clear the whole OCRAM region and dump it after running only decode or only
-> PRE/PRG scanout, for example:
-
-Great idea, I will try that out. This might take a few days. I am also
-dealing with higher priority issues,
-
+> This is last part of Intel MID (SFI based) removal. We have no more users of it
+> in the kernel and since SFI has been marked Obsolete for a few years already,
+> Remove all the stuff altogether.
 >
-> Could you check /sys/kernel/debug/dri/?/state while running the error case?
+> Note, the more recent platforms (Intel Merrifield and Moorefield) still work as
+> long as they provide correct ACPI tables.
+>
+> The series requires two prerequisite branches to be pulled first, i.e.
+> - one form Rafael's PM tree (currently bleeding-edge)
+> - one form TIP tree (x86/platform), actually only one patch is needed from it
+>
+> Due to above it's convenient to proceed all of these via Rafael's PM tree,
+>
+> Note, atomisp change is tagged by Sakari on behalf of media tree maintainers.
+>
+> Andy Shevchenko (9):
+>   media: atomisp: Remove unused header
+>   cpufreq: sfi-cpufreq: Remove driver for deprecated firmware
+>   sfi: Remove framework for deprecated firmware
+>   x86/PCI: Get rid of custom x86 model comparison
+>   x86/PCI: Describe @reg for type1_access_ok()
+>   x86/platform/intel-mid: Get rid of intel_scu_ipc_legacy.h
+>   x86/platform/intel-mid: Drop unused __intel_mid_cpu_chip and Co.
+>   x86/platform/intel-mid: Remove unused header inclusion in intel-mid.h
+>   x86/platform/intel-mid: Update Copyright year and drop file names
+>
+>  Documentation/ABI/testing/sysfs-firmware-sfi  |  15 -
+>  Documentation/ABI/testing/sysfs-platform-kim  |   2 +-
+>  MAINTAINERS                                   |   7 -
+>  arch/x86/Kconfig                              |   7 +-
+>  arch/x86/include/asm/intel-mid.h              |  65 +--
+>  arch/x86/include/asm/intel_scu_ipc.h          |   2 -
+>  arch/x86/include/asm/intel_scu_ipc_legacy.h   |  74 ---
+>  arch/x86/include/asm/platform_sst_audio.h     |   2 -
+>  arch/x86/kernel/apic/io_apic.c                |   4 +-
+>  arch/x86/kernel/setup.c                       |   2 -
+>  arch/x86/pci/intel_mid_pci.c                  |  18 +-
+>  arch/x86/pci/mmconfig-shared.c                |   6 +-
+>  arch/x86/platform/Makefile                    |   1 -
+>  arch/x86/platform/intel-mid/Makefile          |   5 -
+>  .../platform/intel-mid/device_libs/Makefile   |  23 -
+>  .../intel-mid/device_libs/platform_bcm43xx.c  | 101 ----
+>  .../intel-mid/device_libs/platform_bma023.c   |  16 -
+>  .../intel-mid/device_libs/platform_bt.c       | 101 ----
+>  .../intel-mid/device_libs/platform_emc1403.c  |  39 --
+>  .../device_libs/platform_gpio_keys.c          |  81 ---
+>  .../intel-mid/device_libs/platform_lis331.c   |  37 --
+>  .../intel-mid/device_libs/platform_max7315.c  |  77 ---
+>  .../intel-mid/device_libs/platform_mpu3050.c  |  32 --
+>  .../device_libs/platform_mrfld_pinctrl.c      |  39 --
+>  .../device_libs/platform_mrfld_rtc.c          |  44 --
+>  .../intel-mid/device_libs/platform_mrfld_sd.c |  43 --
+>  .../device_libs/platform_mrfld_spidev.c       |  50 --
+>  .../device_libs/platform_pcal9555a.c          |  95 ----
+>  .../intel-mid/device_libs/platform_tc35876x.c |  42 --
+>  .../intel-mid/device_libs/platform_tca6416.c  |  53 --
+>  arch/x86/platform/intel-mid/intel-mid.c       |  27 +-
+>  arch/x86/platform/intel-mid/sfi.c             | 419 --------------
+>  arch/x86/platform/sfi/Makefile                |   2 -
+>  arch/x86/platform/sfi/sfi.c                   | 100 ----
+>  drivers/Makefile                              |   2 +-
+>  drivers/cpufreq/Kconfig.x86                   |  10 -
+>  drivers/cpufreq/Makefile                      |   1 -
+>  drivers/cpufreq/sfi-cpufreq.c                 | 127 -----
+>  drivers/platform/x86/intel_scu_pcidrv.c       |  22 +-
+>  drivers/sfi/Kconfig                           |  18 -
+>  drivers/sfi/Makefile                          |   4 -
+>  drivers/sfi/sfi_acpi.c                        | 214 -------
+>  drivers/sfi/sfi_core.c                        | 522 ------------------
+>  drivers/sfi/sfi_core.h                        |  81 ---
+>  .../atomisp/include/linux/atomisp_platform.h  |   1 -
+>  include/linux/sfi.h                           | 210 -------
+>  include/linux/sfi_acpi.h                      |  93 ----
+>  init/main.c                                   |   2 -
+>  48 files changed, 37 insertions(+), 2901 deletions(-)
+>  delete mode 100644 Documentation/ABI/testing/sysfs-firmware-sfi
+>  delete mode 100644 arch/x86/include/asm/intel_scu_ipc_legacy.h
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/Makefile
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_bcm43xx.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_bma023.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_bt.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_emc1403.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_gpio_keys.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_lis331.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_max7315.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mpu3050.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_pinctrl.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_rtc.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_sd.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_mrfld_spidev.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_pcal9555a.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_tc35876x.c
+>  delete mode 100644 arch/x86/platform/intel-mid/device_libs/platform_tca6416.c
+>  delete mode 100644 arch/x86/platform/intel-mid/sfi.c
+>  delete mode 100644 arch/x86/platform/sfi/Makefile
+>  delete mode 100644 arch/x86/platform/sfi/sfi.c
+>  delete mode 100644 drivers/cpufreq/sfi-cpufreq.c
+>  delete mode 100644 drivers/sfi/Kconfig
+>  delete mode 100644 drivers/sfi/Makefile
+>  delete mode 100644 drivers/sfi/sfi_acpi.c
+>  delete mode 100644 drivers/sfi/sfi_core.c
+>  delete mode 100644 drivers/sfi/sfi_core.h
+>  delete mode 100644 include/linux/sfi.h
+>  delete mode 100644 include/linux/sfi_acpi.h
+>
+> --
 
-dri state in non-error case:
-============================
+All of this looks good to me, so I'm going to queue it up for 5.12
+unless there are objections against doing that.
 
-# cat state
-plane[31]: plane-0
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[35]: plane-1
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=1
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[38]: plane-2
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[42]: plane-3
-        crtc=crtc-2
-        fb=59
-                allocated by = X
-                refcount=2
-                format=XR24 little-endian (0x34325258)
-                modifier=0x0
-                size=1280x1088
-                layers:
-                        size[0]=1280x1088
-                        pitch[0]=5120
-                        offset[0]=0
-                        obj[0]:
-                                name=2
-                                refcount=4
-                                start=000105e4
-                                size=5570560
-                                imported=no
-                                paddr=0xee800000
-                                vaddr=78a02004
-        crtc-pos=1280x800+0+0
-        src-pos=1280.000000x800.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[46]: plane-4
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=1
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[49]: plane-5
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-crtc[34]: crtc-0
-        enable=0
-        active=0
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=0
-        connector_mask=0
-        encoder_mask=0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-crtc[41]: crtc-1
-        enable=0
-        active=0
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=0
-        connector_mask=0
-        encoder_mask=0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-crtc[45]: crtc-2
-        enable=1
-        active=1
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=8
-        connector_mask=2
-        encoder_mask=2
-        mode: "": 60 67880 1280 1344 1345 1350 800 838 839 841 0x0 0x0
-crtc[52]: crtc-3
-        enable=0
-        active=0
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=0
-        connector_mask=0
-        encoder_mask=0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-connector[54]: HDMI-A-1
-        crtc=(null)
-        self_refresh_aware=0
-connector[57]: LVDS-1
-        crtc=crtc-2
-        self_refresh_aware=0
-
-dri state in error case:
-========================
-# cat state
-plane[31]: plane-0
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[35]: plane-1
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=1
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[38]: plane-2
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[42]: plane-3
-        crtc=crtc-2
-        fb=60
-                allocated by = X
-                refcount=2
-                format=XR24 little-endian (0x34325258)
-                modifier=0x0
-                size=3000x1088
-                layers:
-                        size[0]=3000x1088
-                        pitch[0]=12000
-                        offset[0]=0
-                        obj[0]:
-                                name=1
-                                refcount=4
-                                start=00010b34
-                                size=13058048
-                                imported=no
-                                paddr=0xeee00000
-                                vaddr=37dd5aa6
-        crtc-pos=1280x800+0+0
-        src-pos=1280.000000x800.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[46]: plane-4
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=1
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-plane[49]: plane-5
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-crtc[34]: crtc-0
-        enable=0
-        active=0
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=0
-        connector_mask=0
-        encoder_mask=0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-crtc[41]: crtc-1
-        enable=0
-        active=0
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=0
-        connector_mask=0
-        encoder_mask=0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-crtc[45]: crtc-2
-        enable=1
-        active=1
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=8
-        connector_mask=2
-        encoder_mask=2
-        mode: "": 60 67880 1280 1344 1345 1350 800 838 839 841 0x0 0x0
-crtc[52]: crtc-3
-        enable=0
-        active=0
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=0
-        connector_mask=0
-        encoder_mask=0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-connector[54]: HDMI-A-1
-        crtc=(null)
-        self_refresh_aware=0
-connector[57]: LVDS-1
-        crtc=crtc-2
-        self_refresh_aware=0
+Thanks!
