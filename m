@@ -2,175 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69C40318DD6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 16:14:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B467318E02
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 16:19:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbhBKPEr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 10:04:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45906 "EHLO
+        id S229947AbhBKPTa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Feb 2021 10:19:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbhBKO50 (ORCPT
+        with ESMTP id S229964AbhBKPNI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Feb 2021 09:57:26 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12814C061788
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 06:56:44 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id e4so5353359ote.5
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 06:56:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=RmVDQyx+Ndcv5SeblotXpQRe27Egv2RqGDvlo6R5U8w=;
-        b=E2yi8Dzo7qq3E3/flljC3xH7tiHdegmynb0SA7JlYIz5EM1sj6y32R7tM/aX9DYRic
-         K+hqQA0/ECrgtm5QdSQmTLpcu8HZWUSLZuquZhonvDmxHXsor2V3Ekd730+4qyLBylcH
-         5EHSAuBOoS1VnBHeezqtR3TIZEBKmUAZXQNaQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=RmVDQyx+Ndcv5SeblotXpQRe27Egv2RqGDvlo6R5U8w=;
-        b=QhD8tHMkXY7TqTCjd5hpEysr6x6wo7DHu3goA55UL7cb11Z2r/mn9QEtRNDmC2XUue
-         dfXShp4QbJepyXdRiK0EfXi7ay93tgiNqM3DPp1v9mVrK4mnJQCJUd92YKtCwiFv1KKM
-         kuU+OuP25V6d4zchvt4Cr0WYlyzKSXGTb+Tz0xt+Oyzgtyiho1PUHmuNms1/t+1+/cBO
-         5W319Y41ae3VHvqOV+KJd1ffxtuDvkrwrTo9heNXjN42FrIUWqJzRd4onvAhOffR9wEY
-         z91RNIkwB0bGiKjUbiAFJR73MfMQuvunSk0E2NemeIj/QaMe9gwMq5W7FzwdJ3BZ+yy0
-         jeng==
-X-Gm-Message-State: AOAM531QjR0mvuRjjLRgRQ6GRqSxDAPGJfavmO3jefDW4acI+tacCqTG
-        atgG+7e2P8W4L+H+S2cA909RPnBYB+WePVkAZSUK1DEilMKqqA==
-X-Google-Smtp-Source: ABdhPJw3fjkRP9gLP7q/RDjMJ5TKsouRdxxZLHu0I2VLcTiQg1aD1zxxpNTCk8c6mMpxWvFuDBl3KNzaOyf4zVs07lM=
-X-Received: by 2002:a9d:2270:: with SMTP id o103mr5794245ota.303.1613055403311;
- Thu, 11 Feb 2021 06:56:43 -0800 (PST)
+        Thu, 11 Feb 2021 10:13:08 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9C4C061788
+        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 07:04:54 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1lADWQ-0003e7-Lg; Thu, 11 Feb 2021 16:04:46 +0100
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1lADWP-0000h5-Af; Thu, 11 Feb 2021 16:04:45 +0100
+Date:   Thu, 11 Feb 2021 16:04:45 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Thomas Haemmerle <thomas.haemmerle@wolfvision.net>,
+        laurent.pinchart@ideasonboard.com, gregkh@linuxfoundation.org,
+        hverkuil@xs4all.nl, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v4] usb: gadget: uvc: fix multiple opens
+Message-ID: <20210211150445.GM30300@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+        Felipe Balbi <balbi@kernel.org>,
+        Thomas Haemmerle <thomas.haemmerle@wolfvision.net>,
+        laurent.pinchart@ideasonboard.com, gregkh@linuxfoundation.org,
+        hverkuil@xs4all.nl, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <2920c6ea-d191-a6cb-ec90-dda22bb9df55@wolfvision.net>
+ <20201201192730.5633-1-thomas.haemmerle@wolfvision.net>
+ <87pn261h4c.fsf@kernel.org>
 MIME-Version: 1.0
-References: <20210205133632.2827730-1-daniel.vetter@ffwll.ch> <20210210214053.GA610964@bjorn-Precision-5520>
-In-Reply-To: <20210210214053.GA610964@bjorn-Precision-5520>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 11 Feb 2021 15:56:30 +0100
-Message-ID: <CAKMK7uHi3Uvze3epTPC4613UzbT24LSO2GP8EkU8nxaKxOQBSA@mail.gmail.com>
-Subject: Re: [PATCH] PCI: Also set up legacy files only after sysfs init
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux MM <linux-mm@kvack.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87pn261h4c.fsf@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 16:04:17 up 71 days,  3:31, 111 users,  load average: 0.18, 0.29,
+ 0.18
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 10, 2021 at 10:40 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Fri, Feb 05, 2021 at 02:36:32PM +0100, Daniel Vetter wrote:
-> > We are already doing this for all the regular sysfs files on PCI
-> > devices, but not yet on the legacy io files on the PCI buses. Thus far
-> > no problem, but in the next patch I want to wire up iomem revoke
-> > support. That needs the vfs up and running already to make sure that
-> > iomem_get_mapping() works.
+On Fri, 15 Jan 2021 15:09:39 +0200, Felipe Balbi wrote:
+> Thomas Haemmerle <thomas.haemmerle@wolfvision.net> writes:
+> > Currently, the UVC function is activated when open on the corresponding
+> > v4l2 device is called.
+> > On another open the activation of the function fails since the
+> > deactivation counter in `usb_function_activate` equals 0. However the
+> > error is not returned to userspace since the open of the v4l2 device is
+> > successful.
 > >
-> > Wire it up exactly like the existing code in
-> > pci_create_sysfs_dev_files(). Note that pci_remove_legacy_files()
-> > doesn't need a check since the one for pci_bus->legacy_io is
-> > sufficient.
+> > On a close the function is deactivated (since deactivation counter still
+> > equals 0) and the video is disabled in `uvc_v4l2_release`, although the
+> > UVC application potentially is streaming.
 > >
-> > An alternative solution would be to implement a callback in sysfs to
-> > set up the address space from iomem_get_mapping() when userspace calls
-> > mmap(). This also works, but Greg didn't really like that just to work
-> > around an ordering issue when the kernel loads initially.
+> > Move activation of UVC function to subscription on UVC_EVENT_SETUP
+> > because there we can guarantee for a userspace application utilizing
+> > UVC.
+> > Block subscription on UVC_EVENT_SETUP while another application already
+> > is subscribed to it, indicated by `bool func_connected` in
+> > `struct uvc_device`.
+> > Extend the `struct uvc_file_handle` with member `bool is_uvc_app_handle`
+> > to tag it as the handle used by the userspace UVC application.
 > >
-> > v2: Improve commit message (Bjorn)
+> > With this a process is able to check capabilities of the v4l2 device
+> > without deactivating the function for the actual UVC application.
 > >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
->
-> I wish we weren't extending a known-racy mechanism to do this, but at
-> least we're not *adding* a brand new race.
+> > Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> 
+> Laurent, do you agree with the change?
 
-Yeah it's not great. Thanks for looking at both again, I'll fix up the
-typos on the 2nd one and merge them both.
+Gentle ping.
 
-Cheers, Daniel
-
->
-> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: linux-pci@vger.kernel.org
-> > ---
-> >  drivers/pci/pci-sysfs.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > index fb072f4b3176..0c45b4f7b214 100644
-> > --- a/drivers/pci/pci-sysfs.c
-> > +++ b/drivers/pci/pci-sysfs.c
-> > @@ -927,6 +927,9 @@ void pci_create_legacy_files(struct pci_bus *b)
-> >  {
-> >       int error;
-> >
-> > +     if (!sysfs_initialized)
-> > +             return;
-> > +
-> >       b->legacy_io =3D kcalloc(2, sizeof(struct bin_attribute),
-> >                              GFP_ATOMIC);
-> >       if (!b->legacy_io)
-> > @@ -1448,6 +1451,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *p=
-dev)
-> >  static int __init pci_sysfs_init(void)
-> >  {
-> >       struct pci_dev *pdev =3D NULL;
-> > +     struct pci_bus *pbus =3D NULL;
-> >       int retval;
-> >
-> >       sysfs_initialized =3D 1;
-> > @@ -1459,6 +1463,9 @@ static int __init pci_sysfs_init(void)
-> >               }
-> >       }
-> >
-> > +     while ((pbus =3D pci_find_next_bus(pbus)))
-> > +             pci_create_legacy_files(pbus);
-> > +
-> >       return 0;
-> >  }
-> >  late_initcall(pci_sysfs_init);
-> > --
-> > 2.30.0
-> >
-> >
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Michael
