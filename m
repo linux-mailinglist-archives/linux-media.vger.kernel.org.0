@@ -2,241 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04944319230
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 19:25:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 387AE3192D8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 20:12:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbhBKSZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 13:25:13 -0500
-Received: from mga12.intel.com ([192.55.52.136]:55508 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232575AbhBKSWx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Feb 2021 13:22:53 -0500
-IronPort-SDR: 3w+VrsotU3DHZkZ7vU5p3D4ekg+XWrCrBbOtlZRkArY0w0rxFckfmTjJHhH9Ln/jW4WU95CX/V
- HIeqe/risokA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="161435953"
-X-IronPort-AV: E=Sophos;i="5.81,171,1610438400"; 
-   d="scan'208";a="161435953"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 10:22:04 -0800
-IronPort-SDR: E4IzsxeUYrmqTC/Y/LiwYFFks1WrukekmON+gsyvNAk3D1/R1yESeEPkIqo0f+J2lUpL34IMXx
- TdybpNETR5bQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,171,1610438400"; 
-   d="scan'208";a="380837026"
-Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Feb 2021 10:22:03 -0800
-Received: from kbuild by cd560a204411 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lAGbK-0003zO-NJ; Thu, 11 Feb 2021 18:22:02 +0000
-Date:   Fri, 12 Feb 2021 02:21:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- ce79aecf608469b8b8e422928e6fca50b6ca7133
-Message-ID: <602575c6.qH/39mJBE5+hi5zJ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229873AbhBKTLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Feb 2021 14:11:05 -0500
+Received: from mail-oo1-f47.google.com ([209.85.161.47]:33694 "EHLO
+        mail-oo1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229617AbhBKTLD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Feb 2021 14:11:03 -0500
+Received: by mail-oo1-f47.google.com with SMTP id f1so1548235oou.0;
+        Thu, 11 Feb 2021 11:10:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mdFu/6VBkN1MAmN++f/coOk+OapMFzu+uHXVkMLYEfU=;
+        b=Lpl+XLR1M1PEEK0CdVRcqwu5mnQmdGNQYyvSC3YM/zLQnHBJSE5OUWFxXmuP4unysA
+         0bxWIATrqwAQbLA3RfIZn1R7xC5xTuad9XGrItjx4Us4H/b6QhQ99KpstalaVbFsH8Mm
+         D2CIPKSoIdWcSoSApEBnzq3YWu19WP07gfaKLSmtyxnd6+dNpon4g2krv5Ls+F3nvA1u
+         GKPZG4bLTGZSDmEc6J+GZg5mjtKEhyy/F+VHmeFyzWMldh4ArXoep/FuDU92pnB1QwlH
+         Si0Mj9SOaOKLXwJ8CrlnxPcT0qn+m9Kg1WAvNHSFzANe95YnzB9vUi8IQvwY01kxpTs3
+         ES8g==
+X-Gm-Message-State: AOAM5318uJ21MoKeKU59WUd/cysAzbJHopUnmKT16I4bl8hm2MXgdAEM
+        8ufp4HeQZZzG8j6I6WhQFAGXDNoXB+z0Y3uJn2g=
+X-Google-Smtp-Source: ABdhPJz9qDxkr9OfwolY9oYHRGcZmnyZ6TfMFdgsm5wh0yroMkTpmguutv7JTb4CFqLVP0+W6Eqlhz//Lt/YY+zskGY=
+X-Received: by 2002:a4a:3bcb:: with SMTP id s194mr6468762oos.1.1613070622766;
+ Thu, 11 Feb 2021 11:10:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210210230800.30291-1-sakari.ailus@linux.intel.com> <20210210230800.30291-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20210210230800.30291-2-sakari.ailus@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 11 Feb 2021 20:10:11 +0100
+Message-ID: <CAJZ5v0haRrHv=dsy=6ZOrQcPEeFc6Lz6QAXTVGyWhYZxpHpEdA@mail.gmail.com>
+Subject: Re: [PATCH v11 1/7] ACPI: scan: Obtain device's desired enumeration
+ power state
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-tree
-branch HEAD: ce79aecf608469b8b8e422928e6fca50b6ca7133  media: i2c: max9271: Add MODULE_* macros
+On Thu, Feb 11, 2021 at 12:08 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Store a device's desired enumeration power state in struct
+> acpi_device_power during acpi_device object's initialisation.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/acpi/scan.c     | 4 ++++
+>  include/acpi/acpi_bus.h | 1 +
+>  2 files changed, 5 insertions(+)
+>
+> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> index a184529d8fa40..6a9b4a92c4f66 100644
+> --- a/drivers/acpi/scan.c
+> +++ b/drivers/acpi/scan.c
+> @@ -987,6 +987,7 @@ static void acpi_bus_init_power_state(struct acpi_device *device, int state)
+>
+>  static void acpi_bus_get_power_flags(struct acpi_device *device)
+>  {
+> +       unsigned long long dse = ACPI_STATE_D0;
+>         u32 i;
+>
+>         /* Presence of _PS0|_PR0 indicates 'power manageable' */
+> @@ -1008,6 +1009,9 @@ static void acpi_bus_get_power_flags(struct acpi_device *device)
+>         if (acpi_has_method(device->handle, "_DSW"))
+>                 device->power.flags.dsw_present = 1;
+>
+> +       acpi_evaluate_integer(device->handle, "_DSE", NULL, &dse);
 
-elapsed time: 1202m
+As a matter of notice, it is likely that this object will be called
+_DSC (Deepest State for Configuration) which better reflects its
+function.
 
-configs tested: 179
-configs skipped: 2
+The ACPI ECR introducing it will be sent next week if all goes well.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thanks!
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                           sama5_defconfig
-m68k                        mvme147_defconfig
-arm                          badge4_defconfig
-sh                        dreamcast_defconfig
-openrisc                         alldefconfig
-arm                         bcm2835_defconfig
-powerpc                    klondike_defconfig
-c6x                         dsk6455_defconfig
-mips                          malta_defconfig
-powerpc                        cell_defconfig
-m68k                       m5249evb_defconfig
-powerpc                     sbc8548_defconfig
-sh                            shmin_defconfig
-arm                          pxa168_defconfig
-powerpc                    sam440ep_defconfig
-m68k                          amiga_defconfig
-sh                        apsh4ad0a_defconfig
-arm                           tegra_defconfig
-mips                 decstation_r4k_defconfig
-arm                              alldefconfig
-openrisc                  or1klitex_defconfig
-powerpc                      obs600_defconfig
-powerpc                mpc7448_hpc2_defconfig
-arc                        nsimosci_defconfig
-powerpc                      pasemi_defconfig
-sh                         apsh4a3a_defconfig
-sh                          rsk7201_defconfig
-ia64                             allmodconfig
-arc                     haps_hs_smp_defconfig
-mips                         bigsur_defconfig
-mips                      maltaaprp_defconfig
-arc                          axs103_defconfig
-powerpc               mpc834x_itxgp_defconfig
-powerpc64                           defconfig
-mips                           xway_defconfig
-mips                            e55_defconfig
-sh                  sh7785lcr_32bit_defconfig
-mips                        nlm_xlp_defconfig
-xtensa                         virt_defconfig
-arm                        magician_defconfig
-mips                           ip32_defconfig
-powerpc                     tqm8540_defconfig
-sh                          kfr2r09_defconfig
-nios2                         10m50_defconfig
-powerpc                  mpc885_ads_defconfig
-arc                         haps_hs_defconfig
-arm                          prima2_defconfig
-powerpc                          g5_defconfig
-arm                       imx_v6_v7_defconfig
-powerpc                     tqm8555_defconfig
-mips                        bcm63xx_defconfig
-sh                           se7721_defconfig
-arm                          gemini_defconfig
-powerpc                     taishan_defconfig
-s390                             allmodconfig
-arm                    vt8500_v6_v7_defconfig
-arm                        realview_defconfig
-sh                                  defconfig
-sh                         microdev_defconfig
-mips                        bcm47xx_defconfig
-ia64                         bigsur_defconfig
-mips                         tb0287_defconfig
-powerpc                    socrates_defconfig
-mips                            ar7_defconfig
-powerpc                          allmodconfig
-powerpc                         ps3_defconfig
-powerpc                      walnut_defconfig
-powerpc                    mvme5100_defconfig
-mips                     loongson1c_defconfig
-nds32                            alldefconfig
-sh                          landisk_defconfig
-arm                           corgi_defconfig
-arm                         at91_dt_defconfig
-arm                      integrator_defconfig
-powerpc                 xes_mpc85xx_defconfig
-m68k                        m5407c3_defconfig
-powerpc                     ep8248e_defconfig
-mips                        omega2p_defconfig
-powerpc                          allyesconfig
-sh                           se7750_defconfig
-sh                        sh7763rdp_defconfig
-m68k                       m5275evb_defconfig
-sparc64                          alldefconfig
-powerpc                 mpc836x_mds_defconfig
-nios2                            alldefconfig
-mips                           ip27_defconfig
-powerpc                      katmai_defconfig
-xtensa                       common_defconfig
-riscv                            alldefconfig
-arm                        vexpress_defconfig
-m68k                            mac_defconfig
-arm                             pxa_defconfig
-powerpc                 mpc832x_rdb_defconfig
-sh                           se7751_defconfig
-powerpc                     sequoia_defconfig
-ia64                      gensparse_defconfig
-m68k                             alldefconfig
-m68k                         apollo_defconfig
-m68k                       bvme6000_defconfig
-mips                           ci20_defconfig
-m68k                                defconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20210209
-x86_64               randconfig-a001-20210209
-x86_64               randconfig-a005-20210209
-x86_64               randconfig-a004-20210209
-x86_64               randconfig-a002-20210209
-x86_64               randconfig-a003-20210209
-i386                 randconfig-a001-20210209
-i386                 randconfig-a005-20210209
-i386                 randconfig-a003-20210209
-i386                 randconfig-a002-20210209
-i386                 randconfig-a006-20210209
-i386                 randconfig-a004-20210209
-x86_64               randconfig-a016-20210211
-x86_64               randconfig-a013-20210211
-x86_64               randconfig-a012-20210211
-x86_64               randconfig-a015-20210211
-x86_64               randconfig-a014-20210211
-x86_64               randconfig-a011-20210211
-i386                 randconfig-a016-20210209
-i386                 randconfig-a013-20210209
-i386                 randconfig-a012-20210209
-i386                 randconfig-a014-20210209
-i386                 randconfig-a011-20210209
-i386                 randconfig-a015-20210209
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a013-20210209
-x86_64               randconfig-a014-20210209
-x86_64               randconfig-a015-20210209
-x86_64               randconfig-a012-20210209
-x86_64               randconfig-a016-20210209
-x86_64               randconfig-a011-20210209
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> +       device->power.state_for_enumeration = dse;
+> +
+>         /*
+>          * Enumerate supported power management states
+>          */
+> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+> index 02a716a0af5d4..becfc9f57002b 100644
+> --- a/include/acpi/acpi_bus.h
+> +++ b/include/acpi/acpi_bus.h
+> @@ -276,6 +276,7 @@ struct acpi_device_power {
+>         int state;              /* Current state */
+>         struct acpi_device_power_flags flags;
+>         struct acpi_device_power_state states[ACPI_D_STATE_COUNT];      /* Power states (D0-D3Cold) */
+> +       u8 state_for_enumeration; /* Maximum power state for enumeration */
+>  };
+>
+>  /* Performance Management */
+> --
+> 2.20.1
+>
