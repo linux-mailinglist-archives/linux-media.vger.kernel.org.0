@@ -2,109 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D58B318396
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 03:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7CC131845F
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 05:39:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbhBKCb2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Feb 2021 21:31:28 -0500
-Received: from smtpout2.vodafonemail.de ([145.253.239.133]:55816 "EHLO
-        smtpout2.vodafonemail.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbhBKCbY (ORCPT
+        id S229553AbhBKEid (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Feb 2021 23:38:33 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46141 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229456AbhBKEib (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Feb 2021 21:31:24 -0500
-Received: from mailbackend01 (fra1prox61.fra-mediabeam.com [10.110.1.61])
-        by smtpout2.vodafonemail.de (Postfix) with ESMTP id 593C460D7F
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 03:30:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arcor.de;
-        s=vfde-smtpout-mb-15sep; t=1613010636;
-        bh=f9B5Kgue3Ayr4HDYV7v+es2ZS81DjY/Z0RSZtUCL/jE=;
-        h=From:To:Date:Subject;
-        b=lSqI2s8I3kD+QdS+uCkfS9BxpVHmTour2QZ4KBnT3tnTEds6fORA4z2E1mntHLQgY
-         wRKpfWgD8UYUkF0+FrfDZaAU+UDYZ8gf0fhDkAkVU6RMLKdQgSxc+lcdKtlbIGmv9L
-         1fxDamgElbhdibbkvU0Fls86O5imCznpbNG9XCR0=
-From:   michael-2@arcor.de
+        Wed, 10 Feb 2021 23:38:31 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id A3jflM1sb5126A3jglHqyy; Thu, 11 Feb 2021 05:37:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1613018268; bh=KH988SAgoCT6G1PN1vMXydsT8v1P6h8tL7AZYofAAyY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=APqlNIPWYP+sDBsxiHx2uuF3HnSuwcd1dKAqmxNTj5rhEf3+5GRHXn0lVkKcVn5We
+         X+YstZCGYewUU4nvJt9eRRBv4yIhVfHovNrZ9K9e32tDIAw86OUBNGGzTM7eAZ/kv1
+         S91rhOhLT1/xSZSsW7rjRiWTzRrc/mygufomA+a9npJLxBYRUJkDcttiWM4YV7ePC2
+         oRSzbpHC9OiRSWAxo1W0wfrBs1c732a/qUAFjTK4XeI6Xjm3BhaAx20s2CHjvKLF96
+         SbiPHggSD8+ivvsO7pPmmtDMb6npn28ndtydZ/+EwNgapzunBLMvb56m7eS00dTLfG
+         bKMsw6adSpuCg==
+Message-ID: <c6d1fc885e25bf436c88cb675b4756af@smtp-cloud7.xs4all.net>
+Date:   Thu, 11 Feb 2021 05:37:47 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Message-ID: <2619af9aacbd43158dc3907cb8818e71@arcor.de>
-Date:   Thu, 11 Feb 2021 03:30:33 +0100
-X-Priority: 3
-Subject: Webcam ASUS B50A laptop fails with uvcvideo: Failed to query (GET_INFO) UVC control 2 on unit 3: -32 (exp. 1).
-MIME-Version: 1.0
-Content-type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfJXvhHHAGXDPsL7erafO6pzP30s7B3Yx1FTzsSQSe7gJtPveIbIiAPbHfjyvYie3tf2b8mld6x+rfZp/cVy7HDagB382Q/uZDL95ciLStnJySrQaV0Cm
+ 2oFdQcUf1/TXMU09zU/EIFrQc9t1hL1vpcR23XgE3JdHc/1q3/X8fLFynTNxQpkZa9xhiatBtZspvfRoe7R20Lb1ZK0908x7S78M/fbDEaq+G2x74sffJDVu
+ AzT6uASxkVrNH/ABeFwjPQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear all,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I tried to reactivate my webcam in a ASUS B50A laptop, which is officia=
-lly supported (according to https://www=2Eideasonboard=2Eorg/uvc/) and =
-was known to work=2E But with my attempts to use it with guvcview it ju=
-st ended in syslog entries like=20
-=09"kernel: uvcvideo: Failed to query (GET_INFO) UVC control 1 on unit =
-3: -32 (exp=2E 1)=2E"=20
-It looks like the uvcvideo module is loaded, but the device file is not=
- created, though it is not there=2E=20
-Is there anything we can do to make this camera work again?=20
-Any help is appreciated=2E
+Results of the daily build of media_tree:
 
+date:			Thu Feb 11 05:00:13 CET 2021
+media-tree git hash:	ce79aecf608469b8b8e422928e6fca50b6ca7133
+media_build git hash:	a236fddff61e8357f3070effdf23e9b5f20b26e6
+v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7349-g7fcfe2595
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-a@B50:~$ lsusb=20
-Bus 002 Device 003: ID 04f2:b071 Chicony Electronics Co=2E, Ltd 2=2E0M =
-UVC Webcam / CNF7129
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-guvcview - Output:=20
-a@B50:~$ guvcview=20
-GUVCVIEW: version 2=2E0=2E6=20
-GUVCVIEW: couldn't open /home/a/=2Econfig/guvcview2/video0 for read: Da=
-tei oder Verzeichnis nicht gefunden=20
-V4L2_CORE: ERROR opening V4L interface: Datei oder Verzeichnis nicht ge=
-funden=20
-GUVCVIEW (1): Guvcview error
-         no video device found
+Detailed results are available here:
 
-(guvcview:4003): Gtk-WARNING **: 14:16:29=2E935: Theme parsing error: <=
-data>:1:17: not a number =2E=2E=2E
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-UVCvideo current module configuration:=20
-a@B50:~$ cat /etc/modprobe=2Ed/uvcvideo=2Econf=20
-options uvcvideo quirks=3D0x200
+Detailed regression test results are available here:
 
-a@B50:~$
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
-syslog excerpt with trace=3D0xffff:=20
-[ 39=2E510590] uvcvideo: Found UVC 1=2E00 device CNF7129 (04f2:b071)=20
-[ 39=2E510910] uvcvideo: Failed to query (GET_INFO) UVC control 2 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E512016] uvcvideo: Failed to query (GET_INFO) UVC control 3 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E513139] uvcvideo: Failed to query (GET_INFO) UVC control 6 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E514265] uvcvideo: Failed to query (GET_INFO) UVC control 7 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E515262] uvcvideo: Failed to query (GET_INFO) UVC control 8 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E516390] uvcvideo: Failed to query (GET_INFO) UVC control 9 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E517513] uvcvideo: Failed to query (GET_INFO) UVC control 10 on u=
-nit 3: -32 (exp=2E 1)=2E=20
-[ 39=2E518639] uvcvideo: Failed to query (GET_INFO) UVC control 1 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E519764] uvcvideo: Failed to query (GET_INFO) UVC control 4 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E520887] uvcvideo: Failed to query (GET_INFO) UVC control 5 on un=
-it 3: -32 (exp=2E 1)=2E=20
-[ 39=2E522015] uvcvideo: Failed to query (GET_INFO) UVC control 11 on u=
-nit 3: -32 (exp=2E 1)=2E=20
-[ 39=2E523141] uvcvideo: Failed to query (GET_INFO) UVC control 13 on u=
-nit 3: -32 (exp=2E 1)=2E=20
-[ 39=2E524637] uvcvideo: UVC non compliance - GET_DEF(PROBE) not suppor=
-ted=2E Enabling workaround=2E=20
-[ 39=2E525273] uvcvideo: Failed to query (129) UVC probe control : -32 =
-(exp=2E 26)=2E=20
-[ 39=2E525276] uvcvideo: Failed to initialize the device (-5)=2E=20
-[ 39=2E525368] usbcore: registered new interface driver uvcvideo
+Full logs are available here:
 
-Thanks, Micha
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
 
+The Media Infrastructure API from this daily build is here:
 
+http://www.xs4all.nl/~hverkuil/spec/index.html
