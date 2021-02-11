@@ -2,154 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B3973190CC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 18:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04944319230
+	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 19:25:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232029AbhBKRRF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 12:17:05 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60780 "EHLO mx2.suse.de"
+        id S231186AbhBKSZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Feb 2021 13:25:13 -0500
+Received: from mga12.intel.com ([192.55.52.136]:55508 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232160AbhBKRPR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Feb 2021 12:15:17 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613063670; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mcuoRXtEa/nDf+6F/H9Cm8q3y+Xf0u4aKVKpBc1dPAg=;
-        b=rVOMqNm0xz/UOpIECtOGpp5eLSDA+3x0vtnDtgNDnoda7aNlAe8gd4PVojI/1AZf1qOsKF
-        B7uot8B0SiunkYWRP/rpYV4OLgwKhsS0XdG7qfu5hrOhfU35xUCCat0J8oUSj0VljRmH/8
-        ur31KaCvUn7nn9jtvaCvdlV2ne/xMbc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 19F8BAC43;
-        Thu, 11 Feb 2021 17:14:30 +0000 (UTC)
-Date:   Thu, 11 Feb 2021 18:14:28 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v6 1/3] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <YCVl9BWZQn1TgT2Q@alley>
-References: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
- <20210208200903.28084-2-sakari.ailus@linux.intel.com>
- <CAHp75VciFMKrWM2zJZ6dppuL5M-7BLPGQfcnzkd9pQzY1bRWsQ@mail.gmail.com>
- <20210209092032.GC32460@paasikivi.fi.intel.com>
- <YCJc0LWBiQLwdmkN@smile.fi.intel.com>
- <20210209174755.GH32460@paasikivi.fi.intel.com>
+        id S232575AbhBKSWx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Feb 2021 13:22:53 -0500
+IronPort-SDR: 3w+VrsotU3DHZkZ7vU5p3D4ekg+XWrCrBbOtlZRkArY0w0rxFckfmTjJHhH9Ln/jW4WU95CX/V
+ HIeqe/risokA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="161435953"
+X-IronPort-AV: E=Sophos;i="5.81,171,1610438400"; 
+   d="scan'208";a="161435953"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 10:22:04 -0800
+IronPort-SDR: E4IzsxeUYrmqTC/Y/LiwYFFks1WrukekmON+gsyvNAk3D1/R1yESeEPkIqo0f+J2lUpL34IMXx
+ TdybpNETR5bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,171,1610438400"; 
+   d="scan'208";a="380837026"
+Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 11 Feb 2021 10:22:03 -0800
+Received: from kbuild by cd560a204411 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lAGbK-0003zO-NJ; Thu, 11 Feb 2021 18:22:02 +0000
+Date:   Fri, 12 Feb 2021 02:21:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ ce79aecf608469b8b8e422928e6fca50b6ca7133
+Message-ID: <602575c6.qH/39mJBE5+hi5zJ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210209174755.GH32460@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue 2021-02-09 19:47:55, Sakari Ailus wrote:
-> Hi Andy,
-> 
-> On Tue, Feb 09, 2021 at 11:58:40AM +0200, Andy Shevchenko wrote:
-> > On Tue, Feb 09, 2021 at 11:20:32AM +0200, Sakari Ailus wrote:
-> > > On Mon, Feb 08, 2021 at 10:43:30PM +0200, Andy Shevchenko wrote:
-> > > > On Mon, Feb 8, 2021 at 10:11 PM Sakari Ailus
-> > > > <sakari.ailus@linux.intel.com> wrote:
-> > 
-> > ...
-> > 
-> > > > > +       %p4cc   BG12 little-endian (0x32314742)
-> > > > 
-> > > > This misses examples of the (strange) escaping cases and wiped
-> > > > whitespaces to make sure everybody understands that 'D 12' will be the
-> > > > same as 'D1 2' (side note: which I disagree on, perhaps something
-> > > > should be added into documentation why).
-> > > 
-> > > The spaces are expected to be at the end only. I can add such example if
-> > > you like. There are no fourcc codes with spaces in the middle in neither
-> > > V4L2 nor DRM, and I don't think the expectation is to have them either.
-> > 
-> > But then the code suggests otherwise. Perhaps we need to extract
-> > skip_trailing_spaces() from strim() and use it here.
-> 
-> But this wouldn't affect the result in this case, would it?
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: ce79aecf608469b8b8e422928e6fca50b6ca7133  media: i2c: max9271: Add MODULE_* macros
 
-Is there any existing implementation that would skip spaces, please?
+elapsed time: 1202m
 
-IMHO, this might just hide problems. We should show exactly what
-is stored unless anyone explicitly ask for skipping that spaces.
+configs tested: 179
+configs skipped: 2
 
-> > 
-> > ...
-> > 
-> > > > > +static noinline_for_stack
-> > > > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > > > > +                   struct printf_spec spec, const char *fmt)
-> > > > > +{
-> > > > 
-> > > > > +       char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
-> > > > 
-> > > > Do we have any evidence / document / standard that the above format is
-> > > > what people would find good? From existing practices (I consider other
-> > > > printings elsewhere and users in this series) I find '(xx)' form for
-> > > > hex numbers is weird. The standard practice is to use \xHH (without
-> > > > parentheses).
-> > > 
-> > > Earlier in the review it was proposed that special handling of codes below
-> > > 32 should be added, which I did. Using the parentheses is apparently an
-> > > existing practice elsewhere.
-> > 
-> > Where? \xHH is quite well established format for escaping. Never heard about
-> > '(xx)' variant before this very series.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> Mauro referred to FourCC codes while reviewing an earlier version of this,
-> such as RGB(15).
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                           sama5_defconfig
+m68k                        mvme147_defconfig
+arm                          badge4_defconfig
+sh                        dreamcast_defconfig
+openrisc                         alldefconfig
+arm                         bcm2835_defconfig
+powerpc                    klondike_defconfig
+c6x                         dsk6455_defconfig
+mips                          malta_defconfig
+powerpc                        cell_defconfig
+m68k                       m5249evb_defconfig
+powerpc                     sbc8548_defconfig
+sh                            shmin_defconfig
+arm                          pxa168_defconfig
+powerpc                    sam440ep_defconfig
+m68k                          amiga_defconfig
+sh                        apsh4ad0a_defconfig
+arm                           tegra_defconfig
+mips                 decstation_r4k_defconfig
+arm                              alldefconfig
+openrisc                  or1klitex_defconfig
+powerpc                      obs600_defconfig
+powerpc                mpc7448_hpc2_defconfig
+arc                        nsimosci_defconfig
+powerpc                      pasemi_defconfig
+sh                         apsh4a3a_defconfig
+sh                          rsk7201_defconfig
+ia64                             allmodconfig
+arc                     haps_hs_smp_defconfig
+mips                         bigsur_defconfig
+mips                      maltaaprp_defconfig
+arc                          axs103_defconfig
+powerpc               mpc834x_itxgp_defconfig
+powerpc64                           defconfig
+mips                           xway_defconfig
+mips                            e55_defconfig
+sh                  sh7785lcr_32bit_defconfig
+mips                        nlm_xlp_defconfig
+xtensa                         virt_defconfig
+arm                        magician_defconfig
+mips                           ip32_defconfig
+powerpc                     tqm8540_defconfig
+sh                          kfr2r09_defconfig
+nios2                         10m50_defconfig
+powerpc                  mpc885_ads_defconfig
+arc                         haps_hs_defconfig
+arm                          prima2_defconfig
+powerpc                          g5_defconfig
+arm                       imx_v6_v7_defconfig
+powerpc                     tqm8555_defconfig
+mips                        bcm63xx_defconfig
+sh                           se7721_defconfig
+arm                          gemini_defconfig
+powerpc                     taishan_defconfig
+s390                             allmodconfig
+arm                    vt8500_v6_v7_defconfig
+arm                        realview_defconfig
+sh                                  defconfig
+sh                         microdev_defconfig
+mips                        bcm47xx_defconfig
+ia64                         bigsur_defconfig
+mips                         tb0287_defconfig
+powerpc                    socrates_defconfig
+mips                            ar7_defconfig
+powerpc                          allmodconfig
+powerpc                         ps3_defconfig
+powerpc                      walnut_defconfig
+powerpc                    mvme5100_defconfig
+mips                     loongson1c_defconfig
+nds32                            alldefconfig
+sh                          landisk_defconfig
+arm                           corgi_defconfig
+arm                         at91_dt_defconfig
+arm                      integrator_defconfig
+powerpc                 xes_mpc85xx_defconfig
+m68k                        m5407c3_defconfig
+powerpc                     ep8248e_defconfig
+mips                        omega2p_defconfig
+powerpc                          allyesconfig
+sh                           se7750_defconfig
+sh                        sh7763rdp_defconfig
+m68k                       m5275evb_defconfig
+sparc64                          alldefconfig
+powerpc                 mpc836x_mds_defconfig
+nios2                            alldefconfig
+mips                           ip27_defconfig
+powerpc                      katmai_defconfig
+xtensa                       common_defconfig
+riscv                            alldefconfig
+arm                        vexpress_defconfig
+m68k                            mac_defconfig
+arm                             pxa_defconfig
+powerpc                 mpc832x_rdb_defconfig
+sh                           se7751_defconfig
+powerpc                     sequoia_defconfig
+ia64                      gensparse_defconfig
+m68k                             alldefconfig
+m68k                         apollo_defconfig
+m68k                       bvme6000_defconfig
+mips                           ci20_defconfig
+m68k                                defconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20210209
+x86_64               randconfig-a001-20210209
+x86_64               randconfig-a005-20210209
+x86_64               randconfig-a004-20210209
+x86_64               randconfig-a002-20210209
+x86_64               randconfig-a003-20210209
+i386                 randconfig-a001-20210209
+i386                 randconfig-a005-20210209
+i386                 randconfig-a003-20210209
+i386                 randconfig-a002-20210209
+i386                 randconfig-a006-20210209
+i386                 randconfig-a004-20210209
+x86_64               randconfig-a016-20210211
+x86_64               randconfig-a013-20210211
+x86_64               randconfig-a012-20210211
+x86_64               randconfig-a015-20210211
+x86_64               randconfig-a014-20210211
+x86_64               randconfig-a011-20210211
+i386                 randconfig-a016-20210209
+i386                 randconfig-a013-20210209
+i386                 randconfig-a012-20210209
+i386                 randconfig-a014-20210209
+i386                 randconfig-a011-20210209
+i386                 randconfig-a015-20210209
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-This is quite easy to parse. The problem is that it is not clear
-whether it is hexa or decimal number.
+clang tested configs:
+x86_64               randconfig-a013-20210209
+x86_64               randconfig-a014-20210209
+x86_64               randconfig-a015-20210209
+x86_64               randconfig-a012-20210209
+x86_64               randconfig-a016-20210209
+x86_64               randconfig-a011-20210209
 
-> Does \× imply only the next two characters are hexadecimal? I have to admit
-> I don't remember seeting that, nor \x notation is common.
-
-Hmm, the /xyy format might be hard to parse.
-
-What about using the same approach as drm_get_format_name()?
-I mean printing '?' when the character is not printable.
-The exact value is printed later anyway.
-
-The advantage is that it will always printk 4 characters.
-
-
-> > > Note that neither DRM nor V4L2 currently has such fourcc codes currently.
-> > 
-> > ...
-> > 
-> > > > > +       p = special_hex_number(p, output + sizeof(output) - 2, *fourcc,
-> > > > > +                              sizeof(u32));
-> > > > 
-> > > > This is perfectly one line (in this file we have even longer lines).
-
-Ailus, please do not take this as a criticism of your patch.
-I understand that it might have sounded like this but Andy did
-not mean it.
-
-Andy prefers slightly longer lines over wrapping only few characters.
-It makes sense to me. There are more people with the same opinion.
-Even checkpatch.pl tolerates lines up to 100 characters these days.
-
-Of course, this is a subsystem specific preference. You did not have
-any chance to know it. There is no need to fight over it.
-
-Best Regards,
-Petr
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
