@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B81E13189EB
+	by mail.lfdr.de (Postfix) with ESMTP id 4649A3189EA
 	for <lists+linux-media@lfdr.de>; Thu, 11 Feb 2021 12:55:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbhBKLyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 06:54:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34314 "EHLO
+        id S231362AbhBKLyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Feb 2021 06:54:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231612AbhBKLvB (ORCPT
+        with ESMTP id S231624AbhBKLvB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 11 Feb 2021 06:51:01 -0500
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E203C061788;
-        Thu, 11 Feb 2021 03:50:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DFC0C06178A;
+        Thu, 11 Feb 2021 03:50:20 -0800 (PST)
 Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:94f7:2542:9eb3:b5ba])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5D9AE1F45972;
-        Thu, 11 Feb 2021 11:50:17 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7D2221F45979;
+        Thu, 11 Feb 2021 11:50:18 +0000 (GMT)
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     p.zabel@pengutronix.de, robh+dt@kernel.org, shawnguo@kernel.org,
         s.hauer@pengutronix.de, festevam@gmail.com, ezequiel@collabora.com,
@@ -30,9 +30,9 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
         kernel@collabora.com, benjamin.gaignard@collabora.com
-Subject: [PATCH 3/4] media: hantro: Use reset driver
-Date:   Thu, 11 Feb 2021 12:50:02 +0100
-Message-Id: <20210211115003.249367-4-benjamin.gaignard@collabora.com>
+Subject: [PATCH 4/4] arm64: dts: imx8mq: Use reset driver for VPU hardware block
+Date:   Thu, 11 Feb 2021 12:50:03 +0100
+Message-Id: <20210211115003.249367-5-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210211115003.249367-1-benjamin.gaignard@collabora.com>
 References: <20210211115003.249367-1-benjamin.gaignard@collabora.com>
@@ -42,143 +42,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rather use a reset like feature inside the driver use the reset
-controller API to get the same result.
+Add a vpu reset hardware block node.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/staging/media/hantro/Kconfig        |  1 +
- drivers/staging/media/hantro/imx8m_vpu_hw.c | 61 ++++-----------------
- 2 files changed, 12 insertions(+), 50 deletions(-)
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi | 31 ++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
-index 5b6cf9f62b1a..dd1d4dde2658 100644
---- a/drivers/staging/media/hantro/Kconfig
-+++ b/drivers/staging/media/hantro/Kconfig
-@@ -20,6 +20,7 @@ config VIDEO_HANTRO_IMX8M
- 	bool "Hantro VPU i.MX8M support"
- 	depends on VIDEO_HANTRO
- 	depends on ARCH_MXC || COMPILE_TEST
-+	select RESET_VPU_IMX8MQ
- 	default y
- 	help
- 	  Enable support for i.MX8M SoCs.
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index c222de075ef4..d5b4312b9391 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -7,49 +7,12 @@
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+index a841a023e8e0..7d4863d47112 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+@@ -7,6 +7,7 @@
+ #include <dt-bindings/clock/imx8mq-clock.h>
+ #include <dt-bindings/power/imx8mq-power.h>
+ #include <dt-bindings/reset/imx8mq-reset.h>
++#include <dt-bindings/reset/imx8mq-vpu-reset.h>
+ #include <dt-bindings/gpio/gpio.h>
+ #include "dt-bindings/input/input.h"
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+@@ -1267,19 +1268,36 @@ usb3_phy1: usb-phy@382f0040 {
+ 			status = "disabled";
+ 		};
  
- #include <linux/clk.h>
- #include <linux/delay.h>
-+#include <linux/reset.h>
++		vpu_reset: vpu-reset@38320000 {
++			compatible = "fsl,imx8mq-vpu-reset", "syscon";
++			reg = <0x38320000 0x10000>;
++			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
++				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
++				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
++			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
++					  <&clk IMX8MQ_CLK_VPU_G2>,
++					  <&clk IMX8MQ_CLK_VPU_BUS>,
++					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
++			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
++						 <&clk IMX8MQ_VPU_PLL_OUT>,
++						 <&clk IMX8MQ_SYS1_PLL_800M>,
++						 <&clk IMX8MQ_VPU_PLL>;
++			assigned-clock-rates = <600000000>, <600000000>,
++					       <800000000>, <0>;
++			#reset-cells = <1>;
++		};
++
+ 		vpu: video-codec@38300000 {
+ 			compatible = "nxp,imx8mq-vpu";
+ 			reg = <0x38300000 0x10000>,
+-			      <0x38310000 0x10000>,
+-			      <0x38320000 0x10000>;
+-			reg-names = "g1", "g2", "ctrl";
++			      <0x38310000 0x10000>;
++			reg-names = "g1", "g2";
+ 			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+ 			interrupt-names = "g1", "g2";
+ 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+-				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+-				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+-			clock-names = "g1", "g2", "bus";
++				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
++			clock-names = "g1", "g2";
+ 			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+ 					  <&clk IMX8MQ_CLK_VPU_G2>,
+ 					  <&clk IMX8MQ_CLK_VPU_BUS>,
+@@ -1290,6 +1308,7 @@ vpu: video-codec@38300000 {
+ 						 <&clk IMX8MQ_VPU_PLL>;
+ 			assigned-clock-rates = <600000000>, <600000000>,
+ 					       <800000000>, <0>;
++			resets = <&vpu_reset IMX8MQ_RESET_VPU_RESET_G1>;
+ 			power-domains = <&pgc_vpu>;
+ 		};
  
- #include "hantro.h"
- #include "hantro_jpeg.h"
- #include "hantro_g1_regs.h"
- 
--#define CTRL_SOFT_RESET		0x00
--#define RESET_G1		BIT(1)
--#define RESET_G2		BIT(0)
--
--#define CTRL_CLOCK_ENABLE	0x04
--#define CLOCK_G1		BIT(1)
--#define CLOCK_G2		BIT(0)
--
--#define CTRL_G1_DEC_FUSE	0x08
--#define CTRL_G1_PP_FUSE		0x0c
--#define CTRL_G2_DEC_FUSE	0x10
--
--static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
--{
--	u32 val;
--
--	/* Assert */
--	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
--	val &= ~reset_bits;
--	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
--
--	udelay(2);
--
--	/* Release */
--	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
--	val |= reset_bits;
--	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
--}
--
--static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
--{
--	u32 val;
--
--	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
--	val |= clock_bits;
--	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
--}
--
- static int imx8mq_runtime_resume(struct hantro_dev *vpu)
- {
- 	int ret;
-@@ -60,13 +23,10 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
- 		return ret;
- 	}
- 
--	imx8m_soft_reset(vpu, RESET_G1 | RESET_G2);
--	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
-+	ret = device_reset(vpu->dev);
-+	if (ret)
-+		dev_err(vpu->dev, "Failed to reset Hantro VPU\n");
- 
--	/* Set values of the fuse registers */
--	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
--	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
--	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
- 
- 	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
- 
-@@ -151,16 +111,17 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
- static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
- {
- 	vpu->dec_base = vpu->reg_bases[0];
--	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
- 
- 	return 0;
- }
- 
--static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
-+static void imx8mq_vpu_reset(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-+	int ret = device_reset(vpu->dev);
- 
--	imx8m_soft_reset(vpu, RESET_G1);
-+	if (ret)
-+		dev_err(vpu->dev, "Failed to reset Hantro VPU\n");
- }
- 
- /*
-@@ -170,19 +131,19 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
- static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
- 	[HANTRO_MODE_MPEG2_DEC] = {
- 		.run = hantro_g1_mpeg2_dec_run,
--		.reset = imx8m_vpu_g1_reset,
-+		.reset = imx8mq_vpu_reset,
- 		.init = hantro_mpeg2_dec_init,
- 		.exit = hantro_mpeg2_dec_exit,
- 	},
- 	[HANTRO_MODE_VP8_DEC] = {
- 		.run = hantro_g1_vp8_dec_run,
--		.reset = imx8m_vpu_g1_reset,
-+		.reset = imx8mq_vpu_reset,
- 		.init = hantro_vp8_dec_init,
- 		.exit = hantro_vp8_dec_exit,
- 	},
- 	[HANTRO_MODE_H264_DEC] = {
- 		.run = hantro_g1_h264_dec_run,
--		.reset = imx8m_vpu_g1_reset,
-+		.reset = imx8mq_vpu_reset,
- 		.init = hantro_h264_dec_init,
- 		.exit = hantro_h264_dec_exit,
- 	},
 -- 
 2.25.1
 
