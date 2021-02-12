@@ -2,131 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC6A231A518
-	for <lists+linux-media@lfdr.de>; Fri, 12 Feb 2021 20:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C44C131A879
+	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 00:54:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231705AbhBLTLu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Feb 2021 14:11:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41882 "EHLO
+        id S231564AbhBLXxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Feb 2021 18:53:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231289AbhBLTLs (ORCPT
+        with ESMTP id S229980AbhBLXx1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Feb 2021 14:11:48 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FFEC061574;
-        Fri, 12 Feb 2021 11:11:08 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id x9so353658plb.5;
-        Fri, 12 Feb 2021 11:11:08 -0800 (PST)
+        Fri, 12 Feb 2021 18:53:27 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 370F9C061574;
+        Fri, 12 Feb 2021 15:52:47 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id g10so1353910wrx.1;
+        Fri, 12 Feb 2021 15:52:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dUQPqGrqOjvv+mPHTG6J4xufRDhb/jwG8dfmae0QgUA=;
-        b=toh7dDdb0nclYftk7bpns5Fsk1Xg81Vo3sQTpUVnKXXdrY1jgRgMj9LYsN7+ssU+Wj
-         1MEf6A1x0Of/nqpi6xcBgNBxZMLfKtkFoZsyE1VsNveM6/2YjmqBUKtChvxdgw+s9UPH
-         tY9wPpmE2y/xYtV7xO+AK1uDuBV7UXbT7MTGRNwn7cI+S76+Jn8L4AwlnLmLc0x9YzSB
-         9Sf3F5HTmC0/+BCTsGH8+9Arkb3BO8jugZ58e/5yRg0bi9olri7c7IJNVWIahCpbmJWi
-         Mw/pSg4Sz3o8EdQg/cjmkn6BTBbu3x4+yqVVEjizE4/PwbPtaIfpu7cNeaxQUYotfxh0
-         znnA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c3J0XcePyleo796OvAaICLfI1i20geRcVa5TsLh1tao=;
+        b=Ri4AMW9WYsRMqlRHoKub72GSWBvDgwFPnMTKhWh0wBPrcwosb6T8gdQwPeEAoaopzY
+         DlptP0AAw2P9cCAUZBfQXy0zgQBUhVm2BT+zYBRyzNimA6JYxtx2za4t90YXqEycJia4
+         dI/ydnuMjPu1bzm7v6CjiTmzrf8Q2oz5nI2H/aGnLFOPDqGEjFMHYFbgV1hNFzSzvmNP
+         kj1ECwKHmM8qTmocYLec+Lacd9R19q8aU5n+fKNK14jH9a1sSUD+NAkJk71tIzWRiOHC
+         yfL14o71yRL4da7YGU2zrbWX53U1SUU+nhr+9zDSLR/que85rwUbcd3mOhyjj+knnDZy
+         ohZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dUQPqGrqOjvv+mPHTG6J4xufRDhb/jwG8dfmae0QgUA=;
-        b=mIDds9HZEg7+bS0E8GyQJqIylvPx3sSl2aZhjt64SLnAte+ut4AdsNUR42ety21VQU
-         C1E1skRIDgfGZeIFRQICMOiwaVEntITfvCRNc+rMktF/ydDa4bG1FFrr31Fu+m7ryBMr
-         /IyCoPudeqYUpS1RnJmdpxEbzJm45yjkxuUsYVtPuCyeDFohCPqRR1piLTH5s48Y2aD+
-         u6lHUgIRxIsSY/kBneiLvfwUJukveCS9sSc74WlhO0i5Uzbd52F1eH8GsLfkNF9WyNlF
-         dlNR8+B7vj7+XO7Y1egYdKmaj5nJsQ18H1cavnxlK+Cgsm9eGtx0g2aiBMRy3CFTlv5h
-         mQDQ==
-X-Gm-Message-State: AOAM531OoiuA5V8UhcgVVHdRkS3+j0Kya4W1UcKFLeoVvvqOBpDIlZNJ
-        HvInIbyDx6FNmiLvB0QLWxrWv443hlQ=
-X-Google-Smtp-Source: ABdhPJzFJrubDP2iMk1Rg4vVAO4Pk2i8PW6t8ita0jcI9KziOc69D9GASt3DCwIgqERu6wx/KarI4A==
-X-Received: by 2002:a17:90a:657:: with SMTP id q23mr4082954pje.192.1613157068162;
-        Fri, 12 Feb 2021 11:11:08 -0800 (PST)
-Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 21sm9453862pfh.56.2021.02.12.11.11.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Feb 2021 11:11:07 -0800 (PST)
-From:   Florian Fainelli <f.fainelli@gmail.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     dave.stevenson@raspberrypi.com, maz@kernel.org, eric@anholt.net,
-        tzimmermann@suse.de, linux-rpi-kernel@lists.infradead.org,
-        hverkuil-cisco@xs4all.nl, nsaenzjulienne@suse.de,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        dri-devel@lists.freedesktop.org, maxime@cerno.tech,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] Revert "ARM: dts: bcm2711: Add the BSC interrupt controller"
-Date:   Fri, 12 Feb 2021 11:11:04 -0800
-Message-Id: <20210212191104.2365912-1-f.fainelli@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c3J0XcePyleo796OvAaICLfI1i20geRcVa5TsLh1tao=;
+        b=Lh4aysQLoJTFYAbvKhFvMbl3jwx0kEs0qjcPCytZclOREYxtNpITrfQjU8gppUZ/1d
+         oEs8zRsiFhQcoXtKX2+Itk1RlMHNIReFQ9M8s3HyEZ2CTNzb9PLZ65C0Yg3kVWZvQgXR
+         7jT9GxZ7/mQLWxkXZmQtqvQOSNXdTvXUJ2Kiyd2dngM8XOo6kgyEPRtycc8Pq90f1J9X
+         wDY8YMd65wjzkSzKXnC4L89Me9wNlrvmktgLF+Yxgq8yBH8XiZ7G8RQKwweOnT4kbcV4
+         HCL0VGSxzINwiS1L9FGXXu8LmiPLM4z5FRE08aAm94Q/YwuPoaws8LIiiz0JSF0GOlL4
+         nzCw==
+X-Gm-Message-State: AOAM530fW1/2SXE3OOiM2y9D/jMxY/7bOUNNRZnAKEbx8ZmoQoO6oVid
+        6/pggAO7HpCpEUEFlPsCbS4mDprUotYmE86EINo=
+X-Google-Smtp-Source: ABdhPJy5ege6vYLkKFNBg45tfxjKebdizpZt3Rwblyqb6bDBWNW2cRm35aKN8i+fn5joETlGoWPu0tLUHi/KopCNX2o=
+X-Received: by 2002:adf:e511:: with SMTP id j17mr6291375wrm.251.1613173965866;
+ Fri, 12 Feb 2021 15:52:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210203163348.30686-1-TheSven73@gmail.com> <804285cff81878a2c188d1b823182114f891ca38.camel@ndufresne.ca>
+ <CAGngYiWt9Q4jWksiniC6vqUw29L3mOFuQpw7Dz_BK9Ye9FbQ1Q@mail.gmail.com> <20210211143233.GA1360@pengutronix.de>
+In-Reply-To: <20210211143233.GA1360@pengutronix.de>
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+Date:   Fri, 12 Feb 2021 18:52:34 -0500
+Message-ID: <CAGngYiWAohHXYPfd5NJc4URVuMA4GP01jvRV78uM5P+H7zKx-A@mail.gmail.com>
+Subject: Re: [BUG REPORT] media: coda: mpeg4 decode corruption on i.MX6qp only
+To:     Philipp Zabel <pza@pengutronix.de>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As Dave reported:
+Philipp, Fabio,
 
-This seems to have unintended side effects.  GIC interrupt 117 is shared
-between the standard I2C controllers (i2c-bcm2835) and the l2-intc block
-handling the HDMI I2C interrupts.
+I was able to verify that the PREs do indeed overrun their allocated ocram area.
 
-There is not a great way to share an interrupt between an interrupt
-controller using the chained IRQ handler which is an interrupt flow and
-another driver like i2c-bcm2835 which uses an interrupt handler
-(although it specifies IRQF_SHARED).
+Section 38.5.1 of the iMX6QuadPlus manual indicates the ocram size
+required: width(pixels) x 8 lines x 4 bytes. For 2048 pixels max, this
+comes to 64K. This is what the PRE driver allocates. So far, so good.
 
-Simply revert this change for now which will mean that HDMI I2C will be
-polled, like it was before.
+The trouble starts when we're displaying a section of a much wider
+bitmap. This happens in X when using two displays. e.g.:
+HDMI 1920x1088
+LVDS 1280x800
+X bitmap 3200x1088, left side displayed on HDMI, right side on LVDS.
 
-Reported-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
----
- arch/arm/boot/dts/bcm2711.dtsi | 12 ------------
- 1 file changed, 12 deletions(-)
+In such a case, the stride will be much larger than the width of a
+display scanline.
 
-diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-index 462b1dfb0385..720beec54d61 100644
---- a/arch/arm/boot/dts/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/bcm2711.dtsi
-@@ -308,14 +308,6 @@ dvp: clock@7ef00000 {
- 			#reset-cells = <1>;
- 		};
- 
--		bsc_intr: interrupt-controller@7ef00040 {
--			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
--			reg = <0x7ef00040 0x30>;
--			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-controller;
--			#interrupt-cells = <1>;
--		};
--
- 		aon_intr: interrupt-controller@7ef00100 {
- 			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
- 			reg = <0x7ef00100 0x30>;
-@@ -362,8 +354,6 @@ ddc0: i2c@7ef04500 {
- 			reg = <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
- 			reg-names = "bsc", "auto-i2c";
- 			clock-frequency = <97500>;
--			interrupt-parent = <&bsc_intr>;
--			interrupts = <0>;
- 			status = "disabled";
- 		};
- 
-@@ -405,8 +395,6 @@ ddc1: i2c@7ef09500 {
- 			reg = <0x7ef09500 0x100>, <0x7ef05b00 0x300>;
- 			reg-names = "bsc", "auto-i2c";
- 			clock-frequency = <97500>;
--			interrupt-parent = <&bsc_intr>;
--			interrupts = <1>;
- 			status = "disabled";
- 		};
- 	};
--- 
-2.25.1
+This is where things start to go very wrong.
 
+I found that the ocram area used by the PREs increases with the
+stride. I experimentally found a formula:
+ocam_used = display_widthx8x4 + (bitmap_width-display_width)x7x4
+
+As the stride increases, the PRE eventually overruns the ocram and...
+ends up in the "ocram aliased" area, where it overwrites the ocram in
+use by the vpu/coda !
+
+I could not find any PRE register setting that changes the used ocram area.
+
+Sven
