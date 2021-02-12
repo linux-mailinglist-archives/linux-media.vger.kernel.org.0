@@ -2,108 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE60D319C4A
-	for <lists+linux-media@lfdr.de>; Fri, 12 Feb 2021 11:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E75D319C79
+	for <lists+linux-media@lfdr.de>; Fri, 12 Feb 2021 11:19:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbhBLKDl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Feb 2021 05:03:41 -0500
-Received: from mga18.intel.com ([134.134.136.126]:24132 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230046AbhBLKDg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Feb 2021 05:03:36 -0500
-IronPort-SDR: gx7R40SxeodEU6QpCNEaT2Z+Ov6J1owzbe8NsK0HfSoJ9zsW6gxcwn41yLiMA49CA+9/7/5SZ+
- gnQkSeDgHPSQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="170059826"
-X-IronPort-AV: E=Sophos;i="5.81,173,1610438400"; 
-   d="scan'208";a="170059826"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2021 02:01:47 -0800
-IronPort-SDR: ehlZTpGZ5wEitMMPpLCdIWlxBduBTxxBfLgyWANj1C32rvXqbw/7Ut+u7zm3dz8zioBr4Iy+ev
- lVydzinX/niA==
-X-IronPort-AV: E=Sophos;i="5.81,173,1610438400"; 
-   d="scan'208";a="363665377"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2021 02:01:42 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id E29C820345;
-        Fri, 12 Feb 2021 12:01:40 +0200 (EET)
-Date:   Fri, 12 Feb 2021 12:01:40 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v6 2/3] v4l: ioctl: Use %p4cc printk modifier to print
- FourCC codes
-Message-ID: <20210212100140.GC3@paasikivi.fi.intel.com>
-References: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
- <20210208200903.28084-3-sakari.ailus@linux.intel.com>
- <YCVb8hxawwd2l2yx@alley>
+        id S230356AbhBLKQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Feb 2021 05:16:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33759 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230365AbhBLKQJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Feb 2021 05:16:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613124882;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hQ4s2GKq0YTzgoAQssPGg5wIJASO0/s1pAuGBl1EvYw=;
+        b=Od3tmThh7HeReUAGemwDtIKFnElSn1pUXWrxFGDlhmAu2LDHrnMFPRdHjeI8nijt2gWrz7
+        NZ2kGKG6+35qYUwpm6cMWGzSr/CZOS0qzt9u00WVqyawnQJuyoQkXK4gCiR8yN29xtchg5
+        trE9/DH7getVwj5iVd/ynUsjlvOEtms=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-lK_x5n1dMNiEVwnPBr3ZVg-1; Fri, 12 Feb 2021 05:14:38 -0500
+X-MC-Unique: lK_x5n1dMNiEVwnPBr3ZVg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D072801962;
+        Fri, 12 Feb 2021 10:14:37 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-161.ams2.redhat.com [10.36.112.161])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E423A10016F9;
+        Fri, 12 Feb 2021 10:14:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id B8A5418003AF; Fri, 12 Feb 2021 11:14:33 +0100 (CET)
+Date:   Fri, 12 Feb 2021 11:14:33 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "Vetter, Daniel" <daniel.vetter@intel.com>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+        "Kim, Dongwon" <dongwon.kim@intel.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Message-ID: <20210212101433.prcjjktmhqyjasnj@sirius.home.kraxel.org>
+References: <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+ <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+ <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
+ <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
+ <2ef01dc941684a15a4f30e6239ae42df@intel.com>
+ <8ac10b1d-3d64-4e39-42e6-6c65b61f0794@amd.com>
+ <fd23d4d08ea84ca3b8a7610a8fb866d5@intel.com>
+ <e3222c34-31ee-b43e-65b0-6ab01423d52b@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YCVb8hxawwd2l2yx@alley>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e3222c34-31ee-b43e-65b0-6ab01423d52b@amd.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Petr,
+  Hi,
 
-On Thu, Feb 11, 2021 at 05:31:46PM +0100, Petr Mladek wrote:
-> On Mon 2021-02-08 22:09:02, Sakari Ailus wrote:
-> > Now that we can print FourCC codes directly using printk, make use of the
-> > feature in V4L2 core.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-ioctl.c | 85 +++++++---------------------
-> >  1 file changed, 21 insertions(+), 64 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index 31d1342e61e8..31662c3a8c9e 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -265,13 +265,9 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
-> >  {
-> >  	const struct v4l2_fmtdesc *p = arg;
-> >  
-> > -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
-> > +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%p4cc, mbus_code=0x%04x, description='%.*s'\n",
-> 
-> Is %p4cc really acceptable here?
-> 
-> The original code printed only the 4 characters. The original code
-> would print something like:
-> 
->   index=21, type=bla, flags=0x0, pixelformat=BG12, mbus_code=0x0a9f, descrition="bla bla bla"
-> 
-> while the new code will do:
-> 
->   index=21, type=bla, flags=0x0, pixelformat=BG12 little-endian (0x32314742), mbus_code=0x0a9f, descrition="bla bla bla"
-> 
-> This is much harder to parse because there are spaces also inside
-> pixel_format=<value>
+> This is because of the fundamental concept of DMA-buf that the exporter
+> needs to setup mappings (both CPU page tables as well as stuff like IOMMU).
+> When the guest exports something it would mean that you give the guest
+> control over the IOMMU and/or host page tables. And that is not something
+> you can do as far as I can see.
 
-Note that also the fourcc code itself could contains spaces so that's not
-new.
+Correct.
 
-The fourcc (debug) form is now one and the same for V4L2 and DRM, but I
-guess nothing would prevent adding a shorter form if needed. This is not
-continuously happening during streaming so this is also not performance
-critical in any way. The fourcc code was used to be printed this way here
-mainly because it was, well, easy to do for "just" debugging purposes.
+> You can only export stuff the other way around so that the host is providing
+> the memory and the guest is consuming it. If I understand it correctly
+> that's exactly what Gerd is suggesting here.
 
-Hans, any opinion?
+It can also work the other way around (guest allocating and host
+consuming).  That is just an implementation detail.  The /important/
+thing is that the driver which exports the dma-buf (and thus handles the
+mappings) must be aware of the virtualization so it can properly
+coordinate things with the host side.
 
--- 
-Kind regards,
+So vdmabuf allocating and exporting dma-bufs works.
 
-Sakari Ailus
+But vdmabuf importing dma-bufs doesn't because you can't ask the
+exporter to create *host* mappings as Christian outlined above.  Sure,
+you can try to sidestep the exporter, fish the list of pages out of the
+scatter list and run with that.  That will explode as soon as you meet a
+dma-buf which is not backed by pages in the first place.  And even for
+page-backed dma-bufs you can run into trouble, for example due to
+mapping pages with the wrong caching attributes.  Alternatively you can
+double-buffer and copy data from the imported dma-buf to some
+host-shared memory, but I guess you don't want that for performance
+reasons ...
+
+take care,
+  Gerd
+
