@@ -2,77 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEC0D319A2C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Feb 2021 08:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7D19319B16
+	for <lists+linux-media@lfdr.de>; Fri, 12 Feb 2021 09:17:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbhBLHTE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Feb 2021 02:19:04 -0500
-Received: from sauhun.de ([88.99.104.3]:33354 "EHLO pokefinder.org"
+        id S229907AbhBLIQO convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 12 Feb 2021 03:16:14 -0500
+Received: from mga05.intel.com ([192.55.52.43]:1231 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229608AbhBLHTD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Feb 2021 02:19:03 -0500
-Received: from localhost (p54b333a8.dip0.t-ipconnect.de [84.179.51.168])
-        by pokefinder.org (Postfix) with ESMTPSA id 6D6EA2C35BE;
-        Fri, 12 Feb 2021 08:18:21 +0100 (CET)
-Date:   Fri, 12 Feb 2021 08:18:21 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-i2c@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 2/7] i2c: Allow an ACPI driver to manage the device's
- power state during probe
-Message-ID: <20210212071821.GB1013@ninjato>
-References: <20210205132505.20173-1-sakari.ailus@linux.intel.com>
- <20210205132505.20173-3-sakari.ailus@linux.intel.com>
- <20210209210410.GA2380@kunai>
- <20210210222722.GF3@paasikivi.fi.intel.com>
+        id S229832AbhBLIP4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Feb 2021 03:15:56 -0500
+IronPort-SDR: RWT7fVn9bT4b7fDU8Tn0z9DW06Uyv4ArsEn32t28y22jL6JPgLbeWiwLUslQUoZK9dJVT2WOxh
+ BjiiTFnE56+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="267223019"
+X-IronPort-AV: E=Sophos;i="5.81,173,1610438400"; 
+   d="scan'208";a="267223019"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2021 00:15:14 -0800
+IronPort-SDR: FZHRZjqH+kTqIdMXXK2PFg7ilnH+URbu5ff2N6QHIBSgFsSFDHbgCoaDH1rkO+ypE/MVZz9EcL
+ /kaI4IuOpLwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,173,1610438400"; 
+   d="scan'208";a="511233670"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga004.jf.intel.com with ESMTP; 12 Feb 2021 00:15:13 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 12 Feb 2021 00:15:13 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 12 Feb 2021 00:15:12 -0800
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.002;
+ Fri, 12 Feb 2021 00:15:12 -0800
+From:   "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+CC:     Daniel Vetter <daniel@ffwll.ch>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "Vetter, Daniel" <daniel.vetter@intel.com>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+        "Kim, Dongwon" <dongwon.kim@intel.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: RE: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Thread-Topic: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Thread-Index: AQHW+gCTpvRVWdGfdEuO7KEMCe95EKpKQvKAgAQvVwCAABxAAIAAXFfggAEm5oCAAH4bcIABHRyAgAJ/T4A=
+Date:   Fri, 12 Feb 2021 08:15:12 +0000
+Message-ID: <bad576177eb24085a73570e8ad03d2cc@intel.com>
+References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
+ <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+ <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+ <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
+ <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
+ <2ef01dc941684a15a4f30e6239ae42df@intel.com>
+ <20210210091641.ahjtgcdalw7viuei@sirius.home.kraxel.org>
+In-Reply-To: <20210210091641.ahjtgcdalw7viuei@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tsOsTdHNUZQcU9Ye"
-Content-Disposition: inline
-In-Reply-To: <20210210222722.GF3@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Gerd,
 
---tsOsTdHNUZQcU9Ye
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > > You don't have to use the rendering pipeline.  You can let the i915
+> > > gpu render into a dma-buf shared with virtio-gpu, then use
+> > > virtio-gpu only for buffer sharing with the host.
+[Kasireddy, Vivek] Just to confirm my understanding of what you are suggesting, are
+you saying that we need to either have Weston allocate scanout buffers (GBM surface/BO)
+using virtio-gpu and render into them using i915; or have virtio-gpu allocate pages and 
+export a dma-buf and have Weston create a GBM BO by calling gbm_bo_import(fd) and
+render into the BO using i915?
 
+> Hmm, why a big mode switch?  You should be able to do that without modifying the
+> virtio-gpu guest driver.  On the host side qemu needs some work to support the most
+> recent virtio-gpu features like the buffer uuids (assuming you use qemu userspace), right
+> now those are only supported by crosvm.
+[Kasireddy, Vivek] We are only interested in Qemu UI at the moment but if we were to use
+virtio-gpu, we are going to need to add one more vq and support for managing buffers, 
+events, etc.
 
-> I'm actually renaming this as I2C_DRV_ACPI_WAIVE_D0_PROBE, with similar
-> changes to the function names. I opportunistically assume the ack holds
-> still. :-)
+Thanks,
+Vivek
 
-Rightfully so :)
+> 
+> It might be useful to add support for display-less virtio-gpu, i.e.
+> "qemu -device virtio-gpu-pci,max_outputs=0".  Right now the linux driver throws an error
+> in case no output (crtc) is present.  Should be fixable without too much effort though,
+> effectively the sanity check would have to be moved from driver initialization to
+> commands like SET_SCANOUT which manage the outputs.
+> 
+> take care,
+>   Gerd
 
-
---tsOsTdHNUZQcU9Ye
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAmK70ACgkQFA3kzBSg
-KbbDyw//fJKQdFxil/j6shvnsnOzbogbt2Z+Kwyjq3RKah0nPyqcYtoGREdbVQS+
-4Bw9XI4C3uFnPCUTiyVwD1ocmKXIwcVuaNoc6bEfbdKdf7ceO8vwEz8XmnRELQPK
-74146TA0sCDY6z+/5YeRInceYf4glLITjD2/otft7CZsdYabg4P5lWhf7ct6MIiC
-/cNh0OL+eg8U4fM+4uaJSo6QV4GsW2BPHno+LwmJ7XiPHBYY+IYhQnRhw0R6g/XU
-GsQNfqLrzUpZXI5zAnU5wpnTjLZqWSlmwqQDE9pAeNzEze4TrvsZTp+pOQSXG786
-DpnfBRwc+Wi6vyQObRSt/wdR0XHo7j7sYp2sLKw4vMb5xp8QVL8N7DZu8FMiottF
-tIQwGvGsfkR0u4/iQGDLeZYrSUKiHGp3gjJtwklkyu97V/eyFqSz+kqy1F7hIwgC
-dzF+43LsQo5R2vpdHLNnTFg7/YUhHVCFoC5V1RgeuMUYI6MazwS2YrAR2zMfIDLo
-ZsL9WN+ZgByF+qmfjvvBO8Z33lAPYIf6Nh77KLqyvfXMjt0htojz+AdPlGC9I0ML
-MPyrRJIIEq4QkWTWEJFYvKVn4zvQGzq10W3Ju7p496Ae9IgX1nuk5/oIUsLve26i
-4dZzhvfX7mhutBQPRdjAVH3iKb4SEUcrBIRAQAawWqeIU8LF3PQ=
-=2no6
------END PGP SIGNATURE-----
-
---tsOsTdHNUZQcU9Ye--
