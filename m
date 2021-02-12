@@ -2,105 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1AB31991D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Feb 2021 05:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2806B31993E
+	for <lists+linux-media@lfdr.de>; Fri, 12 Feb 2021 05:40:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbhBLE25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Feb 2021 23:28:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbhBLE2w (ORCPT
+        id S229758AbhBLEjT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Feb 2021 23:39:19 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:58463 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229710AbhBLEjB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Feb 2021 23:28:52 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C265FC061788
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 20:28:11 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id x9so4476231plb.5
-        for <linux-media@vger.kernel.org>; Thu, 11 Feb 2021 20:28:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZR+aabr64yWgCcg3tFC4qsF1v5nqVYMm2I0noIyPsCw=;
-        b=GobiS9mGxBlo/ukJelr5dPQgMLmlKJ4s8q3FhWYR6ySAZHOhb5a+AkpAhdhMMG7T/3
-         phntOq6lnoQEfWXfrXVN55v9Z83q5ajNFNPbSZCgjUFnIsqY07v5RZCUrnTfs+3L5hyx
-         sQtZTV3SFQqw+zEAEwmGVPCazkAqscVBvpfokVbOgRDrgJ9rdDWXcbMIM2rawyF8NV38
-         ypm1L7uNZ0RoMvikm1CSgCAXG+tK+TKVNXNEVZOMU3EgMqrBHlIPiTiQVmRFg2IV6KIG
-         hvlPg6/ytjncrZ1g2GShK/db2YiEaD3nuU04X1SRf75DX49+0Nt+gD1RsiiLfwGpBOw3
-         QTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZR+aabr64yWgCcg3tFC4qsF1v5nqVYMm2I0noIyPsCw=;
-        b=rWFVNGzX/nx+xAFySmKryGze7ZN4GiR5o3HUHgo9+k9ZOwpANtnSF9xwYpc/FmGLJU
-         xwC9FZWNgiOLM+Hb5bVOunJuJR034a0xaKioZ59lXfbGuAlQjFxmpnM6jGIUFQmU1jVC
-         gH1jJGDCh4lU9RwCbUrluYrgG60zArEFIOQNdeobpLkNCbIMM59DszyQ3aE/2eHqfInO
-         Y0rZIJ6C6e5GagTY8Cy3JDuR948DLIhS1CENhR7iyKrJhyUvLj1s/WWhLZQpT14CRub2
-         5b5ihEpwCnKcYgKkPIUOWQkAZ5fIg6eOB/U1iromom9+65vy0P7eHTkS6orryMPhMtbi
-         CQNg==
-X-Gm-Message-State: AOAM533qLqxtpw/1XpnmsQciUt6DUU1YSE+48NbmCh/H3QTjgnMPIN9p
-        0pB7xN9cbStNVxeW2mSG7Ul7WA==
-X-Google-Smtp-Source: ABdhPJwGkjQUwMP8XefFXrRE5xGFyoG2PyK9oRFz9QBGRyIafYp6Js9D8Flr/JNJ1qq0jMIv0cwVlw==
-X-Received: by 2002:a17:90b:4905:: with SMTP id kr5mr1030438pjb.135.1613104091205;
-        Thu, 11 Feb 2021 20:28:11 -0800 (PST)
-Received: from localhost ([122.172.59.240])
-        by smtp.gmail.com with ESMTPSA id r68sm7309061pfc.49.2021.02.11.20.28.09
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Feb 2021 20:28:10 -0800 (PST)
-Date:   Fri, 12 Feb 2021 09:58:07 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mike Rapoport <rppt@kernel.org>, Wolfram Sang <wsa@kernel.org>,
-        Sumit Gupta <sumitg@nvidia.com>, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <mgross@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v1 2/9] cpufreq: sfi-cpufreq: Remove driver for
- deprecated firmware
-Message-ID: <20210212042807.4yzclby4rffnkwvm@vireshk-i7>
-References: <20210211134008.38282-1-andriy.shevchenko@linux.intel.com>
- <20210211134008.38282-3-andriy.shevchenko@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210211134008.38282-3-andriy.shevchenko@linux.intel.com>
-User-Agent: NeoMutt/20180716-391-311a52
+        Thu, 11 Feb 2021 23:39:01 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id AQDhlGDo9YbfZAQDilfSKA; Fri, 12 Feb 2021 05:38:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1613104698; bh=INrZFoTtt4LfInoCwwK5f0gTnP7pO30SR3JSpeU4VsE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=KVMjL70uhfFDqHjau9ApI/wruglJDJZZ4Eob/jLoMhqULhzmDxlXWDEQ+doEercXc
+         63xvCz3WXECnoUqDDvyg5nthbnnWCq8DmvxUgP2AMMjY0iLibKwkRdZxpkHbmbbB56
+         tY2zTmfJ/K1EMJZ4bfQufgrJQ6gqzeuqw9PE0eyhVCU44WdQaNTL1jhz+qGVkLPwFo
+         tP3zd03KfrtD2HqaoOnuQKfOMZ2IWkuVYsEiveiwwKT5+B8xIzuM7F89UAQNCr4qQN
+         mvn04qovMjM9tDzv5gjFudklDQizrEoVYS9nFTaTmVm/e5LSvzrhgBTT1AcZcs4iM9
+         G36FXRNO7r5WQ==
+Message-ID: <e03d124a820e8378fee50ae9d3efc714@smtp-cloud8.xs4all.net>
+Date:   Fri, 12 Feb 2021 05:38:16 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfLKLcnf3diWdlASF8QBnctAgYElpyIIWlJ2wxGFNNat79QyAcY8Kuomz30qINODaW1ed2p7DWBqzKVahrYnwiluNptDaZlbNPTTrSr2dCGkQPiLqE+5R
+ 02328oqGsZLjxZ3Yjq4xHYuEBxQtV09XMdlmiDvwt+pJRTPFWpsra3UfK5OW/65qV5cOCtUA/Y0UQ5cJQKidRlqDk0VU5hZGKyUYzxOq37Snu8vQURtzKbdV
+ 6DbkZW04P5Wey5PzTemM+A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11-02-21, 15:40, Andy Shevchenko wrote:
-> SFI-based platforms are gone. So does this driver.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/cpufreq/Kconfig.x86   |  10 ---
->  drivers/cpufreq/Makefile      |   1 -
->  drivers/cpufreq/sfi-cpufreq.c | 127 ----------------------------------
->  3 files changed, 138 deletions(-)
->  delete mode 100644 drivers/cpufreq/sfi-cpufreq.c
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Results of the daily build of media_tree:
 
--- 
-viresh
+date:			Fri Feb 12 05:00:11 CET 2021
+media-tree git hash:	ce79aecf608469b8b8e422928e6fca50b6ca7133
+media_build git hash:	a236fddff61e8357f3070effdf23e9b5f20b26e6
+v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7349-g7fcfe2595
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
