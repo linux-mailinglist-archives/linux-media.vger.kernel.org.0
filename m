@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2485F31AC83
-	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 16:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A868531AC89
+	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 16:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbhBMPJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Feb 2021 10:09:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42882 "EHLO
+        id S229649AbhBMPOR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Feb 2021 10:14:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbhBMPJE (ORCPT
+        with ESMTP id S229531AbhBMPOQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Feb 2021 10:09:04 -0500
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA58C061574;
-        Sat, 13 Feb 2021 07:08:24 -0800 (PST)
-Received: by mail-qv1-xf2d.google.com with SMTP id a1so1196932qvd.13;
-        Sat, 13 Feb 2021 07:08:24 -0800 (PST)
+        Sat, 13 Feb 2021 10:14:16 -0500
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DCFC061756;
+        Sat, 13 Feb 2021 07:13:36 -0800 (PST)
+Received: by mail-qt1-x829.google.com with SMTP id c5so1907812qth.2;
+        Sat, 13 Feb 2021 07:13:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WnexFjbCGofmGRvGp9wQNl590G0fiudgAKmeSNZvljs=;
-        b=iVCvEgC39ZHc9OiOeRPmHuP+QitCacFw2vrBSStZ8FnNej5OM3RpZcEJZ/GsKs9vQs
-         St1kfPBOGX0gIBZoJuckzGmg38Dfik4rIPyf1e6U1sa2hWg8h4o6gWbrK06Hru9+dXvJ
-         CjBNb21FFsHmgdN5+MivHYafir0zu8ndWhgbiVxJITKXQBeNhNjYPl5rOdRTIgbvzP2o
-         RQj3DzJeuQTE3WarZDO/dGo+QyHK5He5NmeeMa8h8/w0B9Ip7jrvdV5fK7G3oC60C7LE
-         IrLkQ3wtPbZnl/EFn0oRXN04TrXdkWWD95b+U7aL75zNuYz53lsulltJTtnY7wVN/wfh
-         FaHg==
+        bh=ocIx/G7/Jnzz+gEWsAtuPQ/Ye7m/wMJ05Oo10vMA7dI=;
+        b=OeJYIHav0iGFcMtwvC5ofaqn8AIfHYl7tk3QlYwSSuZruY8K8okTBB8RPPnuT8XjP6
+         pgjxKVg/kfYfpyAnAk520SAWNOrAGIy3PIdwF6ZyRBOx0KtDqThA3PEKm/qEESMwgOaa
+         InoZQhkyKMF7m7ofDAfhFae3yuYA6s0dRrIWDicu5UNnEZ1w44+sbVKAXBg68g2ByLhH
+         diT9ZJVYsmk9Wp70wCjMjxpn7SrNUddopSuSbQVCu+uLLhpGMsuEVxXQqetXtV3j0k0R
+         oLhYJDhHV7344NMl9VZOg6Lw7EcSnITIG0p95oLxVLIupOiyaQ9MEEfDQQvtkktwgtPQ
+         wkLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WnexFjbCGofmGRvGp9wQNl590G0fiudgAKmeSNZvljs=;
-        b=CCL3biuLONVrkoxRGJasTbUyD/5BTzcoKNfk8ch4dTUCjd9xAnkuUBtko14qMT0Z4/
-         ms4HaazYUEUhDd10+c/kmYizqxIB/Ppv6CtPC4P7R6J0dftsMqIf9n6tmj3EGmDaUDXi
-         mx/3sWQBE8TgJF4wcXMGft58rxtT6VSW9xr/9cBzhT9hS9o4qxcI9ecyRBETmot0pxE2
-         7UTaSik+EoaMjFAzNaGYR9piHKXcdd7yWeUt0NB28htxCLqYfNfjd9bM+/gHF0jj9fj5
-         ghzSrhIAO45MI5HVXL0lEyxukq/REuaQ6djZJ6mmR1qrPoDJDH7ZDl2MFa4OkLJE/0PC
-         GVXw==
-X-Gm-Message-State: AOAM533Vw8IQfIjnnsM7Syj8Qx4zJN3PKr1vR6saDlLasdxgi0uX3d7W
-        x31isU46XtGbKzDsW7VIGVg=
-X-Google-Smtp-Source: ABdhPJwOMbxz62eULY+3PtvdUgTyuptIi5wFOXcIh7wN7TnsMCWJBPHyGxCJNHvBy/QPbqvwRFd6lQ==
-X-Received: by 2002:a0c:c1cb:: with SMTP id v11mr7195803qvh.59.1613228903509;
-        Sat, 13 Feb 2021 07:08:23 -0800 (PST)
+        bh=ocIx/G7/Jnzz+gEWsAtuPQ/Ye7m/wMJ05Oo10vMA7dI=;
+        b=HMv3qARqWLcoI5sEkWR2XoSiKWU+JPRc71AVxQdkK/AukTO3zN0g3NZDBuAMMmL3IS
+         oqP7cbbngg4VqshgKrZbQNYIR3kyqWBJTiMo2nEtkhHR5+JryAweiITIrtT4MscJPkoZ
+         SvQ1YIiKSGHnhNwOeAQNtGeoU306SfRZL4rJe+9x7CgVQNWoo/1XsykBSvRDycmL25R5
+         8cZWj6lVZCalmXvOeEBW7vc2NvtuQx3WrI37bxilMSXb05yeMsML/b9kPAoMh/9TXwim
+         /4YVbqJclvtL9nz0c/oaOtInyKNkHfG/tL4MmADfXcJaGJSz+kzWuxtTjLRp778Rj3Nw
+         NRuA==
+X-Gm-Message-State: AOAM5327kN7Lg+FIwQ2YTGk+9SFqR4DyJZ5+HY+Dihae1P4UfsoGdaz5
+        EWwH6dt7vGBOES1IeQ5Yh6o=
+X-Google-Smtp-Source: ABdhPJw7bh3XnZtC08JHxcx/It6Bn2rvm3HHF1zHZPDBI5fXDNm8uuQ8yjHZS63YJinLER3cxtrYBw==
+X-Received: by 2002:ac8:661a:: with SMTP id c26mr6993424qtp.126.1613229215635;
+        Sat, 13 Feb 2021 07:13:35 -0800 (PST)
 Received: from localhost.localdomain ([156.146.55.129])
-        by smtp.gmail.com with ESMTPSA id t4sm7580705qto.62.2021.02.13.07.08.19
+        by smtp.gmail.com with ESMTPSA id 80sm8266783qkj.128.2021.02.13.07.13.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Feb 2021 07:08:22 -0800 (PST)
+        Sat, 13 Feb 2021 07:13:35 -0800 (PST)
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To:     awalls@md.metrocast.net, mchehab@kernel.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] drivers: media: pci: cx18: Couple of spell fixes in the file cx18-av-core.c
-Date:   Sat, 13 Feb 2021 20:38:05 +0530
-Message-Id: <20210213150805.1606638-1-unixbhaskar@gmail.com>
+Subject: [PATCH] drivers: media: pci: cx18: Spelling fix of minimze to minimize in the file cx18-av-audio.c
+Date:   Sat, 13 Feb 2021 20:43:20 +0530
+Message-Id: <20210213151320.1607665-1-unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,37 +63,26 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-
 s/minimze/minimize/
-s/initallize/initialize/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/media/pci/cx18/cx18-av-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/pci/cx18/cx18-av-audio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/cx18/cx18-av-core.c b/drivers/media/pci/cx18/cx18-av-core.c
-index b33eb08631b1..11cfe35fd730 100644
---- a/drivers/media/pci/cx18/cx18-av-core.c
-+++ b/drivers/media/pci/cx18/cx18-av-core.c
-@@ -89,7 +89,7 @@ static void cx18_av_init(struct cx18 *cx)
- 	/*
- 	 * The crystal freq used in calculations in this driver will be
- 	 * 28.636360 MHz.
--	 * Aim to run the PLLs' VCOs near 400 MHz to minimze errors.
-+	 * Aim to run the PLLs' VCOs near 400 MHz to minimize errors.
- 	 */
-
- 	/*
-@@ -122,7 +122,7 @@ static void cx18_av_initialize(struct v4l2_subdev *sd)
- 	cx18_av_write4_expect(cx, CXADEC_DL_CTL, 0x03000000,
- 						 0x03000000, 0x13000000);
-
--	/* initallize the PLL by toggling sleep bit */
-+	/* initialize the PLL by toggling sleep bit */
- 	v = cx18_av_read4(cx, CXADEC_HOST_REG1);
- 	/* enable sleep mode - register appears to be read only... */
- 	cx18_av_write4_expect(cx, CXADEC_HOST_REG1, v | 1, v, 0xfffe);
+diff --git a/drivers/media/pci/cx18/cx18-av-audio.c b/drivers/media/pci/cx18/cx18-av-audio.c
+index ee2b802d2895..833baa934448 100644
+--- a/drivers/media/pci/cx18/cx18-av-audio.c
++++ b/drivers/media/pci/cx18/cx18-av-audio.c
+@@ -46,7 +46,7 @@ static int set_audclk_freq(struct cx18 *cx, u32 freq)
+ 	 * an error of less than 0.13 ppm which is way, way better than any off
+ 	 * the shelf crystal will have for accuracy anyway.
+ 	 *
+-	 * Below I aim to run the PLLs' VCOs near 400 MHz to minimze error.
++	 * Below I aim to run the PLLs' VCOs near 400 MHz to minimize error.
+ 	 *
+ 	 * Many thanks to Jeff Campbell and Mike Bradley for their extensive
+ 	 * investigation, experimentation, testing, and suggested solutions of
 --
 2.30.1
 
