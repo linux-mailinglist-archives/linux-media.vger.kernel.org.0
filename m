@@ -2,152 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70E5631A9E3
-	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 05:40:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33BA731AA93
+	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 09:54:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbhBMEjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Feb 2021 23:39:51 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:42163 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229650AbhBMEju (ORCPT
+        id S229646AbhBMIxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Feb 2021 03:53:42 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:49885 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229574AbhBMIxm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Feb 2021 23:39:50 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Ami0ldn2n5126Ami2lQjsB; Sat, 13 Feb 2021 05:39:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1613191147; bh=cgc60KUEkMtBCnS4uxODPL2TTzYN4GcAZn5eE7UknWY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ZzG9oGcF6olB4foUSqU2ZD8F7g46sVcT2c2TMoHgQBd9btSLyCMS7t8XeyDvs+Ogm
-         /2f9AMan3UHavsxdmQoodBieSFicYgRja1EyXZxT4cEg7TuCD2ZgaAwE8y/swAUoKV
-         r9HU1IeDzNs5Y4nbemg5oTB5olhsOy6LYKk/+7tU8P3SeeDPj43IxDRLkxjJ5QZvcb
-         tHS35Z1M9VsEjxxblOej7my6WEPbKgTjM0mfWdgcldImDe2vJcZF6SOjXKDlZrrdSp
-         UJWL1sxPLm6KV/2B5jzSZXsFg0OlcXjagJpDgTDI9SofO3P2LfCHXLp1hzcVj4vmO7
-         +2AOwKGvgmOzw==
-Message-ID: <b5d5697e5c96f8a309a16b7e8621fc2f@smtp-cloud7.xs4all.net>
-Date:   Sat, 13 Feb 2021 05:39:04 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfLzoeFQim1b1vgj/skX7MvdPa2LhQnFvUF5v+I2MIye8lgaTAnd5zXnV8z7G68F+QFaLn9mXsyscWmQ3OzP6pkVtu4HuSzBiM0Bem9F8g7r1qFCfcOxK
- ZVGx9FpeUf68pnu8pYrhIGgGpooAEWxzAc1DQ2KPK4+1p5MZ4CIp6R9NTazSP8b5iRFfPziu1efplQI62LzQd3eNYWGsNWSTk8pXGlKOf8ME+k9jQhfgtVkk
- TX+VHFIzjJw6MWgumX38SA==
+        Sat, 13 Feb 2021 03:53:42 -0500
+X-Originating-IP: 93.61.96.190
+Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 5AA9FC0005;
+        Sat, 13 Feb 2021 08:52:54 +0000 (UTC)
+Date:   Sat, 13 Feb 2021 09:53:19 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: rdamc21: Fix warning on u8 cast
+Message-ID: <20210213085319.e5zrkkgyn5f25yai@uno.localdomain>
+References: <20210208132749.97738-1-jacopo+renesas@jmondi.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210208132749.97738-1-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello,
 
-Results of the daily build of media_tree:
+On Mon, Feb 08, 2021 at 02:27:49PM +0100, Jacopo Mondi wrote:
+> Sparse reports a warning on a cast to u8 of a 16 bits constant.
+>
+> drivers/media/i2c/rdacm21.c:348:62: warning: cast truncates bits
+> from constant value (300a becomes a)
+>
+> Even if the behaviour is intended, silence the sparse warning replacing
+> the cast with a bitwise & operation.
+>
+> Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-date:			Sat Feb 13 05:00:11 CET 2021
-media-tree git hash:	ce79aecf608469b8b8e422928e6fca50b6ca7133
-media_build git hash:	a236fddff61e8357f3070effdf23e9b5f20b26e6
-v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7349-g7fcfe2595
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+I don't see this last fix for this window collected in the most recent
+media tree.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.1-i686: OK
-linux-5.10.1-x86_64: OK
-linux-5.11-rc1-i686: OK
-linux-5.11-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+Is it too late already ? It's really a trivial fix but silences a
+sparse warning, so it might be worth collecting it ?
 
-Detailed results are available here:
+Thanks
+   j
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> ---
+>  drivers/media/i2c/rdacm21.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> index dcc21515e5a4..179d107f494c 100644
+> --- a/drivers/media/i2c/rdacm21.c
+> +++ b/drivers/media/i2c/rdacm21.c
+> @@ -345,7 +345,7 @@ static int ov10640_initialize(struct rdacm21_device *dev)
+>  	/* Read OV10640 ID to test communications. */
+>  	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
+>  	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
+> -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, (u8)OV10640_CHIP_ID);
+> +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, OV10640_CHIP_ID & 0xff);
+>
+>  	/* Trigger SCCB slave transaction and give it some time to complete. */
+>  	ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
+> --
+> 2.30.0
+>
