@@ -2,96 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C44C131A879
-	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 00:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70E5631A9E3
+	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 05:40:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbhBLXxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Feb 2021 18:53:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbhBLXx1 (ORCPT
+        id S229708AbhBMEjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Feb 2021 23:39:51 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:42163 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229650AbhBMEju (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Feb 2021 18:53:27 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 370F9C061574;
-        Fri, 12 Feb 2021 15:52:47 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id g10so1353910wrx.1;
-        Fri, 12 Feb 2021 15:52:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c3J0XcePyleo796OvAaICLfI1i20geRcVa5TsLh1tao=;
-        b=Ri4AMW9WYsRMqlRHoKub72GSWBvDgwFPnMTKhWh0wBPrcwosb6T8gdQwPeEAoaopzY
-         DlptP0AAw2P9cCAUZBfQXy0zgQBUhVm2BT+zYBRyzNimA6JYxtx2za4t90YXqEycJia4
-         dI/ydnuMjPu1bzm7v6CjiTmzrf8Q2oz5nI2H/aGnLFOPDqGEjFMHYFbgV1hNFzSzvmNP
-         kj1ECwKHmM8qTmocYLec+Lacd9R19q8aU5n+fKNK14jH9a1sSUD+NAkJk71tIzWRiOHC
-         yfL14o71yRL4da7YGU2zrbWX53U1SUU+nhr+9zDSLR/que85rwUbcd3mOhyjj+knnDZy
-         ohZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c3J0XcePyleo796OvAaICLfI1i20geRcVa5TsLh1tao=;
-        b=Lh4aysQLoJTFYAbvKhFvMbl3jwx0kEs0qjcPCytZclOREYxtNpITrfQjU8gppUZ/1d
-         oEs8zRsiFhQcoXtKX2+Itk1RlMHNIReFQ9M8s3HyEZ2CTNzb9PLZ65C0Yg3kVWZvQgXR
-         7jT9GxZ7/mQLWxkXZmQtqvQOSNXdTvXUJ2Kiyd2dngM8XOo6kgyEPRtycc8Pq90f1J9X
-         wDY8YMd65wjzkSzKXnC4L89Me9wNlrvmktgLF+Yxgq8yBH8XiZ7G8RQKwweOnT4kbcV4
-         HCL0VGSxzINwiS1L9FGXXu8LmiPLM4z5FRE08aAm94Q/YwuPoaws8LIiiz0JSF0GOlL4
-         nzCw==
-X-Gm-Message-State: AOAM530fW1/2SXE3OOiM2y9D/jMxY/7bOUNNRZnAKEbx8ZmoQoO6oVid
-        6/pggAO7HpCpEUEFlPsCbS4mDprUotYmE86EINo=
-X-Google-Smtp-Source: ABdhPJy5ege6vYLkKFNBg45tfxjKebdizpZt3Rwblyqb6bDBWNW2cRm35aKN8i+fn5joETlGoWPu0tLUHi/KopCNX2o=
-X-Received: by 2002:adf:e511:: with SMTP id j17mr6291375wrm.251.1613173965866;
- Fri, 12 Feb 2021 15:52:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20210203163348.30686-1-TheSven73@gmail.com> <804285cff81878a2c188d1b823182114f891ca38.camel@ndufresne.ca>
- <CAGngYiWt9Q4jWksiniC6vqUw29L3mOFuQpw7Dz_BK9Ye9FbQ1Q@mail.gmail.com> <20210211143233.GA1360@pengutronix.de>
-In-Reply-To: <20210211143233.GA1360@pengutronix.de>
-From:   Sven Van Asbroeck <thesven73@gmail.com>
-Date:   Fri, 12 Feb 2021 18:52:34 -0500
-Message-ID: <CAGngYiWAohHXYPfd5NJc4URVuMA4GP01jvRV78uM5P+H7zKx-A@mail.gmail.com>
-Subject: Re: [BUG REPORT] media: coda: mpeg4 decode corruption on i.MX6qp only
-To:     Philipp Zabel <pza@pengutronix.de>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 12 Feb 2021 23:39:50 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Ami0ldn2n5126Ami2lQjsB; Sat, 13 Feb 2021 05:39:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1613191147; bh=cgc60KUEkMtBCnS4uxODPL2TTzYN4GcAZn5eE7UknWY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ZzG9oGcF6olB4foUSqU2ZD8F7g46sVcT2c2TMoHgQBd9btSLyCMS7t8XeyDvs+Ogm
+         /2f9AMan3UHavsxdmQoodBieSFicYgRja1EyXZxT4cEg7TuCD2ZgaAwE8y/swAUoKV
+         r9HU1IeDzNs5Y4nbemg5oTB5olhsOy6LYKk/+7tU8P3SeeDPj43IxDRLkxjJ5QZvcb
+         tHS35Z1M9VsEjxxblOej7my6WEPbKgTjM0mfWdgcldImDe2vJcZF6SOjXKDlZrrdSp
+         UJWL1sxPLm6KV/2B5jzSZXsFg0OlcXjagJpDgTDI9SofO3P2LfCHXLp1hzcVj4vmO7
+         +2AOwKGvgmOzw==
+Message-ID: <b5d5697e5c96f8a309a16b7e8621fc2f@smtp-cloud7.xs4all.net>
+Date:   Sat, 13 Feb 2021 05:39:04 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfLzoeFQim1b1vgj/skX7MvdPa2LhQnFvUF5v+I2MIye8lgaTAnd5zXnV8z7G68F+QFaLn9mXsyscWmQ3OzP6pkVtu4HuSzBiM0Bem9F8g7r1qFCfcOxK
+ ZVGx9FpeUf68pnu8pYrhIGgGpooAEWxzAc1DQ2KPK4+1p5MZ4CIp6R9NTazSP8b5iRFfPziu1efplQI62LzQd3eNYWGsNWSTk8pXGlKOf8ME+k9jQhfgtVkk
+ TX+VHFIzjJw6MWgumX38SA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Philipp, Fabio,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I was able to verify that the PREs do indeed overrun their allocated ocram area.
+Results of the daily build of media_tree:
 
-Section 38.5.1 of the iMX6QuadPlus manual indicates the ocram size
-required: width(pixels) x 8 lines x 4 bytes. For 2048 pixels max, this
-comes to 64K. This is what the PRE driver allocates. So far, so good.
+date:			Sat Feb 13 05:00:11 CET 2021
+media-tree git hash:	ce79aecf608469b8b8e422928e6fca50b6ca7133
+media_build git hash:	a236fddff61e8357f3070effdf23e9b5f20b26e6
+v4l-utils git hash:	733f7a54f79d1e12a8745f0804c8394ed0136eb2
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7349-g7fcfe2595
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-The trouble starts when we're displaying a section of a much wider
-bitmap. This happens in X when using two displays. e.g.:
-HDMI 1920x1088
-LVDS 1280x800
-X bitmap 3200x1088, left side displayed on HDMI, right side on LVDS.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.1-i686: OK
+linux-5.10.1-x86_64: OK
+linux-5.11-rc1-i686: OK
+linux-5.11-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-In such a case, the stride will be much larger than the width of a
-display scanline.
+Detailed results are available here:
 
-This is where things start to go very wrong.
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-I found that the ocram area used by the PREs increases with the
-stride. I experimentally found a formula:
-ocam_used = display_widthx8x4 + (bitmap_width-display_width)x7x4
+Detailed regression test results are available here:
 
-As the stride increases, the PRE eventually overruns the ocram and...
-ends up in the "ocram aliased" area, where it overwrites the ocram in
-use by the vpu/coda !
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
 
-I could not find any PRE register setting that changes the used ocram area.
+Full logs are available here:
 
-Sven
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
