@@ -2,87 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A868531AC89
-	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 16:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CADD31AE49
+	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 23:34:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbhBMPOR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Feb 2021 10:14:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbhBMPOQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Feb 2021 10:14:16 -0500
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DCFC061756;
-        Sat, 13 Feb 2021 07:13:36 -0800 (PST)
-Received: by mail-qt1-x829.google.com with SMTP id c5so1907812qth.2;
-        Sat, 13 Feb 2021 07:13:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ocIx/G7/Jnzz+gEWsAtuPQ/Ye7m/wMJ05Oo10vMA7dI=;
-        b=OeJYIHav0iGFcMtwvC5ofaqn8AIfHYl7tk3QlYwSSuZruY8K8okTBB8RPPnuT8XjP6
-         pgjxKVg/kfYfpyAnAk520SAWNOrAGIy3PIdwF6ZyRBOx0KtDqThA3PEKm/qEESMwgOaa
-         InoZQhkyKMF7m7ofDAfhFae3yuYA6s0dRrIWDicu5UNnEZ1w44+sbVKAXBg68g2ByLhH
-         diT9ZJVYsmk9Wp70wCjMjxpn7SrNUddopSuSbQVCu+uLLhpGMsuEVxXQqetXtV3j0k0R
-         oLhYJDhHV7344NMl9VZOg6Lw7EcSnITIG0p95oLxVLIupOiyaQ9MEEfDQQvtkktwgtPQ
-         wkLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ocIx/G7/Jnzz+gEWsAtuPQ/Ye7m/wMJ05Oo10vMA7dI=;
-        b=HMv3qARqWLcoI5sEkWR2XoSiKWU+JPRc71AVxQdkK/AukTO3zN0g3NZDBuAMMmL3IS
-         oqP7cbbngg4VqshgKrZbQNYIR3kyqWBJTiMo2nEtkhHR5+JryAweiITIrtT4MscJPkoZ
-         SvQ1YIiKSGHnhNwOeAQNtGeoU306SfRZL4rJe+9x7CgVQNWoo/1XsykBSvRDycmL25R5
-         8cZWj6lVZCalmXvOeEBW7vc2NvtuQx3WrI37bxilMSXb05yeMsML/b9kPAoMh/9TXwim
-         /4YVbqJclvtL9nz0c/oaOtInyKNkHfG/tL4MmADfXcJaGJSz+kzWuxtTjLRp778Rj3Nw
-         NRuA==
-X-Gm-Message-State: AOAM5327kN7Lg+FIwQ2YTGk+9SFqR4DyJZ5+HY+Dihae1P4UfsoGdaz5
-        EWwH6dt7vGBOES1IeQ5Yh6o=
-X-Google-Smtp-Source: ABdhPJw7bh3XnZtC08JHxcx/It6Bn2rvm3HHF1zHZPDBI5fXDNm8uuQ8yjHZS63YJinLER3cxtrYBw==
-X-Received: by 2002:ac8:661a:: with SMTP id c26mr6993424qtp.126.1613229215635;
-        Sat, 13 Feb 2021 07:13:35 -0800 (PST)
-Received: from localhost.localdomain ([156.146.55.129])
-        by smtp.gmail.com with ESMTPSA id 80sm8266783qkj.128.2021.02.13.07.13.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Feb 2021 07:13:35 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     awalls@md.metrocast.net, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] drivers: media: pci: cx18: Spelling fix of minimze to minimize in the file cx18-av-audio.c
-Date:   Sat, 13 Feb 2021 20:43:20 +0530
-Message-Id: <20210213151320.1607665-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.1
+        id S229691AbhBMWeW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 13 Feb 2021 17:34:22 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:35464 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229647AbhBMWeV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 13 Feb 2021 17:34:21 -0500
+Received: from p508fc8c7.dip0.t-ipconnect.de ([80.143.200.199] helo=phil.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1lB3Ti-0006HN-Bi; Sat, 13 Feb 2021 23:33:26 +0100
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        hjc@rock-chips.com, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        cmuellner@linux.com
+Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
+Date:   Sat, 13 Feb 2021 23:33:25 +0100
+Message-ID: <7871592.T7Z3S40VBb@phil>
+In-Reply-To: <20210213111957.3ocxgcyno6ent4vt@basti-TUXEDO-Book-XA1510>
+References: <20210202145632.1263136-1-heiko@sntech.de> <16789691.tv2OnDr8pf@diego> <20210213111957.3ocxgcyno6ent4vt@basti-TUXEDO-Book-XA1510>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sebastian,
 
-s/minimze/minimize/
+Am Samstag, 13. Februar 2021, 12:19:57 CET schrieb Sebastian Fricke:
+> On 11.02.2021 15:42, Heiko Stübner wrote:
+> >Am Donnerstag, 11. Februar 2021, 06:25:15 CET schrieb Sebastian Fricke:
+> >> On 10.02.2021 12:15, Heiko Stübner wrote:
+> >> >Am Freitag, 5. Februar 2021, 15:55:56 CET schrieb Heiko Stübner:
+> >> >> I did some tests myself today as well and can confirm your
+> >> >> hdmi related finding - at least when plugged in on boot.
+> >> >>
+> >> >> I tried some combinations of camera vs. hdmi and it seems
+> >> >> really only when hdmi is plugged in on boot
+> >> >
+> >> >as you can see in v2, it should work now even with hdmi
+> >> >connected on boot. My patch ignored the grf-clock when
+> >> >doing the grf-based init.
+> >> >
+> >> >All clocks are on during boot and I guess the hdmi-driver
+> >> >did disable it after its probe. The phy_power_on functions
+> >> >did handle it correctly already, so it was only happening
+> >> >with hdmi connected on boot.
+> >>
+> >> Thank you very much for solving that problem, I've tested the scenarios
+> >> described below and it works like a charm. (With your V2)
+> >> >
+> >> >
+> >> >Btw. do you plan on submitting your ov13850 driver
+> >> >soonish?
+> >>
+> >> Actually, I have posted the patch already see here:
+> >> https://patchwork.kernel.org/project/linux-media/patch/20210130182313.32903-2-sebastian.fricke@posteo.net/
+> >
+> >very cool to see
+> >
+> >> I currently review the requested changes and questions and will soon
+> >> post a second version, but I expect quite some time until it is actually
+> >> merged.
+> >
+> >could you Cc me on future versions?
+> 
+> Sure will do :)
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- drivers/media/pci/cx18/cx18-av-audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+by the way, you could also answer the v2 series with a
 
-diff --git a/drivers/media/pci/cx18/cx18-av-audio.c b/drivers/media/pci/cx18/cx18-av-audio.c
-index ee2b802d2895..833baa934448 100644
---- a/drivers/media/pci/cx18/cx18-av-audio.c
-+++ b/drivers/media/pci/cx18/cx18-av-audio.c
-@@ -46,7 +46,7 @@ static int set_audclk_freq(struct cx18 *cx, u32 freq)
- 	 * an error of less than 0.13 ppm which is way, way better than any off
- 	 * the shelf crystal will have for accuracy anyway.
- 	 *
--	 * Below I aim to run the PLLs' VCOs near 400 MHz to minimze error.
-+	 * Below I aim to run the PLLs' VCOs near 400 MHz to minimize error.
- 	 *
- 	 * Many thanks to Jeff Campbell and Mike Bradley for their extensive
- 	 * investigation, experimentation, testing, and suggested solutions of
---
-2.30.1
+Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+
+so we get some coverage :-)
+
+Thanks
+Heiko
+
 
