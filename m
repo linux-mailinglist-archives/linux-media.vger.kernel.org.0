@@ -2,113 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28D8331B2CD
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3D931B2CE
 	for <lists+linux-media@lfdr.de>; Sun, 14 Feb 2021 22:35:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbhBNVeg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Feb 2021 16:34:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35092 "EHLO
+        id S230014AbhBNVfR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Feb 2021 16:35:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbhBNVee (ORCPT
+        with ESMTP id S229924AbhBNVfO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Feb 2021 16:34:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538E6C061756
-        for <linux-media@vger.kernel.org>; Sun, 14 Feb 2021 13:33:54 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9AF50B2C;
-        Sun, 14 Feb 2021 22:33:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613338430;
-        bh=PoO52crXSjH1azBdvJzDhbUDGrmlv8mype5c1aEu1Mg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lwAC8IWH0WjSPA4t/5S230zOeOGkvdLYy4Io1bgz+UWwCdMnwqUnK/Kj/8uTF1K82
-         xN1sHKCC6UwZFDsUnWmgM/yEP5ItmQhWhx3Nor9dcehRyinSuOlD0fY3QhtRgEdwQ9
-         9PRnaDhl7fOXVOJg2IqGYrpX2CpgVWJludg6WpxQ=
-Date:   Sun, 14 Feb 2021 23:33:25 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 20/75] media: imx: capture: Rename ioctl operations with
- legacy prefix
-Message-ID: <YCmXJZsoi7T+YJSU@pendragon.ideasonboard.com>
-References: <20210105152852.5733-1-laurent.pinchart@ideasonboard.com>
- <20210105152852.5733-21-laurent.pinchart@ideasonboard.com>
- <e47bf3ba-6d9a-52cf-f232-ce4b02a46e2e@gmail.com>
- <fbf3aaa4454f2ada8f7b8f5e8b990a4e66577427.camel@pengutronix.de>
- <X/kCWdynMK8w4sV+@pendragon.ideasonboard.com>
- <3f44d29c3779b6347a43f181806e4c220c3d7110.camel@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3f44d29c3779b6347a43f181806e4c220c3d7110.camel@pengutronix.de>
+        Sun, 14 Feb 2021 16:35:14 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C08C061574
+        for <linux-media@vger.kernel.org>; Sun, 14 Feb 2021 13:34:34 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id z11so7344646lfb.9
+        for <linux-media@vger.kernel.org>; Sun, 14 Feb 2021 13:34:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=iPtze6FmhbcdVdAPT6QONzh4sS5usExY2cycsOaMmIw=;
+        b=cKycaOtQTY41AeqIErFCMpOVHbHVj2kDU4FU6JHI7NYZ4sfBA8sg4hiBLcvxJwUHOh
+         RPkPO0IujkWqOL5YE/MB24dGIQl5EZbXOdexxpz9jHBU7haNMahjqU1YNz5jZAfo6t1A
+         plL7nYA6jGwVDAPObTXxivUuDK0XgkUgGW02OrKpxEdJdMkTuki1lA/ryvSbsSmQhnCN
+         prvkdz3pR64FEffxFHgHkiqn096RY0S3JWSJuPEnE5Jj472qz1mNEtLaswzIrSGadIOI
+         +dBbtkn98ypD02/xWi3H3oTUWFG4WiURIm9yMrFCWcPZFficFZdGIYl7S1xLsYttBsaQ
+         XiKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=iPtze6FmhbcdVdAPT6QONzh4sS5usExY2cycsOaMmIw=;
+        b=eYObUw2JvCfAtgT+puk4p5PmquL6b0eSzBNuyIbXgTb1hOaSMmDccApcgKLDs+mttO
+         dBuEDCTDCD90np6b0fZVnGnmP+3dDIe3QcYeQkhx0+bnCagKHuo8BvMN8WdTQBJRPACk
+         oZ5SMZxR2LNPF9zgwmVCvhP0CCqubuz12ImmMOlBYvjIGHntvxm2gIPSZOe/G0EqxTte
+         l0Ba8M+J0l8LESad5gElMke0bXPJ2iECsvVcCK8c1R9jkIOpdHO8hl6/DCasfpRpbeh+
+         8Q6qSZ0b6TrxpGsxGcX/jLBjom/ZTrI2kCWzD62c0FWzNVa+XP5LUBaOMVsiDCdx3lSX
+         gyVg==
+X-Gm-Message-State: AOAM530sG5GreqGQ8tKBcp7hXrZClot6HVK9lL7z+2ciB3ZAB2j2g+iQ
+        TbRDV40LwMq5qU9rtLJb1xBj9A==
+X-Google-Smtp-Source: ABdhPJyp3+ibejlV5sLro6YrM2yNvuWuPDO128if+t2CK6kgXSbev1DbSxFXmpLcoOiIzE59kx37rg==
+X-Received: by 2002:a05:6512:2148:: with SMTP id s8mr7475046lfr.305.1613338472898;
+        Sun, 14 Feb 2021 13:34:32 -0800 (PST)
+Received: from localhost.localdomain ([85.249.43.69])
+        by smtp.googlemail.com with ESMTPSA id h11sm2500066lfd.243.2021.02.14.13.34.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Feb 2021 13:34:32 -0800 (PST)
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+To:     junak.pub@gmail.com, robert.foss@linaro.org,
+        sakari.ailus@linux.intel.com
+Cc:     todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+        jacopo@jmondi.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] media: qcom: camss: V4L2_CID_PIXEL_RATE/LINK_FREQ fixes
+Date:   Mon, 15 Feb 2021 00:34:02 +0300
+Message-Id: <20210214213404.8373-1-andrey.konovalov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+The first patch is the start of the work discussed in the "[RFC] Repurpose
+V4L2_CID_PIXEL_RATE for the sampling rate in the pixel array" thread [1].
+I plan to send a few other similar patches for other CSI receiver drivers,
+and if the current patchset needs to wait for those before it can be merged,
+that's fine for me.
 
-(CC'ing Sakari)
+The reason I decided to post the camss patch first is the patch [2] by
+Vladimir Lypak. The second patch in this series is the Vladimir's patch
+rebased onto the changes done by the first patch. By replacing getting
+the pixel clock with v4l2_get_link_freq() my first patch also fixes the
+integer overflow which Vladimir's patch addresses. So the second patch
+only needs to fix drivers/media/platform/qcom/camss/camss-vfe.c which
+the first patch doesn't touch.
 
-On Mon, Jan 11, 2021 at 09:40:17AM +0100, Philipp Zabel wrote:
-> On Sat, 2021-01-09 at 03:09 +0200, Laurent Pinchart wrote:
-> > Could you elaborate a little bit here ? We don't have an API to
-> > explicitly enumerate supported interlacing types. This can be done by
-> > calling VIDIOC_TRY_FMT with all field types and see which ones are
-> > supported. You can still do so with the MC-based API, the video node
-> > will return from VIDIOC_TRY_FMT the interlacing types intrinsicly
-> > supported by the video node, and you can query from the source subdev
-> > the interlacing types supported by the source. Userspace can then
-> > combine the information to find what is supported.
-> 
-> The i.MX6 CSI always captures whole frames, so SEQ_TB or SEQ_BT at its
-> source pad.
-> The IDMAC supports "interlaced scan" of SEQ_TB into INTERLACED_TB and
-> SEQ_BT into INTERLACED_BT when writing to memory. It can't change the
-> field timing order (BT <-> TB) as that was already decided at the CSI.
-> 
-> So for capture of interlaced material, the video device currently allows
-> either SEQ_TB and INTERLACED_TB or SEQ_BT and INTERLACED_BT, depending
-> on which field order is configured at the CSI source pad.
-> 
-> See d969291d8479 ("media: imx: Fix field negotiation") for details.
+The resulting patchset is free from the "undefined reference to `__udivdi3'"
+issue [3] as the u64 value is only divided by a power of 2, which doesn't
+need do_div().
 
-Thanks for the explanation.
+Vladimir, please confirm if this patchset fixes the integer overflow
+for you, and if you are OK with your patch going on top of mine like is
+done in this patchset.
 
-With the MC-based API, and unless I'm mistaken, userspace can determine
-what interlacing options are supported as follows. Sakari, please feel
-free to confirm, or infirm.
+[1] https://www.spinics.net/lists/linux-media/msg183183.html
+[2] https://www.spinics.net/lists/linux-media/msg186875.html
+[3] https://www.spinics.net/lists/linux-media/msg186918.html
 
-- The video node would report support for V4L2_FIELD_NONE,
-  V4L2_FIELD_SEQ_(TB|BT) and V4L2_FIELD_INTERLACED_(TB|BT).
 
-- The CSI subdev's source pad would report V4L2_FIELD_NONE for
-  progressive sources, and V4L2_FIELD_ALTERNATE for interlaced sources.
-  At the bus level top and bottom frames alternate, so
-  V4L2_FIELD_SEQ_(TB|BT) isn't valid as it's defined based on buffers.
-  V4L2_FIELD_INTERLACED_(TB|BT) isn't valid either in this case when
-  frames alternate between top and bottom (they're not interleaved on
-  the bus).
-
-- When starting the video stream, the driver would reject a mismatch
-  between the source pad and the video node (V4L2_FIELD_NONE on the
-  source pad and V4L2_FIELD_SEQ_* or V4L2_FIELD_INTERLACED_* on the
-  video node, or the other way around).
-
-- From a userspace point of view, the fact that both V4L2_FIELD_SEQ_*
-  and V4L2_FIELD_INTERLACED_* are supported on the video node (which can
-  be queried using VIDIOC_S_FMT or VIDIOC_TRY_FMT) means that the DMA
-  engine can interleave interlaced content. If the IDMAC wasn't able to
-  interleave lines, but was only able to capture the two fields
-  sequentially in the same buffer, it would only report
-  V4L2_FIELD_SEQ_*, not V4L2_FIELD_INTERLACED_*.
-
-Does this make sense ?
-
--- 
-Regards,
-
-Laurent Pinchart
