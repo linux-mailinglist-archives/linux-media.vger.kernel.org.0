@@ -2,22 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CADD31AE49
-	for <lists+linux-media@lfdr.de>; Sat, 13 Feb 2021 23:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BEDC31AEF1
+	for <lists+linux-media@lfdr.de>; Sun, 14 Feb 2021 05:54:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbhBMWeW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 13 Feb 2021 17:34:22 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:35464 "EHLO gloria.sntech.de"
+        id S229793AbhBNExK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Feb 2021 23:53:10 -0500
+Received: from mout02.posteo.de ([185.67.36.66]:34187 "EHLO mout02.posteo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229647AbhBMWeV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Feb 2021 17:34:21 -0500
-Received: from p508fc8c7.dip0.t-ipconnect.de ([80.143.200.199] helo=phil.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1lB3Ti-0006HN-Bi; Sat, 13 Feb 2021 23:33:26 +0100
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     Sebastian Fricke <sebastian.fricke@posteo.net>
+        id S229788AbhBNExG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 13 Feb 2021 23:53:06 -0500
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 0EEC62400FB
+        for <linux-media@vger.kernel.org>; Sun, 14 Feb 2021 05:52:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1613278329; bh=N2OFag51Yk707V6y0F3zYvO9dt8D3xrSs1fvn36Gyis=;
+        h=Date:From:To:Cc:Subject:From;
+        b=IziuXCnWpKYaoaVXJKT+kkTieF8H5YnmT0pAs4epzJThVbqDDYiwKI2KEL9kRhZ33
+         0dnh+TMSMX4r+ndVuS/v+I/2iLFnR1JrH8AumHf7JRsmmjdsDDQ+9tSKatbgrAWNHI
+         26ynq8McsRJKhYjxmm3g0QPPKECFm4Wz1ASoDWM4FPNEJiPjeSmo50MYDU36i39Rit
+         Ro+YsGPy1nVJ/VNZ2EBvyLnGkaGYoeLrJNSZwxB+0E43reO1hwUVVXLVpsU71mWS4X
+         VzIGuOxu+B67caK2mZ7q2NOl73OqBTbGK1x91BYhaOjz9Nwk+X+yfW4shggf6OEsXw
+         G66+f0mnfnYsg==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4DdZbB5ZDhz9rxH;
+        Sun, 14 Feb 2021 05:52:06 +0100 (CET)
+Date:   Sun, 14 Feb 2021 05:52:06 +0100
+From:   Sebastian Fricke <sebastian.fricke@posteo.net>
+To:     Heiko Stuebner <heiko@sntech.de>
 Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -25,67 +36,62 @@ Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
         helen.koike@collabora.com, ezequiel@collabora.com,
         cmuellner@linux.com
-Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
-Date:   Sat, 13 Feb 2021 23:33:25 +0100
-Message-ID: <7871592.T7Z3S40VBb@phil>
-In-Reply-To: <20210213111957.3ocxgcyno6ent4vt@basti-TUXEDO-Book-XA1510>
-References: <20210202145632.1263136-1-heiko@sntech.de> <16789691.tv2OnDr8pf@diego> <20210213111957.3ocxgcyno6ent4vt@basti-TUXEDO-Book-XA1510>
+Subject: Re: [PATCH v2 0/6] Support second Image Signal Processor on rk3399
+Message-ID: <20210214045206.4jqae2yuolgdxwad@basti-TUXEDO-Book-XA1510>
+References: <20210210111020.2476369-1-heiko@sntech.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20210210111020.2476369-1-heiko@sntech.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sebastian,
+Hey Heiko,
 
-Am Samstag, 13. Februar 2021, 12:19:57 CET schrieb Sebastian Fricke:
-> On 11.02.2021 15:42, Heiko Stübner wrote:
-> >Am Donnerstag, 11. Februar 2021, 06:25:15 CET schrieb Sebastian Fricke:
-> >> On 10.02.2021 12:15, Heiko Stübner wrote:
-> >> >Am Freitag, 5. Februar 2021, 15:55:56 CET schrieb Heiko Stübner:
-> >> >> I did some tests myself today as well and can confirm your
-> >> >> hdmi related finding - at least when plugged in on boot.
-> >> >>
-> >> >> I tried some combinations of camera vs. hdmi and it seems
-> >> >> really only when hdmi is plugged in on boot
-> >> >
-> >> >as you can see in v2, it should work now even with hdmi
-> >> >connected on boot. My patch ignored the grf-clock when
-> >> >doing the grf-based init.
-> >> >
-> >> >All clocks are on during boot and I guess the hdmi-driver
-> >> >did disable it after its probe. The phy_power_on functions
-> >> >did handle it correctly already, so it was only happening
-> >> >with hdmi connected on boot.
-> >>
-> >> Thank you very much for solving that problem, I've tested the scenarios
-> >> described below and it works like a charm. (With your V2)
-> >> >
-> >> >
-> >> >Btw. do you plan on submitting your ov13850 driver
-> >> >soonish?
-> >>
-> >> Actually, I have posted the patch already see here:
-> >> https://patchwork.kernel.org/project/linux-media/patch/20210130182313.32903-2-sebastian.fricke@posteo.net/
-> >
-> >very cool to see
-> >
-> >> I currently review the requested changes and questions and will soon
-> >> post a second version, but I expect quite some time until it is actually
-> >> merged.
-> >
-> >could you Cc me on future versions?
-> 
-> Sure will do :)
-
-by the way, you could also answer the v2 series with a
+I have tested your series and it successfully fixes the problem with the
+2nd camera when HDMI is connected at boot. Besides that the patch looks
+good and my tests have confirmed that both cameras have the same output
+quality when I exchange the connected ISP instances.
 
 Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
 
-so we get some coverage :-)
+Greetings,
+Sebastian
 
-Thanks
-Heiko
-
-
+On 10.02.2021 12:10, Heiko Stuebner wrote:
+>The rk3399 has two ISPs and right now only the first one is usable.
+>The second ISP is connected to the TXRX dphy on the soc.
+>
+>The phy of ISP1 is only accessible through the DSI controller's
+>io-memory, so this series adds support for simply using the dsi
+>controller is a phy if needed.
+>
+>That solution is needed at least on rk3399 and rk3288 but no-one
+>has looked at camera support on rk3288 at all, so right now
+>only implement the rk3399 specifics.
+>
+>changes in v2:
+>- enable grf-clock also for init callback
+>  to not break if for example hdmi is connected on boot
+>  and disabled the grf clock during its probe
+>- add Sebastian's Tested-by
+>- add Rob's Ack for the phy-cells property
+>
+>Heiko Stuebner (6):
+>  drm/rockchip: dsi: add own additional pclk handling
+>  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
+>  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
+>  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
+>  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
+>  arm64: dts: rockchip: add isp1 node on rk3399
+>
+> .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
+> arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
+> drivers/gpu/drm/rockchip/Kconfig              |   2 +
+> .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 349 ++++++++++++++++++
+> 4 files changed, 391 insertions(+)
+>
+>-- 
+>2.29.2
+>
