@@ -2,98 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CDE431BE69
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 17:12:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30DC931BEA3
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 17:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232098AbhBOQJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Feb 2021 11:09:16 -0500
-Received: from mga01.intel.com ([192.55.52.88]:47735 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231907AbhBOP4u (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Feb 2021 10:56:50 -0500
-IronPort-SDR: kA08KHtOQ8BX2+qApDy7cGEYJ3pB2xMsvWLkidqgFH1o+mhGjaXhx3IK1q3toWVwUbT+NU+Ocu
- JdUb3+/yBZiw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="201886113"
-X-IronPort-AV: E=Sophos;i="5.81,180,1610438400"; 
-   d="scan'208";a="201886113"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2021 07:54:55 -0800
-IronPort-SDR: 8ShrDZEX1xRfNPtXowVlgGEsUgQdW6OsYFrW5szNG2KuWQ5PSEcOxw8GcckjNBocJqT6yMSutm
- bzCD86KeOoDg==
-X-IronPort-AV: E=Sophos;i="5.81,181,1610438400"; 
-   d="scan'208";a="580212299"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2021 07:54:51 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lBgD1-005GGC-W7; Mon, 15 Feb 2021 17:54:47 +0200
-Date:   Mon, 15 Feb 2021 17:54:47 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Petr Mladek <pmladek@suse.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v7 1/3] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <YCqZR5N6ktABHXNf@smile.fi.intel.com>
-References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
- <20210215114030.11862-2-sakari.ailus@linux.intel.com>
- <YCp3sdZoalFSUS7u@smile.fi.intel.com>
- <20210215135650.GI3@paasikivi.fi.intel.com>
+        id S232389AbhBOQOa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Feb 2021 11:14:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231553AbhBOQL2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Feb 2021 11:11:28 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB127C0613D6
+        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 08:10:47 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1lBgSS-0001lW-J3; Mon, 15 Feb 2021 17:10:44 +0100
+Message-ID: <21810344a6b3659e2084727a9e7950133bf294ac.camel@pengutronix.de>
+Subject: Re: [BUG REPORT] media: coda: mpeg4 decode corruption on i.MX6qp
+ only
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Sven Van Asbroeck <thesven73@gmail.com>
+Cc:     Philipp Zabel <pza@pengutronix.de>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Mon, 15 Feb 2021 17:10:43 +0100
+In-Reply-To: <CAGngYiWxMsko2+6NUt4N0GyBUq4Axz4TRiUrF2ZjNGvZZkTO8A@mail.gmail.com>
+References: <20210203163348.30686-1-TheSven73@gmail.com>
+         <804285cff81878a2c188d1b823182114f891ca38.camel@ndufresne.ca>
+         <CAGngYiWt9Q4jWksiniC6vqUw29L3mOFuQpw7Dz_BK9Ye9FbQ1Q@mail.gmail.com>
+         <20210211143233.GA1360@pengutronix.de>
+         <CAGngYiWAohHXYPfd5NJc4URVuMA4GP01jvRV78uM5P+H7zKx-A@mail.gmail.com>
+         <10bfc6f5aaa02ad5858186ccee1894424fc0dd39.camel@pengutronix.de>
+         <CAGngYiWxMsko2+6NUt4N0GyBUq4Axz4TRiUrF2ZjNGvZZkTO8A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210215135650.GI3@paasikivi.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 03:56:50PM +0200, Sakari Ailus wrote:
-> On Mon, Feb 15, 2021 at 03:31:29PM +0200, Andy Shevchenko wrote:
-> > On Mon, Feb 15, 2021 at 01:40:28PM +0200, Sakari Ailus wrote:
-> > > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > > so the same implementation can be used.
+Am Montag, dem 15.02.2021 um 10:54 -0500 schrieb Sven Van Asbroeck:
+> Hi Lucas,
+> 
+> On Mon, Feb 15, 2021 at 5:15 AM Lucas Stach <l.stach@pengutronix.de> wrote:
 > > 
-> > This version I almost like, feel free to add
-> > Reviewed-by: From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > after considering addressing below nit-picks.
-
-> > > +Examples::
-> > > +
-> > > +	%p4cc	BG12 little-endian (0x32314742)
-> > 
-> > No examples with spaces / non-printable / non-ascii characters
+> > The straight forward way to fix this would be to just disable the PRE
+> > when the stride is getting too large, which might not work well with
+> > all userspace requirements, as it effectively disables the ability to
+> > scan GPU tiled surfaces when the stride is getting too large.
 > 
-> I can sure add an example that has a space. But do you think I really
-> should add an example where invalid information is being printed?
-
-I think you have to provide better coverage of what user can get out of this.
-Perhaps one example with space and non-printable character is enough.
-
-> > > +	char output[sizeof("1234 little-endian (0x01234567)")];
-> > 
-> > 1234 -> ABCD ? (Or XY12 to be closer to the reality)
+> Thank you for your very knowledgeable input, really appreciate it.
 > 
-> I count in numbers... albeit the hexadecimal number there starts from zero.
-> 
-> I guess both would work though.
-> 
-> 0123 would be consistent.
+> I am wondering why I am the first to notice this particular corner
+> case. Is this perhaps because X+armada plugin allocate a huge bitmap
+> that fits all displays, and other software frameworks do not? Are
+> people on i.MX6 mostly using X or Wayland? If Wayland allocates a
+> separate bitmap for each display, this PRE bug will of course never
+> show up...
 
-Since letters can be printed the above is confusing a bit. I think XY12 is
-closer to the reality than 0123.
+Yep, I really doubt that there are a lot i.MX6QP, multi-display, X.Org
+based devices out there.
 
--- 
-With Best Regards,
-Andy Shevchenko
+While it's not anywhere in a protocol or similar fixed API, Wayland
+compositors mostly opted to have a separate surface per display. The
+weston reference compositor started out this way (as it makes surface
+repaint easier) and other followed the lead, so Wayland based stacks
+won't hit this case.
 
+Regards,
+Lucas
 
