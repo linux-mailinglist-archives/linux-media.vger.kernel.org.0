@@ -2,142 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6494031B6B8
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 10:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61DE131B6EA
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 11:16:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230353AbhBOJug (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Feb 2021 04:50:36 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41250 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230345AbhBOJuf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Feb 2021 04:50:35 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 8E166ADDB;
-        Mon, 15 Feb 2021 09:49:52 +0000 (UTC)
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        id S230042AbhBOKQH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Feb 2021 05:16:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229811AbhBOKQG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Feb 2021 05:16:06 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25402C061574
+        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 02:15:24 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1lBauX-00027Q-0k; Mon, 15 Feb 2021 11:15:21 +0100
+Message-ID: <10bfc6f5aaa02ad5858186ccee1894424fc0dd39.camel@pengutronix.de>
+Subject: Re: [BUG REPORT] media: coda: mpeg4 decode corruption on i.MX6qp
+ only
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Sven Van Asbroeck <thesven73@gmail.com>,
+        Philipp Zabel <pza@pengutronix.de>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>,
         linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, lkml <linux-kernel@vger.kernel.org>
-Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: DMA-buf and uncached system memory
-Message-ID: <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
-Date:   Mon, 15 Feb 2021 10:49:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Mon, 15 Feb 2021 11:15:19 +0100
+In-Reply-To: <CAGngYiWAohHXYPfd5NJc4URVuMA4GP01jvRV78uM5P+H7zKx-A@mail.gmail.com>
+References: <20210203163348.30686-1-TheSven73@gmail.com>
+         <804285cff81878a2c188d1b823182114f891ca38.camel@ndufresne.ca>
+         <CAGngYiWt9Q4jWksiniC6vqUw29L3mOFuQpw7Dz_BK9Ye9FbQ1Q@mail.gmail.com>
+         <20210211143233.GA1360@pengutronix.de>
+         <CAGngYiWAohHXYPfd5NJc4URVuMA4GP01jvRV78uM5P+H7zKx-A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
 MIME-Version: 1.0
-In-Reply-To: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="LluPYbmWKdgRFCbIZHJRJ0mnf2n5y8vWh"
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---LluPYbmWKdgRFCbIZHJRJ0mnf2n5y8vWh
-Content-Type: multipart/mixed; boundary="WqE607JVvyKj3o3LH8LRRld6sBuAbrkEo";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- lkml <linux-kernel@vger.kernel.org>
-Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
-Message-ID: <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
-Subject: Re: DMA-buf and uncached system memory
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
-In-Reply-To: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+Hi Sven,
 
---WqE607JVvyKj3o3LH8LRRld6sBuAbrkEo
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Am Freitag, dem 12.02.2021 um 18:52 -0500 schrieb Sven Van Asbroeck:
+> Philipp, Fabio,
+> 
+> I was able to verify that the PREs do indeed overrun their allocated ocram area.
+> 
+> Section 38.5.1 of the iMX6QuadPlus manual indicates the ocram size
+> required: width(pixels) x 8 lines x 4 bytes. For 2048 pixels max, this
+> comes to 64K. This is what the PRE driver allocates. So far, so good.
+> 
+> The trouble starts when we're displaying a section of a much wider
+> bitmap. This happens in X when using two displays. e.g.:
+> HDMI 1920x1088
+> LVDS 1280x800
+> X bitmap 3200x1088, left side displayed on HDMI, right side on LVDS.
+> 
+> In such a case, the stride will be much larger than the width of a
+> display scanline.
 
-Hi
+Urgh, bad tested corner case.
 
-Am 15.02.21 um 09:58 schrieb Christian K=C3=B6nig:
-> Hi guys,
->=20
-> we are currently working an Freesync and direct scan out from system=20
-> memory on AMD APUs in A+A laptops.
->=20
-> On problem we stumbled over is that our display hardware needs to scan =
+> This is where things start to go very wrong.
+> 
+> I found that the ocram area used by the PREs increases with the
+> stride. I experimentally found a formula:
+> ocam_used = display_widthx8x4 + (bitmap_width-display_width)x7x4
+> 
+> As the stride increases, the PRE eventually overruns the ocram and...
+> ends up in the "ocram aliased" area, where it overwrites the ocram in
+> use by the vpu/coda !
+> 
+> I could not find any PRE register setting that changes the used ocram area.
 
-> out from uncached system memory and we currently don't have a way to=20
-> communicate that through DMA-buf.
->=20
-> For our specific use case at hand we are going to implement something=20
-> driver specific, but the question is should we have something more=20
-> generic for this?
+There is no such setting. The PRE always prefetches a doublebuffer of
+2x4 scanlines and the scanline size is defined by the store engine
+pitch.
 
-For vmap operations, we return the address as struct dma_buf_map, which=20
-contains additional information about the memory buffer. In vram=20
-helpers, we have the interface drm_gem_vram_offset() that returns the=20
-offset of the GPU device memory.
+The straight forward way to fix this would be to just disable the PRE
+when the stride is getting too large, which might not work well with
+all userspace requirements, as it effectively disables the ability to
+scan GPU tiled surfaces when the stride is getting too large.
 
-Would it be feasible to combine both concepts into a dma-buf interface=20
-that returns the device-memory offset plus the additional caching flag?
+I'm not sure if this works in practice, as the PRG address rewriting
+might make this harder than it seems, but on could probably try to
+rewrite the prefetch start address, input pitch, input width/height and
+store pitch of the PRE settings to cover only the area used by the the
+CRTC to reduce OCRAM requirements.
 
-There'd be a structure and a getter function returning the structure.
+Regards,
+Lucas
 
-struct dma_buf_offset {
-	bool cached;
-	u64 address;
-};
-
-// return offset in *off
-int dma_buf_offset(struct dma_buf *buf, struct dma_buf_off *off);
-
-Whatever settings are returned by dma_buf_offset() are valid while the=20
-dma_buf is pinned.
-
-Best regards
-Thomas
-
->=20
-> After all the system memory access pattern is a PCIe extension and as=20
-> such something generic.
->=20
-> Regards,
-> Christian.
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---WqE607JVvyKj3o3LH8LRRld6sBuAbrkEo--
-
---LluPYbmWKdgRFCbIZHJRJ0mnf2n5y8vWh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAqQ78FAwAAAAAACgkQlh/E3EQov+DT
-8RAAgPMFZgw0YGSkfKlQB+8K2KbUEA9pbSX/KVkX7kscn7E54s4ESbQmqNM8DTnKiBiHtHY1wa22
-LkgLGAqngffUNHLaPPCB1dcf7xhT2NhpDjDPoGRQ44sWuJEPmlE+i4EzLeqqRtK/FB0U+KKziSIP
-rANbiI5osQeldOw1B/8tsGuYC2ylk4zCACMIgQJJGggXDxzChBb4Ax+SWVNRcFWMvUYTnKbsb1kB
-l6HSWDqM3BjggMk8G6rniidWjEI7iz9cDNUZEU4GYNKN4ug34Y9ulXtynw65xLh8M6CXP3sZ1yi2
-pKUjzMPosxq2RDB+PB6SJSfqcyHdbSaFpV25nPY9STkwGAdUU9hob/HDiu3R0K1yth32MF3ebGwX
-744d3JhA13Q81iJQczCUEDSL7KQHqFOpGizuMfEnes9jEAKDxnHC/RDkZ8rRPFKa8fUV2tuiDycP
-GtG2HoO49xrB6pJ8VJrxizBicE7u9QFS6QLDRSidG9WK0f0g1SKcbu4e/GhWNuBCQyBd2ptxq8B+
-Eq+PdGQRQAG3Gq+knZwDhnYw/tiI+Yt72w9Wrfe8Q9nxobQr+tZigsASNJZlhZpTWVpafS8q+0jJ
-WfuHfL/wvYK96x4a4pLSp6uSR3lhzRMwT+gNDMMlr0Y5HxWg2YyK7cqgYCNF5QFDEOmQokjE+26S
-idA=
-=YHd/
------END PGP SIGNATURE-----
-
---LluPYbmWKdgRFCbIZHJRJ0mnf2n5y8vWh--
