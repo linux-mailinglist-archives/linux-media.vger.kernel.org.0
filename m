@@ -2,403 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9E631B892
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 13:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA1C31B895
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 13:02:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230134AbhBOMAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Feb 2021 07:00:45 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:59111 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229993AbhBOMAa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Feb 2021 07:00:30 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id C78511BF20E;
-        Mon, 15 Feb 2021 11:59:41 +0000 (UTC)
-Date:   Mon, 15 Feb 2021 13:00:07 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     junak.pub@gmail.com, robert.foss@linaro.org,
-        sakari.ailus@linux.intel.com, todor.too@gmail.com,
-        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: camss: use v4l2_get_link_freq() to calculate
- the relevant clocks
-Message-ID: <20210215120007.trtojpmq2wyknbuq@uno.localdomain>
-References: <20210214213404.8373-1-andrey.konovalov@linaro.org>
- <20210214213404.8373-2-andrey.konovalov@linaro.org>
+        id S230195AbhBOMBv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Feb 2021 07:01:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39046 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230184AbhBOMBa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Feb 2021 07:01:30 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 7F02BACD4;
+        Mon, 15 Feb 2021 12:00:48 +0000 (UTC)
+Subject: Re: DMA-buf and uncached system memory
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, lkml <linux-kernel@vger.kernel.org>
+Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
+Message-ID: <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
+Date:   Mon, 15 Feb 2021 13:00:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210214213404.8373-2-andrey.konovalov@linaro.org>
+In-Reply-To: <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrey,
-   nice to see progress in this direction
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ
+Content-Type: multipart/mixed; boundary="jpBOcMfQ4Rk9pKdZviZiesqHtZrYP8I7j";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ lkml <linux-kernel@vger.kernel.org>
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Message-ID: <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
+Subject: Re: DMA-buf and uncached system memory
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
+In-Reply-To: <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
 
-On Mon, Feb 15, 2021 at 12:34:03AM +0300, Andrey Konovalov wrote:
-> There are places in the camss driver where camss_get_pixel_clock() is
-> called to get the pixel rate (using V4L2_CID_PIXEL_RATE control) and to
-> calculate the link frequency from it. There is a case when this would
-> not work: when V4L2_CID_PIXEL_RATE gets the rate at which the pixels are
-> read (sampled) from the sensor's pixel array, and this rate is different
-> from the pixel transmission rate over the CSI link, the link frequency
-> value can't be calculated from the pixel rate. One needs to use
-> V4L2_CID_LINK_FREQ to get the link frequency in this case.
->
-> Replace such calls to camss_get_pixel_clock() with calls to a wrapper
-> around v4l2_get_link_freq(). v4l2_get_link_freq() tries V4L2_CID_LINK_FREQ
-> first, and if it is not implemented by the camera sensor driver, falls
-> back to V4L2_CID_PIXEL_RATE to calculate the link frequency value from.
+--jpBOcMfQ4Rk9pKdZviZiesqHtZrYP8I7j
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Is it worth warning in the core function that the subdevice should
-support LINK_FREQ and if we fallback to use PIXEL_RATE the calculation
-result might not be accurate ?
+Hi
 
->
-> Calls to camss_get_pixel_clock() from vfe_[check,set]_clock_rates()
-> are left intact as it looks like this VFE clock does depend on the
-> rate the pixel samples comes out of the camera sensor, not on the
-> frequency at which the link between the sensor and the CSI receiver
-> operates.
->
-> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> ---
->  .../media/platform/qcom/camss/camss-csid.c    | 22 ++++++------
->  .../qcom/camss/camss-csiphy-2ph-1-0.c         | 22 ++++++------
->  .../qcom/camss/camss-csiphy-3ph-1-0.c         | 22 ++++++------
->  .../media/platform/qcom/camss/camss-csiphy.c  | 36 +++++++++----------
->  .../media/platform/qcom/camss/camss-csiphy.h  |  2 +-
->  drivers/media/platform/qcom/camss/camss.c     | 23 ++++++++++++
->  drivers/media/platform/qcom/camss/camss.h     |  2 ++
->  7 files changed, 73 insertions(+), 56 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index be3fe76f3dc3..b2cbf4b65949 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -462,13 +462,19 @@ static irqreturn_t csid_isr(int irq, void *dev)
->  static int csid_set_clock_rates(struct csid_device *csid)
->  {
->  	struct device *dev = csid->camss->dev;
-> -	u32 pixel_clock;
-> +	s64 link_freq;
->  	int i, j;
->  	int ret;
->
-> -	ret = camss_get_pixel_clock(&csid->subdev.entity, &pixel_clock);
-> -	if (ret)
-> -		pixel_clock = 0;
-> +	const struct csid_format *f = csid_get_fmt_entry(
-> +		csid->formats,
-> +		csid->nformats,
-> +		csid->fmt[MSM_CSIPHY_PAD_SINK].code);
+Am 15.02.21 um 10:49 schrieb Thomas Zimmermann:
+> Hi
+>=20
+> Am 15.02.21 um 09:58 schrieb Christian K=C3=B6nig:
+>> Hi guys,
+>>
+>> we are currently working an Freesync and direct scan out from system=20
+>> memory on AMD APUs in A+A laptops.
+>>
+>> On problem we stumbled over is that our display hardware needs to scan=
+=20
+>> out from uncached system memory and we currently don't have a way to=20
+>> communicate that through DMA-buf.
 
-Weird indent :/
+Re-reading this paragrah, it sounds more as if you want to let the=20
+exporter know where to move the buffer. Is this another case of the=20
+missing-pin-flag problem?
 
-I would either keep the arguments on one line or align after the open
-( if it doesn't go past 80-cols
+Best regards
+Thomas
+
+>>
+>> For our specific use case at hand we are going to implement something =
+
+>> driver specific, but the question is should we have something more=20
+>> generic for this?
+>=20
+> For vmap operations, we return the address as struct dma_buf_map, which=
+=20
+> contains additional information about the memory buffer. In vram=20
+> helpers, we have the interface drm_gem_vram_offset() that returns the=20
+> offset of the GPU device memory.
+>=20
+> Would it be feasible to combine both concepts into a dma-buf interface =
+
+> that returns the device-memory offset plus the additional caching flag?=
+
+>=20
+> There'd be a structure and a getter function returning the structure.
+>=20
+> struct dma_buf_offset {
+>  =C2=A0=C2=A0=C2=A0=C2=A0bool cached;
+>  =C2=A0=C2=A0=C2=A0=C2=A0u64 address;
+> };
+>=20
+> // return offset in *off
+> int dma_buf_offset(struct dma_buf *buf, struct dma_buf_off *off);
+>=20
+> Whatever settings are returned by dma_buf_offset() are valid while the =
+
+> dma_buf is pinned.
+>=20
+> Best regards
+> Thomas
+>=20
+>>
+>> After all the system memory access pattern is a PCIe extension and as =
+
+>> such something generic.
+>>
+>> Regards,
+>> Christian.
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-> +	u8 num_lanes = csid->phy.lane_cnt;
-> +	link_freq = camss_get_link_freq(&csid->subdev.entity, f->bpp,
+--jpBOcMfQ4Rk9pKdZviZiesqHtZrYP8I7j--
 
-Empy line maybe ?
+--8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> +					2 * num_lanes);
+-----BEGIN PGP SIGNATURE-----
 
-I see you pass in 2 * num_lanes and I assume it's for CSI-2 DDR.
-Can't this be handled in camss_get_link_freq() so that you here only
-pass in the actual number of lanes ?
-> +	if (link_freq < 0)
-> +		link_freq = 0;
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAqYm4FAwAAAAAACgkQlh/E3EQov+CM
+OQ/9H7AYQ1xEe3151Vo7dWI+/gR1rlw3WGzPnRdx+eIaBeNgNERC4eOnalzj/yovVjPQis6HVWIg
+wfQ4BFIvwLKml+RSHEqJGbmAKly3J8NJCFyGk6E+de83sAENt9kqZSkXJpggzI3ZAjLDBB9L9Uff
+LglN6XzVNgiW3TFN+2CkqPzIC+xoTcHhRvJpPyHB+geUHrjvd15hdIVcl4kbkOGe4+llrQgmw5m3
+n9jz3oRhFHgd53G+ZipWlnPigd3RP4fb5+aVofSowQXeQYe6lI6J+Cf60Frc4So7I1lyfgwSr6tY
+v8MSW5+F4ua1AKA2uDS/9eoYkyqB4N9amaLnTBJ0Q5DER9xXmfLHZCk2JlViTW/bAbhg5kB6EHxy
+8GtBWvyQupA53nATzkipM6LNClAt47lh8vGH1hV8PiirSSETLtJ53/UccaqWag41WaWlfQAsbe0g
+cZ+EgZvCkjuf3iTVF0OFs0nz2cXJcdnnI3u0u+BvrSFv50pvJ+mNSvJNtIE5Ew69e6ldLQe5UKXQ
+ku0aXBtFP1MWo72Y5IKaHWJmoJyYWL5Y/9UucBILAsGBaJu8YKBDIEcVqjLNNjRxb/TUFRgA5NEv
+UC5aI+2CsGLxy350LmncNZk2L/xJzIwpe3hhuuRZf+TgNoJfn3ibNLdzGyEVi8MJPXPXuzm8NPs4
+iw8=
+=W8bt
+-----END PGP SIGNATURE-----
 
-I don't know this driver, but I wonder if it wouldn't be better to
-fail instead of defaulting to 0, which might be dangerous if used as a
-divider.
-
->
->  	for (i = 0; i < csid->nclocks; i++) {
->  		struct camss_clock *clock = &csid->clock[i];
-> @@ -477,13 +483,7 @@ static int csid_set_clock_rates(struct csid_device *csid)
->  		    !strcmp(clock->name, "csi1") ||
->  		    !strcmp(clock->name, "csi2") ||
->  		    !strcmp(clock->name, "csi3")) {
-> -			const struct csid_format *f = csid_get_fmt_entry(
-> -				csid->formats,
-> -				csid->nformats,
-> -				csid->fmt[MSM_CSIPHY_PAD_SINK].code);
-> -			u8 num_lanes = csid->phy.lane_cnt;
-> -			u64 min_rate = pixel_clock * f->bpp /
-> -							(2 * num_lanes * 4);
-> +			u64 min_rate = link_freq / 4;
-
-Why 4 ? :)
-
->  			long rate;
->
->  			camss_add_clock_margin(&min_rate);
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> index 12bce391d71f..30b454c369ab 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> @@ -51,16 +51,13 @@ static void csiphy_reset(struct csiphy_device *csiphy)
->   *
->   * Helper function to calculate settle count value. This is
->   * based on the CSI2 T_hs_settle parameter which in turn
-> - * is calculated based on the CSI2 transmitter pixel clock
-> - * frequency.
-> + * is calculated based on the CSI2 transmitter link frequency.
->   *
-> - * Return settle count value or 0 if the CSI2 pixel clock
-> - * frequency is not available
-> + * Return settle count value or 0 if the CSI2 link frequency
-> + * is not available
->   */
-> -static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
-> -				 u32 timer_clk_rate)
-> +static u8 csiphy_settle_cnt_calc(s64 link_freq, u32 timer_clk_rate)
->  {
-> -	u32 mipi_clock; /* Hz */
->  	u32 ui; /* ps */
->  	u32 timer_period; /* ps */
->  	u32 t_hs_prepare_max; /* ps */
-> @@ -68,8 +65,10 @@ static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
->  	u32 t_hs_settle; /* ps */
->  	u8 settle_cnt;
->
-> -	mipi_clock = pixel_clock * bpp / (2 * num_lanes);
-> -	ui = div_u64(1000000000000LL, mipi_clock);
-> +	if (link_freq <= 0)
-> +		return 0;
-
-If you error out if the link frequency cannot be calculated, can this
-be skipped ?
-
-> +
-> +	ui = div_u64(1000000000000LL, link_freq);
->  	ui /= 2;
->  	t_hs_prepare_max = 85000 + 6 * ui;
->  	t_hs_prepare_zero_min = 145000 + 10 * ui;
-> @@ -83,15 +82,14 @@ static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
->
->  static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->  				struct csiphy_config *cfg,
-> -				u32 pixel_clock, u8 bpp, u8 lane_mask)
-> +				s64 link_freq, u8 lane_mask)
->  {
->  	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
->  	u8 settle_cnt;
->  	u8 val, l = 0;
->  	int i = 0;
->
-> -	settle_cnt = csiphy_settle_cnt_calc(pixel_clock, bpp, c->num_data,
-> -					    csiphy->timer_clk_rate);
-> +	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
->
->  	writel_relaxed(0x1, csiphy->base +
->  		       CAMSS_CSI_PHY_GLBL_T_INIT_CFG0);
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index 97cb9de85031..da7c3d3f9a10 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -107,24 +107,23 @@ static irqreturn_t csiphy_isr(int irq, void *dev)
->   *
->   * Helper function to calculate settle count value. This is
->   * based on the CSI2 T_hs_settle parameter which in turn
-> - * is calculated based on the CSI2 transmitter pixel clock
-> - * frequency.
-> + * is calculated based on the CSI2 transmitter link frequency.
->   *
-> - * Return settle count value or 0 if the CSI2 pixel clock
-> - * frequency is not available
-> + * Return settle count value or 0 if the CSI2 link frequency
-> + * is not available
->   */
-> -static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
-> -				 u32 timer_clk_rate)
-> +static u8 csiphy_settle_cnt_calc(s64 link_freq, u32 timer_clk_rate)
->  {
-> -	u32 mipi_clock; /* Hz */
->  	u32 ui; /* ps */
->  	u32 timer_period; /* ps */
->  	u32 t_hs_prepare_max; /* ps */
->  	u32 t_hs_settle; /* ps */
->  	u8 settle_cnt;
->
-> -	mipi_clock = pixel_clock * bpp / (2 * num_lanes);
-> -	ui = div_u64(1000000000000LL, mipi_clock);
-> +	if (link_freq <= 0)
-> +		return 0;
-> +
-> +	ui = div_u64(1000000000000LL, link_freq);
->  	ui /= 2;
->  	t_hs_prepare_max = 85000 + 6 * ui;
->  	t_hs_settle = t_hs_prepare_max;
-> @@ -137,15 +136,14 @@ static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
->
->  static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->  				struct csiphy_config *cfg,
-> -				u32 pixel_clock, u8 bpp, u8 lane_mask)
-> +				s64 link_freq, u8 lane_mask)
->  {
->  	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
->  	u8 settle_cnt;
->  	u8 val, l = 0;
->  	int i;
->
-> -	settle_cnt = csiphy_settle_cnt_calc(pixel_clock, bpp, c->num_data,
-> -					    csiphy->timer_clk_rate);
-> +	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
->
->  	val = BIT(c->clk.pos);
->  	for (i = 0; i < c->num_data; i++)
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index 509c9a59c09c..9b5fe6fc7664 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -102,23 +102,23 @@ static u8 csiphy_get_bpp(const struct csiphy_format *formats,
->  static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
->  {
->  	struct device *dev = csiphy->camss->dev;
-> -	u32 pixel_clock;
-> +	s64 link_freq;
->  	int i, j;
->  	int ret;
->
-> -	ret = camss_get_pixel_clock(&csiphy->subdev.entity, &pixel_clock);
-> -	if (ret)
-> -		pixel_clock = 0;
-> +	u8 bpp = csiphy_get_bpp(csiphy->formats, csiphy->nformats,
-> +				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
-> +	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-> +	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp,
-> +					2 * num_lanes);
-> +	if (link_freq < 0)
-> +		link_freq  = 0;
->
->  	for (i = 0; i < csiphy->nclocks; i++) {
->  		struct camss_clock *clock = &csiphy->clock[i];
->
->  		if (csiphy->rate_set[i]) {
-> -			u8 bpp = csiphy_get_bpp(csiphy->formats,
-> -					csiphy->nformats,
-> -					csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
-> -			u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-> -			u64 min_rate = pixel_clock * bpp / (2 * num_lanes * 4);
-> +			u64 min_rate = link_freq / 4;
->  			long round_rate;
->
->  			camss_add_clock_margin(&min_rate);
-> @@ -238,22 +238,18 @@ static u8 csiphy_get_lane_mask(struct csiphy_lanes_cfg *lane_cfg)
->  static int csiphy_stream_on(struct csiphy_device *csiphy)
->  {
->  	struct csiphy_config *cfg = &csiphy->cfg;
-> -	u32 pixel_clock;
-> +	s64 link_freq;
->  	u8 lane_mask = csiphy_get_lane_mask(&cfg->csi2->lane_cfg);
->  	u8 bpp = csiphy_get_bpp(csiphy->formats, csiphy->nformats,
->  				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
-> +	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
->  	u8 val;
-> -	int ret;
->
-> -	ret = camss_get_pixel_clock(&csiphy->subdev.entity, &pixel_clock);
-> -	if (ret) {
-> -		dev_err(csiphy->camss->dev,
-> -			"Cannot get CSI2 transmitter's pixel clock\n");
-> -		return -EINVAL;
-> -	}
-> -	if (!pixel_clock) {
-> +	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp,
-> +					2 * num_lanes);
-> +	if (link_freq < 0) {
->  		dev_err(csiphy->camss->dev,
-> -			"Got pixel clock == 0, cannot continue\n");
-> +			"Cannot get CSI2 transmitter's link frequency\n");
->  		return -EINVAL;
->  	}
->
-> @@ -268,7 +264,7 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
->  	writel_relaxed(val, csiphy->base_clk_mux);
->  	wmb();
->
-> -	csiphy->ops->lanes_enable(csiphy, cfg, pixel_clock, bpp, lane_mask);
-> +	csiphy->ops->lanes_enable(csiphy, cfg, link_freq, lane_mask);
->
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> index f7967ef836dc..d71b8bc6ec00 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> @@ -50,7 +50,7 @@ struct csiphy_hw_ops {
->  	void (*reset)(struct csiphy_device *csiphy);
->  	void (*lanes_enable)(struct csiphy_device *csiphy,
->  			     struct csiphy_config *cfg,
-> -			     u32 pixel_clock, u8 bpp, u8 lane_mask);
-> +			     s64 link_freq, u8 lane_mask);
->  	void (*lanes_disable)(struct csiphy_device *csiphy,
->  			      struct csiphy_config *cfg);
->  	irqreturn_t (*isr)(int irq, void *dev);
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 7c0f669f8aa6..2888c7ef2303 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -548,6 +548,29 @@ struct media_entity *camss_find_sensor(struct media_entity *entity)
->  	}
->  }
->
-> +/**
-> + * camss_get_link_freq - Get link frequency from sensor
-> + * @entity: Media entity in the current pipeline
-> + * @bpp: Number of bits per pixel for the current format
-> + * @lanes: Number of lanes in the link to the sensor
-> + *
-> + * Return link frequency on success or a negative error code otherwise
-> + */
-> +s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
-> +			unsigned int lanes)
-> +{
-> +	struct media_entity *sensor;
-> +	struct v4l2_subdev *subdev;
-> +
-> +	sensor = camss_find_sensor(entity);
-> +	if (!sensor)
-> +		return -ENODEV;
-
-Can this happen ?
-
-Thanks
-  j
-
-> +
-> +	subdev = media_entity_to_v4l2_subdev(sensor);
-> +
-> +	return v4l2_get_link_freq(subdev->ctrl_handler, bpp, lanes);
-> +}
-> +
->  /*
->   * camss_get_pixel_clock - Get pixel clock rate from sensor
->   * @entity: Media entity in the current pipeline
-> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-> index 3a0484683cd6..86cdc25189eb 100644
-> --- a/drivers/media/platform/qcom/camss/camss.h
-> +++ b/drivers/media/platform/qcom/camss/camss.h
-> @@ -108,6 +108,8 @@ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
->  			struct device *dev);
->  void camss_disable_clocks(int nclocks, struct camss_clock *clock);
->  struct media_entity *camss_find_sensor(struct media_entity *entity);
-> +s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
-> +			unsigned int lanes);
->  int camss_get_pixel_clock(struct media_entity *entity, u32 *pixel_clock);
->  int camss_pm_domain_on(struct camss *camss, int id);
->  void camss_pm_domain_off(struct camss *camss, int id);
-> --
-> 2.17.1
->
+--8ejIhBaoaH74EllZioVxmsx5UYclcyGPJ--
