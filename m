@@ -2,181 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9949331B80A
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 12:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7ABA31B82E
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 12:42:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbhBOLdK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Feb 2021 06:33:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229805AbhBOLdJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Feb 2021 06:33:09 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A74C061574
-        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 03:32:28 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id w1so10476228ejf.11
-        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 03:32:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=h0PbOw1QnykMU+cJkTod7obeXaHoBYiSFuCrLUWBeAA=;
-        b=WlLw7XtuJt/3SCNQ9pkKVKhoKzyvOLEeV+Yy3uoDo3NxxdhYpvvGIKNQeswZHrzyEn
-         uHjgcyIVO959TN+ssBwC2uA65KpHW5NQrYUAwWohdIXMBtQ6Wr8nJMuIfh485C6Dymtn
-         8abZqXcW/iVeEM+6VHkSeCF8S6GFmOYJFq7CFgL5ObAog1dIz2ZT7FRiFOp3z4K1yqG6
-         DKPF1g+7T44lPKaqkWrSaatCU7ifc5LL/VzrnrAsdGPSelIdHTDY26DOBDoRxEM+MbG5
-         YBbqVVx68RIErlOxeBFOWMnJ1Ls8ks8XsjgvoBAK2LkzSKFQBNVYrarvko7tJupxQGHK
-         5z9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=h0PbOw1QnykMU+cJkTod7obeXaHoBYiSFuCrLUWBeAA=;
-        b=FQ+3IMQK21jnzgUMIV7vZws7gw0QUu0YLqFT3uGqESi41acCJiGzHqlXJVFsBntTaX
-         qMFPj4MPInA/G2/jn+WbSzlO4m6QW6w0266oxHAuVUuKJLCRZQygOXia0RRiI2CkU/VC
-         EgHjmjnZhCbq9H1Xgvn2FGv5Pm0XIT+Be6lq1UYlpoQ8MAmcWLv+HkEPtJzh2Q8fBdnS
-         Flal0NNjwPRv6DlyFxO56iDay1ecgvpdikYrzXHrJ6rqRmxMDhEKIad0d+bYXV8/rXxS
-         qrQic7OfAHpln0zoCyurWA6RnF7zFNG/hMw8ZFxe5W6klq4b0Tjrcpw1qVZa0P1e3aTC
-         7mkQ==
-X-Gm-Message-State: AOAM531nCQ8h/oztauNstyLr3JDSxltgKDwGxfGqKBvnuSC74kspWxL0
-        oCn7NI/5jfj9s33253tTsaAcSw==
-X-Google-Smtp-Source: ABdhPJzFhQfaXYc6TE/l49yGks3K1vhhPRxfgiYQKjBQRuW77bI+gETekoPft9m/iVmzf0P/Pq1ECQ==
-X-Received: by 2002:a17:906:ccd6:: with SMTP id ot22mr1461681ejb.165.1613388746938;
-        Mon, 15 Feb 2021 03:32:26 -0800 (PST)
-Received: from [192.168.0.4] (hst-221-123.medicom.bg. [84.238.221.123])
-        by smtp.googlemail.com with ESMTPSA id a15sm9663066edv.95.2021.02.15.03.32.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Feb 2021 03:32:26 -0800 (PST)
-Subject: Re: [PATCH 1/2] v4l2-ctrl: Add decoder conceal color control
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20210209094527.2173690-1-stanimir.varbanov@linaro.org>
- <20210209094527.2173690-2-stanimir.varbanov@linaro.org>
- <cccae00e-e30e-6691-d954-27379a104115@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <489f1417-085d-4057-f2e8-1cc8db0ed161@linaro.org>
-Date:   Mon, 15 Feb 2021 13:32:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S229994AbhBOLmW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Feb 2021 06:42:22 -0500
+Received: from retiisi.eu ([95.216.213.190]:48260 "EHLO hillosipuli.retiisi.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229805AbhBOLmT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Feb 2021 06:42:19 -0500
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 270F5634C98;
+        Mon, 15 Feb 2021 13:39:32 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-media@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: [PATCH v7 0/3] Add %p4cc printk modifier for V4L2 and DRM fourcc codes
+Date:   Mon, 15 Feb 2021 13:40:27 +0200
+Message-Id: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <cccae00e-e30e-6691-d954-27379a104115@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
+This set adds support for %p4cc printk modifier for printing V4L2 and DRM
+fourcc codes. The codes are cumbersome to print manually and by adding the
+modifier, this task is saved from the V4L2 and DRM frameworks as well as
+related drivers. DRM actually had it handled in a way (see 3rd patch) but
+the printk modifier makes printing the format easier even there. On V4L2
+side it saves quite a few lines of repeating different implementations of
+printing the 4cc codes.
 
-On 2/9/21 1:05 PM, Hans Verkuil wrote:
-> On 09/02/2021 10:45, Stanimir Varbanov wrote:
->> Add decoder v4l2 control to set conceal color.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  .../media/v4l/ext-ctrls-codec.rst             | 20 +++++++++++++++++++
->>  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++++++
->>  include/uapi/linux/v4l2-controls.h            |  1 +
->>  3 files changed, 30 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 00944e97d638..994650052333 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -674,6 +674,26 @@ enum v4l2_mpeg_video_frame_skip_mode -
->>      is currently displayed (decoded). This value is reset to 0 whenever
->>      the decoder is started.
->>  
->> +``V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR (integer64)``
->> +    This control sets conceal color in YUV color space. It describes the
->> +    client preference of error conceal color in case of error where
->> +    reference frame is missing. The decoder would paint the reference
->> +    buffer with preferred color and use it for future decoding.
->> +    Applicable to decoders.
-> 
-> You should mention explicitly that this is using 16-bit color components
-> and expects Limited Range.
+Further work will include converting the V4L2 drivers doing the same, as
+well as converting DRM drivers from drm_get_format_name() to plain %p4cc.
+I left these out from this version since individual drivers are easier
+changed without dealing with multiple trees.
 
-I don't want to limit the client to Limited range only. I'll mention in
-the description that both ranges are valid.
+If DRM folks would prefer to convert drivers to %p4cc directly instead I
+have no problem dropping the 3rd patch. Nearly all uses in DRM are in
+printk family of functions that can readily use %p4cc instead of the
+current arrangement that relies on caller-allocated temporary buffer.
 
-> 
->> +
->> +.. flat-table::
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +
->> +    * - Bit 0:15
->> +      - Y luminance
->> +    * - Bit 16:31
->> +      - Cb chrominance
->> +    * - Bit 32:47
->> +      - Cr chrominance
->> +    * - Bit 48:63
->> +      - Must be zero
->> +
->>  ``V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE (boolean)``
->>      If enabled the decoder expects to receive a single slice per buffer,
->>      otherwise the decoder expects a single frame in per buffer.
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
->> index 016cf6204cbb..a3b9d28a00b7 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->> @@ -945,6 +945,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_MPEG_VIDEO_VBV_SIZE:			return "VBV Buffer Size";
->>  	case V4L2_CID_MPEG_VIDEO_DEC_PTS:			return "Video Decoder PTS";
->>  	case V4L2_CID_MPEG_VIDEO_DEC_FRAME:			return "Video Decoder Frame Count";
->> +	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:		return "Video Decoder Conceal Color";
->>  	case V4L2_CID_MPEG_VIDEO_VBV_DELAY:			return "Initial Delay for VBV Control";
->>  	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:		return "Horizontal MV Search Range";
->>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
->> @@ -1430,6 +1431,14 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  		*max = 0x7fffffffffffffffLL;
->>  		*step = 1;
->>  		break;
->> +	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:
->> +		*type = V4L2_CTRL_TYPE_INTEGER64;
->> +		*min = 0;
->> +		/* default for 8bit black, luma is 16, chroma is 128 */
-> 
-> Since this is 16 bit the actual default luma value for black is 4096 and for chroma use
-> 32768 (i.e. both values are times 256).
+Since v6:
 
-If we follow this for pixel format with 10bit per channel we have to
-multiply by 64?
+- Don't drop spaces in fourcc codes.
 
-> 
->> +		*def = 0x8000800010LL;
->> +		*max = 0xffffffffffffLL;
->> +		*step = 1;
->> +		break;
->>  	case V4L2_CID_PIXEL_RATE:
->>  		*type = V4L2_CTRL_TYPE_INTEGER64;
->>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
->> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->> index 039c0d7add1b..5e5a3068be2d 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -428,6 +428,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
->>  #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
->>  #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
->>  #define V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID	(V4L2_CID_CODEC_BASE+230)
->> +#define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+231)
->>  
->>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
->>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
->>
-> 
-> Regards,
-> 
-> 	Hans
-> 
+- Print unprintable characters as dot ('.') instead of hexadecimal number
+  in parentheses.
+
+- Convert DRM from drm_get_format_name() to %p4cc. I wonder if this should
+  be merged through the DRM tree, albeit it's probably unlikely to
+  conflict with other changes. Further use of the function could be a
+  problem.
+
+- Make tests more realistic.
+
+Since v5:
+
+- Added V4L2 core conversion to %p4cc, as well as change the DRM
+  fourcc printing function to use %p4cc.
+
+- Add missing checkpatch.pl checks for %p4cc modifier.
+
+Sakari Ailus (3):
+  lib/vsprintf: Add support for printing V4L2 and DRM fourccs
+  v4l: ioctl: Use %p4cc printk modifier to print FourCC codes
+  drm: Switch to %p4cc format modifier
+
+ Documentation/core-api/printk-formats.rst     | 16 ++++
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  5 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +-
+ .../arm/display/komeda/komeda_format_caps.h   | 11 ---
+ .../arm/display/komeda/komeda_framebuffer.c   |  4 +-
+ .../gpu/drm/arm/display/komeda/komeda_plane.c |  6 +-
+ drivers/gpu/drm/arm/malidp_mw.c               |  7 +-
+ drivers/gpu/drm/drm_atomic.c                  |  8 +-
+ drivers/gpu/drm/drm_crtc.c                    |  7 +-
+ drivers/gpu/drm/drm_fourcc.c                  | 25 ------
+ drivers/gpu/drm/drm_framebuffer.c             | 11 +--
+ drivers/gpu/drm/drm_mipi_dbi.c                |  5 +-
+ drivers/gpu/drm/drm_plane.c                   |  8 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  5 +-
+ drivers/gpu/drm/i915/display/intel_display.c  | 14 +--
+ .../drm/i915/display/intel_display_debugfs.c  | 19 ++---
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  6 +-
+ drivers/gpu/drm/mcde/mcde_display.c           |  6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 +-
+ drivers/gpu/drm/nouveau/nouveau_display.c     |  9 +-
+ drivers/gpu/drm/radeon/atombios_crtc.c        | 10 +--
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |  6 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         |  7 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 15 ++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 85 +++++--------------
+ include/drm/drm_fourcc.h                      |  1 -
+ lib/test_printf.c                             | 17 ++++
+ lib/vsprintf.c                                | 39 +++++++++
+ scripts/checkpatch.pl                         |  6 +-
+ 32 files changed, 161 insertions(+), 223 deletions(-)
 
 -- 
-regards,
-Stan
+2.29.2
