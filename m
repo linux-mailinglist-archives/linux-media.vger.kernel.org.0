@@ -2,429 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88C3431B7FF
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 12:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9949331B80A
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 12:33:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbhBOL3n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Feb 2021 06:29:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43388 "EHLO
+        id S229933AbhBOLdK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Feb 2021 06:33:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbhBOL3l (ORCPT
+        with ESMTP id S229805AbhBOLdJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Feb 2021 06:29:41 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CFE5C0613D6
-        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 03:29:01 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id cl8so3565557pjb.0
-        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 03:29:01 -0800 (PST)
+        Mon, 15 Feb 2021 06:33:09 -0500
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A74C061574
+        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 03:32:28 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id w1so10476228ejf.11
+        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 03:32:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ScGWgsOIWn0BEuoabxSiYjzL6HbPjG4J1lq/j7x7VfI=;
-        b=qsvKUZeZNTPKEuKwfPfdBFfAp+gZQl2BmZVukKgvYAdK2tFrkQgEdNCVxLlhdMnWs1
-         IcqOr0t7Csi5NoCks4gtbE9JJYn/shYr0rVbvZAw76uZEqHV02vzMj1xvq4a+3Mljiuz
-         F7x4o5XqfoUPEdL8t8LRX4Tnd+zxnauMiW9V1X7Qr9RZFd3K9fAkmf6+DK3Shgr0Ch6Z
-         7ikaysGgfbA1kZ8RPJo3LDq5fhmgMKqBJtd/L/61Isfdv5FBE3GmyLWlUsdPwhdwRi8e
-         rLWTnCrpbmMFSbbpkY6DaTw265EEWQwulUtPjknuNeyGTpSvgYSqJ2enMjOrC0DhRysU
-         SRmg==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=h0PbOw1QnykMU+cJkTod7obeXaHoBYiSFuCrLUWBeAA=;
+        b=WlLw7XtuJt/3SCNQ9pkKVKhoKzyvOLEeV+Yy3uoDo3NxxdhYpvvGIKNQeswZHrzyEn
+         uHjgcyIVO959TN+ssBwC2uA65KpHW5NQrYUAwWohdIXMBtQ6Wr8nJMuIfh485C6Dymtn
+         8abZqXcW/iVeEM+6VHkSeCF8S6GFmOYJFq7CFgL5ObAog1dIz2ZT7FRiFOp3z4K1yqG6
+         DKPF1g+7T44lPKaqkWrSaatCU7ifc5LL/VzrnrAsdGPSelIdHTDY26DOBDoRxEM+MbG5
+         YBbqVVx68RIErlOxeBFOWMnJ1Ls8ks8XsjgvoBAK2LkzSKFQBNVYrarvko7tJupxQGHK
+         5z9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ScGWgsOIWn0BEuoabxSiYjzL6HbPjG4J1lq/j7x7VfI=;
-        b=F+Z9UMe+NZB7xReT3gg6NpY7HjJy8WfPVKPp82WpwT7LnF88Zv03jzEMjdo6Ws1gic
-         3KMpYQc8HhPMKVvZfAXmM+RxnOqLgA+wcllFAh/RfrzvbhCnBgmZwbIw/Ko8pTyqjNiU
-         UdUCLkn1f5k5if1FsLG+GzobBmEGVdVRD8ia50Rn5tfKi2GadqFQOpHyFRHUq5O2Qvpz
-         9N/gpDHU3no/V7zkrbXRJqSgP5d/XIxOTvnOFznS/eeVKPcBTq99lY6LMSMZ6ritWmob
-         L8Jxn8U+kmshfl7VoLmbDChYSG/U0Xj8E7T8cDJPCzdbqbw9ek/ZWvVgRNh6gAP6Iskc
-         xwEA==
-X-Gm-Message-State: AOAM532Fde7kdtNW3+c0dC2mTWXRA7HCeOx3KTWQdP8I/wlZpSSNCt2T
-        4jakYh//IojDY9VKi+T/4mzhlkuHBLuPXtA+yjPwyw==
-X-Google-Smtp-Source: ABdhPJxGzx0chdP1FeK99j/Dq5wV+Zu/cyQMULYezqmVnhy938qNfBPCFl4WcZ9/Wdhdv8O8vW22OeYV9rtUm32PvOs=
-X-Received: by 2002:a17:902:9b91:b029:e2:898c:d721 with SMTP id
- y17-20020a1709029b91b02900e2898cd721mr15035768plp.32.1613388540741; Mon, 15
- Feb 2021 03:29:00 -0800 (PST)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=h0PbOw1QnykMU+cJkTod7obeXaHoBYiSFuCrLUWBeAA=;
+        b=FQ+3IMQK21jnzgUMIV7vZws7gw0QUu0YLqFT3uGqESi41acCJiGzHqlXJVFsBntTaX
+         qMFPj4MPInA/G2/jn+WbSzlO4m6QW6w0266oxHAuVUuKJLCRZQygOXia0RRiI2CkU/VC
+         EgHjmjnZhCbq9H1Xgvn2FGv5Pm0XIT+Be6lq1UYlpoQ8MAmcWLv+HkEPtJzh2Q8fBdnS
+         Flal0NNjwPRv6DlyFxO56iDay1ecgvpdikYrzXHrJ6rqRmxMDhEKIad0d+bYXV8/rXxS
+         qrQic7OfAHpln0zoCyurWA6RnF7zFNG/hMw8ZFxe5W6klq4b0Tjrcpw1qVZa0P1e3aTC
+         7mkQ==
+X-Gm-Message-State: AOAM531nCQ8h/oztauNstyLr3JDSxltgKDwGxfGqKBvnuSC74kspWxL0
+        oCn7NI/5jfj9s33253tTsaAcSw==
+X-Google-Smtp-Source: ABdhPJzFhQfaXYc6TE/l49yGks3K1vhhPRxfgiYQKjBQRuW77bI+gETekoPft9m/iVmzf0P/Pq1ECQ==
+X-Received: by 2002:a17:906:ccd6:: with SMTP id ot22mr1461681ejb.165.1613388746938;
+        Mon, 15 Feb 2021 03:32:26 -0800 (PST)
+Received: from [192.168.0.4] (hst-221-123.medicom.bg. [84.238.221.123])
+        by smtp.googlemail.com with ESMTPSA id a15sm9663066edv.95.2021.02.15.03.32.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Feb 2021 03:32:26 -0800 (PST)
+Subject: Re: [PATCH 1/2] v4l2-ctrl: Add decoder conceal color control
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20210209094527.2173690-1-stanimir.varbanov@linaro.org>
+ <20210209094527.2173690-2-stanimir.varbanov@linaro.org>
+ <cccae00e-e30e-6691-d954-27379a104115@xs4all.nl>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <489f1417-085d-4057-f2e8-1cc8db0ed161@linaro.org>
+Date:   Mon, 15 Feb 2021 13:32:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210214213404.8373-1-andrey.konovalov@linaro.org>
- <20210214213404.8373-2-andrey.konovalov@linaro.org> <CAG3jFyveFHq_vyAABvowxJOdS8Ww36w5uArEmXvcC4DO1DGVvg@mail.gmail.com>
-In-Reply-To: <CAG3jFyveFHq_vyAABvowxJOdS8Ww36w5uArEmXvcC4DO1DGVvg@mail.gmail.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Mon, 15 Feb 2021 12:28:49 +0100
-Message-ID: <CAG3jFytzLAMkyC6DhLXZ5LHan-faes3xcTPvCXk4pCN=WgFkLw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] media: camss: use v4l2_get_link_freq() to calculate
- the relevant clocks
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Vladimir Lypak <junak.pub@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        jacopo@jmondi.org, linux-media <linux-media@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <cccae00e-e30e-6691-d954-27379a104115@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 15 Feb 2021 at 12:27, Robert Foss <robert.foss@linaro.org> wrote:
->
-> Hey Andrey,
->
-> Thanks for sending out this series and picking up Vladimirs patch.
->
-> With the below issues fixed feel free to add my r-b.
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Actually, make that an Acked-by.
-Acked-by: Robert Foss <robert.foss@linaro.org>
 
->
-> On Sun, 14 Feb 2021 at 22:34, Andrey Konovalov
-> <andrey.konovalov@linaro.org> wrote:
-> >
-> > There are places in the camss driver where camss_get_pixel_clock() is
-> > called to get the pixel rate (using V4L2_CID_PIXEL_RATE control) and to
-> > calculate the link frequency from it. There is a case when this would
-> > not work: when V4L2_CID_PIXEL_RATE gets the rate at which the pixels are
-> > read (sampled) from the sensor's pixel array, and this rate is different
-> > from the pixel transmission rate over the CSI link, the link frequency
-> > value can't be calculated from the pixel rate. One needs to use
-> > V4L2_CID_LINK_FREQ to get the link frequency in this case.
-> >
-> > Replace such calls to camss_get_pixel_clock() with calls to a wrapper
-> > around v4l2_get_link_freq(). v4l2_get_link_freq() tries V4L2_CID_LINK_FREQ
-> > first, and if it is not implemented by the camera sensor driver, falls
-> > back to V4L2_CID_PIXEL_RATE to calculate the link frequency value from.
-> >
-> > Calls to camss_get_pixel_clock() from vfe_[check,set]_clock_rates()
-> > are left intact as it looks like this VFE clock does depend on the
-> > rate the pixel samples comes out of the camera sensor, not on the
-> > frequency at which the link between the sensor and the CSI receiver
-> > operates.
-> >
-> > Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> > ---
-> >  .../media/platform/qcom/camss/camss-csid.c    | 22 ++++++------
-> >  .../qcom/camss/camss-csiphy-2ph-1-0.c         | 22 ++++++------
-> >  .../qcom/camss/camss-csiphy-3ph-1-0.c         | 22 ++++++------
-> >  .../media/platform/qcom/camss/camss-csiphy.c  | 36 +++++++++----------
-> >  .../media/platform/qcom/camss/camss-csiphy.h  |  2 +-
-> >  drivers/media/platform/qcom/camss/camss.c     | 23 ++++++++++++
-> >  drivers/media/platform/qcom/camss/camss.h     |  2 ++
-> >  7 files changed, 73 insertions(+), 56 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> > index be3fe76f3dc3..b2cbf4b65949 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> > +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> > @@ -462,13 +462,19 @@ static irqreturn_t csid_isr(int irq, void *dev)
-> >  static int csid_set_clock_rates(struct csid_device *csid)
-> >  {
-> >         struct device *dev = csid->camss->dev;
-> > -       u32 pixel_clock;
-> > +       s64 link_freq;
-> >         int i, j;
-> >         int ret;
-> >
-> > -       ret = camss_get_pixel_clock(&csid->subdev.entity, &pixel_clock);
-> > -       if (ret)
-> > -               pixel_clock = 0;
-> > +       const struct csid_format *f = csid_get_fmt_entry(
-> > +               csid->formats,
-> > +               csid->nformats,
-> > +               csid->fmt[MSM_CSIPHY_PAD_SINK].code);
-> > +       u8 num_lanes = csid->phy.lane_cnt;
-> > +       link_freq = camss_get_link_freq(&csid->subdev.entity, f->bpp,
-> > +                                       2 * num_lanes);
->
-> Checkpatch lists the following error:
->
-> WARNING: Missing a blank line after declarations
-> #59: FILE: drivers/media/platform/qcom/camss/camss-csid.c:474:
-> +       u8 num_lanes = csid->phy.lane_cnt;
-> +       link_freq = camss_get_link_freq(&csid->subdev.entity, f->bpp,
->
->
-> > +       if (link_freq < 0)
-> > +               link_freq = 0;
-> >
-> >         for (i = 0; i < csid->nclocks; i++) {
-> >                 struct camss_clock *clock = &csid->clock[i];
-> > @@ -477,13 +483,7 @@ static int csid_set_clock_rates(struct csid_device *csid)
-> >                     !strcmp(clock->name, "csi1") ||
-> >                     !strcmp(clock->name, "csi2") ||
-> >                     !strcmp(clock->name, "csi3")) {
-> > -                       const struct csid_format *f = csid_get_fmt_entry(
-> > -                               csid->formats,
-> > -                               csid->nformats,
-> > -                               csid->fmt[MSM_CSIPHY_PAD_SINK].code);
-> > -                       u8 num_lanes = csid->phy.lane_cnt;
-> > -                       u64 min_rate = pixel_clock * f->bpp /
-> > -                                                       (2 * num_lanes * 4);
-> > +                       u64 min_rate = link_freq / 4;
-> >                         long rate;
-> >
-> >                         camss_add_clock_margin(&min_rate);
-> > diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> > index 12bce391d71f..30b454c369ab 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> > +++ b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> > @@ -51,16 +51,13 @@ static void csiphy_reset(struct csiphy_device *csiphy)
-> >   *
-> >   * Helper function to calculate settle count value. This is
-> >   * based on the CSI2 T_hs_settle parameter which in turn
-> > - * is calculated based on the CSI2 transmitter pixel clock
-> > - * frequency.
-> > + * is calculated based on the CSI2 transmitter link frequency.
-> >   *
-> > - * Return settle count value or 0 if the CSI2 pixel clock
-> > - * frequency is not available
-> > + * Return settle count value or 0 if the CSI2 link frequency
-> > + * is not available
-> >   */
-> > -static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
-> > -                                u32 timer_clk_rate)
-> > +static u8 csiphy_settle_cnt_calc(s64 link_freq, u32 timer_clk_rate)
-> >  {
-> > -       u32 mipi_clock; /* Hz */
-> >         u32 ui; /* ps */
-> >         u32 timer_period; /* ps */
-> >         u32 t_hs_prepare_max; /* ps */
-> > @@ -68,8 +65,10 @@ static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
-> >         u32 t_hs_settle; /* ps */
-> >         u8 settle_cnt;
-> >
-> > -       mipi_clock = pixel_clock * bpp / (2 * num_lanes);
-> > -       ui = div_u64(1000000000000LL, mipi_clock);
-> > +       if (link_freq <= 0)
-> > +               return 0;
-> > +
-> > +       ui = div_u64(1000000000000LL, link_freq);
-> >         ui /= 2;
-> >         t_hs_prepare_max = 85000 + 6 * ui;
-> >         t_hs_prepare_zero_min = 145000 + 10 * ui;
-> > @@ -83,15 +82,14 @@ static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
-> >
-> >  static void csiphy_lanes_enable(struct csiphy_device *csiphy,
-> >                                 struct csiphy_config *cfg,
-> > -                               u32 pixel_clock, u8 bpp, u8 lane_mask)
-> > +                               s64 link_freq, u8 lane_mask)
-> >  {
-> >         struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-> >         u8 settle_cnt;
-> >         u8 val, l = 0;
-> >         int i = 0;
-> >
-> > -       settle_cnt = csiphy_settle_cnt_calc(pixel_clock, bpp, c->num_data,
-> > -                                           csiphy->timer_clk_rate);
-> > +       settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
-> >
-> >         writel_relaxed(0x1, csiphy->base +
-> >                        CAMSS_CSI_PHY_GLBL_T_INIT_CFG0);
-> > diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> > index 97cb9de85031..da7c3d3f9a10 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> > +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> > @@ -107,24 +107,23 @@ static irqreturn_t csiphy_isr(int irq, void *dev)
-> >   *
-> >   * Helper function to calculate settle count value. This is
-> >   * based on the CSI2 T_hs_settle parameter which in turn
-> > - * is calculated based on the CSI2 transmitter pixel clock
-> > - * frequency.
-> > + * is calculated based on the CSI2 transmitter link frequency.
-> >   *
-> > - * Return settle count value or 0 if the CSI2 pixel clock
-> > - * frequency is not available
-> > + * Return settle count value or 0 if the CSI2 link frequency
-> > + * is not available
-> >   */
-> > -static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
-> > -                                u32 timer_clk_rate)
-> > +static u8 csiphy_settle_cnt_calc(s64 link_freq, u32 timer_clk_rate)
-> >  {
-> > -       u32 mipi_clock; /* Hz */
-> >         u32 ui; /* ps */
-> >         u32 timer_period; /* ps */
-> >         u32 t_hs_prepare_max; /* ps */
-> >         u32 t_hs_settle; /* ps */
-> >         u8 settle_cnt;
-> >
-> > -       mipi_clock = pixel_clock * bpp / (2 * num_lanes);
-> > -       ui = div_u64(1000000000000LL, mipi_clock);
-> > +       if (link_freq <= 0)
-> > +               return 0;
-> > +
-> > +       ui = div_u64(1000000000000LL, link_freq);
-> >         ui /= 2;
-> >         t_hs_prepare_max = 85000 + 6 * ui;
-> >         t_hs_settle = t_hs_prepare_max;
-> > @@ -137,15 +136,14 @@ static u8 csiphy_settle_cnt_calc(u32 pixel_clock, u8 bpp, u8 num_lanes,
-> >
-> >  static void csiphy_lanes_enable(struct csiphy_device *csiphy,
-> >                                 struct csiphy_config *cfg,
-> > -                               u32 pixel_clock, u8 bpp, u8 lane_mask)
-> > +                               s64 link_freq, u8 lane_mask)
-> >  {
-> >         struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-> >         u8 settle_cnt;
-> >         u8 val, l = 0;
-> >         int i;
-> >
-> > -       settle_cnt = csiphy_settle_cnt_calc(pixel_clock, bpp, c->num_data,
-> > -                                           csiphy->timer_clk_rate);
-> > +       settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
-> >
-> >         val = BIT(c->clk.pos);
-> >         for (i = 0; i < c->num_data; i++)
-> > diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> > index 509c9a59c09c..9b5fe6fc7664 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> > +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> > @@ -102,23 +102,23 @@ static u8 csiphy_get_bpp(const struct csiphy_format *formats,
-> >  static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
-> >  {
-> >         struct device *dev = csiphy->camss->dev;
-> > -       u32 pixel_clock;
-> > +       s64 link_freq;
-> >         int i, j;
-> >         int ret;
-> >
-> > -       ret = camss_get_pixel_clock(&csiphy->subdev.entity, &pixel_clock);
-> > -       if (ret)
-> > -               pixel_clock = 0;
-> > +       u8 bpp = csiphy_get_bpp(csiphy->formats, csiphy->nformats,
-> > +                               csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
-> > +       u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-> > +       link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp,
-> > +                                       2 * num_lanes);
-> > +       if (link_freq < 0)
-> > +               link_freq  = 0;
-> >
-> >         for (i = 0; i < csiphy->nclocks; i++) {
-> >                 struct camss_clock *clock = &csiphy->clock[i];
-> >
-> >                 if (csiphy->rate_set[i]) {
-> > -                       u8 bpp = csiphy_get_bpp(csiphy->formats,
-> > -                                       csiphy->nformats,
-> > -                                       csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
-> > -                       u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-> > -                       u64 min_rate = pixel_clock * bpp / (2 * num_lanes * 4);
-> > +                       u64 min_rate = link_freq / 4;
-> >                         long round_rate;
-> >
-> >                         camss_add_clock_margin(&min_rate);
-> > @@ -238,22 +238,18 @@ static u8 csiphy_get_lane_mask(struct csiphy_lanes_cfg *lane_cfg)
-> >  static int csiphy_stream_on(struct csiphy_device *csiphy)
-> >  {
-> >         struct csiphy_config *cfg = &csiphy->cfg;
-> > -       u32 pixel_clock;
-> > +       s64 link_freq;
->
-> Checkpatch throws the following error:
->
-> WARNING: Missing a blank line after declarations
-> #211: FILE: drivers/media/platform/qcom/camss/camss-csiphy.c:112:
-> +       u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-> +       link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp,
->
->
->
-> >         u8 lane_mask = csiphy_get_lane_mask(&cfg->csi2->lane_cfg);
-> >         u8 bpp = csiphy_get_bpp(csiphy->formats, csiphy->nformats,
-> >                                 csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
-> > +       u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-> >         u8 val;
-> > -       int ret;
-> >
-> > -       ret = camss_get_pixel_clock(&csiphy->subdev.entity, &pixel_clock);
-> > -       if (ret) {
-> > -               dev_err(csiphy->camss->dev,
-> > -                       "Cannot get CSI2 transmitter's pixel clock\n");
-> > -               return -EINVAL;
-> > -       }
-> > -       if (!pixel_clock) {
-> > +       link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp,
-> > +                                       2 * num_lanes);
-> > +       if (link_freq < 0) {
-> >                 dev_err(csiphy->camss->dev,
-> > -                       "Got pixel clock == 0, cannot continue\n");
-> > +                       "Cannot get CSI2 transmitter's link frequency\n");
-> >                 return -EINVAL;
-> >         }
-> >
-> > @@ -268,7 +264,7 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
-> >         writel_relaxed(val, csiphy->base_clk_mux);
-> >         wmb();
-> >
-> > -       csiphy->ops->lanes_enable(csiphy, cfg, pixel_clock, bpp, lane_mask);
-> > +       csiphy->ops->lanes_enable(csiphy, cfg, link_freq, lane_mask);
-> >
-> >         return 0;
-> >  }
-> > diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> > index f7967ef836dc..d71b8bc6ec00 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-> > +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> > @@ -50,7 +50,7 @@ struct csiphy_hw_ops {
-> >         void (*reset)(struct csiphy_device *csiphy);
-> >         void (*lanes_enable)(struct csiphy_device *csiphy,
-> >                              struct csiphy_config *cfg,
-> > -                            u32 pixel_clock, u8 bpp, u8 lane_mask);
-> > +                            s64 link_freq, u8 lane_mask);
-> >         void (*lanes_disable)(struct csiphy_device *csiphy,
-> >                               struct csiphy_config *cfg);
-> >         irqreturn_t (*isr)(int irq, void *dev);
-> > diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> > index 7c0f669f8aa6..2888c7ef2303 100644
-> > --- a/drivers/media/platform/qcom/camss/camss.c
-> > +++ b/drivers/media/platform/qcom/camss/camss.c
-> > @@ -548,6 +548,29 @@ struct media_entity *camss_find_sensor(struct media_entity *entity)
-> >         }
-> >  }
-> >
-> > +/**
-> > + * camss_get_link_freq - Get link frequency from sensor
-> > + * @entity: Media entity in the current pipeline
-> > + * @bpp: Number of bits per pixel for the current format
-> > + * @lanes: Number of lanes in the link to the sensor
-> > + *
-> > + * Return link frequency on success or a negative error code otherwise
-> > + */
-> > +s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
-> > +                       unsigned int lanes)
-> > +{
-> > +       struct media_entity *sensor;
-> > +       struct v4l2_subdev *subdev;
-> > +
-> > +       sensor = camss_find_sensor(entity);
-> > +       if (!sensor)
-> > +               return -ENODEV;
-> > +
-> > +       subdev = media_entity_to_v4l2_subdev(sensor);
-> > +
-> > +       return v4l2_get_link_freq(subdev->ctrl_handler, bpp, lanes);
-> > +}
-> > +
-> >  /*
-> >   * camss_get_pixel_clock - Get pixel clock rate from sensor
-> >   * @entity: Media entity in the current pipeline
-> > diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-> > index 3a0484683cd6..86cdc25189eb 100644
-> > --- a/drivers/media/platform/qcom/camss/camss.h
-> > +++ b/drivers/media/platform/qcom/camss/camss.h
-> > @@ -108,6 +108,8 @@ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
-> >                         struct device *dev);
-> >  void camss_disable_clocks(int nclocks, struct camss_clock *clock);
-> >  struct media_entity *camss_find_sensor(struct media_entity *entity);
-> > +s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
-> > +                       unsigned int lanes);
-> >  int camss_get_pixel_clock(struct media_entity *entity, u32 *pixel_clock);
-> >  int camss_pm_domain_on(struct camss *camss, int id);
-> >  void camss_pm_domain_off(struct camss *camss, int id);
-> > --
-> > 2.17.1
-> >
+On 2/9/21 1:05 PM, Hans Verkuil wrote:
+> On 09/02/2021 10:45, Stanimir Varbanov wrote:
+>> Add decoder v4l2 control to set conceal color.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  .../media/v4l/ext-ctrls-codec.rst             | 20 +++++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++++++
+>>  include/uapi/linux/v4l2-controls.h            |  1 +
+>>  3 files changed, 30 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index 00944e97d638..994650052333 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -674,6 +674,26 @@ enum v4l2_mpeg_video_frame_skip_mode -
+>>      is currently displayed (decoded). This value is reset to 0 whenever
+>>      the decoder is started.
+>>  
+>> +``V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR (integer64)``
+>> +    This control sets conceal color in YUV color space. It describes the
+>> +    client preference of error conceal color in case of error where
+>> +    reference frame is missing. The decoder would paint the reference
+>> +    buffer with preferred color and use it for future decoding.
+>> +    Applicable to decoders.
+> 
+> You should mention explicitly that this is using 16-bit color components
+> and expects Limited Range.
+
+I don't want to limit the client to Limited range only. I'll mention in
+the description that both ranges are valid.
+
+> 
+>> +
+>> +.. flat-table::
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +
+>> +    * - Bit 0:15
+>> +      - Y luminance
+>> +    * - Bit 16:31
+>> +      - Cb chrominance
+>> +    * - Bit 32:47
+>> +      - Cr chrominance
+>> +    * - Bit 48:63
+>> +      - Must be zero
+>> +
+>>  ``V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE (boolean)``
+>>      If enabled the decoder expects to receive a single slice per buffer,
+>>      otherwise the decoder expects a single frame in per buffer.
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> index 016cf6204cbb..a3b9d28a00b7 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> @@ -945,6 +945,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>  	case V4L2_CID_MPEG_VIDEO_VBV_SIZE:			return "VBV Buffer Size";
+>>  	case V4L2_CID_MPEG_VIDEO_DEC_PTS:			return "Video Decoder PTS";
+>>  	case V4L2_CID_MPEG_VIDEO_DEC_FRAME:			return "Video Decoder Frame Count";
+>> +	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:		return "Video Decoder Conceal Color";
+>>  	case V4L2_CID_MPEG_VIDEO_VBV_DELAY:			return "Initial Delay for VBV Control";
+>>  	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:		return "Horizontal MV Search Range";
+>>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
+>> @@ -1430,6 +1431,14 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>  		*max = 0x7fffffffffffffffLL;
+>>  		*step = 1;
+>>  		break;
+>> +	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:
+>> +		*type = V4L2_CTRL_TYPE_INTEGER64;
+>> +		*min = 0;
+>> +		/* default for 8bit black, luma is 16, chroma is 128 */
+> 
+> Since this is 16 bit the actual default luma value for black is 4096 and for chroma use
+> 32768 (i.e. both values are times 256).
+
+If we follow this for pixel format with 10bit per channel we have to
+multiply by 64?
+
+> 
+>> +		*def = 0x8000800010LL;
+>> +		*max = 0xffffffffffffLL;
+>> +		*step = 1;
+>> +		break;
+>>  	case V4L2_CID_PIXEL_RATE:
+>>  		*type = V4L2_CTRL_TYPE_INTEGER64;
+>>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index 039c0d7add1b..5e5a3068be2d 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -428,6 +428,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>>  #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
+>>  #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
+>>  #define V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID	(V4L2_CID_CODEC_BASE+230)
+>> +#define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+231)
+>>  
+>>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+>>
+> 
+> Regards,
+> 
+> 	Hans
+> 
+
+-- 
+regards,
+Stan
