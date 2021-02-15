@@ -2,26 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B31031B4A8
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61BEE31B4AA
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:35:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229961AbhBOEeX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Feb 2021 23:34:23 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45902 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229918AbhBOEeT (ORCPT
+        id S229963AbhBOEfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Feb 2021 23:35:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229977AbhBOEe7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Feb 2021 23:34:19 -0500
+        Sun, 14 Feb 2021 23:34:59 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87C3C061574
+        for <linux-media@vger.kernel.org>; Sun, 14 Feb 2021 20:34:19 -0800 (PST)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFEAA1961;
-        Mon, 15 Feb 2021 05:28:33 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72486196A;
+        Mon, 15 Feb 2021 05:28:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1613363314;
-        bh=h46O8aL94ffxw1UVjiEDisL2eYelDmPvg4QQ2RluqiU=;
+        bh=Z0ay0L+tbPq6mcnIXoEF16B1fYh+ozMj+/Cg+0lpgmA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZQvWd0KQVg8yceSikrXqllZS4k06e3v8T0gTzcP0SiuXjcAq2hrdFQRK/25knWPbl
-         NpFlfKT2OerWMgXLwA3OScw9BiJwOOyNijYn5STw9GXuJBMQIbxUqwqrR/gdmLYKlj
-         yBwnuAs7JSD0chuidQbcIXfTKm/1kho7gz9WCPP4=
+        b=VLUbS10OBegGTFdafWw42POBuaA5sfpCbWw2CL9+4VQ02oLgTx1sWxh1kjj9ORl7l
+         d6hhF/rA5Fia+MOo1EFfQpC7JSFO28RGzT3cemNJb9XYors5yUzH5p/r4Hcj8wlNHr
+         3NGoL9LprYXh/674EY4TFm6r30JjMyoTYgk5v7WY=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -29,9 +32,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 31/77] media: imx: imx7-media-csi: Remove control handler
-Date:   Mon, 15 Feb 2021 06:26:55 +0200
-Message-Id: <20210215042741.28850-32-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 32/77] media: imx: imx7-media-csi: Move (de)init from link setup to .s_stream()
+Date:   Mon, 15 Feb 2021 06:26:56 +0200
+Message-Id: <20210215042741.28850-33-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
 References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
@@ -41,81 +44,113 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The control handler isn't used, drop it.
+There's no need to initialize the CSI every time a link is enabled (and
+de-initialize it when a link is disabled). Move initialization to
+.s_stream() instead.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 30 ++++++++--------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 90cf4b889e23..c64c5196939b 100644
+index c64c5196939b..bc3324a30824 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -18,7 +18,6 @@
- #include <linux/regmap.h>
- #include <linux/types.h>
+@@ -184,7 +184,6 @@ struct imx7_csi {
+ 	u32 frame_sequence;
  
--#include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
-@@ -173,8 +172,6 @@ struct imx7_csi {
- 	const struct imx_media_pixfmt *cc[IMX7_CSI_PADS_NUM];
- 	struct v4l2_fract frame_interval[IMX7_CSI_PADS_NUM];
+ 	bool last_eof;
+-	bool is_init;
+ 	bool is_streaming;
+ 	bool is_csi2;
  
--	struct v4l2_ctrl_handler ctrl_hdlr;
+@@ -402,9 +401,6 @@ static int imx7_csi_init(struct imx7_csi *csi)
+ {
+ 	int ret;
+ 
+-	if (csi->is_init)
+-		return 0;
 -
- 	void __iomem *regbase;
- 	int irq;
- 	struct clk *mclk;
-@@ -476,8 +473,6 @@ static int imx7_csi_link_setup(struct media_entity *entity,
+ 	ret = clk_prepare_enable(csi->mclk);
+ 	if (ret < 0)
+ 		return ret;
+@@ -412,22 +408,15 @@ static int imx7_csi_init(struct imx7_csi *csi)
+ 	imx7_csi_init_interface(csi);
+ 	imx7_csi_dmareq_rff_enable(csi);
+ 
+-	csi->is_init = true;
+-
+ 	return 0;
+ }
+ 
+ static void imx7_csi_deinit(struct imx7_csi *csi)
+ {
+-	if (!csi->is_init)
+-		return;
+-
+ 	imx7_csi_hw_reset(csi);
+ 	imx7_csi_init_interface(csi);
+ 	imx7_csi_dmareq_rff_disable(csi);
+ 	clk_disable_unprepare(csi->mclk);
+-
+-	csi->is_init = false;
+ }
+ 
+ static int imx7_csi_link_setup(struct media_entity *entity,
+@@ -462,7 +451,7 @@ static int imx7_csi_link_setup(struct media_entity *entity,
+ 			csi->src_sd = NULL;
  		}
- 		csi->sink = remote->entity;
- 	} else {
--		v4l2_ctrl_handler_free(&csi->ctrl_hdlr);
--		v4l2_ctrl_handler_init(&csi->ctrl_hdlr, 0);
+ 
+-		goto init;
++		goto unlock;
+ 	}
+ 
+ 	/* source pad */
+@@ -476,12 +465,6 @@ static int imx7_csi_link_setup(struct media_entity *entity,
  		csi->sink = NULL;
  	}
  
-@@ -1289,9 +1284,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
- 	csi->sd.grp_id = IMX_MEDIA_GRP_ID_CSI;
- 	snprintf(csi->sd.name, sizeof(csi->sd.name), "csi");
- 
--	v4l2_ctrl_handler_init(&csi->ctrl_hdlr, 0);
--	csi->sd.ctrl_handler = &csi->ctrl_hdlr;
+-init:
+-	if (csi->sink || csi->src_sd)
+-		ret = imx7_csi_init(csi);
+-	else
+-		imx7_csi_deinit(csi);
 -
- 	for (i = 0; i < IMX7_CSI_PADS_NUM; i++)
- 		csi->pad[i].flags = (i == IMX7_CSI_PAD_SINK) ?
- 			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
-@@ -1299,7 +1291,7 @@ static int imx7_csi_probe(struct platform_device *pdev)
- 	ret = media_entity_pads_init(&csi->sd.entity, IMX7_CSI_PADS_NUM,
- 				     csi->pad);
- 	if (ret < 0)
--		goto free;
-+		goto cleanup;
+ unlock:
+ 	mutex_unlock(&csi->lock);
  
- 	ret = imx7_csi_async_register(csi);
- 	if (ret)
-@@ -1311,9 +1303,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
- 	v4l2_async_notifier_unregister(&csi->notifier);
- 	v4l2_async_notifier_cleanup(&csi->notifier);
+@@ -868,19 +851,28 @@ static int imx7_csi_s_stream(struct v4l2_subdev *sd, int enable)
+ 		goto out_unlock;
  
--free:
--	v4l2_ctrl_handler_free(&csi->ctrl_hdlr);
--
- cleanup:
- 	v4l2_async_notifier_unregister(&imxmd->notifier);
- 	v4l2_async_notifier_cleanup(&imxmd->notifier);
-@@ -1343,7 +1332,6 @@ static int imx7_csi_remove(struct platform_device *pdev)
- 	v4l2_async_notifier_unregister(&csi->notifier);
- 	v4l2_async_notifier_cleanup(&csi->notifier);
- 	v4l2_async_unregister_subdev(sd);
--	v4l2_ctrl_handler_free(&csi->ctrl_hdlr);
+ 	if (enable) {
++		ret = imx7_csi_init(csi);
++		if (ret < 0)
++			goto out_unlock;
++
+ 		ret = v4l2_subdev_call(csi->src_sd, video, s_stream, 1);
+-		if (ret < 0)
++		if (ret < 0) {
++			imx7_csi_deinit(csi);
+ 			goto out_unlock;
++		}
  
- 	mutex_destroy(&csi->lock);
+ 		ret = imx7_csi_streaming_start(csi);
+ 		if (ret < 0) {
+ 			v4l2_subdev_call(csi->src_sd, video, s_stream, 0);
++			imx7_csi_deinit(csi);
+ 			goto out_unlock;
+ 		}
+ 	} else {
+ 		imx7_csi_streaming_stop(csi);
  
+ 		v4l2_subdev_call(csi->src_sd, video, s_stream, 0);
++
++		imx7_csi_deinit(csi);
+ 	}
+ 
+ 	csi->is_streaming = !!enable;
 -- 
 Regards,
 
