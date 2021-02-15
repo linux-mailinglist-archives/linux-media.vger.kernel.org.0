@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2FF631B48A
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:29:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B34931B48D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:30:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbhBOE3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Feb 2021 23:29:36 -0500
+        id S229951AbhBOE3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Feb 2021 23:29:54 -0500
 Received: from perceval.ideasonboard.com ([213.167.242.64]:45318 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbhBOE3f (ORCPT
+        with ESMTP id S229934AbhBOE3w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Feb 2021 23:29:35 -0500
+        Sun, 14 Feb 2021 23:29:52 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A39901644;
-        Mon, 15 Feb 2021 05:28:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B27918CE;
+        Mon, 15 Feb 2021 05:28:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1613363295;
-        bh=6clLBIoDYl0GcZbPxrdwEhAxt07A3I/8d8DktzqaR5Q=;
+        bh=/U9dv9TS8//2O4dJcpCxJSeHcv01q+QDhaaYwq9hy+g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tpe5IC3VW0MbzYM+YssdH7GRzOIm8m8tE4BTvSiCIeqnQLvCBW3qPEoqCvgiTX1z0
-         EbWMPLFUmIz1fxHoKlVDAGjdiXv29amwQE/YEdErq4tRP+RJJae8r0uODG0oZC9d8k
-         seb+dTEx0qwsLgpgLzYRxnqzUM4tHKOUUshLjDkM=
+        b=FXDmg9F3+xOWe1/m1GVhhZycX53AFptGlzCqV83hOqCU+R4yasFVQWxR3Z9p8R7W4
+         ee03chvSziT/S5vecjvNlGBpBc1LotHl4Ti+Usn3PpzhV3PkJ70t+i0LvJxigj4edP
+         S3IR4i/8dO2mMwIZ68xIlh5gR91lp+ZmRAE4h7Fk=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -29,9 +29,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 05/77] media: imx: Set default sizes through macros in all drivers
-Date:   Mon, 15 Feb 2021 06:26:29 +0200
-Message-Id: <20210215042741.28850-6-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 06/77] media: imx: utils: Add ability to filter pixel formats by mbus code
+Date:   Mon, 15 Feb 2021 06:26:30 +0200
+Message-Id: <20210215042741.28850-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
 References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
@@ -41,129 +41,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-All drivers use 640x480 as the default size, but they all hardcode those
-values. Create two global macros named IMX_MEDIA_DEF_PIX_WIDTH and
-IMX_MEDIA_DEF_PIX_HEIGHT to store the default size, and use them through
-the code.
+Add a media bus code argument to the imx_media_enum_pixel_formats(). If
+set to a non-zero value, the function will only consider pixel formats
+that match the given media bus code.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 ---
- drivers/staging/media/imx/imx-ic-prp.c      |  4 +++-
- drivers/staging/media/imx/imx-ic-prpencvf.c |  5 +++--
- drivers/staging/media/imx/imx-media-csi.c   | 13 +++++++------
- drivers/staging/media/imx/imx-media-vdic.c  |  5 +++--
- drivers/staging/media/imx/imx-media.h       |  3 +++
- drivers/staging/media/imx/imx6-mipi-csi2.c  |  4 +++-
- 6 files changed, 22 insertions(+), 12 deletions(-)
+ drivers/staging/media/imx/imx-media-capture.c |  5 ++--
+ .../staging/media/imx/imx-media-csc-scaler.c  |  2 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 23 ++++++++++++++++++-
+ drivers/staging/media/imx/imx-media.h         |  2 +-
+ 4 files changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-ic-prp.c b/drivers/staging/media/imx/imx-ic-prp.c
-index 5b09e11b1a0e..f21ed881295f 100644
---- a/drivers/staging/media/imx/imx-ic-prp.c
-+++ b/drivers/staging/media/imx/imx-ic-prp.c
-@@ -442,7 +442,9 @@ static int prp_registered(struct v4l2_subdev *sd)
- 	/* set a default mbus format  */
- 	imx_media_enum_ipu_formats(&code, 0, PIXFMT_SEL_YUV);
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index e10ce103a5b4..bea3467e017c 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -174,7 +174,8 @@ static int capture_enum_fmt_vid_cap(struct file *file, void *fh,
+ 			(cc_src->cs == IPUV3_COLORSPACE_YUV) ?
+ 			PIXFMT_SEL_YUV : PIXFMT_SEL_RGB;
  
--	return imx_media_init_mbus_fmt(&priv->format_mbus, 640, 480, code,
-+	return imx_media_init_mbus_fmt(&priv->format_mbus,
-+				       IMX_MEDIA_DEF_PIX_WIDTH,
-+				       IMX_MEDIA_DEF_PIX_HEIGHT, code,
- 				       V4L2_FIELD_NONE, NULL);
- }
- 
-diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-index 74f5de466d5d..47df1a5a1ae8 100644
---- a/drivers/staging/media/imx/imx-ic-prpencvf.c
-+++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-@@ -1255,8 +1255,9 @@ static int prp_registered(struct v4l2_subdev *sd)
- 
- 	for (i = 0; i < PRPENCVF_NUM_PADS; i++) {
- 		ret = imx_media_init_mbus_fmt(&priv->format_mbus[i],
--					      640, 480, code, V4L2_FIELD_NONE,
--					      &priv->cc[i]);
-+					      IMX_MEDIA_DEF_PIX_WIDTH,
-+					      IMX_MEDIA_DEF_PIX_HEIGHT, code,
-+					      V4L2_FIELD_NONE, &priv->cc[i]);
+-		ret = imx_media_enum_pixel_formats(&fourcc, f->index, fmt_sel);
++		ret = imx_media_enum_pixel_formats(&fourcc, f->index, fmt_sel,
++						   0);
  		if (ret)
  			return ret;
- 	}
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index ef5add079774..b9d3f98a2c8f 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -1758,8 +1758,9 @@ static int csi_registered(struct v4l2_subdev *sd)
+ 	} else {
+@@ -223,7 +224,7 @@ static int __capture_try_fmt_vid_cap(struct capture_priv *priv,
  
- 		/* set a default mbus format  */
- 		ret = imx_media_init_mbus_fmt(&priv->format_mbus[i],
--					      640, 480, code, V4L2_FIELD_NONE,
--					      &priv->cc[i]);
-+					      IMX_MEDIA_DEF_PIX_WIDTH,
-+					      IMX_MEDIA_DEF_PIX_HEIGHT, code,
-+					      V4L2_FIELD_NONE, &priv->cc[i]);
- 		if (ret)
- 			goto put_csi;
+ 		cc = imx_media_find_pixel_format(fourcc, fmt_sel);
+ 		if (!cc) {
+-			imx_media_enum_pixel_formats(&fourcc, 0, fmt_sel);
++			imx_media_enum_pixel_formats(&fourcc, 0, fmt_sel, 0);
+ 			cc = imx_media_find_pixel_format(fourcc, fmt_sel);
+ 		}
+ 	} else {
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index 63a0204502a8..eb6da9b9d8ba 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -167,7 +167,7 @@ static int ipu_csc_scaler_enum_fmt(struct file *file, void *fh,
+ 	int ret;
  
-@@ -1772,10 +1773,10 @@ static int csi_registered(struct v4l2_subdev *sd)
- 	priv->skip = &csi_skip[0];
+ 	ret = imx_media_enum_pixel_formats(&fourcc, f->index,
+-					   PIXFMT_SEL_YUV_RGB);
++					   PIXFMT_SEL_YUV_RGB, 0);
+ 	if (ret)
+ 		return ret;
  
- 	/* init default crop and compose rectangle sizes */
--	priv->crop.width = 640;
--	priv->crop.height = 480;
--	priv->compose.width = 640;
--	priv->compose.height = 480;
-+	priv->crop.width = IMX_MEDIA_DEF_PIX_WIDTH;
-+	priv->crop.height = IMX_MEDIA_DEF_PIX_HEIGHT;
-+	priv->compose.width = IMX_MEDIA_DEF_PIX_WIDTH;
-+	priv->compose.height = IMX_MEDIA_DEF_PIX_HEIGHT;
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index c2088f7ceef5..5128915a5d6f 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -283,9 +283,11 @@ EXPORT_SYMBOL_GPL(imx_media_find_mbus_format);
+  * @index: The requested match index.
+  * @fmt_sel: Include in the enumeration entries with the given selection
+  *           criteria.
++ * @code: If non-zero, only include in the enumeration entries matching this
++ *	media bus code.
+  */
+ int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
+-				 enum imx_pixfmt_sel fmt_sel)
++				 enum imx_pixfmt_sel fmt_sel, u32 code)
+ {
+ 	bool sel_ipu = fmt_sel & PIXFMT_SEL_IPU;
+ 	unsigned int i;
+@@ -306,6 +308,25 @@ int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
+ 		if (!(fmt_sel & sel))
+ 			continue;
  
- 	priv->fim = imx_media_fim_init(&priv->sd);
- 	if (IS_ERR(priv->fim)) {
-diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
-index 879329f81f79..395b850736fa 100644
---- a/drivers/staging/media/imx/imx-media-vdic.c
-+++ b/drivers/staging/media/imx/imx-media-vdic.c
-@@ -856,8 +856,9 @@ static int vdic_registered(struct v4l2_subdev *sd)
- 
- 		/* set a default mbus format  */
- 		ret = imx_media_init_mbus_fmt(&priv->format_mbus[i],
--					      640, 480, code, V4L2_FIELD_NONE,
--					      &priv->cc[i]);
-+					      IMX_MEDIA_DEF_PIX_WIDTH,
-+					      IMX_MEDIA_DEF_PIX_HEIGHT, code,
-+					      V4L2_FIELD_NONE, &priv->cc[i]);
- 		if (ret)
- 			return ret;
- 
++		/*
++		 * If a media bus code is specified, only consider formats that
++		 * match it.
++		 */
++		if (code) {
++			unsigned int j;
++
++			if (!fmt->codes)
++				continue;
++
++			for (j = 0; fmt->codes[j]; j++) {
++				if (code == fmt->codes[j])
++					break;
++			}
++
++			if (!fmt->codes[j])
++				continue;
++		}
++
+ 		if (index == 0) {
+ 			*fourcc = fmt->fourcc;
+ 			return 0;
 diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index c8b6a43d0d7c..1abb9bb88c12 100644
+index 1abb9bb88c12..085110eec87e 100644
 --- a/drivers/staging/media/imx/imx-media.h
 +++ b/drivers/staging/media/imx/imx-media.h
-@@ -15,6 +15,9 @@
- #include <media/videobuf2-dma-contig.h>
- #include <video/imx-ipu-v3.h>
- 
-+#define IMX_MEDIA_DEF_PIX_WIDTH		640
-+#define IMX_MEDIA_DEF_PIX_HEIGHT	480
-+
- /*
-  * Enumeration of the IPU internal sub-devices
-  */
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index 4f8fcc91aaae..9020541edb89 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -571,7 +571,9 @@ static int csi2_registered(struct v4l2_subdev *sd)
- 
- 	/* set a default mbus format  */
- 	return imx_media_init_mbus_fmt(&csi2->format_mbus,
--				      640, 480, 0, V4L2_FIELD_NONE, NULL);
-+				      IMX_MEDIA_DEF_PIX_WIDTH,
-+				      IMX_MEDIA_DEF_PIX_HEIGHT, 0,
-+				      V4L2_FIELD_NONE, NULL);
- }
- 
- static const struct media_entity_operations csi2_entity_ops = {
+@@ -170,7 +170,7 @@ struct imx_media_dev {
+ const struct imx_media_pixfmt *
+ imx_media_find_pixel_format(u32 fourcc, enum imx_pixfmt_sel sel);
+ int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
+-				 enum imx_pixfmt_sel sel);
++				 enum imx_pixfmt_sel sel, u32 code);
+ const struct imx_media_pixfmt *
+ imx_media_find_mbus_format(u32 code, enum imx_pixfmt_sel sel);
+ int imx_media_enum_mbus_formats(u32 *code, u32 index,
 -- 
 Regards,
 
