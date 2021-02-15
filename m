@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B0731B4D2
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:40:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E126531B4D8
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:40:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229934AbhBOEkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Feb 2021 23:40:03 -0500
+        id S230031AbhBOEkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Feb 2021 23:40:23 -0500
 Received: from perceval.ideasonboard.com ([213.167.242.64]:46076 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbhBOEj6 (ORCPT
+        with ESMTP id S230039AbhBOEkR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Feb 2021 23:39:58 -0500
+        Sun, 14 Feb 2021 23:40:17 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88E672CDD;
-        Mon, 15 Feb 2021 05:29:06 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B6A52CDF;
+        Mon, 15 Feb 2021 05:29:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1613363347;
-        bh=wR2H+fsbpySf42aL1wPZoGKLeUnNTo/sqIjH15Dp78g=;
+        bh=SE2kOt4x0DLRgX5c4rVN82TAFqI2WSUKVMths7Fy6ok=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Uu3ygZybtTfOlPldykTIcqwXP/8Q86r7HDUU1TGGIBl2Sbcxp0vlEMue3Bh0xpCCN
-         IOhBU/MfzIbiNfR4SnCCOG8M6P22aG1m4O1JethSbEGEUO5z3yAtLU3XvHs/LnMx86
-         bmP+VdWay3HR8gTNFE7D+0PpsC43E1+jeW96ozDc=
+        b=C3i+2ajXXlc261yukIHl6Z+/CeR6uu7nJcl1yGvURHJ6dFGNveKRvzEj8kb/fFh8d
+         +GOq5GhfOa67BkhsdJGXvbfyOumyosBPpu3P+zdxRQpgi+1sv5nvSZY6WAtsxj1Acs
+         ysNsygZG7zsRvEJExcsKy/9d+bU/B6JF7qMXlTPQ=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -29,9 +29,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 71/77] media: imx: imx7_mipi_csis: Turn register access macros into functions
-Date:   Mon, 15 Feb 2021 06:27:35 +0200
-Message-Id: <20210215042741.28850-72-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 72/77] media: imx: imx7_mipi_csis: Fully initialize MIPI_CSIS_DPHYCTRL register
+Date:   Mon, 15 Feb 2021 06:27:36 +0200
+Message-Id: <20210215042741.28850-73-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
 References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
@@ -41,37 +41,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make it easier to instrument register access (for instance with
-printk-based logging) by turning the macros into inline functions.
+When setting the CSIS parameters, write the MIPI_CSIS_DPHYCTRL register
+fully instead of modifying selected fields, as the register doesn't
+contain any reserved fields that need to be preserved. This simplifies
+initialization slightly, and ensures that the register value doesn't
+depend on its previous state (before a warm reboot for instance).
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 4a51d2440b64..5e907ea46743 100644
+index 5e907ea46743..26f323bff498 100644
 --- a/drivers/staging/media/imx/imx7-mipi-csis.c
 +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -358,8 +358,15 @@ static const struct csis_pix_format mipi_csis_formats[] = {
- 	}
- };
+@@ -536,10 +536,8 @@ static void mipi_csis_set_params(struct csi_state *state)
  
--#define mipi_csis_write(__csis, __r, __v) writel(__v, (__csis)->regs + (__r))
--#define mipi_csis_read(__csis, __r) readl((__csis)->regs + (__r))
-+static inline void mipi_csis_write(struct csi_state *state, u32 reg, u32 val)
-+{
-+	writel(val, state->regs + reg);
-+}
-+
-+static inline u32 mipi_csis_read(struct csi_state *state, u32 reg)
-+{
-+	return readl(state->regs + reg);
-+}
+ 	__mipi_csis_set_format(state);
  
- static int mipi_csis_dump_regs(struct csi_state *state)
- {
+-	val = mipi_csis_read(state, MIPI_CSIS_DPHYCTRL);
+-	val = (val & ~MIPI_CSIS_DPHYCTRL_HSSETTLE_MASK)
+-	    | MIPI_CSIS_DPHYCTRL_HSSETTLE(state->hs_settle);
+-	mipi_csis_write(state, MIPI_CSIS_DPHYCTRL, val);
++	mipi_csis_write(state, MIPI_CSIS_DPHYCTRL,
++			MIPI_CSIS_DPHYCTRL_HSSETTLE(state->hs_settle));
+ 
+ 	val = (0 << MIPI_CSIS_ISPSYNC_HSYNC_LINTV_OFFSET) |
+ 		(0 << MIPI_CSIS_ISPSYNC_VSYNC_SINTV_OFFSET) |
 -- 
 Regards,
 
