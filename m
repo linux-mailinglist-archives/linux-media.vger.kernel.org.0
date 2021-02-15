@@ -2,208 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3813331B8CC
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 13:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AAB031B8DC
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 13:17:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbhBOMLQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Feb 2021 07:11:16 -0500
-Received: from mail-bn8nam11on2045.outbound.protection.outlook.com ([40.107.236.45]:54462
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229738AbhBOMLP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Feb 2021 07:11:15 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d451ugoTJKWIfVM+OL/xKpBU8cuC1vRtIOP8cfxcPex1He0w70fUCXSSvF5Bd57tdVX5duESPd7OjeaRuMnbP/KNqca7I87d9SfLV/QXivJqyBqUujySkLpG+BUcYJYVpOT2+srlO2vO6Tr4cMGwZRvCtdW8FI2yzKat9RKNPjCMUoNJ9xBD3ypW8UdtAGJ4WhTmPtGxvlv8kmuOok92Q55hQMlrtPNhjDefpy7s/gFYIhBe8gRzZ6ngkWpwl9j0+0hVxNfxmiysYhkt6sciI+Mj4t9KuLtdwW9ALOM4xdFT93vMh4avVFOCRxrcJJ4up4K1H8ZQH/YUH7MQqHf59A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cQRgbhmFdA7RPj4GwlHs/L351IfylaAsY7zg/BQogmQ=;
- b=hproz+3Zlz0HX73oMQCStnT9BwOaFtKaKjE4Kn2gcd3kDQaRTcn5dFas5gdxzkZtq5zWrkyO6cNn21TFQAfLm4ammCEBndo4Ky4XKyUXe+guCjd1EcazBaG04sQnqQMc7MKImYbnuJM43X9V/oSD3KGTyWrs2211LkSitkH2YvHVpNUBgCbT7G7j40ILYIG0pdjg2DSsXiBSbz5zFOLnorlHjfjv3vMcsnraZCZRUVlI5GhpJbU4lqmjQV5usvw+GgfaVCntKtlGklSulPDE70zZ3Kn9w9qBV7mrZzpE9V9JLYCHAQ12xfrxowQArcxxodL527Z0jqxSyXzoHpIW3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cQRgbhmFdA7RPj4GwlHs/L351IfylaAsY7zg/BQogmQ=;
- b=Y+pJQM2OxIiDUiGK6o2RG5fqgxKJmqexZPNqZGPEnMgwSdt0au3/ZUctLyNx/8MrRsC+MGXKlUgs5TBr5lsaPxzztgRBn1g0JMd0UIsD6Rux/hwQVssDi5u8pNgUUYYxFQ87kXLEJS5396jJoxkJEtza89YpP4sZuEJXc0a3TSs=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4336.namprd12.prod.outlook.com (2603:10b6:208:1df::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Mon, 15 Feb
- 2021 12:10:19 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3846.038; Mon, 15 Feb 2021
- 12:10:19 +0000
+        id S229912AbhBOMR0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Feb 2021 07:17:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53612 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229917AbhBOMRZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Feb 2021 07:17:25 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D22C061786
+        for <linux-media@vger.kernel.org>; Mon, 15 Feb 2021 04:16:44 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1lBcns-0008Lc-J4; Mon, 15 Feb 2021 13:16:36 +0100
+Message-ID: <04f2e57540896d2c51120236889a6ae293e711d8.camel@pengutronix.de>
 Subject: Re: DMA-buf and uncached system memory
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-media <linux-media@vger.kernel.org>,
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Simon Ser <contact@emersion.fr>
+Cc:     linaro-mm-sig@lists.linaro.org,
+        "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
         dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, lkml <linux-kernel@vger.kernel.org>
-Cc:     "Sharma, Shashank" <Shashank.Sharma@amd.com>
+        linux-media <linux-media@vger.kernel.org>
+Date:   Mon, 15 Feb 2021 13:16:35 +0100
+In-Reply-To: <7ecf008d-a1f5-ddff-c8ac-8e7bfaf9c680@amd.com>
 References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <e6897f92-4c61-cd42-2822-43c50a744d4c@suse.de>
- <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <80c42ce0-6df1-71ab-81ec-e46cc56840ba@amd.com>
-Date:   Mon, 15 Feb 2021 13:10:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <302e06ad-f979-dc77-5d84-fa0923aa4632@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:3e90:5494:cc4a:73e5]
-X-ClientProxiedBy: FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::22) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+         <GUuZYSQk2hxgykDhSxfB2GWo47lQlVrKBtWMwQUG7Ar2GAag5WQDxBI0zq6nDTooPBzTktyRpnu25Ju1UKE3FYD9yHbkNMAHcmSI96hoJhA=@emersion.fr>
+         <da9edfa0-8a18-44a2-fa79-83b4177afd8e@amd.com>
+         <8d23f1ca6fe76d8971365bf54ca71ba71698980d.camel@pengutronix.de>
+         <7ecf008d-a1f5-ddff-c8ac-8e7bfaf9c680@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:3e90:5494:cc4a:73e5] (2a02:908:1252:fb60:3e90:5494:cc4a:73e5) by FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.11 via Frontend Transport; Mon, 15 Feb 2021 12:10:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7174aca6-b803-43eb-3187-08d8d1aaa96c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4336:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43369DE3146253E70EE3A47A83889@MN2PR12MB4336.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L3ekg0GQQ/LKr8mvNw2aXxQohA3zhUvVuoX+jGaOnMcMU3b7bjDBfPCzwSRofOidtxSBe8TYfFEoZxUfLHr2EQD//A/DW8ZTCvsmbZ/GFtNKXX13yphIbER6D9Bknst7FRhoQs21NrVOeEB7oYyb/DgKQzxjaZiPm7kbbmDH5rjHNpE4Wh6WhTdjgD+HAsLKv4XLeVzMp8BWsFlFEiSdYpXE+b74Bmg2fVIvfh4RTDgTUkdFpKbPtv4eEJI+hK5uNwNpjcQ0WCRpGJcTBPCKE70OqYfCHYY8EFzW5BOXg1STBssymBmhRLMxnLA6WCwSHPUCnZCJ7RX+9qsq+JgHRKtoSFwMRx9GDXC3qYuf6uBnk01XxRHS4Z59CV3t3OJvjGRoh+3GqcMcJqT7nGA1juomDF45RijJTHiyEwuT7rTtxmnM/BlFe0hC4+3CfqOw7FJ6NR6DCyi+5bzbUJN7Ei+5V6L8LFjcb4Zi8BTInyRxXelVjHKCwnzCk8IYMEiYs2mzEAvaxtY40K8vLp1xNL8IEiLqBnjryHhzdJWIX6oEfVTYAVyF48hRdK5i+twFHtvwQbVt0RMOUbE/wLBhwR+t1PLrRYk5MMAoCufI7xr2vWH2CD2KGfRufObEpeg4dyHICgNUAufcCB+3xLSvCg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(39860400002)(376002)(346002)(396003)(110136005)(83380400001)(316002)(66476007)(66946007)(66556008)(2616005)(52116002)(86362001)(8936002)(36756003)(31696002)(6486002)(31686004)(5660300002)(478600001)(4326008)(66574015)(6666004)(186003)(16526019)(2906002)(966005)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eFpTRVZ6VU9mR0UzcXpqZEI1NGhteWN3RnRHc2o5bHh5Q1M3cDJUYVB0ZzNK?=
- =?utf-8?B?QzJtZFJ3N1E4S0F5YVJVTGt2NFkxYUd5ODZ5Q3ZXbm9EQTFtdElxQ3dvSmZR?=
- =?utf-8?B?N01Xa0FnaVNjUWFBYmMraFRzd1lIUTQvKzlRYTNLbStSNUl4M1dZM1ZWTXdG?=
- =?utf-8?B?YW0zaXdqUEdOckpYbFU4SUhYVWgzbjF5RGd1UUVjaS9Xam01c0ZFY0tzdnRK?=
- =?utf-8?B?dWFTckppWnZlZnhGaThhV2Fta1VIUWlPa01oL29Uaisyc09oUGNKUXhTZ2Nr?=
- =?utf-8?B?RTVaTmpFWFA1L1F1WEF2YzM0b2NjWDFrbmFRNlJxRTM5SnRRWm9lSHp0eUxr?=
- =?utf-8?B?ZFNoYllDTGVheGNwa2ZJNDAxZnVUQmxVWFp2MmVJb0N3R1VwNUFnQm0zY05p?=
- =?utf-8?B?UkdPd3ROanhobUVCcDBqdWVoOWFTR24zbVFKSHBFVUY2eVhwRjZnNnhyVlU1?=
- =?utf-8?B?Y2NSbVlQd2phUmdDVG95ZjZ4d1MvZlJtOWZ5TWNUZEp2eHhFSG9kODd3LzdB?=
- =?utf-8?B?ZDJQTUFadm51U2k4bHRHNVBDTGxRbXI4SXJEWHJ4dzRGd1lrWFE4NGQ4QUp6?=
- =?utf-8?B?c3dQRjZ0V3FDemdOU2FUd2g4ZEp6NE9lZitwMWZMRjIxN0h3VTkrMlMySzZ3?=
- =?utf-8?B?b25DWUlEek9FMFNBVm5zUDNBUmJkdE5YNXd5MjVueVN6V2x2L283bk5IdzZO?=
- =?utf-8?B?UW0xSkp0SEhyczNoS1VFTlZTNi9sVGJBelBJdXV2akp3K085SWp5SjRMdUsy?=
- =?utf-8?B?Z1FYSHhjdWF0R1A0bWRlUUR0SXd6MXJOb2FETjlWdUc1eFpkdlF3Y1dOWHdB?=
- =?utf-8?B?cERVWnA2bkVNdHI0ZWlzNGZsYVROSnF2cVhueDdVQWpWUVdXNzMrNTk4Unly?=
- =?utf-8?B?amFPRGk4d3lUY3gwTXJkdmVubkZHYjJLajRFbk9vTi9YZlFvKzk1ZGV5djRN?=
- =?utf-8?B?YkRJS0xNaFMzVDl1b0xFRGc5d25xbXgzSExxRlNyUngrQVBTN0FtZTIzR1VT?=
- =?utf-8?B?Zk9iaDVZMWtpVVJWdXUrRDJBWGVzWnhlZVZHaVNtNm56QmdNTFhVMnM1Z1Zv?=
- =?utf-8?B?dk05T00rWjZmT0d0cDR0bENGWWllWHVPL3k0S0FzbVdPYUNIVDFUWmZ1NExn?=
- =?utf-8?B?SWs2Y0hMM2tYRVBVUGhaRXZVTlhoTC92d1BGL002b3VNdS93RkdlM0NoS25j?=
- =?utf-8?B?Vmk3cUZ2V2I4ZjhqVWZka202dHdjVktRUEErZ2w4cHZ6MUpiaHV0MGs2cXBs?=
- =?utf-8?B?cjV0SjVzakYxOW4vekRiOWMyb0xHenlOa0tIRWVTZmxLS0lwRWJmNTBvT0NJ?=
- =?utf-8?B?blZwUlpkRUhCdEZXSXhaMTJwU1pIN3NpV0g3c1ltbS9RV1RqSWVFNjl1aDhq?=
- =?utf-8?B?Q1RES1UxdWRKQ1Yybk96aGtDdWg3MGttSWtZZjF6emVhM3hYQnllR2pRckN4?=
- =?utf-8?B?NWlZUHdHYTlnaG9DM3Qxd0VSOHJzNzFXdFFoWVY1YVRES3V1b01zdllBNG80?=
- =?utf-8?B?cmF5WVd2bXM2ZFVudi83T0hOWjlXelh3ZEszWVVnMTdVbTF3elFCeC9jeXFZ?=
- =?utf-8?B?M25DNk5GdlJvT1hYTHZxL1RqZmRCQ3cxVWpxMkFCS2IrVmpETUdkYitRQTds?=
- =?utf-8?B?RUZ2WWk2aW0wblBUR1MvWXM2NXlTN25UcEVsMmk2d1Z1bVFaRnRlazVrRHJL?=
- =?utf-8?B?VnYrQTJRNFBUTTNxVlhTa25PSlJCdXA3TUlnaTB1MTVTTFlLeTlSRFBKRWdj?=
- =?utf-8?B?TC9WTXBHUUNGWExhUCt4M0RhcURjUDBNNlR5dUMyRzJDZW9BSkVGblBMa3oz?=
- =?utf-8?B?Ym1EV1RySVlCdWN2Njl3VGtwTVhjUWlNZzgvZjNwd2ttQ05MbERqOU1QWTNC?=
- =?utf-8?Q?DenRz48PduoMD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7174aca6-b803-43eb-3187-08d8d1aaa96c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2021 12:10:19.1240
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SH+3EjADKYNE7CmJnXGaLfR2pq1I024x/AqPTAHuN4Pqpg5TIYTbCf7DknIryaic
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4336
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Am Montag, dem 15.02.2021 um 13:04 +0100 schrieb Christian König:
+> Am 15.02.21 um 12:53 schrieb Lucas Stach:
+> > Am Montag, dem 15.02.2021 um 10:34 +0100 schrieb Christian König:
+> > > Am 15.02.21 um 10:06 schrieb Simon Ser:
+> > > > On Monday, February 15th, 2021 at 9:58 AM, Christian König <christian.koenig@amd.com> wrote:
+> > > > 
+> > > > > we are currently working an Freesync and direct scan out from system
+> > > > > memory on AMD APUs in A+A laptops.
+> > > > > 
+> > > > > On problem we stumbled over is that our display hardware needs to scan
+> > > > > out from uncached system memory and we currently don't have a way to
+> > > > > communicate that through DMA-buf.
+> > > > > 
+> > > > > For our specific use case at hand we are going to implement something
+> > > > > driver specific, but the question is should we have something more
+> > > > > generic for this?
+> > > > > 
+> > > > > After all the system memory access pattern is a PCIe extension and as
+> > > > > such something generic.
+> > > > Intel also needs uncached system memory if I'm not mistaken?
+> > > No idea, that's why I'm asking. Could be that this is also interesting
+> > > for I+A systems.
+> > > 
+> > > > Where are the buffers allocated? If GBM, then it needs to allocate memory that
+> > > > can be scanned out if the USE_SCANOUT flag is set or if a scanout-capable
+> > > > modifier is picked.
+> > > > 
+> > > > If this is about communicating buffer constraints between different components
+> > > > of the stack, there were a few proposals about it. The most recent one is [1].
+> > > Well the problem here is on a different level of the stack.
+> > > 
+> > > See resolution, pitch etc:.. can easily communicated in userspace
+> > > without involvement of the kernel. The worst thing which can happen is
+> > > that you draw garbage into your own application window.
+> > > 
+> > > But if you get the caching attributes in the page tables (both CPU as
+> > > well as IOMMU, device etc...) wrong then ARM for example has the
+> > > tendency to just spontaneously reboot
+> > > 
+> > > X86 is fortunately a bit more gracefully and you only end up with random
+> > > data corruption, but that is only marginally better.
+> > > 
+> > > So to sum it up that is not something which we can leave in the hands of
+> > > userspace.
+> > > 
+> > > I think that exporters in the DMA-buf framework should have the ability
+> > > to tell importers if the system memory snooping is necessary or not.
+> > There is already a coarse-grained way to do so: the dma_coherent
+> > property in struct device, which you can check at dmabuf attach time.
+> > 
+> > However it may not be enough for the requirements of a GPU where the
+> > engines could differ in their dma coherency requirements. For that you
+> > need to either have fake struct devices for the individual engines or
+> > come up with a more fine-grained way to communicate those requirements.
+> 
+> Yeah, that won't work. We need this on a per buffer level.
+> 
+> > > Userspace components can then of course tell the exporter what the
+> > > importer needs, but validation if that stuff is correct and doesn't
+> > > crash the system must happen in the kernel.
+> > What exactly do you mean by "scanout requires non-coherent memory"?
+> > Does the scanout requestor always set the no-snoop PCI flag, so you get
+> > garbage if some writes to memory are still stuck in the caches, or is
+> > it some other requirement?
+> 
+> Snooping the CPU caches introduces some extra latency, so what can 
+> happen is that the response to the PCIe read comes to late for the 
+> scanout. The result is an underflow and flickering whenever something is 
+> in the cache which needs to be flushed first.
 
+Okay, that confirms my theory on why this is needed. So things don't
+totally explode if you don't do it, but to in order to guarantee access
+latency you need to take the no-snoop path, which means your device
+effectively gets dma-noncoherent.
 
-Am 15.02.21 um 13:00 schrieb Thomas Zimmermann:
-> Hi
->
-> Am 15.02.21 um 10:49 schrieb Thomas Zimmermann:
->> Hi
->>
->> Am 15.02.21 um 09:58 schrieb Christian König:
->>> Hi guys,
->>>
->>> we are currently working an Freesync and direct scan out from system 
->>> memory on AMD APUs in A+A laptops.
->>>
->>> On problem we stumbled over is that our display hardware needs to 
->>> scan out from uncached system memory and we currently don't have a 
->>> way to communicate that through DMA-buf.
->
-> Re-reading this paragrah, it sounds more as if you want to let the 
-> exporter know where to move the buffer. Is this another case of the 
-> missing-pin-flag problem?
+> On the other hand when the don't snoop the CPU caches we at least get 
+> garbage/stale data on the screen. That wouldn't be that worse, but the 
+> big problem is that we have also seen machine check exceptions when 
+> don't snoop and the cache is dirty.
 
-No, your original interpretation was correct. Maybe my writing is a bit 
-unspecific.
+If you attach to the dma-buf with a struct device which is non-coherent
+it's the exporters job to flush any dirty caches. Unfortunately the DRM
+caching of the dma-buf attachments in the DRM framework will get a bit
+in the way here, so a DRM specific flush might be be needed. :/ Maybe
+moving the whole buffer to uncached sysmem location on first attach of
+a non-coherent importer would be enough?
 
-The real underlying issue is that our display hardware has a problem 
-with latency when accessing system memory.
+> So this should better be coherent or you can crash the box. ARM seems to 
+> be really susceptible for this, x86 is fortunately much more graceful 
+> and I'm not sure about other architectures.
 
-So the question is if that also applies to for example Intel hardware or 
-other devices as well or if it is just something AMD specific?
+ARM really dislikes pagetable setups with different attributes pointing
+to the same physical page, however you should be fine as long as all
+cached aliases are properly flushed from the cache before access via a
+different alias.
 
 Regards,
-Christian.
-
->
-> Best regards
-> Thomas
->
->>>
->>> For our specific use case at hand we are going to implement 
->>> something driver specific, but the question is should we have 
->>> something more generic for this?
->>
->> For vmap operations, we return the address as struct dma_buf_map, 
->> which contains additional information about the memory buffer. In 
->> vram helpers, we have the interface drm_gem_vram_offset() that 
->> returns the offset of the GPU device memory.
->>
->> Would it be feasible to combine both concepts into a dma-buf 
->> interface that returns the device-memory offset plus the additional 
->> caching flag?
->>
->> There'd be a structure and a getter function returning the structure.
->>
->> struct dma_buf_offset {
->>      bool cached;
->>      u64 address;
->> };
->>
->> // return offset in *off
->> int dma_buf_offset(struct dma_buf *buf, struct dma_buf_off *off);
->>
->> Whatever settings are returned by dma_buf_offset() are valid while 
->> the dma_buf is pinned.
->>
->> Best regards
->> Thomas
->>
->>>
->>> After all the system memory access pattern is a PCIe extension and 
->>> as such something generic.
->>>
->>> Regards,
->>> Christian.
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->
+Lucas
 
