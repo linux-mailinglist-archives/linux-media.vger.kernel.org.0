@@ -2,29 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E814D31B4D6
-	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F5BF31B4D7
+	for <lists+linux-media@lfdr.de>; Mon, 15 Feb 2021 05:40:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230042AbhBOEkQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Feb 2021 23:40:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbhBOEkM (ORCPT
+        id S230043AbhBOEkR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Feb 2021 23:40:17 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46098 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230031AbhBOEkN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Feb 2021 23:40:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DBBC061786
-        for <linux-media@vger.kernel.org>; Sun, 14 Feb 2021 20:39:32 -0800 (PST)
+        Sun, 14 Feb 2021 23:40:13 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 473822CD9;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E58B12CDB;
         Mon, 15 Feb 2021 05:29:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613363345;
-        bh=ZzW0TeUFrFij/GkDSGtvkKeRfDC4OM8QA3hpLWM9p48=;
+        s=mail; t=1613363346;
+        bh=/pR5nF1xvomwbqomWg76ZzkZ7G5rurCkow1alj4VwWM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KZ5q8CWStdmg+0F4UVjatorpKDjr1irYOOcurP/M/COxmLNnqZaMgmjzfnn109OR8
-         hlLAcQbhaaIId+vjbG5s5dBFShneBPfHWozjvl42j07/rFP/kcqCseqTz7SsXg5bjU
-         MG8WRQEuC9wOvRsYOZldvXYmW+HXJ1VrTQL4qyuE=
+        b=ChJxsjdjcE6Bb0loe1q/V0FxuGnUp7+P093UCr/v8llQtDC7AHt9xpib1A0fNnlQp
+         K+p4HdVTACgUU+QjgJR9zdJsfptWdxuYoWqwGVCRUXSesOyogWciSXwQsEyDGOb+bq
+         ZxsAK2gBjssWg1gFdQLfefagViHbMPZPDOU266vE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -32,9 +29,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 69/77] media: imx: imx7_mipi_csis: Move link setup check out of locked section
-Date:   Mon, 15 Feb 2021 06:27:33 +0200
-Message-Id: <20210215042741.28850-70-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 70/77] media: imx: imx7_mipi_csis: Calculate Ths_settle from source lane rate
+Date:   Mon, 15 Feb 2021 06:27:34 +0200
+Message-Id: <20210215042741.28850-71-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
 References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
@@ -44,53 +41,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Checking if the link setup operation is called for the sink or source
-pad doesn't require any locking. Move it out of the section protected by
-the mutex.
+The Ths_settle timing parameter depends solely on the lane data rate of
+the source. Calculate it at runtime instead of requiring it to be
+specified in the device tree.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+Changes since v1:
+
+- Unlock mutex in mipi_csis_link_setup() error path
+- Use v4l2_get_link_freq()
+---
+ drivers/staging/media/imx/imx7-mipi-csis.c | 43 ++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index a5f00983bd92..333ab3966b5b 100644
+index 333ab3966b5b..4a51d2440b64 100644
 --- a/drivers/staging/media/imx/imx7-mipi-csis.c
 +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -668,20 +668,23 @@ static int mipi_csis_link_setup(struct media_entity *entity,
- 	dev_dbg(state->dev, "link setup %s -> %s", remote_pad->entity->name,
- 		local_pad->entity->name);
+@@ -24,6 +24,7 @@
+ #include <linux/reset.h>
+ #include <linux/spinlock.h>
  
-+	/* We only care about the link to the source. */
-+	if (!(local_pad->flags & MEDIA_PAD_FL_SINK))
-+		return 0;
++#include <media/v4l2-common.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-mc.h>
+@@ -482,6 +483,39 @@ static void __mipi_csis_set_format(struct csi_state *state)
+ 	mipi_csis_write(state, MIPI_CSIS_ISPRESOL_CH0, val);
+ }
+ 
++static int mipi_csis_calculate_params(struct csi_state *state)
++{
++	s64 link_freq;
++	u32 lane_rate;
 +
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
- 
- 	mutex_lock(&state->lock);
- 
--	if (local_pad->flags & MEDIA_PAD_FL_SINK) {
--		if (flags & MEDIA_LNK_FL_ENABLED) {
--			if (state->src_sd) {
--				ret = -EBUSY;
--				goto out;
--			}
--			state->src_sd = remote_sd;
--		} else {
--			state->src_sd = NULL;
-+	if (flags & MEDIA_LNK_FL_ENABLED) {
-+		if (state->src_sd) {
-+			ret = -EBUSY;
-+			goto out;
- 		}
++	/* Calculate the line rate from the pixel rate. */
++	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
++				       state->csis_fmt->width,
++				       state->bus.num_data_lanes * 2);
++	if (link_freq < 0) {
++		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
++			(int)link_freq);
++		return link_freq;
++	}
 +
-+		state->src_sd = remote_sd;
-+	} else {
-+		state->src_sd = NULL;
- 	}
++	lane_rate = link_freq * 2;
++
++	if (lane_rate < 80000000 || lane_rate > 1500000000) {
++		dev_dbg(state->dev, "Out-of-bound lane rate %u\n", lane_rate);
++		return -EINVAL;
++	}
++
++	/*
++	 * The HSSETTLE counter value is document in a table, but can also
++	 * easily be calculated.
++	 */
++	state->hs_settle = (lane_rate - 5000000) / 45000000;
++	dev_dbg(state->dev, "lane rate %u, Ths_settle %u\n",
++		lane_rate, state->hs_settle);
++
++	return 0;
++}
++
+ static void mipi_csis_set_params(struct csi_state *state)
+ {
+ 	int lanes = state->bus.num_data_lanes;
+@@ -608,9 +642,13 @@ static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
+ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+ {
+ 	struct csi_state *state = mipi_sd_to_csis_state(mipi_sd);
+-	int ret = 0;
++	int ret;
  
- out:
+ 	if (enable) {
++		ret = mipi_csis_calculate_params(state);
++		if (ret < 0)
++			return ret;
++
+ 		mipi_csis_clear_counters(state);
+ 		ret = pm_runtime_get_sync(&state->pdev->dev);
+ 		if (ret < 0) {
+@@ -943,9 +981,6 @@ static int mipi_csis_parse_dt(struct platform_device *pdev,
+ 	if (IS_ERR(state->mrst))
+ 		return PTR_ERR(state->mrst);
+ 
+-	/* Get MIPI CSI-2 bus configuration from the endpoint node. */
+-	of_property_read_u32(node, "fsl,csis-hs-settle", &state->hs_settle);
+-
+ 	return 0;
+ }
+ 
 -- 
 Regards,
 
