@@ -2,36 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 222C031C7BC
-	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 10:06:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FBB631C7D3
+	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 10:09:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229676AbhBPJFO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Feb 2021 04:05:14 -0500
-Received: from mga03.intel.com ([134.134.136.65]:32616 "EHLO mga03.intel.com"
+        id S229717AbhBPJJi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Feb 2021 04:09:38 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54208 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229812AbhBPJDz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Feb 2021 04:03:55 -0500
-IronPort-SDR: EVZ8gy1xUbu2mhnE4T96n5yJAzzf4RADPeFLLNsJtnNLjVTDLoB1UPcZJdyWMQA5r64MLOWZ2e
- wXqDh/odLdzA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="182912517"
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
-   d="scan'208";a="182912517"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 01:01:50 -0800
-IronPort-SDR: LkMRYtlXv9UloOOwpLM/5vpLjc+2eXhd+eMmOQeM6UaqSY1CGt2C9ElZRxJFIsu0vUJCXru7UD
- 6UvfwBdEBrkw==
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
-   d="scan'208";a="384317333"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 01:01:47 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 4A1D0203BB;
-        Tue, 16 Feb 2021 11:01:45 +0200 (EET)
-Date:   Tue, 16 Feb 2021 11:01:45 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S229710AbhBPJJW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Feb 2021 04:09:22 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613466516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=du+7HNcipHGxWVFmXI0W1DaPaVk4qOBz6vainc7H3Mc=;
+        b=W4Rnd+7DZq/Di3bDVnedOKZpzXSu6jFNr5W9jU9MiozQP3TLyw8Yh1SHMh2Ni6jkusiVSE
+        ROWHo1LTxPG4h6AoJwGMRehRibDlBlYxBzBFEITs8ZdoGQtRJtZJKGCLxfBn9bEsSlvhy4
+        Svp+urp0WsnCkgBR+Lv0m9W0ek6CbHI=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id CBC81AB4C;
+        Tue, 16 Feb 2021 09:08:35 +0000 (UTC)
+Date:   Tue, 16 Feb 2021 10:08:35 +0100
+From:   Petr Mladek <pmladek@suse.com>
 To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        mchehab@kernel.org,
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, mchehab@kernel.org,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
@@ -41,7 +37,7 @@ Cc:     linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-media@vger.kernel.org
 Subject: Re: [PATCH v7 3/3] drm: Switch to %p4cc format modifier
-Message-ID: <20210216090145.GC3@paasikivi.fi.intel.com>
+Message-ID: <YCuLk+vnIxOzT7t+@alley>
 References: <20210215114030.11862-1-sakari.ailus@linux.intel.com>
  <20210215114030.11862-4-sakari.ailus@linux.intel.com>
  <54e8c1d5-bb28-eddd-41ad-a89323650be0@suse.de>
@@ -49,16 +45,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <54e8c1d5-bb28-eddd-41ad-a89323650be0@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas,
-
-Thanks for the review.
-
-On Tue, Feb 16, 2021 at 09:37:45AM +0100, Thomas Zimmermann wrote:
+On Tue 2021-02-16 09:37:45, Thomas Zimmermann wrote:
 > Hi
 > 
 > Am 15.02.21 um 12:40 schrieb Sakari Ailus:
@@ -112,9 +103,7 @@ On Tue, Feb 16, 2021 at 09:37:45AM +0100, Thomas Zimmermann wrote:
 > I would merge the patchset through drm-misc-next. And the final removal
 > patch during the next cycle. Ok?
 
-Sounds good. I'll split the third patch into two then. 
+Sounds like a plan. I am fine with it from the vsprintf side.
 
--- 
-Kind regards,
-
-Sakari Ailus
+Best Regards,
+Petr
