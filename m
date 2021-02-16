@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE27C31CF3C
-	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 18:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BDFA31CF4B
+	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 18:43:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231135AbhBPRmP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Feb 2021 12:42:15 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:59369 "EHLO
+        id S231216AbhBPRme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Feb 2021 12:42:34 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:34421 "EHLO
         relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230299AbhBPRmN (ORCPT
+        with ESMTP id S231151AbhBPRmU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Feb 2021 12:42:13 -0500
+        Tue, 16 Feb 2021 12:42:20 -0500
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id EBA4120000E;
-        Tue, 16 Feb 2021 17:41:29 +0000 (UTC)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id CDD21200009;
+        Tue, 16 Feb 2021 17:41:31 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
@@ -24,9 +24,9 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 02/16] media: i2c: rdacm20: Embedded 'serializer' field
-Date:   Tue, 16 Feb 2021 18:41:32 +0100
-Message-Id: <20210216174146.106639-3-jacopo+renesas@jmondi.org>
+Subject: [PATCH 03/16] media: i2c: rdacm20: Replace goto with a loop
+Date:   Tue, 16 Feb 2021 18:41:33 +0100
+Message-Id: <20210216174146.106639-4-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
 References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
@@ -36,114 +36,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no reason to allocate dynamically the 'serializer' field in
-the driver structure.
+During the camera module initialization the image sensor PID is read to
+verify it can correctly be identified. The current implementation is
+rather confused and uses a loop implemented with a label and a goto.
 
-Embed the field and adjust all its users in the driver.
+Replace it with a more compact for() loop.
+
+No functional changes intended.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- drivers/media/i2c/rdacm20.c | 38 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
+ drivers/media/i2c/rdacm20.c | 27 ++++++++++-----------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-index f7fd5ae955d0..4d9bac87cba8 100644
+index 4d9bac87cba8..6504ed0bd3bc 100644
 --- a/drivers/media/i2c/rdacm20.c
 +++ b/drivers/media/i2c/rdacm20.c
-@@ -312,7 +312,7 @@ static const struct ov10635_reg {
+@@ -59,6 +59,8 @@
+  */
+ #define OV10635_PIXEL_RATE		(44000000)
  
- struct rdacm20_device {
- 	struct device			*dev;
--	struct max9271_device		*serializer;
-+	struct max9271_device		serializer;
- 	struct i2c_client		*sensor;
- 	struct v4l2_subdev		sd;
- 	struct media_pad		pad;
-@@ -399,7 +399,7 @@ static int rdacm20_s_stream(struct v4l2_subdev *sd, int enable)
++#define OV10635_PID_TIMEOUT		3
++
+ static const struct ov10635_reg {
+ 	u16	reg;
+ 	u8	val;
+@@ -452,7 +454,7 @@ static const struct v4l2_subdev_ops rdacm20_subdev_ops = {
+ 
+ static int rdacm20_initialize(struct rdacm20_device *dev)
  {
- 	struct rdacm20_device *dev = sd_to_rdacm20(sd);
- 
--	return max9271_set_serial_link(dev->serializer, enable);
-+	return max9271_set_serial_link(&dev->serializer, enable);
- }
- 
- static int rdacm20_enum_mbus_code(struct v4l2_subdev *sd,
-@@ -456,11 +456,11 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+-	unsigned int retry = 3;
++	unsigned int i;
  	int ret;
  
  	/* Verify communication with the MAX9271: ping to wakeup. */
--	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
--	i2c_smbus_read_byte(dev->serializer->client);
-+	dev->serializer.client->addr = MAX9271_DEFAULT_ADDR;
-+	i2c_smbus_read_byte(dev->serializer.client);
- 
- 	/* Serial link disabled during config as it needs a valid pixel clock. */
--	ret = max9271_set_serial_link(dev->serializer, false);
-+	ret = max9271_set_serial_link(&dev->serializer, false);
- 	if (ret)
- 		return ret;
- 
-@@ -468,35 +468,35 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
- 	 *  Ensure that we have a good link configuration before attempting to
- 	 *  identify the device.
- 	 */
--	max9271_configure_i2c(dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
--					       MAX9271_I2CSLVTO_1024US |
--					       MAX9271_I2CMSTBT_105KBPS);
-+	max9271_configure_i2c(&dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
-+						MAX9271_I2CSLVTO_1024US |
-+						MAX9271_I2CMSTBT_105KBPS);
- 
--	max9271_configure_gmsl_link(dev->serializer);
-+	max9271_configure_gmsl_link(&dev->serializer);
- 
--	ret = max9271_verify_id(dev->serializer);
-+	ret = max9271_verify_id(&dev->serializer);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
-+	ret = max9271_set_address(&dev->serializer, dev->addrs[0]);
- 	if (ret < 0)
- 		return ret;
--	dev->serializer->client->addr = dev->addrs[0];
-+	dev->serializer.client->addr = dev->addrs[0];
- 
- 	/*
- 	 * Reset the sensor by cycling the OV10635 reset signal connected to the
- 	 * MAX9271 GPIO1 and verify communication with the OV10635.
- 	 */
--	ret = max9271_enable_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
- 	if (ret)
- 		return ret;
- 
--	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
- 	if (ret)
+@@ -501,23 +503,14 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
  		return ret;
  	usleep_range(10000, 15000);
  
--	ret = max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
- 	if (ret)
- 		return ret;
- 	usleep_range(10000, 15000);
-@@ -560,13 +560,7 @@ static int rdacm20_probe(struct i2c_client *client)
- 	if (!dev)
- 		return -ENOMEM;
- 	dev->dev = &client->dev;
+-again:
+-	ret = ov10635_read16(dev, OV10635_PID);
+-	if (ret < 0) {
+-		if (retry--)
+-			goto again;
 -
--	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
--				       GFP_KERNEL);
--	if (!dev->serializer)
--		return -ENOMEM;
+-		dev_err(dev->dev, "OV10635 ID read failed (%d)\n",
+-			ret);
+-		return -ENXIO;
++	for (i = 0; i < OV10635_PID_TIMEOUT; ++i) {
++		ret = ov10635_read16(dev, OV10635_PID);
++		if (ret == OV10635_VERSION)
++			break;
++		usleep_range(1000, 2000);
+ 	}
 -
--	dev->serializer->client = client;
-+	dev->serializer.client = client;
+-	if (ret != OV10635_VERSION) {
+-		if (retry--)
+-			goto again;
+-
+-		dev_err(dev->dev, "OV10635 ID mismatch (0x%04x)\n",
+-			ret);
++	if (i == OV10635_PID_TIMEOUT) {
++		dev_err(dev->dev, "OV10635 ID read failed (%d)\n", ret);
+ 		return -ENXIO;
+ 	}
  
- 	ret = of_property_read_u32_array(client->dev.of_node, "reg",
- 					 dev->addrs, 2);
 -- 
 2.30.0
 
