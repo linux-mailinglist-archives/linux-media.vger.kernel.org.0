@@ -2,91 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2252C31CECA
-	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 18:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 484D931CF32
+	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 18:41:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbhBPRO3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Feb 2021 12:14:29 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44058 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230335AbhBPROX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Feb 2021 12:14:23 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id EBCC3B775;
-        Tue, 16 Feb 2021 17:13:40 +0000 (UTC)
-Message-ID: <6d1b87e8fec188289a2e42cd2e07dd40ed1d3d3a.camel@suse.de>
-Subject: Re: [PATCH] Revert "ARM: dts: bcm2711: Add the BSC interrupt
- controller"
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, maxime@cerno.tech,
-        dave.stevenson@raspberrypi.com, maz@kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org, eric@anholt.net,
-        Rob Herring <robh+dt@kernel.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-rpi-kernel@lists.infradead.org, tzimmermann@suse.de,
-        hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Date:   Tue, 16 Feb 2021 18:13:39 +0100
-In-Reply-To: <20210212191104.2365912-1-f.fainelli@gmail.com>
-References: <20210212191104.2365912-1-f.fainelli@gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-PfV5mydmGc5L0R6INf2H"
-User-Agent: Evolution 3.38.3 
+        id S230133AbhBPRkW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Feb 2021 12:40:22 -0500
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:33827 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229628AbhBPRkU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Feb 2021 12:40:20 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 25223FF802;
+        Tue, 16 Feb 2021 17:39:27 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 00/16] media: i2c: GMSL reliability improvements
+Date:   Tue, 16 Feb 2021 18:39:27 +0100
+Message-Id: <20210216173943.106475-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
+  this series is based on the most recent media-master with the following
+patch applied on top: "media: i2c: rdamc21: Fix warning on u8 cast"
 
---=-PfV5mydmGc5L0R6INf2H
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The series contains multiple changes:
 
-On Fri, 2021-02-12 at 11:11 -0800, Florian Fainelli wrote:
-> As Dave reported:
->=20
-> This seems to have unintended side effects.  GIC interrupt 117 is shared
-> between the standard I2C controllers (i2c-bcm2835) and the l2-intc block
-> handling the HDMI I2C interrupts.
->=20
-> There is not a great way to share an interrupt between an interrupt
-> controller using the chained IRQ handler which is an interrupt flow and
-> another driver like i2c-bcm2835 which uses an interrupt handler
-> (although it specifies IRQF_SHARED).
->=20
-> Simply revert this change for now which will mean that HDMI I2C will be
-> polled, like it was before.
->=20
-> Reported-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+- patches from [1-8] contain enhancements to the existing camera module
+  drivers. The first 7 patches apply to RDACM20 the same style comments
+  received on RDACM21. Nothing controversial should be there.
+  A cosmetic fix for the max9286 driver follows.
 
-Acked-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+- patch [9/16] contains a fixup for the RDACM21 camera module that is required
+  to avoid sporadic failures during the system initialization.
 
-Regards,
-Nicolas
+- From patches [10/16] a rework of the GMSL camera initialization procedure
+  starts with 3 patches that prepare for the most substantial change on the
+  series.
 
+  The current initialization procedure for a GMSL chip looks like
 
---=-PfV5mydmGc5L0R6INf2H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+	MAX9282				RDACM2x
 
------BEGIN PGP SIGNATURE-----
+	- probe()
+	- init()
+	- mux initialize()
+		- probe camera 1	- probe()
+					- init max9271
+					- init image sensor/ISP
+					- enable noise immunity
+		...
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAr/UMACgkQlfZmHno8
-x/7IyQf/TNd4fUo81NpxLLpzRm5/jBf2RIorIp8u6nifhDsqwG3LaXbJfaJ6Esxa
-ubv0WS89IllT4GOSBVha93zfx4SpqeduVdxf084Q0bcn9u9KwOzpDhJXr8wRT0B1
-mf7vOjAlil3UUzFjqH1U3Iv0aI1ttkkhss1o2AP9ZNZ48t5VxA20hcwG/s2mR5ut
-p9NsSx2kdWmBZRIOyKXXkJSTrsNH5Bqwg8m7fWTdAW2HBr7tXwX7/dzYwz7HuV3j
-oO43t0VAsMGKcsQHAbpPgEaJ9iuu0xaCrOVL/VH2X5aUQZWm+R3CgjCmKluyS9A1
-Rhj8+8WYCHxI9/FmHMr+v5fxj6oeww==
-=lMqV
------END PGP SIGNATURE-----
+	- camera 1 bound
 
---=-PfV5mydmGc5L0R6INf2H--
+		- probe camera n	- probe()
+					- init max9271
+					- init image sensor/ISP
+					- enable noise immunity
+	- camera n bound
+	- all camera have probed
+		- Increase channel amplitude
+
+  This implies that all the initial configuration of the camera modules
+  which requires several I2C transactions to configure the image sensor and
+  the embedded ISP are run without noise immunity enabled.
+
+  On a test of 50 boot cycle the failure rate for the RDACM21 camera module
+  is around ~20% which is considerably bad.
+
+  This series implements a different mechanism that allows to run the
+  initialization of the camera module with noise immunity enabled, by splitting
+  the operations between the usual probe() method and the .init() subdev
+  core operation [1]
+
+  The new procedure looks like
+
+	MAX9282				RDACM2x
+
+	- probe()
+	- init()
+	- mux initialize()
+		- probe camera 1	- probe()
+					- init max9271
+					- enable noise immunity
+	- camera 1 bound
+	- increase channel amplitude
+	- camera 1.init()
+					- init image sensor/ISP
+	- restore initial channel amplitude
+
+		...
+		- probe camera n	- probe()
+					- init max9271
+					- enable noise immunity
+	- camera n bound
+	- increase channel amplitude
+	- camera n.init()
+					- init image sensor/ISP
+	- all camera have probed
+
+  This allows to run the image sensor/ISP initialization with noise immunity
+  enabled, as that's the part that requires the most I2C writes, being the
+  components programmed with register-value tables.
+
+  The same boot tests shows a failure percentage of 13%, considerably lower
+  than the current version. It also allows to increase the I2C bit rate to the
+  default 339 Kbps for which the setup/hold time are calibrated.
+
+  Bouns points: this helps isolating the MAX9271 initialization and will make
+  it easier making the max9271 a self-contained driver as suggested by Mauro.
+
+  [1] All good and glorious BUT: all of this relies on the usage of a subdev
+  operation that is considered deprecated. Is it an hard limitation ?
+
+  GMSL is kind of different beast compared to usual subdevices, so it might
+  make sense to make an exception in this case ?
+
+Thanks
+   j
+
+Jacopo Mondi (16):
+  media: i2c: rdacm20: Enable noise immunity
+  media: i2c: rdacm20: Embedded 'serializer' field
+  media: i2c: rdacm20: Replace goto with a loop
+  media: i2c: rdacm20: Report camera module name
+  media: i2c: rdacm20: Check return values
+  media: i2c: rdacm20: Re-work ov10635 reset
+  media: i2c: rdacm2x: Fix wake up delay
+  media: i2c: max9286: Adjust parameters indent
+  media: i2c: rdacm21: Re-work OV10640 initialization
+  media: i2c: max9286: Rename reverse_channel_mv
+  media: i2c: max9286: Cache channel amplitude
+  media: i2c: max9286: Define high channel amplitude
+  media: i2c: rdacm2x: Implement .init() subdev op
+  media: i2c: max9286: Initialize remotes when bound
+  media: i2c: max9286: Rework comments in .bound()
+  media: i2c: gmsl: Use 339Kbps I2C bit-rate
+
+ drivers/media/i2c/max9286.c |  67 ++++++++++------
+ drivers/media/i2c/rdacm20.c | 153 +++++++++++++++++++-----------------
+ drivers/media/i2c/rdacm21.c |  73 ++++++++++-------
+ 3 files changed, 167 insertions(+), 126 deletions(-)
+
+--
+2.30.0
 
