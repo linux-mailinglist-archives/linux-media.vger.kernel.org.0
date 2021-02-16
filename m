@@ -2,139 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D05731C807
-	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 10:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA07B31C8A3
+	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 11:21:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbhBPJ0N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Feb 2021 04:26:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
+        id S229993AbhBPKVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Feb 2021 05:21:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbhBPJ0I (ORCPT
+        with ESMTP id S229811AbhBPKVV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Feb 2021 04:26:08 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B634C061574
-        for <linux-media@vger.kernel.org>; Tue, 16 Feb 2021 01:25:28 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id a207so577993wmd.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Feb 2021 01:25:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Exh3jg3n/TtKnZWGfFfDIiOa1Lq+MYGlC1ET8Iputzc=;
-        b=FChGD3IiT+eQbJpCR9t7O50n/LmrueYQUvA0eedPnhjL5FwTbBAttUChubzubHzzE+
-         TeFuh3DkLKYTv67VzE91ha47D+tgaEiPVy7rJ8lWsQfLHaZRVt0jwRWzxCBbPr4HwnVv
-         asszquvZj2WmDxHU3OWs1baFcapv1QK36SGy0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=Exh3jg3n/TtKnZWGfFfDIiOa1Lq+MYGlC1ET8Iputzc=;
-        b=Ffy2DL6MCgDVvCcoE+Hti/Og1xMp29Qw0EIrUx3n7PII9r4eXA7ZcAqaC3u1HxF2x+
-         TmBt7wlMlGJLqKT+sv+7Ikjebe5gaIR0+ZuZrg6r1M1Cms95cL7I8p012JKm2LR7wk5+
-         S1n8VKOhjKK3Vm5z5xUaEtBCQjjqIcerOJplYjXnmJVetmAmJoaBDQ8GP76aiUOJErDT
-         jokIhAPbMJJoyTmQ8hbXTcnWzdCFmMdas7dypKXUxTU5FleDcBT/gwCzx/XrQuVetgMg
-         1YpsNCdVFcqndJQ22UD81cy1W9cVq1vkSLDKbd7IAWy5s2cYZH3/t2Ark1QtZgZ4JPhQ
-         gVBg==
-X-Gm-Message-State: AOAM532vh1LFfsLPHhJiuK3GwE4A4WEz1rj0pve4yym9WedXvMSYCiOI
-        4mA3LKNrx11Qi+qawP3mSJ4tPQ==
-X-Google-Smtp-Source: ABdhPJxCH8w9nrCrGj6DLgq7mUqO7jid+0L9+xJ/lCXaA3/b39BYFgNSlxIAXTKGgH2NqCvGcPhA6A==
-X-Received: by 2002:a7b:c010:: with SMTP id c16mr2501284wmb.134.1613467526735;
-        Tue, 16 Feb 2021 01:25:26 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id k11sm26838869wrv.51.2021.02.16.01.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 01:25:26 -0800 (PST)
-Date:   Tue, 16 Feb 2021 10:25:24 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
+        Tue, 16 Feb 2021 05:21:21 -0500
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18236C061756;
+        Tue, 16 Feb 2021 02:19:35 -0800 (PST)
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 84FCE634C8E;
+        Tue, 16 Feb 2021 12:18:29 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Daniel Vetter <daniel@ffwll.ch>,
-        "Sharma, Shashank" <Shashank.Sharma@amd.com>
-Subject: Re: DMA-buf and uncached system memory
-Message-ID: <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Sharma, Shashank" <Shashank.Sharma@amd.com>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v8 0/4] Add %p4cc printk modifier for V4L2 and DRM fourcc codes
+Date:   Tue, 16 Feb 2021 12:19:27 +0200
+Message-Id: <20210216101931.2110-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 09:58:08AM +0100, Christian König wrote:
-> Hi guys,
-> 
-> we are currently working an Freesync and direct scan out from system memory
-> on AMD APUs in A+A laptops.
-> 
-> On problem we stumbled over is that our display hardware needs to scan out
-> from uncached system memory and we currently don't have a way to communicate
-> that through DMA-buf.
-> 
-> For our specific use case at hand we are going to implement something driver
-> specific, but the question is should we have something more generic for
-> this?
-> 
-> After all the system memory access pattern is a PCIe extension and as such
-> something generic.
+Hi all,
 
-Yes it's a problem, and it's a complete mess. So the defacto rules are:
+	On merging --- it would seem everyone is happy with merging this
+	through the drm-misc tree. The last patch should wait until all
+	users are gone for sure, probably to the next kernel release.
+	There are no users of drm_get_format_name() in linux-next
+	currently after the 3rd patch.
 
-1. importer has to do coherent transactions to snoop cpu caches.
+This set adds support for %p4cc printk modifier for printing V4L2 and DRM
+fourcc codes. The codes are cumbersome to print manually and by adding the
+modifier, this task is saved from the V4L2 and DRM frameworks as well as
+related drivers. DRM actually had it handled in a way (see 3rd patch) but
+the printk modifier makes printing the format easier even there. On V4L2
+side it saves quite a few lines of repeating different implementations of
+printing the 4cc codes.
 
-This way both modes work:
+Further work will include converting the V4L2 drivers doing the same. I
+left these out from this version since individual drivers are easier
+changed without dealing with multiple trees.
 
-- if the buffer is cached, we're fine
+Since v7:
 
-- if the buffer is not cached, but the exporter has flushed all the
-  caches, you're mostly just wasting time on inefficient bus cycles. Also
-  this doesn't work if your CPU doesn't just drop clean cachelines. Like I
-  thing some ARM are prone to do, not idea about AMD, Intel is guaranteed
-  to drop them which is why the uncached scanout for integrated Intel +
-  amd discrete "works".
+- Add more examples, one with big endian and another with a space.
 
-2. exporters picks the mode freely, and can even change it at runtime
-(i915 does this, since we don't have an "allocate for scanout" flag wired
-through consistently). This doesn't work on arm, there the rule is "all
-devices in the same system must use the same mode".
+- Add Y10 test format.
 
-3. This should be solved at the dma-buf layer, but the dma-api refuses to
-tell you this information (at least for dma_alloc_coherent). And I'm not
-going to deal with the bikeshed that would bring into my inbox. Or at
-least there's always been screaming that drivers shouldn't peek behind the
-abstraction.
+- Use "0123" in the size string for temporary buffer.
 
-So I think if AMD also guarantees to drop clean cachelines just do the
-same thing we do right now for intel integrated + discrete amd, but in
-reserve. It's fragile, but it does work.
+- Added acks.
 
-What we imo shouldn't do is driver private interfaces here, that's just
-going to make the problem worse long term. Or at least driver-private
-interfaces that spawn across drivers behind dma-buf, because imo this is
-really a problem that dma-buf should solve.
+- Split the 3rd patch into two: driver changes and removal of
+  drm_get_format_name().
 
-If you do want to solve this at the dma-buf level I can try and point you
-at the respective i915 and amdgpu code that makes the magic work - I've
-had to fix it a few times in the past. I'm not sure whether we'd need to
-pass the dynamic nature through though, i.e. whether we want to be able to
-scan out imported dma-buf and hence request they be used in uncached mode.
--Daniel
+Since v6:
+
+- Don't drop spaces in fourcc codes.
+
+- Print unprintable characters as dot ('.') instead of hexadecimal number
+  in parentheses.
+
+- Convert DRM from drm_get_format_name() to %p4cc. I wonder if this should
+  be merged through the DRM tree, albeit it's probably unlikely to
+  conflict with other changes. Further use of the function could be a
+  problem.
+
+- Make tests more realistic.
+
+Since v5:
+
+- Added V4L2 core conversion to %p4cc, as well as change the DRM
+  fourcc printing function to use %p4cc.
+
+- Add missing checkpatch.pl checks for %p4cc modifier.
+
+Sakari Ailus (4):
+  lib/vsprintf: Add support for printing V4L2 and DRM fourccs
+  v4l: ioctl: Use %p4cc printk modifier to print FourCC codes
+  drm: Switch to %p4cc format modifier
+  drm: Remove drm_get_format_name()
+
+ Documentation/core-api/printk-formats.rst     | 18 ++++
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  5 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  5 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +-
+ .../arm/display/komeda/komeda_format_caps.h   | 11 ---
+ .../arm/display/komeda/komeda_framebuffer.c   |  4 +-
+ .../gpu/drm/arm/display/komeda/komeda_plane.c |  6 +-
+ drivers/gpu/drm/arm/malidp_mw.c               |  7 +-
+ drivers/gpu/drm/drm_atomic.c                  |  8 +-
+ drivers/gpu/drm/drm_crtc.c                    |  7 +-
+ drivers/gpu/drm/drm_fourcc.c                  | 25 ------
+ drivers/gpu/drm/drm_framebuffer.c             | 11 +--
+ drivers/gpu/drm/drm_mipi_dbi.c                |  5 +-
+ drivers/gpu/drm/drm_plane.c                   |  8 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |  5 +-
+ drivers/gpu/drm/i915/display/intel_display.c  | 14 +--
+ .../drm/i915/display/intel_display_debugfs.c  | 19 ++---
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  6 +-
+ drivers/gpu/drm/mcde/mcde_display.c           |  6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 +-
+ drivers/gpu/drm/nouveau/nouveau_display.c     |  9 +-
+ drivers/gpu/drm/radeon/atombios_crtc.c        | 10 +--
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |  6 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         |  7 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 15 ++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 85 +++++--------------
+ include/drm/drm_fourcc.h                      |  1 -
+ lib/test_printf.c                             | 18 ++++
+ lib/vsprintf.c                                | 39 +++++++++
+ scripts/checkpatch.pl                         |  6 +-
+ 32 files changed, 164 insertions(+), 223 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.29.2
+
