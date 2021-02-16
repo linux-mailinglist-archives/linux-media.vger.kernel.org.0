@@ -2,21 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 484D931CF32
-	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 18:41:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 568C631CF39
+	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 18:42:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbhBPRkW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Feb 2021 12:40:22 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:33827 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbhBPRkU (ORCPT
+        id S230514AbhBPRmM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Feb 2021 12:42:12 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:43777 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229867AbhBPRmL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Feb 2021 12:40:20 -0500
-X-Originating-IP: 93.34.118.233
+        Tue, 16 Feb 2021 12:42:11 -0500
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 25223FF802;
-        Tue, 16 Feb 2021 17:39:27 +0000 (UTC)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 1FCC8200003;
+        Tue, 16 Feb 2021 17:41:25 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
@@ -26,8 +25,8 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: [PATCH 00/16] media: i2c: GMSL reliability improvements
-Date:   Tue, 16 Feb 2021 18:39:27 +0100
-Message-Id: <20210216173943.106475-1-jacopo+renesas@jmondi.org>
+Date:   Tue, 16 Feb 2021 18:41:30 +0100
+Message-Id: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
