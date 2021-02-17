@@ -2,72 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74FA531D64A
-	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 09:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D7931D64C
+	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 09:09:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231931AbhBQII5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Feb 2021 03:08:57 -0500
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:47066 "EHLO
-        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231922AbhBQIIo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Feb 2021 03:08:44 -0500
-Received: by mail-oi1-f169.google.com with SMTP id f3so14062600oiw.13;
-        Wed, 17 Feb 2021 00:08:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yKvcCaIh14FZjuT3BnlyvNFLaqnatVeX7Lan1VcBW+k=;
-        b=K31f3nmvxP9bMjRPTTSzgdSv5KydDTHM4+8KjJ6PTFARv+NXNw924S0/tyKoyALAJE
-         QtKO6lpGxX27JkrH5EqpZyV/BnES8CB8w+AfEvPAyraUX/c5YWi9yJ4QxKRU5lkM2lZy
-         tncdqEKH+skdYnnAKkQPSxQlYiQUuotGwoObhE+hakLhI0OdWOnAqhwhbUDRUGznW9s+
-         Xiba6fdPXn1m46fV/vxrN05P3FB1qGte9CSIXkkQEdjrSBkjkGR+v0FCnyX1aP/VU6KU
-         Uh6sUKnShzSjwQjRlJxMgVMQBeM0WxnkticBAIPqNgl8gwKb2xvnciNYkDVoqMUAg0GY
-         gy9Q==
-X-Gm-Message-State: AOAM531QcQi9JW4bw3f6vR0i1PKKkqoEkQKjbBYQxfJ468waIFHn3Ujd
-        bROFazEvvsNg5fSzVuZVvRkIKrkJy+U8ha4TWq8=
-X-Google-Smtp-Source: ABdhPJxQlbv0a4XilTt53winmn24q6WqYj2NfsXNHTgTwmm/zZitLqqDZgxJFJYvr9Zc+6jgyfurufz35KtJv5VhfgI=
-X-Received: by 2002:aca:744:: with SMTP id 65mr4860931oih.153.1613549284169;
- Wed, 17 Feb 2021 00:08:04 -0800 (PST)
+        id S231929AbhBQIJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Feb 2021 03:09:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41740 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231927AbhBQII6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Feb 2021 03:08:58 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 39B3A64DE9;
+        Wed, 17 Feb 2021 08:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1613549296;
+        bh=C4GYwI6WcsErZN4W/obxdKpSWHSbu9N/1Dj7xZ1Mc4I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oPCAO0OtyIr1s5vZYDHw7kkZRjTB5PHP1tI1eYaC4Swu8rVvyuJM3AWH/1StSL6UU
+         dlPbFzmiKuO/Z3E5z7kDgwDz/ewRFB2+zvPNVh4spnmXL1LTMz6pegEq+vH0pZqrU7
+         bpypK3ANhJ0jqFTA+xrRRpytHngITnyNLbHYuL/U=
+Date:   Wed, 17 Feb 2021 09:08:13 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, krzk@kernel.org, shengjiu.wang@nxp.com,
+        adrian.ratiu@collabora.com, aisheng.dong@nxp.com, peng.fan@nxp.com,
+        Anson.Huang@nxp.com, hverkuil-cisco@xs4all.nl,
+        devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 00/18] Add HANTRO G2/HEVC decoder support for IMX8MQ
+Message-ID: <YCzO7SRmBKzGeMUS@kroah.com>
+References: <20210217080306.157876-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-References: <20210216174146.106639-1-jacopo+renesas@jmondi.org> <20210216174146.106639-11-jacopo+renesas@jmondi.org>
-In-Reply-To: <20210216174146.106639-11-jacopo+renesas@jmondi.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 17 Feb 2021 09:07:53 +0100
-Message-ID: <CAMuHMdWUKhvT2o-=7yQgR5nZkehO0m+MNXnM4Bss98afczi1DA@mail.gmail.com>
-Subject: Re: [PATCH 10/16] media: i2c: max9286: Rename reverse_channel_mv
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210217080306.157876-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 6:41 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> Rename the reverse_channel_mv variable to init_rev_chan_mv as
-> the next patches will cache the reverse channel amplitude in
+On Wed, Feb 17, 2021 at 09:02:48AM +0100, Benjamin Gaignard wrote:
+> The IMX8MQ got two VPUs but until now only G1 has been enabled.
+> This series aim to add the second VPU (aka G2) and provide basic 
+> HEVC decoding support.
 
-patch?
+Why are you adding this directly to drivers/staging/media/ and not
+drivers/media/?  Why can't this just go to the main location and not
+live in staging?
 
-> a new driver variable.
->
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+thanks,
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+greg k-h
