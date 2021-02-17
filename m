@@ -2,25 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E7C531D633
-	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 09:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E13FF31D640
+	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 09:09:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231866AbhBQIGZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Feb 2021 03:06:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231799AbhBQIEp (ORCPT
+        id S231891AbhBQIHe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Feb 2021 03:07:34 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53212 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231800AbhBQIEr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Feb 2021 03:04:45 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09E9C061786;
-        Wed, 17 Feb 2021 00:04:04 -0800 (PST)
+        Wed, 17 Feb 2021 03:04:47 -0500
 Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:fd6e:12cd:95d7:3350])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4061C1F4508D;
-        Wed, 17 Feb 2021 08:04:02 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E7C0B1F4508E;
+        Wed, 17 Feb 2021 08:04:03 +0000 (GMT)
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
         robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -35,9 +32,9 @@ Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
         kernel@collabora.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v1 10/18] media: hantro: Add helper functions for buffer information
-Date:   Wed, 17 Feb 2021 09:02:58 +0100
-Message-Id: <20210217080306.157876-11-benjamin.gaignard@collabora.com>
+Subject: [PATCH v1 11/18] media: hantro: Add helper function for auxiliary buffers allocation
+Date:   Wed, 17 Feb 2021 09:02:59 +0100
+Message-Id: <20210217080306.157876-12-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217080306.157876-1-benjamin.gaignard@collabora.com>
 References: <20210217080306.157876-1-benjamin.gaignard@collabora.com>
@@ -47,37 +44,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add help functions to retrieve buffer address and size.
+Add helper functions to allocate and free auxiliary buffers.
+These buffers aren't for frames but are needed by the hardware
+to store scaling matrix, tiles size, border filters etc...
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
 ---
- drivers/staging/media/hantro/hantro.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/staging/media/hantro/hantro.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index 2523c0d010df..a9b80b2c9124 100644
+index a9b80b2c9124..7f842edbc341 100644
 --- a/drivers/staging/media/hantro/hantro.h
 +++ b/drivers/staging/media/hantro/hantro.h
-@@ -430,6 +430,22 @@ hantro_get_dec_buf_addr(struct hantro_ctx *ctx, struct vb2_buffer *vb)
- 	return vb2_dma_contig_plane_dma_addr(vb, 0);
+@@ -446,6 +446,30 @@ hantro_get_dec_buf(struct hantro_ctx *ctx, struct vb2_buffer *vb)
+ 	return vb2_plane_vaddr(vb, 0);
  }
  
-+static inline size_t
-+hantro_get_dec_buf_size(struct hantro_ctx *ctx, struct vb2_buffer *vb)
++static inline int
++hantro_aux_buf_alloc(struct hantro_dev *vpu,
++		     struct hantro_aux_buf *buf, size_t size)
 +{
-+	if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
-+		return ctx->postproc.dec_q[vb->index].size;
-+	return vb2_plane_size(vb, 0);
++	buf->cpu = dma_alloc_coherent(vpu->dev, size, &buf->dma, GFP_KERNEL);
++	if (!buf->cpu)
++		return -ENOMEM;
++
++	buf->size = size;
++	return 0;
 +}
 +
-+static inline void *
-+hantro_get_dec_buf(struct hantro_ctx *ctx, struct vb2_buffer *vb)
++static inline void
++hantro_aux_buf_free(struct hantro_dev *vpu,
++		    struct hantro_aux_buf *buf)
 +{
-+	if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
-+		return ctx->postproc.dec_q[vb->index].cpu;
-+	return vb2_plane_vaddr(vb, 0);
++	if (buf->cpu)
++		dma_free_coherent(vpu->dev, buf->size, buf->cpu, buf->dma);
++
++	buf->cpu = NULL;
++	buf->dma = 0;
++	buf->size = 0;
 +}
 +
  void hantro_postproc_disable(struct hantro_ctx *ctx);
