@@ -2,74 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D10C231D67D
-	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 09:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0AC531D691
+	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 09:29:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231673AbhBQIUv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Feb 2021 03:20:51 -0500
-Received: from mail-ot1-f51.google.com ([209.85.210.51]:39271 "EHLO
-        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbhBQIUr (ORCPT
+        id S231645AbhBQI25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Feb 2021 03:28:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229459AbhBQI2z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Feb 2021 03:20:47 -0500
-Received: by mail-ot1-f51.google.com with SMTP id d7so11331657otq.6;
-        Wed, 17 Feb 2021 00:20:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4ODAFomA7HrrIMo0Cmhejdld+UvrDf30s1jNkKVd5CU=;
-        b=RDUh6pwOTIATokav8UyPvWee0izB5BPXT1W0UVLhqrJNeQtFGDW0A7rxOhnjJ56z+Q
-         hNSK8QQnN70vRcJG+3PW/JNblaRfy8BmdKmfA/PtM/p6Kq4xcu2JKVps0Tw9sw8mRYhs
-         jelg9Rl5YeD7XoRoxXeG03G4bx5hH0jlf9FrXA71RZnMQ+GwjdaCpCWs1RVypyxyUnsq
-         Y9MD8N7WkuNXk85pjrtBQ67b2nK0Bam+q7Bjg/YWrr1QCZho3tpQ6f9N4xZNYi/GIJF8
-         w/LMcD9mltyfGxVEMo3+ML3UF1B5EyC6TRD8tn45dHGwLle/i6pGUCcAtjIEDt+G7hBN
-         XJUQ==
-X-Gm-Message-State: AOAM531EKUq27VLL0yM8+QPAFAaMWbi/2PS/m1UG6QO/3pHI8rQNCk58
-        Q7C4S8Aqfokeaeso9SPTfSVP8Eq57pgaNi5+G6muFpJR
-X-Google-Smtp-Source: ABdhPJyKAN8M9BY1vd31PkK+F20XiPWL71kNEe+u3mzd11kEbWs0TTXPDHTkICbzdt6VeP2fLbMZwvCNXrCWRoQxnts=
-X-Received: by 2002:a05:6830:119:: with SMTP id i25mr17019987otp.107.1613550006189;
- Wed, 17 Feb 2021 00:20:06 -0800 (PST)
+        Wed, 17 Feb 2021 03:28:55 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2EAC061574;
+        Wed, 17 Feb 2021 00:28:15 -0800 (PST)
+Received: from [IPv6:2a01:e0a:4cb:a870:fd6e:12cd:95d7:3350] (unknown [IPv6:2a01:e0a:4cb:a870:fd6e:12cd:95d7:3350])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E4BA41F44D79;
+        Wed, 17 Feb 2021 08:28:12 +0000 (GMT)
+Subject: Re: [PATCH v1 00/18] Add HANTRO G2/HEVC decoder support for IMX8MQ
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, krzk@kernel.org, shengjiu.wang@nxp.com,
+        adrian.ratiu@collabora.com, aisheng.dong@nxp.com, peng.fan@nxp.com,
+        Anson.Huang@nxp.com, hverkuil-cisco@xs4all.nl,
+        devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+References: <20210217080306.157876-1-benjamin.gaignard@collabora.com>
+ <YCzO7SRmBKzGeMUS@kroah.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <04dfae0b-92e5-e02d-c687-ba4d28b7aaf2@collabora.com>
+Date:   Wed, 17 Feb 2021 09:28:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210216174146.106639-1-jacopo+renesas@jmondi.org> <20210216174146.106639-17-jacopo+renesas@jmondi.org>
-In-Reply-To: <20210216174146.106639-17-jacopo+renesas@jmondi.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 17 Feb 2021 09:19:55 +0100
-Message-ID: <CAMuHMdUENPfboGf86Bq_uGMS79vgzGn404_vY0pQSXJ3pwo4eA@mail.gmail.com>
-Subject: Re: [PATCH 16/16] media: i2c: gmsl: Use 339Kbps I2C bit-rate
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YCzO7SRmBKzGeMUS@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 6:41 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> With the camera modules initialization routines now running with
-> the noise immunity threshold enabled, it is possible to restore
-> the bit rate of the I2C transactions transported on the GMSL control
-> channel to 339 Kbps.
+
+Le 17/02/2021 à 09:08, Greg KH a écrit :
+> On Wed, Feb 17, 2021 at 09:02:48AM +0100, Benjamin Gaignard wrote:
+>> The IMX8MQ got two VPUs but until now only G1 has been enabled.
+>> This series aim to add the second VPU (aka G2) and provide basic
+>> HEVC decoding support.
+> Why are you adding this directly to drivers/staging/media/ and not
+> drivers/media/?  Why can't this just go to the main location and not
+> live in staging?
+
+G2/HEVC is added inside the already exiting Hantro driver, it is "just"
+an other codec from Hantro driver point of view.
+In addition of that v4l2-hevc uAPI is still unstable.
+One goal of this series is to have one more consumer of this v4l2-hevc
+uAPI so maybe we can claim it to be stable enough to move away from staging
+and then do the same for Hantro driver. That would be a great achievement !
+
+Benjamin
+
+> thanks,
 >
-> The 339 Kbps bit rate represents the default setting for the serializer
-> and the deserializer chips, and the setup/hold time and slave timeout
-> time in use are calibrate to support that rate.
-
-calibrated
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> greg k-h
+>
