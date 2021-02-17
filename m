@@ -2,148 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3BDC31DD5B
-	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 17:30:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8DAD31DEE8
+	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 19:13:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234107AbhBQQae (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Feb 2021 11:30:34 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:37029 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234012AbhBQQac (ORCPT
+        id S234814AbhBQSMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Feb 2021 13:12:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234804AbhBQSMv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Feb 2021 11:30:32 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id CPhylkT4oYbfZCPi1lppNn; Wed, 17 Feb 2021 17:29:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1613579389; bh=iyPpSkzK0jTSeGGeUdL5nfY97T6qJMt8GIS+Inx+S28=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=O7gWsspxLhUaoqLQ7vsk4E2n3sqOgr4y+9KN9qv1ad7G//kddij1whl1/rSKQoKfJ
-         WeBC2HTPE1LGEJwITvQf5/caFj7reFsSNITUPwh4lcQg0zSkImnY6D9OGlbZPm3wUY
-         RVO59Gf5uo9P8u5lJLwVqZJbArGD3YqU/BdTCneEaQmsmyBOicFreAbdPfwNJ/Ztoq
-         Jrhe5qPKEiIIPii8V2LfpEXA/GDhQHeIdJ7si7IIaCByKvPR3DJetANir8+uelfXhm
-         kZQ8yL1mXb40nBnkcSpF6/tTLQD+2PxGuwAQ02nwPHw1ll7GrqpZ2sY1miqP4i/I2d
-         yJg9E6gY8RccA==
-Subject: Re: Issue with cec_register_adapter calling request_module() from an
- async context when called from intel_dp_detect
-To:     Sean Young <sean@mess.org>, Hans de Goede <hdegoede@redhat.com>
-Cc:     intel-gfx <intel-gfx@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <91b0f6c8-79ca-d04f-1ae0-66bf954dd421@redhat.com>
- <8d24dad6-cb2a-da91-bd38-887a7aa3282f@xs4all.nl>
- <20210217143223.GA28632@gofer.mess.org>
- <1c081320-d040-12b7-fbd6-e6b8c03c2ae8@redhat.com>
- <20210217151159.GA29680@gofer.mess.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <876e34f6-c39b-8e97-7ebb-79ae2c356e53@xs4all.nl>
-Date:   Wed, 17 Feb 2021 17:29:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.0
+        Wed, 17 Feb 2021 13:12:51 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B851C061574;
+        Wed, 17 Feb 2021 10:12:09 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 0A2E91F45514
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, kernel@collabora.com,
+        linux-kernel@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>
+Subject: [PATCH] test-media: wrap vivid code around $vivid variable
+Date:   Wed, 17 Feb 2021 15:11:57 -0300
+Message-Id: <20210217181157.28285-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210217151159.GA29680@gofer.mess.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKp90XAofxO4yfMSVv5oenu7lcEjfFwyHtlOYS5bV/EpMyzMYgRsCIxFwbwtKJIbrFP8vcVGEszzW8cbgBoeZfR940e27msjWMfqdAevLPdi3ynGp8VT
- snX8j9NsF5sd6TgejU7KPhqUWy/43uFsZFWT9flfocZQNeppzHxI3Gd2T6CA5uNzr/U/sLJYHz7GnDo5d7ZbvQY3NnMEZYy2pQeTBRsLAJbv9M+tJEzoRqHC
- dMWuHttx6PetOtA8SvksUFdSygSXzCjrXpk45xG2/E9XiwXF3Bz1GPGrIvxrLf03
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/02/2021 16:11, Sean Young wrote:
-> Hi,
-> 
-> On Wed, Feb 17, 2021 at 04:04:11PM +0100, Hans de Goede wrote:
->> On 2/17/21 3:32 PM, Sean Young wrote:
->>> On Wed, Feb 17, 2021 at 01:41:46PM +0100, Hans Verkuil wrote:
->>>> Hi Hans,
->>>>
->>>> On 17/02/2021 13:24, Hans de Goede wrote:
->>>>> <resend with the linux-media list added to the Cc>
->>>>>
->>>>> Hi Hans,
->>>>>
->>>>> Fedora has a (opt-in) system to automatically collect backtraces from software
->>>>> crashing on users systems.
->>>>>
->>>>> This includes collecting kernel backtraces (including once triggered by
->>>>> WARN macros) while looking a the top 10 of the most reported backtrace during the
->>>>> last 2 weeks report from ABRT: https://retrace.fedoraproject.org/faf/problems/
->>>>>
->>>>> I noticed the following backtrace:
->>>>> https://retrace.fedoraproject.org/faf/problems/8150/
->>>>> which has been reported 170000 times by Fedora users who have opted-in during the
->>>>> last 14 days.
->>>>>
->>>>> The issue here is that cec_register_adapter ends up calling request_module()
->>>>> from an async context, triggering this warn in kernel/kmod.c __request_module():
->>>>>
->>>>>         /*
->>>>>          * We don't allow synchronous module loading from async.  Module
->>>>>          * init may invoke async_synchronize_full() which will end up
->>>>>          * waiting for this task which already is waiting for the module
->>>>>          * loading to complete, leading to a deadlock.
->>>>>          */
->>>>>         WARN_ON_ONCE(wait && current_is_async());
->>>>>
->>>>> The call-path leading to this goes like this:
->>>>>
->>>>>  ? kvasprintf+0x6d/0xa0
->>>>>  ? kobject_set_name_vargs+0x6f/0x90
->>>>>  rc_map_get+0x30/0x60
->>>>
->>>> It's not CEC, it is rc_map_get that calls request_module() for rc-cec.ko.
->>>>
->>>> I've added Sean Young to the CC list.
->>>>
->>>> Sean, is it possible to treat rc-cec as a built-in if MEDIA_CEC_RC is set?
->>>>
->>>> I think this issue is very specific to CEC. I would not expect to see this
->>>> with any other rc keymap.
->>>
->>> So CEC creates an RC device with a keymap (cec keymap, of course) and then
->>> the keymap needs to be loaded. We certainly don't want all keymaps as
->>> builtins, that would be a waste.
->>>
->>> The cec keymap is scanned once to build a map from cec codes to linux
->>> keycodes; making it builtin is not ideal, and makes the build system a
->>> bit messy.
->>>
->>> I don't think we can load the keymap later, user space may start remapping
->>> the keymap from udev.
->>>
->>> Possibly we could create the cec or rc device later but this could be a bit
->>> messy.
->>>
->>> Could CEC specify:
->>>
->>> #if IS_ENABLED(CONFIG_MEDIA_CEC_RC)
->>> MODULE_SOFTDEP("rc-cec")
->>> #endif
->>
->> That would need to be:
->>
->> MODULE_SOFTDEP("pre: rc-cec")
->>
->> I see that the drm_kms_helper and i915 drivers both depend on the cec module already,
->> so yes if that module will request for rc-cec to be loaded before it is loaded
->> (and thus before i915 is loaded) then that should work around this.
->>
->> Assuming the user is using a module-loader which honors the softdep...
->>
->> Also this assumes that rc_map_get is smart enough to not call request_module()
->> if the module is already loaded, is that the case ?
-> 
-> Yes, see rc_map_get().
+The script was trying to load vivid and run some commands on top of it
+even when $vivid = 0.
+Wrap all vivid code under $vivid variable.
 
-I tried this. It works if CONFIG_RC_CORE is set to m, but setting it to
-y resulted in the same problem. It looks like MODULE_SOFTDEP only works if rc_main
-is a module as well.
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+---
+ contrib/test/test-media | 66 ++++++++++++++++++++---------------------
+ 1 file changed, 33 insertions(+), 33 deletions(-)
 
-It was a good idea, though :-)
+diff --git a/contrib/test/test-media b/contrib/test/test-media
+index 10b7e89d..8cd8bc37 100755
+--- a/contrib/test/test-media
++++ b/contrib/test/test-media
+@@ -146,29 +146,29 @@ if [ $kmemleak -eq 1 ]; then
+ 	echo clear >/sys/kernel/debug/kmemleak
+ fi
+ 
+-rmmod vivid 2&>/dev/null
+-modprobe vivid n_devs=3 multiplanar=1,2,2 cache_hints=1,0,0 #allocators=0,1,1
+-sleep 1
++if [ $vivid -eq 1 ]; then
++	rmmod vivid 2&>/dev/null
++	modprobe vivid n_devs=3 multiplanar=1,2,2 cache_hints=1,0,0 #allocators=0,1,1
++	sleep 1
+ 
+-tmp=`mktemp`
++	tmp=`mktemp`
+ 
+-if ! $v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-cap ; then
+-	echo "FAIL: the vivid module failed to load" | tee -a $tmp
+-	echo "Grand Total for vivid: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
+-	echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
+-	exit 0
+-fi
++	if ! $v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-cap ; then
++		echo "FAIL: the vivid module failed to load" | tee -a $tmp
++		echo "Grand Total for vivid: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
++		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
++		exit 0
++	fi
+ 
+-$v4l2_ctl -z platform:vivid-000 -d vivid-000-vid-cap -i3 -v width=3840,height=2160,pixelformat=NV24
+-$v4l2_ctl -z platform:vivid-000 -d vivid-000-vid-out -o1 -x width=3840,height=2160,pixelformat=NV24
+-$v4l2_ctl -z platform:vivid-001 -d vivid-001-vid-cap -i3 -v width=3840,height=2160,pixelformat=NM16
+-$v4l2_ctl -z platform:vivid-001 -d vivid-001-vid-out -o1 -x width=3840,height=2160,pixelformat=NM16
+-$v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-cap -i3 -v width=3840,height=2160,pixelformat=NV24
+-$v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-out -o1 -x width=3840,height=2160,pixelformat=NM16
++	$v4l2_ctl -z platform:vivid-000 -d vivid-000-vid-cap -i3 -v width=3840,height=2160,pixelformat=NV24
++	$v4l2_ctl -z platform:vivid-000 -d vivid-000-vid-out -o1 -x width=3840,height=2160,pixelformat=NV24
++	$v4l2_ctl -z platform:vivid-001 -d vivid-001-vid-cap -i3 -v width=3840,height=2160,pixelformat=NM16
++	$v4l2_ctl -z platform:vivid-001 -d vivid-001-vid-out -o1 -x width=3840,height=2160,pixelformat=NM16
++	$v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-cap -i3 -v width=3840,height=2160,pixelformat=NV24
++	$v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-out -o1 -x width=3840,height=2160,pixelformat=NM16
+ 
+-echo
++	echo
+ 
+-if [ $vivid -eq 1 ]; then
+ 	dmesg -n notice
+ 	echo
+ 	echo vivid compliance tests, contiguous planes | tee /dev/kmsg
+@@ -287,6 +287,18 @@ if [ $vivid -eq 1 ]; then
+ 	echo
+ 	echo
+ 	echo
++
++	date
++	echo
++	echo unbind vivid | tee /dev/kmsg
++	echo
++	echo -n vivid.0 >/sys/bus/platform/drivers/vivid/unbind
++	sleep $unbind_time
++	echo
++	echo rmmod vivid | tee /dev/kmsg
++	echo
++	rmmod vivid
++	sleep $rmmod_time
+ fi
+ 
+ if [ $vim2m -eq 1 ]; then
+@@ -300,7 +312,7 @@ if [ $vim2m -eq 1 ]; then
+ 		echo "FAIL: the vim2m module failed to load" | tee -a $tmp
+ 		echo "Grand Total for vim2m: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
+ 		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
+-		rmmod vivid
++		rmmod vim2m
+ 		exit 0
+ 	fi
+ 
+@@ -373,7 +385,7 @@ if [ $vimc -eq 1 ]; then
+ 		echo "FAIL: the vimc module failed to load" | tee -a $tmp
+ 		echo "Grand Total for vimc: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
+ 		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
+-		rmmod vivid
++		rmmod vimc
+ 		exit 0
+ 	fi
+ 
+@@ -467,7 +479,7 @@ if [ $vicodec -eq 1 ]; then
+ 		echo "FAIL: the vicodec module failed to load" | tee -a $tmp
+ 		echo "Grand Total for vicodec: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
+ 		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
+-		rmmod vivid
++		rmmod vicodec
+ 		exit 0
+ 	fi
+ 
+@@ -603,18 +615,6 @@ if [ $vicodec -eq 1 ]; then
+ 	echo
+ fi
+ 
+-date
+-echo
+-echo unbind vivid | tee /dev/kmsg
+-echo
+-echo -n vivid.0 >/sys/bus/platform/drivers/vivid/unbind
+-sleep $unbind_time
+-echo
+-echo rmmod vivid | tee /dev/kmsg
+-echo
+-rmmod vivid
+-sleep $rmmod_time
+-
+ if [ $vidtv -eq 1 ]; then
+ 	rmmod dvb_vidtv_bridge dvb_vidtv_tuner dvb_vidtv_demod 2&>/dev/null
+ 	modprobe vidtv
+-- 
+2.30.1
 
-Regards,
-
-	Hans
