@@ -2,73 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F5531D1FD
-	for <lists+linux-media@lfdr.de>; Tue, 16 Feb 2021 22:20:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4213331D3B4
+	for <lists+linux-media@lfdr.de>; Wed, 17 Feb 2021 02:15:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230362AbhBPVTk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Feb 2021 16:19:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54838 "EHLO
+        id S231452AbhBQBNk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Feb 2021 20:13:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbhBPVTd (ORCPT
+        with ESMTP id S229864AbhBQBNY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Feb 2021 16:19:33 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BE0FC061756;
-        Tue, 16 Feb 2021 13:18:52 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id o15so96936wmq.5;
-        Tue, 16 Feb 2021 13:18:52 -0800 (PST)
+        Tue, 16 Feb 2021 20:13:24 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E255AC06174A;
+        Tue, 16 Feb 2021 17:12:43 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id cl8so476856pjb.0;
+        Tue, 16 Feb 2021 17:12:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6vedo8W/6qWPUt/+BKTlFoVhMoDHLM1dBDJR550KtdE=;
-        b=al+D3i+Zt3NA99dyoxSWDLmJSD87CYOfxu0lK8OipS4kCNnFdHTV5q5GiqJPQrbeg8
-         L1Y7nthHQ5hZclx/MNWlP899Nnq6XjGdh+qxuIqgwE582fI5Uh2oEySoQaSZN+tF0qYJ
-         J+xE1gZtgIq5ZEJNqgqoDrJmvYHB9g3AzD4NpwKVIMSKpfaex6yBoo5AToCt1D3wQM3Q
-         s0ApvBBjG2FrvegtK8hZ8bds/zBxOt8EyD6SkmvKHJ+7my15W8fPvJHNrLeNaM7yTBwF
-         wGpcDCgr9jjyGc/onHyTEbf+Q2Z8qsmnuIYxpik5YoST0P+8hHKl1jAqS/FuJ5xDpyEh
-         g2UA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wNVZYewXDzKdq3nivCVCuJM93zq5lmDXKFfuCe08TZU=;
+        b=lze8dBm3rNnLESFrVkK3G9iztt0PsgOI/qDTKzkgci30CWAZwENz2kt4IoLhdNYWTd
+         4DGVKvBwUnm1xVNxS3o/C1Q+TDopRCdasjx38BwpwAEIKNq4MIqlm0MB25PGq0GokhY5
+         CDYZ/yslGXhBJGQH6VEvEzVOrXW6lNco4g42us0/5lVnH0wf7dirjcj44TtQuATNUnYh
+         TFWxjJzEVbwAKWT0/JA8tzzlTI46uPvxTauJdd4XakpCu80NxofMqf4j7gd7Q2eTOxtX
+         1bcQz+ndQ8NhF7H61meQMPZ2TE/vbNX/bNhLTmOwsZKXWyRsmvx0XreYPXkN5fj1E1RM
+         YrmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6vedo8W/6qWPUt/+BKTlFoVhMoDHLM1dBDJR550KtdE=;
-        b=qCveOmx59nMloAA4FS8rVmCZvTe4qJUkDjXT0qfhDEeqK0p7us9TSZo463mrqI2Kmy
-         wxLqpwORW2/ox0FTf5w1O4IEeD3waNaKyFi8cDPqLa4u2CozZ8+P/zB4gg3w/ycmBllg
-         t52V8Whw3Ckmc8oaF9k+tz1LlyTaSoEV2JZtodFo4VKEn7Hc/WXMd8UIROgHV2+xTUVu
-         mJZaetD49aONa8+nSOkHK6xLfCyNP7x4yEV+Y5Ck9q5DacZePQ4Ghjf4k5gXgqR40DDi
-         vflMc7Ydl35qnN1tFsKpUWU6LEK84FaB+Hj5yndx6a/R7U8HR6uLumXg3uQt3CEaog/H
-         +5cg==
-X-Gm-Message-State: AOAM533QvKw9jobaX5TpoGvHzg7Os16vktywLUZp5a9NSGHexNdPG/Xn
-        1AZftA3tmi3W5nP65a6qdnNDoEFTTdPUhw==
-X-Google-Smtp-Source: ABdhPJy+kXgSH51yldd0iyYVx1Hf74I3mdzTuYAqUt9RNaIEbo1a0SBA0kaurMy9+RPsBS8O24GJKA==
-X-Received: by 2002:a7b:cbd4:: with SMTP id n20mr3880287wmi.171.1613510330882;
-        Tue, 16 Feb 2021 13:18:50 -0800 (PST)
-Received: from trashcan (host-5-58-109-138.bitternet.ua. [5.58.109.138])
-        by smtp.gmail.com with ESMTPSA id m11sm5059974wmi.25.2021.02.16.13.18.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 13:18:50 -0800 (PST)
-Date:   Tue, 16 Feb 2021 23:56:49 +0300
-From:   Vladimir Lypak <junak.pub@gmail.com>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     robert.foss@linaro.org, sakari.ailus@linux.intel.com,
-        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
-        mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
-        jacopo@jmondi.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] media: qcom: camss: V4L2_CID_PIXEL_RATE/LINK_FREQ
- fixes
-Message-ID: <YCwxkdNKXMunBVZG@trashcan>
-References: <20210214213404.8373-1-andrey.konovalov@linaro.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wNVZYewXDzKdq3nivCVCuJM93zq5lmDXKFfuCe08TZU=;
+        b=UWSbKC6zuJesSFT4X5We/bWtUXYlKqMS7hPFSuS9UJQ2eDuXnBst+SEfvzQ1MekmHM
+         Rn2QpSkHrC4Azuan+G1NgzU3QVDZA5pmo2Z5sSHH9W9fe6qlPzXGAeZLKHNnA5cq9FMu
+         9qstkiBOX+8bEDcnSfwqcvk/yMZ/UtYJ+JEVGDvZmTj7f4gAFI8mvnhmL+9jnSkEeTrR
+         OOUhVJFTEx4k3BOunBWDyOu9oRBFd4/Y0QHObMy1h9XfYlRt13U3vCs4ja0uwsjzootg
+         ZC62PpKkL8zE2yq5JfYVKYFYu1W4j4JTVMDnJKK2rpj7zzdongNFFW1YEKREsfOnET8I
+         57eQ==
+X-Gm-Message-State: AOAM532MUs6ehm/hGmuDPfItN0vPN+/VpSb0Fuhz3aeje+bdyTwomrkr
+        0n7hdOQMy0HJxl8d5GoIaOj/f6kU8QM=
+X-Google-Smtp-Source: ABdhPJxI42w5Dp3+mhtK9Eu+GOs7t/DjNXtsyX/1HLRij6cQkCWDcR+YtmZ70nMLW3lATeCUnw7Fxg==
+X-Received: by 2002:a17:90b:17c7:: with SMTP id me7mr6781873pjb.205.1613524363086;
+        Tue, 16 Feb 2021 17:12:43 -0800 (PST)
+Received: from [10.230.29.30] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id y22sm326153pgh.19.2021.02.16.17.12.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Feb 2021 17:12:42 -0800 (PST)
+Subject: Re: [PATCH] Revert "ARM: dts: bcm2711: Add the BSC interrupt
+ controller"
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     dave.stevenson@raspberrypi.com, maz@kernel.org, eric@anholt.net,
+        tzimmermann@suse.de, linux-rpi-kernel@lists.infradead.org,
+        hverkuil-cisco@xs4all.nl, nsaenzjulienne@suse.de,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        dri-devel@lists.freedesktop.org, maxime@cerno.tech,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20210212191104.2365912-1-f.fainelli@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <6ce9e820-992f-7f97-ccaa-f8cb99698a68@gmail.com>
+Date:   Tue, 16 Feb 2021 17:12:39 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210214213404.8373-1-andrey.konovalov@linaro.org>
+In-Reply-To: <20210212191104.2365912-1-f.fainelli@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello, Andrey!
 
-Thank you for including my patch, i'm glad you did it. This patchset works
-fine for me.
+
+On 2/12/2021 11:11 AM, Florian Fainelli wrote:
+> As Dave reported:
+> 
+> This seems to have unintended side effects.  GIC interrupt 117 is shared
+> between the standard I2C controllers (i2c-bcm2835) and the l2-intc block
+> handling the HDMI I2C interrupts.
+> 
+> There is not a great way to share an interrupt between an interrupt
+> controller using the chained IRQ handler which is an interrupt flow and
+> another driver like i2c-bcm2835 which uses an interrupt handler
+> (although it specifies IRQF_SHARED).
+> 
+> Simply revert this change for now which will mean that HDMI I2C will be
+> polled, like it was before.
+> 
+> Reported-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+
+Applied to devicetree/next, thanks!
+-- 
+Florian
