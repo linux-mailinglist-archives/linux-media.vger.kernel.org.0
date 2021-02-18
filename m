@@ -2,125 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04DFA31ECBC
-	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 18:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66C1131ECBF
+	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 18:05:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234185AbhBRQ7O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Feb 2021 11:59:14 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33160 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233120AbhBRQIS (ORCPT
+        id S234198AbhBRQ7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Feb 2021 11:59:25 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:49821 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233256AbhBRQOg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Feb 2021 11:08:18 -0500
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 580BC3E7;
-        Thu, 18 Feb 2021 17:07:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613664453;
-        bh=kQ8OEh/Mm+FqKi7mPHrc30jLI5eIvbGSQ8oxqED2fN8=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ZozBA+bNhh0ZR4Elyf2cX7TcUNNp8Hp8Hc7zaP1D1PNs7a1Pzv0cOmPyUVm21PXbz
-         /4NHy66lF5BsPjaJK4LuxZEQ/DDJtaTB4q39+lVajHZH2fwcHPVUtI982JsHRD1UW5
-         OqYAzbl+eOp/ZHcaDbHmXhYLWqwyIymEGACY+4ZE=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 16/16] media: i2c: gmsl: Use 339Kbps I2C bit-rate
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
- <20210216174146.106639-17-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <aa7d8a9c-93a0-8c14-4fe4-b831e7b45d88@ideasonboard.com>
-Date:   Thu, 18 Feb 2021 16:07:30 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 18 Feb 2021 11:14:36 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ClvQlG3KUZvk6ClvUlAXi8; Thu, 18 Feb 2021 17:13:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1613664792; bh=UMs6ieNZxg5GE9x4Iz9tPbVgybqsI/TV4irkbj9RlK4=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=RtsipwUi8Tsh59craFIA8S88yqE72Rtr+rz8cidB5AuAds4Pf69Gk5qtYDx4QlzBC
+         3m6fQgnm12vFwDdMoCMMUJVtzMHOeeQHfkZYQgJVC8s6JeZF4StCVpTospk1R7BTk3
+         f36AG9dGqvGh748a3SJnOJCygmXiCpNPw7RP1YF3XdqX9nnwzUXZYkKVAEsx0D19nv
+         GQ6UQb9jRtxlYArkysrleaI5YgUg5U3sEZqA77ded4kBOdSxBDMmwK29ppPmb8UOq1
+         MnAjK1etxdu95sEEPBowAaCBboWli/VG3mevZ16e1NjJF7fpJZCVBeh4piK+vzA2Wn
+         S/8kbZw0HI+Fg==
+To:     Sean Young <sean@mess.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media/rc: compile rc-cec.c into rc-core
+Message-ID: <c3b7bb19-a3a7-e954-80cf-a083b11ee69d@xs4all.nl>
+Date:   Thu, 18 Feb 2021 17:13:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210216174146.106639-17-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEDkOORaURqlXDG/Y63YNUXKrhz0SRq2ss1Tr8NB3trq7oMlHi9Ly0vqEnhNEXS2UamSGgGDyHgFE6vUsmyHCGBKwmx/JSbl+gzHbm5RQlnCi1NxphjF
+ 1li/zAQhHaFi00dy28k29MAVZjtPzWPw12R5s0wriv9aRNvhx/9cbXPjO/1g9KiSburmQ+YYCXmLQX0QxwggNDX8jVX5rbfyKPJK2TMsO5kAmY3v+0tOgQT7
+ 6tRhyjtvqYkBjDS0CVoMpg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/02/2021 17:41, Jacopo Mondi wrote:
-> With the camera modules initialization routines now running with
-> the noise immunity threshold enabled, it is possible to restore
-> the bit rate of the I2C transactions transported on the GMSL control
-> channel to 339 Kbps.
-> 
-> The 339 Kbps bit rate represents the default setting for the serializer
-> and the deserializer chips, and the setup/hold time and slave timeout
-> time in use are calibrate to support that rate.
+The rc-cec keymap is unusual in that it can't be built as a module,
+instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
+is set. This is because it can be called from drm_dp_cec_set_edid() via
+cec_register_adapter() in an asynchronous context, and it is not
+allowed to use request_module() to load rc-cec.ko in that case. Trying to
+do so results in a 'WARN_ON_ONCE(wait && current_is_async())'.
 
-s/calibrate/calibrated/
+Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
+just compile this keymap into the rc-core module and never as a
+separate module.
 
-Does that mean the setup/hold time and timeouts should be adjusted based
-on the i2c speed? (which we have not been doing?)
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 2c6d1fffa1d9 (drm: add support for DisplayPort CEC-Tunneling-over-AUX)
+Reported-by: Hans de Goede <hdegoede@redhat.com>
+---
+Sean, I tested this both with RC_CORE=y and =m.
 
-With all of your other reliability improvements, does *this* change
-alone have any difference or impact on reliability?
+It looks reasonably clean to me, but I am not sure if this affects v4l-utils
+as well. Let me know what you think.
 
-I.e. if we go slower (stay at current speed) - would we be more reliable?
+Regards,
 
-Is there a reliability improvement by making this speed faster?
+	Hans
+---
+diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
+index 5bb2932ab119..ff6a8fc4c38e 100644
+--- a/drivers/media/rc/Makefile
++++ b/drivers/media/rc/Makefile
+@@ -5,6 +5,7 @@ obj-y += keymaps/
+ obj-$(CONFIG_RC_CORE) += rc-core.o
+ rc-core-y := rc-main.o rc-ir-raw.o
+ rc-core-$(CONFIG_LIRC) += lirc_dev.o
++rc-core-$(CONFIG_MEDIA_CEC_RC) += keymaps/rc-cec.o
+ rc-core-$(CONFIG_BPF_LIRC_MODE2) += bpf-lirc.o
+ obj-$(CONFIG_IR_NEC_DECODER) += ir-nec-decoder.o
+ obj-$(CONFIG_IR_RC5_DECODER) += ir-rc5-decoder.o
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index b252a1d2ebd6..cc6662e1903f 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -21,7 +21,6 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-behold.o \
+ 			rc-behold-columbus.o \
+ 			rc-budget-ci-old.o \
+-			rc-cec.o \
+ 			rc-cinergy-1400.o \
+ 			rc-cinergy.o \
+ 			rc-d680-dmb.o \
+diff --git a/drivers/media/rc/keymaps/rc-cec.c b/drivers/media/rc/keymaps/rc-cec.c
+index 3e3bd11092b4..068e22aeac8c 100644
+--- a/drivers/media/rc/keymaps/rc-cec.c
++++ b/drivers/media/rc/keymaps/rc-cec.c
+@@ -1,5 +1,15 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /* Keytable for the CEC remote control
++ *
++ * This keymap is unusual in that it can't be built as a module,
++ * instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
++ * is set. This is because it can be called from drm_dp_cec_set_edid() via
++ * cec_register_adapter() in an asynchronous context, and it is not
++ * allowed to use request_module() to load rc-cec.ko in that case.
++ *
++ * Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
++ * just compile this keymap into the rc-core module and never as a
++ * separate module.
+  *
+  * Copyright (c) 2015 by Kamil Debski
+  */
+@@ -152,7 +162,7 @@ static struct rc_map_table cec[] = {
+ 	/* 0x77-0xff: Reserved */
+ };
 
-I presume we don't have a way to convey the i2c bus speed between the
-max9286 and the max9271 currently? Seems a bit like a bus parameter....
+-static struct rc_map_list cec_map = {
++struct rc_map_list cec_map = {
+ 	.map = {
+ 		.scan		= cec,
+ 		.size		= ARRAY_SIZE(cec),
+@@ -160,19 +170,3 @@ static struct rc_map_list cec_map = {
+ 		.name		= RC_MAP_CEC,
+ 	}
+ };
+-
+-static int __init init_rc_map_cec(void)
+-{
+-	return rc_map_register(&cec_map);
+-}
+-
+-static void __exit exit_rc_map_cec(void)
+-{
+-	rc_map_unregister(&cec_map);
+-}
+-
+-module_init(init_rc_map_cec);
+-module_exit(exit_rc_map_cec);
+-
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Kamil Debski");
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index 1fd62c1dac76..4768b1e9ffd1 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -163,6 +163,10 @@ static struct rc_map_list empty_map = {
+ 	}
+ };
 
++#ifdef CONFIG_MEDIA_CEC_RC
++extern struct rc_map_list cec_map;
++#endif
++
+ /**
+  * scancode_to_u64() - converts scancode in &struct input_keymap_entry
+  * @ke: keymap entry containing scancode to be converted.
+@@ -2069,6 +2073,9 @@ static int __init rc_core_init(void)
 
+ 	led_trigger_register_simple("rc-feedback", &led_feedback);
+ 	rc_map_register(&empty_map);
++#ifdef CONFIG_MEDIA_CEC_RC
++	rc_map_register(&cec_map);
++#endif
 
-
-
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/max9286.c | 2 +-
->  drivers/media/i2c/rdacm20.c | 2 +-
->  drivers/media/i2c/rdacm21.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index aa01d5bb79ef..0b620f2f8c41 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -330,7 +330,7 @@ static int max9286_i2c_mux_init(struct max9286_priv *priv)
->  static void max9286_configure_i2c(struct max9286_priv *priv, bool localack)
->  {
->  	u8 config = MAX9286_I2CSLVSH_469NS_234NS | MAX9286_I2CSLVTO_1024US |
-> -		    MAX9286_I2CMSTBT_105KBPS;
-> +		    MAX9286_I2CMSTBT_339KBPS;
->  
->  	if (localack)
->  		config |= MAX9286_I2CLOCACK;
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 0632ef98eea7..d45e8b0e52a0 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -450,7 +450,7 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
->  	ret = max9271_configure_i2c(&dev->serializer,
->  				    MAX9271_I2CSLVSH_469NS_234NS |
->  				    MAX9271_I2CSLVTO_1024US |
-> -				    MAX9271_I2CMSTBT_105KBPS);
-> +				    MAX9271_I2CMSTBT_339KBPS);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> index 80b6f16f87a8..552985026458 100644
-> --- a/drivers/media/i2c/rdacm21.c
-> +++ b/drivers/media/i2c/rdacm21.c
-> @@ -442,7 +442,7 @@ static int rdacm21_init(struct v4l2_subdev *sd, unsigned int val)
->  	ret = max9271_configure_i2c(&dev->serializer,
->  				    MAX9271_I2CSLVSH_469NS_234NS |
->  				    MAX9271_I2CSLVTO_1024US |
-> -				    MAX9271_I2CMSTBT_105KBPS);
-> +				    MAX9271_I2CMSTBT_339KBPS);
->  	if (ret)
->  		return ret;
->  
-> 
+ 	return 0;
+ }
+@@ -2078,6 +2085,9 @@ static void __exit rc_core_exit(void)
+ 	lirc_dev_exit();
+ 	class_unregister(&rc_class);
+ 	led_trigger_unregister_simple(led_feedback);
++#ifdef CONFIG_MEDIA_CEC_RC
++	rc_map_register(&cec_map);
++#endif
+ 	rc_map_unregister(&empty_map);
+ }
 
