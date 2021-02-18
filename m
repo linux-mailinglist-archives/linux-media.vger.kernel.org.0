@@ -2,76 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED28E31E702
-	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 08:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F4531E730
+	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 09:01:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbhBRHhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Feb 2021 02:37:19 -0500
-Received: from mga06.intel.com ([134.134.136.31]:61996 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230211AbhBRHaC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Feb 2021 02:30:02 -0500
-IronPort-SDR: Ke762VkCXF9ytOeAqK2J2X2sTKNx14u3hZTgQiMoQ5NdEgoYulfk3i+zIj7Je4HaIB1HA1I2aG
- 3RMPRY6WuntA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="244882856"
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
-   d="scan'208";a="244882856"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 23:27:13 -0800
-IronPort-SDR: /sCPfWNKE52fh+yCaJ2IFkZ1S2LTiaA22tcHVAEgS89O3W/yKVbJa4uQ6Q22XLdKjY10vAhRse
- dGhgDJfDzvtw==
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
-   d="scan'208";a="362331541"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 23:27:09 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 3A9132036A;
-        Thu, 18 Feb 2021 09:27:07 +0200 (EET)
-Date:   Thu, 18 Feb 2021 09:27:07 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v9 0/4] Add %p4cc printk modifier for V4L2 and DRM fourcc
- codes
-Message-ID: <20210218072707.GD3@paasikivi.fi.intel.com>
-References: <20210216155723.17109-1-sakari.ailus@linux.intel.com>
- <9e279133-298d-433f-0694-5366861a6dbe@suse.de>
+        id S231326AbhBRH7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Feb 2021 02:59:32 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:41897 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229889AbhBRH4N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Feb 2021 02:56:13 -0500
+Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 0BE67200011;
+        Thu, 18 Feb 2021 07:54:44 +0000 (UTC)
+Date:   Thu, 18 Feb 2021 08:55:10 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     junak.pub@gmail.com, robert.foss@linaro.org,
+        sakari.ailus@linux.intel.com, todor.too@gmail.com,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] v4l: common: v4l2_get_link_freq: add printing a
+ warning
+Message-ID: <20210218075510.dcqbpmft46bymmnd@uno.localdomain>
+References: <20210217221134.2606-1-andrey.konovalov@linaro.org>
+ <20210217221134.2606-2-andrey.konovalov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9e279133-298d-433f-0694-5366861a6dbe@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210217221134.2606-2-andrey.konovalov@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 17, 2021 at 01:14:42PM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 16.02.21 um 16:57 schrieb Sakari Ailus:
-> > Hi all,
-> > 
-> > 	On merging --- it would seem everyone is happy with merging this
-> > 	through the drm-misc tree. The last patch should wait until all
-> > 	users are gone for sure, probably to the next kernel release.
-> > 	There are no users of drm_get_format_name() in linux-next
-> > 	currently after the 3rd patch.
-> 
-> I've merged patches 1 to 3 into drm-misc-next. Patch 4 (and maybe some final
-> fix-up patch) will land when all DRM trees have catched up the changes.
+Hi Andrey,
 
-Thank you!
+On Thu, Feb 18, 2021 at 01:11:32AM +0300, Andrey Konovalov wrote:
+> Print a warning if V4L2_CID_LINK_FREQ control is not implemented.
+>
+> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 133d20e40f82..f1abdf2ab4ec 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -461,6 +461,8 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+>
+>  		freq = qm.value;
+>  	} else {
+> +		pr_warn("%s: V4L2_CID_LINK_FREQ not implemented\n", __func__);
+> +
 
--- 
-Sakari Ailus
+It's a shame we can't access a struct device * somehow :(
+Also, nitpicking (please bear with me here) it is absolutely correct
+that V4L2_CID_LINK_FREQ is not implemented, but I think the real deal
+here is that the link rate is estimanted from PIXEL_RATE and that
+might be wrong.
+
+What about (insipired from the error message in match_fwnode() which I
+find useful)
+
+                pr_warn("%s: Link frequency estimanted using pixel rate: result might be inaccurate\n",
+                        __func__);
+                pr_warn("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
+                        __func___);
+
+Anyway, whatever works
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+   j
+
+>  		if (!mul || !div)
+>  			return -ENOENT;
+>
+> --
+> 2.17.1
+>
