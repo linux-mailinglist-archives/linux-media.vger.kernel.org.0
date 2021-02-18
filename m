@@ -2,119 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 780EF31ECAB
+	by mail.lfdr.de (Postfix) with ESMTP id E9AF731ECAC
 	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 18:05:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234111AbhBRQ57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Feb 2021 11:57:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39590 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231398AbhBROzV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Feb 2021 09:55:21 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 943A964EB9;
-        Thu, 18 Feb 2021 14:54:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613660078;
-        bh=G1o3sltRRgh2gaudrfVPAl3cfmWIH60ygZShn9u7C+0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mQd9f8XcRwdbNjtFodNA0zCyokDf0TgyQH4wBSADfAKQW8HJ/b0rNY01rig/c4sNE
-         pYLJU7PkY17IsDVdZkwc0k9CeWdZA6ysyi40iEs9N6Al5xcwvlOMM/hiDpysWFFesg
-         rd9ZN9VyGGqLeO5PC9LqdXbss4OA8zD8Zm0oywC2AshWytroXyN6ynTb+4xISuQv9a
-         ebIKaBLjW+uvvdJEFaOZa8yalTArsSKsjSMk+oDWtnsLcdjXqVzLZv3RM87lq+ouHl
-         2JZvZo0a9mv5WkVoWPONvk03+ZxZ4yi5rno5IC+WzttCEFlFouLMEdcaL3jJixiXvz
-         v77QMu7bKOMog==
-Received: by mail-ej1-f41.google.com with SMTP id bl23so6066651ejb.5;
-        Thu, 18 Feb 2021 06:54:38 -0800 (PST)
-X-Gm-Message-State: AOAM531ObfIbrp3kBU557GDTVwh9rOcwmXt3OMc15bRk2h1vv/bzcNu1
-        cT7vIPox1NGnLkfe/UZvTZFEed3wuF5eZUpEYA==
-X-Google-Smtp-Source: ABdhPJxxWrEv48LJyTQCqlhuzhEJKbr+V+CGGHgE3gsPwH2Idv+DGKJKnUdZy9z9bYC2qSTpCbocZDlXK4kEkBPdcNM=
-X-Received: by 2002:a17:906:4094:: with SMTP id u20mr1702711ejj.525.1613660076908;
- Thu, 18 Feb 2021 06:54:36 -0800 (PST)
+        id S234122AbhBRQ6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Feb 2021 11:58:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54224 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230256AbhBRPJY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Feb 2021 10:09:24 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5A2C0617A9;
+        Thu, 18 Feb 2021 07:06:09 -0800 (PST)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 546383E7;
+        Thu, 18 Feb 2021 16:06:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1613660765;
+        bh=dSBqhVkp/iAa5cgZEEnWPWhwlXHCmngOAaA5uAmLBNs=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=I7tWCKzD49p26ryzl1QeMEiSvCHKvWl9rbIEGioJtgnr+AvMalEvrkQNZ5B5teWD6
+         GvXB0w8YJYTWIyOBzS13TDcDYXRA0/5Vp3clfTxMEXxsHdvDi1FogO7txLbSXr38AY
+         BJ1nL82Gy9bjMhBNAt7U58M3kOOFEcp3TZ0c7mjg=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 10/16] media: i2c: max9286: Rename reverse_channel_mv
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
+ <20210216174146.106639-11-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <9e1cca71-e0f0-4d66-d3f5-268760c53eec@ideasonboard.com>
+Date:   Thu, 18 Feb 2021 15:06:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210111142309.193441-1-maxime@cerno.tech> <20210111142309.193441-14-maxime@cerno.tech>
- <CAL_JsqJ3QBoJVXnpeMz1X56F6VWEe_HzTKs9efrDWh3ccdr=5A@mail.gmail.com>
-In-Reply-To: <CAL_JsqJ3QBoJVXnpeMz1X56F6VWEe_HzTKs9efrDWh3ccdr=5A@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 18 Feb 2021 08:54:23 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLKpT4y5gOH4kenHySY1n1pyV4sAEzGuwPV7V4vUJWevQ@mail.gmail.com>
-Message-ID: <CAL_JsqLKpT4y5gOH4kenHySY1n1pyV4sAEzGuwPV7V4vUJWevQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/15] dt-binding: display: bcm2711-hdmi: Add CEC and
- hotplug interrupts
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210216174146.106639-11-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 1, 2021 at 12:56 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Jan 11, 2021 at 8:27 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > The CEC and hotplug interrupts were missing when that binding was
-> > introduced, let's add them in now that we've figured out how it works.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  .../bindings/display/brcm,bcm2711-hdmi.yaml   | 20 ++++++++++++++++++-
-> >  1 file changed, 19 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > index 7ce06f9f9f8e..6e8ac910bdd8 100644
-> > --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > @@ -53,6 +53,24 @@ properties:
-> >        - const: audio
-> >        - const: cec
-> >
-> > +  interrupts:
-> > +    items:
-> > +      - description: CEC TX interrupt
-> > +      - description: CEC RX interrupt
-> > +      - description: CEC stuck at low interrupt
-> > +      - description: Wake-up interrupt
-> > +      - description: Hotplug connected interrupt
-> > +      - description: Hotplug removed interrupt
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: cec-tx
-> > +      - const: cec-rx
-> > +      - const: cec-low
-> > +      - const: wakeup
-> > +      - const: hpd-connected
-> > +      - const: hpd-removed
-> > +
-> >    ddc:
-> >      allOf:
-> >        - $ref: /schemas/types.yaml#/definitions/phandle
-> > @@ -90,7 +108,7 @@ required:
-> >    - resets
-> >    - ddc
-> >
-> > -additionalProperties: false
-> > +unevaluatedProperties: false
->
-> /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml:
-> 'additionalProperties' is a required property
->
-> And you missed the DT list, so no checks ran.
+Hi Jacopo,
 
-This is still failing in linux-next.
+On 16/02/2021 17:41, Jacopo Mondi wrote:
+> Rename the reverse_channel_mv variable to init_rev_chan_mv as
+> the next patches will cache the reverse channel amplitude in
+> a new driver variable.
+> 
 
-Rob
+I've been trying to figure out if we really do need two variables to
+store this now, but I can't see an easy way to factor out the
+initialisation value, and I like the idea of caching the current stored
+value.
+
+So
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 1d9951215868..1f14cd817fbf 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -163,7 +163,7 @@ struct max9286_priv {
+>  	unsigned int mux_channel;
+>  	bool mux_open;
+>  
+> -	u32 reverse_channel_mv;
+> +	u32 init_rev_chan_mv;
+>  
+>  	struct v4l2_ctrl_handler ctrls;
+>  	struct v4l2_ctrl *pixelrate;
+> @@ -563,7 +563,7 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>  	 * - Disable auto-ack as communication on the control channel are now
+>  	 *   stable.
+>  	 */
+> -	if (priv->reverse_channel_mv < 170)
+> +	if (priv->init_rev_chan_mv < 170)
+>  		max9286_reverse_channel_setup(priv, 170);
+>  	max9286_check_config_link(priv, priv->source_mask);
+>  
+> @@ -971,7 +971,7 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	 * only. This should be disabled after the mux is initialised.
+>  	 */
+>  	max9286_configure_i2c(priv, true);
+> -	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
+> +	max9286_reverse_channel_setup(priv, priv->init_rev_chan_mv);
+>  
+>  	/*
+>  	 * Enable GMSL links, mask unused ones and autodetect link
+> @@ -1236,9 +1236,9 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	if (of_property_read_u32(dev->of_node,
+>  				 "maxim,reverse-channel-microvolt",
+>  				 &reverse_channel_microvolt))
+> -		priv->reverse_channel_mv = 170;
+> +		priv->init_rev_chan_mv = 170;
+>  	else
+> -		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
+> +		priv->init_rev_chan_mv = reverse_channel_microvolt / 1000U;
+>  
+>  	priv->route_mask = priv->source_mask;
+>  
+> 
+
