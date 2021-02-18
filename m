@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7217331E4C3
-	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 04:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9333D31E4CB
+	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 04:58:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbhBRD5A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Feb 2021 22:57:00 -0500
+        id S230408AbhBRD57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Feb 2021 22:57:59 -0500
 Received: from mail-vi1eur05on2068.outbound.protection.outlook.com ([40.107.21.68]:49249
         "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230310AbhBRD4v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Feb 2021 22:56:51 -0500
+        id S230376AbhBRD5T (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Feb 2021 22:57:19 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KGtqkyBA/uNVD6ojXSj/XV22CRzjbA94byL+r4oLb79jhPK/QT6ayIPx8v5a8nspgPsx2u2bxx9zgZT0nsMxfZoOtANat5nA+NJjqfx0a42qUZLekw2f7b5VXKQlAoHOi779dsscAqdlLAEkQVfGUIMBGuT9y28/zj/XZ04bREIT9CJdmmyDMILOmCqgAOkBgLPwnZlJWBeuT0Ll5+EWPNgJBjiQwOtAXz99j1qOVqK9a2tNnPk5uI7CisSqakVQiiJ2b14bm2f+dcdLMdhIsm3oaBfDzMmDooJhZHNAcoMaGtGZvKvR4onjxtv8blXQaIOg8hblYU4+4VKMpGRWbQ==
+ b=EwD2ZHe+LVZ4WamyrF7vAyEgzlIoZQGl03dsqtUnHFYzVVPK4Dx96D8MrvijYI1nQ5mP/Dd5ay60AgYTVUHamM0yIeMV8LId8cm0foGOEOHcZpsr0gB3IsIPk9GoZbHqOQ7RcwEPLFY8wRpkfbi79VFMZ1iwx29iCgqIUZuGYBb5cL+6hzbXWY2Ei2qISRuTzAD3PkISUjfpIuHfxBaQhYbXwldB95uIsr5OkLCyHWbx4lhQNDQxCH0C7kcC5XD7zlNtkKPPzJ44VE1XGMqtI9dEYnS9ct2R9bsPmK2498AcwdGDnWDW6pWi3nhktKnotJRDRsDvruk7QG0yz90L4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B5uVWVH6Z6t73/1mhIW228y8iiZYig0nvPY/B2Ajp8E=;
- b=DNPH4U4qF0yj4DMF5hRlVkpivhSyePS952IhwgPE5FJm6f8LtOa4DacKBFMMfNolPSkSdKn48+Og15XLHLeoUZa0lINYa/TBtOGUT94d3Y61izgB9TxP/WUufB4u3EJwGJij/jBv/q+6uEvXNxFs3yEpr9b6c9aCALuuKlK4KAopuhtf7OKagRU5tuP2oWqe5BVjMzHsDXoyXq8qn4Mj3i46IFw1wW3dHBS4/fxeindY5bfLSBgq1rMWNWatO2t04nMyKs3r/84HhIsaSgiDM7mVyxhSXRlnA0s3vrt+No8WysCK9WFzKqEyfmFQ7ZJVyli4xJ/ziEkpz6m+QBTtlg==
+ bh=J4Pb2utp79QHmrWS/xbsPLf3M+ZUGnBzThnyYS8m05g=;
+ b=VGHishbltjN1j6H4eBXiW9ZWLmT6IlnE6E4flztD7JCQlWMTXnm12OVj5pI3zNHrhh8ijnOB6dyGW+0wcPOjxwFEqGfKIiDl1hdegqhKChto9/kMD8RYcLRdN/R0wXu+wCQR8luIEKOpkY61oGLrfPw2oUolB9Cluy9DTYA1a4j9pGSdCxsEkFMzPcagbNNDkDxhII1A4SIAabYFhON9C+uX6DPJG8hCLHeiHE3G1qS6ebAiessONBR8nsjaCw065DMjIo0ceR9B3hYcb4Tu42hONAYWNupeAsOWfaKBJLOL8FqJpDi54hQv1ygsJTw0/7N93JQ/tqsxCpDWTZNttw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B5uVWVH6Z6t73/1mhIW228y8iiZYig0nvPY/B2Ajp8E=;
- b=W1kr7bVN2bOKFQjANSWMi2145SWxAFEp8FcqspldA+Tg6vfeWUHmzdYhYfo0xeV327dSV3Uu6/6GHwHcgTaqku+WQ7XRyDswBRkIz4TD8nq5tczP8356b3u/+zWBInqUeEju6CjFGEmLs28JkDanKoAaOAXbO/FrSvWvAPSDndw=
+ bh=J4Pb2utp79QHmrWS/xbsPLf3M+ZUGnBzThnyYS8m05g=;
+ b=eaMqirBif5/2vesV8mWBHPtg1zcI/bLxkCTGyugbU9A0wHQA3TAhuG7u+/2k3n89ZPbhwuD6jf5I+HCNsQYIPj9e+t8v0deZxOoJ3NiM4WvlcxpogehTDa0s3pOZ8cj4V61/Pc2kWQwQ/i0Z9n9ztS9vmSY7IAVs5pL4j8Sgppw=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none;lists.freedesktop.org; dmarc=none action=none
  header.from=nxp.com;
@@ -33,11 +33,11 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VI1PR0402MB3421.eurprd04.prod.outlook.com (2603:10a6:803:5::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Thu, 18 Feb
- 2021 03:54:55 +0000
+ 2021 03:55:01 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3868.027; Thu, 18 Feb 2021
- 03:54:55 +0000
+ 03:55:01 +0000
 From:   Liu Ying <victor.liu@nxp.com>
 To:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
         a.hajda@samsung.com, narmstrong@baylibre.com,
         Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
         jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
-Subject: [PATCH v4 08/14] dt-bindings: display: bridge: Add i.MX8qxp pixel link to DPI binding
-Date:   Thu, 18 Feb 2021 11:41:49 +0800
-Message-Id: <1613619715-28785-9-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v4 09/14] drm/bridge: imx: Add i.MX8qxp pixel link to DPI support
+Date:   Thu, 18 Feb 2021 11:41:50 +0800
+Message-Id: <1613619715-28785-10-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
 References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
@@ -62,195 +62,604 @@ X-ClientProxiedBy: SG2PR06CA0144.apcprd06.prod.outlook.com
  (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by SG2PR06CA0144.apcprd06.prod.outlook.com (2603:1096:1:1f::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3868.27 via Frontend Transport; Thu, 18 Feb 2021 03:54:49 +0000
+Received: from localhost.localdomain (119.31.174.66) by SG2PR06CA0144.apcprd06.prod.outlook.com (2603:1096:1:1f::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3868.27 via Frontend Transport; Thu, 18 Feb 2021 03:54:55 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: bda27f97-e68b-419a-b537-08d8d3c0f3b0
+X-MS-Office365-Filtering-Correlation-Id: 6b24b89f-52d6-443c-8445-08d8d3c0f759
 X-MS-TrafficTypeDiagnostic: VI1PR0402MB3421:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0402MB3421DB44EEB51F42CE6E444D98859@VI1PR0402MB3421.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB34211CDDB0DD965DCD123E6798859@VI1PR0402MB3421.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K2K21gH9kGfQdEOAGar4W9jfCK3eeMq6WkJ/LXsNggylotUlvC1T7itxraJNjwV1WQIXWd1hGU/2QWqW/a8yEQCHXLbs/KiWR0vOs9bIWj1HQsXl2A4bDWdrgsDlY0mq60M0FpSbrUt981rcNlRnDD4YkeTP4ynUvhT9vnFI+0TtgXjHpnUJZUjahd0O5+YLLan3fO7yMTgCyUXUOFkdOGcdXuMqhptTih4zd4uUQnbI9tMv2Dm8pZZFfHSA9/HqqdKnMqxkSwGqXYJzu5RsfxcYqaUtkTtmf3+/BKyVNkcJeanzXhdHRCbCS3nhExGX7z6JzkGL1AIa1DhUlUzwZrDoPfrurEuzQTlGzlLnkEoiIhCjlsu/PPgzxvYzP3dAcOjQZEp7YwZntt5QXMM4ws7oYHtB8xABQT93JQTX+E/Tw71xoArKLr27FXMWxOOCO91YlsMmjusbwndMaV56327P3YWztnsWesd+qLcA64QYaomO0cQ1kQYVBso7zXvuNXy1uiGFKQO6aYq09f0dKGrv+G298dJlI1AV8IZyyJC/hirVHEhzbR6mbCuKvaaUFNr+Mrzii/3PBeyGjedN7w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB3983.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(52116002)(478600001)(86362001)(5660300002)(6486002)(8936002)(956004)(186003)(26005)(7416002)(6512007)(2906002)(66946007)(2616005)(8676002)(316002)(66476007)(16526019)(36756003)(66556008)(966005)(4326008)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aDVTM3R5OEdVZk9KNnVneXhsV3hFRWU2WjV6RjJkemZTays3ZG9lMFhWS3dM?=
- =?utf-8?B?Y2hVOHpvNkNNS2U5Nk9LdDBaV29iNGMzOHFnbmRTKzN4OVB3eTdKVXdIL05x?=
- =?utf-8?B?dFY3cXlrM2JENVhGVjAxcnVyVXlQSmtDQlBxNnBTTk1QaGxrbE56M01DUUVT?=
- =?utf-8?B?a1JkeWpIWnA4QlYzTncrNnBsdDFZbWJScXV4bmZQcUNscGk3RktvcWZTblV4?=
- =?utf-8?B?SXpaY0hZS3RWa2dQOUo3RENLL2hSV0tDT2JEZVFESWt3dkVBZUcxNzdLeGd3?=
- =?utf-8?B?bG9mYk00SmJRZStvK0VML0JrdDE2YitmeDR6STRPY29BU3p6dW1VTEw0Qlc5?=
- =?utf-8?B?dkNSMkhnNnZoTUhaZURoRmRLTXZKa2pRdHNKODBnRE9jQ1ZOWHRaUk1YMmVI?=
- =?utf-8?B?MmpPYUVnS2VLQ245TEtOM1lXbmtZcXRKZ1l3VmpJVndMamhSUTBkaE1LY3dw?=
- =?utf-8?B?OUdkT3ZaVnprZmdqQXFWa3prcC9GSW1uSjBTQ1pLNGxaL0RWWmNlQ1pRNHRv?=
- =?utf-8?B?dytDUG5XOTFBdEdoakpOZitFTTh5THlwRmhkSW93bTg3MUowaTRnM3ZSOHdD?=
- =?utf-8?B?dHVLWVNmUVN4RUVReDFralpxejhVVWNnT3JaR0FPVkJQNFc1aFNHOStnczN5?=
- =?utf-8?B?cE03T1kzSFh6ZkEvTUJGdVQvYWxUeWhBdUx5YUNoekJGdFlQZThWeUN1VUZv?=
- =?utf-8?B?ajBqZFBUL1RQT1BYaURNZ09LUHlFQmg3V0RKbDV1OXk0czgrTlhLOGViMHBj?=
- =?utf-8?B?M3NFVmkyMHJYcldFUmUvRk5Lek16azM0SlhqUUlKYWJNV2FPQ2kwZHVFZ083?=
- =?utf-8?B?RG9BVWg3MWYrSGJVQVBnb3ZqMEZUeVd1RmVoVTJlU2RLVXR6ck5MUTY2RXpG?=
- =?utf-8?B?Y0lkSGNsZjRlN1FkV1FpUnFsUGV0TkJob2tzcVl0c2twcDI4eERoNkkzamNp?=
- =?utf-8?B?Z3Q3SU13cWQ5ZXdwbHB1RFNmbW5DQkFRZ1dxaXAwcHBCUGVDUXlNOTMweFB1?=
- =?utf-8?B?NzUxK0w0VUpFMEgyZFlyYkNld3EvY2R0Q29ydVpPQThYWmFJYTh5STZhdGE4?=
- =?utf-8?B?dGtpeW9vRVdjYzJINU53S0JIVEJrT2lWdVd2QXlJQkVUdmt4UnVCT2piT1lG?=
- =?utf-8?B?SlpPdzdLZnE4MTZxdFRQUVVydlVERnJWV2p4UWZoVlh4YlZrQnhldGxmU0FU?=
- =?utf-8?B?NFI3bFBpVzIyNGpILytxdnZ5dEdnRHBFQlJaQ1IrYjE5WkdNMmthVGFRaDFQ?=
- =?utf-8?B?YXh0N2N6aVMvR1FkWnBuNGdvbHptL3BrNnNtS2RjbFpVUDFvU3d4c0JGRnRh?=
- =?utf-8?B?NDAzUFBQTWRhQ1NsY2RMNVFlU3FqUGQrOWhWeFc1TDFNT3NJT0RIbHpZQmdx?=
- =?utf-8?B?YXNXVDFRc2NSYUVVRjJiVEdFRG1VTldyOVhIaXJmbjZYcVRxUnBOWWpGTmow?=
- =?utf-8?B?Tnh5RmdLTFZNY1UvcFNaNmRKSkxFWUh4bWk0a2x6U3dkSWtyZmY0K0NMZDlq?=
- =?utf-8?B?M0xTaHNjeEhhaFp4clVzcmFaOWw5WEtBbm5xRHJPZ0dnRXpKQTFueG9UcllO?=
- =?utf-8?B?Y0pFSjhkU0JTaGgxY1BuMCtLTzlHMEpzejFYRXRvZGFQYnJJRm5sbjVKc29W?=
- =?utf-8?B?WlduaEY1RGYvR2h6N2N1d001ZkJ5TmYxSEFMcDQ5S3F2WmRhdGw5NFVyYUlm?=
- =?utf-8?B?cnlTVmRFMk5Mc3Fpd0FmRWRsVHRJaGVodG1CUWRYcXQxeXlJOEhQUXhRa1pQ?=
- =?utf-8?Q?SDqYS5gXQAvQ+P84xJlJPq7x4mP+twTNGhawc2l?=
+X-Microsoft-Antispam-Message-Info: 5z09uddl0nmJv1a1jCv9aGM1NH+ELPaUFx7u7WTKXYX8Wq1ybyFDppwpBxzIDpj5iZXMHj1og/FXgi3pX8t2Hy38/jQejzvCmHJpfCCd0eFctrguHdrRdgh/8xh+F4sXkLjKjbAYvv1tISK7nbHy00mZ2hffAV7KkMOwJUNcxdLvSs9dPld/xTHswE2yTj3hljAmxLnnHrr2JsDuFV0t/PynE/ltiK0T9ZbFXfXYXehZhjz5VETQNqw/XkjTgNCMZcIcpEIb+Kw78AG/S1l71AjSHlSA5+wUFPtJ/GVKVSd4HzR7P4Y0/r9p15494pzsag4bP7hVdKINPEFcZtXyEPuoh4EBTAYqCKftZ4rGe8TwK2vh1sK/A26DxaSIV2nCXEl3S0NoZEbN5qGqM8AsHWZes3wBDLF81LcxvK+PuU3qKlS9LMvr7Q5RoLIbZC0QTc6GlvggzZemcFbaEtcH70qtHT3iEI5SbecejjxeTHbT9wbupcS1ueTRxAqDwXeG8MYrr7Jmf8Bp0j7qRhyFDw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB3983.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(83380400001)(52116002)(478600001)(86362001)(5660300002)(6666004)(6486002)(8936002)(956004)(186003)(26005)(7416002)(6512007)(2906002)(66946007)(2616005)(8676002)(316002)(66476007)(16526019)(36756003)(66556008)(4326008)(30864003)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NXdBaHdPOW9lN01zbktlaEQvK214VGNweWtnY0dvTVcvcWVGQTZKRDhCbUw5?=
+ =?utf-8?B?UjhhRGFiSXBsMFhIM3BMcG5zU1o5Q05YSFdzQTNLQ2lLQ05NRGZPSm1nbkZU?=
+ =?utf-8?B?SXd6OUREU1hJVlBYUS9NdGZEUThVVEhkKzhReXR0RVFnb2VYZFQrWE5jd2JB?=
+ =?utf-8?B?N1R4MW1WaWpMQkRNeFBQYytzYmpTYTMxM1VWUHRIRDBLVHZCdUdMMlBtS1VE?=
+ =?utf-8?B?VFV6dVdKSEZCWGIzKzZvWER0WXg4ZDI5S2FaN2pRb0RGQkxURlhqbFZtMkkv?=
+ =?utf-8?B?NDArRytsVllqelN6RmRsalBaSXIvWlNEUEdWUlJrMi9aYU9RQTQ3WmNOWUVG?=
+ =?utf-8?B?am5RWFk2MnBqZjhZZU9zc1pZaHJ6Yy9lM3VJL3JSQ25BWjh4WEd3V0tGM2lM?=
+ =?utf-8?B?YzNmUDBkeEE0QVFUSnR1M3JJajl1UnFidmhHY2h5UXR1Ri9SQzNqVXBjZlRw?=
+ =?utf-8?B?WHd0K2dOVldLUVhNRDRQU2Z3SmdXNXFuSVZaNVV3b3NRQlFYbnQ4SGQ5bkV6?=
+ =?utf-8?B?RjlENnVnWUxkL3FiekNyZllrK3pVNGRBeWpOcDcxT1ZTYk1ROE5pSkxVRmwr?=
+ =?utf-8?B?aU1wWGF0QzBLR3hlbWp0Z2JWWWlzQ0ZMMHN6QTlVcHFHRU9sOVJ3Y3FqWDU5?=
+ =?utf-8?B?blBwRmJmSWRsOTlHOFJuS2xwdzhpRDNSdXVGRUgvVlR2UVJCampyMm1kRitX?=
+ =?utf-8?B?UFY4U3k4OFdyWUtqMGNqdUVMTGozcWVyZ09WVlBjYyttTENaZnZwMk5mZE82?=
+ =?utf-8?B?VzRUMW41aFpDMXI5NlJVVjBwUGNIUFpheXgvRXducVRKMWxpaEpyZitpQmFO?=
+ =?utf-8?B?ck1GQ08zMmV4SWl5eVNvL0h1YlZ4alhaSjNmeU0rdVc5QytnRkpIR3BnUGc5?=
+ =?utf-8?B?dW4vUis2ZTJ4YjByWHQvTTZVVS96QlZLenFCYnRZZjRNbmluVm80bU1sNVJh?=
+ =?utf-8?B?Qk5qOE5YajU1TWp1K0dqK0JpdE9ZcDhXV1AyMnVOS1FIanZTT3IwK2Fmckcr?=
+ =?utf-8?B?OTltWEpNTmJ2VG5VdDYzaTQraktyWFptUk1JSmxucUZLR1dJSVhqdWYrRjhx?=
+ =?utf-8?B?Z0k1bkoydktQR243SC84UitqK2lBTnd3Z29XN1pINjZvQ3ZBc1hPSEcveTM4?=
+ =?utf-8?B?OGlhbHFjYlA4UlhpclVzd0RwdjFsYlk0WjFlN21KbzNJUHJDN1AvblMzTmhO?=
+ =?utf-8?B?SWtZNVVYeDlBeVRhZnJGRlcrRHAxMFBLa1M5LzJRVjc0U1YrYmY5UGpLV3lQ?=
+ =?utf-8?B?VXc3Wk1Jcmplcis2Skt6d3RuUFJJcTFDcHYvM3hDdXBDdkQwcUZwNXo3OWlP?=
+ =?utf-8?B?YmNsNEJLRTBhUmFXbEdVTE01RTFGcmtJNkp6ZVlsaXkraUY0dEsxZU1rbWov?=
+ =?utf-8?B?N0IrdndsYWJGeGdiOTVMRDExZVNrSjNBVnhtUEVmSG1qREo4bGNPVmplUUx6?=
+ =?utf-8?B?RkxRamZRUExESkxUYTdWOFVCUURwSXVjYlIySnJwVUk0T1JFc3JZaG5Bc2hX?=
+ =?utf-8?B?QXNPK2laWlhGN1lxUkdma01nWlBibGdKaFlxVE44VGVnanlhMk9kZURzbitF?=
+ =?utf-8?B?SHRJYzdjL2ZVYVVqSXEyNFBKZ2tPZ1ExWTJhU3ZmTFlXNmxBdkpGSW0wMktO?=
+ =?utf-8?B?NGFJM25kU0NQUFVFaEIwQ3dKVnp2SlFuY1Y2SXlEOXlqYXJWRW5tMW03dVNZ?=
+ =?utf-8?B?YlpiMjBSWVovUmVlMlRoMjk1MFVRQndKSUJaVzV5THJIcmJJOThtdHVtellj?=
+ =?utf-8?Q?E6Hyg9K/hXVvhHoxM3AhHqgs+ISRIlaAkDB6uYs?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bda27f97-e68b-419a-b537-08d8d3c0f3b0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b24b89f-52d6-443c-8445-08d8d3c0f759
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2021 03:54:55.1549
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2021 03:55:01.4053
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fIVOokAddse2j2hgAnbn52YnykUrahxdr76syd9VlQDQ0o6/Zoozk3MuQqQ7WS6WfLZGLmItIrIaifNP43Q5Mg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: +DLXV8wm4GU5UlYjTaJwRBgMz9rhVf3on0FbxSjCUsq/FgiZ7y0Z4LngXIJjx3cHeHbRNJVjhgcbbM/bZzLKdg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3421
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds bindings for i.MX8qxp pixel link to DPI(PXL2DPI).
+This patch adds a drm bridge driver for i.MX8qxp pixel link to display
+pixel interface(PXL2DPI).  The PXL2DPI interfaces the pixel link 36-bit
+data output and the DSI controller’s MIPI-DPI 24-bit data input, and
+inputs of LVDS Display Bridge(LDB) module used in LVDS mode, to remap
+the pixel color codings between those modules. The PXL2DPI is purely
+combinatorial.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v3->v4:
-* Add 'fsl,sc-resource' property. (Rob)
+* Use 'fsl,sc-resource' DT property to get the SCU resource ID associated with
+  the PXL2DPI instance instead of using alias ID. (Rob)
 
 v2->v3:
-* Drop 'fsl,syscon' property. (Rob)
-* Mention the CSR module controls PXL2DPI.
+* Call syscon_node_to_regmap() to get regmap instead of
+  syscon_regmap_lookup_by_phandle().
 
 v1->v2:
-* Use graph schema. (Laurent)
+* Drop unnecessary port availability check.
 
- .../display/bridge/fsl,imx8qxp-pxl2dpi.yaml        | 108 +++++++++++++++++++++
- 1 file changed, 108 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+ drivers/gpu/drm/bridge/imx/Kconfig           |   8 +
+ drivers/gpu/drm/bridge/imx/Makefile          |   1 +
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c | 485 +++++++++++++++++++++++++++
+ 3 files changed, 494 insertions(+)
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+index 4d1f027..1ea1ce7 100644
+--- a/drivers/gpu/drm/bridge/imx/Kconfig
++++ b/drivers/gpu/drm/bridge/imx/Kconfig
+@@ -14,3 +14,11 @@ config DRM_IMX8QXP_PIXEL_LINK
+ 	help
+ 	  Choose this to enable display pixel link found in
+ 	  Freescale i.MX8qm/qxp processors.
++
++config DRM_IMX8QXP_PIXEL_LINK_TO_DPI
++	tristate "Freescale i.MX8QXP pixel link to display pixel interface"
++	depends on OF
++	select DRM_KMS_HELPER
++	help
++	  Choose this to enable pixel link to display pixel interface(PXL2DPI)
++	  found in Freescale i.MX8qxp processor.
+diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
+index c15469f..e74dd64 100644
+--- a/drivers/gpu/drm/bridge/imx/Makefile
++++ b/drivers/gpu/drm/bridge/imx/Makefile
+@@ -1,2 +1,3 @@
+ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
+ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
++obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
 new file mode 100644
-index 00000000..e4e77fa
+index 00000000..6696855
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-@@ -0,0 +1,108 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-pxl2dpi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+@@ -0,0 +1,485 @@
++// SPDX-License-Identifier: GPL-2.0+
 +
-+title: Freescale i.MX8qxp Pixel Link to Display Pixel Interface
++/*
++ * Copyright 2020 NXP
++ */
 +
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
++#include <linux/firmware/imx/svc/misc.h>
++#include <linux/mfd/syscon.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/of_graph.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/regmap.h>
 +
-+description: |
-+  The Freescale i.MX8qxp Pixel Link to Display Pixel Interface(PXL2DPI)
-+  interfaces the pixel link 36-bit data output and the DSI controller’s
-+  MIPI-DPI 24-bit data input, and inputs of LVDS Display Bridge(LDB) module
-+  used in LVDS mode, to remap the pixel color codings between those modules.
-+  This module is purely combinatorial.
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_of.h>
++#include <drm/drm_print.h>
 +
-+  The i.MX8qxp PXL2DPI is controlled by Control and Status Registers(CSR) module.
-+  The CSR module, as a system controller, contains the PXL2DPI's configuration
-+  register.
++#include <dt-bindings/firmware/imx/rsrc.h>
 +
-+properties:
-+  compatible:
-+    const: fsl,imx8qxp-pxl2dpi
++#define PXL2DPI_CTRL	0x40
++#define  CFG1_16BIT	0x0
++#define  CFG2_16BIT	0x1
++#define  CFG3_16BIT	0x2
++#define  CFG1_18BIT	0x3
++#define  CFG2_18BIT	0x4
++#define  CFG_24BIT	0x5
 +
-+  fsl,sc-resource:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The SCU resource ID associated with this PXL2DPI instance.
++#define DRIVER_NAME	"imx8qxp-pxl2dpi"
 +
-+  power-domains:
-+    maxItems: 1
++struct imx8qxp_pxl2dpi {
++	struct regmap *regmap;
++	struct drm_bridge bridge;
++	struct drm_bridge *next_bridge;
++	struct drm_bridge *companion;
++	struct device *dev;
++	struct imx_sc_ipc *ipc_handle;
++	u32 sc_resource;
++	u32 in_bus_format;
++	u32 out_bus_format;
++	u32 pl_sel;
++};
 +
-+  fsl,companion-pxl2dpi:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      A phandle which points to companion PXL2DPI which is used by downstream
-+      LVDS Display Bridge(LDB) in split mode.
++#define bridge_to_p2d(b)	container_of(b, struct imx8qxp_pxl2dpi, bridge)
 +
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
++static int imx8qxp_pxl2dpi_bridge_attach(struct drm_bridge *bridge,
++					 enum drm_bridge_attach_flags flags)
++{
++	struct imx8qxp_pxl2dpi *p2d = bridge->driver_private;
 +
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: The PXL2DPI input port node from pixel link.
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
++		DRM_DEV_ERROR(p2d->dev,
++			      "do not support creating a drm_connector\n");
++		return -EINVAL;
++	}
 +
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: The PXL2DPI output port node to downstream bridge.
++	if (!bridge->encoder) {
++		DRM_DEV_ERROR(p2d->dev, "missing encoder\n");
++		return -ENODEV;
++	}
 +
-+    required:
-+      - port@0
-+      - port@1
++	return drm_bridge_attach(bridge->encoder,
++				 p2d->next_bridge, bridge,
++				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++}
 +
-+required:
-+  - compatible
-+  - fsl,sc-resource
-+  - power-domains
-+  - ports
++static int
++imx8qxp_pxl2dpi_bridge_atomic_check(struct drm_bridge *bridge,
++				    struct drm_bridge_state *bridge_state,
++				    struct drm_crtc_state *crtc_state,
++				    struct drm_connector_state *conn_state)
++{
++	struct imx8qxp_pxl2dpi *p2d = bridge->driver_private;
 +
-+additionalProperties: false
++	p2d->in_bus_format = bridge_state->input_bus_cfg.format;
++	p2d->out_bus_format = bridge_state->output_bus_cfg.format;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/firmware/imx/rsrc.h>
-+    pxl2dpi {
-+        compatible = "fsl,imx8qxp-pxl2dpi";
-+        fsl,sc-resource = <IMX_SC_R_MIPI_0>;
-+        power-domains = <&pd IMX_SC_R_MIPI_0>;
++	return 0;
++}
 +
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
++static void
++imx8qxp_pxl2dpi_bridge_mode_set(struct drm_bridge *bridge,
++				const struct drm_display_mode *mode,
++				const struct drm_display_mode *adjusted_mode)
++{
++	struct imx8qxp_pxl2dpi *p2d = bridge->driver_private;
++	struct imx8qxp_pxl2dpi *companion_p2d;
++	int ret;
 +
-+            port@0 {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                reg = <0>;
++	ret = pm_runtime_get_sync(p2d->dev);
++	if (ret < 0)
++		DRM_DEV_ERROR(p2d->dev,
++			      "failed to get runtime PM sync: %d\n", ret);
 +
-+                mipi_lvds_0_pxl2dpi_dc_pixel_link0: endpoint@0 {
-+                    reg = <0>;
-+                    remote-endpoint = <&dc_pixel_link0_mipi_lvds_0_pxl2dpi>;
-+                };
++	ret = imx_sc_misc_set_control(p2d->ipc_handle, p2d->sc_resource,
++				      IMX_SC_C_PXL_LINK_SEL, p2d->pl_sel);
++	if (ret)
++		DRM_DEV_ERROR(p2d->dev,
++			      "failed to set pixel link selection(%u): %d\n",
++							p2d->pl_sel, ret);
 +
-+                mipi_lvds_0_pxl2dpi_dc_pixel_link1: endpoint@1 {
-+                     reg = <1>;
-+                     remote-endpoint = <&dc_pixel_link1_mipi_lvds_0_pxl2dpi>;
-+                };
-+            };
++	switch (p2d->out_bus_format) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++		regmap_write(p2d->regmap, PXL2DPI_CTRL, CFG_24BIT);
++		break;
++	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
++		regmap_write(p2d->regmap, PXL2DPI_CTRL, CFG2_18BIT);
++		break;
++	default:
++		DRM_DEV_ERROR(p2d->dev,
++			      "unsupported output bus format 0x%08x\n",
++							p2d->out_bus_format);
++	}
 +
-+            port@1 {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                reg = <1>;
++	if (p2d->companion) {
++		companion_p2d = bridge_to_p2d(p2d->companion);
 +
-+                mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0: endpoint@0 {
-+                    reg = <0>;
-+                    remote-endpoint = <&mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi>;
-+                };
++		companion_p2d->in_bus_format = p2d->in_bus_format;
++		companion_p2d->out_bus_format = p2d->out_bus_format;
 +
-+                mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1: endpoint@1 {
-+                    reg = <1>;
-+                    remote-endpoint = <&mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi>;
-+                };
-+            };
-+        };
-+    };
++		p2d->companion->funcs->mode_set(p2d->companion, mode,
++							adjusted_mode);
++	}
++}
++
++static void
++imx8qxp_pxl2dpi_bridge_atomic_disable(struct drm_bridge *bridge,
++				      struct drm_bridge_state *old_bridge_state)
++{
++	struct imx8qxp_pxl2dpi *p2d = bridge->driver_private;
++	int ret;
++
++	ret = pm_runtime_put(p2d->dev);
++	if (ret < 0)
++		DRM_DEV_ERROR(p2d->dev, "failed to put runtime PM: %d\n", ret);
++
++	if (p2d->companion)
++		p2d->companion->funcs->atomic_disable(p2d->companion,
++							old_bridge_state);
++}
++
++static const u32 imx8qxp_pxl2dpi_bus_output_fmts[] = {
++	MEDIA_BUS_FMT_RGB888_1X24,
++	MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
++};
++
++static bool imx8qxp_pxl2dpi_bus_output_fmt_supported(u32 fmt)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(imx8qxp_pxl2dpi_bus_output_fmts); i++) {
++		if (imx8qxp_pxl2dpi_bus_output_fmts[i] == fmt)
++			return true;
++	}
++
++	return false;
++}
++
++static u32 *
++imx8qxp_pxl2dpi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
++					struct drm_bridge_state *bridge_state,
++					struct drm_crtc_state *crtc_state,
++					struct drm_connector_state *conn_state,
++					u32 output_fmt,
++					unsigned int *num_input_fmts)
++{
++	u32 *input_fmts;
++
++	if (!imx8qxp_pxl2dpi_bus_output_fmt_supported(output_fmt))
++		return NULL;
++
++	*num_input_fmts = 1;
++
++	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
++	if (!input_fmts)
++		return NULL;
++
++	switch (output_fmt) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X36_CPADLO;
++		break;
++	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
++		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X36_CPADLO;
++		break;
++	default:
++		kfree(input_fmts);
++		input_fmts = NULL;
++		break;
++	}
++
++	return input_fmts;
++}
++
++static u32 *
++imx8qxp_pxl2dpi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
++					struct drm_bridge_state *bridge_state,
++					struct drm_crtc_state *crtc_state,
++					struct drm_connector_state *conn_state,
++					unsigned int *num_output_fmts)
++{
++	*num_output_fmts = ARRAY_SIZE(imx8qxp_pxl2dpi_bus_output_fmts);
++	return kmemdup(imx8qxp_pxl2dpi_bus_output_fmts,
++			sizeof(imx8qxp_pxl2dpi_bus_output_fmts), GFP_KERNEL);
++}
++
++static const struct drm_bridge_funcs imx8qxp_pxl2dpi_bridge_funcs = {
++	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset		= drm_atomic_helper_bridge_reset,
++	.attach			= imx8qxp_pxl2dpi_bridge_attach,
++	.atomic_check		= imx8qxp_pxl2dpi_bridge_atomic_check,
++	.mode_set		= imx8qxp_pxl2dpi_bridge_mode_set,
++	.atomic_disable		= imx8qxp_pxl2dpi_bridge_atomic_disable,
++	.atomic_get_input_bus_fmts =
++			imx8qxp_pxl2dpi_bridge_atomic_get_input_bus_fmts,
++	.atomic_get_output_bus_fmts =
++			imx8qxp_pxl2dpi_bridge_atomic_get_output_bus_fmts,
++};
++
++static struct device_node *
++imx8qxp_pxl2dpi_get_available_ep_from_port(struct imx8qxp_pxl2dpi *p2d,
++					   u32 port_id)
++{
++	struct device_node *port, *ep;
++	int ep_cnt;
++
++	port = of_graph_get_port_by_id(p2d->dev->of_node, port_id);
++	if (!port) {
++		DRM_DEV_ERROR(p2d->dev, "failed to get port@%u\n", port_id);
++		return ERR_PTR(-ENODEV);
++	}
++
++	ep_cnt = of_get_available_child_count(port);
++	if (ep_cnt == 0) {
++		DRM_DEV_ERROR(p2d->dev, "no available endpoints of port@%u\n",
++								port_id);
++		ep = ERR_PTR(-ENODEV);
++		goto out;
++	} else if (ep_cnt > 1) {
++		DRM_DEV_ERROR(p2d->dev,
++			"invalid available endpoints of port@%u\n", port_id);
++		ep = ERR_PTR(-ENOTSUPP);
++		goto out;
++	}
++
++	ep = of_get_next_available_child(port, NULL);
++	if (!ep) {
++		DRM_DEV_ERROR(p2d->dev,
++			      "failed to get available endpoint of port@%u\n",
++								port_id);
++		ep = ERR_PTR(-ENODEV);
++		goto out;
++	}
++out:
++	of_node_put(port);
++	return ep;
++}
++
++static struct drm_bridge *
++imx8qxp_pxl2dpi_find_next_bridge(struct imx8qxp_pxl2dpi *p2d)
++{
++	struct device_node *ep, *remote;
++	struct drm_bridge *next_bridge;
++	int ret;
++
++	ep = imx8qxp_pxl2dpi_get_available_ep_from_port(p2d, 1);
++	if (IS_ERR(ep)) {
++		ret = PTR_ERR(ep);
++		return ERR_PTR(ret);
++	}
++
++	remote = of_graph_get_remote_port_parent(ep);
++	if (!remote || !of_device_is_available(remote)) {
++		DRM_DEV_ERROR(p2d->dev, "no available remote\n");
++		next_bridge = ERR_PTR(-ENODEV);
++		goto out;
++	} else if (!of_device_is_available(remote->parent)) {
++		DRM_DEV_ERROR(p2d->dev, "remote parent is not available\n");
++		next_bridge = ERR_PTR(-ENODEV);
++		goto out;
++	}
++
++	next_bridge = of_drm_find_bridge(remote);
++	if (!next_bridge) {
++		next_bridge = ERR_PTR(-EPROBE_DEFER);
++		goto out;
++	}
++out:
++	of_node_put(remote);
++	of_node_put(ep);
++
++	return next_bridge;
++}
++
++static int imx8qxp_pxl2dpi_set_pixel_link_sel(struct imx8qxp_pxl2dpi *p2d)
++{
++	struct device_node *ep;
++	struct of_endpoint endpoint;
++	int ret;
++
++	ep = imx8qxp_pxl2dpi_get_available_ep_from_port(p2d, 0);
++	if (IS_ERR(ep))
++		return PTR_ERR(ep);
++
++	ret = of_graph_parse_endpoint(ep, &endpoint);
++	if (ret) {
++		DRM_DEV_ERROR(p2d->dev,
++			      "failed to parse endpoint of port@0: %d\n", ret);
++		goto out;
++	}
++
++	p2d->pl_sel = endpoint.id;
++out:
++	of_node_put(ep);
++
++	return ret;
++}
++
++static int imx8qxp_pxl2dpi_parse_dt_companion(struct imx8qxp_pxl2dpi *p2d)
++{
++	struct imx8qxp_pxl2dpi *companion_p2d;
++	struct device *dev = p2d->dev;
++	struct device_node *companion;
++	struct device_node *port1, *port2;
++	const struct of_device_id *match;
++	int dual_link;
++	int ret = 0;
++
++	/* Locate the companion PXL2DPI for dual-link operation, if any. */
++	companion = of_parse_phandle(dev->of_node, "fsl,companion-pxl2dpi", 0);
++	if (!companion)
++		return 0;
++
++	if (!of_device_is_available(companion)) {
++		DRM_DEV_ERROR(dev, "companion PXL2DPI is not available\n");
++		ret = -ENODEV;
++		goto out;
++	}
++
++	/*
++	 * Sanity check: the companion bridge must have the same compatible
++	 * string.
++	 */
++	match = of_match_device(dev->driver->of_match_table, dev);
++	if (!of_device_is_compatible(companion, match->compatible)) {
++		DRM_DEV_ERROR(dev, "companion PXL2DPI is incompatible\n");
++		ret = -ENXIO;
++		goto out;
++	}
++
++	p2d->companion = of_drm_find_bridge(companion);
++	if (!p2d->companion) {
++		ret = -EPROBE_DEFER;
++		DRM_DEV_DEBUG_DRIVER(p2d->dev,
++				"failed to find companion bridge: %d\n", ret);
++		goto out;
++	}
++
++	companion_p2d = bridge_to_p2d(p2d->companion);
++
++	/*
++	 * We need to work out if the sink is expecting us to function in
++	 * dual-link mode.  We do this by looking at the DT port nodes that
++	 * the next bridges are connected to.  If they are marked as expecting
++	 * even pixels and odd pixels than we need to use the companion PXL2DPI.
++	 */
++	port1 = of_graph_get_port_by_id(p2d->next_bridge->of_node, 1);
++	port2 = of_graph_get_port_by_id(companion_p2d->next_bridge->of_node, 1);
++	dual_link = drm_of_lvds_get_dual_link_pixel_order(port1, port2);
++	of_node_put(port1);
++	of_node_put(port2);
++
++	if (dual_link < 0) {
++		ret = dual_link;
++		DRM_DEV_ERROR(dev, "failed to get dual link pixel order: %d\n",
++									ret);
++		goto out;
++	}
++
++	DRM_DEV_DEBUG_DRIVER(dev,
++		"dual-link configuration detected (companion bridge %pOF)\n",
++								companion);
++out:
++	of_node_put(companion);
++	return ret;
++}
++
++static int imx8qxp_pxl2dpi_bridge_probe(struct platform_device *pdev)
++{
++	struct imx8qxp_pxl2dpi *p2d;
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev->of_node;
++	int ret;
++
++	p2d = devm_kzalloc(dev, sizeof(*p2d), GFP_KERNEL);
++	if (!p2d)
++		return -ENOMEM;
++
++	p2d->regmap = syscon_node_to_regmap(np->parent);
++	if (IS_ERR(p2d->regmap)) {
++		ret = PTR_ERR(p2d->regmap);
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to get regmap: %d\n", ret);
++		return ret;
++	}
++
++	ret = imx_scu_get_handle(&p2d->ipc_handle);
++	if (ret) {
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to get SCU ipc handle: %d\n",
++									ret);
++		return ret;
++	}
++
++	p2d->dev = dev;
++
++	ret = of_property_read_u32(np, "fsl,sc-resource", &p2d->sc_resource);
++	if (ret) {
++		DRM_DEV_ERROR(dev, "failed to get SC resource %d\n", ret);
++		return ret;
++	}
++
++	p2d->next_bridge = imx8qxp_pxl2dpi_find_next_bridge(p2d);
++	if (IS_ERR(p2d->next_bridge)) {
++		ret = PTR_ERR(p2d->next_bridge);
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to find next bridge: %d\n",
++									ret);
++		return ret;
++	}
++
++	ret = imx8qxp_pxl2dpi_set_pixel_link_sel(p2d);
++	if (ret)
++		return ret;
++
++	ret = imx8qxp_pxl2dpi_parse_dt_companion(p2d);
++	if (ret)
++		return ret;
++
++	platform_set_drvdata(pdev, p2d);
++	pm_runtime_enable(dev);
++
++	p2d->bridge.driver_private = p2d;
++	p2d->bridge.funcs = &imx8qxp_pxl2dpi_bridge_funcs;
++	p2d->bridge.of_node = np;
++
++	drm_bridge_add(&p2d->bridge);
++
++	return ret;
++}
++
++static int imx8qxp_pxl2dpi_bridge_remove(struct platform_device *pdev)
++{
++	struct imx8qxp_pxl2dpi *p2d = platform_get_drvdata(pdev);
++
++	drm_bridge_remove(&p2d->bridge);
++
++	pm_runtime_disable(&pdev->dev);
++
++	return 0;
++}
++
++static const struct of_device_id imx8qxp_pxl2dpi_dt_ids[] = {
++	{ .compatible = "fsl,imx8qxp-pxl2dpi", },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, imx8qxp_pxl2dpi_dt_ids);
++
++static struct platform_driver imx8qxp_pxl2dpi_bridge_driver = {
++	.probe	= imx8qxp_pxl2dpi_bridge_probe,
++	.remove = imx8qxp_pxl2dpi_bridge_remove,
++	.driver	= {
++		.of_match_table = imx8qxp_pxl2dpi_dt_ids,
++		.name = DRIVER_NAME,
++	},
++};
++module_platform_driver(imx8qxp_pxl2dpi_bridge_driver);
++
++MODULE_DESCRIPTION("i.MX8QXP pixel link to DPI bridge driver");
++MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:" DRIVER_NAME);
 -- 
 2.7.4
 
