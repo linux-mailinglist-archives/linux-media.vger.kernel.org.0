@@ -2,178 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66C1131ECBF
-	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 18:05:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8B5D31ECBE
+	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 18:05:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234198AbhBRQ7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Feb 2021 11:59:25 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:49821 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233256AbhBRQOg (ORCPT
+        id S234191AbhBRQ7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Feb 2021 11:59:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40028 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233271AbhBRQOf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Feb 2021 11:14:36 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ClvQlG3KUZvk6ClvUlAXi8; Thu, 18 Feb 2021 17:13:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1613664792; bh=UMs6ieNZxg5GE9x4Iz9tPbVgybqsI/TV4irkbj9RlK4=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=RtsipwUi8Tsh59craFIA8S88yqE72Rtr+rz8cidB5AuAds4Pf69Gk5qtYDx4QlzBC
-         3m6fQgnm12vFwDdMoCMMUJVtzMHOeeQHfkZYQgJVC8s6JeZF4StCVpTospk1R7BTk3
-         f36AG9dGqvGh748a3SJnOJCygmXiCpNPw7RP1YF3XdqX9nnwzUXZYkKVAEsx0D19nv
-         GQ6UQb9jRtxlYArkysrleaI5YgUg5U3sEZqA77ded4kBOdSxBDMmwK29ppPmb8UOq1
-         MnAjK1etxdu95sEEPBowAaCBboWli/VG3mevZ16e1NjJF7fpJZCVBeh4piK+vzA2Wn
-         S/8kbZw0HI+Fg==
-To:     Sean Young <sean@mess.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media/rc: compile rc-cec.c into rc-core
-Message-ID: <c3b7bb19-a3a7-e954-80cf-a083b11ee69d@xs4all.nl>
-Date:   Thu, 18 Feb 2021 17:13:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.0
+        Thu, 18 Feb 2021 11:14:35 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F218DC061794;
+        Thu, 18 Feb 2021 08:13:19 -0800 (PST)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 824B93E7;
+        Thu, 18 Feb 2021 17:13:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1613664797;
+        bh=NZXHmRuk+81g03fsYTzDeUQDDnQFVFpIlWdtgC35F1c=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=UuB8UMVJa80cR3ev8fbrW2ziYHfkUHZCkgTo4WYxvO4mQvZBBWryY0V+3EdL3Am+l
+         ADwWSAlwH2GGrqFNrxjQmmxJ4dr6qvZUIkw8MwEDYRvM6iyt0/YsXnaPY5qlYIbvmN
+         RR1GTOna7MmAjwZnQVYDhSlcXKFcpaJ3KfwbJ6zM=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 13/16] media: i2c: rdacm2x: Implement .init() subdev op
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
+ <20210216174146.106639-14-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <ce1673db-9ea7-f28c-a22a-0d129c0bff98@ideasonboard.com>
+Date:   Thu, 18 Feb 2021 16:13:14 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210216174146.106639-14-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEDkOORaURqlXDG/Y63YNUXKrhz0SRq2ss1Tr8NB3trq7oMlHi9Ly0vqEnhNEXS2UamSGgGDyHgFE6vUsmyHCGBKwmx/JSbl+gzHbm5RQlnCi1NxphjF
- 1li/zAQhHaFi00dy28k29MAVZjtPzWPw12R5s0wriv9aRNvhx/9cbXPjO/1g9KiSburmQ+YYCXmLQX0QxwggNDX8jVX5rbfyKPJK2TMsO5kAmY3v+0tOgQT7
- 6tRhyjtvqYkBjDS0CVoMpg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The rc-cec keymap is unusual in that it can't be built as a module,
-instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
-is set. This is because it can be called from drm_dp_cec_set_edid() via
-cec_register_adapter() in an asynchronous context, and it is not
-allowed to use request_module() to load rc-cec.ko in that case. Trying to
-do so results in a 'WARN_ON_ONCE(wait && current_is_async())'.
+Hi Jacopo,
 
-Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
-just compile this keymap into the rc-core module and never as a
-separate module.
+On 16/02/2021 17:41, Jacopo Mondi wrote:
+> The current probe() procedure of the RDACM20 and RDACM20 performs
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: 2c6d1fffa1d9 (drm: add support for DisplayPort CEC-Tunneling-over-AUX)
-Reported-by: Hans de Goede <hdegoede@redhat.com>
----
-Sean, I tested this both with RC_CORE=y and =m.
+and RDACM21?
 
-It looks reasonably clean to me, but I am not sure if this affects v4l-utils
-as well. Let me know what you think.
+> initialization of the serializer image sensors and increases the noise
 
-Regards,
+Of the serializer 'and' image sensors ?
+or perhaps just
 
-	Hans
----
-diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-index 5bb2932ab119..ff6a8fc4c38e 100644
---- a/drivers/media/rc/Makefile
-+++ b/drivers/media/rc/Makefile
-@@ -5,6 +5,7 @@ obj-y += keymaps/
- obj-$(CONFIG_RC_CORE) += rc-core.o
- rc-core-y := rc-main.o rc-ir-raw.o
- rc-core-$(CONFIG_LIRC) += lirc_dev.o
-+rc-core-$(CONFIG_MEDIA_CEC_RC) += keymaps/rc-cec.o
- rc-core-$(CONFIG_BPF_LIRC_MODE2) += bpf-lirc.o
- obj-$(CONFIG_IR_NEC_DECODER) += ir-nec-decoder.o
- obj-$(CONFIG_IR_RC5_DECODER) += ir-rc5-decoder.o
-diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index b252a1d2ebd6..cc6662e1903f 100644
---- a/drivers/media/rc/keymaps/Makefile
-+++ b/drivers/media/rc/keymaps/Makefile
-@@ -21,7 +21,6 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
- 			rc-behold.o \
- 			rc-behold-columbus.o \
- 			rc-budget-ci-old.o \
--			rc-cec.o \
- 			rc-cinergy-1400.o \
- 			rc-cinergy.o \
- 			rc-d680-dmb.o \
-diff --git a/drivers/media/rc/keymaps/rc-cec.c b/drivers/media/rc/keymaps/rc-cec.c
-index 3e3bd11092b4..068e22aeac8c 100644
---- a/drivers/media/rc/keymaps/rc-cec.c
-+++ b/drivers/media/rc/keymaps/rc-cec.c
-@@ -1,5 +1,15 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /* Keytable for the CEC remote control
-+ *
-+ * This keymap is unusual in that it can't be built as a module,
-+ * instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
-+ * is set. This is because it can be called from drm_dp_cec_set_edid() via
-+ * cec_register_adapter() in an asynchronous context, and it is not
-+ * allowed to use request_module() to load rc-cec.ko in that case.
-+ *
-+ * Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
-+ * just compile this keymap into the rc-core module and never as a
-+ * separate module.
-  *
-  * Copyright (c) 2015 by Kamil Debski
-  */
-@@ -152,7 +162,7 @@ static struct rc_map_table cec[] = {
- 	/* 0x77-0xff: Reserved */
- };
+s/serializer/serializer,/ ?
 
--static struct rc_map_list cec_map = {
-+struct rc_map_list cec_map = {
- 	.map = {
- 		.scan		= cec,
- 		.size		= ARRAY_SIZE(cec),
-@@ -160,19 +170,3 @@ static struct rc_map_list cec_map = {
- 		.name		= RC_MAP_CEC,
- 	}
- };
--
--static int __init init_rc_map_cec(void)
--{
--	return rc_map_register(&cec_map);
--}
--
--static void __exit exit_rc_map_cec(void)
--{
--	rc_map_unregister(&cec_map);
--}
--
--module_init(init_rc_map_cec);
--module_exit(exit_rc_map_cec);
--
--MODULE_LICENSE("GPL");
--MODULE_AUTHOR("Kamil Debski");
-diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-index 1fd62c1dac76..4768b1e9ffd1 100644
---- a/drivers/media/rc/rc-main.c
-+++ b/drivers/media/rc/rc-main.c
-@@ -163,6 +163,10 @@ static struct rc_map_list empty_map = {
- 	}
- };
+> immunity threshold as last operation, which is then compensated by the
 
-+#ifdef CONFIG_MEDIA_CEC_RC
-+extern struct rc_map_list cec_map;
-+#endif
-+
- /**
-  * scancode_to_u64() - converts scancode in &struct input_keymap_entry
-  * @ke: keymap entry containing scancode to be converted.
-@@ -2069,6 +2073,9 @@ static int __init rc_core_init(void)
+as a last operation
+or
+as a final operation
 
- 	led_trigger_register_simple("rc-feedback", &led_feedback);
- 	rc_map_register(&empty_map);
-+#ifdef CONFIG_MEDIA_CEC_RC
-+	rc_map_register(&cec_map);
-+#endif
 
- 	return 0;
- }
-@@ -2078,6 +2085,9 @@ static void __exit rc_core_exit(void)
- 	lirc_dev_exit();
- 	class_unregister(&rc_class);
- 	led_trigger_unregister_simple(led_feedback);
-+#ifdef CONFIG_MEDIA_CEC_RC
-+	rc_map_register(&cec_map);
-+#endif
- 	rc_map_unregister(&empty_map);
- }
+> remote deserializer by increasing the reverse channel signal amplitude
+> once all remotes have bound.
+> 
+> The probe routine is then run without noise immunity activated which
+> in noisy environment conditions makes the probe sequence less reliable as
+> the chips configuration requires a relevant amount of i2c transactions.
+
+s/relevant/relatively high/ ?
+
+> 
+> Break chip initialization in two:
+> - At probe time only configure the serializer's reverse channel with
+>   noise immunity activated, to reduce the number of transactions
+>   performed without noise immunity protection
+> - Move the chips initialization to the .init() core subdev operation to
+>   be invoked by the deserializer after the camera has probed and it has
+>   increased the reverse channel amplitude
+
+Is this the op you said was deprecated?
+
+
+Functionally in this code, it seems fine, but as mentioned on the next
+patch, I suspect it might need squashing to make sure it stays functional...
+
+I'm not fully sure of the implications of this patch, but your tests
+have reportede that this series is helping a lot with reliability so I
+don't want to block it.
+
+The code changes themselves look ok, with the following thougts:
+
+ - If this op/methodology is deprecated it might be harder to get
+   acceptance?
+
+ - now we have _init and _initialise - should that be made more
+   distinct?
+
+ - Seeing the duplication of the MAX9271_DEFAULT_ADDR / ping again
+   really makes me want to see that wrapped in the max9271.c ;-)
+
+ - Likely needs squashed with relevant changes in max9286?
+
+But even with those thoughts, I don't think this is necessarily wrong so:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/rdacm20.c | 65 ++++++++++++++++++++++---------------
+>  drivers/media/i2c/rdacm21.c | 65 ++++++++++++++++++++++---------------
+>  2 files changed, 78 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> index 39e4b4241870..0632ef98eea7 100644
+> --- a/drivers/media/i2c/rdacm20.c
+> +++ b/drivers/media/i2c/rdacm20.c
+> @@ -437,36 +437,12 @@ static int rdacm20_get_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> -static const struct v4l2_subdev_video_ops rdacm20_video_ops = {
+> -	.s_stream	= rdacm20_s_stream,
+> -};
+> -
+> -static const struct v4l2_subdev_pad_ops rdacm20_subdev_pad_ops = {
+> -	.enum_mbus_code = rdacm20_enum_mbus_code,
+> -	.get_fmt	= rdacm20_get_fmt,
+> -	.set_fmt	= rdacm20_get_fmt,
+> -};
+> -
+> -static const struct v4l2_subdev_ops rdacm20_subdev_ops = {
+> -	.video		= &rdacm20_video_ops,
+> -	.pad		= &rdacm20_subdev_pad_ops,
+> -};
+> -
+> -static int rdacm20_initialize(struct rdacm20_device *dev)
+> +static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
+>  {
+> +	struct rdacm20_device *dev = sd_to_rdacm20(sd);
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	/* Verify communication with the MAX9271: ping to wakeup. */
+> -	dev->serializer.client->addr = MAX9271_DEFAULT_ADDR;
+> -	i2c_smbus_read_byte(dev->serializer.client);
+> -	usleep_range(5000, 8000);
+> -
+> -	/* Serial link disabled during config as it needs a valid pixel clock. */
+> -	ret = max9271_set_serial_link(&dev->serializer, false);
+> -	if (ret)
+> -		return ret;
+> -
+>  	/*
+>  	 *  Ensure that we have a good link configuration before attempting to
+>  	 *  identify the device.
+> @@ -537,6 +513,43 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>  
+>  	dev_info(dev->dev, "Identified RDACM20 camera module\n");
+>  
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_core_ops rdacm20_core_ops = {
+> +	.init           = rdacm20_init,
+> +};
+> +
+> +static const struct v4l2_subdev_video_ops rdacm20_video_ops = {
+> +	.s_stream	= rdacm20_s_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops rdacm20_subdev_pad_ops = {
+> +	.enum_mbus_code = rdacm20_enum_mbus_code,
+> +	.get_fmt	= rdacm20_get_fmt,
+> +	.set_fmt	= rdacm20_get_fmt,
+> +};
+> +
+> +static const struct v4l2_subdev_ops rdacm20_subdev_ops = {
+> +	.core		= &rdacm20_core_ops,
+> +	.video		= &rdacm20_video_ops,
+> +	.pad		= &rdacm20_subdev_pad_ops,
+> +};
+> +
+> +static int rdacm20_initialize(struct rdacm20_device *dev)
+> +{
+> +	int ret;
+> +
+> +	/* Verify communication with the MAX9271: ping to wakeup. */
+> +	dev->serializer.client->addr = MAX9271_DEFAULT_ADDR;
+> +	i2c_smbus_read_byte(dev->serializer.client);
+> +	usleep_range(5000, 8000);
+> +
+> +	/* Serial link disabled during config as it needs a valid pixel clock. */
+> +	ret = max9271_set_serial_link(&dev->serializer, false);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * Set reverse channel high threshold to increase noise immunity.
+>  	 *
+> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> index c420a6b96879..80b6f16f87a8 100644
+> --- a/drivers/media/i2c/rdacm21.c
+> +++ b/drivers/media/i2c/rdacm21.c
+> @@ -314,21 +314,6 @@ static int rdacm21_get_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> -static const struct v4l2_subdev_video_ops rdacm21_video_ops = {
+> -	.s_stream	= rdacm21_s_stream,
+> -};
+> -
+> -static const struct v4l2_subdev_pad_ops rdacm21_subdev_pad_ops = {
+> -	.enum_mbus_code = rdacm21_enum_mbus_code,
+> -	.get_fmt	= rdacm21_get_fmt,
+> -	.set_fmt	= rdacm21_get_fmt,
+> -};
+> -
+> -static const struct v4l2_subdev_ops rdacm21_subdev_ops = {
+> -	.video		= &rdacm21_video_ops,
+> -	.pad		= &rdacm21_subdev_pad_ops,
+> -};
+> -
+>  static int ov10640_initialize(struct rdacm21_device *dev)
+>  {
+>  	u8 val;
+> @@ -448,20 +433,11 @@ static int ov490_initialize(struct rdacm21_device *dev)
+>  	return 0;
+>  }
+>  
+> -static int rdacm21_initialize(struct rdacm21_device *dev)
+> +static int rdacm21_init(struct v4l2_subdev *sd, unsigned int val)
+>  {
+> +	struct rdacm21_device *dev = sd_to_rdacm21(sd);
+>  	int ret;
+>  
+> -	/* Verify communication with the MAX9271: ping to wakeup. */
+> -	dev->serializer.client->addr = MAX9271_DEFAULT_ADDR;
+> -	i2c_smbus_read_byte(dev->serializer.client);
+> -	usleep_range(5000, 8000);
+> -
+> -	/* Enable reverse channel and disable the serial link. */
+> -	ret = max9271_set_serial_link(&dev->serializer, false);
+> -	if (ret)
+> -		return ret;
+> -
+>  	/* Configure I2C bus at 105Kbps speed and configure GMSL. */
+>  	ret = max9271_configure_i2c(&dev->serializer,
+>  				    MAX9271_I2CSLVSH_469NS_234NS |
+> @@ -508,6 +484,43 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_core_ops rdacm21_core_ops = {
+> +	.init		= rdacm21_init,
+> +};
+> +
+> +static const struct v4l2_subdev_video_ops rdacm21_video_ops = {
+> +	.s_stream	= rdacm21_s_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops rdacm21_subdev_pad_ops = {
+> +	.enum_mbus_code = rdacm21_enum_mbus_code,
+> +	.get_fmt	= rdacm21_get_fmt,
+> +	.set_fmt	= rdacm21_get_fmt,
+> +};
+> +
+> +static const struct v4l2_subdev_ops rdacm21_subdev_ops = {
+> +	.core		= &rdacm21_core_ops,
+> +	.video		= &rdacm21_video_ops,
+> +	.pad		= &rdacm21_subdev_pad_ops,
+> +};
+> +
+> +static int rdacm21_initialize(struct rdacm21_device *dev)
+> +{
+> +	int ret;
+> +
+> +	/* Verify communication with the MAX9271: ping to wakeup. */
+> +	dev->serializer.client->addr = MAX9271_DEFAULT_ADDR;
+> +	i2c_smbus_read_byte(dev->serializer.client);
+> +	usleep_range(5000, 8000);
+> +
+> +	/* Enable reverse channel and disable the serial link. */
+> +	ret = max9271_set_serial_link(&dev->serializer, false);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * Set reverse channel high threshold to increase noise immunity.
+>  	 *
+> 
 
