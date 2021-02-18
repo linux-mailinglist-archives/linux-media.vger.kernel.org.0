@@ -2,176 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F1D931E9FE
-	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 13:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E210031EA01
+	for <lists+linux-media@lfdr.de>; Thu, 18 Feb 2021 13:47:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231791AbhBRMnQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Feb 2021 07:43:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54364 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231773AbhBRKpl (ORCPT
+        id S233201AbhBRMog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Feb 2021 07:44:36 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:47084 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231438AbhBRKro (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Feb 2021 05:45:41 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B955AC061574;
-        Thu, 18 Feb 2021 02:43:49 -0800 (PST)
-Received: from [IPv6:2a01:e0a:4cb:a870:fd6e:12cd:95d7:3350] (unknown [IPv6:2a01:e0a:4cb:a870:fd6e:12cd:95d7:3350])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F21B81F45A1F;
-        Thu, 18 Feb 2021 10:43:45 +0000 (GMT)
-Subject: Re: [PATCH v1 13/18] media: hantro: Introduce G2/HEVC decoder
-To:     Ezequiel Garcia <ezequiel@collabora.com>, p.zabel@pengutronix.de,
-        mchehab@kernel.org, robh+dt@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
+        Thu, 18 Feb 2021 05:47:44 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11IAf8nt191305;
+        Thu, 18 Feb 2021 10:46:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=DkIB6cqMedrzHSkwL1PZcrM4aHbF3RlvHi1R4O/JB1s=;
+ b=jdNHZhY+QWg5MKXzNi9DkiSCQqUTZDjnqRofrInKaGVr1Xc9yYRB322ch/tMUrmViive
+ 9ZQdFqq4wWJ3Tz87Kp/DQ8uwPmTaCmgwFji4e+xaWPpaxurKGDMp8ynLosEnczLXxrgy
+ 0RC/hNY48+YIoWhwvlfZl2TZEnKbIleSttJSA+4WtbI9ta03Xf+/XaQ3GDXrhKvrjeYE
+ h8WQsf1ZVYq4jvA+HnNGkqwMbIC4Zk5wnmOg3ozEenZRvRNrVMwEX79nQrr9HpZuwl7g
+ GDM3pnXTHly5QFwtBEVTtK+pygnh9Bj5cTtnacvQWbvWOU4GYAAmcP6DnIQ87ergbK5j 7w== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 36p7dnne2g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 18 Feb 2021 10:46:27 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11IAk8hu090043;
+        Thu, 18 Feb 2021 10:46:25 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 36prq0amnd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 18 Feb 2021 10:46:25 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 11IAkCeM017093;
+        Thu, 18 Feb 2021 10:46:15 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 18 Feb 2021 02:46:11 -0800
+Date:   Thu, 18 Feb 2021 13:45:58 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
         jernej.skrabec@siol.net, krzk@kernel.org, shengjiu.wang@nxp.com,
         adrian.ratiu@collabora.com, aisheng.dong@nxp.com, peng.fan@nxp.com,
-        Anson.Huang@nxp.com, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com
+        Anson.Huang@nxp.com, hverkuil-cisco@xs4all.nl,
+        devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 03/18] arm64: dts: imx8mq-evk: add reserve memory node
+ for CMA region
+Message-ID: <20210218104558.GD2087@kadam>
 References: <20210217080306.157876-1-benjamin.gaignard@collabora.com>
- <20210217080306.157876-14-benjamin.gaignard@collabora.com>
- <bb410fde0a2f50cc34840e091c3d9c1395601514.camel@collabora.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <1fab0734-f1db-21ee-152c-4b289be31e4a@collabora.com>
-Date:   Thu, 18 Feb 2021 11:43:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20210217080306.157876-4-benjamin.gaignard@collabora.com>
+ <ab14f5a0bde2bdcd4bb0128f76e5a3ba8e7b0894.camel@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <bb410fde0a2f50cc34840e091c3d9c1395601514.camel@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab14f5a0bde2bdcd4bb0128f76e5a3ba8e7b0894.camel@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9898 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102180095
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9898 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 mlxscore=0
+ phishscore=0 spamscore=0 adultscore=0 clxscore=1011 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102180094
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-Le 17/02/2021 à 21:45, Ezequiel Garcia a écrit :
+On Wed, Feb 17, 2021 at 04:39:49PM -0300, Ezequiel Garcia wrote:
 > Hi Benjamin,
->
-> Before I review the implementation in detail,
-> there's one thing that looks suspicious.
->
-> On Wed, 2021-02-17 at 09:03 +0100, Benjamin Gaignard wrote:
->> Implement all the logic to get G2 hardware decoding HEVC frames.
->> It support up level 5.1 HEVC stream.
->> It doesn't support yet 10 bits formats or scaling feature.
->>
->> Add HANTRO HEVC dedicated control to skip some bits at the beginning
->> of the slice header. That is very specific to this hardware so can't
->> go into uapi structures. Compute the needed value is complex and require
->> information from the stream that only the userland knows so let it
->> provide the correct value to the driver.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
->> ---
->>   drivers/staging/media/hantro/Makefile         |   2 +
->>   drivers/staging/media/hantro/hantro_drv.c     |  41 ++
->>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 637 ++++++++++++++++++
->>   drivers/staging/media/hantro/hantro_g2_regs.h | 198 ++++++
->>   drivers/staging/media/hantro/hantro_hevc.c    | 274 ++++++++
->>   drivers/staging/media/hantro/hantro_hw.h      |  14 +
->>   6 files changed, 1166 insertions(+)
->>   create mode 100644 drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>   create mode 100644 drivers/staging/media/hantro/hantro_g2_regs.h
->>   create mode 100644 drivers/staging/media/hantro/hantro_hevc.c
->>
->> diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
->> index 743ce08eb184..0357f1772267 100644
->> --- a/drivers/staging/media/hantro/Makefile
->> +++ b/drivers/staging/media/hantro/Makefile
->> @@ -9,12 +9,14 @@ hantro-vpu-y += \
->>                  hantro_h1_jpeg_enc.o \
->>                  hantro_g1_h264_dec.o \
->>                  hantro_g1_mpeg2_dec.o \
->> +               hantro_g2_hevc_dec.o \
->>                  hantro_g1_vp8_dec.o \
->>                  rk3399_vpu_hw_jpeg_enc.o \
->>                  rk3399_vpu_hw_mpeg2_dec.o \
->>                  rk3399_vpu_hw_vp8_dec.o \
->>                  hantro_jpeg.o \
->>                  hantro_h264.o \
->> +               hantro_hevc.o \
->>                  hantro_mpeg2.o \
->>                  hantro_vp8.o
->>   
->> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->> index e1443c394f62..d171fb80876a 100644
->> --- a/drivers/staging/media/hantro/hantro_drv.c
->> +++ b/drivers/staging/media/hantro/hantro_drv.c
->> @@ -280,6 +280,20 @@ static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->>          return 0;
->>   }
->>   
->> +static int hantro_extra_s_ctrl(struct v4l2_ctrl *ctrl)
->> +{
->> +       const struct hantro_hevc_extra_decode_params *extra_params;
->> +       struct hantro_ctx *ctx;
->> +
->> +       ctx = container_of(ctrl->handler,
->> +                          struct hantro_ctx, ctrl_handler);
->> +       extra_params = &ctx->hevc_dec.ctrls.extra_params;
->> +
->> +       memcpy((void *)extra_params, ctrl->p_new.p_u8, sizeof(extra_params));
->> +
->> +       return 0;
->> +}
->> +
->>   static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
->>          .try_ctrl = hantro_try_ctrl,
->>   };
->> @@ -288,6 +302,10 @@ static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
->>          .s_ctrl = hantro_jpeg_s_ctrl,
->>   };
->>   
->> +static const struct v4l2_ctrl_ops hantro_extra_ctrl_ops = {
->> +       .s_ctrl = hantro_extra_s_ctrl,
->> +};
->> +
->>   static const struct hantro_ctrl controls[] = {
->>          {
->>                  .codec = HANTRO_JPEG_ENCODER,
->> @@ -413,6 +431,29 @@ static const struct hantro_ctrl controls[] = {
->>                  .cfg = {
->>                          .id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
->>                  },
->> +       }, {
->> +               .codec = HANTRO_HEVC_DECODER,
->> +               .cfg = {
->> +                       .id = V4L2_CID_HANTRO_HEVC_EXTRA_DECODE_PARAMS,
->> +                       .name = "HANTRO extra decode params",
->> +                       .type = V4L2_CTRL_TYPE_U8,
->> +                       .min = 0,
->> +                       .def = 0,
->> +                       .max = 255,
->> +                       .step = 1,
->> +                       .dims = { sizeof(struct hantro_hevc_extra_decode_params) },
->> +                       .ops = &hantro_extra_ctrl_ops,
->> +               },
->> +       }, {
->> +               .codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
->> +                        HANTRO_VP8_DECODER | HANTRO_H264_DECODER |
->> +                        HANTRO_HEVC_DECODER,
->> +               .cfg = {
->> +                       .id = V4L2_CID_USER_CLASS,
-> Are you sure you need to expose the V4L2_CID_USER_CLASS?
-> Maybe I'm missing something, but this looks odd.
+> 
+> On Wed, 2021-02-17 at 09:02 +0100, Benjamin Gaignard wrote:
+> > Define allocation range for the default CMA region.
+> > 
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> 
+> Despite it seems like I signed-off this one...
+> 
 
-v4l2-compliance complains if this isn't exposed when adding V4L2_CID_HANTRO_HEVC_EXTRA_DECODE_PARAMS.
-Other drivers with dedicated control have duplicated this definition but I prefer use it directly.
+I've been puzzled by this as well.  :P
 
-Benjamin
+Signed-off-by means you either wrote the patch or you handled it in some
+way.  And it is intended as a legally binding document that you didn't
+sneak in any copyrighted code from SCO UNIXWARE (etc).  So like maybe
+the authors snuck some in or maybe a maintainer took the patch and
+sneaked some unixware code in.
 
->
-> Thanks,
-> Ezequiel
->
->
+Obviously if you sign the code, that counts as an Ack and Review as well
+because maintainers are going to only merge stuff if they've looked it
+over a bit.  But the main thing is that it means you didn't didn't
+violate any copyrights.
+
+regards,
+dan carpenter
+
