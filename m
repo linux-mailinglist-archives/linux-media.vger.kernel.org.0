@@ -2,198 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 105B031F90E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Feb 2021 13:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B55AC31FC1C
+	for <lists+linux-media@lfdr.de>; Fri, 19 Feb 2021 16:36:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbhBSMJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Feb 2021 07:09:03 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47456 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbhBSMJB (ORCPT
+        id S229919AbhBSPgA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Feb 2021 10:36:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229607AbhBSPfw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Feb 2021 07:09:01 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19B51344;
-        Fri, 19 Feb 2021 13:08:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613736497;
-        bh=tlI//Ej4fhmYGZTgpYwteSSrKyyubZTtBivS0HmOKIY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dLXXyrK4cFBLtXTedLwxlmT/eu267UAIdRjknI4SwXKwy1YIFq5mNX14MIl3GmsL5
-         XHwN3hUTmueyCVXog+DPCz9EwV55PkaAvl5VA6akPTWf6D5w7gcRBa+PWCg759FhJ2
-         n+ZvhHV1yIQkJBPgqf0Jeyct/u81LQJIf0JzKyM4=
-Date:   Fri, 19 Feb 2021 14:07:50 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
-        Sekhar Nori <nsekhar@ti.com>, Tony Lindgren <tony@atomide.com>
-Subject: Re: [PATCH 2/5] drm/omap: hdmi4: switch to the cec bridge ops
-Message-ID: <YC+qFsroJl8+Oy3q@pendragon.ideasonboard.com>
-References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
- <20210211103703.444625-3-hverkuil-cisco@xs4all.nl>
+        Fri, 19 Feb 2021 10:35:52 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58E14C061574;
+        Fri, 19 Feb 2021 07:35:11 -0800 (PST)
+Received: from [IPv6:2a01:e0a:4cb:a870:9157:afa6:f219:3c2c] (unknown [IPv6:2a01:e0a:4cb:a870:9157:afa6:f219:3c2c])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D16F01F46406;
+        Fri, 19 Feb 2021 15:34:54 +0000 (GMT)
+Subject: Re: [PATCH v2 4/9] media: uapi: Add a control for HANTRO driver
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
+        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org, peng.fan@nxp.com,
+        hverkuil-cisco@xs4all.nl, dan.carpenter@oracle.com
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20210218191844.297869-1-benjamin.gaignard@collabora.com>
+ <20210218191844.297869-5-benjamin.gaignard@collabora.com>
+ <2850677.34AhzSeaHW@kista>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <3ec0c7ba-7492-02d1-8beb-fe692ba7d265@collabora.com>
+Date:   Fri, 19 Feb 2021 16:34:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210211103703.444625-3-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <2850677.34AhzSeaHW@kista>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
 
-Thank you for the patch.
+Le 18/02/2021 à 22:34, Jernej Škrabec a écrit :
+> Hi!
+>
+> Dne četrtek, 18. februar 2021 ob 20:18:39 CET je Benjamin Gaignard napisal(a):
+>> The HEVC HANTRO driver needs to know the number of bits to skip at
+>> the beginning of the slice header.
+>> That is a hardware specific requirement so create a dedicated control
+>> that this purpose.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   include/uapi/linux/hantro-v4l2-controls.h | 20 ++++++++++++++++++++
+>>   include/uapi/linux/v4l2-controls.h        |  5 +++++
+>>   2 files changed, 25 insertions(+)
+>>   create mode 100644 include/uapi/linux/hantro-v4l2-controls.h
+>>
+>> diff --git a/include/uapi/linux/hantro-v4l2-controls.h b/include/uapi/linux/
+> hantro-v4l2-controls.h
+>> new file mode 100644
+>> index 000000000000..30b1999b7af3
+>> --- /dev/null
+>> +++ b/include/uapi/linux/hantro-v4l2-controls.h
+>> @@ -0,0 +1,20 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+>> +
+>> +#ifndef __UAPI_HANTRO_V4L2_CONYTROLS_H__
+>> +#define __UAPI_HANTRO_V4L2_CONYTROLS_H__
+>> +
+>> +#include <linux/v4l2-controls.h>
+>> +#include <media/hevc-ctrls.h>
+>> +
+>> +#define V4L2_CID_HANTRO_HEVC_EXTRA_DECODE_PARAMS	
+> (V4L2_CID_USER_HANTRO_BASE + 0)
+>> +
+>> +/**
+>> + * struct hantro_hevc_extra_decode_params - extra decode parameters for
+> hantro driver
+>> + * @hevc_hdr_skip_lenght:	header first bits offset
+>> + */
+>> +struct hantro_hevc_extra_decode_params {
+>> +	__u32	hevc_hdr_skip_lenght;
+> typo: lenght -> length
+>
+> Same mistake in description above.
 
-On Thu, Feb 11, 2021 at 11:37:00AM +0100, Hans Verkuil wrote:
-> Implement the new CEC bridge ops. This makes it possible to associate
-> a CEC adapter with a drm connector, which helps userspace determine
-> with cec device node belongs to which drm connector.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c     | 28 +++++++++++++++++--------
->  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c |  8 ++++---
->  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h |  7 ++++---
->  3 files changed, 28 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> index 8de41e74e8f8..765379380d4b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> @@ -482,6 +482,21 @@ static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
->  	return edid;
->  }
->  
-> +static int hdmi4_bridge_cec_init(struct drm_bridge *bridge,
-> +				 struct drm_connector *conn)
-> +{
-> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-> +
-> +	return hdmi4_cec_init(hdmi->pdev, &hdmi->core, &hdmi->wp, conn);
-> +}
-> +
-> +static void hdmi4_bridge_cec_exit(struct drm_bridge *bridge)
-> +{
-> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-> +
-> +	hdmi4_cec_uninit(&hdmi->core);
-> +}
-> +
->  static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
->  	.attach = hdmi4_bridge_attach,
->  	.mode_set = hdmi4_bridge_mode_set,
-> @@ -492,13 +507,15 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
->  	.atomic_disable = hdmi4_bridge_disable,
->  	.hpd_notify = hdmi4_bridge_hpd_notify,
->  	.get_edid = hdmi4_bridge_get_edid,
-> +	.cec_init = hdmi4_bridge_cec_init,
-> +	.cec_exit = hdmi4_bridge_cec_exit,
->  };
->  
->  static void hdmi4_bridge_init(struct omap_hdmi *hdmi)
->  {
->  	hdmi->bridge.funcs = &hdmi4_bridge_funcs;
->  	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
-> -	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
-> +	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_CEC;
->  	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
->  
->  	drm_bridge_add(&hdmi->bridge);
-> @@ -647,14 +664,10 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
->  	if (r)
->  		goto err_runtime_put;
->  
-> -	r = hdmi4_cec_init(hdmi->pdev, &hdmi->core, &hdmi->wp);
-> -	if (r)
-> -		goto err_pll_uninit;
+Thanks I will fix that in v3
 
-I'm wondering ifwe need to delay the creation of the CEC adapter until
-the DRM connector is ready, or if we could only delay its registration ?
-Catching errors related to adapter creation early could be nice, the
-more error we have to handle at DRM bridge connector creation time, the
-more complex the error handling will be for bridge support.
+Benjamin
 
-> -
->  	r = hdmi_audio_register(hdmi);
->  	if (r) {
->  		DSSERR("Registering HDMI audio failed\n");
-> -		goto err_cec_uninit;
-> +		goto err_pll_uninit;
->  	}
->  
->  	hdmi->debugfs = dss_debugfs_create_file(dss, "hdmi", hdmi_dump_regs,
-> @@ -664,8 +677,6 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
->  
->  	return 0;
->  
-> -err_cec_uninit:
-> -	hdmi4_cec_uninit(&hdmi->core);
->  err_pll_uninit:
->  	hdmi_pll_uninit(&hdmi->pll);
->  err_runtime_put:
-> @@ -682,7 +693,6 @@ static void hdmi4_unbind(struct device *dev, struct device *master, void *data)
->  	if (hdmi->audio_pdev)
->  		platform_device_unregister(hdmi->audio_pdev);
->  
-> -	hdmi4_cec_uninit(&hdmi->core);
->  	hdmi_pll_uninit(&hdmi->pll);
->  }
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> index 43592c1cf081..64f5ccd0f11b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> @@ -335,10 +335,10 @@ void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa)
->  }
->  
->  int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
-> -		  struct hdmi_wp_data *wp)
-> +		   struct hdmi_wp_data *wp, struct drm_connector *conn)
->  {
-> -	const u32 caps = CEC_CAP_TRANSMIT | CEC_CAP_LOG_ADDRS |
-> -			 CEC_CAP_PASSTHROUGH | CEC_CAP_RC;
-> +	const u32 caps = CEC_CAP_DEFAULTS | CEC_CAP_CONNECTOR_INFO;
-> +	struct cec_connector_info conn_info;
->  	int ret;
->  
->  	core->adap = cec_allocate_adapter(&hdmi_cec_adap_ops, core,
-> @@ -346,6 +346,8 @@ int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
->  	ret = PTR_ERR_OR_ZERO(core->adap);
->  	if (ret < 0)
->  		return ret;
-> +	cec_fill_conn_info_from_drm(&conn_info, conn);
-> +	cec_s_conn_info(core->adap, &conn_info);
->  	core->wp = wp;
->  
->  	/* Disable clock initially, hdmi_cec_adap_enable() manages it */
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> index 0292337c97cc..b59a54c3040e 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> @@ -29,7 +29,7 @@ struct platform_device;
->  void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa);
->  void hdmi4_cec_irq(struct hdmi_core_data *core);
->  int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
-> -		  struct hdmi_wp_data *wp);
-> +		   struct hdmi_wp_data *wp, struct drm_connector *conn);
->  void hdmi4_cec_uninit(struct hdmi_core_data *core);
->  #else
->  static inline void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa)
-> @@ -41,8 +41,9 @@ static inline void hdmi4_cec_irq(struct hdmi_core_data *core)
->  }
->  
->  static inline int hdmi4_cec_init(struct platform_device *pdev,
-> -				struct hdmi_core_data *core,
-> -				struct hdmi_wp_data *wp)
-> +				 struct hdmi_core_data *core,
-> +				 struct hdmi_wp_data *wp,
-> +				 struct drm_connector *conn)
->  {
->  	return 0;
->  }
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> Best regards,
+> Jernej
+>
+>> +	__u8	padding[4];
+>> +};
+>> +
+>> +#endif
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-
+> controls.h
+>> index 039c0d7add1b..ced7486c7f46 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -209,6 +209,11 @@ enum v4l2_colorfx {
+>>    * We reserve 128 controls for this driver.
+>>    */
+>>   #define V4L2_CID_USER_CCS_BASE			(V4L2_CID_USER_BASE +
+> 0x10f0)
+>> +/*
+>> + * The base for HANTRO driver controls.
+>> + * We reserve 32 controls for this driver.
+>> + */
+>> +#define V4L2_CID_USER_HANTRO_BASE		(V4L2_CID_USER_BASE +
+> 0x1170)
+>>   
+>>   /* MPEG-class control IDs */
+>>   /* The MPEG controls are applicable to all codec controls
+>> -- 
+>> 2.25.1
+>>
+>>
+>
+>
