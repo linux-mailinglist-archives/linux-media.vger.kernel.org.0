@@ -2,147 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A663C31F86D
-	for <lists+linux-media@lfdr.de>; Fri, 19 Feb 2021 12:30:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1559431F8B6
+	for <lists+linux-media@lfdr.de>; Fri, 19 Feb 2021 12:58:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbhBSL3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Feb 2021 06:29:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60672 "EHLO
+        id S230472AbhBSL5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Feb 2021 06:57:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230481AbhBSL17 (ORCPT
+        with ESMTP id S230483AbhBSL5g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Feb 2021 06:27:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D85C061756;
-        Fri, 19 Feb 2021 03:27:19 -0800 (PST)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26A4C344;
-        Fri, 19 Feb 2021 12:27:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613734037;
-        bh=63v3hkQ8ctgSomwFjXznmeE4wyt+s3el53pzPd2zWQE=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Orov59dB0znKHFbOsKqwSl6vPLdz9k36Zgc8rUnmskVq6bf2Lfvk3QqQzjH6qFEH8
-         U1eKAH/qrNm6H0EWKg5GojrKmFtYV8pFmMFdLf5dg2FD+Ntki8tmTFN+YvYA7QcyOg
-         7Pxfwmq70kKOKya5IMXzyoleL4PoCm+FotjOxd30=
-Subject: Re: [PATCH 0/5] drm/omap: hdmi: improve hdmi4 CEC, add CEC for hdmi5
-To:     "H. Nikolaus Schaller" <hns@goldelico.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
-        Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        kernel@pyra-handheld.com, Linux-OMAP <linux-omap@vger.kernel.org>,
-        linux-media@vger.kernel.org
-References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
- <1707AE88-75E5-4B61-B336-09757674B6A1@goldelico.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-Message-ID: <b1938b23-751d-6ba6-35f4-da1016a41c93@ideasonboard.com>
-Date:   Fri, 19 Feb 2021 13:27:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 19 Feb 2021 06:57:36 -0500
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213E2C061756
+        for <linux-media@vger.kernel.org>; Fri, 19 Feb 2021 03:56:56 -0800 (PST)
+Received: by mail-io1-xd33.google.com with SMTP id f6so5282939iop.11
+        for <linux-media@vger.kernel.org>; Fri, 19 Feb 2021 03:56:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=5YoSQcDOeNRCf2AQDSF0PrZbTx0p+Isn67i3RFjyZGk=;
+        b=GKNbZEkYJaNakNjOJYF4ZkgiN4N0WupM3fzBoQfFyira0k8RKNpq6UkZ94Gij+9YZ2
+         yR4+vhyJGwkr2Z8BXWcqiMB8zJTFhO38Gqv4Ym8tKx7YJA3raW5+ZRObdTab/tQRit27
+         rUlRVk+FBzN4csRYS3qLGDI/qJ1/qW94s9a5SiVNfpJ9BlybshUcTgVwhSsgOGcumZlF
+         mq84IYuiYIB0mk276ARFcFYTpbOu4ComBqhBcCXKgib2GnocTb7357Kaov6VUdqmvZzN
+         j7lAmowRfWHj2f35A/1WZX6hlDFvrTyCgIMKVihtSPdM7lvifEQx1M5A3OqCqsVlyIqu
+         cifg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=5YoSQcDOeNRCf2AQDSF0PrZbTx0p+Isn67i3RFjyZGk=;
+        b=mcDh4+Q0ajgDHL+59n84jkFnSbQSvunaVbPiK3h22c79WnEbAM1ttSaWFl3wYrKXVs
+         KckMdJpRkYIAU73ZgSFs4YjZNSfR+v5Pu2N27vmDooiA4+IAzueILOyMpzMIC4TcFOKd
+         xjA3CxnGxAPam2LHS2Pf/V1bmkIDk/4Gh+sJzpRpcL76hvEjtz+1x3JDJRWO3KhiZB5W
+         /LONeiBa2IbKA0dtw5Y+y6scq6iPN1upx5LJ5YWqUEcPRjzy2JXFvqAcdmji4Ns55Y6v
+         /CEOSlnwp4HZ+Rd+7nvXTwUhqhDrmgwEhJaZ/jbIRuweT51cMnRwWF/08KAlUofq1BKo
+         T7kg==
+X-Gm-Message-State: AOAM5318ukDLs74WKEE8PvYTeB3RCqio4BWDDhtxcQnNhm12Q7NLazde
+        fHj4fd/oWn51O7U0VJ8E+uGVb3gm1zHVUCphgtU=
+X-Google-Smtp-Source: ABdhPJwmSJmYnhjA5HmnxcWSUUFQAZpfkarlAwvFMNhXOTYPIDEmYdhrS2T4eXOlyj+rZ9iPxZVxJ2FKvf8vVfSj1Pg=
+X-Received: by 2002:a6b:7f4c:: with SMTP id m12mr3715096ioq.130.1613735815467;
+ Fri, 19 Feb 2021 03:56:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1707AE88-75E5-4B61-B336-09757674B6A1@goldelico.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6638:134f:0:0:0:0 with HTTP; Fri, 19 Feb 2021 03:56:55
+ -0800 (PST)
+Reply-To: pedersenanders34@gmail.com
+From:   "Re:" <payayidee@gmail.com>
+Date:   Fri, 19 Feb 2021 12:56:55 +0100
+Message-ID: <CALev8fs1g9Wh-MpTJdJegUYHPsJ5YF_i-aN+hU_4o=zjAmefww@mail.gmail.com>
+Subject: Re:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/02/2021 13:11, H. Nikolaus Schaller wrote:
-> Hi,
-> 
->> Am 11.02.2021 um 11:36 schrieb Hans Verkuil <hverkuil-cisco@xs4all.nl>:
->>
->> This series improves the drm_bridge support for CEC by introducing two
->> new bridge ops in the first patch, and using those in the second patch.
->>
->> This makes it possible to call cec_s_conn_info() and set
->> CEC_CAP_CONNECTOR_INFO for the CEC adapter, so userspace can associate
->> the CEC adapter with the corresponding DRM connector.
->>
->> The third patch simplifies CEC physical address handling by using the
->> cec_s_phys_addr_from_edid helper function that didn't exist when this
->> code was originally written.
->>
->> The fourth patch adds CEC support to the OMAP5 driver and the last
->> patch adds the missing cec clock to the dra7 and omap5 device tree.
->>
->> Tested with a Pandaboard and a Beagle X15 board.
-> 
-> Tested to have no adverse effect on Pyra (omap5432).
-> But I have not tested if CEC itself is working.
-
-I tested on DRA76 EVM, but I don't have a CEC peripheral either.
-
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->> Hans Verkuil (5):
->>  drm: drm_bridge: add cec_init/exit bridge ops
->>  drm/omap: hdmi4: switch to the cec bridge ops
->>  drm/omap: hdmi4: simplify CEC Phys Addr handling
->>  drm/omap: hdmi5: add CEC support
->>  ARM: dts: dra7/omap5: add cec clock
->>
->> arch/arm/boot/dts/dra7.dtsi              |   5 +-
->> arch/arm/boot/dts/omap5.dtsi             |   5 +-
->> drivers/gpu/drm/drm_bridge_connector.c   |  23 +++
->> drivers/gpu/drm/omapdrm/dss/Kconfig      |   8 +
->> drivers/gpu/drm/omapdrm/dss/Makefile     |   1 +
-> 
-> Merging with patch series by Tomi Valkeinen and Sebastian Reichel
-> for omapdrm/dsi will need to move the Kconfig and Makefile one level
-> up.
-
-Yes, this conflicts with drm-next due to the Kconfig and Makefile
-changes. Should be trivial to fix.
-
- Tomi
+Hi, I'm with ill health, I solicit you assist me to handle a charity project
