@@ -2,59 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1559431F8B6
-	for <lists+linux-media@lfdr.de>; Fri, 19 Feb 2021 12:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA64C31F905
+	for <lists+linux-media@lfdr.de>; Fri, 19 Feb 2021 13:07:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbhBSL5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Feb 2021 06:57:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230483AbhBSL5g (ORCPT
+        id S229879AbhBSMFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Feb 2021 07:05:36 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47354 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230177AbhBSMD1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Feb 2021 06:57:36 -0500
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213E2C061756
-        for <linux-media@vger.kernel.org>; Fri, 19 Feb 2021 03:56:56 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id f6so5282939iop.11
-        for <linux-media@vger.kernel.org>; Fri, 19 Feb 2021 03:56:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=5YoSQcDOeNRCf2AQDSF0PrZbTx0p+Isn67i3RFjyZGk=;
-        b=GKNbZEkYJaNakNjOJYF4ZkgiN4N0WupM3fzBoQfFyira0k8RKNpq6UkZ94Gij+9YZ2
-         yR4+vhyJGwkr2Z8BXWcqiMB8zJTFhO38Gqv4Ym8tKx7YJA3raW5+ZRObdTab/tQRit27
-         rUlRVk+FBzN4csRYS3qLGDI/qJ1/qW94s9a5SiVNfpJ9BlybshUcTgVwhSsgOGcumZlF
-         mq84IYuiYIB0mk276ARFcFYTpbOu4ComBqhBcCXKgib2GnocTb7357Kaov6VUdqmvZzN
-         j7lAmowRfWHj2f35A/1WZX6hlDFvrTyCgIMKVihtSPdM7lvifEQx1M5A3OqCqsVlyIqu
-         cifg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=5YoSQcDOeNRCf2AQDSF0PrZbTx0p+Isn67i3RFjyZGk=;
-        b=mcDh4+Q0ajgDHL+59n84jkFnSbQSvunaVbPiK3h22c79WnEbAM1ttSaWFl3wYrKXVs
-         KckMdJpRkYIAU73ZgSFs4YjZNSfR+v5Pu2N27vmDooiA4+IAzueILOyMpzMIC4TcFOKd
-         xjA3CxnGxAPam2LHS2Pf/V1bmkIDk/4Gh+sJzpRpcL76hvEjtz+1x3JDJRWO3KhiZB5W
-         /LONeiBa2IbKA0dtw5Y+y6scq6iPN1upx5LJ5YWqUEcPRjzy2JXFvqAcdmji4Ns55Y6v
-         /CEOSlnwp4HZ+Rd+7nvXTwUhqhDrmgwEhJaZ/jbIRuweT51cMnRwWF/08KAlUofq1BKo
-         T7kg==
-X-Gm-Message-State: AOAM5318ukDLs74WKEE8PvYTeB3RCqio4BWDDhtxcQnNhm12Q7NLazde
-        fHj4fd/oWn51O7U0VJ8E+uGVb3gm1zHVUCphgtU=
-X-Google-Smtp-Source: ABdhPJwmSJmYnhjA5HmnxcWSUUFQAZpfkarlAwvFMNhXOTYPIDEmYdhrS2T4eXOlyj+rZ9iPxZVxJ2FKvf8vVfSj1Pg=
-X-Received: by 2002:a6b:7f4c:: with SMTP id m12mr3715096ioq.130.1613735815467;
- Fri, 19 Feb 2021 03:56:55 -0800 (PST)
+        Fri, 19 Feb 2021 07:03:27 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C3C0344;
+        Fri, 19 Feb 2021 13:02:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1613736163;
+        bh=5U/ZjUnFiUHnvU43maG2e5VgUk5poNHV5/Gra6oXEEM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Bvjcf2S88BzayBWdoCDIQ3qOHZBNYX1TNUzwOnYQZmOT8zLJtnkLVjEsrs0dHkBOd
+         uDDHLklv8bU3HS+c4h0tt54YSRKqc36iGY5Lm2w2YxwnE99dMNU0hPUdtk0ogcDscy
+         hLrXvvNEPl6vP5oxKgdGFYkxBRIvPDuyzNk6kIOQ=
+Date:   Fri, 19 Feb 2021 14:02:17 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+        Sekhar Nori <nsekhar@ti.com>, Tony Lindgren <tony@atomide.com>
+Subject: Re: [PATCH 1/5] drm: drm_bridge: add cec_init/exit bridge ops
+Message-ID: <YC+oyavcOV0uFJUb@pendragon.ideasonboard.com>
+References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
+ <20210211103703.444625-2-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Received: by 2002:a05:6638:134f:0:0:0:0 with HTTP; Fri, 19 Feb 2021 03:56:55
- -0800 (PST)
-Reply-To: pedersenanders34@gmail.com
-From:   "Re:" <payayidee@gmail.com>
-Date:   Fri, 19 Feb 2021 12:56:55 +0100
-Message-ID: <CALev8fs1g9Wh-MpTJdJegUYHPsJ5YF_i-aN+hU_4o=zjAmefww@mail.gmail.com>
-Subject: Re:
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210211103703.444625-2-hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, I'm with ill health, I solicit you assist me to handle a charity project
+Hi Hans,
+
+Thank you for the patch.
+
+On Thu, Feb 11, 2021 at 11:36:59AM +0100, Hans Verkuil wrote:
+> Add bridge cec_init/exit ops. These ops will be responsible for
+> creating and destroying the CEC adapter for the bridge that supports
+> CEC.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/gpu/drm/drm_bridge_connector.c | 23 +++++++++++++++++++
+>  include/drm/drm_bridge.h               | 31 ++++++++++++++++++++++++++
+>  2 files changed, 54 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> index 791379816837..2ff90f5e468c 100644
+> --- a/drivers/gpu/drm/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> @@ -84,6 +84,13 @@ struct drm_bridge_connector {
+>  	 * connector modes detection, if any (see &DRM_BRIDGE_OP_MODES).
+>  	 */
+>  	struct drm_bridge *bridge_modes;
+> +	/**
+> +	 * @bridge_cec:
+> +	 *
+> +	 * The last bridge in the chain (closest to the connector) that provides
+> +	 * cec adapter support, if any (see &DRM_BRIDGE_OP_CEC).
+> +	 */
+> +	struct drm_bridge *bridge_cec;
+>  };
+>  
+>  #define to_drm_bridge_connector(x) \
+> @@ -204,6 +211,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
+>  	struct drm_bridge_connector *bridge_connector =
+>  		to_drm_bridge_connector(connector);
+>  
+> +	if (bridge_connector->bridge_cec) {
+> +		struct drm_bridge *cec = bridge_connector->bridge_cec;
+> +
+> +		cec->funcs->cec_exit(cec);
+> +	}
+>  	if (bridge_connector->bridge_hpd) {
+>  		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
+>  
+> @@ -352,6 +364,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>  			bridge_connector->bridge_detect = bridge;
+>  		if (bridge->ops & DRM_BRIDGE_OP_MODES)
+>  			bridge_connector->bridge_modes = bridge;
+> +		if (bridge->ops & DRM_BRIDGE_OP_CEC)
+> +			bridge_connector->bridge_cec = bridge;
+>  
+>  		if (!drm_bridge_get_next_bridge(bridge))
+>  			connector_type = bridge->type;
+> @@ -374,6 +388,15 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>  	else if (bridge_connector->bridge_detect)
+>  		connector->polled = DRM_CONNECTOR_POLL_CONNECT
+>  				  | DRM_CONNECTOR_POLL_DISCONNECT;
+> +	if (bridge_connector->bridge_cec) {
+> +		struct drm_bridge *bridge = bridge_connector->bridge_cec;
+> +		int ret = bridge->funcs->cec_init(bridge, connector);
+> +
+> +		if (ret) {
+> +			drm_bridge_connector_destroy(connector);
+> +			return ERR_PTR(ret);
+> +		}
+> +	}
+>  
+>  	return connector;
+>  }
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 2195daa289d2..4c83c2657e87 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -629,6 +629,30 @@ struct drm_bridge_funcs {
+>  	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
+>  	 */
+>  	void (*hpd_disable)(struct drm_bridge *bridge);
+> +
+> +	/**
+> +	 * @cec_init:
+> +	 *
+> +	 * Initialize the CEC adapter.
+> +	 *
+> +	 * This callback is optional and shall only be implemented by bridges
+> +	 * that support a CEC adapter. Bridges that implement it shall also
+> +	 * implement the @cec_exit callback and set the DRM_BRIDGE_OP_CEC flag
+> +	 * in their &drm_bridge->ops.
+> +	 */
+> +	int (*cec_init)(struct drm_bridge *bridge, struct drm_connector *conn);
+> +
+> +	/**
+> +	 * @cec_exit:
+> +	 *
+> +	 * Terminate the CEC adapter.
+> +	 *
+> +	 * This callback is optional and shall only be implemented by bridges
+> +	 * that support a CEC adapter. Bridges that implement it shall also
+> +	 * implement the @cec_init callback and set the DRM_BRIDGE_OP_CEC flag
+> +	 * in their &drm_bridge->ops.
+> +	 */
+> +	void (*cec_exit)(struct drm_bridge *bridge);
+
+These are very ad-hoc operations. Would it make sense to have something
+that could also be reused for other type of intiialization and cleanup
+that require access to the drm_connector ?
+
+>  };
+>  
+>  /**
+> @@ -698,6 +722,13 @@ enum drm_bridge_ops {
+>  	 * this flag shall implement the &drm_bridge_funcs->get_modes callback.
+>  	 */
+>  	DRM_BRIDGE_OP_MODES = BIT(3),
+> +	/**
+> +	 * @DRM_BRIDGE_OP_CEC: The bridge supports a CEC adapter.
+> +	 * Bridges that set this flag shall implement the
+> +	 * &drm_bridge_funcs->cec_init and &drm_bridge_funcs->cec_exit
+> +	 * callbacks.
+> +	 */
+> +	DRM_BRIDGE_OP_CEC = BIT(4),
+>  };
+>  
+>  /**
+
+-- 
+Regards,
+
+Laurent Pinchart
