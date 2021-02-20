@@ -2,50 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43FF032033E
-	for <lists+linux-media@lfdr.de>; Sat, 20 Feb 2021 03:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A10F32042A
+	for <lists+linux-media@lfdr.de>; Sat, 20 Feb 2021 07:28:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229979AbhBTCsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Feb 2021 21:48:40 -0500
-Received: from mail.mpcb.gov.in ([125.17.249.59]:50116 "EHLO
-        fortimail.email.mpcb.gov.in" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229796AbhBTCsi (ORCPT
+        id S229557AbhBTG1u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Feb 2021 01:27:50 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:56595 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229476AbhBTG1r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Feb 2021 21:48:38 -0500
-X-Greylist: delayed 69771 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Feb 2021 21:48:31 EST
-Received: from User (rain-197-185-102-182.rain.network [197.185.102.182])
-        (user=feedback.consent@mpcb.gov.in mech=LOGIN bits=0)
-        by fortimail.email.mpcb.gov.in  with ESMTP id 11J7IVmK031284-11J7IVmM031284;
-        Fri, 19 Feb 2021 12:48:34 +0530
-Message-Id: <202102190718.11J7IVmK031284-11J7IVmM031284@fortimail.email.mpcb.gov.in>
-Reply-To: <brightwayfinanceloan01@protonmail.com>
-From:   "Brightway Finance Loan" <brightwayfinanceloan@gmail.com>
-Subject: Apply for loan at 5% interest rate per year
-Date:   Fri, 19 Feb 2021 09:18:30 +0200
+        Sat, 20 Feb 2021 01:27:47 -0500
+X-UUID: 6913ec8675734ebd8ae5df903db36b8d-20210220
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Hs3QMCbKs3lYerCS7naNEnRZUcwiVA4lX5e20BGW6G4=;
+        b=D9sbBcx6upyvqZ6c0uEvkenIRL+wAfTtkt7mqXz9pr1xeVjc2939LFyy5DBsMoxqKoearuTqnOVNKKXVL7KmfXmXD+mz1Pihfuvnv3XujE35RtRlLko1w+Jci62bQwk63OHHZioBg8pxem1PLJjZxFoD6rjfQ0wvUvutioArC0E=;
+X-UUID: 6913ec8675734ebd8ae5df903db36b8d-20210220
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 803049463; Sat, 20 Feb 2021 14:26:56 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sat, 20 Feb
+ 2021 14:26:44 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 20 Feb 2021 14:26:43 +0800
+Message-ID: <1613802403.896.3.camel@mhfsdcap03>
+Subject: Re: [PATCH 1/3] dt-bindings: media: mtk-vcodec: Separating mtk
+ vcodec encoder node
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Alexandre Courbot <acourbot@chromium.org>
+CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Tomasz Figa" <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Date:   Sat, 20 Feb 2021 14:26:43 +0800
+In-Reply-To: <CAPBb6MVqQ=gBb79Ey-n=WogXBC=Vr5iN7gwKPzVwLUu-9YkGRg@mail.gmail.com>
+References: <20210121061804.26423-1-irui.wang@mediatek.com>
+         <CAPBb6MVqQ=gBb79Ey-n=WogXBC=Vr5iN7gwKPzVwLUu-9YkGRg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-X-FEAS-Auth-User: feedback.consent@mpcb.gov.in
-X-FE-Policy-ID: 0:1:2:SYSTEM
-To:     unlisted-recipients:; (no To-header on input)
+X-TM-SNTS-SMTP: 720A18DC9132338BE8BA18B4DE8632099806799CD4E7EA48D9B032C45BD5ADD62000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-BrightWay Finance offers Loans ranging from (R10, 000.00 - R60, 000,000.00). Loan duration is from 1 to 20 years (Maximum) No collateral,
-No ITC CHECK and Blacklisted are welcome. If you wish to apply kindly send your full names, ID number, 
-email address and cellphone number to brightwayfinanceloan01@protonmail.com
+T24gV2VkLCAyMDIxLTAyLTAzIGF0IDE5OjQ0ICswOTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90
+ZToNCj4gT24gVGh1LCBKYW4gMjEsIDIwMjEgYXQgMzoxOCBQTSBJcnVpIFdhbmcgPGlydWkud2Fu
+Z0BtZWRpYXRlay5jb20+IHdyb3RlOg0KPiA+DQo+ID4gVXBkYXRlcyBiaW5kaW5nIGRvY3VtZW50
+IHNpbmNlIHRoZSBhdmMgYW5kIHZwOCBoYXJkd2FyZSBlbmNvZGVyIGluDQo+ID4gTVQ4MTczIGFy
+ZSBub3cgc2VwYXJhdGVkLiBTZXBhcmF0ZSAibWVkaWF0ZWssbXQ4MTczLXZjb2RlYy1lbmMiIHRv
+DQo+ID4gIm1lZGlhdGVrLG10ODE3My12Y29kZWMtdnA4LWVuYyIgYW5kICJtZWRpYXRlayxtdDgx
+NzMtdmNvZGVjLWF2Yy1lbmMiLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogSHNpbi1ZaSBXYW5n
+IDxoc2lueWlAY2hyb21pdW0ub3JnPg0KPiA+IFNpZ25lZC1vZmYtYnk6IE1hb2d1YW5nIE1lbmcg
+PG1hb2d1YW5nLm1lbmdAbWVkaWF0ZWsuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IElydWkgV2Fu
+ZyA8aXJ1aS53YW5nQG1lZGlhdGVrLmNvbT4NCj4gPg0KPiA+IC0tLQ0KPiA+ICAuLi4vYmluZGlu
+Z3MvbWVkaWEvbWVkaWF0ZWstdmNvZGVjLnR4dCAgICAgICAgfCA1OCArKysrKysrKysrLS0tLS0t
+LS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCAyNyBkZWxldGlvbnMo
+LSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvbWVkaWEvbWVkaWF0ZWstdmNvZGVjLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9tZWRpYS9tZWRpYXRlay12Y29kZWMudHh0DQo+ID4gaW5kZXggODIxNzQyNGZkNGJk
+Li5mODUyNzZlNjI5YmYgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL21lZGlhL21lZGlhdGVrLXZjb2RlYy50eHQNCj4gPiArKysgYi9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbWVkaWF0ZWstdmNvZGVjLnR4dA0KPiA+IEBA
+IC00LDcgKzQsOSBAQCBNZWRpYXRlayBWaWRlbyBDb2RlYyBpcyB0aGUgdmlkZW8gY29kZWMgaHcg
+cHJlc2VudCBpbiBNZWRpYXRlayBTb0NzIHdoaWNoDQo+ID4gIHN1cHBvcnRzIGhpZ2ggcmVzb2x1
+dGlvbiBlbmNvZGluZyBhbmQgZGVjb2RpbmcgZnVuY3Rpb25hbGl0aWVzLg0KPiA+DQo+ID4gIFJl
+cXVpcmVkIHByb3BlcnRpZXM6DQo+ID4gLS0gY29tcGF0aWJsZSA6ICJtZWRpYXRlayxtdDgxNzMt
+dmNvZGVjLWVuYyIgZm9yIE1UODE3MyBlbmNvZGVyDQo+ID4gKy0gY29tcGF0aWJsZSA6IG11c3Qg
+YmUgb25lIG9mIHRoZSBmb2xsb3dpbmcgc3RyaW5nOg0KPiA+ICsgICJtZWRpYXRlayxtdDgxNzMt
+dmNvZGVjLXZwOC1lbmMiIGZvciBtdDgxNzMgdnA4IGVuY29kZXIuDQo+ID4gKyAgIm1lZGlhdGVr
+LG10ODE3My12Y29kZWMtYXZjLWVuYyIgZm9yIG10ODE3MyBhdmMgZW5jb2Rlci4NCj4gDQo+IElN
+SE8gIm1lZGlhdGVrLG10ODE3My12Y29kZWMtZW5jLXZwOCIgYW5kDQo+ICJtZWRpYXRlayxtdDgx
+NzMtdmNvZGVjLWVuYy1hdmMiIHdvdWxkIGJlIG1vcmUgbG9naWNhbC4gQWxzbyB0byBrZWVwIGEN
+Cj4gYml0IG9mIGJhY2t3YXJkIGNvbXBhdGliaWxpdHksIHNoYWxsIHdlIGFsc28gYWxsb3cNCj4g
+Im1lZGlhdGVrLG10ODE3My12Y29kZWMtZW5jIiB0byBiZSBhbiBhbGlhcyBmb3INCj4gIm1lZGlh
+dGVrLG10ODE3My12Y29kZWMtZW5jLWF2YyI/IFRoZSBsaW5lIGFib3ZlIHdvdWxkIGJlY29tZQ0K
+PiANCj4gICAibWVkaWF0ZWssbXQ4MTczLXZjb2RlYy1lbmMtYXZjIiBvciAibWVkaWF0ZWssbXQ4
+MTczLXZjb2RlYy1lbmMiIGZvcg0KPiBtdDgxNzMgYXZjIGVuY29kZXIuDQo+IA0KDQp3aWxsIGJl
+IHVwZGF0ZWQgaW4gdGhlIG5leHQgdmVyc2lvbi4NCg0KPiA+ICAgICJtZWRpYXRlayxtdDgxODMt
+dmNvZGVjLWVuYyIgZm9yIE1UODE4MyBlbmNvZGVyLg0KPiA+ICAgICJtZWRpYXRlayxtdDgxNzMt
+dmNvZGVjLWRlYyIgZm9yIE1UODE3MyBkZWNvZGVyLg0KPiA+ICAtIHJlZyA6IFBoeXNpY2FsIGJh
+c2UgYWRkcmVzcyBvZiB0aGUgdmlkZW8gY29kZWMgcmVnaXN0ZXJzIGFuZCBsZW5ndGggb2YNCj4g
+PiBAQCAtMTMsMTAgKzE1LDExIEBAIFJlcXVpcmVkIHByb3BlcnRpZXM6DQo+ID4gIC0gbWVkaWF0
+ZWssbGFyYiA6IG11c3QgY29udGFpbiB0aGUgbG9jYWwgYXJiaXRlcnMgaW4gdGhlIGN1cnJlbnQg
+U29jcy4NCj4gPiAgLSBjbG9ja3MgOiBsaXN0IG9mIGNsb2NrIHNwZWNpZmllcnMsIGNvcnJlc3Bv
+bmRpbmcgdG8gZW50cmllcyBpbg0KPiA+ICAgIHRoZSBjbG9jay1uYW1lcyBwcm9wZXJ0eS4NCj4g
+PiAtLSBjbG9jay1uYW1lczogZW5jb2RlciBtdXN0IGNvbnRhaW4gInZlbmNfc2VsX3NyYyIsICJ2
+ZW5jX3NlbCIsLA0KPiA+IC0gICJ2ZW5jX2x0X3NlbF9zcmMiLCAidmVuY19sdF9zZWwiLCBkZWNv
+ZGVyIG11c3QgY29udGFpbiAidmNvZGVjcGxsIiwNCj4gPiAtICAidW5pdnBsbF9kMiIsICJjbGtf
+Y2NpNDAwX3NlbCIsICJ2ZGVjX3NlbCIsICJ2ZGVjcGxsIiwgInZlbmNwbGwiLA0KPiA+IC0gICJ2
+ZW5jX2x0X3NlbCIsICJ2ZGVjX2J1c19jbGtfc3JjIi4NCj4gPiArLSBjbG9jay1uYW1lczoNCj4g
+PiArICAgYXZjIHZlbmMgbXVzdCBjb250YWluICJ2ZW5jX3NlbCI7DQo+ID4gKyAgIHZwOCB2ZW5j
+IG11c3QgY29udGFpbiAidmVuY19sdF9zZWwiOw0KPiANCj4gQ2FuJ3Qgd2UgdXNlICJ2ZW5jX3Nl
+bCIgZm9yIGJvdGggYXZjIGFuZCB2cDgsIHNpbmNlIHRoZXkgYXJlIGRpZmZlcmVudA0KPiBub2Rl
+cyBub3c/IFRoYXQgd2F5IHdlIGNhbiBqdXN0IHNheQ0KPiANCj4gICBlbmNvZGVyIG11c3QgY29u
+dGFpbiAidmVuY19zZWwiDQo+IA0KPiB3aGljaCBpcyBjbGVhcmVyIGFuZCBhbHNvIHNpbXBsZXIg
+b24gdGhlIGNvZGUgc2lkZS4NCj4gDQoNCmRpdHRvDQoNCj4gPiArICAgZGVjb2RlciAgbXVzdCBj
+b250YWluICJ2Y29kZWNwbGwiLCAidW5pdnBsbF9kMiIsICJjbGtfY2NpNDAwX3NlbCIsDQo+ID4g
+KyAgICJ2ZGVjX3NlbCIsICJ2ZGVjcGxsIiwgInZlbmNwbGwiLCAidmVuY19sdF9zZWwiLCAidmRl
+Y19idXNfY2xrX3NyYyIuDQo+ID4gIC0gaW9tbXVzIDogc2hvdWxkIHBvaW50IHRvIHRoZSByZXNw
+ZWN0aXZlIElPTU1VIGJsb2NrIHdpdGggbWFzdGVyIHBvcnQgYXMNCj4gPiAgICBhcmd1bWVudCwg
+c2VlIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pb21tdS9tZWRpYXRlayxpb21t
+dS50eHQNCj4gPiAgICBmb3IgZGV0YWlscy4NCj4gPiBAQCAtODAsMTQgKzgzLDEwIEBAIHZjb2Rl
+Y19kZWM6IHZjb2RlY0AxNjAwMDAwMCB7DQo+ID4gICAgICBhc3NpZ25lZC1jbG9jay1yYXRlcyA9
+IDwwPiwgPDA+LCA8MD4sIDwxNDgyMDAwMDAwPiwgPDgwMDAwMDAwMD47DQo+ID4gICAgfTsNCj4g
+Pg0KPiA+IC0gIHZjb2RlY19lbmM6IHZjb2RlY0AxODAwMjAwMCB7DQo+ID4gLSAgICBjb21wYXRp
+YmxlID0gIm1lZGlhdGVrLG10ODE3My12Y29kZWMtZW5jIjsNCj4gPiAtICAgIHJlZyA9IDwwIDB4
+MTgwMDIwMDAgMCAweDEwMDA+LCAgICAvKlZFTkNfU1lTKi8NCj4gPiAtICAgICAgICAgIDwwIDB4
+MTkwMDIwMDAgMCAweDEwMDA+OyAgICAvKlZFTkNfTFRfU1lTKi8NCj4gPiAtICAgIGludGVycnVw
+dHMgPSA8R0lDX1NQSSAxOTggSVJRX1RZUEVfTEVWRUxfTE9XPiwNCj4gPiAtICAgICAgICAgICAg
+ICAgIDxHSUNfU1BJIDIwMiBJUlFfVFlQRV9MRVZFTF9MT1c+Ow0KPiA+IC0gICAgbWVkaWF0ZWss
+bGFyYiA9IDwmbGFyYjM+LA0KPiA+IC0gICAgICAgICAgICAgICAgICAgPCZsYXJiNT47DQo+ID4g
+K3Zjb2RlY19lbmM6IHZjb2RlY0AxODAwMjAwMCB7DQo+IA0KPiBMZXQncyB1c2UgdmNvZGVjX2Vu
+Y19hdmMgYXMgYSBsYWJlbD8NCg0KZGl0dG8NCg0KPiANCj4gPiArICAgIGNvbXBhdGlibGUgPSAi
+bWVkaWF0ZWssbXQ4MTczLXZjb2RlYy1hdmMtZW5jIjsNCj4gPiArICAgIHJlZyA9IDwwIDB4MTgw
+MDIwMDAgMCAweDEwMDA+Ow0KPiA+ICsgICAgaW50ZXJydXB0cyA9IDxHSUNfU1BJIDE5OCBJUlFf
+VFlQRV9MRVZFTF9MT1c+Ow0KPiA+ICAgICAgaW9tbXVzID0gPCZpb21tdSBNNFVfUE9SVF9WRU5D
+X1JDUFU+LA0KPiA+ICAgICAgICAgICAgICAgPCZpb21tdSBNNFVfUE9SVF9WRU5DX1JFQz4sDQo+
+ID4gICAgICAgICAgICAgICA8JmlvbW11IE00VV9QT1JUX1ZFTkNfQlNETUE+LA0KPiA+IEBAIC05
+OCw4ICs5NywyMCBAQCB2Y29kZWNfZGVjOiB2Y29kZWNAMTYwMDAwMDAgew0KPiA+ICAgICAgICAg
+ICAgICAgPCZpb21tdSBNNFVfUE9SVF9WRU5DX1JFRl9MVU1BPiwNCj4gPiAgICAgICAgICAgICAg
+IDwmaW9tbXUgTTRVX1BPUlRfVkVOQ19SRUZfQ0hST01BPiwNCj4gPiAgICAgICAgICAgICAgIDwm
+aW9tbXUgTTRVX1BPUlRfVkVOQ19OQk1fUkRNQT4sDQo+ID4gLSAgICAgICAgICAgICA8JmlvbW11
+IE00VV9QT1JUX1ZFTkNfTkJNX1dETUE+LA0KPiA+IC0gICAgICAgICAgICAgPCZpb21tdSBNNFVf
+UE9SVF9WRU5DX1JDUFVfU0VUMj4sDQo+ID4gKyAgICAgICAgICAgICA8JmlvbW11IE00VV9QT1JU
+X1ZFTkNfTkJNX1dETUE+Ow0KPiA+ICsgICAgbWVkaWF0ZWssbGFyYiA9IDwmbGFyYjM+Ow0KPiA+
+ICsgICAgbWVkaWF0ZWssdnB1ID0gPCZ2cHU+Ow0KPiA+ICsgICAgY2xvY2tzID0gPCZ0b3Bja2dl
+biBDTEtfVE9QX1ZFTkNfU0VMPjsNCj4gPiArICAgIGNsb2NrLW5hbWVzID0gInZlbmNfc2VsIjsN
+Cj4gPiArICAgIGFzc2lnbmVkLWNsb2NrcyA9IDwmdG9wY2tnZW4gQ0xLX1RPUF9WRU5DX1NFTD47
+DQo+ID4gKyAgICBhc3NpZ25lZC1jbG9jay1wYXJlbnRzID0gPCZ0b3Bja2dlbiBDTEtfVE9QX1ZD
+T0RFQ1BMTD47DQo+ID4gKyAgfTsNCj4gPiArDQo+ID4gK3Zjb2RlY19lbmNfbHQ6IHZjb2RlY0Ax
+OTAwMjAwMCB7DQo+IA0KPiBBbmQgaGVyZSB0aGUgbGFiZWwgc2hvdWxkIHByb2JhYmx5IGJlICJ2
+Y29kZWNfZW5jX3ZwOCIgZm9yIGNvbnNpc3RlbmN5Lg0KDQpkaXR0bw0KDQo+IA0KPiANCj4gDQo+
+ID4gKyAgICBjb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My12Y29kZWMtdnA4LWVuYyI7DQo+
+ID4gKyAgICByZWcgPSAgPDAgMHgxOTAwMjAwMCAwIDB4MTAwMD47ICAgIC8qIFZFTkNfTFRfU1lT
+ICovDQo+ID4gKyAgICBpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMjAyIElSUV9UWVBFX0xFVkVMX0xP
+Vz47DQo+ID4gKyAgICBpb21tdXMgPSA8JmlvbW11IE00VV9QT1JUX1ZFTkNfUkNQVV9TRVQyPiwN
+Cj4gPiAgICAgICAgICAgICAgIDwmaW9tbXUgTTRVX1BPUlRfVkVOQ19SRUNfRlJNX1NFVDI+LA0K
+PiA+ICAgICAgICAgICAgICAgPCZpb21tdSBNNFVfUE9SVF9WRU5DX0JTRE1BX1NFVDI+LA0KPiA+
+ICAgICAgICAgICAgICAgPCZpb21tdSBNNFVfUE9SVF9WRU5DX1NWX0NPTUFfU0VUMj4sDQo+ID4g
+QEAgLTEwOCwxNyArMTE5LDEwIEBAIHZjb2RlY19kZWM6IHZjb2RlY0AxNjAwMDAwMCB7DQo+ID4g
+ICAgICAgICAgICAgICA8JmlvbW11IE00VV9QT1JUX1ZFTkNfQ1VSX0NIUk9NQV9TRVQyPiwNCj4g
+PiAgICAgICAgICAgICAgIDwmaW9tbXUgTTRVX1BPUlRfVkVOQ19SRUZfTFVNQV9TRVQyPiwNCj4g
+PiAgICAgICAgICAgICAgIDwmaW9tbXUgTTRVX1BPUlRfVkVOQ19SRUNfQ0hST01BX1NFVDI+Ow0K
+PiA+ICsgICAgbWVkaWF0ZWssbGFyYiA9IDwmbGFyYjU+Ow0KPiA+ICAgICAgbWVkaWF0ZWssdnB1
+ID0gPCZ2cHU+Ow0KPiA+IC0gICAgY2xvY2tzID0gPCZ0b3Bja2dlbiBDTEtfVE9QX1ZFTkNQTExf
+RDI+LA0KPiA+IC0gICAgICAgICAgICAgPCZ0b3Bja2dlbiBDTEtfVE9QX1ZFTkNfU0VMPiwNCj4g
+PiAtICAgICAgICAgICAgIDwmdG9wY2tnZW4gQ0xLX1RPUF9VTklWUExMMV9EMj4sDQo+ID4gLSAg
+ICAgICAgICAgICA8JnRvcGNrZ2VuIENMS19UT1BfVkVOQ19MVF9TRUw+Ow0KPiA+IC0gICAgY2xv
+Y2stbmFtZXMgPSAidmVuY19zZWxfc3JjIiwNCj4gPiAtICAgICAgICAgICAgICAgICAgInZlbmNf
+c2VsIiwNCj4gPiAtICAgICAgICAgICAgICAgICAgInZlbmNfbHRfc2VsX3NyYyIsDQo+ID4gLSAg
+ICAgICAgICAgICAgICAgICJ2ZW5jX2x0X3NlbCI7DQo+ID4gLSAgICBhc3NpZ25lZC1jbG9ja3Mg
+PSA8JnRvcGNrZ2VuIENMS19UT1BfVkVOQ19TRUw+LA0KPiA+IC0gICAgICAgICAgICAgICAgICAg
+ICAgPCZ0b3Bja2dlbiBDTEtfVE9QX1ZFTkNfTFRfU0VMPjsNCj4gPiAtICAgIGFzc2lnbmVkLWNs
+b2NrLXBhcmVudHMgPSA8JnRvcGNrZ2VuIENMS19UT1BfVkVOQ1BMTF9EMj4sDQo+ID4gLSAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgPCZ0b3Bja2dlbiBDTEtfVE9QX1VOSVZQTEwxX0QyPjsN
+Cj4gPiArICAgIGNsb2NrcyA9IDwmdG9wY2tnZW4gQ0xLX1RPUF9WRU5DX0xUX1NFTD47DQo+ID4g
+KyAgICBjbG9jay1uYW1lcyA9ICJ2ZW5jX2x0X3NlbCI7DQo+ID4gKyAgICBhc3NpZ25lZC1jbG9j
+a3MgPSA8JnRvcGNrZ2VuIENMS19UT1BfVkVOQ19MVF9TRUw+Ow0KPiA+ICsgICAgYXNzaWduZWQt
+Y2xvY2stcGFyZW50cyA9IDwmdG9wY2tnZW4gQ0xLX1RPUF9WQ09ERUNQTExfMzcwUDU+Ow0KPiA+
+ICAgIH07DQo+ID4gLS0NCj4gPiAyLjE4LjANCj4gPg0KDQo=
 
-
-Yours in Service,
-
-Jane Cooper
-MARKETING TEAM
-Tel No: +27(0)622541582
-BrightWay Finance Loan(PTY) LTD.
-brightwayfinanceloan01@protonmail.com
