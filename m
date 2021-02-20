@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00C2332075E
-	for <lists+linux-media@lfdr.de>; Sat, 20 Feb 2021 22:41:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19318320765
+	for <lists+linux-media@lfdr.de>; Sat, 20 Feb 2021 22:44:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbhBTVlC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Feb 2021 16:41:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46194 "EHLO
+        id S229983AbhBTVlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Feb 2021 16:41:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229983AbhBTVk6 (ORCPT
+        with ESMTP id S230014AbhBTVld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Feb 2021 16:40:58 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9F6C06178C
-        for <linux-media@vger.kernel.org>; Sat, 20 Feb 2021 13:40:17 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id v6so43547421ljh.9
-        for <linux-media@vger.kernel.org>; Sat, 20 Feb 2021 13:40:17 -0800 (PST)
+        Sat, 20 Feb 2021 16:41:33 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F26C061793
+        for <linux-media@vger.kernel.org>; Sat, 20 Feb 2021 13:40:52 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id c17so43667029ljn.0
+        for <linux-media@vger.kernel.org>; Sat, 20 Feb 2021 13:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
         bh=/pB7xiTUOgMuIJXl6iKKJtr792fujB/rrIVY2HkrQUU=;
-        b=oa0KbZYrc8Azb+/E/werCn4nVcV0n1RC7+z4KWZgAgXLq4ikIGdDImM1xccpzrNKQo
-         shV0eE3V362KOwQgVkUb3P061gph/nOzhvifDrYMtjo4dVD+fqkvPy/hvjvaIg3o0bNU
-         eDppE6aSGgne7PnE0w07VIjcKqiNO4ut9gdWidAq4Hx11x8ixfsP3Ov0n3rNxFPbDeFz
-         dpdkL92MJVhgWPJBeqa/F6F3xciruAXnrdhm7rsR0fnrwbREDSCFi+H9gvt14108WxpV
-         7pDILy5EW7azP5LPOmLbsOq3X0rQFoGl7CVGsoCw3Y3SNIAOwKbny4G6sQ3k7sszOpCJ
-         bOIQ==
+        b=pm6CKkDp4JE8gNMMbJZXqS8FRwg2ZDRGYMEj9aA7U7zKV/MMh8i/R4uz0nSxE3CHzs
+         j9zSGVKsQpiutxiy4opCj4mYJU7IyB/evCAmXbxSbrQR63Wak7T2PwVBEl0vZJBcMQuM
+         EBIAwukCfhLeO73A6F7Qjl7GBdkUbAPcTq4uk2xFZ8odC1L0orTAegm6I5lrIPJu+Sg+
+         To36Wy3RRRAmQpPsmW5QzLbLhnHonJQLhafGK4Io3a6wbysPK/2RHlBhvmfH0+jF/xGI
+         KQmuD+Mpotax8yAhrO49P4utXL4vYjfUNetXoFpKQWbjcxEiwUMkJOBF8FEuODtbFrSS
+         akPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=/pB7xiTUOgMuIJXl6iKKJtr792fujB/rrIVY2HkrQUU=;
-        b=ExoS/3EPzpu61E9Gd4yPSY/95hezw3gaMY6Js3hSVScYGpidapOLq+nDKebFAg+r2u
-         g2YyAkWpX/banvM1NzRdDuF2f9xC7pVffIoWMxIZf95+X9yz7FDxxwwbJ3s6iT9S1p7X
-         mYxWcFF4AxAMlO4itteqlRkULF4s/H/s9R4/tFiSkN9yuGZRSnHHMCx1N3Kv4CWFDbVr
-         qLHy202S6v2A6bvKpwxY6M9iYYGwnjkgJ3uGLUdsPIxlUNZJlrWqS9m2C3UW078Z9X5w
-         YMFEWRKbsYCXDPDtuNQw+7ZxUNQbnPJWXdyd5UFaFWJ4+RyBMjAAugVHbajkgrerveW+
-         hjUw==
-X-Gm-Message-State: AOAM532DvLySdUVeJaG+5iWH+ohxaM60fcCNT+y9d9zfnGuPs88T/NvJ
-        1L3DMVECAvGlUgGvuU6ZZRpUnA==
-X-Google-Smtp-Source: ABdhPJx1OJ4q++SxBmosR9dz+Bb86ei1wPqGtvSV3XoeafAq27kWZUIkYJ/eHQC+X0Ra6z5UFQNmrg==
-X-Received: by 2002:a2e:2f16:: with SMTP id v22mr9803019ljv.105.1613857215992;
-        Sat, 20 Feb 2021 13:40:15 -0800 (PST)
+        b=S04YTifW6SeQCMYobDeSws+axgizw+AhNYR7CHFEBc5Dum7D7CeD1zoykon2F2AWMX
+         fUucQKb4REjNgM3tJ0u4QeFAAG3ZE7qUiYdIJh77pLUg/at6Ah5JAZ8EBMy18ixPkJYf
+         tuTXBGLew5MZVLpXKolNjBWOBLIpE//AzevMk33EHU3Fl14rSP0JIkrFhq9g4kOzR837
+         sEaq2jNe7q99DNKHEbIDIts0y4caYRvH/hhg5tKyih7vOqWQHMO/SwOcTGcxwwryg0V6
+         E9GRNhE2FHM15LF39atVGi4FTv/3RR8nyDXhy3KXWZe/aJ/GjVR9FaNOqOWXCLWQet6u
+         fPRg==
+X-Gm-Message-State: AOAM532/hJqoEZDldK1UWUz0SYz3a7FH2ihEz823TjhogHLrMDbtWJSO
+        VNCK6QuWYyNFHq7GRic3rc/1L0ZrL0W3RgGY
+X-Google-Smtp-Source: ABdhPJxM7qEAvRSHc+I9incc2LkhSRvufhqY3dHYghVlZBnWkJfXEpJnGgwdWCFEJLYV7pRhKNTBrA==
+X-Received: by 2002:a2e:91d6:: with SMTP id u22mr10214431ljg.138.1613857251042;
+        Sat, 20 Feb 2021 13:40:51 -0800 (PST)
 Received: from [192.168.118.216] ([85.249.43.69])
-        by smtp.gmail.com with ESMTPSA id m11sm512750lfp.54.2021.02.20.13.40.13
+        by smtp.gmail.com with ESMTPSA id c19sm1384558lfd.90.2021.02.20.13.40.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Feb 2021 13:40:15 -0800 (PST)
+        Sat, 20 Feb 2021 13:40:50 -0800 (PST)
 Subject: Re: [PATCH v5 07/22] media: camss: Add support for VFE hardware
  version Titan 170
 To:     Robert Foss <robert.foss@linaro.org>, agross@kernel.org,
@@ -68,8 +68,8 @@ Cc:     Rob Herring <robh@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
 References: <20210217112122.424236-1-robert.foss@linaro.org>
  <20210217112122.424236-8-robert.foss@linaro.org>
 From:   Andrey Konovalov <andrey.konovalov@linaro.org>
-Message-ID: <06986a1f-3043-38c3-038e-512cd101e19c@linaro.org>
-Date:   Sun, 21 Feb 2021 00:40:13 +0300
+Message-ID: <31b3599f-7944-0230-01fa-8c5d8b477fce@linaro.org>
+Date:   Sun, 21 Feb 2021 00:40:49 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
