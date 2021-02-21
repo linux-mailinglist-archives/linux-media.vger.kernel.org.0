@@ -2,77 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3889A320930
-	for <lists+linux-media@lfdr.de>; Sun, 21 Feb 2021 09:23:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D99532093C
+	for <lists+linux-media@lfdr.de>; Sun, 21 Feb 2021 09:52:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbhBUIVb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Feb 2021 03:21:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53972 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229502AbhBUIVa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Feb 2021 03:21:30 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E94460C41;
-        Sun, 21 Feb 2021 08:20:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613895649;
-        bh=fDoRyutdxwyp7zzQQ7I0wKt3Agq5SbU3ugt9v/IsMtc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tGgb4wvN0GYgO49/7TkQRXQIBt17Tg6GKA1GMhwhtJ2fsl8d/98c0fiLee3jFhD7r
-         LqXnEPIX8VEorI/d5buFHmJnFKDAhk4SlXy+6NKeyCRY5Y1H6TwK03FzLnkLTYQJVK
-         jkLI2Si+qmNG6S4O9mMVQw4RBcQEX6ErDDdcELKk=
-Date:   Sun, 21 Feb 2021 09:20:45 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Nikolay Kyx <knv418@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: media: ipu3: code style fix - missing a
- blank line after declarations
-Message-ID: <YDIX3Q0U8/PcVWgN@kroah.com>
-References: <20210221081236.9758-1-knv418@gmail.com>
- <20210221081236.9758-2-knv418@gmail.com>
+        id S229664AbhBUIvt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Feb 2021 03:51:49 -0500
+Received: from sonic306-35.consmr.mail.bf2.yahoo.com ([74.6.132.234]:40241
+        "EHLO sonic306-35.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229605AbhBUIvk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 21 Feb 2021 03:51:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1613897454; bh=R0T/e4mnvaCnf6/8Cf6z3THKXIYG9nDcC4XQ/9LXzEU=; h=Date:From:Reply-To:Subject:References:From:Subject:Reply-To; b=jwdV2gPkQmLeT4qBpezHk+Wpp8eqeXttSFvON8LAHn77XR9SqbhyiA3IYBzTmOBPpQ2aV+5kAQCAKtoKWAJMJNHSI5foFaA7w70pOly/L3NgGRxA1RkUc9aK6ctPDMB6BDwfLwF7cVUPGfRYWos87xB5EeOpI+YwoNWWs98T61wC3CkzZ3HxSCa8G8iYDlPcS3FZM3WzjqOBzi09lsCcEgmpxv5QuM8mREr2rr8akISU7eYZujOw6LoPWtRZibKCK+AVhsff8wcoTx469BPEpnL1DaX5Q2EWiG/kx23I0vLbUUZ63aPkI0goa1sa1mJHK+QUGW/vAr6BVInG77ZdQQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1613897454; bh=qZO9UkkzVuIGQH1jXmQBbS50ZriodVx+dt2QCPSAbKx=; h=X-Sonic-MF:Date:From:Subject:From:Subject; b=R5bVajR7UDPfB8eA3mUrxZXm41xuNO7qnG3Q1F84TeTPfTUMx0DaMekzP20QmRv7NUu4L29NWBuRdfnSvc0bfMlKf/Ryd6nSVZHWg0uOrorMCZHb0clMOTLiGDKBnFFfUj2jN9/bYhHLQzpE+G+cvbjMD+cK7SYR3e6cb52S6IjrM3zsZelsYMuOyDVqXoETqlRmlHHy3z2OKMC1904AMp+wiUOswtGBe5kGfy3zHHgz3lOaZQnHsLJMJtB4oYiWSZyC88/CTVrMc3gfcIwlO8SkoImtgyCgPEzDoNqt0xG+l5b2wGdQ2vzBCxq3nY6eI3nRAQca7GSVE9fnnnfCBg==
+X-YMail-OSG: BmfftpgVM1k.jBwhEu0j8HVcvO0DggrLwLSZnNO6LGmFmEr49nYL.nT5eojQlVx
+ kJJ5o8B5vfYHtmNpOTa9TUHwqaPxhB6GIDwZrwOw1XsoIkxctmn0SJWCepVfsJlF9lmJoLPX6eH0
+ uTUO4V6mpCrb4GpAWTMlVk9ba9sF3rkLv5RsAQhjpwJxvCF7XW1ZV9SiRAmQWcpTMewQeEbcnhhj
+ JtJ.ROfZwwWwK6ooTwT5xzvZVnsdIddFU8_1bgD3EWeIKuhWpnUpHGLQtMb468ELlHCrt95M5qaj
+ rrQesE1VrXylxcv50gMV9Un4eTA0pCP1TQQhsKUEenZ003SXXpHkzvMl0iPrhBtXkufIHzwIXbAq
+ FDr6sFYciPyyS3FV3MNiFqHzu7FiA.37rw_LHedjpwf1XQj9FhzM24jcIA0_eD2Oz9gcVGI5vluy
+ szgQN9_w76yCqqhmIUL3SoIVxkc3jcrdVWLZ3afr__1A9GuDqW_CUPjWHFAGzVw3n7jARdL14MBX
+ L1EqCQ8ryLNvXlJuviy74aHi0MyFdAHL.gJaBdp5i8jlc4MdHP4guNnTFlhwfw7XU4wGCAwl8rI5
+ 4TahKneigj14QxvzZI4xhD6bHWsAadu1XL5sQM3repCOSzSNOrCOMnrIc7Ci07exqtj8F1w6Uzbx
+ THwxDNil.YC7vf5TIIZ9BNv_7sajAGZKlKxnUi_Ri.X927Uuechd6FEMe33DdSDOwAdv62bwRY_t
+ 3HWoMhsLs5g8msm5oiEiowGJp9HOubk4tiNZiRl65WAH_Qz42Ln.FKyTpW4VCRMHz8NAy5e.zeMw
+ QLCcrUinqwgY0AGJMJnuIRyNZhuVCUjtJlTn5NKa8hxitnoG0LsSiBbKDeWMwtyUxQktdOmZU39z
+ T7SQ5OTEDFKJ.O6UjaZ72hu7PaQJlk6LkVv3H3XqdfrtAY63MJ.Wj3Oe_xSza5Yxe_XF.MDo8RhZ
+ mUg9OFQbYL2TIEO2jKWG2mCjWdd7bH5QUPCzPD_wHNJhT0aJGlx0l.bI_TOczvb87tjcYcXRyUUF
+ Cr5fbZxLAs.2fZQxEgMU5mDoUxiB6wq8GoazbHOkcUps2SWNlsXfTv7h9FxXDGTDEwyzXWA5n3Fh
+ nxfR_KzvPzKREmH63B7couBxL_lza9BDkWMPGYVjnTi1qVyVsfMfGwbbHDKTYPd4rsEE7PFR5.qh
+ vbAnagzacYBM80AocWDVQxgPjAtZUW76d2YLWPsWhZXs4zgbo8cOaOPgqDQ0ZqzyDxDCyLkmDqtJ
+ T2w_7W9YKfQcs.sJLiR5TCgWpktw8UKF2R_5roAJ.vcquer39uiaJV7rDKTj.ZnOTNk3BNBR6zkV
+ DGgV5KpXaBX5_iPh9RPMyE01HM3O1SZ29USMA4VJkbqTLEQHm8C86OrZJt.faAD7oz4LUMutwmV1
+ EZ53QoU87RwN27hgWfHDVh9ctGuDsyLVNuGfoq4TQ9Sdmnr54afwza6jsRUsjnLVAk9XzB6B7sUC
+ 1.RyMaKK1DF_HZRN2J2UKlVlW6vhHYEV0bPopouOGHChat1S_w.zIrrYXvasTmjJjbiuxRR02cga
+ x3x542uGSk_0_V.Vj.t_AWBfaoGDptqbopXcZEXYsaoDyDLcvhfN9.3NQOKuqfU_ULljGs8GoDNU
+ GDN4A8dlcGAhmSgGEedDEgpJKYyEpUl6ga9qGER92bV1shARolqvC5HG4eJqjcVwd2CwnctPLLGz
+ yfxwYIELmuYI3gzqHVklGwpNUAgxeIhT.yr1H.pzcUV7AAiuR.Wkd1fqROUcA0vZ7a2z_HsDwMwg
+ YFVly9NJzXSnH.G6C_hTgi3jNdPjarCYhFlzeZT.2Xi51rCKqvDbAszQOcoJarDl3mLxi03UgWaf
+ FFvUrYXGSEo3deMtQmtlK6ItMJzPZuyo1rZEsslhfA8LmPbYHlCfrVcEe.KBWNDkOiDoqyZWof.V
+ DHdVx1iWl2X_xa2QS0eo5Oiak6S.FvnKt03oRCA.fuYzfHyZFk_RobzE6VksdnXcY0ex_20zrg7c
+ e3YWKzSuA5pxdlrZ2ovzq1aa5xUKGQHGjQfs.kLICeNQtX7SBLDHIMOLz4VMIoR5DlzgCiMezB6h
+ Jn778.jTxmcLyd1Xtc8aD4KtlMs1FkeBKU22nQF6As70JJYFg.7ev691VcDWnGQXDqzyanfWs47i
+ _okOH2acUmJ65JhMzRE_5fmFJrQ7AYRZSGLjmReoN7J2mig3grgCCw2FxD2uBxB4LcFRAXLSrQF5
+ nye2vALX7Fc7K9JVX8i3RDtVqmSvSq.BIV3tVnrXaNsPrQ7fi38oeOeMWQMKcCwMDJsn.vqT74.e
+ ewzleBoEIckVhV0b6_DbHpEbFiyGI9jt5sozt03_aNSPesMSfBZWOfxBSMZnssPwooeiVDgeWgbe
+ S5KzTX7KiViMBlMhoNOmoHIV8mhlyzYgPmBcNQlu_klQXOrQU2Wfb.sDl64sSv8l62rGnkSmyAhA
+ LCb1wNuDVhjWNkDNDU5dYIWvWPzr8s.jxuc38kjK7gqgHXKLdBcagdjZqVC4uRe7HuIG5nzoHsa8
+ DjXrLyXL7JWxX.8dynrjMVbJLxXSAZ_SH.3D90oO4nIFtMgtY3SRsnnm3SiAeinAm2gk3gApYmw6
+ 3pDgUckySDF7cjqVoDsE.92GJcyuDkMJGozWJ7qOuzzqisZOnJQ0X6cnjRD7Xn6WqhortYVO66XN
+ 7VvajaTb6sTzHlt6L3qZopKxWg03vxRS82pEB7wfdLAx7TmlCINtQA_LhIN0Rh_fCXGjr_ev6TT9
+ tVHnC1DRam5aTpdDDh87n_bIS11GVX0GLzRCv0TO_9Ntgf6JwmDvANfjtUv_Qz0dp5AvXFprGKnZ
+ NE1gFCs77L4Cg_OPerkb90YWcOx_968YnCstLDiQWA.5zlKBHhwT45mPqDtkudY4440hwufDedQZ
+ L.JAbWK9_Ars66MW9XySsXDJqhICU6FVkSA5rVcr5MD6mrPPrTqFZlfFCQCo2TTePLZSZc0xlnX.
+ w9KN7uI0wCGfXcKRistbWrpX7REc7pFf1NkitLhkWSkhWbQWyO5TRR4qxBqr3T5abZBzb.MFWu0N
+ kEcQ5nd3YPl7Xikj.pXVLK1TYg7N8i0Xn3Ivflm65MmKDFtO0MrcOqao4iOElkp8ERBGaa.xqG1j
+ TbDcmfGir6FppXcyMrc.x_sG1c_H17SBQ.NX8AbTx7QxN8qqyYIFSbrniXEqz3CxkgCIV2r6CSQh
+ 4TS9Ura13tNNfxqf4xJlsNoT7ylnr_bha6vcTwr2QVKM2QJFxggNTV0HdLt1KbQTtqLvTnMsNTee
+ rWONsxsDC_xo4iUx9JdIxM8W6bfuD.1HV8xEIbHWbXdQaYDyDFsAkNVot64jVUHkJNwELIAqUGEH
+ tY_gnqqJdcJxQnkvF0dZpW2sXnFrMdgaxA5lfdNUtt_VZ4rjSkXXdXzgj2n24yofDIHQM0qp4apl
+ KE3sSa0_KwLrBfm9dH3KL9tjj33W.NSb99V3prqjuDYV7nx74S876V.dQhrbbASvfQjpV4IXZPsF
+ pL3ZGqSneVeB7aVa8KJZYiWzcdUKC4D9kkD8V_.pMzwfjwegnfISNmhNRyXbjxCDtefwTZFM7cSd
+ XSfQ7M0u.b4lG_QXoNzrdRymp4Y.WU9z0U5n1V3sdqABRfqMSW8k2SiugchA3UbpcmEYuqS9.PNV
+ i8Q1FXpnEjJom6x8YZe1qT0Y1N8z018yLJeL7tBgr7E96oB1gnRmL4TbYIKHGb9kLc7vX8.JTOp0
+ 7yQe3HhOyuUB04tjUN_jmndOzhX_BrkHGgQjtpRnpImiEbuVMSSCpKwJlhlPm3q309vE_VG8xduD
+ _oA--
+X-Sonic-MF: <sunny1011@utalo.in>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Sun, 21 Feb 2021 08:50:54 +0000
+Date:   Sun, 21 Feb 2021 08:48:53 +0000 (UTC)
+From:   COLRUYT GROUP <sunny1011@utalo.in>
+Reply-To: colruyt.group1@outlook.com
+Message-ID: <102358855.435082.1613897333467@mail.yahoo.com>
+Subject: Inquiry
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210221081236.9758-2-knv418@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <102358855.435082.1613897333467.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.17712 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Feb 21, 2021 at 11:12:36AM +0300, Nikolay Kyx wrote:
-> This patch fixes the following checkpatch.pl warning:
-> 
-> WARNING: Missing a blank line after declarations
-> 
-> in file ipu3-css-fw.h
-> 
-> Signed-off-by: Nikolay Kyx <knv418@gmail.com>
-> ---
-> 
-> Additionally some style warnings remain valid here and could be fixed by
-> another patch.
-> 
->  drivers/staging/media/ipu3/ipu3-css-fw.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.h b/drivers/staging/media/ipu3/ipu3-css-fw.h
-> index 79ffa7045139..3c078f15a295 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css-fw.h
-> +++ b/drivers/staging/media/ipu3/ipu3-css-fw.h
-> @@ -148,6 +148,7 @@ union imgu_fw_union {
->  struct imgu_fw_info {
->  	size_t header_size;	/* size of fw header */
->  	u32 type __aligned(8);	/* enum imgu_fw_type */
-> +
->  	union imgu_fw_union info;	/* Binary info */
->  	struct imgu_abi_blob_info blob;	/* Blob info */
->  	/* Dynamic part */
 
-With your knowledge of C, does this change look correct?
 
-thanks,
 
-greg k-h
+
+Dear Sir/Madam
+
+I am Mathijs De Klerk, Purchasing Manager
+for COLRUYT GROUP. we are interested to
+know more about your products, prizes and
+shipping procedure as soon as possible.
+
+Looking forward to your response.
+
+Best Regards
+
+Mathijs De Klerk
+Purchasing Manager
+COLRUYT GROUP
+Edingensesteenweg 196
+1500 Halle
+Belgium.+32(0)2-394-5545
+www.colruytgroup.com
