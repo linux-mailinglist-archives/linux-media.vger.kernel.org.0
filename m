@@ -2,127 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8384D320D5E
-	for <lists+linux-media@lfdr.de>; Sun, 21 Feb 2021 21:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D62E320DC1
+	for <lists+linux-media@lfdr.de>; Sun, 21 Feb 2021 21:57:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231293AbhBUUDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Feb 2021 15:03:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48780 "EHLO
+        id S231415AbhBUU4L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Feb 2021 15:56:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbhBUUDY (ORCPT
+        with ESMTP id S231444AbhBUU4H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Feb 2021 15:03:24 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F3CC061574;
-        Sun, 21 Feb 2021 12:02:43 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FCB6EF;
-        Sun, 21 Feb 2021 21:02:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613937759;
-        bh=o2eDVQuJ6yjcFRPIKu9v84KcpaYn/gl029K82U+HOIM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YdOPKjyLq8xdf0OTeyQLgnjwKVOCYKOHnKiieixUnPwgrWv5l2NQObgBijpagtJ0p
-         J06nCkSIS5V60pcLfJBRNn34iHJ7slDc+sPMWDex7NITULHQ5FnkLaQrVZNjum6JNM
-         RkaDyTd0rfkUBd16SHXqnqTx+CcvYjxmIZvyprEA=
-Date:   Sun, 21 Feb 2021 22:02:13 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nikolay Kyx <knv418@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: omap4iss: code style - avoid macro
- argument precedence issues
-Message-ID: <YDK8RfFUlktIyu7q@pendragon.ideasonboard.com>
-References: <20210221195308.1451-1-knv418@gmail.com>
+        Sun, 21 Feb 2021 15:56:07 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FE9CC061574;
+        Sun, 21 Feb 2021 12:55:27 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id x19so11028225ybe.0;
+        Sun, 21 Feb 2021 12:55:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fyF0LjaB9P2i7Lp6wc61I/btQ3dRrAgoAWpQ7eEEOi0=;
+        b=AMXMDZhadbJBdedrcFda8hxcGPQzCNjWeeyaIpIinWvB2IzEf/0Gp2JDmIIghiSrya
+         oE9Ehvr0PTAMObjbBMRfWwIOdy0SWWdrS0lklcB+WL17LMsGLNUlu9a4Ti9qQb3s9nLI
+         bIQcrprd+csVYjSsDkPVFX+Zmbn+9LKnSg9e3pVY5aWMLtnOOVuOSmCULPCXa49BDtx6
+         s+fx13KdVF7vhrBQPoIXzKABKUxxHkSlB2ZvO9kHGtZ6zNSS602eSBCqwofh1duZYwAo
+         l/394c8ejzOHBIw9RXIxCXrr7gXWNMJ7v+oEcNJ7GBFZ4DzPpIpNVtttZsO1scbysudw
+         SZUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fyF0LjaB9P2i7Lp6wc61I/btQ3dRrAgoAWpQ7eEEOi0=;
+        b=oLcCw4TgBBON+ROvjimfQDpXL6VT66uJXchOCEBJjrwIVIHTTTBe378IcmYiMqQci7
+         UxNtgtVLpJSGzHCNmJO1bvXaKPWlj8FikJqTD2/9hYwRF3ibzwBGcM1ZQsZp7YC4K3K5
+         Zyk7nrzjnOVUQ0B08f/WKlfXYQRULXQk+eigeFFXDMnsn+HAoyQPORdIFERE4Y+gLEcK
+         yB6N7zyMVUFG0Rsczw8ibPWdhjVl0heP/YO4LyJ+Wch6/B72/rd0JrZpBJxfyVtQvIit
+         BuhJIDjjofCOXsYyk+a7m7un8QbtxkqLxaAwg0rWTiMvfXwrzKw/KXO2OLR7j6Ra0oqT
+         4nmg==
+X-Gm-Message-State: AOAM531ZLRvWttoWw56AVebOB9JHLjcjnmXInHbhEdAaU5iEN5pfp9RE
+        sBnt7UjF7TZEJrrSV6to2M0HSXvAKCUXcheQAXw=
+X-Google-Smtp-Source: ABdhPJx+AizyWn+h1qrEy2y5dKAMirtiFf6UqoCnpkjAxzqgIc6xAVFIDUBnCYvlnbJcRcPttrfWqYmNtGUYDLUL4QI=
+X-Received: by 2002:a25:2d07:: with SMTP id t7mr28967962ybt.127.1613940926443;
+ Sun, 21 Feb 2021 12:55:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210221195308.1451-1-knv418@gmail.com>
+References: <20210205092117.551317-1-unixbhaskar@gmail.com>
+In-Reply-To: <20210205092117.551317-1-unixbhaskar@gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sun, 21 Feb 2021 20:55:00 +0000
+Message-ID: <CA+V-a8sFaW99J8tVa=1w=o37TufLgLmh0TcnSqkdaaY0SpYZdw@mail.gmail.com>
+Subject: Re: [PATCH] include: media: davinci: Fixed up few trivial spellings
+ in the file isif.h
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nikolay,
+Hi Bhaskar,
 
 Thank you for the patch.
 
-On Sun, Feb 21, 2021 at 10:53:08PM +0300, Nikolay Kyx wrote:
-> This patch fixes the following checkpatch.pl check:
-> 
-> CHECK: Macro argument 'i' may be better as '(i)' to avoid precedence issues
-> 
-> in file iss_regs.h
-> 
-> Signed-off-by: Nikolay Kyx <knv418@gmail.com>
+On Fri, Feb 5, 2021 at 9:21 AM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+>
+>
+>
+> Several spelling fixes throughout the file.
+>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 > ---
-> 
-> Additionally some style warnings remain valid here and could be fixed by
-> another patch.
-> 
->  drivers/staging/media/omap4iss/iss_regs.h | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/media/omap4iss/iss_regs.h b/drivers/staging/media/omap4iss/iss_regs.h
-> index 09a7375c89ac..cfe0bb075072 100644
-> --- a/drivers/staging/media/omap4iss/iss_regs.h
-> +++ b/drivers/staging/media/omap4iss/iss_regs.h
-> @@ -197,7 +197,7 @@
->  #define CSI2_TIMING_STOP_STATE_COUNTER_IO1_MASK		(0x1fff << 0)
->  #define CSI2_TIMING_STOP_STATE_COUNTER_IO1_SHIFT	0
->  
-> -#define CSI2_CTX_CTRL1(i)				(0x70 + (0x20 * i))
-> +#define CSI2_CTX_CTRL1(i)				(0x70 + (0x20 * (i)))
+>  include/media/davinci/isif.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
 
-This is a good change, as it fixes potential issues, but maybe we could
-go one step forward and drop the unneeded parentheses ?
+Cheers,
+Prabhakar
 
--#define CSI2_CTX_CTRL1(i)				(0x70 + (0x20 * i))
-+#define CSI2_CTX_CTRL1(i)				(0x70 + 0x20 * (i))
-
-What do you think ?
-
->  #define CSI2_CTX_CTRL1_GENERIC				BIT(30)
->  #define CSI2_CTX_CTRL1_TRANSCODE			(0xf << 24)
->  #define CSI2_CTX_CTRL1_FEC_NUMBER_MASK			(0xff << 16)
-> @@ -210,7 +210,7 @@
->  #define CSI2_CTX_CTRL1_PING_PONG			BIT(3)
->  #define CSI2_CTX_CTRL1_CTX_EN				BIT(0)
->  
-> -#define CSI2_CTX_CTRL2(i)				(0x74 + (0x20 * i))
-> +#define CSI2_CTX_CTRL2(i)				(0x74 + (0x20 * (i)))
->  #define CSI2_CTX_CTRL2_FRAME_MASK			(0xffff << 16)
->  #define CSI2_CTX_CTRL2_FRAME_SHIFT			16
->  #define CSI2_CTX_CTRL2_USER_DEF_MAP_SHIFT		13
-> @@ -222,19 +222,19 @@
->  #define CSI2_CTX_CTRL2_FORMAT_MASK			(0x3ff << 0)
->  #define CSI2_CTX_CTRL2_FORMAT_SHIFT			0
->  
-> -#define CSI2_CTX_DAT_OFST(i)				(0x78 + (0x20 * i))
-> +#define CSI2_CTX_DAT_OFST(i)				(0x78 + (0x20 * (i)))
->  #define CSI2_CTX_DAT_OFST_MASK				(0xfff << 5)
->  
-> -#define CSI2_CTX_PING_ADDR(i)				(0x7c + (0x20 * i))
-> +#define CSI2_CTX_PING_ADDR(i)				(0x7c + (0x20 * (i)))
->  #define CSI2_CTX_PING_ADDR_MASK				0xffffffe0
->  
-> -#define CSI2_CTX_PONG_ADDR(i)				(0x80 + (0x20 * i))
-> +#define CSI2_CTX_PONG_ADDR(i)				(0x80 + (0x20 * (i)))
->  #define CSI2_CTX_PONG_ADDR_MASK				CSI2_CTX_PING_ADDR_MASK
->  
-> -#define CSI2_CTX_IRQENABLE(i)				(0x84 + (0x20 * i))
-> -#define CSI2_CTX_IRQSTATUS(i)				(0x88 + (0x20 * i))
-> +#define CSI2_CTX_IRQENABLE(i)				(0x84 + (0x20 * (i)))
-> +#define CSI2_CTX_IRQSTATUS(i)				(0x88 + (0x20 * (i)))
->  
-> -#define CSI2_CTX_CTRL3(i)				(0x8c + (0x20 * i))
-> +#define CSI2_CTX_CTRL3(i)				(0x8c + (0x20 * (i)))
->  #define CSI2_CTX_CTRL3_ALPHA_SHIFT			5
->  #define CSI2_CTX_CTRL3_ALPHA_MASK			\
->  		(0x3fff << CSI2_CTX_CTRL3_ALPHA_SHIFT)
-
--- 
-Regards,
-
-Laurent Pinchart
+> diff --git a/include/media/davinci/isif.h b/include/media/davinci/isif.h
+> index e66589c4022d..8369acd26e7e 100644
+> --- a/include/media/davinci/isif.h
+> +++ b/include/media/davinci/isif.h
+> @@ -177,7 +177,7 @@ struct isif_black_clamp {
+>          * 1 - clamp value calculated separately for all colors
+>          */
+>         __u8 bc_mode_color;
+> -       /* Vrtical start position for bc subtraction */
+> +       /* Vertical start position for bc subtraction */
+>         __u16 vert_start_sub;
+>         /* Black clamp for horizontal direction */
+>         struct isif_horz_bclamp horz;
+> @@ -193,7 +193,7 @@ struct isif_color_space_conv {
+>         /* Enable color space conversion */
+>         __u8 en;
+>         /*
+> -        * csc coeffient table. S8Q5, M00 at index 0, M01 at index 1, and
+> +        * csc coefficient table. S8Q5, M00 at index 0, M01 at index 1, and
+>          * so forth
+>          */
+>         struct isif_float_8 coeff[ISIF_CSC_NUM_COEFF];
+> @@ -340,7 +340,7 @@ struct isif_data_formatter {
+>  };
+>
+>  struct isif_df_csc {
+> -       /* Color Space Conversion confguration, 0 - csc, 1 - df */
+> +       /* Color Space Conversion configuration, 0 - csc, 1 - df */
+>         __u8 df_or_csc;
+>         /* csc configuration valid if df_or_csc is 0 */
+>         struct isif_color_space_conv csc;
+> @@ -406,7 +406,7 @@ struct isif_config_params_raw {
+>         struct isif_linearize linearize;
+>         /* Data formatter or CSC */
+>         struct isif_df_csc df_csc;
+> -       /* Defect Pixel Correction (DFC) confguration */
+> +       /* Defect Pixel Correction (DFC) configuration */
+>         struct isif_dfc dfc;
+>         /* Black/Digital Clamp configuration */
+>         struct isif_black_clamp bclamp;
+> --
+> 2.30.0
+>
