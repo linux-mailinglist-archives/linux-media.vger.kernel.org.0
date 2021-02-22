@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C3D6321AB0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 16:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21709321ACA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 16:07:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbhBVO7f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Feb 2021 09:59:35 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60365 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230302AbhBVO73 (ORCPT
+        id S230282AbhBVPHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Feb 2021 10:07:12 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:59677 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229947AbhBVPHJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Feb 2021 09:59:29 -0500
+        Mon, 22 Feb 2021 10:07:09 -0500
 X-Originating-IP: 93.61.96.190
 Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 9E677E000F;
-        Mon, 22 Feb 2021 14:58:38 +0000 (UTC)
-Date:   Mon, 22 Feb 2021 15:59:05 +0100
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id AB8D8240003;
+        Mon, 22 Feb 2021 15:06:16 +0000 (UTC)
+Date:   Mon, 22 Feb 2021 16:06:43 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -26,162 +26,148 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/16] media: i2c: rdacm20: Enable noise immunity
-Message-ID: <20210222145905.ao4larxjv5tvk3yd@uno.localdomain>
+Subject: Re: [PATCH 03/16] media: i2c: rdacm20: Replace goto with a loop
+Message-ID: <20210222150643.cuv6uye3wpxaykim@uno.localdomain>
 References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
- <20210216174146.106639-2-jacopo+renesas@jmondi.org>
- <5691f68f-724d-9d6a-9ea8-1e017b305c66@ideasonboard.com>
- <YDL/npLVS7vk3TV7@pendragon.ideasonboard.com>
+ <20210216174146.106639-4-jacopo+renesas@jmondi.org>
+ <c95022bc-3841-4d0a-653c-6d6974e20355@ideasonboard.com>
+ <YDMDPymgU/N5wd/i@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YDL/npLVS7vk3TV7@pendragon.ideasonboard.com>
+In-Reply-To: <YDMDPymgU/N5wd/i@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran, Laurent,
+Hi,
 
-On Mon, Feb 22, 2021 at 02:49:34AM +0200, Laurent Pinchart wrote:
+On Mon, Feb 22, 2021 at 03:05:03AM +0200, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
-> Thank you for the patch.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> On Wed, Feb 17, 2021 at 12:55:19PM +0000, Kieran Bingham wrote:
+> On Wed, Feb 17, 2021 at 01:01:26PM +0000, Kieran Bingham wrote:
 > > On 16/02/2021 17:41, Jacopo Mondi wrote:
-> > > Enable the noise immunity threshold at the end of the rdacm20
-> > > initialization routine.
+> > > During the camera module initialization the image sensor PID is read to
+> > > verify it can correctly be identified. The current implementation is
+> > > rather confused and uses a loop implemented with a label and a goto.
 > > >
-> > > The rdcam20 camera module has been so far tested with a startup
->
-> s/rdcam20/rdacm20/
->
-> > > delay that allowed the embedded MCU to program the serializer. If
-> > > the initialization routine is run before the MCU programs the
-> > > serializer and the image sensor and their addresses gets changed
-> > > by the rdacm20 driver it is required to manually enable the noise
-> > > immunity threshold to make the communication on the control channel
-> > > more reliable.
-> >
-> > Oh, this is interesting, ... booting up without the delays would be ...
-> > much nicer.
->
-> I second that, but I'm a bit worried. The MCU has caused us more pain
-> than gain, the best way to fix it may be with a desoldering station ;-)
-
-I wish we could
-
-> Jokes aside, if we want to start initializing with the serializer before
-> the MCU completes its initialization, then we'll have a racy process,
-> with two I2C masters configuring the same device. I don't think anything
-> good can come out of that :-S
->
-> Taking into account the fact that on some platforms we'll want to
-> implement power management for the cameras, disabling power (possibly
-> individually) when the cameras are not in use, we'll have to handle the
-> race carefully, and I'm not sure there any other way than waiting for
-> the camera to be initialized with an initialization delay after power
-> up.
-
-Currently I really cannot tell how long the intialization takes, and
-we downstream inserted a 'long enough' 8 seconds delay to accommodate
-that, which seems one of those solution that work as long as they
-don't work anymore.
-
-One thing to notices is that I tried to interface with the MCU to read
-its most basic parameters, like the number of i2c messages sent to the
-serializer before programming the image sensor and that's just a mere 3
-messages. What I noticed was also that I was not able to talk to the MCU
-for 1.5 seconds, which I'm not sure it's because of a startup delay of
-because of cross-talks. If that was a startup delay, it would really be
-convenient, as we could change the chip addresses immediately and have
-the MCU programming being sent to a non-existing id.
-
->
-> Based on this, I'm not concerned about this patch in particular, but
-> potentially about the series as a whole. I'll comment on individual
-> patches as applicable.
->
-> Regarding this patch, doies the MCU enable high threshold for the
-> reverse channel as part of its initialization procedure ? Do we have a
-
-we always assumed so, as it was not required for the RDACM20 to start
-with a de-serializer low power amplitude and increase it after the
-camera has probed like we have to do for the un-programmed RDACM21
-with the intiial startup delay (the custom maxim,reverse-channel-microvolt
-property serves this purpose)
-
-As a confirmation, if I remove the delay and probe the camera before
-the MCU gets to program it, I need to enable the threshold manually
-as otherwise I lose the ability to stream from cameras.
-
-All in all, my best bet is that without the delay we get to probe and
-re-program the serializer address before the MCU starts it programming
-phase. All of this is without synchronization, without any known delay
-being described in the camera manual, all based on empirical
-deduction and repeated testing. I'll keep the opinion on GMSL as a
-techology for myself here, but I think this solution is in-line with
-the global quality level of the systems we're working with.
-
-> full list of what it configures in the MAX9271 ? If so, could we capture
-
-Not at the moment but I can investigate dumping that from the MCU as
-I've been able to get its 'status' and a command to get its content
-should be available
-
-> it in a comment in the driver ? That would be very helpful as a
-> reference.
->
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/rdacm20.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > Replace it with a more compact for() loop.
 > > >
-> > > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> > > index 90eb73f0e6e9..f7fd5ae955d0 100644
-> > > --- a/drivers/media/i2c/rdacm20.c
-> > > +++ b/drivers/media/i2c/rdacm20.c
-> > > @@ -541,7 +541,13 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> > >
-> > >  	dev_info(dev->dev, "Identified MAX9271 + OV10635 device\n");
-> > >
-> > > -	return 0;
-> > > +	/*
-> > > +	 * Set reverse channel high threshold to increase noise immunity.
-> > > +	 *
-> > > +	 * This should be compensated by increasing the reverse channel
-> > > +	 * amplitude on the remote deserializer side.
-> > > +	 */
-> > > +	return max9271_set_high_threshold(&dev->serializer, true);
+> > > No functional changes intended.
 > >
-> > Does this work 'out of the box' ? I.e. if this patch is applied, I
-> > assume it is required to remove the regulator delays that I/we have in DT?
-
-It doesn't hurt, as if this happen -after- the MCU has programmed the
-chip, we're just re-enabling something that was enabled (remember
-RDACM20 goes with maxim,reverse-channel-microvol=170 when the dealy
-was inserted).
-
-Without the dealy it could be operated as the RDACM21 (start low,
-probe+enable threshold, set high).
-
+> > I think there is a functional change in here, but I almost like it.
 > >
-> > Likewise, does that note mean this patch must also be accompanied by the
-> > update in max9286 somehow?
+> > Before, if the read was successful, it would check to see if the
+> > OV10635_PID == OV10635_VERSION, and if not it would print that the read
+> > was successful but a mismatch.
+> >
+> > Now - it will retry again instead, and if at the end of the retries it
+> > still fails then it's a failure.
+> >
+> > This means we perhaps don't get told if the device id is not correct in
+> > the same way, but it also means that if the VERSION was not correct
+> > because of a read error (which I believe i've seen occur), it will retry.
+>
+> I was going to ask about that, whether we can have a successful I2C read
+> operation that would return incorrect data. If we do, aren't we screwed
+> ? If there's a non-negligible probability that reads will return
+> incorrect data without any way to know about it (for other registers
+> than the version register of course), then I would consider that writes
+> could fail the same way, and that would mean an unusable device,
+> wouldn't it ?
+>
+> If, on the other hand, read failures can always (or nearly always,
+> ignoring space neutrinos and similar niceties) be detected, then I think
+> we should avoid the functional change.
+>
+> > Because there is a functional change you might want to update the
+> > commit, but I still think this is a good change overall.
 > >
 
-Ee have a DT property to control this already, and the delay+channel
-amplitude can be controlled from DTS entirely.
+I'm not sure I got your concerns to be honest :/
+yes before the code flow was like
 
-> > I guess we can't keep 'test bisectability' with this very easily so it
-> > probably doesn't matter too much, the end result will be the interesting
-> > part.
-> >
+        ret = ov10635_read();
+        if (ret < 0) {
+
+        }
+
+        if (ret != PID) {
+
+        }
+
+But the condition ret != PID implied ret < 0 so I don't really get
+what changes, apart from the fact that in the previous version we
+could have had two different error messages for the same issue, and yes,
+I saw ID mistmatch happening but the value of knowing the i2c read
+didn't fail but the read data was garbage (usually it's 0x01 when it
+fails iirc) is, well, questionable.
+
+I'm sorry I didn't fully get this comment.
+
+
 > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > >
-> > >  }
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  drivers/media/i2c/rdacm20.c | 27 ++++++++++-----------------
+> > >  1 file changed, 10 insertions(+), 17 deletions(-)
 > > >
-> > >  static int rdacm20_probe(struct i2c_client *client)
+> > > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> > > index 4d9bac87cba8..6504ed0bd3bc 100644
+> > > --- a/drivers/media/i2c/rdacm20.c
+> > > +++ b/drivers/media/i2c/rdacm20.c
+> > > @@ -59,6 +59,8 @@
+> > >   */
+> > >  #define OV10635_PIXEL_RATE		(44000000)
+> > >
+> > > +#define OV10635_PID_TIMEOUT		3
+> > > +
+> > >  static const struct ov10635_reg {
+> > >  	u16	reg;
+> > >  	u8	val;
+> > > @@ -452,7 +454,7 @@ static const struct v4l2_subdev_ops rdacm20_subdev_ops = {
+> > >
+> > >  static int rdacm20_initialize(struct rdacm20_device *dev)
+> > >  {
+> > > -	unsigned int retry = 3;
+> > > +	unsigned int i;
+> > >  	int ret;
+> > >
+> > >  	/* Verify communication with the MAX9271: ping to wakeup. */
+> > > @@ -501,23 +503,14 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+> > >  		return ret;
+> > >  	usleep_range(10000, 15000);
+> > >
+> > > -again:
+> > > -	ret = ov10635_read16(dev, OV10635_PID);
+> > > -	if (ret < 0) {
+> > > -		if (retry--)
+> > > -			goto again;
+> > > -
+> > > -		dev_err(dev->dev, "OV10635 ID read failed (%d)\n",
+> > > -			ret);
+> > > -		return -ENXIO;
+> > > +	for (i = 0; i < OV10635_PID_TIMEOUT; ++i) {
+> > > +		ret = ov10635_read16(dev, OV10635_PID);
+> > > +		if (ret == OV10635_VERSION)
+> > > +			break;
+> > > +		usleep_range(1000, 2000);
+> > >  	}
+> > > -
+> > > -	if (ret != OV10635_VERSION) {
+> > > -		if (retry--)
+> > > -			goto again;
+> > > -
+> > > -		dev_err(dev->dev, "OV10635 ID mismatch (0x%04x)\n",
+> > > -			ret);
+> > > +	if (i == OV10635_PID_TIMEOUT) {
+> > > +		dev_err(dev->dev, "OV10635 ID read failed (%d)\n", ret);
+> > >  		return -ENXIO;
+> > >  	}
+> > >
 >
 > --
 > Regards,
