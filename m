@@ -2,30 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7285320F14
-	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 02:28:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACCBA320F1A
+	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 02:30:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbhBVB2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Feb 2021 20:28:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33296 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbhBVB2e (ORCPT
+        id S230315AbhBVBa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Feb 2021 20:30:29 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54738 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230248AbhBVBa0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Feb 2021 20:28:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87ECC061574;
-        Sun, 21 Feb 2021 17:27:53 -0800 (PST)
+        Sun, 21 Feb 2021 20:30:26 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0608A517;
-        Mon, 22 Feb 2021 02:27:51 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 483AE517;
+        Mon, 22 Feb 2021 02:29:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613957272;
-        bh=DvouH4As8+RR+VV2xQsF4c0eG8ofBC2VwV6/+LxrUTk=;
+        s=mail; t=1613957384;
+        bh=WIYtArx8kmB0bXNl34Zf0YcBtLjG5KZn46ZFZXcecfY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=szb1MosGWvFTvscWxXgqQr0mIBnedrBb/TsUgTnJioe28FKhQNg0DGwA3VHZuQXEX
-         pU7DViEkW0xWYy/iYn8CJzGa2ohJvjz+1g8w2DpsZBxvow1/nVFlh+4pFMOBx8YUqY
-         gmfOZ3QUDp9P7wJhjcJGEZ+Pft4mS7pC0wMdTODo=
-Date:   Mon, 22 Feb 2021 03:27:25 +0200
+        b=SGRmlIAl98Xa6QRVSVdfZvpUgHfGUlDNhm8dirby3KsDKKu9oTwfSMRkNhulp9spj
+         xNLfhNoMOIrsNgi7fjEEDJW6FIlBIskHTQdPbFTOVKAFOf7PCWCk3m5ljn8U07FEef
+         dpRC3zr6V3aaFD7HwfGiw4anSBVD8khSBlIJfEbo=
+Date:   Mon, 22 Feb 2021 03:29:17 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     kieran.bingham+renesas@ideasonboard.com,
@@ -33,14 +30,14 @@ Cc:     kieran.bingham+renesas@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/16] media: i2c: rdacm21: Re-work OV10640 initialization
-Message-ID: <YDMIfTtc7ottA6Ir@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 10/16] media: i2c: max9286: Rename reverse_channel_mv
+Message-ID: <YDMI7TnwreLNT7yh@pendragon.ideasonboard.com>
 References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
- <20210216174146.106639-10-jacopo+renesas@jmondi.org>
+ <20210216174146.106639-11-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210216174146.106639-10-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210216174146.106639-11-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -49,62 +46,65 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Tue, Feb 16, 2021 at 06:41:39PM +0100, Jacopo Mondi wrote:
-> The OV10640 image sensor reset and powerdown on signals are controlled
-
-s/ on//
-
-> by the embedded OV490 ISP. The current reset procedure does not respect
-> the 1 millisecond power-up delay and releases the reset signal before
-> the powerdown one.
-> 
-> Fix the OV10640 power up sequence by releasing the powerdown signal,
-> waiting the mandatory 1 millisecond power up delay and then releasing
-> the reset signal. The reset delay is not characterized in the chip
-> manual if not as "255 XVCLK + initialization". Wait for at least 3
-> milliseconds to guarantee the SCCB bus is available.
-> 
-> This commit fixes a sporadic start-up error triggered by a failure to
-> read the OV10640 chip ID:
-> rdacm21 8-0054: OV10640 ID mismatch: (0x01)
+On Tue, Feb 16, 2021 at 06:41:40PM +0100, Jacopo Mondi wrote:
+> Rename the reverse_channel_mv variable to init_rev_chan_mv as
+> the next patches will cache the reverse channel amplitude in
+> a new driver variable.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/media/i2c/rdacm21.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/media/i2c/max9286.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> index b22a2ca5340b..c420a6b96879 100644
-> --- a/drivers/media/i2c/rdacm21.c
-> +++ b/drivers/media/i2c/rdacm21.c
-> @@ -333,13 +333,15 @@ static int ov10640_initialize(struct rdacm21_device *dev)
->  {
->  	u8 val;
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 1d9951215868..1f14cd817fbf 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -163,7 +163,7 @@ struct max9286_priv {
+>  	unsigned int mux_channel;
+>  	bool mux_open;
 >  
-> -	/* Power-up OV10640 by setting RESETB and PWDNB pins high. */
-> +	/* Power-up OV10640 by setting PWDNB and RESETB pins high. */
->  	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0);
->  	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
->  	ov490_write_reg(dev, OV490_GPIO_DIRECTION0, OV490_GPIO0);
->  	ov490_write_reg(dev, OV490_GPIO_DIRECTION1, OV490_SPWDN0);
-> -	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0);
-> +
->  	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_SPWDN0);
+> -	u32 reverse_channel_mv;
+> +	u32 init_rev_chan_mv;
 
-Shouldn't this be OV490_GPIO_OUTPUT_VALUE1 ?
+Maybe it could be time to add some kerneldoc to this structure, or just
+a comment for this field, to explain what it stores ?
 
-> +	usleep_range(1500, 3000);
-> +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0);
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I'm a bit puzzled by why this patch would improve the ID read issue,
-given that it sets GPIO0 to 1, then sets GPIO0 to 1, compared to
-previously setting GPIO0 to 1 following by setting GPIO0 to 1 :-) Maybe
-it's the additional delay ? In any case, it would probably be a good
-idea to perform additional tests after fixing this.
-
->  	usleep_range(3000, 5000);
 >  
->  	/* Read OV10640 ID to test communications. */
+>  	struct v4l2_ctrl_handler ctrls;
+>  	struct v4l2_ctrl *pixelrate;
+> @@ -563,7 +563,7 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>  	 * - Disable auto-ack as communication on the control channel are now
+>  	 *   stable.
+>  	 */
+> -	if (priv->reverse_channel_mv < 170)
+> +	if (priv->init_rev_chan_mv < 170)
+>  		max9286_reverse_channel_setup(priv, 170);
+>  	max9286_check_config_link(priv, priv->source_mask);
+>  
+> @@ -971,7 +971,7 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	 * only. This should be disabled after the mux is initialised.
+>  	 */
+>  	max9286_configure_i2c(priv, true);
+> -	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
+> +	max9286_reverse_channel_setup(priv, priv->init_rev_chan_mv);
+>  
+>  	/*
+>  	 * Enable GMSL links, mask unused ones and autodetect link
+> @@ -1236,9 +1236,9 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	if (of_property_read_u32(dev->of_node,
+>  				 "maxim,reverse-channel-microvolt",
+>  				 &reverse_channel_microvolt))
+> -		priv->reverse_channel_mv = 170;
+> +		priv->init_rev_chan_mv = 170;
+>  	else
+> -		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
+> +		priv->init_rev_chan_mv = reverse_channel_microvolt / 1000U;
+>  
+>  	priv->route_mask = priv->source_mask;
+>  
 
 -- 
 Regards,
