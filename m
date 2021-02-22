@@ -2,46 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0156320EC3
-	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 01:51:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 696D7320ED5
+	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 02:00:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbhBVAuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Feb 2021 19:50:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230105AbhBVAuu (ORCPT
+        id S230148AbhBVA7f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Feb 2021 19:59:35 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54344 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230135AbhBVA70 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Feb 2021 19:50:50 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D82C061574;
-        Sun, 21 Feb 2021 16:50:09 -0800 (PST)
+        Sun, 21 Feb 2021 19:59:26 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E91258E;
-        Mon, 22 Feb 2021 01:50:06 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB8AD58E;
+        Mon, 22 Feb 2021 01:58:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613955006;
-        bh=QDgBEUcxtnBMr+2qeCkHrC4sgHHhnA4SnzpEQF/qJU0=;
+        s=mail; t=1613955522;
+        bh=323TC+vAFgYdqYeUrXUcysK+7LkTLS6Zx5cPnpw8BHk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K4BZpwWfzMQy/dLBVQUdRT2fPcMzeBNpBgTaw1zgkwjXP0vUJRq1fGJsDcItWtJDl
-         7qdHwFV4LKeSULiTygX8VkecNviyqzam71Ab0LeWe2mCgmykgxS985ftzSm4m/7PN2
-         BA8zV56/iJP9TsQOpW2GOKQE02dkG5iZwLwe0MfE=
-Date:   Mon, 22 Feb 2021 02:49:34 +0200
+        b=axi49CHfZHV/SY0ehaNGuD0pP6Qk4JTImZFjyF6aU4EueAzBqGbi90duNUxWYwE0Z
+         knSau8f+sJl+nLon2vDsVYqupsec/s5hi8zAeuVIGnr1/KWobJLWvZQmL/GQobvUjk
+         ec52sihXfNzA5Fssly698HMexTIZAiWdnWMkiKkQ=
+Date:   Mon, 22 Feb 2021 02:58:15 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+Cc:     kieran.bingham+renesas@ideasonboard.com,
         niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/16] media: i2c: rdacm20: Enable noise immunity
-Message-ID: <YDL/npLVS7vk3TV7@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 02/16] media: i2c: rdacm20: Embedded 'serializer' field
+Message-ID: <YDMBp5KV/kytZJSr@pendragon.ideasonboard.com>
 References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
- <20210216174146.106639-2-jacopo+renesas@jmondi.org>
- <5691f68f-724d-9d6a-9ea8-1e017b305c66@ideasonboard.com>
+ <20210216174146.106639-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5691f68f-724d-9d6a-9ea8-1e017b305c66@ideasonboard.com>
+In-Reply-To: <20210216174146.106639-3-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -50,86 +46,129 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Wed, Feb 17, 2021 at 12:55:19PM +0000, Kieran Bingham wrote:
-> On 16/02/2021 17:41, Jacopo Mondi wrote:
-> > Enable the noise immunity threshold at the end of the rdacm20
-> > initialization routine.
-> > 
-> > The rdcam20 camera module has been so far tested with a startup
-
-s/rdcam20/rdacm20/
-
-> > delay that allowed the embedded MCU to program the serializer. If
-> > the initialization routine is run before the MCU programs the
-> > serializer and the image sensor and their addresses gets changed
-> > by the rdacm20 driver it is required to manually enable the noise
-> > immunity threshold to make the communication on the control channel
-> > more reliable.
+On Tue, Feb 16, 2021 at 06:41:32PM +0100, Jacopo Mondi wrote:
+> There's no reason to allocate dynamically the 'serializer' field in
+> the driver structure.
 > 
-> Oh, this is interesting, ... booting up without the delays would be ...
-> much nicer.
-
-I second that, but I'm a bit worried. The MCU has caused us more pain
-than gain, the best way to fix it may be with a desoldering station ;-)
-Jokes aside, if we want to start initializing with the serializer before
-the MCU completes its initialization, then we'll have a racy process,
-with two I2C masters configuring the same device. I don't think anything
-good can come out of that :-S
-
-Taking into account the fact that on some platforms we'll want to
-implement power management for the cameras, disabling power (possibly
-individually) when the cameras are not in use, we'll have to handle the
-race carefully, and I'm not sure there any other way than waiting for
-the camera to be initialized with an initialization delay after power
-up.
-
-Based on this, I'm not concerned about this patch in particular, but
-potentially about the series as a whole. I'll comment on individual
-patches as applicable.
-
-Regarding this patch, doies the MCU enable high threshold for the
-reverse channel as part of its initialization procedure ? Do we have a
-full list of what it configures in the MAX9271 ? If so, could we capture
-it in a comment in the driver ? That would be very helpful as a
-reference.
-
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/rdacm20.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> > index 90eb73f0e6e9..f7fd5ae955d0 100644
-> > --- a/drivers/media/i2c/rdacm20.c
-> > +++ b/drivers/media/i2c/rdacm20.c
-> > @@ -541,7 +541,13 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> >  
-> >  	dev_info(dev->dev, "Identified MAX9271 + OV10635 device\n");
-> >  
-> > -	return 0;
-> > +	/*
-> > +	 * Set reverse channel high threshold to increase noise immunity.
-> > +	 *
-> > +	 * This should be compensated by increasing the reverse channel
-> > +	 * amplitude on the remote deserializer side.
-> > +	 */
-> > +	return max9271_set_high_threshold(&dev->serializer, true);
+> Embed the field and adjust all its users in the driver.
 > 
-> Does this work 'out of the box' ? I.e. if this patch is applied, I
-> assume it is required to remove the regulator delays that I/we have in DT?
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+This requires making the max9271_device structure definition available
+to the rdacm20 and other drivers. Given how tightly coupled they are, I
+don't think that's an issue, but let's keep in mind in the future that
+the camera drivers should not, as a general rule, peek into the
+max9271_device structure directly. It may be nice to add a
+max9271_init() function that will initialize the client field, and move
+the client->addr assignment to max9271_set_address().
+
+Maybe you've already done so in the rest of the series, I'll find out
+soon :-) For this patch,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/rdacm20.c | 38 ++++++++++++++++---------------------
+>  1 file changed, 16 insertions(+), 22 deletions(-)
 > 
-> Likewise, does that note mean this patch must also be accompanied by the
-> update in max9286 somehow?
-> 
-> I guess we can't keep 'test bisectability' with this very easily so it
-> probably doesn't matter too much, the end result will be the interesting
-> part.
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> >  }
-> >  
-> >  static int rdacm20_probe(struct i2c_client *client)
+> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> index f7fd5ae955d0..4d9bac87cba8 100644
+> --- a/drivers/media/i2c/rdacm20.c
+> +++ b/drivers/media/i2c/rdacm20.c
+> @@ -312,7 +312,7 @@ static const struct ov10635_reg {
+>  
+>  struct rdacm20_device {
+>  	struct device			*dev;
+> -	struct max9271_device		*serializer;
+> +	struct max9271_device		serializer;
+>  	struct i2c_client		*sensor;
+>  	struct v4l2_subdev		sd;
+>  	struct media_pad		pad;
+> @@ -399,7 +399,7 @@ static int rdacm20_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct rdacm20_device *dev = sd_to_rdacm20(sd);
+>  
+> -	return max9271_set_serial_link(dev->serializer, enable);
+> +	return max9271_set_serial_link(&dev->serializer, enable);
+>  }
+>  
+>  static int rdacm20_enum_mbus_code(struct v4l2_subdev *sd,
+> @@ -456,11 +456,11 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>  	int ret;
+>  
+>  	/* Verify communication with the MAX9271: ping to wakeup. */
+> -	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
+> -	i2c_smbus_read_byte(dev->serializer->client);
+> +	dev->serializer.client->addr = MAX9271_DEFAULT_ADDR;
+> +	i2c_smbus_read_byte(dev->serializer.client);
+>  
+>  	/* Serial link disabled during config as it needs a valid pixel clock. */
+> -	ret = max9271_set_serial_link(dev->serializer, false);
+> +	ret = max9271_set_serial_link(&dev->serializer, false);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -468,35 +468,35 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>  	 *  Ensure that we have a good link configuration before attempting to
+>  	 *  identify the device.
+>  	 */
+> -	max9271_configure_i2c(dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
+> -					       MAX9271_I2CSLVTO_1024US |
+> -					       MAX9271_I2CMSTBT_105KBPS);
+> +	max9271_configure_i2c(&dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
+> +						MAX9271_I2CSLVTO_1024US |
+> +						MAX9271_I2CMSTBT_105KBPS);
+>  
+> -	max9271_configure_gmsl_link(dev->serializer);
+> +	max9271_configure_gmsl_link(&dev->serializer);
+>  
+> -	ret = max9271_verify_id(dev->serializer);
+> +	ret = max9271_verify_id(&dev->serializer);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
+> +	ret = max9271_set_address(&dev->serializer, dev->addrs[0]);
+>  	if (ret < 0)
+>  		return ret;
+> -	dev->serializer->client->addr = dev->addrs[0];
+> +	dev->serializer.client->addr = dev->addrs[0];
+>  
+>  	/*
+>  	 * Reset the sensor by cycling the OV10635 reset signal connected to the
+>  	 * MAX9271 GPIO1 and verify communication with the OV10635.
+>  	 */
+> -	ret = max9271_enable_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+>  	usleep_range(10000, 15000);
+>  
+> -	ret = max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+>  	usleep_range(10000, 15000);
+> @@ -560,13 +560,7 @@ static int rdacm20_probe(struct i2c_client *client)
+>  	if (!dev)
+>  		return -ENOMEM;
+>  	dev->dev = &client->dev;
+> -
+> -	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
+> -				       GFP_KERNEL);
+> -	if (!dev->serializer)
+> -		return -ENOMEM;
+> -
+> -	dev->serializer->client = client;
+> +	dev->serializer.client = client;
+>  
+>  	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+>  					 dev->addrs, 2);
 
 -- 
 Regards,
