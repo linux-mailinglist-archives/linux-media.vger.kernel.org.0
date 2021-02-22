@@ -2,148 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 192A632125F
-	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 09:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7321321422
+	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 11:26:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbhBVIxU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 22 Feb 2021 03:53:20 -0500
-Received: from mga02.intel.com ([134.134.136.20]:50311 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230008AbhBVIxT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Feb 2021 03:53:19 -0500
-IronPort-SDR: sNOZPX2kM9FOKMoAw+Xo8xzb0Y6hJXV9thVnE4VZBICrRDNo+2fba7vZ9fDQlrhj9NP589koYQ
- ug0bArG3+Xig==
-X-IronPort-AV: E=McAfee;i="6000,8403,9902"; a="171515247"
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="171515247"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 00:52:38 -0800
-IronPort-SDR: 0twkZkBUwsao/I/fnAmgvSnMGMYP0oORkdCThigG63zVCwlMhUsz3n8Znp4NAPKkeSWhrtpPYb
- yDc+GImtn6+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="366085233"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
-  by orsmga006.jf.intel.com with ESMTP; 22 Feb 2021 00:52:38 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 22 Feb 2021 00:52:37 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 22 Feb 2021 00:52:37 -0800
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.002;
- Mon, 22 Feb 2021 00:52:37 -0800
-From:   "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To:     Gerd Hoffmann <kraxel@redhat.com>
-CC:     Daniel Vetter <daniel@ffwll.ch>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "Vetter, Daniel" <daniel.vetter@intel.com>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
-        "Kim, Dongwon" <dongwon.kim@intel.com>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
-Thread-Topic: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
-Thread-Index: AQHW+gCTpvRVWdGfdEuO7KEMCe95EKpKQvKAgAQvVwCAABxAAIAAXFfggAEm5oCAAH4bcIABHRyAgAJ/T4CAAMKwAIAPAfWQ
-Date:   Mon, 22 Feb 2021 08:52:37 +0000
-Message-ID: <ace6db071cdf4cb89c4155006b19792d@intel.com>
-References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
- <20210203073517.1908882-3-vivek.kasireddy@intel.com>
- <YB1sRx1GrT8rATEg@phenom.ffwll.local>
- <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
- <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
- <8ba4ad64be3546bda9a2ed2129bf98e4@intel.com>
- <20210209084453.5oqepy7zdwtxgrpu@sirius.home.kraxel.org>
- <2ef01dc941684a15a4f30e6239ae42df@intel.com>
- <20210210091641.ahjtgcdalw7viuei@sirius.home.kraxel.org>
- <bad576177eb24085a73570e8ad03d2cc@intel.com>
- <20210212110140.gdpu7kapnr7ovdcn@sirius.home.kraxel.org>
-In-Reply-To: <20210212110140.gdpu7kapnr7ovdcn@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.132]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S230297AbhBVK0Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Feb 2021 05:26:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34816 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230256AbhBVKZs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Feb 2021 05:25:48 -0500
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C511AC06178A
+        for <linux-media@vger.kernel.org>; Mon, 22 Feb 2021 02:25:07 -0800 (PST)
+Received: by mail-ot1-x335.google.com with SMTP id c16so11519775otp.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Feb 2021 02:25:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8PN9lZns7J1+4nVNdLUsP5pZfABQHuCQh40cXC4mRVU=;
+        b=JjNqFK4gSzIei693IqlhBwRtfqfVLnXSE7H+WylDNcJ9iWnvn2v5HZQmr66dRaYaR2
+         1qy0ofXUQ9Sazr3OTMvKwxsLcc+bhw7lERWk030gGX0TSIV/TOasbs9/DKvt7XoHW5NV
+         X+rSaxHg9heK4QU/oT4mD4B0YbNGVJzrPs9c4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8PN9lZns7J1+4nVNdLUsP5pZfABQHuCQh40cXC4mRVU=;
+        b=RtvvrBFvUeLfQa9ECUzs40OkVADq9tXFlJUp7P/+HnZK5eSpkSUPqi2SXIKmqthsj0
+         8xWwoOp2KTPJpiTrlHIRfiMSJTwttFxH3lbPqaj9/F+GV4Xm4JcGLNmKefitRshyRxw5
+         GkOU5hT7ze63PC84QLPKW6OHyFpE0LVnPk3ByJ/QkgLlqEMNS2wRT7Wm9CgrH8BRdISJ
+         C/UxPXW8EoGoWlVzZaQ98oFKt8wOgx6Ps4YJEhpASvM9D+J9ZFHOjj6hJArzJDWk6fl9
+         3EaeJXKYoKKCIkK1VCcUHA3cEWKdj5E4m980yO8J+RJCrsUM4bKXP7kZev+Ywfl1KmO1
+         2HpQ==
+X-Gm-Message-State: AOAM531Oo+x45TKxmZ3fZObg9ZSmpAgYlnYqmH+xyebXz8sk0SMdHXH3
+        DH6PEnOm6RxflzQ8MNsXOpWua9rOeYdBijHDMrXheg==
+X-Google-Smtp-Source: ABdhPJz61isp2ETWeXwVtiL//SENHDycgJJ4PyNLSgD/N7s44pHwG+wgblzkTIqc5NrUKKhFiAtR7tjIdciUtZWmuUw=
+X-Received: by 2002:a9d:2265:: with SMTP id o92mr16080713ota.188.1613989507244;
+ Mon, 22 Feb 2021 02:25:07 -0800 (PST)
 MIME-Version: 1.0
+References: <YDOGERvNuU3+2WWe@phenom.ffwll.local>
+In-Reply-To: <YDOGERvNuU3+2WWe@phenom.ffwll.local>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Mon, 22 Feb 2021 11:24:56 +0100
+Message-ID: <CAKMK7uHQ=6OJcRguCUtiB456RWdCfwSNEXV8pQsfsPodTJ6uxw@mail.gmail.com>
+Subject: Re: [PULL] fixes around VM_PFNMAP and follow_pfn for 5.12 merge window
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux MM <linux-mm@kvack.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gerd,
+Cc all the mailing lists ... my usual script crashed and I had to
+hand-roll the email and screwed it up ofc :-/
+-Daniel
 
-> 
-> On Fri, Feb 12, 2021 at 08:15:12AM +0000, Kasireddy, Vivek wrote:
-> > Hi Gerd,
-> > [Kasireddy, Vivek] Just to confirm my understanding of what you are
-> > suggesting, are you saying that we need to either have Weston allocate
-> > scanout buffers (GBM surface/BO) using virtio-gpu and render into them
-> > using i915; or have virtio-gpu allocate pages and export a dma-buf and
-> > have Weston create a GBM BO by calling gbm_bo_import(fd) and render into the BO
-> using i915?
-> 
-> Not sure what the difference between the former and the latter is.
-[Kasireddy, Vivek] Oh, what I meant is whether you were suggesting that we 
-create a GBM device and create a GBM surface and BOs using this device or
-just create a raw/dumb GEM object and create a GBM BO by importing it. As
-we just discovered, the former means we have to initialize virgl which complicates
-things so we went with the latter.
+On Mon, Feb 22, 2021 at 11:23 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> Hi Linus,
+>
+> Another small pull from you to ponder.
+>
+> This is the first part of a patch series I've been working on for a while:
+>
+> https://lore.kernel.org/dri-devel/20201127164131.2244124-1-daniel.vetter@ffwll.ch/
+>
+> I've stumbled over this for my own learning and then realized there's a
+> bunch of races around VM_PFNMAP mappings vs follow pfn.
+>
+> If you're happy with this then I'll follow up with the media patches to
+> mark their leftover use of follow_pfn as unsafe (it's uapi, so unfixable
+> issue, all we can do is a config option to harden the kernel). Plus
+> hopefully kvm and vfio are then fixed too (you've been on the recent kvm
+> thread where this popped up again) so that we can sunset follow_pfn usage
+> completely.
+>
+> The last two patches have only been in linux-next in their current form
+> for a week, there was some issue for platforms with HAVE_PCI_LEGACY (not
+> that many) which took some sorting out. But looks all good now.
+>
+> Cheers, Daniel
+>
+> The following changes since commit 7c53f6b671f4aba70ff15e1b05148b10d58c2837:
+>
+>   Linux 5.11-rc3 (2021-01-10 14:34:50 -0800)
+>
+> are available in the Git repository at:
+>
+>   git://anongit.freedesktop.org/drm/drm tags/topic/iomem-mmap-vs-gup-2021-02-22
+>
+> for you to fetch changes up to 636b21b50152d4e203223ee337aca1cb3c1bfe53:
+>
+>   PCI: Revoke mappings like devmem (2021-02-11 15:59:19 +0100)
+>
+> ----------------------------------------------------------------
+> Fixes around VM_FPNMAP and follow_pfn
+>
+> - replace mm/frame_vector.c by get_user_pages in misc/habana and
+>   drm/exynos drivers, then move that into media as it's sole user
+> - close race in generic_access_phys
+> - s390 pci ioctl fix of this series landed in 5.11 already
+> - properly revoke iomem mappings (/dev/mem, pci files)
+>
+> ----------------------------------------------------------------
+> Daniel Vetter (13):
+>       drm/exynos: Stop using frame_vector helpers
+>       drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
+>       misc/habana: Stop using frame_vector helpers
+>       misc/habana: Use FOLL_LONGTERM for userptr
+>       mm/frame-vector: Use FOLL_LONGTERM
+>       media: videobuf2: Move frame_vector into media subsystem
+>       mm: Close race in generic_access_phys
+>       PCI: Obey iomem restrictions for procfs mmap
+>       /dev/mem: Only set filp->f_mapping
+>       resource: Move devmem revoke code to resource framework
+>       sysfs: Support zapping of binary attr mmaps
+>       PCI: Also set up legacy files only after sysfs init
+>       PCI: Revoke mappings like devmem
+>
+>  drivers/char/mem.c                                    | 86 +----------------------------------------------------------------
+>  drivers/gpu/drm/exynos/Kconfig                        |  1 -
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.c               | 48 ++++++++++++++++---------------------
+>  drivers/media/common/videobuf2/Kconfig                |  1 -
+>  drivers/media/common/videobuf2/Makefile               |  1 +
+>  {mm => drivers/media/common/videobuf2}/frame_vector.c | 55 +++++++++++++++---------------------------
+>  drivers/media/common/videobuf2/videobuf2-memops.c     |  3 +--
+>  drivers/media/platform/omap/Kconfig                   |  1 -
+>  drivers/misc/habanalabs/Kconfig                       |  1 -
+>  drivers/misc/habanalabs/common/habanalabs.h           |  6 +++--
+>  drivers/misc/habanalabs/common/memory.c               | 52 +++++++++++++++-------------------------
+>  drivers/pci/pci-sysfs.c                               | 11 +++++++++
+>  drivers/pci/proc.c                                    |  6 +++++
+>  fs/sysfs/file.c                                       | 11 +++++++++
+>  include/linux/ioport.h                                |  6 +----
+>  include/linux/mm.h                                    | 45 ++--------------------------------
+>  include/linux/sysfs.h                                 |  2 ++
+>  include/media/frame_vector.h                          | 47 ++++++++++++++++++++++++++++++++++++
+>  include/media/videobuf2-core.h                        |  1 +
+>  kernel/resource.c                                     | 98 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+>  mm/Kconfig                                            |  3 ---
+>  mm/Makefile                                           |  1 -
+>  mm/memory.c                                           | 46 ++++++++++++++++++++++++++++++++---
+>  23 files changed, 287 insertions(+), 245 deletions(-)
+>  rename {mm => drivers/media/common/videobuf2}/frame_vector.c (85%)
+>  create mode 100644 include/media/frame_vector.h
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-> 
-> > [Kasireddy, Vivek] We are only interested in Qemu UI at the moment but
-> > if we were to use virtio-gpu, we are going to need to add one more vq
-> > and support for managing buffers, events, etc.
-> 
-> Should be easy and it should not need any virtio-gpu driver changes.
-[Kasireddy, Vivek] Vdmabuf v4, that implements your suggestion -- to have
-Vdmabuf allocate pages --  is posted here:
-https://lists.freedesktop.org/archives/dri-devel/2021-February/297841.html
-and tested it with Weston Headless and Qemu:
-https://gitlab.freedesktop.org/Vivek/weston/-/blob/vdmabuf/libweston/backend-headless/headless.c#L522
-https://lists.nongnu.org/archive/html/qemu-devel/2021-02/msg02976.html
 
-Having said that, after discussing with Daniel Vetter, we are now switching our
-focus to virtio-gpu to compare and contrast both solutions. 
 
-> 
-> You can use virtio-gpu like a dumb scanout device.  Create a dumb bo, create a
-> framebuffer for the bo, map the framebuffer to the crtc.
-> 
-> Then export the bo, import into i915, use it as render target.  When rendering is done flush
-> (DRM_IOCTL_MODE_DIRTYFB).  Alternatively allocate multiple bo's + framebuffers
-> and pageflip.
-[Kasireddy, Vivek] Since we are testing with Weston, we are looking at pageflips (4 color
-buffers). And, this part so far seems to work where virtio-gpu is used for kms (max_outputs=1)
-and Iris/i915 is used for rendering. We are currently glueing virtio-gpu and i915 in Weston but
-eventually the plan is to glue them (virgl/virtio-gpu and Iris) in Mesa if possible using KMSRO
-(KMS render only) to avoid having to change Weston or X or other user-space components.
-
-> 
-> Pretty standard workflow for cases where rendering and scanout are handled by different
-> devices.  As far I know not uncommon in the arm world.
-> 
-> Right now this will involve a memcpy() for any display update because qemu is a bit
-> behind on supporting recent virtio-gpu features.
-[Kasireddy, Vivek] IIUC, I think you are referring to creating the Pixman image in set_scanout.
-What additional features need to be implemented or what is your recommendation in terms of
-what needs to be done to turn the memcpy() into a dma-buf? Also, how should we ensure that
-access to the guest fb/dmabuf is synchronized to ensure that the Guest and the Host do not access
-the backing storage of the dmabuf at the same time?
-
-Thanks,
-Vivek
-
-> 
-> take care,
->   Gerd
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
