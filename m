@@ -2,56 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A7C32117E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 08:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97E603211C6
+	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 09:08:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbhBVHmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Feb 2021 02:42:21 -0500
-Received: from mga03.intel.com ([134.134.136.65]:4590 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230163AbhBVHmI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Feb 2021 02:42:08 -0500
-IronPort-SDR: MK9rHEcuMowvdTIh2WI1A1pOAbE7U+sQ3S8dOwZdlxf2ZJ0h5Xls8zjce6kTldmRGW+loidXpK
- vR7d77wmXxLQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9902"; a="184419806"
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="184419806"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2021 23:40:18 -0800
-IronPort-SDR: i3cU7lCDqE8oVO0azbIlWzXQacXJN0pnQ9zELvRaKY9elFAb8lxRLq49wlv/bEdcOV3U7LqY8H
- Tm7bCLlyHK8A==
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="366050766"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2021 23:40:17 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id EF1D0200E1;
-        Mon, 22 Feb 2021 09:40:14 +0200 (EET)
-Date:   Mon, 22 Feb 2021 09:40:14 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>
-Subject: Re: [PATCH] media: staging: ipu3: uapi: Add "WITH
- Linux-syscall-note" license
-Message-ID: <20210222074014.GF3@paasikivi.fi.intel.com>
-References: <20210207235610.15687-1-laurent.pinchart@ideasonboard.com>
- <YDK2eV/MVDUbSgPs@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YDK2eV/MVDUbSgPs@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S230429AbhBVIIy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Feb 2021 03:08:54 -0500
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:49331 "EHLO
+        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230428AbhBVIIu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Feb 2021 03:08:50 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R531e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UPD0MBr_1613981284;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0UPD0MBr_1613981284)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 22 Feb 2021 16:08:04 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     maintainers@bluecherrydvr.com
+Cc:     anton@corp.bluecherry.net, andrey_utkin@fastmail.com,
+        ismael@iodev.co.uk, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH] media: solo6x10: Switch to using the new API kobj_to_dev()
+Date:   Mon, 22 Feb 2021 16:08:01 +0800
+Message-Id: <1613981281-52838-1-git-send-email-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Feb 21, 2021 at 09:37:29PM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> Gentle ping.
+fixed the following coccicheck:
+./drivers/media/pci/solo6x10/solo6x10-core.c:371:60-61: WARNING
+opportunity for kobj_to_dev()
 
-It's in my tree but I'll add Bingbu's ack.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/media/pci/solo6x10/solo6x10-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/pci/solo6x10/solo6x10-core.c b/drivers/media/pci/solo6x10/solo6x10-core.c
+index d497afc..4a546ee 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-core.c
++++ b/drivers/media/pci/solo6x10/solo6x10-core.c
+@@ -368,7 +368,7 @@ static ssize_t sdram_show(struct file *file, struct kobject *kobj,
+ 			  struct bin_attribute *a, char *buf,
+ 			  loff_t off, size_t count)
+ {
+-	struct device *dev = container_of(kobj, struct device, kobj);
++	struct device *dev = kobj_to_dev(kobj);
+ 	struct solo_dev *solo_dev =
+ 		container_of(dev, struct solo_dev, dev);
+ 	const int size = solo_dev->sdram_size;
 -- 
-Sakari Ailus
+1.8.3.1
+
