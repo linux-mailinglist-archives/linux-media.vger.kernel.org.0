@@ -2,30 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E2C6320EF2
-	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 02:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 455B8320EFB
+	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 02:17:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbhBVBKf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Feb 2021 20:10:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57712 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbhBVBKe (ORCPT
+        id S229989AbhBVBQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Feb 2021 20:16:47 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54556 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229889AbhBVBQq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Feb 2021 20:10:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E785C061574;
-        Sun, 21 Feb 2021 17:09:54 -0800 (PST)
+        Sun, 21 Feb 2021 20:16:46 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8CA5E517;
-        Mon, 22 Feb 2021 02:09:52 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC36A517;
+        Mon, 22 Feb 2021 02:16:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613956192;
-        bh=xhnHSB0XbiYzNW1xDqCxM9Uy6dA62lkumHVq0f5L/KE=;
+        s=mail; t=1613956563;
+        bh=UVHO10vcFfsxKsUXdutKQiERSU0wNuxiQ+myyfBxtEA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QoA/kbaVUsgw7GQwn/yj3mL2GecM1ooNHE9d6fwHp2lY47FsCm2Hb6zHJF4QQ4U81
-         ILdYw7d6XoIaRuM/1cCRtN0PDQhUm0wwHKM76NI86yHWL8U3lZz7vXySCKiKvz7ckB
-         B1bPCaA/MVXtR8Tc383yy4zlon4qnRZ8Z3ab3hTs=
-Date:   Mon, 22 Feb 2021 03:09:26 +0200
+        b=EMozBtUBWfIxfHjpGfcaRRUP01UQTchlH/FsB/rGgYP7QzQXcH15gr3rL2Xpa52v3
+         MJ2DXfIWhbI96uCyE83jW359j6F6t9nlPJOJ2/VQ1Qc/l6Pa4UzkcrMMeKaXGd5NL6
+         X/FY+xFWkvhGTtuOuTV5dZ1YKhqZmcxpohJ3d3D4=
+Date:   Mon, 22 Feb 2021 03:15:36 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     kieran.bingham+renesas@ideasonboard.com,
@@ -33,14 +30,15 @@ Cc:     kieran.bingham+renesas@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/16] media: i2c: rdacm20: Check return values
-Message-ID: <YDMERvqtWulct59d@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 06/16] media: i2c: rdacm20: Re-work ov10635 reset
+Message-ID: <YDMFuJ/SJ2wJstHe@pendragon.ideasonboard.com>
 References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
- <20210216174146.106639-6-jacopo+renesas@jmondi.org>
+ <20210216174146.106639-7-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210216174146.106639-6-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210216174146.106639-7-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -49,48 +47,85 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Tue, Feb 16, 2021 at 06:41:35PM +0100, Jacopo Mondi wrote:
-> The camera module initialization routine does not check the return
-> value of a few functions. Fix that.
+On Tue, Feb 16, 2021 at 06:41:36PM +0100, Jacopo Mondi wrote:
+> The OV10635 image sensor embedded in the camera module is currently
+> reset after the MAX9271 initialization with two long delays that were
+> most probably not correctly characterized.
+> 
+> Re-work the image sensor reset procedure by holding the chip in reset
+> during the MAX9271 configuration, removing the long sleep delays and
+> only wait after the chip exits from reset for 350-500 microseconds
+> interval, which is larger than the minimum (2048 * (1 / XVCLK)) timeout
+> characterized in the chip manual.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/media/i2c/rdacm20.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+>  drivers/media/i2c/rdacm20.c | 25 +++++++++++--------------
+>  1 file changed, 11 insertions(+), 14 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 56406d82b5ac..e982373908f2 100644
+> index e982373908f2..ea30cc936531 100644
 > --- a/drivers/media/i2c/rdacm20.c
 > +++ b/drivers/media/i2c/rdacm20.c
-> @@ -470,11 +470,16 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
->  	 *  Ensure that we have a good link configuration before attempting to
->  	 *  identify the device.
->  	 */
-> -	max9271_configure_i2c(&dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
-> -						MAX9271_I2CSLVTO_1024US |
-> -						MAX9271_I2CMSTBT_105KBPS);
-> +	ret = max9271_configure_i2c(&dev->serializer,
-> +				    MAX9271_I2CSLVSH_469NS_234NS |
-> +				    MAX9271_I2CSLVTO_1024US |
-> +				    MAX9271_I2CMSTBT_105KBPS);
-> +	if (ret)
-> +		return ret;
+> @@ -477,6 +477,15 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>  	if (ret)
+>  		return ret;
 >  
-> -	max9271_configure_gmsl_link(&dev->serializer);
-> +	ret = max9271_configure_gmsl_link(&dev->serializer);
+> +	/* Hold OV10635 in reset during max9271 configuration. */
+> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
 > +	if (ret)
 > +		return ret;
+> +
+> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+> +	if (ret)
+> +		return ret;
+> +
 
-This looks good, so
+Unrelated to this patch, it could be nice to rename the GPIO-related
+functions to use a similar naming scheme as the gpiod API.
+
+>  	ret = max9271_configure_gmsl_link(&dev->serializer);
+>  	if (ret)
+>  		return ret;
+> @@ -490,23 +499,11 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>  		return ret;
+>  	dev->serializer.client->addr = dev->addrs[0];
+>  
+> -	/*
+> -	 * Reset the sensor by cycling the OV10635 reset signal connected to the
+> -	 * MAX9271 GPIO1 and verify communication with the OV10635.
+> -	 */
+> -	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+> -	if (ret)
+> -		return ret;
+> -	usleep_range(10000, 15000);
+
+The OV10635 requires the reset signal to be asserted for at least 200µs.
+Is this guaranteed by the different calls we have here after asserting
+reset ? Maybe a comment to explain this could be useful ?
+
+> -
+> +	/* Release ov10635 from reset and initialize it. */
+>  	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+> -	usleep_range(10000, 15000);
+
+Maybe a comment here to state that the delay has to be at least 2048
+XVCLK cycles would be useful ?
+
+With these taken into account,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-But it would be more useful if max9271_configure_gmsl_link() returned
-errors when I2C writes fail :-)
-
+> +	usleep_range(350, 500);
 >  
->  	ret = max9271_verify_id(&dev->serializer);
->  	if (ret < 0)
+>  	for (i = 0; i < OV10635_PID_TIMEOUT; ++i) {
+>  		ret = ov10635_read16(dev, OV10635_PID);
 
 -- 
 Regards,
