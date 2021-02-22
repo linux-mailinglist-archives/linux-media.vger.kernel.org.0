@@ -2,1617 +2,859 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 352963221B4
-	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 22:45:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B03C63221E4
+	for <lists+linux-media@lfdr.de>; Mon, 22 Feb 2021 23:02:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231776AbhBVVoQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Feb 2021 16:44:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230446AbhBVVoL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Feb 2021 16:44:11 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C597FC061574
-        for <linux-media@vger.kernel.org>; Mon, 22 Feb 2021 13:43:30 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id q85so14235667qke.8
-        for <linux-media@vger.kernel.org>; Mon, 22 Feb 2021 13:43:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ibwHLAYCZnh9rhKuyFTAmN4B0HlcWFYYtX09XG22ZNU=;
-        b=cKKHoJuek3dWaDFmgDxd9emC42MP8d9n/thN4mIsY38a1p1uGLYDJb4Uwdd5IoX++D
-         5rYmMoLHLNxYHibGOxpf7jtETgIiDFfBHZPdbYWqkx+FQ1zGf3TeR4RmXCuMO74xiWk2
-         NTduAJlekTAD5h3ujrJxz2PvgozQBGat8GLqO0e/IZYypyA4Fl3G0oXQgWVAQV8KEL/W
-         V3brH/EWCSVJzjAZtODRb2CnaU2shCuN7pEVo1ovjJm21/hB+IubjJWFQqDYNNi7rKr+
-         wd5drUJPJ0C6gk/AAoCUhFNdCRkI7fFDb/65Rw9jyNJ9/JvwfBMTWoyCDkH6yCI9Jk1m
-         imIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ibwHLAYCZnh9rhKuyFTAmN4B0HlcWFYYtX09XG22ZNU=;
-        b=RPtr/FnMDx9CAVwA64sW6pM9e6qm2pVVLyJMo4WHmUsmO7iKr10My32leVMS3JywaA
-         0c+Lam6U536wFkn8bLU2o8WCsgvGY9cTwg86GAQrcBvMFzZ6WgX5AKJmuBlqddW/3hhJ
-         f7cThadNX57Vpv4i6gOSD7LWqOKQdZ7HSOe09K0hKd5mCESI5Rw9fs/RARrxmSYMI6YD
-         fa1oSlSufA2fleRJTMcoOixZ7rWrH8QNN+hyVH1gXcgsH0MsGEGyY/8lZEhyJQBDekZq
-         +NOGy7OMxiVu5AV9FF8xiys27G5c+8pjpl52nGz4PO7MLTraNEOxmktAEW/S09mVQHC3
-         krkA==
-X-Gm-Message-State: AOAM530JR7CFF88CaQ2KNx7LqggQuQQSS60sp1VEHw1qEJ3liqQRfw7q
-        QB/Lt2xaKZ8jV/s/DFG5w+JW7w==
-X-Google-Smtp-Source: ABdhPJwXM8pUQ0+GfXzWVUDoscW/yBqeVxdfABdI1lHDbZKvLEA9Q7bX4rLoqr5Qf9ozPUdYQFCuhw==
-X-Received: by 2002:a37:4a49:: with SMTP id x70mr23065974qka.118.1614030209339;
-        Mon, 22 Feb 2021 13:43:29 -0800 (PST)
-Received: from nicolas-tpx395.lan (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id 12sm11975824qtt.88.2021.02.22.13.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 13:43:28 -0800 (PST)
-Message-ID: <356ee826a59a9b5cfef1e4b24809c862307abf4a.camel@ndufresne.ca>
-Subject: Re: [PATCH v5 2/3] media: uapi: Add VP9 stateless decoder controls
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Adrian Ratiu <adrian.ratiu@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Daniel Almeida <dwlsalmeida@collabora.com>
-Date:   Mon, 22 Feb 2021 16:43:27 -0500
-In-Reply-To: <7ab687c91b971219efb510aeb3ac9792ba8081dc.camel@ndufresne.ca>
-References: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
-         <20201102190551.1223389-3-adrian.ratiu@collabora.com>
-         <7ab687c91b971219efb510aeb3ac9792ba8081dc.camel@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
+        id S230312AbhBVWBF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Feb 2021 17:01:05 -0500
+Received: from mga11.intel.com ([192.55.52.93]:46068 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230260AbhBVWBE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Feb 2021 17:01:04 -0500
+IronPort-SDR: evFEaC7aPaYZPge0zK5L6kftvBCYUVipSR8V/pTCLffxXTcuQRznEj1Ovu8bqlRI96Oy7ExYXm
+ UiU7nyfPWIzw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="181163191"
+X-IronPort-AV: E=Sophos;i="5.81,198,1610438400"; 
+   d="gz'50?scan'50,208,50";a="181163191"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 14:00:22 -0800
+IronPort-SDR: pYP4MmRITxmL6ExaFYIy7yKul+qvTCO1eXJLgBpKCKxhEJxJBE2mri2lbm2N5kmJoxVYSRNPet
+ PHQ1ZyBaVTRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,198,1610438400"; 
+   d="gz'50?scan'50,208,50";a="369933299"
+Received: from lkp-server01.sh.intel.com (HELO 16660e54978b) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 22 Feb 2021 14:00:17 -0800
+Received: from kbuild by 16660e54978b with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lEJFZ-0000g3-61; Mon, 22 Feb 2021 22:00:17 +0000
+Date:   Tue, 23 Feb 2021 05:59:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mirela Rabulea <mirela.rabulea@oss.nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, shawnguo@kernel.org, robh+dt@kernel.org,
+        p.zabel@pengutronix.de
+Cc:     kbuild-all@lists.01.org, paul.kocialkowski@bootlin.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-imx@nxp.com, s.hauer@pengutronix.de
+Subject: Re: [PATCH v8 9/9] media: imx-jpeg: Use v4l2 jpeg helpers in mxc-jpeg
+Message-ID: <202102230504.KLeNPqGC-lkp@intel.com>
+References: <20210222190738.2346378-10-mirela.rabulea@oss.nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="7JfCtLOvnd9MIVvH"
+Content-Disposition: inline
+In-Reply-To: <20210222190738.2346378-10-mirela.rabulea@oss.nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 22 février 2021 à 16:00 -0500, Nicolas Dufresne a écrit :
-Hi All,
 
-Le lundi 02 novembre 2020 à 21:05 +0200, Adrian Ratiu a écrit :
-> From: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> Add the VP9 stateless decoder controls plus the documentation that goes
-> with it.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-> ---
->  .../userspace-api/media/v4l/biblio.rst        |  10 +
->  .../media/v4l/ext-ctrls-codec.rst             | 550 ++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls.c          | 239 ++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->  include/media/v4l2-ctrls.h                    |   5 +
->  include/media/vp9-ctrls.h                     | 486 ++++++++++++++++
->  6 files changed, 1291 insertions(+)
->  create mode 100644 include/media/vp9-ctrls.h
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/biblio.rst
-> b/Documentation/userspace-api/media/v4l/biblio.rst
-> index 7869b6f6ff72..6b4a83b053f5 100644
-> --- a/Documentation/userspace-api/media/v4l/biblio.rst
-> +++ b/Documentation/userspace-api/media/v4l/biblio.rst
-> @@ -407,3 +407,13 @@ VP8
->  :title:     RFC 6386: "VP8 Data Format and Decoding Guide"
->  
->  :author:    J. Bankoski et al.
-> +
-> +.. _vp9:
-> +
-> +VP9
-> +===
-> +
-> +
-> +:title:     VP9 Bitstream & Decoding Process Specification
-> +
-> +:author:    Adrian Grange (Google), Peter de Rivaz (Argon Design), Jonathan
-> Hunt (Argon Design)
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index ce728c757eaf..456488f2b5ca 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2730,6 +2730,556 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->        - ``padding[3]``
->        - Applications and drivers must set this to zero.
->  
-> +.. _v4l2-mpeg-vp9:
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(0..3) (struct)``
-> +    Stores VP9 probabilities attached to a specific frame context. The VP9
-> +    specification allows using a maximum of 4 contexts. Each frame being
-> +    decoded refers to one of those context. See section '7.1.2 Refresh
-> +    probs semantics' section of :ref:`vp9` for more details about these
-> +    contexts.
-> +
-> +    This control is bi-directional:
-> +
-> +    * all 4 contexts must be initialized by userspace just after the
-> +      stream is started and before the first decoding request is submitted.
-> +    * the referenced context might be read by the kernel when a decoding
-> +      request is submitted, and will be updated after the decoder is done
-> +      decoding the frame if the `V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX` flag
-> +      is set.
-> +    * contexts will be read back by user space before each decoding request
-> +      to retrieve the updated probabilities.
-> +    * userspace will re-initialize the context to their default values when
-> +      a reset context is required.
+--7JfCtLOvnd9MIVvH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We are currently debating this in/out controls. We have identified that this
-controls requires a lock/step decoding flow.
+Hi Mirela,
 
-  request(), wait(), read_ctl(), ...
+I love your patch! Perhaps something to improve:
 
-Otherwise the reading of the control would become racy, and in fact, you can't
-really queue any new request, since the request depends on having the
-probabilities updated from the counts/stats resulting of the decoding process.
-We believe this mechanism will have a negative impact on the performance. We
-already showed visible framerate gain by keeping the OUTPUT filled with RKVDEC
-H.264.
+[auto build test WARNING on linuxtv-media/master]
+[also build test WARNING on shawnguo/for-next robh/for-next linus/master v5.11 next-20210222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Let's share a bit more details about this control. It is important to mention
-that this control does not exist in any other stateless API (VA-VAPI and DXVA at
-least). Each VP9 frames have two headers, the uncompressed and the compressed
-headers. The compressed headers is mostly formed by the probability updates.
-Effectively one of the compression method in VP9 is to use probabilities to
-compress further the bitstream values. As the probabilities take space to store,
-these are also compressed and expressed as deltas over computed statistics
-during the decoding process (the decoder counts the occurence of specific values
-for specific field).
+url:    https://github.com/0day-ci/linux/commits/Mirela-Rabulea/Add-V4L2-driver-for-i-MX8-JPEG-Encoder-Decoder/20210223-031832
+base:   git://linuxtv.org/media_tree.git master
+config: x86_64-randconfig-m001-20210222 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
-It our case, the HW does not parse the compressed headers. This means the CPU
-needs to be involved to update the probabilities. As per chromium code, it looks
-like not all ChromeOS HW driver needed that control:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-https://chromium.googlesource.com/chromium/src/+/master/media/gpu/v4l2/v4l2_vp9_accelerator_legacy.cc#190
+smatch warnings:
+drivers/media/platform/imx-jpeg/mxc-jpeg.c:1220 mxc_jpeg_parse() warn: inconsistent indenting
 
-What we'd like to attempt, is to try and turn this CODEC API in a way so we only
-push work to the decoder, rather then doing push / pull. As a PoC we'll try and
-parse the compressed headers, so that the handling of probabilities will
-entirely be inside the kernel. We don't know yet how much parsing this will
-represent. If that feels too risky (parsing variable length coding is not the
-most tempting thing to do in a kernel), we'll have to try and find some hybrid
-solution. One thing we seem to observe is that the parsing of the compressed
-headers is not strictly dependent on having the updated probabilities. So we may
-also try to store the probability updates in order to deffer the update of the
-probabilities that would stay stored in the kernel.
+vim +1220 drivers/media/platform/imx-jpeg/mxc-jpeg.c
 
-As this is in progress, I can already update on that, the spec says:
+  1190	
+  1191	static int mxc_jpeg_parse(struct mxc_jpeg_ctx *ctx,
+  1192				  u8 *src_addr, u32 size, bool *dht_needed)
+  1193	{
+  1194		struct device *dev = ctx->mxc_jpeg->dev;
+  1195		struct mxc_jpeg_q_data *q_data_out, *q_data_cap;
+  1196		enum v4l2_buf_type cap_type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+  1197		bool src_chg = false;
+  1198		u32 fourcc;
+  1199		struct v4l2_jpeg_header header;
+  1200		struct mxc_jpeg_sof *psof = NULL;
+  1201		struct mxc_jpeg_sos *psos = NULL;
+  1202		int ret;
+  1203	
+  1204		memset(&header, 0, sizeof(header));
+  1205		ret = v4l2_jpeg_parse_header((void *)src_addr, size, &header);
+  1206		if (ret < 0) {
+  1207			dev_err(dev, "Error parsing JPEG stream markers\n");
+  1208			return ret;
+  1209		}
+  1210	
+  1211		/* if DHT marker present, no need to inject default one */
+  1212		*dht_needed = (header.num_dht == 0);
+  1213	
+  1214		q_data_out = mxc_jpeg_get_q_data(ctx,
+  1215						 V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+  1216		if (q_data_out->w == 0 && q_data_out->h == 0) {
+  1217			dev_warn(dev, "Invalid user resolution 0x0");
+  1218			dev_warn(dev, "Keeping resolution from JPEG: %dx%d",
+  1219				 header.frame.width, header.frame.height);
+> 1220			 q_data_out->w = header.frame.width;
+  1221			 q_data_out->h = header.frame.height;
+  1222		} else if (header.frame.width != q_data_out->w ||
+  1223			   header.frame.height != q_data_out->h) {
+  1224			dev_err(dev,
+  1225				"Resolution mismatch: %dx%d (JPEG) versus %dx%d(user)",
+  1226				header.frame.width, header.frame.height,
+  1227				q_data_out->w, q_data_out->h);
+  1228			return -EINVAL;
+  1229		}
+  1230		if (header.frame.width % 8 != 0 || header.frame.height % 8 != 0) {
+  1231			dev_err(dev, "JPEG width or height not multiple of 8: %dx%d\n",
+  1232				header.frame.width, header.frame.height);
+  1233			return -EINVAL;
+  1234		}
+  1235		if (header.frame.width > MXC_JPEG_MAX_WIDTH ||
+  1236		    header.frame.height > MXC_JPEG_MAX_HEIGHT) {
+  1237			dev_err(dev, "JPEG width or height should be <= 8192: %dx%d\n",
+  1238				header.frame.width, header.frame.height);
+  1239			return -EINVAL;
+  1240		}
+  1241		if (header.frame.width < MXC_JPEG_MIN_WIDTH ||
+  1242		    header.frame.height < MXC_JPEG_MIN_HEIGHT) {
+  1243			dev_err(dev, "JPEG width or height should be > 64: %dx%d\n",
+  1244				header.frame.width, header.frame.height);
+  1245			return -EINVAL;
+  1246		}
+  1247		if (header.frame.num_components > V4L2_JPEG_MAX_COMPONENTS) {
+  1248			dev_err(dev, "JPEG number of components should be <=%d",
+  1249				V4L2_JPEG_MAX_COMPONENTS);
+  1250			return -EINVAL;
+  1251		}
+  1252		/* check and, if necessary, patch component IDs*/
+  1253		psof = (struct mxc_jpeg_sof *)header.sof.start;
+  1254		psos = (struct mxc_jpeg_sos *)header.sos.start;
+  1255		if (!mxc_jpeg_valid_comp_id(dev, psof, psos))
+  1256			dev_warn(dev, "JPEG component ids should be 0-3 or 1-4");
+  1257	
+  1258		fourcc = mxc_jpeg_get_image_format(dev, header);
+  1259		if (fourcc == 0)
+  1260			return -EINVAL;
+  1261	
+  1262		/*
+  1263		 * set-up the capture queue with the pixelformat and resolution
+  1264		 * detected from the jpeg output stream
+  1265		 */
+  1266		q_data_cap = mxc_jpeg_get_q_data(ctx, cap_type);
+  1267		if (q_data_cap->w != header.frame.width ||
+  1268		    q_data_cap->h != header.frame.height)
+  1269			src_chg = true;
+  1270		q_data_cap->w = header.frame.width;
+  1271		q_data_cap->h = header.frame.height;
+  1272		q_data_cap->fmt = mxc_jpeg_find_format(ctx, fourcc);
+  1273		q_data_cap->w_adjusted = q_data_cap->w;
+  1274		q_data_cap->h_adjusted = q_data_cap->h;
+  1275		/*
+  1276		 * align up the resolution for CAST IP,
+  1277		 * but leave the buffer resolution unchanged
+  1278		 */
+  1279		v4l_bound_align_image(&q_data_cap->w_adjusted,
+  1280				      q_data_cap->w_adjusted,  /* adjust up */
+  1281				      MXC_JPEG_MAX_WIDTH,
+  1282				      q_data_cap->fmt->h_align,
+  1283				      &q_data_cap->h_adjusted,
+  1284				      q_data_cap->h_adjusted, /* adjust up */
+  1285				      MXC_JPEG_MAX_HEIGHT,
+  1286				      q_data_cap->fmt->v_align,
+  1287				      0);
+  1288		dev_dbg(dev, "Detected jpeg res=(%dx%d)->(%dx%d), pixfmt=%c%c%c%c\n",
+  1289			q_data_cap->w, q_data_cap->h,
+  1290			q_data_cap->w_adjusted, q_data_cap->h_adjusted,
+  1291			(fourcc & 0xff),
+  1292			(fourcc >>  8) & 0xff,
+  1293			(fourcc >> 16) & 0xff,
+  1294			(fourcc >> 24) & 0xff);
+  1295	
+  1296		/* setup bytesperline/sizeimage for capture queue */
+  1297		mxc_jpeg_bytesperline(q_data_cap, header.frame.precision);
+  1298		mxc_jpeg_sizeimage(q_data_cap);
+  1299	
+  1300		/*
+  1301		 * if the CAPTURE format was updated with new values, regardless of
+  1302		 * whether they match the values set by the client or not, signal
+  1303		 * a source change event
+  1304		 */
+  1305		if (src_chg)
+  1306			notify_src_chg(ctx);
+  1307	
+  1308		return 0;
+  1309	}
+  1310	
 
-  9.2 Parsing process for Boolean decoder
-  Aside from the uncompressed header and the partition sizes, the entire 
-  bitstream is entropy coded. The entropy decoder is referred to as the
-  “Boolean decoder” and the function init_bool( sz ), exit_bool( ), and 
-  read_bool( p ) are used in this Specification to indicate the entropy 
-  decoding operation.
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-So the parsing of the compressed headers seems to require the probabilities.
+--7JfCtLOvnd9MIVvH
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
 
+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
+5Hj5NZSzw/8A0KydiGMjAgA=
 
-Note that parsing the compressed header may have some impact on the ability to
-carry encrypted (aka DRM) content. It would be very nice if someone with
-knowledge would provide us pointers if the compressed headers is included in the
-encrypted part for VP9.
-
-regards,
-Nicolas
-
-
-> +
-> +    .. note::
-> +
-> +       This compound control is not yet part of the public kernel API and
-> +       it is expected to change.
-> +
-> +.. c:type:: v4l2_ctrl_vp9_frame_ctx
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-> +
-> +.. flat-table:: struct v4l2_ctrl_vp9_frame_ctx
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - struct :c:type:`v4l2_vp9_probabilities`
-> +      - ``probs``
-> +      - Structure with VP9 probabilities attached to the context.
-> +
-> +.. c:type:: v4l2_vp9_probabilities
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp9_probabilities
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``tx8[2][1]``
-> +      - TX 8x8 probabilities.
-> +    * - __u8
-> +      - ``tx16[2][2]``
-> +      - TX 16x16 probabilities.
-> +    * - __u8
-> +      - ``tx32[2][3]``
-> +      - TX 32x32 probabilities.
-> +    * - __u8
-> +      - ``coef[4][2][2][6][6][3]``
-> +      - Coefficient probabilities.
-> +    * - __u8
-> +      - ``skip[3]``
-> +      - Skip probabilities.
-> +    * - __u8
-> +      - ``inter_mode[7][3]``
-> +      - Inter prediction mode probabilities.
-> +    * - __u8
-> +      - ``interp_filter[4][2]``
-> +      - Interpolation filter probabilities.
-> +    * - __u8
-> +      - ``is_inter[4]``
-> +      - Is inter-block probabilities.
-> +    * - __u8
-> +      - ``comp_mode[5]``
-> +      - Compound prediction mode probabilities.
-> +    * - __u8
-> +      - ``single_ref[5][2]``
-> +      - Single reference probabilities.
-> +    * - __u8
-> +      - ``comp_mode[5]``
-> +      - Compound reference probabilities.
-> +    * - __u8
-> +      - ``y_mode[4][9]``
-> +      - Y prediction mode probabilities.
-> +    * - __u8
-> +      - ``uv_mode[10][9]``
-> +      - UV prediction mode probabilities.
-> +    * - __u8
-> +      - ``partition[16][3]``
-> +      - Partition probabilities.
-> +    * - __u8
-> +      - ``mv.joint[3]``
-> +      - Motion vector joint probabilities.
-> +    * - __u8
-> +      - ``mv.sign[2]``
-> +      - Motion vector sign probabilities.
-> +    * - __u8
-> +      - ``mv.class[2][10]``
-> +      - Motion vector class probabilities.
-> +    * - __u8
-> +      - ``mv.class0_bit[2]``
-> +      - Motion vector class0 bit probabilities.
-> +    * - __u8
-> +      - ``mv.bits[2][10]``
-> +      - Motion vector bits probabilities.
-> +    * - __u8
-> +      - ``mv.class0_fr[2][2][3]``
-> +      - Motion vector class0 fractional bit probabilities.
-> +    * - __u8
-> +      - ``mv.fr[2][3]``
-> +      - Motion vector fractional bit probabilities.
-> +    * - __u8
-> +      - ``mv.class0_hp[2]``
-> +      - Motion vector class0 high precision fractional bit probabilities.
-> +    * - __u8
-> +      - ``mv.hp[2]``
-> +      - Motion vector high precision fractional bit probabilities.
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS (struct)``
-> +    Specifies the frame parameters for the associated VP9 frame decode
-> request.
-> +    This includes the necessary parameters for configuring a stateless
-> hardware
-> +    decoding pipeline for VP9. The bitstream parameters are defined according
-> +    to :ref:`vp9`.
-> +
-> +    .. note::
-> +
-> +       This compound control is not yet part of the public kernel API and
-> +       it is expected to change.
-> +
-> +.. c:type:: v4l2_ctrl_vp9_frame_decode_params
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_ctrl_vp9_frame_decode_params
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u32
-> +      - ``flags``
-> +      - Combination of V4L2_VP9_FRAME_FLAG_* flags. See
-> +        :c:type:`v4l2_vp9_frame_flags`.
-> +    * - __u16
-> +      - ``compressed_header_size``
-> +      - Compressed header size in bytes.
-> +    * - __u16
-> +      - ``uncompressed_header_size``
-> +      - Uncompressed header size in bytes.
-> +    * - __u8
-> +      - ``profile``
-> +      - VP9 profile. Can be 0, 1, 2 or 3.
-> +    * - __u8
-> +      - ``reset_frame_context``
-> +      - Frame context that should be used/updated when decoding the frame.
-> +    * - __u8
-> +      - ``bit_depth``
-> +      - Component depth in bits. Must be 8 for profile 0 and 1. Must 10 or 12
-> +        for profile 2 and 3.
-> +    * - __u8
-> +      - ``interpolation_filter``
-> +      - Specifies the filter selection used for performing inter prediction.
-> See
-> +        :c:type:`v4l2_vp9_interpolation_filter`.
-> +    * - __u8
-> +      - ``tile_cols_log2``
-> +      - Specifies the base 2 logarithm of the width of each tile (where the
-> +        width is measured in units of 8x8 blocks). Shall be less than or
-> equal
-> +        to 6.
-> +    * - __u8
-> +      - ``tile_rows_log2``
-> +      - Specifies the base 2 logarithm of the height of each tile (where the
-> +        height is measured in units of 8x8 blocks)
-> +    * - __u8
-> +      - ``tx_mode``
-> +      - Specifies the TX mode. See :c:type:`v4l2_vp9_tx_mode`.
-> +    * - __u8
-> +      - ``reference_mode``
-> +      - Specifies the type of inter prediction to be used. See
-> +        :c:type:`v4l2_vp9_reference_mode`.
-> +    * - __u8
-> +      - ``padding[7]``
-> +      - Needed to make this struct 64 bit aligned. Shall be filled with
-> zeroes.
-> +    * - __u16
-> +      - ``frame_width_minus_1``
-> +      - Add 1 to get the frame width expressed in pixels.
-> +    * - __u16
-> +      - ``frame_height_minus_1``
-> +      - Add 1 to get the frame height expressed in pixels.
-> +    * - __u16
-> +      - ``frame_width_minus_1``
-> +      - Add 1 to get the expected render width expressed in pixels. This is
-> +        not used during the decoding process but might be used by HW scalers
-> to
-> +        prepare a frame that's ready for scanout.
-> +    * - __u16
-> +      - frame_height_minus_1
-> +      - Add 1 to get the expected render height expressed in pixels. This is
-> +        not used during the decoding process but might be used by HW scalers
-> to
-> +        prepare a frame that's ready for scanout.
-> +    * - __u64
-> +      - ``refs[3]``
-> +      - Array of reference frame timestamps.
-> +    * - struct :c:type:`v4l2_vp9_loop_filter`
-> +      - ``lf``
-> +      - Loop filter parameters. See struct :c:type:`v4l2_vp9_loop_filter`.
-> +    * - struct :c:type:`v4l2_vp9_quantization`
-> +      - ``quant``
-> +      - Quantization parameters. See :c:type:`v4l2_vp9_quantization`.
-> +    * - struct :c:type:`v4l2_vp9_segmentation`
-> +      - ``seg``
-> +      - Segmentation parameters. See :c:type:`v4l2_vp9_segmentation`.
-> +    * - struct :c:type:`v4l2_vp9_probabilities`
-> +      - ``probs``
-> +      - Probabilities. See :c:type:`v4l2_vp9_probabilities`.
-> +
-> +.. c:type:: v4l2_vp9_frame_flags
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_frame_flags
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_FRAME_FLAG_KEY_FRAME``
-> +      - The frame is a key frame.
-> +    * - ``V4L2_VP9_FRAME_FLAG_SHOW_FRAME``
-> +      - The frame should be displayed.
-> +    * - ``V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT``
-> +      - The decoding should be error resilient.
-> +    * - ``V4L2_VP9_FRAME_FLAG_INTRA_ONLY``
-> +      - The frame does not reference other frames.
-> +    * - ``V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV``
-> +      - the frame might can high precision motion vectors.
-> +    * - ``V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX``
-> +      - Frame context should be updated after decoding.
-> +    * - ``V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE``
-> +      - Parallel decoding is used.
-> +    * - ``V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING``
-> +      - Vertical subsampling is enabled.
-> +    * - ``V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING``
-> +      - Horizontal subsampling is enabled.
-> +    * - ``V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING``
-> +      - The full UV range is used.
-> +
-> +.. c:type:: v4l2_vp9_ref_id
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_ref_id
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_REF_ID_LAST``
-> +      - Last reference frame.
-> +    * - ``V4L2_REF_ID_GOLDEN``
-> +      - Golden reference frame.
-> +    * - ``V4L2_REF_ID_ALTREF``
-> +      - Alternative reference frame.
-> +    * - ``V4L2_REF_ID_CNT``
-> +      - Number of reference frames.
-> +
-> +.. c:type:: v4l2_vp9_tx_mode
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_tx_mode
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_TX_MODE_ONLY_4X4``
-> +      - Transform size is 4x4.
-> +    * - ``V4L2_VP9_TX_MODE_ALLOW_8X8``
-> +      - Transform size can be up to 8x8.
-> +    * - ``V4L2_VP9_TX_MODE_ALLOW_16X16``
-> +      - Transform size can be up to 16x16.
-> +    * - ``V4L2_VP9_TX_MODE_ALLOW_32X32``
-> +      - transform size can be up to 32x32.
-> +    * - ``V4L2_VP9_TX_MODE_SELECT``
-> +      - Bitstream contains transform size for each block.
-> +
-> +.. c:type:: v4l2_vp9_reference_mode
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_reference_mode
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_REF_MODE_SINGLE``
-> +      - Indicates that all the inter blocks use only a single reference frame
-> +        to generate motion compensated prediction.
-> +    * - ``V4L2_VP9_REF_MODE_COMPOUND``
-> +      - Requires all the inter blocks to use compound mode. Single reference
-> +        frame prediction is not allowed.
-> +    * - ``V4L2_VP9_REF_MODE_SELECT``
-> +      - Allows each individual inter block to select between single and
-> +        compound prediction modes.
-> +
-> +.. c:type:: v4l2_vp9_interpolation_filter
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_interpolation_filter
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_INTERP_FILTER_8TAP``
-> +      - Height tap filter.
-> +    * - ``V4L2_VP9_INTERP_FILTER_8TAP_SMOOTH``
-> +      - Height tap smooth filter.
-> +    * - ``V4L2_VP9_INTERP_FILTER_8TAP_SHARP``
-> +      - Height tap sharp filter.
-> +    * - ``V4L2_VP9_INTERP_FILTER_BILINEAR``
-> +      - Bilinear filter.
-> +    * - ``V4L2_VP9_INTERP_FILTER_SWITCHABLE``
-> +      - Filter selection is signaled at the block level.
-> +
-> +.. c:type:: v4l2_vp9_reset_frame_context
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_reset_frame_context
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_RESET_FRAME_CTX_NONE``
-> +      - Do not reset any frame context.
-> +    * - ``V4L2_VP9_RESET_FRAME_CTX_SPEC``
-> +      - Reset the frame context pointed by
-> +        :c:type:`v4l2_ctrl_vp9_frame_decode_params`.frame_context_idx.
-> +    * - ``V4L2_VP9_RESET_FRAME_CTX_ALL``
-> +      - Reset all frame contexts.
-> +
-> +.. c:type:: v4l2_vp9_intra_prediction_mode
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_intra_prediction_mode
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_INTRA_PRED_DC``
-> +      - DC intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_V``
-> +      - Vertical intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_H``
-> +      - Horizontal intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_D45``
-> +      - D45 intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_D135``
-> +      - D135 intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_D117``
-> +      - D117 intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_D153``
-> +      - D153 intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_D207``
-> +      - D207 intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_D63``
-> +      - D63 intra prediction.
-> +    * - ``V4L2_VP9_INTRA_PRED_MODE_TM``
-> +      - True motion intra prediction.
-> +
-> +.. c:type:: v4l2_vp9_segmentation
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp9_segmentation
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``flags``
-> +      - Combination of V4L2_VP9_SEGMENTATION_FLAG_* flags. See
-> +        :c:type:`v4l2_vp9_segmentation_flags`.
-> +    * - __u8
-> +      - ``tree_probs[7]``
-> +      - Specifies the probability values to be used when decoding a Segment-
-> ID.
-> +        See '5.15. Segmentation map' section of :ref:`vp9` for more details.
-> +    * - __u8
-> +      - ``pred_prob[3]``
-> +      - Specifies the probability values to be used when decoding a
-> +        Predicted-Segment-ID. See '6.4.14. Get segment id syntax'
-> +        section of :ref:`vp9` for more details.
-> +    * - __u8
-> +      - ``padding[5]``
-> +      - Used to align this struct on 64 bit. Shall be filled with zeroes.
-> +    * - __u8
-> +      - ``feature_enabled[8]``
-> +      - Bitmask defining which features are enabled in each segment.
-> +    * - __u8
-> +      - ``feature_data[8][4]``
-> +      - Data attached to each feature. Data entry is only valid if the
-> feature
-> +        is enabled.
-> +
-> +.. c:type:: v4l2_vp9_segment_feature
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_segment_feature
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_SEGMENT_FEATURE_QP_DELTA``
-> +      - QP delta segment feature.
-> +    * - ``V4L2_VP9_SEGMENT_FEATURE_LF``
-> +      - Loop filter segment feature.
-> +    * - ``V4L2_VP9_SEGMENT_FEATURE_REF_FRAME``
-> +      - Reference frame segment feature.
-> +    * - ``V4L2_VP9_SEGMENT_FEATURE_SKIP``
-> +      - Skip segment feature.
-> +    * - ``V4L2_VP9_SEGMENT_FEATURE_CNT``
-> +      - Number of segment features.
-> +
-> +.. c:type:: v4l2_vp9_segmentation_flags
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_segmentation_flags
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_SEGMENTATION_FLAG_ENABLED``
-> +      - Indicates that this frame makes use of the segmentation tool.
-> +    * - ``V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP``
-> +      - Indicates that the segmentation map should be updated during the
-> +        decoding of this frame.
-> +    * - ``V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE``
-> +      - Indicates that the updates to the segmentation map are coded
-> +        relative to the existing segmentation map.
-> +    * - ``V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA``
-> +      - Indicates that new parameters are about to be specified for each
-> +        segment.
-> +    * - ``V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE``
-> +      - Indicates that the segmentation parameters represent the actual
-> values
-> +        to be used.
-> +
-> +.. c:type:: v4l2_vp9_quantization
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp9_quantization
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``base_q_idx``
-> +      - Indicates the base frame qindex.
-> +    * - __s8
-> +      - ``delta_q_y_dc``
-> +      - Indicates the Y DC quantizer relative to base_q_idx.
-> +    * - __s8
-> +      - ``delta_q_uv_dc``
-> +      - Indicates the UV DC quantizer relative to base_q_idx.
-> +    * - __s8
-> +      - ``delta_q_uv_ac``
-> +      - Indicates the UV AC quantizer relative to base_q_idx.
-> +    * - __u8
-> +      - ``padding[4]``
-> +      - Padding bytes used to align this struct on 64 bit. Must be set to 0.
-> +
-> +.. c:type:: v4l2_vp9_loop_filter
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp9_loop_filter
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``flags``
-> +      - Combination of V4L2_VP9_LOOP_FILTER_FLAG_* flags.
-> +        See :c:type:`v4l2_vp9_loop_filter_flags`.
-> +    * - __u8
-> +      - ``level``
-> +      - Indicates the loop filter strength.
-> +    * - __u8
-> +      - ``sharpness``
-> +      - Indicates the sharpness level.
-> +    * - __s8
-> +      - ``ref_deltas[4]``
-> +      - Contains the adjustment needed for the filter level based on the
-> chosen
-> +        reference frame.
-> +    * - __s8
-> +      - ``mode_deltas[2]``
-> +      - Contains the adjustment needed for the filter level based on the
-> chosen
-> +        mode
-> +    * - __u8
-> +      - ``level_lookup[8][4][2]``
-> +      - Level lookup table.
-> +
-> +
-> +.. c:type:: v4l2_vp9_loop_filter_flags
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: enum v4l2_vp9_loop_filter_flags
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 2
-> +
-> +    * - ``V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED``
-> +      - When set, the filter level depends on the mode and reference frame
-> used
-> +        to predict a block.
-> +    * - ``V4L2_VP9_LOOP_FILTER_FLAG_DELTA_UPDATE``
-> +      - When set, the bitstream contains additional syntax elements that
-> +        specify which mode and reference frame deltas are to be updated.
-> +
->  .. raw:: latex
->  
->      \normalsize
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-
-> core/v4l2-ctrls.c
-> index bd7f330c941c..a88e962ac8a1 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -971,6 +971,11 @@ const char *v4l2_ctrl_get_name(u32 id)
->         case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:                   return "VP9
-> Profile";
->         case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:                     return "VP9
-> Level";
->         case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:              return "VP8
-> Frame Header";
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS:       return "VP9
-> Frame Decode Parameters";
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(0):          return "VP9
-> Frame Context 0";
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(1):          return "VP9
-> Frame Context 1";
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(2):          return "VP9
-> Frame Context 2";
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(3):          return "VP9
-> Frame Context 3";
->  
->         /* HEVC controls */
->         case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP:               return "HEVC
-> I-Frame QP Value";
-> @@ -1452,6 +1457,15 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-> v4l2_ctrl_type *type,
->         case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
->                 *type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
->                 break;
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS:
-> +               *type = V4L2_CTRL_TYPE_VP9_FRAME_DECODE_PARAMS;
-> +               break;
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(0):
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(1):
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(2):
-> +       case V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(3):
-> +               *type = V4L2_CTRL_TYPE_VP9_FRAME_CONTEXT;
-> +               break;
->         case V4L2_CID_MPEG_VIDEO_HEVC_SPS:
->                 *type = V4L2_CTRL_TYPE_HEVC_SPS;
->                 break;
-> @@ -1754,6 +1768,219 @@ static void std_log(const struct v4l2_ctrl *ctrl)
->         0;                                                      \
->  })
->  
-> +static int
-> +validate_vp9_lf_params(struct v4l2_vp9_loop_filter *lf)
-> +{
-> +       unsigned int i, j, k;
-> +
-> +       if (lf->flags &
-> +           ~(V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED |
-> +             V4L2_VP9_LOOP_FILTER_FLAG_DELTA_UPDATE))
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED implies
-> +        * V4L2_VP9_LOOP_FILTER_FLAG_DELTA_UPDATE.
-> +        */
-> +       if (lf->flags & V4L2_VP9_LOOP_FILTER_FLAG_DELTA_UPDATE &&
-> +           !(lf->flags & V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED))
-> +               return -EINVAL;
-> +
-> +       /* That all values are in the accepted range. */
-> +       if (lf->level > GENMASK(5, 0))
-> +               return -EINVAL;
-> +
-> +       if (lf->sharpness > GENMASK(2, 0))
-> +               return -EINVAL;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(lf->ref_deltas); i++) {
-> +               if (lf->ref_deltas[i] < -63 || lf->ref_deltas[i] > 63)
-> +                       return -EINVAL;
-> +       }
-> +
-> +       for (i = 0; i < ARRAY_SIZE(lf->mode_deltas); i++) {
-> +               if (lf->mode_deltas[i] < -63 || lf->mode_deltas[i] > 63)
-> +                       return -EINVAL;
-> +       }
-> +
-> +       for (i = 0; i < ARRAY_SIZE(lf->level_lookup); i++) {
-> +               for (j = 0; j < ARRAY_SIZE(lf->level_lookup[0]); j++) {
-> +                       for (k = 0; k < ARRAY_SIZE(lf->level_lookup[0][0]);
-> k++) {
-> +                               if (lf->level_lookup[i][j][k] > 63)
-> +                                       return -EINVAL;
-> +                       }
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int
-> +validate_vp9_quant_params(struct v4l2_vp9_quantization *quant)
-> +{
-> +       if (quant->delta_q_y_dc < -15 || quant->delta_q_y_dc > 15 ||
-> +           quant->delta_q_uv_dc < -15 || quant->delta_q_uv_dc > 15 ||
-> +           quant->delta_q_uv_ac < -15 || quant->delta_q_uv_ac > 15)
-> +               return -EINVAL;
-> +
-> +       memset(quant->padding, 0, sizeof(quant->padding));
-> +       return 0;
-> +}
-> +
-> +static int
-> +validate_vp9_seg_params(struct v4l2_vp9_segmentation *seg)
-> +{
-> +       unsigned int i, j;
-> +
-> +       if (seg->flags &
-> +           ~(V4L2_VP9_SEGMENTATION_FLAG_ENABLED |
-> +             V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP |
-> +             V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE |
-> +             V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA |
-> +             V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE))
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP and
-> +        * V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA imply
-> +        * V4L2_VP9_SEGMENTATION_FLAG_ENABLED.
-> +        */
-> +       if ((seg->flags &
-> +            (V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP |
-> +             V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA)) &&
-> +           !(seg->flags & V4L2_VP9_SEGMENTATION_FLAG_ENABLED))
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE implies
-> +        * V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP.
-> +        */
-> +       if (seg->flags & V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE &&
-> +           !(seg->flags & V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP))
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE implies
-> +        * V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA.
-> +        */
-> +       if (seg->flags & V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE &&
-> +           !(seg->flags & V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA))
-> +               return -EINVAL;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(seg->feature_enabled); i++) {
-> +               if (seg->feature_enabled[i] &
-> +                   ~(V4L2_VP9_SEGMENT_FEATURE_QP_DELTA |
-> +                     V4L2_VP9_SEGMENT_FEATURE_LF |
-> +                     V4L2_VP9_SEGMENT_FEATURE_REF_FRAME |
-> +                     V4L2_VP9_SEGMENT_FEATURE_SKIP))
-> +                       return -EINVAL;
-> +       }
-> +
-> +       for (i = 0; i < ARRAY_SIZE(seg->feature_data); i++) {
-> +               const int range[] = {255, 63, 3, 0};
-> +
-> +               for (j = 0; j < ARRAY_SIZE(seg->feature_data[j]); j++) {
-> +                       if (seg->feature_data[i][j] < -range[j] ||
-> +                           seg->feature_data[i][j] > range[j])
-> +                               return -EINVAL;
-> +               }
-> +       }
-> +
-> +       memset(seg->padding, 0, sizeof(seg->padding));
-> +       return 0;
-> +}
-> +
-> +static int
-> +validate_vp9_frame_decode_params(struct v4l2_ctrl_vp9_frame_decode_params
-> *dec_params)
-> +{
-> +       int ret;
-> +
-> +       /* Make sure we're not passed invalid flags. */
-> +       if (dec_params->flags &
-> +           ~(V4L2_VP9_FRAME_FLAG_KEY_FRAME |
-> +             V4L2_VP9_FRAME_FLAG_SHOW_FRAME |
-> +             V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT |
-> +             V4L2_VP9_FRAME_FLAG_INTRA_ONLY |
-> +             V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV |
-> +             V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX |
-> +             V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE |
-> +             V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING |
-> +             V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING |
-> +             V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING))
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * The refresh context and error resilient flags are mutually
-> exclusive.
-> +        * Same goes for parallel decoding and error resilient modes.
-> +        */
-> +       if (dec_params->flags & V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT &&
-> +           dec_params->flags &
-> +           (V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX |
-> +            V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE))
-> +               return -EINVAL;
-> +
-> +       if (dec_params->profile > V4L2_VP9_PROFILE_MAX)
-> +               return -EINVAL;
-> +
-> +       if (dec_params->reset_frame_context > V4L2_VP9_RESET_FRAME_CTX_ALL)
-> +               return -EINVAL;
-> +
-> +       if (dec_params->frame_context_idx >= V4L2_VP9_NUM_FRAME_CTX)
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * Profiles 0 and 1 only support 8-bit depth, profiles 2 and 3 only 10
-> +        * and 12 bit depths.
-> +        */
-> +       if ((dec_params->profile < 2 && dec_params->bit_depth != 8) ||
-> +           (dec_params->profile >= 2 &&
-> +            (dec_params->bit_depth != 10 && dec_params->bit_depth != 12)))
-> +               return -EINVAL;
-> +
-> +       /* Profile 0 and 2 only accept YUV 4:2:0. */
-> +       if ((dec_params->profile == 0 || dec_params->profile == 2) &&
-> +           (!(dec_params->flags & V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING) ||
-> +            !(dec_params->flags & V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING)))
-> +               return -EINVAL;
-> +
-> +       /* Profile 1 and 3 only accept YUV 4:2:2, 4:4:0 and 4:4:4. */
-> +       if ((dec_params->profile == 1 || dec_params->profile == 3) &&
-> +           ((dec_params->flags & V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING) &&
-> +            (dec_params->flags & V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING)))
-> +               return -EINVAL;
-> +
-> +       if (dec_params->interpolation_filter >
-> V4L2_VP9_INTERP_FILTER_SWITCHABLE)
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * According to the spec, tile_cols_log2 shall be less than or equal
-> +        * to 6.
-> +        */
-> +       if (dec_params->tile_cols_log2 > 6)
-> +               return -EINVAL;
-> +
-> +       if (dec_params->tx_mode > V4L2_VP9_TX_MODE_SELECT)
-> +               return -EINVAL;
-> +
-> +       if (dec_params->reference_mode > V4L2_VP9_REF_MODE_SELECT)
-> +               return -EINVAL;
-> +
-> +       ret = validate_vp9_lf_params(&dec_params->lf);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret = validate_vp9_quant_params(&dec_params->quant);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret = validate_vp9_seg_params(&dec_params->seg);
-> +       if (ret)
-> +               return ret;
-> +
-> +       memset(dec_params->padding, 0, sizeof(dec_params->padding));
-> +       return 0;
-> +}
-> +
->  /* Validate a new control */
->  
->  #define zero_padding(s) \
-> @@ -1871,6 +2098,12 @@ static int std_validate_compound(const struct v4l2_ctrl
-> *ctrl, u32 idx,
->                 zero_padding(p_vp8_frame_header->coder_state);
->                 break;
->  
-> +       case V4L2_CTRL_TYPE_VP9_FRAME_DECODE_PARAMS:
-> +               return validate_vp9_frame_decode_params(p);
-> +
-> +       case V4L2_CTRL_TYPE_VP9_FRAME_CONTEXT:
-> +               break;
-> +
->         case V4L2_CTRL_TYPE_HEVC_SPS:
->                 p_hevc_sps = p;
->  
-> @@ -2617,6 +2850,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct
-> v4l2_ctrl_handler *hdl,
->         case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
->                 elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
->                 break;
-> +       case V4L2_CTRL_TYPE_VP9_FRAME_CONTEXT:
-> +               elem_size = sizeof(struct v4l2_ctrl_vp9_frame_ctx);
-> +               break;
-> +       case V4L2_CTRL_TYPE_VP9_FRAME_DECODE_PARAMS:
-> +               elem_size = sizeof(struct v4l2_ctrl_vp9_frame_decode_params);
-> +               break;
->         case V4L2_CTRL_TYPE_HEVC_SPS:
->                 elem_size = sizeof(struct v4l2_ctrl_hevc_sps);
->                 break;
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-
-> core/v4l2-ioctl.c
-> index eeff398fbdcc..27595054eea0 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1427,6 +1427,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->                 case V4L2_PIX_FMT_VP8:          descr = "VP8"; break;
->                 case V4L2_PIX_FMT_VP8_FRAME:    descr = "VP8 Frame"; break;
->                 case V4L2_PIX_FMT_VP9:          descr = "VP9"; break;
-> +               case V4L2_PIX_FMT_VP9_FRAME:    descr = "VP9 Frame"; break;
->                 case V4L2_PIX_FMT_HEVC:         descr = "HEVC"; break; /* aka
-> H.265 */
->                 case V4L2_PIX_FMT_HEVC_SLICE:   descr = "HEVC Parsed Slice
-> Data"; break;
->                 case V4L2_PIX_FMT_FWHT:         descr = "FWHT"; break; /* used
-> in vicodec */
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index cb25f345e9ad..fb299d83df6b 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -21,6 +21,7 @@
->  #include <media/fwht-ctrls.h>
->  #include <media/h264-ctrls.h>
->  #include <media/vp8-ctrls.h>
-> +#include <media/vp9-ctrls.h>
->  #include <media/hevc-ctrls.h>
->  
->  /* forward references */
-> @@ -53,6 +54,8 @@ struct video_device;
->   * @p_h264_decode_params:      Pointer to a struct
-> v4l2_ctrl_h264_decode_params.
->   * @p_h264_pred_weights:       Pointer to a struct
-> v4l2_ctrl_h264_pred_weights.
->   * @p_vp8_frame_header:                Pointer to a VP8 frame header
-> structure.
-> + * @p_vp9_frame_ctx:           Pointer to a VP9 frame context structure.
-> + * @p_vp9_frame_decode_params: Pointer to a VP9 frame params structure.
->   * @p_hevc_sps:                        Pointer to an HEVC sequence parameter
-> set structure.
->   * @p_hevc_pps:                        Pointer to an HEVC picture parameter
-> set structure.
->   * @p_hevc_slice_params:       Pointer to an HEVC slice parameters structure.
-> @@ -80,6 +83,8 @@ union v4l2_ctrl_ptr {
->         struct v4l2_ctrl_hevc_sps *p_hevc_sps;
->         struct v4l2_ctrl_hevc_pps *p_hevc_pps;
->         struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
-> +       struct v4l2_ctrl_vp9_frame_ctx *p_vp9_frame_ctx;
-> +       struct v4l2_ctrl_vp9_frame_decode_params *p_vp9_frame_decode_params;
->         struct v4l2_area *p_area;
->         void *p;
->         const void *p_const;
-> diff --git a/include/media/vp9-ctrls.h b/include/media/vp9-ctrls.h
-> new file mode 100644
-> index 000000000000..a14fffb3ad61
-> --- /dev/null
-> +++ b/include/media/vp9-ctrls.h
-> @@ -0,0 +1,486 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * These are the VP9 state controls for use with stateless VP9
-> + * codec drivers.
-> + *
-> + * It turns out that these structs are not stable yet and will undergo
-> + * more changes. So keep them private until they are stable and ready to
-> + * become part of the official public API.
-> + */
-> +
-> +#ifndef _VP9_CTRLS_H_
-> +#define _VP9_CTRLS_H_
-> +
-> +#include <linux/types.h>
-> +
-> +#define V4L2_PIX_FMT_VP9_FRAME v4l2_fourcc('V', 'P', '9', 'F')
-> +
-> +#define V4L2_CID_MPEG_VIDEO_VP9_FRAME_CONTEXT(i)       (V4L2_CID_MPEG_BASE +
-> 4000 + (i))
-> +#define V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS    (V4L2_CID_MPEG_BASE +
-> 4004)
-> +#define V4L2_CTRL_TYPE_VP9_FRAME_CONTEXT               0x400
-> +#define V4L2_CTRL_TYPE_VP9_FRAME_DECODE_PARAMS         0x404
-> +
-> +/**
-> + * enum v4l2_vp9_loop_filter_flags - VP9 loop filter flags
-> + *
-> + * @V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED: the filter level depends on
-> + *                                          the mode and reference frame used
-> + *                                          to predict a block
-> + * @V4L2_VP9_LOOP_FILTER_FLAG_DELTA_UPDATE: the bitstream contains additional
-> + *                                         syntax elements that specify which
-> + *                                         mode and reference frame deltas
-> + *                                         are to be updated
-> + *
-> + * Those are the flags you should pass to &v4l2_vp9_loop_filter.flags. See
-> + * section '7.2.8 Loop filter semantics' of the VP9 specification for more
-> + * details.
-> + */
-> +enum v4l2_vp9_loop_filter_flags {
-> +       V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED = 1 << 0,
-> +       V4L2_VP9_LOOP_FILTER_FLAG_DELTA_UPDATE = 1 << 1,
-> +};
-> +
-> +/**
-> + * struct v4l2_vp9_loop_filter - VP9 loop filter parameters
-> + *
-> + * @flags: combination of V4L2_VP9_LOOP_FILTER_FLAG_* flags
-> + * @level: indicates the loop filter strength
-> + * @sharpness: indicates the sharpness level
-> + * @ref_deltas: contains the adjustment needed for the filter level based on
-> + *             the chosen reference frame
-> + * @mode_deltas: contains the adjustment needed for the filter level based on
-> + *              the chosen mode
-> + * @level_lookup: level lookup table
-> + *
-> + * This structure contains all loop filter related parameters. See sections
-> + * '7.2.8 Loop filter semantics' and '8.8.1 Loop filter frame init process'
-> + * of the VP9 specification for more details.
-> + */
-> +struct v4l2_vp9_loop_filter {
-> +       __u8 flags;
-> +       __u8 level;
-> +       __u8 sharpness;
-> +       __s8 ref_deltas[4];
-> +       __s8 mode_deltas[2];
-> +       __u8 level_lookup[8][4][2];
-> +       __u8 padding;
-> +};
-> +
-> +/**
-> + * struct v4l2_vp9_quantization - VP9 quantization parameters
-> + *
-> + * @base_q_idx: indicates the base frame qindex
-> + * @delta_q_y_dc: indicates the Y DC quantizer relative to base_q_idx
-> + * @delta_q_uv_dc: indicates the UV DC quantizer relative to base_q_idx
-> + * @delta_q_uv_ac indicates the UV AC quantizer relative to base_q_idx
-> + * @padding: padding bytes to align things on 64 bits. Must be set to 0
-> + *
-> + * Encodes the quantization parameters. See section '7.2.9 Quantization
-> params
-> + * syntax' of the VP9 specification for more details.
-> + */
-> +struct v4l2_vp9_quantization {
-> +       __u8 base_q_idx;
-> +       __s8 delta_q_y_dc;
-> +       __s8 delta_q_uv_dc;
-> +       __s8 delta_q_uv_ac;
-> +       __u8 padding[4];
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_segmentation_flags - VP9 segmentation flags
-> + *
-> + * @V4L2_VP9_SEGMENTATION_FLAG_ENABLED: indicates that this frame makes use
-> of
-> + *                                     the segmentation tool
-> + * @V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP: indicates that the segmentation
-> map
-> + *                                        should be updated during the
-> + *                                        decoding of this frame
-> + * @V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE: indicates that the updates to
-> + *                                             the segmentation map are coded
-> + *                                             relative to the existing
-> + *                                             segmentation map
-> + * @V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA: indicates that new parameters are
-> + *                                         about to be specified for each
-> + *                                         segment
-> + * @V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE: indicates that the
-> + *                                                 segmentation parameters
-> + *                                                 represent the actual
-> values
-> + *                                                 to be used
-> + *
-> + * Those are the flags you should pass to &v4l2_vp9_segmentation.flags. See
-> + * section '7.2.10 Segmentation params syntax' of the VP9 specification for
-> + * more details.
-> + */
-> +enum v4l2_vp9_segmentation_flags {
-> +       V4L2_VP9_SEGMENTATION_FLAG_ENABLED = 1 << 0,
-> +       V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP = 1 << 1,
-> +       V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE = 1 << 2,
-> +       V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA = 1 << 3,
-> +       V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE = 1 << 4,
-> +};
-> +
-> +#define V4L2_VP9_SEGMENT_FEATURE_ENABLED(id)   (1 << (id))
-> +#define V4L2_VP9_SEGMENT_FEATURE_ENABLED_MASK  0xf
-> +
-> +/**
-> + * enum v4l2_vp9_segment_feature - VP9 segment feature IDs
-> + *
-> + * @V4L2_VP9_SEGMENT_FEATURE_QP_DELTA: QP delta segment feature
-> + * @V4L2_VP9_SEGMENT_FEATURE_LF: loop filter segment feature
-> + * @V4L2_VP9_SEGMENT_FEATURE_REF_FRAME: reference frame segment feature
-> + * @V4L2_VP9_SEGMENT_FEATURE_SKIP: skip segment feature
-> + * @V4L2_VP9_SEGMENT_FEATURE_CNT: number of segment features
-> + *
-> + * Segment feature IDs. See section '7.2.10 Segmentation params syntax' of
-> the
-> + * VP9 specification for more details.
-> + */
-> +enum v4l2_vp9_segment_feature {
-> +       V4L2_VP9_SEGMENT_FEATURE_QP_DELTA,
-> +       V4L2_VP9_SEGMENT_FEATURE_LF,
-> +       V4L2_VP9_SEGMENT_FEATURE_REF_FRAME,
-> +       V4L2_VP9_SEGMENT_FEATURE_SKIP,
-> +       V4L2_VP9_SEGMENT_FEATURE_CNT,
-> +};
-> +
-> +/**
-> + * struct v4l2_vp9_segmentation - VP9 segmentation parameters
-> + *
-> + * @flags: combination of V4L2_VP9_SEGMENTATION_FLAG_* flags
-> + * @tree_probs: specifies the probability values to be used when
-> + *              decoding a Segment-ID. See '5.15. Segmentation map'
-> + *              section of the VP9 specification for more details.
-> + * @pred_prob: specifies the probability values to be used when decoding a
-> + *            Predicted-Segment-ID. See '6.4.14. Get segment id syntax'
-> + *            section of :ref:`vp9` for more details..
-> + * @padding: padding used to make things aligned on 64 bits. Shall be zero
-> + *          filled
-> + * @feature_enabled: bitmask defining which features are enabled in each
-> + *                  segment
-> + * @feature_data: data attached to each feature. Data entry is only valid if
-> + *               the feature is enabled
-> + *
-> + * Encodes the quantization parameters. See section '7.2.10 Segmentation
-> + * params syntax' of the VP9 specification for more details.
-> + */
-> +struct v4l2_vp9_segmentation {
-> +       __u8 flags;
-> +       __u8 tree_probs[7];
-> +       __u8 pred_probs[3];
-> +       __u8 padding[5];
-> +       __u8 feature_enabled[8];
-> +       __s16 feature_data[8][4];
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_intra_prediction_mode - VP9 Intra prediction modes
-> + *
-> + * @V4L2_VP9_INTRA_PRED_DC: DC intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_V: vertical intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_H: horizontal intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_D45: D45 intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_D135: D135 intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_D117: D117 intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_D153: D153 intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_D207: D207 intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_D63: D63 intra prediction
-> + * @V4L2_VP9_INTRA_PRED_MODE_TM: True Motion intra prediction
-> + *
-> + * See section '7.4.5 Intra frame mode info semantics' for more details.
-> + */
-> +enum v4l2_vp9_intra_prediction_mode {
-> +       V4L2_VP9_INTRA_PRED_MODE_DC,
-> +       V4L2_VP9_INTRA_PRED_MODE_V,
-> +       V4L2_VP9_INTRA_PRED_MODE_H,
-> +       V4L2_VP9_INTRA_PRED_MODE_D45,
-> +       V4L2_VP9_INTRA_PRED_MODE_D135,
-> +       V4L2_VP9_INTRA_PRED_MODE_D117,
-> +       V4L2_VP9_INTRA_PRED_MODE_D153,
-> +       V4L2_VP9_INTRA_PRED_MODE_D207,
-> +       V4L2_VP9_INTRA_PRED_MODE_D63,
-> +       V4L2_VP9_INTRA_PRED_MODE_TM,
-> +};
-> +
-> +/**
-> + * struct v4l2_vp9_mv_probabilities - VP9 Motion vector probabilities
-> + * @joint: motion vector joint probabilities
-> + * @sign: motion vector sign probabilities
-> + * @class: motion vector class probabilities
-> + * @class0_bit: motion vector class0 bit probabilities
-> + * @bits: motion vector bits probabilities
-> + * @class0_fr: motion vector class0 fractional bit probabilities
-> + * @fr: motion vector fractional bit probabilities
-> + * @class0_hp: motion vector class0 high precision fractional bit
-> probabilities
-> + * @hp: motion vector high precision fractional bit probabilities
-> + */
-> +struct v4l2_vp9_mv_probabilities {
-> +       __u8 joint[3];
-> +       __u8 sign[2];
-> +       __u8 class[2][10];
-> +       __u8 class0_bit[2];
-> +       __u8 bits[2][10];
-> +       __u8 class0_fr[2][2][3];
-> +       __u8 fr[2][3];
-> +       __u8 class0_hp[2];
-> +       __u8 hp[2];
-> +};
-> +
-> +/**
-> + * struct v4l2_vp9_probabilities - VP9 Probabilities
-> + *
-> + * @tx8: TX 8x8 probabilities
-> + * @tx16: TX 16x16 probabilities
-> + * @tx32: TX 32x32 probabilities
-> + * @coef: coefficient probabilities
-> + * @skip: skip probabilities
-> + * @inter_mode: inter mode probabilities
-> + * @interp_filter: interpolation filter probabilities
-> + * @is_inter: is inter-block probabilities
-> + * @comp_mode: compound prediction mode probabilities
-> + * @single_ref: single ref probabilities
-> + * @comp_ref: compound ref probabilities
-> + * @y_mode: Y prediction mode probabilities
-> + * @uv_mode: UV prediction mode probabilities
-> + * @partition: partition probabilities
-> + * @mv: motion vector probabilities
-> + *
-> + * Structure containing most VP9 probabilities. See the VP9 specification
-> + * for more details.
-> + */
-> +struct v4l2_vp9_probabilities {
-> +       __u8 tx8[2][1];
-> +       __u8 tx16[2][2];
-> +       __u8 tx32[2][3];
-> +       __u8 coef[4][2][2][6][6][3];
-> +       __u8 skip[3];
-> +       __u8 inter_mode[7][3];
-> +       __u8 interp_filter[4][2];
-> +       __u8 is_inter[4];
-> +       __u8 comp_mode[5];
-> +       __u8 single_ref[5][2];
-> +       __u8 comp_ref[5];
-> +       __u8 y_mode[4][9];
-> +       __u8 uv_mode[10][9];
-> +       __u8 partition[16][3];
-> +
-> +       struct v4l2_vp9_mv_probabilities mv;
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_reset_frame_context - Valid values for
-> + *                     &v4l2_ctrl_vp9_frame_decode_params-
-> > reset_frame_context
-> + *
-> + * @V4L2_VP9_RESET_FRAME_CTX_NONE: don't reset any frame context
-> + * @V4L2_VP9_RESET_FRAME_CTX_SPEC: reset the frame context pointed by
-> + *                     &v4l2_ctrl_vp9_frame_decode_params.frame_context_idx
-> + * @V4L2_VP9_RESET_FRAME_CTX_ALL: reset all frame contexts
-> + *
-> + * See section '7.2 Uncompressed header semantics' of the VP9 specification
-> + * for more details.
-> + */
-> +enum v4l2_vp9_reset_frame_context {
-> +       V4L2_VP9_RESET_FRAME_CTX_NONE,
-> +       V4L2_VP9_RESET_FRAME_CTX_SPEC,
-> +       V4L2_VP9_RESET_FRAME_CTX_ALL,
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_interpolation_filter - VP9 interpolation filter types
-> + *
-> + * @V4L2_VP9_INTERP_FILTER_8TAP: height tap filter
-> + * @V4L2_VP9_INTERP_FILTER_8TAP_SMOOTH: height tap smooth filter
-> + * @V4L2_VP9_INTERP_FILTER_8TAP_SHARP: height tap sharp filter
-> + * @V4L2_VP9_INTERP_FILTER_BILINEAR: bilinear filter
-> + * @V4L2_VP9_INTERP_FILTER_SWITCHABLE: filter selection is signaled at the
-> + *                                    block level
-> + *
-> + * See section '7.2.7 Interpolation filter semantics' of the VP9
-> specification
-> + * for more details.
-> + */
-> +enum v4l2_vp9_interpolation_filter {
-> +       V4L2_VP9_INTERP_FILTER_8TAP,
-> +       V4L2_VP9_INTERP_FILTER_8TAP_SMOOTH,
-> +       V4L2_VP9_INTERP_FILTER_8TAP_SHARP,
-> +       V4L2_VP9_INTERP_FILTER_BILINEAR,
-> +       V4L2_VP9_INTERP_FILTER_SWITCHABLE,
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_reference_mode - VP9 reference modes
-> + *
-> + * @V4L2_VP9_REF_MODE_SINGLE: indicates that all the inter blocks use only a
-> + *                           single reference frame to generate motion
-> + *                           compensated prediction
-> + * @V4L2_VP9_REF_MODE_COMPOUND: requires all the inter blocks to use compound
-> + *                             mode. Single reference frame prediction is not
-> + *                             allowed
-> + * @V4L2_VP9_REF_MODE_SELECT: allows each individual inter block to select
-> + *                           between single and compound prediction modes
-> + *
-> + * See section '7.3.6 Frame reference mode semantics' of the VP9
-> specification
-> + * for more details.
-> + */
-> +enum v4l2_vp9_reference_mode {
-> +       V4L2_VP9_REF_MODE_SINGLE,
-> +       V4L2_VP9_REF_MODE_COMPOUND,
-> +       V4L2_VP9_REF_MODE_SELECT,
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_tx_mode - VP9 TX modes
-> + *
-> + * @V4L2_VP9_TX_MODE_ONLY_4X4: transform size is 4x4
-> + * @V4L2_VP9_TX_MODE_ALLOW_8X8: transform size can be up to 8x8
-> + * @V4L2_VP9_TX_MODE_ALLOW_16X16: transform size can be up to 16x16
-> + * @V4L2_VP9_TX_MODE_ALLOW_32X32: transform size can be up to 32x32
-> + * @V4L2_VP9_TX_MODE_SELECT: bitstream contains transform size for each block
-> + *
-> + * See section '7.3.1 Tx mode semantics' of the VP9 specification for more
-> + * details.
-> + */
-> +enum v4l2_vp9_tx_mode {
-> +       V4L2_VP9_TX_MODE_ONLY_4X4,
-> +       V4L2_VP9_TX_MODE_ALLOW_8X8,
-> +       V4L2_VP9_TX_MODE_ALLOW_16X16,
-> +       V4L2_VP9_TX_MODE_ALLOW_32X32,
-> +       V4L2_VP9_TX_MODE_SELECT,
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_ref_id - VP9 Reference frame IDs
-> + *
-> + * @V4L2_REF_ID_LAST: last reference frame
-> + * @V4L2_REF_ID_GOLDEN: golden reference frame
-> + * @V4L2_REF_ID_ALTREF: alternative reference frame
-> + * @V4L2_REF_ID_CNT: number of reference frames
-> + *
-> + * See section '7.4.12 Ref frames semantics' of the VP9 specification for
-> more
-> + * details.
-> + */
-> +enum v4l2_vp9_ref_id {
-> +       V4L2_REF_ID_LAST,
-> +       V4L2_REF_ID_GOLDEN,
-> +       V4L2_REF_ID_ALTREF,
-> +       V4L2_REF_ID_CNT,
-> +};
-> +
-> +/**
-> + * enum v4l2_vp9_frame_flags - VP9 frame flags
-> + * @V4L2_VP9_FRAME_FLAG_KEY_FRAME: the frame is a key frame
-> + * @V4L2_VP9_FRAME_FLAG_SHOW_FRAME: the frame should be displayed
-> + * @V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT: the decoding should be error
-> resilient
-> + * @V4L2_VP9_FRAME_FLAG_INTRA_ONLY: the frame does not reference other frames
-> + * @V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV: the frame might can high
-> precision
-> + *                                         motion vectors
-> + * @V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX: frame context should be updated
-> + *                                        after decoding
-> + * @V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE: parallel decoding is used
-> + * @V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING: vertical subsampling is enabled
-> + * @V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING: horizontal subsampling is enabled
-> + * @V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING: full UV range is used
-> + *
-> + * Check the VP9 specification for more details.
-> + */
-> +enum v4l2_vp9_frame_flags {
-> +       V4L2_VP9_FRAME_FLAG_KEY_FRAME = 1 << 0,
-> +       V4L2_VP9_FRAME_FLAG_SHOW_FRAME = 1 << 1,
-> +       V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT = 1 << 2,
-> +       V4L2_VP9_FRAME_FLAG_INTRA_ONLY = 1 << 3,
-> +       V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV = 1 << 4,
-> +       V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX = 1 << 5,
-> +       V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE = 1 << 6,
-> +       V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING = 1 << 7,
-> +       V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING = 1 << 8,
-> +       V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING = 1 << 9,
-> +};
-> +
-> +#define V4L2_VP9_PROFILE_MAX           3
-> +
-> +/**
-> + * struct v4l2_ctrl_vp9_frame_decode_params - VP9 frame decoding control
-> + *
-> + * @flags: combination of V4L2_VP9_FRAME_FLAG_* flags
-> + * @compressed_header_size: compressed header size in bytes
-> + * @uncompressed_header_size: uncompressed header size in bytes
-> + * @profile: VP9 profile. Can be 0, 1, 2 or 3
-> + * @reset_frame_context: specifies whether the frame context should be reset
-> + *                      to default values. See &v4l2_vp9_reset_frame_context
-> + *                      for more details
-> + * @frame_context_idx: frame context that should be used/updated
-> + * @bit_depth: bits per components. Can be 8, 10 or 12. Note that not all
-> + *            profiles support 10 and/or 12 bits depths
-> + * @interpolation_filter: specifies the filter selection used for performing
-> + *                       inter prediction. See &v4l2_vp9_interpolation_filter
-> + *                       for more details
-> + * @tile_cols_log2: specifies the base 2 logarithm of the width of each tile
-> + *                 (where the width is measured in units of 8x8 blocks).
-> + *                 Shall be less than or equal to 6
-> + * @tile_rows_log2: specifies the base 2 logarithm of the height of each tile
-> + *                 (where the height is measured in units of 8x8 blocks)
-> + * @tx_mode: specifies the TX mode. See &v4l2_vp9_tx_mode for more details
-> + * @reference_mode: specifies the type of inter prediction to be used. See
-> + *                 &v4l2_vp9_reference_mode for more details
-> + * @padding: needed to make this struct 64 bit aligned. Shall be filled with
-> + *          zeros
-> + * @frame_width_minus_1: add 1 to it and you'll get the frame width expressed
-> + *                      in pixels
-> + * @frame_height_minus_1: add 1 to it and you'll get the frame height
-> expressed
-> + *                       in pixels
-> + * @frame_width_minus_1: add 1 to it and you'll get the expected render width
-> + *                      expressed in pixels. This is not used during the
-> + *                      decoding process but might be used by HW scalers to
-> + *                      prepare a frame that's ready for scanout
-> + * @frame_height_minus_1: add 1 to it and you'll get the expected render
-> height
-> + *                      expressed in pixels. This is not used during the
-> + *                      decoding process but might be used by HW scalers to
-> + *                      prepare a frame that's ready for scanout
-> + * @refs: array of ref frames timestamps. See &v4l2_vp9_ref_id for more
-> details
-> + * @lf: loop filter parameters. See &v4l2_vp9_loop_filter for more details
-> + * @quant: quantization parameters. See &v4l2_vp9_quantization for more
-> details
-> + * @seg: segmentation parameters. See &v4l2_vp9_segmentation for more details
-> + * @probs: probabilities. See &v4l2_vp9_probabilities for more details
-> + */
-> +struct v4l2_ctrl_vp9_frame_decode_params {
-> +       __u32 flags;
-> +       __u16 compressed_header_size;
-> +       __u16 uncompressed_header_size;
-> +       __u8 profile;
-> +       __u8 reset_frame_context;
-> +       __u8 frame_context_idx;
-> +       __u8 bit_depth;
-> +       __u8 interpolation_filter;
-> +       __u8 tile_cols_log2;
-> +       __u8 tile_rows_log2;
-> +       __u8 tx_mode;
-> +       __u8 reference_mode;
-> +       __u8 padding[7];
-> +       __u16 frame_width_minus_1;
-> +       __u16 frame_height_minus_1;
-> +       __u16 render_width_minus_1;
-> +       __u16 render_height_minus_1;
-> +       __u64 refs[V4L2_REF_ID_CNT];
-> +       struct v4l2_vp9_loop_filter lf;
-> +       struct v4l2_vp9_quantization quant;
-> +       struct v4l2_vp9_segmentation seg;
-> +       struct v4l2_vp9_probabilities probs;
-> +};
-> +
-> +#define V4L2_VP9_NUM_FRAME_CTX 4
-> +
-> +/**
-> + * struct v4l2_ctrl_vp9_frame_ctx - VP9 frame context control
-> + *
-> + * @probs: VP9 probabilities
-> + *
-> + * This control is accessed in both direction. The user should initialize the
-> + * 4 contexts with default values just after starting the stream. Then before
-> + * decoding a frame it should query the current frame context (the one passed
-> + * through &v4l2_ctrl_vp9_frame_decode_params.frame_context_idx) to
-> initialize
-> + * &v4l2_ctrl_vp9_frame_decode_params.probs. The probs are then adjusted
-> based
-> + * on the bitstream info and passed to the kernel. The codec should update
-> + * the frame context after the frame has been decoded, so that next time
-> + * userspace query this context it contains the updated probabilities.
-> + */
-> +struct v4l2_ctrl_vp9_frame_ctx {
-> +       struct v4l2_vp9_probabilities probs;
-> +};
-> +
-> +#endif /* _VP9_CTRLS_H_ */
-
-
-
-
+--7JfCtLOvnd9MIVvH--
