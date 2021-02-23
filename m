@@ -2,86 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 064E332313A
-	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 20:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C3B43232CB
+	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 22:06:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbhBWTRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 14:17:06 -0500
-Received: from mail.horus.com ([78.46.148.228]:38641 "EHLO mail.horus.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230309AbhBWTRB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 14:17:01 -0500
-Received: from lenny.lan (62-116-60-6.adsl.highway.telekom.at [62.116.60.6])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "E-Mail Matthias Reichl Lenny", Issuer "HiassofT CA 2014" (verified OK))
-        by mail.horus.com (Postfix) with ESMTPSA id 8F7EC6409C;
-        Tue, 23 Feb 2021 20:16:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=horus.com;
-        s=20180324; t=1614107776;
-        bh=2Ln8sXaUcPqd52opEGRKwtnhRMtiyt944ME2ZUZwCbg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fJpEs7gCBK6lJAj8GLkSWoovZjsyAbUiJoQD3W7CM2LGY110WmNDDSif85OVWnLyg
-         v5IO5KVjlvC8OYmx5cozwSflbkl41OshD9TE1o8CnPNeBgRSP4UrprIeoDh39MSjG/
-         rshut8ssh0aBhcYVoE+EK+Fr2iIDbuC2YrSnHNhE=
-Received: by lenny.lan (Postfix, from userid 1000)
-        id E7A70202224; Tue, 23 Feb 2021 20:16:15 +0100 (CET)
-Date:   Tue, 23 Feb 2021 20:16:15 +0100
-From:   Matthias Reichl <hias@horus.com>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org,
-        Juan =?iso-8859-1?Q?Jes=FAs_Garc=EDa?= de Soria 
-        <skandalfo@gmail.com>
-Subject: Re: [PATCH 0/6] media: ite-cir driver cleanups
-Message-ID: <20210223191615.GA9243@lenny.lan>
-References: <cover.1613989288.git.sean@mess.org>
- <20210223161307.GB10715@camel2.lan>
- <20210223175001.GA12871@gofer.mess.org>
+        id S234569AbhBWVE6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Feb 2021 16:04:58 -0500
+Received: from mail-oo1-f43.google.com ([209.85.161.43]:45847 "EHLO
+        mail-oo1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231274AbhBWVDF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Feb 2021 16:03:05 -0500
+Received: by mail-oo1-f43.google.com with SMTP id s23so4217828oot.12;
+        Tue, 23 Feb 2021 13:02:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y8sBehCCNa+kbXPwMBE0R5HDgBSq8nEDv9KIRArwz1s=;
+        b=QBEK4XEHsQkbhZL14h1zkHTkEdRJh3y/U/BBKRBo4g5n1I6Ud95j1Aiogb/+BdsoKd
+         y1JKSK100J0RgeA37SXsF8jMHBz8C946NrJ5WlkvE/nCTvbonIj665YEp2wQnYR9+FAD
+         H8hvbrkDiGBsfngO/MlQ0INF+34e+ATPzyFywMQZq25uZ+KqSU5dQqRnVQxjNQIhvuiu
+         0n6NnWAleB5YsVd7zrD76Tesj+NVPV5j/EZWsphtUaLuC8Y4g4q7NgYM6sgsIzzZKXCt
+         S4e1oFmBtDNP+sSiYtd+qdl4mbR+jh+G6VpG2uhF0srUmUVpqnQdXBQQ05zDXFOED4Fb
+         KeBQ==
+X-Gm-Message-State: AOAM532A0hzCiYxDTSSD54740m+fqR3zJ2IfusVKEOWIXwXBu2Ds/9by
+        TYqeIoe36dCIU6LQWCrPhg==
+X-Google-Smtp-Source: ABdhPJyjMAT3lFx7Kt85Yh2ULfoiwnGWka6Q+1Mj60tLWZGKoQKaiWvTU9MV6obqvyr+uUNCqdOv/A==
+X-Received: by 2002:a4a:d018:: with SMTP id h24mr19830268oor.49.1614114141985;
+        Tue, 23 Feb 2021 13:02:21 -0800 (PST)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id 7sm4531362oth.38.2021.02.23.13.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Feb 2021 13:01:49 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] dt-bindings: media: Use graph and video-interfaces schemas, round 2
+Date:   Tue, 23 Feb 2021 15:01:27 -0600
+Message-Id: <20210223210127.55455-1-robh@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210223175001.GA12871@gofer.mess.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
+A couple of media schemas got applied without using or incorrectly
+using the video-interfaces.yaml and graph.yaml schemas. Fix them up
+before we have more copy-n-paste errors.
 
-On Tue, Feb 23, 2021 at 05:50:01PM +0000, Sean Young wrote:
-> On Tue, Feb 23, 2021 at 05:13:07PM +0100, Matthias Reichl wrote:
-> > I could only test receiving (don't have a transmitter on that PC)
-> > and also couldn't test the carrier options (I'm using a demodulating
-> > TSOP receiver here), but your changes look sane to me.
-> 
-> I only have got an eeepc box, with the same limitations. Do you happen to
-> know what hardware there is for this driver? It would be nice to test this
-> properly.
-> 
-> This is the only IR driver that can change the RX carrier range, so it's
-> kinda interesting.
+Fixes: 41b3e23376e9 ("media: dt-bindings: media: Add bindings for imx334")
+Fixes: d899e5f1db7a ("media: dt-bindings: media: imx258: add bindings for IMX258 sensor")
+Fixes: 918b866edfec ("media: dt-bindings: Remove old ov5647.yaml file, update ovti,ov5647.yaml")
+Fixes: 22f2b47517a6 ("media: dt-bindings: media: i2c: Add OV8865 bindings documentation")
+Fixes: 29a202fa7acc ("media: dt-bindings: media: i2c: Add OV5648 bindings documentation")
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo@jmondi.org>
+Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
+Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+Please ack and I'll send to Linus for rc1.
 
-In the most recent bug report I got (about a month ago) the user was
-using an intel NUC (NUC10i3FNH/NUC10i3FNB according to DMI):
-https://forum.libreelec.tv/thread/23211-intel-nightly-build-problem-with-mce-remote/?postID=148823#post148823
+ .../devicetree/bindings/media/i2c/imx258.yaml    | 14 +++++++-------
+ .../bindings/media/i2c/ovti,ov5647.yaml          |  5 ++---
+ .../bindings/media/i2c/ovti,ov5648.yaml          | 16 +++++-----------
+ .../bindings/media/i2c/ovti,ov8865.yaml          | 16 +++++-----------
+ .../bindings/media/i2c/sony,imx334.yaml          | 11 +++++------
+ 5 files changed, 24 insertions(+), 38 deletions(-)
 
-I've also seen NUCs with Nuvoton CIR though and I suspect they'll
-all probably have a demodulating receiver soldered directly to the
-board, so probably not easy to tinker with (haven't checked though).
+diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+index eaf77866ed9b..515317eff41a 100644
+--- a/Documentation/devicetree/bindings/media/i2c/imx258.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+@@ -49,10 +49,14 @@ properties:
+ 
+   # See ../video-interfaces.txt for more details
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
++    additionalProperties: false
++
+     properties:
+       endpoint:
+-        type: object
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
+         properties:
+           data-lanes:
+             oneOf:
+@@ -65,11 +69,7 @@ properties:
+                   - const: 1
+                   - const: 2
+ 
+-          link-frequencies:
+-            allOf:
+-              - $ref: /schemas/types.yaml#/definitions/uint64-array
+-            description:
+-              Allowed data bus frequencies.
++          link-frequencies: true
+ 
+         required:
+           - data-lanes
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+index 1ab22e75d3c6..3e5d82df90a2 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+@@ -31,7 +31,8 @@ properties:
+     maxItems: 1
+ 
+   port:
+-    $ref: /schemas/graph.yaml#/$defs/port-base
++    $ref: /schemas/graph.yaml#/properties/port
++    additionalProperties: false
+ 
+     properties:
+       endpoint:
+@@ -41,8 +42,6 @@ properties:
+         properties:
+           clock-noncontinuous: true
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+index f8783f77cc54..9149f5685688 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+@@ -44,19 +44,17 @@ properties:
+     description: Reset Pin GPIO Control (active low)
+ 
+   port:
+-    type: object
+     description: MIPI CSI-2 transmitter port
++    $ref: /schemas/graph.yaml#/properties/port
++    additionalProperties: false
+ 
+     properties:
+       endpoint:
+-        type: object
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
+ 
+         properties:
+-          remote-endpoint: true
+-
+-          link-frequencies:
+-            $ref: /schemas/types.yaml#/definitions/uint64-array
+-            description: Allowed MIPI CSI-2 link frequencies
++          link-frequencies: true
+ 
+           data-lanes:
+             minItems: 1
+@@ -65,10 +63,6 @@ properties:
+         required:
+           - data-lanes
+           - link-frequencies
+-          - remote-endpoint
+-
+-    required:
+-      - endpoint
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+index c0ba28aa30c4..0699c7e4fdeb 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+@@ -44,19 +44,17 @@ properties:
+     description: Reset Pin GPIO Control (active low)
+ 
+   port:
+-    type: object
+     description: MIPI CSI-2 transmitter port
++    $ref: /schemas/graph.yaml#/properties/port
++    additionalProperties: false
+ 
+     properties:
+       endpoint:
+-        type: object
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
+ 
+         properties:
+-          remote-endpoint: true
+-
+-          link-frequencies:
+-            $ref: /schemas/types.yaml#/definitions/uint64-array
+-            description: Allowed MIPI CSI-2 link frequencies
++          link-frequencies: true
+ 
+           data-lanes:
+             minItems: 1
+@@ -65,10 +63,6 @@ properties:
+         required:
+           - data-lanes
+           - link-frequencies
+-          - remote-endpoint
+-
+-    required:
+-      - endpoint
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+index 24e689314bde..27cc5b7ff613 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+@@ -36,18 +36,17 @@ properties:
+     description: Reference to the GPIO connected to the XCLR pin, if any.
+ 
+   port:
+-    type: object
+     additionalProperties: false
+     $ref: /schemas/graph.yaml#/properties/port
+ 
+     properties:
+       endpoint:
+-        type: object
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
+         properties:
+-          data-lanes:
+-            $ref: ../video-interfaces.yaml#/properties/data-lanes
+-          link-frequencies:
+-            $ref: ../video-interfaces.yaml#/properties/link-frequencies
++          data-lanes: true
++          link-frequencies: true
+ 
+         required:
+           - data-lanes
+-- 
+2.27.0
 
-I have only an ancient Pentium 4 mainboard (Gigabyte 8IPE775) with
-an IT8712 here. IR RX/TX and CIR RX/TX are all exposed on a header,
-but the BIOS is somewhat odd and doesn't contain CIR on/off settings
-or announce the CIR via ACPI. So I had to manually patch ACPI tables
-to get that beast working.... ITE8713 pnpid was close enough (couldn't
-find a datasheet for 8713, only 8712 - that does mention demodulating
-though).
-
-I don't think I have a simple IR diode or transistor here to easily
-test that, only demodulating TSOPs (and some clones) - hooking that
-up to the mainboard wouldn't be too hard.
-
-so long,
-
-Hias
