@@ -2,235 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FDFA32277C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 10:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C41BD3227AC
+	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 10:20:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231749AbhBWJHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 04:07:31 -0500
-Received: from comms.puri.sm ([159.203.221.185]:60170 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231523AbhBWJFf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 04:05:35 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 541A5E0327;
-        Tue, 23 Feb 2021 01:04:53 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id SlDxycFObY5p; Tue, 23 Feb 2021 01:04:51 -0800 (PST)
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     "rogerio.silva@nxp.com" <rogerio.silva@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>,
-        "kernel@puri.sm" <kernel@puri.sm>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-References: <9e09ca8b-d1bc-eaa9-d296-c4ee98882c06@puri.sm>
- <X9HpL/qlFxmZi9Vt@pendragon.ideasonboard.com>
- <X9IR7dXOkX2XBCtx@pendragon.ideasonboard.com>
- <195b62c5-5238-a75e-3206-c54efc309e94@puri.sm>
- <X9JG/d1le9xZlI4i@pendragon.ideasonboard.com>
- <c13b2f47-7e15-97b6-f523-93afc009ebdf@puri.sm>
- <X+ISOvor/SO55dKw@pendragon.ideasonboard.com>
- <1279ef68-cbed-dd60-fc2e-2e1d02319563@puri.sm>
-Subject: Re: question: CSI on imx8mq with (any) CSI2 camera / experience with
- mx6s_capture?
-Message-ID: <21342432-09ae-a096-1d9f-35e4333e9783@puri.sm>
-Date:   Tue, 23 Feb 2021 10:04:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-In-Reply-To: <1279ef68-cbed-dd60-fc2e-2e1d02319563@puri.sm>
+        id S231675AbhBWJTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Feb 2021 04:19:45 -0500
+Received: from mail-bn8nam11on2082.outbound.protection.outlook.com ([40.107.236.82]:63713
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230367AbhBWJTn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Feb 2021 04:19:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CavRL1TPfRu282nJyIH5m9dJh4bBr8nCcaU0GE+XboGVr7hPFoBP9M98tK+gBOkJWLnLzMJmmmOdCvuLXsGr2E3G8TDZtDgJ93p+D6xa+zLEg472pLVlFaJ6B6JzB/lbcfFNAUpSbinp+7xsyEDsJlkMYPZ4dFtc1ltIRI5xKr6Ie47t0tBpyGCEdq1db+S8h36GbQ8IwIlKVIBIgtCxBvTkOLNDrlpYhzsP1j26sH0uACJQry3yKjKCVlwmipbYHBD8Sg8lqDl1F/cDIdzjBH8AgpgTuGa1m62yljnFFr2au6NU4tsYf+ooz/z8y5MLB+8oBrlMcfGxKt6d/7NkUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EuFEOZDHiGxi3VUZ1XDlD+hZmsc38ugPNrDu5/DfX0E=;
+ b=lDGf0i7C+zxBA1d167VkKWSG4XNXWonRDCG1HIGyQ6CfFn0U08IFxfHV59xux4mvPla5O+3OI60Q0SeBU9GC6fck1+xXEZuUhj3oVuicybYQqLTJRP84uMsRG93Wdec6qmEsyDzIjYA9fhZ5Mmjma5C1KHMIfidby7bGOJYDPiei4RrpL4t2p/DWmDhM+Z8KCcn6fTFzU3WoBLcBVk+IeAorm7C8406MU7D6HUQOkI4K3n2p7X2wh7epa6Uulfrc9DM/2B8xRPnhUXSSSidfnlWFA+EX6bhTvMSW0WX+UNC0EnrchhgwqomeC5PvJ0j8u5ibeQq8taR3pnuu1+lA3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EuFEOZDHiGxi3VUZ1XDlD+hZmsc38ugPNrDu5/DfX0E=;
+ b=fRWoqcBo6bPaJUev2hWdU860xbFj3yb05h3X2xpp1vhdhpCK2IxW7DHGaYqcvumrPTXxKe5K+FmbKkXO4O5bvvQf3dl4WoCATf0SjohQYcND9vk8hI2UMxrVzQpyPA3qYda43ISMO8tfUg086GSRatEuR2lPpU3TIh8L6GfjgMs=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4659.namprd12.prod.outlook.com (2603:10b6:207:1d::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.29; Tue, 23 Feb
+ 2021 09:18:49 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3868.031; Tue, 23 Feb 2021
+ 09:18:49 +0000
+Subject: Re: [PATCH] drm/ttm/ttm_bo: make ttm_bo_glob_use_count static
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     ray.huang@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <1614070452-91054-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <5a2f3ed1-2867-25af-bb9b-51d99ef66d28@amd.com>
+Date:   Tue, 23 Feb 2021 10:18:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <1614070452-91054-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [46.189.55.12]
+X-ClientProxiedBy: ZR0P278CA0050.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1d::19) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.201.250.142] (46.189.55.12) by ZR0P278CA0050.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27 via Frontend Transport; Tue, 23 Feb 2021 09:18:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b61af509-0e2b-4d2a-6af7-08d8d7dc06d5
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4659:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB465929C8F24CC58EBCC3E38D83809@BL0PR12MB4659.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Kjxz54Qvqa4yFlCu7ED5xWVIqXbxjMzM2wYVvS/lJLYAF8nC1B4h4iBygApACf5di9bW83QOjlPSCkUIGgabuTD+MekP5U+9T4srF3bYM8/07yC1QmUrD761tNknJ4fbtqeefu5HJ3XZwaevYQ0mRFUBmbqvhg56SedmBR+yAlmUcFsH7uHqe0LZZ8RpLgLrnvHQvsbJE+3RU2hsRkPwbcIgeY6HzajSdUd1Yl4vDWh5IxL9vxmygBD5gato8wlykA0KawbIWabLw69ZPTfRRWHycQ2L8hwK/KIhF08dBU4WKbsToVm/WBJOjuHNJo2bt7x67QoCP1UFRTJLkX7OWthBo/5Ksk+iCpQ4Zn8zCb3EPDGNJcxI7eQeRWRK7U/7AuR96xB7yzyCQ9ltIhZKQVpt/m8MZGe9yUxl6xytbn7o0Yn7NzyEjczS7LPWP0xtXPCcUt0U9eUOaQpQR5HynPY3sZG8HWIf5uTdl2fvkF0kT8UiYFodFgCE6uWuY8uX1H7WQSCXxt0YiXWaoqoEGh+VRMeWOWQUxd32Os4tTlN+6boKrFkjBdHekcwdhY6qEWyU8GLPpIUQEiz3FDRPvEArLBtFTWTCTSvMkjvgN7I=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(136003)(396003)(366004)(376002)(186003)(16526019)(316002)(8936002)(31686004)(956004)(2616005)(2906002)(26005)(16576012)(6916009)(4326008)(6666004)(6486002)(83380400001)(478600001)(66476007)(4744005)(52116002)(66946007)(8676002)(36756003)(86362001)(5660300002)(31696002)(66556008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?R0tXTHUzL0F1WkRDYVdOR2hZS0EzcmlZalY1RzdoY1pkOCtzSzhTaktVMlo4?=
+ =?utf-8?B?R28yeERJVVJoeEhmNDZ6NWJuc2xoUy9EWXd4b3VtUU9KYkd6d2tVYXRHTk5q?=
+ =?utf-8?B?aUREc1hqSG1oR0hWUmdjYlBDM3o0OE9UOTZiWTZFeTlNSERFRERMUTNpUFcy?=
+ =?utf-8?B?cjU5dk1hU3A2c0ttMnJnUzJTYlhXOGs0NURlNW9ERXU4Y3FPcUpTQTU0dGdv?=
+ =?utf-8?B?QTB1TUo4QnBubDBndm9lNGFFZ3JtZDJGUi90akV4RHg4blpDc0ZuaHIwaThJ?=
+ =?utf-8?B?RStKekFhU3Q2NHVhMCtib3o1bjZxdlZDZ2QzczhkVEVYZG5FQ2lqMTNzcTNn?=
+ =?utf-8?B?TDBmcmNvdWRyejZsYzZSSUhSVWxIUGRiU3YxTTU5enhWOWF0N2lLQk1RNHFi?=
+ =?utf-8?B?M1ZYdFEvcWpxTkQvRmFlNm55WFIxYW9WRFlHa1dCMGw4MjY3M0FaOTE2eE5W?=
+ =?utf-8?B?YXRPTS84ak9nY2NVenRkWjRYYXhveUhvaTdpZWdyYjdOZzl3Y0tMQ3dWdTV2?=
+ =?utf-8?B?TEFzcTZKR1Z1ZDNuWXdXZ280SElhYlhGWnJqYkJ1dGRCYk1UeHd1TW5QY3Zz?=
+ =?utf-8?B?ZFVZQWJ0bXk5cmFQNzVpRWxMakIwOUhCNmFheWZWQ1FBblQxZUQvR0JOcUVs?=
+ =?utf-8?B?c3Ezb0QzZ2t2NXhSbnRDOWhqY0tXL1ZTUElsakpKQ2I1QnFwb2JTVmRGcWpa?=
+ =?utf-8?B?aWw3N3pnaTBKSWdML1FNVGI2cTZubDlEeG1JMUE0NUFadzYzNUtuaWpqbGg4?=
+ =?utf-8?B?VmJUS016WFJQNTZEeFVDUW90V1BPNGF0MFk3QVF5NC9pbUV1U3RiUFdRb2lT?=
+ =?utf-8?B?d3EyaHZGQWNMRkFObjdrc3B4b3BwTWFEUXJxUDJEVjhBLytVMFA5cHNkU2w4?=
+ =?utf-8?B?VXp4TTEyV3lSbGpvb0tIczdNdFBmWU1CemxXUWw1TVV1NTFlSUxnUWtvYmVy?=
+ =?utf-8?B?TmNHRHFhSU03YU1yNzZxczVRcFJ5dWFlaExPazhkMXBKbU1OM050aDlLbnJO?=
+ =?utf-8?B?WHNEdCtCOUdqcmkyUUExMmV4NmxROWF2UmZ4WDFZN2VSYkhKRjBCOExIUytJ?=
+ =?utf-8?B?Yk0zQzhCZXZIN21PZzdOaGRSVTBZR3Vpd3ExQ1c2c1p5cTRJV3FRc2dmSW1q?=
+ =?utf-8?B?aUhxcnRUNjhuREZhUTZ3VGtJdGV4VXdRTU92clRaSWZKQkErOEowU1ZNRXdz?=
+ =?utf-8?B?MzFiTDVJR3N5TERuRHRVcUJ2SFN6U2JRZ256L2Nnb00xcGJRcWFYZ1lHaFhB?=
+ =?utf-8?B?VTVpT0RYK3Z2anVUM0t4dmlrdzNObHRhcmUzNWxTNXVob1ZJLzJKSDljbzI4?=
+ =?utf-8?B?eldyWkdWRjJyVnV4OGhVNHdqbEFQRTlvb2xqWlBYT2tLY3A0N05rK2VDQ0t3?=
+ =?utf-8?B?QmJPc1p2aHJicStIV2ExdXlNZVVPTml1R2RMS0J1REY2eWtaOE1mZ0JIcnFX?=
+ =?utf-8?B?T05ZdmdZbDd2c1JmSnFSMjYrUE43Rk1teVB3K2J5aVVxWWIrZVRyQUtrRzd5?=
+ =?utf-8?B?TVU5RFB1ODk4VjB6QldTelVNenNMcnBBbVpMc2VnYXhXNWZKNnBFNkMybzI0?=
+ =?utf-8?B?RThndU5DWVdTbzFjSVFzNFZlTHU2bzlCNUl5dmhLOEQ4WmQyOVBnYkpaRndi?=
+ =?utf-8?B?b2JHVDZJZU85M3lVR1hKdXVTVThJMG1JWnIrNWhDeGNKR3l6NWJJbFM5a3Y0?=
+ =?utf-8?B?S3h2VEFLRi9vclQxS0xYWnBGYjBQR1puUC9xQytabUdhZVRaajBhaThjM1k2?=
+ =?utf-8?Q?444JORB0/BWfrfTbxMGg4Umdktl6yPtLmaka2Dj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b61af509-0e2b-4d2a-6af7-08d8d7dc06d5
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2021 09:18:48.8717
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DFcrQXKcCg1+9sXUHtYumfwUO6x2+SPuG5JMXSkyKVaIdQ5+VW5v4o8lLNjTX+YB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4659
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22.12.20 16:55, Martin Kepplinger wrote:
-> On 22.12.20 16:35, Laurent Pinchart wrote:
->> Hi Martin,
->>
->> On Tue, Dec 22, 2020 at 03:06:28PM +0100, Martin Kepplinger wrote:
->>> On 10.12.20 17:04, Laurent Pinchart wrote:
->>>> On Thu, Dec 10, 2020 at 02:12:30PM +0100, Martin Kepplinger wrote:
->>>>> On 10.12.20 13:17, Laurent Pinchart wrote:
->>>>>> On Thu, Dec 10, 2020 at 11:24:00AM +0200, Laurent Pinchart wrote:
->>>>>>> On Thu, Dec 10, 2020 at 09:17:48AM +0100, Martin Kepplinger wrote:
->>>>>>>> hi,
->>>>>>>>
->>>>>>>> TL;DR: did you use the NXP "mx6s_capture" csi bridge driver with 
->>>>>>>> other
->>>>>>>> cameras?
->>>>>>>
->>>>>>> I've recently worked on camera support for i.MX8MM (whose camera IP
->>>>>>> cores are, if not identical, very similar to the i.MX8MQ's). The 
->>>>>>> least I
->>>>>>> can say is that it was painful :-(
->>>>>>>
->>>>>>> I'm using an MT9M114 sensor, which can produce RAW8, RAW10 and 
->>>>>>> YUV and
->>>>>>> has a CSI-2 interface. My first use case is to capture RAW10, which
->>>>>>> isn't supported by the mx6s_capture driver.
->>>>>
->>>>> so did you successfully use the NXP mx6s_capture driver with that 
->>>>> sensor
->>>>> too?
->>>>
->>>> I haven't tried. The mx6s_capture driver and the mainline driver 
->>>> share a
->>>> similar architecture, as they came from the same code base. They have
->>>> diverged, with the  mainline driver receiving bug fixes and new
->>>> features, and my large no-yet-upstreamed patch series adds lots of 
->>>> fixes
->>>> that are required for the mt9m114 driver to work with the driver. For
->>>> that reason, I've considered that porting the mt9m114 driver to the NXP
->>>> mx6s_capture, and fixing the same issues in the mx6s_capture driver 
->>>> than
->>>> were present in the mainline driver, would require lots of time for
->>>> likely very little gain.
->>>>
->>>> That being said, I've compared the two drivers, and I haven't seen
->>>> anything in mx6s_capture that would address the specific issues I'm
->>>> facing. I've ordered yesterday an i.MX8MM EVK with an OV5640 camera
->>>> module, and I will test those with the mainline driver. If they don't
->>>> work, and assuming the NXP kernel driver works on that platform, I'll
->>>> have two code bases to compare.
->>>>
->>>>>>>> I try to use a CSI2 camera (hi846 I'm writing a driver for) on 
->>>>>>>> imx8mq:
->>>>>>>> Using NXP's CSI bridge driver
->>>>>>>> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er 
->>>>>>>>
->>>>>>>> as well as the CSI driver itself:
->>>>>>>> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.0_8dxlphantom_er 
->>>>>>>>
->>>>>>>> works fine when using the ov5640 camera with this driver:
->>>>>>>> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/ov5640_mipi_v2.c?h=imx_5.4.0_8dxlphantom_er 
->>>>>>>>
->>>>>>>>
->>>>>>>> (I realize there is a CSI bridge driver in staging, but that 
->>>>>>>> need more
->>>>>>>> work to be actually used. Of course after this the goal is to 
->>>>>>>> fix and
->>>>>>>> use it; and mainline a CSI phy driver too.)
->>>>>>>
->>>>>>> I have lots of patches for this driver, which I've developed on 
->>>>>>> i.MX7D
->>>>>>> for a separate project. I'd like to mainline them, but this is 
->>>>>>> blocked
->>>>>>> by one last issue that I haven't been able to solve yet. In a 
->>>>>>> nutshell,
->>>>>>> the CSI writes two consecutive frames in each buffer, overflowing 
->>>>>>> the
->>>>>>> allocated memory. The registers that control the buffer size seem 
->>>>>>> to be
->>>>>>> programmed correctly as far as I can tell. I've reported this 
->>>>>>> issue to
->>>>>>> NXP but haven't received any feedback yet.
->>>>>
->>>>> that's different from where I am. So you don't get any interrupt 
->>>>> (EOF or
->>>>> other) when only *one* frame is written into one buffer?
->>>>
->>>> I don't get any FB1_DMA_DONE or FB2_DMA_DONE interrupt at least. I
->>>> haven't checked other interrupts. I thus get half of the frame rate. If
->>>> I configure the CSI_CSIIMAG_PARA register with half of the actual image
->>>> height, buffers then contain a single image and the frame rate goes to
->>>> the expected value. That gives me a workaround, but without
->>>> understanding the root cause, I'm worried that just halving the height
->>>> would introduce other breakages.
->>>
->>> Hi Laurent,
->>>
->>> Thanks a lot, exchanging things this way alone is much appreciated. I'll
->>> give you detailed feedback on the staging drivers later - I tried
->>> running them, they probe but still a (gstreamer) stream would not start.
->>> But most all of your addition make a lot of sense.
->>>
->>> Just so you know, to emphasize that once more: I'm still on the nxp
->>> drivers (yes, they are very similar) just because the ov56 cam works
->>> with them over here.
->>
->> I've recently bought an i.MX8MM EVK, with the OV5647 camera module, and
->> when I try to capture images, with the NXP kernel, I just don't get any.
->> *sigh* I'll have to debug that.
-> 
-> oh you have it already. very good.
-> 
-> I guess the nxp kernel directly *should* work, but I use a kernel based 
-> on v5.9.X and include the drivers like so:
-> https://source.puri.sm/Librem5/linux-next/-/commit/ed8f567432d776d21cb7160c03e3272826a5f316 
-> 
-> https://source.puri.sm/Librem5/linux-next/-/commit/8d93a2cfd485d404741560dcb2f22da548f54ebc 
-> 
-> 
->>
->>> The main problem I have is that, as soon as I try
->>> to use a different pixelformat than V4L2_PIX_FMT_YUYV that basically
->>> nothing works anymore. userspace stops to "be interested" pretty soon.
->>>
->>> If I do (wrongly) use that pixelformat, I do get (only) one frame (dma)
->>> completed, the usual way.
->>>
->>> And when I break the ov56 by using a wrong pixelformat in mx6s_capture
->>> (nxp bridge driver), I get equally get only one frame (dma) completed 
->>> there.
->>>
->>> How can I make this thing use a different pixelformat (by setting the
->>> media bus format in the sensor driver)?
->>
->> All the components have to support the format you want to capture. This
->> includes the CSI driver, the MIPI_CSI driver, and the OV5647 driver. The
->> pixel format only matters in the CSI driver, for the other two it's the
->> media bus format that matters. To capture raw bayer data, you'll first
->> need to extend the OV5640 driver to support the corresponding media bus
->> format (and of course configure the sensor to output that format), then
->> the MIPI_CSI driver to support that media bus format as well, and
->> finally the CSI driver.
-> 
-> ok, the sensor I work with outputs raw bayer only, and that sounds like 
-> I should pay more attention to the mipi csi driver.
-> 
-> that links to my experiments I occasionally update:
-> https://source.puri.sm/martin.kepplinger/linux-next/-/commits/hi846
-> 
->>
->>> thanks again for sharing your code early. have a nice rest of the year,
->>
-> 
-> thanks,
->                                 martin
+Am 23.02.21 um 09:54 schrieb Jiapeng Chong:
+> Fix the following sparse warning:
+>
+> drivers/gpu/drm/ttm/ttm_bo.c:53:10: warning: symbol
+> 'ttm_bo_glob_use_count' was not declared. Should it be static?
 
-hi Laurent, how are you? Am I right in that you tried to run the ov5640 
-mainline driver with the CSI bridge staging driver on imx8mq? Which mipi 
-driver would you then use? Did you have progress in that area and in 
-resolving things in order to push some of your changes out?
+IIRC we already have a patch for this on the mailing list and the mutex 
+can be static as well.
 
-I'm still struggling with the different sensor I want to use on imx8mq 
-(hi846) and I still use the nxp bsp drivers for mipi and csi bridge:
+Christian.
 
-I was able to add and fix a few things and get some kind of image at 
-least, but there's still definitely some sizes or timings wrong (in 
-every resolution mode I think). 1280x720 shows it clearly as the image 
-looks "almost" normal only when I resize it to 916 pixel width. Also, it 
-"shifts" with later frames. For a few images of this, see
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index b65f4b1..107dd13 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -50,7 +50,7 @@
+>    * ttm_global_mutex - protecting the global BO state
+>    */
+>   DEFINE_MUTEX(ttm_global_mutex);
+> -unsigned ttm_bo_glob_use_count;
+> +static unsigned ttm_bo_glob_use_count;
+>   struct ttm_bo_global ttm_bo_glob;
+>   EXPORT_SYMBOL(ttm_bo_glob);
+>   
 
-https://source.puri.sm/Librem5/linux-next/-/issues/43#note_143875
-
-I just wanted to describe the above just in case you've seen something 
-like that during your experiments with sensors and can point me to 
-places to look at. I do think that the SoC side should be ok now (but 
-still now 100% sure), but many sensors are similar and maybe you have 
-ideas there too.
-
-anyways, thanks for looking at this and as soon as I have a satisfying 
-image with my current setup, I'll switch to the staging csi driver. But 
-there's no driver for the mipi ("phy") in staging for imx8mq, right?
-
-thanks!
-
-                               martin
