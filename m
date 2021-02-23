@@ -2,69 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4067B322B77
-	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 14:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D691322B7E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 14:32:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbhBWN3F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 08:29:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
+        id S232923AbhBWNb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Feb 2021 08:31:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232755AbhBWN3C (ORCPT
+        with ESMTP id S232786AbhBWNb6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 08:29:02 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8F1C061786
-        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 05:28:22 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id do6so34577686ejc.3
-        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 05:28:22 -0800 (PST)
+        Tue, 23 Feb 2021 08:31:58 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A14B7C061786
+        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 05:31:12 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id hs11so34623558ejc.1
+        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 05:31:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4QXVeEw/os+oreDi54biJMn4AGyTi4c2/3fA9dCJcKg=;
-        b=tTHqcYbgCj0lm5qFIfVhiTQxxsofWaIlXMSjAjAxF9mgWtbwXysoO+o697Tq0tJoz9
-         1YfJbuPgqxr5ErmUPkegOgUZw+JKLrlR42ZLakhfCuPYyWjSSxXB5Ku4w3aqKoZkzmTJ
-         iw5Fi/OevXo2I315Bmb/m67FnyeH5nxbxyAe1AuwJvsgXBi6QFoaSa+TERIBJzK2q4N9
-         YM8uVnxTAUuCTcaakVHbHsSw0fyd3yeC9GxvOJCXDFta4FXllZZdMCTHJ6ApJndKYr6Z
-         PX4HYraQOI9iN4g0EFgslLcM4D59A91tqgiKUThLiNDVe0UzXNYoaNNWNBZz+Avg2DsY
-         cETw==
+        bh=eQqACH5wA5/XNvPJCmk+d9kYpIkYrAJTALp7ggWryWs=;
+        b=CVsJKtYKQ1nUiJ4Plgz+P61EEhEmkZOMlMDI2x4WQwANJ+nsgwqp7kWkB4YYgOB7cZ
+         Bbcu7sNbls7z7iUIGDaMqXqRKmic27S2ovSeYGmoFNoaE6YC/A3oFRc1sGVXQTkJRvnl
+         RvMBhez5EE9W97YnDl1kxNi4QF4vl6TzbGKQAgASn0Q0tf9/9f512Wpc+MYpSanHYoP8
+         p2eUTXv1h3/lGcEPqumFShyiNM2xsM+s2RVsJS8ixKOZPwYSu12CvSGbiiJNcFV5OK4t
+         0l9od02Yd4Z5tLvaRJW70R5XPyin3cG0nr9u9gjyCGZ+A+B6erph1vc4uL9WyiSLxINX
+         8eww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4QXVeEw/os+oreDi54biJMn4AGyTi4c2/3fA9dCJcKg=;
-        b=SKwR9BNT/J12Qk4MT9ZNZi0hrA1rOhuNlp7HrB3x2Jvj7o5XrmKA0DWr0dvlc1N5Gj
-         vq2yKrCDOcmoqQxUoD99slhXdeNpfNDYh4XBmcVAkB7IwUBA6ovsGPq5iitw94OJhQ/S
-         oST0BAoM5dVheI2UB9ZahvJloaD1RKR3H1zeuMxl9Q6ahWeOgpBNGYUi9k5BR4PztXgP
-         6NVvkCPKaPrqd7O5qAx26Mwq5giYGJejy+w2pJAxfdtO0QG38sU/tCzvRHA6Uj/Z1a/z
-         8inNct5bOVWyenDAQ0Szyy5s6RxsSZfdd4MEMgverinsTrXbOmRrxHACn9oU3QArS8he
-         aw3Q==
-X-Gm-Message-State: AOAM5315FOlW36PDtKDf29vkDaBzCyTGhUuJUeqQQNVh8ycawhmJyYw5
-        MrO9CTmByH7NkvFKzs+W5WEuJQ==
-X-Google-Smtp-Source: ABdhPJy4T48Ih1NE2dSBNVeXlLgxuBmEKkaDWG5/bNSjl3xEeNG7qwC+5XVyRQLxLY1JUQms9kGOKQ==
-X-Received: by 2002:a17:906:c210:: with SMTP id d16mr21931848ejz.187.1614086901236;
-        Tue, 23 Feb 2021 05:28:21 -0800 (PST)
+        bh=eQqACH5wA5/XNvPJCmk+d9kYpIkYrAJTALp7ggWryWs=;
+        b=hhcE6ZOVvfEZ0iN/ZxInaT/CWUzArHaC1j5jVJ2ImN6PeXNMM6xhflN5Xw6t0HxhS7
+         cXtM6j1BBy8MxSbd5e1g1ZwBWKyF0r8mMs0r6mRZPd9ZaaewPC39y/TOMu7NvkMez74E
+         F4xrFUoRHRYahy5/9kQYe+vL08agereWRSMiL9kWS87LpB58tWa2V2CqADJcy1uooVii
+         iWhEYOX1sOf0CrjwOhITkVd/C6HFzpc7dlwOO92fw1qPHg5rLweok+GiObMFcwSSBy4p
+         OizlR7wKeMiQI2c21RixVg7t0jOwf4khrhFYVRPN22xVCcddLnVUuOn5EKdrtwHdrXZt
+         iycQ==
+X-Gm-Message-State: AOAM533VJmaTeWDYJSWkyNjl8ojuI7bdSXWiiZjpz9xF9TpPmAFkcStx
+        lQXLTc5TuEr+JOe35UDCdyP0wg==
+X-Google-Smtp-Source: ABdhPJwcavR/CJwC/M3I/FmIAbkSiigT0YMtAZFwLo09Gq/EH1O55lTVjPeeR2Sn9R/wygFbuc9MtA==
+X-Received: by 2002:a17:907:373:: with SMTP id rs19mr13426391ejb.341.1614087071303;
+        Tue, 23 Feb 2021 05:31:11 -0800 (PST)
 Received: from [192.168.0.4] ([84.238.208.199])
-        by smtp.googlemail.com with ESMTPSA id o1sm5635425eds.26.2021.02.23.05.28.20
+        by smtp.googlemail.com with ESMTPSA id bz25sm6262243ejc.97.2021.02.23.05.31.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Feb 2021 05:28:20 -0800 (PST)
-Subject: Re: [PATCH 05/25] media: venus: core: Add io base variables for each
- block
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        stanimir.varbanov@linaro.org, agross@kernel.org,
+        Tue, 23 Feb 2021 05:31:11 -0800 (PST)
+Subject: Re: [PATCH 06/25] media: venus: hfi,pm,firmware: Convert to block
+ relative addressing
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, agross@kernel.org,
         bjorn.andersson@linaro.org, mchehab@kernel.org,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Cc:     dikshita@codeaurora.org, jonathan@marek.ca, vgarodia@codeaurora.org
 References: <20210222160300.1811121-1-bryan.odonoghue@linaro.org>
- <20210222160300.1811121-6-bryan.odonoghue@linaro.org>
+ <20210222160300.1811121-7-bryan.odonoghue@linaro.org>
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <e10226f5-a028-4b0a-c5ac-d0acc4fb97e0@linaro.org>
-Date:   Tue, 23 Feb 2021 15:28:20 +0200
+Message-ID: <2654fb29-d904-30da-17fa-8bf63acf9c2e@linaro.org>
+Date:   Tue, 23 Feb 2021 15:31:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210222160300.1811121-6-bryan.odonoghue@linaro.org>
+In-Reply-To: <20210222160300.1811121-7-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,21 +74,26 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 2/22/21 6:02 PM, Bryan O'Donoghue wrote:
-> New silicon means that the pre-determined offsets we have been using
-> in this driver no longer hold. Existing blocks of registers can exist at
-> different offsets relative to the IO base address.
+> An upcoming silicon change places a number of existing blocks within the
+> Venus at different relative offsets to the base address of IO region.
 > 
-> This commit adds a routine to assign the IO base hooks a subsequent commit
-> will convert from absolute to relative addressing.
+> In order to handle this difference this patch changes the address offsets
+> of the registers to function as offsets relative to the relevant sub-block
+> of registers within the IO region not the base address of the IO region.
 > 
+> As a result of this change venus_readl() and venus_writel() are deleted.
+> 
+> Co-developed-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  drivers/media/platform/qcom/venus/core.c | 12 ++++++++++++
->  drivers/media/platform/qcom/venus/core.h | 10 ++++++++++
->  2 files changed, 22 insertions(+)
+>  drivers/media/platform/qcom/venus/firmware.c  | 28 +++----
+>  drivers/media/platform/qcom/venus/hfi_venus.c | 82 ++++++++++---------
+>  .../media/platform/qcom/venus/hfi_venus_io.h  | 80 +++++++++---------
+>  .../media/platform/qcom/venus/pm_helpers.c    | 12 +--
+>  4 files changed, 105 insertions(+), 97 deletions(-)
 
 Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
 
 -- 
 regards,
