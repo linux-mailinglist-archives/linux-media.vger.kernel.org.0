@@ -2,172 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C57DD322A3C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 13:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32B57322A5B
+	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 13:16:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232520AbhBWMFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 07:05:19 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36431 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232817AbhBWMCE (ORCPT
+        id S232467AbhBWMNa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Feb 2021 07:13:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232417AbhBWMNa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 07:02:04 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id EWNHlxmb0fIMiEWNLluGpF; Tue, 23 Feb 2021 13:01:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1614081671; bh=1hLmo70e6QdzywjzHOXuJ1hUlzuPjRX05cJRBwMEB6I=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FMCaBCmqpEBnU3Q9S/jXlcwisFIRrO1n6dtWcMQai0POjdZLnNfVQ+L9melF6apPF
-         fdTAJtLb1mG3bftbGTR1PL6HW5ghoRIsi6SJQaARvtoaAwU5K4eb3kg1tNWluwe5G7
-         iyK400JCQaCqA2SLekAe3Lqk5XOSK8gDBfbUaAztPwKTOczWVB9L2Lb+HaWbo/n00G
-         S4JR25FDp0hixtQwPX+SliWlolYnrZJsUxY5hFKibpC/dcjywWZqgf6T7OPqXOgID6
-         mtUc/o6IdN4HebQc3vQqL5kY8l9oIodDWB/lfRQ1l6j5/Ylrxb5hx/Gf6ExJmsgXk5
-         Q3cKPeWgG/E7Q==
-Subject: Re: [PATCH v2] media: i2c: adv7511: remove open coded version of
- SMBus block read
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20210127103357.5045-1-wsa+renesas@sang-engineering.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <bea536b1-9d81-3f41-8ca5-7fb075422290@xs4all.nl>
-Date:   Tue, 23 Feb 2021 13:01:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Tue, 23 Feb 2021 07:13:30 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F19C06174A
+        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 04:12:49 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 091B0C63BD; Tue, 23 Feb 2021 12:12:46 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1614082367; bh=szYDrfd/Twv3JzfO0cEnnMKzARXRrNGP+S07ioLfsfM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GUmFi2cF8GgrEDycqoOB8kABVCtogPhFp/tqwEfbm7X8453i7FeVFYdGqBZhJQbZ1
+         ZX3XNNk97UzTzcSC4Yt2pBUnx6UAT6ICAWArq8On5jpFws9F7BfShdZnBIZUNpL5zF
+         upEGKXkR4a3Bnk8P9hWImEIXBiiESoYnMAdtmSMXwd60E665cdwYBMCXQQ05wKOE57
+         BhQcuBfaxj19JRKwWgXBM0D58rEPjVwVJvGDmWMyhE6AjgBz3yKczwx70eHlljsSx4
+         SxE3t4fJ08AhBPHfQVYyXhEul84rdqyJ6gm6ioPzhwEHKxi2yL5E9CgkYd7Pf3g/hH
+         Zbs4W7klyLmbg==
+Date:   Tue, 23 Feb 2021 12:12:46 +0000
+From:   Sean Young <sean@mess.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCHv2] media/rc: compile rc-cec.c into rc-core
+Message-ID: <20210223121246.GA8647@gofer.mess.org>
+References: <649aae66-ad57-5200-b707-4085b43eddc5@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20210127103357.5045-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKR18NfCtNTh2IebkSTudHoupJrjs8VOfJOF0Z3JLTiColv51DxZ8YAvJGv1w9wJqios3z5H6MotvoHhHMT+UJnj70vDYYbaT0GTm1gC9tEpsFeq5l27
- hufbUMuV245wzUpQXHGwCY0gohgtJhK0K/VxEzbUcTJi4DnBOq4SfD4wtGhV3bELmiwmwjeLjKgN6+Eh+l0K1RahuV6HKl6UX1K1VU6bbqi0CcDl/KU1JJ5u
- rdQnkNLnbohvBBhg3BIjDsghIHYZYEFV7YOL/BAV+IInTl8Ez5vQPJfEJ5GRuvb+FZFy0RTNtcD1qKUnl9YX58XCZkp2wuJMH1cHlZKd4f4=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <649aae66-ad57-5200-b707-4085b43eddc5@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
-
-On 27/01/2021 11:33, Wolfram Sang wrote:
-> The open coded version differs from the one in the core in one way: the
-> buffer will be always copied back, even when the transfer failed. Be
-> more robust: use the block read from the I2C core and propagate a
-> potential errno further to the sanity checks.
+On Tue, Feb 23, 2021 at 12:26:28PM +0100, Hans Verkuil wrote:
+> The rc-cec keymap is unusual in that it can't be built as a module,
+> instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
+> is set. This is because it can be called from drm_dp_cec_set_edid() via
+> cec_register_adapter() in an asynchronous context, and it is not
+> allowed to use request_module() to load rc-cec.ko in that case. Trying to
+> do so results in a 'WARN_ON_ONCE(wait && current_is_async())'.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
+> just compile this keymap into the rc-core module and never as a
+> separate module.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Fixes: 2c6d1fffa1d9 (drm: add support for DisplayPort CEC-Tunneling-over-AUX)
+> Reported-by: Hans de Goede <hdegoede@redhat.com>
 
-This looks good.
+This is correct. The patch isn't not going to win any beauty prizes, but
+I haven't had any bright ideas of how to do this in a nicer way.
 
-If you want to merge this, then you can add my:
+Thanks for writing the patch.
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-If you want me to take it, then just let me know and I'll queue it up for 5.13.
-
-Regards,
-
-	Hans
+Acked-by: Sean Young <sean@mess.org>
 
 > ---
+> Change since v1:
+> Fix copy-and-paste error: rc_core_exit() called rc_map_register() instead
+> of rc_map_unregister().
+> ---
+> diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
+> index 5bb2932ab119..ff6a8fc4c38e 100644
+> --- a/drivers/media/rc/Makefile
+> +++ b/drivers/media/rc/Makefile
+> @@ -5,6 +5,7 @@ obj-y += keymaps/
+>  obj-$(CONFIG_RC_CORE) += rc-core.o
+>  rc-core-y := rc-main.o rc-ir-raw.o
+>  rc-core-$(CONFIG_LIRC) += lirc_dev.o
+> +rc-core-$(CONFIG_MEDIA_CEC_RC) += keymaps/rc-cec.o
+>  rc-core-$(CONFIG_BPF_LIRC_MODE2) += bpf-lirc.o
+>  obj-$(CONFIG_IR_NEC_DECODER) += ir-nec-decoder.o
+>  obj-$(CONFIG_IR_RC5_DECODER) += ir-rc5-decoder.o
+> diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+> index b252a1d2ebd6..cc6662e1903f 100644
+> --- a/drivers/media/rc/keymaps/Makefile
+> +++ b/drivers/media/rc/keymaps/Makefile
+> @@ -21,7 +21,6 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+>  			rc-behold.o \
+>  			rc-behold-columbus.o \
+>  			rc-budget-ci-old.o \
+> -			rc-cec.o \
+>  			rc-cinergy-1400.o \
+>  			rc-cinergy.o \
+>  			rc-d680-dmb.o \
+> diff --git a/drivers/media/rc/keymaps/rc-cec.c b/drivers/media/rc/keymaps/rc-cec.c
+> index 3e3bd11092b4..068e22aeac8c 100644
+> --- a/drivers/media/rc/keymaps/rc-cec.c
+> +++ b/drivers/media/rc/keymaps/rc-cec.c
+> @@ -1,5 +1,15 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /* Keytable for the CEC remote control
+> + *
+> + * This keymap is unusual in that it can't be built as a module,
+> + * instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
+> + * is set. This is because it can be called from drm_dp_cec_set_edid() via
+> + * cec_register_adapter() in an asynchronous context, and it is not
+> + * allowed to use request_module() to load rc-cec.ko in that case.
+> + *
+> + * Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
+> + * just compile this keymap into the rc-core module and never as a
+> + * separate module.
+>   *
+>   * Copyright (c) 2015 by Kamil Debski
+>   */
+> @@ -152,7 +162,7 @@ static struct rc_map_table cec[] = {
+>  	/* 0x77-0xff: Reserved */
+>  };
 > 
-> Changes since v1:
-> * respect 'err' in more code paths
-> * updated comment
-> 
->  drivers/media/i2c/adv7511-v4l2.c | 58 ++++++++++++++------------------
->  1 file changed, 26 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
-> index a3161d709015..9183003ae22d 100644
-> --- a/drivers/media/i2c/adv7511-v4l2.c
-> +++ b/drivers/media/i2c/adv7511-v4l2.c
-> @@ -214,36 +214,25 @@ static inline void adv7511_wr_and_or(struct v4l2_subdev *sd, u8 reg, u8 clr_mask
->  	adv7511_wr(sd, reg, (adv7511_rd(sd, reg) & clr_mask) | val_mask);
->  }
->  
-> -static int adv_smbus_read_i2c_block_data(struct i2c_client *client,
-> -					 u8 command, unsigned length, u8 *values)
+> -static struct rc_map_list cec_map = {
+> +struct rc_map_list cec_map = {
+>  	.map = {
+>  		.scan		= cec,
+>  		.size		= ARRAY_SIZE(cec),
+> @@ -160,19 +170,3 @@ static struct rc_map_list cec_map = {
+>  		.name		= RC_MAP_CEC,
+>  	}
+>  };
+> -
+> -static int __init init_rc_map_cec(void)
 > -{
-> -	union i2c_smbus_data data;
-> -	int ret;
-> -
-> -	if (length > I2C_SMBUS_BLOCK_MAX)
-> -		length = I2C_SMBUS_BLOCK_MAX;
-> -	data.block[0] = length;
-> -
-> -	ret = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
-> -			     I2C_SMBUS_READ, command,
-> -			     I2C_SMBUS_I2C_BLOCK_DATA, &data);
-> -	memcpy(values, data.block + 1, length);
-> -	return ret;
+> -	return rc_map_register(&cec_map);
 > -}
 > -
-> -static void adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
-> +static int adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
->  {
->  	struct adv7511_state *state = get_adv7511_state(sd);
->  	int i;
-> -	int err = 0;
->  
->  	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
->  
-> -	for (i = 0; !err && i < len; i += I2C_SMBUS_BLOCK_MAX)
-> -		err = adv_smbus_read_i2c_block_data(state->i2c_edid, i,
-> +	for (i = 0; i < len; i += I2C_SMBUS_BLOCK_MAX) {
-> +		s32 ret;
-> +
-> +		ret = i2c_smbus_read_i2c_block_data(state->i2c_edid, i,
->  						    I2C_SMBUS_BLOCK_MAX, buf + i);
-> -	if (err)
-> -		v4l2_err(sd, "%s: i2c read error\n", __func__);
-> +		if (ret < 0) {
-> +			v4l2_err(sd, "%s: i2c read error\n", __func__);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
->  }
->  
->  static inline int adv7511_cec_read(struct v4l2_subdev *sd, u8 reg)
-> @@ -1668,22 +1657,27 @@ static bool adv7511_check_edid_status(struct v4l2_subdev *sd)
->  	if (edidRdy & MASK_ADV7511_EDID_RDY) {
->  		int segment = adv7511_rd(sd, 0xc4);
->  		struct adv7511_edid_detect ed;
-> +		int err;
->  
->  		if (segment >= EDID_MAX_SEGM) {
->  			v4l2_err(sd, "edid segment number too big\n");
->  			return false;
->  		}
->  		v4l2_dbg(1, debug, sd, "%s: got segment %d\n", __func__, segment);
-> -		adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
-> -		adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
-> -		if (segment == 0) {
-> -			state->edid.blocks = state->edid.data[0x7e] + 1;
-> -			v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n", __func__, state->edid.blocks);
-> +		err = adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
-> +		if (!err) {
-> +			adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
-> +			if (segment == 0) {
-> +				state->edid.blocks = state->edid.data[0x7e] + 1;
-> +				v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n",
-> +					 __func__, state->edid.blocks);
-> +			}
->  		}
-> -		if (!edid_verify_crc(sd, segment) ||
-> -		    !edid_verify_header(sd, segment)) {
-> -			/* edid crc error, force reread of edid segment */
-> -			v4l2_err(sd, "%s: edid crc or header error\n", __func__);
-> +
-> +		if (err || !edid_verify_crc(sd, segment) || !edid_verify_header(sd, segment)) {
-> +			/* Couldn't read EDID or EDID is invalid. Force retry! */
-> +			if (!err)
-> +				v4l2_err(sd, "%s: edid crc or header error\n", __func__);
->  			state->have_monitor = false;
->  			adv7511_s_power(sd, false);
->  			adv7511_s_power(sd, true);
+> -static void __exit exit_rc_map_cec(void)
+> -{
+> -	rc_map_unregister(&cec_map);
+> -}
+> -
+> -module_init(init_rc_map_cec);
+> -module_exit(exit_rc_map_cec);
+> -
+> -MODULE_LICENSE("GPL");
+> -MODULE_AUTHOR("Kamil Debski");
+> diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+> index 1fd62c1dac76..4768b1e9ffd1 100644
+> --- a/drivers/media/rc/rc-main.c
+> +++ b/drivers/media/rc/rc-main.c
+> @@ -163,6 +163,10 @@ static struct rc_map_list empty_map = {
+>  	}
+>  };
 > 
-
+> +#ifdef CONFIG_MEDIA_CEC_RC
+> +extern struct rc_map_list cec_map;
+> +#endif
+> +
+>  /**
+>   * scancode_to_u64() - converts scancode in &struct input_keymap_entry
+>   * @ke: keymap entry containing scancode to be converted.
+> @@ -2069,6 +2073,9 @@ static int __init rc_core_init(void)
+> 
+>  	led_trigger_register_simple("rc-feedback", &led_feedback);
+>  	rc_map_register(&empty_map);
+> +#ifdef CONFIG_MEDIA_CEC_RC
+> +	rc_map_register(&cec_map);
+> +#endif
+> 
+>  	return 0;
+>  }
+> @@ -2078,6 +2085,9 @@ static void __exit rc_core_exit(void)
+>  	lirc_dev_exit();
+>  	class_unregister(&rc_class);
+>  	led_trigger_unregister_simple(led_feedback);
+> +#ifdef CONFIG_MEDIA_CEC_RC
+> +	rc_map_unregister(&cec_map);
+> +#endif
+>  	rc_map_unregister(&empty_map);
+>  }
