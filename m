@@ -2,164 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 571ED32292D
-	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 12:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2E09322974
+	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 12:27:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232231AbhBWLBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 06:01:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40662 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbhBWLAl (ORCPT
+        id S230459AbhBWL1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Feb 2021 06:27:14 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:58633 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230142AbhBWL1O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 06:00:41 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07AC9C061574
-        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 03:00:01 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id n8so22069321wrm.10
-        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 03:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TCS4m8CExYvTe3t96KtZUt4x3xd6xphRzxJvYQrl6d0=;
-        b=ZjevW08xduM4t42jQ1DyCffSj6Ta9vK771ojPnqVC8mG52e5xU5pgRMsQ2SYaLxqB8
-         Zy/eECBUqT2h9bBdYzWDjgl23ARS7aaIQYhZumA+xdYdV0T8LJLYolO1krGiQO/g2FL5
-         OpBVMheoTQ/VRbNgPiNx41pHgr7fKJMW6od48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TCS4m8CExYvTe3t96KtZUt4x3xd6xphRzxJvYQrl6d0=;
-        b=ABDyzLpAkQqCHs5ZRtmFxZD5LfpeE1YYvksOeYvc9VD1u1Uw+wLC93ncJx5hh18KcX
-         XTOVSxmqOW/psid9gu5MSDPpLqOg7CixCINICGVJzm3dYHuXVnJ1WN6YAVX/9h2d0Y94
-         xbiUUPfAAmtGbx0mYX5Tf+okrMBdTr6vREHRfmCVkz1MpkMiA/oWTvQ4q3zcr0jK0qNB
-         d6s0mtiPfeiFc1sEg32BRdl4GRnr8nrFIx/3/IWUUFUL59x4G3UumMH/eW1rkCt8mgcD
-         3EuvjuudZ1UWoSkAvt4STOuWCuKO/OKWcLTd5kR0pAFxyhjfCpOzLf+5eBHlxSBDhQNF
-         zuXA==
-X-Gm-Message-State: AOAM532wS3lNhzQ8EvWBF9sjKJ/Cba1Sc3SutPJ5+R3UGVKUCWCV+39o
-        NfU35kYTDod23lucUOO6GhIbJA==
-X-Google-Smtp-Source: ABdhPJxQTwE9MDYoC1XtAuV5pJybX2yCzZaTw3cJ1dfG+48vMaUJlukV+M6HYQAE2xkeIC/m6huYog==
-X-Received: by 2002:a5d:4ed1:: with SMTP id s17mr8180376wrv.402.1614077999813;
-        Tue, 23 Feb 2021 02:59:59 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id g9sm2196208wmq.25.2021.02.23.02.59.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Feb 2021 02:59:59 -0800 (PST)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for mmap
-Date:   Tue, 23 Feb 2021 11:59:50 +0100
-Message-Id: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.30.0
+        Tue, 23 Feb 2021 06:27:14 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id EVpklxYeMfIMiEVpnluAHr; Tue, 23 Feb 2021 12:26:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1614079591; bh=jBN2gv5rzPxKuOF7Tj8/gNVp3/UfAplnLQ51Tge0Qvk=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Rmn0Wtr40YeW9XQZyAKysow62QlACVtvdemEYDLrlYSZl4oDS2Oa0r0lJ2uHs6dr7
+         1O9ZXjkblZ8vIQb3+v68ZhyXUtW6VKmMy5iFHbi31slEcEvHKcmQMoIKWQrPz5lyzJ
+         cJwrXSmxUGgB+jOS5JRzItbCAps91LCZXLu4bALOCIn+UaK8OfqQqpFFecBgA1dRvr
+         S7Tb7VL8rjzLke2yGOYTfaJUOsdvA6e/FYTLnumd5LAogi/C5bRxWxRwGdLV4KAgcx
+         ItpwDXQiFE6WXtvWjkwMAOLVc5Au7VTWz7O0d1IxVfQb0r95+JA73DcJAtxbaFdhXA
+         +P9pa7gjS7dyw==
+To:     Sean Young <sean@mess.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCHv2] media/rc: compile rc-cec.c into rc-core
+Message-ID: <649aae66-ad57-5200-b707-4085b43eddc5@xs4all.nl>
+Date:   Tue, 23 Feb 2021 12:26:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNSLuQNzYKt0gdGq4QBb2KrpnquhDZW5ht4WxA/jG75EWQEfhcLFgP8hu7uh8tgIJD4I28zc7B03NbFf22YI6K+Hw0iIBCeMHtfKVujLkp/+cA6G1BEC
+ FlOq8zox2WGLnZA+4wTes4uMVBMawD/wQWr9K5goWVIX4mO2RfsLUlf22W6uyOnvUjKKboXbj65KcoLcJ9l+yjKqj5ygkuQYAYoa1ZCyAxC06GIf94YebeFI
+ nyIJHnNtRxseuYvSq2wv0A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tldr; DMA buffers aren't normal memory, expecting that you can use
-them like that (like calling get_user_pages works, or that they're
-accounting like any other normal memory) cannot be guaranteed.
+The rc-cec keymap is unusual in that it can't be built as a module,
+instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
+is set. This is because it can be called from drm_dp_cec_set_edid() via
+cec_register_adapter() in an asynchronous context, and it is not
+allowed to use request_module() to load rc-cec.ko in that case. Trying to
+do so results in a 'WARN_ON_ONCE(wait && current_is_async())'.
 
-Since some userspace only runs on integrated devices, where all
-buffers are actually all resident system memory, there's a huge
-temptation to assume that a struct page is always present and useable
-like for any more pagecache backed mmap. This has the potential to
-result in a uapi nightmare.
+Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
+just compile this keymap into the rc-core module and never as a
+separate module.
 
-To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
-blocks get_user_pages and all the other struct page based
-infrastructure for everyone. In spirit this is the uapi counterpart to
-the kernel-internal CONFIG_DMABUF_DEBUG.
-
-Motivated by a recent patch which wanted to swich the system dma-buf
-heap to vm_insert_page instead of vm_insert_pfn.
-
-v2:
-
-Jason brought up that we also want to guarantee that all ptes have the
-pte_special flag set, to catch fast get_user_pages (on architectures
-that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
-still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
-
-From auditing the various functions to insert pfn pte entires
-(vm_insert_pfn_prot, remap_pfn_range and all it's callers like
-dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
-this should be the correct flag to check for.
-
-References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
-Acked-by: Christian König <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 2c6d1fffa1d9 (drm: add support for DisplayPort CEC-Tunneling-over-AUX)
+Reported-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/dma-buf/dma-buf.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+Change since v1:
+Fix copy-and-paste error: rc_core_exit() called rc_map_register() instead
+of rc_map_unregister().
+---
+diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
+index 5bb2932ab119..ff6a8fc4c38e 100644
+--- a/drivers/media/rc/Makefile
++++ b/drivers/media/rc/Makefile
+@@ -5,6 +5,7 @@ obj-y += keymaps/
+ obj-$(CONFIG_RC_CORE) += rc-core.o
+ rc-core-y := rc-main.o rc-ir-raw.o
+ rc-core-$(CONFIG_LIRC) += lirc_dev.o
++rc-core-$(CONFIG_MEDIA_CEC_RC) += keymaps/rc-cec.o
+ rc-core-$(CONFIG_BPF_LIRC_MODE2) += bpf-lirc.o
+ obj-$(CONFIG_IR_NEC_DECODER) += ir-nec-decoder.o
+ obj-$(CONFIG_IR_RC5_DECODER) += ir-rc5-decoder.o
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index b252a1d2ebd6..cc6662e1903f 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -21,7 +21,6 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-behold.o \
+ 			rc-behold-columbus.o \
+ 			rc-budget-ci-old.o \
+-			rc-cec.o \
+ 			rc-cinergy-1400.o \
+ 			rc-cinergy.o \
+ 			rc-d680-dmb.o \
+diff --git a/drivers/media/rc/keymaps/rc-cec.c b/drivers/media/rc/keymaps/rc-cec.c
+index 3e3bd11092b4..068e22aeac8c 100644
+--- a/drivers/media/rc/keymaps/rc-cec.c
++++ b/drivers/media/rc/keymaps/rc-cec.c
+@@ -1,5 +1,15 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /* Keytable for the CEC remote control
++ *
++ * This keymap is unusual in that it can't be built as a module,
++ * instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
++ * is set. This is because it can be called from drm_dp_cec_set_edid() via
++ * cec_register_adapter() in an asynchronous context, and it is not
++ * allowed to use request_module() to load rc-cec.ko in that case.
++ *
++ * Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
++ * just compile this keymap into the rc-core module and never as a
++ * separate module.
+  *
+  * Copyright (c) 2015 by Kamil Debski
+  */
+@@ -152,7 +162,7 @@ static struct rc_map_table cec[] = {
+ 	/* 0x77-0xff: Reserved */
+ };
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index f264b70c383e..06cb1d2e9fdc 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -127,6 +127,7 @@ static struct file_system_type dma_buf_fs_type = {
- static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- {
- 	struct dma_buf *dmabuf;
-+	int ret;
- 
- 	if (!is_dma_buf_file(file))
- 		return -EINVAL;
-@@ -142,7 +143,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
--	return dmabuf->ops->mmap(dmabuf, vma);
-+	ret = dmabuf->ops->mmap(dmabuf, vma);
+-static struct rc_map_list cec_map = {
++struct rc_map_list cec_map = {
+ 	.map = {
+ 		.scan		= cec,
+ 		.size		= ARRAY_SIZE(cec),
+@@ -160,19 +170,3 @@ static struct rc_map_list cec_map = {
+ 		.name		= RC_MAP_CEC,
+ 	}
+ };
+-
+-static int __init init_rc_map_cec(void)
+-{
+-	return rc_map_register(&cec_map);
+-}
+-
+-static void __exit exit_rc_map_cec(void)
+-{
+-	rc_map_unregister(&cec_map);
+-}
+-
+-module_init(init_rc_map_cec);
+-module_exit(exit_rc_map_cec);
+-
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Kamil Debski");
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index 1fd62c1dac76..4768b1e9ffd1 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -163,6 +163,10 @@ static struct rc_map_list empty_map = {
+ 	}
+ };
+
++#ifdef CONFIG_MEDIA_CEC_RC
++extern struct rc_map_list cec_map;
++#endif
 +
-+	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
-+
-+	return ret;
+ /**
+  * scancode_to_u64() - converts scancode in &struct input_keymap_entry
+  * @ke: keymap entry containing scancode to be converted.
+@@ -2069,6 +2073,9 @@ static int __init rc_core_init(void)
+
+ 	led_trigger_register_simple("rc-feedback", &led_feedback);
+ 	rc_map_register(&empty_map);
++#ifdef CONFIG_MEDIA_CEC_RC
++	rc_map_register(&cec_map);
++#endif
+
+ 	return 0;
  }
- 
- static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
-@@ -1244,6 +1249,8 @@ EXPORT_SYMBOL_GPL(dma_buf_end_cpu_access);
- int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 		 unsigned long pgoff)
- {
-+	int ret;
-+
- 	if (WARN_ON(!dmabuf || !vma))
- 		return -EINVAL;
- 
-@@ -1264,7 +1271,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
--	return dmabuf->ops->mmap(dmabuf, vma);
-+	ret = dmabuf->ops->mmap(dmabuf, vma);
-+
-+	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
-+
-+	return ret;
+@@ -2078,6 +2085,9 @@ static void __exit rc_core_exit(void)
+ 	lirc_dev_exit();
+ 	class_unregister(&rc_class);
+ 	led_trigger_unregister_simple(led_feedback);
++#ifdef CONFIG_MEDIA_CEC_RC
++	rc_map_unregister(&cec_map);
++#endif
+ 	rc_map_unregister(&empty_map);
  }
- EXPORT_SYMBOL_GPL(dma_buf_mmap);
- 
--- 
-2.30.0
 
