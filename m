@@ -2,118 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 003E1322CC5
-	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 15:49:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91BE6322EA0
+	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 17:21:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232307AbhBWOt3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 09:49:29 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43834 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232997AbhBWOtX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 09:49:23 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 8AFB91F44D4B
-Message-ID: <f024535585fe5b248ca8cf7ca95c14ced746f9da.camel@collabora.com>
-Subject: Re: [PATCH v3 8/9] dt-bindings: media: nxp,imx8mq-vpu: Update
- bindings
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Rob Herring <robh@kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Peng Fan <peng.fan@nxp.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        devicetree@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Collabora Kernel ML <kernel@collabora.com>
-Date:   Tue, 23 Feb 2021 11:48:29 -0300
-In-Reply-To: <CAL_JsqJGZK2C8mcDiYa4yfKxf4sKykxSQ-Nfr4bi_u_OcAxW_Q@mail.gmail.com>
-References: <20210222122406.41782-1-benjamin.gaignard@collabora.com>
-         <20210222122406.41782-9-benjamin.gaignard@collabora.com>
-         <20210223003442.GA2516123@robh.at.kernel.org>
-         <25f30110-d655-2d77-d3b7-30c1c61f6965@collabora.com>
-         <CAL_JsqJGZK2C8mcDiYa4yfKxf4sKykxSQ-Nfr4bi_u_OcAxW_Q@mail.gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S233560AbhBWQUv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Feb 2021 11:20:51 -0500
+Received: from mail.horus.com ([78.46.148.228]:59085 "EHLO mail.horus.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233500AbhBWQUu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Feb 2021 11:20:50 -0500
+X-Greylist: delayed 418 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Feb 2021 11:20:50 EST
+Received: from [192.168.1.20] (62-116-60-6.adsl.highway.telekom.at [62.116.60.6])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "E-Mail Matthias Reichl", Issuer "HiassofT CA 2014" (not verified))
+        by mail.horus.com (Postfix) with ESMTPSA id 769536409C;
+        Tue, 23 Feb 2021 17:13:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=horus.com;
+        s=20180324; t=1614096788;
+        bh=LieZ7rDJJu7OX0Dn4iUwPkpYPwVNTCrqMHmVP/c2Bz0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=O6BLLBY9gMyFUizaclPLlNUm9r067co3IuLrRWQsDEhZpPYmyMY5HOLYQJ41898Tk
+         HXvyoHyWkwCgGuK4A8PfN98Q62DvH9stJ6tIjSMhn+Kurc0wpCPu4odxRd9/bCyNfn
+         U5+e2pwpMRE/jyDwYclUwEQganDLVGBYb0Skr15o=
+Received: by camel2.lan (Postfix, from userid 1000)
+        id B87C91C781A; Tue, 23 Feb 2021 17:13:07 +0100 (CET)
+Date:   Tue, 23 Feb 2021 17:13:07 +0100
+From:   Matthias Reichl <hias@horus.com>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org,
+        Juan =?iso-8859-1?Q?Jes=FAs_Garc=EDa?= de Soria 
+        <skandalfo@gmail.com>
+Subject: Re: [PATCH 0/6] media: ite-cir driver cleanups
+Message-ID: <20210223161307.GB10715@camel2.lan>
+References: <cover.1613989288.git.sean@mess.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1613989288.git.sean@mess.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi Sean,
 
-On Tue, 2021-02-23 at 08:31 -0600, Rob Herring wrote:
-> On Tue, Feb 23, 2021 at 2:04 AM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
-> > 
-> > 
-> > Le 23/02/2021 à 01:34, Rob Herring a écrit :
-> > > On Mon, Feb 22, 2021 at 01:24:05PM +0100, Benjamin Gaignard wrote:
-> > > > The current bindings seem to make the assumption that the
-> > > > two VPUs hardware blocks (G1 and G2) are only one set of
-> > > > registers.
-> > > > After implementing the VPU reset driver and G2 decoder driver
-> > > > it shows that all the VPUs are independent and don't need to
-> > > > know about the registers of the other blocks.
-> > > > Remove from the bindings the need to set all blocks register
-> > > > but keep reg-names property because removing it from the driver
-> > > > may affect other variants.
-> > > > 
-> > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > > ---
-> > > > version 2:
-> > > > - be more verbose about why I change the bindings
-> > > > Keep in mind that series comes after: https://www.spinics.net/lists/arm-kernel/msg875766.html
-> > > > without that review and ack it won't work
-> > > Better, but you've still mentioned nothing about breaking compatibility.
-> > > Why is that okay?
-> > 
-
-Indeed, the commit description should be clearer about breaking compatibility.
-
-> > Because this reg-names wasn't used before for this variant so remove it won't change anything.
+On Mon, Feb 22, 2021 at 10:43:23AM +0000, Sean Young wrote:
+> This should not be any functional changes, just various cleanups.
 > 
-> It is the reset changes in the driver that break. The driver
-> previously got the 'ctrl' registers whether it went by name or index,
-> right? With an old DTB and a kernel with the changes (and vice-versa),
-> you'll have nothing to handle the VPU resets because the VPU reset
-> node doesn't exist. It could work if the default state is not held in
-> reset.
+> Sean Young (6):
+>   media: ite-cir: remove unused fields
+>   media: ite-cir: set parent device
+>   media: ite-cir: use standard logging and reduce noise
+>   media: ite-cir: carrier and duty cycle can be set via ioctl
+>   media: ite-cir: move runtime information into driver data
+>   media: ite-cir: check for receive overflow
 > 
-> At least the removal of 'ctrl' registers belongs in the reset changes series.
-> 
-> 
+>  drivers/media/rc/ite-cir.c | 341 +++++++++----------------------------
+>  drivers/media/rc/ite-cir.h |  49 ++----
+>  2 files changed, 91 insertions(+), 299 deletions(-)
 
-Considering that FFMPEG patches that are required to support this driver
-are still floating around, and GStreamer's implementation is also still
-a bit under discussion, we are certain there aren't many upstreams users
-(leaving ChromiumOS aside which mostly care for Rockchip variants).
+I did a few tests with this series on top of 5.10.17 and so far
+everything looks fine with ITE8713 CIR.
 
-So, given the driver is in staging, and that there aren't users of the
-i.MX8MQ G1 variant just yet, I think we are safe breaking the compatibility
-(and I'm not taking it lightly).
+I could only test receiving (don't have a transmitter on that PC)
+and also couldn't test the carrier options (I'm using a demodulating
+TSOP receiver here), but your changes look sane to me.
 
-It would be important to detect an old devicetree and do some pr_warn about
-the driver not supporting it.
+so long,
 
-Thanks,
-Ezequiel
-
+Hias
