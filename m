@@ -2,92 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12DC4322BAE
-	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 14:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06766322C5D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Feb 2021 15:32:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232144AbhBWNsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 08:48:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbhBWNst (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 08:48:49 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B274C06174A
-        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 05:48:09 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id s11so25950936edd.5
-        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 05:48:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pcdzTD1mQUpMxVbu7Yow7YjbJsL+FPj0nXyj14+JGA4=;
-        b=JzspRlBxu5Ejd8AsD23/j+PjMTd/Exz24W+zl1qnmgR97nVKZwfAdppvQhWm9Xt+cD
-         dEAdSiMjQE2vXwCwSkEFfGx9b7q3v9vyQKmTUgh36vZ5PtAhvGpTERVp8Tm/AvHZdbaN
-         HES5Siqx/VNvD8+g+ZnllJ863XkWORTQXQUiM4kIiFEDTaYi7jWiVJJml9C5yHAJmnYW
-         T0sTA4col8KMZWYMLRp7BTfwJAJHBj/prgcp2RPTJtA73c/LV7gv8U8Y9T0NKCFdkjuK
-         vB0essXpfmfCL5+DFdalqykTYfbQZf5C/7CT0z0CuNX7/T567yevFK2ZCGowU+++62yM
-         SfPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pcdzTD1mQUpMxVbu7Yow7YjbJsL+FPj0nXyj14+JGA4=;
-        b=ilYNFWpApZY96rZKL7oG2ToQZHyXMGd3T+NfpSNdO8oGkewipSWnddcx43d7ZQ5fOA
-         ZdmQMiQ2dnFd9MlUC3hoKUlJmmhcSsOo8J7w8/9UpEdE6dGTGz8X/iKFiqnPjjEZkHjx
-         RIzsGFh5oVAM1i0CWUzdy1AwynTVIFWMDc8XxxEXaNxTlHeaShrVtbcyPTNgmsQ15kfO
-         i0+AVvSBuhRzavznluAMDCRFGLCJlOOG/qwy0jrdpXu3SR5/xhBwHgi1yMMU+B22f+lC
-         NVA2Mri2T6gMPWjV5ilYK6MLOaKl3H/sJK2BnGFGaLBvDIJOxwXi7m5BNLsGK7CGRONm
-         4BXA==
-X-Gm-Message-State: AOAM533U+tXPYWsuo4ic4mHqYmjLyrcvzTFCcblfjykkVdpGefT6mBxP
-        eW5tJi1Onqx+rCS7N8WwAt35LQ==
-X-Google-Smtp-Source: ABdhPJydkB2QqinC1dMaDgpVymT2bnxc0nfwaqDMPejrUa1A6QqByOG5kFL86py7Lp5Pvvrzm5JWMQ==
-X-Received: by 2002:a50:9d0b:: with SMTP id v11mr28994310ede.308.1614088087831;
-        Tue, 23 Feb 2021 05:48:07 -0800 (PST)
-Received: from [192.168.0.4] ([84.238.208.199])
-        by smtp.googlemail.com with ESMTPSA id gc17sm6929778ejb.89.2021.02.23.05.48.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Feb 2021 05:48:07 -0800 (PST)
-Subject: Re: [PATCH 03/25] media: venus: core: add sm8250 DT compatible and
- resource data
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     dikshita@codeaurora.org, jonathan@marek.ca, vgarodia@codeaurora.org
-References: <20210222160300.1811121-1-bryan.odonoghue@linaro.org>
- <20210222160300.1811121-4-bryan.odonoghue@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <99f9acb0-8c54-0f95-9c8c-e3729cdd7d8c@linaro.org>
-Date:   Tue, 23 Feb 2021 15:48:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S233075AbhBWOcJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Feb 2021 09:32:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50008 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232608AbhBWOcE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Feb 2021 09:32:04 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 582B064EC1;
+        Tue, 23 Feb 2021 14:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614090682;
+        bh=oqCJx8NHXStuqlV1NrC2dd7e7CMVlgeyC8oEC7KrlG0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=p2B2lsUBRUHMQNFYCxErtzkEFiHGphDbdtN+G9Z1KL0Od+TLCb52iwYAJdqum+PgU
+         Zf4xyqNbXwUKLnalc8pRRulVdsFBxpodn2mvpbb2CKBk01obkYCvpQvlTEhEO95Dtt
+         Gcq260nyEdsVrjBu3ExkixiFX7+XScq57aodHBD434enlAPaW5G8VmCQfKHIvzkX3E
+         EOomp0dz6XDte7O9k6vTuDRMPN5Us238cTFK3ZZ9uKy//EvDHmTI7/ioM/a9Q8LBQ4
+         L0I0MPFKXyqOmSLvFU+Y4Jb4so2rUjJuujJjPmXTty2oLK0kKdjEg0upNwPwPpKOeM
+         9jsuIFnV6R8Cg==
+Received: by mail-ed1-f49.google.com with SMTP id c6so26205528ede.0;
+        Tue, 23 Feb 2021 06:31:22 -0800 (PST)
+X-Gm-Message-State: AOAM530I1f1sOWCFVHy3p0KOPFqkxBSoKuWQSNVFVj7spywVZEkyyyo4
+        eC6JVKbngd7sHFrXzRNIRQkSgGF5QA1cvxpmGQ==
+X-Google-Smtp-Source: ABdhPJyYhIvQsC2FuZjzr5FowQAASKFykbjYyZN9ovf0Da99A769RxD3C30Z3RZmtSjSV1KoZikYqHKwpHOh5s+qPbE=
+X-Received: by 2002:a05:6402:164e:: with SMTP id s14mr15513878edx.62.1614090680626;
+ Tue, 23 Feb 2021 06:31:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210222160300.1811121-4-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210222122406.41782-1-benjamin.gaignard@collabora.com>
+ <20210222122406.41782-9-benjamin.gaignard@collabora.com> <20210223003442.GA2516123@robh.at.kernel.org>
+ <25f30110-d655-2d77-d3b7-30c1c61f6965@collabora.com>
+In-Reply-To: <25f30110-d655-2d77-d3b7-30c1c61f6965@collabora.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 23 Feb 2021 08:31:08 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJGZK2C8mcDiYa4yfKxf4sKykxSQ-Nfr4bi_u_OcAxW_Q@mail.gmail.com>
+Message-ID: <CAL_JsqJGZK2C8mcDiYa4yfKxf4sKykxSQ-Nfr4bi_u_OcAxW_Q@mail.gmail.com>
+Subject: Re: [PATCH v3 8/9] dt-bindings: media: nxp,imx8mq-vpu: Update bindings
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Peng Fan <peng.fan@nxp.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        devicetree@vger.kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Could you move this patch at the end of the series where the support for
-v6xx will be fully functional?
+On Tue, Feb 23, 2021 at 2:04 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 23/02/2021 =C3=A0 01:34, Rob Herring a =C3=A9crit :
+> > On Mon, Feb 22, 2021 at 01:24:05PM +0100, Benjamin Gaignard wrote:
+> >> The current bindings seem to make the assumption that the
+> >> two VPUs hardware blocks (G1 and G2) are only one set of
+> >> registers.
+> >> After implementing the VPU reset driver and G2 decoder driver
+> >> it shows that all the VPUs are independent and don't need to
+> >> know about the registers of the other blocks.
+> >> Remove from the bindings the need to set all blocks register
+> >> but keep reg-names property because removing it from the driver
+> >> may affect other variants.
+> >>
+> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >> ---
+> >> version 2:
+> >> - be more verbose about why I change the bindings
+> >> Keep in mind that series comes after: https://www.spinics.net/lists/ar=
+m-kernel/msg875766.html
+> >> without that review and ack it won't work
+> > Better, but you've still mentioned nothing about breaking compatibility=
+.
+> > Why is that okay?
+>
+> Because this reg-names wasn't used before for this variant so remove it w=
+on't change anything.
 
-On 2/22/21 6:02 PM, Bryan O'Donoghue wrote:
-> Adds an sm8250 compatible binding to the venus core.
-> 
-> Co-developed-by: Jonathan Marek <jonathan@marek.ca>
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> Co-developed-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c | 54 ++++++++++++++++++++++++
->  1 file changed, 54 insertions(+)
+It is the reset changes in the driver that break. The driver
+previously got the 'ctrl' registers whether it went by name or index,
+right? With an old DTB and a kernel with the changes (and vice-versa),
+you'll have nothing to handle the VPU resets because the VPU reset
+node doesn't exist. It could work if the default state is not held in
+reset.
 
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+At least the removal of 'ctrl' registers belongs in the reset changes serie=
+s.
 
--- 
-regards,
-Stan
+Rob
