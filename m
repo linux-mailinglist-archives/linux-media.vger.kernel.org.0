@@ -2,152 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55798323676
-	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 05:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 270493237A7
+	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 08:08:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbhBXEk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Feb 2021 23:40:28 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:46751 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230380AbhBXEk0 (ORCPT
+        id S234318AbhBXHIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Feb 2021 02:08:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234336AbhBXHHU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Feb 2021 23:40:26 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ElxelDWDXXAI3ElxflnbaT; Wed, 24 Feb 2021 05:39:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1614141583; bh=Y3+UpVoY6FyT4dAKynoesHVjiyLR6Tknzymmik0hmhg=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=odVzKL4d9AVbehlAwXwJPRwd2Lz+8SmlmF2TjMVgHxY8Oe9pieSwiq1IHHmkFIr39
-         KkFsg0jtaO0VVoGwOe03wB7pOCkuPWg0uj2RIe/KIM7L50EIonlVPZQaxN6GtmcIc8
-         UmGLuICzmj/RoNk/EZf9EHFRMVq3gc21ylSP2tZ5kH1PMn26DgbeXP8F9dbLxFPULI
-         PJF7WMwUA0LVoB0eHJJAS+Vn8jst/hJRa7NKF1I5VXlOrOauyqJHp4h2pLzLhU75YV
-         Rc3iRIDO4ShwwroxO7vmW8HoqwZqiZOoMHAH4wkQ17n8d4BqAcrAZ/RMGDmiprK/U8
-         k70D0Cx4sBN0A==
-Message-ID: <fd2a486353a7df2e605c30a441060f37@smtp-cloud9.xs4all.net>
-Date:   Wed, 24 Feb 2021 05:39:42 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfNfxPr85uxpZTZOTG+BlDsVPOpeLSoiFHE4CxYL0kA6JWCssCglMTMVwkAfMvqDbjPpuUPhsETASaZY2MO52ooWI9U67f6zgg6Jxr3zU5q6cdo+b8KO8
- ydefloflPUCPaVnqUL5oi4LmKBhDvijdyDmYjfmCY8oDkHVjyQvT7x5QD5L29TqxFsic3EeCpfQb0l3UARXFdIVgITdZZ1HH1lELR4YQWzN3rUGvXNseM1kr
- 5jb8Rkr6covH3niM24v+/w==
+        Wed, 24 Feb 2021 02:07:20 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93491C061786
+        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 23:06:34 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id l2so895524pgb.1
+        for <linux-media@vger.kernel.org>; Tue, 23 Feb 2021 23:06:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=7filuQzM3PPCew10cLsd+/0g628RiDn4obN6lLezpSc=;
+        b=mZZX/EGIjnB4uQuujiuMKYg1F90fFxEsLP5wBKXKMZZ0/VRHfLvUJmWVQMsh7hn3oC
+         POJo4IRMdSmQaNLZxD85lyneVPaoxPuwCFx+rCnxSlpsUwHxu/ZsV7FufEa7JoVDzypW
+         d3qgNzk6bQsa0yZrbGJRTb1qRrBaQ+7DylFhY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=7filuQzM3PPCew10cLsd+/0g628RiDn4obN6lLezpSc=;
+        b=B6X6+MRG3XtYurIbql8ItO/JnPMeT5M0/vGtPocpCvOVhdCSbYK/e4uFhosTWZiBOP
+         7yea2WzfC6xRi6vmb/747bUB4ADWJ7Wx/11BbCGPC11o6gq2KkhBZDjWJKpeoeRKz5CF
+         NjhRYq4j+sHtOIh+CuOmHRDxgdRxVQKbpkSrVwE7LOJkg8ku4u99IvnxRGCVKcemLU+R
+         6g0pxhvXnT0dK10j1BhpTmkRARHrf+ZdS5NvOAzpmR0aztreoLnkDNz2faeGTO7bFIwp
+         F92Ps4PPh2McZx86zcHSwbkK/+6c0pacGV7ol6tvwIZgsRvBKJln7VbOeY6c9pnpV/TY
+         0V/A==
+X-Gm-Message-State: AOAM532MBIIOHTPofX3hZJOLhhAKSmc+7VZLeKOGf4/JQjICYEv5RqT0
+        4lp6lk9CILhuapb+HW2WvqLXAg==
+X-Google-Smtp-Source: ABdhPJya7bcsUCvP9njl0gp25N2HQyAv9CG7JucH2KgHeK39shLD0REzuuejwM4p4tpQJy/Aw3wlJA==
+X-Received: by 2002:a63:134c:: with SMTP id 12mr27479803pgt.262.1614150393980;
+        Tue, 23 Feb 2021 23:06:33 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:933:e73c:97ad:add3])
+        by smtp.gmail.com with ESMTPSA id z11sm1076222pgk.65.2021.02.23.23.06.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Feb 2021 23:06:33 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <9ec10130df230a0ff078d9eec47e94b2@codeaurora.org>
+References: <20210108150545.2018-1-rojay@codeaurora.org> <20210108150545.2018-2-rojay@codeaurora.org> <161052087940.3661239.14609415796697267628@swboyd.mtv.corp.google.com> <9ec10130df230a0ff078d9eec47e94b2@codeaurora.org>
+Subject: Re: [PATCH V8 1/1] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     wsa@kernel.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, akashast@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+To:     rojay@codeaurora.org
+Date:   Tue, 23 Feb 2021 23:06:31 -0800
+Message-ID: <161415039142.1254594.3043511127113195221@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Quoting rojay@codeaurora.org (2021-02-18 06:15:17)
+> Hi Stephen,
+>=20
+> On 2021-01-13 12:24, Stephen Boyd wrote:
+> > Quoting Roja Rani Yarubandi (2021-01-08 07:05:45)
+> >> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c=20
+> >> b/drivers/i2c/busses/i2c-qcom-geni.c
+> >> index 214b4c913a13..c3f584795911 100644
+> >> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> >> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> >> @@ -375,6 +375,32 @@ static void geni_i2c_tx_msg_cleanup(struct=20
+> >> geni_i2c_dev *gi2c,
+> >>         }
+> >>  }
+> >>=20
+> >> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
+> >> +{
+> >> +       int ret;
+> >> +       u32 geni_status;
+> >> +       struct i2c_msg *cur;
+> >> +
+> >> +       /* Resume device, as runtime suspend can happen anytime during=
+=20
+> >> transfer */
+> >> +       ret =3D pm_runtime_get_sync(gi2c->se.dev);
+> >> +       if (ret < 0) {
+> >> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n",=
+=20
+> >> ret);
+> >> +               return;
+> >> +       }
+> >> +
+> >> +       geni_status =3D readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
+> >> +       if (geni_status & M_GENI_CMD_ACTIVE) {
+> >> +               cur =3D gi2c->cur;
+> >=20
+> > Why don't we need to hold the spinlock gi2c::lock here?
+> >=20
+>=20
+> I am not seeing any race here. May I know which race are you suspecting=20
+> here?
 
-Results of the daily build of media_tree:
+Sorry there are long delays between posting and replies to my review
+comments. It takes me some time to remember what we're talking about
+because this patch has dragged on for many months.
 
-date:			Wed Feb 24 05:00:12 CET 2021
-media-tree git hash:	8f202f8e9ff38e29694a4bc0a519b4e03c1726ee
-media_build git hash:	a236fddff61e8357f3070effdf23e9b5f20b26e6
-v4l-utils git hash:	4955a7ad5e6a89ea03d8d62bb2e0735c701624b9
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7349-g7fcfe2595
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e7b822fdb96cb4ba52d3c0c7445d3401649bacd6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+So my understanding is that gi2c::lock protects the 'cur' pointer. I
+imagine this scenario might go bad
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.1-i686: OK
-linux-5.10.1-x86_64: OK
-linux-5.11-rc1-i686: OK
-linux-5.11-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+  CPU0                      CPU1
+  ----                      ----
+  geni_i2c_stop_xfer()     =20
+   ...                      geni_i2c_rx_one_msg()
+			     gi2c->cur =3D cur1;
+   cur =3D gi2c->cur;
+   ...                       geni_i2c_tx_one_msg()
+			     gi2c->cur =3D cur2;
+   geni_i2c_abort_xfer()
+    <uses cur2>
+   if (cur->flags & I2C_M_RD)
+    <uses cur1 for the condition and call; oops that's bad>
 
-Detailed results are available here:
+It's almost like we should combine the geni_i2c_abort_xfer() logic with
+the rx/tx message cleanup functions so that it's all done under one
+lock. Unfortunately it's complicated by the fact that there are various
+completion waiting timeouts involved. Fun!
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+But even after all that, I don't see how the geni_i2c_stop_xfer() puts a
+stop to future calls to geni_i2c_rx_one_msg() or geni_i2c_tx_one_msg().
+The hardware isn't disabled from what I can tell. The irq isn't
+disabled, the clks aren't turned off, etc. What is to stop an i2c device
+from trying to use the bus after this shutdown function is called? If
+anything, this function looks like a "flush", where we flush out any
+pending transfer. Where's the "plug" operation that prevents any future
+operations from following this call?
 
-Detailed regression test results are available here:
+BTW, I see this is merged upstream. That's great, but it seems broken.
+Please fix it or revert it out.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+>=20
+> >> +               geni_i2c_abort_xfer(gi2c);
+> >> +               if (cur->flags & I2C_M_RD)
+> >> +                       geni_i2c_rx_msg_cleanup(gi2c, cur);
+> >> +               else
+> >> +                       geni_i2c_tx_msg_cleanup(gi2c, cur);
+> >> +       }
+> >> +
+> >> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
+> >> +}
+> >> +
+> >>  static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct=20
+> >> i2c_msg *msg,
+> >>                                 u32 m_param)
+> >>  {
