@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C20E323FE4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 16:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A82CD323FEA
+	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 16:22:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbhBXOZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Feb 2021 09:25:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58102 "EHLO mail.kernel.org"
+        id S235172AbhBXO1K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Feb 2021 09:27:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58438 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235736AbhBXNGH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Feb 2021 08:06:07 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B47B264F81;
-        Wed, 24 Feb 2021 12:54:09 +0000 (UTC)
+        id S233607AbhBXNIh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Feb 2021 08:08:37 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B51364F99;
+        Wed, 24 Feb 2021 12:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614171250;
-        bh=UcP5weq7WeVFcFD7tRgXmjgjPhb2Bw4oSntSVMieRsA=;
+        s=k20201202; t=1614171295;
+        bh=WVR7ZEEdctUFWw35chEKS8UARPxWGQ6zEVR3cUJTFnM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nGlRYevkPwI+vtR1cJD0N4E8dnJtHY2AYtNhP0itoy2K8QmfAuxF17OK/z+rxRkh7
-         Zh0Gd28SHaU2Pl0aycqmmqXRynJtD/8vQuQ2ZrO7hF2UdY5wndmQ0aXYCXE+VQg3Lq
-         8xJe8/ZsuWhCnLrT6tOVB1K4fxsG1aaTELljpHTjkDuuBQ0JL04Xy8WdSswmPGw0dV
-         z+lpJoDgpZWkab60SKPnvNKS2k0DJRHpEUAxbz6pyxc8eVUAWyJsDWbuLc0UnSSl20
-         a0pz5C6Nb/NkPfiW+dOlRwstxoyDM9hMgoGQkIjyTBi5AHRgtkegFz2NY9h8LKxk40
-         XrPTO7M+E3q4g==
+        b=OG3Pc1BToATOqRf2KzSMfDnk2iFG09zfuCYtH1M9aDGx2RG6kKLXNx9gAro0oOTt/
+         UD1DbLZTLmNL4mpC9doxWf5JzFjTnh6//OtnxZyyVKKic7/055Pwn7/IFVONUTjo7G
+         MrAmNjbKGn5yfMwsR+BZSntstjLwcUKSfdCs9uMWbm+c5uRfe6ufFsvoyGjaeMCGzd
+         uvjhYui0cFr75Gy+0+PPCTvKf4sqcKCBaiLxevqM/m4aTJxXtuyBJ36kOvu8FHsd3V
+         JR/h1S0ftaPTCBiYtKPtHrZC/jz6lrAxdAuRRAKMqeet1uCRl4sWxMbj9URIUZETr3
+         +3bsA88T5rYOA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Sean Young <sean@mess.org>,
+        syzbot+6d31bf169a8265204b8d@syzkaller.appspotmail.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 22/40] media: uvcvideo: Allow entities with no pads
-Date:   Wed, 24 Feb 2021 07:53:22 -0500
-Message-Id: <20210224125340.483162-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 15/26] media: mceusb: sanity check for prescaler value
+Date:   Wed, 24 Feb 2021 07:54:23 -0500
+Message-Id: <20210224125435.483539-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210224125340.483162-1-sashal@kernel.org>
-References: <20210224125340.483162-1-sashal@kernel.org>
+In-Reply-To: <20210224125435.483539-1-sashal@kernel.org>
+References: <20210224125435.483539-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,46 +43,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ricardo Ribalda <ribalda@chromium.org>
+From: Sean Young <sean@mess.org>
 
-[ Upstream commit 7532dad6634031d083df7af606fac655b8d08b5c ]
+[ Upstream commit 9dec0f48a75e0dadca498002d25ef4e143e60194 ]
 
-Avoid an underflow while calculating the number of inputs for entities
-with zero pads.
+prescaler larger than 8 would mean the carrier is at most 152Hz,
+which does not make sense for IR carriers.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reported-by: syzbot+6d31bf169a8265204b8d@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/media/rc/mceusb.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 99883550375e9..40ca1d4e03483 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -967,7 +967,10 @@ static struct uvc_entity *uvc_alloc_entity(u16 type, u8 id,
- 	unsigned int i;
- 
- 	extra_size = roundup(extra_size, sizeof(*entity->pads));
--	num_inputs = (type & UVC_TERM_OUTPUT) ? num_pads : num_pads - 1;
-+	if (num_pads)
-+		num_inputs = type & UVC_TERM_OUTPUT ? num_pads : num_pads - 1;
-+	else
-+		num_inputs = 0;
- 	size = sizeof(*entity) + extra_size + sizeof(*entity->pads) * num_pads
- 	     + num_inputs;
- 	entity = kzalloc(size, GFP_KERNEL);
-@@ -983,7 +986,7 @@ static struct uvc_entity *uvc_alloc_entity(u16 type, u8 id,
- 
- 	for (i = 0; i < num_inputs; ++i)
- 		entity->pads[i].flags = MEDIA_PAD_FL_SINK;
--	if (!UVC_ENTITY_IS_OTERM(entity))
-+	if (!UVC_ENTITY_IS_OTERM(entity) && num_pads)
- 		entity->pads[num_pads-1].flags = MEDIA_PAD_FL_SOURCE;
- 
- 	entity->bNrInPins = num_inputs;
+diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
+index f1dfb84094328..845583e2af4d5 100644
+--- a/drivers/media/rc/mceusb.c
++++ b/drivers/media/rc/mceusb.c
+@@ -685,11 +685,18 @@ static void mceusb_dev_printdata(struct mceusb_dev *ir, u8 *buf, int buf_len,
+ 				data[0], data[1]);
+ 			break;
+ 		case MCE_RSP_EQIRCFS:
++			if (!data[0] && !data[1]) {
++				dev_dbg(dev, "%s: no carrier", inout);
++				break;
++			}
++			// prescaler should make sense
++			if (data[0] > 8)
++				break;
+ 			period = DIV_ROUND_CLOSEST((1U << data[0] * 2) *
+ 						   (data[1] + 1), 10);
+ 			if (!period)
+ 				break;
+-			carrier = (1000 * 1000) / period;
++			carrier = USEC_PER_SEC / period;
+ 			dev_dbg(dev, "%s carrier of %u Hz (period %uus)",
+ 				 inout, carrier, period);
+ 			break;
 -- 
 2.27.0
 
