@@ -2,86 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE8CF32413D
-	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 17:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BF9A324142
+	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 17:05:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234479AbhBXPom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Feb 2021 10:44:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38720 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234663AbhBXOgT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Feb 2021 09:36:19 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5609964EF5;
-        Wed, 24 Feb 2021 14:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614177185;
-        bh=KZhGj6qe5j0syEVNI++CgqtBRU7J+USl4NFuEWBkjVA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QyIh+YMCwbpRAINMvFTccX47lNnfNUsdk+zCV4F4Qw9zcXd/+LXdVJfa4W0xKU1aN
-         QBOuEuJU1oMCpcTNeWcdgzhXTK0cJIsnG/8M+Ysxdo5BA2HMIcuA/wKjXjLaKu47iI
-         iuGobUvyTYJgXpSBwGpvFx7S2SPz9LCiI0qHPf5/WCDMSFdztk6tIkxXYEjY+BokIJ
-         LhbUkRWVf/IacrXFj8m0zsf/NTxlTfmRZiwRX7dHTvibWSRJ1UNwIf2S58RGqRW36g
-         snd8A6NHQ0IagRboGDJHZjD61tu3EIcyWDrjAoHXTkgjxRQGCLQgVFdPfD/Sfv+TpO
-         r5Py3qIDifz4g==
-Received: by mail-ed1-f54.google.com with SMTP id cf12so1945784edb.8;
-        Wed, 24 Feb 2021 06:33:05 -0800 (PST)
-X-Gm-Message-State: AOAM531K4Ayfmq4swkH5i5fGq9OeJ7qJy+8sldlhA+MQ9ZS9J22FExGo
-        XRYzBoEWpJzNhz5GoJaiwOFPZj4l4xOGziOlb7I=
-X-Google-Smtp-Source: ABdhPJyGdFxiQsQv4scJMUh5ZIZPJ9YHWxjHVyJ9CKEA66GBNayYBVB67ycSuwQRa6mGxkRNruowf8J2XkFZSRs3Z7c=
-X-Received: by 2002:a05:6402:1152:: with SMTP id g18mr34147943edw.18.1614177183720;
- Wed, 24 Feb 2021 06:33:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20210223210127.55455-1-robh@kernel.org>
-In-Reply-To: <20210223210127.55455-1-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Wed, 24 Feb 2021 15:32:52 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPds-Qh2Hvs2fAvrM59xgTWtYROwocTVuqFaBBd=JYwmow@mail.gmail.com>
-Message-ID: <CAJKOXPds-Qh2Hvs2fAvrM59xgTWtYROwocTVuqFaBBd=JYwmow@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: media: Use graph and video-interfaces
- schemas, round 2
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        id S235344AbhBXPpV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Feb 2021 10:45:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235738AbhBXOqm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Feb 2021 09:46:42 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CDDBC0617AB
+        for <linux-media@vger.kernel.org>; Wed, 24 Feb 2021 06:42:45 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id k66so2059053wmf.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Feb 2021 06:42:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=65QKSsy3lkCh0TOg3Qv5eqQsbUSxRJSlb8pGltzsbn8=;
+        b=aOA3X1qA/raiSVC1ONzrW+LerPrW/uegK5wztMiPKpR4vtgB/F+yAaSbciq1EvjRSh
+         FOdC/O/q7THZDizqc/NnyhjJmS23bM3YuMcLqP5zPyvvUDRKoGrk/dtBqHxHK5mrW23F
+         AuZOKuCPrbA+B3eyK+EjBJ6u0PfzHZER8tL/j51qvj3MTwj6kiSMLnDJeb9jKwP4rAaA
+         jKCtIZ1dgXiSsII+pIKTSqplrMcvPhG+5hAwFZ+YzJCUG8amw/iU4iNZziUQqj8wfsh3
+         B6YyMmZnDwRwpEv7ogeHvRG4Wp9Tbuee6HSBbLQGGB3IyRlp+5wb1Eaw9Vd6JqpT1kTE
+         7y7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=65QKSsy3lkCh0TOg3Qv5eqQsbUSxRJSlb8pGltzsbn8=;
+        b=PswuGb1BHgdXiNv5RP0LZShrDl6lDYBKY7PgMjgwkb/Cbxh0Hkt8qrJdHGzlFfrYX9
+         xPKqOi3PSimcwvTv+/kINVyjL2COfokvcTx1nqVQV2v33JFW5YSM9YoOnt0Wc19psRR7
+         o/g4ccTCUWqI5tnKJE9mXn3Wvi+0pi3B21VdGxI0+gOEBc1HVLeP608giJjuKRFzzAEl
+         t9fjR1QPh/7hyeqMm/OlDM82e7i+tuJXfcSGI0atKmTRXsiIwl9kat+idQznX115d6Js
+         jh4uRPM+JGdEcOATQM7x9WUrBmuh3k8wluV7FF4pTm8sX8j8UISheC5pDriNvgSpO+J+
+         ZXIA==
+X-Gm-Message-State: AOAM531yLTLFuMefI/+zqJscpg37fAt8KE87P2BEo7X33YxrOdrL3JYm
+        KHghTpacdoAC5MOGpJjo2UMnkLqNsJtAeA==
+X-Google-Smtp-Source: ABdhPJzN3c+DDio3HKnmVyPDga3bjriwu8sVoanEINW7bsZeHkd6/eck/wyCN4/4JqOwOcO1iyGKUg==
+X-Received: by 2002:a1c:20c7:: with SMTP id g190mr4040398wmg.156.1614177763949;
+        Wed, 24 Feb 2021 06:42:43 -0800 (PST)
+Received: from localhost.localdomain (lns-bzn-59-82-252-157-252.adsl.proxad.net. [82.252.157.252])
+        by smtp.gmail.com with ESMTPSA id p3sm4170669wro.55.2021.02.24.06.42.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Feb 2021 06:42:43 -0800 (PST)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     rafael@kernel.org, andriy.shevchenko@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org (open list:OMNIVISION OV02A10 SENSOR DRIVER)
+Subject: [PATCH v2 7/9] i2c/drivers/ov02q10: Use HZ macros
+Date:   Wed, 24 Feb 2021 15:42:17 +0100
+Message-Id: <20210224144222.23762-7-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210224144222.23762-1-daniel.lezcano@linaro.org>
+References: <20210224144222.23762-1-daniel.lezcano@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 23 Feb 2021 at 22:02, Rob Herring <robh@kernel.org> wrote:
->
-> A couple of media schemas got applied without using or incorrectly
-> using the video-interfaces.yaml and graph.yaml schemas. Fix them up
-> before we have more copy-n-paste errors.
->
-> Fixes: 41b3e23376e9 ("media: dt-bindings: media: Add bindings for imx334")
-> Fixes: d899e5f1db7a ("media: dt-bindings: media: imx258: add bindings for IMX258 sensor")
-> Fixes: 918b866edfec ("media: dt-bindings: Remove old ov5647.yaml file, update ovti,ov5647.yaml")
-> Fixes: 22f2b47517a6 ("media: dt-bindings: media: i2c: Add OV8865 bindings documentation")
-> Fixes: 29a202fa7acc ("media: dt-bindings: media: i2c: Add OV5648 bindings documentation")
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Jacopo Mondi <jacopo@jmondi.org>
-> Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
-> Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Please ack and I'll send to Linus for rc1.
->
->  .../devicetree/bindings/media/i2c/imx258.yaml    | 14 +++++++-------
+HZ unit conversion macros are available in units.h, use them and
+remove the duplicate definition.
 
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+---
+ drivers/media/i2c/ov02a10.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
+index 8683ffd3287a..59a34e59774e 100644
+--- a/drivers/media/i2c/ov02a10.c
++++ b/drivers/media/i2c/ov02a10.c
+@@ -9,6 +9,7 @@
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/units.h>
+ #include <media/media-entity.h>
+ #include <media/v4l2-async.h>
+ #include <media/v4l2-ctrls.h>
+@@ -64,7 +65,6 @@
+ /* Test pattern control */
+ #define OV02A10_REG_TEST_PATTERN			0xb6
+ 
+-#define HZ_PER_MHZ					1000000L
+ #define OV02A10_LINK_FREQ_390MHZ			(390 * HZ_PER_MHZ)
+ #define OV02A10_ECLK_FREQ				(24 * HZ_PER_MHZ)
+ 
+-- 
+2.17.1
+
