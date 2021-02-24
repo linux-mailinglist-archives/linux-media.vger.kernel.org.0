@@ -2,131 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 319283238F6
-	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 09:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56D233238FA
+	for <lists+linux-media@lfdr.de>; Wed, 24 Feb 2021 09:49:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232818AbhBXIsS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Feb 2021 03:48:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234377AbhBXIqn (ORCPT
+        id S233234AbhBXItE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Feb 2021 03:49:04 -0500
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:2119 "EHLO
+        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234163AbhBXIst (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Feb 2021 03:46:43 -0500
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DD6C061574
-        for <linux-media@vger.kernel.org>; Wed, 24 Feb 2021 00:46:03 -0800 (PST)
-Received: by mail-oi1-x22a.google.com with SMTP id z126so1670988oiz.6
-        for <linux-media@vger.kernel.org>; Wed, 24 Feb 2021 00:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=UBVHQngHUZ0hFzyvhknW/+6mcD59iwnz+U3N7eapU0U=;
-        b=eq2XYiTGVtDvvK55/32jVi7zpdt152ufQPW9GCdhvatN7bJq1fJqf9L8H7hLFOCrBY
-         fL9M1pn2Wcd0q+Qg6BKMIWBCswKMLS7ue931ex4gf/AvyW5CYIo95u3iU2i4PeFcoSk1
-         Pl7Vxbl67bfcZ55H5DkaBnxK9ATAWzVQXEoG8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=UBVHQngHUZ0hFzyvhknW/+6mcD59iwnz+U3N7eapU0U=;
-        b=CgNNG1YANDnoZn8WTJJlemlDjTkIoQJthl8g/WKXuUTWCP4aHcetCxrLcYVjK7iBDD
-         CM5VIZhi2Y4ge6SfBRAtNEnGEBaTlsOmPAdRe9JBs+zSlWwOAyZOZNHtzDr8zNELWbg2
-         ODuhrXBYX0KvrbL9cjPqvy6pzbB7dqmBlFgfCcV9BmdesEO2xG4N8LSfpLvWefbVXyOB
-         03SWyppARXPWm8xY0YrJKEkBUYDADhZBPzkju8y6d6HUDKdsTFexX5eTqGw/dDlgYnOj
-         +StF/JjhbM0BsCDulg7oiZyICMKd/21PmO/uIppZATfZkI/IWAx1H3OPLBAbm6FEmLHr
-         ZvRA==
-X-Gm-Message-State: AOAM531GWMZOesz4BxL0DwVh75hQ9LFBSFGDGMjpM1CIAapoLl50ZqIr
-        cr5bRKOJ4GbOmIqb/D217HK2Qg9vfxy8YseowgNKbg==
-X-Google-Smtp-Source: ABdhPJxewnoE3OYdDmeQhWuC52aIvi5BFeizNLN4c4XvgIM4Jw2qTr5RP6gk6PNE/9VKREBJNnEYEHtedMcL+yttr5o=
-X-Received: by 2002:a05:6808:4c9:: with SMTP id a9mr2005718oie.101.1614156362400;
- Wed, 24 Feb 2021 00:46:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20210223105951.912577-1-daniel.vetter@ffwll.ch> <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
-In-Reply-To: <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 24 Feb 2021 09:45:51 +0100
-Message-ID: <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for mmap
-To:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        John Stultz <john.stultz@linaro.org>,
+        Wed, 24 Feb 2021 03:48:49 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id B4E0E3F3A1;
+        Wed, 24 Feb 2021 09:47:58 +0100 (CET)
+Authentication-Results: ste-pvt-msa1.bahnhof.se;
+        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=cMx2eW2G;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id xdBZ-0obx0Pt; Wed, 24 Feb 2021 09:47:57 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 850F03F311;
+        Wed, 24 Feb 2021 09:47:53 +0100 (CET)
+Received: from [192.168.0.209] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id DD979360057;
+        Wed, 24 Feb 2021 09:47:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1614156472; bh=mM8r7vHLddSvuXQyaRkaso8763XSLKZHpHc7GB+CbQM=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=cMx2eW2G1SkQmupq9oGww2E8UZd1m2KVhl7ad7vV9aIjMXcDvp/J8k/4FaGyKqw23
+         OfEqT1ZM9evWy18fh15GVfJAiMWL+3jnfTrvyXtB/DHVeDzBKNTcfQELfL4djUhFTQ
+         RGh3mfZS5vwd/2+i/DP+4B9MSEwu5LwJTcCQYQLI=
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-fence: Document recoverable page
+ fault implications
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Felix Kuehling <felix.kuehling@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linaro-mm-sig@lists.linaro.org, Jerome Glisse <jglisse@redhat.com>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@intel.com>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org
+References: <20210203152921.2429937-1-daniel.vetter@ffwll.ch>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Message-ID: <81df5b1c-2838-49d8-4ae4-bab4f55b411a@shipmail.org>
+Date:   Wed, 24 Feb 2021 09:47:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <20210203152921.2429937-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 8:46 AM Thomas Hellstr=C3=B6m (Intel)
-<thomas_os@shipmail.org> wrote:
+
+On 2/3/21 4:29 PM, Daniel Vetter wrote:
+> Recently there was a fairly long thread about recoreable hardware page
+> faults, how they can deadlock, and what to do about that.
 >
+> While the discussion is still fresh I figured good time to try and
+> document the conclusions a bit. This documentation section explains
+> what's the potential problem, and the remedies we've discussed,
+> roughly ordered from best to worst.
 >
-> On 2/23/21 11:59 AM, Daniel Vetter wrote:
-> > tldr; DMA buffers aren't normal memory, expecting that you can use
-> > them like that (like calling get_user_pages works, or that they're
-> > accounting like any other normal memory) cannot be guaranteed.
-> >
-> > Since some userspace only runs on integrated devices, where all
-> > buffers are actually all resident system memory, there's a huge
-> > temptation to assume that a struct page is always present and useable
-> > like for any more pagecache backed mmap. This has the potential to
-> > result in a uapi nightmare.
-> >
-> > To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
-> > blocks get_user_pages and all the other struct page based
-> > infrastructure for everyone. In spirit this is the uapi counterpart to
-> > the kernel-internal CONFIG_DMABUF_DEBUG.
-> >
-> > Motivated by a recent patch which wanted to swich the system dma-buf
-> > heap to vm_insert_page instead of vm_insert_pfn.
-> >
-> > v2:
-> >
-> > Jason brought up that we also want to guarantee that all ptes have the
-> > pte_special flag set, to catch fast get_user_pages (on architectures
-> > that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
-> > still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
-> >
-> >  From auditing the various functions to insert pfn pte entires
-> > (vm_insert_pfn_prot, remap_pfn_range and all it's callers like
-> > dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
-> > this should be the correct flag to check for.
-> >
-> If we require VM_PFNMAP, for ordinary page mappings, we also need to
-> disallow COW mappings, since it will not work on architectures that
-> don't have CONFIG_ARCH_HAS_PTE_SPECIAL, (see the docs for vm_normal_page(=
-)).
+> v2: Linus -> Linux typoe (Dave)
+>
+> v3:
+> - Make it clear drivers only need to implement one option (Christian)
+> - Make it clearer that implicit sync is out the window with exclusive
+>    fences (Christian)
+> - Add the fairly theoretical option of segementing the memory (either
+>    statically or through dynamic checks at runtime for which piece of
+>    memory is managed how) and explain why it's not a great idea (Felix)
+>
+> References: https://lore.kernel.org/dri-devel/20210107030127.20393-1-Felix.Kuehling@amd.com/
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@intel.com>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: Jerome Glisse <jglisse@redhat.com>
+> Cc: Felix Kuehling <felix.kuehling@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>   Documentation/driver-api/dma-buf.rst | 76 ++++++++++++++++++++++++++++
+>   1 file changed, 76 insertions(+)
+>
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index a2133d69872c..7f37ec30d9fd 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -257,3 +257,79 @@ fences in the kernel. This means:
+>     userspace is allowed to use userspace fencing or long running compute
+>     workloads. This also means no implicit fencing for shared buffers in these
+>     cases.
+> +
+> +Recoverable Hardware Page Faults Implications
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Modern hardware supports recoverable page faults, which has a lot of
+> +implications for DMA fences.
+> +
+> +First, a pending page fault obviously holds up the work that's running on the
+> +accelerator and a memory allocation is usually required to resolve the fault.
+> +But memory allocations are not allowed to gate completion of DMA fences, which
+> +means any workload using recoverable page faults cannot use DMA fences for
+> +synchronization. Synchronization fences controlled by userspace must be used
+> +instead.
+> +
+> +On GPUs this poses a problem, because current desktop compositor protocols on
+> +Linux rely on DMA fences, which means without an entirely new userspace stack
+> +built on top of userspace fences, they cannot benefit from recoverable page
+> +faults. Specifically this means implicit synchronization will not be possible.
+> +The exception is when page faults are only used as migration hints and never to
+> +on-demand fill a memory request. For now this means recoverable page
+> +faults on GPUs are limited to pure compute workloads.
+> +
+> +Furthermore GPUs usually have shared resources between the 3D rendering and
+> +compute side, like compute units or command submission engines. If both a 3D
+> +job with a DMA fence and a compute workload using recoverable page faults are
+> +pending they could deadlock:
+> +
+> +- The 3D workload might need to wait for the compute job to finish and release
+> +  hardware resources first.
+> +
+> +- The compute workload might be stuck in a page fault, because the memory
+> +  allocation is waiting for the DMA fence of the 3D workload to complete.
+> +
+> +There are a few options to prevent this problem, one of which drivers need to
+> +ensure:
+> +
+> +- Compute workloads can always be preempted, even when a page fault is pending
+> +  and not yet repaired. Not all hardware supports this.
+> +
+> +- DMA fence workloads and workloads which need page fault handling have
+> +  independent hardware resources to guarantee forward progress. This could be
+> +  achieved through e.g. through dedicated engines and minimal compute unit
+> +  reservations for DMA fence workloads.
+> +
+> +- The reservation approach could be further refined by only reserving the
+> +  hardware resources for DMA fence workloads when they are in-flight. This must
+> +  cover the time from when the DMA fence is visible to other threads up to
+> +  moment when fence is completed through dma_fence_signal().
+> +
+> +- As a last resort, if the hardware provides no useful reservation mechanics,
+> +  all workloads must be flushed from the GPU when switching between jobs
+> +  requiring DMA fences or jobs requiring page fault handling: This means all DMA
+> +  fences must complete before a compute job with page fault handling can be
+> +  inserted into the scheduler queue. And vice versa, before a DMA fence can be
+> +  made visible anywhere in the system, all compute workloads must be preempted
+> +  to guarantee all pending GPU page faults are flushed.
+> +
+> +- Only a fairly theoretical option would be to untangle these dependencies when
+> +  allocating memory to repair hardware page faults, either through separate
+> +  memory blocks or runtime tracking of the full dependency graph of all DMA
+> +  fences. This results very wide impact on the kernel, since resolving the page
+> +  on the CPU side can itself involve a page fault. It is much more feasible and
+> +  robust to limit the impact of handling hardware page faults to the specific
+> +  driver.
+> +
+> +Note that workloads that run on independent hardware like copy engines or other
+> +GPUs do not have any impact. This allows us to keep using DMA fences internally
+> +in the kernel even for resolving hardware page faults, e.g. by using copy
+> +engines to clear or copy memory needed to resolve the page fault.
+> +
+> +In some ways this page fault problem is a special case of the `Infinite DMA
+> +Fences` discussions: Infinite fences from compute workloads are allowed to
+> +depend on DMA fences, but not the other way around. And not even the page fault
+> +problem is new, because some other CPU thread in userspace might
+> +hit a page fault which holds up a userspace fence - supporting page faults on
+> +GPUs doesn't anything fundamentally new.
 
-Hm I figured everyone just uses MAP_SHARED for buffer objects since
-COW really makes absolutely no sense. How would we enforce this?
+To me, in general this looks good. One thing, though is that for a first 
+time reader it might not be totally clear what's special with a compute 
+workload. Perhaps some clarification?
 
-> Also worth noting is the comment in  ttm_bo_mmap_vma_setup() with
-> possible performance implications with x86 + PAT + VM_PFNMAP + normal
-> pages. That's a very old comment, though, and might not be valid anymore.
+Also since the current cross-driver dma_fence locking order is
 
-I think that's why ttm has a page cache for these, because it indeed
-sucks. The PAT changes on pages are rather expensive.
+1) dma_resv ->
+2) memory_allocation / reclaim ->
+3) dma_fence_wait/critical
 
-There is still an issue for iomem mappings, because the PAT validation
-does a linear walk of the resource tree (lol) for every vm_insert_pfn.
-But for i915 at least this is fixed by using the io_mapping
-infrastructure, which does the PAT reservation only once when you set
-up the mapping area at driver load.
+And the locking order required for recoverable pagefault is
 
-Also TTM uses VM_PFNMAP right now for everything, so it can't be a
-problem that hurts much :-)
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+a) dma_resv ->
+b) fence_wait/critical ->
+c) memory_allocation / reclaim
+
+(Possibly with a) and b) interchanged above, Is it possible to service a 
+recoverable pagefault without taking the dma_resv lock?)
+
+It's clear that the fence critical section in b) is not compatible with 
+the dma_fence wait in 3) and thus the memory restrictions are needed. 
+But I think given the memory allocation restrictions for recoverable 
+pagefaults I guess at some point we must ask ourselves why are they 
+necessary and what's the price to be paid for getting rid of them, and 
+document also that. *If* it's the case that it all boils down to the 2) 
+-> 3) locking order above, and that's mandated *only* by the dma_fence 
+wait in the userptr mmu notifiers, I think these restrictions are a 
+pretty high price to pay. Wouldn't it be possible now to replace that 
+fence wait with either page pinning (which now is coherent since 5.9) or 
+preempt-ctx fences + unpinned pages if available and thus invert the 2) 
+-> 3) locking order?
+
+Thanks,
+Thomas
+
+
