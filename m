@@ -2,151 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34B16324E55
-	for <lists+linux-media@lfdr.de>; Thu, 25 Feb 2021 11:43:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A340E324E85
+	for <lists+linux-media@lfdr.de>; Thu, 25 Feb 2021 11:50:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229752AbhBYKeN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Feb 2021 05:34:13 -0500
-Received: from mail-co1nam11on2050.outbound.protection.outlook.com ([40.107.220.50]:29882
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234962AbhBYKbW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Feb 2021 05:31:22 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UHhPYkPuVyPvkoYj2rO2ex1bRqw6+BNhJVXncQnF75KqyLfi/iTwnVJCrFVl26xsQ3AEiPNmjpdwvc1l8UWIGDoxFhL9d1GAXiPnPxhl9wfZbnnsD4ZKGp2r8VOMQFL9oSM6lhCXqIBVM2uawrXQqwcnHPO8/n+tgtxdDSD65swDE17TYEFwmzLMDZqJXChQIL0twfUe7uwWTKVXO59ChAet7bQBbjtO6IN6Yfs7n/Zo6/G1zyqXYtCzTReLAMkSYYLYmauaMEfzX5SGnuACmLkre7PUjvOd5cjfNg59HwwMY3zpEywfTrHNws5IOdIRla1Il/VAQAziogkdPnWktA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H0VBUKJugv9h8+TZoo7xRCvZpoNKubgkcBissVheAcM=;
- b=DyTMRNA9pPCY40qcj2bmpwVDTZC5zKazGIi/Jf3Fbd90z05AwowEEEhEH4LujPCEXA51KjI4yUgmD2oH8VVD/KGSI4CxfOy0Tx26eH0N+KIDa3U1P/6CZPzDA2woaSRY2F+LOMWHzksRwdGW/pnATsEwfy3QhsTWliuaMLqFZsNnB2C0QxhydWLh6wviC0BTmcek2xuwA1EjaLogYHsHaMfY7LXCawir8uT2MnOmiczoKE9S94UiwTiVTcDCPFW7M8ohS2s7MF4iD3M0HBqy7qVPFM0TWZmj7N86h0eB88oHFhv+wVqN5hYapRTXD5vPH8BCVpRJz/gnp7KqCgnwhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H0VBUKJugv9h8+TZoo7xRCvZpoNKubgkcBissVheAcM=;
- b=wcmDGdeJepUnWAXSUH5ImfACHtBRm0JlDnFXwDiTu/4ngzLVhLO+DP5MCT/T5kisnU5MuckScuhfTTr6a24gwhGqRhcp+Bf/bnQw+Y2aLWw1mBY+1P+qvUprTaUax8E9Rf+6LiXCFLZeYiZPZUqw/itZLQ863jEw3fqfpIQ2jWA=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Thu, 25 Feb
- 2021 10:30:28 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3868.033; Thu, 25 Feb 2021
- 10:30:28 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
- mmap
-To:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        id S234435AbhBYKrR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Feb 2021 05:47:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234798AbhBYKpG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Feb 2021 05:45:06 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2DFC061756
+        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 02:44:26 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id g11so499320wmh.1
+        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 02:44:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=87k498fT7yj3CQjDeoWRIeMkjyDSkuKTTxswZ9ytFzY=;
+        b=ApBrQHrAxxsxWhGbKZ+rrZtjxu9ZreYAmL9Lc5QjV5VhKgfsV7FNFSsreTZ6ztyx27
+         NxKovY/zYjPI+y8rRC+5UL8r48IbRefjpzbmYUd33d7G+9q6T0kGnqSD8TV6HWnKILE+
+         /lZLd4gb9fNXw2jNCytZh2NfMp6d/kIw/KRDg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=87k498fT7yj3CQjDeoWRIeMkjyDSkuKTTxswZ9ytFzY=;
+        b=DqQtzKFsqJrC1QkHGJCeR6F24o2tDf7id/CyX4xKFh/Dk4UIt5+v6zhQRJW8uvlmnm
+         p8RUGARUBGc7W/w+4hAqlsKPrjhxGA0AMepa7hCyNiAd9EGBs/KLcuqQ4koAoOG0xw3W
+         DVTpz6gEoCH0QjP4BF6EtqJUgwPt30gCAK9bEK9jZIdsgEJAH+vPflA2jHH3uX+rFz2+
+         OsGrlFP0vzxySM+QwvCvgujuronQkV0ZfQb4UsxeWaGTCfcPNbKt9Zyj3KRUG7KwB7JC
+         7xkZSs5TeE1wxOam506cD33hwA/OHR5XnLJzWWTeK2wFA4ScCMzes85pduHHX369GqCv
+         y5dg==
+X-Gm-Message-State: AOAM533cfaCEtaVKpxILAna1LriQCFmlz9rrds9bl/Uw02kPmJ76UBBS
+        hjWr3bxdyfJwtmYlbP1L2zfGxQ==
+X-Google-Smtp-Source: ABdhPJzgLYMjXf3Q+8pL1lPT61BTvTEIZezq9n1onDMtQZszDluhk4BOoQzncMDg8S/ZqbTeGCh6Tg==
+X-Received: by 2002:a1c:4d0d:: with SMTP id o13mr2620109wmh.147.1614249864812;
+        Thu, 25 Feb 2021 02:44:24 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id a3sm8009780wrt.68.2021.02.25.02.44.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Feb 2021 02:44:24 -0800 (PST)
+Date:   Thu, 25 Feb 2021 11:44:22 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
         <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
         Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Matthew Wilcox <willy@infradead.org>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
+        <linaro-mm-sig@lists.linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
         John Stultz <john.stultz@linaro.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
         Daniel Vetter <daniel.vetter@intel.com>,
         Suren Baghdasaryan <surenb@google.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
         <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
+ mmap
+Message-ID: <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
 References: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
  <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
  <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
- <20210224184657.GR2643399@ziepe.ca>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <b364d7e9-b323-e590-359d-32e067f3f5ee@amd.com>
-Date:   Thu, 25 Feb 2021 11:30:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210224184657.GR2643399@ziepe.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:fc8:43:f4c0:95af]
-X-ClientProxiedBy: FRYP281CA0008.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::18)
- To MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
+ <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
+ <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:fc8:43:f4c0:95af] (2a02:908:1252:fb60:fc8:43:f4c0:95af) by FRYP281CA0008.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.10 via Frontend Transport; Thu, 25 Feb 2021 10:30:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3eefa904-1d4c-457c-1fe0-08d8d9785ef7
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43420A94D00612CBE4E97660839E9@MN2PR12MB4342.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UqlQ/6JpmemDKB33rCTxiPgHOoG96iPJKfxQ2hh3yjscs5Ef/fhNj3uRvstjT81a4dga78SP1o0nrWu//0qitXazMUU0j5LIF5BRjXkC7xz181vwjESUva7+8Cr/6JBwIud2KUpzlU2kYHBu+hQ+KkWcFCRi/HoRFLn2cG8sB9wjJPRw9V5JAEY0MxwppQAf0N5g6IQeU3wjPy3sqNi4hINHefAsserDpFmp09ShFKrDdLaSthA4JPtFO3xh3vxjF3ek7/Aqq2isAgApO8u4wfWJNrqeFu3oFtGXNhkCAf6qYcxqjddIXAdon//grs+tKrdZj+7e+OmiTOmhzaCLxIR0vlXoFBa7NlA7R0dfCbMbI8JlkEJ1LkQb55EPEYIaJX/Pyk+xgIwozrP8DBkQAtRj8eUAt7bmAHezmW5EA4K+KTGukehl6Q9yOusiVRScBdVks8qtRmug8q1NIInIA0Md9/2hNwbOwC7VzvtGm1gAjoIwOt4WASG+HxpWA2xMgILaRcsc7Gkl3vFqC62k9CBTC+nZvm0F867lvnKVD62IZYgF+OVSZZ0S/B0ldVL1GjMy1Q/7hWxKugn3w86eRrHlM2gvztevUG1NL4nR6lU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(376002)(39860400002)(396003)(346002)(478600001)(31696002)(6666004)(86362001)(7416002)(4326008)(2906002)(66946007)(16526019)(186003)(66476007)(66556008)(52116002)(31686004)(110136005)(316002)(2616005)(36756003)(8936002)(54906003)(4744005)(5660300002)(8676002)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RWZTem5McUZCYURaNWdST3cyMWk0c2pnb2pKbytKeUVkNjZZc0NBN2c1QXpv?=
- =?utf-8?B?cEJZbm83ejU2Ly9sbXRENFlRRW5LbGxRTzRaRkZJMldoSk5Qa0g1aHNoWFRW?=
- =?utf-8?B?cDBVa3djSFVweCs0RHhuMUVyNGVtbS8yMVdJTlcwc0M2S244YXZ2eWp2VzAz?=
- =?utf-8?B?NmkyREJ2S2w3NExpUGY3S1VBMGxMbU41RHljOFpRSnZxY0FtbFpTeG9VQmtV?=
- =?utf-8?B?RWdEdmhabllJMkhJaDhWdFJVZENoTkhZNFdmTGg3dUhySTRjTzFyNkFWVGth?=
- =?utf-8?B?TmNjUnFialEvR2FWcDgxbGZ6MnhzSXNaczg2N2NLd1h5Tmh5Y2xyMmhEMWVO?=
- =?utf-8?B?YTdUZzhaSTBnc1hiY3dZSW9tdENKc3l3MFBtbU92M20wRlRXUjJFeDRDZE0w?=
- =?utf-8?B?QU9WK2NPUUNUSkFyYnRldThzT0wvRytsMjZaM3p2TDVwaFZGSTNKZ2dHNmNv?=
- =?utf-8?B?elc0dmVnT0ZEa0dZNmJTKytwRHhTNlN2VXozTEQ0bmozdFl0Y1pzS3VJN3VB?=
- =?utf-8?B?cTVHVGRBZ1F0Rzhta0gxVHZMYUI3ZHAvQmpkdS9MMzRzUHJTSjhzSzV2clN3?=
- =?utf-8?B?cXNFU1AvanRjUTN6TVNrOE9wZWVOTG5MeEk2L0t1VmZ4WU9pNnp0Ylpycnp1?=
- =?utf-8?B?WlZ5ZEZ6MFlpa3l3NUtkU08yNmNLZHRkUHYvODExY2pZM3BSOU9nTGJud1NK?=
- =?utf-8?B?eVAxREY5OHlZZGRFdDljTHd4em1yaDNIa1A2NkgwV0FLWmNMa2FITjhoSGtV?=
- =?utf-8?B?QVdJNWhDWUMwM201SzN3ajVudm9Ebk5ycFQwSm8zdlFwVWZDeklseUJHZkI1?=
- =?utf-8?B?dnUyZmNoQjFlcit2RUZuWTdndzBoR3ZveVczOFFrRzBPZzh3blg3bm5lejlR?=
- =?utf-8?B?Q1NpdFlsWmpiMm1QUnNicXBEMVVIcmltSkwwc21kcmxPcytIWlpQUXl0Q21a?=
- =?utf-8?B?aGNOVXdxM0VyYWp5Ukk0MnYxa3FmclZtOXo1SjVZSFF6cHgxbDRNaFFYV2hz?=
- =?utf-8?B?Um5hYVEzeFd6ajZpcEJXRkxJRjIzKzJSUnIyTEdKN1MyNWw4SEV5M3B0bURP?=
- =?utf-8?B?Vzkyb2lHM0FaRlF3dHh5VzFQMXBZbE5JY0NTQmplaG03SXlhQTFqWG80T0E3?=
- =?utf-8?B?WFRCdlVuM2doUDRxOFJjTjRjcEF3RUwrR1lvYlUwK2Z4VUVOUnA5SGJNWE5q?=
- =?utf-8?B?SzQ4K0EzdFMySllMK2N6Nmh1QTAwMnZrTi9mQU0rZ2hVUmhqVnF1Zzc2engx?=
- =?utf-8?B?MG9WK1E3aUd6WEI0M042TzdjYmc3UjhaRWE5QmNiNGNiTDhRcThUZnhJdzhr?=
- =?utf-8?B?ajhMeUpzTFJKdzZMT255ZUp3WndmNk80QVpaVXhKZ2VTempWbGNwMExDUy9K?=
- =?utf-8?B?TXZRVXNYa2JmSm1XN2IyOTAzaElFWlRDdmtaR1NkZW8vL3d2d2ptZUhZOW92?=
- =?utf-8?B?azl3cWJlQnQ4NWl0WFRINW44Z1BrZjlMMlh3aHNGYlFpQlVod05vc0xjQkxR?=
- =?utf-8?B?Q3lqeENyNCtUN0ZneDR0cHlDQUdMQW1UNGJ6SUZ3L292VWdUVjVDOGxCVURJ?=
- =?utf-8?B?UkVNTyt0M2xPMjluREg4Mm1JZ2wzYkFkUUEybEF5UUlMc1BJa2ZjR3JhOTQw?=
- =?utf-8?B?TzVsMFJsR2dXV2dWU3BtOWZFWHcxTFBEVHRnaDlEaXdzVmlIdVAyVTJGV0o3?=
- =?utf-8?B?YVBOdWRJZmhpaVZ2d0V4QXBoZEk2WWhnb2ZXM1JmeFcva2o0VW55L2NMRmRR?=
- =?utf-8?B?UWJnRmFnOURmekhoVXZscUs4b2llaTlKRkRLckw4ZWNIaDJkQmQwb1Ewc1ll?=
- =?utf-8?B?SkJIZnAwc0dLOFdKcDYwV0U2NUdDem50T1hWN3FSWURIeXg2eGR6QWNMb21T?=
- =?utf-8?Q?oihztBvpSRohK?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3eefa904-1d4c-457c-1fe0-08d8d9785ef7
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 10:30:28.6821
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lvKYim9Wi7+CK08hWbU8L0OJ38uq2GChsKbOJiDiNs8Y5/UPhdgbk8jSElZ9W8/g
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4342
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Feb 25, 2021 at 11:28:31AM +0100, Christian König wrote:
+> Am 24.02.21 um 10:31 schrieb Daniel Vetter:
+> > On Wed, Feb 24, 2021 at 10:16 AM Thomas Hellström (Intel)
+> > <thomas_os@shipmail.org> wrote:
+> > > 
+> > > On 2/24/21 9:45 AM, Daniel Vetter wrote:
+> > > > On Wed, Feb 24, 2021 at 8:46 AM Thomas Hellström (Intel)
+> > > > <thomas_os@shipmail.org> wrote:
+> > > > > On 2/23/21 11:59 AM, Daniel Vetter wrote:
+> > > > > > tldr; DMA buffers aren't normal memory, expecting that you can use
+> > > > > > them like that (like calling get_user_pages works, or that they're
+> > > > > > accounting like any other normal memory) cannot be guaranteed.
+> > > > > > 
+> > > > > > Since some userspace only runs on integrated devices, where all
+> > > > > > buffers are actually all resident system memory, there's a huge
+> > > > > > temptation to assume that a struct page is always present and useable
+> > > > > > like for any more pagecache backed mmap. This has the potential to
+> > > > > > result in a uapi nightmare.
+> > > > > > 
+> > > > > > To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
+> > > > > > blocks get_user_pages and all the other struct page based
+> > > > > > infrastructure for everyone. In spirit this is the uapi counterpart to
+> > > > > > the kernel-internal CONFIG_DMABUF_DEBUG.
+> > > > > > 
+> > > > > > Motivated by a recent patch which wanted to swich the system dma-buf
+> > > > > > heap to vm_insert_page instead of vm_insert_pfn.
+> > > > > > 
+> > > > > > v2:
+> > > > > > 
+> > > > > > Jason brought up that we also want to guarantee that all ptes have the
+> > > > > > pte_special flag set, to catch fast get_user_pages (on architectures
+> > > > > > that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
+> > > > > > still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
+> > > > > > 
+> > > > > >    From auditing the various functions to insert pfn pte entires
+> > > > > > (vm_insert_pfn_prot, remap_pfn_range and all it's callers like
+> > > > > > dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
+> > > > > > this should be the correct flag to check for.
+> > > > > > 
+> > > > > If we require VM_PFNMAP, for ordinary page mappings, we also need to
+> > > > > disallow COW mappings, since it will not work on architectures that
+> > > > > don't have CONFIG_ARCH_HAS_PTE_SPECIAL, (see the docs for vm_normal_page()).
+> > > > Hm I figured everyone just uses MAP_SHARED for buffer objects since
+> > > > COW really makes absolutely no sense. How would we enforce this?
+> > > Perhaps returning -EINVAL on is_cow_mapping() at mmap time. Either that
+> > > or allowing MIXEDMAP.
+> > > 
+> > > > > Also worth noting is the comment in  ttm_bo_mmap_vma_setup() with
+> > > > > possible performance implications with x86 + PAT + VM_PFNMAP + normal
+> > > > > pages. That's a very old comment, though, and might not be valid anymore.
+> > > > I think that's why ttm has a page cache for these, because it indeed
+> > > > sucks. The PAT changes on pages are rather expensive.
+> > > IIRC the page cache was implemented because of the slowness of the
+> > > caching mode transition itself, more specifically the wbinvd() call +
+> > > global TLB flush.
+> 
+> Yes, exactly that. The global TLB flush is what really breaks our neck here
+> from a performance perspective.
+> 
+> > > > There is still an issue for iomem mappings, because the PAT validation
+> > > > does a linear walk of the resource tree (lol) for every vm_insert_pfn.
+> > > > But for i915 at least this is fixed by using the io_mapping
+> > > > infrastructure, which does the PAT reservation only once when you set
+> > > > up the mapping area at driver load.
+> > > Yes, I guess that was the issue that the comment describes, but the
+> > > issue wasn't there with vm_insert_mixed() + VM_MIXEDMAP.
+> > > 
+> > > > Also TTM uses VM_PFNMAP right now for everything, so it can't be a
+> > > > problem that hurts much :-)
+> > > Hmm, both 5.11 and drm-tip appears to still use MIXEDMAP?
+> > > 
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/ttm/ttm_bo_vm.c#L554
+> > Uh that's bad, because mixed maps pointing at struct page wont stop
+> > gup. At least afaik.
+> 
+> Hui? I'm pretty sure MIXEDMAP stops gup as well. Otherwise we would have
+> already seen tons of problems with the page cache.
 
+On any architecture which has CONFIG_ARCH_HAS_PTE_SPECIAL vm_insert_mixed
+boils down to vm_insert_pfn wrt gup. And special pte stops gup fast path.
 
-Am 24.02.21 um 19:46 schrieb Jason Gunthorpe:
-> On Wed, Feb 24, 2021 at 09:45:51AM +0100, Daniel Vetter wrote:
->
->> Hm I figured everyone just uses MAP_SHARED for buffer objects since
->> COW really makes absolutely no sense. How would we enforce this?
-> In RDMA we test
->
-> drivers/infiniband/core/ib_core_uverbs.c:       if (!(vma->vm_flags & VM_SHARED))
->
-> During mmap to reject use of MAP_PRIVATE on BAR pages.
+But if you don't have VM_IO or VM_PFNMAP set, then I'm not seeing how
+you're stopping gup slow path. See check_vma_flags() in mm/gup.c.
 
-That's a really good idea. MAP_PRIVATE and any driver mappings doesn't 
-really work at all.
+Also if you don't have CONFIG_ARCH_HAS_PTE_SPECIAL then I don't think
+vm_insert_mixed even works on iomem pfns. There's the devmap exception,
+but we're not devmap. Worse ttm abuses some accidental codepath to smuggle
+in hugepte support by intentionally not being devmap.
 
-Christian.
+So I'm really not sure this works as we think it should. Maybe good to do
+a quick test program on amdgpu with a buffer in system memory only and try
+to do direct io into it. If it works, you have a problem, and a bad one.
+-Daniel
 
->
-> Jason
+> 
+> Regards,
+> Christian.
+> 
+> > Christian, do we need to patch this up, and maybe fix up ttm fault
+> > handler to use io_mapping so the vm_insert_pfn stuff is fast?
+> > -Daniel
+> 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
