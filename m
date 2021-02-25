@@ -2,164 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47E67324BA0
+	by mail.lfdr.de (Postfix) with ESMTP id 53ACB324BA1
 	for <lists+linux-media@lfdr.de>; Thu, 25 Feb 2021 09:00:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231326AbhBYH5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Feb 2021 02:57:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54176 "EHLO
+        id S235265AbhBYIAP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Feb 2021 03:00:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233018AbhBYH5u (ORCPT
+        with ESMTP id S235322AbhBYIAG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Feb 2021 02:57:50 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC03C06174A
-        for <linux-media@vger.kernel.org>; Wed, 24 Feb 2021 23:57:10 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id n4so2538620wmq.3
-        for <linux-media@vger.kernel.org>; Wed, 24 Feb 2021 23:57:10 -0800 (PST)
+        Thu, 25 Feb 2021 03:00:06 -0500
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18380C061786;
+        Wed, 24 Feb 2021 23:59:26 -0800 (PST)
+Received: by mail-qk1-x732.google.com with SMTP id h8so4862838qkk.6;
+        Wed, 24 Feb 2021 23:59:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=l+5iV5n0qHwjkMtgJqVQPPvPdtwWHOlD3QMo3oFzzWQ=;
-        b=zYuXNEYUSXufkFZf5h8jBfqPNEgpvAQAyPno43ytP/QEU+k7f6HdgTgXOoUCg6wiq0
-         vJg3Vsm8xyY31CqmzHQZZQ00Kt5Hs1jRP6Xu5EIrsqBCn2+wDA2rmopT+zP/AQNVOq2o
-         IvCGLWJJSOCzlTHAb5wvLxayWfYFM68LALpTnLC8hp59wz7G2qNlPxnwQZ56JwHYXz6s
-         LhbynJqQfrJrtH18xl5gzSL55KGyJUXgDIls386KKuf4N4PcKsKnlpt9/ubkokhT+Pc4
-         2cHA5bEj0mkvSJ+ht6aZgSBRainznNp+b0I6akYJ+vWtDPWsMYyB++pn8K62fzlKV4yF
-         cA/g==
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pt3L+h885gw4GcNnVra5W20CxqYIO3PTJPUZw8JgzYI=;
+        b=a36fTa/EyMk7R3JtCzTa1z/R+UvpNCGFc4fxm7ciTOOORcPlb9IOHfXT0wmGLpORxJ
+         bTUeecWa1xeFHQ88mWiPCXNMIRlLuwAPyP6jxCVrldcNb5v6Do1hyNdJvxbeXpgGBUOR
+         BRTRwMu7GUxD7b/k/6gnyMzxWvfxaTkS/HdwBZ/3A0/Bm9+nhh01DRYPfsFavMpE4Hm+
+         9QSwCIprhZPzZbE5asKWvefTpUPRmaMoIUbPAQRql2qWBdQ/2rtsD0bqJXy/BsVneeKP
+         xc5ePkR7TFr9m8KeYXzb1pJrUosNcSonOZSv/HgNLq0t6orcfx7JzOMQbZD0vnDAt55n
+         VcjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=l+5iV5n0qHwjkMtgJqVQPPvPdtwWHOlD3QMo3oFzzWQ=;
-        b=PE5mMnxIQ3uyrNg1dR4nojbpXWmjVXE063+sSqmIdw5/d8Cf+zj6JeqmI7heS/1Gdr
-         vmZA3HxXrMMTBP+efRYIOKtucthLlCTghYiIgFJxTpaiR28TPS53rUuCJxuvWpw9wc9d
-         o2M6ixkJBOcEBM4zTg8WQKnITIyBAeqF4WeQvNyZlVfGUjulWK0B0J+gP1zCKu2oU0Wh
-         tOl9WXsOjb48rqaxs6CY8eL0J87Bod405K9Po7elbgrxPXsCsUIHsC5aFejNDGkjjnN0
-         1Ckd33FsODilucgN+RxlUsMoZnyErYJQ3+oNyghRXr/Cj2WrhsfkWa/yZs7UDMlvYYzy
-         3yFg==
-X-Gm-Message-State: AOAM531n3a+3+mDE4NyxqZlzVVA0pfGD39hpfwK4R0nn3Bbu/oJySHFd
-        Ih6IIShQIc6tT3ssxoEZCeaBGA==
-X-Google-Smtp-Source: ABdhPJyVgTf+jGac9xNd9sLePhqDjQa/zV2y+TNey6wHydE8at9QTVIvwr4K+pzG3pkwG6zGxggdIw==
-X-Received: by 2002:a05:600c:2cc5:: with SMTP id l5mr1871648wmc.108.1614239828765;
-        Wed, 24 Feb 2021 23:57:08 -0800 (PST)
-Received: from [192.168.0.4] (hst-221-11.medicom.bg. [84.238.221.11])
-        by smtp.googlemail.com with ESMTPSA id a131sm6689498wmc.48.2021.02.24.23.57.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Feb 2021 23:57:08 -0800 (PST)
-Subject: Re: [PATCH 21/25] media: venus: helpers: Add internal buffer list for
- v6
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     dikshita@codeaurora.org, jonathan@marek.ca, vgarodia@codeaurora.org
-References: <20210222160300.1811121-1-bryan.odonoghue@linaro.org>
- <20210222160300.1811121-22-bryan.odonoghue@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <0f756d2c-ea7b-2d46-0cc9-d3d6bc66d6f5@linaro.org>
-Date:   Thu, 25 Feb 2021 09:57:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Pt3L+h885gw4GcNnVra5W20CxqYIO3PTJPUZw8JgzYI=;
+        b=EYSsIu8Gp8gCqqmK4m83OU50NmaJFicQ0A4BM6wXxe0SbGimI+FzV1fFJuIQSMXXVt
+         RpwWQhipR3P2kjSMR4PiTZVX02yl/DYF21Zq8PuV7G/h6sVVaZYXGQjEXRm14cy4y/Hl
+         qnjjz27SW6RxwD7a3mFBG+WUE8vwMjhx3bBN56uexvMPqXvRTEv3I0W4jqk54l3h8X78
+         oN23oyqTxqnkZJlz43lSmoZvC/ep+kHQ3/3g3VU4tnqSOAfxRV2C5rKCvv9aUsQVfrY7
+         bNlPKKAYsNOl7Atnd0IQiCnfRgEZcgQ6+viFXtT/eEAht07SmC70shYOSsS/UHn8w4ju
+         ZHCw==
+X-Gm-Message-State: AOAM533YQ59Z2emlHWi+Fvs2xoU3gexNPCdtvf1wEvO8HsvbduVmGzMG
+        ZB9e5Xkvs6GNtjfPsHJJCro=
+X-Google-Smtp-Source: ABdhPJz9ljLDmYsbtXEk9ie3r/vA5ZfGoti9lrBm+pCX6t/4Cq5pZfN83Usnf/sVutzY2W5s+MCovQ==
+X-Received: by 2002:a37:9b0c:: with SMTP id d12mr1567754qke.215.1614239965202;
+        Wed, 24 Feb 2021 23:59:25 -0800 (PST)
+Received: from kde-neon-desktop.orld.fl.wtsky.net ([208.64.158.251])
+        by smtp.gmail.com with ESMTPSA id b7sm3431943qkj.115.2021.02.24.23.59.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Feb 2021 23:59:24 -0800 (PST)
+Sender: Julian Braha <julian.braha@gmail.com>
+From:   Julian Braha <julianbraha@gmail.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, kernel@vger.kernel.org
+Subject: [PATCH] drivers: media: pci: sta2x11: fix Kconfig dependency on GPIOLIB
+Date:   Thu, 25 Feb 2021 02:59:15 -0500
+Message-Id: <20210225075915.20886-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210222160300.1811121-22-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+When STA2X11_VIP is enabled, and GPIOLIB is disabled,
+Kbuild gives the following warning:
 
+WARNING: unmet direct dependencies detected for VIDEO_ADV7180
+  Depends on [n]: MEDIA_SUPPORT [=y] && GPIOLIB [=n] && VIDEO_V4L2 [=y] && I2C [=y]
+  Selected by [y]:
+  - STA2X11_VIP [=y] && MEDIA_SUPPORT [=y] && MEDIA_PCI_SUPPORT [=y] && MEDIA_CAMERA_SUPPORT [=y] && PCI [=y] && VIDEO_V4L2 [=y] && VIRT_TO_BUS [=y] && I2C [=y] && (STA2X11 [=n] || COMPILE_TEST [=y]) && MEDIA_SUBDRV_AUTOSELECT [=y]
 
-On 2/22/21 6:02 PM, Bryan O'Donoghue wrote:
-> From: Dikshita Agarwal <dikshita@codeaurora.org>
-> 
-> - Internal buffers required by v6 are different than v4,
->   add new list of internal buffers for v6.
-> - Differentiate encoder/decoder buffers for 6xx
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c   | 23 ++++++++++++++++++-
->  .../media/platform/qcom/venus/hfi_helper.h    |  9 +++++---
->  2 files changed, 28 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 2515a2225614..f0413236a56f 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -279,13 +279,34 @@ static const unsigned int intbuf_types_4xx[] = {
->  	HFI_BUFFER_INTERNAL_PERSIST_1,
->  };
->  
-> +static const unsigned int intbuf_types_6xx_enc[] = {
-> +	HFI_BUFFER_INTERNAL_SCRATCH(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_SCRATCH_1(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_SCRATCH_2(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_PERSIST,
-> +};
-> +
-> +static const unsigned int intbuf_types_6xx_dec[] = {
-> +	HFI_BUFFER_INTERNAL_SCRATCH(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_SCRATCH_1(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_PERSIST_1,
-> +};
-> +
+This is because STA2X11_VIP selects VIDEO_ADV7180
+without selecting or depending on GPIOLIB,
+despite VIDEO_ADV7180 depending on GPIOLIB.
 
-This division of decoder and encoder internal buffers smells like a
-problem in hfi_plat_bufs_v6.c. I think we can modify the extracting of
-buffer requirements in hfi_plat_bufs_v6.c so that they return
-buffer_size as zero for internal buffer types which are not applicable
-to the current session type. After this this intbuf_type_6xx will
-combine both session types and will look like v1 and v4.
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+ drivers/media/pci/sta2x11/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
->  int venus_helper_intbufs_alloc(struct venus_inst *inst)
->  {
->  	const unsigned int *intbuf;
->  	size_t arr_sz, i;
->  	int ret;
->  
-> -	if (IS_V4(inst->core)) {
-> +	if (IS_V6(inst->core)) {
-> +		if (inst->session_type == VIDC_SESSION_TYPE_DEC) {
-> +			arr_sz = ARRAY_SIZE(intbuf_types_6xx_dec);
-> +			intbuf = intbuf_types_6xx_dec;
-> +		} else {
-> +			arr_sz = ARRAY_SIZE(intbuf_types_6xx_enc);
-> +			intbuf = intbuf_types_6xx_enc;
-> +		}
-> +	} else if (IS_V4(inst->core)) {
->  		arr_sz = ARRAY_SIZE(intbuf_types_4xx);
->  		intbuf = intbuf_types_4xx;
->  	} else {
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index 6b524c7cde5f..f367f43c9fb7 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -395,11 +395,14 @@
->  #define HFI_BUFFER_INTERNAL_PERSIST		0x4
->  #define HFI_BUFFER_INTERNAL_PERSIST_1		0x5
->  #define HFI_BUFFER_INTERNAL_SCRATCH(ver)	\
-> -	(((ver) == HFI_VERSION_4XX) ? 0x6 : 0x1000001)
-> +	(((ver) == HFI_VERSION_4XX ||		\
-> +	(ver) == HFI_VERSION_6XX) ? 0x6 : 0x1000001)
->  #define HFI_BUFFER_INTERNAL_SCRATCH_1(ver)	\
-> -	(((ver) == HFI_VERSION_4XX) ? 0x7 : 0x1000005)
-> +	(((ver) == HFI_VERSION_4XX ||		\
-> +	(ver) == HFI_VERSION_6XX) ? 0x7 : 0x1000005)
->  #define HFI_BUFFER_INTERNAL_SCRATCH_2(ver)	\
-> -	(((ver) == HFI_VERSION_4XX) ? 0x8 : 0x1000006)
-> +	(((ver) == HFI_VERSION_4XX ||		\
-> +	(ver) == HFI_VERSION_6XX) ? 0x8 : 0x1000006)
->  #define HFI_BUFFER_EXTRADATA_INPUT(ver)		\
->  	(((ver) == HFI_VERSION_4XX) ? 0xc : 0x1000002)
->  #define HFI_BUFFER_EXTRADATA_OUTPUT(ver)	\
-> 
-
+diff --git a/drivers/media/pci/sta2x11/Kconfig b/drivers/media/pci/sta2x11/Kconfig
+index 4dd98f94a91e..27bb78513631 100644
+--- a/drivers/media/pci/sta2x11/Kconfig
++++ b/drivers/media/pci/sta2x11/Kconfig
+@@ -3,6 +3,7 @@ config STA2X11_VIP
+ 	tristate "STA2X11 VIP Video For Linux"
+ 	depends on PCI && VIDEO_V4L2 && VIRT_TO_BUS && I2C
+ 	depends on STA2X11 || COMPILE_TEST
++	select GPIOLIB if MEDIA_SUBDRV_AUTOSELECT
+ 	select VIDEO_ADV7180 if MEDIA_SUBDRV_AUTOSELECT
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select MEDIA_CONTROLLER
 -- 
-regards,
-Stan
+2.27.0
+
