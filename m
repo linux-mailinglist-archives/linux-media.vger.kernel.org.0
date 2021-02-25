@@ -2,258 +2,377 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5C79325422
-	for <lists+linux-media@lfdr.de>; Thu, 25 Feb 2021 17:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D697325447
+	for <lists+linux-media@lfdr.de>; Thu, 25 Feb 2021 18:04:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233777AbhBYQ4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Feb 2021 11:56:53 -0500
-Received: from mail-dm6nam10on2056.outbound.protection.outlook.com ([40.107.93.56]:54272
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233657AbhBYQzE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Feb 2021 11:55:04 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eVJvaSfIP28PY5DG4oj7k2n0U+Wi/F4nL396mXtbQkCNtbjalmrTcXOOpY5ZmLSB96+RDkVQrN20ZvDWs7pHTCbtTRkc19GjBogqkUhTnxfmzgHpSyDmio2eO7xu1W3S7bvhTK/h7V3uEVENNEDhUNxU7UooOyfblgVA7McNvfWvq58OHMCKkmdbEBgi1cRYyM92tJwCjq4txtfMkQuQhwNKo9PPx//UFaRMbSuBrIpdXiY5mMGOIQf9cvV72+D9mbT5IoUwg/xeKmaQKIfCITstbOVo6Jxx8mR9Y6tBHd7+7AXEuordz9M/cYyhIEmYLDYtfoa23fftFPf68R47Wg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n4ZejY3bP27KNTfkq51Pp+4dspIF4imBz0MjOVQ9pB0=;
- b=H73MxkcZKww9XqEXPKyw125uab/Nzhg0W1nTPozdA+NBXslcZa8lpByKkDx7ehVuZCQ9DNhYzvYh6ZbrL7mDvsh+atJpOh0OZ0iMvC8Gf5oYPnWxAlhwPIYh9eyO65v47kyqgtQAZfN8aXvDyvYvhyubGux9VewhF63f2aWsYRLn3KsZiBzmOfGaevhp3dw9mZQGVZwQZGQ7ylbwJadCljBhZY8qf19a57kVR7KUYvjEnveKjoplkEp0tDN3uvc4oJg1SPU8fJ9kMOcayaJ0pNgQfaXIXJqiJli8Ik4Wz8l4VlB46S1ndtZ641k4dqpkcTPooHZNPPikMYw/6F+MsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n4ZejY3bP27KNTfkq51Pp+4dspIF4imBz0MjOVQ9pB0=;
- b=Sjo7Uimum+NMlZRaRjhNaNEqLblf81EIC7kK5XC9D+FGLXMgYdmgLpozsfq9E7WnKMlcJsVBNPxqRRPBnph8qxZJKdCQs7N0kC5f1It+kZbcnCKTJRnVQlkEAl8wSI2YKmTNTFnzIB3tZziuspjUvVdIaOinAG10PcC7peKFv28=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4255.namprd12.prod.outlook.com (2603:10b6:208:198::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.33; Thu, 25 Feb
- 2021 16:54:09 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3868.033; Thu, 25 Feb 2021
- 16:54:09 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
- mmap
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        John Stultz <john.stultz@linaro.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
- <1a7c2295-6241-f2bf-4a78-6cadd43bc248@shipmail.org>
- <CAKMK7uHzRb6Q_LgPUrrHn18sorYo7ysTgB+PNE36LDUUsJpHDg@mail.gmail.com>
- <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
- <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
- <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
- <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
- <CAKMK7uFezcV52oTZbHeve2HFFATeCGyK6zTT6nE1KVP69QRr0A@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <432a0da0-ff0e-9b2b-4aee-13f20522fee3@amd.com>
-Date:   Thu, 25 Feb 2021 17:53:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAKMK7uFezcV52oTZbHeve2HFFATeCGyK6zTT6nE1KVP69QRr0A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:7944:296:6ad0:31ef]
-X-ClientProxiedBy: AM3PR07CA0099.eurprd07.prod.outlook.com
- (2603:10a6:207:6::33) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S233693AbhBYRDm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 25 Feb 2021 12:03:42 -0500
+Received: from mailoutvs12.siol.net ([185.57.226.203]:53419 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233557AbhBYRCf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Feb 2021 12:02:35 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 8CA8D524C64;
+        Thu, 25 Feb 2021 18:01:16 +0100 (CET)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id cXCKQYFHXqZo; Thu, 25 Feb 2021 18:01:16 +0100 (CET)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id D6A76524C6A;
+        Thu, 25 Feb 2021 18:01:15 +0100 (CET)
+Received: from kista.localnet (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id 96C83524C64;
+        Thu, 25 Feb 2021 18:01:14 +0100 (CET)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        peng.fan@nxp.com, hverkuil-cisco@xs4all.nl,
+        dan.carpenter@oracle.com, Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: Re: [PATCH v3 1/9] media: hevc: Modify structures to follow H265 ITU spec
+Date:   Thu, 25 Feb 2021 18:01:14 +0100
+Message-ID: <233731323.ucs1DXFtIZ@kista>
+In-Reply-To: <2109948614dc0e3f253d69ca92a4b63fe8828bfb.camel@collabora.com>
+References: <20210222122406.41782-1-benjamin.gaignard@collabora.com> <20210222122406.41782-2-benjamin.gaignard@collabora.com> <2109948614dc0e3f253d69ca92a4b63fe8828bfb.camel@collabora.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:7944:296:6ad0:31ef] (2a02:908:1252:fb60:7944:296:6ad0:31ef) by AM3PR07CA0099.eurprd07.prod.outlook.com (2603:10a6:207:6::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend Transport; Thu, 25 Feb 2021 16:54:06 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9dbbf5a3-93c2-4635-2d79-08d8d9adf7e6
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4255:
-X-MS-Exchange-MinimumUrlDomainAge: bootlin.com#1161
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4255DBA5B3B65AC8380897E0839E9@MN2PR12MB4255.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vMJTbfaJPaS1CfzChH/WR2xB3CJpR3/CC7uIUIKotORZyjl+wrbxwTvID44fSDJBGKwBN9tBJIbm93DIALwpHUv/4LlHAWfwa5E59bAqq4HzthP8XhN23ZJBP1FYZK8Ighl2kAEuTr+dAi02WT/1LB+nN8Xb+2x7PsTdgvf8soJamMY2p1xEeyMVE3ZucZfRHmtWxfFurXcUuwTelNO6DYrnt5YkW6G419HBIJn/C5cT5alcEiz+60l/3loeNw7JTwaEgSc7AZjk39znrTE9LBqSKSqCBl8kevacLvjbpBaAkP0B0lLmRbN9bjwFp56bzNuvpH3RU1de6JfK7fUr+NeJa4RuN0auaXYK3t0GT3yeOkTk0n5cWAtFYJZBeyRcUwANS1YL+NKyhpVEkTg1JjkSNw218kss88kXIvGr0L9hxdoK6/RlTcRGEPgItOTbGFPAYrPc2WUjMnUcmbtUc/4BoLk6AKmPgT6/V6tuq3cjPMUcW/4IPdAsK5tcFuYID/Ai+q/zM3vLVHsQ+SBTXGp362Mnd03+BITaeOALDJU7tJc6RP4qkyqycUpXgmUYJurgHxTMZU3up/X5cSIHOjMWZstgnmPrpJKkulRrD3Y8EEoRvXhVclg9cf/DPa6gaolgzlMNOp9fdUvpozZbUVqo8CHJe7nIOCsH8WI9x6kRaXxJSm+KsHb+ejjPmOEf
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(136003)(39860400002)(396003)(366004)(110136005)(54906003)(8676002)(478600001)(5660300002)(966005)(66556008)(45080400002)(66574015)(6486002)(8936002)(36756003)(2906002)(31696002)(83380400001)(86362001)(52116002)(7416002)(186003)(6666004)(66946007)(16526019)(2616005)(66476007)(31686004)(4326008)(53546011)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UXRwY3pVTUpPOGxqMWJiK3dJbTBxQTBqdzc2a2VHdWNWRVFoN1h2ZHNxSFhX?=
- =?utf-8?B?bnYxdWpZVytpQWRWYlhseVhBSWcwU05Eb3krM1c2WDVJMWhvS0M4Y2ZDUlJn?=
- =?utf-8?B?MkNmRWxKME9QMTZLYysvVG5aNnVmREZNdld5em9pRW1kNGlkVlQ4ZDlOWHZs?=
- =?utf-8?B?QmJMOENSNEZ4dmdrQXczZmg0UHZ1WDVqNnFveEwrRnNFbzduczQ2WE9mUnhB?=
- =?utf-8?B?VFdpUGFpb2NqcXRldkpqVHlSeWpQa0xnSWF1M2FUaDh2d1FsYjBEdnVNdU1D?=
- =?utf-8?B?Q2U4Sm9ZOHVjMXV5TXI0OTZlRGMvZjhOKzhVWGM5RENaWFNGS1dqcDdPNVdI?=
- =?utf-8?B?OGR1d3RXL0RuN1hERnEvTzkveGpCaFFSWTFkQVcwWTNkb3FUSVg4NDMrR0Iv?=
- =?utf-8?B?dHM2YW9mSysvMUhteGQvOXNzWk84eks2UEdNaTNPdjZ6Q2FqSTcvMFdGenhM?=
- =?utf-8?B?d1VSL0JxdHZvSEM5UXNjQWNQN3JPUXUvVTZpblJjLzBweUxXRWVJdXdmUHZa?=
- =?utf-8?B?b3pXV3lRMnB2MC9BRGJSbUMwcS9BY1hrYUVsNFR0bzR3RzhKdkhJRHk1WjhG?=
- =?utf-8?B?WlpVejJCWHkxbHJ3bDU2NW9FL2VZbXhqeFVOSGg0bUdnQmlKQWxLbzVZQjRV?=
- =?utf-8?B?QUNTdlJHelc3cGFJVVQyeHcwdURJeDUzQmhxck8wOGtkYXJVZEhlVlNodGRO?=
- =?utf-8?B?ZElSVWxpRWZWNHZPSkZyTnZFV3dhU0FOejB3YXhlUnhOVHNCTEZvUHlabi80?=
- =?utf-8?B?QmhOcHlCL1UvS29LOXJ1VHl4b2JobHpMNGJFcjNzVmVVWlg3RkZIcFlQUnF0?=
- =?utf-8?B?WG4zY2lvUFNMVCtTU2ZWVEx2WWdvb21lM1RhWVpheEt5NGdOL0h2QTY5eG1K?=
- =?utf-8?B?T1hFVTJ5VDVsSFU5M082djgyTTJOdzBsWEdrTTdQQzVKSjZVaUlIczVGL2lD?=
- =?utf-8?B?SGJqRlAweG1uT3dlMkVXK2pKUlpyY1d1ZDJ0N1BtcGxpTVNpbE81dnFCd2h6?=
- =?utf-8?B?dXphN1UvUjlubkl1Vzd0aWdXZ3dwZUFqMGZuUHhRZ3BycnJ6RjRpeVBod1RI?=
- =?utf-8?B?Mk5Ec2pFS2R0S0I5VnJLZThYK05pTmFDb0VZaEJjcm9VVno0cXYwYWRObHRB?=
- =?utf-8?B?d0JhWDVybDkxaG1lbXJJTHJPYWY0ZFpNYk42ZDB0WHBCVGp5OThqMU5SRm81?=
- =?utf-8?B?L1lKcXhhYW9WZEx4MmhHcXpQdER1RXJFRHlJcVBOUkRSb1A0dy9BRTd6a29Z?=
- =?utf-8?B?elRDZkVtRGxRbUQraWtPeVdkbTYrRFBLcUVSTURrMGJ2ZUVFWXF6VmovT0FT?=
- =?utf-8?B?YnZPbUs2M2pHZlpDM0o3ZjZmRzJHWUdBNXdWSUhtQVlNdjJqUFJmSkdQWGlh?=
- =?utf-8?B?NVRiZnF2UGVjV2NRN0ZhYlRGcElROUx4N0dLQ3pOSGNQVWdFZlFTYjdoNFRT?=
- =?utf-8?B?SjAxV1ZjZlFadUJMVjNHL2ZuRytsOEJGbWZBTithZ1JqcDNtQ04zblF6NWVh?=
- =?utf-8?B?VmFWcWo3OWt4NG9jeEpOOFM4c1FuazlKNDZ0VkowMHZ3R28yWFdxemdYMnhT?=
- =?utf-8?B?ZHBhWWpmSW11QUVoUG5ESWMzd0tvTGQ5MXF1eDNjZ20wTlo4QjVVQUJqalE5?=
- =?utf-8?B?ZXQ2elZpZjk0R0YxNEMxQ244SVBhVmdqWVZPNGpMZ29jd3MwQUxpVGdmR0hi?=
- =?utf-8?B?VVZaYXZOOHRsbHB4ZWcrWlJDc24wc2ZJTWlDQjcrUWNWMkFlR0VWY1pIeldB?=
- =?utf-8?B?OWtBQUQ3cEcxZlA1ZEhDc09qWjJtY1BkZW50dmxncEdIdDlhMGordWdBWXkw?=
- =?utf-8?B?c01YVlcwTVVVSEFOV2JoQW41WUozTjdGc01vUUNISGNUdEdsQytYN2RJejky?=
- =?utf-8?Q?CUyK6d7ekGDj7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9dbbf5a3-93c2-4635-2d79-08d8d9adf7e6
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 16:54:08.9829
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9ZHOEu96unWEP/F+FJYtlnc6MMiTw2jS4ntwIUTjvCaNY9l/dQxAwOtTOQy/pmOn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4255
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Ezequiel,
 
+Dne četrtek, 25. februar 2021 ob 14:09:52 CET je Ezequiel Garcia napisal(a):
+> Hi Benjamin,
+> 
+> Thanks for the good work.
+> 
+> On Mon, 2021-02-22 at 13:23 +0100, Benjamin Gaignard wrote:
+> > The H.265 ITU specification (section 7.4) define the general
+> > slice segment header semantics.
+> > Modified/added fields are:
+> > - video_parameter_set_id: (7.4.3.1) identifies the VPS for
+> > reference by other syntax elements.
+> > - seq_parameter_set_id: (7.4.3.2.1) specifies the value of
+> > the vps_video_parameter_set_id of the active VPS.
+> > - chroma_format_idc: (7.4.3.2.1) specifies the chroma sampling
+> >  relative to the luma sampling
+> > - pic_parameter_set_id: (7.4.3.3.1) identifies the PPS for
+> > reference by other syntax elements
+> > - num_ref_idx_l0_default_active_minus1: (7.4.3.3.1) specifies
+> > the inferred value of num_ref_idx_l0_active_minus1
+> > - num_ref_idx_l1_default_active_minus1: (7.4.3.3.1) specifies
+> > the inferred value of num_ref_idx_l1_active_minus1
+> > - slice_segment_addr: (7.4.7.1) specifies the address of
+> > the first coding tree block in the slice segment
+> > - num_entry_point_offsets: (7.4.7.1) specifies the number of
+> > entry_point_offset_minus1[ i ] syntax elements in the slice header
+> > 
+> > Add HEVC decode params contains the information used in section
+> > "8.3 Slice decoding process" of the specification to let the hardware
+> > perform decoding of a slices.
+> > 
+> > Adapt Cedrus driver according to these changes.
+> > 
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > ---
+> > version 3:
+> > - Add documentation about the new structuers and fields.
+> > 
+> > version 2:
+> > - remove all change related to scaling
+> > - squash commits to a coherent split
+> > - be more verbose about the added fields
+> > 
+> >  .../media/v4l/ext-ctrls-codec.rst             | 126 +++++++++++++++---
+> >  .../media/v4l/vidioc-queryctrl.rst            |   6 +
+> >  drivers/media/v4l2-core/v4l2-ctrls.c          |  26 +++-
+> >  drivers/staging/media/sunxi/cedrus/cedrus.c   |   6 +
+> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
+> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +
+> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  |   6 +-
+> >  include/media/hevc-ctrls.h                    |  45 +++++--
+> >  8 files changed, 186 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 00944e97d638..5e6d77e858c0 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -3109,6 +3109,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      :stub-columns: 0
+> >      :widths:       1 1 2
+> >  
+> > +    * - __u8
+> > +      - ``video_parameter_set_id``
+> > +      - Identifies the VPS for reference by other syntax elements
+> > +    * - __u8
+> > +      - ``seq_parameter_set_id̀``
+> > +      - Specifies the value of the vps_video_parameter_set_id of the 
+active VPS
+> > +    * - __u8
+> > +      - ``chroma_format_idc``
+> > +      - Specifies the chroma sampling relative to the luma sampling
+> 
+> None of these fields seem needed for the Hantro G2 driver,
+> so I suggest you drop them for now.
+> 
+> >      * - __u16
+> >        - ``pic_width_in_luma_samples``
+> >        -
+> > @@ -3172,6 +3181,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      * - __u8
+> >        - ``chroma_format_idc``
+> >        -
+> > +    * - __u8
+> > +      - ``num_slices``
+> > +
+> 
+> Not used, but also doesn't seem part of the SPS syntax. If we have to
+> pass the number of slices, we'll need another mechanism.
+> 
+> >       -
+> >      * - __u64
+> >        - ``flags``
+> >        - See :ref:`Sequence Parameter Set Flags <hevc_sps_flags>`
+> > @@ -3231,9 +3243,18 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      :stub-columns: 0
+> >      :widths:       1 1 2
+> >  
+> > +    * - __u8
+> > +      - ``pic_parameter_set_id``
+> > +      - Identifies the PPS for reference by other syntax elements
+> 
+> Not used.
+> 
+> >      * - __u8
+> >        - ``num_extra_slice_header_bits``
+> >        -
+> > +    * - __u8
+> > +      - ``num_ref_idx_l0_default_active_minus1``
+> > +      - Specifies the inferred value of num_ref_idx_l0_active_minus1
+> > +    * - __u8
+> > +      - ``num_ref_idx_l1_default_active_minus1``
+> > +      - Specifies the inferred value of num_ref_idx_l1_active_minus1
+> >      * - __s8
+> >        - ``init_qp_minus26``
+> >        -
+> > @@ -3342,6 +3363,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      * - ``V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT``
+> >        - 0x00040000
+> >        -
+> > +    * - ``V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT``
+> > +      - 0x00080000
+> > +      -
+> > +    * - ``V4L2_HEVC_PPS_FLAG_UNIFORM_SPACING``
+> > +      - 0x00100000
+> > +      -
+> >  
+> 
+> I suggest to do all the PPS control changes in a separate patch,
+> feels easier to review and cleaner as you can explain the
+> changes with more detail in the commit description.
+> 
+> Looking at the PPS syntax for tiles, I'm wondering if these
+> deserve their own control, which would be used if tiles are enabled,
+> i.e. V4L2_HEVC_PPS_FLAG_TILES_ENABLED is set.
+> 
+>         __u8    num_tile_columns_minus1;                                         
+>         __u8    num_tile_rows_minus1;                                            
+>         __u8    column_width_minus1[20];                                         
+>         __u8    row_height_minus1[22];    
+> 
+> Not something we necessarily have to tackle now.
+> 
+> >  ``V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS (struct)``
+> >      Specifies various slice-specific parameters, especially from the NAL 
+unit
+> > @@ -3366,6 +3393,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      * - __u32
+> >        - ``data_bit_offset``
+> >        - Offset (in bits) to the video data in the current slice data.
+> > +    * - __u32
+> > +      - ``slice_segment_addr``
+> > +      - Specifies the address of the first coding tree block in the slice 
+segment
+> 
+> Not used.
+> 
+> > +    * - __u32
+> > +      - ``num_entry_point_offsets``
+> > +      - Specifies the number of entry_point_offset_minus1[ i ] syntax 
+elements in the slice header
+> 
+> Not used.
 
-Am 25.02.21 um 16:49 schrieb Daniel Vetter:
-> On Thu, Feb 25, 2021 at 11:44 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->> On Thu, Feb 25, 2021 at 11:28:31AM +0100, Christian König wrote:
->>> Am 24.02.21 um 10:31 schrieb Daniel Vetter:
->>>> On Wed, Feb 24, 2021 at 10:16 AM Thomas Hellström (Intel)
->>>> <thomas_os@shipmail.org> wrote:
->>>>> On 2/24/21 9:45 AM, Daniel Vetter wrote:
->>>>>> On Wed, Feb 24, 2021 at 8:46 AM Thomas Hellström (Intel)
->>>>>> <thomas_os@shipmail.org> wrote:
->>>>>>> On 2/23/21 11:59 AM, Daniel Vetter wrote:
->>>>>>>> tldr; DMA buffers aren't normal memory, expecting that you can use
->>>>>>>> them like that (like calling get_user_pages works, or that they're
->>>>>>>> accounting like any other normal memory) cannot be guaranteed.
->>>>>>>>
->>>>>>>> Since some userspace only runs on integrated devices, where all
->>>>>>>> buffers are actually all resident system memory, there's a huge
->>>>>>>> temptation to assume that a struct page is always present and useable
->>>>>>>> like for any more pagecache backed mmap. This has the potential to
->>>>>>>> result in a uapi nightmare.
->>>>>>>>
->>>>>>>> To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
->>>>>>>> blocks get_user_pages and all the other struct page based
->>>>>>>> infrastructure for everyone. In spirit this is the uapi counterpart to
->>>>>>>> the kernel-internal CONFIG_DMABUF_DEBUG.
->>>>>>>>
->>>>>>>> Motivated by a recent patch which wanted to swich the system dma-buf
->>>>>>>> heap to vm_insert_page instead of vm_insert_pfn.
->>>>>>>>
->>>>>>>> v2:
->>>>>>>>
->>>>>>>> Jason brought up that we also want to guarantee that all ptes have the
->>>>>>>> pte_special flag set, to catch fast get_user_pages (on architectures
->>>>>>>> that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
->>>>>>>> still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
->>>>>>>>
->>>>>>>>     From auditing the various functions to insert pfn pte entires
->>>>>>>> (vm_insert_pfn_prot, remap_pfn_range and all it's callers like
->>>>>>>> dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
->>>>>>>> this should be the correct flag to check for.
->>>>>>>>
->>>>>>> If we require VM_PFNMAP, for ordinary page mappings, we also need to
->>>>>>> disallow COW mappings, since it will not work on architectures that
->>>>>>> don't have CONFIG_ARCH_HAS_PTE_SPECIAL, (see the docs for vm_normal_page()).
->>>>>> Hm I figured everyone just uses MAP_SHARED for buffer objects since
->>>>>> COW really makes absolutely no sense. How would we enforce this?
->>>>> Perhaps returning -EINVAL on is_cow_mapping() at mmap time. Either that
->>>>> or allowing MIXEDMAP.
->>>>>
->>>>>>> Also worth noting is the comment in  ttm_bo_mmap_vma_setup() with
->>>>>>> possible performance implications with x86 + PAT + VM_PFNMAP + normal
->>>>>>> pages. That's a very old comment, though, and might not be valid anymore.
->>>>>> I think that's why ttm has a page cache for these, because it indeed
->>>>>> sucks. The PAT changes on pages are rather expensive.
->>>>> IIRC the page cache was implemented because of the slowness of the
->>>>> caching mode transition itself, more specifically the wbinvd() call +
->>>>> global TLB flush.
->>> Yes, exactly that. The global TLB flush is what really breaks our neck here
->>> from a performance perspective.
->>>
->>>>>> There is still an issue for iomem mappings, because the PAT validation
->>>>>> does a linear walk of the resource tree (lol) for every vm_insert_pfn.
->>>>>> But for i915 at least this is fixed by using the io_mapping
->>>>>> infrastructure, which does the PAT reservation only once when you set
->>>>>> up the mapping area at driver load.
->>>>> Yes, I guess that was the issue that the comment describes, but the
->>>>> issue wasn't there with vm_insert_mixed() + VM_MIXEDMAP.
->>>>>
->>>>>> Also TTM uses VM_PFNMAP right now for everything, so it can't be a
->>>>>> problem that hurts much :-)
->>>>> Hmm, both 5.11 and drm-tip appears to still use MIXEDMAP?
->>>>>
->>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Flatest%2Fsource%2Fdrivers%2Fgpu%2Fdrm%2Fttm%2Fttm_bo_vm.c%23L554&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Ca93d0dbbc0484fec118808d8d9a4fc22%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637498649935442516%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=7%2BO0WNdBF62eVDy7u4hRydsfviF6dBJEDeZiYIzQAcc%3D&amp;reserved=0
->>>> Uh that's bad, because mixed maps pointing at struct page wont stop
->>>> gup. At least afaik.
->>> Hui? I'm pretty sure MIXEDMAP stops gup as well. Otherwise we would have
->>> already seen tons of problems with the page cache.
->> On any architecture which has CONFIG_ARCH_HAS_PTE_SPECIAL vm_insert_mixed
->> boils down to vm_insert_pfn wrt gup. And special pte stops gup fast path.
->>
->> But if you don't have VM_IO or VM_PFNMAP set, then I'm not seeing how
->> you're stopping gup slow path. See check_vma_flags() in mm/gup.c.
->>
->> Also if you don't have CONFIG_ARCH_HAS_PTE_SPECIAL then I don't think
->> vm_insert_mixed even works on iomem pfns. There's the devmap exception,
->> but we're not devmap. Worse ttm abuses some accidental codepath to smuggle
->> in hugepte support by intentionally not being devmap.
->>
->> So I'm really not sure this works as we think it should. Maybe good to do
->> a quick test program on amdgpu with a buffer in system memory only and try
->> to do direct io into it. If it works, you have a problem, and a bad one.
-> That's probably impossible, since a quick git grep shows that pretty
-> much anything reasonable has special ptes: arc, arm, arm64, powerpc,
-> riscv, s390, sh, sparc, x86. I don't think you'll have a platform
-> where you can plug an amdgpu in and actually exercise the bug :-)
->
-> So maybe we should just switch over to VM_PFNMAP for ttm for more clarity?
+While above two fields may not be used in Hantro, they are for sure useful for 
+Cedrus and RPi4. I would like to keep them, otherwise with such approach HEVC 
+will stay in staging for a long time. I'm still baffled why scaling matrix 
+control was dropped. It would fit well in Cedrus and RPi4 driver and after a 
+quick look, it seems that it was used in driver in later patch.
 
-Maybe yes, but not sure.
+Best regards,
+Jernej
 
-I've once had a request to do this from some google guys, but rejected 
-it because I wasn't sure of the consequences.
+> 
+> >      * - __u8
+> >        - ``nal_unit_type``
+> >        -
+> > @@ -3422,28 +3455,20 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      * - __u8
+> >        - ``pic_struct``
+> >        -
+> > -    * - __u8
+> > -      - ``num_active_dpb_entries``
+> > -      - The number of entries in ``dpb``.
+> 
+> Need to explain in the commit description why this field is moved.
+> 
+> >      * - __u8
+> >        - ``ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> >        - The list of L0 reference elements as indices in the DPB.
+> >      * - __u8
+> >        - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> >        - The list of L1 reference elements as indices in the DPB.
+> > +    * - __u16
+> > +      - ``short_term_ref_pic_set_size``
+> > +
+> 
+> Not used.
+> 
+> >       -
+> > +    * - __u16
+> > +      - ``long_term_ref_pic_set_size``
+> > +      -
+> 
+> Not used.
+> 
+> >      * - __u8
+> > -      - ``num_rps_poc_st_curr_before``
+> > -      - The number of reference pictures in the short-term set that come 
+before
+> > -        the current frame.
+> 
+> If this matches NumPocStCurrBefore from section 8.3.2 "Decoding process for 
+reference picture set"
+> then I would document that. And perhaps rename it to num_poc_st_curr_before.
+> 
+> > -    * - __u8
+> > -      - ``num_rps_poc_st_curr_after``
+> > -      - The number of reference pictures in the short-term set that come 
+after
+> > -        the current frame.
+> 
+> Ditto.
+> 
+> > -    * - __u8
+> > -      - ``num_rps_poc_lt_curr``
+> > -      - The number of reference pictures in the long-term set.
+> 
+> Ditto.
+> 
+> Also, I'd like the changes that move fields from 
+V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS
+> to the new V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS control, to be in their
+> patch.
+> 
+> That will allow us to put in the commit description a proper
+> explanation of why are fields being moved. Nothing fancy, simply
+> explaining that these variables come from section 8.3.2
+> "Decoding process for reference picture set", which describes
+> a process invoked once per picture, so they are not per-slice.
+> 
+> > -    * - __u8
+> > -      - ``padding[7]``
+> > +      - ``padding``
+> >        - Applications and drivers must set this to zero.
+> >      * - struct :c:type:`v4l2_hevc_dpb_entry`
+> >        - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> > @@ -3646,3 +3671,74 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      so this has to come from client.
+> >      This is applicable to H264 and valid Range is from 0 to 63.
+> >      Source Rec. ITU-T H.264 (06/2019); G.7.4.1.1, G.8.8.1.
+> > +
+> > +``V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS (struct)``
+> > +    Specifies various decode parameters, especially the references picture 
+order
+> > +    count (POC) for all the lists (short, long, before, current, after) 
+and the
+> > +    number of entries for each of them.
+> > +    These parameters are defined according to :ref:`hevc`.
+> > +    They are described in section 8.3 "Slice decoding process" of the
+> > +    specification.
+> > +
+> > +.. c:type:: v4l2_ctrl_hevc_decode_params
+> > +
+> > +.. cssclass:: longtable
+> > +
+> > +.. flat-table:: struct v4l2_ctrl_hevc_decode_params
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +    :widths:       1 1 2
+> > +
+> > +    * - __s32
+> > +      - ``pic_order_cnt_val``
+> > +      -
+> 
+> Can be documented as:
+> 
+> """
+> PicOrderCntVal as described in section 8.3.1 "Decoding process
+> for picture order count" of the specification.
+> """
+> 
+> Note that snake case is used to match the kernel style,
+> but other than that we try to keep the HEVC spec variable
+> names.
+> 
+> > +    * - __u8
+> > +      - ``num_active_dpb_entries``
+> > +      - The number of entries in ``dpb``.
+> > +    * - struct :c:type:`v4l2_hevc_dpb_entry`
+> > +      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> > +      - The decoded picture buffer, for meta-data about reference frames.
+> 
+> The DPB is here, but it seems it's also in the slice control?
+> 
+> > +    * - __u8
+> > +      - ``num_rps_poc_st_curr_before``
+> > +      - The number of reference pictures in the short-term set that come 
+before
+> > +        the current frame.
+> > +    * - __u8
+> > +      - ``num_rps_poc_st_curr_after``
+> > +      - The number of reference pictures in the short-term set that come 
+after
+> > +        the current frame.
+> > +    * - __u8
+> > +      - ``num_rps_poc_lt_curr``
+> > +      - The number of reference pictures in the long-term set.
+> > +    * - __u8
+> > +      - ``rps_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> > +      -
+> > +    * - __u8
+> > +      - ``rps_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> > +      -
+> > +    * - __u8
+> > +      - ``rps_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> > +      -
+> 
+> Could you document these as well?
+> 
+> Thanks a lot,
+> Ezequiel
+> 
+> 
 
-Christian.
-
-> -Daniel
->
->
->>> Regards,
->>> Christian.
->>>
->>>> Christian, do we need to patch this up, and maybe fix up ttm fault
->>>> handler to use io_mapping so the vm_insert_pfn stuff is fast?
->>>> -Daniel
->> --
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Ca93d0dbbc0484fec118808d8d9a4fc22%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637498649935442516%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=PmdIbYM6kemXstScf2OoZU9YyXGGzzNzeWEyL8ZDnfo%3D&amp;reserved=0
->
->
 
