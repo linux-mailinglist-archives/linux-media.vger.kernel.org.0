@@ -2,131 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24022325139
-	for <lists+linux-media@lfdr.de>; Thu, 25 Feb 2021 15:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C968B3251A7
+	for <lists+linux-media@lfdr.de>; Thu, 25 Feb 2021 15:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231721AbhBYOGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Feb 2021 09:06:30 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43614 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231248AbhBYOG0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Feb 2021 09:06:26 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 439961F4617B
-Message-ID: <3a2b4d06a363541c475dbc1bbf61d90b3a1b0cc0.camel@collabora.com>
-Subject: Re: [PATCH v3 4/9] media: uapi: Add a control for HANTRO driver
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, peng.fan@nxp.com,
-        hverkuil-cisco@xs4all.nl, dan.carpenter@oracle.com
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Date:   Thu, 25 Feb 2021 11:05:32 -0300
-In-Reply-To: <20210222122406.41782-5-benjamin.gaignard@collabora.com>
-References: <20210222122406.41782-1-benjamin.gaignard@collabora.com>
-         <20210222122406.41782-5-benjamin.gaignard@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S229890AbhBYOnB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Feb 2021 09:43:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59078 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229498AbhBYOmx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Feb 2021 09:42:53 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 53B7964ECE;
+        Thu, 25 Feb 2021 14:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614264132;
+        bh=4sHiq68F0g7bVZOgLUG764o38A+n0QBHmSbVULWttEU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=NBlzBAwYS8G2iYlgShS3ec+hMTeAGBB9TqPXmfccfAhjp5G+Zon99QhzfGulHKN14
+         PreBRo6QfIcjxdt7aIUPFvKua6bd22UxddCqXwxom8k2apNdY6HQ1wcTpcEvjbhO75
+         +WBiwt+O1aboP6kOPzuq/eFwaelkP8ZZ1wrtZyDgL88SW7TfqUNEdPefBNO4DL9ZG6
+         p+UOtiHU2iYm8duMF3TfU3nxadNwg1eX+HqYePjks3dybD9lTux5Y5f4QlGCuhdN6o
+         JZWtDjxzFYHMp4JzetBfAjpmzxyD3iojFm5nAGKR8kqDDuFF0RwFwvKAop5ggRsXuI
+         QtvvOQaqK1R3g==
+Received: by mail-ej1-f47.google.com with SMTP id lr13so9245803ejb.8;
+        Thu, 25 Feb 2021 06:42:12 -0800 (PST)
+X-Gm-Message-State: AOAM533lIc2g+soPYQVUzzKpOFbKjvfkSRk5ARM/OjivPtCCM/1Pvta8
+        /gaXVr/angOL3SRyW/bRhBsgqIlIDE118mQhCmI=
+X-Google-Smtp-Source: ABdhPJwjKYcFVZcp83Us1hJHUD924Bpq+rxT7lvV04NHLBei/6o9SRjTc01OGGCIvp6BECo9/JbfzJvPYI5N/B1cIak=
+X-Received: by 2002:a17:906:a896:: with SMTP id ha22mr2938761ejb.503.1614264130626;
+ Thu, 25 Feb 2021 06:42:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1614243836-54718-1-git-send-email-yang.lee@linux.alibaba.com>
+In-Reply-To: <1614243836-54718-1-git-send-email-yang.lee@linux.alibaba.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Thu, 25 Feb 2021 15:41:58 +0100
+X-Gmail-Original-Message-ID: <CAJKOXPdyZQfJNKVpga3yw7yxwK0WvMitN51+e-YgOHHJAMkvsw@mail.gmail.com>
+Message-ID: <CAJKOXPdyZQfJNKVpga3yw7yxwK0WvMitN51+e-YgOHHJAMkvsw@mail.gmail.com>
+Subject: Re: [PATCH] media: exynos4-is: add missing call to of_node_put()
+To:     Yang Li <yang.lee@linux.alibaba.com>
+Cc:     mchehab@kernel.org, Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+On Thu, 25 Feb 2021 at 10:04, Yang Li <yang.lee@linux.alibaba.com> wrote:
+>
+> In one of the error paths of the for_each_child_of_node() loop in
+> fimc_md_parse_one_endpoint, add missing call to of_node_put().
+>
+> Fix the following coccicheck warning:
+> ./drivers/media/platform/exynos4-is/media-dev.c:489:1-23: WARNING:
+> Function "for_each_child_of_node" should have of_node_put() before
+> return around line 492.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 
-On Mon, 2021-02-22 at 13:24 +0100, Benjamin Gaignard wrote:
-> The HEVC HANTRO driver needs to know the number of bits to skip at
+Please make the reports public. Otherwise the actual credits should go
+to Coccinelle not to some hidden/unknown tool...
 
-s/HANTRO/Hantro
-
-> the beginning of the slice header.
-
-As discussed in a different thread, we should describe exactly
-what the hardware is expecting, so applications can parse that
-and pass a correct value.
-
-> That is a hardware specific requirement so create a dedicated control
-> that this purpose.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 > ---
-> version 3:
-> - Fix typo in field name
-> 
->  include/uapi/linux/hantro-v4l2-controls.h | 20 ++++++++++++++++++++
->  include/uapi/linux/v4l2-controls.h        |  5 +++++
->  2 files changed, 25 insertions(+)
->  create mode 100644 include/uapi/linux/hantro-v4l2-controls.h
-> 
-> diff --git a/include/uapi/linux/hantro-v4l2-controls.h b/include/uapi/linux/hantro-v4l2-controls.h
-> new file mode 100644
-> index 000000000000..a8dfd6b1a2a9
-> --- /dev/null
-> +++ b/include/uapi/linux/hantro-v4l2-controls.h
-> @@ -0,0 +1,20 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +
-> +#ifndef __UAPI_HANTRO_V4L2_CONYTROLS_H__
-> +#define __UAPI_HANTRO_V4L2_CONYTROLS_H__
-> +
-> +#include <linux/v4l2-controls.h>
-> +#include <media/hevc-ctrls.h>
-> +
-> +#define V4L2_CID_HANTRO_HEVC_EXTRA_DECODE_PARAMS       (V4L2_CID_USER_HANTRO_BASE + 0)
-> +
-> +/**
-> + * struct hantro_hevc_extra_decode_params - extra decode parameters for hantro driver
-> + * @hevc_hdr_skip_length:      header first bits offset
-> + */
-> +struct hantro_hevc_extra_decode_params {
-> +       __u32   hevc_hdr_skip_length;
-> +       __u8    padding[4];
-> +};
-> +
+>  drivers/media/platform/exynos4-is/media-dev.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+> index 8e1e892..467bc69 100644
+> --- a/drivers/media/platform/exynos4-is/media-dev.c
+> +++ b/drivers/media/platform/exynos4-is/media-dev.c
+> @@ -489,6 +489,7 @@ static int fimc_md_parse_port_node(struct fimc_md *fmd,
+>         for_each_child_of_node(port, ep) {
+>                 ret = fimc_md_parse_one_endpoint(fmd, ep);
+>                 if (ret < 0)
+> +                       of_node_put(ep);
 
-I think we can get away with a simpler solution. Since it's just one integer
-we need, there's no need for a compound control. Something like this:
+This is wrong...
 
-                .codec = HANTRO_HEVC_DECODER,                                    
-                .cfg = {                                                         
-                        .id = V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP,            
-                        .name = "Hantro HEVC slice header skip bytes",           
-                        .type = V4L2_CTRL_TYPE_INTEGER,                          
-                        .min = 0,                                                
-                        .max = 0x7fffffff,                                       
-                        .step = 1,                                               
-                },     
-
-Also see V4L2_CID_CODA_MB_ERR_CNT which is defined in drivers/media/platform/coda/coda.h.
-The control is sufficiently special that it could be kept in an internal driver header.
-
-> +#endif
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 039c0d7add1b..ced7486c7f46 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -209,6 +209,11 @@ enum v4l2_colorfx {
->   * We reserve 128 controls for this driver.
->   */
->  #define V4L2_CID_USER_CCS_BASE                 (V4L2_CID_USER_BASE + 0x10f0)
-> +/*
-> + * The base for HANTRO driver controls.
-> + * We reserve 32 controls for this driver.
-> + */
-> +#define V4L2_CID_USER_HANTRO_BASE              (V4L2_CID_USER_BASE + 0x1170)
->  
->  /* MPEG-class control IDs */
->  /* The MPEG controls are applicable to all codec controls
-
-Thanks,
-Ezequiel
-
+Best regards,
+Krzysztof
