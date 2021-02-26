@@ -2,135 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E3D0325C3D
-	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 04:59:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF198325C60
+	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 05:10:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbhBZD6v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Feb 2021 22:58:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57664 "EHLO
+        id S229864AbhBZEJy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Feb 2021 23:09:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbhBZD6v (ORCPT
+        with ESMTP id S229491AbhBZEJw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Feb 2021 22:58:51 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92736C06174A
-        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 19:58:10 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id e2so1901482ljo.7
-        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 19:58:10 -0800 (PST)
+        Thu, 25 Feb 2021 23:09:52 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 085C1C061574
+        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 20:09:12 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id e9so4612605plh.3
+        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 20:09:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=IKcGR9mazlUUFUCJHZLpv+HgMJWAswex7iAdBxFMsas=;
-        b=QXGOxOrc30RkjTFMoXYgNZN9aKZah9TJL8+FeIDzUqdOhlFB16EzADtDKwN24Pr6Me
-         lVy8jOde4a3EHpWNph3fPIYrxmQGALemW9oLwX7ALKnc7/1R9sx5C3CbjvfKhg5HsGjO
-         YR+W53mExuY+D9stcgZWxSVvxj8AVeezKm8eiKoZ0AF/RnoeJdAp/SD2NTlR+gpFy7M7
-         9PVmZeYqeZlfLeqzvmGX67mXnbDKEwhFLVcTEIUIJZ7WDlQqM3rWwbwDPJnr/WvEZrQy
-         +Ps5SPvaFb14e6C/aqVvY37js4Xu9rzne1UItA0EumXeC0VlTbQhgt4vkiWON27I8K9W
-         3EBQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sS7O64Dax1Oof6uU+LILebhJ2b6dwBPbMV6PckIKTic=;
+        b=SBfjWgcX7J4qKX7Tx/bBySKwNSomYsKyezXTnuznVIVzwnGIJhBnf+Q6aKLZklE010
+         piLfpJ38GSZPZ04u3WRoGx6Dx/iXambXNJlWc10p5BJu0BkQisRIGletv6H5lAFWrucj
+         gzU9iSRDzzcenUY9x2wowgr0zRYUXiLTv44+BLxGLx0Xor+xXaqi2N6H2iv+SGv2Z4ZC
+         rmt4QWoPPXQy9J2PVfp7jFSeS9EwqLsqmOcBzHKTz4T1Tuo5q9paDQmHdhaz7ePPAh3y
+         UlzVxEERei8fpd1u1UXtchb1bQ9knVi+9o4h85Hfpt2HGT3rdWg5NU5k/+WS71bPE4o+
+         XYpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IKcGR9mazlUUFUCJHZLpv+HgMJWAswex7iAdBxFMsas=;
-        b=hMJKeMRSdtWNZbuuZpUzXewxkFiV8JiK2sKqwCWuUDEkZmn6oqz0KM1Tr8U3iR1Ba5
-         /skC4ewQ3MwNCfT3+JIWPp5pOisA37zzIsjzWSlHyTaPZOYOe/BLRu3aE+63ozkr+Epe
-         sLtQ4pMIudwUR0mWxdDlhRT9xhBhX93GIR6VHh3weRYKtiPWR2BloZdU/MvQ3XUS/yeA
-         iFOJ1rFLugc50hRNff+7O0IiT1GDX/i6pkkuqecZtT8R9CzZlXszCKJpgPY9yHZCfv5l
-         EYGvanT2wHUc+X9Q5cYW0Whj8q+OyHhVeCm+a67ie/eElEw1QWLa+ylIzs+ULFBVqXfL
-         CrzQ==
-X-Gm-Message-State: AOAM531bQwt5boXdmLOAWnV76sDHvd/SnGAGZc0GNZhzOxZaSPKtOBhP
-        8BsBlhg2Fx8h5Ei9zzGXvaYzVpvvtG603fMZ9uWzhtFBRw0bzA==
-X-Google-Smtp-Source: ABdhPJx/pbxqQ4tVmMGKowXmBZLmvQbMe0LIG0j9zdeku6gTbxeiU4ZEHNZuRd9UmA3p7DxDyFxh2XaIyMxq6HHuOIU=
-X-Received: by 2002:a2e:8ec6:: with SMTP id e6mr505307ljl.257.1614311882892;
- Thu, 25 Feb 2021 19:58:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210223105951.912577-1-daniel.vetter@ffwll.ch>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sS7O64Dax1Oof6uU+LILebhJ2b6dwBPbMV6PckIKTic=;
+        b=rmICn2PlfTcJ4Wf1yYYA1wdzWeNvLSqf+Rr6YsmYfA42vXcWUZDwowllDXA4k74VBb
+         +BrNuV3ZYbxdGF+6N0E3wCwbOY+IlPamqimeNMyX2tnHIPJn0KaYNGM25hd9eMmtf80/
+         GLuaq0R4TKfot4gD+qCqdfD5zN7bUJKcRLfGjOWrVbqf1CzMTV31LRpyzBPFaCAf51xD
+         Ue0p9lqdGjxjHdOLJszobxZKZH1Whfy3IZYBH7UVUKnRm/QzGOfXePqTfAz2TwBV/b1H
+         5EHGK+Xq8CvZa/IjI/N+tyFCDv069WE69h5FUpEmjDzWvRZtHOCxCDnMb6jD8xslZt/V
+         C2kA==
+X-Gm-Message-State: AOAM530FA/HfTUXmSt2XQc7vv9DpHB7GcU+xc6c7ZHbnh/A8bZd3Ar4L
+        hL+kat1Q81uznIUg0SxseylOEQ==
+X-Google-Smtp-Source: ABdhPJzoeipTVrF8IbTxJwEupx0T2MyCKRlMEoY2FfiRRoVqjyRaqdsS61hiZWm94ZbjbWhgc9g5IQ==
+X-Received: by 2002:a17:902:a985:b029:e3:8796:a128 with SMTP id bh5-20020a170902a985b02900e38796a128mr1326366plb.81.1614312551589;
+        Thu, 25 Feb 2021 20:09:11 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id z2sm7792202pfc.8.2021.02.25.20.09.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Feb 2021 20:09:10 -0800 (PST)
 From:   John Stultz <john.stultz@linaro.org>
-Date:   Thu, 25 Feb 2021 19:57:48 -0800
-Message-ID: <CALAqxLURCOA9vfw3VqhUTtf_n6nsTHaA+F1Gu32U3pW8zW-YTw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for mmap
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Jason Gunthorpe <jgg@ziepe.ca>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
+        Christian Koenig <christian.koenig@amd.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Hridya Valsaraju <hridya@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Liam Mark <lmark@codeaurora.org>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma-buf: heaps: Set VM_PFNMAP in mmap for system and cma heaps
+Date:   Fri, 26 Feb 2021 04:09:08 +0000
+Message-Id: <20210226040908.3274666-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 3:00 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
->
-> tldr; DMA buffers aren't normal memory, expecting that you can use
-> them like that (like calling get_user_pages works, or that they're
-> accounting like any other normal memory) cannot be guaranteed.
->
-> Since some userspace only runs on integrated devices, where all
-> buffers are actually all resident system memory, there's a huge
-> temptation to assume that a struct page is always present and useable
-> like for any more pagecache backed mmap. This has the potential to
-> result in a uapi nightmare.
->
-> To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
-> blocks get_user_pages and all the other struct page based
-> infrastructure for everyone. In spirit this is the uapi counterpart to
-> the kernel-internal CONFIG_DMABUF_DEBUG.
->
-> Motivated by a recent patch which wanted to swich the system dma-buf
-> heap to vm_insert_page instead of vm_insert_pfn.
->
-> v2:
->
-> Jason brought up that we also want to guarantee that all ptes have the
-> pte_special flag set, to catch fast get_user_pages (on architectures
-> that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
-> still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
->
-> From auditing the various functions to insert pfn pte entires
-> (vm_insert_pfn_prot, remap_pfn_range and all it's callers like
-> dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
-> this should be the correct flag to check for.
->
-> References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVj=
-pcR0NjRL12k-WbWzkRg@mail.gmail.com/
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> ---
->  drivers/dma-buf/dma-buf.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+Per discussion and patches here:
+  https://lore.kernel.org/dri-devel/20210223105951.912577-1-daniel.vetter@ffwll.ch/
 
+Daniel is planning on making VM_PFNMAP required on dmabufs.
 
-So I gave this a spin in a few of my environments, and with the
-current dmabuf heaps it spews a lot of warnings.
+Thus to avoid the warn_on noise, set the VM_PFNMAP in the
+system and cma heap's mmap handler.
 
-I'm testing some simple fixes to add:
-    vma->vm_flags |=3D VM_PFNMAP;
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/cma_heap.c    | 1 +
+ drivers/dma-buf/heaps/system_heap.c | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-to the dmabuf heap mmap ops, which we might want to queue along side of thi=
-s.
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 364fc2f3e499..34bc3987f942 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -185,6 +185,7 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+ 
+ 	vma->vm_ops = &dma_heap_vm_ops;
+ 	vma->vm_private_data = buffer;
++	vma->vm_flags |= VM_PFNMAP;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 3548b20cb98c..8995e3cbfcaf 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -228,8 +228,10 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+ 			return ret;
+ 		addr += PAGE_SIZE;
+ 		if (addr >= vma->vm_end)
+-			return 0;
++			break;
+ 	}
++
++	vma->vm_flags |= VM_PFNMAP;
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
 
-So assuming those can land together.
-Acked-by: John Stultz <john.stultz@linaro.org>
-
-thanks
--john
