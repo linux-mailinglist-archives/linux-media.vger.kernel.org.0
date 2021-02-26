@@ -2,211 +2,630 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EAFB32631C
-	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 14:06:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09FFD32631F
+	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 14:09:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230282AbhBZNG2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Feb 2021 08:06:28 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49382 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbhBZNG0 (ORCPT
+        id S229745AbhBZNIm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Feb 2021 08:08:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229571AbhBZNIl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Feb 2021 08:06:26 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 438F6580;
-        Fri, 26 Feb 2021 14:05:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614344743;
-        bh=Pn1GXf496O59uPaYl6Kxb/FwBF+ERmIgv38ha8Jcl/E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AuZRBC/3EctvpMjBlzYhC9ZycLOxegiRu95vr8qxIHUUXBzx5yO2qx/pfpw+UKJtB
-         bS3EAh05N6xfEXLinLLFdtXaHlFYsY26hGX/O4BYtbyRtVMReCYidGaiEsb/qDhsvU
-         H8f0zXkYoNggy4PuccawOn9rEasjD2PM3QsVowYc=
-Date:   Fri, 26 Feb 2021 15:05:16 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Dirk Behme <Dirk.Behme@de.bosch.com>,
-        Peter Erben <Peter.Erben@de.bosch.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 4/7] misc: Add driver for DAB IP found on Renesas R-Car
- devices
-Message-ID: <YDjyDB/l6dVoodKZ@pendragon.ideasonboard.com>
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com>
- <20210225225147.29920-5-fabrizio.castro.jz@renesas.com>
- <CAK8P3a1+CZTAcR5T=gN565Q8=CdZnu5KYsAijKXLY8taofEpGg@mail.gmail.com>
+        Fri, 26 Feb 2021 08:08:41 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E907DC061756
+        for <linux-media@vger.kernel.org>; Fri, 26 Feb 2021 05:08:00 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id m6so6233282pfk.1
+        for <linux-media@vger.kernel.org>; Fri, 26 Feb 2021 05:08:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tzbfgkTAyNzwu1QXGsyRHtE8D7jpqg1aWwO85PGpakc=;
+        b=A9d94NYl+JdoHez6IIUVoYYGGYyHeUdM5FtRFjY1lKwP5C8tQYyzgE3MLl4zoJ2CDO
+         Nk2uFJLcVmWYQVov5M3a5JWOb4yH0m0NKJrAECy3E34nEGFn5CAXmo2dlo3CqP6eYIYR
+         29cZI9Wixauz6rqXJD0ev+Con89z9cXYEvVKRkCjNutgaR8NhOJ6COVB1s3vhCUx4e5n
+         RoAboaaj+nqGw1Pa30VEk33bIbqtC3vAt7W+ZoUh3CV7WOliVWWPOpNmyJEcHEq2IUiO
+         BgJzV6CGmbnZiS1bnaAow0VgK+EZibXPcRIqLJjMjpTVDU2c3u8k2BCAaa41mZJ+ItO+
+         5kmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tzbfgkTAyNzwu1QXGsyRHtE8D7jpqg1aWwO85PGpakc=;
+        b=JVYCmci7sqXEW8qMycSKnxpCJsI0uoSmvTE6yXgvCmGdpmIB2IegWRm/OzP4CI2YlH
+         dmcUIvCjXEFToHXLKiiJmTNgVWe8SMGl0GtT7lq9lnRNa83JjvNl8Ze+Vv4Z7fA9OChz
+         wwWtnXTkJEKMVPvBWqOCU+GqsokBobZkCyHp7yX9q1zEAqEklUPTAuqRTZPahJCn1Ap4
+         Ct55fwz8JuuntDSlm39DtQ4iSK6SVogY01JIOFuLiJ9HRb0IdjshoIyGMaOlHytLZo9I
+         7Z4Q6HGnfHPWDb6xPKARZFV/QFckFIi1mYWy3DOfLJjePQynSsi8L9ffuLze/TDuFP5K
+         goBA==
+X-Gm-Message-State: AOAM531ixWD8cJ2lRrfduMTAMEhw/lP0GrNiMdGw0xT2FfPQmAR4fh1A
+        KWe8fx5Vecq/a4RR2OWqjU6rnLbaC48+aSMJQ6ZAMw==
+X-Google-Smtp-Source: ABdhPJxlJqf6jsvBll/cK9x5MrNuv6EjLt4rwW1fXk5X7Tu0LGhY2490eYce6xhhWcmjTUCHwBH+Mbj68YpNfYWJ/a0=
+X-Received: by 2002:a62:7888:0:b029:1ed:cc30:923e with SMTP id
+ t130-20020a6278880000b02901edcc30923emr3336731pfc.12.1614344880265; Fri, 26
+ Feb 2021 05:08:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a1+CZTAcR5T=gN565Q8=CdZnu5KYsAijKXLY8taofEpGg@mail.gmail.com>
+References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com> <1613619715-28785-6-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1613619715-28785-6-git-send-email-victor.liu@nxp.com>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Fri, 26 Feb 2021 14:07:49 +0100
+Message-ID: <CAG3jFyufawQ=0UNgfbTgzkbqCYQ7LS-BMq7mXruX470iYBXMOw@mail.gmail.com>
+Subject: Re: [PATCH v4 05/14] drm/bridge: imx: Add i.MX8qm/qxp pixel combiner support
+To:     Liu Ying <victor.liu@nxp.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de,
+        Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>, kishon@ti.com,
+        Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabrizio,
+Hey Liu,
 
-Thank you for the patch.
+With the below nit straightened out, feel free to add my r-b.
 
-On Fri, Feb 26, 2021 at 11:37:44AM +0100, Arnd Bergmann wrote:
-> On Thu, Feb 25, 2021 at 11:51 PM Fabrizio Castro wrote:
-> >
-> > The DAB hardware accelerator found on R-Car E3 and R-Car M3-N devices is
-> > a hardware accelerator for software DAB demodulators.
-> > It consists of one FFT (Fast Fourier Transform) module and one decoder
-> > module, compatible with DAB specification (ETSI EN 300 401 and
-> > ETSI TS 102 563).
-> > The decoder module can perform FIC decoding and MSC decoding processing
-> > from de-puncture to final decoded result.
-> >
-> > This patch adds a device driver to support the FFT module only.
-> >
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > ---
-> >  MAINTAINERS                      |   7 ++
-> >  drivers/misc/Kconfig             |   1 +
-> >  drivers/misc/Makefile            |   1 +
-> >  drivers/misc/rcar_dab/Kconfig    |  11 ++
-> >  drivers/misc/rcar_dab/Makefile   |   8 ++
-> >  drivers/misc/rcar_dab/rcar_dev.c | 176 +++++++++++++++++++++++++++++++
-> >  drivers/misc/rcar_dab/rcar_dev.h | 116 ++++++++++++++++++++
-> >  drivers/misc/rcar_dab/rcar_fft.c | 160 ++++++++++++++++++++++++++++
-> >  include/uapi/linux/rcar_dab.h    |  35 ++++++
-> 
-> Can you explain why this is not in drivers/media/?
-> 
-> I don't think we want a custom ioctl interface for a device that implements
-> a generic specification. My first feeling would be that this should not
-> have a user-level API but instead get called by the DAB radio driver.
-> 
-> What is the intended usage model here? I assume the idea is to
-> use it in an application that receives audio or metadata from DAB.
-> What driver do you use for that?
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-I second Arnd here, a standard API would be best.
+On Thu, 18 Feb 2021 at 04:58, Liu Ying <victor.liu@nxp.com> wrote:
+>
+> This patch adds a drm bridge driver for i.MX8qm/qxp pixel combiner.
+> The pixel combiner takes two output streams from a single display
+> controller and manipulates the two streams to support a number
+> of modes(bypass, pixel combine, YUV444 to YUV422, split_RGB) configured
+> as either one screen, two screens, or virtual screens.  The pixel
+> combiner is also responsible for generating some of the control signals
+> for the pixel link output channel.  For now, the driver only supports
+> the bypass mode.
+>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v3->v4:
+> * No change.
+>
+> v2->v3:
+> * No change.
+>
+> v1->v2:
+> * No change.
+>
+>  drivers/gpu/drm/bridge/Kconfig                     |   2 +
+>  drivers/gpu/drm/bridge/Makefile                    |   1 +
+>  drivers/gpu/drm/bridge/imx/Kconfig                 |   8 +
+>  drivers/gpu/drm/bridge/imx/Makefile                |   1 +
+>  .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    | 452 +++++++++++++++++++++
+>  5 files changed, 464 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/imx/Kconfig
+>  create mode 100644 drivers/gpu/drm/bridge/imx/Makefile
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index e4110d6c..84944e0 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -256,6 +256,8 @@ source "drivers/gpu/drm/bridge/adv7511/Kconfig"
+>
+>  source "drivers/gpu/drm/bridge/cadence/Kconfig"
+>
+> +source "drivers/gpu/drm/bridge/imx/Kconfig"
+> +
+>  source "drivers/gpu/drm/bridge/synopsys/Kconfig"
+>
+>  endmenu
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 86e7acc..bc80cae 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -27,4 +27,5 @@ obj-$(CONFIG_DRM_NWL_MIPI_DSI) += nwl-dsi.o
+>
+>  obj-y += analogix/
+>  obj-y += cadence/
+> +obj-y += imx/
+>  obj-y += synopsys/
+> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+> new file mode 100644
+> index 00000000..f1c91b6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> @@ -0,0 +1,8 @@
+> +config DRM_IMX8QXP_PIXEL_COMBINER
+> +       tristate "Freescale i.MX8QM/QXP pixel combiner"
+> +       depends on OF
+> +       depends on COMMON_CLK
+> +       select DRM_KMS_HELPER
+> +       help
+> +         Choose this to enable pixel combiner found in
+> +         Freescale i.MX8qm/qxp processors.
+> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
+> new file mode 100644
+> index 00000000..7d7c8d6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/imx/Makefile
+> @@ -0,0 +1 @@
+> +obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+> new file mode 100644
+> index 00000000..cd5b1be
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+> @@ -0,0 +1,452 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +/*
+> + * Copyright 2020 NXP
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_print.h>
+> +
+> +#define PC_CTRL_REG                    0x0
+> +#define  PC_COMBINE_ENABLE             BIT(0)
+> +#define  PC_DISP_BYPASS(n)             BIT(1 + 21 * (n))
+> +#define  PC_DISP_HSYNC_POLARITY(n)     BIT(2 + 11 * (n))
+> +#define  PC_DISP_HSYNC_POLARITY_POS(n) DISP_HSYNC_POLARITY(n)
+> +#define  PC_DISP_VSYNC_POLARITY(n)     BIT(3 + 11 * (n))
+> +#define  PC_DISP_VSYNC_POLARITY_POS(n) DISP_VSYNC_POLARITY(n)
+> +#define  PC_DISP_DVALID_POLARITY(n)    BIT(4 + 11 * (n))
+> +#define  PC_DISP_DVALID_POLARITY_POS(n)        DISP_DVALID_POLARITY(n)
+> +#define  PC_VSYNC_MASK_ENABLE          BIT(5)
+> +#define  PC_SKIP_MODE                  BIT(6)
+> +#define  PC_SKIP_NUMBER_MASK           GENMASK(12, 7)
+> +#define  PC_SKIP_NUMBER(n)             FIELD_PREP(PC_SKIP_NUMBER_MASK, (n))
+> +#define  PC_DISP0_PIX_DATA_FORMAT_MASK GENMASK(18, 16)
+> +#define  PC_DISP0_PIX_DATA_FORMAT(fmt) \
+> +                               FIELD_PREP(PC_DISP0_PIX_DATA_FORMAT_MASK, (fmt))
+> +#define  PC_DISP1_PIX_DATA_FORMAT_MASK GENMASK(21, 19)
+> +#define  PC_DISP1_PIX_DATA_FORMAT(fmt) \
+> +                               FIELD_PREP(PC_DISP1_PIX_DATA_FORMAT_MASK, (fmt))
+> +
+> +#define PC_BUF_PARA_REG                        0x10
 
-> > +static long rcar_dab_unlocked_ioctl(struct file *file, unsigned int cmd,
-> > +                                   unsigned long arg)
-> > +{
-> > +       void __user *argp = (void __user *)arg;
-> > +       struct rcar_dab *dab;
-> > +       int ret;
-> > +
-> > +       dab = container_of(file->private_data, struct rcar_dab, misc);
-> > +
-> > +       switch (cmd) {
-> > +       case RCAR_DAB_IOC_FFT:
-> > +               if (!access_ok(argp, sizeof(struct rcar_dab_fft_req)))
-> > +                       return -EFAULT;
-> > +               ret = rcar_dab_fft(dab, argp);
-> > +               break;
-> > +       default:
-> > +               ret = -ENOTTY;
-> > +       }
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +static const struct file_operations rcar_dab_fops = {
-> > +       .owner          = THIS_MODULE,
-> > +       .unlocked_ioctl = rcar_dab_unlocked_ioctl,
-> > +};
-> 
-> There should be a '.compat_ioctl = compat_ptr_ioctl'
-> entry, provided that the arguments are compatible between
-> 32-bit and 64-bit user space.
-> 
-> > +
-> > +static int rcar_dab_fft_init(struct rcar_dab *dab, struct rcar_dab_fft_req *fft)
-> > +{
-> > +       u32 mode;
-> > +
-> > +       for (mode = 0; mode < ARRAY_SIZE(rcar_dab_fft_size_lut); mode++)
-> > +               if (rcar_dab_fft_size_lut[mode] == fft->points)
-> > +                       break;
-> > +       if (mode == ARRAY_SIZE(rcar_dab_fft_size_lut))
-> > +               return -EINVAL;
-> > +       if (fft->ofdm_number == 0)
-> > +               return -EINVAL;
-> > +
-> > +       rcar_dab_write(dab, RCAR_DAB_FFTSSR, mode);
-> > +       rcar_dab_write(dab, RCAR_DAB_FFTNUMOFDMR, fft->ofdm_number);
-> > +       rcar_dab_write(dab, RCAR_DAB_FFTINADDR, (u32)dab->fft.dma_input_buf);
-> > +       rcar_dab_write(dab, RCAR_DAB_FFTOUTADDR, (u32)dab->fft.dma_output_buf);
-> 
-> Maybe use lower_32_bits() instead of the (u32) cast.
-> 
-> For clarity, you may also want to specifically ask for a 32-bit DMA mask
-> in the probe function, with a comment that describes what the hardware
-> limitation is.
-> 
-> > +
-> > +       if (copy_from_user(dab->fft.input_buffer, fft_req->input_address,
-> > +                          buffer_size)) {
-> > +               mutex_unlock(&dab->fft.lock);
-> > +               return -EFAULT;
-> > +       }
-> > +
-> > +       dab->fft.done = false;
-> > +       ret = rcar_dab_fft_init(dab, fft_req);
-> > +       if (ret) {
-> > +               mutex_unlock(&dab->fft.lock);
-> > +               return ret;
-> > +       }
-> > +
-> > +       rcar_dab_fft_enable(dab);
-> > +       wait_event_interruptible_timeout(dab->fft.wait, dab->fft.done, HZ);
-> > +       if (!dab->fft.done) {
-> > +               rcar_dab_fft_disable(dab);
-> > +               ret = -EFAULT;
-> 
-> -EFAULT doesn't look like the right error for timeout or signal
-> handling. Better check the return code from wait_event_interruptible_timeout()
-> instead.
-> 
-> > +
-> > +struct rcar_dab_fft_req {
-> > +       int points;                     /*
-> > +                                        * The number of points to use.
-> > +                                        * Legal values are 256, 512, 1024, and
-> > +                                        * 2048.
-> > +                                        */
-> > +       unsigned char ofdm_number;      /*
-> > +                                        * Orthogonal Frequency Division
-> > +                                        * Multiplexing (OFDM).
-> > +                                        * Minimum value is 1, maximum value is
-> > +                                        * 255.
-> > +                                        */
-> > +       void __user *input_address;     /*
-> > +                                        * User space address for the input
-> > +                                        * buffer.
-> > +                                        */
-> > +       void __user *output_address;    /*
-> > +                                        * User space address for the output
-> > +                                        * buffer.
-> > +                                        */
-> > +};
-> 
-> Please read Documentation/driver-api/ioctl.rst and make this a portable
-> data structure.
+This register is unused, keeping it in here to avoid future headaches
+seems like a good idea.
 
-We've suffered enough with DMA to user pointers. Let's use dmabuf
-instead.
+> +#define  PC_BUF_ACTIVE_DEPTH_MASK      GENMASK(10, 0)
+> +#define  PC_BUF_ACTIVE_DEPTH(n)                FIELD_PREP(PC_BUF_ACTIVE_DEPTH_MASK, (n))
+> +
+> +#define PC_SW_RESET_REG                        0x20
+> +#define  PC_SW_RESET_N                 BIT(0)
+> +#define  PC_DISP_SW_RESET_N(n)         BIT(1 + (n))
+> +#define  PC_FULL_RESET_N               (PC_SW_RESET_N |                \
+> +                                        PC_DISP_SW_RESET_N(0) |        \
+> +                                        PC_DISP_SW_RESET_N(1))
+> +
+> +#define PC_REG_SET                     0x4
+> +#define PC_REG_CLR                     0x8
+> +
+> +#define DRIVER_NAME                    "imx8qxp-pixel-combiner"
+> +
+> +enum imx8qxp_pc_pix_data_format {
+> +       RGB,
+> +       YUV444,
+> +       YUV422,
+> +       SPLIT_RGB,
 
--- 
-Regards,
+YUV444, YUV422 & SPLIT_RGB are also unused, but if their values are
+compatible with the PC_DISP0_PIX_DATA_FORMAT macro I think keeping
+them around for future reference is a good idea.
 
-Laurent Pinchart
+> +};
+> +
+> +struct imx8qxp_pc_channel {
+> +       struct drm_bridge bridge;
+> +       struct drm_bridge *next_bridge;
+> +       struct imx8qxp_pc *pc;
+> +       unsigned int stream_id;
+> +       bool is_available;
+> +};
+> +
+> +struct imx8qxp_pc {
+> +       struct device *dev;
+> +       struct imx8qxp_pc_channel ch[2];
+> +       struct clk *clk_apb;
+> +       void __iomem *base;
+> +};
+> +
+> +static inline u32 imx8qxp_pc_read(struct imx8qxp_pc *pc, unsigned int offset)
+> +{
+> +       return readl(pc->base + offset);
+> +}
+> +
+> +static inline void
+> +imx8qxp_pc_write(struct imx8qxp_pc *pc, unsigned int offset, u32 value)
+> +{
+> +       writel(value, pc->base + offset);
+> +}
+> +
+> +static inline void
+> +imx8qxp_pc_write_set(struct imx8qxp_pc *pc, unsigned int offset, u32 value)
+> +{
+> +       imx8qxp_pc_write(pc, offset + PC_REG_SET, value);
+> +}
+> +
+> +static inline void
+> +imx8qxp_pc_write_clr(struct imx8qxp_pc *pc, unsigned int offset, u32 value)
+> +{
+> +       imx8qxp_pc_write(pc, offset + PC_REG_CLR, value);
+> +}
+> +
+> +static enum drm_mode_status
+> +imx8qxp_pc_bridge_mode_valid(struct drm_bridge *bridge,
+> +                            const struct drm_display_info *info,
+> +                            const struct drm_display_mode *mode)
+> +{
+> +       if (mode->hdisplay > 2560)
+> +               return MODE_BAD_HVALUE;
+> +
+> +       return MODE_OK;
+> +}
+> +
+> +static int imx8qxp_pc_bridge_attach(struct drm_bridge *bridge,
+> +                                   enum drm_bridge_attach_flags flags)
+> +{
+> +       struct imx8qxp_pc_channel *ch = bridge->driver_private;
+> +       struct imx8qxp_pc *pc = ch->pc;
+> +
+> +       if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
+> +               DRM_DEV_ERROR(pc->dev,
+> +                             "do not support creating a drm_connector\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (!bridge->encoder) {
+> +               DRM_DEV_ERROR(pc->dev, "missing encoder\n");
+> +               return -ENODEV;
+> +       }
+> +
+> +       return drm_bridge_attach(bridge->encoder,
+> +                                ch->next_bridge, bridge,
+> +                                DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +}
+> +
+> +static void
+> +imx8qxp_pc_bridge_mode_set(struct drm_bridge *bridge,
+> +                          const struct drm_display_mode *mode,
+> +                          const struct drm_display_mode *adjusted_mode)
+> +{
+> +       struct imx8qxp_pc_channel *ch = bridge->driver_private;
+> +       struct imx8qxp_pc *pc = ch->pc;
+> +       u32 val;
+> +       int ret;
+> +
+> +       ret = pm_runtime_get_sync(pc->dev);
+> +       if (ret < 0)
+> +               DRM_DEV_ERROR(pc->dev,
+> +                             "failed to get runtime PM sync: %d\n", ret);
+> +
+> +       ret = clk_prepare_enable(pc->clk_apb);
+> +       if (ret)
+> +               DRM_DEV_ERROR(pc->dev, "%s: failed to enable apb clock: %d\n",
+> +                                                               __func__,  ret);
+> +
+> +       /* HSYNC to pixel link is active low. */
+> +       imx8qxp_pc_write_clr(pc, PC_CTRL_REG,
+> +                               PC_DISP_HSYNC_POLARITY(ch->stream_id));
+> +
+> +       /* VSYNC to pixel link is active low. */
+> +       imx8qxp_pc_write_clr(pc, PC_CTRL_REG,
+> +                               PC_DISP_VSYNC_POLARITY(ch->stream_id));
+> +
+> +       /* Data enable to pixel link is active high. */
+> +       imx8qxp_pc_write_set(pc, PC_CTRL_REG,
+> +                               PC_DISP_DVALID_POLARITY(ch->stream_id));
+> +
+> +       /* Mask the first frame output which may be incomplete. */
+> +       imx8qxp_pc_write_set(pc, PC_CTRL_REG, PC_VSYNC_MASK_ENABLE);
+> +
+> +       /* Only support RGB currently. */
+> +       val = imx8qxp_pc_read(pc, PC_CTRL_REG);
+> +       if (ch->stream_id == 0) {
+> +               val &= ~PC_DISP0_PIX_DATA_FORMAT_MASK;
+> +               val |= PC_DISP0_PIX_DATA_FORMAT(RGB);
+> +       } else {
+> +               val &= ~PC_DISP1_PIX_DATA_FORMAT_MASK;
+> +               val |= PC_DISP1_PIX_DATA_FORMAT(RGB);
+> +       }
+> +       imx8qxp_pc_write(pc, PC_CTRL_REG, val);
+> +
+> +       /* Only support bypass mode currently. */
+> +       imx8qxp_pc_write_set(pc, PC_CTRL_REG, PC_DISP_BYPASS(ch->stream_id));
+> +
+> +       clk_disable_unprepare(pc->clk_apb);
+> +}
+> +
+> +static void imx8qxp_pc_bridge_atomic_disable(struct drm_bridge *bridge,
+> +                               struct drm_bridge_state *old_bridge_state)
+> +{
+> +       struct imx8qxp_pc_channel *ch = bridge->driver_private;
+> +       struct imx8qxp_pc *pc = ch->pc;
+> +       int ret;
+> +
+> +       ret = pm_runtime_put(pc->dev);
+> +       if (ret < 0)
+> +               DRM_DEV_ERROR(pc->dev, "failed to put runtime PM: %d\n", ret);
+> +}
+> +
+> +static const u32 imx8qxp_pc_bus_output_fmts[] = {
+> +       MEDIA_BUS_FMT_RGB888_1X36_CPADLO,
+> +       MEDIA_BUS_FMT_RGB666_1X36_CPADLO,
+> +};
+> +
+> +static bool imx8qxp_pc_bus_output_fmt_supported(u32 fmt)
+> +{
+> +       int i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(imx8qxp_pc_bus_output_fmts); i++) {
+> +               if (imx8qxp_pc_bus_output_fmts[i] == fmt)
+> +                       return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+> +static u32 *
+> +imx8qxp_pc_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> +                                       struct drm_bridge_state *bridge_state,
+> +                                       struct drm_crtc_state *crtc_state,
+> +                                       struct drm_connector_state *conn_state,
+> +                                       u32 output_fmt,
+> +                                       unsigned int *num_input_fmts)
+> +{
+> +       u32 *input_fmts;
+> +
+> +       if (!imx8qxp_pc_bus_output_fmt_supported(output_fmt))
+> +               return NULL;
+> +
+> +       *num_input_fmts = 1;
+> +
+> +       input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
+> +       if (!input_fmts)
+> +               return NULL;
+> +
+> +       switch (output_fmt) {
+> +       case MEDIA_BUS_FMT_RGB888_1X36_CPADLO:
+> +               input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X30_CPADLO;
+> +               break;
+> +       case MEDIA_BUS_FMT_RGB666_1X36_CPADLO:
+> +               input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X30_CPADLO;
+> +               break;
+> +       default:
+> +               kfree(input_fmts);
+> +               input_fmts = NULL;
+> +               break;
+> +       }
+> +
+> +       return input_fmts;
+> +}
+> +
+> +static u32 *
+> +imx8qxp_pc_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+> +                                       struct drm_bridge_state *bridge_state,
+> +                                       struct drm_crtc_state *crtc_state,
+> +                                       struct drm_connector_state *conn_state,
+> +                                       unsigned int *num_output_fmts)
+> +{
+> +       *num_output_fmts = ARRAY_SIZE(imx8qxp_pc_bus_output_fmts);
+> +       return kmemdup(imx8qxp_pc_bus_output_fmts,
+> +                       sizeof(imx8qxp_pc_bus_output_fmts), GFP_KERNEL);
+> +}
+> +
+> +static const struct drm_bridge_funcs imx8qxp_pc_bridge_funcs = {
+> +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +       .atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
+> +       .atomic_reset           = drm_atomic_helper_bridge_reset,
+> +       .mode_valid             = imx8qxp_pc_bridge_mode_valid,
+> +       .attach                 = imx8qxp_pc_bridge_attach,
+> +       .mode_set               = imx8qxp_pc_bridge_mode_set,
+> +       .atomic_disable         = imx8qxp_pc_bridge_atomic_disable,
+> +       .atomic_get_input_bus_fmts =
+> +                               imx8qxp_pc_bridge_atomic_get_input_bus_fmts,
+> +       .atomic_get_output_bus_fmts =
+> +                               imx8qxp_pc_bridge_atomic_get_output_bus_fmts,
+> +};
+> +
+> +static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+> +{
+> +       struct imx8qxp_pc *pc;
+> +       struct imx8qxp_pc_channel *ch;
+> +       struct device *dev = &pdev->dev;
+> +       struct device_node *np = dev->of_node;
+> +       struct device_node *child, *remote;
+> +       u32 i;
+> +       int ret;
+> +
+> +       pc = devm_kzalloc(dev, sizeof(*pc), GFP_KERNEL);
+> +       if (!pc)
+> +               return -ENOMEM;
+> +
+> +       pc->base = devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(pc->base))
+> +               return PTR_ERR(pc->base);
+> +
+> +       pc->dev = dev;
+> +
+> +       pc->clk_apb = devm_clk_get(dev, "apb");
+> +       if (IS_ERR(pc->clk_apb)) {
+> +               ret = PTR_ERR(pc->clk_apb);
+> +               if (ret != -EPROBE_DEFER)
+> +                       DRM_DEV_ERROR(dev, "failed to get apb clock: %d\n",
+> +                                                                       ret);
+> +               return ret;
+> +       }
+> +
+> +       platform_set_drvdata(pdev, pc);
+> +       pm_runtime_enable(dev);
+> +
+> +       for_each_available_child_of_node(np, child) {
+> +               ret = of_property_read_u32(child, "reg", &i);
+> +               if (ret || i > 1) {
+> +                       ret = -EINVAL;
+> +                       DRM_DEV_ERROR(dev,
+> +                                     "invalid channel(%u) node address\n", i);
+> +                       goto free_child;
+> +               }
+> +
+> +               ch = &pc->ch[i];
+> +               ch->pc = pc;
+> +               ch->stream_id = i;
+> +
+> +               remote = of_graph_get_remote_node(child, 1, 0);
+> +               if (!remote) {
+> +                       ret = -ENODEV;
+> +                       DRM_DEV_ERROR(dev,
+> +                           "channel%u failed to get port1's remote node: %d\n",
+> +                                                                       i, ret);
+> +                       goto free_child;
+> +               }
+> +
+> +               ch->next_bridge = of_drm_find_bridge(remote);
+> +               if (!ch->next_bridge) {
+> +                       of_node_put(remote);
+> +                       ret = -EPROBE_DEFER;
+> +                       DRM_DEV_DEBUG_DRIVER(dev,
+> +                               "channel%u failed to find next bridge: %d\n",
+> +                                                                       i, ret);
+> +                       goto free_child;
+> +               }
+> +
+> +               of_node_put(remote);
+> +
+> +               ch->bridge.driver_private = ch;
+> +               ch->bridge.funcs = &imx8qxp_pc_bridge_funcs;
+> +               ch->bridge.of_node = child;
+> +               ch->is_available = true;
+> +
+> +               drm_bridge_add(&ch->bridge);
+> +       }
+> +
+> +       return 0;
+> +
+> +free_child:
+> +       of_node_put(child);
+> +
+> +       if (i == 1 && pc->ch[0].next_bridge)
+> +               drm_bridge_remove(&pc->ch[0].bridge);
+> +
+> +       pm_runtime_disable(dev);
+> +       return ret;
+> +}
+> +
+> +static int imx8qxp_pc_bridge_remove(struct platform_device *pdev)
+> +{
+> +       struct imx8qxp_pc *pc = platform_get_drvdata(pdev);
+> +       struct imx8qxp_pc_channel *ch;
+> +       int i;
+> +
+> +       for (i = 0; i < 2; i++) {
+> +               ch = &pc->ch[i];
+> +
+> +               if (!ch->is_available)
+> +                       continue;
+> +
+> +               drm_bridge_remove(&ch->bridge);
+> +               ch->is_available = false;
+> +       }
+> +
+> +       pm_runtime_disable(&pdev->dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int __maybe_unused imx8qxp_pc_runtime_suspend(struct device *dev)
+> +{
+> +       struct platform_device *pdev = to_platform_device(dev);
+> +       struct imx8qxp_pc *pc = platform_get_drvdata(pdev);
+> +       int ret;
+> +
+> +       ret = clk_prepare_enable(pc->clk_apb);
+> +       if (ret)
+> +               DRM_DEV_ERROR(pc->dev, "%s: failed to enable apb clock: %d\n",
+> +                                                               __func__,  ret);
+> +
+> +       /* Disable pixel combiner by full reset. */
+> +       imx8qxp_pc_write_clr(pc, PC_SW_RESET_REG, PC_FULL_RESET_N);
+> +
+> +       clk_disable_unprepare(pc->clk_apb);
+> +
+> +       /* Ensure the reset takes effect. */
+> +       usleep_range(10, 20);
+> +
+> +       return ret;
+> +}
+> +
+> +static int __maybe_unused imx8qxp_pc_runtime_resume(struct device *dev)
+> +{
+> +       struct platform_device *pdev = to_platform_device(dev);
+> +       struct imx8qxp_pc *pc = platform_get_drvdata(pdev);
+> +       int ret;
+> +
+> +       ret = clk_prepare_enable(pc->clk_apb);
+> +       if (ret) {
+> +               DRM_DEV_ERROR(pc->dev, "%s: failed to enable apb clock: %d\n",
+> +                                                               __func__, ret);
+> +               return ret;
+> +       }
+> +
+> +       /* out of reset */
+> +       imx8qxp_pc_write_set(pc, PC_SW_RESET_REG, PC_FULL_RESET_N);
+> +
+> +       clk_disable_unprepare(pc->clk_apb);
+> +
+> +       return ret;
+> +}
+> +
+> +static const struct dev_pm_ops imx8qxp_pc_pm_ops = {
+> +       SET_RUNTIME_PM_OPS(imx8qxp_pc_runtime_suspend,
+> +                          imx8qxp_pc_runtime_resume, NULL)
+> +};
+> +
+> +static const struct of_device_id imx8qxp_pc_dt_ids[] = {
+> +       { .compatible = "fsl,imx8qm-pixel-combiner", },
+> +       { .compatible = "fsl,imx8qxp-pixel-combiner", },
+> +       { /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, imx8qxp_pc_dt_ids);
+> +
+> +static struct platform_driver imx8qxp_pc_bridge_driver = {
+> +       .probe  = imx8qxp_pc_bridge_probe,
+> +       .remove = imx8qxp_pc_bridge_remove,
+> +       .driver = {
+> +               .pm = &imx8qxp_pc_pm_ops,
+> +               .name = DRIVER_NAME,
+> +               .of_match_table = imx8qxp_pc_dt_ids,
+> +       },
+> +};
+> +module_platform_driver(imx8qxp_pc_bridge_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX8QM/QXP pixel combiner bridge driver");
+> +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("platform:" DRIVER_NAME);
+> --
+> 2.7.4
+>
