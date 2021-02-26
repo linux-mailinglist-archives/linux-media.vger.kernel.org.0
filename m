@@ -2,112 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E584325A91
-	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 01:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D663B325B4B
+	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 02:29:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232806AbhBZAIB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Feb 2021 19:08:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36740 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232711AbhBZAH7 (ORCPT
+        id S229800AbhBZB3Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Feb 2021 20:29:25 -0500
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:40495 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229508AbhBZB3Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Feb 2021 19:07:59 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA2AC061788
-        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 16:07:18 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id h19so8979419edb.9
-        for <linux-media@vger.kernel.org>; Thu, 25 Feb 2021 16:07:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0dMNeVGeNEmq1dAI13Mytw4Ljru52gLa+2kqt1mu+Ns=;
-        b=METfQ3BbsD7YYDm9ZB2eQh1FLAqtJK/MIpVHTLeVQbpVt9Ux685sNV3kKIidveaJR7
-         Pc322TlXOrqsKq6CUOsEkxghMCtAQXXTXW3rv/oO8M4TeXIg6vPy5bsT0LKJC/wenc2e
-         z0ATStODbpurtX2KqgKVZ+ZZjg6ROh0h0g9oYtI3X7NszSMrmqMBIoJ94CAuCf8fJFD6
-         xYxYDis8HF/y13Wp1l8P+RdzBNRFESddiBSwBP4dYOP1l/kJEA1XkETk7nmZGpY1Kz75
-         6h8PpGz0wFn6l/Bxh4BQd0y10iLvR2BhE0lu+14D1yqv3pUsCIAJXJQOObcMXCm6uHbY
-         /K5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0dMNeVGeNEmq1dAI13Mytw4Ljru52gLa+2kqt1mu+Ns=;
-        b=ryup+1bqC+MOunjpgJs5FaMDKsc2r6QG9GPG+IpkBEXmv56VEdQEui4drRTGStLEY4
-         qtNygR2evg6YDTN7oC/Cn833tOVq/Cnek8Cf9edlfIb6Y5oEjnGUvfI0CjpHIBRrnI5m
-         ajqrxLisQT/ACWHFcovUeRTvodfZa2DJjiy0S1KjXH5UvTuDhC1lixFtzrRcmrW/3vR6
-         gaMtCduUJ4RFcbVvfJmy6WrZrEGBnKLOg6WA8/m9ZUBTIHdWJL36LU0cTTm8Md7BKYJL
-         mZ3zHPXbvIdg7cmSoLe6SiFKFPO7qDCNB/dP6sF1v/2lxMt3YBCKrGSepnL1f3Ugq8pp
-         j8UA==
-X-Gm-Message-State: AOAM531yicw1cOsJfpFXg1hwjd9ad77yenFPJfk2AupvZfUbzt74JH01
-        vDZRWdA6o5mL8HbLd80pu7BFQmP+RFBGDAQdb+rETA==
-X-Google-Smtp-Source: ABdhPJz3vDnmJKa1/D8y2YKRdHcDVB2YrPbbchrmyz/pA3o6/3+TJEWKTt8v+d+9rqLT6nw3XmAQzPHb1Ft4fkxcspA=
-X-Received: by 2002:a05:6402:2ce:: with SMTP id b14mr500529edx.13.1614298037635;
- Thu, 25 Feb 2021 16:07:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20210225120601.669238-1-enric.balletbo@collabora.com>
-In-Reply-To: <20210225120601.669238-1-enric.balletbo@collabora.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Thu, 25 Feb 2021 21:07:05 -0300
-Message-ID: <CAAEAJfAubBp4t=6N1vVmH6ksuChZK9GnHydGf-v-3wy9Z9GQrg@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: Auto generate the AXI ID to avoid conflicts
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        fbuergisser@google.com, Doug Anderson <dianders@google.com>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        acourbot@google.com, tfiga@google.com,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 25 Feb 2021 20:29:25 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UPaXT4q_1614302921;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0UPaXT4q_1614302921)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 26 Feb 2021 09:28:42 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     mchehab@kernel.org
+Cc:     krzk@kernel.org, s.nawrocki@samsung.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH v2] media: exynos4-is: add missing call to of_node_put()
+Date:   Fri, 26 Feb 2021 09:28:40 +0800
+Message-Id: <1614302920-19505-1-git-send-email-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Enric,
+In one of the error paths of the for_each_child_of_node() loop in
+fimc_md_parse_one_endpoint, add missing call to of_node_put().
 
-Thanks a lot for the patch.
+Fix the following coccicheck warning:
+./drivers/media/platform/exynos4-is/media-dev.c:489:1-23: WARNING:
+Function "for_each_child_of_node" should have of_node_put() before
+return around line 492.
 
-On Thu, 25 Feb 2021 at 09:08, Enric Balletbo i Serra
-<enric.balletbo@collabora.com> wrote:
->
-> The AXI ID is an AXI bus configuration for improve bus performance. If
-> read and write operations use different ID the operations can be
-> paralleled, whereas when they have the same ID the operations will be
-> serialized. Right now, the write ID is fixed to 0 but we can set it to
-> 0xff to get auto generated ID to avoid possible conflicts.
->
-> This change has no functional changes, but seems reasonable to let the
-> hardware to autogenerate the ID instead of hardcoding in software.
->
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
->
->  drivers/staging/media/hantro/hantro_g1_h264_dec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> index 845bef73d218..090088cd98ea 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> @@ -30,7 +30,7 @@ static void set_params(struct hantro_ctx *ctx)
->         u32 reg;
->
->         /* Decoder control register 0. */
-> -       reg = G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(0x0);
-> +       reg = G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(0xff);
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
 
-Can we define a macro to avoid this magic number,
-and add some comments explaining what's 0xff for?
+Changes in v2:
+-add braces for if
 
-Given this is AXI configuration, I'd expect it's CODEC-agnostic.
-Maybe we could move CODEC-agnostic path to avoid duplicating the code?
+ drivers/media/platform/exynos4-is/media-dev.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Does this change apply to the rkvdec driver?
+diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+index 8e1e892..a6ee2a3 100644
+--- a/drivers/media/platform/exynos4-is/media-dev.c
++++ b/drivers/media/platform/exynos4-is/media-dev.c
+@@ -488,8 +488,10 @@ static int fimc_md_parse_port_node(struct fimc_md *fmd,
+ 
+ 	for_each_child_of_node(port, ep) {
+ 		ret = fimc_md_parse_one_endpoint(fmd, ep);
+-		if (ret < 0)
++		if (ret < 0) {
++			of_node_put(ep);
+ 			return ret;
++		}
+ 	}
+ 
+ 	return 0;
+-- 
+1.8.3.1
 
-Thanks,
-Ezequiel
