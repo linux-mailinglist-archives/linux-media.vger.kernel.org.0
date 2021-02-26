@@ -2,203 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2F2F326175
-	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 11:39:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2573326170
+	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 11:39:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231185AbhBZKjY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Feb 2021 05:39:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50144 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230495AbhBZKin (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Feb 2021 05:38:43 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AD9D264F03;
-        Fri, 26 Feb 2021 10:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614335881;
-        bh=H8HVbdFoLD9aL64l9aoJCNHX5FsjhZMjzGatuz4+oiY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QEzn1ldtP7wH67ppM8NvuV87amu0rHg0D1u+B6QZ4lIV9oBTg9NOC69He8bmIrbgS
-         Ta8J7QUW0GfXDGsMZ7ciWvECtNClh5Dg2jBjYL/6Yh4pZ0zn+U/jcpcIxgoR1Xn0lk
-         4f0vn/+0UnOn0RwvPZQwdYRCUOgPDOcFbmEIT6YFeRKJl8RvpQcfQcY8mRoZiCvf9N
-         AeNzuoZM+b5gSAbI9XGj6n0ieGaiCQ27ZgyqmKRtWaA7T6B1Ffj/dUqokb1f5i3gA2
-         /UyJWwzH1+MLZ2fcJ5BNgEeI0jQNiJckpREvUIWdVlSJ9+wDXyYpUwr80mMyt//9Ez
-         YHPc7A9WJ3VYg==
-Received: by mail-oi1-f179.google.com with SMTP id i21so6989252oii.2;
-        Fri, 26 Feb 2021 02:38:01 -0800 (PST)
-X-Gm-Message-State: AOAM530Scdj2hnrMWz+Uo3CMkSO9pSg17VwA4c6AIwAh9M2NJNmlOdR3
-        zuu6rIUdVnS/52dPhAcm1lpTuL9cFte1bWnpw/c=
-X-Google-Smtp-Source: ABdhPJzDtvRb8oB8ob5YmR+oTzoRhnFpIQ/IS1/6V4Sn7sFm6upNUoFcX/x93JkRdU7mvaQexwcbcZSVhYYJLhBQiaU=
-X-Received: by 2002:aca:4a47:: with SMTP id x68mr1476692oia.67.1614335880815;
- Fri, 26 Feb 2021 02:38:00 -0800 (PST)
+        id S230421AbhBZKjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Feb 2021 05:39:18 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:49733 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230496AbhBZKif (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Feb 2021 05:38:35 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id FaVHludmHnPxbFaVKlxU8A; Fri, 26 Feb 2021 11:37:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1614335870; bh=YVEYKhzUB7v9KuIU34vMIlZungNTUN86vULOxyAzpms=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=DpTZMqt+uktthi2mRhpVhu88Tu1fbFwsEXaneJrG/0KjA637N6hsj3lxZ7ZbZyjNb
+         6AogkOMlr3L8FOaeDwmNrqHhGcYiAQg7hGQGBYuKqwLu7j0M/WUWw3Bvqhikqrzejw
+         AxY6wKGcHdb2I5UftCIG5AW8J/lgF1KTHPDFwwUK/yx72nbKC81SR4wZFPAHyzEJuP
+         G1AMoif1YDC6wuWBXa6eJqwyStNWIa7aCpmTqN49Fs+OhUavHpDCV5d9qVywEVZYmY
+         f1Jb+XjNlfPmjtoVNG4R/GQseWMhLb/U5+ytoODJK++Oq0b9hX0yime2VhabEKoL7g
+         X0WOkArtlpEhQ==
+To:     Sean Young <sean@mess.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCHv3] media/rc: compile rc-cec.c into rc-core
+Message-ID: <8d2661f6-0b8e-13f0-cc89-025a82dd7564@xs4all.nl>
+Date:   Fri, 26 Feb 2021 11:37:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com> <20210225225147.29920-5-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20210225225147.29920-5-fabrizio.castro.jz@renesas.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Fri, 26 Feb 2021 11:37:44 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1+CZTAcR5T=gN565Q8=CdZnu5KYsAijKXLY8taofEpGg@mail.gmail.com>
-Message-ID: <CAK8P3a1+CZTAcR5T=gN565Q8=CdZnu5KYsAijKXLY8taofEpGg@mail.gmail.com>
-Subject: Re: [PATCH 4/7] misc: Add driver for DAB IP found on Renesas R-Car devices
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Dirk Behme <Dirk.Behme@de.bosch.com>,
-        Peter Erben <Peter.Erben@de.bosch.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfAB28WyO23I3uTkSKp+wrvXYjlxboZOoDGwQ0Qfpy+E87P1B2TSDbDzK2//7EhTa4pGtjP8gNjXbCIjR2EmRaPmswbK+HmQEgvV9Ky89gBDBJDXSka+a
+ mWUA25tdBUO1WfCvuMTkxOux81c93QrjNxGdrn7c4Pqa7cx59x1sh1GsaeZnAF2PT4tLSCqFjku9md60K/3LVAxHOEv4RhWIYAmTKMsUGOypwtvvGrws5K0l
+ ALtNsebHJSEWY/cf5N0mZw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 25, 2021 at 11:51 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
->
-> The DAB hardware accelerator found on R-Car E3 and R-Car M3-N devices is
-> a hardware accelerator for software DAB demodulators.
-> It consists of one FFT (Fast Fourier Transform) module and one decoder
-> module, compatible with DAB specification (ETSI EN 300 401 and
-> ETSI TS 102 563).
-> The decoder module can perform FIC decoding and MSC decoding processing
-> from de-puncture to final decoded result.
->
-> This patch adds a device driver to support the FFT module only.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> ---
->  MAINTAINERS                      |   7 ++
->  drivers/misc/Kconfig             |   1 +
->  drivers/misc/Makefile            |   1 +
->  drivers/misc/rcar_dab/Kconfig    |  11 ++
->  drivers/misc/rcar_dab/Makefile   |   8 ++
->  drivers/misc/rcar_dab/rcar_dev.c | 176 +++++++++++++++++++++++++++++++
->  drivers/misc/rcar_dab/rcar_dev.h | 116 ++++++++++++++++++++
->  drivers/misc/rcar_dab/rcar_fft.c | 160 ++++++++++++++++++++++++++++
->  include/uapi/linux/rcar_dab.h    |  35 ++++++
+The rc-cec keymap is unusual in that it can't be built as a module,
+instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
+is set. This is because it can be called from drm_dp_cec_set_edid() via
+cec_register_adapter() in an asynchronous context, and it is not
+allowed to use request_module() to load rc-cec.ko in that case. Trying to
+do so results in a 'WARN_ON_ONCE(wait && current_is_async())'.
 
-Can you explain why this is not in drivers/media/?
+Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
+just compile this keymap into the rc-core module and never as a
+separate module.
 
-I don't think we want a custom ioctl interface for a device that implements
-a generic specification. My first feeling would be that this should not
-have a user-level API but instead get called by the DAB radio driver.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 2c6d1fffa1d9 (drm: add support for DisplayPort CEC-Tunneling-over-AUX)
+Reported-by: Hans de Goede <hdegoede@redhat.com>
+---
+Change since v2:
+Move 'extern struct rc_map_list cec_map;' to rc-map.h to fix sparse warning.
 
-What is the intended usage model here? I assume the idea is to
-use it in an application that receives audio or metadata from DAB.
-What driver do you use for that?
+Change since v1:
+Fix copy-and-paste error: rc_core_exit() called rc_map_register() instead
+of rc_map_unregister().
+---
+ drivers/media/rc/Makefile         |  1 +
+ drivers/media/rc/keymaps/Makefile |  1 -
+ drivers/media/rc/keymaps/rc-cec.c | 28 +++++++++++-----------------
+ drivers/media/rc/rc-main.c        |  6 ++++++
+ include/media/rc-map.h            |  7 +++++++
+ 5 files changed, 25 insertions(+), 18 deletions(-)
 
-> +static long rcar_dab_unlocked_ioctl(struct file *file, unsigned int cmd,
-> +                                   unsigned long arg)
-> +{
-> +       void __user *argp = (void __user *)arg;
-> +       struct rcar_dab *dab;
-> +       int ret;
-> +
-> +       dab = container_of(file->private_data, struct rcar_dab, misc);
-> +
-> +       switch (cmd) {
-> +       case RCAR_DAB_IOC_FFT:
-> +               if (!access_ok(argp, sizeof(struct rcar_dab_fft_req)))
-> +                       return -EFAULT;
-> +               ret = rcar_dab_fft(dab, argp);
-> +               break;
-> +       default:
-> +               ret = -ENOTTY;
-> +       }
-> +
-> +       return ret;
-> +}
-> +
-> +static const struct file_operations rcar_dab_fops = {
-> +       .owner          = THIS_MODULE,
-> +       .unlocked_ioctl = rcar_dab_unlocked_ioctl,
-> +};
+diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
+index 5bb2932ab119..ff6a8fc4c38e 100644
+--- a/drivers/media/rc/Makefile
++++ b/drivers/media/rc/Makefile
+@@ -5,6 +5,7 @@ obj-y += keymaps/
+ obj-$(CONFIG_RC_CORE) += rc-core.o
+ rc-core-y := rc-main.o rc-ir-raw.o
+ rc-core-$(CONFIG_LIRC) += lirc_dev.o
++rc-core-$(CONFIG_MEDIA_CEC_RC) += keymaps/rc-cec.o
+ rc-core-$(CONFIG_BPF_LIRC_MODE2) += bpf-lirc.o
+ obj-$(CONFIG_IR_NEC_DECODER) += ir-nec-decoder.o
+ obj-$(CONFIG_IR_RC5_DECODER) += ir-rc5-decoder.o
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index b252a1d2ebd6..cc6662e1903f 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -21,7 +21,6 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-behold.o \
+ 			rc-behold-columbus.o \
+ 			rc-budget-ci-old.o \
+-			rc-cec.o \
+ 			rc-cinergy-1400.o \
+ 			rc-cinergy.o \
+ 			rc-d680-dmb.o \
+diff --git a/drivers/media/rc/keymaps/rc-cec.c b/drivers/media/rc/keymaps/rc-cec.c
+index 3e3bd11092b4..068e22aeac8c 100644
+--- a/drivers/media/rc/keymaps/rc-cec.c
++++ b/drivers/media/rc/keymaps/rc-cec.c
+@@ -1,5 +1,15 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /* Keytable for the CEC remote control
++ *
++ * This keymap is unusual in that it can't be built as a module,
++ * instead it is registered directly in rc-main.c if CONFIG_MEDIA_CEC_RC
++ * is set. This is because it can be called from drm_dp_cec_set_edid() via
++ * cec_register_adapter() in an asynchronous context, and it is not
++ * allowed to use request_module() to load rc-cec.ko in that case.
++ *
++ * Since this keymap is only used if CONFIG_MEDIA_CEC_RC is set, we
++ * just compile this keymap into the rc-core module and never as a
++ * separate module.
+  *
+  * Copyright (c) 2015 by Kamil Debski
+  */
+@@ -152,7 +162,7 @@ static struct rc_map_table cec[] = {
+ 	/* 0x77-0xff: Reserved */
+ };
 
-There should be a '.compat_ioctl = compat_ptr_ioctl'
-entry, provided that the arguments are compatible between
-32-bit and 64-bit user space.
+-static struct rc_map_list cec_map = {
++struct rc_map_list cec_map = {
+ 	.map = {
+ 		.scan		= cec,
+ 		.size		= ARRAY_SIZE(cec),
+@@ -160,19 +170,3 @@ static struct rc_map_list cec_map = {
+ 		.name		= RC_MAP_CEC,
+ 	}
+ };
+-
+-static int __init init_rc_map_cec(void)
+-{
+-	return rc_map_register(&cec_map);
+-}
+-
+-static void __exit exit_rc_map_cec(void)
+-{
+-	rc_map_unregister(&cec_map);
+-}
+-
+-module_init(init_rc_map_cec);
+-module_exit(exit_rc_map_cec);
+-
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Kamil Debski");
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index 1fd62c1dac76..8e88dc8ea6c5 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -2069,6 +2069,9 @@ static int __init rc_core_init(void)
 
-> +
-> +static int rcar_dab_fft_init(struct rcar_dab *dab, struct rcar_dab_fft_req *fft)
-> +{
-> +       u32 mode;
-> +
-> +       for (mode = 0; mode < ARRAY_SIZE(rcar_dab_fft_size_lut); mode++)
-> +               if (rcar_dab_fft_size_lut[mode] == fft->points)
-> +                       break;
-> +       if (mode == ARRAY_SIZE(rcar_dab_fft_size_lut))
-> +               return -EINVAL;
-> +       if (fft->ofdm_number == 0)
-> +               return -EINVAL;
-> +
-> +       rcar_dab_write(dab, RCAR_DAB_FFTSSR, mode);
-> +       rcar_dab_write(dab, RCAR_DAB_FFTNUMOFDMR, fft->ofdm_number);
-> +       rcar_dab_write(dab, RCAR_DAB_FFTINADDR, (u32)dab->fft.dma_input_buf);
-> +       rcar_dab_write(dab, RCAR_DAB_FFTOUTADDR, (u32)dab->fft.dma_output_buf);
+ 	led_trigger_register_simple("rc-feedback", &led_feedback);
+ 	rc_map_register(&empty_map);
++#ifdef CONFIG_MEDIA_CEC_RC
++	rc_map_register(&cec_map);
++#endif
 
-Maybe use lower_32_bits() instead of the (u32) cast.
+ 	return 0;
+ }
+@@ -2078,6 +2081,9 @@ static void __exit rc_core_exit(void)
+ 	lirc_dev_exit();
+ 	class_unregister(&rc_class);
+ 	led_trigger_unregister_simple(led_feedback);
++#ifdef CONFIG_MEDIA_CEC_RC
++	rc_map_unregister(&cec_map);
++#endif
+ 	rc_map_unregister(&empty_map);
+ }
 
-For clarity, you may also want to specifically ask for a 32-bit DMA mask
-in the probe function, with a comment that describes what the hardware
-limitation is.
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 999b750bc6b8..30f138ebab6f 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -175,6 +175,13 @@ struct rc_map_list {
+ 	struct rc_map map;
+ };
 
-> +
-> +       if (copy_from_user(dab->fft.input_buffer, fft_req->input_address,
-> +                          buffer_size)) {
-> +               mutex_unlock(&dab->fft.lock);
-> +               return -EFAULT;
-> +       }
-> +
-> +       dab->fft.done = false;
-> +       ret = rcar_dab_fft_init(dab, fft_req);
-> +       if (ret) {
-> +               mutex_unlock(&dab->fft.lock);
-> +               return ret;
-> +       }
-> +
-> +       rcar_dab_fft_enable(dab);
-> +       wait_event_interruptible_timeout(dab->fft.wait, dab->fft.done, HZ);
-> +       if (!dab->fft.done) {
-> +               rcar_dab_fft_disable(dab);
-> +               ret = -EFAULT;
++#ifdef CONFIG_MEDIA_CEC_RC
++/*
++ * rc_map_list from rc-cec.c
++ */
++extern struct rc_map_list cec_map;
++#endif
++
+ /* Routines from rc-map.c */
 
--EFAULT doesn't look like the right error for timeout or signal
-handling. Better check the return code from wait_event_interruptible_timeout()
-instead.
+ /**
+-- 
+2.30.0
 
-> +
-> +struct rcar_dab_fft_req {
-> +       int points;                     /*
-> +                                        * The number of points to use.
-> +                                        * Legal values are 256, 512, 1024, and
-> +                                        * 2048.
-> +                                        */
-> +       unsigned char ofdm_number;      /*
-> +                                        * Orthogonal Frequency Division
-> +                                        * Multiplexing (OFDM).
-> +                                        * Minimum value is 1, maximum value is
-> +                                        * 255.
-> +                                        */
-> +       void __user *input_address;     /*
-> +                                        * User space address for the input
-> +                                        * buffer.
-> +                                        */
-> +       void __user *output_address;    /*
-> +                                        * User space address for the output
-> +                                        * buffer.
-> +                                        */
-> +};
-
-Please read Documentation/driver-api/ioctl.rst and make this a portable
-data structure.
-
-      Arnd
