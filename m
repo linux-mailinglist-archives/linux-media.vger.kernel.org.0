@@ -2,84 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC4E3264E1
-	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 16:47:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E69C1326937
+	for <lists+linux-media@lfdr.de>; Fri, 26 Feb 2021 22:20:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbhBZPqi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Feb 2021 10:46:38 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51592 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbhBZPqh (ORCPT
+        id S230212AbhBZVJP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Feb 2021 16:09:15 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59540 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230282AbhBZVJL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Feb 2021 10:46:37 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5FA6580;
-        Fri, 26 Feb 2021 16:45:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614354354;
-        bh=0ydT2Er4WhkOrRj5u74fXxuLeYM2FKvTlCHDdJyCpzQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J/N2ZK9iy/hoReTyaBjaTc5Y3LOAn0T0RUVmjd4FNCphn3xx5vvfxb3/aenQIYOCV
-         Pt6cSLCPSGKnvLSrCxCT+3NY74LZDe9pUAp+LApE0rSB4/7/3vf1dRnWcqAfvUHbcQ
-         G39uCLt3cCy6rlE/hgWziWxU+lk0uQz4aP8U85GU=
-Date:   Fri, 26 Feb 2021 17:45:26 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH v2 04/77] media: imx: Compile imx6-media-objs only for
- CONFIG_VIDEO_IMX_CSI
-Message-ID: <YDkXlhxeFpVAtwOl@pendragon.ideasonboard.com>
-References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
- <20210215042741.28850-5-laurent.pinchart@ideasonboard.com>
+        Fri, 26 Feb 2021 16:09:11 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 3CD871F467C9
+Message-ID: <75696dd2ae8c78f626db4e59300d3f04e348f341.camel@collabora.com>
+Subject: Re: [PATCH v3 5/9] media: hantro: Introduce G2/HEVC decoder
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, peng.fan@nxp.com,
+        hverkuil-cisco@xs4all.nl, dan.carpenter@oracle.com
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Date:   Fri, 26 Feb 2021 18:08:12 -0300
+In-Reply-To: <6f3c23a6-4b74-c7b4-f6b2-2fb983a8bbb8@collabora.com>
+References: <20210222122406.41782-1-benjamin.gaignard@collabora.com>
+         <20210222122406.41782-6-benjamin.gaignard@collabora.com>
+         <4a432492dc3894bef6024c74140891acc2e17604.camel@collabora.com>
+         <6f3c23a6-4b74-c7b4-f6b2-2fb983a8bbb8@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210215042741.28850-5-laurent.pinchart@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Please ignore this patch, it's a rebase leftover and isn't useful.
-
-Reviews for the rest of the series, however, would be nice ;-)
-
-On Mon, Feb 15, 2021 at 06:26:28AM +0200, Laurent Pinchart wrote:
-> imx6-media-objs contains a set of objects that are specific to the i.MX6
-> IPU-based media subsystem. They're not needed for the i.MX7 CSI. Only
-> compile them if CONFIG_VIDEO_IMX_CSI is selected.
+On Fri, 2021-02-26 at 10:47 +0100, Benjamin Gaignard wrote:
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/staging/media/imx/Makefile | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Le 25/02/2021 à 18:55, Ezequiel Garcia a écrit :
+> > Hi Benjamin,
+> > 
+> > Thanks for the good work!
+> > I mostly have two concerns with this implementation,
+> > the tiled output and the allocation path.
+> > 
+> > More below.
+> > 
+> > On Mon, 2021-02-22 at 13:24 +0100, Benjamin Gaignard wrote:
+> > > Implement all the logic to get G2 hardware decoding HEVC frames.
+> > > It support up level 5.1 HEVC stream.
+> > > It doesn't support yet 10 bits formats or scaling feature.
+> > > 
+> > > Add HANTRO HEVC dedicated control to skip some bits at the beginning
+> > > of the slice header. That is very specific to this hardware so can't
+> > > go into uapi structures. Compute the needed value is complex and require
+> > > information from the stream that only the userland knows so let it
+> > > provide the correct value to the driver.
+> > > 
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > ---
+> > > version 2:
+> > > - squash multiple commits in this one.
+> > > - fix the comments done by Ezequiel about dma_alloc_coherent usage
+> > > - fix Dan's comments about control copy, reverse the test logic
+> > > in tile_buffer_reallocate, rework some goto and return cases.
+> > > 
+> > >   drivers/staging/media/hantro/Makefile         |   2 +
+> > >   drivers/staging/media/hantro/hantro.h         |  19 +
+> > >   drivers/staging/media/hantro/hantro_drv.c     |  42 ++
+> > >   .../staging/media/hantro/hantro_g2_hevc_dec.c | 587 ++++++++++++++++++
+> > >   drivers/staging/media/hantro/hantro_g2_regs.h | 198 ++++++
+> > >   drivers/staging/media/hantro/hantro_hevc.c    | 321 ++++++++++
+> > >   drivers/staging/media/hantro/hantro_hw.h      |  47 ++
+> > >   7 files changed, 1216 insertions(+)
+> > >   create mode 100644 drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> > >   create mode 100644 drivers/staging/media/hantro/hantro_g2_regs.h
+> > >   create mode 100644 drivers/staging/media/hantro/hantro_hevc.c
+> > > 
+> > > 
+> > [snip]
+> > > +
+> > > +static void set_buffers(struct hantro_ctx *ctx)
+> > > +{
+> > > +       struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> > > +       struct hantro_dev *vpu = ctx->dev;
+> > > +       const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+> > > +       const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+> > > +       size_t cr_offset = hantro_hevc_chroma_offset(sps);
+> > > +       dma_addr_t src_dma, dst_dma;
+> > > +       u32 src_len, src_buf_len;
+> > > +
+> > > +       src_buf = hantro_get_src_buf(ctx);
+> > > +       dst_buf = hantro_get_dst_buf(ctx);
+> > > +
+> > > +       /* Source (stream) buffer. */
+> > > +       src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
+> > > +       src_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
+> > > +       src_buf_len = vb2_plane_size(&src_buf->vb2_buf, 0);
+> > > +
+> > > +       hantro_write_addr(vpu, HEVC_ADDR_STR, src_dma);
+> > > +       hantro_reg_write(vpu, hevc_stream_len, src_len);
+> > > +       hantro_reg_write(vpu, hevc_strm_buffer_len, src_buf_len);
+> > > +       hantro_reg_write(vpu, hevc_strm_start_offset, 0);
+> > > +       hantro_reg_write(vpu, hevc_write_mvs_e, 1);
+> > > +
+> > > +       /* Destination (decoded frame) buffer. */
+> > > +       dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
+> > > +
+> > > +       hantro_write_addr(vpu, HEVC_RASTER_SCAN, dst_dma);
+> > > +       hantro_write_addr(vpu, HEVC_RASTER_SCAN_CHR, dst_dma + cr_offset);
+> > The way this is done the raster-scan output is the only
+> > output, and the tiled ouput it kept entirely internal, in hantro_hevc_dec_hw_ctx.ref_bufs.
+> > 
+> > This means there's no way to expose tiled NV12 in i.MX8M VPU tiled format
+> > to userspace, which could be desirable for some use cases.
+> > 
+> > I'm not suggesting to actually expose tiled NV12 in this patch, but to prepare
+> > the driver to be able to support that easily in the future.
+> > 
+> > It should be possible to consider this detiling as
+> > post-processing, adding some code in hantro_postproc.c
+> > leveraging the existing post-proc support.
+> > 
+> > IOW, hantro_postproc_ctx.dec_q would hold the tiled output,
+> > hantro_postproc_enable() writes the raster-scan
+> > buffer destination address, and so on.
 > 
-> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> index 69cc5da04a2e..6ac33275cc97 100644
-> --- a/drivers/staging/media/imx/Makefile
-> +++ b/drivers/staging/media/imx/Makefile
-> @@ -1,11 +1,11 @@
->  # SPDX-License-Identifier: GPL-2.0
-> +imx-media-common-objs := imx-media-capture.o imx-media-dev-common.o \
-> +	imx-media-of.o imx-media-utils.o
-> +
->  imx6-media-objs := imx-media-dev.o imx-media-internal-sd.o \
->  	imx-ic-common.o imx-ic-prp.o imx-ic-prpencvf.o imx-media-vdic.o \
->  	imx-media-csc-scaler.o
->  
-> -imx-media-common-objs := imx-media-capture.o imx-media-dev-common.o \
-> -	imx-media-of.o imx-media-utils.o
-> -
->  imx6-media-csi-objs := imx-media-csi.o imx-media-fim.o
->  
->  obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx-media-common.o
+> Well the G2 can't use the post-processor so I'm reluctant to do as if it was the case.
+> 
 
--- 
-Regards,
+I don't really see a big difference between G1 post-processing, and G2 raster-scan
+detiling. As a user of the device, both features offer a post-processing.
 
-Laurent Pinchart
+In any case, it's not a big deal, it's fine as-is if you are inclined to this implementation.
+
+> To support tiled NV12 for me the solution is to create a hantro_hevc_add_ref_buf() function
+> to add the destination buffer in hevc_dec->ref_bufs.
+> We can test destination format to set hevc_out_rs_e bit and HEVC_RASTER_SCAN register.
+> 
+
+Is it worth adding some boilerplate and/or refactoring things a bit, so it's
+easier to expose tiled NV12 once that format is exposable?
+
+> > 
+> > > +       hantro_write_addr(vpu, HEVC_ADDR_TILE_SIZE, ctx->hevc_dec.tile_sizes.dma);
+> > > +       hantro_write_addr(vpu, HEVC_TILE_FILTER, ctx->hevc_dec.tile_filter.dma);
+> > > +       hantro_write_addr(vpu, HEVC_TILE_SAO, ctx->hevc_dec.tile_sao.dma);
+> > > +       hantro_write_addr(vpu, HEVC_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
+> > > +}
+> > > +
+> > > +void hantro_g2_check_idle(struct hantro_dev *vpu)
+> > > +{
+> > > +       int i;
+> > > +
+> > > +       for (i = 0; i < 3; i++) {
+> > > +               u32 status;
+> > > +
+> > > +               /* Make sure the VPU is idle */
+> > > +               status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
+> > > +               if (status & HEVC_REG_INTERRUPT_DEC_E) {
+> > > +                       pr_warn("%s: still enabled!!! resetting.\n", __func__);
+> > > +                       status |= HEVC_REG_INTERRUPT_DEC_ABORT_E | HEVC_REG_INTERRUPT_DEC_IRQ_DIS;
+> > > +                       vdpu_write(vpu, status, HEVC_REG_INTERRUPT);
+> > > +               }
+> > > +       }
+> > > +}
+> > > +
+> > > +void hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+> > > +{
+> > > +       struct hantro_dev *vpu = ctx->dev;
+> > > +
+> > > +       hantro_g2_check_idle(vpu);
+> > > +
+> > > +       /* Prepare HEVC decoder context. */
+> > > +       if (hantro_hevc_dec_prepare_run(ctx))
+> > > +               return;
+> > > +
+> > > +       /* Configure hardware registers. */
+> > > +       set_params(ctx);
+> > > +
+> > > +       /* set reference pictures */
+> > > +       if (set_ref(ctx))
+> > > +               /* something goes wrong */
+> > > +               hantro_irq_done(vpu, VB2_BUF_STATE_ERROR);
+> > > +
+> > I don't think we want to allow the _run() operation to fail like this.
+> > In other words, I would avoid allocating buffers in the _run() path,
+> > and doing all allocation at start() time.
+> > 
+> > That's why hantro_start_streaming() calls hantro_postproc_alloc() if needed.
+> 
+> The error could also be that the reference picture isn't found in the list so
+> we can't perform the decode operation.
+> If we do the allocation at start time we will allocate all the reference frames
+> buffers even if we don't know if we will use them. That could increase a lot
+> memory usage. Note that buffers allocated once and re-used until the end of the
+> session.
+> 
+
+Improving memory usage is a good point. I wonder if it makes sense to release
+some buffers under some condition, instead of keeping then allocated (and unused)
+until the end of the session.
+
+(BTW, the same can be done with the post-processor, as it's basically
+the same process. It would be interesting to explore.)
+
+I'm still unsure why we'd call hantro_irq_done() (which cancels the timeout
+handler and returns buffers to userspace), but we would keep programming
+the operation. 
+
+Thanks,
+Ezequiel
+
