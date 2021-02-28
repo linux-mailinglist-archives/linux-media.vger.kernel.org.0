@@ -2,157 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 640EF327390
-	for <lists+linux-media@lfdr.de>; Sun, 28 Feb 2021 18:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDA873274BA
+	for <lists+linux-media@lfdr.de>; Sun, 28 Feb 2021 23:07:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231335AbhB1RMr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Feb 2021 12:12:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49154 "EHLO
+        id S231479AbhB1WH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Feb 2021 17:07:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230461AbhB1RMj (ORCPT
+        with ESMTP id S231469AbhB1WH6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Feb 2021 12:12:39 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10048C06174A;
-        Sun, 28 Feb 2021 09:11:58 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id g5so23843438ejt.2;
-        Sun, 28 Feb 2021 09:11:57 -0800 (PST)
+        Sun, 28 Feb 2021 17:07:58 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E83C06174A
+        for <linux-media@vger.kernel.org>; Sun, 28 Feb 2021 14:07:18 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id a4so10256775pgc.11
+        for <linux-media@vger.kernel.org>; Sun, 28 Feb 2021 14:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dfQ46OGWItLgoKPUR/Czwfd0qqTUSj25+jf5yrElG/4=;
-        b=GzeA/aDB2UBhnNVhm++I/Jk3Up7Sjll8FWko6UUVrR8GbwUj6tdWvj7U7T3p1JnaWE
-         tuDT5n8KyfWwgonEFcDAlbP9Wnm/lzI5ynLZd5zXrmZLcqy0e5qJFV+Ury6tgPUdhcIC
-         ZnUpySrUVv3A0oExsLsVOkNej6wDTO/NVed1e1lRxfeovoJIixufVCuML3LKRgEXHaK6
-         AQIpA41ncR2vIctG/YIpRBR7PPh4Vs9caRlig7rCLuPUPKUXlteysI6kNYwN/3Yc//ci
-         tD2NQsug/MYd9mQ+dWSVvw0ZV+w1YK/V6hQL8df04yN35+nWGaht76tutf0kiQ1Fxgq5
-         E6Vw==
+        d=penguintechs.org; s=google;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=VDm29ZQ3ND3S5WXLnP5x94ZreXBFcYdsGtUSCKzKxY0=;
+        b=S0QH2nQWvKnw8BPUVH+PML9M7t7tBAz7G/8Z/vaPDKcvn1o93saG1SlWyvj2fm1Zxu
+         SMF85Vtr59DdJH9mfkeW4qvg+klzmDzGtmy3pWn/ZsMKQa+lDvVCoqAplNAPdvW3JIB4
+         you4Pxwk03j+chC4Xwvux0nY75NNtO4CqDnl8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dfQ46OGWItLgoKPUR/Czwfd0qqTUSj25+jf5yrElG/4=;
-        b=DFk3PQk4Tg5+x/JyUn1GIB9WRKbs4ZjvCjYZr9JKO8621MT6/JMbxVEVcdDoUwHVL+
-         For3KnKO03QZ25kxJo4JrfZHSkIeuz8ttxAxFkjgF2q6WYdlaegFsyL7pwebxMCJOuh/
-         NrMre9pjnYhb6I4oOeQe6UNOpaC6IPz2m13QnfLeVZ2YZGlmr1DYxmPi+bvVPkKasB7e
-         u9RBjICZzwxg7kg714yWmesb+O+Rtbcpc99VRzJxNj+AhqwCvcU1kFYQqrqosKdGeMu3
-         qv1KRTCKEbd/EDeY1ITs68EsyfQGwPqrqB4AdfJhZ2zoof+PofoZAtTFpktFx3ZcE2nA
-         XTjg==
-X-Gm-Message-State: AOAM5304vRkhWj/qH8naxa3syBxpk1crx5yAp/FsV3b7mRkxQxwuuOcN
-        4SYwXjH8z05UBhk34i8rBvOfdoP18tGg
-X-Google-Smtp-Source: ABdhPJw5sLbCUCcgxkhNvC6IgO3vmNaTgOeasYPBEho60Poa4WNRXoZ/cPiXNkLCHgbgyBJUziViqw==
-X-Received: by 2002:a17:906:acb:: with SMTP id z11mr3855755ejf.193.1614532316774;
-        Sun, 28 Feb 2021 09:11:56 -0800 (PST)
-Received: from localhost.localdomain ([46.53.249.223])
-        by smtp.gmail.com with ESMTPSA id fw3sm6654338ejb.82.2021.02.28.09.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Feb 2021 09:11:56 -0800 (PST)
-Date:   Sun, 28 Feb 2021 20:11:54 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        akpm@linux-foundation.org, linux-arch@vger.kernel.org
-Subject: [PATCH 12/11] pragma once: scripted treewide conversion
-Message-ID: <YDvO2kmidKZaK26j@localhost.localdomain>
-References: <YDvLYzsGu+l1pQ2y@localhost.localdomain>
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=VDm29ZQ3ND3S5WXLnP5x94ZreXBFcYdsGtUSCKzKxY0=;
+        b=RmW/CyzaKV1zjEZzb+KQxL6VYTLyokIQZ81ZyiWxdOgzVqJussFsO4BTBX7xjicujo
+         3KGy2oMutv6Wiuj362dp4Qi0mXHAup8KFSQq2DeeWOpBQcnZmWSLQNp18ice3ZNApMSB
+         pyc34J+1FY+mw0+VVeTUrauSLD5IoA+Nowcz7YrpWQq440cY+yG7oVdohysRxz379KTv
+         VtD06WdbPjmZbsbuslTo2sSKYjiXJXq8K7ERD/IBenowoC3lgFmfmD578O4e8mZSS7Dj
+         /OffLS8w0obSUpH9+apmcMZbcL2ahHMzj3O1hK0DFfWuV6PA0qyKtOaGRqQ687t7sI0N
+         L5RA==
+X-Gm-Message-State: AOAM532l6QcDoPPXu28jDpvJPx1nTFvlaG2DZLETem/JDj0yrKvJifSM
+        onJ2DJHFpTx/I7zHSqx0X46/1NAU/3aoDg==
+X-Google-Smtp-Source: ABdhPJwlgzsV3n8xx8KIVdXXiRdmQsp5IXjmvmIUarwhukHS80A4UpteJfo6N1l8VEbcIaZw+TXaxg==
+X-Received: by 2002:a05:6a00:80e:b029:1db:589f:332e with SMTP id m14-20020a056a00080eb02901db589f332emr12161140pfk.24.1614550037449;
+        Sun, 28 Feb 2021 14:07:17 -0800 (PST)
+Received: from braindead.localdomain (c-71-202-115-154.hsd1.ca.comcast.net. [71.202.115.154])
+        by smtp.gmail.com with ESMTPSA id b22sm15357253pfo.23.2021.02.28.14.07.16
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Feb 2021 14:07:16 -0800 (PST)
+To:     linux-media@vger.kernel.org
+From:   Wren Turkal <wt@penguintechs.org>
+Subject: v4l2loopback and v4l2-mem2mem framework
+Message-ID: <45cda97c-a0e4-eef2-ba8f-ddc7e33b40d5@penguintechs.org>
+Date:   Sun, 28 Feb 2021 14:07:13 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YDvLYzsGu+l1pQ2y@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[  Bcc a lot of lists so that people understand what's this is all         ]
-[  about without creating uber-cc-thread.                                  ]
-[  Apologies if I missed your subsystem                                    ]
-[  Please see [PATCH 11/11: pragma once: conversion script (in Python 2)]  ]
+Hi there linux-media experts,
 
-Hi, Linus.
+I am working on the out-of-tree v4l2loopback module[1]. My
+current goal is to implement the videobuf2 api. However,
+it appears that I must use a different vbuf2_queue for the
+OUTPUT and CAPTURE types. It appears that the mem2mem
+framework has the ability to do just this. I came to this
+conclusion while looking at the vim2m test module's code.
+While trying to modify the loopback module, I have added
+some code to try to call v4l2_m2m_init. You can see my very
+WIP attempt at code here[2].
 
-Please run the script below from top-level directory, it will convert
-most kernel headers to #pragma once directive advancing them into
-21-st century.
+I have installed the kernel-devel package on Fedora, which.
+Unfortunately, I get he following error messages when trying
+to compile:
 
-The advantages are:
+<errors>
+ERROR: modpost: "v4l2_m2m_release" 
+[/home/wt/projects/kernel/v4l2loopback/v4l2loopback.ko] undefined!
+ERROR: modpost: "v4l2_m2m_init" 
+[/home/wt/projects/kernel/v4l2loopback/v4l2loopback.ko] undefined!
+</errors>
 
-* less LOC
+So, I looked into it, and Module.symvers and /proc/kallsyms
+don't have those symbols listed, so I think the Fedora kernel
+was not compiled with those symbols exported.
 
-	18087 files changed, 18878 insertions(+), 99804 deletions(-)
-	= -81 kLOC (give or take)
+Okay, so next I tried to build a custom kernel that does
+export those symbols. I managed to get it done by enabling
+the vim2m (VIDEO_VIM2M config option) module. The new
+Module.symvers includes the symbols; and the compile succeeds,
+which brings me to my final act.
 
-* less mental tax on developers forced to name things which aren't even
-  real code
-
-* less junk in preprocessor hashtables and editors/IDEs autocompletion
-  lists
-
-There are two bit exceptions: UAPI headers and ACPICA.
-Given ubiquity of #pragma once, I personally think even these subsystems
-should be converted in the future.
-
-Compile tested on alpha, arc, arm, arm64, h8300, ia64, m68k, microblaze,
-mips, nios2, parisc, powerpc, riscv, s390, sh, sparc, um-i386, um-x86_64,
-i386, x86_64, xtensa (allnoconfig, all defconfigs, allmodconfig with or
-without SMP/DEBUG_KERNEL + misc stuff).
-
-Not compile tested on csky, hexagon, nds32, openrisc. 
-
-Love,
-	Alexey
-
-Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+I need to expose those symbols without enabling the vim2m
+module since it is a testing module. I do not see a way
+to do that explicitly. The config option in question
+appears to be V4L2_MEM2MEM_DEV. And I haven't found a
+way to enable it without enabling something that implicitly
+selects it (which vim2m does). Do y'all have any suggestions
+for how to get these symbols exported properly when vim2m is
+not enabled?
 
 
+Thanks,
+Wren Turkal (wt)
 
-#!/bin/sh -x
-find . -type f -name '*.h' -print	|\
-LC_ALL=C sort				|\
-sed -e 's#^./##g'			|\
-xargs ./scripts/pragma-once.py
-
-find . -type d -name 'uapi' | xargs git checkout -f
-git checkout -f arch/alpha/include/asm/cmpxchg.h
-git checkout -f arch/arm/mach-imx/hardware.h
-git checkout -f arch/arm/mach-ixp4xx/include/mach/hardware.h
-git checkout -f arch/arm/mach-sa1100/include/mach/hardware.h
-git checkout -f arch/mips/include/asm/mips-cps.h
-git checkout -f arch/x86/boot/boot.h
-git checkout -f arch/x86/boot/ctype.h
-git checkout -f arch/x86/include/asm/cpufeatures.h
-git checkout -f arch/x86/include/asm/disabled-features.h
-git checkout -f arch/x86/include/asm/required-features.h
-git checkout -f arch/x86/include/asm/vmxfeatures.h
-git checkout -f arch/x86/include/asm/vvar.h
-git checkout -f drivers/acpi/acpica/
-git checkout -f drivers/gpu/drm/amd/pm/inc/vega10_ppsmc.h
-git checkout -f drivers/gpu/drm/amd/pm/powerplay/ppsmc.h
-git checkout -f drivers/input/misc/yealink.h
-git checkout -f drivers/media/usb/dvb-usb-v2/mxl111sf-demod.h
-git checkout -f drivers/media/usb/dvb-usb-v2/mxl111sf-tuner.h
-git checkout -f drivers/pcmcia/yenta_socket.h
-git checkout -f drivers/staging/rtl8723bs/include/hal_com_h2c.h
-git checkout -f include/linux/acpi.h
-git checkout -f include/linux/bitops.h
-git checkout -f include/linux/compiler_types.h
-git checkout -f include/linux/device.h
-git checkout -f include/linux/kbuild.h
-git checkout -f include/linux/libfdt_env.h
-git checkout -f include/linux/local_lock.h
-git checkout -f include/linux/spinlock.h
-git checkout -f include/linux/spinlock_api_smp.h
-git checkout -f include/linux/spinlock_types.h
-git checkout -f include/linux/tracepoint.h
-git checkout -f mm/gup_test.h
-git checkout -f net/batman-adv/main.h
-git checkout -f scripts/dtc/
-git checkout -f tools/include/linux/bitops.h
-git checkout -f tools/include/linux/compiler.h
-git checkout -f tools/testing/selftests/clone3/clone3_selftests.h
-git checkout -f tools/testing/selftests/futex/include/atomic.h
-git checkout -f tools/testing/selftests/futex/include/futextest.h
-git checkout -f tools/testing/selftests/futex/include/logging.h
-git checkout -f tools/testing/selftests/kselftest.h
-git checkout -f tools/testing/selftests/kselftest_harness.h
-git checkout -f tools/testing/selftests/pidfd/pidfd.h
-git checkout -f tools/testing/selftests/x86/helpers.h
+[1] https://github.com/umlaeute/v4l2loopback
+[2] https://github.com/wt/v4l2loopback/tree/m2m_try
