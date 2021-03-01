@@ -2,295 +2,747 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 701A2327D7E
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 12:47:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E819327DC9
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 13:02:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233980AbhCALq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 06:46:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:32934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231898AbhCALq5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Mar 2021 06:46:57 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D22D564DBD;
-        Mon,  1 Mar 2021 11:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614599174;
-        bh=FNVBTGa+0GOpPYZnr5TQrRgEW6C5P83NVpSzoJCFB7k=;
-        h=From:To:Cc:Subject:Date:From;
-        b=swXiRXLlgH8eTuYsfGMlRWBS/cHXcd4EbLmJfGuz132Y8DdvT98Nf4H9bHrYugXUf
-         +zH5L7sKp/q+9MBZomPmPeCXV1V0J6eBg4GzQgHifBfXfeqkdcUnJ135uKSc1SGeJg
-         uklRH6H0iQGvw9eYfaPZza+C2ig7z9EdZtcQdafDFtctlaTOYpPeWTXoqXDFBmW/71
-         qzITmg0HBhbkdOTXC54cVfmOg6j3yYOdH3zsdc9SceblXVH5hw46iofuph1QnAWRmq
-         Wlq6yBB1rgTJvIo8TQKm6/QezHB391PjXlMIaplVZDG0kgrBhR9DeyfYH2GWq3Fv8A
-         GWVBziEBDOFzg==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lGh07-0007FM-E7; Mon, 01 Mar 2021 12:46:11 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4] media: add a subsystem profile documentation
-Date:   Mon,  1 Mar 2021 12:46:10 +0100
-Message-Id: <7ac41052a64ae3cfceaa9d08a82afc9dcf2392c5.1614599129.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S234873AbhCAMBS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 07:01:18 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:57119 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233966AbhCAMBP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Mar 2021 07:01:15 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id GhDvlDDvRC40pGhDylhv1r; Mon, 01 Mar 2021 13:00:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1614600031; bh=zB9EqIfJTXrqieXVG2koH3TIq7zrL/73VGjqSgedknw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Oxp17J00L7bdKOBTwrMl6eytfv5ieV3L0TBCGSscVvEuAwbr4X1Z1vAQAbXEqiOPr
+         sWByibQxjcIELtqowHyxGFC68YwyDd9rFVMEdF/m0XFj4mx0YN3r0AenLnUDuUoS36
+         SqLYau9yJexKRvQ81O8vXC8hPM/MTDTEq3ZkveV1cBnlUzD1vttrwReeuLqEqK77kx
+         Bysx0K4AaRFIOabu7bU6aTIr/XfpkolTBhPbeK4ikmiMS/J2eWN3f3BKcRIAMyyFxl
+         vfucCT1Q9bEZO4rnQ+d7qe8VFnYYvYshASLLQw+Hz6fDwPIZPjwrfd5HkS0NKTXc5n
+         cpFPFfxT6cblQ==
+Subject: Re: [PATCH 4/5] drm/omap: hdmi5: add CEC support
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+        dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-omap@vger.kernel.org
+References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
+ <20210211103703.444625-5-hverkuil-cisco@xs4all.nl>
+ <e1bb64ac-f7df-f839-9449-990f9b918aca@ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <d84b43bf-6c53-04ba-5e83-bd335732b5da@xs4all.nl>
+Date:   Mon, 1 Mar 2021 13:00:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <e1bb64ac-f7df-f839-9449-990f9b918aca@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEihE1HQgicUBJNfFl9wKYHwUhtIShEcmzgv+ZMa/IKu+7+1bxCTf+tZvh9kBP88p7QlkgJ1kpOdRaQo6ycu3CV4+9VWmYNl0N5lRQ6hhgfnxOpUhTY6
+ 6CfWjT3Sp2574VtPuxzGqPWrdhq/DrLll2hUJP0dbNz8OZovVsni2zjU4q5VHwzdeW7tf55x5CSkACY+p/dEpGtehg+juAOwYW32A3UWJN89xqXQBR0fqiAJ
+ r42tQiOu5DhvMeEqIEwugjDrTWcC5EkjNDt4pMOIW98Cg9coSWhOmmcAuKXA/yx/YSSX1WzRjTAW31zggkUYDaoXJZfSS25tsviyTHRSrVFke+sD/qOOnpZS
+ j1ZYqoPlQxaDz/E7jR8ttD0L1+lMCBCbN5az4i7gF1abrhRkwAkRHtUahlqbLPg10HDJS0qd9akMTiEFd4B2Pa5KcYwXmA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document the basic policies of the media subsystem profile.
+On 19/02/2021 12:09, Tomi Valkeinen wrote:
+> Hi Hans,
+> 
+> On 11/02/2021 12:37, Hans Verkuil wrote:
+>> Add HDMI CEC support for OMAP5.
+>>
+>> Many thanks to Tomi for helping out how to enable CEC for omap5.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Thanks-to: Tomi Valkeinen <tomi.valkeinen@iki.fi>
+>> ---
+>>  drivers/gpu/drm/omapdrm/dss/Kconfig      |   8 +
+>>  drivers/gpu/drm/omapdrm/dss/Makefile     |   1 +
+>>  drivers/gpu/drm/omapdrm/dss/hdmi.h       |   1 +
+>>  drivers/gpu/drm/omapdrm/dss/hdmi5.c      |  63 +++++--
+>>  drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c  | 201 +++++++++++++++++++++++
+>>  drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h  |  42 +++++
+>>  drivers/gpu/drm/omapdrm/dss/hdmi5_core.c |  28 +++-
+>>  drivers/gpu/drm/omapdrm/dss/hdmi5_core.h |  33 +++-
+>>  8 files changed, 358 insertions(+), 19 deletions(-)
+>>  create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
+>>  create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/Kconfig b/drivers/gpu/drm/omapdrm/dss/Kconfig
+>> index e11b258a2294..67a1ba14703b 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/Kconfig
+>> +++ b/drivers/gpu/drm/omapdrm/dss/Kconfig
+>> @@ -83,6 +83,14 @@ config OMAP5_DSS_HDMI
+>>  	  Definition Multimedia Interface. See https://www.hdmi.org/ for HDMI
+>>  	  specification.
+>>  
+>> +config OMAP5_DSS_HDMI_CEC
+>> +	bool "Enable HDMI CEC support for OMAP5"
+>> +	depends on OMAP5_DSS_HDMI
+>> +	select CEC_CORE
+>> +	default y
+>> +	help
+>> +	  When selected the HDMI transmitter will support the CEC feature.
+>> +
+>>  config OMAP2_DSS_SDI
+>>  	bool "SDI support"
+>>  	default n
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/Makefile b/drivers/gpu/drm/omapdrm/dss/Makefile
+>> index f967e6948f2e..94fe0fa3b3c2 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/Makefile
+>> +++ b/drivers/gpu/drm/omapdrm/dss/Makefile
+>> @@ -17,4 +17,5 @@ omapdss-$(CONFIG_OMAP2_DSS_HDMI_COMMON) += hdmi_common.o hdmi_wp.o hdmi_pll.o \
+>>  omapdss-$(CONFIG_OMAP4_DSS_HDMI) += hdmi4.o hdmi4_core.o
+>>  omapdss-$(CONFIG_OMAP4_DSS_HDMI_CEC) += hdmi4_cec.o
+>>  omapdss-$(CONFIG_OMAP5_DSS_HDMI) += hdmi5.o hdmi5_core.o
+>> +omapdss-$(CONFIG_OMAP5_DSS_HDMI_CEC) += hdmi5_cec.o
+>>  ccflags-$(CONFIG_OMAP2_DSS_DEBUG) += -DDEBUG
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi.h b/drivers/gpu/drm/omapdrm/dss/hdmi.h
+>> index c4a4e07f0b99..72d8ae441da6 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi.h
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi.h
+>> @@ -261,6 +261,7 @@ struct hdmi_core_data {
+>>  	struct hdmi_wp_data *wp;
+>>  	unsigned int core_pwr_cnt;
+>>  	struct cec_adapter *adap;
+>> +	struct clk *cec_clk;
+>>  };
+>>  
+>>  static inline void hdmi_write_reg(void __iomem *base_addr, const u32 idx,
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+>> index 54e5cb5aa52d..b674d8ba173f 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+>> @@ -29,12 +29,14 @@
+>>  #include <linux/of.h>
+>>  #include <linux/of_graph.h>
+>>  #include <sound/omap-hdmi-audio.h>
+>> +#include <media/cec.h>
+>>  
+>>  #include <drm/drm_atomic.h>
+>>  #include <drm/drm_atomic_state_helper.h>
+>>  
+>>  #include "omapdss.h"
+>>  #include "hdmi5_core.h"
+>> +#include "hdmi5_cec.h"
+>>  #include "dss.h"
+>>  
+>>  static int hdmi_runtime_get(struct omap_hdmi *hdmi)
+>> @@ -104,6 +106,10 @@ static irqreturn_t hdmi_irq_handler(int irq, void *data)
+>>  	} else if (irqstatus & HDMI_IRQ_LINK_DISCONNECT) {
+>>  		hdmi_wp_set_phy_pwr(wp, HDMI_PHYPWRCMD_LDOON);
+>>  	}
+> 
+> Empty line here, please.
+> 
+>> +	if (irqstatus & HDMI_IRQ_CORE) {
+>> +		hdmi5_cec_irq(&hdmi->core);
+>> +		hdmi5_core_handle_irqs(&hdmi->core);
+>> +	}
+> 
+> It's a bit odd to call two functions here. Would it work if
+> hdmi5_core_handle_irqs() would read and clear HDMI_CORE_IH_CEC_STAT0,
+> and call hdmi5_cec_irq() if the stat != 0 ?
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+Makes sense, I'll do that.
 
-v4: address issues pointed by Laurent and Sakari
-v3: address a few nitpicks from Randy and Lukas
-v2: fix the Documentation/*/media directories
+> 
+> And it would be nice if hdmi5_core.c would enable and disable core
+> interrupt, but maybe that can be left for later if the need ever comes
+> to handle other interrupts than cec.
 
- Documentation/driver-api/media/index.rst      |   2 +
- .../media/maintainer-entry-profile.rst        | 201 ++++++++++++++++++
- .../maintainer/maintainer-entry-profile.rst   |   1 +
- 3 files changed, 204 insertions(+)
- create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
+I prefer to leave it as-is.
 
-diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-index c140692454b1..2ad71dfa8828 100644
---- a/Documentation/driver-api/media/index.rst
-+++ b/Documentation/driver-api/media/index.rst
-@@ -28,6 +28,8 @@ Please see:
-     :maxdepth: 5
-     :numbered:
- 
-+    maintainer-entry-profile
-+
-     v4l2-core
-     dtv-core
-     rc-core
-diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-new file mode 100644
-index 000000000000..a460e2278ffc
---- /dev/null
-+++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-@@ -0,0 +1,201 @@
-+Media Subsystem Profile
-+=======================
-+
-+Overview
-+--------
-+
-+The media subsystem covers support for a variety of devices: stream
-+capture, analog and digital TV streams, cameras, remote controllers, HDMI CEC
-+and media pipeline control.
-+
-+It covers, mainly, the contents of those directories:
-+
-+  - drivers/media
-+  - drivers/staging/media
-+  - Documentation/admin-guide/media
-+  - Documentation/driver-api/media
-+  - Documentation/userspace-api/media
-+  - Documentation/devicetree/bindings/media/\ [1]_
-+  - include/media
-+
-+.. [1] Device tree bindings are maintained by the
-+       OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS maintainers
-+       (see the MAINTAINERS file). So, changes there should be reviewed
-+       by them before being merged via the media subsystem's development
-+       tree.
-+
-+Both media userspace and Kernel APIs are documented and the documentation
-+should be kept in sync with the API changes. It means that all patches that
-+add new features to the subsystem should also bring changes to the
-+corresponding API files.
-+
-+Due to the size and wide scope of the media subsystem, media's
-+maintainership model is to have sub-maintainers that have a broad
-+knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
-+task to review the patches, providing feedback to users if the patches are
-+following the subsystem rules and are properly using the media kernel and
-+userspace APIs.
-+
-+Patches for the media subsystem should be sent to the media mailing list
-+at linux-media@vger.kernel.org as plain text only e-mail. Emails with
-+HTML will be automatically rejected by the mail server. It could be wise
-+to also copy the sub-maintainer(s).
-+
-+Media's workflow is heavily based on Patchwork, meaning that, once a patch
-+is submitted, the e-mail will first be accepted by the mailing list
-+server, and, after a while, it should appear at:
-+
-+   - https://patchwork.linuxtv.org/project/linux-media/list/
-+
-+If it doesn't automatically appear there after a few minutes, then
-+probably something got wrong on your submission. Please check if the
-+email is in plain text\ [2]_ only and if your emailer is not mangling with
-+whitespaces before complaining or submitting them again.
-+
-+You can check if the mailing list server accepted your patch, by looking at:
-+
-+   - https://lore.kernel.org/linux-media/
-+
-+.. [2] If your email contains HTML, the mailing list server will simply
-+       drop it, without any further notice.
-+
-+
-+Sub-maintainers
-++++++++++++++++
-+
-+At the media subsystem, we have a group of experienced developers that
-+are responsible for doing the code reviews at the drivers (called
-+sub-maintainers), and another senior developer responsible for the
-+subsystem as a hole. For core changes, whenever possible, multiple
-+media (sub-)maintainers do the review.
-+
-+The sub-maintainers work on specific areas of the subsystem, as
-+described below:
-+
-+Digital TV:
-+  Sean Young <sean@mess.org>
-+
-+HDMI CEC:
-+  Hans Verkuil <hverkuil@xs4all.nl>
-+
-+Media controller drivers:
-+  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+
-+Remote Controllers:
-+  Sean Young <sean@mess.org>
-+
-+Sensor drivers:
-+  Sakari Ailus <sakari.ailus@linux.intel.com>
-+
-+V4L2 drivers:
-+  Hans Verkuil <hverkuil@xs4all.nl>
-+
-+Submit Checklist Addendum
-+-------------------------
-+
-+Patches that change the Open Firmware/Device Tree bindings should be
-+reviewed by the Device Tree maintainers. So, DT maintainers should be
-+Cc:ed when those are submitted.
-+
-+There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
-+that should be used in order to check if the drivers are properly
-+implementing the media APIs:
-+
-+==================	=======================================================
-+Type			Tool
-+==================	=======================================================
-+V4L2 drivers\ [3]_	`v4l2-compliance`, `contrib/test/test-media/`
-+CEC drivers		`cec-compliance`
-+==================	=======================================================
-+
-+.. [3] The `v4l2-compliance` also covers the media controller usage inside
-+       V4L2 drivers.
-+
-+Other compilance tools are under development to check other parts of the
-+subsystem.
-+
-+Those tests need to pass before the patches go upstream.
-+
-+Also, please notice that we build the Kernel with::
-+
-+	make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
-+
-+Where the check script is::
-+
-+	#!/bin/bash
-+	/devel/smatch/smatch -p=kernel $@ >&2
-+	/devel/sparse/sparse $@ >&2
-+
-+Be sure to not introduce new warnings on your patches without a
-+very good reason.
-+
-+Style Cleanup Patches
-++++++++++++++++++++++
-+
-+Style cleanups are welcome when they come together with other changes
-+at the files where the style changes will affect.
-+
-+We may accept pure standalone style cleanups, but they should ideally
-+be one patch for the whole subsystem (if the cleanup is low volume),
-+or at least be grouped per directory. So, for example, if you're doing a
-+big cleanup change set at drivers under drivers/media, please send a single
-+patch for all drivers under drivers/media/pci, another one for
-+drivers/media/usb and so on.
-+
-+Coding Style Addendum
-++++++++++++++++++++++
-+
-+Media development uses checkpatch on strict mode to verify the code style,
-+e.g.::
-+
-+	$ ./scripts/checkpatch.pl --strict --max-line-length=80
-+
-+In principle, patches should follow the coding style rules, but exceptions
-+are allowed if there are good reasons. On such case, maintainers and reviewers
-+may question about the rationale for not addressing the `checkpatch.pl`.
-+
-+Please notice that the goal here is to improve code readability. On
-+a few cases, `checkpatch.pl` may actually point to something that would
-+look worse. So, you should use good sense.
-+
-+Note that addressing one `checkpatch.pl` issue (of any kind) alone may lead
-+to having longer lines than 80 characters per line. While this is not
-+strictly prohibited, efforts should be made towards staying within 80
-+characters per line. This could include using refactoring code that leads
-+to less indentation, shorter variable or function names and last but not
-+least, simply wrapping the lines.
-+
-+In particular, we accept lines with more than 80 columns:
-+
-+    - on strings, as they shouldn't be broken due to line length limits;
-+    - when a function or variable name need to have a big identifier name,
-+      which keeps hard to honor the 80 columns limit;
-+    - on arithmetic expressions, when breaking lines makes them harder to
-+      read;
-+    - when they avoid a line to end with an open parenthesis or an open
-+      bracket.
-+
-+Key Cycle Dates
-+---------------
-+
-+New submissions can be sent at any time, but if they intend to hit the
-+next merge window they should be sent before -rc5, and ideally stabilized
-+in the linux-media branch by -rc6.
-+
-+Review Cadence
-+--------------
-+
-+Provided that your patch is at https://patchwork.linuxtv.org, it should
-+be sooner or later handled, so you don't need to re-submit a patch.
-+
-+Except for bug fixes, we don't usually add new patches to the development
-+tree between -rc6 and the next -rc1.
-+
-+Please notice that the media subsystem is a high traffic one, so it
-+could take a while for us to be able to review your patches. Feel free
-+to ping if you don't get a feedback in a couple of weeks or to ask
-+other developers to publicly add Reviewed-by and, more importantly,
-+Tested-by tags.
-+
-+Please note that we expect a detailed description for Tested-by,
-+identifying what boards were used at the test and what it was tested.
-diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-index b7a627d6c97d..5d5cc3acdf85 100644
---- a/Documentation/maintainer/maintainer-entry-profile.rst
-+++ b/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -102,3 +102,4 @@ to do something different in the near future.
-    ../doc-guide/maintainer-profile
-    ../nvdimm/maintainer-entry-profile
-    ../riscv/patch-acceptance
-+   ../driver-api/media/maintainer-entry-profile
--- 
-2.29.2
+> 
+>>  
+>>  	return IRQ_HANDLED;
+>>  }
+>> @@ -112,9 +118,12 @@ static int hdmi_power_on_core(struct omap_hdmi *hdmi)
+>>  {
+>>  	int r;
+>>  
+>> +	if (hdmi->core.core_pwr_cnt++)
+>> +		return 0;
+>> +
+>>  	r = regulator_enable(hdmi->vdda_reg);
+>>  	if (r)
+>> -		return r;
+>> +		goto err_reg_enable;
+>>  
+>>  	r = hdmi_runtime_get(hdmi);
+>>  	if (r)
+>> @@ -129,12 +138,17 @@ static int hdmi_power_on_core(struct omap_hdmi *hdmi)
+>>  
+>>  err_runtime_get:
+>>  	regulator_disable(hdmi->vdda_reg);
+>> +err_reg_enable:
+>> +	hdmi->core.core_pwr_cnt--;
+>>  
+>>  	return r;
+>>  }
+>>  
+>>  static void hdmi_power_off_core(struct omap_hdmi *hdmi)
+>>  {
+>> +	if (--hdmi->core.core_pwr_cnt)
+>> +		return;
+>> +
+>>  	hdmi->core_enabled = false;
+>>  
+>>  	hdmi_runtime_put(hdmi);
+>> @@ -168,7 +182,7 @@ static int hdmi_power_on_full(struct omap_hdmi *hdmi)
+>>  		pc, &hdmi_cinfo);
+>>  
+>>  	/* disable and clear irqs */
+>> -	hdmi_wp_clear_irqenable(&hdmi->wp, 0xffffffff);
+>> +	hdmi_wp_clear_irqenable(&hdmi->wp, ~HDMI_IRQ_CORE);
+> 
+> I guess the point here is to not touch CORE interrupt, as hdmi5_cec.c
+> handles that? The line below will still clear the CORE interrupt status.
+> 
+>>  	hdmi_wp_set_irqstatus(&hdmi->wp,
+>>  			hdmi_wp_get_irqstatus(&hdmi->wp));
+>>  
+>> @@ -225,7 +239,7 @@ static int hdmi_power_on_full(struct omap_hdmi *hdmi)
+>>  
+>>  static void hdmi_power_off_full(struct omap_hdmi *hdmi)
+>>  {
+>> -	hdmi_wp_clear_irqenable(&hdmi->wp, 0xffffffff);
+>> +	hdmi_wp_clear_irqenable(&hdmi->wp, ~HDMI_IRQ_CORE);
+>>  
+>>  	hdmi_wp_video_stop(&hdmi->wp);
+>>  
+>> @@ -273,11 +287,11 @@ static void hdmi_stop_audio_stream(struct omap_hdmi *hd)
+>>  	REG_FLD_MOD(hd->wp.base, HDMI_WP_SYSCONFIG, hd->wp_idlemode, 3, 2);
+>>  }
+>>  
+>> -static int hdmi_core_enable(struct omap_hdmi *hdmi)
+>> +int hdmi5_core_enable(struct omap_hdmi *hdmi)
+>>  {
+>>  	int r = 0;
+>>  
+>> -	DSSDBG("ENTER omapdss_hdmi_core_enable\n");
+>> +	DSSDBG("ENTER %s\n", __func__);
+>>  
+>>  	mutex_lock(&hdmi->lock);
+>>  
+>> @@ -295,9 +309,9 @@ static int hdmi_core_enable(struct omap_hdmi *hdmi)
+>>  	return r;
+>>  }
+>>  
+>> -static void hdmi_core_disable(struct omap_hdmi *hdmi)
+>> +void hdmi5_core_disable(struct omap_hdmi *hdmi)
+>>  {
+>> -	DSSDBG("Enter omapdss_hdmi_core_disable\n");
+>> +	DSSDBG("ENTER %s\n", __func__);
+>>  
+>>  	mutex_lock(&hdmi->lock);
+>>  
+>> @@ -424,6 +438,15 @@ static void hdmi5_bridge_disable(struct drm_bridge *bridge,
+>>  	mutex_unlock(&hdmi->lock);
+>>  }
+>>  
+>> +static void hdmi5_bridge_hpd_notify(struct drm_bridge *bridge,
+>> +				    enum drm_connector_status status)
+>> +{
+>> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
+>> +
+>> +	if (status == connector_status_disconnected)
+>> +		hdmi5_cec_set_phys_addr(&hdmi->core, NULL);
+>> +}
+>> +
+>>  static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
+>>  					  struct drm_connector *connector)
+>>  {
+>> @@ -436,7 +459,7 @@ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
+>>  	need_enable = hdmi->core_enabled == false;
+>>  
+>>  	if (need_enable) {
+>> -		r = hdmi_core_enable(hdmi);
+>> +		r = hdmi5_core_enable(hdmi);
+>>  		if (r)
+>>  			return NULL;
+>>  	}
+>> @@ -460,12 +483,29 @@ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
+>>  	hdmi_runtime_put(hdmi);
+>>  	mutex_unlock(&hdmi->lock);
+>>  
+>> +	hdmi5_cec_set_phys_addr(&hdmi->core, edid);
+>> +
+>>  	if (need_enable)
+>> -		hdmi_core_disable(hdmi);
+>> +		hdmi5_core_disable(hdmi);
+>>  
+>>  	return (struct edid *)edid;
+>>  }
+>>  
+>> +static int hdmi5_bridge_cec_init(struct drm_bridge *bridge,
+>> +				 struct drm_connector *conn)
+>> +{
+>> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
+>> +
+>> +	return hdmi5_cec_init(hdmi->pdev, &hdmi->core, &hdmi->wp, conn);
+>> +}
+>> +
+>> +static void hdmi5_bridge_cec_exit(struct drm_bridge *bridge)
+>> +{
+>> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
+>> +
+>> +	hdmi5_cec_uninit(&hdmi->core);
+>> +}
+>> +
+>>  static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
+>>  	.attach = hdmi5_bridge_attach,
+>>  	.mode_set = hdmi5_bridge_mode_set,
+>> @@ -474,14 +514,17 @@ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
+>>  	.atomic_reset = drm_atomic_helper_bridge_reset,
+>>  	.atomic_enable = hdmi5_bridge_enable,
+>>  	.atomic_disable = hdmi5_bridge_disable,
+>> +	.hpd_notify = hdmi5_bridge_hpd_notify,
+>>  	.get_edid = hdmi5_bridge_get_edid,
+>> +	.cec_init = hdmi5_bridge_cec_init,
+>> +	.cec_exit = hdmi5_bridge_cec_exit,
+>>  };
+>>  
+>>  static void hdmi5_bridge_init(struct omap_hdmi *hdmi)
+>>  {
+>>  	hdmi->bridge.funcs = &hdmi5_bridge_funcs;
+>>  	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
+>> -	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
+>> +	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_CEC;
+>>  	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+>>  
+>>  	drm_bridge_add(&hdmi->bridge);
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
+>> new file mode 100644
+>> index 000000000000..26ef8f585b8d
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
+>> @@ -0,0 +1,201 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * HDMI CEC
+>> + *
+>> + * Copyright 2019 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>> + */
+>> +#include <linux/interrupt.h>
+>> +#include <linux/io.h>
+>> +#include <linux/module.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/sched.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/clk.h>
+>> +
+>> +#include "dss.h"
+>> +#include "hdmi.h"
+>> +#include "hdmi5_core.h"
+>> +#include "hdmi5_cec.h"
+>> +
+>> +static int hdmi5_cec_log_addr(struct cec_adapter *adap, u8 logical_addr)
+>> +{
+>> +	struct hdmi_core_data *core = cec_get_drvdata(adap);
+>> +	u8 v;
+>> +
+>> +	if (logical_addr == CEC_LOG_ADDR_INVALID) {
+>> +		hdmi_write_reg(core->base, HDMI_CORE_CEC_ADDR_L, 0);
+>> +		hdmi_write_reg(core->base, HDMI_CORE_CEC_ADDR_H, 0);
+> 
+> Empty line here
+> 
+>> +		return 0;
+>> +	}
+>> +
+>> +	if (logical_addr <= 7) {
+>> +		v = hdmi_read_reg(core->base, HDMI_CORE_CEC_ADDR_L);
+>> +		v |= 1 << logical_addr;
+>> +		hdmi_write_reg(core->base, HDMI_CORE_CEC_ADDR_L, v);
+>> +		v = hdmi_read_reg(core->base, HDMI_CORE_CEC_ADDR_H);
+>> +		v |= 1 << 7;
+>> +		hdmi_write_reg(core->base, HDMI_CORE_CEC_ADDR_H, v);
+>> +	} else {
+>> +		v = hdmi_read_reg(core->base, HDMI_CORE_CEC_ADDR_H);
+>> +		v |= 1 << (logical_addr - 8);
+>> +		v |= 1 << 7;
+>> +		hdmi_write_reg(core->base, HDMI_CORE_CEC_ADDR_H, v);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int hdmi5_cec_transmit(struct cec_adapter *adap, u8 attempts,
+>> +			      u32 signal_free_time, struct cec_msg *msg)
+>> +{
+>> +	struct hdmi_core_data *core = cec_get_drvdata(adap);
+>> +	unsigned int i, ctrl;
+>> +
+>> +	switch (signal_free_time) {
+>> +	case CEC_SIGNAL_FREE_TIME_RETRY:
+>> +		ctrl = CEC_CTRL_RETRY;
+>> +		break;
+>> +	case CEC_SIGNAL_FREE_TIME_NEW_INITIATOR:
+>> +	default:
+>> +		ctrl = CEC_CTRL_NORMAL;
+>> +		break;
+>> +	case CEC_SIGNAL_FREE_TIME_NEXT_XFER:
+>> +		ctrl = CEC_CTRL_IMMED;
+>> +		break;
+>> +	}
+>> +
+>> +	for (i = 0; i < msg->len; i++)
+>> +		hdmi_write_reg(core->base,
+>> +			       HDMI_CORE_CEC_TX_DATA0 + i * 4, msg->msg[i]);
+>> +
+>> +	hdmi_write_reg(core->base, HDMI_CORE_CEC_TX_CNT, msg->len);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_CEC_CTRL,
+>> +		       ctrl | CEC_CTRL_START);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +void hdmi5_cec_irq(struct hdmi_core_data *core)
+>> +{
+>> +	struct cec_adapter *adap = core->adap;
+>> +	unsigned int stat = hdmi_read_reg(core->base, HDMI_CORE_IH_CEC_STAT0);
+>> +
+>> +	if (stat == 0)
+>> +		return;
+>> +
+>> +	hdmi_write_reg(core->base, HDMI_CORE_IH_CEC_STAT0, stat);
+>> +
+>> +	if (stat & CEC_STAT_ERROR_INIT)
+>> +		cec_transmit_attempt_done(adap, CEC_TX_STATUS_ERROR);
+>> +	else if (stat & CEC_STAT_DONE)
+>> +		cec_transmit_attempt_done(adap, CEC_TX_STATUS_OK);
+>> +	else if (stat & CEC_STAT_NACK)
+>> +		cec_transmit_attempt_done(adap, CEC_TX_STATUS_NACK);
+>> +
+>> +	if (stat & CEC_STAT_EOM) {
+>> +		struct cec_msg msg = {};
+>> +		unsigned int len, i;
+>> +
+>> +		len = hdmi_read_reg(core->base, HDMI_CORE_CEC_RX_CNT);
+>> +		if (len > sizeof(msg.msg))
+>> +			len = sizeof(msg.msg);
+>> +
+>> +		for (i = 0; i < len; i++)
+>> +			msg.msg[i] =
+>> +				hdmi_read_reg(core->base,
+>> +					      HDMI_CORE_CEC_RX_DATA0 + i * 4);
+>> +
+>> +		hdmi_write_reg(core->base, HDMI_CORE_CEC_LOCK, 0);
+>> +
+>> +		msg.len = len;
+>> +		cec_received_msg(adap, &msg);
+>> +	}
+>> +}
+>> +
+>> +static int hdmi5_cec_enable(struct cec_adapter *adap, bool enable)
+>> +{
+>> +	struct hdmi_core_data *core = cec_get_drvdata(adap);
+>> +	struct omap_hdmi *hdmi = container_of(core, struct omap_hdmi, core);
+>> +	unsigned int irqs;
+>> +	int err;
+>> +
+>> +	if (!enable) {
+>> +		hdmi_write_reg(core->base, HDMI_CORE_CEC_MASK, ~0);
+>> +		hdmi_write_reg(core->base, HDMI_CORE_IH_MUTE_CEC_STAT0, ~0);
+>> +		hdmi_wp_clear_irqenable(core->wp, HDMI_IRQ_CORE);
+>> +		hdmi_wp_set_irqstatus(core->wp, HDMI_IRQ_CORE);
+>> +		REG_FLD_MOD(core->base, HDMI_CORE_MC_CLKDIS, 0x01, 5, 5);
+>> +		hdmi5_core_disable(hdmi);
+> 
+> Empty line.
+> 
+>> +		return 0;
+>> +	}
+> 
+> And here.
+> 
+>> +	err = hdmi5_core_enable(hdmi);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	REG_FLD_MOD(core->base, HDMI_CORE_MC_CLKDIS, 0x00, 5, 5);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_IH_I2CM_STAT0, ~0);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_IH_MUTE_I2CM_STAT0, ~0);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_CEC_CTRL, 0);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_IH_CEC_STAT0, ~0);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_CEC_LOCK, 0);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_CEC_TX_CNT, 0);
+>> +
+>> +	hdmi5_cec_log_addr(adap, CEC_LOG_ADDR_INVALID);
+>> +
+>> +	/* Enable HDMI core interrupts */
+>> +	hdmi_wp_set_irqenable(core->wp, HDMI_IRQ_CORE);
+>> +
+>> +	irqs = CEC_STAT_ERROR_INIT | CEC_STAT_NACK | CEC_STAT_EOM |
+>> +	       CEC_STAT_DONE;
+>> +	hdmi_write_reg(core->base, HDMI_CORE_CEC_MASK, ~irqs);
+>> +	hdmi_write_reg(core->base, HDMI_CORE_IH_MUTE_CEC_STAT0, ~irqs);
+> 
+> Empty line.
+> 
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct cec_adap_ops hdmi5_cec_ops = {
+>> +	.adap_enable = hdmi5_cec_enable,
+>> +	.adap_log_addr = hdmi5_cec_log_addr,
+>> +	.adap_transmit = hdmi5_cec_transmit,
+>> +};
+> 
+> There's a chance of race with these and the drm originating hdmi code.
+> hdmi5_core_enable/disable is protected with a mutex, but a few of the
+> registers are touched without any common lock held. Did you go through
+> these and ensure there's no race? With some studying, I can't see
+> anything that might cause issues, so maybe it's fine.
+> 
+>> +void hdmi5_cec_set_phys_addr(struct hdmi_core_data *core, struct edid *edid)
+>> +{
+>> +	cec_s_phys_addr_from_edid(core->adap, edid);
+>> +}
+>> +
+>> +int hdmi5_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
+>> +		   struct hdmi_wp_data *wp, struct drm_connector *conn)
+>> +{
+>> +	const u32 caps = CEC_CAP_DEFAULTS | CEC_CAP_CONNECTOR_INFO;
+>> +	struct cec_connector_info conn_info;
+>> +	unsigned int ret;
+>> +
+>> +	core->cec_clk = devm_clk_get(&pdev->dev, "cec");
+>> +	if (IS_ERR(core->cec_clk))
+>> +		return PTR_ERR(core->cec_clk);
+>> +	ret = clk_prepare_enable(core->cec_clk);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	core->adap = cec_allocate_adapter(&hdmi5_cec_ops, core,
+>> +					  "omap5", caps, CEC_MAX_LOG_ADDRS);
+>> +	ret = PTR_ERR_OR_ZERO(core->adap);
+>> +	if (ret < 0)
+>> +		return ret;
+> 
+> Empty line.
+> 
+>> +	cec_fill_conn_info_from_drm(&conn_info, conn);
+>> +	cec_s_conn_info(core->adap, &conn_info);
+>> +	core->wp = wp;
+>> +
+>> +	ret = cec_register_adapter(core->adap, &pdev->dev);
+>> +	if (ret < 0) {
+>> +		cec_delete_adapter(core->adap);
+>> +		return ret;
+>> +	}
+> 
+> Empty line.
 
+Added all these empty lines.
+
+Regards,
+
+	Hans
+
+> 
+>> +	return 0;
+>> +}
+>> +
+>> +void hdmi5_cec_uninit(struct hdmi_core_data *core)
+>> +{
+>> +	clk_disable_unprepare(core->cec_clk);
+>> +	cec_unregister_adapter(core->adap);
+>> +}
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h b/drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
+>> new file mode 100644
+>> index 000000000000..904541da46da
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
+>> @@ -0,0 +1,42 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * HDMI header definition for OMAP5 HDMI CEC IP
+>> + *
+>> + * Copyright 2019 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>> + */
+>> +
+>> +#ifndef _HDMI5_CEC_H_
+>> +#define _HDMI5_CEC_H_
+>> +
+>> +/* HDMI CEC funcs */
+>> +#ifdef CONFIG_OMAP5_DSS_HDMI_CEC
+>> +void hdmi5_cec_set_phys_addr(struct hdmi_core_data *core,
+>> +			     struct edid *edid);
+>> +void hdmi5_cec_irq(struct hdmi_core_data *core);
+>> +int hdmi5_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
+>> +		   struct hdmi_wp_data *wp, struct drm_connector *conn);
+>> +void hdmi5_cec_uninit(struct hdmi_core_data *core);
+>> +#else
+>> +static inline void hdmi5_cec_set_phys_addr(struct hdmi_core_data *core,
+>> +					   struct edid *edid)
+>> +{
+>> +}
+>> +
+>> +static inline void hdmi5_cec_irq(struct hdmi_core_data *core)
+>> +{
+>> +}
+>> +
+>> +static inline int hdmi5_cec_init(struct platform_device *pdev,
+>> +				 struct hdmi_core_data *core,
+>> +				 struct hdmi_wp_data *wp,
+>> +				 struct drm_connector *conn)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +static inline void hdmi5_cec_uninit(struct hdmi_core_data *core)
+>> +{
+>> +}
+>> +#endif
+>> +
+>> +#endif
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+>> index 6cc2ad7a420c..13bc0f3d850b 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+>> @@ -229,6 +229,19 @@ void hdmi5_core_dump(struct hdmi_core_data *core, struct seq_file *s)
+>>  	DUMPCORE(HDMI_CORE_I2CM_FS_SCL_LCNT_1_ADDR);
+>>  	DUMPCORE(HDMI_CORE_I2CM_FS_SCL_LCNT_0_ADDR);
+>>  	DUMPCORE(HDMI_CORE_I2CM_SDA_HOLD_ADDR);
+>> +
+>> +	DUMPCORE(HDMI_CORE_IH_CEC_STAT0);
+>> +	DUMPCORE(HDMI_CORE_IH_MUTE_CEC_STAT0);
+>> +	DUMPCORE(HDMI_CORE_CEC_CTRL);
+>> +	DUMPCORE(HDMI_CORE_CEC_MASK);
+>> +	DUMPCORE(HDMI_CORE_CEC_ADDR_L);
+>> +	DUMPCORE(HDMI_CORE_CEC_ADDR_H);
+>> +	DUMPCORE(HDMI_CORE_CEC_TX_CNT);
+>> +	DUMPCORE(HDMI_CORE_CEC_RX_CNT);
+>> +	DUMPCORE(HDMI_CORE_CEC_TX_DATA0);
+>> +	DUMPCORE(HDMI_CORE_CEC_RX_DATA0);
+>> +	DUMPCORE(HDMI_CORE_CEC_LOCK);
+>> +	DUMPCORE(HDMI_CORE_CEC_WKUPCTRL);
+>>  }
+>>  
+>>  static void hdmi_core_init(struct hdmi_core_vid_config *video_cfg,
+>> @@ -513,8 +526,6 @@ static void hdmi_core_mask_interrupts(struct hdmi_core_data *core)
+>>  	REG_FLD_MOD(base, HDMI_CORE_AUD_INT, 0x3, 3, 2);
+>>  	REG_FLD_MOD(base, HDMI_CORE_AUD_GP_MASK, 0x3, 1, 0);
+>>  
+>> -	REG_FLD_MOD(base, HDMI_CORE_CEC_MASK, 0x7f, 6, 0);
+>> -
+>>  	REG_FLD_MOD(base, HDMI_CORE_I2CM_CTLINT, 0x1, 6, 6);
+>>  	REG_FLD_MOD(base, HDMI_CORE_I2CM_CTLINT, 0x1, 2, 2);
+>>  	REG_FLD_MOD(base, HDMI_CORE_I2CM_INT, 0x1, 2, 2);
+>> @@ -532,8 +543,6 @@ static void hdmi_core_mask_interrupts(struct hdmi_core_data *core)
+>>  
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_AS_STAT0, 0x7, 2, 0);
+>>  
+>> -	REG_FLD_MOD(base, HDMI_CORE_IH_CEC_STAT0, 0x7f, 6, 0);
+>> -
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_I2CM_STAT0, 0x3, 1, 0);
+>>  
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_PHY_STAT0, 0xff, 7, 0);
+>> @@ -549,13 +558,17 @@ int hdmi5_core_handle_irqs(struct hdmi_core_data *core)
+>>  {
+>>  	void __iomem *base = core->base;
+>>  
+>> +	/*
+>> +	 * Clear all possible IRQ_CORE interrupts except for
+>> +	 * HDMI_CORE_IH_I2CM_STAT0 (that interrupt is muted and
+>> +	 * is handled by polling elsewhere) and HDMI_CORE_IH_CEC_STAT0
+>> +	 * which is handled by the CEC code.
+>> +	 */
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT0, 0xff, 7, 0);
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT1, 0xff, 7, 0);
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT2, 0xff, 7, 0);
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_AS_STAT0, 0xff, 7, 0);
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_PHY_STAT0, 0xff, 7, 0);
+>> -	REG_FLD_MOD(base, HDMI_CORE_IH_I2CM_STAT0, 0xff, 7, 0);
+>> -	REG_FLD_MOD(base, HDMI_CORE_IH_CEC_STAT0, 0xff, 7, 0);
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_VP_STAT0, 0xff, 7, 0);
+>>  	REG_FLD_MOD(base, HDMI_CORE_IH_I2CMPHY_STAT0, 0xff, 7, 0);
+>>  
+>> @@ -879,5 +892,8 @@ int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+>>  	if (IS_ERR(core->base))
+>>  		return PTR_ERR(core->base);
+>>  
+>> +	REG_FLD_MOD(core->base, HDMI_CORE_CEC_MASK, 0x7f, 6, 0);
+>> +	REG_FLD_MOD(core->base, HDMI_CORE_IH_CEC_STAT0, 0x7f, 6, 0);
+>> +
+>>  	return 0;
+>>  }
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+>> index 070cbf5fb57d..a83b634f6011 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+>> @@ -30,8 +30,18 @@
+>>  #define HDMI_CORE_IH_PHY_STAT0			0x00410
+>>  #define HDMI_CORE_IH_I2CM_STAT0			0x00414
+>>  #define HDMI_CORE_IH_CEC_STAT0			0x00418
+>> +#define CEC_STAT_DONE				BIT(0)
+>> +#define CEC_STAT_EOM				BIT(1)
+>> +#define CEC_STAT_NACK				BIT(2)
+>> +#define CEC_STAT_ARBLOST			BIT(3)
+>> +#define CEC_STAT_ERROR_INIT			BIT(4)
+>> +#define CEC_STAT_ERROR_FOLL			BIT(5)
+>> +#define CEC_STAT_WAKEUP				BIT(6)
+>> +
+>>  #define HDMI_CORE_IH_VP_STAT0			0x0041C
+>>  #define HDMI_CORE_IH_I2CMPHY_STAT0		0x00420
+>> +#define HDMI_CORE_IH_MUTE_I2CM_STAT0            0x00614
+>> +#define HDMI_CORE_IH_MUTE_CEC_STAT0		0x00618
+>>  #define HDMI_CORE_IH_MUTE			0x007FC
+>>  
+>>  /* HDMI Video Sampler */
+>> @@ -233,9 +243,6 @@
+>>  /* HDMI HDCP */
+>>  #define HDMI_CORE_HDCP_MASK			0x14020
+>>  
+>> -/* HDMI CEC */
+>> -#define HDMI_CORE_CEC_MASK			0x17408
+>> -
+>>  /* HDMI I2C Master */
+>>  #define HDMI_CORE_I2CM_SLAVE			0x157C8
+>>  #define HDMI_CORE_I2CM_ADDRESS			0x157CC
+>> @@ -258,6 +265,24 @@
+>>  #define HDMI_CORE_I2CM_FS_SCL_LCNT_0_ADDR	0x15810
+>>  #define HDMI_CORE_I2CM_SDA_HOLD_ADDR		0x15814
+>>  
+>> +/* HDMI CEC */
+>> +#define HDMI_CORE_CEC_CTRL			0x153C8
+>> +#define CEC_CTRL_START				BIT(0)
+>> +#define CEC_CTRL_FRAME_TYP			(3 << 1)
+>> +#define CEC_CTRL_RETRY				(0 << 1)
+>> +#define CEC_CTRL_NORMAL				(1 << 1)
+>> +#define CEC_CTRL_IMMED				(2 << 1)
+>> +
+>> +#define HDMI_CORE_CEC_MASK			0x153D0
+>> +#define HDMI_CORE_CEC_ADDR_L			0x153DC
+>> +#define HDMI_CORE_CEC_ADDR_H			0x153E0
+>> +#define HDMI_CORE_CEC_TX_CNT			0x153E4
+>> +#define HDMI_CORE_CEC_RX_CNT			0x153E8
+>> +#define HDMI_CORE_CEC_TX_DATA0			0x15408
+>> +#define HDMI_CORE_CEC_RX_DATA0			0x15448
+>> +#define HDMI_CORE_CEC_LOCK			0x15488
+>> +#define HDMI_CORE_CEC_WKUPCTRL			0x1548C
+>> +
+>>  enum hdmi_core_packet_mode {
+>>  	HDMI_PACKETMODERESERVEDVALUE = 0,
+>>  	HDMI_PACKETMODE24BITPERPIXEL = 4,
+>> @@ -290,6 +315,8 @@ int hdmi5_core_handle_irqs(struct hdmi_core_data *core);
+>>  void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+>>  			struct hdmi_config *cfg);
+>>  int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core);
+>> +int hdmi5_core_enable(struct omap_hdmi *hdmi);
+>> +void hdmi5_core_disable(struct omap_hdmi *hdmi);
+>>  
+>>  int hdmi5_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+>>  			struct omap_dss_audio *audio, u32 pclk);
+>>
 
