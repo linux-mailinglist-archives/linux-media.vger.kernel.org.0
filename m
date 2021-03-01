@@ -2,208 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 380A532843B
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 17:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A76583284F9
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 17:49:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232419AbhCAQbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 11:31:51 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44284 "EHLO
+        id S235130AbhCAQqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 11:46:48 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44422 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231636AbhCAQ1r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 11:27:47 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A7E341;
-        Mon,  1 Mar 2021 17:26:53 +0100 (CET)
+        with ESMTP id S233322AbhCAQld (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 11:41:33 -0500
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7540941;
+        Mon,  1 Mar 2021 17:40:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614616013;
-        bh=7hUdaUiRrdglhVmCUiThlN/qQNp6U/+SuEgfQgjrHC0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n17p6rIeB2CudHo+y8UCMAyOySUskJ9VsO80P0N4tLa99K1yiima5qx9HYmIkvhp2
-         YagTgwpVyC9n9Ac8gDgIpWxy/Y82/0LZckGU+Ll22O6VjTQEThqiGlH/fJzfbmInhw
-         KhItlRY3/S6r6U4TGHYD6pl/Zf3/Q14hUEfMgrW0=
-Date:   Mon, 1 Mar 2021 18:26:25 +0200
+        s=mail; t=1614616850;
+        bh=kMfBkHDN7RFEJlDQXSSKlUfAQW+ErvHAIP4DY0y8wlc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=R2HsYgxy8wTX4KMB6CpcqZbj6YhFkSa1kl3Q6B2Q3NQ4e0fzn7ihhs3FqoB852gQz
+         i0Lf1Uan46CbMqxPN+oNVqM2xpfES/JwaropHoMGGugRr9Wk0kAr/jBEcafJXMxHqQ
+         vykFwrSNfjKmlXRe/LF/4yJZW61MjLBFnQ1+6Wfo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
-        Sekhar Nori <nsekhar@ti.com>, Tony Lindgren <tony@atomide.com>
-Subject: Re: [PATCH 2/5] drm/omap: hdmi4: switch to the cec bridge ops
-Message-ID: <YD0VsX9QLni9mFHV@pendragon.ideasonboard.com>
-References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
- <20210211103703.444625-3-hverkuil-cisco@xs4all.nl>
- <YC+qFsroJl8+Oy3q@pendragon.ideasonboard.com>
- <b0c9050b-099f-bf2b-a566-9f5893d1b417@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2.1 70/77] media: imx: imx7_mipi_csis: Calculate Ths_settle from source lane rate
+Date:   Mon,  1 Mar 2021 18:40:19 +0200
+Message-Id: <20210301164019.13031-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210215042741.28850-71-laurent.pinchart@ideasonboard.com>
+References: <20210215042741.28850-71-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b0c9050b-099f-bf2b-a566-9f5893d1b417@xs4all.nl>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+The Ths_settle timing parameter depends solely on the lane data rate of
+the source. Calculate it at runtime instead of requiring it to be
+specified in the device tree.
 
-On Mon, Mar 01, 2021 at 12:07:56PM +0100, Hans Verkuil wrote:
-> On 19/02/2021 13:07, Laurent Pinchart wrote:
-> > On Thu, Feb 11, 2021 at 11:37:00AM +0100, Hans Verkuil wrote:
-> >> Implement the new CEC bridge ops. This makes it possible to associate
-> >> a CEC adapter with a drm connector, which helps userspace determine
-> >> with cec device node belongs to which drm connector.
-> >>
-> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> ---
-> >>  drivers/gpu/drm/omapdrm/dss/hdmi4.c     | 28 +++++++++++++++++--------
-> >>  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c |  8 ++++---
-> >>  drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h |  7 ++++---
-> >>  3 files changed, 28 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> >> index 8de41e74e8f8..765379380d4b 100644
-> >> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> >> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> >> @@ -482,6 +482,21 @@ static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
-> >>  	return edid;
-> >>  }
-> >>  
-> >> +static int hdmi4_bridge_cec_init(struct drm_bridge *bridge,
-> >> +				 struct drm_connector *conn)
-> >> +{
-> >> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-> >> +
-> >> +	return hdmi4_cec_init(hdmi->pdev, &hdmi->core, &hdmi->wp, conn);
-> >> +}
-> >> +
-> >> +static void hdmi4_bridge_cec_exit(struct drm_bridge *bridge)
-> >> +{
-> >> +	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
-> >> +
-> >> +	hdmi4_cec_uninit(&hdmi->core);
-> >> +}
-> >> +
-> >>  static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
-> >>  	.attach = hdmi4_bridge_attach,
-> >>  	.mode_set = hdmi4_bridge_mode_set,
-> >> @@ -492,13 +507,15 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
-> >>  	.atomic_disable = hdmi4_bridge_disable,
-> >>  	.hpd_notify = hdmi4_bridge_hpd_notify,
-> >>  	.get_edid = hdmi4_bridge_get_edid,
-> >> +	.cec_init = hdmi4_bridge_cec_init,
-> >> +	.cec_exit = hdmi4_bridge_cec_exit,
-> >>  };
-> >>  
-> >>  static void hdmi4_bridge_init(struct omap_hdmi *hdmi)
-> >>  {
-> >>  	hdmi->bridge.funcs = &hdmi4_bridge_funcs;
-> >>  	hdmi->bridge.of_node = hdmi->pdev->dev.of_node;
-> >> -	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
-> >> +	hdmi->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_CEC;
-> >>  	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-> >>  
-> >>  	drm_bridge_add(&hdmi->bridge);
-> >> @@ -647,14 +664,10 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
-> >>  	if (r)
-> >>  		goto err_runtime_put;
-> >>  
-> >> -	r = hdmi4_cec_init(hdmi->pdev, &hdmi->core, &hdmi->wp);
-> >> -	if (r)
-> >> -		goto err_pll_uninit;
-> > 
-> > I'm wondering ifwe need to delay the creation of the CEC adapter until
-> > the DRM connector is ready, or if we could only delay its registration ?
-> > Catching errors related to adapter creation early could be nice, the
-> > more error we have to handle at DRM bridge connector creation time, the
-> > more complex the error handling will be for bridge support.
-> 
-> I feel that that is overkill, but if you really want this, just let me know.
-> Splitting it up would actually make it more complex for me since I would have
-> to check whether to call cec_unregister_adapter or cec_delete_adapter, depending
-> on whether the CEC registration was successful or not.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+Changes since v2:
 
-I don't insist if you think it's not worth it.
+- Don't print hs_settle at probe time
+---
+ drivers/staging/media/imx/imx7-mipi-csis.c | 48 ++++++++++++++++++----
+ 1 file changed, 41 insertions(+), 7 deletions(-)
 
-> >> -
-> >>  	r = hdmi_audio_register(hdmi);
-> >>  	if (r) {
-> >>  		DSSERR("Registering HDMI audio failed\n");
-> >> -		goto err_cec_uninit;
-> >> +		goto err_pll_uninit;
-> >>  	}
-> >>  
-> >>  	hdmi->debugfs = dss_debugfs_create_file(dss, "hdmi", hdmi_dump_regs,
-> >> @@ -664,8 +677,6 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
-> >>  
-> >>  	return 0;
-> >>  
-> >> -err_cec_uninit:
-> >> -	hdmi4_cec_uninit(&hdmi->core);
-> >>  err_pll_uninit:
-> >>  	hdmi_pll_uninit(&hdmi->pll);
-> >>  err_runtime_put:
-> >> @@ -682,7 +693,6 @@ static void hdmi4_unbind(struct device *dev, struct device *master, void *data)
-> >>  	if (hdmi->audio_pdev)
-> >>  		platform_device_unregister(hdmi->audio_pdev);
-> >>  
-> >> -	hdmi4_cec_uninit(&hdmi->core);
-> >>  	hdmi_pll_uninit(&hdmi->pll);
-> >>  }
-> >>  
-> >> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> >> index 43592c1cf081..64f5ccd0f11b 100644
-> >> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> >> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c
-> >> @@ -335,10 +335,10 @@ void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa)
-> >>  }
-> >>  
-> >>  int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
-> >> -		  struct hdmi_wp_data *wp)
-> >> +		   struct hdmi_wp_data *wp, struct drm_connector *conn)
-> >>  {
-> >> -	const u32 caps = CEC_CAP_TRANSMIT | CEC_CAP_LOG_ADDRS |
-> >> -			 CEC_CAP_PASSTHROUGH | CEC_CAP_RC;
-> >> +	const u32 caps = CEC_CAP_DEFAULTS | CEC_CAP_CONNECTOR_INFO;
-> >> +	struct cec_connector_info conn_info;
-> >>  	int ret;
-> >>  
-> >>  	core->adap = cec_allocate_adapter(&hdmi_cec_adap_ops, core,
-> >> @@ -346,6 +346,8 @@ int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
-> >>  	ret = PTR_ERR_OR_ZERO(core->adap);
-> >>  	if (ret < 0)
-> >>  		return ret;
-> >> +	cec_fill_conn_info_from_drm(&conn_info, conn);
-> >> +	cec_s_conn_info(core->adap, &conn_info);
-> >>  	core->wp = wp;
-> >>  
-> >>  	/* Disable clock initially, hdmi_cec_adap_enable() manages it */
-> >> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> >> index 0292337c97cc..b59a54c3040e 100644
-> >> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> >> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h
-> >> @@ -29,7 +29,7 @@ struct platform_device;
-> >>  void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa);
-> >>  void hdmi4_cec_irq(struct hdmi_core_data *core);
-> >>  int hdmi4_cec_init(struct platform_device *pdev, struct hdmi_core_data *core,
-> >> -		  struct hdmi_wp_data *wp);
-> >> +		   struct hdmi_wp_data *wp, struct drm_connector *conn);
-> >>  void hdmi4_cec_uninit(struct hdmi_core_data *core);
-> >>  #else
-> >>  static inline void hdmi4_cec_set_phys_addr(struct hdmi_core_data *core, u16 pa)
-> >> @@ -41,8 +41,9 @@ static inline void hdmi4_cec_irq(struct hdmi_core_data *core)
-> >>  }
-> >>  
-> >>  static inline int hdmi4_cec_init(struct platform_device *pdev,
-> >> -				struct hdmi_core_data *core,
-> >> -				struct hdmi_wp_data *wp)
-> >> +				 struct hdmi_core_data *core,
-> >> +				 struct hdmi_wp_data *wp,
-> >> +				 struct drm_connector *conn)
-> >>  {
-> >>  	return 0;
-> >>  }
-> > 
-> 
-
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 333ab3966b5b..e1728240b494 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -24,6 +24,7 @@
+ #include <linux/reset.h>
+ #include <linux/spinlock.h>
+ 
++#include <media/v4l2-common.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-mc.h>
+@@ -482,6 +483,39 @@ static void __mipi_csis_set_format(struct csi_state *state)
+ 	mipi_csis_write(state, MIPI_CSIS_ISPRESOL_CH0, val);
+ }
+ 
++static int mipi_csis_calculate_params(struct csi_state *state)
++{
++	s64 link_freq;
++	u32 lane_rate;
++
++	/* Calculate the line rate from the pixel rate. */
++	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
++				       state->csis_fmt->width,
++				       state->bus.num_data_lanes * 2);
++	if (link_freq < 0) {
++		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
++			(int)link_freq);
++		return link_freq;
++	}
++
++	lane_rate = link_freq * 2;
++
++	if (lane_rate < 80000000 || lane_rate > 1500000000) {
++		dev_dbg(state->dev, "Out-of-bound lane rate %u\n", lane_rate);
++		return -EINVAL;
++	}
++
++	/*
++	 * The HSSETTLE counter value is document in a table, but can also
++	 * easily be calculated.
++	 */
++	state->hs_settle = (lane_rate - 5000000) / 45000000;
++	dev_dbg(state->dev, "lane rate %u, Ths_settle %u\n",
++		lane_rate, state->hs_settle);
++
++	return 0;
++}
++
+ static void mipi_csis_set_params(struct csi_state *state)
+ {
+ 	int lanes = state->bus.num_data_lanes;
+@@ -608,9 +642,13 @@ static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
+ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+ {
+ 	struct csi_state *state = mipi_sd_to_csis_state(mipi_sd);
+-	int ret = 0;
++	int ret;
+ 
+ 	if (enable) {
++		ret = mipi_csis_calculate_params(state);
++		if (ret < 0)
++			return ret;
++
+ 		mipi_csis_clear_counters(state);
+ 		ret = pm_runtime_get_sync(&state->pdev->dev);
+ 		if (ret < 0) {
+@@ -943,9 +981,6 @@ static int mipi_csis_parse_dt(struct platform_device *pdev,
+ 	if (IS_ERR(state->mrst))
+ 		return PTR_ERR(state->mrst);
+ 
+-	/* Get MIPI CSI-2 bus configuration from the endpoint node. */
+-	of_property_read_u32(node, "fsl,csis-hs-settle", &state->hs_settle);
+-
+ 	return 0;
+ }
+ 
+@@ -1143,9 +1178,8 @@ static int mipi_csis_probe(struct platform_device *pdev)
+ 			goto unregister_all;
+ 	}
+ 
+-	dev_info(&pdev->dev, "lanes: %d, hs_settle: %d, freq: %u\n",
+-		 state->bus.num_data_lanes, state->hs_settle,
+-		 state->clk_frequency);
++	dev_info(&pdev->dev, "lanes: %d, freq: %u\n",
++		 state->bus.num_data_lanes, state->clk_frequency);
+ 
+ 	return 0;
+ 
 -- 
 Regards,
 
 Laurent Pinchart
+
