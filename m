@@ -2,187 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28700327C18
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 11:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B603327C37
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 11:33:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234291AbhCAK2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 05:28:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234284AbhCAK0z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 05:26:55 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33DD0C061786
-        for <linux-media@vger.kernel.org>; Mon,  1 Mar 2021 02:26:15 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id g5so27235274ejt.2
-        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 02:26:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CYgM1id2R9zJf1hAsjLZUpdxdqZwVIb1y9Uy/sRW0so=;
-        b=CqxH24y/MrPZHHCE5raF4mqb78avr5nCEtykSXmHyTa/LYFNhP+XnA02Py1yA6JA7y
-         +iHmBjFq4xV1APtK2uXFFrkF7te1zdNEAbWJgKxlMn9SvDZWP/9N+OxDNbA4hWGnC9Qu
-         35dCWeLietcgJzR8A7YZX4vBp/gqpgVyWE0qY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CYgM1id2R9zJf1hAsjLZUpdxdqZwVIb1y9Uy/sRW0so=;
-        b=TwHSoI4HvWyKSyP4iXtSK7xQ0Df/We70ghk/LfA7fTsEkM/F2Z4ctCta+Zx2/8LocG
-         tFZBiOlRnr9UspwEQ0l0Dzv9y7HTXlP5+3bqbwe0qM9kKV2TqChNLy1O7JSc6HE5Fpmv
-         s5Ew5ezTKXZSRGZjJY6eBvuQAzhmUmI0NGWhnJ3b/tZnZV4doWlUNcHeDMajigzbmsXF
-         OywjZUr8S48UagP0gu+leyk8/5+n0wd1cbb4idxGKtHxorWSO641/0Gfpta6sq5gmQTe
-         aOnUnlfFQYY8DE610FYmzrEQ3fIkpxk+rdpzkWyQj6mxKE/nsHuBbJfZovqm2CSYQ0pn
-         9B6w==
-X-Gm-Message-State: AOAM532t89VJZWx+gNh4RpCzEIdXb+jizyF6QzLgdzt0hBCdzby699OL
-        VQFR7qr+M3pCOlaf2G4na2Yz02yb78yhDw==
-X-Google-Smtp-Source: ABdhPJx43S02oySKjdnt0tPL4BxoFRKqe+2JGLmCqY55M3zUdfHSmNBoEja28Hr2gigPqWJ+QxeZaQ==
-X-Received: by 2002:a17:906:d787:: with SMTP id pj7mr8854427ejb.257.1614594373649;
-        Mon, 01 Mar 2021 02:26:13 -0800 (PST)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id u17sm14713518edr.0.2021.03.01.02.26.12
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Mar 2021 02:26:13 -0800 (PST)
-Received: by mail-wm1-f52.google.com with SMTP id o16so13917503wmh.0
-        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 02:26:12 -0800 (PST)
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr14771835wmi.127.1614594372464;
- Mon, 01 Mar 2021 02:26:12 -0800 (PST)
+        id S234510AbhCAKcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 05:32:45 -0500
+Received: from lahtoruutu.iki.fi ([185.185.170.37]:50712 "EHLO
+        lahtoruutu.iki.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234507AbhCAKce (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 05:32:34 -0500
+Received: from hillosipuli.retiisi.eu (213-243-181-26.bb.dnainternet.fi [213.243.181.26])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id B8E2B1B0008C;
+        Mon,  1 Mar 2021 12:31:34 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1614594694;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gZ4ICciPddR1nv+jyqklGIE6bO2QJktQ2TrexBn51y0=;
+        b=Oln75znMAuqxAZxkHKnAuviRvV+69QXchLRCs5O3wRWcBOVTRWPlFg2FrA34BGs0aRXeKo
+        jkTJ8w3MXY371+d3Wh9fwo1F1VSHZDAN350L3irVgW0RypGabBb3LaLGyTsapzUe2O9VBy
+        ehufvmp0+mNtbRzkZ5qtT9+9d89Iuw1kU6uKSF5XVkEdWN8TvBARPfRajtmWPDBQ/2y9LX
+        P5YaQYTtNUno2kKoNbUyptziOn+nU3Fe+PyvcFfoFiipDdkrrDtbhKyPsIgdNFG/pPtqGg
+        fTWHSi7EKYrxFVFveHda5nMCRXHYRvJLpnb6ARrdfA9MJoQoy/80GrqV6+oDAA==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D65FE634C87;
+        Mon,  1 Mar 2021 12:29:36 +0200 (EET)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1lGfpu-00017Y-KO; Mon, 01 Mar 2021 12:31:34 +0200
+Date:   Mon, 1 Mar 2021 12:31:34 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] media: add a subsystem profile documentation
+Message-ID: <20210301103133.GK3@valkosipuli.retiisi.eu>
+References: <bbe8dc3119b21317616535b7062811968a89b85e.1614591312.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20201214125703.866998-1-acourbot@chromium.org>
- <5319c101-f4a4-9c99-b15d-4999366f7a63@linaro.org> <CAAFQd5AQ8VHiRYkzkd5ZJBPT5_5WO0tyQrwqBEfnMVKYiTugTA@mail.gmail.com>
- <b5d35bbd-ae50-7a09-9edf-ca23d1a4b168@linaro.org> <bc42c936d7a67609b9dc4212b5a34b0d761676ed.camel@ndufresne.ca>
- <CAAFQd5BQv2vu_FSxJjVZLpgcuFi1WHVem_O-0x-vkG1KZJi0eA@mail.gmail.com>
- <CAAFQd5BAT2Xe+_swAe+hMqm_cQVbWJUzkH3dS+8-QHknV=KTjw@mail.gmail.com> <b62575fd-7aac-57fe-b6f7-cf1e94f909f2@linaro.org>
-In-Reply-To: <b62575fd-7aac-57fe-b6f7-cf1e94f909f2@linaro.org>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 1 Mar 2021 19:26:01 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DYtmWna91HYYJP_8_xEGm9faggM7ejPC7sbbPso=xvow@mail.gmail.com>
-Message-ID: <CAAFQd5DYtmWna91HYYJP_8_xEGm9faggM7ejPC7sbbPso=xvow@mail.gmail.com>
-Subject: Re: [PATCH] media: venus: use contig vb2 ops
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bbe8dc3119b21317616535b7062811968a89b85e.1614591312.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1614594694; a=rsa-sha256;
+        cv=none;
+        b=RSVOi5P1T/v0Qcvn31BlQWeQRJiyR/xAO75QLYUBpS+1bcib6VQbKzNOrSDHW9VQRTHOZL
+        h5sSSxWthhODTU9IIzKQlvIGpTq8NA78RXPxbTGChodkNhXgjJcA5XUtq+gLsYkn26wYhq
+        aTaP9ZKEUzLdXhgDVh5m58CjzJx3fsabhXDhk3Pn7jeGIUoIOA74EtM3iADCQtGihC1WhG
+        +V6mjJzErQXLXBFF6fx4nI/nuk/lJKY7HwcUh1DMa6wvYbSDfkeyNo6Hmru84Aj5AFRL5q
+        X9X1vffKc3xI97Q7+eDIDYDPvzd1P3z5g394rZeFLyDYMRzq+NHkUk91BSUMug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1614594694;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gZ4ICciPddR1nv+jyqklGIE6bO2QJktQ2TrexBn51y0=;
+        b=lo7lPyzqLPqcqpLx6b1cZt/VKoW0yMK84omgfH3mTn+Whflhezn1J+DCWWLDEWL60S2mTz
+        EIhsnwhGuVdc9NML86bVii6qsCyhF/M4KheXt8cvBptztlVD0JV2KiPMrJ0S7GFEKLq/kH
+        dYJW7Bkg5lcCGSZcNdpr4atMCg1kTRp0ZjhawKbIYuBxiOLcZer4+DLSeDwWB4sdy3ymO3
+        SliG2hULAtrClSTFk13HHIRZPUM83GV8BH3a0062fQucy7QSF1nxXLwlR4gr3CZm5Fn+fj
+        S86l57Nr6/Ly/v1rMGVgkDdgDcRaoSXbgvbTtPzjnzyie8pSD46hZcWI6UPngw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 1, 2021 at 7:22 PM Stanimir Varbanov
-<stanimir.varbanov@linaro.org> wrote:
->
->
->
-> On 3/1/21 11:23 AM, Tomasz Figa wrote:
-> > Hi Alex, Stanimir,
-> >
-> > On Wed, Dec 16, 2020 at 12:15 PM Tomasz Figa <tfiga@chromium.org> wrote=
-:
-> >>
-> >> On Wed, Dec 16, 2020 at 4:21 AM Nicolas Dufresne <nicolas@ndufresne.ca=
-> wrote:
-> >>>
-> >>> Le mardi 15 d=C3=A9cembre 2020 =C3=A0 15:54 +0200, Stanimir Varbanov =
-a =C3=A9crit :
-> >>>> Hi Tomasz,
-> >>>>
-> >>>> On 12/15/20 1:47 PM, Tomasz Figa wrote:
-> >>>>> On Tue, Dec 15, 2020 at 8:16 PM Stanimir Varbanov
-> >>>>> <stanimir.varbanov@linaro.org> wrote:
-> >>>>>>
-> >>>>>> Hi,
-> >>>>>>
-> >>>>>> Cc: Robin
-> >>>>>>
-> >>>>>> On 12/14/20 2:57 PM, Alexandre Courbot wrote:
-> >>>>>>> This driver uses the SG vb2 ops, but effectively only ever access=
-es the
-> >>>>>>> first entry of the SG table, indicating that it expects a flat la=
-yout.
-> >>>>>>> Switch it to use the contiguous ops to make sure this expected in=
-variant
-> >>>>>>
-> >>>>>> Under what circumstances the sg table will has nents > 1? I came d=
-own to
-> >>>>>> [1] but not sure I got it right.
-> >>>>>>
-> >>>>>> I'm afraid that for systems with low amount of system memory and w=
-hen
-> >>>>>> the memory become fragmented, the driver will not work. That's why=
- I
-> >>>>>> started with sg allocator.
-> >>>>>
-> >>>>> It is exactly the opposite. The vb2-dma-contig allocator is "contig=
-"
-> >>>>> in terms of the DMA (aka IOVA) address space. In other words, it
-> >>>>> guarantees that having one DMA address and length fully describes t=
-he
-> >>>>
-> >>>> Ahh, I missed that part. Looks like I misunderstood videobu2 contig
-> >>>> allocator.
-> >>>
-> >>> I'm learning everyday too, but I'm surprised I don't see a call to
-> >>> vb2_dma_contig_set_max_seg_size() in this driver (I could also just h=
-ave missed
-> >>> a patch when overlooking this thread) ?
-> >>>
-> >>> The reason I'm asking, doc says it should be called by driver support=
-ing IOMMU,
-> >>> which seems to be the case for such drivers (MFC, exynos4-is, exynos-=
-gsc, mtk-
-> >>> mdp, s5p-g2d, hantro, rkvdec, zoran, ti-vpe, ..). I posting it, worst=
- case it's
-> >>> all covered and we are good, otherwise perhaps a downstream patch did=
-n't make it
-> >>> ?
-> >>>
-> >>> /**
-> >>>  * vb2_dma_contig_set_max_seg_size() - configure DMA max segment size
-> >>>  * @dev:        device for configuring DMA parameters
-> >>>  * @size:       size of DMA max segment size to set
-> >>>  *
-> >>>  * To allow mapping the scatter-list into a single chunk in the DMA
-> >>>  * address space, the device is required to have the DMA max segment
-> >>>  * size parameter set to a value larger than the buffer size. Otherwi=
-se,
-> >>>  * the DMA-mapping subsystem will split the mapping into max segment
-> >>>  * size chunks. This function sets the DMA max segment size
-> >>>  * parameter to let DMA-mapping map a buffer as a single chunk in DMA
-> >>>  * address space.
-> >>>  * This code assumes that the DMA-mapping subsystem will merge all
-> >>>  * scatterlist segments if this is really possible (for example when
-> >>>  * an IOMMU is available and enabled).
-> >>>  * Ideally, this parameter should be set by the generic bus code, but=
- it
-> >>>  * is left with the default 64KiB value due to historical litmiations=
- in
-> >>>  * other subsystems (like limited USB host drivers) and there no good
-> >>>  * place to set it to the proper value.
-> >>>  * This function should be called from the drivers, which are known t=
-o
-> >>>  * operate on platforms with IOMMU and provide access to shared buffe=
-rs
-> >>>  * (either USERPTR or DMABUF). This should be done before initializin=
-g
-> >>>  * videobuf2 queue.
-> >>>  */
-> >>
-> >> It does call dma_set_max_seg_size() directly:
-> >> https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/=
-qcom/venus/core.c#L230
-> >>
-> >> Actually, why do we even need a vb2 helper for this?
-> >>
-> >
-> > What's the plan for this patch?
->
-> It will be part of v5.12.
+Hi Mauro,
 
-Great, thanks!
+Thanks for the patch. Could you cc me the future versions, please?
+
+On Mon, Mar 01, 2021 at 10:35:54AM +0100, Mauro Carvalho Chehab wrote:
+> Document the basic policies of the media subsystem profile.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+> v3: address a few nitpicks from Randy and Lukas
+> v2: fix the Documentation/*/media directories
+> 
+> 
+>  Documentation/driver-api/media/index.rst      |   2 +
+>  .../media/maintainer-entry-profile.rst        | 161 ++++++++++++++++++
+>  .../maintainer/maintainer-entry-profile.rst   |   1 +
+>  3 files changed, 164 insertions(+)
+>  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
+> 
+> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+> index c140692454b1..2ad71dfa8828 100644
+> --- a/Documentation/driver-api/media/index.rst
+> +++ b/Documentation/driver-api/media/index.rst
+> @@ -28,6 +28,8 @@ Please see:
+>      :maxdepth: 5
+>      :numbered:
+>  
+> +    maintainer-entry-profile
+> +
+>      v4l2-core
+>      dtv-core
+>      rc-core
+> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> new file mode 100644
+> index 000000000000..b3c4effbb1cf
+> --- /dev/null
+> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> @@ -0,0 +1,161 @@
+> +Media Subsystem Profile
+> +=======================
+> +
+> +Overview
+> +--------
+> +
+> +The media subsystem covers support for a variety of devices: stream
+> +capture, analog and digital TV, cameras, remote controllers, HDMI CEC
+> +and media pipeline control.
+> +
+> +It covers, mainly, the contents of those directories:
+> +
+> +  - drivers/media
+> +  - drivers/staging/media
+> +  - Documentation/admin-guide/media
+> +  - Documentation/driver-api/media
+> +  - Documentation/userspace-api/media
+> +  - include/media
+> +
+> +Both media userspace and Kernel APIs are documented and should be kept in
+> +sync with the API changes. It means that all patches that add new
+> +features to the subsystem should also bring changes to the corresponding
+> +API files.
+> +
+> +Due to the size and wide scope of the media subsystem, media's
+> +maintainership model is to have sub-maintainers that have a broad
+> +knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> +task to review the patches, providing feedback to users if the patches are
+> +following the subsystem rules and are properly using the media kernel and
+> +userspace APIs.
+> +
+> +Patches for the media subsystem should be sent to the media mailing list
+> +at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> +HTML will be automatically rejected by the mail server. It could be wise
+> +to also copy the sub-maintainer(s).
+> +
+> +Media's workflow is heavily based on Patchwork, meaning that, once a patch
+> +is submitted, it should appear at:
+> +
+> +   - https://patchwork.linuxtv.org/project/linux-media/list/
+> +
+> +If it doesn't automatically appear there after a few minutes, then
+> +probably something got wrong on your submission. Please check if the
+> +email is in plain text only and if your emailer is not mangling with
+> +whitespaces before complaining or submitting them again.
+> +
+> +Sub-maintainers
+> ++++++++++++++++
+> +
+> +At the media subsystem, we have a group of experienced developers that
+> +are responsible for doing the code reviews at the drivers (called
+> +sub-maintainers), and another senior developer responsible for the
+> +subsystem as a hole. For core changes, whenever possible, multiple
+> +media (sub-)maintainers do the review.
+> +
+> +The sub-maintainers work on specific areas of the subsystem, as
+> +described below:
+> +
+> +Digital TV:
+> +  Sean Young <sean@mess.org>
+> +
+> +HDMI CEC:
+> +  Hans Verkuil <hverkuil@xs4all.nl>
+> +
+> +Media controller drivers:
+> +  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +
+> +Remote Controllers:
+> +  Sean Young <sean@mess.org>
+> +
+> +Sensor drivers:
+> +  Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Could you add me:
+
+v4l2-async, v4l2-fwnode, v4l2-flash-led-class.
+
+ISP drivers are generally complicated; I wonder if it should be me, Laurent
+and Hans. It'd be nice to add ISPs, too.
+
+If the order is reversed, that could be expressed fairly neatly.
+
+> +
+> +V4L2 drivers:
+> +  Hans Verkuil <hverkuil@xs4all.nl>
+> +
+> +Submit Checklist Addendum
+> +-------------------------
+> +
+> +Patches that change the Open Firmware/Device Tree bindings should be
+> +reviewed by the Device Tree maintainers. So, DT maintainers should be
+> +Cc:ed when those are submitted.
+> +
+> +There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
+> +that should be used in order to check if the drivers are properly
+> +implementing the media APIs.
+> +
+> +Those tests need to pass before the patches go upstream.
+> +
+> +Also, please notice that we build the Kernel with::
+> +
+> +	make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
+> +
+> +Where the check script is::
+> +
+> +	#!/bin/bash
+> +	/devel/smatch/smatch -p=kernel $@ >&2
+> +	/devel/sparse/sparse $@ >&2
+> +
+> +Be sure to not introduce new warnings on your patches without a
+> +very good reason.
+> +
+> +Style Cleanup Patches
+> ++++++++++++++++++++++
+> +
+> +Style cleanups are welcome when they come together with other changes
+> +at the files where the style changes will affect.
+> +
+> +We may accept pure standalone style cleanups, but they should ideally
+> +be one patch for the whole subsystem (if the cleanup is low volume),
+> +or at least be grouped per directory. So, for example, if you're doing a
+> +big cleanup change set at drivers under drivers/media, please send a single
+> +patch for all drivers under drivers/media/pci, another one for
+> +drivers/media/usb and so on.
+> +
+> +Coding Style Addendum
+> ++++++++++++++++++++++
+> +
+> +Media development uses checkpatch on strict mode to verify the code style,
+> +e.g.::
+> +
+> +	$ ./scripts/checkpatch.pl --strict
+> +
+> +Please notice that the goal here is to improve code readability. On a few
+> +cases, checkpatch may actually point to something that would look worse.
+> +
+> +So, you should use good send sense here, being prepared to justify any
+> +coding style decision.
+> +
+> +Please also notice that, on some cases, when you fix one issue, you may
+> +receive warnings about lines longer than 80 columns. It is fine to have
+> +longer lines if this means that other warnings will be fixed by that.
+> +
+> +Yet, if you're having more than 80 columns on a line, please consider
+> +simplifying the code - if too indented - or to use shorter names for
+> +variables.
+> +
+
+How about replacing the two paragraphs with:
+
+Note that addressing one checkpatch.pl issue (of any kind) alone may lead
+to having longer lines than 80 characters per line. While this is not
+strictly prohibited, effort should be always made towards staying within 80
+characters per line. This could include using refactoring code that leads
+to less indentation, shorter variable or function names and last but not
+least, simply wrapping the lines.
+
+> +Key Cycle Dates
+> +---------------
+> +
+> +New submissions can be sent at any time, but if they intend to hit the
+> +next merge window they should be sent before -rc5, and ideally stabilized
+> +in the linux-media branch by -rc6.
+> +
+> +Review Cadence
+> +--------------
+> +
+> +Provided that your patch is at https://patchwork.linuxtv.org, it should
+> +be sooner or later handled, so you don't need to re-submit a patch.
+> +
+> +Except for bug fixes, we don't usually add new patches to the development
+> +tree between -rc6 and the next -rc1.
+> +
+> +Please notice that the media subsystem is a high traffic one, so it
+> +could take a while for us to be able to review your patches. Feel free
+> +to ping if you don't get a feedback in a couple of weeks or to ask
+> +other developers to publicly add Reviewed-by and, more importantly,
+> +Tested-by tags.
+> +
+> +Please note that we expect a detailed description for Tested-by,
+> +identifying what boards were used at the test and what it was tested.
+> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+> index b7a627d6c97d..5d5cc3acdf85 100644
+> --- a/Documentation/maintainer/maintainer-entry-profile.rst
+> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
+> @@ -102,3 +102,4 @@ to do something different in the near future.
+>     ../doc-guide/maintainer-profile
+>     ../nvdimm/maintainer-entry-profile
+>     ../riscv/patch-acceptance
+> +   ../driver-api/media/maintainer-entry-profile
+
+-- 
+Kind regards,
+
+Sakari Ailus
