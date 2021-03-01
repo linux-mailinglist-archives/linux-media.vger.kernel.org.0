@@ -2,302 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54961327B93
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 11:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54139327BDC
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 11:21:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232201AbhCAKHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 05:07:32 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37626 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232078AbhCAKGt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 05:06:49 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 964DF332;
-        Mon,  1 Mar 2021 11:06:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614593164;
-        bh=Wl3I0u50wgmq9rNWez5p4p+g9yNqDYwUoJfOG5klfMs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hMDcDsNEPSFfK/6awVNYCOK+OFyexWHqL3oH/1ZfiltTko0557iW6lImidttrAoNW
-         RDNLYVOV20j5z0WqXtc8puibZ0wv4eYncUW9XD3I/pHRv4WGlsrv/bD+ZL1uHvaY0i
-         PpjNOhqKzFgHB+gfr/tuDti18TIPNiyNOimf9pQc=
-Date:   Mon, 1 Mar 2021 12:05:37 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] media: add a subsystem profile documentation
-Message-ID: <YDy8cdNPHkKsvx0J@pendragon.ideasonboard.com>
-References: <bbe8dc3119b21317616535b7062811968a89b85e.1614591312.git.mchehab+huawei@kernel.org>
+        id S233228AbhCAKUi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 05:20:38 -0500
+Received: from mail-dm6nam11on2069.outbound.protection.outlook.com ([40.107.223.69]:56909
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233381AbhCAKTN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Mar 2021 05:19:13 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=it+3DNlVQX6oYr+8fDJnNj9WPNqCslbD1/EQawdfD9RyjRVcZd2dCyX9H+K+MzH7bYoJYypwm6Kw+IUbrWsY9tM7iUtJ9CZ1A80IglZwl3M8kndNCtWtwwVX7mD/u9mdJR2u6wW0zIZvLNSsAX4/VRTSH6iH+LkOLteVXesbQA3NlFYqr2gJTsXVjLB87eXnmESrB1O0UXMXzaebrxdMeFJCCU2bNc75EPI3ukcYWkKBTK3UMYup6XywfkmaOYM0jrwXQ0eWOxhX1bzNsZLCcthpWh9cy1u0l+p9wZ60qbERVo9LDcDKikJ0m/l4yRarOitK3CvbLQYSmnL312On9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gyc3UGnNTIqRtymu9gELU2gbvshZsITJwnRcgO2YPD4=;
+ b=OgGp6h/EQ3ThBQHA+3GhkfMBNP2aqNnadxET01IXGXX+fh7+r+gjRRYGxqQcDS03qSthHg+xlbzny9Q59b7DRMha1jICX+dEzUdsQgXSz+2yoAhgmCuHXsw/jqlz2MdHhz3v3cwaVj4vFUeCmqENgVCp2Fy+B0UMYvpYFSICI9EnXE8GhxYkash9m+s4u1MznaezhMQFHG7MqIFSeEHEmWX5g3s79jWyh7D07/CjHjg8TozcK+FG5qTG5FzCvlrDElp+tnt1XWd8GsfTu+8b0SB4D6b1rXQy+Pc63fqUzuWIj/uOrX1IqgFkmzLxanCUr3tU0hXt/bV8AR1e2LzHXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gyc3UGnNTIqRtymu9gELU2gbvshZsITJwnRcgO2YPD4=;
+ b=5QsvE6qsdXmOEdkDHf541wb0jdOMKjxz5REIsBi+U59dJoLwPKJkUcWjjig4uW50S1NZTJDxABVq/YyciuYFnBPFPG8o8SyNVBud5PfL4O8KoOXTfdIBQxgXcHj8/NjMPXS14ShZBRXDbYP1wfPdtK7uaSaN1eKmtiOvGA5K900=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3694.namprd12.prod.outlook.com (2603:10b6:208:165::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Mon, 1 Mar
+ 2021 10:17:44 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3890.028; Mon, 1 Mar 2021
+ 10:17:44 +0000
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
+ mmap
+To:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        John Stultz <john.stultz@linaro.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
+ <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
+ <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
+ <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
+ <CAKMK7uFezcV52oTZbHeve2HFFATeCGyK6zTT6nE1KVP69QRr0A@mail.gmail.com>
+ <61c5c371-debe-4ca0-a067-ce306e51ef88@shipmail.org>
+ <CAKMK7uFUiJyMP0E5JUzMOx=NyMW+ZObGsaFOh409x0LOvGbnzg@mail.gmail.com>
+ <0d69bd00-e673-17cf-c9e3-ccbcd52649a6@shipmail.org>
+ <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
+ <b367b7e8-f202-4d23-d672-a5c9bc7fcec1@shipmail.org>
+ <YDyuYk8x5QeX83s6@phenom.ffwll.local>
+ <be8f2503-ffcb-eb58-83be-26fa0fc1837a@shipmail.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <648556e6-2d99-950d-c940-706eb5a8f6cc@amd.com>
+Date:   Mon, 1 Mar 2021 11:17:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <be8f2503-ffcb-eb58-83be-26fa0fc1837a@shipmail.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:a93a:2306:54f2:28c4]
+X-ClientProxiedBy: AM9P195CA0024.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21f::29) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bbe8dc3119b21317616535b7062811968a89b85e.1614591312.git.mchehab+huawei@kernel.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:a93a:2306:54f2:28c4] (2a02:908:1252:fb60:a93a:2306:54f2:28c4) by AM9P195CA0024.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Mon, 1 Mar 2021 10:17:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: aaff20dd-3bdc-4f4b-45cd-08d8dc9b406c
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3694:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB36942822E654C303913BCAC0839A9@MN2PR12MB3694.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0RUfnEkGDNzJe/SyyKzQQ2DoyY/zFLOfwZG9mnF63tMYLBYYFdRGAwOkuHAfIUgltdIJ1o9Gg00fjngRT6/oupr/3Njfyv0PhwMc4d2YpP24DrcyutJ+SncPiuih+0UumGI2pN25NDA8b01mfizZIK97WIitc0s8UztogwX+Z1u+79YjnVE1utxjqV/Asv1exwptrI0p/xBpm1++ZLxDquml2ScUiP190sko5BMdY8qiRyHsXwSMvy5dKktraZNtlPZjYy7LLwd2VNgcMycREIKDFlLN7RMLfJ4ZMEu5d3mJlDJZsycQFzYmbO4XtazPT1MVMPArp0h7IRJKwDRwp1N6xvYuTZLtAfXymq9ukPEp+WB9LhYismecR8sYloYy04tWdpHCcF3eYGesewEyACjiEc7nj8mQ4YyJ3tYdc3Q9Y8wdmZkLLE7+QIJrHMIyLLQeEUKVi4zhUYEIvshmvT2SJWi3fiOJxWSVaUQftQUMgW20icUExW2UaFeNF6eVc0NTgyQkDQxFHu5AMTSaDQyfmrLUw7YGdeBUV4ZnvlJCOLg9bpLHsj92Ya3t0AwHVNBrnndw5z3VRDnwlTlbV+rMjGO7zirjaAkiqOK0bJM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(136003)(346002)(366004)(4326008)(6486002)(31686004)(31696002)(66556008)(66476007)(83380400001)(66946007)(478600001)(66574015)(2616005)(6666004)(16526019)(186003)(2906002)(5660300002)(36756003)(7416002)(86362001)(52116002)(110136005)(316002)(8676002)(8936002)(54906003)(53546011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ejhxSTJhajBXZkozUmRsM05hTWRjZThXMW9DR1dKT2RyUHRHbVB0UGhLRDht?=
+ =?utf-8?B?R2ZrL21xMnhLcktQR00xK0E3L3VMYlFrcEVsVlJYaENLeC9heHU0TWVFUVdR?=
+ =?utf-8?B?alBvT1lvc1RYMDZaOTBQeVFVTjFvZDQxT1djOVpENERyV251NFNsWmZyY2g1?=
+ =?utf-8?B?NWQ2MUdrSlhWUzdQWEoxSkFRRG9oRVJ4RlJEODlPb2RTcDd1ejhGVW95RHdX?=
+ =?utf-8?B?ayt6QUtuR2FyNVFLczRoM2E2cjJMeG40ay9ReVQrdkZPZ3hQUmxQSVZjRjFz?=
+ =?utf-8?B?WnpxNjFJOXhpSkl5aWt5aG9nckRLSFhXS2ZyTExObGVVOHB1Z2xkQnkwZDZp?=
+ =?utf-8?B?cTBPb1NMSmE1TGs3Q0NDTWl6bSt0cnNYZkVLaGlZSk9idDlST3oxTVBDMTVX?=
+ =?utf-8?B?YUZ6N2VoZGdtVFFwQ3hpc1htYXFaSUJ1SFc3VlY1aC9OTkY4TytuRjZWaFI0?=
+ =?utf-8?B?Ym9aNFhXMVdyQy9VTkFtMitSbm9hNFNWMlZFNTlwdmRSYlp6VitnYTJIZzcx?=
+ =?utf-8?B?bFZmNDdKS1NERTNacTlTeE5DL2hkK2x3RXB3NldtUHN1N0F0ZVZhV0NESU1B?=
+ =?utf-8?B?Y0pjclZXQ0J2bGNib2d6WGRoci84d3FnOXlkRERuSmh4em1PRWtVU0g4Uysr?=
+ =?utf-8?B?S2J0NzlCaWJnaStOREtDYzYzUE9jallQQXo2YmRROFZrK0Y2dGxiTzJ0U1Bw?=
+ =?utf-8?B?NTlLVVVSYVVwUFplVzRPMXk5bXo2THJFVzZ6VGlKTHZGZ3F3MDIzTHNSZUtq?=
+ =?utf-8?B?aFJieWNUM0IxaWc0cGhkeUJFb3ljU3EzUDhzV0QxRmoyYWNKVGl6aDZaa1V2?=
+ =?utf-8?B?aFV6QVh0bXdBOHh6a2gvNWMvSmN0eTh1b0EzeFBudHVvVmJKdDhJNThwb0RH?=
+ =?utf-8?B?NnZPTmEzenFVZXM0Njd0Z0lkNEkvdkYvbmVRZDFhbnI5VHVXZ21KK0JDV1VC?=
+ =?utf-8?B?d09aTTE2Uyt3dW0xNVNpZGhoUFU0Q0NYVDNGMmNRUWZQcWliRW5jM1BmRFl5?=
+ =?utf-8?B?aTNWb2V6a0RieHY0dTM4SktTNWo3bGJtS082ZW5vMGE4dWlGQVA3SWNTbjAx?=
+ =?utf-8?B?d0NpNWhGSVU2eW5zeHFOWWh1OFpabGtRZWdib3F3Qnp0TVk1Nlc5WnpwZ0o1?=
+ =?utf-8?B?aHBTZmlRNnp1RzYySHFma1dBdjJZYnZ4bnlsYUxyM1BqdlR0bExnUitkazB0?=
+ =?utf-8?B?Y1diZmFZalVMcXFWbm91eWY1ODNxYi91YVg5aGl2RlZrTy8wWVJLd0RCRmRY?=
+ =?utf-8?B?TFpyZ1R5eTI3L1NyRWxhbjNBSmZSbE5xV3NteHlsblNFRzlJUEQrUC9IaERm?=
+ =?utf-8?B?ODZCTEFsMG1DSXBiOWl6ZG1XbmxEc0Vhd3JrMHduNStDd1J3VkZMWm53QmJq?=
+ =?utf-8?B?VE1zQ0g3eFpzMGd5Z05hRWZTYTloc0hhY2hZaURTb0dVTWUwZlhRZExGZW93?=
+ =?utf-8?B?RHFsM3g3ajJuSVpaN3dZME5HdkNOMDA2WWJlWFUwdzNESFNjZHhaOXhiRHRj?=
+ =?utf-8?B?NlN2b3VkMzdmaGs1bU1oM1NtenNPYWxlaHI2aTArSjg3VXJ6N3pBSzdQQVN4?=
+ =?utf-8?B?MXlkcXhaRHJQcGpZK1JVREoxVUZ6UFhWZ0cxRWVDbTl0VTYwWW5IY0ZFK3Va?=
+ =?utf-8?B?QlFQbWlNWGkwTTBNK0VOVXpxNTRiRTJDWi9vMUJWMXFwZjUxQ1NmSytRd1Nk?=
+ =?utf-8?B?NTdwOG12Qzk3OWJENXJ3NzB2SDdqR2Q0Q3RxOWVNZW1ualR3WUJDbkRhcVV6?=
+ =?utf-8?B?VEVKTS9PYnd0eGh4RENoNDdJUmg5WE84ZnNITGhrSWxYMk5raE1oTUs1UDZG?=
+ =?utf-8?B?YTc1bUk2SEZVZVRTZEM1ejVxamhiWExlQnpCS0o5TTQzY29KZGc2QXhXSlZE?=
+ =?utf-8?Q?O94KbnHCA0HzT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aaff20dd-3bdc-4f4b-45cd-08d8dc9b406c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 10:17:43.8620
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a2mWZXQgYnBh74YGR8S4kEazUe6Yfz7LsQR04LbrgK9547oXpYEXHMKicTm3Y1Ln
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3694
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
 
-Thank you for the patch.
 
-On Mon, Mar 01, 2021 at 10:35:54AM +0100, Mauro Carvalho Chehab wrote:
-> Document the basic policies of the media subsystem profile.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
-> v3: address a few nitpicks from Randy and Lukas
-> v2: fix the Documentation/*/media directories
-> 
-> 
->  Documentation/driver-api/media/index.rst      |   2 +
->  .../media/maintainer-entry-profile.rst        | 161 ++++++++++++++++++
->  .../maintainer/maintainer-entry-profile.rst   |   1 +
->  3 files changed, 164 insertions(+)
->  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
-> 
-> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-> index c140692454b1..2ad71dfa8828 100644
-> --- a/Documentation/driver-api/media/index.rst
-> +++ b/Documentation/driver-api/media/index.rst
-> @@ -28,6 +28,8 @@ Please see:
->      :maxdepth: 5
->      :numbered:
->  
-> +    maintainer-entry-profile
-> +
->      v4l2-core
->      dtv-core
->      rc-core
-> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> new file mode 100644
-> index 000000000000..b3c4effbb1cf
-> --- /dev/null
-> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> @@ -0,0 +1,161 @@
-> +Media Subsystem Profile
-> +=======================
-> +
-> +Overview
-> +--------
-> +
-> +The media subsystem covers support for a variety of devices: stream
-> +capture, analog and digital TV, cameras, remote controllers, HDMI CEC
+Am 01.03.21 um 10:21 schrieb Thomas Hellström (Intel):
+>
+> On 3/1/21 10:05 AM, Daniel Vetter wrote:
+>> On Mon, Mar 01, 2021 at 09:39:53AM +0100, Thomas Hellström (Intel) 
+>> wrote:
+>>> Hi,
+>>>
+>>> On 3/1/21 9:28 AM, Daniel Vetter wrote:
+>>>> On Sat, Feb 27, 2021 at 9:06 AM Thomas Hellström (Intel)
+>>>> <thomas_os@shipmail.org> wrote:
+>>>>> On 2/26/21 2:28 PM, Daniel Vetter wrote:
+>>>>>> So I think it stops gup. But I haven't verified at all. Would be 
+>>>>>> good
+>>>>>> if Christian can check this with some direct io to a buffer in 
+>>>>>> system
+>>>>>> memory.
+>>>>> Hmm,
+>>>>>
+>>>>> Docs (again vm_normal_page() say)
+>>>>>
+>>>>>     * VM_MIXEDMAP mappings can likewise contain memory with or 
+>>>>> without "struct
+>>>>>     * page" backing, however the difference is that _all_ pages 
+>>>>> with a struct
+>>>>>     * page (that is, those where pfn_valid is true) are refcounted 
+>>>>> and
+>>>>> considered
+>>>>>     * normal pages by the VM. The disadvantage is that pages are 
+>>>>> refcounted
+>>>>>     * (which can be slower and simply not an option for some PFNMAP
+>>>>> users). The
+>>>>>     * advantage is that we don't have to follow the strict 
+>>>>> linearity rule of
+>>>>>     * PFNMAP mappings in order to support COWable mappings.
+>>>>>
+>>>>> but it's true __vm_insert_mixed() ends up in the insert_pfn() 
+>>>>> path, so
+>>>>> the above isn't really true, which makes me wonder if and in that 
+>>>>> case
+>>>>> why there could any longer ever be a significant performance 
+>>>>> difference
+>>>>> between MIXEDMAP and PFNMAP.
+>>>> Yeah it's definitely confusing. I guess I'll hack up a patch and see
+>>>> what sticks.
+>>>>
+>>>>> BTW regarding the TTM hugeptes, I don't think we ever landed that 
+>>>>> devmap
+>>>>> hack, so they are (for the non-gup case) relying on
+>>>>> vma_is_special_huge(). For the gup case, I think the bug is still 
+>>>>> there.
+>>>> Maybe there's another devmap hack, but the ttm_vm_insert functions do
+>>>> use PFN_DEV and all that. And I think that stops gup_fast from trying
+>>>> to find the underlying page.
+>>>> -Daniel
+>>> Hmm perhaps it might, but I don't think so. The fix I tried out was 
+>>> to set
+>>>
+>>> PFN_DEV | PFN_MAP for huge PTEs which causes pfn_devmap() to be 
+>>> true, and
+>>> then
+>>>
+>>> follow_devmap_pmd()->get_dev_pagemap() which returns NULL and 
+>>> gup_fast()
+>>> backs off,
+>>>
+>>> in the end that would mean setting in stone that "if there is a huge 
+>>> devmap
+>>> page table entry for which we haven't registered any devmap struct 
+>>> pages
+>>> (get_dev_pagemap returns NULL), we should treat that as a "special" 
+>>> huge
+>>> page table entry".
+>>>
+>>>  From what I can tell, all code calling get_dev_pagemap() already 
+>>> does that,
+>>> it's just a question of getting it accepted and formalizing it.
+>> Oh I thought that's already how it works, since I didn't spot anything
+>> else that would block gup_fast from falling over. I guess really would
+>> need some testcases to make sure direct i/o (that's the easiest to test)
+>> fails like we expect.
+>
+> Yeah, IIRC the "| PFN_MAP" is the missing piece for TTM huge ptes. 
+> Otherwise pmd_devmap() will not return true and since there is no 
+> pmd_special() things break.
 
-maybe "analog and digital TV capture and output" ? I don't think we
-support TVs themselves :-)
+Is that maybe the issue we have seen with amdgpu and huge pages?
 
-> +and media pipeline control.
-> +
-> +It covers, mainly, the contents of those directories:
-> +
-> +  - drivers/media
-> +  - drivers/staging/media
-> +  - Documentation/admin-guide/media
+Apart from that I'm lost guys, that devmap and gup stuff is not 
+something I have a good knowledge of apart from a one mile high view.
 
-And Documentation/devicetree/bindings/media/ ?
+Christian.
 
-> +  - Documentation/driver-api/media
-> +  - Documentation/userspace-api/media
-> +  - include/media
-> +
-> +Both media userspace and Kernel APIs are documented and should be kept in
+>
+> /Thomas
+>
+>
+>
+>> -Daniel
 
-s/and should be kept/and the documentation should be kept/ ?
-
-> +sync with the API changes. It means that all patches that add new
-> +features to the subsystem should also bring changes to the corresponding
-> +API files.
-> +
-> +Due to the size and wide scope of the media subsystem, media's
-> +maintainership model is to have sub-maintainers that have a broad
-> +knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
-> +task to review the patches, providing feedback to users if the patches are
-> +following the subsystem rules and are properly using the media kernel and
-> +userspace APIs.
-> +
-> +Patches for the media subsystem should be sent to the media mailing list
-> +at linux-media@vger.kernel.org as plain text only e-mail. Emails with
-> +HTML will be automatically rejected by the mail server. It could be wise
-> +to also copy the sub-maintainer(s).
-> +
-> +Media's workflow is heavily based on Patchwork, meaning that, once a patch
-> +is submitted, it should appear at:
-> +
-> +   - https://patchwork.linuxtv.org/project/linux-media/list/
-> +
-> +If it doesn't automatically appear there after a few minutes, then
-> +probably something got wrong on your submission. Please check if the
-> +email is in plain text only and if your emailer is not mangling with
-> +whitespaces before complaining or submitting them again.
-
-Should me mention checking lore.kernel.org to see if the mail has been
-delivered ?
-
-> +
-> +Sub-maintainers
-> ++++++++++++++++
-
-Not something to be addressed now, but I'd like some day to rename
-"sub-maintainer" to something that has less of an underling note to it.
-
-> +
-> +At the media subsystem, we have a group of experienced developers that
-> +are responsible for doing the code reviews at the drivers (called
-> +sub-maintainers), and another senior developer responsible for the
-> +subsystem as a hole. For core changes, whenever possible, multiple
-
-s/hole/whole/
-
-> +media (sub-)maintainers do the review.
-> +
-> +The sub-maintainers work on specific areas of the subsystem, as
-> +described below:
-> +
-> +Digital TV:
-> +  Sean Young <sean@mess.org>
-> +
-> +HDMI CEC:
-> +  Hans Verkuil <hverkuil@xs4all.nl>
-> +
-> +Media controller drivers:
-> +  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +
-> +Remote Controllers:
-> +  Sean Young <sean@mess.org>
-> +
-> +Sensor drivers:
-> +  Sakari Ailus <sakari.ailus@linux.intel.com>
-> +
-> +V4L2 drivers:
-> +  Hans Verkuil <hverkuil@xs4all.nl>
-> +
-> +Submit Checklist Addendum
-> +-------------------------
-> +
-> +Patches that change the Open Firmware/Device Tree bindings should be
-> +reviewed by the Device Tree maintainers. So, DT maintainers should be
-> +Cc:ed when those are submitted.
-
-I may have moved this to the overview section as it's not really
-specific to the media subsystem, but I won't insist.
-
-> +There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
-> +that should be used in order to check if the drivers are properly
-> +implementing the media APIs.
-
-Should we list and name the tools explicitly ?
-
-> +
-> +Those tests need to pass before the patches go upstream.
-> +
-> +Also, please notice that we build the Kernel with::
-> +
-> +	make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
-> +
-> +Where the check script is::
-> +
-> +	#!/bin/bash
-> +	/devel/smatch/smatch -p=kernel $@ >&2
-> +	/devel/sparse/sparse $@ >&2
-> +
-> +Be sure to not introduce new warnings on your patches without a
-> +very good reason.
-> +
-> +Style Cleanup Patches
-> ++++++++++++++++++++++
-> +
-> +Style cleanups are welcome when they come together with other changes
-> +at the files where the style changes will affect.
-> +
-> +We may accept pure standalone style cleanups, but they should ideally
-> +be one patch for the whole subsystem (if the cleanup is low volume),
-> +or at least be grouped per directory. So, for example, if you're doing a
-> +big cleanup change set at drivers under drivers/media, please send a single
-> +patch for all drivers under drivers/media/pci, another one for
-> +drivers/media/usb and so on.
-> +
-> +Coding Style Addendum
-> ++++++++++++++++++++++
-> +
-> +Media development uses checkpatch on strict mode to verify the code style,
-> +e.g.::
-> +
-> +	$ ./scripts/checkpatch.pl --strict
-> +
-> +Please notice that the goal here is to improve code readability. On a few
-> +cases, checkpatch may actually point to something that would look worse.
-> +
-> +So, you should use good send sense here, being prepared to justify any
-
-s/send sense/sense/ ? Or common sense ?
-
-> +coding style decision.
-
-The last part of the sentence is a bit harsh, it makes it sound
-submitters will go through a court trial :-) Maybe the following would
-be better ?
-
-So, you should use common sense here, and can depart from the rules
-enforced by checkstyle.pl if you have good reasons to do so.
-
-> +
-> +Please also notice that, on some cases, when you fix one issue, you may
-> +receive warnings about lines longer than 80 columns. It is fine to have
-> +longer lines if this means that other warnings will be fixed by that.
-
-The kernel now allows longer lines. I'm not advocating going routinely
-over the 80 columns limit, but this paragraph is a bit outdated.
-
-With these issues fixed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
-> +Yet, if you're having more than 80 columns on a line, please consider
-> +simplifying the code - if too indented - or to use shorter names for
-> +variables.
-> +
-> +Key Cycle Dates
-> +---------------
-> +
-> +New submissions can be sent at any time, but if they intend to hit the
-> +next merge window they should be sent before -rc5, and ideally stabilized
-> +in the linux-media branch by -rc6.
-> +
-> +Review Cadence
-> +--------------
-> +
-> +Provided that your patch is at https://patchwork.linuxtv.org, it should
-> +be sooner or later handled, so you don't need to re-submit a patch.
-> +
-> +Except for bug fixes, we don't usually add new patches to the development
-> +tree between -rc6 and the next -rc1.
-> +
-> +Please notice that the media subsystem is a high traffic one, so it
-> +could take a while for us to be able to review your patches. Feel free
-> +to ping if you don't get a feedback in a couple of weeks or to ask
-> +other developers to publicly add Reviewed-by and, more importantly,
-> +Tested-by tags.
-> +
-> +Please note that we expect a detailed description for Tested-by,
-> +identifying what boards were used at the test and what it was tested.
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-> index b7a627d6c97d..5d5cc3acdf85 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -102,3 +102,4 @@ to do something different in the near future.
->     ../doc-guide/maintainer-profile
->     ../nvdimm/maintainer-entry-profile
->     ../riscv/patch-acceptance
-> +   ../driver-api/media/maintainer-entry-profile
-
--- 
-Regards,
-
-Laurent Pinchart
