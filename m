@@ -2,46 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD5A327C03
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 11:26:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F94E327C0B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 11:27:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234133AbhCAKZK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 05:25:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234123AbhCAKYX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 05:24:23 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2095C06174A;
-        Mon,  1 Mar 2021 02:23:42 -0800 (PST)
+        id S234275AbhCAK0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 05:26:34 -0500
+Received: from gofer.mess.org ([88.97.38.141]:60605 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234206AbhCAK0Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Mar 2021 05:26:16 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 81340C6367; Mon,  1 Mar 2021 10:23:38 +0000 (GMT)
+        id D13F7C6367; Mon,  1 Mar 2021 10:25:22 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1614594218; bh=am147Tq+Oek5Pv+q8gEhQQbv5ON/ZydsZvZMt6S0vIg=;
+        t=1614594322; bh=tLUbkXhItkf6LKgtlXUZQKTwZ5ut1MvcIB8+Lw9y2w4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TIV+m7ReoBRp5r9rdxH3X/Ub7JbkrPFGIeRVIm8XypsdkO41Ll3am4GmMeUdOWL/t
-         aN46x7GYCTxLkaX9XZRLVQrZKQ7S1CseXq8L+0faSli2HaERzNxER0ZjH5dRvbDDTX
-         PEd8vyLNmLxIy2Fvb220If4lcrBIFtatks9bE1idGt+SZI5BNj4NSa17gkRpoSJ+CS
-         piuNTS3auU55kvNys/AB5c7gmU0ZSZ7c8MidMTs/i4PH8CQ7bpT40HBI71T+xCCLKP
-         2mPKu+FluZJ8tOOEn/oMrmrZFaeaB4KqHVsoywOLCXiDqr8PioS8S/btrJaWA1N6rZ
-         eQn45C6rDPKtQ==
-Date:   Mon, 1 Mar 2021 10:23:38 +0000
+        b=DoirwXVmFUz/+k809ssCy85h31Ce+rzpzuBmU1HD8y95epmfbjzPqYdn/JgwJrprE
+         is0If8KvaBdS6QFIWM3sK4L0SsMXBiTDlyDU81gI9xAWhb2Drv+5JpbvJqGaASBxKc
+         cHiAkqXpgnvudv3K/ce3JSDm4CDGogVrVvmVO+3aRDsZjaW/Pn8cY8kTZB9/mNfZ+A
+         6QFlZxj6w5pzIbbBmlzGoc2PwvYM76plYmlJSrLh5wb3avZ/rdbshN1R9JMvYeMY27
+         D9zruQmsGLnniwwGkYElbqFz65itHeLs4UQIWEbAvSICeI3p09Nkgtd7KBIozBa3x6
+         D0MZWHiOZd6hQ==
+Date:   Mon, 1 Mar 2021 10:25:22 +0000
 From:   Sean Young <sean@mess.org>
 To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Marc Gonzalez <marc.w.gonzalez@free.fr>
-Subject: Re: [PATCH 1/2] media: rc: remove tango ir driver
-Message-ID: <20210301102338.GA25633@gofer.mess.org>
+        Jun Nie <jun.nie@linaro.org>, Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 2/2] media: rc: remove zte zx ir driver
+Message-ID: <20210301102522.GB25633@gofer.mess.org>
 References: <20210120142542.4100741-1-arnd@kernel.org>
- <20210120142542.4100741-2-arnd@kernel.org>
- <yw1xczxyz92v.fsf@mansr.com>
+ <20210120142542.4100741-3-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yw1xczxyz92v.fsf@mansr.com>
+In-Reply-To: <20210120142542.4100741-3-arnd@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -49,352 +43,274 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Arnd,
 
-On Thu, Jan 21, 2021 at 01:57:28PM +0000, Måns Rullgård wrote:
-> Arnd Bergmann <arnd@kernel.org> writes:
+On Wed, Jan 20, 2021 at 03:25:42PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > The tango platform is getting removed, so the driver is no
-> > longer needed.
-> >
-> > Cc: Marc Gonzalez <marc.w.gonzalez@free.fr>
-> > Cc: Mans Rullgard <mans@mansr.com>
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> >  drivers/media/rc/Kconfig    |  10 --
-> >  drivers/media/rc/Makefile   |   1 -
-> >  drivers/media/rc/tango-ir.c | 267 ------------------------------------
-> >  3 files changed, 278 deletions(-)
-> >  delete mode 100644 drivers/media/rc/tango-ir.c
-> 
-> The DT binding can go too.
+> The zte zx platform is getting removed, so this driver is no
+> longer needed.
 
-Please can we have a patch which also removes all of:
+I think the keymap should go too.
 
-Documentation/devicetree/bindings/media/tango-ir.txt
-drivers/media/rc/keymaps/rc-tango.c
+drivers/media/rc/keymaps/rc-zx-irdec.c
 
-Any references to RC_MAP_TANGO and rc-tango.
+Any references to RC_MAP_ZX_IRDEC or rc-zx-irdec
 
 Thanks
 
 Sean
 
 > 
-> Otherwise:
+> Cc: Jun Nie <jun.nie@linaro.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  .../devicetree/bindings/media/zx-irdec.txt    |  14 --
+>  drivers/media/rc/Kconfig                      |  11 --
+>  drivers/media/rc/Makefile                     |   1 -
+>  drivers/media/rc/zx-irdec.c                   | 181 ------------------
+>  4 files changed, 207 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/zx-irdec.txt
+>  delete mode 100644 drivers/media/rc/zx-irdec.c
 > 
-> Acked-by: Mans Rullgard <mans@mansr.com>
-> 
-> 
-> > diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-> > index 2c0ee2e5b446..39bc75cc1848 100644
-> > --- a/drivers/media/rc/Kconfig
-> > +++ b/drivers/media/rc/Kconfig
-> > @@ -497,16 +497,6 @@ config IR_SIR
-> >  	   To compile this driver as a module, choose M here: the module will
-> >  	   be called sir-ir.
-> >
-> > -config IR_TANGO
-> > -	tristate "Sigma Designs SMP86xx IR decoder"
-> > -	depends on RC_CORE
-> > -	depends on ARCH_TANGO || COMPILE_TEST
-> > -	help
-> > -	   Adds support for the HW IR decoder embedded on Sigma Designs
-> > -	   Tango-based systems (SMP86xx, SMP87xx).
-> > -	   The HW decoder supports NEC, RC-5, RC-6 IR protocols.
-> > -	   When compiled as a module, look for tango-ir.
-> > -
-> >  config RC_XBOX_DVD
-> >  	tristate "Xbox DVD Movie Playback Kit"
-> >  	depends on RC_CORE
-> > diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-> > index 5bb2932ab119..f46a72071a7b 100644
-> > --- a/drivers/media/rc/Makefile
-> > +++ b/drivers/media/rc/Makefile
-> > @@ -48,6 +48,5 @@ obj-$(CONFIG_IR_SERIAL) += serial_ir.o
-> >  obj-$(CONFIG_IR_SIR) += sir_ir.o
-> >  obj-$(CONFIG_IR_MTK) += mtk-cir.o
-> >  obj-$(CONFIG_IR_ZX) += zx-irdec.o
-> > -obj-$(CONFIG_IR_TANGO) += tango-ir.o
-> >  obj-$(CONFIG_RC_XBOX_DVD) += xbox_remote.o
-> >  obj-$(CONFIG_IR_TOY) += ir_toy.o
-> > diff --git a/drivers/media/rc/tango-ir.c b/drivers/media/rc/tango-ir.c
-> > deleted file mode 100644
-> > index b8eb5bc4d9be..000000000000
-> > --- a/drivers/media/rc/tango-ir.c
-> > +++ /dev/null
-> > @@ -1,267 +0,0 @@
-> > -// SPDX-License-Identifier: GPL-2.0-or-later
-> > -/*
-> > - * Copyright (C) 2015 Mans Rullgard <mans@mansr.com>
-> > - */
-> > -
-> > -#include <linux/input.h>
-> > -#include <linux/module.h>
-> > -#include <linux/platform_device.h>
-> > -#include <linux/interrupt.h>
-> > -#include <linux/io.h>
-> > -#include <linux/clk.h>
-> > -#include <linux/of.h>
-> > -#include <media/rc-core.h>
-> > -
-> > -#define DRIVER_NAME "tango-ir"
-> > -
-> > -#define IR_NEC_CTRL	0x00
-> > -#define IR_NEC_DATA	0x04
-> > -#define IR_CTRL		0x08
-> > -#define IR_RC5_CLK_DIV	0x0c
-> > -#define IR_RC5_DATA	0x10
-> > -#define IR_INT		0x14
-> > -
-> > -#define NEC_TIME_BASE	560
-> > -#define RC5_TIME_BASE	1778
-> > -
-> > -#define RC6_CTRL	0x00
-> > -#define RC6_CLKDIV	0x04
-> > -#define RC6_DATA0	0x08
-> > -#define RC6_DATA1	0x0c
-> > -#define RC6_DATA2	0x10
-> > -#define RC6_DATA3	0x14
-> > -#define RC6_DATA4	0x18
-> > -
-> > -#define RC6_CARRIER	36000
-> > -#define RC6_TIME_BASE	16
-> > -
-> > -#define NEC_CAP(n)	((n) << 24)
-> > -#define GPIO_SEL(n)	((n) << 16)
-> > -#define DISABLE_NEC	(BIT(4) | BIT(8))
-> > -#define ENABLE_RC5	(BIT(0) | BIT(9))
-> > -#define ENABLE_RC6	(BIT(0) | BIT(7))
-> > -#define ACK_IR_INT	(BIT(0) | BIT(1))
-> > -#define ACK_RC6_INT	(BIT(31))
-> > -
-> > -#define NEC_ANY (RC_PROTO_BIT_NEC | RC_PROTO_BIT_NECX | RC_PROTO_BIT_NEC32)
-> > -
-> > -struct tango_ir {
-> > -	void __iomem *rc5_base;
-> > -	void __iomem *rc6_base;
-> > -	struct rc_dev *rc;
-> > -	struct clk *clk;
-> > -};
-> > -
-> > -static void tango_ir_handle_nec(struct tango_ir *ir)
-> > -{
-> > -	u32 v, code;
-> > -	enum rc_proto proto;
-> > -
-> > -	v = readl_relaxed(ir->rc5_base + IR_NEC_DATA);
-> > -	if (!v) {
-> > -		rc_repeat(ir->rc);
-> > -		return;
-> > -	}
-> > -
-> > -	code = ir_nec_bytes_to_scancode(v, v >> 8, v >> 16, v >> 24, &proto);
-> > -	rc_keydown(ir->rc, proto, code, 0);
-> > -}
-> > -
-> > -static void tango_ir_handle_rc5(struct tango_ir *ir)
-> > -{
-> > -	u32 data, field, toggle, addr, cmd, code;
-> > -
-> > -	data = readl_relaxed(ir->rc5_base + IR_RC5_DATA);
-> > -	if (data & BIT(31))
-> > -		return;
-> > -
-> > -	field = data >> 12 & 1;
-> > -	toggle = data >> 11 & 1;
-> > -	addr = data >> 6 & 0x1f;
-> > -	cmd = (data & 0x3f) | (field ^ 1) << 6;
-> > -
-> > -	code = RC_SCANCODE_RC5(addr, cmd);
-> > -	rc_keydown(ir->rc, RC_PROTO_RC5, code, toggle);
-> > -}
-> > -
-> > -static void tango_ir_handle_rc6(struct tango_ir *ir)
-> > -{
-> > -	u32 data0, data1, toggle, mode, addr, cmd, code;
-> > -
-> > -	data0 = readl_relaxed(ir->rc6_base + RC6_DATA0);
-> > -	data1 = readl_relaxed(ir->rc6_base + RC6_DATA1);
-> > -
-> > -	mode = data0 >> 1 & 7;
-> > -	if (mode != 0)
-> > -		return;
-> > -
-> > -	toggle = data0 & 1;
-> > -	addr = data0 >> 16;
-> > -	cmd = data1;
-> > -
-> > -	code = RC_SCANCODE_RC6_0(addr, cmd);
-> > -	rc_keydown(ir->rc, RC_PROTO_RC6_0, code, toggle);
-> > -}
-> > -
-> > -static irqreturn_t tango_ir_irq(int irq, void *dev_id)
-> > -{
-> > -	struct tango_ir *ir = dev_id;
-> > -	unsigned int rc5_stat;
-> > -	unsigned int rc6_stat;
-> > -
-> > -	rc5_stat = readl_relaxed(ir->rc5_base + IR_INT);
-> > -	writel_relaxed(rc5_stat, ir->rc5_base + IR_INT);
-> > -
-> > -	rc6_stat = readl_relaxed(ir->rc6_base + RC6_CTRL);
-> > -	writel_relaxed(rc6_stat, ir->rc6_base + RC6_CTRL);
-> > -
-> > -	if (!(rc5_stat & 3) && !(rc6_stat & BIT(31)))
-> > -		return IRQ_NONE;
-> > -
-> > -	if (rc5_stat & BIT(0))
-> > -		tango_ir_handle_rc5(ir);
-> > -
-> > -	if (rc5_stat & BIT(1))
-> > -		tango_ir_handle_nec(ir);
-> > -
-> > -	if (rc6_stat & BIT(31))
-> > -		tango_ir_handle_rc6(ir);
-> > -
-> > -	return IRQ_HANDLED;
-> > -}
-> > -
-> > -static int tango_change_protocol(struct rc_dev *dev, u64 *rc_type)
-> > -{
-> > -	struct tango_ir *ir = dev->priv;
-> > -	u32 rc5_ctrl = DISABLE_NEC;
-> > -	u32 rc6_ctrl = 0;
-> > -
-> > -	if (*rc_type & NEC_ANY)
-> > -		rc5_ctrl = 0;
-> > -
-> > -	if (*rc_type & RC_PROTO_BIT_RC5)
-> > -		rc5_ctrl |= ENABLE_RC5;
-> > -
-> > -	if (*rc_type & RC_PROTO_BIT_RC6_0)
-> > -		rc6_ctrl = ENABLE_RC6;
-> > -
-> > -	writel_relaxed(rc5_ctrl, ir->rc5_base + IR_CTRL);
-> > -	writel_relaxed(rc6_ctrl, ir->rc6_base + RC6_CTRL);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> > -static int tango_ir_probe(struct platform_device *pdev)
-> > -{
-> > -	const char *map_name = RC_MAP_TANGO;
-> > -	struct device *dev = &pdev->dev;
-> > -	struct rc_dev *rc;
-> > -	struct tango_ir *ir;
-> > -	u64 clkrate, clkdiv;
-> > -	int irq, err;
-> > -	u32 val;
-> > -
-> > -	irq = platform_get_irq(pdev, 0);
-> > -	if (irq <= 0)
-> > -		return -EINVAL;
-> > -
-> > -	ir = devm_kzalloc(dev, sizeof(*ir), GFP_KERNEL);
-> > -	if (!ir)
-> > -		return -ENOMEM;
-> > -
-> > -	ir->rc5_base = devm_platform_ioremap_resource(pdev, 0);
-> > -	if (IS_ERR(ir->rc5_base))
-> > -		return PTR_ERR(ir->rc5_base);
-> > -
-> > -	ir->rc6_base = devm_platform_ioremap_resource(pdev, 1);
-> > -	if (IS_ERR(ir->rc6_base))
-> > -		return PTR_ERR(ir->rc6_base);
-> > -
-> > -	ir->clk = devm_clk_get(dev, NULL);
-> > -	if (IS_ERR(ir->clk))
-> > -		return PTR_ERR(ir->clk);
-> > -
-> > -	rc = devm_rc_allocate_device(dev, RC_DRIVER_SCANCODE);
-> > -	if (!rc)
-> > -		return -ENOMEM;
-> > -
-> > -	of_property_read_string(dev->of_node, "linux,rc-map-name", &map_name);
-> > -
-> > -	rc->device_name = DRIVER_NAME;
-> > -	rc->driver_name = DRIVER_NAME;
-> > -	rc->input_phys = DRIVER_NAME "/input0";
-> > -	rc->map_name = map_name;
-> > -	rc->allowed_protocols = NEC_ANY | RC_PROTO_BIT_RC5 | RC_PROTO_BIT_RC6_0;
-> > -	rc->change_protocol = tango_change_protocol;
-> > -	rc->priv = ir;
-> > -	ir->rc = rc;
-> > -
-> > -	err = clk_prepare_enable(ir->clk);
-> > -	if (err)
-> > -		return err;
-> > -
-> > -	clkrate = clk_get_rate(ir->clk);
-> > -
-> > -	clkdiv = clkrate * NEC_TIME_BASE;
-> > -	do_div(clkdiv, 1000000);
-> > -
-> > -	val = NEC_CAP(31) | GPIO_SEL(12) | clkdiv;
-> > -	writel_relaxed(val, ir->rc5_base + IR_NEC_CTRL);
-> > -
-> > -	clkdiv = clkrate * RC5_TIME_BASE;
-> > -	do_div(clkdiv, 1000000);
-> > -
-> > -	writel_relaxed(DISABLE_NEC, ir->rc5_base + IR_CTRL);
-> > -	writel_relaxed(clkdiv, ir->rc5_base + IR_RC5_CLK_DIV);
-> > -	writel_relaxed(ACK_IR_INT, ir->rc5_base + IR_INT);
-> > -
-> > -	clkdiv = clkrate * RC6_TIME_BASE;
-> > -	do_div(clkdiv, RC6_CARRIER);
-> > -
-> > -	writel_relaxed(ACK_RC6_INT, ir->rc6_base + RC6_CTRL);
-> > -	writel_relaxed((clkdiv >> 2) << 18 | clkdiv, ir->rc6_base + RC6_CLKDIV);
-> > -
-> > -	err = devm_request_irq(dev, irq, tango_ir_irq, IRQF_SHARED,
-> > -			       dev_name(dev), ir);
-> > -	if (err)
-> > -		goto err_clk;
-> > -
-> > -	err = devm_rc_register_device(dev, rc);
-> > -	if (err)
-> > -		goto err_clk;
-> > -
-> > -	platform_set_drvdata(pdev, ir);
-> > -	return 0;
-> > -
-> > -err_clk:
-> > -	clk_disable_unprepare(ir->clk);
-> > -	return err;
-> > -}
-> > -
-> > -static int tango_ir_remove(struct platform_device *pdev)
-> > -{
-> > -	struct tango_ir *ir = platform_get_drvdata(pdev);
-> > -
-> > -	clk_disable_unprepare(ir->clk);
-> > -	return 0;
-> > -}
-> > -
-> > -static const struct of_device_id tango_ir_dt_ids[] = {
-> > -	{ .compatible = "sigma,smp8642-ir" },
-> > -	{ }
-> > -};
-> > -MODULE_DEVICE_TABLE(of, tango_ir_dt_ids);
-> > -
-> > -static struct platform_driver tango_ir_driver = {
-> > -	.probe	= tango_ir_probe,
-> > -	.remove	= tango_ir_remove,
-> > -	.driver	= {
-> > -		.name		= DRIVER_NAME,
-> > -		.of_match_table	= tango_ir_dt_ids,
-> > -	},
-> > -};
-> > -module_platform_driver(tango_ir_driver);
-> > -
-> > -MODULE_DESCRIPTION("SMP86xx IR decoder driver");
-> > -MODULE_AUTHOR("Mans Rullgard <mans@mansr.com>");
-> > -MODULE_LICENSE("GPL");
-> > -- 
-> >
-> > 2.29.2
-> >
-> 
+> diff --git a/Documentation/devicetree/bindings/media/zx-irdec.txt b/Documentation/devicetree/bindings/media/zx-irdec.txt
+> deleted file mode 100644
+> index 295b9fab593e..000000000000
+> --- a/Documentation/devicetree/bindings/media/zx-irdec.txt
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -IR Decoder (IRDEC) on ZTE ZX family SoCs
+> -
+> -Required properties:
+> - - compatible: Should be "zte,zx296718-irdec".
+> - - reg: Physical base address and length of IRDEC registers.
+> - - interrupts: Interrupt number of IRDEC.
+> -
+> -Exmaples:
+> -
+> -	irdec: ir-decoder@111000 {
+> -		compatible = "zte,zx296718-irdec";
+> -		reg = <0x111000 0x1000>;
+> -		interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH>;
+> -	};
+> diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
+> index 39bc75cc1848..afeef7d99a5a 100644
+> --- a/drivers/media/rc/Kconfig
+> +++ b/drivers/media/rc/Kconfig
+> @@ -509,17 +509,6 @@ config RC_XBOX_DVD
+>  	   To compile this driver as a module, choose M here: the module will be
+>  	   called xbox_remote.
+>  
+> -config IR_ZX
+> -	tristate "ZTE ZX IR remote control"
+> -	depends on RC_CORE
+> -	depends on ARCH_ZX || COMPILE_TEST
+> -	help
+> -	   Say Y if you want to use the IR remote control available
+> -	   on ZTE ZX family SoCs.
+> -
+> -	   To compile this driver as a module, choose M here: the
+> -	   module will be called zx-irdec.
+> -
+>  config IR_TOY
+>  	tristate "Infrared Toy and IR Droid"
+>  	depends on RC_CORE
+> diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
+> index f46a72071a7b..23eb7d43d2ff 100644
+> --- a/drivers/media/rc/Makefile
+> +++ b/drivers/media/rc/Makefile
+> @@ -47,6 +47,5 @@ obj-$(CONFIG_IR_IMG) += img-ir/
+>  obj-$(CONFIG_IR_SERIAL) += serial_ir.o
+>  obj-$(CONFIG_IR_SIR) += sir_ir.o
+>  obj-$(CONFIG_IR_MTK) += mtk-cir.o
+> -obj-$(CONFIG_IR_ZX) += zx-irdec.o
+>  obj-$(CONFIG_RC_XBOX_DVD) += xbox_remote.o
+>  obj-$(CONFIG_IR_TOY) += ir_toy.o
+> diff --git a/drivers/media/rc/zx-irdec.c b/drivers/media/rc/zx-irdec.c
+> deleted file mode 100644
+> index 948ad90ae5d8..000000000000
+> --- a/drivers/media/rc/zx-irdec.c
+> +++ /dev/null
+> @@ -1,181 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-only
+> -/*
+> - * Copyright (C) 2017 Sanechips Technology Co., Ltd.
+> - * Copyright 2017 Linaro Ltd.
+> - */
+> -
+> -#include <linux/device.h>
+> -#include <linux/err.h>
+> -#include <linux/interrupt.h>
+> -#include <linux/io.h>
+> -#include <linux/module.h>
+> -#include <linux/of_platform.h>
+> -#include <linux/platform_device.h>
+> -
+> -#include <media/rc-core.h>
+> -
+> -#define DRIVER_NAME		"zx-irdec"
+> -
+> -#define ZX_IR_ENABLE		0x04
+> -#define ZX_IREN			BIT(0)
+> -#define ZX_IR_CTRL		0x08
+> -#define ZX_DEGL_MASK		GENMASK(21, 20)
+> -#define ZX_DEGL_VALUE(x)	(((x) << 20) & ZX_DEGL_MASK)
+> -#define ZX_WDBEGIN_MASK		GENMASK(18, 8)
+> -#define ZX_WDBEGIN_VALUE(x)	(((x) << 8) & ZX_WDBEGIN_MASK)
+> -#define ZX_IR_INTEN		0x10
+> -#define ZX_IR_INTSTCLR		0x14
+> -#define ZX_IR_CODE		0x30
+> -#define ZX_IR_CNUM		0x34
+> -#define ZX_NECRPT		BIT(16)
+> -
+> -struct zx_irdec {
+> -	void __iomem *base;
+> -	struct rc_dev *rcd;
+> -};
+> -
+> -static void zx_irdec_set_mask(struct zx_irdec *irdec, unsigned int reg,
+> -			      u32 mask, u32 value)
+> -{
+> -	u32 data;
+> -
+> -	data = readl(irdec->base + reg);
+> -	data &= ~mask;
+> -	data |= value & mask;
+> -	writel(data, irdec->base + reg);
+> -}
+> -
+> -static irqreturn_t zx_irdec_irq(int irq, void *dev_id)
+> -{
+> -	struct zx_irdec *irdec = dev_id;
+> -	u8 address, not_address;
+> -	u8 command, not_command;
+> -	u32 rawcode, scancode;
+> -	enum rc_proto rc_proto;
+> -
+> -	/* Clear interrupt */
+> -	writel(1, irdec->base + ZX_IR_INTSTCLR);
+> -
+> -	/* Check repeat frame */
+> -	if (readl(irdec->base + ZX_IR_CNUM) & ZX_NECRPT) {
+> -		rc_repeat(irdec->rcd);
+> -		goto done;
+> -	}
+> -
+> -	rawcode = readl(irdec->base + ZX_IR_CODE);
+> -	not_command = (rawcode >> 24) & 0xff;
+> -	command = (rawcode >> 16) & 0xff;
+> -	not_address = (rawcode >> 8) & 0xff;
+> -	address = rawcode & 0xff;
+> -
+> -	scancode = ir_nec_bytes_to_scancode(address, not_address,
+> -					    command, not_command,
+> -					    &rc_proto);
+> -	rc_keydown(irdec->rcd, rc_proto, scancode, 0);
+> -
+> -done:
+> -	return IRQ_HANDLED;
+> -}
+> -
+> -static int zx_irdec_probe(struct platform_device *pdev)
+> -{
+> -	struct device *dev = &pdev->dev;
+> -	struct zx_irdec *irdec;
+> -	struct resource *res;
+> -	struct rc_dev *rcd;
+> -	int irq;
+> -	int ret;
+> -
+> -	irdec = devm_kzalloc(dev, sizeof(*irdec), GFP_KERNEL);
+> -	if (!irdec)
+> -		return -ENOMEM;
+> -
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	irdec->base = devm_ioremap_resource(dev, res);
+> -	if (IS_ERR(irdec->base))
+> -		return PTR_ERR(irdec->base);
+> -
+> -	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0)
+> -		return irq;
+> -
+> -	rcd = devm_rc_allocate_device(dev, RC_DRIVER_SCANCODE);
+> -	if (!rcd) {
+> -		dev_err(dev, "failed to allocate rc device\n");
+> -		return -ENOMEM;
+> -	}
+> -
+> -	irdec->rcd = rcd;
+> -
+> -	rcd->priv = irdec;
+> -	rcd->input_phys = DRIVER_NAME "/input0";
+> -	rcd->input_id.bustype = BUS_HOST;
+> -	rcd->map_name = RC_MAP_ZX_IRDEC;
+> -	rcd->allowed_protocols = RC_PROTO_BIT_NEC | RC_PROTO_BIT_NECX |
+> -							RC_PROTO_BIT_NEC32;
+> -	rcd->driver_name = DRIVER_NAME;
+> -	rcd->device_name = DRIVER_NAME;
+> -
+> -	platform_set_drvdata(pdev, irdec);
+> -
+> -	ret = devm_rc_register_device(dev, rcd);
+> -	if (ret) {
+> -		dev_err(dev, "failed to register rc device\n");
+> -		return ret;
+> -	}
+> -
+> -	ret = devm_request_irq(dev, irq, zx_irdec_irq, 0, NULL, irdec);
+> -	if (ret) {
+> -		dev_err(dev, "failed to request irq\n");
+> -		return ret;
+> -	}
+> -
+> -	/*
+> -	 * Initialize deglitch level and watchdog counter beginner as
+> -	 * recommended by vendor BSP code.
+> -	 */
+> -	zx_irdec_set_mask(irdec, ZX_IR_CTRL, ZX_DEGL_MASK, ZX_DEGL_VALUE(0));
+> -	zx_irdec_set_mask(irdec, ZX_IR_CTRL, ZX_WDBEGIN_MASK,
+> -			  ZX_WDBEGIN_VALUE(0x21c));
+> -
+> -	/* Enable interrupt */
+> -	writel(1, irdec->base + ZX_IR_INTEN);
+> -
+> -	/* Enable the decoder */
+> -	zx_irdec_set_mask(irdec, ZX_IR_ENABLE, ZX_IREN, ZX_IREN);
+> -
+> -	return 0;
+> -}
+> -
+> -static int zx_irdec_remove(struct platform_device *pdev)
+> -{
+> -	struct zx_irdec *irdec = platform_get_drvdata(pdev);
+> -
+> -	/* Disable the decoder */
+> -	zx_irdec_set_mask(irdec, ZX_IR_ENABLE, ZX_IREN, 0);
+> -
+> -	/* Disable interrupt */
+> -	writel(0, irdec->base + ZX_IR_INTEN);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct of_device_id zx_irdec_match[] = {
+> -	{ .compatible = "zte,zx296718-irdec" },
+> -	{ },
+> -};
+> -MODULE_DEVICE_TABLE(of, zx_irdec_match);
+> -
+> -static struct platform_driver zx_irdec_driver = {
+> -	.probe = zx_irdec_probe,
+> -	.remove = zx_irdec_remove,
+> -	.driver = {
+> -		.name = DRIVER_NAME,
+> -		.of_match_table	= zx_irdec_match,
+> -	},
+> -};
+> -module_platform_driver(zx_irdec_driver);
+> -
+> -MODULE_DESCRIPTION("ZTE ZX IR remote control driver");
+> -MODULE_AUTHOR("Shawn Guo <shawn.guo@linaro.org>");
+> -MODULE_LICENSE("GPL v2");
 > -- 
-> Måns Rullgård
+> 2.29.2
