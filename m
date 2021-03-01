@@ -2,200 +2,385 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A80B2327CAE
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 11:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B43A327CC2
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 12:03:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232455AbhCAK52 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 05:57:28 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:44497 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232203AbhCAK5U (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Mar 2021 05:57:20 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id GgE0lCjqUC40pGgE3lhfts; Mon, 01 Mar 2021 11:56:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1614596192; bh=X/+Eyi00WPvKMSECicb3RzcDT/xWAIhYgln3dL3QJtg=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=OTLNkhirsaEo9Fptb/KOGIrsTEpfdgqj4+DA1ExVmF29XtDRwh/r49zC17PrD5vX4
-         vLYgoV/mAQ3BEte1XgZkloo+hnZvDUJ/gubbv2d/B4BM8URdnZX60whHVaVb9/qMOH
-         yXKE5DNQ3sRpTWrOGy/fnofQbxMA3BE8r7NP8onubzsjujrlwvPreZHwvf2GWx+5ep
-         hfJ59sVFnbZxVkzr9u/BQjegt+5REya2tGADjztE7mjBymShwm5Y2Ot7zN5j2ljgUl
-         6tFd+Ilmm5RSZdkE0oEvXoM5xCyfys4IZwUKCOxYev6bWueOvomq1W4nz4b1bl1BVg
-         4nZw5dnufy9/Q==
-Subject: Re: [PATCH 1/5] drm: drm_bridge: add cec_init/exit bridge ops
+        id S232808AbhCALCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 06:02:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44270 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231923AbhCALC1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Mar 2021 06:02:27 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E6A964E54;
+        Mon,  1 Mar 2021 11:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614596513;
+        bh=iNMSe5q8s0OkS3ymIGw7vVXYXO6Dnz8iV2CjnYMm1uY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=EQhPJSbhWxQi7dTlQcufpabzIE1FS0OB7MI6h2s8lu5ffNUTVZbXJUhygDN1VagiH
+         88IMpIsZlVjOa/gtPzx4cJHusH/b5Fy90UUn8pSd3reytQC+VNKw3zOZAshOA70KBs
+         K+DVugaPB78n/o8aRVTpIwhvi/12E2MzXzBFMgFC9HRNZJU9cQL2shwLmKp+yBbIxE
+         L+D5W8gQ4el25hVoCF0oc06MEv9yMQ+HurKws1RNymbQ7hGag1f3mpMO0Y1TUX4mVg
+         4n4XaznzAaY3tbr5YBgYB5lZJYlLAAz8QmPmPcEwb7MTSg+tyh0xzgKxDZAt+pXoxY
+         jh/XgL4uiWvEg==
+Date:   Mon, 1 Mar 2021 12:01:48 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
-        Sekhar Nori <nsekhar@ti.com>, Tony Lindgren <tony@atomide.com>
-References: <20210211103703.444625-1-hverkuil-cisco@xs4all.nl>
- <20210211103703.444625-2-hverkuil-cisco@xs4all.nl>
- <YC+oyavcOV0uFJUb@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <663ec8d4-eb1a-a6ed-056f-cc51a544e6a7@xs4all.nl>
-Date:   Mon, 1 Mar 2021 11:56:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] media: add a subsystem profile documentation
+Message-ID: <20210301120148.4750573f@coco.lan>
+In-Reply-To: <YDy8cdNPHkKsvx0J@pendragon.ideasonboard.com>
+References: <bbe8dc3119b21317616535b7062811968a89b85e.1614591312.git.mchehab+huawei@kernel.org>
+        <YDy8cdNPHkKsvx0J@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YC+oyavcOV0uFJUb@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCB5yZR8/GRlwKkaZLMHSpy3X+eQIjc84djTeI3exsO02J3VgjLPE+XiAReoFVKqwEvev5J0pE/T1J2EOMJTmoCZugpBZmWAxRHGU2k1ic8X6eCWXvmM
- y5wVEuoRuAVpSfck5TTE+wa1wWJvuvSz7c0FYZAh0EoAIlVVFq+ER+oCpgdPqPK2PJXTw1ba+0qcsRUHV6qXBaDIlF8KysNVAYlBLVGGTNw6T4F6P7noyzoG
- 9imS4GsXUUyUao7hNe9gVUKpP6ennyw9nujB/TkxNVDpn/SMI4d3V+6v2Uwi6TdRnze+i5273Zb1t0tmN6OptTUjo0qDwCjglDup7J0IiEDNrhgsFR4LkEP7
- BwsZGhBy4gG05AJJsyN7QSgLB56ujoyN+TEaBTuoXmkkMo5ytNZmNyj4RhlTz+VAlos+QMdD
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/02/2021 13:02, Laurent Pinchart wrote:
-> Hi Hans,
+Em Mon, 1 Mar 2021 12:05:37 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+
+> Hi Mauro,
 > 
 > Thank you for the patch.
 > 
-> On Thu, Feb 11, 2021 at 11:36:59AM +0100, Hans Verkuil wrote:
->> Add bridge cec_init/exit ops. These ops will be responsible for
->> creating and destroying the CEC adapter for the bridge that supports
->> CEC.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>  drivers/gpu/drm/drm_bridge_connector.c | 23 +++++++++++++++++++
->>  include/drm/drm_bridge.h               | 31 ++++++++++++++++++++++++++
->>  2 files changed, 54 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
->> index 791379816837..2ff90f5e468c 100644
->> --- a/drivers/gpu/drm/drm_bridge_connector.c
->> +++ b/drivers/gpu/drm/drm_bridge_connector.c
->> @@ -84,6 +84,13 @@ struct drm_bridge_connector {
->>  	 * connector modes detection, if any (see &DRM_BRIDGE_OP_MODES).
->>  	 */
->>  	struct drm_bridge *bridge_modes;
->> +	/**
->> +	 * @bridge_cec:
->> +	 *
->> +	 * The last bridge in the chain (closest to the connector) that provides
->> +	 * cec adapter support, if any (see &DRM_BRIDGE_OP_CEC).
->> +	 */
->> +	struct drm_bridge *bridge_cec;
->>  };
->>  
->>  #define to_drm_bridge_connector(x) \
->> @@ -204,6 +211,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
->>  	struct drm_bridge_connector *bridge_connector =
->>  		to_drm_bridge_connector(connector);
->>  
->> +	if (bridge_connector->bridge_cec) {
->> +		struct drm_bridge *cec = bridge_connector->bridge_cec;
->> +
->> +		cec->funcs->cec_exit(cec);
->> +	}
->>  	if (bridge_connector->bridge_hpd) {
->>  		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
->>  
->> @@ -352,6 +364,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>  			bridge_connector->bridge_detect = bridge;
->>  		if (bridge->ops & DRM_BRIDGE_OP_MODES)
->>  			bridge_connector->bridge_modes = bridge;
->> +		if (bridge->ops & DRM_BRIDGE_OP_CEC)
->> +			bridge_connector->bridge_cec = bridge;
->>  
->>  		if (!drm_bridge_get_next_bridge(bridge))
->>  			connector_type = bridge->type;
->> @@ -374,6 +388,15 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>  	else if (bridge_connector->bridge_detect)
->>  		connector->polled = DRM_CONNECTOR_POLL_CONNECT
->>  				  | DRM_CONNECTOR_POLL_DISCONNECT;
->> +	if (bridge_connector->bridge_cec) {
->> +		struct drm_bridge *bridge = bridge_connector->bridge_cec;
->> +		int ret = bridge->funcs->cec_init(bridge, connector);
->> +
->> +		if (ret) {
->> +			drm_bridge_connector_destroy(connector);
->> +			return ERR_PTR(ret);
->> +		}
->> +	}
->>  
->>  	return connector;
->>  }
->> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
->> index 2195daa289d2..4c83c2657e87 100644
->> --- a/include/drm/drm_bridge.h
->> +++ b/include/drm/drm_bridge.h
->> @@ -629,6 +629,30 @@ struct drm_bridge_funcs {
->>  	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
->>  	 */
->>  	void (*hpd_disable)(struct drm_bridge *bridge);
->> +
->> +	/**
->> +	 * @cec_init:
->> +	 *
->> +	 * Initialize the CEC adapter.
->> +	 *
->> +	 * This callback is optional and shall only be implemented by bridges
->> +	 * that support a CEC adapter. Bridges that implement it shall also
->> +	 * implement the @cec_exit callback and set the DRM_BRIDGE_OP_CEC flag
->> +	 * in their &drm_bridge->ops.
->> +	 */
->> +	int (*cec_init)(struct drm_bridge *bridge, struct drm_connector *conn);
->> +
->> +	/**
->> +	 * @cec_exit:
->> +	 *
->> +	 * Terminate the CEC adapter.
->> +	 *
->> +	 * This callback is optional and shall only be implemented by bridges
->> +	 * that support a CEC adapter. Bridges that implement it shall also
->> +	 * implement the @cec_init callback and set the DRM_BRIDGE_OP_CEC flag
->> +	 * in their &drm_bridge->ops.
->> +	 */
->> +	void (*cec_exit)(struct drm_bridge *bridge);
+> On Mon, Mar 01, 2021 at 10:35:54AM +0100, Mauro Carvalho Chehab wrote:
+> > Document the basic policies of the media subsystem profile.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> > v3: address a few nitpicks from Randy and Lukas
+> > v2: fix the Documentation/*/media directories
+> > 
+> > 
+> >  Documentation/driver-api/media/index.rst      |   2 +
+> >  .../media/maintainer-entry-profile.rst        | 161 ++++++++++++++++++
+> >  .../maintainer/maintainer-entry-profile.rst   |   1 +
+> >  3 files changed, 164 insertions(+)
+> >  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
+> > 
+> > diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+> > index c140692454b1..2ad71dfa8828 100644
+> > --- a/Documentation/driver-api/media/index.rst
+> > +++ b/Documentation/driver-api/media/index.rst
+> > @@ -28,6 +28,8 @@ Please see:
+> >      :maxdepth: 5
+> >      :numbered:
+> >  
+> > +    maintainer-entry-profile
+> > +
+> >      v4l2-core
+> >      dtv-core
+> >      rc-core
+> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > new file mode 100644
+> > index 000000000000..b3c4effbb1cf
+> > --- /dev/null
+> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > @@ -0,0 +1,161 @@
+> > +Media Subsystem Profile
+> > +=======================
+> > +
+> > +Overview
+> > +--------
+> > +
+> > +The media subsystem covers support for a variety of devices: stream
+> > +capture, analog and digital TV, cameras, remote controllers, HDMI CEC  
 > 
-> These are very ad-hoc operations. Would it make sense to have something
-> that could also be reused for other type of intiialization and cleanup
-> that require access to the drm_connector ?
+> maybe "analog and digital TV capture and output" ? I don't think we
+> support TVs themselves :-)
 
-I do not have a very strong opinion, to be honest.
-
-How about this:
-
-	/**
-	 * @DRM_BRIDGE_OP_CONN: The bridge can do additional work when
-	 * a drm_connector is created or destroyed, such as creating or
-	 * removing a CEC adapter.
-	 * &drm_bridge_funcs->conn_init and &drm_bridge_funcs->conn_exit
-	 * callbacks.
-	 */
-	DRM_BRIDGE_OP_CONN = BIT(4),
-
-Would that work better for you?
-
-Regards,
-
-	Hans
+Maybe "analog and digital TV streams". Currently, we don't support
+TV output, although this could easily be added if someone ever
+needs it.
 
 > 
->>  };
->>  
->>  /**
->> @@ -698,6 +722,13 @@ enum drm_bridge_ops {
->>  	 * this flag shall implement the &drm_bridge_funcs->get_modes callback.
->>  	 */
->>  	DRM_BRIDGE_OP_MODES = BIT(3),
->> +	/**
->> +	 * @DRM_BRIDGE_OP_CEC: The bridge supports a CEC adapter.
->> +	 * Bridges that set this flag shall implement the
->> +	 * &drm_bridge_funcs->cec_init and &drm_bridge_funcs->cec_exit
->> +	 * callbacks.
->> +	 */
->> +	DRM_BRIDGE_OP_CEC = BIT(4),
->>  };
->>  
->>  /**
+> > +and media pipeline control.
+> > +
+> > +It covers, mainly, the contents of those directories:
+> > +
+> > +  - drivers/media
+> > +  - drivers/staging/media
+> > +  - Documentation/admin-guide/media  
+> 
+> And Documentation/devicetree/bindings/media/ ?
+
+Good point. While this is merged via media tree, it is up to the DT
+maintainers to review DT bindings.
+
+I can add it to the document, but maybe we need to add some special
+notice about that.
+
+> 
+> > +  - Documentation/driver-api/media
+> > +  - Documentation/userspace-api/media
+> > +  - include/media
+> > +
+> > +Both media userspace and Kernel APIs are documented and should be kept in  
+> 
+> s/and should be kept/and the documentation should be kept/ ?
+
+Ok.
+
+> 
+> > +sync with the API changes. It means that all patches that add new
+> > +features to the subsystem should also bring changes to the corresponding
+> > +API files.
+> > +
+> > +Due to the size and wide scope of the media subsystem, media's
+> > +maintainership model is to have sub-maintainers that have a broad
+> > +knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> > +task to review the patches, providing feedback to users if the patches are
+> > +following the subsystem rules and are properly using the media kernel and
+> > +userspace APIs.
+> > +
+> > +Patches for the media subsystem should be sent to the media mailing list
+> > +at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> > +HTML will be automatically rejected by the mail server. It could be wise
+> > +to also copy the sub-maintainer(s).
+> > +
+> > +Media's workflow is heavily based on Patchwork, meaning that, once a patch
+> > +is submitted, it should appear at:
+> > +
+> > +   - https://patchwork.linuxtv.org/project/linux-media/list/
+> > +
+> > +If it doesn't automatically appear there after a few minutes, then
+> > +probably something got wrong on your submission. Please check if the
+> > +email is in plain text only and if your emailer is not mangling with
+> > +whitespaces before complaining or submitting them again.  
+> 
+> Should me mention checking lore.kernel.org to see if the mail has been
+> delivered ?
+
+Makes sense. I'll add a notice about that.
+
+> 
+> > +
+> > +Sub-maintainers
+> > ++++++++++++++++  
+> 
+> Not something to be addressed now, but I'd like some day to rename
+> "sub-maintainer" to something that has less of an underling note to it.
+> 
+> > +
+> > +At the media subsystem, we have a group of experienced developers that
+> > +are responsible for doing the code reviews at the drivers (called
+> > +sub-maintainers), and another senior developer responsible for the
+> > +subsystem as a hole. For core changes, whenever possible, multiple  
+> 
+> s/hole/whole/
+> 
+> > +media (sub-)maintainers do the review.
+> > +
+> > +The sub-maintainers work on specific areas of the subsystem, as
+> > +described below:
+> > +
+> > +Digital TV:
+> > +  Sean Young <sean@mess.org>
+> > +
+> > +HDMI CEC:
+> > +  Hans Verkuil <hverkuil@xs4all.nl>
+> > +
+> > +Media controller drivers:
+> > +  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +
+> > +Remote Controllers:
+> > +  Sean Young <sean@mess.org>
+> > +
+> > +Sensor drivers:
+> > +  Sakari Ailus <sakari.ailus@linux.intel.com>
+> > +
+> > +V4L2 drivers:
+> > +  Hans Verkuil <hverkuil@xs4all.nl>
+> > +
+> > +Submit Checklist Addendum
+> > +-------------------------
+> > +
+> > +Patches that change the Open Firmware/Device Tree bindings should be
+> > +reviewed by the Device Tree maintainers. So, DT maintainers should be
+> > +Cc:ed when those are submitted.  
+> 
+> I may have moved this to the overview section as it's not really
+> specific to the media subsystem, but I won't insist.
+
+I can add something about that there too, but IMO this is something
+that we want at the checklist, as we'll refuse patches if the DT
+changes were not approved by DT maintainers.
+
+> 
+> > +There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
+> > +that should be used in order to check if the drivers are properly
+> > +implementing the media APIs.  
+> 
+> Should we list and name the tools explicitly ?
+
+Makes sense.
+
+The main question is if such thing belongs here, or if we'll do it 
+while adding the documents containing further details about
+what's expected for each part of the subsystem.
+
+I guess I'll add the compliance tools here for now. We can review
+this later as other patches add more details on separate documents.
+
+> 
+> > +
+> > +Those tests need to pass before the patches go upstream.
+> > +
+> > +Also, please notice that we build the Kernel with::
+> > +
+> > +	make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
+> > +
+> > +Where the check script is::
+> > +
+> > +	#!/bin/bash
+> > +	/devel/smatch/smatch -p=kernel $@ >&2
+> > +	/devel/sparse/sparse $@ >&2
+> > +
+> > +Be sure to not introduce new warnings on your patches without a
+> > +very good reason.
+> > +
+> > +Style Cleanup Patches
+> > ++++++++++++++++++++++
+> > +
+> > +Style cleanups are welcome when they come together with other changes
+> > +at the files where the style changes will affect.
+> > +
+> > +We may accept pure standalone style cleanups, but they should ideally
+> > +be one patch for the whole subsystem (if the cleanup is low volume),
+> > +or at least be grouped per directory. So, for example, if you're doing a
+> > +big cleanup change set at drivers under drivers/media, please send a single
+> > +patch for all drivers under drivers/media/pci, another one for
+> > +drivers/media/usb and so on.
+> > +
+> > +Coding Style Addendum
+> > ++++++++++++++++++++++
+> > +
+> > +Media development uses checkpatch on strict mode to verify the code style,
+> > +e.g.::
+> > +
+> > +	$ ./scripts/checkpatch.pl --strict
+> > +
+> > +Please notice that the goal here is to improve code readability. On a few
+> > +cases, checkpatch may actually point to something that would look worse.
+> > +
+> > +So, you should use good send sense here, being prepared to justify any  
+> 
+> s/send sense/sense/ ? Or common sense ?
+> 
+> > +coding style decision.  
+> 
+> The last part of the sentence is a bit harsh, it makes it sound
+> submitters will go through a court trial :-) 
+
+:-)
+
+That's certainly not the case, but, violating a coding style should be 
+an exception, and not the rule. 
+
+> Maybe the following would
+> be better ?
+> 
+> So, you should use common sense here, and can depart from the rules
+> enforced by checkstyle.pl if you have good reasons to do so.
+
+That seems too light to me ;-)
+
+What we want to say is something like:
+
+	- Patches should follow the coding style rules
+	- Exceptions are allowed, if there are good reasons
+		- On such case, maintainers and reviewers may question
+		  about the rationale for violating the coding style
+
+> 
+> > +
+> > +Please also notice that, on some cases, when you fix one issue, you may
+> > +receive warnings about lines longer than 80 columns. It is fine to have
+> > +longer lines if this means that other warnings will be fixed by that.  
+> 
+> The kernel now allows longer lines. I'm not advocating going routinely
+> over the 80 columns limit, but this paragraph is a bit outdated.
+
+That's true. I almost changed the above to 100 columns when I reviewed it,
+but we still prefer that the code would fit into 80 columns, if this won't
+affect code readability.
+
+Perhaps we could change the part which points for the checkpatch syntax
+from:
+
+	$ ./scripts/checkpatch.pl --strict
+
+to:
+	$ ./scripts/checkpatch.pl --strict --max-line-length=80	
+
+and then change the paragraph to say that lines with more than 80
+columns are accepted, in the cases where breaking it makes the
+style worse, like:
+
+	- don't break strings due to 80 column limits;
+	- be careful when breaking arithmetic expressions, as the
+	  coding style goal is to make the code clearer to read;
+	- don't end a line with an open parenthesis or brackets.
+
+I'll work on a proposed about that based on your comments and Sakari's
+feedback.
+
+> 
+> With these issues fixed,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +
+> > +Yet, if you're having more than 80 columns on a line, please consider
+> > +simplifying the code - if too indented - or to use shorter names for
+> > +variables.
+> > +
+> > +Key Cycle Dates
+> > +---------------
+> > +
+> > +New submissions can be sent at any time, but if they intend to hit the
+> > +next merge window they should be sent before -rc5, and ideally stabilized
+> > +in the linux-media branch by -rc6.
+> > +
+> > +Review Cadence
+> > +--------------
+> > +
+> > +Provided that your patch is at https://patchwork.linuxtv.org, it should
+> > +be sooner or later handled, so you don't need to re-submit a patch.
+> > +
+> > +Except for bug fixes, we don't usually add new patches to the development
+> > +tree between -rc6 and the next -rc1.
+> > +
+> > +Please notice that the media subsystem is a high traffic one, so it
+> > +could take a while for us to be able to review your patches. Feel free
+> > +to ping if you don't get a feedback in a couple of weeks or to ask
+> > +other developers to publicly add Reviewed-by and, more importantly,
+> > +Tested-by tags.
+> > +
+> > +Please note that we expect a detailed description for Tested-by,
+> > +identifying what boards were used at the test and what it was tested.
+> > diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+> > index b7a627d6c97d..5d5cc3acdf85 100644
+> > --- a/Documentation/maintainer/maintainer-entry-profile.rst
+> > +++ b/Documentation/maintainer/maintainer-entry-profile.rst
+> > @@ -102,3 +102,4 @@ to do something different in the near future.
+> >     ../doc-guide/maintainer-profile
+> >     ../nvdimm/maintainer-entry-profile
+> >     ../riscv/patch-acceptance
+> > +   ../driver-api/media/maintainer-entry-profile  
 > 
 
+
+
+Thanks,
+Mauro
