@@ -2,151 +2,374 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 738D2327A9F
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 10:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FA7F327AAB
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 10:25:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233850AbhCAJWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 04:22:08 -0500
-Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:27855 "EHLO
-        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233712AbhCAJWE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 04:22:04 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id CDE5D3F3A1;
-        Mon,  1 Mar 2021 10:21:19 +0100 (CET)
-Authentication-Results: ste-pvt-msa1.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=pTwKGOoe;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
-        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
-        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id tcU_ueMgXl_O; Mon,  1 Mar 2021 10:21:19 +0100 (CET)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id AFBB83F393;
-        Mon,  1 Mar 2021 10:21:16 +0100 (CET)
-Received: from [10.249.254.148] (unknown [192.198.151.43])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id E9C783600BA;
-        Mon,  1 Mar 2021 10:21:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1614590476; bh=v/6gYa+I8Tt8B9P3C8K3rFhm+y2ThcWR/NttZk59Mig=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=pTwKGOoeZY6eQEETMEQFzNBP9mngHUBwdZttR6CPWTgPJ2KDTyLMNuMQIRYHqdH3k
-         QVkSi3bBIaNdTDnlUwK6I5ZGdqMl3XtNuurr+MqgJmryh5kAKP/lI0iA7Ih0c4cW74
-         ECt01QAIkTQUiQU988RWC/zJVXRzMqBUVNpyULPo=
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf: Require VM_PFNMAP vma for
- mmap
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        John Stultz <john.stultz@linaro.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <f43311c8-a02a-1a29-a53b-88e599c92187@shipmail.org>
- <CAKMK7uE2UrOruQPWG9KPBQ781f9Bq9xpVRNserAC9BZ2VzDutQ@mail.gmail.com>
- <b30dacb0-edea-0a3c-6163-0f329e58ba61@gmail.com>
- <YDd/hlf8uM3+lxhr@phenom.ffwll.local>
- <CAKMK7uFezcV52oTZbHeve2HFFATeCGyK6zTT6nE1KVP69QRr0A@mail.gmail.com>
- <61c5c371-debe-4ca0-a067-ce306e51ef88@shipmail.org>
- <CAKMK7uFUiJyMP0E5JUzMOx=NyMW+ZObGsaFOh409x0LOvGbnzg@mail.gmail.com>
- <0d69bd00-e673-17cf-c9e3-ccbcd52649a6@shipmail.org>
- <CAKMK7uE=8+hj-MUFXHFoG_hAbz_Obi8a99+DE5_d1K+KZaG+tQ@mail.gmail.com>
- <b367b7e8-f202-4d23-d672-a5c9bc7fcec1@shipmail.org>
- <YDyuYk8x5QeX83s6@phenom.ffwll.local>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Message-ID: <be8f2503-ffcb-eb58-83be-26fa0fc1837a@shipmail.org>
-Date:   Mon, 1 Mar 2021 10:21:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S233857AbhCAJYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 04:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233854AbhCAJY2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 04:24:28 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB44C061756
+        for <linux-media@vger.kernel.org>; Mon,  1 Mar 2021 01:23:48 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id p8so529501ejb.10
+        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 01:23:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2dy7/E8HSGfJiqqdxi761X4q+2hMNs1FHArXFkc+7Lk=;
+        b=Hvzar0bi8ZtMKWVof9tAX71NYajdUzeaQEycJkNH1QL2OuHhPvk/W9qwEQCgpIAohM
+         Gr3o8LEoLnXYUW8+acvNLlOZfQuJQHIHlLEgOFrB8BUDF0HEaeiwfWFagCNIZWYVvqyJ
+         +XkhRhxG2VcBA74LtU8QhBcpltTJuZPOxIPA4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2dy7/E8HSGfJiqqdxi761X4q+2hMNs1FHArXFkc+7Lk=;
+        b=OV2Iqrnh4LE/vL4XDTi1bm+/6zsdrtjiuBFv8JPJvKy3kzeaDS2NPCqPXTg0tsB1Hp
+         RDNQTK0YjEMXWEONOJOHKdNqAw4ZhH5QmPml407hO545SMZZgonpahJd2j7L+RWt7zIG
+         sKWhCKlaXfc2ndl7vuaZOxbBiRubDYG9/X+7ayHTcs61Je2oQzuKc5JOHHIldbkKnpz5
+         4yEoivNQu7sUDNlhu6CIA3h/OkPCjo732GCOycS/PPgViaNfdF9ffzFoGkYyIj9XtPc4
+         p42DNHkFVXPfv7s5F9X+/AJbuZkp3+U15KBq9mude28n7YG95h5jPJGhNtxNYl9YVrZC
+         Xu8Q==
+X-Gm-Message-State: AOAM532EHFCp9MwyLdcvL1N3ZJwrVk7gLkNj1CvIPH1bpovsoUZtP5Ye
+        ebJbgDTGT5TluNo6CoKsI+/VGGlvZH3aBw==
+X-Google-Smtp-Source: ABdhPJxCrzL4cAyB+baAae+kBDrsS8ZbHfCd+uObXbcV88FAUs/MpofWFfb2flQrHMzBSRC7nupXCA==
+X-Received: by 2002:a17:906:845b:: with SMTP id e27mr14627429ejy.487.1614590626680;
+        Mon, 01 Mar 2021 01:23:46 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
+        by smtp.gmail.com with ESMTPSA id bz20sm13113717ejc.28.2021.03.01.01.23.45
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Mar 2021 01:23:45 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id w11so15285530wrr.10
+        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 01:23:45 -0800 (PST)
+X-Received: by 2002:adf:e412:: with SMTP id g18mr15968814wrm.159.1614590625114;
+ Mon, 01 Mar 2021 01:23:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YDyuYk8x5QeX83s6@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20201214125703.866998-1-acourbot@chromium.org>
+ <5319c101-f4a4-9c99-b15d-4999366f7a63@linaro.org> <CAAFQd5AQ8VHiRYkzkd5ZJBPT5_5WO0tyQrwqBEfnMVKYiTugTA@mail.gmail.com>
+ <b5d35bbd-ae50-7a09-9edf-ca23d1a4b168@linaro.org> <bc42c936d7a67609b9dc4212b5a34b0d761676ed.camel@ndufresne.ca>
+ <CAAFQd5BQv2vu_FSxJjVZLpgcuFi1WHVem_O-0x-vkG1KZJi0eA@mail.gmail.com>
+In-Reply-To: <CAAFQd5BQv2vu_FSxJjVZLpgcuFi1WHVem_O-0x-vkG1KZJi0eA@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 1 Mar 2021 18:23:33 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BAT2Xe+_swAe+hMqm_cQVbWJUzkH3dS+8-QHknV=KTjw@mail.gmail.com>
+Message-ID: <CAAFQd5BAT2Xe+_swAe+hMqm_cQVbWJUzkH3dS+8-QHknV=KTjw@mail.gmail.com>
+Subject: Re: [PATCH] media: venus: use contig vb2 ops
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Fritz Koenig <frkoenig@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Alex, Stanimir,
 
-On 3/1/21 10:05 AM, Daniel Vetter wrote:
-> On Mon, Mar 01, 2021 at 09:39:53AM +0100, Thomas Hellström (Intel) wrote:
->> Hi,
->>
->> On 3/1/21 9:28 AM, Daniel Vetter wrote:
->>> On Sat, Feb 27, 2021 at 9:06 AM Thomas Hellström (Intel)
->>> <thomas_os@shipmail.org> wrote:
->>>> On 2/26/21 2:28 PM, Daniel Vetter wrote:
->>>>> So I think it stops gup. But I haven't verified at all. Would be good
->>>>> if Christian can check this with some direct io to a buffer in system
->>>>> memory.
->>>> Hmm,
->>>>
->>>> Docs (again vm_normal_page() say)
->>>>
->>>>     * VM_MIXEDMAP mappings can likewise contain memory with or without "struct
->>>>     * page" backing, however the difference is that _all_ pages with a struct
->>>>     * page (that is, those where pfn_valid is true) are refcounted and
->>>> considered
->>>>     * normal pages by the VM. The disadvantage is that pages are refcounted
->>>>     * (which can be slower and simply not an option for some PFNMAP
->>>> users). The
->>>>     * advantage is that we don't have to follow the strict linearity rule of
->>>>     * PFNMAP mappings in order to support COWable mappings.
->>>>
->>>> but it's true __vm_insert_mixed() ends up in the insert_pfn() path, so
->>>> the above isn't really true, which makes me wonder if and in that case
->>>> why there could any longer ever be a significant performance difference
->>>> between MIXEDMAP and PFNMAP.
->>> Yeah it's definitely confusing. I guess I'll hack up a patch and see
->>> what sticks.
->>>
->>>> BTW regarding the TTM hugeptes, I don't think we ever landed that devmap
->>>> hack, so they are (for the non-gup case) relying on
->>>> vma_is_special_huge(). For the gup case, I think the bug is still there.
->>> Maybe there's another devmap hack, but the ttm_vm_insert functions do
->>> use PFN_DEV and all that. And I think that stops gup_fast from trying
->>> to find the underlying page.
->>> -Daniel
->> Hmm perhaps it might, but I don't think so. The fix I tried out was to set
->>
->> PFN_DEV | PFN_MAP for huge PTEs which causes pfn_devmap() to be true, and
->> then
->>
->> follow_devmap_pmd()->get_dev_pagemap() which returns NULL and gup_fast()
->> backs off,
->>
->> in the end that would mean setting in stone that "if there is a huge devmap
->> page table entry for which we haven't registered any devmap struct pages
->> (get_dev_pagemap returns NULL), we should treat that as a "special" huge
->> page table entry".
->>
->>  From what I can tell, all code calling get_dev_pagemap() already does that,
->> it's just a question of getting it accepted and formalizing it.
-> Oh I thought that's already how it works, since I didn't spot anything
-> else that would block gup_fast from falling over. I guess really would
-> need some testcases to make sure direct i/o (that's the easiest to test)
-> fails like we expect.
+On Wed, Dec 16, 2020 at 12:15 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> On Wed, Dec 16, 2020 at 4:21 AM Nicolas Dufresne <nicolas@ndufresne.ca> w=
+rote:
+> >
+> > Le mardi 15 d=C3=A9cembre 2020 =C3=A0 15:54 +0200, Stanimir Varbanov a =
+=C3=A9crit :
+> > > Hi Tomasz,
+> > >
+> > > On 12/15/20 1:47 PM, Tomasz Figa wrote:
+> > > > On Tue, Dec 15, 2020 at 8:16 PM Stanimir Varbanov
+> > > > <stanimir.varbanov@linaro.org> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > Cc: Robin
+> > > > >
+> > > > > On 12/14/20 2:57 PM, Alexandre Courbot wrote:
+> > > > > > This driver uses the SG vb2 ops, but effectively only ever acce=
+sses the
+> > > > > > first entry of the SG table, indicating that it expects a flat =
+layout.
+> > > > > > Switch it to use the contiguous ops to make sure this expected =
+invariant
+> > > > >
+> > > > > Under what circumstances the sg table will has nents > 1? I came =
+down to
+> > > > > [1] but not sure I got it right.
+> > > > >
+> > > > > I'm afraid that for systems with low amount of system memory and =
+when
+> > > > > the memory become fragmented, the driver will not work. That's wh=
+y I
+> > > > > started with sg allocator.
+> > > >
+> > > > It is exactly the opposite. The vb2-dma-contig allocator is "contig=
+"
+> > > > in terms of the DMA (aka IOVA) address space. In other words, it
+> > > > guarantees that having one DMA address and length fully describes t=
+he
+> > >
+> > > Ahh, I missed that part. Looks like I misunderstood videobu2 contig
+> > > allocator.
+> >
+> > I'm learning everyday too, but I'm surprised I don't see a call to
+> > vb2_dma_contig_set_max_seg_size() in this driver (I could also just hav=
+e missed
+> > a patch when overlooking this thread) ?
+> >
+> > The reason I'm asking, doc says it should be called by driver supportin=
+g IOMMU,
+> > which seems to be the case for such drivers (MFC, exynos4-is, exynos-gs=
+c, mtk-
+> > mdp, s5p-g2d, hantro, rkvdec, zoran, ti-vpe, ..). I posting it, worst c=
+ase it's
+> > all covered and we are good, otherwise perhaps a downstream patch didn'=
+t make it
+> > ?
+> >
+> > /**
+> >  * vb2_dma_contig_set_max_seg_size() - configure DMA max segment size
+> >  * @dev:        device for configuring DMA parameters
+> >  * @size:       size of DMA max segment size to set
+> >  *
+> >  * To allow mapping the scatter-list into a single chunk in the DMA
+> >  * address space, the device is required to have the DMA max segment
+> >  * size parameter set to a value larger than the buffer size. Otherwise=
+,
+> >  * the DMA-mapping subsystem will split the mapping into max segment
+> >  * size chunks. This function sets the DMA max segment size
+> >  * parameter to let DMA-mapping map a buffer as a single chunk in DMA
+> >  * address space.
+> >  * This code assumes that the DMA-mapping subsystem will merge all
+> >  * scatterlist segments if this is really possible (for example when
+> >  * an IOMMU is available and enabled).
+> >  * Ideally, this parameter should be set by the generic bus code, but i=
+t
+> >  * is left with the default 64KiB value due to historical litmiations i=
+n
+> >  * other subsystems (like limited USB host drivers) and there no good
+> >  * place to set it to the proper value.
+> >  * This function should be called from the drivers, which are known to
+> >  * operate on platforms with IOMMU and provide access to shared buffers
+> >  * (either USERPTR or DMABUF). This should be done before initializing
+> >  * videobuf2 queue.
+> >  */
+>
+> It does call dma_set_max_seg_size() directly:
+> https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/qco=
+m/venus/core.c#L230
+>
+> Actually, why do we even need a vb2 helper for this?
+>
 
-Yeah, IIRC the "| PFN_MAP" is the missing piece for TTM huge ptes. 
-Otherwise pmd_devmap() will not return true and since there is no 
-pmd_special() things break.
+What's the plan for this patch?
 
-/Thomas
+Best regards,
+Tomasz
 
-
-
-> -Daniel
+> >
+> > regards,
+> > Nicolas
+> >
+> > >
+> > > > buffer. This seems to be the requirement of the hardware/firmware
+> > > > handled by the venus driver. If the device is behind an IOMMU, whic=
+h
+> > > > is the case for the SoCs in question, the underlying DMA ops will
+> > > > actually allocate a discontiguous set of pages, so it has nothing t=
+o
+> > > > do to system memory amount or fragmentation. If for some reason the
+> > > > IOMMU can't be used, there is no way around, the memory needs to be
+> > > > contiguous because of the hardware/firmware/driver expectation.
+> > > >
+> > > > On the other hand, the vb2-dma-sg allocator doesn't have any
+> > > > continuity guarantees for the DMA, or any other, address space. The
+> > > > current code works fine, because it calls dma_map_sg() on the whole
+> > > > set of pages and that ends up mapping it contiguously in the IOVA
+> > > > space, but that's just an implementation detail, not an API guarant=
+ee.
+> > >
+> > > It was good to know. Thanks for the explanation.
+> > >
+> > > >
+> > > > Best regards,
+> > > > Tomasz
+> > > >
+> > > > >
+> > > > > [1]
+> > > > > https://elixir.bootlin.com/linux/v5.10.1/source/drivers/iommu/dma=
+-iommu.c#L782
+> > > > >
+> > > > > > is always enforced. Since the device is supposed to be behind a=
+n IOMMU
+> > > > > > this should have little to none practical consequences beyond m=
+aking the
+> > > > > > driver not rely on a particular behavior of the SG implementati=
+on.
+> > > > > >
+> > > > > > Reported-by: Tomasz Figa <tfiga@chromium.org>
+> > > > > > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> > > > > > ---
+> > > > > > Hi everyone,
+> > > > > >
+> > > > > > It probably doesn't hurt to fix this issue before some actual i=
+ssue
+> > > > > > happens.
+> > > > > > I have tested this patch on Chrome OS and playback was just as =
+fine as
+> > > > > > with
+> > > > > > the SG ops.
+> > > > > >
+> > > > > >  drivers/media/platform/Kconfig              | 2 +-
+> > > > > >  drivers/media/platform/qcom/venus/helpers.c | 9 ++-------
+> > > > > >  drivers/media/platform/qcom/venus/vdec.c    | 6 +++---
+> > > > > >  drivers/media/platform/qcom/venus/venc.c    | 6 +++---
+> > > > > >  4 files changed, 9 insertions(+), 14 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/media/platform/Kconfig
+> > > > > > b/drivers/media/platform/Kconfig
+> > > > > > index 35a18d388f3f..d9d7954111f2 100644
+> > > > > > --- a/drivers/media/platform/Kconfig
+> > > > > > +++ b/drivers/media/platform/Kconfig
+> > > > > > @@ -533,7 +533,7 @@ config VIDEO_QCOM_VENUS
+> > > > > >       depends on INTERCONNECT || !INTERCONNECT
+> > > > > >       select QCOM_MDT_LOADER if ARCH_QCOM
+> > > > > >       select QCOM_SCM if ARCH_QCOM
+> > > > > > -     select VIDEOBUF2_DMA_SG
+> > > > > > +     select VIDEOBUF2_DMA_CONTIG
+> > > > > >       select V4L2_MEM2MEM_DEV
+> > > > > >       help
+> > > > > >         This is a V4L2 driver for Qualcomm Venus video accelera=
+tor
+> > > > > > diff --git a/drivers/media/platform/qcom/venus/helpers.c
+> > > > > > b/drivers/media/platform/qcom/venus/helpers.c
+> > > > > > index 50439eb1ffea..859d260f002b 100644
+> > > > > > --- a/drivers/media/platform/qcom/venus/helpers.c
+> > > > > > +++ b/drivers/media/platform/qcom/venus/helpers.c
+> > > > > > @@ -7,7 +7,7 @@
+> > > > > >  #include <linux/mutex.h>
+> > > > > >  #include <linux/slab.h>
+> > > > > >  #include <linux/kernel.h>
+> > > > > > -#include <media/videobuf2-dma-sg.h>
+> > > > > > +#include <media/videobuf2-dma-contig.h>
+> > > > > >  #include <media/v4l2-mem2mem.h>
+> > > > > >  #include <asm/div64.h>
+> > > > > >
+> > > > > > @@ -1284,14 +1284,9 @@ int venus_helper_vb2_buf_init(struct vb2=
+_buffer
+> > > > > > *vb)
+> > > > > >       struct venus_inst *inst =3D vb2_get_drv_priv(vb->vb2_queu=
+e);
+> > > > > >       struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
+> > > > > >       struct venus_buffer *buf =3D to_venus_buffer(vbuf);
+> > > > > > -     struct sg_table *sgt;
+> > > > > > -
+> > > > > > -     sgt =3D vb2_dma_sg_plane_desc(vb, 0);
+> > > > > > -     if (!sgt)
+> > > > > > -             return -EFAULT;
+> > > > > >
+> > > > > >       buf->size =3D vb2_plane_size(vb, 0);
+> > > > > > -     buf->dma_addr =3D sg_dma_address(sgt->sgl);
+> > > > >
+> > > > > Can we do it:
+> > > > >
+> > > > >         if (WARN_ON(sgt->nents > 1))
+> > > > >                 return -EFAULT;
+> > > > >
+> > > > > I understand that logically using dma-sg when the flat layout is
+> > > > > expected by the hardware is wrong, but I haven't seen issues unti=
+l now.
+> > > > >
+> > > > > > +     buf->dma_addr =3D vb2_dma_contig_plane_dma_addr(vb, 0);
+> > > > > >
+> > > > > >       if (vb->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> > > > > >               list_add_tail(&buf->reg_list, &inst->registeredbu=
+fs);
+> > > > > > diff --git a/drivers/media/platform/qcom/venus/vdec.c
+> > > > > > b/drivers/media/platform/qcom/venus/vdec.c
+> > > > > > index 8488411204c3..3fb277c81aca 100644
+> > > > > > --- a/drivers/media/platform/qcom/venus/vdec.c
+> > > > > > +++ b/drivers/media/platform/qcom/venus/vdec.c
+> > > > > > @@ -13,7 +13,7 @@
+> > > > > >  #include <media/v4l2-event.h>
+> > > > > >  #include <media/v4l2-ctrls.h>
+> > > > > >  #include <media/v4l2-mem2mem.h>
+> > > > > > -#include <media/videobuf2-dma-sg.h>
+> > > > > > +#include <media/videobuf2-dma-contig.h>
+> > > > > >
+> > > > > >  #include "hfi_venus_io.h"
+> > > > > >  #include "hfi_parser.h"
+> > > > > > @@ -1461,7 +1461,7 @@ static int m2m_queue_init(void *priv, str=
+uct
+> > > > > > vb2_queue *src_vq,
+> > > > > >       src_vq->io_modes =3D VB2_MMAP | VB2_DMABUF;
+> > > > > >       src_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> > > > > >       src_vq->ops =3D &vdec_vb2_ops;
+> > > > > > -     src_vq->mem_ops =3D &vb2_dma_sg_memops;
+> > > > > > +     src_vq->mem_ops =3D &vb2_dma_contig_memops;
+> > > > > >       src_vq->drv_priv =3D inst;
+> > > > > >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> > > > > >       src_vq->allow_zero_bytesused =3D 1;
+> > > > > > @@ -1475,7 +1475,7 @@ static int m2m_queue_init(void *priv, str=
+uct
+> > > > > > vb2_queue *src_vq,
+> > > > > >       dst_vq->io_modes =3D VB2_MMAP | VB2_DMABUF;
+> > > > > >       dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> > > > > >       dst_vq->ops =3D &vdec_vb2_ops;
+> > > > > > -     dst_vq->mem_ops =3D &vb2_dma_sg_memops;
+> > > > > > +     dst_vq->mem_ops =3D &vb2_dma_contig_memops;
+> > > > > >       dst_vq->drv_priv =3D inst;
+> > > > > >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> > > > > >       dst_vq->allow_zero_bytesused =3D 1;
+> > > > > > diff --git a/drivers/media/platform/qcom/venus/venc.c
+> > > > > > b/drivers/media/platform/qcom/venus/venc.c
+> > > > > > index 1c61602c5de1..a09550cd1dba 100644
+> > > > > > --- a/drivers/media/platform/qcom/venus/venc.c
+> > > > > > +++ b/drivers/media/platform/qcom/venus/venc.c
+> > > > > > @@ -10,7 +10,7 @@
+> > > > > >  #include <linux/pm_runtime.h>
+> > > > > >  #include <linux/slab.h>
+> > > > > >  #include <media/v4l2-mem2mem.h>
+> > > > > > -#include <media/videobuf2-dma-sg.h>
+> > > > > > +#include <media/videobuf2-dma-contig.h>
+> > > > > >  #include <media/v4l2-ioctl.h>
+> > > > > >  #include <media/v4l2-event.h>
+> > > > > >  #include <media/v4l2-ctrls.h>
+> > > > > > @@ -1001,7 +1001,7 @@ static int m2m_queue_init(void *priv, str=
+uct
+> > > > > > vb2_queue *src_vq,
+> > > > > >       src_vq->io_modes =3D VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+> > > > > >       src_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> > > > > >       src_vq->ops =3D &venc_vb2_ops;
+> > > > > > -     src_vq->mem_ops =3D &vb2_dma_sg_memops;
+> > > > > > +     src_vq->mem_ops =3D &vb2_dma_contig_memops;
+> > > > > >       src_vq->drv_priv =3D inst;
+> > > > > >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> > > > > >       src_vq->allow_zero_bytesused =3D 1;
+> > > > > > @@ -1017,7 +1017,7 @@ static int m2m_queue_init(void *priv, str=
+uct
+> > > > > > vb2_queue *src_vq,
+> > > > > >       dst_vq->io_modes =3D VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+> > > > > >       dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> > > > > >       dst_vq->ops =3D &venc_vb2_ops;
+> > > > > > -     dst_vq->mem_ops =3D &vb2_dma_sg_memops;
+> > > > > > +     dst_vq->mem_ops =3D &vb2_dma_contig_memops;
+> > > > > >       dst_vq->drv_priv =3D inst;
+> > > > > >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> > > > > >       dst_vq->allow_zero_bytesused =3D 1;
+> > > > > >
+> > > > >
+> > > > > --
+> > > > > regards,
+> > > > > Stan
+> > >
+> >
+> >
