@@ -2,137 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B69F5327AD6
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 10:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B30D0327ADB
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 10:34:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233973AbhCAJcQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 04:32:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59980 "EHLO
+        id S233907AbhCAJeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 04:34:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233892AbhCAJcP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 04:32:15 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF722C06174A
-        for <linux-media@vger.kernel.org>; Mon,  1 Mar 2021 01:31:34 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id u11so7594395wmq.5
-        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 01:31:34 -0800 (PST)
+        with ESMTP id S233583AbhCAJeB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 04:34:01 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41A2BC06174A;
+        Mon,  1 Mar 2021 01:33:21 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id v15so15350760wrx.4;
+        Mon, 01 Mar 2021 01:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=5eXLE8YmmWqVcAQ25/8CtrGHZrAdsaRl84AJbo62qGY=;
-        b=XBXjog8lDQwfsqZDNUWMErZOnWqsNZK4OWKw6YMHQc3Soq5MIE8KUMZK8tPV3oHNA1
-         fu2WVI6z7Axw0ZrQJjhD3jWfdbojXtfSbX3t6oWKa8xfZWXjXR832tX/44fcwxYYfPSD
-         g/aeKZaykntlF5WvVjQJSqn3SR2HdNTzSiR3ilEmTMNmwExo+dD67lQMvn8MbU/+VoOJ
-         u2L0Gv2rQANbFdsnKFHRxl8TR+LxE9sdQ8+fBO3JjzypBQng+ExdS3sFyxPQqDyNW75q
-         KI4SOBgRb1Y0/3mXjvL5gP96w678MdwlfPQrG5bcOEKbGipFCcl4Yl5R0TBNn24HER5n
-         z7bA==
+        bh=f8ls8FrEzupGcztMPHQqtmAD5Dc6MGdA2sdReBfFtxU=;
+        b=HP/QF+wQ5I3XO4MXr6a04Awn7edvplSnAqpAl1loN7f6jrQOehkfTJK/hRV/DdR4Xv
+         p4XqQLgTc8w3kE7R0RVDZYpHw48UHJ6lUi4RfA+12APVWANE/PfIqG63Cjzpzl6mE0O8
+         oHaeyTelxiOWYSNhZuamqH/uJ3PVBfBUoeEI4SiBec2BbZVTdhlH3p+AeKLRIyW9O+KX
+         zWAH+P2bQoVTf3UwFSQGv2x5Y5xh1kZ6J6VohJRwbKIzy/u5YL3in/+BR1CagSXU2F5U
+         gK07sQ1Oe2DM3zggiqO1BZWLQ1XVOeIV0/S6X4s/KGSoUOHhn/DxalCmzREwv3YA1MyE
+         5y5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=5eXLE8YmmWqVcAQ25/8CtrGHZrAdsaRl84AJbo62qGY=;
-        b=QNIhcLpc47mb9WuDVs4cEXn5c2XF7gpW31tA5NNscX+gguwbAOJhk0qrOGvMOV9IeT
-         fVCadYpyamV0dxaXG60kN1s8doOj1lDcgAnNfJESj8G+mtmKIrTq+vgzra3Gjt4apZIF
-         LyXBCS/pN5uKWIoPqSrZMgGmpwBAydTeuBZquahGeJHXRIyY2DiOGoOUQcxOw+g7Fqc2
-         HhILxg2ZIsfietnEi7xOPp/3KmItG9WmW5Vbc9EbCe1U9BSm4/7Bjcb6q4eZ+dcwZYhq
-         zOlgy3B+jDIGPidpp9hWuVh0E2yEryCj/UmGaWO8RzPaq9ulkpHCbWfGMOwxy7UaMX2U
-         GGJw==
-X-Gm-Message-State: AOAM531ZW34bFLFEiZ9fYwZ3bUnQPaDq0feeCdum0JTsi6ABPWZV1FL8
-        om4HHKvgP6QCIUH4SFmCjng=
-X-Google-Smtp-Source: ABdhPJwOIAe6uokLnvDk11zV/fTM3s/8QIgVUvG8IRWXFtdnffFBUlZJLkX/lT0VXWgMHHveAi1XYg==
-X-Received: by 2002:a1c:2049:: with SMTP id g70mr13095885wmg.7.1614591093686;
-        Mon, 01 Mar 2021 01:31:33 -0800 (PST)
+        bh=f8ls8FrEzupGcztMPHQqtmAD5Dc6MGdA2sdReBfFtxU=;
+        b=GanX0NOpvd6QxhCpOIKH48EzgylXLbfbL0QghDCK3V/gqYYjQcQp77++bWh9n/jdP1
+         yjkFlqpMMauqd4jWAdr4gOVA+V/jOwvXYzgQWfDxJbl00qHjXNt7hskefdyXmjIBS/4l
+         1gckyGwbNEVeJtZGKuvSo/+DkFUGOpIPIrhbEXIJZauV+QONQfgndF10q7J4JpKHvifj
+         1plHhB39zEIHHC8O3eqo+KwyAOSIJYsY77+f6tQXfpekx24B3L933VzLF0mmMJXHRFzS
+         vyanSRs5cwJldJgNvN9DWk130iLei0DC1gpMtcgKiiYoiO9pi6ZuFbhyTu5QvDqn9H2I
+         Gp1g==
+X-Gm-Message-State: AOAM533OtidwC8IkH5LZiq3VENaQDSAuhnMEgqT+ALmSqUEX2QRmTKv9
+        zZrreFsSBjfTuqU3M/3Ofxc=
+X-Google-Smtp-Source: ABdhPJw+/YqH9CNZ1WcHejwyVQ7EHRPH6u57hTlGAOK3zyRtLWZS6crnOV0WUD238RwnFQ1lCulXKw==
+X-Received: by 2002:a05:6000:1ca:: with SMTP id t10mr15760881wrx.45.1614591200024;
+        Mon, 01 Mar 2021 01:33:20 -0800 (PST)
 Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id t14sm25459319wru.64.2021.03.01.01.31.33
+        by smtp.gmail.com with ESMTPSA id b15sm24187809wrr.47.2021.03.01.01.33.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 01:31:33 -0800 (PST)
-Date:   Mon, 1 Mar 2021 09:31:31 +0000
+        Mon, 01 Mar 2021 01:33:19 -0800 (PST)
+Date:   Mon, 1 Mar 2021 09:33:17 +0000
 From:   Rui Miguel Silva <rmfrfs@gmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH v2 39/77] media: imx: imx7-media-csi: Don't lock access
- to is_csi2
-Message-ID: <20210301093131.xyxpu4lxconbogrw@arch-thunder.localdomain>
+        Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 60/77] dt-bindings: media: nxp,imx7-mipi-csi2: Indent
+ example with 4 spaces
+Message-ID: <20210301093317.e4s536d2v3dmooi4@arch-thunder.localdomain>
 References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
- <20210215042741.28850-40-laurent.pinchart@ideasonboard.com>
+ <20210215042741.28850-61-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210215042741.28850-40-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20210215042741.28850-61-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
-On Mon, Feb 15, 2021 at 06:27:03AM +0200, Laurent Pinchart wrote:
-> The is_csi2 field can't be accessed concurrently by
-> imx7_csi_pad_link_validate() and imx7_csi_configure(), as the latter is
-> called from imx7_csi_s_stream(), which is called after link validation.
-> Drop the lock.
+Thanks.
+
+On Mon, Feb 15, 2021 at 06:27:24AM +0200, Laurent Pinchart wrote:
+> DT bindings examples are customarily indented with 4 spaces.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-LGTM.
 Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
 ------
 Cheers,
      Rui
 > ---
->  drivers/staging/media/imx/imx7-media-csi.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
+>  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 54 +++++++++----------
+>  1 file changed, 27 insertions(+), 27 deletions(-)
 > 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index 2a4b69cc0178..dc25b593eaeb 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -1001,7 +1001,6 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
->  	struct imx_media_video_dev *vdev = csi->vdev;
->  	const struct v4l2_pix_format *out_pix = &vdev->fmt;
->  	struct media_pad *pad;
-> -	bool is_csi2;
->  	int ret;
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> index 74ff92b5baa3..76fcc8d80ee3 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> @@ -122,41 +122,41 @@ examples:
+>      #include <dt-bindings/reset/imx7-reset.h>
 >  
->  	if (!csi->src_sd)
-> @@ -1018,7 +1017,7 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
->  	switch (csi->src_sd->entity.function) {
->  	case MEDIA_ENT_F_VID_IF_BRIDGE:
->  		/* The input is the CSI-2 receiver. */
-> -		is_csi2 = true;
-> +		csi->is_csi2 = true;
->  		break;
+>      mipi_csi: mipi-csi@30750000 {
+> -            compatible = "fsl,imx7-mipi-csi2";
+> -            reg = <0x30750000 0x10000>;
+> -            interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> +        compatible = "fsl,imx7-mipi-csi2";
+> +        reg = <0x30750000 0x10000>;
+> +        interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
 >  
->  	case MEDIA_ENT_F_VID_MUX:
-> @@ -1027,7 +1026,7 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
->  		if (!pad)
->  			return -ENODEV;
+> -            clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> -                     <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> -                     <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> -            clock-names = "pclk", "wrap", "phy";
+> -            clock-frequency = <166000000>;
+> +        clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> +                 <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> +                 <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> +        clock-names = "pclk", "wrap", "phy";
+> +        clock-frequency = <166000000>;
 >  
-> -		is_csi2 = pad->entity->function == MEDIA_ENT_F_VID_IF_BRIDGE;
-> +		csi->is_csi2 = pad->entity->function == MEDIA_ENT_F_VID_IF_BRIDGE;
->  		break;
+> -            power-domains = <&pgc_mipi_phy>;
+> -            phy-supply = <&reg_1p0d>;
+> -            resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
+> +        power-domains = <&pgc_mipi_phy>;
+> +        phy-supply = <&reg_1p0d>;
+> +        resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
 >  
->  	default:
-> @@ -1035,14 +1034,10 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
->  		 * The input is an external entity, it must use the parallel
->  		 * bus.
->  		 */
-> -		is_csi2 = false;
-> +		csi->is_csi2 = false;
->  		break;
->  	}
+> -            ports {
+> -                    #address-cells = <1>;
+> -                    #size-cells = <0>;
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
 >  
-> -	mutex_lock(&csi->lock);
-> -	csi->is_csi2 = is_csi2;
-> -	mutex_unlock(&csi->lock);
-> -
->  	/* Validate the sink link, ensure the pixel format is supported. */
->  	switch (out_pix->pixelformat) {
->  	case V4L2_PIX_FMT_UYVY:
+> -                    port@0 {
+> -                            reg = <0>;
+> +            port@0 {
+> +                reg = <0>;
+>  
+> -                            mipi_from_sensor: endpoint {
+> -                                    remote-endpoint = <&ov2680_to_mipi>;
+> -                                    data-lanes = <1>;
+> -                            };
+> -                    };
+> +                mipi_from_sensor: endpoint {
+> +                    remote-endpoint = <&ov2680_to_mipi>;
+> +                    data-lanes = <1>;
+> +                };
+> +            };
+>  
+> -                    port@1 {
+> -                            reg = <1>;
+> +            port@1 {
+> +                reg = <1>;
+>  
+> -                            mipi_vc0_to_csi_mux: endpoint {
+> -                                    remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> -                            };
+> -                    };
+> +                mipi_vc0_to_csi_mux: endpoint {
+> +                    remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> +                };
+>              };
+> +        };
+>      };
+>  
+>  ...
 > -- 
 > Regards,
 > 
