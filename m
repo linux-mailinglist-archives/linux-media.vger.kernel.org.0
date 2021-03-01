@@ -2,95 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA0283277B9
-	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 07:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7AC327817
+	for <lists+linux-media@lfdr.de>; Mon,  1 Mar 2021 08:13:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232002AbhCAGqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Mar 2021 01:46:16 -0500
-Received: from mailgw02.mediatek.com ([1.203.163.81]:50576 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231185AbhCAGqP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 01:46:15 -0500
-X-UUID: 5cf60434c6cf4d4cb00d51f67e550a93-20210301
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=QVGn0n8BLUxEWDtnLqCxnMqkZncL3xMO0eBBB5gr4Yo=;
-        b=a5mSJaCHnL866iShay96l+2mGVpoy9IQJ27a5k6kPX58pht2IzOkwi9UnC/v/lBYyWNNqoqtqObr77iiBUPEHHOKsgCWq1eDtjO+G8d+hLu0HL5gxnnsl5pziXyMvTNBEyDaQ4vEzQxWqibhpjZ32+1AF578npCdKQ6eOJfnQZs=;
-X-UUID: 5cf60434c6cf4d4cb00d51f67e550a93-20210301
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1631696477; Mon, 01 Mar 2021 14:45:32 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Mar
- 2021 14:45:30 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 1 Mar 2021 14:45:29 +0800
-Message-ID: <1614581129.14457.0.camel@mhfsdcap03>
-Subject: Re: [PATCH 1/5] dt-bindings: media: mtk-vcodec: Add dma-ranges
- property
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        id S232390AbhCAHMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Mar 2021 02:12:37 -0500
+Received: from mga07.intel.com ([134.134.136.100]:24872 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232378AbhCAHM2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Mar 2021 02:12:28 -0500
+IronPort-SDR: Q8aSsrMocQFKD9cYWi8+Z8Qo/ORr6YXw8C4SXRBYNzQtNgU02muMpcWLbfdgr/HirsiKEWpbLw
+ c1u1aHroKnTw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="250432278"
+X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; 
+   d="scan'208";a="250432278"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2021 23:10:41 -0800
+IronPort-SDR: /OugGBR8rq5lqEjdZkAUSg9yc1F4w7ipJkCTgTmnf3ciFPsl1O78JsfAcuoQjOoHABUNi24xuH
+ nTBUd5pH2URA==
+X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; 
+   d="scan'208";a="517326248"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2021 23:10:39 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id C065C202DD;
+        Mon,  1 Mar 2021 09:10:37 +0200 (EET)
+Date:   Mon, 1 Mar 2021 09:10:37 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Colin King <colin.king@canonical.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Fritz Koenig" <frkoenig@chromium.org>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>, <linux-mediatek@lists.infradead.org>
-Date:   Mon, 1 Mar 2021 14:45:29 +0800
-In-Reply-To: <20210210225323.GA2961490@robh.at.kernel.org>
-References: <20210203083752.12586-1-irui.wang@mediatek.com>
-         <20210203083752.12586-2-irui.wang@mediatek.com>
-         <20210210225323.GA2961490@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Arnd Bergmann <arnd@arndb.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: adp1653: fix error handling from a call to
+ adp1653_get_fault
+Message-ID: <20210301071037.GP3@paasikivi.fi.intel.com>
+References: <20210226232229.1076199-1-colin.king@canonical.com>
+ <20210227101719.GG2087@kadam>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 62560B53CD9D2FC90A2C93FBF883E1ACB0740244722726113DF61E297D86CCD92000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210227101719.GG2087@kadam>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gV2VkLCAyMDIxLTAyLTEwIGF0IDE2OjUzIC0wNjAwLCBSb2IgSGVycmluZyB3cm90ZToNCj4g
-T24gV2VkLCBGZWIgMDMsIDIwMjEgYXQgMDQ6Mzc6NDhQTSArMDgwMCwgSXJ1aSBXYW5nIHdyb3Rl
-Og0KPiA+IEFkZHMgZG1hLXJhbmdlcyBwcm9wZXJ0eSBmb3IgRE1BIGFkZHJlc3NlcyB0cmFuc2xh
-dGlvbi4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBJcnVpIFdhbmcgPGlydWkud2FuZ0BtZWRp
-YXRlay5jb20+DQo+ID4gLS0tDQo+ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9tZWRpYS9tZWRpYXRlay12Y29kZWMudHh0IHwgMiArKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwg
-MiBpbnNlcnRpb25zKCspDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlay12Y29kZWMudHh0IGIvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL21lZGlhdGVrLXZjb2RlYy50eHQNCj4gPiBpbmRl
-eCBmODUyNzZlNjI5YmYuLmU0NjQ0ZjhjYWVlOSAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbWVkaWF0ZWstdmNvZGVjLnR4dA0KPiA+ICsr
-KyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlay12Y29k
-ZWMudHh0DQo+ID4gQEAgLTIzLDYgKzIzLDggQEAgUmVxdWlyZWQgcHJvcGVydGllczoNCj4gPiAg
-LSBpb21tdXMgOiBzaG91bGQgcG9pbnQgdG8gdGhlIHJlc3BlY3RpdmUgSU9NTVUgYmxvY2sgd2l0
-aCBtYXN0ZXIgcG9ydCBhcw0KPiA+ICAgIGFyZ3VtZW50LCBzZWUgRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2lvbW11L21lZGlhdGVrLGlvbW11LnR4dA0KPiA+ICAgIGZvciBkZXRh
-aWxzLg0KPiA+ICstIGRtYS1yYW5nZXMgOiBkZXNjcmliZXMgaG93IHRoZSBwaHlzaWNhbCBhZGRy
-ZXNzIHNwYWNlIG9mIHRoZSBJT01NVSBtYXBzDQo+ID4gKyAgdG8gbWVtb3J5Lg0KPiANCj4gZG1h
-LXJhbmdlcyBpcyBzdXBwb3NlZCB0byBiZSBpbiBhIGJ1cy9wYXJlbnQgbm9kZS4NCkRlYXIgUm9i
-LA0KDQpUaGUgbXQ4MTkyIGlvbW11IHN1cHBvcnQgMH4xNkdCIGlvdmEuIFdlIHNlcGFyYXRlIGl0
-IHRvIGZvdXIgYmFua3M6DQowfjRHOyA0R344RzsgOEd+MTJHOyAxMkd+MTZHLg0KDQpUaGUgImRt
-YS1yYW5nZXMiIGNvdWxkIGJlIHVzZWQgdG8gYWRqdXN0IHRoZSBiYW5rIHdlIGxvY2F0ZS4NCklm
-IHdlIGRvbid0IHNldCB0aGlzIHByb3BlcnR5LiBUaGUgZGVmYXVsdCByYW5nZSBhbHdheXMgaXMg
-MH40Ry4NCg0KSGVyZSB3ZSBkb24ndCBoYXZlIGFjdHVhbCBidXMvcGFyZW50IGNvbmNlcHQgaGVy
-ZS4gIEFuZCB0aGUgaW92YQ0KcmVxdWlyZW1lbnQgaXMgZm9yIG91ciBIVy4gVGh1cyBwdXQgdGhl
-IHByb3BlcnR5IGluIG91ciBub2RlLg0KDQpJcyB0aGlzIE9LPyBJZiB0aGlzIGlzIG9rIGZvciB5
-b3UsIEkgd2lsbCBwdXQgdGhpcyBtZXNzYWdlIGluIHRoZSBjb21taXQNCm1lc3NhZ2UgYW5kIGJp
-bmRpbmcgaW4gbmV4dCB2ZXJzaW9uLg0KDQpSZWdhcmRzDQo+IA0KPiA+ICBPbmUgb2YgdGhlIHR3
-byBmb2xsb3dpbmcgbm9kZXM6DQo+ID4gIC0gbWVkaWF0ZWssdnB1IDogdGhlIG5vZGUgb2YgdGhl
-IHZpZGVvIHByb2Nlc3NvciB1bml0LCBpZiB1c2luZyBWUFUuDQo+ID4gIC0gbWVkaWF0ZWssc2Nw
-IDogdGhlIG5vZGUgb2YgdGhlIFNDUCB1bml0LCBpZiB1c2luZyBTQ1AuDQo+ID4gLS0gDQo+ID4g
-Mi4yNS4xDQo+ID4gDQoNCg==
+Hi Dan, Colin,
 
+On Sat, Feb 27, 2021 at 01:17:20PM +0300, Dan Carpenter wrote:
+> On Fri, Feb 26, 2021 at 11:22:29PM +0000, Colin King wrote:
+> > From: Colin Ian King <colin.king@canonical.com>
+> > 
+> > The error check on rval from the call to adp1653_get_fault currently
+> > returns if rval is non-zero. This appears to be incorrect as the
+> > following if statement checks for various bit settings in rval so
+> > clearly rval is expected to be non-zero at that point. Coverity
+> > flagged the if statement up as deadcode.  Fix this so the error
+> > return path only occurs when rval is negative.
+> > 
+> > Addresses-Coverity: ("Logically dead code")
+> > Fixes: 287980e49ffc ("remove lots of IS_ERR_VALUE abuses")
+> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> > ---
+> >  drivers/media/i2c/adp1653.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/i2c/adp1653.c b/drivers/media/i2c/adp1653.c
+> > index 522a0b10e415..1a4878385394 100644
+> > --- a/drivers/media/i2c/adp1653.c
+> > +++ b/drivers/media/i2c/adp1653.c
+> > @@ -170,7 +170,7 @@ static int adp1653_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  	int rval;
+> >  
+> >  	rval = adp1653_get_fault(flash);
+> > -	if (rval)
+> > +	if (rval < 0)
+> >  		return rval;
+> 
+> This is good, but all the other callers need to fixed as well:
+> 
+> 
+>    140  static int adp1653_get_ctrl(struct v4l2_ctrl *ctrl)
+>    141  {
+>    142          struct adp1653_flash *flash =
+>    143                  container_of(ctrl->handler, struct adp1653_flash, ctrls);
+>    144          int rval;
+>    145  
+>    146          rval = adp1653_get_fault(flash);
+>    147          if (rval)
+>    148                  return rval;
+>    149  
+>    150          ctrl->cur.val = 0;
+>    151  
+>    152          if (flash->fault & ADP1653_REG_FAULT_FLT_SCP)
+>                     ^^^^^^^^^^^^
+> flash->fault is the equivalent of "rval" for non-negative returns so
+> this condition can never be true.  We should never be returning these
+> weird firmware ADP1653_REG_FAULT_FLT_SCP fault codes to the v4l2 layers.
+
+I think this could be fixed and cleaned up by always retuning zero on
+success, and checking for flash->faults while holding the mutex in
+adp1653_init_device. I could fix that, too, just let me know...
+
+-- 
+Regards,
+
+Sakari Ailus
