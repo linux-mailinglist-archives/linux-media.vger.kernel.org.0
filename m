@@ -2,58 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D852A32A84E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9110732A84F
+	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:42:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580141AbhCBRaG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Mar 2021 12:30:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59560 "EHLO
+        id S1580148AbhCBRaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Mar 2021 12:30:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377764AbhCBAsk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 19:48:40 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D252FC061221
-        for <linux-media@vger.kernel.org>; Mon,  1 Mar 2021 16:47:04 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id h4so12691697pgf.13
-        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 16:47:04 -0800 (PST)
+        with ESMTP id S1378025AbhCBAuI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 19:50:08 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73721C061756
+        for <linux-media@vger.kernel.org>; Mon,  1 Mar 2021 16:49:28 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id g4so12759787pgj.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 16:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3ehy3NtZARWKqntzrYPlK6hSKlfy8OUUEgCoOD4fHSE=;
-        b=HWdXl+wGHfyAD0jSdQV4KKDcE36igEeT1w0wjKhgKk5SIvItzRKr1GujotMl+J0e82
-         PGhydmIoAsKJIeUM7230UpY9cZIH1i/4+9rm/Gu122fRJQd1Rl4w23h3kAWgCovzc5bY
-         SSkOGozVvcJT3+9oBThl0XJPf6O8tvBf9vwUU=
+        bh=muqxZfcDQiiUg5ZPKg0Ezp+w/e0QAiVsgc1LytNSRdk=;
+        b=QChrouQVA6ya0+EX2yuCQGAX2Yjq+RaPpBLZW9UZlub8RV/ITRPRJgxyO3ScMKrJw6
+         w9KoWFwJxHfHHPU3kyEx3Y0H5PImKpxhJSH5rukwcoxt+a85Ks6M0YyhIRO1q3kiZCtz
+         V8COI+COCCog2xxhBbD/lsVVEQsy5VMSsFt0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3ehy3NtZARWKqntzrYPlK6hSKlfy8OUUEgCoOD4fHSE=;
-        b=MmmIyJ6VgtwnPyuN9heVXoYVr3C5WCqHR+qk4Z/a6p6x33UiCFBxdiWWkWENjat69e
-         ilgq+lBHkOcsWRQ8rkyJBFMcxIPSxhF9/dmixPogRawitx+Yr5tlRP79gRzF8Yc8XMTn
-         51sK6HN8HYfoiq8wNNfN8+ITv6RAlrgUzZTkdR+x9ADqkQ8CzH6L0RKlfe/SezcMRyRI
-         9bZVVoROHs0nsMawqaJVwKPa2P+K3kqp3OxkYYXrWMyPfz3rljWuRLxTUfCuRv85TTuq
-         ivGLgfmHxn3c/DBqYlhr3Xnv5YpNyG0ooHHSVZXsSvb8gtHKb/zpQ8Rhvkj7ixbbcD7H
-         drEg==
-X-Gm-Message-State: AOAM533cFpoUo9trNsPC/IYK1MBWwNhQAPHEWr/wns1Uc5smLqZTE9xS
-        wpodidKTfBSR6T3cKzFrhljvIw==
-X-Google-Smtp-Source: ABdhPJxuPC6Un97/6i4LbPsWKyOZUv4BB/Ly+hLI8ZuL2VuI1/bEWIEH8k/aW6CxILcsZRx+k+Dr7g==
-X-Received: by 2002:a65:4c0b:: with SMTP id u11mr16102700pgq.409.1614646024411;
-        Mon, 01 Mar 2021 16:47:04 -0800 (PST)
+        bh=muqxZfcDQiiUg5ZPKg0Ezp+w/e0QAiVsgc1LytNSRdk=;
+        b=IVV3GYTi8yjGqpP4weikc0kUtkfCU0w4z46fNuCTxbMwaAzCB63IwddHmo7AoFRZ8E
+         mBBjbKy0XgKRD7T8xlOZO43B/RzHSp7RwzXL+7kOeXHVyzpE3qlsxZFxEmv//+BC96VV
+         IfRA1XGCabQ/sBgi6IVzHKlwrbeP43oeuVmKcBs+aBQZsgvxD0ndO+9PWe17ec2b3QJ+
+         ADOzD9MVNsRuh+qDUEdz9WxehHlkUQaXIXw/H9r4H0KB7y7ds1Ou3zx6MeQho667ALc+
+         USnMB+I6Za5bI9ofxLTIjxzMfmNU10WtaZj9cpugeK/0FPCffAcvuGwgisENdm1adYhv
+         MeYw==
+X-Gm-Message-State: AOAM532G72S98JKGejeN1E8wTnaNm5ykMRTROMOPY5O9Rxcjkkf7CLhp
+        7UW3gt+B5A1J65HBx71GJNjSRw==
+X-Google-Smtp-Source: ABdhPJx9voOFjP/+lhp6qXXgNKpt2KA4xlsMPdBNMSEG0/QicK5N1Pq8z3ol4jP70uhJTwQyxOa95g==
+X-Received: by 2002:a63:574c:: with SMTP id h12mr16067517pgm.79.1614646167946;
+        Mon, 01 Mar 2021 16:49:27 -0800 (PST)
 Received: from senozhatsky.flets-east.jp ([2409:10:2e40:5100:d5d7:1a61:2cdf:273c])
-        by smtp.gmail.com with ESMTPSA id b14sm678881pji.14.2021.03.01.16.47.02
+        by smtp.gmail.com with ESMTPSA id q34sm17978743pgl.92.2021.03.01.16.49.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 16:47:04 -0800 (PST)
+        Mon, 01 Mar 2021 16:49:27 -0800 (PST)
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Christoph Hellwig <hch@lst.de>,
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@lst.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCH 8/8] videobuf2: handle non-contiguous DMA allocations
-Date:   Tue,  2 Mar 2021 09:46:24 +0900
-Message-Id: <20210302004624.31294-9-senozhatsky@chromium.org>
+Subject: [PATCH] v4l-compliance: re-introduce NON_COHERENT and cache hints tests
+Date:   Tue,  2 Mar 2021 09:49:22 +0900
+Message-Id: <20210302004922.32052-1-senozhatsky@chromium.org>
 X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
 In-Reply-To: <20210302004624.31294-1-senozhatsky@chromium.org>
 References: <20210302004624.31294-1-senozhatsky@chromium.org>
@@ -63,264 +62,205 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds support for new noncontiguous DMA API, which
-requires allocators to have two execution branches: one
-for the current API, and one for the new one.
+This returns back non-coherent (previously known as NON_COHERENT)
+memory flag and buffer cache management hints testing (for VB2_MEMORY_MMAP
+buffers).
 
 Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-[hch: untested conversion to the ne API]
-Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- .../common/videobuf2/videobuf2-dma-contig.c   | 141 +++++++++++++++---
- 1 file changed, 117 insertions(+), 24 deletions(-)
+ utils/common/cv4l-helpers.h                 |  8 +--
+ utils/common/v4l-helpers.h                  |  8 ++-
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 65 ++++++++++++++++++---
+ 3 files changed, 66 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index 1e218bc440c6..d6a9f7b682f3 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -17,6 +17,7 @@
- #include <linux/sched.h>
- #include <linux/slab.h>
- #include <linux/dma-mapping.h>
-+#include <linux/highmem.h>
+diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
+index 712efde6..3cee372b 100644
+--- a/utils/common/cv4l-helpers.h
++++ b/utils/common/cv4l-helpers.h
+@@ -754,17 +754,17 @@ public:
+ 	int g_fd(unsigned index, unsigned plane) const { return v4l_queue_g_fd(this, index, plane); }
+ 	void s_fd(unsigned index, unsigned plane, int fd) { v4l_queue_s_fd(this, index, plane, fd); }
  
- #include <media/videobuf2-v4l2.h>
- #include <media/videobuf2-dma-contig.h>
-@@ -42,8 +43,14 @@ struct vb2_dc_buf {
- 	struct dma_buf_attachment	*db_attach;
- 
- 	struct vb2_buffer		*vb;
-+	unsigned int			non_coherent_mem:1;
- };
- 
-+static bool vb2_dc_is_coherent(struct vb2_dc_buf *buf)
-+{
-+	return !buf->non_coherent_mem;
-+}
-+
- /*********************************************/
- /*        scatterlist table functions        */
- /*********************************************/
-@@ -78,12 +85,21 @@ static void *vb2_dc_cookie(struct vb2_buffer *vb, void *buf_priv)
- static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
- {
- 	struct vb2_dc_buf *buf = buf_priv;
--	struct dma_buf_map map;
--	int ret;
- 
--	if (!buf->vaddr && buf->db_attach) {
--		ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
--		buf->vaddr = ret ? NULL : map.vaddr;
-+	if (buf->vaddr)
-+		return buf->vaddr;
-+
-+	if (buf->db_attach) {
-+		struct dma_buf_map map;
-+
-+		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
-+			buf->vaddr = map.vaddr;
-+	}
-+
-+	if (!vb2_dc_is_coherent(buf)) {
-+		buf->vaddr = dma_vmap_noncontiguous(buf->dev,
-+						    buf->size,
-+						    buf->dma_sgt);
+-	int reqbufs(cv4l_fd *fd, unsigned count = 0)
++	int reqbufs(cv4l_fd *fd, unsigned count = 0, unsigned int flags = 0)
+ 	{
+-		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count);
++		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
  	}
- 
- 	return buf->vaddr;
-@@ -101,13 +117,26 @@ static void vb2_dc_prepare(void *buf_priv)
- 	struct vb2_dc_buf *buf = buf_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
- 
-+	/* This takes care of DMABUF and user-enforced cache sync hint */
- 	if (buf->vb->skip_cache_sync_on_prepare)
- 		return;
- 
-+	/*
-+	 * Coherent MMAP buffers do not need to be synced, unlike coherent
-+	 * USERPTR and non-coherent MMAP buffers.
-+	 */
-+	if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
-+		return;
-+
- 	if (!sgt)
- 		return;
- 
-+	/* For both USERPTR and non-coherent MMAP */
- 	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
-+
-+	/* Non-coherrent MMAP only */
-+	if (!vb2_dc_is_coherent(buf) && buf->vaddr)
-+		flush_kernel_vmap_range(buf->vaddr, buf->size);
+ 	bool has_create_bufs(cv4l_fd *fd) const
+ 	{
+ 		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
+ 	}
+-	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL)
++	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL, unsigned int flags = 0)
+ 	{
+-		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt);
++		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt, flags);
+ 	}
+ 	int mmap_bufs(cv4l_fd *fd, unsigned from = 0)
+ 	{
+diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
+index f96b3c38..c09cd987 100644
+--- a/utils/common/v4l-helpers.h
++++ b/utils/common/v4l-helpers.h
+@@ -1515,7 +1515,7 @@ static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, uns
  }
  
- static void vb2_dc_finish(void *buf_priv)
-@@ -115,19 +144,46 @@ static void vb2_dc_finish(void *buf_priv)
- 	struct vb2_dc_buf *buf = buf_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
- 
-+	/* This takes care of DMABUF and user-enforced cache sync hint */
- 	if (buf->vb->skip_cache_sync_on_finish)
- 		return;
- 
-+	/*
-+	 * Coherent MMAP buffers do not need to be synced, unlike coherent
-+	 * USERPTR and non-coherent MMAP buffers.
-+	 */
-+	if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
-+		return;
-+
- 	if (!sgt)
- 		return;
- 
-+	/* For both USERPTR and non-coherent MMAP */
- 	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
-+
-+	/* Non-coherrent MMAP only */
-+	if (!vb2_dc_is_coherent(buf) && buf->vaddr)
-+		invalidate_kernel_vmap_range(buf->vaddr, buf->size);
- }
- 
- /*********************************************/
- /*        callbacks for MMAP buffers         */
- /*********************************************/
- 
-+static void __vb2_dc_put(struct vb2_dc_buf *buf)
-+{
-+	if (vb2_dc_is_coherent(buf)) {
-+		dma_free_attrs(buf->dev, buf->size, buf->cookie,
-+			       buf->dma_addr, buf->attrs);
-+		return;
-+	}
-+
-+	if (buf->vaddr)
-+		dma_vunmap_noncontiguous(buf->dev, buf->vaddr);
-+	dma_free_noncontiguous(buf->dev, buf->size,
-+			       buf->dma_sgt, buf->dma_addr);
-+}
-+
- static void vb2_dc_put(void *buf_priv)
+ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
+-		struct v4l_queue *q, unsigned count)
++		struct v4l_queue *q, unsigned count, unsigned int flags = 0)
  {
- 	struct vb2_dc_buf *buf = buf_priv;
-@@ -139,17 +195,47 @@ static void vb2_dc_put(void *buf_priv)
- 		sg_free_table(buf->sgt_base);
- 		kfree(buf->sgt_base);
- 	}
--	dma_free_attrs(buf->dev, buf->size, buf->cookie, buf->dma_addr,
--		       buf->attrs);
-+	__vb2_dc_put(buf);
- 	put_device(buf->dev);
- 	kfree(buf);
- }
- 
-+static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
-+{
-+	struct vb2_queue *q = buf->vb->vb2_queue;
-+
-+	buf->cookie = dma_alloc_attrs(buf->dev,
-+				      buf->size,
-+				      &buf->dma_addr,
-+				      GFP_KERNEL | q->gfp_flags,
-+				      buf->attrs);
-+	if (!buf->cookie)
-+		return -ENOMEM;
-+	if ((q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
-+		buf->vaddr = buf->cookie;
-+	return 0;
-+}
-+
-+static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
-+{
-+	struct vb2_queue *q = buf->vb->vb2_queue;
-+
-+	buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
-+					       buf->size,
-+					       buf->dma_dir,
-+					       GFP_KERNEL | q->gfp_flags,
-+					       buf->attrs);
-+	if (!buf->dma_sgt)
-+		return -ENOMEM;
-+	return 0;
-+}
-+
- static void *vb2_dc_alloc(struct vb2_buffer *vb,
- 			  struct device *dev,
- 			  unsigned long size)
- {
- 	struct vb2_dc_buf *buf;
-+	int ret;
- 
- 	if (WARN_ON(!dev))
- 		return ERR_PTR(-EINVAL);
-@@ -159,27 +245,28 @@ static void *vb2_dc_alloc(struct vb2_buffer *vb,
- 		return ERR_PTR(-ENOMEM);
- 
- 	buf->attrs = vb->vb2_queue->dma_attrs;
--	buf->cookie = dma_alloc_attrs(dev, size, &buf->dma_addr,
--				      GFP_KERNEL | vb->vb2_queue->gfp_flags,
--				      buf->attrs);
--	if (!buf->cookie) {
--		dev_err(dev, "dma_alloc_coherent of size %ld failed\n", size);
--		kfree(buf);
--		return ERR_PTR(-ENOMEM);
--	}
--
--	if ((buf->attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
--		buf->vaddr = buf->cookie;
-+	buf->dma_dir = vb->vb2_queue->dma_dir;
-+	buf->vb = vb;
-+	buf->non_coherent_mem = vb->vb2_queue->non_coherent_mem;
- 
-+	buf->size = size;
- 	/* Prevent the device from being released while the buffer is used */
- 	buf->dev = get_device(dev);
--	buf->size = size;
--	buf->dma_dir = vb->vb2_queue->dma_dir;
-+
-+	if (vb2_dc_is_coherent(buf))
-+		ret = vb2_dc_alloc_coherent(buf);
-+	else
-+		ret = vb2_dc_alloc_non_coherent(buf);
-+
-+	if (ret) {
-+		dev_err(dev, "dma alloc of size %ld failed\n", size);
-+		kfree(buf);
-+		return ERR_PTR(-ENOMEM);
-+	}
- 
- 	buf->handler.refcount = &buf->refcount;
- 	buf->handler.put = vb2_dc_put;
- 	buf->handler.arg = buf;
--	buf->vb = vb;
- 
- 	refcount_set(&buf->refcount, 1);
- 
-@@ -196,9 +283,12 @@ static int vb2_dc_mmap(void *buf_priv, struct vm_area_struct *vma)
- 		return -EINVAL;
- 	}
- 
--	ret = dma_mmap_attrs(buf->dev, vma, buf->cookie,
--		buf->dma_addr, buf->size, buf->attrs);
--
-+	if (vb2_dc_is_coherent(buf))
-+		ret = dma_mmap_attrs(buf->dev, vma, buf->cookie, buf->dma_addr,
-+				     buf->size, buf->attrs);
-+	else
-+		ret = dma_mmap_noncontiguous(buf->dev, vma, buf->size,
-+					     buf->dma_sgt);
- 	if (ret) {
- 		pr_err("Remapping memory failed, error: %d\n", ret);
- 		return ret;
-@@ -390,6 +480,9 @@ static struct sg_table *vb2_dc_get_base_sgt(struct vb2_dc_buf *buf)
+ 	struct v4l2_requestbuffers reqbufs;
  	int ret;
- 	struct sg_table *sgt;
+@@ -1523,6 +1523,7 @@ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
+ 	reqbufs.type = q->type;
+ 	reqbufs.memory = q->memory;
+ 	reqbufs.count = count;
++	reqbufs.flags = flags;
+ 	/*
+ 	 * Problem: if REQBUFS returns an error, did it free any old
+ 	 * buffers or not?
+@@ -1547,7 +1548,7 @@ static inline bool v4l_queue_has_create_bufs(struct v4l_fd *f, const struct v4l_
  
-+	if (!vb2_dc_is_coherent(buf))
-+		return buf->dma_sgt;
+ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
+ 		struct v4l_queue *q, unsigned count,
+-		const struct v4l2_format *fmt)
++		const struct v4l2_format *fmt, unsigned int flags = 0)
+ {
+ 	struct v4l2_create_buffers createbufs;
+ 	int ret;
+@@ -1555,6 +1556,7 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
+ 	createbufs.format.type = q->type;
+ 	createbufs.memory = q->memory;
+ 	createbufs.count = count;
++	createbufs.flags = flags;
+ 	if (fmt) {
+ 		createbufs.format = *fmt;
+ 	} else {
+@@ -1733,7 +1735,7 @@ static inline void v4l_queue_free(struct v4l_fd *f, struct v4l_queue *q)
+ 	v4l_ioctl(f, VIDIOC_STREAMOFF, &q->type);
+ 	v4l_queue_release_bufs(f, q, 0);
+ 	v4l_queue_close_exported_fds(q);
+-	v4l_queue_reqbufs(f, q, 0);
++	v4l_queue_reqbufs(f, q, 0, 0);
+ }
+ 
+ static inline void v4l_queue_buffer_update(const struct v4l_queue *q,
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index e40461bd..6555c0cb 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -663,6 +663,10 @@ int testReqBufs(struct node *node)
+ 		fail_on_test(q.reqbufs(node, 0));
+ 
+ 		for (m = V4L2_MEMORY_MMAP; m <= V4L2_MEMORY_DMABUF; m++) {
++			bool cache_hints_cap = false;
++			bool consistent;
 +
- 	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
- 	if (!sgt) {
- 		dev_err(buf->dev, "failed to alloc sg table\n");
++			cache_hints_cap = q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
+ 			if (!(node->valid_memorytype & (1 << m)))
+ 				continue;
+ 			cv4l_queue q2(i, m);
+@@ -678,8 +682,17 @@ int testReqBufs(struct node *node)
+ 			reqbufs.count = 1;
+ 			reqbufs.type = i;
+ 			reqbufs.memory = m;
++			reqbufs.flags = V4L2_FLAG_MEMORY_NON_COHERENT;
+ 			fail_on_test(doioctl(node, VIDIOC_REQBUFS, &reqbufs));
+-			fail_on_test(check_0(reqbufs.reserved, sizeof(reqbufs.reserved)));
++			consistent = reqbufs.flags & V4L2_FLAG_MEMORY_NON_COHERENT;
++			if (!cache_hints_cap) {
++				fail_on_test(consistent);
++			} else {
++				if (m == V4L2_MEMORY_MMAP)
++					fail_on_test(!consistent);
++				else
++					fail_on_test(consistent);
++			}
+ 			q.reqbufs(node);
+ 
+ 			ret = q.create_bufs(node, 0);
+@@ -692,9 +705,32 @@ int testReqBufs(struct node *node)
+ 			node->g_fmt(crbufs.format, i);
+ 			crbufs.count = 1;
+ 			crbufs.memory = m;
++			crbufs.flags = V4L2_FLAG_MEMORY_NON_COHERENT;
+ 			fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
+ 			fail_on_test(check_0(crbufs.reserved, sizeof(crbufs.reserved)));
+ 			fail_on_test(crbufs.index != q.g_buffers());
++
++			consistent = crbufs.flags & V4L2_FLAG_MEMORY_NON_COHERENT;
++			if (!cache_hints_cap) {
++				fail_on_test(consistent);
++			} else {
++				if (m == V4L2_MEMORY_MMAP)
++					fail_on_test(!consistent);
++				else
++					fail_on_test(consistent);
++			}
++
++			if (cache_hints_cap) {
++				/*
++				 * Different memory consistency model. Should fail for MMAP
++				 * queues which support cache hints.
++				 */
++				crbufs.flags = 0;
++				if (m == V4L2_MEMORY_MMAP)
++					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs) != EINVAL);
++				else
++					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
++			}
+ 			q.reqbufs(node);
+ 
+ 			fail_on_test(q.create_bufs(node, 1));
+@@ -1207,10 +1243,16 @@ static int setupMmap(struct node *node, cv4l_queue &q)
+ 		fail_on_test(buf.querybuf(node, i));
+ 		fail_on_test(buf.check(q, Unqueued, i));
+ 
+-		flags = buf.g_flags();
+-		flags |= V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
+-		flags |= V4L2_BUF_FLAG_NO_CACHE_CLEAN;
+-		buf.s_flags(flags);
++		/*
++		 * Do not set cache hints for all the buffers, but only on
++		 * some of them, so that we can test more cases.
++		 */
++		if (i == 0) {
++			flags = buf.g_flags();
++			flags |= V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
++			flags |= V4L2_BUF_FLAG_NO_CACHE_CLEAN;
++			buf.s_flags(flags);
++		}
+ 
+ 		for (unsigned p = 0; p < buf.g_num_planes(); p++) {
+ 			// Try a random offset
+@@ -1250,8 +1292,15 @@ static int setupMmap(struct node *node, cv4l_queue &q)
+ 		}
+ 		flags = buf.g_flags();
+ 		if (cache_hints) {
+-			fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE));
+-			fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN));
++			if (i == 0) {
++				/* We do expect cache hints on this buffer */
++				fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE));
++				fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN));
++			} else {
++				/* We expect no cache hints on this buffer */
++				fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE);
++				fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN);
++			}
+ 		} else if (node->might_support_cache_hints) {
+ 			fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE);
+ 			fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN);
+@@ -1341,7 +1390,7 @@ int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
+ 			have_createbufs = false;
+ 		if (have_createbufs) {
+ 			q.reqbufs(node);
+-			q.create_bufs(node, 2, &cur_fmt);
++			q.create_bufs(node, 2, &cur_fmt, V4L2_FLAG_MEMORY_NON_COHERENT);
+ 			fail_on_test(setupMmap(node, q));
+ 			q.munmap_bufs(node);
+ 			q.reqbufs(node, 2);
 -- 
-2.30.1.766.gb4fecdf3b7-goog
+2.27.0
 
