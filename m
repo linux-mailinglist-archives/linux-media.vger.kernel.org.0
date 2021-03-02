@@ -2,66 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C026932A864
-	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:43:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D04232A865
+	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:43:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345842AbhCBRcO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Mar 2021 12:32:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44042 "EHLO
+        id S1346333AbhCBRfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Mar 2021 12:35:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1838368AbhCBKgG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Mar 2021 05:36:06 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5076DC061794;
-        Tue,  2 Mar 2021 02:35:26 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 510AAC6367; Tue,  2 Mar 2021 10:35:22 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1614681322; bh=3Og2/oTj0MpKaOPfTMdCr8ouIBHGGgvO2an7EUz1cZI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bo9FFnhj96ftf24NNYw7LkEaEsN2OK1/kczBFrABRENP1QwLgl0OgX6I+LPA20zkS
-         zw76Tw3KBLMk4EuB9I6mMaeg5ghe25DGehnRKP2kuNr4SzGlh/Ak7ngK0BIMRAbGYX
-         +KgUTLW5ez4XlTINNwATki4I/xXFB+IHnQT9kv3DO0fn23P8BZA+55kAVpNnWqQ4Ep
-         s60YRpUo/tj13lu4umphLQxKzS9SMqhY0eQwqFr+YopgugljMnQGHtEw+HukQClcLa
-         g9PmZGcEaBLuGk6AR2lERLJaDH5XjuAze61MYCc3JVwRK19RXJ+FK6KqOjKb4aXjxH
-         AiAIRQ67PDlkg==
-Date:   Tue, 2 Mar 2021 10:35:22 +0000
-From:   Sean Young <sean@mess.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Jun Nie <jun.nie@linaro.org>, Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 2/2] media: rc: remove zte zx ir driver
-Message-ID: <20210302103522.GA6999@gofer.mess.org>
-References: <20210120142542.4100741-1-arnd@kernel.org>
- <20210120142542.4100741-3-arnd@kernel.org>
- <20210301102522.GB25633@gofer.mess.org>
+        with ESMTP id S1442194AbhCBLR4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Mar 2021 06:17:56 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A067C06178B
+        for <linux-media@vger.kernel.org>; Tue,  2 Mar 2021 03:16:43 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id dx17so6938418ejb.2
+        for <linux-media@vger.kernel.org>; Tue, 02 Mar 2021 03:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RF8o3G0Xz1ovVmyTz0LE8nmr/a9IOJBCZQzOLkdGz5M=;
+        b=1M2npcI4L13+kb2WpBZyNmExW6Ysb2w1U5IU1t0e7n/59wjk+NVisOO0ZPmc+X+DRm
+         oRfkUSPQlL3XSV9HLg7IaSLcRZwvOXi51tiW/MQZtsnKbzKQqZyTV1DhASNJxfyDrnUM
+         /+XPe4D58LpQ0a5pqraIkIaicJx4USEK8SwMyu5unSPersA+EbDezjNlZWApb8gSh7ru
+         F+WPtdZ4W1C88AQQ6BdAy+cWxXhoG3Qa3nDShlxi7ESnSg23jCduGgpV3FVzvcS6YJcm
+         89dS8EekzRj6jNRTIuhV0AQySic9bPbuB2PRnB7OL9mYAN24TJFgfmnpIPR/qkAb54Yt
+         3Ocw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RF8o3G0Xz1ovVmyTz0LE8nmr/a9IOJBCZQzOLkdGz5M=;
+        b=hyuuGPnA5oY3be4gDisfc8LQhD+obA21IKDVqmItbNI1UzsCeCFUtG485iILnxHVto
+         7tVd44FPhvOvcXkwLIoOohyIvYlFMVQk0UUqlC+HM9AqSTel8i3Hg0e50NPQ7Bu4clq7
+         dmWfXx7RtkGuZ/zJcAdNqDyQmdEnx6ESSWPG4XCUk4TyxduuprmCHv6Xzk+wMBjwN64C
+         CCAVk2sT80XjSsxi2ohIMXIl0OgyV/f74IEMbU2xDdLYYKbYajSA4vHFrY/y9qrdu4tB
+         7+be0z53daIX5pocxnALlxZn2d6gkcWEfULLC1slU1fTsgnTnpuzqEXQ4n9/mT3Q+aOv
+         uyWA==
+X-Gm-Message-State: AOAM530mbfB/YQ3dWifOx6sA0PbSRvqIY/BX8H4ixzyGxV+HNnTMRuNp
+        RZtBnJdLkKYifcg6LiMB+zCRwDVDLM4+6RTnlAB/zA==
+X-Google-Smtp-Source: ABdhPJz8/7tNah6b/MgRZScB2hUyILC3MI06tBMODCACw2hr59BzB0LAv71ny8kEnaP0SW9ATHxlZ92zkxlbY0Vp5cQ=
+X-Received: by 2002:a17:906:29c3:: with SMTP id y3mr19539341eje.430.1614683801754;
+ Tue, 02 Mar 2021 03:16:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210301102522.GB25633@gofer.mess.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com>
+ <20210225225147.29920-5-fabrizio.castro.jz@renesas.com> <CAK8P3a1+CZTAcR5T=gN565Q8=CdZnu5KYsAijKXLY8taofEpGg@mail.gmail.com>
+ <OSAPR01MB2737666F47174B68A8EC8DD8C29A9@OSAPR01MB2737.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSAPR01MB2737666F47174B68A8EC8DD8C29A9@OSAPR01MB2737.jpnprd01.prod.outlook.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 2 Mar 2021 08:16:30 -0300
+Message-ID: <CAAEAJfDDhN4btecUzu=3ZYxP=amnOD=vq0bhhetx7voKdeMZ9Q@mail.gmail.com>
+Subject: Re: [PATCH 4/7] misc: Add driver for DAB IP found on Renesas R-Car devices
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Arnd Bergmann <arnd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        "REE dirk.behme@de.bosch.com" <dirk.behme@de.bosch.com>,
+        Peter Erben <Peter.Erben@de.bosch.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
+Hello everyone,
 
-On Mon, Mar 01, 2021 at 10:25:22AM +0000, Sean Young wrote:
-> On Wed, Jan 20, 2021 at 03:25:42PM +0100, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > The zte zx platform is getting removed, so this driver is no
-> > longer needed.
-> 
-> I think the keymap should go too.
-> 
-> drivers/media/rc/keymaps/rc-zx-irdec.c
-> 
-> Any references to RC_MAP_ZX_IRDEC or rc-zx-irdec
+On Mon, 1 Mar 2021 at 14:36, Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+>
+> Hi Arnd,
+>
+> Thanks for your feedback!
+>
+> > From: Arnd Bergmann <arnd@kernel.org>
+> > Sent: 26 February 2021 10:38
+> > Subject: Re: [PATCH 4/7] misc: Add driver for DAB IP found on Renesas R-
+> > Car devices
+> >
+> > On Thu, Feb 25, 2021 at 11:51 PM Fabrizio Castro
+> > <fabrizio.castro.jz@renesas.com> wrote:
+> > >
+> > > The DAB hardware accelerator found on R-Car E3 and R-Car M3-N devices is
+> > > a hardware accelerator for software DAB demodulators.
+> > > It consists of one FFT (Fast Fourier Transform) module and one decoder
+> > > module, compatible with DAB specification (ETSI EN 300 401 and
+> > > ETSI TS 102 563).
+> > > The decoder module can perform FIC decoding and MSC decoding processing
+> > > from de-puncture to final decoded result.
+> > >
+> > > This patch adds a device driver to support the FFT module only.
+> > >
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > ---
+> > >  MAINTAINERS                      |   7 ++
+> > >  drivers/misc/Kconfig             |   1 +
+> > >  drivers/misc/Makefile            |   1 +
+> > >  drivers/misc/rcar_dab/Kconfig    |  11 ++
+> > >  drivers/misc/rcar_dab/Makefile   |   8 ++
+> > >  drivers/misc/rcar_dab/rcar_dev.c | 176 +++++++++++++++++++++++++++++++
+> > >  drivers/misc/rcar_dab/rcar_dev.h | 116 ++++++++++++++++++++
+> > >  drivers/misc/rcar_dab/rcar_fft.c | 160 ++++++++++++++++++++++++++++
+> > >  include/uapi/linux/rcar_dab.h    |  35 ++++++
+> >
+> > Can you explain why this is not in drivers/media/?
+>
+> I wasn't entirely sure were to put it to be honest as I couldn't find
+> anything similar, that's why "misc" for v1, to mainly get a feedback
+> and advice.
+>
+> >
+> > I don't think we want a custom ioctl interface for a device that
+> > implements
+> > a generic specification. My first feeling would be that this should not
+> > have a user-level API but instead get called by the DAB radio driver.
+>
+> I hear you, the trouble is that the modules of this IP should be seen
+> as part of a SW and HW processing pipeline.
+> Some of the SW components of the pipeline can be proprietary, and
+> unfortunately we don't have access (yet) to a framework that allows us to
+> test and demonstrate the whole pipeline, for the moment we can only test
+> things in isolation. It'll take us a while to come up with a full solution
+> (or to have access to one), and in the meantime our SoCs come with an IP
+> that can't be used because there is no driver for it (yet).
+>
+> After discussing things further with Geert and Laurent, I think they
+> are right in saying that the best path for this is probably to add this
+> driver under "drivers/staging" as an interim solution, so that the IP will
+> be accessible by developers, and when we have everything we need (a fully
+> fledged processing framework), we will able to integrate it better with
+> the other components (if possible).
+>
+> >
+> > What is the intended usage model here? I assume the idea is to
+> > use it in an application that receives audio or metadata from DAB.
+> > What driver do you use for that?
+>
+> This IP is similar to a DMA to some extent, in the sense that it takes
+> input data from a buffer in memory and it writes output data onto a buffer
+> in memory, and of course it does some processing in between.
 
-Come to think of it, removing the keymap doesn't make a whole lot of sense.
-There might still be users for the remote.
+That sounds like something that can fit V4L2 MEM2MEM driver.
+You queue two buffers and an operation, and then run a job.
 
+> It's not directly connected to any other Radio related IP.
+> The user space application can read DAB IQ samples from the R-Car DRIF
+> interface (via driver drivers/media/platform/rcar_drif.c, or from other
+> sources since this IP is decoupled from DRIF), and then when it's time
+> to accelerate FFT, FIC, or MSC, it can request services to the DAB IP, so
+> that the app can go on and use the processor to do some work, while the DAB
+> IP processes things.
+> A framework to connect and exchange processing blocks (either SW or HW) and
+> interfaces is therefore vital to properly place a kernel implementation
+> in the great scheme of things, in its absence a simple driver can help
 
-Sean
+I'm not entirely sure we are missing a framework. What's missing in
+V4L2 MEM2MEM?
+
+Before considering drivers/staging, it would be interesting to figure
+out if V4L2 can do it as-is, and if not, discuss what's missing.
+
+Thanks,
+Ezequiel
