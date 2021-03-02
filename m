@@ -2,154 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADDFF32A858
-	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A7AC32A859
+	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:42:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580198AbhCBRai (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Mar 2021 12:30:38 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42385 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241548AbhCBEsN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Mar 2021 23:48:13 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id GwoulIZKYC40pGwovlkfUD; Tue, 02 Mar 2021 05:39:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1614659981; bh=r13iEDGNVu/0JFTbzJm5WIH1KtAgRKkDCOAUXhYtjqY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=eaQa6VxGciJdDCjLliBj8CkARDsEsBX0ABL6sXamtjE8zwK8b86N3KiXVM54cDcdT
-         V9lJ1iQvC/k0LWDb8KOWFWHRXfrMOwyIhgh2EyHda160yIHR4OJh3/YEe9Vgl4AWB+
-         w44P2kS9kBW/C+Md739s2H6einnNFPqmsaS5sbZGdyLBbOd4KljCcbqnFCZOWEy9cr
-         2OJe0VebeKs6FoObxiNBLmTa9/ReTQ8aSiu2cosiUuZC13JrDAobrjL3BgnIbNcQ9d
-         Du9BmpbbzkLVDxgieyAYQexdWFOUkD2g7PXD4gXbilGMrPbX2bCM/O3hUQjK5+Lfs8
-         EmttXDgMCMomg==
-Message-ID: <03b831387f890540576b731d93d311c5@smtp-cloud9.xs4all.net>
-Date:   Tue, 02 Mar 2021 05:39:40 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfDW8vWSQmTEDaSq+9ljWRdWAkH9YQpXLsda5OpJfAlTDZGsNHHJeuxjSm4rVfNTTBHzDQ2qeXb12gJ+BCEIBM/w9yx2HoKdc75m5WvKeAhFAYaouj2n7
- q1zWvw0/b0dOPnueR8iSgow4Vlp6rgSwxvyrF4XZwz69Eiu7zDfW7HDbHxmCZLB0gpma8PXCOGsnEKbOjIdxGbUP8N23gdQ8EHcrcntLT/WICooUzxl5Cgia
- 39oqhZ8zqeHpVMU3mIBWZQ==
+        id S1580205AbhCBRal (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Mar 2021 12:30:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41014 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349450AbhCBILu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Mar 2021 03:11:50 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9525C061788
+        for <linux-media@vger.kernel.org>; Tue,  2 Mar 2021 00:01:29 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id d13so18976758edp.4
+        for <linux-media@vger.kernel.org>; Tue, 02 Mar 2021 00:01:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=entmvbZ8i681EpzN5mf9CCRSjm4HEIDRlW5kbwcaU3M=;
+        b=idELUY6CRBJ1OZND+CUSdd7nD3zXIycLJlx3qbuVVxA+wJSuT/H9vk0NOsYtrgkAtS
+         zfO+SNxzCHI9bwkoexVT+jJjI2DppPSkeDnqTYVvPHeLJUqhts2xNLWddP1Fr6fVKGqW
+         kApQbd0qROPZCCLzaPQt40M49mPH6HkX16OQCk2TOYU2Kj1WWllnEDL9JfEbYeS+mEFP
+         d6W2iEN7nPDV4hs/lHVuhDhtzQHaIrHmmwXz4d4OCcJ8k6G5QBJFQ+sdo1TF7tovJkCK
+         1pwOli0c8UGsZ83oOkJF5u7da4z6VRzwVMCHANKx5Y3FihJ4nm38nBMkgHuDvS3GG8U4
+         P8lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=entmvbZ8i681EpzN5mf9CCRSjm4HEIDRlW5kbwcaU3M=;
+        b=WK9Fdj2sRTCiaPGc2konsTTbdBTAMkou7f9SdidvS3KECrMVUm2vjiyYVDYF6m55kw
+         YhewkhjB1ykjy1QwbdjEpmRVN1S56lwa31qbqpAVOOhHuROzO/+VsiTteZVXlXKw9R6C
+         IKHpWdrJe2EmSa6Z1iWwajsmy8L1Y6HR03sJdNlfTrcovQxCNA1YAr4whrM3mrN04DUZ
+         xKx+K5L6nF6HmwEovkRh1bjUN1r/F4gtBmhGXAT1WBsvDO8iuLRN8QGYxX3Hk+bl412Y
+         HCAy1Nw0vKY8SKx3txkma4+r9dPAX3iL2f4RAsGz9LU/UyiwYHLydAaDvKjQJCJ7biqf
+         WAsQ==
+X-Gm-Message-State: AOAM531uVjUwaTAziLzibhFSox0L+10TBm4Toz8gCr1MzW1VwmJiij47
+        w5I3DiPdbVqRe58YzZz+JakhhYrwQbqloDTgvy0uQFgONrUCUA==
+X-Google-Smtp-Source: ABdhPJwR2Td6Lrkz7TWuhSCAP4TraqjqPIb2RjyBHyuUqglXrHHRAwLOrqOWfN3E42U2XCRAIdG4zOGe8KHPRtwO3RQ=
+X-Received: by 2002:aa7:cf14:: with SMTP id a20mr5226991edy.49.1614672088286;
+ Tue, 02 Mar 2021 00:01:28 -0800 (PST)
+MIME-Version: 1.0
+References: <45cda97c-a0e4-eef2-ba8f-ddc7e33b40d5@penguintechs.org> <4cdd691f-dc55-fc6e-1830-ac0c24b8e96b@penguintechs.org>
+In-Reply-To: <4cdd691f-dc55-fc6e-1830-ac0c24b8e96b@penguintechs.org>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 2 Mar 2021 05:01:16 -0300
+Message-ID: <CAAEAJfAyuGwL==BHwyEwF0dMfrUQacEQyv8+zz82_P+BM-C5bw@mail.gmail.com>
+Subject: Re: v4l2loopback and v4l2-mem2mem framework
+To:     Wren Turkal <wt@penguintechs.org>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Wren,
 
-Results of the daily build of media_tree:
+How about you submit the loopback driver for integration in mainline?
+We can review the driver, give feedback and help you get it merged.
 
-date:			Tue Mar  2 05:00:10 CET 2021
-media-tree git hash:	fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8
-media_build git hash:	15e45b4b4577c1d87159511c11a959fbd49d1671
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7369-g16ab906d2
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: dc364825a5c13e4eb4c2ad6da1f08a0e67880b58
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Ezequiel
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: ERRORS
-linux-4.4.258-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.258-i686: ERRORS
-linux-4.9.258-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.100-i686: ERRORS
-linux-5.4.100-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On Mon, 1 Mar 2021 at 17:32, Wren Turkal <wt@penguintechs.org> wrote:
+>
+> Okay, so I have found how to enable the option to be manually selected.
+> Would a patch like the following be acceptable? Or is there a better
+> way to do this?
+>
+> diff --git a/drivers/media/v4l2-core/Kconfig
+> b/drivers/media/v4l2-core/Kconfig
+> index bf49f83cb86f..25004137a982 100644
+> --- a/drivers/media/v4l2-core/Kconfig
+> +++ b/drivers/media/v4l2-core/Kconfig
+> @@ -54,7 +54,7 @@ config V4L2_H264
+>
+>   # Used by drivers that need v4l2-mem2mem.ko
+>   config V4L2_MEM2MEM_DEV
+> -       tristate
+> +       tristate "V4L2 mem2mem framework support"
+>          depends on VIDEOBUF2_CORE
+>
+>   # Used by LED subsystem flash drivers
+>
+>
+> Thanks,
+> wt
+>
+> On 2/28/21 2:07 PM, Wren Turkal wrote:
+> > Hi there linux-media experts,
+> >
+> > I am working on the out-of-tree v4l2loopback module[1]. My
+> > current goal is to implement the videobuf2 api. However,
+> > it appears that I must use a different vbuf2_queue for the
+> > OUTPUT and CAPTURE types. It appears that the mem2mem
+> > framework has the ability to do just this. I came to this
+> > conclusion while looking at the vim2m test module's code.
+> > While trying to modify the loopback module, I have added
+> > some code to try to call v4l2_m2m_init. You can see my very
+> > WIP attempt at code here[2].
+> >
+> > I have installed the kernel-devel package on Fedora, which.
+> > Unfortunately, I get he following error messages when trying
+> > to compile:
+> >
+> > <errors>
+> > ERROR: modpost: "v4l2_m2m_release"
+> > [/home/wt/projects/kernel/v4l2loopback/v4l2loopback.ko] undefined!
+> > ERROR: modpost: "v4l2_m2m_init"
+> > [/home/wt/projects/kernel/v4l2loopback/v4l2loopback.ko] undefined!
+> > </errors>
+> >
+> > So, I looked into it, and Module.symvers and /proc/kallsyms
+> > don't have those symbols listed, so I think the Fedora kernel
+> > was not compiled with those symbols exported.
+> >
+> > Okay, so next I tried to build a custom kernel that does
+> > export those symbols. I managed to get it done by enabling
+> > the vim2m (VIDEO_VIM2M config option) module. The new
+> > Module.symvers includes the symbols; and the compile succeeds,
+> > which brings me to my final act.
+> >
+> > I need to expose those symbols without enabling the vim2m
+> > module since it is a testing module. I do not see a way
+> > to do that explicitly. The config option in question
+> > appears to be V4L2_MEM2MEM_DEV. And I haven't found a
+> > way to enable it without enabling something that implicitly
+> > selects it (which vim2m does). Do y'all have any suggestions
+> > for how to get these symbols exported properly when vim2m is
+> > not enabled?
+> >
+> >
+> > Thanks,
+> > Wren Turkal (wt)
+> >
+> > [1] https://github.com/umlaeute/v4l2loopback
+> > [2] https://github.com/wt/v4l2loopback/tree/m2m_try
+>
