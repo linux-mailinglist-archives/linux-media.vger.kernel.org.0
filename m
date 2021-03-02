@@ -2,140 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A7AC32A859
-	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:42:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A7232A85B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:42:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580205AbhCBRal (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Mar 2021 12:30:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349450AbhCBILu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Mar 2021 03:11:50 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9525C061788
-        for <linux-media@vger.kernel.org>; Tue,  2 Mar 2021 00:01:29 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id d13so18976758edp.4
-        for <linux-media@vger.kernel.org>; Tue, 02 Mar 2021 00:01:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=entmvbZ8i681EpzN5mf9CCRSjm4HEIDRlW5kbwcaU3M=;
-        b=idELUY6CRBJ1OZND+CUSdd7nD3zXIycLJlx3qbuVVxA+wJSuT/H9vk0NOsYtrgkAtS
-         zfO+SNxzCHI9bwkoexVT+jJjI2DppPSkeDnqTYVvPHeLJUqhts2xNLWddP1Fr6fVKGqW
-         kApQbd0qROPZCCLzaPQt40M49mPH6HkX16OQCk2TOYU2Kj1WWllnEDL9JfEbYeS+mEFP
-         d6W2iEN7nPDV4hs/lHVuhDhtzQHaIrHmmwXz4d4OCcJ8k6G5QBJFQ+sdo1TF7tovJkCK
-         1pwOli0c8UGsZ83oOkJF5u7da4z6VRzwVMCHANKx5Y3FihJ4nm38nBMkgHuDvS3GG8U4
-         P8lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=entmvbZ8i681EpzN5mf9CCRSjm4HEIDRlW5kbwcaU3M=;
-        b=WK9Fdj2sRTCiaPGc2konsTTbdBTAMkou7f9SdidvS3KECrMVUm2vjiyYVDYF6m55kw
-         YhewkhjB1ykjy1QwbdjEpmRVN1S56lwa31qbqpAVOOhHuROzO/+VsiTteZVXlXKw9R6C
-         IKHpWdrJe2EmSa6Z1iWwajsmy8L1Y6HR03sJdNlfTrcovQxCNA1YAr4whrM3mrN04DUZ
-         xKx+K5L6nF6HmwEovkRh1bjUN1r/F4gtBmhGXAT1WBsvDO8iuLRN8QGYxX3Hk+bl412Y
-         HCAy1Nw0vKY8SKx3txkma4+r9dPAX3iL2f4RAsGz9LU/UyiwYHLydAaDvKjQJCJ7biqf
-         WAsQ==
-X-Gm-Message-State: AOAM531uVjUwaTAziLzibhFSox0L+10TBm4Toz8gCr1MzW1VwmJiij47
-        w5I3DiPdbVqRe58YzZz+JakhhYrwQbqloDTgvy0uQFgONrUCUA==
-X-Google-Smtp-Source: ABdhPJwR2Td6Lrkz7TWuhSCAP4TraqjqPIb2RjyBHyuUqglXrHHRAwLOrqOWfN3E42U2XCRAIdG4zOGe8KHPRtwO3RQ=
-X-Received: by 2002:aa7:cf14:: with SMTP id a20mr5226991edy.49.1614672088286;
- Tue, 02 Mar 2021 00:01:28 -0800 (PST)
+        id S1580212AbhCBRan (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Mar 2021 12:30:43 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:52082 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1838056AbhCBJS0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Mar 2021 04:18:26 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lH19y-00Fgwz-4U; Tue, 02 Mar 2021 09:17:42 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lH1Dj-0000xf-5o; Tue, 02 Mar 2021 09:21:35 +0000
+Date:   Tue, 2 Mar 2021 09:21:34 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1908005459.7.1614676894927@builder.linuxtv.org>
+In-Reply-To: <1649363910.6.1614619164496@builder.linuxtv.org>
+References: <1649363910.6.1614619164496@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3416
 MIME-Version: 1.0
-References: <45cda97c-a0e4-eef2-ba8f-ddc7e33b40d5@penguintechs.org> <4cdd691f-dc55-fc6e-1830-ac0c24b8e96b@penguintechs.org>
-In-Reply-To: <4cdd691f-dc55-fc6e-1830-ac0c24b8e96b@penguintechs.org>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Tue, 2 Mar 2021 05:01:16 -0300
-Message-ID: <CAAEAJfAyuGwL==BHwyEwF0dMfrUQacEQyv8+zz82_P+BM-C5bw@mail.gmail.com>
-Subject: Re: v4l2loopback and v4l2-mem2mem framework
-To:     Wren Turkal <wt@penguintechs.org>
-Cc:     linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wren,
+See <https://builder.linuxtv.org/job/media-build/3416/display/redirect>
 
-How about you submit the loopback driver for integration in mainline?
-We can review the driver, give feedback and help you get it merged.
+Changes:
 
-Ezequiel
 
-On Mon, 1 Mar 2021 at 17:32, Wren Turkal <wt@penguintechs.org> wrote:
->
-> Okay, so I have found how to enable the option to be manually selected.
-> Would a patch like the following be acceptable? Or is there a better
-> way to do this?
->
-> diff --git a/drivers/media/v4l2-core/Kconfig
-> b/drivers/media/v4l2-core/Kconfig
-> index bf49f83cb86f..25004137a982 100644
-> --- a/drivers/media/v4l2-core/Kconfig
-> +++ b/drivers/media/v4l2-core/Kconfig
-> @@ -54,7 +54,7 @@ config V4L2_H264
->
->   # Used by drivers that need v4l2-mem2mem.ko
->   config V4L2_MEM2MEM_DEV
-> -       tristate
-> +       tristate "V4L2 mem2mem framework support"
->          depends on VIDEOBUF2_CORE
->
->   # Used by LED subsystem flash drivers
->
->
-> Thanks,
-> wt
->
-> On 2/28/21 2:07 PM, Wren Turkal wrote:
-> > Hi there linux-media experts,
-> >
-> > I am working on the out-of-tree v4l2loopback module[1]. My
-> > current goal is to implement the videobuf2 api. However,
-> > it appears that I must use a different vbuf2_queue for the
-> > OUTPUT and CAPTURE types. It appears that the mem2mem
-> > framework has the ability to do just this. I came to this
-> > conclusion while looking at the vim2m test module's code.
-> > While trying to modify the loopback module, I have added
-> > some code to try to call v4l2_m2m_init. You can see my very
-> > WIP attempt at code here[2].
-> >
-> > I have installed the kernel-devel package on Fedora, which.
-> > Unfortunately, I get he following error messages when trying
-> > to compile:
-> >
-> > <errors>
-> > ERROR: modpost: "v4l2_m2m_release"
-> > [/home/wt/projects/kernel/v4l2loopback/v4l2loopback.ko] undefined!
-> > ERROR: modpost: "v4l2_m2m_init"
-> > [/home/wt/projects/kernel/v4l2loopback/v4l2loopback.ko] undefined!
-> > </errors>
-> >
-> > So, I looked into it, and Module.symvers and /proc/kallsyms
-> > don't have those symbols listed, so I think the Fedora kernel
-> > was not compiled with those symbols exported.
-> >
-> > Okay, so next I tried to build a custom kernel that does
-> > export those symbols. I managed to get it done by enabling
-> > the vim2m (VIDEO_VIM2M config option) module. The new
-> > Module.symvers includes the symbols; and the compile succeeds,
-> > which brings me to my final act.
-> >
-> > I need to expose those symbols without enabling the vim2m
-> > module since it is a testing module. I do not see a way
-> > to do that explicitly. The config option in question
-> > appears to be V4L2_MEM2MEM_DEV. And I haven't found a
-> > way to enable it without enabling something that implicitly
-> > selects it (which vim2m does). Do y'all have any suggestions
-> > for how to get these symbols exported properly when vim2m is
-> > not enabled?
-> >
-> >
-> > Thanks,
-> > Wren Turkal (wt)
-> >
-> > [1] https://github.com/umlaeute/v4l2loopback
-> > [2] https://github.com/wt/v4l2loopback/tree/m2m_try
->
+------------------------------------------
+[...truncated 43.30 KB...]
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tuner-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mem2mem.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-jpeg.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-sg.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-contig.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-vmalloc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvbdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dmxdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_demux.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ca_en50221.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_frontend.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_net.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ringbuffer.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_vb2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_math.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-adstech-dvb-t-pci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-alink-dtu-m.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-anysee.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-apac-viewcomp.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-astrometa-t2hybrid.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-pc39.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-ps3-100.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-tv-wonder-hd-600.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-x10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-a16d.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-cardbus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-dvbt.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m135a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m733a-rm-k6.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-rm-ks.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avertv-303.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-azurewave-ad-tu700.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-beelink-gs1.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold-columbus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-budget-ci-old.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy-1400.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-d680-dmb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-delock-61959.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-rc5.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digitalnow-tinytwin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digittrade.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dm1105-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvb-t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvbt-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dtt200u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvbsky.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-portable.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-em-terratec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv-fm53.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-evga-indtube.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-eztv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flydvb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flyvideo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-fusionhdtv-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gadmei-rm008z.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-geekbox.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-genius-tvgo-a11mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gotview7135.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-poplar.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-tv-demo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-pad.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-rsc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-iodata-bctv7e.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v1.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kaiomy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khadas.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khamsin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-315u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-pc150u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-plus-tv-analog.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-leadtek-y04g0051.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-lme2510.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-manli.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-digitainer.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-or2x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-ii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-iii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere-plus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nebula.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nec-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-norwood.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-npgtech.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-odroid.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pctv-sedna.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pine64.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-color.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-grey.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-pctv-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-mk12.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-002t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-new.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-powercolor-real-angel.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-proteus-2309.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-purpletv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pv951.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hauppauge.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-rc6-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-real-audio-220-32-keys.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-reddo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-snapstream-firefly.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tango.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx3mini.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx5max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tbs-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-ts35.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-usb2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-c-pci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-s2-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim-2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tevii-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tivo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand-02.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-trekstor.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tt-1500.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan-dtv-cab-ci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan1027.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-vega-s9x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-m1f.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-s350.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-tv-pvr.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videostrong-kii-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-hub.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-play2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast-usbii-deluxe.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-su3000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-dvd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-x96max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-zx-irdec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-main.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ir-raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-nec-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc5-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc6-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-jvc-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sony-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sanyo-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sharp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-mce_kbd-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-xmp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-imon-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/fintek-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nuvoton-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ene_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/redrat3.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/winbond-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-loopback.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/igorplugusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/iguanair.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ttusbir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/serial_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sir_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir_toy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-adap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-api.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-notifier.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin-error-inj.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ch7322.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/seco-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/pulse8-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rainshadow-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-fe-tuner.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-sram.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-eeprom.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-misc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-hw-filter.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_fops.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_video.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_hlp.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_vbi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smscoreapi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sms-cards.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsendian.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsdvb-main.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsdvb-debugfs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-tpg-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-tpg-colors.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vb2-trace.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-v4l2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-memops.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.c>: In function 'media_get_vaddr_frames':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.c>:52:8: error: implicit declaration of function 'pin_user_pages_fast'; did you mean 'get_user_pages_fast'? [-Werror=implicit-function-declaration]
+  ret = pin_user_pages_fast(start, nr_frames,
+        ^~~~~~~~~~~~~~~~~~~
+        get_user_pages_fast
+<https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.c>:61:2: error: implicit declaration of function 'mmap_read_lock'; did you mean '_raw_read_lock'? [-Werror=implicit-function-declaration]
+  mmap_read_lock(mm);
+  ^~~~~~~~~~~~~~
+  _raw_read_lock
+<https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.c>:87:2: error: implicit declaration of function 'mmap_read_unlock'; did you mean '_raw_read_unlock'? [-Werror=implicit-function-declaration]
+  mmap_read_unlock(mm);
+  ^~~~~~~~~~~~~~~~
+  _raw_read_unlock
+<https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.c>: In function 'media_put_vaddr_frames':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.c>:121:2: error: implicit declaration of function 'unpin_user_pages'; did you mean 'get_user_pages'? [-Werror=implicit-function-declaration]
+  unpin_user_pages(pages, vec->nr_frames);
+  ^~~~~~~~~~~~~~~~
+  get_user_pages
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-12-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/frame_vector.o]> Error 1
+make[5]: *** Waiting for unfinished jobs....
+make[4]: *** [/usr/src/linux-headers-4.19.0-12-common/Makefile:1565: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[3]: *** [Makefile:146: sub-make] Error 2
+make[2]: *** [Makefile:8: all] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-12-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
+Build step 'Execute shell' marked build as failure
