@@ -2,175 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D04232A865
-	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E07F132A868
+	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:43:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346333AbhCBRfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Mar 2021 12:35:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52918 "EHLO
+        id S1349791AbhCBRgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Mar 2021 12:36:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442194AbhCBLR4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Mar 2021 06:17:56 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A067C06178B
-        for <linux-media@vger.kernel.org>; Tue,  2 Mar 2021 03:16:43 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id dx17so6938418ejb.2
-        for <linux-media@vger.kernel.org>; Tue, 02 Mar 2021 03:16:43 -0800 (PST)
+        with ESMTP id S1349996AbhCBLpa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Mar 2021 06:45:30 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F906C061793
+        for <linux-media@vger.kernel.org>; Tue,  2 Mar 2021 03:44:36 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id dm26so1195048edb.12
+        for <linux-media@vger.kernel.org>; Tue, 02 Mar 2021 03:44:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RF8o3G0Xz1ovVmyTz0LE8nmr/a9IOJBCZQzOLkdGz5M=;
-        b=1M2npcI4L13+kb2WpBZyNmExW6Ysb2w1U5IU1t0e7n/59wjk+NVisOO0ZPmc+X+DRm
-         oRfkUSPQlL3XSV9HLg7IaSLcRZwvOXi51tiW/MQZtsnKbzKQqZyTV1DhASNJxfyDrnUM
-         /+XPe4D58LpQ0a5pqraIkIaicJx4USEK8SwMyu5unSPersA+EbDezjNlZWApb8gSh7ru
-         F+WPtdZ4W1C88AQQ6BdAy+cWxXhoG3Qa3nDShlxi7ESnSg23jCduGgpV3FVzvcS6YJcm
-         89dS8EekzRj6jNRTIuhV0AQySic9bPbuB2PRnB7OL9mYAN24TJFgfmnpIPR/qkAb54Yt
-         3Ocw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FUKuTJ1LDEzVO3XBC3k62B0BGBJI0QRnQDrxQFi6j1A=;
+        b=fun8reQZEh6C+pMkSUWS75G0gTGU/orNT/mF4KmgY8W/sw6+nTaMq6jn/LyKbh4g6f
+         HUE7VP3xN9V163qzooj6JY33uqVluF1ut5tEr61vs+PXAuvgiReRsDwkkKED/JC38O5K
+         Jbd2EC8CWdWyK1ifZGHn07FMmyB4lnNZQLenK3TQBK9u96WHqPKqt+XSOfpVTsC9p1SH
+         O0qqn69Xw0cUy5xsak8X/aksGjvbE07aoq06VEwoO2VSH/1sId/K+O4cZ1OYwJSBcHWf
+         q69FmAmbwQhiwhro6MY5RPbtxDzw/9Qi9PG1svFs53F4CcTPV69hCKS4jp21DjM8ioeS
+         gzIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RF8o3G0Xz1ovVmyTz0LE8nmr/a9IOJBCZQzOLkdGz5M=;
-        b=hyuuGPnA5oY3be4gDisfc8LQhD+obA21IKDVqmItbNI1UzsCeCFUtG485iILnxHVto
-         7tVd44FPhvOvcXkwLIoOohyIvYlFMVQk0UUqlC+HM9AqSTel8i3Hg0e50NPQ7Bu4clq7
-         dmWfXx7RtkGuZ/zJcAdNqDyQmdEnx6ESSWPG4XCUk4TyxduuprmCHv6Xzk+wMBjwN64C
-         CCAVk2sT80XjSsxi2ohIMXIl0OgyV/f74IEMbU2xDdLYYKbYajSA4vHFrY/y9qrdu4tB
-         7+be0z53daIX5pocxnALlxZn2d6gkcWEfULLC1slU1fTsgnTnpuzqEXQ4n9/mT3Q+aOv
-         uyWA==
-X-Gm-Message-State: AOAM530mbfB/YQ3dWifOx6sA0PbSRvqIY/BX8H4ixzyGxV+HNnTMRuNp
-        RZtBnJdLkKYifcg6LiMB+zCRwDVDLM4+6RTnlAB/zA==
-X-Google-Smtp-Source: ABdhPJz8/7tNah6b/MgRZScB2hUyILC3MI06tBMODCACw2hr59BzB0LAv71ny8kEnaP0SW9ATHxlZ92zkxlbY0Vp5cQ=
-X-Received: by 2002:a17:906:29c3:: with SMTP id y3mr19539341eje.430.1614683801754;
- Tue, 02 Mar 2021 03:16:41 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FUKuTJ1LDEzVO3XBC3k62B0BGBJI0QRnQDrxQFi6j1A=;
+        b=dzz06HgcgPPiYitfEDx7+/T4A/LCnKiVIWPVgwnkWkiZNjKm5KeRizCmaG+LxMdBlZ
+         1paFoTmQtkYR80j9jz4dNtY8pwKBPbVLqa7v+nl5TeOtN92pvg4UlIn/1lDe8ufuPi+i
+         owoHBwF8EjuPpmXpqOKSmxuaD810ByeSyoMwsv5zQ8xFPXWfYJ3JoNNzE3id0HvkSPr5
+         PLJAtFi1ZE0aABjuYdUpqO1Flzy1TW0c5W8fSbiHK8VtixGZBu4Tw1DNmhQA3/kPb9ft
+         W1hBpXrA8YRNSq4v7thIfUIyjBFrquiXUud553IbPLM33HVaFjMJ6b69qi/EbeFZC9To
+         iG7Q==
+X-Gm-Message-State: AOAM530LYPSwi6syi7i32h7r1FtTPnm0b3ypfD/zSBdKJ1s9C1gTUH4j
+        XGt0W+GRHQQE8RAYefhd7/cku6hn2XfzTgLq
+X-Google-Smtp-Source: ABdhPJw+fo40jeKi+qv6b80N0rf+a2IVpwRJfPE1Z5vpM8bg0CT+NppoS8QsgCzy0Wcaopls37c1LA==
+X-Received: by 2002:a05:6402:35c9:: with SMTP id z9mr11471416edc.94.1614685474801;
+        Tue, 02 Mar 2021 03:44:34 -0800 (PST)
+Received: from localhost.localdomain (hst-208-217.medicom.bg. [84.238.208.217])
+        by smtp.gmail.com with ESMTPSA id x17sm18494897edq.42.2021.03.02.03.44.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Mar 2021 03:44:34 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v2 0/2] Add decoder conceal color ctrl
+Date:   Tue,  2 Mar 2021 13:44:28 +0200
+Message-Id: <20210302114430.3594475-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com>
- <20210225225147.29920-5-fabrizio.castro.jz@renesas.com> <CAK8P3a1+CZTAcR5T=gN565Q8=CdZnu5KYsAijKXLY8taofEpGg@mail.gmail.com>
- <OSAPR01MB2737666F47174B68A8EC8DD8C29A9@OSAPR01MB2737.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSAPR01MB2737666F47174B68A8EC8DD8C29A9@OSAPR01MB2737.jpnprd01.prod.outlook.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Tue, 2 Mar 2021 08:16:30 -0300
-Message-ID: <CAAEAJfDDhN4btecUzu=3ZYxP=amnOD=vq0bhhetx7voKdeMZ9Q@mail.gmail.com>
-Subject: Re: [PATCH 4/7] misc: Add driver for DAB IP found on Renesas R-Car devices
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        "REE dirk.behme@de.bosch.com" <dirk.behme@de.bosch.com>,
-        Peter Erben <Peter.Erben@de.bosch.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello everyone,
+Hi,
 
-On Mon, 1 Mar 2021 at 14:36, Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
->
-> Hi Arnd,
->
-> Thanks for your feedback!
->
-> > From: Arnd Bergmann <arnd@kernel.org>
-> > Sent: 26 February 2021 10:38
-> > Subject: Re: [PATCH 4/7] misc: Add driver for DAB IP found on Renesas R-
-> > Car devices
-> >
-> > On Thu, Feb 25, 2021 at 11:51 PM Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com> wrote:
-> > >
-> > > The DAB hardware accelerator found on R-Car E3 and R-Car M3-N devices is
-> > > a hardware accelerator for software DAB demodulators.
-> > > It consists of one FFT (Fast Fourier Transform) module and one decoder
-> > > module, compatible with DAB specification (ETSI EN 300 401 and
-> > > ETSI TS 102 563).
-> > > The decoder module can perform FIC decoding and MSC decoding processing
-> > > from de-puncture to final decoded result.
-> > >
-> > > This patch adds a device driver to support the FFT module only.
-> > >
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > ---
-> > >  MAINTAINERS                      |   7 ++
-> > >  drivers/misc/Kconfig             |   1 +
-> > >  drivers/misc/Makefile            |   1 +
-> > >  drivers/misc/rcar_dab/Kconfig    |  11 ++
-> > >  drivers/misc/rcar_dab/Makefile   |   8 ++
-> > >  drivers/misc/rcar_dab/rcar_dev.c | 176 +++++++++++++++++++++++++++++++
-> > >  drivers/misc/rcar_dab/rcar_dev.h | 116 ++++++++++++++++++++
-> > >  drivers/misc/rcar_dab/rcar_fft.c | 160 ++++++++++++++++++++++++++++
-> > >  include/uapi/linux/rcar_dab.h    |  35 ++++++
-> >
-> > Can you explain why this is not in drivers/media/?
->
-> I wasn't entirely sure were to put it to be honest as I couldn't find
-> anything similar, that's why "misc" for v1, to mainly get a feedback
-> and advice.
->
-> >
-> > I don't think we want a custom ioctl interface for a device that
-> > implements
-> > a generic specification. My first feeling would be that this should not
-> > have a user-level API but instead get called by the DAB radio driver.
->
-> I hear you, the trouble is that the modules of this IP should be seen
-> as part of a SW and HW processing pipeline.
-> Some of the SW components of the pipeline can be proprietary, and
-> unfortunately we don't have access (yet) to a framework that allows us to
-> test and demonstrate the whole pipeline, for the moment we can only test
-> things in isolation. It'll take us a while to come up with a full solution
-> (or to have access to one), and in the meantime our SoCs come with an IP
-> that can't be used because there is no driver for it (yet).
->
-> After discussing things further with Geert and Laurent, I think they
-> are right in saying that the best path for this is probably to add this
-> driver under "drivers/staging" as an interim solution, so that the IP will
-> be accessible by developers, and when we have everything we need (a fully
-> fledged processing framework), we will able to integrate it better with
-> the other components (if possible).
->
-> >
-> > What is the intended usage model here? I assume the idea is to
-> > use it in an application that receives audio or metadata from DAB.
-> > What driver do you use for that?
->
-> This IP is similar to a DMA to some extent, in the sense that it takes
-> input data from a buffer in memory and it writes output data onto a buffer
-> in memory, and of course it does some processing in between.
+The changes in v2 includes:
+ * reformat the table in documetation to define Bits for different
+   bit-depths of color formats.
 
-That sounds like something that can fit V4L2 MEM2MEM driver.
-You queue two buffers and an operation, and then run a job.
+regards,
+Stan
 
-> It's not directly connected to any other Radio related IP.
-> The user space application can read DAB IQ samples from the R-Car DRIF
-> interface (via driver drivers/media/platform/rcar_drif.c, or from other
-> sources since this IP is decoupled from DRIF), and then when it's time
-> to accelerate FFT, FIC, or MSC, it can request services to the DAB IP, so
-> that the app can go on and use the processor to do some work, while the DAB
-> IP processes things.
-> A framework to connect and exchange processing blocks (either SW or HW) and
-> interfaces is therefore vital to properly place a kernel implementation
-> in the great scheme of things, in its absence a simple driver can help
+Stanimir Varbanov (2):
+  v4l2-ctrl: Add decoder conceal color control
+  venus: vdec: Add support for conceal control
 
-I'm not entirely sure we are missing a framework. What's missing in
-V4L2 MEM2MEM?
+ .../media/v4l/ext-ctrls-codec.rst             | 33 +++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h      |  1 +
+ drivers/media/platform/qcom/venus/hfi_cmds.c  | 18 ++++++++--
+ .../media/platform/qcom/venus/hfi_helper.h    | 10 ++++++
+ drivers/media/platform/qcom/venus/vdec.c      | 11 ++++++-
+ .../media/platform/qcom/venus/vdec_ctrls.c    |  7 ++++
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++
+ include/uapi/linux/v4l2-controls.h            |  1 +
+ 8 files changed, 87 insertions(+), 3 deletions(-)
 
-Before considering drivers/staging, it would be interesting to figure
-out if V4L2 can do it as-is, and if not, discuss what's missing.
+-- 
+2.25.1
 
-Thanks,
-Ezequiel
