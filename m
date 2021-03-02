@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CACC32BAF0
-	for <lists+linux-media@lfdr.de>; Wed,  3 Mar 2021 22:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE5EB32BAF1
+	for <lists+linux-media@lfdr.de>; Wed,  3 Mar 2021 22:03:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236618AbhCCMLn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Mar 2021 07:11:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36706 "EHLO
+        id S236570AbhCCMMA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Mar 2021 07:12:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381406AbhCBU4R (ORCPT
+        with ESMTP id S1381407AbhCBU4R (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Tue, 2 Mar 2021 15:56:17 -0500
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C4AC0617A7;
-        Tue,  2 Mar 2021 12:54:28 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B69C0617A9;
+        Tue,  2 Mar 2021 12:54:30 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 1E5331F4549D
+        with ESMTPSA id 997331F45497
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [PATCH 5/7] media: uapi: Move the VP8 stateless control type out of staging
-Date:   Tue,  2 Mar 2021 17:54:03 -0300
-Message-Id: <20210302205405.69538-6-ezequiel@collabora.com>
+Subject: [PATCH 6/7] media: controls: Log VP8 stateless control in .std_log
+Date:   Tue,  2 Mar 2021 17:54:04 -0300
+Message-Id: <20210302205405.69538-7-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210302205405.69538-1-ezequiel@collabora.com>
 References: <20210302205405.69538-1-ezequiel@collabora.com>
@@ -35,40 +35,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the VP8 stateless control types out of staging,
-and re-number it to avoid any confusion.
+Simply print the type of the control.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- include/media/vp8-ctrls.h      | 1 -
- include/uapi/linux/videodev2.h | 2 ++
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/media/vp8-ctrls.h b/include/media/vp8-ctrls.h
-index 1a5a3d8ab444..051700f33863 100644
---- a/include/media/vp8-ctrls.h
-+++ b/include/media/vp8-ctrls.h
-@@ -14,7 +14,6 @@
- #include <linux/types.h>
- 
- #define V4L2_CID_MPEG_VIDEO_VP8_FRAME (V4L2_CID_CODEC_BASE + 2000)
--#define V4L2_CTRL_TYPE_VP8_FRAME 0x301
- 
- #define V4L2_VP8_SEGMENT_FLAG_ENABLED              0x01
- #define V4L2_VP8_SEGMENT_FLAG_UPDATE_MAP           0x02
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index a1d903c6f9f0..611b75df7f17 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1793,6 +1793,8 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_H264_PRED_WEIGHTS    = 0x0205,
- 
- 	V4L2_CTRL_TYPE_FWHT_PARAMS	    = 0x0220,
-+
-+	V4L2_CTRL_TYPE_VP8_FRAME            = 0x0240,
- };
- 
- /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 1a683f4fa978..0fc7180a47e9 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -1781,6 +1781,9 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+ 	case V4L2_CTRL_TYPE_FWHT_PARAMS:
+ 		pr_cont("FWHT_PARAMS");
+ 		break;
++	case V4L2_CTRL_TYPE_VP8_FRAME:
++		pr_cont("VP8_FRAME");
++		break;
+ 	default:
+ 		pr_cont("unknown type %d", ctrl->type);
+ 		break;
 -- 
 2.30.0
 
