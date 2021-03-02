@@ -2,60 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CC6032A853
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA8A32A854
 	for <lists+linux-media@lfdr.de>; Tue,  2 Mar 2021 18:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580169AbhCBRa1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Mar 2021 12:30:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58150 "EHLO
+        id S1580176AbhCBRab (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Mar 2021 12:30:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242526AbhCBCyS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 21:54:18 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41D6AC061794
-        for <linux-media@vger.kernel.org>; Mon,  1 Mar 2021 18:51:22 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id m22so28975989lfg.5
-        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 18:51:22 -0800 (PST)
+        with ESMTP id S1445224AbhCBC5Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Mar 2021 21:57:16 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15832C06178A
+        for <linux-media@vger.kernel.org>; Mon,  1 Mar 2021 18:56:36 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id ba1so11182530plb.1
+        for <linux-media@vger.kernel.org>; Mon, 01 Mar 2021 18:56:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8E7jhhYaCr8C6xSxrpG64nSWDU98o0HEwhCAOn7PAok=;
-        b=CtAXWUOUEPDunoQwsrVEycASyIeLXdyliiw3gjDfZoPH+mu6HRFJOGnvR+MXDvPlDm
-         oJEoBKJceAIP2pSJHn+StAUkr8+FPr8L0aB9U0Vy1qM2/Mbuam3IoNYxT5pbkQ80CSz5
-         v+n7Dc+u4gZ3D8doFYnzRKlLYdu9QORdgOB+hiY2Y5a++SWfH2tQYDboAkTDYnDaSE0Z
-         JRvCN/hTYcNbxkcDEy80hNN15DwQWGSIOoLUUTwsvFme1NaGT/LGKe9KUqplff5A7xWE
-         XyhzBmSQ2tNJ2WB0xFUzwBEFK5UX42BcM70Ib0iGxM8OhzGOBsql/eZGL2c4DYIhUEFD
-         Xw2Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+IZNoE4E9l3eWMVT2Obt86H5jq5BW9DleHnD2g9iNvw=;
+        b=ZxZq/smZVpC9WlNe4MDL4pHr/HTA8pP44i22GmGeqCqsuxStxJ4pS8cxERjZNkuZJv
+         8ThxGCSXUkL8yTS3EGUx59IAQU79hIJHzEhVtZgCwJzx52YmlJnwYycZSCG6YihxCgp1
+         izaFAkOo5+o+BgIGuJGfhK7cHViZ9bhCuDpSQWQXWEotbeWx5+54lYZ7tYs19GAjAnsj
+         alU2a9xA68rEEvsHLTC178xs2Qu07kCF6dB/DdNVP/xGoZDAh3TMTyLjOtg/14rbwUDR
+         7khnMT7o0YBRpOWwaNWaRCcFoONoegT8TGGUL2zx9WGRlys1kU0qhrA37BbmvamwGydq
+         alPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8E7jhhYaCr8C6xSxrpG64nSWDU98o0HEwhCAOn7PAok=;
-        b=ans/lqnV0CnY0WL6TPTVfJNgbvFPvovDNMQ2pVvE8OtyTrAUjdRMiWDHXvTsWgFoUJ
-         7GGCgoB4XSKnCeWjnh7a6uxUZT9+KVdLoYJhTYFwWdn34m33nqjfExUH9IqorgUMNZwS
-         X0Lxd6jGOeZRRtksqmTMpF9ROQZTDniOliI5+xaGVog3FNwopVxP6zCW0Iem6SDRf6r+
-         Z+yt+YdCDG0HedcsPg4+5FUzt4O8klMd9gH2AvzyB31DjvIX08bYYWir6J2oHbICbSP4
-         6AVLhaWl4aRwqMFp1Vyyn76SBrsZxHFK4JNILsoMMYf+snnKGdLOgH4GDLWgp+k9kbex
-         N4Jw==
-X-Gm-Message-State: AOAM533rtKGt8eALifyXUJfEZDbctD9+6XGf8NdABpRLTMdXWYtddzq5
-        EGxyqYI5w1WIi3EHUX8bnYP9x8SUvFFWz27ntP7FPw==
-X-Google-Smtp-Source: ABdhPJz39rZTCGPuL53OOyY7GEDe7aOcYzZlxQr263eEFf2vvM39BGGanu2WFzPxlDI0/hLiEweWlg9234LilyOgSj4=
-X-Received: by 2002:a05:6512:547:: with SMTP id h7mr11428172lfl.529.1614653480706;
- Mon, 01 Mar 2021 18:51:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20210226040908.3274666-1-john.stultz@linaro.org>
- <CAKMK7uHGutJiZ879NAweTHka=gZQBw9zWQSDJn6bTLS6bJwvvg@mail.gmail.com> <20210227094436.GA3130571@infradead.org>
-In-Reply-To: <20210227094436.GA3130571@infradead.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+IZNoE4E9l3eWMVT2Obt86H5jq5BW9DleHnD2g9iNvw=;
+        b=UD4XM5wFROYHNoHFUkE6Szkq2i6x2ym+50azbvPuACslGn8vczyhbNPTLr9eQLYdzU
+         SVo7VMkJszgQxG6UiE9cc8qt1PxtL9VEHxdr6p/nwzOE6SK8VGSeS7v7syNIjw+JPiyb
+         lyvv5XHpBizus/aay7QeS3spcl5yPcGjMmDQmJFHBzQG8XsK4pEkM+X7R/hTl5S5DaK7
+         D67/Kvqdm2Vm5m/tU3176JUpv4JhAbl/nv0+yDGs6Cf+qkbxBxtT2jrmpBGMkNZVxemm
+         K5JbM+9J2my4pIfCObz74DKnOiGxQclmjBavJ8nbN/TKNsX5tTxzjgKeTojb0j6QT3ln
+         OmTw==
+X-Gm-Message-State: AOAM5301f2dgLJUxd6hW19XBGy9QUJh1LF7ENGtzJjqiRtRVtCNhHleh
+        BU6QYf9kr84EoF2EcW+bjnF/6w==
+X-Google-Smtp-Source: ABdhPJyBS9U+6AtdKNABLhwXXCBgjsOObPODZW8Oq9QBLmZ5tZ2NDADOH8ib3q/xB0NcIvIbDYUzig==
+X-Received: by 2002:a17:90b:3890:: with SMTP id mu16mr2014337pjb.9.1614653795608;
+        Mon, 01 Mar 2021 18:56:35 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id r16sm18928400pfh.168.2021.03.01.18.56.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Mar 2021 18:56:35 -0800 (PST)
 From:   John Stultz <john.stultz@linaro.org>
-Date:   Mon, 1 Mar 2021 18:51:09 -0800
-Message-ID: <CALAqxLUcbAWiwxqLRmr4Ve4ecSAJ-jsZy-RDC3jqDONgoRht9Q@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: Set VM_PFNMAP in mmap for system and cma heaps
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Koenig <christian.koenig@amd.com>,
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Liam Mark <lmark@codeaurora.org>,
         Chris Goldsworthy <cgoldswo@codeaurora.org>,
@@ -65,32 +60,95 @@ Cc:     Daniel Vetter <daniel@ffwll.ch>,
         Suren Baghdasaryan <surenb@google.com>,
         Sandeep Patil <sspatil@google.com>,
         Daniel Mentz <danielmentz@google.com>,
-        "??rjan Eide" <orjan.eide@arm.com>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
         Robin Murphy <robin.murphy@arm.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [RESEND][PATCH v2 1/2] dma-buf: dma-heap: Provide accessor to get heap name
+Date:   Tue,  2 Mar 2021 02:56:28 +0000
+Message-Id: <20210302025629.2558215-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Feb 27, 2021 at 1:44 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Fri, Feb 26, 2021 at 08:36:55AM +0100, Daniel Vetter wrote:
-> > Also given that both deal with struct page there's a ton of divergence
-> > between these two that doesn't make much sense. Maybe could even share
-> > the code fully, aside from how you allocate the struct pages.
->
-> I've been saying that since the code was first submitted.  Once pages
-> are allocated from CMA they should be treated not different from normal
-> pages.
->
-> Please take a look at how the DMA contigous allocator manages to share
-> all code for handling CMA vs alloc_pages pages.
+It can be useful to access the name for the heap,
+so provide an accessor to do so.
 
-I'll take a look at that! Thanks for the pointer!
--john
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+v2:
+* Make sure to use "const char *" as Reported-by: kernel test robot <lkp@intel.com>
+---
+ drivers/dma-buf/dma-heap.c | 12 ++++++++++++
+ include/linux/dma-heap.h   |  9 +++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 6b5db954569f..56bf5ad01ad5 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -202,6 +202,18 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+ 	return heap->priv;
+ }
+ 
++/**
++ * dma_heap_get_name() - get heap name
++ * @heap: DMA-Heap to retrieve private data for
++ *
++ * Returns:
++ * The char* for the heap name.
++ */
++const char *dma_heap_get_name(struct dma_heap *heap)
++{
++	return heap->name;
++}
++
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ {
+ 	struct dma_heap *heap, *h, *err_ret;
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 5bc5c946af58..0c05561cad6e 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -50,6 +50,15 @@ struct dma_heap_export_info {
+  */
+ void *dma_heap_get_drvdata(struct dma_heap *heap);
+ 
++/**
++ * dma_heap_get_name() - get heap name
++ * @heap: DMA-Heap to retrieve private data for
++ *
++ * Returns:
++ * The char* for the heap name.
++ */
++const char *dma_heap_get_name(struct dma_heap *heap);
++
+ /**
+  * dma_heap_add - adds a heap to dmabuf heaps
+  * @exp_info:		information needed to register this heap
+-- 
+2.25.1
+
