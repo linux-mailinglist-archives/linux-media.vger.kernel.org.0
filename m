@@ -2,553 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76AAB32C75D
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5C8932C767
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237799AbhCDAbl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Mar 2021 19:31:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383823AbhCCPfI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 10:35:08 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1710C061760
-        for <linux-media@vger.kernel.org>; Wed,  3 Mar 2021 07:34:26 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id e9so4565842pjj.0
-        for <linux-media@vger.kernel.org>; Wed, 03 Mar 2021 07:34:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3W37d8NL+JLJhVV482HENox8UGgz8AoMWF0DFz7r5hE=;
-        b=mj7Fm5z7emedl4PYbFIYbtHcasrpdVQ+CDf8fsaoZsvF2bIRDzPejJAW9254iw6QYI
-         pCNIPwP57H6cEAKyXr3KAfZTrb4tLwZyQfPykr08z3rBrHaXcIeEi6wYnxZtF2nXLNxA
-         Wy4sOyZVrRxDmgFloTMgkMT8YZVqwVzBP4mpV7RnA5T96rrobqHWAdstSAJqAFXu6Fpm
-         a2jh6zu5aNEAK1w8FHke+6B5xfSKQtNhy+QVvJV4aE4l/PTz4KTk8UWLQl91rkVgqv9t
-         zhQXpGnCDaF6rE97dseFTrAIM2wYzaydH9YWTPrgyP1Q2YVOG8foAdqb51nyOE2WFOkT
-         UwZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3W37d8NL+JLJhVV482HENox8UGgz8AoMWF0DFz7r5hE=;
-        b=NLiD4XEJ8Lewyv4qB59jM34ocyU5bAJlmvPY6O9YFI21rIc1xbzJUcQIius969rned
-         p+nTEc/xguIKC9DEqpZgGocd6FOYixIbWgRziQ6Kfw/Ghg1P8v34alp0ZViAWWnXJgpU
-         G4N5xXS5c43R8ZF0G/ti9uV4mUshm70E/YF2fjaZBTapsGxzcXK0Lg2Zc8z90DV2D/t+
-         RGQPYE2w88My6/ZbZUfIVp5OSE1SI2xtu5CXCa0JDwtN7eqCX2Sa8t5mlMhSfXQUtYsj
-         /QecbTRY25q3vUDDeAP9n0+Xf51Qk7I1xiYyHD5XIHrt4cGemc9C07RaAmeUhorhkTOC
-         zAuA==
-X-Gm-Message-State: AOAM533MkjjTHDNfJMNgNs6tx6TZF1MNKUhI/EEKgua8/PStWdWDnxib
-        Er/Ia+kj+/bhGx4eHgWQoRppzloHWHOxhk1+L2OcWg==
-X-Google-Smtp-Source: ABdhPJy4rrvpdgPyQjjpBkm5OvT2TPc3Ubzc7QE70H48ElOku/Xab4u148S/RRofrNNVX1k22bFtYtegWLswpw+q6bs=
-X-Received: by 2002:a17:902:f68a:b029:e5:b17f:9154 with SMTP id
- l10-20020a170902f68ab02900e5b17f9154mr8825880plg.28.1614785665986; Wed, 03
- Mar 2021 07:34:25 -0800 (PST)
+        id S1348091AbhCDAb5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Mar 2021 19:31:57 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:39597 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1452561AbhCCPwI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Mar 2021 10:52:08 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id HTmLlb3GGqY4WHTmOlTeDI; Wed, 03 Mar 2021 16:51:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1614786676; bh=ECSJ12TWAOdldd3MjIoVnX8gYR8S5lmWRTDd6/TAW5M=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=KaGYuYqFrRFN+EqhA+SP93LvXiT/L467QZsvPVxirCdmx2ZU/7pj2At/9m0qmo10G
+         Pihr5fwNaB0Yoe4nZb5Naxifk6zTyY6zb1UFmHHTj+9AMaYfpKvQVomTCEn1eKNE7K
+         tCgvT0LtFSOiNoQJ7FM4xqz40BUNlo2nSNtxY4X+V/FTqvdCX6cD7j4FsdM8jyp11l
+         6vcK8j4+ri0kGNfn79KjEazokyjrklRfwKtHdI0FfoEZw10c3Byd7x1GAPbYeVjNdp
+         cH6fc1Byh9kUVMHWUVQMu2d5LM6pE6N7GURhYd4YoHwMa49kKQWq148w8TT0imxkTm
+         v77nTfw6MPyqw==
+Subject: Re: [PATCH v3 24/24] media: ti-vpe: cal: Implement media controller
+ centric API
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
+References: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
+ <20201206235353.26968-25-laurent.pinchart@ideasonboard.com>
+ <d3a0f5e3-d94a-8c67-63e7-b5dfb5f8ea5d@xs4all.nl>
+ <X87AHVETKz0CrzQq@pendragon.ideasonboard.com>
+ <7792f746-7e49-006c-e02d-bc36a48d3247@xs4all.nl>
+ <X8+mq486bL/St/vT@pendragon.ideasonboard.com>
+ <1edba432-ff1f-bcd0-5b39-11fa10d904a2@ideasonboard.com>
+ <836243a0-6c8c-25a2-2551-ac9a5faab807@xs4all.nl>
+ <YD+ptwH0g79zLzIn@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5cfce379-626a-832d-33ac-e39bc3a17309@xs4all.nl>
+Date:   Wed, 3 Mar 2021 16:51:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
- <1613619715-28785-11-git-send-email-victor.liu@nxp.com> <CAG3jFysTKXsmfx4x=XVdu3X0amE9EUOxN=bYo4eg+XjnqyFsVg@mail.gmail.com>
- <9c437b07a47b14c47f65ac58f6cf9bc95edab169.camel@nxp.com>
-In-Reply-To: <9c437b07a47b14c47f65ac58f6cf9bc95edab169.camel@nxp.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Wed, 3 Mar 2021 16:34:14 +0100
-Message-ID: <CAG3jFysCUGWD-a4MabUz12GB3DNZQ2rCEXn60JZ7zQXH=OqDnw@mail.gmail.com>
-Subject: Re: [PATCH v4 10/14] drm/bridge: imx: Add LDB driver helper support
-To:     Liu Ying <victor.liu@nxp.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de,
-        Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>, kishon@ti.com,
-        Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YD+ptwH0g79zLzIn@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfECQsB9qQcuLtHMOCTXCbCK7vEZBEPZpk9ozJ/56S4U+2Zsyq+rGfwXRUwnC3kR5eHu7tTtXNFRY1ltg34G4EzEtr23zYSu8A4EjNB1BGn/+LcA6Ucw/
+ etvSAtl8iBYwW6FfkGa2cj250+jE3PsQuNEsN3gWj/3vry52t1fpd9N9bNX4p5JTrVHc2jOw05+ICNzIy7YKOKwyRlaVT4RmaCDMVarQMgtzKL6ufaycX7+h
+ jL5iHuNbGGEmPEiW8MKnqfQPQAngw2GIJCAUllBFIzRtrMvoxAZf6DylRBSti4slirmKRIi2uetGd+sqPNbNKg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 3 Mar 2021 at 08:23, Liu Ying <victor.liu@nxp.com> wrote:
->
-> Hi Robert,
->
-> On Tue, 2021-03-02 at 15:22 +0100, Robert Foss wrote:
-> > Hey Liu,
-> >
-> > Thanks for submitting this patch.
->
-> Thanks for reviewing this patch.
->
-> >
-> > On Thu, 18 Feb 2021 at 04:59, Liu Ying <victor.liu@nxp.com> wrote:
-> > > This patch adds a helper to support LDB drm bridge drivers for
-> > > i.MX SoCs.  Helper functions exported from this driver should
-> > > implement common logics for all LDB modules embedded in i.MX SoCs.
-> > >
-> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > ---
-> > > v3->v4:
-> > > * No change.
-> > >
-> > > v2->v3:
-> > > * Call syscon_node_to_regmap() to get regmap instead of
-> > >   syscon_regmap_lookup_by_phandle().
-> > >
-> > > v1->v2:
-> > > * No change.
-> > >
-> > >  drivers/gpu/drm/bridge/imx/Kconfig          |   8 +
-> > >  drivers/gpu/drm/bridge/imx/Makefile         |   1 +
-> > >  drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 248 ++++++++++++++++++++++++++++
-> > >  include/drm/bridge/imx_ldb_helper.h         |  98 +++++++++++
-> > >  4 files changed, 355 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > >  create mode 100644 include/drm/bridge/imx_ldb_helper.h
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > index 1ea1ce7..23e24fd 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > @@ -1,3 +1,11 @@
-> > > +config DRM_IMX_LVDS_BRIDGE_HELPER
-> > > +       tristate "Freescale i.MX LVDS display bridge helper"
-> > > +       depends on OF
-> > > +       select DRM_PANEL_BRIDGE
-> > > +       help
-> > > +         Helper to support Freescale i.MX LVDS Display Bridge(LDB).
-> > > +         This bridge is embedded in a SoC.
-> > > +
-> > >  config DRM_IMX8QXP_PIXEL_COMBINER
-> > >         tristate "Freescale i.MX8QM/QXP pixel combiner"
-> > >         depends on OF
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-> > > index e74dd64..902b703 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> > > @@ -1,3 +1,4 @@
-> > > +obj-$(CONFIG_DRM_IMX_LVDS_BRIDGE_HELPER) += imx-ldb-helper.o
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
-> > > diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > > new file mode 100644
-> > > index 00000000..94d7f9e
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > > @@ -0,0 +1,248 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Copyright (C) 2012 Sascha Hauer, Pengutronix
-> > > + * Copyright 2019,2020 NXP
-> > > + */
-> > > +
-> > > +#include <linux/mfd/syscon.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/regmap.h>
-> > > +
-> > > +#include <drm/bridge/imx_ldb_helper.h>
-> > > +#include <drm/drm_of.h>
-> > > +#include <drm/drm_panel.h>
-> > > +#include <drm/drm_print.h>
-> > > +
-> > > +bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch)
-> > > +{
-> > > +       return ldb_ch->link_type == LDB_CH_SINGLE_LINK;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_channel_is_single_link);
-> > > +
-> > > +bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch)
-> > > +{
-> > > +       return ldb_ch->link_type == LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS ||
-> > > +              ldb_ch->link_type == LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_channel_is_split_link);
-> > > +
-> > > +int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-> > > +                                  struct drm_bridge_state *bridge_state,
-> > > +                                  struct drm_crtc_state *crtc_state,
-> > > +                                  struct drm_connector_state *conn_state)
-> > > +{
-> > > +       struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +
-> > > +       ldb_ch->in_bus_format = bridge_state->input_bus_cfg.format;
-> > > +       ldb_ch->out_bus_format = bridge_state->output_bus_cfg.format;
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_atomic_check_helper);
-> > > +
-> > > +void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-> > > +                               const struct drm_display_mode *mode,
-> > > +                               const struct drm_display_mode *adjusted_mode)
-> > > +{
-> > > +       struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +       struct ldb *ldb = ldb_ch->ldb;
-> > > +       bool is_split = ldb_channel_is_split_link(ldb_ch);
-> > > +
-> > > +       if (is_split)
-> > > +               ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
-> > > +
-> > > +       switch (ldb_ch->out_bus_format) {
-> > > +       case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> > > +               break;
-> > > +       case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> > > +               if (ldb_ch->chno == 0 || is_split)
-> > > +                       ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24;
-> > > +               if (ldb_ch->chno == 1 || is_split)
-> > > +                       ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24;
-> > > +               break;
-> > > +       case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> > > +               if (ldb_ch->chno == 0 || is_split)
-> > > +                       ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24 |
-> > > +                                        LDB_BIT_MAP_CH0_JEIDA;
-> > > +               if (ldb_ch->chno == 1 || is_split)
-> > > +                       ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24 |
-> > > +                                        LDB_BIT_MAP_CH1_JEIDA;
-> > > +               break;
-> > > +       }
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_mode_set_helper);
-> > > +
-> > > +void ldb_bridge_enable_helper(struct drm_bridge *bridge)
-> > > +{
-> > > +       struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +       struct ldb *ldb = ldb_ch->ldb;
-> > > +
-> > > +       /*
-> > > +        * Platform specific bridge drivers should set ldb_ctrl properly
-> > > +        * for the enablement, so just write the ctrl_reg here.
-> > > +        */
-> > > +       regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_enable_helper);
-> > > +
-> > > +void ldb_bridge_disable_helper(struct drm_bridge *bridge)
-> > > +{
-> > > +       struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +       struct ldb *ldb = ldb_ch->ldb;
-> > > +       bool is_split = ldb_channel_is_split_link(ldb_ch);
-> > > +
-> > > +       if (ldb_ch->chno == 0 || is_split)
-> > > +               ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
-> > > +       if (ldb_ch->chno == 1 || is_split)
-> > > +               ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
-> > > +
-> > > +       regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_disable_helper);
-> > > +
-> > > +int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-> > > +                            enum drm_bridge_attach_flags flags)
-> > > +{
-> > > +       struct ldb_channel *ldb_ch = bridge->driver_private;
-> > > +       struct ldb *ldb = ldb_ch->ldb;
-> > > +
-> > > +       if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> > > +               DRM_DEV_ERROR(ldb->dev,
-> > > +                             "do not support creating a drm_connector\n");
-> > > +               return -EINVAL;
-> > > +       }
-> > > +
-> > > +       if (!bridge->encoder) {
-> > > +               DRM_DEV_ERROR(ldb->dev, "missing encoder\n");
-> > > +               return -ENODEV;
-> > > +       }
-> > > +
-> > > +       return drm_bridge_attach(bridge->encoder,
-> > > +                               ldb_ch->next_bridge, bridge,
-> > > +                               DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_attach_helper);
-> > > +
-> > > +int ldb_init_helper(struct ldb *ldb)
-> > > +{
-> > > +       struct device *dev = ldb->dev;
-> > > +       struct device_node *np = dev->of_node;
-> > > +       struct device_node *child;
-> > > +       int ret;
-> > > +       u32 i;
-> > > +
-> > > +       ldb->regmap = syscon_node_to_regmap(np->parent);
-> > > +       if (IS_ERR(ldb->regmap)) {
-> > > +               ret = PTR_ERR(ldb->regmap);
-> > > +               if (ret != -EPROBE_DEFER)
-> > > +                       DRM_DEV_ERROR(dev, "failed to get regmap: %d\n", ret);
-> > > +               return ret;
-> > > +       }
-> > > +
-> > > +       for_each_available_child_of_node(np, child) {
-> > > +               struct ldb_channel *ldb_ch;
-> > > +
-> > > +               ret = of_property_read_u32(child, "reg", &i);
-> > > +               if (ret || i > MAX_LDB_CHAN_NUM - 1) {
-> > > +                       ret = -EINVAL;
-> > > +                       DRM_DEV_ERROR(dev,
-> > > +                                     "invalid channel node address: %u\n", i);
-> > > +                       of_node_put(child);
-> > > +                       return ret;
-> > > +               }
-> > > +
-> > > +               ldb_ch = ldb->channel[i];
-> > > +               ldb_ch->ldb = ldb;
-> > > +               ldb_ch->chno = i;
-> > > +               ldb_ch->is_available = true;
-> > > +               ldb_ch->np = child;
-> > > +
-> > > +               ldb->available_ch_cnt++;
-> > > +       }
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_init_helper);
-> > > +
-> > > +int ldb_find_next_bridge_helper(struct ldb *ldb)
-> > > +{
-> > > +       struct device *dev = ldb->dev;
-> > > +       struct ldb_channel *ldb_ch;
-> > > +       int ret, i;
-> > > +
-> > > +       for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-> > > +               ldb_ch = ldb->channel[i];
-> > > +
-> > > +               if (!ldb_ch->is_available)
-> > > +                       continue;
-> > > +
-> > > +               ret = drm_of_find_panel_or_bridge(ldb_ch->np, 1, 0,
-> > > +                                                 &ldb_ch->panel,
-> > > +                                                 &ldb_ch->next_bridge);
-> > > +               if (ret) {
-> > > +                       if (ret != -EPROBE_DEFER)
-> > > +                               DRM_DEV_ERROR(dev,
-> > > +                                       "failed to find panel or bridge: %d\n",
-> > > +                                                                       ret);
-> > > +                       return ret;
-> > > +               }
-> > > +
-> > > +               if (ldb_ch->panel) {
-> > > +                       ldb_ch->next_bridge = devm_drm_panel_bridge_add(dev,
-> > > +                                                               ldb_ch->panel);
-> > > +                       if (IS_ERR(ldb_ch->next_bridge)) {
-> > > +                               ret = PTR_ERR(ldb_ch->next_bridge);
-> > > +                               DRM_DEV_ERROR(dev,
-> > > +                                       "failed to add panel bridge: %d\n",
-> > > +                                                                       ret);
-> > > +                               return ret;
-> > > +                       }
-> > > +               }
-> > > +       }
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_find_next_bridge_helper);
-> > > +
-> > > +void ldb_add_bridge_helper(struct ldb *ldb,
-> > > +                          const struct drm_bridge_funcs *bridge_funcs)
-> > > +{
-> > > +       struct ldb_channel *ldb_ch;
-> > > +       int i;
-> > > +
-> > > +       for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-> > > +               ldb_ch = ldb->channel[i];
-> > > +
-> > > +               if (!ldb_ch->is_available)
-> > > +                       continue;
-> > > +
-> > > +               ldb_ch->bridge.driver_private = ldb_ch;
-> > > +               ldb_ch->bridge.funcs = bridge_funcs;
-> > > +               ldb_ch->bridge.of_node = ldb_ch->np;
-> > > +
-> > > +               drm_bridge_add(&ldb_ch->bridge);
-> > > +       }
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_add_bridge_helper);
-> > > +
-> > > +void ldb_remove_bridge_helper(struct ldb *ldb)
-> > > +{
-> > > +       struct ldb_channel *ldb_ch;
-> > > +       int i;
-> > > +
-> > > +       for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-> > > +               ldb_ch = ldb->channel[i];
-> > > +
-> > > +               if (!ldb_ch->is_available)
-> > > +                       continue;
-> > > +
-> > > +               drm_bridge_remove(&ldb_ch->bridge);
-> > > +       }
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(ldb_remove_bridge_helper);
-> > > +
-> > > +MODULE_DESCRIPTION("Freescale i.MX LVDS Display Bridge driver helper");
-> > > +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-> > > +MODULE_LICENSE("GPL v2");
-> > > +MODULE_ALIAS("platform:imx-ldb-helper");
-> >
-> > I'm not entirely sure why this set of helper functions should be a
-> > module. It's not a driver, but rather a toolbox for the LDB driver,
-> > which is fine, but there is no situation I can see where this module
-> > would be unloaded and the LDB driver would be loaded.
->
-> I can see drivers/gpu/drm/drm_mipi_dbi.c is also a module and
-> essentially provides helpers to MIPI DBI drivers, but it is not a
-> driver.  I don't see this imx-ldb-helper can be anything else other
-> than a module.
->
-> Or, do you mean that imx-ldb-helper should be only built-in?
+On 03/03/2021 16:22, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Wed, Mar 03, 2021 at 04:15:37PM +0100, Hans Verkuil wrote:
+>> On 15/02/2021 16:23, Tomi Valkeinen wrote:
+>>> On 08/12/2020 18:15, Laurent Pinchart wrote:
+>>>
+>>>>>>> I noticed that this defaults to video centric.
+>>>>>>>
+>>>>>>> To come back to the discussion of the v2 of this patch, I believe we
+>>>>>>> need to decide what to do here so we have a good template for future
+>>>>>>> drivers that need this.
+>>>>>>>
+>>>>>>> My opinion is that you want a Kconfig option to set the default for
+>>>>>>> this, so this becomes something like this:
+>>>>>>>
+>>>>>>> bool cal_mc_api = CONFIG_TI_CAL_MC_API;
+>>>>>>>
+>>>>>>> What do you think?
+>>>>>>>
+>>>>>>> I will make a PR for v5.12 for patches 1-23, but I would like to have this
+>>>>>>> remaining issue resolved before merging this final patch.
+>>>>>>>
+>>>>>>> I do think that a Kconfig option is very desirable, but whether the default
+>>>>>>> of this option should be y or n is less clear. Since this driver has always
+>>>>>>> been video-centric I can imagine that it makes sense to set it to n. But
+>>>>>>> for e.g. a new driver like the tegra-video driver (currently in staging),
+>>>>>>> it would make sense to set it to y since it is a new driver. Ditto for the
+>>>>>>> rpi camera driver.
+>>>>>>
+>>>>>> For this driver I think video-centric mode is the best default to start
+>>>>>> with, to avoid changing the behaviour all of a sudden. We can switch it
+>>>>>> to MC-centric by default later if desired, after userspace gets a chance
+>>>>>> to adapt.
+>>>>>
+>>>>> Fair enough.
+>>>>>
+>>>>>>> In that case the rule would be that for new mainline drivers the default
+>>>>>>> should always be y (MC-centric), but if the driver was already in mainline
+>>>>>>> and MC support is added (like for this driver), then the default remains n
+>>>>>>> for backwards compatibility.
+>>>>>>
+>>>>>> I think that for new drivers we shouldn't support video-centric mode at
+>>>>>> all. It should only be supported in downstream (vendor) kernels, and
+>>>>>> only if backward compatibility with existing userspace needs to be
+>>>>>> ensured. The unicam driver, for instance, fits in that category. Drivers
+>>>>>> whose development is ongoing (or hasn't started) should only use the MC
+>>>>>> API. Whether the option should be y or n by default would then be a
+>>>>>> vendor decision, it wouldn't affect upstream.
+>>>>>
+>>>>> No, that I strongly disagree with. Vendors would have to carry those patches
+>>>>> for a long time, and if past experience is any guide, they will mess it up.
+>>>>> Or even refuse to upgrade to the mainline code because it is too much hassle
+>>>>> and instead keep using their own driver.
+>>>>>
+>>>>> In my opinion the mainline driver should be MC-centric, and it is up to the
+>>>>> vendor to decide whether video-centric is also supported: this should only
+>>>>> be done if there is a long history of video-centric behavior in the past.
+>>>>> In that case a Kconfig option is needed to select MC, and in the mainline
+>>>>> kernel this should default to y for such new drivers.
+>>>>>
+>>>>> In both Raspbian and Linux4Tegra video-centric has been the norm for many
+>>>>> years, so there are many userspace applications that expect that behavior.
+>>>>> You want those distros to use the mainline driver (eventually...) since
+>>>>> those distros are widely used so you also get a large installed base and
+>>>>> (hopefully) bug reports and bug fixes for the driver. If you decide to
+>>>>> require the distro to carry a patch to turn a driver into a video-centric
+>>>>> variant, then I am afraid they will not bother upgrading to the mainline
+>>>>> driver and just keep their own driver.
+>>>>
+>>>> For Raspberry Pi, and the Unicam driver in particular, that won't be
+>>>> possible. A video-centric API will require quite a few hacks that
+>>>> shouldn't be upstreamed, in particular to support multiple CSI-2 data
+>>>> types. The current implementation uses two sink pad in the CSI-2
+>>>> receiver subdevs to model the image and embedded data multiplexed over
+>>>> the CSI-2 virtual channel. This requires corresponding changes to sensor
+>>>> drivers to use two source pads. Sakari has reviewed this, and the
+>>>> implementation will need to move to the V4L2 multiplexed streams support
+>>>> API (which has been proposed but not merged yet), and I can't see this
+>>>> working well with a video-centric approach.
+>>>>
+>>>> I suspect the same would apply to any CSI-2 receiver, and thus to Tegra
+>>>> as well, but I can't comment on that as I'm not familiar with the
+>>>> hardware and driver.
+>>>>
+>>>>> In any case, I really like your approach, all I want is a Kconfig option
+>>>>> and it is good to go.
+>>>
+>>> Waking up this thread, as I'm writing new patches based on these =).
+>>>
+>>> For this series, afaiu there are no open questions. We can add a kconfig
+>>> option to choose the default option (in addition to the module
+>>> parameter), and as discussed, this one should default to video mode.
+>>
+>> Can someone make a v4 of this patch? It would be nice to get this last
+>> remaining patch merged.
+> 
+> I'll work on this.
+> 
+>>> For new drivers, I think we should require support for MC (and default
+>>> to MC), but leave the decision about video support to the
+>>> vendor/developer. 
+>>
+>> Makes sense.
+>>
+>>> I have the same concerns as Hans if we reject new
+>>> drivers with video support by default.
+>>> Then again, I think it's sensible to require the video support to be...
+>>> well, "sensible". The code for video support should be quite
+>>> straightforward and simple. It should be a valid reason to reject the
+>>> driver if the driver tries to support complex HW setups with video model
+>>> and ends up creating all kinds of hacks which are not needed with MC.
+>>> (the Unicam case Laurent described above sounds like this).
+>>
+>> And there is a grey area between 'sensible' and 'not sensible'. If there
+>> is already a large video-centric ecosystem, then there is a good reason
+>> to allow for more complexity to avoid distros forking the driver.
+> 
+> I don't think generic distros will care. We're talking about SoC drivers
+> here, coming from a downstream kernel, so it's only the vendor's
+> ecosystem that matters, and whether they want to support both in their
+> camera stack or move it to MC-only.
 
-My thinking was that it should just be linked together with the rest
-of the imx8qxp-ldb driver. But this ties in to my next comment.
+Sorry, I wasn't clear: I meant SoC vendor distros. Now most of these have
+few users and/or are awful and often very quickly abandoned. I don't care
+about those.
 
->
-> >
-> > > diff --git a/include/drm/bridge/imx_ldb_helper.h b/include/drm/bridge/imx_ldb_helper.h
-> > > new file mode 100644
-> > > index 00000000..2a7ba97
-> > > --- /dev/null
-> > > +++ b/include/drm/bridge/imx_ldb_helper.h
-> >
-> > This header is specific to this driver, and I would expect it to not
-> > be useful to other drivers. Additionally the filename has a different
-> > format than the .c file it corresponds to. I would change the name and
-> > path to "drivers/gpu/drm/bridge/imx/imx-ldb-helper.h".
->
-> The i.MX53/6qdl LDB driver(drivers/gpu/drm/imx/imx-ldb.c) can
-> potentially use this header, but it's a DRM encoder driver.
-> So, maybe, it's a good idea to move this header to the 'drivers' folder
-> and rename it to 'imx-ldb-helper.h' ofc.  If no objections, I'll do as
-> what you're suggesting here in the next version.
+But Raspbian and to a lesser extent Linux4Tegra are widely used by hobbyists
+as well as professionals, and Raspbian in particular is using a fairly recent
+kernel. Making a mainline driver that doesn't fit that ecosystem will almost
+certainly cause it to be forked and I think that is something that should be
+avoided, even at the expense of additional complexity. It's one area where
+we should be willing to go the extra mile.
 
-Ah I see. If ldb-helper is indeed used by two drivers, making it a
-module seems reasonable.
+How many extra miles we are willing to go is another matter, and I don't
+know enough to come to a conclusion on that.
 
-I think we have two options then.
+In any case, a mainline RPi driver should start out as an MC driver, while
+keeping in mind that a video-centric mode might be added later.
 
-#1 Make imx-ldb-helper an object that is just linked with the
-imx8qxp-ldb driver.
+If adding a video centric mode turns out to be too much work, then so be it.
 
-#2 Keep imx-ldb-helper as a module, and implement support for using it
-in the imx-ldb driver. Ideally I'd like to see the imx-ldb-helper
-module patch in the same series as as imx53/6qdl switching to using
-the module. These things have a tendency of not happening if not done
-right away :)
+Since the vast majority of RPi users will just use Raspbian, I'm afraid that
+creating an MC-only RPi driver will just mean that almost nobody will actually
+use it, because everyone will stick to the Raspbian video-centric driver.
 
+Anyway, this is just my opinion.
 
->
-> Regards,
-> Liu Ying
->
-> >
-> > > @@ -0,0 +1,98 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > +
-> > > +/*
-> > > + * Copyright 2019,2020 NXP
-> > > + */
-> > > +
-> > > +#ifndef __FSL_IMX_LDB__
-> > > +#define __FSL_IMX_LDB__
-> > > +
-> > > +#include <linux/device.h>
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/regmap.h>
-> > > +
-> > > +#include <drm/drm_atomic.h>
-> > > +#include <drm/drm_bridge.h>
-> > > +#include <drm/drm_device.h>
-> > > +#include <drm/drm_encoder.h>
-> > > +#include <drm/drm_modeset_helper_vtables.h>
-> > > +#include <drm/drm_panel.h>
-> > > +
-> > > +#define LDB_CH0_MODE_EN_TO_DI0         (1 << 0)
-> > > +#define LDB_CH0_MODE_EN_TO_DI1         (3 << 0)
-> > > +#define LDB_CH0_MODE_EN_MASK           (3 << 0)
-> > > +#define LDB_CH1_MODE_EN_TO_DI0         (1 << 2)
-> > > +#define LDB_CH1_MODE_EN_TO_DI1         (3 << 2)
-> > > +#define LDB_CH1_MODE_EN_MASK           (3 << 2)
-> > > +#define LDB_SPLIT_MODE_EN              (1 << 4)
-> > > +#define LDB_DATA_WIDTH_CH0_24          (1 << 5)
-> > > +#define LDB_BIT_MAP_CH0_JEIDA          (1 << 6)
-> > > +#define LDB_DATA_WIDTH_CH1_24          (1 << 7)
-> > > +#define LDB_BIT_MAP_CH1_JEIDA          (1 << 8)
-> > > +#define LDB_DI0_VS_POL_ACT_LOW         (1 << 9)
-> > > +#define LDB_DI1_VS_POL_ACT_LOW         (1 << 10)
-> > > +
-> > > +#define MAX_LDB_CHAN_NUM               2
-> > > +
-> > > +enum ldb_channel_link_type {
-> > > +       LDB_CH_SINGLE_LINK,
-> > > +       LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS,
-> > > +       LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS,
-> > > +};
-> > > +
-> > > +struct ldb;
-> > > +
-> > > +struct ldb_channel {
-> > > +       struct ldb *ldb;
-> > > +       struct drm_bridge bridge;
-> > > +       struct drm_panel *panel;
-> > > +       struct drm_bridge *next_bridge;
-> > > +       struct device_node *np;
-> > > +       u32 chno;
-> > > +       bool is_available;
-> > > +       u32 in_bus_format;
-> > > +       u32 out_bus_format;
-> > > +       enum ldb_channel_link_type link_type;
-> > > +};
-> > > +
-> > > +struct ldb {
-> > > +       struct regmap *regmap;
-> > > +       struct device *dev;
-> > > +       struct ldb_channel *channel[MAX_LDB_CHAN_NUM];
-> > > +       unsigned int ctrl_reg;
-> > > +       u32 ldb_ctrl;
-> > > +       unsigned int available_ch_cnt;
-> > > +};
-> > > +
-> > > +#define bridge_to_ldb_ch(b)    container_of(b, struct ldb_channel, bridge)
-> > > +
-> > > +bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch);
-> > > +bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch);
-> > > +
-> > > +int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-> > > +                                  struct drm_bridge_state *bridge_state,
-> > > +                                  struct drm_crtc_state *crtc_state,
-> > > +                                  struct drm_connector_state *conn_state);
-> > > +
-> > > +void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-> > > +                               const struct drm_display_mode *mode,
-> > > +                               const struct drm_display_mode *adjusted_mode);
-> > > +
-> > > +void ldb_bridge_enable_helper(struct drm_bridge *bridge);
-> > > +
-> > > +void ldb_bridge_disable_helper(struct drm_bridge *bridge);
-> > > +
-> > > +int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-> > > +                            enum drm_bridge_attach_flags flags);
-> > > +
-> > > +int ldb_init_helper(struct ldb *ldb);
-> > > +
-> > > +int ldb_find_next_bridge_helper(struct ldb *ldb);
-> > > +
-> > > +void ldb_add_bridge_helper(struct ldb *ldb,
-> > > +                          const struct drm_bridge_funcs *bridge_funcs);
-> > > +
-> > > +void ldb_remove_bridge_helper(struct ldb *ldb);
-> > > +
-> > > +#endif /* __FSL_IMX_LDB__ */
-> > > --
-> > > 2.7.4
-> > >
->
+Regards,
+
+	Hans
