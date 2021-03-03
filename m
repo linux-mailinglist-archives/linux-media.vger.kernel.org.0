@@ -2,87 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BE0832C733
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB9FE32C764
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244810AbhCDAbR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Mar 2021 19:31:17 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:47657 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234806AbhCCOai (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Mar 2021 09:30:38 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id HSVYlagPSqY4WHSVblTRwa; Wed, 03 Mar 2021 15:29:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1614781792; bh=OD4+J9g7kR64H+MvYSZM1+w0yW+kwKUZYu8ehKXQfSM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=dfRvhehrZ3E2O97E15uEY2WNs5Nnln+ohgfG3q5l7jCGuIXOjCqfnUortr72DXDZh
-         o+tfQjLDY0OF3sI61Mq/9xNNj6szOTwwkWaZtWa0ZZysJy6/VKyIRw0PNyS/R/P9rz
-         hR592jo8go7Sfdj+k/cMR9+k4UpV8m+EPRUjrOW0UW5tTA1CqqZha94/dereUSlupH
-         LOEmdCjnvk2/zQb21CsWqFzHElR7r6bEgdBxgt5FjOuQDMIL3J4uAuQAT/aknMlMeL
-         BLQyapplG1GRcWGmAS0tbzx/BQZmfOz60eV70dOyMWRKjCA8cyISy+RNYRn9+v+WvG
-         rwzimX/lkVFLA==
-Subject: Re: [PATCH 7/7] media: uapi: move VP8 stateless controls out of
- staging
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>, kernel@collabora.com
-References: <20210302205405.69538-1-ezequiel@collabora.com>
- <20210302205405.69538-8-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3f2e178d-34fa-d527-022b-820b1363cb55@xs4all.nl>
-Date:   Wed, 3 Mar 2021 15:29:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        id S1355351AbhCDAbr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 3 Mar 2021 19:31:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51284 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230454AbhCCPqm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 10:46:42 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED87DC061356
+        for <linux-media@vger.kernel.org>; Wed,  3 Mar 2021 06:33:43 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1lHSZE-00035P-Ab; Wed, 03 Mar 2021 15:33:36 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1lHSZ7-00008R-0c; Wed, 03 Mar 2021 15:33:29 +0100
+Message-ID: <38119c7bab7b550cff0300b596611a7d9d3b6737.camel@pengutronix.de>
+Subject: Re: [PATCH v3 3/5] reset: Add reset driver for IMX8MQ VPU block
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, ezequiel@collabora.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com
+Date:   Wed, 03 Mar 2021 15:33:28 +0100
+In-Reply-To: <20210301151754.104749-4-benjamin.gaignard@collabora.com>
+References: <20210301151754.104749-1-benjamin.gaignard@collabora.com>
+         <20210301151754.104749-4-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20210302205405.69538-8-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIDkfq2HEl5XKNP9paNDiZkUhpDTsQwowAZ+i6/2yGP3laKa9rDwc2YiNnaBxIhxmv56mGGF20mSMyuW2AIyvblYjlQFW4BJdGlgAA3xRVmtRhzFD1Vt
- hMmbHojBg7ez+vx/XbE02Q0EtLIY4zq04MatNbK0Qr/bkOirk8i0OSRCxnJov137+fM4unkvQCAWsiXinYlWpgDZ3U4oSHgHibq3qhTfwdduy3ugyzkw/kvX
- 4ilx6pqLZMN+HDGpSJW2FEaPZr8le5aCmETH107CdA9tgLDMiPRCinYhwVfkL3/KWTkx2A6cI8Zxix+NmyROwZ2aBNkWm0KHs4Wo+98Xk8FyUaaZ/Gtlwk2a
- /X9Pg1SQ/XeWfWzjm78ROSxW0oto1w==
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
-
-This series looks very good. There is just one define that needs a V4L2_ prefix:
-
-On 02/03/2021 21:54, Ezequiel Garcia wrote:
-> Until now, the VP8 V4L2 API was not exported as a public API,
-> and only defined in a private media header (media/vp8-ctrls.h).
+On Mon, 2021-03-01 at 16:17 +0100, Benjamin Gaignard wrote:
+> IMX8MQ SoC got a dedicated hardware block to reset the video processor
+> units (G1 and G2).
 > 
-> The reason for this was a concern about the API not complete
-> and ready to support VP8 decoding hardware accelerators.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/reset/Kconfig            |   8 ++
+>  drivers/reset/Makefile           |   1 +
+>  drivers/reset/reset-imx8mq-vpu.c | 169 +++++++++++++++++++++++++++++++
+>  3 files changed, 178 insertions(+)
+>  create mode 100644 drivers/reset/reset-imx8mq-vpu.c
 > 
-> After reviewing the VP8 specification in detail, and now
-> that the API is able to support Cedrus and Hantro G1,
-> we can consider this ready.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
+> index 71ab75a46491..fa95380b271a 100644
+> --- a/drivers/reset/Kconfig
+> +++ b/drivers/reset/Kconfig
+> @@ -80,6 +80,14 @@ config RESET_IMX7
+>  	help
+>  	  This enables the reset controller driver for i.MX7 SoCs.
+>  
+> +config RESET_VPU_IMX8MQ
+> +	tristate "i.MX8MQ VPU Reset Driver"
+> +	depends on HAS_IOMEM
+> +	depends on (ARM64 && ARCH_MXC) || COMPILE_TEST
+> +	select MFD_SYSCON
+> +	help
+> +	  This enables the VPU reset controller driver for i.MX8MQ SoCs.
+> +
+>  config RESET_INTEL_GW
+>  	bool "Intel Reset Controller Driver"
+>  	depends on OF && HAS_IOMEM
+> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
+> index 1054123fd187..6007e0cdfc05 100644
+> --- a/drivers/reset/Makefile
+> +++ b/drivers/reset/Makefile
+> @@ -12,6 +12,7 @@ obj-$(CONFIG_RESET_BRCMSTB) += reset-brcmstb.o
+>  obj-$(CONFIG_RESET_BRCMSTB_RESCAL) += reset-brcmstb-rescal.o
+>  obj-$(CONFIG_RESET_HSDK) += reset-hsdk.o
+>  obj-$(CONFIG_RESET_IMX7) += reset-imx7.o
+> +obj-$(CONFIG_RESET_VPU_IMX8MQ) += reset-imx8mq-vpu.o
+>  obj-$(CONFIG_RESET_INTEL_GW) += reset-intel-gw.o
+>  obj-$(CONFIG_RESET_LANTIQ) += reset-lantiq.o
+>  obj-$(CONFIG_RESET_LPC18XX) += reset-lpc18xx.o
+> diff --git a/drivers/reset/reset-imx8mq-vpu.c b/drivers/reset/reset-imx8mq-vpu.c
+> new file mode 100644
+> index 000000000000..14c589f19266
+> --- /dev/null
+> +++ b/drivers/reset/reset-imx8mq-vpu.c
+> @@ -0,0 +1,169 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2021, Collabora
+> + *
+> + * i.MX8MQ VPU Reset Controller driver
+> + *
+> + * Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/reset-controller.h>
+> +#include <linux/regmap.h>
+> +#include <dt-bindings/reset/imx8mq-vpu-reset.h>
+> +
+> +#define CTRL_SOFT_RESET		0x00
+> +#define RESET_G1		((u32)BIT(1))
+> +#define RESET_G2		((u32)BIT(0))
+> +
+> +#define CTRL_ENABLE		0x04
+> +#define ENABLE_G1		BIT(1)
+> +#define ENABLE_G2		BIT(0)
+> +
+> +#define CTRL_G1_DEC_FUSE	0x08
+> +#define CTRL_G1_PP_FUSE		0x0c
+> +#define CTRL_G2_DEC_FUSE	0x10
+> +
+> +struct imx8mq_vpu_reset {
+> +	struct reset_controller_dev rcdev;
+> +	struct regmap *regmap;
+> +	struct clk_bulk_data *clocks;
+> +	int num_clocks;
+> +	struct device *dev;
+> +};
+> +
+> +static inline struct imx8mq_vpu_reset *to_imx8mq_vpu_reset(struct reset_controller_dev *rcdev)
+> +{
+> +	return container_of(rcdev, struct imx8mq_vpu_reset, rcdev);
+> +}
+> +
+> +static int imx8mq_vpu_reset_assert(struct reset_controller_dev *rcdev,
+> +				   unsigned long id)
+> +{
+> +	struct imx8mq_vpu_reset *reset = to_imx8mq_vpu_reset(rcdev);
+> +	int ret = -EINVAL;
+> +
+> +	ret = clk_bulk_prepare_enable(reset->num_clocks, reset->clocks);
+> +	if (ret) {
+> +		dev_err(reset->dev, "Failed to prepare clocks\n");
+> +		return ret;
+> +	}
+> +
+> +	switch (id) {
+> +	case IMX8MQ_RESET_VPU_RESET_G1:
+> +		ret = regmap_update_bits(reset->regmap, CTRL_SOFT_RESET, RESET_G1, ~RESET_G1);
+> +		ret |= regmap_update_bits(reset->regmap, CTRL_ENABLE, ENABLE_G1, ENABLE_G1);
+> +		break;
+> +	case IMX8MQ_RESET_VPU_RESET_G2:
+> +		ret = regmap_update_bits(reset->regmap, CTRL_SOFT_RESET, RESET_G2, ~RESET_G2);
+> +		ret |= regmap_update_bits(reset->regmap, CTRL_ENABLE, ENABLE_G2, ENABLE_G2);
 
-<snip>
+This doesn't belong in reset_assert.
 
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> +		break;
+> +	}
+> +
+> +	/* Set values of the fuse registers */
+> +	ret |= regmap_write(reset->regmap, CTRL_G1_DEC_FUSE, 0xffffffff);
+> +	ret |= regmap_write(reset->regmap, CTRL_G1_PP_FUSE, 0xffffffff);
+> +	ret |= regmap_write(reset->regmap, CTRL_G2_DEC_FUSE, 0xffffffff);
 
-<snip>
+Same as above, this doesn't belong in reset_assert.
 
-> +#define VP8_FRAME_IS_KEY_FRAME(hdr) \
-> +	(!!((hdr)->flags & V4L2_VP8_FRAME_FLAG_KEY_FRAME))
+> +	clk_bulk_disable_unprepare(reset->num_clocks, reset->clocks);
 
-It's used in several drivers, so it is probably best to add a separate
-patch before this patch to rename it.
+Also I assume that only the VPU_DEC_ROOT clock is required to control
+these registers. Enabling the VPU_G1_ROOT and VPU_G2_ROOT clocks
+(presumably to make sure the resets propagate into the respective VPU
+core) would be the reset consumer's responsibility.
 
-Everything else looks fine, so I expect to make a PR once I have a v2 that
-fixes this.
-
-Regards,
-
-	Hans
+regards
+Philipp
