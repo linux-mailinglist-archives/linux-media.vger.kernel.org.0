@@ -2,111 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FD8A32C76E
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8098432C771
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347987AbhCDAb7 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 3 Mar 2021 19:31:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346423AbhCCQ0P (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 11:26:15 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889DFC0613DA
-        for <linux-media@vger.kernel.org>; Wed,  3 Mar 2021 08:25:26 -0800 (PST)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lHUJL-00017T-6G; Wed, 03 Mar 2021 17:25:19 +0100
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lHUJK-0003MJ-Ef; Wed, 03 Mar 2021 17:25:18 +0100
-Message-ID: <c12d84b955b0265dbcf89f2d7fc4d5c28bc74756.camel@pengutronix.de>
-Subject: Re: [PATCH v3 0/5] Reset driver for IMX8MQ VPU hardware block
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, ezequiel@collabora.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com
-Date:   Wed, 03 Mar 2021 17:25:18 +0100
-In-Reply-To: <2d55ad69-9b93-ab0e-04af-cd775cc9248b@collabora.com>
-References: <20210301151754.104749-1-benjamin.gaignard@collabora.com>
-         <e6f8537d2a1f34d0a424b68e056c0ae556c93efd.camel@pengutronix.de>
-         <2d55ad69-9b93-ab0e-04af-cd775cc9248b@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        id S1355600AbhCDAcA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Mar 2021 19:32:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38108 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1345192AbhCCRRK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Mar 2021 12:17:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36D4964EDB;
+        Wed,  3 Mar 2021 17:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614791789;
+        bh=pAzzsrvfkPuDPcdjNc0WIcIU59AumtPPeTcVEC0LuTs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lnlAUq7YjdeGqylTSArYX4ZrAeohLH2tkVDk69MJqXuym2JOmgR1hyBoIlOgydt3f
+         gOobLCWVH7Snatwm/nIZHZ8rwg9XCX41amRXvN7IlqNuxzt1Wp6n6dkjbtMxLMludK
+         wwx3EenASU6/1l6eb/KlbnsMi75Dux/f8aZQfHupVcsH36o9InR6WyIKAi1nEGTMmb
+         JqdHeA+HhWICqpmWHg029aZmS8hypTXlsNFGlc76dyewaqien/DlxAUo54k6S2zIL4
+         4zx+n//eAFF17LWV/PuOPbGCpaaUh6C29ZW4e6qGyjTT+141NrKQ7d7wOQrWZce1Sj
+         SeyoMtE8gxX4Q==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lHV6k-001lT6-L8; Wed, 03 Mar 2021 18:16:22 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] media: dev-overlay.rst: cleanup the xvideo example
+Date:   Wed,  3 Mar 2021 18:16:19 +0100
+Message-Id: <e572b82eabca853728f2dd6ce9087bacfb5d5a5b.1614791758.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2021-03-03 at 16:20 +0100, Benjamin Gaignard wrote:
-> Le 03/03/2021 à 15:17, Philipp Zabel a écrit :
-> > Hi Benjamin,
-> > 
-> > On Mon, 2021-03-01 at 16:17 +0100, Benjamin Gaignard wrote:
-> > > The two VPUs inside IMX8MQ share the same control block which can be see
-> > > as a reset hardware block.
-> > This isn't a reset controller though. The control block also contains
-> > clock gates of some sort and a filter register for the featureset fuses.
-> > Those shouldn't be manipulated via the reset API.
-> 
-> They are all part of the control block and of the reset process for this
-> hardware that why I put them here. I guess it is border line :-)
+It makes more sense to place the xvideo example at the body,
+keeping the footnote only to justify the design decision.
 
-I'm pushing back to keep the reset control framework focused on
-controlling reset lines. Every side effect (such as the asymmetric clock
-ungating) in a random driver makes it harder to reason about behaviour
-at the API level, and to review patches for hardware I am not familiar
-with.
+While this makes the text better, it also fixes the PDF
+output.
 
-> > > In order to be able to add the second VPU (for HECV decoding) it will be
-> > > more handy if the both VPU drivers instance don't have to share the
-> > > control block registers. This lead to implement it as an independ reset
-> > > driver and to change the VPU driver to use it.
-> > Why not switch to a syscon regmap for the control block? That should
-> > also allow to keep backwards compatibility with the old binding with
-> > minimal effort.
-> 
-> I will give a try in this direction.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/userspace-api/media/v4l/dev-overlay.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Thank you.
+diff --git a/Documentation/userspace-api/media/v4l/dev-overlay.rst b/Documentation/userspace-api/media/v4l/dev-overlay.rst
+index 07cc92564c16..4f4b23b95b9b 100644
+--- a/Documentation/userspace-api/media/v4l/dev-overlay.rst
++++ b/Documentation/userspace-api/media/v4l/dev-overlay.rst
+@@ -37,6 +37,10 @@ capturing and overlay. Optionally these drivers may also permit
+ capturing and overlay with a single file descriptor for compatibility
+ with V4L and earlier versions of V4L2. [#f1]_
+ 
++A common application of two file descriptors is the X11
++:ref:`Xv/V4L <xvideo>` interface driver and a V4L2 application.
++While the X server controls video overlay, the application can take
++advantage of memory mapping and DMA.
+ 
+ Querying Capabilities
+ =====================
+@@ -289,11 +293,6 @@ To start or stop the frame buffer overlay applications call the
+ :ref:`VIDIOC_OVERLAY` ioctl.
+ 
+ .. [#f1]
+-   A common application of two file descriptors is the XFree86
+-   :ref:`Xv/V4L <xvideo>` interface driver and a V4L2 application.
+-   While the X server controls video overlay, the application can take
+-   advantage of memory mapping and DMA.
+-
+    In the opinion of the designers of this API, no driver writer taking
+    the efforts to support simultaneous capturing and overlay will
+    restrict this ability by requiring a single file descriptor, as in
+-- 
+2.29.2
 
-> > > Please note that this series break the compatibility between the DTB and
-> > > kernel. This break is limited to IMX8MQ SoC and is done when the driver
-> > > is still in staging directory.
-> > I know in this case we are pretty sure there are no users of this
-> > binding except for a staging driver, but it would still be nice to keep
-> > support for the deprecated binding, to avoid the requirement of updating
-> > kernel and DT in lock-step.
-> 
-> If I want to use a syscon (or a reset) the driver must not ioremap the "ctrl"
-> registers. It means that "ctrl" has to be removed from the driver requested
-> reg-names (imx8mq_reg_names[]). Doing that break the kernel/DT compatibility.
-> Somehow syscon and "ctrl" are exclusive.
-
-The way the driver is set up currently, yes. You could add a bit of
-platform specific probe code, though, that would set up the regmap
-either by calling
-	syscon_regmap_lookup_by_phandle();
-for the new binding, or, if the phandle is not available, fall back to
-	platform_get_resource_byname(..., "ctrl");
-	devm_ioremap_resource();
-	devm_regmap_init_mmio();
-for the old binding.
-The actual codec .reset and variant .runtime_resume ops could be
-identical then.
-
-regards
-Philipp
