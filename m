@@ -2,160 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D016732C73A
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A006132C739
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376701AbhCDAbT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Mar 2021 19:31:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359602AbhCCOty (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 09:49:54 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A833C0613B6
-        for <linux-media@vger.kernel.org>; Wed,  3 Mar 2021 06:47:25 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id w7so5392087wmb.5
-        for <linux-media@vger.kernel.org>; Wed, 03 Mar 2021 06:47:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2UGn20PQxJqEKTFAC3EFVHnHz1ZJw2m1WZDwhJNb+Iw=;
-        b=PfGdnhVOxPMdNIWrE0A3QNUF8gAe+nELjZltascoIWbJ5sLFj4YgG9ZrV3TBY3Csfp
-         fAxw0eBD/FkOX0adMzibZvBALKRq75aACSdkAdPizipYGqwQwCYvSXcQJVGDzaeHau1/
-         FptWixcWGpEV0obeZLxGaxXNWdwuiQbetD/cSPh0ZmNaOAGJJklXYnQkAyr84gh3bv9X
-         +pFwknfvv7+MonHIwCfnBlDiwPRVnjtNvcBECoCew1YPVEwwqt1B50V5ZAnqsnUjMn36
-         5jC6hZgwryg6sNFNYKLtEvf61M7YsFvDEzx7UD/qKwd73xQGEroM3du02S/x46WwP5Ty
-         /1Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2UGn20PQxJqEKTFAC3EFVHnHz1ZJw2m1WZDwhJNb+Iw=;
-        b=LoCabjwSK4QEzrjkm7oQ1wtmcCyDSHdnE+TasdeLLvgC22RIUfgpjgehKrF9Hj2MHH
-         io8+nca3Rryr+G06kJrjd7s3Cu4N8sLkmyhC8CdWdVo0zbh/sFCNhVc5xfFihWPVSNCM
-         40S+hPq46Bd/c+9OFSF4rE5lEj+lSNiYzs/KQtw+C9J3y3CA8FTCklcJYwTDPzxOpMCA
-         tcRmG3TV4gsTjtxWgExIS20thZ5V83xUPJGXPKT6Ywc6Ku0eL1kTBwwGYY1Pv3zewnoT
-         aMd2tdtEjUrdQ9/WcUT0T3H/xoNxiud+K9/zAY/BTVm2Tx6SIE52tut1/uuGrvQjVlvB
-         edog==
-X-Gm-Message-State: AOAM532UoXUq2MD/6FysVXDBHESbyNbCynPkEh2swWLO+z1GQbUJ3Xh9
-        rcrTVfSgeXjbZ4qIZnOWuA5S4w==
-X-Google-Smtp-Source: ABdhPJz+i6eb5nwXlp7WpWuXa9PrjDmdQa0kNy+e8ZT5cHAX5Gkl7tpL7+1lbOkBOjeMEV57c9Q4gQ==
-X-Received: by 2002:a1c:2017:: with SMTP id g23mr9338841wmg.126.1614782843814;
-        Wed, 03 Mar 2021 06:47:23 -0800 (PST)
-Received: from dell.default ([91.110.221.155])
-        by smtp.gmail.com with ESMTPSA id a14sm36567233wrg.84.2021.03.03.06.47.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Mar 2021 06:47:23 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-scsi@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 17/30] scsi: lpfc: lpfc_sli: Fix a bunch of kernel-doc issues
-Date:   Wed,  3 Mar 2021 14:46:18 +0000
-Message-Id: <20210303144631.3175331-18-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210303144631.3175331-1-lee.jones@linaro.org>
-References: <20210303144631.3175331-1-lee.jones@linaro.org>
+        id S1349574AbhCDAbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Mar 2021 19:31:18 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35762 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1359556AbhCCOta (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 09:49:30 -0500
+Received: from [IPv6:2a01:e0a:4cb:a870:30e8:5098:73c5:2bfe] (unknown [IPv6:2a01:e0a:4cb:a870:30e8:5098:73c5:2bfe])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5F13F1F459FA;
+        Wed,  3 Mar 2021 14:48:46 +0000 (GMT)
+Subject: Re: [PATCH v3 4/5] media: hantro: Use reset driver
+To:     Philipp Zabel <p.zabel@pengutronix.de>, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        ezequiel@collabora.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com
+References: <20210301151754.104749-1-benjamin.gaignard@collabora.com>
+ <20210301151754.104749-5-benjamin.gaignard@collabora.com>
+ <29bf66f4b531ec701e85c23a411e40e3621b0ff8.camel@pengutronix.de>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <ef2b0aff-cca3-6c75-1f25-176332e3162b@collabora.com>
+Date:   Wed, 3 Mar 2021 15:48:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <29bf66f4b531ec701e85c23a411e40e3621b0ff8.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
 
- drivers/scsi/lpfc/lpfc_sli.c:9654: warning: expecting prototype for lpfc_sli_iocb2wqe(). Prototype was for lpfc_sli4_iocb2wqe() instead
- drivers/scsi/lpfc/lpfc_sli.c:10439: warning: Function parameter or member 'phba' not described in 'lpfc_sli_issue_fcp_io'
- drivers/scsi/lpfc/lpfc_sli.c:10439: warning: Function parameter or member 'ring_number' not described in 'lpfc_sli_issue_fcp_io'
- drivers/scsi/lpfc/lpfc_sli.c:10439: warning: Function parameter or member 'piocb' not described in 'lpfc_sli_issue_fcp_io'
- drivers/scsi/lpfc/lpfc_sli.c:10439: warning: Function parameter or member 'flag' not described in 'lpfc_sli_issue_fcp_io'
- drivers/scsi/lpfc/lpfc_sli.c:14189: warning: expecting prototype for lpfc_sli4_sp_process_cq(). Prototype was for __lpfc_sli4_sp_process_cq() instead
- drivers/scsi/lpfc/lpfc_sli.c:14754: warning: expecting prototype for lpfc_sli4_hba_process_cq(). Prototype was for lpfc_sli4_dly_hba_process_cq() instead
- drivers/scsi/lpfc/lpfc_sli.c:17230: warning: expecting prototype for lpfc_sli4_free_xri(). Prototype was for __lpfc_sli4_free_xri() instead
- drivers/scsi/lpfc/lpfc_sli.c:18950: warning: expecting prototype for lpfc_sli4_free_rpi(). Prototype was for __lpfc_sli4_free_rpi() instead
+Le 03/03/2021 à 15:39, Philipp Zabel a écrit :
+> On Mon, 2021-03-01 at 16:17 +0100, Benjamin Gaignard wrote:
+>> Rather use a reset like feature inside the driver use the reset
+>> controller API to get the same result.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   drivers/staging/media/hantro/Kconfig        |  1 +
+>>   drivers/staging/media/hantro/imx8m_vpu_hw.c | 61 ++++-----------------
+>>   2 files changed, 12 insertions(+), 50 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
+>> index 5b6cf9f62b1a..dd1d4dde2658 100644
+>> --- a/drivers/staging/media/hantro/Kconfig
+>> +++ b/drivers/staging/media/hantro/Kconfig
+>> @@ -20,6 +20,7 @@ config VIDEO_HANTRO_IMX8M
+>>   	bool "Hantro VPU i.MX8M support"
+>>   	depends on VIDEO_HANTRO
+>>   	depends on ARCH_MXC || COMPILE_TEST
+>> +	select RESET_VPU_IMX8MQ
+>>   	default y
+>>   	help
+>>   	  Enable support for i.MX8M SoCs.
+>> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> index c222de075ef4..d5b4312b9391 100644
+>> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> @@ -7,49 +7,12 @@
+>>   
+>>   #include <linux/clk.h>
+>>   #include <linux/delay.h>
+>> +#include <linux/reset.h>
+>>   
+>>   #include "hantro.h"
+>>   #include "hantro_jpeg.h"
+>>   #include "hantro_g1_regs.h"
+>>   
+>> -#define CTRL_SOFT_RESET		0x00
+>> -#define RESET_G1		BIT(1)
+>> -#define RESET_G2		BIT(0)
+>> -
+>> -#define CTRL_CLOCK_ENABLE	0x04
+>> -#define CLOCK_G1		BIT(1)
+>> -#define CLOCK_G2		BIT(0)
+>> -
+>> -#define CTRL_G1_DEC_FUSE	0x08
+>> -#define CTRL_G1_PP_FUSE		0x0c
+>> -#define CTRL_G2_DEC_FUSE	0x10
+>> -
+>> -static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
+>> -{
+>> -	u32 val;
+>> -
+>> -	/* Assert */
+>> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+>> -	val &= ~reset_bits;
+>> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+>> -
+>> -	udelay(2);
+>> -
+>> -	/* Release */
+>> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+>> -	val |= reset_bits;
+>> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+>> -}
+>> -
+>> -static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
+>> -{
+>> -	u32 val;
+>> -
+>> -	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+>> -	val |= clock_bits;
+>> -	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+> The way it is implemented in the reset driver, the clocks are now
+> ungated between assert and deassert instead of afterwards. Is this on
+> purpose?
 
-Cc: James Smart <james.smart@broadcom.com>
-Cc: Dick Kennedy <dick.kennedy@broadcom.com>
-Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-scsi@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/scsi/lpfc/lpfc_sli.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+No and that could be changed on next version.
 
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index fa1a714a78f09..9801193983ff0 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -9635,7 +9635,7 @@ lpfc_sli4_bpl2sgl(struct lpfc_hba *phba, struct lpfc_iocbq *piocbq,
- }
- 
- /**
-- * lpfc_sli_iocb2wqe - Convert the IOCB to a work queue entry.
-+ * lpfc_sli4_iocb2wqe - Convert the IOCB to a work queue entry.
-  * @phba: Pointer to HBA context object.
-  * @iocbq: Pointer to command iocb.
-  * @wqe: Pointer to the work queue entry.
-@@ -10421,7 +10421,7 @@ __lpfc_sli_issue_iocb_s4(struct lpfc_hba *phba, uint32_t ring_number,
- 	return 0;
- }
- 
--/**
-+/*
-  * lpfc_sli_issue_fcp_io - Wrapper func for issuing fcp i/o
-  *
-  * This routine wraps the actual fcp i/o function for issusing WQE for sli-4
-@@ -14170,7 +14170,7 @@ __lpfc_sli4_process_cq(struct lpfc_hba *phba, struct lpfc_queue *cq,
- }
- 
- /**
-- * lpfc_sli4_sp_process_cq - Process a slow-path event queue entry
-+ * __lpfc_sli4_sp_process_cq - Process a slow-path event queue entry
-  * @cq: pointer to CQ to process
-  *
-  * This routine calls the cq processing routine with a handler specific
-@@ -14744,7 +14744,7 @@ lpfc_sli4_hba_process_cq(struct work_struct *work)
- }
- 
- /**
-- * lpfc_sli4_hba_process_cq - fast-path work handler when started by timer
-+ * lpfc_sli4_dly_hba_process_cq - fast-path work handler when started by timer
-  * @work: pointer to work element
-  *
-  * translates from the work handler and calls the fast-path handler.
-@@ -17218,7 +17218,7 @@ lpfc_sli4_alloc_xri(struct lpfc_hba *phba)
- }
- 
- /**
-- * lpfc_sli4_free_xri - Release an xri for reuse.
-+ * __lpfc_sli4_free_xri - Release an xri for reuse.
-  * @phba: pointer to lpfc hba data structure.
-  * @xri: xri to release.
-  *
-@@ -18938,7 +18938,7 @@ lpfc_sli4_alloc_rpi(struct lpfc_hba *phba)
- }
- 
- /**
-- * lpfc_sli4_free_rpi - Release an rpi for reuse.
-+ * __lpfc_sli4_free_rpi - Release an rpi for reuse.
-  * @phba: pointer to lpfc hba data structure.
-  * @rpi: rpi to free
-  *
--- 
-2.27.0
+Benjamin
 
+>
+> regards
+> Philipp
+>
