@@ -2,24 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C2532C7E8
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8243F32C7E5
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:12:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244822AbhCDAdI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Mar 2021 19:33:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48808 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1390630AbhCCWKQ (ORCPT
+        id S244778AbhCDAdH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Mar 2021 19:33:07 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40122 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1390527AbhCCWKQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 17:10:16 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC315C06175F;
-        Wed,  3 Mar 2021 14:06:11 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id CD5D61F46036
-Message-ID: <32899bc605ae7173c29b25a396e21d7fad32d4bf.camel@collabora.com>
-Subject: Re: [PATCH v4 05/11] media: hantro: Add a field to distinguish the
- hardware versions
+        with ESMTPSA id 7D5BE1F46036
+Message-ID: <0a4ad90338e58a7cc953fb9cd0a0414dacb010d4.camel@collabora.com>
+Subject: Re: [PATCH v4 09/11] media: hantro: IMX8M: add variant for G2/HEVC
+ codec
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
@@ -31,10 +28,10 @@ To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com
-Date:   Wed, 03 Mar 2021 19:05:58 -0300
-In-Reply-To: <20210303113952.178519-6-benjamin.gaignard@collabora.com>
+Date:   Wed, 03 Mar 2021 19:08:42 -0300
+In-Reply-To: <20210303113952.178519-10-benjamin.gaignard@collabora.com>
 References: <20210303113952.178519-1-benjamin.gaignard@collabora.com>
-         <20210303113952.178519-6-benjamin.gaignard@collabora.com>
+         <20210303113952.178519-10-benjamin.gaignard@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.2-1 
@@ -45,125 +42,193 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On Wed, 2021-03-03 at 12:39 +0100, Benjamin Gaignard wrote:
-> Decoders hardware blocks could exist in multiple versions: add
-> a field to distinguish them at runtime.
-> G2 hardware block doesn't have postprocessor hantro_needs_postproc
-> function should always returns false in for this hardware.
-> hantro_needs_postproc function becoming to much complex to
-> stay inline in .h file move it to .c file.
+> Add variant to IMX8M to enable G2/HEVC codec.
+> Define the capabilities for the hardware up to 3840x2160.
+> Retrieve the hardware version at init to distinguish G1 from G2.
 > 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 2:
+> - remove useless clocks
+> 
+>  drivers/staging/media/hantro/hantro_drv.c   |  1 +
+>  drivers/staging/media/hantro/hantro_hw.h    |  1 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 95 ++++++++++++++++++++-
+>  3 files changed, 93 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index bc90a52f4d3d..976be7b6ecfb 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -591,6 +591,7 @@ static const struct of_device_id of_hantro_match[] = {
+>  #endif
+>  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+>         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+> +       { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
+>  #endif
+>         { /* sentinel */ }
+>  };
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index dade3b0769c1..f61f58da05fe 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -193,6 +193,7 @@ extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3288_vpu_variant;
+>  extern const struct hantro_variant imx8mq_vpu_variant;
+> +extern const struct hantro_variant imx8mq_vpu_g2_variant;
+>  
+>  extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
+>  
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index d5b4312b9391..46b33531be85 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -12,6 +12,7 @@
+>  #include "hantro.h"
+>  #include "hantro_jpeg.h"
+>  #include "hantro_g1_regs.h"
+> +#include "hantro_g2_regs.h"
+>  
+>  static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+>  {
+> @@ -90,6 +91,26 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+>         },
+>  };
+>  
+> +static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+> +       {
+> +               .fourcc = V4L2_PIX_FMT_NV12,
+> +               .codec_mode = HANTRO_MODE_NONE,
+> +       },
+> +       {
+> +               .fourcc = V4L2_PIX_FMT_HEVC_SLICE,
+> +               .codec_mode = HANTRO_MODE_HEVC_DEC,
+> +               .max_depth = 2,
+> +               .frmsize = {
+> +                       .min_width = 48,
+> +                       .max_width = 3840,
+> +                       .step_width = MB_DIM,
+> +                       .min_height = 48,
+> +                       .max_height = 2160,
+> +                       .step_height = MB_DIM,
+> +               },
+> +       },
+> +};
+> +
+>  static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>  {
+>         struct hantro_dev *vpu = dev_id;
+> @@ -108,9 +129,42 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>         return IRQ_HANDLED;
+>  }
+>  
+> +static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
+> +{
+> +       struct hantro_dev *vpu = dev_id;
+> +       enum vb2_buffer_state state;
+> +       u32 status;
+> +
+> +       status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
+> +       state = (status & HEVC_REG_INTERRUPT_DEC_RDY_INT) ?
+> +                VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> +
+> +       vdpu_write(vpu, 0, HEVC_REG_INTERRUPT);
+> +       vdpu_write(vpu, HEVC_REG_CONFIG_DEC_CLK_GATE_E, HEVC_REG_CONFIG);
 
-Note that I already questioned this patch before:
+Is this clock gate enable needed on each interrupt?
 
-https://lkml.org/lkml/2021/2/17/722
+> +
+> +       hantro_irq_done(vpu, state);
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+>  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+>  {
+> -       vpu->dec_base = vpu->reg_bases[0];
+> +       int ret;
+> +
+> +       /* Check variant version */
+> +       ret = clk_bulk_prepare_enable(vpu->variant->num_clocks, vpu->clocks);
+> +       if (ret) {
+> +               dev_err(vpu->dev, "Failed to enable clocks\n");
+> +               return ret;
+> +       }
+> +
+> +       /* Make that the device has been reset before read it id */
+> +       ret = device_reset(vpu->dev);
+> +       if (ret)
+> +               dev_err(vpu->dev, "Failed to reset Hantro VPU\n");
+> +
+> +       vpu->core_hw_dec_rev = (vdpu_read(vpu, HEVC_REG_VERSION) >> 16) & 0xffff;
+> +       clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
+>  
+>         return 0;
+>  }
+> @@ -149,17 +203,32 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
+>         },
+>  };
+>  
+> +static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+> +       [HANTRO_MODE_HEVC_DEC] = {
+> +               .run = hantro_g2_hevc_dec_run,
+> +               .reset = imx8mq_vpu_reset,
+> +               .init = hantro_hevc_dec_init,
+> +               .exit = hantro_hevc_dec_exit,
+> +       },
+> +};
+> +
+>  /*
+>   * VPU variants.
+>   */
+>  
+>  static const struct hantro_irq imx8mq_irqs[] = {
+>         { "g1", imx8m_vpu_g1_irq },
+> -       { "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
+>  };
+>  
+> -static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+> -static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
+> +static const struct hantro_irq imx8mq_g2_irqs[] = {
+> +       { "g2", imx8m_vpu_g2_irq },
+> +};
+> +
+> +static const char * const imx8mq_clk_names[] = { "g1", "bus"};
+> +static const char * const imx8mq_reg_names[] = { "g1"};
+> +
+> +static const char * const imx8mq_g2_clk_names[] = { "g2", "bus"};
+> +static const char * const imx8mq_g2_reg_names[] = { "g2"};
+>  
+>  const struct hantro_variant imx8mq_vpu_variant = {
+>         .dec_fmts = imx8m_vpu_dec_fmts,
+> @@ -179,3 +248,21 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>         .reg_names = imx8mq_reg_names,
+>         .num_regs = ARRAY_SIZE(imx8mq_reg_names)
+>  };
+> +
+> +const struct hantro_variant imx8mq_vpu_g2_variant = {
+> +       .dec_offset = 0x0,
+> +       .dec_fmts = imx8m_vpu_g2_dec_fmts,
+> +       .num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
+> +       .postproc_fmts = imx8m_vpu_postproc_fmts,
+> +       .num_postproc_fmts = ARRAY_SIZE(imx8m_vpu_postproc_fmts),
 
-I think it's better to rely on of_device_id.data for this
-type of thing.
-
-In particular, I was expecting that just using
-hantro_variant.postproc_regs would be enough.
-
-Can you try if that works and avoid reading swreg(0)
-and probing the hardware core?
+Is this postproc_fmts correct?
 
 Thanks!
 Ezequiel
 
-> Keep the default behavoir to be G1 hardware.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/staging/media/hantro/hantro.h          | 13 +++++++------
->  drivers/staging/media/hantro/hantro_drv.c      |  2 ++
->  drivers/staging/media/hantro/hantro_postproc.c | 17 +++++++++++++++++
->  3 files changed, 26 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index a76a0d79db9f..05876e426419 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -37,6 +37,9 @@ struct hantro_codec_ops;
->  #define HANTRO_HEVC_DECODER    BIT(19)
->  #define HANTRO_DECODERS                0xffff0000
->  
-> +#define HANTRO_G1_REV          0x6731
-> +#define HANTRO_G2_REV          0x6732
-> +
->  /**
->   * struct hantro_irq - irq handler and name
->   *
-> @@ -171,6 +174,7 @@ hantro_vdev_to_func(struct video_device *vdev)
->   * @enc_base:          Mapped address of VPU encoder register for convenience.
->   * @dec_base:          Mapped address of VPU decoder register for convenience.
->   * @ctrl_base:         Mapped address of VPU control block.
-> + * @core_hw_dec_rev    Runtime detected HW decoder core revision
->   * @vpu_mutex:         Mutex to synchronize V4L2 calls.
->   * @irqlock:           Spinlock to synchronize access to data structures
->   *                     shared with interrupt handlers.
-> @@ -190,6 +194,7 @@ struct hantro_dev {
->         void __iomem *enc_base;
->         void __iomem *dec_base;
->         void __iomem *ctrl_base;
-> +       u32 core_hw_dec_rev;
->  
->         struct mutex vpu_mutex; /* video_device lock */
->         spinlock_t irqlock;
-> @@ -412,12 +417,8 @@ hantro_get_dst_buf(struct hantro_ctx *ctx)
->         return v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
->  }
->  
-> -static inline bool
-> -hantro_needs_postproc(const struct hantro_ctx *ctx,
-> -                     const struct hantro_fmt *fmt)
-> -{
-> -       return !ctx->is_encoder && fmt->fourcc != V4L2_PIX_FMT_NV12;
-> -}
-> +bool hantro_needs_postproc(const struct hantro_ctx *ctx,
-> +                          const struct hantro_fmt *fmt);
->  
->  static inline dma_addr_t
->  hantro_get_dec_buf_addr(struct hantro_ctx *ctx, struct vb2_buffer *vb)
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index f0b68e16fcc0..e3e6df28f470 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -836,6 +836,8 @@ static int hantro_probe(struct platform_device *pdev)
->         }
->         vpu->enc_base = vpu->reg_bases[0] + vpu->variant->enc_offset;
->         vpu->dec_base = vpu->reg_bases[0] + vpu->variant->dec_offset;
-> +       /* by default decoder is G1 */
-> +       vpu->core_hw_dec_rev = HANTRO_G1_REV;
->  
->         ret = dma_set_coherent_mask(vpu->dev, DMA_BIT_MASK(32));
->         if (ret) {
-> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-> index 6d2a8f2a8f0b..050880f720d6 100644
-> --- a/drivers/staging/media/hantro/hantro_postproc.c
-> +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> @@ -50,6 +50,23 @@ const struct hantro_postproc_regs hantro_g1_postproc_regs = {
->         .display_width = {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
->  };
->  
-> +bool hantro_needs_postproc(const struct hantro_ctx *ctx,
-> +                          const struct hantro_fmt *fmt)
-> +{
-> +       struct hantro_dev *vpu = ctx->dev;
-> +
-> +       if (ctx->is_encoder)
-> +               return false;
-> +
-> +       if (vpu->core_hw_dec_rev == HANTRO_G1_REV):q
-
-> +               return fmt->fourcc != V4L2_PIX_FMT_NV12;
-> +
-> +       if (vpu->core_hw_dec_rev == HANTRO_G2_REV)
-> +               return false;
-> +
-> +       return false;
-> +}
-> +
->  void hantro_postproc_enable(struct hantro_ctx *ctx)
->  {
->         struct hantro_dev *vpu = ctx->dev;
+> +       .codec = HANTRO_HEVC_DECODER,
+> +       .codec_ops = imx8mq_vpu_g2_codec_ops,
+> +       .init = imx8mq_vpu_hw_init,
+> +       .runtime_resume = imx8mq_runtime_resume,
+> +       .irqs = imx8mq_g2_irqs,
+> +       .num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
+> +       .clk_names = imx8mq_g2_clk_names,
+> +       .num_clocks = ARRAY_SIZE(imx8mq_g2_clk_names),
+> +       .reg_names = imx8mq_g2_reg_names,
+> +       .num_regs = ARRAY_SIZE(imx8mq_g2_reg_names),
+> +};
 
 
