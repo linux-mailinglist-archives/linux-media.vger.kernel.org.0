@@ -2,225 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1A9032C74C
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B88332C741
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 02:10:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376554AbhCDAb1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Mar 2021 19:31:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43212 "EHLO
+        id S1348024AbhCDAbV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Mar 2021 19:31:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241794AbhCCPLo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 10:11:44 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC70EC0613D9
-        for <linux-media@vger.kernel.org>; Wed,  3 Mar 2021 06:46:37 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id d15so8733587wrv.5
-        for <linux-media@vger.kernel.org>; Wed, 03 Mar 2021 06:46:37 -0800 (PST)
+        with ESMTP id S1359599AbhCCOty (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Mar 2021 09:49:54 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE88C0613B4
+        for <linux-media@vger.kernel.org>; Wed,  3 Mar 2021 06:47:23 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id w7so5391998wmb.5
+        for <linux-media@vger.kernel.org>; Wed, 03 Mar 2021 06:47:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vgZzJohxsprD4BaWMPuNpYTkYmfOwejns2goI8L6I7c=;
-        b=xoyhMHXP+GTSZC+ZmmYHK4udVM/YdemuxF7JXHJw0h7HhZmCx++G66y6f/23+adGT5
-         ZK4HakQpKgpefEpK4SzmQihjq7dNkPoF2aZAMuA4NdbR+/71+ElFKeNvH2NNc4JGMXYA
-         lGgOiGeeNmA3Widzy95DTS3o0lQFSuf8DegdMOd3rB0ypXcsTKMIHKTGByCnW5IIF21d
-         Z0YX/qKkwtn8Q+7nonr2uEVS6BLaBI8IOgAMFxyQZ5nFf6FvfffLqtTTkwveVvLYsTak
-         navsLaIYgWWLmg0dTyVoVzfa5+lxnkD7UJijuj0RdHl9HfO6FmTBvRP1XAg4eoXyiBf+
-         /gFQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cHGLMgmESXIFZCs0JUgZJMepuDsyuMDs79DqzpopOh4=;
+        b=lBZHN8bPn8ofPtdUDEJ9YHpgj9Y5X9y4JEPsFoxiXXsOoaBiEw7ABoTWgRRMkeTh4L
+         L8dYeKAZ04n2f2OIyrIhaHoY7l++4dm/3AUZLiFo2dfGV/iEuQZP55N6fRrjG8zYkTWU
+         euyHo8Yvjnd8bI0HMhSOOJI9oGLvDNM/A23TYmyn4Zmh2FrZzNSQ+nA0+5RQoe8eAUeL
+         fhsF9IePdsCJfsqQeTNpErqcHANrWkvpwGb82NRgFMln2r4vEAv9tdBiLA+q29a+zmKF
+         aX6v0Kc/1/Mg1A6sroXBtZSwvxYSDW6Xr7Qqts1qxZL5RY89YQppWO5OFg+1Zk2ctl/9
+         WjWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vgZzJohxsprD4BaWMPuNpYTkYmfOwejns2goI8L6I7c=;
-        b=HjJ6XmDDBj0dDYXpmEZqDSDDX6WMFpdmPvpJbJFeXBI4raEe4J/8xvCs3IzQjJPDco
-         sW182S3fS2C+NnK5fc9lENexm6WS/v46RdalQmI1d0VlbiG133xZrjks9EZ8vU65cy4m
-         5UuY+u28H/Ygt8BT14XsUDB0m9HOacl2KPk+T2/x0Yv5nwZzaoJ5t4woMbRtRcygqG/3
-         +LyUUc6viOvmpnsebmKF4tyVYWH8CgBoSW+GtWWxnAN98yyQUk04OD+mn51XD8yU+qMy
-         COwzRs2roSgFvkNylev/DYUCnPoulQGbqvVrBBUcy80eAy1FjaJ2H1pQF3hekguHCflb
-         ELsw==
-X-Gm-Message-State: AOAM531aFRXRFaQryQb1OEPD/DkXnTELNP9pGBufZTLHTzw9ELLd6/yC
-        hAegwLpKoAVAkLqlntNflXQe7w==
-X-Google-Smtp-Source: ABdhPJypVRS7p7oKYfqIWhANcI3yGuUYpOvj7a9dj/U4ReTs3vnCBgqTreqIVdQBwbPs6NJylJHAHg==
-X-Received: by 2002:adf:eec5:: with SMTP id a5mr12417917wrp.303.1614782796387;
-        Wed, 03 Mar 2021 06:46:36 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cHGLMgmESXIFZCs0JUgZJMepuDsyuMDs79DqzpopOh4=;
+        b=MzU8IsGLnST/r0r3qBiByVnT9bEIoQPPTBTrc9apn0qeQNMmzT5oAQIwbZhTC1Jnn8
+         c28YG++gasa0FslDPRh5rT4hI/72iXFEDciIvdjUBVn8eJ9pEa0tT1hF1okWdPkCJS5Q
+         pmezJl+M04BrE9/pxaMI6Hogm9wjususRe5Pm1Ye6wMamwWkVhbhsXpEhAUTLLwFXo5j
+         /3kp0vp2gOzlrg8W2z5Lkqx1T5s+ghNK8jdiPKWiXZz+tn9nORAKiJY9BLwPwz83jcFd
+         wL0q3LJ072zCxRpQiZZy91849Y8CNUN7+3HunyEHmhT1Pex2PWmd0nu6/Nfi6+QksXjm
+         Py2w==
+X-Gm-Message-State: AOAM533l0LUA2DK6V3FfXQRr+SJ95FvhdDDNY1ntnWbLqxXjsDJ8XBZP
+        p6awy7VcsgKTPN5cs0K6wwZCAA==
+X-Google-Smtp-Source: ABdhPJwT5ycXh7v72pauBAfT/7F41M3dC7pMHTlOeEz2LNBHe69VWsAs12AKit5DPIkGD21Kk0wVyQ==
+X-Received: by 2002:a1c:2403:: with SMTP id k3mr9543941wmk.130.1614782842402;
+        Wed, 03 Mar 2021 06:47:22 -0800 (PST)
 Received: from dell.default ([91.110.221.155])
-        by smtp.gmail.com with ESMTPSA id a14sm36567233wrg.84.2021.03.03.06.46.34
+        by smtp.gmail.com with ESMTPSA id a14sm36567233wrg.84.2021.03.03.06.47.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Mar 2021 06:46:35 -0800 (PST)
+        Wed, 03 Mar 2021 06:47:21 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
         Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
-        Atul Mukker <Atul.Mukker@lsi.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Chaw <david_chaw@adaptec.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        dri-devel@lists.freedesktop.org,
-        GR-QLogic-Storage-Upstream@marvell.com,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Hannes Reinecke <hare@suse.de>,
-        Jack Wang <jinpu.wang@cloud.ionos.com>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        James Smart <james.smart@broadcom.com>,
-        Jason Yan <yanaijie@huawei.com>,
-        Javed Hasan <jhasan@marvell.com>,
-        John Garry <john.garry@huawei.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Kumar Santhanam <AnandKumar.Santhanam@pmcs.com>,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        linux-scsi@vger.kernel.org,
-        Luben Tuikov <luben_tuikov@adaptec.com>,
-        Manish Rangankar <mrangankar@marvell.com>,
-        Manoj Jose <Manoj.Jose@lsi.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
-        megaraidlinux@lsi.com, megaraidlinux.pdl@broadcom.com,
-        MPT-FusionLinux.pdl@avagotech.com,
-        MPT-FusionLinux.pdl@broadcom.com,
-        Nikith Ganigarakoppal <Nikith.Ganigarakoppal@pmcs.com>,
-        Nilesh Javali <njavali@marvell.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "PMC-Sierra, Inc" <aacraid@pmc-sierra.com>,
-        Prakash Gollapudi <bprakash@broadcom.com>,
-        Sangeetha Gnanasekaran <Sangeetha.Gnanasekaran@pmcs.com>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        Saurav Kashyap <skashyap@marvell.com>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        Sreenivas Bagalkote <Sreenivas.Bagalkote@lsi.com>,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH 00/30] [Set 1] Rid W=1 warnings in SCSI
-Date:   Wed,  3 Mar 2021 14:46:01 +0000
-Message-Id: <20210303144631.3175331-1-lee.jones@linaro.org>
+        linux-scsi@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 16/30] scsi: aacraid: commsup: Repair formatting issue in aac_handle_sa_aif()'s header
+Date:   Wed,  3 Mar 2021 14:46:17 +0000
+Message-Id: <20210303144631.3175331-17-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210303144631.3175331-1-lee.jones@linaro.org>
+References: <20210303144631.3175331-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This set is part of a larger effort attempting to clean-up W=1
-kernel builds, which are currently overwhelmingly riddled with
-niggly little warnings.
+Fixes the following W=1 kernel build warning(s):
 
-Lee Jones (30):
-  scsi: megaraid: megaraid_mm: Fix incorrect function name in header
-  scsi: megaraid: megaraid_sas_base: Fix a bunch of misnamed functions
-    in their headers
-  scsi: fcoe: Fix function name fcoe_set_vport_symbolic_name() in
-    description
-  scsi: megaraid: megaraid_mbox: Fix function name
-    megaraid_queue_command_lck() in description
-  scsi: fcoe: fcoe_ctlr: Fix a couple of incorrectly named functions
-  scsi: aic94xx: aic94xx_hwi: Fix a couple of misnamed function names
-  scsi: aacraid: aachba: Fix a few incorrectly named functions
-  scsi: pm8001: pm8001_init: Provide function name and fix a misspelling
-  scsi: aacraid: commctrl: Fix incorrect spelling of aac_send_raw_srb()
-  scsi: bnx2fc: bnx2fc_hwi: Fix typo in bnx2fc_indicate_kcqe()
-  scsi: pm8001: pm8001_sas: Provide function name
-    'pm8001_I_T_nexus_reset()' in header
-  scsi: qla4xxx: ql4_os: Fix formatting issues - missing '-' and '_'
-  scsi: pm8001: pm8001_ctl: Fix incorrectly named functions in headers
-  scsi: aic94xx: aic94xx_sds: Fix asd_erase_nv_sector()'s header
-  scsi: qla2xxx: qla_iocb: Replace __qla2x00_marker()'s missing
-    underscores
-  scsi: aacraid: commsup: Repair formatting issue in
-    aac_handle_sa_aif()'s header
-  scsi: lpfc: lpfc_sli: Fix a bunch of kernel-doc issues
-  scsi: pm8001: pm8001_hwi: Fix some misnamed function descriptions
-  scsi: qla4xxx: ql4_mbx: Fix kernel-doc formatting and misnaming issue
-  scsi: bnx2fc: bnx2fc_tgt: Fix misnaming of bnx2fc_free_session_resc()
-  scsi: aic94xx: aic94xx_dump: Remove code that has been unused for at
-    least 13 years
-  scsi: pm8001: pm80xx_hwi: Fix a bunch of doc-rotted function headers
-  scsi: qla2xxx: qla_gs: Fix some incorrect formatting/spelling issues
-  scsi: aacraid: rx: Fix misspelling of _aac_rx_init()
-  scsi: lpfc: lpfc_ct: Fix formatting and misspelling issues
-  scsi: libfc: fc_lport: Fix some possible copy/paste issues
-  scsi: lpfc: lpfc_hbadisc: Fix incorrect naming of
-    __lpfc_update_fcf_record()
-  scsi: mpt3sas: mpt3sas_base: Fix misspelling of
-    _base_put_smid_default_atomic()
-  scsi: lpfc: lpfc_nportdisc: Fix misspelling of lpfc_defer_acc_rsp()
-  scsi: mpt3sas: mpt3sas_scs: Move a little data from the stack onto the
-    heap
-
- drivers/scsi/aacraid/aachba.c             |   8 +-
- drivers/scsi/aacraid/commctrl.c           |   2 +-
- drivers/scsi/aacraid/commsup.c            |   4 +-
- drivers/scsi/aacraid/rx.c                 |   2 +-
- drivers/scsi/aic94xx/aic94xx_dump.c       | 184 ----------------------
- drivers/scsi/aic94xx/aic94xx_hwi.c        |   4 +-
- drivers/scsi/aic94xx/aic94xx_sds.c        |   2 +-
- drivers/scsi/bnx2fc/bnx2fc_hwi.c          |   2 +-
- drivers/scsi/bnx2fc/bnx2fc_tgt.c          |   2 +-
- drivers/scsi/fcoe/fcoe.c                  |   2 +-
- drivers/scsi/fcoe/fcoe_ctlr.c             |   4 +-
- drivers/scsi/libfc/fc_lport.c             |  12 +-
- drivers/scsi/lpfc/lpfc_ct.c               |  12 +-
- drivers/scsi/lpfc/lpfc_hbadisc.c          |   2 +-
- drivers/scsi/lpfc/lpfc_nportdisc.c        |   2 +-
- drivers/scsi/lpfc/lpfc_sli.c              |  12 +-
- drivers/scsi/megaraid/megaraid_mbox.c     |   2 +-
- drivers/scsi/megaraid/megaraid_mm.c       |   2 +-
- drivers/scsi/megaraid/megaraid_sas_base.c |  11 +-
- drivers/scsi/mpt3sas/mpt3sas_base.c       |   2 +-
- drivers/scsi/mpt3sas/mpt3sas_scsih.c      |  38 +++--
- drivers/scsi/pm8001/pm8001_ctl.c          |   4 +-
- drivers/scsi/pm8001/pm8001_hwi.c          |   8 +-
- drivers/scsi/pm8001/pm8001_init.c         |   4 +-
- drivers/scsi/pm8001/pm8001_sas.c          |   1 +
- drivers/scsi/pm8001/pm80xx_hwi.c          |  18 +--
- drivers/scsi/qla2xxx/qla_gs.c             |  10 +-
- drivers/scsi/qla2xxx/qla_iocb.c           |   2 +-
- drivers/scsi/qla4xxx/ql4_mbx.c            |   4 +-
- drivers/scsi/qla4xxx/ql4_os.c             |   4 +-
- 30 files changed, 99 insertions(+), 267 deletions(-)
+ drivers/scsi/aacraid/commsup.c:334: warning: expecting prototype for fib_deallocate(). Prototype was for fib_dealloc() instead
+ drivers/scsi/aacraid/commsup.c:1961: warning: expecting prototype for aac_handle_sa_aif       Handle a message from the firmware(). Prototype was for aac_handle_sa_aif() instead
 
 Cc: Adaptec OEM Raid Solutions <aacraid@microsemi.com>
-Cc: Atul Mukker <Atul.Mukker@lsi.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: David Chaw <david_chaw@adaptec.com>
-Cc: Dick Kennedy <dick.kennedy@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: GR-QLogic-Storage-Upstream@marvell.com
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Hannes Reinecke <hare@suse.de>
-Cc: Jack Wang <jinpu.wang@cloud.ionos.com>
 Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-Cc: James Smart <james.smart@broadcom.com>
-Cc: Jason Yan <yanaijie@huawei.com>
-Cc: Javed Hasan <jhasan@marvell.com>
-Cc: John Garry <john.garry@huawei.com>
-Cc: Kashyap Desai <kashyap.desai@broadcom.com>
-Cc: Kumar Santhanam <AnandKumar.Santhanam@pmcs.com>
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: Luben Tuikov <luben_tuikov@adaptec.com>
-Cc: Manish Rangankar <mrangankar@marvell.com>
-Cc: Manoj Jose <Manoj.Jose@lsi.com>
 Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: megaraidlinux@lsi.com
-Cc: megaraidlinux.pdl@broadcom.com
-Cc: MPT-FusionLinux.pdl@avagotech.com
-Cc: MPT-FusionLinux.pdl@broadcom.com
-Cc: Nikith Ganigarakoppal <Nikith.Ganigarakoppal@pmcs.com>
-Cc: Nilesh Javali <njavali@marvell.com>
-Cc: "PMC-Sierra, Inc" <aacraid@pmc-sierra.com>
-Cc: Prakash Gollapudi <bprakash@broadcom.com>
-Cc: Sangeetha Gnanasekaran <Sangeetha.Gnanasekaran@pmcs.com>
-Cc: Sathya Prakash <sathya.prakash@broadcom.com>
-Cc: Saurav Kashyap <skashyap@marvell.com>
-Cc: Shivasharan S <shivasharan.srikanteshwara@broadcom.com>
-Cc: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-Cc: Sreenivas Bagalkote <Sreenivas.Bagalkote@lsi.com>
-Cc: Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>
-Cc: Sumit Saxena <sumit.saxena@broadcom.com>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "PMC-Sierra, Inc" <aacraid@pmc-sierra.com>
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/scsi/aacraid/commsup.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/scsi/aacraid/commsup.c b/drivers/scsi/aacraid/commsup.c
+index 0ae0d1fa2b507..54eb4d41bc2c2 100644
+--- a/drivers/scsi/aacraid/commsup.c
++++ b/drivers/scsi/aacraid/commsup.c
+@@ -323,7 +323,7 @@ void aac_fib_init(struct fib *fibptr)
+ }
+ 
+ /**
+- *	fib_deallocate		-	deallocate a fib
++ *	fib_dealloc		-	deallocate a fib
+  *	@fibptr: fib to deallocate
+  *
+  *	Will deallocate and return to the free pool the FIB pointed to by the
+@@ -1950,7 +1950,7 @@ void aac_src_reinit_aif_worker(struct work_struct *work)
+ }
+ 
+ /**
+- *	aac_handle_sa_aif	Handle a message from the firmware
++ *	aac_handle_sa_aif -	Handle a message from the firmware
+  *	@dev: Which adapter this fib is from
+  *	@fibptr: Pointer to fibptr from adapter
+  *
 -- 
 2.27.0
 
