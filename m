@@ -2,145 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0507E32D1B7
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 12:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12E9B32D1E4
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 12:38:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239565AbhCDLYy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Mar 2021 06:24:54 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:50939 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239561AbhCDLYe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Mar 2021 06:24:34 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Hm57lZvEuOruFHm5AlFSYw; Thu, 04 Mar 2021 12:23:53 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1614857033; bh=5kKnQ1BpA9W7rHHjtMkcsOrn5W1M2hcwOipk1DFsjFQ=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=c/xwHwtJGOL4WD5rL5ubR/+sfGqi/9AWaOfo7pqDxxLTqVufzWc5+SyAj9A0ct3id
-         XbvAfFYZHcoOa0u7En3bAKtLWreQNGCRj56Shcohu4pz/dRRZtfim3EjGE52XIy0DH
-         qFk8Cdu2E0Z/hAMc2imn3ZWwmlDPqVXOsTGym6urExJpBpYuUR//Pv9ritc0dyP1Xh
-         DdjCXIPmfiOerH9x52n8XlcU2467tXwymUwD8AfhyG9c+dmhj5XozySIaSXppK52La
-         JzMcO+jUtef2BnFMa3Zw3jU4Uqh8XT9pxhdYVHSvL2QNAFAJ3YKFxRS/sgbr6vFWO9
-         nxQxTtzzYZcKQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.13] Various fixes and cleanups
-Message-ID: <0807c7b9-52f0-e680-1320-e52703722a69@xs4all.nl>
-Date:   Thu, 4 Mar 2021 12:23:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        id S239184AbhCDLhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Mar 2021 06:37:19 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44416 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238447AbhCDLg5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Mar 2021 06:36:57 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lHmHA-0013CY-CB; Thu, 04 Mar 2021 11:36:16 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lHmKw-0005Q9-8K; Thu, 04 Mar 2021 11:40:10 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.13] Various fixes and cleanups (#71906)
+Date:   Thu,  4 Mar 2021 11:40:10 +0000
+Message-Id: <20210304114010.20796-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <0807c7b9-52f0-e680-1320-e52703722a69@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfHKooW2a7TU4+IAHa2DuhfE0cN42B7GvzpUc/tWds2vkCCAw5mC9DEvNGoZl7FgjzeAkC8XfQ7Yi351fWlV38UrbCfWqZvhS03xJjqI4LiHCxKRdPfrn
- dvPrXOn2PEqRbJhB3E+htUXU5mNkE7Ll/Vxns9SrFvrLIGCK1PoxUZO1uNWmINj+WPr7SG+/Gs9W6KQ3doRRWHv8SxzF4jCRscc=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
+From: builder@linuxtv.org
 
-  Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/0807c7b9-52f0-e680-1320-e52703722a69@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/92790/
+Build time: 00:08:54
+Link: https://lore.kernel.org/linux-media/0807c7b9-52f0-e680-1320-e52703722a69@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Thu 04 Mar 2021 11:02:40 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13d
+Summary: got 3/19 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 6a8c16e5ba64bb13a42cf1fb598429bd081a407a:
+Error/warnings:
 
-  media: ngene: switch from 'pci_' to 'dma_' API (2021-03-04 11:33:41 +0100)
+patches/0013-media-aspeed-fix-clock-handling-logic.patch:
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0013-media-aspeed-fix-clock-handling-logic.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:43: WARNING: Duplicate signature
+	-:44: WARNING: Duplicate signature
+	-:61: WARNING: line length of 106 exceeds 100 columns
+	-:65: WARNING: line length of 107 exceeds 100 columns
 
-----------------------------------------------------------------
-Brad Love (2):
-      cx23885: add more quirks for reset DMA on some AMD IOMMU
-      cx23885: Fix various Hauppauge device analog capture inputs
+patches/0017-media-i2c-adv7511-remove-open-coded-version-of-SMBus.patch:
 
-Christophe JAILLET (1):
-      media: ngene: switch from 'pci_' to 'dma_' API
+   checkpatch.pl:
+	$ cat patches/0017-media-i2c-adv7511-remove-open-coded-version-of-SMBus.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:89: WARNING: line length of 103 exceeds 100 columns
 
-Colin Ian King (2):
-      media: vivid: fix assignment of dev->fbuf_out_flags
-      media: drxj: remove redundant assignments to variable image_to_select
+patches/0019-media-ngene-switch-from-pci_-to-dma_-API.patch:
 
-Dafna Hirschfeld (1):
-      media: rkisp1: rsz: crash fix when setting src format
+   checkpatch.pl:
+	$ cat patches/0019-media-ngene-switch-from-pci_-to-dma_-API.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:157: CHECK: Avoid CamelCase: <Cur>
+	-:157: CHECK: Avoid CamelCase: <Buffer1>
+	-:158: CHECK: Avoid CamelCase: <scList1>
+	-:158: CHECK: Avoid CamelCase: <Address>
+	-:166: CHECK: Avoid CamelCase: <Buffer2Length>
+	-:166: CHECK: Avoid CamelCase: <Buffer2>
+	-:167: CHECK: Avoid CamelCase: <scList2>
+	-:173: CHECK: Avoid CamelCase: <SCListMemSize>
+	-:174: CHECK: Avoid CamelCase: <SCListMem>
+	-:177: CHECK: Avoid CamelCase: <MemSize>
+	-:177: CHECK: Avoid CamelCase: <Head>
+	-:178: CHECK: Avoid CamelCase: <PAHead>
+	-:190: CHECK: Avoid CamelCase: <OverflowBuffer>
+	-:190: CHECK: Avoid CamelCase: <PAOverflowBuffer>
+	-:198: CHECK: Avoid CamelCase: <FWInterfaceBuffer>
+	-:199: CHECK: Avoid CamelCase: <PAFWInterfaceBuffer>
+	-:228: CHECK: Avoid CamelCase: <Buffer>
 
-Davidlohr Bueso (1):
-      media/siano: kill pointless kmutex definitions
 
-Hans Verkuil (1):
-      media: fix incorrect kernel doc usages
+Error #512 when building PDF docs
 
-Jae Hyun Yoo (1):
-      media: aspeed: fix clock handling logic
-
-Jiapeng Chong (1):
-      media: ti-vpe: Simplify bool comparison
-
-Jonathan Neuschäfer (1):
-      media: dvbdev: Switch to new kerneldoc syntax for named variable macro argument
-
-Liu Shixin (1):
-      media: anysee: simplify the return expression of anysee_ci_* function
-
-Qinglang Miao (1):
-      media: ngene: simplify the return expression of eeprom_write_ushort()
-
-Tasos Sahanidis (2):
-      media: saa7134: use sg_dma_len when building pgtable
-      media: saa7146: use sg_dma_len when building pgtable
-
-Tom Rix (1):
-      b2c2: remove trailing semicolon in macro definition
-
-Tomi Valkeinen (1):
-      media: v4l2-subdev.rst: typo fix
-
-Wolfram Sang (1):
-      media: i2c: adv7511: remove open coded version of SMBus block read
-
-Yang Yingliang (1):
-      omap4iss: return error code when omap4iss_get() failed
-
- Documentation/driver-api/media/v4l2-subdev.rst          |  2 +-
- drivers/clk/clk-ast2600.c                               |  4 ++--
- drivers/media/common/b2c2/flexcop-hw-filter.c           |  2 +-
- drivers/media/common/saa7146/saa7146_core.c             |  2 +-
- drivers/media/common/saa7146/saa7146_video.c            |  3 +--
- drivers/media/common/siano/smscoreapi.c                 | 42 ++++++++++++++++----------------
- drivers/media/common/siano/smscoreapi.h                 |  5 ----
- drivers/media/common/siano/smsdvb-main.c                | 14 +++++------
- drivers/media/common/videobuf2/frame_vector.c           |  1 -
- drivers/media/dvb-core/dvb_ca_en50221.c                 | 32 +++++++++++++------------
- drivers/media/dvb-frontends/drx39xyj/drxj.c             |  2 +-
- drivers/media/i2c/adv7511-v4l2.c                        | 58 ++++++++++++++++++++-------------------------
- drivers/media/i2c/imx274.c                              |  7 +++---
- drivers/media/i2c/s5k6aa.c                              |  2 +-
- drivers/media/pci/cx23885/cx23885-cards.c               | 28 +++++++++++-----------
- drivers/media/pci/cx23885/cx23885-core.c                |  9 +++++++
- drivers/media/pci/ngene/ngene-cards.c                   |  6 +----
- drivers/media/pci/ngene/ngene-core.c                    | 56 +++++++++++++++++++++----------------------
- drivers/media/pci/saa7134/saa7134-core.c                |  2 +-
- drivers/media/platform/aspeed-video.c                   |  9 ++++---
- drivers/media/platform/exynos4-is/media-dev.c           |  2 +-
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c    |  4 ++--
- drivers/media/platform/mtk-vpu/mtk_vpu.c                |  4 ++--
- drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c |  9 +++----
- drivers/media/platform/ti-vpe/vpdma.c                   |  3 +--
- drivers/media/platform/vsp1/vsp1_dl.c                   |  2 +-
- drivers/media/rc/img-ir/img-ir-hw.c                     |  2 +-
- drivers/media/test-drivers/vivid/vivid-vid-out.c        |  2 +-
- drivers/media/tuners/mt2063.c                           |  6 ++---
- drivers/media/usb/dvb-usb-v2/anysee.c                   | 21 +++-------------
- drivers/media/usb/pwc/pwc-dec23.c                       |  2 +-
- drivers/media/v4l2-core/v4l2-jpeg.c                     |  2 +-
- drivers/staging/media/omap4iss/iss.c                    |  4 +++-
- include/media/dvbdev.h                                  |  2 +-
- 34 files changed, 168 insertions(+), 183 deletions(-)
