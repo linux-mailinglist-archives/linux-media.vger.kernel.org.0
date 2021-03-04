@@ -2,89 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 552E232DA77
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 20:36:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CDF32DC7A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 22:45:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231296AbhCDTfr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Mar 2021 14:35:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44718 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbhCDTfi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Mar 2021 14:35:38 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB32C061574
-        for <linux-media@vger.kernel.org>; Thu,  4 Mar 2021 11:34:58 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id r17so51648449ejy.13
-        for <linux-media@vger.kernel.org>; Thu, 04 Mar 2021 11:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P5ZGS9SozG7SPJd7V+gBgZUerMurs1Mdjd6yuPEEvaU=;
-        b=tBiasoTv2LxT4a0ybJ6WF7ayIBf4XYQW/xR8PJlVlPmWGbTgohO4r4XuX4iL6WQY6X
-         7Do4NLO3+HpsnxlqWjH6FQT9PMbuePV+qUecLFYPZ619M3ON8PIG/fiZGL3UjANma92V
-         paCOI19Xpwg/FW9fbq8+YcaHYILugK21z7UrilYzY3to/n9NApr54gBezoFysEA95R1H
-         JsdPPCJAqgGfZesd5WszeFHywtJTmUCsPRav/MR9PJyi1KGI+U53F8EZA9t9EHqod1o6
-         UgUbDOMg8Wx4bu1i+xouZ2y75Hf3Ci2tOD6nWyPkgeKL9LTSJNu2yxmITXaV+QlQHn5K
-         4+Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P5ZGS9SozG7SPJd7V+gBgZUerMurs1Mdjd6yuPEEvaU=;
-        b=poIiDK7PLh+MHbnKWTbCQqmIgArxLUBWT7GX1rAlrOaRwi7OQ6Aq7nbbapEPCuk9uv
-         iFKImSjGVlToQKC+bVpJB1FUm2fGSB4By81TFMC6hreV1371+9BSJHYH3xxyd8/vsYov
-         84QePhP0ER7OYRpUxHF8GYgcoROy/d2AqcLnrAiKU9mok6g1DxBWVY/fk0J4pLpz13XF
-         0Lfc/sUlK6n3gdFzM4xRwFpBRUmOlb2MP/t6NKc6WaGiUBOA2g/AIFodylr+Dg352D/w
-         3qBfn4irkDIfpGVHtveJ1kUfCNaohgwyfbzgrWX3/7HnFV9u/q0beaZ53o3VGJM8v+D4
-         Pg+w==
-X-Gm-Message-State: AOAM533+BOuhMovdToBHkuH7YdrLbhjE61+opwBjduGU40XBSgk5cWGB
-        dpyfPjds4UmRpP6YDxVoHimVvpjIICgCuEwjZ9qE0Q==
-X-Google-Smtp-Source: ABdhPJya9onErgd7RmZV2QbMXsvyyX4P5lmwTcopxxOeiGXh+75lyKSQOGP8w3fJPmgTDoN4HPOeRGhtSkKcwauMSqA=
-X-Received: by 2002:a17:906:32d1:: with SMTP id k17mr6076815ejk.141.1614886497160;
- Thu, 04 Mar 2021 11:34:57 -0800 (PST)
+        id S232504AbhCDVon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Mar 2021 16:44:43 -0500
+Received: from mga03.intel.com ([134.134.136.65]:47516 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241215AbhCDVob (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Mar 2021 16:44:31 -0500
+IronPort-SDR: X6cCWXJKybDL70HH24Dn7KJaW5WBE6xd2rhlu/OQLpCCt7AK15ECmDPk+wzZsnnEkqNiZTHtZy
+ bsJCC54nQdIg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187568561"
+X-IronPort-AV: E=Sophos;i="5.81,223,1610438400"; 
+   d="scan'208";a="187568561"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 13:43:50 -0800
+IronPort-SDR: j88W8GgTWLDZ7EBjm+oQ83VeHySO2N9mu4UJnYqkn8mSxNjUEhjVIGIl7WFFqn70HpRbQzE2aK
+ G18SFig2vvlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,223,1610438400"; 
+   d="scan'208";a="436009020"
+Received: from lkp-server02.sh.intel.com (HELO 2482ff9f8ac0) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Mar 2021 13:43:49 -0800
+Received: from kbuild by 2482ff9f8ac0 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lHvl6-0002Pb-TP; Thu, 04 Mar 2021 21:43:48 +0000
+Date:   Fri, 05 Mar 2021 05:43:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ f3ea6a19f413cd983e4372da8af3f99de12f94de
+Message-ID: <6041548c.0hnYc8kMel2Qi4YB%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <45cda97c-a0e4-eef2-ba8f-ddc7e33b40d5@penguintechs.org>
- <4cdd691f-dc55-fc6e-1830-ac0c24b8e96b@penguintechs.org> <CAAEAJfAyuGwL==BHwyEwF0dMfrUQacEQyv8+zz82_P+BM-C5bw@mail.gmail.com>
- <20210304201055.78145b04@coco.lan>
-In-Reply-To: <20210304201055.78145b04@coco.lan>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Thu, 4 Mar 2021 16:34:44 -0300
-Message-ID: <CAAEAJfAGq=YvXZcBD_-w8OdZB1ZX_P3VB1y3CQSoazjzNSqGVQ@mail.gmail.com>
-Subject: Re: v4l2loopback and v4l2-mem2mem framework
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Wren Turkal <wt@penguintechs.org>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 4 Mar 2021 at 16:11, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Em Tue, 2 Mar 2021 05:01:16 -0300
-> Ezequiel Garcia <ezequiel@vanguardiasur.com.ar> escreveu:
->
-> > Hi Wren,
-> >
-> > How about you submit the loopback driver for integration in mainline?
-> > We can review the driver, give feedback and help you get it merged.
->
-> Please, don't top post.
->
-> The loopback driver is not something that could be merged. It was
-> already submitted a few times.
->
-> One of the main issues is that userspace may sleep, and this could cause
-> some bad effects and even hangups due to V4L2 core and VB2 mutex and
-> spin locks.
->
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: f3ea6a19f413cd983e4372da8af3f99de12f94de  media: vbi_hsync.svg: fix the viewports
 
-Can you elaborate on this?
+elapsed time: 1645m
 
-I always felt that it's a shame for something so popular as the loopback
-to be out-of-tree and unsupported.
+configs tested: 153
+configs skipped: 2
 
-Thanks,
-Ezequiel
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                  colibri_pxa300_defconfig
+mips                          malta_defconfig
+h8300                               defconfig
+ia64                      gensparse_defconfig
+powerpc                      pmac32_defconfig
+arc                          axs103_defconfig
+arm                             pxa_defconfig
+xtensa                         virt_defconfig
+powerpc                          allyesconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                        icon_defconfig
+mips                malta_kvm_guest_defconfig
+arm                          badge4_defconfig
+arm                            mps2_defconfig
+arm                        multi_v7_defconfig
+mips                      maltaaprp_defconfig
+powerpc                     ep8248e_defconfig
+mips                      bmips_stb_defconfig
+alpha                               defconfig
+arm                        multi_v5_defconfig
+mips                        vocore2_defconfig
+sh                           se7780_defconfig
+arm                         hackkit_defconfig
+um                             i386_defconfig
+mips                        maltaup_defconfig
+powerpc                     sequoia_defconfig
+arm                             ezx_defconfig
+arm                         s3c2410_defconfig
+powerpc                 mpc832x_rdb_defconfig
+mips                      malta_kvm_defconfig
+m68k                         amcore_defconfig
+arm                          ep93xx_defconfig
+microblaze                          defconfig
+mips                      fuloong2e_defconfig
+m68k                       m5208evb_defconfig
+powerpc                       ebony_defconfig
+sh                            titan_defconfig
+mips                     loongson1c_defconfig
+riscv                            allmodconfig
+arm                        clps711x_defconfig
+m68k                       m5249evb_defconfig
+powerpc                       holly_defconfig
+arm                        mini2440_defconfig
+arm                        vexpress_defconfig
+powerpc                     akebono_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc               mpc834x_itxgp_defconfig
+powerpc                      pasemi_defconfig
+powerpc64                           defconfig
+powerpc                      bamboo_defconfig
+powerpc                     mpc83xx_defconfig
+ia64                                defconfig
+mips                     cu1830-neo_defconfig
+powerpc                     tqm5200_defconfig
+mips                          rm200_defconfig
+arm64                            alldefconfig
+arm                        oxnas_v6_defconfig
+powerpc                      chrp32_defconfig
+xtensa                generic_kc705_defconfig
+mips                  cavium_octeon_defconfig
+mips                            ar7_defconfig
+arm                        realview_defconfig
+powerpc                      ppc64e_defconfig
+powerpc                      ppc44x_defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+parisc                              defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20210303
+i386                 randconfig-a003-20210303
+i386                 randconfig-a002-20210303
+i386                 randconfig-a004-20210303
+i386                 randconfig-a006-20210303
+i386                 randconfig-a001-20210303
+i386                 randconfig-a005-20210304
+i386                 randconfig-a003-20210304
+i386                 randconfig-a002-20210304
+i386                 randconfig-a004-20210304
+i386                 randconfig-a006-20210304
+i386                 randconfig-a001-20210304
+x86_64               randconfig-a013-20210303
+x86_64               randconfig-a016-20210303
+x86_64               randconfig-a015-20210303
+x86_64               randconfig-a014-20210303
+x86_64               randconfig-a012-20210303
+x86_64               randconfig-a011-20210303
+x86_64               randconfig-a006-20210304
+x86_64               randconfig-a001-20210304
+x86_64               randconfig-a004-20210304
+x86_64               randconfig-a005-20210304
+x86_64               randconfig-a002-20210304
+x86_64               randconfig-a003-20210304
+i386                 randconfig-a016-20210304
+i386                 randconfig-a012-20210304
+i386                 randconfig-a013-20210304
+i386                 randconfig-a014-20210304
+i386                 randconfig-a011-20210304
+i386                 randconfig-a015-20210304
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a006-20210303
+x86_64               randconfig-a001-20210303
+x86_64               randconfig-a004-20210303
+x86_64               randconfig-a002-20210303
+x86_64               randconfig-a005-20210303
+x86_64               randconfig-a003-20210303
+x86_64               randconfig-a013-20210304
+x86_64               randconfig-a016-20210304
+x86_64               randconfig-a015-20210304
+x86_64               randconfig-a014-20210304
+x86_64               randconfig-a012-20210304
+x86_64               randconfig-a011-20210304
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
