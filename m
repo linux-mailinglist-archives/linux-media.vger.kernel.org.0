@@ -2,87 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 730B132D4C8
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 15:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89CA632D4F1
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 15:09:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234098AbhCDODb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Mar 2021 09:03:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234767AbhCDODW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Mar 2021 09:03:22 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59216C061574;
-        Thu,  4 Mar 2021 06:02:42 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id kx1so819326pjb.3;
-        Thu, 04 Mar 2021 06:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=/dTebcdcxUQXXbJ4HBiTmegx9W3AXj6bSgb3FLSFk3Q=;
-        b=I7jZuAqDs4LWK0bz4wZkKZuNUtR2fskbpmjBRqtjdvVpzUW58ExS42c29QC7mMoDQt
-         itxl8CCiZ6gKDIKXQU0L/03henGHSxfd3ugF7OIbnRw45lcqPjGOV9694WmszOEIxa9B
-         kL7vqVD4ckJsVZkFGmDECfmv2hEPkCMhVw1H5i+FqcrTNqdobk8Ln7APsxP0F03ZxuGz
-         r81WnKe/vaOXN23S6W+4mBKJYq5Tm67OUTcp2Dgv7+RHcf3PmYDZU7IdksFZ6q2NisxS
-         y0EykuBQkYQPZfiENJ4gJiVMvrLJnHHPD/dtRjfyzUkHQSxHfATnlr8jc3PthdxvmmoG
-         OAcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/dTebcdcxUQXXbJ4HBiTmegx9W3AXj6bSgb3FLSFk3Q=;
-        b=J/2E4CF7kRplP0oYu2ttMuQfdHnyNKP++xfJTwwLJ1Vni/n0+Zk7hKxVmFktfZILuQ
-         WgtzbYqpy6R0qBH3HiNdChBlj3Zc9joSC37gpbRa65NmiaEEWlwepKTFxOsAi6YfrC4x
-         qcCkPhcLoz4ETE05avMN58v0zMMqGvo69BKEtd4Danr6CvaGZXjUvymKL4FHqJXYBAUP
-         jG/2d+m98lxcdlnUktrdARWx2F2Xvh91zS4XvMwMthq4Z4fn/d/9ZuSeMJtbdRa8f2vc
-         9hVOVpPsz4X70lxUwvSNa2Y34KW9EqytEETaPfkzr9oSpC2UHYmdbjFJGFfRf/ZN0uRQ
-         q6Xw==
-X-Gm-Message-State: AOAM531+XEK4VYLkhCV/aiGmhBo29Dj1oCAzwfy57LLns3IIupTwSGOU
-        oUTT0G92zZbV/rnhIW4y8rU=
-X-Google-Smtp-Source: ABdhPJy+D9OmNGckphIwW0x1NlSGLAzSAvkg2ZpC3WBwW8JOHi3t0ME3PGQF3+6vKCYThLmNvMWLIQ==
-X-Received: by 2002:a17:902:6845:b029:e4:4d0f:c207 with SMTP id f5-20020a1709026845b02900e44d0fc207mr4078231pln.36.1614866561954;
-        Thu, 04 Mar 2021 06:02:41 -0800 (PST)
-Received: from localhost.localdomain ([45.135.186.129])
-        by smtp.gmail.com with ESMTPSA id l15sm10197668pjq.9.2021.03.04.06.02.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Mar 2021 06:02:41 -0800 (PST)
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>
-Subject: [PATCH] staging: media: omap4iss: fix error return code in iss_probe()
-Date:   Thu,  4 Mar 2021 06:02:33 -0800
-Message-Id: <20210304140233.8030-1-baijiaju1990@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S231987AbhCDOIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Mar 2021 09:08:51 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51530 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235239AbhCDOIq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Mar 2021 09:08:46 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id BA6FC1F46443
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
+Subject: [PATCH v3 0/8] V4L2 stateless VP8 de-staging
+Date:   Thu,  4 Mar 2021 11:07:47 -0300
+Message-Id: <20210304140755.85581-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When omap4iss_get() returns NULL, no error return code is assigned.
-To fix this bug, ret is assigned with -EINVAL as error return code.
+After close scrutiny of the VP8 specification, it seems
+the VP8 stateless API is ready.
 
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
----
- drivers/staging/media/omap4iss/iss.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This series contains a series of clean-ups and improvement:
+renaming symbols for consistency, documenting things for clarity,
+and then moves the control to proper V4L2 headers.
 
-diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-index dae9073e7d3c..085397045b36 100644
---- a/drivers/staging/media/omap4iss/iss.c
-+++ b/drivers/staging/media/omap4iss/iss.c
-@@ -1236,8 +1236,10 @@ static int iss_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto error;
- 
--	if (!omap4iss_get(iss))
-+	if (!omap4iss_get(iss)) {
-+		ret = -EINVAL;
- 		goto error;
-+	}
- 
- 	ret = iss_reset(iss);
- 	if (ret < 0)
+It must be noted that, unlike parsed H.264, V4L2_PIX_FMT_VP8_FRAME
+buffers must contain the VP8 frame header. In others words
+a VP8 parsed frame buffer is:
+
+  +--------+-----------------------------------------------------+-----+------------+  
+  | tag 3B | extra 7B | header | MB data | DCT size | DCT part 0 | ... | DCT part N |  
+  +--------+-----------------------------------------------------+-----+------------+  
+
+Hopefully the pixel format documentation is now clear about that.
+
+Support in Cedrus and Hantro is available upstream, and Mediatek
+support is available downstream [1] which uses the API as-is.
+
+This was tested with GStreamer v4l2codec [2] element and Fluster [3]
+conformance test, on a Hantro G1 device.
+
+Changelog:
+
+v3:
+* Rebased on latest media/master branch.
+* Rename "seg" field to "segment" as noted by Alex, (thanks!)
+
+v2: * Rename VP8_FRAME_IS_KEY_FRAME
+
+[1] https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2614338/21/
+[2] https://gitlab.freedesktop.org/ezequielgarcia/gst-plugins-bad/-/tree/vp8-api-update
+[3] https://github.com/fluendo/fluster
+
+Ezequiel Garcia (8):
+  media: uapi: vp8: Remove "header" from symbol names and macros
+  media: uapi: vp8: Rename v4l2_vp8_loopfilter to v4l2_vp8_loop_filter
+  media: uapi: vp8: Add proper kernel-doc documentation
+  media: uapi: Move parsed VP8 pixel format out of staging
+  media: uapi: Move the VP8 stateless control type out of staging
+  media: controls: Log VP8 stateless control in .std_log
+  media: vp8: Rename V4L2 VP8 specific macro to V4L2_VP8_
+  media: uapi: move VP8 stateless controls out of staging
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 334 +++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 339 ------------------
+ .../media/v4l/pixfmt-compressed.rst           |  15 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |   4 +
+ .../media/v4l/vidioc-queryctrl.rst            |   6 +
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  39 +-
+ drivers/staging/media/hantro/hantro_drv.c     |   2 +-
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |  55 ++-
+ drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+ drivers/staging/media/hantro/hantro_vp8.c     |  10 +-
+ .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |  55 ++-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |   2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 113 +++---
+ include/media/v4l2-ctrls.h                    |   5 +-
+ include/media/vp8-ctrls.h                     | 114 ------
+ include/uapi/linux/v4l2-controls.h            | 195 ++++++++++
+ include/uapi/linux/videodev2.h                |   4 +
+ 20 files changed, 693 insertions(+), 606 deletions(-)
+ delete mode 100644 include/media/vp8-ctrls.h
+
 -- 
-2.17.1
+2.30.0
 
