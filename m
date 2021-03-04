@@ -2,168 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3405E32D3AF
-	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 13:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8E4032D3D5
+	for <lists+linux-media@lfdr.de>; Thu,  4 Mar 2021 14:04:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238105AbhCDMxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Mar 2021 07:53:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238066AbhCDMx0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Mar 2021 07:53:26 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB70AC061574;
-        Thu,  4 Mar 2021 04:52:45 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id kx1so689853pjb.3;
-        Thu, 04 Mar 2021 04:52:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mMs0KXBWR+YueGQlJbv/e4cedmjQSUXhVkUKXhpAdMI=;
-        b=aWd1FTezvqGJ/6se8MkarAgtd/7/Sr1RRy8WXevNQsQfoQFm+BEiFudNJF/AEmsV3w
-         /rVJiNqRZj8JTLsTMAZMZXmgsMlfZYSGZghGplJOMDRXka5ubbErHviBuy1TyZe+6uWX
-         px4/bMDu5p1stqd73/GYapoIJHVpIIOJ61N1DGvgAmoCITK9kNnVvqUdYeCXyg8noo4T
-         bjrXMhr89XlI5/l4yyjmit6TTymGjo4jFRr0pIBhXL6MozuRxnRzB2m6LFF0ITzqtt/s
-         ugiaosaxSJxweuj3Mtux76Q7Wm4LKQTsHqpLJjgTZ9FYI/YJeoY8vBqfC+UQj3fcft/W
-         gK9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mMs0KXBWR+YueGQlJbv/e4cedmjQSUXhVkUKXhpAdMI=;
-        b=NgXkwsJ9YO1oRteDByD22kGognNgwnTLgtxH5R2MAss91GSTt/d8kn81RGNJe0CIHe
-         j28DIF3XktLt260PgndhyqgLeRsoNeLxgpeCcnyFmp5ekWd7ps41NHthUy6GG9AH/Ksx
-         9wePgSRTP/zyPZS+OcOuv23SvND0lW5yOsgC0pBowxuR+mlzLiiE2G5TdE9bIH7P/eBF
-         BJ/aW8ZrhyxPr5ZfHSpS6kmLU0FfHFbCuoGgKDLWJyW/AMmA04Y08P2MA2FdoeQweaK2
-         DUZjhPqOzo2okg10epZRzxTfCO9FJGukEATOO4WuUxUY2ELVbFSPT31XUUVbCp/d6N50
-         QXzQ==
-X-Gm-Message-State: AOAM532r7MDt5bk5x8pTAZeyvqP1nGwkMsNuU5DY/bPH6WQF49/UQ6ck
-        Nb92WRNzd4gQYKMymFCDyADGlt23sDO5NLTmDcU=
-X-Google-Smtp-Source: ABdhPJyp4iaFUtNFKXjAtlVJECLk/aIzchITz/Yh9b1QeBFZu+N6Uza9NXnFye0XpLpVkacCMI77WdgZIPybjMJ1A5Q=
-X-Received: by 2002:a17:90a:5601:: with SMTP id r1mr4325691pjf.236.1614862365193;
- Thu, 04 Mar 2021 04:52:45 -0800 (PST)
+        id S241066AbhCDNDr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Mar 2021 08:03:47 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34989 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241053AbhCDNDq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Mar 2021 08:03:46 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Hnd6lfrEqqY4WHnd9lVPwg; Thu, 04 Mar 2021 14:03:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1614862985; bh=vnsnrBLqJpgjvzz/rlWzaQ14g9AbK0+JW+vdzz1mjFc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=G0L6cZ3FAhV/DZPYRWxfSpOMo/GY1SwncpQp2WcaLMpRFGS+EeLuqwgbNF1uRHCgE
+         o9kNmv925w9TFOAlFsqrKNMAdCucC9BuygwII2HLPpWMuRuc+mL2p2eJs1w4381Ecb
+         UvKCqoveLd6zcHO9Xc1NoMe3MLMPnbsgz+YVwx638U+AUfGZVUrstaWT3E2KG62QIK
+         gfEXJvfPnVUiYDByNJJZMz6Mn1WgOVdoyOAeyXyBT4fx+wrs/zgcZGZApHVWF1jomS
+         PZm4MFR5WICTAfiQOvFqMABcUonnowgujxRvbY2V0+OFER9feLzf2xWrA88nlZqQVE
+         wBHyMuOnt0qJg==
+Subject: Re: [EXT] Re: [PATCH v7 3/9] media: imx-jpeg: Add V4L2 driver for
+ i.MX8 JPEG Encoder/Decoder
+To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
+        "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        "ezequiel@collabora.com" <ezequiel@collabora.com>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>
+References: <20210111192822.12178-1-mirela.rabulea@oss.nxp.com>
+ <20210111192822.12178-4-mirela.rabulea@oss.nxp.com>
+ <bec844f0-692f-de1e-a52d-a836ff792ef6@xs4all.nl>
+ <3518c6c773b2bbd2cf818c1cf3109a9fa06720f7.camel@nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <4f03ecbf-2997-6c56-92c9-16f9e1f0f574@xs4all.nl>
+Date:   Thu, 4 Mar 2021 14:03:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210301151754.104749-1-benjamin.gaignard@collabora.com>
- <e6f8537d2a1f34d0a424b68e056c0ae556c93efd.camel@pengutronix.de>
- <2d55ad69-9b93-ab0e-04af-cd775cc9248b@collabora.com> <c12d84b955b0265dbcf89f2d7fc4d5c28bc74756.camel@pengutronix.de>
-In-Reply-To: <c12d84b955b0265dbcf89f2d7fc4d5c28bc74756.camel@pengutronix.de>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 4 Mar 2021 06:52:34 -0600
-Message-ID: <CAHCN7xKs0FtVYu1hs1kAUeaer_uJgpaATDeB0-3mayXUuCrpDg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] Reset driver for IMX8MQ VPU hardware block
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com, Abel Vesa <abel.vesa@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <3518c6c773b2bbd2cf818c1cf3109a9fa06720f7.camel@nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfPPKKNQABOHUB2CifbKj81ILId31NdTDavwX35OxOKhQT1/T+tfbG/RsH51FaZwrOncJWMAeGGP7XhILBmaGKVME8dqx6G9bofGgE59c09eU1WZwUlnZ
+ BNUALdwUJiqPC1fsxdQeYnoelpOPJCMzYvW/iHsK5jLWDObKoUU3ErfqR9tTYe9z/Kmi/Za66MNuYyM1VBTNZ+OjF/4bD4Wejwz3mTWeXqIAoaLe1m7JPf6m
+ HSbAICRRXbKVhtuua0cOgS6HgaAIffOEVe1fsCA4o3DCfxIPUpuUbzRrBbn2K73AyOabXW1JWz26c+I0lb7xlM3A31ItOMKP3trwwo7e/j+mr2VFr7V1e3i+
+ w9eI9WkD1NI9xfxaUDWS+d4W+Vv6CJCXJl0Zta0RHJRG9ixXdgwFjr9OUr7WxJ1qp/R+wk1C2uBQdTfGSXmugDzgp5f5ZLHsth3yWp7eHz6ormTQgsqghI8K
+ rpBGePow+hsk28luvGTRbW0ax3b113zfSj0sn9s585dv+LXZlejqljL01fCvyCYeeaubw4jEnv8eMyURLQ1zk6FLlLlltWGMHC+1pPLY1xaFI/awkVNAczEU
+ MGM/RLarsrqH9fb3hICWVZdXXKm+MWOJRCMlv3z1sCf0Da2JA67Xxx1lz/uvNMI4Kyg9SNvFHA6RYDor8fKWd0lBULyzjKKqbvqqOLSCbs+QbNLZ+zqcTr9I
+ nQK3YRMuJpNfut3/8pbOc0Dco4KwQYUvu921LXVIcHldUaNrcUycoMEJquE2FdwpSLo298fyn8BmWWV50TcYfJrlhwzk4UeHB9Jlba7GsdPDhd6ep3QEVor0
+ jTaP8Eu0fMXCkUGl03AhR92DuUDzWGMIPBk1qs9q9YKs4cgeoZd44erL4JqxEmJtSqABFYJBB5XtG1STjyBC+qS1I+WlGrgBhwXmRkH+f3BLjUg9B/RbyWJH
+ SSTuyA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 3, 2021 at 5:24 PM Philipp Zabel <p.zabel@pengutronix.de> wrote=
-:
->
-> On Wed, 2021-03-03 at 16:20 +0100, Benjamin Gaignard wrote:
-> > Le 03/03/2021 =C3=A0 15:17, Philipp Zabel a =C3=A9crit :
-> > > Hi Benjamin,
-> > >
-> > > On Mon, 2021-03-01 at 16:17 +0100, Benjamin Gaignard wrote:
-> > > > The two VPUs inside IMX8MQ share the same control block which can b=
-e see
-> > > > as a reset hardware block.
-> > > This isn't a reset controller though. The control block also contains
-> > > clock gates of some sort and a filter register for the featureset fus=
-es.
-> > > Those shouldn't be manipulated via the reset API.
+On 22/02/2021 20:09, Mirela Rabulea wrote:
+> Hi Hans,
+> appologies for my late response, please see below 2 comments.
 
-This driver is very similar to several other patches for clk_blk
-control [1] which contain both resets and clock-enables on the
-i.MX8MP, i.MX8MM and i.MX8MN.  In those cases, there are some specific
-power domain controls that are needed, but I wonder if the approach to
-creating resets and clock enables could be used in a similar way if
-the IMX8MQ doesn't have the same quirks.  In the case of the i.MX8M
-Mini, I think it has the same VPU.
+Replies below:
 
-[1] - https://patchwork.kernel.org/project/linux-clk/patch/1599560691-3763-=
-12-git-send-email-abel.vesa@nxp.com/
+> 
+> On Tue, 2021-01-19 at 11:31 +0100, Hans Verkuil wrote:
+>> Caution: EXT Email
+>>
+>> On 11/01/2021 20:28, Mirela Rabulea wrote:
+>>> From: Mirela Rabulea <mirela.rabulea@nxp.com>
+>>>
+>>> V4L2 driver for the JPEG encoder/decoder from i.MX8QXP/i.MX8QM
+>>> application
+>>> processors.
+>>> The multi-planar buffers API is used.
+>>>
+>>> Baseline and extended sequential jpeg decoding is supported.
+>>> Progressive jpeg decoding is not supported by the IP.
+>>> Supports encode and decode of various formats:
+>>>      YUV444, YUV422, YUV420, RGB, ARGB, Gray
+>>> YUV420 is the only multi-planar format supported.
+>>> Minimum resolution is 64 x 64, maximum 8192 x 8192.
+>>> The alignment requirements for the resolution depend on the format,
+>>> multiple of 16 resolutions should work for all formats.
+>>>
+>>> v4l2-compliance tests are passing, including the
+>>> streaming tests, "v4l2-compliance -s"
+>>>
+>>> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+>>> ---
+>>> Changes in v7:
+>>>   Add print_mxc_buf() to replace print_buf_preview() and
+>>> print_nbuf_to_eoi(),
+>>>   and inside, use the print_hex_dump() from printk.h, also, print
+>>> all the planes.
+>>>
+>>>  drivers/media/platform/Kconfig                |    2 +
+>>>  drivers/media/platform/Makefile               |    1 +
+>>>  drivers/media/platform/imx-jpeg/Kconfig       |   10 +
+>>>  drivers/media/platform/imx-jpeg/Makefile      |    3 +
+>>>  drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c |  168 ++
+>>>  drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h |  140 +
+>>>  drivers/media/platform/imx-jpeg/mxc-jpeg.c    | 2289
+>>> +++++++++++++++++
+>>>  drivers/media/platform/imx-jpeg/mxc-jpeg.h    |  184 ++
+>>>  8 files changed, 2797 insertions(+)
+>>>  create mode 100644 drivers/media/platform/imx-jpeg/Kconfig
+>>>  create mode 100644 drivers/media/platform/imx-jpeg/Makefile
+>>>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c
+>>>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h
+>>>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.c
+>>>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.h
+>>
+>> One high-level comment: why introduce the driver in patch 3/9 and
+>> then
+>> change it again in 9/9? I would very much prefer to have just a
+>> single
+>> patch that adds this driver, i.e. merge patch 3 and 9 into a single
+>> patch.
+> 
+> I can squash patch 9 into patch 3, but please note that patch 9 depends
+> on jpeg helper patches 6,7,8, so these patches will also have to move
+> before patch 3. Let me know yout thought and I'll do this in v9, in v8
+> version I only addressed the rest of your feedback and some more from
+> Philipp.
 
-adam
-> >
-> > They are all part of the control block and of the reset process for thi=
-s
-> > hardware that why I put them here. I guess it is border line :-)
->
-> I'm pushing back to keep the reset control framework focused on
-> controlling reset lines. Every side effect (such as the asymmetric clock
-> ungating) in a random driver makes it harder to reason about behaviour
-> at the API level, and to review patches for hardware I am not familiar
-> with.
->
-> > > > In order to be able to add the second VPU (for HECV decoding) it wi=
-ll be
-> > > > more handy if the both VPU drivers instance don't have to share the
-> > > > control block registers. This lead to implement it as an independ r=
-eset
-> > > > driver and to change the VPU driver to use it.
-> > > Why not switch to a syscon regmap for the control block? That should
-> > > also allow to keep backwards compatibility with the old binding with
-> > > minimal effort.
-> >
-> > I will give a try in this direction.
->
-> Thank you.
->
-> > > > Please note that this series break the compatibility between the DT=
-B and
-> > > > kernel. This break is limited to IMX8MQ SoC and is done when the dr=
-iver
-> > > > is still in staging directory.
-> > > I know in this case we are pretty sure there are no users of this
-> > > binding except for a staging driver, but it would still be nice to ke=
-ep
-> > > support for the deprecated binding, to avoid the requirement of updat=
-ing
-> > > kernel and DT in lock-step.
-> >
-> > If I want to use a syscon (or a reset) the driver must not ioremap the =
-"ctrl"
-> > registers. It means that "ctrl" has to be removed from the driver reque=
-sted
-> > reg-names (imx8mq_reg_names[]). Doing that break the kernel/DT compatib=
-ility.
-> > Somehow syscon and "ctrl" are exclusive.
->
-> The way the driver is set up currently, yes. You could add a bit of
-> platform specific probe code, though, that would set up the regmap
-> either by calling
->         syscon_regmap_lookup_by_phandle();
-> for the new binding, or, if the phandle is not available, fall back to
->         platform_get_resource_byname(..., "ctrl");
->         devm_ioremap_resource();
->         devm_regmap_init_mmio();
-> for the old binding.
-> The actual codec .reset and variant .runtime_resume ops could be
-> identical then.
->
-> regards
-> Philipp
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Yes, just move the jpeg helper to earlier in the patch series.
+
+> 
+>>
+
+<snip>
+
+>>> +     /* fix colorspace information to sRGB for both output &
+>>> capture */
+>>> +     pix_mp->colorspace = V4L2_COLORSPACE_SRGB;
+>>> +     pix_mp->ycbcr_enc = V4L2_YCBCR_ENC_601;
+>>> +     pix_mp->xfer_func = V4L2_XFER_FUNC_SRGB;
+>>> +     pix_mp->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>
+>> So YUV formats are expected to be full range as well? Both when
+>> encoding
+>> and decoding?
+> 
+> I set the colorspace information like that based on this comment:
+> 	/*
+> 	 * Effectively shorthand for V4L2_COLORSPACE_SRGB,
+> V4L2_YCBCR_ENC_601
+> 	 * and V4L2_QUANTIZATION_FULL_RANGE. To be used for (Motion-
+> )JPEG.
+> 	 */
+> 	V4L2_COLORSPACE_JPEG          = 7,
+> 
+
+Inside a JPEG the YUV quantization is using full range. But when you
+*decode* a JPEG the YUV quantization in the raw decoded image is
+normally limited range again (the default for YUV).
+
+It depends on what this decoder does: most will decode to limited
+range YUV, some decode to full range YUV (in which case this code would be
+correct), and some support both.
+
+In the latter case you want to support the V4L2_PIX_FMT_FLAG_SET_CSC
+flag:
+
+https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/pixfmt-v4l2.html#c.v4l2_pix_format
+
+That would allow userspace to specify the desired quantization range.
+
+Regards,
+
+	Hans
+
+> Also, I looked at mtk_jpeg_set_default_params for example.
+> Let me know if you have a different suggestion.
+> 
+> Thanks,
+> Mirela
