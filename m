@@ -2,113 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B02032E4FA
-	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 10:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DCB732E53A
+	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 10:49:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbhCEJgT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Mar 2021 04:36:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56066 "EHLO
+        id S229576AbhCEJss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Mar 2021 04:48:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbhCEJfv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Mar 2021 04:35:51 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60197C061574;
-        Fri,  5 Mar 2021 01:35:51 -0800 (PST)
-Received: from [IPv6:2a01:e0a:4cb:a870:b9e2:e9f:d661:5a2f] (unknown [IPv6:2a01:e0a:4cb:a870:b9e2:e9f:d661:5a2f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 79EF21F468C5;
-        Fri,  5 Mar 2021 09:35:47 +0000 (GMT)
-Subject: Re: [PATCH v3 0/5] Reset driver for IMX8MQ VPU hardware block
-To:     Philipp Zabel <p.zabel@pengutronix.de>, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        ezequiel@collabora.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com
-References: <20210301151754.104749-1-benjamin.gaignard@collabora.com>
- <e6f8537d2a1f34d0a424b68e056c0ae556c93efd.camel@pengutronix.de>
- <2d55ad69-9b93-ab0e-04af-cd775cc9248b@collabora.com>
- <c12d84b955b0265dbcf89f2d7fc4d5c28bc74756.camel@pengutronix.de>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <f6cbb1e4-f288-36d0-a188-041093821f66@collabora.com>
-Date:   Fri, 5 Mar 2021 10:35:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <c12d84b955b0265dbcf89f2d7fc4d5c28bc74756.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        with ESMTP id S229646AbhCEJs0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Mar 2021 04:48:26 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99ACFC061574;
+        Fri,  5 Mar 2021 01:48:26 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id 16so238452pfn.5;
+        Fri, 05 Mar 2021 01:48:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=lBLqTm8LAm2vM2JvWYN/kau0Luv/b/q3A2F/WW9Z07Y=;
+        b=qH4Uj+KOv9z9Z308T8ARccdkgubmvLPUjafgS7q2F5DZgM6dlgF0He+hq9m6gHsR4n
+         oMHrtH21C32CLqJg0wlgzcct7a9OKZ8RG/a2fMYZChDff1Ye38VIhZazIOiC/MUQ6WaD
+         55OrRrrfsKWyITLr1LVY2geVsCPxH4G9kw3i1qU8xUP/I2wVVS4fDzkrJHLXlrI6uXND
+         iKTY8ZfjfXbcWjkJvbUbU2Cd7M5kegq3FjDoA3vQSlxpN5O75nYOVwI7omxFNbj0Or4V
+         F4FvyVMhDX1BN5ujTzJDWYrM7H/3156TuzoZHEPKE102J5XU/cj6koGgmnEc9+cDD+ju
+         83Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=lBLqTm8LAm2vM2JvWYN/kau0Luv/b/q3A2F/WW9Z07Y=;
+        b=WKxvDwPp4DatMbhfebaMfNsReQx10R+Lf3px9fiUFR1NAfTG9MsfH87wmvcQgM4f+z
+         +J+LDjHbUgIilyOIPYdXpeIfi3ZmJ+SrnxuLipKbpxls5Q92AL5ALHxt8srdFWvCHzXb
+         l40DA5h7b2+GFR+1NxUnHnqXcSKY1pgOJjFYwZu4TM7xhurpclKNn4Cg3C+R5K58SIOE
+         JjdbtATi/dSyuOh0IfHM4Zz9Cyo9XHGHHaHafw6lLwzInJ76oMu7IhIOOxMg+1CHooHa
+         /BczUM6YjydYgDN6rOUUwCf/bAuNclHrLXsCiBWbtclvFCCCyG56vIFKs1KB3WcVJwMd
+         Mf6w==
+X-Gm-Message-State: AOAM530h5s9uy0z6JWLb+41hWCfVZb0P87BGD1WTIY3OC2PTUcTSYx3E
+        yssHjVZkZJ3F66i8StS0kuA=
+X-Google-Smtp-Source: ABdhPJyvbZcUBXp9Ww2TB7V8o1nujwy2gTBBkcI9x0R6Hvx7mBzQi89MX8pZmA96J57Jm1wA9FEfvA==
+X-Received: by 2002:a05:6a00:ac8:b029:1ed:f8dc:cb3b with SMTP id c8-20020a056a000ac8b02901edf8dccb3bmr7948223pfl.60.1614937706258;
+        Fri, 05 Mar 2021 01:48:26 -0800 (PST)
+Received: from localhost.localdomain ([45.135.186.129])
+        by smtp.gmail.com with ESMTPSA id x1sm1727420pje.40.2021.03.05.01.48.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Mar 2021 01:48:25 -0800 (PST)
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+To:     hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, michal.simek@xilinx.com
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [PATCH] media: platform: xilinx: fix error return code of xvip_graph_init()
+Date:   Fri,  5 Mar 2021 01:48:19 -0800
+Message-Id: <20210305094819.13685-1-baijiaju1990@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+When the list of xdev->notifier.asd_list is empty, no error return code
+of xvip_graph_init() is assigned.
+To fix this bug, ret is assigned with -ENOENT as error return code.
 
-Le 03/03/2021 à 17:25, Philipp Zabel a écrit :
-> On Wed, 2021-03-03 at 16:20 +0100, Benjamin Gaignard wrote:
->> Le 03/03/2021 à 15:17, Philipp Zabel a écrit :
->>> Hi Benjamin,
->>>
->>> On Mon, 2021-03-01 at 16:17 +0100, Benjamin Gaignard wrote:
->>>> The two VPUs inside IMX8MQ share the same control block which can be see
->>>> as a reset hardware block.
->>> This isn't a reset controller though. The control block also contains
->>> clock gates of some sort and a filter register for the featureset fuses.
->>> Those shouldn't be manipulated via the reset API.
->> They are all part of the control block and of the reset process for this
->> hardware that why I put them here. I guess it is border line :-)
-> I'm pushing back to keep the reset control framework focused on
-> controlling reset lines. Every side effect (such as the asymmetric clock
-> ungating) in a random driver makes it harder to reason about behaviour
-> at the API level, and to review patches for hardware I am not familiar
-> with.
->
->>>> In order to be able to add the second VPU (for HECV decoding) it will be
->>>> more handy if the both VPU drivers instance don't have to share the
->>>> control block registers. This lead to implement it as an independ reset
->>>> driver and to change the VPU driver to use it.
->>> Why not switch to a syscon regmap for the control block? That should
->>> also allow to keep backwards compatibility with the old binding with
->>> minimal effort.
->> I will give a try in this direction.
-> Thank you.
->
->>>> Please note that this series break the compatibility between the DTB and
->>>> kernel. This break is limited to IMX8MQ SoC and is done when the driver
->>>> is still in staging directory.
->>> I know in this case we are pretty sure there are no users of this
->>> binding except for a staging driver, but it would still be nice to keep
->>> support for the deprecated binding, to avoid the requirement of updating
->>> kernel and DT in lock-step.
->> If I want to use a syscon (or a reset) the driver must not ioremap the "ctrl"
->> registers. It means that "ctrl" has to be removed from the driver requested
->> reg-names (imx8mq_reg_names[]). Doing that break the kernel/DT compatibility.
->> Somehow syscon and "ctrl" are exclusive.
-> The way the driver is set up currently, yes. You could add a bit of
-> platform specific probe code, though, that would set up the regmap
-> either by calling
-> 	syscon_regmap_lookup_by_phandle();
-> for the new binding, or, if the phandle is not available, fall back to
-> 	platform_get_resource_byname(..., "ctrl");
-> 	devm_ioremap_resource();
-> 	devm_regmap_init_mmio();
-> for the old binding.
-> The actual codec .reset and variant .runtime_resume ops could be
-> identical then.
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+---
+ drivers/media/platform/xilinx/xilinx-vipp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I made it works with syscon and your proposal.
-The next version of the patches will be without reset and won't break
-DT compatibility.
+diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
+index bf4015d852e3..2ce31d7ce1a6 100644
+--- a/drivers/media/platform/xilinx/xilinx-vipp.c
++++ b/drivers/media/platform/xilinx/xilinx-vipp.c
+@@ -525,6 +525,7 @@ static int xvip_graph_init(struct xvip_composite_device *xdev)
+ 
+ 	if (list_empty(&xdev->notifier.asd_list)) {
+ 		dev_err(xdev->dev, "no subdev found in graph\n");
++		ret = -ENOENT;
+ 		goto done;
+ 	}
+ 
+-- 
+2.17.1
 
-Thanks for your help,
-Benjamin
-
->
-> regards
-> Philipp
->
