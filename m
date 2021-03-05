@@ -2,73 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AB3332E398
-	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 09:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A689A32E3D3
+	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 09:39:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbhCEIY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Mar 2021 03:24:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbhCEIYL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Mar 2021 03:24:11 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3DDC061574
-        for <linux-media@vger.kernel.org>; Fri,  5 Mar 2021 00:24:11 -0800 (PST)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1lI5kl-0006pA-LG; Fri, 05 Mar 2021 09:24:07 +0100
-Received: from mfe by dude02.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1lI5kk-0002eq-Qx; Fri, 05 Mar 2021 09:24:06 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     p.zabel@pengutronix.de, mchehab@kernel.org, ezequiel@collabora.com,
-        hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH] media: coda: fix macroblocks count control usage
-Date:   Fri,  5 Mar 2021 09:23:54 +0100
-Message-Id: <20210305082354.10041-1-m.felsch@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
+        id S229666AbhCEIio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Mar 2021 03:38:44 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60097 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229458AbhCEIid (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Mar 2021 03:38:33 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id I5yeljBlEC40pI5yhlzevf; Fri, 05 Mar 2021 09:38:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1614933512; bh=rrCr5i77vT7K5PZvamm6XqegHyDg0Ba2Eh/g9DTXWQ0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=TBsmLh6DLJgs1x9UI3ximdL1yheOEMccCFwfLQ16OI7NkILV9q+ks0W0J3vScJ/NU
+         l/suEmJrFi7nzXSvk/0Li6PO3y1iYEG4cczP/JL7harsiGcqBvdaxIGA3oSWWT6N20
+         0L49xWsYpsULc4RAH6Rsuw6mIKhueh0NaWPlgJFGgaIuO0jSwtfGPuC7dFFAfAFnpE
+         cqrsu9GWqVvRf1VozOnPXdNugZA7+w4hAV5pmxcFA84YHFug27/43KvDQiVY5OazdF
+         5TPGz1QOphepw6IEFri04pxo3pbafTzEuVo/UBl2HqAPXym9VzUUWOuGjFamRyxCX0
+         40g/v+Do90k1Q==
+Subject: Re: [PATCH v7 1/2] media: v4l2-ctrl: add controls for long term
+ reference.
+To:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+References: <1614769787-26922-1-git-send-email-dikshita@codeaurora.org>
+ <1614769787-26922-2-git-send-email-dikshita@codeaurora.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <d3309b63-4816-5fc3-cc38-0f78f2affc04@xs4all.nl>
+Date:   Fri, 5 Mar 2021 09:38:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <1614769787-26922-2-git-send-email-dikshita@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfDJYJ3SEbAGCh1SI/PEAt31WBOYbIzQQJwxRDgChfzOmJ87R8Sasx/ClboepzAaoH3uUq3j35Aljc1OF67R/lqRQHaCZC/Y1ntcyY6gMIv15iQaw6pEz
+ 7htJ8Xe94ypCW2iFFKjFXzmxYqRvqES3VoEPtX8PBX607fNjzwzlXB8NLJRzwbKFKoEel2SYhUtXFw7cRSp553Sx2V0GAjqect1EZ1K/Dz9sN9xw2Hx5T+cY
+ boNG2NrCI1aISf4E4HQYVFSYnbtMfapLV6PgDdzaIAVJarLmt594PVCFlI2ekfwIjdzu0D7NUxwcSOrdcjVCXkV8hQKf/qeqdkcjfOCFLpP87UQl/QE46D7D
+ 8mq9p9PieV1I5dHUmyf5bKOvAW4M0olVpXYYdsKs3miDEBGLjfU=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit b2d3bef1aa78 ("media: coda: Add a V4L2 user for control error
-macroblocks count") add the control for the decoder devices. But
-during streamon() this ioctl gets called for all (encoder and decoder)
-devices and on encoder devices this causes a null pointer exception.
+Hi Dikshita,
 
-Fix this by setting the control only if it is really accessible.
+On 03/03/2021 12:09, Dikshita Agarwal wrote:
+> Long Term Reference (LTR) frames are the frames that are encoded
+> sometime in the past and stored in the DPB buffer list to be used
+> as reference to encode future frames.
+> This change adds controls to enable this feature.
+> 
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> ---
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst         | 17 +++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c                    | 14 ++++++++++++++
+>  include/uapi/linux/v4l2-controls.h                      |  3 +++
+>  3 files changed, 34 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 00944e9..21fa9a5 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3646,3 +3646,20 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      so this has to come from client.
+>      This is applicable to H264 and valid Range is from 0 to 63.
+>      Source Rec. ITU-T H.264 (06/2019); G.7.4.1.1, G.8.8.1.
+> +
+> +``V4L2_CID_MPEG_VIDEO_LTR_COUNT (integer)``
+> +    Specifies the maximum number of Long Term Reference (LTR) frames at any
+> +    given time that the encoder can keep.
+> +    This is applicable to the H264 and HEVC encoders.
+> +
+> +``V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX (integer)``
+> +    The current frame is marked as a Long Term Reference (LTR) frame
 
-Fixes: b2d3bef1aa78 ("media: coda: Add a V4L2 user for control error macroblocks count")
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/media/platform/coda/coda-common.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+You mentioned earlier in a reply to me that:
 
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index 995e95272e51..e600764dce96 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -2062,7 +2062,9 @@ static int coda_start_streaming(struct vb2_queue *q, unsigned int count)
- 	if (q_data_dst->fourcc == V4L2_PIX_FMT_JPEG)
- 		ctx->params.gop_size = 1;
- 	ctx->gopcounter = ctx->params.gop_size - 1;
--	v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
-+	/* Only decoders have this control */
-+	if (ctx->mb_err_cnt_ctrl)
-+		v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
- 
- 	ret = ctx->ops->start_streaming(ctx);
- 	if (ctx->inst_type == CODA_INST_DECODER) {
--- 
-2.29.2
+"The driver implementation ensures that whenever the LTR control is
+received, it applies to the frame received after that. Not to frame which would be
+encoded next."
+
+That behavior is not clear from the text.
+
+Wouldn't this be a better text:
+
+"After setting this control the frame that will be queued next
+ will be marked as a Long Term Reference (LTR) frame"
+
+"current frame" isn't precise enough.
+
+> +    and given this LTR index which ranges from 0 to LTR_COUNT-1.
+> +    This is applicable to the H264 and HEVC encoders.
+> +    Source Rec. ITU-T H.264 (06/2019); Table 7.9
+> +
+> +``V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES (bitmask)``
+> +    Specifies the Long Term Reference (LTR) frame(s) to be used for
+> +    encoding the current frame.
+
+Same here. I assume that here too this control applies to the next queued
+frame.
+
+> +    This provides a bitmask which consists of bits [0, LTR_COUNT-1].
+> +    This is applicable to the H264 and HEVC encoders.
+
+Regards,
+
+	Hans
+
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 016cf62..4d444de 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -951,6 +951,9 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
+>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
+>  	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:		return "Base Layer Priority ID";
+> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
+> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "Frame LTR Index";
+> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
+>  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
+>  	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
+>  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+> @@ -1278,6 +1281,17 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
+>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
+> +		*type = V4L2_CTRL_TYPE_INTEGER;
+> +		break;
+> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
+> +		*type = V4L2_CTRL_TYPE_INTEGER;
+> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+> +		break;
+> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
+> +		*type = V4L2_CTRL_TYPE_BITMASK;
+> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+> +		break;
+>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
+>  	case V4L2_CID_PAN_RESET:
+>  	case V4L2_CID_TILT_RESET:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 039c0d7..fedbb54 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -428,6 +428,9 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>  #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
+>  #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
+>  #define V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID	(V4L2_CID_CODEC_BASE+230)
+> +#define V4L2_CID_MPEG_VIDEO_LTR_COUNT			(V4L2_CID_CODEC_BASE+231)
+> +#define V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX		(V4L2_CID_CODEC_BASE+232)
+> +#define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+233)
+>  
+>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+> 
 
