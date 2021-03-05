@@ -2,26 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC1A832E4B8
-	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 10:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ECEC32E4CB
+	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 10:28:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbhCEJZC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Mar 2021 04:25:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbhCEJYq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Mar 2021 04:24:46 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44AFAC061574;
-        Fri,  5 Mar 2021 01:24:46 -0800 (PST)
+        id S229750AbhCEJ2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Mar 2021 04:28:18 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35630 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229591AbhCEJ1y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Mar 2021 04:27:54 -0500
 Received: from [IPv6:2a01:e0a:4cb:a870:b9e2:e9f:d661:5a2f] (unknown [IPv6:2a01:e0a:4cb:a870:b9e2:e9f:d661:5a2f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1417F1F46840;
-        Fri,  5 Mar 2021 09:24:40 +0000 (GMT)
-Subject: Re: [PATCH v4 03/11] media: hantro: change hantro_codec_ops run
- prototype to return errors
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9279D1F468C9;
+        Fri,  5 Mar 2021 09:27:47 +0000 (GMT)
+Subject: Re: [PATCH v4 05/11] media: hantro: Add a field to distinguish the
+ hardware versions
 To:     Ezequiel Garcia <ezequiel@collabora.com>, p.zabel@pengutronix.de,
         mchehab@kernel.org, robh+dt@kernel.org, shawnguo@kernel.org,
         s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
@@ -33,15 +30,15 @@ Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com
 References: <20210303113952.178519-1-benjamin.gaignard@collabora.com>
- <20210303113952.178519-4-benjamin.gaignard@collabora.com>
- <22a8ea464f4c7dcb7a90889f53d85f003b7c739a.camel@collabora.com>
+ <20210303113952.178519-6-benjamin.gaignard@collabora.com>
+ <32899bc605ae7173c29b25a396e21d7fad32d4bf.camel@collabora.com>
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <236d0327-61d3-8e25-fc37-c8aa5563f9c8@collabora.com>
-Date:   Fri, 5 Mar 2021 10:24:37 +0100
+Message-ID: <23f62276-237d-1161-259a-84748db7365b@collabora.com>
+Date:   Fri, 5 Mar 2021 10:27:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <22a8ea464f4c7dcb7a90889f53d85f003b7c739a.camel@collabora.com>
+In-Reply-To: <32899bc605ae7173c29b25a396e21d7fad32d4bf.camel@collabora.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -50,64 +47,132 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-Le 03/03/2021 à 22:56, Ezequiel Garcia a écrit :
+Le 03/03/2021 à 23:05, Ezequiel Garcia a écrit :
 > On Wed, 2021-03-03 at 12:39 +0100, Benjamin Gaignard wrote:
->> Change hantro_codec_ops run prototype from 'void' to 'int'.
->> This allow to cancel the job if an error occur while configuring
->> the hardware.
+>> Decoders hardware blocks could exist in multiple versions: add
+>> a field to distinguish them at runtime.
+>> G2 hardware block doesn't have postprocessor hantro_needs_postproc
+>> function should always returns false in for this hardware.
+>> hantro_needs_postproc function becoming to much complex to
+>> stay inline in .h file move it to .c file.
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   drivers/staging/media/hantro/hantro_drv.c     |  4 +++-
->>   .../staging/media/hantro/hantro_g1_h264_dec.c |  6 ++++--
->>   .../media/hantro/hantro_g1_mpeg2_dec.c        |  4 +++-
->>   .../staging/media/hantro/hantro_g1_vp8_dec.c  |  6 ++++--
->>   .../staging/media/hantro/hantro_h1_jpeg_enc.c |  4 +++-
->>   drivers/staging/media/hantro/hantro_hw.h      | 19 ++++++++++---------
->>   .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |  4 +++-
->>   .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |  4 +++-
->>   .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |  6 ++++--
->>   9 files changed, 37 insertions(+), 20 deletions(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->> index e5f200e64993..ac1429f00b33 100644
->> --- a/drivers/staging/media/hantro/hantro_drv.c
->> +++ b/drivers/staging/media/hantro/hantro_drv.c
->> @@ -161,7 +161,9 @@ static void device_run(void *priv)
->>   
->>          v4l2_m2m_buf_copy_metadata(src, dst, true);
->>   
->> -       ctx->codec_ops->run(ctx);
->> +       if (ctx->codec_ops->run(ctx))
->> +               goto err_cancel_job;
->> +
->>          return;
->>   
->>   err_cancel_job:
->> diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
->> index 845bef73d218..fcd4db13c9fe 100644
->> --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
->> +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
->> @@ -273,13 +273,13 @@ static void set_buffers(struct hantro_ctx *ctx)
->>          vdpu_write_relaxed(vpu, ctx->h264_dec.priv.dma, G1_REG_ADDR_QTABLE);
->>   }
->>   
->> -void hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
->> +int hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
->>   {
->>          struct hantro_dev *vpu = ctx->dev;
->>   
->>          /* Prepare the H264 decoder context. */
->>          if (hantro_h264_dec_prepare_run(ctx))
->> -               return;
->> +               return -EINVAL;
-> This should be returning the value from hantro_h264_dec_prepare_run.
+> Note that I already questioned this patch before:
+>
+> https://lkml.org/lkml/2021/2/17/722
+>
+> I think it's better to rely on of_device_id.data for this
+> type of thing.
+>
+> In particular, I was expecting that just using
+> hantro_variant.postproc_regs would be enough.
+>
+> Can you try if that works and avoid reading swreg(0)
+> and probing the hardware core?
 
-That will be fixed in the next version, thanks
+I have found a way to remove this: if the variant doesn't define
+post processor formats, needs_postproc function will always returns
+false and that what the only useful usage of this version field.
 
 Benjamin
 
 >
 > Thanks!
 > Ezequiel
+>
+>> Keep the default behavoir to be G1 hardware.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   drivers/staging/media/hantro/hantro.h          | 13 +++++++------
+>>   drivers/staging/media/hantro/hantro_drv.c      |  2 ++
+>>   drivers/staging/media/hantro/hantro_postproc.c | 17 +++++++++++++++++
+>>   3 files changed, 26 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+>> index a76a0d79db9f..05876e426419 100644
+>> --- a/drivers/staging/media/hantro/hantro.h
+>> +++ b/drivers/staging/media/hantro/hantro.h
+>> @@ -37,6 +37,9 @@ struct hantro_codec_ops;
+>>   #define HANTRO_HEVC_DECODER    BIT(19)
+>>   #define HANTRO_DECODERS                0xffff0000
+>>   
+>> +#define HANTRO_G1_REV          0x6731
+>> +#define HANTRO_G2_REV          0x6732
+>> +
+>>   /**
+>>    * struct hantro_irq - irq handler and name
+>>    *
+>> @@ -171,6 +174,7 @@ hantro_vdev_to_func(struct video_device *vdev)
+>>    * @enc_base:          Mapped address of VPU encoder register for convenience.
+>>    * @dec_base:          Mapped address of VPU decoder register for convenience.
+>>    * @ctrl_base:         Mapped address of VPU control block.
+>> + * @core_hw_dec_rev    Runtime detected HW decoder core revision
+>>    * @vpu_mutex:         Mutex to synchronize V4L2 calls.
+>>    * @irqlock:           Spinlock to synchronize access to data structures
+>>    *                     shared with interrupt handlers.
+>> @@ -190,6 +194,7 @@ struct hantro_dev {
+>>          void __iomem *enc_base;
+>>          void __iomem *dec_base;
+>>          void __iomem *ctrl_base;
+>> +       u32 core_hw_dec_rev;
+>>   
+>>          struct mutex vpu_mutex; /* video_device lock */
+>>          spinlock_t irqlock;
+>> @@ -412,12 +417,8 @@ hantro_get_dst_buf(struct hantro_ctx *ctx)
+>>          return v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>>   }
+>>   
+>> -static inline bool
+>> -hantro_needs_postproc(const struct hantro_ctx *ctx,
+>> -                     const struct hantro_fmt *fmt)
+>> -{
+>> -       return !ctx->is_encoder && fmt->fourcc != V4L2_PIX_FMT_NV12;
+>> -}
+>> +bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+>> +                          const struct hantro_fmt *fmt);
+>>   
+>>   static inline dma_addr_t
+>>   hantro_get_dec_buf_addr(struct hantro_ctx *ctx, struct vb2_buffer *vb)
+>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>> index f0b68e16fcc0..e3e6df28f470 100644
+>> --- a/drivers/staging/media/hantro/hantro_drv.c
+>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+>> @@ -836,6 +836,8 @@ static int hantro_probe(struct platform_device *pdev)
+>>          }
+>>          vpu->enc_base = vpu->reg_bases[0] + vpu->variant->enc_offset;
+>>          vpu->dec_base = vpu->reg_bases[0] + vpu->variant->dec_offset;
+>> +       /* by default decoder is G1 */
+>> +       vpu->core_hw_dec_rev = HANTRO_G1_REV;
+>>   
+>>          ret = dma_set_coherent_mask(vpu->dev, DMA_BIT_MASK(32));
+>>          if (ret) {
+>> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+>> index 6d2a8f2a8f0b..050880f720d6 100644
+>> --- a/drivers/staging/media/hantro/hantro_postproc.c
+>> +++ b/drivers/staging/media/hantro/hantro_postproc.c
+>> @@ -50,6 +50,23 @@ const struct hantro_postproc_regs hantro_g1_postproc_regs = {
+>>          .display_width = {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
+>>   };
+>>   
+>> +bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+>> +                          const struct hantro_fmt *fmt)
+>> +{
+>> +       struct hantro_dev *vpu = ctx->dev;
+>> +
+>> +       if (ctx->is_encoder)
+>> +               return false;
+>> +
+>> +       if (vpu->core_hw_dec_rev == HANTRO_G1_REV):q
+>> +               return fmt->fourcc != V4L2_PIX_FMT_NV12;
+>> +
+>> +       if (vpu->core_hw_dec_rev == HANTRO_G2_REV)
+>> +               return false;
+>> +
+>> +       return false;
+>> +}
+>> +
+>>   void hantro_postproc_enable(struct hantro_ctx *ctx)
+>>   {
+>>          struct hantro_dev *vpu = ctx->dev;
+>
 >
