@@ -2,65 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63DD432EF37
-	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 16:43:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F38032F1EB
+	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 18:55:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230426AbhCEPnL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Mar 2021 10:43:11 -0500
-Received: from mga11.intel.com ([192.55.52.93]:47565 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230401AbhCEPml (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Mar 2021 10:42:41 -0500
-IronPort-SDR: IG43jqmOHLEAg5IXpOrfDeQrpqLLNCrKAVAxMlABlSUWPtshIDoCh6AKDlORbqWI74OIGVBQIJ
- 1T8ybUReymKg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9914"; a="184293761"
-X-IronPort-AV: E=Sophos;i="5.81,225,1610438400"; 
-   d="scan'208";a="184293761"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2021 07:42:40 -0800
-IronPort-SDR: dZr1nM+3wpKK7rwbZVOYsZxztWeY5VYkPdD55C23r0TIqdQZFC12thGNxORqdVK9V8ziZUEFGF
- CweRUjgCK4wg==
-X-IronPort-AV: E=Sophos;i="5.81,225,1610438400"; 
-   d="scan'208";a="401716362"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2021 07:42:38 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id AC77D202B5;
-        Fri,  5 Mar 2021 17:42:36 +0200 (EET)
-Date:   Fri, 5 Mar 2021 17:42:36 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, niklas.soderlund@ragnatech.se, bparrot@ti.com,
-        mickael.guene@st.com
-Subject: Re: [RFC PATCH 0/4] use v4l2_get_link_freq() in CSI receiver drivers
-Message-ID: <20210305154236.GW3@paasikivi.fi.intel.com>
-References: <20210303180817.12285-1-andrey.konovalov@linaro.org>
+        id S229704AbhCERzU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Mar 2021 12:55:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50342 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229690AbhCERys (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Mar 2021 12:54:48 -0500
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33327C061756
+        for <linux-media@vger.kernel.org>; Fri,  5 Mar 2021 09:54:48 -0800 (PST)
+Received: by mail-ua1-x92c.google.com with SMTP id 62so1038820uar.13
+        for <linux-media@vger.kernel.org>; Fri, 05 Mar 2021 09:54:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=T4y7hsWkAfb8OBTEg3avGQFXXvthRmqSS1abQJErodQ=;
+        b=MS284BnbhASHQiTMJ4BAlc0cEwfc1TMDR+saeGAleDvTLqZSXQx541O7H2LKJyn840
+         VHWCEC2oiVd0S70UrQZ/ffhH4LG+qIWJIe9yt9+LN7tCQxnJSvpSahEbXD2N3lEdjM13
+         aatRNJQPyXiZg2scLW+zZfaGnMUsCkPzji+nejC41iWmmPueWg0VPS72wLIoLM9rs4v5
+         i58Ojex4rWCnVYEAWuIcz613G3lyq4rkE6o/k+RbAR6Cx774w+xZTmCRoECdGpAB8Gbq
+         NoSV0qlxd4Qcq0m1pU7hvhkioo7aSAHLfkl7ZN9cxKmxaEY2oscZfO6KvMAVkz/Lp2M8
+         BWNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=T4y7hsWkAfb8OBTEg3avGQFXXvthRmqSS1abQJErodQ=;
+        b=jTVaUwt7/jX9Og9aIwn3nLYD0t923pk2ubhZJMz8j+vil0rEdoIbYIfBJFJkoffr/a
+         Yct8QtrAMSqYIFaQM91BE3aGPEJ6AsZ041YRaIUmiyofoMPhrAZUT/9YvqgtvV03xd6s
+         powT4VKErgzqNhWifcvU132jlM76ioxJCuKCZ5sZrLk8F0wRs4S2/zUWB3gi91ONMkdd
+         oqpUT6FTmdz3YzywpeAcThu309Ja/xj9NpcDUugf4EpStKiNiWczinxzD0jkCNxfQQqM
+         FUj26d90Sxrgi+pxI98sNPF1o8IzP91iMs3C1xhW3PzwGdsFdzF+1exMmy2e3XEJuq1J
+         ZzMw==
+X-Gm-Message-State: AOAM532sEMm8ifH+ixY6kmfD7yxFyg089X66n23gMck5cc6rnuZIkN2i
+        kCNIUIOg8byW+Dndbqke/h12W2m/4PUV2ms/4PQ=
+X-Google-Smtp-Source: ABdhPJz8pREgCTjtxHDNohycOgRys12y5y8+YvZwlnxYmgVaUkP/rp6HDIqbQdSopq770USXqKkq9qOEr7aNxPLQRbk=
+X-Received: by 2002:ab0:205:: with SMTP id 5mr7034130uas.117.1614966887463;
+ Fri, 05 Mar 2021 09:54:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210303180817.12285-1-andrey.konovalov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:ab0:7c49:0:0:0:0:0 with HTTP; Fri, 5 Mar 2021 09:54:46 -0800 (PST)
+From:   Fofo Coucou <fofocoucou.fc@gmail.com>
+Date:   Fri, 5 Mar 2021 09:54:47 -0800
+Message-ID: <CADeoM3eou2Dw+vf3fxvMk9OXp3BWDSyB_JQRvxdKUjDds74X7Q@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 03, 2021 at 09:08:13PM +0300, Andrey Konovalov wrote:
-> This patchset continues the work discussed in the "[RFC] Repurpose
-> V4L2_CID_PIXEL_RATE for the sampling rate in the pixel array" thread [1].
-> 
-> This patchset follows up the patchset for camss driver [2] of the same
-> purpose, and makes the rest of the receiver drivers in drivers/media
-> and drivers/staging/media to use v4l2_get_link_freq() instead of
-> V4L2_CID_PIXEL_RATE.
-> 
-> This patchset has been build tested only, as I don't have access to the
-> hardware. Most of the changes are fairly straightforward except for the
-> ones in the omap4iss driver. I would appreciate if people with better
-> knowledge of the omap4iss driver reviewed the last patch in this series,
-> and checked if I got the logic in the driver right.
-
-To me this looks good, hopefully people could test the set, too.
-
--- 
-Sakari Ailus
+Hi
+You received my previous message? I contacted you before but the
+message failed back, so i decided to write again. Please confirm if
+you receive this so that i can proceed.
+Regards,
+petry
