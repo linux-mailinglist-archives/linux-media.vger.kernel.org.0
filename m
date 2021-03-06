@@ -2,77 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41B4832FC16
-	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 17:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F1CD32FC8D
+	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 20:09:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231215AbhCFQwI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Mar 2021 11:52:08 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:38218 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230311AbhCFQvv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 6 Mar 2021 11:51:51 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lIa9e-004YOu-7g; Sat, 06 Mar 2021 16:51:50 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lIaDQ-000133-Ou; Sat, 06 Mar 2021 16:55:44 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.13] Venus updates (#71975)
-Date:   Sat,  6 Mar 2021 16:55:44 +0000
-Message-Id: <20210306165544.3988-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210306162903.221668-1-stanimir.varbanov@linaro.org>
-References: 
+        id S231228AbhCFTIg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Mar 2021 14:08:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35358 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230346AbhCFTIF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Mar 2021 14:08:05 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04610C06174A
+        for <linux-media@vger.kernel.org>; Sat,  6 Mar 2021 11:08:04 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 1C9151F45BA1
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH] media: uapi: vp8: Fix kernel-doc warnings
+Date:   Sat,  6 Mar 2021 16:07:49 -0300
+Message-Id: <20210306190749.36783-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210305160346.4ed7b5f3@coco.lan>
+References: <20210305160346.4ed7b5f3@coco.lan>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Fix following warnings:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210306162903.221668-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/93108/
-Build time: 00:12:02
-Link: https://lore.kernel.org/linux-media/20210306162903.221668-1-stanimir.varbanov@linaro.org
+./scripts/kernel-doc --none include/uapi/linux/v4l2-controls.h
 
-gpg: Signature made Sat 06 Mar 2021 04:14:50 PM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+        include/uapi/linux/v4l2-controls.h:1727: warning: bad line:
+        include/uapi/linux/v4l2-controls.h:1853: warning: expecting prototype for struct v4l2_vp8_frame. Prototype was for struct v4l2_ctrl_vp8_frame instead
+        include/uapi/linux/v4l2-controls.h:1853: warning: Function parameter or member 'segment' not described in 'v4l2_ctrl_vp8_frame'
+        include/uapi/linux/v4l2-controls.h:1853: warning: Function parameter or member 'entropy' not described in 'v4l2_ctrl_vp8_frame'
+        include/uapi/linux/v4l2-controls.h:1853: warning: Function parameter or member 'coder_state' not described in 'v4l2_ctrl_vp8_frame'
 
-Summary: got 3/10 patches with issues, being 0 at build time, plus one error when buinding PDF document
+Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ include/uapi/linux/v4l2-controls.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Error/warnings:
-
-patches/0005-media-v4l2-ctrls-Add-control-for-AUD-generation.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-media-v4l2-ctrls-Add-control-for-AUD-generation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:41: WARNING: line length of 105 exceeds 100 columns
-	-:61: CHECK: spaces preferred around that '+' (ctx:VxV)
-
-patches/0008-media-venus-core-venc-vdec-Fix-probe-dependency-erro.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-venus-core-venc-vdec-Fix-probe-dependency-erro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'Commit aaaa93eda64b ("[media] media: venus: venc: add video encoder files")'
-	-:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0010-venus-core-Parse-firmware-name-DT-property.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-venus-core-Parse-firmware-name-DT-property.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:16: WARNING: 'Reviewed-by:' is the preferred signature form
-
-
-Error #512 when building PDF docs
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index baa4fb8b1e37..52227cd8adc8 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -1724,7 +1724,7 @@ struct v4l2_vp8_loop_filter {
+  * @uv_dc_delta: chroma DC delta value.
+  * @uv_ac_delta: chroma AC delta value.
+  * @padding: padding field. Should be zeroed by applications.
+-
++ *
+  * This structure contains the quantization indices present
+  * in 'quant_indices()' part of the frame header syntax.
+  * See section '9.6. Dequantization Indices' of the VP8 specification
+@@ -1795,12 +1795,13 @@ struct v4l2_vp8_entropy_coder_state {
+ 
+ #define V4L2_CID_STATELESS_VP8_FRAME (V4L2_CID_CODEC_STATELESS_BASE + 200)
+ /**
+- * struct v4l2_vp8_frame - VP8 frame parameters
++ * struct v4l2_ctrl_vp8_frame - VP8 frame parameters
+  *
+- * @seg: segmentation parameters. See &v4l2_vp8_segment for more details
++ * @segment: segmentation parameters. See &v4l2_vp8_segment for more details
+  * @lf: loop filter parameters. See &v4l2_vp8_loop_filter for more details
+  * @quant: quantization parameters. See &v4l2_vp8_quantization for more details
+- * @probs: probabilities. See &v4l2_vp9_probabilities for more details
++ * @entropy: update probabilities. See &v4l2_vp8_entropy for more details
++ * @coder_state: boolean coder state. See &v4l2_vp8_entropy_coder_state for more details
+  * @width: frame width.
+  * @height: frame height.
+  * @horizontal_scale: horizontal scaling factor.
+-- 
+2.30.0
 
