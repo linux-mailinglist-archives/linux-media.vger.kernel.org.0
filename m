@@ -2,162 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EE3732F636
-	for <lists+linux-media@lfdr.de>; Fri,  5 Mar 2021 23:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C002F32F839
+	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 05:38:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbhCEW6q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Mar 2021 17:58:46 -0500
-Received: from mail-oi1-f177.google.com ([209.85.167.177]:45364 "EHLO
-        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbhCEW63 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Mar 2021 17:58:29 -0500
-Received: by mail-oi1-f177.google.com with SMTP id m25so4251683oie.12;
-        Fri, 05 Mar 2021 14:58:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1oJfp5wOtSpahzuVaU4L5ORJxXB79SaHjEEoQZLe6IM=;
-        b=txJFUgxeEMvtu9URK7YJhe4kKuj9NFs/c4RhIQeZD8QkQRG63meWRv3mGP/iSGuxkq
-         M8OP34PUx56bynJO8vwoi5Ikc7tAHviTGWG2i/I0TEsNUmyEkHCixs2uA4iK+O/N7ZUf
-         rtHM3nrA/UBk+qZ8k3eE/geLU0VTNoNf+HA/v6+Rl4UV3lRwUOFTsvvsJr3etoz/Twah
-         zrOAXnqfZDNDdL1ZxY7NbwRj3niaTWP9CpW8jPihX6w8sY1hOlPyrqqBm4lJn6yx/1HS
-         oZR7eyrU9ayaMdKc7pqSmPfg2fHHKjQEZ3QCOqOu2b7h5PsWaxQh94eXd971M7NLMRWk
-         G8zg==
-X-Gm-Message-State: AOAM532L4jcZRtxJRefOzd0avZ0yLb14BG3CSUCr/KTPC9E6vZqOFNA9
-        zx6OvdlcH/rmEoT1BxisYtg/O2OJcw==
-X-Google-Smtp-Source: ABdhPJyO9xP+BYGZnmgcyS3UuIcaVDE+wxMS21R4xRm7ICyJ4KPOJLuGtTr8m3fWtV3XUCNE5UYccw==
-X-Received: by 2002:aca:ab09:: with SMTP id u9mr8745691oie.153.1614985109238;
-        Fri, 05 Mar 2021 14:58:29 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id f44sm933509otf.7.2021.03.05.14.58.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 14:58:28 -0800 (PST)
-Received: (nullmailer pid 798293 invoked by uid 1000);
-        Fri, 05 Mar 2021 22:58:27 -0000
-Date:   Fri, 5 Mar 2021 16:58:26 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: media: i2c: Add bindings for
- TW9900
-Message-ID: <20210305225826.GA794278@robh.at.kernel.org>
-References: <20210219081514.1592033-1-maxime.chevallier@bootlin.com>
- <20210219081514.1592033-3-maxime.chevallier@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210219081514.1592033-3-maxime.chevallier@bootlin.com>
+        id S229815AbhCFEiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Mar 2021 23:38:02 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36449 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229781AbhCFEhu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Mar 2021 23:37:50 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id IOhEllicQOruFIOhGlKMLh; Sat, 06 Mar 2021 05:37:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615005466; bh=cGxgjaIcswCjOkm/ngYBSOltVp9SrxkZvwwOTaTL2xw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=FX9EMyFPJLKUTSCqBn85B8ktsPqrniQEYEiAw6lOLUU3rAGlCvAkK49UVwUoVsP34
+         je3SnEKbl5/LU+yrXH0pijyrImhYcroOJ6/ZP4Q4jj2rtPaAvLdZlp7bI/auYHziOT
+         FEHMyxEjJJjYog3g8HRDsobQTL/By8exOE97W4IPblbecbxis5ypacw+Q3OLKlCt5C
+         npDIwECG0BEXnTThTOAHGqwRyv0vyxKMltK4SGyf0fpjG2XX6yTAGmVUHnRFgKsODG
+         R0vmN1zfpByh6YgJjo3ot6raT/AMjC+0TfdbV61aJmCvx+XX8Q5YFlXCfpXSDzoNQQ
+         n+plavIQD7Unw==
+Message-ID: <27f9913367b4b29fb41621434bd89639@smtp-cloud7.xs4all.net>
+Date:   Sat, 06 Mar 2021 05:37:44 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfMLGSn/m24YsK3drHMTvM7O0F3G5QeSfACNMrY5uL5dS5sx5kz2krby2SAVwCJbbtqIGOR2xQ1ZrMj+z92m707CEQUq/STdLEZktnRcYGhO4V2eu0/Vw
+ OCFCRtboTA+bksXJFoqBWfbR+3QvWwxlOieCG+JPlw4cpfJDcHIcplT0IowVB+g4ck12fTN/kW4VXJlQVxFgIUS+jgI63//l5QJw0kXPKwcvNZ9lOlVdz+Wu
+ b9+RwrtXfQz5D+wKxKeMyg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 09:15:13AM +0100, Maxime Chevallier wrote:
-> The Techwell TW9900 is a video decoder supporting multiple input
-> standards, such as PAL, NTSC and SECAM, and outputs a BT.656 video
-> signal.
-> 
-> It's designed to be low-power, posesses some features such as a
-> programmable comb-filter, and automatic input standard detection.
-> 
-> Signed-off-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> ---
-> V2->V3 : Fix the example not compiling due to a typo in the reset-gpios
-> node.
-> 
-> V3->V4 : Add the missing reset-gpios node to the binding
-> 
->  .../devicetree/bindings/media/i2c/tw9900.yaml | 64 +++++++++++++++++++
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Use the compatible string for the filename.
+Results of the daily build of media_tree:
 
->  1 file changed, 64 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/tw9900.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/tw9900.yaml b/Documentation/devicetree/bindings/media/i2c/tw9900.yaml
-> new file mode 100644
-> index 000000000000..d27196e37416
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/tw9900.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/tw9900.yaml#
+date:			Sat Mar  6 05:00:11 CET 2021
+media-tree git hash:	2842027ffb066b62467fde803ecac8024b0fc51e
+media_build git hash:	15e45b4b4577c1d87159511c11a959fbd49d1671
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: dc364825a5c13e4eb4c2ad6da1f08a0e67880b58
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Don't forget to update this...
+linux-git-sh: OK
+linux-git-arm-pxa: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-x86_64: OK
+linux-git-i686: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: ERRORS
+linux-4.4.258-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.258-i686: ERRORS
+linux-4.9.258-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.222-i686: ERRORS
+linux-4.14.222-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.177-i686: ERRORS
+linux-4.19.177-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.100-i686: ERRORS
+linux-5.4.100-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12-rc1-i686: OK
+linux-5.12-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Techwell TW9900 NTSC/PAL/SECAM video decoder
-> +
-> +maintainers:
-> +  - Maxime Chevallier <maxime.chevallier@bootlin.com>
-> +
-> +description:
-> +  The tw9900 is a multi-standard video decoder, supporting NTSC, PAL and SECAM
-> +  standards with auto-detection features.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - techwell,tw9900
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: VDD power supply
-> +
-> +  reset-gpios:
-> +    description: GPIO descriptor for the RESET input pin
-> +    maxItems: 1
-> +
-> +  port:
-> +    type: object
-> +    description:
-> +      A node containing a single endpoint as doucmented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+Detailed results are available here:
 
-It's now video-interfaces.yaml, but you aren't using anything from it. 
-You need to reference graph.yaml though. See the examples in the tree 
-now.
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    i2c {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            tw9900: tw9900@44 {
-> +                    compatible = "techwell,tw9900";
-> +                    reg = <0x44>;
-> +
-> +                    vdd-supply = <&tw9900_supply>;
-> +                    reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
-> +
-> +                    port {
-> +                            tw9900_out: endpoint {
-> +                                    remote-endpoint = <&vip_in>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> -- 
-> 2.25.4
-> 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
