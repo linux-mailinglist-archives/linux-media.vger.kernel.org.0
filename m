@@ -2,84 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F1CD32FC8D
-	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 20:09:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B61532FD39
+	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 21:54:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbhCFTIg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Mar 2021 14:08:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230346AbhCFTIF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Mar 2021 14:08:05 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04610C06174A
-        for <linux-media@vger.kernel.org>; Sat,  6 Mar 2021 11:08:04 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 1C9151F45BA1
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH] media: uapi: vp8: Fix kernel-doc warnings
-Date:   Sat,  6 Mar 2021 16:07:49 -0300
-Message-Id: <20210306190749.36783-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210305160346.4ed7b5f3@coco.lan>
-References: <20210305160346.4ed7b5f3@coco.lan>
+        id S229718AbhCFUrX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Mar 2021 15:47:23 -0500
+Received: from mail-qv1-f53.google.com ([209.85.219.53]:37970 "EHLO
+        mail-qv1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229597AbhCFUq5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Mar 2021 15:46:57 -0500
+Received: by mail-qv1-f53.google.com with SMTP id bh3so2778639qvb.5;
+        Sat, 06 Mar 2021 12:46:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Y/bwRZFE+81GxJ819/dzmZmbJ5VhND4GcsCvXIq1kmU=;
+        b=g07XtYLZmZNzx4a8DKzjR0IeVmWy74e/+EIwzvcOO1bLIgmEil+jaRqux3FVD82o+C
+         mMhhhNeDp0b71SyFJUZVA7sKqxOoZtVIyuiPaR5EMpW9jyyjX9kw9Z9R/Q2qNYfR9kfb
+         TXeSLXtQoJL1d9L5aicEuMFG48XnBHKhzoCQ9Wof3hrqEP2bNorI0t+xY8DRcKLKHPGU
+         EvGEV0VUwma7TsbsSY6qFFz+8kuehEHwLA9YqJhGgWQPAThfQJLfWkRA0HKNG6BCmPwE
+         JxGT/3bFYnQOMrKkIF0l/05ZJUDvTYgTpPgGoKs/R8WrPWVpliMzrjEhxLjuZpDKq1FQ
+         xu9Q==
+X-Gm-Message-State: AOAM533x1Ig+jh+vz1syR0xo5/ZTbMWUqxOB7CWkFBf3iP48NGzMlmpm
+        uTAYIHt45TLPoviqiyWF7A==
+X-Google-Smtp-Source: ABdhPJzkozUHpwvVJzF8cjeIVjY27mE83sREQIGN2MFZZWdBK+eZETiFMTsf8hZMF9Av6T7XR/Zk8g==
+X-Received: by 2002:a0c:b894:: with SMTP id y20mr14731003qvf.43.1615063617136;
+        Sat, 06 Mar 2021 12:46:57 -0800 (PST)
+Received: from robh.at.kernel.org ([172.58.27.98])
+        by smtp.gmail.com with ESMTPSA id v135sm4603573qka.98.2021.03.06.12.46.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Mar 2021 12:46:56 -0800 (PST)
+Received: (nullmailer pid 1186613 invoked by uid 1000);
+        Sat, 06 Mar 2021 20:46:49 -0000
+Date:   Sat, 6 Mar 2021 13:46:49 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Irui Wang <irui.wang@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>, yong.wu@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2,1/3] dt-bindings: media: mtk-vcodec: Separating mtk
+ vcodec encoder node
+Message-ID: <20210306204649.GA1177075@robh.at.kernel.org>
+References: <20210225073603.5881-1-irui.wang@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210225073603.5881-1-irui.wang@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix following warnings:
+On Thu, Feb 25, 2021 at 03:36:01PM +0800, Irui Wang wrote:
+> Updates binding document since the avc and vp8 hardware encoder in
+> MT8173 are now separated. Separate "mediatek,mt8173-vcodec-enc" to
+> "mediatek,mt8173-vcodec-enc-vp8" and "mediatek,mt8173-vcodec-enc".
 
-./scripts/kernel-doc --none include/uapi/linux/v4l2-controls.h
+This is not a compatible change. Please explain that here and why that's 
+okay (if it is).
 
-        include/uapi/linux/v4l2-controls.h:1727: warning: bad line:
-        include/uapi/linux/v4l2-controls.h:1853: warning: expecting prototype for struct v4l2_vp8_frame. Prototype was for struct v4l2_ctrl_vp8_frame instead
-        include/uapi/linux/v4l2-controls.h:1853: warning: Function parameter or member 'segment' not described in 'v4l2_ctrl_vp8_frame'
-        include/uapi/linux/v4l2-controls.h:1853: warning: Function parameter or member 'entropy' not described in 'v4l2_ctrl_vp8_frame'
-        include/uapi/linux/v4l2-controls.h:1853: warning: Function parameter or member 'coder_state' not described in 'v4l2_ctrl_vp8_frame'
+> 
+> This is a preparing patch for smi cleaning up "mediatek,larb".
+> 
+> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Signed-off-by: Maoguang Meng <maoguang.meng@mediatek.com>
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+> Change since v1:
+> - rename compatible and device node
+> ---
+>  .../bindings/media/mediatek-vcodec.txt        | 55 ++++++++++---------
+>  1 file changed, 29 insertions(+), 26 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> index 8217424fd4bd..03209cbd7540 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> +++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> @@ -4,7 +4,9 @@ Mediatek Video Codec is the video codec hw present in Mediatek SoCs which
+>  supports high resolution encoding and decoding functionalities.
+>  
+>  Required properties:
+> -- compatible : "mediatek,mt8173-vcodec-enc" for MT8173 encoder
+> +- compatible : must be one of the following string:
+> +  "mediatek,mt8173-vcodec-enc-vp8" for mt8173 vp8 encoder.
+> +  "mediatek,mt8173-vcodec-enc" for mt8173 avc encoder.
+>    "mediatek,mt8183-vcodec-enc" for MT8183 encoder.
+>    "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
+>  - reg : Physical base address of the video codec registers and length of
+> @@ -13,10 +15,10 @@ Required properties:
+>  - mediatek,larb : must contain the local arbiters in the current Socs.
+>  - clocks : list of clock specifiers, corresponding to entries in
+>    the clock-names property.
+> -- clock-names: encoder must contain "venc_sel_src", "venc_sel",,
+> -  "venc_lt_sel_src", "venc_lt_sel", decoder must contain "vcodecpll",
+> -  "univpll_d2", "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll",
+> -  "venc_lt_sel", "vdec_bus_clk_src".
+> +- clock-names:
+> +   encoder must contain "venc_sel";
 
-Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- include/uapi/linux/v4l2-controls.h | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+What happened to the other clocks?
 
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index baa4fb8b1e37..52227cd8adc8 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1724,7 +1724,7 @@ struct v4l2_vp8_loop_filter {
-  * @uv_dc_delta: chroma DC delta value.
-  * @uv_ac_delta: chroma AC delta value.
-  * @padding: padding field. Should be zeroed by applications.
--
-+ *
-  * This structure contains the quantization indices present
-  * in 'quant_indices()' part of the frame header syntax.
-  * See section '9.6. Dequantization Indices' of the VP8 specification
-@@ -1795,12 +1795,13 @@ struct v4l2_vp8_entropy_coder_state {
- 
- #define V4L2_CID_STATELESS_VP8_FRAME (V4L2_CID_CODEC_STATELESS_BASE + 200)
- /**
-- * struct v4l2_vp8_frame - VP8 frame parameters
-+ * struct v4l2_ctrl_vp8_frame - VP8 frame parameters
-  *
-- * @seg: segmentation parameters. See &v4l2_vp8_segment for more details
-+ * @segment: segmentation parameters. See &v4l2_vp8_segment for more details
-  * @lf: loop filter parameters. See &v4l2_vp8_loop_filter for more details
-  * @quant: quantization parameters. See &v4l2_vp8_quantization for more details
-- * @probs: probabilities. See &v4l2_vp9_probabilities for more details
-+ * @entropy: update probabilities. See &v4l2_vp8_entropy for more details
-+ * @coder_state: boolean coder state. See &v4l2_vp8_entropy_coder_state for more details
-  * @width: frame width.
-  * @height: frame height.
-  * @horizontal_scale: horizontal scaling factor.
--- 
-2.30.0
+Seems like you are dropping what are parent clocks? That seems unrelated 
+to the VP8 split? If so, that's a separate change.
 
+> +   decoder  must contain "vcodecpll", "univpll_d2", "clk_cci400_sel",
+> +   "vdec_sel", "vdecpll", "vencpll", "venc_lt_sel", "vdec_bus_clk_src".
+>  - iommus : should point to the respective IOMMU block with master port as
+>    argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+>    for details.
+> @@ -80,14 +82,10 @@ vcodec_dec: vcodec@16000000 {
+>      assigned-clock-rates = <0>, <0>, <0>, <1482000000>, <800000000>;
+>    };
+>  
+> -  vcodec_enc: vcodec@18002000 {
+> +vcodec_enc_avc: vcodec@18002000 {
+>      compatible = "mediatek,mt8173-vcodec-enc";
+> -    reg = <0 0x18002000 0 0x1000>,    /*VENC_SYS*/
+> -          <0 0x19002000 0 0x1000>;    /*VENC_LT_SYS*/
+> -    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>,
+> -		 <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+> -    mediatek,larb = <&larb3>,
+> -		    <&larb5>;
+> +    reg = <0 0x18002000 0 0x1000>;
+> +    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
+>      iommus = <&iommu M4U_PORT_VENC_RCPU>,
+>               <&iommu M4U_PORT_VENC_REC>,
+>               <&iommu M4U_PORT_VENC_BSDMA>,
+> @@ -98,8 +96,20 @@ vcodec_dec: vcodec@16000000 {
+>               <&iommu M4U_PORT_VENC_REF_LUMA>,
+>               <&iommu M4U_PORT_VENC_REF_CHROMA>,
+>               <&iommu M4U_PORT_VENC_NBM_RDMA>,
+> -             <&iommu M4U_PORT_VENC_NBM_WDMA>,
+> -             <&iommu M4U_PORT_VENC_RCPU_SET2>,
+> +             <&iommu M4U_PORT_VENC_NBM_WDMA>;
+> +    mediatek,larb = <&larb3>;
+> +    mediatek,vpu = <&vpu>;
+> +    clocks = <&topckgen CLK_TOP_VENC_SEL>;
+> +    clock-names = "venc_sel";
+> +    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
+> +    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
+> +  };
+> +
+> +vcodec_enc_vp8: vcodec@19002000 {
+> +    compatible = "mediatek,mt8173-vcodec-enc-vp8";
+> +    reg =  <0 0x19002000 0 0x1000>;	/* VENC_LT_SYS */
+> +    interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+> +    iommus = <&iommu M4U_PORT_VENC_RCPU_SET2>,
+>               <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
+>               <&iommu M4U_PORT_VENC_BSDMA_SET2>,
+>               <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
+> @@ -108,17 +118,10 @@ vcodec_dec: vcodec@16000000 {
+>               <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
+>               <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
+>               <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
+> +    mediatek,larb = <&larb5>;
+>      mediatek,vpu = <&vpu>;
+> -    clocks = <&topckgen CLK_TOP_VENCPLL_D2>,
+> -             <&topckgen CLK_TOP_VENC_SEL>,
+> -             <&topckgen CLK_TOP_UNIVPLL1_D2>,
+> -             <&topckgen CLK_TOP_VENC_LT_SEL>;
+> -    clock-names = "venc_sel_src",
+> -                  "venc_sel",
+> -                  "venc_lt_sel_src",
+> -                  "venc_lt_sel";
+> -    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>,
+> -                      <&topckgen CLK_TOP_VENC_LT_SEL>;
+> -    assigned-clock-parents = <&topckgen CLK_TOP_VENCPLL_D2>,
+> -                             <&topckgen CLK_TOP_UNIVPLL1_D2>;
+> +    clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+> +    clock-names = "venc_lt_sel";
+> +    assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+> +    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
+>    };
+> -- 
+> 2.25.1
+> 
