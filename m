@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5822332F9BB
-	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 12:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A58232FA6F
+	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 13:11:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230191AbhCFLdJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Mar 2021 06:33:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50624 "EHLO
+        id S230346AbhCFMLM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Mar 2021 07:11:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229888AbhCFLdD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Mar 2021 06:33:03 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A520C06175F;
-        Sat,  6 Mar 2021 03:33:03 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id d11so2700509plo.8;
-        Sat, 06 Mar 2021 03:33:03 -0800 (PST)
+        with ESMTP id S230242AbhCFMLL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Mar 2021 07:11:11 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE67C06174A;
+        Sat,  6 Mar 2021 04:11:11 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id o38so3194070pgm.9;
+        Sat, 06 Mar 2021 04:11:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=/fx6WZgqSrjuYPDTVZcWrwGq9E9g/m5mMZJZkpp59xk=;
-        b=kH2wB7I9PrIkI/QXOpeCZAzddtwF0C+J1nXLA/2d3q61WoKQNVhnvTSm+TkMja7z8p
-         xE/subkLSw06NJxGy+MuEY8Z8pivX+jAg6+omGLQ/jV6Pz3rW7IYsndsRNFkNXg5y/+c
-         i+nGDbrAU+Hk5ViSGC7c4FmR8Q7IoMbln0wBM80Q/cH32UoIbv+SI0LMh9binPlLenrQ
-         aEIUU3SVo+CJxwqKDWe0k+Ofo73t9bvX0C+5LWSbegy4q/VSGXBm/yRC7tM2SbfWhFw1
-         9ZA0jizcNBZ2urevCUiHh+nMKhvF/9gd9kHF/0vKPtj98bh2TjsvUaBNCvWlKUIe9skU
-         qOQg==
+        bh=BVyrDkDYNfdYuIzuJBagkTAPrMEkMX8z2zUgIheSJaU=;
+        b=ASAXRCI+vRWIwdq9xkZXcMsd99MrrgfVm4z+J5v8l6sF87zpwZB019+nwVXr53ewgt
+         eX2fm/lft4j7MxtjfjEZOTmdJDfLPOgphMZu/bDs0NLEYgaZnxqO98QA1sizq3ucwUEi
+         bNXwuZf0DgkxXN0Gb6XpQq6LWikcJvT7MwsT9tdAddNITrPEFb6UWz3Y4fjCSkBbVMYT
+         yh31V7MMgBzz9jYnDkjhwNWsgarWra3ehNufqdDVFZztKExeWQPBdPSyclhyow+qLmpr
+         Jum8yEmL8TYfG/xcUfdqjNTcM5s+/I62LMbqjkOE/9LD7T64/0+xmBMAMPFDAenK/22y
+         hyhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=/fx6WZgqSrjuYPDTVZcWrwGq9E9g/m5mMZJZkpp59xk=;
-        b=jIDLgqfJorRbFabo93k9ztADG0OxgTB0L3Fx+IJk3wxS0Hr9/gu8fiCSnXEedvs5oD
-         W7mGQiuojvyJVavcZMHMqTdHyyec3fKPczxTIUipp4/yzppEwMak4tY6lHny24V9gnkR
-         4sBKVvyfhZNUahVCPjRPUGgVY7XD5VFHUoJLZI1C7yB1jbXG04cq4suFLwMYJc8SaLaM
-         kpPcRptHEC9oS+auANSIIDUCRzP/LP8hHQ4Ho0uUqU0oDsJTqn0/iOw215xqrjrbWh1h
-         oxOhtMEyOTm3Q4SDxQo8VUG5e9WFequ7NZdHfHqmtWGmXXLcx9rjm3HMfO1PS47vZ5nq
-         mxSQ==
-X-Gm-Message-State: AOAM532DO0hPcWk507bvXsts33C3GuNYfoNCUvE35IjEPaWhqNP/gxaD
-        NWpMZ74r207dLmgobEeI3Hc=
-X-Google-Smtp-Source: ABdhPJx/g3BbbVaGbZa7LNVuZkgSOwDfPURgUCz4tuwJwhKwSHdP67mWEGPTz3W+Woc9Arv7W3Zufg==
-X-Received: by 2002:a17:90a:d58a:: with SMTP id v10mr15477300pju.36.1615030382183;
-        Sat, 06 Mar 2021 03:33:02 -0800 (PST)
+        bh=BVyrDkDYNfdYuIzuJBagkTAPrMEkMX8z2zUgIheSJaU=;
+        b=JkZOT5zdDpiwuyQXyvb1Y1bZ1W6sA6nOIfG1Mhp1flH+X6kV8YrZHeR/V3fuWqtQkz
+         3BJke8XtPuiM+JNJ4TTsawesgJWtpUoxmxLcb62j5c+wbwGMunW0WD7Kk9YY7PBwNE05
+         fTXervWWMN2rGJR92U+tOcrEmvb8ufV/VIFgmO2Dfhb/QSe1FbVFG38JFf4Sq/+hNWs0
+         9hFspAk4xZ6mAH3XGKUJ5lWgFmiTasRbrqFDygAkScX9jeEe4D7JnJcVlPCHIhm1MCbF
+         JiSEBBqxyoGL6/jqaM6X8CIm8sAzoPTrbD8jGvlEtWdsvAPSci9jlz9tIahqzM8smQll
+         OAdg==
+X-Gm-Message-State: AOAM531skk78mOswmeRib78tiizKUw6FC7OQrd+d7gZHb0MJKa/Lnvvh
+        GwhKLkq5AZ/TQZscUnPrfps=
+X-Google-Smtp-Source: ABdhPJyAt3pUMHH9D43EtcoFrV+BCXDQyqG82hlYEpMq4QSieYKHqZ+tNyuLiHwIjNTS5dnnE4XM8A==
+X-Received: by 2002:a63:c702:: with SMTP id n2mr12426084pgg.382.1615032671174;
+        Sat, 06 Mar 2021 04:11:11 -0800 (PST)
 Received: from localhost.localdomain ([178.236.46.205])
-        by smtp.gmail.com with ESMTPSA id s26sm5460463pfd.5.2021.03.06.03.33.00
+        by smtp.gmail.com with ESMTPSA id b14sm5209799pji.14.2021.03.06.04.11.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Mar 2021 03:33:01 -0800 (PST)
+        Sat, 06 Mar 2021 04:11:10 -0800 (PST)
 From:   menglong8.dong@gmail.com
 X-Google-Original-From: zhang.yunkai@zte.com.cn
 To:     mchehab@kernel.org
-Cc:     dwlsalmeida@gmail.com, linux-media@vger.kernel.org,
+Cc:     sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org,
         Zhang Yunkai <zhang.yunkai@zte.com.cn>
-Subject: [PATCH] media:vidtv: remove duplicate include in vidtv_psi
-Date:   Sat,  6 Mar 2021 03:32:55 -0800
-Message-Id: <20210306113255.217387-1-zhang.yunkai@zte.com.cn>
+Subject: [PATCH] media:atomisp: remove duplicate include in sh_css
+Date:   Sat,  6 Mar 2021 04:11:04 -0800
+Message-Id: <20210306121104.218696-1-zhang.yunkai@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,25 +66,28 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Zhang Yunkai <zhang.yunkai@zte.com.cn>
 
-'string.h' included in 'vidtv_psi.c' is duplicated.
+'ia_css_isys.h' included in 'sh_css.c' is duplicated.
+It is also included in the 30th line.
 
 Signed-off-by: Zhang Yunkai <zhang.yunkai@zte.com.cn>
 ---
- drivers/media/test-drivers/vidtv/vidtv_psi.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-index 47ed7907db8d..c11ac8dca73d 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-@@ -19,7 +19,6 @@
- #include <linux/ratelimit.h>
- #include <linux/slab.h>
- #include <linux/string.h>
--#include <linux/string.h>
- #include <linux/time.h>
- #include <linux/types.h>
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index ddee04c8248d..afddc54094e9 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -49,9 +49,6 @@
+ #include "ia_css_pipe_util.h"
+ #include "ia_css_pipe_binarydesc.h"
+ #include "ia_css_pipe_stagedesc.h"
+-#ifndef ISP2401
+-#include "ia_css_isys.h"
+-#endif
  
+ #include "tag.h"
+ #include "assert_support.h"
 -- 
 2.25.1
 
