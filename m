@@ -2,82 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1853232FC09
-	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 17:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B4832FC16
+	for <lists+linux-media@lfdr.de>; Sat,  6 Mar 2021 17:52:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230509AbhCFQrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Mar 2021 11:47:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33296 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230216AbhCFQqs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Mar 2021 11:46:48 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A006C06175F
-        for <linux-media@vger.kernel.org>; Sat,  6 Mar 2021 08:46:48 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id 124-20020a1c00820000b029010b871409cfso1207989wma.4
-        for <linux-media@vger.kernel.org>; Sat, 06 Mar 2021 08:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4jFifCx7yzrzHX+eduGEW6ghoeTTOTuTIMNywZZuNQA=;
-        b=Yf9RCyC+/HYEajVpFI3VFBvy/aYt08b9GbcZzmWzPlFCXgx50Wt5pIdANNyMXI7heq
-         iXwg2y1hviCsf5w7epqsoKW9raF3QQEEbzURg/tO6jqUqngzeVU8NLcPT/tkFMxUqWWa
-         CcjgBjOve2Z8QtXlqf7MxzRhBZ6Wzf8Y0Qy3vtWyHq8MlhZED0XCiiU99YbvN4HYXIrr
-         X/W0/4KmBVFBrNTKx4VMUyaGYZxc03gZiAiwNgYoY/LUGX9wEAUmawoq9zJSdGfhVUne
-         wuUJSmrXkupZw64J33GQXi3pb2ImfQYIw7+NPInl+2wNwc2br95T4Eln5ZixrB+THYm/
-         Sl6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4jFifCx7yzrzHX+eduGEW6ghoeTTOTuTIMNywZZuNQA=;
-        b=lo6H5hIhRmRtaToUC7NdC/UDwYDqChhscYZCRCkJhSMm/r+P85eZGczmS6JF1wVvaq
-         uPp7IB9bHSMOK1AxBSQG89ovv2xzca51agEnlVizGfX1S1U/4mfeL6TOUMy134lhIDwr
-         dx45S4O8riqJPDem9R7IdiA8QNI2JPcghUGMsbvY8geE0jiw9SOH60mF1HRNLkKD77cf
-         mtYjLL3y0Pg+gPHVgtxzdd4DlMSC+wJyuMbXvn+mTy3AtI2N57elekblJK46eRUUtxfX
-         /pvqVpo9lXVAZLuwZBmtwy9VOYFuzdFd3sLCTUI7mkAjRFh4XA6GPaMNLUpge7+hNIL2
-         ztmQ==
-X-Gm-Message-State: AOAM532CP8uiTvtsUE8Kfr2Me1QAaRA6p00T/Qj9eqkSe1HkgaCE7JlK
-        oGz8OUb5BWEHxilGR7Gw7/tcLA==
-X-Google-Smtp-Source: ABdhPJzRPpyj0Kuzx7M6DUFGJ7UjBSs72yDFF376d3kXOcjwx8mCDZI8tXyxebviRot74bVTVwakXA==
-X-Received: by 2002:a7b:c409:: with SMTP id k9mr14161996wmi.151.1615049206774;
-        Sat, 06 Mar 2021 08:46:46 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id i10sm9034013wrs.11.2021.03.06.08.46.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Mar 2021 08:46:46 -0800 (PST)
-Subject: Re: [PATCH 04/25] media: venus: core,pm: Vote for min clk freq during
- venus boot
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     dikshita@codeaurora.org, jonathan@marek.ca, vgarodia@codeaurora.org
-References: <20210222160300.1811121-1-bryan.odonoghue@linaro.org>
- <20210222160300.1811121-5-bryan.odonoghue@linaro.org>
- <21b09fd4-0b4c-3acb-ece2-f1a710bbd3fd@linaro.org>
- <94133e43-d250-7359-6cfe-c4956f5185dc@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Message-ID: <3e259bbd-66ee-f50f-f9eb-e788c9c311af@linaro.org>
-Date:   Sat, 6 Mar 2021 16:48:14 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S231215AbhCFQwI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Mar 2021 11:52:08 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:38218 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230311AbhCFQvv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 6 Mar 2021 11:51:51 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lIa9e-004YOu-7g; Sat, 06 Mar 2021 16:51:50 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lIaDQ-000133-Ou; Sat, 06 Mar 2021 16:55:44 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.13] Venus updates (#71975)
+Date:   Sat,  6 Mar 2021 16:55:44 +0000
+Message-Id: <20210306165544.3988-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210306162903.221668-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <94133e43-d250-7359-6cfe-c4956f5185dc@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/03/2021 15:01, Stanimir Varbanov wrote:
-> Confirmed. This produces regressions on db410c (I haven't tested on
-> other platforms yet).
+From: builder@linuxtv.org
 
-db410c was broken for me on the reference branch prior to sm8250 
-additions however AFAICT this change was fine on sdm845.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210306162903.221668-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/93108/
+Build time: 00:12:02
+Link: https://lore.kernel.org/linux-media/20210306162903.221668-1-stanimir.varbanov@linaro.org
 
----
-bod
+gpg: Signature made Sat 06 Mar 2021 04:14:50 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+
+Summary: got 3/10 patches with issues, being 0 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0005-media-v4l2-ctrls-Add-control-for-AUD-generation.patch:
+
+   checkpatch.pl:
+	$ cat patches/0005-media-v4l2-ctrls-Add-control-for-AUD-generation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:41: WARNING: line length of 105 exceeds 100 columns
+	-:61: CHECK: spaces preferred around that '+' (ctx:VxV)
+
+patches/0008-media-venus-core-venc-vdec-Fix-probe-dependency-erro.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-venus-core-venc-vdec-Fix-probe-dependency-erro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'Commit aaaa93eda64b ("[media] media: venus: venc: add video encoder files")'
+	-:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0010-venus-core-Parse-firmware-name-DT-property.patch:
+
+   checkpatch.pl:
+	$ cat patches/0010-venus-core-Parse-firmware-name-DT-property.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:16: WARNING: 'Reviewed-by:' is the preferred signature form
+
+
+Error #512 when building PDF docs
+
