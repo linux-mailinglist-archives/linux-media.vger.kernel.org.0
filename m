@@ -2,26 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A30EE331A99
-	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 00:01:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4E9F331ABB
+	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 00:07:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230457AbhCHXAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 18:00:35 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41024 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbhCHXAV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 18:00:21 -0500
+        id S230411AbhCHXHU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 18:07:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56726 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229704AbhCHXHC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 18:07:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E42C06174A;
+        Mon,  8 Mar 2021 15:07:01 -0800 (PST)
 Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31A1799;
-        Tue,  9 Mar 2021 00:00:19 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29A0A99;
+        Tue,  9 Mar 2021 00:06:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615244419;
-        bh=ywksvDU+fmE0b00+Y3EVU/AcE4af/eyhIJZ9lanm8tw=;
+        s=mail; t=1615244819;
+        bh=L12VtFxosOVUr4p7cm0dCJof6IAODdgRAFzewNuXUvA=;
         h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
-        b=wlq9uGlZyJiYBfgPXXBYzBD3YMi7NMIbI7Ue01s0cmTqwZXSXmEBOZIalm7vIhrjg
-         cb8/o3Us5wovHKvCGV/9R3zZfArm6j4MJKVLb+FvUQvRPI0mb78YgVaU0XAUseMpvr
-         BoTQcKL8PKC36vCXVhp7Uf3DwBtZ3cb5fOncLKKQ=
-Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer access
+        b=QAudPgJsNbuKRh2t4KZchHZYNEL9eO6tl7TADqCeikRcpLqfzw1+tYLBPl3zQfyTn
+         mBmqXdGo4toheaKYweRH8qrY7rAOc3JJMi+UsOrMSXZiXcjg60GIPdwQVbJEbtj+0I
+         VFSJHMIKP2uMnTiUF6BgDlbPtJq/2B3d6Qvt4eTs=
+Subject: Re: [PATCH 1/2] media: v4l: vsp1: Fix bru null pointer access
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -32,16 +35,16 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210301120828.6945-1-biju.das.jz@bp.renesas.com>
- <20210301120828.6945-3-biju.das.jz@bp.renesas.com>
+ <20210301120828.6945-2-biju.das.jz@bp.renesas.com>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Reply-To: kieran.bingham+renesas@ideasonboard.com
 Organization: Ideas on Board
-Message-ID: <133f8b63-3b84-c60a-725d-30b8d6df35dd@ideasonboard.com>
-Date:   Mon, 8 Mar 2021 23:00:16 +0000
+Message-ID: <67dbb76a-db02-7a49-9b1d-0218d01c3173@ideasonboard.com>
+Date:   Mon, 8 Mar 2021 23:06:56 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210301120828.6945-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210301120828.6945-2-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -52,40 +55,42 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Biju,
 
 On 01/03/2021 12:08, Biju Das wrote:
-> RZ/G2L SoC has no UIF. This patch fixes null pointer access, when UIF
-> module is not used.
+> RZ/G2L SoC has only BRS. This patch fixes null pointer access,when only
+> BRS is enabled.
 > 
-> Fixes: 5e824f989e6e8("media: v4l: vsp1: Integrate DISCOM in display pipeline")
+> Fixes: cbb7fa49c7466("media: v4l: vsp1: Rename BRU to BRx")
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  drivers/media/platform/vsp1/vsp1_drm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/media/platform/vsp1/vsp1_drm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
-> index f6d2f47a4058..06f74d410973 100644
+> index 86d5e3f4b1ff..f6d2f47a4058 100644
 > --- a/drivers/media/platform/vsp1/vsp1_drm.c
 > +++ b/drivers/media/platform/vsp1/vsp1_drm.c
-> @@ -462,9 +462,9 @@ static int vsp1_du_pipeline_setup_inputs(struct vsp1_device *vsp1,
+> @@ -245,7 +245,7 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_device *vsp1,
+>  		brx = &vsp1->bru->entity;
+>  	else if (pipe->brx && !drm_pipe->force_brx_release)
+>  		brx = pipe->brx;
+> -	else if (!vsp1->bru->entity.pipe)
+> +	else if (vsp1_feature(vsp1, VSP1_HAS_BRU) && !vsp1->bru->entity.pipe)
+>  		brx = &vsp1->bru->entity;
+>  	else
+>  		brx = &vsp1->brs->entity;
 
 
-This looks like it complicates these conditionals more than we perhaps
-need to.
+The comments here describe that the choice to start at the BRU is
+arbitrary, so if we could confirm that there will always be a BRS
+otherwise, we could swap those to save an extra feature check.
 
-What do you think about adding something above the block comment here?:
+But as we have both vsp1_feature(vsp1, VSP1_HAS_BRU) and
+vsp1_feature(vsp1, VSP1_HAS_BRS), I don't think that's the case.
 
-	if (!drm_pipe->uif)
-		return 0;
+I'd almost want to check for vsp1_feature(vsp1, VSP1_HAS_BRS) on the
+brs->entity line to keep the symmetry ... but it wouldn't be needed, as
+it should fall through. If there isn't a BRS there must be a BRU or we
+wouldn't be setting up a brx in the first place ;-)
 
+So I think what you have is good.
 
->  	 * make sure it is present in the pipeline's list of entities if it
->  	 * wasn't already.
->  	 */
-> -	if (!use_uif) {
-> +	if (drm_pipe->uif && !use_uif) {
->  		drm_pipe->uif->pipe = NULL;
-> -	} else if (!drm_pipe->uif->pipe) {
-> +	} else if (drm_pipe->uif && !drm_pipe->uif->pipe) {>  		drm_pipe->uif->pipe = pipe;
->  		list_add_tail(&drm_pipe->uif->list_pipe, &pipe->entities);
->  	}
-> 
-
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
