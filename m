@@ -2,90 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E06A331820
-	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 21:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 653A23319D8
+	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 22:57:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231544AbhCHUIy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 15:08:54 -0500
-Received: from mail-il1-f178.google.com ([209.85.166.178]:39356 "EHLO
-        mail-il1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231515AbhCHUIv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 15:08:51 -0500
-Received: by mail-il1-f178.google.com with SMTP id d5so10027254iln.6;
-        Mon, 08 Mar 2021 12:08:50 -0800 (PST)
+        id S231867AbhCHV5Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 16:57:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41816 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229797AbhCHV5Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 16:57:16 -0500
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1AAC06174A;
+        Mon,  8 Mar 2021 13:57:16 -0800 (PST)
+Received: by mail-ot1-x335.google.com with SMTP id f33so10758719otf.11;
+        Mon, 08 Mar 2021 13:57:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vBWk93dB6A/oALjtzEiM8cCSb4V0wTNQU+avL5sjbpk=;
+        b=jPEr12eJOevKFdEXIwQnNzZdbudcLEhlPf1DMoP45Rvwfl4BFXV0YotJ1gHKiUIdX7
+         9xK/3dLI7ddnG97S64MUx2d6PPQ8pF9v3/Jd3GiOC4TP4VcjcvnXU2FcUuM2HZ0qIkId
+         BIkQphCez5RhIb7n98loEBPfAz/5YTKR5+m6FIUrAmTbFUV+JEap3K8RjOZQTYGekYZz
+         f5W0jvlQZUi2f24LdRkHtO9MpNxTwTsZqv89uCD0Vpv2dd3bdQDA7h2gsAeTv+TYASYH
+         gK+u/zdG2jqKUi8K9PmF/9jCGLqm9tN2KqDNcu0AODBNjdYbqthX9uWRFhK7ioT+EeSA
+         +eoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=89JRuh9tQEQ6fMlveO5xtA5I/16pwqBqFySAsay3IKY=;
-        b=oTWU7csCQosim9rN8U+eyb0WdqmBbQyIfnTYo6H8PkI30ARWsbdG4DuXiqkgrgn7/m
-         NiNSSjxYTvfyuOnfJG++d31XbtMty4170CHdH7tPUn5DJbevadbaTvXizsTfcLbtw1L9
-         AftcbBhaSubxnivbjE8PdvYoZe9Uo5+YuABupkazGpHWGyjEOiBFpz7fZ+nwfO1fWcPf
-         M7Chh54mmsi/knQwf6KMrYh41W9lStpZmBLCm9EQttV+eu7H4n/csjj/lmslPX8njour
-         md3DmVTRXj68JXNP8/2EqvJKDpqWJoLYGTPuX3d5mFaa1CHygv9HO53BcaFsixK7TXFP
-         fcyg==
-X-Gm-Message-State: AOAM530memOi7VRQmmtCH+3JUypqAbXil8+zpnUP1R/+BtKQ45/JTCrM
-        T8uQkfNz36Or9/0zbXMz2g==
-X-Google-Smtp-Source: ABdhPJzxiaNR6oqsqybVnTWQJpRAagmn1BRONpJwC44uPTv4w+VvgAh7BNmETS8Lx8C9BXE/DJ1/8g==
-X-Received: by 2002:a92:d5d2:: with SMTP id d18mr3972946ilq.50.1615234130405;
-        Mon, 08 Mar 2021 12:08:50 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id k3sm6428250ioj.35.2021.03.08.12.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 12:08:49 -0800 (PST)
-Received: (nullmailer pid 2879384 invoked by uid 1000);
-        Mon, 08 Mar 2021 20:08:47 -0000
-Date:   Mon, 8 Mar 2021 13:08:47 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, peng.fan@nxp.com,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-rockchip@lists.infradead.org, shawnguo@kernel.org,
-        mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        robh+dt@kernel.org, dan.carpenter@oracle.com, kernel@collabora.com,
-        gregkh@linuxfoundation.org, kernel@pengutronix.de,
-        devicetree@vger.kernel.org, wens@csie.org, festevam@gmail.com,
-        s.hauer@pengutronix.de, ezequiel@collabora.com,
-        hverkuil-cisco@xs4all.nl, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
-        jernej.skrabec@siol.net
-Subject: Re: [PATCH v4 10/11] dt-bindings: media: nxp,imx8mq-vpu: Update
- bindings
-Message-ID: <20210308200847.GA2879333@robh.at.kernel.org>
-References: <20210303113952.178519-1-benjamin.gaignard@collabora.com>
- <20210303113952.178519-11-benjamin.gaignard@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vBWk93dB6A/oALjtzEiM8cCSb4V0wTNQU+avL5sjbpk=;
+        b=oLJYh8vxuz8Z4m7pX49fZPgosI5d7Ht+8pKVdqYCigM2kImDoXNZsNblyiWYlNUP8l
+         qY53NF8GQEo1A8o/Ww6ohAsPcf8Kljgkc6Sn0rDAzuX1n8WKSeoEzg0MW0ccyDF1P1yY
+         sSiamxB3NwlBdpuDHI22YY3YZ+jPkof1AzNjPgetOkGD20DwsaQ4f9p8O5e73XPZGoew
+         pQEDP067++muGqwkqRCtjJ5yT03TkrTEF3+6fzIBrfvh5Ihut+QGWJzFq9bDYw4zJNvD
+         eJnEToD3FdIRNcaj1S/L26TnGgt+RfmWnJl5XjFK0qnYcVI2ZCWkWXt8eeTf8VMDETv2
+         KTmw==
+X-Gm-Message-State: AOAM531cJubBDFz/t6yO/3ahO0bIyfh4mGpm689D0lrcMsIhspmGotcK
+        GwTJKWhXqUGTvoYnYz5Jj3FNda13Riu499of80w=
+X-Google-Smtp-Source: ABdhPJxrYC5b+Bfy28dEBHW3FjF2qWGh0W9dW/P/7CoZ3wnlKV8yAc+scjpfhvvVoKtqiq7I17x9HGjyMxBJB0BvS80=
+X-Received: by 2002:a05:6830:408f:: with SMTP id x15mr22421343ott.132.1615240635925;
+ Mon, 08 Mar 2021 13:57:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210303113952.178519-11-benjamin.gaignard@collabora.com>
+References: <1615173254-22078-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1615173254-22078-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Mon, 8 Mar 2021 16:57:05 -0500
+Message-ID: <CADnq5_NeAv5HeD=whn30Yu1hoMW2XfPxjeN53b995AzXOY1-dw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Remove unnecessary conversion to bool
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     "Deucher, Alexander" <alexander.deucher@amd.com>,
+        Dave Airlie <airlied@linux.ie>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 03 Mar 2021 12:39:51 +0100, Benjamin Gaignard wrote:
-> The current bindings seem to make the assumption that the
-> two VPUs hardware blocks (G1 and G2) are only one set of
-> registers.
-> After implementing the VPU reset driver and G2 decoder driver
-> it shows that all the VPUs are independent and don't need to
-> know about the registers of the other blocks.
-> Remove from the bindings the need to set all blocks register
-> but keep reg-names property because removing it from the driver
-> may affect other variants.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 4:
-> - rebase the change on top of VPU reset patches:
->   https://www.spinics.net/lists/arm-kernel/msg878440.html
-> 
-> version 2:
-> - be more verbose about why I change the bindings
-> Keep in mind that series comes after: https://www.spinics.net/lists/arm-kernel/msg875766.html
-> without that review and ack it won't work
-> 
->  .../bindings/media/nxp,imx8mq-vpu.yaml        | 46 ++++++++++++-------
->  1 file changed, 30 insertions(+), 16 deletions(-)
-> 
+On Sun, Mar 7, 2021 at 10:14 PM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> Fix the following coccicheck warnings:
+>
+> ./drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c:1600:40-45: WARNING: conversion
+> to bool not needed here.
+>
+> ./drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c:1598:40-45: WARNING: conversion
+> to bool not needed here.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This patch was already applied.
+
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> index 690a509..b39e7db 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> @@ -1595,9 +1595,9 @@ static int sdma_v5_2_set_clockgating_state(void *handle,
+>         case CHIP_VANGOGH:
+>         case CHIP_DIMGREY_CAVEFISH:
+>                 sdma_v5_2_update_medium_grain_clock_gating(adev,
+> -                               state == AMD_CG_STATE_GATE ? true : false);
+> +                               state == AMD_CG_STATE_GATE);
+>                 sdma_v5_2_update_medium_grain_light_sleep(adev,
+> -                               state == AMD_CG_STATE_GATE ? true : false);
+> +                               state == AMD_CG_STATE_GATE);
+>                 break;
+>         default:
+>                 break;
+> --
+> 1.8.3.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
