@@ -2,163 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE37C3316EB
-	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 20:02:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14ABA331742
+	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 20:28:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231243AbhCHTCO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 14:02:14 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49526 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231544AbhCHTCF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 14:02:05 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 8006B1F4519D
-Message-ID: <51c824c3115fc678c91660b9a12332242c1b1384.camel@collabora.com>
-Subject: Re: [PATCH 1/1] v4l: async, fwnode: Improve module organisation
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Date:   Mon, 08 Mar 2021 16:01:58 -0300
-In-Reply-To: <20210308100256.26270-1-sakari.ailus@linux.intel.com>
-References: <20210308100256.26270-1-sakari.ailus@linux.intel.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S230320AbhCHT2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 14:28:01 -0500
+Received: from mga14.intel.com ([192.55.52.115]:34856 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230173AbhCHT12 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Mar 2021 14:27:28 -0500
+IronPort-SDR: 6G2vhU6VGHtVzEXSjenQwtZeHzP1K3g2nBdPXvrRpUGecu2rmn0POA7Q1D6Sqnzqg6rhjKMJkq
+ /tvF/RdPyqsQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="187455348"
+X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
+   d="scan'208";a="187455348"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 11:27:28 -0800
+IronPort-SDR: SRBn03Hney4XPWtiKS0mui85n+Fz0GCzcEW7uKWQJaMWk+5r/3tbMOlsfgqkRdRBKTOcV0lf4+
+ YqpMZpD9AneA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
+   d="scan'208";a="598994417"
+Received: from lkp-server01.sh.intel.com (HELO 3e992a48ca98) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 08 Mar 2021 11:27:26 -0800
+Received: from kbuild by 3e992a48ca98 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lJLXK-00017q-7S; Mon, 08 Mar 2021 19:27:26 +0000
+Date:   Tue, 09 Mar 2021 03:26:35 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 1c5ab1e2286f4ca6347744e9d4cace5fad5ffa39
+Message-ID: <60467a6b.n3aRRb0Drcwfs4z2%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: 1c5ab1e2286f4ca6347744e9d4cace5fad5ffa39  Merge tag 'v5.12-rc2' into patchwork
 
-Thanks a lot for the patch. I like where this is going.
+elapsed time: 1576m
 
-On Mon, 2021-03-08 at 12:02 +0200, Sakari Ailus wrote:
-> The V4L2 async framework is generally used with the V4L2 fwnode, which
-> also depends on the former. There is only one exception, the CAFE_CCIC
-> driver, which uses V4L2 async but does not need V4L2 fwnode.
-> 
-> At the same time there is a vast number of systems that need videodev
-> module, but have no use for v4l2-async that's now part of videodev.
-> 
-> In order to improve, build v4l2-async and v4l2-fwnode as a single module
-> called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
-> Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
-> 
-> This also moves the initialisation of the debufs entries for async subdevs
-> to loading of the v4l2-async module. The directory is named as
-> "v4l2-async".
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> This goes on top of my recent async patches.
-> 
->  drivers/media/i2c/Kconfig                     | 80 +++++++++----------
->  drivers/media/i2c/ccs/Kconfig                 |  2 +-
->  drivers/media/i2c/et8ek8/Kconfig              |  2 +-
->  drivers/media/pci/intel/ipu3/Kconfig          |  2 +-
->  drivers/media/platform/Kconfig                | 16 ++--
->  drivers/media/platform/am437x/Kconfig         |  2 +-
->  drivers/media/platform/atmel/Kconfig          |  4 +-
->  drivers/media/platform/cadence/Kconfig        |  4 +-
->  drivers/media/platform/davinci/Kconfig        |  2 +-
->  drivers/media/platform/exynos4-is/Kconfig     |  4 +-
->  drivers/media/platform/marvell-ccic/Kconfig   |  1 +
->  drivers/media/platform/rcar-vin/Kconfig       |  4 +-
->  .../media/platform/sunxi/sun4i-csi/Kconfig    |  2 +-
->  .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
->  drivers/media/platform/xilinx/Kconfig         |  2 +-
->  drivers/media/v4l2-core/Kconfig               |  3 +-
->  drivers/media/v4l2-core/Makefile              |  6 +-
->  .../{v4l2-async.c => v4l2-async-core.c}       | 23 +++++-
->  drivers/media/v4l2-core/v4l2-dev.c            |  5 --
->  drivers/staging/media/imx/Kconfig             |  2 +-
->  drivers/staging/media/tegra-video/Kconfig     |  2 +-
->  21 files changed, 94 insertions(+), 76 deletions(-)
->  rename drivers/media/v4l2-core/{v4l2-async.c => v4l2-async-core.c} (96%)
-> 
-[..]
-> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> index bf49f83cb86f..26e12db0a4e8 100644
-> --- a/drivers/media/v4l2-core/Kconfig
-> +++ b/drivers/media/v4l2-core/Kconfig
-> @@ -62,13 +62,14 @@ config V4L2_FLASH_LED_CLASS
->         tristate "V4L2 flash API for LED flash class devices"
->         depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
->         depends on LEDS_CLASS_FLASH
-> +       select V4L2_ASYNC
->         help
->           Say Y here to enable V4L2 flash API support for LED flash
->           class drivers.
->  
->           When in doubt, say N.
->  
-> -config V4L2_FWNODE
-> +config V4L2_ASYNC
->         tristate
->  
+configs tested: 174
+configs skipped: 2
 
-So we don't expect (or want) out-of-tree drivers to be able to use this.
-Is that correct?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->  # Used by drivers that need Videobuf modules
-> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-> index e4cd589b99a5..298ca6ba4f32 100644
-> --- a/drivers/media/v4l2-core/Makefile
-> +++ b/drivers/media/v4l2-core/Makefile
-> @@ -7,14 +7,16 @@ tuner-objs    :=      tuner-core.o
->  
->  videodev-objs  :=      v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
->                         v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
-> -                       v4l2-async.o v4l2-common.o
-> +                       v4l2-common.o
->  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
->  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
->  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
->  videodev-$(CONFIG_SPI) += v4l2-spi.o
->  videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
->  
-> -obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
-> +v4l2-async-objs :=     v4l2-async-core.o v4l2-fwnode.o
-> +
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+mips                         tb0287_defconfig
+powerpc                   bluestone_defconfig
+sh                            titan_defconfig
+xtensa                    smp_lx200_defconfig
+powerpc                     tqm8555_defconfig
+powerpc                     kmeter1_defconfig
+powerpc                    ge_imp3a_defconfig
+arm                       mainstone_defconfig
+mips                             allmodconfig
+arm                            dove_defconfig
+sh                             shx3_defconfig
+sh                  sh7785lcr_32bit_defconfig
+powerpc                     ppa8548_defconfig
+mips                        bcm63xx_defconfig
+arm                         nhk8815_defconfig
+powerpc                    amigaone_defconfig
+powerpc                     redwood_defconfig
+powerpc                     rainier_defconfig
+arm                           spitz_defconfig
+mips                         mpc30x_defconfig
+mips                           ci20_defconfig
+s390                       zfcpdump_defconfig
+powerpc                     akebono_defconfig
+arc                            hsdk_defconfig
+powerpc                        warp_defconfig
+mips                      loongson3_defconfig
+m68k                                defconfig
+powerpc                      chrp32_defconfig
+mips                        qi_lb60_defconfig
+arm                         mv78xx0_defconfig
+mips                  decstation_64_defconfig
+arm                        spear3xx_defconfig
+arc                          axs103_defconfig
+sh                           se7722_defconfig
+mips                         db1xxx_defconfig
+arm                            pleb_defconfig
+arm                           omap1_defconfig
+s390                             allmodconfig
+sh                   rts7751r2dplus_defconfig
+arm                         at91_dt_defconfig
+powerpc                     powernv_defconfig
+csky                             alldefconfig
+mips                        nlm_xlr_defconfig
+xtensa                       common_defconfig
+arm                          pxa168_defconfig
+m68k                          hp300_defconfig
+arm                          pxa3xx_defconfig
+powerpc                 mpc8313_rdb_defconfig
+sh                             espt_defconfig
+sh                              ul2_defconfig
+sh                                  defconfig
+arm                         s5pv210_defconfig
+arm                            hisi_defconfig
+ia64                         bigsur_defconfig
+sparc                            allyesconfig
+m68k                          sun3x_defconfig
+sparc                       sparc64_defconfig
+powerpc                  mpc885_ads_defconfig
+sh                          sdk7786_defconfig
+arm                     am200epdkit_defconfig
+mips                            gpr_defconfig
+arm                         cm_x300_defconfig
+arc                        vdk_hs38_defconfig
+sh                          polaris_defconfig
+arc                    vdk_hs38_smp_defconfig
+mips                       rbtx49xx_defconfig
+sh                          sdk7780_defconfig
+powerpc                      bamboo_defconfig
+arm                      jornada720_defconfig
+powerpc                 mpc834x_itx_defconfig
+parisc                           alldefconfig
+mips                           rs90_defconfig
+sparc64                             defconfig
+m68k                            mac_defconfig
+sh                           se7721_defconfig
+mips                    maltaup_xpa_defconfig
+arm                        mvebu_v7_defconfig
+mips                        vocore2_defconfig
+arc                     nsimosci_hs_defconfig
+nds32                               defconfig
+mips                           ip27_defconfig
+powerpc64                           defconfig
+powerpc                mpc7448_hpc2_defconfig
+arc                          axs101_defconfig
+xtensa                          iss_defconfig
+mips                         tb0226_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+i386                             allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20210308
+x86_64               randconfig-a001-20210308
+x86_64               randconfig-a004-20210308
+x86_64               randconfig-a002-20210308
+x86_64               randconfig-a005-20210308
+x86_64               randconfig-a003-20210308
+i386                 randconfig-a005-20210307
+i386                 randconfig-a003-20210307
+i386                 randconfig-a002-20210307
+i386                 randconfig-a004-20210307
+i386                 randconfig-a006-20210307
+i386                 randconfig-a001-20210307
+i386                 randconfig-a005-20210308
+i386                 randconfig-a003-20210308
+i386                 randconfig-a002-20210308
+i386                 randconfig-a006-20210308
+i386                 randconfig-a004-20210308
+i386                 randconfig-a001-20210308
+i386                 randconfig-a016-20210307
+i386                 randconfig-a012-20210307
+i386                 randconfig-a013-20210307
+i386                 randconfig-a014-20210307
+i386                 randconfig-a011-20210307
+i386                 randconfig-a015-20210307
+i386                 randconfig-a016-20210308
+i386                 randconfig-a012-20210308
+i386                 randconfig-a014-20210308
+i386                 randconfig-a013-20210308
+i386                 randconfig-a011-20210308
+i386                 randconfig-a015-20210308
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-Looks good.
+clang tested configs:
+x86_64               randconfig-a006-20210307
+x86_64               randconfig-a001-20210307
+x86_64               randconfig-a004-20210307
+x86_64               randconfig-a005-20210307
+x86_64               randconfig-a002-20210307
+x86_64               randconfig-a003-20210307
+x86_64               randconfig-a013-20210308
+x86_64               randconfig-a016-20210308
+x86_64               randconfig-a015-20210308
+x86_64               randconfig-a014-20210308
+x86_64               randconfig-a011-20210308
+x86_64               randconfig-a012-20210308
 
-> +obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
->  obj-$(CONFIG_VIDEO_V4L2) += videodev.o
->  obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async-core.c
-> similarity index 96%
-> rename from drivers/media/v4l2-core/v4l2-async.c
-> rename to drivers/media/v4l2-core/v4l2-async-core.c
-> index 21b3890b96fc..6e49386f0284 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async-core.c
-> @@ -852,8 +852,27 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
->  }
->  DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
->  
-> -void v4l2_async_debug_init(struct dentry *debugfs_dir)
-> +static struct dentry *v4l2_async_debugfs_dir;
-> +
-> +static int __init v4l2_async_init(void)
->  {
-> -       debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
-> +       v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
-> +       debugfs_create_file("pending_async_subdevices", 0444,
-> +                           v4l2_async_debugfs_dir, NULL,
->                             &pending_subdevs_fops);
-
-I guess we could have kept the previous path,
-but OTOH it's not really a big deal for debugfs.
-
-Once we figure out the above about exposing V4L2_ASYNC:
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-Thanks,
-Ezequiel
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
