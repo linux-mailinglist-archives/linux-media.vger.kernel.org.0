@@ -2,95 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4E9F331ABB
-	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 00:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55F67331B24
+	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 00:54:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbhCHXHU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 18:07:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56726 "EHLO
+        id S231841AbhCHXx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 18:53:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbhCHXHC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 18:07:02 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E42C06174A;
-        Mon,  8 Mar 2021 15:07:01 -0800 (PST)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29A0A99;
-        Tue,  9 Mar 2021 00:06:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615244819;
-        bh=L12VtFxosOVUr4p7cm0dCJof6IAODdgRAFzewNuXUvA=;
-        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
-        b=QAudPgJsNbuKRh2t4KZchHZYNEL9eO6tl7TADqCeikRcpLqfzw1+tYLBPl3zQfyTn
-         mBmqXdGo4toheaKYweRH8qrY7rAOc3JJMi+UsOrMSXZiXcjg60GIPdwQVbJEbtj+0I
-         VFSJHMIKP2uMnTiUF6BgDlbPtJq/2B3d6Qvt4eTs=
-Subject: Re: [PATCH 1/2] media: v4l: vsp1: Fix bru null pointer access
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210301120828.6945-1-biju.das.jz@bp.renesas.com>
- <20210301120828.6945-2-biju.das.jz@bp.renesas.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Organization: Ideas on Board
-Message-ID: <67dbb76a-db02-7a49-9b1d-0218d01c3173@ideasonboard.com>
-Date:   Mon, 8 Mar 2021 23:06:56 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S231571AbhCHXxS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 18:53:18 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B20C06174A
+        for <linux-media@vger.kernel.org>; Mon,  8 Mar 2021 15:53:17 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id CBB1431A;
+        Mon,  8 Mar 2021 23:53:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CBB1431A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1615247596; bh=COx9eQ5SwNlqiBJ+BSztWogT456RXD+4NDcBY0ituWU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=TsgHNn7Y/YoemeoQVeZuhSzEU4ayQWG2CCnwMo85ZUvHiSWU0R783v12zCA49sZAG
+         0/Sblfda4keZp20pHOhOldbcHlOdKdDmEIu0hqOO3BQ27q4QH1xz195Jkg8A8EyJX3
+         E57wRm6Nwsdhh8/5ZxjQu2+Fa7TF9/nce8pWEU5wstlgFfiTuw+ZaHzGBG+KOTnvWY
+         PWXpZZCBYEL275kb08hiX7/G8j93+C/cpeeD2lUBjSSIPkKj2bwXeIqpEqmemrT8Nd
+         prarWufxGSgu+4lHmjE0i4NFu6/Kni+6WFuUTgfIEqJExZVdw/7ZDhGAxmQ+sgWeM6
+         BQJPd16jzG1YA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: add a subsystem profile documentation
+In-Reply-To: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
+References: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
+Date:   Mon, 08 Mar 2021 16:53:16 -0700
+Message-ID: <87y2ex5hjn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20210301120828.6945-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-On 01/03/2021 12:08, Biju Das wrote:
-> RZ/G2L SoC has only BRS. This patch fixes null pointer access,when only
-> BRS is enabled.
-> 
-> Fixes: cbb7fa49c7466("media: v4l: vsp1: Rename BRU to BRx")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Document the basic policies of the media subsystem profile.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/media/platform/vsp1/vsp1_drm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
-> index 86d5e3f4b1ff..f6d2f47a4058 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
-> @@ -245,7 +245,7 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_device *vsp1,
->  		brx = &vsp1->bru->entity;
->  	else if (pipe->brx && !drm_pipe->force_brx_release)
->  		brx = pipe->brx;
-> -	else if (!vsp1->bru->entity.pipe)
-> +	else if (vsp1_feature(vsp1, VSP1_HAS_BRU) && !vsp1->bru->entity.pipe)
->  		brx = &vsp1->bru->entity;
->  	else
->  		brx = &vsp1->brs->entity;
+>  Documentation/driver-api/media/index.rst      |   2 +
+>  .../media/maintainer-entry-profile.rst        | 206 ++++++++++++++++++
+>  .../maintainer/maintainer-entry-profile.rst   |   1 +
+>  3 files changed, 209 insertions(+)
+>  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
 
+This all looks good to me; would you like me to take it or were you
+going to send it upward yourself?
 
-The comments here describe that the choice to start at the BRU is
-arbitrary, so if we could confirm that there will always be a BRS
-otherwise, we could swap those to save an extra feature check.
+Thanks,
 
-But as we have both vsp1_feature(vsp1, VSP1_HAS_BRU) and
-vsp1_feature(vsp1, VSP1_HAS_BRS), I don't think that's the case.
-
-I'd almost want to check for vsp1_feature(vsp1, VSP1_HAS_BRS) on the
-brs->entity line to keep the symmetry ... but it wouldn't be needed, as
-it should fall through. If there isn't a BRS there must be a BRU or we
-wouldn't be setting up a brx in the first place ;-)
-
-So I think what you have is good.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+jon
