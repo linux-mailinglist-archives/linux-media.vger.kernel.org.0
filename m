@@ -2,274 +2,856 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CCB6330A9C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 10:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3CD0330ACC
+	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 11:03:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhCHJxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 04:53:40 -0500
-Received: from mail-eopbgr40059.outbound.protection.outlook.com ([40.107.4.59]:8313
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231151AbhCHJxe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Mar 2021 04:53:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=chrYa/9odeDqfrblAAg1U0GohRsap5EZXQqEPvg8Z6Vxhuz+hU/jg4vc9Nr0wlM7qxKTMIL+kpbx1rrUG19UVzGkGEJI45nFQq+lqpcpHVPVyBBWbFxuBcWIO7maHUvsvuuBenvWXg5Riv4J6YumjGKiMBKFAFTQy/MR8X/eUZy7BoDB1YKQYTFcXIRgLzb0IVabIBlWXwJwqy6t01uAz9TBHGS+MFB0nTuF1qiLd7tZ9pr515+t/i4xU3v7mV7cUC/kVz0s9I2Etks8YR727ERSGs3UwmspyFEsTH5kCptK4YL/MX3n/hLAsj3KB1WuMS0Ii9v/8Q4zaT+oGefgHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S+/2WY26xe8Br5GUQyH/6d0BFghH6kFd11wd9V5mjMw=;
- b=LDAUXwJdWyP8gorJJYRtjTxFbRwrmv3e9zHWAt5bVVYuoqHWUojGYKPSs4GEbwfhnvI/Cmq0xyV+jBxxWvGPzHForYCdBW72PWZdTZ2JCYlTsj3IZBFzWC56vkCQCxV2f3CsfT9m3tYZ86sHBPHdhv/XzKP3jPGge801AfrxVc61PO3aU0/yTSIeo5blcxGCLkmP4VxMFmegiZCaRN+4pxy4yWA9yVOJkQTYjnb9fs4o9oKawUdd6X/jGR4t32wzNJ5STVNeNPCDogUUFex90HgIiydP5nXVy23PQpDlRfVIIUs8N2TlXfNQCE6nAYGsBXpnpdVyti/VxN75JuszKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S+/2WY26xe8Br5GUQyH/6d0BFghH6kFd11wd9V5mjMw=;
- b=eDpius+3DaBIkqyNiYF9iaG0nZAGSySoNVuJi2xfQ8YR4UpkXTnU6byNMbNsxa08Kyx9pcpfS2WWVHGW9eTuz2YtG+BTlNL3Es02j3vuOAFaMyL2ECZzYT03BnxHc8Jh1Bf7PEVSzLFE9EayZD4TLzzKUH63suwV8mxjEr0OK50=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB7181.eurprd04.prod.outlook.com (2603:10a6:800:12a::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.26; Mon, 8 Mar
- 2021 09:53:31 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3912.027; Mon, 8 Mar 2021
- 09:53:31 +0000
-Message-ID: <82712e64c5ff62645e0e15f0e99b3454e03d0802.camel@nxp.com>
-Subject: Re: [PATCH v4 08/14] dt-bindings: display: bridge: Add i.MX8qxp
- pixel link to DPI binding
-From:   Liu Ying <victor.liu@nxp.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
-        a.hajda@samsung.com, narmstrong@baylibre.com,
-        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org
-Date:   Mon, 08 Mar 2021 17:52:03 +0800
-In-Reply-To: <20210305224227.GA772562@robh.at.kernel.org>
-References: <1613619715-28785-1-git-send-email-victor.liu@nxp.com>
-         <1613619715-28785-9-git-send-email-victor.liu@nxp.com>
-         <20210305224227.GA772562@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: HK0PR01CA0068.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::32) To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+        id S231570AbhCHKDH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 05:03:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231545AbhCHKDA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 05:03:00 -0500
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00D6C06174A
+        for <linux-media@vger.kernel.org>; Mon,  8 Mar 2021 02:02:59 -0800 (PST)
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 9D72F634C87;
+        Mon,  8 Mar 2021 12:00:29 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     ezequiel@collabora.com
+Subject: [PATCH 1/1] v4l: async, fwnode: Improve module organisation
+Date:   Mon,  8 Mar 2021 12:02:56 +0200
+Message-Id: <20210308100256.26270-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from blueberry.ap.freescale.net (119.31.174.66) by HK0PR01CA0068.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Mon, 8 Mar 2021 09:53:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4f8b9d80-3854-4a50-e373-08d8e2180762
-X-MS-TrafficTypeDiagnostic: VI1PR04MB7181:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB7181B41D933A9004398C122198939@VI1PR04MB7181.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7CUlLYaNXgZteC9DvquLCOgXyVSVRAh/UP5lx/F6hwYZD/TZUp4MA1irZS00m9DtCTLxeeh9iedNGJuIRROVPUDn/QJRl0KjNTZ3GW5c5NKCx0JCVPcAqf1dXX2XMNRiwPEgz8+2RtAYT5z4YQWv+Q8llF1TKiP/luzkd5nS05pcpkiNsBD1knefJa+dbpEn9oGQOsAYB73EpG1xMoHFRmXrK9Ter0PvgSNs/P8JFoJXC2T+vnQJ72B3yWCME9tlZvYjfmgjSm7zXc43w4CoI/ysylz6NeKdEjmsjDO4MM7YXxCIt8rVME8k2HCx6H3KM5EZ0j93eqkCL9mhCnSm5HVZrRx830ZjHejJW4RYVAIgHJPDmqvN08zJTnaRdELYQAkj62q6/W3m7Kflln+DEJu+unm6CP/kkEZVtsdVOBJbU2ED2lKqvItNq/zowpWScHX/jLm9Xn6LomXRY3VwzYLz5yy0ERcHBcnUNL66C8JyTSwavLiJmIwDsJbe3NBcjyBKOvQkPH0Vp6VkxAs0KMtol3ldrY8g1hZshrslJGYSP0WDRkb4XWBqMuEcNw9c4Ax2463avo0S4AebQfUqaw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB3983.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(366004)(136003)(396003)(39850400004)(8936002)(6512007)(478600001)(316002)(2906002)(8676002)(6666004)(6506007)(66946007)(2616005)(956004)(66556008)(66476007)(6916009)(4326008)(5660300002)(6486002)(16526019)(52116002)(45080400002)(86362001)(26005)(186003)(966005)(7416002)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Q2Jlck1CRW5CZmJHOTMyRkJVTEEzTDZmb1poWDM4V2ZCbXZyeWNWWFM1em9O?=
- =?utf-8?B?bGhzR2RUaDFHb25NeXJEQnI1U3hyUkpWTDM1S3lNTDM2aUNkY05TUzEybjlD?=
- =?utf-8?B?aFBoRmorL083cGVISnkzZXlsajZyWExxNTBYZkk2ZDVtTnZabnhBUnMyeWpy?=
- =?utf-8?B?REJqVFJFbU43d3lxMEgwRmVlTUZRL3dLN2FuN1FpbnFkREFicnYvVi8yYVUv?=
- =?utf-8?B?dng4LzVsR3VFZm84bHNCcnFoWlVab3V4Tm5ENGdMaEU3MkxkOVJ2NTJkTzBQ?=
- =?utf-8?B?Ymh1SmJJSGp4bGxwY05mYldZSnJSa0FqZFRDVFZHQm01S29zMy9PUTN3MU9F?=
- =?utf-8?B?aWV4OFR3WEJXSldQd0hZdkRybzV2U09BVXF1KzllVDJ4VnZLR2JycGRLQlA0?=
- =?utf-8?B?MFlUQVo3VFZWRlB2Y0FtNFVadmxwVVJOMVpyZHhNOElaVHlRYTJxaXdvSzRU?=
- =?utf-8?B?M2JNc3FOQUhHd1ZOb3J0OXJteUo0bmRuZFp6RUNQanlEelJSTXRuQnhpd25V?=
- =?utf-8?B?dEYvWUJqSVh3emtMOW1xN2RTMjN1aDM0dGZBU0VxcHpEQTF3NlRVakNlNWZi?=
- =?utf-8?B?WVhTa0NxL2ZPNkNEV2NzTXM0Q3lOUUFiZGxoQld5UTdmZ0tWQjFEOGxEeEVR?=
- =?utf-8?B?Zm9RZVpOcEZNY3p5dVJrbm1DZ0tzZW9lTTBlUmIxWVhDYlo3SUV2ajQrdlYy?=
- =?utf-8?B?MWVxMTJJdlFkVG8zQWtUZkx2S3ZPcEYyTUJHeVpFQ25zK1FnbEtjdUdlNVhF?=
- =?utf-8?B?RzIvenBNM0dDUjJzUENBUXFrSGppbE9QZTRCSnc2R2ZrQXFCRjZRQzlJclgz?=
- =?utf-8?B?SUs5Z2N0dHc0RmUwVy9BdnFoS3BvaDJwZVdib0dDc1Rvc1JlMldnbzc0MWF0?=
- =?utf-8?B?bTVBSURhMXhON0orVTZKTjZjTG01R2xlemZqRW1iU29kY05HeFpWQk03Znlp?=
- =?utf-8?B?Wk5YeDY2ME0zNlpJRXpXTHJZelBIZVVNdmpLKzFpamNoczVMUHlld3NkMUVL?=
- =?utf-8?B?STNYRXBvYlZtdkhTekl3bWgrcVdzaU4yRzJPcEZWR0JUei9Ob1NSZ3RqRGdO?=
- =?utf-8?B?N0VRMjRPSHE5NHRBak5QN3RaWU82SW1CNkk1YTM5QlNOVExnYlp3NzAvUTEy?=
- =?utf-8?B?YS9Od014Q2h0SjFZMm1FMjlMRzFRTVprMmJnU2pqSU9IKzV1aHhZMmxTcHl2?=
- =?utf-8?B?dXhENGlXYjFPTkduUnlLQitVLzBsUXVGeFJNcTllbC9GMzhaUzNwZHJaZlBi?=
- =?utf-8?B?WGI5eUtqQ1VjSkR1dHhjcEkzemtoUFFSRkQzdkFwM3ArQStOcUVFMXQxNmoy?=
- =?utf-8?B?azlhZFl2RUNHMUwwcitWS0lnb3JvaWN6K0cxZVJIRmZmOGdua3IzQmN2b1Ir?=
- =?utf-8?B?Q3RmSndHZWNtNVV6SlZNNWR0NC9CRkVyeEk0alYrMy8xTTRMVW1uRFExcXlQ?=
- =?utf-8?B?V2cvaWRleFBNSmRoNkN2aGJTV2NnZGl2NENjc2Zlc2JYMU1JTTFMTDJNT0Jt?=
- =?utf-8?B?R2s1ak9RTXVHdWtBc0I4QTBvbHdxNklUNWhOaHcrTW9DS1RrTFh5WWNlNWRt?=
- =?utf-8?B?cForeEh3VzlpU3UwMU8xaWErWkFmVDhvankrdHJ2WERWdGhNL2lINnA0RzNt?=
- =?utf-8?B?Qy9FUUVreVU3QmNvTEpEeCtxamxKUkxaSFJETmp0cEdRbXZHVjRlYXRpd3dO?=
- =?utf-8?B?amkwY0RLVm1zSjFYajVtMzZPU2pWYVdrcFF6WXEydHpoR01UQVlsQTFoUGkr?=
- =?utf-8?Q?xU3k2+aVHpMcae9f5DYMPpAVTj/HzS7HX2w6YVe?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f8b9d80-3854-4a50-e373-08d8e2180762
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2021 09:53:31.1634
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rg+MHBCDcQq18GkXe6doI+kIPKKEaMLiuDSGdQp0pgetH+bG6dM83mQ6mNB/tmD72fY6S07+N5kUq3XbJ5T+qA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7181
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+The V4L2 async framework is generally used with the V4L2 fwnode, which
+also depends on the former. There is only one exception, the CAFE_CCIC
+driver, which uses V4L2 async but does not need V4L2 fwnode.
 
-On Fri, 2021-03-05 at 16:42 -0600, Rob Herring wrote:
-> On Thu, Feb 18, 2021 at 11:41:49AM +0800, Liu Ying wrote:
-> > This patch adds bindings for i.MX8qxp pixel link to DPI(PXL2DPI).
-> > 
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v3->v4:
-> > * Add 'fsl,sc-resource' property. (Rob)
-> > 
-> > v2->v3:
-> > * Drop 'fsl,syscon' property. (Rob)
-> > * Mention the CSR module controls PXL2DPI.
-> > 
-> > v1->v2:
-> > * Use graph schema. (Laurent)
-> > 
-> >  .../display/bridge/fsl,imx8qxp-pxl2dpi.yaml        | 108 +++++++++++++++++++++
-> >  1 file changed, 108 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-> > new file mode 100644
-> > index 00000000..e4e77fa
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-> > @@ -0,0 +1,108 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fbridge%2Ffsl%2Cimx8qxp-pxl2dpi.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7Ca37ec67ba3274bcea5c408d8e027f69b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637505809544037562%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=UN2IQps7q5vK6uNG8fQTn1Klgn0cVyuYnUeqxrjCWHo%3D&amp;reserved=0
-> > +$schema: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7Ca37ec67ba3274bcea5c408d8e027f69b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637505809544037562%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=cvJVL3Fp1hwbjj1jO1YAozKdZATt5DJ78E7vGT%2F25Oc%3D&amp;reserved=0
-> > +
-> > +title: Freescale i.MX8qxp Pixel Link to Display Pixel Interface
-> > +
-> > +maintainers:
-> > +  - Liu Ying <victor.liu@nxp.com>
-> > +
-> > +description: |
-> > +  The Freescale i.MX8qxp Pixel Link to Display Pixel Interface(PXL2DPI)
-> > +  interfaces the pixel link 36-bit data output and the DSI controller’s
-> > +  MIPI-DPI 24-bit data input, and inputs of LVDS Display Bridge(LDB) module
-> > +  used in LVDS mode, to remap the pixel color codings between those modules.
-> > +  This module is purely combinatorial.
-> > +
-> > +  The i.MX8qxp PXL2DPI is controlled by Control and Status Registers(CSR) module.
-> > +  The CSR module, as a system controller, contains the PXL2DPI's configuration
-> > +  register.
-> 
-> So this node should be a child of the CSR. Ideally, this schema is also 
-> referenced from the CSR's schema (and if that doesn't exist, it should 
-> be there first).
+At the same time there is a vast number of systems that need videodev
+module, but have no use for v4l2-async that's now part of videodev.
 
-I can add a patch to introduce a schema for the CSR in this series,
-just prior to this patch.  Do you think if that will be fine?
+In order to improve, build v4l2-async and v4l2-fwnode as a single module
+called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
+Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
 
-Thanks,
-Liu Ying
+This also moves the initialisation of the debufs entries for async subdevs
+to loading of the v4l2-async module. The directory is named as
+"v4l2-async".
 
-> 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: fsl,imx8qxp-pxl2dpi
-> > +
-> > +  fsl,sc-resource:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    description: The SCU resource ID associated with this PXL2DPI instance.
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  fsl,companion-pxl2dpi:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: |
-> > +      A phandle which points to companion PXL2DPI which is used by downstream
-> > +      LVDS Display Bridge(LDB) in split mode.
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: The PXL2DPI input port node from pixel link.
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: The PXL2DPI output port node to downstream bridge.
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - fsl,sc-resource
-> > +  - power-domains
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/firmware/imx/rsrc.h>
-> > +    pxl2dpi {
-> > +        compatible = "fsl,imx8qxp-pxl2dpi";
-> > +        fsl,sc-resource = <IMX_SC_R_MIPI_0>;
-> > +        power-domains = <&pd IMX_SC_R_MIPI_0>;
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +
-> > +            port@0 {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +                reg = <0>;
-> > +
-> > +                mipi_lvds_0_pxl2dpi_dc_pixel_link0: endpoint@0 {
-> > +                    reg = <0>;
-> > +                    remote-endpoint = <&dc_pixel_link0_mipi_lvds_0_pxl2dpi>;
-> > +                };
-> > +
-> > +                mipi_lvds_0_pxl2dpi_dc_pixel_link1: endpoint@1 {
-> > +                     reg = <1>;
-> > +                     remote-endpoint = <&dc_pixel_link1_mipi_lvds_0_pxl2dpi>;
-> > +                };
-> > +            };
-> > +
-> > +            port@1 {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +                reg = <1>;
-> > +
-> > +                mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0: endpoint@0 {
-> > +                    reg = <0>;
-> > +                    remote-endpoint = <&mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi>;
-> > +                };
-> > +
-> > +                mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1: endpoint@1 {
-> > +                    reg = <1>;
-> > +                    remote-endpoint = <&mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > -- 
-> > 2.7.4
-> > 
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+This goes on top of my recent async patches.
+
+ drivers/media/i2c/Kconfig                     | 80 +++++++++----------
+ drivers/media/i2c/ccs/Kconfig                 |  2 +-
+ drivers/media/i2c/et8ek8/Kconfig              |  2 +-
+ drivers/media/pci/intel/ipu3/Kconfig          |  2 +-
+ drivers/media/platform/Kconfig                | 16 ++--
+ drivers/media/platform/am437x/Kconfig         |  2 +-
+ drivers/media/platform/atmel/Kconfig          |  4 +-
+ drivers/media/platform/cadence/Kconfig        |  4 +-
+ drivers/media/platform/davinci/Kconfig        |  2 +-
+ drivers/media/platform/exynos4-is/Kconfig     |  4 +-
+ drivers/media/platform/marvell-ccic/Kconfig   |  1 +
+ drivers/media/platform/rcar-vin/Kconfig       |  4 +-
+ .../media/platform/sunxi/sun4i-csi/Kconfig    |  2 +-
+ .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
+ drivers/media/platform/xilinx/Kconfig         |  2 +-
+ drivers/media/v4l2-core/Kconfig               |  3 +-
+ drivers/media/v4l2-core/Makefile              |  6 +-
+ .../{v4l2-async.c => v4l2-async-core.c}       | 23 +++++-
+ drivers/media/v4l2-core/v4l2-dev.c            |  5 --
+ drivers/staging/media/imx/Kconfig             |  2 +-
+ drivers/staging/media/tegra-video/Kconfig     |  2 +-
+ 21 files changed, 94 insertions(+), 76 deletions(-)
+ rename drivers/media/v4l2-core/{v4l2-async.c => v4l2-async-core.c} (96%)
+
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 462c0e059754..4f9aeefa8a86 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -70,7 +70,7 @@ config VIDEO_TDA1997X
+ 	depends on SND_SOC
+ 	select HDMI
+ 	select SND_PCM
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	help
+@@ -240,7 +240,7 @@ config VIDEO_ADV748X
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select REGMAP_I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  V4L2 subdevice driver for the Analog Devices
+ 	  ADV7481 and ADV7482 HDMI/Analog video decoders.
+@@ -256,7 +256,7 @@ config VIDEO_ADV7604
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select REGMAP_I2C
+ 	select HDMI
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for the Analog Devices ADV7604 video decoder.
+ 
+@@ -369,7 +369,7 @@ config VIDEO_TC358743
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select HDMI
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for the Toshiba TC358743 HDMI to MIPI CSI-2 bridge.
+ 
+@@ -387,7 +387,7 @@ config VIDEO_TC358743_CEC
+ config VIDEO_TVP514X
+ 	tristate "Texas Instruments TVP514x video decoder"
+ 	depends on VIDEO_V4L2 && I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the TI TVP5146/47
+ 	  decoder. It is currently working with the TI OMAP3 camera
+@@ -399,7 +399,7 @@ config VIDEO_TVP514X
+ config VIDEO_TVP5150
+ 	tristate "Texas Instruments TVP5150 video decoder"
+ 	depends on VIDEO_V4L2 && I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select REGMAP_I2C
+ 	help
+ 	  Support for the Texas Instruments TVP5150 video decoder.
+@@ -410,7 +410,7 @@ config VIDEO_TVP5150
+ config VIDEO_TVP7002
+ 	tristate "Texas Instruments TVP7002 video decoder"
+ 	depends on VIDEO_V4L2 && I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for the Texas Instruments TVP7002 video decoder.
+ 
+@@ -468,7 +468,7 @@ config VIDEO_MAX9286
+ 	tristate "Maxim MAX9286 GMSL deserializer support"
+ 	depends on I2C && I2C_MUX
+ 	depends on OF_GPIO
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
+ 	help
+@@ -702,7 +702,7 @@ config VIDEO_ST_MIPID02
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for STMicroelectronics MIPID02 CSI-2 to PARALLEL bridge.
+ 	  It is used to allow usage of CSI-2 sensor with PARALLEL port
+@@ -730,7 +730,7 @@ config VIDEO_HI556
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the Hynix
+ 	  Hi-556 camera.
+@@ -741,7 +741,7 @@ config VIDEO_HI556
+ config VIDEO_IMX214
+ 	tristate "Sony IMX214 sensor support"
+ 	depends on GPIOLIB && I2C && VIDEO_V4L2
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select REGMAP_I2C
+@@ -757,7 +757,7 @@ config VIDEO_IMX219
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the Sony
+ 	  IMX219 camera.
+@@ -793,7 +793,7 @@ config VIDEO_IMX290
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select REGMAP_I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the Sony
+ 	  IMX290 camera sensor.
+@@ -819,7 +819,7 @@ config VIDEO_IMX334
+ 	depends on I2C && VIDEO_V4L2
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the Sony
+ 	  IMX334 camera.
+@@ -844,7 +844,7 @@ config VIDEO_OV02A10
+ 	depends on VIDEO_V4L2 && I2C
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV02A10 camera.
+@@ -865,7 +865,7 @@ config VIDEO_OV2640
+ config VIDEO_OV2659
+ 	tristate "OmniVision OV2659 sensor support"
+ 	depends on VIDEO_V4L2 && I2C && GPIOLIB
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV2659 camera.
+@@ -877,7 +877,7 @@ config VIDEO_OV2680
+ 	tristate "OmniVision OV2680 sensor support"
+ 	depends on VIDEO_V4L2 && I2C
+ 	select MEDIA_CONTROLLER
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV2680 camera.
+@@ -889,7 +889,7 @@ config VIDEO_OV2685
+ 	tristate "OmniVision OV2685 sensor support"
+ 	depends on VIDEO_V4L2 && I2C
+ 	select MEDIA_CONTROLLER
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV2685 camera.
+@@ -903,7 +903,7 @@ config VIDEO_OV2740
+ 	depends on ACPI || COMPILE_TEST
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select REGMAP_I2C
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+@@ -918,7 +918,7 @@ config VIDEO_OV5640
+ 	depends on GPIOLIB && VIDEO_V4L2 && I2C
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the Omnivision
+ 	  OV5640 camera sensor with a MIPI CSI-2 interface.
+@@ -929,7 +929,7 @@ config VIDEO_OV5645
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV5645 camera.
+@@ -942,7 +942,7 @@ config VIDEO_OV5647
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV5647 camera.
+@@ -955,7 +955,7 @@ config VIDEO_OV5648
+ 	depends on I2C && PM && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV5648 camera.
+@@ -978,7 +978,7 @@ config VIDEO_OV5670
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV5670 camera.
+@@ -991,7 +991,7 @@ config VIDEO_OV5675
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV5675 camera.
+@@ -1002,7 +1002,7 @@ config VIDEO_OV5675
+ config VIDEO_OV5695
+ 	tristate "OmniVision OV5695 sensor support"
+ 	depends on I2C && VIDEO_V4L2
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV5695 camera.
+@@ -1015,7 +1015,7 @@ config VIDEO_OV7251
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV7251 camera.
+@@ -1027,7 +1027,7 @@ config VIDEO_OV772X
+ 	tristate "OmniVision OV772x sensor support"
+ 	depends on I2C && VIDEO_V4L2
+ 	select REGMAP_SCCB
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV772x camera.
+@@ -1048,7 +1048,7 @@ config VIDEO_OV7640
+ config VIDEO_OV7670
+ 	tristate "OmniVision OV7670 sensor support"
+ 	depends on I2C && VIDEO_V4L2
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV7670 VGA camera.  It currently only works with the M88ALP01
+@@ -1067,7 +1067,7 @@ config VIDEO_OV8856
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV8856 camera sensor.
+@@ -1080,7 +1080,7 @@ config VIDEO_OV8865
+ 	depends on I2C && PM && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for OmniVision
+ 	  OV8865 camera sensor.
+@@ -1111,7 +1111,7 @@ config VIDEO_OV9734
+ 	depends on ACPI || COMPILE_TEST
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV9734 camera.
+@@ -1124,7 +1124,7 @@ config VIDEO_OV13858
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV13858 camera.
+@@ -1161,7 +1161,7 @@ config VIDEO_MT9M032
+ config VIDEO_MT9M111
+ 	tristate "mt9m111, mt9m112 and mt9m131 support"
+ 	depends on I2C && VIDEO_V4L2
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This driver supports MT9M111, MT9M112 and MT9M131 cameras from
+ 	  Micron/Aptina
+@@ -1209,7 +1209,7 @@ config VIDEO_MT9V032
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select REGMAP_I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the Micron
+ 	  MT9V032 752x480 CMOS sensor.
+@@ -1246,7 +1246,7 @@ config VIDEO_MAX9271_LIB
+ config VIDEO_RDACM20
+ 	tristate "IMI RDACM20 camera support"
+ 	depends on I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_MAX9271_LIB
+@@ -1260,7 +1260,7 @@ config VIDEO_RDACM20
+ config VIDEO_RDACM21
+ 	tristate "IMI RDACM21 camera support"
+ 	depends on I2C
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_MAX9271_LIB
+@@ -1314,7 +1314,7 @@ config VIDEO_S5K5BAF
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a V4L2 sensor driver for Samsung S5K5BAF 2M
+ 	  camera sensor with an embedded SoC image signal processor.
+@@ -1327,7 +1327,7 @@ config VIDEO_S5C73M3
+ 	depends on I2C && SPI && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a V4L2 sensor driver for Samsung S5C73M3
+ 	  8 Mpixel camera.
+@@ -1372,7 +1372,7 @@ config VIDEO_DW9768
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the DW9768 camera lens voice coil.
+ 	  DW9768 is a 10 bit DAC with 100mA output current sink
+diff --git a/drivers/media/i2c/ccs/Kconfig b/drivers/media/i2c/ccs/Kconfig
+index 59f35b33ddc1..837c94a5247d 100644
+--- a/drivers/media/i2c/ccs/Kconfig
++++ b/drivers/media/i2c/ccs/Kconfig
+@@ -5,7 +5,7 @@ config VIDEO_CCS
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEO_CCS_PLL
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a generic driver for MIPI CCS, SMIA++ and SMIA compliant
+ 	  camera sensors.
+diff --git a/drivers/media/i2c/et8ek8/Kconfig b/drivers/media/i2c/et8ek8/Kconfig
+index afcc4ea764f6..d54eeace8c73 100644
+--- a/drivers/media/i2c/et8ek8/Kconfig
++++ b/drivers/media/i2c/et8ek8/Kconfig
+@@ -4,7 +4,7 @@ config VIDEO_ET8EK8
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the Toshiba ET8EK8 5 MP camera sensor.
+ 	  It is used for example in Nokia N900 (RX-51).
+diff --git a/drivers/media/pci/intel/ipu3/Kconfig b/drivers/media/pci/intel/ipu3/Kconfig
+index dce8274c81e6..2858f9e1ad76 100644
+--- a/drivers/media/pci/intel/ipu3/Kconfig
++++ b/drivers/media/pci/intel/ipu3/Kconfig
+@@ -6,7 +6,7 @@ config VIDEO_IPU3_CIO2
+ 	depends on X86
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select VIDEOBUF2_DMA_SG
+ 
+ 	help
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index fd1831e97b22..3ccd06f8bfc5 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -67,7 +67,7 @@ config VIDEO_MUX
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select REGMAP
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This driver provides support for N:1 video bus multiplexers.
+ 
+@@ -81,7 +81,7 @@ config VIDEO_OMAP3
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select MFD_SYSCON
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Driver for an OMAP 3 camera controller.
+ 
+@@ -97,7 +97,7 @@ config VIDEO_PXA27x
+ 	depends on PXA27x || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_SG
+ 	select SG_SPLIT
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a v4l2 driver for the PXA27x Quick Capture Interface
+ 
+@@ -108,7 +108,7 @@ config VIDEO_QCOM_CAMSS
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_SG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 
+ config VIDEO_S3C_CAMIF
+ 	tristate "Samsung S3C24XX/S3C64XX SoC Camera Interface driver"
+@@ -130,7 +130,7 @@ config VIDEO_STM32_DCMI
+ 	depends on ARCH_STM32 || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select MEDIA_CONTROLLER
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This module makes the STM32 Digital Camera Memory Interface (DCMI)
+ 	  available as a v4l2 device.
+@@ -143,7 +143,7 @@ config VIDEO_RENESAS_CEU
+ 	depends on VIDEO_DEV && VIDEO_V4L2
+ 	depends on ARCH_SHMOBILE || ARCH_R7S72100 || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a v4l2 driver for the Renesas CEU Interface
+ 
+@@ -155,7 +155,7 @@ config VIDEO_ROCKCHIP_ISP1
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_VMALLOC
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select GENERIC_PHY_MIPI_DPHY
+ 	default n
+ 	help
+@@ -179,7 +179,7 @@ config VIDEO_TI_CAL
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	depends on SOC_DRA7XX || ARCH_K3 || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for the TI CAL (Camera Adaptation Layer) block
+ 	  found on DRA72X SoC.
+diff --git a/drivers/media/platform/am437x/Kconfig b/drivers/media/platform/am437x/Kconfig
+index 9ef898f512de..cd7ba318fbb8 100644
+--- a/drivers/media/platform/am437x/Kconfig
++++ b/drivers/media/platform/am437x/Kconfig
+@@ -6,7 +6,7 @@ config VIDEO_AM437X_VPFE
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	   Support for AM437x Video Processing Front End based Video
+ 	   Capture Driver.
+diff --git a/drivers/media/platform/atmel/Kconfig b/drivers/media/platform/atmel/Kconfig
+index 1850fe7f9360..52f427845610 100644
+--- a/drivers/media/platform/atmel/Kconfig
++++ b/drivers/media/platform/atmel/Kconfig
+@@ -7,7 +7,7 @@ config VIDEO_ATMEL_ISC
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select REGMAP_MMIO
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	   This module makes the ATMEL Image Sensor Controller available
+ 	   as a v4l2 device.
+@@ -17,7 +17,7 @@ config VIDEO_ATMEL_ISI
+ 	depends on VIDEO_V4L2 && OF
+ 	depends on ARCH_AT91 || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This module makes the ATMEL Image Sensor Interface available
+ 	  as a v4l2 device.
+diff --git a/drivers/media/platform/cadence/Kconfig b/drivers/media/platform/cadence/Kconfig
+index 80cf601323ce..5cb54d661e83 100644
+--- a/drivers/media/platform/cadence/Kconfig
++++ b/drivers/media/platform/cadence/Kconfig
+@@ -15,7 +15,7 @@ config VIDEO_CADENCE_CSI2RX
+ 	depends on VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for the Cadence MIPI CSI2 Receiver controller.
+ 
+@@ -27,7 +27,7 @@ config VIDEO_CADENCE_CSI2TX
+ 	depends on VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for the Cadence MIPI CSI2 Transceiver controller.
+ 
+diff --git a/drivers/media/platform/davinci/Kconfig b/drivers/media/platform/davinci/Kconfig
+index 9d2a9eeb3499..ca7c61fbc4d3 100644
+--- a/drivers/media/platform/davinci/Kconfig
++++ b/drivers/media/platform/davinci/Kconfig
+@@ -21,7 +21,7 @@ config VIDEO_DAVINCI_VPIF_CAPTURE
+ 	depends on ARCH_DAVINCI || COMPILE_TEST
+ 	depends on I2C
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Enables Davinci VPIF module used for capture devices.
+ 	  This module is used for capture on TI DM6467/DA850/OMAPL138
+diff --git a/drivers/media/platform/exynos4-is/Kconfig b/drivers/media/platform/exynos4-is/Kconfig
+index 136d3b2a0fbb..c97393bc334e 100644
+--- a/drivers/media/platform/exynos4-is/Kconfig
++++ b/drivers/media/platform/exynos4-is/Kconfig
+@@ -6,7 +6,7 @@ config VIDEO_SAMSUNG_EXYNOS4_IS
+ 	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Say Y here to enable camera host interface devices for
+ 	  Samsung S5P and EXYNOS SoC series.
+@@ -35,7 +35,7 @@ config VIDEO_S5P_MIPI_CSIS
+ 	tristate "S5P/EXYNOS MIPI-CSI2 receiver (MIPI-CSIS) driver"
+ 	depends on REGULATOR
+ 	select GENERIC_PHY
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a V4L2 driver for Samsung S5P and EXYNOS4 SoC MIPI-CSI2
+ 	  receiver (MIPI-CSIS) devices.
+diff --git a/drivers/media/platform/marvell-ccic/Kconfig b/drivers/media/platform/marvell-ccic/Kconfig
+index 3e3f86264762..88eefffe68c2 100644
+--- a/drivers/media/platform/marvell-ccic/Kconfig
++++ b/drivers/media/platform/marvell-ccic/Kconfig
+@@ -7,6 +7,7 @@ config VIDEO_CAFE_CCIC
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_DMA_SG
++	select V4L2_ASYNC
+ 	help
+ 	  This is a video4linux2 driver for the Marvell 88ALP01 integrated
+ 	  CMOS camera controller.  This is the controller found on first-
+diff --git a/drivers/media/platform/rcar-vin/Kconfig b/drivers/media/platform/rcar-vin/Kconfig
+index 030312d862e7..bf9d724f121c 100644
+--- a/drivers/media/platform/rcar-vin/Kconfig
++++ b/drivers/media/platform/rcar-vin/Kconfig
+@@ -6,7 +6,7 @@ config VIDEO_RCAR_CSI2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select RESET_CONTROLLER
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for Renesas R-Car MIPI CSI-2 receiver.
+ 	  Supports R-Car Gen3 and RZ/G2 SoCs.
+@@ -21,7 +21,7 @@ config VIDEO_RCAR_VIN
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Support for Renesas R-Car Video Input (VIN) driver.
+ 	  Supports R-Car Gen{2,3} and RZ/G{1,2} SoCs.
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/Kconfig b/drivers/media/platform/sunxi/sun4i-csi/Kconfig
+index 903c6152f6e8..4ae510b51310 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/Kconfig
++++ b/drivers/media/platform/sunxi/sun4i-csi/Kconfig
+@@ -7,7 +7,7 @@ config VIDEO_SUN4I_CSI
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  This is a V4L2 driver for the Allwinner A10 CSI
+ 
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/Kconfig b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
+index 586e3fb3a80d..6815f73027d5 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
++++ b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
+@@ -7,6 +7,6 @@ config VIDEO_SUN6I_CSI
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select REGMAP_MMIO
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	   Support for the Allwinner Camera Sensor Interface Controller on V3s.
+diff --git a/drivers/media/platform/xilinx/Kconfig b/drivers/media/platform/xilinx/Kconfig
+index 44587dccacf1..7d6b1b04b007 100644
+--- a/drivers/media/platform/xilinx/Kconfig
++++ b/drivers/media/platform/xilinx/Kconfig
+@@ -6,7 +6,7 @@ config VIDEO_XILINX
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Driver for Xilinx Video IP Pipelines
+ 
+diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+index bf49f83cb86f..26e12db0a4e8 100644
+--- a/drivers/media/v4l2-core/Kconfig
++++ b/drivers/media/v4l2-core/Kconfig
+@@ -62,13 +62,14 @@ config V4L2_FLASH_LED_CLASS
+ 	tristate "V4L2 flash API for LED flash class devices"
+ 	depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+ 	depends on LEDS_CLASS_FLASH
++	select V4L2_ASYNC
+ 	help
+ 	  Say Y here to enable V4L2 flash API support for LED flash
+ 	  class drivers.
+ 
+ 	  When in doubt, say N.
+ 
+-config V4L2_FWNODE
++config V4L2_ASYNC
+ 	tristate
+ 
+ # Used by drivers that need Videobuf modules
+diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+index e4cd589b99a5..298ca6ba4f32 100644
+--- a/drivers/media/v4l2-core/Makefile
++++ b/drivers/media/v4l2-core/Makefile
+@@ -7,14 +7,16 @@ tuner-objs	:=	tuner-core.o
+ 
+ videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+ 			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
+-			v4l2-async.o v4l2-common.o
++			v4l2-common.o
+ videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
+ videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
+ videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
+ videodev-$(CONFIG_SPI) += v4l2-spi.o
+ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+ 
+-obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
++v4l2-async-objs :=	v4l2-async-core.o v4l2-fwnode.o
++
++obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+ obj-$(CONFIG_VIDEO_V4L2) += videodev.o
+ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async-core.c
+similarity index 96%
+rename from drivers/media/v4l2-core/v4l2-async.c
+rename to drivers/media/v4l2-core/v4l2-async-core.c
+index 21b3890b96fc..6e49386f0284 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async-core.c
+@@ -852,8 +852,27 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
+ }
+ DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+ 
+-void v4l2_async_debug_init(struct dentry *debugfs_dir)
++static struct dentry *v4l2_async_debugfs_dir;
++
++static int __init v4l2_async_init(void)
+ {
+-	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
++	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
++	debugfs_create_file("pending_async_subdevices", 0444,
++			    v4l2_async_debugfs_dir, NULL,
+ 			    &pending_subdevs_fops);
++
++	return 0;
++}
++
++static void __exit v4l2_async_exit(void)
++{
++	debugfs_remove_recursive(v4l2_async_debugfs_dir);
+ }
++
++subsys_initcall(v4l2_async_init);
++module_exit(v4l2_async_exit);
++
++MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
++MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
++MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index b6a72d297775..5002e3cd110f 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -39,8 +39,6 @@
+ 		       __func__, ##arg);				\
+ } while (0)
+ 
+-static struct dentry *v4l2_debugfs_dir;
+-
+ /*
+  *	sysfs stuff
+  */
+@@ -1120,8 +1118,6 @@ static int __init videodev_init(void)
+ 		return -EIO;
+ 	}
+ 
+-	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
+-	v4l2_async_debug_init(v4l2_debugfs_dir);
+ 	return 0;
+ }
+ 
+@@ -1129,7 +1125,6 @@ static void __exit videodev_exit(void)
+ {
+ 	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
+ 
+-	debugfs_remove_recursive(v4l2_debugfs_dir);
+ 	class_unregister(&video_class);
+ 	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+ }
+diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+index 15322dc3124a..c536e8562788 100644
+--- a/drivers/staging/media/imx/Kconfig
++++ b/drivers/staging/media/imx/Kconfig
+@@ -7,7 +7,7 @@ config VIDEO_IMX_MEDIA
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	depends on HAS_DMA
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	select V4L2_MEM2MEM_DEV
+ 	help
+ 	  Say yes here to enable support for video4linux media controller
+diff --git a/drivers/staging/media/tegra-video/Kconfig b/drivers/staging/media/tegra-video/Kconfig
+index 1f35da4b134e..3ab34c7fa5e9 100644
+--- a/drivers/staging/media/tegra-video/Kconfig
++++ b/drivers/staging/media/tegra-video/Kconfig
+@@ -5,7 +5,7 @@ config VIDEO_TEGRA
+ 	depends on VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
++	select V4L2_ASYNC
+ 	help
+ 	  Choose this option if you have an NVIDIA Tegra SoC.
+ 
+-- 
+2.29.2
 
