@@ -2,121 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF9F330BC8
-	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 11:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85379330D39
+	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 13:20:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231424AbhCHKwl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 05:52:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231573AbhCHKw3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 05:52:29 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A99FBC061761
-        for <linux-media@vger.kernel.org>; Mon,  8 Mar 2021 02:52:28 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id d13so14015963edp.4
-        for <linux-media@vger.kernel.org>; Mon, 08 Mar 2021 02:52:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ed2ZmyjgMuArkep/x+pkAPo7evPjB1BAFOc6v5tfSJ4=;
-        b=i5DDN26Aj7bY9aXwfNceG+NhoTZBh+NU6hUF/EKYDC6mCxMGzFyBmTzQESYeydRhCA
-         uSppQ2DS3VpD/t8ejN/f5KIMxoOycbCeLS7IaBOgNqXDUgugs+voyYawCtnzH67M/ljq
-         gTXTmn3PPxpyM59Z2m+JcIR1DnUMZHx18wo2nCpUbnSkTytm9ZiSTbUb911czkyVzO67
-         DANktJwG/D6nddWMppt8f8xEVQUNV/sUlvpDceE5Mp8koEzSsUU5hbke/Ic3bJWOGSl2
-         TjanvsUTbskjUfVkwh7k/Si2eOOI7kZWsy7e16I/bOwNHsb5mKhdiKVsUi2FYTpI2v4i
-         mLVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ed2ZmyjgMuArkep/x+pkAPo7evPjB1BAFOc6v5tfSJ4=;
-        b=bMNWh66Les0uNWzajknaC6KDJtm4b/B2KOoAmINtLjp2VpYt/rOGsoRBf83Hscn+Fq
-         JBQPVe5XoIF0fNjkSzT6GbWSYNqaBht2VMkzzHweu8kyKr2o/8nZ270Gw6djM0XyEH3j
-         owWhqG+61HSMqcm6u+8y7oDCnRPAAiWfjWOkOji2UBpakmozdj5ug01g91Ht+cBap2xO
-         +WyrAllZH+suaj9yeBA6xjG6BQr+7Lr1K4sHug2y8EyQaFVgPBtBJXb+rS5VVcVVSzDx
-         SD73Jcn/hGQycBNuncvMgsku/ihCaI7k8bCC+N+53o+s9a+7rvYcWsi0IO2VQraDGxOq
-         Y9DA==
-X-Gm-Message-State: AOAM531x94ZfFa08mYtwpxMHARiiRFAz+c3k6UupB4Oke9zdhbajZFRv
-        OTeBPu7vkMEKRIkoGSPIDm3EzpdfnN9TPw==
-X-Google-Smtp-Source: ABdhPJyA2a7BfNZBhViBq6dW6JSDMhqhNtugGFPTO4MeabFG/qITeFF3eCs6Tg/FY40GGWPkVRMnow==
-X-Received: by 2002:a05:6402:254f:: with SMTP id l15mr2366106edb.189.1615200747272;
-        Mon, 08 Mar 2021 02:52:27 -0800 (PST)
-Received: from localhost.localdomain (95-43-196-84.ip.btc-net.bg. [95.43.196.84])
-        by smtp.gmail.com with ESMTPSA id y9sm6386297ejd.110.2021.03.08.02.52.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 02:52:27 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     bryan.odonoghue@linaro.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        stable@vger.kernel.org
-Subject: [PATCH 5/5] venus: hfi_cmds: Support plane-actual-info property from v1
-Date:   Mon,  8 Mar 2021 12:52:05 +0200
-Message-Id: <20210308105205.445148-6-stanimir.varbanov@linaro.org>
+        id S229899AbhCHMTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 07:19:47 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:13072 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230242AbhCHMTZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 07:19:25 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DvHQX5TN7zMkVB;
+        Mon,  8 Mar 2021 20:17:08 +0800 (CST)
+Received: from localhost.localdomain (10.175.102.38) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 8 Mar 2021 20:19:12 +0800
+From:   'Wei Yongjun <weiyongjun1@huawei.com>
+To:     <weiyongjun1@huawei.com>, Antti Palosaari <crope@iki.fi>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Brad Love <brad@nextdimension.cc>
+CC:     <linux-media@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
+        "Hulk Robot" <hulkci@huawei.com>
+Subject: [PATCH -next] media: m88ds3103: fix return value check in m88ds3103_probe()
+Date:   Mon, 8 Mar 2021 12:28:02 +0000
+Message-ID: <20210308122802.2112645-1-weiyongjun1@huawei.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210308105205.445148-1-stanimir.varbanov@linaro.org>
-References: <20210308105205.445148-1-stanimir.varbanov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.102.38]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The property is supported from v1 and upwards. So move it to
-set_property_1x.
+From: Wei Yongjun <weiyongjun1@huawei.com>
 
-Fixes: 01e869e78756 ("media: venus: venc: fix handlig of S_SELECTION and G_SELECTION")
-Cc: stable@vger.kernel.org # v5.12+
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+In case of error, the function i2c_new_dummy_device() returns
+ERR_PTR() and never returns NULL. The NULL test in the return
+value check should be replaced with IS_ERR().
+
+Fixes: e6089feca460 ("media: m88ds3103: Add support for ds3103b demod")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- drivers/media/platform/qcom/venus/hfi_cmds.c | 24 ++++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/media/dvb-frontends/m88ds3103.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 4f7565834469..558510a8dfc8 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -1039,6 +1039,18 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
- 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*hierp);
- 		break;
- 	}
-+	case HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO: {
-+		struct hfi_uncompressed_plane_actual_info *in = pdata;
-+		struct hfi_uncompressed_plane_actual_info *info = prop_data;
-+
-+		info->buffer_type = in->buffer_type;
-+		info->num_planes = in->num_planes;
-+		info->plane_format[0] = in->plane_format[0];
-+		if (in->num_planes > 1)
-+			info->plane_format[1] = in->plane_format[1];
-+		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*info);
-+		break;
-+	}
+diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
+index cfa4cdde99d8..02e8aa11e36e 100644
+--- a/drivers/media/dvb-frontends/m88ds3103.c
++++ b/drivers/media/dvb-frontends/m88ds3103.c
+@@ -1904,8 +1904,8 @@ static int m88ds3103_probe(struct i2c_client *client,
  
- 	/* FOLLOWING PROPERTIES ARE NOT IMPLEMENTED IN CORE YET */
- 	case HFI_PROPERTY_CONFIG_BUFFER_REQUIREMENTS:
-@@ -1205,18 +1217,6 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
- 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*cu);
- 		break;
+ 		dev->dt_client = i2c_new_dummy_device(client->adapter,
+ 						      dev->dt_addr);
+-		if (!dev->dt_client) {
+-			ret = -ENODEV;
++		if (IS_ERR(dev->dt_client)) {
++			ret = PTR_ERR(dev->dt_client);
+ 			goto err_kfree;
+ 		}
  	}
--	case HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO: {
--		struct hfi_uncompressed_plane_actual_info *in = pdata;
--		struct hfi_uncompressed_plane_actual_info *info = prop_data;
--
--		info->buffer_type = in->buffer_type;
--		info->num_planes = in->num_planes;
--		info->plane_format[0] = in->plane_format[0];
--		if (in->num_planes > 1)
--			info->plane_format[1] = in->plane_format[1];
--		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*info);
--		break;
--	}
- 	case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
- 	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
- 	case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
--- 
-2.25.1
 
