@@ -2,89 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E603312B1
-	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 16:58:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C5B3312C5
+	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 17:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbhCHP6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 10:58:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47956 "EHLO
+        id S229580AbhCHQCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 11:02:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbhCHP5i (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 10:57:38 -0500
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A142DC06174A
-        for <linux-media@vger.kernel.org>; Mon,  8 Mar 2021 07:57:38 -0800 (PST)
-Received: by mail-vs1-xe34.google.com with SMTP id j12so2817449vsm.2
-        for <linux-media@vger.kernel.org>; Mon, 08 Mar 2021 07:57:38 -0800 (PST)
+        with ESMTP id S229901AbhCHQCH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 11:02:07 -0500
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C0F0C06174A
+        for <linux-media@vger.kernel.org>; Mon,  8 Mar 2021 08:02:07 -0800 (PST)
+Received: by mail-ua1-x933.google.com with SMTP id h26so1871824uax.3
+        for <linux-media@vger.kernel.org>; Mon, 08 Mar 2021 08:02:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SwCFKt4GMozKY730ds1tdX8e7lguf4IlSDg7liGwqag=;
-        b=uVTM3kaXojfmBzvO37KITKTrxLkPmHU1poLanoepTW0qTgWVZm/5x+F/I4G5bSwr/I
-         kZToSGaToHTvNcnZpH1LbXXxdItf0LsmPcDBblkzdYfLfH0AnakyZT5ROjW3ih4euyfx
-         I8uHxryN+8cX9afGFLptLJgu6UPQHmcIOjqiY6H78RVZihypTqSchQSPDwGutEAXQXwi
-         rycioaUyd+s1up7QIh8GCngrGdJlFBnjraiDdvBy1sdpjv4ptqQ2AuH9tvfXR6TM1AOh
-         5kJgV2VmTnShyz1xD4uDqqEA7IU4coUsPYTPkelrYqKjA0TEMAhKipsm3y0HAqdpDnZN
-         09CA==
+        bh=An011ivT1O5IqSBEP+Exr4/mnv85DViHzOw1dLqooWM=;
+        b=jeekrIFCRYpPa+xsnZZ0w38J4frFu3ydE5//Ca6SwxwiJuOBITzb8myXXxB2epwxuW
+         QXhA0GsxH5Kzy+w/NLBijDaExj4XxJLpS0t12VGvm3drSXU3uYkQFjZAANJI/fqR6Nph
+         gsKPjQ4kMSdZYsb4Zne/nZUft7dzr562wi66gmN4jy5EpU/GBYcCWav2RihEOzrGDsHa
+         0pjHJLsw8Gmlu69SlBE3wNGCmClYiQQvP6hIm/vyisD+vfpZJ64W+ruYA3M+V7fqYXRz
+         bcP2vhChHWWvXtUCl6oNO2ZJmfLt1sB9KH0hlzu1ZN+qSzk0edH0a0EUmTDPuS+GmE0U
+         vcMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SwCFKt4GMozKY730ds1tdX8e7lguf4IlSDg7liGwqag=;
-        b=dpJ1HsX930kjGFUnvbOk7KZD17Os9oB3P8NKMaMfhakE7mwa2UaCfhiG6K4D9i+SKZ
-         Xk9IFJQNeE95cJzWbvHTtut2Lx0pK3nBflMQBFEOqDHd0zrfBgzqAIwTzw5lyZ+MsQzc
-         KetW05pt+cYDqcR2uc1Ruznox3CAiGsHsvyFVb2unXgC/I5mYf9hennZSlXByrVUdZvZ
-         aFHH+Ql1iIZRWeGKa/lMzQByl2t23F/llV/oUD8awKllS75YzWF4ddC1A8sgUAQpCEQO
-         ZeDz86xbxaTL2gpyo6+wvIBfONvIgzkCV0SmuCfBlschYn/eCn7GrnXzCa8dnOKGIiXW
-         hrQg==
-X-Gm-Message-State: AOAM533Al4Rn7Bpn4F9MYGGqMF3u83LPMa46G85pqP69eFXiraTrAzA5
-        9eqYXHovWnSZiXlmXJBbspcCphjFJ7fV08kidcs=
-X-Google-Smtp-Source: ABdhPJxRY5PAXQbO2E8L7KGjxzRnWIIivSjsRhaRYV3E7/RFN0Jf9vaLtpIiAen3eZB8wpvg511wf1eiUeCvrh7B+ck=
-X-Received: by 2002:a67:f04f:: with SMTP id q15mr13359263vsm.22.1615219057722;
- Mon, 08 Mar 2021 07:57:37 -0800 (PST)
+        bh=An011ivT1O5IqSBEP+Exr4/mnv85DViHzOw1dLqooWM=;
+        b=o54/CwZ4j/azZzeApJkXltOJtlVLAnMqv1SVNiXqiaRTkYLR6XvtMAH0l6Ke0uXIzW
+         4+fR+47wr1AnyAF3h2dy9HED4cFeYclTN/XjLP01Vo07QDIvg2Rqg9EEFQ5fPrikbgU6
+         u5lcvgB54iHmUD/GY5swmlHeivrKPyFpnKPlwiUJsS51W/bb8srrfjMJC1TzpdT6H8f/
+         zHvdza8NDo++OzAiluGpiByGV9EzuA10kC3Z5alqZrb58mpSunxesk0/aOGniCOxDRy1
+         +GPBsTdExfnEE6AtznchynXwhR2soUogY+xcEgR8693NhHGPpae9oBljYZGEZ13+T1c/
+         oGgQ==
+X-Gm-Message-State: AOAM533o1W5rkUuuxgs9w7BtMAJmYFfMd81aAC91xD9bn+Q4lamhZ6zE
+        bEl5yJAAmuFUIbihAGy1tK3GZu0xCkbQ9T+DoiY=
+X-Google-Smtp-Source: ABdhPJwuFYQnKSyKc5E1TZUyp9J9Sp60E60qo2mEIw3WxuI/ANDkpscroQkTo0tFo+0nFPEO/vB6lShkVnmIEsS29mw=
+X-Received: by 2002:ab0:382:: with SMTP id 2mr14186118uau.46.1615219326677;
+ Mon, 08 Mar 2021 08:02:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20210305183924.1754026-1-emil.l.velikov@gmail.com>
- <20210305183924.1754026-8-emil.l.velikov@gmail.com> <915739c6fc01f17b00c4fac8b7fede1f25396286.camel@collabora.com>
- <CACvgo51peuKsuqx-NwZSWU4Ys1q5MuXb=BRx7GLo3tkWH+vb0w@mail.gmail.com> <2e921a53-def3-ed3a-6240-b81ea3ddf946@microchip.com>
-In-Reply-To: <2e921a53-def3-ed3a-6240-b81ea3ddf946@microchip.com>
+ <20210305183924.1754026-5-emil.l.velikov@gmail.com> <20210308135704.GB18168@pengutronix.de>
+In-Reply-To: <20210308135704.GB18168@pengutronix.de>
 From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Mon, 8 Mar 2021 15:57:26 +0000
-Message-ID: <CACvgo52dNRyiLDGDf8wQMKoxsCUyn3Ro=hHL7GAMtVXRdC_19A@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ARM: dts: at91: sama5d4: add vdec0 component
-To:     Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+Date:   Mon, 8 Mar 2021 16:01:55 +0000
+Message-ID: <CACvgo52e8be9MqHOiq4V4a7QnHq__34GcSeOn4scmydW-=vvSA@mail.gmail.com>
+Subject: Re: [PATCH 4/7] media: hantro: imx: remove unused include
+To:     Philipp Zabel <pza@pengutronix.de>
+Cc:     ML dri-devel <dri-devel@lists.freedesktop.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org,
-        linux-rockchip <linux-rockchip@lists.infradead.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+        linux-rockchip <linux-rockchip@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 8 Mar 2021 at 13:21, Nicolas Ferre <nicolas.ferre@microchip.com> wrote:
+On Mon, 8 Mar 2021 at 13:57, Philipp Zabel <pza@pengutronix.de> wrote:
 >
 > Hi Emil,
 >
-Greetings Nicolas,
-
-> So nice to see this support! Thank you so much for handling that.
+> On Fri, Mar 05, 2021 at 06:39:21PM +0000, Emil Velikov wrote:
+> > From: Emil Velikov <emil.velikov@collabora.com>
+> >
+> > The current imx8 code does not use the jpeg encoder. Remove the
+> > unnecessary include.
+> >
+> > Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linux-rockchip@lists.infradead.org
+> > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 >
-> Little comments below...
+> thank you, patches 2-4 could be tagged
 >
-
-> Nitpicking: I would use "microchip,sama5d4-vdec". We tend to use the
-> microchip name for new DT bidings and compatibility strings.
+> Fixes: 8e4aaa687863 ("media: hantro: add initial i.MX8MQ support")
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 >
-Should i use Microchip (instead of Atmel) only for the DT bindings or
-throughout the series?
+Much appreciated. Will add all the tags for v2.
 
-> I'm fine with having a "staging" component. Maybe add the hantro vdec as
-> a module instead.
->
-Ack, will do for v2.
-
-Thanks
-Emil
+-Emil
