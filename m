@@ -2,154 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5690A3306DD
-	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 05:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEF72330A30
+	for <lists+linux-media@lfdr.de>; Mon,  8 Mar 2021 10:20:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233889AbhCHEfO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Mar 2021 23:35:14 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:38757 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232443AbhCHEew (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 7 Mar 2021 23:34:52 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id J7bSly2IMOruFJ7bTlOLbg; Mon, 08 Mar 2021 05:34:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615178087; bh=qjTrV31soiaOMQ04IHAdE+rbJziJii0+8EtMzW/O/nk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=UsJ/zdSExTwkVOI2uhFZ1KYHvGSAgHGzrqQs8Tg/wGvYDbcyaWcj269yqfTeOxI0R
-         +25Pkd959zGkNAJlrRyH76DkC6dDS0iEChEtDfVOhikXXQp7mYLRL/PJx+wTgbBYMt
-         M/AcxLYqY2sMve8o99c4DUvJF+7/i0OwxnSKL/st/Sp1hnImbMHHwUa0F4AiL3JiSG
-         PJUCZDjMyZ+/lrL8thV0eOgHOo4k6NUWsNLl7gSRV0jcVBW9V2Bqf8ar3OPyY6dTBm
-         zpQjtVdUN3ZlyRBDteno9ikM59unHJPrw+4l8mgybtDIs5TVcfAI21SXBWsHxR9UKG
-         zjL1CvPMSjxuw==
-Message-ID: <76d46a9482a3303f0b78e0a69b37c06a@smtp-cloud7.xs4all.net>
-Date:   Mon, 08 Mar 2021 05:34:46 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfFTxnDTW5zWYVf54cq0+FdIp2ai8i9sGr2UU8Ls9T/FDbDQEAwM4bTPpI+5bP6F6ziiAhvFncTliBRC37B3JQRxJiLkh33+ZdOVL0ct19DnHHMjbXv6E
- 6MbSREocaYWSWD+ETLfniWXtAcz84eXdMrx+4JPbN3XEi4fsz9/DM35IAmtqDcn4Mhbs+EkjWgR76mvH/qDR5xY9GgSQm6ayNw9UhPfKFUCflNMzBN8wSJNj
- UJO/MpzcoDvniMgIw3Id2Q==
+        id S229608AbhCHJUN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 04:20:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229813AbhCHJTi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 04:19:38 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C78A2C06175F
+        for <linux-media@vger.kernel.org>; Mon,  8 Mar 2021 01:19:37 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id e23so5587056wmh.3
+        for <linux-media@vger.kernel.org>; Mon, 08 Mar 2021 01:19:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hEOGgoBFFfBcRYu8R+ZFzD5oTYtm/qga63LL53Ov/bU=;
+        b=evLEsiqayrflm8/aMCMFF1KGm9tCqy5TgmLozN1pf5OV8v3XOrrOZ7dusez6ueByqx
+         QbfNJbn3Tb6TelmwrFWDd4WHxalQui+FvvMLcnchyO2FEC0WH66rXpO7Bg5MqXxBzX+Z
+         cc9Pr7PgNkEy1bM1xcbTqIIGCmKoaS4GNgx3Ck/1lpofYRw8U2M/EjDO4iJe0z6SkwP7
+         NEfv8QFCktFfq07V+8oK+WYbUu5K7JfqkfwOCUZH8ZfaC1XQzqb4v836tecMta/an5NF
+         q1zYSc8uWIE/dnLOv0rAgqCp8RZ+/3Pe/2mlOOfPdm/KIfJDoR0E3DqxqFiDR11IYcOx
+         uh1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hEOGgoBFFfBcRYu8R+ZFzD5oTYtm/qga63LL53Ov/bU=;
+        b=i+NTDrER8AjGKyy20XLbmaLegaHR646X8rtdl0VXen2ao4ETWqyGCLf9AjacT7irSD
+         ZPK1x79SzWLrq220WbTRVPPzKWCtEpc6FMSWjeb9GZzwA9RAnMMbOPWPjfELlSH3f2QP
+         DLTPG5hkWepEFsPk5Ftzg91UXomeVYo47040Lapj4+Xorymmd4CbSevyFLxan+n07mRt
+         eUDpOQAh2fuVN++X7pokbTY/WN1QlvncAQfV3ei4ZiHpFzNaEi/W3S6Jwxq4BgX22nvW
+         Vov9cjhQjZCQaHruIpbe6Td/tytREz7wkBjtStyZL/kU3lbYsOTICs1rPTXXfTbut3EP
+         ToWQ==
+X-Gm-Message-State: AOAM533kbjIhUAQYJ+ZfwOw0U/hTv1xHEtOOZr8x24PsnOYS4bMAb2Bv
+        HoGPLq+2wIfdynrLBCe/hv7WVQ==
+X-Google-Smtp-Source: ABdhPJySpXzmJ3MCPU31zc4PaUGqi7NmkyvQv0pK/pj0WvYnEHQRAY6VwjmHVQ6JfBzbPkybjDafLg==
+X-Received: by 2002:a1c:400b:: with SMTP id n11mr20979920wma.167.1615195176468;
+        Mon, 08 Mar 2021 01:19:36 -0800 (PST)
+Received: from dell ([91.110.221.130])
+        by smtp.gmail.com with ESMTPSA id i11sm17599389wro.53.2021.03.08.01.19.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 01:19:35 -0800 (PST)
+Date:   Mon, 8 Mar 2021 09:19:32 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Roland Scheidegger <sroland@vmware.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Anthony Koo <Anthony.Koo@amd.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Harry Wentland <harry.wentland@amd.com>,
+        Jeremy Kolb <jkolb@brandeis.edu>,
+        Kuogee Hsieh <khsieh@codeaurora.org>,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        nouveau@lists.freedesktop.org,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        Rob Clark <rob.clark@linaro.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Zack Rusin <zackr@vmware.com>
+Subject: Re: [RESEND 00/53] Rid GPU from W=1 warnings
+Message-ID: <20210308091932.GB4931@dell>
+References: <20210303134319.3160762-1-lee.jones@linaro.org>
+ <16d4300e-bf29-1e85-317b-53d257890cb9@vmware.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <16d4300e-bf29-1e85-317b-53d257890cb9@vmware.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, 05 Mar 2021, Roland Scheidegger wrote:
 
-Results of the daily build of media_tree:
+> The vmwgfx ones look all good to me, so for
+> 23-53: Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+> That said, they were already signed off by Zack, so not sure what
+> happened here.
 
-date:			Mon Mar  8 05:00:11 CET 2021
-media-tree git hash:	1c5ab1e2286f4ca6347744e9d4cace5fad5ffa39
-media_build git hash:	15e45b4b4577c1d87159511c11a959fbd49d1671
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: dc364825a5c13e4eb4c2ad6da1f08a0e67880b58
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Yes, they were accepted at one point, then dropped without a reason.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: ERRORS
-linux-4.4.258-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.258-i686: ERRORS
-linux-4.9.258-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.100-i686: ERRORS
-linux-5.4.100-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+Since I rebased onto the latest -next, I had to pluck them back out of
+a previous one.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
