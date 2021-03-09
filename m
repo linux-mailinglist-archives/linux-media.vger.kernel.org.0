@@ -2,156 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA9DA333178
-	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 23:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0DD8333202
+	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 00:44:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbhCIWWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Mar 2021 17:22:02 -0500
-Received: from mga04.intel.com ([192.55.52.120]:39970 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230086AbhCIWVl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Mar 2021 17:21:41 -0500
-IronPort-SDR: cDgdXE1sgAGnHWwagZ28PqR1gGnJq7NoP+lzG65iAOwZHgyPIKI3yusOWz14mz0kshTLuCsBgq
- 54Fhz3Ky0TRQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="185951669"
-X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; 
-   d="scan'208";a="185951669"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2021 14:21:40 -0800
-IronPort-SDR: dHL9BQNYRBAPKLideehQVuAh/226JMQXTqUiAehz4BVqPub/rjA7fLIne6+6LTaz0adEi2XN6o
- Ih1J4TYVdvtQ==
-X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; 
-   d="scan'208";a="403402880"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2021 14:21:39 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id E3965201A2;
-        Wed, 10 Mar 2021 00:21:37 +0200 (EET)
-Date:   Wed, 10 Mar 2021 00:21:37 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] v4l: async, fwnode: Improve module organisation
-Message-ID: <20210309222137.GQ3@paasikivi.fi.intel.com>
-References: <20210308100256.26270-1-sakari.ailus@linux.intel.com>
- <51c824c3115fc678c91660b9a12332242c1b1384.camel@collabora.com>
- <20210309100314.GI3@paasikivi.fi.intel.com>
- <4e5a01739867c7b6ab15fe506d4ef2160a851293.camel@collabora.com>
+        id S232115AbhCIXnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Mar 2021 18:43:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37794 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232142AbhCIXnV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Mar 2021 18:43:21 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA44C06175F
+        for <linux-media@vger.kernel.org>; Tue,  9 Mar 2021 15:43:20 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id r17so33013348ejy.13
+        for <linux-media@vger.kernel.org>; Tue, 09 Mar 2021 15:43:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GsAE9rQ8/byOnL6RFD2LPTinVX5mQV+JCW61mQ0cTTQ=;
+        b=ZktZICeZisdyBYhDRK6hJaM2gK5izAhJYXPmRLFGGqbadL1p3Lbdg4C2xqkGURAjQu
+         bnm1Tg5faQWiTWF2WIyIkwJa1dP14JR1okSqTnYtFfydplxVIPwegxj8qfPD1Ue7PusI
+         qdCVBswJlzCU362pnVirE0gUcQC1BeGobl3tI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GsAE9rQ8/byOnL6RFD2LPTinVX5mQV+JCW61mQ0cTTQ=;
+        b=o7ii/t5xvOrI3mwj+tFnusrU2yMz2ABH2WMHKrPQGHt/vWVJvJAYLTvd6BTkIXpVAb
+         bZKJwloohI9zQ4k8Cr0Vfh2Q/vd8m/uDhLS+vT7ZgQ0QdqnMZREqmTtMr/MC7pYxpF3b
+         YLxAqcsut6AmuzPGxqOk+E+R+sfqHPKfJmlBPX3hb0VG8qGMRptq84fJLWRg9jmzBO9m
+         DeBSq9EftHrSdaTMT6gLhyr+npNww/Afs2Pc8Qn9ku+J7rIb3KL3W4BJE/v0VuhsiLhB
+         KyLDZdChJENAXyAfsZbJ0+oIAvpNarFiuIHniYplCh62kA1sf7KzXNjHLv6z1NGJl+8V
+         ASPg==
+X-Gm-Message-State: AOAM532lGUBfyB49dOGdSBxEUNik3hBVSYKzRRe95Cwn8k1FpL8jHkxG
+        fzTgiEOCikga5zeM91Q0bgJZiw==
+X-Google-Smtp-Source: ABdhPJxjhykxqKvpWvYUp6HbNeUMu65+sh2gFhOT0+/grLA8X/Ed9CYt6FwWNfjpo2XCj+H3e1jPjA==
+X-Received: by 2002:a17:907:7692:: with SMTP id jv18mr510464ejc.475.1615333399461;
+        Tue, 09 Mar 2021 15:43:19 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id l1sm5187658edt.59.2021.03.09.15.43.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Mar 2021 15:43:19 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
+Subject: [PATCH] media: videobuf2: Fix integer overrun in allocation
+Date:   Wed, 10 Mar 2021 00:43:17 +0100
+Message-Id: <20210309234317.1021588-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e5a01739867c7b6ab15fe506d4ef2160a851293.camel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+The plane_length is an unsigned integer. So, if we have a size of
+0xffffffff bytes we incorrectly allocate 0 bytes instead of 1 << 32.
 
-On Tue, Mar 09, 2021 at 09:22:16AM -0300, Ezequiel Garcia wrote:
-> On Tue, 2021-03-09 at 12:03 +0200, Sakari Ailus wrote:
-> > Hi Ezequiel,
-> > 
-> > On Mon, Mar 08, 2021 at 04:01:58PM -0300, Ezequiel Garcia wrote:
-> > > Hi Sakari,
-> > > 
-> > > Thanks a lot for the patch. I like where this is going.
-> > 
-> > Thanks for the review, too!
-> > 
-> > > 
-> > > On Mon, 2021-03-08 at 12:02 +0200, Sakari Ailus wrote:
-> > > > The V4L2 async framework is generally used with the V4L2 fwnode, which
-> > > > also depends on the former. There is only one exception, the CAFE_CCIC
-> > > > driver, which uses V4L2 async but does not need V4L2 fwnode.
-> > > > 
-> > > > At the same time there is a vast number of systems that need videodev
-> > > > module, but have no use for v4l2-async that's now part of videodev.
-> > > > 
-> > > > In order to improve, build v4l2-async and v4l2-fwnode as a single module
-> > > > called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
-> > > > Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
-> > > > 
-> > > > This also moves the initialisation of the debufs entries for async subdevs
-> > > > to loading of the v4l2-async module. The directory is named as
-> > > > "v4l2-async".
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > > This goes on top of my recent async patches.
-> > > > 
-> > > >  drivers/media/i2c/Kconfig                     | 80 +++++++++----------
-> > > >  drivers/media/i2c/ccs/Kconfig                 |  2 +-
-> > > >  drivers/media/i2c/et8ek8/Kconfig              |  2 +-
-> > > >  drivers/media/pci/intel/ipu3/Kconfig          |  2 +-
-> > > >  drivers/media/platform/Kconfig                | 16 ++--
-> > > >  drivers/media/platform/am437x/Kconfig         |  2 +-
-> > > >  drivers/media/platform/atmel/Kconfig          |  4 +-
-> > > >  drivers/media/platform/cadence/Kconfig        |  4 +-
-> > > >  drivers/media/platform/davinci/Kconfig        |  2 +-
-> > > >  drivers/media/platform/exynos4-is/Kconfig     |  4 +-
-> > > >  drivers/media/platform/marvell-ccic/Kconfig   |  1 +
-> > > >  drivers/media/platform/rcar-vin/Kconfig       |  4 +-
-> > > >  .../media/platform/sunxi/sun4i-csi/Kconfig    |  2 +-
-> > > >  .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
-> > > >  drivers/media/platform/xilinx/Kconfig         |  2 +-
-> > > >  drivers/media/v4l2-core/Kconfig               |  3 +-
-> > > >  drivers/media/v4l2-core/Makefile              |  6 +-
-> > > >  .../{v4l2-async.c => v4l2-async-core.c}       | 23 +++++-
-> > > >  drivers/media/v4l2-core/v4l2-dev.c            |  5 --
-> > > >  drivers/staging/media/imx/Kconfig             |  2 +-
-> > > >  drivers/staging/media/tegra-video/Kconfig     |  2 +-
-> > > >  21 files changed, 94 insertions(+), 76 deletions(-)
-> > > >  rename drivers/media/v4l2-core/{v4l2-async.c => v4l2-async-core.c} (96%)
-> > > > 
-> > > [..]
-> > > > diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> > > > index bf49f83cb86f..26e12db0a4e8 100644
-> > > > --- a/drivers/media/v4l2-core/Kconfig
-> > > > +++ b/drivers/media/v4l2-core/Kconfig
-> > > > @@ -62,13 +62,14 @@ config V4L2_FLASH_LED_CLASS
-> > > >         tristate "V4L2 flash API for LED flash class devices"
-> > > >         depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> > > >         depends on LEDS_CLASS_FLASH
-> > > > +       select V4L2_ASYNC
-> > > >         help
-> > > >           Say Y here to enable V4L2 flash API support for LED flash
-> > > >           class drivers.
-> > > >  
-> > > >           When in doubt, say N.
-> > > >  
-> > > > -config V4L2_FWNODE
-> > > > +config V4L2_ASYNC
-> > > >         tristate
-> > > >  
-> > > 
-> > > So we don't expect (or want) out-of-tree drivers to be able to use this.
-> > > Is that correct?
-> > 
-> > Hmm. I somehow manage to miss how this is related to out-of-tree drivers.
-> > 
-> 
-> As it is, the v4l2-async module is not user-selectable, because
-> V4L2_ASYNC has no prompt (the symbol is non-visible).
-> 
-> For the user to be able to select the v4l2-async module,
-> even if no driver is selecting it, it needs a prompt: 
-> 
-> config V4L2_ASYNC
-> 	tristate "V4L2 asynchronous subdevice support"
+Cc: stable@vger.kernel.org
+Fixes: 7f8414594e47 ("[media] media: videobuf2: fix the length check for mmap")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/common/videobuf2/videobuf2-core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Well, yes, you could do this in principle.
-
-But this patch does not change this in any way, does it?
-
-> 
-> This is usually useful for out-of-tree drivers, AFAIK.
-
-If someone needs this out-of-tree, they could also enable one of the
-drivers that need v4l2-async in the kernel.
-
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 02281d13505f..543da515c761 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -223,8 +223,10 @@ static int __vb2_buf_mem_alloc(struct vb2_buffer *vb)
+ 	 * NOTE: mmapped areas should be page aligned
+ 	 */
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
++		unsigned long size = vb->planes[plane].length;
++
+ 		/* Memops alloc requires size to be page aligned. */
+-		unsigned long size = PAGE_ALIGN(vb->planes[plane].length);
++		size = PAGE_ALIGN(size);
+ 
+ 		/* Did it wrap around? */
+ 		if (size < vb->planes[plane].length)
 -- 
-Regards,
+2.30.1.766.gb4fecdf3b7-goog
 
-Sakari Ailus
