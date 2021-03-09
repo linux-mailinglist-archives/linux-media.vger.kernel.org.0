@@ -2,108 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DE4433257A
-	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 13:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1E8E3325F3
+	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 14:01:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229851AbhCIM2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Mar 2021 07:28:30 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46849 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231183AbhCIM2Q (ORCPT
+        id S230394AbhCINAu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Mar 2021 08:00:50 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41877 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230122AbhCINAt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Mar 2021 07:28:16 -0500
+        Tue, 9 Mar 2021 08:00:49 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id JbT9l7mTOqY4WJbTCleJT6; Tue, 09 Mar 2021 13:28:14 +0100
+        id Jbyel7xdcqY4WJbyileOTI; Tue, 09 Mar 2021 14:00:48 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615292894; bh=52/sL/50tVPpZyumCSkN0o6FMQp5ZQXPOCTw6T2kDGQ=;
+        t=1615294848; bh=3vPOYfUEevGyFjKFEUk3ntGLaYv2j78pQdsoovrd4KA=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=O5sz78qp7AlCZ8VU8NLcpAvzRuJnL+qO7R+h8Vq6p34k6IhAYdcFFF6AB5f1TUgoa
-         DhPiQvK9GyQCmVNoQ2ztuMe2qdgnTxa1BjnhjU+zGEFiNkopBRBTFAfJbxBulqtxZI
-         qy7ZAuugB8HnZ1lFX2ILFKsK4L5v3NBXyGRecYpDVnGAX+kxZNPWj4TtEdCP9GvAJh
-         lxbuzwGz+R1G5avYoLs5VhryFl0hjKkrrxhv5RAt9V7kFLsZP3JXC3HTokOthEvAkT
-         fzA93VMNK5XZM1ouE6LXt0u1UbCDnaaIiW3XH88TzrsfyD+yyWplKfosokz/DHogco
-         9XdvNdv7uXjnA==
+        b=X/4Ld186HKguqOt60NQ6U5Dmav3O1wzaIfqhZotCtilyti53sni9AhD23PxCS0NMR
+         96aTC1FD2jKpDxKHawzh+fyvt/xKlGMSU5a89E4R3jg/vgXlm97Erg9dMFxKEzLez8
+         Ngy/2t8kB6L54Ziq41wXKCxBfl0mDMpH31GTerfeg1lo8vHmTDP19agXf5Nwm80HBS
+         6BVZa9vWwQn3HJvFd5qXl+vutiQVg2zeaVEOgcLWrvhhnY5wSEgYRHKU0DZKl6KJoP
+         syVXUPLzDi2UAPwdEGtG6kwDA8WotTQ7d678Oq6l8F7cFlP0nGQ6xK53j8WZwAVS5O
+         MzrWDIyASP9Fg==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media tuner headers: fix kernel-doc warnings
-Message-ID: <f90f9e27-bafd-df23-96a7-c86549499edb@xs4all.nl>
-Date:   Tue, 9 Mar 2021 13:28:11 +0100
+Subject: [PATCH] i2c/ccs: fix kernel-doc header issues
+Message-ID: <8dde62e2-e6fd-7816-5642-1d51ca4d07e2@xs4all.nl>
+Date:   Tue, 9 Mar 2021 14:00:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJFQm/oWLr9EVXLjFxE+oUGqsCRojXgPZhH802PvmbDiSstOj3BsaHRuNzPkVboyyxLZSCP00rRA8cSJeChhO7kWm9GfCpTpLgdX3NWC6oOLHpuNoUs0
- I5QGhUbzKWfO8ne5n+oao4w9O50+jCFZsMhgy43McdKpI5v8HiCUYHHKQYcSiDrJLoFulMtoQfOhpmGy3X8UPi2bfOQQ5xpfFBQ=
+X-CMAE-Envelope: MS4xfPHGF08um9PCrJJ+OE7N/7Q8Yjm2kx9pBh+Ldbk/eWMVbQWnoWLhA1qokPSp+Lk4/kpMEAlHEGJd1D4JbsKqd+y4H8jgZUwEt25qZ1ev1M53I7aKPBX+
+ 9C8NKcEkcpDhtWksXIQ7MezVmpvQ+FQ2jn3Mm0R9PGnQWH8dkPmshCWyprUpIv81xZi+jIOsix3g+FhaRvcvVU3j+2jaazGgzd0Xacp6Vs+dHrJJJ3wo4hdl
+ NxyD1EwKRcMJBTNJUsvcLg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following kernel-doc warnings:
+Fix these kernel-doc warnings:
 
-drivers/media/tuners/it913x.h:28: warning: Function parameter or member 'fe' not described in 'it913x_platform_data'
-drivers/media/tuners/tda827x.h:34: warning: wrong kernel-doc identifier on line:
- * Attach a tda827x tuner to the supplied frontend structure.
-drivers/media/tuners/qt1010.h:20: warning: wrong kernel-doc identifier on line:
- * Attach a qt1010 tuner to the supplied frontend structure.
+drivers/media/i2c/ccs/ccs-data.h:144: warning: expecting prototype for struct ccs_pdaf_pix_loc_block_desc. Prototype was for struct
+ccs_pdaf_pix_loc_pixel_desc instead
+drivers/media/i2c/ccs/ccs-quirk.h:51: warning: Function parameter or member 'post_streamoff' not described in 'ccs_quirk'
+drivers/media/i2c/ccs/ccs-quirk.h:51: warning: Function parameter or member 'flags' not described in 'ccs_quirk'
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-diff --git a/drivers/media/tuners/it913x.h b/drivers/media/tuners/it913x.h
-index 600268816d98..bb45637abea9 100644
---- a/drivers/media/tuners/it913x.h
-+++ b/drivers/media/tuners/it913x.h
-@@ -14,7 +14,7 @@
- /**
-  * struct it913x_platform_data - Platform data for the it913x driver
-  * @regmap: af9033 demod driver regmap.
-- * @dvb_frontend: af9033 demod driver DVB frontend.
-+ * @fe: af9033 demod driver DVB frontend.
-  * @role: Chip role, single or dual configuration.
-  */
-
-diff --git a/drivers/media/tuners/qt1010.h b/drivers/media/tuners/qt1010.h
-index 559c12b97dbb..8db874334210 100644
---- a/drivers/media/tuners/qt1010.h
-+++ b/drivers/media/tuners/qt1010.h
-@@ -16,11 +16,11 @@ struct qt1010_config {
+diff --git a/drivers/media/i2c/ccs/ccs-data.h b/drivers/media/i2c/ccs/ccs-data.h
+index c75d480c8792..638df69804ec 100644
+--- a/drivers/media/i2c/ccs/ccs-data.h
++++ b/drivers/media/i2c/ccs/ccs-data.h
+@@ -132,7 +132,7 @@ struct ccs_pdaf_pix_loc_block_desc_group {
  };
 
  /**
-- * Attach a qt1010 tuner to the supplied frontend structure.
-+ * qt1010_attach() - Attach a qt1010 tuner to the supplied frontend structure
+- * struct ccs_pdaf_pix_loc_block_desc - PDAF pixel location block descriptor
++ * struct ccs_pdaf_pix_loc_pixel_desc - PDAF pixel location block descriptor
+  * @pixel_type: Type of the pixel; CCS_DATA_PDAF_PIXEL_TYPE_*
+  * @small_offset_x: offset X coordinate
+  * @small_offset_y: offset Y coordinate
+diff --git a/drivers/media/i2c/ccs/ccs-quirk.h b/drivers/media/i2c/ccs/ccs-quirk.h
+index 6b4ec4beaba0..5838fcda92fd 100644
+--- a/drivers/media/i2c/ccs/ccs-quirk.h
++++ b/drivers/media/i2c/ccs/ccs-quirk.h
+@@ -21,7 +21,7 @@ struct ccs_sensor;
+  *	    sensor registers. Called the first time the sensor is powered up.
+  * @post_poweron: Called always after the sensor has been fully powered on.
+  * @pre_streamon: Called just before streaming is enabled.
+- * @post_streamon: Called right after stopping streaming.
++ * @post_streamoff: Called right after stopping streaming.
+  * @pll_flags: Return flags for the PLL calculator.
+  * @init: Quirk initialisation, called the last in probe(). This is
+  *	  also appropriate for adding sensor specific controls, for instance.
+@@ -33,6 +33,8 @@ struct ccs_sensor;
+  *		@value: Register value, set by the caller on write, or
+  *			by the quirk on read
   *
-- * @param fe   frontend to attach to
-- * @param i2c  i2c adapter to use
-- * @param cfg  tuner hw based configuration
-+ * @fe:   frontend to attach to
-+ * @i2c:  i2c adapter to use
-+ * @cfg:  tuner hw based configuration
-  * @return fe  pointer on success, NULL on failure
-  */
- #if IS_REACHABLE(CONFIG_MEDIA_TUNER_QT1010)
-diff --git a/drivers/media/tuners/tda827x.h b/drivers/media/tuners/tda827x.h
-index 30ac9214487f..d3c2f00ada8f 100644
---- a/drivers/media/tuners/tda827x.h
-+++ b/drivers/media/tuners/tda827x.h
-@@ -30,12 +30,12 @@ struct tda827x_config
-
-
- /**
-- * Attach a tda827x tuner to the supplied frontend structure.
-+ * tda827x_attach() - Attach a tda827x tuner to the supplied frontend structure
-  *
-- * @param fe Frontend to attach to.
-- * @param addr i2c address of the tuner.
-- * @param i2c i2c adapter to use.
-- * @param cfg optional callback function pointers.
-+ * @fe: Frontend to attach to.
-+ * @addr: i2c address of the tuner.
-+ * @i2c: i2c adapter to use.
-+ * @cfg: optional callback function pointers.
-  * @return FE pointer on success, NULL on failure.
-  */
- #if IS_REACHABLE(CONFIG_MEDIA_TUNER_TDA827X)
++ * @flags: Quirk flags
++ *
+  *		@return: 0 on success, -ENOIOCTLCMD if no register
+  *			 access may be done by the caller (default read
+  *			 value is zero), else negative error code on error
