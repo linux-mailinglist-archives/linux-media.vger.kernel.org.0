@@ -2,88 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C2E7333047
-	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 21:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22490333052
+	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 21:54:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231790AbhCIUvi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Mar 2021 15:51:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56982 "EHLO
+        id S231607AbhCIUxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Mar 2021 15:53:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231864AbhCIUvN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Mar 2021 15:51:13 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4223FC06174A
-        for <linux-media@vger.kernel.org>; Tue,  9 Mar 2021 12:51:13 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id b13so23169581edx.1
-        for <linux-media@vger.kernel.org>; Tue, 09 Mar 2021 12:51:13 -0800 (PST)
+        with ESMTP id S231634AbhCIUxm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Mar 2021 15:53:42 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE199C06174A
+        for <linux-media@vger.kernel.org>; Tue,  9 Mar 2021 12:53:41 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id l12so18452006wry.2
+        for <linux-media@vger.kernel.org>; Tue, 09 Mar 2021 12:53:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=q+LXPS2g/C2kk8K3V/x2NSnGympAYYgTq9AwkJ/pVJg=;
-        b=K1IwR7nekABeEPYTpc4sfCNOmMmM69FNHkZxRzFj0qH5RZWU9XImYZzmlE0RnWRh03
-         F0CTTqCA0DSvbgqIBvUzbrZXpvHL1YQJEs9xGLp83Z5EbjgQjwPiEVTTuLNLmFa9QNmh
-         PhaCKqXzEEY5ATbSploSh7okQTotlAOa7D8ro=
+        d=linaro.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=3I/q3EG/IHI7OWLh5V7u8JYHe3VN4NygFslGDCdX/wI=;
+        b=TYF5YWMpU+aB46Sbxy5ULNmv5TcDAaJAXT85t3pxPJ9pjgt6rjmKNawbfL3ykGdrqb
+         rMe2+vdbcPy6v8gk9YQW2OYNkS8LgY7KHkCQChqXeOmzUuwcE5YfVA81L2CshrqZDbBL
+         IWC5Ityp6hZCP7h9PolZBK81l0g2qx9N1/t5Z2khTmpmPu1nZ53JpaHxAZztIqMjb3VM
+         MK2gzRBj6AUlByiiTzzzAWo5rA/kvCLDPbBbkBmE0CbxA+M/6Gs2X55P/Wck/eG96Dg0
+         8bhFjzSe4nQ+JvilP2K8lXEy82Oobiav6HmCPhjHvg3DNDo2eXa97ovFtzvH0SY2Q6/f
+         uJaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=q+LXPS2g/C2kk8K3V/x2NSnGympAYYgTq9AwkJ/pVJg=;
-        b=L+DIuxlwB+Ks+o5Ate8WADG730IGySypcLLZTFXAZdGIQ+G1WEVfQzoWxVxbI4Nz9T
-         tVwVShPdxYLYGa9bjm+Hy+dZKHIDxIVkW7MadxQpFk+rJh5yS76OsDNpzJTB+12vbSvc
-         elyblUUro5bfGqPmvC8ATrOCzIJwTAQdDyfy0mJFv6gKxN2AQQkSXBSoed9EqijnZuSp
-         ScSG3IBbW44Dk2qHm+Drm63TrL5drcZJMF/KdmD9JcQ7PPzmjtzBIV2E4EvW3BaRSbVB
-         mAzR9QVBCoeckzckh8shEkWhPjBYvomOCdLxEpH3+rsqVXpYxJOAsU1j5VCJ1FRr8IAv
-         Zxtw==
-X-Gm-Message-State: AOAM532nwFTb2zfuilHhsxEbQb5sPzBbrQaRv2vp7OeroMb6begGdlay
-        96ik81XQrNDjBL6HK1dzbRkM+Q==
-X-Google-Smtp-Source: ABdhPJxnRoBhZTMo7aEzAdv4A87Pfu3GiwuHUGUxLoppCuiln29NC3PVmEVw94505C+/DTTrS7jsCQ==
-X-Received: by 2002:aa7:c6da:: with SMTP id b26mr6426641eds.254.1615323072076;
-        Tue, 09 Mar 2021 12:51:12 -0800 (PST)
-Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id mc10sm8861190ejb.56.2021.03.09.12.51.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 12:51:11 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 2/2] media: videobuf2: Exit promptly if size = 0
-Date:   Tue,  9 Mar 2021 21:51:08 +0100
-Message-Id: <20210309205108.997166-2-ribalda@chromium.org>
-X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
-In-Reply-To: <20210309205108.997166-1-ribalda@chromium.org>
-References: <20210309205108.997166-1-ribalda@chromium.org>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3I/q3EG/IHI7OWLh5V7u8JYHe3VN4NygFslGDCdX/wI=;
+        b=IgqDDUJYeq5GhE9Y1SGBKTeZqntxrgYnbZeqBRLZsvoBf+VXv6y5avYSrrXN0gMIxy
+         PtIqZDjNLsRCFrmFwHBYv6qZBx18afT1+dOMOTFsJO/gqCj3+29phDNXxVgfFeVwQorv
+         soOGpG+2L8PqfOa81BdCNtoJZTSuNVmDgpfyf/MAqwB0sMKzx35ig2TY5XwafRGxKeHt
+         DXg1qbwUScn/7CzmJWMJHMV2rQRzlQ3LR3aN461svJD/2wnPpEc9DB9+aaW154XQxbFD
+         FwnTPOr92OTbtBBCB8RkD+1pmBXQZGxEgNTLgjbzz/dFaUfPyu0E1frlxK9E0UOrgPm4
+         2PJA==
+X-Gm-Message-State: AOAM530aBmg4aw8sXs2kllEvZq9MIWYdDWH//LliiWybKIPJM3E6rwVi
+        EX3mIXZ3xNCOUPhPK3B5ODYiIw==
+X-Google-Smtp-Source: ABdhPJzUPVAEd/6qItSD+NPDdAmk1NXcohdkKkks7iXoEtO3anZObHaPtVkFnPJVDbaHX5l6vQKaoA==
+X-Received: by 2002:a5d:63d2:: with SMTP id c18mr30149368wrw.277.1615323220628;
+        Tue, 09 Mar 2021 12:53:40 -0800 (PST)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id h20sm5615246wmm.19.2021.03.09.12.53.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Mar 2021 12:53:39 -0800 (PST)
+Subject: Re: [PATCH 0/5] Venus msm8916 fixes
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210308105205.445148-1-stanimir.varbanov@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Message-ID: <315c062f-04df-af09-6987-6845862eb40a@linaro.org>
+Date:   Tue, 9 Mar 2021 20:55:09 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210308105205.445148-1-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Exit as soon as possible if a driver wants to allocate a buffer of
-size 0, and print a warning to help fixing the issue.
+On 08/03/2021 10:52, Stanimir Varbanov wrote:
+> Hello,
+> 
+> Here are few fixes for msm8916 (Venus v1x):
+>   * Two fixes in hfi_parser
+>   * One fix related to opp_set_clk_rate
+>   * Default header-mode for encoder is changed to join-with-1st-frame
+>   * Added support for actual-plane-info for v1x too
+> 
+> regards,
+> Stan
+> 
+> Stanimir Varbanov (5):
+>    venus: hfi_parser: Don't initialize parser on v1
+>    venus: hfi_parser: Check for instance after hfi platform get
+>    venus: pm_helpers: Set opp clock name for v1
+>    venus: venc_ctrls: Change default header mode
+>    venus: hfi_cmds: Support plane-actual-info property from v1
+> 
+>   drivers/media/platform/qcom/venus/hfi_cmds.c  | 24 +++++++++----------
+>   .../media/platform/qcom/venus/hfi_parser.c    | 12 ++++++----
+>   .../media/platform/qcom/venus/pm_helpers.c    | 20 +++++++++++++++-
+>   .../media/platform/qcom/venus/venc_ctrls.c    |  2 +-
+>   4 files changed, 39 insertions(+), 19 deletions(-)
+> 
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/common/videobuf2/videobuf2-dma-sg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 030e48218687..c5b06a509566 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -105,7 +105,7 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
- 	int ret;
- 	int num_pages;
- 
--	if (WARN_ON(!dev))
-+	if (WARN_ON(!dev) || WARN_ON(!size))
- 		return ERR_PTR(-EINVAL);
- 
- 	buf = kzalloc(sizeof *buf, GFP_KERNEL);
--- 
-2.30.1.766.gb4fecdf3b7-goog
-
+Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
