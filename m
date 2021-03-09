@@ -2,415 +2,925 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F06F2332603
-	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 14:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDCBE3327D6
+	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 14:55:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbhCINEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Mar 2021 08:04:05 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:53579 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230046AbhCINDl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Mar 2021 08:03:41 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Jc1Ql7ybNqY4WJc1TleOxt; Tue, 09 Mar 2021 14:03:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615295019; bh=4yOY9EZ3KDgZKonYO2ek9ThphIwfl57r8UqZJKAqmiM=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=UIoGjT0yBntOvKATo5CaVUXEWzFVF5rsA4Ww00EuGd0PTJ8WSdvGJlvbUfakII23v
-         LhcWocL78VTKVLS4XV8yd4eD/LE71mdB28D8RyXFiEqAgF65XTXVU8Qg6GymTA9cEj
-         C/3ut7PuxPt8DcAcqV4wXZbCpC6LKcuGc4NIqujU2Ds8InliqwMtnn6Od5NT7eXjH1
-         +KW1BUfxKjH5PKy3RLETAE9wWMWnaSV5OZM+JatFeFlP9tFlkXAQXCCFgD9Y8GH2tB
-         Gb1w1n4IAsfLAWOvAYYYvDy6IvOfiUE4ZakB+akKaoOa3HMcjIvhn2TIApG6eQFgPW
-         XRclxmpg8Dbgw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Sean Young <sean@mess.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media/usb: fix kernel-doc header issues
-Message-ID: <96fa4233-3d76-932c-2650-43903c30ee0c@xs4all.nl>
-Date:   Tue, 9 Mar 2021 14:03:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        id S231265AbhCINyq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Mar 2021 08:54:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230502AbhCINyO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Mar 2021 08:54:14 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81E03C061760
+        for <linux-media@vger.kernel.org>; Tue,  9 Mar 2021 05:54:13 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id n16so27189517lfb.4
+        for <linux-media@vger.kernel.org>; Tue, 09 Mar 2021 05:54:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=w2by/Dy/qE406DVbciiAoUwQd7f8fvoNC7iuIdknWXs=;
+        b=RBExdt6oBTcVWBjZK87KkrI+OiovmU1gmsfHKRxxJhObVXh31c4tI+73+8QEi//YUN
+         vBdVYkASAL9ythqw5Drhfr7mFvehzoH7g5Lg+OMkrbKwC2yTOQ1TuxEyCWdoey53u2FL
+         id1sb7wh8NQqDYk+j/0Q4v+/khbXKDy9wadZDl50x+N/htD1cyrNQBMlErsW26SIEnPb
+         0YzpKPEFrqGl+TSVT+YQuKphos+3Lljodck9mXgNAd2I4REfVs5hI5Aiut7l67SKVtZH
+         sqUn9H8fMUqiPyLp/rqL17NJw602qkIX8ev4Jcw0lwWQmfJKtxvBUFF6b6flgRmcXsno
+         2bIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=w2by/Dy/qE406DVbciiAoUwQd7f8fvoNC7iuIdknWXs=;
+        b=bWY0+0IGSDKGI5VV9rcn3OX0JcL5d5mS0XHovZQMmH2dif2y8cYaM9nUU4NNPpcZ4m
+         YNAI1qTO/d7U92IgQ2u6L9FVvRE9Niq9CpVyHggioj6pvoTqVTc0mSKSkIpwdoMCfBFl
+         IG7MlbwbgvlqNAwB78d8Cqt1yDh5qoxXEKEyuiJAjtRuFY4B5my2uxYmM1yQ3B5wwilX
+         ouBGIJji0DfXRNsy/v5DZAWZIpKYOSn7Dybut6eILWXv59L9U3PN4Fxdn9feHUknccjX
+         dS5CZ72YMqeiBqKlN7+/x1GYfp1F52SdO2doECtuFiQTuVsPW9ZN1ULOPjUX2q2Sk8/8
+         AXIw==
+X-Gm-Message-State: AOAM533TdqgQZXrAzi/h+L/69Oqm5sH+FmjouiRlkJLtPseXsstqGMjM
+        iuETUSjGBD4XHsbn41uMnDZFdQ==
+X-Google-Smtp-Source: ABdhPJyrBZntxGykb/WFoQuOGtc9EpQRdRXegFjqSLP9wSsm/5KSwqqrDe6u+FJNGoBXRFftwHD7Mg==
+X-Received: by 2002:a19:9144:: with SMTP id y4mr18169999lfj.219.1615298051751;
+        Tue, 09 Mar 2021 05:54:11 -0800 (PST)
+Received: from [192.168.118.216] ([85.249.43.69])
+        by smtp.gmail.com with ESMTPSA id i21sm1789201lfe.102.2021.03.09.05.54.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Mar 2021 05:54:10 -0800 (PST)
+Subject: Re: [PATCH v6 10/22] media: camss: Add support for CSID hardware
+ version Titan 170
+To:     Robert Foss <robert.foss@linaro.org>, agross@kernel.org,
+        bjorn.andersson@linaro.org, todor.too@gmail.com,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        angelogioacchino.delregno@somainline.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Rob Herring <robh@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
+        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Marek <jonathan@marek.ca>
+References: <20210304120326.153966-1-robert.foss@linaro.org>
+ <20210304120326.153966-11-robert.foss@linaro.org>
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+Message-ID: <e1762a19-2f00-bb6d-d48d-ba839334afb2@linaro.org>
+Date:   Tue, 9 Mar 2021 16:54:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210304120326.153966-11-robert.foss@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfG7Phchu7PQrf/F4OvsqnVImam+WRwipeRDuIS9kK7h+g3+4flNluRNhiZDgEatwd80zTzLwN/gb/V1feQH2GYM9WWVWHsS0hKYiTqWBND0y7POLHMR0
- 49o1YrCfi856suqGxXkEnMpe0FL/1Tkl0pqgzrCP9g+UMwUXl6QDkBWfrTxwOkrftgG9VpPalboz4Ad7SWlBghFznppKD+bIlsQBkcVTapPbipK3PS5JpXbJ
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following kernel-doc warnings:
+Hi Robert,
 
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:109: warning: cannot understand function prototype: 'struct dvb_usb_driver_info '
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:126: warning: cannot understand function prototype: 'struct dvb_usb_rc '
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:143: warning: cannot understand function prototype: 'struct usb_data_stream_properties '
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:170: warning: expecting prototype for properties of dvb usb device adapter(). Prototype was for
-MAX_NO_OF_FE_PER_ADAP() instead
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:221: error: Cannot parse struct or union!
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:277: warning: expecting prototype for generic object of an usb stream(). Prototype was for
-MAX_NO_URBS_FOR_DATA_STREAM() instead
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:319: warning: cannot understand function prototype: 'struct dvb_usb_adapter '
-drivers/media/usb/dvb-usb-v2/dvb_usb.h:363: warning: cannot understand function prototype: 'struct dvb_usb_device '
-drivers/media/usb/dvb-usb/dvb-usb.h:104: warning: cannot understand function prototype: 'struct usb_data_stream_properties '
-drivers/media/usb/dvb-usb/dvb-usb.h:163: warning: expecting prototype for struct dvb_usb_adapter_properties. Prototype was for struct
-dvb_usb_adapter_fe_properties instead
-drivers/media/usb/dvb-usb/dvb-usb.h:205: warning: cannot understand function prototype: 'struct dvb_rc '
-drivers/media/usb/dvb-usb/dvb-usb.h:227: warning: Enum value 'DVB_RC_LEGACY' not described in enum 'dvb_usb_mode'
-drivers/media/usb/dvb-usb/dvb-usb.h:227: warning: Enum value 'DVB_RC_CORE' not described in enum 'dvb_usb_mode'
-drivers/media/usb/dvb-usb/dvb-usb.h:271: error: Cannot parse struct or union!
-drivers/media/usb/dvb-usb/dvb-usb.h:325: error: Cannot parse struct or union!
-drivers/media/usb/dvb-usb/dvb-usb.h:385: warning: expecting prototype for struct dvb_usb_adapter. Prototype was for struct
-dvb_usb_fe_adapter instead
-drivers/media/usb/dvb-usb/dvb-usb.h:476: warning: Function parameter or member 'num_adapters_initialized' not described in 'dvb_usb_device'
-drivers/media/usb/dvb-usb/dvb-usb.h:476: warning: Function parameter or member 'adapter' not described in 'dvb_usb_device'
-drivers/media/usb/dvb-usb/dvb-usb.h:476: warning: Function parameter or member 'rc_phys' not described in 'dvb_usb_device'
-drivers/media/usb/em28xx/em28xx.h:377: warning: cannot understand function prototype: 'enum em28xx_amux '
+The testgen_pattern in this version are in the right direction, but
+the test patterns aren't working properly in v6:
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Sean, please check the dvb changes: in quite a few places I had to guess
-what the meaning of a field was.
----
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb.h b/drivers/media/usb/dvb-usb-v2/dvb_usb.h
-index 52bcc2d2efe5..288c15a7d72b 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb.h
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb.h
-@@ -100,7 +100,8 @@ struct dvb_usb_device;
- struct dvb_usb_adapter;
+On db410c:
+==========
+-----8<-----
+$ v4l2-ctl -L -d /dev/v4l-subdev2
 
- /**
-- * structure for carrying all needed data from the device driver to the general
-+ * struct dvb_usb_driver_info - structure for carrying all needed data from the
-+ *	device driver to the general
-  * dvb usb routines
-  * @name: device name
-  * @rc_map: name of rc codes table
-@@ -113,7 +114,7 @@ struct dvb_usb_driver_info {
- };
+Image Processing Controls
 
- /**
-- * structure for remote controller configuration
-+ * struct dvb_usb_rc - structure for remote controller configuration
-  * @map_name: name of rc codes table
-  * @allowed_protos: protocol(s) supported by the driver
-  * @change_protocol: callback to change protocol
-@@ -135,10 +136,11 @@ struct dvb_usb_rc {
- };
+                    test_pattern 0x009f0903 (menu)   : min=0 max=7 default=0 value=1
+                 0: Disabled
+                 1: Incrementing
+                 2: Alternating 0x55/0xAA
+                 3: All Zeros 0x00
+                 4: All Ones 0xFF
+                 5: Pseudo-random Data
+                 6: User Specified
+                 7: Complex pattern
+$
+-----8<-----
+- "max=7" is not right; it should be "max=6", and "7: Complex pattern" should not
+   be listed for this SOC.
 
- /**
-- * usb streaming configuration for adapter
-+ * struct usb_data_stream_properties - usb streaming configuration for adapter
-  * @type: urb type
-  * @count: count of used urbs
-  * @endpoint: stream usb endpoint number
-+ * @u: union for @bulk and @isoc
-  */
- struct usb_data_stream_properties {
- #define USB_BULK  1
-@@ -160,15 +162,15 @@ struct usb_data_stream_properties {
- };
+On db845c:
+==========
+-----8<-----
+$ v4l2-ctl -L -d /dev/v4l-subdev4
 
- /**
-- * properties of dvb usb device adapter
-+ * struct dvb_usb_adapter_properties - properties of dvb usb device adapter
-  * @caps: adapter capabilities
-  * @pid_filter_count: pid count of adapter pid-filter
-  * @pid_filter_ctrl: called to enable/disable pid-filter
-  * @pid_filter: called to set/unset pid for filtering
-  * @stream: adapter usb stream configuration
-  */
--#define MAX_NO_OF_FE_PER_ADAP 3
- struct dvb_usb_adapter_properties {
-+#define MAX_NO_OF_FE_PER_ADAP 3
- #define DVB_USB_ADAP_HAS_PID_FILTER               0x01
- #define DVB_USB_ADAP_PID_FILTER_CAN_BE_TURNED_OFF 0x02
- #define DVB_USB_ADAP_NEED_PID_FILTERING           0x04
-@@ -208,6 +210,7 @@ struct dvb_usb_adapter_properties {
-  * @frontend_attach: called to attach the possible frontends
-  * @frontend_detach: called to detach the possible frontends
-  * @tuner_attach: called to attach the possible tuners
-+ * @tuner_detach: called to detach the possible tuners
-  * @frontend_ctrl: called to power on/off active frontend
-  * @streaming_ctrl: called to start/stop the usb streaming of adapter
-  * @init: called after adapters are created in order to finalize device
-@@ -218,8 +221,8 @@ struct dvb_usb_adapter_properties {
-  *  of the adapter just before streaming is started. input stream is transport
-  *  stream from the demodulator and output stream is usb stream to host.
-  */
--#define MAX_NO_OF_ADAPTER_PER_DEVICE 2
- struct dvb_usb_device_properties {
-+#define MAX_NO_OF_ADAPTER_PER_DEVICE 2
- 	const char *driver_name;
- 	struct module *owner;
- 	short *adapter_nr;
-@@ -265,7 +268,12 @@ struct dvb_usb_device_properties {
- };
+Image Processing Controls
 
- /**
-- * generic object of an usb stream
-+ * struct usb_data_stream - generic object of an usb stream
-+ * @udev: USB device
-+ * @props: properties
-+ * @state: state of the data stream
-+ * @complete: complete callback
-+ * @urb_list: list of URBs
-  * @buf_num: number of buffer allocated
-  * @buf_size: size of each buffer in buf_list
-  * @buf_list: array containing all allocate buffers for streaming
-@@ -273,9 +281,10 @@ struct dvb_usb_device_properties {
-  *
-  * @urbs_initialized: number of URBs initialized
-  * @urbs_submitted: number of URBs submitted
-+ * @user_priv: private pointer
-  */
--#define MAX_NO_URBS_FOR_DATA_STREAM 10
- struct usb_data_stream {
-+#define MAX_NO_URBS_FOR_DATA_STREAM 10
- 	struct usb_device *udev;
- 	struct usb_data_stream_properties props;
+                    test_pattern 0x009f0903 (menu)   : min=0 max=10 default=0 value=0
+                 0: Disabled
+                 1: Incrementing
+                 2: Alternating 0x55/0xAA
+                 3: All Zeros 0x00
+                 4: All Ones 0xFF
+                 5: Pseudo-random Data
+                 6: User Specified
+                 7: Complex pattern
+                 8: Color box
+                 9: Color bars
 
-@@ -298,7 +307,7 @@ struct usb_data_stream {
- };
+Message from syslogd@linaro-gnome at Mar  8 21:09:26 ...
+  kernel:[ 3936.604286] Internal error: Oops: 96000004 [#1] PREEMPT SMP
 
- /**
-- * dvb adapter object on dvb usb device
-+ * struct dvb_usb_adapter - dvb adapter object on dvb usb device
-  * @props: pointer to adapter properties
-  * @stream: adapter the usb data stream
-  * @id: index of this adapter (starting with 0)
-@@ -307,11 +316,12 @@ struct usb_data_stream {
-  * @pid_filtering: is hardware pid_filtering used or not
-  * @feed_count: current feed count
-  * @max_feed_count: maimum feed count device can handle
-+ * @active_fe: active frontend
-+ * @state_bits: status bits
-  * @dvb_adap: adapter dvb_adapter
-  * @dmxdev: adapter dmxdev
-  * @demux: adapter software demuxer
-  * @dvb_net: adapter dvb_net interfaces
-- * @sync_mutex: mutex used to sync control and streaming of the adapter
-  * @fe: adapter frontends
-  * @fe_init: rerouted frontend-init function
-  * @fe_sleep: rerouted frontend-sleep function
-@@ -343,7 +353,7 @@ struct dvb_usb_adapter {
- };
+Message from syslogd@linaro-gnome at Mar  8 21:09:26 ...
+  kernel:[ 3936.858085] Code: a8c27bfd d50323bf d65f03c0 b4ffff61 (39400020)
+Segmentation fault
+$
+-----8<-----
+- "max=10" is too much; it goes beyond the array of test pattern names and segfaults.
 
- /**
-- * dvb usb device object
-+ * struct dvb_usb_device - dvb usb device object
-  * @props: device properties
-  * @name: device name
-  * @rc_map: name of rc codes table
-@@ -355,7 +365,9 @@ struct dvb_usb_adapter {
-  * @usb_mutex: mutex for usb control messages
-  * @i2c_mutex: mutex for i2c-transfers
-  * @i2c_adap: device's i2c-adapter
-+ * @adapter: adapters
-  * @rc_dev: rc device for the remote control
-+ * @rc_phys: rc path
-  * @rc_query_work: work for polling remote
-  * @priv: private data of the actual driver (allocate by dvb usb, size defined
-  *  in size_of_priv of dvb_usb_properties).
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb.h b/drivers/media/usb/dvb-usb/dvb-usb.h
-index 741be0e69447..15f3cd733c89 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb.h
-+++ b/drivers/media/usb/dvb-usb/dvb-usb.h
-@@ -95,7 +95,7 @@ struct dvb_usb_device;
- struct dvb_usb_adapter;
- struct usb_data_stream;
 
--/**
-+/*
-  * Properties of USB streaming - TODO this structure should be somewhere else
-  * describes the kind of USB transfer used for data-streaming.
-  *  (BULK or ISOC)
-@@ -120,7 +120,7 @@ struct usb_data_stream_properties {
- };
+The rest looks good for me.
 
- /**
-- * struct dvb_usb_adapter_properties - properties of a dvb-usb-adapter.
-+ * struct dvb_usb_adapter_fe_properties - properties of a dvb-usb-adapter.
-  *    A DVB-USB-Adapter is basically a dvb_adapter which is present on a USB-device.
-  * @caps: capabilities of the DVB USB device.
-  * @pid_filter_count: number of PID filter position in the optional hardware
-@@ -139,6 +139,7 @@ struct usb_data_stream_properties {
-  * @tuner_attach: called to attach the correct tuner and to fill pll_addr,
-  *  pll_desc and pll_init_buf of struct dvb_usb_device).
-  * @stream: configuration of the USB streaming
-+ * @size_of_priv: size of the priv memory in struct dvb_usb_adapter
-  */
- struct dvb_usb_adapter_fe_properties {
- #define DVB_USB_ADAP_HAS_PID_FILTER               0x01
-@@ -191,15 +192,17 @@ struct dvb_rc_legacy {
- };
 
- /**
-- * struct dvb_rc properties of remote controller, using rc-core
-+ * struct dvb_rc - properties of remote controller, using rc-core
-  * @rc_codes: name of rc codes table
-  * @protocol: type of protocol(s) currently used by the driver
-  * @allowed_protos: protocol(s) supported by the driver
-  * @driver_type: Used to point if a device supports raw mode
-  * @change_protocol: callback to change protocol
-+ * @module_name: module name
-  * @rc_query: called to query an event event.
-  * @rc_interval: time in ms between two queries.
-  * @bulk_mode: device supports bulk mode for RC (disable polling mode)
-+ * @scancode_mask: scancode mask
-  */
- struct dvb_rc {
- 	char *rc_codes;
-@@ -219,6 +222,9 @@ struct dvb_rc {
-  *		       based on rc-core
-  * This is initialized/used only inside dvb-usb-remote.c.
-  * It shouldn't be set by the drivers.
-+ *
-+ * @DVB_RC_LEGACY: legacy driver
-+ * @DVB_RC_CORE: rc-core driver
-  */
- enum dvb_usb_mode {
- 	DVB_RC_LEGACY,
-@@ -227,6 +233,7 @@ enum dvb_usb_mode {
+Thanks,
+Andrey
 
- /**
-  * struct dvb_usb_device_properties - properties of a dvb-usb-device
-+ * @caps: capabilities
-  * @usb_ctrl: which USB device-side controller is in use. Needed for firmware
-  *  download.
-  * @firmware: name of the firmware file.
-@@ -243,6 +250,8 @@ enum dvb_usb_mode {
-  * @priv_destroy: just like priv_init, only called before deallocating
-  * the memory pointed by private field of struct dvb_usb_device.
-  *
-+ * @num_adapters: the number of adapters in @adapters
-+ * @adapter: the adapters
-  * @power_ctrl: called to enable/disable power of the device.
-  * @read_mac_address: called to read the MAC address of the device.
-  * @identify_state: called to determine the state (cold or warm), when it
-@@ -267,9 +276,8 @@ enum dvb_usb_mode {
-  * @devices: array of struct dvb_usb_device_description compatibles with these
-  *  properties.
-  */
--#define MAX_NO_OF_ADAPTER_PER_DEVICE 2
- struct dvb_usb_device_properties {
--
-+#define MAX_NO_OF_ADAPTER_PER_DEVICE 2
- #define DVB_USB_IS_AN_I2C_ADAPTER            0x01
- 	int caps;
-
-@@ -313,6 +321,11 @@ struct dvb_usb_device_properties {
-
- /**
-  * struct usb_data_stream - generic object of an USB stream
-+ * @udev: the USB device
-+ * @props: data stream properties
-+ * @state: state of the stream
-+ * @complete: complete callback
-+ * @urb_list: list of URBs
-  * @buf_num: number of buffer allocated.
-  * @buf_size: size of each buffer in buf_list.
-  * @buf_list: array containing all allocate buffers for streaming.
-@@ -320,9 +333,10 @@ struct dvb_usb_device_properties {
-  *
-  * @urbs_initialized: number of URBs initialized.
-  * @urbs_submitted: number of URBs submitted.
-+ * @user_priv: for private use.
-  */
--#define MAX_NO_URBS_FOR_DATA_STREAM 10
- struct usb_data_stream {
-+#define MAX_NO_URBS_FOR_DATA_STREAM 10
- 	struct usb_device                 *udev;
- 	struct usb_data_stream_properties  props;
-
-@@ -345,29 +359,15 @@ struct usb_data_stream {
- };
-
- /**
-- * struct dvb_usb_adapter - a DVB adapter on a USB device
-- * @id: index of this adapter (starting with 0).
-- *
-- * @feedcount: number of requested feeds (used for streaming-activation)
-- * @pid_filtering: is hardware pid_filtering used or not.
-- *
-- * @pll_addr: I2C address of the tuner for programming
-- * @pll_init: array containing the initialization buffer
-- * @pll_desc: pointer to the appropriate struct dvb_pll_desc
-- * @tuner_pass_ctrl: called to (de)activate tuner passthru of the demod or the board
-- *
-- * @dvb_adap: device's dvb_adapter.
-- * @dmxdev: device's dmxdev.
-- * @demux: device's software demuxer.
-- * @dvb_net: device's dvb_net interfaces.
-- * @dvb_frontend: device's frontend.
-- * @max_feed_count: how many feeds can be handled simultaneously by this
-- *  device
-- *
-+ * struct dvb_usb_fe_adapter - a DVB adapter on a USB device
-+ * @fe: frontend
-  * @fe_init:  rerouted frontend-init (wakeup) function.
-  * @fe_sleep: rerouted frontend-sleep function.
-- *
-  * @stream: the usb data stream.
-+ * @pid_filtering: is hardware pid_filtering used or not.
-+ * @max_feed_count: how many feeds can be handled simultaneously by this
-+ *  device
-+ * @priv: private pointer
-  */
- struct dvb_usb_fe_adapter {
- 	struct dvb_frontend *fe;
-@@ -383,6 +383,25 @@ struct dvb_usb_fe_adapter {
- 	void *priv;
- };
-
-+/**
-+ * struct dvb_usb_adapter - a DVB adapter on a USB device
-+ * @dev: DVB USB device pointer
-+ * @props: properties
-+ * @state: status
-+ * @id: index of this adapter (starting with 0).
-+ *
-+ * @feedcount: number of requested feeds (used for streaming-activation)
-+ *
-+ * @dvb_adap: device's dvb_adapter.
-+ * @dmxdev: device's dmxdev.
-+ * @demux: device's software demuxer.
-+ * @dvb_net: device's dvb_net interfaces.
-+ *
-+ * @fe_adap: frontend adapters
-+ * @active_fe: active frontend
-+ * @num_frontends_initialized: number of initialized frontends
-+ * @priv: private pointer
-+ */
- struct dvb_usb_adapter {
- 	struct dvb_usb_device *dev;
- 	struct dvb_usb_adapter_properties props;
-@@ -427,8 +446,12 @@ struct dvb_usb_adapter {
-  *
-  * @i2c_adap: device's i2c_adapter if it uses I2CoverUSB
-  *
-+ * @num_adapters_initialized: number of initialized adapters
-+ * @adapter: adapters
-+ *
-  * @rc_dev: rc device for the remote control (rc-core mode)
-  * @input_dev: input device for the remote control (legacy mode)
-+ * @rc_phys: rc device path
-  * @rc_query_work: struct work_struct frequent rc queries
-  * @last_event: last triggered event
-  * @last_state: last state (no, pressed, repeat)
-diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
-index 6648e11f1271..90dff693d7c5 100644
---- a/drivers/media/usb/em28xx/em28xx.h
-+++ b/drivers/media/usb/em28xx/em28xx.h
-@@ -335,7 +335,7 @@ enum em28xx_usb_audio_type {
- };
-
- /**
-- * em28xx_amux - describes the type of audio input used by em28xx
-+ * enum em28xx_amux - describes the type of audio input used by em28xx
-  *
-  * @EM28XX_AMUX_UNUSED:
-  *	Used only on em28xx dev->map field, in order to mark an entry
+On 04.03.2021 15:03, Robert Foss wrote:
+> Add register definitions for version 170 of the Titan architecture
+> and implement support for the CSID subdevice.
+> 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> Reviewed-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+> ---
+> 
+> Changes since v5:
+>   - Andrey: Fix test pattern selection logic
+>   - Andrey: Add r-b
+>   - Move Titan 170 specific test modes to this commit
+> 
+> 
+>   drivers/media/platform/qcom/camss/Makefile    |   1 +
+>   .../platform/qcom/camss/camss-csid-170.c      | 601 ++++++++++++++++++
+>   .../media/platform/qcom/camss/camss-csid.c    |   4 +
+>   .../media/platform/qcom/camss/camss-csid.h    |   9 +
+>   .../media/platform/qcom/camss/camss-vfe-170.c |   1 -
+>   drivers/media/platform/qcom/camss/camss.c     |  62 ++
+>   6 files changed, 677 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-170.c
+> 
+> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
+> index cff388b653ba..0752c46ea37b 100644
+> --- a/drivers/media/platform/qcom/camss/Makefile
+> +++ b/drivers/media/platform/qcom/camss/Makefile
+> @@ -6,6 +6,7 @@ qcom-camss-objs += \
+>   		camss-csid.o \
+>   		camss-csid-4-1.o \
+>   		camss-csid-4-7.o \
+> +		camss-csid-170.o \
+>   		camss-csiphy-2ph-1-0.o \
+>   		camss-csiphy-3ph-1-0.o \
+>   		camss-csiphy.o \
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid-170.c b/drivers/media/platform/qcom/camss/camss-csid-170.c
+> new file mode 100644
+> index 000000000000..ee16efecd466
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/camss/camss-csid-170.c
+> @@ -0,0 +1,601 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * camss-csid-4-7.c
+> + *
+> + * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module
+> + *
+> + * Copyright (C) 2020 Linaro Ltd.
+> + */
+> +#include <linux/completion.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/of.h>
+> +
+> +#include "camss-csid.h"
+> +#include "camss-csid-gen2.h"
+> +#include "camss.h"
+> +
+> +/* The CSID 2 IP-block is different from the others,
+> + * and is of a bare-bones Lite version, with no PIX
+> + * interface support. As a result of that it has an
+> + * alternate register layout.
+> + */
+> +#define IS_LITE		(csid->id == 2 ? 1 : 0)
+> +
+> +#define CSID_HW_VERSION		0x0
+> +#define		HW_VERSION_STEPPING	0
+> +#define		HW_VERSION_REVISION	16
+> +#define		HW_VERSION_GENERATION	28
+> +
+> +#define CSID_RST_STROBES	0x10
+> +#define		RST_STROBES	0
+> +
+> +#define CSID_CSI2_RX_IRQ_STATUS	0x20
+> +#define	CSID_CSI2_RX_IRQ_MASK	0x24
+> +#define CSID_CSI2_RX_IRQ_CLEAR	0x28
+> +
+> +#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)		((IS_LITE ? 0x30 : 0x40) \
+> +						 + 0x10 * (rdi))
+> +#define CSID_CSI2_RDIN_IRQ_MASK(rdi)		((IS_LITE ? 0x34 : 0x44) \
+> +						 + 0x10 * (rdi))
+> +#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)		((IS_LITE ? 0x38 : 0x48) \
+> +						 + 0x10 * (rdi))
+> +#define CSID_CSI2_RDIN_IRQ_SET(rdi)		((IS_LITE ? 0x3C : 0x4C) \
+> +						 + 0x10 * (rdi))
+> +
+> +#define CSID_TOP_IRQ_STATUS	0x70
+> +#define		TOP_IRQ_STATUS_RESET_DONE 0
+> +#define CSID_TOP_IRQ_MASK	0x74
+> +#define CSID_TOP_IRQ_CLEAR	0x78
+> +#define CSID_TOP_IRQ_SET	0x7C
+> +#define CSID_IRQ_CMD		0x80
+> +#define		IRQ_CMD_CLEAR	0
+> +#define		IRQ_CMD_SET	4
+> +
+> +#define CSID_CSI2_RX_CFG0	0x100
+> +#define		CSI2_RX_CFG0_NUM_ACTIVE_LANES	0
+> +#define		CSI2_RX_CFG0_DL0_INPUT_SEL	4
+> +#define		CSI2_RX_CFG0_DL1_INPUT_SEL	8
+> +#define		CSI2_RX_CFG0_DL2_INPUT_SEL	12
+> +#define		CSI2_RX_CFG0_DL3_INPUT_SEL	16
+> +#define		CSI2_RX_CFG0_PHY_NUM_SEL	20
+> +#define		CSI2_RX_CFG0_PHY_TYPE_SEL	24
+> +
+> +#define CSID_CSI2_RX_CFG1	0x104
+> +#define		CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN		0
+> +#define		CSI2_RX_CFG1_DE_SCRAMBLE_EN			1
+> +#define		CSI2_RX_CFG1_VC_MODE				2
+> +#define		CSI2_RX_CFG1_COMPLETE_STREAM_EN			4
+> +#define		CSI2_RX_CFG1_COMPLETE_STREAM_FRAME_TIMING	5
+> +#define		CSI2_RX_CFG1_MISR_EN				6
+> +#define		CSI2_RX_CFG1_CGC_MODE				7
+> +#define			CGC_MODE_DYNAMIC_GATING		0
+> +#define			CGC_MODE_ALWAYS_ON		1
+> +
+> +#define CSID_RDI_CFG0(rdi)			((IS_LITE ? 0x200 : 0x300) \
+> +						 + 0x100 * (rdi))
+> +#define		RDI_CFG0_BYTE_CNTR_EN		0
+> +#define		RDI_CFG0_FORMAT_MEASURE_EN	1
+> +#define		RDI_CFG0_TIMESTAMP_EN		2
+> +#define		RDI_CFG0_DROP_H_EN		3
+> +#define		RDI_CFG0_DROP_V_EN		4
+> +#define		RDI_CFG0_CROP_H_EN		5
+> +#define		RDI_CFG0_CROP_V_EN		6
+> +#define		RDI_CFG0_MISR_EN		7
+> +#define		RDI_CFG0_CGC_MODE		8
+> +#define			CGC_MODE_DYNAMIC	0
+> +#define			CGC_MODE_ALWAYS_ON	1
+> +#define		RDI_CFG0_PLAIN_ALIGNMENT	9
+> +#define			PLAIN_ALIGNMENT_LSB	0
+> +#define			PLAIN_ALIGNMENT_MSB	1
+> +#define		RDI_CFG0_PLAIN_FORMAT		10
+> +#define		RDI_CFG0_DECODE_FORMAT		12
+> +#define		RDI_CFG0_DATA_TYPE		16
+> +#define		RDI_CFG0_VIRTUAL_CHANNEL	22
+> +#define		RDI_CFG0_DT_ID			27
+> +#define		RDI_CFG0_EARLY_EOF_EN		29
+> +#define		RDI_CFG0_PACKING_FORMAT		30
+> +#define		RDI_CFG0_ENABLE			31
+> +
+> +#define CSID_RDI_CFG1(rdi)			((IS_LITE ? 0x204 : 0x304)\
+> +						+ 0x100 * (rdi))
+> +#define		RDI_CFG1_TIMESTAMP_STB_SEL	0
+> +
+> +#define CSID_RDI_CTRL(rdi)			((IS_LITE ? 0x208 : 0x308)\
+> +						+ 0x100 * (rdi))
+> +#define		RDI_CTRL_HALT_CMD		0
+> +#define			ALT_CMD_RESUME_AT_FRAME_BOUNDARY	1
+> +#define		RDI_CTRL_HALT_MODE		2
+> +
+> +#define CSID_RDI_FRM_DROP_PATTERN(rdi)			((IS_LITE ? 0x20C : 0x30C)\
+> +							+ 0x100 * (rdi))
+> +#define CSID_RDI_FRM_DROP_PERIOD(rdi)			((IS_LITE ? 0x210 : 0x310)\
+> +							+ 0x100 * (rdi))
+> +#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)		((IS_LITE ? 0x214 : 0x314)\
+> +							+ 0x100 * (rdi))
+> +#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)		((IS_LITE ? 0x218 : 0x318)\
+> +							+ 0x100 * (rdi))
+> +#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)		((IS_LITE ? 0x224 : 0x324)\
+> +							+ 0x100 * (rdi))
+> +#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)		((IS_LITE ? 0x228 : 0x328)\
+> +							+ 0x100 * (rdi))
+> +#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)		((IS_LITE ? 0x22C : 0x32C)\
+> +							+ 0x100 * (rdi))
+> +#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)		((IS_LITE ? 0x230 : 0x330)\
+> +							+ 0x100 * (rdi))
+> +
+> +#define CSID_TPG_CTRL		0x600
+> +#define		TPG_CTRL_TEST_EN		0
+> +#define		TPG_CTRL_FS_PKT_EN		1
+> +#define		TPG_CTRL_FE_PKT_EN		2
+> +#define		TPG_CTRL_NUM_ACTIVE_LANES	4
+> +#define		TPG_CTRL_CYCLES_BETWEEN_PKTS	8
+> +#define		TPG_CTRL_NUM_TRAIL_BYTES	20
+> +
+> +#define CSID_TPG_VC_CFG0	0x604
+> +#define		TPG_VC_CFG0_VC_NUM			0
+> +#define		TPG_VC_CFG0_NUM_ACTIVE_SLOTS		8
+> +#define			NUM_ACTIVE_SLOTS_0_ENABLED	0
+> +#define			NUM_ACTIVE_SLOTS_0_1_ENABLED	1
+> +#define			NUM_ACTIVE_SLOTS_0_1_2_ENABLED	2
+> +#define			NUM_ACTIVE_SLOTS_0_1_3_ENABLED	3
+> +#define		TPG_VC_CFG0_LINE_INTERLEAVING_MODE	10
+> +#define			INTELEAVING_MODE_INTERLEAVED	0
+> +#define			INTELEAVING_MODE_ONE_SHOT	1
+> +#define		TPG_VC_CFG0_NUM_FRAMES			16
+> +
+> +#define CSID_TPG_VC_CFG1	0x608
+> +#define		TPG_VC_CFG1_H_BLANKING_COUNT		0
+> +#define		TPG_VC_CFG1_V_BLANKING_COUNT		12
+> +#define		TPG_VC_CFG1_V_BLANK_FRAME_WIDTH_SEL	24
+> +
+> +#define CSID_TPG_LFSR_SEED	0x60C
+> +
+> +#define CSID_TPG_DT_n_CFG_0(n)	(0x610 + (n) * 0xC)
+> +#define		TPG_DT_n_CFG_0_FRAME_HEIGHT	0
+> +#define		TPG_DT_n_CFG_0_FRAME_WIDTH	16
+> +
+> +#define CSID_TPG_DT_n_CFG_1(n)	(0x614 + (n) * 0xC)
+> +#define		TPG_DT_n_CFG_1_DATA_TYPE	0
+> +#define		TPG_DT_n_CFG_1_ECC_XOR_MASK	8
+> +#define		TPG_DT_n_CFG_1_CRC_XOR_MASK	16
+> +
+> +#define CSID_TPG_DT_n_CFG_2(n)	(0x618 + (n) * 0xC)
+> +#define		TPG_DT_n_CFG_2_PAYLOAD_MODE		0
+> +#define		TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD	4
+> +#define		TPG_DT_n_CFG_2_ENCODE_FORMAT		16
+> +
+> +#define CSID_TPG_COLOR_BARS_CFG	0x640
+> +#define		TPG_COLOR_BARS_CFG_UNICOLOR_BAR_EN	0
+> +#define		TPG_COLOR_BARS_CFG_UNICOLOR_BAR_SEL	4
+> +#define		TPG_COLOR_BARS_CFG_SPLIT_EN		5
+> +#define		TPG_COLOR_BARS_CFG_ROTATE_PERIOD	8
+> +
+> +#define CSID_TPG_COLOR_BOX_CFG	0x644
+> +#define		TPG_COLOR_BOX_CFG_MODE		0
+> +#define		TPG_COLOR_BOX_PATTERN_SEL	2
+> +
+> +
+> +static const struct csid_format csid_formats[] = {
+> +	{
+> +		MEDIA_BUS_FMT_UYVY8_2X8,
+> +		DATA_TYPE_YUV422_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		2,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_VYUY8_2X8,
+> +		DATA_TYPE_YUV422_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		2,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_YUYV8_2X8,
+> +		DATA_TYPE_YUV422_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		2,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_YVYU8_2X8,
+> +		DATA_TYPE_YUV422_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		2,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		DATA_TYPE_RAW_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		DATA_TYPE_RAW_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		DATA_TYPE_RAW_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		DATA_TYPE_RAW_8BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+> +		8,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SBGGR10_1X10,
+> +		DATA_TYPE_RAW_10BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+> +		10,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGBRG10_1X10,
+> +		DATA_TYPE_RAW_10BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+> +		10,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGRBG10_1X10,
+> +		DATA_TYPE_RAW_10BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+> +		10,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SRGGB10_1X10,
+> +		DATA_TYPE_RAW_10BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+> +		10,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_Y10_1X10,
+> +		DATA_TYPE_RAW_10BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+> +		10,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SBGGR12_1X12,
+> +		DATA_TYPE_RAW_12BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+> +		12,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGBRG12_1X12,
+> +		DATA_TYPE_RAW_12BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+> +		12,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGRBG12_1X12,
+> +		DATA_TYPE_RAW_12BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+> +		12,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SRGGB12_1X12,
+> +		DATA_TYPE_RAW_12BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+> +		12,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SBGGR14_1X14,
+> +		DATA_TYPE_RAW_14BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+> +		14,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGBRG14_1X14,
+> +		DATA_TYPE_RAW_14BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+> +		14,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SGRBG14_1X14,
+> +		DATA_TYPE_RAW_14BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+> +		14,
+> +		1,
+> +	},
+> +	{
+> +		MEDIA_BUS_FMT_SRGGB14_1X14,
+> +		DATA_TYPE_RAW_14BIT,
+> +		DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+> +		14,
+> +		1,
+> +	},
+> +};
+> +
+> +static void csid_configure_stream(struct csid_device *csid, u8 enable)
+> +{
+> +	struct csid_testgen_config *tg = &csid->testgen;
+> +	u32 val;
+> +	u32 phy_sel = 0;
+> +	u8 lane_cnt = csid->phy.lane_cnt;
+> +	struct v4l2_mbus_framefmt *input_format =
+> +			&csid->fmt[MSM_CSID_PAD_SRC];
+> +	const struct csid_format *format = csid_get_fmt_entry(
+> +			csid->formats, csid->nformats, input_format->code);
+> +	if (!lane_cnt)
+> +		lane_cnt = 4;
+> +
+> +	if (!tg->enabled)
+> +		phy_sel = csid->phy.csiphy_id;
+> +
+> +	if (enable) {
+> +		u8 vc = 0; /* Virtual Channel 0 */
+> +		u8 dt_id = vc * 4;
+> +
+> +		if (tg->enabled) {
+> +			/* Config Test Generator */
+> +			vc = 0xa;
+> +
+> +			/* configure one DT, infinite frames */
+> +			val = vc << TPG_VC_CFG0_VC_NUM;
+> +			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
+> +			val |= 0 << TPG_VC_CFG0_NUM_FRAMES;
+> +			writel_relaxed(val, csid->base + CSID_TPG_VC_CFG0);
+> +
+> +			val = 0x740 << TPG_VC_CFG1_H_BLANKING_COUNT;
+> +			val |= 0x3ff << TPG_VC_CFG1_V_BLANKING_COUNT;
+> +			writel_relaxed(val, csid->base + CSID_TPG_VC_CFG1);
+> +
+> +			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
+> +
+> +			val = input_format->height & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
+> +			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
+> +			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
+> +
+> +			val = DATA_TYPE_RAW_10BIT << TPG_DT_n_CFG_1_DATA_TYPE;
+> +			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
+> +
+> +			val = tg->mode << TPG_DT_n_CFG_2_PAYLOAD_MODE;
+> +			val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
+> +			val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
+> +			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
+> +
+> +			writel_relaxed(0, csid->base + CSID_TPG_COLOR_BARS_CFG);
+> +
+> +			writel_relaxed(0, csid->base + CSID_TPG_COLOR_BOX_CFG);
+> +		}
+> +
+> +		val = 1 << RDI_CFG0_BYTE_CNTR_EN;
+> +		val |= 1 << RDI_CFG0_FORMAT_MEASURE_EN;
+> +		val |= 1 << RDI_CFG0_TIMESTAMP_EN;
+> +		val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
+> +		val |= DATA_TYPE_RAW_10BIT << RDI_CFG0_DATA_TYPE;
+> +		val |= vc << RDI_CFG0_VIRTUAL_CHANNEL;
+> +		val |= dt_id << RDI_CFG0_DT_ID;
+> +		writel_relaxed(val, csid->base + CSID_RDI_CFG0(0));
+> +
+> +		/* CSID_TIMESTAMP_STB_POST_IRQ */
+> +		val = 2 << RDI_CFG1_TIMESTAMP_STB_SEL;
+> +		writel_relaxed(val, csid->base + CSID_RDI_CFG1(0));
+> +
+> +		val = 1;
+> +		writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PERIOD(0));
+> +
+> +		val = 0;
+> +		writel_relaxed(0, csid->base + CSID_RDI_FRM_DROP_PATTERN(0));
+> +
+> +		val = 1;
+> +		writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(0));
+> +
+> +		val = 0;
+> +		writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(0));
+> +
+> +		val = 1;
+> +		writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PERIOD(0));
+> +
+> +		val = 0;
+> +		writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PATTERN(0));
+> +
+> +		val = 1;
+> +		writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PERIOD(0));
+> +
+> +		val = 0;
+> +		writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PATTERN(0));
+> +
+> +		val = 0;
+> +		writel_relaxed(val, csid->base + CSID_RDI_CTRL(0));
+> +
+> +		val = readl_relaxed(csid->base + CSID_RDI_CFG0(0));
+> +		val |=  1 << RDI_CFG0_ENABLE;
+> +		writel_relaxed(val, csid->base + CSID_RDI_CFG0(0));
+> +	}
+> +
+> +	if (tg->enabled) {
+> +		val = enable << TPG_CTRL_TEST_EN;
+> +		val |= 1 << TPG_CTRL_FS_PKT_EN;
+> +		val |= 1 << TPG_CTRL_FE_PKT_EN;
+> +		val |= (lane_cnt - 1) << TPG_CTRL_NUM_ACTIVE_LANES;
+> +		val |= 0x64 << TPG_CTRL_CYCLES_BETWEEN_PKTS;
+> +		val |= 0xA << TPG_CTRL_NUM_TRAIL_BYTES;
+> +		writel_relaxed(val, csid->base + CSID_TPG_CTRL);
+> +	}
+> +
+> +	val = (lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
+> +	val |= csid->phy.lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
+> +	val |= phy_sel << CSI2_RX_CFG0_PHY_NUM_SEL;
+> +	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
+> +
+> +
+> +	val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
+> +	val |= 1 << CSI2_RX_CFG1_MISR_EN;
+> +	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1); // csi2_vc_mode_shift_val ?
+> +
+> +	/* error irqs start at BIT(11) */
+> +	writel_relaxed(~0u, csid->base + CSID_CSI2_RX_IRQ_MASK);
+> +
+> +	/* RDI irq */
+> +	writel_relaxed(~0u, csid->base + CSID_TOP_IRQ_MASK);
+> +
+> +	val = 1 << RDI_CTRL_HALT_CMD;
+> +	writel_relaxed(val, csid->base + CSID_RDI_CTRL(0));
+> +}
+> +
+> +static int csid_configure_testgen_pattern(struct csid_device *csid, s32 val)
+> +{
+> +	if (val > 0 && val < csid->testgen.nmodes)
+> +		csid->testgen.mode = val;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * csid_hw_version - CSID hardware version query
+> + * @csid: CSID device
+> + *
+> + * Return HW version or error
+> + */
+> +static u32 csid_hw_version(struct csid_device *csid)
+> +{
+> +	u32 hw_version;
+> +	u32 hw_gen;
+> +	u32 hw_rev;
+> +	u32 hw_step;
+> +
+> +	hw_version = readl_relaxed(csid->base + CSID_HW_VERSION);
+> +	hw_gen = (hw_version >> HW_VERSION_GENERATION) & 0xF;
+> +	hw_rev = (hw_version >> HW_VERSION_REVISION) & 0xFFF;
+> +	hw_step = (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+> +	dev_dbg(csid->camss->dev, "CSID HW Version = %u.%u.%u\n",
+> +		hw_gen, hw_rev, hw_step);
+> +
+> +	return hw_version;
+> +}
+> +
+> +/*
+> + * csid_isr - CSID module interrupt service routine
+> + * @irq: Interrupt line
+> + * @dev: CSID device
+> + *
+> + * Return IRQ_HANDLED on success
+> + */
+> +static irqreturn_t csid_isr(int irq, void *dev)
+> +{
+> +	struct csid_device *csid = dev;
+> +	u32 val;
+> +	u8 reset_done;
+> +
+> +	val = readl_relaxed(csid->base + CSID_TOP_IRQ_STATUS);
+> +	writel_relaxed(val, csid->base + CSID_TOP_IRQ_CLEAR);
+> +	reset_done = val & BIT(TOP_IRQ_STATUS_RESET_DONE);
+> +
+> +	val = readl_relaxed(csid->base + CSID_CSI2_RX_IRQ_STATUS);
+> +	writel_relaxed(val, csid->base + CSID_CSI2_RX_IRQ_CLEAR);
+> +
+> +	val = readl_relaxed(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(0));
+> +	writel_relaxed(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(0));
+> +
+> +	val = 1 << IRQ_CMD_CLEAR;
+> +	writel_relaxed(val, csid->base + CSID_IRQ_CMD);
+> +
+> +	if (reset_done)
+> +		complete(&csid->reset_complete);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +/*
+> + * csid_reset - Trigger reset on CSID module and wait to complete
+> + * @csid: CSID device
+> + *
+> + * Return 0 on success or a negative error code otherwise
+> + */
+> +static int csid_reset(struct csid_device *csid)
+> +{
+> +	unsigned long time;
+> +	u32 val;
+> +
+> +	reinit_completion(&csid->reset_complete);
+> +
+> +	writel_relaxed(1, csid->base + CSID_TOP_IRQ_CLEAR);
+> +	writel_relaxed(1, csid->base + CSID_IRQ_CMD);
+> +	writel_relaxed(1, csid->base + CSID_TOP_IRQ_MASK);
+> +	writel_relaxed(1, csid->base + CSID_IRQ_CMD);
+> +
+> +	/* preserve registers */
+> +	val = 0x1e << RST_STROBES;
+> +	writel_relaxed(val, csid->base + CSID_RST_STROBES);
+> +
+> +	time = wait_for_completion_timeout(&csid->reset_complete,
+> +		msecs_to_jiffies(CSID_RESET_TIMEOUT_MS));
+> +	if (!time) {
+> +		dev_err(csid->camss->dev, "CSID reset timeout\n");
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
+> +			     unsigned int match_format_idx, u32 match_code)
+> +{
+> +	switch (sink_code) {
+> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> +	{
+> +		u32 src_code[] = {
+> +			MEDIA_BUS_FMT_SBGGR10_1X10,
+> +			MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
+> +		};
+> +
+> +		return csid_find_code(src_code, ARRAY_SIZE(src_code),
+> +				      match_format_idx, match_code);
+> +	}
+> +	case MEDIA_BUS_FMT_Y10_1X10:
+> +	{
+> +		u32 src_code[] = {
+> +			MEDIA_BUS_FMT_Y10_1X10,
+> +			MEDIA_BUS_FMT_Y10_2X8_PADHI_LE,
+> +		};
+> +
+> +		return csid_find_code(src_code, ARRAY_SIZE(src_code),
+> +				      match_format_idx, match_code);
+> +	}
+> +	default:
+> +		if (match_format_idx > 0)
+> +			return 0;
+> +
+> +		return sink_code;
+> +	}
+> +}
+> +
+> +static void csid_subdev_init(struct csid_device *csid)
+> +{
+> +	csid->formats = csid_formats;
+> +	csid->nformats = ARRAY_SIZE(csid_formats);
+> +	csid->testgen.modes = csid_testgen_modes;
+> +	csid->testgen.nmodes = CSID_PAYLOAD_MODE_NUM_SUPPORTED_170;
+> +}
+> +
+> +const struct csid_hw_ops csid_ops_170 = {
+> +	.configure_stream = csid_configure_stream,
+> +	.configure_testgen_pattern = csid_configure_testgen_pattern,
+> +	.hw_version = csid_hw_version,
+> +	.isr = csid_isr,
+> +	.reset = csid_reset,
+> +	.src_pad_code = csid_src_pad_code,
+> +	.subdev_init = csid_subdev_init,
+> +};
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+> index a76ad213604e..a5a94425923a 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+> @@ -124,6 +124,8 @@ static int csid_set_clock_rates(struct csid_device *csid)
+>   				dev_err(dev, "clk set rate failed: %d\n", ret);
+>   				return ret;
+>   			}
+> +		} else if (clock->nfreqs) {
+> +			clk_set_rate(clock->clk, clock->freq[0]);
+>   		}
+>   	}
+>   
+> @@ -545,6 +547,8 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
+>   	} else if (camss->version == CAMSS_8x96 ||
+>   		   camss->version == CAMSS_660) {
+>   		csid->ops = &csid_ops_4_7;
+> +	} else if (camss->version == CAMSS_845) {
+> +		csid->ops = &csid_ops_170;
+>   	} else {
+>   		return -EINVAL;
+>   	}
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
+> index 60933f436daa..892150e1f7a0 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.h
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
+> @@ -58,6 +58,10 @@ enum csid_testgen_mode {
+>   	CSID_PAYLOAD_MODE_USER_SPECIFIED = 6,
+>   	CSID_PAYLOAD_MODE_NUM_SUPPORTED_4_1 = 7,
+>   	CSID_PAYLOAD_MODE_NUM_SUPPORTED_4_7 = 7,
+> +	CSID_PAYLOAD_MODE_COMPLEX_PATTERN = 7,
+> +	CSID_PAYLOAD_MODE_COLOR_BOX = 8,
+> +	CSID_PAYLOAD_MODE_COLOR_BARS = 9,
+> +	CSID_PAYLOAD_MODE_NUM_SUPPORTED_170 = 10,
+>   };
+>   
+>   static const char * const csid_testgen_modes[] = {
+> @@ -68,6 +72,9 @@ static const char * const csid_testgen_modes[] = {
+>   	"All Ones 0xFF",
+>   	"Pseudo-random Data",
+>   	"User Specified",
+> +	"Complex pattern",
+> +	"Color box",
+> +	"Color bars",
+>   };
+>   
+>   struct csid_format {
+> @@ -213,5 +220,7 @@ void msm_csid_get_csid_id(struct media_entity *entity, u8 *id);
+>   
+>   extern const struct csid_hw_ops csid_ops_4_1;
+>   extern const struct csid_hw_ops csid_ops_4_7;
+> +extern const struct csid_hw_ops csid_ops_170;
+> +
+>   
+>   #endif /* QC_MSM_CAMSS_CSID_H */
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-170.c b/drivers/media/platform/qcom/camss/camss-vfe-170.c
+> index 9ab5964b1e99..ce1130108e01 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe-170.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-170.c
+> @@ -274,7 +274,6 @@ static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_line *line)
+>   	writel_relaxed(val, vfe->base + VFE_BUS_WM_PACKER_CFG(wm)); // XXX 1 for PLAIN8?
+>   
+>   	/* Configure stride for RDIs */
+> -	//val = pix->plane_fmt[0].bytesperline;
+>   	val = WM_STRIDE_DEFAULT_STRIDE;
+>   	writel_relaxed(val, vfe->base + VFE_BUS_WM_STRIDE(wm));
+>   
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 0e006def1996..0b1693c34fbc 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -465,6 +465,68 @@ static const struct resources vfe_res_660[] = {
+>   	}
+>   };
+>   
+> +static const struct resources csid_res_845[] = {
+> +	/* CSID0 */
+> +	{
+> +		.regulator = { "vdda-csi0" },
+> +		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
+> +				"soc_ahb", "vfe0", "vfe0_src",
+> +				"vfe0_cphy_rx", "csi0",
+> +				"csi0_src" },
+> +		.clock_rate = { { 0 },
+> +				{ 384000000 },
+> +				{ 80000000 },
+> +				{ 0 },
+> +				{ 19200000, 100000000, 320000000, 404000000, 480000000, 600000000 },
+> +				{ 320000000 },
+> +				{ 0 },
+> +				{ 19200000, 75000000, 384000000, 538666667 },
+> +				{ 384000000 } },
+> +		.reg = { "csid0" },
+> +		.interrupt = { "csid0" }
+> +	},
+> +
+> +	/* CSID1 */
+> +	{
+> +		.regulator = { "vdda-csi1" },
+> +		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
+> +				"soc_ahb", "vfe1", "vfe1_src",
+> +				"vfe1_cphy_rx", "csi1",
+> +				"csi1_src" },
+> +		.clock_rate = { { 0 },
+> +				{ 384000000 },
+> +				{ 80000000 },
+> +				{ 0 },
+> +				{ 19200000, 100000000, 320000000, 404000000, 480000000, 600000000 },
+> +				{ 320000000 },
+> +				{ 0 },
+> +				{ 19200000, 75000000, 384000000, 538666667 },
+> +				{ 384000000 } },
+> +		.reg = { "csid1" },
+> +		.interrupt = { "csid1" }
+> +	},
+> +
+> +	/* CSID2 */
+> +	{
+> +		.regulator = { "vdda-csi2" },
+> +		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
+> +				"soc_ahb", "vfe_lite", "vfe_lite_src",
+> +				"vfe_lite_cphy_rx", "csi2",
+> +				"csi2_src" },
+> +		.clock_rate = { { 0 },
+> +				{ 384000000 },
+> +				{ 80000000 },
+> +				{ 0 },
+> +				{ 19200000, 100000000, 320000000, 404000000, 480000000, 600000000 },
+> +				{ 320000000 },
+> +				{ 0 },
+> +				{ 19200000, 75000000, 384000000, 538666667 },
+> +				{ 384000000 } },
+> +		.reg = { "csid2" },
+> +		.interrupt = { "csid2" }
+> +	}
+> +};
+> +
+>   static const struct resources vfe_res_845[] = {
+>   	/* VFE0 */
+>   	{
+> 
