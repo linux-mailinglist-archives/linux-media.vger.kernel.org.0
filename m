@@ -2,47 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F67331B24
-	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 00:54:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7582331B95
+	for <lists+linux-media@lfdr.de>; Tue,  9 Mar 2021 01:21:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231841AbhCHXx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Mar 2021 18:53:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231571AbhCHXxS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Mar 2021 18:53:18 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B20C06174A
-        for <linux-media@vger.kernel.org>; Mon,  8 Mar 2021 15:53:17 -0800 (PST)
+        id S230327AbhCIAUm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Mar 2021 19:20:42 -0500
+Received: from ms.lwn.net ([45.79.88.28]:43152 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231246AbhCIAUa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Mar 2021 19:20:30 -0500
+X-Greylist: delayed 1633 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Mar 2021 19:20:30 EST
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CBB1431A;
-        Mon,  8 Mar 2021 23:53:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CBB1431A
+        by ms.lwn.net (Postfix) with ESMTPSA id CFEF92B0;
+        Tue,  9 Mar 2021 00:20:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CFEF92B0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1615247596; bh=COx9eQ5SwNlqiBJ+BSztWogT456RXD+4NDcBY0ituWU=;
+        t=1615249230; bh=aAJj+JuWRyhVw+3NtR9KNDnI/NEk/+8wsjAwCp0HeT0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=TsgHNn7Y/YoemeoQVeZuhSzEU4ayQWG2CCnwMo85ZUvHiSWU0R783v12zCA49sZAG
-         0/Sblfda4keZp20pHOhOldbcHlOdKdDmEIu0hqOO3BQ27q4QH1xz195Jkg8A8EyJX3
-         E57wRm6Nwsdhh8/5ZxjQu2+Fa7TF9/nce8pWEU5wstlgFfiTuw+ZaHzGBG+KOTnvWY
-         PWXpZZCBYEL275kb08hiX7/G8j93+C/cpeeD2lUBjSSIPkKj2bwXeIqpEqmemrT8Nd
-         prarWufxGSgu+4lHmjE0i4NFu6/Kni+6WFuUTgfIEqJExZVdw/7ZDhGAxmQ+sgWeM6
-         BQJPd16jzG1YA==
+        b=K9DjD/1XsyrFpPNYEeWehCq7kg/sUE7/Hs0svkg2KeXVtAbmEpW9dQdQaEhrdzCHf
+         yKOp9D1XqeDooXtyfIvwNfAlNeQ/TARgvBbZhge2Tj0muy/46sgXfTKvLMKf3w9ys4
+         k/1ghMYP+Sq/LKhEYqffuk8nwnl2q++fjc1g+4PHXsKG0oQDsAgkL8LPTFvebOxR+V
+         g6izNcv3faf7+Af1MSeAkIIDxgWJ0/LylG4HXLy4szuHPDloriOnXOISW8L4i9D4GA
+         tcdnsZcoFsNZ8JUrFDjT/pXxXybc+qnwALn114/LFCrbltvy55xKeozDWr0jaV2bCU
+         nJo2FaC866oxQ==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: add a subsystem profile documentation
-In-Reply-To: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
-References: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
-Date:   Mon, 08 Mar 2021 16:53:16 -0700
-Message-ID: <87y2ex5hjn.fsf@meer.lwn.net>
+Subject: Re: [PATCH] docs: conf.py: adjust the LaTeX document output
+In-Reply-To: <911fbac185dd09c7df715cf4153361b81f04b7ad.1614787053.git.mchehab+huawei@kernel.org>
+References: <911fbac185dd09c7df715cf4153361b81f04b7ad.1614787053.git.mchehab+huawei@kernel.org>
+Date:   Mon, 08 Mar 2021 17:20:29 -0700
+Message-ID: <87o8ft41pu.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -51,19 +46,24 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Document the basic policies of the media subsystem profile.
+> Changeset f546ff0c0c07 ("Move our minimum Sphinx version to 1.7")
+> cleaned up some compatibility issues with previous Sphinx
+> versions, but it also dropped the PDF margin sets.
 >
+> Without that, the media documentation won't build fine, as
+> the margins are too wide to display texts with monospaced
+> fonts.
+>
+> While here, align the  "latex_elements = {" values, and add
+> a few other sphinxsetup configs in order to allow Sphinx to
+> wrap long lines on literal blocks.
+>
+> Fixes: f546ff0c0c07 ("Move our minimum Sphinx version to 1.7")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/driver-api/media/index.rst      |   2 +
->  .../media/maintainer-entry-profile.rst        | 206 ++++++++++++++++++
->  .../maintainer/maintainer-entry-profile.rst   |   1 +
->  3 files changed, 209 insertions(+)
->  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
+>
+>  Documentation/conf.py | 31 +++++++++++++++++++------------
+>  1 file changed, 19 insertions(+), 12 deletions(-)
 
-This all looks good to me; would you like me to take it or were you
-going to send it upward yourself?
-
-Thanks,
+Applied, thanks.
 
 jon
