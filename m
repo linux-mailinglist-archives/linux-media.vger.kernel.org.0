@@ -2,96 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C175333712
-	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 09:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3999C333731
+	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 09:22:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229643AbhCJINR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Mar 2021 03:13:17 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:59210 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231152AbhCJIM4 (ORCPT
+        id S231163AbhCJIWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Mar 2021 03:22:05 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:50389 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229632AbhCJIVh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Mar 2021 03:12:56 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9743F3;
-        Wed, 10 Mar 2021 09:12:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615363974;
-        bh=p4o+P+DQ74y4yqjC73QioWWOWOlWjgSrnbi5iNTpD28=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TpnC23MxTmNMaLkZ3tij641VlgTTGnCgUNjbOiCc7L+sNkIAPGVxUwhGTFkIdyN8Q
-         Rw0Dow8jOSx0h9HL3nSrHhnF1a/AGlvn4plGxD+9n0tj6htyFIQQktnOy1GcfTj9zV
-         vTEwR7Ezm/GZKPYRYr+SidWcBQ5ATtOSmVkhPPZ4=
-Date:   Wed, 10 Mar 2021 10:12:22 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] media: videobuf2: Fix integer overrun in allocation
-Message-ID: <YEh/ZsfC34+aGI0Q@pendragon.ideasonboard.com>
-References: <20210309234317.1021588-1-ribalda@chromium.org>
- <YEh6AIQPa75MzP+8@pendragon.ideasonboard.com>
- <CANiDSCuz76q0Ukq5UfrgeRH_JFWKQ9hCpMqZTHUtiwHxpEd4oQ@mail.gmail.com>
+        Wed, 10 Mar 2021 03:21:37 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Ju60lKI7OC40pJu63lIWI7; Wed, 10 Mar 2021 09:21:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615364496; bh=+lQo+Brb4MfuYctxU4KmpvRL9UbXAOeb6TVZHUlIV/8=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=oZGZ3Thi6yUBjXfKGuzOpV4+HtVaAOhGdasR8Q9Ej88mwzq0xCX9BPTZLoznCkKee
+         KNkaOzSVgB4VnPnr8qskr1v14xo/quxJIix99cT0elvroXdV5RtOPQ7JDoU2dbRPpQ
+         zpWVM8R0jxYyv/pegLTuWFe67X6Z0DzHFxBo4zdDaORlAm8pztk7i+KgpO7njJYjJY
+         jWAmxla5dpCK6yM2gq3JLI3y1f31qbeZvyVB+TMirwFAsPV+VQFV3t6Iwtlw8BG0Ul
+         SQtZW6+ANEc6ANM8CKCBKsFwAbfxo1/m7CkEvA8YA1yzVn9Y4hiTe7TafJCyJBrCDx
+         VPT13geWFVZpA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Johan Fjeldtvedt <johfjeld@cisco.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] cec/core/cec-notifier: use IS_REACHABLE(CONFIG_I2C)
+Message-ID: <4ffc1ae3-c92d-03d9-009a-34365e9715f0@xs4all.nl>
+Date:   Wed, 10 Mar 2021 09:21:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCuz76q0Ukq5UfrgeRH_JFWKQ9hCpMqZTHUtiwHxpEd4oQ@mail.gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfC2/0Dt+vAo/dg0Ucy2a7745ZI//2T5P2ShkWWgEqxHEZN5NkzMvueDDcRK4RJySXmaR/aihNnnukCKkhu8R5+mAihD0tH52hPEaq7UEACXCdz/xUpIQ
+ 2+7Bq6hn3mP0FprI7Uv4q3bGeZxC9A45JUTaGc/eUrHKq3xR1tiRf7zaUi2J7tCcEUW4CE8E8l77g3T3fe+0u2u7a5EH/PUxrI668o4S7myMkiyBBtB0XvPU
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+If CONFIG_I2C=m and CONFIG_CEC_CORE=y then of_find_i2c_device_by_node()
+is not reachable. So use IS_REACHABLE instead of IS_ENABLED.
 
-On Wed, Mar 10, 2021 at 08:58:39AM +0100, Ricardo Ribalda wrote:
-> On Wed, Mar 10, 2021 at 8:49 AM Laurent Pinchart wrote:
-> > On Wed, Mar 10, 2021 at 12:43:17AM +0100, Ricardo Ribalda wrote:
-> > > The plane_length is an unsigned integer. So, if we have a size of
-> > > 0xffffffff bytes we incorrectly allocate 0 bytes instead of 1 << 32.
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: 7f8414594e47 ("[media] media: videobuf2: fix the length check for mmap")
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/common/videobuf2/videobuf2-core.c | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> > > index 02281d13505f..543da515c761 100644
-> > > --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> > > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> > > @@ -223,8 +223,10 @@ static int __vb2_buf_mem_alloc(struct vb2_buffer *vb)
-> > >        * NOTE: mmapped areas should be page aligned
-> > >        */
-> > >       for (plane = 0; plane < vb->num_planes; ++plane) {
-> > > +             unsigned long size = vb->planes[plane].length;
-> >
-> > unsigned long is still 32-bit on 32-bit platforms.
-> >
-> > > +
-> > >               /* Memops alloc requires size to be page aligned. */
-> > > -             unsigned long size = PAGE_ALIGN(vb->planes[plane].length);
-> > > +             size = PAGE_ALIGN(size);
-> > >
-> > >               /* Did it wrap around? */
-> > >               if (size < vb->planes[plane].length)
-> >
-> > Doesn't this address the issue already ?
-> 
-> Yes and no. If you need to allocate 0xffffffff you are still affected
-> by the underrun. The core will return an error instead of doing the
-> allocation.
-> 
-> (yes, I know it is a lot of memory for a buffer)
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: a62943c145c1 ("media: cec-notifier: also search for HDMI devices on I2C")
+Reported-by: kernel test robot <lkp@intel.com>
+---
+diff --git a/drivers/media/cec/core/cec-notifier.c b/drivers/media/cec/core/cec-notifier.c
+index 00bc00f7491f..389dc664b211 100644
+--- a/drivers/media/cec/core/cec-notifier.c
++++ b/drivers/media/cec/core/cec-notifier.c
+@@ -226,7 +226,7 @@ struct device *cec_notifier_parse_hdmi_phandle(struct device *dev)
+ 	hdmi_pdev = of_find_device_by_node(np);
+ 	if (hdmi_pdev)
+ 		hdmi_dev = &hdmi_pdev->dev;
+-#if IS_ENABLED(CONFIG_I2C)
++#if IS_REACHABLE(CONFIG_I2C)
+ 	if (!hdmi_dev) {
+ 		struct i2c_client *hdmi_client = of_find_i2c_device_by_node(np);
 
-That's my point, I don't think there's a need for this :-) Especially
-with v4l2_buffer.m.offset being a __u32, we are limited to 4GB for *all*
-buffers.
-
--- 
-Regards,
-
-Laurent Pinchart
