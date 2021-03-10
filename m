@@ -2,124 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B75533432B
-	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 17:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E35334377
+	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 17:46:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232925AbhCJQhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Mar 2021 11:37:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59464 "EHLO
+        id S233508AbhCJQpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Mar 2021 11:45:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232898AbhCJQhG (ORCPT
+        with ESMTP id S233519AbhCJQpN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Mar 2021 11:37:06 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65AD2C061761
-        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 08:37:06 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id e20so7314057ljn.6
-        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 08:37:06 -0800 (PST)
+        Wed, 10 Mar 2021 11:45:13 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6538C061760
+        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 08:45:12 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id f1so34613727lfu.3
+        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 08:45:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IkmW2GvjqGWts2vPAfis7GUqTOxPlIzb1CZYJYGpMME=;
-        b=GODj3reE+EBC+KyzxwypFssgDByJDM+onjtNQHeM27vWvLdCqxABZeo4InGHNq29CH
-         s4xAf/jsadcR28qkpE9OKvbOoEN06BXkj5tT/O5gJj88sibReqzJMxkjJIR0bbmC8/ur
-         P7sCIgK4eKNLw81XGdRKs6WZ0jD38AdhrxSeWq1p9mE8AO/AKD+aatuDOOpLX4/MW9m6
-         g1NYzb2lF3pr0SmKbpDQofzv+ZdyCOFJWR6TboyexTyCaHFS9z/GHq2Uz+YEgVVfpklD
-         lZiKygPz4Klu1svIlHFgfq0VD/IAgQupazGb1mtXY0nfNxCs6KH8xfkM5FkdvWL3SuBQ
-         k1LA==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=nOBjCUFcxCVA5GQgk+a+NIfPffE3GCzEuT7nurE+LHA=;
+        b=sTuebj4TbYIeMMfxFEYGN5sjXVsQJl/DPmn91gAChauzlN4hOqvy5LBM+2MwjzRBMM
+         x3LYWgOhQBbzbnvl7WyWz0KCnDNca18QkLLx/yPYXYLF1V7oDBS18kawJd1UXQETcn5k
+         5sgTWPo62stABrjdThQXKQLMrfvAxU5h2BrHcT5czyJu6lCVD6/pU9hxTMgswZc5x4sv
+         pmQtcC1PdgETm9nDueArLKEMrY9AUCcuXenK5SV4bhy3l5XzL4S/c0oBKhOMsNHLCW4B
+         WZF1+zsLF57ebiYIClewBcPSFq4fU+JaJroHX42w2P626WSMfzFcF+8zi0h00SUDoeGp
+         SF2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IkmW2GvjqGWts2vPAfis7GUqTOxPlIzb1CZYJYGpMME=;
-        b=UMhxNLFEQlMroknYkMXGkqjvKRLbQB/myJU9Odktmyk77xnnMrsdpjT/KnGHsATRlf
-         CmSOzTc1IoWVKXioTJPPakwGqfnpCT/Bv4y1LYcuIvs3O5litu4ff0arYmV1Sv/VuAEK
-         KhW4Kt4ckbhi+R8/JgJs9rqT+A3TKBtE8qahQubyvkZ4eeniGOc/gqn+2+LQxd8jSLKk
-         HxQJSgxiCWd/8ksPDuWa0X+Z7DPBeMhfOu80TqvxobG/r83I08pNPwCmpteaJRD2v9qb
-         7LmyD/gqNjSRkyEstF7YN61m2Bn3KDDB62rqOVysm6CMGgYtGQLw+r5vJf405XTyHJvS
-         dmxg==
-X-Gm-Message-State: AOAM532CqZwAvWFmPW37UkUjB1KeMHPlD6tTZEeDfrIsXdqeSoZ3C9Jt
-        EEuTUZc2BHVrG2Wf+4Il47AJew==
-X-Google-Smtp-Source: ABdhPJy/e5j6tJye7L9eF/hLH4FCYLVMSzfrfMtWZuFThVQR3RMJkkYsQZ7O3gNjRWcN3Ff6vXuUTg==
-X-Received: by 2002:a2e:9d8f:: with SMTP id c15mr2289953ljj.494.1615394224788;
-        Wed, 10 Mar 2021 08:37:04 -0800 (PST)
-Received: from localhost (80-167-86-46-cable.dk.customer.tdc.net. [80.167.86.46])
-        by smtp.gmail.com with ESMTPSA id q17sm1846587lfm.168.2021.03.10.08.37.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Mar 2021 08:37:04 -0800 (PST)
-From:   Daniel Gomez <daniel@qtec.com>
-To:     Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Hawking Zhang <Hawking.Zhang@amd.com>,
-        Huang Rui <ray.huang@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
-        Dennis Li <Dennis.Li@amd.com>, Monk Liu <Monk.Liu@amd.com>,
-        Yintian Tao <yttao@amd.com>, Guchun Chen <guchun.chen@amd.com>,
-        Evan Quan <evan.quan@amd.com>, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Cc:     Daniel Gomez <daniel@qtec.com>
-Subject: [PATCH]] drm/amdgpu/gfx9: add gfxoff quirk
-Date:   Wed, 10 Mar 2021 17:36:52 +0100
-Message-Id: <20210310163655.2591893-1-daniel@qtec.com>
-X-Mailer: git-send-email 2.30.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=nOBjCUFcxCVA5GQgk+a+NIfPffE3GCzEuT7nurE+LHA=;
+        b=iTPHkiEe4QQpJYgfKt1DBbEK/8d93RePWxC3BmekVEbFn+3Gssr3kIYjz+IuC/cEHs
+         wGUuHfOu9GLyUItyVt/zTm30fbCwGgfGcdBWfK8Hg/jkFeTT4KyIYddcpZ3+BQGgW9NP
+         F/CDhQWDITxw4kPBzukTzdI/ClrTZNm18Rr17FcLXNfOc+lTtprJfzVr65KSNTD/T4am
+         dBZ2pNbvPA8jSlwUmQCOUwaiyo8VKqRuv0tJTdLkn/ScKtJmdS6exOY1ULfqFqyUAFxy
+         ErOWDAamRH0E33epd2BHSY7Tbz2TSMO5TF9fEwKnxkLuwAMiCwkjD8PXgxzvrqaLz8AL
+         QFdw==
+X-Gm-Message-State: AOAM533La4QWhd5B0JPs5OnNCoJouzNg+XRfVRQvNeTAgf0y+6vGTRQA
+        dCb6Ub9dnGyPJhZySE9iNvnEmA==
+X-Google-Smtp-Source: ABdhPJwWmWoFQ4+vGSoxRE+HSTm7PoAMGMYHYbhtGaaKbX8tg1guCAiDxOH9L2weypAx/T2wVH1Ovw==
+X-Received: by 2002:a05:6512:39c2:: with SMTP id k2mr2382701lfu.69.1615394711305;
+        Wed, 10 Mar 2021 08:45:11 -0800 (PST)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id j20sm2312558lfb.306.2021.03.10.08.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Mar 2021 08:45:10 -0800 (PST)
+Date:   Wed, 10 Mar 2021 17:45:09 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] rcar-csi2: Do not try to recover after transfer
+ error
+Message-ID: <YEj3lTAZ7kYQ6X+s@oden.dyn.berto.se>
+References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
+ <3f40c6eb-ba13-ac99-bd08-3cea11563e9a@xs4all.nl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <3f40c6eb-ba13-ac99-bd08-3cea11563e9a@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Disabling GFXOFF via the quirk list fixes a hardware lockup in
-Ryzen V1605B, RAVEN 0x1002:0x15DD rev 0x83.
+Hi Hans,
 
-Signed-off-by: Daniel Gomez <daniel@qtec.com>
----
+Thanks for your feedback.
 
-This patch is a continuation of the work here:
-https://lkml.org/lkml/2021/2/3/122 where a hardware lockup was discussed and
-a dma_fence deadlock was provoke as a side effect. To reproduce the issue
-please refer to the above link.
+On 2021-01-25 10:44:48 +0100, Hans Verkuil wrote:
+> On 15/01/2021 01:21, Niklas Söderlund wrote:
+> > Instead of restarting the R-Car CSI-2 receiver if a transmission error
+> > is detected inform the R-Car VIN driver of the error so it can stop the
+> > whole pipeline and inform user-space. This is done to reflect a updated
+> > usage recommendation in later versions of the datasheet.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 ++++++--------
+> >  1 file changed, 6 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index 945d2eb8723367f0..a7212ecc46572a3b 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -773,21 +773,19 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
+> >  
+> >  	rcsi2_write(priv, INTERRSTATE_REG, err_status);
+> >  
+> > -	dev_info(priv->dev, "Transfer error, restarting CSI-2 receiver\n");
+> > -
+> >  	return IRQ_WAKE_THREAD;
+> >  }
+> >  
+> >  static irqreturn_t rcsi2_irq_thread(int irq, void *data)
+> >  {
+> >  	struct rcar_csi2 *priv = data;
+> > +	struct v4l2_event event = {
+> > +		.type = V4L2_EVENT_EOS,
+> > +	};
+> >  
+> > -	mutex_lock(&priv->lock);
+> > -	rcsi2_stop(priv);
+> > -	usleep_range(1000, 2000);
+> > -	if (rcsi2_start(priv))
+> > -		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
+> > -	mutex_unlock(&priv->lock);
+> > +	dev_err(priv->dev, "Transfer error detected.\n");
+> 
+> You probably want to call vb2_queue_error() here. Typically once
+> something like this happens you have to restart everything and marking
+> the queue as 'error' will ensure that VIDIOC_QBUF will return an error
+> until the queue is reset (STREAMOFF).
 
-The hardware lockup was introduced in 5.6-rc1 for our particular revision as it
-wasn't part of the new blacklist. Before that, in kernel v5.5, this hardware was
-working fine without any hardware lock because the GFXOFF was actually disabled
-by the if condition for the CHIP_RAVEN case. So this patch, adds the 'Radeon
-Vega Mobile Series [1002:15dd] (rev 83)' to the blacklist to disable the GFXOFF.
+The CSI-2 driver is a bridge driver and does not deal with buffers.  
+Instead the idea here is to signal EOS so that the VIN driver (and 
+user-space) can detect it and indeed as you point out deal with 
+signaling vb2 error.
 
-But besides the fix, I'd like to ask from where this revision comes from. Is it
-an ASIC revision or is it hardcoded in the VBIOS from our vendor? From what I
-can see, it comes from the ASIC and I wonder if somehow we can get an APU in the
-future, 'not blacklisted', with the same problem. Then, should this table only
-filter for the vendor and device and not the revision? Do you know if there are
-any revisions for the 1002:15dd validated, tested and functional?
+I will respin this series as it needs to be rebased anyhow.
 
-Logs:
-[   27.708348] [drm] initializing kernel modesetting (RAVEN
-0x1002:0x15DD 0x1002:0x15DD 0x83).
-[   27.789156] amdgpu: ATOM BIOS: 113-RAVEN-115
+> 
+> It doesn't hurt to also raise the EOS event, I'm fine with that.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > +
+> > +	v4l2_subdev_notify_event(&priv->subdev, &event);
+> >  
+> >  	return IRQ_HANDLED;
+> >  }
+> > 
+> 
 
-Thanks in advance,
-Daniel
-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index 65db88bb6cbc..319d4b99aec8 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -1243,6 +1243,8 @@ static const struct amdgpu_gfxoff_quirk amdgpu_gfxoff_quirk_list[] = {
- 	{ 0x1002, 0x15dd, 0x103c, 0x83e7, 0xd3 },
- 	/* GFXOFF is unstable on C6 parts with a VBIOS 113-RAVEN-114 */
- 	{ 0x1002, 0x15dd, 0x1002, 0x15dd, 0xc6 },
-+	/* GFXOFF provokes a hw lockup on 83 parts with a VBIOS 113-RAVEN-115 */
-+	{ 0x1002, 0x15dd, 0x1002, 0x15dd, 0x83 },
- 	{ 0, 0, 0, 0, 0 },
- };
-
---
-2.30.1
-
+-- 
+Regards,
+Niklas Söderlund
