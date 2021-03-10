@@ -2,102 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97F1B3340F9
-	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 16:00:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 263563341D0
+	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 16:45:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbhCJPAP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Mar 2021 10:00:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38446 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232989AbhCJO76 (ORCPT
+        id S232739AbhCJPpG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Mar 2021 10:45:06 -0500
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:54706 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232833AbhCJPpD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Mar 2021 09:59:58 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C1CC061760;
-        Wed, 10 Mar 2021 06:59:58 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id c16so8618446ply.0;
-        Wed, 10 Mar 2021 06:59:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ux+557dunJ//CVXvtzX/Z5WItSrGBa9LPMeRHKA0DrA=;
-        b=sdCZywW+XXtqVqzMsthVMzirahL0ykX7Txl94Lvj8bxHwFH4tMQazGgqsfzS+zxxWQ
-         TRhSzC4+U5bBPRwTjgX27mUzf0Cg4TYywsukPq7YYQT7VR+NF8XAakptEyNAsgTF0fVh
-         Bo+xb2h/bE9SVBB06qNqJXeerjZFMQznVgta9cKzEI4UpjRowXbKFYzhz/mCQeFIfPQ7
-         nwSKddhaTrhFusagnM/lkCDRyBzu9ub5AQn8jYt4bSMU+BxakGWBYhTHmS1Stl8FERzd
-         dSUAAEZrT85jXm49pCqXNQpZQpNl98x0KXTigRMOq8f4jWurZg6sg1FM3ql/Eum1ulDe
-         OaMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ux+557dunJ//CVXvtzX/Z5WItSrGBa9LPMeRHKA0DrA=;
-        b=QtHzxqiLvfJN4Udh5Tj5+RHo2P8zMIbF0nNSEs5/4DL2Ft3wj4tD/A/Iag6FrSRLpV
-         AxSJi1MjEUO1Qz39xwHWV8OFwRQlzzt6r70gdKuTtvAYA9eh4sVD7srTdLe1rP5lZYRM
-         hh2A9RlMFgvVtWGxpFwIwEUx23BslWqcyuJ1mAy/jVvobKpuZcPmSGwUuyXf0Ok4xhrK
-         FS2j3x1BZ9u2aXLOPPA7dJICr5EJMT/CJsvglLfh44RWSD7wGnvkaoCeFkPwzFYq3D6u
-         vTiO9xUTezLi/cppPtqsA4UYTYFMdC1f+SR0j81FHPzigYdkp7eA1NW7a99+0d1ilrxi
-         fU/Q==
-X-Gm-Message-State: AOAM531nSPflm2s1WgAl7zBgcEQ0JpQm1QaPDBeGt0gE5u0zwFMFO7mM
-        lr878tRY0rmw9T3vPJj7Uas=
-X-Google-Smtp-Source: ABdhPJzmzcT7MTnHlBBDN1Udsyc3gMBHsV9pW5PFhbC1sZYxtcGZ8cFq1OUqDXDhhBqliJabNMdc5Q==
-X-Received: by 2002:a17:90b:ecf:: with SMTP id gz15mr3906670pjb.85.1615388397898;
-        Wed, 10 Mar 2021 06:59:57 -0800 (PST)
-Received: from DESKTOP-4V60UBS.ccdomain.com ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id y20sm16626941pfo.210.2021.03.10.06.59.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 06:59:57 -0800 (PST)
-From:   Xiaofeng Cao <cxfcosmos@gmail.com>
-To:     mchehab@kernel.org, patrice.chotard@st.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Xiaofeng Cao <cxfcosmos@gmail.com>
-Subject: [PATCH] Correct 'so'
-Date:   Wed, 10 Mar 2021 22:58:16 +0800
-Message-Id: <20210310145816.32271-1-cxfcosmos@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 10 Mar 2021 10:45:03 -0500
+X-Greylist: delayed 363 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Mar 2021 10:45:03 EST
+X-Halon-ID: 9e534042-81b6-11eb-a542-005056917a89
+Authorized-sender: niklas.soderlund@fsdn.se
+Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de [84.172.85.33])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id 9e534042-81b6-11eb-a542-005056917a89;
+        Wed, 10 Mar 2021 16:38:51 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: v4l2-fwnode: Simplify v4l2_async_notifier_parse_fwnode_endpoints()
+Date:   Wed, 10 Mar 2021 16:37:43 +0100
+Message-Id: <20210310153743.3556385-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In Kconfig it should be 'to'
-In c8sectpfe-core.c it should be 'do'
+There are only one user left of __v4l2_async_notifier_parse_fwnode_ep()
+since [1], v4l2_async_notifier_parse_fwnode_endpoints(). Merge the two
+and remove some dead code.
 
-Signed-off-by: Xiaofeng Cao <cxfcosmos@gmail.com>
+1. commit 0ae426ebd0dcef81 ("media: v4l2-fwnode: Remove v4l2_async_notifier_parse_fwnode_endpoints_by_port()")
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/Kconfig                                 | 2 +-
- drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/v4l2-core/v4l2-fwnode.c | 34 ++++-----------------------
+ 1 file changed, 5 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 6222b3ae220b..b07812657cee 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -134,7 +134,7 @@ config MEDIA_PLATFORM_SUPPORT
- 	  This is found on Embedded hardware (SoC), on V4L2 codecs and
- 	  on some GPU and newer CPU chipsets.
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 2283ff3b8e1d8662..2abb1430da1e1cf5 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -839,13 +839,11 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+ 	return ret == -ENOTCONN ? 0 : ret;
+ }
  
--	  Say Y when you want to be able so see such devices.
-+	  Say Y when you want to be able to see such devices.
+-static int
+-__v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
+-				      struct v4l2_async_notifier *notifier,
+-				      size_t asd_struct_size,
+-				      unsigned int port,
+-				      bool has_port,
+-				      parse_endpoint_func parse_endpoint)
++int
++v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
++					   struct v4l2_async_notifier *notifier,
++					   size_t asd_struct_size,
++					   parse_endpoint_func parse_endpoint)
+ {
+ 	struct fwnode_handle *fwnode;
+ 	int ret = 0;
+@@ -863,17 +861,6 @@ __v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
+ 		if (!is_available)
+ 			continue;
  
- config MEDIA_TEST_SUPPORT
- 	bool
-diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-index a7a6ea666740..338b205ae3a7 100644
---- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-+++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-@@ -655,7 +655,7 @@ static irqreturn_t c8sectpfe_error_irq_handler(int irq, void *priv)
+-		if (has_port) {
+-			struct fwnode_endpoint ep;
+-
+-			ret = fwnode_graph_parse_endpoint(fwnode, &ep);
+-			if (ret)
+-				break;
+-
+-			if (ep.port != port)
+-				continue;
+-		}
+-
+ 		ret = v4l2_async_notifier_fwnode_parse_endpoint(dev,
+ 								notifier,
+ 								fwnode,
+@@ -887,17 +874,6 @@ __v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
  
- 	/*
- 	 * TODO FIXME we should detect some error conditions here
--	 * and ideally so something about them!
-+	 * and ideally do something about them!
- 	 */
+ 	return ret;
+ }
+-
+-int
+-v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
+-					   struct v4l2_async_notifier *notifier,
+-					   size_t asd_struct_size,
+-					   parse_endpoint_func parse_endpoint)
+-{
+-	return __v4l2_async_notifier_parse_fwnode_ep(dev, notifier,
+-						     asd_struct_size, 0,
+-						     false, parse_endpoint);
+-}
+ EXPORT_SYMBOL_GPL(v4l2_async_notifier_parse_fwnode_endpoints);
  
- 	return IRQ_HANDLED;
+ /*
 -- 
-2.25.1
+2.30.1
 
