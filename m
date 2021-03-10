@@ -2,141 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1652A3339CB
-	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 11:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6520333AA1
+	for <lists+linux-media@lfdr.de>; Wed, 10 Mar 2021 11:48:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231653AbhCJKRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Mar 2021 05:17:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33142 "EHLO
+        id S232680AbhCJKrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Mar 2021 05:47:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231161AbhCJKQs (ORCPT
+        with ESMTP id S232576AbhCJKqm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Mar 2021 05:16:48 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87A1EC06174A
-        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 02:16:42 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id p10so15026284ils.9
-        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 02:16:42 -0800 (PST)
+        Wed, 10 Mar 2021 05:46:42 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45F43C061761
+        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 02:46:42 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id x9so27281509edd.0
+        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 02:46:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YnjTlCzPSM64YPwZtIYFy5lAVDG5f9v4P0vMMvdQJ4g=;
-        b=d0SaJGU+8Urml23wTMTDfhpGRRTwD+zpckGUZVMl+sVOy1WZYmEJ452QYDEt+HEMPH
-         IgYQZsfm5TUykrsjmeIEmLfHZGFzcwLIgOiDgolB3dDU+UugpwZSaiyTCDiqkBCrQWWh
-         l7f5WKbbFlEUefe7S8uASrebDK0rSAdB2PHd0=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o7E2gXsQZ9cBxH8hKnNKchItzy4zUfJI/8/dUUecjq8=;
+        b=dxAPCGTYWx8GZ/6wY8jtkMzDpWcBv0e/dNkghlRLMrgsVfdrQJ2z+oJ6mrAvIzwzrZ
+         7KpwWUdSEKNo9psYA0JmmsiLbNMf4qZUlU6zYRWdNGlyQ2fzwm3WYy9mZ+IfKxv2Vb7X
+         gommdvyC2NX/sK1OB/WI4S/tC1x7hnsRunNzs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YnjTlCzPSM64YPwZtIYFy5lAVDG5f9v4P0vMMvdQJ4g=;
-        b=oJ04q81esLQh7CtKizuUsSCuE2fNZzNFZfzziRubSKMy0gj4QMpFOUnJgimQ+knHfq
-         eCph3j+yZTY5kpCn5Ig1Jk9ojKVtXklDV9BZsydsGPWDa3c6tzgj1grRUa8urpWQ/4vt
-         Hd7bsMDEnzzDi1rVNvIPt++JtfDN0uvGiQSTArnH4JoWwfFwsMdO0Er0U7mCXAaSpra+
-         BSq0WZ+r4duQLBtbgGuHkAdsh1tbhJobNhOFSVfe3KbNwAMgtsDy088KjbkTQJ45pJpF
-         nS8uh7U84jxCvdfS3UzmonJCgfWsFCHhWINpvB06TOuqPu/7mghTaZzwPo+dLk0ionkv
-         WiKw==
-X-Gm-Message-State: AOAM532BO3Z0ZNeCOFaJCwJVBPy6LUumWxkO36y6MX81NH2Ew0NLgR5/
-        WwOO3bMBzRG6xlEia9E7Gco6rWQt9ix5JgaI
-X-Google-Smtp-Source: ABdhPJzzoEZFz3WSoYKBCktiG9qHlPnCupOaH2Z8AYEdrUNjokSBIg+UIfmiRrjpH9NyL/4USjtZNA==
-X-Received: by 2002:a92:50c:: with SMTP id q12mr1996899ile.59.1615371401834;
-        Wed, 10 Mar 2021 02:16:41 -0800 (PST)
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com. [209.85.166.175])
-        by smtp.gmail.com with ESMTPSA id i8sm8648801ilv.57.2021.03.10.02.16.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Mar 2021 02:16:41 -0800 (PST)
-Received: by mail-il1-f175.google.com with SMTP id c10so15031496ilo.8
-        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 02:16:41 -0800 (PST)
-X-Received: by 2002:a05:6e02:194e:: with SMTP id x14mr2059514ilu.218.1615371400880;
- Wed, 10 Mar 2021 02:16:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20210309234317.1021588-1-ribalda@chromium.org>
- <YEh6AIQPa75MzP+8@pendragon.ideasonboard.com> <CANiDSCuz76q0Ukq5UfrgeRH_JFWKQ9hCpMqZTHUtiwHxpEd4oQ@mail.gmail.com>
- <YEh/ZsfC34+aGI0Q@pendragon.ideasonboard.com>
-In-Reply-To: <YEh/ZsfC34+aGI0Q@pendragon.ideasonboard.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o7E2gXsQZ9cBxH8hKnNKchItzy4zUfJI/8/dUUecjq8=;
+        b=nss8ruY714DbirRhgZvHXpUhPNcb9onaM3y9t/OZ/TT3IOjeKcpp2e/vxkm3hEX5nW
+         xsDWBCZE8O8a/JFURNHhhr/XR7EgmgSkDsvhYAWMEE1swi+cH7Fuo8m2OwW7gHmbb0jE
+         lRLu/5mVks3u2+svABVYMD3bdSzWShdk/dS1zjPgBiNJiGEhQbIT5XZe1Fr5Fj0lFO4h
+         MHUlfFHuLyV9ImOI00PMaxcf3GGCug2BVatGgPQq09PZGHvRr/8kB4eBo/2z781MJgvR
+         odUQylry42thywgPltAqFsg6r9sgsoVf7b/wvLG/E+V05GE6ZkCtvOIZo+ehZIXjPtWn
+         1y4w==
+X-Gm-Message-State: AOAM532+Lk+LktbuG6fpgv0A4H/etlBROVXs7/zmbcp2Sxjqlg1LAsJr
+        RXv/eMmVgGe636qkqp/IhcxvBVj4pTueH8TziKc=
+X-Google-Smtp-Source: ABdhPJxPx0CojsYcEqI9IXVTlvXpnhDJnrEF6fgKvzZaTdmzHC6l1zZ6iIYZu6SYm/K5k5S0bFYnEA==
+X-Received: by 2002:a50:ee19:: with SMTP id g25mr2522188eds.351.1615373200967;
+        Wed, 10 Mar 2021 02:46:40 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id hd37sm9416918ejc.114.2021.03.10.02.46.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Mar 2021 02:46:40 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 10 Mar 2021 11:16:30 +0100
-X-Gmail-Original-Message-ID: <CANiDSCv7q1iY=QrtG2ssC_Y1Z1EiiWegfXmd=ha-=2vmngW_dQ@mail.gmail.com>
-Message-ID: <CANiDSCv7q1iY=QrtG2ssC_Y1Z1EiiWegfXmd=ha-=2vmngW_dQ@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: Fix integer overrun in allocation
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
+To:     Tomasz Figa <tfiga@chromium.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] media: videobuf2: Explicitly state max size of planes
+Date:   Wed, 10 Mar 2021 11:46:39 +0100
+Message-Id: <20210310104639.1069974-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+The plane size needs to be PAGE_ALIGNED, so it is not possible to have
+sizes bigger than MAX_INT - PAGE_SIZE.
 
-On Wed, Mar 10, 2021 at 9:12 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Wed, Mar 10, 2021 at 08:58:39AM +0100, Ricardo Ribalda wrote:
-> > On Wed, Mar 10, 2021 at 8:49 AM Laurent Pinchart wrote:
-> > > On Wed, Mar 10, 2021 at 12:43:17AM +0100, Ricardo Ribalda wrote:
-> > > > The plane_length is an unsigned integer. So, if we have a size of
-> > > > 0xffffffff bytes we incorrectly allocate 0 bytes instead of 1 << 32.
-> > > >
-> > > > Cc: stable@vger.kernel.org
-> > > > Fixes: 7f8414594e47 ("[media] media: videobuf2: fix the length check for mmap")
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > >  drivers/media/common/videobuf2/videobuf2-core.c | 4 +++-
-> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> > > > index 02281d13505f..543da515c761 100644
-> > > > --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> > > > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> > > > @@ -223,8 +223,10 @@ static int __vb2_buf_mem_alloc(struct vb2_buffer *vb)
-> > > >        * NOTE: mmapped areas should be page aligned
-> > > >        */
-> > > >       for (plane = 0; plane < vb->num_planes; ++plane) {
-> > > > +             unsigned long size = vb->planes[plane].length;
-> > >
-> > > unsigned long is still 32-bit on 32-bit platforms.
-> > >
-> > > > +
-> > > >               /* Memops alloc requires size to be page aligned. */
-> > > > -             unsigned long size = PAGE_ALIGN(vb->planes[plane].length);
-> > > > +             size = PAGE_ALIGN(size);
-> > > >
-> > > >               /* Did it wrap around? */
-> > > >               if (size < vb->planes[plane].length)
-> > >
-> > > Doesn't this address the issue already ?
-> >
-> > Yes and no. If you need to allocate 0xffffffff you are still affected
-> > by the underrun. The core will return an error instead of doing the
-> > allocation.
-> >
-> > (yes, I know it is a lot of memory for a buffer)
->
-> That's my point, I don't think there's a need for this :-) Especially
-> with v4l2_buffer.m.offset being a __u32, we are limited to 4GB for *all*
-> buffers.
+We already check for overflows when that happen:
+ if (size < vb->planes[plane].length)
+	goto free;
 
-I guess I will convert this patch into a documentation patch, so we
-explicitly know the limit of the API
-(1<<32 - PAGE_SIZE).
+But it is good to explicitly state our max allowed value, in order to
+align with the driver expectations.
 
-Thanks!
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ include/media/videobuf2-core.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 799ba61b5b6f..12955cb460d2 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -154,9 +154,11 @@ struct vb2_mem_ops {
+  * @dbuf:	dma_buf - shared buffer object.
+  * @dbuf_mapped:	flag to show whether dbuf is mapped or not
+  * @bytesused:	number of bytes occupied by data in the plane (payload).
+- * @length:	size of this plane (NOT the payload) in bytes.
++ * @length:	size of this plane (NOT the payload) in bytes. The maximum
++ *		valid size is MAX_UINT - PAGE_SIZE.
+  * @min_length:	minimum required size of this plane (NOT the payload) in bytes.
+- *		@length is always greater or equal to @min_length.
++ *		@length is always greater or equal to @min_length, and like
++ *		@length, it is limited to MAX_UINT - PAGE_SIZE.
+  * @m:		Union with memtype-specific data.
+  * @m.offset:	when memory in the associated struct vb2_buffer is
+  *		%VB2_MEMORY_MMAP, equals the offset from the start of
 -- 
-Ricardo Ribalda
+2.30.1.766.gb4fecdf3b7-goog
+
