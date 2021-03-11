@@ -2,167 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AD5D3373A2
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 14:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 481C6337406
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 14:32:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233479AbhCKNUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 08:20:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44506 "EHLO
+        id S233738AbhCKNcC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 08:32:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233192AbhCKNUA (ORCPT
+        with ESMTP id S233586AbhCKNb6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 08:20:00 -0500
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51033C061574
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 05:20:00 -0800 (PST)
-Received: by mail-il1-x130.google.com with SMTP id g9so18883914ilc.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 05:20:00 -0800 (PST)
+        Thu, 11 Mar 2021 08:31:58 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAF6DC061760
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 05:31:57 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id y16so1898030wrw.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 05:31:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0GXHl9fSxcmQzeK9YqZgNEbOFQ9SXnwQZIJnbEdymJw=;
-        b=fThld/2qZpymVzdehyxtMMrK5ejB7jGm9VZgUGkt2fcv7w7iNJF4+3+08Qjf4dmzo5
-         N+dh3vv48LnQIkNT3ua5YJoxotrr7ABpNpIKo7FGxpdIEWHt6mBqdyhl3X7Dxnp/htPr
-         qcQkuOmnvI6TwnEixe9+2azTjcDL7Bbu0wjX8=
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KQEkpGkH8X9iAKDULksHIIQVGmHhnGVSrqpZ40dKqws=;
+        b=CIIAC/BD4HiWZJv5qwhQ9qfLc69qrTy9QBuntzXqyQsbcdQGtlF0Uxjcy0ZFTg+b8P
+         sfXuhYSDbtS+1H84ubJowHGoova+nTvdE4WmseXf7gU0a1+St18coJMHpU4NlUAqNlBn
+         G6gVDx+Mqi73FbYtvA+zLBz4Tt2LtFMujxiCA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0GXHl9fSxcmQzeK9YqZgNEbOFQ9SXnwQZIJnbEdymJw=;
-        b=KCVxYSJmu14pSj/Lp8Ektwa3bntOx7rRoRG57mMIRgAGsgXnr1hPpXPD327P4QF4dg
-         mexJ36ev5Ro0Ll/09Gnq8h4tm6tj2YXFmFK0jxY68/bz1g5YkhQZjx7NpPWpq/f1ysYT
-         kcZgzG0JTp1+Wu3ek6YmN+SXbzcQnRXSnSpwlOVmT9ZTMxGs9XkHQA9ND5nMCMfZEOOh
-         ebjnCK5iNS8vKCcjXWDpWa4jttKsYooLLPtl1HhYgylqwGEP5Uc9XPu6Vf8CPDfRZMUU
-         OGLSi/4AmwGrPRxyQ04Pbu85OZJnteBojNsIH1HzuURP/wb4F+tF6+EXVR1xZWeveF+2
-         KGYg==
-X-Gm-Message-State: AOAM533aWXv14ueBR3La3oIOFWcT0HurA2am3yau0T+S87ypC7y8qEpW
-        sP/oDwXf3WjVM68qQVOimETdBdHMl0wr30gI
-X-Google-Smtp-Source: ABdhPJwcmBDRRRpLJMkBg9x+Wvvs3qOG/tRzmInbyBV6XuMBk6m3OxIgB5HssRQzWWExOVS2Wuas7g==
-X-Received: by 2002:a05:6e02:1a49:: with SMTP id u9mr6635404ilv.140.1615468799560;
-        Thu, 11 Mar 2021 05:19:59 -0800 (PST)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com. [209.85.166.48])
-        by smtp.gmail.com with ESMTPSA id b19sm1363075ioj.50.2021.03.11.05.19.59
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Mar 2021 05:19:59 -0800 (PST)
-Received: by mail-io1-f48.google.com with SMTP id o11so21901514iob.1
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 05:19:59 -0800 (PST)
-X-Received: by 2002:a05:6602:26c6:: with SMTP id g6mr6120811ioo.150.1615468798723;
- Thu, 11 Mar 2021 05:19:58 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=KQEkpGkH8X9iAKDULksHIIQVGmHhnGVSrqpZ40dKqws=;
+        b=NVQ0QcbpPZSGR/EB0cv2+btdNxdhJIT+vCG9/bpw7JsVSzSW8/dnjf7J3KsbEZB79L
+         NCQtYdIfsBEIvsU+jCIdHrX9jPOKL3SKrNbikIxlKExBRuL3D39iXCPA6Kpov1MOsQgv
+         9oSdEyhHVqGWYL/8shcs6d8/xCY7sOqXhnJf55iWJcG7pWRylfaesnfOpAhf7yK18/gR
+         voL4xeA8cEK7owuzIU0WvmxXpXlb1kj4ij8NBnRkH81Sz7P2892PmclgcwMzHv+9Ts3N
+         0WPazE9K4L7sEwjXq+2yc+wqJHtWlr6yyvKdYSjS3i7ws7dVuAYs3yy10Md6ztUub4Vy
+         tpgQ==
+X-Gm-Message-State: AOAM530JHMW5J/OxZadhiAQSFs5TKlMEpiLGS1QJ/sv737NUj/V4+YtO
+        cbpQ+1aqPChg2/U5Njzuu3Oxiw==
+X-Google-Smtp-Source: ABdhPJxEmOy2Yvf9KHNGocEPM7wKMMIxgjmjn3qYWtNne7YIpJNNmJ0zRgu4I8/UJrCDTEqBBwHj5w==
+X-Received: by 2002:a5d:5487:: with SMTP id h7mr8924011wrv.348.1615469516566;
+        Thu, 11 Mar 2021 05:31:56 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id c9sm3590049wml.42.2021.03.11.05.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Mar 2021 05:31:56 -0800 (PST)
+Date:   Thu, 11 Mar 2021 14:31:53 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Roland Scheidegger <sroland@vmware.com>,
+        linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Anthony Koo <Anthony.Koo@amd.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Harry Wentland <harry.wentland@amd.com>,
+        Jeremy Kolb <jkolb@brandeis.edu>,
+        Kuogee Hsieh <khsieh@codeaurora.org>,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        nouveau@lists.freedesktop.org,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        Rob Clark <rob.clark@linaro.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Zack Rusin <zackr@vmware.com>
+Subject: Re: [RESEND 00/53] Rid GPU from W=1 warnings
+Message-ID: <YEobySvG0zPs9xhc@phenom.ffwll.local>
+Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
+        Roland Scheidegger <sroland@vmware.com>,
+        linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Anthony Koo <Anthony.Koo@amd.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Harry Wentland <harry.wentland@amd.com>,
+        Jeremy Kolb <jkolb@brandeis.edu>,
+        Kuogee Hsieh <khsieh@codeaurora.org>, Leo Li <sunpeng.li@amd.com>,
+        linaro-mm-sig@lists.linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, nouveau@lists.freedesktop.org,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        Rob Clark <rob.clark@linaro.org>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>, Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Zack Rusin <zackr@vmware.com>
+References: <20210303134319.3160762-1-lee.jones@linaro.org>
+ <16d4300e-bf29-1e85-317b-53d257890cb9@vmware.com>
+ <20210308091932.GB4931@dell>
 MIME-Version: 1.0
-References: <20210310212450.1220416-1-ribalda@chromium.org>
- <cbabd1db-5fda-309b-50bc-8398e8d1580c@xs4all.nl> <CANiDSCuCvbYJp8CDKZV7_8dsxxzgUTG--insgLiEwqh2RrQ7Qw@mail.gmail.com>
- <a1021cbe-1ae6-a5bf-c890-21bb1b48d6d0@xs4all.nl>
-In-Reply-To: <a1021cbe-1ae6-a5bf-c890-21bb1b48d6d0@xs4all.nl>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 11 Mar 2021 14:19:47 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtBFrEXWmM_AGznnV27qXZWoNjBxCCSDYAosbBKZpoM4g@mail.gmail.com>
-Message-ID: <CANiDSCtBFrEXWmM_AGznnV27qXZWoNjBxCCSDYAosbBKZpoM4g@mail.gmail.com>
-Subject: Re: [PATCH] v4l2-compliance: Fix V4L2_CTRL_WHICH_DEF_VAL in multi_classes
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210308091932.GB4931@dell>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 2:17 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 11/03/2021 14:06, Ricardo Ribalda wrote:
-> > Hi Hans
-> >
-> > Thanks for your review!
-> >
-> >
-> > On Thu, Mar 11, 2021 at 1:57 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >>
-> >> On 10/03/2021 22:24, Ricardo Ribalda wrote:
-> >>> If there are multiple classes, the ioctl should fail.
-> >>
-> >> It shouldn't matter if there are multiple classes or not, it should
-> >> work.
-> >
-> > I believe this is the part of the kernel that is triggering the issue:
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/v4l2-core/v4l2-ioctl.c#n929
-> >
-> > I can send a patch if that is not the intended behaviour ;)
-> >
-> > /* Check that all controls are from the same control class. */
-> > for (i = 0; i < c->count; i++) {
-> > if (V4L2_CTRL_ID2WHICH(c->controls[i].id) != c->which) {
-> > c->error_idx = i;
-> > return 0;
->
-> Ah, and this is only called for drivers that do not use the control framework.
->
-> This is a bug, just before that for-loop it says:
->
->         if (!c->which)
->                 return 1;
->
-> This should be:
->
->         if (!c->which || c->which == V4L2_CTRL_WHICH_DEF_VAL)
->                 return 1;
->         if (c->which == V4L2_CTRL_WHICH_REQUEST_VAL)
->                 return 0;
+On Mon, Mar 08, 2021 at 09:19:32AM +0000, Lee Jones wrote:
+> On Fri, 05 Mar 2021, Roland Scheidegger wrote:
+> 
+> > The vmwgfx ones look all good to me, so for
+> > 23-53: Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+> > That said, they were already signed off by Zack, so not sure what
+> > happened here.
+> 
+> Yes, they were accepted at one point, then dropped without a reason.
+> 
+> Since I rebased onto the latest -next, I had to pluck them back out of
+> a previous one.
 
-Can I send a patch for that?
+They should show up in linux-next again. We merge patches for next merge
+window even during the current merge window, but need to make sure they
+don't pollute linux-next. Occasionally the cut off is wrong so patches
+show up, and then get pulled again.
 
->
-> Regards,
->
->         Hans
->
-> >
-> >>
-> >> What is the exact error you get with which driver?
-> >
-> > I am trying to fix uvc compliance
-> >
-> >  fail: v4l2-test-controls.cpp(813): doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls)
-> > test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
-> >
-> >
-> >>
-> >> Regards,
-> >
-> > Best regards!
-> >
-> >>
-> >>         Hans
-> >>
-> >>>
-> >>> Fixes: 0884b19adada ("v4l2-compliance: add test for V4L2_CTRL_WHICH_DEF_VAL")
-> >>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >>> ---
-> >>>  utils/v4l2-compliance/v4l2-test-controls.cpp | 5 ++++-
-> >>>  1 file changed, 4 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
-> >>> index 9a68b7e847b0..79982bc15054 100644
-> >>> --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
-> >>> +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
-> >>> @@ -793,7 +793,10 @@ int testExtendedControls(struct node *node)
-> >>>       ctrls.which = V4L2_CTRL_WHICH_DEF_VAL;
-> >>>       fail_on_test(!doioctl(node, VIDIOC_S_EXT_CTRLS, &ctrls));
-> >>>       fail_on_test(!doioctl(node, VIDIOC_TRY_EXT_CTRLS, &ctrls));
-> >>> -     fail_on_test(doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls));
-> >>> +     if (multiple_classes)
-> >>> +             fail_on_test(!doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls));
-> >>> +     else
-> >>> +             fail_on_test(doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls));
-> >>>       return 0;
-> >>>  }
-> >>>
-> >>>
-> >>
-> >
-> >
->
+Unfortunately especially the 5.12 merge cycle was very wobbly due to some
+confusion here. But your patches should all be in linux-next again (they
+are queued up for 5.13 in drm-misc-next, I checked that).
 
-
+Sorry for the confusion here.
+-Daniel
 -- 
-Ricardo Ribalda
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
