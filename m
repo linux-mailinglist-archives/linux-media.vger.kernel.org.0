@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0954337253
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 13:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 964E7337255
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 13:21:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232910AbhCKMU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 07:20:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59910 "EHLO
+        id S233148AbhCKMVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 07:21:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233115AbhCKMUp (ORCPT
+        with ESMTP id S233119AbhCKMUq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 07:20:45 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C77C061574
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 04:20:44 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id h13so2436956eds.5
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 04:20:44 -0800 (PST)
+        Thu, 11 Mar 2021 07:20:46 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C275C061574
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 04:20:45 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id mm21so45721744ejb.12
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 04:20:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=o7E2gXsQZ9cBxH8hKnNKchItzy4zUfJI/8/dUUecjq8=;
-        b=Nx4LkV6BTgsPXIozRyrLD4jV6zkXQXT4Iyd2hf6YDl4ysCSzwiu6LYxynaWdbzV28j
-         vDPxL9XUTRGrdfia4yU//Xg/o7Y3pd64wlJaam4ygOX4bMskUQ02TKujRk9cEA7FE7fy
-         xv+t/wXc6QbPT8XfYTpb5WE5yDipkvUNFHxe4=
+        bh=5NeM7Soa1KpDS0TograRre+Oj0MkKDYHA02GekTX+K8=;
+        b=OtwZAJvoTG9SwWEwdqkr7b2wVuiQlAaV2T+6d6Wfy5YRuG2HsVfTnYTzFDyZFPAUQX
+         a8VAZqgFH2DGuEifrLURo4a0HzwY4fvLLErBhqPuljh0zxE1XM/n1XUZKtxxAgecMdu+
+         tim/MixlxQ6NZv2ufjCz1qUOWrU0uRChF+vm0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=o7E2gXsQZ9cBxH8hKnNKchItzy4zUfJI/8/dUUecjq8=;
-        b=UqjddCMx9gWC8S7eZSQfRodnJGQ0QfWVUtv/FsjSVWXiz9+gGJnAbXfzjyUTmk2p5u
-         S9BrE/vFp9Chh057LFpEYG74TSMNr8b6Qzpsdzp1b+i0kzgbS9eJ+wq1/60BV3ACf1kn
-         AscvMYQ3G+dRb4V4n2+TmQ2+i4Tuey6T7t63IWZ/u3q3Q+sBWlAAe/dEMiJArFVD+n3o
-         y0nxzNQ+jebrgwtUcGDYhgHYIz4YqhrlK0/k5bsaHm4/G15DeLRXs/rbSxHJS7zaWBwM
-         dRCoK4AjseenrMwfY7KLZdOmEOYS9QUF7Xlk3Rf3JMndL0pIxSE/cj/RRvx8RS9mfsiR
-         vh6Q==
-X-Gm-Message-State: AOAM532oBS1WGuwygs5jgOzm447suhaEKtFzuz3WfB+4rRFuUcAEu1Ys
-        0YFNJWPqaQgbMmuuJKKFCNW48Q==
-X-Google-Smtp-Source: ABdhPJwvWJWdtli7hsetNt53m5oGRIzcvm7QU32UcKMxm3pgVAQO9sct8BZKIQNMnixqixzIBwhz+A==
-X-Received: by 2002:a05:6402:31b7:: with SMTP id dj23mr8340290edb.245.1615465243725;
-        Thu, 11 Mar 2021 04:20:43 -0800 (PST)
+        bh=5NeM7Soa1KpDS0TograRre+Oj0MkKDYHA02GekTX+K8=;
+        b=VWNV6DyYGAdXO0n1zNTar6S/0t+rLt2nVoxzgBcDDU7CtDT9mEUecgHYbbGN+dl+91
+         dabcDlNpbuPJ5TwBj6fwKddIb+/8WkQmbmtPIEKY8hiY+oSZe7tdnI3N1mBAUq0MdmeY
+         9w6BGbMAKTuTwa+v8Lfxci4rBOF/PNP+9JKLw/Avoxgyco3iU9RkK6o3pJDm+0oSbS7+
+         dHGbAf/rwDN7iZeyOZ1HEOZvxvH9LEkNB/xBioK8mJcFziS0UWPMVrYBvoqodfv/q8ij
+         2bhmsXSaIuXgngl+M629N56GU3muUkWstM64GPuK1Mj8FONz3NO50HiMVvQNso/qVewv
+         JXOQ==
+X-Gm-Message-State: AOAM530+coTN0657S7OAQuY2fwm/guzqoQnCOg9TXlDT6TK/pv6Rc/xj
+        8nyJtcox5Cf0W8inGEX1v3ZM7g==
+X-Google-Smtp-Source: ABdhPJxMkGsld8bPDh1woow4boX8GSdu5EUrHojZV+uXD6RqFOwBbS027oD6S6w+tTZQ0EmR6pgMww==
+X-Received: by 2002:a17:906:565a:: with SMTP id v26mr2870780ejr.516.1615465244394;
+        Thu, 11 Mar 2021 04:20:44 -0800 (PST)
 Received: from alco.lan ([80.71.134.83])
         by smtp.gmail.com with ESMTPSA id u13sm1264126ejy.31.2021.03.11.04.20.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 04:20:43 -0800 (PST)
+        Thu, 11 Mar 2021 04:20:44 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, senozhatsky@chromium.org
 Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH] media: videobuf2: Explicitly state max size of planes
-Date:   Thu, 11 Mar 2021 13:20:31 +0100
-Message-Id: <20210311122040.1264410-3-ribalda@chromium.org>
+Subject: [PATCH 02/10] media: uvcvideo: Set capability in s_param
+Date:   Thu, 11 Mar 2021 13:20:32 +0100
+Message-Id: <20210311122040.1264410-4-ribalda@chromium.org>
 X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 In-Reply-To: <20210311122040.1264410-1-ribalda@chromium.org>
 References: <20210311122040.1264410-1-ribalda@chromium.org>
@@ -63,39 +63,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The plane size needs to be PAGE_ALIGNED, so it is not possible to have
-sizes bigger than MAX_INT - PAGE_SIZE.
+Fixes v4l2-compliance:
 
-We already check for overflows when that happen:
- if (size < vb->planes[plane].length)
-	goto free;
-
-But it is good to explicitly state our max allowed value, in order to
-align with the driver expectations.
+Format ioctls (Input 0):
+                warn: v4l2-test-formats.cpp(1339): S_PARM is supported but doesn't report V4L2_CAP_TIMEPERFRAME
+                fail: v4l2-test-formats.cpp(1241): node->has_frmintervals && !cap->capability
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- include/media/videobuf2-core.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/usb/uvc/uvc_v4l2.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 799ba61b5b6f..12955cb460d2 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -154,9 +154,11 @@ struct vb2_mem_ops {
-  * @dbuf:	dma_buf - shared buffer object.
-  * @dbuf_mapped:	flag to show whether dbuf is mapped or not
-  * @bytesused:	number of bytes occupied by data in the plane (payload).
-- * @length:	size of this plane (NOT the payload) in bytes.
-+ * @length:	size of this plane (NOT the payload) in bytes. The maximum
-+ *		valid size is MAX_UINT - PAGE_SIZE.
-  * @min_length:	minimum required size of this plane (NOT the payload) in bytes.
-- *		@length is always greater or equal to @min_length.
-+ *		@length is always greater or equal to @min_length, and like
-+ *		@length, it is limited to MAX_UINT - PAGE_SIZE.
-  * @m:		Union with memtype-specific data.
-  * @m.offset:	when memory in the associated struct vb2_buffer is
-  *		%VB2_MEMORY_MMAP, equals the offset from the start of
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 5e3ec4a376e4..625c216c46b5 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -472,10 +472,13 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	uvc_simplify_fraction(&timeperframe.numerator,
+ 		&timeperframe.denominator, 8, 333);
+ 
+-	if (parm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
++	if (parm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+ 		parm->parm.capture.timeperframe = timeperframe;
+-	else
++		parm->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
++	} else {
+ 		parm->parm.output.timeperframe = timeperframe;
++		parm->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
++	}
+ 
+ 	return 0;
+ }
 -- 
-2.30.1.766.gb4fecdf3b7-goog
+2.31.0.rc2.261.g7f71774620-goog
 
