@@ -2,266 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DDCE337D61
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 20:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE4B337DA3
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 20:22:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbhCKTMv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 14:12:51 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:40475 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229468AbhCKTMZ (ORCPT
+        id S230242AbhCKTWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 14:22:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229774AbhCKTVi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 14:12:25 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id KQjKlQWuJ5C8yKQjNlfErW; Thu, 11 Mar 2021 20:12:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615489943; bh=jk3KFORsdoULFCQY1pt6PvEead1RbtI/irjhv68FkYM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ko6gjTQLni7SxWABVUywqs4rFTQf7FHqQBgtiJMxdF8frbZnhwuDPiwD77C6qZR+1
-         QQpWGRSd4CHYs4vZqQICxlJVihTk07cf0r49syhQ3vLdXlEtVnWa9+NhixU0lWNf8E
-         HdrjZcGmTo5O5g92bYUniyZGXiswXzUL7IT3NRkAMfZD2sNZ3X0jQm/uYibQLXlSgm
-         eIO86WxvzrgYVpMOJtfNlUj/5ty4YgcXtOh1trg+uzPalAHoqQrNS1aneYWEzfLLFw
-         pzomxZWhxOe0FF8r92l3iQehufazAYx3MzYuHDt/angqVDipvlsX8Y2+Dfj8/NmfiH
-         MlgqVCMZoNshQ==
-Subject: Re: [PATCH v7 00/22] Add support for the SDM845 Camera Subsystem
-To:     Robert Foss <robert.foss@linaro.org>, agross@kernel.org,
-        bjorn.andersson@linaro.org, todor.too@gmail.com,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        angelogioacchino.delregno@somainline.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Rob Herring <robh@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Marek <jonathan@marek.ca>
-References: <20210311180948.268343-1-robert.foss@linaro.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9e914313-d849-5a0b-32d5-40e033893f9d@xs4all.nl>
-Date:   Thu, 11 Mar 2021 20:12:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Thu, 11 Mar 2021 14:21:38 -0500
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFDC0C061574;
+        Thu, 11 Mar 2021 11:21:37 -0800 (PST)
+Received: by mail-lj1-x230.google.com with SMTP id z25so3607014lja.3;
+        Thu, 11 Mar 2021 11:21:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nr3MMopQK2U9fHQgnqesF0TFAIQZjafir6ZJocCIzyI=;
+        b=MyIkaSeXkIuqBbDFC2RZN06Z7+tiTtAyEFnuG6JcB8fVDc/Sps5Y/4lD3XbsyeO4ae
+         TVru7tnsGRkHH9T+lqIfziLi24bGn4Y8kTsTE9yDA1ltlFtHAtJpiks0QkaZ9aRplxPS
+         5gaASxaSxYV09M2FNYhkdvW8CF+zEtfZisqi7xVpZXA/1IPDNlhxHt6m05FCcOY89lyR
+         2GdG2+f4JHdOC1hDD3wwJPE/7krkXhXW5bP+CHhYBHdm3OpOYonPaVP1OLWWZ9Kwv+eU
+         27iTZCIS1IVBb33goI5qAl9/7f1WShlaTr+5bUuPY/hADp7/1yeTfOzDA3lIhMeLMcrB
+         kshg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nr3MMopQK2U9fHQgnqesF0TFAIQZjafir6ZJocCIzyI=;
+        b=SU8oCQXPSZuT7rjtLz2JzEq3yTH5DnZthgvl/KK2CbcWvCrUzxrVqM/XgZ0WkQM8xc
+         8Whk3xb+TsUHQ5B0ypA7ggtbf6fg09csUXCxlgTUE6Tvb2rG+7SZwjxxfsrfd6A9fkKq
+         vqdzH9bjMCS+FoZJPuPwsI9aOo6+XpV8hug0/U8JX3XYbMvKa0xTAuSjWH9o8vELuO+z
+         /fdLEiRyStdDusvSisJLu6b0K56RCUwR46y/nCVBSNZk74ItkbACKu8k1HgvIeI9rCg1
+         dYOaPc8CqjaaUIieYQPkVFyk6LqRZ2cj4MRQ7Zp/OirJ/M99AkJeZQRM2eQrmSD8b2fd
+         kAXA==
+X-Gm-Message-State: AOAM531iMjIci2L41j8DNaDVAOeo8UKHtywdRyRdYwcLEbgR0eVcPIcL
+        Vv0mrzTpiq8ZdyQvKILWDB0=
+X-Google-Smtp-Source: ABdhPJwV50MJdowwGjHNgx6AtXCWhwuCfX9B+Ri0kWRJuRnNED/9RtxV4BcKLyAa4veO0GRq4JAp4w==
+X-Received: by 2002:a2e:9f45:: with SMTP id v5mr215188ljk.183.1615490496374;
+        Thu, 11 Mar 2021 11:21:36 -0800 (PST)
+Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
+        by smtp.gmail.com with ESMTPSA id u14sm1121153lfl.40.2021.03.11.11.21.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Mar 2021 11:21:35 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Yangtao Li <tiny.windzz@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+        lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v2 00/14] Introduce devm_pm_opp_* API
+Date:   Thu, 11 Mar 2021 22:20:51 +0300
+Message-Id: <20210311192105.14998-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210311180948.268343-1-robert.foss@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAeCAfSirAa7RsGMWZR6ureGve87gDeIjw31FPYfPyCuCmTFa4f11Szx4DyP4xnD9tsfJqxmE93V/sEmmtNxn0/Pcl21tLv7reUt3lsXZueGlgmw5+VD
- Kf/qj19eJlF0adbJbxJXi2XZ6MyCEoH4tNdFD+dDvajQqIm1xfsj15FMc/nViTxl5HwheUzCCEM56BZDWhk6zCZ2Yyo+RSqUCzDYEkun3+4T7Ojit3PAqDNL
- 8DTbdxqKk0USrCzkX4fGWGpEkU63nLv5jrbJI1ohkBJWjmQlPicCQR976XHj8k8HFaHdN2XbtnhPsQBCpYr/XJRTUB4iv9ps8CIGIIkcSr648jFiJazskcXP
- 7xIDGVO8R//roCTyaWNBTd+oxRsLJwUW2J1S44q4Goxdrd+u7ocaW7kzd4zkCyaRnNZ4M1HXvaanbG0+SlSzr07876DcRRgMQQ+/P5JeQ3yMNdu7n83itKYz
- yOKmUX78TiYx43yhm/eGxD7f659jGZ3wEGHkYAch8oi2fyOQJKxHd9jp16RXv2FuFKEN+VpF2raMb9hV5AKVvgJJpH8IowgPpznPoHPxuPf8ubpiN4v/t4Yw
- BRA7yHJJYmZB+gBO+m7tUmJnJifrXM7Sz7JOM8b7/uGml94YXy8YYbd8Yl0klufsccW5a7dzA243AFgzxZFOhLA7vuXrLuZ92UByU/y9A4BsqpoCEnko9PcJ
- TKiLWywg1Cjla9Fr5+zA1O3GWBIPVKxSF0VaNAuJEJ2oquCDsF7YHRtyAf6aNCglTgHCVUGnbwLJ0iGye5DWaWkxs6Y3rUiY4wF9WMASe2Fn3prurBG29uGZ
- ROpdE1LAv0HD+70ruZ3tWCraI8NYL9grq78+PovDW65byTImsM+hwYpUAJIgeQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/03/2021 19:09, Robert Foss wrote:
-> This series implements support for the camera subsystem found in
-> the SDM845 SOCs and the Titan 170 ISP. The support is partial
-> in that it implements CSIPHY, CSID, and partial VFE support.
-> 
-> The Titan generation of the ISP diverges a fair amount from the
-> design of the previous architecture generation, CAMSS. As a result
-> some pretty invasive refactoring is done in this series. It also
-> means that at this time we're unable to implement support for all
-> of the IP blocks contained. This is due to a combination of legal
-> considerations with respect to the IP and its owner Qualcomm and
-> time & man hour constrains on the Linaro side.
-> 
-> The CSIPHY (CSI Physical Layer) & CSID (CSI Decoder) support is
-> complete, but the VFE (Video Front End, which is referred to as IFE
-> (Image Front End) in the Titan generation of ISPs) only has support
-> for the RDI (Raw Dump Interface) which allows the raw output of
-> the CSID to be written to memory.
-> 
-> The 2nd interface implemented in the VFE silicon is the PIX
-> interface, and camss does not support it for this generation of ISPs.
-> The reason for this is that the PIX interface is used for sending
-> image data to the BPS (Bayer Processing Section) & IPE (Image
-> Processing Engine), but both of these units are beyond the scope
-> of enabling basic ISP functionality for the SDM845.
-> 
-> Since the Titan architecture generation diverges quite a bit from
-> the CAMSS generation, a lot of pretty major refactoring is carried
-> out in this series. Both the CSID & VFE core paths are made more
-> general and hardware version specific parts are broken out.
-> The CSIPHY didn't require quite as radical changes and therefore
-> keeps its current form.
-> 
-> Tested on:
->  - Qcom RB3 / db845c + camera mezzanine, which is SDM845 based
->  - db410c + D3 Camera mezzanine, which is APQ8016 based
->  
-> Branch:
->  - https://git.linaro.org/people/robert.foss/linux.git/log/?h=camss_sdm845_v1
->  - https://git.linaro.org/people/robert.foss/linux.git/log/?h=camss_sdm845_v2
->  - https://git.linaro.org/people/robert.foss/linux.git/log/?h=camss_sdm845_v3
->  - https://git.linaro.org/people/robert.foss/linux.git/log/?h=camss_sdm845_v4
->  - https://git.linaro.org/people/robert.foss/linux.git/log/?h=camss_sdm845_v5
->  - https://git.linaro.org/people/robert.foss/linux.git/log/?h=camss_sdm845_v6
->  - https://git.linaro.org/people/robert.foss/linux.git/log/?h=camss_sdm845_v7
-> 
+This series adds resource-managed OPP API helpers and makes drivers
+to use them.
 
-Please check the patches in this series with 'scripts/checkpatch.pl --strict'.
-I got a bunch of warnings, most seemed trivial to fix.
+Changelog:
 
-When I compiled this series I also got these sparse warnings:
+v2: - This is a continuation of the work that was started by Yangtao Li.
+      Apparently Yangtao doesn't have time to finish it, so I
+      (Dmitry Osipenko) picked up the effort since these patches are
+      wanted by the NVIDIA Tegra voltage-scaling series that I'm
+      working on.
 
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-4-1.c:959:30: warning: symbol
-'vfe_ops_gen1_4_1' was not declared. Should it be static?
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-4-1.c:959:30: warning: symbol
-'vfe_ops_gen1_4_1' was not declared. Should it be static?
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-4-7.c:1151:30: warning: symbol
-'vfe_ops_gen1_4_7' was not declared. Should it be static?
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-170.c drivers/media/platform/qcom/camss/camss-vfe-170.c:770:26: warning: symbol
-'vfe_isr_ops_170' was not declared. Should it be static?
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-4-8.c:1140:30: warning: symbol
-'vfe_ops_gen1_4_8' was not declared. Should it be static?
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
-without a definition
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+    - Fixed the double put of OPP resources.
 
-And these smatch warnings (a lot of overlap with sparse):
+    - Dropped all patches that are unrelated to OPP API. I also dropped
+      the Tegra memory patch since it doesn't apply now and because I plan
+      to switch all Tegra drivers soon to a common tegra-specific OPP helper
+      that will use the resource-managed OPP API anyways.
 
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-drivers/media/platform/qcom/camss/camss-vfe-170.c:422 vfe_halt() warn: ignoring unreachable code.
-drivers/media/platform/qcom/camss/camss-vfe-gen1.c:26 vfe_gen1_halt() warn: ignoring unreachable code.
+    - Squashed couple patches into a single ones since there was no
+      good reason to separate them.
 
-Regards,
+    - Added acks that were given to a couple of v1 patches.
 
-	Hans
+Yangtao Li (14):
+  opp: Add devres wrapper for dev_pm_opp_set_clkname
+  opp: Add devres wrapper for dev_pm_opp_set_regulators
+  opp: Add devres wrapper for dev_pm_opp_set_supported_hw
+  opp: Add devres wrapper for dev_pm_opp_of_add_table
+  opp: Add devres wrapper for dev_pm_opp_register_notifier
+  serial: qcom_geni_serial: Convert to use resource-managed OPP API
+  spi: spi-geni-qcom: Convert to use resource-managed OPP API
+  spi: spi-qcom-qspi: Convert to use resource-managed OPP API
+  mmc: sdhci-msm: Convert to use resource-managed OPP API
+  drm/msm: Convert to use resource-managed OPP API
+  drm/lima: Convert to use resource-managed OPP API
+  drm/panfrost: Convert to use resource-managed OPP API
+  media: venus: Convert to use resource-managed OPP API
+  memory: samsung: exynos5422-dmc: Convert to use resource-managed OPP
+    API
 
-> 
-> Robert Foss (22):
->   media: camss: Fix vfe_isr_comp_done() documentation
->   media: camss: Fix vfe_isr comment typo
->   media: camss: Replace trace_printk() with dev_dbg()
->   media: camss: Add CAMSS_845 camss version
->   media: camss: Make ISPIF subdevice optional
->   media: camss: Refactor VFE HW version support
->   media: camss: Add support for VFE hardware version Titan 170
->   media: camss: Add missing format identifiers
->   media: camss: Refactor CSID HW version support
->   media: camss: Add support for CSID hardware version Titan 170
->   media: camss: Add support for CSIPHY hardware version Titan 170
->   media: camss: Refactor VFE power domain toggling
->   media: camss: Enable SDM845
->   dt-bindings: media: camss: Add qcom,msm8916-camss binding
->   dt-bindings: media: camss: Add qcom,msm8996-camss binding
->   dt-bindings: media: camss: Add qcom,sdm660-camss binding
->   dt-bindings: media: camss: Add qcom,sdm845-camss binding
->   MAINTAINERS: Change CAMSS documentation to use dtschema bindings
->   media: dt-bindings: media: Remove qcom,camss documentation
->   arm64: dts: sdm845: Add CAMSS ISP node
->   arm64: dts: sdm845-db845c: Configure regulators for camss node
->   arm64: dts: sdm845-db845c: Enable ov8856 sensor and connect to ISP
-> 
->  .../devicetree/bindings/media/qcom,camss.txt  |  236 ----
->  .../bindings/media/qcom,msm8916-camss.yaml    |  256 ++++
->  .../bindings/media/qcom,msm8996-camss.yaml    |  387 ++++++
->  .../bindings/media/qcom,sdm660-camss.yaml     |  398 ++++++
->  .../bindings/media/qcom,sdm845-camss.yaml     |  371 +++++
->  MAINTAINERS                                   |    2 +-
->  arch/arm64/boot/dts/qcom/sdm845-db845c.dts    |   23 +-
->  arch/arm64/boot/dts/qcom/sdm845.dtsi          |  135 ++
->  drivers/media/platform/qcom/camss/Makefile    |    6 +
->  .../platform/qcom/camss/camss-csid-170.c      |  601 +++++++++
->  .../platform/qcom/camss/camss-csid-4-1.c      |  329 +++++
->  .../platform/qcom/camss/camss-csid-4-7.c      |  405 ++++++
->  .../platform/qcom/camss/camss-csid-gen1.h     |   27 +
->  .../platform/qcom/camss/camss-csid-gen2.h     |   39 +
->  .../media/platform/qcom/camss/camss-csid.c    |  621 +--------
->  .../media/platform/qcom/camss/camss-csid.h    |  164 ++-
->  .../qcom/camss/camss-csiphy-3ph-1-0.c         |  179 ++-
->  .../media/platform/qcom/camss/camss-csiphy.c  |   66 +-
->  .../media/platform/qcom/camss/camss-ispif.c   |  119 +-
->  .../media/platform/qcom/camss/camss-ispif.h   |    3 +-
->  .../media/platform/qcom/camss/camss-vfe-170.c |  806 +++++++++++
->  .../media/platform/qcom/camss/camss-vfe-4-1.c |  144 +-
->  .../media/platform/qcom/camss/camss-vfe-4-7.c |  277 ++--
->  .../media/platform/qcom/camss/camss-vfe-4-8.c | 1200 +++++++++++++++++
->  .../platform/qcom/camss/camss-vfe-gen1.c      |  763 +++++++++++
->  .../platform/qcom/camss/camss-vfe-gen1.h      |  110 ++
->  drivers/media/platform/qcom/camss/camss-vfe.c |  847 +-----------
->  drivers/media/platform/qcom/camss/camss-vfe.h |  129 +-
->  .../media/platform/qcom/camss/camss-video.c   |   52 +
->  drivers/media/platform/qcom/camss/camss.c     |  407 +++++-
->  drivers/media/platform/qcom/camss/camss.h     |   15 +-
->  31 files changed, 7069 insertions(+), 2048 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/qcom,camss.txt
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
->  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-170.c
->  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-4-1.c
->  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-4-7.c
->  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen1.h
->  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen2.h
->  create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-170.c
->  create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-4-8.c
->  create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-gen1.c
->  create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-gen1.h
-> 
+ drivers/gpu/drm/lima/lima_devfreq.c           |  43 ++---
+ drivers/gpu/drm/lima/lima_devfreq.h           |   2 -
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  24 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   2 -
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |  31 +---
+ drivers/gpu/drm/msm/dp/dp_ctrl.h              |   1 -
+ drivers/gpu/drm/msm/dp/dp_display.c           |   5 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |  14 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  33 +---
+ drivers/gpu/drm/panfrost/panfrost_devfreq.h   |   1 -
+ .../media/platform/qcom/venus/pm_helpers.c    |  18 +--
+ drivers/memory/samsung/exynos5422-dmc.c       |  13 +-
+ drivers/mmc/host/sdhci-msm.c                  |  20 +--
+ drivers/opp/core.c                            | 151 ++++++++++++++++++
+ drivers/opp/of.c                              |  36 +++++
+ drivers/spi/spi-geni-qcom.c                   |  17 +-
+ drivers/spi/spi-qcom-qspi.c                   |  19 +--
+ drivers/tty/serial/qcom_geni_serial.c         |  24 ++-
+ include/linux/pm_opp.h                        |  34 ++++
+ include/linux/qcom-geni-se.h                  |   2 -
+ 23 files changed, 300 insertions(+), 196 deletions(-)
+
+-- 
+2.29.2
 
