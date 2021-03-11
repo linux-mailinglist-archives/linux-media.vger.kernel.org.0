@@ -2,92 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2FC433751F
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 15:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04263337554
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 15:20:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233799AbhCKOIz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 09:08:55 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:42555 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233881AbhCKOIp (ORCPT
+        id S233507AbhCKOUJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 09:20:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57320 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233272AbhCKOTj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 09:08:45 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id KLzUlPKvu5C8yKLzXlejqd; Thu, 11 Mar 2021 15:08:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615471724; bh=aJmnP5v6D4V/HN2fr+ehdvn4IeX4rsz8HRPjR+VucYU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=cDFlQVjZK+HKNrUCzuFCzzr0RFdPnrJMZHscbUl4nZu2wyWXJ0+qYiRE0UjwTXwz8
-         03f/2ysO7f1xe5jYyHSyqpbA0JJFSDl7zqjI4ijv+vdn6MgRa2bJkC1lYpOXyTIZ4B
-         ElT5ef/JVel33YA9TTzeWMHnuiVEMMVz1h2BQ2O8ABq9myzuOPfAlcqT5lhNVI6q6v
-         z75pOVaUsYxWtSfbr78UWgvrvnwoyY2/pWNKVqqE2AdVeM6HMKNWP+4HrBS4O/XK14
-         yxbDghrHiuM13ozMdlgNUaWvTf9iJm03Q21J6J1yElhtME+LaszQCOlyZQWZF/ZDwJ
-         R/DMrZxrGm0SQ==
-Subject: Re: [PATCH 03/10] media: uvcvideo: Return -EIO for control errors
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, senozhatsky@chromium.org
-References: <20210311122040.1264410-1-ribalda@chromium.org>
- <20210311122040.1264410-5-ribalda@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d2c0d5cd-f6d9-c23b-c33b-507e7ceb082f@xs4all.nl>
-Date:   Thu, 11 Mar 2021 15:08:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Thu, 11 Mar 2021 09:19:39 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511B0C061574
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 06:19:39 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 6CFEC1F44AF7
+Message-ID: <380ad070b1b6904f2b607b2ff5d4725124c336c2.camel@collabora.com>
+Subject: Re: [PATCH 07/13] staging: media: hantro: fix kernel-doc formatting
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Date:   Thu, 11 Mar 2021 11:19:31 -0300
+In-Reply-To: <20210311102022.96954-8-hverkuil-cisco@xs4all.nl>
+References: <20210311102022.96954-1-hverkuil-cisco@xs4all.nl>
+         <20210311102022.96954-8-hverkuil-cisco@xs4all.nl>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-In-Reply-To: <20210311122040.1264410-5-ribalda@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGPLfqYFT0cyBaMCW/BYf5LjdsOI5KKTHF5gYg8+ghH8RG7vo2duwoPsyhHBJZnt/OJk79Uy6ZnzVAr18Ma8Bn613hqqhfVISjS2neMSd7F8YI0BuUup
- HyVwNh3z9EaKFXDVACEWECdzNuV80nmzBc2fSjzGtcFgm7yTwGmvRVilZwalRxmvCatYgLvE8uNGknajWqLSYSe3pwd/jtK1/lRb9TrPfLXHOiWqasqJsXcT
- TFdEZaoKF1P33rFVl/dJmgagCaHDX3MVNdc7wqX6tbx3c0GuUh48FRF6POwVSRP4iCtY2YhDqnKZaXye+8pu2wN7fSNY6smkhj+GjoypfxlWIoZ0+SMjn3Ug
- TJ0MWXqqv9d0Z99+EOKRsPWxaXHaeIx8fv5Qch7KpPVIHqNaQU7hAafDM0WbBcPoaWlqz1WX
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/03/2021 13:20, Ricardo Ribalda wrote:
-> Fixes v4l2-compliance:
+Hi Hans,
+
+Thanks for the fix.
+
+On Thu, 2021-03-11 at 11:20 +0100, Hans Verkuil wrote:
+> - @h264_dec was not documented, add that trivial change
+> - it is not possible to document a global variable in kernel-doc,
+>   change to use 'DOC:' instead
+> - fix mismatched struct name (hantro_vp8d_hw_ctx -> hantro_vp8_dec_hw_ctx)
 > 
-> Control ioctls (Input 0):
->                 fail: v4l2-test-controls.cpp(448): s_ctrl returned an error (22)
->         test VIDIOC_G/S_CTRL: FAIL
->                 fail: v4l2-test-controls.cpp(698): s_ext_ctrls returned an error (22)
->         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
 
--EIO is specifically meant for FW/HW issues. So make clear in this commit
-log that if an error occurs in the code at that place, then that's because
-of the device doing something unexpected.
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-Actually, that should be in a comment before the 'return -EIO;'.
-
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Thanks,
+Ezequiel
+ 
 > ---
->  drivers/media/usb/uvc/uvc_video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/media/hantro/hantro.h    | 3 ++-
+>  drivers/staging/media/hantro/hantro_hw.h | 2 +-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index f2f565281e63..5442e9be1c55 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -113,7 +113,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
->  	case 6: /* Invalid control */
->  	case 7: /* Invalid Request */
->  	case 8: /* Invalid value within range */
-> -		return -EINVAL;
-> +		return -EIO;
->  	default: /* reserved or unknown */
->  		break;
->  	}
-> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 65f9f7ea7dcf..6c1b888abe75 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -214,6 +214,7 @@ struct hantro_dev {
+>   *
+>   * @codec_ops:         Set of operations related to codec mode.
+>   * @postproc:          Post-processing context.
+> + * @h264_dec:          H.264-decoding context.
+>   * @jpeg_enc:          JPEG-encoding context.
+>   * @mpeg2_dec:         MPEG-2-decoding context.
+>   * @vp8_dec:           VP8-decoding context.
+> @@ -293,7 +294,7 @@ struct hantro_postproc_regs {
+>  /* Logging helpers */
+>  
+>  /**
+> - * debug - Module parameter to control level of debugging messages.
+> + * DOC: hantro_debug: Module parameter to control level of debugging messages.
+>   *
+>   * Level of debugging messages can be controlled by bits of
+>   * module parameter called "debug". Meaning of particular
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 34c9e4649a25..65a9eaf5bb18 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -99,7 +99,7 @@ struct hantro_mpeg2_dec_hw_ctx {
+>  };
+>  
+>  /**
+> - * struct hantro_vp8d_hw_ctx
+> + * struct hantro_vp8_dec_hw_ctx
+>   * @segment_map:       Segment map buffer.
+>   * @prob_tbl:          Probability table buffer.
+>   */
+
 
