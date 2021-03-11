@@ -2,165 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05D3E336F53
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 10:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B004336FAD
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 11:17:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232086AbhCKJx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 04:53:28 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:29875 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232132AbhCKJxM (ORCPT
+        id S232238AbhCKKQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 05:16:27 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:46320 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232228AbhCKKQS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 04:53:12 -0500
-X-IronPort-AV: E=Sophos;i="5.81,240,1610377200"; 
-   d="scan'208";a="74578304"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 11 Mar 2021 18:53:11 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0203C4010DF8;
-        Thu, 11 Mar 2021 18:53:08 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pavel Machek <pavel@denx.de>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v2 2/2] media: i2c: imx219: Balance runtime PM use-count
-Date:   Thu, 11 Mar 2021 09:52:05 +0000
-Message-Id: <20210311095205.8095-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210311095205.8095-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210311095205.8095-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 11 Mar 2021 05:16:18 -0500
+Received: by mail-il1-f198.google.com with SMTP id j5so15059583ila.13
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 02:16:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=pz8+zqAK2akixe3dIV64WVmHO2VaI0t+YN34HYQ794o=;
+        b=sI1Nr8VmLsLS13xN0Gf4aC3Hm+LhyiuH6EZL0NvFQhDYwEFCvNINLVw8nCJk7+bVoS
+         CDqgqOky3kjtRl2j/M/yNW2DPiwYuVgz0ooIc0H56WFG/K/UJO+eJbo63ydDRNQSQ5Ws
+         CkbQsnRxvF/Tn8JomoN4phZS7X5cOGosa7Sc7iYwD1gNQD6s2Aaven2XG5YpuPSzCcLq
+         rILvfzjgmVLJNfTxbxiDeHC4jTESUann5GdMa+xHBw9tS3SCgNp1DklzsVNneJlAO7JE
+         JZBkjSD/J6aOegsbSqW8CTtfImlwbjEyk4JEvu7/QWI4i+zewdvJOritjv33qJKWOxbP
+         d4uA==
+X-Gm-Message-State: AOAM530RsBQ365OIS5V50O1Y2rMauHhGB9fSXAFTXYz2H2qW3IaohrNs
+        h4OM2y1wugTgLrdepJUk1MgTbn5j0b02j++2v9WTzRRAGYl7
+X-Google-Smtp-Source: ABdhPJxZUjTo588cmxcsepX55BknBzqLE4CVSGWPS0rOQr1jYeflliA9su2rONb0rOpxzUHAKGbMfyKWNgiDUQX39O2gEu4Lp6oz
+MIME-Version: 1.0
+X-Received: by 2002:a05:6e02:1069:: with SMTP id q9mr6192959ilj.97.1615457778344;
+ Thu, 11 Mar 2021 02:16:18 -0800 (PST)
+Date:   Thu, 11 Mar 2021 02:16:18 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000007287c05bd401384@google.com>
+Subject: [syzbot] KMSAN: uninit-value in number (3)
+From:   syzbot <syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com>
+To:     glider@google.com, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move incrementing/decrementing runtime PM count to
-imx219_start_streaming()/imx219_stop_streaming() functions respectively.
+Hello,
 
-This fixes an issue of unbalanced runtime PM count in resume callback
-error path where streaming is stopped and runtime PM count is left
-unbalanced.
+syzbot found the following issue on:
 
-Fixes: 1283b3b8f82b9 ("media: i2c: Add driver for Sony IMX219 sensor")
-Reported-by: Pavel Machek <pavel@denx.de>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+HEAD commit:    29ad81a1 arch/x86: add missing include to sparsemem.h
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=148ba78ed00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e17cc03a91bb1ac1
+dashboard link: https://syzkaller.appspot.com/bug?extid=a4e309017a5f3a24c7b3
+compiler:       Debian clang version 11.0.1-2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
+
+=====================================================
+BUG: KMSAN: uninit-value in number+0x54f/0x2540 lib/vsprintf.c:442
+CPU: 0 PID: 8467 Comm: kworker/0:4 Not tainted 5.11.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:79 [inline]
+ dump_stack+0x21c/0x280 lib/dump_stack.c:120
+ kmsan_report+0xfb/0x1e0 mm/kmsan/kmsan_report.c:118
+ __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:197
+ number+0x54f/0x2540 lib/vsprintf.c:442
+ vsnprintf+0x1cd6/0x3600 lib/vsprintf.c:2685
+ vprintk_store+0x2ab/0x1df0 kernel/printk/printk.c:1984
+ vprintk_emit+0x29a/0x7f0 kernel/printk/printk.c:2092
+ vprintk_default+0x86/0xa0 kernel/printk/printk.c:2126
+ vprintk_func+0x2ed/0x2f0 kernel/printk/printk_safe.c:393
+ printk+0x180/0x1cd kernel/printk/printk.c:2157
+ sq905_read_data+0x630/0x650 drivers/media/usb/gspca/sq905.c:184
+ sd_init+0x184/0x530 drivers/media/usb/gspca/sq905.c:329
+ gspca_dev_probe2+0x129f/0x23f0 drivers/media/usb/gspca/gspca.c:1532
+ gspca_dev_probe+0x3db/0x440 drivers/media/usb/gspca/gspca.c:1606
+ sd_probe+0x8d/0xa0 drivers/media/usb/gspca/gl860/gl860.c:511
+ usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
+ really_probe+0xe15/0x24d0 drivers/base/dd.c:558
+ driver_probe_device+0x29d/0x3a0 drivers/base/dd.c:740
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:846
+ bus_for_each_drv+0x2c8/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x56a/0x890 drivers/base/dd.c:914
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:961
+ bus_probe_device+0x17e/0x3d0 drivers/base/bus.c:491
+ device_add+0x2c15/0x31d0 drivers/base/core.c:3109
+ usb_set_configuration+0x3872/0x3eb0 drivers/usb/core/message.c:2164
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:238
+ usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
+ really_probe+0xe15/0x24d0 drivers/base/dd.c:558
+ driver_probe_device+0x29d/0x3a0 drivers/base/dd.c:740
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:846
+ bus_for_each_drv+0x2c8/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x56a/0x890 drivers/base/dd.c:914
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:961
+ bus_probe_device+0x17e/0x3d0 drivers/base/bus.c:491
+ device_add+0x2c15/0x31d0 drivers/base/core.c:3109
+ usb_new_device+0x1bd4/0x2a30 drivers/usb/core/hub.c:2555
+ hub_port_connect drivers/usb/core/hub.c:5223 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5363 [inline]
+ port_event drivers/usb/core/hub.c:5509 [inline]
+ hub_event+0x5b99/0x8870 drivers/usb/core/hub.c:5591
+ process_one_work+0x1219/0x1fe0 kernel/workqueue.c:2275
+ worker_thread+0x10ec/0x2340 kernel/workqueue.c:2421
+ kthread+0x521/0x560 kernel/kthread.c:292
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+Local variable ----act_len@sq905_read_data created at:
+ sq905_read_data+0x87/0x650 drivers/media/usb/gspca/sq905.c:163
+ sq905_read_data+0x87/0x650 drivers/media/usb/gspca/sq905.c:163
+=====================================================
+
+
 ---
- drivers/media/i2c/imx219.c | 32 +++++++++++++++++---------------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 82756cbfbaac..49ba39418360 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -1035,37 +1035,47 @@ static int imx219_start_streaming(struct imx219 *imx219)
- 	const struct imx219_reg_list *reg_list;
- 	int ret;
- 
-+	ret = pm_runtime_get_sync(&client->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(&client->dev);
-+		return ret;
-+	}
-+
- 	/* Apply default values of current mode */
- 	reg_list = &imx219->mode->reg_list;
- 	ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
- 	if (ret) {
- 		dev_err(&client->dev, "%s failed to set mode\n", __func__);
--		return ret;
-+		goto err_rpm_put;
- 	}
- 
- 	ret = imx219_set_framefmt(imx219);
- 	if (ret) {
- 		dev_err(&client->dev, "%s failed to set frame format: %d\n",
- 			__func__, ret);
--		return ret;
-+		goto err_rpm_put;
- 	}
- 
- 	/* Apply customized values from user */
- 	ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
- 	if (ret)
--		return ret;
-+		goto err_rpm_put;
- 
- 	/* set stream on register */
- 	ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
- 			       IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
- 	if (ret)
--		return ret;
-+		goto err_rpm_put;
- 
- 	/* vflip and hflip cannot change during streaming */
- 	__v4l2_ctrl_grab(imx219->vflip, true);
- 	__v4l2_ctrl_grab(imx219->hflip, true);
- 
- 	return 0;
-+
-+err_rpm_put:
-+	pm_runtime_put(&client->dev);
-+	return ret;
- }
- 
- static void imx219_stop_streaming(struct imx219 *imx219)
-@@ -1081,12 +1091,13 @@ static void imx219_stop_streaming(struct imx219 *imx219)
- 
- 	__v4l2_ctrl_grab(imx219->vflip, false);
- 	__v4l2_ctrl_grab(imx219->hflip, false);
-+
-+	pm_runtime_put(&client->dev);
- }
- 
- static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct imx219 *imx219 = to_imx219(sd);
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret = 0;
- 
- 	mutex_lock(&imx219->mutex);
-@@ -1096,22 +1107,15 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
- 	}
- 
- 	if (enable) {
--		ret = pm_runtime_get_sync(&client->dev);
--		if (ret < 0) {
--			pm_runtime_put_noidle(&client->dev);
--			goto err_unlock;
--		}
--
- 		/*
- 		 * Apply default & customized values
- 		 * and then start streaming.
- 		 */
- 		ret = imx219_start_streaming(imx219);
- 		if (ret)
--			goto err_rpm_put;
-+			goto err_unlock;
- 	} else {
- 		imx219_stop_streaming(imx219);
--		pm_runtime_put(&client->dev);
- 	}
- 
- 	imx219->streaming = enable;
-@@ -1120,8 +1124,6 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
- 
- 	return ret;
- 
--err_rpm_put:
--	pm_runtime_put(&client->dev);
- err_unlock:
- 	mutex_unlock(&imx219->mutex);
- 
--- 
-2.17.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
