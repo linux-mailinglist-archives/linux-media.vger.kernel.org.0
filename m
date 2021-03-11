@@ -2,103 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C3E33789A
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 16:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E307A3378A1
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 17:01:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234099AbhCKP6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 10:58:21 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50060 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234061AbhCKP6A (ORCPT
+        id S234164AbhCKQA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 11:00:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233943AbhCKQAN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 10:58:00 -0500
+        Thu, 11 Mar 2021 11:00:13 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9527DC061574;
+        Thu, 11 Mar 2021 08:00:13 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65A71879;
-        Thu, 11 Mar 2021 16:57:58 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99D82879;
+        Thu, 11 Mar 2021 17:00:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615478278;
-        bh=uh0v20vIuAerIj2S1tG5H54I5B46Ush+Nb3Iwpomybs=;
+        s=mail; t=1615478410;
+        bh=88gQ2lkGXDtbfbgviEA36zdOmTrkESs9PAAixpS5TD8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=I0LF6V+jDvhn51RT9PakCHBIk2FP3zx1PsFE4pqMeVqiPKlJZDp/2WPXk1550Q9DD
-         48HcHgK5a2tUQpKijh0uZ7OARltXcY4gJ8W/IoFNfwiqARowKmBzqg0qQIO8XVlhzV
-         rvmwG37dVm0/Stj5tt15e9V8M5hXOnpIdXu5u4w4=
-Date:   Thu, 11 Mar 2021 17:57:24 +0200
+        b=qWdNtBO2ruDPFJ6QiU7Z/xh0SO2LD+0UhqpgTGOijIdQ94pUYu83dVca4Q3EkN67+
+         suiicXtnUL0mLGEiafcGnTe6M6Li5Q9sSi9Pa3/L05aoiOv07q7shhmgbYOXBqzdXb
+         vF1NCptPH86L4/oNHMGaflOts5rIxVyrgeHxrkiQ=
+Date:   Thu, 11 Mar 2021 17:59:36 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 03/10] media: uvcvideo: Return -EIO for control errors
-Message-ID: <YEo95GqO0XEX4Cg0@pendragon.ideasonboard.com>
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, senozhatsky@chromium.org
+Subject: Re: [PATCH 10/10] media: uvcvideo: Populate only active control
+ classes
+Message-ID: <YEo+aLunKHemzWhA@pendragon.ideasonboard.com>
 References: <20210311122040.1264410-1-ribalda@chromium.org>
- <20210311122040.1264410-5-ribalda@chromium.org>
- <CANiDSCtw2q7UxMoZSMeE545WCxMs-WSHR2xbjG+xWL9CaBE3Aw@mail.gmail.com>
+ <20210311122040.1264410-12-ribalda@chromium.org>
+ <f2341e0e-e9c9-a1f6-2d9f-4355e232cf4a@xs4all.nl>
+ <CAPybu_08hhaAh4tPyohrEwhfowE5TC1NDfg9tUEo0tHQjcFJug@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCtw2q7UxMoZSMeE545WCxMs-WSHR2xbjG+xWL9CaBE3Aw@mail.gmail.com>
+In-Reply-To: <CAPybu_08hhaAh4tPyohrEwhfowE5TC1NDfg9tUEo0tHQjcFJug@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Ricardo,
 
-Thank you for the patch.
-
-On Thu, Mar 11, 2021 at 03:08:22PM +0100, Ricardo Ribalda wrote:
-> As discussed in the IRC with Hans
+On Thu, Mar 11, 2021 at 04:21:38PM +0100, Ricardo Ribalda Delgado wrote:
+> On Thu, Mar 11, 2021 at 3:32 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >
+> > On 11/03/2021 13:20, Ricardo Ribalda wrote:
+> > > Do not create Control Classes for empty classes.
+> >
+> > Shouldn't this be squashed with patch 06/10?
 > 
-> We need to specify in the commit message that this is most likely due
-> to hw error.
-> 
-> On Thu, Mar 11, 2021 at 1:20 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
-> >
-> > Fixes v4l2-compliance:
-> >
-> > Control ioctls (Input 0):
-> >                 fail: v4l2-test-controls.cpp(448): s_ctrl returned an error (22)
-> >         test VIDIOC_G/S_CTRL: FAIL
-> >                 fail: v4l2-test-controls.cpp(698): s_ext_ctrls returned an error (22)
-> >         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> Most of the cameras I have used have the two classes, So  I am not
+> sure if squash with 6/10, or remove it. I separated it to feel what
+> Laurent has to say :)
 
-As this isn't supposed to happen, how do you reproduce this ? 
+I think it makes sense to only expose the classes that are being used,
+so the change is good. As it fixes a bug introduced in 06/10, I'd squash
+it.
 
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_video.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index f2f565281e63..5442e9be1c55 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -113,7 +113,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
-> >         case 6: /* Invalid control */
-> >         case 7: /* Invalid Request */
-
-For cases 5-7 I think -EIO is fine, as the driver should really not call
-this function with an invalid unit, control or request. If it does, it's
-a bug in the driver (we can check the units and controls the device
-claims to support, and the requests are defined by the UVC
-specification), if it doesn't and the device still returns this error,
-it's a bug on the device side.
-
-> >         case 8: /* Invalid value within range */
-
-For this case, however, isn't it valid for a device to return an error
-if the control value isn't valid ? There's one particular code path I'm
-concerned about, uvc_ioctl_default(UVCIOC_CTRL_QUERY) ->
-uvc_xu_ctrl_query() -> uvc_query_ctrl(), where it could be useful for
-userspace to know that the value it sets isn't valid.
-
-> > -               return -EINVAL;
-> > +               return -EIO;
-> >         default: /* reserved or unknown */
-> >                 break;
-> >         }
+> > > Fixes v4l2-compliance:
+> > >
+> > > Control ioctls (Input 0):
+> > >                       fail: v4l2-test-controls.cpp(255): no controls in class 009d0000
+> > >       test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_ctrl.c   | 11 +++++++++++
+> > >  drivers/media/usb/uvc/uvc_driver.c |  1 -
+> > >  drivers/media/usb/uvc/uvcvideo.h   |  1 -
+> > >  3 files changed, 11 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > index 433342efc63f..5efbb3b5aa5b 100644
+> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > @@ -2128,6 +2128,17 @@ static int __uvc_ctrl_add_mapping(struct uvc_device *dev,
+> > >       if (map->set == NULL)
+> > >               map->set = uvc_set_le_value;
+> > >
+> > > +     switch (V4L2_CTRL_ID2WHICH(map->id)) {
+> > > +     case V4L2_CTRL_ID2WHICH(V4L2_CID_CAMERA_CLASS):
+> > > +             dev->ctrl_class_unit->ctrl_class.bmControls[0] |=
+> > > +                                             BIT(UVC_CC_CAMERA_CLASS);
+> > > +             break;
+> > > +     case V4L2_CTRL_ID2WHICH(V4L2_CID_USER_CLASS):
+> > > +             dev->ctrl_class_unit->ctrl_class.bmControls[0] |=
+> > > +                                             BIT(UVC_CC_USER_CLASS);
+> > > +             break;
+> > > +     }
+> > > +
+> > >       list_add_tail(&map->list, &ctrl->info.mappings);
+> > >       uvc_dbg(dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
+> > >               map->name, ctrl->info.entity, ctrl->info.selector);
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index 996e8bd06ac5..4f368ab3a1f1 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -1501,7 +1501,6 @@ static int uvc_ctrl_class_parse(struct uvc_device *dev)
+> > >
+> > >       unit->ctrl_class.bControlSize = 1;
+> > >       unit->ctrl_class.bmControls = (u8 *)unit + sizeof(*unit);
+> > > -     unit->ctrl_class.bmControls[0] = (1 << (UVC_CC_LAST_CLASS + 1)) - 1;
+> > >       unit->get_info = uvc_ctrl_class_get_info;
+> > >       strncpy(unit->name, "Control Class", sizeof(unit->name) - 1);
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index 1d59ac10c2eb..cc573d63e459 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -186,7 +186,6 @@
+> > >   */
+> > >  #define UVC_CC_CAMERA_CLASS  0
+> > >  #define UVC_CC_USER_CLASS    1
+> > > -#define UVC_CC_LAST_CLASS    UVC_CC_USER_CLASS
+> > >
+> > >  /* ------------------------------------------------------------------------
+> > >   * Driver specific constants.
 
 -- 
 Regards,
