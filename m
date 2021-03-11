@@ -2,111 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FF03336FC6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 11:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59B0F336FCB
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 11:21:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232294AbhCKKUu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232296AbhCKKUu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 11 Mar 2021 05:20:50 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:51799 "EHLO
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:45183 "EHLO
         lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232287AbhCKKUc (ORCPT
+        by vger.kernel.org with ESMTP id S232288AbhCKKUd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 05:20:32 -0500
+        Thu, 11 Mar 2021 05:20:33 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id KIQYlPLX0C40pKIQglKo6U; Thu, 11 Mar 2021 11:20:32 +0100
+        id KIQYlPLX0C40pKIQilKo74; Thu, 11 Mar 2021 11:20:32 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615458032; bh=zD8DZonyIpHWHuwKQFh3ozi+YfAWMvfDvdzCBPVNJp4=;
+        t=1615458032; bh=qNxrkRMXKi/bb8P+7RX0kKhuYKLfo/iim0B/1Ob2i9o=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=pRmCqVly3T9NrdE2AmyG3o0P/BVdWb21s/GCFSyoBAoqurez8638DgE4wRq2U7RKz
-         HQJopZjNfkEj4kO8pWVJTQpJF5zEUynWPFtPlxia5PvfXHOf5haB2AFHtRjW14leAv
-         ZrNhgHa7vmqw5dOFGGyjDMdYe6yjZZi7OfniJKCdZOhqHYSznnKlTaaTbyCJXUR4rT
-         9bKGovbBl+JvMfoKUNERldg37RBIl66sRvqjC0NrTV0OfHzA0HdBI1t9rhfrSYgdlX
-         ZkS3ZEEJDBKvlrXjtB1HXfRlYZxGYTcJsGoZid5VmSOOGS5mkHOlVNkGUvud/ve/Xx
-         23wyEZenaS7Mw==
+        b=SRgwXo91GcSIrhMEO63D5e/ar/efchBfNCmtLEiwx65Td9zwOww6wgHp/vXzVZVhK
+         YhKMvR33kHLVA0NypGN3YDK76ZQ9vAKvedP8yDj9M9WE9dRvNfEa+MqQe5kdlgWrt0
+         EHrOJ917k444bOunVAc3eV7Kw6W9TREmctrhyManc2tKO6d8COGp5JUfsPHHkUpl1Y
+         TOsmh5lPb25GE7yQ2wO/eYr9wi5vHpUx9YrAYachiGB+tGflF5boHjGrLrmxfTqa07
+         3+E7dMymCB68cA/w2HRi0oGCmM2ZyqTpIzEFQSgNg5u4+GJaeGE+fFNosSsnD8DK7d
+         mijRNhusXEGGQ==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Xia Jiang <xia.jiang@mediatek.com>
-Subject: [PATCH 10/13] mtk-jpeg/mtk_jpeg_core.h: fix kernel-doc warnings
-Date:   Thu, 11 Mar 2021 11:20:19 +0100
-Message-Id: <20210311102022.96954-11-hverkuil-cisco@xs4all.nl>
+        Eizan Miyamoto <eizan@chromium.org>
+Subject: [PATCH 11/13] mtk-mdp: fix kernel-doc warnings
+Date:   Thu, 11 Mar 2021 11:20:20 +0100
+Message-Id: <20210311102022.96954-12-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210311102022.96954-1-hverkuil-cisco@xs4all.nl>
 References: <20210311102022.96954-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CMAE-Envelope: MS4xfLx/wZwxglH1uzuHex+D9yPTHmOkKy+SuzZvsDHT2L6/ezlgzzQVdjD+PlAAZMzllcKYQ5c4qUTmHj2G4OkzL98CahcH21lsSFDzFqVOF2Z2y/Q3o1jb
- dcAA34jTR3cGFqG4XbtvsAHrspmJ3CLeBG2MJ/QqLES/llMOot1TY3H8wAbM8esS7N7aONHeRdAe9obEZTObpS6wpAxCbPdMq0mBPRHwHpF6aDXbLG4xY1RQ
- wl+J5osHj35C8CqT42oZbqN3iD8+qhpDDdjVHao/ds8=
+ dcAA34jTR3cGFqG4XbtvsAHrspmJ3CLeBG2MJ/QqLES/llMOot1TY3H8wAbM8esS7N7aONHeRdAe9obEZTObpS6wpAxCbPdMq0nHj9PMahP58a1VxL80mh0Y
+ xROt9vOB803iTlfsvctQYWwPHtBpVik0BsZ5/tx0HuM=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing 'struct' keywords and fix typos in two struct member
-names.
+mtk_mdp_comp.h: MTK_MDP_COMP_TYPE_MAX was undocumented, but it
+is also unused, so just remove it.
+
+mtk_mdp_core.h: add missing '*' inside comment blocks, add a
+missing : after '@ctrls' and add a missing struct keyword.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Xia Jiang <xia.jiang@mediatek.com>
+Cc: Eizan Miyamoto <eizan@chromium.org>
 ---
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  1 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.h | 10 +++++-----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-index 68e634f02e00..595f7f10c9fd 100644
---- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-+++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-@@ -45,11 +45,11 @@ enum mtk_jpeg_ctx_state {
+diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+index 1bf0242cce46..7897766c96bb 100644
+--- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
++++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+@@ -19,7 +19,6 @@ enum mtk_mdp_comp_type {
+ 	MTK_MDP_RSZ,
+ 	MTK_MDP_WDMA,
+ 	MTK_MDP_WROT,
+-	MTK_MDP_COMP_TYPE_MAX,
  };
  
  /**
-- * mtk_jpeg_variant - mtk jpeg driver variant
-+ * struct mtk_jpeg_variant - mtk jpeg driver variant
-  * @clks:			clock names
-  * @num_clks:			numbers of clock
-- * @format:			jpeg driver's internal color format
-- * @num_format:			number of format
-+ * @formats:			jpeg driver's internal color format
-+ * @num_formats:		number of formats
-  * @qops:			the callback of jpeg vb2_ops
-  * @irq_handler:		jpeg irq handler callback
-  * @hw_reset:			jpeg hardware reset callback
-@@ -75,7 +75,7 @@ struct mtk_jpeg_variant {
+diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+index a7da14b97077..a6e6dc36307b 100644
+--- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
++++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+@@ -52,8 +52,8 @@ struct mtk_mdp_pix_align {
+  * @depth: per plane driver's private 'number of bits per pixel'
+  * @row_depth: per plane driver's private 'number of bits per pixel per row'
+  * @flags: flags indicating which operation mode format applies to
+-	   MTK_MDP_FMT_FLAG_OUTPUT is used in OUTPUT stream
+-	   MTK_MDP_FMT_FLAG_CAPTURE is used in CAPTURE stream
++ *	   MTK_MDP_FMT_FLAG_OUTPUT is used in OUTPUT stream
++ *	   MTK_MDP_FMT_FLAG_CAPTURE is used in CAPTURE stream
+  * @align: pointer to a pixel alignment struct, NULL if using default value
+  */
+ struct mtk_mdp_fmt {
+@@ -168,14 +168,14 @@ struct mtk_mdp_dev {
  };
  
  /**
-- * struct mt_jpeg - JPEG IP abstraction
-+ * struct mtk_jpeg_dev - JPEG IP abstraction
-  * @lock:		the mutex protecting this structure
-  * @hw_lock:		spinlock protecting the hw device resource
-  * @workqueue:		decode work queue
-@@ -105,7 +105,7 @@ struct mtk_jpeg_dev {
- };
- 
- /**
-- * struct jpeg_fmt - driver's internal color format data
-+ * struct mtk_jpeg_fmt - driver's internal color format data
-  * @fourcc:	the fourcc code, 0 if not applicable
-  * @hw_format:	hardware format value
-  * @h_sample:	horizontal sample count of plane in 4 * 4 pixel image
-@@ -127,7 +127,7 @@ struct mtk_jpeg_fmt {
- };
- 
- /**
-- * mtk_jpeg_q_data - parameters of one queue
-+ * struct mtk_jpeg_q_data - parameters of one queue
-  * @fmt:	  driver-specific format of this queue
-  * @pix_mp:	  multiplanar format
-  * @enc_crop_rect:	jpeg encoder crop information
-@@ -139,7 +139,7 @@ struct mtk_jpeg_q_data {
- };
- 
- /**
-- * mtk_jpeg_ctx - the device context data
-+ * struct mtk_jpeg_ctx - the device context data
-  * @jpeg:		JPEG IP device for this context
-  * @out_q:		source (output) queue information
-  * @cap_q:		destination (capture) queue queue information
+- * mtk_mdp_ctx - the device context data
++ * struct mtk_mdp_ctx - the device context data
+  * @list:		link to ctx_list of mtk_mdp_dev
+  * @s_frame:		source frame properties
+  * @d_frame:		destination frame properties
+  * @id:			index of the context that this structure describes
+  * @flags:		additional flags for image conversion
+  * @state:		flags to keep track of user configuration
+-			Protected by slock
++ *			Protected by slock
+  * @rotation:		rotates the image by specified angle
+  * @hflip:		mirror the picture horizontally
+  * @vflip:		mirror the picture vertically
+@@ -183,7 +183,7 @@ struct mtk_mdp_dev {
+  * @m2m_ctx:		memory-to-memory device context
+  * @fh:			v4l2 file handle
+  * @ctrl_handler:	v4l2 controls handler
+- * @ctrls		image processor control set
++ * @ctrls:		image processor control set
+  * @ctrls_rdy:		true if the control handler is initialized
+  * @colorspace:		enum v4l2_colorspace; supplemental to pixelformat
+  * @ycbcr_enc:		enum v4l2_ycbcr_encoding, Y'CbCr encoding
 -- 
 2.30.1
 
