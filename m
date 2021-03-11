@@ -2,128 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C18533725E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 13:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2C8B3372C9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 13:36:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233121AbhCKMVD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 07:21:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233142AbhCKMUu (ORCPT
+        id S232976AbhCKMgZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 07:36:25 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:44587 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233369AbhCKMgG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 07:20:50 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F5EC061574
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 04:20:50 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id p8so45765442ejb.10
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 04:20:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1yf2YrB+9ePey+5ffjDKSSNQEXh9aYpFqNXLN5g6o8k=;
-        b=UWpxUfn40yEHnuDQeuL6xpp7zb4c5UdQlXpjfennxRmlvoD9KFBqCyGOtuHUtDXzDZ
-         WIGCvr7nRFITDbvX8ybOr2U6Jy+AfEtadT356ynOU716OOinJL6L4Ci8zDIg05EwwkOK
-         2BMM8A59L2mNymMp7KslGnQmV66UDvY/UfrOg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1yf2YrB+9ePey+5ffjDKSSNQEXh9aYpFqNXLN5g6o8k=;
-        b=llgfodHJJmmGwJu0kxJV7MnRAGQM6bQ/FWSGWGm3C7DqKNqpBPPe/DW5/tMb69nNZ9
-         WtkOGesIUJGSdCrzP3aLK1PxI7MqpTudiPlC+MoHqsME4oEuEuDoB0yC0dZciuDI3zgk
-         21duzZoJJzy8Uv3CuNAjiR0lNei6K2oIckHXH7/7JynPSuhxAyQLhj/4sZ3LKmO9ys7k
-         hbmfDbV2qyAPbP1+QuaUOuvpdL1C0jgueTW/MxS2zlwA5ewi3Gn5xbhHg4/pS4r5ZmXH
-         Fq+XtHI7cLGdgffR09D6bTabEw27WKqNI1t3eOC1+VrcezMVUEw78A/xvMZ0ojB41/bL
-         gnuw==
-X-Gm-Message-State: AOAM530kONLlBBWTtCu2xXoUB8qrgr/aVCo2toD24w0yEu8g4lLvFfYd
-        LuS/Yvtbq8jWRa6tnnbYid5/Vw==
-X-Google-Smtp-Source: ABdhPJzKlYGFtnYmTjpMvBpjDQayUIgsCQZli3jY3pInTSxH8Hr1RTHo5tjAEWcKw48ge7wMxHR33g==
-X-Received: by 2002:a17:906:cd05:: with SMTP id oz5mr2864966ejb.345.1615465248945;
-        Thu, 11 Mar 2021 04:20:48 -0800 (PST)
-Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id u13sm1264126ejy.31.2021.03.11.04.20.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 04:20:48 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, senozhatsky@chromium.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 10/10] media: uvcvideo: Populate only active control classes
-Date:   Thu, 11 Mar 2021 13:20:40 +0100
-Message-Id: <20210311122040.1264410-12-ribalda@chromium.org>
-X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
-In-Reply-To: <20210311122040.1264410-1-ribalda@chromium.org>
-References: <20210311122040.1264410-1-ribalda@chromium.org>
+        Thu, 11 Mar 2021 07:36:06 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id KKXnlOuiM5C8yKKXrleSpt; Thu, 11 Mar 2021 13:36:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615466163; bh=TUlMrkPWURG6SaN7sDAOZM/NJtu2oCrlq6DkC6AA3H0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Q8sZ3mJrvfvigW+Q1a7cST6piKqEEDhjd+DuOtOi9a3LSZctFjNqG71w1FJy04Q0b
+         TtkKK27YmWbPazP/WEqfwel4mFFtcuritwG3q3tJrCrR6/ZXN4IC9Wpkn4ACKv17h7
+         HJ+c44F1PL35AbE2lMMsqiONRCE6YNFlA7RB4VlNAsaoIsBYEezpa8HqrXYY9hrTXL
+         mS7ICWZJGkfm/PrY3qRj4RghAqEa+nFuiorxvGVX22bXqLLFJ4IPdJhEfwNMiaXpDp
+         td3Vveb27dKSP1l0emaEDSdGloRf8vrtcL8qxXoQ82hW25V4DkwkFLtxABo5UGA13S
+         lkXB/yonz+KQQ==
+Subject: Re: [PATCH 06/13] vsp1/vsp1_drm.h: add missing 'struct' kernel-doc
+ keyword
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+References: <20210311102022.96954-1-hverkuil-cisco@xs4all.nl>
+ <20210311102022.96954-7-hverkuil-cisco@xs4all.nl>
+ <YEoJIZp2MKe3hTgp@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <39a60b00-9ba6-076b-fa24-32fd724ff69c@xs4all.nl>
+Date:   Thu, 11 Mar 2021 13:35:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YEoJIZp2MKe3hTgp@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfPyqFKmYlbKuvJN925FZx/mrk8xq+WbUG0RnkSZ2LRcTByNxDo5CeSWIu/QqwrU2razI3CA59+kQZO+0xIVMq1XZO6eff69g1zZb7Iu8qmsL0G5fjQfe
+ 8U1PaSWQ/Zww290KLap26ojDmjd+kOEnuukdm9zixq598VU8jJDR7ZeFCuiTsignhjXUF2PN9TSJAef36h0B1iHKmdc6aUeu+tfzvRbwVt5Giue2sjASOL6P
+ rC0vi4Rl/Ug+h9u9QAx4Gw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Do not create Control Classes for empty classes.
+On 11/03/2021 13:12, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Mar 11, 2021 at 11:20:15AM +0100, Hans Verkuil wrote:
+>> The kernel-doc documentation for two structs was missing the
+>> 'struct' keyword.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Should I take this in my tree, or will you merge them with your series ?
 
-Fixes v4l2-compliance:
+I'll take it.
 
-Control ioctls (Input 0):
-	                fail: v4l2-test-controls.cpp(255): no controls in class 009d0000
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+Regards,
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c   | 11 +++++++++++
- drivers/media/usb/uvc/uvc_driver.c |  1 -
- drivers/media/usb/uvc/uvcvideo.h   |  1 -
- 3 files changed, 11 insertions(+), 2 deletions(-)
+	Hans
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 433342efc63f..5efbb3b5aa5b 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2128,6 +2128,17 @@ static int __uvc_ctrl_add_mapping(struct uvc_device *dev,
- 	if (map->set == NULL)
- 		map->set = uvc_set_le_value;
- 
-+	switch (V4L2_CTRL_ID2WHICH(map->id)) {
-+	case V4L2_CTRL_ID2WHICH(V4L2_CID_CAMERA_CLASS):
-+		dev->ctrl_class_unit->ctrl_class.bmControls[0] |=
-+						BIT(UVC_CC_CAMERA_CLASS);
-+		break;
-+	case V4L2_CTRL_ID2WHICH(V4L2_CID_USER_CLASS):
-+		dev->ctrl_class_unit->ctrl_class.bmControls[0] |=
-+						BIT(UVC_CC_USER_CLASS);
-+		break;
-+	}
-+
- 	list_add_tail(&map->list, &ctrl->info.mappings);
- 	uvc_dbg(dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
- 		map->name, ctrl->info.entity, ctrl->info.selector);
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 996e8bd06ac5..4f368ab3a1f1 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1501,7 +1501,6 @@ static int uvc_ctrl_class_parse(struct uvc_device *dev)
- 
- 	unit->ctrl_class.bControlSize = 1;
- 	unit->ctrl_class.bmControls = (u8 *)unit + sizeof(*unit);
--	unit->ctrl_class.bmControls[0] = (1 << (UVC_CC_LAST_CLASS + 1)) - 1;
- 	unit->get_info = uvc_ctrl_class_get_info;
- 	strncpy(unit->name, "Control Class", sizeof(unit->name) - 1);
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 1d59ac10c2eb..cc573d63e459 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -186,7 +186,6 @@
-  */
- #define UVC_CC_CAMERA_CLASS	0
- #define UVC_CC_USER_CLASS	1
--#define UVC_CC_LAST_CLASS	UVC_CC_USER_CLASS
- 
- /* ------------------------------------------------------------------------
-  * Driver specific constants.
--- 
-2.31.0.rc2.261.g7f71774620-goog
+> 
+>> ---
+>>  drivers/media/platform/vsp1/vsp1_drm.h | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/vsp1/vsp1_drm.h b/drivers/media/platform/vsp1/vsp1_drm.h
+>> index e85ad4366fbb..ab8b7e3161a2 100644
+>> --- a/drivers/media/platform/vsp1/vsp1_drm.h
+>> +++ b/drivers/media/platform/vsp1/vsp1_drm.h
+>> @@ -18,7 +18,7 @@
+>>  #include "vsp1_pipe.h"
+>>  
+>>  /**
+>> - * vsp1_drm_pipeline - State for the API exposed to the DRM driver
+>> + * struct vsp1_drm_pipeline - State for the API exposed to the DRM driver
+>>   * @pipe: the VSP1 pipeline used for display
+>>   * @width: output display width
+>>   * @height: output display height
+>> @@ -47,7 +47,7 @@ struct vsp1_drm_pipeline {
+>>  };
+>>  
+>>  /**
+>> - * vsp1_drm - State for the API exposed to the DRM driver
+>> + * struct vsp1_drm - State for the API exposed to the DRM driver
+>>   * @pipe: the VSP1 DRM pipeline used for display
+>>   * @lock: protects the BRU and BRS allocation
+>>   * @inputs: source crop rectangle, destination compose rectangle and z-order
+> 
 
