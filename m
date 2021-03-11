@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36F9B3368A5
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 01:31:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE9EF3368A9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 01:31:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbhCKAat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Mar 2021 19:30:49 -0500
-Received: from mail-eopbgr60048.outbound.protection.outlook.com ([40.107.6.48]:57828
+        id S229931AbhCKAav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Mar 2021 19:30:51 -0500
+Received: from mail-eopbgr60080.outbound.protection.outlook.com ([40.107.6.80]:41273
         "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229570AbhCKAa0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Mar 2021 19:30:26 -0500
+        id S229810AbhCKAaa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Mar 2021 19:30:30 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y+MbZvKqrD45YyWHfQcBVNLcC6SHALanQIhhcfZDI+HLK1xRtDh97rxrWlgMRW6D4LtWder0qfRXC9tJZTdcAnFOLRW1yjyY8bEQJP3Wvlps26ts01J/jqmsj5rRoRthkdqrunsMiVXNjwK5Bx9NH0FB+PhF6D/qVkGf+ju4du/N5XKG+xrVe1gGzpT08HIKbh2dbIT/6NMyyLYTyDpVOpLVAi11THPzHdJpsDrQh+d3creraoGuvRzSjCHSCEVJDk5Y/gyDDupiVUp0ckH/LnHiNYl2eA8PCfknl2iPJzmv+daMRHg7EgBYPAdVunLw9IK+ETN1V5baTVALw2qnIg==
+ b=bU6WdX7C1lhCidF0WsIqo+HqsUU0xTyUwDZNeM/C0i6JSz+JWcf2y8N5ndR07wGxSZ1YA360iq/qBX9U/KOQCtE3anbPfoW2umZPd2H08u9TA0QrZq/nnn9Fv9IV7LtOt8LNAfnMsPQCqZ15mRqNP6ENmZVQYu1PsED3wO7REmUaPxF62J6DqiA20glncnCzzXMIaV3bTiQ+VGLPVMAMXsI/QdHD27nc2rdmbg8QbimE2zMCN0mviSYgv6Ei6kWcJ2e+0bHljKw60XsHCNBo0o7mNS4p5YOSGjTs5A2WSjRbReKBuwG0cRXOIVNxlVXX0jf+g+qXwH/edxRBMgVJNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fxv9QQ2fu4n/bYdY2l1vKLDfPRtnMLfgUHF3INVnLRw=;
- b=PKjoePicPY+eQgUkJpEbDd6VAdVYp1LvsWSEC09cBknR/HNVKbzaB9z9wkVws/hf4HINzhgMpjji0oSwakqp3NqSj1eTUUbwK6klsNO3X26uxmk8JaKZTaUD7LNTJrgc3n6p1jqMDqdXlYPG27HnOCKeUab8bR+AIoLhAz0ffNt21BAqjEq9tk/OJmXNutHdlseDHlYCD8gzGHhN4QM+QFrMLuhQ9s3LbUr3PBOUo6LT2c/5FfS5jO3+38bHm67Quno0KjGQaDZogWFzx/ED+vPnOM3CXFp9yuUF/lI5iYXxOqK9+USe9CQmPbNI05+c3y/PrDN51/swBq2MP8JHtg==
+ bh=xN5luF9ZtgbdLA8mY1E5iHEwQSlQkGbok19fuSO7Gbg=;
+ b=JXosMvVQJWzB71V/fT2clLia4hwwXo0lZk1loaumlFM4nzblBhVw5yGcqJ4DsaYMWl8ixbDatf3hWOhz6xt3owe+14ePfxDe3UcZsoejdeY/YYZfmueG6iHAHajtyYL/9WQkvzUp5rnnkRFCcQpBiGa3DmQrUrffXKmyN2AXjB2R/PIsnQ7Dkh+a6ExiwLhkvMJ1E0fUXXYHMx0T1xDUZCjSi0i0qniT+oDdcq5xYZPKTcsVc/J20XSRoENTr7ER5mN9e1/cN4wdPygfmhZGhjOMQK+vaFQCihprnSYJEnUFIf+ShmKRqn+auTmevv86uGKdWQAsm2scomB880HuuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fxv9QQ2fu4n/bYdY2l1vKLDfPRtnMLfgUHF3INVnLRw=;
- b=A3rAmeSefgDoSe+NsA4G+QejxYoa9SdN1vU3COtXEIwXO3ebIL3N3P0Q7MfmHua8eErBqnlAvyogz4WU03R8rJ+VQaxGLu1fPPUT5S27l9FVAi7qWqCnmkWkbzPSmikcpL0DrZj8+JVVoxWDW+0xw5PixFOdNpx1orgudq0CNBA=
+ bh=xN5luF9ZtgbdLA8mY1E5iHEwQSlQkGbok19fuSO7Gbg=;
+ b=R3DYsRdkPU+PCwGUaOU0lV5eONpYIpKQYb3oFpwbrapcC0fAIVGzmHV6WE1gEO8tXJOuBkdcAVa9Jv9wpqP2d0QRxwOJ/9m04PhrGjPwOlfW6yNU7TTVPwH7OYalF2CR+JwgH3GEDYA789ADuRZNpyx/aV6gKh6djlJiomBO1GA=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=oss.nxp.com;
 Received: from AM5PR04MB3137.eurprd04.prod.outlook.com (2603:10a6:206:c::18)
  by AS8PR04MB7959.eurprd04.prod.outlook.com (2603:10a6:20b:289::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.26; Thu, 11 Mar
- 2021 00:30:24 +0000
+ 2021 00:30:28 +0000
 Received: from AM5PR04MB3137.eurprd04.prod.outlook.com
  ([fe80::618c:8b68:e3d9:a8c6]) by AM5PR04MB3137.eurprd04.prod.outlook.com
  ([fe80::618c:8b68:e3d9:a8c6%7]) with mapi id 15.20.3912.029; Thu, 11 Mar 2021
- 00:30:24 +0000
+ 00:30:28 +0000
 From:   "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
         robh+dt@kernel.org, p.zabel@pengutronix.de
@@ -51,9 +51,9 @@ Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
         niklas.soderlund+renesas@ragnatech.se,
         dafna.hirschfeld@collabora.com,
         Mirela Rabulea <mirela.rabulea@nxp.com>
-Subject: [PATCH v9 1/8] media: v4l: Add packed YUV444 24bpp pixel format
-Date:   Thu, 11 Mar 2021 02:28:47 +0200
-Message-Id: <20210311002854.13687-2-mirela.rabulea@oss.nxp.com>
+Subject: [PATCH v9 2/8] media: dt-bindings: Add bindings for i.MX8QXP/QM JPEG driver
+Date:   Thu, 11 Mar 2021 02:28:48 +0200
+Message-Id: <20210311002854.13687-3-mirela.rabulea@oss.nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210311002854.13687-1-mirela.rabulea@oss.nxp.com>
 References: <20210311002854.13687-1-mirela.rabulea@oss.nxp.com>
@@ -64,52 +64,52 @@ X-ClientProxiedBy: VI1P190CA0011.EURP190.PROD.OUTLOOK.COM
  (2603:10a6:206:c::18)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fsr-ub1664-134.ea.freescale.net (86.124.171.30) by VI1P190CA0011.EURP190.PROD.OUTLOOK.COM (2603:10a6:802:2b::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Thu, 11 Mar 2021 00:30:22 +0000
+Received: from fsr-ub1664-134.ea.freescale.net (86.124.171.30) by VI1P190CA0011.EURP190.PROD.OUTLOOK.COM (2603:10a6:802:2b::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Thu, 11 Mar 2021 00:30:26 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1f792506-b21e-4f43-532d-08d8e424dc33
+X-MS-Office365-Filtering-Correlation-Id: 0209d74e-4a83-4f43-90e3-08d8e424dec8
 X-MS-TrafficTypeDiagnostic: AS8PR04MB7959:
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR04MB7959314D7C1D9E7A253A48B2CE909@AS8PR04MB7959.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
+X-Microsoft-Antispam-PRVS: <AS8PR04MB7959A6262B8C4A1F4E1385C9CE909@AS8PR04MB7959.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: o38qbghILn4ARvbqG5MVchnDWVrTMRJO4M/TCCEET1uGi0meJYaseXLQGyPy7Tx9Nffgz/ce/2GMuVJi6C5lQInBf/wDO5sbqPUo+z4iCbXRTykhiWTEen1sou8rfdUPdXDlbLb8ekDf07+4EW/cj+zq7qfr30OVAXZgjKn7/H6fO8/Gu9E/j6qX38O66craSR1hLOubvzPKcUUB55X7w/72Z27Tf5bqyJrt35FH3ximIdGxXWQrXY1I14PWRB9jW/swh1FsovItDBxSEIzlXrCEkKgS+7wCwILlY1LAnjts0f/TmnfkapozEuqEkKu+RZnMuyekOrXQfErrAU+aIyU+G8Uyf8xYC7jD34Y1ee1T3RzdZXa+kFkeYGIHR3k4Gb3UzXADyC0jjC46lZe3tMtWvt0/K7WzP7A6jHanUZFxNm4GSRoFzW+wP1+8+zoYQ8/CnmyxVRjABZPMuUv9Ua3stQOZ/Xmxd708v38Tso4/29U3Gf1beFJjq5thErvE+BFC62FYbT2eLllWtIIFXw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3137.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39850400004)(346002)(136003)(376002)(366004)(956004)(2616005)(66556008)(66476007)(2906002)(66946007)(1076003)(316002)(7416002)(4326008)(478600001)(52116002)(6486002)(6512007)(186003)(26005)(16526019)(86362001)(6666004)(19627235002)(5660300002)(8676002)(6506007)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?s1T0zeQ0uZurmG3RTYk8kxUi5zcA9ad04DlJKF2N1UmATDkXwXdssXR22oKQ?=
- =?us-ascii?Q?QVPQX508t7ZihaYBXszYV4Q336uVqtsuzDWQRFauwXo7ZPssNkrrWboZyxHB?=
- =?us-ascii?Q?z8gLJv5pXxmbMdD77PMT3xqQZdYl4/toer3dFtQ+RJeWu+PF1TUp4lwN7VWE?=
- =?us-ascii?Q?hgyvfFwNhPUsFn/ZTOtM/S3oSyEUoinfwRXWTyEL9gHAaFekUnEGH+OQFiqR?=
- =?us-ascii?Q?VDitqSKe7AdaNSZbBNcZvhL07g2U/vk/kIy6kHZPe4TLXbNayJsbshXHxHhO?=
- =?us-ascii?Q?az4qiuzB6krciRa0NT9JOASikeD1tMtCwJI6t8xSyKDl6Q6OyB3awV0DG9fH?=
- =?us-ascii?Q?TfHvo16bN8qXqHTjnYpEwQWVNhPe+9ZHx0YRxNDoIeKITyE0r7Qoxs+WhUBp?=
- =?us-ascii?Q?ObfrfUAG8PmlVKFFfmtOio3Y1DtD6JjR2jIjSAhjAQsk3f4cn5Fhf1rgLKgI?=
- =?us-ascii?Q?IGWViJGivcNXO6vv1h6lhRsIAzIXqF6F3/Z+IuLwsoalxBpWrKr79s/1sLtS?=
- =?us-ascii?Q?tp2FzzhuZ7SIl14b8W9UH10UOSigtUwdqD10XQHVAhDvAiwaxTjnfhTyTSCV?=
- =?us-ascii?Q?alRU/7y3cMuHmcmoSBtv1EU8/e25cCeEyafQXM7Dj8H4tgQ5aMC2vzl3Ms9N?=
- =?us-ascii?Q?bvvV4qD/rd6qvik4XOm8JEpG9VzS/jISPmNwS/Rh1GppvCU2/UecRfjxZHaa?=
- =?us-ascii?Q?5lCPuvkqNPmlQoy5zVUjzs1gHWhgXmyFF21xKpthDDp8c5uqthJVxJqSS5sr?=
- =?us-ascii?Q?Pe6H90grpl/kAjm+K9POa3ZIoP4B/Q3Vf15Ux93Lk+GxZzId/YklG8xe2Fwo?=
- =?us-ascii?Q?mZhpAG2xigvojf8YT3HE5iK5XqYblj9sYdGbFCVLNfT1E1IsSkVAMVXfcykR?=
- =?us-ascii?Q?QRqkVcgMthrag0Tl4pZ0cQ8WXIiN7L/ShV4mshXkiixEDUzMJoWOVXDL+lHO?=
- =?us-ascii?Q?WIyrZ3PtoTt1vopnu7HHGpcLIZRFwkHpArpNun8U+r4AQN62PHDobQ7EbtU8?=
- =?us-ascii?Q?Ed7iHG6g6CF4mb5jYbxGReEISvlEDFcbKIwiFCWQzFESmFawBIFEoq/QGwSF?=
- =?us-ascii?Q?59ddpPhhSWbOdD1eIb0cxkykBlIdM5Ua2DSM8ycRu0yxw/maCEPRATadPkeI?=
- =?us-ascii?Q?z5cYwa278F3WB//KUQZqrJsongqW5C7YOb7z0K9ZfzkErrdGJzj/lk4oS0YR?=
- =?us-ascii?Q?jFFTcIdITEhVBK5gvF4iSxcTC9xKa3TepBAY1KV624BKc0uxIEcocmD0wJOD?=
- =?us-ascii?Q?OxO95MBhWxBLkyTIsIdu6+2TxoZvDHGXABn9NpoNQPj/7hTZMgoQaRRWCS7D?=
- =?us-ascii?Q?DwfiAYsqb02HPY7hg4v3haRe?=
+X-Microsoft-Antispam-Message-Info: Gv3zQyNnIy/uBz4uXYsvCQD9fUg3ZRSV9l3QmELuHwDLS6jVHO3OtFfVLY7qfid1pm1SUjijSo8UaDhmhzwmbpnsnxaI/DwuAJBBWd30FGkDKBrurqi/9wg32LM6XL89Jpx/7Zye8Fwp/EZt5SjhkWdvgINuzTl0PGSyW/C6xEkotMsqiS9L5YhJXqrpZqVnLL0ecPJImZd0Dzz4xv0oZGaLMOka/Hb/1cw8Sgl/iCZ474zF+Jhe1di+EmzCmAnBQkENbDus+C3T2tnDeqbCwSn+TW/vKLrBm7XF2KI6ZUAjxhTjub/Th01FhfIJELFmjtV+tZhnvLFPSVOakSlpt2cW3D2Y3LWva7WAUL6bRD/GSsVyyukU/sg0UNhzJQkZXSqEKGJ+M2RIwsZRBFuqxxUQUU+C6F8lZA5LsB54DeFtwA8SMIsSlROvnurYnrsuO6qBzm5oSayxjno43dSN0ZVKCt9B6OBFDu5Avl5mJZhQTUe21zCQ6zhFdTvbdKQ+Ji2oX464615uavSkYwgdcVoBXiC2TKWbIsNQOvunakTmDd80sUbMtbqMRkh66lPxgIEKSKchj/Z3ZPHPmcVkwFNSkyjJET8u3ioctIeOWDg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3137.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39850400004)(346002)(136003)(376002)(366004)(956004)(2616005)(66556008)(66476007)(2906002)(66946007)(1076003)(316002)(7416002)(4326008)(966005)(478600001)(52116002)(6486002)(6512007)(186003)(26005)(16526019)(86362001)(6666004)(5660300002)(8676002)(6506007)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?tX4lsPD2ePoegpPRaWNZSjW8kuLN2mpHpfKSP/VY4bn7Y9WVaef+LLe1UzgF?=
+ =?us-ascii?Q?cO46xHZH1PkBoaY7HKmI3w9d/wnSm5daQTmO10R+6cOja3599m47+ISePLch?=
+ =?us-ascii?Q?0dP0Hs9Zr0r72ib2MVEOUpvWcdvCGTFa5R+/tihW0fDGGliNd5F++bSneXVR?=
+ =?us-ascii?Q?xh/Ds2BKiMgYVtbT0vxBUvk4GR/02t2xUQnKstBk+uibJv275Dhur6rIryf4?=
+ =?us-ascii?Q?DnvYVfegei0cRsGARMx+xCgp3l9l2tUK/8G29AVKUvheYjPv44a/XnTTd5dB?=
+ =?us-ascii?Q?+JKP6OZyMAMPm2wDH0mZ9TIOI9rusU1g8l6YGosO2fPUuD+3uPQpSCWV0242?=
+ =?us-ascii?Q?RsvKgtl736EN6hQWIx3UpoTzh4Uwvw1jhlYZr3C+JczodzX+6cGprzVYy3VP?=
+ =?us-ascii?Q?r9GdYl4nOmU9Pz6tBceHky9/N3CDL0k/s97hMmf2eHd6uqjb5K7NQRVsqq6h?=
+ =?us-ascii?Q?f8/RvDtEFYWrV88NXxpVx3E0yCLTiQVyJR1uRBWqQlrDdEotWbED2I4CNmYc?=
+ =?us-ascii?Q?U9+tFVluKk5jprOKRgULbOcDh0OwuA/kxVAlVFK4fc8b05TkiPVPzDBUeC13?=
+ =?us-ascii?Q?CGK3dvnYpwL+Fxb/ud2xoq+mVwGtuqQFhdBP0/mCM2A05oK6ta+WJDmBORms?=
+ =?us-ascii?Q?wztLEmhbWTKDYfEyRV8UXAvbkokoxiw5axy+FDaZ2bGrfrSsTATLvZPMz431?=
+ =?us-ascii?Q?i12dpgT76evnWJfJ7nFGEzCDLYR6cMKfEIk1Tr+DHyB0dM1EV/ZzNzMC/WH7?=
+ =?us-ascii?Q?HbDNQzgw85LULblnGnJs1cCTlyaxcKlY+LeXfOwFxl8bwheVGyJeXlBqQeEh?=
+ =?us-ascii?Q?PCGls8d7qTPys75BjMB0aKgmdebHiQfnPg5MyMMzqc04Fr69jZXzrHM00H4n?=
+ =?us-ascii?Q?jkzAqkNnb/AcDxfx440ESX8yyoPkzL3AG2lpWDttUGUcRdOowJiW1UlinGUO?=
+ =?us-ascii?Q?h1AxV4HWo/cL6lyk256y6Uyt3w6ydx2nklv7np+l1+ItC/h2j7QVbdXVDKwE?=
+ =?us-ascii?Q?gUpYyioW/W6fUs7jw6Y8etNJNkxgcVrU3yDm0Y8uepswiJu643JsrpgIyIKq?=
+ =?us-ascii?Q?atkrsUXhjyn+zasGr4rTxai2PIaekM+haseanYS3x1sOpxN9ZoH0+bv/hCKp?=
+ =?us-ascii?Q?LvKIumBwORCFqZfMEZK/BSp5JG7PUfcpRkuQ8zCSbvoAmFSQHvm0Iv6amUUP?=
+ =?us-ascii?Q?q+NNXIy1Xhzt/oKbhxJxaHrgLQpIos2QLxb2FlJcIWXeKnU+5rF/eTBVqxfh?=
+ =?us-ascii?Q?whlpOFqHcgMSO+NV25pD/LZuPpWT1L/qpulfGAgcqkjzN1GVCQq3Xi49CtqU?=
+ =?us-ascii?Q?8TUWXmc/O0EgzZNoFHq7XGgC?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f792506-b21e-4f43-532d-08d8e424dc33
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0209d74e-4a83-4f43-90e3-08d8e424dec8
 X-MS-Exchange-CrossTenant-AuthSource: AM5PR04MB3137.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2021 00:30:23.9270
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2021 00:30:28.2955
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hi+rs6vSu1V8ApX0qxb7SVnCHuYWCjLthMxydtyxg2Fx+IGa8cBfsqPWBTumSInIUCl7FrklFp976NNUbThxTw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 12Q9+i6Z8KDipnKQ4wMVJYgv3G8PqmQ7OK19fGC5amI1Hegg5t5oW4Oymif5zWiTVz3J/2OIzLZNlfBlGI84kg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7959
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -117,66 +117,105 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Mirela Rabulea <mirela.rabulea@nxp.com>
 
-The added format is V4L2_PIX_FMT_YUV24, this is a packed
-YUV 4:4:4 format, with 8 bits for each component, 24 bits
-per sample.
-
-This format is used by the i.MX 8QuadMax and i.MX 8DualXPlus/8QuadXPlus
-JPEG encoder/decoder.
+Add bindings documentation for i.MX8QXP/QM JPEG decoder & encoder driver.
 
 Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../userspace-api/media/v4l/pixfmt-packed-yuv.rst      | 10 ++++++++++
- drivers/media/v4l2-core/v4l2-ioctl.c                   |  1 +
- include/uapi/linux/videodev2.h                         |  1 +
- 3 files changed, 12 insertions(+)
+ .../bindings/media/nxp,imx8-jpeg.yaml         | 84 +++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-index 560fd2ead8ca..65520c3af7cf 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-@@ -220,6 +220,16 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
-       - Y'\ :sub:`7-0`
-       - X\ :sub:`7-0`
- 
-+    * .. _V4L2-PIX-FMT-YUV24:
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+new file mode 100644
+index 000000000000..5d13cbb5251b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+@@ -0,0 +1,84 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+      - ``V4L2_PIX_FMT_YUV24``
-+      - 'YUV3'
++title: i.MX8QXP/QM JPEG decoder/encoder Device Tree Bindings
 +
-+      - Y'\ :sub:`7-0`
-+      - Cb\ :sub:`7-0`
-+      - Cr\ :sub:`7-0`
-+      - -\
++maintainers:
++  - Mirela Rabulea <mirela.rabulea@nxp.com>
 +
- .. note::
- 
-     - The alpha component is expected to contain a meaningful value that can be
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 31d1342e61e8..9a160283b3ae 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1304,6 +1304,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_YUV444:	descr = "16-bit A/XYUV 4-4-4-4"; break;
- 	case V4L2_PIX_FMT_YUV555:	descr = "16-bit A/XYUV 1-5-5-5"; break;
- 	case V4L2_PIX_FMT_YUV565:	descr = "16-bit YUV 5-6-5"; break;
-+	case V4L2_PIX_FMT_YUV24:	descr = "24-bit YUV 4:4:4 8-8-8"; break;
- 	case V4L2_PIX_FMT_YUV32:	descr = "32-bit A/XYUV 8-8-8-8"; break;
- 	case V4L2_PIX_FMT_AYUV32:	descr = "32-bit AYUV 8-8-8-8"; break;
- 	case V4L2_PIX_FMT_XYUV32:	descr = "32-bit XYUV 8-8-8-8"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 79dbde3bcf8d..9e4359be04eb 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -586,6 +586,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_YUV444  v4l2_fourcc('Y', '4', '4', '4') /* 16  xxxxyyyy uuuuvvvv */
- #define V4L2_PIX_FMT_YUV555  v4l2_fourcc('Y', 'U', 'V', 'O') /* 16  YUV-5-5-5     */
- #define V4L2_PIX_FMT_YUV565  v4l2_fourcc('Y', 'U', 'V', 'P') /* 16  YUV-5-6-5     */
-+#define V4L2_PIX_FMT_YUV24   v4l2_fourcc('Y', 'U', 'V', '3') /* 24  YUV-8-8-8     */
- #define V4L2_PIX_FMT_YUV32   v4l2_fourcc('Y', 'U', 'V', '4') /* 32  YUV-8-8-8-8   */
- #define V4L2_PIX_FMT_AYUV32  v4l2_fourcc('A', 'Y', 'U', 'V') /* 32  AYUV-8-8-8-8  */
- #define V4L2_PIX_FMT_XYUV32  v4l2_fourcc('X', 'Y', 'U', 'V') /* 32  XYUV-8-8-8-8  */
++description: |-
++  The JPEG decoder/encoder present in iMX8QXP and iMX8QM SoCs is an
++  ISO/IEC 10918-1 JPEG standard compliant decoder/encoder, for Baseline
++  and Extended Sequential DCT modes.
++
++properties:
++  compatible:
++    items:
++      - enum:
++            # JPEG decoder
++          - nxp,imx8qxp-jpgdec
++            # JPEG encoder
++          - nxp,imx8qxp-jpgenc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    description: |
++      There are 4 slots available in the IP, which the driver may use
++      If a certain slot is used, it should have an associated interrupt
++      The interrupt with index i is assumed to be for slot i
++    minItems: 1               # At least one slot is needed by the driver
++    maxItems: 4               # The IP has 4 slots available for use
++
++  power-domains:
++    description:
++      List of phandle and PM domain specifier as documented in
++      Documentation/devicetree/bindings/power/power_domain.txt
++    minItems: 2               # Wrapper and 1 slot
++    maxItems: 5               # Wrapper and 4 slots
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/firmware/imx/rsrc.h>
++
++    jpegdec: jpegdec@58400000 {
++        compatible = "nxp,imx8qxp-jpgdec";
++        reg = <0x58400000 0x00050000 >;
++        interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>;
++        power-domains = <&pd IMX_SC_R_MJPEG_DEC_MP>,
++                        <&pd IMX_SC_R_MJPEG_DEC_S0>,
++                        <&pd IMX_SC_R_MJPEG_DEC_S1>,
++                        <&pd IMX_SC_R_MJPEG_DEC_S2>,
++                        <&pd IMX_SC_R_MJPEG_DEC_S3>;
++    };
++
++    jpegenc: jpegenc@58450000 {
++        compatible = "nxp,imx8qxp-jpgenc";
++        reg = <0x58450000 0x00050000 >;
++        interrupts = <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>;
++        power-domains = <&pd IMX_SC_R_MJPEG_ENC_MP>,
++                        <&pd IMX_SC_R_MJPEG_ENC_S0>,
++                        <&pd IMX_SC_R_MJPEG_ENC_S1>,
++                        <&pd IMX_SC_R_MJPEG_ENC_S2>,
++                        <&pd IMX_SC_R_MJPEG_ENC_S3>;
++    };
++...
 -- 
 2.17.1
 
