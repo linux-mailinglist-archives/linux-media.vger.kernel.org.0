@@ -2,125 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A509336D06
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 08:28:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC226336E45
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 09:53:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231646AbhCKH1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 02:27:35 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:40729 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231504AbhCKH1Z (ORCPT
+        id S231596AbhCKIxb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 03:53:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231759AbhCKIxQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 02:27:25 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id KFj4lOWNPC40pKFj8lKLW5; Thu, 11 Mar 2021 08:27:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615447643; bh=XfiRiX/Im3KbeMNo9cMm4VRSxjH+mKuoMBiQxT6LGlU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=S8P/vj/ozRnwrIaLNNrjRcD5tykA7wlodxJw77CEslX2bFoqvlYMx2WWbyU41j+/8
-         QCHk/XQMwHYAcDNw2QV8vbBdPbozE1oQ3b3JhWNMg7smzjZbn25tuzZ7Opymx5qkvm
-         9gunPecf+VXBdSlx92Gq0qvbihTOPjjzgXvvPUptQuiAEs1Fshsl/B+KvcPN4mMx4B
-         ERDN2hs7Yvo/zzMi8GspomKcxZ99k1UMBr+dIC1uVXoBZvXPe3a96gCRih4aR04K56
-         IyiC+bMtR56EX+5f/fIXepv0SKNj7EYgyNMDg5YgMnJX2fLHpFwEda10K6ZnSWU5sA
-         XzX/C6JKZOLnw==
-Subject: Re: [PATCH v9 6/8] media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG
- Encoder/Decoder
-To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        p.zabel@pengutronix.de
-Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
-        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
-        daniel.baluta@nxp.com, robert.chiras@nxp.com,
-        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
-        devicetree@vger.kernel.org, ezequiel@collabora.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        dafna.hirschfeld@collabora.com,
-        Mirela Rabulea <mirela.rabulea@nxp.com>
-References: <20210311002854.13687-1-mirela.rabulea@oss.nxp.com>
- <20210311002854.13687-7-mirela.rabulea@oss.nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <58f6d308-c5c7-f2a0-9c64-b729282c9b71@xs4all.nl>
-Date:   Thu, 11 Mar 2021 08:27:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Thu, 11 Mar 2021 03:53:16 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F13DC061574
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 00:53:15 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id x4so31741393lfu.7
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 00:53:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=cNGljFPZRpYFKEu48myr7eYFUT4vLWZX348426Ewac8=;
+        b=Zaf8TERjpIJ1l5V3nPBjiNWKqWtex7iqYs8dHrxOeMRUoIcMPScQdK1Qen28QzlDMV
+         1uiJSXK6D6cqE/kh8ejYazjGz0LWvYFJopm1LPUBM6XTE/1x5jpyqqTNw29Yn3tQIJ7N
+         kkjZF++3BhwYyW06xSzd312WGkGCubOh3ogLlB3cpN/I6X3twy9oI215bwXl9pi+TCmr
+         6wquFQxOZekLhJcQTLr+VMY6tx8oDP2kqBoNDO6abOT2hps08H/F68RkNFSO9Or3ScuV
+         OWqVSyVSFWX0+VHXFZoVzdf1POznm6DGQB02FNVAAteyGpBig+mO3DbmA3V5PYcUyT/o
+         Z2Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=cNGljFPZRpYFKEu48myr7eYFUT4vLWZX348426Ewac8=;
+        b=Cic0mUzRiTxN76ViQUlpLzgrQ1flc5sXtW+5oC25CaCp5mrafYdiTSZTH6PavVnUCu
+         tky0QDNE1baE+GvRZiWkZf93gD7lWkf4D2AOzM0ce85rv4Wv8iWga3ZMMmw2601/jA2g
+         fMoiSKNLfZQNj2oh5oFE8FFU7N3SCLsLx0Lc1emCHb19czkQEaTOGeP+yO7OO2CpZnac
+         YQdNChvwC6izIESFV9+C2jnCV0msznuqV89KT4xoPHvZa6IRrVuzdJ3X8yzlPuOiEYp/
+         ZlGNukkuy83ehdMRLj/sG4Dko2zC1Upz0Iu8oEOt4O8dH7ozvQlWcklbi+luMQ5E8See
+         h6SA==
+X-Gm-Message-State: AOAM533HyJD+ClzV0Peph2AQvn4WyZySJjWFxO9sS/uO/57RSpugFv0J
+        PXa3SiSumiRb6M5+OXvD2cnRwKZi3d3nwLMUBWo=
+X-Google-Smtp-Source: ABdhPJx2Lo1PBlpmf+H+pXjN39Yop/lc74r3oKj/CqGYXmIv/JEzjWjvJTEbLJup2mXTxbc0kjWlV+szPGwsEDjfmz0=
+X-Received: by 2002:a05:6512:320a:: with SMTP id d10mr1702132lfe.587.1615452794114;
+ Thu, 11 Mar 2021 00:53:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210311002854.13687-7-mirela.rabulea@oss.nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfI6+9cNPQm1FRsig+UGPeKnoJIWK5pswKqZ+nyHhy08pjyhkqQzCmKamf0/IYLsYnzbUaR4zZSymDGyXji55s8LryA8UWj5+dPZlbSbroh4lovGMHUz+
- +zUuZ8hTXHt5cwJh9Qcx/Fj0AMMqG8W6s+UX+EsdU/4hYJNwUQwZaoa6NFTJPcQ/pOHnAYGw2K9NgYvi3klPKS4ednumcE0fAi0jJFG6ihGb13l/gXuChBRN
- +myg0qhyY9S5TDkeoxYRg6bSVn/SKpRiaZ9r1mp+0QxZ1oPUx620MUdlZhThWvhSbtJ+4TI9/q9P0XMfhmSniUt90IuR2k6lYD2uMcWg6XSSgAoupkrha7aC
- ajoBGFEJj/JApFHZPWpeUW0NXssjkF6qVwzaAl09R6gwgKkpFQwUbXL/H2eZn11uv0CZKwvxiL3zNfefDEsAWSnJSV2R0B/40zBMToQonkxIS4m/uiHUspnR
- z+TBqOeiqeXflt1CEcJTpX3wCfxw/RGi2Ychnj++7YFcjEvqNOuJ00VyJYZ/Q8J9MsBTQZNRjDygo1wOR6iGjC3A9ISzBQSp/bEt0lqvMi6eAsT+BUbTg+SU
- Icg2sFVMwabR9TU3sIUgJad1rRiqq7QBsdg3IffWu5S9Pz/s+tVpYgeM17meFw/wxCaNF599bU0mrq+4ry7/fR1aWTw9hpHD1/Fqu+gR+KSZJTRAMT7CrGCr
- BFshoKCB3CHx/gitzC1tekPTTygGvboONoEyaVTJzvt2ShKpeYgfpyAJf0+cXEOqB6i0X3sCSAfgPFF0Gfg6Y6K/iRm+t+ddB0j2/E8MN07QfT9M2v2uivhl
- g1aA20zR5sgX4ZyRSE7QPHm5ZAhq/TLELhtpXc4Lq5jcNQ7mZp1w6qB2hWRJwlcE9N823+0ID4GgfCiITT90Tb8um8bzBxHPFFJgBDXd9gRxs/hphOY/4uP9
- pMHrOQ==
+Received: by 2002:a2e:1649:0:0:0:0:0 with HTTP; Thu, 11 Mar 2021 00:53:13
+ -0800 (PST)
+Reply-To: georgemike7031@gmail.com
+From:   george mike <barristerlevi@gmail.com>
+Date:   Thu, 11 Mar 2021 09:53:13 +0100
+Message-ID: <CAEJ6Che61UsBB_yVS6K_MPSpnOkoMSbjKg0kx8gUp9sZxRXtBA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mirela,
+Hallo
 
-On 11/03/2021 01:28, Mirela Rabulea (OSS) wrote:
+Ich hei=C3=9Fe George Mike. Ich bin von Beruf Rechtsanwalt. Ich m=C3=B6chte=
+ dir anbieten
+engster Verwandter meines Klienten. Sie erben die Gesamtsumme (8,5
+Millionen US-Dollar).
+Dollar, die mein Kunde vor seinem Tod auf der Bank gelassen hat.
 
-<snip>
+Mein Klient ist ein Staatsangeh=C3=B6riger Ihres Landes, der mit seiner
+Frau bei einem Autounfall ums Leben gekommen ist
+und einziger Sohn. Ich habe Anspruch auf 50% des Gesamtfonds, w=C3=A4hrend
+50% davon berechtigt sind
+Sein f=C3=BCr dich.
+F=C3=BCr weitere Informationen wenden Sie sich bitte an meine private
+E-Mail-Adresse: georgemike7031@gmail.com
 
-> +static const struct of_device_id mxc_jpeg_match[] = {
-> +	{
-> +		.compatible = "nxp,imx8qxp-jpgdec",
-> +		.data       = (void *)MXC_JPEG_DECODE,
-
-Don't do this, just say:
-
-static const int mxc_decode_mode = MXC_JPEG_DECODE;
-static const int mxc_encode_mode = MXC_JPEG_ENCODE;
-
-and point to that:
-
-		.data = &mxc_decode_mode;
-
-> +	},
-> +	{
-> +		.compatible = "nxp,imx8qxp-jpgenc",
-> +		.data       = (void *)MXC_JPEG_ENCODE,
-
-		.data = &mxc_encode_mode;
-
-> +	},
-> +	{ },
-> +};
-
-<snip>
-
-> +static int mxc_jpeg_probe(struct platform_device *pdev)
-> +{
-> +	struct mxc_jpeg_dev *jpeg;
-> +	struct device *dev = &pdev->dev;
-> +	struct resource *res;
-> +	int dec_irq;
-> +	int ret;
-> +	int mode;
-> +	const struct of_device_id *of_id;
-> +	unsigned int slot;
-> +
-> +	of_id = of_match_node(mxc_jpeg_match, dev->of_node);
-> +	mode = (int)(u64)of_id->data;
-
-and this becomes:
-
-	mode = *(const int *)of_id->data;
-
-This will solve the kernel test robot warning, and for that matter
-the same gcc warnings I get when I compile.
-
-Just post a v9.1 for this patch, everything else looks good.
-
-Regards,
-
-	Hans
+Vielen Dank im Voraus,
+Herr George Mike,
