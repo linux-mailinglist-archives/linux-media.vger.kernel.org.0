@@ -2,96 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04263337554
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 15:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E32163375BF
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 15:31:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233507AbhCKOUJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 09:20:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57320 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233272AbhCKOTj (ORCPT
+        id S233853AbhCKObW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 09:31:22 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50679 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233671AbhCKObK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 09:19:39 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511B0C061574
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 06:19:39 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 6CFEC1F44AF7
-Message-ID: <380ad070b1b6904f2b607b2ff5d4725124c336c2.camel@collabora.com>
-Subject: Re: [PATCH 07/13] staging: media: hantro: fix kernel-doc formatting
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Date:   Thu, 11 Mar 2021 11:19:31 -0300
-In-Reply-To: <20210311102022.96954-8-hverkuil-cisco@xs4all.nl>
-References: <20210311102022.96954-1-hverkuil-cisco@xs4all.nl>
-         <20210311102022.96954-8-hverkuil-cisco@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Thu, 11 Mar 2021 09:31:10 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id KMLAlPR5r5C8yKMLDlemq4; Thu, 11 Mar 2021 15:31:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615473068; bh=RPFh02Icl3EXFV0VeXw72AQNSRDvrqTnaEo+Tpgea5U=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=TsuRyopstGjl2ohBmuxEY5d+riuLCRCvewmI5yca72iYJCFOVJj9mdiYhxedfxNY9
+         bguHZ4OrjasSqgXLtP8jpnwMupce3ibuDi3JRj9JqT5yRrYW8fwiYb3wTR8wscGJiJ
+         gZmoT0Xf/e0IGG6/lS8kQGJzHdUFL4J3iidpgFZS8TTdW964vqB2ji2uakrX46If7c
+         y4ui2uSbJYIvr1IhocwGUShsSJclqrBeL8cicfWVfhj4XzraiI00ctQYotWoxBsWqO
+         YvFM+AIjjDGf5sAiMlfkDbu3LlF8+s2ngUBEjC2HuwnSsQ9sK0u9YdNiTfo/WRNW0o
+         JCkrwtEGH95fQ==
+Subject: Re: [PATCH 10/10] media: uvcvideo: Populate only active control
+ classes
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, senozhatsky@chromium.org
+References: <20210311122040.1264410-1-ribalda@chromium.org>
+ <20210311122040.1264410-12-ribalda@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f2341e0e-e9c9-a1f6-2d9f-4355e232cf4a@xs4all.nl>
+Date:   Thu, 11 Mar 2021 15:31:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210311122040.1264410-12-ribalda@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfJzQz5Pcd+zPDO1slDapenr7kmw+xVrwbjO0w02j2YNMAK+uNIrrlW02iKXsP8gD78ZrmIFcUSaRJGcylFFPvB7IHrUDKV5Zb7FDS1hLolKlwTOabONb
+ aA1CEHmbylDGOC8mFtkGAUVRIpGKkIe/fUbJlJDk+87ioMKngz++/7rZAt2r642D/ELVDIr3RHBrQDpDREW8ZNqb30eHIiLiIVO5ymzSu6YbWZpSJQk5uiwS
+ EaebGx8zWr3MQSkopGcT8Y3HYJKNBk6GQNDSmrAvNlRowhQCo79avGMjNav40pYBJ5ICzqRVWICIDL/z2szVOy7qNm5G0BmXkWoivAhYzxYSO1J3Xf2EMMIQ
+ q6oav/fgb2vBvUov+LfxL0AVnt3Pp8ZtODtDlVMrpspCtM7AgLRE9qQyy+GT0+YWpi+xqT8e
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 11/03/2021 13:20, Ricardo Ribalda wrote:
+> Do not create Control Classes for empty classes.
 
-Thanks for the fix.
+Shouldn't this be squashed with patch 06/10?
 
-On Thu, 2021-03-11 at 11:20 +0100, Hans Verkuil wrote:
-> - @h264_dec was not documented, add that trivial change
-> - it is not possible to document a global variable in kernel-doc,
->   change to use 'DOC:' instead
-> - fix mismatched struct name (hantro_vp8d_hw_ctx -> hantro_vp8_dec_hw_ctx)
+Regards,
+
+	Hans
+
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-Thanks,
-Ezequiel
- 
+> Fixes v4l2-compliance:
+> 
+> Control ioctls (Input 0):
+> 	                fail: v4l2-test-controls.cpp(255): no controls in class 009d0000
+> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/staging/media/hantro/hantro.h    | 3 ++-
->  drivers/staging/media/hantro/hantro_hw.h | 2 +-
->  2 files changed, 3 insertions(+), 2 deletions(-)
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 11 +++++++++++
+>  drivers/media/usb/uvc/uvc_driver.c |  1 -
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 -
+>  3 files changed, 11 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index 65f9f7ea7dcf..6c1b888abe75 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -214,6 +214,7 @@ struct hantro_dev {
->   *
->   * @codec_ops:         Set of operations related to codec mode.
->   * @postproc:          Post-processing context.
-> + * @h264_dec:          H.264-decoding context.
->   * @jpeg_enc:          JPEG-encoding context.
->   * @mpeg2_dec:         MPEG-2-decoding context.
->   * @vp8_dec:           VP8-decoding context.
-> @@ -293,7 +294,7 @@ struct hantro_postproc_regs {
->  /* Logging helpers */
->  
->  /**
-> - * debug - Module parameter to control level of debugging messages.
-> + * DOC: hantro_debug: Module parameter to control level of debugging messages.
->   *
->   * Level of debugging messages can be controlled by bits of
->   * module parameter called "debug". Meaning of particular
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 34c9e4649a25..65a9eaf5bb18 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -99,7 +99,7 @@ struct hantro_mpeg2_dec_hw_ctx {
->  };
->  
->  /**
-> - * struct hantro_vp8d_hw_ctx
-> + * struct hantro_vp8_dec_hw_ctx
->   * @segment_map:       Segment map buffer.
->   * @prob_tbl:          Probability table buffer.
->   */
-
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 433342efc63f..5efbb3b5aa5b 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -2128,6 +2128,17 @@ static int __uvc_ctrl_add_mapping(struct uvc_device *dev,
+>  	if (map->set == NULL)
+>  		map->set = uvc_set_le_value;
+>  
+> +	switch (V4L2_CTRL_ID2WHICH(map->id)) {
+> +	case V4L2_CTRL_ID2WHICH(V4L2_CID_CAMERA_CLASS):
+> +		dev->ctrl_class_unit->ctrl_class.bmControls[0] |=
+> +						BIT(UVC_CC_CAMERA_CLASS);
+> +		break;
+> +	case V4L2_CTRL_ID2WHICH(V4L2_CID_USER_CLASS):
+> +		dev->ctrl_class_unit->ctrl_class.bmControls[0] |=
+> +						BIT(UVC_CC_USER_CLASS);
+> +		break;
+> +	}
+> +
+>  	list_add_tail(&map->list, &ctrl->info.mappings);
+>  	uvc_dbg(dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
+>  		map->name, ctrl->info.entity, ctrl->info.selector);
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 996e8bd06ac5..4f368ab3a1f1 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1501,7 +1501,6 @@ static int uvc_ctrl_class_parse(struct uvc_device *dev)
+>  
+>  	unit->ctrl_class.bControlSize = 1;
+>  	unit->ctrl_class.bmControls = (u8 *)unit + sizeof(*unit);
+> -	unit->ctrl_class.bmControls[0] = (1 << (UVC_CC_LAST_CLASS + 1)) - 1;
+>  	unit->get_info = uvc_ctrl_class_get_info;
+>  	strncpy(unit->name, "Control Class", sizeof(unit->name) - 1);
+>  
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 1d59ac10c2eb..cc573d63e459 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -186,7 +186,6 @@
+>   */
+>  #define UVC_CC_CAMERA_CLASS	0
+>  #define UVC_CC_USER_CLASS	1
+> -#define UVC_CC_LAST_CLASS	UVC_CC_USER_CLASS
+>  
+>  /* ------------------------------------------------------------------------
+>   * Driver specific constants.
+> 
 
