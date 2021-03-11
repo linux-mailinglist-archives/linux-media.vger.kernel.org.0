@@ -2,136 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B54E3370BE
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 12:02:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ECE93370F9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 12:16:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232550AbhCKLBx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 06:01:53 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44233 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232402AbhCKLBh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 06:01:37 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id KJ4NlPmBxC40pKJ4QlL29n; Thu, 11 Mar 2021 12:01:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615460495; bh=XZfVWBtfwrsC30R13V20cTW43bqM10QXTplpPo1ZOM0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=RFZ6+34TrfE6cjkoWQAFsQ8XWJOEJuOJ47ctQilnfyqZxNKTOH6PuczLtfNkXlOVK
-         6LhtG3eawC5xyDRVYbDMJ0BijaTjqCd2n7QouXik5ts0bzcHwUOKk2s3evOpo7YYoU
-         cMV0jnrbqtI9kN4peGThiW4wM5Uhs+Nt0+ozNL/PXvmGOYOwVB+5UKQvTvBxxfHvQ7
-         lSCfg5AzNlxPVQlPpDCA/qoXAAMTa+TAtZzUGY4vY9ipe1jBzwR46Tx7ceqDZWEH9y
-         RwTm62DLnJkrk24p1z46ETlGKURrD8V3sX9ctNhYwZa+Aqs+0wjMnazXfgSwNsN9Lb
-         86DUy/jo0+N6Q==
-Subject: Re: [PATCH v9 7/8] arm64: dts: imx8qxp: Add jpeg encoder/decoder
- nodes
-To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        p.zabel@pengutronix.de
-Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
-        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
-        daniel.baluta@nxp.com, robert.chiras@nxp.com,
-        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
-        devicetree@vger.kernel.org, ezequiel@collabora.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        dafna.hirschfeld@collabora.com,
-        Mirela Rabulea <mirela.rabulea@nxp.com>
-References: <20210311002854.13687-1-mirela.rabulea@oss.nxp.com>
- <20210311002854.13687-8-mirela.rabulea@oss.nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <a0f7d919-46bb-5c5d-1fef-39a90e9969ea@xs4all.nl>
-Date:   Thu, 11 Mar 2021 12:01:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        id S232618AbhCKLQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 06:16:19 -0500
+Received: from m42-2.mailgun.net ([69.72.42.2]:30635 "EHLO m42-2.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232520AbhCKLPu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Mar 2021 06:15:50 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1615461349; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=RBjbPs495i1bppqG62aDtERKkn2r3f7Ti8TBo/hFrQM=;
+ b=BK6s6Bg7V75+4cwQfkjlQjFXFhNFqhSXh6PALHKf84pO+evca2furwUSJlYbxQND6Q0Wlfr0
+ 6EIR5PV3Vu4TsIwOfiezmgzJ4bas1z0lYXW+m5NVYNe/I8Oq+TRcr+GeSoyzNT7xDy/4MV3i
+ OeQKVBniiuv9ZgzMEBUAYFeoyFw=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 6049fbe5b2591bd56880d53a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Mar 2021 11:15:49
+ GMT
+Sender: dikshita=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 1B18EC43461; Thu, 11 Mar 2021 11:15:49 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: dikshita)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 283CFC433ED;
+        Thu, 11 Mar 2021 11:15:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210311002854.13687-8-mirela.rabulea@oss.nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCd+BzbXB9V38+V/GrmFz757XXp4BJdTgMi/vynIWutrFjdRyQD+1VFn0h4EVeAzSfKMx0HHIBPGIQrI+Kxp/CbARX5tNp0TeVyVQ7HEb5fZY+Z5DSkG
- VrvS1H6Oc0P54TNl5benkg75MzZ/iIhbQbBtcpVjVS8ZSSl0rzqh3nVbSQ8uvu9nzsHd132TLkn/8XP9skghuL+f237T5ifliK7NZ9jsp07PdY1f0t37mEvy
- 4l0NeGpz7MBsca8KdNzIIXsO3rOMHT7295ChsqVoD0sURHZ31l7JBRK+m15v53eDt3Krhk0dlFSuv2MLSJzy8wiXCQamAZqomTfp9e5TI9U7Z/r2S4osYjRV
- kT3XS9j7RZDnZsOM+emeorF4TT338TQ86FdVdDnG/dn6zsG0tTQIRWCaVPYYz36WNpMfHfcLfFH3qt3M0uqg2T3RWVvvVdeC70jH9jwZ7CDEvJ7ykDqL7D5A
- YIRkrsF9fXxuwy+TzXwXTDnJCLcE98jhIA8USVWw6mcUgjSPwGziTKiDJcMRrJgwOr+AnE8yQDqzELKMesxWOSqwZhOWm7WoycaYMoFTJcctwx0oUjdW2FIb
- Mx/epztYpTsv7f4YugzdfRXaUWuBv4HpdfMC2qPt2KFvBBA9n7Pu7BylF+UZ+7cNk7tImEWwBCTg4H+DfHYcnxQSjkPERxrCvf/8Oc4NiVzY/aisbR/HKcwY
- s2z3pPfI3JPTbDx3yC+qtPo72aA3VtDPCQGDVjhQctjWbBXNmcJHOYtPHAb67umtggN7zsD4AF0ySveSXSTA0459S7eEus5+GLH5xYuIsA+MUEIgBT/5/F+c
- SaEzaBACJ803/uYaIONn+MqG3aWNB0dCWKGG2p/C9FTHt+G16gMbTCEH581dykSyS8656Zxe9QvuWrBvcN58HXdcP1tRaEjqbEa8ZTjJvc+zSx3BwNIvSqZ2
- +KFFog==
+Date:   Thu, 11 Mar 2021 16:45:48 +0530
+From:   dikshita@codeaurora.org
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+Subject: Re: [PATCH v7 1/2] media: v4l2-ctrl: add controls for long term
+ reference.
+In-Reply-To: <d3309b63-4816-5fc3-cc38-0f78f2affc04@xs4all.nl>
+References: <1614769787-26922-1-git-send-email-dikshita@codeaurora.org>
+ <1614769787-26922-2-git-send-email-dikshita@codeaurora.org>
+ <d3309b63-4816-5fc3-cc38-0f78f2affc04@xs4all.nl>
+Message-ID: <14a918d04fe428e38cf9ed2556e66c44@codeaurora.org>
+X-Sender: dikshita@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mirela,
+Hi Hans,
 
-On 11/03/2021 01:28, Mirela Rabulea (OSS) wrote:
-> From: Mirela Rabulea <mirela.rabulea@nxp.com>
+Thanks for your comments.
+I Will update the documentation based on your suggestion in the next 
+patch.
+
+Thanks,
+Dikshita
+
+On 2021-03-05 14:08, Hans Verkuil wrote:
+> Hi Dikshita,
 > 
-> Add jpeg decoder/encoder nodes, for now on imx8qxp only.
-> The same should work on imx8qm, but it was not tested.
-
-FYI: I've posted a pull request for this driver, and once it is merged
-in our media tree this patch can be merged for 5.13 by whoever handles
-these dts patches.
-
-Thank you for all your work on this!
-
-Regards,
-
-	Hans
-
+> On 03/03/2021 12:09, Dikshita Agarwal wrote:
+>> Long Term Reference (LTR) frames are the frames that are encoded
+>> sometime in the past and stored in the DPB buffer list to be used
+>> as reference to encode future frames.
+>> This change adds controls to enable this feature.
+>> 
+>> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+>> ---
+>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst         | 17 
+>> +++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-ctrls.c                    | 14 
+>> ++++++++++++++
+>>  include/uapi/linux/v4l2-controls.h                      |  3 +++
+>>  3 files changed, 34 insertions(+)
+>> 
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
+>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index 00944e9..21fa9a5 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -3646,3 +3646,20 @@ enum v4l2_mpeg_video_hevc_size_of_length_field 
+>> -
+>>      so this has to come from client.
+>>      This is applicable to H264 and valid Range is from 0 to 63.
+>>      Source Rec. ITU-T H.264 (06/2019); G.7.4.1.1, G.8.8.1.
+>> +
+>> +``V4L2_CID_MPEG_VIDEO_LTR_COUNT (integer)``
+>> +    Specifies the maximum number of Long Term Reference (LTR) frames 
+>> at any
+>> +    given time that the encoder can keep.
+>> +    This is applicable to the H264 and HEVC encoders.
+>> +
+>> +``V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX (integer)``
+>> +    The current frame is marked as a Long Term Reference (LTR) frame
 > 
-> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8qxp.dtsi | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+> You mentioned earlier in a reply to me that:
 > 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-> index 1d522de7b017..4f2b3edd7850 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-> @@ -629,4 +629,39 @@
->  			};
->  		};
->  	};
-> +
-> +	img_subsys: bus@58000000 {
-> +		compatible = "simple-bus";
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x58000000 0x0 0x58000000 0x1000000>;
-> +
-> +		jpegdec: jpegdec@58400000 {
-> +			compatible = "nxp,imx8qxp-jpgdec";
-> +			reg = <0x58400000 0x00050000 >;
-> +			interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>;
-> +			power-domains = <&pd IMX_SC_R_MJPEG_DEC_MP>,
-> +					<&pd IMX_SC_R_MJPEG_DEC_S0>,
-> +					<&pd IMX_SC_R_MJPEG_DEC_S1>,
-> +					<&pd IMX_SC_R_MJPEG_DEC_S2>,
-> +					<&pd IMX_SC_R_MJPEG_DEC_S3>;
-> +		};
-> +
-> +		jpegenc: jpegenc@58450000 {
-> +			compatible = "nxp,imx8qxp-jpgenc";
-> +			reg = <0x58450000 0x00050000 >;
-> +			interrupts = <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>;
-> +			power-domains = <&pd IMX_SC_R_MJPEG_ENC_MP>,
-> +					<&pd IMX_SC_R_MJPEG_ENC_S0>,
-> +					<&pd IMX_SC_R_MJPEG_ENC_S1>,
-> +					<&pd IMX_SC_R_MJPEG_ENC_S2>,
-> +					<&pd IMX_SC_R_MJPEG_ENC_S3>;
-> +		};
-> +	};
->  };
+> "The driver implementation ensures that whenever the LTR control is
+> received, it applies to the frame received after that. Not to frame
+> which would be
+> encoded next."
 > 
-
+> That behavior is not clear from the text.
+> 
+> Wouldn't this be a better text:
+> 
+> "After setting this control the frame that will be queued next
+>  will be marked as a Long Term Reference (LTR) frame"
+> 
+> "current frame" isn't precise enough.
+> 
+>> +    and given this LTR index which ranges from 0 to LTR_COUNT-1.
+>> +    This is applicable to the H264 and HEVC encoders.
+>> +    Source Rec. ITU-T H.264 (06/2019); Table 7.9
+>> +
+>> +``V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES (bitmask)``
+>> +    Specifies the Long Term Reference (LTR) frame(s) to be used for
+>> +    encoding the current frame.
+> 
+> Same here. I assume that here too this control applies to the next 
+> queued
+> frame.
+> 
+>> +    This provides a bitmask which consists of bits [0, LTR_COUNT-1].
+>> +    This is applicable to the H264 and HEVC encoders.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c 
+>> b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> index 016cf62..4d444de 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> @@ -951,6 +951,9 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>  	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence 
+>> Header";
+>>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
+>>  	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:		return "Base Layer 
+>> Priority ID";
+>> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "Frame LTR Index";
+>> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
+>>  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice 
+>> Parameters";
+>>  	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 
+>> Quantization Matrices";
+>>  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+>> @@ -1278,6 +1281,17 @@ void v4l2_ctrl_fill(u32 id, const char **name, 
+>> enum v4l2_ctrl_type *type,
+>>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
+>>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>>  		break;
+>> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
+>> +		*type = V4L2_CTRL_TYPE_INTEGER;
+>> +		break;
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
+>> +		*type = V4L2_CTRL_TYPE_INTEGER;
+>> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+>> +		break;
+>> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
+>> +		*type = V4L2_CTRL_TYPE_BITMASK;
+>> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+>> +		break;
+>>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
+>>  	case V4L2_CID_PAN_RESET:
+>>  	case V4L2_CID_TILT_RESET:
+>> diff --git a/include/uapi/linux/v4l2-controls.h 
+>> b/include/uapi/linux/v4l2-controls.h
+>> index 039c0d7..fedbb54 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -428,6 +428,9 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>>  #define 
+>> V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
+>>  #define 
+>> V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
+>>  #define 
+>> V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID	(V4L2_CID_CODEC_BASE+230)
+>> +#define V4L2_CID_MPEG_VIDEO_LTR_COUNT			(V4L2_CID_CODEC_BASE+231)
+>> +#define 
+>> V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX		(V4L2_CID_CODEC_BASE+232)
+>> +#define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+233)
+>> 
+>>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+>> 
