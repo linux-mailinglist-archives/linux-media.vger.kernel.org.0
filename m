@@ -2,138 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27564336A44
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 03:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A254E336B33
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 05:42:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229546AbhCKCxy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Mar 2021 21:53:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51376 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229790AbhCKCxj (ORCPT
+        id S230429AbhCKEkN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Mar 2021 23:40:13 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49617 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230052AbhCKEkG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Mar 2021 21:53:39 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48F22C061574
-        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 18:53:39 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id v15so137652wrx.4
-        for <linux-media@vger.kernel.org>; Wed, 10 Mar 2021 18:53:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FmMWNO8Pnqy8XLlkZScz1uwpd0++gQRTetNbHxwaHSc=;
-        b=msMMddE0sWKnl7v/lSpuSgAJkQpl31RfsDbACMJuRgcmHWvquUTiJES1WLMlnCb4sK
-         mfWDDvAwV4By83xJxFuloqNx5V4/WKF75+xRhH0nEKl9P5aAGxVZ6K+bzJ66RiH3fPgs
-         MNYrgryjdxytvF54qCp8ox9jjRotmweWFEBj28FUyH4vnFaZaOxRnd2qwkf+om35XTW+
-         cVuwEzKpH5Q9eh9Y5k/DJQl2SpVvBZqeLaQ7zmyHZku0BDbRfHKq/N/aNxVlxW+c5fsC
-         rSBPyyH6t88o5NUIvmKvIjzkP0gI+7YpfRYHKhTNqjtLWRTqBmPbr3wuHORSyUhloq8F
-         5NPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FmMWNO8Pnqy8XLlkZScz1uwpd0++gQRTetNbHxwaHSc=;
-        b=PvaFI646wC5Go++JN59oa8YwGdHQQxlt4OJvWqykp/cuyCBTYNpWpFVUaqQw98kgeT
-         Xil3jkQrEkdWyZYAbddmDWSLUiDkviwLbxrTYAerFivFn+t/+nMM8lzrCDKActiVV8D6
-         65hipVCzghqp9rLfhpVt7u6l1I/4QnqwKRP4WC3Gkv6BVWg4cBaAl60IS9E2/q4m0Uxr
-         J1ZKSeiPiy083EhpioMe0O6upBsTF3S99/pberPR+XBnerGb+HOb9P4Wk3EZY31ibh1U
-         HQ2IhJeG1GNRhzxFaUq5ONSkwgl+XkYI3FQLAtBbQc+edSjmFX/eLNZvirW3vkUBKivK
-         AVcA==
-X-Gm-Message-State: AOAM531X7FqSZWkqUfO/gEwqlSw/Js1I720ZDvrptQAYQASTA7r6luaQ
-        zOYxVia0vQi+vlnUW7xyN6Amjy5sQchnmg==
-X-Google-Smtp-Source: ABdhPJxd5F4cu3wd9h+8XmyJt92pEfPlJOl1cewuasExRP4Nmu9rN32DhRSRJqvCHqFISc94kK7SYg==
-X-Received: by 2002:a5d:5141:: with SMTP id u1mr6382057wrt.31.1615431217855;
-        Wed, 10 Mar 2021 18:53:37 -0800 (PST)
-Received: from localhost.localdomain ([2a02:14c:208a:4200:30f1:f540:440e:1009])
-        by smtp.googlemail.com with ESMTPSA id h6sm1435671wmi.6.2021.03.10.18.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 18:53:37 -0800 (PST)
-From:   Daniel Niv <danielniv3@gmail.com>
+        Wed, 10 Mar 2021 23:40:06 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id KD7DlMR7sOruFKD7Elae8V; Thu, 11 Mar 2021 05:40:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615437605; bh=Bm2K+AoIVpDSFL+N8ALQCyuAIc1vbeK+MUAo1TgJpZc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=OVk22ZckY30OXv7uP+xhOFBDmBrHfmRqqiMSD+dcPTVmG+/FEYdTCS9qXeOFy1ua9
+         rR/fOmXGiO1p7ZR5OX3v6nk6bNjz/SuttOglHwQ43a9iD6YkjLRpDZlqyXrfoCHdzy
+         DtHHnW/GefyaYFKcVSSkeofKmCEOlZdR/66eM9HkpV1eVXt1RyXWl7PzG9YjY9j8rq
+         1lfQhgNopi7UGrS81HNGoh4x8epEc1duv5V6SP/tQBFVVRo0X4MaGO+6gxY0FC5I7D
+         kt/6Cp2h57VupR5dPbZdOHQnLj8pB7oKF7drdqoEJShhoMQuDoEDVwc6zphnxNmpMr
+         1Tvg33CDki+FA==
+Message-ID: <2e57087cb56022c0b50dfec8975496af@smtp-cloud7.xs4all.net>
+Date:   Thu, 11 Mar 2021 05:40:03 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, mortonm@chromium.org,
-        Daniel Niv <danielniv3@gmail.com>
-Subject: [PATCH] media/saa7164: fix saa7164_encoder_register() memory leak bugs
-Date:   Thu, 11 Mar 2021 04:53:00 +0200
-Message-Id: <20210311025300.129525-1-danielniv3@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfOLZ2iUcHBQg1X7q3JM19x9Hfb3pdFbAmyJq1dD/7s+4U1swBQdbtlQCMM3WKjrX7L6vB5L13P+F3sdf/ZfBR8DWtmunBH42qqQ2GIrJGel1ZutsvKT9
+ mude/vRkziNlcdj8V4mbR6vMvYN743QjrjaxTI2oPg/PgXZLA+5ChjF0FwXJBaxFoUkd+wybJLik0EypR0KajI+9p7vq9DFzABLyHdn+pax85G02UvCUau0L
+ v2l6e9FcY+IDK+M3Uhp7Ww==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a fix for the memory leak bugs that can occur when the
-saa7164_encoder_register() function fails.
-The function allocates memory without explicitly freeing
-it when errors occur.
-Add a better error handling that deallocate the unused buffers before the
-function exits during a fail.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Daniel Niv <danielniv3@gmail.com>
----
- drivers/media/pci/saa7164/saa7164-encoder.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/pci/saa7164/saa7164-encoder.c b/drivers/media/pci/saa7164/saa7164-encoder.c
-index 11e1eb6a6809..1d1d32e043f1 100644
---- a/drivers/media/pci/saa7164/saa7164-encoder.c
-+++ b/drivers/media/pci/saa7164/saa7164-encoder.c
-@@ -1008,7 +1008,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
- 		printk(KERN_ERR "%s() failed (errno = %d), NO PCI configuration\n",
- 			__func__, result);
- 		result = -ENOMEM;
--		goto failed;
-+		goto fail_pci;
- 	}
- 
- 	/* Establish encoder defaults here */
-@@ -1062,7 +1062,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
- 			  100000, ENCODER_DEF_BITRATE);
- 	if (hdl->error) {
- 		result = hdl->error;
--		goto failed;
-+		goto fail_hdl;
- 	}
- 
- 	port->std = V4L2_STD_NTSC_M;
-@@ -1080,7 +1080,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
- 		printk(KERN_INFO "%s: can't allocate mpeg device\n",
- 			dev->name);
- 		result = -ENOMEM;
--		goto failed;
-+		goto fail_hdl;
- 	}
- 
- 	port->v4l_device->ctrl_handler = hdl;
-@@ -1091,10 +1091,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
- 	if (result < 0) {
- 		printk(KERN_INFO "%s: can't register mpeg device\n",
- 			dev->name);
--		/* TODO: We're going to leak here if we don't dealloc
--		 The buffers above. The unreg function can't deal wit it.
--		*/
--		goto failed;
-+		goto fail_reg;
- 	}
- 
- 	printk(KERN_INFO "%s: registered device video%d [mpeg]\n",
-@@ -1116,9 +1113,14 @@ int saa7164_encoder_register(struct saa7164_port *port)
- 
- 	saa7164_api_set_encoder(port);
- 	saa7164_api_get_encoder(port);
-+	return 0;
- 
--	result = 0;
--failed:
-+fail_reg:
-+	video_device_release(port->v4l_device);
-+	port->v4l_device = NULL;
-+fail_hdl:
-+	v4l2_ctrl_handler_free(hdl);
-+fail_pci:
- 	return result;
- }
- 
--- 
-2.25.1
+date:			Thu Mar 11 05:00:12 CET 2021
+media-tree git hash:	1c5ab1e2286f4ca6347744e9d4cace5fad5ffa39
+media_build git hash:	069192365e2cec8b47f6e6701fb2aa50f763c602
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12-rc1-i686: OK
+linux-5.12-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: ERRORS: Final Summary: 3023, Succeeded: 3022, Failed: 1, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
