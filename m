@@ -2,108 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 244D6336CFE
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 08:21:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A509336D06
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 08:28:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231622AbhCKHVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 02:21:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52074 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231657AbhCKHUu (ORCPT
+        id S231646AbhCKH1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 02:27:35 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:40729 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231504AbhCKH1Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 02:20:50 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6CEBC061574;
-        Wed, 10 Mar 2021 23:20:50 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id 18so13899744pfo.6;
-        Wed, 10 Mar 2021 23:20:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lKdnTdoqXLbsBfqrhsin7UrpLs6vnpxljNbXtqWYIZU=;
-        b=IrDn3fzNb700sAHDvXgFhU1hLUdsCdBPDDYojP2WZjw/fJ/a1P0N1T8niiJKgMqi6F
-         Hk2k6AMW7akuxN9/KFzBRXWIJknoadC9aui2dO7/h7OSyjmA3fjWZ7O+S1hkKWGL0qXb
-         slB1U1iso1lREMtOl/Yj4Ukgi1ZELdT2t2kkTLpTmH4rkVgdg+SgprTIVBcB4GTkDuCq
-         eah/a2xsszXL8JceEz/mQvy42og/7oDpNlPvpb9r2t9LOpqVqv2r2IJ37dfQ0/icDFcv
-         OwBp5AkvryZnwNRm7fx5W/2Ni/5upstzSRJQ+a/8x3WXyLE078r8YNvivEh14b7nsjZe
-         QB7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lKdnTdoqXLbsBfqrhsin7UrpLs6vnpxljNbXtqWYIZU=;
-        b=N0axTibe40TNZuZnDHz9JICNjT/ih8bvHdEAeJ3hNwUiLzsnUxa8yYaIHTGqLME6uX
-         M3Nimzioq/WPxzeaP3sxYsDTBkD462no3ygg1BrW9kdQusuh9IDvn4MqcvzR1inVAaTs
-         WBB4bH5XvpXBzkQzWxUR/J4BaEwlgoAEA4G0A+pkei7rQujB8S66BfMdTCb/9Xinl3U6
-         zKUjkNayTalMgHazA8g7L+0bLED3Fnjr+JfpU/DJlIe059L6sOlK6Z+fmOC4IAvsPfOr
-         au69s5io3OHZO9yiuU/a7fuVTdmn1gO7Pqak1XYbDpxWFuAEbMiG5yM6/MXq2qmHlY5o
-         VLsg==
-X-Gm-Message-State: AOAM5339YaZhhmGMaAdEFu2cZs/tur+e5+6O/8Qw2R1KE0XWD21aE9DK
-        RnMuEVV9xjU/W+pnQiQ9bIs=
-X-Google-Smtp-Source: ABdhPJy8UpGb7qt5c1JzHsmGE3/NzHuO4BEzof7cgRCPggK94x6osZWldszDHrRAv27kDb20cwwumA==
-X-Received: by 2002:a63:140b:: with SMTP id u11mr6203343pgl.436.1615447250502;
-        Wed, 10 Mar 2021 23:20:50 -0800 (PST)
-Received: from DESKTOP-4V60UBS.ccdomain.com ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id y194sm1500134pfb.21.2021.03.10.23.20.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 23:20:50 -0800 (PST)
-From:   Xiaofeng Cao <cxfcosmos@gmail.com>
-To:     mchehab@kernel.org
-Cc:     gustavoars@kernel.org, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xiaofeng Cao <cxfcosmos@gmail.com>,
-        Xiaofeng Cao <caoxiaofeng@yulong.com>
-Subject: [PATCH] Rectify spelling and grammar
-Date:   Thu, 11 Mar 2021 15:20:44 +0800
-Message-Id: <20210311072044.388-1-cxfcosmos@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 11 Mar 2021 02:27:25 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id KFj4lOWNPC40pKFj8lKLW5; Thu, 11 Mar 2021 08:27:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615447643; bh=XfiRiX/Im3KbeMNo9cMm4VRSxjH+mKuoMBiQxT6LGlU=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=S8P/vj/ozRnwrIaLNNrjRcD5tykA7wlodxJw77CEslX2bFoqvlYMx2WWbyU41j+/8
+         QCHk/XQMwHYAcDNw2QV8vbBdPbozE1oQ3b3JhWNMg7smzjZbn25tuzZ7Opymx5qkvm
+         9gunPecf+VXBdSlx92Gq0qvbihTOPjjzgXvvPUptQuiAEs1Fshsl/B+KvcPN4mMx4B
+         ERDN2hs7Yvo/zzMi8GspomKcxZ99k1UMBr+dIC1uVXoBZvXPe3a96gCRih4aR04K56
+         IyiC+bMtR56EX+5f/fIXepv0SKNj7EYgyNMDg5YgMnJX2fLHpFwEda10K6ZnSWU5sA
+         XzX/C6JKZOLnw==
+Subject: Re: [PATCH v9 6/8] media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG
+ Encoder/Decoder
+To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
+        mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
+        p.zabel@pengutronix.de
+Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, robert.chiras@nxp.com,
+        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
+        devicetree@vger.kernel.org, ezequiel@collabora.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+References: <20210311002854.13687-1-mirela.rabulea@oss.nxp.com>
+ <20210311002854.13687-7-mirela.rabulea@oss.nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <58f6d308-c5c7-f2a0-9c64-b729282c9b71@xs4all.nl>
+Date:   Thu, 11 Mar 2021 08:27:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210311002854.13687-7-mirela.rabulea@oss.nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfI6+9cNPQm1FRsig+UGPeKnoJIWK5pswKqZ+nyHhy08pjyhkqQzCmKamf0/IYLsYnzbUaR4zZSymDGyXji55s8LryA8UWj5+dPZlbSbroh4lovGMHUz+
+ +zUuZ8hTXHt5cwJh9Qcx/Fj0AMMqG8W6s+UX+EsdU/4hYJNwUQwZaoa6NFTJPcQ/pOHnAYGw2K9NgYvi3klPKS4ednumcE0fAi0jJFG6ihGb13l/gXuChBRN
+ +myg0qhyY9S5TDkeoxYRg6bSVn/SKpRiaZ9r1mp+0QxZ1oPUx620MUdlZhThWvhSbtJ+4TI9/q9P0XMfhmSniUt90IuR2k6lYD2uMcWg6XSSgAoupkrha7aC
+ ajoBGFEJj/JApFHZPWpeUW0NXssjkF6qVwzaAl09R6gwgKkpFQwUbXL/H2eZn11uv0CZKwvxiL3zNfefDEsAWSnJSV2R0B/40zBMToQonkxIS4m/uiHUspnR
+ z+TBqOeiqeXflt1CEcJTpX3wCfxw/RGi2Ychnj++7YFcjEvqNOuJ00VyJYZ/Q8J9MsBTQZNRjDygo1wOR6iGjC3A9ISzBQSp/bEt0lqvMi6eAsT+BUbTg+SU
+ Icg2sFVMwabR9TU3sIUgJad1rRiqq7QBsdg3IffWu5S9Pz/s+tVpYgeM17meFw/wxCaNF599bU0mrq+4ry7/fR1aWTw9hpHD1/Fqu+gR+KSZJTRAMT7CrGCr
+ BFshoKCB3CHx/gitzC1tekPTTygGvboONoEyaVTJzvt2ShKpeYgfpyAJf0+cXEOqB6i0X3sCSAfgPFF0Gfg6Y6K/iRm+t+ddB0j2/E8MN07QfT9M2v2uivhl
+ g1aA20zR5sgX4ZyRSE7QPHm5ZAhq/TLELhtpXc4Lq5jcNQ7mZp1w6qB2hWRJwlcE9N823+0ID4GgfCiITT90Tb8um8bzBxHPFFJgBDXd9gRxs/hphOY/4uP9
+ pMHrOQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Change 'inaccesable' to 'inaccessible'
-Change 'detrmine' to 'determine'
-Delete 'in' grammatically
+Hi Mirela,
 
-Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com>
----
- drivers/media/radio/radio-si476x.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 11/03/2021 01:28, Mirela Rabulea (OSS) wrote:
 
-diff --git a/drivers/media/radio/radio-si476x.c b/drivers/media/radio/radio-si476x.c
-index 23997425bdb5..b39a68f83c5f 100644
---- a/drivers/media/radio/radio-si476x.c
-+++ b/drivers/media/radio/radio-si476x.c
-@@ -152,7 +152,7 @@ static struct v4l2_ctrl_config si476x_ctrls[] = {
- 
- 	/*
- 	 * SI476X during its station seeking(or tuning) process uses several
--	 * parameters to detrmine if "the station" is valid:
-+	 * parameters to determine if "the station" is valid:
- 	 *
- 	 *	- Signal's SNR(in dBuV) must be lower than
- 	 *	#V4L2_CID_SI476X_SNR_THRESHOLD
-@@ -255,7 +255,7 @@ struct si476x_radio;
-  *
-  * This table holds pointers to functions implementing particular
-  * operations depending on the mode in which the tuner chip was
-- * configured to start in. If the function is not supported
-+ * configured to start. If the function is not supported
-  * corresponding element is set to #NULL.
-  *
-  * @tune_freq: Tune chip to a specific frequency
-@@ -917,7 +917,7 @@ static int si476x_radio_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_RDS_RECEPTION:
- 		/*
- 		 * It looks like RDS related properties are
--		 * inaccesable when tuner is in AM mode, so cache the
-+		 * inaccessible when tuner is in AM mode, so cache the
- 		 * changes
- 		 */
- 		if (si476x_core_is_in_am_receiver_mode(radio->core))
--- 
-2.25.1
+<snip>
 
+> +static const struct of_device_id mxc_jpeg_match[] = {
+> +	{
+> +		.compatible = "nxp,imx8qxp-jpgdec",
+> +		.data       = (void *)MXC_JPEG_DECODE,
+
+Don't do this, just say:
+
+static const int mxc_decode_mode = MXC_JPEG_DECODE;
+static const int mxc_encode_mode = MXC_JPEG_ENCODE;
+
+and point to that:
+
+		.data = &mxc_decode_mode;
+
+> +	},
+> +	{
+> +		.compatible = "nxp,imx8qxp-jpgenc",
+> +		.data       = (void *)MXC_JPEG_ENCODE,
+
+		.data = &mxc_encode_mode;
+
+> +	},
+> +	{ },
+> +};
+
+<snip>
+
+> +static int mxc_jpeg_probe(struct platform_device *pdev)
+> +{
+> +	struct mxc_jpeg_dev *jpeg;
+> +	struct device *dev = &pdev->dev;
+> +	struct resource *res;
+> +	int dec_irq;
+> +	int ret;
+> +	int mode;
+> +	const struct of_device_id *of_id;
+> +	unsigned int slot;
+> +
+> +	of_id = of_match_node(mxc_jpeg_match, dev->of_node);
+> +	mode = (int)(u64)of_id->data;
+
+and this becomes:
+
+	mode = *(const int *)of_id->data;
+
+This will solve the kernel test robot warning, and for that matter
+the same gcc warnings I get when I compile.
+
+Just post a v9.1 for this patch, everything else looks good.
+
+Regards,
+
+	Hans
