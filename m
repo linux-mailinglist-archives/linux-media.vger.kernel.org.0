@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E28A337BDA
-	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 19:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF499337BDD
+	for <lists+linux-media@lfdr.de>; Thu, 11 Mar 2021 19:11:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbhCKSKd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Mar 2021 13:10:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50732 "EHLO
+        id S230290AbhCKSKe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Mar 2021 13:10:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbhCKSKE (ORCPT
+        with ESMTP id S230198AbhCKSKG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Mar 2021 13:10:04 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7703EC061760
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 10:10:04 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id dx17so48193121ejb.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 10:10:04 -0800 (PST)
+        Thu, 11 Mar 2021 13:10:06 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E820C061761
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 10:10:06 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id u4so4197543edv.9
+        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 10:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mxyW1onhXDiHAxxUJjBsSs0nMCqFkArlx/FPrMEURJM=;
-        b=ffIVGKH+PAc55h8ya/6dZjK1asTfvVkhbxgO3eRZizelpZ3TGUki0MWSGCLa4l/CuS
-         Yf82tXquF0O/T024aBvlgDbqYC9igocLnta6PBX4TTgm5EuRvsH39iGAaxPv+bMUCQ8Y
-         qqZ7Htbj6gLHNOaNs3V+3xnSt4caDEDhlYTbM5Nl49YPGXvJuGOnPCFhl8GtJ8zn0rE8
-         zXBvjIr8fxREcpgxOvR1VUkRiD72Ya5Yf3Xi2ZmmcbRpI5KYGHgLxPe3KMR9nF+/ciAz
-         5mPwbuHMFKgWB3IQMSRPoLyUFmDBWentjn1rIHJWM/Jp0ryK38uj7X05US8LLc98zEss
-         kzLg==
+        bh=Qa4VJOH7edLfgrfvR8OaRVl2g9iMvgF1hLjXeKfPqA4=;
+        b=U/jGIF63pHPQlTFqvJpaJD7y9g+zXOMxUTmCLDoTDyWdGD5ahnTKhiB0+yP1TPeGqH
+         Y3icOkQRASyeOTj2NZ+XfONHMstpPOJ8mN4ydGBu/TpdiuNgyzsKeNcUXMqwsd7YiLse
+         2geJarY3Nr+Ph0PCxWmwKjoSHqE8CpQEHdy4dw17QFpaMzKxlgHS4kK5UVqQ8j9eapwU
+         5NE8BdQ6SJSzkdbBHotU8Bx5Btuy6qelmhRaJ5gSv8D+5hjrMPc/R39OoW5JYJoyVfa9
+         qIbuLHliGA48AfXB8A1lDZRvC7CDnxrSyffrzWp9RhEDfeYmI02kgOH+hMsIW5xDppHq
+         z+mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mxyW1onhXDiHAxxUJjBsSs0nMCqFkArlx/FPrMEURJM=;
-        b=lDedzK9PjKcVPv1JAeOnWAbUfc8I8uCKsv7UVjYnQsKNqELQeSRxKRKZfPpMf23Umv
-         oZVW/nPrBDtRU7tM7beYvdFkicK4/+DrYixoUf9Q96wk47S3SaCI1IRS918a16OCk7kr
-         3frSYRANWZ/2QCkPCffzGndB7KUW6FHti5ip/3lwimVSgm3aG2bDIFHdNVHCmTw0YfpG
-         YToB4gP5sAhuyLtUHk1jmgfeBCoUx7AlLGjl1RvD3mg42sqEG0KrWa84tXlTyZBr20/j
-         WYr8UKx48FqQIyj5z7w5H4SnChKL8i0Vt06FdLBSPKAi2Ul23F9qQCn3UKfz6/LsVMyy
-         dS/A==
-X-Gm-Message-State: AOAM530lJT7YadVNqA6syrSRVp+IB5YgRVLDyWU30KnN7aoL5ae4DvmB
-        YHISlcuw1kHH0HVIIq8Wrh5kFQ==
-X-Google-Smtp-Source: ABdhPJy/dlypMzsYZr3/egrO3Nl4kZwV8QnJ9VJENuT4NRzYuwYvtFLLt76D+07NzxchA3peWq1Cgg==
-X-Received: by 2002:a17:906:4117:: with SMTP id j23mr4443860ejk.10.1615486203151;
-        Thu, 11 Mar 2021 10:10:03 -0800 (PST)
+        bh=Qa4VJOH7edLfgrfvR8OaRVl2g9iMvgF1hLjXeKfPqA4=;
+        b=dVgMaYdJvD2/gTWg3OK2YaelKxntc5jl02xC1mjY7Jv+b0q19IKPR94jAjTlWaGTMK
+         mCMrIIgIxLWstIgQOFMWUDHjiw621qqNNsGi5GA46w7no1ZD08n5J1LGKFZ12nIY+tZx
+         AdTPMeR6ozLRlSJsZ9g0p5v0zNDAH39P5RI34HQAoCPCKzB4nAZuZh510HpfDUuzmSg8
+         3ycUPi/GBlWVhcbLfcQjhK0plAYFIKdRpvybkLrdcZG7+nHHcHx41/GIIWsOMMf9pyGN
+         4b4iAZ/jrkmYXhGxu4Pau3hzX1wteKvrzZls6zej+wg25jsc/DkBljXx2u57+YpDJDjQ
+         4miQ==
+X-Gm-Message-State: AOAM533lsJme+nsrKtuKdwN6NegwCCwan+DTZw/0m9EVDF1Mkv2f6Vaf
+        Tjz/J4cE8VSbCQp8MRdNHqBwpQ==
+X-Google-Smtp-Source: ABdhPJxQYlVKZoxoNhRG//Zv4/sGy/BTCwUuDVISE+v2ISlgRpQDIPd0dUHftdLOu+MiBlqu4EAsqg==
+X-Received: by 2002:a05:6402:104c:: with SMTP id e12mr9544330edu.108.1615486205083;
+        Thu, 11 Mar 2021 10:10:05 -0800 (PST)
 Received: from localhost.localdomain ([2a02:2454:3e3:5f00:8e01:34c:da50:eb7e])
-        by smtp.gmail.com with ESMTPSA id a22sm1741290ejr.89.2021.03.11.10.10.01
+        by smtp.gmail.com with ESMTPSA id a22sm1741290ejr.89.2021.03.11.10.10.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 10:10:02 -0800 (PST)
+        Thu, 11 Mar 2021 10:10:04 -0800 (PST)
 From:   Robert Foss <robert.foss@linaro.org>
 To:     agross@kernel.org, bjorn.andersson@linaro.org,
         robert.foss@linaro.org, todor.too@gmail.com, mchehab@kernel.org,
@@ -62,11 +62,10 @@ Cc:     Rob Herring <robh@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
         Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
         Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH v7 03/22] media: camss: Replace trace_printk() with dev_dbg()
-Date:   Thu, 11 Mar 2021 19:09:29 +0100
-Message-Id: <20210311180948.268343-4-robert.foss@linaro.org>
+        Jonathan Marek <jonathan@marek.ca>
+Subject: [PATCH v7 04/22] media: camss: Add CAMSS_845 camss version
+Date:   Thu, 11 Mar 2021 19:09:30 +0100
+Message-Id: <20210311180948.268343-5-robert.foss@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210311180948.268343-1-robert.foss@linaro.org>
 References: <20210311180948.268343-1-robert.foss@linaro.org>
@@ -76,75 +75,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-trace_printk() should not be used in production code,
-since extra memory is used for special buffers whenever
-trace_puts() is used.
-
-Replace it with dev_dbg() which provides all of the desired
-debugging functionality.
+Add enum representing the SDM845 SOC, which incorporates version
+170 of the Titan architecture ISP.
 
 Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Suggested-by: Nicolas Boichat <drinkcat@chromium.org>
-Reviewed-by: Nicolas Boichat <drinkcat@chromium.org>
+Reviewed-by: Andrey Konovalov <andrey.konovalov@linaro.org>
 ---
 
-Changes since v3:
- - Nicolas: Create this patch
-
-Changes since v4:
- - Nicolas: Add r-b
+Changes since v5:
+ - Andrey: Add r-b
 
 
- drivers/media/platform/qcom/camss/camss-vfe-4-1.c | 5 +++--
- drivers/media/platform/qcom/camss/camss-vfe-4-7.c | 5 +++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/camss/camss.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-index a1b56b89130d..85b9bcbc7321 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-@@ -12,6 +12,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index e29466d07ad2..63b35ea2ca36 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -66,6 +66,7 @@ enum camss_version {
+ 	CAMSS_8x16,
+ 	CAMSS_8x96,
+ 	CAMSS_660,
++	CAMSS_845,
+ };
  
-+#include "camss.h"
- #include "camss-vfe.h"
- 
- #define VFE_0_HW_VERSION		0x000
-@@ -936,8 +937,8 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 
- 	vfe->ops->isr_read(vfe, &value0, &value1);
- 
--	trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
--		     value0, value1);
-+	dev_dbg(vfe->camss->dev, "VFE: status0 = 0x%08x, status1 = 0x%08x\n",
-+		value0, value1);
- 
- 	if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
- 		vfe->isr_ops.reset_ack(vfe);
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-index 84c33b8f9fe3..f7e00a2de393 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-@@ -12,6 +12,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- 
-+#include "camss.h"
- #include "camss-vfe.h"
- 
- #define VFE_0_HW_VERSION		0x000
-@@ -1069,8 +1070,8 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 
- 	vfe->ops->isr_read(vfe, &value0, &value1);
- 
--	trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
--		     value0, value1);
-+	dev_dbg(vfe->camss->dev, "VFE: status0 = 0x%08x, status1 = 0x%08x\n",
-+		value0, value1);
- 
- 	if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
- 		vfe->isr_ops.reset_ack(vfe);
+ struct camss {
 -- 
 2.27.0
 
