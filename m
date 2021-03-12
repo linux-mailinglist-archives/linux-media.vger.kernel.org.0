@@ -2,240 +2,351 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86158338DF6
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 13:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DADD9338DF9
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 13:58:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231330AbhCLM5L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 07:57:11 -0500
-Received: from retiisi.eu ([95.216.213.190]:48382 "EHLO hillosipuli.retiisi.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230077AbhCLM47 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 07:56:59 -0500
-Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 5DE9D634C8D;
-        Fri, 12 Mar 2021 14:54:13 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     ezequiel.garcia@collabora.com
-Subject: [PATCH v2 4/4] v4l: async, fwnode: Improve module organisation
-Date:   Fri, 12 Mar 2021 14:56:57 +0200
-Message-Id: <20210312125657.25442-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
-References: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
+        id S231448AbhCLM5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 07:57:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229959AbhCLM5S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Mar 2021 07:57:18 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9054C061574
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 04:57:17 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id dx17so53199368ejb.2
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 04:57:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yiwv8WNEW7aHclTouK3WQPtt4wKGEcN0iK77qOa5K7c=;
+        b=gX25FwvDzIGc80ynmI0sHXJeCMm5ecDyFYpi1ycf07mbTK0McyA33kTynIueywXLS0
+         tVRfWHIYgJgbWQtlCFsF9/umlwtkqBkLem8yPA+VAd3oTYN7PjCLJf7UOacSw+tLZomN
+         5DBZWS6n9Q2ZZd36YlOqWJHK0UwmEfAZYiYsM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yiwv8WNEW7aHclTouK3WQPtt4wKGEcN0iK77qOa5K7c=;
+        b=B5XzGApXm7o6PHf0Bflf/mZFguy1SS4jGzl+9ldJEm3Ei0AnHFLOHmssHUOs5ztk41
+         axvVZJynVH5n6A14auCpnvFsY9gqc+bnN5cC/tGBVaKFZj3JKWWWW8K9H3hOVx6Vgv7B
+         eSlYp8/DF/TRpZ/tDRIjMjATkPziaYEaHuZeP/j+0k5Y5uvKqhKYaLOhEIEgJFQ3oG+A
+         DfxUCEQ2mFAG/Hyzlc3iKlYc+nBTx7AxyvQJPEiKrb4hNKqz+PSFe6QPHz8c9VDhCrR3
+         FPbHLy9j6Mg2uQ+ETREUyynZq8/5SWABzBnGTuMizdLB2nFAO7mBw8rLvgHjwk4tjq/S
+         R01w==
+X-Gm-Message-State: AOAM533fI71eRFB4S970965yPrLQ67hgPAV1zOu8oQM7JdW9spAX1+UR
+        bakJHXrT38/PVnmdbppJo+Li8g==
+X-Google-Smtp-Source: ABdhPJxE94wC7/2OPbX4NFpr3qVgjSEwLXqWkrYReAVPCcB5IW2n0uQI+d5aA04l8yBGrEiVmehVww==
+X-Received: by 2002:a17:907:2093:: with SMTP id pv19mr8439806ejb.134.1615553836383;
+        Fri, 12 Mar 2021 04:57:16 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id u13sm2729712ejy.31.2021.03.12.04.57.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Mar 2021 04:57:15 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        iommu@lists.linux-foundation.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 6/6] media: uvcvideo: Use dma_alloc_noncontiguous API
+Date:   Fri, 12 Mar 2021 13:57:09 +0100
+Message-Id: <20210312125709.1347177-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 async framework is generally used with the V4L2 fwnode, which
-also depends on the former. There is only one exception, the CAFE_CCIC
-driver, which uses V4L2 async but does not need V4L2 fwnode.
+On architectures where there is no coherent caching such as ARM use the
+dma_alloc_noncontiguous API and handle manually the cache flushing using
+dma_sync_sgtable().
 
-At the same time there is a vast number of systems that need videodev
-module, but have no use for v4l2-async that's now part of videodev.
+With this patch on the affected architectures we can measure up to 20x
+performance improvement in uvc_video_copy_data_work().
 
-In order to improve, build v4l2-async and v4l2-fwnode as a single module
-called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
-Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
+Eg: aarch64 with an external usb camera
 
-This also moves the initialisation of the debufs entries for async subdevs
-to loading of the v4l2-async module. The directory is named as
-"v4l2-async".
+NON_CONTIGUOUS
+frames:  999
+packets: 999
+empty:   0 (0 %)
+errors:  0
+invalid: 0
+pts: 0 early, 0 initial, 999 ok
+scr: 0 count ok, 0 diff ok
+sof: 2048 <= sof <= 0, freq 0.000 kHz
+bytes 67034480 : duration 33303
+FPS: 29.99
+URB: 523446/4993 uS/qty: 104.836 avg 132.532 std 13.230 min 831.094 max (uS)
+header: 76564/4993 uS/qty: 15.334 avg 15.229 std 3.438 min 186.875 max (uS)
+latency: 468945/4992 uS/qty: 93.939 avg 132.577 std 9.531 min 824.010 max (uS)
+decode: 54161/4993 uS/qty: 10.847 avg 6.313 std 1.614 min 111.458 max (uS)
+raw decode speed: 9.931 Gbits/s
+raw URB handling speed: 1.025 Gbits/s
+throughput: 16.102 Mbits/s
+URB decode CPU usage 0.162600 %
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+COHERENT
+frames:  999
+packets: 999
+empty:   0 (0 %)
+errors:  0
+invalid: 0
+pts: 0 early, 0 initial, 999 ok
+scr: 0 count ok, 0 diff ok
+sof: 2048 <= sof <= 0, freq 0.000 kHz
+bytes 54683536 : duration 33302
+FPS: 29.99
+URB: 1478135/4000 uS/qty: 369.533 avg 390.357 std 22.968 min 3337.865 max (uS)
+header: 79761/4000 uS/qty: 19.940 avg 18.495 std 1.875 min 336.719 max (uS)
+latency: 281077/4000 uS/qty: 70.269 avg 83.102 std 5.104 min 735.000 max (uS)
+decode: 1197057/4000 uS/qty: 299.264 avg 318.080 std 1.615 min 2806.667 max (uS)
+raw decode speed: 365.470 Mbits/s
+raw URB handling speed: 295.986 Mbits/s
+throughput: 13.136 Mbits/s
+URB decode CPU usage 3.594500 %
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/media/i2c/Kconfig            |  8 ++++++++
- drivers/media/v4l2-core/Kconfig      |  4 ++++
- drivers/media/v4l2-core/Makefile     | 11 +++++++++--
- drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
- drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
- 5 files changed, 42 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 462c0e059754..4326e50c13c9 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -217,6 +217,7 @@ config VIDEO_ADV7180
- 	depends on GPIOLIB && VIDEO_V4L2 && I2C
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  Support for the Analog Devices ADV7180 video decoder.
+Changelog from v2: (Thanks Laurent)
+
+- Fix typos
+- Use the right dma direction if not capturing
+- Clear sgt during free
+
+ drivers/media/usb/uvc/uvc_video.c | 92 +++++++++++++++++++++++--------
+ drivers/media/usb/uvc/uvcvideo.h  |  5 +-
+ 2 files changed, 74 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index f2f565281e63..8e60f81e2257 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -6,11 +6,14 @@
+  *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+  */
  
-@@ -1341,6 +1342,7 @@ config VIDEO_AD5820
- 	tristate "AD5820 lens voice coil support"
- 	depends on GPIOLIB && I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the AD5820 camera lens voice coil.
- 	  It is used for example in Nokia N900 (RX-51).
-@@ -1350,6 +1352,7 @@ config VIDEO_AK7375
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the AK7375 camera lens voice coil.
- 	  AK7375 is a 12 bit DAC with 120mA output current sink
-@@ -1361,6 +1364,7 @@ config VIDEO_DW9714
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the DW9714 camera lens voice coil.
- 	  DW9714 is a 10 bit DAC with 120mA output current sink
-@@ -1384,6 +1388,7 @@ config VIDEO_DW9807_VCM
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the DW9807 camera lens voice coil.
- 	  DW9807 is a 10 bit DAC with 100mA output current sink
-@@ -1399,6 +1404,7 @@ config VIDEO_ADP1653
- 	tristate "ADP1653 flash support"
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the ADP1653 flash controller. It is used for
- 	  example in Nokia N900.
-@@ -1408,6 +1414,7 @@ config VIDEO_LM3560
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select REGMAP_I2C
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the lm3560 dual flash controllers. It controls
- 	  flash, torch LEDs.
-@@ -1417,6 +1424,7 @@ config VIDEO_LM3646
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select REGMAP_I2C
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the lm3646 dual flash controllers. It controls
- 	  flash, torch LEDs.
-diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-index bf49f83cb86f..61b023b56d75 100644
---- a/drivers/media/v4l2-core/Kconfig
-+++ b/drivers/media/v4l2-core/Kconfig
-@@ -62,6 +62,7 @@ config V4L2_FLASH_LED_CLASS
- 	tristate "V4L2 flash API for LED flash class devices"
- 	depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
- 	depends on LEDS_CLASS_FLASH
-+	select V4L2_ASYNC
- 	help
- 	  Say Y here to enable V4L2 flash API support for LED flash
- 	  class drivers.
-@@ -71,6 +72,9 @@ config V4L2_FLASH_LED_CLASS
- config V4L2_FWNODE
- 	tristate
- 
-+config V4L2_ASYNC
-+	tristate
-+
- # Used by drivers that need Videobuf modules
- config VIDEOBUF_GEN
- 	tristate
-diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-index e4cd589b99a5..eb5ebb5461fd 100644
---- a/drivers/media/v4l2-core/Makefile
-+++ b/drivers/media/v4l2-core/Makefile
-@@ -7,15 +7,22 @@ tuner-objs	:=	tuner-core.o
- 
- videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
- 			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
--			v4l2-async.o v4l2-common.o
-+			v4l2-common.o
- videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
- videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
- videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
- videodev-$(CONFIG_SPI) += v4l2-spi.o
- videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
- 
--obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
- obj-$(CONFIG_VIDEO_V4L2) += videodev.o
-+ifneq ($(findstring y,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
-+obj-y += v4l2-async.o
-+else
-+ifneq ($(findstring m,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
-+obj-m += v4l2-async.o
-+endif
-+endif
-+obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
- obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
- 
- obj-$(CONFIG_VIDEO_TUNER) += tuner.o
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 21b3890b96fc..6e49386f0284 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -852,8 +852,27 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
++#include <linux/dma-mapping.h>
++#include <linux/highmem.h>
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/usb.h>
++#include <linux/usb/hcd.h>
+ #include <linux/videodev2.h>
+ #include <linux/vmalloc.h>
+ #include <linux/wait.h>
+@@ -1096,6 +1099,34 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 	return data[0];
  }
- DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
  
--void v4l2_async_debug_init(struct dentry *debugfs_dir)
-+static struct dentry *v4l2_async_debugfs_dir;
-+
-+static int __init v4l2_async_init(void)
- {
--	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
-+	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
-+	debugfs_create_file("pending_async_subdevices", 0444,
-+			    v4l2_async_debugfs_dir, NULL,
- 			    &pending_subdevs_fops);
-+
-+	return 0;
++static inline enum dma_data_direction stream_dir(struct uvc_streaming *stream)
++{
++	if (stream->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return DMA_FROM_DEVICE;
++	else
++		return DMA_TO_DEVICE;
 +}
 +
-+static void __exit v4l2_async_exit(void)
++static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
 +{
-+	debugfs_remove_recursive(v4l2_async_debugfs_dir);
- }
++	return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
++}
 +
-+subsys_initcall(v4l2_async_init);
-+module_exit(v4l2_async_exit);
++static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
++{
++	struct device *dma_dev = stream_to_dmadev(uvc_urb->stream);
 +
-+MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
-+MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
-+MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index b6a72d297775..5002e3cd110f 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -39,8 +39,6 @@
- 		       __func__, ##arg);				\
- } while (0)
- 
--static struct dentry *v4l2_debugfs_dir;
--
++	if (for_device) {
++		dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
++					    stream_dir(uvc_urb->stream));
++	} else {
++		dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt,
++					 stream_dir(uvc_urb->stream));
++		invalidate_kernel_vmap_range(uvc_urb->buffer,
++					     uvc_urb->stream->urb_size);
++	}
++}
++
  /*
-  *	sysfs stuff
-  */
-@@ -1120,8 +1118,6 @@ static int __init videodev_init(void)
- 		return -EIO;
+  * uvc_video_decode_data_work: Asynchronous memcpy processing
+  *
+@@ -1117,6 +1148,8 @@ static void uvc_video_copy_data_work(struct work_struct *work)
+ 		uvc_queue_buffer_release(op->buf);
  	}
  
--	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
--	v4l2_async_debug_init(v4l2_debugfs_dir);
- 	return 0;
- }
++	uvc_urb_dma_sync(uvc_urb, true);
++
+ 	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
+ 	if (ret < 0)
+ 		dev_err(&uvc_urb->stream->intf->dev,
+@@ -1541,10 +1574,12 @@ static void uvc_video_complete(struct urb *urb)
+ 	 * Process the URB headers, and optionally queue expensive memcpy tasks
+ 	 * to be deferred to a work queue.
+ 	 */
++	uvc_urb_dma_sync(uvc_urb, false);
+ 	stream->decode(uvc_urb, buf, buf_meta);
  
-@@ -1129,7 +1125,6 @@ static void __exit videodev_exit(void)
+ 	/* If no async work is needed, resubmit the URB immediately. */
+ 	if (!uvc_urb->async_operations) {
++		uvc_urb_dma_sync(uvc_urb, true);
+ 		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
+ 		if (ret < 0)
+ 			dev_err(&stream->intf->dev,
+@@ -1560,24 +1595,49 @@ static void uvc_video_complete(struct urb *urb)
+  */
+ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
  {
- 	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
++	struct device *dma_dev = stream_to_dmadev(stream);
+ 	struct uvc_urb *uvc_urb;
  
--	debugfs_remove_recursive(v4l2_debugfs_dir);
- 	class_unregister(&video_class);
- 	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+ 	for_each_uvc_urb(uvc_urb, stream) {
+ 		if (!uvc_urb->buffer)
+ 			continue;
+ 
+-#ifndef CONFIG_DMA_NONCOHERENT
+-		usb_free_coherent(stream->dev->udev, stream->urb_size,
+-				  uvc_urb->buffer, uvc_urb->dma);
+-#else
+-		kfree(uvc_urb->buffer);
+-#endif
++		dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
++		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
++				       stream_dir(stream));
++
+ 		uvc_urb->buffer = NULL;
++		uvc_urb->sgt = NULL;
+ 	}
+ 
+ 	stream->urb_size = 0;
  }
+ 
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
++				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
++{
++	struct device *dma_dev = stream_to_dmadev(stream);
++
++	uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
++					       stream_dir(stream),
++					       gfp_flags, 0);
++	if (!uvc_urb->sgt)
++		return false;
++	uvc_urb->dma = uvc_urb->sgt->sgl->dma_address;
++
++	uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
++						 uvc_urb->sgt);
++	if (!uvc_urb->buffer) {
++		dma_free_noncontiguous(dma_dev, stream->urb_size,
++				       uvc_urb->sgt,
++				       stream_dir(stream));
++		uvc_urb->sgt = NULL;
++		return false;
++	}
++
++	return true;
++}
++
+ /*
+  * Allocate transfer buffers. This function can be called with buffers
+  * already allocated when resuming from suspend, in which case it will
+@@ -1608,19 +1668,12 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+ 
+ 	/* Retry allocations until one succeed. */
+ 	for (; npackets > 1; npackets /= 2) {
++		stream->urb_size = psize * npackets;
++
+ 		for (i = 0; i < UVC_URBS; ++i) {
+ 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+ 
+-			stream->urb_size = psize * npackets;
+-#ifndef CONFIG_DMA_NONCOHERENT
+-			uvc_urb->buffer = usb_alloc_coherent(
+-				stream->dev->udev, stream->urb_size,
+-				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+-#else
+-			uvc_urb->buffer =
+-			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+-#endif
+-			if (!uvc_urb->buffer) {
++			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+ 				uvc_free_urb_buffers(stream);
+ 				break;
+ 			}
+@@ -1730,12 +1783,8 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
+ 		urb->context = uvc_urb;
+ 		urb->pipe = usb_rcvisocpipe(stream->dev->udev,
+ 				ep->desc.bEndpointAddress);
+-#ifndef CONFIG_DMA_NONCOHERENT
+ 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
+ 		urb->transfer_dma = uvc_urb->dma;
+-#else
+-		urb->transfer_flags = URB_ISO_ASAP;
+-#endif
+ 		urb->interval = ep->desc.bInterval;
+ 		urb->transfer_buffer = uvc_urb->buffer;
+ 		urb->complete = uvc_video_complete;
+@@ -1795,10 +1844,8 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+ 
+ 		usb_fill_bulk_urb(urb, stream->dev->udev, pipe,	uvc_urb->buffer,
+ 				  size, uvc_video_complete, uvc_urb);
+-#ifndef CONFIG_DMA_NONCOHERENT
+ 		urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
+ 		urb->transfer_dma = uvc_urb->dma;
+-#endif
+ 
+ 		uvc_urb->urb = urb;
+ 	}
+@@ -1895,6 +1942,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+ 
+ 	/* Submit the URBs. */
+ 	for_each_uvc_urb(uvc_urb, stream) {
++		uvc_urb_dma_sync(uvc_urb, true);
+ 		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
+ 		if (ret < 0) {
+ 			dev_err(&stream->intf->dev,
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 97df5ecd66c9..cce5e38133cd 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -219,6 +219,7 @@
+  */
+ 
+ struct gpio_desc;
++struct sg_table;
+ struct uvc_device;
+ 
+ /* TODO: Put the most frequently accessed fields at the beginning of
+@@ -545,7 +546,8 @@ struct uvc_copy_op {
+  * @urb: the URB described by this context structure
+  * @stream: UVC streaming context
+  * @buffer: memory storage for the URB
+- * @dma: DMA coherent addressing for the urb_buffer
++ * @dma: Allocated DMA handle
++ * @sgt: sgt_table with the urb locations in memory
+  * @async_operations: counter to indicate the number of copy operations
+  * @copy_operations: work descriptors for asynchronous copy operations
+  * @work: work queue entry for asynchronous decode
+@@ -556,6 +558,7 @@ struct uvc_urb {
+ 
+ 	char *buffer;
+ 	dma_addr_t dma;
++	struct sg_table *sgt;
+ 
+ 	unsigned int async_operations;
+ 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
 -- 
-2.29.2
+2.31.0.rc2.261.g7f71774620-goog
 
