@@ -2,83 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9A51338BC9
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 12:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 400CA338D6D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 13:49:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231562AbhCLLqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 06:46:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49122 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231516AbhCLLql (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 06:46:41 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9125664FCE;
-        Fri, 12 Mar 2021 11:46:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615549601;
-        bh=S5L2YOCMDrU+3EY3IBUOQ9XL2o/v+Z9WViy91wUaTzM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AlGs+atRDxSXHAqqgb0Aed8XvRamdkxTwtQf0K1W8KK9Y3qtSk31tCbAGqJpYsg1b
-         ZomgU7DHQ21aGsI+iwTzRnNCqadJTBQYWbaYCBJXGrGVqDDBuClkAWdoZJQsTDurQ8
-         AqoxklpT/VzUHqs7vfoV1XmNN46aI27gl6WOmczMOdmOqC7EAAmMkn8EhMpARLAHzi
-         vZD3j3bpbJhE+Rx3bPOP4Q9PTM8vB7XKw/HFrChgEzk+Wzzf5g8l+8k2BvTJUG9L2z
-         SmS3g9YzE+PX0CDUCcU7lGw+Fgd9vTUdbBm3EMFdBfYY3GLtZoncflz0Swtz8UzOar
-         FjjGji+dsxM+A==
-Date:   Fri, 12 Mar 2021 12:46:37 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     syzbot <syzbot+ffb0b3ffa6cfbc7d7b3f@syzkaller.appspotmail.com>
-Cc:     dwlsalmeida@gmail.com, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab+huawei@kernel.org, mchehab@kernel.org,
-        paskripkin@gmail.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] WARNING in __i2c_transfer
-Message-ID: <20210312114637.GA13150@ninjato>
-References: <000000000000f564d305bd521b83@google.com>
- <0000000000003ceac005bd541781@google.com>
+        id S231407AbhCLMtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 07:49:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37318 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229667AbhCLMse (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Mar 2021 07:48:34 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51BCBC061574
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 04:48:34 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id y6so7755475eds.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 04:48:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lj7q7tEWKTCMfgaXxTFWVmPcIkg2nm6V2yaP1LDvpB4=;
+        b=fckJQiQRzbx2nIfl0GkMgp2/+ZpoWngEbKvCjLRRqGtQS8JhdibQrTju3XyhrG5/PB
+         Bc/uifXMvCG2oNKUvUPTeb93ls5MnkJc7vQl8CF2dL/rGNGXxs8RLfWn4bGXUwzj4aFV
+         Q/5h7gXfq8NaW3FenVIdlWVn4VIul3Eu9Ywhg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lj7q7tEWKTCMfgaXxTFWVmPcIkg2nm6V2yaP1LDvpB4=;
+        b=TyYIEZrbo+qm3TTJzbgBmCJBqHXLLsaoj4faCoiJgdBnfmK9kAfVmewCFTsNP/+ivr
+         sSSvHEa8q7Z2p84pJsYFpDb87T2snTfIMCSBFOSCcIfhtfV+aFhJGVYEpMvCww1/7BUY
+         5oKx4tk1oM6FNMBXu5m4T+a6ZHWqesut5D/vEJoOsbuKukGDUvdmiFt96izLDEomKWT+
+         4+HmkITTo9GxvmLQc410VaBxkwwEj+7wvvf0e43wkbjyXz2EqMxviAbD4RMzAiGlpLfd
+         xblitzFvmfbuEt9YN0RwwsxHzCTmWOSWN/S8hiVKPwH2eg3HhrzU4HAlIx6mEh45Z4hq
+         cRtQ==
+X-Gm-Message-State: AOAM53173IaMxiGoKgXKSyQ13AcJEu+/EeeuJV4uNpmd1DWskkZgREUD
+        O3PK5hdMzx0PUBCn3gycSD+z7A==
+X-Google-Smtp-Source: ABdhPJxHpE0wOkr/j/CzksRzYi+Ig31z/GzcrhLPewHpCsyjpwZuC+8uumea9MLXmQKh6x2wP20s9g==
+X-Received: by 2002:a05:6402:510b:: with SMTP id m11mr14030016edd.103.1615553313143;
+        Fri, 12 Mar 2021 04:48:33 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id t6sm2924402edq.48.2021.03.12.04.48.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Mar 2021 04:48:32 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, senozhatsky@chromium.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 0/8] Fix v4l2-compliance errors
+Date:   Fri, 12 Mar 2021 13:48:22 +0100
+Message-Id: <20210312124830.1344255-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="x+6KMIRAuhnl3hBn"
-Content-Disposition: inline
-In-Reply-To: <0000000000003ceac005bd541781@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+In my computer I am getting this output for
 
---x+6KMIRAuhnl3hBn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v4l2-compliance -m /dev/media0 -a -f
+Total for uvcvideo device /dev/media0: 8, Succeeded: 6, Failed: 2, Warnings: 0
+Total for uvcvideo device /dev/video0: 54, Succeeded: 50, Failed: 4, Warnings: 2
+Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 102,
+Failed: 6, Warnings: 2
 
-On Fri, Mar 12, 2021 at 02:09:08AM -0800, syzbot wrote:
-> syzbot has bisected this issue to:
->=20
-> commit f90cf6079bf67988f8b1ad1ade70fc89d0080905
-> Author: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> Date:   Fri Aug 21 12:58:47 2020 +0000
->=20
->     media: vidtv: add a bridge driver
+After fixing all of them we go down to:
 
-This is a false positive.
+Total for uvcvideo device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+Total for uvcvideo device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 9
+Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 108,
+Failed: 0, Warnings: 9
 
+We are still not compliant with v4l2-compliance -s:
 
---x+6KMIRAuhnl3hBn
-Content-Type: application/pgp-signature; name="signature.asc"
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+                fail: v4l2-test-buffers.cpp(1265):
+node->streamon(q.g_type()) != EINVAL
+        test MMAP (no poll): FAIL
+                fail: v4l2-test-buffers.cpp(1265):
+node->streamon(q.g_type()) != EINVAL
+        test MMAP (select): FAIL
+                fail: v4l2-test-buffers.cpp(1265):
+node->streamon(q.g_type()) != EINVAL
+        test MMAP (epoll): FAIL
 
------BEGIN PGP SIGNATURE-----
+But fixing that will probably require a lot of changes in the driver
+that are already implemented in the vb2 helpers. It is better to
+continue Hans work on that:
+https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=uvc-4.19&id=a6a0a05f643521d29a4c1e551b0be73ce66b7108
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBLVJkACgkQFA3kzBSg
-Kba1jBAAhQfmmasX/CO7fOdmvFF/4JSSz6fycdArsZWhDlOanA2bAkXb4b3JOBbE
-tK6b7QGCKaEKmrZEG6xvhoowX1EOwZabbRtZut/u/HbFNeA2xE1/a0mJm1S+ObpO
-bFE0NtS3UaXa8TIiDaezoDaSlZotrgtvwCAL4WzFpNM098G5gL3tPaRpFYvN7N+P
-uhITiDM4pGPyV2qtBPTGcJi1q+jnoAMguSm2/QNVKX33Vt2EWmZP2CG6FJ3MFcwY
-oBxK3bHtNo5AMDG3HunB+SSks7Vj/p6uT49TSJM1fEWeI9ePCQHWCQgt1TcYKiYs
-ntCAFiQv9asUZdy96Jcw3iFMUtlTop86Y+rmwgMlv5PP/hjgtj+A8X2hrjd/36Kg
-gYxgzMosQ7hCiWBIVVse2zAh1JJgh8d/wlNddpjUoH6SVD9fsQ/a9mJlD0WMUQKT
-SmZRAXGUzXYb3zks5okwrovR8f9L9e3lSs0q8De1YrY+33lf6jzlu1hntoNIDyXz
-YT7QrLkHozvBG27sW9+hZsQRC3CEqagyuy/F1SBGnA+zLX9qOHejVE19NgxrXJBH
-2Ae+PgTP4A+8Z0NJLIhnO5c3L7O/FWAQemAKAV60rk7G9Z7pTGvF3AG8nqlVztrM
-kib7JAGbyj+UwJf3LdnaPuarwo5MU6vDaAMrPA5fymeBev36zic=
-=SlTC
------END PGP SIGNATURE-----
+Changelog v2 (Thanks to Hans and Laurent)
 
---x+6KMIRAuhnl3hBn--
+- Reimplement the CTRL_CLASS as a patch on queryctl
+- Do not return -EIO for case 8
+- Handle request bug and which_def multiclass in core
+
+Hans Verkuil (1):
+  uvc: use vb2 ioctl and fop helpers
+
+Ricardo Ribalda (7):
+  media: v4l2-ioctl: Fix check_ext_ctrls
+  media: uvcvideo: Set capability in s_param
+  media: uvcvideo: Return -EIO for control errors
+  media: uvcvideo: set error_idx to count on EACCESS
+  media: uvcvideo: refactor __uvc_ctrl_add_mapping
+  media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
+  media: uvcvideo: Set a different name for the metadata entity
+
+ drivers/media/usb/uvc/uvc_ctrl.c     | 137 +++++++++++--
+ drivers/media/usb/uvc/uvc_driver.c   |  36 +++-
+ drivers/media/usb/uvc/uvc_metadata.c |   8 +-
+ drivers/media/usb/uvc/uvc_queue.c    | 131 -------------
+ drivers/media/usb/uvc/uvc_v4l2.c     | 280 +++------------------------
+ drivers/media/usb/uvc/uvc_video.c    |   5 +
+ drivers/media/usb/uvc/uvcvideo.h     |  34 +---
+ drivers/media/v4l2-core/v4l2-ioctl.c |  25 ++-
+ 8 files changed, 206 insertions(+), 450 deletions(-)
+
+-- 
+2.31.0.rc2.261.g7f71774620-goog
+
