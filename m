@@ -2,156 +2,300 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26CC733906B
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1965B33909C
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 16:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231766AbhCLOz2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 09:55:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36368 "EHLO
+        id S231331AbhCLPCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 10:02:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230521AbhCLOy4 (ORCPT
+        with ESMTP id S230521AbhCLPCN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 09:54:56 -0500
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD92AC061574;
-        Fri, 12 Mar 2021 06:54:55 -0800 (PST)
-Received: by mail-oi1-x22b.google.com with SMTP id d16so17794469oic.0;
-        Fri, 12 Mar 2021 06:54:55 -0800 (PST)
+        Fri, 12 Mar 2021 10:02:13 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B01A7C061574
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 07:02:12 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id x4so39536248lfu.7
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 07:02:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=m78mBvSniWqKMDyGJEBqM8ia3GGy83UgRaI78+ZpVNs=;
-        b=px4Fb5SG1RihopR8pXYMC7LNGcjKiTrrweSNpWcbEUQsdyI8QWTXncbMYnP/4dvNVQ
-         iajkhic181Wb9MKx1zFPtKzPRuSP5uUeBshD0HE9ML5CfkBTOyAzCtvb8n1wk7/8XPgT
-         13FtU55/vHyHBQB04vn991dWzkHm+aKfbSVQSA5OkIwho/agLHrXyJR7oELKxV2M5JtE
-         7nophJtMuBeC4buSKkVwKOicZXzZ2PiI1T6UmVQ7r6xvcKZaxNHfJgl4cRtexcSBhh2N
-         ug6B3obyAsI8CFn/a/WSkNUdtiPfJ46i3A3Voyu/tcazdAL4opqj3RKqlgEwchjUB+W5
-         YG2w==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=XH5iM+bhjjtynv1U1v1amPN8X1ErALBPGCyd2iDKTOc=;
+        b=PEjjFg4YQl+UJG+MZs96lplV7hAtuR6NmoFTia86Vv5ub5tubFY0wMGfxBdeLK/wCf
+         Q6+DZPr/WQUU+mOMTc9lD5WkrMJf3qXQY8nUZ6n4AAmeH1FlAGHHoarsrrgSZZ4ZBCK3
+         FqU/I3NpDaHIsIRAJM7g4q83NKI6SQfL5Z+S4n+tDCWCiBsDnVmzo584dvN0ZHQJ7Zwj
+         HRUfZ6vIBfsM9j+CG2pUDNXXCXJL3CUJlJt8TCvXCo/ywzcB9xQV7pUKa8v0Sx/Acyjf
+         EdkyoHDFu+kOzMc5GQ6/c3nGkVgdTa3qg4zxDtPSQGSkrlL02ca6kYVyec1fOsyktUML
+         chHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=m78mBvSniWqKMDyGJEBqM8ia3GGy83UgRaI78+ZpVNs=;
-        b=np42TkBmausowPTpT0rs4JAGkvL4hovc1gleXRI04ajP5q83nO1HKlPxJXIlJDbzCN
-         mr1ldCfTh6++luwl8n63tCdDaEl/aYs/stNtUCMyVC27j+LDnBBoRWSc2spEujhPpUgD
-         C6CENevZsfreLJcUxReDhwc5s9hkV4jEoraNpmgny/px5KVy8H3DWI7K1x9vvBrEsXSP
-         VtEcHhjmMHr1wKgfZVSBaOmrwrpGerSxIoMpRYe0U/sizrPMHzbvlJnwgv1zY3Y+biv2
-         YdDaPLI49N2se/CTsdL4h9Ipcw68whN46z61V10xRYnRp3EkpIYCyONMU7zDjtaY1u3y
-         1pTg==
-X-Gm-Message-State: AOAM530AFXQTbHnWg4pod3CiuLFPNVpAWYTqDzM2GaWCCFhTxnoI51WH
-        AbKonRbogpwJriIEncMJR+o1Nqi4lRQ=
-X-Google-Smtp-Source: ABdhPJwn4wo9nkC0PwZ1LrD6jT+MJjZ7TSzpm6lBDK17Lzsg6Eqa96206QTWB/cGt5DpIHFIoNkccA==
-X-Received: by 2002:aca:3046:: with SMTP id w67mr9977443oiw.57.1615560894935;
-        Fri, 12 Mar 2021 06:54:54 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s21sm1268137oos.5.2021.03.12.06.54.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Mar 2021 06:54:54 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
-To:     Dominique MARTINET <dominique.martinet@atmark-techno.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200917022547.198090-1-linux@roeck-us.net>
- <20200917124714.GD3969@pendragon.ideasonboard.com>
- <990652f1-b6e4-211c-7a96-8c3fc3ea6efd@roeck-us.net>
- <YEsZ7qnSRv0EkJGG@atmark-techno.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <74c0c32a-ebb5-34e0-d3a2-6b417ce328a1@roeck-us.net>
-Date:   Fri, 12 Mar 2021 06:54:52 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=XH5iM+bhjjtynv1U1v1amPN8X1ErALBPGCyd2iDKTOc=;
+        b=dVMqiBP8VlxrdUlMy1w+gqoePvjpuP5kya5R52ecMTYu3L6VyAr1DCmc0Q64/xX9Wh
+         Udhluc3UBGtlsmoXKZoiMLZaIu2dwMRPWud9/BJuVnm80z5tuUig1S6IAwx6/+utLipm
+         EsSMJMSusBu6696kqaIDd5kMS0RayHDZE3jOqPfjNcFqzoUZ9PbHAmltDvu1kT1ntq7a
+         4PpWLBp3T/LlKNdw83GrlMDOqIuEFQlS/lJ+XbU8bO/va05fvEcjggSp5oBfKyXga09j
+         MKY3MD40n7ZRlIC+dDqyRLn6rOZuqVjiNPXQjP3+rrVd//MMzpt2pYWYY31eGTrBaLPS
+         V3WQ==
+X-Gm-Message-State: AOAM531LDT7X2VtNBQUEakwPspQ00hKjDIQXhgriXKMZqukb9YR57lKX
+        qYDx5xTh8ETA862UezfHgnODeA==
+X-Google-Smtp-Source: ABdhPJx1MpQTkeKqGQQika5m0iYRdrwyn3legbP5uDWMMYwPjWfiYhP7yzKWVFrMvX3nvlJkffUU3A==
+X-Received: by 2002:a05:6512:202b:: with SMTP id s11mr5893494lfs.22.1615561329479;
+        Fri, 12 Mar 2021 07:02:09 -0800 (PST)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id x25sm1697584lfn.307.2021.03.12.07.02.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Mar 2021 07:02:09 -0800 (PST)
+Date:   Fri, 12 Mar 2021 16:02:08 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, ezequiel.garcia@collabora.com
+Subject: Re: [PATCH v2 4/4] v4l: async, fwnode: Improve module organisation
+Message-ID: <YEuCcFZqTUMyUaLQ@oden.dyn.berto.se>
+References: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
+ <20210312125657.25442-5-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YEsZ7qnSRv0EkJGG@atmark-techno.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210312125657.25442-5-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/11/21 11:36 PM, Dominique MARTINET wrote:
-> Hi,
+Hi Sakari,
+
+Thanks for your work.
+
+On 2021-03-12 14:56:57 +0200, Sakari Ailus wrote:
+> The V4L2 async framework is generally used with the V4L2 fwnode, which
+> also depends on the former. There is only one exception, the CAFE_CCIC
+> driver, which uses V4L2 async but does not need V4L2 fwnode.
 > 
-> Guenter Roeck wrote on Thu, Sep 17, 2020 at 07:16:17PM -0700:
->> On 9/17/20 5:47 AM, Laurent Pinchart wrote:
->>> On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
->>>> Something seems to have gone wrong with v3 of this patch series.
->>>> I am sure I sent it out, but I don't find it anywhere.
->>>> Resending. Sorry for any duplicates.
->>>
->>> I haven't checked the mailing list, but I've found it in my inbox :-)
->>> I'm not forgetting about you, just been fairly busy recently. I still
->>> plan to try and provide an alternative implementation in the V4L2 core
->>> (in a form that I think should even be moved to the cdev core) that
->>> would fix this for all drivers.
->>>
->> Thanks for letting me know. As it turns out, this problem is responsible
->> for about 2% of all Chromebook crashes, so I'll probably not wait for
->> the series to be accepted upstream but apply it as-is to the various
->> ChromeOS kernel branches.
+> At the same time there is a vast number of systems that need videodev
+> module, but have no use for v4l2-async that's now part of videodev.
 > 
-> We have a customer who reported the same issue recently, has there been
-> any development?
+> In order to improve, build v4l2-async and v4l2-fwnode as a single module
+> called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
+> Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
+> 
+> This also moves the initialisation of the debufs entries for async subdevs
+> to loading of the v4l2-async module. The directory is named as
+> "v4l2-async".
+
+I tested this patch as part of your latest master branch [1] and it 
+fails to compile for me,
+
+      AR      drivers/base/built-in.a
+    drivers/media/v4l2-core/Makefile:18: *** missing separator.  Stop.
+    make[2]: *** [scripts/Makefile.build:514: drivers/media/v4l2-core] Error 2
+    make[1]: *** [scripts/Makefile.build:514: drivers/media] Error 2
+    make: *** [Makefile:1849: drivers] Error 2
+
+1. git://linuxtv.org/sailus/media_tree.git master
+   e61c166cc1088746 ("v4l: async, fwnode: Improve module organisation")
+
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/Kconfig            |  8 ++++++++
+>  drivers/media/v4l2-core/Kconfig      |  4 ++++
+>  drivers/media/v4l2-core/Makefile     | 11 +++++++++--
+>  drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
+>  drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
+>  5 files changed, 42 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 462c0e059754..4326e50c13c9 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -217,6 +217,7 @@ config VIDEO_ADV7180
+>  	depends on GPIOLIB && VIDEO_V4L2 && I2C
+>  	select MEDIA_CONTROLLER
+>  	select VIDEO_V4L2_SUBDEV_API
+> +	select V4L2_ASYNC
+>  	help
+>  	  Support for the Analog Devices ADV7180 video decoder.
+>  
+> @@ -1341,6 +1342,7 @@ config VIDEO_AD5820
+>  	tristate "AD5820 lens voice coil support"
+>  	depends on GPIOLIB && I2C && VIDEO_V4L2
+>  	select MEDIA_CONTROLLER
+> +	select V4L2_ASYNC
+>  	help
+>  	  This is a driver for the AD5820 camera lens voice coil.
+>  	  It is used for example in Nokia N900 (RX-51).
+> @@ -1350,6 +1352,7 @@ config VIDEO_AK7375
+>  	depends on I2C && VIDEO_V4L2
+>  	select MEDIA_CONTROLLER
+>  	select VIDEO_V4L2_SUBDEV_API
+> +	select V4L2_ASYNC
+>  	help
+>  	  This is a driver for the AK7375 camera lens voice coil.
+>  	  AK7375 is a 12 bit DAC with 120mA output current sink
+> @@ -1361,6 +1364,7 @@ config VIDEO_DW9714
+>  	depends on I2C && VIDEO_V4L2
+>  	select MEDIA_CONTROLLER
+>  	select VIDEO_V4L2_SUBDEV_API
+> +	select V4L2_ASYNC
+>  	help
+>  	  This is a driver for the DW9714 camera lens voice coil.
+>  	  DW9714 is a 10 bit DAC with 120mA output current sink
+> @@ -1384,6 +1388,7 @@ config VIDEO_DW9807_VCM
+>  	depends on I2C && VIDEO_V4L2
+>  	select MEDIA_CONTROLLER
+>  	select VIDEO_V4L2_SUBDEV_API
+> +	select V4L2_ASYNC
+>  	help
+>  	  This is a driver for the DW9807 camera lens voice coil.
+>  	  DW9807 is a 10 bit DAC with 100mA output current sink
+> @@ -1399,6 +1404,7 @@ config VIDEO_ADP1653
+>  	tristate "ADP1653 flash support"
+>  	depends on I2C && VIDEO_V4L2
+>  	select MEDIA_CONTROLLER
+> +	select V4L2_ASYNC
+>  	help
+>  	  This is a driver for the ADP1653 flash controller. It is used for
+>  	  example in Nokia N900.
+> @@ -1408,6 +1414,7 @@ config VIDEO_LM3560
+>  	depends on I2C && VIDEO_V4L2
+>  	select MEDIA_CONTROLLER
+>  	select REGMAP_I2C
+> +	select V4L2_ASYNC
+>  	help
+>  	  This is a driver for the lm3560 dual flash controllers. It controls
+>  	  flash, torch LEDs.
+> @@ -1417,6 +1424,7 @@ config VIDEO_LM3646
+>  	depends on I2C && VIDEO_V4L2
+>  	select MEDIA_CONTROLLER
+>  	select REGMAP_I2C
+> +	select V4L2_ASYNC
+>  	help
+>  	  This is a driver for the lm3646 dual flash controllers. It controls
+>  	  flash, torch LEDs.
+> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> index bf49f83cb86f..61b023b56d75 100644
+> --- a/drivers/media/v4l2-core/Kconfig
+> +++ b/drivers/media/v4l2-core/Kconfig
+> @@ -62,6 +62,7 @@ config V4L2_FLASH_LED_CLASS
+>  	tristate "V4L2 flash API for LED flash class devices"
+>  	depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+>  	depends on LEDS_CLASS_FLASH
+> +	select V4L2_ASYNC
+>  	help
+>  	  Say Y here to enable V4L2 flash API support for LED flash
+>  	  class drivers.
+> @@ -71,6 +72,9 @@ config V4L2_FLASH_LED_CLASS
+>  config V4L2_FWNODE
+>  	tristate
+>  
+> +config V4L2_ASYNC
+> +	tristate
+> +
+>  # Used by drivers that need Videobuf modules
+>  config VIDEOBUF_GEN
+>  	tristate
+> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> index e4cd589b99a5..eb5ebb5461fd 100644
+> --- a/drivers/media/v4l2-core/Makefile
+> +++ b/drivers/media/v4l2-core/Makefile
+> @@ -7,15 +7,22 @@ tuner-objs	:=	tuner-core.o
+>  
+>  videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+>  			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
+> -			v4l2-async.o v4l2-common.o
+> +			v4l2-common.o
+>  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
+>  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
+>  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
+>  videodev-$(CONFIG_SPI) += v4l2-spi.o
+>  videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+>  
+> -obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>  obj-$(CONFIG_VIDEO_V4L2) += videodev.o
+> +ifneq ($(findstring y,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
+> +obj-y += v4l2-async.o
+> +else
+> +ifneq ($(findstring m,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
+> +obj-m += v4l2-async.o
+> +endif
+> +endif
+> +obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>  obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
+>  
+>  obj-$(CONFIG_VIDEO_TUNER) += tuner.o
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 21b3890b96fc..6e49386f0284 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -852,8 +852,27 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+>  
+> -void v4l2_async_debug_init(struct dentry *debugfs_dir)
+> +static struct dentry *v4l2_async_debugfs_dir;
+> +
+> +static int __init v4l2_async_init(void)
+>  {
+> -	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
+> +	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
+> +	debugfs_create_file("pending_async_subdevices", 0444,
+> +			    v4l2_async_debugfs_dir, NULL,
+>  			    &pending_subdevs_fops);
+> +
+> +	return 0;
+> +}
+> +
+> +static void __exit v4l2_async_exit(void)
+> +{
+> +	debugfs_remove_recursive(v4l2_async_debugfs_dir);
+>  }
+> +
+> +subsys_initcall(v4l2_async_init);
+> +module_exit(v4l2_async_exit);
+> +
+> +MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
+> +MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+> +MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index b6a72d297775..5002e3cd110f 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -39,8 +39,6 @@
+>  		       __func__, ##arg);				\
+>  } while (0)
+>  
+> -static struct dentry *v4l2_debugfs_dir;
+> -
+>  /*
+>   *	sysfs stuff
+>   */
+> @@ -1120,8 +1118,6 @@ static int __init videodev_init(void)
+>  		return -EIO;
+>  	}
+>  
+> -	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
+> -	v4l2_async_debug_init(v4l2_debugfs_dir);
+>  	return 0;
+>  }
+>  
+> @@ -1129,7 +1125,6 @@ static void __exit videodev_exit(void)
+>  {
+>  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
+>  
+> -	debugfs_remove_recursive(v4l2_debugfs_dir);
+>  	class_unregister(&video_class);
+>  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+>  }
+> -- 
+> 2.29.2
 > 
 
-Not that I know of. We applied the series to all Chrome OS kernel branches,
-and it reliably fixes the problem for us. We'd like to have the problem
-fixed upstream; until that happens we'll have to carry the series forward.
-
-> I don't see anything in either uvc nor v4l2 that would address the race
-> since this mail half a year ago (well, I could have missed it ;))
-> 
-
-The problem still exists in the upstream kernel.
-
-Guenter
+-- 
+Regards,
+Niklas Söderlund
