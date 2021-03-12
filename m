@@ -2,262 +2,363 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49F9233963F
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 19:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 787AC3398F7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 22:17:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233167AbhCLSXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 13:23:50 -0500
-Received: from mga11.intel.com ([192.55.52.93]:3855 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233243AbhCLSXn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 13:23:43 -0500
-IronPort-SDR: oyXLzbbPXjdAu3xthXtq98aGh2ml9raX7LFFhxnR8CJ2cHeHi3ljI+e19k5x1q0fam72ZFjEtl
- eaDDf5M9F6OQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="185515227"
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="185515227"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2021 10:23:42 -0800
-IronPort-SDR: 4GCm1qlt4LsQRXW56B4o8BxJWfX8VCAIVWSU22LFw6fttJARIDB2nRYTzTiWkRz5d9a67OjVTh
- xCXbhQY4LlJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="521502522"
-Received: from lkp-server02.sh.intel.com (HELO ce64c092ff93) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 12 Mar 2021 10:23:41 -0800
-Received: from kbuild by ce64c092ff93 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lKmRo-0001WW-CC; Fri, 12 Mar 2021 18:23:40 +0000
-Date:   Sat, 13 Mar 2021 02:23:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD REGRESSION
- 1cb3ff130f4d97dec2d1bee968a87f5d6e24dd60
-Message-ID: <604bb1a7.QxHkg0LwR4MakGlC%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S235253AbhCLVQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 16:16:17 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46390 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235255AbhCLVPu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Mar 2021 16:15:50 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E42F588F;
+        Fri, 12 Mar 2021 22:15:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1615583748;
+        bh=p8ueHT9hBdjrMPYv+MNwpSukqWWphQpzWFHWfs4obWw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ALfevHDTrqstjtEeufaD30QjSQve50uup68letkVC4uQxPj7cVqO5KT3DRpP3TdzZ
+         MyPx0dq/9Jx5+TQLrUYyC6jmpRk3nLVlocJG6DCHomcfKJCNbHLkh5FXvjLvpfx08V
+         Ew9T+yE5q2GJItOt27mAspmiE7CiRDW4Sgq1Hyio=
+Date:   Fri, 12 Mar 2021 23:15:03 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        iommu@lists.linux-foundation.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] media: uvcvideo: Use dma_alloc_noncontiguous API
+Message-ID: <YEvZ17VIP6WbpHdm@pendragon.ideasonboard.com>
+References: <20210312125709.1347177-1-ribalda@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210312125709.1347177-1-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-tree
-branch HEAD: 1cb3ff130f4d97dec2d1bee968a87f5d6e24dd60  media: imx: imx7_mipi_csis: Print shadow registers in mipi_csis_dump_regs()
+Hi Ricardo,
 
-Error/Warning reports:
+Thank you for the patch.
 
-https://lore.kernel.org/linux-media/202103121116.EOhNQ4th-lkp@intel.com
-https://lore.kernel.org/linux-media/202103121929.lhwifpkf-lkp@intel.com
+On Fri, Mar 12, 2021 at 01:57:09PM +0100, Ricardo Ribalda wrote:
+> On architectures where there is no coherent caching such as ARM use the
+> dma_alloc_noncontiguous API and handle manually the cache flushing using
+> dma_sync_sgtable().
 
-Error/Warning in current branch:
+You're actually switching to dma_alloc_noncontiguous() unconditionally,
+not only on those architectures :-) Do I assume correctly that
+dma_alloc_noncontiguous() will do the right thing on x86 too ?
 
-aarch64-linux-ld: cec-notifier.c:(.text+0x1ac): undefined reference to `of_find_i2c_device_by_node'
-arc-elf-ld: cec-notifier.c:(.text+0x49a): undefined reference to `of_find_i2c_device_by_node'
-cec-notifier.c:(.text+0x49a): undefined reference to `of_find_i2c_device_by_node'
+> With this patch on the affected architectures we can measure up to 20x
+> performance improvement in uvc_video_copy_data_work().
 
-possible Error/Warning in current branch:
+Have you measured performances on x86 to ensure there's no regression ?
 
-ld: cec-notifier.c:(.text+0x234): undefined reference to `of_find_i2c_device_by_node'
+> Eg: aarch64 with an external usb camera
+> 
+> NON_CONTIGUOUS
+> frames:  999
+> packets: 999
+> empty:   0 (0 %)
+> errors:  0
+> invalid: 0
+> pts: 0 early, 0 initial, 999 ok
+> scr: 0 count ok, 0 diff ok
+> sof: 2048 <= sof <= 0, freq 0.000 kHz
+> bytes 67034480 : duration 33303
+> FPS: 29.99
+> URB: 523446/4993 uS/qty: 104.836 avg 132.532 std 13.230 min 831.094 max (uS)
+> header: 76564/4993 uS/qty: 15.334 avg 15.229 std 3.438 min 186.875 max (uS)
+> latency: 468945/4992 uS/qty: 93.939 avg 132.577 std 9.531 min 824.010 max (uS)
+> decode: 54161/4993 uS/qty: 10.847 avg 6.313 std 1.614 min 111.458 max (uS)
+> raw decode speed: 9.931 Gbits/s
+> raw URB handling speed: 1.025 Gbits/s
+> throughput: 16.102 Mbits/s
+> URB decode CPU usage 0.162600 %
+> 
+> COHERENT
+> frames:  999
+> packets: 999
+> empty:   0 (0 %)
+> errors:  0
+> invalid: 0
+> pts: 0 early, 0 initial, 999 ok
+> scr: 0 count ok, 0 diff ok
+> sof: 2048 <= sof <= 0, freq 0.000 kHz
+> bytes 54683536 : duration 33302
+> FPS: 29.99
+> URB: 1478135/4000 uS/qty: 369.533 avg 390.357 std 22.968 min 3337.865 max (uS)
+> header: 79761/4000 uS/qty: 19.940 avg 18.495 std 1.875 min 336.719 max (uS)
+> latency: 281077/4000 uS/qty: 70.269 avg 83.102 std 5.104 min 735.000 max (uS)
+> decode: 1197057/4000 uS/qty: 299.264 avg 318.080 std 1.615 min 2806.667 max (uS)
+> raw decode speed: 365.470 Mbits/s
+> raw URB handling speed: 295.986 Mbits/s
+> throughput: 13.136 Mbits/s
+> URB decode CPU usage 3.594500 %
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+> 
+> Changelog from v2: (Thanks Laurent)
+> 
+> - Fix typos
+> - Use the right dma direction if not capturing
+> - Clear sgt during free
+> 
+>  drivers/media/usb/uvc/uvc_video.c | 92 +++++++++++++++++++++++--------
+>  drivers/media/usb/uvc/uvcvideo.h  |  5 +-
+>  2 files changed, 74 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index f2f565281e63..8e60f81e2257 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -6,11 +6,14 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>  
+> +#include <linux/dma-mapping.h>
+> +#include <linux/highmem.h>
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+>  #include <linux/usb.h>
+> +#include <linux/usb/hcd.h>
+>  #include <linux/videodev2.h>
+>  #include <linux/vmalloc.h>
+>  #include <linux/wait.h>
+> @@ -1096,6 +1099,34 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>  	return data[0];
+>  }
+>  
+> +static inline enum dma_data_direction stream_dir(struct uvc_streaming *stream)
+> +{
+> +	if (stream->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		return DMA_FROM_DEVICE;
+> +	else
+> +		return DMA_TO_DEVICE;
+> +}
+> +
+> +static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
+> +{
+> +	return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
+> +}
+> +
+> +static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
 
-Error/Warning ids grouped by kconfigs:
+Maybe nitpicking a little bit, but wouldn't the code be clearer if you
+created uvc_urb_dma_sync_for_cpu() and uvc_urb_dma_sync_for_device() ?
+When reading
 
-gcc_recent_errors
-|-- arc-randconfig-r033-20210312
-|   |-- arc-elf-ld:cec-notifier.c:(.text):undefined-reference-to-of_find_i2c_device_by_node
-|   `-- cec-notifier.c:(.text):undefined-reference-to-of_find_i2c_device_by_node
-|-- arm64-randconfig-r022-20210312
-|   `-- aarch64-linux-ld:cec-notifier.c:(.text):undefined-reference-to-of_find_i2c_device_by_node
-`-- x86_64-randconfig-s032-20210312
-    `-- ld:cec-notifier.c:(.text):undefined-reference-to-of_find_i2c_device_by_node
+	uvc_urb_dma_sync(uvc_urb, true);
 
-elapsed time: 1773m
+I have to constantly look up the definition of the function to figure
+out what boolean value corresponds to what direction.
 
-configs tested: 177
-configs skipped: 2
+Given that uvc_urb_dma_sync(..., true) is always called right before
+submitting the URB, we could even create a uvc_submit_urb() function
+that groups the dma_sync_sgtable_for_device() and usb_submit_urb()
+calls, and do without uvc_urb_dma_sync_for_device(). Up to you on this
+one.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                            zeus_defconfig
-arc                          axs101_defconfig
-powerpc                       maple_defconfig
-nios2                         10m50_defconfig
-sparc64                             defconfig
-mips                           ip22_defconfig
-arm64                            alldefconfig
-powerpc                      arches_defconfig
-arm                           omap1_defconfig
-mips                           ip32_defconfig
-mips                      maltasmvp_defconfig
-powerpc                     kilauea_defconfig
-powerpc                 mpc836x_rdk_defconfig
-mips                        qi_lb60_defconfig
-powerpc                     tqm8555_defconfig
-openrisc                 simple_smp_defconfig
-powerpc64                           defconfig
-arc                            hsdk_defconfig
-arm                            dove_defconfig
-nds32                            alldefconfig
-powerpc                    socrates_defconfig
-sh                           se7712_defconfig
-arm                          collie_defconfig
-riscv                               defconfig
-sh                          rsk7203_defconfig
-openrisc                         alldefconfig
-powerpc                      obs600_defconfig
-sparc                               defconfig
-ia64                         bigsur_defconfig
-sh                   sh7724_generic_defconfig
-m68k                         apollo_defconfig
-arm                         lpc32xx_defconfig
-m68k                          multi_defconfig
-powerpc                    adder875_defconfig
-powerpc                      mgcoge_defconfig
-arm                      tct_hammer_defconfig
-s390                             allmodconfig
-mips                            e55_defconfig
-arm                       mainstone_defconfig
-sparc                            allyesconfig
-powerpc                       eiger_defconfig
-mips                      pistachio_defconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                      ep88xc_defconfig
-sh                        sh7763rdp_defconfig
-arm                        neponset_defconfig
-xtensa                generic_kc705_defconfig
-arm                         lpc18xx_defconfig
-arc                     haps_hs_smp_defconfig
-um                           x86_64_defconfig
-s390                             alldefconfig
-h8300                    h8300h-sim_defconfig
-mips                        workpad_defconfig
-arm                             mxs_defconfig
-openrisc                            defconfig
-arm                     am200epdkit_defconfig
-sh                 kfr2r09-romimage_defconfig
-ia64                          tiger_defconfig
-arm                       netwinder_defconfig
-arm                        magician_defconfig
-mips                        bcm63xx_defconfig
-sh                      rts7751r2d1_defconfig
-sh                           se7750_defconfig
-powerpc                     tqm5200_defconfig
-powerpc                     tqm8548_defconfig
-mips                         cobalt_defconfig
-powerpc                 mpc836x_mds_defconfig
-powerpc                 mpc832x_rdb_defconfig
-sh                          r7785rp_defconfig
-arc                           tb10x_defconfig
-arm                        keystone_defconfig
-arm                        trizeps4_defconfig
-openrisc                  or1klitex_defconfig
-sh                          urquell_defconfig
-arm                         at91_dt_defconfig
-powerpc                          g5_defconfig
-powerpc                     mpc83xx_defconfig
-mips                     cu1830-neo_defconfig
-mips                      fuloong2e_defconfig
-arm                          pxa168_defconfig
-powerpc                     powernv_defconfig
-powerpc                  storcenter_defconfig
-arm                      footbridge_defconfig
-sh                   sh7770_generic_defconfig
-arm                          badge4_defconfig
-arm                          ixp4xx_defconfig
-arm                         hackkit_defconfig
-m68k                       m5249evb_defconfig
-ia64                             alldefconfig
-powerpc                 mpc834x_mds_defconfig
-arm                         bcm2835_defconfig
-mips                  maltasmvp_eva_defconfig
-powerpc                      bamboo_defconfig
-arm                        realview_defconfig
-arm                           corgi_defconfig
-arm                     eseries_pxa_defconfig
-mips                           rs90_defconfig
-arm                        mini2440_defconfig
-powerpc                     tqm8560_defconfig
-powerpc                  iss476-smp_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20210311
-x86_64               randconfig-a001-20210311
-x86_64               randconfig-a005-20210311
-x86_64               randconfig-a002-20210311
-x86_64               randconfig-a003-20210311
-x86_64               randconfig-a004-20210311
-i386                 randconfig-a001-20210312
-i386                 randconfig-a005-20210312
-i386                 randconfig-a002-20210312
-i386                 randconfig-a003-20210312
-i386                 randconfig-a004-20210312
-i386                 randconfig-a006-20210312
-i386                 randconfig-a001-20210311
-i386                 randconfig-a005-20210311
-i386                 randconfig-a003-20210311
-i386                 randconfig-a002-20210311
-i386                 randconfig-a004-20210311
-i386                 randconfig-a006-20210311
-i386                 randconfig-a013-20210311
-i386                 randconfig-a016-20210311
-i386                 randconfig-a011-20210311
-i386                 randconfig-a014-20210311
-i386                 randconfig-a015-20210311
-i386                 randconfig-a012-20210311
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+With those small changes, and assuming there's no performance regression
+on x86,
 
-clang tested configs:
-x86_64               randconfig-a011-20210311
-x86_64               randconfig-a016-20210311
-x86_64               randconfig-a013-20210311
-x86_64               randconfig-a015-20210311
-x86_64               randconfig-a014-20210311
-x86_64               randconfig-a012-20210311
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> +{
+> +	struct device *dma_dev = stream_to_dmadev(uvc_urb->stream);
+> +
+> +	if (for_device) {
+> +		dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
+> +					    stream_dir(uvc_urb->stream));
+> +	} else {
+> +		dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt,
+> +					 stream_dir(uvc_urb->stream));
+> +		invalidate_kernel_vmap_range(uvc_urb->buffer,
+> +					     uvc_urb->stream->urb_size);
+> +	}
+> +}
+> +
+>  /*
+>   * uvc_video_decode_data_work: Asynchronous memcpy processing
+>   *
+> @@ -1117,6 +1148,8 @@ static void uvc_video_copy_data_work(struct work_struct *work)
+>  		uvc_queue_buffer_release(op->buf);
+>  	}
+>  
+> +	uvc_urb_dma_sync(uvc_urb, true);
+> +
+>  	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
+>  	if (ret < 0)
+>  		dev_err(&uvc_urb->stream->intf->dev,
+> @@ -1541,10 +1574,12 @@ static void uvc_video_complete(struct urb *urb)
+>  	 * Process the URB headers, and optionally queue expensive memcpy tasks
+>  	 * to be deferred to a work queue.
+>  	 */
+> +	uvc_urb_dma_sync(uvc_urb, false);
+>  	stream->decode(uvc_urb, buf, buf_meta);
+>  
+>  	/* If no async work is needed, resubmit the URB immediately. */
+>  	if (!uvc_urb->async_operations) {
+> +		uvc_urb_dma_sync(uvc_urb, true);
+>  		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
+>  		if (ret < 0)
+>  			dev_err(&stream->intf->dev,
+> @@ -1560,24 +1595,49 @@ static void uvc_video_complete(struct urb *urb)
+>   */
+>  static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+>  {
+> +	struct device *dma_dev = stream_to_dmadev(stream);
+>  	struct uvc_urb *uvc_urb;
+>  
+>  	for_each_uvc_urb(uvc_urb, stream) {
+>  		if (!uvc_urb->buffer)
+>  			continue;
+>  
+> -#ifndef CONFIG_DMA_NONCOHERENT
+> -		usb_free_coherent(stream->dev->udev, stream->urb_size,
+> -				  uvc_urb->buffer, uvc_urb->dma);
+> -#else
+> -		kfree(uvc_urb->buffer);
+> -#endif
+> +		dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
+> +		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
+> +				       stream_dir(stream));
+> +
+>  		uvc_urb->buffer = NULL;
+> +		uvc_urb->sgt = NULL;
+>  	}
+>  
+>  	stream->urb_size = 0;
+>  }
+>  
+> +static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
+> +				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
+> +{
+> +	struct device *dma_dev = stream_to_dmadev(stream);
+> +
+> +	uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> +					       stream_dir(stream),
+> +					       gfp_flags, 0);
+> +	if (!uvc_urb->sgt)
+> +		return false;
+> +	uvc_urb->dma = uvc_urb->sgt->sgl->dma_address;
+> +
+> +	uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
+> +						 uvc_urb->sgt);
+> +	if (!uvc_urb->buffer) {
+> +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> +				       uvc_urb->sgt,
+> +				       stream_dir(stream));
+> +		uvc_urb->sgt = NULL;
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  /*
+>   * Allocate transfer buffers. This function can be called with buffers
+>   * already allocated when resuming from suspend, in which case it will
+> @@ -1608,19 +1668,12 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+>  
+>  	/* Retry allocations until one succeed. */
+>  	for (; npackets > 1; npackets /= 2) {
+> +		stream->urb_size = psize * npackets;
+> +
+>  		for (i = 0; i < UVC_URBS; ++i) {
+>  			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+>  
+> -			stream->urb_size = psize * npackets;
+> -#ifndef CONFIG_DMA_NONCOHERENT
+> -			uvc_urb->buffer = usb_alloc_coherent(
+> -				stream->dev->udev, stream->urb_size,
+> -				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+> -#else
+> -			uvc_urb->buffer =
+> -			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+> -#endif
+> -			if (!uvc_urb->buffer) {
+> +			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+>  				uvc_free_urb_buffers(stream);
+>  				break;
+>  			}
+> @@ -1730,12 +1783,8 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
+>  		urb->context = uvc_urb;
+>  		urb->pipe = usb_rcvisocpipe(stream->dev->udev,
+>  				ep->desc.bEndpointAddress);
+> -#ifndef CONFIG_DMA_NONCOHERENT
+>  		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
+>  		urb->transfer_dma = uvc_urb->dma;
+> -#else
+> -		urb->transfer_flags = URB_ISO_ASAP;
+> -#endif
+>  		urb->interval = ep->desc.bInterval;
+>  		urb->transfer_buffer = uvc_urb->buffer;
+>  		urb->complete = uvc_video_complete;
+> @@ -1795,10 +1844,8 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+>  
+>  		usb_fill_bulk_urb(urb, stream->dev->udev, pipe,	uvc_urb->buffer,
+>  				  size, uvc_video_complete, uvc_urb);
+> -#ifndef CONFIG_DMA_NONCOHERENT
+>  		urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
+>  		urb->transfer_dma = uvc_urb->dma;
+> -#endif
+>  
+>  		uvc_urb->urb = urb;
+>  	}
+> @@ -1895,6 +1942,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+>  
+>  	/* Submit the URBs. */
+>  	for_each_uvc_urb(uvc_urb, stream) {
+> +		uvc_urb_dma_sync(uvc_urb, true);
+>  		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
+>  		if (ret < 0) {
+>  			dev_err(&stream->intf->dev,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 97df5ecd66c9..cce5e38133cd 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -219,6 +219,7 @@
+>   */
+>  
+>  struct gpio_desc;
+> +struct sg_table;
+>  struct uvc_device;
+>  
+>  /* TODO: Put the most frequently accessed fields at the beginning of
+> @@ -545,7 +546,8 @@ struct uvc_copy_op {
+>   * @urb: the URB described by this context structure
+>   * @stream: UVC streaming context
+>   * @buffer: memory storage for the URB
+> - * @dma: DMA coherent addressing for the urb_buffer
+> + * @dma: Allocated DMA handle
+> + * @sgt: sgt_table with the urb locations in memory
+>   * @async_operations: counter to indicate the number of copy operations
+>   * @copy_operations: work descriptors for asynchronous copy operations
+>   * @work: work queue entry for asynchronous decode
+> @@ -556,6 +558,7 @@ struct uvc_urb {
+>  
+>  	char *buffer;
+>  	dma_addr_t dma;
+> +	struct sg_table *sgt;
+>  
+>  	unsigned int async_operations;
+>  	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
+
+-- 
+Regards,
+
+Laurent Pinchart
