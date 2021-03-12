@@ -2,738 +2,416 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAE14339987
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 23:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F20339990
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 23:17:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235515AbhCLWN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 17:13:57 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47174 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235521AbhCLWNu (ORCPT
+        id S235510AbhCLWQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 17:16:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47256 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235488AbhCLWQF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 17:13:50 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFBD388F;
-        Fri, 12 Mar 2021 23:13:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615587229;
-        bh=06Ryt4JpfITO6Qv4qsjnIxiRGa7MVBvpLV/LimaHtqI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QXH2Slq/ePVKymHOiJUNVMeGaDF09aQ00c8SNMM80zntnIcR7FMLF8z+k8xeM28HS
-         Ujf0aCFpe4ivDzWRO1gDFqF/X3xWgtSqs2hpmPXbVDD93cls1Fe2UkJhz+bXojGg0U
-         x5yx8BwKeaqQQDCbG6I2kP9Zc8jo79vlXJC8MCW4=
-Date:   Sat, 13 Mar 2021 00:13:14 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Subject: Re: [RFC PATCHv2] uvc: use vb2 ioctl and fop helpers
-Message-ID: <YEvneuISf+FqR8Ku@pendragon.ideasonboard.com>
-References: <f2b639ca-2c16-8aae-9f93-cf1d680da932@xs4all.nl>
+        Fri, 12 Mar 2021 17:16:05 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7FABC061574;
+        Fri, 12 Mar 2021 14:16:04 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id d3so47599789lfg.10;
+        Fri, 12 Mar 2021 14:16:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=R+VuipI8GDfaAAjeJEZCdXa5pRu8BLtYELXgF7w4NuU=;
+        b=A+9yLyb8gMKSbtfRgBEy22hG16q4UVU1d0lDdifY2PdkURP+TyOl8Angl9JTr4F6wo
+         AX25liYIxgnhCMIpIyaDP6FQppvjfrUgaVgkRlNkO3dqaKFrCkYNBt9f75IMqfEU6rfG
+         sNWSND4qqUTkz7LBeowJdWOqEXGKOmkkFvpxuHwZjpM6kOn28XE5p9LYo62J1QS5v8jQ
+         Q68FXdVoGKkrMQBs38TvYti/mF7zXScVnc/YOuPuJMDLgh1oKKgY/RQA1teDVB4FzEeh
+         e0ogn+wBtVGt3PsMYYI9iGjwsWbwM3RGVxBMfw+v4hmwPW1hnTVvYrhtAqBbeqVPWvCp
+         exqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R+VuipI8GDfaAAjeJEZCdXa5pRu8BLtYELXgF7w4NuU=;
+        b=eyBrRnnxa3GhOSXXDKioScqc4PTrJhemYmmPTTpOVZP3/41xnKlxWySUQ1i3PJ0fDG
+         7zs1lCxPpaSZHunEhIlcrIhFnRWbFoV2V3CwkYTRoAy3MfyehpFtsSGA2Xy/O/+F4ldL
+         VC6FgGzCZjZFYc9MOz1RWPFzq4nVL/TLpRvyFPaBggrl+Z6982Tmc0OAgybef3XZdOyX
+         duCib1AQNV68g077Nkmn8QsdL1HbULpX9OcOcOGocljUhnGcGU/cjceFpOOlRTpYF3JH
+         gxl+oTk9rF2Zaekx1e4pJF2hqpeIR2k9irIWUSJOAum3urLGSpEr8x0BeCRELttoUApY
+         MmAg==
+X-Gm-Message-State: AOAM531PJRbBvnxlnxtwzCRr/sSkrwjuya+qUOtAvGGhz8sK7pXGqS9V
+        Q1EuzvtlDIJj3MCm//QgkrTpumavnEC5/D4S+V0=
+X-Google-Smtp-Source: ABdhPJytZ340QxWrOyyyZRjRpzvK+UReq2zUBxkqQHruH3HwXeQwdFr0XB0keebxcuNZbvh/3My3+C9O1p03BicQJvE=
+X-Received: by 2002:a19:74c:: with SMTP id 73mr773699lfh.316.1615587363056;
+ Fri, 12 Mar 2021 14:16:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f2b639ca-2c16-8aae-9f93-cf1d680da932@xs4all.nl>
+References: <20210312125709.1347177-1-ribalda@chromium.org> <YEvZ17VIP6WbpHdm@pendragon.ideasonboard.com>
+In-Reply-To: <YEvZ17VIP6WbpHdm@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Fri, 12 Mar 2021 23:15:46 +0100
+Message-ID: <CAPybu_1EvEWuAOXM5yK4yY=2EH+9yWYGf5Rky5aKb4NUatG9Ug@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] media: uvcvideo: Use dma_alloc_noncontiguous API
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        iommu@lists.linux-foundation.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Laurent
 
-Thank you for the patch.
+Thanks a lot for the review
 
-On Fri, Mar 12, 2021 at 11:33:13AM +0100, Hans Verkuil wrote:
-> When uvc was written the vb2 ioctl and file operation helpers didn't exist.
-> 
-> This patch switches uvc over to those helpers, which removes a lot of boilerplate
-> code and simplifies VIDIOC_G/S_PRIORITY handling and allows us to drop the
-> 'privileges' scheme, since that's now handled inside the vb2 helpers.
-> 
-> This makes it possible for uvc to pass the v4l2-compliance streaming tests.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> Changes since v1:
-> - use correct queue for metadata
-> 
-> TODO:
-> - vb2_fop_get_unmapped_area() should probably be used as well
-> - verify suspend/resume
-> - for extra bonus points: test if unbind of the driver works while streaming
+On Fri, Mar 12, 2021 at 10:19 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Fri, Mar 12, 2021 at 01:57:09PM +0100, Ricardo Ribalda wrote:
+> > On architectures where there is no coherent caching such as ARM use the
+> > dma_alloc_noncontiguous API and handle manually the cache flushing using
+> > dma_sync_sgtable().
+>
+> You're actually switching to dma_alloc_noncontiguous() unconditionally,
+> not only on those architectures :-) Do I assume correctly that
+> dma_alloc_noncontiguous() will do the right thing on x86 too ?
 
-That's not bonus points, it's something that I've taken great care to
-support in the driver, so we really really don't want regressions.
-vb2_fop_get_unmapped_area() can wait, the other todo items need to be
-addressed.
+Yes dma_alloc_noncontiguous does all the magic. It falls back to
+alloc_dma_pages. Christoph has done a great job.
 
-> ---
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 30ef2a3110f7..dfaadb5c1bae 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -1911,7 +1911,6 @@ static struct uvc_video_chain *uvc_alloc_chain(struct uvc_device *dev)
->  	INIT_LIST_HEAD(&chain->entities);
->  	mutex_init(&chain->ctrl_mutex);
->  	chain->dev = dev;
-> -	v4l2_prio_init(&chain->prio);
-> 
->  	return chain;
->  }
-> @@ -2180,7 +2179,7 @@ int uvc_register_video_device(struct uvc_device *dev,
->  	vdev->fops = fops;
->  	vdev->ioctl_ops = ioctl_ops;
->  	vdev->release = uvc_release;
-> -	vdev->prio = &stream->chain->prio;
-> +	vdev->queue = &queue->queue;
->  	if (type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
->  		vdev->vfl_dir = VFL_DIR_TX;
->  	else
-> @@ -2541,8 +2540,8 @@ static int __uvc_resume(struct usb_interface *intf, int reset)
->  		if (stream->intf == intf) {
->  			ret = uvc_video_resume(stream, reset);
->  			if (ret < 0)
-> -				uvc_queue_streamoff(&stream->queue,
-> -						    stream->queue.queue.type);
-> +				vb2_streamoff(&stream->queue.queue,
-> +					      stream->queue.queue.type);
->  			return ret;
->  		}
->  	}
-> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-> index b6279ad7ac84..2f52cdc62929 100644
-> --- a/drivers/media/usb/uvc/uvc_metadata.c
-> +++ b/drivers/media/usb/uvc/uvc_metadata.c
-> @@ -96,7 +96,7 @@ static int uvc_meta_v4l2_set_format(struct file *file, void *fh,
->  	 */
->  	mutex_lock(&stream->mutex);
-> 
-> -	if (uvc_queue_allocated(&stream->queue))
-> +	if (vb2_is_busy(&stream->queue.queue))
+I tried it in my notebook and although the images are nothing but
+pretty it is not the APIs fault. It is because the barbers are closed
+due to the pandemic ;).
 
-As you've mentioned separately, this should be the meta queue.
+>
+> > With this patch on the affected architectures we can measure up to 20x
+> > performance improvement in uvc_video_copy_data_work().
+>
+> Have you measured performances on x86 to ensure there's no regression ?
 
->  		ret = -EBUSY;
->  	else
->  		stream->meta.format = fmt->dataformat;
-> @@ -164,12 +164,6 @@ int uvc_meta_register(struct uvc_streaming *stream)
-> 
->  	stream->meta.format = V4L2_META_FMT_UVC;
-> 
-> -	/*
-> -	 * The video interface queue uses manual locking and thus does not set
-> -	 * the queue pointer. Set it manually here.
-> -	 */
-> -	vdev->queue = &queue->queue;
-> -
->  	return uvc_register_video_device(dev, stream, vdev, queue,
->  					 V4L2_BUF_TYPE_META_CAPTURE,
->  					 &uvc_meta_fops, &uvc_meta_ioctl_ops);
-> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index 21a907d32bb7..fba9646c8ba5 100644
-> --- a/drivers/media/usb/uvc/uvc_queue.c
-> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -247,115 +247,10 @@ int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
->  	return 0;
->  }
-> 
-> -void uvc_queue_release(struct uvc_video_queue *queue)
-> -{
-> -	mutex_lock(&queue->mutex);
-> -	vb2_queue_release(&queue->queue);
-> -	mutex_unlock(&queue->mutex);
-> -}
-> -
->  /* -----------------------------------------------------------------------------
->   * V4L2 queue operations
->   */
-> 
-> -int uvc_request_buffers(struct uvc_video_queue *queue,
-> -			struct v4l2_requestbuffers *rb)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_reqbufs(&queue->queue, rb);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret ? ret : rb->count;
-> -}
-> -
-> -int uvc_query_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_querybuf(&queue->queue, buf);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -int uvc_create_buffers(struct uvc_video_queue *queue,
-> -		       struct v4l2_create_buffers *cb)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_create_bufs(&queue->queue, cb);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -int uvc_queue_buffer(struct uvc_video_queue *queue,
-> -		     struct media_device *mdev, struct v4l2_buffer *buf)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_qbuf(&queue->queue, mdev, buf);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -int uvc_export_buffer(struct uvc_video_queue *queue,
-> -		      struct v4l2_exportbuffer *exp)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_expbuf(&queue->queue, exp);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -int uvc_dequeue_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf,
-> -		       int nonblocking)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_dqbuf(&queue->queue, buf, nonblocking);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -int uvc_queue_streamon(struct uvc_video_queue *queue, enum v4l2_buf_type type)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_streamon(&queue->queue, type);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -int uvc_queue_streamoff(struct uvc_video_queue *queue, enum v4l2_buf_type type)
-> -{
-> -	int ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_streamoff(&queue->queue, type);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -int uvc_queue_mmap(struct uvc_video_queue *queue, struct vm_area_struct *vma)
-> -{
-> -	return vb2_mmap(&queue->queue, vma);
-> -}
-> -
->  #ifndef CONFIG_MMU
->  unsigned long uvc_queue_get_unmapped_area(struct uvc_video_queue *queue,
->  		unsigned long pgoff)
-> @@ -364,36 +259,10 @@ unsigned long uvc_queue_get_unmapped_area(struct uvc_video_queue *queue,
->  }
->  #endif
-> 
-> -__poll_t uvc_queue_poll(struct uvc_video_queue *queue, struct file *file,
-> -			    poll_table *wait)
-> -{
-> -	__poll_t ret;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	ret = vb2_poll(&queue->queue, file, wait);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return ret;
-> -}
-> -
->  /* -----------------------------------------------------------------------------
->   *
->   */
-> 
-> -/*
-> - * Check if buffers have been allocated.
-> - */
-> -int uvc_queue_allocated(struct uvc_video_queue *queue)
-> -{
-> -	int allocated;
-> -
-> -	mutex_lock(&queue->mutex);
-> -	allocated = vb2_is_busy(&queue->queue);
-> -	mutex_unlock(&queue->mutex);
-> -
-> -	return allocated;
-> -}
-> -
->  /*
->   * Cancel the video buffers queue.
->   *
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 252136cc885c..13ff1c9590c2 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -346,17 +346,13 @@ static int uvc_v4l2_set_format(struct uvc_streaming *stream,
->  		return ret;
-> 
->  	mutex_lock(&stream->mutex);
-> -
-> -	if (uvc_queue_allocated(&stream->queue)) {
-> +	if (vb2_is_busy(&stream->queue.queue)) {
->  		ret = -EBUSY;
-> -		goto done;
-> +	} else {
-> +		stream->ctrl = probe;
-> +		stream->cur_format = format;
-> +		stream->cur_frame = frame;
->  	}
+Yes in the early stages. I am adding the latest x86 measurements in
+the commit message in v3 to make it more clear.
 
-That's probably a matter of personal preferences, but I prefer the goto
-done style.
+>
+> > Eg: aarch64 with an external usb camera
+> >
+> > NON_CONTIGUOUS
+> > frames:  999
+> > packets: 999
+> > empty:   0 (0 %)
+> > errors:  0
+> > invalid: 0
+> > pts: 0 early, 0 initial, 999 ok
+> > scr: 0 count ok, 0 diff ok
+> > sof: 2048 <= sof <= 0, freq 0.000 kHz
+> > bytes 67034480 : duration 33303
+> > FPS: 29.99
+> > URB: 523446/4993 uS/qty: 104.836 avg 132.532 std 13.230 min 831.094 max (uS)
+> > header: 76564/4993 uS/qty: 15.334 avg 15.229 std 3.438 min 186.875 max (uS)
+> > latency: 468945/4992 uS/qty: 93.939 avg 132.577 std 9.531 min 824.010 max (uS)
+> > decode: 54161/4993 uS/qty: 10.847 avg 6.313 std 1.614 min 111.458 max (uS)
+> > raw decode speed: 9.931 Gbits/s
+> > raw URB handling speed: 1.025 Gbits/s
+> > throughput: 16.102 Mbits/s
+> > URB decode CPU usage 0.162600 %
+> >
+> > COHERENT
+> > frames:  999
+> > packets: 999
+> > empty:   0 (0 %)
+> > errors:  0
+> > invalid: 0
+> > pts: 0 early, 0 initial, 999 ok
+> > scr: 0 count ok, 0 diff ok
+> > sof: 2048 <= sof <= 0, freq 0.000 kHz
+> > bytes 54683536 : duration 33302
+> > FPS: 29.99
+> > URB: 1478135/4000 uS/qty: 369.533 avg 390.357 std 22.968 min 3337.865 max (uS)
+> > header: 79761/4000 uS/qty: 19.940 avg 18.495 std 1.875 min 336.719 max (uS)
+> > latency: 281077/4000 uS/qty: 70.269 avg 83.102 std 5.104 min 735.000 max (uS)
+> > decode: 1197057/4000 uS/qty: 299.264 avg 318.080 std 1.615 min 2806.667 max (uS)
+> > raw decode speed: 365.470 Mbits/s
+> > raw URB handling speed: 295.986 Mbits/s
+> > throughput: 13.136 Mbits/s
+> > URB decode CPU usage 3.594500 %
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ---
+> >
+> > Changelog from v2: (Thanks Laurent)
+> >
+> > - Fix typos
+> > - Use the right dma direction if not capturing
+> > - Clear sgt during free
+> >
+> >  drivers/media/usb/uvc/uvc_video.c | 92 +++++++++++++++++++++++--------
+> >  drivers/media/usb/uvc/uvcvideo.h  |  5 +-
+> >  2 files changed, 74 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index f2f565281e63..8e60f81e2257 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -6,11 +6,14 @@
+> >   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+> >   */
+> >
+> > +#include <linux/dma-mapping.h>
+> > +#include <linux/highmem.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/list.h>
+> >  #include <linux/module.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/usb.h>
+> > +#include <linux/usb/hcd.h>
+> >  #include <linux/videodev2.h>
+> >  #include <linux/vmalloc.h>
+> >  #include <linux/wait.h>
+> > @@ -1096,6 +1099,34 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+> >       return data[0];
+> >  }
+> >
+> > +static inline enum dma_data_direction stream_dir(struct uvc_streaming *stream)
+> > +{
+> > +     if (stream->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> > +             return DMA_FROM_DEVICE;
+> > +     else
+> > +             return DMA_TO_DEVICE;
+> > +}
+> > +
+> > +static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
+> > +{
+> > +     return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
+> > +}
+> > +
+> > +static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
+>
+> Maybe nitpicking a little bit, but wouldn't the code be clearer if you
+> created uvc_urb_dma_sync_for_cpu() and uvc_urb_dma_sync_for_device() ?
+> When reading
+>
+>         uvc_urb_dma_sync(uvc_urb, true);
+>
+> I have to constantly look up the definition of the function to figure
+> out what boolean value corresponds to what direction.
+>
+> Given that uvc_urb_dma_sync(..., true) is always called right before
+> submitting the URB, we could even create a uvc_submit_urb() function
+> that groups the dma_sync_sgtable_for_device() and usb_submit_urb()
+> calls, and do without uvc_urb_dma_sync_for_device(). Up to you on this
+> one.
 
-> -
-> -	stream->ctrl = probe;
-> -	stream->cur_format = format;
-> -	stream->cur_frame = frame;
-> -
-> -done:
->  	mutex_unlock(&stream->mutex);
->  	return ret;
->  }
-> @@ -480,62 +476,6 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
->  	return 0;
->  }
-> 
-> -/* ------------------------------------------------------------------------
-> - * Privilege management
-> - */
-> -
-> -/*
-> - * Privilege management is the multiple-open implementation basis. The current
-> - * implementation is completely transparent for the end-user and doesn't
-> - * require explicit use of the VIDIOC_G_PRIORITY and VIDIOC_S_PRIORITY ioctls.
-> - * Those ioctls enable finer control on the device (by making possible for a
-> - * user to request exclusive access to a device), but are not mature yet.
-> - * Switching to the V4L2 priority mechanism might be considered in the future
-> - * if this situation changes.
-> - *
-> - * Each open instance of a UVC device can either be in a privileged or
-> - * unprivileged state. Only a single instance can be in a privileged state at
-> - * a given time. Trying to perform an operation that requires privileges will
-> - * automatically acquire the required privileges if possible, or return -EBUSY
-> - * otherwise. Privileges are dismissed when closing the instance or when
-> - * freeing the video buffers using VIDIOC_REQBUFS.
-> - *
-> - * Operations that require privileges are:
-> - *
-> - * - VIDIOC_S_INPUT
-> - * - VIDIOC_S_PARM
-> - * - VIDIOC_S_FMT
+I Like it! thanks for the idea
 
-This is an important change in behaviour, as the V4L2 core doesn't grant
-exclusive ownership of the device when any of those three ioctls are
-called. Only VIDIOC_REQBUFS does so.
+>
+> With those small changes, and assuming there's no performance regression
+> on x86,
 
-> - * - VIDIOC_REQBUFS
-> - */
-> -static int uvc_acquire_privileges(struct uvc_fh *handle)
-> -{
-> -	/* Always succeed if the handle is already privileged. */
-> -	if (handle->state == UVC_HANDLE_ACTIVE)
-> -		return 0;
-> -
-> -	/* Check if the device already has a privileged handle. */
-> -	if (atomic_inc_return(&handle->stream->active) != 1) {
-> -		atomic_dec(&handle->stream->active);
-> -		return -EBUSY;
-> -	}
-> -
-> -	handle->state = UVC_HANDLE_ACTIVE;
-> -	return 0;
-> -}
-> -
-> -static void uvc_dismiss_privileges(struct uvc_fh *handle)
-> -{
-> -	if (handle->state == UVC_HANDLE_ACTIVE)
-> -		atomic_dec(&handle->stream->active);
-> -
-> -	handle->state = UVC_HANDLE_PASSIVE;
-> -}
-> -
-> -static int uvc_has_privileges(struct uvc_fh *handle)
-> -{
-> -	return handle->state == UVC_HANDLE_ACTIVE;
-> -}
-> -
->  /* ------------------------------------------------------------------------
->   * V4L2 file operations
->   */
-> @@ -578,7 +518,6 @@ static int uvc_v4l2_open(struct file *file)
->  	v4l2_fh_add(&handle->vfh);
->  	handle->chain = stream->chain;
->  	handle->stream = stream;
-> -	handle->state = UVC_HANDLE_PASSIVE;
->  	file->private_data = handle;
-> 
->  	return 0;
-> @@ -591,15 +530,8 @@ static int uvc_v4l2_release(struct file *file)
-> 
->  	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
-> 
-> -	/* Only free resources if this is a privileged handle. */
-> -	if (uvc_has_privileges(handle))
-> -		uvc_queue_release(&stream->queue);
-> -
->  	/* Release the file handle. */
-> -	uvc_dismiss_privileges(handle);
-> -	v4l2_fh_del(&handle->vfh);
-> -	v4l2_fh_exit(&handle->vfh);
-> -	kfree(handle);
-> +	vb2_fop_release(file);
->  	file->private_data = NULL;
-> 
->  	mutex_lock(&stream->dev->lock);
-> @@ -693,11 +625,6 @@ static int uvc_ioctl_s_fmt_vid_cap(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	ret = uvc_acquire_privileges(handle);
-> -	if (ret < 0)
-> -		return ret;
-> 
->  	return uvc_v4l2_set_format(stream, fmt);
->  }
-> @@ -707,11 +634,6 @@ static int uvc_ioctl_s_fmt_vid_out(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	ret = uvc_acquire_privileges(handle);
-> -	if (ret < 0)
-> -		return ret;
-> 
->  	return uvc_v4l2_set_format(stream, fmt);
->  }
-> @@ -736,124 +658,6 @@ static int uvc_ioctl_try_fmt_vid_out(struct file *file, void *fh,
->  	return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
->  }
-> 
-> -static int uvc_ioctl_reqbufs(struct file *file, void *fh,
-> -			     struct v4l2_requestbuffers *rb)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	ret = uvc_acquire_privileges(handle);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	mutex_lock(&stream->mutex);
-> -	ret = uvc_request_buffers(&stream->queue, rb);
-> -	mutex_unlock(&stream->mutex);
+How do we take it from here. Christoph merges it from his tree?
 
-This (and most of the other changes) introduce a race condition, as you
-now only use the queue mutex to serialize the buffer-related ioctls,
-while the other ioctls are protected by the stream mutex. Those are two
-different mutexes.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > +{
+> > +     struct device *dma_dev = stream_to_dmadev(uvc_urb->stream);
+> > +
+> > +     if (for_device) {
+> > +             dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
+> > +                                         stream_dir(uvc_urb->stream));
+> > +     } else {
+> > +             dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt,
+> > +                                      stream_dir(uvc_urb->stream));
+> > +             invalidate_kernel_vmap_range(uvc_urb->buffer,
+> > +                                          uvc_urb->stream->urb_size);
+> > +     }
+> > +}
+> > +
+> >  /*
+> >   * uvc_video_decode_data_work: Asynchronous memcpy processing
+> >   *
+> > @@ -1117,6 +1148,8 @@ static void uvc_video_copy_data_work(struct work_struct *work)
+> >               uvc_queue_buffer_release(op->buf);
+> >       }
+> >
+> > +     uvc_urb_dma_sync(uvc_urb, true);
+> > +
+> >       ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
+> >       if (ret < 0)
+> >               dev_err(&uvc_urb->stream->intf->dev,
+> > @@ -1541,10 +1574,12 @@ static void uvc_video_complete(struct urb *urb)
+> >        * Process the URB headers, and optionally queue expensive memcpy tasks
+> >        * to be deferred to a work queue.
+> >        */
+> > +     uvc_urb_dma_sync(uvc_urb, false);
+> >       stream->decode(uvc_urb, buf, buf_meta);
+> >
+> >       /* If no async work is needed, resubmit the URB immediately. */
+> >       if (!uvc_urb->async_operations) {
+> > +             uvc_urb_dma_sync(uvc_urb, true);
+> >               ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
+> >               if (ret < 0)
+> >                       dev_err(&stream->intf->dev,
+> > @@ -1560,24 +1595,49 @@ static void uvc_video_complete(struct urb *urb)
+> >   */
+> >  static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+> >  {
+> > +     struct device *dma_dev = stream_to_dmadev(stream);
+> >       struct uvc_urb *uvc_urb;
+> >
+> >       for_each_uvc_urb(uvc_urb, stream) {
+> >               if (!uvc_urb->buffer)
+> >                       continue;
+> >
+> > -#ifndef CONFIG_DMA_NONCOHERENT
+> > -             usb_free_coherent(stream->dev->udev, stream->urb_size,
+> > -                               uvc_urb->buffer, uvc_urb->dma);
+> > -#else
+> > -             kfree(uvc_urb->buffer);
+> > -#endif
+> > +             dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
+> > +             dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
+> > +                                    stream_dir(stream));
+> > +
+> >               uvc_urb->buffer = NULL;
+> > +             uvc_urb->sgt = NULL;
+> >       }
+> >
+> >       stream->urb_size = 0;
+> >  }
+> >
+> > +static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
+> > +                              struct uvc_urb *uvc_urb, gfp_t gfp_flags)
+> > +{
+> > +     struct device *dma_dev = stream_to_dmadev(stream);
+> > +
+> > +     uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> > +                                            stream_dir(stream),
+> > +                                            gfp_flags, 0);
+> > +     if (!uvc_urb->sgt)
+> > +             return false;
+> > +     uvc_urb->dma = uvc_urb->sgt->sgl->dma_address;
+> > +
+> > +     uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
+> > +                                              uvc_urb->sgt);
+> > +     if (!uvc_urb->buffer) {
+> > +             dma_free_noncontiguous(dma_dev, stream->urb_size,
+> > +                                    uvc_urb->sgt,
+> > +                                    stream_dir(stream));
+> > +             uvc_urb->sgt = NULL;
+> > +             return false;
+> > +     }
+> > +
+> > +     return true;
+> > +}
+> > +
+> >  /*
+> >   * Allocate transfer buffers. This function can be called with buffers
+> >   * already allocated when resuming from suspend, in which case it will
+> > @@ -1608,19 +1668,12 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+> >
+> >       /* Retry allocations until one succeed. */
+> >       for (; npackets > 1; npackets /= 2) {
+> > +             stream->urb_size = psize * npackets;
+> > +
+> >               for (i = 0; i < UVC_URBS; ++i) {
+> >                       struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+> >
+> > -                     stream->urb_size = psize * npackets;
+> > -#ifndef CONFIG_DMA_NONCOHERENT
+> > -                     uvc_urb->buffer = usb_alloc_coherent(
+> > -                             stream->dev->udev, stream->urb_size,
+> > -                             gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+> > -#else
+> > -                     uvc_urb->buffer =
+> > -                         kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+> > -#endif
+> > -                     if (!uvc_urb->buffer) {
+> > +                     if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+> >                               uvc_free_urb_buffers(stream);
+> >                               break;
+> >                       }
+> > @@ -1730,12 +1783,8 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
+> >               urb->context = uvc_urb;
+> >               urb->pipe = usb_rcvisocpipe(stream->dev->udev,
+> >                               ep->desc.bEndpointAddress);
+> > -#ifndef CONFIG_DMA_NONCOHERENT
+> >               urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
+> >               urb->transfer_dma = uvc_urb->dma;
+> > -#else
+> > -             urb->transfer_flags = URB_ISO_ASAP;
+> > -#endif
+> >               urb->interval = ep->desc.bInterval;
+> >               urb->transfer_buffer = uvc_urb->buffer;
+> >               urb->complete = uvc_video_complete;
+> > @@ -1795,10 +1844,8 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+> >
+> >               usb_fill_bulk_urb(urb, stream->dev->udev, pipe, uvc_urb->buffer,
+> >                                 size, uvc_video_complete, uvc_urb);
+> > -#ifndef CONFIG_DMA_NONCOHERENT
+> >               urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
+> >               urb->transfer_dma = uvc_urb->dma;
+> > -#endif
+> >
+> >               uvc_urb->urb = urb;
+> >       }
+> > @@ -1895,6 +1942,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+> >
+> >       /* Submit the URBs. */
+> >       for_each_uvc_urb(uvc_urb, stream) {
+> > +             uvc_urb_dma_sync(uvc_urb, true);
+> >               ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
+> >               if (ret < 0) {
+> >                       dev_err(&stream->intf->dev,
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 97df5ecd66c9..cce5e38133cd 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -219,6 +219,7 @@
+> >   */
+> >
+> >  struct gpio_desc;
+> > +struct sg_table;
+> >  struct uvc_device;
+> >
+> >  /* TODO: Put the most frequently accessed fields at the beginning of
+> > @@ -545,7 +546,8 @@ struct uvc_copy_op {
+> >   * @urb: the URB described by this context structure
+> >   * @stream: UVC streaming context
+> >   * @buffer: memory storage for the URB
+> > - * @dma: DMA coherent addressing for the urb_buffer
+> > + * @dma: Allocated DMA handle
+> > + * @sgt: sgt_table with the urb locations in memory
+> >   * @async_operations: counter to indicate the number of copy operations
+> >   * @copy_operations: work descriptors for asynchronous copy operations
+> >   * @work: work queue entry for asynchronous decode
+> > @@ -556,6 +558,7 @@ struct uvc_urb {
+> >
+> >       char *buffer;
+> >       dma_addr_t dma;
+> > +     struct sg_table *sgt;
+> >
+> >       unsigned int async_operations;
+> >       struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	if (ret == 0)
-> -		uvc_dismiss_privileges(handle);
-> -
-> -	return 0;
-> -}
-> -
-> -static int uvc_ioctl_querybuf(struct file *file, void *fh,
-> -			      struct v4l2_buffer *buf)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	if (!uvc_has_privileges(handle))
-> -		return -EBUSY;
-> -
-> -	return uvc_query_buffer(&stream->queue, buf);
-> -}
-> -
-> -static int uvc_ioctl_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	if (!uvc_has_privileges(handle))
-> -		return -EBUSY;
-> -
-> -	return uvc_queue_buffer(&stream->queue,
-> -				stream->vdev.v4l2_dev->mdev, buf);
-> -}
-> -
-> -static int uvc_ioctl_expbuf(struct file *file, void *fh,
-> -			    struct v4l2_exportbuffer *exp)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	if (!uvc_has_privileges(handle))
-> -		return -EBUSY;
-> -
-> -	return uvc_export_buffer(&stream->queue, exp);
-> -}
-> -
-> -static int uvc_ioctl_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	if (!uvc_has_privileges(handle))
-> -		return -EBUSY;
-> -
-> -	return uvc_dequeue_buffer(&stream->queue, buf,
-> -				  file->f_flags & O_NONBLOCK);
-> -}
-> -
-> -static int uvc_ioctl_create_bufs(struct file *file, void *fh,
-> -				  struct v4l2_create_buffers *cb)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	ret = uvc_acquire_privileges(handle);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return uvc_create_buffers(&stream->queue, cb);
-> -}
-> -
-> -static int uvc_ioctl_streamon(struct file *file, void *fh,
-> -			      enum v4l2_buf_type type)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	if (!uvc_has_privileges(handle))
-> -		return -EBUSY;
-> -
-> -	mutex_lock(&stream->mutex);
-> -	ret = uvc_queue_streamon(&stream->queue, type);
-> -	mutex_unlock(&stream->mutex);
-> -
-> -	return ret;
-> -}
-> -
-> -static int uvc_ioctl_streamoff(struct file *file, void *fh,
-> -			       enum v4l2_buf_type type)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	if (!uvc_has_privileges(handle))
-> -		return -EBUSY;
-> -
-> -	mutex_lock(&stream->mutex);
-> -	uvc_queue_streamoff(&stream->queue, type);
-> -	mutex_unlock(&stream->mutex);
-> -
-> -	return 0;
-> -}
-> -
->  static int uvc_ioctl_enum_input(struct file *file, void *fh,
->  				struct v4l2_input *input)
->  {
-> @@ -921,13 +725,12 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
->  static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
->  {
->  	struct uvc_fh *handle = fh;
-> +	struct uvc_streaming *stream = handle->stream;
->  	struct uvc_video_chain *chain = handle->chain;
-> -	int ret;
->  	u32 i;
-> 
-> -	ret = uvc_acquire_privileges(handle);
-> -	if (ret < 0)
-> -		return ret;
-> +	if (vb2_is_busy(&stream->queue.queue))
-> +		return -EBUSY;
-> 
->  	if (chain->selector == NULL ||
->  	    (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
-> @@ -1187,11 +990,6 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> -
-> -	ret = uvc_acquire_privileges(handle);
-> -	if (ret < 0)
-> -		return ret;
-> 
->  	return uvc_v4l2_set_streamparm(stream, parm);
->  }
-> @@ -1459,36 +1257,6 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
->  }
->  #endif
-> 
-> -static ssize_t uvc_v4l2_read(struct file *file, char __user *data,
-> -		    size_t count, loff_t *ppos)
-> -{
-> -	struct uvc_fh *handle = file->private_data;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	uvc_dbg(stream->dev, CALLS, "%s: not implemented\n", __func__);
-> -	return -EINVAL;
-> -}
-> -
-> -static int uvc_v4l2_mmap(struct file *file, struct vm_area_struct *vma)
-> -{
-> -	struct uvc_fh *handle = file->private_data;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
-> -
-> -	return uvc_queue_mmap(&stream->queue, vma);
-> -}
-> -
-> -static __poll_t uvc_v4l2_poll(struct file *file, poll_table *wait)
-> -{
-> -	struct uvc_fh *handle = file->private_data;
-> -	struct uvc_streaming *stream = handle->stream;
-> -
-> -	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
-> -
-> -	return uvc_queue_poll(&stream->queue, file, wait);
-> -}
-> -
->  #ifndef CONFIG_MMU
->  static unsigned long uvc_v4l2_get_unmapped_area(struct file *file,
->  		unsigned long addr, unsigned long len, unsigned long pgoff,
-> @@ -1513,14 +1281,15 @@ const struct v4l2_ioctl_ops uvc_ioctl_ops = {
->  	.vidioc_s_fmt_vid_out = uvc_ioctl_s_fmt_vid_out,
->  	.vidioc_try_fmt_vid_cap = uvc_ioctl_try_fmt_vid_cap,
->  	.vidioc_try_fmt_vid_out = uvc_ioctl_try_fmt_vid_out,
-> -	.vidioc_reqbufs = uvc_ioctl_reqbufs,
-> -	.vidioc_querybuf = uvc_ioctl_querybuf,
-> -	.vidioc_qbuf = uvc_ioctl_qbuf,
-> -	.vidioc_expbuf = uvc_ioctl_expbuf,
-> -	.vidioc_dqbuf = uvc_ioctl_dqbuf,
-> -	.vidioc_create_bufs = uvc_ioctl_create_bufs,
-> -	.vidioc_streamon = uvc_ioctl_streamon,
-> -	.vidioc_streamoff = uvc_ioctl_streamoff,
-> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> +	.vidioc_querybuf = vb2_ioctl_querybuf,
-> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> +	.vidioc_qbuf = vb2_ioctl_qbuf,
-> +	.vidioc_expbuf = vb2_ioctl_expbuf,
-> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
->  	.vidioc_enum_input = uvc_ioctl_enum_input,
->  	.vidioc_g_input = uvc_ioctl_g_input,
->  	.vidioc_s_input = uvc_ioctl_s_input,
-> @@ -1550,9 +1319,8 @@ const struct v4l2_file_operations uvc_fops = {
->  #ifdef CONFIG_COMPAT
->  	.compat_ioctl32	= uvc_v4l2_compat_ioctl32,
->  #endif
-> -	.read		= uvc_v4l2_read,
-> -	.mmap		= uvc_v4l2_mmap,
-> -	.poll		= uvc_v4l2_poll,
-> +	.mmap		= vb2_fop_mmap,
-> +	.poll		= vb2_fop_poll,
->  #ifndef CONFIG_MMU
->  	.get_unmapped_area = uvc_v4l2_get_unmapped_area,
->  #endif
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 97df5ecd66c9..969eb43a597b 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -473,7 +473,6 @@ struct uvc_video_chain {
-> 
->  	struct mutex ctrl_mutex;		/* Protects ctrl.info */
-> 
-> -	struct v4l2_prio_state prio;		/* V4L2 priority state */
->  	u32 caps;				/* V4L2 chain-wide caps */
->  };
-> 
-> @@ -709,16 +708,10 @@ struct uvc_device {
->  	struct uvc_entity *gpio_unit;
->  };
-> 
-> -enum uvc_handle_state {
-> -	UVC_HANDLE_PASSIVE	= 0,
-> -	UVC_HANDLE_ACTIVE	= 1,
-> -};
-> -
->  struct uvc_fh {
->  	struct v4l2_fh vfh;
->  	struct uvc_video_chain *chain;
->  	struct uvc_streaming *stream;
-> -	enum uvc_handle_state state;
->  };
-> 
->  struct uvc_driver {
-> @@ -783,36 +776,15 @@ struct uvc_entity *uvc_entity_by_id(struct uvc_device *dev, int id);
->  /* Video buffers queue management. */
->  int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
->  		   int drop_corrupted);
-> -void uvc_queue_release(struct uvc_video_queue *queue);
-> -int uvc_request_buffers(struct uvc_video_queue *queue,
-> -			struct v4l2_requestbuffers *rb);
-> -int uvc_query_buffer(struct uvc_video_queue *queue,
-> -		     struct v4l2_buffer *v4l2_buf);
-> -int uvc_create_buffers(struct uvc_video_queue *queue,
-> -		       struct v4l2_create_buffers *v4l2_cb);
-> -int uvc_queue_buffer(struct uvc_video_queue *queue,
-> -		     struct media_device *mdev,
-> -		     struct v4l2_buffer *v4l2_buf);
-> -int uvc_export_buffer(struct uvc_video_queue *queue,
-> -		      struct v4l2_exportbuffer *exp);
-> -int uvc_dequeue_buffer(struct uvc_video_queue *queue,
-> -		       struct v4l2_buffer *v4l2_buf, int nonblocking);
-> -int uvc_queue_streamon(struct uvc_video_queue *queue, enum v4l2_buf_type type);
-> -int uvc_queue_streamoff(struct uvc_video_queue *queue, enum v4l2_buf_type type);
->  void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect);
->  struct uvc_buffer *uvc_queue_next_buffer(struct uvc_video_queue *queue,
->  					 struct uvc_buffer *buf);
->  struct uvc_buffer *uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
->  void uvc_queue_buffer_release(struct uvc_buffer *buf);
-> -int uvc_queue_mmap(struct uvc_video_queue *queue,
-> -		   struct vm_area_struct *vma);
-> -__poll_t uvc_queue_poll(struct uvc_video_queue *queue, struct file *file,
-> -			poll_table *wait);
->  #ifndef CONFIG_MMU
->  unsigned long uvc_queue_get_unmapped_area(struct uvc_video_queue *queue,
->  					  unsigned long pgoff);
->  #endif
-> -int uvc_queue_allocated(struct uvc_video_queue *queue);
->  static inline int uvc_queue_streaming(struct uvc_video_queue *queue)
->  {
->  	return vb2_is_streaming(&queue->queue);
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
