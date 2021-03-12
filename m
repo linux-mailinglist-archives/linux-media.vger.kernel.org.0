@@ -2,128 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E86CA338814
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 09:58:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA45A338875
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 10:20:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232384AbhCLI56 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 03:57:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232343AbhCLI5d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 03:57:33 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8701C061574
-        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 00:57:32 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id x21so6833606eds.4
-        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 00:57:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7zv1xOGJda4AtyvsNNHyaUWXqhFQbgUkYGG6JO8p1G8=;
-        b=Q9qx3fa25Pa3BMHQomhVxJGEmj35aVIxtxQN2XfiCkdty43ppSwNJlfF1DPLMEa5Pz
-         +opAbUo/nAN1NcgbSzBV/8q7QE1WQdJiunJTNb0JU0s7zhwdD2qSl+W3qApS2d4x0fUF
-         sTzMag4pZcVyzlGbE3O6mFNykJRMiW+EhQWUYVz0pSnnlwtWuDdFcsKJaM/Pcwn8k1Or
-         d6ux6BLXQA5bE7W/ZNRl0y6khjizKgWUqAm1kM4uhSVcV/qxIB1FUidGVVPGKCcmcv/r
-         vCBoRbEN/tf0LAMDLemdTUl2Ml4DiXOm4XYlygQmYbMPI3+u0RxdAn+oiHdyE6JmShXA
-         0kcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7zv1xOGJda4AtyvsNNHyaUWXqhFQbgUkYGG6JO8p1G8=;
-        b=Ro/+865ObvSC2WxOKhEStLbvHt6EdBor9tZ8wts0fm5rky9x8i48ae+prwVcE1N5qf
-         8DKJMaeVfptF+kfz8TKGK4TKnPn+2C9pnWJmwGpILQKltAnQ9s5Ssxu3tN6y5U7JsPXq
-         ga7YiVscIkpRp92d7U/uoknjinhA1ykJrdA6wKRnEtBuzPOAs6Zjw2HodukIUtREYidZ
-         m1OpKt4xAGMIsSKt8QC6L261XM21lMgDkw/UI6LM4AaubOLl63C5Jh4YH4wAjLJPfsq3
-         JO0plVEzExFWLXW6MK1dzLCxNIpApxr5gXby79xp5ciFUvmzhUvsx6J+MeY+xbCgyDIh
-         SL4A==
-X-Gm-Message-State: AOAM533P7qqRHpuDxcL853E+be8t3Zl/eSLzUC6T3YOsLpIXxz19CdTY
-        lniiIW4uTgQyRmYDjVSmYC8mnd8ett5g3G91
-X-Google-Smtp-Source: ABdhPJwxd5nL4wdJW5BhRR+TQY5dVzemuP1Shy/xURe2dcJclumgbRBnCaSK4nljWFeTb01yI1zIKw==
-X-Received: by 2002:a05:6402:68e:: with SMTP id f14mr12865814edy.169.1615539451360;
-        Fri, 12 Mar 2021 00:57:31 -0800 (PST)
-Received: from localhost.localdomain (hst-221-88.medicom.bg. [84.238.221.88])
-        by smtp.gmail.com with ESMTPSA id s14sm2418683ejf.47.2021.03.12.00.57.30
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 00:57:31 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.13] v2: Venus updates
-Date:   Fri, 12 Mar 2021 10:57:16 +0200
-Message-Id: <20210312085716.2435846-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        id S232659AbhCLJUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 04:20:11 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:59238 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232511AbhCLJTn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Mar 2021 04:19:43 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lKdxO-00CtrJ-46; Fri, 12 Mar 2021 09:19:42 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lKe1D-0005Kb-3m; Fri, 12 Mar 2021 09:23:39 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.13] v2: Venus updates (#72161)
+Date:   Fri, 12 Mar 2021 09:23:38 +0000
+Message-Id: <20210312092338.20450-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210312085716.2435846-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixed checkpatch warn/errors.
+From: builder@linuxtv.org
 
-Supersedes https://patchwork.linuxtv.org/project/linux-media/patch/20210306162903.221668-1-stanimir.varbanov@linaro.org/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210312085716.2435846-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/93925/
+Build time: 00:11:32
+Link: https://lore.kernel.org/linux-media/20210312085716.2435846-1-stanimir.varbanov@linaro.org
 
-Venus driver updates for v5.13 includes:
+gpg: Signature made Fri 12 Mar 2021 08:44:25 AM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
- * Make display-delay and display-delay-enable standard controls and support
- for them in Venus driver.
- * Add new AUD generation control and support for it in Venus driver.
- * Parse firmware-name DT property in the Venus driver.
- * Fix probe dependency error in case of built-in Venus driver.
- * Fix interconnect resource in .probe.
+Summary: got 1/10 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-Please pull.
+Error/warnings:
 
-regards,
-Stan
+patches/0005-media-v4l2-ctrls-Add-control-for-AUD-generation.patch:
 
-The following changes since commit 1cb3ff130f4d97dec2d1bee968a87f5d6e24dd60:
+   checkpatch.pl:
+	$ cat patches/0005-media-v4l2-ctrls-Add-control-for-AUD-generation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:41: WARNING: line length of 105 exceeds 100 columns
+	-:61: CHECK: spaces preferred around that '+' (ctx:VxV)
 
-  media: imx: imx7_mipi_csis: Print shadow registers in mipi_csis_dump_regs() (2021-03-11 11:59:53 +0100)
 
-are available in the Git repository at:
+Error #512 when building PDF docs
 
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.13-v2
-
-for you to fetch changes up to a7a0b3a31d6d270721b7e563272a1647da4522f1:
-
-  venus: core: Parse firmware-name DT property (2021-03-12 10:43:18 +0200)
-
-----------------------------------------------------------------
-Venus updates for v5.13 v2
-
-----------------------------------------------------------------
-Bryan O'Donoghue (1):
-      media: venus: core, venc, vdec: Fix probe dependency error
-
-Christophe JAILLET (1):
-      media: venus: core: Fix some resource leaks in the error path of 'venus_probe()'
-
-Stanimir Varbanov (7):
-      v4l2-ctrl: Make display delay and display enable std controls
-      venus: vdec: Add support for display delay and delay enable controls
-      s5p-mfc: Use display delay and display enable std controls
-      docs: Deprecate mfc display delay controls
-      media: v4l2-ctrls: Add control for AUD generation
-      venus: venc: Add support for AUD NALU control
-      venus: core: Parse firmware-name DT property
-
-Stephen Boyd (1):
-      media: venus: Include io.h for memremap()
-
- .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 30 +++++++++++++++++
- drivers/media/platform/qcom/venus/core.c           | 38 ++++++++++++----------
- drivers/media/platform/qcom/venus/core.h           |  3 ++
- drivers/media/platform/qcom/venus/firmware.c       |  8 ++++-
- drivers/media/platform/qcom/venus/pm_helpers.c     | 30 ++++++++---------
- drivers/media/platform/qcom/venus/pm_helpers.h     |  7 ++--
- drivers/media/platform/qcom/venus/vdec.c           | 10 +++++-
- drivers/media/platform/qcom/venus/vdec_ctrls.c     | 16 ++++++++-
- drivers/media/platform/qcom/venus/venc.c           | 14 ++++++++
- drivers/media/platform/qcom/venus/venc_ctrls.c     |  8 ++++-
- drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 16 +++++++++
- drivers/media/v4l2-core/v4l2-ctrls.c               |  6 ++++
- include/uapi/linux/v4l2-controls.h                 |  4 +++
- 13 files changed, 148 insertions(+), 42 deletions(-)
