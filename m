@@ -2,72 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1340339022
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9185F339057
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:51:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231466AbhCLOgR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 09:36:17 -0500
-Received: from bin-mail-out-05.binero.net ([195.74.38.228]:9137 "EHLO
-        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231516AbhCLOgE (ORCPT
+        id S229728AbhCLOvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 09:51:07 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54928 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231713AbhCLOum (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 09:36:04 -0500
-X-Halon-ID: 400bd393-8340-11eb-b73f-0050569116f7
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de [84.172.85.33])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id 400bd393-8340-11eb-b73f-0050569116f7;
-        Fri, 12 Mar 2021 15:36:02 +0100 (CET)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] media: rcar-vin: Remove explicit device availability check
-Date:   Fri, 12 Mar 2021 15:35:44 +0100
-Message-Id: <20210312143543.1928014-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.30.1
+        Fri, 12 Mar 2021 09:50:42 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 5ED481F46E0F
+Message-ID: <f41e7ecc2af70e77ba05cc27f90fc9344b8b52f7.camel@collabora.com>
+Subject: Re: [PATCH 1/1] v4l: async, fwnode: Improve module organisation
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Date:   Fri, 12 Mar 2021 11:50:35 -0300
+In-Reply-To: <20210309222137.GQ3@paasikivi.fi.intel.com>
+References: <20210308100256.26270-1-sakari.ailus@linux.intel.com>
+         <51c824c3115fc678c91660b9a12332242c1b1384.camel@collabora.com>
+         <20210309100314.GI3@paasikivi.fi.intel.com>
+         <4e5a01739867c7b6ab15fe506d4ef2160a851293.camel@collabora.com>
+         <20210309222137.GQ3@paasikivi.fi.intel.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The fwnode is retrieved using fwnode_graph_get_endpoint_by_id() without
-the FWNODE_GRAPH_DEVICE_DISABLED flag set. So there is no need to
-explicitly check if the fwnode is available as it always will be when
-the check is performed, remove it.
+Hi Sakari,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v1
-- Rebased on Sakari's branch to get the context correct.
----
- drivers/media/platform/rcar-vin/rcar-core.c | 7 -------
- 1 file changed, 7 deletions(-)
+Just saw the v2 and remembered I didn't follow-up
+on your questions here. Sorry about that.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 2380479b8bbb951f..7cd5129b84e9e952 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -834,13 +834,6 @@ static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
- 		goto out;
- 	}
- 
--	if (!of_device_is_available(to_of_node(fwnode))) {
--		vin_dbg(vin, "OF device %pOF disabled, ignoring\n",
--			to_of_node(fwnode));
--		ret = -ENOTCONN;
--		goto out;
--	}
--
- 	asd = v4l2_async_nf_add_fwnode(&vin->group->notifier, fwnode,
- 				       struct v4l2_async_subdev);
- 	if (IS_ERR(asd)) {
--- 
-2.30.1
+On Wed, 2021-03-10 at 00:21 +0200, Sakari Ailus wrote:
+> Hi Ezequiel,
+> 
+> On Tue, Mar 09, 2021 at 09:22:16AM -0300, Ezequiel Garcia wrote:
+> > On Tue, 2021-03-09 at 12:03 +0200, Sakari Ailus wrote:
+> > > Hi Ezequiel,
+> > > 
+> > > On Mon, Mar 08, 2021 at 04:01:58PM -0300, Ezequiel Garcia wrote:
+> > > > Hi Sakari,
+> > > > 
+> > > > Thanks a lot for the patch. I like where this is going.
+> > > 
+> > > Thanks for the review, too!
+> > > 
+> > > > 
+> > > > On Mon, 2021-03-08 at 12:02 +0200, Sakari Ailus wrote:
+> > > > > The V4L2 async framework is generally used with the V4L2 fwnode, which
+> > > > > also depends on the former. There is only one exception, the CAFE_CCIC
+> > > > > driver, which uses V4L2 async but does not need V4L2 fwnode.
+> > > > > 
+> > > > > At the same time there is a vast number of systems that need videodev
+> > > > > module, but have no use for v4l2-async that's now part of videodev.
+> > > > > 
+> > > > > In order to improve, build v4l2-async and v4l2-fwnode as a single module
+> > > > > called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
+> > > > > Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
+> > > > > 
+> > > > > This also moves the initialisation of the debufs entries for async subdevs
+> > > > > to loading of the v4l2-async module. The directory is named as
+> > > > > "v4l2-async".
+> > > > > 
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > > This goes on top of my recent async patches.
+> > > > > 
+> > > > >  drivers/media/i2c/Kconfig                     | 80 +++++++++----------
+> > > > >  drivers/media/i2c/ccs/Kconfig                 |  2 +-
+> > > > >  drivers/media/i2c/et8ek8/Kconfig              |  2 +-
+> > > > >  drivers/media/pci/intel/ipu3/Kconfig          |  2 +-
+> > > > >  drivers/media/platform/Kconfig                | 16 ++--
+> > > > >  drivers/media/platform/am437x/Kconfig         |  2 +-
+> > > > >  drivers/media/platform/atmel/Kconfig          |  4 +-
+> > > > >  drivers/media/platform/cadence/Kconfig        |  4 +-
+> > > > >  drivers/media/platform/davinci/Kconfig        |  2 +-
+> > > > >  drivers/media/platform/exynos4-is/Kconfig     |  4 +-
+> > > > >  drivers/media/platform/marvell-ccic/Kconfig   |  1 +
+> > > > >  drivers/media/platform/rcar-vin/Kconfig       |  4 +-
+> > > > >  .../media/platform/sunxi/sun4i-csi/Kconfig    |  2 +-
+> > > > >  .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
+> > > > >  drivers/media/platform/xilinx/Kconfig         |  2 +-
+> > > > >  drivers/media/v4l2-core/Kconfig               |  3 +-
+> > > > >  drivers/media/v4l2-core/Makefile              |  6 +-
+> > > > >  .../{v4l2-async.c => v4l2-async-core.c}       | 23 +++++-
+> > > > >  drivers/media/v4l2-core/v4l2-dev.c            |  5 --
+> > > > >  drivers/staging/media/imx/Kconfig             |  2 +-
+> > > > >  drivers/staging/media/tegra-video/Kconfig     |  2 +-
+> > > > >  21 files changed, 94 insertions(+), 76 deletions(-)
+> > > > >  rename drivers/media/v4l2-core/{v4l2-async.c => v4l2-async-core.c} (96%)
+> > > > > 
+> > > > [..]
+> > > > > diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> > > > > index bf49f83cb86f..26e12db0a4e8 100644
+> > > > > --- a/drivers/media/v4l2-core/Kconfig
+> > > > > +++ b/drivers/media/v4l2-core/Kconfig
+> > > > > @@ -62,13 +62,14 @@ config V4L2_FLASH_LED_CLASS
+> > > > >         tristate "V4L2 flash API for LED flash class devices"
+> > > > >         depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+> > > > >         depends on LEDS_CLASS_FLASH
+> > > > > +       select V4L2_ASYNC
+> > > > >         help
+> > > > >           Say Y here to enable V4L2 flash API support for LED flash
+> > > > >           class drivers.
+> > > > >  
+> > > > >           When in doubt, say N.
+> > > > >  
+> > > > > -config V4L2_FWNODE
+> > > > > +config V4L2_ASYNC
+> > > > >         tristate
+> > > > >  
+> > > > 
+> > > > So we don't expect (or want) out-of-tree drivers to be able to use this.
+> > > > Is that correct?
+> > > 
+> > > Hmm. I somehow manage to miss how this is related to out-of-tree drivers.
+> > > 
+> > 
+> > As it is, the v4l2-async module is not user-selectable, because
+> > V4L2_ASYNC has no prompt (the symbol is non-visible).
+> > 
+> > For the user to be able to select the v4l2-async module,
+> > even if no driver is selecting it, it needs a prompt: 
+> > 
+> > config V4L2_ASYNC
+> >         tristate "V4L2 asynchronous subdevice support"
+> 
+> Well, yes, you could do this in principle.
+> 
+> But this patch does not change this in any way, does it?
+> 
+
+I can be wrong, but it does change it. Before the patch,
+v4l2-async kernel API is in the videodev module, which
+is built with CONFIG_VIDEO_V4L2, which is enabled
+when the user selects CONFIG_MEDIA_SUPPORT.
+
+If the kernel was built with CONFIG_VIDEO_V4L2,
+out-of-tree drivers gets support for v4l2-async.
+
+After this patch, the v4l2-async kernel API is now selected
+by drivers that need it, and can't be enabled. If there are
+no such drivers, out-of-tree drivers won't get it.
+
+I guess this is a bit subtle, and perhaps not worth
+considering.
+
+> > 
+> > This is usually useful for out-of-tree drivers, AFAIK.
+> 
+> If someone needs this out-of-tree, they could also enable one of the
+> drivers that need v4l2-async in the kernel.
+> 
+
+True :)
+
+Thanks,
+Ezequiel
 
