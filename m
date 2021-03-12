@@ -2,169 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9185F339057
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 832CB339060
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:53:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbhCLOvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 09:51:07 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54928 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231713AbhCLOum (ORCPT
+        id S231749AbhCLOwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 09:52:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231365AbhCLOwN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 09:50:42 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 5ED481F46E0F
-Message-ID: <f41e7ecc2af70e77ba05cc27f90fc9344b8b52f7.camel@collabora.com>
-Subject: Re: [PATCH 1/1] v4l: async, fwnode: Improve module organisation
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Date:   Fri, 12 Mar 2021 11:50:35 -0300
-In-Reply-To: <20210309222137.GQ3@paasikivi.fi.intel.com>
-References: <20210308100256.26270-1-sakari.ailus@linux.intel.com>
-         <51c824c3115fc678c91660b9a12332242c1b1384.camel@collabora.com>
-         <20210309100314.GI3@paasikivi.fi.intel.com>
-         <4e5a01739867c7b6ab15fe506d4ef2160a851293.camel@collabora.com>
-         <20210309222137.GQ3@paasikivi.fi.intel.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Fri, 12 Mar 2021 09:52:13 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3532EC061761
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 06:52:13 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id u4so46224434lfs.0
+        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 06:52:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hlEw1Xot5u2w1fN40js7k7EDbK0sTmplIEEflk8aU0Q=;
+        b=cnzCQ/jxU7qf2PPfmYs7LqkhRlFklYmkHiDvmnW4ujY9pSwva+neQVJIo4VEFZS5qB
+         U2NIROtas0BzlHEl61CR2cSREwuZ7CPf6twCCEwnX9FYOHn2qv/HMrYiCcML82ISRvm5
+         v77/ayZdDB7Ue7t4MffqN3MC4iGoo7B/IG9950nG5qaI+Nu+FHs9vwi1hoD9S/EwUO+/
+         zI12OxGpryJPaYVbFKVS7j7DBBVuAD4Xhk2zCGbj+gAXLzHNITDmsEV2U4lnQ3xuMNcO
+         aFpoKV6lpAyf4l+3RjtyEb81dF4kBjbN16WPAr47xxDTjiDRGrB2mrmh5cHZqvHF1PYU
+         Btrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hlEw1Xot5u2w1fN40js7k7EDbK0sTmplIEEflk8aU0Q=;
+        b=czhj24/yRgdFYcZX2P+lkCHBv5bMdhw+1Wdk65C0wLsSgdI6140vaFkJljZcyoA42Q
+         UW+HXQoyy0AIcC4V/cA3u3Rj/2p6dnqzVQmBkqHA+8skEbQ7/r9LZnoqBqGlovTidF+w
+         pdUtFfS6Tu5CtVGkzdiiU/JzifChzc0lLF4ycUleJJs0GvTJ3oDU88nwKe7MYe8xVlEZ
+         DQO8NDbyyemY+IwtYdPU9QLdAvq+A4i0kZMreLhgTGBvDIZjVgU5NFix7pNM9r69F74q
+         FSxvo/G4UQ0nLoj/DeH2mRIXpVyZO4VWyBMpJJezu/1wMLN00GvjLmBg7hm8+D2X3ECu
+         5C1w==
+X-Gm-Message-State: AOAM532q9I2PLGuLxJcXOD5VmmWZ7+Lqm7j56reJGkCL5RPuh7LrbfwI
+        Biv7sbsEersfxBxWeSyDyjRh/w==
+X-Google-Smtp-Source: ABdhPJwgDGL72PQtOx4n699k2fW6gFapgUeT52bAdk5MIng5cH5PL4LKjVVugwhaH7Mhrq0HZOr74A==
+X-Received: by 2002:a05:6512:31c9:: with SMTP id j9mr5706252lfe.185.1615560731604;
+        Fri, 12 Mar 2021 06:52:11 -0800 (PST)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id p21sm1742806lfu.227.2021.03.12.06.52.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Mar 2021 06:52:11 -0800 (PST)
+Date:   Fri, 12 Mar 2021 15:52:10 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>, mani@kernel.org
+Subject: Re: Renesas RZ/G2M + Sony IMX290 Camera questions/issues
+Message-ID: <YEuAGoeoi0X0KwfH@oden.dyn.berto.se>
+References: <CAHCN7xJUnMP-uA03a5x4djp4_RPbiMnSWXMdconpAxV7pwgTGw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHCN7xJUnMP-uA03a5x4djp4_RPbiMnSWXMdconpAxV7pwgTGw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Adam,
 
-Just saw the v2 and remembered I didn't follow-up
-on your questions here. Sorry about that.
+There are many possibility's that result in an -EPIPE when validating 
+formats and unfortunately V4L2 is not always as very helpfull when 
+diagnosing the problem. What I usually do is to,
 
-On Wed, 2021-03-10 at 00:21 +0200, Sakari Ailus wrote:
-> Hi Ezequiel,
+1. Inspect rvin_mc_validate_format() in 
+   drivers/media/platform/rcar-vin/rcar-dma.c
+
+   This will give you a clear view of how the format between the CSI-2 
+   and VIN is validated.
+
+2. Increase the log level for drivers/media/v4l2-core/v4l2-subdev.c 
+   specially for v4l2_subdev_link_validate_default().
+
+   This will give you insight into all formats from the CSI-2 receiver 
+   towards the camera.
+
+By doing these two things you will see in the system log which part of 
+the format validation that is missmatched.
+
+There is also a wiki page for capture using R-Car VIN that may be 
+helpful for you.
+
+    https://elinux.org/R-Car/Tests:rcar-vin
+
+On 2021-03-12 08:28:41 -0600, Adam Ford wrote:
+> I have an IMX290 camera connected to an RZ/G2M SoC via the 4-channel CSI.
 > 
-> On Tue, Mar 09, 2021 at 09:22:16AM -0300, Ezequiel Garcia wrote:
-> > On Tue, 2021-03-09 at 12:03 +0200, Sakari Ailus wrote:
-> > > Hi Ezequiel,
-> > > 
-> > > On Mon, Mar 08, 2021 at 04:01:58PM -0300, Ezequiel Garcia wrote:
-> > > > Hi Sakari,
-> > > > 
-> > > > Thanks a lot for the patch. I like where this is going.
-> > > 
-> > > Thanks for the review, too!
-> > > 
-> > > > 
-> > > > On Mon, 2021-03-08 at 12:02 +0200, Sakari Ailus wrote:
-> > > > > The V4L2 async framework is generally used with the V4L2 fwnode, which
-> > > > > also depends on the former. There is only one exception, the CAFE_CCIC
-> > > > > driver, which uses V4L2 async but does not need V4L2 fwnode.
-> > > > > 
-> > > > > At the same time there is a vast number of systems that need videodev
-> > > > > module, but have no use for v4l2-async that's now part of videodev.
-> > > > > 
-> > > > > In order to improve, build v4l2-async and v4l2-fwnode as a single module
-> > > > > called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
-> > > > > Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
-> > > > > 
-> > > > > This also moves the initialisation of the debufs entries for async subdevs
-> > > > > to loading of the v4l2-async module. The directory is named as
-> > > > > "v4l2-async".
-> > > > > 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > > This goes on top of my recent async patches.
-> > > > > 
-> > > > >  drivers/media/i2c/Kconfig                     | 80 +++++++++----------
-> > > > >  drivers/media/i2c/ccs/Kconfig                 |  2 +-
-> > > > >  drivers/media/i2c/et8ek8/Kconfig              |  2 +-
-> > > > >  drivers/media/pci/intel/ipu3/Kconfig          |  2 +-
-> > > > >  drivers/media/platform/Kconfig                | 16 ++--
-> > > > >  drivers/media/platform/am437x/Kconfig         |  2 +-
-> > > > >  drivers/media/platform/atmel/Kconfig          |  4 +-
-> > > > >  drivers/media/platform/cadence/Kconfig        |  4 +-
-> > > > >  drivers/media/platform/davinci/Kconfig        |  2 +-
-> > > > >  drivers/media/platform/exynos4-is/Kconfig     |  4 +-
-> > > > >  drivers/media/platform/marvell-ccic/Kconfig   |  1 +
-> > > > >  drivers/media/platform/rcar-vin/Kconfig       |  4 +-
-> > > > >  .../media/platform/sunxi/sun4i-csi/Kconfig    |  2 +-
-> > > > >  .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
-> > > > >  drivers/media/platform/xilinx/Kconfig         |  2 +-
-> > > > >  drivers/media/v4l2-core/Kconfig               |  3 +-
-> > > > >  drivers/media/v4l2-core/Makefile              |  6 +-
-> > > > >  .../{v4l2-async.c => v4l2-async-core.c}       | 23 +++++-
-> > > > >  drivers/media/v4l2-core/v4l2-dev.c            |  5 --
-> > > > >  drivers/staging/media/imx/Kconfig             |  2 +-
-> > > > >  drivers/staging/media/tegra-video/Kconfig     |  2 +-
-> > > > >  21 files changed, 94 insertions(+), 76 deletions(-)
-> > > > >  rename drivers/media/v4l2-core/{v4l2-async.c => v4l2-async-core.c} (96%)
-> > > > > 
-> > > > [..]
-> > > > > diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> > > > > index bf49f83cb86f..26e12db0a4e8 100644
-> > > > > --- a/drivers/media/v4l2-core/Kconfig
-> > > > > +++ b/drivers/media/v4l2-core/Kconfig
-> > > > > @@ -62,13 +62,14 @@ config V4L2_FLASH_LED_CLASS
-> > > > >         tristate "V4L2 flash API for LED flash class devices"
-> > > > >         depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> > > > >         depends on LEDS_CLASS_FLASH
-> > > > > +       select V4L2_ASYNC
-> > > > >         help
-> > > > >           Say Y here to enable V4L2 flash API support for LED flash
-> > > > >           class drivers.
-> > > > >  
-> > > > >           When in doubt, say N.
-> > > > >  
-> > > > > -config V4L2_FWNODE
-> > > > > +config V4L2_ASYNC
-> > > > >         tristate
-> > > > >  
-> > > > 
-> > > > So we don't expect (or want) out-of-tree drivers to be able to use this.
-> > > > Is that correct?
-> > > 
-> > > Hmm. I somehow manage to miss how this is related to out-of-tree drivers.
-> > > 
-> > 
-> > As it is, the v4l2-async module is not user-selectable, because
-> > V4L2_ASYNC has no prompt (the symbol is non-visible).
-> > 
-> > For the user to be able to select the v4l2-async module,
-> > even if no driver is selecting it, it needs a prompt: 
-> > 
-> > config V4L2_ASYNC
-> >         tristate "V4L2 asynchronous subdevice support"
+> &csi40 {
+>     status = "okay";
 > 
-> Well, yes, you could do this in principle.
+>     ports {
+>         port@0 {
+>             reg = <0>;
+>             csi40_in: endpoint {
+>                 clock-lanes = <0>;
+>                 data-lanes = <1 2 3 4>;
+>                 remote-endpoint = <&imx290_ep>;
+>             };
+>         };
+>     };
+> };
 > 
-> But this patch does not change this in any way, does it?
+> On the I2C bus, I have
 > 
-
-I can be wrong, but it does change it. Before the patch,
-v4l2-async kernel API is in the videodev module, which
-is built with CONFIG_VIDEO_V4L2, which is enabled
-when the user selects CONFIG_MEDIA_SUPPORT.
-
-If the kernel was built with CONFIG_VIDEO_V4L2,
-out-of-tree drivers gets support for v4l2-async.
-
-After this patch, the v4l2-async kernel API is now selected
-by drivers that need it, and can't be enabled. If there are
-no such drivers, out-of-tree drivers won't get it.
-
-I guess this is a bit subtle, and perhaps not worth
-considering.
-
-> > 
-> > This is usually useful for out-of-tree drivers, AFAIK.
+> imx290: camera-sensor@1a {
+>     compatible = "sony,imx290";
+>     reg = <0x1a>;
+>     reset-gpios = <&gpio_exp2 0 GPIO_ACTIVE_LOW>;
+>     clocks = <&versaclock6_bb 1>;
+>     clock-names = "xclk";
+>     clock-frequency = <37125000>;
+>     vdddo-supply = <&reg_cam0_en0>;
+>     vdda-supply = <&reg_cam0_en1>;
+>     vddd-supply = <&reg_cam0_en0>;
 > 
-> If someone needs this out-of-tree, they could also enable one of the
-> drivers that need v4l2-async in the kernel.
+>     port {
+>         imx290_ep: endpoint {
+>             data-lanes = <1 2 3 4>;
+>             link-frequencies = /bits/ 64 <148500000 222750000>;
+>             remote-endpoint = <&csi40_in>;
+>         };
+>     };
+> };
 > 
+> I configure the pipeline with:
+> 
+> media-ctl -l "'rcar_csi2 feaa0000.csi2':1 -> 'VIN0 output':0[1]"
+> 
+> I also have tried configuring the video formats in several different ways
+> 
+> media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
+> media-ctl --set-v4l2 "'rcar_csi2
+> feaa0000.csi2':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
+> media-ctl --set-v4l2 "'rcar_csi2
+> feaa0000.csi2':1[fmt:SRGGB12_1X12/1920x1080 field:none]"
+> 
+> or
+> 
+> media-ctl --set-v4l2 "'rcar_csi2
+> feaa0000.csi2':0[fmt:UYVY8_2X8/1920x1080 field:none]"
+> media-ctl --set-v4l2 "'rcar_csi2
+> feaa0000.csi2':1[fmt:UYVY8_2X8/1920x1080 field:none]"
+> media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:UYVY8_2X8/1920x1080 field:non
+> 
+> but no matter what I do when I attempt to stream, I get a broken pipe,
+> even when I use fakesink as the target.
+> 
+> root@beacon-rzg2h:~# GST_DEBUG=2 gst-launch-1.0 -v v4l2src
+> device=/dev/video1 ! video/x-raw,width=1920,height=1080 ! fakesink
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Setting pipeline to PLAYING ...
+> New clock: GstSystemClock
+> 0:00:03.727500390   501     0x10efd4f0 ERROR                v4l2src
+> gstv4l2src.c:337:gst_v4l2src_get_input_size_info:<v4l2src0> Cropcap
+> fail, CROPCAP has not supported
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
+> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+> framerate=(fraction)100/1, interlace-mode=(s1
+> /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps =
+> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+> framerate=(fraction)100/1, interlace-m1
+> /GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps =
+> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+> framerate=(fraction)100/1, interlace-mode1
+> /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps =
+> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+> framerate=(fraction)100/1, interlace-1
+> 0:00:03.737388309   501     0x10efd4f0 WARN          v4l2bufferpool
+> gstv4l2bufferpool.c:870:gst_v4l2_buffer_pool_start:<v4l2src0:pool:src>
+> Uncertain or not enough buffers, enad
+> 0:00:03.740266641   501     0x10efd4f0 ERROR         v4l2bufferpool
+> gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
+> error with STREAMON 32 (Broken pi)
+> 0:00:03.740474842   501     0x10efd4f0 WARN          v4l2bufferpool
+> gstv4l2bufferpool.c:1188:gst_v4l2_buffer_pool_poll:<v4l2src0> error:
+> poll error 1: Broken pipe (32)
+> 0:00:03.740693123   501     0x10efd4f0 WARN                 v4l2src
+> gstv4l2src.c:1020:gst_v4l2src_create:<v4l2src0> error: Failed to
+> allocate a buffer
+> 0:00:03.740791643   501     0x10efd4f0 WARN                 basesrc
+> gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: Internal data
+> stream error.
+> 0:00:03.740822843   501     0x10efd4f0 WARN                 basesrc
+> gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: streaming
+> stopped, reason error (-5)
+> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Could
+> not read from resource.
+> Additional debug info:
+> ../../../git/sys/v4l2/gstv4l2bufferpool.c(1188):
+> gst_v4l2_buffer_pool_poll ():
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> poll error 1: Broken pipe (32)
+> Execution ended after 0:00:00.013644415
+> Setting pipeline to PAUSED ...
+> Setting pipeline to READY ...
+> 0:00:03.741392965   501     0x10ec96c0 WARN          v4l2bufferpool
+> gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+> some buffers are still outstanding
+> 0:00:03.741428005   501     0x10ec96c0 WARN              bufferpool
+> gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+> stop failed
+> 0:00:03.743868095   501     0x10ec96c0 ERROR         v4l2bufferpool
+> gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
+> error with STREAMON 32 (Broken pi)
+> 0:00:03.744090576   501     0x10ec96c0 WARN          v4l2bufferpool
+> gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+> some buffers are still outstanding
+> 0:00:03.744123936   501     0x10ec96c0 WARN              bufferpool
+> gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+> stop failed
+> 0:00:03.744152376   501     0x10ec96c0 WARN          v4l2bufferpool
+> gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+> some buffers are still outstanding
+> 0:00:03.744178296   501     0x10ec96c0 WARN              bufferpool
+> gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+> stop failed
+> Setting pipeline to NULL ...
+> Total time: 0.013650 seconds
+> Freeing pipeline ...
+> 
+> 
+> I was hoping someone might have a suggestion as to what I might be missing.
+> Ideally, I'd like to get two IMX290 cameras operational with one in
+> 4-lane mode and one in 2-lane mode.
+> 
+> Might anyone have any suggestions?  According to the media-ctl
+> --print-dot, the pipeline appears correct, but there is clearly
+> something I am missing.
+> 
+> thanks for any suggestions,
+> 
+> adam
 
-True :)
-
-Thanks,
-Ezequiel
-
+-- 
+Regards,
+Niklas S�derlund
