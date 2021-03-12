@@ -2,260 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33A4733868A
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 324B83386A3
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:36:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231379AbhCLHas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 02:30:48 -0500
-Received: from mga14.intel.com ([192.55.52.115]:37272 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230117AbhCLHaN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 02:30:13 -0500
-IronPort-SDR: FBItP4Yp5a8FZob2yOA8t8c0dKyYu/9FA0vWZAfhxF58WfsmB2TOKDCIeGlq1fKyVPa0dn0zNE
- l2iGKEDAmxdQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="188162241"
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; 
-   d="scan'208";a="188162241"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 23:29:08 -0800
-IronPort-SDR: NmqGPToJuAE6n1ljyOgsMA7z8J6irwxwQWZAtoeBI+/li62H1O/i56aKObL4JVa3X70ILwrn6m
- h41umfnroX3A==
-X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; 
-   d="scan'208";a="409771672"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 23:29:06 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id AED25203A9;
-        Fri, 12 Mar 2021 09:29:04 +0200 (EET)
-Date:   Fri, 12 Mar 2021 09:29:04 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        id S231660AbhCLHgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 02:36:10 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:39844 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230117AbhCLHfy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Mar 2021 02:35:54 -0500
+X-UUID: 365b91f3a44f457182e0d69189a81cc2-20210312
+X-UUID: 365b91f3a44f457182e0d69189a81cc2-20210312
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 764490447; Fri, 12 Mar 2021 15:35:51 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 12 Mar 2021 15:35:49 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 12 Mar 2021 15:35:48 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: Convert video-mux to DT schema
-Message-ID: <20210312072904.GA3@paasikivi.fi.intel.com>
-References: <20210311234042.1588310-1-robh@kernel.org>
- <YErC9/zxKKRXaj+m@pendragon.ideasonboard.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>, <yong.wu@mediatek.com>
+CC:     Irui Wang <irui.wang@mediatek.com>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>, <linux-mediatek@lists.infradead.org>
+Subject: [v3,PATCH 1/3] dt-bindings: media: mtk-vcodec: Separating mtk vcodec encoder node
+Date:   Fri, 12 Mar 2021 15:35:38 +0800
+Message-ID: <20210312073540.4922-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YErC9/zxKKRXaj+m@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Updates binding document since the avc and vp8 hardware encoder in
+MT8173 are now separated. Separate "mediatek,mt8173-vcodec-enc" to
+"mediatek,mt8173-vcodec-enc-vp8" and "mediatek,mt8173-vcodec-enc".
 
-On Fri, Mar 12, 2021 at 03:25:11AM +0200, Laurent Pinchart wrote:
-> Hi Rob,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Mar 11, 2021 at 04:40:42PM -0700, Rob Herring wrote:
-> > Now that we have the graph schema, convert the video-mux binding to DT
-> > schema.
-> > 
-> > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: linux-media@vger.kernel.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../devicetree/bindings/media/video-mux.txt   | 60 ------------
-> >  .../devicetree/bindings/media/video-mux.yaml  | 93 +++++++++++++++++++
-> >  2 files changed, 93 insertions(+), 60 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/video-mux.txt
-> >  create mode 100644 Documentation/devicetree/bindings/media/video-mux.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/video-mux.txt b/Documentation/devicetree/bindings/media/video-mux.txt
-> > deleted file mode 100644
-> > index 63b9dc913e45..000000000000
-> > --- a/Documentation/devicetree/bindings/media/video-mux.txt
-> > +++ /dev/null
-> > @@ -1,60 +0,0 @@
-> > -Video Multiplexer
-> > -=================
-> > -
-> > -Video multiplexers allow to select between multiple input ports. Video received
-> > -on the active input port is passed through to the output port. Muxes described
-> > -by this binding are controlled by a multiplexer controller that is described by
-> > -the bindings in Documentation/devicetree/bindings/mux/mux-controller.txt
-> > -
-> > -Required properties:
-> > -- compatible : should be "video-mux"
-> > -- mux-controls : mux controller node to use for operating the mux
-> > -- #address-cells: should be <1>
-> > -- #size-cells: should be <0>
-> > -- port@*: at least three port nodes containing endpoints connecting to the
-> > -  source and sink devices according to of_graph bindings. The last port is
-> > -  the output port, all others are inputs.
-> > -
-> > -Optionally, #address-cells, #size-cells, and port nodes can be grouped under a
-> > -ports node as described in Documentation/devicetree/bindings/graph.txt.
-> > -
-> > -Example:
-> > -
-> > -	mux: mux-controller {
-> > -		compatible = "gpio-mux";
-> > -		#mux-control-cells = <0>;
-> > -
-> > -		mux-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
-> > -	};
-> > -
-> > -	video-mux {
-> > -		compatible = "video-mux";
-> > -		mux-controls = <&mux>;
-> > -		#address-cells = <1>;
-> > -		#size-cells = <0>;
-> > -
-> > -		port@0 {
-> > -			reg = <0>;
-> > -
-> > -			mux_in0: endpoint {
-> > -				remote-endpoint = <&video_source0_out>;
-> > -			};
-> > -		};
-> > -
-> > -		port@1 {
-> > -			reg = <1>;
-> > -
-> > -			mux_in1: endpoint {
-> > -				remote-endpoint = <&video_source1_out>;
-> > -			};
-> > -		};
-> > -
-> > -		port@2 {
-> > -			reg = <2>;
-> > -
-> > -			mux_out: endpoint {
-> > -				remote-endpoint = <&capture_interface_in>;
-> > -			};
-> > -		};
-> > -	};
-> > -};
-> > diff --git a/Documentation/devicetree/bindings/media/video-mux.yaml b/Documentation/devicetree/bindings/media/video-mux.yaml
-> > new file mode 100644
-> > index 000000000000..780fbbd46a38
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/video-mux.yaml
-> > @@ -0,0 +1,93 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/video-mux.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Video Multiplexer
-> > +
-> > +maintainers:
-> > +  - Sakari Ailus <sakari.ailus@linux.intel.com>
-> > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > +
-> > +description:
-> > +  Video multiplexers allow to select between multiple input ports. Video
-> > +  received on the active input port is passed through to the output port. Muxes
-> > +  described by this binding are controlled by a multiplexer controller.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: video-mux
-> > +
-> > +  mux-controls:
-> > +    maxItems: 1
-> > +
-> > +  '#address-cells':
-> > +    const: 1
-> > +
-> > +  '#size-cells':
-> > +    const: 0
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    patternProperties:
-> > +      '^port@':
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> 
-> Should we require at least port@0, port@1 and port@2 ?
-> 
-> > +
-> > +patternProperties:
-> > +  '^port@':
-> > +    $ref: /schemas/graph.yaml#/properties/port
-> > +    description:
-> > +      At least three port nodes containing endpoints connecting to the source
-> > +      and sink devices according to of_graph bindings. The last port is the
-> > +      output port, all others are inputs.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - mux-controls
-> 
-> Should a constraint be added to ensure that either a ports node or
-> port@0, port@1 and port@2 nodes exists ?
+This patch separates the two devices, it's a preparing patch for adding
+device_link between the larbs and venc-device. It's mainly for fixing
+the problem:
+https://lkml.org/lkml/2019/9/3/316
 
-It's not meaningful to have this device without such nodes. But a mux with
-more ports could be connected in a way that leaves one or both of ports 1
-and 2 unconnected. It's still not a likely configuration but a possible
-one.
+Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Signed-off-by: Maoguang Meng <maoguang.meng@mediatek.com>
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+---
+Change since v2:
+- update dt-bindings commit message
+---
 
-Either way,
+ .../bindings/media/mediatek-vcodec.txt        | 55 ++++++++++---------
+ 1 file changed, 29 insertions(+), 26 deletions(-)
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    mux: mux-controller {
-> > +        compatible = "gpio-mux";
-> > +        #mux-control-cells = <0>;
-> > +
-> > +        mux-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
-> > +    };
-> > +
-> > +    video-mux {
-> > +        compatible = "video-mux";
-> > +        mux-controls = <&mux>;
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        port@0 {
-> > +            reg = <0>;
-> > +
-> > +            mux_in0: endpoint {
-> > +                remote-endpoint = <&video_source0_out>;
-> > +            };
-> > +        };
-> > +
-> > +        port@1 {
-> > +            reg = <1>;
-> > +
-> > +            mux_in1: endpoint {
-> > +                remote-endpoint = <&video_source1_out>;
-> > +            };
-> > +        };
-> > +
-> > +        port@2 {
-> > +            reg = <2>;
-> > +
-> > +            mux_out: endpoint {
-> > +                remote-endpoint = <&capture_interface_in>;
-> > +            };
-> > +        };
-> > +    };
-> > +...
-
+diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+index 8217424fd4bd..8318f0ed492d 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+@@ -4,7 +4,9 @@ Mediatek Video Codec is the video codec hw present in Mediatek SoCs which
+ supports high resolution encoding and decoding functionalities.
+ 
+ Required properties:
+-- compatible : "mediatek,mt8173-vcodec-enc" for MT8173 encoder
++- compatible : must be one of the following string:
++  "mediatek,mt8173-vcodec-enc-vp8" for mt8173 vp8 encoder.
++  "mediatek,mt8173-vcodec-enc" for mt8173 avc encoder.
+   "mediatek,mt8183-vcodec-enc" for MT8183 encoder.
+   "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
+ - reg : Physical base address of the video codec registers and length of
+@@ -13,10 +15,10 @@ Required properties:
+ - mediatek,larb : must contain the local arbiters in the current Socs.
+ - clocks : list of clock specifiers, corresponding to entries in
+   the clock-names property.
+-- clock-names: encoder must contain "venc_sel_src", "venc_sel",,
+-  "venc_lt_sel_src", "venc_lt_sel", decoder must contain "vcodecpll",
+-  "univpll_d2", "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll",
+-  "venc_lt_sel", "vdec_bus_clk_src".
++- clock-names: avc encoder must contain "venc_sel", vp8 encoder must
++  contain "venc_lt_sel", decoder must contain "vcodecpll", "univpll_d2",
++  "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll", "venc_lt_sel",
++  "vdec_bus_clk_src".
+ - iommus : should point to the respective IOMMU block with master port as
+   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   for details.
+@@ -80,14 +82,10 @@ vcodec_dec: vcodec@16000000 {
+     assigned-clock-rates = <0>, <0>, <0>, <1482000000>, <800000000>;
+   };
+ 
+-  vcodec_enc: vcodec@18002000 {
++vcodec_enc_avc: vcodec@18002000 {
+     compatible = "mediatek,mt8173-vcodec-enc";
+-    reg = <0 0x18002000 0 0x1000>,    /*VENC_SYS*/
+-          <0 0x19002000 0 0x1000>;    /*VENC_LT_SYS*/
+-    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>,
+-		 <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+-    mediatek,larb = <&larb3>,
+-		    <&larb5>;
++    reg = <0 0x18002000 0 0x1000>;
++    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
+     iommus = <&iommu M4U_PORT_VENC_RCPU>,
+              <&iommu M4U_PORT_VENC_REC>,
+              <&iommu M4U_PORT_VENC_BSDMA>,
+@@ -98,8 +96,20 @@ vcodec_dec: vcodec@16000000 {
+              <&iommu M4U_PORT_VENC_REF_LUMA>,
+              <&iommu M4U_PORT_VENC_REF_CHROMA>,
+              <&iommu M4U_PORT_VENC_NBM_RDMA>,
+-             <&iommu M4U_PORT_VENC_NBM_WDMA>,
+-             <&iommu M4U_PORT_VENC_RCPU_SET2>,
++             <&iommu M4U_PORT_VENC_NBM_WDMA>;
++    mediatek,larb = <&larb3>;
++    mediatek,vpu = <&vpu>;
++    clocks = <&topckgen CLK_TOP_VENC_SEL>;
++    clock-names = "venc_sel";
++    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
++    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
++  };
++
++vcodec_enc_vp8: vcodec@19002000 {
++    compatible = "mediatek,mt8173-vcodec-enc-vp8";
++    reg =  <0 0x19002000 0 0x1000>;	/* VENC_LT_SYS */
++    interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
++    iommus = <&iommu M4U_PORT_VENC_RCPU_SET2>,
+              <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
+              <&iommu M4U_PORT_VENC_BSDMA_SET2>,
+              <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
+@@ -108,17 +118,10 @@ vcodec_dec: vcodec@16000000 {
+              <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
+              <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
+              <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
++    mediatek,larb = <&larb5>;
+     mediatek,vpu = <&vpu>;
+-    clocks = <&topckgen CLK_TOP_VENCPLL_D2>,
+-             <&topckgen CLK_TOP_VENC_SEL>,
+-             <&topckgen CLK_TOP_UNIVPLL1_D2>,
+-             <&topckgen CLK_TOP_VENC_LT_SEL>;
+-    clock-names = "venc_sel_src",
+-                  "venc_sel",
+-                  "venc_lt_sel_src",
+-                  "venc_lt_sel";
+-    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>,
+-                      <&topckgen CLK_TOP_VENC_LT_SEL>;
+-    assigned-clock-parents = <&topckgen CLK_TOP_VENCPLL_D2>,
+-                             <&topckgen CLK_TOP_UNIVPLL1_D2>;
++    clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
++    clock-names = "venc_lt_sel";
++    assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
++    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
+   };
 -- 
-Kind regards,
+2.18.0
 
-Sakari Ailus
