@@ -2,247 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 832CB339060
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26CC733906B
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231749AbhCLOwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 09:52:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35792 "EHLO
+        id S231766AbhCLOz2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 09:55:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbhCLOwN (ORCPT
+        with ESMTP id S230521AbhCLOy4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 09:52:13 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3532EC061761
-        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 06:52:13 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id u4so46224434lfs.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 06:52:13 -0800 (PST)
+        Fri, 12 Mar 2021 09:54:56 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD92AC061574;
+        Fri, 12 Mar 2021 06:54:55 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id d16so17794469oic.0;
+        Fri, 12 Mar 2021 06:54:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=hlEw1Xot5u2w1fN40js7k7EDbK0sTmplIEEflk8aU0Q=;
-        b=cnzCQ/jxU7qf2PPfmYs7LqkhRlFklYmkHiDvmnW4ujY9pSwva+neQVJIo4VEFZS5qB
-         U2NIROtas0BzlHEl61CR2cSREwuZ7CPf6twCCEwnX9FYOHn2qv/HMrYiCcML82ISRvm5
-         v77/ayZdDB7Ue7t4MffqN3MC4iGoo7B/IG9950nG5qaI+Nu+FHs9vwi1hoD9S/EwUO+/
-         zI12OxGpryJPaYVbFKVS7j7DBBVuAD4Xhk2zCGbj+gAXLzHNITDmsEV2U4lnQ3xuMNcO
-         aFpoKV6lpAyf4l+3RjtyEb81dF4kBjbN16WPAr47xxDTjiDRGrB2mrmh5cHZqvHF1PYU
-         Btrg==
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=m78mBvSniWqKMDyGJEBqM8ia3GGy83UgRaI78+ZpVNs=;
+        b=px4Fb5SG1RihopR8pXYMC7LNGcjKiTrrweSNpWcbEUQsdyI8QWTXncbMYnP/4dvNVQ
+         iajkhic181Wb9MKx1zFPtKzPRuSP5uUeBshD0HE9ML5CfkBTOyAzCtvb8n1wk7/8XPgT
+         13FtU55/vHyHBQB04vn991dWzkHm+aKfbSVQSA5OkIwho/agLHrXyJR7oELKxV2M5JtE
+         7nophJtMuBeC4buSKkVwKOicZXzZ2PiI1T6UmVQ7r6xvcKZaxNHfJgl4cRtexcSBhh2N
+         ug6B3obyAsI8CFn/a/WSkNUdtiPfJ46i3A3Voyu/tcazdAL4opqj3RKqlgEwchjUB+W5
+         YG2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=hlEw1Xot5u2w1fN40js7k7EDbK0sTmplIEEflk8aU0Q=;
-        b=czhj24/yRgdFYcZX2P+lkCHBv5bMdhw+1Wdk65C0wLsSgdI6140vaFkJljZcyoA42Q
-         UW+HXQoyy0AIcC4V/cA3u3Rj/2p6dnqzVQmBkqHA+8skEbQ7/r9LZnoqBqGlovTidF+w
-         pdUtFfS6Tu5CtVGkzdiiU/JzifChzc0lLF4ycUleJJs0GvTJ3oDU88nwKe7MYe8xVlEZ
-         DQO8NDbyyemY+IwtYdPU9QLdAvq+A4i0kZMreLhgTGBvDIZjVgU5NFix7pNM9r69F74q
-         FSxvo/G4UQ0nLoj/DeH2mRIXpVyZO4VWyBMpJJezu/1wMLN00GvjLmBg7hm8+D2X3ECu
-         5C1w==
-X-Gm-Message-State: AOAM532q9I2PLGuLxJcXOD5VmmWZ7+Lqm7j56reJGkCL5RPuh7LrbfwI
-        Biv7sbsEersfxBxWeSyDyjRh/w==
-X-Google-Smtp-Source: ABdhPJwgDGL72PQtOx4n699k2fW6gFapgUeT52bAdk5MIng5cH5PL4LKjVVugwhaH7Mhrq0HZOr74A==
-X-Received: by 2002:a05:6512:31c9:: with SMTP id j9mr5706252lfe.185.1615560731604;
-        Fri, 12 Mar 2021 06:52:11 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id p21sm1742806lfu.227.2021.03.12.06.52.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 06:52:11 -0800 (PST)
-Date:   Fri, 12 Mar 2021 15:52:10 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>, mani@kernel.org
-Subject: Re: Renesas RZ/G2M + Sony IMX290 Camera questions/issues
-Message-ID: <YEuAGoeoi0X0KwfH@oden.dyn.berto.se>
-References: <CAHCN7xJUnMP-uA03a5x4djp4_RPbiMnSWXMdconpAxV7pwgTGw@mail.gmail.com>
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=m78mBvSniWqKMDyGJEBqM8ia3GGy83UgRaI78+ZpVNs=;
+        b=np42TkBmausowPTpT0rs4JAGkvL4hovc1gleXRI04ajP5q83nO1HKlPxJXIlJDbzCN
+         mr1ldCfTh6++luwl8n63tCdDaEl/aYs/stNtUCMyVC27j+LDnBBoRWSc2spEujhPpUgD
+         C6CENevZsfreLJcUxReDhwc5s9hkV4jEoraNpmgny/px5KVy8H3DWI7K1x9vvBrEsXSP
+         VtEcHhjmMHr1wKgfZVSBaOmrwrpGerSxIoMpRYe0U/sizrPMHzbvlJnwgv1zY3Y+biv2
+         YdDaPLI49N2se/CTsdL4h9Ipcw68whN46z61V10xRYnRp3EkpIYCyONMU7zDjtaY1u3y
+         1pTg==
+X-Gm-Message-State: AOAM530AFXQTbHnWg4pod3CiuLFPNVpAWYTqDzM2GaWCCFhTxnoI51WH
+        AbKonRbogpwJriIEncMJR+o1Nqi4lRQ=
+X-Google-Smtp-Source: ABdhPJwn4wo9nkC0PwZ1LrD6jT+MJjZ7TSzpm6lBDK17Lzsg6Eqa96206QTWB/cGt5DpIHFIoNkccA==
+X-Received: by 2002:aca:3046:: with SMTP id w67mr9977443oiw.57.1615560894935;
+        Fri, 12 Mar 2021 06:54:54 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s21sm1268137oos.5.2021.03.12.06.54.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Mar 2021 06:54:54 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
+To:     Dominique MARTINET <dominique.martinet@atmark-techno.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200917022547.198090-1-linux@roeck-us.net>
+ <20200917124714.GD3969@pendragon.ideasonboard.com>
+ <990652f1-b6e4-211c-7a96-8c3fc3ea6efd@roeck-us.net>
+ <YEsZ7qnSRv0EkJGG@atmark-techno.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <74c0c32a-ebb5-34e0-d3a2-6b417ce328a1@roeck-us.net>
+Date:   Fri, 12 Mar 2021 06:54:52 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <YEsZ7qnSRv0EkJGG@atmark-techno.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHCN7xJUnMP-uA03a5x4djp4_RPbiMnSWXMdconpAxV7pwgTGw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+On 3/11/21 11:36 PM, Dominique MARTINET wrote:
+> Hi,
+> 
+> Guenter Roeck wrote on Thu, Sep 17, 2020 at 07:16:17PM -0700:
+>> On 9/17/20 5:47 AM, Laurent Pinchart wrote:
+>>> On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
+>>>> Something seems to have gone wrong with v3 of this patch series.
+>>>> I am sure I sent it out, but I don't find it anywhere.
+>>>> Resending. Sorry for any duplicates.
+>>>
+>>> I haven't checked the mailing list, but I've found it in my inbox :-)
+>>> I'm not forgetting about you, just been fairly busy recently. I still
+>>> plan to try and provide an alternative implementation in the V4L2 core
+>>> (in a form that I think should even be moved to the cdev core) that
+>>> would fix this for all drivers.
+>>>
+>> Thanks for letting me know. As it turns out, this problem is responsible
+>> for about 2% of all Chromebook crashes, so I'll probably not wait for
+>> the series to be accepted upstream but apply it as-is to the various
+>> ChromeOS kernel branches.
+> 
+> We have a customer who reported the same issue recently, has there been
+> any development?
+> 
 
-There are many possibility's that result in an -EPIPE when validating 
-formats and unfortunately V4L2 is not always as very helpfull when 
-diagnosing the problem. What I usually do is to,
+Not that I know of. We applied the series to all Chrome OS kernel branches,
+and it reliably fixes the problem for us. We'd like to have the problem
+fixed upstream; until that happens we'll have to carry the series forward.
 
-1. Inspect rvin_mc_validate_format() in 
-   drivers/media/platform/rcar-vin/rcar-dma.c
+> I don't see anything in either uvc nor v4l2 that would address the race
+> since this mail half a year ago (well, I could have missed it ;))
+> 
 
-   This will give you a clear view of how the format between the CSI-2 
-   and VIN is validated.
+The problem still exists in the upstream kernel.
 
-2. Increase the log level for drivers/media/v4l2-core/v4l2-subdev.c 
-   specially for v4l2_subdev_link_validate_default().
-
-   This will give you insight into all formats from the CSI-2 receiver 
-   towards the camera.
-
-By doing these two things you will see in the system log which part of 
-the format validation that is missmatched.
-
-There is also a wiki page for capture using R-Car VIN that may be 
-helpful for you.
-
-    https://elinux.org/R-Car/Tests:rcar-vin
-
-On 2021-03-12 08:28:41 -0600, Adam Ford wrote:
-> I have an IMX290 camera connected to an RZ/G2M SoC via the 4-channel CSI.
-> 
-> &csi40 {
->     status = "okay";
-> 
->     ports {
->         port@0 {
->             reg = <0>;
->             csi40_in: endpoint {
->                 clock-lanes = <0>;
->                 data-lanes = <1 2 3 4>;
->                 remote-endpoint = <&imx290_ep>;
->             };
->         };
->     };
-> };
-> 
-> On the I2C bus, I have
-> 
-> imx290: camera-sensor@1a {
->     compatible = "sony,imx290";
->     reg = <0x1a>;
->     reset-gpios = <&gpio_exp2 0 GPIO_ACTIVE_LOW>;
->     clocks = <&versaclock6_bb 1>;
->     clock-names = "xclk";
->     clock-frequency = <37125000>;
->     vdddo-supply = <&reg_cam0_en0>;
->     vdda-supply = <&reg_cam0_en1>;
->     vddd-supply = <&reg_cam0_en0>;
-> 
->     port {
->         imx290_ep: endpoint {
->             data-lanes = <1 2 3 4>;
->             link-frequencies = /bits/ 64 <148500000 222750000>;
->             remote-endpoint = <&csi40_in>;
->         };
->     };
-> };
-> 
-> I configure the pipeline with:
-> 
-> media-ctl -l "'rcar_csi2 feaa0000.csi2':1 -> 'VIN0 output':0[1]"
-> 
-> I also have tried configuring the video formats in several different ways
-> 
-> media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
-> media-ctl --set-v4l2 "'rcar_csi2
-> feaa0000.csi2':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
-> media-ctl --set-v4l2 "'rcar_csi2
-> feaa0000.csi2':1[fmt:SRGGB12_1X12/1920x1080 field:none]"
-> 
-> or
-> 
-> media-ctl --set-v4l2 "'rcar_csi2
-> feaa0000.csi2':0[fmt:UYVY8_2X8/1920x1080 field:none]"
-> media-ctl --set-v4l2 "'rcar_csi2
-> feaa0000.csi2':1[fmt:UYVY8_2X8/1920x1080 field:none]"
-> media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:UYVY8_2X8/1920x1080 field:non
-> 
-> but no matter what I do when I attempt to stream, I get a broken pipe,
-> even when I use fakesink as the target.
-> 
-> root@beacon-rzg2h:~# GST_DEBUG=2 gst-launch-1.0 -v v4l2src
-> device=/dev/video1 ! video/x-raw,width=1920,height=1080 ! fakesink
-> Setting pipeline to PAUSED ...
-> Pipeline is live and does not need PREROLL ...
-> Setting pipeline to PLAYING ...
-> New clock: GstSystemClock
-> 0:00:03.727500390   501     0x10efd4f0 ERROR                v4l2src
-> gstv4l2src.c:337:gst_v4l2src_get_input_size_info:<v4l2src0> Cropcap
-> fail, CROPCAP has not supported
-> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
-> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
-> framerate=(fraction)100/1, interlace-mode=(s1
-> /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps =
-> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
-> framerate=(fraction)100/1, interlace-m1
-> /GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps =
-> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
-> framerate=(fraction)100/1, interlace-mode1
-> /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps =
-> video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
-> framerate=(fraction)100/1, interlace-1
-> 0:00:03.737388309   501     0x10efd4f0 WARN          v4l2bufferpool
-> gstv4l2bufferpool.c:870:gst_v4l2_buffer_pool_start:<v4l2src0:pool:src>
-> Uncertain or not enough buffers, enad
-> 0:00:03.740266641   501     0x10efd4f0 ERROR         v4l2bufferpool
-> gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
-> error with STREAMON 32 (Broken pi)
-> 0:00:03.740474842   501     0x10efd4f0 WARN          v4l2bufferpool
-> gstv4l2bufferpool.c:1188:gst_v4l2_buffer_pool_poll:<v4l2src0> error:
-> poll error 1: Broken pipe (32)
-> 0:00:03.740693123   501     0x10efd4f0 WARN                 v4l2src
-> gstv4l2src.c:1020:gst_v4l2src_create:<v4l2src0> error: Failed to
-> allocate a buffer
-> 0:00:03.740791643   501     0x10efd4f0 WARN                 basesrc
-> gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: Internal data
-> stream error.
-> 0:00:03.740822843   501     0x10efd4f0 WARN                 basesrc
-> gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: streaming
-> stopped, reason error (-5)
-> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Could
-> not read from resource.
-> Additional debug info:
-> ../../../git/sys/v4l2/gstv4l2bufferpool.c(1188):
-> gst_v4l2_buffer_pool_poll ():
-> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> poll error 1: Broken pipe (32)
-> Execution ended after 0:00:00.013644415
-> Setting pipeline to PAUSED ...
-> Setting pipeline to READY ...
-> 0:00:03.741392965   501     0x10ec96c0 WARN          v4l2bufferpool
-> gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
-> some buffers are still outstanding
-> 0:00:03.741428005   501     0x10ec96c0 WARN              bufferpool
-> gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
-> stop failed
-> 0:00:03.743868095   501     0x10ec96c0 ERROR         v4l2bufferpool
-> gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
-> error with STREAMON 32 (Broken pi)
-> 0:00:03.744090576   501     0x10ec96c0 WARN          v4l2bufferpool
-> gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
-> some buffers are still outstanding
-> 0:00:03.744123936   501     0x10ec96c0 WARN              bufferpool
-> gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
-> stop failed
-> 0:00:03.744152376   501     0x10ec96c0 WARN          v4l2bufferpool
-> gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
-> some buffers are still outstanding
-> 0:00:03.744178296   501     0x10ec96c0 WARN              bufferpool
-> gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
-> stop failed
-> Setting pipeline to NULL ...
-> Total time: 0.013650 seconds
-> Freeing pipeline ...
-> 
-> 
-> I was hoping someone might have a suggestion as to what I might be missing.
-> Ideally, I'd like to get two IMX290 cameras operational with one in
-> 4-lane mode and one in 2-lane mode.
-> 
-> Might anyone have any suggestions?  According to the media-ctl
-> --print-dot, the pipeline appears correct, but there is clearly
-> something I am missing.
-> 
-> thanks for any suggestions,
-> 
-> adam
-
--- 
-Regards,
-Niklas Söderlund
+Guenter
