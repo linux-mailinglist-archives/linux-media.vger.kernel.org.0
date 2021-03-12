@@ -2,119 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3EEC338626
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 07:44:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EC4C33863A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 07:52:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232050AbhCLGoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 01:44:05 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:49970 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbhCLGn4 (ORCPT
+        id S231628AbhCLGwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 01:52:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230317AbhCLGvo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 01:43:56 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12C6UvrO020225;
-        Fri, 12 Mar 2021 06:43:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=zeE8M9gzyfqZCryYCDtqun06kLY8Iiz5GLGO20PZzS0=;
- b=x0TYv6GH4NxkpUNS7uzazKl39S67LoZMNEosCe62Bdi90TO9dtBqNmD2HSaf0tc0Xlp+
- zO9+AW5l29ijNdWjOMhI/xgm2JGGSF7J/7PxMj+3lcgpXLp+R4axFmo3rgXw+yqUSXvD
- HHrPppFRXSfa5RV9ne35a9LWddnVSpmNi+RfbuO6zVLWnC9ZgLhq35zm6dxuQrFO3rSc
- zfJPwzG1cYfShjmFZlpJ4YMR921k6vUpgoP+RGvtp3Si5DzLJDeV+d6s3HFvXcVRekow
- kJNH6TVmkzuyp/1OFtll4B1EG+p1P+gC2JgMbMtXXMNuXVUrOYA8JoijfOyi1dEJFAIv mA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 37415rh084-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 12 Mar 2021 06:43:54 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12C6PdfQ005982;
-        Fri, 12 Mar 2021 06:43:52 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 374kn3nd94-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 12 Mar 2021 06:43:52 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12C6hpVe001691;
-        Fri, 12 Mar 2021 06:43:51 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 11 Mar 2021 22:43:50 -0800
-Date:   Fri, 12 Mar 2021 09:43:44 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     mchehab+huawei@kernel.org
-Cc:     linux-media@vger.kernel.org
-Subject: [bug report] Revert "media: staging: atomisp: Remove driver"
-Message-ID: <YEsNoNRz40DSq/4k@mwanda>
+        Fri, 12 Mar 2021 01:51:44 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 574F7C061574;
+        Thu, 11 Mar 2021 22:51:44 -0800 (PST)
+Received: by mail-lj1-x232.google.com with SMTP id 184so5401505ljf.9;
+        Thu, 11 Mar 2021 22:51:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A02n+NMAd8eL7DH8iNao8zcIag1ILDz80ELEqIyHHZo=;
+        b=J36C5piggPIl7dd9yoqgznx8u7ngRlNKo2Pa32t1TywPcZPu09skaKUrDmQuXo7xW9
+         6VnoiMPBre59TN9nEYzmiUFgeORkHpFrPsT2xi+Xdmpkdat99bDJwiJ1o/GJ8jeCE037
+         GBrkdtsnnt2DNJ5NVvfGQaldTKVfc802rZHWwRtnyzqkz9IC+S6t8NBqOe8Lka286rD/
+         kW04k7BR6LW/NNl/5SAmE2oqZWY0xJRdy053PMPG9UPqV/ZlM53HWL3itEeIjxnA9pZU
+         tPPb6COS2nRqf0yejKp0wwfzVXFKkqnVrYdshUf0925fp5osJ9oVVpwUYYYgfqRDhp6+
+         z09g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A02n+NMAd8eL7DH8iNao8zcIag1ILDz80ELEqIyHHZo=;
+        b=G8UPAr5YclS/Kl3GjPFcbAh7cypXh1xgfixNsgSRXmNk2yvXb0WL3GisFgWylagG4a
+         XhcN3QYc2O+ZMhgTHtwjlFy0gbG2xZMfukunlE9BSMJ/f5gPam4kNcAMbVdImyWJ+sRd
+         nx0JU39ZrJa4qi0zdfbNaFo4JC/a1fyodak2vrxckVWoWJbXGXm/laxAQVbQ2gRluGc1
+         m7G6dEodDcNmY3jsFZt7Tn+qUr4UwA5JvHYuk1YX0MI0me7gu845zOUephJTdcSsou77
+         fYF0clvBSkYZPIP3gC5w5DN1fCS0P+NZYuviurYlxp1oIDAxk31Ss7EhomwMp4AzE6cl
+         5bOw==
+X-Gm-Message-State: AOAM530Z1svgwawzJM6EaJXGYDfprPb1xVhrAbo5TmoxB4sZ1tGOTx7U
+        vl3pClrp1rqsDnPWoTL0/BESuLmQFkArueZjCOg=
+X-Google-Smtp-Source: ABdhPJwMrXrUdY9rDHk50mf/W++NSnpSBQ1pBOQOAXf6/w9+qK0X+o5+sPFXOHuvn0/NoRe4YANtg1fv0WApfz7nPcs=
+X-Received: by 2002:a2e:6e0c:: with SMTP id j12mr1507938ljc.365.1615531902839;
+ Thu, 11 Mar 2021 22:51:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9920 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 malwarescore=0
- spamscore=0 mlxlogscore=999 phishscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103120044
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9920 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 adultscore=0
- phishscore=0 spamscore=0 priorityscore=1501 bulkscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103120044
+References: <20210311221946.1319924-1-ribalda@chromium.org>
+ <20210311221946.1319924-4-ribalda@chromium.org> <YEqevkojuvniSTFS@pendragon.ideasonboard.com>
+ <CAPybu_2GF96ODzrkycAixiRg+L_BMCF40uW5jBhErND8v6STjA@mail.gmail.com> <YEqoBe5sQ+xP8PpY@pendragon.ideasonboard.com>
+In-Reply-To: <YEqoBe5sQ+xP8PpY@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Fri, 12 Mar 2021 07:51:26 +0100
+Message-ID: <CAPybu_11wgf4rdmWHvDRQUx0x8Z42KLrGeWzSEUTO=6A8L4BmA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] media: uvcvideo: Return -EIO for control errors
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Mauro Carvalho Chehab,
+Hi Laurent
 
-The patch ad85094b293e: "Revert "media: staging: atomisp: Remove
-driver"" from Apr 19, 2020, leads to the following static checker
-warning:
+On Fri, Mar 12, 2021 at 12:30 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> On Thu, Mar 11, 2021 at 11:59:27PM +0100, Ricardo Ribalda Delgado wrote:
+> > On Thu, Mar 11, 2021 at 11:53 PM Laurent Pinchart wrote:
+> > > On Thu, Mar 11, 2021 at 11:19:43PM +0100, Ricardo Ribalda wrote:
+> > > > The device is doing something unspected with the control. Either because
+> > > > the protocol is not properly implemented or there has been a HW error.
+> > > >
+> > > > Fixes v4l2-compliance:
+> > > >
+> > > > Control ioctls (Input 0):
+> > > >                 fail: v4l2-test-controls.cpp(448): s_ctrl returned an error (22)
+> > > >         test VIDIOC_G/S_CTRL: FAIL
+> > > >                 fail: v4l2-test-controls.cpp(698): s_ext_ctrls returned an error (22)
+> > > >         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> > > >
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > >
+> > > The change looks good to me.
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >
+> > > Which of the error codes below do you get with your camera, and for
+> > > which control ?
+> >
+> > Bus 001 Device 003: ID 05c8:03a2 Cheng Uei Precision Industry Co., Ltd
+> > (Foxlink) XiaoMi USB 2.0 Webcam
+> >
+> > info: checking extended control 'White Balance Temperature' (0x0098091a)
+> > Control error 7
+> > info: checking extended control 'Exposure (Absolute)' (0x009a0902)
+> > Control error 6
+>
+> :-S And what's the request (GET_CUR, GET_INFO, ...) ?
 
-	drivers/staging/media/atomisp/pci/atomisp_fops.c:261 atomisp_q_video_buffers_to_css()
-	error: buffer overflow 'asd->stream_env[stream_id]->pipes' 6 <= 6
+Failed to query (SET_CUR) UVC control 10 on unit 2: -32 (exp. 2).
+Failed to query (SET_CUR) UVC control 4 on unit 1: -32 (exp. 4)
+>
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_video.c | 5 +++++
+> > > >  1 file changed, 5 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > index f2f565281e63..25fd8aa23529 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -112,6 +112,11 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> > > >       case 5: /* Invalid unit */
+> > > >       case 6: /* Invalid control */
+> > > >       case 7: /* Invalid Request */
+> > > > +             /*
+> > > > +              * The firmware has not properly implemented
+> > > > +              * the control or there has been a HW error.
+> > > > +              */
+> > > > +             return -EIO;
+> > > >       case 8: /* Invalid value within range */
+> > > >               return -EINVAL;
+> > > >       default: /* reserved or unknown */
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-drivers/staging/media/atomisp/pci/atomisp_fops.c
-   234                  list_del_init(&vb->queue);
-   235                  vb->state = VIDEOBUF_ACTIVE;
-   236                  spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
-   237  
-   238                  /*
-   239                   * If there is a per_frame setting to apply on the buffer,
-   240                   * do it before buffer en-queueing.
-   241                   */
-   242                  vm_mem = vb->priv;
-   243  
-   244                  param = pipe->frame_params[vb->i];
-   245                  if (param) {
-   246                          atomisp_makeup_css_parameters(asd,
-   247                                                        &asd->params.css_param.update_flag,
-   248                                                        &param->params);
-   249                          atomisp_apply_css_parameters(asd, &param->params);
-   250  
-   251                          if (param->params.update_flag.dz_config &&
-   252                              asd->run_mode->val != ATOMISP_RUN_MODE_VIDEO) {
-   253                                  err = atomisp_calculate_real_zoom_region(asd,
-   254                                          &param->params.dz_config, css_pipe_id);
-   255                                  if (!err)
-   256                                          asd->params.config.dz_config = &param->params.dz_config;
-   257                          }
-   258                          atomisp_css_set_isp_config_applied_frame(asd,
-   259                                  vm_mem->vaddr);
-   260                          atomisp_css_update_isp_params_on_pipe(asd,
-   261                                                                asd->stream_env[stream_id].pipes[css_pipe_id]);
-                                                                                                       ^^^^^^^^^^^
-Can this be IA_CSS_PIPE_ID_NUM?  It looks that way.  The concern is
-about the last caller in atomisp_qbuffers_to_css().
 
-   262                          asd->params.dvs_6axis = (struct ia_css_dvs_6axis_config *)
-   263                                                  param->params.dvs_6axis;
-   264  
-   265                          /*
-   266                           * WORKAROUND:
-   267                           * Because the camera halv3 can't ensure to set zoom
-   268                           * region to per_frame setting and global setting at
-   269                           * same time and only set zoom region to pre_frame
 
-regards,
-dan carpenter
+-- 
+Ricardo Ribalda
