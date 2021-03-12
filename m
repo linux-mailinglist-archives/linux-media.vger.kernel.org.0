@@ -2,211 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B936C338F70
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:08:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C337339007
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 15:29:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230491AbhCLOIJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 09:08:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54380 "EHLO
+        id S230388AbhCLO3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 09:29:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231701AbhCLOHq (ORCPT
+        with ESMTP id S231179AbhCLO2x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 09:07:46 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF19EC061574
-        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 06:07:45 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id o16so1846982wrn.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Mar 2021 06:07:45 -0800 (PST)
+        Fri, 12 Mar 2021 09:28:53 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F44C061762;
+        Fri, 12 Mar 2021 06:28:53 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id s21so5235242pjq.1;
+        Fri, 12 Mar 2021 06:28:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=0b94v7S34F+yLOJy1ewvn7dt40NwWiU/Q8n4vHSPEiA=;
-        b=XFWc9HL48dKo2J8ISHJxsSvF7n/teqj0UITJY0vXYJ/lbUYwued6kXgJqZQZLkyGql
-         4+0yeQDRwXOJ6smUNxSDubBFHU9KdD8fIzIrlcxkSzqBDtwaKQCIEt+2b1+iCyD6tj0b
-         8SvnkSoKRO24Trx/AL/rHGcFguDp7SviwUzQE=
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=1Lo7yd/PnM426H85p1I+R4RaKFFPMA2/dD1IRf/rqnw=;
+        b=q7Kbbcst6z5BfuObWBGBR+6Ok6LQDvVOXSN39H0yveBiTYDjHGVamD+YCt9qP2lUQF
+         jK1KkrhrA4wU5v1NGw7EaB1U3/7j9HmPgqJy1jep6q3GqKxKMyk/mukHnlZTQFKtGCV2
+         E89BPRvzEBHAZnGRw1o09IyRTRFGeEOsN7aoWP3w2qg5vg3xvT+7HboHXJeNAgn1p5l6
+         WsAzyy39t7FRqfKObG6m05At96Msja3xStcR/HQl9r3aFC9QRl0ZGIPZLS6Ammq6+SMX
+         GVAsbIThnC8bVtPeRwO0bflduG+DiX0XaHsE6vY+m3xtroS9+NpAzV50NQux/TNdpzz0
+         SkjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=0b94v7S34F+yLOJy1ewvn7dt40NwWiU/Q8n4vHSPEiA=;
-        b=cIcpuhOwnwl87SX8RMLbDLa1qZihxL/2goapFNXGEj46riFZrpW3vKqUjNszVa3pHj
-         LEHH0KJjjLYtqa7QwKcloQide18QM9kOMa2mlNainw00g08MavhBJhSKercOn5K5gQTQ
-         jNHVFvkrhLSsOTK+MVrW5GJjZZiLW9FR55LPMz4YZz6WOfIOPgeyeuz7uIhVR75o7icQ
-         2Jp7jfAyVyV27wjdE58ZggosfmGWpki/D5oqhwAxdkbnMbb8fgD9Wzv8p+cIZym3193o
-         wjtsGXSxppe6XS5zPN8h7TTF6CIk6F9SySAnJt5YJmtmyyI3qwYtTd0ZN9ztg3B7OWfV
-         15vw==
-X-Gm-Message-State: AOAM531nguu9O/S4kz7DAoPNS1ogk5jDS7UpSLRO01wf6zP+OUGbqhWA
-        jhFdWNpGj3/HWjU7ZO2GocKYmQ==
-X-Google-Smtp-Source: ABdhPJxse6kS7PMvxKaC+u15I2lZJQSm6UO7GbTrgtUDupCCuocqmsqXDUqNwE+1aiA0VjVsMdPYeA==
-X-Received: by 2002:a5d:5047:: with SMTP id h7mr14781415wrt.111.1615558064393;
-        Fri, 12 Mar 2021 06:07:44 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id v13sm8959320wrt.45.2021.03.12.06.07.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 06:07:43 -0800 (PST)
-Date:   Fri, 12 Mar 2021 15:07:41 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Dave Airlie <airlied@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Felix Kuehling <felix.kuehling@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] dma-fence: Document recoverable page fault implications
-Message-ID: <YEt1rVg/flnZHsgG@phenom.ffwll.local>
-References: <20210203152921.2429937-1-daniel.vetter@ffwll.ch>
- <8e28d123-e7ea-aade-dd7f-af0eb2999ce6@amd.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=1Lo7yd/PnM426H85p1I+R4RaKFFPMA2/dD1IRf/rqnw=;
+        b=bPkDOXEihxMmrBziHuSMiIXlQicmqiJeb5YSAy5sIB5rHNq4O85JN3yvI20LBNfFM7
+         qP1JV6EMmpTT7ljO8gZFzGllgE3PNGN7EboQu/7AmQ7lyJBz9i4qKE0NSFlOIw0fddr8
+         WRSlTrTyFhjTP/6pBofM0Q4Hj6eARjRESYFNmlLfiWVNoIat4h2eAxsw51voD5j6PSmS
+         nOWdLs/FJM+72+5vDYo3PWGQNWJ0xiXV2UJPbKDD3mR26Wj9OSafcEdsoLnEru5J5PMG
+         qsv/zZCUxix30LhL1/1IUMUJ2MpfgKIosT44cS9mLuw1VKxEn8Teyewvjluf98aFTmAz
+         /EvA==
+X-Gm-Message-State: AOAM533azaMzSc4phOzgXayp4A3C496azUnt3sfK2PSrUdCN+uU6jkcC
+        2qDwStKo7dvbzXd8Dn3AY0s+vmUf/LplJbQ2oK63AqSLjVA=
+X-Google-Smtp-Source: ABdhPJxFp4HyQtxeYU8wFIrQReEqUWp6sPJWmDShCPg+MIU0zhCeNdYillJpDrx6tyAYDPoiPDQG4bkmtBE42oy2vdk=
+X-Received: by 2002:a17:902:f686:b029:e5:de44:af60 with SMTP id
+ l6-20020a170902f686b02900e5de44af60mr13595242plg.64.1615559332462; Fri, 12
+ Mar 2021 06:28:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8e28d123-e7ea-aade-dd7f-af0eb2999ce6@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 12 Mar 2021 08:28:41 -0600
+Message-ID: <CAHCN7xJUnMP-uA03a5x4djp4_RPbiMnSWXMdconpAxV7pwgTGw@mail.gmail.com>
+Subject: Renesas RZ/G2M + Sony IMX290 Camera questions/issues
+To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>, mani@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 04:40:38PM +0100, Christian König wrote:
-> Am 03.02.21 um 16:29 schrieb Daniel Vetter:
-> > Recently there was a fairly long thread about recoreable hardware page
-> > faults, how they can deadlock, and what to do about that.
-> > 
-> > While the discussion is still fresh I figured good time to try and
-> > document the conclusions a bit. This documentation section explains
-> > what's the potential problem, and the remedies we've discussed,
-> > roughly ordered from best to worst.
-> > 
-> > v2: Linus -> Linux typoe (Dave)
-> > 
-> > v3:
-> > - Make it clear drivers only need to implement one option (Christian)
-> > - Make it clearer that implicit sync is out the window with exclusive
-> >    fences (Christian)
-> > - Add the fairly theoretical option of segementing the memory (either
-> >    statically or through dynamic checks at runtime for which piece of
-> >    memory is managed how) and explain why it's not a great idea (Felix)
-> > 
-> > References: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F20210107030127.20393-1-Felix.Kuehling%40amd.com%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C767e1096b9554ab5b6dd08d8c8587f0f%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637479629728871138%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Fth2y8c3LuNbweQGrsS7VjYESGlshu6DfQyikiWBwyQ%3D&amp;reserved=0
-> > Cc: Dave Airlie <airlied@gmail.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Thomas Hellström <thomas.hellstrom@intel.com>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: Jerome Glisse <jglisse@redhat.com>
-> > Cc: Felix Kuehling <felix.kuehling@amd.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+I have an IMX290 camera connected to an RZ/G2M SoC via the 4-channel CSI.
 
-Pulled this in, thanks everyone who helped clarify the situation here.
+&csi40 {
+    status = "okay";
 
-Cheers, Daniel
+    ports {
+        port@0 {
+            reg = <0>;
+            csi40_in: endpoint {
+                clock-lanes = <0>;
+                data-lanes = <1 2 3 4>;
+                remote-endpoint = <&imx290_ep>;
+            };
+        };
+    };
+};
 
-> I still haven't fully given up on supporting implicit sync with user fences,
-> but it is really an eeek, let's try very hard to avoid that, problem.
-> 
-> Christian
-> 
-> > ---
-> >   Documentation/driver-api/dma-buf.rst | 76 ++++++++++++++++++++++++++++
-> >   1 file changed, 76 insertions(+)
-> > 
-> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> > index a2133d69872c..7f37ec30d9fd 100644
-> > --- a/Documentation/driver-api/dma-buf.rst
-> > +++ b/Documentation/driver-api/dma-buf.rst
-> > @@ -257,3 +257,79 @@ fences in the kernel. This means:
-> >     userspace is allowed to use userspace fencing or long running compute
-> >     workloads. This also means no implicit fencing for shared buffers in these
-> >     cases.
-> > +
-> > +Recoverable Hardware Page Faults Implications
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Modern hardware supports recoverable page faults, which has a lot of
-> > +implications for DMA fences.
-> > +
-> > +First, a pending page fault obviously holds up the work that's running on the
-> > +accelerator and a memory allocation is usually required to resolve the fault.
-> > +But memory allocations are not allowed to gate completion of DMA fences, which
-> > +means any workload using recoverable page faults cannot use DMA fences for
-> > +synchronization. Synchronization fences controlled by userspace must be used
-> > +instead.
-> > +
-> > +On GPUs this poses a problem, because current desktop compositor protocols on
-> > +Linux rely on DMA fences, which means without an entirely new userspace stack
-> > +built on top of userspace fences, they cannot benefit from recoverable page
-> > +faults. Specifically this means implicit synchronization will not be possible.
-> > +The exception is when page faults are only used as migration hints and never to
-> > +on-demand fill a memory request. For now this means recoverable page
-> > +faults on GPUs are limited to pure compute workloads.
-> > +
-> > +Furthermore GPUs usually have shared resources between the 3D rendering and
-> > +compute side, like compute units or command submission engines. If both a 3D
-> > +job with a DMA fence and a compute workload using recoverable page faults are
-> > +pending they could deadlock:
-> > +
-> > +- The 3D workload might need to wait for the compute job to finish and release
-> > +  hardware resources first.
-> > +
-> > +- The compute workload might be stuck in a page fault, because the memory
-> > +  allocation is waiting for the DMA fence of the 3D workload to complete.
-> > +
-> > +There are a few options to prevent this problem, one of which drivers need to
-> > +ensure:
-> > +
-> > +- Compute workloads can always be preempted, even when a page fault is pending
-> > +  and not yet repaired. Not all hardware supports this.
-> > +
-> > +- DMA fence workloads and workloads which need page fault handling have
-> > +  independent hardware resources to guarantee forward progress. This could be
-> > +  achieved through e.g. through dedicated engines and minimal compute unit
-> > +  reservations for DMA fence workloads.
-> > +
-> > +- The reservation approach could be further refined by only reserving the
-> > +  hardware resources for DMA fence workloads when they are in-flight. This must
-> > +  cover the time from when the DMA fence is visible to other threads up to
-> > +  moment when fence is completed through dma_fence_signal().
-> > +
-> > +- As a last resort, if the hardware provides no useful reservation mechanics,
-> > +  all workloads must be flushed from the GPU when switching between jobs
-> > +  requiring DMA fences or jobs requiring page fault handling: This means all DMA
-> > +  fences must complete before a compute job with page fault handling can be
-> > +  inserted into the scheduler queue. And vice versa, before a DMA fence can be
-> > +  made visible anywhere in the system, all compute workloads must be preempted
-> > +  to guarantee all pending GPU page faults are flushed.
-> > +
-> > +- Only a fairly theoretical option would be to untangle these dependencies when
-> > +  allocating memory to repair hardware page faults, either through separate
-> > +  memory blocks or runtime tracking of the full dependency graph of all DMA
-> > +  fences. This results very wide impact on the kernel, since resolving the page
-> > +  on the CPU side can itself involve a page fault. It is much more feasible and
-> > +  robust to limit the impact of handling hardware page faults to the specific
-> > +  driver.
-> > +
-> > +Note that workloads that run on independent hardware like copy engines or other
-> > +GPUs do not have any impact. This allows us to keep using DMA fences internally
-> > +in the kernel even for resolving hardware page faults, e.g. by using copy
-> > +engines to clear or copy memory needed to resolve the page fault.
-> > +
-> > +In some ways this page fault problem is a special case of the `Infinite DMA
-> > +Fences` discussions: Infinite fences from compute workloads are allowed to
-> > +depend on DMA fences, but not the other way around. And not even the page fault
-> > +problem is new, because some other CPU thread in userspace might
-> > +hit a page fault which holds up a userspace fence - supporting page faults on
-> > +GPUs doesn't anything fundamentally new.
-> 
+On the I2C bus, I have
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+imx290: camera-sensor@1a {
+    compatible = "sony,imx290";
+    reg = <0x1a>;
+    reset-gpios = <&gpio_exp2 0 GPIO_ACTIVE_LOW>;
+    clocks = <&versaclock6_bb 1>;
+    clock-names = "xclk";
+    clock-frequency = <37125000>;
+    vdddo-supply = <&reg_cam0_en0>;
+    vdda-supply = <&reg_cam0_en1>;
+    vddd-supply = <&reg_cam0_en0>;
+
+    port {
+        imx290_ep: endpoint {
+            data-lanes = <1 2 3 4>;
+            link-frequencies = /bits/ 64 <148500000 222750000>;
+            remote-endpoint = <&csi40_in>;
+        };
+    };
+};
+
+I configure the pipeline with:
+
+media-ctl -l "'rcar_csi2 feaa0000.csi2':1 -> 'VIN0 output':0[1]"
+
+I also have tried configuring the video formats in several different ways
+
+media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':1[fmt:SRGGB12_1X12/1920x1080 field:none]"
+
+or
+
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':0[fmt:UYVY8_2X8/1920x1080 field:none]"
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':1[fmt:UYVY8_2X8/1920x1080 field:none]"
+media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:UYVY8_2X8/1920x1080 field:non
+
+but no matter what I do when I attempt to stream, I get a broken pipe,
+even when I use fakesink as the target.
+
+root@beacon-rzg2h:~# GST_DEBUG=2 gst-launch-1.0 -v v4l2src
+device=/dev/video1 ! video/x-raw,width=1920,height=1080 ! fakesink
+Setting pipeline to PAUSED ...
+Pipeline is live and does not need PREROLL ...
+Setting pipeline to PLAYING ...
+New clock: GstSystemClock
+0:00:03.727500390   501     0x10efd4f0 ERROR                v4l2src
+gstv4l2src.c:337:gst_v4l2src_get_input_size_info:<v4l2src0> Cropcap
+fail, CROPCAP has not supported
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-mode=(s1
+/GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-m1
+/GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-mode1
+/GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-1
+0:00:03.737388309   501     0x10efd4f0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:870:gst_v4l2_buffer_pool_start:<v4l2src0:pool:src>
+Uncertain or not enough buffers, enad
+0:00:03.740266641   501     0x10efd4f0 ERROR         v4l2bufferpool
+gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
+error with STREAMON 32 (Broken pi)
+0:00:03.740474842   501     0x10efd4f0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1188:gst_v4l2_buffer_pool_poll:<v4l2src0> error:
+poll error 1: Broken pipe (32)
+0:00:03.740693123   501     0x10efd4f0 WARN                 v4l2src
+gstv4l2src.c:1020:gst_v4l2src_create:<v4l2src0> error: Failed to
+allocate a buffer
+0:00:03.740791643   501     0x10efd4f0 WARN                 basesrc
+gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: Internal data
+stream error.
+0:00:03.740822843   501     0x10efd4f0 WARN                 basesrc
+gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: streaming
+stopped, reason error (-5)
+ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Could
+not read from resource.
+Additional debug info:
+../../../git/sys/v4l2/gstv4l2bufferpool.c(1188):
+gst_v4l2_buffer_pool_poll ():
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+poll error 1: Broken pipe (32)
+Execution ended after 0:00:00.013644415
+Setting pipeline to PAUSED ...
+Setting pipeline to READY ...
+0:00:03.741392965   501     0x10ec96c0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+some buffers are still outstanding
+0:00:03.741428005   501     0x10ec96c0 WARN              bufferpool
+gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+stop failed
+0:00:03.743868095   501     0x10ec96c0 ERROR         v4l2bufferpool
+gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
+error with STREAMON 32 (Broken pi)
+0:00:03.744090576   501     0x10ec96c0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+some buffers are still outstanding
+0:00:03.744123936   501     0x10ec96c0 WARN              bufferpool
+gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+stop failed
+0:00:03.744152376   501     0x10ec96c0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+some buffers are still outstanding
+0:00:03.744178296   501     0x10ec96c0 WARN              bufferpool
+gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+stop failed
+Setting pipeline to NULL ...
+Total time: 0.013650 seconds
+Freeing pipeline ...
+
+
+I was hoping someone might have a suggestion as to what I might be missing.
+Ideally, I'd like to get two IMX290 cameras operational with one in
+4-lane mode and one in 2-lane mode.
+
+Might anyone have any suggestions?  According to the media-ctl
+--print-dot, the pipeline appears correct, but there is clearly
+something I am missing.
+
+thanks for any suggestions,
+
+adam
