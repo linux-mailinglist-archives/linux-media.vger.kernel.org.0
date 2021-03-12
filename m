@@ -2,103 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D855C338671
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:15:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 496D2338675
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:18:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230021AbhCLHOc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 02:14:32 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46635 "EHLO
+        id S230257AbhCLHRt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 02:17:49 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:51817 "EHLO
         lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230117AbhCLHOS (ORCPT
+        by vger.kernel.org with ESMTP id S229688AbhCLHRd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 02:14:18 -0500
+        Fri, 12 Mar 2021 02:17:33 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id Kbzxly0zJ4ywlKc01l2HU8; Fri, 12 Mar 2021 08:14:17 +0100
+        id Kc36ly3iU4ywlKc39l2HmC; Fri, 12 Mar 2021 08:17:31 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615533257; bh=6g8+gSQAaWLcIbnVturWejzKHRu+EMHJHcj4Rrs6MQY=;
+        t=1615533451; bh=OP2DhD6seMyRaLqWP0q7MnMJlB5gR26hw+PcsK0yWIc=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=SPjEccPjjcFOym3cQtnOZW1FpGn1QLaa07VmeXZIDSc0hVK1zkF4pupAXgq4FtsMm
-         4nLpLBKGC7/6stTzA+5mLABWcYlkffJFi/t6r8nd895/bTynN8dZ5+hknQdgXi+hjX
-         IRlM759PFNqrHfTSYHWlwvbAiY0mCXsYEKkc4GPmays6XxY65qSOmJO74ME+TbCCn9
-         oVHTP/hPKtujxGi2aDWrBxJKsRxpBY92iZ+6cKlIPbK8HGUYXeOmsRGoouTA9mL/RJ
-         4wRjQHX0iaX6ac7XSa6R67UXXoTwubQJnAUTNezeFvq3rqxShH5z8yBDvSSmJMFQZP
-         Sr8h0rcmI3ajg==
-Subject: Re: [PATCH v2 4/6] media: uvcvideo: set error_idx to count on EACCESS
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        b=tLByZYRECSZWIFR7o7aj8Mntim8uz7SqIuDzD1Un1ybytOnc1WFXaKx8Cfp7ch72j
+         frtPbMQa6nIY5YH1+OY5npZUK+X5bwiZRxVUCRHTw8+dekq0ZMa++IkCqwyBsiRVUI
+         qpixfLeohUBaUr3b/loRBW1he04f8hDkHWvgwA6rx2fnIoQez0QQPpoYDdg0//S9Vl
+         lEIPta57nDS/RcHmMjSJZIX+KXeR5StS50bS787wJGnmeoI6m1SlNN53OMRor0PRF/
+         bUgZ1ud8lJCGksePXzC6sBgO3fwsxCWR3NaqqzvnadT+hF/7UwUU8Pv0eQGtxMECdL
+         1+EMsZKbknNqQ==
+Subject: Re: [PATCH v2 6/6] media: uvcvideo: Set a different name for the
+ metadata entity
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, senozhatsky@chromium.org
 References: <20210311221946.1319924-1-ribalda@chromium.org>
- <20210311221946.1319924-5-ribalda@chromium.org>
+ <20210311221946.1319924-7-ribalda@chromium.org>
+ <YEqp/EkIUwOQhAN5@pendragon.ideasonboard.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e5860193-a672-96b8-9a40-5f6d77dd4783@xs4all.nl>
-Date:   Fri, 12 Mar 2021 08:14:13 +0100
+Message-ID: <96245ed2-dd6f-ddc3-aa02-a9924f76bc76@xs4all.nl>
+Date:   Fri, 12 Mar 2021 08:17:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210311221946.1319924-5-ribalda@chromium.org>
+In-Reply-To: <YEqp/EkIUwOQhAN5@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfBZzqdDzjyRDk1lRka82kKwyyuO9An12q7n1wGtk+9NL5VC9wGLf2H45S8/y6icaPwcCJufVWHCS0lvDCoUcqROC/1IkAjih+vDOSgtuxV95wk6X25he
- PJ9U4ipe9O5irnjntIxHJy6wgkadOZPgjCSpGVCTeKAD9j+uDMEMApLnwartvHWjauADM8aL9LTJvJ9pv/vpfWvHAf6J4pktJG72medV4ReKv872JvuGQt2m
- I57XOvVYB4B2yp7NWQ+NoFvGIhsJMBkmvteqBDDYdu6w82bQuFR9upsQ3Np9+SbMS4Kqx20t3spGXTMOyVopU0QszDpbWwz6wdjp5Va/5+fm90d0BuGjJiji
- /IycTNS5lenqKiRHK3eyJ5TbPMNGR343nasOW3zSNBzZpDoiLf9A9olssoUQPI7TJYLCI2NF
+X-CMAE-Envelope: MS4xfCijKaXrKF6v97+P2fdEcICG8bp0cwmL0k+fViWJfGPSKDz912TfFGypf9u7rdCdl+DsHy8ST4/R5mgESJkHJL70ITTuJnBo1sJn0X4Kjw6JILBIhmGm
+ 8ugFxN1qYm3rgLS0Z5pVHUpDE0frJDu2acmElfXtQS4n38NwLjT5A7eAC81ONDCRQ5Z//jbyVECJhYfDD1w9q1T8d5k1BQDX2MlCpS5QVHNB2Stdq/hCl55q
+ TETuI2ugAGHrRLmCTFLcwCE6SngOn/KgCZ2nN2/8x2aNm35aZmef6sR7v1QBjcF/oLskDzs3D+gK7I1x4tGtT69AyJCn1++t7+p62iLVWr/j/h5s40JTDt0S
+ n9Yyq7ohDoH+5Fqu6Kngx1IibFdyZK2ou0XKfXv1NXdiTwYh7l0EpOFKqHdQUr01TGzPV+fW
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/03/2021 23:19, Ricardo Ribalda wrote:
-> According to the doc:
-> The, in hindsight quite poor, solution for that is to set error_idx to
-> count if the validation failed.
-
-I think this needs a bit more explanation. How about this:
-
-"If an error is found when validating the list of controls passed with
-VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to indicate
-to userspace that no actual hardware was touched.
-
-It would have been much nicer of course if error_idx could point to the
-control index that failed the validation, but sadly that's not how the
-API was designed."
-
+On 12/03/2021 00:38, Laurent Pinchart wrote:
+> Hi Ricardo,
 > 
-> Fixes v4l2-compliance:
-> Control ioctls (Input 0):
->                 fail: v4l2-test-controls.cpp(645): invalid error index write only control
->         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> Thank you for the patch.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> On Thu, Mar 11, 2021 at 11:19:46PM +0100, Ricardo Ribalda wrote:
+>> All the entities must have a unique name.
+>>
+>> Fixes v4l2-compliance:
+>> Media Controller ioctls:
+>>                 fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
+>>         test MEDIA_IOC_G_TOPOLOGY: FAIL
+>>                 fail: v4l2-test-media.cpp(394): num_data_links != num_links
+>> 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
+>>
+>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> ---
+>>  drivers/media/usb/uvc/uvc_driver.c | 5 ++++-
+>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+>> index 30ef2a3110f7..47efa9a9be99 100644
+>> --- a/drivers/media/usb/uvc/uvc_driver.c
+>> +++ b/drivers/media/usb/uvc/uvc_driver.c
+>> @@ -2199,7 +2199,10 @@ int uvc_register_video_device(struct uvc_device *dev,
+>>  		break;
+>>  	}
+>>  
+>> -	strscpy(vdev->name, dev->name, sizeof(vdev->name));
+>> +	if (type == V4L2_BUF_TYPE_META_CAPTURE)
+>> +		strscpy(vdev->name, "Metadata Videodev", sizeof(vdev->name));
+>> +	else
+>> +		strscpy(vdev->name, dev->name, sizeof(vdev->name));
+> 
+> A UVC device could contain multiple output terminals (either in the same
+> chain or in different chains), which would still result in multiple
+> entities having the same name. Could this be fixed at the same time ?
+> You can use the unit ID of the output terminal to create unique names
+> (and it would be nice if the video and metadata nodes has similar names,
+> with "video" and "metadata" being the only difference between them).
 
-After improving the commit log you can add my:
+I agree with Laurent. How about using something like this for the videodevs:
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+	snprintf(vdev->name, sizeof(vdev->name), "Meta %s", dev->name);
 
-Thanks!
+and:
+
+	snprintf(vdev->name, sizeof(vdev->name), "Video %s", dev->name);
+
+Regards,
 
 	Hans
 
-> ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 157310c0ca87..36eb48622d48 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1073,7 +1073,8 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
->  		ret = uvc_ctrl_get(chain, ctrl);
->  		if (ret < 0) {
->  			uvc_ctrl_rollback(handle);
-> -			ctrls->error_idx = i;
-> +			ctrls->error_idx = (ret == -EACCES) ?
-> +						ctrls->count : i;
->  			return ret;
->  		}
->  	}
+>>  
+>>  	/*
+>>  	 * Set the driver data before calling video_register_device, otherwise
 > 
 
