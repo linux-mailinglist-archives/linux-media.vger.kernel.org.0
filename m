@@ -2,135 +2,260 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4AE1338685
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:25:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33A4733868A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:31:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbhCLHY5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 02:24:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49050 "EHLO mail.kernel.org"
+        id S231379AbhCLHas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 02:30:48 -0500
+Received: from mga14.intel.com ([192.55.52.115]:37272 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231551AbhCLHYg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 02:24:36 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E4A2264F81;
-        Fri, 12 Mar 2021 07:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615533876;
-        bh=MaYx/H8dZUN6HeuCS2QypsGxsjnPq7tVcY++vIVWPmY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=paIm1PM1BKYVf+ox+NlADxfForaY9VKzPk5fwL3HZdrSG4Dj0FvbaDL8wLaPDPos2
-         k+3zlZAlNJVoDCWg4BYw/jM3bDxcr/IXTg66U8zH6BSaP4QdP7eLDAPQnkUlYjh6RI
-         fYtoidch7/dDY8uMWG6BuD2hoIvQVoUBHRfniBpRODEJhkvmk5MBRZCtIZftd2dpn5
-         ZrRi+0eMNoiuL9M9h6+xsjIrBfIjcnZ7C2Y8a3es16Ge184U+WVx+wtjYaKK4GfiSP
-         ZRJTOHdW6/obCG04mtLE7wtpBeOoEwHW8EykYt1M3/raxIO1K18oVY6+hS0A+tGVV/
-         oJjLszEQckpdw==
-Date:   Fri, 12 Mar 2021 08:24:33 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [bug report] Revert "media: staging: atomisp: Remove driver"
-Message-ID: <20210312082152.0c59329e@coco.lan>
-In-Reply-To: <YEsNoNRz40DSq/4k@mwanda>
-References: <YEsNoNRz40DSq/4k@mwanda>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230117AbhCLHaN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Mar 2021 02:30:13 -0500
+IronPort-SDR: FBItP4Yp5a8FZob2yOA8t8c0dKyYu/9FA0vWZAfhxF58WfsmB2TOKDCIeGlq1fKyVPa0dn0zNE
+ l2iGKEDAmxdQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="188162241"
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; 
+   d="scan'208";a="188162241"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 23:29:08 -0800
+IronPort-SDR: NmqGPToJuAE6n1ljyOgsMA7z8J6irwxwQWZAtoeBI+/li62H1O/i56aKObL4JVa3X70ILwrn6m
+ h41umfnroX3A==
+X-IronPort-AV: E=Sophos;i="5.81,242,1610438400"; 
+   d="scan'208";a="409771672"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 23:29:06 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id AED25203A9;
+        Fri, 12 Mar 2021 09:29:04 +0200 (EET)
+Date:   Fri, 12 Mar 2021 09:29:04 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: Convert video-mux to DT schema
+Message-ID: <20210312072904.GA3@paasikivi.fi.intel.com>
+References: <20210311234042.1588310-1-robh@kernel.org>
+ <YErC9/zxKKRXaj+m@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YErC9/zxKKRXaj+m@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+Hi Laurent,
 
-Em Fri, 12 Mar 2021 09:43:44 +0300
-Dan Carpenter <dan.carpenter@oracle.com> escreveu:
-
-> Hello Mauro Carvalho Chehab,
+On Fri, Mar 12, 2021 at 03:25:11AM +0200, Laurent Pinchart wrote:
+> Hi Rob,
 > 
-> The patch ad85094b293e: "Revert "media: staging: atomisp: Remove
-> driver"" from Apr 19, 2020, leads to the following static checker
-> warning:
+> Thank you for the patch.
 > 
-> 	drivers/staging/media/atomisp/pci/atomisp_fops.c:261 atomisp_q_video_buffers_to_css()
-> 	error: buffer overflow 'asd->stream_env[stream_id]->pipes' 6 <= 6
+> On Thu, Mar 11, 2021 at 04:40:42PM -0700, Rob Herring wrote:
+> > Now that we have the graph schema, convert the video-mux binding to DT
+> > schema.
+> > 
+> > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: linux-media@vger.kernel.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../devicetree/bindings/media/video-mux.txt   | 60 ------------
+> >  .../devicetree/bindings/media/video-mux.yaml  | 93 +++++++++++++++++++
+> >  2 files changed, 93 insertions(+), 60 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/video-mux.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/video-mux.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/video-mux.txt b/Documentation/devicetree/bindings/media/video-mux.txt
+> > deleted file mode 100644
+> > index 63b9dc913e45..000000000000
+> > --- a/Documentation/devicetree/bindings/media/video-mux.txt
+> > +++ /dev/null
+> > @@ -1,60 +0,0 @@
+> > -Video Multiplexer
+> > -=================
+> > -
+> > -Video multiplexers allow to select between multiple input ports. Video received
+> > -on the active input port is passed through to the output port. Muxes described
+> > -by this binding are controlled by a multiplexer controller that is described by
+> > -the bindings in Documentation/devicetree/bindings/mux/mux-controller.txt
+> > -
+> > -Required properties:
+> > -- compatible : should be "video-mux"
+> > -- mux-controls : mux controller node to use for operating the mux
+> > -- #address-cells: should be <1>
+> > -- #size-cells: should be <0>
+> > -- port@*: at least three port nodes containing endpoints connecting to the
+> > -  source and sink devices according to of_graph bindings. The last port is
+> > -  the output port, all others are inputs.
+> > -
+> > -Optionally, #address-cells, #size-cells, and port nodes can be grouped under a
+> > -ports node as described in Documentation/devicetree/bindings/graph.txt.
+> > -
+> > -Example:
+> > -
+> > -	mux: mux-controller {
+> > -		compatible = "gpio-mux";
+> > -		#mux-control-cells = <0>;
+> > -
+> > -		mux-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+> > -	};
+> > -
+> > -	video-mux {
+> > -		compatible = "video-mux";
+> > -		mux-controls = <&mux>;
+> > -		#address-cells = <1>;
+> > -		#size-cells = <0>;
+> > -
+> > -		port@0 {
+> > -			reg = <0>;
+> > -
+> > -			mux_in0: endpoint {
+> > -				remote-endpoint = <&video_source0_out>;
+> > -			};
+> > -		};
+> > -
+> > -		port@1 {
+> > -			reg = <1>;
+> > -
+> > -			mux_in1: endpoint {
+> > -				remote-endpoint = <&video_source1_out>;
+> > -			};
+> > -		};
+> > -
+> > -		port@2 {
+> > -			reg = <2>;
+> > -
+> > -			mux_out: endpoint {
+> > -				remote-endpoint = <&capture_interface_in>;
+> > -			};
+> > -		};
+> > -	};
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/media/video-mux.yaml b/Documentation/devicetree/bindings/media/video-mux.yaml
+> > new file mode 100644
+> > index 000000000000..780fbbd46a38
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/video-mux.yaml
+> > @@ -0,0 +1,93 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/video-mux.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Video Multiplexer
+> > +
+> > +maintainers:
+> > +  - Sakari Ailus <sakari.ailus@linux.intel.com>
+> > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +
+> > +description:
+> > +  Video multiplexers allow to select between multiple input ports. Video
+> > +  received on the active input port is passed through to the output port. Muxes
+> > +  described by this binding are controlled by a multiplexer controller.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: video-mux
+> > +
+> > +  mux-controls:
+> > +    maxItems: 1
+> > +
+> > +  '#address-cells':
+> > +    const: 1
+> > +
+> > +  '#size-cells':
+> > +    const: 0
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    patternProperties:
+> > +      '^port@':
+> > +        $ref: /schemas/graph.yaml#/properties/port
 > 
-> drivers/staging/media/atomisp/pci/atomisp_fops.c
->    234                  list_del_init(&vb->queue);
->    235                  vb->state = VIDEOBUF_ACTIVE;
->    236                  spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
->    237  
->    238                  /*
->    239                   * If there is a per_frame setting to apply on the buffer,
->    240                   * do it before buffer en-queueing.
->    241                   */
->    242                  vm_mem = vb->priv;
->    243  
->    244                  param = pipe->frame_params[vb->i];
->    245                  if (param) {
->    246                          atomisp_makeup_css_parameters(asd,
->    247                                                        &asd->params.css_param.update_flag,
->    248                                                        &param->params);
->    249                          atomisp_apply_css_parameters(asd, &param->params);
->    250  
->    251                          if (param->params.update_flag.dz_config &&
->    252                              asd->run_mode->val != ATOMISP_RUN_MODE_VIDEO) {
->    253                                  err = atomisp_calculate_real_zoom_region(asd,
->    254                                          &param->params.dz_config, css_pipe_id);
->    255                                  if (!err)
->    256                                          asd->params.config.dz_config = &param->params.dz_config;
->    257                          }
->    258                          atomisp_css_set_isp_config_applied_frame(asd,
->    259                                  vm_mem->vaddr);
->    260                          atomisp_css_update_isp_params_on_pipe(asd,
->    261                                                                asd->stream_env[stream_id].pipes[css_pipe_id]);
->                                                                                                        ^^^^^^^^^^^
-> Can this be IA_CSS_PIPE_ID_NUM?  It looks that way.  The concern is
-> about the last caller in atomisp_qbuffers_to_css().
+> Should we require at least port@0, port@1 and port@2 ?
+> 
+> > +
+> > +patternProperties:
+> > +  '^port@':
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description:
+> > +      At least three port nodes containing endpoints connecting to the source
+> > +      and sink devices according to of_graph bindings. The last port is the
+> > +      output port, all others are inputs.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - mux-controls
+> 
+> Should a constraint be added to ensure that either a ports node or
+> port@0, port@1 and port@2 nodes exists ?
 
-Well, atomisp_q_video_buffers_to_css() should never receive
-IA_CSS_PIPE_ID_NUM in practice.
+It's not meaningful to have this device without such nodes. But a mux with
+more ports could be connected in a way that leaves one or both of ports 1
+and 2 unconnected. It's still not a likely configuration but a possible
+one.
 
-See, the atomisp driver uses several different pipelines in order
-to capture images and do different types of image processing (like
-scaling, image improvements and format conversion). Those are
-dynamically set internally inside the driver's code, depending on
-the parameters set via different ioctls before starting to stream.
+Either way,
 
-On other words, calling the function with IA_CSS_PIPE_ID_NUM is
-invalid.
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-So, I guess that the best fix would be to do something like the
-enclosed path.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    mux: mux-controller {
+> > +        compatible = "gpio-mux";
+> > +        #mux-control-cells = <0>;
+> > +
+> > +        mux-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+> > +    };
+> > +
+> > +    video-mux {
+> > +        compatible = "video-mux";
+> > +        mux-controls = <&mux>;
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        port@0 {
+> > +            reg = <0>;
+> > +
+> > +            mux_in0: endpoint {
+> > +                remote-endpoint = <&video_source0_out>;
+> > +            };
+> > +        };
+> > +
+> > +        port@1 {
+> > +            reg = <1>;
+> > +
+> > +            mux_in1: endpoint {
+> > +                remote-endpoint = <&video_source1_out>;
+> > +            };
+> > +        };
+> > +
+> > +        port@2 {
+> > +            reg = <2>;
+> > +
+> > +            mux_out: endpoint {
+> > +                remote-endpoint = <&capture_interface_in>;
+> > +            };
+> > +        };
+> > +    };
+> > +...
 
-Thanks,
-Mauro
+-- 
+Kind regards,
 
-[PATCH] atomisp: don't let it go past pipes array
-
-In practice, IA_CSS_PIPE_ID_NUM should never be used when
-calling atomisp_q_video_buffers_to_css(), as the driver should
-discover the right pipe before calling it.
-
-Yet, if some pipe parsing issue happens, it could end using
-it.
-
-So, add a WARN_ON() to prevent such case.
-
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 453bb6913550..f1e6b2597853 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -221,6 +221,9 @@ int atomisp_q_video_buffers_to_css(struct atomisp_sub_device *asd,
- 	unsigned long irqflags;
- 	int err = 0;
- 
-+	if (WARN_ON(css_pipe_id >= IA_CSS_PIPE_ID_NUM))
-+		return -EINVAL;
-+
- 	while (pipe->buffers_in_css < ATOMISP_CSS_Q_DEPTH) {
- 		struct videobuf_buffer *vb;
- 
-
+Sakari Ailus
