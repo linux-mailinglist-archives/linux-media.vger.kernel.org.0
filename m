@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D927E3386E2
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:57:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D322A3386EB
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 08:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbhCLH41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 02:56:27 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:47083 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229756AbhCLHzx (ORCPT
+        id S232002AbhCLH43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 02:56:29 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:56494 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231636AbhCLHz7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 02:55:53 -0500
-X-UUID: dbd2f40b251f441fab9b716ca598f128-20210312
-X-UUID: dbd2f40b251f441fab9b716ca598f128-20210312
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        Fri, 12 Mar 2021 02:55:59 -0500
+X-UUID: f95d19139dce4867aaa4b18b3d554191-20210312
+X-UUID: f95d19139dce4867aaa4b18b3d554191-20210312
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
         (envelope-from <irui.wang@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 833152154; Fri, 12 Mar 2021 15:55:47 +0800
+        with ESMTP id 2076225860; Fri, 12 Mar 2021 15:55:50 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 12 Mar 2021 15:55:46 +0800
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 12 Mar 2021 15:55:48 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 12 Mar 2021 15:55:45 +0800
+ Transport; Fri, 12 Mar 2021 15:55:47 +0800
 From:   Irui Wang <irui.wang@mediatek.com>
 To:     Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -41,47 +41,47 @@ CC:     Irui Wang <irui.wang@mediatek.com>, <linux-media@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <srv_heupstream@mediatek.com>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v2,0/5] Support H264 4K on MT8192
-Date:   Fri, 12 Mar 2021 15:55:37 +0800
-Message-ID: <20210312075542.5503-1-irui.wang@mediatek.com>
+Subject: [PATCH v2,1/5] dt-bindings: media: mtk-vcodec: Add dma-ranges property
+Date:   Fri, 12 Mar 2021 15:55:38 +0800
+Message-ID: <20210312075542.5503-2-irui.wang@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210312075542.5503-1-irui.wang@mediatek.com>
+References: <20210312075542.5503-1-irui.wang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-SNTS-SMTP: 9AD2604808B236AB1281924F3F7EB318735AA395EF3B3D65D1674ABD64299D6D2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add MT8192 H264 venc driver and support H264 4K encoding on MT8192.
+The mt8192 iommu support 0~16GB iova. We separate it to four banks:
+0~4G; 4G~8G; 8G~12G; 12G~16G.
+
+The "dma-ranges" could be used to adjust the bank we locate.
+If we don't set this property. The default range always is 0~4G.
+
+Here we don't have actual bus/parent concept here.  And the iova
+requirement is for our HW. Thus put the property in our node.
 
 Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 ---
-This patch dependents on
-"dt-bindings: media: mtk-vcodec: Separating mtk vcodec encoder node" [1]
+ Documentation/devicetree/bindings/media/mediatek-vcodec.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
-We need "core_id" variable in device private data to indicate
-current encoder driver.
-Please also accept this patch together with [1].
-
-http://lists.infradead.org/pipermail/linux-mediatek/2021-March/022432.html
----
-Change since v1:
-- remove encoder device tree example in dt-bindings
----
-Irui Wang (5):
-  dt-bindings: media: mtk-vcodec: Add dma-ranges property
-  media: mtk-vcodec: Support 4GB~8GB range iova space for venc
-  dt-bindings: media: mtk-vcodec: Add binding for MT8192 VENC
-  media: mtk-vcodec: Add MT8192 H264 venc driver
-  media: mtk-vcodec: Support H264 4K encoding on MT8192
-
- .../bindings/media/mediatek-vcodec.txt        |  3 +
- .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  1 +
- .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 58 ++++++++++++++-----
- .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 18 ++++++
- .../platform/mtk-vcodec/venc/venc_h264_if.c   |  4 ++
- 5 files changed, 69 insertions(+), 15 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+index 8318f0ed492d..d852683d3e6f 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+@@ -22,6 +22,8 @@ Required properties:
+ - iommus : should point to the respective IOMMU block with master port as
+   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   for details.
++- dma-ranges : describes how the physical address space of the IOMMU maps
++  to memory.
+ One of the two following nodes:
+ - mediatek,vpu : the node of the video processor unit, if using VPU.
+ - mediatek,scp : the node of the SCP unit, if using SCP.
 -- 
 2.18.0
 
