@@ -2,119 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A98433856E
-	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 06:34:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3EEC338626
+	for <lists+linux-media@lfdr.de>; Fri, 12 Mar 2021 07:44:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231737AbhCLFdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Mar 2021 00:33:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56404 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231708AbhCLFdP (ORCPT
+        id S232050AbhCLGoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Mar 2021 01:44:05 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:49970 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232156AbhCLGn4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Mar 2021 00:33:15 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08D19C061761
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 21:33:15 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id e2so6129985pld.9
-        for <linux-media@vger.kernel.org>; Thu, 11 Mar 2021 21:33:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Yn9um0RUV5qS6ZDS+XmJIEF5UruSaGYqcCAn+8nlwK0=;
-        b=AsT0a31K/s61Ur3ZyBxZIWuCMUPx2OBLJZtWxZ9I7oct+ejDM6jX9oK7HtwlYiPt7T
-         dQjLuYCZAG8rAuj79j6RFrwqsCBWIHl1zZxIxaGWyL3wXzAFxfvOrg1KVUKkCisdS34d
-         5unwD/W+yvGr48R+MEJBx6+vSiF9GuC3bTT6PSiuioz6uxAswGWKYpDGRzTepzNoAdRP
-         3zIxwnJJsHmQdX+JNQmt3cWaVTgrPnJuzFDEUWUoCjL87wnD0EeFgsqOudsTwbftnhUq
-         yCyR5d02IREhzNavc0wn85MY5VtSWg6BNEHGcN1VNCOVrtgMOvXZX1TUN4TzPyMcy21z
-         fhqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Yn9um0RUV5qS6ZDS+XmJIEF5UruSaGYqcCAn+8nlwK0=;
-        b=Ik5lsm3zFuiDLaP+SVKMkxnA6iI/rhAdBjrEPvR6naHcfB4p67ivNzHdCheo0C4r1Q
-         UpCVN4mlQ/8rZUSTC3NaF6re9lZdaaqyF4+oBOXMfFb3yxbdaHP7DU6jB0815+c0k4ew
-         5ne2YisVvjScgFFRRvMUCW5+cj78GfC9pDRiKwm2obtNT+VmNnvqKdVRK4xfPB0SWXe9
-         FO6wtmtq+iuTf6WWA026omtu/Eaf+vseD2f9wGQ14/jZ+UkO/n+rMpKl3wf4uPGaOyEQ
-         7a75ffH2nNbz7OW5assWuxcLA/YViyAvllWPWg0qzxRun8zC32G5qWsZKVUKVFMPufFL
-         1r+g==
-X-Gm-Message-State: AOAM530i1HxbfUyb9VTzjdNBrI8fPqfi88T+p4PyAXyutTuAOEmz3LL+
-        SsNgfvLLtTovOKugky3O8YQR5Q==
-X-Google-Smtp-Source: ABdhPJyDxvuOHwV2kjRNLGoR8RcX493onMZPdYf0HajVty4Da/2VfFbEKgGgJtSunQpX+xy+QefzoQ==
-X-Received: by 2002:a17:902:e78e:b029:e4:84c1:51ce with SMTP id cp14-20020a170902e78eb02900e484c151cemr11595726plb.25.1615527194476;
-        Thu, 11 Mar 2021 21:33:14 -0800 (PST)
-Received: from localhost ([122.171.124.15])
-        by smtp.gmail.com with ESMTPSA id z2sm4059367pfq.198.2021.03.11.21.33.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Mar 2021 21:33:13 -0800 (PST)
-Date:   Fri, 12 Mar 2021 11:03:12 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
-        Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 01/14] opp: Add devres wrapper for
- dev_pm_opp_set_clkname
-Message-ID: <20210312053312.zgke2mzjkqmwn67i@vireshk-i7>
-References: <20210311192105.14998-1-digetx@gmail.com>
- <20210311192105.14998-2-digetx@gmail.com>
+        Fri, 12 Mar 2021 01:43:56 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12C6UvrO020225;
+        Fri, 12 Mar 2021 06:43:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=zeE8M9gzyfqZCryYCDtqun06kLY8Iiz5GLGO20PZzS0=;
+ b=x0TYv6GH4NxkpUNS7uzazKl39S67LoZMNEosCe62Bdi90TO9dtBqNmD2HSaf0tc0Xlp+
+ zO9+AW5l29ijNdWjOMhI/xgm2JGGSF7J/7PxMj+3lcgpXLp+R4axFmo3rgXw+yqUSXvD
+ HHrPppFRXSfa5RV9ne35a9LWddnVSpmNi+RfbuO6zVLWnC9ZgLhq35zm6dxuQrFO3rSc
+ zfJPwzG1cYfShjmFZlpJ4YMR921k6vUpgoP+RGvtp3Si5DzLJDeV+d6s3HFvXcVRekow
+ kJNH6TVmkzuyp/1OFtll4B1EG+p1P+gC2JgMbMtXXMNuXVUrOYA8JoijfOyi1dEJFAIv mA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 37415rh084-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 12 Mar 2021 06:43:54 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12C6PdfQ005982;
+        Fri, 12 Mar 2021 06:43:52 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 374kn3nd94-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 12 Mar 2021 06:43:52 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12C6hpVe001691;
+        Fri, 12 Mar 2021 06:43:51 GMT
+Received: from mwanda (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 11 Mar 2021 22:43:50 -0800
+Date:   Fri, 12 Mar 2021 09:43:44 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     mchehab+huawei@kernel.org
+Cc:     linux-media@vger.kernel.org
+Subject: [bug report] Revert "media: staging: atomisp: Remove driver"
+Message-ID: <YEsNoNRz40DSq/4k@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210311192105.14998-2-digetx@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9920 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 mlxlogscore=999 phishscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103120044
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9920 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 adultscore=0
+ phishscore=0 spamscore=0 priorityscore=1501 bulkscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103120044
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11-03-21, 22:20, Dmitry Osipenko wrote:
-> +struct opp_table *devm_pm_opp_set_clkname(struct device *dev, const char *name)
-> +{
-> +	struct opp_table *opp_table;
-> +	int err;
-> +
-> +	opp_table = dev_pm_opp_set_clkname(dev, name);
-> +	if (IS_ERR(opp_table))
-> +		return opp_table;
-> +
-> +	err = devm_add_action_or_reset(dev, devm_pm_opp_clkname_release, opp_table);
-> +	if (err)
-> +		opp_table = ERR_PTR(err);
-> +
-> +	return opp_table;
-> +}
+Hello Mauro Carvalho Chehab,
 
-I wonder if we still need to return opp_table from here, or a simple
-integer is fine.. The callers shouldn't be required to use the OPP
-table directly anymore I believe and so better simplify the return
-part of this and all other routines you are adding here..
+The patch ad85094b293e: "Revert "media: staging: atomisp: Remove
+driver"" from Apr 19, 2020, leads to the following static checker
+warning:
 
-If there is a user which needs the opp_table, let it use the regular
-non-devm variant.
+	drivers/staging/media/atomisp/pci/atomisp_fops.c:261 atomisp_q_video_buffers_to_css()
+	error: buffer overflow 'asd->stream_env[stream_id]->pipes' 6 <= 6
 
--- 
-viresh
+drivers/staging/media/atomisp/pci/atomisp_fops.c
+   234                  list_del_init(&vb->queue);
+   235                  vb->state = VIDEOBUF_ACTIVE;
+   236                  spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
+   237  
+   238                  /*
+   239                   * If there is a per_frame setting to apply on the buffer,
+   240                   * do it before buffer en-queueing.
+   241                   */
+   242                  vm_mem = vb->priv;
+   243  
+   244                  param = pipe->frame_params[vb->i];
+   245                  if (param) {
+   246                          atomisp_makeup_css_parameters(asd,
+   247                                                        &asd->params.css_param.update_flag,
+   248                                                        &param->params);
+   249                          atomisp_apply_css_parameters(asd, &param->params);
+   250  
+   251                          if (param->params.update_flag.dz_config &&
+   252                              asd->run_mode->val != ATOMISP_RUN_MODE_VIDEO) {
+   253                                  err = atomisp_calculate_real_zoom_region(asd,
+   254                                          &param->params.dz_config, css_pipe_id);
+   255                                  if (!err)
+   256                                          asd->params.config.dz_config = &param->params.dz_config;
+   257                          }
+   258                          atomisp_css_set_isp_config_applied_frame(asd,
+   259                                  vm_mem->vaddr);
+   260                          atomisp_css_update_isp_params_on_pipe(asd,
+   261                                                                asd->stream_env[stream_id].pipes[css_pipe_id]);
+                                                                                                       ^^^^^^^^^^^
+Can this be IA_CSS_PIPE_ID_NUM?  It looks that way.  The concern is
+about the last caller in atomisp_qbuffers_to_css().
+
+   262                          asd->params.dvs_6axis = (struct ia_css_dvs_6axis_config *)
+   263                                                  param->params.dvs_6axis;
+   264  
+   265                          /*
+   266                           * WORKAROUND:
+   267                           * Because the camera halv3 can't ensure to set zoom
+   268                           * region to per_frame setting and global setting at
+   269                           * same time and only set zoom region to pre_frame
+
+regards,
+dan carpenter
