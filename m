@@ -2,102 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB94F339EA8
-	for <lists+linux-media@lfdr.de>; Sat, 13 Mar 2021 15:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B968D339EAF
+	for <lists+linux-media@lfdr.de>; Sat, 13 Mar 2021 15:52:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234076AbhCMOnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Mar 2021 09:43:53 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:38955 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234049AbhCMOnd (ORCPT
+        id S233570AbhCMOwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Mar 2021 09:52:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229615AbhCMOvs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Mar 2021 09:43:33 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id L5UBljyoWC40pL5UKlV5gG; Sat, 13 Mar 2021 15:43:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615646612; bh=rsrtkcUOWdqi6o1JV6lvGU5iGNo+VdAi4yqyPxRzHf4=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=ESf6f/+bCQg80rSHr90XOqi+BDG7RyG1YbdcJQ0q8bWVzpi1d7/YXNtH/Vndt2mh1
-         PjN4BEOJy/NseclIJmeSUDHGO1Vj22dVGc1Cj47SfLZhb/8o/nIs7AGBrOlRgU4W+b
-         lIGaWBNBo8xC3xXbUmTqvctjAzoseoMwHVChLl7RW62V09fXP27EQGbnAHeAHcS7/L
-         4oDbsic5Dgxde7sjesplxrW8FXtkmROCVsGG7z+iWs/HFSoO1gN166aItoZyjbdzQF
-         6cLkUNDDKwPxd4j4oC5MglO9qP/fbYbSkfhDmzfGz+/b+Prq4Ih8C/UWYWb8hJN0f5
-         b6JZQRkDb+90w==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+        Sat, 13 Mar 2021 09:51:48 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327E9C061574
+        for <linux-media@vger.kernel.org>; Sat, 13 Mar 2021 06:51:48 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id m7so6134617qtq.11
+        for <linux-media@vger.kernel.org>; Sat, 13 Mar 2021 06:51:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=H0C4X24D3kuU76q6uKQU00KMZsY2eN3yhU4UepqH3gY=;
+        b=pqtS3M/t92j41vdLyDalmI3jp67tucaVnosDAdZDool565IlqpVC9d6nK1SYVSS+UG
+         +7sh4jyBRNosTFP3JW6i80jtWE+h1k683FLfsgbwvBRWZRy0BYkSyU4fToOKZQ/kJnGw
+         EeV5bmvpXfts02nm5ixxrndiQzaNwLalr9HFnz6dl3Ecn8sphJ2mQViU2OG9yQ8YGzvq
+         e0hE2DYvbL8IvI/GvDPpY+Jx2LABCPe4HlDB2kTrbttWueeDyiicA3q4XjrxPmjKD0wf
+         cLQC44gszPr2glFQ7zzSOARuymB9CZtI75LD+VqKfJlLWzvg5J0pJMaJOLwxmj1Tj6Xe
+         EU1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=H0C4X24D3kuU76q6uKQU00KMZsY2eN3yhU4UepqH3gY=;
+        b=At2EZXx2/RKJIQQ36VQ9WuY6uzcqda4et9fhB2gU/7tFwM3qdFXOxhdHyBJt8V/M5q
+         OzyMNVOAZ6dBDxzigpZ7e0stiGfq/ryWvv/OGFnoA/sAEg1e164YMEawULB8Bd69DvZr
+         aCjtTX3ikxr0EB98LprXqirtBKWC/HJPXmHONR5vmwtRsQifdCdGYp2PbLaKECdUBt25
+         s0Ja24SfuDBTgPX76rcXjv42ufjqrHKwpC4QeNBJjZOUBJhQIYeCD+KVpx/X+0c8uueZ
+         gcLRChljvrzmEGdDbUXlASajw8xAxHWRT72io2SJ8RngUGOQnlPIs+A62fXhWNQuV8Ml
+         pB3A==
+X-Gm-Message-State: AOAM5322FycDnm/5tOerMeBpQKUoOfIfI98bUHdPz6RvYYXsXKrUZET5
+        o1R6kB3YrJAmmrY5G7aGTHTZLJFOhQ+rjA==
+X-Google-Smtp-Source: ABdhPJzeCem5c+5kfGfH9utwXFjkylfuRPEXicCDRnjAPeaqlyaGKZATPK9foWq3WIhRnrbW/SN+jw==
+X-Received: by 2002:ac8:66d6:: with SMTP id m22mr16203771qtp.56.1615647107084;
+        Sat, 13 Mar 2021 06:51:47 -0800 (PST)
+Received: from [192.168.80.12] ([24.105.64.120])
+        by smtp.gmail.com with ESMTPSA id c5sm6862390qkl.21.2021.03.13.06.51.46
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 13 Mar 2021 06:51:46 -0800 (PST)
 To:     linux-media@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 15/15] v4l2-controls.h: place all MPEG aliases under #ifndef __KERNEL__
-Date:   Sat, 13 Mar 2021 15:43:23 +0100
-Message-Id: <20210313144323.143600-16-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210313144323.143600-1-hverkuil-cisco@xs4all.nl>
-References: <20210313144323.143600-1-hverkuil-cisco@xs4all.nl>
+From:   Vincent Fortier <th0ma7@gmail.com>
+Subject: [PATCH 1/2] media_build: CROSS_COMPILE variable environment and
+ disable rmmod.pl
+Message-ID: <28d6325e-9fd6-f442-bac3-4f5b2b529c48@gmail.com>
+Date:   Sat, 13 Mar 2021 09:51:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfMsn8vxVIxOwfk1HBWm1Tn7DGMcFBFbrL2w9e7B7pn4zh+SRP2Jqi17Q8et5l39XyCF1q6dYvMVynpi6jD8GJZbtOnePYAy+v8vxRtTsu+FlLMzjey/I
- 6Yf2reWeEQBe+OBiEXPcSX3xOiLByNfrsU33zfghVRd3mwxeQLH9Gq4GWugIjL4dJLGCBXrWgwo58BS8Sxu/56+i36P9vJr0RkaTCnESq9F/NQlsCuDMX4h3
- 10pkzvNLw0uYhvnm1xXbFfx1pKTTozHVj9bmvjRoFUvRhpkEKQbLP/gkdVKcDKlCZifRrbV1VJpdbsMQnKHRrjJDCr7QxehVtEcM0E51Kv/9SHktNQQ5z8K1
- 67fFE2fVamSR0HzbTdI6X+c/qRm4Xw==
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Prevent kernel code from accidentally using the old MPEG aliases
-by placing them all under #ifndef __KERNEL__.
+Hi all,
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+The current framework seems to presume the build is occurring over a 
+native environment by default.  In order for it to work using 
+cross-compiler toolset, calls to scripts/rmmod.pl needs to be removed 
+(in lack of finding another option) as otherwise it fails over various 
+insmod,rmmod command execution which are totally unecessary.  The 
+following patch 1/2 disable this by adding a CROSS_COMPILE variable 
+environment.  This allows calls to cross-compile the media drivers using 
+the spksrc SynoCommunity framework for the various media_build stages using:
+
+$(RUN) CROSS_COMPILE=y make allyesconfig
+$(RUN) LDFLAGS="" CROSS_COMPILE=y make -j`nproc` MAKEFLAGS=
+$(RUN) CROSS_COMPILE=y make install DESTDIR=$(INSTALL_DIR)/$(INSTALL_PREFIX)
+
+Signed-off-by: Vincent Fortier<th0ma7@gmail.com>
+
 ---
- include/uapi/linux/v4l2-controls.h | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 2e8d450495fa..a70c39f191f4 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1652,16 +1652,10 @@ struct v4l2_ctrl_fwht_params {
- 	__u32 quantization;
- };
- 
--/* MPEG-compression definitions kept for backwards compatibility */
- #ifndef __KERNEL__
--#define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
--#define V4L2_CID_MPEG_CLASS             V4L2_CID_CODEC_CLASS
--#define V4L2_CID_MPEG_BASE              V4L2_CID_CODEC_BASE
--#define V4L2_CID_MPEG_CX2341X_BASE      V4L2_CID_CODEC_CX2341X_BASE
--#define V4L2_CID_MPEG_MFC51_BASE        V4L2_CID_CODEC_MFC51_BASE
--#endif
--
- /*
-+ * MPEG-compression definitions kept for backwards compatibility.
-+ *
-  * Originally all these controls and data structures where all called
-  * MPEG, regardless for which codec they actually applied to. This was
-  * due to historical reasons: the MPEG codec was the first added to V4L2,
-@@ -1671,6 +1665,13 @@ struct v4l2_ctrl_fwht_params {
-  * Now that MPEG has been replaced with CODEC, we still need to keep
-  * the old names around to avoid breaking the ABI, hence these defines.
-  */
-+
-+#define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
-+#define V4L2_CID_MPEG_CLASS             V4L2_CID_CODEC_CLASS
-+#define V4L2_CID_MPEG_BASE              V4L2_CID_CODEC_BASE
-+#define V4L2_CID_MPEG_CX2341X_BASE      V4L2_CID_CODEC_CX2341X_BASE
-+#define V4L2_CID_MPEG_MFC51_BASE        V4L2_CID_CODEC_MFC51_BASE
-+
- #define v4l2_mpeg_stream_type v4l2_codec_stream_type
- #define V4L2_MPEG_STREAM_TYPE_MPEG2_PS V4L2_CODEC_STREAM_TYPE_MPEG2_PS
- #define V4L2_MPEG_STREAM_TYPE_MPEG2_TS V4L2_CODEC_STREAM_TYPE_MPEG2_TS
-@@ -2230,3 +2231,5 @@ struct v4l2_ctrl_fwht_params {
- #define v4l2_cid_mpeg_video_hevc_size_of_length_field v4l2_codec_video_hevc_size_of_length_field
- 
- #endif
-+
-+#endif
--- 
-2.30.1
+diff -uprN ../linuxtv.orig/v4l/Makefile v4l/Makefile
+--- ../linuxtv.orig/v4l/Makefile    2021-02-08 10:24:43.000000000 +0000
++++ v4l/Makefile    2021-03-13 14:39:19.674250245 +0000
+@@ -51,13 +51,17 @@ default:: prepare
+      @echo Kernel build directory is $(OUTDIR)
+      $(MAKE) -C ../linux apply_patches
+      $(MAKE) -C $(OUTDIR) M=$(PWD) $(MYCFLAGS) modules
++ifneq ($(strip $(CROSS_COMPILE)),y)
+      ./scripts/rmmod.pl check
++endif
+  #    $(MAKE) checkpatch
+
+  mismatch:: prepare
+      @echo Kernel build directory is $(OUTDIR)
+      $(MAKE) -Wfatal-errors -C $(OUTDIR) M=$(PWD) $(MYCFLAGS) 
+CONFIG_DEBUG_SECTION_MISMATCH=y modules
++ifneq ($(strip $(CROSS_COMPILE)),y)
+      ./scripts/rmmod.pl check
++endif
+
+  # Anything in this target shouldn't be build in parallel.
+  prepare:: config-compat.h Makefile.media links
+@@ -66,9 +70,16 @@ prepare:: config-compat.h Makefile.media
+  # Object specific rules
+
+  # Targets which don't need Makefile.media's rules
++ifneq ($(strip $(CROSS_COMPILE)),y)
++no-makefile-media-targets := %config clean distclean snapshot snap \
++    tarball release %links \
++    start insmod load stop rmmod unload reload \
++    card% update push %commit help debug cx88-ivtv lxdialog
++else ifeq ($(strip $(CROSS_COMPILE)),y)
+  no-makefile-media-targets := %config clean distclean snapshot snap \
+-    tarball release %links start insmod load stop rmmod unload reload \
++    tarball release %links \
+      card% update push %commit help debug cx88-ivtv lxdialog
++endif
+
+  # Targets which don't need .myconfig to exist, to keep us from 
+including it
+  no-dot-config-targets := $(no-makefile-media-targets) %install remove
+@@ -188,7 +199,11 @@ ifeq ($(inst-m),)
+    inst-m    := $(obj-m)
+  endif
+
++ifneq ($(strip $(CROSS_COMPILE)),y)
+  v4l_modules := $(shell /sbin/lsmod|cut -d' ' -f1 ) $(patsubst 
+%.ko,%,$(inst-m))
++else ifeq ($(strip $(CROSS_COMPILE)),y)
++v4l_modules :=
++endif
+
+  #################################################
+  # locales seem to cause trouble sometimes.
+@@ -416,7 +431,9 @@ old-install:: rminstall
+      -install -d $(DEST)
+      -install -m 644 -c $(inst-m) $(DEST)
+
++ifneq ($(strip $(CROSS_COMPILE)),y)
+      /sbin/depmod -a ${KERNELRELEASE}
++endif
+
+  #################################################
+  # Tree management rules
+diff -uprN ../linuxtv.orig/v4l/scripts/make_makefile.pl 
+v4l/scripts/make_makefile.pl
+--- ../linuxtv.orig/v4l/scripts/make_makefile.pl    2021-02-08 
+10:24:43.000000000 +0000
++++ v4l/scripts/make_makefile.pl    2021-03-13 14:39:47.238414024 +0000
+@@ -258,7 +258,10 @@ while (my ($dir, $files) = each %instdir
+      print OUT "fi;\n\n";
+  }
+  print OUT "\t@echo\n";
+-print OUT "\t/sbin/depmod -a \$(KERNELRELEASE) \$(if \$(DESTDIR),-b 
+\$(DESTDIR))\n\n";
++print OUT "ifneq (\$(strip \$(CROSS_COMPILE)),y)\n";
++print OUT "\t/sbin/depmod -a \$(KERNELRELEASE) \$(if \$(DESTDIR),-b 
+\$(DESTDIR))\n";
++print OUT "endif\n";
++print OUT "\t@echo\n";
+
+  # Creating Remove rule
+  print OUT "media-rminstall::\n";
 
