@@ -2,118 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11488339EB0
-	for <lists+linux-media@lfdr.de>; Sat, 13 Mar 2021 15:52:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD06339F9C
+	for <lists+linux-media@lfdr.de>; Sat, 13 Mar 2021 18:48:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233610AbhCMOwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Mar 2021 09:52:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34218 "EHLO
+        id S234104AbhCMRri (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Mar 2021 12:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233478AbhCMOvu (ORCPT
+        with ESMTP id S233951AbhCMRr2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Mar 2021 09:51:50 -0500
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF83C061574
-        for <linux-media@vger.kernel.org>; Sat, 13 Mar 2021 06:51:50 -0800 (PST)
-Received: by mail-qv1-xf35.google.com with SMTP id l15so5711585qvl.4
-        for <linux-media@vger.kernel.org>; Sat, 13 Mar 2021 06:51:50 -0800 (PST)
+        Sat, 13 Mar 2021 12:47:28 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4867C061574;
+        Sat, 13 Mar 2021 09:47:28 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id a188so4005382pfb.4;
+        Sat, 13 Mar 2021 09:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=PupIkF/7i3Y2UOV6hRRIgjSWhNK3V0kQ1xe6TbeRbBw=;
-        b=fHUPrSj+hA6ytb/sQxDT/RZrQebuXh6KbflCoKQldz8YqdAgnv74I4zgTf8+WxudHY
-         JbrFPxLvAp8Jxsqxyn+dMZdolKriuvDw/2uhJaSnO2OhD73xpY5SWz3enZGBrxmbErY0
-         f9WqMpH74sDdR9WguQWVuZ3Nr2OJFP0g4vVQZ+8NPmzr/qICk5jmerw/jaNB/y3W9B+1
-         ckTXsoB58aZy92Efl5Ne683Qb4uB/C3LPsmyelvcMNvADuyQ63k69riFnGAPupUmiTf/
-         Ib62crGyLRNWMKMqrWRggjvz1LLSSduqXLrFca1yzCN9AdWTQ9Ih8iws4C/Q9ilEyt7U
-         DB2Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=hHTUTg1wfm0Mi6vQDkHrFeD56u5ygzapu5OYjQOlY38=;
+        b=ZrUaJLx2O4jf4FLrKqwfBywX39iXhpmCj38H8mxiT3IYnUwxp4AN79u0PIvpKIGkXK
+         KzvJHkmSrJh9xiLfQ3CY/bKH3t9KxF0NXZVNb8e1Mz7Mpak22xgRkPuJtZN0+EQ2tT2Z
+         SAX5pj+CSp3yOkteozZL1299qV2cglWrXZPkmoHMtQWAWLriKY4pylikh+dfIVM+lm/0
+         HZArivTOqA4RztBujDQXKh/vhlKdiWkQLjDj3jBkB6xO1eG3828AC8G55Svu0+VYiBSP
+         orP93GMdKuRFAT9mX6K5BMKNTmXNpz11/ODDZFzhATHd4y31igvWOUYeZgqHlMlJJnJ0
+         HWTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=PupIkF/7i3Y2UOV6hRRIgjSWhNK3V0kQ1xe6TbeRbBw=;
-        b=WUVHF5oSbc4PWHJr5113sn3o1Lv+QTZjtR3KoD8/e5JHQyjJFdL62qGN11OgZQusPp
-         IYNKHV+2nZXOgcmYq3zrAL2PR7vs1f+efaaJOGWtV5PvaTV6w544080FQcn0LArTUiRJ
-         RERePEL+1QrAw6sMTSfvaKyHrixv62nuUvwqj6lY4PwRCcHLrY0kKzkXAzD1g4Vy00kT
-         ejeYCTWz4rguP4BMlPWNT6kBp7J9uusWpHqSWL1knhFV2UzwgutnQEpWvCkMVY/kreQ5
-         THix+w8r4RXISEiLSsedbEbvh5GowNOzqeDRYqLuwRSEexzGqVH8RBTyxkiRCKSzw52S
-         asqg==
-X-Gm-Message-State: AOAM530qSZL0U2DGeaLlMUFBMvQ1+Gg36J8BOS+5ctC3GxMftHBlNoix
-        62E64d86gIswAOaLmJthj9RibWuxSKe38w==
-X-Google-Smtp-Source: ABdhPJxOy6flUgUOnIIyZ2zZN9+Qz7XGq1o8ktDErwnsC6tQqqA84aEZVaiBZJ+oXKFB8vBiI2KKrA==
-X-Received: by 2002:a05:6214:12a1:: with SMTP id w1mr17005886qvu.57.1615647109656;
-        Sat, 13 Mar 2021 06:51:49 -0800 (PST)
-Received: from [192.168.80.12] ([24.105.64.120])
-        by smtp.gmail.com with ESMTPSA id w13sm6174427qtv.37.2021.03.13.06.51.49
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Mar 2021 06:51:49 -0800 (PST)
-To:     linux-media@vger.kernel.org
-From:   Vincent Fortier <th0ma7@gmail.com>
-Subject: [PATCH 2/2] media_build: Allow cross-environment strip command
-Message-ID: <374c79c8-c56b-ec79-311f-b27aa3220432@gmail.com>
-Date:   Sat, 13 Mar 2021 09:51:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hHTUTg1wfm0Mi6vQDkHrFeD56u5ygzapu5OYjQOlY38=;
+        b=HdMgonWoko1N0lpLif37iTRK8XKwa2bZgplzNiqR39VP0gy9GNHhaxUXi0L+XmGk59
+         agxsFSrHqfm1bOiQ6piwt5fJYbZdtElsytSQqRjDTa3Chl8pIB6y5Ci/R6/yzlsZvCMX
+         2Nq6n6ar2u2w+uf/pHPSXJLGgOffrFMLmaTgchG7vbWyP2FP2cFp5na8aF965Mb2mh3k
+         v8gF40KvxCTX6wGL6e/DABIB20Dhtye0sl41vRb05K/6U0KdA1foJES/fhNYkU30ZG3K
+         8ehW+V7liPwEgw1d57ONx4MAe/ASK3GLXv4E/3rOUVjafi0tYgcgVQR6C2rv67+/mzEB
+         yOlA==
+X-Gm-Message-State: AOAM530AfAcbhE8G3W/FYK/FCr20zrc1RbOJBUxlElNWiM9J3r1FVoa9
+        Vfriw7MuOJkw2Xs05OAlv/F6ewDHK15xyiBmkEE=
+X-Google-Smtp-Source: ABdhPJwrvTtfauV4JXxWfZKmWxt6iGI58NyHEKHmVSKpBpOO4AQCSaLhIcIrYWSHlzAarR0MpkgFDtoh7sx7rXrNIU8=
+X-Received: by 2002:a63:2cc4:: with SMTP id s187mr16419970pgs.438.1615657648051;
+ Sat, 13 Mar 2021 09:47:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <CAHCN7xJUnMP-uA03a5x4djp4_RPbiMnSWXMdconpAxV7pwgTGw@mail.gmail.com>
+ <YEuAGoeoi0X0KwfH@oden.dyn.berto.se>
+In-Reply-To: <YEuAGoeoi0X0KwfH@oden.dyn.berto.se>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Sat, 13 Mar 2021 11:47:16 -0600
+Message-ID: <CAHCN7xLNO5wFHxEJ8Qcdw57M=d25bi-uCcuV1rdMSheh3jvE3g@mail.gmail.com>
+Subject: Re: Renesas RZ/G2M + Sony IMX290 Camera questions/issues
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>, mani@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+On Fri, Mar 12, 2021 at 8:52 AM Niklas S=C3=B6derlund
+<niklas.soderlund@ragnatech.se> wrote:
+>
+> Hi Adam,
+>
+> There are many possibility's that result in an -EPIPE when validating
+> formats and unfortunately V4L2 is not always as very helpfull when
+> diagnosing the problem. What I usually do is to,
+>
+> 1. Inspect rvin_mc_validate_format() in
+>    drivers/media/platform/rcar-vin/rcar-dma.c
+>
+>    This will give you a clear view of how the format between the CSI-2
+>    and VIN is validated.
+>
+> 2. Increase the log level for drivers/media/v4l2-core/v4l2-subdev.c
+>    specially for v4l2_subdev_link_validate_default().
+>
+>    This will give you insight into all formats from the CSI-2 receiver
+>    towards the camera.
+>
+> By doing these two things you will see in the system log which part of
+> the format validation that is missmatched.
 
-The current framework assume the strip command is natively available.  
-While using external toolchain to cross-compile there is a need to point 
-towards such tool using a STRIP variable environment using spksrc 
-SynoCommunity framework.
+Thanks for the suggestion.  It turns out the camera sensor is not
+capable of UYVY, and the RZ/G2M doesn't appear to support RAW10 or
+RAW12 over CSI2.
 
-The following patch tries to address this.
+adam
 
-Signed-off-by: Vincent Fortier<th0ma7@gmail.com>
-
----
-
-diff -uprN ../linuxtv.orig/v4l/Makefile v4l/Makefile
---- ../linuxtv.orig/v4l/Makefile    2021-02-08 10:24:43.000000000 +0000
-+++ v4l/Makefile    2021-03-13 13:58:27.939468937 +0000
-@@ -44,6 +44,11 @@ endif
-
-  endif    # TOPDIR
-
-+# Allow passing STRIP variable to use cross-compiler toolset
-+ifeq ($(strip $(STRIP)),)
-+STRIP = strip
-+endif
-+
-  #################################################
-  # default compilation rule
-
-@@ -411,7 +416,7 @@ cx88-ivtv::
-  old-install:: rminstall
-      @echo -e "\nInstalling new V4L modules at $(DEST)..."
-
--    @strip --strip-debug $(inst-m)
-+    $(STRIP) --strip-debug $(inst-m)
-
-      -install -d $(DEST)
-      -install -m 644 -c $(inst-m) $(DEST)
-diff -uprN ../linuxtv.orig/v4l/scripts/make_makefile.pl 
-v4l/scripts/make_makefile.pl
---- ../linuxtv.orig/v4l/scripts/make_makefile.pl    2021-02-08 
-10:24:43.000000000 +0000
-+++ v4l/scripts/make_makefile.pl    2021-03-13 13:55:46.534414452 +0000
-@@ -254,7 +254,7 @@ while (my ($dir, $files) = each %instdir
-      print OUT "echo -n \"\$\$i \"; ";
-      print OUT "install -m 644 -c \$\$i \$(DESTDIR)\$(KDIR26)/$dir; fi; 
-done; ";
-      print OUT "if [  \$\$n -ne 0 ]; then echo; ";
--    print OUT "strip --strip-debug \$(DESTDIR)\$(KDIR26)/$dir/*.ko; ";
-+    print OUT "\$(STRIP) --strip-debug \$(DESTDIR)\$(KDIR26)/$dir/*.ko; ";
-      print OUT "fi;\n\n";
-  }
-  print OUT "\t@echo\n";
-
+>
+> There is also a wiki page for capture using R-Car VIN that may be
+> helpful for you.
+>
+>     https://elinux.org/R-Car/Tests:rcar-vin
+>
+> On 2021-03-12 08:28:41 -0600, Adam Ford wrote:
+> > I have an IMX290 camera connected to an RZ/G2M SoC via the 4-channel CS=
+I.
+> >
+> > &csi40 {
+> >     status =3D "okay";
+> >
+> >     ports {
+> >         port@0 {
+> >             reg =3D <0>;
+> >             csi40_in: endpoint {
+> >                 clock-lanes =3D <0>;
+> >                 data-lanes =3D <1 2 3 4>;
+> >                 remote-endpoint =3D <&imx290_ep>;
+> >             };
+> >         };
+> >     };
+> > };
+> >
+> > On the I2C bus, I have
+> >
+> > imx290: camera-sensor@1a {
+> >     compatible =3D "sony,imx290";
+> >     reg =3D <0x1a>;
+> >     reset-gpios =3D <&gpio_exp2 0 GPIO_ACTIVE_LOW>;
+> >     clocks =3D <&versaclock6_bb 1>;
+> >     clock-names =3D "xclk";
+> >     clock-frequency =3D <37125000>;
+> >     vdddo-supply =3D <&reg_cam0_en0>;
+> >     vdda-supply =3D <&reg_cam0_en1>;
+> >     vddd-supply =3D <&reg_cam0_en0>;
+> >
+> >     port {
+> >         imx290_ep: endpoint {
+> >             data-lanes =3D <1 2 3 4>;
+> >             link-frequencies =3D /bits/ 64 <148500000 222750000>;
+> >             remote-endpoint =3D <&csi40_in>;
+> >         };
+> >     };
+> > };
+> >
+> > I configure the pipeline with:
+> >
+> > media-ctl -l "'rcar_csi2 feaa0000.csi2':1 -> 'VIN0 output':0[1]"
+> >
+> > I also have tried configuring the video formats in several different wa=
+ys
+> >
+> > media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:SRGGB12_1X12/1920x1080 fiel=
+d:none]"
+> > media-ctl --set-v4l2 "'rcar_csi2
+> > feaa0000.csi2':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
+> > media-ctl --set-v4l2 "'rcar_csi2
+> > feaa0000.csi2':1[fmt:SRGGB12_1X12/1920x1080 field:none]"
+> >
+> > or
+> >
+> > media-ctl --set-v4l2 "'rcar_csi2
+> > feaa0000.csi2':0[fmt:UYVY8_2X8/1920x1080 field:none]"
+> > media-ctl --set-v4l2 "'rcar_csi2
+> > feaa0000.csi2':1[fmt:UYVY8_2X8/1920x1080 field:none]"
+> > media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:UYVY8_2X8/1920x1080 field:n=
+on
+> >
+> > but no matter what I do when I attempt to stream, I get a broken pipe,
+> > even when I use fakesink as the target.
+> >
+> > root@beacon-rzg2h:~# GST_DEBUG=3D2 gst-launch-1.0 -v v4l2src
+> > device=3D/dev/video1 ! video/x-raw,width=3D1920,height=3D1080 ! fakesin=
+k
+> > Setting pipeline to PAUSED ...
+> > Pipeline is live and does not need PREROLL ...
+> > Setting pipeline to PLAYING ...
+> > New clock: GstSystemClock
+> > 0:00:03.727500390   501     0x10efd4f0 ERROR                v4l2src
+> > gstv4l2src.c:337:gst_v4l2src_get_input_size_info:<v4l2src0> Cropcap
+> > fail, CROPCAP has not supported
+> > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =3D
+> > video/x-raw, width=3D(int)1920, height=3D(int)1080, format=3D(string)YU=
+Y2,
+> > framerate=3D(fraction)100/1, interlace-mode=3D(s1
+> > /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps =3D
+> > video/x-raw, width=3D(int)1920, height=3D(int)1080, format=3D(string)YU=
+Y2,
+> > framerate=3D(fraction)100/1, interlace-m1
+> > /GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps =3D
+> > video/x-raw, width=3D(int)1920, height=3D(int)1080, format=3D(string)YU=
+Y2,
+> > framerate=3D(fraction)100/1, interlace-mode1
+> > /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps =3D
+> > video/x-raw, width=3D(int)1920, height=3D(int)1080, format=3D(string)YU=
+Y2,
+> > framerate=3D(fraction)100/1, interlace-1
+> > 0:00:03.737388309   501     0x10efd4f0 WARN          v4l2bufferpool
+> > gstv4l2bufferpool.c:870:gst_v4l2_buffer_pool_start:<v4l2src0:pool:src>
+> > Uncertain or not enough buffers, enad
+> > 0:00:03.740266641   501     0x10efd4f0 ERROR         v4l2bufferpool
+> > gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:sr=
+c>
+> > error with STREAMON 32 (Broken pi)
+> > 0:00:03.740474842   501     0x10efd4f0 WARN          v4l2bufferpool
+> > gstv4l2bufferpool.c:1188:gst_v4l2_buffer_pool_poll:<v4l2src0> error:
+> > poll error 1: Broken pipe (32)
+> > 0:00:03.740693123   501     0x10efd4f0 WARN                 v4l2src
+> > gstv4l2src.c:1020:gst_v4l2src_create:<v4l2src0> error: Failed to
+> > allocate a buffer
+> > 0:00:03.740791643   501     0x10efd4f0 WARN                 basesrc
+> > gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: Internal data
+> > stream error.
+> > 0:00:03.740822843   501     0x10efd4f0 WARN                 basesrc
+> > gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: streaming
+> > stopped, reason error (-5)
+> > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Could
+> > not read from resource.
+> > Additional debug info:
+> > ../../../git/sys/v4l2/gstv4l2bufferpool.c(1188):
+> > gst_v4l2_buffer_pool_poll ():
+> > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> > poll error 1: Broken pipe (32)
+> > Execution ended after 0:00:00.013644415
+> > Setting pipeline to PAUSED ...
+> > Setting pipeline to READY ...
+> > 0:00:03.741392965   501     0x10ec96c0 WARN          v4l2bufferpool
+> > gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+> > some buffers are still outstanding
+> > 0:00:03.741428005   501     0x10ec96c0 WARN              bufferpool
+> > gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+> > stop failed
+> > 0:00:03.743868095   501     0x10ec96c0 ERROR         v4l2bufferpool
+> > gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:sr=
+c>
+> > error with STREAMON 32 (Broken pi)
+> > 0:00:03.744090576   501     0x10ec96c0 WARN          v4l2bufferpool
+> > gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+> > some buffers are still outstanding
+> > 0:00:03.744123936   501     0x10ec96c0 WARN              bufferpool
+> > gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+> > stop failed
+> > 0:00:03.744152376   501     0x10ec96c0 WARN          v4l2bufferpool
+> > gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+> > some buffers are still outstanding
+> > 0:00:03.744178296   501     0x10ec96c0 WARN              bufferpool
+> > gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+> > stop failed
+> > Setting pipeline to NULL ...
+> > Total time: 0.013650 seconds
+> > Freeing pipeline ...
+> >
+> >
+> > I was hoping someone might have a suggestion as to what I might be miss=
+ing.
+> > Ideally, I'd like to get two IMX290 cameras operational with one in
+> > 4-lane mode and one in 2-lane mode.
+> >
+> > Might anyone have any suggestions?  According to the media-ctl
+> > --print-dot, the pipeline appears correct, but there is clearly
+> > something I am missing.
+> >
+> > thanks for any suggestions,
+> >
+> > adam
+>
+> --
+> Regards,
+> Niklas S=C3=B6derlund
