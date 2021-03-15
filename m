@@ -2,148 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99B3B33C04F
-	for <lists+linux-media@lfdr.de>; Mon, 15 Mar 2021 16:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C23633C08B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Mar 2021 16:53:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbhCOPqm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Mar 2021 11:46:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39502 "EHLO
+        id S231137AbhCOPwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Mar 2021 11:52:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbhCOPqM (ORCPT
+        with ESMTP id S230346AbhCOPwL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Mar 2021 11:46:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B99D9C06174A;
-        Mon, 15 Mar 2021 08:46:11 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F29F3556;
-        Mon, 15 Mar 2021 16:46:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615823170;
-        bh=nu8Gce82/8YXWv4jDaw5uQPeKLuh08PfTtNioz/Z7GQ=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dtEilmM9dDsfprt13YcS4ga2cUztVfvlzkf080j44QsBK9GnT7llTxV7Hb0y9TZyt
-         UCzYUtEN+hVAe37oEmSXMTb1O5PQRd3bLYNoQEWJKzLgqYVJP6C+N1NVaJGj79WiLb
-         ine/oGoeOoGvBQHcIsZoAu6k/w8X94Erl/ecE81w=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v2 06/18] media: i2c: max9271: Check max9271_write()
- return
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
- <20210315131512.133720-7-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <dc98a803-1559-e93c-3270-a55a0ca52849@ideasonboard.com>
-Date:   Mon, 15 Mar 2021 15:46:07 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 15 Mar 2021 11:52:11 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A453C06174A
+        for <linux-media@vger.kernel.org>; Mon, 15 Mar 2021 08:52:11 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id u18so15496137plc.12
+        for <linux-media@vger.kernel.org>; Mon, 15 Mar 2021 08:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l5O8s/wBRTzluF+EQ18kfEQD+z0CSNx9wGIEFGPEHmg=;
+        b=N5lNJUt9jcIm74NZds5a8UYlvcZmXQT5aEGfcXpTlAbso+wSTn6RBT2JsVv39b9dWd
+         Nq2mMSljLvcDWTMvAurfqgJ1ymfMGAfOLSAlCgqhNHYzXiTLFhSpn68SZd822/6+KRAG
+         o46GZb3mIdRmLizFod8sjKveuavDko4jp6ek7knHQn0vBb20rtBJGH+iH07rpJO2soiO
+         IHtqDZwsu+jqi4QgUBOR35FSH7QPBoH1s4vlF45Y9BXiK0xnHbmU4uOipchP6AbzQwO6
+         hp0vdH8tXxR6My8yc1ujWWpvUFSVJ0q/Bzhw+My8VV/8BWT8UmblB4Cch7239voBznNS
+         EFZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l5O8s/wBRTzluF+EQ18kfEQD+z0CSNx9wGIEFGPEHmg=;
+        b=KdDMyr+A/7AFo6D0rNEAxr0R6T6d+ABk7rosmK3ibE5j2Y0s09i4JNMLyY9B7VqlTR
+         4DbrAt4BtYodReuoduTyYKhr9+b6eCJMgmW6n1cSa4bEfelU1wicyXK0jHdWneBzxfUE
+         SM71swP54wJjDvJgvZMdwUxyfU21RetylPE1kLCGmKIunKXgDcK7LaHVfzeO0FQZf/P0
+         WQ6q9rkwEYz+j3X3UFemOeYFj8LZpKBAhXyTVd/kTLbuknKMSpzXSM1b4kGmR0GrjCAF
+         eI+VW/sS0HBbn+/m9XE+ZaHoaWRX0nvserhwRZMJZRFOl4s0fGw5BTTKRLK0+9Kw94nx
+         qV2Q==
+X-Gm-Message-State: AOAM5330iz/M6WK9ttEomEdIglpWfZu8eP9eZotPSe4kk3yP91uE12Zr
+        q9iBMhEcxvgDKaJZul8oHu4tl4Io53PAAwBq47nxDQ==
+X-Google-Smtp-Source: ABdhPJwLtHPMWbEgOuq8RvEEYc2YsUKVLt+jWBUG2xRdYfgi2jcTTjBDvqIjtTGn6oOLMuDW4RlfTcorUlFYFD3/+zc=
+X-Received: by 2002:a17:902:e752:b029:e6:822c:355c with SMTP id
+ p18-20020a170902e752b02900e6822c355cmr12425529plf.69.1615823531085; Mon, 15
+ Mar 2021 08:52:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210315131512.133720-7-jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210311180948.268343-1-robert.foss@linaro.org> <9e914313-d849-5a0b-32d5-40e033893f9d@xs4all.nl>
+In-Reply-To: <9e914313-d849-5a0b-32d5-40e033893f9d@xs4all.nl>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Mon, 15 Mar 2021 16:51:59 +0100
+Message-ID: <CAG3jFyuu7MUny3n2MrYPa=vy8pmz0HBGYz=1WEWvHNzJvjsRWg@mail.gmail.com>
+Subject: Re: [PATCH v7 00/22] Add support for the SDM845 Camera Subsystem
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        angelogioacchino.delregno@somainline.org,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
+        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Marek <jonathan@marek.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On 15/03/2021 13:15, Jacopo Mondi wrote:
-> Check the return value of the max9271_write() function in the
-> max9271 library driver.
-> 
-> While at it, modify an existing condition to be made identical
-> to other checks.
-
-Excellent, much better to catch write errors early.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hey Hans,
 
 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/max9271.c | 30 +++++++++++++++++++++++-------
->  1 file changed, 23 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
-> index c495582dcff6..2c7dc7fb9846 100644
-> --- a/drivers/media/i2c/max9271.c
-> +++ b/drivers/media/i2c/max9271.c
-> @@ -106,7 +106,10 @@ int max9271_set_serial_link(struct max9271_device *dev, bool enable)
->  	 * Short delays here appear to show bit-errors in the writes following.
->  	 * Therefore a conservative delay seems best here.
->  	 */
-> -	max9271_write(dev, 0x04, val);
-> +	ret = max9271_write(dev, 0x04, val);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	usleep_range(5000, 8000);
->  
->  	return 0;
-> @@ -118,7 +121,7 @@ int max9271_configure_i2c(struct max9271_device *dev, u8 i2c_config)
->  	int ret;
->  
->  	ret = max9271_write(dev, 0x0d, i2c_config);
-> -	if (ret)
-> +	if (ret < 0)
->  		return ret;
->  
->  	/* The delay required after an I2C bus configuration change is not
-> @@ -143,7 +146,10 @@ int max9271_set_high_threshold(struct max9271_device *dev, bool enable)
->  	 * Enable or disable reverse channel high threshold to increase
->  	 * immunity to power supply noise.
->  	 */
-> -	max9271_write(dev, 0x08, enable ? ret | BIT(0) : ret & ~BIT(0));
-> +	ret = max9271_write(dev, 0x08, enable ? ret | BIT(0) : ret & ~BIT(0));
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	usleep_range(2000, 2500);
->  
->  	return 0;
-> @@ -152,6 +158,8 @@ EXPORT_SYMBOL_GPL(max9271_set_high_threshold);
->  
->  int max9271_configure_gmsl_link(struct max9271_device *dev)
->  {
-> +	int ret;
-> +
->  	/*
->  	 * Configure the GMSL link:
->  	 *
-> @@ -162,16 +170,24 @@ int max9271_configure_gmsl_link(struct max9271_device *dev)
->  	 *
->  	 * TODO: Make the GMSL link configuration parametric.
->  	 */
-> -	max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_HVEN |
-> -		      MAX9271_EDC_1BIT_PARITY);
-> +	ret = max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_HVEN |
-> +			    MAX9271_EDC_1BIT_PARITY);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	usleep_range(5000, 8000);
->  
->  	/*
->  	 * Adjust spread spectrum to +4% and auto-detect pixel clock
->  	 * and serial link rate.
->  	 */
-> -	max9271_write(dev, 0x02, MAX9271_SPREAD_SPECT_4 | MAX9271_R02_RES |
-> -		      MAX9271_PCLK_AUTODETECT | MAX9271_SERIAL_AUTODETECT);
-> +	ret = max9271_write(dev, 0x02,
-> +			    MAX9271_SPREAD_SPECT_4 | MAX9271_R02_RES |
-> +			    MAX9271_PCLK_AUTODETECT |
-> +			    MAX9271_SERIAL_AUTODETECT);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	usleep_range(5000, 8000);
->  
->  	return 0;
-> 
+> >
+>
+> Please check the patches in this series with 'scripts/checkpatch.pl --strict'.
+> I got a bunch of warnings, most seemed trivial to fix.
 
+Ack, sending out v8 in a bit.
+
+>
+> When I compiled this series I also got these sparse warnings:
+>
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-4-1.c:959:30: warning: symbol
+> 'vfe_ops_gen1_4_1' was not declared. Should it be static?
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-4-1.c:959:30: warning: symbol
+> 'vfe_ops_gen1_4_1' was not declared. Should it be static?
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-1.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-4-7.c:1151:30: warning: symbol
+> 'vfe_ops_gen1_4_7' was not declared. Should it be static?
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-7.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-170.c drivers/media/platform/qcom/camss/camss-vfe-170.c:770:26: warning: symbol
+> 'vfe_isr_ops_170' was not declared. Should it be static?
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-4-8.c:1140:30: warning: symbol
+> 'vfe_ops_gen1_4_8' was not declared. Should it be static?
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> SPARSE:drivers/media/platform/qcom/camss/camss-vfe-4-8.c drivers/media/platform/qcom/camss/camss-vfe-gen1.h:69:31: error: marked inline, but
+> without a definition
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+>
+
+Ack, wasn't aware of sparse or smatch, I'm adding them to my workflow now.
+
+> And these smatch warnings (a lot of overlap with sparse):
+>
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-csid.h:66:27: warning: 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
+> drivers/media/platform/qcom/camss/camss-vfe-170.c:422 vfe_halt() warn: ignoring unreachable code.
+> drivers/media/platform/qcom/camss/camss-vfe-gen1.c:26 vfe_gen1_halt() warn: ignoring unreachable code.
+
+
+Ack, thanks for the testing!
