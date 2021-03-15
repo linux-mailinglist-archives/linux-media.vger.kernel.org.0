@@ -2,131 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2023233AA16
-	for <lists+linux-media@lfdr.de>; Mon, 15 Mar 2021 04:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD75A33AA33
+	for <lists+linux-media@lfdr.de>; Mon, 15 Mar 2021 05:04:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbhCODny (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Mar 2021 23:43:54 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57498 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbhCODne (ORCPT
+        id S229644AbhCOEDf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Mar 2021 00:03:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229594AbhCOEDb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Mar 2021 23:43:34 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08E5A87A;
-        Mon, 15 Mar 2021 04:43:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615779813;
-        bh=Kv0wm175lBRmvYy/K2BamRY2CtnJRMUdGtqFjnH07r8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fIGH1wxZnaVkEDIo/TpRUBo+FaPBTUwffdPFRYbCBUwVoQXzcUGRrpkuaWU+c3Qqx
-         X19Bx4lPMBzeq5AjaJsmzylBgHHarTiTswSNgzpJt5idKBjlazlkik2LdYCxIrZ38t
-         zQ0zpRc9KE1x00EBqx+lUz8JFCuH4RTo+WSjE8t4=
-Date:   Mon, 15 Mar 2021 05:42:57 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
+        Mon, 15 Mar 2021 00:03:31 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D9CC0613D8
+        for <linux-media@vger.kernel.org>; Sun, 14 Mar 2021 21:03:31 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id w7so11137589pll.8
+        for <linux-media@vger.kernel.org>; Sun, 14 Mar 2021 21:03:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=c7OJnHCRmwFk8fofgO7P2TCmA9anENj2NKzvbROCVrw=;
+        b=hqFTPqznnNTRx313WjH/Y3rQxyT1qRk2tsjcNVxk6Hrjol4OfsLVJAACk5S5GCeBIN
+         DUPZ/2/BGxScEjnruZkDvsVu7pnsFXZ7N4zstn9qEl8Fgh/HQaGB5JV/pkl9Br3HoCOi
+         i64U4nBnHPt+1Xi5F2gQwMxITwYJMb1Um+iYOQ6ojSR1WU9DezeWcNfnJiJ8w11ERSEr
+         UChVNzm6vqvXvOO1iZ7xVRBakAg/WIocWyURqM6EHJjAujbHTyE6NgBKuUb+t/F7avLm
+         rWQq2i6tEhG/s1AIiG+/WUpZhYbj36Vuiav5Pq8c+WaDHPXcR8LK3WT+pRJ2r6gMw6bd
+         ep6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=c7OJnHCRmwFk8fofgO7P2TCmA9anENj2NKzvbROCVrw=;
+        b=YT+2PgxQpvLQtL0vg0uVwp/lvOvzG1d4WVdnaacgCGDewCtyzRAkjeNvLQDwMmCy0e
+         L696OGnu3dMQC7GNWTQc866B1AhLJMCU+06sBv0hmz64LiWN5RvrATBGbI/6oTgMbLKi
+         tugTu9vWORII/KuJ/M5Be4HfsJ0gF6p0qKutEBclUrjab2/6Ck6wTs77qqBgE8aREc5c
+         4PT4dOFmJSsPlcrhXUp//MiMVJeO2l1UCr6g8dIkEXcahFJgwhU4SZOpYPM299odwl0E
+         5yiGi4mAPeAhmjLU74d2WjwOrBkBXwPsSGZauD75i+b/JUxcXF84aLRp60hJdONVD+r7
+         RYpw==
+X-Gm-Message-State: AOAM531dhvcgmewF/7CkuCN+0dk7ZUJyldA6RDPGIrdNTem/8Vb7/+WR
+        8IiJG2iHYt7GU96RbgZ8ptOjwQ==
+X-Google-Smtp-Source: ABdhPJxRDau7gIDAmMsnWR7FCOk4vgRj39P8KqGrKbOykRijnyhWvAXlMXcpaXxZjPuzVl/GOTJ9CQ==
+X-Received: by 2002:a17:902:7889:b029:e6:b9c3:bc0d with SMTP id q9-20020a1709027889b02900e6b9c3bc0dmr5992pll.23.1615781010271;
+        Sun, 14 Mar 2021 21:03:30 -0700 (PDT)
+Received: from localhost ([122.171.124.15])
+        by smtp.gmail.com with ESMTPSA id r23sm9182422pje.38.2021.03.14.21.03.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 14 Mar 2021 21:03:29 -0700 (PDT)
+Date:   Mon, 15 Mar 2021 09:33:27 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>, Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer access
-Message-ID: <YE7XwWVZeOZ+HsYx@pendragon.ideasonboard.com>
-References: <20210301120828.6945-1-biju.das.jz@bp.renesas.com>
- <20210301120828.6945-3-biju.das.jz@bp.renesas.com>
- <133f8b63-3b84-c60a-725d-30b8d6df35dd@ideasonboard.com>
- <OS0PR01MB5922BE9F9D151623773CF53286919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <56c2d53e-8d1f-5b84-1480-5965ae9cbae2@ideasonboard.com>
- <OS0PR01MB5922ABCA7A782950B63DCA6686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 11/15] drm/msm: Convert to use resource-managed OPP API
+Message-ID: <20210315040327.qwn4rt75yqs5datl@vireshk-i7>
+References: <20210314163408.22292-1-digetx@gmail.com>
+ <20210314163408.22292-12-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922ABCA7A782950B63DCA6686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <20210314163408.22292-12-digetx@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
-
-On Wed, Mar 10, 2021 at 02:50:23PM +0000, Biju Das wrote:
-> > On 10/03/2021 13:56, Biju Das wrote:
-> > > Thanks for the feedback.
-> > >> Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer
-> > >> access
-> > >>
-> > >> Hi Biju,
-> > >>
-> > >> On 01/03/2021 12:08, Biju Das wrote:
-> > >>> RZ/G2L SoC has no UIF. This patch fixes null pointer access, when
-> > >>> UIF module is not used.
-> > >>>
-> > >>> Fixes: 5e824f989e6e8("media: v4l: vsp1: Integrate DISCOM in display
-> > >>> pipeline")
-> > >>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > >>> ---
-> > >>>  drivers/media/platform/vsp1/vsp1_drm.c | 4 ++--
-> > >>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >>>
-> > >>> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c
-> > >>> b/drivers/media/platform/vsp1/vsp1_drm.c
-> > >>> index f6d2f47a4058..06f74d410973 100644
-> > >>> --- a/drivers/media/platform/vsp1/vsp1_drm.c
-> > >>> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
-> > >>> @@ -462,9 +462,9 @@ static int vsp1_du_pipeline_setup_inputs(struct
-> > >>> vsp1_device *vsp1,
-> > >>
-> > >>
-> > >> This looks like it complicates these conditionals more than we
-> > >> perhaps need to.
-> > >>
-> > >> What do you think about adding something above the block comment here?:
-> > >
-> > > It is much better.
-> > >
-> > > This patch is accepted in media tree[1]. So not sure, should I send a
-> > > follow up patch as optimization or drop this patch and send new one.
-> > 
-> > Oh, I didn't realise these were in already. Sorry, I didn't see any review
-> > on the list, and it was the earliest I had got to them.
-> > 
-> > > Please suggest.
-> > 
-> > Up to you, I don't think this would get dropped now it's integrated.
-> > It's in, so if you want to update on top I believe that's fine.
+On 14-03-21, 19:34, Dmitry Osipenko wrote:
+> From: Yangtao Li <tiny.windzz@gmail.com>
 > 
-> OK, Will send follow up patch as optimization.
+> Use resource-managed OPP API to simplify code.
+> 
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  2 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c   |  2 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 11 +++------
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h   |  2 --
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 23 +++++++------------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  2 --
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c        | 30 +++++--------------------
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h        |  1 -
+>  drivers/gpu/drm/msm/dp/dp_display.c     |  5 +----
+>  drivers/gpu/drm/msm/dsi/dsi_host.c      | 13 ++++-------
+>  11 files changed, 25 insertions(+), 68 deletions(-)
 
-That would be nice.
+This patch has some updates in linux-next, which I don't have. Please
+get this merged with the drm tree over 5.13-rc1 later.
 
-I don't think this patch should have been fast-tracked as a fix, as
-RZ/G2L isn't supported in mainline yet as far as I can tell.
-
-Hans, next time, could we get a notification instead of a silent merge ?
-
-> > >> 	if (!drm_pipe->uif)
-> > >> 		return 0;
-> > >>
-> > >>
-> > >>>  	 * make sure it is present in the pipeline's list of entities if it
-> > >>>  	 * wasn't already.
-> > >>>  	 */
-> > >>> -	if (!use_uif) {
-> > >>> +	if (drm_pipe->uif && !use_uif) {
-> > >>>  		drm_pipe->uif->pipe = NULL;
-> > >>> -	} else if (!drm_pipe->uif->pipe) {
-> > >>> +	} else if (drm_pipe->uif && !drm_pipe->uif->pipe) {>
-> > >> 	drm_pipe->uif->pipe = pipe;
-> > >>>  		list_add_tail(&drm_pipe->uif->list_pipe, &pipe->entities);
-> > >>>  	}
-> > >>>
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
 -- 
-Regards,
-
-Laurent Pinchart
+viresh
