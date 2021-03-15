@@ -2,89 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1FAC33B39F
-	for <lists+linux-media@lfdr.de>; Mon, 15 Mar 2021 14:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FC8233BE63
+	for <lists+linux-media@lfdr.de>; Mon, 15 Mar 2021 15:51:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbhCONQE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Mar 2021 09:16:04 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:50259 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbhCONPq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Mar 2021 09:15:46 -0400
-X-Originating-IP: 79.22.58.175
-Received: from uno.homenet.telecomitalia.it (host-79-22-58-175.retail.telecomitalia.it [79.22.58.175])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 12861FF80B;
-        Mon, 15 Mar 2021 13:15:42 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 18/18] media: i2c: max9286: Rework comments in .bound()
-Date:   Mon, 15 Mar 2021 14:15:12 +0100
-Message-Id: <20210315131512.133720-19-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
+        id S231704AbhCOOqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Mar 2021 10:46:04 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:60172 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239030AbhCOOps (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Mar 2021 10:45:48 -0400
+X-Greylist: delayed 2639 seconds by postgrey-1.27 at vger.kernel.org; Mon, 15 Mar 2021 10:45:47 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbx.email;
+         s=selector2; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+        Message-Id:Date:Subject:To:From;
+        bh=3PR2r5ZvgnJe7tAC1N2GXrqbrl5IXjHqQVhXewN/7aA=; b=0sWhx4VABXDmZ9CxbTqUYyd+zG
+        6yydX42nbXOHnR3/F0i3jKh0BBAE1bV02SO8YwEkHHC+bwMJUbMoF5ps46A4HgGJygrSwd99b7+sb
+        Tnk5NafEGdO/mp8Lmb4LROjIHcAxV7V0Fg7jWxBZw1reCCeZG7E5iHqRYCe2FReJ+EW+PPLWBFtwp
+        Rhs88hszol2bUf80iyHqU2rPmXyfMWNM53iKjQlAyT1Zj6PmHoN5ZoRDnx4EB4JeV90bXrjg1iRMw
+        JmlaTXX+mR86MOC6lBKjhrNZGUlj2/Pm7aAE7CgnDsAKk5VB1dC3YltYAkW9KLpaZEG7C73E/a8el
+        8KyHoREA==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <detegr@rbx.email>)
+        id 1lLnmh-00006C-Ux; Mon, 15 Mar 2021 15:01:35 +0100
+Received: by submission02.runbox with esmtpsa  [Authenticated alias (932193)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1lLnkR-0004Hn-5v; Mon, 15 Mar 2021 14:59:07 +0100
+From:   =?UTF-8?q?Antti=20Ker=C3=A4nen?= <detegr@rbx.email>
+To:     trivial@kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        =?UTF-8?q?Antti=20Ker=C3=A4nen?= <detegr@rbx.email>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: v4l2-mc: fix a warning message
+Date:   Mon, 15 Mar 2021 15:58:54 +0200
+Message-Id: <20210315135856.2794233-1-detegr@rbx.email>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Re-phrase a comment in .bound() callback to make it clear we register
-a subdev notifier and remove a redundant comment about disabling i2c
-auto-ack.
+The message erroneously told that the pad wasn't found from a tuner
+when in reality it wasn't found from a decoder.
 
-No functional changes intended.
-
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Antti Keränen <detegr@rbx.email>
 ---
- drivers/media/i2c/max9286.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ drivers/media/v4l2-core/v4l2-mc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index b6347639901e..16b2cb9b44a2 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -556,9 +556,9 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
- 		subdev->name, src_pad, index);
- 
- 	/*
--	 * We can only register v4l2_async_notifiers, which do not provide a
--	 * means to register a complete callback. bound_sources allows us to
--	 * identify when all remote serializers have completed their probe.
-+	 * As we register a subdev notifiers we won't get a .complete() callback
-+	 * here, so we have to use bound_sources to identify when all remote
-+	 * serializers have probed.
- 	 */
- 	if (priv->bound_sources != priv->source_mask)
- 		return 0;
-@@ -581,16 +581,12 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
- 	/*
- 	 * All enabled sources have probed and enabled their reverse control
- 	 * channels:
-+	 * - The reverse channel amplitude stays high
- 	 * - Verify all configuration links are properly detected
--	 * - Disable auto-ack as communication on the control channel are now
--	 *   stable.
-+	 * - Disable auto-ack as communications on the control channel are now
-+	 *   stable
- 	 */
- 	max9286_check_config_link(priv, priv->source_mask);
--
--	/*
--	 * Re-configure I2C with local acknowledge disabled after cameras have
--	 * probed.
--	 */
- 	max9286_configure_i2c(priv, false);
- 
- 	return max9286_set_pixelrate(priv);
+diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
+index cba3d8e0bc4a..b01474717dca 100644
+--- a/drivers/media/v4l2-core/v4l2-mc.c
++++ b/drivers/media/v4l2-core/v4l2-mc.c
+@@ -246,7 +246,7 @@ int v4l2_mc_create_media_graph(struct media_device *mdev)
+ 			pad_sink = media_get_pad_index(decoder, true,
+ 						       PAD_SIGNAL_ANALOG);
+ 			if (pad_sink < 0) {
+-				dev_warn(mdev->dev, "couldn't get tuner analog pad sink\n");
++				dev_warn(mdev->dev, "couldn't get decoder analog pad sink\n");
+ 				return -EINVAL;
+ 			}
+ 			ret = media_create_pad_link(entity, 0, decoder,
 -- 
-2.30.0
+2.30.2
 
