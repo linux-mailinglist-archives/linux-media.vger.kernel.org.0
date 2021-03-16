@@ -2,106 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EBE333CECA
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 08:46:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 018E233CEF1
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 08:56:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232782AbhCPHpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 03:45:45 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47049 "EHLO
+        id S233271AbhCPH41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 03:56:27 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35003 "EHLO
         lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229646AbhCPHpc (ORCPT
+        by vger.kernel.org with ESMTP id S233309AbhCPHzy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 03:45:32 -0400
+        Tue, 16 Mar 2021 03:55:54 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id M4OHl0ONq4ywlM4OMlA8RY; Tue, 16 Mar 2021 08:45:30 +0100
+        id M4YOl0ROG4ywlM4YRlA9ne; Tue, 16 Mar 2021 08:55:52 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615880730; bh=KbB6mdeP/3sRZ4m9VmiHVsbE3XcXiYRdYC8cTM6so1E=;
+        t=1615881352; bh=e6dSmc5cY7MNxw5DiG0VryREIUrqYWT4z49jXGAeX8A=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=qa20UExEqVb0p2JOoW7pT3jS+mM4n5ZYnMT70WKDPzIz4lkiPlmF4/mdKmfttdijD
-         kPAvMbfT2xwz9wWIp7TungtXN7EKVshK7J3oWiEr+2gfSbtUv0W5dHV+tbzBS7C6gj
-         3gNxbRbWI8Avg0C4VFcTMmZBAGdZdQsuBzQjOES6GuqPLIxHJkf/HQFCvqVFJyhj4x
-         AIA6G/4ak4Jx/jDSXVJVK1y+lV30wTRQ1MLZ8qQrf4Kbb8jesQakQDY3OlRWD6dTfJ
-         fLe8iYz0nwoKGDimsqxo39TuvC+Bj2IYAqSkgr6p3yZpjfb5/5FEo6mTV+ANh+RW6a
-         45ylImII3k2hQ==
-Subject: Re: [PATCH] Rectify spelling and grammar
-To:     Xiaofeng Cao <cxfcosmos@gmail.com>
-Cc:     gustavoars@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiaofeng Cao <caoxiaofeng@yulong.com>, mchehab@kernel.org
-References: <20210311072044.388-1-cxfcosmos@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <126298ca-15c3-22f8-50f5-b7bf4cc281ec@xs4all.nl>
-Date:   Tue, 16 Mar 2021 08:45:21 +0100
+        b=nOzFOBlNsx6WY2K3H2YLLhxLsk2dizvILysmC/cgo2fCY77ql+8sn6+UpUx+ibAI0
+         Hx6xxW4lZ9LelvqeOYcusj/sDYgbvcZ4GhzHfu7PX1mXngB59arTKQpLs0FQt4Yb3z
+         /onNUJT0gxbYtxdty6jXqnh33xCGVDT7O4vEaXY+8MgqekDPpYRvP2R5lq2yRFDBS/
+         sECbSX4GYwq9F2djH7cxIWzJMPhuOQPhSJukzIFNwogkqMw0C3glocZ0C2+54Qs4aj
+         hNn9jBoDuU6BIJyCsW7mh9MiUZa4ghKVwvHZ+1ypQd50ULtbolMDWZmUlh4buhWNHV
+         gBug1Mi+di0LQ==
+Subject: Re: [PATCH] media: em28xx: Fix missing check in em28xx_capture_start
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210310090032.13477-1-dinghao.liu@zju.edu.cn>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <74451231-31b9-4489-2241-febb05cf5bec@xs4all.nl>
+Date:   Tue, 16 Mar 2021 08:55:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210311072044.388-1-cxfcosmos@gmail.com>
+In-Reply-To: <20210310090032.13477-1-dinghao.liu@zju.edu.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLNYPDKqG+xg1M/EqfPkWz+LWOFxoYYw3E57ZR3RVEyTmcq7jd3MHx96DsbK2zmu97pnbKV6eylUPhdOuj2/1C49IEsWKp1zm2dV15vXXLDyptNLAkn6
- sLQoGQosNC3xRJ8dE5tXz8yd5QKjPcA3pA4o+tJmmWdN0u6xqfNyDQe+mgqlVVOS7GdkTkDkn9CYhVEa6PYOZ9ZN91lygkprXAYHJathOc8VswBGsVbeQ4G3
- sZYpVIwbGCTGUCVJxn11XSwtXmYb73cFNRPq7NV8H15fuKkoFCzFbZlb2TCnX/x4qr5fH7m7qxAjo5YWdD578jy5QIIu4zUMGOWm1y/GAJIGYVlEWnhyfmGL
- 6o2zXSwNiR/2kJiMAEy4hFulCQSR7LG5vwUSwonXJK8OcXhAxNz5h7TZ2aaX/LZcKEXV7JCs
+X-CMAE-Envelope: MS4xfDpWzHC5/Ibk1hKry0XPpDPAkzfHnDxz69qxmi5oGgK+H/sWICHJxMv8p7mS/PaxfwNgHSPq63wqDnOETKPcLmN4RUHi3P76MvrnKkHnOF7V38SoaJ4H
+ 7mMHo7Xc2dV3oIy+vYQ5DRppWyqk7evbKb0kValSa3YgPbWjjLBejle1ST2I8BxxhFPMjgL2a8T3IqfQ63PGVfyPTAUIWtfeyOPnlBZGLFu88b6P7Spj4UlT
+ fF79OQs8l8Z0Q/56LW8LGNbNcAB8dGDgDZ3gzrM8V0fRB8R/r6Y2m42OEKnousv1WvrCk+iJ6ScclfN4AewJbNChZKqYi3ZGrnr/rYPecIs=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xiaofeng Cao,
+Hi Dinghao Liu,
 
-The patch is good, but scripts/checkpatch.pl complains about a mismatch:
+Thank you for the patch, but I've decided not to take it. While the
+patch looks fine, it is not very useful since the return code of the
+em28xx_capture_start() function is never checked. And I am hesitant
+to change the behavior here in case it might break something subtle.
 
-WARNING: From:/Signed-off-by: email address mismatch: 'From: Xiaofeng Cao <cxfcosmos@gmail.com>' != 'Signed-off-by: Xiaofeng Cao
-<caoxiaofeng@yulong.com>'
-
-Which is the one I should use?
+Ideally the error code of em28xx_capture_start() should also be
+checked, and cascaded all the way up to the higher levels of the code,
+but the reality is that if these register writes fail, then you likely
+have much bigger problems so I don't think it is worth doing that.
 
 Regards,
 
 	Hans
 
-On 11/03/2021 08:20, Xiaofeng Cao wrote:
-> Change 'inaccesable' to 'inaccessible'
-> Change 'detrmine' to 'determine'
-> Delete 'in' grammatically
+On 10/03/2021 10:00, Dinghao Liu wrote:
+> There are several em28xx_write_reg() and em28xx_write_reg_bits()
+> calls that we have caught their return values but lack further
+> handling. Check and return error on failure just like other calls
+> in em28xx_capture_start().
 > 
-> Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com>
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 > ---
->  drivers/media/radio/radio-si476x.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/media/usb/em28xx/em28xx-core.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/radio/radio-si476x.c b/drivers/media/radio/radio-si476x.c
-> index 23997425bdb5..b39a68f83c5f 100644
-> --- a/drivers/media/radio/radio-si476x.c
-> +++ b/drivers/media/radio/radio-si476x.c
-> @@ -152,7 +152,7 @@ static struct v4l2_ctrl_config si476x_ctrls[] = {
+> diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
+> index 584fa400cd7d..2563275fec8e 100644
+> --- a/drivers/media/usb/em28xx/em28xx-core.c
+> +++ b/drivers/media/usb/em28xx/em28xx-core.c
+> @@ -661,6 +661,8 @@ int em28xx_capture_start(struct em28xx *dev, int start)
+>  						   EM2874_R5F_TS_ENABLE,
+>  						   start ? EM2874_TS2_CAPTURE_ENABLE : 0x00,
+>  						   EM2874_TS2_CAPTURE_ENABLE | EM2874_TS2_FILTER_ENABLE | EM2874_TS2_NULL_DISCARD);
+> +		if (rc < 0)
+> +			return rc;
+>  	} else {
+>  		/* FIXME: which is the best order? */
+>  		/* video registers are sampled by VREF */
+> @@ -670,8 +672,11 @@ int em28xx_capture_start(struct em28xx *dev, int start)
+>  			return rc;
 >  
->  	/*
->  	 * SI476X during its station seeking(or tuning) process uses several
-> -	 * parameters to detrmine if "the station" is valid:
-> +	 * parameters to determine if "the station" is valid:
->  	 *
->  	 *	- Signal's SNR(in dBuV) must be lower than
->  	 *	#V4L2_CID_SI476X_SNR_THRESHOLD
-> @@ -255,7 +255,7 @@ struct si476x_radio;
->   *
->   * This table holds pointers to functions implementing particular
->   * operations depending on the mode in which the tuner chip was
-> - * configured to start in. If the function is not supported
-> + * configured to start. If the function is not supported
->   * corresponding element is set to #NULL.
->   *
->   * @tune_freq: Tune chip to a specific frequency
-> @@ -917,7 +917,7 @@ static int si476x_radio_s_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_RDS_RECEPTION:
->  		/*
->  		 * It looks like RDS related properties are
-> -		 * inaccesable when tuner is in AM mode, so cache the
-> +		 * inaccessible when tuner is in AM mode, so cache the
->  		 * changes
->  		 */
->  		if (si476x_core_is_in_am_receiver_mode(radio->core))
+>  		if (start) {
+> -			if (dev->is_webcam)
+> +			if (dev->is_webcam) {
+>  				rc = em28xx_write_reg(dev, 0x13, 0x0c);
+> +				if (rc < 0)
+> +					return rc;
+> +			}
+>  
+>  			/* Enable video capture */
+>  			rc = em28xx_write_reg(dev, 0x48, 0x00);
+> @@ -693,6 +698,8 @@ int em28xx_capture_start(struct em28xx *dev, int start)
+>  		} else {
+>  			/* disable video capture */
+>  			rc = em28xx_write_reg(dev, EM28XX_R12_VINENABLE, 0x27);
+> +			if (rc < 0)
+> +				return rc;
+>  		}
+>  	}
+>  
 > 
 
