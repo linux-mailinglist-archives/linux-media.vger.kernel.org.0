@@ -2,280 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 512D233D167
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 11:09:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E6F33D16D
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 11:10:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234225AbhCPKJB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 06:09:01 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57036 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236482AbhCPKIs (ORCPT
+        id S236504AbhCPKJc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 06:09:32 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:47373 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236500AbhCPKJU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 06:08:48 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6DCDD8B;
-        Tue, 16 Mar 2021 11:08:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615889327;
-        bh=22Ct6epTDYbMoW1l2Xu8cPkLadja9VQY+KkxYOhhOg8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ncfrT9UMZoWvJTXh7GiiUIyau/TmJbbf5jUEKV2mpuyIREYHElCwx9z84701Xy5FC
-         mNdY6A936y238Hsl4bausRBVJ7S3V9sJr5OHd0xhWhk2IzjKjuBNUXMnpxrXIxe59Z
-         iJf8TeG8zSJ4BwEwd+2mGHleMWLtLdh2i2Bq2akM=
-Date:   Tue, 16 Mar 2021 12:08:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/11] media: uvcvideo: Add support for
- V4L2_CTRL_TYPE_CTRL_CLASS
-Message-ID: <YFCDi6nSidMNHy52@pendragon.ideasonboard.com>
-References: <20210315173609.1547857-1-ribalda@chromium.org>
- <20210315173609.1547857-7-ribalda@chromium.org>
- <59c2f8dd-db7d-f80c-88fe-0db00c15c741@xs4all.nl>
+        Tue, 16 Mar 2021 06:09:20 -0400
+Received: by mail-io1-f72.google.com with SMTP id o4so22859107ioh.14
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 03:09:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=5WiJbVhzNFJgw/m/1/NQNnaFvQ7uA64sdgHOTVzhjbw=;
+        b=VStHk/z38Ctk2ZFWQU9Oog/JWw+DcY1blMwMTk8ZVXDjJ7NOCCrMu7l5a9eYFtnxvg
+         UqKtYmGekLPwV9pdjCRndnPPJc9TtZpPyh0/gR4RlaEqMfG078/dAW+Ftj9mYuzxWCJ2
+         FKMJ+QlwoVCzqeUK8RiUPqSCUNsf9I3w331lYd0q6TLRo2Y7AuCnpf2elXLXybkgaTgx
+         AYftKvDMh6ryWkVT8s/LMQiiJfmU3r0KAPJQJYU1a8I/hED8mn/Pbf2JpBQ5E45VM8xV
+         smbuSNll4loGzmCbCRkZVFQv1nohwvKLoBe8Bl8fczR1spKSpDR7Eg8nlF3/Zavp94G/
+         CarA==
+X-Gm-Message-State: AOAM5325ixv0sTq/Ev0qHTDJZUXJXlPljF/Anoho3VKhH8kfdb/xY3C7
+        V7WEZ/NIkdIGKNsWvih1bY6YrOiHTNuGYajtRu+YkRtrahsX
+X-Google-Smtp-Source: ABdhPJypv2R7YhuQO/iH8LLvUQoxn08bn04FORZhETMszwg2fHQ1Eo/+lBcZM3fNg/XmmhJInveXlEF85+FtXENk6AiDVPL+ABy4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <59c2f8dd-db7d-f80c-88fe-0db00c15c741@xs4all.nl>
+X-Received: by 2002:a92:7311:: with SMTP id o17mr3126840ilc.231.1615889359476;
+ Tue, 16 Mar 2021 03:09:19 -0700 (PDT)
+Date:   Tue, 16 Mar 2021 03:09:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000449ccf05bda48f08@google.com>
+Subject: [syzbot] memory leak in em28xx_dvb_init
+From:   syzbot <syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hello,
 
-On Tue, Mar 16, 2021 at 09:37:07AM +0100, Hans Verkuil wrote:
-> On 15/03/2021 18:36, Ricardo Ribalda wrote:
-> > Create all the class controls for the device defined controls.
-> > 
-> > Fixes v4l2-compliance:
-> > Control ioctls (Input 0):
-> > 		fail: v4l2-test-controls.cpp(216): missing control class for class 00980000
-> > 		fail: v4l2-test-controls.cpp(216): missing control tclass for class 009a0000
-> > 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
-> > 
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 96 ++++++++++++++++++++++++++++++++
-> >  drivers/media/usb/uvc/uvcvideo.h |  6 ++
-> >  2 files changed, 102 insertions(+)
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index b75da65115ef..be0fadaf414c 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -357,6 +357,17 @@ static const struct uvc_control_info uvc_ctrls[] = {
-> >  	},
-> >  };
-> >  
-> > +static const struct uvc_control_class uvc_control_class[] = {
-> > +	{
-> > +		.id		= V4L2_CID_CAMERA_CLASS,
-> > +		.name		= "Camera Controls",
-> > +	},
-> > +	{
-> > +		.id		= V4L2_CID_USER_CLASS,
-> > +		.name		= "User Controls",
-> 
-> I noticed that uvc_ctrl.c has hardcoded strings for the control names and
-> control menus.
-> 
-> It would be good to drop that from the code and instead use v4l2_ctrl_get_menu()
-> and v4l2_ctrl_get_name() to obtain the names. It ensures consistent naming and
-> saves a bit of memory.
-> 
-> This can be done in a separate patch before or after this one.
+syzbot found the following issue on:
 
-https://git.linuxtv.org/pinchartl/media.git/commit/?h=uvc/dev&id=16a7d79d67cdd06a448d8c4c20e270d1c21828b1
+HEAD commit:    1a4431a5 Merge tag 'afs-fixes-20210315' of git://git.kerne..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11013a7cd00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ff6b8b2e9d5a1227
+dashboard link: https://syzkaller.appspot.com/bug?extid=889397c820fa56adf25d
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1559ae3ad00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=176985c6d00000
 
-It's work in progress, the part that bothers me is the changes in
-uvc_parse_format(). We lose the human-readable name in a debug message,
-but maybe more importantly, we lose the distinction between different DV
-formats. Maybe it's not a big deal.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
 
-> > +	},
-> > +};
-> > +
-> >  static const struct uvc_menu_info power_line_frequency_controls[] = {
-> >  	{ 0, "Disabled" },
-> >  	{ 1, "50 Hz" },
-> > @@ -1024,6 +1035,49 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
-> >  	return 0;
-> >  }
-> >  
-> > +static int __uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
-> > +				  u32 found_id)
-> > +{
-> > +	bool find_next = req_id & V4L2_CTRL_FLAG_NEXT_CTRL;
-> > +	unsigned int i;
-> > +
-> > +	req_id &= V4L2_CTRL_ID_MASK;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
-> > +		if (!(chain->ctrl_class_bitmap & BIT(i)))
-> > +			continue;
-> > +		if (!find_next) {
-> > +			if (uvc_control_class[i].id == req_id)
-> > +				return i;
-> > +			continue;
-> > +		}
-> > +		if (uvc_control_class[i].id > req_id &&
-> > +		    uvc_control_class[i].id < found_id)
-> > +			return i;
-> > +	}
-> > +
-> > +	return -ENODEV;
-> > +}
-> > +
-> > +static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
-> > +				u32 found_id, struct v4l2_queryctrl *v4l2_ctrl)
-> > +{
-> > +	int idx;
-> > +
-> > +	idx = __uvc_query_v4l2_class(chain, req_id, found_id);
-> > +	if (idx < 0)
-> > +		return -ENODEV;
-> > +
-> > +	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
-> > +	v4l2_ctrl->id = uvc_control_class[idx].id;
-> > +	strscpy(v4l2_ctrl->name, uvc_control_class[idx].name,
-> > +		sizeof(v4l2_ctrl->name));
-> > +	v4l2_ctrl->type = V4L2_CTRL_TYPE_CTRL_CLASS;
-> > +	v4l2_ctrl->flags = V4L2_CTRL_FLAG_WRITE_ONLY
-> > +			   | V4L2_CTRL_FLAG_READ_ONLY;
-> > +	return 0;
-> > +}
-> > +
-> >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >  	struct uvc_control *ctrl,
-> >  	struct uvc_control_mapping *mapping,
-> > @@ -1127,12 +1181,31 @@ int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >  	if (ret < 0)
-> >  		return -ERESTARTSYS;
-> >  
-> > +	/* Check if the ctrl is a know class */
-> > +	if (!(v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL)) {
-> > +		ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, 0, v4l2_ctrl);
-> > +		if (!ret)
-> > +			goto done;
-> > +	}
-> > +
-> >  	ctrl = uvc_find_control(chain, v4l2_ctrl->id, &mapping);
-> >  	if (ctrl == NULL) {
-> >  		ret = -EINVAL;
-> >  		goto done;
-> >  	}
-> >  
-> > +	/*
-> > +	 * If we're enumerating control with V4L2_CTRL_FLAG_NEXT_CTRL, check if
-> > +	 * a class should be inserted between the previous control and the one
-> > +	 * we have just found.
-> > +	 */
-> > +	if (v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL) {
-> > +		ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, mapping->id,
-> > +					   v4l2_ctrl);
-> > +		if (!ret)
-> > +			goto done;
-> > +	}
-> > +
-> >  	ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, v4l2_ctrl);
-> >  done:
-> >  	mutex_unlock(&chain->ctrl_mutex);
-> > @@ -1426,6 +1499,11 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
-> >  	if (ret < 0)
-> >  		return -ERESTARTSYS;
-> >  
-> > +	if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0) {
-> > +		ret = 0;
-> > +		goto done;
-> > +	}
-> > +
-> >  	ctrl = uvc_find_control(handle->chain, sev->id, &mapping);
-> >  	if (ctrl == NULL) {
-> >  		ret = -EINVAL;
-> > @@ -1459,7 +1537,10 @@ static void uvc_ctrl_del_event(struct v4l2_subscribed_event *sev)
-> >  	struct uvc_fh *handle = container_of(sev->fh, struct uvc_fh, vfh);
-> >  
-> >  	mutex_lock(&handle->chain->ctrl_mutex);
-> > +	if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0)
-> > +		goto done;
-> >  	list_del(&sev->node);
-> > +done:
-> >  	mutex_unlock(&handle->chain->ctrl_mutex);
-> >  }
-> >  
-> > @@ -1577,6 +1658,9 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
-> >  	struct uvc_control *ctrl;
-> >  	struct uvc_control_mapping *mapping;
-> >  
-> > +	if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
-> > +		return -EACCES;
-> > +
-> >  	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
-> >  	if (ctrl == NULL)
-> >  		return -EINVAL;
-> > @@ -1596,6 +1680,9 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> >  	s32 max;
-> >  	int ret;
-> >  
-> > +	if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
-> > +		return -EACCES;
-> > +
-> >  	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
-> >  	if (ctrl == NULL)
-> >  		return -EINVAL;
-> > @@ -2062,6 +2149,7 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
-> >  {
-> >  	struct uvc_control_mapping *map;
-> >  	unsigned int size;
-> > +	unsigned int i;
-> >  
-> >  	/* Most mappings come from static kernel data and need to be duplicated.
-> >  	 * Mappings that come from userspace will be unnecessarily duplicated,
-> > @@ -2085,6 +2173,14 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
-> >  	if (map->set == NULL)
-> >  		map->set = uvc_set_le_value;
-> >  
-> > +	for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
-> > +		if (V4L2_CTRL_ID2WHICH(uvc_control_class[i].id) ==
-> > +						V4L2_CTRL_ID2WHICH(map->id)) {
-> > +			chain->ctrl_class_bitmap |= BIT(i);
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> >  	list_add_tail(&map->list, &ctrl->info.mappings);
-> >  	uvc_dbg(chain->dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
-> >  		map->name, ctrl->info.entity, ctrl->info.selector);
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 97df5ecd66c9..1f17e4253673 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -262,6 +262,11 @@ struct uvc_control_mapping {
-> >  		    u8 *data);
-> >  };
-> >  
-> > +struct uvc_control_class {
-> > +	u32 id;
-> > +	char name[32];
-> > +};
-> > +
-> >  struct uvc_control {
-> >  	struct uvc_entity *entity;
-> >  	struct uvc_control_info info;
-> > @@ -475,6 +480,7 @@ struct uvc_video_chain {
-> >  
-> >  	struct v4l2_prio_state prio;		/* V4L2 priority state */
-> >  	u32 caps;				/* V4L2 chain-wide caps */
-> > +	u8 ctrl_class_bitmap;			/* Bitmap of valid classes */
-> >  };
-> >  
-> >  struct uvc_stats_frame {
-> > 
-> 
+BUG: memory leak
+unreferenced object 0xffff888110082700 (size 64):
+  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
+  hex dump (first 32 bytes):
+    c0 40 0d 0d 81 88 ff ff 40 4b 0d 0d 81 88 ff ff  .@......@K......
+    c0 bc d4 0f 81 88 ff ff 00 b3 d4 0f 81 88 ff ff  ................
+  backtrace:
+    [<ffffffff8304c141>] kmalloc_array.constprop.0+0x41/0x60 include/linux/slab.h:594
+    [<ffffffff8304dba2>] kcalloc include/linux/slab.h:623 [inline]
+    [<ffffffff8304dba2>] em28xx_alloc_urbs+0x102/0x550 drivers/media/usb/em28xx/em28xx-core.c:930
+    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
+    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
+    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
+    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
+    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
+    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
+    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
+    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
 
--- 
-Regards,
+BUG: memory leak
+unreferenced object 0xffff8881100825c0 (size 64):
+  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
+  hex dump (first 32 bytes):
+    00 00 b8 10 81 88 ff ff 00 00 b8 0b 81 88 ff ff  ................
+    00 00 b9 0b 81 88 ff ff 00 00 16 13 81 88 ff ff  ................
+  backtrace:
+    [<ffffffff8304c141>] kmalloc_array.constprop.0+0x41/0x60 include/linux/slab.h:594
+    [<ffffffff8304dbbc>] kcalloc include/linux/slab.h:623 [inline]
+    [<ffffffff8304dbbc>] em28xx_alloc_urbs+0x11c/0x550 drivers/media/usb/em28xx/em28xx-core.c:934
+    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
+    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
+    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
+    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
+    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
+    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
+    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
+    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
 
-Laurent Pinchart
+BUG: memory leak
+unreferenced object 0xffff88810d0d40c0 (size 192):
+  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
+  hex dump (first 32 bytes):
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 d8 40 0d 0d 81 88 ff ff  .........@......
+  backtrace:
+    [<ffffffff82b9eda6>] kmalloc include/linux/slab.h:559 [inline]
+    [<ffffffff82b9eda6>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
+    [<ffffffff8304dd07>] em28xx_alloc_urbs+0x267/0x550 drivers/media/usb/em28xx/em28xx-core.c:952
+    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
+    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
+    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
+    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
+    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
+    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
+    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
+    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+BUG: memory leak
+unreferenced object 0xffff88810d0d4b40 (size 192):
+  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
+  hex dump (first 32 bytes):
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 58 4b 0d 0d 81 88 ff ff  ........XK......
+  backtrace:
+    [<ffffffff82b9eda6>] kmalloc include/linux/slab.h:559 [inline]
+    [<ffffffff82b9eda6>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
+    [<ffffffff8304dd07>] em28xx_alloc_urbs+0x267/0x550 drivers/media/usb/em28xx/em28xx-core.c:952
+    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
+    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
+    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
+    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
+    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
+    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
+    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
+    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+BUG: memory leak
+unreferenced object 0xffff88810fd4bcc0 (size 192):
+  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
+  hex dump (first 32 bytes):
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 d8 bc d4 0f 81 88 ff ff  ................
+  backtrace:
+    [<ffffffff82b9eda6>] kmalloc include/linux/slab.h:559 [inline]
+    [<ffffffff82b9eda6>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
+    [<ffffffff8304dd07>] em28xx_alloc_urbs+0x267/0x550 drivers/media/usb/em28xx/em28xx-core.c:952
+    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
+    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
+    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
+    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
+    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
+    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
+    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
+    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
