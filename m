@@ -2,120 +2,324 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B3D333D175
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 11:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F17533D187
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 11:13:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236501AbhCPKKf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 06:10:35 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33935 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236523AbhCPKKY (ORCPT
+        id S236544AbhCPKNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 06:13:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236561AbhCPKNL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 06:10:24 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id M6eXl184B4ywlM6eblAWQR; Tue, 16 Mar 2021 11:10:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615889421; bh=A4H/jKy6PuEINTkJ2arM93JOrTkt6/A/yu/ixrkHPig=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=JEHPGKR4uoHQKotS2JSgFagRSKTJBNpGWXSt/zN4fiHY+dIgCqrWau3jqiYHPLZjF
-         992C2wO9AMp8clMV9GBbxl7y1pukx+d5/M8OguV0DmoGHtF2Kv44XoP/WNn4iijODn
-         5dbvRnIra+2mjG1rZnpHc5sGFVIurA/czeEY5xte+XOzl6qgA8f5+YOW2FETdjrae4
-         beUpcRz2LQZNI+1Q2avAs3e5/X/OhUdpe/un7V5fZ9o0LVo5EDfz/CXir5x3zYc8YD
-         TvdzE18LHsveryfV5qKZYZjNaQrHs5cfNrCJax3VaCz1S8V84f4RysnL6g206w4pEz
-         2vZ8aLh6DVy8A==
-Subject: Re: [PATCH v4 08/11] media: uvcvideo: Set unique vdev name based in
- type
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tue, 16 Mar 2021 06:13:11 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39167C06174A
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 03:13:11 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id z9so12140809iln.1
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 03:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=42qDSJSXPcZQsJnJsuJqwY6fdYrDvNWtnSGEkZM3u8w=;
+        b=kUpYqqPG2g7r/f5ONZ7R3/KEWh71vDHg7An4ETTmq73gBjgHFrpc522foSUSs0XttM
+         vV4mU1ydu54axDgQKDd9gDiwUzjav6nKrqOXuIZN4RYxQJtQLnEphOf6GnW6IQSFTbc+
+         23CL2XEe+8ESCRG13/6mOANTueDJQ11woRBXQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=42qDSJSXPcZQsJnJsuJqwY6fdYrDvNWtnSGEkZM3u8w=;
+        b=DAAS5q2OsPUQ+nLGbS53r2ryZyPN7Hd3uiXI1gsrkElFohb9YwepUtkoTG80+6RcnX
+         M/9OrG11m9cvAJRe6f69EOwXH3Vo4uGNt+C3w97Q5u2QkKZ7dZj6l/TuPO9Icw+FFcDc
+         uZzCbYUbaoOeAgecMBsyuE/V4YtY9fWhOFPIZd9PzGsjoZrLlk+VUolrKCRw0khFG0ZO
+         8PEw5bs0EcFmUtXRRi5/gC5R0ed8zG/CJpJd4AsmErycU+IaGO+pemdxxwjdNlehBeun
+         +vGSHunfKtfsI1UnRK+gCW1elfyiI2zuIBm4HzbUFk9dfTzYIZa7TjOg7kgqiEdwM6J1
+         irvA==
+X-Gm-Message-State: AOAM5301KmRJhDw7dGr0oGL06QhwN3clpUEJMgO/ZFdOPh7opf2keZUb
+        0A8vFkva1hGDVgr6NGfCaaLELr5WW1Vp4g==
+X-Google-Smtp-Source: ABdhPJzdJHCDTIH7AYvo+8mEefpjMtMH4mLqgkLGj7TJ9q+zEGFEh2eJwShwX/dEttgWp8WwZiognQ==
+X-Received: by 2002:a05:6e02:1a6d:: with SMTP id w13mr3139646ilv.253.1615889590445;
+        Tue, 16 Mar 2021 03:13:10 -0700 (PDT)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
+        by smtp.gmail.com with ESMTPSA id 74sm8365048iob.43.2021.03.16.03.13.09
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Mar 2021 03:13:10 -0700 (PDT)
+Received: by mail-io1-f44.google.com with SMTP id o9so36511618iow.6
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 03:13:09 -0700 (PDT)
+X-Received: by 2002:a05:6602:722:: with SMTP id g2mr2734542iox.1.1615889589448;
+ Tue, 16 Mar 2021 03:13:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210315173609.1547857-1-ribalda@chromium.org>
+ <20210315173609.1547857-7-ribalda@chromium.org> <59c2f8dd-db7d-f80c-88fe-0db00c15c741@xs4all.nl>
+ <YFCDi6nSidMNHy52@pendragon.ideasonboard.com>
+In-Reply-To: <YFCDi6nSidMNHy52@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 16 Mar 2021 11:12:57 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtdArTQ5CzKfk+P5R6+AQgPdZTk5nH6waF+z9+ys8+LTA@mail.gmail.com>
+Message-ID: <CANiDSCtdArTQ5CzKfk+P5R6+AQgPdZTk5nH6waF+z9+ys8+LTA@mail.gmail.com>
+Subject: Re: [PATCH v4 06/11] media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210315173609.1547857-1-ribalda@chromium.org>
- <20210315173609.1547857-9-ribalda@chromium.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <71204460-4bba-4d3d-fb08-88ca74d4eee4@xs4all.nl>
-Date:   Tue, 16 Mar 2021 11:10:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210315173609.1547857-9-ribalda@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGfxtZfuJviB8U7GFENwKwca42HjNlOuC7LJMIJ60fetaqVSFviJNgs/lcr3vNRfLB4c8kb//ELHnD4OR0FtwAxgy7nrL7Wjsgf3NZFGOo6WUX7RI3fk
- 8X6HTXwogl0AFJLpQ9izJjdEEOGByCY8mV8bDEas+lcx3BRvB6T7URB2cWB9vCukWOjrrS7fMuOSxfGUy36W2k5XJqFuICny9gWXz1UXf4xKF4AswdL3mOvM
- h0L80XlS40hKlsVErtWa0fTq9Nhzd4WMPwFsaMfJjaDT66F+XBwlTf6+sMmmcDDSSlHsJeJ7y7B86NHWqWorWhjSVDcfM9zdKg2xdwParysiKa8eAzMdLKUS
- MgqW3HzlVYwp4adLAaDv1X2yTa0S6j0cqL8mUArsmkWp1szK0vg=
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/03/2021 18:36, Ricardo Ribalda wrote:
-> All the entities must have a unique name. We can have a descriptive and
-> unique name by appending the function and the entity->id.
-> 
-> This is even resilent to multi chain devices.
-> 
-> Fixes v4l2-compliance:
-> Media Controller ioctls:
->                 fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
->         test MEDIA_IOC_G_TOPOLOGY: FAIL
->                 fail: v4l2-test-media.cpp(394): num_data_links != num_links
-> 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 35873cf2773d..73ab30891845 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2163,6 +2163,7 @@ int uvc_register_video_device(struct uvc_device *dev,
->  			      const struct v4l2_ioctl_ops *ioctl_ops)
->  {
->  	int ret;
-> +	const char *name;
->  
->  	/* Initialize the video buffers queue. */
->  	ret = uvc_queue_init(queue, type, !uvc_no_drop_param);
-> @@ -2190,16 +2191,20 @@ int uvc_register_video_device(struct uvc_device *dev,
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->  	default:
->  		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> +		name = "Video capture";
+Hi Laurent
 
-capture -> Capture
+On Tue, Mar 16, 2021 at 11:08 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Hans,
+>
+> On Tue, Mar 16, 2021 at 09:37:07AM +0100, Hans Verkuil wrote:
+> > On 15/03/2021 18:36, Ricardo Ribalda wrote:
+> > > Create all the class controls for the device defined controls.
+> > >
+> > > Fixes v4l2-compliance:
+> > > Control ioctls (Input 0):
+> > >             fail: v4l2-test-controls.cpp(216): missing control class for class 00980000
+> > >             fail: v4l2-test-controls.cpp(216): missing control tclass for class 009a0000
+> > >     test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_ctrl.c | 96 ++++++++++++++++++++++++++++++++
+> > >  drivers/media/usb/uvc/uvcvideo.h |  6 ++
+> > >  2 files changed, 102 insertions(+)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > index b75da65115ef..be0fadaf414c 100644
+> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > @@ -357,6 +357,17 @@ static const struct uvc_control_info uvc_ctrls[] = {
+> > >     },
+> > >  };
+> > >
+> > > +static const struct uvc_control_class uvc_control_class[] = {
+> > > +   {
+> > > +           .id             = V4L2_CID_CAMERA_CLASS,
+> > > +           .name           = "Camera Controls",
+> > > +   },
+> > > +   {
+> > > +           .id             = V4L2_CID_USER_CLASS,
+> > > +           .name           = "User Controls",
+> >
+> > I noticed that uvc_ctrl.c has hardcoded strings for the control names and
+> > control menus.
+> >
+> > It would be good to drop that from the code and instead use v4l2_ctrl_get_menu()
+> > and v4l2_ctrl_get_name() to obtain the names. It ensures consistent naming and
+> > saves a bit of memory.
+> >
+> > This can be done in a separate patch before or after this one.
+>
+> https://git.linuxtv.org/pinchartl/media.git/commit/?h=uvc/dev&id=16a7d79d67cdd06a448d8c4c20e270d1c21828b1
+>
+> It's work in progress, the part that bothers me is the changes in
+> uvc_parse_format(). We lose the human-readable name in a debug message,
+> but maybe more importantly, we lose the distinction between different DV
+> formats. Maybe it's not a big deal.
 
->  		break;
->  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
->  		vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
-> +		name = "Video output";
+That patch is for format descriptions. If you haven't started yet I
+can implement the change for the control names.
 
-output -> Output
+Thanks!
 
->  		break;
->  	case V4L2_BUF_TYPE_META_CAPTURE:
->  		vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
-> +		name = "Metadata";
->  		break;
->  	}
->  
-> -	strscpy(vdev->name, dev->name, sizeof(vdev->name));
-> +	snprintf(vdev->name, sizeof(vdev->name), "%s %u", name,
-> +		 stream->header.bTerminalLink);
->  
->  	/*
->  	 * Set the driver data before calling video_register_device, otherwise
-> 
+>
+> > > +   },
+> > > +};
+> > > +
+> > >  static const struct uvc_menu_info power_line_frequency_controls[] = {
+> > >     { 0, "Disabled" },
+> > >     { 1, "50 Hz" },
+> > > @@ -1024,6 +1035,49 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+> > >     return 0;
+> > >  }
+> > >
+> > > +static int __uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+> > > +                             u32 found_id)
+> > > +{
+> > > +   bool find_next = req_id & V4L2_CTRL_FLAG_NEXT_CTRL;
+> > > +   unsigned int i;
+> > > +
+> > > +   req_id &= V4L2_CTRL_ID_MASK;
+> > > +
+> > > +   for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
+> > > +           if (!(chain->ctrl_class_bitmap & BIT(i)))
+> > > +                   continue;
+> > > +           if (!find_next) {
+> > > +                   if (uvc_control_class[i].id == req_id)
+> > > +                           return i;
+> > > +                   continue;
+> > > +           }
+> > > +           if (uvc_control_class[i].id > req_id &&
+> > > +               uvc_control_class[i].id < found_id)
+> > > +                   return i;
+> > > +   }
+> > > +
+> > > +   return -ENODEV;
+> > > +}
+> > > +
+> > > +static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+> > > +                           u32 found_id, struct v4l2_queryctrl *v4l2_ctrl)
+> > > +{
+> > > +   int idx;
+> > > +
+> > > +   idx = __uvc_query_v4l2_class(chain, req_id, found_id);
+> > > +   if (idx < 0)
+> > > +           return -ENODEV;
+> > > +
+> > > +   memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
+> > > +   v4l2_ctrl->id = uvc_control_class[idx].id;
+> > > +   strscpy(v4l2_ctrl->name, uvc_control_class[idx].name,
+> > > +           sizeof(v4l2_ctrl->name));
+> > > +   v4l2_ctrl->type = V4L2_CTRL_TYPE_CTRL_CLASS;
+> > > +   v4l2_ctrl->flags = V4L2_CTRL_FLAG_WRITE_ONLY
+> > > +                      | V4L2_CTRL_FLAG_READ_ONLY;
+> > > +   return 0;
+> > > +}
+> > > +
+> > >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> > >     struct uvc_control *ctrl,
+> > >     struct uvc_control_mapping *mapping,
+> > > @@ -1127,12 +1181,31 @@ int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> > >     if (ret < 0)
+> > >             return -ERESTARTSYS;
+> > >
+> > > +   /* Check if the ctrl is a know class */
+> > > +   if (!(v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL)) {
+> > > +           ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, 0, v4l2_ctrl);
+> > > +           if (!ret)
+> > > +                   goto done;
+> > > +   }
+> > > +
+> > >     ctrl = uvc_find_control(chain, v4l2_ctrl->id, &mapping);
+> > >     if (ctrl == NULL) {
+> > >             ret = -EINVAL;
+> > >             goto done;
+> > >     }
+> > >
+> > > +   /*
+> > > +    * If we're enumerating control with V4L2_CTRL_FLAG_NEXT_CTRL, check if
+> > > +    * a class should be inserted between the previous control and the one
+> > > +    * we have just found.
+> > > +    */
+> > > +   if (v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL) {
+> > > +           ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, mapping->id,
+> > > +                                      v4l2_ctrl);
+> > > +           if (!ret)
+> > > +                   goto done;
+> > > +   }
+> > > +
+> > >     ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, v4l2_ctrl);
+> > >  done:
+> > >     mutex_unlock(&chain->ctrl_mutex);
+> > > @@ -1426,6 +1499,11 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
+> > >     if (ret < 0)
+> > >             return -ERESTARTSYS;
+> > >
+> > > +   if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0) {
+> > > +           ret = 0;
+> > > +           goto done;
+> > > +   }
+> > > +
+> > >     ctrl = uvc_find_control(handle->chain, sev->id, &mapping);
+> > >     if (ctrl == NULL) {
+> > >             ret = -EINVAL;
+> > > @@ -1459,7 +1537,10 @@ static void uvc_ctrl_del_event(struct v4l2_subscribed_event *sev)
+> > >     struct uvc_fh *handle = container_of(sev->fh, struct uvc_fh, vfh);
+> > >
+> > >     mutex_lock(&handle->chain->ctrl_mutex);
+> > > +   if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0)
+> > > +           goto done;
+> > >     list_del(&sev->node);
+> > > +done:
+> > >     mutex_unlock(&handle->chain->ctrl_mutex);
+> > >  }
+> > >
+> > > @@ -1577,6 +1658,9 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
+> > >     struct uvc_control *ctrl;
+> > >     struct uvc_control_mapping *mapping;
+> > >
+> > > +   if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
+> > > +           return -EACCES;
+> > > +
+> > >     ctrl = uvc_find_control(chain, xctrl->id, &mapping);
+> > >     if (ctrl == NULL)
+> > >             return -EINVAL;
+> > > @@ -1596,6 +1680,9 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+> > >     s32 max;
+> > >     int ret;
+> > >
+> > > +   if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
+> > > +           return -EACCES;
+> > > +
+> > >     ctrl = uvc_find_control(chain, xctrl->id, &mapping);
+> > >     if (ctrl == NULL)
+> > >             return -EINVAL;
+> > > @@ -2062,6 +2149,7 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+> > >  {
+> > >     struct uvc_control_mapping *map;
+> > >     unsigned int size;
+> > > +   unsigned int i;
+> > >
+> > >     /* Most mappings come from static kernel data and need to be duplicated.
+> > >      * Mappings that come from userspace will be unnecessarily duplicated,
+> > > @@ -2085,6 +2173,14 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+> > >     if (map->set == NULL)
+> > >             map->set = uvc_set_le_value;
+> > >
+> > > +   for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
+> > > +           if (V4L2_CTRL_ID2WHICH(uvc_control_class[i].id) ==
+> > > +                                           V4L2_CTRL_ID2WHICH(map->id)) {
+> > > +                   chain->ctrl_class_bitmap |= BIT(i);
+> > > +                   break;
+> > > +           }
+> > > +   }
+> > > +
+> > >     list_add_tail(&map->list, &ctrl->info.mappings);
+> > >     uvc_dbg(chain->dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
+> > >             map->name, ctrl->info.entity, ctrl->info.selector);
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index 97df5ecd66c9..1f17e4253673 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -262,6 +262,11 @@ struct uvc_control_mapping {
+> > >                 u8 *data);
+> > >  };
+> > >
+> > > +struct uvc_control_class {
+> > > +   u32 id;
+> > > +   char name[32];
+> > > +};
+> > > +
+> > >  struct uvc_control {
+> > >     struct uvc_entity *entity;
+> > >     struct uvc_control_info info;
+> > > @@ -475,6 +480,7 @@ struct uvc_video_chain {
+> > >
+> > >     struct v4l2_prio_state prio;            /* V4L2 priority state */
+> > >     u32 caps;                               /* V4L2 chain-wide caps */
+> > > +   u8 ctrl_class_bitmap;                   /* Bitmap of valid classes */
+> > >  };
+> > >
+> > >  struct uvc_stats_frame {
+> > >
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-With those changes:
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Regards,
-
-	Hans
+-- 
+Ricardo Ribalda
