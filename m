@@ -2,144 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C81A333E0B3
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 22:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D244033E183
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 23:39:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbhCPVis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 17:38:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbhCPViQ (ORCPT
+        id S231394AbhCPWj1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 18:39:27 -0400
+Received: from mail-il1-f175.google.com ([209.85.166.175]:34006 "EHLO
+        mail-il1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231391AbhCPWiy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 17:38:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED91C06174A;
-        Tue, 16 Mar 2021 14:38:16 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2858CD8B;
-        Tue, 16 Mar 2021 22:38:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615930693;
-        bh=JLfYaUWMFQrrk1yH5XJnkvC7K7r5WIEAGtjhPVHoDp4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pVrLbpKGeRiWE8bSOFDxKwHARc+s/gXth1t1T80hYJBfQkk7VIylTcwoXA96bHWkt
-         LlBAdhroYFsegn5jn3gCmmz6dZO1IUW46WtY5S6gcWWwgRFmPbvCS7toLqcUA49i82
-         D3S1rQvy1x8R6Sy2MAS4+g2fOdYWpCYzX0rA2p7s=
-Date:   Tue, 16 Mar 2021 23:37:37 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer access
-Message-ID: <YFElIZacukBWa7YA@pendragon.ideasonboard.com>
-References: <20210301120828.6945-1-biju.das.jz@bp.renesas.com>
- <20210301120828.6945-3-biju.das.jz@bp.renesas.com>
- <133f8b63-3b84-c60a-725d-30b8d6df35dd@ideasonboard.com>
- <OS0PR01MB5922BE9F9D151623773CF53286919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <56c2d53e-8d1f-5b84-1480-5965ae9cbae2@ideasonboard.com>
- <OS0PR01MB5922ABCA7A782950B63DCA6686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <YE7XwWVZeOZ+HsYx@pendragon.ideasonboard.com>
- <c757d90e-da85-6862-36fc-2343795de4b4@xs4all.nl>
+        Tue, 16 Mar 2021 18:38:54 -0400
+Received: by mail-il1-f175.google.com with SMTP id z9so14259452iln.1;
+        Tue, 16 Mar 2021 15:38:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SD/SZ3UG7VKbgaVrrT8DgCnN1QyD1tEWDh0bYJlJYkg=;
+        b=UHiyE9aXlDo4t1olVzRuRH7XXrfe8hSLeoVmfvtasqH8vsIaWLu/ifKL9Yu4fQSGBC
+         CE5iDrDDUw5jCrSt3d7vczoTS8R9iopwlixwl5cdb+AJw4FG8b0fUncNl+R+vg4wucWF
+         OTcw6BF6VKzpo1Ipw2jhCqjq2kQZvue9WIwA9LDO/unU58J8YR6junlV37LOyct3iPds
+         zMzfxso1/8QAsfqyAmLCuL2lgCdQn7ekYY47lmMY2RoQ4U6aVcFNUP82XYWP0u+gJtZB
+         harFzeArDQbZ2Bf/ZAXP/v2YztVLjXMqRJMwbVrYvylwciPDrI4roU4wSIgdCS3k6hx9
+         m8Aw==
+X-Gm-Message-State: AOAM531cTAQOXdmHd08gCL6fQ3LJz33b1oYzmwuc8HfWXkdOXyoGWZlL
+        MAki6sM+P1yEUnoz9cLJkw==
+X-Google-Smtp-Source: ABdhPJz/1RsNGnIMlJ8fyTp0/b8ks4EGuk0hdFVREY0vKfhYgj5oz8QkS10nM9A/ROJUejiF3rXkWw==
+X-Received: by 2002:a92:d6c8:: with SMTP id z8mr5459251ilp.162.1615934333469;
+        Tue, 16 Mar 2021 15:38:53 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id 74sm9215084iob.43.2021.03.16.15.38.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 15:38:52 -0700 (PDT)
+Received: (nullmailer pid 3815302 invoked by uid 1000);
+        Tue, 16 Mar 2021 22:38:50 -0000
+Date:   Tue, 16 Mar 2021 16:38:50 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Liu Ying <victor.liu@nxp.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, mchehab@kernel.org,
+        a.hajda@samsung.com, narmstrong@baylibre.com,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@siol.net, kishon@ti.com, vkoul@kernel.org,
+        robert.foss@linaro.org, lee.jones@linaro.org
+Subject: Re: [PATCH v5 07/14] dt-bindings: mfd: Add i.MX8qm/qxp Control and
+ Status Registers module binding
+Message-ID: <20210316223850.GA3806545@robh.at.kernel.org>
+References: <1615370138-5673-1-git-send-email-victor.liu@nxp.com>
+ <1615370138-5673-8-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c757d90e-da85-6862-36fc-2343795de4b4@xs4all.nl>
+In-Reply-To: <1615370138-5673-8-git-send-email-victor.liu@nxp.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On Tue, Mar 16, 2021 at 09:21:15AM +0100, Hans Verkuil wrote:
-> On 15/03/2021 04:42, Laurent Pinchart wrote:
-> > On Wed, Mar 10, 2021 at 02:50:23PM +0000, Biju Das wrote:
-> >>> On 10/03/2021 13:56, Biju Das wrote:
-> >>>> Thanks for the feedback.
-> >>>>> Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer
-> >>>>> access
-> >>>>>
-> >>>>> Hi Biju,
-> >>>>>
-> >>>>> On 01/03/2021 12:08, Biju Das wrote:
-> >>>>>> RZ/G2L SoC has no UIF. This patch fixes null pointer access, when
-> >>>>>> UIF module is not used.
-> >>>>>>
-> >>>>>> Fixes: 5e824f989e6e8("media: v4l: vsp1: Integrate DISCOM in display
-> >>>>>> pipeline")
-> >>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >>>>>> ---
-> >>>>>>  drivers/media/platform/vsp1/vsp1_drm.c | 4 ++--
-> >>>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> b/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> index f6d2f47a4058..06f74d410973 100644
-> >>>>>> --- a/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> @@ -462,9 +462,9 @@ static int vsp1_du_pipeline_setup_inputs(struct
-> >>>>>> vsp1_device *vsp1,
-> >>>>>
-> >>>>>
-> >>>>> This looks like it complicates these conditionals more than we
-> >>>>> perhaps need to.
-> >>>>>
-> >>>>> What do you think about adding something above the block comment here?:
-> >>>>
-> >>>> It is much better.
-> >>>>
-> >>>> This patch is accepted in media tree[1]. So not sure, should I send a
-> >>>> follow up patch as optimization or drop this patch and send new one.
-> >>>
-> >>> Oh, I didn't realise these were in already. Sorry, I didn't see any review
-> >>> on the list, and it was the earliest I had got to them.
-> >>>
-> >>>> Please suggest.
-> >>>
-> >>> Up to you, I don't think this would get dropped now it's integrated.
-> >>> It's in, so if you want to update on top I believe that's fine.
-> >>
-> >> OK, Will send follow up patch as optimization.
-> > 
-> > That would be nice.
-> > 
-> > I don't think this patch should have been fast-tracked as a fix, as
-> > RZ/G2L isn't supported in mainline yet as far as I can tell.
-> > 
-> > Hans, next time, could we get a notification instead of a silent merge ?
+On Wed, Mar 10, 2021 at 05:55:31PM +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qm/qxp Control and Status Registers module.
 > 
-> My apologies, it seemed a trivial fix, but I should have checked with you.
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v4->v5:
+> * Newly introduced in v5. (Rob)
 > 
-> I jumped the gun here :-(
+>  .../devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml   | 202 +++++++++++++++++++++
+>  1 file changed, 202 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml b/Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
+> new file mode 100644
+> index 00000000..0e724d9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
+> @@ -0,0 +1,202 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/fsl,imx8qxp-csr.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qm/qxp Control and Status Registers Module Bindings
+> +
+> +maintainers:
+> +  - Liu Ying <victor.liu@nxp.com>
+> +
+> +description: |
+> +  As a system controller, the Freescale i.MX8qm/qxp Control and Status
+> +  Registers(CSR) module represents a set of miscellaneous registers of a
+> +  specific subsystem.  It may provide control and/or status report interfaces
+> +  to a mix of standalone hardware devices within that subsystem.  One typical
+> +  use-case is for some other nodes to acquire a reference to the syscon node
+> +  by phandle, and the other typical use-case is that the operating system
+> +  should consider all subnodes of the CSR module as separate child devices.
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - fsl,imx8qxp-mipi-lvds-csr
+> +          - fsl,imx8qm-lvds-csr
 
-No worries, it can happen :-)
+You shouldn't need this, we filter out 'syscon' and 'simple-mfd'.
 
-> >>>>> 	if (!drm_pipe->uif)
-> >>>>> 		return 0;
-> >>>>>
-> >>>>>
-> >>>>>>  	 * make sure it is present in the pipeline's list of entities if it
-> >>>>>>  	 * wasn't already.
-> >>>>>>  	 */
-> >>>>>> -	if (!use_uif) {
-> >>>>>> +	if (drm_pipe->uif && !use_uif) {
-> >>>>>>  		drm_pipe->uif->pipe = NULL;
-> >>>>>> -	} else if (!drm_pipe->uif->pipe) {
-> >>>>>> +	} else if (drm_pipe->uif && !drm_pipe->uif->pipe) {>
-> >>>>> 	drm_pipe->uif->pipe = pipe;
-> >>>>>>  		list_add_tail(&drm_pipe->uif->list_pipe, &pipe->entities);
-> >>>>>>  	}
-> >>>>>>
-
--- 
-Regards,
-
-Laurent Pinchart
+> +  required:
+> +    - compatible
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^syscon@[0-9a-f]+$"
+> +
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - fsl,imx8qxp-mipi-lvds-csr
+> +          - fsl,imx8qm-lvds-csr
+> +      - const: syscon
+> +      - const: simple-mfd
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: ipg
+> +
+> +patternProperties:
+> +  "^(ldb|phy|pxl2dpi)$":
+> +    type: object
+> +    description: The possible child devices of the CSR module.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx8qxp-mipi-lvds-csr
+> +    then:
+> +      required:
+> +        - pxl2dpi
+> +        - ldb
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx8qm-lvds-csr
+> +    then:
+> +      required:
+> +        - phy
+> +        - ldb
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8-lpcg.h>
+> +    #include <dt-bindings/firmware/imx/rsrc.h>
+> +    mipi_lvds_0_csr: syscon@56221000 {
+> +        compatible = "fsl,imx8qxp-mipi-lvds-csr", "syscon", "simple-mfd";
+> +        reg = <0x56221000 0x1000>;
+> +        clocks = <&mipi_lvds_0_di_mipi_lvds_regs_lpcg IMX_LPCG_CLK_4>;
+> +        clock-names = "ipg";
+> +
+> +        mipi_lvds_0_pxl2dpi: pxl2dpi {
+> +            compatible = "fsl,imx8qxp-pxl2dpi";
+> +            fsl,sc-resource = <IMX_SC_R_MIPI_0>;
+> +            power-domains = <&pd IMX_SC_R_MIPI_0>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +                    reg = <0>;
+> +
+> +                    mipi_lvds_0_pxl2dpi_dc0_pixel_link0: endpoint@0 {
+> +                        reg = <0>;
+> +                        remote-endpoint = <&dc0_pixel_link0_mipi_lvds_0_pxl2dpi>;
+> +                    };
+> +
+> +                    mipi_lvds_0_pxl2dpi_dc0_pixel_link1: endpoint@1 {
+> +                        reg = <1>;
+> +                        remote-endpoint = <&dc0_pixel_link1_mipi_lvds_0_pxl2dpi>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +                    reg = <1>;
+> +
+> +                    mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0: endpoint@0 {
+> +                        reg = <0>;
+> +                        remote-endpoint = <&mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi>;
+> +                    };
+> +
+> +                    mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1: endpoint@1 {
+> +                        reg = <1>;
+> +                        remote-endpoint = <&mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +
+> +        mipi_lvds_0_ldb: ldb {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            compatible = "fsl,imx8qxp-ldb";
+> +            clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_MISC2>,
+> +                     <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_BYPASS>;
+> +            clock-names = "pixel", "bypass";
+> +            power-domains = <&pd IMX_SC_R_LVDS_0>;
+> +
+> +            channel@0 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <0>;
+> +                phys = <&mipi_lvds_0_phy>;
+> +                phy-names = "lvds_phy";
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +
+> +                    mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi: endpoint {
+> +                        remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +
+> +                    /* ... */
+> +                };
+> +            };
+> +
+> +            channel@1 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <1>;
+> +                phys = <&mipi_lvds_0_phy>;
+> +                phy-names = "lvds_phy";
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +
+> +                    mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi: endpoint {
+> +                        remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +
+> +                    /* ... */
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    mipi_lvds_0_phy: phy@56228300 {
+> +        compatible = "fsl,imx8qxp-mipi-dphy";
+> +        reg = <0x56228300 0x100>;
+> +        clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_PHY>;
+> +        clock-names = "phy_ref";
+> +        #phy-cells = <0>;
+> +        fsl,syscon = <&mipi_lvds_0_csr>;
+> +        power-domains = <&pd IMX_SC_R_MIPI_0>;
+> +    };
+> -- 
+> 2.7.4
+> 
