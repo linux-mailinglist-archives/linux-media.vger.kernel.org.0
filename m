@@ -2,103 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DD1B33D46E
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 13:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F298333D4CA
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 14:25:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234034AbhCPM4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 08:56:51 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:51805 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233865AbhCPMzm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 08:55:42 -0400
-Received: from uno.localdomain (host-79-22-58-175.retail.telecomitalia.it [79.22.58.175])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 9A26524000B;
-        Tue, 16 Mar 2021 12:55:36 +0000 (UTC)
-Date:   Tue, 16 Mar 2021 13:56:07 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        id S234818AbhCPNZZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 09:25:25 -0400
+Received: from ni.piap.pl ([195.187.100.5]:43902 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230063AbhCPNZF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Mar 2021 09:25:05 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id 96B264439A5;
+        Tue, 16 Mar 2021 14:25:01 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 96B264439A5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1615901101; bh=wZdVlT6VbbKipHYc8IYWqAuDe8Y2YOt1tmvRaR9ZA98=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FdoBLBcfi9PmBYw/IX99zz8CS3ymGSkrLmsuCCaLx2QkWOFchrNbFQKOXDF1AHI/T
+         jY/j3Mw20w8mJ7/1llQSfZza6ooo+U7Is5HTzPISEXN+hY49CmW33EY46+7FmuduoX
+         NiLLivOu+Tuai+Gih729fNu2zOkXNTmpdBuRo4aE=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     devicetree@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/18] media: i2c: rdacm20: Enable noise immunity
-Message-ID: <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
- <20210315131512.133720-3-jacopo+renesas@jmondi.org>
- <YE/TlmrLV4ejOjlF@pendragon.ideasonboard.com>
+Subject: RFC: dt-binding: media: document ON Semi AR0521 sensor bindings
+Sender: khalasa@piap.pl
+Date:   Tue, 16 Mar 2021 14:25:01 +0100
+Message-ID: <m3o8fjs02a.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YE/TlmrLV4ejOjlF@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+This file documents DT bindings for the AR0521 camera sensor driver.
 
-On Mon, Mar 15, 2021 at 11:37:26PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Mon, Mar 15, 2021 at 02:14:56PM +0100, Jacopo Mondi wrote:
-> > Enable the noise immunity threshold at the end of the rdacm20
-> > initialization routine.
-> >
-> > The rdacm20 camera module has been so far tested with a startup
-> > delay that allowed the embedded MCU to program the serializer. If
-> > the initialization routine is run before the MCU programs the
-> > serializer and the image sensor and their addresses gets changed
-> > by the rdacm20 driver it is required to manually enable the noise
-> > immunity threshold to make the communication on the control channel
-> > more reliable.
->
-> I'm still worried by the race with the MCU. Any update on dumping the
-> MCU configuration to check what it initializes ?
->
+Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
 
-Not yet, you're right ...
+diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml b=
+/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml
+new file mode 100644
+index 000000000000..f649d4cbcb37
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/onnn,ar0521.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/onnn,ar0521.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ON Semiconductor AR0521 MIPI CSI-2 sensor
++
++maintainers:
++  - Krzysztof Halasa <khalasa@piap.pl>
++
++description: |-
++  The AR0521 is a raw CMOS image sensor with MIPI CSI-2 and
++  I2C-compatible control interface.
++
++properties:
++  compatible:
++    const: on-semi,ar0521
++
++  reg:
++    description: I2C bus address of the sensor device
++    maxItems: 1
++
++  clocks:
++    description: reference to the xclk clock
++    maxItems: 1
++
++  clock-names:
++    const: xclk
++
++  reset-gpios:
++    description: active low reset GPIO
++    maxItems: 1
++
++  port:
++    type: object
++    description: |
++      Output video port: 1, 2 or 4 lanes. See ../video-interfaces.txt.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/clock/imx6qdl-clock.h>
++
++    i2c {
++            #address-cells =3D <1>;
++            #size-cells =3D <0>;
++
++            ar0521: camera-sensor@36 {
++                    compatible =3D "onnn,ar0521";
++                    reg =3D <0x36>;
++                    pinctrl-names =3D "default";
++                    pinctrl-0 =3D <&pinctrl_mipi_camera>;
++
++                    clocks =3D <&clks IMX6QDL_CLK_CKO>;
++                    clock-names =3D "xclk";
++
++                    reset-gpios =3D <&gpio1 7 GPIO_ACTIVE_LOW>;
++
++                    port {
++                           mipi_camera_to_mipi_csi2: endpoint {
++                                    remote-endpoint =3D <&mipi_csi2_in>;
++                                    data-lanes =3D <1 2 3 4>;
++                            };
++                    };
++            };
++    };
 
-I mainly focused on testing with rdacm21, what if I strip the rdacm20
-changes out from this series ? I will have to keep the init()
-operation introduction to maintain compatibility with max9286 changes,
-and in case of no regressions, we can keep the 8 seconds delay in the
-.dtsi. However it will break upstream support on Eagle for rdacm20 as
-we don't have a regulator where to insert the startup delay there, and
-a downstream patch that waits for 8 seconds in the deserializer driver
-should be used instead...
+--=20
+Krzysztof Halasa
 
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/rdacm20.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> > index 90eb73f0e6e9..f7fd5ae955d0 100644
-> > --- a/drivers/media/i2c/rdacm20.c
-> > +++ b/drivers/media/i2c/rdacm20.c
-> > @@ -541,7 +541,13 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> >
-> >  	dev_info(dev->dev, "Identified MAX9271 + OV10635 device\n");
-> >
-> > -	return 0;
-> > +	/*
-> > +	 * Set reverse channel high threshold to increase noise immunity.
-> > +	 *
-> > +	 * This should be compensated by increasing the reverse channel
-> > +	 * amplitude on the remote deserializer side.
-> > +	 */
-> > +	return max9271_set_high_threshold(&dev->serializer, true);
-> >  }
-> >
-> >  static int rdacm20_probe(struct i2c_client *client)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
