@@ -2,90 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EAFC33D9D2
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 17:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26E5633D9E8
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 17:56:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234349AbhCPQvD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 12:51:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231834AbhCPQut (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 12:50:49 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DADBC06174A
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 09:50:48 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id c6so12120678qtc.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 09:50:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=I6s/GWpB8z+vs2gEBc10WX3m9xHJZEKi5YaS8/i76Jc=;
-        b=lCWfemKlgMKpTJ63c16cf4tdMsthgyjYCUQwoxMCMkkbkBqVJdraH9TCRxww6mgVuq
-         4QsmmW6LK+sPH23JkEyUXqDFuV2138eQqaHQKo+mK39e5dwJ4xgtumqgQFDFmxf8+0aU
-         ahrHwfJXHpJxbHcJQWmqr8N2yXfCKI73kYL99lTzvjMkPq+izynej0qFuMV0R+S56NyK
-         GuhXXIziPoAwPGTux2VKlkqpJkYOfLJ1ykDW0qX2io+xcnjl1U45fLA+6ayrpkR7nPxI
-         mpqgeurcWeGnznq6KD4wGbq3hL18fzEGRklKHYs71B6IYp4gl0KSanD8hhi+5Vjdv8RM
-         uo+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=I6s/GWpB8z+vs2gEBc10WX3m9xHJZEKi5YaS8/i76Jc=;
-        b=a5XnuSNsvvUhYr699PgZmtpSaeMmVo2i44LwNqJIJUHxN741Xh0tnu4cnQJUETD8tn
-         bXiO2AXh3Ou+4sgo8qxHSfGShdBhJn0hwF6PVrqwTh5UDvL8ET1Y8mmWi4owikDCddvJ
-         fb9Wbp6CNDjX+m04+r+pYc3+iQIq6VafzLzXEBYL1vRg8TMH3Jr1182bYdUEF1tTD9L1
-         ZxvA8Mnosc3r/UTiUlSMRy6Tute1w+Yxgh+hXwRUV+6wIaEO3jRqrQxsg0Bdw+3b9E9E
-         ew3vGtC9VVQ25gxdmotp019Up17aza1tYLDVwndkyR1SkKfyzgeYR7hIsh5rq5MWXfDj
-         B5gQ==
-X-Gm-Message-State: AOAM5332Kzb0/oYy80rBIstWciquaj2dEMsQ6U9DibuNrPRA/yVJ5o7R
-        FI9X2uqnYkmaZSxdl1BC1Oc=
-X-Google-Smtp-Source: ABdhPJxjKEiIkg2y9KpIGmWhcFJKajEbKhyMA+COJIBuMGXMI8piK4wxuPI/q+UTDxpwv4Tw5aDKVQ==
-X-Received: by 2002:ac8:550b:: with SMTP id j11mr559821qtq.360.1615913447526;
-        Tue, 16 Mar 2021 09:50:47 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:919::1000])
-        by smtp.gmail.com with ESMTPSA id j1sm13572709qti.55.2021.03.16.09.50.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 09:50:47 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     p.zabel@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2] media: coda: Remove unneeded of_match_ptr()
-Date:   Tue, 16 Mar 2021 13:50:39 -0300
-Message-Id: <20210316165039.235735-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S236451AbhCPQzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 12:55:37 -0400
+Received: from jpvw.nl ([80.127.100.2]:60610 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236463AbhCPQzG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Mar 2021 12:55:06 -0400
+Received: from [127.0.0.1] (helo=jpvw.nl)
+        by jpvw.nl with esmtp (Exim 4.94)
+        (envelope-from <jp@jpvw.nl>)
+        id 1lMCyG-000GXt-NP; Tue, 16 Mar 2021 17:55:04 +0100
+Subject: Re: [PATCH] Backport MYGICA T230A adapter
+To:     Vincent Fortier <th0ma7@gmail.com>, linux-media@vger.kernel.org
+References: <e57634b4-b6f3-fcbd-2e43-cfed3a429918@gmail.com>
+From:   JP <jp@jpvw.nl>
+Message-ID: <f62ab424-7dc6-ee57-d098-fb5008c33cef@jpvw.nl>
+Date:   Tue, 16 Mar 2021 17:55:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <e57634b4-b6f3-fcbd-2e43-cfed3a429918@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The coda driver only runs on i.MX, which is a DT-only platform, so
-remove the unneeded of_match_ptr().
+Hi Vincent.
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v1:
-- In the Subject: Removed --> Remove
+On 3/13/21 1:36 PM, Vincent Fortier wrote:
+> Hi all,
+>
+> (first patch posting so don't hesitate to let me know where to find 
+> additional info to improve next time)
 
- drivers/media/platform/coda/coda-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+My advice is to do this on newer kernel. 
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.11.6.tar.xz
+So we can share it with the world.
+I have all T230* receivers, so i can test t230a and also if it doesn't 
+break the others.
 
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index 995e95272e51..ccb4d3f4804e 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -3317,7 +3317,7 @@ static struct platform_driver coda_driver = {
- 	.remove	= coda_remove,
- 	.driver	= {
- 		.name	= CODA_NAME,
--		.of_match_table = of_match_ptr(coda_dt_ids),
-+		.of_match_table = coda_dt_ids,
- 		.pm	= &coda_pm_ops,
- 	},
- };
--- 
-2.25.1
+Cheers,
+
+Jan Pieter.
+
+
+> The following patch is a manual backport based on crazycat69 / 
+> linux_media git repository:
+>
+> https://github.com/crazycat69/linux_media/commit/e1ef47d604775c550a8f0d1bda276c113f882c9b?branch=e1ef47d604775c550a8f0d1bda276c113f882c9b&diff=unified 
+>
+>
+>
+> MYGICA T230A support was found on the following thread:
+> https://forum.libreelec.tv/thread/23142-mygica-t230a/?pageNo=2
+>
+> Built successfully over commit 
+> 069192365e2cec8b47f6e6701fb2aa50f763c602 (March 9th) on media_build 
+> git tree with driver snapshot from 2021-03-07-1c5ab1e2286f over 
+> Synology 4.4.59 / 4.4.60 kernels. Also built successfully over 
+> 3.10.105 using latest compatible snapshot from 2021-01-13 using driver 
+> version 2021-01-08-321af22a3d2f (as sadly pre-4.4 support was removed 
+> recently).
+>
+> User thread confirming it to work under Synology NAS under 4.4.59 
+> kernel available here:
+>
+> https://github.com/th0ma7/synology/issues/9
+>
+> Much thnx in advance.
+>
+> - vin
+>
+> ---
+>
+> diff -uprN ../linuxtv.orig/linux/drivers/media/usb/dvb-usb-v2/dvbsky.c 
+> ./linux/drivers/media/usb/dvb-usb-v2/dvbsky.c
+> --- ../linuxtv.orig/linux/drivers/media/usb/dvb-usb-v2/dvbsky.c 
+> 2020-11-06 05:40:16.000000000 +0000
+> +++ ./linux/drivers/media/usb/dvb-usb-v2/dvbsky.c    2021-02-19 
+> 14:31:34.405091839 +0000
+> @@ -529,7 +529,7 @@ static int dvbsky_t330_attach(struct dvb
+>      return 0;
+>  }
+>
+> -static int dvbsky_mygica_t230c_attach(struct dvb_usb_adapter *adap)
+> +static int dvbsky_mygica_t230_attach(struct dvb_usb_adapter *adap)
+>  {
+>      struct dvbsky_state *state = adap_to_priv(adap);
+>      struct dvb_usb_device *d = adap_to_d(adap);
+> @@ -541,7 +541,9 @@ static int dvbsky_mygica_t230c_attach(st
+>      si2168_config.i2c_adapter = &i2c_adapter;
+>      si2168_config.fe = &adap->fe[0];
+>      si2168_config.ts_mode = SI2168_TS_PARALLEL;
+> -    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
+> USB_PID_MYGICA_T230C2)
+> +    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
+> USB_PID_MYGICA_T230C2 ||
+> +        le16_to_cpu(d->udev->descriptor.idProduct) == 
+> USB_PID_MYGICA_T230C2_LITE ||
+> +        le16_to_cpu(d->udev->descriptor.idProduct) == 
+> USB_PID_MYGICA_T230A)
+>          si2168_config.ts_mode |= SI2168_TS_CLK_MANUAL;
+>      si2168_config.ts_clock_inv = 1;
+>
+> @@ -553,19 +555,26 @@ static int dvbsky_mygica_t230c_attach(st
+>
+>      /* attach tuner */
+>      si2157_config.fe = adap->fe[0];
+> -    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
+> USB_PID_MYGICA_T230) {
+> -        si2157_config.if_port = 1;
+> -        state->i2c_client_tuner = dvb_module_probe("si2157", NULL,
+> +    switch (le16_to_cpu(d->udev->descriptor.idProduct)) {
+> +    case USB_PID_MYGICA_T230C:
+> +    case USB_PID_MYGICA_T230C2:
+> +    case USB_PID_MYGICA_T230C2_LITE:
+> +    case USB_PID_MYGICA_T230A: {
+> +        si2157_config.if_port = 0;
+> +        state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
+>                                 i2c_adapter,
+>                                 0x60,
+>                                 &si2157_config);
+> -    } else {
+> -        si2157_config.if_port = 0;
+> -        state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
+> +        break;
+> +    }
+> +    default: {
+> +        si2157_config.if_port = 1;
+> +        state->i2c_client_tuner = dvb_module_probe("si2157", NULL,
+>                                 i2c_adapter,
+>                                 0x60,
+>                                 &si2157_config);
+>      }
+> +    }
+>      if (!state->i2c_client_tuner) {
+>          dvb_module_release(state->i2c_client_demod);
+>          return -ENODEV;
+> @@ -577,14 +586,24 @@ static int dvbsky_mygica_t230c_attach(st
+>
+>  static int dvbsky_identify_state(struct dvb_usb_device *d, const char 
+> **name)
+>  {
+> -    dvbsky_gpio_ctrl(d, 0x04, 1);
+> -    msleep(20);
+> -    dvbsky_gpio_ctrl(d, 0x83, 0);
+> -    dvbsky_gpio_ctrl(d, 0xc0, 1);
+> -    msleep(100);
+> -    dvbsky_gpio_ctrl(d, 0x83, 1);
+> -    dvbsky_gpio_ctrl(d, 0xc0, 0);
+> -    msleep(50);
+> +    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
+> USB_PID_MYGICA_T230A) {
+> +        dvbsky_gpio_ctrl(d, 0x87, 0);
+> +        msleep(20);
+> +        dvbsky_gpio_ctrl(d, 0x86, 1);
+> +        dvbsky_gpio_ctrl(d, 0x80, 0);
+> +        msleep(100);
+> +        dvbsky_gpio_ctrl(d, 0x80, 1);
+> +        msleep(50);
+> +    } else {
+> +        dvbsky_gpio_ctrl(d, 0x04, 1);
+> +        msleep(20);
+> +        dvbsky_gpio_ctrl(d, 0x83, 0);
+> +        dvbsky_gpio_ctrl(d, 0xc0, 1);
+> +        msleep(100);
+> +        dvbsky_gpio_ctrl(d, 0x83, 1);
+> +        dvbsky_gpio_ctrl(d, 0xc0, 0);
+> +        msleep(50);
+> +    }
+>
+>      return WARM;
+>  }
+> @@ -719,7 +738,7 @@ static struct dvb_usb_device_properties
+>      }
+>  };
+>
+> -static struct dvb_usb_device_properties mygica_t230c_props = {
+> +static struct dvb_usb_device_properties mygica_t230_props = {
+>      .driver_name = KBUILD_MODNAME,
+>      .owner = THIS_MODULE,
+>      .adapter_nr = adapter_nr,
+> @@ -730,7 +749,7 @@ static struct dvb_usb_device_properties
+>      .generic_bulk_ctrl_delay = DVBSKY_MSG_DELAY,
+>
+>      .i2c_algo         = &dvbsky_i2c_algo,
+> -    .frontend_attach  = dvbsky_mygica_t230c_attach,
+> +    .frontend_attach  = dvbsky_mygica_t230_attach,
+>      .frontend_detach  = dvbsky_frontend_detach,
+>      .init             = dvbsky_init,
+>      .get_rc_config    = dvbsky_get_rc_config,
+> @@ -778,16 +797,22 @@ static const struct usb_device_id dvbsky
+>          &dvbsky_s960_props, "Terratec Cinergy S2 Rev.4",
+>          RC_MAP_DVBSKY) },
+>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230,
+> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230",
+> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230",
+>          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
+> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C",
+> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C",
+>          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C_LITE,
+> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
+> T230C Lite",
+> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C 
+> Lite",
+>          NULL) },
+>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
+> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
+> T230C v2",
+> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C 
+> v2",
+> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+> +     { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2_LITE,
+> +        &mygica_t230_props, "MyGica Mini DVB-T2 USB Stick T230C Lite 
+> v2",
+> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+> +    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230A,
+> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230A",
+>          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+>      { }
+>  };
+> diff -uprN ../linuxtv.orig/linux/include/media/dvb-usb-ids.h 
+> ./linux/include/media/dvb-usb-ids.h
+> --- ../linuxtv.orig/linux/include/media/dvb-usb-ids.h 2020-05-26 
+> 05:40:21.000000000 +0000
+> +++ ./linux/include/media/dvb-usb-ids.h    2021-02-19 
+> 14:27:21.459391941 +0000
+> @@ -394,6 +394,8 @@
+>  #define USB_PID_MYGICA_T230C                0xc689
+>  #define USB_PID_MYGICA_T230C2                0xc68a
+>  #define USB_PID_MYGICA_T230C_LITE            0xc699
+> +#define USB_PID_MYGICA_T230C2_LITE            0xc69a
+> +#define USB_PID_MYGICA_T230A                0x689a
+>  #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
+>  #define USB_PID_ELGATO_EYETV_DTT            0x0021
+>  #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
+>
+>
 
