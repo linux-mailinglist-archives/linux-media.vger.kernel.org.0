@@ -2,257 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25B6433DC21
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 19:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 110A933DC75
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 19:21:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234552AbhCPSHe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 14:07:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35842 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236265AbhCPSFr (ORCPT
+        id S239946AbhCPSUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 14:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239933AbhCPSUQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 14:05:47 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 967FF8C8;
-        Tue, 16 Mar 2021 19:05:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615917943;
-        bh=b3H7xco2mtjXdf3pVzdPoH5EDV9IbI6hLidVHBvgGrI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TGpb6kWP+DiF01EVCBigDJ9lB4NNlOSXZAS/4uF4tiNJCZ1Kzt6walM9LvV+BTO+R
-         r1o+9FfAVnPYgVQg2A9hl4tZuCu7t5R6wEHox03xacAcz6gfwIbuaXHiFfCeHgLOl9
-         3URxnHPHU8caML82chzn8elOqYxIHwCDWnHjr6nU=
-Date:   Tue, 16 Mar 2021 20:05:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     ezequiel@collabora.com, festevam@gmail.com,
-        linux-media@vger.kernel.org, p.zabel@pengutronix.de,
-        rmfrfs@gmail.com, slongerbeam@gmail.com
-Subject: Re: [PATCH] imx7-media-csi: csi2 only
-Message-ID: <YFDzUpzZVrGbM793@pendragon.ideasonboard.com>
-References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
- <20210316115635.4096574-1-martin.kepplinger@puri.sm>
+        Tue, 16 Mar 2021 14:20:16 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ED9DC06174A;
+        Tue, 16 Mar 2021 11:20:16 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id r20so21761927ljk.4;
+        Tue, 16 Mar 2021 11:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/EY3L/mBI9A92qs+kcJfia7iM4nIgXa7Eq9egkGrSYQ=;
+        b=ShxQSv1YnF0cA0m72VVBXuOJkv4rMoe/cZcEB2scB3iPD98yKUVaIFHsUQHsvMb+9F
+         Ulv48BWA6vPHbW9Gy3pbWeEv/BRfws287bbrFenYgrmBnhJ0IkXxBBUDQmm44yeNF2fG
+         XFk3UqwpJ2JQbH8wL/kiWkqOPddwzcDUhFPc5v9TpIuseArS9Uz3MSKY6vTsajrWy2V3
+         QqYUB6LvpyCN2+RIrKOhikeIs3dJYUYxqiQgo+o+IPXvMhCgCbOZQDLu/f+RS2pcocdI
+         mQLAzxCO2uhxuFKSaBUpxzWFAdlDp/BRIZb7cUfzpl1HrrxTOITSs09rJEjTUZQz30om
+         h7Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/EY3L/mBI9A92qs+kcJfia7iM4nIgXa7Eq9egkGrSYQ=;
+        b=UdTvLa6eHFBFIYEy9mUkXL4hCFkAgLEa3gRBY1Dk1TFoo6f2ngEpqRA+tLh3MOovZ5
+         yBD1Fufcif3TVWdBzzc/JKfbA3IgShGddmHnZO8dfemGYwKM81/mv5oPAKxk1XF0iSL8
+         zvbT6Z0EQcZfASXN5jzXw9LmEO3w4j0UTPVsuGFFE4H2JetIIz4McbTWLjCPgFaGgAdi
+         y8DIp1+NFLDTY96z+emw5clAmG0eV7eZycQJAH1+Dw944FtgxhqPf7G6iFhQS1384IIm
+         9JCabJ9ahYkZvaBajt7zTluf/2r17BU9krHufVFtNe3DqyRVkFTQ76XJ2NTWAY0TTJMk
+         AxOA==
+X-Gm-Message-State: AOAM531HJK5MTWYPb1SBw6bkL1A5XAQPh9FUdQqAx8vu5IblZBlVyHGw
+        pzfJmmoXzwFh6N93F/GLhmvgUsc6F0fkyqFO0Lg=
+X-Google-Smtp-Source: ABdhPJzS1GwTMKy9q7+dcAKRjRYTkm3ot0+9gSzRXYXGbbM6cKzdnXnGRTNBCsOwG3SQX7GqDjUfMOgI5CLoDMhnrNQ=
+X-Received: by 2002:a2e:7409:: with SMTP id p9mr3392483ljc.165.1615918814407;
+ Tue, 16 Mar 2021 11:20:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210316115635.4096574-1-martin.kepplinger@puri.sm>
+References: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com> <20210208051749.1785246-2-sergey.senozhatsky@gmail.com>
+In-Reply-To: <20210208051749.1785246-2-sergey.senozhatsky@gmail.com>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Tue, 16 Mar 2021 19:19:57 +0100
+Message-ID: <CAPybu_19hztQQEi0H40sWZQMb-X7g7dDuW4Mz8_gRv-nG2tghw@mail.gmail.com>
+Subject: Re: [PATCHv2 1/3] media: v4l UAPI docs: document ROI selection targets
+To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Hi Sergey
 
-On Tue, Mar 16, 2021 at 12:56:35PM +0100, Martin Kepplinger wrote:
+Thanks for the patch!
+
+On Mon, Feb 8, 2021 at 6:21 AM Sergey Senozhatsky
+<sergey.senozhatsky@gmail.com> wrote:
+>
+> From: Sergey Senozhatsky <senozhatsky@chromium.org>
+>
+> Document new v4l2-selection target which will be used for the
+> Region of Interest v4l2 control.
+>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > ---
-> 
-> hi Laurent,
-> 
-> thanks a lot for posting this series!
-> 
-> First: I only test imx7-media-csi (csi bridge) because I run it on imx8mq.
-> overall, I'm very happy with all of this and I get the same image out
-> of it as I get with the mx6s_capture nxp driver.
-
-That's good news :-)
-
-> one issue I have is with is_csi2, so I post this patch that I need in
-> order to test. It's obviously no solution, just to describe the issue:
-> 
-> I'm not sure why but imx7_csi_pad_link_validate() isn't called in my case
-> and is_csi2 doesn't get set, so I force it. Would it make sense to make
-> a dts property for this?
-
-Some platforms support both parallel and CSI-2 inputs, so we can't
-hardcode which one is used in DT. I'd advise trying to debug why the
-function is never called in your case, it's meant to be called with the
-following call stack
-
-- imx7_csi_pad_link_validate() (through v4l2_subdev_pad_ops.link_validate)
-- v4l2_subdev_link_validate() (through media_entity_operations.link_validate)
-- __media_pipeline_start()
-- imx_media_pipeline_set_stream()
-- capture_start_streaming()
-- ...
-
-> The other thing is that
-> v4l2-ctl --set-fmt-video=width=1280,height=720,pixelformat=0
-> doesn't call the sensor drivers' set_fmt() pad function. That means that
-> only the one mode I hard-code as default will work. instead I just see this:
-
-That's expected. With a driver based on the media controller API, you
-have to configure the format on each subdev manually. You can use the
-media-ctl utility for that. The video node is only used to control the
-DMA engine, the kernel driver doesn't propagate the configuration to
-subdevices.
-
-> [  742.977677] imx7-csi 30a90000.csi1_bridge: begin graph walk at 'csi capture'
-> [  742.977702] imx7-csi 30a90000.csi1_bridge: walk: pushing 'csi' on stack
-> [  742.977709] imx7-csi 30a90000.csi1_bridge: walk: skipping entity 'csi capture' (already seen)
-> [  742.977714] imx7-csi 30a90000.csi1_bridge: walk: returning entity 'csi'
-> [  742.977720] imx7-csi 30a90000.csi1_bridge: walk: returning entity 'csi capture'
-> [  742.977985] imx7-csi 30a90000.csi1_bridge: begin graph walk at 'csi capture'
-> [  742.977992] imx7-csi 30a90000.csi1_bridge: walk: pushing 'csi' on stack
-> [  742.977997] imx7-csi 30a90000.csi1_bridge: walk: skipping entity 'csi capture' (already seen)
-> [  742.978002] imx7-csi 30a90000.csi1_bridge: walk: returning entity 'csi'
-> [  742.978008] imx7-csi 30a90000.csi1_bridge: walk: returning entity 'csi capture'
-> [  742.978025] mc: media_release: Media Release
-> 
-> Does anything come to your mind that would prevent the set_fmt call here?
-> That's what the (nxp) mipi driver looks like I'm running here:
-> https://source.puri.sm/martin.kepplinger/linux-next/-/blob/5.12-rc3/librem5__integration_byzantium/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c
-> 
->  drivers/staging/media/imx/imx7-media-csi.c | 135 +++++++++------------
->  1 file changed, 60 insertions(+), 75 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index 56b92ba97d25..95c359019725 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -435,82 +435,67 @@ static void imx7_csi_configure(struct imx7_csi *csi)
->  		stride = out_pix->width;
->  	}
->  
-> -	if (!csi->is_csi2) {
-> -		dev_dbg(csi->dev, "%s: NOT is_csi2\n", __func__);
-> -		cr1 = BIT_SOF_POL | BIT_REDGE | BIT_GCLK_MODE | BIT_HSYNC_POL
-> -		    | BIT_FCC | BIT_MCLKDIV(1) | BIT_MCLKEN;
-> -
-> -		cr18 |= BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
-> -			BIT_BASEADDR_CHG_ERR_EN;
-> -
-> -		if (out_pix->pixelformat == V4L2_PIX_FMT_UYVY ||
-> -		    out_pix->pixelformat == V4L2_PIX_FMT_YUYV)
-> -			width *= 2;
-> -	} else {
-> -		dev_dbg(csi->dev, "%s: is_csi2\n", __func__);
-> -
-> -		cr1 = BIT_SOF_POL | BIT_REDGE | BIT_HSYNC_POL | BIT_FCC
-> -		    | BIT_MCLKDIV(1) | BIT_MCLKEN;
-> -
-> -		cr18 |= BIT_DATA_FROM_MIPI;
-> -
-> -		switch (csi->format_mbus[IMX7_CSI_PAD_SINK].code) {
-> -		case MEDIA_BUS_FMT_Y8_1X8:
-> -		case MEDIA_BUS_FMT_SBGGR8_1X8:
-> -		case MEDIA_BUS_FMT_SGBRG8_1X8:
-> -		case MEDIA_BUS_FMT_SGRBG8_1X8:
-> -		case MEDIA_BUS_FMT_SRGGB8_1X8:
-> -			cr18 |= BIT_MIPI_DATA_FORMAT_RAW8;
-> -			break;
-> -		case MEDIA_BUS_FMT_Y10_1X10:
-> -		case MEDIA_BUS_FMT_SBGGR10_1X10:
-> -		case MEDIA_BUS_FMT_SGBRG10_1X10:
-> -		case MEDIA_BUS_FMT_SGRBG10_1X10:
-> -		case MEDIA_BUS_FMT_SRGGB10_1X10:
-> -			dev_dbg(csi->dev, "%s: RAW10\n", __func__);
-> -			cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
-> -			break;
-> -		case MEDIA_BUS_FMT_Y12_1X12:
-> -		case MEDIA_BUS_FMT_SBGGR12_1X12:
-> -		case MEDIA_BUS_FMT_SGBRG12_1X12:
-> -		case MEDIA_BUS_FMT_SGRBG12_1X12:
-> -		case MEDIA_BUS_FMT_SRGGB12_1X12:
-> -			cr18 |= BIT_MIPI_DATA_FORMAT_RAW12;
-> -			break;
-> -		case MEDIA_BUS_FMT_Y14_1X14:
-> -		case MEDIA_BUS_FMT_SBGGR14_1X14:
-> -		case MEDIA_BUS_FMT_SGBRG14_1X14:
-> -		case MEDIA_BUS_FMT_SGRBG14_1X14:
-> -		case MEDIA_BUS_FMT_SRGGB14_1X14:
-> -			cr18 |= BIT_MIPI_DATA_FORMAT_RAW14;
-> -			break;
-> -		/*
-> -		 * CSI-2 sources are supposed to use the 1X16 formats, but not
-> -		 * all of them comply. Support both variants.
-> -		 */
-> -		case MEDIA_BUS_FMT_UYVY8_2X8:
-> -		case MEDIA_BUS_FMT_UYVY8_1X16:
-> -		case MEDIA_BUS_FMT_YUYV8_2X8:
-> -		case MEDIA_BUS_FMT_YUYV8_1X16:
-> -			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-> -			break;
-> -		}
-> +	cr1 = BIT_SOF_POL | BIT_REDGE | BIT_HSYNC_POL | BIT_FCC
-> +	    | BIT_MCLKDIV(1) | BIT_MCLKEN;
+>  .../media/v4l/selection-api-configuration.rst | 23 +++++++++++++++++++
+>  .../media/v4l/v4l2-selection-targets.rst      | 21 +++++++++++++++++
+>  include/uapi/linux/v4l2-common.h              |  8 +++++++
+>  3 files changed, 52 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/selection-api-configuration.rst b/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
+> index fee49bf1a1c0..9f69d71803f6 100644
+> --- a/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
+> +++ b/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
+> @@ -135,3 +135,26 @@ and the height of rectangles obtained using ``V4L2_SEL_TGT_CROP`` and
+>  ``V4L2_SEL_TGT_COMPOSE`` targets. If these are not equal then the
+>  scaling is applied. The application can compute the scaling ratios using
+>  these values.
 > +
-> +	cr18 |= BIT_DATA_FROM_MIPI;
+> +Configuration of Region of Interest (ROI)
+> +=========================================
 > +
-> +	switch (csi->format_mbus[IMX7_CSI_PAD_SINK].code) {
-> +	case MEDIA_BUS_FMT_Y8_1X8:
-> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +		cr18 |= BIT_MIPI_DATA_FORMAT_RAW8;
-> +		break;
-> +	case MEDIA_BUS_FMT_Y10_1X10:
-> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +		dev_dbg(csi->dev, "%s: RAW10\n", __func__);
-> +		cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
-> +		break;
-> +	case MEDIA_BUS_FMT_Y12_1X12:
-> +	case MEDIA_BUS_FMT_SBGGR12_1X12:
-> +	case MEDIA_BUS_FMT_SGBRG12_1X12:
-> +	case MEDIA_BUS_FMT_SGRBG12_1X12:
-> +	case MEDIA_BUS_FMT_SRGGB12_1X12:
-> +		cr18 |= BIT_MIPI_DATA_FORMAT_RAW12;
-> +		break;
-> +	case MEDIA_BUS_FMT_Y14_1X14:
-> +	case MEDIA_BUS_FMT_SBGGR14_1X14:
-> +	case MEDIA_BUS_FMT_SGBRG14_1X14:
-> +	case MEDIA_BUS_FMT_SGRBG14_1X14:
-> +	case MEDIA_BUS_FMT_SRGGB14_1X14:
-> +		cr18 |= BIT_MIPI_DATA_FORMAT_RAW14;
-> +		break;
-> +	/*
-> +	 * CSI-2 sources are supposed to use the 1X16 formats, but not
-> +	 * all of them comply. Support both variants.
-> +	 */
-> +	case MEDIA_BUS_FMT_UYVY8_2X8:
-> +	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +	case MEDIA_BUS_FMT_YUYV8_2X8:
-> +	case MEDIA_BUS_FMT_YUYV8_1X16:
-> +		cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-> +		break;
-> +	}
->  
-> -		switch (out_pix->pixelformat) {
-> -		case V4L2_PIX_FMT_Y10:
-> -		case V4L2_PIX_FMT_Y12:
-> -		case V4L2_PIX_FMT_SBGGR8:
-> -		case V4L2_PIX_FMT_SGBRG8:
-> -		case V4L2_PIX_FMT_SGRBG8:
-> -		case V4L2_PIX_FMT_SRGGB8:
-> -		case V4L2_PIX_FMT_SBGGR16:
-> -		case V4L2_PIX_FMT_SGBRG16:
-> -		case V4L2_PIX_FMT_SGRBG16:
-> -		case V4L2_PIX_FMT_SRGGB16:
-> -			dev_dbg(csi->dev, "%s: PIXEL_BIT\n", __func__);
-> -			cr1 |= BIT_PIXEL_BIT;
-> -			break;
-> -		}
-> +	switch (out_pix->pixelformat) {
-> +	case V4L2_PIX_FMT_Y10:
-> +	case V4L2_PIX_FMT_Y12:
-> +	case V4L2_PIX_FMT_SBGGR8:
-> +	case V4L2_PIX_FMT_SGBRG8:
-> +	case V4L2_PIX_FMT_SGRBG8:
-> +	case V4L2_PIX_FMT_SRGGB8:
-> +	case V4L2_PIX_FMT_SBGGR16:
-> +	case V4L2_PIX_FMT_SGBRG16:
-> +	case V4L2_PIX_FMT_SGRBG16:
-> +	case V4L2_PIX_FMT_SRGGB16:
-> +		dev_dbg(csi->dev, "%s: PIXEL_BIT\n", __func__);
-> +		cr1 |= BIT_PIXEL_BIT;
-> +		break;
->  	}
->  
->  	imx7_csi_reg_write(csi, cr1, CSI_CSICR1);
+> +The range of coordinates of the top left corner, width and height of
+> +areas that can be ROI is given by the ``V4L2_SEL_TGT_ROI_BOUNDS`` target.
+> +It is recommended for the driver developers to put the top/left corner
+> +at position ``(0,0)``. The rectangle's coordinates are in global sensor
+> +coordinates. The units are in pixels and independent of the field of view.
+> +They are not impacted by any cropping or scaling that is currently being
+> +used.
+
+Can we also mention binning here?
+
+> +
+> +The top left corner, width and height of the Region of Interest area
+> +currently being employed by the device is given by the
+> +``V4L2_SEL_TGT_ROI_CURRENT`` target. It uses the same coordinate system
+> +as ``V4L2_SEL_TGT_ROI_BOUNDS``.
+
+Why do we need current? Cant we just read back V4L2_SEL_TGT_ROI ?
+
+> +
+> +In order to change active ROI top left, width and height coordinates
+> +use ``V4L2_SEL_TGT_ROI`` target.
+> +
+> +Each capture device has a default ROI rectangle, given by the
+> +``V4L2_SEL_TGT_ROI_DEFAULT`` target. Drivers shall set the ROI rectangle
+> +to the default when the driver is first loaded, but not later.
+> diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> index e877ebbdb32e..cb3809418fa6 100644
+> --- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> +++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> @@ -69,3 +69,24 @@ of the two interfaces they are used.
+>         modified by hardware.
+>        - Yes
+>        - No
+> +    * - ``V4L2_SEL_TGT_ROI_CURRENT``
+> +      - 0x0200
+> +      - Current Region of Interest rectangle.
+> +      - Yes
+> +      - No
+> +    * - ``V4L2_SEL_TGT_ROI_DEFAULT``
+> +      - 0x0201
+> +      - Suggested Region of Interest rectangle.
+> +      - Yes
+> +      - No
+> +    * - ``V4L2_SEL_TGT_ROI_BOUNDS``
+> +      - 0x0202
+> +      - Bounds of the Region of Interest rectangle. All valid ROI rectangles fit
+> +       inside the ROI bounds rectangle.
+> +      - Yes
+> +      - No
+> +    * - ``V4L2_SEL_TGT_ROI``
+> +      - 0x0203
+> +      - Sets the new Region of Interest rectangle.
+> +      - Yes
+> +      - No
+As mentioned before I think we should not have TGT_ROI_CURRENT and TGT_ROI
+
+
+> diff --git a/include/uapi/linux/v4l2-common.h b/include/uapi/linux/v4l2-common.h
+> index 7d21c1634b4d..d0c108fba638 100644
+> --- a/include/uapi/linux/v4l2-common.h
+> +++ b/include/uapi/linux/v4l2-common.h
+> @@ -78,6 +78,14 @@
+>  #define V4L2_SEL_TGT_COMPOSE_BOUNDS    0x0102
+>  /* Current composing area plus all padding pixels */
+>  #define V4L2_SEL_TGT_COMPOSE_PADDED    0x0103
+> +/* Current Region of Interest area */
+> +#define V4L2_SEL_TGT_ROI_CURRENT       0x0200
+> +/* Default Region of Interest area */
+> +#define V4L2_SEL_TGT_ROI_DEFAULT       0x0201
+> +/* Region of Interest bounds */
+> +#define V4L2_SEL_TGT_ROI_BOUNDS        0x0202
+> +/* Set Region of Interest area */
+> +#define V4L2_SEL_TGT_ROI               0x0203
+
+Nit: Maybe it could be a good idea to split doc and code. This way the
+backports/fixes are easier.
+
+>
+>  /* Selection flags */
+>  #define V4L2_SEL_FLAG_GE               (1 << 0)
+> --
+> 2.30.0
+>
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
