@@ -2,128 +2,280 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBBF633D116
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 10:45:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 512D233D167
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 11:09:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234913AbhCPJpX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 05:45:23 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:32973 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230467AbhCPJpQ (ORCPT
+        id S234225AbhCPKJB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 06:09:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57036 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236482AbhCPKIs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 05:45:16 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id M6GFl0zxk4ywlM6GJlARtK; Tue, 16 Mar 2021 10:45:15 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615887915; bh=wM19qqX0itd9TKdCy7l5NNmoCL2A0+6x0UmY3RscrlE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ooCq0o8NfWwui4JCXyceu+rOlTZ5SOX1CxsIsi2mYWiRrmcnFfTnQqsQUSjiXeVNS
-         1kZi01/kS+1Dqoo9FU8A31SYbNyykJNUrkstJ+pLvBX3RJ5Vx7cqfonoHIYpdCDSxg
-         vidEj9mhWmQX2boImr6daRcDerpQYXdLEQXUaco9h+rt9y74M8bqdluyW/B81bXZnC
-         fVzjNn0tKtzVtVmGpUsEZXqlhAnbOMSRLw8k8vwCfwRXDcwJ0LJ+8LjjvHGLZWXOD1
-         oC+xcbstz13aYSCE6hcoygH414PaoqWB3LWagFkP8EimY3CIGuqM+9+KETUHtxn0sP
-         BWLXZjm7522iQ==
-Subject: Re: [PATCH v4 09/11] media: uvcvideo: Increase the size of
- UVC_METADATA_BUF_SIZE
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tue, 16 Mar 2021 06:08:48 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6DCDD8B;
+        Tue, 16 Mar 2021 11:08:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1615889327;
+        bh=22Ct6epTDYbMoW1l2Xu8cPkLadja9VQY+KkxYOhhOg8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ncfrT9UMZoWvJTXh7GiiUIyau/TmJbbf5jUEKV2mpuyIREYHElCwx9z84701Xy5FC
+         mNdY6A936y238Hsl4bausRBVJ7S3V9sJr5OHd0xhWhk2IzjKjuBNUXMnpxrXIxe59Z
+         iJf8TeG8zSJ4BwEwd+2mGHleMWLtLdh2i2Bq2akM=
+Date:   Tue, 16 Mar 2021 12:08:11 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 06/11] media: uvcvideo: Add support for
+ V4L2_CTRL_TYPE_CTRL_CLASS
+Message-ID: <YFCDi6nSidMNHy52@pendragon.ideasonboard.com>
 References: <20210315173609.1547857-1-ribalda@chromium.org>
- <20210315173609.1547857-10-ribalda@chromium.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <df9feb80-6a31-478c-005c-13c12c4bf05e@xs4all.nl>
-Date:   Tue, 16 Mar 2021 10:45:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+ <20210315173609.1547857-7-ribalda@chromium.org>
+ <59c2f8dd-db7d-f80c-88fe-0db00c15c741@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20210315173609.1547857-10-ribalda@chromium.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCWzTPYFpHTCP2aYEqrvekqWLu4U19mEyZ0bBGBxqsoPJm805CmzNOtbPJO49d3taBbUzOwZsU1DhrKEN1ZBHkbKk6zfYQ1n49I2fLdR8ZTTtxwwE0Bn
- 3oaJzAJsXDS1OdGemex7MDslvDNs1TaKLXQZjioSlSF5Ix8HGGLXvrxtEOnXtapBB1iVqyr37OtIpDKMJcBnJPcvfZFNucubVbn4G6ak/pp0xbfpmyflEWBh
- WqgXTtfV4cp1Jg1ZeAsdvUkDKuPWyWLlVCsqsBCEYE+a0/CP6bdgK4e14ig6ecnu8yUY93ZZo2xctR3FSps14xQrDQI+Xs+8dVYSRoAouHW7RvuFoamJOUaP
- 2owoxuHmrv9RsaMEkk2aYiPVGz+6vdF5ZvhpK/yffAlT2bWMfeU=
+Content-Disposition: inline
+In-Reply-To: <59c2f8dd-db7d-f80c-88fe-0db00c15c741@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo, Laurent,
+Hi Hans,
 
-On 15/03/2021 18:36, Ricardo Ribalda wrote:
-> Hans has discovered that in his test device, for the H264 format
-> bytesused goes up to about 570, for YUYV it will actually go up
-> to a bit over 5000 bytes, and for MJPG up to about 2706 bytes.
+On Tue, Mar 16, 2021 at 09:37:07AM +0100, Hans Verkuil wrote:
+> On 15/03/2021 18:36, Ricardo Ribalda wrote:
+> > Create all the class controls for the device defined controls.
+> > 
+> > Fixes v4l2-compliance:
+> > Control ioctls (Input 0):
+> > 		fail: v4l2-test-controls.cpp(216): missing control class for class 00980000
+> > 		fail: v4l2-test-controls.cpp(216): missing control tclass for class 009a0000
+> > 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+> > 
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c | 96 ++++++++++++++++++++++++++++++++
+> >  drivers/media/usb/uvc/uvcvideo.h |  6 ++
+> >  2 files changed, 102 insertions(+)
+> > 
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index b75da65115ef..be0fadaf414c 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -357,6 +357,17 @@ static const struct uvc_control_info uvc_ctrls[] = {
+> >  	},
+> >  };
+> >  
+> > +static const struct uvc_control_class uvc_control_class[] = {
+> > +	{
+> > +		.id		= V4L2_CID_CAMERA_CLASS,
+> > +		.name		= "Camera Controls",
+> > +	},
+> > +	{
+> > +		.id		= V4L2_CID_USER_CLASS,
+> > +		.name		= "User Controls",
 > 
-> Credit-to: Hans Verkuil <hverkuil@xs4all.nl>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvcvideo.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I noticed that uvc_ctrl.c has hardcoded strings for the control names and
+> control menus.
 > 
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 1f17e4253673..91fc00ff311b 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -528,7 +528,7 @@ struct uvc_stats_stream {
->  	unsigned int max_sof;		/* Maximum STC.SOF value */
->  };
->  
-> -#define UVC_METADATA_BUF_SIZE 1024
-> +#define UVC_METADATA_BUF_SIZE 10240
->  
->  /**
->   * struct uvc_copy_op: Context structure to schedule asynchronous memcpy
+> It would be good to drop that from the code and instead use v4l2_ctrl_get_menu()
+> and v4l2_ctrl_get_name() to obtain the names. It ensures consistent naming and
+> saves a bit of memory.
+> 
+> This can be done in a separate patch before or after this one.
+
+https://git.linuxtv.org/pinchartl/media.git/commit/?h=uvc/dev&id=16a7d79d67cdd06a448d8c4c20e270d1c21828b1
+
+It's work in progress, the part that bothers me is the changes in
+uvc_parse_format(). We lose the human-readable name in a debug message,
+but maybe more importantly, we lose the distinction between different DV
+formats. Maybe it's not a big deal.
+
+> > +	},
+> > +};
+> > +
+> >  static const struct uvc_menu_info power_line_frequency_controls[] = {
+> >  	{ 0, "Disabled" },
+> >  	{ 1, "50 Hz" },
+> > @@ -1024,6 +1035,49 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+> >  	return 0;
+> >  }
+> >  
+> > +static int __uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+> > +				  u32 found_id)
+> > +{
+> > +	bool find_next = req_id & V4L2_CTRL_FLAG_NEXT_CTRL;
+> > +	unsigned int i;
+> > +
+> > +	req_id &= V4L2_CTRL_ID_MASK;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
+> > +		if (!(chain->ctrl_class_bitmap & BIT(i)))
+> > +			continue;
+> > +		if (!find_next) {
+> > +			if (uvc_control_class[i].id == req_id)
+> > +				return i;
+> > +			continue;
+> > +		}
+> > +		if (uvc_control_class[i].id > req_id &&
+> > +		    uvc_control_class[i].id < found_id)
+> > +			return i;
+> > +	}
+> > +
+> > +	return -ENODEV;
+> > +}
+> > +
+> > +static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+> > +				u32 found_id, struct v4l2_queryctrl *v4l2_ctrl)
+> > +{
+> > +	int idx;
+> > +
+> > +	idx = __uvc_query_v4l2_class(chain, req_id, found_id);
+> > +	if (idx < 0)
+> > +		return -ENODEV;
+> > +
+> > +	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
+> > +	v4l2_ctrl->id = uvc_control_class[idx].id;
+> > +	strscpy(v4l2_ctrl->name, uvc_control_class[idx].name,
+> > +		sizeof(v4l2_ctrl->name));
+> > +	v4l2_ctrl->type = V4L2_CTRL_TYPE_CTRL_CLASS;
+> > +	v4l2_ctrl->flags = V4L2_CTRL_FLAG_WRITE_ONLY
+> > +			   | V4L2_CTRL_FLAG_READ_ONLY;
+> > +	return 0;
+> > +}
+> > +
+> >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >  	struct uvc_control *ctrl,
+> >  	struct uvc_control_mapping *mapping,
+> > @@ -1127,12 +1181,31 @@ int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >  	if (ret < 0)
+> >  		return -ERESTARTSYS;
+> >  
+> > +	/* Check if the ctrl is a know class */
+> > +	if (!(v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL)) {
+> > +		ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, 0, v4l2_ctrl);
+> > +		if (!ret)
+> > +			goto done;
+> > +	}
+> > +
+> >  	ctrl = uvc_find_control(chain, v4l2_ctrl->id, &mapping);
+> >  	if (ctrl == NULL) {
+> >  		ret = -EINVAL;
+> >  		goto done;
+> >  	}
+> >  
+> > +	/*
+> > +	 * If we're enumerating control with V4L2_CTRL_FLAG_NEXT_CTRL, check if
+> > +	 * a class should be inserted between the previous control and the one
+> > +	 * we have just found.
+> > +	 */
+> > +	if (v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL) {
+> > +		ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, mapping->id,
+> > +					   v4l2_ctrl);
+> > +		if (!ret)
+> > +			goto done;
+> > +	}
+> > +
+> >  	ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, v4l2_ctrl);
+> >  done:
+> >  	mutex_unlock(&chain->ctrl_mutex);
+> > @@ -1426,6 +1499,11 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
+> >  	if (ret < 0)
+> >  		return -ERESTARTSYS;
+> >  
+> > +	if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0) {
+> > +		ret = 0;
+> > +		goto done;
+> > +	}
+> > +
+> >  	ctrl = uvc_find_control(handle->chain, sev->id, &mapping);
+> >  	if (ctrl == NULL) {
+> >  		ret = -EINVAL;
+> > @@ -1459,7 +1537,10 @@ static void uvc_ctrl_del_event(struct v4l2_subscribed_event *sev)
+> >  	struct uvc_fh *handle = container_of(sev->fh, struct uvc_fh, vfh);
+> >  
+> >  	mutex_lock(&handle->chain->ctrl_mutex);
+> > +	if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0)
+> > +		goto done;
+> >  	list_del(&sev->node);
+> > +done:
+> >  	mutex_unlock(&handle->chain->ctrl_mutex);
+> >  }
+> >  
+> > @@ -1577,6 +1658,9 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
+> >  	struct uvc_control *ctrl;
+> >  	struct uvc_control_mapping *mapping;
+> >  
+> > +	if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
+> > +		return -EACCES;
+> > +
+> >  	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
+> >  	if (ctrl == NULL)
+> >  		return -EINVAL;
+> > @@ -1596,6 +1680,9 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+> >  	s32 max;
+> >  	int ret;
+> >  
+> > +	if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
+> > +		return -EACCES;
+> > +
+> >  	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
+> >  	if (ctrl == NULL)
+> >  		return -EINVAL;
+> > @@ -2062,6 +2149,7 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+> >  {
+> >  	struct uvc_control_mapping *map;
+> >  	unsigned int size;
+> > +	unsigned int i;
+> >  
+> >  	/* Most mappings come from static kernel data and need to be duplicated.
+> >  	 * Mappings that come from userspace will be unnecessarily duplicated,
+> > @@ -2085,6 +2173,14 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+> >  	if (map->set == NULL)
+> >  		map->set = uvc_set_le_value;
+> >  
+> > +	for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
+> > +		if (V4L2_CTRL_ID2WHICH(uvc_control_class[i].id) ==
+> > +						V4L2_CTRL_ID2WHICH(map->id)) {
+> > +			chain->ctrl_class_bitmap |= BIT(i);
+> > +			break;
+> > +		}
+> > +	}
+> > +
+> >  	list_add_tail(&map->list, &ctrl->info.mappings);
+> >  	uvc_dbg(chain->dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
+> >  		map->name, ctrl->info.entity, ctrl->info.selector);
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 97df5ecd66c9..1f17e4253673 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -262,6 +262,11 @@ struct uvc_control_mapping {
+> >  		    u8 *data);
+> >  };
+> >  
+> > +struct uvc_control_class {
+> > +	u32 id;
+> > +	char name[32];
+> > +};
+> > +
+> >  struct uvc_control {
+> >  	struct uvc_entity *entity;
+> >  	struct uvc_control_info info;
+> > @@ -475,6 +480,7 @@ struct uvc_video_chain {
+> >  
+> >  	struct v4l2_prio_state prio;		/* V4L2 priority state */
+> >  	u32 caps;				/* V4L2 chain-wide caps */
+> > +	u8 ctrl_class_bitmap;			/* Bitmap of valid classes */
+> >  };
+> >  
+> >  struct uvc_stats_frame {
+> > 
 > 
 
-I've been doing some tests here, and this is tricky.
-
-I think the core bug is in uvc_video_decode_meta():
-
-        if (meta_buf->length - meta_buf->bytesused <
-            length + sizeof(meta->ns) + sizeof(meta->sof)) {
-                meta_buf->error = 1;
-                return;
-        }
-
-This checks for a buffer overflow and by setting meta_buf->error to 1 it causes
-the whole buffer to be discarded. But according to the V4L2_META_FMT_UVC docs here
-
-https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/pixfmt-meta-uvc.html
-
-it should "drop headers when the buffer is full", which suggests to me that
-the 'meta_buf->error = 1;' is wrong and should be removed.
-
-Looking at the number of headers I receive for various frame sizes and frame rates
-when choosing YUYV as the pixelformat I see that the frame rate is the main input
-to that: I get (very roughly) one header for every 150 microseconds. So that's
-roughly 667 headers of 22 bytes for a 10 fps capture. The frame size has some
-effect, but it is fairly small. This means that for slow captures (i.e. 2 fps)
-you need about 75000 bytes, let's round it up to 102400.
-
-I did tests with 1920x1080 at 5 fps for YUYV, H264 and MJPEG and saw the following:
-
-Format		Video Size	Metadata Size
-
-YUYV		4147200		29964
-MJPG		130000		3608
-H264 (P-frame)	70000		2600
-H264 (I-frame)	150000		5500
-
-The difference here is most likely due to YUYV being transmitted over time as
-video lines arrive, so it is spread out over time, while H264 and MJPG are
-bursty, i.e. the whole compressed frame is transferred in one go.
-
-I think that 10240 is a good value for the metadata buffers since it is enough
-for the worst-case for the compressed formats, and that if this is combined
-with removing the 'meta_buf->error = 1;' it will also do its job for YUYV
-even though data will be dropped, but that's better than not getting anything
-at all.
-
+-- 
 Regards,
 
-	Hans
+Laurent Pinchart
