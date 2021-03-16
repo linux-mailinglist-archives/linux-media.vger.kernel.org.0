@@ -2,140 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A58E33CFD4
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 09:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F85733CFDA
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 09:29:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234779AbhCPI11 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 04:27:27 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37863 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234782AbhCPI1L (ORCPT
+        id S234710AbhCPI3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 04:29:02 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60117 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233674AbhCPI2w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 04:27:11 -0400
+        Tue, 16 Mar 2021 04:28:52 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id M52gl0b6T4ywlM52jlAEdG; Tue, 16 Mar 2021 09:27:10 +0100
+        id M54Kl0beb4ywlM54NlAEvx; Tue, 16 Mar 2021 09:28:51 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615883230; bh=SK//TJeKZZqCTdVtCweP5Ojk9og1PzK5n/CaXENhwA4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1615883331; bh=+kqVOuNhUm1dZmhVFGGGFM9n2QfjsRX4Q8vxCpIphW0=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=UGFR+XZDGpsskxFwHshrd6koI6MW2DggZ/bfFDfsGQCuroKsacRk5Gu3mU9Vw3Ccb
-         LBrYh2CNpOniKAVhaBvSj7FxewQfowcalR2B4UC6EBI7HYppSvLh+43uP0vUNp/AJ1
-         FZrrtCY7Q4WQYIlW3DAMNTbUgs2EhAcuaIqa6xcrkDrh9k1jDW+Lqtz+3K0ciExfEZ
-         +eHbCk11egAoxszrXOl4GYkqmU/7LXcpkQ0QLCrPil0u6Yd0DjgfnpADtVNXekbHMr
-         HQQcs0P+jk4wHI7skC2sqt6+sU24XHIV4NmOD/yTqG5Ecl0GfwochDZ1HqyRue2esZ
-         VDRhfrkCuoksg==
-Subject: Re: [PATCH] Rectify spelling and grammar
-To:     Xiaofeng Cao <cxfcosmos@gmail.com>
-Cc:     gustavoars@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiaofeng Cao <caoxiaofeng@yulong.com>, mchehab@kernel.org
-References: <20210311072044.388-1-cxfcosmos@gmail.com>
- <126298ca-15c3-22f8-50f5-b7bf4cc281ec@xs4all.nl>
- <CAHHmPVFHkgGdo6C+FYBo+jsH=xzpnEUgGs7bKT6=MQFhZC-N1g@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <d9899157-99f3-6382-8693-8d1eb2dcaeba@xs4all.nl>
-Date:   Tue, 16 Mar 2021 09:27:06 +0100
+        b=s2vgUXhBkMOxKZdbBjkIASihpZzaoMpP63xpOs27FormOKOm3bPKx4APMq+QEnuef
+         +l7Tbcf7PoQmvd0VqKlav74Y0D4xRQ6cBeBOg9qja89YoX6K8FiborqAx5g+vnPant
+         zoOGKI8Kn/5vyMQgFlfv9/PFN3skNzxjODd0yrW2zTt6eNLNX1Q+bQro7ajXLwocMR
+         J+ODDdqm/pxwVlqE/nA3lFFNygtrQOp1BHjMlpE5aRu3OWKBPu/zUkTADa1UpROzs0
+         eBU/QvbR2aWGIzjqPmLCxZLSTy3BE0M5dKM+r5j7lmsTi06TfvpR6KauiquZLXi+XX
+         uYK2DAyDAXHmg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.13] Various fixes
+Message-ID: <2b1c3894-0de4-fdbb-5fd5-004765a5a5ea@xs4all.nl>
+Date:   Tue, 16 Mar 2021 09:28:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAHHmPVFHkgGdo6C+FYBo+jsH=xzpnEUgGs7bKT6=MQFhZC-N1g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfHgsxrDn00l8/eE0J4+bnKgDJrNpJFOYtKHRpRyF9TJpK0AQXwzF5SMXi34scTCQLOH0+gy0wF3G66+gQDmDP/wOds0T3vjN2au/5epvUzXnthnTJXTd
- ABrNLTDI8jGomA1FSHVGzeUjmt0rXX5ojdFvxgBBE4fVozD8uZ4KRNZDncGFRvKogyecWgzkgtOW8cYG5hhHwMf1zBs1ZnymRGdPkuF/ElJiDBHenwt4wtH1
- dOg2zoq7gcMVCxY37mZDsVMShCLUM7UmLSyqd2kSEvKWmxwFEbRnMv9NUZ4ql8Ar9pagtG8qFaRWYz+KMsUqfW+c6/F6v2xzruF69PaoRaxC1gvu70AP7jPx
- XZS8xuwDgZCWwAQrliR/sr+hT/Cy6GbxN1pStYQ3m/jXjOk4RyFqZYIy33jtNswgPLE88/Ly
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfHNpDWIV0b1iTjVID19FsUmQ2eziFqZYWuA3tHVz02L4qOOj/vtKEl04oCr9A/6oCsTYyWY/gXLD2nPFgwnjkiZypEWjJaygFyqM9e0ARoewkY7mVQ2B
+ Ss/OxLZZg4E9krRxaHRxN+0dCvdSZzrz99FFqAilzcVCykJAA7AQPWpGRFaZbrqQETvHTfnugYHHnn7ov9nwA0c7Sz35ZptQcuU=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/03/2021 09:16, Xiaofeng Cao wrote:
-> Hi Hans Verkuil,
-> 
-> I'm sorry to make you confused. Please use Xiaofeng Cao <caoxiaofeng@yulong.com <mailto:caoxiaofeng@yulong.com>>
+The following changes since commit 1c5ab1e2286f4ca6347744e9d4cace5fad5ffa39:
 
-Thanks, I've updated this to keep checkpatch happy.
+  Merge tag 'v5.12-rc2' into patchwork (2021-03-07 17:46:50 +0100)
 
-BTW, for your next patch: it is good practice to add a prefix of the driver you
-are patching, so:
+are available in the Git repository at:
 
-[PATCH] radio-si476x: rectify spelling and grammar
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13j
 
-That way we know in which driver the change is.
+for you to fetch changes up to a19a42501dcae664335e7377bd421a2a823077ad:
 
-Regards,
+  radio-si476x: rectify spelling and grammar (2021-03-16 09:23:47 +0100)
 
-	Hans
+----------------------------------------------------------------
+Tag branch
 
-> 
-> Gmail.com is my personal email while yulong.com <http://yulong.com> is my company email which is in trouble when communicating with the
-> Linux kernel.
-> 
-> According to relevant regulations, I have to use the company mailbox to indicate company information.
-> 
-> Best regards,
-> 
->     Xiaofeng
-> 
-> Hans Verkuil <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>> 于2021年3月16日周二 下午3:45写道：
-> 
->     Hi Xiaofeng Cao,
-> 
->     The patch is good, but scripts/checkpatch.pl <http://checkpatch.pl> complains about a mismatch:
-> 
->     WARNING: From:/Signed-off-by: email address mismatch: 'From: Xiaofeng Cao <cxfcosmos@gmail.com <mailto:cxfcosmos@gmail.com>>' !=
->     'Signed-off-by: Xiaofeng Cao
->     <caoxiaofeng@yulong.com <mailto:caoxiaofeng@yulong.com>>'
-> 
->     Which is the one I should use?
-> 
->     Regards,
-> 
->             Hans
-> 
->     On 11/03/2021 08:20, Xiaofeng Cao wrote:
->     > Change 'inaccesable' to 'inaccessible'
->     > Change 'detrmine' to 'determine'
->     > Delete 'in' grammatically
->     >
->     > Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com <mailto:caoxiaofeng@yulong.com>>
->     > ---
->     >  drivers/media/radio/radio-si476x.c | 6 +++---
->     >  1 file changed, 3 insertions(+), 3 deletions(-)
->     >
->     > diff --git a/drivers/media/radio/radio-si476x.c b/drivers/media/radio/radio-si476x.c
->     > index 23997425bdb5..b39a68f83c5f 100644
->     > --- a/drivers/media/radio/radio-si476x.c
->     > +++ b/drivers/media/radio/radio-si476x.c
->     > @@ -152,7 +152,7 @@ static struct v4l2_ctrl_config si476x_ctrls[] = {
->     > 
->     >       /*
->     >        * SI476X during its station seeking(or tuning) process uses several
->     > -      * parameters to detrmine if "the station" is valid:
->     > +      * parameters to determine if "the station" is valid:
->     >        *
->     >        *      - Signal's SNR(in dBuV) must be lower than
->     >        *      #V4L2_CID_SI476X_SNR_THRESHOLD
->     > @@ -255,7 +255,7 @@ struct si476x_radio;
->     >   *
->     >   * This table holds pointers to functions implementing particular
->     >   * operations depending on the mode in which the tuner chip was
->     > - * configured to start in. If the function is not supported
->     > + * configured to start. If the function is not supported
->     >   * corresponding element is set to #NULL.
->     >   *
->     >   * @tune_freq: Tune chip to a specific frequency
->     > @@ -917,7 +917,7 @@ static int si476x_radio_s_ctrl(struct v4l2_ctrl *ctrl)
->     >       case V4L2_CID_RDS_RECEPTION:
->     >               /*
->     >                * It looks like RDS related properties are
->     > -              * inaccesable when tuner is in AM mode, so cache the
->     > +              * inaccessible when tuner is in AM mode, so cache the
->     >                * changes
->     >                */
->     >               if (si476x_core_is_in_am_receiver_mode(radio->core))
->     >
-> 
+----------------------------------------------------------------
+Bhaskar Chowdhury (1):
+      media: pci: saa7164: Rudimentary spelling fixes in the file saa7164-types.h
 
+Daniel Niv (1):
+      media/saa7164: fix saa7164_encoder_register() memory leak bugs
+
+Fabio Estevam (2):
+      media: camera-mx2: Remove unused header file
+      media: camera-mx3: Remove unused header file
+
+Hans Verkuil (6):
+      media/usb/gspca/w996Xcf.c: /** -> /*
+      v4l2-dev.c: show which events are requested by poll()
+      v4l2-ioctl.c: fix timestamp format
+      gspca/sq905.c: fix uninitialized variable
+      v4l2-ctrls.c: initialize flags field of p_fwht_params
+      ext-ctrls-codec.rst: fix typos
+
+Liu Ying (1):
+      media: docs: Fix data organization of MEDIA_BUS_FMT_RGB101010_1X30
+
+Ricardo Ribalda (1):
+      media: videobuf2: Explicitly state max size of planes
+
+Xiaofeng Cao (2):
+      media: Correct 'so'
+      radio-si476x: rectify spelling and grammar
+
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 12 +++++------
+ Documentation/userspace-api/media/v4l/subdev-formats.rst  |  4 ++--
+ drivers/media/Kconfig                                     |  2 +-
+ drivers/media/pci/saa7164/saa7164-encoder.c               | 20 +++++++++--------
+ drivers/media/pci/saa7164/saa7164-types.h                 |  4 ++--
+ drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c     |  2 +-
+ drivers/media/radio/radio-si476x.c                        |  6 +++---
+ drivers/media/usb/gspca/sq905.c                           |  2 +-
+ drivers/media/usb/gspca/w996Xcf.c                         |  3 +--
+ drivers/media/v4l2-core/v4l2-ctrls.c                      |  2 ++
+ drivers/media/v4l2-core/v4l2-dev.c                        |  5 +++--
+ drivers/media/v4l2-core/v4l2-ioctl.c                      |  2 +-
+ include/linux/platform_data/media/camera-mx2.h            | 31 --------------------------
+ include/linux/platform_data/media/camera-mx3.h            | 43 -------------------------------------
+ include/media/videobuf2-core.h                            |  6 ++++--
+ 15 files changed, 38 insertions(+), 106 deletions(-)
+ delete mode 100644 include/linux/platform_data/media/camera-mx2.h
+ delete mode 100644 include/linux/platform_data/media/camera-mx3.h
