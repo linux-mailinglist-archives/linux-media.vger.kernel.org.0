@@ -2,133 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59CEE33DB1D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 18:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A32833DB67
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 18:51:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234786AbhCPRlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 13:41:31 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:48303 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231851AbhCPRk5 (ORCPT
+        id S232654AbhCPRvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 13:51:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233040AbhCPRug (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 13:40:57 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id MDgZlIbbRjVXQMDgcl6A1G; Tue, 16 Mar 2021 18:40:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615916455; bh=HtIlquxEgA6oNOWE8YbBIdkTpengd4w6hPQhC9fAJMk=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=rclJ+Zh4OKBceiCI3XUy9H1r3qUnxx6iDIjzaLlWWsPeLHUXLRCWWypNFKl4VKsqd
-         1+eUDN0uEg9Erxhmd/LJjwnqf14Ej7i+pWRz5kq9cvP41k2qFLhueFjWCPURmReRkQ
-         XNxIyiLGDhH5aMEUEX5KUIuis1BEmZaJdw0vwPn+fz+C0HCfDTHyDGnRTbbneGtIkw
-         82ZTObGBP5Lww+OGBYYof6nUlzpkmw/ihuhp/bh4BT5j+ubbsQeRbfnZwCPKKzp1IF
-         Bltn0VtKnJlCn6oNt4PNX3tmpdHHcFB3WJmkrL2lHXvJdNzUhsxdT7Nj6kvujNyqdf
-         7UDKG3227PpFA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Robert Foss <robert.foss@linaro.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.13] Add support for the SDM845 Camera Subsystem
-Message-ID: <bf3510bc-5f42-2358-32c1-3ead7225cc74@xs4all.nl>
-Date:   Tue, 16 Mar 2021 18:40:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Tue, 16 Mar 2021 13:50:36 -0400
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A12C06175F
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 10:50:35 -0700 (PDT)
+Received: by mail-io1-xd2a.google.com with SMTP id m7so19076217iow.7
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 10:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JtrNAHIlNGqyu7tY2KgHDa90TRR2iABoGQSIvstGdZs=;
+        b=kN4jETKpOsMT8ujABTKX/KoA1MUTlDRb+Z9NHUYVnpAh0syYrBtdaNgzA3IIHB602i
+         HsTlTbMAjEyLIPblDWQdvaFB6Q6U8xj7Wm6Qa/UJmkrU/ZRuins9KWZSKS1KwDBsxG0K
+         uk71bJAwFyqxS1ex5mOipRhoh7DVGXgqio8WQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JtrNAHIlNGqyu7tY2KgHDa90TRR2iABoGQSIvstGdZs=;
+        b=DxIfFnuMvP4cLZUgoszfsii6qTdWRMGeGNhPk/K247uPYPTikVCX1XCk0Y6jbZweyB
+         BCUx+F823zTG6V8fpt7OcdEHnFsHAhgRLTks9akCC1E+XhfSP/unit2Xho9Xp1vMSvoK
+         zDct7cu2v7hicE63zyGui8NVYhia3H44+Pu5Mjb3+A+0ubQ1ZNL1iRTFgVennlzrqEJo
+         eCd2KwhyYz9uXVRn68juvLdn3slTrNbiUDtMKBxs1RN5mFTOQIOy8Tb14IB0ANUwS/j0
+         9pvvv0qoLyuFBndwn50VFBSwKJeLtDu4Al/YWA6CLSDGg/XroCDXceRS/E7go7nNH+pH
+         9Raw==
+X-Gm-Message-State: AOAM532HqpzLRtK2xrtjsM6iNncZJOQia/TGUKUHjWTAi8FEW5nRbUl9
+        XmLhOymmJPFyEAnzWU7Rh0rPFF9dnFLlWw==
+X-Google-Smtp-Source: ABdhPJwtLilJQ0cCUH6aMELhgFGvZZbKmRR9JcgK1k/6EjORf3Lt5vfQumBTcnpWq3i1mXOyzX3b+g==
+X-Received: by 2002:a5e:cb4c:: with SMTP id h12mr4101923iok.183.1615917034650;
+        Tue, 16 Mar 2021 10:50:34 -0700 (PDT)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com. [209.85.166.45])
+        by smtp.gmail.com with ESMTPSA id a15sm9758650iln.87.2021.03.16.10.50.32
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Mar 2021 10:50:33 -0700 (PDT)
+Received: by mail-io1-f45.google.com with SMTP id n14so38156921iog.3
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 10:50:32 -0700 (PDT)
+X-Received: by 2002:a02:cb4b:: with SMTP id k11mr15230940jap.144.1615917032400;
+ Tue, 16 Mar 2021 10:50:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPUDgs38gjmOv6uv6Ko6xsPxy0Xd4va7B8io/WyMlPV/VFoe3DPhEmiawnYVj/t/1D7E3cpfS4ktVYtyCCIhI3IEEiguQ4z7VjQRVStkEX+Q4ckUSiZR
- N1Ro3d2fw0kiKcbCu8r/MUjZv0OOsOdHduhd0M22OwHp3d94DHeBZ7B7qjOiBmtvwemB6ProGwjK3ocy2GY+vnmzE7036dS/E8jyWzqebXG29IPqjn1U7GSA
+References: <20210315123406.1523607-1-ribalda@chromium.org> <34c90095-bcbf-5530-786a-e709cc493fa9@linux.intel.com>
+In-Reply-To: <34c90095-bcbf-5530-786a-e709cc493fa9@linux.intel.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 16 Mar 2021 18:50:20 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvMvYVN0+zN3du2pJfGLPJ_f7Ees2YrfybJgUDmBjq2jQ@mail.gmail.com>
+Message-ID: <CANiDSCvMvYVN0+zN3du2pJfGLPJ_f7Ees2YrfybJgUDmBjq2jQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] media: staging/intel-ipu3: Fix memory leak in imu_fmt
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@driverdev.osuosl.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See the cover letter for more info:
+Hi Bingbu
 
-https://patchwork.linuxtv.org/project/linux-media/cover/20210316171931.812748-1-robert.foss@linaro.org/
+Thanks for your review
 
-Regards,
+On Tue, Mar 16, 2021 at 12:29 PM Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
+>
+> Hi, Ricardo
+>
+> Thanks for your patch.
+> It looks fine for me, do you mind squash 2 patchsets into 1 commit?
 
-	Hans
+Are you sure? There are two different issues that we are solving.
 
-The following changes since commit 1c5ab1e2286f4ca6347744e9d4cace5fad5ffa39:
+Best regards!
 
-  Merge tag 'v5.12-rc2' into patchwork (2021-03-07 17:46:50 +0100)
+>
+> On 3/15/21 8:34 PM, Ricardo Ribalda wrote:
+> > We are losing the reference to an allocated memory if try. Change the
+> > order of the check to avoid that.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: 6d5f26f2e045 ("media: staging/intel-ipu3-v4l: reduce kernel stack usage")
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/staging/media/ipu3/ipu3-v4l2.c | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > index 60aa02eb7d2a..35a74d99322f 100644
+> > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > @@ -693,6 +693,13 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+> >               if (inode == IMGU_NODE_STAT_3A || inode == IMGU_NODE_PARAMS)
+> >                       continue;
+> >
+> > +             /* CSS expects some format on OUT queue */
+> > +             if (i != IPU3_CSS_QUEUE_OUT &&
+> > +                 !imgu_pipe->nodes[inode].enabled) {
+> > +                     fmts[i] = NULL;
+> > +                     continue;
+> > +             }
+> > +
+> >               if (try) {
+> >                       fmts[i] = kmemdup(&imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp,
+> >                                         sizeof(struct v4l2_pix_format_mplane),
+> > @@ -705,10 +712,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+> >                       fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
+> >               }
+> >
+> > -             /* CSS expects some format on OUT queue */
+> > -             if (i != IPU3_CSS_QUEUE_OUT &&
+> > -                 !imgu_pipe->nodes[inode].enabled)
+> > -                     fmts[i] = NULL;
+> >       }
+> >
+> >       if (!try) {
+> >
+>
+> --
+> Best regards,
+> Bingbu Cao
 
-are available in the Git repository at:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13i
 
-for you to fetch changes up to 32bfacd5437d0c4637f763c86b186f794ea09f09:
-
-  media: dt-bindings: media: Remove qcom,camss documentation (2021-03-16 18:31:18 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Robert Foss (19):
-      media: camss: Fix vfe_isr_comp_done() documentation
-      media: camss: Fix vfe_isr comment typo
-      media: camss: Replace trace_printk() with dev_dbg()
-      media: camss: Add CAMSS_845 camss version
-      media: camss: Make ISPIF subdevice optional
-      media: camss: Refactor VFE HW version support
-      media: camss: Add support for VFE hardware version Titan 170
-      media: camss: Add missing format identifiers
-      media: camss: Refactor CSID HW version support
-      media: camss: Add support for CSID hardware version Titan 170
-      media: camss: Add support for CSIPHY hardware version Titan 170
-      media: camss: Refactor VFE power domain toggling
-      media: camss: Enable SDM845
-      dt-bindings: media: camss: Add qcom,msm8916-camss binding
-      dt-bindings: media: camss: Add qcom,msm8996-camss binding
-      dt-bindings: media: camss: Add qcom,sdm660-camss binding
-      dt-bindings: media: camss: Add qcom,sdm845-camss binding
-      MAINTAINERS: Change CAMSS documentation to use dtschema bindings
-      media: dt-bindings: media: Remove qcom,camss documentation
-
- Documentation/devicetree/bindings/media/qcom,camss.txt          |  236 ------
- Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml |  256 ++++++
- Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml |  387 ++++++++++
- Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml  |  398 ++++++++++
- Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml  |  371 +++++++++
- MAINTAINERS                                                     |    2 +-
- drivers/media/platform/qcom/camss/Makefile                      |    6 +
- drivers/media/platform/qcom/camss/camss-csid-170.c              |  599 +++++++++++++++
- drivers/media/platform/qcom/camss/camss-csid-4-1.c              |  328 ++++++++
- drivers/media/platform/qcom/camss/camss-csid-4-7.c              |  404 ++++++++++
- drivers/media/platform/qcom/camss/camss-csid-gen1.h             |   27 +
- drivers/media/platform/qcom/camss/camss-csid-gen2.h             |   39 +
- drivers/media/platform/qcom/camss/camss-csid.c                  |  637 ++-------------
- drivers/media/platform/qcom/camss/camss-csid.h                  |  150 +++-
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c        |  179 ++++-
- drivers/media/platform/qcom/camss/camss-csiphy.c                |   66 +-
- drivers/media/platform/qcom/camss/camss-ispif.c                 |  119 +--
- drivers/media/platform/qcom/camss/camss-ispif.h                 |    3 +-
- drivers/media/platform/qcom/camss/camss-vfe-170.c               |  786 +++++++++++++++++++
- drivers/media/platform/qcom/camss/camss-vfe-4-1.c               |  144 ++--
- drivers/media/platform/qcom/camss/camss-vfe-4-7.c               |  277 +++----
- drivers/media/platform/qcom/camss/camss-vfe-4-8.c               | 1195 +++++++++++++++++++++++++++++
- drivers/media/platform/qcom/camss/camss-vfe-gen1.c              |  742 ++++++++++++++++++
- drivers/media/platform/qcom/camss/camss-vfe-gen1.h              |  117 +++
- drivers/media/platform/qcom/camss/camss-vfe.c                   |  847 ++------------------
- drivers/media/platform/qcom/camss/camss-vfe.h                   |  128 +--
- drivers/media/platform/qcom/camss/camss-video.c                 |   52 ++
- drivers/media/platform/qcom/camss/camss.c                       |  410 ++++++++--
- drivers/media/platform/qcom/camss/camss.h                       |   15 +-
- 29 files changed, 6872 insertions(+), 2048 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/qcom,camss.txt
- create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
- create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
- create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
- create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
- create mode 100644 drivers/media/platform/qcom/camss/camss-csid-170.c
- create mode 100644 drivers/media/platform/qcom/camss/camss-csid-4-1.c
- create mode 100644 drivers/media/platform/qcom/camss/camss-csid-4-7.c
- create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen1.h
- create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen2.h
- create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-170.c
- create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-4-8.c
- create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-gen1.c
- create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-gen1.h
+-- 
+Ricardo Ribalda
