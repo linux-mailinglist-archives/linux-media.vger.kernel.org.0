@@ -2,171 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B480733E039
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 22:17:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C81A333E0B3
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 22:39:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232875AbhCPVQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 17:16:51 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37558 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232848AbhCPVQU (ORCPT
+        id S229632AbhCPVis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 17:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229585AbhCPViQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 17:16:20 -0400
+        Tue, 16 Mar 2021 17:38:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED91C06174A;
+        Tue, 16 Mar 2021 14:38:16 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04270D8B;
-        Tue, 16 Mar 2021 22:16:17 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2858CD8B;
+        Tue, 16 Mar 2021 22:38:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615929378;
-        bh=xm3Kv9nMX/YPl1bBvx3Pwh9fbYRq1xW4L9kBDammBsk=;
+        s=mail; t=1615930693;
+        bh=JLfYaUWMFQrrk1yH5XJnkvC7K7r5WIEAGtjhPVHoDp4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g9w8R/9p1wjjTWuKC9tT7WZtyEah4e/KuGk+ocFiOhC6S+faX1wpb0RbrLiV9j8/h
-         H2Ge9WGORhcVyLASVN8C89x13R5hxbHoOxRet1PM4F0hARWA0J/TeIFZHtAV0rtnGy
-         kzG6ZqM3SvYSjnTWH6ogjeGDLXi79t434u5rruTQ=
-Date:   Tue, 16 Mar 2021 23:15:41 +0200
+        b=pVrLbpKGeRiWE8bSOFDxKwHARc+s/gXth1t1T80hYJBfQkk7VIylTcwoXA96bHWkt
+         LlBAdhroYFsegn5jn3gCmmz6dZO1IUW46WtY5S6gcWWwgRFmPbvCS7toLqcUA49i82
+         D3S1rQvy1x8R6Sy2MAS4+g2fOdYWpCYzX0rA2p7s=
+Date:   Tue, 16 Mar 2021 23:37:37 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] dt-bindings: media: video-interfaces: Use documented
- bindings in example
-Message-ID: <YFEf/Xpqjxd994g9@pendragon.ideasonboard.com>
-References: <20210316195100.3531414-1-robh@kernel.org>
- <YFEZhyZO+ePjS+fr@pendragon.ideasonboard.com>
- <CAL_JsqJdFf_yRLA-f8QmEC1g-Aq1k8Uh-AAOfiFDy8FhV_aOxg@mail.gmail.com>
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer access
+Message-ID: <YFElIZacukBWa7YA@pendragon.ideasonboard.com>
+References: <20210301120828.6945-1-biju.das.jz@bp.renesas.com>
+ <20210301120828.6945-3-biju.das.jz@bp.renesas.com>
+ <133f8b63-3b84-c60a-725d-30b8d6df35dd@ideasonboard.com>
+ <OS0PR01MB5922BE9F9D151623773CF53286919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <56c2d53e-8d1f-5b84-1480-5965ae9cbae2@ideasonboard.com>
+ <OS0PR01MB5922ABCA7A782950B63DCA6686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <YE7XwWVZeOZ+HsYx@pendragon.ideasonboard.com>
+ <c757d90e-da85-6862-36fc-2343795de4b4@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAL_JsqJdFf_yRLA-f8QmEC1g-Aq1k8Uh-AAOfiFDy8FhV_aOxg@mail.gmail.com>
+In-Reply-To: <c757d90e-da85-6862-36fc-2343795de4b4@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi Hans,
 
-On Tue, Mar 16, 2021 at 03:09:10PM -0600, Rob Herring wrote:
-> On Tue, Mar 16, 2021 at 2:48 PM Laurent Pinchart wrote:
-> > On Tue, Mar 16, 2021 at 01:51:00PM -0600, Rob Herring wrote:
-> > > The example in video-interfaces.yaml managed to use a bunch of undocumented
-> > > bindings. Update the example to use real bindings (and ones with a schema).
-> > >
-> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: linux-media@vger.kernel.org
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > >  .../bindings/media/video-interfaces.yaml      | 75 ++++++++-----------
-> > >  1 file changed, 33 insertions(+), 42 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > > index 0a7a73fd59f2..f30b9b91717b 100644
-> > > --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > > @@ -227,17 +227,12 @@ examples:
-> > >    # only one of the following data pipelines can be active:
-> > >    # ov772x -> ceu0 or imx074 -> csi2 -> ceu0.
-> > >    - |
-> > > +    #include <dt-bindings/clock/r8a7796-cpg-mssr.h>
-> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > +    #include <dt-bindings/power/r8a7796-sysc.h>
-> > > +
-> > >      ceu@fe910000 {
-> > > -        compatible = "renesas,sh-mobile-ceu";
-> > >          reg = <0xfe910000 0xa0>;
-> > > -        interrupts = <0x880>;
-> > > -
-> > > -        mclk: master_clock {
-> > > -            compatible = "renesas,ceu-clock";
-> > > -            #clock-cells = <1>;
-> > > -            clock-frequency = <50000000>;  /* Max clock frequency */
-> > > -            clock-output-names = "mclk";
-> > > -        };
-> > >
-> > >          port {
-> > >              #address-cells = <1>;
-> > > @@ -271,18 +266,14 @@ examples:
-> > >          #size-cells = <0>;
-> > >
-> > >          camera@21 {
-> > > -            compatible = "ovti,ov772x";
-> > > +            compatible = "ovti,ov7720";
-> > >              reg = <0x21>;
-> > > -            vddio-supply = <&regulator1>;
-> > > -            vddcore-supply = <&regulator2>;
-> > > -
-> > > -            clock-frequency = <20000000>;
-> > >              clocks = <&mclk 0>;
-> > > -            clock-names = "xclk";
-> > >
-> > >              port {
-> > >                  /* With 1 endpoint per port no need for addresses. */
-> > >                  ov772x_1_1: endpoint {
-> > > +                    bus-type = <5>;
-> > >                      bus-width = <8>;
-> > >                      remote-endpoint = <&ceu0_1>;
-> > >                      hsync-active = <1>;
-> > > @@ -295,48 +286,48 @@ examples:
-> > >          };
-> > >
-> > >          camera@1a {
-> > > -            compatible = "sony,imx074";
-> > > +            compatible = "sony,imx334";
-> > >              reg = <0x1a>;
-> > > -            vddio-supply = <&regulator1>;
-> > > -            vddcore-supply = <&regulator2>;
-> > >
-> > > -            clock-frequency = <30000000>;  /* Shared clock with ov772x_1 */
-> > >              clocks = <&mclk 0>;
-> > > -            clock-names = "sysclk";    /* Assuming this is the
-> > > -                       name in the datasheet */
-> > > +
-> > >              port {
-> > > -                imx074_1: endpoint {
-> > > +                imx334_1: endpoint {
-> > >                      clock-lanes = <0>;
-> > >                      data-lanes = <1 2>;
-> > > +                    link-frequencies = /bits/ 64 <891000000>;
-> > >                      remote-endpoint = <&csi2_1>;
-> > >                  };
-> > >              };
-> > >          };
-> > >      };
-> > >
-> > > -    csi2: csi2@ffc90000 {
-> > > -        compatible = "renesas,sh-mobile-csi2";
-> > > -        reg = <0xffc90000 0x1000>;
-> > > -        interrupts = <0x17a0>;
-> > > -        #address-cells = <1>;
-> > > -        #size-cells = <0>;
-> > > +    csi2@fea80000 {
-> > > +        compatible = "renesas,r8a7796-csi2";
-> >
-> > That's certainly better, but the r8a7796 doesn't have a CEU :-) It has a
-> > VIN. Maybe we could copy the last example from renesas,vin.yaml to
-> > replace the CEU ?
+On Tue, Mar 16, 2021 at 09:21:15AM +0100, Hans Verkuil wrote:
+> On 15/03/2021 04:42, Laurent Pinchart wrote:
+> > On Wed, Mar 10, 2021 at 02:50:23PM +0000, Biju Das wrote:
+> >>> On 10/03/2021 13:56, Biju Das wrote:
+> >>>> Thanks for the feedback.
+> >>>>> Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer
+> >>>>> access
+> >>>>>
+> >>>>> Hi Biju,
+> >>>>>
+> >>>>> On 01/03/2021 12:08, Biju Das wrote:
+> >>>>>> RZ/G2L SoC has no UIF. This patch fixes null pointer access, when
+> >>>>>> UIF module is not used.
+> >>>>>>
+> >>>>>> Fixes: 5e824f989e6e8("media: v4l: vsp1: Integrate DISCOM in display
+> >>>>>> pipeline")
+> >>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >>>>>> ---
+> >>>>>>  drivers/media/platform/vsp1/vsp1_drm.c | 4 ++--
+> >>>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c
+> >>>>>> b/drivers/media/platform/vsp1/vsp1_drm.c
+> >>>>>> index f6d2f47a4058..06f74d410973 100644
+> >>>>>> --- a/drivers/media/platform/vsp1/vsp1_drm.c
+> >>>>>> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
+> >>>>>> @@ -462,9 +462,9 @@ static int vsp1_du_pipeline_setup_inputs(struct
+> >>>>>> vsp1_device *vsp1,
+> >>>>>
+> >>>>>
+> >>>>> This looks like it complicates these conditionals more than we
+> >>>>> perhaps need to.
+> >>>>>
+> >>>>> What do you think about adding something above the block comment here?:
+> >>>>
+> >>>> It is much better.
+> >>>>
+> >>>> This patch is accepted in media tree[1]. So not sure, should I send a
+> >>>> follow up patch as optimization or drop this patch and send new one.
+> >>>
+> >>> Oh, I didn't realise these were in already. Sorry, I didn't see any review
+> >>> on the list, and it was the earliest I had got to them.
+> >>>
+> >>>> Please suggest.
+> >>>
+> >>> Up to you, I don't think this would get dropped now it's integrated.
+> >>> It's in, so if you want to update on top I believe that's fine.
+> >>
+> >> OK, Will send follow up patch as optimization.
+> > 
+> > That would be nice.
+> > 
+> > I don't think this patch should have been fast-tracked as a fix, as
+> > RZ/G2L isn't supported in mainline yet as far as I can tell.
+> > 
+> > Hans, next time, could we get a notification instead of a silent merge ?
 > 
-> What about just removing the example here? It bothers me to have 2
-> copies (maybe 3 with sensor schemas) of an example and we should have
-> plenty of examples.
+> My apologies, it seemed a trivial fix, but I should have checked with you.
+> 
+> I jumped the gun here :-(
 
-I'd be fine with that.
+No worries, it can happen :-)
 
-> On the flip side, it's nice to have this stand on its own. Another
-> option would be just remove compatibles and make the example barebones
-> with only what's defined in video-interfaces.yaml.
-
-Abstract examples seem good in this context.
-
-> But then it's not validated at all.
-
-But this part isn't nice :-(
-
-If we keep examples that use real bindings, they should match the real
-hardware platforms. Other than that, I have no strong preference, it's
-up to you.
+> >>>>> 	if (!drm_pipe->uif)
+> >>>>> 		return 0;
+> >>>>>
+> >>>>>
+> >>>>>>  	 * make sure it is present in the pipeline's list of entities if it
+> >>>>>>  	 * wasn't already.
+> >>>>>>  	 */
+> >>>>>> -	if (!use_uif) {
+> >>>>>> +	if (drm_pipe->uif && !use_uif) {
+> >>>>>>  		drm_pipe->uif->pipe = NULL;
+> >>>>>> -	} else if (!drm_pipe->uif->pipe) {
+> >>>>>> +	} else if (drm_pipe->uif && !drm_pipe->uif->pipe) {>
+> >>>>> 	drm_pipe->uif->pipe = pipe;
+> >>>>>>  		list_add_tail(&drm_pipe->uif->list_pipe, &pipe->entities);
+> >>>>>>  	}
+> >>>>>>
 
 -- 
 Regards,
