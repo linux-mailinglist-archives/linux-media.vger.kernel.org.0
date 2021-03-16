@@ -2,190 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE1E33D3C4
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 13:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 161D933D3CD
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 13:28:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231393AbhCPMXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 08:23:14 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50859 "EHLO
+        id S231433AbhCPM1b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 08:27:31 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:60213 "EHLO
         lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231189AbhCPMXD (ORCPT
+        by vger.kernel.org with ESMTP id S231425AbhCPM1G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 08:23:03 -0400
+        Tue, 16 Mar 2021 08:27:06 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id M8itl1o3n4ywlM8iylAt55; Tue, 16 Mar 2021 13:23:00 +0100
+        id M8mql1pLe4ywlM8mtlAtwF; Tue, 16 Mar 2021 13:27:03 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615897380; bh=n53c6yVfIwwrrN7fAagCE8Fcpy6iTVZ0bDnUteVvvkg=;
+        t=1615897623; bh=6iyuWBEaCR9Z2/eYJqI8HRuKApD0UYWpPB8vtpZ/lHQ=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=tWymQcaIN44aHz312ZOo4B2cAhvdZ3YdjC1JvUdXOyoIEUe3ACxSQJN8BFXeJxrLl
-         1Zue0865Cic0KtK+hHkM14hKiSFczCCgfoQNbm+eXLoD2mbuU978KQJU8vJtKNYBOl
-         XAnK8O3igPqrBmt+vcWFYzYYPpeyDrT/nTJFoQ7Ma9prk0yCrupCg6TgotwZvAwDnG
-         lRaq7T2YXyqlLVNSzKrrc0RW3ydwBC7pcmS445f/8m8s0yzmxnZ+R//kjeuRA+Nc4u
-         xPbsOxtYZUh6fMe8+fb3UgfenrnthYrV/k7nzwkrR1NPm2+YRnvGw2TdnFgVCToDdJ
-         i+50sefxqWe7A==
-Subject: Re: [PATCH v5 4/5] docs: Document CLL and Mastering display
- colorimetry controls
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20210209162425.3970393-1-stanimir.varbanov@linaro.org>
- <20210209162425.3970393-5-stanimir.varbanov@linaro.org>
+        b=Ya5O6l5jIa8CzxpJKoAqXPPdejEc4bG410jeYgCnP8+UX6KG/IZNlu4xZtu6jqyO9
+         7VfJVbI7C5WNfd4uhLTomc+B6wyqVnW5PnxB5Id3Tz+zkW+1qf6iAGVvwav6BuOm2L
+         UWxeagpGEKpA1viy/3fn5wiy2nWTpwuaOD3RFqJd+jfFiRLqgQlGNLJ/7ihGTUbhDV
+         vpAiJYpFkuD0c/TfWDjg2/hbVAZaQ4U2tuxflmtwnRL+n0IsiQu2HfnPyhxaZ5IMFW
+         aHDW/GteXvAHGn5L9brWXDLR10Tg8Y2yTlo4bi70mFmCa0MCfSArixQqE/+liIUKWh
+         1x0qdBWpIxzLg==
+Subject: Re: [PATCH v8 1/2] media: v4l2-ctrl: add controls for long term
+ reference.
+To:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+References: <1615461901-16675-1-git-send-email-dikshita@codeaurora.org>
+ <1615461901-16675-2-git-send-email-dikshita@codeaurora.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <ebb4d08f-9af6-f483-f901-4846911cd71b@xs4all.nl>
-Date:   Tue, 16 Mar 2021 13:22:55 +0100
+Message-ID: <204c7174-b649-497e-5c8d-6afd859ac0e9@xs4all.nl>
+Date:   Tue, 16 Mar 2021 13:27:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210209162425.3970393-5-stanimir.varbanov@linaro.org>
+In-Reply-To: <1615461901-16675-2-git-send-email-dikshita@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIm4uX2D11uRSgeYbh1Fd1oO8eCM2Sb27lS3Il7Jax/bbnSKpQf3D0crKs6D5KMY3w1a3bR2WHDOxsUQrzLvBU3JKzAeUA5aMj43cjqfUx83mPXen8me
- D9XNMbK6Vp0xDDAq4Nst+xKla+0POYFk0YpjswbTPLChZR9tDg/hQipgH9yOVTNrBegS/m7T9QpBQ/Nef8FbSeq9kiM+6pvY5h4vHyctz5b2ZkTHdZcWqjQL
- fbxIq3iAR0jeYS2qV9h6OpSXlBeo0jAo5a9NdjddHKngvD4dBuqNoXs7EZFXns9cVtVeJEvc3n8dft2zZ8sntaeXqXlu3ssfzE7fR6M6cQyIXMM91+QRyVEN
- lPUAB24m/VD4HGJSAZRVJFg5ZeYYG1ExYHz04C0apr4EL+p7YhxSQ0YW6Qj1RVETWhOQUGsp
+X-CMAE-Envelope: MS4xfDOp7UJWtycKZnqYiJpFPSMPg5VjlWf08HX8hF924rs3A/z0gRijFA6Hzy7tU3fND/E9EnZuyH5dKWNpOdFN5MlcH9JVuzUutfx+ZjdS/rGaZbrFjKMh
+ zDiCNN5UI6Ii1KvBcrgsOdSARQbdWlMT7c9ML8DTn2DB48hFDBG+OKuOsH3+2K+ZZR3s8K1jZGAFqssnxTUpanv+TrAiWi97/u6im56nhmnbK7c7Tn3FjQWC
+ CPOxFftWLUJF10XHrWjwe6WRdYoSubdySQcPoNDubbaEpBosZnhqGMCuYp5dD5l3NAP0gW1+yxVUWmv2mEUxQFsaeiFnWg66iBfDJQrxCpx8MXbLoZtUIgjM
+ yD+UNPybfpOgzvT539rjPS9UxlIeECBFqUVyylJT45VdjY1xyw8=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/02/2021 17:24, Stanimir Varbanov wrote:
-> Document Content Light Level and Mastering Display v4l2 colorimetry
-> controls.
+On 11/03/2021 12:25, Dikshita Agarwal wrote:
+> Long Term Reference (LTR) frames are the frames that are encoded
+> sometime in the past and stored in the DPB buffer list to be used
+> as reference to encode future frames.
+> This change adds controls to enable this feature.
 > 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 > ---
->  .../media/v4l/ext-ctrls-colorimetry.rst       | 71 +++++++++++++++++++
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  8 +++
->  .../media/videodev2.h.rst.exceptions          |  2 +
->  3 files changed, 81 insertions(+)
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst        | 18 ++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c                   | 14 ++++++++++++++
+>  include/uapi/linux/v4l2-controls.h                     |  3 +++
+>  3 files changed, 35 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
-> index 862f78b41b32..a9f206a46175 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
-> @@ -20,3 +20,74 @@ Colorimetry Control IDs
->      The Colorimetry class descriptor. Calling
->      :ref:`VIDIOC_QUERYCTRL` for this control will
->      return a description of this control class.
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 00944e9..be81bd9 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3646,3 +3646,21 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      so this has to come from client.
+>      This is applicable to H264 and valid Range is from 0 to 63.
+>      Source Rec. ITU-T H.264 (06/2019); G.7.4.1.1, G.8.8.1.
 > +
-> +``V4L2_CID_COLORIMETRY_HDR10_CLL_INFO (struct)``
-> +    The Content Light Level defines upper bounds for the nominal target
-> +    brightness light level of the pictures.
+> +``V4L2_CID_MPEG_VIDEO_LTR_COUNT (integer)``
+> +    Specifies the maximum number of Long Term Reference (LTR) frames at any
+> +    given time that the encoder can keep.
+> +    This is applicable to the H264 and HEVC encoders.
 > +
-> +.. c:type:: v4l2_ctrl_hdr10_cll_info
+> +``V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX (integer)``
+> +    After setting this control the frame that will be queued next
+> +    will be marked as a Long Term Reference (LTR) frame
+> +    and given this LTR index which ranges from 0 to LTR_COUNT-1.
+> +    This is applicable to the H264 and HEVC encoders.
+> +    Source Rec. ITU-T H.264 (06/2019); Table 7.9
 > +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hdr10_cll_info
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``max_content_light_level``
-> +      - The upper bound for the maximum light level among all individual
-> +        samples for the pictures of a coded video sequence, cd/m\ :sup:`2`.
-
-I think 'coded' should be removed. This is equally valid when receiving
-uncoded HDMI video, after all.
-
-> +        When equal to 0 no such upper bound is present.
-> +    * - __u16
-> +      - ``max_pic_average_light_level``
-> +      - The upper bound for the maximum average light level among the
-> +        samples for any individual picture of a coded video sequence,
-
-ditto.
-
-> +        cd/m\ :sup:`2`. When equal to 0 no such upper bound is present.
-> +
-> +``V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY (struct)``
-> +    The mastering display defines the color volume (the color primaries,
-> +    white point and luminance range) of a display considered to be the
-> +    mastering display for the current video content.
-> +
-> +.. c:type:: v4l2_ctrl_hdr10_mastering_display
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hdr10_mastering_display
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``display_primaries_x[3]``
-> +      - Specifies the normalized x chromaticity coordinate of the color
-> +        primary component c of the mastering display in increments of 0.00002.
-> +        For describing the mastering display that uses Red, Green and Blue
-> +        color primaries, index value c equal to 0 corresponds to the Green
-> +        primary, c equal to 1 corresponds to Blue primary and c equal to 2
-> +        corresponds to the Red color primary.
-> +    * - __u16
-> +      - ``display_primaries_y[3]``
-> +      - Specifies the normalized y chromaticity coordinate of the color
-> +        primary component c of the mastering display in increments of 0.00002.
-> +        For describing the mastering display that uses Red, Green and Blue
-> +        color primaries, index value c equal to 0 corresponds to the Green
-> +        primary, c equal to 1 corresponds to Blue primary and c equal to 2
-> +        corresponds to Red color primary.
-> +    * - __u16
-> +      - ``white_point_x``
-> +      - Specifies the normalized x chromaticity coordinate of the white
-> +        point of the mastering display in increments of 0.00002.
-> +    * - __u16
-> +      - ``white_point_y``
-> +      - Specifies the normalized y chromaticity coordinate of the white
-> +        point of the mastering display in increments of 0.00002.
-> +    * - __u32
-> +      - ``max_luminance``
-> +      - Specifies the nominal maximum display luminance of the mastering
-> +        display in units of 0.0001 cd/m\ :sup:`2`.
-> +    * - __u32
-> +      - ``min_luminance``
-> +      - specifies the nominal minimum display luminance of the mastering
-> +        display in units of 0.0001 cd/m\ :sup:`2`.
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> index 8a95ebdd499a..2f6d0539fb93 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> @@ -212,6 +212,14 @@ still cause this situation.
->        - ``p_fwht_params``
->        - A pointer to a struct :c:type:`v4l2_ctrl_fwht_params`. Valid if this control is
->          of type ``V4L2_CTRL_TYPE_FWHT_PARAMS``.
-> +    * - struct :c:type:`v4l2_ctrl_hdr10_cll_info` *
-> +      - ``p_hdr10_cll``
-> +      - A pointer to a struct :c:type:`v4l2_ctrl_hdr10_cll_info`. Valid if this control is
-> +        of type ``V4L2_CTRL_TYPE_HDR10_CLL_INFO``.
-> +    * - struct :c:type:`v4l2_ctrl_hdr10_mastering_display` *
-> +      - ``p_hdr10_mastering``
-> +      - A pointer to a struct :c:type:`v4l2_ctrl_hdr10_mastering_display`. Valid if this control is
-> +        of type ``V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY``.
->      * - void *
->        - ``ptr``
->        - A pointer to a compound type which can be an N-dimensional array
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index 0ed170c6e720..38b31a9b9580 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -147,6 +147,8 @@ replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
-> +replace symbol V4L2_CTRL_TYPE_HDR10_CLL_INFO :c:type:`v4l2_ctrl_type`
-> +replace symbol V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY :c:type:`v4l2_ctrl_type`
+> +``V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES (bitmask)``
+> +    Specifies the Long Term Reference (LTR) frame(s) to be used for
+> +    encoding the next frame queued after setting this control.
+> +    This provides a bitmask which consists of bits [0, LTR_COUNT-1].
+> +    This is applicable to the H264 and HEVC encoders.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 016cf62..4d444de 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -951,6 +951,9 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
+>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
+>  	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:		return "Base Layer Priority ID";
+> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
+> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "Frame LTR Index";
+> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
+>  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
+>  	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
+>  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+> @@ -1278,6 +1281,17 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
+>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
+> +		*type = V4L2_CTRL_TYPE_INTEGER;
+> +		break;
+> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
+> +		*type = V4L2_CTRL_TYPE_INTEGER;
+> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+> +		break;
+> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
+> +		*type = V4L2_CTRL_TYPE_BITMASK;
+> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+> +		break;
+>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
+>  	case V4L2_CID_PAN_RESET:
+>  	case V4L2_CID_TILT_RESET:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 039c0d7..fedbb54 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -428,6 +428,9 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>  #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
+>  #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
+>  #define V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID	(V4L2_CID_CODEC_BASE+230)
+> +#define V4L2_CID_MPEG_VIDEO_LTR_COUNT			(V4L2_CID_CODEC_BASE+231)
+> +#define V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX		(V4L2_CID_CODEC_BASE+232)
+> +#define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+233)
 >  
->  # V4L2 capability defines
->  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
+>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
 > 
 
-After making the change suggested above, you can add my:
+It was a long journey, but here is finally my coveted:
 
 Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Congratulations! :-)
+
+I assume that Stan will pick this up this series.
 
 Regards,
 
