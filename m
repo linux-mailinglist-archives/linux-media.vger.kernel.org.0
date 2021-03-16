@@ -2,206 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB70633D7A1
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 16:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6752133D848
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 16:54:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232943AbhCPPdx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 11:33:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36902 "EHLO
+        id S238104AbhCPPxX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 11:53:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238112AbhCPPdS (ORCPT
+        with ESMTP id S237581AbhCPPw5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 11:33:18 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD72FC0613D7
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 08:33:16 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id o16so7656853wrn.0
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 08:33:16 -0700 (PDT)
+        Tue, 16 Mar 2021 11:52:57 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63B9AC061762
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 08:52:56 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id d16so29279627oic.0
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 08:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zwe0ekXmy9t5eNr3sFs9jCzA/xhMldV8JLAydoSdCfc=;
-        b=GzG+edIxhOWO3e0C//e9ZTvwmWIMqXUh3qVGupEH1XpIfgojiM9nr7zfSbfVnLpEX1
-         TppZD/lYq2BFxWK6uExvqhTf4cGvOaXXXtjYXrDDvq/txY4i5BzARGuD/BQ+Nc/vZ9CP
-         U43D7zJSOobDqMzHTu1jMNW+6MtVYMmXPpabc=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H9qbH69IBoptMfn8E8EI/JvkYdGz2fb3BHGazwe2dlM=;
+        b=N9EuUopTyLYmp/30v4PlCksqyqVrtHnmIWXaZ4XcHcyJlh/IKbvvrNQY1qfiH3e5Ee
+         lelk1b8VUwFdD+q76VSpMaPnzL/lvIFOuKBCKDjInKV/GcppAeygsSyrgDsECt+95gH8
+         4Hrr19JKU7qUT90Jqgp59LH0ykjG0DfXZI4HE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zwe0ekXmy9t5eNr3sFs9jCzA/xhMldV8JLAydoSdCfc=;
-        b=ob450YSgsmq+Ps/BV4B5r3Mwb3+CyKaU3runh4+NznhkZByQTSLLutp7+7w+2VuSj7
-         sNYp9ZMp/G2YQsVaSx35zoa5+XVvRZtfOXrSrmaEju6qAL/S43amHPsZmYnauMP7wCFe
-         fwf1nGnmrmYrn997ysJiWVsxM8iX6F1qQit6FVm4l6CLZpusGatkktckix2GEUqWxQcc
-         VoZy3BQ0BNXqsn4QChBb5dtu0I/znW0vqKn6wnUXFlxO3bUFm6t0kZAYLOhdHlWzd12m
-         xaoKqDCgFudXa3i5My2eqWbHRHfaa9m1NwE65hJFAiq88+F6hLV1S4e6nuV3A+57mw18
-         SmEg==
-X-Gm-Message-State: AOAM531UVUkRS0RCHpaZRiP0IyDagvH/O0rvoFet7fBXAf2JYq7LkFE2
-        Sy4Eyck0UJ0Ipiv0/2JJTJfzTw==
-X-Google-Smtp-Source: ABdhPJxsQT1ztD0lh1/0ccaL0ZTcHbZx32nTGgPOptwOia/Vap2jPDUXToCOLm5fL6HRJJsLfse8jA==
-X-Received: by 2002:adf:ec0b:: with SMTP id x11mr5396504wrn.175.1615908795642;
-        Tue, 16 Mar 2021 08:33:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id h22sm3985078wmb.36.2021.03.16.08.33.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 08:33:15 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     kvm@vger.kernel.org, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>, 3pvd@google.com,
-        Jann Horn <jannh@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 3/3] mm: unexport follow_pfn
-Date:   Tue, 16 Mar 2021 16:33:03 +0100
-Message-Id: <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
-References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H9qbH69IBoptMfn8E8EI/JvkYdGz2fb3BHGazwe2dlM=;
+        b=o3IF7qC5ts6dLEoD1TdsofHYoBy9AEdp96n/grC4UNWWHeZ951NbXC3aS5Vb4C5P/v
+         jQcjcId7AvVX4/DeQAwzgWxK9ngbHqkvTEejQXtRUZyrHOQZESp8RSWtTSgBZl1VIkWA
+         7BkKwqpREdLK1waD4oyrzDUkXBf6zaZlZW8Ui/FINrKN+yPnXnUyYxYP5vcL+91FUrrR
+         DNJ3DrJN3jBD3po7iUjJ5RULWDvIKhECl8h7zcwQyHEKzjGQMo33a7JnN/gRDEAPERqp
+         wChql5k1j8QYznzGULtv/QS8Tm23vgQ1JikB4lLTV8rOUAJpCHu9ErqRes56SSSHnNCz
+         nqPg==
+X-Gm-Message-State: AOAM530+3UY3YV8vjjHhXNMZptHkSTMVq3ebRpjXCQVpfXlXNcj2DcsN
+        Yrbz1WibfjhsIpOnjrkmvKFd4TCmRSX1Pbch4tbKEw==
+X-Google-Smtp-Source: ABdhPJznz2I6yaUfu5sapSxfaawTvDWTc4egwzJFTFOwI97d2Oq+qgjhGAyeojv1m2fr5BiGgMr/zgmA3/HTfQyhJ8k=
+X-Received: by 2002:aca:4188:: with SMTP id o130mr152546oia.101.1615909975767;
+ Tue, 16 Mar 2021 08:52:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
+ <20210316153303.3216674-3-daniel.vetter@ffwll.ch> <20210316154549.GA60450@infradead.org>
+In-Reply-To: <20210316154549.GA60450@infradead.org>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Tue, 16 Mar 2021 16:52:44 +0100
+Message-ID: <CAKMK7uF8Lv0P4TuoctjUiVHtRzAnXf9a50JaYgm0rV+v+7=LFw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media/videobuf1|2: Mark follow_pfn usage as unsafe
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        "J??r??me Glisse" <jglisse@redhat.com>, Jan Kara <jack@suse.cz>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Both kvm (in bd2fae8da794 ("KVM: do not assume PTE is writable after
-follow_pfn")) and vfio (in 07956b6269d3 ("vfio/type1: Use
-follow_pte()")) have lost their callsites of follow_pfn(). All the
-other ones have been switched over to unsafe_follow_pfn because they
-cannot be fixed without breaking userspace api.
+On Tue, Mar 16, 2021 at 4:46 PM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Tue, Mar 16, 2021 at 04:33:02PM +0100, Daniel Vetter wrote:
+> > The media model assumes that buffers are all preallocated, so that
+> > when a media pipeline is running we never miss a deadline because the
+> > buffers aren't allocated or available.
+> >
+> > This means we cannot fix the v4l follow_pfn usage through
+> > mmu_notifier, without breaking how this all works. The only real fix
+> > is to deprecate userptr support for VM_IO | VM_PFNMAP mappings and
+> > tell everyone to cut over to dma-buf memory sharing for zerocopy.
+> >
+> > userptr for normal memory will keep working as-is, this only affects
+> > the zerocopy userptr usage enabled in 50ac952d2263 ("[media]
+> > videobuf2-dma-sg: Support io userptr operations on io memory").
+>
+> Maybe I'm missing something, but wasn't the conclusion last time that
+> this hackish early device to device copy support can just go away?
 
-Argueably the vfio code is still racy, but that's kinda a bigger
-picture. But since it does leak the pte beyond where it drops the pt
-lock, without anything else like an mmu notifier guaranteeing
-coherence, the problem is at least clearly visible in the vfio code.
-So good enough with me.
+My understanding is mostly, but with some objections. And I kinda
+don't want to let this die in a bikeshed and then not getting rid of
+follow_pfn as a result. There's enough people who acked this, and the
+full removal got some nack from Mauro iirc.
 
-I've decided to keep the explanation that after dropping the pt lock
-you must have an mmu notifier if you keep using the pte somehow by
-adjusting it and moving it into the kerneldoc for the new follow_pte()
-function.
-
-Cc: 3pvd@google.com
-Cc: Jann Horn <jannh@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: linux-mm@kvack.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: kvm@vger.kernel.org
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- include/linux/mm.h |  2 --
- mm/memory.c        | 26 +++++---------------------
- mm/nommu.c         | 13 +------------
- 3 files changed, 6 insertions(+), 35 deletions(-)
-
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index caec8b25d66f..304588e2f829 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1693,8 +1693,6 @@ int follow_invalidate_pte(struct mm_struct *mm, unsigned long address,
- 			  pmd_t **pmdpp, spinlock_t **ptlp);
- int follow_pte(struct mm_struct *mm, unsigned long address,
- 	       pte_t **ptepp, spinlock_t **ptlp);
--int follow_pfn(struct vm_area_struct *vma, unsigned long address,
--	unsigned long *pfn);
- int unsafe_follow_pfn(struct vm_area_struct *vma, unsigned long address,
- 		      unsigned long *pfn);
- int follow_phys(struct vm_area_struct *vma, unsigned long address,
-diff --git a/mm/memory.c b/mm/memory.c
-index e8a145505b69..317e653c8aeb 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4724,7 +4724,10 @@ int follow_invalidate_pte(struct mm_struct *mm, unsigned long address,
-  * should be taken for read.
-  *
-  * KVM uses this function.  While it is arguably less bad than ``follow_pfn``,
-- * it is not a good general-purpose API.
-+ * it is not a good general-purpose API: If callers use the pte after they've
-+ * unlocked @ptlp they must ensure coherency with pte updates by using a
-+ * &mmu_notifier to follow updates. Any caller not following these requirements
-+ * must use unsafe_follow_pfn() instead.
-  *
-  * Return: zero on success, -ve otherwise.
-  */
-@@ -4735,25 +4738,7 @@ int follow_pte(struct mm_struct *mm, unsigned long address,
- }
- EXPORT_SYMBOL_GPL(follow_pte);
- 
--/**
-- * follow_pfn - look up PFN at a user virtual address
-- * @vma: memory mapping
-- * @address: user virtual address
-- * @pfn: location to store found PFN
-- *
-- * Only IO mappings and raw PFN mappings are allowed. Note that callers must
-- * ensure coherency with pte updates by using a &mmu_notifier to follow updates.
-- * If this is not feasible, or the access to the @pfn is only very short term,
-- * use follow_pte_pmd() instead and hold the pagetable lock for the duration of
-- * the access instead. Any caller not following these requirements must use
-- * unsafe_follow_pfn() instead.
-- *
-- * This function does not allow the caller to read the permissions
-- * of the PTE.  Do not use it.
-- *
-- * Return: zero and the pfn at @pfn on success, -ve otherwise.
-- */
--int follow_pfn(struct vm_area_struct *vma, unsigned long address,
-+static int follow_pfn(struct vm_area_struct *vma, unsigned long address,
- 	unsigned long *pfn)
- {
- 	int ret = -EINVAL;
-@@ -4770,7 +4755,6 @@ int follow_pfn(struct vm_area_struct *vma, unsigned long address,
- 	pte_unmap_unlock(ptep, ptl);
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(follow_pfn);
- 
- /**
-  * unsafe_follow_pfn - look up PFN at a user virtual address
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 1dc983f50e2c..cee29d0791b3 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -111,17 +111,7 @@ unsigned int kobjsize(const void *objp)
- 	return page_size(page);
- }
- 
--/**
-- * follow_pfn - look up PFN at a user virtual address
-- * @vma: memory mapping
-- * @address: user virtual address
-- * @pfn: location to store found PFN
-- *
-- * Only IO mappings and raw PFN mappings are allowed.
-- *
-- * Returns zero and the pfn at @pfn on success, -ve otherwise.
-- */
--int follow_pfn(struct vm_area_struct *vma, unsigned long address,
-+static int follow_pfn(struct vm_area_struct *vma, unsigned long address,
- 	unsigned long *pfn)
- {
- 	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
-@@ -130,7 +120,6 @@ int follow_pfn(struct vm_area_struct *vma, unsigned long address,
- 	*pfn = address >> PAGE_SHIFT;
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(follow_pfn);
- 
- /**
-  * unsafe_follow_pfn - look up PFN at a user virtual address
+Maybe if no bug report ever shows up for 1-2 years we can sunset it
+for real&completely.
+-Daniel
 -- 
-2.30.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
