@@ -2,114 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B5833DD64
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 20:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EF4833DE33
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 20:52:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240372AbhCPTY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 15:24:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240371AbhCPTYl (ORCPT
+        id S240721AbhCPTvx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 15:51:53 -0400
+Received: from mail-il1-f180.google.com ([209.85.166.180]:40436 "EHLO
+        mail-il1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240732AbhCPTvD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 15:24:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89008C06174A;
-        Tue, 16 Mar 2021 12:24:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EED088C8;
-        Tue, 16 Mar 2021 20:24:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615922680;
-        bh=8IOV9swkrnF2YntaMgVClYDlrliiv5d39VZFWxuasgY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ADlB/ful233Uxf4OhdAYcDSV382Z7ChN1L8+YnD9HqIXosdb41veNcIn6x816wfIK
-         N078BmT6lK2ZC6Nobx5juZXZug7iY2kK0nF28TG682+XJfSl6rSIA7f/LKfRMLbzOE
-         7Yh1Nmx70W8dA2jfkBos+p98VH9y6BfDMUQp6kjU=
-Date:   Tue, 16 Mar 2021 21:24:03 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Tue, 16 Mar 2021 15:51:03 -0400
+Received: by mail-il1-f180.google.com with SMTP id e7so13843213ile.7;
+        Tue, 16 Mar 2021 12:51:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9AiEy5w/9EUNU1tOT9J8QNa8layR4FPuZXyDYfrBHDk=;
+        b=N8h+m3xEJcO69sO5hXMgyXoWCzM7YF3hOb3dDdIYWyNMfBIOLF/drdt9aZxjsEQ050
+         Q+08nl+KjJkzTxYzpAMUseB4blmbUCXqJ40GUpqB41lqCdYdvrENi9aCjuWIywnWzui7
+         A8yyrJhPZkulaRLux8zT7esh74rp8QYlDhkSwNk8d1kjtYnr0eQQeYExaS74y5E3pyDj
+         gZhefx6ioDEtx3gFYlMDNsqqSfUVVwwVUeSa2n+pIcUrAPJ78Y4uDF2P7+3jAL4wgwN7
+         bmB9jflDXdSm5SwbbUqFJNPgjmc7wjgnyzBTdI0IE7ydYYT4FNP/fKXl6cbwnM5jVrjJ
+         97pQ==
+X-Gm-Message-State: AOAM5332xx3ZMjKz3EYT4yzYq5im+eGTPjb3ZdCchkKriRYXPRakJKgC
+        JncJQ6OyQDNC3ub3SUM+3/rJ4AQiig==
+X-Google-Smtp-Source: ABdhPJw171iXojJqPTE2PaobkEV+/LqNlC3zAhHyL/UX4MG+43ST95UaTmz220gwGXvJaybV089pWQ==
+X-Received: by 2002:a92:cda5:: with SMTP id g5mr4887318ild.247.1615924262235;
+        Tue, 16 Mar 2021 12:51:02 -0700 (PDT)
+Received: from xps15.herring.priv ([64.188.179.253])
+        by smtp.googlemail.com with ESMTPSA id y20sm8904081ioy.10.2021.03.16.12.51.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 12:51:01 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/18] media: i2c: rdacm20: Enable noise immunity
-Message-ID: <YFEF0/ev7bJ8ghN6@pendragon.ideasonboard.com>
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
- <20210315131512.133720-3-jacopo+renesas@jmondi.org>
- <YE/TlmrLV4ejOjlF@pendragon.ideasonboard.com>
- <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] dt-bindings: media: video-interfaces: Use documented bindings in example
+Date:   Tue, 16 Mar 2021 13:51:00 -0600
+Message-Id: <20210316195100.3531414-1-robh@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+The example in video-interfaces.yaml managed to use a bunch of undocumented
+bindings. Update the example to use real bindings (and ones with a schema).
 
-On Tue, Mar 16, 2021 at 01:56:07PM +0100, Jacopo Mondi wrote:
-> On Mon, Mar 15, 2021 at 11:37:26PM +0200, Laurent Pinchart wrote:
-> > On Mon, Mar 15, 2021 at 02:14:56PM +0100, Jacopo Mondi wrote:
-> > > Enable the noise immunity threshold at the end of the rdacm20
-> > > initialization routine.
-> > >
-> > > The rdacm20 camera module has been so far tested with a startup
-> > > delay that allowed the embedded MCU to program the serializer. If
-> > > the initialization routine is run before the MCU programs the
-> > > serializer and the image sensor and their addresses gets changed
-> > > by the rdacm20 driver it is required to manually enable the noise
-> > > immunity threshold to make the communication on the control channel
-> > > more reliable.
-> >
-> > I'm still worried by the race with the MCU. Any update on dumping the
-> > MCU configuration to check what it initializes ?
-> 
-> Not yet, you're right ...
-> 
-> I mainly focused on testing with rdacm21, what if I strip the rdacm20
-> changes out from this series ? I will have to keep the init()
-> operation introduction to maintain compatibility with max9286 changes,
-> and in case of no regressions, we can keep the 8 seconds delay in the
-> .dtsi. However it will break upstream support on Eagle for rdacm20 as
-> we don't have a regulator where to insert the startup delay there, and
-> a downstream patch that waits for 8 seconds in the deserializer driver
-> should be used instead...
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/media/video-interfaces.yaml      | 75 ++++++++-----------
+ 1 file changed, 33 insertions(+), 42 deletions(-)
 
-I don't think the rdacm20 changes need to wait. Even this one could be
-merged as-is, as long as we consider it to be a temporary workaround and
-don't build anything on top that would make it more difficult to address
-the issue properly (a TODO comment in the code could help).
-
-> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/rdacm20.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> > > index 90eb73f0e6e9..f7fd5ae955d0 100644
-> > > --- a/drivers/media/i2c/rdacm20.c
-> > > +++ b/drivers/media/i2c/rdacm20.c
-> > > @@ -541,7 +541,13 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> > >
-> > >  	dev_info(dev->dev, "Identified MAX9271 + OV10635 device\n");
-> > >
-> > > -	return 0;
-> > > +	/*
-> > > +	 * Set reverse channel high threshold to increase noise immunity.
-> > > +	 *
-> > > +	 * This should be compensated by increasing the reverse channel
-> > > +	 * amplitude on the remote deserializer side.
-> > > +	 */
-> > > +	return max9271_set_high_threshold(&dev->serializer, true);
-> > >  }
-> > >
-> > >  static int rdacm20_probe(struct i2c_client *client)
-
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+index 0a7a73fd59f2..f30b9b91717b 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
++++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+@@ -227,17 +227,12 @@ examples:
+   # only one of the following data pipelines can be active:
+   # ov772x -> ceu0 or imx074 -> csi2 -> ceu0.
+   - |
++    #include <dt-bindings/clock/r8a7796-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7796-sysc.h>
++
+     ceu@fe910000 {
+-        compatible = "renesas,sh-mobile-ceu";
+         reg = <0xfe910000 0xa0>;
+-        interrupts = <0x880>;
+-
+-        mclk: master_clock {
+-            compatible = "renesas,ceu-clock";
+-            #clock-cells = <1>;
+-            clock-frequency = <50000000>;  /* Max clock frequency */
+-            clock-output-names = "mclk";
+-        };
+ 
+         port {
+             #address-cells = <1>;
+@@ -271,18 +266,14 @@ examples:
+         #size-cells = <0>;
+ 
+         camera@21 {
+-            compatible = "ovti,ov772x";
++            compatible = "ovti,ov7720";
+             reg = <0x21>;
+-            vddio-supply = <&regulator1>;
+-            vddcore-supply = <&regulator2>;
+-
+-            clock-frequency = <20000000>;
+             clocks = <&mclk 0>;
+-            clock-names = "xclk";
+ 
+             port {
+                 /* With 1 endpoint per port no need for addresses. */
+                 ov772x_1_1: endpoint {
++                    bus-type = <5>;
+                     bus-width = <8>;
+                     remote-endpoint = <&ceu0_1>;
+                     hsync-active = <1>;
+@@ -295,48 +286,48 @@ examples:
+         };
+ 
+         camera@1a {
+-            compatible = "sony,imx074";
++            compatible = "sony,imx334";
+             reg = <0x1a>;
+-            vddio-supply = <&regulator1>;
+-            vddcore-supply = <&regulator2>;
+ 
+-            clock-frequency = <30000000>;  /* Shared clock with ov772x_1 */
+             clocks = <&mclk 0>;
+-            clock-names = "sysclk";    /* Assuming this is the
+-                       name in the datasheet */
++
+             port {
+-                imx074_1: endpoint {
++                imx334_1: endpoint {
+                     clock-lanes = <0>;
+                     data-lanes = <1 2>;
++                    link-frequencies = /bits/ 64 <891000000>;
+                     remote-endpoint = <&csi2_1>;
+                 };
+             };
+         };
+     };
+ 
+-    csi2: csi2@ffc90000 {
+-        compatible = "renesas,sh-mobile-csi2";
+-        reg = <0xffc90000 0x1000>;
+-        interrupts = <0x17a0>;
+-        #address-cells = <1>;
+-        #size-cells = <0>;
++    csi2@fea80000 {
++        compatible = "renesas,r8a7796-csi2";
++        reg = <0xfea80000 0x10000>;
++        interrupts = <0 184 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_MOD 714>;
++        power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++        resets = <&cpg 714>;
+ 
+-        port@1 {
+-            compatible = "renesas,csi2c";  /* One of CSI2I and CSI2C. */
+-            reg = <1>;      /* CSI-2 PHY #1 of 2: PHY_S,
+-                       PHY_M has port address 0,
+-                       is unused. */
+-            csi2_1: endpoint {
+-                clock-lanes = <0>;
+-                data-lanes = <2 1>;
+-                remote-endpoint = <&imx074_1>;
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                csi2_1: endpoint {
++                    clock-lanes = <0>;
++                    data-lanes = <2 1>;
++                    remote-endpoint = <&imx334_1>;
++                };
+             };
+-        };
+-        port@2 {
+-            reg = <2>;      /* port 2: link to the CEU */
++            port@1 {
++                reg = <1>;
+ 
+-            csi2_2: endpoint {
+-                remote-endpoint = <&ceu0_0>;
++                csi2_2: endpoint {
++                    remote-endpoint = <&ceu0_0>;
++                };
+             };
+         };
+     };
 -- 
-Regards,
+2.27.0
 
-Laurent Pinchart
