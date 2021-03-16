@@ -2,112 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D4B33D329
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 12:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9014933D332
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 12:38:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233869AbhCPLf7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 07:35:59 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:35097 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237315AbhCPLfv (ORCPT
+        id S233385AbhCPLiH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 07:38:07 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:48789 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237341AbhCPLhh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 07:35:51 -0400
+        Tue, 16 Mar 2021 07:37:37 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id M7zEl1Zf44ywlM7zIlAlme; Tue, 16 Mar 2021 12:35:48 +0100
+        id M80ul1aCB4ywlM80ylAm2I; Tue, 16 Mar 2021 12:37:32 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615894548; bh=NQGZRkIj9jSeeETDnCrg5G1MdUAhBmYCYcT6Q1xXTQg=;
+        t=1615894652; bh=aL3pUJkV+HExI5vO2vgkMwQGwfq6Cu0P4OvUQqPP0Zg=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=gLzHCbczBu+/QNCerJ3JJVQM4jpzF9lI1pEZ/OdoT4FLJb0yBY+S60k/6kROPYqPk
-         BO7UILxyub57JeexzRadHs3P28VufaRgIfCtr2mC02Unyohbdi9QafHE8bGQxygLeJ
-         DcPpu2l5j1scMOMd+khOimFWUUu7OhbG30X3p0rWaAky3I6fIf9fFbSVPfiA+/1ioK
-         dyZZuX6Kcfffjt9bFIqik411xauDpptkvWjZ5WB5n3g52NR5SNK7NHzDe+YapO0/17
-         yGhu9US1HfCjiN83M+r4D5my9O2BeoFax39u6rUVxn/FARKtXxqBFWZaGyrMA65dSE
-         WguixTZyt6Fog==
-Subject: Re: [PATCH v5 1/5] v4l: Add new Colorimetry Class
+        b=sWtsNEJVZtzKAK6R2PbeXyELwMtYaQsBjJTeSmuyd4oE9dZIB0KLWffNo84u0mO4O
+         Z3jDklP9m7peGLU0MlUUZMrQp3z2PgrXQF7yM+YJuRc9X92KV0Wnb+Pmxw0mkVlCyy
+         hUSo7dTsUCMoh2shycG2zl5yBum5GxxIU8vMzT9WsPVS3cJoVNkJuPlgNBzVWjlseS
+         dNvHmEwYYLm7LrX/UbVfG1iLTwzTcQYqz5DRaixartfj1bcnI9gpSXh7v9HyzZten+
+         nXVPv+U0uC/Id5D0sLxpUO4dHftRJGXCgK0plnv2McfQloMiYqWBp9C6nXQm794bWe
+         hVhENGjQS3DSw==
+Subject: Re: [PATCH v5 2/5] docs: Document colorimetry class
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org
 Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>
 References: <20210209162425.3970393-1-stanimir.varbanov@linaro.org>
- <20210209162425.3970393-2-stanimir.varbanov@linaro.org>
+ <20210209162425.3970393-3-stanimir.varbanov@linaro.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e456ca77-7a47-de09-d5c9-41e38b362857@xs4all.nl>
-Date:   Tue, 16 Mar 2021 12:35:44 +0100
+Message-ID: <ce79ea9f-df67-8d71-c351-d2255c74d4ad@xs4all.nl>
+Date:   Tue, 16 Mar 2021 12:37:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210209162425.3970393-2-stanimir.varbanov@linaro.org>
+In-Reply-To: <20210209162425.3970393-3-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPfKfoJqaVO1aDly7VB/NT3EcZHKO8fd9VXJYM0mdjgpYY7t384wzRFKgRenNG1w/Y21PxqypytgjEIuRkLpK9wgv4ezsiLQA3Ugj+2mejkIMjeM2kxL
- LMJeC90Ce9S6e182BmMSAJk6HU/INx9LlqanlhOb6WkDPRt1jUZGYz3/4QOk4KHfLBb0yKTEPzHhnDNHnLNVJNVqDbovWUBqiagQQHR8LNj57YiRESgYAt2f
- GgntxSWXTOub76n9GDlJZLZxdMFz7+VvAn3I2E3qJolCYEGzfCeI5SEMljRDbPZMuxhLRZEMJQcXDFhYSuPM6tSSm5cUYRiYOVLEiF5jWAddFlgp1mnaWQ5e
- 8vDAHmojU+8P8A9nuaB87kQVr21ydE7jGdTCyKv4VEPlbpAIdUb07QtjYUUEsYWhwAEvOJAO
+X-CMAE-Envelope: MS4xfFCqM25jXuhmqiYskUZsqqnt1zqhdB4C6OJAD0e6rRZTNQrZe9t3Sbt8eSTSIleT7fjcxkK28h4fgnVFHVdH1Dd72BCKadanXcp6RzwjAJU8Gs5rdltI
+ +eoId/qVjbNZxDlGgq82tz0s6IkqxyrYHtdNwaU0JE/91RAAzl4KpIxRJ4pyJhGYvtMgs+BZqvkQHFQEy4w4EYq0lsz2EKQ50CnU6YgUYA1Ulh8uk6uCPWo4
+ J5ia7QaWfGejoF60WlBoxuF8sIxaw1FQchAMAS2rKbA/lQOesTxU+ZVTs9nNWXyncVj+fd5bFrFqwGxU4dT2itSjYUM1YDPKjdtal8reMtFh4/StqXEWml9e
+ c2fLWv3Szgnh92SW0e3QC47nCHwDTX4KGVFYt3rfUykCJLrisRiLKRNybxtRaJmoOintl6Vb
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 09/02/2021 17:24, Stanimir Varbanov wrote:
-> Add Colorimetry control class for colorimetry controls
+> Add a document for ext control colorimetry class.
 > 
 > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 7 ++++++-
->  include/uapi/linux/v4l2-controls.h   | 4 ++++
->  2 files changed, 10 insertions(+), 1 deletion(-)
+>  .../userspace-api/media/v4l/common.rst        |  1 +
+>  .../media/v4l/ext-ctrls-colorimetry.rst       | 22 +++++++++++++++++++
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+>  3 files changed, 27 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 016cf6204cbb..335cf354f51b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -1201,6 +1201,10 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:		return "H264 Slice Parameters";
->  	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
->  	case V4L2_CID_STATELESS_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+> diff --git a/Documentation/userspace-api/media/v4l/common.rst b/Documentation/userspace-api/media/v4l/common.rst
+> index 8c263c5a85d8..ea0435182e44 100644
+> --- a/Documentation/userspace-api/media/v4l/common.rst
+> +++ b/Documentation/userspace-api/media/v4l/common.rst
+> @@ -51,6 +51,7 @@ applicable to all devices.
+>      ext-ctrls-fm-tx
+>      ext-ctrls-fm-rx
+>      ext-ctrls-detect
+> +    ext-ctrls-colorimetry
+>      fourcc
+>      format
+>      planar-apis
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
+> new file mode 100644
+> index 000000000000..862f78b41b32
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-colorimetry.rst
+> @@ -0,0 +1,22 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 > +
-> +	/* Colorimetry controls */
-> +	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> +	case V4L2_CID_COLORIMETRY_CLASS:	return "Colorimetry Controls";
->  	default:
->  		return NULL;
->  	}
-> @@ -1389,8 +1393,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_RF_TUNER_CLASS:
->  	case V4L2_CID_DETECT_CLASS:
->  	case V4L2_CID_CODEC_STATELESS_CLASS:
-> +	case V4L2_CID_COLORIMETRY_CLASS:
->  		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
-> -		/* You can neither read not write these */
-> +		/* You can neither read nor write these */
->  		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
->  		*min = *max = *step = *def = 0;
->  		break;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 039c0d7add1b..a41039559193 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -66,6 +66,7 @@
->  #define V4L2_CTRL_CLASS_RF_TUNER	0x00a20000	/* RF tuner controls */
->  #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
->  #define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
-> +#define V4L2_CTRL_CLASS_COLORIMETRY	0x00a50000	/* Colorimetry controls */
->  
->  /* User-class control IDs */
->  
-> @@ -1657,6 +1658,9 @@ struct v4l2_ctrl_fwht_params {
->  	__u32 quantization;
->  };
->  
-> +#define V4L2_CID_COLORIMETRY_CLASS_BASE	(V4L2_CTRL_CLASS_COLORIMETRY | 0x900)
-> +#define V4L2_CID_COLORIMETRY_CLASS	(V4L2_CTRL_CLASS_COLORIMETRY | 1)
+> +.. _colorimetry-controls:
 > +
->  /* MPEG-compression definitions kept for backwards compatibility */
->  #ifndef __KERNEL__
->  #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+> +*****************************
+> +Colorimetry Control Reference
+> +*****************************
+> +
+> +The Colorimetry class includes controls for High Dynamic Range
+> +imaging for representing colors in digital images and video. The
+> +controls should be used for video and image encoding and decoding
+> +as well as in HDMI receivers and transmitters.
+> +
+> +Colorimetry Control IDs
+> +-----------------------
+> +
+> +.. _colorimetry-control-id:
+> +
+> +``V4L2_CID_COLORIMETRY_CLASS (class)``
+> +    The Colorimetry class descriptor. Calling
+> +    :ref:`VIDIOC_QUERYCTRL` for this control will
+> +    return a description of this control class.
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index b9c62affbb5a..8a95ebdd499a 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -394,6 +394,10 @@ still cause this situation.
+>        - 0xa40000
+>        - The class containing stateless codec controls. These controls are
+>  	described in :ref:`codec-stateless-controls`.
+> +    * - ``V4L2_CTRL_CLASS_COLORIMETRY``
+> +      - 0xa50000
+> +      - The class containing colorimetry controls. These controls are
+> +	described in :ref:`colorimetry-controls`.
+>  
+>  Return Value
+>  ============
 > 
 
 Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
