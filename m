@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7B1F33D560
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 15:03:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E430633D571
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 15:06:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235735AbhCPOD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 10:03:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45590 "EHLO
+        id S235934AbhCPOGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 10:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235626AbhCPOCw (ORCPT
+        with ESMTP id S235957AbhCPOFi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 10:02:52 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AADF1C06174A
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 07:02:51 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id s7so35254740qkg.4
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 07:02:51 -0700 (PDT)
+        Tue, 16 Mar 2021 10:05:38 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B2EAC06174A
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 07:05:37 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id a11so11681478qto.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 07:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Elt0WVZmXpTu0E0qTWN3dbnfpIO0ie/fw4pDAAVKFfQ=;
-        b=d+D6AkHWtx10PKRjT6BaCp/Ihus3rrsRq9ECLFuGgpVQGKpQ2ndyyN8nPDqyK3mnCs
-         8JWOlMrdUvN6Rv15pGy5ZJJtYoqP2UrT+z9JNdBGcC6VNaGtQ66GVtaAoVkXPS+eyuzc
-         4hviY5nTHj5CId+ynl/ICorqJ3/lma/L9HeMb6wkbb/Zi23rG0dukEUIrlFSs2zA+Mii
-         44LFhi6FkhYek3HMOLDGLrOfky9Rhj5nCzJR5+ks3a76/IbiGFAC1/XPpbW8I9s+aoYV
-         912yKXdKI5c7A7Tgwj64y7lfl4dw4L2zO5hoYsOgzmjWiBMh9hmoo9VKbIrXupKB6+8H
-         WazA==
+        bh=R5J+gyvPR11CpUcHtxefCCU7xn5fdvKcAAyoiIUwLpU=;
+        b=O2BttwNa3lO95Ob22hRtD5rhT/Hurr292UgUi9hmds+xod5J0t4Zbm3jKZusWfKein
+         2HcnNXnX0Cki74KHANB7v2S2azsLI86j5Rd27U9Gz0cesJ4EgS3ybyhfly0bhz7ifcX+
+         pouC8qmnFCM+F0U7fhdfAOefF3Qw9Z4JjIdC7fry8ZpD85n9QburjRJ9LCTc+OJMfQEG
+         jQygFiX/PGQu8yiN0p5xbACzy7jV7vcJI+RnVqaPp0Q3mcinayP/sH9h5uZQsq/SeZwF
+         ku29CsP03VKT/nCbFdUzKuXMRLXCupFI/9txJV7vZdnzbysJln5N0GvPof/FFppEttwb
+         1c6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Elt0WVZmXpTu0E0qTWN3dbnfpIO0ie/fw4pDAAVKFfQ=;
-        b=Z1Mv+LGyuCG6e9DSG9j4WNd7PN4NS0jPk0pXShPxJKWIWB8/v/+zbmDMebKpJq+ksM
-         7Y2faJH8L6qW02C0/RBwP1JmVF3J1+kFvKZkG1IGl3yBk73lXhCU6I7mW0EoEalI3cMK
-         qNgVKFWaiUpRtvUehDW1Qu/BvYfN9LRgIk+h0/LI2oCVzkv4EsdKah57qUsTGAfMLfBB
-         eXiolYqC7gsIK/4BneauzrQCiH+BVxRYMEcZ7xdA1BJJqY8cIEhA5aeMfGfSEk9D88rb
-         sybErcqKzlSrvv/MJSxDfXEPRJMk0cS2UJ+d/PN1OtOv17tO+o7h6E1YIAJ2nKqlaQVR
-         4M9w==
-X-Gm-Message-State: AOAM530DrYx07npWs07WRMltmbDkVwQk/BOHGVv3DvXTuPpcmXdNQUoZ
-        AumA4z7tYYlI3/RyC6ktu93ZfbcBuXjb3jzwFQq92w==
-X-Google-Smtp-Source: ABdhPJy8kZ595VVDN/Wd20548AQYpCPA5hxs0oZeoA7+uKr6CShTWhVR9MQCHVp4L6dZEPabMJLBoO85nABQAnW8k+8=
-X-Received: by 2002:a05:620a:981:: with SMTP id x1mr29248822qkx.501.1615903370401;
- Tue, 16 Mar 2021 07:02:50 -0700 (PDT)
+        bh=R5J+gyvPR11CpUcHtxefCCU7xn5fdvKcAAyoiIUwLpU=;
+        b=bbjh3A3Mj3ywxuO1dQ36rGw44YFmMl+KDNohQ6w9pMRBPVn/cK2J6zWb81i5MwsbkO
+         1CTCSig2+pBK7W51xoVpruV+pn6auicIzLbt+W/z8utjrtP01Yk/i4g2QNiADcwFXDnw
+         FBGDxDSTAyAfyBoP3uG3xcpHWtJpr1kv4efRtnF7iORbO7cH354vBhD0LySiO5E6hujO
+         XtjgVUiSFwqTdsMpSXvY2csfQqkIBnwElHeF76JO9joQY/VF8ZRmuvT/Sogxb0aLPymm
+         vy4DRK7/OXabTAw2KCXfmGLCItqUZz/xgWqAJ+npPIKvSGvg6gxp0kqQfel26ZQwJblB
+         6+9g==
+X-Gm-Message-State: AOAM533gcBN7yNZFbd7jP/slzFr8OZz/HTmPY2swpMygSOTSGiZAZSTe
+        CEj431JGBHkrGV2DqSntv69v3aYMCh1f5MQJeRBFQQ==
+X-Google-Smtp-Source: ABdhPJzR40N8y1AfMvwMfDuWH7CbynqglunnDC3+vtQWgR9MdHv+hsaxsK921Aj4z35MQYck6VlG2ALlIoa+i3rKtYM=
+X-Received: by 2002:a05:622a:c3:: with SMTP id p3mr5912751qtw.43.1615903536277;
+ Tue, 16 Mar 2021 07:05:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <0000000000005ace4405bda4af71@google.com> <CACT4Y+ZJvG+H0Gz9x6cA5qz9=Bf8AdjXaJrQ3GLcwMTj3gPC=Q@mail.gmail.com>
  <CAK8P3a1Ea=NM02jfoWZtV7tbAHbhq7eoP1_SvqcPdRZ49+3dog@mail.gmail.com>
 In-Reply-To: <CAK8P3a1Ea=NM02jfoWZtV7tbAHbhq7eoP1_SvqcPdRZ49+3dog@mail.gmail.com>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Tue, 16 Mar 2021 15:02:39 +0100
-Message-ID: <CACT4Y+Y1_WE1z9TVXwbo8ombG8_abD+mY3cwMEigOVYGenDQRA@mail.gmail.com>
+Date:   Tue, 16 Mar 2021 15:05:24 +0100
+Message-ID: <CACT4Y+YaYihq7uzXCQXhDF6B2vE1vavNLvQ6-eyu+XKmqshtLw@mail.gmail.com>
 Subject: Re: [syzbot] KMSAN: uninit-value in video_usercopy (2)
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>,
@@ -87,7 +87,10 @@ On Tue, Mar 16, 2021 at 2:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
 > This tree seems to be missing fb18802a338b ("media: v4l: ioctl: Fix memory
 > leak in video_usercopy"), which rewrote that function partly and might
 > fix the problem.
->
+
+As far as I see the bug happens before any of the code changed by
+fb18802a338b is invoked.
+
 > > > Local variable ----sbuf@video_usercopy created at:
 > > >  video_usercopy+0xaa/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3285
 > > >  video_usercopy+0xaa/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3285
@@ -142,10 +145,7 @@ On Tue, Mar 16, 2021 at 2:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
 > User space would be calling VIDIOC_QUERYBUF32_TIME32 here,
 > if it's built against glibc, though with a musl based user space, you
 > would get called with VIDIOC_QUERYBUF32.
-
-Or somebody fetching somebody else's credit card number will be
-calling VIDIOC_QUERYBUF_TIME32 directly ;)
-
+>
 > What I notice in get_v4l2_buffer32_time32(), is that we do a full
 > copy_from_user() to the stack of this function, and then copy the
 > members individually to the output v4l2_buffer structure:
@@ -172,6 +172,5 @@ calling VIDIOC_QUERYBUF_TIME32 directly ;)
 > This struct assignment will however leave any padding
 > fields uninitialized. There is padding between 'field' and
 > 'timestamp.  Could that trigger a KMSAN bug?
-
-Report seems to be saying it's vb.type that's uninitialized. I suspect
-we copy nothing at all from user space.
+>
+>         Arnd
