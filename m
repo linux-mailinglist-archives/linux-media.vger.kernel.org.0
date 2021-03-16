@@ -2,77 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FDB633CD44
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 06:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EBE333CECA
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 08:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235441AbhCPFZ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 01:25:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232319AbhCPFZt (ORCPT
+        id S232782AbhCPHpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 03:45:45 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47049 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229646AbhCPHpc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 01:25:49 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8CD5C06174A;
-        Mon, 15 Mar 2021 22:25:48 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id lr10-20020a17090b4b8ab02900dd61b95c5eso743305pjb.4;
-        Mon, 15 Mar 2021 22:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LSAEcbf+SATjwHMz9nGIjUC5ggd/JNyrGEMilbpoSyU=;
-        b=ZA1S5oPdRCSgxXx78wP057XdupZU2L/roNuhzEcwzr6v2dzm5Wn+wfe+VTU0F82YBc
-         Y+pf7ASIffpneeXrQNWxAu0FL6iM1XUleDgGGSOq/us7fgnI5eeVPNPbibisg7lQpQHW
-         IMjTC/UMrFncahk6h7Uvy6Sjro1t98NM4rVlfoDSUQazqbUAcz1nFAustUvOdUTM5rmW
-         SZ9sjGwbyBYfrX5NYS+9568kMPMj/rwj5Sl9uJBoptaAUMPS51muSgXhnGT1ESSDbI/a
-         o7qOlW1rk3nE5OoKMMx/rd4W3h3TYoUD7sE8PV7+zQ+oU3+gw9QBkxAbsvbNw/LQDMDT
-         23EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LSAEcbf+SATjwHMz9nGIjUC5ggd/JNyrGEMilbpoSyU=;
-        b=RuP+OEphLkOGwUzzG5KSUu0fx7pjYJfIAAOWWS6NUTPLJKdCs7lXLKPecwn6el/l45
-         nrmGM2KKVDZ0bvJNKdB5bSsNwM7ifz7KjH5wn3TIFNfCpRzYeryfyUbt9jFowLiBL0a0
-         dSoEBcK6lhQq/u8CrAIHZsU1JAQxNjkvLa6BoztwsE0eAeMm3ukHqQ4iJz71Ugd86Q2V
-         UnSbcP6FgCGsuXQTIDdLezYA9Wk0Qhf8i60iJhfKbKgGcQHIwQg1265KVHhGr9VnzkUQ
-         j137g7g4iASagbfYRZhRJ4Hu1dWSNUtliyMDC14gW49edJ3+Rq07fkgt+zH0gGIXLl49
-         TaHQ==
-X-Gm-Message-State: AOAM5303PSq9Y1g9VXn9JR0EhgwiWm60/rwQErmzVaA2SpMrgYHnfFbS
-        LMa9Vtv4PS0YWaxRiP/CDWE=
-X-Google-Smtp-Source: ABdhPJzw8w7ugDq+6cl4fU8wJnCdwIsPRmWI3s6zk0E+f3ulhtqKoOv2NX6GCIuxNGeW3FZeGFZonQ==
-X-Received: by 2002:a17:90b:46d0:: with SMTP id jx16mr2974050pjb.3.1615872348531;
-        Mon, 15 Mar 2021 22:25:48 -0700 (PDT)
-Received: from google.com ([2409:10:2e40:5100:d47a:37d9:be9:acbb])
-        by smtp.gmail.com with ESMTPSA id mp21sm643988pjb.16.2021.03.15.22.25.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 22:25:48 -0700 (PDT)
-Date:   Tue, 16 Mar 2021 14:25:44 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tomasz.figa@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tue, 16 Mar 2021 03:45:32 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id M4OHl0ONq4ywlM4OMlA8RY; Tue, 16 Mar 2021 08:45:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615880730; bh=KbB6mdeP/3sRZ4m9VmiHVsbE3XcXiYRdYC8cTM6so1E=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qa20UExEqVb0p2JOoW7pT3jS+mM4n5ZYnMT70WKDPzIz4lkiPlmF4/mdKmfttdijD
+         kPAvMbfT2xwz9wWIp7TungtXN7EKVshK7J3oWiEr+2gfSbtUv0W5dHV+tbzBS7C6gj
+         3gNxbRbWI8Avg0C4VFcTMmZBAGdZdQsuBzQjOES6GuqPLIxHJkf/HQFCvqVFJyhj4x
+         AIA6G/4ak4Jx/jDSXVJVK1y+lV30wTRQ1MLZ8qQrf4Kbb8jesQakQDY3OlRWD6dTfJ
+         fLe8iYz0nwoKGDimsqxo39TuvC+Bj2IYAqSkgr6p3yZpjfb5/5FEo6mTV+ANh+RW6a
+         45ylImII3k2hQ==
+Subject: Re: [PATCH] Rectify spelling and grammar
+To:     Xiaofeng Cao <cxfcosmos@gmail.com>
+Cc:     gustavoars@kernel.org, gregkh@linuxfoundation.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Subject: Re: [PATCHv2 0/3] Add UVC 1.5 Region Of Interest control to uvcvideo
-Message-ID: <YFBBWLaiJkvyt9kM@google.com>
-References: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
+        Xiaofeng Cao <caoxiaofeng@yulong.com>, mchehab@kernel.org
+References: <20210311072044.388-1-cxfcosmos@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <126298ca-15c3-22f8-50f5-b7bf4cc281ec@xs4all.nl>
+Date:   Tue, 16 Mar 2021 08:45:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
+In-Reply-To: <20210311072044.388-1-cxfcosmos@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfLNYPDKqG+xg1M/EqfPkWz+LWOFxoYYw3E57ZR3RVEyTmcq7jd3MHx96DsbK2zmu97pnbKV6eylUPhdOuj2/1C49IEsWKp1zm2dV15vXXLDyptNLAkn6
+ sLQoGQosNC3xRJ8dE5tXz8yd5QKjPcA3pA4o+tJmmWdN0u6xqfNyDQe+mgqlVVOS7GdkTkDkn9CYhVEa6PYOZ9ZN91lygkprXAYHJathOc8VswBGsVbeQ4G3
+ sZYpVIwbGCTGUCVJxn11XSwtXmYb73cFNRPq7NV8H15fuKkoFCzFbZlb2TCnX/x4qr5fH7m7qxAjo5YWdD578jy5QIIu4zUMGOWm1y/GAJIGYVlEWnhyfmGL
+ 6o2zXSwNiR/2kJiMAEy4hFulCQSR7LG5vwUSwonXJK8OcXhAxNz5h7TZ2aaX/LZcKEXV7JCs
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (21/02/08 14:17), Sergey Senozhatsky wrote:
-> 	Hello,
+Hi Xiaofeng Cao,
+
+The patch is good, but scripts/checkpatch.pl complains about a mismatch:
+
+WARNING: From:/Signed-off-by: email address mismatch: 'From: Xiaofeng Cao <cxfcosmos@gmail.com>' != 'Signed-off-by: Xiaofeng Cao
+<caoxiaofeng@yulong.com>'
+
+Which is the one I should use?
+
+Regards,
+
+	Hans
+
+On 11/03/2021 08:20, Xiaofeng Cao wrote:
+> Change 'inaccesable' to 'inaccessible'
+> Change 'detrmine' to 'determine'
+> Delete 'in' grammatically
 > 
-> 	RFC
+> Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com>
+> ---
+>  drivers/media/radio/radio-si476x.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/radio/radio-si476x.c b/drivers/media/radio/radio-si476x.c
+> index 23997425bdb5..b39a68f83c5f 100644
+> --- a/drivers/media/radio/radio-si476x.c
+> +++ b/drivers/media/radio/radio-si476x.c
+> @@ -152,7 +152,7 @@ static struct v4l2_ctrl_config si476x_ctrls[] = {
+>  
+>  	/*
+>  	 * SI476X during its station seeking(or tuning) process uses several
+> -	 * parameters to detrmine if "the station" is valid:
+> +	 * parameters to determine if "the station" is valid:
+>  	 *
+>  	 *	- Signal's SNR(in dBuV) must be lower than
+>  	 *	#V4L2_CID_SI476X_SNR_THRESHOLD
+> @@ -255,7 +255,7 @@ struct si476x_radio;
+>   *
+>   * This table holds pointers to functions implementing particular
+>   * operations depending on the mode in which the tuner chip was
+> - * configured to start in. If the function is not supported
+> + * configured to start. If the function is not supported
+>   * corresponding element is set to #NULL.
+>   *
+>   * @tune_freq: Tune chip to a specific frequency
+> @@ -917,7 +917,7 @@ static int si476x_radio_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_RDS_RECEPTION:
+>  		/*
+>  		 * It looks like RDS related properties are
+> -		 * inaccesable when tuner is in AM mode, so cache the
+> +		 * inaccessible when tuner is in AM mode, so cache the
+>  		 * changes
+>  		 */
+>  		if (si476x_core_is_in_am_receiver_mode(radio->core))
+> 
 
-Hi Laurent,
-
-Gentle ping.
-
-	-ss
