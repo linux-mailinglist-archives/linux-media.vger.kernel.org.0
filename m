@@ -2,246 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01FD833D27C
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 12:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B89CF33D2DC
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 12:21:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232334AbhCPLMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 07:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233924AbhCPLMV (ORCPT
+        id S233715AbhCPLVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 07:21:24 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:36421 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231513AbhCPLVF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 07:12:21 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874B5C061762
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 04:12:20 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id q12so6306404plr.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 04:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=co9C6unBdFkpgv7+tGLws46NOGe8/tBYeyT4qQSLwlc=;
-        b=HRiKQVMBFG/A6gPAZpN/MiRsDAwXqD/MYUJKSSh7ybK9TDtdRJgVUyb6DmaBH3WnQz
-         bUs0wPminx/GLoogW8PPeQjVhbHPa352X6JsDfIPqNdBCATDUT3J3rQFcrStCK5u5teb
-         uPL+6lUUTM5+1l0QIFweXzlE8Wu9czn9A/AkON5+Nv1dydAobbQBiG8LCisAx/6LktD0
-         zOvKX19zzAdh0xZ2ghA6NjnjPJL3gi3OLOm118yFanFdHyq97W+0toDndtv/7KPhHdhU
-         I/vo64LXjAEFq++SXAX96lHwWcSD65CTcqqivRLZ9LeEY3d7S8zliAfEvBCWzrlVubZ/
-         lcQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=co9C6unBdFkpgv7+tGLws46NOGe8/tBYeyT4qQSLwlc=;
-        b=GDdqNTcrmGMRZ0u5KdPqr3c1hkYGUCCdZwDI+2MbDbKX6lFx6xG6IajLz1JU0uetcM
-         6p/Khp+CwS7J8psIxf6DzbTaSKB1JFiZjNAVUmm13z1P5uoZ4HA9Otrf0p2+zLKAFx+l
-         Q5Zh52KV/N4xBxi8riY91T1D52KD5FkFb8ym10u1zBClzZ81PGBq26+JCJKzO9GkRvC9
-         JrKncveOzszZW6eX11em4Dt7UwobX3Anl1iVzQrxnkaVFQaemgPjdBY6Hd47tOOFBs0u
-         2vhnKPI93vfoohPddxWPcwz32aeUDgDGTMhK7CIBVnKujJgaWO8x94eVsgN/4960ZsDH
-         sYaA==
-X-Gm-Message-State: AOAM533rtUDrYlA00aZKnFOYkr5hdDR8aHZ0025070pn5AAIWfXdPLTU
-        +1DubMbnwWnCCd1FPh0OP3hps9aC5YqZ8DMWvyVczQ==
-X-Google-Smtp-Source: ABdhPJxxy+osmijXyuDaa1mP5+f0EErKvMxpTVF7WymI+74vScoiTtjvsZJ0oOoCIDCp368NI1c6lnxCs1T1BBXgrw0=
-X-Received: by 2002:a17:90a:516:: with SMTP id h22mr4143299pjh.222.1615893139917;
- Tue, 16 Mar 2021 04:12:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210315155942.640889-1-robert.foss@linaro.org>
- <20210315155942.640889-10-robert.foss@linaro.org> <b06ce7af-4449-fb5c-2920-09ebd5abdf75@xs4all.nl>
-In-Reply-To: <b06ce7af-4449-fb5c-2920-09ebd5abdf75@xs4all.nl>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 16 Mar 2021 12:12:08 +0100
-Message-ID: <CAG3jFytECFBW7mC0=0ZwL2HNof3jOiJ9=KqUhaPb-KvnW5ut2g@mail.gmail.com>
-Subject: Re: [PATCH v8 09/22] media: camss: Refactor CSID HW version support
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        angelogioacchino.delregno@somainline.org,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        Sarvesh Sridutt <Sarvesh.Sridutt@smartwirelesscompute.com>,
+        Tue, 16 Mar 2021 07:21:05 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id M7kxl1V9v4ywlM7l1lAjQh; Tue, 16 Mar 2021 12:21:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615893663; bh=lFaMUIywMj08Hbt1FozVgRqYO6rwiY/lE/AH9dUNSMs=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=f8BDJI3F+U8GXJ3LbYTiFrz0s/lRweaLzytT4JDOsWkfmwi51H3CKwclD7HrunML1
+         ZYuAO1QIyWV136k96SYM/OL90Xae+oREnpQ23TgausR9R2b81vSd5YmKWFMRHJKUCH
+         X0rhpOIMg7fD6dR0CtUM+CC+dzg0TMjZwcAmSGZ9dly/BcaG/AjVNc28eGCljqzRj1
+         3IuKyIsMKVBd5s8XSNayuiXOiMNAoikke8U2HM3v8HooadvidDYFTjKBKB+PgcPyVz
+         y8k/kkRv5G4rb20xlKJmctYBuIUe9XMCW8ipjvCShL5XqFgTzC0tixxdiAqxDOdDCw
+         5Xglz5gVvSsUQ==
+Subject: Re: [PATCH v4 04/11] media: uvcvideo: set error_idx to count on
+ EACCESS
+To:     Ricardo Ribalda <ribalda@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Marek <jonathan@marek.ca>
-Content-Type: text/plain; charset="UTF-8"
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210315173609.1547857-1-ribalda@chromium.org>
+ <20210315173609.1547857-5-ribalda@chromium.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <a9e7df54-3b2e-0f95-1975-25c424eb6735@xs4all.nl>
+Date:   Tue, 16 Mar 2021 12:20:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210315173609.1547857-5-ribalda@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfAB64SNb/pmcOy6dZ23h1tW5Z8ljmjo3cF98zALcSf3w1m70/K+WATitKWtD14DuShh0MBSBMU1TcRF4VO51WC5rpJJ6lL8p052pcSXfASNFLo9gOSZC
+ rCr1mIBdQx9x9sTaaC+UN4QlAA01lqOIFXUVTscPJqFgD6IhW5JZLbuOA4DEkbnvptbf5csIM0VIWRVSy5VVSWuT/s9hxeeH7IPjsn3S+kjHCrZMXrE6rjn0
+ DAHSrWghWsJCWmnFwg1UHgpr3mSwgzC7ZrQLxfGPJpq3mmQZVgcvsjRplxqv3qad6gBwgvaC9WL9gTVLAypVkjTX2ig8RyAjXNZ7VkPetFGmFccQHotJdk6v
+ CnmWkRIUExciIw76ZQY4y+IhvrXLjzH+9OW1ntQBb+T8J79uSmE=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Hans,
-
-Thanks for looking into this.
-
-On Tue, 16 Mar 2021 at 10:36, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 15/03/2021 16:59, Robert Foss wrote:
-> > In order to support Qualcomm ISP hardware architectures that diverge
-> > from older architectures, the CSID subdevice drivers needs to be refactored
-> > to better abstract the different ISP hardware architectures.
-> >
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> > Reviewed-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> > ---
-> >
-> >
-> > Changes since v1:
-> >  - kernel test robot: Add missing include, interrupt.h
-> >
-> > Changes since v4:
-> >  - Andrey: Removed whitespace from some includes
-> >  - Andrey: Removed unused enum
-> >
-> > Changes since v5:
-> >  - Andrey: Fixed test pattern selection logic
-> >  - Andrey: Align test mode enum values with v4l mode selection return values
-> >  - Andrey: r-b
-> >  - Move Titan 170 test modes to the the Titan 170 commit
-> >  - Fixed test pattern boundary check
-> >
-> > Changes since v7:
-> >  - Hans: Fix checkpatch.pl --strict warnings
-> >
-> >
-> >
-> >  drivers/media/platform/qcom/camss/Makefile    |   2 +
-> >  .../platform/qcom/camss/camss-csid-4-1.c      | 328 ++++++++++
-> >  .../platform/qcom/camss/camss-csid-4-7.c      | 404 ++++++++++++
-> >  .../media/platform/qcom/camss/camss-csid.c    | 608 +-----------------
-> >  .../media/platform/qcom/camss/camss-csid.h    | 129 +++-
-> >  5 files changed, 885 insertions(+), 586 deletions(-)
-> >  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-4-1.c
-> >  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-4-7.c
-> >
->
-> <snip>
->
-> > diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-> > index 479ac1f83836..613ef377b051 100644
-> > --- a/drivers/media/platform/qcom/camss/camss-csid.h
-> > +++ b/drivers/media/platform/qcom/camss/camss-csid.h
-> > @@ -11,6 +11,7 @@
-> >  #define QC_MSM_CAMSS_CSID_H
-> >
-> >  #include <linux/clk.h>
-> > +#include <linux/interrupt.h>
-> >  #include <media/media-entity.h>
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> > @@ -44,18 +45,42 @@
-> >  #define DATA_TYPE_RAW_16BIT          0x2e
-> >  #define DATA_TYPE_RAW_20BIT          0x2f
-> >
-> > -enum csid_payload_mode {
-> > -     CSID_PAYLOAD_MODE_INCREMENTING = 0,
-> > -     CSID_PAYLOAD_MODE_ALTERNATING_55_AA = 1,
-> > -     CSID_PAYLOAD_MODE_ALL_ZEROES = 2,
-> > -     CSID_PAYLOAD_MODE_ALL_ONES = 3,
-> > -     CSID_PAYLOAD_MODE_RANDOM = 4,
-> > -     CSID_PAYLOAD_MODE_USER_SPECIFIED = 5,
-> > +#define CSID_RESET_TIMEOUT_MS 500
-> > +
-> > +enum csid_testgen_mode {
-> > +     CSID_PAYLOAD_MODE_DISABLED = 0,
-> > +     CSID_PAYLOAD_MODE_INCREMENTING = 1,
-> > +     CSID_PAYLOAD_MODE_ALTERNATING_55_AA = 2,
-> > +     CSID_PAYLOAD_MODE_ALL_ZEROES = 3,
-> > +     CSID_PAYLOAD_MODE_ALL_ONES = 4,
-> > +     CSID_PAYLOAD_MODE_RANDOM = 5,
-> > +     CSID_PAYLOAD_MODE_USER_SPECIFIED = 6,
-> > +     CSID_PAYLOAD_MODE_NUM_SUPPORTED_GEN1 = 6, /* excluding disabled */
-> > +};
-> > +
-> > +static const char * const csid_testgen_modes[] = {
-> > +     "Disabled",
-> > +     "Incrementing",
-> > +     "Alternating 0x55/0xAA",
-> > +     "All Zeros 0x00",
-> > +     "All Ones 0xFF",
-> > +     "Pseudo-random Data",
-> > +     "User Specified",
-> > +};
->
-> This gives this sparse warning:
->
-> 'csid_testgen_modes' defined but not used [-Wunused-const-variable=]
-
-Thanks for supplying a patch. I'll merge it into patch 9 & 10.
-
->
-> This array needs to be moved to camss-csid.c and declared as an extern
-> here. Also, this menu array needs to be terminated with a NULL, and the
-> right capitalization needs to be used (first character of each word must
-> be a capital). This is a suggested patch I made to verify that this solves
-> this issue, but really both patch 9 and 10 need to be modified.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+On 15/03/2021 18:36, Ricardo Ribalda wrote:
+> If an error is found when validating the list of controls passed with
+> VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to
+> indicate to userspace that no actual hardware was touched.
+> 
+> It would have been much nicer of course if error_idx could point to the
+> control index that failed the validation, but sadly that's not how the
+> API was designed.
+> 
+> Fixes v4l2-compliance:
+> Control ioctls (Input 0):
+>                 fail: v4l2-test-controls.cpp(645): invalid error index write only control
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/media/platform/qcom/camss/camss-csid.c | 14 ++++++++++++++
->  drivers/media/platform/qcom/camss/camss-csid.h | 13 +------------
->  2 files changed, 15 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index fb94dc03ccd4..1513b3d47fc2 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -27,6 +27,20 @@
->
->  #define MSM_CSID_NAME "msm_csid"
->
-> +const char * const csid_testgen_modes[] = {
-> +       "Disabled",
-> +       "Incrementing",
-> +       "Alternating 0x55/0xAA",
-> +       "All Zeros 0x00",
-> +       "All Ones 0xFF",
-> +       "Pseudo-Random Data",
-> +       "User Specified",
-> +       "Complex Pattern",
-> +       "Color Box",
-> +       "Color Bars",
-> +       NULL
-> +};
-> +
->  u32 csid_find_code(u32 *codes, unsigned int ncodes,
->                    unsigned int match_format_idx, u32 match_code)
->  {
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-> index c2a025f6846b..81a3704ac0e3 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.h
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
-> @@ -62,18 +62,7 @@ enum csid_testgen_mode {
->         CSID_PAYLOAD_MODE_NUM_SUPPORTED_GEN2 = 9, /* excluding disabled */
->  };
->
-> -static const char * const csid_testgen_modes[] = {
-> -       "Disabled",
-> -       "Incrementing",
-> -       "Alternating 0x55/0xAA",
-> -       "All Zeros 0x00",
-> -       "All Ones 0xFF",
-> -       "Pseudo-random Data",
-> -       "User Specified",
-> -       "Complex pattern",
-> -       "Color box",
-> -       "Color bars",
-> -};
-> +extern const char * const csid_testgen_modes[];
->
->  struct csid_format {
->         u32 code;
-> --
-> 2.30.1
->
-> Regards,
->
->         Hans
+>  drivers/media/usb/uvc/uvc_v4l2.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 157310c0ca87..36eb48622d48 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -1073,7 +1073,8 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+>  		ret = uvc_ctrl_get(chain, ctrl);
+>  		if (ret < 0) {
+>  			uvc_ctrl_rollback(handle);
+> -			ctrls->error_idx = i;
+> +			ctrls->error_idx = (ret == -EACCES) ?
+> +						ctrls->count : i;
+
+This isn't right.
+
+For G_EXT_CTRLS error_idx should be set to either ctrls->count or the index of the
+failing control depending on whether the hardware has been touched or not.
+
+In the case of the 'if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {' the hardware
+has not been touched, so there is should set error_idx to ctrls->count.
+
+In the case where we obtain the actual values with uvc_ctrl_get() it must return
+the index of the failing control.
+
+According to the spec if VIDIOC_G_EXT_CTRLS returns an error and error_idx is equal
+to the total count, then no hardware was touched, so it was during the validation
+phase that some error was detected. If it returns an error and error_idx < count,
+then the hardware was accessed and the contents of the controls at indices >= error_idx
+is undefined.
+
+So setting error_idx to i is the right thing to do, regardless of the EACCES test.
+
+This does create a problem in v4l2-compliance, since it assumes that the control
+framework is used, and that framework validates the control first in a separate step
+before accessing the hardware. That's missing in uvc. I think v4l2-compliance should
+be adjusted for uvcvideo since uvc isn't doing anything illegal by returning i here
+since it really accessed hardware.
+
+An alternative would be to introduce an initial validation phase in uvc_ioctl_g_ext_ctrls
+as well, but I'm not sure that it worth the effort. It's quite difficult to get it really
+right.
+
+Relaxing the tests in v4l2-compliance for uvc is a better approach IMHO.
+
+Or rewrite uvc to use the control framework :-) :-)
+
+Regards,
+
+	Hans
+
+>  			return ret;
+>  		}
+>  	}
+> 
+
