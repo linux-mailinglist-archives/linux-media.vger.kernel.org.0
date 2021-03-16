@@ -2,105 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F85733CFDA
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 09:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 430C433CFE4
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 09:31:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234710AbhCPI3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 04:29:02 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60117 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233674AbhCPI2w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 04:28:52 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id M54Kl0beb4ywlM54NlAEvx; Tue, 16 Mar 2021 09:28:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615883331; bh=+kqVOuNhUm1dZmhVFGGGFM9n2QfjsRX4Q8vxCpIphW0=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=s2vgUXhBkMOxKZdbBjkIASihpZzaoMpP63xpOs27FormOKOm3bPKx4APMq+QEnuef
-         +l7Tbcf7PoQmvd0VqKlav74Y0D4xRQ6cBeBOg9qja89YoX6K8FiborqAx5g+vnPant
-         zoOGKI8Kn/5vyMQgFlfv9/PFN3skNzxjODd0yrW2zTt6eNLNX1Q+bQro7ajXLwocMR
-         J+ODDdqm/pxwVlqE/nA3lFFNygtrQOp1BHjMlpE5aRu3OWKBPu/zUkTADa1UpROzs0
-         eBU/QvbR2aWGIzjqPmLCxZLSTy3BE0M5dKM+r5j7lmsTi06TfvpR6KauiquZLXi+XX
-         uYK2DAyDAXHmg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.13] Various fixes
-Message-ID: <2b1c3894-0de4-fdbb-5fd5-004765a5a5ea@xs4all.nl>
-Date:   Tue, 16 Mar 2021 09:28:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        id S234758AbhCPIbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 04:31:11 -0400
+Received: from ni.piap.pl ([195.187.100.5]:57866 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234824AbhCPIbE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Mar 2021 04:31:04 -0400
+X-Greylist: delayed 393 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Mar 2021 04:31:03 EDT
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id 4E550443991;
+        Tue, 16 Mar 2021 09:24:26 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 4E550443991
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1615883066; bh=mhirheRq8WviKByzNYMicvIkW+qgbFBkujfQT55US3A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=M1cHjUu3FwM/mWOUgYgyeQg/+IMB5YgRujci2wQwovMpygx1bJlK7cbwIfetc0Wcb
+         De3mxr0nIhJpnCg0FyeLfXVMYpQGvOT7s2w4pQcnbJ+VUssRTruncKTNTTJ0Cqe6tP
+         gq/9DjT1zgdw1XTerMnaxLPLicVSW4nHKwkyyc0Q=
+From:   "Krzysztof Halasa" <khalasa@piap.pl>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] MEDIA CODA: Fix NULL ptr dereference in the encoder.
+Sender: khalasa@piap.pl
+Date:   Tue, 16 Mar 2021 09:23:47 +0100
+Message-ID: <m3a6r3tsks.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHNpDWIV0b1iTjVID19FsUmQ2eziFqZYWuA3tHVz02L4qOOj/vtKEl04oCr9A/6oCsTYyWY/gXLD2nPFgwnjkiZypEWjJaygFyqM9e0ARoewkY7mVQ2B
- Ss/OxLZZg4E9krRxaHRxN+0dCvdSZzrz99FFqAilzcVCykJAA7AQPWpGRFaZbrqQETvHTfnugYHHnn7ov9nwA0c7Sz35ZptQcuU=
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 1c5ab1e2286f4ca6347744e9d4cace5fad5ffa39:
+ctx->mb_err_cnt_ctrl could be NULL in case of failed initialization
+(on decoders), and encoders don't use it at all.
 
-  Merge tag 'v5.12-rc2' into patchwork (2021-03-07 17:46:50 +0100)
+Fixes: b2d3bef1aa78 ("media: coda: Add a V4L2 user for control error macrob=
+locks count")
+Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
+Cc: stable@vger.kernel.org # 5.11+
 
-are available in the Git repository at:
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platfor=
+m/coda/coda-bit.c
+index 2f42808c43a4..26e37cbfe8dd 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -2373,8 +2373,10 @@ static void coda_finish_decode(struct coda_ctx *ctx)
+ 	if (err_mb > 0) {
+ 		if (__ratelimit(&dev->mb_err_rs))
+ 			coda_dbg(1, ctx, "errors in %d macroblocks\n", err_mb);
+-		v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl,
+-				 v4l2_ctrl_g_ctrl(ctx->mb_err_cnt_ctrl) + err_mb);
++		if (ctx->mb_err_cnt_ctrl)
++			v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl,
++					 v4l2_ctrl_g_ctrl(ctx->mb_err_cnt_ctrl)
++					 + err_mb);
+ 	}
+=20
+ 	if (dev->devtype->product =3D=3D CODA_HX4 ||
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/plat=
+form/coda/coda-common.c
+index 96802b8f47ea..285c80f87b65 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -2062,7 +2062,8 @@ static int coda_start_streaming(struct vb2_queue *q, =
+unsigned int count)
+ 	if (q_data_dst->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+ 		ctx->params.gop_size =3D 1;
+ 	ctx->gopcounter =3D ctx->params.gop_size - 1;
+-	v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
++	if (ctx->mb_err_cnt_ctrl)
++		v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
+=20
+ 	ret =3D ctx->ops->start_streaming(ctx);
+ 	if (ctx->inst_type =3D=3D CODA_INST_DECODER) {
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13j
+--=20
+Krzysztof Ha=C5=82asa
 
-for you to fetch changes up to a19a42501dcae664335e7377bd421a2a823077ad:
-
-  radio-si476x: rectify spelling and grammar (2021-03-16 09:23:47 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Bhaskar Chowdhury (1):
-      media: pci: saa7164: Rudimentary spelling fixes in the file saa7164-types.h
-
-Daniel Niv (1):
-      media/saa7164: fix saa7164_encoder_register() memory leak bugs
-
-Fabio Estevam (2):
-      media: camera-mx2: Remove unused header file
-      media: camera-mx3: Remove unused header file
-
-Hans Verkuil (6):
-      media/usb/gspca/w996Xcf.c: /** -> /*
-      v4l2-dev.c: show which events are requested by poll()
-      v4l2-ioctl.c: fix timestamp format
-      gspca/sq905.c: fix uninitialized variable
-      v4l2-ctrls.c: initialize flags field of p_fwht_params
-      ext-ctrls-codec.rst: fix typos
-
-Liu Ying (1):
-      media: docs: Fix data organization of MEDIA_BUS_FMT_RGB101010_1X30
-
-Ricardo Ribalda (1):
-      media: videobuf2: Explicitly state max size of planes
-
-Xiaofeng Cao (2):
-      media: Correct 'so'
-      radio-si476x: rectify spelling and grammar
-
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 12 +++++------
- Documentation/userspace-api/media/v4l/subdev-formats.rst  |  4 ++--
- drivers/media/Kconfig                                     |  2 +-
- drivers/media/pci/saa7164/saa7164-encoder.c               | 20 +++++++++--------
- drivers/media/pci/saa7164/saa7164-types.h                 |  4 ++--
- drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c     |  2 +-
- drivers/media/radio/radio-si476x.c                        |  6 +++---
- drivers/media/usb/gspca/sq905.c                           |  2 +-
- drivers/media/usb/gspca/w996Xcf.c                         |  3 +--
- drivers/media/v4l2-core/v4l2-ctrls.c                      |  2 ++
- drivers/media/v4l2-core/v4l2-dev.c                        |  5 +++--
- drivers/media/v4l2-core/v4l2-ioctl.c                      |  2 +-
- include/linux/platform_data/media/camera-mx2.h            | 31 --------------------------
- include/linux/platform_data/media/camera-mx3.h            | 43 -------------------------------------
- include/media/videobuf2-core.h                            |  6 ++++--
- 15 files changed, 38 insertions(+), 106 deletions(-)
- delete mode 100644 include/linux/platform_data/media/camera-mx2.h
- delete mode 100644 include/linux/platform_data/media/camera-mx3.h
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
