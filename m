@@ -2,192 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D96633DAE6
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 18:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B9133DAED
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 18:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234702AbhCPRYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 13:24:23 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43644 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239283AbhCPRXr (ORCPT
+        id S231991AbhCPR1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 13:27:44 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:40457 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239011AbhCPR1Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 13:23:47 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 81C461F416B7
-Message-ID: <5ecf1d3b8a8f88d6387a1549faeb4f4180cf5d4b.camel@collabora.com>
-Subject: Re: [PATCH v2 00/10] Microship SAMA5D4 VPU support et al
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Emil Velikov <emil.l.velikov@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        ludovic.desroches@microchip.com
-Date:   Tue, 16 Mar 2021 14:23:35 -0300
-In-Reply-To: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
-References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Tue, 16 Mar 2021 13:27:16 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id MDT9lIY9sjVXQMDTDl68iJ; Tue, 16 Mar 2021 18:27:04 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615915624; bh=FAnL5U6m7KjS6cuB1S5VNJyuQFtvLlu+wZ5hH4230Pg=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qqswWAhMv703QV0j+ha0crlyaU6Mu1JgLCUIV3SrmgXFvAqGf8ytABNM4DjRDbLD+
+         jBcqk6cAaWqBvMegzieRTmbiyoWS82htf7OfbNJI33knFjh4KOMSm9lwDe6KZvfYAR
+         gKhXypxVuqwhjtpIVdQuIS2Wo1fUgj2npCUaGPdH88N8vsJ6wf6oIMf6/+KTbEK+mV
+         BHItfVPdV4iFh5s/8sD02/yEcSElWkjKzm/8i6eX49HPZdGCGInXIuggQ2DyxIzopg
+         RE0k1v14AoJ5Oc6s9sxcSKnbS26+GSbBwD2cx1laYwU+czzEGEn7FPq1hIYyun9aFx
+         KAkKs0oRowoCw==
+Subject: Re: [syzbot] KMSAN: uninit-value in video_usercopy (2)
+To:     Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>
+Cc:     syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Peilin Ye <yepeilin.cs@gmail.com>
+References: <0000000000005ace4405bda4af71@google.com>
+ <CACT4Y+ZJvG+H0Gz9x6cA5qz9=Bf8AdjXaJrQ3GLcwMTj3gPC=Q@mail.gmail.com>
+ <CAK8P3a1Ea=NM02jfoWZtV7tbAHbhq7eoP1_SvqcPdRZ49+3dog@mail.gmail.com>
+ <CACT4Y+Y1_WE1z9TVXwbo8ombG8_abD+mY3cwMEigOVYGenDQRA@mail.gmail.com>
+ <CAK8P3a0k-yaGa+0S_rKo52n4Bd2e3bd=Ybj23xY1vO_atV7QKA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <a4a86215-97b8-bb42-6eb4-17dc77c66316@xs4all.nl>
+Date:   Tue, 16 Mar 2021 18:26:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK8P3a0k-yaGa+0S_rKo52n4Bd2e3bd=Ybj23xY1vO_atV7QKA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGwan4mxJOGxdFF+YQx3X+ABUkDFbd4aFfGGJalwE5bO56Wp94GXoOI3L24r4lMtcLEvOgUHDAgEPeZok872qcBA1Y664/lY0LO1VUUtEU4YysTgFg+I
+ 4XAUeC5bVJdhB2l0AlQ23W78vx6sBQihryPmDuI+ETw4RXW7d1lssPq0nYDsOr6bH2AhSPLBYMRAEpZ7juHFWE88Qd7gv9dHdTE7szmGNk7YIa3gfz1ZXt76
+ Bs3aHzLNvpIieA4cw3aMW2ztCf9ZOxRg7OOMwpeQWZdtvrtUlUcKbHVNB/H1BM3TGbQs0QlSIs48aGBjCMcN3aecoR8Fp78Tw97S6eHTiH34DzVj3qUOMRni
+ z+FtUUQsFwrXgSC3rFCZA7m7fYgIM0znbL6VHlH1ZWGaHHIDidePh8OIWdNzAJ6Dgml3xpGEBE65EFlI0PrjQyp4nL1ISO8sPmNEianpccgUxPJS6NV2Jf9S
+ 5hpWT/pOACwLX3JoTn8FkAUvnZu0RySAsTsDxpMH0X+chQIlzmJJL/0Arnf2bSsls7+P6gHBFdHJ29oR2vcsDbE6rzA2Ssq+eYrgmU19j5EC0Py1ZTfcWlWd
+ 3+y28WsB5zbaMsoIngPicI8e2aGFoHASac/QmNQwbMQp2p0LVbSL0QtvXmjkXBF0e8k4UPrqHDSOc7IDDilVBd8C8yjHWqFt6kSCX0AcEXCvFA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2021-03-11 at 15:40 +0000, Emil Velikov wrote:
-> Hi all
+On 16/03/2021 16:06, Arnd Bergmann wrote:
+> On Tue, Mar 16, 2021 at 3:02 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+>> On Tue, Mar 16, 2021 at 2:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>>> On Tue, Mar 16, 2021 at 11:44 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+>>>> On Tue, Mar 16, 2021 at 11:18 AM syzbot
+>>>> <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com> wrote:
+>>>>>
+>>>>> Hello,
+>>>>>
+>>>>> syzbot found the following issue on:
+>>>>>
+>>>>> HEAD commit:    29ad81a1 arch/x86: add missing include to sparsemem.h
+>>>
+>>> This tree seems to be missing fb18802a338b ("media: v4l: ioctl: Fix memory
+>>> leak in video_usercopy"), which rewrote that function partly and might
+>>> fix the problem.
+>>>
+>>>>> Local variable ----sbuf@video_usercopy created at:
+>>>>>  video_usercopy+0xaa/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3285
+>>>>>  video_usercopy+0xaa/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3285
+>>>>> =====================================================
+>>>>> =====================================================
+>>>>> BUG: KMSAN: uninit-value in check_fmt+0x864/0x1070 drivers/media/v4l2-core/v4l2-ioctl.c:963
+>>>>> CPU: 0 PID: 19595 Comm: syz-executor.4 Tainted: G    B             5.11.0-rc7-syzkaller #0
+>>>>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+>>>>> Call Trace:
+>>>>>  __dump_stack lib/dump_stack.c:79 [inline]
+>>>>>  dump_stack+0x21c/0x280 lib/dump_stack.c:120
+>>>>>  kmsan_report+0xfb/0x1e0 mm/kmsan/kmsan_report.c:118
+>>>>>  __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:197
+>>>>>  check_fmt+0x864/0x1070 drivers/media/v4l2-core/v4l2-ioctl.c:963
+>>>>>  v4l_prepare_buf+0xbf/0x1d0 drivers/media/v4l2-core/v4l2-ioctl.c:2107
+>>>>>  __video_do_ioctl+0x15cd/0x1d20 drivers/media/v4l2-core/v4l2-ioctl.c:2993
+>>>>>  video_usercopy+0x2313/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3345
+>>>>>  video_ioctl2+0x9f/0xb0 drivers/media/v4l2-core/v4l2-ioctl.c:3391
+>>>>>  v4l2_ioctl+0x255/0x290 drivers/media/v4l2-core/v4l2-dev.c:360
+>>>>>  v4l2_compat_ioctl32+0x2c6/0x370 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1248
+>>>>>  __do_compat_sys_ioctl fs/ioctl.c:842 [inline]
+>>>>>  __se_compat_sys_ioctl+0x53d/0x1100 fs/ioctl.c:793
+>>>>>  __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:793
+>>>>>  do_syscall_32_irqs_on arch/x86/entry/common.c:79 [inline]
+>>>>>  __do_fast_syscall_32+0x102/0x160 arch/x86/entry/common.c:141
+>>>>>  do_fast_syscall_32+0x6a/0xc0 arch/x86/entry/common.c:166
+>>>>>  do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:209
+>>>>>  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+>>>>> RIP: 0023:0xf7fec549
+>>>>> Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+>>>>> RSP: 002b:00000000f55e65fc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
+>>>>> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000c050565d
+>>>>> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+>>>>> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+>>>>> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+>>>>> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+>>>>>
+>>>>> Local variable ----sbuf@video_usercopy created at:
+>>>>>  video_usercopy+0xaa/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3285
+>>>>>  video_usercopy+0xaa/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3285
+>>>>> =====================================================
+>>>>
+>>>> I did not get to the very bottom of this, but I looked at this a bit.
+>>>> It seems to be related to some unfortunate interaction of compat
+>>>> syscall and CONFIG_COMPAT_32BIT_TIME. It seems that in this case
+>>>> nothing at all is copied from userspace because cmd gets messed up or
+>>>> something. Perhaps VIDIOC_QUERYBUF is translated into
+>>>> VIDIOC_QUERYBUF_TIME32 instead of VIDIOC_QUERYBUF32_TIME32 and then
+>>>> this gets into compat syscall path and v4l2_compat_get_user does not
+>>>> recognize the command, copies nothing but returns 0.
+>>>
+>>> User space would be calling VIDIOC_QUERYBUF32_TIME32 here,
+>>> if it's built against glibc, though with a musl based user space, you
+>>> would get called with VIDIOC_QUERYBUF32.
+>>
+>> Or somebody fetching somebody else's credit card number will be
+>> calling VIDIOC_QUERYBUF_TIME32 directly ;)
 > 
-> This series adds support for the Microchip SAMA5D4 VPU, which it based
-> on the Hantro G1.
+> Ah of course, I forgot the ioctl command may already be fuzzed here.
 > 
-> The hardware can support up-to 1280x720 for each of the MPEG2, VP8 and
-> H264 codecs. There is only a single decoder and no encoders on the SoC.
+> When I look at
+> https://syzkaller.appspot.com/text?tag=CrashLog&x=12bd0e3ad00000
 > 
-> The Hantro G1 post-processing is also enabled on the platform.
+> I see 0xc0585609, which would be a VIDIOC_QUERYBUF with
+> size=0x58, which is the native ioctl, not the compat one. This
+> is something we didn't expect to get passed into the compat ioctl
+> handler, but should of course handle gracefully
 > 
-> To minimise duplication, the series starts with a few small cleanups.
+> If the command were to get is the 64-bit version of
+> VIDIOC_QUERYBUF_TIME32 (0xc0505609), then it gets converted to
+> VIDIOC_QUERYBUF by video_translate_cmd().
+> If it's VIDIOC_QUERYBUF, it stays that way.
 > 
+> It does break down in v4l2_compat_get_user() when we get
+> called with VIDIOC_QUERYBUF_TIME32, since that leads
+> to not copying at all, as you guessed.
 > 
-> As you may have noticed, this is my first patches series to linux-media,
-> so any tips how to make this as smoother process are appreciated.
-> 
-> 
-> Changes in v2:
->  - Add testing results in the cover letter (thanks Eze)
->  - s/Atmel/Microchip/ through the series (thanks Nicolas)
->  - Split defconfig change into separate commit (thanks Eze, Nicolas)
->  - Added Reviewed-by and Fixes tags (thanks Philipp)
->  - Split DT into separate commit, wrote binding document, fixup minor DT
->    warnings (thanks Eze)
->  - Rebased on top of 5.12-rc2, as per Linus' email to avoid 5.12-rc1
->    https://lwn.net/Articles/848265/
-> 
-> 
-> 
-> Testing
-> -------
-> 
->  - v4l-compliance
-> 
-> Command used:
->   v4l2-compliance -m0
-> 
-> Output summary:
-> 
-> v4l2-compliance 1.21.0-4740, 32 bits, 32-bit time_t
-> v4l2-compliance SHA: f253495fa6de 2021-03-06 15:32:09
-> 
-> Compliance test for hantro-vpu device /dev/media0:
-> 
-> Total for hantro-vpu device /dev/media0: 8, Succeeded: 8, Failed: 0,
-> Warnings: 0
-> 
-> Compliance test for hantro-vpu device /dev/video0:
-> 
-> Total for hantro-vpu device /dev/video0: 46, Succeeded: 46, Failed: 0,
-> Warnings: 0
-> 
-> 
->  - Post-processor testing
-> 
-> Command used:
->   gst-launch-1.0 -v filesrc location=test.mp4  ! decodebin3 !
-> video/x-raw,format=YUY2 ! ...
-> 
-> Confirmed the VPU is used by observing the interrupts triggering, strace
-> showed extra v4l2 ioctls - VIDIOC_S_FMT(... V4L2_PIX_FMT_YUYV  ...)
-> 
-> 
->  - MPEG2 testing, custom ffmpeg from
->    https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-hwaccel-4.3
-> 
-> Command used:
->   ffmpeg -hwaccel drm -i mpeg2.mpeg2 -f rawvideo -pix_fmt yuv420p out.raw
-> 
-> Confirmed the VPU is used by observing the interrupts triggering, strace
-> showed the v4l2 ioctls being used plus played back the resulting file.
-> 
-> 
->  - VP8 testing, using fluster
-> 
-> Command used:
->   fluster.py run -ts VP8-TEST-VECTORS -d GStreamer-VP8-V4L2SL-Gst1.0
-> 
-> Output summary:
-> 
-> Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
-> Ran 61 tests in 103.273s
-> 
-> FAILED (failures=9, errors=2)
-> 
-> 
->  - H264 testing, using fluster
-> 
-> Command used:
->   fluster.py run -ts JVT-AVC_V1 -d GStreamer-H.264-V4L2SL-Gst1.0
-> 
-> Output summary:
-> 
-> Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2SL-Gst1.0
-> Ran 135 tests in 420.444s
-> 
-> FAILED (failures=9, errors=55)
-> 
-> 
-> Looking forward to your feedback,
-> Emil
-> 
-> 
-> Emil Velikov (10):
->   media: hantro: use G1_REG_INTERRUPT directly for the mpeg2
->   media: hantro: imx: reuse MB_DIM define
->   media: hantro: imx: remove duplicate dec_base init
->   media: hantro: imx: remove unused include
->   media: hantro: introduce hantro_g1.c for common API
+> I think this should fix the case of passing
+> VIDIOC_QUERYBUF_TIME32:
 
-For patches 1-5:
+I tested this and I can confirm that this works.
 
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Arnd, do you want to make a patch for this? If so, you can add my
 
->   media: dt-bindings: Document SAMA5D4 VDEC bindings
+Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-This one need to be reviewed by DT maintainers, I think.
+Regards,
 
->   media: hantro: add initial SAMA5D4 support
+	Hans
 
-For patch 7:
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
->   ARM: dts: sama5d4: enable Hantro G1 VDEC
->   ARM: configs: at91: sama5: update with savedefconfig
->   ARM: configs: at91: sama5: enable the Hantro G1 engine
 > 
-
-These need review from Microchip maintainers.
-
-Thanks!
-Ezequiel
-
->  .../media/microchip,sama5d4-vdec.yaml         |  59 +++++++++
->  arch/arm/boot/dts/sama5d4.dtsi                |   9 ++
->  arch/arm/configs/sama5_defconfig              |  40 +++---
->  drivers/staging/media/hantro/Kconfig          |  10 +-
->  drivers/staging/media/hantro/Makefile         |   4 +
->  drivers/staging/media/hantro/hantro_drv.c     |   3 +
->  drivers/staging/media/hantro/hantro_g1.c      |  39 ++++++
->  .../media/hantro/hantro_g1_mpeg2_dec.c        |   5 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +
->  drivers/staging/media/hantro/imx8m_vpu_hw.c   |  27 +---
->  drivers/staging/media/hantro/rk3288_vpu_hw.c  |  36 +-----
->  .../staging/media/hantro/sama5d4_vdec_hw.c    | 117 ++++++++++++++++++
->  12 files changed, 274 insertions(+), 79 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
->  create mode 100644 drivers/staging/media/hantro/hantro_g1.c
->  create mode 100644 drivers/staging/media/hantro/sama5d4_vdec_hw.c
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -3115,7 +3115,7 @@ static int check_array_args(unsigned int cmd,
+> void *parg, size_t *array_size,
+>  static unsigned int video_translate_cmd(unsigned int cmd)
+>  {
+>         switch (cmd) {
+> -#ifdef CONFIG_COMPAT_32BIT_TIME
+> +#if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+>         case VIDIOC_DQEVENT_TIME32:
+>                 return VIDIOC_DQEVENT;
+>         case VIDIOC_QUERYBUF_TIME32:
 > 
-
+>        Arnd
+> 
 
