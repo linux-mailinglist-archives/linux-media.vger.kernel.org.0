@@ -2,170 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E6F33D16D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 11:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B3D333D175
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 11:11:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236504AbhCPKJc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 06:09:32 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:47373 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236500AbhCPKJU (ORCPT
+        id S236501AbhCPKKf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 06:10:35 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33935 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236523AbhCPKKY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 06:09:20 -0400
-Received: by mail-io1-f72.google.com with SMTP id o4so22859107ioh.14
-        for <linux-media@vger.kernel.org>; Tue, 16 Mar 2021 03:09:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=5WiJbVhzNFJgw/m/1/NQNnaFvQ7uA64sdgHOTVzhjbw=;
-        b=VStHk/z38Ctk2ZFWQU9Oog/JWw+DcY1blMwMTk8ZVXDjJ7NOCCrMu7l5a9eYFtnxvg
-         UqKtYmGekLPwV9pdjCRndnPPJc9TtZpPyh0/gR4RlaEqMfG078/dAW+Ftj9mYuzxWCJ2
-         FKMJ+QlwoVCzqeUK8RiUPqSCUNsf9I3w331lYd0q6TLRo2Y7AuCnpf2elXLXybkgaTgx
-         AYftKvDMh6ryWkVT8s/LMQiiJfmU3r0KAPJQJYU1a8I/hED8mn/Pbf2JpBQ5E45VM8xV
-         smbuSNll4loGzmCbCRkZVFQv1nohwvKLoBe8Bl8fczR1spKSpDR7Eg8nlF3/Zavp94G/
-         CarA==
-X-Gm-Message-State: AOAM5325ixv0sTq/Ev0qHTDJZUXJXlPljF/Anoho3VKhH8kfdb/xY3C7
-        V7WEZ/NIkdIGKNsWvih1bY6YrOiHTNuGYajtRu+YkRtrahsX
-X-Google-Smtp-Source: ABdhPJypv2R7YhuQO/iH8LLvUQoxn08bn04FORZhETMszwg2fHQ1Eo/+lBcZM3fNg/XmmhJInveXlEF85+FtXENk6AiDVPL+ABy4
+        Tue, 16 Mar 2021 06:10:24 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id M6eXl184B4ywlM6eblAWQR; Tue, 16 Mar 2021 11:10:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615889421; bh=A4H/jKy6PuEINTkJ2arM93JOrTkt6/A/yu/ixrkHPig=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=JEHPGKR4uoHQKotS2JSgFagRSKTJBNpGWXSt/zN4fiHY+dIgCqrWau3jqiYHPLZjF
+         992C2wO9AMp8clMV9GBbxl7y1pukx+d5/M8OguV0DmoGHtF2Kv44XoP/WNn4iijODn
+         5dbvRnIra+2mjG1rZnpHc5sGFVIurA/czeEY5xte+XOzl6qgA8f5+YOW2FETdjrae4
+         beUpcRz2LQZNI+1Q2avAs3e5/X/OhUdpe/un7V5fZ9o0LVo5EDfz/CXir5x3zYc8YD
+         TvdzE18LHsveryfV5qKZYZjNaQrHs5cfNrCJax3VaCz1S8V84f4RysnL6g206w4pEz
+         2vZ8aLh6DVy8A==
+Subject: Re: [PATCH v4 08/11] media: uvcvideo: Set unique vdev name based in
+ type
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210315173609.1547857-1-ribalda@chromium.org>
+ <20210315173609.1547857-9-ribalda@chromium.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <71204460-4bba-4d3d-fb08-88ca74d4eee4@xs4all.nl>
+Date:   Tue, 16 Mar 2021 11:10:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Received: by 2002:a92:7311:: with SMTP id o17mr3126840ilc.231.1615889359476;
- Tue, 16 Mar 2021 03:09:19 -0700 (PDT)
-Date:   Tue, 16 Mar 2021 03:09:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000449ccf05bda48f08@google.com>
-Subject: [syzbot] memory leak in em28xx_dvb_init
-From:   syzbot <syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210315173609.1547857-9-ribalda@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGfxtZfuJviB8U7GFENwKwca42HjNlOuC7LJMIJ60fetaqVSFviJNgs/lcr3vNRfLB4c8kb//ELHnD4OR0FtwAxgy7nrL7Wjsgf3NZFGOo6WUX7RI3fk
+ 8X6HTXwogl0AFJLpQ9izJjdEEOGByCY8mV8bDEas+lcx3BRvB6T7URB2cWB9vCukWOjrrS7fMuOSxfGUy36W2k5XJqFuICny9gWXz1UXf4xKF4AswdL3mOvM
+ h0L80XlS40hKlsVErtWa0fTq9Nhzd4WMPwFsaMfJjaDT66F+XBwlTf6+sMmmcDDSSlHsJeJ7y7B86NHWqWorWhjSVDcfM9zdKg2xdwParysiKa8eAzMdLKUS
+ MgqW3HzlVYwp4adLAaDv1X2yTa0S6j0cqL8mUArsmkWp1szK0vg=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On 15/03/2021 18:36, Ricardo Ribalda wrote:
+> All the entities must have a unique name. We can have a descriptive and
+> unique name by appending the function and the entity->id.
+> 
+> This is even resilent to multi chain devices.
+> 
+> Fixes v4l2-compliance:
+> Media Controller ioctls:
+>                 fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
+>         test MEDIA_IOC_G_TOPOLOGY: FAIL
+>                 fail: v4l2-test-media.cpp(394): num_data_links != num_links
+> 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 35873cf2773d..73ab30891845 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2163,6 +2163,7 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  			      const struct v4l2_ioctl_ops *ioctl_ops)
+>  {
+>  	int ret;
+> +	const char *name;
+>  
+>  	/* Initialize the video buffers queue. */
+>  	ret = uvc_queue_init(queue, type, !uvc_no_drop_param);
+> @@ -2190,16 +2191,20 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+>  	default:
+>  		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +		name = "Video capture";
 
-syzbot found the following issue on:
+capture -> Capture
 
-HEAD commit:    1a4431a5 Merge tag 'afs-fixes-20210315' of git://git.kerne..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11013a7cd00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ff6b8b2e9d5a1227
-dashboard link: https://syzkaller.appspot.com/bug?extid=889397c820fa56adf25d
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1559ae3ad00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=176985c6d00000
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+>  		vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+> +		name = "Video output";
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
+output -> Output
 
-BUG: memory leak
-unreferenced object 0xffff888110082700 (size 64):
-  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
-  hex dump (first 32 bytes):
-    c0 40 0d 0d 81 88 ff ff 40 4b 0d 0d 81 88 ff ff  .@......@K......
-    c0 bc d4 0f 81 88 ff ff 00 b3 d4 0f 81 88 ff ff  ................
-  backtrace:
-    [<ffffffff8304c141>] kmalloc_array.constprop.0+0x41/0x60 include/linux/slab.h:594
-    [<ffffffff8304dba2>] kcalloc include/linux/slab.h:623 [inline]
-    [<ffffffff8304dba2>] em28xx_alloc_urbs+0x102/0x550 drivers/media/usb/em28xx/em28xx-core.c:930
-    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
-    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
-    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
-    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
-    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
-    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
-    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
-    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+>  		break;
+>  	case V4L2_BUF_TYPE_META_CAPTURE:
+>  		vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
+> +		name = "Metadata";
+>  		break;
+>  	}
+>  
+> -	strscpy(vdev->name, dev->name, sizeof(vdev->name));
+> +	snprintf(vdev->name, sizeof(vdev->name), "%s %u", name,
+> +		 stream->header.bTerminalLink);
+>  
+>  	/*
+>  	 * Set the driver data before calling video_register_device, otherwise
+> 
 
-BUG: memory leak
-unreferenced object 0xffff8881100825c0 (size 64):
-  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
-  hex dump (first 32 bytes):
-    00 00 b8 10 81 88 ff ff 00 00 b8 0b 81 88 ff ff  ................
-    00 00 b9 0b 81 88 ff ff 00 00 16 13 81 88 ff ff  ................
-  backtrace:
-    [<ffffffff8304c141>] kmalloc_array.constprop.0+0x41/0x60 include/linux/slab.h:594
-    [<ffffffff8304dbbc>] kcalloc include/linux/slab.h:623 [inline]
-    [<ffffffff8304dbbc>] em28xx_alloc_urbs+0x11c/0x550 drivers/media/usb/em28xx/em28xx-core.c:934
-    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
-    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
-    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
-    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
-    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
-    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
-    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
-    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+With those changes:
 
-BUG: memory leak
-unreferenced object 0xffff88810d0d40c0 (size 192):
-  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 d8 40 0d 0d 81 88 ff ff  .........@......
-  backtrace:
-    [<ffffffff82b9eda6>] kmalloc include/linux/slab.h:559 [inline]
-    [<ffffffff82b9eda6>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-    [<ffffffff8304dd07>] em28xx_alloc_urbs+0x267/0x550 drivers/media/usb/em28xx/em28xx-core.c:952
-    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
-    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
-    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
-    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
-    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
-    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
-    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
-    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-BUG: memory leak
-unreferenced object 0xffff88810d0d4b40 (size 192):
-  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 58 4b 0d 0d 81 88 ff ff  ........XK......
-  backtrace:
-    [<ffffffff82b9eda6>] kmalloc include/linux/slab.h:559 [inline]
-    [<ffffffff82b9eda6>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-    [<ffffffff8304dd07>] em28xx_alloc_urbs+0x267/0x550 drivers/media/usb/em28xx/em28xx-core.c:952
-    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
-    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
-    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
-    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
-    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
-    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
-    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
-    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+Regards,
 
-BUG: memory leak
-unreferenced object 0xffff88810fd4bcc0 (size 192):
-  comm "kworker/1:2", pid 57, jiffies 4294943656 (age 13.350s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 d8 bc d4 0f 81 88 ff ff  ................
-  backtrace:
-    [<ffffffff82b9eda6>] kmalloc include/linux/slab.h:559 [inline]
-    [<ffffffff82b9eda6>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-    [<ffffffff8304dd07>] em28xx_alloc_urbs+0x267/0x550 drivers/media/usb/em28xx/em28xx-core.c:952
-    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]
-    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
-    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
-    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
-    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
-    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
-    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
-    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+	Hans
