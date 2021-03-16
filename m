@@ -2,152 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7087033D310
-	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 12:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C19E833D31B
+	for <lists+linux-media@lfdr.de>; Tue, 16 Mar 2021 12:34:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234244AbhCPL36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Mar 2021 07:29:58 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:45651 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234636AbhCPL3p (ORCPT
+        id S229800AbhCPLeX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Mar 2021 07:34:23 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:55807 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237189AbhCPLeN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Mar 2021 07:29:45 -0400
+        Tue, 16 Mar 2021 07:34:13 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id M7tJl1XkZ4ywlM7tNlAko9; Tue, 16 Mar 2021 12:29:41 +0100
+        id M7xfl1ZAO4ywlM7xjlAlXV; Tue, 16 Mar 2021 12:34:11 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615894181; bh=jKrzBut6DNXk6+ZmMihSkMyQ7s1INSFwS5dGdAbNyU4=;
+        t=1615894451; bh=JkEdXlW1bhCgFYkEP/igDT2s8R0tOEhcNGr/T9WCMLk=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=THmDfPkFI4c6vEpv22okVMy7WRImNsdTGGbuhHQCs48/sDDG6RcOKSPUJHPaI/z4Y
-         NZLdVN7Quo+HH35JIp0WocIWtX2rIHgce+Jme7HF6f7ey9GFxImYBDdKcZDDGwcOot
-         opiUQ3zTMT7fcWflEOd+pmLwYGaG8x8Cj7J7+uaIHvsPMzaCWqxdWjaAERDGEZxr/K
-         cwhNRSE+JH1tbT0RUv9fYzPlsIS4joSHtaonBupXTT0sGv9jra605D02asdCkYEbBq
-         Bp1DvT9SiOQFmqa5TYnVToQOeaYOwuSLo5TAsicB5Y3/NfUHbclLBTSXxZ7pvvZ/Qw
-         xUQ7Ukt8I2UdA==
-Subject: Re: [PATCH v4 11/11] uvc: use vb2 ioctl and fop helpers
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>
-References: <20210315173609.1547857-1-ribalda@chromium.org>
- <20210315173609.1547857-12-ribalda@chromium.org>
+        b=f0KbRRBk2E6aDJo/dBE3MWpAuoNF9QE2ADbfj4+X8AbSEct/y2SvXmruGMy0U3rOo
+         fJOxXhY+aqXGT1ySV4jFvfRWV92shoeah88O0Wsi3DYmMUuo6ShGo0jB9O+lngoanJ
+         tN+SZ/+16ajJlj9VaCBegkXYOe+QdL20LkSsIL9pXraodchRXa019SQZRbaW3yGf4K
+         IzvxoxRCsRmgnzMDPmdF4xm+NH+Qmzl7BGYnYRTzGRdL65uGSlbwwSFPZ3wRqSPiL8
+         pXdkRueeP/TTIzyxxbxIQN+3k499hpYXFNDtiocnfO7GIiVCKg3Bsg/uROpck/hj2N
+         7S1jFCzGYaEyw==
+Subject: Re: [PATCH v2 1/2] v4l2-ctrl: Add decoder conceal color control
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20210302114430.3594475-1-stanimir.varbanov@linaro.org>
+ <20210302114430.3594475-2-stanimir.varbanov@linaro.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <286aaafa-549a-6728-dc76-8ab2b1e6c581@xs4all.nl>
-Date:   Tue, 16 Mar 2021 12:29:37 +0100
+Message-ID: <a36a9400-462d-c50e-4b7f-e2e8a181c4e3@xs4all.nl>
+Date:   Tue, 16 Mar 2021 12:34:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210315173609.1547857-12-ribalda@chromium.org>
+In-Reply-To: <20210302114430.3594475-2-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLCqxChpxEFxZqVLYcP49M+6q1yKHlAHKFXV4CWShQ7RxRuoqlVPYv+G3Hi25GJ9p0KtW7paRL/eEs6+iwJ4liT0nJJTWtF0j9FL1Wp+0qK9RN35+nAh
- 5G/TPB8Ws5VFLAYagdmf5IBkNs7Anx0fm/XCCmu/JwG12SharXsI2gD5Hqf36e7S6lvdiPx7sToVus/bglS7+95QyJUylTTC9rJ9xQi2hHQbg0kXxgmzHIRG
- +P3uzbDGvjXsTPMN7Jj4cwjkGTaYSTCaY2Vceg9fozq2tmZw82UdPCJFuzP39mwVALcygXfu67PixjYcI8PiaKrwoT9/T6hU1w6d2vxDgMxuXBBOy9rSqkSq
- oIbRITlxpvpECc/qyiNFCaapuMZryy9ZpwnY9c/nZpZ9aCIHKNamUHmH8p5NPzKhQXkwOjpa
+X-CMAE-Envelope: MS4xfImq5vL9PsgjEwQz3Dpb/PGz34BpmFR9uEAxCCND4Pv+CZswM6wL8TDzxMhyNP3+gDNrFxp/6OICOH5wqKdVBBN1R55nqsTAax30xg45tm3HvYF5d8fZ
+ VKLSi2UERkoBeEQUTnWldjyLyqkmfdBmm+l9jrapIfQm/0BpwOU9TLKtQsqCyuLA3QJMmtI/kiaY4U1AWaxYI1Q0em0AT5+HhBIQrMpIqUZYqm2xO5TCOCvx
+ FvwStzXDS8NAjnqA6wvXWb/E9qBLtocSdiJuUFhElS9daCQpxD/XVoItwaMucpS7X/IDWQm9tR/dpKlRJx9l8utcXgbcXkaH/LcFAta7o+g=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-On 15/03/2021 18:36, Ricardo Ribalda wrote:
-> From: Hans Verkuil <hverkuil@xs4all.nl>
+On 02/03/2021 12:44, Stanimir Varbanov wrote:
+> Add decoder v4l2 control to set conceal color.
 > 
-> When uvc was written the vb2 ioctl and file operation helpers didn't exist.
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  .../media/v4l/ext-ctrls-codec.rst             | 33 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++
+>  include/uapi/linux/v4l2-controls.h            |  1 +
+>  3 files changed, 43 insertions(+)
 > 
-> This patch switches uvc over to those helpers, which removes a lot of boilerplate
-> code and simplifies VIDIOC_G/S_PRIORITY handling and allows us to drop the
-> 'privileges' scheme, since that's now handled inside the vb2 helpers.
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 00944e97d638..817da8a14572 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -674,6 +674,39 @@ enum v4l2_mpeg_video_frame_skip_mode -
+>      is currently displayed (decoded). This value is reset to 0 whenever
+>      the decoder is started.
+>  
+> +``V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR (integer64)``
+> +    This control sets conceal color in YUV color space. It describes the
+
+conceal -> the conceal
+
+> +    client preference of error conceal color in case of error where
+
+client preference of the error conceal color in case of an error where the
+
+> +    reference frame is missing. The decoder should fill the reference
+> +    buffer with preferred color and use it for future decoding. The control
+
+with the
+
+> +    is using 16bits per channel.
+
+16bits -> 16 bits
+
+> +    Applicable to decoders.
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * -
+> +      - 8bit  format
+> +      - 10bit format
+> +      - 12bit format
+> +    * - Y luminance
+> +      - Bit 0:7
+> +      - Bit 0:9
+> +      - Bit 0:11
+> +    * - Cb chrominance
+> +      - Bit 16:23
+> +      - Bit 16:25
+> +      - Bit 16:27
+> +    * - Cr chrominance
+> +      - Bit 32:39
+> +      - Bit 32:41
+> +      - Bit 32:43
+> +    * - Must be zero
+> +      - Bit 48:63
+> +      - Bit 48:63
+> +      - Bit 48:63
+> +
+>  ``V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE (boolean)``
+>      If enabled the decoder expects to receive a single slice per buffer,
+>      otherwise the decoder expects a single frame in per buffer.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 016cf6204cbb..a3b9d28a00b7 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -945,6 +945,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_VBV_SIZE:			return "VBV Buffer Size";
+>  	case V4L2_CID_MPEG_VIDEO_DEC_PTS:			return "Video Decoder PTS";
+>  	case V4L2_CID_MPEG_VIDEO_DEC_FRAME:			return "Video Decoder Frame Count";
+> +	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:		return "Video Decoder Conceal Color";
+>  	case V4L2_CID_MPEG_VIDEO_VBV_DELAY:			return "Initial Delay for VBV Control";
+>  	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:		return "Horizontal MV Search Range";
+>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
+> @@ -1430,6 +1431,14 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  		*max = 0x7fffffffffffffffLL;
+>  		*step = 1;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:
+> +		*type = V4L2_CTRL_TYPE_INTEGER64;
+> +		*min = 0;
+> +		/* default for 8bit black, luma is 16, chroma is 128 */
+
+8bit -> 8 bit
+
+> +		*def = 0x8000800010LL;
+> +		*max = 0xffffffffffffLL;
+> +		*step = 1;
+> +		break;
+>  	case V4L2_CID_PIXEL_RATE:
+>  		*type = V4L2_CTRL_TYPE_INTEGER64;
+>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 039c0d7add1b..5e5a3068be2d 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -428,6 +428,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>  #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_CODEC_BASE+228)
+>  #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_CODEC_BASE+229)
+>  #define V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID	(V4L2_CID_CODEC_BASE+230)
+> +#define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+231)
+>  
+>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
 > 
-> This makes it possible for uvc to pass the v4l2-compliance streaming tests.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
+After fixing the typos:
 
-You can merge this patch into 11/11. I analyzed the uvc get_unmapped_area
-implementation and it is 100% identical to the vb2_fop_get_unmapped_area
-implementation, so let's use that one instead.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Regards.
+Regards,
 
 	Hans
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-index fba9646c8ba5..437e48b32480 100644
---- a/drivers/media/usb/uvc/uvc_queue.c
-+++ b/drivers/media/usb/uvc/uvc_queue.c
-@@ -247,18 +247,6 @@ int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
- 	return 0;
- }
-
--/* -----------------------------------------------------------------------------
-- * V4L2 queue operations
-- */
--
--#ifndef CONFIG_MMU
--unsigned long uvc_queue_get_unmapped_area(struct uvc_video_queue *queue,
--		unsigned long pgoff)
--{
--	return vb2_get_unmapped_area(&queue->queue, 0, 0, pgoff, 0);
--}
--#endif
--
- /* -----------------------------------------------------------------------------
-  *
-  */
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 348a46637852..172336d6018c 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -1260,20 +1260,6 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
- }
- #endif
-
--#ifndef CONFIG_MMU
--static unsigned long uvc_v4l2_get_unmapped_area(struct file *file,
--		unsigned long addr, unsigned long len, unsigned long pgoff,
--		unsigned long flags)
--{
--	struct uvc_fh *handle = file->private_data;
--	struct uvc_streaming *stream = handle->stream;
--
--	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
--
--	return uvc_queue_get_unmapped_area(&stream->queue, pgoff);
--}
--#endif
--
- const struct v4l2_ioctl_ops uvc_ioctl_ops = {
- 	.vidioc_querycap = uvc_ioctl_querycap,
- 	.vidioc_enum_fmt_vid_cap = uvc_ioctl_enum_fmt_vid_cap,
-@@ -1325,7 +1311,7 @@ const struct v4l2_file_operations uvc_fops = {
- 	.mmap		= vb2_fop_mmap,
- 	.poll		= vb2_fop_poll,
- #ifndef CONFIG_MMU
--	.get_unmapped_area = uvc_v4l2_get_unmapped_area,
-+	.get_unmapped_area = vb2_fop_get_unmapped_area,
- #endif
- };
-
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 4e6f0a25b940..a83b16ba6e6a 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -787,10 +787,7 @@ struct uvc_buffer *uvc_queue_next_buffer(struct uvc_video_queue *queue,
- 					 struct uvc_buffer *buf);
- struct uvc_buffer *uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
- void uvc_queue_buffer_release(struct uvc_buffer *buf);
--#ifndef CONFIG_MMU
--unsigned long uvc_queue_get_unmapped_area(struct uvc_video_queue *queue,
--					  unsigned long pgoff);
--#endif
-+
- static inline int uvc_queue_streaming(struct uvc_video_queue *queue)
- {
- 	return vb2_is_streaming(&queue->queue);
