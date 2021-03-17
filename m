@@ -2,31 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD26733EECB
-	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 11:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2939E33EEEE
+	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 11:58:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbhCQKu4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Mar 2021 06:50:56 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:41149 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230398AbhCQKuX (ORCPT
+        id S230064AbhCQK5x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Mar 2021 06:57:53 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:49397 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230411AbhCQK5X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Mar 2021 06:50:23 -0400
+        Wed, 17 Mar 2021 06:57:23 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id MTkolAEONGEYcMTkrlNBQS; Wed, 17 Mar 2021 11:50:21 +0100
+        id MTralAGdaGEYcMTrdlNCbv; Wed, 17 Mar 2021 11:57:21 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1615978221; bh=HDLBDtP1kmCoC2/kdEylUtm0VS0JBOE6TjJ6fxXIcCc=;
+        t=1615978641; bh=UvDAjvG7egaDhgEbE6Jme2F25ZNSrc7Zyu34EFaT/Mo=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=uGccAMKFMD4OmYbAnG4RajJ+QReIGsI+1WPMdtBxg6Qz/p7DuZoxg1yzDZ0QMtSgV
-         dLgQbHl8mD8uDP2PD6DDhfvIxHibAnT7SdxeYCvHz9IMcYnxT8i2yZCRwRjXJBJi38
-         o5UScuYoncmGiSXP/3+mEnbCwDs0SSZ+LS8bHrFk5DXAA9dvBfJ6rYW7ZJJLQ9iQGu
-         xtfAdJsGdFUYlGCpDzWltWHQoq0fDKI+mubsyw6e+QLkZfK1el4PxtxbQOdiMHSb6A
-         Mxm+ukIttBjQtYuwIMzHgx4LOr32YzA0bioxUXpkOvjjTKG7Vo0AdZKLSzJUrUna5p
-         0HOxaYGJIQ2Aw==
-Subject: Re: [PATCH v5 04/13] media: uvcvideo: Check controls flags before
- accessing them
+        b=cC2fy0RwOWULUTFsGNd+oZz4GIpLpTa1lbB+OcLfmEzF2bdrOeGX6P6IG0UVvf7j9
+         ewxZLfVCKliBeYWUOBj1lz5tCkpLk88g2vxRigAoswaaBR9C/UEASbLyzCiNz0dubE
+         FsOk3U0umVtW0JxY1hZGgjE1a8K+9xolOM/gWycGJrWP4lLa1hF8QVrwhm7mYhIYel
+         slfqdmydjdubsum4lGnvQwJakaGHVbA8nQuNyGlPvk5pkOUfTF8enGdZgdfWqIQyc2
+         SymPz8tCpBFOHLB8AsXWMb2ECfQWYF1Iwq6rphZxd6HMxmd5wDdgQkZ0NoRHDE0XS0
+         f3AvVQLxlMTfw==
+Subject: Re: [PATCH v5 07/13] media: uvcvideo: Use dev->name for querycap()
 To:     Ricardo Ribalda <ribalda@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -34,177 +33,70 @@ To:     Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
 References: <20210316180004.1605727-1-ribalda@chromium.org>
- <20210316180004.1605727-5-ribalda@chromium.org>
+ <20210316180004.1605727-8-ribalda@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f6f6c59b-f55f-4415-13ee-dca777ed44ab@xs4all.nl>
-Date:   Wed, 17 Mar 2021 11:50:18 +0100
+Message-ID: <9ea35f06-fd05-20e9-d29a-eb1ac56d7936@xs4all.nl>
+Date:   Wed, 17 Mar 2021 11:57:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210316180004.1605727-5-ribalda@chromium.org>
+In-Reply-To: <20210316180004.1605727-8-ribalda@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAgxyYhgbHhiy0bhr3ZuBsTp8VZlyfdcvhwJedolFkzyPBZ7o+9RiNIrZaWVDsC0Wxb+7Kr0pKyq9No3UgvU32FVdhbgaKIp3UzFi0aRIeBla7WxOckd
- Et1RvD6ATGhCknG4oTcjcZsgik3BIh2xB1uQY28tunoxwszRsusTP+ZMb08c1pllOooQaExEcCMbjnAxWsYt6gAVHrGsQ7aCvw0gbfWpRm8kDZ0NhHpSOSaf
- TWzcvgJmtjPZsaSyJ8oi6cPX1SnLPLC5V6xI+T9HRoiyrUB5+CV+gLi+sPcl+2Vyr6hhhbkq1RouGdDZZWfLBo03Qeycnl9EkyMTDrnRrclY5Oblx1oBhwlq
- 5k3cVZfhb0Jstr9XvB3XlhbMi7tgdOSlLsnZ19erK+9YoF7hTkGd2RcUOSefYbbGO7T1MA75
+X-CMAE-Envelope: MS4xfKBMoIo3J6+wZ8EyqEwcSr+ai1Nt+R9sVvI+0ppS1hwSDLiYaDNX16T95rvC07ApU1IahHBAe0PDtffIl+TIHjVBQK0Q3PMJD74pmqCEL9eyoci7X2gW
+ dY0Z2EYGA3IE3mOX/uco8eXdWn/NzfFzLnjUUJGCH2NRUrrhPXkBVEZ3HKIQEEkuYuzfwJ5T0tU/5sQa+YH2zGYnAf47ltureNH/D8xCY4+CVt8ac7QpNDy4
+ lLUf/qoS0/4JbRSIvMOY5T6ZuJBvpT/d2MNIxC6qN6Xkj5gvqeSCeiInOZTGxGakiYJXdYmeaFm24DIhRayb3Y0RW1PNATnAAr6nu4G6y3Fmzh5z/9q6oLaG
+ akrBuGSaXRhtlW+QZqx+iRGHWxrL8Zif2FbgWHPTq8Qixr+jKFM7O0lBnanitutsjCch8sYM
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 16/03/2021 18:59, Ricardo Ribalda wrote:
-> We can figure out if reading/writing a set of controls can fail without
-> accessing them by checking their flags.
+> Use the device name for the card name instead of cap->card.
+
+You mean: 'instead of vdev->name.' ?
+
 > 
-> This way we can honor the API closer:
-> 
-> If an error is found when validating the list of controls passed with
-> VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to
-> indicate to userspace that no actual hardware was touched.
-> 
-> Fixes v4l2-compliance:
-> Control ioctls (Input 0):
-> 		warn: v4l2-test-controls.cpp(765): g_ext_ctrls(0) invalid error_idx 0
->                 fail: v4l2-test-controls.cpp(645): invalid error index write only control
->         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
-> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 69 +++++++++++++++++++++++---------
->  1 file changed, 51 insertions(+), 18 deletions(-)
+>  drivers/media/usb/uvc/uvc_v4l2.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 157310c0ca87..e956d833ed84 100644
+> index e956d833ed84..d780065f3716 100644
 > --- a/drivers/media/usb/uvc/uvc_v4l2.c
 > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1040,31 +1040,54 @@ static int uvc_ioctl_s_ctrl(struct file *file, void *fh,
->  	return 0;
->  }
->  
-> -static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
-> -				 struct v4l2_ext_controls *ctrls)
-> +static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
-> +				 struct v4l2_ext_controls *ctrls, bool read)
+> @@ -617,13 +617,12 @@ static int uvc_v4l2_release(struct file *file)
+>  static int uvc_ioctl_querycap(struct file *file, void *fh,
+>  			      struct v4l2_capability *cap)
 >  {
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_video_chain *chain = handle->chain;
->  	struct v4l2_ext_control *ctrl = ctrls->controls;
->  	unsigned int i;
-> -	int ret;
-> +	int ret = 0;
+> -	struct video_device *vdev = video_devdata(file);
+>  	struct uvc_fh *handle = file->private_data;
+>  	struct uvc_video_chain *chain = handle->chain;
+>  	struct uvc_streaming *stream = handle->stream;
 >  
-> -	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
-> -		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
-> -			struct v4l2_queryctrl qc = { .id = ctrl->id };
-> +	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
-> +		struct v4l2_queryctrl qc = { .id = ctrl->id };
->  
-> -			ret = uvc_query_v4l2_ctrl(chain, &qc);
-> -			if (ret < 0) {
-> -				ctrls->error_idx = i;
-> -				return ret;
-> -			}
-> +		ret = uvc_query_v4l2_ctrl(chain, &qc);
+>  	strscpy(cap->driver, "uvcvideo", sizeof(cap->driver));
+> -	strscpy(cap->card, vdev->name, sizeof(cap->card));
+> +	strscpy(cap->card, handle->stream->dev->name, sizeof(cap->card));
 
-You can't call this. If I am not mistaken, this call can actually call
-the hardware.
+I don't think this is right. I get this for the video node:
 
-Instead you need to call the lower level function uvc_find_control() and
-use ctrl->info to check for read/write only.
+Card type        : Integrated IR Camera: Integrate
 
-> +		if (ret < 0)
-> +			break;
->  
-> +		if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
->  			ctrl->value = qc.default_value;
+and this for the corresponding metadata node:
 
-This needs to use the old code in uvc_ioctl_g_ext_ctrls() since it depends
-on uvc_query_v4l2_ctrl() which accesses the hardware.
+Card type        : Metadata 7
 
-> +			continue;
->  		}
->  
-> -		return 0;
-> +		if (qc.flags & V4L2_CTRL_FLAG_WRITE_ONLY && read) {
-> +			ret = -EACCES;
-> +			break;
-> +		}
-> +
-> +		if (qc.flags & V4L2_CTRL_FLAG_READ_ONLY && !read) {
-> +			ret = -EACCES;
-> +			break;
-> +		}
->  	}
->  
-> +	ctrls->error_idx = ctrls->count;
-> +
-> +	return ret;
-> +}
-
-So uvc_ctrl_check_access() is a good idea, but it does a bit too much.
-It should just check if all controls in the list are known and check for
-write/read only.
+But they are the same device, so I expect the same text here.
 
 Regards,
 
 	Hans
 
-> +
-> +static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
-> +				 struct v4l2_ext_controls *ctrls)
-> +{
-> +	struct uvc_fh *handle = fh;
-> +	struct uvc_video_chain *chain = handle->chain;
-> +	struct v4l2_ext_control *ctrl = ctrls->controls;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	ret = uvc_ctrl_check_access(chain, ctrls, true);
-> +	if (ret < 0 || ctrls->which == V4L2_CTRL_WHICH_DEF_VAL)
-> +		return ret;
-> +
->  	ret = uvc_ctrl_begin(chain);
->  	if (ret < 0)
->  		return ret;
-> @@ -1092,10 +1115,6 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
->  	unsigned int i;
->  	int ret;
->  
-> -	/* Default value cannot be changed */
-> -	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL)
-> -		return -EINVAL;
-> -
->  	ret = uvc_ctrl_begin(chain);
->  	if (ret < 0)
->  		return ret;
-> @@ -1121,6 +1140,16 @@ static int uvc_ioctl_s_ext_ctrls(struct file *file, void *fh,
->  				 struct v4l2_ext_controls *ctrls)
->  {
->  	struct uvc_fh *handle = fh;
-> +	struct uvc_video_chain *chain = handle->chain;
-> +	int ret;
-> +
-> +	/* Default value cannot be changed */
-> +	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL)
-> +		return -EINVAL;
-> +
-> +	ret = uvc_ctrl_check_access(chain, ctrls, false);
-> +	if (ret < 0)
-> +		return ret;
->  
->  	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, true);
->  }
-> @@ -1130,6 +1159,10 @@ static int uvc_ioctl_try_ext_ctrls(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  
-> +	/* Default value cannot be changed */
-> +	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL)
-> +		return -EINVAL;
-> +
->  	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, false);
->  }
->  
+>  	usb_make_path(stream->dev->udev, cap->bus_info, sizeof(cap->bus_info));
+>  	cap->capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING
+>  			  | chain->caps;
 > 
 
