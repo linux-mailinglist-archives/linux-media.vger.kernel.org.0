@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A3B33EAF3
-	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 08:59:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2E3133EB00
+	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 09:05:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbhCQH7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Mar 2021 03:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54130 "EHLO
+        id S229863AbhCQIEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Mar 2021 04:04:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbhCQH6w (ORCPT
+        with ESMTP id S230020AbhCQIEV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Mar 2021 03:58:52 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 493F0C06174A;
-        Wed, 17 Mar 2021 00:58:52 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 20so1533782lfj.13;
-        Wed, 17 Mar 2021 00:58:52 -0700 (PDT)
+        Wed, 17 Mar 2021 04:04:21 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E2CC06174A;
+        Wed, 17 Mar 2021 01:04:20 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id m22so1598576lfg.5;
+        Wed, 17 Mar 2021 01:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2LgKjTDGsyu/sA3V9tv6SweCwbT0eEY8NFDEvhoTJIw=;
-        b=bbq8FSR1oR15UcJu3OGSlMQzNZQ5xiZUcjDe9Ue3QbuznpKpzvSEF7hhqCxTzlb2lI
-         3mY1YDUC06S687d/m+DSdmcNnfyTeEQoiBBaBb5asRW8lvhgm8ne6fdmP1ig8vcZetSO
-         eurwyglORglnHAvfDGsjfG1e/PWE3LZ7EssFbgzO/BszWj8ZQlkTjuf1G7ChZPFJlC8e
-         e9TmzRF8KkW3o2ZdaH+V+5GQwRhtjXQ7KnTteoLH0iPdgQvCvtsUwUlmMFWUCOf35ESr
-         ZSb4N20Z+N52wFObW7hV3qdN4zAmlYaE1e0Ci4b4rN0KTsfKKSMAAR1VX5PN7z0vcTDn
-         oihg==
+        bh=FUPm4RpaV2flCAb6DF7pMgUp28+UBn+ziuYgSdeJeKc=;
+        b=JgRgaDeGZutK+gtH0KLs+dAZbzISYUAYeTzXYmvUVbal4N2i/pGGZfWXYtoDY5HSt+
+         gq0WTX98Nq9OgK+4yAY64ZhyHWz9ZzLjOVevI2QofS41rKMtuxqhWzzwjAoOpbkvFpU6
+         oKNKaUPY+EvY6YQRXZxzwXl1rRKPQBnjrQlHx0LGNTVeo7KYpi811ANdO7ax5z+R1LWC
+         57SYFh+88wEYoP0fh5TwXaCwg1dA+d/MUlM3BjeDHykjpX7SN0I062Fqa8CLlYsqJr5f
+         azLs9xB20dgt16V3F4qpU1/sLfzt4TixkbJdOrePCdORsJ8+Mck+hJodt6cq6EIBPu4L
+         w+ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2LgKjTDGsyu/sA3V9tv6SweCwbT0eEY8NFDEvhoTJIw=;
-        b=A1aEu/pPXBtpMozpPzn1H2iePcJgjUDrQCa7aSYnydb/IwVEdNMSLybO7g06/G6Y1j
-         iCHfN7vszlPa5aMUqhnNcJzlm2XrG3UXvoR/3sWPiqXTAqfsLYUoK4L7RFs1kf1vSrdO
-         Vg80KhEpsX6zticfGPn86HKjd/Au0NcVeSB8vOUW7xDAKWq177I7vG3lzUfYfDxDu5nM
-         Qhhpk+elvaHJjD7rdbBSs0b740V/dNOkcLs6wrbPerfiSi7l2XnMoZR+2msi56PM89R0
-         Vq72hTLl4Biq0jvfJNepORTWWgfrfwV9OV132Mbw9OV4tn6gUImWKmPvquuU99IxcLi2
-         XMHw==
-X-Gm-Message-State: AOAM531OGuBkWu+UIRIW+B7O6ecCy+dKmdgTvDVLYmAJDfq1tRp7fFI4
-        eHzEXQyPuU4vQsHIeqnp6WMuZu19SULj84yK1DdnG1aLWYQ=
-X-Google-Smtp-Source: ABdhPJwxtUCPA0FJFug59UGVl4/99ti5a0oEAcrWjcnf82tw3sL4FMyMotz1gydIQqdQrYBYsbrIDZaYweGCXNjorZY=
-X-Received: by 2002:a05:6512:131c:: with SMTP id x28mr1607871lfu.387.1615967930786;
- Wed, 17 Mar 2021 00:58:50 -0700 (PDT)
+        bh=FUPm4RpaV2flCAb6DF7pMgUp28+UBn+ziuYgSdeJeKc=;
+        b=RUBDCWzOV/0WDuInCIV1dhMqwsv+Mv5IHtWY2SA2zgDsCnV6K7qAb6yqUsEah5rSG4
+         QrouxnBGf1ckB/iY1ZmxZnpXzgHy7YPdnZD/Bslhj9YoMUyhErGtJQGftgjDsl9Tkdim
+         qfWz8PEeb3FKRz4rinyBCuqITSPhX97V6VWHBKu4Q3QcpxdQ+KgbEtNswqR3S3+jL4Vn
+         zDPNjgIyUtvI9P8ok3Z9bANSlJfx63JK/H+tSD4MQIZxNMuKoOxBZi+NDKkLgD4p+3Zw
+         +YYycxVz7zJOMUXYVZ7qCBDIujgMzn+39v6j6rCUl30ykZpNgYs9xMmbaxSckBEo/Ec3
+         Iyxg==
+X-Gm-Message-State: AOAM532IHXeRdH1VbPg2vyOO/qsvCXkeJvtYcBb3Cy5cjhv2U9YiIkob
+        Y8R82vdz0ncQUubyweTvAldEbmw7+xay3a1Mzjg=
+X-Google-Smtp-Source: ABdhPJwDn2GpqOrAKw0t8ZpmxbO4FyHNbGWf3qibDeKA/BSD2J0/eJfrDcUoPhDKX+B99CcMR7BMa0oSGRF/oQwncp4=
+X-Received: by 2002:a05:6512:131c:: with SMTP id x28mr1621459lfu.387.1615968259071;
+ Wed, 17 Mar 2021 01:04:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
- <20210208051749.1785246-4-sergey.senozhatsky@gmail.com> <CAPybu_10Uz0Eb2U5ZohNV1t0gf98ZBZOa3KFCzdi1RJ0k3c1yQ@mail.gmail.com>
- <YFFiizDjNBMG3uI+@google.com>
-In-Reply-To: <YFFiizDjNBMG3uI+@google.com>
+ <20210208051749.1785246-2-sergey.senozhatsky@gmail.com> <CAPybu_19hztQQEi0H40sWZQMb-X7g7dDuW4Mz8_gRv-nG2tghw@mail.gmail.com>
+ <YFFb2ePwiW+8ti4D@google.com>
+In-Reply-To: <YFFb2ePwiW+8ti4D@google.com>
 From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date:   Wed, 17 Mar 2021 08:58:34 +0100
-Message-ID: <CAPybu_0ruoc-w3402j-vVNs2-xq8=-_XzVKSxiG+iuyB=eNimA@mail.gmail.com>
-Subject: Re: [PATCHv2 3/3] media: uvcvideo: add UVC 1.5 ROI control
+Date:   Wed, 17 Mar 2021 09:04:02 +0100
+Message-ID: <CAPybu_1ng4GBVx64FQRR+rm2FcqLHkpW9c78AXg_P_6aR=2BKg@mail.gmail.com>
+Subject: Re: [PATCHv2 1/3] media: v4l UAPI docs: document ROI selection targets
 To:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
 Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -69,141 +69,97 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi
 
-On Wed, Mar 17, 2021 at 2:59 AM Sergey Senozhatsky
+On Wed, Mar 17, 2021 at 2:31 AM Sergey Senozhatsky
 <sergey.senozhatsky.work@gmail.com> wrote:
 >
-> On (21/03/16 19:46), Ricardo Ribalda Delgado wrote:
-> > > -static int uvc_ioctl_g_selection(struct file *file, void *fh,
-> > > -                                struct v4l2_selection *sel)
-> > > +/* UVC 1.5 ROI rectangle is half the size of v4l2_rect */
-> > > +struct uvc_roi_rect {
-> > > +       __u16                   top;
-> > > +       __u16                   left;
-> > > +       __u16                   bottom;
-> > > +       __u16                   right;
-> > > +};
+> On (21/03/16 19:19), Ricardo Ribalda Delgado wrote:
+> > > +Configuration of Region of Interest (ROI)
+> > > +=========================================
+> > > +
+> > > +The range of coordinates of the top left corner, width and height of
+> > > +areas that can be ROI is given by the ``V4L2_SEL_TGT_ROI_BOUNDS`` target.
+> > > +It is recommended for the driver developers to put the top/left corner
+> > > +at position ``(0,0)``. The rectangle's coordinates are in global sensor
+> > > +coordinates. The units are in pixels and independent of the field of view.
+> > > +They are not impacted by any cropping or scaling that is currently being
+> > > +used.
 > >
-> > Perhaps __packed; ?
+> > Can we also mention binning here?
 >
-> Perhaps.
+> What's binning? Is it in the UVC spec?
+
+Binning is when you reduce an image by adding up surrounding pixels.
+
+So you have a 100x100 image that you convert to a 50x50 but showing
+the same area of interest.
+
+
 >
-> > > +static int uvc_ioctl_g_selection(struct file *file, void *fh,
-> > > +                                struct v4l2_selection *sel)
-> > > +{
-> > > +       struct uvc_fh *handle = fh;
-> > > +       struct uvc_streaming *stream = handle->stream;
-> > > +
-> > > +       if (sel->type != stream->type)
-> > > +               return -EINVAL;
-> > > +
-> > > +       switch (sel->target) {
-> > > +       case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > +       case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > +       case V4L2_SEL_TGT_COMPOSE_DEFAULT:
-> > > +       case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-> > > +               return uvc_ioctl_g_sel_target(file, fh, sel);
-> > > +       case V4L2_SEL_TGT_ROI_CURRENT:
-> > > +       case V4L2_SEL_TGT_ROI_DEFAULT:
-> > > +       case V4L2_SEL_TGT_ROI_BOUNDS:
-> > > +               return uvc_ioctl_g_roi_target(file, fh, sel);
-> > > +       }
-> > > +
-> > > +       return -EINVAL;
-> > > +}
+> > > +The top left corner, width and height of the Region of Interest area
+> > > +currently being employed by the device is given by the
+> > > +``V4L2_SEL_TGT_ROI_CURRENT`` target. It uses the same coordinate system
+> > > +as ``V4L2_SEL_TGT_ROI_BOUNDS``.
 > >
-> > Are you sure that there is no lock needed between the control and the
-> > selection API?
+> > Why do we need current? Cant we just read back V4L2_SEL_TGT_ROI ?
 >
-> Between V4L2_CID_REGION_OF_INTEREST_AUTO and this path?
-> Hmm. They write to different offsets and don't seem to be overlapping.
+> We don't. Will remove it.
 >
-> > > +static bool validate_roi_bounds(struct uvc_streaming *stream,
-> > > +                               struct v4l2_selection *sel)
-> > > +{
-> > > +       bool ok = true;
-> > > +
-> > > +       if (sel->r.left > USHRT_MAX || sel->r.top > USHRT_MAX ||
-> > > +           sel->r.width > USHRT_MAX || sel->r.height > USHRT_MAX)
-> > > +               return false;
-> > > +
-> > > +       /* perhaps also can test against ROI GET_MAX */
-> > > +
-> > > +       mutex_lock(&stream->mutex);
-> [...]
-> > > +       if ((u16)sel->r.width > stream->cur_frame->wWidth)
-> > > +               ok = false;
-> > > +       if ((u16)sel->r.height > stream->cur_frame->wHeight)
-> > > +               ok = false;
+> > > +    * - ``V4L2_SEL_TGT_ROI_CURRENT``
+> > > +      - 0x0200
+> > > +      - Current Region of Interest rectangle.
+> > > +      - Yes
+> > > +      - No
+> > > +    * - ``V4L2_SEL_TGT_ROI_DEFAULT``
+> > > +      - 0x0201
+> > > +      - Suggested Region of Interest rectangle.
+> > > +      - Yes
+> > > +      - No
+> > > +    * - ``V4L2_SEL_TGT_ROI_BOUNDS``
+> > > +      - 0x0202
+> > > +      - Bounds of the Region of Interest rectangle. All valid ROI rectangles fit
+> > > +       inside the ROI bounds rectangle.
+> > > +      - Yes
+> > > +      - No
+> > > +    * - ``V4L2_SEL_TGT_ROI``
+> > > +      - 0x0203
+> > > +      - Sets the new Region of Interest rectangle.
+> > > +      - Yes
+> > > +      - No
+> > As mentioned before I think we should not have TGT_ROI_CURRENT and TGT_ROI
 >
-> > Maybe you should not release this mutex until query_ctrl is done?
+> Agreed.
 >
-> Maybe... These two tests are somewhat made up. Not sure if we need them.
-> On one hand it's reasonable to keep ROI within the frames. On the other
-> hand - such relation is not spelled out in the spec. If the stream change
-> its frame dimensions ROI is not getting invalidated or re-calculated by
-> the firmware. UVC spec says that ROI should be bounded only by the
-> CT_DIGITAL_WINDOW_CONTROL (GET_MIN / GET_MAX), ut we don't implement
-> WINDOW_CONTROL.
-
-I would remove this check completely then, and rely on set_cur,
-get_cur. Leave only the < 0x10000 check
-
->
-> So maybe I can remove stream->cuf_frame boundaries check instead.
->
-> > > +       mutex_unlock(&stream->mutex);
-> > > +
-> > > +       return ok;
-> > > +}
-> > > +
-> > > +static int uvc_ioctl_s_roi(struct file *file, void *fh,
-> > > +                          struct v4l2_selection *sel)
-> > > +{
-> > > +       struct uvc_fh *handle = fh;
-> > > +       struct uvc_streaming *stream = handle->stream;
-> > > +       struct uvc_roi_rect *roi;
-> > > +       int ret;
-> > > +
-> > > +       if (!validate_roi_bounds(stream, sel))
-> > > +               return -E2BIG;
-> > > +
-> > > +       roi = kzalloc(sizeof(struct uvc_roi_rect), GFP_KERNEL);
-> > > +       if (!roi)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       roi->left       = sel->r.left;
-> > > +       roi->top        = sel->r.top;
-> > > +       roi->right      = sel->r.width;
-> > > +       roi->bottom     = sel->r.height;
-> > > +
-> > > +       ret = uvc_query_ctrl(stream->dev, UVC_SET_CUR, 1, stream->dev->intfnum,
-> > > +                            UVC_CT_REGION_OF_INTEREST_CONTROL, roi,
-> > > +                            sizeof(struct uvc_roi_rect));
+> > > diff --git a/include/uapi/linux/v4l2-common.h b/include/uapi/linux/v4l2-common.h
+> > > index 7d21c1634b4d..d0c108fba638 100644
+> > > --- a/include/uapi/linux/v4l2-common.h
+> > > +++ b/include/uapi/linux/v4l2-common.h
+> > > @@ -78,6 +78,14 @@
+> > >  #define V4L2_SEL_TGT_COMPOSE_BOUNDS    0x0102
+> > >  /* Current composing area plus all padding pixels */
+> > >  #define V4L2_SEL_TGT_COMPOSE_PADDED    0x0103
+> > > +/* Current Region of Interest area */
+> > > +#define V4L2_SEL_TGT_ROI_CURRENT       0x0200
+> > > +/* Default Region of Interest area */
+> > > +#define V4L2_SEL_TGT_ROI_DEFAULT       0x0201
+> > > +/* Region of Interest bounds */
+> > > +#define V4L2_SEL_TGT_ROI_BOUNDS        0x0202
+> > > +/* Set Region of Interest area */
+> > > +#define V4L2_SEL_TGT_ROI               0x0203
 > >
-> > I think you need to read back from the device the actual value
+> > Nit: Maybe it could be a good idea to split doc and code. This way the
+> > backports/fixes are easier.
 >
-> GET_CUR?
-yep
+> I'm quite sure this is the first time I'm being asked to split code
+> and documentation :) I'm usually asked to do the opposite - merge code
+> and documentation.
 
->
-> > https://www.kernel.org/doc/html/v4.13/media/uapi/v4l/vidioc-g-selection.html?highlight=vidioc_s_selection
-> > On success the struct v4l2_rect r field contains the adjusted
-> > rectangle.
->
-> What is the adjusted rectangle here? Does this mean that firmware can
-> successfully apply SET_CUR and return 0, but in reality it was not happy
-> with the rectangle dimensions so it modified it behind the scenes?
+I got answered in both directions.  I prefer to split it because the
+doc can go to different audience than the code, and then it makes my
+life easier when backporting.
 
-I can imagine that some hw might have spooky requirements for the roi
-rectangle (multiple of 4, not crossing the bayer filter, odd/even
-line...) so they might be able to go the closest valid config.
-
-
->
-> I can add GET_CUR I guess, but do we want to double the traffic, given
-> that ROI SET_CUR can be executed relatively often?
+But if you or Laurent prefer  otherwise I am of course happy with any option ;)
 
 
 
---
+-- 
 Ricardo Ribalda
