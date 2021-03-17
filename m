@@ -2,105 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 965B833ECD1
-	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 10:17:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BF5133ECD9
+	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 10:19:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbhCQJRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Mar 2021 05:17:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43574 "EHLO
+        id S229812AbhCQJSq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Mar 2021 05:18:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbhCQJQ5 (ORCPT
+        with ESMTP id S229637AbhCQJSR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Mar 2021 05:16:57 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D07C06174A
-        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 02:16:46 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id k9so1837935lfo.12
-        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 02:16:46 -0700 (PDT)
+        Wed, 17 Mar 2021 05:18:17 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1441C06175F
+        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 02:18:17 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id w34so23358102pga.8
+        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 02:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=X7jkBuOrJJ0Jfs4Q9WqxpRDX/x4oukTABkzO4pd8+2k=;
-        b=Sv5rTsXop+2R+H/BzTiyvpnU0IfKFEMtqhG/bx/w+scdSayyo/sUZ1g7no97+iP/QT
-         WXUCCiwWnO0Ahy8lHMWnjj+Jpab96NWat6WDwBlGzr+POt/c0pht0qo0XLzMpWaTbz1Z
-         5I+qOoiTPxWtvDkUzekbd8Up0wTCBvvvpgtII/yZKfjtcJibDYlFDiqVwq0S+bVZduEz
-         7mtMv8SUFKfWbNBiuJNK0XKHIJlXdmDTTENikuzdTIFDI2IEdyXLP0U96ZYR/TR4W54l
-         CQ3EAUwimotIL1kXcwyWN0XVYlQs7pnXMbkCEHAX2RkRXo/jSK3NljTWlfUAmbpz3IhU
-         78DA==
+         :content-disposition:in-reply-to;
+        bh=/RAuP6d3EHqVzmwtPPFGX8X8kp9JullC1xe70psycjM=;
+        b=eUG+fAxmq/wH6hTcKCecXREl4EFwzDxKSQ2OSHfLvmOznzLTytowCM4UEoY1/QNhdU
+         Vj3/nYfS8jv/K6AyOgXq7AbCriGLNtOGB7cwtkcK9abw4gtURuiDOUHPawLkcrnJrHzE
+         YnCC7Orw8n5T+mjRWEFf9b+5rbojz+Vz6n82Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=X7jkBuOrJJ0Jfs4Q9WqxpRDX/x4oukTABkzO4pd8+2k=;
-        b=OVmlBdzqbq/DcLByKmThqXdKxOaHR06DUIo2gaEsAWfRO7uym4bVbtmJ/iGhub7hKn
-         kihYI6ZEkTwpKyEXk4nAQ9h9Brx4VhiLpv8JWRBa5vHDu8aYeOaf8g+Ob5c5YI7P3fyw
-         TdIjl3btdKVKDijxQEEonzorV0ScM8E5rbfMo9ZNd5dQ/QCBGpoCaxO3cjmBJVm5WNoJ
-         iWgOpkW117x1EuqPwmoWEm/QRn+yesHpT0C6N3PdXtcnd7OR5MCbu7CUWa1quiT+zR4d
-         p34dAbXUtbhYGcQXDa9TnpyC/7ZneZClrKnmK10Q4O3IwCVcFq3sEv0iXjJzMoGIZyMA
-         UYhw==
-X-Gm-Message-State: AOAM533eTo8QUwvr0YJLQWhydlKApPvK4pdECegQEcmEQLQBATbW6AIw
-        UV3X2Cgh6joMwFx/Run0DcYN5XceCoWLig==
-X-Google-Smtp-Source: ABdhPJxap3c0UAD11o46DdF4scYWeoAAMe0ywQ23CiddvAxSb9y2iifFQ7dL/jeYa5iu23KDxcd7WA==
-X-Received: by 2002:a05:6512:2026:: with SMTP id s6mr1774689lfs.43.1615972605070;
-        Wed, 17 Mar 2021 02:16:45 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id w13sm3465898ljw.2.2021.03.17.02.16.44
+         :mime-version:content-disposition:in-reply-to;
+        bh=/RAuP6d3EHqVzmwtPPFGX8X8kp9JullC1xe70psycjM=;
+        b=XzjZdurGx07BnOFySEckHctD0C859b7snz6ZAkUGLNIi/m6vX68lrx5WDFq6vFE/nB
+         EUoJ43PLSMWIInrvGDEP2ZTKW1F2Srev1TjXZCECV9tavbVwdTB/j3GwX7IMmpjHc2Mj
+         aah3OM4XMdIz1l62WfYgQRVKEGx11oKvxkQW+L24iksixBZmB30MhvcXrWN+UbNKC99V
+         m2eBKMT5RXW5beReBKn3g5C4KVcYuaOTZ3g3qZojdh3a+jly548aPvYmYHKUCqiGrNfX
+         kK6xElOxVKvcGenUCCYQCpuoZ/5CV0zr5BFLqXfAsvc0ANcVzQOqC62Y7clJ7gH7aHtU
+         nb1A==
+X-Gm-Message-State: AOAM5301jlyF6TwAGGv0lPe+r7Cgay4LpvfYBIGF2tJAcW0deBc4Isuh
+        kTAWWWS23FVeDZ2YnXIJzDu9XA==
+X-Google-Smtp-Source: ABdhPJxzEMAdvRlTnBIxyhFx2/AHYGkuQMMQyw5lQaOxKc3HfIjesRaNndy/n+mXkGntrZvMg5Ip/w==
+X-Received: by 2002:aa7:95b5:0:b029:1ef:272f:920c with SMTP id a21-20020aa795b50000b02901ef272f920cmr3426660pfk.21.1615972697160;
+        Wed, 17 Mar 2021 02:18:17 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:b48f:f050:bdc5:eb89])
+        by smtp.gmail.com with ESMTPSA id mz11sm2046409pjb.6.2021.03.17.02.18.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Mar 2021 02:16:44 -0700 (PDT)
-Date:   Wed, 17 Mar 2021 10:16:44 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: Enable support for r8a77961
-Message-ID: <YFHI/O+twAJ8Unk4@oden.dyn.berto.se>
-References: <20210312132459.1754782-1-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 17 Mar 2021 02:18:16 -0700 (PDT)
+Date:   Wed, 17 Mar 2021 18:18:11 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Subject: Re: [PATCHv2 2/3] media: uvcvideo: add ROI auto controls
+Message-ID: <YFHJUyNA53J72bVA@google.com>
+References: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
+ <20210208051749.1785246-3-sergey.senozhatsky@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210312132459.1754782-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210208051749.1785246-3-sergey.senozhatsky@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On 2021-03-12 14:24:59 +0100, Niklas Söderlund wrote:
-> Enable support for M3-W+ (r8a77961).
+On (21/02/08 14:17), Sergey Senozhatsky wrote:
+> This patch adds support for Region of Interest bmAutoControls.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-I have off-band received a tag for this patch,
-
-Tested-by: LUU HOAI <hoai.luu.ub@renesas.com>
-
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 ++++
->  1 file changed, 4 insertions(+)
+> ROI control is a compound data type:
+>   Control Selector     CT_REGION_OF_INTEREST_CONTROL
+>   Mandatory Requests   SET_CUR, GET_CUR, GET_MIN, GET_MAX, GET_DEF
+>   wLength 10
+>   Offset   Field            Size
+>   0        wROI_Top         2
+>   2        wROI_Left        2
+>   4        wROI_Bottom      2
+>   6        wROI_Right       2
+>   8        bmAutoControls   2       (Bitmap)
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index e06cd512aba207a4..71ff20a165d66547 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -1164,6 +1164,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
->  		.compatible = "renesas,r8a7796-csi2",
->  		.data = &rcar_csi2_info_r8a7796,
->  	},
-> +	{
-> +		.compatible = "renesas,r8a77961-csi2",
-> +		.data = &rcar_csi2_info_r8a7796,
-> +	},
->  	{
->  		.compatible = "renesas,r8a77965-csi2",
->  		.data = &rcar_csi2_info_r8a77965,
-> -- 
-> 2.30.1
+> uvc_control_mapping, however, can handle only s32 data type at the
+> moment: ->get() returns s32 value, ->set() accepts s32 value; while
+> v4l2_ctrl maximum/minimum/default_value can hold only s64 values.
 > 
+> Hence ROI control handling is split into two patches:
+> a) bmAutoControls is handled via uvc_control_mapping as V4L2_CTRL_TYPE_MENU
+> b) ROI rectangle (SET_CUR, GET_CUR, GET_DEF) handling is implemented
+>    separately, by the means of selection API.
 
--- 
-Regards,
-Niklas Söderlund
+This approach is "no go".
+
+I just figured out (am still debugging tho) that this patch set works on
+some devices and doesn't work on other. The root cause seems to be the
+fact that some firmwares error out all ROI requests when sizeof() of the
+ROI data is not 5 * __u16.
+
+So those devices are not happy if we set/get ROI rectangle 4 * __u16
+and auto-controls __u16 separately; they want to set/get rect and
+rectanles in one shot.
+
+This fixes ROI on those devices.
+
+---
+
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -1190,6 +1190,7 @@ struct uvc_roi_rect {
+        __u16                   left;
+        __u16                   bottom;
+        __u16                   right;
++       __u16                   auto_controls;
+ };
+
+---
+
+Back to base 1.
