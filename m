@@ -2,117 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 703F333ECFA
-	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 10:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1BA33EE06
+	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 11:06:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbhCQJ1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Mar 2021 05:27:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbhCQJ1O (ORCPT
+        id S229535AbhCQKGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Mar 2021 06:06:07 -0400
+Received: from a0.mail.mailgun.net ([198.61.254.59]:42297 "EHLO
+        a0.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230481AbhCQKFf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Mar 2021 05:27:14 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEF9C06174A
-        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 02:27:14 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id f8so472993plg.10
-        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 02:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CHoHa8ANgbUXhNI8gJ7HiZ459ad1ZF2Tra1CY7Xtr2k=;
-        b=iBN5cmPvI99uUHowxUBR84ahtRgUy1dF0922MmGTKqRM4EAfBefHsZ4C32iYA4SFGy
-         5560oY/08KJ5iO2nHMSWhKpz20dAZOTTLfpnr3JFQCeKL1MXbGLKyBPjirQpEnHWBZyL
-         Dew+9Afn7HG3pdramVwghslrevE4fHzVS8ZHg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CHoHa8ANgbUXhNI8gJ7HiZ459ad1ZF2Tra1CY7Xtr2k=;
-        b=bz+yKmJ0q2PQMH20TeioVZGjEaUA2IEwQbzR5SIrftY/8YE1lyf1H9yBjgkUGZ9qWn
-         +ayzk0uLskWacpiEbVD0Vyy9hPp1CuvyTn5ZBmA7O+04uQ+6dYht8LxrHSev4Z6DxwHx
-         MplSEZdo8WRH0QmrezDuxRJuk9PBi/kD1oEpXUtwhYtXvixgc+nLBw6dnGUuxeGWXhEj
-         jLSa6THcwS88Z9EZDBOKk+EfxbJQOOryVMNSxjL9exU6nIsaPVSqbP3snlE8m0RgojNK
-         FS9znEilPDqeNpbgYJAzkZDWYnDhQ/7Fvd0+my2ZV1zMA9JN1USkOO837jqIC+VIbJz7
-         +Acw==
-X-Gm-Message-State: AOAM5332g3bfMSw402ZE+wegKrtdN1KVvUPIqQ08Y66/Z/cuX694qI1B
-        QzmbKL7akBZZR8PNCDHnks9n1g==
-X-Google-Smtp-Source: ABdhPJzJQVUIs0RqXskkTI1Q/7L2H9DqOAZ+jdbctj5Bt7NA2+xTzYnz33OISX1tDsJKlaauzu3AEQ==
-X-Received: by 2002:a17:90b:244:: with SMTP id fz4mr3560032pjb.137.1615973233884;
-        Wed, 17 Mar 2021 02:27:13 -0700 (PDT)
-Received: from google.com ([2409:10:2e40:5100:b48f:f050:bdc5:eb89])
-        by smtp.gmail.com with ESMTPSA id m5sm19071280pfd.96.2021.03.17.02.27.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Mar 2021 02:27:13 -0700 (PDT)
-Date:   Wed, 17 Mar 2021 18:27:09 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCHv2 2/3] media: uvcvideo: add ROI auto controls
-Message-ID: <YFHLbWwsF+lvhQb9@google.com>
-References: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
- <20210208051749.1785246-3-sergey.senozhatsky@gmail.com>
- <YFHJUyNA53J72bVA@google.com>
+        Wed, 17 Mar 2021 06:05:35 -0400
+X-Greylist: delayed 340 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Mar 2021 06:05:34 EDT
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1615975534; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=B6rCIClG88WIX0070GF43o2RDQ87mELfqaJlTc0lXQU=;
+ b=utRPdKdElSH/XPZ3WS7eAq11v6JrHLhzae0PFOTanZKanMyzA+USwY2udVlCJbQwzFcfp06B
+ MqYs2t4Ncp7N173k3VR+KfIllkEQKZemYUiEr1xGB/P6a70D8v7pRP/QS5IFPm6SMiP/YvI3
+ y8WhyyE7fCm2dzJX9CA9UG/XEfU=
+X-Mailgun-Sending-Ip: 198.61.254.59
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 6051d3175d70193f88901656 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Mar 2021 09:59:51
+ GMT
+Sender: dikshita=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id B0F56C4346A; Wed, 17 Mar 2021 09:59:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: dikshita)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2D661C43463;
+        Wed, 17 Mar 2021 09:59:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YFHJUyNA53J72bVA@google.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 17 Mar 2021 15:29:47 +0530
+From:   dikshita@codeaurora.org
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     stanimir.varbanov@linaro.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        jonathan@marek.ca, vgarodia@codeaurora.org
+Subject: Re: [PATCH v2 21/25] media: venus: helpers: Add internal buffer list
+ for v6
+In-Reply-To: <20210312173039.1387617-22-bryan.odonoghue@linaro.org>
+References: <20210312173039.1387617-1-bryan.odonoghue@linaro.org>
+ <20210312173039.1387617-22-bryan.odonoghue@linaro.org>
+Message-ID: <e0fac30ba39f35abff9262fa9538f790@codeaurora.org>
+X-Sender: dikshita@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (21/03/17 18:18), Sergey Senozhatsky wrote:
-> On (21/02/08 14:17), Sergey Senozhatsky wrote:
-> > This patch adds support for Region of Interest bmAutoControls.
-> > 
-> > ROI control is a compound data type:
-> >   Control Selector     CT_REGION_OF_INTEREST_CONTROL
-> >   Mandatory Requests   SET_CUR, GET_CUR, GET_MIN, GET_MAX, GET_DEF
-> >   wLength 10
-> >   Offset   Field            Size
-> >   0        wROI_Top         2
-> >   2        wROI_Left        2
-> >   4        wROI_Bottom      2
-> >   6        wROI_Right       2
-> >   8        bmAutoControls   2       (Bitmap)
-> > 
-> > uvc_control_mapping, however, can handle only s32 data type at the
-> > moment: ->get() returns s32 value, ->set() accepts s32 value; while
-> > v4l2_ctrl maximum/minimum/default_value can hold only s64 values.
-> > 
-> > Hence ROI control handling is split into two patches:
-> > a) bmAutoControls is handled via uvc_control_mapping as V4L2_CTRL_TYPE_MENU
-> > b) ROI rectangle (SET_CUR, GET_CUR, GET_DEF) handling is implemented
-> >    separately, by the means of selection API.
+On 2021-03-12 23:00, Bryan O'Donoghue wrote:
+> From: Dikshita Agarwal <dikshita@codeaurora.org>
 > 
-> This approach is "no go".
+> - Internal buffers required by v6 are different than v4,
+>   add new list of internal buffers for v6.
+> - Differentiate encoder/decoder buffers for 6xx
 > 
-> I just figured out (am still debugging tho) that this patch set works on
-> some devices and doesn't work on other. The root cause seems to be the
-> fact that some firmwares error out all ROI requests when sizeof() of the
-> ROI data is not 5 * __u16.
-> 
-> So those devices are not happy if we set/get ROI rectangle 4 * __u16
-> and auto-controls __u16 separately; they want to set/get rect and
-> rectanles in one shot.
-> 
-> This fixes ROI on those devices.
-> 
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
+>  drivers/media/platform/qcom/venus/helpers.c    | 13 ++++++++++++-
+>  drivers/media/platform/qcom/venus/hfi_helper.h |  9 ++++++---
+>  2 files changed, 18 insertions(+), 4 deletions(-)
 > 
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1190,6 +1190,7 @@ struct uvc_roi_rect {
->         __u16                   left;
->         __u16                   bottom;
->         __u16                   right;
-> +       __u16                   auto_controls;
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c
+> b/drivers/media/platform/qcom/venus/helpers.c
+> index 2515a2225614..8b08632b0296 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -279,13 +279,24 @@ static const unsigned int intbuf_types_4xx[] = {
+>  	HFI_BUFFER_INTERNAL_PERSIST_1,
 >  };
+> 
+> +static const unsigned int intbuf_types_6xx[] = {
+> +	HFI_BUFFER_INTERNAL_SCRATCH(HFI_VERSION_6XX),
+> +	HFI_BUFFER_INTERNAL_SCRATCH_1(HFI_VERSION_6XX),
+> +	HFI_BUFFER_INTERNAL_SCRATCH_2(HFI_VERSION_6XX),
+> +	HFI_BUFFER_INTERNAL_PERSIST,
+> +	HFI_BUFFER_INTERNAL_PERSIST_1,
+> +};
+> +
 
-Maybe I can drop the separate auto-control and just use v4l2_selection::flags
-to set the roi auto-controls value.
+Hi Bryan,
+
+this change will require additional handling in hfi_plat_buf_v6.c to
+return buffer_size as 0 for internal buffer type which is not applicable 
+for
+encoder or decoder, currently we return -EINVAL for the same.
+
+Thanks,
+Dikshita
+
+>  int venus_helper_intbufs_alloc(struct venus_inst *inst)
+>  {
+>  	const unsigned int *intbuf;
+>  	size_t arr_sz, i;
+>  	int ret;
+> 
+> -	if (IS_V4(inst->core)) {
+> +	if (IS_V6(inst->core)) {
+> +		arr_sz = ARRAY_SIZE(intbuf_types_6xx);
+> +		intbuf = intbuf_types_6xx;
+> +	} else if (IS_V4(inst->core)) {
+>  		arr_sz = ARRAY_SIZE(intbuf_types_4xx);
+>  		intbuf = intbuf_types_4xx;
+>  	} else {
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h
+> b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index 6b524c7cde5f..f367f43c9fb7 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -395,11 +395,14 @@
+>  #define HFI_BUFFER_INTERNAL_PERSIST		0x4
+>  #define HFI_BUFFER_INTERNAL_PERSIST_1		0x5
+>  #define HFI_BUFFER_INTERNAL_SCRATCH(ver)	\
+> -	(((ver) == HFI_VERSION_4XX) ? 0x6 : 0x1000001)
+> +	(((ver) == HFI_VERSION_4XX ||		\
+> +	(ver) == HFI_VERSION_6XX) ? 0x6 : 0x1000001)
+>  #define HFI_BUFFER_INTERNAL_SCRATCH_1(ver)	\
+> -	(((ver) == HFI_VERSION_4XX) ? 0x7 : 0x1000005)
+> +	(((ver) == HFI_VERSION_4XX ||		\
+> +	(ver) == HFI_VERSION_6XX) ? 0x7 : 0x1000005)
+>  #define HFI_BUFFER_INTERNAL_SCRATCH_2(ver)	\
+> -	(((ver) == HFI_VERSION_4XX) ? 0x8 : 0x1000006)
+> +	(((ver) == HFI_VERSION_4XX ||		\
+> +	(ver) == HFI_VERSION_6XX) ? 0x8 : 0x1000006)
+>  #define HFI_BUFFER_EXTRADATA_INPUT(ver)		\
+>  	(((ver) == HFI_VERSION_4XX) ? 0xc : 0x1000002)
+>  #define HFI_BUFFER_EXTRADATA_OUTPUT(ver)	\
