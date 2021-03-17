@@ -2,279 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2228033F569
-	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 17:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7132A33F5D8
+	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 17:46:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbhCQQYt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Mar 2021 12:24:49 -0400
-Received: from jpvw.nl ([80.127.100.2]:38076 "EHLO jpvw.nl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232415AbhCQQYY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Mar 2021 12:24:24 -0400
-Received: from [127.0.0.1] (helo=jpvw.nl)
-        by jpvw.nl with esmtp (Exim 4.94)
-        (envelope-from <jp@jpvw.nl>)
-        id 1lMYy5-0000k8-NK; Wed, 17 Mar 2021 17:24:21 +0100
-Subject: Re: [PATCH] Backport MYGICA T230A adapter
-To:     Vincent Fortier <th0ma7@gmail.com>, linux-media@vger.kernel.org
-References: <e57634b4-b6f3-fcbd-2e43-cfed3a429918@gmail.com>
- <f62ab424-7dc6-ee57-d098-fb5008c33cef@jpvw.nl>
- <53dd5f12-38cc-6806-0119-0fdba7ce8f10@gmail.com>
-From:   JP <jp@jpvw.nl>
-Message-ID: <a4b8441b-0bab-7cf4-1cb7-6626aa7567e3@jpvw.nl>
-Date:   Wed, 17 Mar 2021 17:24:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S232584AbhCQQp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Mar 2021 12:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232349AbhCQQpP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Mar 2021 12:45:15 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F98BC06174A
+        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 09:45:15 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id lr13so3677642ejb.8
+        for <linux-media@vger.kernel.org>; Wed, 17 Mar 2021 09:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h74gqB1Y/vuFqN5JHLgON2tiYeFodPESAJgeCk1Im4Y=;
+        b=gJl4CScQ5xxAjZ0Lb4AmNPPfRO8qaD9IM+FJqk8bYqKI/wFejsVJZX+t40qPurLJAT
+         2xQnYZII69UQ5p541vbJz4b1eQacLcWN+2MEyRBt8Zb12hWk8TEIT+hd+z4yKHDx1qkN
+         qnawKj/X/+WYlzPol61qd40Gm9hJnJKGZo/+Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h74gqB1Y/vuFqN5JHLgON2tiYeFodPESAJgeCk1Im4Y=;
+        b=GjVj6+t1jaEH58js8vUCmhVGf2AkeHravw4IyaMBv3cfbScO+eaDN4IkAJ/WZ8WfV2
+         bfLqZQsWDGzgLId8odqrcOuYNOx0eqaviNZ73khnjuW0Y8lbheh3RQ41t3MwMIzg2cWP
+         uw0yn0f0N9kPeIl/2KFf6wyrsmC6A0vRbneHlKJsPVIf8HhiSOnFPeXE9H2zTwB8an8E
+         1E/h+yvWPFsC497kohOGBDR8Tm2rL/guxz609i3wstw2WWj9EJxFKFI4vmLr6/uDIAyH
+         ZFXi+OjlDiMtMEIERSGN/NsL7Mmyb8q8j0Q/IdupMG8cc+TL49fDIxxZWDslyS/G0q/B
+         pRgg==
+X-Gm-Message-State: AOAM532fFQAO0I5fHXDnW4MdqbgvDvp/fpAeFOiMWypyp/dnRuLNd04+
+        OUg3BYOvhEUtmNxOr2J8bhoCJA==
+X-Google-Smtp-Source: ABdhPJyBQoQDFZpVtee0bSzCUPuTjmlERyAlp2jaQhvY4r9qfrMCw6x76qu4SBWxcoEVHEz8N2VSyQ==
+X-Received: by 2002:a17:906:f44:: with SMTP id h4mr35540656ejj.204.1615999514036;
+        Wed, 17 Mar 2021 09:45:14 -0700 (PDT)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id hy25sm12088128ejc.119.2021.03.17.09.45.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Mar 2021 09:45:13 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v6 00/17] uvcvideo: Fix v4l2-compliance errors
+Date:   Wed, 17 Mar 2021 17:44:54 +0100
+Message-Id: <20210317164511.39967-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 MIME-Version: 1.0
-In-Reply-To: <53dd5f12-38cc-6806-0119-0fdba7ce8f10@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vin
+v4l2-compliance -m /dev/media0 -a -f
+Total for uvcvideo device /dev/media0: 8, Succeeded: 6, Failed: 2, Warnings: 0
+Total for uvcvideo device /dev/video0: 54, Succeeded: 50, Failed: 4, Warnings: 2
+Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 102,
+Failed: 6, Warnings: 2
 
-On 3/17/21 12:43 AM, Vincent Fortier wrote:
-> Le 2021-03-16 à 12 h 55, JP a écrit :
->> Hi Vincent.
->>
->> On 3/13/21 1:36 PM, Vincent Fortier wrote:
->>> Hi all,
->>>
->>> (first patch posting so don't hesitate to let me know where to find 
->>> additional info to improve next time)
->>
->> My advice is to do this on newer kernel. 
->> https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.11.6.tar.xz
->> So we can share it with the world.
->> I have all T230* receivers, so i can test t230a and also if it 
->> doesn't break the others.
->>
->> Cheers,
->>
->> Jan Pieter.
->>
-> This request is to get the patches merged to backports part of the 
-> default driver package in hope I don't have to maintain it on my own 
-> as I'm not a C coder (https://linuxtv.org/downloads/drivers/).
->
-I will maintain t230a if you can make a patch for vanilla stable.
-> Also, naively, I thought somehow that crazycat69 repository (currently 
-> at 5.11-rc6) was eventually merged into the master media tree which 
-> itself ends-up being merged to master at the next linux-next round 
-> (indeed there may be rainbows & unicorns along the way...)
->
+After fixing all of them we go down to:
 
-Crazycat patches will never be merged directly. There were too much 
-errors coming into vanilla from there.
-> - vin
->
+Total for uvcvideo device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+Total for uvcvideo device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
+Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 108,
+Failed: 0, Warnings: 0
 
-Regards,
+YES, NO MORE WARNINGS :)
 
-Jan Pieter
+Note that we depend on:
+https://patchwork.linuxtv.org/project/linux-media/patch/20210315172531.101694-1-ribalda@chromium.org/
 
->>> The following patch is a manual backport based on crazycat69 / 
->>> linux_media git repository:
->>>
->>> https://github.com/crazycat69/linux_media/commit/e1ef47d604775c550a8f0d1bda276c113f882c9b?branch=e1ef47d604775c550a8f0d1bda276c113f882c9b&diff=unified 
->>>
->>>
->>>
->>> MYGICA T230A support was found on the following thread:
->>> https://forum.libreelec.tv/thread/23142-mygica-t230a/?pageNo=2
->>>
->>> Built successfully over commit 
->>> 069192365e2cec8b47f6e6701fb2aa50f763c602 (March 9th) on media_build 
->>> git tree with driver snapshot from 2021-03-07-1c5ab1e2286f over 
->>> Synology 4.4.59 / 4.4.60 kernels. Also built successfully over 
->>> 3.10.105 using latest compatible snapshot from 2021-01-13 using 
->>> driver version 2021-01-08-321af22a3d2f (as sadly pre-4.4 support was 
->>> removed recently).
->>>
->>> User thread confirming it to work under Synology NAS under 4.4.59 
->>> kernel available here:
->>>
->>> https://github.com/th0ma7/synology/issues/9
->>>
->>> Much thnx in advance.
->>>
->>> - vin
->>>
->>> ---
->>>
->>> diff -uprN 
->>> ../linuxtv.orig/linux/drivers/media/usb/dvb-usb-v2/dvbsky.c 
->>> ./linux/drivers/media/usb/dvb-usb-v2/dvbsky.c
->>> --- ../linuxtv.orig/linux/drivers/media/usb/dvb-usb-v2/dvbsky.c 
->>> 2020-11-06 05:40:16.000000000 +0000
->>> +++ ./linux/drivers/media/usb/dvb-usb-v2/dvbsky.c 2021-02-19 
->>> 14:31:34.405091839 +0000
->>> @@ -529,7 +529,7 @@ static int dvbsky_t330_attach(struct dvb
->>>      return 0;
->>>  }
->>>
->>> -static int dvbsky_mygica_t230c_attach(struct dvb_usb_adapter *adap)
->>> +static int dvbsky_mygica_t230_attach(struct dvb_usb_adapter *adap)
->>>  {
->>>      struct dvbsky_state *state = adap_to_priv(adap);
->>>      struct dvb_usb_device *d = adap_to_d(adap);
->>> @@ -541,7 +541,9 @@ static int dvbsky_mygica_t230c_attach(st
->>>      si2168_config.i2c_adapter = &i2c_adapter;
->>>      si2168_config.fe = &adap->fe[0];
->>>      si2168_config.ts_mode = SI2168_TS_PARALLEL;
->>> -    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
->>> USB_PID_MYGICA_T230C2)
->>> +    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
->>> USB_PID_MYGICA_T230C2 ||
->>> +        le16_to_cpu(d->udev->descriptor.idProduct) == 
->>> USB_PID_MYGICA_T230C2_LITE ||
->>> +        le16_to_cpu(d->udev->descriptor.idProduct) == 
->>> USB_PID_MYGICA_T230A)
->>>          si2168_config.ts_mode |= SI2168_TS_CLK_MANUAL;
->>>      si2168_config.ts_clock_inv = 1;
->>>
->>> @@ -553,19 +555,26 @@ static int dvbsky_mygica_t230c_attach(st
->>>
->>>      /* attach tuner */
->>>      si2157_config.fe = adap->fe[0];
->>> -    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
->>> USB_PID_MYGICA_T230) {
->>> -        si2157_config.if_port = 1;
->>> -        state->i2c_client_tuner = dvb_module_probe("si2157", NULL,
->>> +    switch (le16_to_cpu(d->udev->descriptor.idProduct)) {
->>> +    case USB_PID_MYGICA_T230C:
->>> +    case USB_PID_MYGICA_T230C2:
->>> +    case USB_PID_MYGICA_T230C2_LITE:
->>> +    case USB_PID_MYGICA_T230A: {
->>> +        si2157_config.if_port = 0;
->>> +        state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
->>>                                 i2c_adapter,
->>>                                 0x60,
->>>                                 &si2157_config);
->>> -    } else {
->>> -        si2157_config.if_port = 0;
->>> -        state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
->>> +        break;
->>> +    }
->>> +    default: {
->>> +        si2157_config.if_port = 1;
->>> +        state->i2c_client_tuner = dvb_module_probe("si2157", NULL,
->>>                                 i2c_adapter,
->>>                                 0x60,
->>>                                 &si2157_config);
->>>      }
->>> +    }
->>>      if (!state->i2c_client_tuner) {
->>>          dvb_module_release(state->i2c_client_demod);
->>>          return -ENODEV;
->>> @@ -577,14 +586,24 @@ static int dvbsky_mygica_t230c_attach(st
->>>
->>>  static int dvbsky_identify_state(struct dvb_usb_device *d, const 
->>> char **name)
->>>  {
->>> -    dvbsky_gpio_ctrl(d, 0x04, 1);
->>> -    msleep(20);
->>> -    dvbsky_gpio_ctrl(d, 0x83, 0);
->>> -    dvbsky_gpio_ctrl(d, 0xc0, 1);
->>> -    msleep(100);
->>> -    dvbsky_gpio_ctrl(d, 0x83, 1);
->>> -    dvbsky_gpio_ctrl(d, 0xc0, 0);
->>> -    msleep(50);
->>> +    if (le16_to_cpu(d->udev->descriptor.idProduct) == 
->>> USB_PID_MYGICA_T230A) {
->>> +        dvbsky_gpio_ctrl(d, 0x87, 0);
->>> +        msleep(20);
->>> +        dvbsky_gpio_ctrl(d, 0x86, 1);
->>> +        dvbsky_gpio_ctrl(d, 0x80, 0);
->>> +        msleep(100);
->>> +        dvbsky_gpio_ctrl(d, 0x80, 1);
->>> +        msleep(50);
->>> +    } else {
->>> +        dvbsky_gpio_ctrl(d, 0x04, 1);
->>> +        msleep(20);
->>> +        dvbsky_gpio_ctrl(d, 0x83, 0);
->>> +        dvbsky_gpio_ctrl(d, 0xc0, 1);
->>> +        msleep(100);
->>> +        dvbsky_gpio_ctrl(d, 0x83, 1);
->>> +        dvbsky_gpio_ctrl(d, 0xc0, 0);
->>> +        msleep(50);
->>> +    }
->>>
->>>      return WARM;
->>>  }
->>> @@ -719,7 +738,7 @@ static struct dvb_usb_device_properties
->>>      }
->>>  };
->>>
->>> -static struct dvb_usb_device_properties mygica_t230c_props = {
->>> +static struct dvb_usb_device_properties mygica_t230_props = {
->>>      .driver_name = KBUILD_MODNAME,
->>>      .owner = THIS_MODULE,
->>>      .adapter_nr = adapter_nr,
->>> @@ -730,7 +749,7 @@ static struct dvb_usb_device_properties
->>>      .generic_bulk_ctrl_delay = DVBSKY_MSG_DELAY,
->>>
->>>      .i2c_algo         = &dvbsky_i2c_algo,
->>> -    .frontend_attach  = dvbsky_mygica_t230c_attach,
->>> +    .frontend_attach  = dvbsky_mygica_t230_attach,
->>>      .frontend_detach  = dvbsky_frontend_detach,
->>>      .init             = dvbsky_init,
->>>      .get_rc_config    = dvbsky_get_rc_config,
->>> @@ -778,16 +797,22 @@ static const struct usb_device_id dvbsky
->>>          &dvbsky_s960_props, "Terratec Cinergy S2 Rev.4",
->>>          RC_MAP_DVBSKY) },
->>>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230,
->>> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230",
->>> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230",
->>>          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
->>> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230C",
->>> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230C",
->>>          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C_LITE,
->>> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230C Lite",
->>> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230C Lite",
->>>          NULL) },
->>>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
->>> -        &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230C v2",
->>> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230C v2",
->>> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>> +     { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2_LITE,
->>> +        &mygica_t230_props, "MyGica Mini DVB-T2 USB Stick T230C 
->>> Lite v2",
->>> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>> +    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230A,
->>> +        &mygica_t230_props, "MyGica Mini DVB-(T/T2/C) USB Stick 
->>> T230A",
->>>          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>>      { }
->>>  };
->>> diff -uprN ../linuxtv.orig/linux/include/media/dvb-usb-ids.h 
->>> ./linux/include/media/dvb-usb-ids.h
->>> --- ../linuxtv.orig/linux/include/media/dvb-usb-ids.h 2020-05-26 
->>> 05:40:21.000000000 +0000
->>> +++ ./linux/include/media/dvb-usb-ids.h    2021-02-19 
->>> 14:27:21.459391941 +0000
->>> @@ -394,6 +394,8 @@
->>>  #define USB_PID_MYGICA_T230C                0xc689
->>>  #define USB_PID_MYGICA_T230C2                0xc68a
->>>  #define USB_PID_MYGICA_T230C_LITE            0xc699
->>> +#define USB_PID_MYGICA_T230C2_LITE            0xc69a
->>> +#define USB_PID_MYGICA_T230A                0x689a
->>>  #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
->>>  #define USB_PID_ELGATO_EYETV_DTT            0x0021
->>>  #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
->>>
->>>
->>
+With Hans patch we can also pass v4l2-compliance -s.
+
+Changelog  from v5 (Thanks to Hans)
+- Move more checks to framework
+- Rewrite the framework check_ext_ctrls
+- Rewrite ctrl_is_inactive
+- Add function ctrl_is_accessible
+- Use ioctl name instead of boolean values
+
+Hans Verkuil (1):
+  uvc: use vb2 ioctl and fop helpers
+
+Ricardo Ribalda (16):
+  media: v4l2-ioctl: check_ext_ctrls: Fix multiclass
+    V4L2_CTRL_WHICH_DEF_VAL
+  media: v4l2-ioctl: check_ext_ctrls: Return -EINVAL on
+    V4L2_CTRL_WHICH_REQUEST_VAL
+  media: v4l2-ioctl: check_ext_ctrls: Return the right error_idx
+  media: v4l2-ioctl: check_ext_ctrls: Fix V4L2_CTRL_WHICH_DEF_VAL
+  media: pvrusb2: Do not check for V4L2_CTRL_WHICH_DEF_VAL
+  media: uvcvideo: Do not check for V4L2_CTRL_WHICH_DEF_VAL
+  media: uvcvideo: Set capability in s_param
+  media: uvcvideo: Return -EIO for control errors
+  media: uvcvideo: refactor __uvc_ctrl_add_mapping
+  media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
+  media: uvcvideo: Use dev->name for querycap()
+  media: uvcvideo: Set unique vdev name based in type
+  media: uvcvideo: Increase the size of UVC_METADATA_BUF_SIZE
+  media: uvcvideo: Use control names from framework
+  media: uvcvideo: Check controls flags before accessing them
+  media: uvcvideo: Return -EACCES to inactive controls
+
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c |   4 -
+ drivers/media/usb/uvc/uvc_ctrl.c         | 284 ++++++++++++++----
+ drivers/media/usb/uvc/uvc_driver.c       |  22 +-
+ drivers/media/usb/uvc/uvc_metadata.c     |   8 +-
+ drivers/media/usb/uvc/uvc_queue.c        | 143 ---------
+ drivers/media/usb/uvc/uvc_v4l2.c         | 352 +++++------------------
+ drivers/media/usb/uvc/uvc_video.c        |  13 +-
+ drivers/media/usb/uvc/uvcvideo.h         |  43 +--
+ drivers/media/v4l2-core/v4l2-ioctl.c     |  59 ++--
+ 9 files changed, 366 insertions(+), 562 deletions(-)
+
+-- 
+2.31.0.rc2.261.g7f71774620-goog
 
