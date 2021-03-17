@@ -2,145 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B1BA33EE06
-	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 11:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2517433EDFB
+	for <lists+linux-media@lfdr.de>; Wed, 17 Mar 2021 11:05:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbhCQKGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Mar 2021 06:06:07 -0400
-Received: from a0.mail.mailgun.net ([198.61.254.59]:42297 "EHLO
-        a0.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230481AbhCQKFf (ORCPT
+        id S230204AbhCQKEe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Mar 2021 06:04:34 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:37321 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229549AbhCQKES (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Mar 2021 06:05:35 -0400
-X-Greylist: delayed 340 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Mar 2021 06:05:34 EDT
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1615975534; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=B6rCIClG88WIX0070GF43o2RDQ87mELfqaJlTc0lXQU=;
- b=utRPdKdElSH/XPZ3WS7eAq11v6JrHLhzae0PFOTanZKanMyzA+USwY2udVlCJbQwzFcfp06B
- MqYs2t4Ncp7N173k3VR+KfIllkEQKZemYUiEr1xGB/P6a70D8v7pRP/QS5IFPm6SMiP/YvI3
- y8WhyyE7fCm2dzJX9CA9UG/XEfU=
-X-Mailgun-Sending-Ip: 198.61.254.59
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 6051d3175d70193f88901656 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Mar 2021 09:59:51
- GMT
-Sender: dikshita=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id B0F56C4346A; Wed, 17 Mar 2021 09:59:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: dikshita)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2D661C43463;
-        Wed, 17 Mar 2021 09:59:48 +0000 (UTC)
+        Wed, 17 Mar 2021 06:04:18 -0400
+Received: from uno.localdomain (host-79-22-58-175.retail.telecomitalia.it [79.22.58.175])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id BCE96100007;
+        Wed, 17 Mar 2021 10:04:14 +0000 (UTC)
+Date:   Wed, 17 Mar 2021 11:04:45 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/18] media: i2c: rdacm21: Give more time to OV490 to
+ boot
+Message-ID: <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
+References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
+ <20210315131512.133720-13-jacopo+renesas@jmondi.org>
+ <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 17 Mar 2021 15:29:47 +0530
-From:   dikshita@codeaurora.org
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        jonathan@marek.ca, vgarodia@codeaurora.org
-Subject: Re: [PATCH v2 21/25] media: venus: helpers: Add internal buffer list
- for v6
-In-Reply-To: <20210312173039.1387617-22-bryan.odonoghue@linaro.org>
-References: <20210312173039.1387617-1-bryan.odonoghue@linaro.org>
- <20210312173039.1387617-22-bryan.odonoghue@linaro.org>
-Message-ID: <e0fac30ba39f35abff9262fa9538f790@codeaurora.org>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-03-12 23:00, Bryan O'Donoghue wrote:
-> From: Dikshita Agarwal <dikshita@codeaurora.org>
-> 
-> - Internal buffers required by v6 are different than v4,
->   add new list of internal buffers for v6.
-> - Differentiate encoder/decoder buffers for 6xx
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c    | 13 ++++++++++++-
->  drivers/media/platform/qcom/venus/hfi_helper.h |  9 ++++++---
->  2 files changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c
-> b/drivers/media/platform/qcom/venus/helpers.c
-> index 2515a2225614..8b08632b0296 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -279,13 +279,24 @@ static const unsigned int intbuf_types_4xx[] = {
->  	HFI_BUFFER_INTERNAL_PERSIST_1,
->  };
-> 
-> +static const unsigned int intbuf_types_6xx[] = {
-> +	HFI_BUFFER_INTERNAL_SCRATCH(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_SCRATCH_1(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_SCRATCH_2(HFI_VERSION_6XX),
-> +	HFI_BUFFER_INTERNAL_PERSIST,
-> +	HFI_BUFFER_INTERNAL_PERSIST_1,
-> +};
-> +
+Hi Kieran, Laurent,
 
-Hi Bryan,
+On Mon, Mar 15, 2021 at 05:22:37PM +0000, Kieran Bingham wrote:
+> On 15/03/2021 13:15, Jacopo Mondi wrote:
+> > It has been observed through repeated testing (250 boots) that in the
+> > 10% of the cases the RDACM21 initialization sequence errors out due a
+> > timeout waiting for the OV490 firmware to complete its boot phase.
+> >
+> > Albeit being the current timeout relatively large (300-600 milliseconds),
+> > doubling it reduces the sporadic error rate down to 1 over an 80 boot
+> > sequences test run.
+> >
+> > The firmware boot delay is unfortunately not characterized in the camera
+> > module manual.
+> >
+>
+> I wonder if we could characterize this alone by pulling this down until
+> we see failures increase, with all the other fixes in place...
+>
+> I don't think that's required, but it might be something to check later
+> if we don't get rid of that 1/80 failure.
 
-this change will require additional handling in hfi_plat_buf_v6.c to
-return buffer_size as 0 for internal buffer type which is not applicable 
-for
-encoder or decoder, currently we return -EINVAL for the same.
+This is actually driving me crazy :/
 
-Thanks,
-Dikshita
+I had another test run with a surprising 10% failures.
+All the failures were due to the ov490 firmware boot I'm trying to
+mitigate here.
 
->  int venus_helper_intbufs_alloc(struct venus_inst *inst)
->  {
->  	const unsigned int *intbuf;
->  	size_t arr_sz, i;
->  	int ret;
-> 
-> -	if (IS_V4(inst->core)) {
-> +	if (IS_V6(inst->core)) {
-> +		arr_sz = ARRAY_SIZE(intbuf_types_6xx);
-> +		intbuf = intbuf_types_6xx;
-> +	} else if (IS_V4(inst->core)) {
->  		arr_sz = ARRAY_SIZE(intbuf_types_4xx);
->  		intbuf = intbuf_types_4xx;
->  	} else {
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h
-> b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index 6b524c7cde5f..f367f43c9fb7 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -395,11 +395,14 @@
->  #define HFI_BUFFER_INTERNAL_PERSIST		0x4
->  #define HFI_BUFFER_INTERNAL_PERSIST_1		0x5
->  #define HFI_BUFFER_INTERNAL_SCRATCH(ver)	\
-> -	(((ver) == HFI_VERSION_4XX) ? 0x6 : 0x1000001)
-> +	(((ver) == HFI_VERSION_4XX ||		\
-> +	(ver) == HFI_VERSION_6XX) ? 0x6 : 0x1000001)
->  #define HFI_BUFFER_INTERNAL_SCRATCH_1(ver)	\
-> -	(((ver) == HFI_VERSION_4XX) ? 0x7 : 0x1000005)
-> +	(((ver) == HFI_VERSION_4XX ||		\
-> +	(ver) == HFI_VERSION_6XX) ? 0x7 : 0x1000005)
->  #define HFI_BUFFER_INTERNAL_SCRATCH_2(ver)	\
-> -	(((ver) == HFI_VERSION_4XX) ? 0x8 : 0x1000006)
-> +	(((ver) == HFI_VERSION_4XX ||		\
-> +	(ver) == HFI_VERSION_6XX) ? 0x8 : 0x1000006)
->  #define HFI_BUFFER_EXTRADATA_INPUT(ver)		\
->  	(((ver) == HFI_VERSION_4XX) ? 0xc : 0x1000002)
->  #define HFI_BUFFER_EXTRADATA_OUTPUT(ver)	\
+I went up to give it -6 seconds- and I still get failures in the same
+percentage. Another run of 20 boots gave 30% failures with the delay I
+have here in this patch. Just to make sure I was not going crazy I
+reduced the delay to 1msec and I get an 80% failure rate.
+
+Still, I've seen the 1 on 80 failures (I swear! I have logs! :)
+
+I've checked what the BSP does, and if after some 300 attempts the
+ov490 doesn't boot, they simply go an reset it.
+https://github.com/renesas-rcar/linux-bsp/commit/0cf6e36f5bf49e1c2aab87139ec5b588623c56f8#diff-d770cad7d6f04923d9e89dfe7da369bb3006776d6e4fb8ef79353d5fab3cd25aR827
+(sorry, I don't seem to be able to point you to the ov490.c#827 with
+an URL)
+
+I assume we don't want anything like this in an upstream driver, but
+I'm really running out of any plausible explanation :(
+
+>
+>
+>
+> > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> > ---
+> >  drivers/media/i2c/rdacm21.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> > index 50a9b0d8255d..07cf077d8efd 100644
+> > --- a/drivers/media/i2c/rdacm21.c
+> > +++ b/drivers/media/i2c/rdacm21.c
+> > @@ -53,7 +53,7 @@
+> >  #define OV490_PID			0x8080300a
+> >  #define OV490_VER			0x8080300b
+> >  #define OV490_PID_TIMEOUT		20
+> > -#define OV490_OUTPUT_EN_TIMEOUT		300
+> > +#define OV490_OUTPUT_EN_TIMEOUT		600
+> >
+> >  #define OV490_GPIO0			BIT(0)
+> >  #define OV490_SPWDN0			BIT(0)
+> >
+>
