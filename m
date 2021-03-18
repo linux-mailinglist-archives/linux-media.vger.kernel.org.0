@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE3D5340F29
-	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 21:30:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B99AF340F2B
+	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 21:30:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233205AbhCRUaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Mar 2021 16:30:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
+        id S233208AbhCRUaQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Mar 2021 16:30:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233114AbhCRU3i (ORCPT
+        with ESMTP id S233079AbhCRU3j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Mar 2021 16:29:38 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38612C06174A
+        Thu, 18 Mar 2021 16:29:39 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C12C8C061761
         for <linux-media@vger.kernel.org>; Thu, 18 Mar 2021 13:29:38 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id hq27so6019503ejc.9
+Received: by mail-ed1-x52a.google.com with SMTP id dm8so8315020edb.2
         for <linux-media@vger.kernel.org>; Thu, 18 Mar 2021 13:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=njjchYj7qcv+WzT/+OCj/y0fOxvfa83NzAeCaxNCMs8=;
-        b=ebRAk1EzTfPWxw4QC+8LXdsvqs/gs/H2QxPTzwYAYKA2IxfPrisZ/DKDKC4+YLviSb
-         Y3HyWdBVpINy0lGQL7u6xEcKS6pIcq03IYuPS0WpgCnEUoQNFBF3KGyFfGKn66e89UKR
-         WgNsqBhxtirctQvOgDSi9mZLy5xRjBfXy/t9U=
+        bh=6u0H3HcjCN7wbvUeb6d+tjWfGi5XOQshuyE+ITzc2f8=;
+        b=hOB40sW1gIDsdcmP+sjEngYg9atkRX8TyMVFLInTlxOkJRnSMYOFSpf9vE8tv7Uh1r
+         hZbP/mX0x4PpzgGLSWHgoKGWrKMWigUxEP/Lan1xGIJm70HPz/lO1IPY55D8QUu1c+xB
+         YZN0+rABBRrGH2grcijHhuA7mjw3tbvCs0y4Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=njjchYj7qcv+WzT/+OCj/y0fOxvfa83NzAeCaxNCMs8=;
-        b=CCiow2mMD0WHKBWDDdHFaUNlf8hShlPuoJfYQ+9gpeYqTXf2u+/iTQYZ9LDeQVCoPO
-         UuuAqBTBVJX+4xJgJE87gKhYdb/xtBLJFAkoxbwecWllq6NRb2oOl5eT27EkSpiC0iAp
-         zpQV3g+pGiYGbjRiQUoNcL5i5VGaO3kZ0jIIisqOkocckZ+Axaq9+nquD08zzhPF4JMg
-         tvZvFTIncc5RuICUSe/7tCe/CS/o+2Z0paC4CR0UqZymq78Jbxr2kfDESCnhP1aEBq12
-         rlDASPwuKEQmad/UZDea4GxoAgc+Spvv6MkgMtBdHdfkpgTpKt+vW2Jvc0a/xxuEGKvm
-         RkZQ==
-X-Gm-Message-State: AOAM531lrbxGWI7+Vl2W4fXlhqDS8V5OlXeMqUyV84wy/H27RjKqiINs
-        NqcaZD4+hII9TtJgrLskyiVt1A==
-X-Google-Smtp-Source: ABdhPJyRJMg223qZL9mgByK2Cfy+adQda1FaaIhfPYyJblH1E1deMs6ewtAYgsMMdK/H9dCj2gw8qg==
-X-Received: by 2002:a17:907:971a:: with SMTP id jg26mr398597ejc.317.1616099376915;
-        Thu, 18 Mar 2021 13:29:36 -0700 (PDT)
+        bh=6u0H3HcjCN7wbvUeb6d+tjWfGi5XOQshuyE+ITzc2f8=;
+        b=KkItHH/cFKJLmZvudGLNoA4q9o+PrLaYlP6PjuR3mDf6m3etIS47LaUeep0hPMh2Xy
+         wkeyYeR0d20KL/KIrjMqA3X6OlGC5b/Tgp5ywZiLVjE8Ly26cIjJ23mIOZ+Tunb7f/lZ
+         HAsVaoYcymC31/tm96NycztjHLDSpgxNcAldTibP6aSAzCKO8QPMcyrk5JUmC0KQ0Z71
+         yzbPiD1heUoWvOTTOyKviwso4A/MSxMOsDU38DgtP5pfxw9eHNoK/QzDzbEW1ScqXbAR
+         hyhqc3zWaP60IeAZdpAIe13mKsU7RTVy9vKPHZZdCjUdHtDSVSE7SObYpaJkaJm3OdPe
+         xT1A==
+X-Gm-Message-State: AOAM530rMnNrxRPXRBu28NWac9ng3WGrcN0PyInxx9EC/T2FgaVK728M
+        BBambE/qACY4P5CK6p+yMq2wEw==
+X-Google-Smtp-Source: ABdhPJznsh1KfYALMPp6j3sGExqTleqpyHHdSK/5aWUFj/gZ55+bxT8jkGJ5XAJgaBLCsqeRpQXaGw==
+X-Received: by 2002:a05:6402:4386:: with SMTP id o6mr6098366edc.307.1616099377576;
+        Thu, 18 Mar 2021 13:29:37 -0700 (PDT)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id a22sm2533767ejr.89.2021.03.18.13.29.36
+        by smtp.gmail.com with ESMTPSA id a22sm2533767ejr.89.2021.03.18.13.29.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Mar 2021 13:29:36 -0700 (PDT)
+        Thu, 18 Mar 2021 13:29:37 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -52,11 +52,10 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH v7 11/17] media: uvcvideo: Use control names from framework
-Date:   Thu, 18 Mar 2021 21:29:22 +0100
-Message-Id: <20210318202928.166955-12-ribalda@chromium.org>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v7 12/17] media: uvcvideo: Check controls flags before accessing them
+Date:   Thu, 18 Mar 2021 21:29:23 +0100
+Message-Id: <20210318202928.166955-13-ribalda@chromium.org>
 X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 In-Reply-To: <20210318202928.166955-1-ribalda@chromium.org>
 References: <20210318202928.166955-1-ribalda@chromium.org>
@@ -66,370 +65,172 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The framework already contains a map of IDs to names, lets use it when
-possible.
+We can figure out if reading/writing a set of controls can fail without
+accessing them by checking their flags.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+This way we can honor the API closer:
+
+If an error is found when validating the list of controls passed with
+VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to
+indicate to userspace that no actual hardware was touched.
+
+Fixes v4l2-compliance:
+Control ioctls (Input 0):
+		warn: v4l2-test-controls.cpp(765): g_ext_ctrls(0) invalid error_idx 0
+                fail: v4l2-test-controls.cpp(645): invalid error index write only control
+        test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+
 Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 57 ++++++++++++--------------------
- drivers/media/usb/uvc/uvc_v4l2.c |  8 ++++-
- drivers/media/usb/uvc/uvcvideo.h |  2 +-
- 3 files changed, 30 insertions(+), 37 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 22 ++++++++++++++++++
+ drivers/media/usb/uvc/uvc_v4l2.c | 39 ++++++++++++++++++++++++++++----
+ drivers/media/usb/uvc/uvcvideo.h |  2 ++
+ 3 files changed, 58 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index ba14733db757..929e70dff11a 100644
+index 929e70dff11a..24fd5afc4e4f 100644
 --- a/drivers/media/usb/uvc/uvc_ctrl.c
 +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -436,7 +436,6 @@ static void uvc_ctrl_set_rel_speed(struct uvc_control_mapping *mapping,
- static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	{
- 		.id		= V4L2_CID_BRIGHTNESS,
--		.name		= "Brightness",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_BRIGHTNESS_CONTROL,
- 		.size		= 16,
-@@ -446,7 +445,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_CONTRAST,
--		.name		= "Contrast",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_CONTRAST_CONTROL,
- 		.size		= 16,
-@@ -456,7 +454,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_HUE,
--		.name		= "Hue",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_HUE_CONTROL,
- 		.size		= 16,
-@@ -468,7 +465,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_SATURATION,
--		.name		= "Saturation",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_SATURATION_CONTROL,
- 		.size		= 16,
-@@ -478,7 +474,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_SHARPNESS,
--		.name		= "Sharpness",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_SHARPNESS_CONTROL,
- 		.size		= 16,
-@@ -488,7 +483,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_GAMMA,
--		.name		= "Gamma",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_GAMMA_CONTROL,
- 		.size		= 16,
-@@ -498,7 +492,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_BACKLIGHT_COMPENSATION,
--		.name		= "Backlight Compensation",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_BACKLIGHT_COMPENSATION_CONTROL,
- 		.size		= 16,
-@@ -508,7 +501,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_GAIN,
--		.name		= "Gain",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_GAIN_CONTROL,
- 		.size		= 16,
-@@ -518,7 +510,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_POWER_LINE_FREQUENCY,
--		.name		= "Power Line Frequency",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
- 		.size		= 2,
-@@ -530,7 +521,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_HUE_AUTO,
--		.name		= "Hue, Auto",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_HUE_AUTO_CONTROL,
- 		.size		= 1,
-@@ -541,7 +531,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_EXPOSURE_AUTO,
--		.name		= "Exposure, Auto",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_AE_MODE_CONTROL,
- 		.size		= 4,
-@@ -554,7 +543,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_EXPOSURE_AUTO_PRIORITY,
--		.name		= "Exposure, Auto Priority",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_AE_PRIORITY_CONTROL,
- 		.size		= 1,
-@@ -564,7 +552,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_EXPOSURE_ABSOLUTE,
--		.name		= "Exposure (Absolute)",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_EXPOSURE_TIME_ABSOLUTE_CONTROL,
- 		.size		= 32,
-@@ -576,7 +563,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_AUTO_WHITE_BALANCE,
--		.name		= "White Balance Temperature, Auto",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_WHITE_BALANCE_TEMPERATURE_AUTO_CONTROL,
- 		.size		= 1,
-@@ -587,7 +573,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_WHITE_BALANCE_TEMPERATURE,
--		.name		= "White Balance Temperature",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_WHITE_BALANCE_TEMPERATURE_CONTROL,
- 		.size		= 16,
-@@ -599,7 +584,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_AUTO_WHITE_BALANCE,
--		.name		= "White Balance Component, Auto",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_WHITE_BALANCE_COMPONENT_AUTO_CONTROL,
- 		.size		= 1,
-@@ -611,7 +595,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_BLUE_BALANCE,
--		.name		= "White Balance Blue Component",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_WHITE_BALANCE_COMPONENT_CONTROL,
- 		.size		= 16,
-@@ -623,7 +606,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_RED_BALANCE,
--		.name		= "White Balance Red Component",
- 		.entity		= UVC_GUID_UVC_PROCESSING,
- 		.selector	= UVC_PU_WHITE_BALANCE_COMPONENT_CONTROL,
- 		.size		= 16,
-@@ -635,7 +617,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_FOCUS_ABSOLUTE,
--		.name		= "Focus (absolute)",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_FOCUS_ABSOLUTE_CONTROL,
- 		.size		= 16,
-@@ -647,7 +628,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_FOCUS_AUTO,
--		.name		= "Focus, Auto",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_FOCUS_AUTO_CONTROL,
- 		.size		= 1,
-@@ -658,7 +638,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_IRIS_ABSOLUTE,
--		.name		= "Iris, Absolute",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_IRIS_ABSOLUTE_CONTROL,
- 		.size		= 16,
-@@ -668,7 +647,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_IRIS_RELATIVE,
--		.name		= "Iris, Relative",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_IRIS_RELATIVE_CONTROL,
- 		.size		= 8,
-@@ -678,7 +656,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_ZOOM_ABSOLUTE,
--		.name		= "Zoom, Absolute",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_ZOOM_ABSOLUTE_CONTROL,
- 		.size		= 16,
-@@ -688,7 +665,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_ZOOM_CONTINUOUS,
--		.name		= "Zoom, Continuous",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_ZOOM_RELATIVE_CONTROL,
- 		.size		= 0,
-@@ -700,7 +676,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_PAN_ABSOLUTE,
--		.name		= "Pan (Absolute)",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_PANTILT_ABSOLUTE_CONTROL,
- 		.size		= 32,
-@@ -710,7 +685,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_TILT_ABSOLUTE,
--		.name		= "Tilt (Absolute)",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_PANTILT_ABSOLUTE_CONTROL,
- 		.size		= 32,
-@@ -720,7 +694,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_PAN_SPEED,
--		.name		= "Pan (Speed)",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_PANTILT_RELATIVE_CONTROL,
- 		.size		= 16,
-@@ -732,7 +705,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_TILT_SPEED,
--		.name		= "Tilt (Speed)",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_PANTILT_RELATIVE_CONTROL,
- 		.size		= 16,
-@@ -744,7 +716,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_PRIVACY,
--		.name		= "Privacy",
- 		.entity		= UVC_GUID_UVC_CAMERA,
- 		.selector	= UVC_CT_PRIVACY_CONTROL,
- 		.size		= 1,
-@@ -754,7 +725,6 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 	},
- 	{
- 		.id		= V4L2_CID_PRIVACY,
--		.name		= "Privacy",
- 		.entity		= UVC_GUID_EXT_GPIO_CONTROLLER,
- 		.selector	= UVC_CT_PRIVACY_CONTROL,
- 		.size		= 1,
-@@ -1076,6 +1046,20 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+@@ -1046,6 +1046,28 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
  	return 0;
  }
  
-+static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
++int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
++			   bool read)
 +{
-+	const char *name;
++	struct uvc_control_mapping *mapping;
++	struct uvc_control *ctrl;
 +
-+	if (map->name)
-+		return map->name;
++	if (__uvc_query_v4l2_class(chain, v4l2_id, 0) >= 0)
++		return -EACCES;
 +
-+	name = v4l2_ctrl_get_name(map->id);
-+	if (name)
-+		return name;
++	ctrl = uvc_find_control(chain, v4l2_id, &mapping);
++	if (!ctrl)
++		return -EINVAL;
 +
-+	return "Unknown Control";
++	if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) && read)
++		return -EACCES;
++
++	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
++		return -EACCES;
++
++	return 0;
 +}
 +
- static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl,
- 	struct uvc_control_mapping *mapping,
-@@ -1089,7 +1073,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
- 	v4l2_ctrl->id = mapping->id;
- 	v4l2_ctrl->type = mapping->v4l2_type;
--	strscpy(v4l2_ctrl->name, mapping->name, sizeof(v4l2_ctrl->name));
-+	strscpy(v4l2_ctrl->name, uvc_map_get_name(mapping),
-+		sizeof(v4l2_ctrl->name));
- 	v4l2_ctrl->flags = 0;
- 
- 	if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-@@ -2181,7 +2166,8 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 
- 	list_add_tail(&map->list, &ctrl->info.mappings);
- 	uvc_dbg(chain->dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
--		map->name, ctrl->info.entity, ctrl->info.selector);
-+		uvc_map_get_name(map), ctrl->info.entity,
-+		ctrl->info.selector);
- 
- 	return 0;
- }
-@@ -2199,7 +2185,7 @@ int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 	if (mapping->id & ~V4L2_CTRL_ID_MASK) {
- 		uvc_dbg(dev, CONTROL,
- 			"Can't add mapping '%s', control id 0x%08x is invalid\n",
--			mapping->name, mapping->id);
-+			uvc_map_get_name(mapping), mapping->id);
- 		return -EINVAL;
- 	}
- 
-@@ -2246,7 +2232,7 @@ int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 		if (mapping->id == map->id) {
- 			uvc_dbg(dev, CONTROL,
- 				"Can't add mapping '%s', control id 0x%08x already exists\n",
--				mapping->name, mapping->id);
-+				uvc_map_get_name(mapping), mapping->id);
- 			ret = -EEXIST;
- 			goto done;
- 		}
-@@ -2257,7 +2243,7 @@ int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 		atomic_dec(&dev->nmappings);
- 		uvc_dbg(dev, CONTROL,
- 			"Can't add mapping '%s', maximum mappings count (%u) exceeded\n",
--			mapping->name, UVC_MAX_CONTROL_MAPPINGS);
-+			uvc_map_get_name(mapping), UVC_MAX_CONTROL_MAPPINGS);
- 		ret = -ENOMEM;
- 		goto done;
- 	}
-@@ -2466,6 +2452,7 @@ static void uvc_ctrl_cleanup_mappings(struct uvc_device *dev,
- 	list_for_each_entry_safe(mapping, nm, &ctrl->info.mappings, list) {
- 		list_del(&mapping->list);
- 		kfree(mapping->menu_info);
-+		kfree(mapping->name);
- 		kfree(mapping);
- 	}
- }
+ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
+ {
+ 	const char *name;
 diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index dd10cb9361fa..ed262f61e6a6 100644
+index ed262f61e6a6..fbb99f3c2fb4 100644
 --- a/drivers/media/usb/uvc/uvc_v4l2.c
 +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -40,7 +40,13 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 		return -ENOMEM;
+@@ -1045,6 +1045,26 @@ static int uvc_ioctl_s_ctrl(struct file *file, void *fh,
+ 	return 0;
+ }
  
- 	map->id = xmap->id;
--	memcpy(map->name, xmap->name, sizeof(map->name));
-+	/* Non standard control id. */
-+	if (v4l2_ctrl_get_name(map->id) == NULL) {
-+		map->name = kmemdup(xmap->name, sizeof(xmap->name),
-+				    GFP_KERNEL);
-+		if (!map->name)
-+			return -ENOMEM;
++static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
++				 struct v4l2_ext_controls *ctrls,
++				 unsigned long ioctl)
++{
++	struct v4l2_ext_control *ctrl = ctrls->controls;
++	unsigned int i;
++	int ret = 0;
++
++	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
++		ret = uvc_ctrl_is_accessible(chain, ctrl->id,
++					    ioctl == VIDIOC_G_EXT_CTRLS);
++		if (ret)
++			break;
 +	}
- 	memcpy(map->entity, xmap->entity, sizeof(map->entity));
- 	map->selector = xmap->selector;
- 	map->size = xmap->size;
++
++	ctrls->error_idx = ioctl == VIDIOC_TRY_EXT_CTRLS ? i : ctrls->count;
++
++	return ret;
++}
++
+ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+ 				 struct v4l2_ext_controls *ctrls)
+ {
+@@ -1054,6 +1074,10 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+ 	unsigned int i;
+ 	int ret;
+ 
++	ret = uvc_ctrl_check_access(chain, ctrls, VIDIOC_G_EXT_CTRLS);
++	if (ret < 0)
++		return ret;
++
+ 	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
+ 		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+ 			struct v4l2_queryctrl qc = { .id = ctrl->id };
+@@ -1090,13 +1114,17 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+ 
+ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+ 				     struct v4l2_ext_controls *ctrls,
+-				     bool commit)
++				     unsigned long ioctl)
+ {
+ 	struct v4l2_ext_control *ctrl = ctrls->controls;
+ 	struct uvc_video_chain *chain = handle->chain;
+ 	unsigned int i;
+ 	int ret;
+ 
++	ret = uvc_ctrl_check_access(chain, ctrls, ioctl);
++	if (ret < 0)
++		return ret;
++
+ 	ret = uvc_ctrl_begin(chain);
+ 	if (ret < 0)
+ 		return ret;
+@@ -1105,14 +1133,15 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+ 		ret = uvc_ctrl_set(handle, ctrl);
+ 		if (ret < 0) {
+ 			uvc_ctrl_rollback(handle);
+-			ctrls->error_idx = commit ? ctrls->count : i;
++			ctrls->error_idx = ioctl == VIDIOC_S_EXT_CTRLS ?
++						    ctrls->count : i;
+ 			return ret;
+ 		}
+ 	}
+ 
+ 	ctrls->error_idx = 0;
+ 
+-	if (commit)
++	if (ioctl == VIDIOC_S_EXT_CTRLS)
+ 		return uvc_ctrl_commit(handle, ctrls->controls, ctrls->count);
+ 	else
+ 		return uvc_ctrl_rollback(handle);
+@@ -1123,7 +1152,7 @@ static int uvc_ioctl_s_ext_ctrls(struct file *file, void *fh,
+ {
+ 	struct uvc_fh *handle = fh;
+ 
+-	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, true);
++	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_S_EXT_CTRLS);
+ }
+ 
+ static int uvc_ioctl_try_ext_ctrls(struct file *file, void *fh,
+@@ -1131,7 +1160,7 @@ static int uvc_ioctl_try_ext_ctrls(struct file *file, void *fh,
+ {
+ 	struct uvc_fh *handle = fh;
+ 
+-	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, false);
++	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_TRY_EXT_CTRLS);
+ }
+ 
+ static int uvc_ioctl_querymenu(struct file *file, void *fh,
 diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index a26bbec8d37b..dc20021f7ee0 100644
+index dc20021f7ee0..9471c342a310 100644
 --- a/drivers/media/usb/uvc/uvcvideo.h
 +++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -240,7 +240,7 @@ struct uvc_control_mapping {
- 	struct list_head ev_subs;
+@@ -902,6 +902,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
  
- 	u32 id;
--	u8 name[32];
-+	char *name;
- 	u8 entity[16];
- 	u8 selector;
+ int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
+ int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
++int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
++			   bool read);
  
+ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+ 		      struct uvc_xu_control_query *xqry);
 -- 
 2.31.0.rc2.261.g7f71774620-goog
 
