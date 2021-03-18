@@ -2,142 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E077340711
-	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 14:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90C333407D3
+	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 15:28:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230182AbhCRNob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Mar 2021 09:44:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34904 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230010AbhCRNn7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Mar 2021 09:43:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8902264E4D;
-        Thu, 18 Mar 2021 13:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616075039;
-        bh=M/awrcCSuKIqOO2dmf7RKrAzqBZawv3ByeWFBOHNV9Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tvzLhSlOEy7dCNqLkoFPSJ7DAlxsG5RAo0ns+QYpq+UrW9JrAUln88DcFs/NC0OJs
-         T+GBiXt5nHG8vVrImz57sLy1Krri1JXQIwe+PeXmVHvx3XaM85RFib2ALg12XqaaFB
-         fuy9UpJ2ezFNdlKGINaY3k8T2r/k07cicOzR/N3jzogfGsrrnkNeAVCKGZin7M19MH
-         OiE/XtNe3ry+YfI1fjH37CnNaOD5Z4MLNGTwp3GAKm8d7xwpjUQiZ4sXCtLDYS1pHx
-         3c6BtbyNjxYQBUEr38ghw3WHyIrRrBW3zT3g4bV/xfNTBCHbeZj1QiaCbBBo5m4roi
-         eUPIBahJZqtMQ==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Dmitry Vyukov <dvyukov@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        syzbot+142888ffec98ab194028@syzkaller.appspotmail.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: v4l2-core: explicitly clear ioctl input data
-Date:   Thu, 18 Mar 2021 14:43:19 +0100
-Message-Id: <20210318134334.2933141-2-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210318134334.2933141-1-arnd@kernel.org>
-References: <20210318134334.2933141-1-arnd@kernel.org>
+        id S230458AbhCRO2Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Mar 2021 10:28:24 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40167 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230269AbhCRO1x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Mar 2021 10:27:53 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id MtcplQCcy4XAGMtcslJ4xc; Thu, 18 Mar 2021 15:27:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616077670; bh=7d4WRjwjdRhgUzGV4dNC5F9d9OCGLLT4ebg/YkdJFAo=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=IqpfU1CZ50bDacYWYaqC4X7U42q0cbo6k6OYHWRwGUpIwIXVzWIdFUZtGhWqd4D3v
+         T6u1Cvk+92TCpK4YWNZpB2U5aiAKEHnRyd5FLlX+HYd8Q3E57mAx9GJEAM0hOmV06V
+         CJWcBUJXkZzhF3omp+30AqC4sfiS+g0+z6ixOVAg3uHgGU9oXfCeLLuKZj62JdfsbK
+         yzzmRTtHHcFsz/BEAHDtRXUoLaDG7unkdzpi47ihfdAYR3Nhl3Z+mKYamA4cmeuEgT
+         lKVl2EYpeuNnrW8bz5ZSZKQN4SQ+e5WUMWYk3XYFfFY1gZ0zTnZaeXD42OHuJ7lvDB
+         AytPw774q/UGA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] buffer.rst: fix incorrect :c:type
+Message-ID: <69475d79-b57d-b820-f02a-d705aef93456@xs4all.nl>
+Date:   Thu, 18 Mar 2021 15:27:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFPdgzcSaDifmp8vNEt5iYmq57AbRaAcCCQYPW6I1E12G2jyENve0qKToHouEunWUxo1hHa4yj0UdT8OCkkPkwmh76t5LgCP46Aui6i/DPOjfe2UtUDM
+ SP4rgR5GEXQ9T9ZYFiM/ZjUnh22uBFhHxaD4rETOLcb+n2WmyUt8fAHosziuDqbwlPwdH1uK5VhlM+Km9oSpAJAM3Nf3p65UcVQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+:c:type:`struct v4l2_requestbuffers` should be
+struct :c:type:`v4l2_requestbuffers`.
 
-As seen from a recent syzbot bug report, mistakes in the compat ioctl
-implementation can lead to uninitialized kernel stack data getting used
-as input for driver ioctl handlers.
-
-The reported bug is now fixed, but it's possible that other related
-bugs are still present or get added in the future. As the drivers need
-to check user input already, the possible impact is fairly low, but it
-might still cause an information leak.
-
-To be on the safe side, always clear the entire ioctl buffer before
-calling the conversion handler functions that are meant to initialize
-them.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 51 ++++++++++++++++------------
- 1 file changed, 29 insertions(+), 22 deletions(-)
+diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+index 4b2696a392df..e991ba73d873 100644
+--- a/Documentation/userspace-api/media/v4l/buffer.rst
++++ b/Documentation/userspace-api/media/v4l/buffer.rst
+@@ -585,7 +585,7 @@ Buffer Flags
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 2b1bb68dc27f..6cec92d0972c 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3164,12 +3164,23 @@ static int video_get_user(void __user *arg, void *parg,
- 
- 	if (cmd == real_cmd) {
- 		if (copy_from_user(parg, (void __user *)arg, n))
--			err = -EFAULT;
--	} else if (in_compat_syscall()) {
--		err = v4l2_compat_get_user(arg, parg, cmd);
--	} else {
--		switch (cmd) {
-+			return -EFAULT;
-+
-+		/* zero out anything we don't copy from userspace */
-+		if (n < _IOC_SIZE(real_cmd))
-+			memset((u8 *)parg + n, 0, _IOC_SIZE(real_cmd) - n);
-+
-+		return 0;
-+	}
-+
-+	/* zero out whole buffer first to deal with missing emulation */
-+	memset(parg, 0, _IOC_SIZE(real_cmd));
-+
-+	if (in_compat_syscall())
-+		return v4l2_compat_get_user(arg, parg, cmd);
-+
- #if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
-+	switch (cmd) {
- 		case VIDIOC_QUERYBUF_TIME32:
- 		case VIDIOC_QBUF_TIME32:
- 		case VIDIOC_DQBUF_TIME32:
-@@ -3182,28 +3193,24 @@ static int video_get_user(void __user *arg, void *parg,
- 
- 			*vb = (struct v4l2_buffer) {
- 				.index		= vb32.index,
--					.type		= vb32.type,
--					.bytesused	= vb32.bytesused,
--					.flags		= vb32.flags,
--					.field		= vb32.field,
--					.timestamp.tv_sec	= vb32.timestamp.tv_sec,
--					.timestamp.tv_usec	= vb32.timestamp.tv_usec,
--					.timecode	= vb32.timecode,
--					.sequence	= vb32.sequence,
--					.memory		= vb32.memory,
--					.m.userptr	= vb32.m.userptr,
--					.length		= vb32.length,
--					.request_fd	= vb32.request_fd,
-+				.type		= vb32.type,
-+				.bytesused	= vb32.bytesused,
-+				.flags		= vb32.flags,
-+				.field		= vb32.field,
-+				.timestamp.tv_sec	= vb32.timestamp.tv_sec,
-+				.timestamp.tv_usec	= vb32.timestamp.tv_usec,
-+				.timecode	= vb32.timecode,
-+				.sequence	= vb32.sequence,
-+				.memory		= vb32.memory,
-+				.m.userptr	= vb32.m.userptr,
-+				.length		= vb32.length,
-+				.request_fd	= vb32.request_fd,
- 			};
- 			break;
- 		}
--#endif
--		}
- 	}
-+#endif
- 
--	/* zero out anything we don't copy from userspace */
--	if (!err && n < _IOC_SIZE(real_cmd))
--		memset((u8 *)parg + n, 0, _IOC_SIZE(real_cmd) - n);
- 	return err;
- }
- 
--- 
-2.29.2
-
+       - ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF``
+       - 0x00000200
+-      - Only valid if :c:type:`struct v4l2_requestbuffers` flag ``V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF`` is
++      - Only valid if struct :c:type:`v4l2_requestbuffers` flag ``V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF`` is
+ 	set. It is typically used with stateless decoders where multiple
+ 	output buffers each decode to a slice of the decoded frame.
+ 	Applications can set this flag when queueing the output buffer
