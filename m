@@ -2,231 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BA8434003F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 08:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A5CD340055
+	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 08:40:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbhCRH15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Mar 2021 03:27:57 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36585 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229454AbhCRH1f (ORCPT
+        id S229454AbhCRHji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Mar 2021 03:39:38 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:54493 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229564AbhCRHjd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Mar 2021 03:27:35 -0400
+        Thu, 18 Mar 2021 03:39:33 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id Mn45lHgcWDUxpMn49lhyrD; Thu, 18 Mar 2021 08:27:33 +0100
+        id MnFglHlsgDUxpMnFjli0Ub; Thu, 18 Mar 2021 08:39:31 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616052453; bh=B+V7aOuFTru4IgleLpXfnk9Zd0MWyFMNnsii0CcXtOE=;
+        t=1616053171; bh=t7zX3uStAY+O9XYfCueTWPQZeC+Nq7xHQ70oX++CTTU=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=aHwkkk2kdSJO7TO/lnaYAMK0vDOBBU8tyzAbS/sNP1QOeaugc/vpXjFwzoYvMP+I2
-         xRCQ7RV77q0+C97jSQwMGkVrwJFIyn2vnNdrPsj0WItBVFHZBHKB8VCiI/fm2+FbR1
-         XAmFCBT4r/aMaVokjRRrIeIvJYI1b1dhHrkopfQyH7kRCnUinqj6od44Wq1QckMaH1
-         59m3Nn4jqEJyRhUf3vN+toFuT4FTlNKuiF+YafU42VXDtvZAxFfQjs158bO6KDZ1Tk
-         oMGD1uR1vef2q+/Mo6BLQdRkkmgf/CfN+W2qRbwo25aDpaAdPd+maToIdm6Qz49YtE
-         lBlUitteT1z3g==
-Subject: Re: [PATCH v6 15/17] media: uvcvideo: Check controls flags before
- accessing them
+        b=YxeuShmPnideda6ca+JlM3/S8DXbiSWvtZ4Ha0ddwXZsmquqP3mgtfmzLv85Jmsny
+         A/Ejp06DlIPIA6yzP7dwDxePSQU/wI4pOtfebStATNKJTkFuNXlqbotkIMpIadJk7O
+         iLK0JCZBXnSDepHqIA9QquV+o+ggPS2+orkfoong8SHmx+kmjFj7+iKpdeCtN+MkKw
+         lk/zbU5w4ZGpfpkM++ViKbvpgYNxYCmraC9yjl4fKXITqGnoaoNyVwq8RDsujNNUIm
+         LX2zsKCwsNADk6XhwqmnBBthvhnAKua/RhHm5iUJRh9M/4riNYHyccuPMrx4buv6ZC
+         P3wRTfjDvm6nw==
+Subject: Re: [PATCH v6 16/17] media: uvcvideo: Return -EACCES to inactive
+ controls
 To:     Ricardo Ribalda <ribalda@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>
 References: <20210317164511.39967-1-ribalda@chromium.org>
- <20210317164511.39967-16-ribalda@chromium.org>
+ <20210317164511.39967-17-ribalda@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <7e5bd33c-66a5-6a55-85b3-6fe3743a8e06@xs4all.nl>
-Date:   Thu, 18 Mar 2021 08:27:29 +0100
+Message-ID: <f2dfd4b9-6573-fe08-1ba5-5c10c5980cb8@xs4all.nl>
+Date:   Thu, 18 Mar 2021 08:39:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210317164511.39967-16-ribalda@chromium.org>
+In-Reply-To: <20210317164511.39967-17-ribalda@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCF0gcx4lNy0jcB+OE5yrQ0d78yBJtC9b82JgTQp/76TfiyB6Zue8ySOHrEFUQA6/Xc6I/0rdVdcDKxkg5txqElV5+okCBrYPGIbbARUM7RwjY+J0tcu
- qTBGlgbkrxBOdi0AJ3WX18Izuhw4Io1HC1WQrW1EVrmK844vIwfuX5FsMH6RfS1aqHh2e65iRUIoW9+GnGrUWyE+taOhLRg/StKY3+3fkDPwtDbNsfbxRZ9h
- s64wKcQBkDuhMQuwjBra0O4egUWXAjCwLe8SL0iTWqbKtEqVSGuuiPeOc8gtY6Dd2bcUsiNfzKFB35MuS6b7ugkDfFOicrGJwpQlyH/mdJlDy8aFHLpev5qz
- n1zCMGB20ADd1xjo1/OtYCJXhK8vHxYBdRDY3No5NIzQvVDYVH5OGGsrY9RJ8EgFcJD2EJF/
+X-CMAE-Envelope: MS4xfKvIHCu7saJDhWkVnrea4eChF7PqMmCoR/pGFUYGIOiCvP8TLIXMNMMLuf8sRevGIyv5NI3YcdKZhPXp/k6N01Yt4YHro7moh9uMiWrmdNmhEn+I9jR5
+ e7Bgv13AGbf/UJ+jpeWgC3eddcAjUQDEW3khKMMcoVxywiX+eN0kmykH9VYSikIY2OjE/DeEqr140Afb27jwlhcMRn35U3UQdZNw2rg7CMC58FKwmT/UisMr
+ 3D/Em8oTUqUT+/+OIy7zz+H3kYbv/GvfUuiv80/lMMxo9VLZFrwGtDO7K3sveT6tNuKbmt6k8LXPEIGc8tCRYC/3D4j8ZZqi++e7cBjyQU6DgjZyCqqQZCvU
+ ZoVUHFC+591tdn/Q2l+sOsG8xy//VWzkwrxWAZ8tSM/XMB02CLGSxNFlGiYYmUSbQjiVTEnZQu3H2mHm6zv5ozTt7iZCJLJ7vE/PHe9eczs78pWPo8Q=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Ricardo,
+
 On 17/03/2021 17:45, Ricardo Ribalda wrote:
-> We can figure out if reading/writing a set of controls can fail without
-> accessing them by checking their flags.
-> 
-> This way we can honor the API closer:
-> 
-> If an error is found when validating the list of controls passed with
-> VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to
-> indicate to userspace that no actual hardware was touched.
-> 
-> Fixes v4l2-compliance:
-> Control ioctls (Input 0):
-> 		warn: v4l2-test-controls.cpp(765): g_ext_ctrls(0) invalid error_idx 0
->                 fail: v4l2-test-controls.cpp(645): invalid error index write only control
->         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> If a control is inactive return -EACCES to let the userspace know that
+> the value will not be applied automatically when the control is active
+> again.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+
+In several of the patches in this series you added 'Suggested-by' or 'Credit-to'.
+Please use <hverkuil-cisco@xs4all.nl> so Cisco gets the credit as well :-)
+
 > ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 21 +++++++++++++++++
->  drivers/media/usb/uvc/uvc_v4l2.c | 39 ++++++++++++++++++++++++++++----
->  drivers/media/usb/uvc/uvcvideo.h |  1 +
->  3 files changed, 56 insertions(+), 5 deletions(-)
+>  drivers/media/usb/uvc/uvc_ctrl.c | 73 +++++++++++++++++++++++++-------
+>  drivers/media/usb/uvc/uvc_v4l2.c | 11 ++++-
+>  drivers/media/usb/uvc/uvcvideo.h |  3 +-
+>  3 files changed, 69 insertions(+), 18 deletions(-)
 > 
 > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 929e70dff11a..af1d4d9b8afb 100644
+> index af1d4d9b8afb..26d3494b401b 100644
 > --- a/drivers/media/usb/uvc/uvc_ctrl.c
 > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1046,6 +1046,27 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+> @@ -1046,10 +1046,62 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
 >  	return 0;
 >  }
 >  
-> +int uvc_ctrl_is_accesible(struct uvc_video_chain *chain, u32 v4l2_id, bool read)
-
-accesible -> accessible
-
-With that typo fixed you can add my:
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Thanks!
-
-	Hans
-
+> -int uvc_ctrl_is_accesible(struct uvc_video_chain *chain, u32 v4l2_id, bool read)
+> +static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
+> +				 struct uvc_control *ctrl,
+> +				 struct uvc_control_mapping *mapping)
 > +{
-> +	struct uvc_control_mapping *mapping;
-> +	struct uvc_control *ctrl;
+> +	struct uvc_control_mapping *master_map = NULL;
+> +	struct uvc_control *master_ctrl = NULL;
+> +	s32 val;
+> +	int ret;
 > +
-> +	if (__uvc_query_v4l2_class(chain, v4l2_id, 0) >= 0)
-> +		return -EACCES;
+> +	if (!mapping->master_id)
+> +		return false;
 > +
-> +	ctrl = uvc_find_control(chain, v4l2_id, &mapping);
-> +	if (!ctrl)
-> +		return -EINVAL;
+> +	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
+> +			   &master_ctrl, 0);
 > +
-> +	if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) && read)
-> +		return -EACCES;
+> +	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+> +		return false;
 > +
-> +	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
-> +		return -EACCES;
+> +	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> +	if (ret < 0 || val == mapping->master_manual)
+> +		return false;
 > +
-> +	return 0;
+> +	return true;
 > +}
 > +
->  static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
+> +int uvc_ctrl_is_accesible(struct uvc_video_chain *chain, u32 v4l2_id,
+
+Same typo: accesible -> accessible
+
+> +			  unsigned long ioctl)
 >  {
->  	const char *name;
+>  	struct uvc_control_mapping *mapping;
+>  	struct uvc_control *ctrl;
+> +	bool read, try;
+> +
+> +	switch (ioctl) {
+> +	case VIDIOC_G_EXT_CTRLS:
+> +		read = true;
+> +		try = false;
+> +		break;
+> +	case VIDIOC_S_EXT_CTRLS:
+> +		read = false;
+> +		try = false;
+> +		break;
+> +	case VIDIOC_TRY_EXT_CTRLS:
+> +		read = false;
+> +		try = true;
+> +		break;
+> +	case VIDIOC_G_CTRL:
+> +		read = true;
+> +		try = false;
+> +		break;
+> +	case VIDIOC_S_CTRL:
+> +		read = false;
+> +		try = false;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+
+That's ugly. Just remove the bools and switch and just check the ioctl below...
+
+>  
+>  	if (__uvc_query_v4l2_class(chain, v4l2_id, 0) >= 0)
+>  		return -EACCES;
+> @@ -1064,6 +1116,9 @@ int uvc_ctrl_is_accesible(struct uvc_video_chain *chain, u32 v4l2_id, bool read)
+>  	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
+>  		return -EACCES;
+>  
+> +	if (!read && !try && uvc_ctrl_is_inactive(chain, ctrl, mapping))
+
+and this becomes:
+
+	if ((ioctl == VIDIOC_S_EXT_CTRLS || ioctl == VIDIOC_S_CTRL) &&
+	    uvc_ctrl_is_inactive(chain, ctrl, mapping))
+
+Much, much simpler!
+
+> +		return -EACCES;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1086,8 +1141,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  	struct uvc_control_mapping *mapping,
+>  	struct v4l2_queryctrl *v4l2_ctrl)
+>  {
+> -	struct uvc_control_mapping *master_map = NULL;
+> -	struct uvc_control *master_ctrl = NULL;
+>  	const struct uvc_menu_info *menu;
+>  	unsigned int i;
+>  
+> @@ -1103,18 +1156,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>  		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>  
+> -	if (mapping->master_id)
+> -		__uvc_find_control(ctrl->entity, mapping->master_id,
+> -				   &master_map, &master_ctrl, 0);
+> -	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> -		s32 val;
+> -		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> -		if (ret < 0)
+> -			return ret;
+> -
+> -		if (val != mapping->master_manual)
+> -				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> -	}
+> +	if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
+> +		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+>  
+>  	if (!ctrl->cached) {
+>  		int ret = uvc_ctrl_populate_cache(chain, ctrl);
 > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index ed262f61e6a6..ce55b4bff687 100644
+> index ce55b4bff687..8e9051a245c7 100644
 > --- a/drivers/media/usb/uvc/uvc_v4l2.c
 > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1045,6 +1045,26 @@ static int uvc_ioctl_s_ctrl(struct file *file, void *fh,
->  	return 0;
->  }
->  
-> +static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
-> +				 struct v4l2_ext_controls *ctrls,
-> +				 unsigned long ioctl)
-> +{
-> +	struct v4l2_ext_control *ctrl = ctrls->controls;
-> +	unsigned int i;
-> +	int ret = 0;
-> +
-> +	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
-> +		ret = uvc_ctrl_is_accesible(chain, ctrl->id,
-> +					    ioctl == VIDIOC_G_EXT_CTRLS);
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +	ctrls->error_idx = ioctl == VIDIOC_TRY_EXT_CTRLS ? i : ctrls->count;
-> +
-> +	return ret;
-> +}
-> +
->  static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
->  				 struct v4l2_ext_controls *ctrls)
->  {
-> @@ -1054,6 +1074,10 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
->  	unsigned int i;
+> @@ -999,6 +999,10 @@ static int uvc_ioctl_g_ctrl(struct file *file, void *fh,
+>  	struct v4l2_ext_control xctrl;
 >  	int ret;
 >  
-> +	ret = uvc_ctrl_check_access(chain, ctrls, VIDIOC_G_EXT_CTRLS);
-> +	if (ret < 0)
+> +	ret = uvc_ctrl_is_accesible(chain, ctrl->id, VIDIOC_G_CTRL);
+> +	if (ret)
 > +		return ret;
 > +
->  	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
->  		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
->  			struct v4l2_queryctrl qc = { .id = ctrl->id };
-> @@ -1090,13 +1114,17 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+>  	memset(&xctrl, 0, sizeof(xctrl));
+>  	xctrl.id = ctrl->id;
 >  
->  static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
->  				     struct v4l2_ext_controls *ctrls,
-> -				     bool commit)
-> +				     unsigned long ioctl)
->  {
->  	struct v4l2_ext_control *ctrl = ctrls->controls;
->  	struct uvc_video_chain *chain = handle->chain;
->  	unsigned int i;
+> @@ -1023,6 +1027,10 @@ static int uvc_ioctl_s_ctrl(struct file *file, void *fh,
+>  	struct v4l2_ext_control xctrl;
 >  	int ret;
 >  
-> +	ret = uvc_ctrl_check_access(chain, ctrls, ioctl);
-> +	if (ret < 0)
+> +	ret = uvc_ctrl_is_accesible(chain, ctrl->id, VIDIOC_S_CTRL);
+> +	if (ret)
 > +		return ret;
 > +
->  	ret = uvc_ctrl_begin(chain);
->  	if (ret < 0)
->  		return ret;
-> @@ -1105,14 +1133,15 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
->  		ret = uvc_ctrl_set(handle, ctrl);
->  		if (ret < 0) {
->  			uvc_ctrl_rollback(handle);
-> -			ctrls->error_idx = commit ? ctrls->count : i;
-> +			ctrls->error_idx = ioctl == VIDIOC_S_EXT_CTRLS ?
-> +						    ctrls->count : i;
->  			return ret;
->  		}
+>  	memset(&xctrl, 0, sizeof(xctrl));
+>  	xctrl.id = ctrl->id;
+>  	xctrl.value = ctrl->value;
+> @@ -1054,8 +1062,7 @@ static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
+>  	int ret = 0;
+>  
+>  	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+> -		ret = uvc_ctrl_is_accesible(chain, ctrl->id,
+> -					    ioctl == VIDIOC_G_EXT_CTRLS);
+> +		ret = uvc_ctrl_is_accesible(chain, ctrl->id, ioctl);
+>  		if (ret)
+>  			break;
 >  	}
->  
->  	ctrls->error_idx = 0;
->  
-> -	if (commit)
-> +	if (ioctl == VIDIOC_S_EXT_CTRLS)
->  		return uvc_ctrl_commit(handle, ctrls->controls, ctrls->count);
->  	else
->  		return uvc_ctrl_rollback(handle);
-> @@ -1123,7 +1152,7 @@ static int uvc_ioctl_s_ext_ctrls(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  
-> -	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, true);
-> +	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_S_EXT_CTRLS);
->  }
->  
->  static int uvc_ioctl_try_ext_ctrls(struct file *file, void *fh,
-> @@ -1131,7 +1160,7 @@ static int uvc_ioctl_try_ext_ctrls(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  
-> -	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, false);
-> +	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_TRY_EXT_CTRLS);
->  }
->  
->  static int uvc_ioctl_querymenu(struct file *file, void *fh,
 > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index dc20021f7ee0..3288b118264e 100644
+> index 3288b118264e..4e86d0983d58 100644
 > --- a/drivers/media/usb/uvc/uvcvideo.h
 > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -902,6 +902,7 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
+> @@ -902,7 +902,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
 >  
 >  int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
 >  int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
-> +int uvc_ctrl_is_accesible(struct uvc_video_chain *chain, u32 v4l2_id, bool read);
+> -int uvc_ctrl_is_accesible(struct uvc_video_chain *chain, u32 v4l2_id, bool read);
+> +int uvc_ctrl_is_accesible(struct uvc_video_chain *chain, u32 v4l2_id,
+> +			  unsigned long ioctl);
 >  
 >  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
 >  		      struct uvc_xu_control_query *xqry);
 > 
 
+Regards,
+
+	Hans
