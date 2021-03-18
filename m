@@ -2,104 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01DD834026D
-	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 10:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5335834030D
+	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 11:22:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbhCRJtD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Mar 2021 05:49:03 -0400
-Received: from gofer.mess.org ([88.97.38.141]:59959 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229921AbhCRJsh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Mar 2021 05:48:37 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 71B13C637B; Thu, 18 Mar 2021 09:48:36 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1616060916; bh=Pv/D43vWxdTxat2v/gFinn89BN7TufHcS6UDEcEt44U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kG264BoWnuKy/fR6VC4jyqDWbuIyhKrjNKP/1tbolhhKbD7D777YvVd3OY09h5JQc
-         Ng1UP2GR88Kd7RlpR1ey5seI0IqcZ4R2OwoLNacdpOwOBAr75+MdrkQajz2+KFhTgn
-         Niz5cl6QQqbo6RCDmKLKI7iScBxp1T5N5OAX+0cBl/xM4BspBWW2q9RnrpYXfVcY8s
-         0FBVHrYnLR/HCnITrCo5GNBpxv2V1ZdwMG076T67GY7bQdFJr2ELftr5ta9rFbiLXM
-         rFfzOG0+OReKwgvdLc+SBkFx15H7DLHRw05f8k0/sXVpsnR+9bK8nzSkO7y9YSf3Dm
-         YviPNT5lCwdkw==
-Date:   Thu, 18 Mar 2021 09:48:36 +0000
-From:   Sean Young <sean@mess.org>
-To:     Nikolaos Beredimas <beredim@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Revisiting ITE8708 on ASUS PN50 uses a 16 byte io region
-Message-ID: <20210318094836.GA31678@gofer.mess.org>
-References: <CAMbLOeCCwrfoGvaV4vWPfF7tHnE-b4sFUNmK8v=ekRZAtjA-4w@mail.gmail.com>
+        id S229841AbhCRKVr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Mar 2021 06:21:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229564AbhCRKVr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Mar 2021 06:21:47 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 592B0C06174A;
+        Thu, 18 Mar 2021 03:21:47 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id f124so1406459qkj.5;
+        Thu, 18 Mar 2021 03:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Xr7Q5W0mf+yiUAVixOuldC+FC1OKy7M7Vy31w+xy1Y=;
+        b=TEtG4SdAnzFyy/M2rKDKRnqAVekeFrgpAB2iHD5DbcokIKv4I1qcJq6kttnmIaFOPG
+         FA9XdKTGR191nxkB/ni54K5QALdJR2VrdcDuOMVEeqqjUdHLd6ag5k9tQ0UfoyWAyicU
+         2+XaSdblLbp6au25IshXW5b5JgmOK7MWgbLsuIECUC8WBa+6rP/0Y2bndmwmzBJBfglU
+         Zyy/TRO2ga/nkQkmmXBnXCezg9UEB3VLARDsYcpMlhXvP2Am9qvPbN2bKIBUPCZPaHmQ
+         KrWVzK/dYiFcKm4TOl6n+l34Pz44dhj5abexVwtedQ+ZikXrjKVYMwUDqNGEwPVenyMK
+         H5vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Xr7Q5W0mf+yiUAVixOuldC+FC1OKy7M7Vy31w+xy1Y=;
+        b=en06t8tcCK2q2Hq66xsZ9IlMuX1WMjtslJYMHGCP0Q1K1t0b5nFnGEvHT0PUcfVyCr
+         gjli2Fb6g5qJEmFqJvi9vaEtr3XucfBueHnhY47gtUsqerSvqOxenm7w2h8E2CF29fJH
+         S9COtC4ernIo52rRYpKZFhqko5lZ4wsuDQISW6/ajfM3rFdXbfsGYRh3NGiczluHhTY3
+         Pl/wzkxaHdJ4nDbZtnMhEmGaU+qa/nTc0MmTZU7dKR+xY16UnEQMg9SG6FtvkqfTkBwT
+         CAYnve0JQ+v4VNOJGOUkKJAgAbc1FldXdgPE9+SHFUgg5MCF9YFEbOAY4mjtBZT5GpY9
+         DhUg==
+X-Gm-Message-State: AOAM530vun08Bvk7dt3nrkKdm5FRBH8teH33oz6PUKPYMZN7Y8WvKZFI
+        mjb/T4XP8ZFB01nr5T3mmMo=
+X-Google-Smtp-Source: ABdhPJzDRs+L/5k4egcTCwL/J4AHYZ9kwMa0q9V42HhyhSCgubQPEP3sb7Y0pb0+6jOA69PKKwYxsg==
+X-Received: by 2002:a37:6294:: with SMTP id w142mr3528165qkb.255.1616062906647;
+        Thu, 18 Mar 2021 03:21:46 -0700 (PDT)
+Received: from localhost.localdomain ([156.146.54.246])
+        by smtp.gmail.com with ESMTPSA id r3sm1364387qkm.129.2021.03.18.03.21.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Mar 2021 03:21:46 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        chris@chris-wilson.co.uk, tvrtko.ursulin@intel.com,
+        mika.kuoppala@linux.intel.com, unixbhaskar@gmail.com,
+        maarten.lankhorst@linux.intel.com, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     rdunlap@infradead.org
+Subject: [PATCH] drm/i915/gt: A typo fix
+Date:   Thu, 18 Mar 2021 15:49:32 +0530
+Message-Id: <20210318101932.19894-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMbLOeCCwrfoGvaV4vWPfF7tHnE-b4sFUNmK8v=ekRZAtjA-4w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nikolaos,
 
-On Wed, Mar 17, 2021 at 04:41:15PM +0200, Nikolaos Beredimas wrote:
-> Hi,
-> There was a thread on this list last September
-> https://www.spinics.net/lists/linux-media/msg177724.html
-> about the IR module on the ASUS PN50.
-> 
-> Even though that discussion never fully resolved,
-> it did contain the solution to get the IR working on the PN50.
-> I have documented this at
-> https://forum.libreelec.tv/thread/23145-asus-pn50-challenge/?postID=152207#post152207
-> 
-> So, what I had to do is edit a single line of drivers/media/rc/ite-cir.h
-> and change IT8708_IOREG_LENGTH 0x08 to IT8708_IOREG_LENGTH 0x10
-> and the IR module is now recognized and working
-> 
-> How do I go about submitting this as a patch?
-> I am a little overwhelmed honestly.
-> Do I follow https://www.linuxtv.org/wiki/index.php/Development:_How_to_submit_patches
-> ?
-> And which git tree?
+s/bariers/barriers/
 
-Thanks for fixing this. The patch should be a diff against
-https://git.linuxtv.org/media_tree.git/
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ drivers/gpu/drm/i915/gt/intel_timeline.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is the guide for submitting patches:
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
+index 037b0e3ccbed..25fc7f44fee0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_timeline.c
++++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+@@ -435,7 +435,7 @@ void intel_timeline_exit(struct intel_timeline *tl)
+ 	spin_unlock(&timelines->lock);
 
+ 	/*
+-	 * Since this timeline is idle, all bariers upon which we were waiting
++	 * Since this timeline is idle, all barriers upon which we were waiting
+ 	 * must also be complete and so we can discard the last used barriers
+ 	 * without loss of information.
+ 	 */
+--
+2.26.2
 
-> 
-> --- a/drivers/media/rc/ite-cir.h
-> +++ b/drivers/media/rc/ite-cir.h
-> @@ -406,7 +406,7 @@
->  #define IT8708_C0WCR 0x06 /* wakeup code read/write register */
->  #define IT8708_C0WPS 0x07 /* wakeup power control/status register */
-> 
-> -#define IT8708_IOREG_LENGTH 0x08 /* length of register file */
-> +#define IT8708_IOREG_LENGTH 0x10 /* length of register file */
-
-I don't think this is correct though. There are other devices that have
-length of 8; I think the correct solution.
-
-I think:
-
-        if (!pnp_port_valid(pdev, io_rsrc_no) ||
-            pnp_port_len(pdev, io_rsrc_no) != dev_desc->io_region_size) {
-                dev_err(&pdev->dev, "IR PNP Port not valid!\n");
-                goto exit_free_dev_rdev;
-        }
-
-
-should be changed to:
-
-        if (!pnp_port_valid(pdev, io_rsrc_no) ||
-            pnp_port_len(pdev, io_rsrc_no) < dev_desc->io_region_size) {
-                dev_err(&pdev->dev, "IR PNP Port not valid!\n");
-                goto exit_free_dev_rdev;
-        }
-
-Thanks
-
-> 
->  /* two more registers that are defined in the hacked driver, but can't be
->   * found in the data sheets; no idea what they are or how they are accessed,
