@@ -2,144 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C60EE3418F2
-	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 10:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA4693419E6
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 11:27:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbhCSJ5O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Mar 2021 05:57:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49967 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229847AbhCSJ5D (ORCPT
+        id S229770AbhCSK0q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Mar 2021 06:26:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59320 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229618AbhCSK0T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Mar 2021 05:57:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616147822;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3l3BfTP70gXS5Doqn0pw4lSC+ETHFzwyHhsUK4GEBKU=;
-        b=RuU4kqz5fsi9ox2BUiAntEbtUfkysIdHxNrCd2KfzsEaSC3GysIwvcwlo50dlfXUVY6qvb
-        TjVnY3mb+Zrp99vZLr0G+vBdqzvhm8LvlndBcYmlmchsc2kMR7DVUVBWmjJ4msyFGgY7Tx
-        fDnxydbiDLTnkjnXk7YmYXcZ+rmj4+Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-6SdKBYoIOhShQtyNfVyU4w-1; Fri, 19 Mar 2021 05:56:59 -0400
-X-MC-Unique: 6SdKBYoIOhShQtyNfVyU4w-1
-Received: by mail-wm1-f70.google.com with SMTP id f9so12703956wml.0
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 02:56:59 -0700 (PDT)
+        Fri, 19 Mar 2021 06:26:19 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F1FC06174A
+        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 03:26:18 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo4932365wmq.4
+        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 03:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+BM9qjgRBtzzEHVG8USaG+L3E2C1rpnP458cngJi+0E=;
+        b=JgwcIi7TkFET2tSPR73+DqDAaMazBeEdTaQ2Uo8bBUBke7n6NwS/bHfATPI+cQpGnd
+         3gqlCO3xM+wpBFVSkFoXQIC3JaoSYMlULyW6PVJVUUdqUme7dPwuUb0BiT+G9q4nDsoA
+         WV9Io+eHP/NfkN79Kqn2t0piDO1kUENxpRaBf+43fQ6w13HhyQNxVrb8mg7HKd39WdRL
+         yx1uruUmzNnjZ9Hbol+uMytRO8wzkw2n3Hm3srbYN8QJwsb6VuAtq/WsBLsRK2JtlDtn
+         BgHaF6y60Z1ibeSBxcxTp1sDatq8UYFs5Rdx5Ang3moYdmjmn9CPDAThBobXGHD0NVtZ
+         I5LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3l3BfTP70gXS5Doqn0pw4lSC+ETHFzwyHhsUK4GEBKU=;
-        b=F0lcfuXtamLpRhYNxYZuMa22K/kKlKJ6J1XSYDlcW6d4hwbjxMpGcdPSyWDqIwrPA+
-         4envRHvC7LTWZOO1bBPCm+qmKLWxfPWCsshADL8YMMUBLBmVPHR9VsXh+f2WdH41fFDQ
-         LuRQNnS6CaBAMIt5cEmHoBsvUajEb7wN/r2Gb7uC2aiBJkoMhSr7oPxvMWQ8wx7G/vMv
-         SyqxVI7pKOWxPsNMLXYFrc8w91JQLAxlWH6ugZjWizk/kQ0M7LhZGckZ+nM1uWN9h0m3
-         5J8LvExXuiLwbIJP0aOck5TJunXHwaLGa1myq/CKROnyS7UMssAbCnvZRXpkOc4lfUsS
-         fzZw==
-X-Gm-Message-State: AOAM532i4GSuhy0lNy6G2LRrbBH1pTJLn+6nRRcXCyTg5FtPh6GFLa+8
-        9QC0WZr3pxOJYZETimXdoCpMWrAA/VWAwd/i/DxV7E7bu4QPCqV3Y697cSPcSHt0F3WePmM6bz3
-        5OtzrPHIX0AM9Ehua55qioI+BzVNDReAT5qHNlBI=
-X-Received: by 2002:a5d:560e:: with SMTP id l14mr3638694wrv.10.1616147818278;
-        Fri, 19 Mar 2021 02:56:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydXZ7PTUXXk61n8Vm+NGA5deM8sQ8DWxF3xA9WDgrGsCesLVfERpF5oUV4xlX2RUpBfsYQ1O9Hc0Hb/dn7k7o=
-X-Received: by 2002:a5d:560e:: with SMTP id l14mr3638680wrv.10.1616147818103;
- Fri, 19 Mar 2021 02:56:58 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+BM9qjgRBtzzEHVG8USaG+L3E2C1rpnP458cngJi+0E=;
+        b=c7fxVBNHrOfd/FFJweH43mz7dY1wOKI1vL5LixncSY2LwHXgPOT+kv02D0MNXYyMxu
+         zCdSb9aESH5J8Qa9nDLYj4xO90w5RzO0WhtLHMhAOG5rOmmC5+cIkZj8bzJ4FzlP1b+1
+         HVCsU6QkTJRdA9jsgprTDqYXE8jK8TAaqF/eBzmla13tVsKVlweevsSrxJArOr6rj1Su
+         GXCjNVlKG1EBre+6WOakuA4PXq5Pw9GMq6ZUWFnr/iQmUCnBwji5q4M0tZYqJShJmzFV
+         LEUmEyu+V2Ju7GnytUVkMeO56PAXIVjb+1yWRFVG2zchEi4HYajEfyMGq1cCqYqx34Go
+         tUJA==
+X-Gm-Message-State: AOAM532ZvoNI+YvwPIgJPFVQ9fBYhmbVJtbpUoC6Zvp5yhczEizdqQSB
+        4JvsGGPywA0VWAWfYdy2D8E59Qx67Zg=
+X-Google-Smtp-Source: ABdhPJzFRx4Cs9WH83OLMH5tbUIVW1HdFZa2yAwJ1aRAjP5uoF3iI2vbs4aRwYy+5nAUKYkT36kRog==
+X-Received: by 2002:a7b:c0c7:: with SMTP id s7mr3078885wmh.5.1616149577104;
+        Fri, 19 Mar 2021 03:26:17 -0700 (PDT)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id h21sm5473571wmp.10.2021.03.19.03.26.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Mar 2021 03:26:16 -0700 (PDT)
+Date:   Fri, 19 Mar 2021 10:26:14 +0000
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>
+Subject: Re: [PATCH 1/3] media: imx: imx7_mipi_csis: Runtime suspend in
+ .s_stream() error path
+Message-ID: <20210319102614.zjh4gawatpivvj7v@arch-thunder.localdomain>
+References: <20210319011735.26846-1-laurent.pinchart@ideasonboard.com>
+ <20210319011735.26846-2-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-References: <20210319082428.3294591-1-lee.jones@linaro.org> <20210319082428.3294591-11-lee.jones@linaro.org>
-In-Reply-To: <20210319082428.3294591-11-lee.jones@linaro.org>
-From:   Karol Herbst <kherbst@redhat.com>
-Date:   Fri, 19 Mar 2021 10:56:47 +0100
-Message-ID: <CACO55tvYCgxXuqwoyXbVL50zLqPGQck_EjMxK_yePgG6tHnxKw@mail.gmail.com>
-Subject: Re: [PATCH 10/19] drm/nouveau/nouveau_bo: Remove unused variables 'dev'
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Jeremy Kolb <jkolb@brandeis.edu>, David Airlie <airlied@linux.ie>,
-        nouveau <nouveau@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, Ben Skeggs <bskeggs@redhat.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210319011735.26846-2-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 19, 2021 at 9:25 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/nouveau/nouveau_bo.c: In function =E2=80=98nouveau_ttm_t=
-t_populate=E2=80=99:
->  drivers/gpu/drm/nouveau/nouveau_bo.c:1228:17: warning: variable =E2=80=
-=98dev=E2=80=99 set but not used [-Wunused-but-set-variable]
->  drivers/gpu/drm/nouveau/nouveau_bo.c: In function =E2=80=98nouveau_ttm_t=
-t_unpopulate=E2=80=99:
->  drivers/gpu/drm/nouveau/nouveau_bo.c:1252:17: warning: variable =E2=80=
-=98dev=E2=80=99 set but not used [-Wunused-but-set-variable]
->
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Jeremy Kolb <jkolb@brandeis.edu>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Hi Laurent,
+On Fri, Mar 19, 2021 at 03:17:33AM +0200, Laurent Pinchart wrote:
+> If the .s_stream() handler fails after calling pm_runtime_get_sync(),
+> call pm_runtime_put() in the error path.
+> 
+> While at it add a few blank lines to make the code more readable.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks LGTM,
+
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+------
+Cheers,
+     Rui
+
 > ---
->  drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index bd587e550d99..c6cd60896969 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -694,6 +694,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+>  			return ret;
+>  
+>  		mipi_csis_clear_counters(state);
+> +
+>  		ret = pm_runtime_get_sync(&state->pdev->dev);
+>  		if (ret < 0) {
+>  			pm_runtime_put_noidle(&state->pdev->dev);
+> @@ -701,10 +702,11 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+>  		}
+>  		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
+>  		if (ret < 0 && ret != -ENOIOCTLCMD)
+> -			return ret;
+> +			goto done;
+>  	}
+>  
+>  	mutex_lock(&state->lock);
+> +
+>  	if (enable) {
+>  		if (state->flags & ST_SUSPENDED) {
+>  			ret = -EBUSY;
+> @@ -732,7 +734,9 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+>  
+>  unlock:
+>  	mutex_unlock(&state->lock);
+> -	if (!enable)
+> +
+> +done:
+> +	if (!enable || ret < 0)
+>  		pm_runtime_put(&state->pdev->dev);
+>  
+>  	return ret;
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 >
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouve=
-au/nouveau_bo.c
-> index 281e9ed139895..913035ab85ec2 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1250,7 +1250,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->  {
->         struct ttm_tt *ttm_dma =3D (void *)ttm;
->         struct nouveau_drm *drm;
-> -       struct device *dev;
->         bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->
->         if (ttm_tt_is_populated(ttm))
-> @@ -1263,7 +1262,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->         }
->
->         drm =3D nouveau_bdev(bdev);
-> -       dev =3D drm->dev->dev;
->
->         return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
->  }
-> @@ -1273,14 +1271,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev=
-,
->                           struct ttm_tt *ttm)
->  {
->         struct nouveau_drm *drm;
-> -       struct device *dev;
->         bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->
->         if (slave)
->                 return;
->
->         drm =3D nouveau_bdev(bdev);
-> -       dev =3D drm->dev->dev;
->
->         return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
->  }
-> --
-> 2.27.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
-
+> 
