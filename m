@@ -2,215 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F30D23417E3
-	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 10:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E98E3417FE
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 10:11:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbhCSJC2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Mar 2021 05:02:28 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:33681 "EHLO
+        id S229818AbhCSJKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Mar 2021 05:10:30 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:40951 "EHLO
         lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229769AbhCSJCK (ORCPT
+        by vger.kernel.org with ESMTP id S229469AbhCSJKJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Mar 2021 05:02:10 -0400
+        Fri, 19 Mar 2021 05:10:09 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id NB1BlKyCEGEYcNB1ElR6w0; Fri, 19 Mar 2021 10:02:08 +0100
+        id NB8tlL0cMGEYcNB8xlR8DD; Fri, 19 Mar 2021 10:10:07 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616144528; bh=v+kMtDv2szbKV/KSjKOL3Mzf9CQd1p6KDStDP9SmKi4=;
+        t=1616145007; bh=kdwiGTlyiyal7/iY1DUBB7afqQIwIOb4sbTTL/ZdtuA=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=OLeHK1hgcxvaUWo7FTFu0+fJr3mP11WDDX1IvhlXd1kM1tuXGH95LDbtPmtLtro1v
-         Dt1yCEfp6A9BlcZ15eqT8OChU8kBORe25ZL7sPxmABxTpJOQ+CCcmpXDSkveUx2K66
-         DRPki6z+D35ZHc19hSJ5vXJL1CKwh7OfQ8luVq7hI70/bldx6AoRe13WrEHxsI0uol
-         wKF4dht5R181yJyB9Q5jBelLIakzu/CmJXSbVwa8ywCvSBcD73t8rgBCTr9HMiwaWv
-         KdL9njkZvLXo76kxMZdeNYZOrNUtfIIJHJnjldVnuNW4q2OlFaFQ/oW9zBepENQSic
-         vQo1jZJOgq0bw==
-Subject: Re: [PATCH v7 01/17] media: v4l2-ioctl: Fix check_ext_ctrls
+        b=dYxJLCARxKf3raFFrKahGCNEORZUmKdUJi7wngdewVWmkBTBeykOEL1cswy9xjmAq
+         9DWsgY7z+j9jDVQL6F4RJddm23pr0SPDob9jurMIONXVSZ2f+WmiizYx17deviU4VS
+         bxIZHk8HJxRiQ0lHnUm81ALW3Em+qVXN9s7il9YINFiEt3M3XuY4y9Op2CNuaBH7YG
+         qearfefUA4N3nkSYj8g5+XpkTWVe71WBtRWitF7LSHlmks4IaEztsSy+Ptw0xSq5wf
+         Vup3iLr/sArZ+TJfsAApBJVLuusL3T3ODJS3qMH9PihwBnTt3Jp/lbv9yrdDthC/TX
+         PT/DH40Nsgd1g==
+Subject: Re: [PATCH v7 13/17] media: uvcvideo: Return -EACCES to inactive
+ controls
 To:     Ricardo Ribalda <ribalda@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
-Cc:     stable@vger.kernel.org
 References: <20210318202928.166955-1-ribalda@chromium.org>
- <20210318202928.166955-2-ribalda@chromium.org>
+ <20210318202928.166955-14-ribalda@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <8b3305d2-ec9c-2fcd-e21c-af11c28ead86@xs4all.nl>
-Date:   Fri, 19 Mar 2021 10:02:05 +0100
+Message-ID: <21b313b4-dbdf-c1bd-450d-723c601cb61a@xs4all.nl>
+Date:   Fri, 19 Mar 2021 10:10:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210318202928.166955-2-ribalda@chromium.org>
+In-Reply-To: <20210318202928.166955-14-ribalda@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDdekmBROP3njrA+7a5rf05vsEaw5hswsEbm5PXHgoJShDMpy4iRl3QiyI9V6rwSlNFvIzE5o7qnAf4qaPfA+Z0OuThOe7eOa1NWvGlYLVB/LMuMalpS
- NyJ9h0bSaJigUqo1ud+V3sTa5rkQFpSUU8qjRmEkBVtWl4u1fVYHT4Fby+RdNFq8x3ZKgpq2IP8Wi9pT/LWBnvsAYHk/IC7pqJnOA6dYmzIG4bOcnUC1BNXo
- SqqtVDBwGUD1LyOH7+D4w+TqlnHkxX7csTC7hEvjXPwSi29wpXabEhpK8HfaXCDyyEzb+fyRFN6ZPF1bMwVkEG2T/tyVGeRykmljba2Z27p86ClOQnKOmgJT
- DrXt0++G+DO92P093hGTv3MWliVLZtb5djjzpoKfF1FhtioVDnPTnbChhQ1GkkRNWfBYh+mWhOLoHb2Z2tCQNmAdnXzjahGp6eBUCVIT6ddoH03NmiA=
+X-CMAE-Envelope: MS4xfN7fWmTHLuVF5erNe1DtrY4Dw/sV9PzsnaT3yvQeSbtzBYy3Yq3heugGI0pbHHp7RTzq57Wrm5pYs0kYwebBga/rqeMmz/eRX+lvdVXlp2CNyBPk60uP
+ 8be29rEwy9QKVESmY5ipKhrKq2nAJUAeFuPSr5kk7Qtdz4tXZlyz58je0rqtW0aRPkQMR1GGeMYItREYu3KSd/+m9nQGKeyGerUq1qFqXICRmAY/FA3e56dW
+ np/4aiANuisla42TIe/H2brQy6PrBwflfn5hy2aqh7V8rGLylf8kDQo3vY2+HBP6ScxpeJBrhNUnciwJ2BtIi0DtcRoIb2Qf5SKz7dCCUDqaJgvLftj4zrNo
+ Hj7WUlEnaAimOiQwr243G0oMgGgKCkkXmSFPy8YUpaxO67l+y2ZAU9sXRodGntc3wBem8bqR
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 18/03/2021 21:29, Ricardo Ribalda wrote:
-> Drivers that do not use the ctrl-framework use this function instead.
+> If a control is inactive return -EACCES to let the userspace know that
+> the value will not be applied automatically when the control is active
+> again.
 > 
-> Fix the following issues:
-> 
-> - Do not check for multiple classes when getting the DEF_VAL.
-> - Return -EINVAL for request_api calls
-> - Default value cannot be changed, return EINVAL as soon as possible.
-> - Return the right error_idx
-> [If an error is found when validating the list of controls passed with
-> VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to
-> indicate to userspace that no actual hardware was touched.
-> It would have been much nicer of course if error_idx could point to the
-> control index that failed the validation, but sadly that's not how the
-> API was designed.]
-> 
-> Fixes v4l2-compliance:
-> Control ioctls (Input 0):
->         warn: v4l2-test-controls.cpp(834): error_idx should be equal to count
->         warn: v4l2-test-controls.cpp(855): error_idx should be equal to count
-> 		fail: v4l2-test-controls.cpp(813): doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls)
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
-> Buffer ioctls (Input 0):
-> 		fail: v4l2-test-buffers.cpp(1994): ret != EINVAL && ret != EBADR && ret != ENOTTY
-> 	test Requests: FAIL
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 6fa6f831f095 ("media: v4l2-ctrls: add core request support")
-> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 59 ++++++++++++++++++----------
->  1 file changed, 38 insertions(+), 21 deletions(-)
+>  drivers/media/usb/uvc/uvc_ctrl.c | 68 ++++++++++++++++++++++----------
+>  drivers/media/usb/uvc/uvc_v4l2.c | 11 +++++-
+>  drivers/media/usb/uvc/uvcvideo.h |  2 +-
+>  3 files changed, 58 insertions(+), 23 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 31d1342e61e8..ccd21b4d9c72 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -908,7 +908,7 @@ static void v4l_print_default(const void *arg, bool write_only)
->  	pr_cont("driver-specific ioctl\n");
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 24fd5afc4e4f..1ec8333811bc 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1046,8 +1046,33 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+>  	return 0;
 >  }
 >  
-> -static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
-> +static bool check_ext_ctrls(struct v4l2_ext_controls *c, unsigned long ioctl)
->  {
->  	__u32 i;
->  
-> @@ -917,23 +917,40 @@ static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
->  	for (i = 0; i < c->count; i++)
->  		c->controls[i].reserved2[0] = 0;
->  
-> -	/* V4L2_CID_PRIVATE_BASE cannot be used as control class
-> -	   when using extended controls.
-> -	   Only when passed in through VIDIOC_G_CTRL and VIDIOC_S_CTRL
-> -	   is it allowed for backwards compatibility.
-> -	 */
-> -	if (!allow_priv && c->which == V4L2_CID_PRIVATE_BASE)
-> -		return 0;
-> -	if (!c->which)
-> -		return 1;
-> +	switch (c->which) {
-> +	case V4L2_CID_PRIVATE_BASE:
-> +		/*
-> +		 * V4L2_CID_PRIVATE_BASE cannot be used as control class
-> +		 * when using extended controls.
-> +		 * Only when passed in through VIDIOC_G_CTRL and VIDIOC_S_CTRL
-> +		 * is it allowed for backwards compatibility.
-> +		 */
-> +		if (ioctl == VIDIOC_G_CTRL || ioctl == VIDIOC_S_CROP)
+> +static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
+> +				 struct uvc_control *ctrl,
+> +				 struct uvc_control_mapping *mapping)
+> +{
+> +	struct uvc_control_mapping *master_map = NULL;
+> +	struct uvc_control *master_ctrl = NULL;
+> +	s32 val;
+> +	int ret;
+> +
+> +	if (!mapping->master_id)
+> +		return false;
+> +
+> +	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
+> +			   &master_ctrl, 0);
+> +
+> +	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+> +		return false;
+> +
+> +	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> +	if (ret < 0 || val == mapping->master_manual)
+> +		return false;
+> +
+> +	return true;
+> +}
 
-S_CROP -> S_CTRL :-)
+This doesn't work. The problem is that you need to test the new value for the
+master control against master_manual, and you are testing against the old value.
+
+So for my uvc camera I have this situation after boot:
+
+                  auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+                                1: Manual Mode
+                                3: Aperture Priority Mode
+         exposure_time_absolute 0x009a0902 (int)    : min=3 max=2047 step=1 default=250 value=250 flags=inactive
+
+But trying to change both auto_exposure to manual AND set the new exposure_time_absolute
+will fail:
+
+$ v4l2-ctl -c auto_exposure=1,exposure_time_absolute=251
+VIDIOC_S_EXT_CTRLS: failed: Permission denied
+Error setting controls: Permission denied
+
+This works though with the uvc driver as is currently in the kernel.
+
+Unfortunately, this is not something that is explicitly tested in v4l2-compliance.
 
 Regards,
 
 	Hans
 
-> +			return false;
-> +		break;
-> +	case V4L2_CTRL_WHICH_DEF_VAL:
-> +		/* Default value cannot be changed */
-> +		if (ioctl == VIDIOC_S_EXT_CTRLS ||
-> +		    ioctl == VIDIOC_TRY_EXT_CTRLS) {
-> +			c->error_idx = c->count;
-> +			return false;
-> +		}
-> +		return true;
-> +	case V4L2_CTRL_WHICH_CUR_VAL:
-> +		return true;
-> +	case V4L2_CTRL_WHICH_REQUEST_VAL:
-> +		c->error_idx = c->count;
-> +		return false;
-> +	}
 > +
->  	/* Check that all controls are from the same control class. */
->  	for (i = 0; i < c->count; i++) {
->  		if (V4L2_CTRL_ID2WHICH(c->controls[i].id) != c->which) {
-> -			c->error_idx = i;
-> -			return 0;
-> +			c->error_idx = ioctl == VIDIOC_TRY_EXT_CTRLS ? i : c->count;
-> +			return false;
->  		}
+>  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+> -			   bool read)
+> +			   unsigned long ioctl)
+>  {
+>  	struct uvc_control_mapping *mapping;
+>  	struct uvc_control *ctrl;
+> @@ -1059,11 +1084,26 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>  	if (!ctrl)
+>  		return -EINVAL;
+>  
+> -	if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) && read)
+> -		return -EACCES;
+> -
+> -	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
+> -		return -EACCES;
+> +	switch (ioctl) {
+> +	case VIDIOC_G_CTRL:
+> +	case VIDIOC_G_EXT_CTRLS:
+> +		if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+> +			return -EACCES;
+> +		break;
+> +	case VIDIOC_S_EXT_CTRLS:
+> +	case VIDIOC_S_CTRL:
+> +		if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+> +			return -EACCES;
+> +		if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
+> +			return -EACCES;
+> +		break;
+> +	case VIDIOC_TRY_EXT_CTRLS:
+> +		if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+> +			return -EACCES;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -1087,8 +1127,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  	struct uvc_control_mapping *mapping,
+>  	struct v4l2_queryctrl *v4l2_ctrl)
+>  {
+> -	struct uvc_control_mapping *master_map = NULL;
+> -	struct uvc_control *master_ctrl = NULL;
+>  	const struct uvc_menu_info *menu;
+>  	unsigned int i;
+>  
+> @@ -1104,18 +1142,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>  		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>  
+> -	if (mapping->master_id)
+> -		__uvc_find_control(ctrl->entity, mapping->master_id,
+> -				   &master_map, &master_ctrl, 0);
+> -	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> -		s32 val;
+> -		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> -		if (ret < 0)
+> -			return ret;
+> -
+> -		if (val != mapping->master_manual)
+> -				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> -	}
+> +	if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
+> +		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+>  
+>  	if (!ctrl->cached) {
+>  		int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index fbb99f3c2fb4..ddebdeb5a81b 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -999,6 +999,10 @@ static int uvc_ioctl_g_ctrl(struct file *file, void *fh,
+>  	struct v4l2_ext_control xctrl;
+>  	int ret;
+>  
+> +	ret = uvc_ctrl_is_accessible(chain, ctrl->id, VIDIOC_G_CTRL);
+> +	if (ret)
+> +		return ret;
+> +
+>  	memset(&xctrl, 0, sizeof(xctrl));
+>  	xctrl.id = ctrl->id;
+>  
+> @@ -1023,6 +1027,10 @@ static int uvc_ioctl_s_ctrl(struct file *file, void *fh,
+>  	struct v4l2_ext_control xctrl;
+>  	int ret;
+>  
+> +	ret = uvc_ctrl_is_accessible(chain, ctrl->id, VIDIOC_S_CTRL);
+> +	if (ret)
+> +		return ret;
+> +
+>  	memset(&xctrl, 0, sizeof(xctrl));
+>  	xctrl.id = ctrl->id;
+>  	xctrl.value = ctrl->value;
+> @@ -1054,8 +1062,7 @@ static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
+>  	int ret = 0;
+>  
+>  	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+> -		ret = uvc_ctrl_is_accessible(chain, ctrl->id,
+> -					    ioctl == VIDIOC_G_EXT_CTRLS);
+> +		ret = uvc_ctrl_is_accessible(chain, ctrl->id, ioctl);
+>  		if (ret)
+>  			break;
 >  	}
-> -	return 1;
-> +	return true;
->  }
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 9471c342a310..a93aeedb5499 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -903,7 +903,7 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
+>  int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
+>  int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
+>  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+> -			   bool read);
+> +			   unsigned long ioctl);
 >  
->  static int check_fmt(struct file *file, enum v4l2_buf_type type)
-> @@ -2229,7 +2246,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops *ops,
->  	ctrls.controls = &ctrl;
->  	ctrl.id = p->id;
->  	ctrl.value = p->value;
-> -	if (check_ext_ctrls(&ctrls, 1)) {
-> +	if (check_ext_ctrls(&ctrls, VIDIOC_G_CTRL)) {
->  		int ret = ops->vidioc_g_ext_ctrls(file, fh, &ctrls);
->  
->  		if (ret == 0)
-> @@ -2263,7 +2280,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
->  	ctrls.controls = &ctrl;
->  	ctrl.id = p->id;
->  	ctrl.value = p->value;
-> -	if (check_ext_ctrls(&ctrls, 1))
-> +	if (check_ext_ctrls(&ctrls, VIDIOC_S_CTRL))
->  		return ops->vidioc_s_ext_ctrls(file, fh, &ctrls);
->  	return -EINVAL;
->  }
-> @@ -2285,8 +2302,8 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
->  					vfd, vfd->v4l2_dev->mdev, p);
->  	if (ops->vidioc_g_ext_ctrls == NULL)
->  		return -ENOTTY;
-> -	return check_ext_ctrls(p, 0) ? ops->vidioc_g_ext_ctrls(file, fh, p) :
-> -					-EINVAL;
-> +	return check_ext_ctrls(p, VIDIOC_G_EXT_CTRLS) ?
-> +				ops->vidioc_g_ext_ctrls(file, fh, p) : -EINVAL;
->  }
->  
->  static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
-> @@ -2306,8 +2323,8 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
->  					vfd, vfd->v4l2_dev->mdev, p);
->  	if (ops->vidioc_s_ext_ctrls == NULL)
->  		return -ENOTTY;
-> -	return check_ext_ctrls(p, 0) ? ops->vidioc_s_ext_ctrls(file, fh, p) :
-> -					-EINVAL;
-> +	return check_ext_ctrls(p, VIDIOC_S_EXT_CTRLS) ?
-> +				ops->vidioc_s_ext_ctrls(file, fh, p) : -EINVAL;
->  }
->  
->  static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
-> @@ -2327,8 +2344,8 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
->  					  vfd, vfd->v4l2_dev->mdev, p);
->  	if (ops->vidioc_try_ext_ctrls == NULL)
->  		return -ENOTTY;
-> -	return check_ext_ctrls(p, 0) ? ops->vidioc_try_ext_ctrls(file, fh, p) :
-> -					-EINVAL;
-> +	return check_ext_ctrls(p, VIDIOC_TRY_EXT_CTRLS) ?
-> +			ops->vidioc_try_ext_ctrls(file, fh, p) : -EINVAL;
->  }
->  
->  /*
+>  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+>  		      struct uvc_xu_control_query *xqry);
 > 
 
