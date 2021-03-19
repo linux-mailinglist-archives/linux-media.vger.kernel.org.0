@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEB663422F7
-	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 18:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F04D13422F3
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 18:10:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230237AbhCSRJv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S230398AbhCSRJv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 19 Mar 2021 13:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33424 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbhCSRJX (ORCPT
+        with ESMTP id S230273AbhCSRJX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 19 Mar 2021 13:09:23 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F06FC06174A
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:22 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id hq27so10885935ejc.9
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:22 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4214DC06174A
+        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:23 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id r12so10888941ejr.5
+        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=d2ao3XLmmt/D2986Jeu7tVcMUKwvKwTpzqsditCLfoQ=;
-        b=QLyRRdN5eqUYoVXkXc6rjkGll8bcW3YLX0pAdu89oERxLmMOKJFCtwH5apNxHHFzzL
-         UOEo2x+BrIzRTa3d7JEdSPBq9p2yX7VsFQWhlGTl7CS5Agodhj2DkI+f4dW0jP1QzRJ3
-         lJap5si7EUdosRLSwIQeUVex8Mwy6yr6Bxxls=
+        bh=Gn0hnJYZfg4Iz6ZCMPIjQveIDYMZQxxJBvj+S3RwuvQ=;
+        b=AF85BynYuNVUnF9MJlnfAVGYHQOTUQBkJIDmLPsahcRBZHItdSfh9K0j1uW0KYf73C
+         uffN38MXLMTFNyqvLS4Dyq9/ZvtV26AklHf86HN8rmHIkioGveiZN2qwLBKNocX8R4tw
+         muvj0I3XF5rhFTRPZv9JjuBujnz2Fuv4pAiF8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=d2ao3XLmmt/D2986Jeu7tVcMUKwvKwTpzqsditCLfoQ=;
-        b=lgBAU8vjiFpDhL8blSAJ2C+nYiqa69ClH8kjDsTFxvnqb8MxOgGhH88/fy/CY/hihJ
-         A49qYMGW55lZ8QPaEioyBD9WnPFH2u1xVnx7VJm03zKryRi5GDiAj1KsBKBMfQQuI88o
-         agU9syrV6v7YRTeQf/tCK2T74GizDEMhDpaaq2iwJdW1gsiywexd2x3q3c77YpU4y5rH
-         9yyroxr4OgKA9n8F1GHd5oxmyi9rbcXPzcmvbiUbS37k/0wGw2PBmv715g85TwC+7eF9
-         VaipAINPOiw6BWaSJjhIisWlXHZchSyjEIGizh7inRjQSOvfM4DU+Gpj7HsYtvwQ6n2K
-         RJ+Q==
-X-Gm-Message-State: AOAM533YQ7RQEokCPvdfm8or7vISmWP9k8zKuiPLczM3H42F436lJ3eP
-        4aK/9ph2p1joPbCeXPGBBXpWpA==
-X-Google-Smtp-Source: ABdhPJyd0wngx7F7lMWAKTe68oU3y87xOHQw/jTMe4pbGxKkj6ecbjHGz6I+0tyRzz6iGqSHpoNnGA==
-X-Received: by 2002:a17:906:1494:: with SMTP id x20mr5511578ejc.101.1616173761415;
+        bh=Gn0hnJYZfg4Iz6ZCMPIjQveIDYMZQxxJBvj+S3RwuvQ=;
+        b=j5IV6TUUVtsJqWppCzSu6XhQV3a9WBCZYoeAtVilFwe075XvuQkh06g6FpL0kFXOok
+         0Bmm+eWeT6GYF3RCXJGdUs3xeYdZdpID5bHU46PqIJOOB5TwuiHHM4n+RKQ294dh5lOG
+         sHlnijQ4I+hmXftOR09EaXkfXteSG85rai8r8hWm3eYxKIBLImMISbxL4wSxgrY8Lp2T
+         TRvvRlbzR+erCk3Qg0f7TMrUt7oAMJN5EaEaf2thcxRVXDanW2/Bo40qXa5RkuHgGyvL
+         Rvlg3+U1nov6mnoey1N3ziNpxGFpXZgxb/0X2UPNgZ6eheg4SnraFpB1MUkS6/zmhVF7
+         MxpA==
+X-Gm-Message-State: AOAM530+jFM3K1LlLUkpc1mDCyB9JIHQs6lg2/5NayizV20HUW7jbjIT
+        R5SgDGIp8ibRKi/y0rTcuowNJQ==
+X-Google-Smtp-Source: ABdhPJyHT9EGJP5se2NeRD0WbjuLarcYBJpBVmRtv0XHsb0BFe/jz3YBtR+I++nOYLmjktZc/Ik9wg==
+X-Received: by 2002:a17:906:260a:: with SMTP id h10mr5631325ejc.392.1616173761995;
         Fri, 19 Mar 2021 10:09:21 -0700 (PDT)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id be27sm4506050edb.47.2021.03.19.10.09.20
+        by smtp.gmail.com with ESMTPSA id be27sm4506050edb.47.2021.03.19.10.09.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 10:09:20 -0700 (PDT)
+        Fri, 19 Mar 2021 10:09:21 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -53,9 +53,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
 Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v8 16/19] media: uvcvideo: Return -EACCES to inactive controls
-Date:   Fri, 19 Mar 2021 18:09:03 +0100
-Message-Id: <20210319170906.278238-17-ribalda@chromium.org>
+Subject: [PATCH v8 17/19] media: docs: Document the behaviour of uvcdriver
+Date:   Fri, 19 Mar 2021 18:09:04 +0100
+Message-Id: <20210319170906.278238-18-ribalda@chromium.org>
 X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 In-Reply-To: <20210319170906.278238-1-ribalda@chromium.org>
 References: <20210319170906.278238-1-ribalda@chromium.org>
@@ -65,136 +65,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a control is inactive return -EACCES to let the userspace know that
-the value will not be applied automatically when the control is active
-again.
+The uvc driver relies on the camera firmware to keep the control states
+and therefore is not capable of changing an inactive control.
 
-Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Allow returning -EACESS in those cases.
+
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 71 +++++++++++++++++++++-----------
- 1 file changed, 48 insertions(+), 23 deletions(-)
+ Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst      | 5 +++++
+ Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index bcebf9d1a46f..d9d4add1e813 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1082,13 +1082,36 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
- 	return "Unknown Control";
- }
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst
+index 4f1bed53fad5..8c0a203385c2 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst
+@@ -95,3 +95,8 @@ EBUSY
  
-+static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
-+				 struct uvc_control *ctrl,
-+				 struct uvc_control_mapping *mapping)
-+{
-+	struct uvc_control_mapping *master_map = NULL;
-+	struct uvc_control *master_ctrl = NULL;
-+	s32 val;
-+	int ret;
+ EACCES
+     Attempt to set a read-only control or to get a write-only control.
 +
-+	if (!mapping->master_id)
-+		return false;
++    Or if there is an attempt to set an inactive control and the driver is
++    not capable of keeping the new value until the control is active again.
++    This is the case for drivers that do not use the standard control
++    framework and rely purely on the hardware to keep the controls' state.
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+index b9c62affbb5a..bb7de7a25241 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+@@ -438,3 +438,8 @@ EACCES
+ 
+     Or the ``which`` field was set to ``V4L2_CTRL_WHICH_REQUEST_VAL`` but the
+     device does not support requests.
 +
-+	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
-+			   &master_ctrl, 0);
-+
-+	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-+		return false;
-+
-+	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-+	if (ret < 0 || val == mapping->master_manual)
-+		return false;
-+
-+	return true;
-+}
-+
- static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl,
- 	struct uvc_control_mapping *mapping,
- 	struct v4l2_queryctrl *v4l2_ctrl)
- {
--	struct uvc_control_mapping *master_map = NULL;
--	struct uvc_control *master_ctrl = NULL;
- 	const struct uvc_menu_info *menu;
- 	unsigned int i;
- 
-@@ -1104,18 +1127,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
- 		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
--	if (mapping->master_id)
--		__uvc_find_control(ctrl->entity, mapping->master_id,
--				   &master_map, &master_ctrl, 0);
--	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
--		s32 val;
--		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
--		if (ret < 0)
--			return ret;
--
--		if (val != mapping->master_manual)
--				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
--	}
-+	if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
-+		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
- 
- 	if (!ctrl->cached) {
- 		int ret = uvc_ctrl_populate_cache(chain, ctrl);
-@@ -1638,25 +1651,37 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
- 	return 0;
- }
- 
--static int uvc_ctrl_find_ctrlidx(struct uvc_entity *entity,
-+static int uvc_ctrl_commit_error(struct uvc_video_chain *chain,
-+				 struct uvc_entity *entity,
- 				 struct v4l2_ext_controls *ctrls,
--				 struct uvc_control *uvc_control)
-+				 struct uvc_control *err_control,
-+				 int ret)
- {
- 	struct uvc_control_mapping *mapping;
- 	struct uvc_control *ctrl_found;
- 	unsigned int i;
- 
--	if (!entity)
--		return ctrls->count;
-+	if (!entity) {
-+		ctrls->error_idx = ctrls->count;
-+		return ret;
-+	}
- 
- 	for (i = 0; i < ctrls->count; i++) {
- 		__uvc_find_control(entity, ctrls->controls[i].id, &mapping,
- 				   &ctrl_found, 0);
--		if (uvc_control == ctrl_found)
--			return i;
-+		if (err_control == ctrl_found)
-+			break;
- 	}
-+	ctrls->error_idx = i;
-+
-+	/* We could not find the control that failed. */
-+	if (i == ctrls->count)
-+		return ret;
- 
--	return ctrls->count;
-+	if (uvc_ctrl_is_inactive(chain, err_control, mapping))
-+		return -EACCES;
-+
-+	return ret;
- }
- 
- int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
-@@ -1679,8 +1704,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
- 		uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
- done:
- 	if (ret < 0 && ctrls)
--		ctrls->error_idx = uvc_ctrl_find_ctrlidx(entity, ctrls,
--							 err_ctrl);
-+		ret = uvc_ctrl_commit_error(chain, entity, ctrls, err_ctrl,
-+					    ret);
- 	mutex_unlock(&chain->ctrl_mutex);
- 	return ret;
- }
++    Or if there is an attempt to set an inactive control and the driver is
++    not capable of keeping the new value until the control is active again.
++    This is the case for drivers that do not use the standard control
++    framework and rely purely on the hardware to keep the controls' state.
 -- 
 2.31.0.rc2.261.g7f71774620-goog
 
