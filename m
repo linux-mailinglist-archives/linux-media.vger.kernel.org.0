@@ -2,97 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EBBE342014
-	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 15:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F3C8342030
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 15:54:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbhCSOrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Mar 2021 10:47:42 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:51002 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230297AbhCSOre (ORCPT
+        id S230251AbhCSOxg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Mar 2021 10:53:36 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:46807 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230231AbhCSOxR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Mar 2021 10:47:34 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12JEYUum095537;
-        Fri, 19 Mar 2021 14:47:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=6Uv736h/yXzHX0elzBNJ//PmccI1GyWYpJopBIHG8Ms=;
- b=vm5RHXyfU4+vM4IsyfSISMkk4gQPxruN8cdHCdkCpGVYycHORC5gEAQjxK4pguSm+ODD
- euRIH3FzS/DmCTl7WojYk1yB1qe3alEGyxxXMYHOKaUHwH91W4093qi5dPUNIdahXttf
- FGTAasZfyaBgl+mPvEtL0ZzDbuNcYgd52CXFyLEyEfufOQLfrAizOgv8lcoFSNdcDZBd
- lLK858HJClc1/Q1K6F+n/W0aDW/UNjoXo3VL0ry6HIZml1xEXi2K0jGORoAe4GZ8pplt
- fXfksD2uBbUceBaw5+v4iFH+j300L/EXQHPaHis3eSQG8rYXZmkVbD6gW0uhKAtLuUKK 1w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 37a4em05yx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 19 Mar 2021 14:47:20 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12JEa7b9137104;
-        Fri, 19 Mar 2021 14:47:18 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 37cf2vj3hy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 19 Mar 2021 14:47:18 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12JElGn5008889;
-        Fri, 19 Mar 2021 14:47:16 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 19 Mar 2021 07:47:16 -0700
-Date:   Fri, 19 Mar 2021 17:47:07 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
+        Fri, 19 Mar 2021 10:53:17 -0400
+X-Originating-IP: 5.92.35.220
+Received: from uno.localdomain (mob-5-92-35-220.net.vodafone.it [5.92.35.220])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id E589FC0002;
+        Fri, 19 Mar 2021 14:53:12 +0000 (UTC)
+Date:   Fri, 19 Mar 2021 15:53:44 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: fix GFP_ flags in uvc_submit_urb()
-Message-ID: <YFS5axzOQEJN6fHI@mwanda>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/18] media: i2c: rdacm21: Give more time to OV490 to
+ boot
+Message-ID: <20210319145344.ffhrxakrczxzzchp@uno.localdomain>
+References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
+ <20210315131512.133720-13-jacopo+renesas@jmondi.org>
+ <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
+ <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
+ <YFPwaoJUSxpPnbBM@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9928 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 malwarescore=0
- spamscore=0 phishscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103190106
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9928 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 bulkscore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 adultscore=0 phishscore=0 suspectscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103190106
+In-Reply-To: <YFPwaoJUSxpPnbBM@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The uvc_submit_urb() function is supposed to use the passed in GFP_
-flags but this code accidentally uses GFP_KERNEL instead.  Some of
-the callers are passing GFP_ATOMIC so presumably this can lead to
-sleeping in atomic context.
+Hi Laurent,
 
-Fixes: b20f917f84e6 ("media: uvcvideo: Use dma_alloc_noncontiguous API")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/media/usb/uvc/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Mar 19, 2021 at 02:29:30AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Wed, Mar 17, 2021 at 11:04:45AM +0100, Jacopo Mondi wrote:
+> > On Mon, Mar 15, 2021 at 05:22:37PM +0000, Kieran Bingham wrote:
+> > > On 15/03/2021 13:15, Jacopo Mondi wrote:
+> > > > It has been observed through repeated testing (250 boots) that in the
+> > > > 10% of the cases the RDACM21 initialization sequence errors out due a
+> > > > timeout waiting for the OV490 firmware to complete its boot phase.
+> > > >
+> > > > Albeit being the current timeout relatively large (300-600 milliseconds),
+> > > > doubling it reduces the sporadic error rate down to 1 over an 80 boot
+> > > > sequences test run.
+> > > >
+> > > > The firmware boot delay is unfortunately not characterized in the camera
+> > > > module manual.
+> > >
+> > > I wonder if we could characterize this alone by pulling this down until
+> > > we see failures increase, with all the other fixes in place...
+> > >
+> > > I don't think that's required, but it might be something to check later
+> > > if we don't get rid of that 1/80 failure.
+> >
+> > This is actually driving me crazy :/
+> >
+> > I had another test run with a surprising 10% failures.
+> > All the failures were due to the ov490 firmware boot I'm trying to
+> > mitigate here.
+> >
+> > I went up to give it -6 seconds- and I still get failures in the same
+> > percentage. Another run of 20 boots gave 30% failures with the delay I
+> > have here in this patch. Just to make sure I was not going crazy I
+> > reduced the delay to 1msec and I get an 80% failure rate.
+> >
+> > Still, I've seen the 1 on 80 failures (I swear! I have logs! :)
+> >
+> > I've checked what the BSP does, and if after some 300 attempts the
+> > ov490 doesn't boot, they simply go an reset it.
+> > https://github.com/renesas-rcar/linux-bsp/commit/0cf6e36f5bf49e1c2aab87139ec5b588623c56f8#diff-d770cad7d6f04923d9e89dfe7da369bb3006776d6e4fb8ef79353d5fab3cd25aR827
+> > (sorry, I don't seem to be able to point you to the ov490.c#827 with
+> > an URL)
+>
+> It resets both the sensor and the OV490. It could be interested to try
+> the latter selectively to see what happens.
+>
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index cdd8eb500bb7..a777b389a66e 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1119,7 +1119,7 @@ static int uvc_submit_urb(struct uvc_urb *uvc_urb, gfp_t mem_flags)
- 	dma_sync_sgtable_for_device(uvc_stream_to_dmadev(uvc_urb->stream),
- 				    uvc_urb->sgt,
- 				    uvc_stream_dir(uvc_urb->stream));
--	return usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
-+	return usb_submit_urb(uvc_urb->urb, mem_flags);
- }
- 
- /*
--- 
-2.30.2
+They do not make any difference :)
 
+But..
+
+> I also suspect that the OV490 has debugging features (possibly including
+> a RAM log buffer that we could read over I2C), but we're probably
+> getting out of scope here.
+>
+> > I assume we don't want anything like this in an upstream driver, but
+> > I'm really running out of any plausible explanation :(
+>
+> As discussed, let's try the reset workaround, to see if it helps.
+>
+> I wonder if opening the camera and probing signals would be a useful
+> option :-)
+
+... I really think I've got something working (for real this time :)
+
+Basically, as patch "media: i2c: rdacm21: Fix OV10640 powerdown" of
+this series describes, the OV10640 power-up was broken before you
+spotted the usage of the wrong gpio pad and it was working because of
+an internal pull-up on the SPWDN line, which was erroneously left
+floating. Once that was fixed, the OV10640 was always identified
+correctly, leaving us with this puzzling "ov490 boot timeout error"
+that manifested with more or less the same frequency of the ov10640
+identification issue.
+
+In the current implementation we power up the OV490 and wait for its
+firmware to boot -before- powering up the ov10640 sensor. Most
+probably (or looking at the results I get noaw, most certainly) the
+OV490 firmware checks for the sensor to be available and probably
+tries to program it. So we're back to the issue we originally had when
+the sensor was powered because of the pull up resistor, failing to
+boot in case the sensor didn't startup correctly which happened in the
+20% of the cases.
+
+If I do power up the OV10640 -before- the OV490 all the firmware boot
+errors are now gone. I need to tune a bit the timeouts as after the
+OV490 boot the OV10640 requires some time before being accessible.
+Once I nail down the right timeouts I'll send v3. So far I got 0
+errors on 50 boot attempts, finally \o/
+
+Thanks for keep pushing, I would have swear this was an issue with the
+HW design and was very close to give up like a month ago!
+
+V3 out soon!
+
+Thanks
+   j
+
+
+>
+> > > > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >
+> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >
+> > > > ---
+> > > >  drivers/media/i2c/rdacm21.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> > > > index 50a9b0d8255d..07cf077d8efd 100644
+> > > > --- a/drivers/media/i2c/rdacm21.c
+> > > > +++ b/drivers/media/i2c/rdacm21.c
+> > > > @@ -53,7 +53,7 @@
+> > > >  #define OV490_PID			0x8080300a
+> > > >  #define OV490_VER			0x8080300b
+> > > >  #define OV490_PID_TIMEOUT		20
+> > > > -#define OV490_OUTPUT_EN_TIMEOUT		300
+> > > > +#define OV490_OUTPUT_EN_TIMEOUT		600
+> > > >
+> > > >  #define OV490_GPIO0			BIT(0)
+> > > >  #define OV490_SPWDN0			BIT(0)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
