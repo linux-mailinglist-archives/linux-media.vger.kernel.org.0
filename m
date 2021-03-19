@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C4723422E9
-	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 18:10:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3CC83422E8
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 18:10:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhCSRJp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Mar 2021 13:09:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33376 "EHLO
+        id S230225AbhCSRJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Mar 2021 13:09:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbhCSRJR (ORCPT
+        with ESMTP id S230041AbhCSRJR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 19 Mar 2021 13:09:17 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED903C06175F
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:16 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id hq27so10885502ejc.9
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:16 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C859C061760
+        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:17 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id j3so11602987edp.11
+        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 10:09:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4XMIX+R7wmnc+IpMUxiC/p1WJQ4mHbplhQiueacadBE=;
-        b=ZMxcE6jpMqVDDsrHi4iakx5pDQQS1Bwd+8BI0x73w/CuyAqAAbMGfGRxY6BM6F2AUF
-         96BgpbS7UejHMh7S5+3r0tJfICqoJZmEQoPcGgLI7sGwPD61Qk+6HUh0uHYlKwo3KgvA
-         D9yHNuJxV66nEmwpzmHvdtzj0KbvUeuzjk5FA=
+        bh=k6XtuWSZV2cyj5K0GtrHJjfNWfnBd1fX/F8MzFHITjc=;
+        b=V4diAboUR9u651Uq84ZsMNn/QZfW5SFjZHABvi+1i+YgyE8Ww/kMMY+AZRz510eF82
+         Hc4qSY13LuE2jIqv/u4HClmkeOZdYeDCnCIeCADPjDx0w0Hne0NEh/dd6VPHE/I8V/QC
+         2WtXUsJ5wYElb8yjSZ+SbUqNbyLo2FbrIw1D4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4XMIX+R7wmnc+IpMUxiC/p1WJQ4mHbplhQiueacadBE=;
-        b=Z6gSEpHCvbzE4mPplPc6vZOX1bCKHyFrZdZJYwQq4611gpvjpPtKO3Sgdaz7/kmQMD
-         dWnKhDZEtQ7WATDvwKibKhsrz/7iFID71mXd+4cy7DTcR3hp+P2dcJalmxDhiV3gwYhH
-         vJZuK7+g2JK7h9hE6wSg7Vu9BlkIjMmW7HtphDsDMK9T2Aov3WPnz7lBGLQEvBHNQWzZ
-         XiM3PKLRfB15De9zUc9uTt8pie1gK0NkaXq739TSBNE3xVvvvClBeRWbcq7uuzfLIHw2
-         VbLkeUhfH0wbcNnL0Q7Uygx58UJzW5pKIC5G9uUo8eelXzKm/eXE2OWlDbTZbKuLYMww
-         kDvw==
-X-Gm-Message-State: AOAM533V93UF8jUVF5AELZ7mXPWGOQKed04B0R3PIPgaevE8HZIsw+wl
-        OcuvM4yZ79gDgd5eLZmKdIQHeg==
-X-Google-Smtp-Source: ABdhPJzM1vXUp/Yxa4VX3Rz6oYmY7JkdNzkvU/9bwbwb1heZmXPDZRAb3/ifRu56VPrWnFkzHDMXCg==
-X-Received: by 2002:a17:907:3f96:: with SMTP id hr22mr5375826ejc.427.1616173755670;
-        Fri, 19 Mar 2021 10:09:15 -0700 (PDT)
+        bh=k6XtuWSZV2cyj5K0GtrHJjfNWfnBd1fX/F8MzFHITjc=;
+        b=PRtcSXNSCXZGfnN8p5O52nS+f0s26oROwvk6kq9Qbu5H8WofO58Fry6KHxGzrHvEtV
+         W33984x7FdafmQ9oMQ58gJbCVJuIl54ZOwrQ2HRKygy3idEtsw5sU2BcJTfMBPLG+6N0
+         pn0W4wgu1W4A/YX5XZE3x9IveJWQSwscJFy0nrpWoHCTA9uH0KfFTsWCJi3CpqA7ssFx
+         xaBm5i+BjP6HJhdA/94KvROiuYwjjCXTjh8Xn1Ey6xB1f/HoBZZqLDOARNECRSbOFj3L
+         19nk3rCFc6YZTFj2kg+0i/ErOTp1FSUiaEeoX9fZfrJRGHZKweHyUjtNB+fZz8Xo8zvB
+         HHvA==
+X-Gm-Message-State: AOAM530yyxPILBxQoQE3L22UfLkxEC+N4EevaMaSbtJD1/o4gFUcPeAI
+        jzARoBQzHVb0RVL/Rn3lCmB+Gw==
+X-Google-Smtp-Source: ABdhPJy9XwXHzjQQ7X1W89+1wQgUC3uAwJmXg6qY1oU2HR+5A3jF1BEnszbEwM8uSI+2h8HVM4/eWA==
+X-Received: by 2002:aa7:db4f:: with SMTP id n15mr10710485edt.12.1616173756255;
+        Fri, 19 Mar 2021 10:09:16 -0700 (PDT)
 Received: from alco.lan ([80.71.134.83])
         by smtp.gmail.com with ESMTPSA id be27sm4506050edb.47.2021.03.19.10.09.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 10:09:15 -0700 (PDT)
+        Fri, 19 Mar 2021 10:09:16 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -53,9 +53,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
 Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v8 09/19] media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
-Date:   Fri, 19 Mar 2021 18:08:56 +0100
-Message-Id: <20210319170906.278238-10-ribalda@chromium.org>
+Subject: [PATCH v8 10/19] media: uvcvideo: Use dev->name for querycap()
+Date:   Fri, 19 Mar 2021 18:08:57 +0100
+Message-Id: <20210319170906.278238-11-ribalda@chromium.org>
 X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 In-Reply-To: <20210319170906.278238-1-ribalda@chromium.org>
 References: <20210319170906.278238-1-ribalda@chromium.org>
@@ -65,212 +65,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create all the class controls for the device defined controls.
+Use the device name for the card name instead of vdev->name.
 
-Fixes v4l2-compliance:
-Control ioctls (Input 0):
-		fail: v4l2-test-controls.cpp(216): missing control class for class 00980000
-		fail: v4l2-test-controls.cpp(216): missing control tclass for class 009a0000
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 94 ++++++++++++++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h |  5 ++
- 2 files changed, 99 insertions(+)
+ drivers/media/usb/uvc/uvc_metadata.c | 2 +-
+ drivers/media/usb/uvc/uvc_v4l2.c     | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index b75da65115ef..ba14733db757 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -357,6 +357,15 @@ static const struct uvc_control_info uvc_ctrls[] = {
- 	},
- };
+diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+index b6279ad7ac84..82de7781f5b6 100644
+--- a/drivers/media/usb/uvc/uvc_metadata.c
++++ b/drivers/media/usb/uvc/uvc_metadata.c
+@@ -30,7 +30,7 @@ static int uvc_meta_v4l2_querycap(struct file *file, void *fh,
+ 	struct uvc_video_chain *chain = stream->chain;
  
-+static const struct uvc_control_class uvc_control_class[] = {
-+	{
-+		.id		= V4L2_CID_CAMERA_CLASS,
-+	},
-+	{
-+		.id		= V4L2_CID_USER_CLASS,
-+	},
-+};
-+
- static const struct uvc_menu_info power_line_frequency_controls[] = {
- 	{ 0, "Disabled" },
- 	{ 1, "50 Hz" },
-@@ -1024,6 +1033,49 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
- 	return 0;
- }
- 
-+static int __uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
-+				  u32 found_id)
-+{
-+	bool find_next = req_id & V4L2_CTRL_FLAG_NEXT_CTRL;
-+	unsigned int i;
-+
-+	req_id &= V4L2_CTRL_ID_MASK;
-+
-+	for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
-+		if (!(chain->ctrl_class_bitmap & BIT(i)))
-+			continue;
-+		if (!find_next) {
-+			if (uvc_control_class[i].id == req_id)
-+				return i;
-+			continue;
-+		}
-+		if (uvc_control_class[i].id > req_id &&
-+		    uvc_control_class[i].id < found_id)
-+			return i;
-+	}
-+
-+	return -ENODEV;
-+}
-+
-+static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
-+				u32 found_id, struct v4l2_queryctrl *v4l2_ctrl)
-+{
-+	int idx;
-+
-+	idx = __uvc_query_v4l2_class(chain, req_id, found_id);
-+	if (idx < 0)
-+		return -ENODEV;
-+
-+	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
-+	v4l2_ctrl->id = uvc_control_class[idx].id;
-+	strscpy(v4l2_ctrl->name, v4l2_ctrl_get_name(v4l2_ctrl->id),
-+		sizeof(v4l2_ctrl->name));
-+	v4l2_ctrl->type = V4L2_CTRL_TYPE_CTRL_CLASS;
-+	v4l2_ctrl->flags = V4L2_CTRL_FLAG_WRITE_ONLY
-+			   | V4L2_CTRL_FLAG_READ_ONLY;
-+	return 0;
-+}
-+
- static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl,
- 	struct uvc_control_mapping *mapping,
-@@ -1127,12 +1179,31 @@ int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	if (ret < 0)
- 		return -ERESTARTSYS;
- 
-+	/* Check if the ctrl is a know class */
-+	if (!(v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL)) {
-+		ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, 0, v4l2_ctrl);
-+		if (!ret)
-+			goto done;
-+	}
-+
- 	ctrl = uvc_find_control(chain, v4l2_ctrl->id, &mapping);
- 	if (ctrl == NULL) {
- 		ret = -EINVAL;
- 		goto done;
- 	}
- 
-+	/*
-+	 * If we're enumerating control with V4L2_CTRL_FLAG_NEXT_CTRL, check if
-+	 * a class should be inserted between the previous control and the one
-+	 * we have just found.
-+	 */
-+	if (v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL) {
-+		ret = uvc_query_v4l2_class(chain, v4l2_ctrl->id, mapping->id,
-+					   v4l2_ctrl);
-+		if (!ret)
-+			goto done;
-+	}
-+
- 	ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, v4l2_ctrl);
- done:
- 	mutex_unlock(&chain->ctrl_mutex);
-@@ -1426,6 +1497,11 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
- 	if (ret < 0)
- 		return -ERESTARTSYS;
- 
-+	if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0) {
-+		ret = 0;
-+		goto done;
-+	}
-+
- 	ctrl = uvc_find_control(handle->chain, sev->id, &mapping);
- 	if (ctrl == NULL) {
- 		ret = -EINVAL;
-@@ -1459,7 +1535,10 @@ static void uvc_ctrl_del_event(struct v4l2_subscribed_event *sev)
- 	struct uvc_fh *handle = container_of(sev->fh, struct uvc_fh, vfh);
- 
- 	mutex_lock(&handle->chain->ctrl_mutex);
-+	if (__uvc_query_v4l2_class(handle->chain, sev->id, 0) >= 0)
-+		goto done;
- 	list_del(&sev->node);
-+done:
- 	mutex_unlock(&handle->chain->ctrl_mutex);
- }
- 
-@@ -1577,6 +1656,9 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl;
- 	struct uvc_control_mapping *mapping;
- 
-+	if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
-+		return -EACCES;
-+
- 	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
- 	if (ctrl == NULL)
- 		return -EINVAL;
-@@ -1596,6 +1678,9 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 	s32 max;
- 	int ret;
- 
-+	if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
-+		return -EACCES;
-+
- 	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
- 	if (ctrl == NULL)
- 		return -EINVAL;
-@@ -2062,6 +2147,7 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+ 	strscpy(cap->driver, "uvcvideo", sizeof(cap->driver));
+-	strscpy(cap->card, vfh->vdev->name, sizeof(cap->card));
++	strscpy(cap->card, stream->dev->name, sizeof(cap->card));
+ 	usb_make_path(stream->dev->udev, cap->bus_info, sizeof(cap->bus_info));
+ 	cap->capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING
+ 			  | chain->caps;
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 1eeeb00280e4..9cdd30eff495 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -617,13 +617,12 @@ static int uvc_v4l2_release(struct file *file)
+ static int uvc_ioctl_querycap(struct file *file, void *fh,
+ 			      struct v4l2_capability *cap)
  {
- 	struct uvc_control_mapping *map;
- 	unsigned int size;
-+	unsigned int i;
+-	struct video_device *vdev = video_devdata(file);
+ 	struct uvc_fh *handle = file->private_data;
+ 	struct uvc_video_chain *chain = handle->chain;
+ 	struct uvc_streaming *stream = handle->stream;
  
- 	/* Most mappings come from static kernel data and need to be duplicated.
- 	 * Mappings that come from userspace will be unnecessarily duplicated,
-@@ -2085,6 +2171,14 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 	if (map->set == NULL)
- 		map->set = uvc_set_le_value;
- 
-+	for (i = 0; i < ARRAY_SIZE(uvc_control_class); i++) {
-+		if (V4L2_CTRL_ID2WHICH(uvc_control_class[i].id) ==
-+						V4L2_CTRL_ID2WHICH(map->id)) {
-+			chain->ctrl_class_bitmap |= BIT(i);
-+			break;
-+		}
-+	}
-+
- 	list_add_tail(&map->list, &ctrl->info.mappings);
- 	uvc_dbg(chain->dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
- 		map->name, ctrl->info.entity, ctrl->info.selector);
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 97df5ecd66c9..b81d3f65e52e 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -262,6 +262,10 @@ struct uvc_control_mapping {
- 		    u8 *data);
- };
- 
-+struct uvc_control_class {
-+	u32 id;
-+};
-+
- struct uvc_control {
- 	struct uvc_entity *entity;
- 	struct uvc_control_info info;
-@@ -475,6 +479,7 @@ struct uvc_video_chain {
- 
- 	struct v4l2_prio_state prio;		/* V4L2 priority state */
- 	u32 caps;				/* V4L2 chain-wide caps */
-+	u8 ctrl_class_bitmap;			/* Bitmap of valid classes */
- };
- 
- struct uvc_stats_frame {
+ 	strscpy(cap->driver, "uvcvideo", sizeof(cap->driver));
+-	strscpy(cap->card, vdev->name, sizeof(cap->card));
++	strscpy(cap->card, handle->stream->dev->name, sizeof(cap->card));
+ 	usb_make_path(stream->dev->udev, cap->bus_info, sizeof(cap->bus_info));
+ 	cap->capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING
+ 			  | chain->caps;
 -- 
 2.31.0.rc2.261.g7f71774620-goog
 
