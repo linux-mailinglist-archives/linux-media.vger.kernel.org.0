@@ -2,131 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B7A340FBC
-	for <lists+linux-media@lfdr.de>; Thu, 18 Mar 2021 22:21:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE645341178
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 01:30:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233082AbhCRVU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Mar 2021 17:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59824 "EHLO
+        id S230331AbhCSAaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Mar 2021 20:30:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbhCRVUR (ORCPT
+        with ESMTP id S230032AbhCSAaM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Mar 2021 17:20:17 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E21F5C06174A
-        for <linux-media@vger.kernel.org>; Thu, 18 Mar 2021 14:20:16 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id u10so6201657ilb.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Mar 2021 14:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6KpGZSBcMfAsB9sB3LQc2YQC+eRv7jGWQhlLgVTI9EM=;
-        b=HDr3ykGBYgm/GKZroq679kqawcZYb0fFdMSN/uRHfOR8WpIRNnr78Lv1NFwRbI9Zpm
-         r82GjAoGo4FxfEkOGWro4HbUf75hLFU/2lWPXrWUe5d6AFwfNs13Ws4TzrJFfkJ5vC0V
-         Bpk5LgKLZZhNLFhsfZCCLXE2HYTeW1sjE+25Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6KpGZSBcMfAsB9sB3LQc2YQC+eRv7jGWQhlLgVTI9EM=;
-        b=TFEgQ2AMzczuVTPhNV+Tl4Va/43HZPebAYaLIRFl5mx3F/lGdv28/okYDVoHn2p1NZ
-         uj8mSeLx4mj2RFyIr5wFV/1mjuzd8IpTEPmoESdQBlYvcpC2vBZD+ibs6RiBdZLiyeO+
-         MY4KkvONxVGVxU7l+vWjeejHrNmsqD6RHuUi+7QwrXwXDZBeXNq/OsUgqCmLaWxCLAtG
-         ZbTUrq+BA3hH4/LXD2dC7EdsJLBCQsZruHsvy84CwxRmar/PNtI2d4rJHhaYotjYq40s
-         A+LN12SAPHfakL6NL7Uyha8khfaOsScWhtLZKQ1By6I3NPxjcCYfvN44PFg0t9mZ57fm
-         2NVQ==
-X-Gm-Message-State: AOAM533en2LXRN+fa6yzgTUrfmAgFyjbMIQpLOHGSHvpPhY5CZ9kAKXe
-        RXM29HXy0+wPZVugpHksTuibLCu7A4GZ6pi0
-X-Google-Smtp-Source: ABdhPJxsEJnx+Mu91zmec5nceTVjlpFALBeoA5FdYiQEpMFQIoqL9ki0fjwnTMW1AGV3XVrloxJWTg==
-X-Received: by 2002:a92:940b:: with SMTP id c11mr407960ili.132.1616102416221;
-        Thu, 18 Mar 2021 14:20:16 -0700 (PDT)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com. [209.85.166.42])
-        by smtp.gmail.com with ESMTPSA id b5sm1483159ioq.7.2021.03.18.14.20.15
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Mar 2021 14:20:15 -0700 (PDT)
-Received: by mail-io1-f42.google.com with SMTP id z3so3865361ioc.8
-        for <linux-media@vger.kernel.org>; Thu, 18 Mar 2021 14:20:15 -0700 (PDT)
-X-Received: by 2002:a05:6638:2711:: with SMTP id m17mr8664936jav.115.1616102414737;
- Thu, 18 Mar 2021 14:20:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210208051749.1785246-1-sergey.senozhatsky@gmail.com>
- <20210208051749.1785246-4-sergey.senozhatsky@gmail.com> <CAPybu_10Uz0Eb2U5ZohNV1t0gf98ZBZOa3KFCzdi1RJ0k3c1yQ@mail.gmail.com>
- <YFFiizDjNBMG3uI+@google.com> <CAPybu_0ruoc-w3402j-vVNs2-xq8=-_XzVKSxiG+iuyB=eNimA@mail.gmail.com>
- <YFLbYjm0VyzaEMkr@google.com> <CANiDSCtCaVUxrYeceWXEJ3o61ze8uNyce69xW_KcQTirhWfZaQ@mail.gmail.com>
-In-Reply-To: <CANiDSCtCaVUxrYeceWXEJ3o61ze8uNyce69xW_KcQTirhWfZaQ@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 18 Mar 2021 22:20:03 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuX_Pc46mHOAYKDuMO+Ef5cTdwxQAAcMFbD7oSA0BdYeQ@mail.gmail.com>
-Message-ID: <CANiDSCuX_Pc46mHOAYKDuMO+Ef5cTdwxQAAcMFbD7oSA0BdYeQ@mail.gmail.com>
-Subject: Re: [PATCHv2 3/3] media: uvcvideo: add UVC 1.5 ROI control
-To:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Cc:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
+        Thu, 18 Mar 2021 20:30:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4416C06174A;
+        Thu, 18 Mar 2021 17:30:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C11864FD;
+        Fri, 19 Mar 2021 01:30:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616113808;
+        bh=pboaeMKHTDgjLNXZNqaz3Xz2QAKkiPLdavp8ny4Rd94=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HlDObiI9w07ButFQxP2J5mmxd2huoornXc96s3dE2HwtVAznilgT8QA4mGgG9xPzL
+         DKpWZ/F2O73jJCFSbwZUKaExLJH27JbvzzxFHFRa1VcCYmr23qa5xj7F4DXS3a9WRt
+         /gU3Iv39EQCTgJ2v6leIhT6fOyty9zBgfWENLjT0=
+Date:   Fri, 19 Mar 2021 02:29:30 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/18] media: i2c: rdacm21: Give more time to OV490 to
+ boot
+Message-ID: <YFPwaoJUSxpPnbBM@pendragon.ideasonboard.com>
+References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
+ <20210315131512.133720-13-jacopo+renesas@jmondi.org>
+ <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
+ <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 10:19 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Hi Sergey
->
-> On Thu, Mar 18, 2021 at 5:47 AM Sergey Senozhatsky
-> <sergey.senozhatsky.work@gmail.com> wrote:
-> >
-> > On (21/03/17 08:58), Ricardo Ribalda Delgado wrote:
-> > [..]
-> > > >
-> > > > GET_CUR?
-> > > yep
+Hi Jacopo,
+
+On Wed, Mar 17, 2021 at 11:04:45AM +0100, Jacopo Mondi wrote:
+> On Mon, Mar 15, 2021 at 05:22:37PM +0000, Kieran Bingham wrote:
+> > On 15/03/2021 13:15, Jacopo Mondi wrote:
+> > > It has been observed through repeated testing (250 boots) that in the
+> > > 10% of the cases the RDACM21 initialization sequence errors out due a
+> > > timeout waiting for the OV490 firmware to complete its boot phase.
 > > >
-> > > >
-> > > > > https://www.kernel.org/doc/html/v4.13/media/uapi/v4l/vidioc-g-selection.html?highlight=vidioc_s_selection
-> > > > > On success the struct v4l2_rect r field contains the adjusted
-> > > > > rectangle.
-> > > >
-> > > > What is the adjusted rectangle here? Does this mean that firmware can
-> > > > successfully apply SET_CUR and return 0, but in reality it was not happy
-> > > > with the rectangle dimensions so it modified it behind the scenes?
+> > > Albeit being the current timeout relatively large (300-600 milliseconds),
+> > > doubling it reduces the sporadic error rate down to 1 over an 80 boot
+> > > sequences test run.
 > > >
-> > > I can imagine that some hw might have spooky requirements for the roi
-> > > rectangle (multiple of 4, not crossing the bayer filter, odd/even
-> > > line...) so they might be able to go the closest valid config.
+> > > The firmware boot delay is unfortunately not characterized in the camera
+> > > module manual.
 > >
-> > Hmm. Honestly, I'm very unsure about it. ROI::SET_CUR can be a very
-> > hot path, depending on what user-space considers to be of interest
-> > and how frequently that object of interest changes its position/shape/etc.
-> > Doing GET_CUR after every SET_CUR doubles the number of firmware calls
-> > we issue, that's for sure; is it worth it - that's something that I'm
-> > not sure of.
+> > I wonder if we could characterize this alone by pulling this down until
+> > we see failures increase, with all the other fixes in place...
 > >
-> > May I please ask for more opinions on this?
->
-> Could you try setting the roi in a loop in your device and verify that
-> it accepts all the values with no modification. If so we can implement
-> the set/get as a quirk for other devices.
+> > I don't think that's required, but it might be something to check later
+> > if we don't get rid of that 1/80 failure.
+> 
+> This is actually driving me crazy :/
+> 
+> I had another test run with a surprising 10% failures.
+> All the failures were due to the ov490 firmware boot I'm trying to
+> mitigate here.
+> 
+> I went up to give it -6 seconds- and I still get failures in the same
+> percentage. Another run of 20 boots gave 30% failures with the delay I
+> have here in this patch. Just to make sure I was not going crazy I
+> reduced the delay to 1msec and I get an 80% failure rate.
+> 
+> Still, I've seen the 1 on 80 failures (I swear! I have logs! :)
+> 
+> I've checked what the BSP does, and if after some 300 attempts the
+> ov490 doesn't boot, they simply go an reset it.
+> https://github.com/renesas-rcar/linux-bsp/commit/0cf6e36f5bf49e1c2aab87139ec5b588623c56f8#diff-d770cad7d6f04923d9e89dfe7da369bb3006776d6e4fb8ef79353d5fab3cd25aR827
+> (sorry, I don't seem to be able to point you to the ov490.c#827 with
+> an URL)
 
-as a loop I mean testing all the values not the same value again-and-again
-;)
+It resets both the sensor and the OV490. It could be interested to try
+the latter selectively to see what happens.
 
+I also suspect that the OV490 has debugging features (possibly including
+a RAM log buffer that we could read over I2C), but we're probably
+getting out of scope here.
 
->
+> I assume we don't want anything like this in an upstream driver, but
+> I'm really running out of any plausible explanation :(
+
+As discussed, let's try the reset workaround, to see if it helps.
+
+I wonder if opening the camera and probing signals would be a useful
+option :-)
+
+> > > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > >
-> >         -ss
->
->
->
-> --
-> Ricardo Ribalda
-
-
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >
+> > > ---
+> > >  drivers/media/i2c/rdacm21.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> > > index 50a9b0d8255d..07cf077d8efd 100644
+> > > --- a/drivers/media/i2c/rdacm21.c
+> > > +++ b/drivers/media/i2c/rdacm21.c
+> > > @@ -53,7 +53,7 @@
+> > >  #define OV490_PID			0x8080300a
+> > >  #define OV490_VER			0x8080300b
+> > >  #define OV490_PID_TIMEOUT		20
+> > > -#define OV490_OUTPUT_EN_TIMEOUT		300
+> > > +#define OV490_OUTPUT_EN_TIMEOUT		600
+> > >
+> > >  #define OV490_GPIO0			BIT(0)
+> > >  #define OV490_SPWDN0			BIT(0)
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
