@@ -2,142 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD6E934121B
-	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 02:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92EE534135B
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 04:09:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232547AbhCSB27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Mar 2021 21:28:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49670 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230507AbhCSB2b (ORCPT
+        id S231521AbhCSDIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Mar 2021 23:08:30 -0400
+Received: from mail-m118208.qiye.163.com ([115.236.118.208]:45514 "EHLO
+        mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229948AbhCSDIB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Mar 2021 21:28:31 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 243954FD;
-        Fri, 19 Mar 2021 02:28:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616117310;
-        bh=De/Sgch1EkNL9tSneSnL+VZqqhcbLgbZJt930S19048=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rVWZApkXriyjuCmCS7zlX6ZdrRWDjokCBXZAKmvnXzB7EnZvZ+6CQff9qi1JwoUOl
-         P1UDqPqmApDbicQjMoL6LZ6JXDZTvlWfmF9tkb67WMa+bVG0DE3x8c+Zi08DUb1GGN
-         xjZcfnP6HFrddnIxdbhlfoKnjAX12OAGwJKAmTPw=
-Date:   Fri, 19 Mar 2021 03:27:52 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Frieder Schrempf <frieder.schrempf@kontron.de>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH v2 00/77] media: imx: Miscellaneous fixes and cleanups
- for i.MX7
-Message-ID: <YFP+GH+3sS0cdd2R@pendragon.ideasonboard.com>
-References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
- <268621a5-03ab-4cd9-d95a-bf5b6a4b4f7b@kontron.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <268621a5-03ab-4cd9-d95a-bf5b6a4b4f7b@kontron.de>
+        Thu, 18 Mar 2021 23:08:01 -0400
+X-Greylist: delayed 536 seconds by postgrey-1.27 at vger.kernel.org; Thu, 18 Mar 2021 23:08:00 EDT
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.250.176.229])
+        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id 339CAE0213;
+        Fri, 19 Mar 2021 10:59:02 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc:     Wang Qing <wangqing@vivo.com>
+Subject: [PATCH] dma-buf: use wake_up_process() instead of wake_up_state()
+Date:   Fri, 19 Mar 2021 10:58:54 +0800
+Message-Id: <1616122734-11581-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZHhhJHkIeHxpDQh8eVkpNSk1KSUlMT0lOTUhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mgw6Txw6Lj8POU4UCB84Eko9
+        GToKFE9VSlVKTUpNSklJTE9JQ0tDVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5LVUpMTVVJSUJZV1kIAVlBSkxNTTcG
+X-HM-Tid: 0a78486c06cb2c17kusn339cae0213
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Frieder,
+Using wake_up_process() is more simpler and friendly, 
+and it is more convenient for analysis and statistics
 
-On Wed, Mar 17, 2021 at 07:04:19PM +0100, Frieder Schrempf wrote:
-> On 15.02.21 05:26, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > This large patch series is a collection of miscellaneous fixes, cleanups
-> > and enhancements for the i.MX7 camera support. Most notably, it
-> > implements support for the Media Controller API in the driver.
-> > 
-> > Compared to v1, review comments have been taken into account, and the
-> > patches have been rebased on top of the DT bindings and latest imx
-> > changes as present in the linux-media tree. Patches 38/77, 39/77, 60/77
-> > and 61/77 are new. For additional information, please see individual
-> > patches.
-> > 
-> > I have successfully tested the code on an i.MX6ULL board (with an
-> > MT9M114 sensor), an I.MX7D board (with an IMX296 sensor), and an i.MX8MM
-> > board (with an OV5640 sensor, and additional patches for i.MX8MM
-> > support).
-> 
-> First of all, thanks for the great work!
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ drivers/dma-buf/dma-fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You're welcome.
-
-> I'm currently trying to get a setup with CSI + MIPI + ADV7280 working on 
-> an i.MX8MM system. Would you mind sharing the additional patches I need 
-> for this?
-> 
-> I guess you are referring to patches for the MIPI CSIS PHY and the 
-> devicetree. Anything else, that I'm missing?
-
-I've pushed my work in progress patches to
-
-	git://linuxtv.org/pinchartl/media.git imx/next
-
-I haven't tested this on mainline though, as the i.MX8MM board I'm using
-currently requires an NXP BSP.
-
-For the DT integration, here's what I have in imx8mm.dtsi:
-
-			csi1_bridge: csi1_bridge@32e20000 {
-				compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-				reg = <0x32e20000 0x1000>;
-				interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
-				clocks = <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
-					 <&clk IMX8MM_CLK_CSI1_ROOT>,
-					 <&clk IMX8MM_CLK_DISP_APB_ROOT>;
-				clock-names = "axi", "mclk", "dcic";
-				power-domains = <&dispmix_pd>;
-				status = "disabled";
-
-				port {
-					csi_in: endpoint {
-						remote-endpoint = <&mipi_csi_out>;
-					};
-				};
-			};
-
-			mipi_csi: mipi_csi@32e30000 {
-				compatible = "fsl,imx8mm-mipi-csi2", "fsl,imx7-mipi-csi2";
-				reg = <0x32e30000 0x1000>;
-				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
-				clock-frequency = <333000000>;
-				clocks = <&clk IMX8MM_CLK_DISP_APB_ROOT>,
-					 <&clk IMX8MM_CLK_CSI1_ROOT>,
-					 <&clk IMX8MM_CLK_CSI1_PHY_REF>,
-					 <&clk IMX8MM_CLK_DISP_AXI_ROOT>;
-				clock-names = "pclk", "wrap", "phy", "axi";
-				power-domains = <&mipi_pd>;
-
-				status = "disabled";
-
-				ports {
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-					};
-
-					port@1 {
-						reg = <1>;
-
-						mipi_csi_out: endpoint {
-							remote-endpoint = <&csi_in>;
-						};
-					};
-				};
-			};
-
-Mainline seems to be missing the power domains, so you'll likely have to
-sort this out.
-
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 7475e09..de51326
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -655,7 +655,7 @@ dma_fence_default_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+ 	struct default_wait_cb *wait =
+ 		container_of(cb, struct default_wait_cb, base);
+ 
+-	wake_up_state(wait->task, TASK_NORMAL);
++	wake_up_process(wait->task);
+ }
+ 
+ /**
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
