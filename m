@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EDCD342414
+	by mail.lfdr.de (Postfix) with ESMTP id 23AF4342413
 	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 19:07:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230319AbhCSSHZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Mar 2021 14:07:25 -0400
+        id S230320AbhCSSH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Mar 2021 14:07:26 -0400
 Received: from mga09.intel.com ([134.134.136.24]:57280 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230304AbhCSSHD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Mar 2021 14:07:03 -0400
-IronPort-SDR: L+tcqYdtRlJz/RkfD63notuOlfN/S9PvWJHRMSzxNqSdshPc6hwK8y/cYiT+l1VMOGj0UwkmJw
- /2Yvex7uQxkw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="190036047"
+        id S230285AbhCSSHG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 19 Mar 2021 14:07:06 -0400
+IronPort-SDR: Nw6gXpnEF0tx2ue+mB2qSN+kw07pRLkWBPN4AzV+gXoKla50t7K0n0coJnBCWGv36N5d0FvlYX
+ Xzx2dWOD8VpQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="190036056"
 X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
-   d="scan'208";a="190036047"
+   d="scan'208";a="190036056"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 11:07:02 -0700
-IronPort-SDR: S8tOmrMQOO6vH8GTMpYUMoSWyUGX648XK8zHXferbUPBWaDMLLY9Rc+QVpg/lBtJBcipB+Hfga
- xP0RXVDSQncg==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 11:07:05 -0700
+IronPort-SDR: rElUgfs7LyiAKG9gI2du4OUNK+miMjJ2L7dDa8plhROo9cTNzDdWs1Ne9sxQZIsAYvj/CWtpAu
+ b1ismd4+YYgA==
 X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
-   d="scan'208";a="413605781"
+   d="scan'208";a="413605805"
 Received: from mkrastex-mobl.ger.corp.intel.com ([10.104.88.55])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 11:07:00 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 11:07:02 -0700
 From:   Martina Krasteva <martinax.krasteva@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org,
@@ -32,9 +32,9 @@ Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org,
         paul.j.murphy@linux.intel.com,
         gjorgjix.rosikopulos@linux.intel.com,
         martinax.krasteva@linux.intel.com
-Subject: [PATCH 08/10] media: Keem Bay Camera: Add capture video node
-Date:   Fri, 19 Mar 2021 18:06:30 +0000
-Message-Id: <20210319180632.585-9-martinax.krasteva@linux.intel.com>
+Subject: [PATCH 09/10] media: Keem Bay Camera: Add metadata video node
+Date:   Fri, 19 Mar 2021 18:06:31 +0000
+Message-Id: <20210319180632.585-10-martinax.krasteva@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210319180632.585-1-martinax.krasteva@linux.intel.com>
 References: <20210319180632.585-1-martinax.krasteva@linux.intel.com>
@@ -42,1253 +42,2343 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Martina Krasteva <martinax.krasteva@intel.com>
+From: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
 
-Capture video node implements v4l2 capture
-interface and XLink VPU Camera buffer pool operations.
+Metadata video node implements output and capture meta type
+interface.
 
-Build and set stream pipeline operations are also executed
-from capture video node. Resolution depends on remote
-entity pad connected to this video node.
+- Output video node is used to provide isp parameters for processing.
 
-Co-developed-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
+Each buffer internally has real vpu isp params structure
+allocated. User space params are copied on every qbuf based on
+update flags. Since vpu need every time all parameters to be provided,
+params are copied on every qbuf. Based on update flags they are copied
+from userspace buffer or last buffer processed.
+To reduce coping of the tables, they are allocated separately
+in table buffer pool.
+The tables are copied only when there is update from the userspace,
+otherwise they are only reference from last processed frame.
+This is possible because vpu interface has separate address for each table.
+
+- Capture video node is used to provide statistics to userspace.
+Capture video node statistics memory addresses are copied to isp
+params before processing, and corresponding update flags are set
+based on statistics availability.
+
 Signed-off-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
+Co-developed-by: Ivan Dimitrov <ivanx.dimitrov@intel.com>
+Signed-off-by: Ivan Dimitrov <ivanx.dimitrov@intel.com>
+Co-developed-by: Martina Krasteva <martinax.krasteva@intel.com>
 Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
 Acked-by: Paul J. Murphy <paul.j.murphy@intel.com>
 Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
 ---
- .../platform/keembay-camera/keembay-pipeline.c     | 192 +++++
- .../platform/keembay-camera/keembay-pipeline.h     |   4 +
- .../media/platform/keembay-camera/keembay-video.c  | 884 ++++++++++++++++++++-
- .../media/platform/keembay-camera/keembay-video.h  |  51 +-
- 4 files changed, 1096 insertions(+), 35 deletions(-)
+ drivers/media/platform/keembay-camera/Makefile     |    4 +-
+ .../platform/keembay-camera/keembay-metadata.c     | 1823 +++++++++++++++++++-
+ .../platform/keembay-camera/keembay-metadata.h     |   14 +-
+ .../keembay-camera/keembay-params-defaults.c       |  326 ++++
+ .../keembay-camera/keembay-params-defaults.h       |   38 +
+ 5 files changed, 2194 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/media/platform/keembay-camera/keembay-params-defaults.c
+ create mode 100644 drivers/media/platform/keembay-camera/keembay-params-defaults.h
 
-diff --git a/drivers/media/platform/keembay-camera/keembay-pipeline.c b/drivers/media/platform/keembay-camera/keembay-pipeline.c
-index 78b2fffa42ee..0050361ef3c0 100644
---- a/drivers/media/platform/keembay-camera/keembay-pipeline.c
-+++ b/drivers/media/platform/keembay-camera/keembay-pipeline.c
-@@ -60,6 +60,39 @@ static void kmb_pipe_print_config(struct kmb_pipeline *pipe)
- 	dev_dbg(dev, "\tinternal_memory_size %u\n", cfg->internal_memory_size);
- }
+diff --git a/drivers/media/platform/keembay-camera/Makefile b/drivers/media/platform/keembay-camera/Makefile
+index 8b3ad715c5c4..1b949cf009ef 100644
+--- a/drivers/media/platform/keembay-camera/Makefile
++++ b/drivers/media/platform/keembay-camera/Makefile
+@@ -1,5 +1,5 @@
+ keembay-cam-objs = keembay-camera.o keembay-pipeline.o \
+-		      keembay-cam-xlink.o keembay-isp.o \
+-		      keembay-metadata.o keembay-video.o
++		      keembay-cam-xlink.o keembay-params-defaults.o \
++		      keembay-isp.o keembay-metadata.o keembay-video.o
  
-+static unsigned int kmb_pipe_get_pending(struct media_entity *entity)
-+{
-+	struct media_device *mdev = entity->graph_obj.mdev;
-+	unsigned int num_vdevs = 0;
-+	struct media_entity *next;
-+	struct media_graph graph;
-+	int ret;
-+
-+	/* Walk through graph to count the connected video node entities */
-+	mutex_lock(&mdev->graph_mutex);
-+
-+	ret = media_graph_walk_init(&graph, mdev);
-+	if (ret) {
-+		mutex_unlock(&mdev->graph_mutex);
-+		return -EINVAL;
-+	}
-+
-+	media_graph_walk_start(&graph, entity);
-+
-+	while ((next = media_graph_walk_next(&graph))) {
-+		if (!is_media_entity_v4l2_video_device(next))
-+			continue;
-+
-+		num_vdevs++;
-+	}
-+
-+	mutex_unlock(&mdev->graph_mutex);
-+
-+	media_graph_walk_cleanup(&graph);
-+
-+	return num_vdevs;
-+}
-+
- /**
-  * kmb_pipe_init - Initialize KMB Pipeline
-  * @pipe: pointer to pipeline object
-@@ -207,3 +240,162 @@ int kmb_pipe_config_src(struct kmb_pipeline *pipe,
- 	mutex_unlock(&pipe->lock);
- 	return ret;
- }
-+
-+/**
-+ * kmb_pipe_prepare - Prepare VPU pipeline for streaming
-+ * @pipe: pointer to pipeline object
-+ *
-+ * Prepare pipeline for streaming by sending negotiated configuration to VPU
-+ * and changing state to BUILT.
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+int kmb_pipe_prepare(struct kmb_pipeline *pipe)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&pipe->lock);
-+
-+	/* build only if all outputs are configured */
-+	switch (pipe->state) {
-+	case KMB_PIPE_STATE_UNCONFIGURED:
-+		/* Call config and continue */
-+		ret = kmb_cam_xlink_write_ctrl_msg(pipe->xlink_cam,
-+						   pipe->pipe_cfg_paddr,
-+						   KMB_IC_EVENT_TYPE_CONFIG_ISP_PIPE,
-+						   KMB_IC_EVENT_TYPE_SUCCESSFUL);
-+		if (ret < 0) {
-+			dev_err(pipe->dev, "Failed to reconfigure pipeline!");
-+			break;
-+		}
-+		fallthrough;
-+	case KMB_PIPE_STATE_CONFIGURED:
-+		ret = kmb_cam_xlink_write_ctrl_msg(pipe->xlink_cam,
-+						   pipe->pipe_cfg_paddr,
-+						   KMB_IC_EVENT_TYPE_BUILD_ISP_PIPE,
-+						   KMB_IC_EVENT_TYPE_SUCCESSFUL);
-+		if (ret < 0) {
-+			dev_err(pipe->dev, "Failed to build pipeline!");
-+			break;
-+		}
-+		pipe->state = KMB_PIPE_STATE_BUILT;
-+		break;
-+	case KMB_PIPE_STATE_BUILT:
-+		/* Pipeline is already built ignore */
-+		break;
-+	default:
-+		dev_err(pipe->dev,
-+			"Build pipe in invalid state %d", pipe->state);
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	mutex_unlock(&pipe->lock);
-+
-+	return ret;
-+}
-+
-+static int kmb_pipe_s_stream(struct kmb_pipeline *pipe,
-+			     struct media_entity *entity, int enable)
-+{
-+	struct v4l2_subdev *subdev;
-+	struct media_pad *remote;
-+	int ret;
-+
-+	remote = media_entity_remote_pad(entity->pads);
-+	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
-+		return -EINVAL;
-+
-+	subdev = media_entity_to_v4l2_subdev(remote->entity);
-+	if (!subdev)
-+		return -EINVAL;
-+
-+	ret = v4l2_subdev_call(subdev, video, s_stream, enable);
-+	if (ret < 0 && ret != -ENOIOCTLCMD)
-+		dev_err(pipe->dev, "Cannot set stream %d", enable);
-+
-+	return ret != -ENOIOCTLCMD ? ret : 0;
-+}
-+
-+/**
-+ * kmb_pipe_stop - Set stream off and stop media pipeline
-+ * @pipe: KMB pipeline object
-+ * @entity: media entity
-+ */
-+void kmb_pipe_stop(struct kmb_pipeline *pipe, struct media_entity *entity)
-+{
-+	mutex_lock(&pipe->lock);
-+
-+	if (WARN_ON(!pipe->streaming)) {
-+		dev_err(pipe->dev, "Calling stop on already stopped pipeline");
-+		mutex_unlock(&pipe->lock);
-+		return;
-+	}
-+
-+	if (pipe->state == KMB_PIPE_STATE_STREAMING) {
-+		kmb_pipe_s_stream(pipe, entity, 0);
-+		media_pipeline_stop(entity);
-+		pipe->state = KMB_PIPE_STATE_BUILT;
-+	}
-+
-+	if (pipe->state == KMB_PIPE_STATE_BUILT ||
-+	    pipe->state == KMB_PIPE_STATE_CONFIGURED) {
-+		kmb_cam_xlink_write_ctrl_msg(pipe->xlink_cam,
-+					     pipe->pipe_cfg_paddr,
-+					     KMB_IC_EVENT_TYPE_DELETE_ISP_PIPE,
-+					     KMB_IC_EVENT_TYPE_SUCCESSFUL);
-+
-+		pipe->state = KMB_PIPE_STATE_UNCONFIGURED;
-+	}
-+
-+	pipe->streaming--;
-+
-+	mutex_unlock(&pipe->lock);
-+}
-+
-+/**
-+ * kmb_pipe_run - Run media pipeline and start streaming
-+ * @pipe: KMB pipeline object
-+ * @entity: media entity
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+int kmb_pipe_run(struct kmb_pipeline *pipe, struct media_entity *entity)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&pipe->lock);
-+
-+	if (!pipe->streaming)
-+		pipe->pending = kmb_pipe_get_pending(entity);
-+
-+	pipe->streaming++;
-+
-+	if (pipe->streaming != pipe->pending)
-+		goto done_unlock;
-+
-+	if (pipe->state != KMB_PIPE_STATE_BUILT) {
-+		ret = -EINVAL;
-+		goto done_unlock;
-+	}
-+
-+	ret = media_pipeline_start(entity, &pipe->media_pipe);
-+	if (ret < 0) {
-+		dev_err(pipe->dev, "Failed to start media pipeline");
-+		goto done_unlock;
-+	}
-+
-+	ret = kmb_pipe_s_stream(pipe, entity, 1);
-+	if (ret < 0 && ret != -ENOIOCTLCMD) {
-+		mutex_unlock(&pipe->lock);
-+		kmb_pipe_stop(pipe, entity);
-+		return ret;
-+	}
-+
-+	pipe->state = KMB_PIPE_STATE_STREAMING;
-+
-+done_unlock:
-+	mutex_unlock(&pipe->lock);
-+
-+	return ret;
-+}
-diff --git a/drivers/media/platform/keembay-camera/keembay-pipeline.h b/drivers/media/platform/keembay-camera/keembay-pipeline.h
-index 83ff94d11b34..60ba99e9a73c 100644
---- a/drivers/media/platform/keembay-camera/keembay-pipeline.h
-+++ b/drivers/media/platform/keembay-camera/keembay-pipeline.h
-@@ -68,4 +68,8 @@ void kmb_pipe_config_dest(struct kmb_pipeline *pipe, unsigned int output_id,
- int kmb_pipe_config_src(struct kmb_pipeline *pipe,
- 			struct kmb_pipe_config_evs *pipe_cfg);
- 
-+int kmb_pipe_prepare(struct kmb_pipeline *pipe);
-+int kmb_pipe_run(struct kmb_pipeline *pipe, struct media_entity *entity);
-+void kmb_pipe_stop(struct kmb_pipeline *pipe, struct media_entity *entity);
-+
- #endif /* KEEMBAY_PIPELINE_H */
-diff --git a/drivers/media/platform/keembay-camera/keembay-video.c b/drivers/media/platform/keembay-camera/keembay-video.c
-index 02f4d97e16fb..a92cfbeffea9 100644
---- a/drivers/media/platform/keembay-camera/keembay-video.c
-+++ b/drivers/media/platform/keembay-camera/keembay-video.c
-@@ -2,9 +2,816 @@
- /*
-  * Intel Keem Bay camera Video node.
+ obj-$(CONFIG_VIDEO_INTEL_KEEMBAY_CAMERA) += keembay-cam.o
+diff --git a/drivers/media/platform/keembay-camera/keembay-metadata.c b/drivers/media/platform/keembay-camera/keembay-metadata.c
+index a1df746d9582..8807e3f322c5 100644
+--- a/drivers/media/platform/keembay-camera/keembay-metadata.c
++++ b/drivers/media/platform/keembay-camera/keembay-metadata.c
+@@ -4,17 +4,1818 @@
   *
-- * Copyright (C) 2018-2020 Intel Corporation
-+ * Copyright (C) 2021 Intel Corporation
+  * Copyright (C) 2021 Intel Corporation
   */
-+#include <linux/delay.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/freezer.h>
-+#include <linux/kthread.h>
++
++#include <linux/keembay-isp-ctl.h>
++#include <linux/dmapool.h>
 +
 +#include <media/v4l2-device.h>
 +#include <media/v4l2-ioctl.h>
-+#include <media/v4l2-mc.h>
 +#include <media/videobuf2-dma-contig.h>
++#include <media/videobuf2-vmalloc.h>
 +
-+#include "keembay-cam-xlink.h"
 +#include "keembay-pipeline.h"
- #include "keembay-video.h"
-+#include "keembay-vpu-frame.h"
+ #include "keembay-metadata.h"
+ 
++#define KMB_CAM_METADATA_STATS_NAME "keembay-metadata-stats"
++#define KMB_CAM_METADATA_PARAMS_NAME "keembay-metadata-params"
 +
-+#define KMB_CAM_VIDEO_NAME "keembay-video"
++#define KMB_TABLE_ALIGN 64
 +
-+/* Xlink data channel size and timeout */
-+#define KMB_VID_CH_DATA_SIZE	1024
-+#define KMB_VID_CH_TIMEOUT_MS	5000
-+
-+#define KMB_VID_MIN_WIDTH	16
-+#define KMB_VID_MIN_HEIGHT	16
-+#define KMB_VID_MAX_WIDTH	U16_MAX
-+#define KMB_VID_MAX_HEIGHT	U16_MAX
-+#define KMB_VID_STEP_WIDTH	8
-+#define KMB_VID_STEP_HEIGHT	8
-+
-+#define to_kmb_video_buf(vbuf)	container_of(vbuf, struct kmb_frame_buffer, vb)
-+
-+/* Kmb video format info structure */
-+struct kmb_video_fmt_info {
-+	const char *description;
-+	u32 code;
-+	u32 pixelformat;
-+	enum kmb_frame_types type;
-+	u32 colorspace;
-+	unsigned int planes;
-+	unsigned int bpp;
-+	unsigned int h_subsample;
-+	unsigned int v_subsample;
-+	bool contiguous_memory;
++/* Table names map */
++static const char *table_name[KMB_METADATA_TABLE_MAX] = {
++	"LSC",
++	"StaticDefect",
++	"LCA",
++	"HDR",
++	"Sharpness",
++	"Color cumb",
++	"LUT",
++	"TNF1",
++	"TNF2",
++	"Dehaze",
++	"Warp",
 +};
 +
-+/* Supported video formats */
-+static const struct kmb_video_fmt_info video_formats[] = {
-+	{
-+		.description = "NV12",
-+		.code = MEDIA_BUS_FMT_YUYV8_1_5X8,
-+		.pixelformat = V4L2_PIX_FMT_NV12,
-+		.type = KMB_FRAME_TYPE_NV12,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.planes = 2,
-+		.bpp = 8,
-+		.h_subsample = 1,
-+		.v_subsample = 2,
-+		.contiguous_memory = true,
-+	},
-+	{
-+		.description = "Planar YUV 4:2:0",
-+		.code = MEDIA_BUS_FMT_UYYVYY8_0_5X24,
-+		.pixelformat = V4L2_PIX_FMT_YUV420,
-+		.type = KMB_FRAME_TYPE_YUV420P,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.planes = 3,
-+		.bpp = 8,
-+		.h_subsample = 2,
-+		.v_subsample = 2,
-+		.contiguous_memory = false,
-+	},
-+	{
-+		.description = "Planar YUV 4:4:4",
-+		.code = MEDIA_BUS_FMT_YUV8_1X24,
-+		.pixelformat = V4L2_PIX_FMT_YUV444,
-+		.type = KMB_FRAME_TYPE_YUV444P,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.planes = 3,
-+		.bpp = 8,
-+		.h_subsample = 1,
-+		.v_subsample = 1,
-+		.contiguous_memory = false,
-+	},
-+	{
-+		.description = "RAW 8 Garyscale",
-+		.code = MEDIA_BUS_FMT_Y8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_GREY,
-+		.type = KMB_FRAME_TYPE_RAW8,
-+		.colorspace = V4L2_COLORSPACE_RAW,
-+		.planes = 1,
-+		.bpp = 8,
-+		.h_subsample = 1,
-+		.v_subsample = 1,
-+		.contiguous_memory = false,
-+	},
-+	{
-+		.description = "RAW 10 Grayscale",
-+		.code = MEDIA_BUS_FMT_Y10_1X10,
-+		.pixelformat = V4L2_PIX_FMT_Y10,
-+		.type = KMB_FRAME_TYPE_RAW10,
-+		.colorspace = V4L2_COLORSPACE_RAW,
-+		.planes = 1,
-+		.bpp = 10,
-+		.h_subsample = 1,
-+		.v_subsample = 1,
-+		.contiguous_memory = false,
++static void
++kmb_metadata_copy_blc(struct kmb_vpu_blc_params *dst,
++		      struct kmb_blc_params *src)
++{
++	int i;
++
++	for (i = 0; i < KMB_CAM_MAX_EXPOSURES; i++) {
++		dst[i].coeff1 = src[i].coeff1;
++		dst[i].coeff2 = src[i].coeff2;
++		dst[i].coeff3 = src[i].coeff3;
++		dst[i].coeff4 = src[i].coeff4;
 +	}
-+};
-+
-+static const struct kmb_video_fmt_info *
-+kmb_video_get_fmt_info_by_code(u32 code)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(video_formats); i++)
-+		if (video_formats[i].code == code)
-+			return &video_formats[i];
-+
-+	return NULL;
 +}
 +
-+static const struct kmb_video_fmt_info *
-+kmb_video_get_fmt_info_by_pixfmt(u32 pix_fmt)
++static void
++kmb_metadata_copy_sigma_dns(struct kmb_vpu_sigma_dns_params *dst,
++			    struct kmb_sigma_dns_params *src)
 +{
-+	unsigned int i;
++	int i;
 +
-+	for (i = 0; i < ARRAY_SIZE(video_formats); i++)
-+		if (video_formats[i].pixelformat == pix_fmt)
-+			return &video_formats[i];
-+
-+	return NULL;
-+}
-+
-+/* Buffer processing operations */
-+static void kmb_video_insert_buf(struct kmb_video *kmb_vid,
-+				 struct kmb_frame_buffer *buf)
-+{
-+	INIT_LIST_HEAD(&buf->list);
-+
-+	mutex_lock(&kmb_vid->dma_lock);
-+	list_add_tail(&buf->list, &kmb_vid->dma_queue);
-+	mutex_unlock(&kmb_vid->dma_lock);
-+}
-+
-+static void __kmb_video_buf_discard(struct kmb_video *kmb_vid,
-+				    struct kmb_frame_buffer *buf)
-+{
-+	lockdep_assert_held(&kmb_vid->dma_lock);
-+
-+	list_del(&buf->list);
-+	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-+}
-+
-+static int kmb_video_process_buf(struct kmb_video *kmb_vid,
-+				 struct kmb_frame_buffer *buf)
-+{
-+	const struct kmb_video_fmt_info *info = kmb_vid->active_fmt.info;
-+	struct v4l2_pix_format_mplane *pix = &kmb_vid->active_fmt.pix;
-+	struct kmb_vpu_frame_buffer rt_frame_buf;
-+	int ret;
-+
-+	lockdep_assert_held(&kmb_vid->lock);
-+
-+	memset(&rt_frame_buf, 0, sizeof(rt_frame_buf));
-+	rt_frame_buf.spec.bpp = info->bpp;
-+	rt_frame_buf.spec.type = info->type;
-+	rt_frame_buf.spec.width = pix->width;
-+	rt_frame_buf.spec.height = pix->height;
-+	rt_frame_buf.spec.stride = pix->plane_fmt[0].bytesperline;
-+	rt_frame_buf.p1 = buf->addr[0];
-+
-+	/* Planes not used by the VPU should be set with addr 0 */
-+	if (pix->num_planes > 1)
-+		rt_frame_buf.p2 = buf->addr[1];
-+	if (pix->num_planes > 2)
-+		rt_frame_buf.p3 = buf->addr[2];
-+
-+	ret = kmb_cam_xlink_write_msg(kmb_vid->xlink_cam,
-+				      kmb_vid->chan_id,
-+				      (u8 *)&rt_frame_buf,
-+				      sizeof(rt_frame_buf));
-+	if (ret < 0) {
-+		dev_err(kmb_vid->dma_dev, "Error on buffer queue %d", ret);
-+		return ret;
++	for (i = 0; i < KMB_CAM_MAX_EXPOSURES; i++) {
++		dst[i].noise = src[i].noise;
++		dst[i].threshold1 = src[i].threshold1;
++		dst[i].threshold2 = src[i].threshold2;
++		dst[i].threshold3 = src[i].threshold3;
++		dst[i].threshold4 = src[i].threshold4;
++		dst[i].threshold5 = src[i].threshold5;
++		dst[i].threshold6 = src[i].threshold6;
++		dst[i].threshold7 = src[i].threshold7;
++		dst[i].threshold8 = src[i].threshold8;
 +	}
++}
++
++static void
++kmb_metadata_copy_lsc(struct kmb_vpu_lsc_params *dst,
++		      struct kmb_lsc_params *src)
++{
++	dst->threshold = src->threshold;
++	dst->width = src->width;
++	dst->height = src->height;
++}
++
++static void
++kmb_metadata_copy_raw(struct kmb_vpu_raw_params *dst,
++		      struct kmb_raw_params *src)
++{
++	dst->awb_stats_en = src->awb_stats_en;
++	dst->awb_rgb_hist_en = src->awb_rgb_hist_en;
++	dst->af_stats_en = src->af_stats_en;
++	dst->luma_hist_en = src->luma_hist_en;
++	dst->flicker_accum_en = src->flicker_accum_en;
++	dst->bad_pixel_fix_en = src->bad_pixel_fix_en;
++	dst->grgb_imb_en = src->grgb_imb_en;
++	dst->mono_imbalance_en = src->mono_imbalance_en;
++	dst->gain1 = src->gain1;
++	dst->gain2 = src->gain2;
++	dst->gain3 = src->gain3;
++	dst->gain4 = src->gain4;
++	dst->stop1 = src->stop1;
++	dst->stop2 = src->stop2;
++	dst->stop3 = src->stop3;
++	dst->stop4 = src->stop4;
++	dst->threshold1 = src->threshold1;
++	dst->alpha1 = src->alpha1;
++	dst->alpha2 = src->alpha2;
++	dst->alpha3 = src->alpha3;
++	dst->alpha4 = src->alpha4;
++	dst->threshold2 = src->threshold2;
++	dst->static_defect_size = src->static_defect_size;
++	dst->flicker_first_row_acc = src->start_row;
++	dst->flicker_last_row_acc = src->end_row;
++}
++
++static void
++kmb_metadata_copy_ae_awb(struct kmb_vpu_ae_awb_params *dst,
++			 struct kmb_ae_awb_params *src)
++{
++	dst->start_x = src->start_x;
++	dst->start_y = src->start_y;
++	dst->width = src->width;
++	dst->height = src->height;
++	dst->skip_x = src->skip_x;
++	dst->skip_y = src->skip_y;
++	dst->patches_x = src->patches_x;
++	dst->patches_y = src->patches_y;
++	dst->threshold1 = src->threshold1;
++	dst->threshold2 = src->threshold2;
++}
++
++static void
++kmb_metadata_copy_af(struct kmb_vpu_af_params *dst,
++		     struct kmb_af_params *src)
++{
++	int i;
++
++	dst->start_x = src->start_x;
++	dst->start_y = src->start_y;
++	dst->width = src->width;
++	dst->height = src->height;
++	dst->patches_x = src->patches_x;
++	dst->patches_y = src->patches_y;
++	dst->coeff = src->coeff;
++	dst->threshold1 = src->threshold1;
++	dst->threshold2 = src->threshold2;
++
++	for (i = 0; i < ARRAY_SIZE(dst->coeffs1); i++) {
++		dst->coeffs1[i] = src->coeffs1[i];
++		dst->coeffs2[i] = src->coeffs2[i];
++	}
++}
++
++static void
++kmb_metadata_copy_histogram(struct kmb_vpu_hist_params *dst,
++			    struct kmb_hist_params *src)
++{
++	int i;
++
++	dst->start_x = src->start_x;
++	dst->start_y = src->start_y;
++	dst->end_x = src->end_x;
++	dst->end_y = src->end_y;
++
++	for (i = 0; i < ARRAY_SIZE(dst->matrix); i++)
++		dst->matrix[i] = src->matrix[i];
++
++	for (i = 0; i < ARRAY_SIZE(dst->weight); i++)
++		dst->weight[i] = src->weight[i];
++}
++
++static void
++kmb_metadata_copy_debayer(struct kmb_vpu_debayer_params *dst,
++			  struct kmb_debayer_params *src)
++{
++	dst->coeff1 = src->coeff1;
++	dst->multiplier1 = src->multiplier1;
++	dst->multiplier2 = src->multiplier2;
++	dst->coeff2 = src->coeff2;
++	dst->coeff3 = src->coeff3;
++	dst->coeff4 = src->coeff4;
++}
++
++static void
++kmb_metadata_copy_dog_dns(struct kmb_vpu_dog_dns_params *dst,
++			  struct kmb_dog_dns_params *src)
++{
++	int i;
++
++	dst->threshold = src->threshold;
++	dst->strength = src->strength;
++
++	for (i = 0; i < ARRAY_SIZE(dst->coeffs11); i++)
++		dst->coeffs11[i] = src->coeffs11[i];
++
++	for (i = 0; i < ARRAY_SIZE(dst->coeffs15); i++)
++		dst->coeffs15[i] = src->coeffs15[i];
++}
++
++static void
++kmb_metadata_copy_luma_dns(struct kmb_vpu_luma_dns_params *dst,
++			   struct kmb_luma_dns_params *src)
++{
++	dst->threshold = src->threshold;
++	dst->slope = src->slope;
++	dst->shift = src->shift;
++	dst->alpha = src->alpha;
++	dst->weight = src->weight;
++	dst->per_pixel_alpha_en = src->per_pixel_alpha_en;
++	dst->gain_bypass_en = src->gain_bypass_en;
++}
++
++static void
++kmb_metadata_copy_sharpen(struct kmb_vpu_sharpen_params *dst,
++			  struct kmb_sharpen_params *src)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dst->coeffs1); i++) {
++		dst->coeffs1[i] = src->coeffs1[i];
++		dst->coeffs2[i] = src->coeffs2[i];
++		dst->coeffs3[i] = src->coeffs3[i];
++	}
++
++	dst->shift = src->shift;
++	dst->gain1 = src->gain1;
++	dst->gain2 = src->gain2;
++	dst->gain3 = src->gain3;
++	dst->gain4 = src->gain4;
++	dst->gain5 = src->gain5;
++
++	for (i = 0; i < ARRAY_SIZE(dst->stops1); i++) {
++		dst->stops1[i] = src->stops1[i];
++		dst->gains[i] = src->gains[i];
++	}
++
++	for (i = 0; i < ARRAY_SIZE(dst->stops2); i++)
++		dst->stops2[i] = src->stops2[i];
++
++	dst->overshoot = src->overshoot;
++	dst->undershoot = src->undershoot;
++	dst->alpha = src->alpha;
++	dst->gain6 = src->gain6;
++	dst->offset = src->offset;
++}
++
++static void
++kmb_metadata_copy_chroma_gen(struct kmb_vpu_chroma_gen_params *dst,
++			     struct kmb_chroma_gen_params *src)
++{
++	int i;
++
++	dst->epsilon = src->epsilon;
++	dst->coeff1 = src->coeff1;
++	dst->coeff2 = src->coeff2;
++	dst->coeff3 = src->coeff3;
++	dst->coeff4 = src->coeff4;
++	dst->coeff5 = src->coeff5;
++	dst->coeff6 = src->coeff6;
++	dst->strength1 = src->strength1;
++	dst->strength2 = src->strength2;
++
++	for (i = 0; i < ARRAY_SIZE(dst->coeffs); i++)
++		dst->coeffs[i] = src->coeffs[i];
++
++	dst->offset1 = src->offset1;
++	dst->slope1 = src->slope1;
++	dst->slope2 = src->slope2;
++	dst->offset2 = src->offset2;
++	dst->limit = src->limit;
++}
++
++static void
++kmb_metadata_copy_median(struct kmb_vpu_median_params *dst,
++			 struct kmb_median_params *src)
++{
++	dst->size = src->size;
++	dst->slope = src->slope;
++	dst->offset = src->offset;
++}
++
++static void
++kmb_metadata_copy_chroma_dns(struct kmb_vpu_chroma_dns_params *dst,
++			     struct kmb_chroma_dns_params *src)
++{
++	dst->limit = src->limit;
++	dst->enable = src->enable;
++	dst->threshold1 = src->threshold1;
++	dst->threshold2 = src->threshold2;
++	dst->threshold3 = src->threshold3;
++	dst->threshold4 = src->threshold4;
++	dst->threshold5 = src->threshold5;
++	dst->threshold6 = src->threshold6;
++	dst->threshold7 = src->threshold7;
++	dst->threshold8 = src->threshold8;
++	dst->slope1 = src->slope1;
++	dst->offset1 = src->offset1;
++	dst->slope2 = src->slope2;
++	dst->offset2 = src->offset2;
++	dst->grey1 = src->grey1;
++	dst->grey2 = src->grey2;
++	dst->grey3 = src->grey3;
++	dst->coeff1 = src->coeff1;
++	dst->coeff2 = src->coeff2;
++	dst->coeff3 = src->coeff3;
++}
++
++static void
++kmb_metadata_copy_color_comb(struct kmb_vpu_color_comb_params *dst,
++			     struct kmb_color_comb_params *src)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dst->matrix); i++)
++		dst->matrix[i] = src->matrix[i];
++
++	for (i = 0; i < ARRAY_SIZE(dst->offsets); i++)
++		dst->offsets[i] = src->offsets[i];
++
++	dst->coeff1 = src->coeff1;
++	dst->coeff2 = src->coeff2;
++	dst->coeff3 = src->coeff3;
++	dst->enable = src->enable;
++	dst->weight1 = src->weight1;
++	dst->weight2 = src->weight2;
++	dst->weight3 = src->weight3;
++	dst->limit1 = src->limit1;
++	dst->limit2 = src->limit2;
++	dst->offset1 = src->offset1;
++	dst->offset2 = src->offset2;
++}
++
++static void
++kmb_metadata_copy_hdr(struct kmb_vpu_hdr_params *dst,
++		      struct kmb_hdr_params *src)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dst->ratio); i++)
++		dst->ratio[i] = src->ratio[i];
++
++	for (i = 0; i < ARRAY_SIZE(dst->scale); i++)
++		dst->scale[i] = src->scale[i];
++
++	dst->offset1 = src->offset1;
++	dst->slope1 = src->slope1;
++	dst->offset2 = src->offset2;
++	dst->slope2 = src->slope2;
++	dst->offset3 = src->offset3;
++	dst->slope3 = src->slope3;
++	dst->offset4 = src->offset4;
++	dst->gain1 = src->gain1;
++
++	for (i = 0; i < ARRAY_SIZE(dst->blur1); i++)
++		dst->blur1[i] = src->blur1[i];
++
++	for (i = 0; i < ARRAY_SIZE(dst->blur2); i++)
++		dst->blur2[i] = src->blur2[i];
++
++	dst->contrast1 = src->contrast1;
++	dst->contrast2 = src->contrast2;
++	dst->enable1 = src->enable1;
++	dst->enable2 = src->enable2;
++	dst->offset5 = src->offset5;
++	dst->gain2 = src->gain2;
++	dst->offset6 = src->offset6;
++	dst->strength = src->strength;
++	dst->offset7 = src->offset7;
++	dst->shift = src->shift;
++	dst->field1 = src->field1;
++	dst->field2 = src->field2;
++	dst->gain3 = src->gain3;
++	dst->min = src->min;
++}
++
++static void
++kmb_metadata_copy_lut(struct kmb_vpu_lut_params *dst,
++		      struct kmb_lut_params *src)
++{
++	int i;
++
++	dst->size = src->size;
++	for (i = 0; i < ARRAY_SIZE(dst->matrix); i++)
++		dst->matrix[i] = src->matrix[i];
++
++	for (i = 0; i < ARRAY_SIZE(dst->offsets); i++)
++		dst->offsets[i] = src->offsets[i];
++}
++
++static void
++kmb_metadata_copy_tnf(struct kmb_vpu_tnf_params *dst,
++		      struct kmb_tnf_params *src)
++{
++	dst->factor = src->factor;
++	dst->gain = src->gain;
++	dst->offset1 = src->offset1;
++	dst->slope1 = src->slope1;
++	dst->offset2 = src->offset2;
++	dst->slope2 = src->slope2;
++	dst->min1 = src->min1;
++	dst->min2 = src->min2;
++	dst->value = src->value;
++	dst->enable = src->enable;
++}
++
++static void
++kmb_metadata_copy_dehaze(struct kmb_vpu_dehaze_params *dst,
++			 struct kmb_dehaze_params *src)
++{
++	int i;
++
++	dst->gain1 = src->gain1;
++	dst->min = src->min;
++	dst->strength1 = src->strength1;
++	dst->strength2 = src->strength2;
++	dst->gain2 = src->gain2;
++	dst->saturation = src->saturation;
++	dst->value1 = src->value1;
++	dst->value2 = src->value2;
++	dst->value3 = src->value3;
++
++	for (i = 0; i < ARRAY_SIZE(dst->filter); i++)
++		dst->filter[i] = src->filter[i];
++}
++
++static void
++kmb_metadata_copy_warp(struct kmb_vpu_warp_params *dst,
++		       struct kmb_warp_params *src)
++{
++	int i;
++
++	dst->type = src->type;
++	dst->relative = src->relative;
++	dst->format = src->format;
++	dst->position = src->position;
++	dst->width = src->width;
++	dst->height = src->height;
++	dst->stride = src->stride;
++	dst->enable = src->enable;
++
++	for (i = 0; i < ARRAY_SIZE(dst->matrix); i++)
++		dst->matrix[i] = src->matrix[i];
++
++	dst->mode = src->mode;
++
++	for (i = 0; i < ARRAY_SIZE(dst->values); i++)
++		dst->values[i] = src->values[i];
++}
++
++/* VPU Params tables  */
++static struct kmb_metadata_table *
++kmb_metadata_cpalloc_table(struct kmb_metadata *kmb_meta,
++			   enum kmb_metadata_table_type type,
++			   size_t src_table_size)
++{
++	struct kmb_metadata_table *table;
++
++	lockdep_assert_held(&kmb_meta->lock);
++
++	/* First create pool if needed  */
++	if (!kmb_meta->table_pool[type]) {
++		kmb_meta->table_pool[type] =
++			dma_pool_create(table_name[type],
++					kmb_meta->dma_dev,
++					src_table_size + sizeof(*table),
++					KMB_TABLE_ALIGN, 0);
++		if (!kmb_meta->table_pool[type]) {
++			dev_err(kmb_meta->dma_dev,
++				"Fail to create %s pool", table_name[type]);
++			return NULL;
++		}
++	}
++
++	table = kmalloc(sizeof(*table), GFP_KERNEL);
++	if (!table)
++		return NULL;
++
++	kref_init(&table->refcount);
++	table->pool = kmb_meta->table_pool[type];
++
++	table->cpu_addr = dma_pool_alloc(kmb_meta->table_pool[type],
++					 GFP_KERNEL,
++					 &table->dma_addr);
++	if (!table->cpu_addr) {
++		kfree(table);
++		return NULL;
++	}
++
++	return table;
++}
++
++static void kmb_metadata_free_table(struct kref *ref)
++{
++	struct kmb_metadata_table *table =
++		container_of(ref, struct kmb_metadata_table, refcount);
++
++	dma_pool_free(table->pool, table->cpu_addr, table->dma_addr);
++	kfree(table);
++}
++
++static void
++kmb_metadata_release_tables(struct kmb_metadata_buf *meta_buf)
++{
++	int i;
++
++	for (i = 0; i < KMB_METADATA_TABLE_MAX; i++) {
++		if (meta_buf->params.tab[i]) {
++			kref_put(&meta_buf->params.tab[i]->refcount,
++				 kmb_metadata_free_table);
++			meta_buf->params.tab[i] = NULL;
++		}
++	}
++}
++
++static void
++kmb_metadata_destroy_table_pools(struct kmb_metadata *kmb_meta)
++{
++	int i;
++
++	/* Release allocated pools during streaming */
++	for (i = 0; i < KMB_METADATA_TABLE_MAX; i++) {
++		dma_pool_destroy(kmb_meta->table_pool[i]);
++		kmb_meta->table_pool[i] = NULL;
++	}
++}
++
++static dma_addr_t
++kmb_metadata_get_table_addr(struct kmb_metadata_buf *meta_buf,
++			    enum kmb_metadata_table_type type)
++{
++	struct kmb_metadata_table *table = meta_buf->params.tab[type];
++
++	if (!table)
++		return 0;
++
++	return table->dma_addr;
++}
++
++static struct kmb_metadata_table *
++kmb_metadata_create_table(struct kmb_metadata *kmb_meta,
++			  struct kmb_metadata_buf *meta_buf,
++			  enum kmb_metadata_table_type type,
++			  size_t user_table_size)
++{
++	struct kmb_metadata_table *table;
++
++	lockdep_assert_held(&kmb_meta->lock);
++
++	table = kmb_metadata_cpalloc_table(kmb_meta,
++					   type,
++					   user_table_size);
++	if (!table)
++		return NULL;
++
++	if (meta_buf->params.tab[type])
++		kref_put(&meta_buf->params.tab[type]->refcount,
++			 kmb_metadata_free_table);
++
++	meta_buf->params.tab[type] = table;
++
++	return table;
++}
++
++static int
++kmb_metadata_copy_table_usr(struct kmb_metadata *kmb_meta,
++			    struct kmb_metadata_buf *meta_buf,
++			    enum kmb_metadata_table_type type,
++			    u8 *user_table, size_t user_table_size)
++{
++	struct kmb_metadata_table *table;
++
++	table = kmb_metadata_create_table(kmb_meta, meta_buf,
++					  type, user_table_size);
++	if (!table)
++		return -ENOMEM;
++
++	memcpy(table->cpu_addr, user_table, user_table_size);
 +
 +	return 0;
 +}
 +
-+static void kmb_video_process_all_bufs(struct kmb_video *kmb_vid)
++static int kmb_metadata_create_default_table(struct kmb_metadata *kmb_meta,
++					     struct kmb_metadata_buf *meta_buf,
++					     enum kmb_metadata_table_type type,
++					     u8 *user_table,
++					     size_t user_table_size)
 +{
-+	struct kmb_frame_buffer *buf;
-+	struct list_head *next;
-+	struct list_head *pos;
-+	int ret;
++	struct kmb_metadata_table *table;
 +
-+	mutex_lock(&kmb_vid->dma_lock);
++	table = kmb_metadata_create_table(kmb_meta, meta_buf,
++					  type, user_table_size);
++	if (!table)
++		return -ENOMEM;
 +
-+	/* Discard buf is removing buffer from the list */
-+	list_for_each_safe(pos, next, &kmb_vid->dma_queue) {
-+		buf = list_entry(pos, struct kmb_frame_buffer, list);
++	memset(table->cpu_addr, 0, user_table_size);
 +
-+		ret = kmb_video_process_buf(kmb_vid, buf);
-+		if (ret) {
-+			dev_err(&kmb_vid->video->dev,
-+				"Cannot process output buf 0x%pad",
-+				&buf->addr[0]);
-+			__kmb_video_buf_discard(kmb_vid, buf);
-+			continue;
-+		}
-+	}
-+
-+	mutex_unlock(&kmb_vid->dma_lock);
++	return 0;
 +}
 +
-+static int kmb_video_queue_output_buf(struct kmb_video *kmb_vid,
-+				      struct kmb_frame_buffer *buf)
++static void
++kmb_metadata_copy_table_vpu(struct kmb_metadata_buf *meta_buf,
++			    struct kmb_metadata_buf *last_meta_buf,
++			    enum kmb_metadata_table_type type)
 +{
++	/* Do nothing if params are the same */
++	if (WARN_ON(meta_buf->params.isp == last_meta_buf->params.isp))
++		return;
++
++	meta_buf->params.tab[type] = last_meta_buf->params.tab[type];
++	if (meta_buf->params.tab[type])
++		kref_get(&meta_buf->params.tab[type]->refcount);
++}
++
++static void
++kmb_metadata_fill_blc(struct kmb_vpu_isp_params *params,
++		      struct kmb_isp_params *user_params,
++		      struct kmb_vpu_isp_params *last_params,
++		      struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.blc) {
++		kmb_metadata_copy_blc(params->blc, user_params->blc);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(params->blc, last_params->blc,
++			       sizeof(params->blc));
++	} else {
++		memcpy(params->blc, def_params->blc, sizeof(params->blc));
++	}
++}
++
++static void
++kmb_metadata_fill_signma_dns(struct kmb_vpu_isp_params *params,
++			     struct kmb_isp_params *user_params,
++			     struct kmb_vpu_isp_params *last_params,
++			     struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.sigma_dns) {
++		kmb_metadata_copy_sigma_dns(params->sigma_dns,
++					    user_params->sigma_dns);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(params->sigma_dns, last_params->sigma_dns,
++			       sizeof(params->sigma_dns));
++	} else {
++		memcpy(params->sigma_dns, def_params->sigma_dns,
++		       sizeof(params->sigma_dns));
++	}
++}
++
++static void
++kmb_metadata_fill_ae_awb(struct kmb_vpu_isp_params *params,
++			 struct kmb_isp_params *user_params,
++			 struct kmb_vpu_isp_params *last_params,
++			 struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.ae_awb) {
++		kmb_metadata_copy_ae_awb(&params->ae_awb,
++					 &user_params->ae_awb);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->ae_awb, &last_params->ae_awb,
++			       sizeof(params->ae_awb));
++	} else {
++		memcpy(&params->ae_awb, def_params->ae_awb,
++		       sizeof(params->ae_awb));
++	}
++}
++
++static void
++kmb_metadata_fill_af(struct kmb_vpu_isp_params *params,
++		     struct kmb_isp_params *user_params,
++		     struct kmb_vpu_isp_params *last_params,
++		     struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.af) {
++		kmb_metadata_copy_af(&params->af, &user_params->af);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->af, &last_params->af,
++			       sizeof(params->af));
++	} else {
++		memcpy(&params->af, def_params->af, sizeof(params->af));
++	}
++}
++
++static void
++kmb_metadata_fill_histogram(struct kmb_vpu_isp_params *params,
++			    struct kmb_isp_params *user_params,
++			    struct kmb_vpu_isp_params *last_params,
++			    struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.histogram) {
++		kmb_metadata_copy_histogram(&params->histogram,
++					    &user_params->histogram);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->histogram, &last_params->histogram,
++			       sizeof(params->histogram));
++	} else {
++		memcpy(&params->histogram, def_params->histogram,
++		       sizeof(params->histogram));
++	}
++}
++
++static void
++kmb_metadata_fill_debayer(struct kmb_vpu_isp_params *params,
++			  struct kmb_isp_params *user_params,
++			  struct kmb_vpu_isp_params *last_params,
++			  struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.debayer) {
++		kmb_metadata_copy_debayer(&params->debayer,
++					  &user_params->debayer);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->debayer, &last_params->debayer,
++			       sizeof(params->debayer));
++	} else {
++		memcpy(&params->debayer, def_params->debayer,
++		       sizeof(params->debayer));
++	}
++}
++
++static void
++kmb_metadata_fill_dog_dns(struct kmb_vpu_isp_params *params,
++			  struct kmb_isp_params *user_params,
++			  struct kmb_vpu_isp_params *last_params,
++			  struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.dog_dns) {
++		kmb_metadata_copy_dog_dns(&params->dog_dns,
++					  &user_params->dog_dns);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->dog_dns, &last_params->dog_dns,
++			       sizeof(params->dog_dns));
++	} else {
++		memcpy(&params->dog_dns, def_params->dog_dns,
++		       sizeof(params->dog_dns));
++	}
++}
++
++static void
++kmb_metadata_fill_luma_dns(struct kmb_vpu_isp_params *params,
++			   struct kmb_isp_params *user_params,
++			   struct kmb_vpu_isp_params *last_params,
++			   struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.luma_dns) {
++		kmb_metadata_copy_luma_dns(&params->luma_dns,
++					   &user_params->luma_dns);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->luma_dns, &last_params->luma_dns,
++			       sizeof(params->luma_dns));
++	} else {
++		memcpy(&params->luma_dns, def_params->luma_dns,
++		       sizeof(params->luma_dns));
++	}
++}
++
++static void
++kmb_metadata_fill_chroma_gen(struct kmb_vpu_isp_params *params,
++			     struct kmb_isp_params *user_params,
++			     struct kmb_vpu_isp_params *last_params,
++			     struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.chroma_gen) {
++		kmb_metadata_copy_chroma_gen(&params->chroma_gen,
++					     &user_params->chroma_gen);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->chroma_gen, &last_params->chroma_gen,
++			       sizeof(params->chroma_gen));
++	} else {
++		memcpy(&params->chroma_gen, def_params->chroma_gen,
++		       sizeof(params->chroma_gen));
++	}
++}
++
++static void
++kmb_metadata_fill_median(struct kmb_vpu_isp_params *params,
++			 struct kmb_isp_params *user_params,
++			 struct kmb_vpu_isp_params *last_params,
++			 struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.median) {
++		kmb_metadata_copy_median(&params->median,
++					 &user_params->median);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->median, &last_params->median,
++			       sizeof(params->median));
++	} else {
++		memcpy(&params->median, def_params->median,
++		       sizeof(params->median));
++	}
++}
++
++static void
++kmb_metadata_fill_chroma_dns(struct kmb_vpu_isp_params *params,
++			     struct kmb_isp_params *user_params,
++			     struct kmb_vpu_isp_params *last_params,
++			     struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.chroma_dns) {
++		kmb_metadata_copy_chroma_dns(&params->chroma_dns,
++					     &user_params->chroma_dns);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->chroma_dns, &last_params->chroma_dns,
++			       sizeof(params->chroma_dns));
++	} else {
++		memcpy(&params->chroma_dns, def_params->chroma_dns,
++		       sizeof(params->chroma_dns));
++	}
++}
++
++static void
++kmb_metadata_fill_dehaze(struct kmb_vpu_isp_params *params,
++			 struct kmb_isp_params *user_params,
++			 struct kmb_vpu_isp_params *last_params,
++			 struct kmb_vpu_isp_params_defaults *def_params)
++{
++	if (user_params->update.dehaze) {
++		kmb_metadata_copy_dehaze(&params->dehaze,
++					 &user_params->dehaze);
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->dehaze, &last_params->dehaze,
++			       sizeof(params->dehaze));
++	} else {
++		memcpy(&params->dehaze, def_params->dehaze,
++		       sizeof(params->dehaze));
++	}
++}
++
++static int
++kmb_metadata_fill_lsc(struct kmb_metadata *kmb_meta,
++		      struct kmb_metadata_buf *meta_buf,
++		      struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
 +	int ret = 0;
 +
-+	kmb_video_insert_buf(kmb_vid, buf);
++	if (last_buf)
++		last_params = last_buf->params.isp;
 +
-+	mutex_lock(&kmb_vid->dma_lock);
-+
-+	/* Process buffers only when device is streaming */
-+	if (vb2_is_streaming(&kmb_vid->vb2_q)) {
-+		ret = kmb_video_process_buf(kmb_vid, buf);
-+		if (ret) {
-+			dev_err(&kmb_vid->video->dev,
-+				"Fail to process output buf 0x%pad",
-+				&buf->addr[0]);
-+			__kmb_video_buf_discard(kmb_vid, buf);
++	if (user_params->update.lsc) {
++		kmb_metadata_copy_lsc(&params->lsc,
++				      &user_params->lsc);
++		if (params->lsc.width && params->lsc.height) {
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_LSC,
++							  user_params->lsc.gain_mesh,
++							  params->lsc.width *
++							  params->lsc.height);
++			if (ret < 0)
++				return ret;
 +		}
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->lsc, &last_params->lsc,
++			       sizeof(params->lsc));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_LSC);
++	} else {
++		memcpy(&params->lsc, def_params->lsc, sizeof(params->lsc));
++		kmb_metadata_create_default_table(kmb_meta,
++						  meta_buf,
++						  KMB_METADATA_TABLE_LSC,
++						  user_params->lsc.gain_mesh,
++						  ARRAY_SIZE(user_params->lsc.gain_mesh));
 +	}
 +
-+	mutex_unlock(&kmb_vid->dma_lock);
++	if (params->lsc.width && params->lsc.height) {
++		params->lsc.addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_LSC);
++		if (!params->lsc.addr)
++			ret = -EINVAL;
++	}
 +
 +	return ret;
 +}
 +
-+static void kmb_video_release_all_bufs(struct kmb_video *kmb_vid,
-+				       enum vb2_buffer_state state)
++static int
++kmb_metadata_fill_raw(struct kmb_metadata *kmb_meta,
++		      struct kmb_metadata_buf *meta_buf,
++		      struct kmb_isp_params *user_params)
 +{
-+	struct list_head *next = NULL;
-+	struct list_head *pos = NULL;
-+	struct kmb_frame_buffer *buf;
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	int ret = 0;
 +
-+	mutex_lock(&kmb_vid->dma_lock);
-+	list_for_each_safe(pos, next, &kmb_vid->dma_queue) {
-+		buf = list_entry(pos, struct kmb_frame_buffer, list);
-+		list_del(&buf->list);
-+		vb2_buffer_done(&buf->vb.vb2_buf, state);
-+	}
-+	mutex_unlock(&kmb_vid->dma_lock);
-+}
++	if (last_buf)
++		last_params = last_buf->params.isp;
 +
-+static void kmb_video_remove_buf(struct kmb_video *kmb_vid,
-+				 struct kmb_frame_buffer *buf)
-+{
-+	mutex_lock(&kmb_vid->dma_lock);
-+	list_del(&buf->list);
-+	mutex_unlock(&kmb_vid->dma_lock);
-+}
-+
-+static struct kmb_frame_buffer *
-+kmb_video_find_buf_by_addr(struct kmb_video *kmb_vid, uint64_t addr)
-+{
-+	struct kmb_frame_buffer *buf = NULL;
-+	struct list_head *node = NULL;
-+
-+	mutex_lock(&kmb_vid->dma_lock);
-+
-+	list_for_each(node, &kmb_vid->dma_queue) {
-+		buf = list_entry(node, struct kmb_frame_buffer, list);
-+		if (buf->addr[0] == addr) {
-+			mutex_unlock(&kmb_vid->dma_lock);
-+			return buf;
++	if (user_params->update.raw) {
++		kmb_metadata_copy_raw(&params->raw,
++				      &user_params->raw);
++		if (params->raw.static_defect_size) {
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_SDEFECT,
++							  user_params->raw.static_defect_map,
++							  params->raw.static_defect_size);
++			if (ret < 0)
++				return ret;
 +		}
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->raw, &last_params->raw,
++			       sizeof(params->raw));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_SDEFECT);
++	} else {
++		memcpy(&params->raw, def_params->raw, sizeof(params->raw));
++		kmb_metadata_create_default_table(kmb_meta,
++						  meta_buf,
++						  KMB_METADATA_TABLE_SDEFECT,
++						  user_params->raw.static_defect_map,
++						  ARRAY_SIZE(user_params->raw.static_defect_map));
 +	}
 +
-+	mutex_unlock(&kmb_vid->dma_lock);
-+
-+	return NULL;
-+}
-+
-+static void kmb_video_fmt_info_to_pix(const struct kmb_video_fmt_info *info,
-+				      struct v4l2_mbus_framefmt *mbus_fmt,
-+				      struct v4l2_pix_format_mplane *pix)
-+{
-+	u32 bytesperline;
-+	u32 sizeimage;
-+	u32 v_sub = 1;
-+	u32 h_sub = 1;
-+	unsigned int i;
-+
-+	pix->width = mbus_fmt->width;
-+	pix->height = mbus_fmt->height;
-+
-+	pix->pixelformat = info->pixelformat;
-+	pix->colorspace = info->colorspace;
-+	pix->num_planes = info->planes;
-+
-+	for (i = 0; i < pix->num_planes; i++) {
-+		bytesperline = pix->width * info->bpp / 8 / h_sub;
-+
-+		if (pix->plane_fmt[i].bytesperline < bytesperline)
-+			pix->plane_fmt[i].bytesperline = bytesperline;
-+
-+		sizeimage = pix->plane_fmt[i].bytesperline *
-+			    pix->height / v_sub;
-+
-+		if (pix->plane_fmt[i].sizeimage < sizeimage)
-+			pix->plane_fmt[i].sizeimage = sizeimage;
-+
-+		h_sub = info->h_subsample;
-+		v_sub = info->v_subsample;
++	if (params->raw.static_defect_size) {
++		params->raw.static_defect_addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_SDEFECT);
++		if (!params->raw.static_defect_addr)
++			ret = -EINVAL;
 +	}
++
++	return ret;
 +}
 +
-+static int kmb_video_get_subdev_fmt(struct kmb_video *kmb_vid,
-+				    struct v4l2_pix_format_mplane *pix)
++static int
++kmb_metadata_fill_lca(struct kmb_metadata *kmb_meta,
++		      struct kmb_metadata_buf *meta_buf,
++		      struct kmb_isp_params *user_params)
 +{
-+	const struct kmb_video_fmt_info *fmt_info;
-+	struct v4l2_subdev_format sd_fmt;
-+	struct v4l2_subdev *subdev;
-+	struct media_pad *remote;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	int ret = 0;
++
++	if (last_buf)
++		last_params = last_buf->params.isp;
++
++	if (user_params->update.lca) {
++		ret = kmb_metadata_copy_table_usr(kmb_meta,
++						  meta_buf,
++						  KMB_METADATA_TABLE_LCA,
++						  user_params->lca.coeff,
++						  ARRAY_SIZE(user_params->lca.coeff));
++		if (ret < 0)
++			return ret;
++	} else if (last_params) {
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_LCA);
++	} else {
++		kmb_metadata_create_default_table(kmb_meta,
++						  meta_buf,
++						  KMB_METADATA_TABLE_LCA,
++						  user_params->lca.coeff,
++						  ARRAY_SIZE(user_params->lca.coeff));
++	}
++
++	params->lca.addr = kmb_metadata_get_table_addr(meta_buf,
++						       KMB_METADATA_TABLE_LCA);
++	if (!params->lca.addr)
++		ret = -EINVAL;
++
++	return ret;
++}
++
++static int
++kmb_metadata_fill_sharpen(struct kmb_metadata *kmb_meta,
++			  struct kmb_metadata_buf *meta_buf,
++			  struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	int ret = 0;
++
++	if (last_buf)
++		last_params = last_buf->params.isp;
++
++	if (user_params->update.sharpen) {
++		kmb_metadata_copy_sharpen(&params->sharpen,
++					  &user_params->sharpen);
++		ret = kmb_metadata_copy_table_usr(kmb_meta,
++						  meta_buf,
++						  KMB_METADATA_TABLE_SHARP,
++						  user_params->sharpen.radial_lut,
++						  ARRAY_SIZE(user_params->sharpen.radial_lut));
++		if (ret < 0)
++			return ret;
++
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->sharpen, &last_params->sharpen,
++			       sizeof(params->sharpen));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_SHARP);
++	} else {
++		memcpy(&params->sharpen, def_params->sharpen,
++		       sizeof(params->sharpen));
++
++		kmb_metadata_create_default_table(kmb_meta,
++						  meta_buf,
++						  KMB_METADATA_TABLE_SHARP,
++						  user_params->sharpen.radial_lut,
++						  ARRAY_SIZE(user_params->sharpen.radial_lut));
++	}
++
++	params->sharpen.addr =
++		kmb_metadata_get_table_addr(meta_buf,
++					    KMB_METADATA_TABLE_SHARP);
++	if (!params->sharpen.addr)
++		ret = -EINVAL;
++
++	return ret;
++}
++
++static int
++kmb_metadata_fill_color_comb(struct kmb_metadata *kmb_meta,
++			     struct kmb_metadata_buf *meta_buf,
++			     struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	struct kmb_color_comb_params *col = NULL;
++	int ret = 0;
++
++	if (last_buf)
++		last_params = last_buf->params.isp;
++
++	if (user_params->update.color_comb) {
++		col = &user_params->color_comb;
++		kmb_metadata_copy_color_comb(&params->color_comb,
++					     &user_params->color_comb);
++		if (params->color_comb.enable) {
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_COLOR_CUMB,
++							  col->lut_3d,
++							  ARRAY_SIZE(col->lut_3d));
++			if (ret < 0)
++				return ret;
++		}
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->color_comb, &last_params->color_comb,
++			       sizeof(params->color_comb));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_COLOR_CUMB);
++	} else {
++		memcpy(&params->color_comb, def_params->color_comb,
++		       sizeof(params->color_comb));
++	}
++
++	if (params->color_comb.enable) {
++		params->color_comb.addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_COLOR_CUMB);
++		if (!params->color_comb.addr)
++			ret = -EINVAL;
++	}
++
++	return ret;
++}
++
++static int
++kmb_metadata_fill_hdr(struct kmb_metadata *kmb_meta,
++		      struct kmb_metadata_buf *meta_buf,
++		      struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	int ret = 0;
++
++	if (last_buf)
++		last_params = last_buf->params.isp;
++
++	if (user_params->update.hdr) {
++		kmb_metadata_copy_hdr(&params->hdr,
++				      &user_params->hdr);
++		if (params->hdr.enable1 || params->hdr.enable2) {
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_HDR,
++							  user_params->hdr.tm_lut,
++							  ARRAY_SIZE(user_params->hdr.tm_lut));
++			if (ret < 0)
++				return ret;
++		}
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->hdr, &last_params->hdr,
++			       sizeof(params->hdr));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_HDR);
++	} else {
++		memcpy(&params->hdr, def_params->hdr, sizeof(params->hdr));
++	}
++
++	if (params->hdr.enable1 || params->hdr.enable2) {
++		params->hdr.luts_addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_HDR);
++		if (!params->hdr.luts_addr)
++			ret = -EINVAL;
++	}
++
++	return ret;
++}
++
++static int
++kmb_metadata_fill_lut(struct kmb_metadata *kmb_meta,
++		      struct kmb_metadata_buf *meta_buf,
++		      struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	int ret = 0;
++
++	if (last_buf)
++		last_params = last_buf->params.isp;
++
++	if (user_params->update.lut) {
++		kmb_metadata_copy_lut(&params->lut, &user_params->lut);
++		if (params->lut.size) {
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_LUT,
++							  user_params->lut.table,
++							  ARRAY_SIZE(user_params->lut.table));
++			if (ret < 0)
++				return ret;
++		}
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->lut, &last_params->lut,
++			       sizeof(params->lut));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_LUT);
++	} else {
++		memcpy(&params->lut, def_params->lut, sizeof(params->lut));
++		kmb_metadata_create_default_table(kmb_meta,
++						  meta_buf,
++						  KMB_METADATA_TABLE_LUT,
++						  user_params->lut.table,
++						  ARRAY_SIZE(user_params->lut.table));
++	}
++
++	if (params->lut.size) {
++		params->lut.addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_LUT);
++		if (!params->lut.size)
++			ret = -EINVAL;
++	}
++
++	return ret;
++}
++
++static int
++kmb_metadata_fill_warp(struct kmb_metadata *kmb_meta,
++		       struct kmb_metadata_buf *meta_buf,
++		       struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	int ret = 0;
++
++	if (last_buf)
++		last_params = last_buf->params.isp;
++
++	if (user_params->update.warp) {
++		kmb_metadata_copy_warp(&params->warp, &user_params->warp);
++		if (params->warp.enable) {
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_WARP,
++							  user_params->warp.mesh_grid,
++							  ARRAY_SIZE(user_params->warp.mesh_grid));
++			if (ret < 0)
++				return ret;
++		}
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->warp, &last_params->warp,
++			       sizeof(params->warp));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf)
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_WARP);
++	} else {
++		memcpy(&params->warp, def_params->warp, sizeof(params->warp));
++	}
++
++	if (params->warp.enable) {
++		params->warp.addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_WARP);
++		if (!params->warp.addr)
++			ret = -EINVAL;
++	}
++
++	return ret;
++}
++
++static int
++kmb_metadata_fill_tnf(struct kmb_metadata *kmb_meta,
++		      struct kmb_metadata_buf *meta_buf,
++		      struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	struct kmb_tnf_params *tnf = NULL;
++	int ret = 0;
++
++	if (last_buf)
++		last_params = last_buf->params.isp;
++
++	if (user_params->update.tnf) {
++		kmb_metadata_copy_tnf(&params->tnf, &user_params->tnf);
++		if (params->tnf.enable) {
++			tnf = &user_params->tnf;
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_TNF0,
++							  tnf->chroma_lut0,
++							  ARRAY_SIZE(tnf->chroma_lut0));
++			if (ret < 0)
++				return ret;
++
++			ret = kmb_metadata_copy_table_usr(kmb_meta,
++							  meta_buf,
++							  KMB_METADATA_TABLE_TNF1,
++							  tnf->chroma_lut1,
++							  ARRAY_SIZE(tnf->chroma_lut1));
++			if (ret < 0)
++				return ret;
++		}
++	} else if (last_params) {
++		if (last_params != params)
++			memcpy(&params->tnf, &last_params->tnf,
++			       sizeof(params->tnf));
++
++		if (kmb_meta->last_buf && meta_buf != kmb_meta->last_buf) {
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_TNF0);
++			kmb_metadata_copy_table_vpu(meta_buf, last_buf,
++						    KMB_METADATA_TABLE_TNF1);
++		}
++	} else {
++		memcpy(&params->tnf, def_params->tnf, sizeof(params->tnf));
++	}
++
++	if (params->tnf.enable) {
++		params->tnf.lut0_addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_TNF0);
++		if (!params->tnf.lut0_addr)
++			return -EINVAL;
++
++		params->tnf.lut1_addr =
++			kmb_metadata_get_table_addr(meta_buf,
++						    KMB_METADATA_TABLE_TNF1);
++		if (!params->tnf.lut1_addr)
++			return -EINVAL;
++	}
++
++	return ret;
++}
++
++/* Fill static functions for conversions here */
++static int kmb_metadata_fill_isp_params(struct kmb_metadata *kmb_meta,
++					struct kmb_metadata_buf *meta_buf,
++					struct kmb_isp_params *user_params)
++{
++	struct kmb_vpu_isp_params *params = meta_buf->params.isp;
++	struct kmb_metadata_buf *last_buf = kmb_meta->last_buf;
++	struct kmb_vpu_isp_params *last_params = NULL;
++	struct kmb_vpu_isp_params_defaults *def_params = &kmb_meta->def;
 +	int ret;
 +
-+	remote = media_entity_remote_pad(&kmb_vid->pad);
-+	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
-+		return -EINVAL;
++	if (last_buf)
++		last_params = last_buf->params.isp;
 +
-+	subdev = media_entity_to_v4l2_subdev(remote->entity);
-+	if (!subdev)
-+		return -EINVAL;
++	kmb_metadata_fill_blc(params, user_params, last_params, def_params);
 +
-+	memset(&sd_fmt, 0, sizeof(sd_fmt));
-+	sd_fmt.pad = remote->index;
-+	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &sd_fmt);
++	kmb_metadata_fill_signma_dns(params, user_params, last_params,
++				     def_params);
++
++	kmb_metadata_fill_ae_awb(params, user_params, last_params, def_params);
++
++	kmb_metadata_fill_af(params, user_params, last_params, def_params);
++
++	kmb_metadata_fill_histogram(params, user_params, last_params,
++				    def_params);
++
++	kmb_metadata_fill_debayer(params, user_params, last_params,
++				  def_params);
++
++	kmb_metadata_fill_dog_dns(params, user_params, last_params,
++				  def_params);
++
++	kmb_metadata_fill_luma_dns(params, user_params, last_params,
++				   def_params);
++
++	kmb_metadata_fill_chroma_gen(params, user_params, last_params,
++				     def_params);
++
++	kmb_metadata_fill_median(params, user_params, last_params, def_params);
++
++	kmb_metadata_fill_chroma_dns(params, user_params, last_params,
++				     def_params);
++
++	kmb_metadata_fill_dehaze(params, user_params, last_params, def_params);
++
++	/* Copy params with tables */
++	ret = kmb_metadata_fill_lsc(kmb_meta, meta_buf, user_params);
 +	if (ret < 0)
-+		return ret;
++		goto error_release_tables;
 +
-+	fmt_info = kmb_video_get_fmt_info_by_code(sd_fmt.format.code);
-+	if (!fmt_info)
-+		return -EINVAL;
++	ret = kmb_metadata_fill_raw(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+	kmb_video_fmt_info_to_pix(fmt_info,  &sd_fmt.format, pix);
++	ret = kmb_metadata_fill_lca(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+	return 0;
-+}
++	ret = kmb_metadata_fill_sharpen(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+static int kmb_video_queue_setup(struct vb2_queue *q,
-+				 unsigned int *num_buffers,
-+				 unsigned int *num_planes,
-+				 unsigned int sizes[],
-+				 struct device *alloc_devs[])
-+{
-+	struct kmb_video *kmb_vid = vb2_get_drv_priv(q);
-+	struct v4l2_pix_format_mplane *pix = &kmb_vid->active_fmt.pix;
-+	unsigned int i;
++	ret = kmb_metadata_fill_color_comb(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+	if (kmb_vid->active_fmt.info->contiguous_memory) {
-+		*num_planes = 1;
-+		for (i = 0; i < pix->num_planes; i++)
-+			sizes[0] += pix->plane_fmt[i].sizeimage;
-+	} else {
-+		*num_planes = pix->num_planes;
-+		for (i = 0; i < pix->num_planes; i++)
-+			sizes[i] = pix->plane_fmt[i].sizeimage;
-+	}
++	ret = kmb_metadata_fill_hdr(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+	return 0;
-+}
++	ret = kmb_metadata_fill_lut(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+static int kmb_video_buffer_prepare(struct vb2_buffer *vb)
-+{
-+	struct kmb_video *kmb_vid = vb2_get_drv_priv(vb->vb2_queue);
-+	struct v4l2_pix_format_mplane *pix = &kmb_vid->active_fmt.pix;
-+	unsigned int size_image = 0;
-+	unsigned int i;
++	ret = kmb_metadata_fill_warp(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+	if (kmb_vid->active_fmt.info->contiguous_memory) {
-+		for (i = 0; i < pix->num_planes; i++)
-+			size_image += pix->plane_fmt[i].sizeimage;
++	ret = kmb_metadata_fill_tnf(kmb_meta, meta_buf, user_params);
++	if (ret < 0)
++		goto error_release_tables;
 +
-+		vb2_set_plane_payload(vb, 0, size_image);
-+	} else {
-+		for (i = 0; i < pix->num_planes; i++)
-+			vb2_set_plane_payload(vb, i,
-+					      pix->plane_fmt[i].sizeimage);
-+	}
-+
-+	return 0;
-+}
-+
-+static int kmb_video_buf_init(struct vb2_buffer *vb)
-+{
-+	struct kmb_video *kmb_vid = vb2_get_drv_priv(vb->vb2_queue);
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+	struct kmb_frame_buffer *buf = to_kmb_video_buf(vbuf);
-+	struct v4l2_pix_format_mplane *pix = &kmb_vid->active_fmt.pix;
-+	unsigned int i;
-+
-+	if (kmb_vid->active_fmt.info->contiguous_memory) {
-+		buf->addr[0] = vb2_dma_contig_plane_dma_addr(vb, 0);
-+		for (i = 1; i < pix->num_planes; i++) {
-+			buf->addr[i] = buf->addr[i - 1] +
-+				pix->plane_fmt[i - 1].sizeimage;
-+		}
-+	} else {
-+		for (i = 0; i < pix->num_planes; i++)
-+			buf->addr[i] = vb2_dma_contig_plane_dma_addr(vb, i);
-+	}
-+
-+	return 0;
-+}
-+
-+static void kmb_video_buf_queue(struct vb2_buffer *vb)
-+{
-+	struct kmb_video *kmb_vid = vb2_get_drv_priv(vb->vb2_queue);
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+	struct kmb_frame_buffer *buf = to_kmb_video_buf(vbuf);
-+	int ret;
-+
-+	ret = kmb_video_queue_output_buf(kmb_vid, buf);
-+	if (ret)
-+		dev_err(kmb_vid->dma_dev, "Fail output buf queue %d", ret);
-+}
-+
-+static int kmb_video_worker_thread(void *video)
-+{
-+	struct kmb_vpu_frame_buffer rt_frame_buf;
-+	struct kmb_video *kmb_vid = video;
-+	struct kmb_frame_buffer *buf = NULL;
-+	bool stopped = false;
-+	int ret;
-+
-+	set_freezable();
-+
-+	while (!kthread_should_stop()) {
-+		try_to_freeze();
-+
-+		if (stopped) {
-+			set_current_state(TASK_INTERRUPTIBLE);
-+			schedule();
-+			continue;
-+		}
-+
-+		memset(&rt_frame_buf, 0, sizeof(rt_frame_buf));
-+		ret = kmb_cam_xlink_read_msg(kmb_vid->xlink_cam,
-+					     kmb_vid->chan_id,
-+					     (u8 *)&rt_frame_buf,
-+					     sizeof(rt_frame_buf));
-+		if (ret < 0) {
-+			stopped = true;
-+			/* Continue here to enter in freeze state */
-+			continue;
-+		}
-+
-+		buf = kmb_video_find_buf_by_addr(kmb_vid, rt_frame_buf.p1);
-+		if (buf) {
-+			kmb_video_remove_buf(kmb_vid, buf);
-+
-+			buf->vb.vb2_buf.timestamp = rt_frame_buf.ts;
-+			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+		} else {
-+			dev_err(kmb_vid->dma_dev, "Ouch cannot find buff %llx",
-+				rt_frame_buf.p1);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int kmb_video_worker_start(struct kmb_video *kmb_vid)
-+{
-+	int ret;
-+
-+	ret = kmb_cam_xlink_open_channel(kmb_vid->xlink_cam, kmb_vid->chan_id);
-+	if (ret)
-+		return ret;
-+
-+	kmb_vid->thread = kthread_run(kmb_video_worker_thread,
-+				      kmb_vid, "kmb_vnode_thread");
-+	if (IS_ERR(kmb_vid->thread)) {
-+		dev_err(&kmb_vid->video->dev, "Cannot start thread");
-+		ret = -ENOMEM;
-+		kmb_vid->thread = NULL;
-+		goto error_close_xlink_channel;
-+	}
++	/* Store last buffer */
++	kmb_meta->last_buf = meta_buf;
 +
 +	return 0;
 +
-+error_close_xlink_channel:
-+	kmb_cam_xlink_close_channel(kmb_vid->xlink_cam, kmb_vid->chan_id);
-+
++error_release_tables:
++	kmb_metadata_release_tables(meta_buf);
 +	return ret;
 +}
 +
-+static int kmb_video_worker_stop(struct kmb_video *kmb_vid)
++static int kmb_metadata_queue_setup(struct vb2_queue *q,
++				    unsigned int *num_buffers,
++				    unsigned int *num_planes,
++				    unsigned int sizes[],
++				    struct device *alloc_devs[])
 +{
-+	int ret;
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(q);
 +
++	*num_planes = 1;
++	sizes[0] = kmb_meta->format.buffersize;
++
++	return 0;
++}
++
++#define to_kmb_meta_buf(vbuf) container_of(vbuf, struct kmb_metadata_buf, vb)
++
++static int kmb_metadata_buf_params_init(struct vb2_buffer *vb)
++{
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct kmb_metadata_buf *buf = to_kmb_meta_buf(vbuf);
++
++	buf->type = KMB_METADATA_PARAMS;
++	buf->params.isp = dma_alloc_coherent(kmb_meta->dma_dev,
++					     sizeof(*buf->params.isp),
++					     &buf->params.dma_addr_isp, 0);
++	if (!buf->params.isp)
++		return -ENOMEM;
++
++	memset(buf->params.isp, 0, sizeof(*buf->params.isp));
 +	/*
-+	 * Xlink has no functionality to unblock read volatile function,
-+	 * only way to unblock is to close the channel.
++	 * Table pools will be allocated per need.
++	 * The pools need to be released when last buffer is finished.
++	 * Use table reference count for that purpose
 +	 */
-+	kmb_cam_xlink_close_channel(kmb_vid->xlink_cam, kmb_vid->chan_id);
-+	if (!kmb_vid->thread) {
-+		dev_warn(&kmb_vid->video->dev, "No thread running");
-+		return 0;
-+	}
++	kmb_meta->table_pools_refcnt++;
 +
-+	ret = kthread_stop(kmb_vid->thread);
-+	if (ret < 0)
-+		dev_err(&kmb_vid->video->dev, "Thread stop failed %d", ret);
-+
-+	kmb_vid->thread = NULL;
-+
-+	return ret;
++	return 0;
 +}
 +
-+static int kmb_video_capture_start_streaming(struct vb2_queue *q,
-+					     unsigned int count)
++static int kmb_metadata_buf_params_prepare(struct vb2_buffer *vb)
 +{
-+	struct kmb_video *kmb_vid = vb2_get_drv_priv(q);
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(vb->vb2_queue);
++	struct kmb_isp_params *user_params = vb2_plane_vaddr(vb, 0);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct kmb_metadata_buf *buf = to_kmb_meta_buf(vbuf);
++
++	vb2_set_plane_payload(vb, 0, kmb_meta->format.buffersize);
++	return kmb_metadata_fill_isp_params(kmb_meta, buf, user_params);
++}
++
++static void kmb_metadata_buf_params_cleanup(struct vb2_buffer *vb)
++{
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct kmb_metadata_buf *buf = to_kmb_meta_buf(vbuf);
++
++	if (buf == kmb_meta->last_buf)
++		kmb_meta->last_buf = NULL;
++
++	kmb_metadata_release_tables(buf);
++	dma_free_coherent(kmb_meta->dma_dev, sizeof(*buf->params.isp),
++			  buf->params.isp, buf->params.dma_addr_isp);
++
++	/* Destroy allocated table pools on last finish */
++	if (kmb_meta->table_pools_refcnt-- == 1)
++		kmb_metadata_destroy_table_pools(kmb_meta);
++}
++
++static int kmb_metadata_buf_stats_init(struct vb2_buffer *vb)
++{
++	dma_addr_t stats_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct kmb_metadata_buf *buf = to_kmb_meta_buf(vbuf);
++	int i;
++
++	buf->type = KMB_METADATA_STATS;
++	memset(&buf->stats.raw, 0, sizeof(buf->stats.raw));
++	buf->stats.dehaze_stats_addr = 0;
++
++	/* Fill statistics addresses */
++	for (i = 0; i < KMB_CAM_MAX_EXPOSURES; i++) {
++		buf->stats.raw[i].ae_awb_stats_addr = stats_addr +
++			offsetof(struct kmb_isp_stats,
++				 exposure[i].ae_awb_stats[0]);
++
++		buf->stats.raw[i].af_stats_addr = stats_addr +
++			offsetof(struct kmb_isp_stats,
++				 exposure[i].af_stats[0]);
++
++		buf->stats.raw[i].hist_luma_addr = stats_addr +
++			offsetof(struct kmb_isp_stats,
++				 exposure[i].hist_luma[0]);
++
++		buf->stats.raw[i].hist_rgb_addr = stats_addr +
++			offsetof(struct kmb_isp_stats,
++				 exposure[i].hist_rgb[0]);
++
++		buf->stats.raw[i].flicker_rows_addr = stats_addr +
++			offsetof(struct kmb_isp_stats,
++				 exposure[i].flicker_rows[0]);
++	}
++
++	buf->stats.dehaze_stats_addr = stats_addr +
++		offsetof(struct kmb_isp_stats, dehaze);
++
++	return 0;
++}
++
++static int kmb_metadata_buf_stats_prepare(struct vb2_buffer *vb)
++{
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(vb->vb2_queue);
++
++	vb2_set_plane_payload(vb, 0, kmb_meta->format.buffersize);
++
++	return 0;
++}
++
++static void kmb_metadata_buf_queue(struct vb2_buffer *vb)
++{
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct kmb_metadata_buf *buf = to_kmb_meta_buf(vbuf);
 +	int ret;
 +
-+	ret = kmb_pipe_prepare(kmb_vid->pipe);
++	ret = kmb_meta->queue_ops->queue(kmb_meta->priv, buf);
++	if (ret)
++		dev_err(&kmb_meta->video.dev, "Fail metadata queue %d", ret);
++}
++
++static int kmb_metadata_start_streaming(struct vb2_queue *q,
++					unsigned int count)
++{
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(q);
++	int ret;
++
++	ret = kmb_pipe_prepare(kmb_meta->pipe);
 +	if (ret < 0)
 +		goto error_discard_all_bufs;
 +
-+	ret = kmb_video_worker_start(kmb_vid);
-+	if (ret < 0)
-+		goto error_pipeline_stop;
-+
-+	/* Process all pending buffers after worker is started */
-+	kmb_video_process_all_bufs(kmb_vid);
-+
-+	/*
-+	 * Run the pipeline after all buffers are provided for processing,
-+	 * the main reason is to not skip any frame from the source.
-+	 */
-+	ret = kmb_pipe_run(kmb_vid->pipe, &kmb_vid->video->entity);
++	ret = kmb_pipe_run(kmb_meta->pipe, &kmb_meta->video.entity);
 +	if (ret < 0)
 +		goto error_pipeline_stop;
 +
 +	return 0;
 +
 +error_pipeline_stop:
-+	kmb_pipe_stop(kmb_vid->pipe, &kmb_vid->video->entity);
++	kmb_pipe_stop(kmb_meta->pipe, &kmb_meta->video.entity);
 +error_discard_all_bufs:
-+	kmb_video_release_all_bufs(kmb_vid, VB2_BUF_STATE_QUEUED);
-+
-+	return ret;
++	kmb_meta->queue_ops->flush(kmb_meta->priv);
++	return 0;
 +}
 +
-+static void kmb_video_capture_stop_streaming(struct vb2_queue *q)
++static void kmb_metadata_stop_streaming(struct vb2_queue *q)
 +{
-+	struct kmb_video *kmb_vid = vb2_get_drv_priv(q);
++	struct kmb_metadata *kmb_meta = vb2_get_drv_priv(q);
 +
-+	kmb_pipe_stop(kmb_vid->pipe, &kmb_vid->video->entity);
++	kmb_pipe_stop(kmb_meta->pipe, &kmb_meta->video.entity);
 +
-+	kmb_video_worker_stop(kmb_vid);
-+
-+	kmb_video_release_all_bufs(kmb_vid, VB2_BUF_STATE_ERROR);
++	kmb_meta->queue_ops->flush(kmb_meta->priv);
 +}
 +
 +/* driver-specific operations */
-+static const struct vb2_ops kmb_video_vb2_q_capture_ops = {
-+	.queue_setup     = kmb_video_queue_setup,
-+	.buf_prepare     = kmb_video_buffer_prepare,
-+	.buf_init        = kmb_video_buf_init,
-+	.buf_queue       = kmb_video_buf_queue,
-+	.start_streaming = kmb_video_capture_start_streaming,
-+	.stop_streaming  = kmb_video_capture_stop_streaming,
++static struct vb2_ops kmb_meta_params_vb2_q_ops = {
++	.queue_setup     = kmb_metadata_queue_setup,
++	.buf_init        = kmb_metadata_buf_params_init,
++	.buf_prepare     = kmb_metadata_buf_params_prepare,
++	.buf_cleanup	 = kmb_metadata_buf_params_cleanup,
++	.start_streaming = kmb_metadata_start_streaming,
++	.stop_streaming  = kmb_metadata_stop_streaming,
++	.buf_queue       = kmb_metadata_buf_queue,
 +};
 +
-+static int kmb_video_querycap(struct file *file, void *fh,
-+			      struct v4l2_capability *cap)
++static struct vb2_ops kmb_meta_stats_vb2_q_ops = {
++	.queue_setup     = kmb_metadata_queue_setup,
++	.buf_init        = kmb_metadata_buf_stats_init,
++	.buf_prepare     = kmb_metadata_buf_stats_prepare,
++	.start_streaming = kmb_metadata_start_streaming,
++	.stop_streaming  = kmb_metadata_stop_streaming,
++	.buf_queue       = kmb_metadata_buf_queue,
++};
++
++#define to_kmb_meta_dev(vdev) container_of(vdev, struct kmb_metadata, video)
++
++static int kmb_metadata_querycap(struct file *file, void *fh,
++				 struct v4l2_capability *cap)
 +{
++	struct v4l2_fh *vfh = file->private_data;
++	struct kmb_metadata *kmb_meta =
++		to_kmb_meta_dev(vfh->vdev);
++
 +	cap->bus_info[0] = 0;
-+	strscpy(cap->driver, KMB_CAM_VIDEO_NAME, sizeof(cap->driver));
-+	strscpy(cap->card, KMB_CAM_VIDEO_NAME, sizeof(cap->card));
++	strscpy(cap->driver, kmb_meta->video.name, sizeof(cap->driver));
++	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
++		 kmb_meta->video.name);
 +
 +	return 0;
 +}
 +
-+static int kmb_video_enum_fmt(struct file *file, void *fh,
-+			      struct v4l2_fmtdesc *f)
++static int kmb_metadata_get_fmt(struct file *file, void *fh,
++				struct v4l2_format *f)
 +{
-+	const struct kmb_video_fmt_info *info;
++	struct v4l2_fh *vfh = file->private_data;
++	struct kmb_metadata *kmb_meta =
++		to_kmb_meta_dev(vfh->vdev);
 +
-+	if (!V4L2_TYPE_IS_MULTIPLANAR(f->type))
-+		return -EINVAL;
-+
-+	if (f->mbus_code) {
-+		if (f->index != 0)
-+			return -EINVAL;
-+
-+		info = kmb_video_get_fmt_info_by_code(f->mbus_code);
-+		if (!info)
-+			return -EINVAL;
-+	} else {
-+		info = &video_formats[f->index];
-+		if (!info)
-+			return -EINVAL;
-+	}
-+
-+	f->pixelformat = info->pixelformat;
-+	f->mbus_code = info->code;
-+	strscpy(f->description, info->description, sizeof(f->description));
++	f->fmt.meta = kmb_meta->format;
 +
 +	return 0;
 +}
 +
-+static int kmb_video_enum_framesizes(struct file *file, void *fh,
-+				     struct v4l2_frmsizeenum *fsize)
++static int kmb_metadata_try_fmt_cap(struct file *file, void *fh,
++				    struct v4l2_format *f)
 +{
-+	const struct kmb_video_fmt_info *info;
-+
-+	if (fsize->index != 0)
-+		return -EINVAL;
-+
-+	info = kmb_video_get_fmt_info_by_pixfmt(fsize->pixel_format);
-+	if (!info)
-+		return -EINVAL;
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-+
-+	fsize->stepwise.min_width = KMB_VID_MIN_WIDTH;
-+	fsize->stepwise.max_width = KMB_VID_MAX_WIDTH;
-+	fsize->stepwise.step_width = KMB_VID_STEP_WIDTH;
-+	fsize->stepwise.min_height = KMB_VID_MIN_HEIGHT;
-+	fsize->stepwise.max_height = KMB_VID_MAX_HEIGHT;
-+	fsize->stepwise.step_height = KMB_VID_STEP_HEIGHT;
++	f->fmt.meta.dataformat = V4L2_META_FMT_KMB_STATS;
++	if (f->fmt.meta.buffersize < sizeof(struct kmb_isp_stats))
++		f->fmt.meta.buffersize = sizeof(struct kmb_isp_stats);
 +
 +	return 0;
 +}
 +
-+static int kmb_video_try_fmt(struct file *file, void *fh,
-+			     struct v4l2_format *f)
++static int kmb_metadata_set_fmt_cap(struct file *file, void *fh,
++				    struct v4l2_format *f)
 +{
-+	const struct kmb_video_fmt_info *info;
-+	struct v4l2_mbus_framefmt mbus_fmt;
-+
-+	info = kmb_video_get_fmt_info_by_pixfmt(f->fmt.pix_mp.pixelformat);
-+	if (!info)
-+		info = &video_formats[0];
-+
-+	mbus_fmt.width = f->fmt.pix_mp.width;
-+	mbus_fmt.height = f->fmt.pix_mp.height;
-+	kmb_video_fmt_info_to_pix(info, &mbus_fmt, &f->fmt.pix_mp);
-+
-+	return 0;
-+}
-+
-+static int kmb_video_set_fmt(struct file *file, void *fh,
-+			     struct v4l2_format *f)
-+{
-+	struct kmb_video *kmb_vid = video_drvdata(file);
-+	const struct kmb_video_fmt_info *info;
-+	struct v4l2_mbus_framefmt mbus_fmt;
-+
-+	info = kmb_video_get_fmt_info_by_pixfmt(f->fmt.pix_mp.pixelformat);
-+	if (!info)
-+		info = &video_formats[0];
-+
-+	mbus_fmt.width = f->fmt.pix_mp.width;
-+	mbus_fmt.height = f->fmt.pix_mp.height;
-+	kmb_video_fmt_info_to_pix(info, &mbus_fmt, &f->fmt.pix_mp);
-+
-+	kmb_vid->active_fmt.pix = f->fmt.pix_mp;
-+	kmb_vid->active_fmt.info = info;
-+
-+	return 0;
-+}
-+
-+static int kmb_video_get_fmt(struct file *file, void *fh,
-+			     struct v4l2_format *f)
-+{
-+	struct kmb_video *kmb_vid = video_drvdata(file);
-+
-+	f->fmt.pix_mp = kmb_vid->active_fmt.pix;
-+
-+	return 0;
-+}
-+
-+static int kmb_video_check_format(struct kmb_video *kmb_vid)
-+{
++	struct v4l2_fh *vfh = file->private_data;
++	struct kmb_metadata *kmb_meta =
++		to_kmb_meta_dev(vfh->vdev);
 +	int ret;
-+	struct v4l2_pix_format_mplane pix;
 +
-+	ret = kmb_video_get_subdev_fmt(kmb_vid, &pix);
++	ret = kmb_metadata_try_fmt_cap(file, fh, f);
 +	if (ret < 0)
 +		return ret;
 +
-+	if (kmb_vid->active_fmt.pix.pixelformat != pix.pixelformat ||
-+	    kmb_vid->active_fmt.pix.height != pix.height ||
-+	    kmb_vid->active_fmt.pix.width != pix.width ||
-+	    kmb_vid->active_fmt.pix.num_planes != pix.num_planes) {
-+		dev_err(&kmb_vid->video->dev, "Pix fmt mismatch:\n\t"
-+			"pix_fmt %u %u\n\theight %u %u\n\twidth %u %u\n\t"
-+			"num_planes %u %u",
-+			kmb_vid->active_fmt.pix.pixelformat, pix.pixelformat,
-+			kmb_vid->active_fmt.pix.height, pix.height,
-+			kmb_vid->active_fmt.pix.width, pix.width,
-+			kmb_vid->active_fmt.pix.num_planes, pix.num_planes);
-+		ret =  -EINVAL;
-+	}
++	kmb_meta->format = f->fmt.meta;
 +
-+	return ret;
++	return 0;
 +}
 +
-+static int kmb_video_streamon(struct file *file, void *fh,
-+			      enum v4l2_buf_type type)
++static int kmb_metadata_try_fmt_out(struct file *file, void *fh,
++				    struct v4l2_format *f)
 +{
-+	struct kmb_video *kmb_vid = video_drvdata(file);
++	f->fmt.meta.dataformat = V4L2_META_FMT_KMB_PARAMS;
++	if (f->fmt.meta.buffersize < sizeof(struct kmb_isp_params))
++		f->fmt.meta.buffersize = sizeof(struct kmb_isp_params);
++
++	return 0;
++}
++
++static int kmb_metadata_set_fmt_out(struct file *file, void *fh,
++				    struct v4l2_format *f)
++{
++	struct v4l2_fh *vfh = file->private_data;
++	struct kmb_metadata *kmb_meta =
++		to_kmb_meta_dev(vfh->vdev);
 +	int ret;
 +
-+	if (type != kmb_vid->vb2_q.type)
-+		return -EINVAL;
-+
-+	ret =  kmb_video_check_format(kmb_vid);
++	ret = kmb_metadata_try_fmt_out(file, fh, f);
 +	if (ret < 0)
 +		return ret;
 +
-+	return vb2_streamon(&kmb_vid->vb2_q, type);
++	kmb_meta->format = f->fmt.meta;
++
++	return 0;
 +}
 +
 +/* V4L2 ioctl operations */
 +static const struct v4l2_ioctl_ops kmb_vid_ioctl_ops = {
-+	.vidioc_querycap                 = kmb_video_querycap,
-+	.vidioc_enum_fmt_vid_cap         = kmb_video_enum_fmt,
-+	.vidioc_enum_framesizes          = kmb_video_enum_framesizes,
-+	.vidioc_g_fmt_vid_cap_mplane     = kmb_video_get_fmt,
-+	.vidioc_try_fmt_vid_cap_mplane   = kmb_video_try_fmt,
-+	.vidioc_s_fmt_vid_cap_mplane     = kmb_video_set_fmt,
-+	.vidioc_reqbufs                  = vb2_ioctl_reqbufs,
-+	.vidioc_querybuf                 = vb2_ioctl_querybuf,
-+	.vidioc_qbuf                     = vb2_ioctl_qbuf,
-+	.vidioc_dqbuf                    = vb2_ioctl_dqbuf,
-+	.vidioc_streamon                 = kmb_video_streamon,
-+	.vidioc_streamoff                = vb2_ioctl_streamoff,
-+	.vidioc_expbuf                   = vb2_ioctl_expbuf,
++	.vidioc_querycap	 = kmb_metadata_querycap,
++	.vidioc_g_fmt_meta_out   = kmb_metadata_get_fmt,
++	.vidioc_s_fmt_meta_out   = kmb_metadata_set_fmt_out,
++	.vidioc_try_fmt_meta_out = kmb_metadata_try_fmt_out,
++	.vidioc_g_fmt_meta_cap   = kmb_metadata_get_fmt,
++	.vidioc_s_fmt_meta_cap	 = kmb_metadata_set_fmt_cap,
++	.vidioc_try_fmt_meta_cap = kmb_metadata_try_fmt_cap,
++	.vidioc_reqbufs		 = vb2_ioctl_reqbufs,
++	.vidioc_querybuf	 = vb2_ioctl_querybuf,
++	.vidioc_qbuf		 = vb2_ioctl_qbuf,
++	.vidioc_dqbuf		 = vb2_ioctl_dqbuf,
++	.vidioc_streamon	 = vb2_ioctl_streamon,
++	.vidioc_streamoff	 = vb2_ioctl_streamoff,
 +};
 +
-+static int kmb_video_open(struct file *file)
++static int kmb_metadata_open(struct file *file)
 +{
-+	struct kmb_video *kmb_vid = video_drvdata(file);
-+	struct v4l2_mbus_framefmt fmt;
++	struct kmb_metadata *kmb_meta = video_drvdata(file);
 +	int ret;
 +
-+	mutex_lock(&kmb_vid->lock);
++	mutex_lock(&kmb_meta->lock);
++
 +	ret = v4l2_fh_open(file);
 +	if (ret) {
-+		mutex_unlock(&kmb_vid->lock);
++		mutex_unlock(&kmb_meta->lock);
 +		return ret;
 +	}
 +
-+	INIT_LIST_HEAD(&kmb_vid->dma_queue);
-+
-+	ret = kmb_pipe_request(kmb_vid->pipe);
++	ret = kmb_pipe_request(kmb_meta->pipe);
 +	if (ret < 0)
 +		goto error_fh_release;
 +
-+	/* Fill default format. */
-+	memset(&fmt, 0, sizeof(fmt));
-+	kmb_video_fmt_info_to_pix(&video_formats[0], &fmt,
-+				  &kmb_vid->active_fmt.pix);
-+	kmb_vid->active_fmt.info = &video_formats[0];
-+
-+	mutex_unlock(&kmb_vid->lock);
++	mutex_unlock(&kmb_meta->lock);
 +
 +	return 0;
 +
 +error_fh_release:
 +	_vb2_fop_release(file, NULL);
-+	mutex_unlock(&kmb_vid->lock);
-+
++	mutex_unlock(&kmb_meta->lock);
 +	return ret;
 +}
 +
-+static int kmb_video_release(struct file *file)
++static int kmb_metadata_release(struct file *file)
 +{
-+	struct kmb_video *kmb_vid = video_drvdata(file);
++	struct kmb_metadata *kmb_meta = video_drvdata(file);
 +	int ret;
 +
-+	mutex_lock(&kmb_vid->lock);
++	mutex_lock(&kmb_meta->lock);
 +
-+	kmb_pipe_release(kmb_vid->pipe);
++	kmb_pipe_release(kmb_meta->pipe);
 +
 +	ret = _vb2_fop_release(file, NULL);
 +
-+	mutex_unlock(&kmb_vid->lock);
++	mutex_unlock(&kmb_meta->lock);
 +
 +	return ret;
 +}
 +
-+/* FS operations for V4L2 device */
-+static const struct v4l2_file_operations kmb_vid_fops = {
-+	.owner          = THIS_MODULE,
-+	.unlocked_ioctl = video_ioctl2,
-+	.open           = kmb_video_open,
-+	.release        = kmb_video_release,
-+	.poll           = vb2_fop_poll,
-+	.mmap           = vb2_fop_mmap,
++/* V4L2 file operations */
++static const struct v4l2_file_operations kmb_vid_output_fops = {
++	.owner		= THIS_MODULE,
++	.unlocked_ioctl	= video_ioctl2,
++	.open		= kmb_metadata_open,
++	.release	= kmb_metadata_release,
++	.poll		= vb2_fop_poll,
++	.mmap		= vb2_fop_mmap,
 +};
- 
++
  /**
-  * kmb_video_init - Initialize entity
-@@ -15,7 +822,63 @@
+- * kmb_video_init - Initialize entity
++ * kmb_metadata_init - Initialize entity
+  * @kmb_meta: pointer to kmb isp config device
+  *
+  * Return: 0 if successful, error code otherwise.
   */
- int kmb_video_init(struct kmb_video *kmb_vid, const char *name)
+ int kmb_metadata_init(struct kmb_metadata *kmb_meta)
  {
 +	int ret;
 +
-+	kmb_vid->video = video_device_alloc();
-+	if (!kmb_vid->video) {
-+		dev_err(&kmb_vid->video->dev,
-+			"Failed to allocate video device");
-+		return -ENOMEM;
++	mutex_init(&kmb_meta->lock);
++
++	kmb_meta->table_pools_refcnt = 0;
++	memset(kmb_meta->table_pool, 0, sizeof(kmb_meta->table_pool));
++
++	kmb_meta->video.fops  = &kmb_vid_output_fops;
++	kmb_meta->video.ioctl_ops = &kmb_vid_ioctl_ops;
++	kmb_meta->video.minor = -1;
++	kmb_meta->video.release  = video_device_release;
++	kmb_meta->video.vfl_type = VFL_TYPE_VIDEO;
++	kmb_meta->video.lock = &kmb_meta->lock;
++	kmb_meta->video.queue = &kmb_meta->vb2_q;
++	video_set_drvdata(&kmb_meta->video, kmb_meta);
++
++	kmb_meta->vb2_q.drv_priv = kmb_meta;
++	kmb_meta->vb2_q.buf_struct_size = sizeof(struct kmb_metadata_buf);
++	kmb_meta->vb2_q.io_modes = VB2_DMABUF | VB2_MMAP;
++	kmb_meta->vb2_q.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
++	kmb_meta->vb2_q.dev = kmb_meta->dma_dev;
++	kmb_meta->vb2_q.lock = &kmb_meta->lock;
++	kmb_meta->vb2_q.min_buffers_needed = 1;
++
++	/* Initialize per type variables */
++	kmb_meta->video.device_caps = V4L2_CAP_STREAMING;
++	if (kmb_meta->type == KMB_METADATA_PARAMS) {
++		kmb_meta->video.device_caps |= V4L2_CAP_META_OUTPUT;
++		kmb_meta->video.vfl_dir = VFL_DIR_TX;
++		snprintf(kmb_meta->video.name, sizeof(kmb_meta->video.name),
++			 KMB_CAM_METADATA_PARAMS_NAME);
++
++		kmb_meta->vb2_q.ops = &kmb_meta_params_vb2_q_ops;
++		kmb_meta->vb2_q.mem_ops = &vb2_dma_contig_memops;
++		kmb_meta->vb2_q.type = V4L2_BUF_TYPE_META_OUTPUT;
++
++		kmb_meta->pad.flags = MEDIA_PAD_FL_SOURCE;
++
++		kmb_meta->format.dataformat = V4L2_META_FMT_KMB_PARAMS;
++		kmb_meta->format.buffersize = sizeof(struct kmb_isp_params);
++	} else {
++		kmb_meta->video.device_caps |= V4L2_CAP_META_CAPTURE;
++		kmb_meta->video.vfl_dir = VFL_DIR_RX;
++
++		snprintf(kmb_meta->video.name, sizeof(kmb_meta->video.name),
++			 KMB_CAM_METADATA_STATS_NAME);
++
++		kmb_meta->vb2_q.ops = &kmb_meta_stats_vb2_q_ops;
++		kmb_meta->vb2_q.mem_ops = &vb2_dma_contig_memops;
++		kmb_meta->vb2_q.type = V4L2_BUF_TYPE_META_CAPTURE;
++
++		kmb_meta->pad.flags = MEDIA_PAD_FL_SINK;
++
++		kmb_meta->format.dataformat = V4L2_META_FMT_KMB_STATS;
++		kmb_meta->format.buffersize = sizeof(struct kmb_isp_stats);
 +	}
 +
-+	mutex_init(&kmb_vid->lock);
-+	mutex_init(&kmb_vid->dma_lock);
-+
-+	kmb_vid->video->fops  = &kmb_vid_fops;
-+	kmb_vid->video->ioctl_ops = &kmb_vid_ioctl_ops;
-+	kmb_vid->video->minor = -1;
-+	kmb_vid->video->release  = video_device_release;
-+	kmb_vid->video->vfl_type = VFL_TYPE_VIDEO;
-+	kmb_vid->video->lock = &kmb_vid->lock;
-+	kmb_vid->video->queue = &kmb_vid->vb2_q;
-+	video_set_drvdata(kmb_vid->video, kmb_vid);
-+	snprintf(kmb_vid->video->name, sizeof(kmb_vid->video->name),
-+		 "kmb_video %s", name);
-+
-+	kmb_vid->vb2_q.drv_priv = kmb_vid;
-+	kmb_vid->vb2_q.ops = &kmb_video_vb2_q_capture_ops;
-+	kmb_vid->vb2_q.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-+	kmb_vid->vb2_q.buf_struct_size = sizeof(struct kmb_frame_buffer);
-+	kmb_vid->vb2_q.io_modes = VB2_MMAP | VB2_DMABUF;
-+	kmb_vid->vb2_q.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-+	kmb_vid->vb2_q.mem_ops = &vb2_dma_contig_memops;
-+	kmb_vid->vb2_q.dev = kmb_vid->dma_dev;
-+	kmb_vid->vb2_q.lock = &kmb_vid->lock;
-+	kmb_vid->vb2_q.min_buffers_needed = 1;
-+
-+	kmb_vid->pad.flags = MEDIA_PAD_FL_SINK;
-+	kmb_vid->video->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE |
-+				      V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
-+
-+	ret = media_entity_pads_init(&kmb_vid->video->entity, 1, &kmb_vid->pad);
++	ret = media_entity_pads_init(&kmb_meta->video.entity,
++				     1, &kmb_meta->pad);
 +	if (ret < 0)
 +		goto error_mutex_destroy;
 +
-+	ret = vb2_queue_init(&kmb_vid->vb2_q);
++	ret = vb2_queue_init(&kmb_meta->vb2_q);
 +	if (ret < 0) {
-+		dev_err(&kmb_vid->video->dev, "Failed to init vb2 queue");
-+		goto error_video_cleanup;
++		dev_err(&kmb_meta->video.dev, "Error vb2 queue init");
++		goto error_metadata_cleanup;
 +	}
++
++	kmb_params_get_defaults(&kmb_meta->def);
 +
  	return 0;
 +
-+error_video_cleanup:
-+	kmb_video_cleanup(kmb_vid);
++error_metadata_cleanup:
++	kmb_metadata_cleanup(kmb_meta);
 +error_mutex_destroy:
-+	mutex_destroy(&kmb_vid->lock);
-+	mutex_destroy(&kmb_vid->dma_lock);
++	mutex_destroy(&kmb_meta->lock);
 +
 +	return ret;
  }
  
  /**
-@@ -23,7 +886,11 @@ int kmb_video_init(struct kmb_video *kmb_vid, const char *name)
-  * @kmb_vid: pointer to kmb video device
+@@ -22,7 +1823,10 @@ int kmb_metadata_init(struct kmb_metadata *kmb_meta)
+  * @kmb_meta: pointer to kmb isp config device
   */
- void kmb_video_cleanup(struct kmb_video *kmb_vid)
+ void kmb_metadata_cleanup(struct kmb_metadata *kmb_meta)
 -{ }
 +{
-+	media_entity_cleanup(&kmb_vid->video->entity);
-+	mutex_destroy(&kmb_vid->lock);
-+	mutex_destroy(&kmb_vid->dma_lock);
++	media_entity_cleanup(&kmb_meta->video.entity);
++	mutex_destroy(&kmb_meta->lock);
 +}
  
  /**
-  * kmb_video_register - Register V4L2 device
-@@ -35,7 +902,14 @@ void kmb_video_cleanup(struct kmb_video *kmb_vid)
- int kmb_video_register(struct kmb_video *kmb_vid,
- 		       struct v4l2_device *v4l2_dev)
+  * kmb_metadata_register - Register V4L2 device
+@@ -34,7 +1838,15 @@ void kmb_metadata_cleanup(struct kmb_metadata *kmb_meta)
+ int kmb_metadata_register(struct kmb_metadata *kmb_meta,
+ 			  struct v4l2_device *v4l2_dev)
  {
 -	return 0;
 +	int ret;
 +
-+	kmb_vid->video->v4l2_dev = v4l2_dev;
-+	ret = video_register_device(kmb_vid->video, VFL_TYPE_VIDEO, -1);
++	kmb_meta->video.v4l2_dev = v4l2_dev;
++
++	ret = video_register_device(&kmb_meta->video, VFL_TYPE_VIDEO, -1);
 +	if (ret < 0)
-+		dev_err(&kmb_vid->video->dev, "Failed to register video device");
++		dev_err(&kmb_meta->video.dev, "Failed to register video device");
 +
 +	return ret;
  }
  
  /**
-@@ -43,4 +917,6 @@ int kmb_video_register(struct kmb_video *kmb_vid,
-  * @kmb_vid: pointer to kmb video device
+@@ -42,4 +1854,7 @@ int kmb_metadata_register(struct kmb_metadata *kmb_meta,
+  * @kmb_meta: pointer to kmb isp config device
   */
- void kmb_video_unregister(struct kmb_video *kmb_vid)
+ void kmb_metadata_unregister(struct kmb_metadata *kmb_meta)
 -{ }
 +{
-+	video_unregister_device(kmb_vid->video);
++	mutex_destroy(&kmb_meta->lock);
++	video_unregister_device(&kmb_meta->video);
 +}
-diff --git a/drivers/media/platform/keembay-camera/keembay-video.h b/drivers/media/platform/keembay-camera/keembay-video.h
-index 2aebbb37424b..de25dfe3d684 100644
---- a/drivers/media/platform/keembay-camera/keembay-video.h
-+++ b/drivers/media/platform/keembay-camera/keembay-video.h
-@@ -16,7 +16,7 @@
- /**
-  * struct kmb_frame_buffer - KMB frame buffer structure
-  * @vb: Video buffer for v4l2
-- * @addr: Array of dma buffer plane address
-+ * @addr: Array of dma buffer plane addresses
-  * @list: Frame buffer list
-  */
- struct kmb_frame_buffer {
-@@ -28,50 +28,39 @@ struct kmb_frame_buffer {
- /**
-  * struct kmb_video - KMB Video device structure
-  * @lock: Mutex serializing kmb video device ops
-- * @video_lock: Mutex serializing video operations
-  * @video: Pointer to V4L2 sub-device
-+ * @vb2_q: Video buffer queue
-  * @pad: Media pad graph objects
-  * @dma_dev: Pointer to dma device
-+ * @dma_queue: DMA buffers queue
-+ * @dma_lock: Mutex serializing dma queue ops
-+ * @active_fmt: Active format
-+ * @active_fmt.pix: Mplane active pixel format
-+ * @active_fmt.info: Active kmb format info
-  * @pipe: Pointer to kmb media pipeline
-- * @chan: Pointer to xlink channel
-+ * @xlink_cam: Pointer to xlink camera communication handler
-+ * @chan_id: Channel ID
-+ * @thread: Pointer to worker thread data
-  */
- struct kmb_video {
--	struct mutex lock; /* Lock protecting kmb video device */
--	struct mutex video_lock; /* Lock serializing video device operations */
-+	struct mutex lock;
- 	struct video_device *video;
-+	struct vb2_queue vb2_q;
- 	struct media_pad pad;
-+
- 	struct device *dma_dev;
--	struct kmb_pipeline *pipe;
--	struct kmb_xlink_cam *xlink_cam;
--	unsigned int chan_id;
--};
-+	struct list_head dma_queue;
-+	struct mutex dma_lock;
+diff --git a/drivers/media/platform/keembay-camera/keembay-metadata.h b/drivers/media/platform/keembay-camera/keembay-metadata.h
+index 88e85d3caba0..ab77ed11bd15 100644
+--- a/drivers/media/platform/keembay-camera/keembay-metadata.h
++++ b/drivers/media/platform/keembay-camera/keembay-metadata.h
+@@ -12,6 +12,7 @@
+ #include <media/videobuf2-v4l2.h>
  
--/**
-- * struct kmb_video_fh - KMB video file handler
-- * @fh: V4L2 file handler
-- * @kmb_vid: Pointer to KMB video device
-- * @lock: Mutex serializing access to fh
-- * @vb2_lock: Mutex serializing access to vb2 queue
-- * @vb2_q: Video buffer queue
-- * @active_fmt: Active format
--     @pix: Mplane active pixel format
--     @info: Active kmb format info
-- * @contiguous_memory: Flag to enable contiguous memory allocation
-- * @dma_queue: DMA buffers queue
-- * @thread: Pointer to worker thread data
-- */
--struct kmb_video_fh {
--	struct v4l2_fh fh;
--	struct kmb_video *kmb_vid;
--	struct mutex lock; /* Lock protecting fh operations */
--	struct mutex vb2_lock; /* Lock protecting video buffer queue */
--	struct vb2_queue vb2_q;
- 	struct {
- 		struct v4l2_pix_format_mplane pix;
- 		const struct kmb_video_fmt_info *info;
- 	} active_fmt;
--	bool contiguous_memory;
--	struct list_head dma_queue;
+ #include "keembay-vpu-isp.h"
++#include "keembay-params-defaults.h"
+ 
+ /**
+  * enum kmb_metadata_table_type - Keembay metadata table type
+@@ -68,12 +69,12 @@ struct kmb_metadata_table {
+  * @vb: Video buffer for v4l2
+  * @type: Metadata type
+  * @stats: Statistics physical addresses
+- *   @raw: VPU raw statistics physical addresses
+- *   @dehaze_stats_addr: VPU dehaze statistics physical address
++ * @stats.raw: VPU raw statistics physical addresses
++ * @stats.dehaze_stats_addr: VPU dehaze statistics physical address
+  * @params: VPU ISP parameters
+- *   @isp: VPU ISP parameters virtual address
+- *   @dma_addr_isp: VPU ISP parameters physical address
+- *   @tab: Metadata tables
++ * @params.isp: VPU ISP parameters virtual address
++ * @params.dma_addr_isp: VPU ISP parameters physical address
++ * @params.tab: Metadata tables
+  * @list: List for buffer queue
+  */
+ struct kmb_metadata_buf {
+@@ -118,6 +119,7 @@ struct kmb_metabuf_queue_ops {
+  * @table_pool: ISP tables dma pool
+  * @last_buf: Pointer to last enqueued buffer
+  * @format: Active format
++ * @def: Default ISP params
+  */
+ struct kmb_metadata {
+ 	struct mutex lock;
+@@ -138,6 +140,8 @@ struct kmb_metadata {
+ 	struct kmb_metadata_buf *last_buf;
+ 
+ 	struct v4l2_meta_format format;
 +
-+	struct kmb_pipeline *pipe;
-+	struct kmb_xlink_cam *xlink_cam;
-+	unsigned int chan_id;
-+
- 	struct task_struct *thread;
++	struct kmb_vpu_isp_params_defaults def;
  };
  
+ int kmb_metadata_init(struct kmb_metadata *kmb_meta);
+diff --git a/drivers/media/platform/keembay-camera/keembay-params-defaults.c b/drivers/media/platform/keembay-camera/keembay-params-defaults.c
+new file mode 100644
+index 000000000000..a2dd7888375e
+--- /dev/null
++++ b/drivers/media/platform/keembay-camera/keembay-params-defaults.c
+@@ -0,0 +1,326 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Intel Keem Bay camera ISP parameter defaults.
++ *
++ * Copyright (C) 2021 Intel Corporation
++ */
++#include <linux/stddef.h>
++#include <linux/types.h>
++
++#include "keembay-params-defaults.h"
++
++static const struct kmb_vpu_blc_params blc_default[KMB_VPU_MAX_EXPOSURES] = {
++		{
++			.coeff1 = 800,
++			.coeff2 = 800,
++			.coeff3 = 800,
++			.coeff4 = 800,
++		},
++		{
++			.coeff1 = 800,
++			.coeff2 = 800,
++			.coeff3 = 800,
++			.coeff4 = 800,
++		},
++		{
++			.coeff1 = 800,
++			.coeff2 = 800,
++			.coeff3 = 800,
++			.coeff4 = 800,
++		}
++
++};
++
++static const struct kmb_vpu_sigma_dns_params
++	sigma_dns_default[KMB_VPU_MAX_EXPOSURES] = { 0 };
++
++static const struct kmb_vpu_lsc_params lsc_default = {
++	.threshold = 2048,
++	.width = 64,
++	.height = 44,
++	.reserved = { 0 },
++};
++
++static const struct kmb_vpu_raw_params raw_default = {
++	.awb_stats_en = 0,
++	.awb_rgb_hist_en = 0,
++	.af_stats_en = 0,
++	.luma_hist_en = 0,
++	.flicker_accum_en = 0,
++	.bad_pixel_fix_en = 0,
++	.grgb_imb_en = 1,
++	.mono_imbalance_en = 0,
++	.gain1 = 269,
++	.gain2 = 452,
++	.gain3 = 634,
++	.gain4 = 269,
++	.stop1 = 400,
++	.stop2 = 450,
++	.stop3 = 700,
++	.stop4 = 800,
++	.threshold1 = 128,
++	.alpha1 = 12,
++	.alpha2 = 12,
++	.alpha3 = 12,
++	.alpha4 = 12,
++	.threshold2 = 53,
++	.static_defect_size = 1,
++	.reserved = { 0 },
++	.flicker_first_row_acc = 0,
++	.flicker_last_row_acc = 0,
++};
++
++static const struct kmb_vpu_ae_awb_params ae_awb_default = {
++	.start_x = 0,
++	.start_y = 0,
++	.width = 100,
++	.height = 98,
++	.skip_x = 100,
++	.skip_y = 98,
++	.patches_x = 38,
++	.patches_y = 22,
++	.threshold1 = 0,
++	.threshold2 = 4095,
++};
++
++static const struct kmb_vpu_af_params af_default = {
++	.start_x = 0,
++	.start_y = 0,
++	.width = 192,
++	.height = 144,
++	.patches_x = 20,
++	.patches_y = 15,
++	.coeff = 0,
++	.threshold1 = 0,
++	.threshold2 = 0,
++	.coeffs1 = {31, 19, -32, 31, 63, 31, -50, -35, 35, -70, 35},
++	.coeffs2 = {35, 11, -29, 8, 17, 8, 78, -39, 119, -238, 119},
++};
++
++static const struct kmb_vpu_hist_params histogram_default = {
++	.start_x = 0,
++	.start_y = 0,
++	.end_x = 3839,
++	.end_y = 2156,
++	.matrix = {1719, 0, 0, 0, 1024, 0, 0, 0, 2414},
++	.weight = {64, 128, 64},
++};
++
++// only address - nothing to init...
++static const struct kmb_vpu_lca_params lca_default = { 0 };
++
++static const struct kmb_vpu_debayer_params debayer_default = {
++	.coeff1 = 51,
++	.multiplier1 = 13107,
++	.multiplier2 = 13107,
++	.coeff2 = 77,
++	.coeff3 = 150,
++	.coeff4 = 29,
++};
++
++static const struct kmb_vpu_dog_dns_params dog_dns_default = {
++	.threshold = 0,
++	.strength = 0,
++	.coeffs11 = {0, 0, 0, 0, 0, 255},
++	.coeffs15 = {0, 0, 0, 0, 0, 0, 0, 255},
++	.reserved = { 0 },
++};
++
++static const struct kmb_vpu_luma_dns_params luma_dns_default = {
++	.threshold = 13094,
++	.slope = 967,
++	.shift = 7,
++	.alpha = 50,
++	.weight = 0,
++	.per_pixel_alpha_en = 0,
++	.gain_bypass_en = 0,
++	.reserved = { 0 },
++};
++
++static const struct kmb_vpu_sharpen_params sharpen_default =  {
++	.coeffs1 = {0, 0, 0, 4, 182, 396},
++	.coeffs2 = {0, 0, 0, 1, 141, 740},
++	.coeffs3 = {0, 0, 2, 42, 246, 444},
++	.shift = 15,
++	.gain1 = 3396,
++	.gain2 = 3378,
++	.gain3 = 3270,
++	.gain4 = 3400,
++	.gain5 = 207,
++	.stops1 = {20, 40, 605},
++	.gains = {10, 120, 60},
++	.stops2 = {11, 100, 2500, 4000},
++	.overshoot = 359,
++	.undershoot = 146,
++	.alpha = 36,
++	.gain6 = 128,
++	.offset = 637,
++};
++
++static const struct kmb_vpu_chroma_gen_params chroma_gen_default  = {
++	.epsilon = 2,
++	.coeff1 = 426,
++	.coeff2 = 767,
++	.coeff3 = 597,
++	.coeff4 = 77,
++	.coeff5 = 150,
++	.coeff6 = 29,
++	.strength1 = 0,
++	.strength2 = 32,
++	.coeffs = {33, 59, 71},
++	.offset1 = 2,
++	.slope1 = 230,
++	.slope2 = 256,
++	.offset2 = 0,
++	.limit = 767,
++};
++
++static const struct kmb_vpu_median_params median_default = {
++	.size = 7,
++	.slope = 32,
++	.offset = -19,
++};
++
++static const struct kmb_vpu_chroma_dns_params chroma_dns_default = {
++	.limit = 255,
++	.enable = 0,
++	.threshold1 = 30,
++	.threshold2 = 30,
++	.threshold3 = 30,
++	.threshold4 = 30,
++	.threshold5 = 45,
++	.threshold6 = 45,
++	.threshold7 = 45,
++	.threshold8 = 45,
++	.slope1 = 77,
++	.offset1 = -15,
++	.slope2 = 255,
++	.offset2 = 127,
++	.grey1 = 421,
++	.grey2 = 758,
++	.grey3 = 590,
++	.coeff1 = 52,
++	.coeff2 = 32,
++	.coeff3 = 19,
++};
++
++static const struct kmb_vpu_color_comb_params color_comb_default = {
++	.matrix = {1303, 65427, 65367, 65172, 1463, 65462, 55, 65034, 1459},
++	.offsets = { 0 },
++	.coeff1 = 615,
++	.coeff2 = 342,
++	.coeff3 = 439,
++	.reserved = { 0 },
++	.enable = 0,
++	.weight1 = 85,
++	.weight2 = 86,
++	.weight3 = 85,
++	.limit1 = 512,
++	.limit2 = -8192,
++	.offset1 = 0,
++	.offset2 = 0,
++};
++
++static const struct kmb_vpu_hdr_params hdr_default = {
++	.ratio = {256, 256},
++	.scale = {262143, 262143, 262143},
++	.offset1 = -3275,
++	.slope1 = 320,
++	.offset2 = -3685,
++	.slope2 = 641,
++	.offset3 = -4054,
++	.slope3 = 4095,
++	.offset4 = 3686,
++	.gain1 = 16,
++	.blur1 = {0, 0, 255},
++	.blur2 = {0, 0, 0, 0, 255},
++	.contrast1 = 20,
++	.contrast2 = 16,
++	.enable1 = 0,
++	.enable2 = 0,
++	.offset5 = 0,
++	.offset6 = 0,
++	.strength = 0,
++	.reserved1 = { 0 },
++	.offset7 = 15,
++	.shift = 1702133760,
++	.field1 = 16,
++	.field2 = 123,
++	.gain3 = 0,
++	.min = 0,
++	.reserved2 = { 0 },
++};
++
++static const struct kmb_vpu_lut_params lut_default = {
++	.size = 512,
++	.reserved = { 0 },
++	.matrix = {262, 516, 100, 3945, 3799, 449, 449, 3720, 4023},
++	.offsets = {256, 2048, 2048},
++};
++
++static const struct kmb_vpu_tnf_params tnf_default = {
++	.factor = 179,
++	.gain = 0,
++	.offset1 = 217,
++	.slope1 = 162,
++	.offset2 = 299,
++	.slope2 = 121,
++	.min1 = 0,
++	.min2 = 40,
++	.value = 128,
++	.enable = 0,
++};
++
++static const struct kmb_vpu_dehaze_params dehaze_default = {
++	.gain1 = 512,
++	.min = 70,
++	.strength1 = 0,
++	.strength2 = 0,
++	.gain2 = 128,
++	.saturation = 127,
++	.value1 = 2048,
++	.value2 = 2048,
++	.value3 = 2048,
++	.filter = {0, 0, 255},
++};
++
++static const struct kmb_vpu_warp_params warp_default = {
++	.type = 0,
++	.relative = 0,
++	.format = 0,
++	.position = 0,
++	.reserved = { 0 },
++	.width = 8,
++	.height = 4,
++	.stride = 128,
++	.enable = 0,
++	.matrix = {1, 0, 0, 0, 1, 0, 0, 0, 1},
++	.mode = 1,
++	.values = {0, 128, 128},
++};
++
++void kmb_params_get_defaults(struct kmb_vpu_isp_params_defaults *defaults)
++{
++	defaults->blc = blc_default;
++	defaults->sigma_dns = sigma_dns_default;
++	defaults->lsc = &lsc_default;
++	defaults->raw = &raw_default;
++	defaults->ae_awb = &ae_awb_default;
++	defaults->af = &af_default;
++	defaults->histogram = &histogram_default;
++	defaults->lca = &lca_default;
++	defaults->debayer = &debayer_default;
++	defaults->dog_dns = &dog_dns_default;
++	defaults->luma_dns = &luma_dns_default;
++	defaults->sharpen = &sharpen_default;
++	defaults->chroma_gen = &chroma_gen_default;
++	defaults->median = &median_default;
++	defaults->chroma_dns = &chroma_dns_default;
++	defaults->color_comb = &color_comb_default;
++	defaults->hdr = &hdr_default;
++	defaults->lut = &lut_default;
++	defaults->tnf = &tnf_default;
++	defaults->dehaze = &dehaze_default;
++	defaults->warp = &warp_default;
++}
++
+diff --git a/drivers/media/platform/keembay-camera/keembay-params-defaults.h b/drivers/media/platform/keembay-camera/keembay-params-defaults.h
+new file mode 100644
+index 000000000000..d6134d64be7c
+--- /dev/null
++++ b/drivers/media/platform/keembay-camera/keembay-params-defaults.h
+@@ -0,0 +1,38 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Intel Keem Bay camera ISP parameter defaults.
++ *
++ * Copyright (C) 2021 Intel Corporation
++ */
++#ifndef KEEMBAY_DEFAULTS_H
++#define KEEMBAY_DEFAULTS_H
++
++#include "keembay-vpu-isp.h"
++
++struct kmb_vpu_isp_params_defaults {
++	const struct kmb_vpu_blc_params *blc;
++	const struct kmb_vpu_sigma_dns_params *sigma_dns;
++	const struct kmb_vpu_lsc_params *lsc;
++	const struct kmb_vpu_raw_params *raw;
++	const struct kmb_vpu_ae_awb_params *ae_awb;
++	const struct kmb_vpu_af_params *af;
++	const struct kmb_vpu_hist_params *histogram;
++	const struct kmb_vpu_lca_params *lca;
++	const struct kmb_vpu_debayer_params *debayer;
++	const struct kmb_vpu_dog_dns_params *dog_dns;
++	const struct kmb_vpu_luma_dns_params *luma_dns;
++	const struct kmb_vpu_sharpen_params *sharpen;
++	const struct kmb_vpu_chroma_gen_params *chroma_gen;
++	const struct kmb_vpu_median_params *median;
++	const struct kmb_vpu_chroma_dns_params *chroma_dns;
++	const struct kmb_vpu_color_comb_params *color_comb;
++	const struct kmb_vpu_hdr_params *hdr;
++	const struct kmb_vpu_lut_params *lut;
++	const struct kmb_vpu_tnf_params *tnf;
++	const struct kmb_vpu_dehaze_params *dehaze;
++	const struct kmb_vpu_warp_params *warp;
++};
++
++void kmb_params_get_defaults(struct kmb_vpu_isp_params_defaults *defaults);
++
++#endif /* KEEMBAY_DEFAULTS_H */
 -- 
 2.11.0
 
