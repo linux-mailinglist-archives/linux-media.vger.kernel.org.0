@@ -2,100 +2,298 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1019341DCD
-	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 14:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 450D4341E8E
+	for <lists+linux-media@lfdr.de>; Fri, 19 Mar 2021 14:41:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbhCSNLT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Mar 2021 09:11:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbhCSNLH (ORCPT
+        id S230040AbhCSNkz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Mar 2021 09:40:55 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40399 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229736AbhCSNk1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Mar 2021 09:11:07 -0400
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46FEC06175F
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 06:11:06 -0700 (PDT)
-Received: by mail-io1-xd2e.google.com with SMTP id v17so6008761iot.6
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 06:11:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FomIKOx2mj7TAYUlB1ZCPvBZagtXVL3wiwg1FK3ni7o=;
-        b=jkjDkZmIHc+1If7PMRab98D25OkHQM3Ug/BrFz+I/RViiODUTN9gnLIpSwOdnfEv78
-         uCOHFXbSmbKxWkwbSeep6hYaHMiXSJXmwD+lYMiQyHgtFsbQimIvSCp1edMGW2ieDrmI
-         XKdQN7Xooeaq77YRPyPwvoxQ4KBkmmBE/Rxug=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FomIKOx2mj7TAYUlB1ZCPvBZagtXVL3wiwg1FK3ni7o=;
-        b=QIJrVSpXODoGFZe1jJiHgzMHj+8AfrrzUm0Sp+SlVwKKoMxDM61IpQZAupjYmbeY/I
-         LdqLXr4jgr2mvim/tbnJxrydqjq9fxsYwI/9yzV2S2rRDoW9TnS+QycUAOHN9bubtN9S
-         +dz90zBxIQHTwr/bjEhCOGzkb0ORmBcr8qQMlpi2ZF8XaYDjMtXZdInKG6VlO9+aPA2V
-         zrA6UPur+eCHyRr/j4k5lDLOyJjVrcX4LPHwgvXqUmU04nmejSi5HgZX+qapgrwqifyK
-         Zz2ywqdl1aR+QsHGkyVdC5PsH1Z38gMVDYPoq8TXs19frGhJBSV2gP5aV0f/qLeLD3Dm
-         AKcg==
-X-Gm-Message-State: AOAM530PPoNDVRFdloTe708IINp57uePaRsbuJ4mzu2PWcpPDt5EXw6R
-        vpZt+aiDOpvXaDcY1Fs9pvxrZr6dGeY73oze
-X-Google-Smtp-Source: ABdhPJxGU0jteS6sXVbH86v4SDoNMhSRhSagtXjRYoOSdi89UwHaKZWnA1Mgp143VuBmv7ddB6MD0A==
-X-Received: by 2002:a6b:8b0e:: with SMTP id n14mr2759663iod.199.1616159466048;
-        Fri, 19 Mar 2021 06:11:06 -0700 (PDT)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com. [209.85.166.54])
-        by smtp.gmail.com with ESMTPSA id j5sm2635844ile.52.2021.03.19.06.11.05
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Mar 2021 06:11:05 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id v3so5999752ioq.2
-        for <linux-media@vger.kernel.org>; Fri, 19 Mar 2021 06:11:05 -0700 (PDT)
-X-Received: by 2002:a05:6602:722:: with SMTP id g2mr2702953iox.1.1616159464446;
- Fri, 19 Mar 2021 06:11:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210312235521.1408503-1-ribalda@chromium.org>
- <CANiDSCunsYwjB=PYYJnpaEnB3pg7No40gOE1jTVwxJkJJpE2Nw@mail.gmail.com> <20210319131011.GA3372@lst.de>
-In-Reply-To: <20210319131011.GA3372@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 19 Mar 2021 14:10:53 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsid-gcq_HWWh=M0mOT947F7bj1QYANo4i0TwUSEkkEbg@mail.gmail.com>
-Message-ID: <CANiDSCsid-gcq_HWWh=M0mOT947F7bj1QYANo4i0TwUSEkkEbg@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] media: uvcvideo: Use dma_alloc_noncontiguous API
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
+        Fri, 19 Mar 2021 09:40:27 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id NFMTlY1KQ4XAGNFMXlNHmp; Fri, 19 Mar 2021 14:40:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616161225; bh=mF8H1HE6b/1XaRa5iajdbSqj9BvOGOGqp1iPW3aJqwU=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ZEh9dmTXR1l8rBs/ZwQI3446zGdLzIyV9vtt/k3FU8L7wd+E1b/4hmx0qP33wbd3Y
+         ZgK/Oxj1XbF9+E4nRbZ/NyO1+/0erlaeaQP0uQTWfUtxNHLV7iQ8VgKuSgZE7NQNa2
+         WZN6wS3ge4Y+K8FC74xe/iRst30s496bQNKAvbWrGAMqtm0TZRAMc4w4bvlbhNibxg
+         iaDZiaBJ7jSpqKKJf8XvnN9Fz9RWis46d957tMN3w2chFS/8xGM4q5OIM0DC/8fftc
+         qbU3oL/Pd1oCgVq/uIb5d4PqUTzIJRj5Bclp8+muQaP1tRb65sMyxZj+Gt340rluz6
+         kk3NN/gxUCnkw==
+Subject: Re: [PATCH v7 13/17] media: uvcvideo: Return -EACCES to inactive
+ controls
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tomasz Figa <tfiga@chromium.org>
+References: <20210318202928.166955-1-ribalda@chromium.org>
+ <20210318202928.166955-14-ribalda@chromium.org>
+ <21b313b4-dbdf-c1bd-450d-723c601cb61a@xs4all.nl>
+ <CANiDSCu2__2Ta6BcF24DC=+Cir1aO=QF5xsVK4-vkephbAXiSg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <03b2c4ff-5799-2bc8-38ec-49c37c2e311a@xs4all.nl>
+Date:   Fri, 19 Mar 2021 14:40:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <CANiDSCu2__2Ta6BcF24DC=+Cir1aO=QF5xsVK4-vkephbAXiSg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfEpLv2GpF5iHm5BOehDmbrnzAbb+rLDm5MWhI378Gqk/BkFPBBBlHO4EtelaSNb227kwKJejJYytte4A9fuSLZ4sERvhDKZVRyo48Pq7DAh4qsfHgp9k
+ RshaJvUTnzU/el5gOJgvgaGJukn64r7FMPDwsIaRgTQnTCAJbSB773oq+DJV9o2q/ujYQvX/b9suaNjZmp/3o+5O0eCkl2gK8/mDAM7KCyr3fqjvc3AP4+xK
+ 91YDysrVOm592kI7iLIVLG8UNx1dH2+1Qr2xi9IA8tG158ZxOW1+Z5pm7ISfomg5GL2GbhdpbwXFD5BIgEk9Fm8f1k/wsb7tFz5KshBi+SK/Su1M0Mex7cs2
+ FNhdlZOOzqzhcO7qre82/5MlzgLY1JioYVfVwW08p7bmkunPUc77ypGrlu583ijNlKsp1deI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christoph
+On 19/03/2021 10:49, Ricardo Ribalda wrote:
+> Hi Hans
+> 
+> Thanks for testing this.
+> 
+> 
+> 
+> 
+> On Fri, Mar 19, 2021 at 10:10 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> On 18/03/2021 21:29, Ricardo Ribalda wrote:
+>>> If a control is inactive return -EACCES to let the userspace know that
+>>> the value will not be applied automatically when the control is active
+>>> again.
+>>>
+>>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> ---
+>>>  drivers/media/usb/uvc/uvc_ctrl.c | 68 ++++++++++++++++++++++----------
+>>>  drivers/media/usb/uvc/uvc_v4l2.c | 11 +++++-
+>>>  drivers/media/usb/uvc/uvcvideo.h |  2 +-
+>>>  3 files changed, 58 insertions(+), 23 deletions(-)
+>>>
+>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+>>> index 24fd5afc4e4f..1ec8333811bc 100644
+>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+>>> @@ -1046,8 +1046,33 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+>>>       return 0;
+>>>  }
+>>>
+>>> +static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
+>>> +                              struct uvc_control *ctrl,
+>>> +                              struct uvc_control_mapping *mapping)
+>>> +{
+>>> +     struct uvc_control_mapping *master_map = NULL;
+>>> +     struct uvc_control *master_ctrl = NULL;
+>>> +     s32 val;
+>>> +     int ret;
+>>> +
+>>> +     if (!mapping->master_id)
+>>> +             return false;
+>>> +
+>>> +     __uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
+>>> +                        &master_ctrl, 0);
+>>> +
+>>> +     if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+>>> +             return false;
+>>> +
+>>> +     ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+>>> +     if (ret < 0 || val == mapping->master_manual)
+>>> +             return false;
+>>> +
+>>> +     return true;
+>>> +}
+>>
+>> This doesn't work. The problem is that you need to test the new value for the
+>> master control against master_manual, and you are testing against the old value.
+>>
+>> So for my uvc camera I have this situation after boot:
+>>
+>>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+>>                                 1: Manual Mode
+>>                                 3: Aperture Priority Mode
+>>          exposure_time_absolute 0x009a0902 (int)    : min=3 max=2047 step=1 default=250 value=250 flags=inactive
+>>
+>> But trying to change both auto_exposure to manual AND set the new exposure_time_absolute
+>> will fail:
+>>
+>> $ v4l2-ctl -c auto_exposure=1,exposure_time_absolute=251
+>> VIDIOC_S_EXT_CTRLS: failed: Permission denied
+>> Error setting controls: Permission denied
+>>
+>> This works though with the uvc driver as is currently in the kernel.
+>>
+>> Unfortunately, this is not something that is explicitly tested in v4l2-compliance.
+>>
+> 
+> Can you try dropping this patch and relaying on  media: uvcvideo: Set
+> error_idx during ctrl_commit errors ?
 
-On Fri, Mar 19, 2021 at 2:10 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Fri, Mar 19, 2021 at 02:05:21PM +0100, Ricardo Ribalda wrote:
-> > > +                                   uvc_urb->sgt,
-> > > +                                   uvc_stream_dir(uvc_urb->stream));
-> > > +       return usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
-> > > +}
-> >
-> > We should have mem_flags instead of GFP_KERNEL here
-> >
-> >
-> > Is it too late to fix it in your tree? Do I need to send a patch to fix it?
->
-> As far as I know we don't have anything that has pulled in the tree yet,
-> so I can just fold the fix in.
+That doesn't work all that well. The uvc_query_ctrl() function is problematic:
 
-Ohh good :). Thanks! and sorry again.
+1) It can return -EILSEQ where -EACCES is expected. Not a big deal, EACCES makes
+   more sense here anyway.
 
+2) It can return error code 6 (Invalid control), and then it returns -EIO. I'm not
+   entirely clear why I get code 6, I haven't dug deep enough for that. If I
+   change that to EACCES, then v4l2-compliance passes, but...
 
+3) This function keeps spamming the "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n"
+   error in the kernel log. In all fairness, the current kernel driver does the same, but
+   with this patch it no longer does.
 
--- 
-Ricardo Ribalda
+I think the uvc driver really has to check this. It doesn't have to be during the
+validation step in uvc_ctrl_check_access(), it is fine if this check happens during
+the commit phase.
+
+I checked the UVC 1.5 spec and in 4.2.2.1.4 (Exposure Time (Absolute) Control) it says:
+
+  When the Auto-Exposure Mode control is in Auto mode or Aperture Priority mode attempts
+  to programmatically set this control shall result in a protocol STALL and an error code
+  of bRequestErrorCode = “Wrong state”.
+
+So the uvc driver should just detect this and avoid writing this control in such a case.
+
+Regards,
+
+	Hans
+
+> 
+> thanks!
+> 
+>> Regards,
+>>
+>>         Hans
+>>
+>>> +
+>>>  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>>> -                        bool read)
+>>> +                        unsigned long ioctl)
+>>>  {
+>>>       struct uvc_control_mapping *mapping;
+>>>       struct uvc_control *ctrl;
+>>> @@ -1059,11 +1084,26 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>>>       if (!ctrl)
+>>>               return -EINVAL;
+>>>
+>>> -     if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) && read)
+>>> -             return -EACCES;
+>>> -
+>>> -     if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
+>>> -             return -EACCES;
+>>> +     switch (ioctl) {
+>>> +     case VIDIOC_G_CTRL:
+>>> +     case VIDIOC_G_EXT_CTRLS:
+>>> +             if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+>>> +                     return -EACCES;
+>>> +             break;
+>>> +     case VIDIOC_S_EXT_CTRLS:
+>>> +     case VIDIOC_S_CTRL:
+>>> +             if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>>> +                     return -EACCES;
+>>> +             if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
+>>> +                     return -EACCES;
+>>> +             break;
+>>> +     case VIDIOC_TRY_EXT_CTRLS:
+>>> +             if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>>> +                     return -EACCES;
+>>> +             break;
+>>> +     default:
+>>> +             return -EINVAL;
+>>> +     }
+>>>
+>>>       return 0;
+>>>  }
+>>> @@ -1087,8 +1127,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>>>       struct uvc_control_mapping *mapping,
+>>>       struct v4l2_queryctrl *v4l2_ctrl)
+>>>  {
+>>> -     struct uvc_control_mapping *master_map = NULL;
+>>> -     struct uvc_control *master_ctrl = NULL;
+>>>       const struct uvc_menu_info *menu;
+>>>       unsigned int i;
+>>>
+>>> @@ -1104,18 +1142,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>>>       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>>>               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>>>
+>>> -     if (mapping->master_id)
+>>> -             __uvc_find_control(ctrl->entity, mapping->master_id,
+>>> -                                &master_map, &master_ctrl, 0);
+>>> -     if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+>>> -             s32 val;
+>>> -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+>>> -             if (ret < 0)
+>>> -                     return ret;
+>>> -
+>>> -             if (val != mapping->master_manual)
+>>> -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+>>> -     }
+>>> +     if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
+>>> +             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+>>>
+>>>       if (!ctrl->cached) {
+>>>               int ret = uvc_ctrl_populate_cache(chain, ctrl);
+>>> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+>>> index fbb99f3c2fb4..ddebdeb5a81b 100644
+>>> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+>>> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+>>> @@ -999,6 +999,10 @@ static int uvc_ioctl_g_ctrl(struct file *file, void *fh,
+>>>       struct v4l2_ext_control xctrl;
+>>>       int ret;
+>>>
+>>> +     ret = uvc_ctrl_is_accessible(chain, ctrl->id, VIDIOC_G_CTRL);
+>>> +     if (ret)
+>>> +             return ret;
+>>> +
+>>>       memset(&xctrl, 0, sizeof(xctrl));
+>>>       xctrl.id = ctrl->id;
+>>>
+>>> @@ -1023,6 +1027,10 @@ static int uvc_ioctl_s_ctrl(struct file *file, void *fh,
+>>>       struct v4l2_ext_control xctrl;
+>>>       int ret;
+>>>
+>>> +     ret = uvc_ctrl_is_accessible(chain, ctrl->id, VIDIOC_S_CTRL);
+>>> +     if (ret)
+>>> +             return ret;
+>>> +
+>>>       memset(&xctrl, 0, sizeof(xctrl));
+>>>       xctrl.id = ctrl->id;
+>>>       xctrl.value = ctrl->value;
+>>> @@ -1054,8 +1062,7 @@ static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
+>>>       int ret = 0;
+>>>
+>>>       for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+>>> -             ret = uvc_ctrl_is_accessible(chain, ctrl->id,
+>>> -                                         ioctl == VIDIOC_G_EXT_CTRLS);
+>>> +             ret = uvc_ctrl_is_accessible(chain, ctrl->id, ioctl);
+>>>               if (ret)
+>>>                       break;
+>>>       }
+>>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+>>> index 9471c342a310..a93aeedb5499 100644
+>>> --- a/drivers/media/usb/uvc/uvcvideo.h
+>>> +++ b/drivers/media/usb/uvc/uvcvideo.h
+>>> @@ -903,7 +903,7 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
+>>>  int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
+>>>  int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
+>>>  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>>> -                        bool read);
+>>> +                        unsigned long ioctl);
+>>>
+>>>  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+>>>                     struct uvc_xu_control_query *xqry);
+>>>
+>>
+> 
+> 
+
