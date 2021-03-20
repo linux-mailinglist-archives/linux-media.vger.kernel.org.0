@@ -2,94 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A6C342CBF
-	for <lists+linux-media@lfdr.de>; Sat, 20 Mar 2021 13:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A720342DE3
+	for <lists+linux-media@lfdr.de>; Sat, 20 Mar 2021 16:43:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbhCTMW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Mar 2021 08:22:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbhCTMWP (ORCPT
+        id S229875AbhCTPnN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Mar 2021 11:43:13 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46806 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229791AbhCTPmz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Mar 2021 08:22:15 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73446C061762
-        for <linux-media@vger.kernel.org>; Sat, 20 Mar 2021 05:22:03 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id f12so8909840qtq.4
-        for <linux-media@vger.kernel.org>; Sat, 20 Mar 2021 05:22:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m/oYofaPfGDxdbzrYrYo5lIRhLt8jwQQc04DCOZhcAo=;
-        b=GvZU7aDSeCxU7F6X1zFyl7eAZeU7LXctySpAXmXztx+uPgup3BjoWhiZBGde/wUkwn
-         KbSJ13YkFkcKqlGq/Sjg8kovvDpbNrEWtscSabU/HrALKVZ7L+voKUIrVZzB/bvTZ4Fq
-         798as7rVysMXRvyc3SqySRZIBNPYPUWrimOUXPruyNit3fPKajFWKyJ48gB/sXBYzrqo
-         uNvN6SIR0EpdjWrXd/6ws5WbBuFxhJBjGi2oPdVH7ctK79pMxROG1vFq48otWUwebNVm
-         aktlK9URHpjCSKKXkwd/1o/gbsuL6EydSot208k2UcDbk1uA7jOmnuOfDnTty4nCtCT2
-         HTmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m/oYofaPfGDxdbzrYrYo5lIRhLt8jwQQc04DCOZhcAo=;
-        b=rIFacU5r007TReWm53DQ0JG62K6WHoAZCw/Qr4bxVvks8QEdJWb9nDI0Kpr4hPsIrV
-         kMiZeATYxsEv/uDRRx/i2AyhBrr4SJ+T8+kQIljWpwhL0mi5K+clhR4UlhJ/PGWLWpPR
-         pF1VWVJMrTR6L3uta5VCZb2PFZ5tCc9KVVK/08ISZR1w2cy+KFSUDzZolWkyU6o5ve9T
-         gNc0UF+YIWmmUX/h8ABTCsOxRqWlCDaceCweEZ3f/+vOABukXfmcv5qoRBwrxBQpWOiR
-         3pkTl6Gp1ukLvI5ayAm1pXILhjjxE/aJqkl+W+WuuFjeVfPgnPqoY4zSedRpKx7UDcEh
-         NoUQ==
-X-Gm-Message-State: AOAM532Qy9X0EcqKrF1ABcMrd/CoTxlNP/zpKc2Dj3gq/24+G0co7OK5
-        eiZL9rvgah0MckQ0iolrLAc=
-X-Google-Smtp-Source: ABdhPJyLRbr3abNj5X4mpylLktgtVT5DdpklnatmGmqCJM5T/50WsztSNKi+wZZdsyKo547qSeW4tQ==
-X-Received: by 2002:ac8:6913:: with SMTP id e19mr2716299qtr.78.1616242922573;
-        Sat, 20 Mar 2021 05:22:02 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:d77f:dedf:c165:89a3:1374:f96a])
-        by smtp.gmail.com with ESMTPSA id d24sm6646139qko.54.2021.03.20.05.22.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Mar 2021 05:22:01 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     hverkuil@xs4all.nl
-Cc:     boris.brezillon@collabora.com, ezequiel@collabora.com,
-        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] media: rkvdec: Remove of_match_ptr()
-Date:   Sat, 20 Mar 2021 09:21:52 -0300
-Message-Id: <20210320122152.203446-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 20 Mar 2021 11:42:55 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07EB98D3;
+        Sat, 20 Mar 2021 16:42:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616254972;
+        bh=173LBmGmWR/M+VIJkThtB3MyheJPfVfgrWH8Pz618eQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hoz6NGVDOvIC3yHD4GyFLSZ5eDfRsgNsx/Jqr8cX2ybyDfbGs+LTohNWsOI3Wr99P
+         ffqnmHBZRWXiBxtiKzYC8jXq4nJLbq4jmcpVzOdFRgwrmOQV7r2yZSSRmce8ihn8Ji
+         ifF8uRJgYciQfttNRPS+Jkce9qpPpQ02TuD01OqU=
+Date:   Sat, 20 Mar 2021 17:42:12 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v3 05/19] media: v4l2-subdev: De-deprecate init() subdev
+ op
+Message-ID: <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
+References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
+ <20210319164148.199192-6-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210319164148.199192-6-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When building with CONFIG_OF not set, the following clang
-build warning is seen:
+Hi Jacopo,
 
->> drivers/staging/media/rkvdec/rkvdec.c:967:34: warning: unused variable 'of_rkvdec_match' [-Wunused-const-variable]
+Thank you for the patch.
 
-Fix the warning by removing the unnecessary of_match_ptr().
+CC'ing Sakari on v3 to get feedback.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/staging/media/rkvdec/rkvdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Mar 19, 2021 at 05:41:34PM +0100, Jacopo Mondi wrote:
+> The init() subdev core operation is deemed to be deprecated for new
+> subdevice drivers. However it could prove useful for complex
+> architectures to defer operation that require access to the
+> communication bus if said bus is not available (or fully configured)
+> at the time when the subdevice probe() function is run.
+> 
+> As an example, the GMSL architecture requires the GMSL configuration
+> link to be configured on the host side after the remote subdevice
+> has completed its probe function. After the configuration on the host
+> side has been performed, the subdevice registers can be accessed through
+> the communication bus.
+> 
+> In particular:
+> 
+> 	HOST			REMOTE
+> 
+> 	probe()
+> 	   |
+> 	   ---------------------> |
+> 				  probe() {
+> 				     bus config()
+> 				  }
+> 	   |<--------------------|
+> 	v4l2 async bound {
+> 	    bus config()
+> 	    call subdev init()
+> 	   |-------------------->|
+> 				 init() {
+> 				     access register on the bus()
+> 				}
+> 	   |<-------------------
+> 	}
+> 
+> In the GMSL use case the bus configuration requires the enablement of the
+> noise immunity threshold on the remote side which ensures reliability
+> of communications in electrically noisy environments. After the subdevice
+> has enabled the threshold at the end of its probe() sequence the host
+> side shall compensate it with an higher signal amplitude. Once this
+> sequence has completed the bus can be accessed with noise protection
+> enabled and all the operations that require a considerable number of
+> transactions on the bus (such as the image sensor configuration
+> sequence) are run in the subdevice init() operation implementation.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  include/media/v4l2-subdev.h | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index d0e9a5bdb08b..3068d9940669 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
+>   *	each pin being configured.  This function could be called at times
+>   *	other than just subdevice initialization.
+>   *
+> - * @init: initialize the sensor registers to some sort of reasonable default
+> - *	values. Do not use for new drivers and should be removed in existing
+> - *	drivers.
+> + * @init: initialize the subdevice registers to some sort of reasonable default
+> + *	values. Do not use for new drivers (and should be removed in existing
+> + *	ones) for regular architectures where the image sensor is connected to
+> + *	the host receiver. For more complex architectures where the subdevice
+> + *	initialization should be deferred to the completion of the probe
+> + *	sequence of some intermediate component, or the communication bus
+> + *	requires configurations on the host side that depend on the completion
+> + *	of the probe sequence of the remote subdevices, the usage of this
+> + *	operation could be considered to allow the devices along the pipeline to
+> + *	probe and register in the media graph and to defer any operation that
+> + *	require actual access to the communication bus to their init() function
+> + *	implementation.
+>   *
+>   * @load_fw: load firmware.
+>   *
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 225eeca73356..0ff013c1fc38 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -1092,7 +1092,7 @@ static struct platform_driver rkvdec_driver = {
- 	.remove = rkvdec_remove,
- 	.driver = {
- 		   .name = "rkvdec",
--		   .of_match_table = of_match_ptr(of_rkvdec_match),
-+		   .of_match_table = of_rkvdec_match,
- 		   .pm = &rkvdec_pm_ops,
- 	},
- };
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
