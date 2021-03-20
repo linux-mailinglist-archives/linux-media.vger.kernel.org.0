@@ -2,130 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9851342E57
-	for <lists+linux-media@lfdr.de>; Sat, 20 Mar 2021 17:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 545F4342E76
+	for <lists+linux-media@lfdr.de>; Sat, 20 Mar 2021 17:57:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbhCTQZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Mar 2021 12:25:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49678 "EHLO
+        id S229766AbhCTQ4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Mar 2021 12:56:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbhCTQYx (ORCPT
+        with ESMTP id S229618AbhCTQ4O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Mar 2021 12:24:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11B87C061574;
-        Sat, 20 Mar 2021 09:24:53 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25E098D3;
-        Sat, 20 Mar 2021 17:24:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616257489;
-        bh=nInQQvrkhlkfJ8ZjNLVB5LPKoCqesSs+QiwQULKudDs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s4st2l9ajDflvAxV+bB4+XZ3+Dc0Y6YiyDWU4uPb5zfvRq4t8hAQkTW5w/flqFFNq
-         JKht7aMyT+sR0zun2zQNVpHKmefBQpURSe1G/5ZWKKE1PqSezXrX6rs0mikEEcpZue
-         yXNOEj6rCfyFCd3mJ9zevBryUam9yaJbBvScmqbA=
-Date:   Sat, 20 Mar 2021 18:24:09 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 19/19] media: i2c: rdacm20: Re-work ov10635 reset
-Message-ID: <YFYhqXnxXIFJTYTM@pendragon.ideasonboard.com>
-References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
- <20210319164148.199192-20-jacopo+renesas@jmondi.org>
+        Sat, 20 Mar 2021 12:56:14 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3506C061574
+        for <linux-media@vger.kernel.org>; Sat, 20 Mar 2021 09:56:13 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id j3so14387192edp.11
+        for <linux-media@vger.kernel.org>; Sat, 20 Mar 2021 09:56:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PCB2yZ9sMKQ2/tRaym0YakwQHCo8fxYfPHH7WijDDtY=;
+        b=RfrtiplV0YnxvgBEF2DH2vc+03ymxWg3s4PX8Pc5GUnnzmdzZXQF8xuP017ZwoPjAh
+         0aKYUf5vMjmAUFyIManD/+Gt41iEWcwPW2NLp+U+Z9zweTHYBXaNg6FghFOE4FsDeXsy
+         EhIS6vsnsRC2kqROY2GBeJX3Ojdzmd5RdJBUs4EcSs92driIY0+KRcXF1Ma/1Sa+WM2w
+         1OO4qriGwjismPNzlwjQGkpTEdFomiFO1LlbhV/Ny/rJyvoqju9L+ZHVzr6/bDbTc6tw
+         vjPDDYh/d0KzJYH0y6oDUVOCP7DlatWaPENOUEVxKVYQ7j6gLw1SuR+LS/CX0+ReD95N
+         lJQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PCB2yZ9sMKQ2/tRaym0YakwQHCo8fxYfPHH7WijDDtY=;
+        b=kKbaNM7Mh7fYM3BPL4g6mUDETR19K3sF7LIApaSRqFgs/ch5P2416wVHvon7NoVT0/
+         ZGziiwbQpsFgAT7nSDV+pvAxONJPthCDeWNA6S5dvMs2qhNeP+MywGfZFjSFO7E1hQwX
+         7AcOdNSnvlkH3hKHY1B/l548xhgZxQdGSO2HnVwgBOXxt2tHA+Q8co33ip0nnW00JD0k
+         C4uX1ejrKmoqokj6U9WWXAB8X+R1CRWqnPwr5wDTNTqOpDa99+LY+TlpB+deo64dOYZ9
+         /hCl989sMfClLwZuRuGO4rZv3YXtsKpWoESJHuq1UKo4IP8COsTdq3wkaZIkFOlkg5L7
+         uvbw==
+X-Gm-Message-State: AOAM530D/1M1WjIN5RFE5OcMUQja4MWxusCfXO62b764+TLYGLkzJaFN
+        /uKgUCk3OlE6iNUQFITl9GE=
+X-Google-Smtp-Source: ABdhPJzdbea6LGOihMgu+sT8l5mptNqU19wnELtXLP/KAeI32haomjZQlRWfkG6RqcevZ1gPCFsZ+w==
+X-Received: by 2002:a05:6402:11c9:: with SMTP id j9mr16361874edw.348.1616259372511;
+        Sat, 20 Mar 2021 09:56:12 -0700 (PDT)
+Received: from gregorj-mbp.3amlabs.net ([2a02:810a:8300:31a8:d4f7:9cc0:8c7:9338])
+        by smtp.gmail.com with ESMTPSA id jj15sm5714301ejc.99.2021.03.20.09.56.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Mar 2021 09:56:11 -0700 (PDT)
+Subject: Re: [v4l-utils v4 2/5] Add support for meson building
+To:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
+        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
+        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
+        user.vdr@gmail.com, sakari.ailus@iki.fi
+References: <20210317172227.620584-1-ariel.dalessandro@collabora.com>
+ <20210317172227.620584-3-ariel.dalessandro@collabora.com>
+From:   Gregor Jasny <gjasny@googlemail.com>
+Message-ID: <7096f897-1e48-c1e5-5503-008fff60d2b2@googlemail.com>
+Date:   Sat, 20 Mar 2021 17:56:10 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210319164148.199192-20-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210317172227.620584-3-ariel.dalessandro@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hello,
 
-Thank you for the patch.
+Thank you again for these patches. Building v4l-utils has never been so 
+fast and easy. It will accelerate my Debian / Ubuntu packaging and 
+really sparks joy!
 
-On Fri, Mar 19, 2021 at 05:41:48PM +0100, Jacopo Mondi wrote:
-> The OV10635 image sensor embedded in the camera module is currently
-> reset after the MAX9271 initialization with two long delays that were
-> most probably not correctly characterized.
-> 
-> Re-work the image sensor reset procedure by holding the chip in reset
-> during the MAX9271 configuration, removing the long sleep delays and
-> only wait after the chip exits from reset for 350-500 microseconds
-> interval, which is larger than the minimum (2048 * (1 / XVCLK)) timeout
-> characterized in the chip manual.
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/rdacm20.c | 29 +++++++++++++++++------------
->  1 file changed, 17 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 7ed3866b5335..7ba2d0249da8 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -454,6 +454,19 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
->  	if (ret)
->  		return ret;
->  
-> +	/*
-> +	 * Hold OV10635 in reset during max9271 configuration. The reset signal
-> +	 * has to be asserted for at least 200 microseconds.
-> +	 */
-> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+On 17.03.21 18:22, Ariel D'Alessandro wrote:
+> Supports building libraries and tools found in contrib/, lib/ and
+> utils/ directories, along with the implemented gettext translations.
 
-enable and clear is very cnonfusing. How about mimicking the GPIO API,
-with direction_input(), direction_output() and set_value() functions ?
-It would also be nice if the polarity could be handled in a nicer way.
-There's no GPIO request API here, but maybe a max9271_gpio_set_flags() ?
+Here's a patch on top of your tree:
+https://gitlab.com/gjasny/v4l-utils/-/commit/a9853f79c2675bf08fc3e93f15aa4158c9769bdd
 
-> +	if (ret)
-> +		return ret;
-> +	usleep_range(200, 500);
-> +
->  	ret = max9271_configure_gmsl_link(&dev->serializer);
->  	if (ret)
->  		return ret;
-> @@ -468,22 +481,14 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
->  	dev->serializer.client->addr = dev->addrs[0];
->  
->  	/*
-> -	 * Reset the sensor by cycling the OV10635 reset signal connected to the
-> -	 * MAX9271 GPIO1 and verify communication with the OV10635.
-> +	 * Release ov10635 from reset and initialize it. The image sensor
-> +	 * requires at least 2048 XVCLK cycles (85 micro-seconds at 24MHz)
-> +	 * before being available. Stay safe and wait up to 500 micro-seconds.
->  	 */
-> -	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> -	if (ret)
-> -		return ret;
-> -	usleep_range(10000, 15000);
-> -
->  	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
->  	if (ret)
->  		return ret;
-> -	usleep_range(10000, 15000);
-> +	usleep_range(100, 500);
->  
->  	for (i = 0; i < OV10635_PID_TIMEOUT; ++i) {
->  		ret = ov10635_read16(dev, OV10635_PID);
+I changed the following:
+* Use pkgconfig to detect libbpf (like configure.ac does)
+* check for libbpf presence in the keytable subdir (like it's done for 
+libelf
+* refined the empty rc_keymaps dir hack with something supported by 
+meson: https://github.com/mesonbuild/meson/issues/2904 (your hack 
+stopped working for me with meson on Ubuntu 20.04.2)
 
--- 
-Regards,
+With those changes I could successfully build a Debian package using meson.
 
-Laurent Pinchart
+Thanks,
+Gregor
+
+PS: I could not find Mauro in the CC list.
+
+Tested-by: Gregor Jasny <gjasny@googlemail.com>
