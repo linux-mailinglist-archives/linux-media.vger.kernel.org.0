@@ -2,27 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D68E8342E4C
-	for <lists+linux-media@lfdr.de>; Sat, 20 Mar 2021 17:19:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9851342E57
+	for <lists+linux-media@lfdr.de>; Sat, 20 Mar 2021 17:25:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229821AbhCTQSa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Mar 2021 12:18:30 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47100 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229879AbhCTQS1 (ORCPT
+        id S229761AbhCTQZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Mar 2021 12:25:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229713AbhCTQYx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Mar 2021 12:18:27 -0400
+        Sat, 20 Mar 2021 12:24:53 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11B87C061574;
+        Sat, 20 Mar 2021 09:24:53 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35EF18D3;
-        Sat, 20 Mar 2021 17:18:26 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25E098D3;
+        Sat, 20 Mar 2021 17:24:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616257106;
-        bh=9jcusMGa/y+S8wJ82CkMxUncDCQ1MlgmDfai7+e/V9g=;
+        s=mail; t=1616257489;
+        bh=nInQQvrkhlkfJ8ZjNLVB5LPKoCqesSs+QiwQULKudDs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d0SVlBQc7WxVJ9aP2eXyGwryzJmD70GZ4yQ40oB0pQly1IV9FGz5Pf49Ok9rH6a6+
-         3U5jhIkcT8vfYIHKUDu9zJELsHiLTeTTGLHoQ6qT/T+ZaDz3tmYb1GOm1Ncr1Ov5BG
-         AnaC0yjadPlK4mk0Ggt9OBCAqjkcbvmclZ23zMYk=
-Date:   Sat, 20 Mar 2021 18:17:46 +0200
+        b=s4st2l9ajDflvAxV+bB4+XZ3+Dc0Y6YiyDWU4uPb5zfvRq4t8hAQkTW5w/flqFFNq
+         JKht7aMyT+sR0zun2zQNVpHKmefBQpURSe1G/5ZWKKE1PqSezXrX6rs0mikEEcpZue
+         yXNOEj6rCfyFCd3mJ9zevBryUam9yaJbBvScmqbA=
+Date:   Sat, 20 Mar 2021 18:24:09 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     kieran.bingham+renesas@ideasonboard.com,
@@ -30,14 +33,14 @@ Cc:     kieran.bingham+renesas@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 16/19] media: i2c: rdacm20: Replace goto with a loop
-Message-ID: <YFYgKgBIJbVP9KhM@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 19/19] media: i2c: rdacm20: Re-work ov10635 reset
+Message-ID: <YFYhqXnxXIFJTYTM@pendragon.ideasonboard.com>
 References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
- <20210319164148.199192-17-jacopo+renesas@jmondi.org>
+ <20210319164148.199192-20-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210319164148.199192-17-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210319164148.199192-20-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -46,85 +49,81 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Fri, Mar 19, 2021 at 05:41:45PM +0100, Jacopo Mondi wrote:
-> During the camera module initialization the image sensor PID is read to
-> verify it can correctly be identified. The current implementation is
-> rather confused and uses a loop implemented with a label and a goto.
+On Fri, Mar 19, 2021 at 05:41:48PM +0100, Jacopo Mondi wrote:
+> The OV10635 image sensor embedded in the camera module is currently
+> reset after the MAX9271 initialization with two long delays that were
+> most probably not correctly characterized.
 > 
-> Replace it with a more compact for() loop.
-> 
-> No functional changes intended.
+> Re-work the image sensor reset procedure by holding the chip in reset
+> during the MAX9271 configuration, removing the long sleep delays and
+> only wait after the chip exits from reset for 350-500 microseconds
+> interval, which is larger than the minimum (2048 * (1 / XVCLK)) timeout
+> characterized in the chip manual.
 > 
 > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/media/i2c/rdacm20.c | 29 +++++++++++++----------------
->  1 file changed, 13 insertions(+), 16 deletions(-)
+>  drivers/media/i2c/rdacm20.c | 29 +++++++++++++++++------------
+>  1 file changed, 17 insertions(+), 12 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 7bdcfafa6c10..760705dd2918 100644
+> index 7ed3866b5335..7ba2d0249da8 100644
 > --- a/drivers/media/i2c/rdacm20.c
 > +++ b/drivers/media/i2c/rdacm20.c
-> @@ -59,6 +59,8 @@
->   */
->  #define OV10635_PIXEL_RATE		(44000000)
+> @@ -454,6 +454,19 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
+>  	if (ret)
+>  		return ret;
 >  
-> +#define OV10635_PID_TIMEOUT		3
+> +	/*
+> +	 * Hold OV10635 in reset during max9271 configuration. The reset signal
+> +	 * has to be asserted for at least 200 microseconds.
+> +	 */
+> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+> +	if (ret)
+> +		return ret;
 > +
->  static const struct ov10635_reg {
->  	u16	reg;
->  	u8	val;
-> @@ -438,7 +440,7 @@ static int rdacm20_get_fmt(struct v4l2_subdev *sd,
->  static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
->  {
->  	struct rdacm20_device *dev = sd_to_rdacm20(sd);
-> -	unsigned int retry = 3;
-> +	unsigned int i;
->  	int ret;
+> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+
+enable and clear is very cnonfusing. How about mimicking the GPIO API,
+with direction_input(), direction_output() and set_value() functions ?
+It would also be nice if the polarity could be handled in a nicer way.
+There's no GPIO request API here, but maybe a max9271_gpio_set_flags() ?
+
+> +	if (ret)
+> +		return ret;
+> +	usleep_range(200, 500);
+> +
+>  	ret = max9271_configure_gmsl_link(&dev->serializer);
+>  	if (ret)
+>  		return ret;
+> @@ -468,22 +481,14 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
+>  	dev->serializer.client->addr = dev->addrs[0];
 >  
 >  	/*
-> @@ -478,23 +480,18 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
+> -	 * Reset the sensor by cycling the OV10635 reset signal connected to the
+> -	 * MAX9271 GPIO1 and verify communication with the OV10635.
+> +	 * Release ov10635 from reset and initialize it. The image sensor
+> +	 * requires at least 2048 XVCLK cycles (85 micro-seconds at 24MHz)
+> +	 * before being available. Stay safe and wait up to 500 micro-seconds.
+>  	 */
+> -	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+> -	if (ret)
+> -		return ret;
+> -	usleep_range(10000, 15000);
+> -
+>  	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
 >  		return ret;
->  	usleep_range(10000, 15000);
+> -	usleep_range(10000, 15000);
+> +	usleep_range(100, 500);
 >  
-> -again:
-> -	ret = ov10635_read16(dev, OV10635_PID);
-> -	if (ret < 0) {
-> -		if (retry--)
-> -			goto again;
-> +	for (i = 0; i < OV10635_PID_TIMEOUT; ++i) {
-
-As commented on a previous patch, this macro is used here only, I would
-have made it local.
-
-> +		ret = ov10635_read16(dev, OV10635_PID);
-> +		if (ret == OV10635_VERSION)
-> +			break;
-> +		else if (ret >= 0)
-> +			/* Sometimes we get a successful read but a wrong ID. */
-> +			dev_dbg(dev->dev, "OV10635 ID mismatch (%d)\n", ret);
->  
-> -		dev_err(dev->dev, "OV10635 ID read failed (%d)\n",
-> -			ret);
-> -		return -ENXIO;
-> +		usleep_range(1000, 2000);
->  	}
-> -
-> -	if (ret != OV10635_VERSION) {
-> -		if (retry--)
-> -			goto again;
-> -
-> -		dev_err(dev->dev, "OV10635 ID mismatch (0x%04x)\n",
-> -			ret);
-
-Blank line ?
-
-> +	if (i == OV10635_PID_TIMEOUT) {
-> +		dev_err(dev->dev, "OV10635 ID read failed (%d)\n", ret);
->  		return -ENXIO;
->  	}
->  
+>  	for (i = 0; i < OV10635_PID_TIMEOUT; ++i) {
+>  		ret = ov10635_read16(dev, OV10635_PID);
 
 -- 
 Regards,
