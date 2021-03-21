@@ -2,155 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B23533430E5
-	for <lists+linux-media@lfdr.de>; Sun, 21 Mar 2021 05:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B29F73431B7
+	for <lists+linux-media@lfdr.de>; Sun, 21 Mar 2021 09:36:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229872AbhCUEkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Mar 2021 00:40:25 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49163 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229871AbhCUEkO (ORCPT
+        id S229875AbhCUIGU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Mar 2021 04:06:20 -0400
+Received: from out02.smtpout.orange.fr ([193.252.22.211]:46363 "EHLO
+        out.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229784AbhCUIFr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Mar 2021 00:40:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id NpsolkY964XAGNpsqlSsGt; Sun, 21 Mar 2021 05:40:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616301612; bh=GigBVpaBqQFZJD8xGn4kbbzv4UKrj2dSujgnNdSGv6M=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=OFDcWKAvebm3idd8udMs4mPr/nul5IWmJsf/jY/dW0cdLjF9qbd6+GHauQ76owC6u
-         hRYFbmWUWI7eeLPZN/72t6bvEVaWi8kqT8bBYFGeGd1tOVECXF6NalOa6OYO5UpDaK
-         QCNtBxvYKdv5TL4Ppc2AeciCoOjyEZ1kpqoxdShwbIaQgDn3FeMtwxt+zJdgfmWaMP
-         kvCq1IwUYHL4UOmiZ9jPgwnLpCtlxyCzJdPcD42nxfmJZxhwc1uRwe1Ujv8XsuGTa1
-         TsxPFvTif4YTkREUY4ciTdpt+yXDR6F6zJ7ggWoyx3VbZJa/YIDjt4bhbwD+zMxvwC
-         8r3SkhmWOyUkw==
-Message-ID: <8867c2871eb95642ddf714a08195ac84@smtp-cloud8.xs4all.net>
-Date:   Sun, 21 Mar 2021 05:40:10 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfMhhWhzesF9fluicnzUSSJTIbXLkQihO+AkvObel/pxHvZdKNGRifjo/+mWv+0edenL472eQXHxeoOLV1fyyj9hp6vqbMToLO67s15Un9sZv0kJwmbIX
- 8vy8n+VxsMCmsnvI5O+/kwV8J/X1m459FUzv/kp7yo+5/w7iHs1gXfxaA/fU3Ea4AIZ9+8jqljm1JaRkS9fMhdpCgVZ04yPn2qFa5cdCM+W2nPQWSSwb6mb4
- 00skEggCExBdki8P50FtTA==
+        Sun, 21 Mar 2021 04:05:47 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.27 at vger.kernel.org; Sun, 21 Mar 2021 04:05:46 EDT
+Received: from localhost.localdomain ([90.126.17.6])
+        by mwinf5d26 with ME
+        id ivyD2400307rLVE03vyDbg; Sun, 21 Mar 2021 08:58:14 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 21 Mar 2021 08:58:14 +0100
+X-ME-IP: 90.126.17.6
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     mchehab@kernel.org, m.szyprowski@samsung.com, leon@kernel.org,
+        hverkuil-cisco@xs4all.nl, tglx@linutronix.de,
+        vaibhavgupta40@gmail.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: cx25821: switch from 'pci_' to 'dma_' API
+Date:   Sun, 21 Mar 2021 08:58:11 +0100
+Message-Id: <c31a2005bcb3707846ce3589d8e5d5284b0292cf.1616313340.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-Results of the daily build of media_tree:
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
 
-date:			Sun Mar 21 05:00:11 CET 2021
-media-tree git hash:	1cb3ff130f4d97dec2d1bee968a87f5d6e24dd60
-media_build git hash:	069192365e2cec8b47f6e6701fb2aa50f763c602
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+When memory is allocated in 'cx25821_riscmem_alloc()' GFP_KERNEL can be
+used because either this flag is already used in the call chain, or it is
+called from a 'buf_prepare' function.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: ERRORS
+The call chains are:
+  vb2_ops.buf_prepare              (in cx25821-video.c)
+    cx25821_buffer_prepare         (in cx25821-video.c)
+      cx25821_risc_buffer
+        cx25821_riscmem_alloc
 
-Detailed results are available here:
+  snd_cx25821_hw_params            (in cx25821-alsa.c) <-- use GFP_KERNEL
+    cx25821_risc_databuffer_audio
+      cx25821_riscmem_alloc
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-Detailed regression test results are available here:
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
 
-Full logs are available here:
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
 
-The Media Infrastructure API from this daily build is here:
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/cx25821/cx25821-alsa.c |  2 +-
+ drivers/media/pci/cx25821/cx25821-core.c | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/media/pci/cx25821/cx25821-alsa.c b/drivers/media/pci/cx25821/cx25821-alsa.c
+index 8797d85a6b0a..438fdcec6eac 100644
+--- a/drivers/media/pci/cx25821/cx25821-alsa.c
++++ b/drivers/media/pci/cx25821/cx25821-alsa.c
+@@ -402,7 +402,7 @@ static int dsp_buffer_free(struct cx25821_audio_dev *chip)
+ 	dprintk(2, "Freeing buffer\n");
+ 	cx25821_alsa_dma_unmap(chip);
+ 	cx25821_alsa_dma_free(chip->buf);
+-	pci_free_consistent(chip->pci, risc->size, risc->cpu, risc->dma);
++	dma_free_coherent(&chip->pci->dev, risc->size, risc->cpu, risc->dma);
+ 	kfree(chip->buf);
+ 
+ 	chip->buf = NULL;
+diff --git a/drivers/media/pci/cx25821/cx25821-core.c b/drivers/media/pci/cx25821/cx25821-core.c
+index 07b6d0c49bbf..40c10ca94def 100644
+--- a/drivers/media/pci/cx25821/cx25821-core.c
++++ b/drivers/media/pci/cx25821/cx25821-core.c
+@@ -977,11 +977,11 @@ int cx25821_riscmem_alloc(struct pci_dev *pci,
+ 	dma_addr_t dma = 0;
+ 
+ 	if (risc->cpu && risc->size < size) {
+-		pci_free_consistent(pci, risc->size, risc->cpu, risc->dma);
++		dma_free_coherent(&pci->dev, risc->size, risc->cpu, risc->dma);
+ 		risc->cpu = NULL;
+ 	}
+ 	if (NULL == risc->cpu) {
+-		cpu = pci_zalloc_consistent(pci, size, &dma);
++		cpu = dma_alloc_coherent(&pci->dev, size, &dma, GFP_KERNEL);
+ 		if (NULL == cpu)
+ 			return -ENOMEM;
+ 		risc->cpu  = cpu;
+@@ -1202,8 +1202,8 @@ void cx25821_free_buffer(struct cx25821_dev *dev, struct cx25821_buffer *buf)
+ {
+ 	if (WARN_ON(buf->risc.size == 0))
+ 		return;
+-	pci_free_consistent(dev->pci,
+-			buf->risc.size, buf->risc.cpu, buf->risc.dma);
++	dma_free_coherent(&dev->pci->dev, buf->risc.size, buf->risc.cpu,
++			  buf->risc.dma);
+ 	memset(&buf->risc, 0, sizeof(buf->risc));
+ }
+ 
+@@ -1302,7 +1302,7 @@ static int cx25821_initdev(struct pci_dev *pci_dev,
+ 		dev->pci_lat, (unsigned long long)dev->base_io_addr);
+ 
+ 	pci_set_master(pci_dev);
+-	err = pci_set_dma_mask(pci_dev, 0xffffffff);
++	err = dma_set_mask(&pci_dev->dev, 0xffffffff);
+ 	if (err) {
+ 		pr_err("%s/0: Oops: no 32bit PCI DMA ???\n", dev->name);
+ 		err = -EIO;
+-- 
+2.27.0
+
