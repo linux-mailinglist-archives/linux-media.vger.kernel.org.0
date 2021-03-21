@@ -2,74 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB40342FC6
-	for <lists+linux-media@lfdr.de>; Sat, 20 Mar 2021 23:07:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B23533430E5
+	for <lists+linux-media@lfdr.de>; Sun, 21 Mar 2021 05:40:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbhCTWHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Mar 2021 18:07:12 -0400
-Received: from gofer.mess.org ([88.97.38.141]:40717 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229460AbhCTWGl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Mar 2021 18:06:41 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 5C625C6418; Sat, 20 Mar 2021 22:06:40 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1616278000; bh=9CaJzK/fdgQCPLShBXgBNbjbI4+wwZRYDDikP40cNss=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gqlzbaasTrRBXSVIbgBsHL21MZCpziSwvDN/TSVW/pohGD9RPdBIBGL7EDNzKgAMS
-         vekqsnKOS/YRJLk7dVbPmRdkVmfzjqzMtntYAvlNEcp3OMF78cHgSCIOQmaYp4ZK/+
-         Tppwt9Hd7o1bQXZreNKEje4DWUh0hsV4MwXamVqBJckLXFD4YhiE/B8zZ8Xswz2rpd
-         hPua9g/LV2dVfS2qSPIeIRQ8qlOMlWnd2arNuD/spyfwPGniS04F+bETPkf03zQnMh
-         i+rEkwt3ZbTDM/6NsfmyLRBNwoNFPm/umTgkVIv2j9gxySBJEGq4ZZ/eSt664sk3p6
-         U+6SndMOlQN4g==
-Date:   Sat, 20 Mar 2021 22:06:40 +0000
-From:   Sean Young <sean@mess.org>
-To:     Nikolaos Beredimas <beredim@gmail.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: Revisiting ITE8708 on ASUS PN50 uses a 16 byte io region
-Message-ID: <20210320220640.GA11651@gofer.mess.org>
-References: <CAMbLOeCCwrfoGvaV4vWPfF7tHnE-b4sFUNmK8v=ekRZAtjA-4w@mail.gmail.com>
- <20210318094836.GA31678@gofer.mess.org>
- <CAMbLOeAP0CDezNkgSo0afiDU9iSrtEMhi+eq9cthamOa4NXpKw@mail.gmail.com>
- <CAHp75VdQw=2J090w77bJVAY0UOyj1UcerZNDqyz_9dawVmK=-A@mail.gmail.com>
- <CAMbLOeBjhSX1-VZ0QkVG3qWcAman3fmu-erX3ugU620Wp+qajw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMbLOeBjhSX1-VZ0QkVG3qWcAman3fmu-erX3ugU620Wp+qajw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S229872AbhCUEkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Mar 2021 00:40:25 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49163 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229871AbhCUEkO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 21 Mar 2021 00:40:14 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id NpsolkY964XAGNpsqlSsGt; Sun, 21 Mar 2021 05:40:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616301612; bh=GigBVpaBqQFZJD8xGn4kbbzv4UKrj2dSujgnNdSGv6M=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=OFDcWKAvebm3idd8udMs4mPr/nul5IWmJsf/jY/dW0cdLjF9qbd6+GHauQ76owC6u
+         hRYFbmWUWI7eeLPZN/72t6bvEVaWi8kqT8bBYFGeGd1tOVECXF6NalOa6OYO5UpDaK
+         QCNtBxvYKdv5TL4Ppc2AeciCoOjyEZ1kpqoxdShwbIaQgDn3FeMtwxt+zJdgfmWaMP
+         kvCq1IwUYHL4UOmiZ9jPgwnLpCtlxyCzJdPcD42nxfmJZxhwc1uRwe1Ujv8XsuGTa1
+         TsxPFvTif4YTkREUY4ciTdpt+yXDR6F6zJ7ggWoyx3VbZJa/YIDjt4bhbwD+zMxvwC
+         8r3SkhmWOyUkw==
+Message-ID: <8867c2871eb95642ddf714a08195ac84@smtp-cloud8.xs4all.net>
+Date:   Sun, 21 Mar 2021 05:40:10 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfMhhWhzesF9fluicnzUSSJTIbXLkQihO+AkvObel/pxHvZdKNGRifjo/+mWv+0edenL472eQXHxeoOLV1fyyj9hp6vqbMToLO67s15Un9sZv0kJwmbIX
+ 8vy8n+VxsMCmsnvI5O+/kwV8J/X1m459FUzv/kp7yo+5/w7iHs1gXfxaA/fU3Ea4AIZ9+8jqljm1JaRkS9fMhdpCgVZ04yPn2qFa5cdCM+W2nPQWSSwb6mb4
+ 00skEggCExBdki8P50FtTA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nikolaos,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Sat, Mar 20, 2021 at 11:58:50PM +0200, Nikolaos Beredimas wrote:
-> Hi Andy.
-> 
-> On Sat, Mar 20, 2021 at 11:51 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> >
-> >
-> > Congrats for your first submission! My comments below, starting from important one here: next time (v2 of the patch, you may use -v<N> parameter to `git format-patch ...`) send it with `git send-email ...`.
-> >
-> >
-> > This section basically can be transformed to two tags (should be below near to you SoB tag):
-> >
-> > BugLink: https://...
-> > Reported-by: Michael...
-> 
-> I appreciate your input. I'll start working on a v2 as per your suggestions.
-> I do have a quick question though. The email address of the original
-> bug reporter (Michael Zimmermann) is hidden from the list archives.
-> Can someone provide it, or is it ok for the attribution to contain
-> only the reporter's name?
+Results of the daily build of media_tree:
 
-The full line should be:
+date:			Sun Mar 21 05:00:11 CET 2021
+media-tree git hash:	1cb3ff130f4d97dec2d1bee968a87f5d6e24dd60
+media_build git hash:	069192365e2cec8b47f6e6701fb2aa50f763c602
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Reported-by: Michael Zimmermann <sigmaepsilon92@gmail.com>
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-x86_64: OK
+linux-git-i686: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12-rc1-i686: OK
+linux-5.12-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: ERRORS
 
-Thanks,
+Detailed results are available here:
 
-Sean
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
