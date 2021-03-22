@@ -2,334 +2,340 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E383343A71
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 08:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 299B4343ACB
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 08:40:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbhCVHS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 03:18:59 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54491 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229696AbhCVHSv (ORCPT
+        id S230009AbhCVHkW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 03:40:22 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:47285 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229482AbhCVHkL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 03:18:51 -0400
+        Mon, 22 Mar 2021 03:40:11 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id OEpqldNkkGEYcOEptlWHRT; Mon, 22 Mar 2021 08:18:49 +0100
+        id OFAVldWQVGEYcOFAYlWJy7; Mon, 22 Mar 2021 08:40:10 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616397529; bh=bexmQns4btTMW/eVicoq8Y3stX6XUh82RWqajqWg9ag=;
+        t=1616398810; bh=/LqkFpqeQlWRrrHkf5urMfJTwcAt2w/dOkzEaGC+RhA=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=slGQ916oig1OntUeXaSt26TtJwOc1lFVWdzf7ChNuGqu7+3i9Xv8Bf0ZXdp22Jz3D
-         VY/KL8V7znF5i0Lvtixn3Nqrw9VZq3rTor9oYFGJKUoXmnuFI6vk/2P72bkyI5oZwF
-         LQ3vSWmQhTrhLFafWxYILI4MS9DfMy8M86IqGq5glwOFmfLLG6LxlWXZHQqRh7Y5xQ
-         EKCFVV65jaxfkvm/7UOyqsohzPPWH4DFMmNn1tV9qt1T+XH1jGHnpYfpBV1+OTsxYh
-         GkR20/GWgHodVWGWRPJ+9GcRWq9cjX5HqLfOXL27XRWZZauLPuUQ7X7o8hypVG031p
-         eb6vdA5EqzhLg==
-Subject: Re: [PATCH 7/8] videobuf2: handle V4L2_FLAG_MEMORY_NON_COHERENT flag
+        b=Ijo0RjnsA13TcEaA3qqGTxPs63a+O7Godz8nQpBIU/bjP9B8W/G1a5q7MA1hihIxZ
+         3muuvF84/v3XLMNvNpQU//NuuWg+jhJwBAfbE43nD6ddU1rIAjrzm/xG9BsF+9uXm9
+         GA2u+6cx7QTD+ARGzzL4LBv1rmpq8bzQC96bc6Ycla+0FUh+Cp7ixOwTxStl4wfLu6
+         H0IfaHBP5LoACwUbL5R+v8YxzNJCI28XnpNtsi6YPThzN+KjWFuOvFfxj6crTOzAsu
+         yYJJKAamWdYdfIla9XcvqPKAbQE9+ODmClE8+t075dXaUZJ5mtZuot4VyTRHPqvauA
+         soaMl806mgfKQ==
+Subject: Re: [PATCH 8/8] videobuf2: handle non-contiguous DMA allocations
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>
 Cc:     Christoph Hellwig <hch@lst.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20210302004624.31294-1-senozhatsky@chromium.org>
- <20210302004624.31294-8-senozhatsky@chromium.org>
+ <20210302004624.31294-9-senozhatsky@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <7910170e-f611-31e4-6bed-140e0929dc19@xs4all.nl>
-Date:   Mon, 22 Mar 2021 08:18:46 +0100
+Message-ID: <4430bb1d-ab68-a76d-c408-2d5a979938fa@xs4all.nl>
+Date:   Mon, 22 Mar 2021 08:40:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210302004624.31294-8-senozhatsky@chromium.org>
+In-Reply-To: <20210302004624.31294-9-senozhatsky@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMB7HeQfSmwoHqFlQ1SzCPu9KzzpSaWXNVkmkdIrsvmAAF1yTR6JjkK/xk202dh9Am/mjrwBTPKKgPkepoTj6Izd5Ex+xxJSURdxgZ/X7X9CYxbPm7ap
- xG3Ss1TctEB68P44n1wRRt+cOja2Bu5NNmCnxSqZ5dOJOJKAq73gdkn0eOwW2faFF9O7ed/zuXZz7O7TDcp+zqk7bmQI5rN0L8YMe3WtXat0GQTRspOMvwyw
- Sw1ilxIgWSu5iwpvxia0aCnt145vzDEbRT9zmRFoOqBWtMIdF8zLP/kgC7xrGma0prJkoVxLgZ5oyokRumlmnlPeEb0wn8jBNd/j/3UQuZOEHCk0HAEMEpoq
- waL1ZG/a
+X-CMAE-Envelope: MS4xfOwh8snBtYJb7oXL6EUyjwoE5kHJchrQs8s3EpYWvweKHUd7wZ1oFC+SPmnw8YIRVCQgb2lWSXxqdevLuFty86dZ4ZFBfrzaG4LxSihABWTFw+yKFP25
+ eQ2RnuhbRjdP49Y8dEUnyLzYD9Ov6CNH5fbvlkw80dpju4yrHpWM+7iS4WQ06knHppZ929gPH7fGrtCp6rM6miBx/W9/OEDglYR4lyZnPRi6F0PpxX4Kx7mB
+ h9MLWpmnB1f07UZY7Z3HqyPro7cAX3OEuWzra7rPdqNbqVk/6IrdltC0KFFUx31h0fpP9W7Zod1SI0NHU+anu3ywS4aQahYweKd5ChNUyPyrRiYN598IlAXu
+ uaS/ckBs
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 02/03/2021 01:46, Sergey Senozhatsky wrote:
-> This patch lets user-space to request a non-coherent memory
-> allocation during CREATE_BUFS and REQBUFS ioctl calls.
-> 
-> = CREATE_BUFS
-> 
->   struct v4l2_create_buffers has seven 4-byte reserved areas,
->   so reserved[0] is renamed to ->flags. The struct, thus, now
->   has six reserved 4-byte regions.
-> 
-> = CREATE_BUFS32
-> 
->   struct v4l2_create_buffers32 has seven 4-byte reserved areas,
->   so reserved[0] is renamed to ->flags. The struct, thus, now
->   has six reserved 4-byte regions.
-> 
-> = REQBUFS
-> 
->  We use one bit of a ->reserved[1] member of struct v4l2_requestbuffers,
->  which is now renamed to ->flags. Unlike v4l2_create_buffers, struct
->  v4l2_requestbuffers does not have enough reserved room. Therefore for
->  backward compatibility  ->reserved and ->flags were put into anonymous
->  union.
+> This adds support for new noncontiguous DMA API, which
+> requires allocators to have two execution branches: one
+> for the current API, and one for the new one.
 > 
 > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> [hch: untested conversion to the ne API]
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  .../media/v4l/vidioc-create-bufs.rst          |  7 ++++++-
->  .../media/v4l/vidioc-reqbufs.rst              | 11 +++++++++--
->  .../media/common/videobuf2/videobuf2-core.c   |  6 ++++++
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 19 ++++++++++++++++---
->  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  9 ++++++++-
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  5 +----
->  include/uapi/linux/videodev2.h                | 11 +++++++++--
->  7 files changed, 55 insertions(+), 13 deletions(-)
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 141 +++++++++++++++---
+>  1 file changed, 117 insertions(+), 24 deletions(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-> index b06e5b528e11..132c8b612a94 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-> @@ -113,7 +113,12 @@ than the number requested.
->  	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 1e218bc440c6..d6a9f7b682f3 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/slab.h>
+>  #include <linux/dma-mapping.h>
+> +#include <linux/highmem.h>
 >  
->      * - __u32
-> -      - ``reserved``\ [7]
-> +      - ``flags``
-> +      - Specifies additional buffer management attributes.
-> +	See :ref:`memory-flags`.
+>  #include <media/videobuf2-v4l2.h>
+>  #include <media/videobuf2-dma-contig.h>
+> @@ -42,8 +43,14 @@ struct vb2_dc_buf {
+>  	struct dma_buf_attachment	*db_attach;
+>  
+>  	struct vb2_buffer		*vb;
+> +	unsigned int			non_coherent_mem:1;
+
+Just use a bool here.
+
+>  };
+>  
+> +static bool vb2_dc_is_coherent(struct vb2_dc_buf *buf)
+> +{
+> +	return !buf->non_coherent_mem;
+> +}
+
+I would just drop this 'helper' function. Testing against buf->non_coherent_mem
+seems perfectly understandable to me. And better than negating that bool in
+this helper function.
+
+You can choose to invert non_coherent_mem: i.e. add a coherent_mem bool instead
+of a non_coherent_mem bool if you think that is easier to understand. It's set
+in just one place (alloc), so that's easy enough.
+
+Calling it 'bool is_coherent;' would perhaps be the easiest to understand.
+
 > +
-> +    * - __u32
-> +      - ``reserved``\ [6]
->        - A place holder for future extensions. Drivers and applications
->  	must set the array to zero.
+>  /*********************************************/
+>  /*        scatterlist table functions        */
+>  /*********************************************/
+> @@ -78,12 +85,21 @@ static void *vb2_dc_cookie(struct vb2_buffer *vb, void *buf_priv)
+>  static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
+>  {
+>  	struct vb2_dc_buf *buf = buf_priv;
+> -	struct dma_buf_map map;
+> -	int ret;
 >  
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> index 950e7ec1aac5..80ea48acea84 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> @@ -104,10 +104,17 @@ aborting or finishing any DMA in progress, an implicit
->  	``V4L2_MEMORY_MMAP`` and ``type`` set to the buffer type. This will
->  	free any previously allocated buffers, so this is typically something
->  	that will be done at the start of the application.
-> +    * - union {
-> +      - (anonymous)
-> +    * - __u32
-> +      - ``flags``
-> +      - Specifies additional buffer management attributes.
-> +	See :ref:`memory-flags`.
->      * - __u32
->        - ``reserved``\ [1]
-> -      - A place holder for future extensions. Drivers and applications
-> -	must set the array to zero.
-> +      - Kept for backwards compatibility. Use ``flags`` instead.
-> +    * - }
-> +      -
+> -	if (!buf->vaddr && buf->db_attach) {
+> -		ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
+> -		buf->vaddr = ret ? NULL : map.vaddr;
+> +	if (buf->vaddr)
+> +		return buf->vaddr;
+> +
+> +	if (buf->db_attach) {
+> +		struct dma_buf_map map;
+> +
+> +		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
+> +			buf->vaddr = map.vaddr;
+> +	}
+> +
+> +	if (!vb2_dc_is_coherent(buf)) {
+> +		buf->vaddr = dma_vmap_noncontiguous(buf->dev,
+> +						    buf->size,
+> +						    buf->dma_sgt);
+>  	}
 >  
->  .. tabularcolumns:: |p{6.1cm}|p{2.2cm}|p{8.7cm}|
+>  	return buf->vaddr;
+> @@ -101,13 +117,26 @@ static void vb2_dc_prepare(void *buf_priv)
+>  	struct vb2_dc_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
 >  
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 7040b7f47133..5906a48e7757 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -768,6 +768,9 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned int i;
+> +	/* This takes care of DMABUF and user-enforced cache sync hint */
+>  	if (buf->vb->skip_cache_sync_on_prepare)
+>  		return;
+>  
+> +	/*
+> +	 * Coherent MMAP buffers do not need to be synced, unlike coherent
+> +	 * USERPTR and non-coherent MMAP buffers.
+> +	 */
+> +	if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
+> +		return;
+> +
+>  	if (!sgt)
+>  		return;
+>  
+> +	/* For both USERPTR and non-coherent MMAP */
+>  	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> +
+> +	/* Non-coherrent MMAP only */
+
+Typo: coherrent -> coherent
+
+> +	if (!vb2_dc_is_coherent(buf) && buf->vaddr)
+> +		flush_kernel_vmap_range(buf->vaddr, buf->size);
+>  }
+>  
+>  static void vb2_dc_finish(void *buf_priv)
+> @@ -115,19 +144,46 @@ static void vb2_dc_finish(void *buf_priv)
+>  	struct vb2_dc_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
+>  
+> +	/* This takes care of DMABUF and user-enforced cache sync hint */
+>  	if (buf->vb->skip_cache_sync_on_finish)
+>  		return;
+>  
+> +	/*
+> +	 * Coherent MMAP buffers do not need to be synced, unlike coherent
+> +	 * USERPTR and non-coherent MMAP buffers.
+> +	 */
+> +	if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
+> +		return;
+> +
+>  	if (!sgt)
+>  		return;
+>  
+> +	/* For both USERPTR and non-coherent MMAP */
+>  	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> +
+> +	/* Non-coherrent MMAP only */
+
+Same typo.
+
+> +	if (!vb2_dc_is_coherent(buf) && buf->vaddr)
+> +		invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+>  }
+>  
+>  /*********************************************/
+>  /*        callbacks for MMAP buffers         */
+>  /*********************************************/
+>  
+> +static void __vb2_dc_put(struct vb2_dc_buf *buf)
+> +{
+> +	if (vb2_dc_is_coherent(buf)) {
+> +		dma_free_attrs(buf->dev, buf->size, buf->cookie,
+> +			       buf->dma_addr, buf->attrs);
+> +		return;
+> +	}
+> +
+> +	if (buf->vaddr)
+> +		dma_vunmap_noncontiguous(buf->dev, buf->vaddr);
+> +	dma_free_noncontiguous(buf->dev, buf->size,
+> +			       buf->dma_sgt, buf->dma_addr);
+> +}
+> +
+>  static void vb2_dc_put(void *buf_priv)
+>  {
+>  	struct vb2_dc_buf *buf = buf_priv;
+> @@ -139,17 +195,47 @@ static void vb2_dc_put(void *buf_priv)
+>  		sg_free_table(buf->sgt_base);
+>  		kfree(buf->sgt_base);
+>  	}
+> -	dma_free_attrs(buf->dev, buf->size, buf->cookie, buf->dma_addr,
+> -		       buf->attrs);
+> +	__vb2_dc_put(buf);
+>  	put_device(buf->dev);
+>  	kfree(buf);
+>  }
+>  
+> +static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
+> +{
+> +	struct vb2_queue *q = buf->vb->vb2_queue;
+> +
+> +	buf->cookie = dma_alloc_attrs(buf->dev,
+> +				      buf->size,
+> +				      &buf->dma_addr,
+> +				      GFP_KERNEL | q->gfp_flags,
+> +				      buf->attrs);
+> +	if (!buf->cookie)
+> +		return -ENOMEM;
+> +	if ((q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+> +		buf->vaddr = buf->cookie;
+> +	return 0;
+> +}
+> +
+> +static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
+> +{
+> +	struct vb2_queue *q = buf->vb->vb2_queue;
+> +
+> +	buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
+> +					       buf->size,
+> +					       buf->dma_dir,
+> +					       GFP_KERNEL | q->gfp_flags,
+> +					       buf->attrs);
+> +	if (!buf->dma_sgt)
+> +		return -ENOMEM;
+
+DMA_ATTR_NO_KERNEL_MAPPING makes no sense here? If so, then it would be
+good to document that here.
+
+> +	return 0;
+> +}
+> +
+>  static void *vb2_dc_alloc(struct vb2_buffer *vb,
+>  			  struct device *dev,
+>  			  unsigned long size)
+>  {
+>  	struct vb2_dc_buf *buf;
+> +	int ret;
+>  
+>  	if (WARN_ON(!dev))
+>  		return ERR_PTR(-EINVAL);
+> @@ -159,27 +245,28 @@ static void *vb2_dc_alloc(struct vb2_buffer *vb,
+>  		return ERR_PTR(-ENOMEM);
+>  
+>  	buf->attrs = vb->vb2_queue->dma_attrs;
+> -	buf->cookie = dma_alloc_attrs(dev, size, &buf->dma_addr,
+> -				      GFP_KERNEL | vb->vb2_queue->gfp_flags,
+> -				      buf->attrs);
+> -	if (!buf->cookie) {
+> -		dev_err(dev, "dma_alloc_coherent of size %ld failed\n", size);
+> -		kfree(buf);
+> -		return ERR_PTR(-ENOMEM);
+> -	}
+> -
+> -	if ((buf->attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+> -		buf->vaddr = buf->cookie;
+> +	buf->dma_dir = vb->vb2_queue->dma_dir;
+> +	buf->vb = vb;
+> +	buf->non_coherent_mem = vb->vb2_queue->non_coherent_mem;
+>  
+> +	buf->size = size;
+>  	/* Prevent the device from being released while the buffer is used */
+>  	buf->dev = get_device(dev);
+> -	buf->size = size;
+> -	buf->dma_dir = vb->vb2_queue->dma_dir;
+> +
+> +	if (vb2_dc_is_coherent(buf))
+> +		ret = vb2_dc_alloc_coherent(buf);
+> +	else
+> +		ret = vb2_dc_alloc_non_coherent(buf);
+> +
+> +	if (ret) {
+> +		dev_err(dev, "dma alloc of size %ld failed\n", size);
+> +		kfree(buf);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+>  
+>  	buf->handler.refcount = &buf->refcount;
+>  	buf->handler.put = vb2_dc_put;
+>  	buf->handler.arg = buf;
+> -	buf->vb = vb;
+>  
+>  	refcount_set(&buf->refcount, 1);
+>  
+> @@ -196,9 +283,12 @@ static int vb2_dc_mmap(void *buf_priv, struct vm_area_struct *vma)
+>  		return -EINVAL;
+>  	}
+>  
+> -	ret = dma_mmap_attrs(buf->dev, vma, buf->cookie,
+> -		buf->dma_addr, buf->size, buf->attrs);
+> -
+> +	if (vb2_dc_is_coherent(buf))
+> +		ret = dma_mmap_attrs(buf->dev, vma, buf->cookie, buf->dma_addr,
+> +				     buf->size, buf->attrs);
+> +	else
+> +		ret = dma_mmap_noncontiguous(buf->dev, vma, buf->size,
+> +					     buf->dma_sgt);
+>  	if (ret) {
+>  		pr_err("Remapping memory failed, error: %d\n", ret);
+>  		return ret;
+> @@ -390,6 +480,9 @@ static struct sg_table *vb2_dc_get_base_sgt(struct vb2_dc_buf *buf)
 >  	int ret;
+>  	struct sg_table *sgt;
 >  
-> +	if (flags & V4L2_FLAG_MEMORY_NON_COHERENT)
-> +		coherent_mem = false;
+> +	if (!vb2_dc_is_coherent(buf))
+> +		return buf->dma_sgt;
 > +
-
-I think it is better if this is done at the bool coherent_mem declaration:
-
-	bool coherent_mem = !(flags & V4L2_FLAG_MEMORY_NON_COHERENT);
-
->  	if (q->streaming) {
->  		dprintk(q, 1, "streaming active\n");
->  		return -EBUSY;
-> @@ -911,6 +914,9 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	bool coherent_mem = true;
->  	int ret;
->  
-> +	if (flags & V4L2_FLAG_MEMORY_NON_COHERENT)
-> +		coherent_mem = false;
-> +
-
-Ditto.
+>  	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
+>  	if (!sgt) {
+>  		dev_err(buf->dev, "failed to alloc sg table\n");
+> 
 
 Regards,
 
 	Hans
-
->  	if (q->num_buffers == VB2_MAX_FRAME) {
->  		dprintk(q, 1, "maximum number of buffers already allocated\n");
->  		return -ENOBUFS;
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 1166d5a9291a..f6a8dcc1b5c6 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -692,12 +692,22 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->  #endif
->  }
->  
-> +static void validate_coherency_flags(struct vb2_queue *q,
-> +				     int memory,
-> +				     unsigned int *flags)
-> +{
-> +	if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP)
-> +		*flags &= ~V4L2_FLAG_MEMORY_NON_COHERENT;
-> +}
-> +
->  int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
->  {
->  	int ret = vb2_verify_memory_type(q, req->memory, req->type);
->  
->  	fill_buf_caps(q, &req->capabilities);
-> -	return ret ? ret : vb2_core_reqbufs(q, req->memory, 0, &req->count);
-> +	validate_coherency_flags(q, req->memory, &req->flags);
-> +	return ret ? ret : vb2_core_reqbufs(q, req->memory,
-> +					    req->flags, &req->count);
->  }
->  EXPORT_SYMBOL_GPL(vb2_reqbufs);
->  
-> @@ -729,6 +739,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	unsigned i;
->  
->  	fill_buf_caps(q, &create->capabilities);
-> +	validate_coherency_flags(q, create->memory, &create->flags);
->  	create->index = q->num_buffers;
->  	if (create->count == 0)
->  		return ret != -EBUSY ? ret : 0;
-> @@ -772,7 +783,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  		if (requested_sizes[i] == 0)
->  			return -EINVAL;
->  	return ret ? ret : vb2_core_create_bufs(q, create->memory,
-> -						0,
-> +						create->flags,
->  						&create->count,
->  						requested_planes,
->  						requested_sizes);
-> @@ -957,11 +968,12 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
->  	int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
->  
->  	fill_buf_caps(vdev->queue, &p->capabilities);
-> +	validate_coherency_flags(vdev->queue, p->memory, &p->flags);
->  	if (res)
->  		return res;
->  	if (vb2_queue_is_busy(vdev, file))
->  		return -EBUSY;
-> -	res = vb2_core_reqbufs(vdev->queue, p->memory, 0, &p->count);
-> +	res = vb2_core_reqbufs(vdev->queue, p->memory, p->flags, &p->count);
->  	/* If count == 0, then the owner has released all buffers and he
->  	   is no longer owner of the queue. Otherwise we have a new owner. */
->  	if (res == 0)
-> @@ -979,6 +991,7 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
->  
->  	p->index = vdev->queue->num_buffers;
->  	fill_buf_caps(vdev->queue, &p->capabilities);
-> +	validate_coherency_flags(vdev->queue, p->memory, &p->flags);
->  	/*
->  	 * If count == 0, then just check if memory and type are valid.
->  	 * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
-> diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> index 0ca75f6784c5..1aa9ca3b6ca4 100644
-> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> @@ -126,6 +126,9 @@ struct v4l2_format32 {
->   * @memory:	buffer memory type
->   * @format:	frame format, for which buffers are requested
->   * @capabilities: capabilities of this buffer type.
-> + * @flags:	additional buffer management attributes (ignored unless the
-> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability and
-> + *		configured for MMAP streaming I/O).
->   * @reserved:	future extensions
->   */
->  struct v4l2_create_buffers32 {
-> @@ -134,7 +137,8 @@ struct v4l2_create_buffers32 {
->  	__u32			memory;	/* enum v4l2_memory */
->  	struct v4l2_format32	format;
->  	__u32			capabilities;
-> -	__u32			reserved[7];
-> +	__u32			flags;
-> +	__u32			reserved[6];
->  };
->  
->  static int get_v4l2_format32(struct v4l2_format *p64,
-> @@ -182,6 +186,8 @@ static int get_v4l2_create32(struct v4l2_create_buffers *p64,
->  	if (copy_from_user(p64, p32,
->  			   offsetof(struct v4l2_create_buffers32, format)))
->  		return -EFAULT;
-> +	if (copy_from_user(&p64->flags, &p32->flags, sizeof(p32->flags)))
-> +		return -EFAULT;
->  	return get_v4l2_format32(&p64->format, &p32->format);
->  }
->  
-> @@ -227,6 +233,7 @@ static int put_v4l2_create32(struct v4l2_create_buffers *p64,
->  	if (copy_to_user(p32, p64,
->  			 offsetof(struct v4l2_create_buffers32, format)) ||
->  	    put_user(p64->capabilities, &p32->capabilities) ||
-> +	    put_user(p64->flags, &p32->flags) ||
->  	    copy_to_user(p32->reserved, p64->reserved, sizeof(p64->reserved)))
->  		return -EFAULT;
->  	return put_v4l2_format32(&p64->format, &p32->format);
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 31d1342e61e8..f8d38a3cd1e0 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -2045,9 +2045,6 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
->  
->  	if (ret)
->  		return ret;
-> -
-> -	CLEAR_AFTER_FIELD(p, capabilities);
-> -
->  	return ops->vidioc_reqbufs(file, fh, p);
->  }
->  
-> @@ -2087,7 +2084,7 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
->  	if (ret)
->  		return ret;
->  
-> -	CLEAR_AFTER_FIELD(create, capabilities);
-> +	CLEAR_AFTER_FIELD(create, flags);
->  
->  	v4l_sanitize_format(&create->format);
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index b1d4171fe50b..85d2681e73b6 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -951,7 +951,10 @@ struct v4l2_requestbuffers {
->  	__u32			type;		/* enum v4l2_buf_type */
->  	__u32			memory;		/* enum v4l2_memory */
->  	__u32			capabilities;
-> -	__u32			reserved[1];
-> +	union {
-> +		__u32		flags;
-> +		__u32		reserved[1];
-> +	};
->  };
->  
->  #define V4L2_FLAG_MEMORY_NON_COHERENT			(1 << 0)
-> @@ -2473,6 +2476,9 @@ struct v4l2_dbg_chip_info {
->   * @memory:	enum v4l2_memory; buffer memory type
->   * @format:	frame format, for which buffers are requested
->   * @capabilities: capabilities of this buffer type.
-> + * @flags:	additional buffer management attributes (ignored unless the
-> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
-> + *		and configured for MMAP streaming I/O).
->   * @reserved:	future extensions
->   */
->  struct v4l2_create_buffers {
-> @@ -2481,7 +2487,8 @@ struct v4l2_create_buffers {
->  	__u32			memory;
->  	struct v4l2_format	format;
->  	__u32			capabilities;
-> -	__u32			reserved[7];
-> +	__u32			flags;
-> +	__u32			reserved[6];
->  };
->  
->  /*
-> 
-
