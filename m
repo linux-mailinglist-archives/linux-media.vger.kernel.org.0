@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A57AC343A68
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 08:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E383343A71
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 08:19:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbhCVHQo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 03:16:44 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49775 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229696AbhCVHQZ (ORCPT
+        id S230071AbhCVHS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 03:18:59 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54491 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229696AbhCVHSv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 03:16:25 -0400
+        Mon, 22 Mar 2021 03:18:51 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id OEnUldMn1GEYcOEnXlWHBD; Mon, 22 Mar 2021 08:16:23 +0100
+        id OEpqldNkkGEYcOEptlWHRT; Mon, 22 Mar 2021 08:18:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616397383; bh=JmWljaZl3GQiVuGtVSvWtwrjIhLMCMIV383phGhqVGs=;
+        t=1616397529; bh=bexmQns4btTMW/eVicoq8Y3stX6XUh82RWqajqWg9ag=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=bYbIdbs9zvV4FAvZ8ovX2RkGwkaYst2XSIzD8zs6L7WHkiPqN+tudrjDCmP8Y7wOI
-         qp0JEyPYpDpwKBHMU9cuHzrHj6xnRkueNLYW5IBlXHO8RDxxwspf0ivg1MzjNAvbgx
-         i/QrQH+FdSyScOEfowXwlt1gBlW3ylHSK1jx1or0JurpfMngKLQxV3pKbZsX7iBJt3
-         an9U+MxRIprtxEkG6SRB7SEOOveo+fE2nA8kmDfSnpofH+wuHOh5R1sj0dnoebsN1b
-         pvrK9qA/aFDYafk/0H5xWsW+IROvnwjoXe+pCQVKx+x0o/ECA4SU3IdLXj4F5nsz5O
-         IJUjZ0tX65EiQ==
+        b=slGQ916oig1OntUeXaSt26TtJwOc1lFVWdzf7ChNuGqu7+3i9Xv8Bf0ZXdp22Jz3D
+         VY/KL8V7znF5i0Lvtixn3Nqrw9VZq3rTor9oYFGJKUoXmnuFI6vk/2P72bkyI5oZwF
+         LQ3vSWmQhTrhLFafWxYILI4MS9DfMy8M86IqGq5glwOFmfLLG6LxlWXZHQqRh7Y5xQ
+         EKCFVV65jaxfkvm/7UOyqsohzPPWH4DFMmNn1tV9qt1T+XH1jGHnpYfpBV1+OTsxYh
+         GkR20/GWgHodVWGWRPJ+9GcRWq9cjX5HqLfOXL27XRWZZauLPuUQ7X7o8hypVG031p
+         eb6vdA5EqzhLg==
 Subject: Re: [PATCH 7/8] videobuf2: handle V4L2_FLAG_MEMORY_NON_COHERENT flag
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>
@@ -34,8 +34,8 @@ Cc:     Christoph Hellwig <hch@lst.de>,
 References: <20210302004624.31294-1-senozhatsky@chromium.org>
  <20210302004624.31294-8-senozhatsky@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <551a5306-026b-25a5-09e6-a6b3d20171a9@xs4all.nl>
-Date:   Mon, 22 Mar 2021 08:16:20 +0100
+Message-ID: <7910170e-f611-31e4-6bed-140e0929dc19@xs4all.nl>
+Date:   Mon, 22 Mar 2021 08:18:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
@@ -43,10 +43,10 @@ In-Reply-To: <20210302004624.31294-8-senozhatsky@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMFkKhFKCitvqrJR830cyzHmM3ylMz0JfHEOcZFm22L9pdbVnwEbFWvN5ETl92uW91pbvBYnFdk1oVRnjiOGHuYgMBWBjWsbe4pV5g+xgVpzFWG/6ED5
- cZNLodhyjdWy4OSxukALSY4h62zQlSj6Z/43eUbGlX04I4QSFFu4/RyqTChPV7+tgnComx1t86bwILI/8+PQciDqJ9b/t5zZarbYuOKGzyw0+ycKLQadHiwD
- cqPysfMB2X2fAzvbJZ0NsIh8mBionRUNigqjmQIrz5oDIxEzfpOmz0/klmsI5L776391kopOoqfUorcUlgP03I2WeHGK8ZbPkT/xs4g1dwOyNE0e5FuoLHjQ
- DRVmyUuJ
+X-CMAE-Envelope: MS4xfMB7HeQfSmwoHqFlQ1SzCPu9KzzpSaWXNVkmkdIrsvmAAF1yTR6JjkK/xk202dh9Am/mjrwBTPKKgPkepoTj6Izd5Ex+xxJSURdxgZ/X7X9CYxbPm7ap
+ xG3Ss1TctEB68P44n1wRRt+cOja2Bu5NNmCnxSqZ5dOJOJKAq73gdkn0eOwW2faFF9O7ed/zuXZz7O7TDcp+zqk7bmQI5rN0L8YMe3WtXat0GQTRspOMvwyw
+ Sw1ilxIgWSu5iwpvxia0aCnt145vzDEbRT9zmRFoOqBWtMIdF8zLP/kgC7xrGma0prJkoVxLgZ5oyokRumlmnlPeEb0wn8jBNd/j/3UQuZOEHCk0HAEMEpoq
+ waL1ZG/a
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -125,15 +125,6 @@ On 02/03/2021 01:46, Sergey Senozhatsky wrote:
 > +      - Kept for backwards compatibility. Use ``flags`` instead.
 > +    * - }
 > +      -
-
-I would do this differently. Replace the __u32 reserved[1] by:
-
-	__u8 flags;
-	__u8 reserved[3];
-
-We only need a single bit for flags, so this way we still have a few reserved bytes
-available.
-
 >  
 >  .. tabularcolumns:: |p{6.1cm}|p{2.2cm}|p{8.7cm}|
 >  
@@ -148,6 +139,11 @@ available.
 > +	if (flags & V4L2_FLAG_MEMORY_NON_COHERENT)
 > +		coherent_mem = false;
 > +
+
+I think it is better if this is done at the bool coherent_mem declaration:
+
+	bool coherent_mem = !(flags & V4L2_FLAG_MEMORY_NON_COHERENT);
+
 >  	if (q->streaming) {
 >  		dprintk(q, 1, "streaming active\n");
 >  		return -EBUSY;
@@ -158,6 +154,13 @@ available.
 > +	if (flags & V4L2_FLAG_MEMORY_NON_COHERENT)
 > +		coherent_mem = false;
 > +
+
+Ditto.
+
+Regards,
+
+	Hans
+
 >  	if (q->num_buffers == VB2_MAX_FRAME) {
 >  		dprintk(q, 1, "maximum number of buffers already allocated\n");
 >  		return -ENOBUFS;
@@ -170,23 +173,11 @@ available.
 >  }
 >  
 > +static void validate_coherency_flags(struct vb2_queue *q,
-
-This should validate flags in general, not just the single coherency bit.
-So rename to validate_memory_flags().
-
 > +				     int memory,
 > +				     unsigned int *flags)
-
-Use u32 instead of unsigned int.
-
 > +{
 > +	if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP)
 > +		*flags &= ~V4L2_FLAG_MEMORY_NON_COHERENT;
-
-This should clear all other bits as well. If new flags are added in the
-future, you want to make sure this code will clear them since they are not
-supported in this kernel version.
-
 > +}
 > +
 >  int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
@@ -196,10 +187,6 @@ supported in this kernel version.
 >  	fill_buf_caps(q, &req->capabilities);
 > -	return ret ? ret : vb2_core_reqbufs(q, req->memory, 0, &req->count);
 > +	validate_coherency_flags(q, req->memory, &req->flags);
-
-Since in my proposal req->flags is a u8 you need to assign it to a u32 first,
-then copy the result from validate_memory_flags back to req->flags.
-
 > +	return ret ? ret : vb2_core_reqbufs(q, req->memory,
 > +					    req->flags, &req->count);
 >  }
@@ -346,6 +333,3 @@ then copy the result from validate_memory_flags back to req->flags.
 >  /*
 > 
 
-Regards,
-
-	Hans
