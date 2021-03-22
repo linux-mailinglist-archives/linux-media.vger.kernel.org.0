@@ -2,143 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 981C934406A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 13:05:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F96344072
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 13:06:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230288AbhCVMFD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 08:05:03 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:60865 "EHLO
+        id S230209AbhCVMGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 08:06:07 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:34933 "EHLO
         lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230370AbhCVMEv (ORCPT
+        by vger.kernel.org with ESMTP id S230393AbhCVMFu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 08:04:51 -0400
+        Mon, 22 Mar 2021 08:05:50 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id OJIblvdOi4XAGOJIelXSSc; Mon, 22 Mar 2021 13:04:48 +0100
+        id OJJalvdsK4XAGOJJdlXSi7; Mon, 22 Mar 2021 13:05:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616414688; bh=mtDT0SpRT9m9JfMA/3C1HQPqsxpzH9oTG4UjM4wBojg=;
+        t=1616414749; bh=6pUkFObe3ry8c77h8z4qx7MulK4inSR5MqPc21LlajI=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=lLr95vZPwhVKXisg1NKi53XUo4bwTRLG5lpYCr46fT4ZRsnepAsdabCLOgx99Nnzk
-         MZNtwJGwBqlCGVQkEdbLFe+p0NHpOTJQziT3nLag530Lf+zb0p6Ene8bk6bmjNeiv9
-         Flw9KaMSPjeRvr59tEt5YO3Y9r+xveKtR9mWwyEQtRHiZvhLyrTXlAYcgNvgP/t91T
-         s8uutKgKQ5i79IQo2IahsZCZbb29WTZM1eb/YPN2IiBp7eFdLAUWTrw2JIKR3eGCyw
-         Y8+n1V846KUzRfKc0ShzqpOiz6vdmAm9zBCOcdYQXzqqk0DvlmYibywHVzxDP1jbIG
-         dnRKPhGBosrpA==
+        b=RnogOnDlyN4dvn8EwVj80fT10Jjo0+cWmJ8tVwUaSvSotG9wODoLQ8nWALNbPe1AG
+         GaHOh7xzC0D0il22hlqyvb1k/DYpj1Zc6D6egsfRolRNO3yp4gHWbvh4h8U9Z03nnk
+         1n2n8RFC7SoiXh17IKYzqCTb2PnnWqTcH2yE/mvq4hua3snkUTLZkqRQmWJI09/YoC
+         mKQ4t5P7VpnUT8eo7NPKOIR05/AsEIxYqNqjbEQ2qUiA9FR5EY+yUysRUIlDpre5mi
+         BC+kiktb+OjbZUYtqZc/EhLp/YgscfZIHkihDFNM3DLxBsg+BaKFIkb3NVFkXYA/Tf
+         J4jgegWpu/iyg==
 To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] uvcvideo: uvc_ctrl_is_accessible: check for INACTIVE
-Message-ID: <b1c94f21-4ae1-148c-fa5f-f9e4719049b9@xs4all.nl>
-Date:   Mon, 22 Mar 2021 13:04:45 +0100
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] uvcvideo: improve error handling in uvc_query_ctrl()
+Message-ID: <347cdb4a-19a2-98ce-580f-5aba4abfb2fc@xs4all.nl>
+Date:   Mon, 22 Mar 2021 13:05:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGdsPQeigVVyuMIYSQfu+u0Tnkaf/4FHzUsLIQlsIw5s6F3q8x8fxug7YkD0wYHi8N3M8OW8Q17yGjv7bN02fn5k+55VGV0Cel3AomVgpWqOkFBHouL6
- ef5dzRepM0vi7mKzn1PtJ+ZEMGyGfsZYPPiwDyoi7rZJwP8mkd4j1qEwTLKvRSOgzwJXdXMJRvfouJIxcUEMotC7TBjYgkMzgWFmW9+DzziQv+tpz8vnHkvt
+X-CMAE-Envelope: MS4xfJnHV96s6WUWp7toBwGERHh9DqDEpAy+SFg3OumP8WBLslcPz/Wrs/kEMLzM89WRvJN6G8Q3rwqpTqYEnscrnGcbtBkZPzoTQm6gFkff0N/1EZMTvFmC
+ F9SSOOXYnkZTOmolWN7dYkjGHZHD7zF2G59LkwZtFNiZonNSgC2UOryQzEGuaDQHqQXLchAR//iR+SAChTmcugfeUvYbu9yRF19H6OfDPYDoklgMV8Jgleop
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Check for inactive controls in uvc_ctrl_is_accessible().
-Use the new value for the master_id controls if present,
-otherwise use the existing value to determine if it is OK
-to set the control. Doing this here avoids attempting to
-set an inactive control, which will return an error from the
-USB device.
+- If __uvc_query_ctrl() failed with a non-EPIPE error, then
+  report that with dev_err. If an error code is obtained, then
+  report that with dev_dbg.
+
+- For error 2 (Wrong state) return -EACCES instead of -EILSEQ.
+  EACCES is a much more appropriate error code. EILSEQ will return
+  "Invalid or incomplete multibyte or wide character." in strerror(),
+  which is a *very* confusing message.
 
 Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
 ---
-Ricardo: this can be added to your uvc series. It avoids attempts to set
-inactive controls.
+Ricardo, this too can be added to the uvc series.
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 28 +++++++++++++++++++++++++++-
- drivers/media/usb/uvc/uvc_v4l2.c |  4 ++--
- drivers/media/usb/uvc/uvcvideo.h |  3 ++-
- 3 files changed, 31 insertions(+), 4 deletions(-)
+ drivers/media/usb/uvc/uvc_video.c | 44 +++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index d9d4add1e813..6e7b904bc33d 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1047,10 +1047,18 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
- }
-
- int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
--			   bool read)
-+			   const struct v4l2_ext_controls *ctrls,
-+			   unsigned long ioctl)
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index b63c073ec30e..3f461bb4eeb9 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -68,7 +68,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+ 			u8 intfnum, u8 cs, void *data, u16 size)
  {
-+	struct uvc_control_mapping *master_map = NULL;
-+	struct uvc_control *master_ctrl = NULL;
- 	struct uvc_control_mapping *mapping;
- 	struct uvc_control *ctrl;
-+	bool read = ioctl == VIDIOC_G_EXT_CTRLS;
-+	bool try = ioctl == VIDIOC_TRY_EXT_CTRLS;
-+	s32 val;
-+	int ret;
-+	int i;
+ 	int ret;
+-	u8 error;
++	u8 error = 0;
+ 	u8 tmp;
 
- 	if (__uvc_query_v4l2_class(chain, v4l2_id, 0) >= 0)
- 		return -EACCES;
-@@ -1065,6 +1073,24 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
- 	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
- 		return -EACCES;
+ 	ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
+@@ -76,35 +76,39 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+ 	if (likely(ret == size))
+ 		return 0;
 
-+	if (read || try || !mapping->master_id)
-+		return 0;
-+
-+	for (i = ctrls->count - 1; i >= 0; i--)
-+		if (ctrls->controls[i].id == mapping->master_id)
-+			return ctrls->controls[i].value ==
-+					mapping->master_manual ? 0 : -EACCES;
-+
-+	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
-+			   &master_ctrl, 0);
-+
-+	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-+		return 0;
-+
-+	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-+	if (ret >= 0 && val != mapping->master_manual)
+-	dev_dbg(&dev->udev->dev,
+-		"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+-		uvc_query_name(query), cs, unit, ret, size);
++	ret = ret < 0 ? ret : -EPIPE;
+
+-	if (ret != -EPIPE)
+-		return ret;
+-
+-	tmp = *(u8 *)data;
++	if (ret == -EPIPE) {
++		tmp = *(u8 *)data;
+
+-	ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
+-			       UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
+-			       UVC_CTRL_CONTROL_TIMEOUT);
++		ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
++				       UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
++				       UVC_CTRL_CONTROL_TIMEOUT);
+
+-	error = *(u8 *)data;
+-	*(u8 *)data = tmp;
++		if (ret == 1)
++			error = *(u8 *)data;
++		*(u8 *)data = tmp;
++		if (ret != 1)
++			ret = ret < 0 ? ret : -EPIPE;
++	}
+
+-	if (ret != 1)
+-		return ret < 0 ? ret : -EPIPE;
++	if (error)
++		dev_dbg(&dev->udev->dev,
++			"Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
++			uvc_query_name(query), cs, unit, error);
++	else
++		dev_err(&dev->udev->dev,
++			"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
++			uvc_query_name(query), cs, unit, ret, size);
+
+-	uvc_dbg(dev, CONTROL, "Control error %u\n", error);
++	if (!error)
++		return ret;
+
+ 	switch (error) {
+-	case 0:
+-		/* Cannot happen - we received a STALL */
+-		return -EPIPE;
+ 	case 1: /* Not ready */
+ 		return -EBUSY;
+ 	case 2: /* Wrong state */
+-		return -EILSEQ;
 +		return -EACCES;
-+
- 	return 0;
- }
-
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 12362e0f9870..e40db7ae18b1 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -803,8 +803,8 @@ static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
- 	int ret = 0;
-
- 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
--		ret = uvc_ctrl_is_accessible(chain, ctrl->id,
--					    ioctl == VIDIOC_G_EXT_CTRLS);
-+		ret = uvc_ctrl_is_accessible(chain, ctrl->id, ctrls,
-+					    ioctl);
- 		if (ret)
- 			break;
- 	}
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index aedb4d3d4db9..8849d7953767 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -869,7 +869,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
- int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
- int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
- int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
--			   bool read);
-+			   const struct v4l2_ext_controls *ctrls,
-+			   unsigned long ioctl);
-
- int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- 		      struct uvc_xu_control_query *xqry);
+ 	case 3: /* Power */
+ 		return -EREMOTE;
+ 	case 4: /* Out of range */
 -- 
 2.30.0
-
 
