@@ -2,74 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1173E344511
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 14:14:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9E4E344538
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 14:15:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232699AbhCVNLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 09:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60094 "EHLO
+        id S231481AbhCVNOk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 09:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232726AbhCVNJm (ORCPT
+        with ESMTP id S233173AbhCVNM1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 09:09:42 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697DAC061756
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:09:37 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id 15so21020242ljj.0
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:09:37 -0700 (PDT)
+        Mon, 22 Mar 2021 09:12:27 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47C04C061765
+        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:12:26 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id r12so21185595ejr.5
+        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=MkCp0+1BVFjaQ2nx7WYtpRIFT0uvC4CYRrIvU/PIPGc=;
-        b=azSCGL5SviMUD9pXOjnYEk+VPcTK7TMBpT+C7C5wmihcApPWU0GqS/lrk/lcD/AGEg
-         Qf0gAYv9mj/2w939cwcRNj6hdeYMYOxhOn8b11Y9xp0Z+VDI98vpgEulWxiXN3VG/YvG
-         1V8kdbs41S8rKolcZ5zI/fLEjAwK3EQeQEsZkq4nC633G1X8ktpwnjeI5vEq2WJhv6TY
-         YHpKSAsSGNPJefovF/tDlQryES5621CkdexaR5XL1LA7diziQa+943DLG4AC7+tlyeR2
-         NjQ4hoEG+4KxKGfbEix/VEhvD6IdC+Ip1TcNty7pM9FFFWLp1dRh9Tld7LbjhwIaGfGC
-         U+Uw==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vS9XPExwcwpS/sfWZcxqbnP/GhS9Af04Lc9nX5pchRc=;
+        b=Ah2tSfHEKrv8EcV4EKhjJGPJg5sscsAfMx4eU6EuBVJ1X5Jfer6HQlTr4ijU7FLVa+
+         gPMezd2FTStiCUcZ8W7OoaTj/N5qxQ9i7sDaRDfy23T06SHJKsba9IgHodu91uN3tU0z
+         1ONZsfenvywItQkohLnepmH1NFCoFd7HesZuELnMF//+ZDvhPNdBKAo2eaNxEhKmGCLz
+         sPsa0dL/i8ajlQIkCTm8Qop2BoioIhEmRl5fmj9fsBwT3kORbJ/BCt9MNwQmxErNvJRP
+         bzLi7eBx+DA41SdYvSo74CTChicNVIOvFhQ6GCvbgKAD78uPlWFFGeR81sArafVU0sz3
+         +6LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=MkCp0+1BVFjaQ2nx7WYtpRIFT0uvC4CYRrIvU/PIPGc=;
-        b=kk9QHWnWBBv9imGk+yo+F7QO0pBs7moSshPkGSzXndqg5ks0mLhdFM5KYaVRXEexXO
-         Ilu4cNE7/yP8+P8c2SqGvqV8NpaxechyRK2F7SHHAF2k8aEaHL/Iy9z1y/jmT2CcGDae
-         imbI/F1Eza2E8CgN3I2XzDgbhIZdcc2aNqNhRNWhWaXbcReyYOnIJIaKu7sS3EiedF0Y
-         qUx7Yp/2zkI71iNuk2vAAv/HYTWBcQCrT66HPm0V49Lv8nkvHmbJ2h//zErzPcB5GjE/
-         XDY3e8DcacJJm/hcBBDbMtlFbOZ6L8FMI+EZLI2JMP8cwb/SVvsC8B2yazI6Bn//uYlE
-         jXwQ==
-X-Gm-Message-State: AOAM532CTno313l43rkw/HmYrECBdSJh43vi31a7TrLEwxDM3K4aigpe
-        crOODvt3qyUzykyNZaXg/0JwSS6Ymfx1OZwYNTk=
-X-Google-Smtp-Source: ABdhPJyBZ9rmORm0y6Nlrfjau8NvCWG0cGYMZ7ow99mNKbCm+rT8JJNF4Ai3Ny+AhldUdzcD/9h4Z8hozE27yP1zEHA=
-X-Received: by 2002:a2e:9a0c:: with SMTP id o12mr9399290lji.121.1616418575949;
- Mon, 22 Mar 2021 06:09:35 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vS9XPExwcwpS/sfWZcxqbnP/GhS9Af04Lc9nX5pchRc=;
+        b=dH97dMmr6SqTsA1U8gxUNsTi2zCOkZ0LCMAdXj9IxuBGelnlDmXlkHqhnLR1pkb1+y
+         LLKx9dl9He7mGB9XgKrhcg/S7azlolJJ1JQTh8gpigRhxf3zEy3+50Ai/wXQlNemAoTA
+         5d7g6jeFsl2qb+e5reVRCKL0ZwdDghL8Cm3R78pJfpSXViMhvmtmlKZLohPHw9o5zgin
+         onwQXED9s8v709jYd+70reoPQJxrEPPP0yhFIGfajQTWb4113fDH03pH0q/XWK4aiXAF
+         gO/rnqTT1uRBsz9YQdns/YVE6hoXT4v2E3rim/cPPrmGC3Sj6amfYoBx/fFHUHpmMmPC
+         x4qQ==
+X-Gm-Message-State: AOAM53188xmTDm60kEIYO6cFct8hS3J07PMjf6/bE5q81hftq/yCCyZB
+        jud0iX17vYYWW3r5B2Bic5Vaz3RXeARE9Tp/
+X-Google-Smtp-Source: ABdhPJwoFmAEA7HJ76oqHlCXRvV5UiwUkON4dtBzpRuRPRShjj/Kar+DiesTgPfkvHRNLsk/D/Ex2w==
+X-Received: by 2002:a17:907:7785:: with SMTP id ky5mr18739997ejc.133.1616418744845;
+        Mon, 22 Mar 2021 06:12:24 -0700 (PDT)
+Received: from [192.168.1.54] (hst-221-18.medicom.bg. [84.238.221.18])
+        by smtp.googlemail.com with ESMTPSA id j7sm11233154edv.40.2021.03.22.06.12.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Mar 2021 06:12:24 -0700 (PDT)
+Subject: Re: [PATCH v2 24/25] media: venus: helper: Decide work mode
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        stanimir.varbanov@linaro.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc:     dikshita@codeaurora.org, jonathan@marek.ca, vgarodia@codeaurora.org
+References: <20210312173039.1387617-1-bryan.odonoghue@linaro.org>
+ <20210312173039.1387617-25-bryan.odonoghue@linaro.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <c38da904-28da-f713-ba92-f6bc42603a3c@linaro.org>
+Date:   Mon, 22 Mar 2021 15:12:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Mon, 22 Mar 2021 10:09:24 -0300
-Message-ID: <CAOMZO5DQq0vSkQuikYXxkKofkukGkwE=CBW10+eDPib2vRSHvg@mail.gmail.com>
-Subject: [REGRESSION] video-mux: Probe error on imx6
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210312173039.1387617-25-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-When running kernel 5.12-rc4 on imx6, video-mux fails to probe like this:
+On 3/12/21 7:30 PM, Bryan O'Donoghue wrote:
+> From: Dikshita Agarwal <dikshita@codeaurora.org>
+> 
+> Decide work mode for encoder and decoder based on different
+> use-cases.
+> 
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/helpers.c | 31 ++++++++++++++++++++-
+>  drivers/media/platform/qcom/venus/helpers.h |  2 +-
+>  drivers/media/platform/qcom/venus/vdec.c    |  2 +-
+>  drivers/media/platform/qcom/venus/venc.c    |  2 +-
+>  4 files changed, 33 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index 77ffb8fbb47f..dc8ef13d0c95 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -18,6 +18,9 @@
+>  #include "hfi_platform.h"
+>  #include "hfi_parser.h"
+>  
+> +#define NUM_MBS_720P	(((1280 + 15) >> 4) * ((720 + 15) >> 4))
+> +#define NUM_MBS_4K	(((4096 + 15) >> 4) * ((2304 + 15) >> 4))
+> +
+>  struct intbuf {
+>  	struct list_head list;
+>  	u32 type;
+> @@ -1090,14 +1093,40 @@ int venus_helper_set_output_resolution(struct venus_inst *inst,
+>  }
+>  EXPORT_SYMBOL_GPL(venus_helper_set_output_resolution);
+>  
+> -int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode)
+> +static u32 venus_helper_get_work_mode(struct venus_inst *inst)
+> +{
+> +	u32 mode;
+> +	u32 num_mbs;
+> +
+> +	mode = VIDC_WORK_MODE_2;
+> +	if (IS_V6(inst->core)) {
 
-[    5.675490] video-mux: probe of 20e0000.iomuxc-gpr:ipu1_csi0_mux
-failed with error -107
-[    5.685226] video-mux: probe of 20e0000.iomuxc-gpr:ipu2_csi1_mux
-failed with error -107
+Dikshita, I think the decisions made here are valid for v4 too? If so
+this IS_V6 check is not needed.
 
-I haven't started investigating this problem yet, but just wanted to
-let you know in case you have any suggestions.
+> +		if (inst->session_type == VIDC_SESSION_TYPE_DEC) {
+> +			num_mbs = (ALIGN(inst->height, 16) * ALIGN(inst->width, 16)) / 256;
+> +			if (inst->hfi_codec == HFI_VIDEO_CODEC_MPEG2 ||
+> +			    inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE ||
+> +			    num_mbs <= NUM_MBS_720P)
+> +				mode = VIDC_WORK_MODE_1;
+> +		} else {
+> +			num_mbs = (ALIGN(inst->out_height, 16) * ALIGN(inst->out_width, 16)) / 256;
+> +			if (inst->hfi_codec == HFI_VIDEO_CODEC_VP8 &&
+> +			    num_mbs <= NUM_MBS_4K)
+> +				mode = VIDC_WORK_MODE_1;
+> +		}
+> +	}
+> +
+> +	return mode;
+> +}
+> +
+> +int venus_helper_set_work_mode(struct venus_inst *inst)
+>  {
+>  	const u32 ptype = HFI_PROPERTY_PARAM_WORK_MODE;
+>  	struct hfi_video_work_mode wm;
+> +	u32 mode;
+>  
+>  	if (!IS_V4(inst->core) && !IS_V6(inst->core))
+>  		return 0;
+>  
+> +	mode = venus_helper_get_work_mode(inst);
+>  	wm.video_work_mode = mode;
+>  	return hfi_session_set_property(inst, ptype, &wm);
+>  }
+> diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+> index 98106e6eee85..e6269b4be3af 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.h
+> +++ b/drivers/media/platform/qcom/venus/helpers.h
+> @@ -32,7 +32,7 @@ int venus_helper_set_input_resolution(struct venus_inst *inst,
+>  int venus_helper_set_output_resolution(struct venus_inst *inst,
+>  				       unsigned int width, unsigned int height,
+>  				       u32 buftype);
+> -int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
+> +int venus_helper_set_work_mode(struct venus_inst *inst);
+>  int venus_helper_set_format_constraints(struct venus_inst *inst);
+>  int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
+>  			      unsigned int output_bufs,
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index fdc9984acb70..0fe4863371e2 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -655,7 +655,7 @@ static int vdec_output_conf(struct venus_inst *inst)
+>  	u32 ptype;
+>  	int ret;
+>  
+> -	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+> +	ret = venus_helper_set_work_mode(inst);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 505d092dc433..83425fa8df2d 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -550,7 +550,7 @@ static int venc_set_properties(struct venus_inst *inst)
+>  	u32 profile, level;
+>  	int ret;
+>  
+> -	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+> +	ret = venus_helper_set_work_mode(inst);
+>  	if (ret)
+>  		return ret;
+>  
+> 
 
-Thanks,
-
-Fabio Estevam
+-- 
+regards,
+Stan
