@@ -2,114 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB772343D5F
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 11:01:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AE34343D79
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 11:08:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229883AbhCVKA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 06:00:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbhCVKAN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 06:00:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C14AC061762
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 03:00:13 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82CB6AD6;
-        Mon, 22 Mar 2021 11:00:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616407211;
-        bh=dvk/i0Lw7Di7TAe6y1erjsyHKg8/wZVhsKV0TYC49O4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oy1W47C4++xjz+XqAwjDIubgTz42pYch4KrkbfTCwjdu3uP/l3qyVB3YP8xxC/J3p
-         u+it9YnKxSHui/faVX4jwLJG8+UTS6k4SS98ejh0FyEJKEdt/j9UneQ/BM5BFStly1
-         PJSgS+6degDT/POK7f3YQ6hMgLvT3AcMyevne1yY=
-Date:   Mon, 22 Mar 2021 11:59:31 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: vb2_queue type question
-Message-ID: <YFhqg4Ux5p9LLTPO@pendragon.ideasonboard.com>
-References: <b86d16cc-e3b1-0db3-f544-9f630572126c@ideasonboard.com>
- <67107267-69c8-d87d-6579-5e7dac0400fb@xs4all.nl>
+        id S229703AbhCVKIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 06:08:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48328 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229829AbhCVKHt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Mar 2021 06:07:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5762F61927;
+        Mon, 22 Mar 2021 10:07:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616407668;
+        bh=dBJFdoNziB9DDUF+HhGIBEOeGt35UbKFOybGBjedZZM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cw9wmolvpbimbAoDm/q7dJJU0emcIDDNCMqUa6DHKf+84Ox0z1A8+pLkXkBQF2HU0
+         D3UIetbaQy5rnsj+fuBKNdLxcNPcpBJsSHjSr5V6rTorUCqL+mbzmQHFx8GQ9rlPI4
+         9x9MBlBxGvevOzMm2PuqaMPuz/+emVaOx2DWHcfL4+BVCbc5bmdgitFybQeyazRd1w
+         wtbG5zxTDX4OjI6DsTV/UjCARmaYdBtFGRKtuGQzSslz+Zjpyuo5u77QyAIYL6Ndfx
+         HOvlm8begnvwl1OnpmVzHf9oQ51pIhPEFpae286AxqEBThQLREVX1sciYOEWC5e5rQ
+         RXc5sdfKwq1LA==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Sean Young <sean@mess.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        Oliver Neukum <oneukum@suse.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] media: flexcop: avoid -Wempty-body warning
+Date:   Mon, 22 Mar 2021 11:07:24 +0100
+Message-Id: <20210322100743.3880256-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <67107267-69c8-d87d-6579-5e7dac0400fb@xs4all.nl>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Mon, Mar 22, 2021 at 10:49:26AM +0100, Hans Verkuil wrote:
-> On 22/03/2021 10:18, Tomi Valkeinen wrote:
-> > Hi Hans,
-> > 
-> > We were discussing this with Laurent and Sakari, I thought I'd ask if 
-> > you have any feedback on this.
-> > 
-> > struct vb2_queue has 'type' field, so you can only use a queue for 
-> > buffers of a single type. struct video_device has 'queue' field, so you 
-> > can only use a single queue for a video_device instance.
-> > 
-> > TI's SoCs have a CSI-2 receiver, with a bunch of DMA engines. The HW 
-> > doesn't care if we are currently capturing pixel buffers or metadata 
-> > buffers (I don't have experience with other HW, but I imagine this 
-> > shouldn't be a rare case). However, due to vb2_queue, the driver needs 
-> > to decide which one to support, which limits the possible use cases.
-> > 
-> > I was browsing the code, and afaics the type field doesn't do much. It 
-> > is, of course, used to reject queuing buffers of wrong type, and also 
-> > (mostly in mem-2-mem code) to find out if functions are called in input 
-> > or output context.
-> > 
-> > The latter one could be easily removed by just comparing the given queue 
-> > pointer to a stored pointer (e.g. queue == priv->input_queue).
-> > 
-> > Do you see any problems if we were to change the type field to 
-> > type_mask, allowing multiple buffer types per queue? Or even remove the 
-> > vb2_queue->type. This raises some questions, like should a queue contain 
-> > only buffers of a single type or can it contain a mix of buffers (I 
-> > think it shouldn't contain a mix of buffers), or can a queue's type_mask 
-> > contain both input and output types (I don't see why not).
-> > 
-> > An alternate which I tried was creating two vb2_queues, and switching 
-> > the video_device->queue at runtime based on set_format. It kind of 
-> > works, but I think the behavior is a bit unclear, and it might be 
-> > difficult to catch all the corner cases.
-> 
-> A vb2_queue basically represents a buffer queue that will be fed to a
-> DMA engine. It assumes that all the buffers are of the same format,
-> which typically is tied directly to the type.
-> 
-> The type of a vb2_queue can be changed if you like, but once buffers
-> are allocated it is fixed and can't be changed again until all buffers
-> are released. So you can't mix buffers of different types.
-> 
-> This is actually done in the vivid driver: see vidioc_s_fmt_vbi_cap()
-> and vidioc_s_fmt_sliced_vbi_cap(): depending on the format the queue
-> type will be set to either capture raw or sliced VBI.
-> 
-> The ivtv driver does the same thing.
-> 
-> So as long as vb2_is_busy() returns false, you are free to change the
-> queue type.
-> 
-> There is no need for a type_mask or anything like that. That's up to
-> the bridge driver to check. The vb2_queue type is there to ensure that
-> userspace isn't trying to mix buffers of different types, but as long
-> as no buffers are allocated it doesn't do anything and you are free to
-> change it.
+Building with 'make W=1' shows many warnings -Wempty-body warnings like
 
-I wasn't aware of this design rationale. It would be useful to expand
-the documentation of vb2_queue.type to document this. Or have I missed a
-different location where this is already explained ?
+drivers/media/common/b2c2/flexcop-misc.c: In function 'flexcop_determine_revision':
+drivers/media/common/b2c2/flexcop-misc.c:35:85: error: suggest braces around empty body in an 'else' statement [-Werror=empty-body]
+   35 |                 deb_info("this FlexCop has the 6 basic main hardware pid filter.\n");
 
+drivers/media/usb/b2c2/flexcop-usb.c: In function 'flexcop_usb_process_frame':
+drivers/media/usb/b2c2/flexcop-usb.c:357:79: error: suggest braces around empty body in an 'else' statement [-Werror=empty-body]
+  357 |                                         deb_ts("not ts packet %*ph\n", 4, b+2);
+      |                                                                               ^
+drivers/media/common/b2c2/flexcop-misc.c: In function 'flexcop_determine_revision':
+drivers/media/common/b2c2/flexcop-misc.c:35:85: error: suggest braces around empty body in an 'else' statement [-Werror=empty-body]
+   35 |                 deb_info("this FlexCop has the 6 basic main hardware pid filter.\n");
+      |                                                                                     ^
+
+Change the empty dprintk() macros to no_printk(), which avoids this
+warning and adds format string checking.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/common/b2c2/flexcop.h  | 2 +-
+ drivers/media/pci/b2c2/flexcop-pci.c | 2 +-
+ drivers/media/usb/b2c2/flexcop-usb.c | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/common/b2c2/flexcop.h b/drivers/media/common/b2c2/flexcop.h
+index 486fe2380b92..632d7bb9631a 100644
+--- a/drivers/media/common/b2c2/flexcop.h
++++ b/drivers/media/common/b2c2/flexcop.h
+@@ -17,7 +17,7 @@ extern int b2c2_flexcop_debug;
+ #define dprintk(level,args...) \
+ 	do { if ((b2c2_flexcop_debug & level)) printk(args); } while (0)
+ #else
+-#define dprintk(level,args...)
++#define dprintk(level,args...) no_printk(args)
+ #endif
+ 
+ #define deb_info(args...) dprintk(0x01, args)
+diff --git a/drivers/media/pci/b2c2/flexcop-pci.c b/drivers/media/pci/b2c2/flexcop-pci.c
+index a9d9520a94c6..83d0ce7fc80e 100644
+--- a/drivers/media/pci/b2c2/flexcop-pci.c
++++ b/drivers/media/pci/b2c2/flexcop-pci.c
+@@ -22,7 +22,7 @@ MODULE_PARM_DESC(irq_chk_intv, "set the interval for IRQ streaming watchdog.");
+ 	do { if ((debug & level)) printk(args); } while (0)
+ #define DEBSTATUS ""
+ #else
+-#define dprintk(level,args...)
++#define dprintk(level,args...) no_printk(args)
+ #define DEBSTATUS " (debugging is not enabled)"
+ #endif
+ 
+diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
+index e731243267e4..6f8dc96adc08 100644
+--- a/drivers/media/usb/b2c2/flexcop-usb.c
++++ b/drivers/media/usb/b2c2/flexcop-usb.c
+@@ -27,8 +27,8 @@
+ 
+ #define DEBSTATUS ""
+ #else
+-#define dprintk(level, args...)
+-#define debug_dump(b, l, method)
++#define dprintk(level, args...) no_printk(args)
++#define debug_dump(b, l, method) do { } while (0)
+ #define DEBSTATUS " (debugging is not enabled)"
+ #endif
+ 
 -- 
-Regards,
+2.29.2
 
-Laurent Pinchart
