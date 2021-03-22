@@ -2,173 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8C46343BF1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 09:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04035343C81
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 10:18:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbhCVIkK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 04:40:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58186 "EHLO
+        id S229865AbhCVJS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 05:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbhCVIjy (ORCPT
+        with ESMTP id S229846AbhCVJSW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 04:39:54 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C98C061574
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 01:39:51 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id w18so18291469edc.0
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 01:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=WosURJkM/PKSCOw9xPERzj9fjDA03BThhpk0x/4VEXg=;
-        b=Xmw1I0kVglEkkyuysEP1PPTcEa0qNfUT+YiRUf21xzme6vAcGVqGQFhILRd5KF6HQT
-         oAFfhdwqyw/7k+Z2aHghIGttZFXr1qMivDnMOZCpx8s5pSWybC9p5wS1T/12dE6axlRE
-         XAlEAguYbFxtFpFCih0t7ANGSfFkAXJPAyhS+Jg6Q8zR7vgp8MQJsJZwV5QH4Lv271/e
-         lMaD1/D08eqYnnkHs2fb3tKFeeRsUuQqLNmnsRV+6ktK6/aHy3TmEZc2QmGgIgILxbUb
-         0fyOqeOpSaLYJh4YvLz/ximI7JeQMp89Wpc2roOfrbULHCS6TVt3Xn9qBMNloAPNH+ra
-         IZWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=WosURJkM/PKSCOw9xPERzj9fjDA03BThhpk0x/4VEXg=;
-        b=pMnjeNByFk4vWRqPFplVp3QK4s7ORhZsdlt+vOYRlvwRfsgkUIiWsJUhZCDvoWhkwW
-         IMgDSAXe9tBbvRHcETMZNketzVqTOyBW8xWP50EsED4Fb9TeHdLh4qIRMQpJSMU72T7r
-         fvHrQgZHlWMSSmV3jysbKOhmpGrIEkDXXljnM0kGcSoJR9RmwpR2KYxfnszSGI2r6V7B
-         MkwO/XwJlKF3IbrrbI/NtVCBxlS2uCM3DzMmiyuXtk4qpk/1CpMNl+5b4QxDW76pG2oD
-         DfuniGVe7dSqep6u6O2hzWZRDUi3wH5SS3boLZoY6dgGq4vJNr+S24KAjIfGzY2dcUzN
-         Wv2A==
-X-Gm-Message-State: AOAM532Zoqr+1ytzq58eJ7T8izf3eAChBpbAOIrs2mnkOA6i3SFDK+EQ
-        XjH/TJpGYDlM+JShWvJ/J3hkxQ==
-X-Google-Smtp-Source: ABdhPJw6q+bFZcIwo/y4uN0oE8skM7XUnmmeJDRr9QTv/JOzMN54LLFvW9KELWO6DcVO4jr2DhMgiA==
-X-Received: by 2002:a05:6402:1713:: with SMTP id y19mr23148734edu.52.1616402390537;
-        Mon, 22 Mar 2021 01:39:50 -0700 (PDT)
-Received: from dell ([91.110.221.180])
-        by smtp.gmail.com with ESMTPSA id ga28sm4809735ejc.82.2021.03.22.01.39.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 01:39:50 -0700 (PDT)
-Date:   Mon, 22 Mar 2021 08:39:47 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Roland Scheidegger <sroland@vmware.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Anthony Koo <Anthony.Koo@amd.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Jeremy Kolb <jkolb@brandeis.edu>,
-        Kuogee Hsieh <khsieh@codeaurora.org>,
-        Leo Li <sunpeng.li@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Lyude Paul <lyude@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Nouveau Dev <nouveau@lists.freedesktop.org>,
-        Qinglang Miao <miaoqinglang@huawei.com>,
-        Rob Clark <rob.clark@linaro.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Zack Rusin <zackr@vmware.com>
-Subject: Re: [RESEND 00/53] Rid GPU from W=1 warnings
-Message-ID: <20210322083947.GM2916463@dell>
-References: <20210303134319.3160762-1-lee.jones@linaro.org>
- <16d4300e-bf29-1e85-317b-53d257890cb9@vmware.com>
- <20210308091932.GB4931@dell>
- <YEobySvG0zPs9xhc@phenom.ffwll.local>
- <20210311135152.GT701493@dell>
- <20210317081729.GH701493@dell>
- <CAKMK7uEibsgXXTEM1d2CGSswp-koouPSouseP_rwLHTdpxfRpw@mail.gmail.com>
- <CAKMK7uHkJGDL8k3FfAqAM78honZR0euMcacW8UpdPZfS1J-7cA@mail.gmail.com>
- <20210319082407.GG2916463@dell>
- <YFTlhh1ZSFffO+Nr@phenom.ffwll.local>
+        Mon, 22 Mar 2021 05:18:22 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80ECC061574
+        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 02:18:21 -0700 (PDT)
+Received: from [192.168.1.136] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38E76AD6;
+        Mon, 22 Mar 2021 10:18:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616404699;
+        bh=oIuOjnb9uXYybsuFSU0ACMrMg6BFEb4Uicoc8BYLmeo=;
+        h=To:Cc:From:Subject:Date:From;
+        b=apBxhoVDL+C2JGQf/fgQ1j3kQvs1QVbuTgBCavXy/o/f9a/9LQmFvWjxH/1/47lXt
+         ZjOqwffVrCwgsHGC/Fp0snKzbH8Sr3JZcsi8cDHeanFzGcOte27wXdq/E2fdaSLuvo
+         7X/qOZV7mIvK4h/t658h/q9eNhZQDu7jmhR8hs8U=
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: vb2_queue type question
+Message-ID: <b86d16cc-e3b1-0db3-f544-9f630572126c@ideasonboard.com>
+Date:   Mon, 22 Mar 2021 11:18:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YFTlhh1ZSFffO+Nr@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 19 Mar 2021, Daniel Vetter wrote:
+Hi Hans,
 
-> On Fri, Mar 19, 2021 at 08:24:07AM +0000, Lee Jones wrote:
-> > On Thu, 18 Mar 2021, Daniel Vetter wrote:
-> > 
-> > > On Wed, Mar 17, 2021 at 9:32 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Wed, Mar 17, 2021 at 9:17 AM Lee Jones <lee.jones@linaro.org> wrote:
-> > > > >
-> > > > > On Thu, 11 Mar 2021, Lee Jones wrote:
-> > > > >
-> > > > > > On Thu, 11 Mar 2021, Daniel Vetter wrote:
-> > > > > >
-> > > > > > > On Mon, Mar 08, 2021 at 09:19:32AM +0000, Lee Jones wrote:
-> > > > > > > > On Fri, 05 Mar 2021, Roland Scheidegger wrote:
-> > > > > > > >
-> > > > > > > > > The vmwgfx ones look all good to me, so for
-> > > > > > > > > 23-53: Reviewed-by: Roland Scheidegger <sroland@vmware.com>
-> > > > > > > > > That said, they were already signed off by Zack, so not sure what
-> > > > > > > > > happened here.
-> > > > > > > >
-> > > > > > > > Yes, they were accepted at one point, then dropped without a reason.
-> > > > > > > >
-> > > > > > > > Since I rebased onto the latest -next, I had to pluck them back out of
-> > > > > > > > a previous one.
-> > > > > > >
-> > > > > > > They should show up in linux-next again. We merge patches for next merge
-> > > > > > > window even during the current merge window, but need to make sure they
-> > > > > > > don't pollute linux-next. Occasionally the cut off is wrong so patches
-> > > > > > > show up, and then get pulled again.
-> > > > > > >
-> > > > > > > Unfortunately especially the 5.12 merge cycle was very wobbly due to some
-> > > > > > > confusion here. But your patches should all be in linux-next again (they
-> > > > > > > are queued up for 5.13 in drm-misc-next, I checked that).
-> > > > > > >
-> > > > > > > Sorry for the confusion here.
-> > > > > >
-> > > > > > Oh, I see.  Well so long as they don't get dropped, I'll be happy.
-> > > > > >
-> > > > > > Thanks for the explanation Daniel
-> > > > >
-> > > > > After rebasing today, all of my GPU patches have remained.  Would
-> > > > > someone be kind enough to check that everything is still in order
-> > > > > please?
-> > > >
-> > > > It's still broken somehow. I've kiced Maxime and Maarten again,
-> > > > they're also on this thread.
-> > > 
-> > > You're patches have made it into drm-next meanwhile, so they should
-> > > show up in linux-next through that tree at least. Except if that one
-> > > also has some trouble.
-> > 
-> > Thanks for letting me know.
-> > 
-> > I see some patches made it back in, others didn't.
-> > 
-> > I'll resend the stragglers - bear with.
-> 
-> The vmwgfx ones should all be back, the others I guess just werent ever
-> applied. I'll vacuum them all up if you resend. Apologies for the wobbly
-> ride.
+We were discussing this with Laurent and Sakari, I thought I'd ask if 
+you have any feedback on this.
 
-NP, it happens.
+struct vb2_queue has 'type' field, so you can only use a queue for 
+buffers of a single type. struct video_device has 'queue' field, so you 
+can only use a single queue for a video_device instance.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+TI's SoCs have a CSI-2 receiver, with a bunch of DMA engines. The HW 
+doesn't care if we are currently capturing pixel buffers or metadata 
+buffers (I don't have experience with other HW, but I imagine this 
+shouldn't be a rare case). However, due to vb2_queue, the driver needs 
+to decide which one to support, which limits the possible use cases.
+
+I was browsing the code, and afaics the type field doesn't do much. It 
+is, of course, used to reject queuing buffers of wrong type, and also 
+(mostly in mem-2-mem code) to find out if functions are called in input 
+or output context.
+
+The latter one could be easily removed by just comparing the given queue 
+pointer to a stored pointer (e.g. queue == priv->input_queue).
+
+Do you see any problems if we were to change the type field to 
+type_mask, allowing multiple buffer types per queue? Or even remove the 
+vb2_queue->type. This raises some questions, like should a queue contain 
+only buffers of a single type or can it contain a mix of buffers (I 
+think it shouldn't contain a mix of buffers), or can a queue's type_mask 
+contain both input and output types (I don't see why not).
+
+An alternate which I tried was creating two vb2_queues, and switching 
+the video_device->queue at runtime based on set_format. It kind of 
+works, but I think the behavior is a bit unclear, and it might be 
+difficult to catch all the corner cases.
+
+  Tomi
