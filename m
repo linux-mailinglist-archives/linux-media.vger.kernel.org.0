@@ -2,193 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E4E344538
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 14:15:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 278333445C1
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 14:31:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbhCVNOk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 09:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60706 "EHLO
+        id S229946AbhCVNbA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 09:31:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233173AbhCVNM1 (ORCPT
+        with ESMTP id S229472AbhCVNal (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 09:12:27 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47C04C061765
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:12:26 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id r12so21185595ejr.5
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vS9XPExwcwpS/sfWZcxqbnP/GhS9Af04Lc9nX5pchRc=;
-        b=Ah2tSfHEKrv8EcV4EKhjJGPJg5sscsAfMx4eU6EuBVJ1X5Jfer6HQlTr4ijU7FLVa+
-         gPMezd2FTStiCUcZ8W7OoaTj/N5qxQ9i7sDaRDfy23T06SHJKsba9IgHodu91uN3tU0z
-         1ONZsfenvywItQkohLnepmH1NFCoFd7HesZuELnMF//+ZDvhPNdBKAo2eaNxEhKmGCLz
-         sPsa0dL/i8ajlQIkCTm8Qop2BoioIhEmRl5fmj9fsBwT3kORbJ/BCt9MNwQmxErNvJRP
-         bzLi7eBx+DA41SdYvSo74CTChicNVIOvFhQ6GCvbgKAD78uPlWFFGeR81sArafVU0sz3
-         +6LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vS9XPExwcwpS/sfWZcxqbnP/GhS9Af04Lc9nX5pchRc=;
-        b=dH97dMmr6SqTsA1U8gxUNsTi2zCOkZ0LCMAdXj9IxuBGelnlDmXlkHqhnLR1pkb1+y
-         LLKx9dl9He7mGB9XgKrhcg/S7azlolJJ1JQTh8gpigRhxf3zEy3+50Ai/wXQlNemAoTA
-         5d7g6jeFsl2qb+e5reVRCKL0ZwdDghL8Cm3R78pJfpSXViMhvmtmlKZLohPHw9o5zgin
-         onwQXED9s8v709jYd+70reoPQJxrEPPP0yhFIGfajQTWb4113fDH03pH0q/XWK4aiXAF
-         gO/rnqTT1uRBsz9YQdns/YVE6hoXT4v2E3rim/cPPrmGC3Sj6amfYoBx/fFHUHpmMmPC
-         x4qQ==
-X-Gm-Message-State: AOAM53188xmTDm60kEIYO6cFct8hS3J07PMjf6/bE5q81hftq/yCCyZB
-        jud0iX17vYYWW3r5B2Bic5Vaz3RXeARE9Tp/
-X-Google-Smtp-Source: ABdhPJwoFmAEA7HJ76oqHlCXRvV5UiwUkON4dtBzpRuRPRShjj/Kar+DiesTgPfkvHRNLsk/D/Ex2w==
-X-Received: by 2002:a17:907:7785:: with SMTP id ky5mr18739997ejc.133.1616418744845;
-        Mon, 22 Mar 2021 06:12:24 -0700 (PDT)
-Received: from [192.168.1.54] (hst-221-18.medicom.bg. [84.238.221.18])
-        by smtp.googlemail.com with ESMTPSA id j7sm11233154edv.40.2021.03.22.06.12.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Mar 2021 06:12:24 -0700 (PDT)
-Subject: Re: [PATCH v2 24/25] media: venus: helper: Decide work mode
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     dikshita@codeaurora.org, jonathan@marek.ca, vgarodia@codeaurora.org
-References: <20210312173039.1387617-1-bryan.odonoghue@linaro.org>
- <20210312173039.1387617-25-bryan.odonoghue@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <c38da904-28da-f713-ba92-f6bc42603a3c@linaro.org>
-Date:   Mon, 22 Mar 2021 15:12:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Mon, 22 Mar 2021 09:30:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC93EC061574
+        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:30:40 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5FE8DAD6;
+        Mon, 22 Mar 2021 14:30:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616419837;
+        bh=+1f1ihXhrLp47+y78E8UK3i1NJWdnYNG2eDyOrf2Pak=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b8G58pqVJrxUnKfBeXsT/u2KRPVNOY7UAiYXK8L8I3xDjHq47hXdF55RZCdLuiMcU
+         7Ql+JGRa2AEDynj4n1cukLMUb91fkRuRXvOlbxJl2ujAvOwlspFb3/40F5b1aam2gT
+         mHFdW5eeE+8IxDuKfHMqjY5MEOpm8LOjMC8PNW9k=
+Date:   Mon, 22 Mar 2021 15:29:56 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Edgar Thier <info@edgarthier.net>
+Cc:     sakari.ailus@iki.fi,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] v4l: Add 12-bit raw bayer linear packed formats
+Message-ID: <YFib1BNtNYSp2m7W@pendragon.ideasonboard.com>
+References: <20190708060225.5172-1-info@edgarthier.net>
 MIME-Version: 1.0
-In-Reply-To: <20210312173039.1387617-25-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20190708060225.5172-1-info@edgarthier.net>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Edgar,
 
-On 3/12/21 7:30 PM, Bryan O'Donoghue wrote:
-> From: Dikshita Agarwal <dikshita@codeaurora.org>
+I've just been notified that I had forgotten about this patch series :-S
+Mea culpa.
+
+On Mon, Jul 08, 2019 at 08:02:25AM +0200, Edgar Thier wrote:
+> These formats are compressed 12-bit raw bayer formats with four different
+> pixel orders. The pixel follow one another without any padding,
+
+s/pixel follow/pixels follow/
+
+> thus are packed in a 'linear' fashion.
 > 
-> Decide work mode for encoder and decoder based on different
-> use-cases.
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Edgar Thier <info@edgarthier.net>
 > ---
->  drivers/media/platform/qcom/venus/helpers.c | 31 ++++++++++++++++++++-
->  drivers/media/platform/qcom/venus/helpers.h |  2 +-
->  drivers/media/platform/qcom/venus/vdec.c    |  2 +-
->  drivers/media/platform/qcom/venus/venc.c    |  2 +-
->  4 files changed, 33 insertions(+), 4 deletions(-)
+>  Documentation/media/uapi/v4l/pixfmt-rgb.rst   |  1 +
+>  .../media/uapi/v4l/pixfmt-srggb12lp.rst       | 76 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  4 +
+>  include/uapi/linux/videodev2.h                |  7 ++
+>  4 files changed, 88 insertions(+)
+>  create mode 100644 Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst
 > 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 77ffb8fbb47f..dc8ef13d0c95 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -18,6 +18,9 @@
->  #include "hfi_platform.h"
->  #include "hfi_parser.h"
->  
-> +#define NUM_MBS_720P	(((1280 + 15) >> 4) * ((720 + 15) >> 4))
-> +#define NUM_MBS_4K	(((4096 + 15) >> 4) * ((2304 + 15) >> 4))
-> +
->  struct intbuf {
->  	struct list_head list;
->  	u32 type;
-> @@ -1090,14 +1093,40 @@ int venus_helper_set_output_resolution(struct venus_inst *inst,
->  }
->  EXPORT_SYMBOL_GPL(venus_helper_set_output_resolution);
->  
-> -int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode)
-> +static u32 venus_helper_get_work_mode(struct venus_inst *inst)
-> +{
-> +	u32 mode;
-> +	u32 num_mbs;
-> +
-> +	mode = VIDC_WORK_MODE_2;
-> +	if (IS_V6(inst->core)) {
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-rgb.rst b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> index 48ab80024835..9efa500c02dc 100644
+> --- a/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> +++ b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> @@ -26,5 +26,6 @@ RGB Formats
+>      pixfmt-srggb10-ipu3
+>      pixfmt-srggb12
+>      pixfmt-srggb12p
+> +    pixfmt-srggb12lp
 
-Dikshita, I think the decisions made here are valid for v4 too? If so
-this IS_V6 check is not needed.
+I'd move this above srggb12p to order them alphabetically.
 
-> +		if (inst->session_type == VIDC_SESSION_TYPE_DEC) {
-> +			num_mbs = (ALIGN(inst->height, 16) * ALIGN(inst->width, 16)) / 256;
-> +			if (inst->hfi_codec == HFI_VIDEO_CODEC_MPEG2 ||
-> +			    inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE ||
-> +			    num_mbs <= NUM_MBS_720P)
-> +				mode = VIDC_WORK_MODE_1;
-> +		} else {
-> +			num_mbs = (ALIGN(inst->out_height, 16) * ALIGN(inst->out_width, 16)) / 256;
-> +			if (inst->hfi_codec == HFI_VIDEO_CODEC_VP8 &&
-> +			    num_mbs <= NUM_MBS_4K)
-> +				mode = VIDC_WORK_MODE_1;
-> +		}
-> +	}
+>      pixfmt-srggb14p
+>      pixfmt-srggb16
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst b/Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst
+> new file mode 100644
+> index 000000000000..08d73cfdc42d
+> --- /dev/null
+> +++ b/Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst
+> @@ -0,0 +1,76 @@
+> +.. -*- coding: utf-8; mode: rst -*-
 > +
-> +	return mode;
-> +}
+> +.. _v4l2-pix-fmt-sbggr12lp:
+> +.. _v4l2-pix-fmt-sgbrg12lp:
+> +.. _v4l2-pix-fmt-sgrbg12lp:
+> +.. _v4l2-pix-fmt-srggb12lp:
 > +
-> +int venus_helper_set_work_mode(struct venus_inst *inst)
->  {
->  	const u32 ptype = HFI_PROPERTY_PARAM_WORK_MODE;
->  	struct hfi_video_work_mode wm;
-> +	u32 mode;
->  
->  	if (!IS_V4(inst->core) && !IS_V6(inst->core))
->  		return 0;
->  
-> +	mode = venus_helper_get_work_mode(inst);
->  	wm.video_work_mode = mode;
->  	return hfi_session_set_property(inst, ptype, &wm);
->  }
-> diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
-> index 98106e6eee85..e6269b4be3af 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.h
-> +++ b/drivers/media/platform/qcom/venus/helpers.h
-> @@ -32,7 +32,7 @@ int venus_helper_set_input_resolution(struct venus_inst *inst,
->  int venus_helper_set_output_resolution(struct venus_inst *inst,
->  				       unsigned int width, unsigned int height,
->  				       u32 buftype);
-> -int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
-> +int venus_helper_set_work_mode(struct venus_inst *inst);
->  int venus_helper_set_format_constraints(struct venus_inst *inst);
->  int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
->  			      unsigned int output_bufs,
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index fdc9984acb70..0fe4863371e2 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -655,7 +655,7 @@ static int vdec_output_conf(struct venus_inst *inst)
->  	u32 ptype;
->  	int ret;
->  
-> -	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
-> +	ret = venus_helper_set_work_mode(inst);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 505d092dc433..83425fa8df2d 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -550,7 +550,7 @@ static int venc_set_properties(struct venus_inst *inst)
->  	u32 profile, level;
->  	int ret;
->  
-> -	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
-> +	ret = venus_helper_set_work_mode(inst);
->  	if (ret)
->  		return ret;
->  
-> 
+> +**********************************************************************************************************************************
+> +V4L2_PIX_FMT_SBGGR12LP ('BGCp'), V4L2_PIX_FMT_SGBRG12LP ('GBCp'), V4L2_PIX_FMT_SGRBG12LP ('GRCp'), V4L2_PIX_FMT_SRGGB12LP ('RGCp')
+> +**********************************************************************************************************************************
+> +
+> +12-bit Bayer formats
+
+This should be
+
+12-bit linear packed Bayer formats
+----------------------------------
+
+> +
+> +Description
+> +===========
+> +
+> +These packed Bayer formats are used by industrial cameras, often in conjunction
+> +with UsbVision (see https://www.visiononline.org/userAssets/aiaUploads/file/USB3_Vision_Specification_v1-0-1.pdf).
+> +
+> +The formats are equal to the Genicam PFNC Bayer12p formats
+> +(see https://www.emva.org/wp-content/uploads/GenICam_PFNC_2_3.pdf).
+> +
+> +They are raw sRGB / Bayer formats with 12 bits
+> +per sample with 3 bytes for every 2 pixels.
+> +
+> +The format is little endian.
+
+I'd drop this line, as there's no real endianess here, is there ?
+
+With those small changes,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+There's no need to resubmit this patch if you agree with the proposed
+changes, I'll apply them locally.
+
+> +
+> +Below is an example of a small image in V4L2_PIX_FMT_SBGGR12LP format.
+> +
+> +**Byte Order.**
+> +Each cell is one byte.
+> +
+> +.. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|p{4.0cm}|p{4.0cm}|
+> +
+> +.. flat-table::
+> +
+> +    * - start + 0:
+> +      - B\ :sub:`00low`
+> +      - G\ :sub:`01low`\ (bits 7--4)
+> +        B\ :sub:`00high`\ (bits 0--3)
+> +      - G\ :sub:`01high`\
+> +      - B\ :sub:`02low`
+> +      - G\ :sub:`03low`\ (bits 7--4)
+> +        B\ :sub:`02high`\ (bits 0--3)
+> +      - G\ :sub:`03high`\
+> +
+> +    * - start + 6:
+> +      - G\ :sub:`10low`
+> +      - R\ :sub:`11low`\ (bits 7--4)
+> +        G\ :sub:`10high`\ (bits 0--3)
+> +      - R\ :sub:`11high`
+> +      - G\ :sub:`12low`
+> +      - R\ :sub:`13low`\ (bits 7--4)
+> +        G\ :sub:`12high`\ (bits 0--3)
+> +      - R\ :sub:`13high`
+> +
+> +    * - start + 12:
+> +      - B\ :sub:`20low`
+> +      - G\ :sub:`21low`\ (bits 7--4)
+> +        B\ :sub:`20high`\ (bits 0--3)
+> +      - G\ :sub:`21high`
+> +      - B\ :sub:`22low`
+> +      - G\ :sub:`21low`\ (bits 7--4)
+> +        B\ :sub:`22high`\ (bits 0--3)
+> +      - G\ :sub:`21high`
+> +
+> +    * - start + 18:
+> +      - G\ :sub:`30low`
+> +      - R\ :sub:`31low`\ (bits 7--4)
+> +        G\ :sub:`30high`\ (bits 0--3)
+> +      - R\ :sub:`31high`
+> +      - G\ :sub:`32low`
+> +      - R\ :sub:`33low`\ (bits 7--4)
+> +        G\ :sub:`32high`\ (bits 0--3)
+> +      - R\ :sub:`33high`
+> +
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index ac87c3e37280..0cef797e4989 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1275,6 +1275,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_SGBRG12:	descr = "12-bit Bayer GBGB/RGRG"; break;
+>  	case V4L2_PIX_FMT_SGRBG12:	descr = "12-bit Bayer GRGR/BGBG"; break;
+>  	case V4L2_PIX_FMT_SRGGB12:	descr = "12-bit Bayer RGRG/GBGB"; break;
+> +	case V4L2_PIX_FMT_SBGGR12LP:	descr = "12-bit Bayer BGGR Linear Packed"; break;
+> +	case V4L2_PIX_FMT_SGBRG12LP:	descr = "12-bit Bayer GBRG Linear Packed"; break;
+> +	case V4L2_PIX_FMT_SGRBG12LP:	descr = "12-bit Bayer GRBG Linear Packed"; break;
+> +	case V4L2_PIX_FMT_SRGGB12LP:	descr = "12-bit Bayer RGGB Linear Packed"; break;
+>  	case V4L2_PIX_FMT_SBGGR12P:	descr = "12-bit Bayer BGBG/GRGR Packed"; break;
+>  	case V4L2_PIX_FMT_SGBRG12P:	descr = "12-bit Bayer GBGB/RGRG Packed"; break;
+>  	case V4L2_PIX_FMT_SGRBG12P:	descr = "12-bit Bayer GRGR/BGBG Packed"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 1050a75fb7ef..adee353d5913 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -646,6 +646,13 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_SGBRG12 v4l2_fourcc('G', 'B', '1', '2') /* 12  GBGB.. RGRG.. */
+>  #define V4L2_PIX_FMT_SGRBG12 v4l2_fourcc('B', 'A', '1', '2') /* 12  GRGR.. BGBG.. */
+>  #define V4L2_PIX_FMT_SRGGB12 v4l2_fourcc('R', 'G', '1', '2') /* 12  RGRG.. GBGB.. */
+> +
+> +	/* 12bit raw bayer linearly packed, 6 bytes for every 4 pixels */
+> +#define V4L2_PIX_FMT_SBGGR12LP v4l2_fourcc('B', 'G', 'C', 'p')
+> +#define V4L2_PIX_FMT_SGBRG12LP v4l2_fourcc('G', 'B', 'C', 'p')
+> +#define V4L2_PIX_FMT_SGRBG12LP v4l2_fourcc('G', 'R', 'C', 'p')
+> +#define V4L2_PIX_FMT_SRGGB12LP v4l2_fourcc('R', 'G', 'C', 'p')
+> +
+>  	/* 12bit raw bayer packed, 6 bytes for every 4 pixels */
+>  #define V4L2_PIX_FMT_SBGGR12P v4l2_fourcc('p', 'B', 'C', 'C')
+>  #define V4L2_PIX_FMT_SGBRG12P v4l2_fourcc('p', 'G', 'C', 'C')
 
 -- 
-regards,
-Stan
+Regards,
+
+Laurent Pinchart
