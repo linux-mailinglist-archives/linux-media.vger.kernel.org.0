@@ -2,78 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 876FA3447A1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 15:45:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DB40344848
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 15:56:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbhCVOob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 10:44:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52622 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbhCVOoM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 10:44:12 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61E4BC061574
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 07:44:11 -0700 (PDT)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lOLms-000691-2Z; Mon, 22 Mar 2021 15:44:10 +0100
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] media: video-mux: Skip dangling endpoints
-Date:   Mon, 22 Mar 2021 15:44:08 +0100
-Message-Id: <20210322144408.31461-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
+        id S230337AbhCVOzn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 10:55:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60626 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231130AbhCVOzR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Mar 2021 10:55:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 27F8D6192D;
+        Mon, 22 Mar 2021 14:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616424917;
+        bh=av4OEy6Me9jsGo3iTHvfLO8reSSyLBEb0n5B7uJpJxY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YJksH+AjAnipQrMkuKHTJVtNSeQTNFr8YCNRPDbwON4LK7anaKE8PFggqMAPMkZSu
+         uAUVXRtB4xQfcwSGpIMJrxcFgxqdhtHD54Sx66Coi72GyCChoDB9BZGE9djgMCx16g
+         p15V/mGNwzi2PsR9OLu98Y4ShkQ8wml65oT3wJxe0KTQVa4MmdgLMJUkimcvIZVINE
+         LnPbT0c8zEIGfz4ATX9NVTFBFIVow9lYG3wvv5on5/0/1HSmYuK0CzdYsQJRKRGWhV
+         LF7DXBt/1D2vYkPsDq9lr13hVw9OuyauCVtC2PcA6MJIXyKb28wqTDHzhOW9UWX/Ps
+         sKweKxSxEEqEA==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lOLxa-006dZD-Cy; Mon, 22 Mar 2021 15:55:14 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH] media: dvb_frontend: don't call dvb_frontend_get_stepsize() twice
+Date:   Mon, 22 Mar 2021 15:55:13 +0100
+Message-Id: <8d4a554d9cb196e928f16263d5c12fa400076c34.1616424910.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-i.MX6 device tree include files contain dangling endpoints for the
-board device tree writers' convenience. These are still included in
-many existing device trees.
-Treat dangling endpoints as non-existent to support them.
+Avoid calling the function twice, as it was just called at the
+previous line.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/video-mux.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/media/dvb-core/dvb_frontend.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/video-mux.c b/drivers/media/platform/video-mux.c
-index 133122e38515..9bc0b4d8de09 100644
---- a/drivers/media/platform/video-mux.c
-+++ b/drivers/media/platform/video-mux.c
-@@ -362,7 +362,7 @@ static int video_mux_async_register(struct video_mux *vmux,
- 
- 	for (i = 0; i < num_input_pads; i++) {
- 		struct v4l2_async_subdev *asd;
--		struct fwnode_handle *ep;
-+		struct fwnode_handle *ep, *remote_ep;
- 
- 		ep = fwnode_graph_get_endpoint_by_id(
- 			dev_fwnode(vmux->subdev.dev), i, 0,
-@@ -370,6 +370,14 @@ static int video_mux_async_register(struct video_mux *vmux,
- 		if (!ep)
- 			continue;
- 
-+		/* Skip dangling endpoints for backwards compatibility */
-+		remote_ep = fwnode_graph_get_remote_endpoint(ep);
-+		if (!remote_ep) {
-+			fwnode_handle_put(ep);
-+			continue;
-+		}
-+		fwnode_handle_put(remote_ep);
-+
- 		asd = v4l2_async_notifier_add_fwnode_remote_subdev(
- 			&vmux->notifier, ep, struct v4l2_async_subdev);
- 
+diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+index 00b361a534ea..6aaa4d5a504d 100644
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -1821,7 +1821,7 @@ static void prepare_tuning_algo_parameters(struct dvb_frontend *fe)
+ 		case SYS_DTMB:
+ 			fepriv->min_delay = HZ / 20;
+ 			fepriv->step_size = dvb_frontend_get_stepsize(fe) * 2;
+-			fepriv->max_drift = (dvb_frontend_get_stepsize(fe) * 2) + 1;
++			fepriv->max_drift = fepriv->step_size + 1;
+ 			break;
+ 		default:
+ 			/*
 -- 
-2.29.2
+2.30.2
 
