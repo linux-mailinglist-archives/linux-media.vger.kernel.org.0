@@ -2,187 +2,290 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E0BC3434EC
-	for <lists+linux-media@lfdr.de>; Sun, 21 Mar 2021 21:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D92163435EE
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 01:20:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231292AbhCUUxd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Mar 2021 16:53:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47318 "EHLO
+        id S230002AbhCVATv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Mar 2021 20:19:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230218AbhCUUxB (ORCPT
+        with ESMTP id S229872AbhCVATT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Mar 2021 16:53:01 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73368C061574;
-        Sun, 21 Mar 2021 13:53:01 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (213-243-181-26.bb.dnainternet.fi [213.243.181.26])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 161521B00046;
-        Sun, 21 Mar 2021 22:52:57 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1616359977;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2XRgUlb7NKEhKJeU8JI8swroZIl0jYCTbXWtgrWkwqk=;
-        b=Cy+4tNL3ckwus/R0F6ywxNsEeDwDGYNCGpCyoD80tzqBpeMY8zTpeGFRj2vBVB6R+w4Xt4
-        ItX5IVoJaAonp5GtVN1MB4rXaYyWf/Fgb5VR6P4DYlubOyvXdSqwygRFhuaqT+CeQzxiIL
-        V50PdJW7Bbewj0f+jVBW4MLu6OU6AZaVLWPKT46H3G+PMoUDjAMTc5AM17/hcjukhN0voO
-        dCJAH/zYcJJQxL18dHBPHXOboyYGOw5KqlrZp63RBEAWg59FF/InfrLSDmJbK6IhySbyKv
-        cUAjgJ8FIKrBqlR9/TmfoCDfuvE1NGJOe10f7rV8Qk7hP1Qk0FQjRQwwTUSttw==
-Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1B654634C87;
-        Sun, 21 Mar 2021 22:49:31 +0200 (EET)
-Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
-        by valkosipuli.localdomain with esmtp (Exim 4.92)
-        (envelope-from <sakari.ailus@iki.fi>)
-        id 1lO54C-0004Fo-4k; Sun, 21 Mar 2021 22:52:56 +0200
-Date:   Sun, 21 Mar 2021 22:52:56 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 05/19] media: v4l2-subdev: De-deprecate init() subdev
- op
-Message-ID: <20210321205256.GE3@valkosipuli.retiisi.eu>
-References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
- <20210319164148.199192-6-jacopo+renesas@jmondi.org>
- <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
+        Sun, 21 Mar 2021 20:19:19 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E27C061574
+        for <linux-media@vger.kernel.org>; Sun, 21 Mar 2021 17:19:19 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id e14so239672ejz.11
+        for <linux-media@vger.kernel.org>; Sun, 21 Mar 2021 17:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=4chGpEI0M4bQXVWjUDscVroYnp5BVpIjU71kMYHTnso=;
+        b=tm2U+5JvaMIX3Ed5e9SEyr4MZtg63bMZjzNa1GJC6MqPhjpbT7w0pb29eRzAhUQiF7
+         J3rBNsPpPd7k9QeLfJLGFtlU3MfuS4QQrHLo9kFesEBux0UHZkZ0KaRI10YHu9xSPOY9
+         0CBbRinsv867Z3wv7ettb2TNMzsP64OQ4eDXxfTolGMuVoG1NMokQNh6Ohuo+LYBjUHR
+         1XtesMGzmWQx4++gxxIw2OWweKt9ik0Lia/sBYyd4PYU9eK6r34xB/JSWlbOmDcrix9C
+         SBGbRztQxXAIreN2NkQSm9BejrpMeqZo77Gz74C7fmfRTrQxe5pLx19aMHBKWDwHb7iL
+         MJTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=4chGpEI0M4bQXVWjUDscVroYnp5BVpIjU71kMYHTnso=;
+        b=Zeke9bBgIhrDd762kkakXliVRZgE3ncKRzltWbCb2uFHsOXdLnZOY3oN+UuyonlnQO
+         anD/A1mLCRp+zD/VMmIcJ+Q9Jnci25eII4IhNC5ScQ31o73JWNDuoPbQKGyFREKG3Ty/
+         vQ03nwMuWDd9EEBUUtEOKFCu4EMnN6Zyjs/OhFOoEXrNa/dh8MECpAxPsOWIFYwo86m6
+         azcfca5wuApXBvTm4r9A2EOEE5SaxcEf5TYeKmRrsdfil9Dc9cZE+ixwojPFB8vB3TUL
+         zVuvL8uOi8BHnv8PTw63Qy9J3xeA9CJ5rWNBvTMZgsqpQNIOknWW3qWvl5S7GG0utvc8
+         tgUg==
+X-Gm-Message-State: AOAM531pS4O8SJN515QRGhveuMSSSVszJOQHZWjC4c+EC0xEKwZQh++/
+        6CxnhKQAmBEhfRaXN27uWBI=
+X-Google-Smtp-Source: ABdhPJw37f5cK/8/Np2MW16YftTAIzkwdP81j8B21ay1mkgQw9oWq3ZUnWOD1uFa1/Y73q11mUIE2Q==
+X-Received: by 2002:a17:906:edca:: with SMTP id sb10mr16120074ejb.398.1616372357894;
+        Sun, 21 Mar 2021 17:19:17 -0700 (PDT)
+Received: from [192.168.1.211] ([2.29.208.22])
+        by smtp.gmail.com with ESMTPSA id de17sm8202449ejc.16.2021.03.21.17.19.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Mar 2021 17:19:17 -0700 (PDT)
+Subject: Re: [PATCH] ipu3-cio2: Parse sensor orientation and rotation
+To:     =?UTF-8?Q?Fabian_W=c3=bcthrich?= <me@fabwu.ch>,
+        linux-media@vger.kernel.org
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210321191155.55723-1-me@fabwu.ch>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <682898ab-c63d-160e-8fdb-7003a856cc07@gmail.com>
+Date:   Mon, 22 Mar 2021 00:19:16 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1616359977; a=rsa-sha256;
-        cv=none;
-        b=Jv7JMz9B3XXJ2/BOIwoQ6ks7O6AJdKkJP8YuayhiU1poSssNHKGg8KLPB/YpeRTxcGPLpl
-        5ZQraxO6e3kH0ObEUJySyVuAS9qqRJ5zNrH1qKW8RZ0qm54ptDUEpt2rPUJM6bQ+VSB3hZ
-        s+Sq94A4whlJ9PA4wZ2+5iWRKFwYaQTSXwcvDYZsaELORfxSDQXH6tQHecCZRi4q2EXFPg
-        5+zALoIW4mSEgKmpY2QpKTZi4PrWjP6EmAnqZfPbaU9rg2PgqQqGHI9OaSSjpsBE9oBHMv
-        jgegE1xL2pSKTfeduNRdZrg/c6gx6bEa7PZc9cYp9Ulu9uKZB1m5k6mv1zFvJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1616359977;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2XRgUlb7NKEhKJeU8JI8swroZIl0jYCTbXWtgrWkwqk=;
-        b=SwXBroY3ZVNUxwqpQD6DnMW4S8V+mo+02X/IL+mFQIVGQa4L+4zSPvIGHoEPoKPucuPGVR
-        DEHbBObOhOVAKl8sjesSJ6w9nUOC7kt3ZjDKnOXXCmLuyMHjJG7R8xjuZJS2QhBeyRIJaz
-        fcMvgo/T+09Q1YdqiUe4qfhF9mqiZyZCYIvq17wVs4JuA7ejR/gKk9kNrukClH9zLBtFwq
-        TiB7oYQJjlbVcfs9X4egRUyj1sgNDK0fvmkPKwoU5MTuj3b2fe7vjh4oP6Bo+xTr6Ekyzw
-        8pjBXTveng4wo8j6K0pTJ6ZXQkqgoGbEiPg7frbXYJrJy3MbKUnTWg/57msKiA==
+In-Reply-To: <20210321191155.55723-1-me@fabwu.ch>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent and Jacopo,
+Hi Fabian, thanks for doing this
 
-Thanks for cc'ing me.
+On 21/03/2021 19:11, Fabian Wüthrich wrote:
+> The sensor orientation is read from the _PLC ACPI buffer and converted
+> to a v4l2 format.
+>
+> See https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+> page 351 for a definition of the Panel property.
+>
+> The sensor rotation is read from the SSDB ACPI buffer and converted into
+> degrees.
+>
+> Signed-off-by: Fabian Wüthrich <me@fabwu.ch>
 
-On Sat, Mar 20, 2021 at 05:42:12PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> Thank you for the patch.
-> 
-> CC'ing Sakari on v3 to get feedback.
-> 
-> On Fri, Mar 19, 2021 at 05:41:34PM +0100, Jacopo Mondi wrote:
-> > The init() subdev core operation is deemed to be deprecated for new
-> > subdevice drivers. However it could prove useful for complex
-> > architectures to defer operation that require access to the
-> > communication bus if said bus is not available (or fully configured)
-> > at the time when the subdevice probe() function is run.
-> > 
-> > As an example, the GMSL architecture requires the GMSL configuration
-> > link to be configured on the host side after the remote subdevice
-> > has completed its probe function. After the configuration on the host
-> > side has been performed, the subdevice registers can be accessed through
-> > the communication bus.
+Couple of comments below, but after addressing those:
 
-What does the remote device's probe do that needs to be done before bus
-config on the host side?
 
-Alternatively, could the remote init() work be done at the time streaming
-is started?
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
 
-> > 
-> > In particular:
-> > 
-> > 	HOST			REMOTE
-> > 
-> > 	probe()
-> > 	   |
-> > 	   ---------------------> |
-> > 				  probe() {
-> > 				     bus config()
-> > 				  }
-> > 	   |<--------------------|
-> > 	v4l2 async bound {
-> > 	    bus config()
-> > 	    call subdev init()
-> > 	   |-------------------->|
-> > 				 init() {
-> > 				     access register on the bus()
-> > 				}
-> > 	   |<-------------------
-> > 	}
-> > 
-> > In the GMSL use case the bus configuration requires the enablement of the
-> > noise immunity threshold on the remote side which ensures reliability
-> > of communications in electrically noisy environments. After the subdevice
-> > has enabled the threshold at the end of its probe() sequence the host
-> > side shall compensate it with an higher signal amplitude. Once this
-> > sequence has completed the bus can be accessed with noise protection
-> > enabled and all the operations that require a considerable number of
-> > transactions on the bus (such as the image sensor configuration
-> > sequence) are run in the subdevice init() operation implementation.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  include/media/v4l2-subdev.h | 15 ++++++++++++---
-> >  1 file changed, 12 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index d0e9a5bdb08b..3068d9940669 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
-> >   *	each pin being configured.  This function could be called at times
-> >   *	other than just subdevice initialization.
-> >   *
-> > - * @init: initialize the sensor registers to some sort of reasonable default
-> > - *	values. Do not use for new drivers and should be removed in existing
-> > - *	drivers.
-> > + * @init: initialize the subdevice registers to some sort of reasonable default
-> > + *	values. Do not use for new drivers (and should be removed in existing
-> > + *	ones) for regular architectures where the image sensor is connected to
-> > + *	the host receiver. For more complex architectures where the subdevice
-> > + *	initialization should be deferred to the completion of the probe
-> > + *	sequence of some intermediate component, or the communication bus
-> > + *	requires configurations on the host side that depend on the completion
-> > + *	of the probe sequence of the remote subdevices, the usage of this
-> > + *	operation could be considered to allow the devices along the pipeline to
-> > + *	probe and register in the media graph and to defer any operation that
-> > + *	require actual access to the communication bus to their init() function
-> > + *	implementation.
-> >   *
-> >   * @load_fw: load firmware.
-> >   *
+> ---
+>  drivers/media/pci/intel/ipu3/cio2-bridge.c | 60 ++++++++++++++++++++--
+>  drivers/media/pci/intel/ipu3/cio2-bridge.h | 16 ++++++
+>  2 files changed, 72 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> index c2199042d3db..503809907b92 100644
+> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> @@ -29,6 +29,7 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
+>  static const struct cio2_property_names prop_names = {
+>  	.clock_frequency = "clock-frequency",
+>  	.rotation = "rotation",
+> +	.orientation = "orientation",
+>  	.bus_type = "bus-type",
+>  	.data_lanes = "data-lanes",
+>  	.remote_endpoint = "remote-endpoint",
+> @@ -72,11 +73,51 @@ static int cio2_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
+>  	return ret;
+>  }
+>  
+> +static u32 cio2_bridge_parse_rotation(struct cio2_sensor *sensor)
+> +{
+> +	switch (sensor->ssdb.degree) {
+> +	case CIO2_SENSOR_ROTATION_NORMAL:
+> +		return 0;
+> +	case CIO2_SENSOR_ROTATION_INVERTED:
+> +		return 180;
+> +	default:
+> +		dev_warn(&sensor->adev->dev,
+> +			 "Unknown rotation %d. Assume 0 degree rotation\n",
+> +			 sensor->ssdb.degree);
+> +		return 0;
+> +	}
+> +}
+>
+> +static enum v4l2_fwnode_orientation cio2_bridge_parse_orientation(struct cio2_sensor *sensor)
+> +{
+> +	switch (sensor->pld->panel) {
+> +	case CIO2_PLD_PANEL_FRONT:
+> +		return V4L2_FWNODE_ORIENTATION_FRONT;
+> +	case CIO2_PLD_PANEL_BACK:
+> +		return V4L2_FWNODE_ORIENTATION_BACK;
+> +	case CIO2_PLD_PANEL_TOP:
+> +	case CIO2_PLD_PANEL_LEFT:
+> +	case CIO2_PLD_PANEL_RIGHT:
+> +	case CIO2_PLD_PANEL_UNKNOWN:
+> +		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
+> +	default:
+> +		dev_warn(&sensor->adev->dev, "Unknown _PLD panel value %d\n",
+> +			 sensor->pld->panel);
+> +		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
+> +	}
+> +}
+> +
+>  static void cio2_bridge_create_fwnode_properties(
+>  	struct cio2_sensor *sensor,
+>  	struct cio2_bridge *bridge,
+>  	const struct cio2_sensor_config *cfg)
+>  {
+> +	u32 rotation;
+> +	enum v4l2_fwnode_orientation orientation;
+> +
+> +	rotation = cio2_bridge_parse_rotation(sensor);
+> +	orientation = cio2_bridge_parse_orientation(sensor);
+> +
+>  	sensor->prop_names = prop_names;
+>  
+>  	sensor->local_ref[0].node = &sensor->swnodes[SWNODE_CIO2_ENDPOINT];
+> @@ -85,9 +126,12 @@ static void cio2_bridge_create_fwnode_properties(
+>  	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
+>  					sensor->prop_names.clock_frequency,
+>  					sensor->ssdb.mclkspeed);
+> -	sensor->dev_properties[1] = PROPERTY_ENTRY_U8(
+> +	sensor->dev_properties[1] = PROPERTY_ENTRY_U32(
+>  					sensor->prop_names.rotation,
+> -					sensor->ssdb.degree);
+> +					rotation);
+> +	sensor->dev_properties[2] = PROPERTY_ENTRY_U32(
+> +					sensor->prop_names.orientation,
+> +					orientation);
+>  
+>  	sensor->ep_properties[0] = PROPERTY_ENTRY_U32(
+>  					sensor->prop_names.bus_type,
+> @@ -159,6 +203,7 @@ static void cio2_bridge_unregister_sensors(struct cio2_bridge *bridge)
+>  	for (i = 0; i < bridge->n_sensors; i++) {
+>  		sensor = &bridge->sensors[i];
+>  		software_node_unregister_nodes(sensor->swnodes);
+> +		ACPI_FREE(sensor->pld);
+>  		acpi_dev_put(sensor->adev);
+>  	}
+>  }
+> @@ -170,6 +215,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+>  	struct fwnode_handle *fwnode;
+>  	struct cio2_sensor *sensor;
+>  	struct acpi_device *adev;
+> +	acpi_status status;
+>  	int ret;
+>  
+>  	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+> @@ -193,11 +239,15 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+>  		if (ret)
+>  			goto err_put_adev;
+>  
+> +		status = acpi_get_physical_device_location(adev->handle, &sensor->pld);
+> +		if (ACPI_FAILURE(status))
+> +			goto err_put_adev;
+> +
+>  		if (sensor->ssdb.lanes > CIO2_MAX_LANES) {
+>  			dev_err(&adev->dev,
+>  				"Number of lanes in SSDB is invalid\n");
+>  			ret = -EINVAL;
+> -			goto err_put_adev;
+> +			goto err_free_pld;
+>  		}
+>  
+>  		cio2_bridge_create_fwnode_properties(sensor, bridge, cfg);
+> @@ -205,7 +255,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+>  
+>  		ret = software_node_register_nodes(sensor->swnodes);
+>  		if (ret)
+> -			goto err_put_adev;
+> +			goto err_free_pld;
+>  
+>  		fwnode = software_node_fwnode(&sensor->swnodes[
+>  						      SWNODE_SENSOR_HID]);
+> @@ -226,6 +276,8 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+>  
+>  err_free_swnodes:
+>  	software_node_unregister_nodes(sensor->swnodes);
+> +err_free_pld:
+> +	ACPI_FREE(sensor->pld);
+>  err_put_adev:
+>  	acpi_dev_put(sensor->adev);
+>  err_out:
+> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+> index dd0ffcafa489..e1e388cc9f45 100644
+> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
+> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+> @@ -12,6 +12,19 @@
+>  #define CIO2_MAX_LANES				4
+>  #define MAX_NUM_LINK_FREQS			3
+>  
+> +/* Values are estimated guesses as we don't have a spec */
 
--- 
-Kind regards,
 
-Sakari Ailus
+Educated guesses?
+
+> +#define CIO2_SENSOR_ROTATION_NORMAL		0
+> +#define CIO2_SENSOR_ROTATION_INVERTED		1
+> +
+
+
+I think these are good here but...
+
+> +/* Panel position defined in _PLD section of ACPI Specification 6.3 */
+> +#define CIO2_PLD_PANEL_TOP			0
+> +#define CIO2_PLD_PANEL_BOTTOM			1
+> +#define CIO2_PLD_PANEL_LEFT			2
+> +#define CIO2_PLD_PANEL_RIGHT			3
+> +#define CIO2_PLD_PANEL_FRONT			4
+> +#define CIO2_PLD_PANEL_BACK			5
+> +#define CIO2_PLD_PANEL_UNKNOWN			6
+> +
+
+
+...I wonder if these ought to go somewhere in the include/acpi headers.
+You might be the only person to refer to pld->panel in driver code (at
+least a quick grep doesn't show me another one, and only another couple
+of uses of pld at all) so it's probably not a big deal, but it just
+feels slightly the wrong place. What do you think?
+
+>  #define CIO2_SENSOR_CONFIG(_HID, _NR, ...)	\
+>  	(const struct cio2_sensor_config) {	\
+>  		.hid = _HID,			\
+> @@ -80,6 +93,7 @@ struct cio2_sensor_ssdb {
+>  struct cio2_property_names {
+>  	char clock_frequency[16];
+>  	char rotation[9];
+> +	char orientation[12];
+>  	char bus_type[9];
+>  	char data_lanes[11];
+>  	char remote_endpoint[16];
+> @@ -106,6 +120,8 @@ struct cio2_sensor {
+>  	struct cio2_node_names node_names;
+>  
+>  	struct cio2_sensor_ssdb ssdb;
+> +	struct acpi_pld_info *pld;
+> +
+>  	struct cio2_property_names prop_names;
+>  	struct property_entry ep_properties[5];
+>  	struct property_entry dev_properties[3];
+
+
+You should extend dev_properties to 4 members; there needs to be an
+empty entry as a terminator or it'll be a problem in the event someone
+tries to access a property that isn't there.
+
