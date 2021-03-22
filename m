@@ -2,204 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABA74344449
-	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 14:00:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1173E344511
+	for <lists+linux-media@lfdr.de>; Mon, 22 Mar 2021 14:14:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232198AbhCVM7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Mar 2021 08:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57268 "EHLO
+        id S232699AbhCVNLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Mar 2021 09:11:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230227AbhCVM40 (ORCPT
+        with ESMTP id S232726AbhCVNJm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Mar 2021 08:56:26 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4182FC061574
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 05:56:25 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id bf3so19213787edb.6
-        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 05:56:25 -0700 (PDT)
+        Mon, 22 Mar 2021 09:09:42 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697DAC061756
+        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:09:37 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 15so21020242ljj.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Mar 2021 06:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zs+ZH9HXMqh8babYlbIqR838NjF1riAx4sjNseIdfRw=;
-        b=x2vM4o/6Wsn/lSI0D6O95oh5osrTnZAFWch/RKQYjcEcMbGvRb6sl6JzQ+FX6nBR2T
-         pwD1Vq/9wzTxLEa1u03ucukGMKAa1u4VmX9kUkRGL7i5L58Ahq33fR6f5QvAeizXzJgk
-         6avDopOGNoPGpvr51XvV8pkzb383P5BHX/Z7xOUV0JdMMdoTSPGfLBvdIP6GB6j7cw/J
-         q2lduXjS32g9R44Q6LkaXLTJBe0jO0Wegftyi2e+qoaL5/hAkHXtQq9XwE3PYvcYAXX5
-         uIzMZ4+5DKGYEAIWsPUaG3Z7Szq57rq3FnQbkkGlgXaypfRHJWtsFrCprdFNeKIcitMN
-         myjw==
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=MkCp0+1BVFjaQ2nx7WYtpRIFT0uvC4CYRrIvU/PIPGc=;
+        b=azSCGL5SviMUD9pXOjnYEk+VPcTK7TMBpT+C7C5wmihcApPWU0GqS/lrk/lcD/AGEg
+         Qf0gAYv9mj/2w939cwcRNj6hdeYMYOxhOn8b11Y9xp0Z+VDI98vpgEulWxiXN3VG/YvG
+         1V8kdbs41S8rKolcZ5zI/fLEjAwK3EQeQEsZkq4nC633G1X8ktpwnjeI5vEq2WJhv6TY
+         YHpKSAsSGNPJefovF/tDlQryES5621CkdexaR5XL1LA7diziQa+943DLG4AC7+tlyeR2
+         NjQ4hoEG+4KxKGfbEix/VEhvD6IdC+Ip1TcNty7pM9FFFWLp1dRh9Tld7LbjhwIaGfGC
+         U+Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zs+ZH9HXMqh8babYlbIqR838NjF1riAx4sjNseIdfRw=;
-        b=PQEV9J77rTGOr0FEQB4PKZbhmi/2uqRHJwURsHa0NwYf7GO4YVdmXQ7JG4XhbIMIuZ
-         mQU/TiaG7YK42fDY+KJWxQ7xrmPN1Aj+ZVz+a0KtI9dNS+sB2RZW8P55LJNG2fHl6XL4
-         09CEF3I3Mn11TQtu0H/cIFZCRdg5HkINlxwvD5/B6cpNTGazmWMHtu5gqkg2/PICC/LJ
-         yapyQ4Dy/yQ8P5jyufwNfU+mWhNU39UNncLzIXJL3ltR3XlyW00DOWAtACxN39axQehD
-         5VugH4nOh7N0U7Nxk3eecEw9QofPf4dA3T64E0TBZhymYmq+B6dja/62NiL5DbZBqJi6
-         7/hQ==
-X-Gm-Message-State: AOAM532y7Wec1eFDvIEKNdX2tGmMc52PwzrufGUJEzjsXkWTbO24tGHR
-        AvImaVb7zHGviV321utVSBbjSQ==
-X-Google-Smtp-Source: ABdhPJx0f4ywhsWqQWmPcKkaeoHZsJanVj6wLKqLHWXx1SQoOjZVxgaafrESVD8ugBzylZ4RVVcgXg==
-X-Received: by 2002:a05:6402:9:: with SMTP id d9mr25375592edu.67.1616417784029;
-        Mon, 22 Mar 2021 05:56:24 -0700 (PDT)
-Received: from [192.168.1.54] (hst-221-58.medicom.bg. [84.238.221.58])
-        by smtp.googlemail.com with ESMTPSA id q19sm1849796ejy.50.2021.03.22.05.56.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Mar 2021 05:56:23 -0700 (PDT)
-Subject: Re: [PATCH v5 3/5] v4l: Add HDR10 static metadata controls
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20210209162425.3970393-1-stanimir.varbanov@linaro.org>
- <20210209162425.3970393-4-stanimir.varbanov@linaro.org>
- <77ac3b63-9995-e08f-9e6e-7a7d75c64ec1@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <444bb318-169f-6d30-2b7c-31d19d98a548@linaro.org>
-Date:   Mon, 22 Mar 2021 14:56:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=MkCp0+1BVFjaQ2nx7WYtpRIFT0uvC4CYRrIvU/PIPGc=;
+        b=kk9QHWnWBBv9imGk+yo+F7QO0pBs7moSshPkGSzXndqg5ks0mLhdFM5KYaVRXEexXO
+         Ilu4cNE7/yP8+P8c2SqGvqV8NpaxechyRK2F7SHHAF2k8aEaHL/Iy9z1y/jmT2CcGDae
+         imbI/F1Eza2E8CgN3I2XzDgbhIZdcc2aNqNhRNWhWaXbcReyYOnIJIaKu7sS3EiedF0Y
+         qUx7Yp/2zkI71iNuk2vAAv/HYTWBcQCrT66HPm0V49Lv8nkvHmbJ2h//zErzPcB5GjE/
+         XDY3e8DcacJJm/hcBBDbMtlFbOZ6L8FMI+EZLI2JMP8cwb/SVvsC8B2yazI6Bn//uYlE
+         jXwQ==
+X-Gm-Message-State: AOAM532CTno313l43rkw/HmYrECBdSJh43vi31a7TrLEwxDM3K4aigpe
+        crOODvt3qyUzykyNZaXg/0JwSS6Ymfx1OZwYNTk=
+X-Google-Smtp-Source: ABdhPJyBZ9rmORm0y6Nlrfjau8NvCWG0cGYMZ7ow99mNKbCm+rT8JJNF4Ai3Ny+AhldUdzcD/9h4Z8hozE27yP1zEHA=
+X-Received: by 2002:a2e:9a0c:: with SMTP id o12mr9399290lji.121.1616418575949;
+ Mon, 22 Mar 2021 06:09:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <77ac3b63-9995-e08f-9e6e-7a7d75c64ec1@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Mon, 22 Mar 2021 10:09:24 -0300
+Message-ID: <CAOMZO5DQq0vSkQuikYXxkKofkukGkwE=CBW10+eDPib2vRSHvg@mail.gmail.com>
+Subject: [REGRESSION] video-mux: Probe error on imx6
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi,
 
-On 3/16/21 2:16 PM, Hans Verkuil wrote:
-> On 09/02/2021 17:24, Stanimir Varbanov wrote:
->> Introduce Content light level and Mastering display colour
->> volume Colorimetry compound controls with relevant payload
->> structures and validation.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/v4l2-core/v4l2-ctrls.c | 67 ++++++++++++++++++++++++++++
->>  include/media/v4l2-ctrls.h           |  4 ++
->>  include/uapi/linux/v4l2-controls.h   | 31 +++++++++++++
->>  include/uapi/linux/videodev2.h       |  3 ++
->>  4 files changed, 105 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
->> index 335cf354f51b..8bd3cf0e1e4f 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->> @@ -1205,6 +1205,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	/* Colorimetry controls */
->>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->>  	case V4L2_CID_COLORIMETRY_CLASS:	return "Colorimetry Controls";
->> +	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:		return "HDR10 Content Light Info";
->> +	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:	return "HDR10 Mastering Display";
->>  	default:
->>  		return NULL;
->>  	}
->> @@ -1491,6 +1493,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  		*type = V4L2_CTRL_TYPE_AREA;
->>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>  		break;
->> +	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:
->> +		*type = V4L2_CTRL_TYPE_HDR10_CLL_INFO;
->> +		break;
->> +	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
->> +		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
->> +		break;
->>  	default:
->>  		*type = V4L2_CTRL_TYPE_INTEGER;
->>  		break;
->> @@ -1786,6 +1794,12 @@ static void std_log(const struct v4l2_ctrl *ctrl)
->>  	case V4L2_CTRL_TYPE_FWHT_PARAMS:
->>  		pr_cont("FWHT_PARAMS");
->>  		break;
->> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
->> +		pr_cont("HDR10_CLL_INFO");
->> +		break;
->> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
->> +		pr_cont("HDR10_MASTERING_DISPLAY");
->> +		break;
->>  	default:
->>  		pr_cont("unknown type %d", ctrl->type);
->>  		break;
->> @@ -1838,6 +1852,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
->>  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
->>  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
->> +	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->>  	struct v4l2_area *area;
->>  	void *p = ptr.p + idx * ctrl->elem_size;
->>  	unsigned int i;
->> @@ -2133,6 +2148,52 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>  		zero_padding(*p_hevc_slice_params);
->>  		break;
->>  
->> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
->> +		break;
->> +
->> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
->> +		p_hdr10_mastering = p;
->> +
->> +		for (i = 0; i < 3; ++i) {
->> +			if (p_hdr10_mastering->display_primaries_x[i] <
->> +				V4L2_HDR10_MASTERING_PRIMARIES_X_LOW ||
->> +			    p_hdr10_mastering->display_primaries_x[i] >
->> +				V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH ||
->> +			    p_hdr10_mastering->display_primaries_y[i] <
->> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW ||
->> +			    p_hdr10_mastering->display_primaries_y[i] >
->> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH)
->> +				return -EINVAL;
->> +		}
->> +
->> +		if (p_hdr10_mastering->white_point_x <
->> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW ||
->> +		    p_hdr10_mastering->white_point_x >
->> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH ||
->> +		    p_hdr10_mastering->white_point_y <
->> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW ||
->> +		    p_hdr10_mastering->white_point_y >
->> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH)
->> +			return -EINVAL;
->> +
->> +		if (p_hdr10_mastering->max_display_mastering_luminance <
->> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW ||
->> +		    p_hdr10_mastering->max_display_mastering_luminance >
->> +			V4L2_HDR10_MASTERING_MAX_LUMA_HIGH ||
->> +		    p_hdr10_mastering->min_display_mastering_luminance <
->> +			V4L2_HDR10_MASTERING_MIN_LUMA_LOW ||
->> +		    p_hdr10_mastering->min_display_mastering_luminance >
->> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
->> +			return -EINVAL;
->> +
->> +		if (p_hdr10_mastering->max_display_mastering_luminance ==
->> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW &&
->> +		    p_hdr10_mastering->min_display_mastering_luminance ==
->> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
-> 
-> I had to think about this one :-)
-> 
-> Isn't it clearer to write:
-> 
-> 		if (p_hdr10_mastering->min_display_mastering_luminance >=
-> 		    p_hdr10_mastering->max_display_mastering_luminance)
-> 
-> (even though it can't be >, but >= is probably more robust and future proof)
-> 
-> And is it indeed invalid if both are the same?
+When running kernel 5.12-rc4 on imx6, video-mux fails to probe like this:
 
-This what the ITU-T Rec. H.265 spec says:
+[    5.675490] video-mux: probe of 20e0000.iomuxc-gpr:ipu1_csi0_mux
+failed with error -107
+[    5.685226] video-mux: probe of 20e0000.iomuxc-gpr:ipu2_csi1_mux
+failed with error -107
 
-"When max_display_mastering_luminance is equal to 50 000,
-min_display_mastering_luminance shall not be equal to 50 000."
+I haven't started investigating this problem yet, but just wanted to
+let you know in case you have any suggestions.
 
+Thanks,
 
--- 
-regards,
-Stan
+Fabio Estevam
