@@ -2,84 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 384F33459ED
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95B9C345A1A
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:53:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229448AbhCWIj0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 04:39:26 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:36771 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229665AbhCWIjV (ORCPT
+        id S229866AbhCWIxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 04:53:06 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:49701 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229500AbhCWIwg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 04:39:21 -0400
+        Tue, 23 Mar 2021 04:52:36 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id OcZIlupP7UzyrOcZMlOmx9; Tue, 23 Mar 2021 09:39:20 +0100
+        id Ocm7luxcEUzyrOcmAlOqWY; Tue, 23 Mar 2021 09:52:34 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616488760; bh=9zwPOhejpKrd4MXuoLABE6y2aVBsirx68OLpXBzRhqU=;
+        t=1616489554; bh=MN9IPHtr+CvDYLsmbD3k+DduvsYrf4T5+K7yrXcAH9M=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=pL8s0XouB3BGZqEftyWSmSssJRDGImOWviDCygwhI0XZKzgxAGlPrfyV6rSgQA2QH
-         hAusc1TQL2/Se/mNfnyPg7XwWEh0UZNuzELQpbNyaKnoefwyuPGr4ekQFk8IwJ7MGQ
-         +E9gyXO5hdIdXatkIQs9utwRYJzvTNSc7Y3IoJSeQ0EtOYTjycLNyhWewkdPkK6Zsh
-         vP2ftpvX4Uu3cf03AjFN429l77FYIC61L08FkurRtPbYo99jS706sTX8X95R5zwZKD
-         odFtz6Wgt5aZ8V1+3mGLDbc6e2mGsc4AH9FtfjPYR+uyACnoBtvTsnhUh6MAVbEybU
-         8Yed/DpGJ/zOw==
+        b=pWxA0lC84rWRdyfyXJ17U4FFeKJCVabz0wpY3dP0BdRHpPobGj4XsdIMhvPacJbEN
+         IgBacUQHB3jF+hvN2ImDHmvHU0w6RpytQdrdR70S2piiymwSeJvGdX5Rc9tZf8xo8B
+         v6hQExWtvEPKdYNAX9EOvieVoq0ljB6+45yykEV4dcPXxiYQmCothawHItwA3RuAIb
+         Dwa5hOmgB5NhCT0MKkMpDCqp/yQKKKsjvLoJjGkhU4v7IDYWS11TwW3HYeltWVfG+n
+         lLryixSnpFTd63EfW8iGRW7+IKNxrjzJr3ZzCNhf2X3iDrfwsJVZ7mjlrhIlE8FTDJ
+         FvYpCHrId9b2w==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
         Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Tomasz Figa <tfiga@chromium.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] s5p-jpeg/jpeg-core.h: fix kernel-doc warnings
-Message-ID: <5973dfa5-9c4d-8ab5-dcb7-6ccdf4863403@xs4all.nl>
-Date:   Tue, 23 Mar 2021 09:39:16 +0100
+Subject: [PATCH] exynos-gsc/gsc-core.h: fix kernel-doc warnings
+Message-ID: <77fc038c-70c3-b9b9-fc68-21cffac2f53d@xs4all.nl>
+Date:   Tue, 23 Mar 2021 09:52:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFzYE0R8rqqgp7csCAY1vpBtAfAL6lfshnUMLh0KdLTVuC55rL8lCM5OlKlk6NxD5mAlwDnlvnKBcoUAKEH7shZMDYXO4Sw1SMTXHJSqUUR5gP7WLqS1
- T8O0QMkP9wolET24Nanq3Y2HCbfdXXLfptk8UoW3cktKKb6KMeH8sqkFpdr1M/SHDeQsUZLezacankThLCr+0AoaoqI2Kt37GJHMgghWVKUKmxB0938aGU6r
- 10riT5i3/DaElsdNSm2r0rWcdWAp4AxB9Ubj8ccHQ69j35aPLxpnVYb+uTgq/P4x
+X-CMAE-Envelope: MS4xfHbzk39exP4tkf7Gs6BQBoJ4qL+2U8Na9FN/6vyD8h5ID0KNUeWlYf53jhVZ+m01GA+axkOya5dywdL9LbFaw+L2ZkLwcMHMqGpXsQ980QZa5pUy0BsZ
+ RWJady7zrTDXAfghCrAWjsZjn7TDFe9F7snHrARgEabmEv3G1Zvw9G42/VTof7q0jDIbrmkNEvEnlulpxDlsDgJmY8rPL95V8FD3xHHB7+GaWVEyCPHrGMW9
+ PSOvdnjGEb+08W9D3G9srQtfdVgUHdwANPbGFYruvKFO8cYButfo9zu+s6WLKlMt
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes these warnings:
+Fixes these kernel-doc warnings:
 
-drivers/media/platform/s5p-jpeg/jpeg-core.h:136: warning: Function parameter or member 'irq_ret' not described in 's5p_jpeg'
-drivers/media/platform/s5p-jpeg/jpeg-core.h:136: warning: Function parameter or member 'irq_status' not described in 's5p_jpeg'
-drivers/media/platform/s5p-jpeg/jpeg-core.h:168: warning: Function parameter or member 'memplanes' not described in 's5p_jpeg_fmt'
-drivers/media/platform/s5p-jpeg/jpeg-core.h:168: warning: Function parameter or member 'subsampling' not described in 's5p_jpeg_fmt'
+drivers/media/platform/exynos-gsc/gsc-core.h:76: warning: Enum value 'GSC_MIXER' not described in enum 'gsc_datapath'
+drivers/media/platform/exynos-gsc/gsc-core.h:76: warning: Enum value 'GSC_FIMD' not described in enum 'gsc_datapath'
+drivers/media/platform/exynos-gsc/gsc-core.h:76: warning: Excess enum value 'GSC_LOCAL' description in 'gsc_datapath'
+drivers/media/platform/exynos-gsc/gsc-core.h:124: warning: Function parameter or member 'color' not described in 'gsc_fmt'
+drivers/media/platform/exynos-gsc/gsc-core.h:124: warning: Function parameter or member 'num_comp' not described in 'gsc_fmt'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'pix_max' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'pix_min' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'pix_align' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'in_buf_cnt' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'out_buf_cnt' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'sc_up_max' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'sc_down_max' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'poly_sc_down_max' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'pre_sc_down_max' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:297: warning: Function parameter or member 'local_sc_down' not described in 'gsc_variant'
+drivers/media/platform/exynos-gsc/gsc-core.h:310: warning: Function parameter or member 'clk_names' not described in 'gsc_driverdata'
+drivers/media/platform/exynos-gsc/gsc-core.h:310: warning: Function parameter or member 'num_clocks' not described in 'gsc_driverdata'
+drivers/media/platform/exynos-gsc/gsc-core.h:340: warning: Function parameter or member 'num_clocks' not described in 'gsc_dev'
+drivers/media/platform/exynos-gsc/gsc-core.h:340: warning: Function parameter or member 'v4l2_dev' not described in 'gsc_dev'
+drivers/media/platform/exynos-gsc/gsc-core.h:376: warning: Function parameter or member 'rotation' not described in 'gsc_ctx'
+drivers/media/platform/exynos-gsc/gsc-core.h:376: warning: Function parameter or member 'hflip' not described in 'gsc_ctx'
+drivers/media/platform/exynos-gsc/gsc-core.h:376: warning: Function parameter or member 'vflip' not described in 'gsc_ctx'
+drivers/media/platform/exynos-gsc/gsc-core.h:376: warning: Function parameter or member 'gsc_ctrls' not described in 'gsc_ctx'
+drivers/media/platform/exynos-gsc/gsc-core.h:376: warning: Function parameter or member 'out_colorspace' not described in 'gsc_ctx'
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.h b/drivers/media/platform/s5p-jpeg/jpeg-core.h
-index fcd21ae8bcbe..a77d93c098ce 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-core.h
-+++ b/drivers/media/platform/s5p-jpeg/jpeg-core.h
-@@ -111,10 +111,11 @@ enum s5p_jpeg_ctx_state {
-  * @m2m_dev:		v4l2 mem2mem device data
-  * @regs:		JPEG IP registers mapping
-  * @irq:		JPEG IP irq
-+ * @irq_ret:		JPEG IP irq result value
-  * @clocks:		JPEG IP clock(s)
-  * @dev:		JPEG IP struct device
-  * @variant:		driver variant to be used
-- * @irq_status		interrupt flags set during single encode/decode
-+ * @irq_status:		interrupt flags set during single encode/decode
-  *			operation
+diff --git a/drivers/media/platform/exynos-gsc/gsc-core.h b/drivers/media/platform/exynos-gsc/gsc-core.h
+index a2eeb8affe0d..e894e85e84a4 100644
+--- a/drivers/media/platform/exynos-gsc/gsc-core.h
++++ b/drivers/media/platform/exynos-gsc/gsc-core.h
+@@ -64,14 +64,11 @@ enum gsc_irq {
+  * enum gsc_datapath - the path of data used for G-Scaler
+  * @GSC_CAMERA: from camera
+  * @GSC_DMA: from/to DMA
+- * @GSC_LOCAL: to local path
+  * @GSC_WRITEBACK: from FIMD
   */
- struct s5p_jpeg {
-@@ -152,8 +153,10 @@ struct s5p_jpeg_variant {
-  * @fourcc:	the fourcc code, 0 if not applicable
-  * @depth:	number of bits per pixel
-  * @colplanes:	number of color planes (1 for packed formats)
-+ * @memplanes:	number of memory planes (1 for packed formats)
-  * @h_align:	horizontal alignment order (align to 2^h_align)
-  * @v_align:	vertical alignment order (align to 2^v_align)
-+ * @subsampling:subsampling of a raw format or a JPEG
-  * @flags:	flags describing format applicability
+ enum gsc_datapath {
+ 	GSC_CAMERA = 0x1,
+ 	GSC_DMA,
+-	GSC_MIXER,
+-	GSC_FIMD,
+ 	GSC_WRITEBACK,
+ };
+
+@@ -104,10 +101,11 @@ enum gsc_yuv_fmt {
+  * struct gsc_fmt - the driver's internal color format data
+  * @mbus_code: Media Bus pixel code, -1 if not applicable
+  * @pixelformat: the fourcc code for this format, 0 if not applicable
++ * @color: color encoding
+  * @yorder: Y/C order
+  * @corder: Chrominance order control
+  * @num_planes: number of physically non-contiguous data planes
+- * @nr_comp: number of physically contiguous data planes
++ * @num_comp: number of physically contiguous data planes
+  * @depth: per plane driver's private 'number of bits per pixel'
+  * @flags: flags indicating which operation mode format applies to
   */
- struct s5p_jpeg_fmt {
+@@ -280,7 +278,7 @@ struct gsc_pix_align {
+ 	u16 target_h;
+ };
+
+-/**
++/*
+  * struct gsc_variant - G-Scaler variant information
+  */
+ struct gsc_variant {
+@@ -301,6 +299,9 @@ struct gsc_variant {
+  *
+  * @variant: the variant information for this driver.
+  * @num_entities: the number of g-scalers
++ * @clk_names: clock names
++ * @num_clocks: the number of clocks in @clk_names
++ * @num_entities: the number of g-scalers
+  */
+ struct gsc_driverdata {
+ 	struct gsc_variant *variant[GSC_MAX_DEVS];
+@@ -316,12 +317,14 @@ struct gsc_driverdata {
+  * @pdev:	pointer to the G-Scaler platform device
+  * @variant:	the IP variant information
+  * @id:		G-Scaler device index (0..GSC_MAX_DEVS)
++ * @num_clocks:	number of clocks required for G-Scaler operation
+  * @clock:	clocks required for G-Scaler operation
+  * @regs:	the mapped hardware registers
+  * @irq_queue:	interrupt handler waitqueue
+  * @m2m:	memory-to-memory V4L2 device information
+  * @state:	flags used to synchronize m2m and capture mode operation
+  * @vdev:	video device for G-Scaler instance
++ * @v4l2_dev:	v4l2_device for G-Scaler instance
+  */
+ struct gsc_dev {
+ 	spinlock_t			slock;
+@@ -348,12 +351,16 @@ struct gsc_dev {
+  * @scaler:		image scaler properties
+  * @flags:		additional flags for image conversion
+  * @state:		flags to keep track of user configuration
++ * @rotation:		rotation
++ * @hflip:		horizontal flip
++ * @vflip:		vertical flip
+  * @gsc_dev:		the G-Scaler device this context applies to
+  * @m2m_ctx:		memory-to-memory device context
+  * @fh:                 v4l2 file handle
+  * @ctrl_handler:       v4l2 controls handler
+- * @gsc_ctrls		G-Scaler control set
++ * @gsc_ctrls:		G-Scaler control set
+  * @ctrls_rdy:          true if the control handler is initialized
++ * @out_colorspace:     the colorspace of the OUTPUT queue
+  */
+ struct gsc_ctx {
+ 	struct gsc_frame	s_frame;
