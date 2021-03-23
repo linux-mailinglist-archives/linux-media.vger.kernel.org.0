@@ -2,102 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B393734668C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 18:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9E493466A3
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 18:46:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbhCWRkV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 13:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34172 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbhCWRkM (ORCPT
+        id S230296AbhCWRqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 13:46:23 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52862 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230480AbhCWRqN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 13:40:12 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE02BC061574;
-        Tue, 23 Mar 2021 10:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=sxvcc6n+zZC/nKYBO0R7ql8qMgyWOPTuTiacyZX4jN4=; b=lcQ0Rs+gLRtuRTK/T3cqcmJ7Gq
-        EbGh5DNF3EJ4b/roKNg6oCEYVOdKEH7gjYRKWkmh0QVCSXQTDQck98VZ0G7gocirzRv7ZejVnBNhM
-        maIrL0+PH2wNL8AhnN0DiIyai+IK4yO28vwDopf8wj5m5Q4D+X54JuEgNb0kZMLBP9tJI7H0/7HF9
-        hhQNS8OvjU9TajzS8h6lv58//RwyECuJurgqqFoI6HqyESg7+0X9HfOl+5tNg/vbDILEjkgXyEkpW
-        jcgU9joqskwGvnu6QQ9m7Nb4KXipErg6utRRF3aXfQRWMuWesCtEC//BHkb80CyFgu5G0WlqVNg1+
-        1++4TOEw==;
-Received: from [2601:1c0:6280:3f0::3ba4]
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lOl0a-00ALv4-O9; Tue, 23 Mar 2021 17:40:02 +0000
-Subject: Re: [PATCH] drivers/media/pci/bt8xx/bttv-cards: fix typos
-To:     Xiaofeng Cao <cxfcosmos@gmail.com>, mchehab@kernel.org
-Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xiaofeng Cao <caoxiaofeng@yulong.com>
-References: <20210323122546.16262-1-caoxiaofeng@yulong.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b297b819-8837-cfa0-0a62-d40958697bb2@infradead.org>
-Date:   Tue, 23 Mar 2021 10:39:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        Tue, 23 Mar 2021 13:46:13 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 356D01F455D6
+Message-ID: <8f28218c90cdf22dd7f3d2cea259f4013ff263c4.camel@collabora.com>
+Subject: Re: [PATCH v2 4/4] v4l: async, fwnode: Improve module organisation
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel.garcia@collabora.com
+Date:   Tue, 23 Mar 2021 14:46:04 -0300
+In-Reply-To: <20210312125657.25442-5-sakari.ailus@linux.intel.com>
+References: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
+         <20210312125657.25442-5-sakari.ailus@linux.intel.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-In-Reply-To: <20210323122546.16262-1-caoxiaofeng@yulong.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-Please see a few comments below.
-
-On 3/23/21 5:25 AM, Xiaofeng Cao wrote:
-> change 'vodeo'     to 'video'
-> change 'nevery'    to 'never'
-> change 'is'        to 'it'
-> change 'connevted' to 'connected'
-> change 'swichers'  to 'switchers'
-> change 'strucure'  to 'structure'
-> change 'unblanced' to 'unbalanced'
-> change 'fonctionality' to 'functionality'
+On Fri, 2021-03-12 at 14:56 +0200, Sakari Ailus wrote:
+> The V4L2 async framework is generally used with the V4L2 fwnode, which
+> also depends on the former. There is only one exception, the CAFE_CCIC
+> driver, which uses V4L2 async but does not need V4L2 fwnode.
 > 
-> Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com>
+> At the same time there is a vast number of systems that need videodev
+> module, but have no use for v4l2-async that's now part of videodev.
+> 
+> In order to improve, build v4l2-async and v4l2-fwnode as a single module
+> called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
+> Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
+> 
+
+Seems this is not what this patch is doing: the symbol is not renamed,
+and now we have two modules v4l2-fwnode.ko and v4l2-async.ko, unless
+I'm confused.
+
+I personally was more fond of having just one v4l2-async.ko module,
+but I'm not sure if you found any obstacles.
+
+> This also moves the initialisation of the debufs entries for async subdevs
+> to loading of the v4l2-async module. The directory is named as
+> "v4l2-async".
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/pci/bt8xx/bttv-cards.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+>  drivers/media/i2c/Kconfig            |  8 ++++++++
+>  drivers/media/v4l2-core/Kconfig      |  4 ++++
+>  drivers/media/v4l2-core/Makefile     | 11 +++++++++--
+>  drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
+>  drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
+>  5 files changed, 42 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/media/pci/bt8xx/bttv-cards.c b/drivers/media/pci/bt8xx/bttv-cards.c
-> index ca20b806e82d..9a07e1094978 100644
-> --- a/drivers/media/pci/bt8xx/bttv-cards.c
-> +++ b/drivers/media/pci/bt8xx/bttv-cards.c
+[..]
+> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> index e4cd589b99a5..eb5ebb5461fd 100644
+> --- a/drivers/media/v4l2-core/Makefile
+> +++ b/drivers/media/v4l2-core/Makefile
+> @@ -7,15 +7,22 @@ tuner-objs    :=      tuner-core.o
+>  
+>  videodev-objs  :=      v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+>                         v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
+> -                       v4l2-async.o v4l2-common.o
+> +                       v4l2-common.o
+>  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
+>  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
+>  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
+>  videodev-$(CONFIG_SPI) += v4l2-spi.o
+>  videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+>  
+> -obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>  obj-$(CONFIG_VIDEO_V4L2) += videodev.o
+> +ifneq ($(findstring y,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
 
-> @@ -2506,7 +2506,7 @@ struct tvcard bttv_tvcards[] = {
->  	     one external BNC composite input (mux 2)
->  	     three internal composite inputs (unknown muxes)
->  	     an 18-bit stereo A/D (CS5331A), which has:
-> -	       one external stereo unblanced (RCA) audio connection
-> +	       one external stereo unbalanced(RCA) audio connection
+Hm, to me this ifdefery is an indication that we are trying
+to do something fishy.
 
-Please leave a space between unbalanced and (RCA).
-
->  	       one (or 3?) internal stereo balanced (XLR) audio connection
->  	       input is selected via gpio to a 14052B mux
->  		 (mask=0x300, unbal=0x000, bal=0x100, ??=0x200,0x300)
-
-> @@ -4580,7 +4580,7 @@ static void xguard_muxsel(struct bttv *btv, unsigned int input)
->  }
->  static void picolo_tetra_init(struct bttv *btv)
->  {
-> -	/*This is the video input redirection fonctionality : I DID NOT USED IT. */
-> +	/*This is the video input redirection functionality : I DID NOT USED IT. */
-
-	                                                      I DID NOT USE IT. *
-
->  	btwrite (0x08<<16,BT848_GPIO_DATA);/*GPIO[19] [==> 4053 B+C] set to 1 */
->  	btwrite (0x04<<16,BT848_GPIO_DATA);/*GPIO[18] [==> 4053 A]  set to 1*/
->  }
-
-
-thanks.
--- 
-~Randy
+Regards,
+Ezequiel
 
