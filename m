@@ -2,72 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2C5A345927
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7CD6345931
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:02:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbhCWIAZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 04:00:25 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60769 "EHLO
+        id S229548AbhCWICE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 04:02:04 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:36137 "EHLO
         lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229437AbhCWIAL (ORCPT
+        by vger.kernel.org with ESMTP id S229472AbhCWIBk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 04:00:11 -0400
+        Tue, 23 Mar 2021 04:01:40 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id ObxOluRW2UzyrObxRlOcqy; Tue, 23 Mar 2021 09:00:10 +0100
+        id ObypluSUuUzyrObyslOdKT; Tue, 23 Mar 2021 09:01:39 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616486410; bh=tNn9Hb87sU2hBOaMKKO7KRjfFSxaHbGZVTb+ByWcDNU=;
+        t=1616486499; bh=giTilsE2ULYBFBVgirpRPuUs0AOg0L0uCkqxwbIcWxk=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=MaJBK7UeM/8lPk8JpM1Kbo+ZT61FVz6i25s3D0CDFuV90O/KQRxwTASxvE/mu/5Vf
-         9MD7Ee/bbeb8twzVed6eOBAykPCxC6W1ripm8bitz9K10p0H5lgXMrFBYaWUtHXH+M
-         PL9edxBczZ/8OKag8leQ+Ir+g0jRJcwWRaMacsFfQyxp+L4oAwhE/Q0PMHsG5pxPOT
-         d+7nNwiopKE+QnZ6Gl5Arm/y91eOOHy/bsoRRJXMlsuMXVAadaUENACD9PXxRZS2n8
-         1F6GZLD/kxEUF/+oXp7IneUeBo+X0YufNUkaBSOskcb4QjR0wadFqPmKg3djJzBF/3
-         1//dPyhbm8pbA==
-To:     Neil Armstrong <narmstrong@baylibre.com>
+        b=fF+nWJ6dCzQMQY2kH4x+k89z7KMFtEMJv53/RLuYLULjJQwI6ca7Hyq+bv3C8ljEV
+         VbbBRb5G7z4rQfsP7k6CiIgCGBremhhqdpfyd8A5rg5lQPAgUoFpHVRNFjY2R/q0Js
+         Z9FwfQjboo6w0iVND+/dZWMyo34b6c2XmxCfhc/1NKc1t61+98ycSmwzHnOA3ypBBn
+         NWn+H+bPfkHJIMXWNU34g6ymmCu+h+AnwSKmhjwmxDUP7tYE34sbbIuXd6DaA+HOlE
+         o+g9+Ubul/wodYcYX6n3I7l6OBekkRO2T2/NBuu1yPX4ttQtC9JmwFRzU5pabwtCHZ
+         U7FnlA8XGfkcw==
+To:     Ezequiel Garcia <ezequiel@collabora.com>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Can you fix the remaining meson kernel-doc warnings?
-Message-ID: <847e3b30-98f1-eebc-355d-0038fa1bbf2e@xs4all.nl>
-Date:   Tue, 23 Mar 2021 09:00:06 +0100
+Subject: Can you fix these hantro kernel-doc warnings?
+Message-ID: <3e517f8d-3e62-0bf6-0a8d-e82cf67541ca@xs4all.nl>
+Date:   Tue, 23 Mar 2021 09:01:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFehouA444KxSSGABd4JhlATMkUHvt89lgnJJsA/rkD0iJ4btf9dWXW4ME6GZkhAWQ70O12SqqIGCl49hX+V6oauocn6uGH36A57HsehgFe0BlMTaH+H
- wyBlweq3/3jay3D7Stzj/Gr5yAxv6rq4blMYe2wo1eRpy3yonMv3YW0hbLMWhIsXIb33i3cHRfd78LIXaLR8/+4cvmW7L/jDx8LBWtVCtI2EHVJ2v+zR3oAw
+X-CMAE-Envelope: MS4xfKrwVHSoG/wOqMwADEGvMo8/vQKDRxGqoO/cczcn8XR/gA94tJC18tc6+hnuh/6zE8YTTACjYmoZGj+vR2Ldn6m5XjSoyMVdP2s/wIOkcL61av5FW7Hn
+ 5TGwykze10fUIPuskwiDObq0EqnfqfMz3R6aQC6jEJb5a2bbU2yBFJ/zikpy6e1xwCs4sdissv+ZmwPXKokApl1KpZg6rFnsuvawLiqe8ZR4QrKDh4E0eY3T
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Neil,
+Hi Ezequiel,
 
 I've been cleaning up kernel-doc warnings in driver headers. Any issues are now
 reported by the daily build, but there are way too many, so this needs to be
 fixed.
 
-Can you take a look at the following meson warnings?
+Can you take a look at the following hantro warnings?
 
-drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'core' not described in 'esparser_queue_eos'
-drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'data' not described in 'esparser_queue_eos'
-drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'len' not described in 'esparser_queue_eos'
-drivers/staging/media/meson/vdec/esparser.h:28: warning: Function parameter or member 'work' not described in 'esparser_queue_all_src'
-drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'tc' not described in 'amvdec_add_ts'
-drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'flags' not described in 'amvdec_add_ts'
-drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdec_hevcf_clk' not described in 'amvdec_core'
-drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdev_dec' not described in 'amvdec_core'
-drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'lock' not described in 'amvdec_core'
-drivers/staging/media/meson/vdec/vdec.h:141: warning: Function parameter or member 'resume' not described in 'amvdec_codec_ops'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'lock' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'sequence_out' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'num_dst_bufs' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'changed_format' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'last_offset' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'wrap_count' not described in 'amvdec_session'
-drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'fw_idx_to_vb2_idx' not described in 'amvdec_session'
+drivers/staging/media/hantro/hantro_hw.h:149: warning: Enum value 'RK3288_VPU_ENC_FMT_YUV420P' not described in enum 'hantro_enc_fmt'
+drivers/staging/media/hantro/hantro_hw.h:149: warning: Enum value 'RK3288_VPU_ENC_FMT_YUV420SP' not described in enum 'hantro_enc_fmt'
+drivers/staging/media/hantro/hantro_hw.h:149: warning: Enum value 'RK3288_VPU_ENC_FMT_YUYV422' not described in enum 'hantro_enc_fmt'
+drivers/staging/media/hantro/hantro_hw.h:149: warning: Enum value 'RK3288_VPU_ENC_FMT_UYVY422' not described in enum 'hantro_enc_fmt'
 
 Thanks!
 
