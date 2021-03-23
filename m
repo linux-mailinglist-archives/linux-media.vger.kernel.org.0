@@ -2,95 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E493466A3
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 18:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B308C346762
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 19:16:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230296AbhCWRqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 13:46:23 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52862 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbhCWRqN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 13:46:13 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 356D01F455D6
-Message-ID: <8f28218c90cdf22dd7f3d2cea259f4013ff263c4.camel@collabora.com>
-Subject: Re: [PATCH v2 4/4] v4l: async, fwnode: Improve module organisation
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel.garcia@collabora.com
-Date:   Tue, 23 Mar 2021 14:46:04 -0300
-In-Reply-To: <20210312125657.25442-5-sakari.ailus@linux.intel.com>
-References: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
-         <20210312125657.25442-5-sakari.ailus@linux.intel.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S231265AbhCWSPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 14:15:38 -0400
+Received: from mga11.intel.com ([192.55.52.93]:22940 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231645AbhCWSPM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Mar 2021 14:15:12 -0400
+IronPort-SDR: kptqaf0WvJIMuDq32we/+BF/kn1l1ACLYk5wR8IX2rFQsBUN0L946iBbqSvw46oHjJHDP0j320
+ zHNtiuIK49Dg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="187220647"
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
+   d="scan'208";a="187220647"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 11:15:12 -0700
+IronPort-SDR: bB/9tgskAhLxkfGZfL8lnPZy/SJuAN6LY6fNuBfvAyiG/txb10T3XncMumVxGyM6MlzVbJ/9hO
+ VWM5Csbh4uTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
+   d="scan'208";a="374338593"
+Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 23 Mar 2021 11:15:09 -0700
+Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lOlYa-0000k2-O4; Tue, 23 Mar 2021 18:15:08 +0000
+Date:   Wed, 24 Mar 2021 02:14:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS WITH WARNING
+ bf9a40ae8d722f281a2721779595d6df1c33a0bf
+Message-ID: <605a2ffe.xK14hFRCfK2/YuHu%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2021-03-12 at 14:56 +0200, Sakari Ailus wrote:
-> The V4L2 async framework is generally used with the V4L2 fwnode, which
-> also depends on the former. There is only one exception, the CAFE_CCIC
-> driver, which uses V4L2 async but does not need V4L2 fwnode.
-> 
-> At the same time there is a vast number of systems that need videodev
-> module, but have no use for v4l2-async that's now part of videodev.
-> 
-> In order to improve, build v4l2-async and v4l2-fwnode as a single module
-> called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
-> Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
-> 
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: bf9a40ae8d722f281a2721779595d6df1c33a0bf  media: dvbdev: Fix memory leak in dvb_media_device_free()
 
-Seems this is not what this patch is doing: the symbol is not renamed,
-and now we have two modules v4l2-fwnode.ko and v4l2-async.ko, unless
-I'm confused.
+possible Warning in current branch:
 
-I personally was more fond of having just one v4l2-async.ko module,
-but I'm not sure if you found any obstacles.
+drivers/media/platform/imx-jpeg/mxc-jpeg.c:1993:3-10: line 1993 is redundant because platform_get_irq() already prints an error
 
-> This also moves the initialisation of the debufs entries for async subdevs
-> to loading of the v4l2-async module. The directory is named as
-> "v4l2-async".
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/Kconfig            |  8 ++++++++
->  drivers/media/v4l2-core/Kconfig      |  4 ++++
->  drivers/media/v4l2-core/Makefile     | 11 +++++++++--
->  drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
->  drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
->  5 files changed, 42 insertions(+), 9 deletions(-)
-> 
-[..]
-> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-> index e4cd589b99a5..eb5ebb5461fd 100644
-> --- a/drivers/media/v4l2-core/Makefile
-> +++ b/drivers/media/v4l2-core/Makefile
-> @@ -7,15 +7,22 @@ tuner-objs    :=      tuner-core.o
->  
->  videodev-objs  :=      v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
->                         v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
-> -                       v4l2-async.o v4l2-common.o
-> +                       v4l2-common.o
->  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
->  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
->  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
->  videodev-$(CONFIG_SPI) += v4l2-spi.o
->  videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
->  
-> -obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
->  obj-$(CONFIG_VIDEO_V4L2) += videodev.o
-> +ifneq ($(findstring y,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
+Warning ids grouped by kconfigs:
 
-Hm, to me this ifdefery is an indication that we are trying
-to do something fishy.
+gcc_recent_errors
+|-- arm64-randconfig-c024-20210323
+|   `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+|-- i386-allmodconfig
+|   `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+|-- i386-allyesconfig
+|   `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+|-- riscv-allmodconfig
+|   `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+|-- riscv-allyesconfig
+|   `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+|-- sparc-randconfig-c023-20210323
+|   `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+|-- x86_64-allmodconfig
+|   `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+`-- x86_64-allyesconfig
+    `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
 
-Regards,
-Ezequiel
+elapsed time: 1101m
 
+configs tested: 154
+configs skipped: 2
+
+gcc tested configs:
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+x86_64                           allyesconfig
+riscv                            allmodconfig
+i386                             allyesconfig
+riscv                            allyesconfig
+xtensa                         virt_defconfig
+powerpc                 mpc837x_mds_defconfig
+arm                        neponset_defconfig
+arm                          pxa168_defconfig
+xtensa                  nommu_kc705_defconfig
+m68k                       m5208evb_defconfig
+arc                         haps_hs_defconfig
+powerpc                      katmai_defconfig
+sh                   rts7751r2dplus_defconfig
+mips                           ip27_defconfig
+riscv                    nommu_virt_defconfig
+arc                              alldefconfig
+m68k                        m5307c3_defconfig
+mips                     cu1000-neo_defconfig
+h8300                    h8300h-sim_defconfig
+arm                           sunxi_defconfig
+powerpc                      tqm8xx_defconfig
+m68k                             alldefconfig
+powerpc                      mgcoge_defconfig
+sh                           se7751_defconfig
+powerpc                      ppc64e_defconfig
+arm                       imx_v4_v5_defconfig
+sh                           se7724_defconfig
+mips                      malta_kvm_defconfig
+sh                        apsh4ad0a_defconfig
+mips                         mpc30x_defconfig
+arc                          axs103_defconfig
+arm                         shannon_defconfig
+powerpc                    adder875_defconfig
+parisc                           alldefconfig
+mips                        omega2p_defconfig
+arm                      pxa255-idp_defconfig
+arm                     davinci_all_defconfig
+powerpc                      pasemi_defconfig
+arm                        realview_defconfig
+powerpc                      ppc6xx_defconfig
+arm                          exynos_defconfig
+nios2                            alldefconfig
+powerpc                 linkstation_defconfig
+powerpc                    gamecube_defconfig
+arm                           tegra_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                         ps3_defconfig
+sh                           se7750_defconfig
+sh                          urquell_defconfig
+openrisc                         alldefconfig
+parisc                generic-64bit_defconfig
+sh                           se7343_defconfig
+powerpc                     tqm8541_defconfig
+powerpc                 mpc834x_itx_defconfig
+sh                          rsk7203_defconfig
+mips                     loongson1b_defconfig
+sparc                            allyesconfig
+riscv                          rv32_defconfig
+arm                          moxart_defconfig
+powerpc                 xes_mpc85xx_defconfig
+powerpc                         wii_defconfig
+mips                        bcm47xx_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a002-20210323
+x86_64               randconfig-a003-20210323
+x86_64               randconfig-a006-20210323
+x86_64               randconfig-a001-20210323
+x86_64               randconfig-a004-20210323
+x86_64               randconfig-a005-20210323
+i386                 randconfig-a003-20210323
+i386                 randconfig-a004-20210323
+i386                 randconfig-a001-20210323
+i386                 randconfig-a002-20210323
+i386                 randconfig-a006-20210323
+i386                 randconfig-a005-20210323
+i386                 randconfig-a004-20210322
+i386                 randconfig-a003-20210322
+i386                 randconfig-a001-20210322
+i386                 randconfig-a002-20210322
+i386                 randconfig-a006-20210322
+i386                 randconfig-a005-20210322
+x86_64               randconfig-a012-20210322
+x86_64               randconfig-a015-20210322
+x86_64               randconfig-a013-20210322
+x86_64               randconfig-a014-20210322
+x86_64               randconfig-a016-20210322
+x86_64               randconfig-a011-20210322
+i386                 randconfig-a014-20210322
+i386                 randconfig-a011-20210322
+i386                 randconfig-a015-20210322
+i386                 randconfig-a016-20210322
+i386                 randconfig-a012-20210322
+i386                 randconfig-a013-20210322
+i386                 randconfig-a014-20210323
+i386                 randconfig-a011-20210323
+i386                 randconfig-a015-20210323
+i386                 randconfig-a016-20210323
+i386                 randconfig-a012-20210323
+i386                 randconfig-a013-20210323
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a002-20210322
+x86_64               randconfig-a003-20210322
+x86_64               randconfig-a001-20210322
+x86_64               randconfig-a006-20210322
+x86_64               randconfig-a004-20210322
+x86_64               randconfig-a005-20210322
+x86_64               randconfig-a012-20210323
+x86_64               randconfig-a015-20210323
+x86_64               randconfig-a013-20210323
+x86_64               randconfig-a014-20210323
+x86_64               randconfig-a011-20210323
+x86_64               randconfig-a016-20210323
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
