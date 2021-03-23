@@ -2,66 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FBAD34595A
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFD4834598F
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:21:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbhCWINE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 04:13:04 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:60783 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229448AbhCWIMw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 04:12:52 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Oc9fluZTNUzyrOc9jlOgMO; Tue, 23 Mar 2021 09:12:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616487171; bh=si62qUFtVqHm3iGlgzUb6oTu1eOhHNbIV0wze389Etw=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=tA72nz7XjbE0JnR+fh6MiNRu7JEJAfbJdBCDe1GtpjLuBQ9ri1xhpu62uX4jtZKXA
-         GSL7wB8W85uiEClM9EXJbkPrdMsFJPzgj8D1F5NwAh5kpAg2wZto4EqYU4WFwkjwnT
-         xxONdPBoM8Su8NpBLlz/TNuExZHdWyMTWYPkV4xtIiUaqSUIB7Jtqd70scTgE3y6B+
-         LSendZuYmuTs7J7KCpJI+KF0XHsm0ScoCcr2/CpAfbDe+XT/2LSlpMeRCx7FQxUHa7
-         aMY9AzGnerxsGEkTdymfPcbtXweDbTA5c4FdWJEDUozDbyQYD7ptraSO8EBBTngBI5
-         yN6uXxiFgYmbQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] omap3isp.h: fix kernel-doc warnings
-Message-ID: <6365fce1-3023-8058-8f7f-abb6426c10ad@xs4all.nl>
-Date:   Tue, 23 Mar 2021 09:12:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        id S229452AbhCWIUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 04:20:40 -0400
+Received: from mga01.intel.com ([192.55.52.88]:50263 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229493AbhCWIUf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Mar 2021 04:20:35 -0400
+IronPort-SDR: 0RybK4xWle4FFSCcRur215BFMyvWc/iuD1A+wG/gMv9lmRmocfnxxKsfHhXg8KBZcm0mvxtcSq
+ nXqYZf3N4MJg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="210507154"
+X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; 
+   d="scan'208";a="210507154"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 01:20:34 -0700
+IronPort-SDR: +krhrsQTPbl3g8zD2UXOxusAgtx6mOuIrt6+7iWjLfFe7BPaTxDXAzEW1nvVHyWEihgVngLbOr
+ k1TbdWCkISkg==
+X-IronPort-AV: E=Sophos;i="5.81,271,1610438400"; 
+   d="scan'208";a="513618845"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 01:20:33 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id DD0B9202F2;
+        Tue, 23 Mar 2021 10:20:31 +0200 (EET)
+Date:   Tue, 23 Mar 2021 10:20:31 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: Can you fix these ccs and ipu3 kernel-doc warnings?
+Message-ID: <20210323082031.GU3@paasikivi.fi.intel.com>
+References: <81829d9c-6ca9-0d64-108c-54afdd0c0ebb@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHbyv2+h73RWw0oT4q1lydJczMHXcJIWENkL/sr3Fq6RJbRfUrcAmJ39WG9BaV8WyZopEoYNakQrlZ6h/UnkGEeYLB+TmJ4hos+bDjohT12Vmu26qDBX
- b3o9FFG8rATQ5qdCvOFDrWqRoR+aYeZul6jJqcHu0f3cAomBQYD1YDR7Hk6Q+EViwpYmSv5iGNkAct7RY5P6LdH5zxcWmQ5H/jW0FvTmTzTd2XFYFLNCoX1x
- AEP1Tm54BaJh2IkmghVASw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <81829d9c-6ca9-0d64-108c-54afdd0c0ebb@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing documentation for two field. This fixes these kernel-doc
-warnings:
+Hi Hans,
 
-drivers/media/platform/omap3isp/omap3isp.h:107: warning: Function parameter or member 'vp_clk_pol' not described in 'isp_ccp2_cfg'
-drivers/media/platform/omap3isp/omap3isp.h:107: warning: Function parameter or member 'lanecfg' not described in 'isp_ccp2_cfg'
+On Tue, Mar 23, 2021 at 09:05:22AM +0100, Hans Verkuil wrote:
+> Hi Sakari,
+> 
+> I've been cleaning up kernel-doc warnings in driver headers. Any issues are now
+> reported by the daily build, but there are way too many, so this needs to be
+> fixed.
+> 
+> Can you take a look at the following ccs and ipu3 warnings?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/platform/omap3isp/omap3isp.h b/drivers/media/platform/omap3isp/omap3isp.h
-index 214f94c46a9d..4a003c8263ed 100644
---- a/drivers/media/platform/omap3isp/omap3isp.h
-+++ b/drivers/media/platform/omap3isp/omap3isp.h
-@@ -95,6 +95,8 @@ struct isp_csiphy_lanes_cfg {
-  *		ISP_CCP2_PHY_DATA_CLOCK - Data/clock physical layer
-  *		ISP_CCP2_PHY_DATA_STROBE - Data/strobe physical layer
-  * @vpclk_div: Video port output clock control
-+ * @vp_clk_pol: Video port output clock polarity
-+ * @lanecfg: CCP2/CSI2 lane configuration
-  */
- struct isp_ccp2_cfg {
- 	unsigned int strobe_clk_pol:1;
+Thanks for reporting this. I'll take a look, during the rest of the week.
+
+> 
+> drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Function parameter or member 'post_streamoff' not described in 'ccs_quirk'
+> drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Function parameter or member 'flags' not described in 'ccs_quirk'
+> 
+> drivers/staging/media/ipu3/ipu3-css-pool.h:24: warning: Function parameter or member 'pages' not described in 'imgu_css_map'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'name' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'output' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'enabled' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'vdev_fmt' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'vdev' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'vdev_pad' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'pad_fmt' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'vbq' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'buffers' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'lock' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'sequence' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'id' not described in 'imgu_video_device'
+> drivers/staging/media/ipu3/ipu3.h:88: warning: Function parameter or member 'pipe' not described in 'imgu_video_device'
+
+-- 
+Kind regards,
+
+Sakari Ailus
