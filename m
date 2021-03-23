@@ -2,109 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A6C23459C3
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:34:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 384F33459ED
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 09:39:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbhCWIeE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 04:34:04 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:42657 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229931AbhCWIdm (ORCPT
+        id S229448AbhCWIj0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 04:39:26 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:36771 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229665AbhCWIjV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 04:33:42 -0400
+        Tue, 23 Mar 2021 04:39:21 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id OcTqlum2ZUzyrOcTtlOlYx; Tue, 23 Mar 2021 09:33:41 +0100
+        id OcZIlupP7UzyrOcZMlOmx9; Tue, 23 Mar 2021 09:39:20 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616488421; bh=3WdTv7gH9X2GqDwHP2rLXWrtNkf2DfZqVnprN4/VC9w=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1616488760; bh=9zwPOhejpKrd4MXuoLABE6y2aVBsirx68OLpXBzRhqU=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=ftu+IbRoAyxEeQCtHq8RvoUwixdP94vKvgky5Tc88oFfrHn7vWaW0w8XEvClg+i01
-         ApN4/JSW5VXpk7/DzZG1GaXoDuJlRXYEw6FzqHWZT4jKEb8j0c1Ibfz74egt8Ya8Xq
-         CvpLki7PMt/LmSZbYV475m62un+Zv1//40nWbbT/ccZ4Yy9CAIedxvwKq5jTWnT1Y7
-         Rqqltn2NOBc38962eXkyDvITHucBJrvKr36vchcG4MH12swUhkJPry2IUVnt6/0P2z
-         sNyOCb/goXWAUMj8pnza9Q2LNuB+dFMAVLuCowhD8WN5J+TgAh/YlLJOqOcX2TTn9g
-         Z5psy1Z0p3S7g==
-Subject: Re: [PATCH] allegro-dvt/nal-h264.h: fix kernel-doc: hdr -> hrd
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <03e0ce22-1ebe-24f4-0f49-f4c41ae8f598@xs4all.nl>
- <20210323075258.GC31778@pengutronix.de>
- <fc54c78a-997e-f1e6-aca4-9f0453579d1a@xs4all.nl>
- <20210323082338.GD31778@pengutronix.de>
+        b=pL8s0XouB3BGZqEftyWSmSssJRDGImOWviDCygwhI0XZKzgxAGlPrfyV6rSgQA2QH
+         hAusc1TQL2/Se/mNfnyPg7XwWEh0UZNuzELQpbNyaKnoefwyuPGr4ekQFk8IwJ7MGQ
+         +E9gyXO5hdIdXatkIQs9utwRYJzvTNSc7Y3IoJSeQ0EtOYTjycLNyhWewkdPkK6Zsh
+         vP2ftpvX4Uu3cf03AjFN429l77FYIC61L08FkurRtPbYo99jS706sTX8X95R5zwZKD
+         odFtz6Wgt5aZ8V1+3mGLDbc6e2mGsc4AH9FtfjPYR+uyACnoBtvTsnhUh6MAVbEybU
+         8Yed/DpGJ/zOw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8fb4ccef-fdee-7257-01a2-e9fbaed96579@xs4all.nl>
-Date:   Tue, 23 Mar 2021 09:33:38 +0100
+Subject: [PATCH] s5p-jpeg/jpeg-core.h: fix kernel-doc warnings
+Message-ID: <5973dfa5-9c4d-8ab5-dcb7-6ccdf4863403@xs4all.nl>
+Date:   Tue, 23 Mar 2021 09:39:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210323082338.GD31778@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMxu/ONJrVcFGFNjtSq3whHGJga9I1H6K4sw9oQ6gDr9mpJpLjrRKUd7C5QVDrlGP0BM8NFxaRCjcCYOnzYcPh7Mme3gNXaAL/mbGRGdpp5Ufzdp8jPp
- BMePsT511kjsEWMl12nh8jQKnJkPk58uwXkfy5kvTl5gb/t5irxw7/wlKajFHhb5HSwNCsHcDnS2tvLtRCFAvCzuOU60GjoUMm5ACeqZp1SRoVrKCNhPp3c7
+X-CMAE-Envelope: MS4xfFzYE0R8rqqgp7csCAY1vpBtAfAL6lfshnUMLh0KdLTVuC55rL8lCM5OlKlk6NxD5mAlwDnlvnKBcoUAKEH7shZMDYXO4Sw1SMTXHJSqUUR5gP7WLqS1
+ T8O0QMkP9wolET24Nanq3Y2HCbfdXXLfptk8UoW3cktKKb6KMeH8sqkFpdr1M/SHDeQsUZLezacankThLCr+0AoaoqI2Kt37GJHMgghWVKUKmxB0938aGU6r
+ 10riT5i3/DaElsdNSm2r0rWcdWAp4AxB9Ubj8ccHQ69j35aPLxpnVYb+uTgq/P4x
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/03/2021 09:23, Michael Tretter wrote:
-> Hi Hans,
-> 
-> On Tue, 23 Mar 2021 08:57:53 +0100, Hans Verkuil wrote:
->> On 23/03/2021 08:52, Michael Tretter wrote:
->>> On Tue, 23 Mar 2021 08:49:13 +0100, Hans Verkuil wrote:
->>>> Give typo in kernel-doc documentation: hdr -> hrd
->>>>
->>>> Fixes this warning:
->>>>
->>>> drivers/media/platform/allegro-dvt/nal-h264.h:33: warning: expecting prototype for struct nal_h264_hdr_parameters. Prototype was for struct
->>>> nal_h264_hrd_parameters instead
->>>>
->>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>
->>> Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
->>
->> Since you made the mistake of replying :-) I want to point out that the allegro headers
->> produce a large number of kernel-doc warnings since none of the parameters are documented.
-> 
-> :)
-> 
->>
->> You can look at the daily build log for all the warnings, but I've copied them below as
->> well.
->>
->> I think you should either document it all, or change /** to /*.
-> 
-> IMO documenting the parameters is rather pointless, because they are straight
-> copies from the specifications and the documentation would be "see H264
-> specification" for every single one of them. I guess, I'll go for changing /**
-> to /*.
-> 
-> Actually, I thought about using the sps/pps structs defined in
-> include/media/v4l2-ctrls.h. I was not convinced, because these are userspace
-> facing API. Are the sps/pps definitions something, that would help other
-> drivers, too, or should we rather avoid global definitions to discourage
-> sps/pps parsing/generation in drivers?
+Fixes these warnings:
 
-There is nothing wrong with using v4l2_ctrl_h264_sps/pps in your driver
-instead of your own structs.
+drivers/media/platform/s5p-jpeg/jpeg-core.h:136: warning: Function parameter or member 'irq_ret' not described in 's5p_jpeg'
+drivers/media/platform/s5p-jpeg/jpeg-core.h:136: warning: Function parameter or member 'irq_status' not described in 's5p_jpeg'
+drivers/media/platform/s5p-jpeg/jpeg-core.h:168: warning: Function parameter or member 'memplanes' not described in 's5p_jpeg_fmt'
+drivers/media/platform/s5p-jpeg/jpeg-core.h:168: warning: Function parameter or member 'subsampling' not described in 's5p_jpeg_fmt'
 
-Just note that these structs are now part of the uAPI, so can't be changed.
-
-If you need allegro specific data as well, then you might be better off
-keeping your own structs.
-
-I'm not sure what you mean with your last question. If a driver needs to do
-sps/pps parsing/generation, then why would it matter if it uses global or local
-definitions? It still has to do it, right? And having reusable code might help
-others.
-
-Regards,
-
-	Hans
-
-> 
-> Michael
-> 
-
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.h b/drivers/media/platform/s5p-jpeg/jpeg-core.h
+index fcd21ae8bcbe..a77d93c098ce 100644
+--- a/drivers/media/platform/s5p-jpeg/jpeg-core.h
++++ b/drivers/media/platform/s5p-jpeg/jpeg-core.h
+@@ -111,10 +111,11 @@ enum s5p_jpeg_ctx_state {
+  * @m2m_dev:		v4l2 mem2mem device data
+  * @regs:		JPEG IP registers mapping
+  * @irq:		JPEG IP irq
++ * @irq_ret:		JPEG IP irq result value
+  * @clocks:		JPEG IP clock(s)
+  * @dev:		JPEG IP struct device
+  * @variant:		driver variant to be used
+- * @irq_status		interrupt flags set during single encode/decode
++ * @irq_status:		interrupt flags set during single encode/decode
+  *			operation
+  */
+ struct s5p_jpeg {
+@@ -152,8 +153,10 @@ struct s5p_jpeg_variant {
+  * @fourcc:	the fourcc code, 0 if not applicable
+  * @depth:	number of bits per pixel
+  * @colplanes:	number of color planes (1 for packed formats)
++ * @memplanes:	number of memory planes (1 for packed formats)
+  * @h_align:	horizontal alignment order (align to 2^h_align)
+  * @v_align:	vertical alignment order (align to 2^v_align)
++ * @subsampling:subsampling of a raw format or a JPEG
+  * @flags:	flags describing format applicability
+  */
+ struct s5p_jpeg_fmt {
