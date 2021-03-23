@@ -2,48 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 308123457F6
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 07:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ED04345895
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 08:25:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229984AbhCWGqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 02:46:46 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:54856 "EHLO mail.ispras.ru"
+        id S230104AbhCWHYr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 03:24:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40508 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229451AbhCWGqN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 02:46:13 -0400
-X-Greylist: delayed 527 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Mar 2021 02:46:13 EDT
-Received: from [192.168.1.48] (unknown [185.13.112.218])
-        by mail.ispras.ru (Postfix) with ESMTPSA id 6C57040D403E;
-        Tue, 23 Mar 2021 06:37:24 +0000 (UTC)
-To:     Andrzej Hajda <a.hajda@samsung.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ldv-project@linuxtesting.org
-From:   Pavel Andrianov <andrianov@ispras.ru>
-Subject: A potential data race in drivers/media/platform/s5p-mfc/
-Message-ID: <41e6d823-36df-4d9e-fd5e-beb109db37ef@ispras.ru>
-Date:   Tue, 23 Mar 2021 09:37:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S230096AbhCWHY3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Mar 2021 03:24:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BBC8C619B2;
+        Tue, 23 Mar 2021 07:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616484269;
+        bh=LwQRwWB1kiwBzsjF7W8rnkogSfH1nFFBz3L7fNZAikI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BEF7w1M16YcNFxOJbyD5FiYSDPlSjRrtjuxZAtP+tUHQoJ6AT1OrPCksqbnTUhG4f
+         z1b9D8OjFdhMF2qsA+YwaFxckU8ZFyquTjQzI51Ju5DS+Z6hALyWXNV9XFLsxgPdEy
+         BjOJMHF0r14sk9BLzoZjAKKlalBs2Ywa1zfsx4erq8KLBef0dEZQ72Z/TNp4hgClLR
+         Q+glCskaV3b2R+sXaIkvOnckJOKDoJ4a51JuVx+oHK6wCCNrqZUi1+u4pt0W8H4Zqr
+         AnlGglHHnzBFBwJOQt78akmQ9zbRhwyq8dMCQ6OyKCaYfVUvSKU/q+0EWRpSKHuNQ9
+         yiCmJqImpMkWA==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lObOr-009dYn-HP; Tue, 23 Mar 2021 08:24:25 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH] media: camera-sensor.rst: fix c:function build warning
+Date:   Tue, 23 Mar 2021 08:24:24 +0100
+Message-Id: <e4214991b7d59c0d7aa4e6e48833dc1809c47d47.1616484262.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The :c:function: tag evaluation depends on Sphinx version 2 or 3.
+Use a syntax that should work with both versions.
 
-s5p_mfc_probe[1] registers an interrupt handler s5p_mfc_irq before compete initialization. For example, the interrupt handler operates
-with mfc_ops, which are set up in [2]. So, potentially, the interrupt handler may be executed in parallel with initialization. The question is if the device can produce the interrupts. Its registers are initialized in [3] and there are nothing like "enabling interrupts". So, likely, they are activated. And if interrupts can come, then this is a data race.
+Fixes: c0e3bcb25390 ("media: camera-sensor.rst: fix a doc build warning")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/driver-api/media/camera-sensor.rst | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Best regards,
-Pavel Andrianov
-Linux Verification Center, ISPRAS
-web:http://linuxtesting.org
-
-[1]https://elixir.bootlin.com/linux/v5.4.106/source/drivers/media/platform/s5p-mfc/s5p_mfc.c#L1299
-[2]https://elixir.bootlin.com/linux/v5.4.106/source/drivers/media/platform/s5p-mfc/s5p_mfc_opr.c#L19
-[3]https://elixir.bootlin.com/linux/v5.4.106/source/drivers/media/platform/s5p-mfc/s5p_mfc_opr_v6.c#L2229
+diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+index cd5c989769a1..7160336aa475 100644
+--- a/Documentation/driver-api/media/camera-sensor.rst
++++ b/Documentation/driver-api/media/camera-sensor.rst
+@@ -144,9 +144,7 @@ of the device. This is because the power state of the device is only changed
+ after the power state transition has taken place. The ``s_ctrl`` callback can be
+ used to obtain device's power state after the power state transition:
+ 
+-.. c:function::
+-
+-	int pm_runtime_get_if_in_use(struct device *dev);
++.. c:function:: int pm_runtime_get_if_in_use(struct device *dev);
+ 
+ The function returns a non-zero value if it succeeded getting the power count or
+ runtime PM was disabled, in either of which cases the driver may proceed to
+-- 
+2.30.2
 
