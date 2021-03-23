@@ -2,215 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D245345DF0
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 13:21:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45676345DFC
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 13:26:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbhCWMUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 08:20:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48812 "EHLO
+        id S230320AbhCWM0G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 08:26:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229893AbhCWMUi (ORCPT
+        with ESMTP id S230097AbhCWMZs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 08:20:38 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D2BC061574
-        for <linux-media@vger.kernel.org>; Tue, 23 Mar 2021 05:20:37 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id w3so26742904ejc.4
-        for <linux-media@vger.kernel.org>; Tue, 23 Mar 2021 05:20:37 -0700 (PDT)
+        Tue, 23 Mar 2021 08:25:48 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336B2C061574;
+        Tue, 23 Mar 2021 05:25:48 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id a22-20020a17090aa516b02900c1215e9b33so12108788pjq.5;
+        Tue, 23 Mar 2021 05:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+kPWGmzbCspTLXAVKHCwgdYcvI0SCT12ak/v67mHLwk=;
-        b=phyN3gn9Si4fh/6wDuTX4Y38Qaw44RoOfSeQ6XiXr0CMwLixc+kilRnaBrLM11F/Fc
-         RbzeZxQKteCN/vg+uXMtVCvwhOo+8AVSgO6P8ZE+joJREMw4IyW+1JjXBeng3eusLf1R
-         L612hc+ub49d9KYwKnPtClvXZGQA+vFUyFMWhTZBiv3ut8DE98CLhSS1IfhOPvH7bQU5
-         EeW4jc9xf0Yqht0BBjsKTpcydxbXt2IUK012BM5yu6gSX0oW8icNRV52LeoIlXUeJNtW
-         /fSK6wewIG5v0YGzuPU4k7RwGk/rOV0ig6l/G4+YHPFQP2nHVcoH+kK/qw1uAFm21xLd
-         PYbw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=22WapxlsL5Vep3Jfk2Q9IvrWzyL5hDN2I+44snTBXPk=;
+        b=HsU1ZuivSi6tHNkA220k4j8xUNCECpij38gODzRHQ1P88/n27LlMbPdIn8diVI3igY
+         P6fQ+CIpTU9LwnnMp05+atJT43fA6wOix1ZjTG1qWUWcJH8N13AlfiB34XkZwwGJhJiU
+         qnC2b6G7QgM7iMrhqAOPUjHu6ssbuH/GOAfTl4JIvTYICmAFbw0syTiQ0vdHPtFojHDi
+         LQWCdme4XjdZKKvAebV2yjtYyI5KWWrA7phNYoiAQqUOv10VsiAa3VmqmqSdI1UGZ+HK
+         KN2TL0zVfcMk7arHdz94LEstGIMdzv5S9FETZitz5LkwC4wnwnJ1juwI9gTmGHRb4NmZ
+         rlXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+kPWGmzbCspTLXAVKHCwgdYcvI0SCT12ak/v67mHLwk=;
-        b=Su9MFXWNw83tQYgWTUM+wIchehMpz/rhGAUQmc/pi8PSIG99nDynbkv0SXRtvnfWKh
-         3JV6bjkVhOJqFL/pxQ1nk5PjAlQZEe248FJaZ6UWv79AOAx6xoN5BsvP1wx7Op22wudG
-         ZOy7hRrXu/Z3Quop64z9Vd3mmwJ5lxF1glnGVFCHfDMAcU20vtK3jqWud/6A/YdNpxUj
-         v08gCFS8wxzpAbzRK/6mq5OF91tcr5S5ykTx6KuZsmjwpWmUnsYzIaobu4BEqZyQyaXD
-         TVIX373yxjk94PL7SPprpUD6JMrbhwu9WKA7CLJmSpm57UX1jxaF/8UNByhak8AOMVzQ
-         THfw==
-X-Gm-Message-State: AOAM533LVUPVIHDtoJoml7VHAh7PoqFhkOFbpT4kyZGDRq5bevSP0Y/U
-        xc6InWwxPHndrh3n8kg5brI7kw==
-X-Google-Smtp-Source: ABdhPJzBsUba4XYx0J816vREMkrE2uHlRl4Y4BjSGXwDsFFU0jOpTARZhEsmamqSlODDSJdkgJUepw==
-X-Received: by 2002:a17:906:6703:: with SMTP id a3mr4596859ejp.240.1616502036505;
-        Tue, 23 Mar 2021 05:20:36 -0700 (PDT)
-Received: from [192.168.1.54] (hst-221-7.medicom.bg. [84.238.221.7])
-        by smtp.googlemail.com with ESMTPSA id 90sm13147004edf.31.2021.03.23.05.20.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Mar 2021 05:20:36 -0700 (PDT)
-Subject: Re: [PATCH v2 00/25] media: venus: Enable 6xx support
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     dikshita@codeaurora.org, jonathan@marek.ca, vgarodia@codeaurora.org
-References: <20210312173039.1387617-1-bryan.odonoghue@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <d7f250f7-65dd-9dc5-7b6e-d304a879f5e7@linaro.org>
-Date:   Tue, 23 Mar 2021 14:20:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        bh=22WapxlsL5Vep3Jfk2Q9IvrWzyL5hDN2I+44snTBXPk=;
+        b=e9LdjAODsQ3DmOtikPeMd0G6AybMvu9cL2JTb20vL2Gd/GGboOjRyKWUQNbNhGVLKT
+         1hFu8ataZM0f55zOsMbn3RnEe3fd92Rhu6eYASW7Q0ianDGQweZWWD2bUjFTDHQwCDfV
+         /LujaPk8ROkZCQYCOJfjsyUYGsL+YdPPfbGO5Vv1pSvS3eidspVMZZzXrMT1t4ovBTKP
+         AvRxv+SHf3LX5ZV0+CTbfvyuWs1gkRCCudFxpeGncvNx3lgRe9slqm7ZbCKhI0B0W2ga
+         5U9PSlogAvUCfkZF8Zjejc6ABF7LsqTTHwliogqbZDMwZ5uSh02yPn/O8TuFNGaNRcZt
+         8EKQ==
+X-Gm-Message-State: AOAM53126NM3MuwfM3c1isk0w005i2Sdj2+6uNqcgJOgkyjBYU5WWaiF
+        f9+1jiaTdTrYK6A/vmG9z+U=
+X-Google-Smtp-Source: ABdhPJzyTafoesjtuxwDYIHYjS/gPPqyQyTRdXSJ15HIX9/Sz5rea86ks9uauzes2kKRIgnK570J+Q==
+X-Received: by 2002:a17:90a:bc4c:: with SMTP id t12mr4338074pjv.223.1616502347695;
+        Tue, 23 Mar 2021 05:25:47 -0700 (PDT)
+Received: from DESKTOP-4V60UBS.ccdomain.com ([103.220.76.197])
+        by smtp.gmail.com with ESMTPSA id e63sm16659013pfe.208.2021.03.23.05.25.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 05:25:47 -0700 (PDT)
+From:   Xiaofeng Cao <cxfcosmos@gmail.com>
+X-Google-Original-From: Xiaofeng Cao <caoxiaofeng@yulong.com>
+To:     mchehab@kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xiaofeng Cao <caoxiaofeng@yulong.com>
+Subject: [PATCH] drivers/media/pci/bt8xx/bttv-cards: fix typos
+Date:   Tue, 23 Mar 2021 20:25:46 +0800
+Message-Id: <20210323122546.16262-1-caoxiaofeng@yulong.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210312173039.1387617-1-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bryan,
+change 'vodeo'     to 'video'
+change 'nevery'    to 'never'
+change 'is'        to 'it'
+change 'connevted' to 'connected'
+change 'swichers'  to 'switchers'
+change 'strucure'  to 'structure'
+change 'unblanced' to 'unbalanced'
+change 'fonctionality' to 'functionality'
 
-Thanks for your work!
+Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com>
+---
+ drivers/media/pci/bt8xx/bttv-cards.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-On 3/12/21 7:30 PM, Bryan O'Donoghue wrote:
-> V2:
-> - Adds Acked-by as indicated - Stan
-> - Fixes typo in patch #1 22000000 -> 220000000 - Stan
-> - Fixes setting of clk_set_rate in core_clks_enable
->   unbreaks regression for 1xx/db410c - Stan
-> - "Add 6xx AXI halt logic"
->   * Polled read removed - Stan
->   * Redundant comments removed - Stan
->   * Delay assocaited with LPI write removed entirely
->     experimentation shows a delay is not required - Stan/Bryan
-> - Unifies intbuf_types_6xx_enc and intbuf_types_6xx_dec into
->   intbuf_types_6xx
->   Looking at the code the separate arrays was a NOP anyway - Stan/Bryan
-> - Ensures venus_helper_set_format_constraints() runs for 6xx only
-> - Differentiates stop address between 6xx and >= 4xx
->   0xdeadb000 >= 4xx
->   0x00000000 == 6xx - Stan
-> 
-> With the fixes in place for db410c I've verified this code now on
-> sm8250/rb5 sdm845/rb3 and msm8916/db410c
-
-You have my ack for all patches
-
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-except 21/25 and 24/25 who have comments.
-
-> 
-> yaml: pending - acked waiting application
-> https://www.spinics.net/lists/devicetree/msg406892.html
-
-I'll take this through media-tree once driver patchset is ready.
-
+diff --git a/drivers/media/pci/bt8xx/bttv-cards.c b/drivers/media/pci/bt8xx/bttv-cards.c
+index ca20b806e82d..9a07e1094978 100644
+--- a/drivers/media/pci/bt8xx/bttv-cards.c
++++ b/drivers/media/pci/bt8xx/bttv-cards.c
+@@ -2011,7 +2011,7 @@ struct tvcard bttv_tvcards[] = {
+ 		/* .audio_inputs= 0, */
+ 		.svhs           = 9,
+ 		.gpiomask       = 0x00,
+-		.gpiomask2      = 0x03, /* used for external vodeo mux */
++		.gpiomask2      = 0x03, /* used for external video mux */
+ 		.muxsel         = MUXSEL(2, 2, 2, 2, 3, 3, 3, 3, 1, 0),
+ 		.muxsel_hook	= phytec_muxsel,
+ 		.gpiomux        = { 0, 0, 0, 0 }, /* card has no audio */
+@@ -2025,7 +2025,7 @@ struct tvcard bttv_tvcards[] = {
+ 		/* .audio_inputs= 0, */
+ 		.svhs           = 9,
+ 		.gpiomask       = 0x00,
+-		.gpiomask2      = 0x03, /* used for external vodeo mux */
++		.gpiomask2      = 0x03, /* used for external video mux */
+ 		.muxsel         = MUXSEL(2, 2, 2, 2, 3, 3, 3, 3, 1, 1),
+ 		.muxsel_hook	= phytec_muxsel,
+ 		.gpiomux        = { 0, 0, 0, 0 }, /* card has no audio */
+@@ -2180,8 +2180,8 @@ struct tvcard bttv_tvcards[] = {
+ 	[BTTV_BOARD_PICOLO_TETRA_CHIP] = {
+ 		/*Eric DEBIEF <debief@telemsa.com>*/
+ 		/*EURESYS Picolo Tetra : 4 Conexant Fusion 878A, no audio, video input set with analog multiplexers GPIO controlled*/
+-		/* adds picolo_tetra_muxsel(), picolo_tetra_init(), the following declaration strucure, and #define BTTV_BOARD_PICOLO_TETRA_CHIP*/
+-		/*0x79 in bttv.h*/
++		/*adds picolo_tetra_muxsel(), picolo_tetra_init(), the following declaration*/
++		/*structure and #define BTTV_BOARD_PICOLO_TETRA_CHIP 0x79 in bttv.h*/
+ 		.name           = "Euresys Picolo Tetra",
+ 		.video_inputs   = 4,
+ 		/* .audio_inputs= 0, */
+@@ -2506,7 +2506,7 @@ struct tvcard bttv_tvcards[] = {
+ 	     one external BNC composite input (mux 2)
+ 	     three internal composite inputs (unknown muxes)
+ 	     an 18-bit stereo A/D (CS5331A), which has:
+-	       one external stereo unblanced (RCA) audio connection
++	       one external stereo unbalanced(RCA) audio connection
+ 	       one (or 3?) internal stereo balanced (XLR) audio connection
+ 	       input is selected via gpio to a 14052B mux
+ 		 (mask=0x300, unbal=0x000, bal=0x100, ??=0x200,0x300)
+@@ -3924,7 +3924,7 @@ static void osprey_eeprom(struct bttv *btv, const u8 ee[256])
+ 	u32 serial = 0;
+ 	int cardid = -1;
+ 
+-	/* This code will nevery actually get called in this case.... */
++	/* This code will never actually get called in this case.... */
+ 	if (btv->c.type == BTTV_BOARD_UNKNOWN) {
+ 		/* this might be an antique... check for MMAC label in eeprom */
+ 		if (!strncmp(ee, "MMAC", 4)) {
+@@ -4086,7 +4086,7 @@ static void avermedia_eeprom(struct bttv *btv)
+ /*
+  * For Voodoo TV/FM and Voodoo 200.  These cards' tuners use a TDA9880
+  * analog demod, which is not I2C controlled like the newer and more common
+- * TDA9887 series.  Instead is has two tri-state input pins, S0 and S1,
++ * TDA9887 series.  Instead it has two tri-state input pins, S0 and S1,
+  * that control the IF for the video and audio.  Apparently, bttv GPIO
+  * 0x10000 is connected to S0.  S0 low selects a 38.9 MHz VIF for B/G/D/K/I
+  * (i.e., PAL) while high selects 45.75 MHz for M/N (i.e., NTSC).
+@@ -4144,7 +4144,7 @@ static void init_PXC200(struct bttv *btv)
+ 	int tmp;
+ 	u32 val;
+ 
+-	/* Initialise GPIO-connevted stuff */
++	/* Initialise GPIO-connected stuff */
+ 	gpio_inout(0xffffff, (1<<13));
+ 	gpio_write(0);
+ 	udelay(3);
+@@ -4580,7 +4580,7 @@ static void xguard_muxsel(struct bttv *btv, unsigned int input)
+ }
+ static void picolo_tetra_init(struct bttv *btv)
+ {
+-	/*This is the video input redirection fonctionality : I DID NOT USED IT. */
++	/*This is the video input redirection functionality : I DID NOT USED IT. */
+ 	btwrite (0x08<<16,BT848_GPIO_DATA);/*GPIO[19] [==> 4053 B+C] set to 1 */
+ 	btwrite (0x04<<16,BT848_GPIO_DATA);/*GPIO[18] [==> 4053 A]  set to 1*/
+ }
+@@ -4598,7 +4598,7 @@ static void picolo_tetra_muxsel (struct bttv* btv, unsigned int input)
+  * ivc120_muxsel [Added by Alan Garfield <alan@fromorbit.com>]
+  *
+  * The IVC120G security card has 4 i2c controlled TDA8540 matrix
+- * swichers to provide 16 channels to MUX0. The TDA8540's have
++ * switchers to provide 16 channels to MUX0. The TDA8540's have
+  * 4 independent outputs and as such the IVC120G also has the
+  * optional "Monitor Out" bus. This allows the card to be looking
+  * at one input while the monitor is looking at another.
 -- 
-regards,
-Stan
-
-> 
-> dts: pending - will resend when above is applied
-> https://lore.kernel.org/linux-arm-msm/20210222132817.1807788-1-bryan.odonoghue@linaro.org/T/#t
-> 
-> Reference tree:
-> 
-> ssh://git@git.linaro.org/people/bryan.odonoghue/kernel.git / tracking-qcomlt-sm8250-venus
-> 
-> This tree incorporates two sets of patches from Stan - plus the two
-> yaml/dts sets mentioned above.
-> 
-> svarbanov-linux-tv/venus-for-next-v5.13
-> svarbanov-linux-tv/venus-msm8916-fixes
-> 
-> There's a small integration error between the 5.13 and msm8916-fixes which
-> I resolved in favor of the bugfix in 5.13 pending - other than that this
-> tree and these patches apply on tip-of-tree and run as indicated on rb5/rb3
-> and db410c.
-> 
-> https://www.spinics.net/lists/linux-arm-msm/msg81291.html
-> 
-> V1:
-> This series enables support for 6xx venus encode/decode as found on the
-> sm8250.
-> 
-> The new silicon has different base addresses for existing functional blocks
-> within the venus address space. We add a base address offset mechanism to
-> handle this. The offsetting mechanism has been validated on 6xx and 4xx
-> hardware.
-> 
-> The sm8250 supports:
-> 
-> - h264
-> - h265
-> - vp8
-> - vp9
-> 
-> The driver changes are contingent on yaml and dts patches already
-> in-flight.
-> 
-> yaml: pending
-> https://www.spinics.net/lists/devicetree/msg406892.html
-> 
-> dts: pending
-> https://lore.kernel.org/linux-arm-msm/20210222132817.1807788-1-bryan.odonoghue@linaro.org/T/#t
-> 
-> clk: applied
-> https://kernel.googlesource.com/pub/scm/linux/kernel/git/clk/linux/+/clk-next
-> 
-> Applies on top of 
-> 
-> https://git.linuxtv.org/svarbanov/media_tree.git / venus-for-next-v5.12-part2
-> 
-> Bryan O'Donoghue (11):
->   media: venus: Update v6 buffer descriptors
->   media: venus: core: add sm8250 DT compatible and resource data
->   media: venus: core: Add io base variables for each block
->   media: venus: hfi,pm,firmware: Convert to block relative addressing
->   media: venus: core: Add differentiator IS_V6(core)
->   media: venus: core: Add an io base for TZ wrapper regs
->   media: venus: core: Add an io base for AON regs
->   media: venus: core: Hook to V6 base registers when appropriate
->   media: venus: hfi: Read WRAPPER_TZ_CPU_STATUS_V6 on 6xx
->   media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if
->     locations
->   media: venus: pm: Hook 6xx pm ops into 4xx pm ops
-> 
-> Dikshita Agarwal (12):
->   media: venus: hfi: Define block offsets for V6 hardware
->   media: venus: hfi: Define additional 6xx registers
->   media: venus: hfi: Add a 6xx boot logic
->   media: venus: hfi: Add 6xx interrupt support
->   media: venus: core,pm: Vote for min clk freq during venus boot
->   media: venus: hfi: Add 6xx AXI halt logic
->   media: venus: pm: Toggle 6xx wrapper power in vcodec_control
->   media: venus: firmware: Do not toggle WRAPPER_A9SS_SW_RESET on 6xx
->   media: venus: helpers: Add internal buffer list for v6
->   media: venus: helpers, hfi, vdec: Set actual plane constraints to FW
->   media: venus: hfi: Increase plat_buf_v6 o/p buffer count.
->   media: venus: helper: Decide work mode
-> 
-> Stanimir Varbanov (2):
->   media: venus: core,pm: Add handling for resets
->   media: venus: vdec: Fix decoder cmd STOP issue
-> 
->  drivers/media/platform/qcom/venus/core.c      |  78 +++++++++
->  drivers/media/platform/qcom/venus/core.h      |  19 ++
->  drivers/media/platform/qcom/venus/firmware.c  |  34 ++--
->  drivers/media/platform/qcom/venus/helpers.c   |  73 +++++++-
->  drivers/media/platform/qcom/venus/helpers.h   |   3 +-
->  drivers/media/platform/qcom/venus/hfi_cmds.c  |  15 +-
->  .../media/platform/qcom/venus/hfi_helper.h    |   9 +-
->  .../platform/qcom/venus/hfi_plat_bufs_v6.c    |   2 +-
->  .../platform/qcom/venus/hfi_platform_v6.c     | 138 +++++++--------
->  drivers/media/platform/qcom/venus/hfi_venus.c | 164 +++++++++++++-----
->  .../media/platform/qcom/venus/hfi_venus_io.h  | 118 ++++++++-----
->  .../media/platform/qcom/venus/pm_helpers.c    |  92 +++++++++-
->  drivers/media/platform/qcom/venus/vdec.c      |  17 +-
->  drivers/media/platform/qcom/venus/venc.c      |   2 +-
->  14 files changed, 567 insertions(+), 197 deletions(-)
-> 
+2.25.1
 
