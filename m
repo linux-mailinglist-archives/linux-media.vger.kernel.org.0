@@ -2,387 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D91F33465C0
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 17:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B393734668C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 18:40:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233117AbhCWQ4u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 12:56:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52860 "EHLO
+        id S230189AbhCWRkV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 13:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233244AbhCWQ4W (ORCPT
+        with ESMTP id S230107AbhCWRkM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 12:56:22 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B94BC061574
-        for <linux-media@vger.kernel.org>; Tue, 23 Mar 2021 09:56:22 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id B9C0A1F4551A
-Message-ID: <190e62476b2d2273ca57945083b1cf10146ed7fd.camel@collabora.com>
-Subject: Re: [PATCH v2 2/4] v4l: fwnode: Rename
- v4l2_async_register_subdev_sensor_common
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel.garcia@collabora.com
-Date:   Tue, 23 Mar 2021 13:56:14 -0300
-In-Reply-To: <20210312125657.25442-3-sakari.ailus@linux.intel.com>
-References: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
-         <20210312125657.25442-3-sakari.ailus@linux.intel.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Tue, 23 Mar 2021 13:40:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE02BC061574;
+        Tue, 23 Mar 2021 10:40:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=sxvcc6n+zZC/nKYBO0R7ql8qMgyWOPTuTiacyZX4jN4=; b=lcQ0Rs+gLRtuRTK/T3cqcmJ7Gq
+        EbGh5DNF3EJ4b/roKNg6oCEYVOdKEH7gjYRKWkmh0QVCSXQTDQck98VZ0G7gocirzRv7ZejVnBNhM
+        maIrL0+PH2wNL8AhnN0DiIyai+IK4yO28vwDopf8wj5m5Q4D+X54JuEgNb0kZMLBP9tJI7H0/7HF9
+        hhQNS8OvjU9TajzS8h6lv58//RwyECuJurgqqFoI6HqyESg7+0X9HfOl+5tNg/vbDILEjkgXyEkpW
+        jcgU9joqskwGvnu6QQ9m7Nb4KXipErg6utRRF3aXfQRWMuWesCtEC//BHkb80CyFgu5G0WlqVNg1+
+        1++4TOEw==;
+Received: from [2601:1c0:6280:3f0::3ba4]
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lOl0a-00ALv4-O9; Tue, 23 Mar 2021 17:40:02 +0000
+Subject: Re: [PATCH] drivers/media/pci/bt8xx/bttv-cards: fix typos
+To:     Xiaofeng Cao <cxfcosmos@gmail.com>, mchehab@kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xiaofeng Cao <caoxiaofeng@yulong.com>
+References: <20210323122546.16262-1-caoxiaofeng@yulong.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b297b819-8837-cfa0-0a62-d40958697bb2@infradead.org>
+Date:   Tue, 23 Mar 2021 10:39:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210323122546.16262-1-caoxiaofeng@yulong.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2021-03-12 at 14:56 +0200, Sakari Ailus wrote:
-> Rename v4l2_async_register_subdev_sensor_common as
-> v4l2_async_register_subdev_sensor. This is a part of the effort to make
-> the long names present in V4L2 fwnode and async frameworks shorter.
+Hi,
+Please see a few comments below.
+
+On 3/23/21 5:25 AM, Xiaofeng Cao wrote:
+> change 'vodeo'     to 'video'
+> change 'nevery'    to 'never'
+> change 'is'        to 'it'
+> change 'connevted' to 'connected'
+> change 'swichers'  to 'switchers'
+> change 'strucure'  to 'structure'
+> change 'unblanced' to 'unbalanced'
+> change 'fonctionality' to 'functionality'
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-Thanks!
-
+> Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com>
 > ---
->  Documentation/driver-api/media/v4l2-subdev.rst |  2 +-
->  drivers/media/i2c/ccs/ccs-core.c               |  2 +-
->  drivers/media/i2c/et8ek8/et8ek8_driver.c       |  2 +-
->  drivers/media/i2c/hi556.c                      |  2 +-
->  drivers/media/i2c/imx214.c                     |  2 +-
->  drivers/media/i2c/imx219.c                     |  2 +-
->  drivers/media/i2c/imx258.c                     |  2 +-
->  drivers/media/i2c/imx319.c                     |  2 +-
->  drivers/media/i2c/imx334.c                     |  2 +-
->  drivers/media/i2c/imx355.c                     |  2 +-
->  drivers/media/i2c/ov13858.c                    |  2 +-
->  drivers/media/i2c/ov2740.c                     |  2 +-
->  drivers/media/i2c/ov5640.c                     |  2 +-
->  drivers/media/i2c/ov5648.c                     |  2 +-
->  drivers/media/i2c/ov5670.c                     |  2 +-
->  drivers/media/i2c/ov5675.c                     |  2 +-
->  drivers/media/i2c/ov5695.c                     |  2 +-
->  drivers/media/i2c/ov8856.c                     |  2 +-
->  drivers/media/i2c/ov8865.c                     |  2 +-
->  drivers/media/i2c/ov9734.c                     |  2 +-
->  drivers/media/v4l2-core/v4l2-fwnode.c          |  4 ++--
->  include/media/v4l2-async.h                     | 10 +++++-----
->  22 files changed, 27 insertions(+), 27 deletions(-)
+>  drivers/media/pci/bt8xx/bttv-cards.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index e1f05cd38897..7736da077fb8 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -208,7 +208,7 @@ the needs of the driver.
->  :c:func:`v4l2_async_notifier_add_i2c_subdev` are for bridge and ISP drivers for
->  registering their async sub-devices with the notifier.
->  
-> -:c:func:`v4l2_async_register_subdev_sensor_common` is a helper function for
-> +:c:func:`v4l2_async_register_subdev_sensor` is a helper function for
->  sensor drivers registering their own async sub-device, but it also registers a
->  notifier and further registers async sub-devices for lens and flash devices
->  found in firmware. The notifier for the sub-device is unregistered with the
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 4505594996bd..9dc3f45da3dc 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -3572,7 +3572,7 @@ static int ccs_probe(struct i2c_client *client)
->         pm_runtime_get_noresume(&client->dev);
->         pm_runtime_enable(&client->dev);
->  
-> -       rval = v4l2_async_register_subdev_sensor_common(&sensor->src->sd);
-> +       rval = v4l2_async_register_subdev_sensor(&sensor->src->sd);
->         if (rval < 0)
->                 goto out_disable_runtime_pm;
->  
-> diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-> index 122af761c8e3..bb3eac5e005e 100644
-> --- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
-> +++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-> @@ -1443,7 +1443,7 @@ static int et8ek8_probe(struct i2c_client *client)
->                 goto err_mutex;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&sensor->subdev);
-> +       ret = v4l2_async_register_subdev_sensor(&sensor->subdev);
->         if (ret < 0)
->                 goto err_entity;
->  
-> diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-> index c74736845d7a..6f05c1138e3b 100644
-> --- a/drivers/media/i2c/hi556.c
-> +++ b/drivers/media/i2c/hi556.c
-> @@ -1145,7 +1145,7 @@ static int hi556_probe(struct i2c_client *client)
->                 goto probe_error_v4l2_ctrl_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&hi556->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&hi556->sd);
->         if (ret < 0) {
->                 dev_err(&client->dev, "failed to register V4L2 subdev: %d",
->                         ret);
-> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index cee1a4817af9..e8b281e432e8 100644
-> --- a/drivers/media/i2c/imx214.c
-> +++ b/drivers/media/i2c/imx214.c
-> @@ -1061,7 +1061,7 @@ static int imx214_probe(struct i2c_client *client)
->  
->         imx214_entity_init_cfg(&imx214->sd, NULL);
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&imx214->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&imx214->sd);
->         if (ret < 0) {
->                 dev_err(dev, "could not register v4l2 device\n");
->                 goto free_entity;
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 6e3382b85a90..909e1d418f33 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1528,7 +1528,7 @@ static int imx219_probe(struct i2c_client *client)
->                 goto error_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&imx219->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&imx219->sd);
->         if (ret < 0) {
->                 dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
->                 goto error_media_entity;
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 61d74b794582..61b2d87a9761 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -1289,7 +1289,7 @@ static int imx258_probe(struct i2c_client *client)
->         if (ret)
->                 goto error_handler_free;
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&imx258->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&imx258->sd);
->         if (ret < 0)
->                 goto error_media_entity;
->  
-> diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-> index 8473c0bbb35d..38540323a156 100644
-> --- a/drivers/media/i2c/imx319.c
-> +++ b/drivers/media/i2c/imx319.c
-> @@ -2486,7 +2486,7 @@ static int imx319_probe(struct i2c_client *client)
->                 goto error_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&imx319->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&imx319->sd);
->         if (ret < 0)
->                 goto error_media_entity;
->  
-> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> index ad530f0d338a..047aa7658d21 100644
-> --- a/drivers/media/i2c/imx334.c
-> +++ b/drivers/media/i2c/imx334.c
-> @@ -1057,7 +1057,7 @@ static int imx334_probe(struct i2c_client *client)
->                 goto error_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&imx334->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&imx334->sd);
->         if (ret < 0) {
->                 dev_err(imx334->dev,
->                         "failed to register async subdev: %d", ret);
-> diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-> index 700f7467fb31..ccedcd4c520a 100644
-> --- a/drivers/media/i2c/imx355.c
-> +++ b/drivers/media/i2c/imx355.c
-> @@ -1786,7 +1786,7 @@ static int imx355_probe(struct i2c_client *client)
->                 goto error_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&imx355->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&imx355->sd);
->         if (ret < 0)
->                 goto error_media_entity;
->  
-> diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-> index 2f3be7a80cef..4a2885ff0cbe 100644
-> --- a/drivers/media/i2c/ov13858.c
-> +++ b/drivers/media/i2c/ov13858.c
-> @@ -1738,7 +1738,7 @@ static int ov13858_probe(struct i2c_client *client,
->                 goto error_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&ov13858->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&ov13858->sd);
->         if (ret < 0)
->                 goto error_media_entity;
->  
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index b41a90c2aed5..0f3f17f3c426 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -1154,7 +1154,7 @@ static int ov2740_probe(struct i2c_client *client)
->                 goto probe_error_v4l2_ctrl_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&ov2740->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&ov2740->sd);
->         if (ret < 0) {
->                 dev_err(&client->dev, "failed to register V4L2 subdev: %d",
->                         ret);
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 14f3afa7721a..5b9cc71df473 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -3162,7 +3162,7 @@ static int ov5640_probe(struct i2c_client *client)
->         if (ret)
->                 goto entity_cleanup;
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&sensor->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&sensor->sd);
->         if (ret)
->                 goto free_ctrls;
->  
-> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-> index dfe38ab8224d..3ecb4a3e8773 100644
-> --- a/drivers/media/i2c/ov5648.c
-> +++ b/drivers/media/i2c/ov5648.c
-> @@ -2559,7 +2559,7 @@ static int ov5648_probe(struct i2c_client *client)
->  
->         /* V4L2 subdev register */
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(subdev);
-> +       ret = v4l2_async_register_subdev_sensor(subdev);
->         if (ret)
->                 goto error_pm;
->  
-> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> index 866c8c2e8f59..dee7df8dd100 100644
-> --- a/drivers/media/i2c/ov5670.c
-> +++ b/drivers/media/i2c/ov5670.c
-> @@ -2503,7 +2503,7 @@ static int ov5670_probe(struct i2c_client *client)
->         }
->  
->         /* Async register for subdev */
-> -       ret = v4l2_async_register_subdev_sensor_common(&ov5670->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&ov5670->sd);
->         if (ret < 0) {
->                 err_msg = "v4l2_async_register_subdev() error";
->                 goto error_entity_cleanup;
-> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> index ae00d717e599..dea32859459a 100644
-> --- a/drivers/media/i2c/ov5675.c
-> +++ b/drivers/media/i2c/ov5675.c
-> @@ -1193,7 +1193,7 @@ static int ov5675_probe(struct i2c_client *client)
->                 goto probe_error_v4l2_ctrl_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&ov5675->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&ov5675->sd);
->         if (ret < 0) {
->                 dev_err(&client->dev, "failed to register V4L2 subdev: %d",
->                         ret);
-> diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-> index bbccb6f9582f..09bee57a241d 100644
-> --- a/drivers/media/i2c/ov5695.c
-> +++ b/drivers/media/i2c/ov5695.c
-> @@ -1336,7 +1336,7 @@ static int ov5695_probe(struct i2c_client *client,
->                 goto err_power_off;
->  #endif
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(sd);
-> +       ret = v4l2_async_register_subdev_sensor(sd);
->         if (ret) {
->                 dev_err(dev, "v4l2 async register subdev failed\n");
->                 goto err_clean_entity;
-> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-> index b337f729d5e3..e3af3ea277af 100644
-> --- a/drivers/media/i2c/ov8856.c
-> +++ b/drivers/media/i2c/ov8856.c
-> @@ -1795,7 +1795,7 @@ static int ov8856_probe(struct i2c_client *client)
->                 goto probe_error_v4l2_ctrl_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&ov8856->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&ov8856->sd);
->         if (ret < 0) {
->                 dev_err(&client->dev, "failed to register V4L2 subdev: %d",
->                         ret);
-> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-> index 2db052ff9d21..9ecf180635ee 100644
-> --- a/drivers/media/i2c/ov8865.c
-> +++ b/drivers/media/i2c/ov8865.c
-> @@ -2904,7 +2904,7 @@ static int ov8865_probe(struct i2c_client *client)
->  
->         /* V4L2 subdev register */
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(subdev);
-> +       ret = v4l2_async_register_subdev_sensor(subdev);
->         if (ret)
->                 goto error_pm;
->  
-> diff --git a/drivers/media/i2c/ov9734.c b/drivers/media/i2c/ov9734.c
-> index e212465489e8..b7309a551cae 100644
-> --- a/drivers/media/i2c/ov9734.c
-> +++ b/drivers/media/i2c/ov9734.c
-> @@ -964,7 +964,7 @@ static int ov9734_probe(struct i2c_client *client)
->                 goto probe_error_v4l2_ctrl_handler_free;
->         }
->  
-> -       ret = v4l2_async_register_subdev_sensor_common(&ov9734->sd);
-> +       ret = v4l2_async_register_subdev_sensor(&ov9734->sd);
->         if (ret < 0) {
->                 dev_err(&client->dev, "failed to register V4L2 subdev: %d",
->                         ret);
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 9c1b38919491..843259c304bb 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -1308,7 +1308,7 @@ v4l2_async_notifier_parse_fwnode_sensor(struct device *dev,
->         return 0;
->  }
->  
-> -int v4l2_async_register_subdev_sensor_common(struct v4l2_subdev *sd)
-> +int v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd)
->  {
->         struct v4l2_async_notifier *notifier;
->         int ret;
-> @@ -1347,7 +1347,7 @@ int v4l2_async_register_subdev_sensor_common(struct v4l2_subdev *sd)
->  
->         return ret;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_async_register_subdev_sensor_common);
-> +EXPORT_SYMBOL_GPL(v4l2_async_register_subdev_sensor);
->  
->  MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index aee28c0e31ac..fa4901162663 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -286,10 +286,10 @@ void v4l2_async_notifier_cleanup(struct v4l2_async_notifier *notifier);
->  int v4l2_async_register_subdev(struct v4l2_subdev *sd);
->  
->  /**
-> - * v4l2_async_register_subdev_sensor_common - registers a sensor sub-device to
-> - *                                           the asynchronous sub-device
-> - *                                           framework and parse set up common
-> - *                                           sensor related devices
-> + * v4l2_async_register_subdev_sensor - registers a sensor sub-device to the
-> + *                                    asynchronous sub-device framework and
-> + *                                    parse set up common sensor related
-> + *                                    devices
->   *
->   * @sd: pointer to struct &v4l2_subdev
->   *
-> @@ -305,7 +305,7 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd);
->   * to register it.
->   */
->  int __must_check
-> -v4l2_async_register_subdev_sensor_common(struct v4l2_subdev *sd);
-> +v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd);
->  
->  /**
->   * v4l2_async_unregister_subdev - unregisters a sub-device to the asynchronous
+> diff --git a/drivers/media/pci/bt8xx/bttv-cards.c b/drivers/media/pci/bt8xx/bttv-cards.c
+> index ca20b806e82d..9a07e1094978 100644
+> --- a/drivers/media/pci/bt8xx/bttv-cards.c
+> +++ b/drivers/media/pci/bt8xx/bttv-cards.c
 
+> @@ -2506,7 +2506,7 @@ struct tvcard bttv_tvcards[] = {
+>  	     one external BNC composite input (mux 2)
+>  	     three internal composite inputs (unknown muxes)
+>  	     an 18-bit stereo A/D (CS5331A), which has:
+> -	       one external stereo unblanced (RCA) audio connection
+> +	       one external stereo unbalanced(RCA) audio connection
+
+Please leave a space between unbalanced and (RCA).
+
+>  	       one (or 3?) internal stereo balanced (XLR) audio connection
+>  	       input is selected via gpio to a 14052B mux
+>  		 (mask=0x300, unbal=0x000, bal=0x100, ??=0x200,0x300)
+
+> @@ -4580,7 +4580,7 @@ static void xguard_muxsel(struct bttv *btv, unsigned int input)
+>  }
+>  static void picolo_tetra_init(struct bttv *btv)
+>  {
+> -	/*This is the video input redirection fonctionality : I DID NOT USED IT. */
+> +	/*This is the video input redirection functionality : I DID NOT USED IT. */
+
+	                                                      I DID NOT USE IT. *
+
+>  	btwrite (0x08<<16,BT848_GPIO_DATA);/*GPIO[19] [==> 4053 B+C] set to 1 */
+>  	btwrite (0x04<<16,BT848_GPIO_DATA);/*GPIO[18] [==> 4053 A]  set to 1*/
+>  }
+
+
+thanks.
+-- 
+~Randy
 
