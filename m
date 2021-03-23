@@ -2,101 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30F3C345F8D
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 14:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75ED7345FC2
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 14:36:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231296AbhCWNU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 09:20:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47388 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231360AbhCWNUw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 09:20:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 042EE61925;
-        Tue, 23 Mar 2021 13:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616505651;
-        bh=DrwL6iCsaeJi1oIwXg1kQ1R6i7mu+RZg+xV3ab9BwjU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CC9lbsIwFDT1pJomGCD3Zu82aSdH8+FStIa9M2wCuBHkskfVzFd91q5KS7LZDC14C
-         Y3UyMr3NZPlu/ZkRS8hAlyeoFdD6bVDkn5oqZGhw5gQVhu46xywCVXoESJylDnTdWD
-         Shm/EZMHhctoaw8a1Dv3fsWHYMP/l2TksQ9MHKdUafsgVA2Rpq2suGpDkLRl+SrCjZ
-         gN9gk3rqfqFjnRLtOKdV3cvW4eohYgbzS26390uCBNIrhaPIWdc1sS3+kIqSKCx7jm
-         O7kkztlJ/+/iZs2FBpnaNewBGl19/XTvc9ufgRkPhpAKq8k9HLjZXzaPlfSvCq/58v
-         8q4wEq2gE3n2A==
-Date:   Tue, 23 Mar 2021 14:20:47 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Petter Selasky <hps@selasky.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH] Bad IOCTLs - time to fix them?
-Message-ID: <20210323142031.7b727b1b@coco.lan>
-In-Reply-To: <a957de07-96f9-b1cd-31e5-19c096e5f974@selasky.org>
-References: <a957de07-96f9-b1cd-31e5-19c096e5f974@selasky.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231513AbhCWNgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 09:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231477AbhCWNff (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Mar 2021 09:35:35 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E366AC061764
+        for <linux-media@vger.kernel.org>; Tue, 23 Mar 2021 06:35:34 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id ce10so27125470ejb.6
+        for <linux-media@vger.kernel.org>; Tue, 23 Mar 2021 06:35:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ntjagxyS+LYabIumqt5awpwriDBPHPu/LFN1q/dlMqM=;
+        b=TqGjivAJb7F0P/srjBeMCJaPta0vld25XGxynx8tT96VQcBkepFegU4+lpcjSuBBGA
+         AHeIEEOwypx68YJCIlNTKKzCZmsE2monoECPNz5j0xVOdfzEfcKPG2ZNgdf84WiggpF5
+         l3li2arOaAAIj7SUAwr7p9IoSiQV+/vGkcot4rg7YqnKN5+eqgBZ7X3yeKnWfI4n8bQd
+         4Tczl/rQkSNdC3dmzvT4PxL5yBJ4II2KjJ4TtpnpOiFsHWGLeLuvaqYLp3Paya7WxGjj
+         lnjC+RHdcCIMVE9XMeS6vC8UyBOKp6qJiK5izzF5XdX2Mp/cprluWZHSjlmjxiaeIZjT
+         cQSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ntjagxyS+LYabIumqt5awpwriDBPHPu/LFN1q/dlMqM=;
+        b=e6oHKLTfUUY/d8NhIwqI28Scl//9godZoU+mAnH6E4WiFelmzyKXMaa/87KNVnTJwH
+         9RCvsHuFWs4feIT00Cq9wIPWynBDReRu/9d6iL1uCj/b2Kb6q6r8KBd605SGK5dpRiUx
+         BY7SG+T3h11AFKAaZuuNXXv72UG8cvLrCwydi2N5s5wXrtUukazpydTi8B87CIVtCQq/
+         ned/sKE4WI7++DPx8HYawVHpo/ZhDhDLC8i06WbMeXUq+MtomAed3TsmY+dou4Z7f9kw
+         pCaYo6alOAQWhOWhTpOjzY9lFotKak5fa69vxQXBJgYVWjmo157OhBqnBUgWXCHhJ1EC
+         oyyQ==
+X-Gm-Message-State: AOAM533Om4znu9G6kcgk7dUTaqujoeRom7v4QjiZLXqFNf4AdmzK5zuA
+        eOy3saMnaUc4rBflFUrRhdSJAmoPjQ9M3jZv
+X-Google-Smtp-Source: ABdhPJwUJqV6+cN+QRopOAqXtcnPEV0jSss4iauXIjAOmCxfRNpfW/HmkPPkwO01/Xtjo0ifs7vI/w==
+X-Received: by 2002:a17:906:e0d6:: with SMTP id gl22mr4925865ejb.444.1616506533482;
+        Tue, 23 Mar 2021 06:35:33 -0700 (PDT)
+Received: from localhost.localdomain (hst-221-103.medicom.bg. [84.238.221.103])
+        by smtp.gmail.com with ESMTPSA id m7sm12627104edp.81.2021.03.23.06.35.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 06:35:33 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v3 0/2] Add decoder conceal color ctrl
+Date:   Tue, 23 Mar 2021 15:35:18 +0200
+Message-Id: <20210323133520.943317-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 28 Dec 2020 16:21:05 +0100
-Hans Petter Selasky <hps@selasky.org> escreveu:
+Hi,
 
-> Hi,
-> 
-> For some years now, FreeBSD's webcamd project at GitHub has carried 
-> patches to fix up IOCTL's in the Linux Kernel and I'm reaching out once 
-> again, that the bad read/write bits for certain IOCTLs may be seen as a 
-> security issue and should be fixed. These are:
-> 
+Changes since v2:
 
-> diff --git a/include/uapi/linux/dvb/ca.h b/include/uapi/linux/dvb/ca.h
-> index dffa59e95ebb..c4533a16d93e 100644
-> --- a/include/uapi/linux/dvb/ca.h
-> +++ b/include/uapi/linux/dvb/ca.h
-> @@ -134,9 +134,17 @@ struct ca_descr {
-> 
->   #define CA_RESET          _IO('o', 128)
->   #define CA_GET_CAP        _IOR('o', 129, struct ca_caps)
-> +/*
-> + * At least CA_GET_SLOT_INFO and CA_GET_MSG need to be _IOWR not _IOR.
-> + * This is wrong on Linux too but there the driver doesn't care.
-> + *
->   #define CA_GET_SLOT_INFO  _IOR('o', 130, struct ca_slot_info)
->   #define CA_GET_DESCR_INFO _IOR('o', 131, struct ca_descr_info)
->   #define CA_GET_MSG        _IOR('o', 132, struct ca_msg)
-> +*/
-> +#define CA_GET_SLOT_INFO  _IOWR('o', 130, struct ca_slot_info)
-> +#define CA_GET_DESCR_INFO _IOR('o', 131, struct ca_descr_info)
-> +#define CA_GET_MSG        _IOWR('o', 132, struct ca_msg)
->   #define CA_SEND_MSG       _IOW('o', 133, struct ca_msg)
->   #define CA_SET_DESCR      _IOW('o', 134, struct ca_descr)
-> 
-> diff --git a/include/uapi/linux/dvb/frontend.h 
-> b/include/uapi/linux/dvb/frontend.h
-> index 4f9b4551c534..a5e950404072 100644
-> --- a/include/uapi/linux/dvb/frontend.h
-> +++ b/include/uapi/linux/dvb/frontend.h
-> @@ -908,7 +908,8 @@ struct dtv_properties {
->   #define FE_DISHNETWORK_SEND_LEGACY_CMD _IO('o', 80) /* unsigned int */
-> 
->   #define FE_SET_PROPERTY		   _IOW('o', 82, struct dtv_properties)
-> -#define FE_GET_PROPERTY		   _IOR('o', 83, struct dtv_properties)
-> +#define FE_GET_PROPERTY		   _IOW('o', 83, struct dtv_properties)
-> +#define FE_GET_PROPERTY_OLD	   _IOR('o', 83, struct dtv_properties)
-> 
->   #if defined(__DVB_CORE__) || !defined(__KERNEL__)
+ * addressed Hans's comments 1/2 in documentation.
 
-Commenting just the issues related to the media subsystem. You should
-forward the evdev ones to linux-input@vger.kernel.org.
+regards,
+Stan
 
-This has been wrongly defined for so long time that I'm not sure if
-it makes sense to fix.
+Stanimir Varbanov (2):
+  v4l2-ctrl: Add decoder conceal color control
+  venus: vdec: Add support for conceal control
 
-If this is touched, we need to have _OLD versions for all the ioctls,
-and the code also need to be changed in order to accept both ways.
+ .../media/v4l/ext-ctrls-codec.rst             | 33 +++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h      |  1 +
+ drivers/media/platform/qcom/venus/hfi_cmds.c  | 18 ++++++++--
+ .../media/platform/qcom/venus/hfi_helper.h    | 10 ++++++
+ drivers/media/platform/qcom/venus/vdec.c      | 11 ++++++-
+ .../media/platform/qcom/venus/vdec_ctrls.c    |  9 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++
+ include/uapi/linux/v4l2-controls.h            |  1 +
+ 8 files changed, 88 insertions(+), 4 deletions(-)
 
-So, at the current stage, this patch seems incomplete.
+-- 
+2.25.1
 
-Thanks,
-Mauro
