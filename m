@@ -2,90 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CED8A34649B
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 17:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7B5F3464A7
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 17:14:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232973AbhCWQMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 12:12:50 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:51653 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232995AbhCWQMs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 12:12:48 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Oje6lrwdyCAEGOjeAlXi6z; Tue, 23 Mar 2021 17:12:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616515966; bh=YG6LshkAlh6GTQrdYXdCLe1pXeh5FVZGS2ghk3Dyg9w=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=tjeMMHXxjzMsoYFlD6KTxKfJWEQk1M9dDo5hkREMV/kDQ56qIVWBtPJmgN+54jprK
-         fezEO/zL7WL89TfAswEchRnLiSBQWq0UWckiVCb+myesUbXLdZpU5B9M0zJSakc50r
-         4k/vNRGyfG6BZgL1Tcvts1bqgeQVigLPFGLgQAgqadE9mhKp/A13d0JOgzpjM5ZIez
-         JtEJRGOEHO4K5d+J3tiATagwLbL94RCUyoejbmm4jpQEdaqwh+x6xTP5l60cALtQfg
-         YTcZjeyPveqMsIcO1GG9BD7bZRYL6BRLhWUziC1DC6+T65VSMPULN8z1jACCNbul18
-         0B6+nij+oQTcg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] cobalt: fix initial EDID
-Message-ID: <c17a877b-2ed4-36ea-509f-db451732ab0f@xs4all.nl>
-Date:   Tue, 23 Mar 2021 17:12:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        id S233039AbhCWQO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 12:14:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37310 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232975AbhCWQOB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Mar 2021 12:14:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 03D0D61581;
+        Tue, 23 Mar 2021 16:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616516041;
+        bh=G7qWYnfuXmcc7Hx62LV75USvChYBgumrNgfmyjFgdPM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CH5Rd5oWudKfFmamH/1yNE1f86ekYLvZUftjWdyV5BwN4q+3wOsVokfMulM/g9u8g
+         IehBwAK0BHymGc3qbI9DwCPXKSc4shJ3bmRcejfjU1atrLC+bnXWJ+kJz15qqwLwuI
+         A4uFNWCIrn+qfUe//o6JyFnfb5uqI/qRbwFBIQUrXFnEO47yhOLYtPy3CashiF+WLY
+         Nqgn7LHDT53vDD+cnQhgQ9Aty1dEWVyyQe21VwtpOcpp80Vf8qjsZkSQf2W2ZYtruM
+         JpPd89JCTgMyH3Ft7+izvEkvB85xdDRHd63pdhoOASi9+zhpo9eXXYUZW69fl3HwEr
+         kTA+ba81Jvxzg==
+Date:   Tue, 23 Mar 2021 17:13:56 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Pavel Skripkin <paskripkin@gmail.com>
+Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        syzbot+e7f4c64a4248a0340c37@syzkaller.appspotmail.com
+Subject: Re: [PATCH] drivers/media/usb/gspca/stv06xx: fix memory leak
+Message-ID: <20210323171356.4a613351@coco.lan>
+In-Reply-To: <20210226233731.614553-1-paskripkin@gmail.com>
+References: <20210226233731.614553-1-paskripkin@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfF/59wpVWJcUtraSqlWUgaINs9cIq7x25fpnI4S0uLweDxGPkPHe3vHvQEO/CEK7bLiUO7jJ6gYC5s8aBN9KBb2P8tAiSn4er4cRUKOzzT3eK+qWnJIb
- tsIjiF5/qD2esJXkjbSKvae1dJZLfKtvmmoItGGxwzl5U6yOStvOP5LRi1bxNSLa56gJAqsQMRLNTul9MTz3HmrTx08gbS2lTmQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The EDID failed with two edid-decode warnings:
+Em Sat, 27 Feb 2021 02:37:31 +0300
+Pavel Skripkin <paskripkin@gmail.com> escreveu:
 
-Block 1, CTA-861 Extension Block:
-  Video Data Block: VIC 16 is the preferred timing, overriding the first detailed timings. Is this intended?
-  Video Capability Data Block: S_PT is equal to S_IT and S_CE, so should be set to 0 instead.
+> Syzbot reported memory leak in hdcs_probe_1x00()[1].
+> hdcs_probe_1x00() allocates memory for struct hdcs, but if hdcs_init() fails in gspca_dev_probe2()
+> this memory becomes leaked.
+> 
+> int gspca_dev_probe2(struct usb_interface *intf,
+> 		const struct usb_device_id *id,
+> 		const struct sd_desc *sd_desc,
+> 		int dev_size,
+> 		struct module *module)
+> {
+> ...
+> 
+> 	ret = sd_desc->config(gspca_dev, id);
+> 	if (ret < 0)
+> 		goto out;
+> 	ret = sd_desc->init(gspca_dev);
+> 	if (ret < 0)
+> 		goto out;
+> ...
+> out:
+> 	if (gspca_dev->input_dev)
+> 		input_unregister_device(gspca_dev->input_dev);
+> 	v4l2_ctrl_handler_free(gspca_dev->vdev.ctrl_handler);
+> 	v4l2_device_unregister(&gspca_dev->v4l2_dev);
+> 	kfree(gspca_dev->usb_buf);
+> 	kfree(gspca_dev);
+> 	return ret;
+> }
+> 
+> Reported-by: syzbot+e7f4c64a4248a0340c37@syzkaller.appspotmail.com
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> Change-Id: Ia198671177ee346de61780813025110c7c491d7a
+> ---
+>  drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c b/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
+> index 5a47dcbf1c8e..24df13b33a02 100644
+> --- a/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
+> +++ b/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
+> @@ -485,7 +485,7 @@ static int hdcs_init(struct sd *sd)
+>  					   stv_bridge_init[i][1]);
+>  	}
+>  	if (err < 0)
+> -		return err;
+> +		goto error;
+>  
+>  	/* sensor soft reset */
+>  	hdcs_reset(sd);
+> @@ -496,12 +496,12 @@ static int hdcs_init(struct sd *sd)
+>  					     stv_sensor_init[i][1]);
+>  	}
+>  	if (err < 0)
+> -		return err;
+> +		goto error;
+>  
+>  	/* Enable continuous frame capture, bit 2: stop when frame complete */
+>  	err = stv06xx_write_sensor(sd, HDCS_REG_CONFIG(sd), BIT(3));
+>  	if (err < 0)
+> -		return err;
+> +		goto error;
+>  
+>  	/* Set PGA sample duration
+>  	(was 0x7E for the STV602, but caused slow framerate with HDCS-1020) */
+> @@ -512,9 +512,13 @@ static int hdcs_init(struct sd *sd)
+>  		err = stv06xx_write_sensor(sd, HDCS_TCTRL,
+>  				(HDCS_ADC_START_SIG_DUR << 5) | hdcs->psmp);
+>  	if (err < 0)
+> -		return err;
+> +		goto error;
+>  
+>  	return hdcs_set_size(sd, hdcs->array.width, hdcs->array.height);
+> +
+> +error:
+> +	kfree(hdcs);
+> +	return err;
+>  }
 
-In addition, the first DTD had a wrong vsync value (6 instead of 5).
+This doesn't seem the right fix here, as it is not the _init function
+that allocates it. Also, when the device is disconnected, a memory leak
+will happen.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
-index 0695078ef812..9c754e01c186 100644
---- a/drivers/media/pci/cobalt/cobalt-driver.c
-+++ b/drivers/media/pci/cobalt/cobalt-driver.c
-@@ -56,19 +56,19 @@ static u8 edid[256] = {
- 	0x45, 0x59, 0x61, 0x59, 0x81, 0x99, 0x01, 0x01,
- 	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a,
- 	0x80, 0x18, 0x71, 0x38, 0x2d, 0x40, 0x58, 0x2c,
--	0x46, 0x00, 0xe0, 0x0e, 0x11, 0x00, 0x00, 0x1e,
-+	0x45, 0x00, 0xe0, 0x0e, 0x11, 0x00, 0x00, 0x1e,
- 	0x00, 0x00, 0x00, 0xfd, 0x00, 0x18, 0x55, 0x18,
- 	0x5e, 0x11, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20,
- 	0x20, 0x20, 0x00, 0x00, 0x00, 0xfc, 0x00, 0x63,
- 	0x6f, 0x62, 0x61, 0x6c, 0x74, 0x0a, 0x20, 0x20,
- 	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0x10,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x9c,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x9d,
+I suspect that the right fix would be to move this:
 
--	0x02, 0x03, 0x1f, 0xf0, 0x4a, 0x90, 0x1f, 0x04,
-+	0x02, 0x03, 0x1f, 0xf1, 0x4a, 0x10, 0x1f, 0x04,
- 	0x13, 0x22, 0x21, 0x20, 0x02, 0x11, 0x01, 0x23,
- 	0x09, 0x07, 0x07, 0x68, 0x03, 0x0c, 0x00, 0x10,
--	0x00, 0x00, 0x22, 0x0f, 0xe2, 0x00, 0xea, 0x00,
-+	0x00, 0x00, 0x22, 0x0f, 0xe2, 0x00, 0xca, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-@@ -80,7 +80,7 @@ static u8 edid[256] = {
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xa7,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46,
- };
+	hdcs = kmalloc(sizeof(struct hdcs), GFP_KERNEL);
+	if (!hdcs)
+		return -ENOMEM;
 
- static void cobalt_set_interrupt(struct cobalt *cobalt, bool enable)
+To the main driver (stv06xx.c) - probably replacing it by kzalloc(),
+and then handle the free code both both sd_probe() and sd_disconnect().
+
+
+Thanks,
+Mauro
