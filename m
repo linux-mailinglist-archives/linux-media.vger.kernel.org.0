@@ -2,67 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB1A634590A
-	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 08:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 193B6345911
+	for <lists+linux-media@lfdr.de>; Tue, 23 Mar 2021 08:50:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbhCWHr2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 03:47:28 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:49203 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229592AbhCWHrT (ORCPT
+        id S229592AbhCWHtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Mar 2021 03:49:41 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35147 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229865AbhCWHtS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 03:47:19 -0400
+        Tue, 23 Mar 2021 03:49:18 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id ObkuluK1PUzyrObkzlOa0w; Tue, 23 Mar 2021 08:47:17 +0100
+        id ObmrluL8QUzyrObmulOaQL; Tue, 23 Mar 2021 08:49:17 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616485637; bh=2k4vhuOX8l62X0dpwr/OE85yfKLo2dPyris5X4ng5v4=;
+        t=1616485757; bh=y7cOlfvicbgkhjTXKiELhGinC0b4lySsADVvBiKWafc=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=qLFKfO3FPYdIPAV1D/kgQAfMyaUPWDIB5NKINvZTkDFrIwJFAugcPk/kM8azrGbQn
-         6DKjOd3c7GpKdVYRgEaIxCGdmbtnEQzZG71s71fc7iuz1y3gy34FCFLw501OXDgDdx
-         8HVARhVfF25OpuhOyhDqH3nh3G5HuRa/sGiKZf9/y/UqQJKXMBzljwmZv+NsgNxFtZ
-         KUD6h7jncTa6WXyw7PUG2gniX0paudd2Lw/bXA+G/tNgDp+Uzue0+AqtoGUSMohtzA
-         tRjakXEKDViGD0FscTR/EJyTx8LK4jd+4fuYb8fvJGDHXshjoApk1Gsy1eeRP7vrKQ
-         Td1G+CRwpfwWg==
+        b=P+LOO/sbz1RIHBAEbwrgxNeyX7RbUsYe/Y3qOe/6VqLK28OWVWooE0EDP5XJA4w+t
+         0SexldH+US2mTW0Dic9WAbE6DDCx2mGHUmLShAIGMXQn7AlsXwfSdnxo2omAirrcsN
+         lUPilpWNPsJhbPnojJqK2kOG70/dOtROEhiMMrrM35Ua6JgL4ZGD7/0kA8A7N8tLyh
+         AkL/9FGiLMXXbP2WRSC3G027k5eLJhivb5Uyr2iNoCHWCgRsZ8NO7UveYU0WVWYRC6
+         U1jw/6XAWXL+zaubk2x7GNbp+Ba7fIJH2A41V9QB2tX1cpxTG44f32z+D6b1GpeRTC
+         tcmXS4BS9Bq6g==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Michael Tretter <m.tretter@pengutronix.de>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] ccs-data.h: fix kernel-doc typo
-Message-ID: <c0674449-c8f2-fb75-60ce-f6f178092a81@xs4all.nl>
-Date:   Tue, 23 Mar 2021 08:47:12 +0100
+Subject: [PATCH] allegro-dvt/nal-h264.h: fix kernel-doc: hdr -> hrd
+Message-ID: <03e0ce22-1ebe-24f4-0f49-f4c41ae8f598@xs4all.nl>
+Date:   Tue, 23 Mar 2021 08:49:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAIQK6ya+cWq/rRoN3605xfkoanMyDo0eLZDXTUu/4BkQSY4vYAHslp8P0sfdrEnmnCLpgSYDkRDEOiRArLZbL1JHr30QykLHQCQjtwirpIsSp4ob5UK
- ROToj/VpJuYDeWVKh8GvXCO29bBJDekptIqwf1/hyhYjtiBoiNj5StgVmzHTmN1w9ulzUMh+FNEGMeK/Bwv6QlrT6HmT/UkZeVQb06Q+k/Yf/wNnNXkzKeE8
- 3CcCUB4RTV5+MzGUOAeJnA==
+X-CMAE-Envelope: MS4xfIF8wfwPe6ayj83Sn3lDjz45xpgQCGEVkei5G61cUhLvETUBgdjUt6Ki6BOJUdM1/sNCIzg5iHJEK6y1x6L9FOs6AdWb+BHULDQKcZt5TTpC6g91wSNJ
+ 1X9UqcfBNhP+fsKCW1mvUP4Gm36XI54c5XE5tmG+IL5a7LKVLs395Op34S4uGDGJPGIas8wxhIF7txoIbbm7dT/wNIYOGOw0CJ1NjRbOpqLYFp2lO7v1c66M
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-block -> pixel
+Give typo in kernel-doc documentation: hdr -> hrd
 
 Fixes this warning:
 
-drivers/media/i2c/ccs/ccs-data.h:144: warning: expecting prototype for struct ccs_pdaf_pix_loc_block_desc. Prototype was for struct
-ccs_pdaf_pix_loc_pixel_desc instead
+drivers/media/platform/allegro-dvt/nal-h264.h:33: warning: expecting prototype for struct nal_h264_hdr_parameters. Prototype was for struct
+nal_h264_hrd_parameters instead
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-diff --git a/drivers/media/i2c/ccs/ccs-data.h b/drivers/media/i2c/ccs/ccs-data.h
-index c75d480c8792..d26db88937ea 100644
---- a/drivers/media/i2c/ccs/ccs-data.h
-+++ b/drivers/media/i2c/ccs/ccs-data.h
-@@ -132,7 +132,7 @@ struct ccs_pdaf_pix_loc_block_desc_group {
- };
+diff --git a/drivers/media/platform/allegro-dvt/nal-h264.h b/drivers/media/platform/allegro-dvt/nal-h264.h
+index 2ba7cbced7a5..8cc5a28bf237 100644
+--- a/drivers/media/platform/allegro-dvt/nal-h264.h
++++ b/drivers/media/platform/allegro-dvt/nal-h264.h
+@@ -12,7 +12,7 @@
+ #include <linux/types.h>
 
  /**
-- * struct ccs_pdaf_pix_loc_block_desc - PDAF pixel location block descriptor
-+ * struct ccs_pdaf_pix_loc_pixel_desc - PDAF pixel location pixel descriptor
-  * @pixel_type: Type of the pixel; CCS_DATA_PDAF_PIXEL_TYPE_*
-  * @small_offset_x: offset X coordinate
-  * @small_offset_y: offset Y coordinate
+- * struct nal_h264_hdr_parameters - HDR parameters
++ * struct nal_h264_hrd_parameters - HRD parameters
+  *
+  * C struct representation of the sequence parameter set NAL unit as defined by
+  * Rec. ITU-T H.264 (04/2017) E.1.2 HRD parameters syntax.
