@@ -2,162 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CD47347047
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 04:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ABB3347085
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 05:42:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235176AbhCXD6M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Mar 2021 23:58:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54302 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235120AbhCXD6H (ORCPT
+        id S235196AbhCXEmW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 00:42:22 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46101 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235195AbhCXEmM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Mar 2021 23:58:07 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 022E6C061763;
-        Tue, 23 Mar 2021 20:58:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=FkHspzZ4eIco0CCf9Vy8eC47ISGEcdGFSl/9SbDwvfM=; b=bgW5XiJrkiyCjCJ41/OrSEZ0Na
-        pOd/febPxkGppUOKhyfu94L8yN/QtRXbWt5N5nGywesdNOS4iMQH8zTegchOx9W3yi37woW4D4Gnp
-        6y4BRerobBHKrN8utW63jQ3/IUNa4EK9QG5EaUvGMCrfSPg929C4R1PBKAlOc/Iqr2MHm85nS5Zzx
-        xAotg0U9YNx4wwcSDnJefs2l82qi06T5zXZ2ZarFoTlrhkJiDiAPcGxRVxj0fL1c54QSRNILqAx8w
-        wGhTiwavbcQUqXTm+skIgUqZOvdSWHhLJNfFD+QObtCCV1h5U8kNLzfupdZuEtmqVjKBzC5MHURuW
-        CLE9VMig==;
-Received: from [2601:1c0:6280:3f0::3ba4]
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lOueF-00AtUm-Co; Wed, 24 Mar 2021 03:57:41 +0000
-Subject: Re: [PATCH v2] drivers/media/pci/bt8xx/bttv-cards: fix typos
-To:     Xiaofeng Cao <cxfcosmos@gmail.com>, mchehab@kernel.org
-Cc:     Julia.Lawall@inria.fr, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xiaofeng Cao <caoxiaofeng@yulong.com>
-References: <20210324032906.17094-1-caoxiaofeng@yulong.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c8e7929e-17d7-fe38-a809-a057d383ad4c@infradead.org>
-Date:   Tue, 23 Mar 2021 20:57:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210324032906.17094-1-caoxiaofeng@yulong.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Wed, 24 Mar 2021 00:42:12 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id OvLLl4zbCUzyrOvLOlSX9T; Wed, 24 Mar 2021 05:42:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616560930; bh=t8TWGWDuLN+BjVESVajWiRvgrY/aJ+0EdZ4HK7SQyQ0=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=tnybYsN/LhOeTj+KEl5Z+gLGKQr/QCaX+ROUBfC0YHIcsTNg2/c4ovUqrAM6sIR/7
+         jVlB6k5SICRnlFaqSfG39+HVcZnw4ahWVKjVosgA/DZpq3/r7iQpcMJGtlt7gVOWCq
+         zjoNCGVXfAE2Ex8ggjl32w/NEAWlv/8fbbMauc1rtJigOYb9m9l5qqEKkw635Z4XmZ
+         C88hT2FWO2WzUVO0texZSijrToeHFrfnJ1tYE7d321JnSWL29aVED6nkvUXB3bivyd
+         2E72N/Y10LcH6cgKozOADOcx/fSovavKJoYgPUhOXUmeVqpJh5omOQOEY32OaWnlMU
+         7+8aK2TKO+Rhg==
+Message-ID: <667194af667977d15baddcffeaab0c74@smtp-cloud7.xs4all.net>
+Date:   Wed, 24 Mar 2021 05:42:07 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfKovUWYK1rrLPDBAwZipgGBw6RQ/Zz+Tnoil8sDXDr4iOYhEuuqwTU7NMS/lDvguqCe9ybvspxgo4S/GgapEKIaGkfOnxpoXIyYb3QrECNtIOxJw4Ius
+ /vP7wElEjAGPm02sDhU2ZD4kB6VDO6BRRTg/48JmoXlYU9MMemnWhty34PChw7WuOMQQErtvOelYY/Bnv/8rlZ0dqJ+C6D/goGdvFTrIhKk1aJuDUH2+P0AE
+ FReL0worWDzfhWvrluMOEQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/23/21 8:29 PM, Xiaofeng Cao wrote:
-> change 'vodeo'     to 'video'
-> change 'nevery'    to 'never'
-> change 'is'        to 'it'
-> change 'connevted' to 'connected'
-> change 'swichers'  to 'switchers'
-> change 'strucure'  to 'structure'
-> change 'unblanced' to 'unbalanced'
-> change 'fonctionality' to 'functionality'
-> 
-> Signed-off-by: Xiaofeng Cao <caoxiaofeng@yulong.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-LGTM. Thanks.
+Results of the daily build of media_tree:
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+date:			Wed Mar 24 05:00:09 CET 2021
+media-tree git hash:	97b34809ec240d82c82af97626c2071a4062e0e6
+media_build git hash:	70188fdddcfedda190f1118529888cd3dc2581d6
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> ---
-> v2: resume space and change 'USED' to 'USE'
->  drivers/media/pci/bt8xx/bttv-cards.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/pci/bt8xx/bttv-cards.c b/drivers/media/pci/bt8xx/bttv-cards.c
-> index ca20b806e82d..c2b5ab287dd7 100644
-> --- a/drivers/media/pci/bt8xx/bttv-cards.c
-> +++ b/drivers/media/pci/bt8xx/bttv-cards.c
-> @@ -2011,7 +2011,7 @@ struct tvcard bttv_tvcards[] = {
->  		/* .audio_inputs= 0, */
->  		.svhs           = 9,
->  		.gpiomask       = 0x00,
-> -		.gpiomask2      = 0x03, /* used for external vodeo mux */
-> +		.gpiomask2      = 0x03, /* used for external video mux */
->  		.muxsel         = MUXSEL(2, 2, 2, 2, 3, 3, 3, 3, 1, 0),
->  		.muxsel_hook	= phytec_muxsel,
->  		.gpiomux        = { 0, 0, 0, 0 }, /* card has no audio */
-> @@ -2025,7 +2025,7 @@ struct tvcard bttv_tvcards[] = {
->  		/* .audio_inputs= 0, */
->  		.svhs           = 9,
->  		.gpiomask       = 0x00,
-> -		.gpiomask2      = 0x03, /* used for external vodeo mux */
-> +		.gpiomask2      = 0x03, /* used for external video mux */
->  		.muxsel         = MUXSEL(2, 2, 2, 2, 3, 3, 3, 3, 1, 1),
->  		.muxsel_hook	= phytec_muxsel,
->  		.gpiomux        = { 0, 0, 0, 0 }, /* card has no audio */
-> @@ -2180,8 +2180,8 @@ struct tvcard bttv_tvcards[] = {
->  	[BTTV_BOARD_PICOLO_TETRA_CHIP] = {
->  		/*Eric DEBIEF <debief@telemsa.com>*/
->  		/*EURESYS Picolo Tetra : 4 Conexant Fusion 878A, no audio, video input set with analog multiplexers GPIO controlled*/
-> -		/* adds picolo_tetra_muxsel(), picolo_tetra_init(), the following declaration strucure, and #define BTTV_BOARD_PICOLO_TETRA_CHIP*/
-> -		/*0x79 in bttv.h*/
-> +		/*adds picolo_tetra_muxsel(), picolo_tetra_init(), the following declaration*/
-> +		/*structure and #define BTTV_BOARD_PICOLO_TETRA_CHIP 0x79 in bttv.h*/
->  		.name           = "Euresys Picolo Tetra",
->  		.video_inputs   = 4,
->  		/* .audio_inputs= 0, */
-> @@ -2506,7 +2506,7 @@ struct tvcard bttv_tvcards[] = {
->  	     one external BNC composite input (mux 2)
->  	     three internal composite inputs (unknown muxes)
->  	     an 18-bit stereo A/D (CS5331A), which has:
-> -	       one external stereo unblanced (RCA) audio connection
-> +	       one external stereo unbalanced (RCA) audio connection
->  	       one (or 3?) internal stereo balanced (XLR) audio connection
->  	       input is selected via gpio to a 14052B mux
->  		 (mask=0x300, unbal=0x000, bal=0x100, ??=0x200,0x300)
-> @@ -3924,7 +3924,7 @@ static void osprey_eeprom(struct bttv *btv, const u8 ee[256])
->  	u32 serial = 0;
->  	int cardid = -1;
->  
-> -	/* This code will nevery actually get called in this case.... */
-> +	/* This code will never actually get called in this case.... */
->  	if (btv->c.type == BTTV_BOARD_UNKNOWN) {
->  		/* this might be an antique... check for MMAC label in eeprom */
->  		if (!strncmp(ee, "MMAC", 4)) {
-> @@ -4086,7 +4086,7 @@ static void avermedia_eeprom(struct bttv *btv)
->  /*
->   * For Voodoo TV/FM and Voodoo 200.  These cards' tuners use a TDA9880
->   * analog demod, which is not I2C controlled like the newer and more common
-> - * TDA9887 series.  Instead is has two tri-state input pins, S0 and S1,
-> + * TDA9887 series.  Instead it has two tri-state input pins, S0 and S1,
->   * that control the IF for the video and audio.  Apparently, bttv GPIO
->   * 0x10000 is connected to S0.  S0 low selects a 38.9 MHz VIF for B/G/D/K/I
->   * (i.e., PAL) while high selects 45.75 MHz for M/N (i.e., NTSC).
-> @@ -4144,7 +4144,7 @@ static void init_PXC200(struct bttv *btv)
->  	int tmp;
->  	u32 val;
->  
-> -	/* Initialise GPIO-connevted stuff */
-> +	/* Initialise GPIO-connected stuff */
->  	gpio_inout(0xffffff, (1<<13));
->  	gpio_write(0);
->  	udelay(3);
-> @@ -4580,7 +4580,7 @@ static void xguard_muxsel(struct bttv *btv, unsigned int input)
->  }
->  static void picolo_tetra_init(struct bttv *btv)
->  {
-> -	/*This is the video input redirection fonctionality : I DID NOT USED IT. */
-> +	/*This is the video input redirection functionality : I DID NOT USE IT. */
->  	btwrite (0x08<<16,BT848_GPIO_DATA);/*GPIO[19] [==> 4053 B+C] set to 1 */
->  	btwrite (0x04<<16,BT848_GPIO_DATA);/*GPIO[18] [==> 4053 A]  set to 1*/
->  }
-> @@ -4598,7 +4598,7 @@ static void picolo_tetra_muxsel (struct bttv* btv, unsigned int input)
->   * ivc120_muxsel [Added by Alan Garfield <alan@fromorbit.com>]
->   *
->   * The IVC120G security card has 4 i2c controlled TDA8540 matrix
-> - * swichers to provide 16 channels to MUX0. The TDA8540's have
-> + * switchers to provide 16 channels to MUX0. The TDA8540's have
->   * 4 independent outputs and as such the IVC120G also has the
->   * optional "Monitor Out" bus. This allows the card to be looking
->   * at one input while the monitor is looking at another.
-> 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-x86_64: OK
+linux-git-i686: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12-rc1-i686: OK
+linux-5.12-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
 
--- 
-~Randy
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
