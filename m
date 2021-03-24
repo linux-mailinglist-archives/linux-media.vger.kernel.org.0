@@ -2,89 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F2B3472C3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 08:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 718E4347310
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 08:57:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233631AbhCXHgV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 03:36:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233607AbhCXHft (ORCPT
+        id S236037AbhCXH5S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 03:57:18 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:53243 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235901AbhCXH4r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 03:35:49 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67910C0613DC
-        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 00:35:49 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id t20so7460019plr.13
-        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 00:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UHnQXvCUEV0VtT2MvwRRUTMl7zF6eBJNcfSgoe0/Exk=;
-        b=k9D/2cT0CpmkqGaY/11MKywcaywPYQDVieLebj1UULT8z9sBDXaJNLJowStEUy3/w6
-         3apxlPcQNPpUIPRzmPeZtywZ2THyPh6PlVTJGkfrAxdMXskEC7osX7UNhOZtOEfT1h+S
-         xou4rtF6ZowEhSkONdvfuYE5baadAn8u+2Tu4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UHnQXvCUEV0VtT2MvwRRUTMl7zF6eBJNcfSgoe0/Exk=;
-        b=ZSVJiIBI2K2cT7J8Tp9LRTWPPCPnZl+NGletHnkgW2qdpvLJbmDPmpt3p2zFgV/j3Z
-         vmqtSUk/tKgi3FAefv9srcic0Jm/1Iez5x52pHmRkRCg8ZyiBUQHdc+9bd0l8sL7nC41
-         BZpuUzGkR1gfbyHiXWKhdrjGqzIC195UdTbPhq06eMYp05jqFA4bWhK6lB86rNn64TWV
-         bVPs2XGDbie9RlFsDPbwYegf8s8QnwkjLUFHpadmGbWksI3y5qBdcQauLDqCfM91yPCI
-         kD+xmVqOYgTPKQXi1zPOPscioWxocSZOJHjwEsQun1rcvi9kuQJ/nqnu6V3hLzA8olRa
-         2bTg==
-X-Gm-Message-State: AOAM530JXgz3yKTLuuroqpQBm+lkqwgr38sGQ1ycGs4qyStVe8T0CbuQ
-        cbMLbFw4rfA9WjdeamXBlmUNcw==
-X-Google-Smtp-Source: ABdhPJxycrxLUpmuIUIcDbco/lAquBY2NOJSa5mzOIKXSD3tzJTJJp0YJbxXBT0Xe1i6vAvjoAo2qQ==
-X-Received: by 2002:a17:90a:c004:: with SMTP id p4mr2112110pjt.202.1616571348923;
-        Wed, 24 Mar 2021 00:35:48 -0700 (PDT)
-Received: from google.com ([2409:10:2e40:5100:bcf2:e05a:a993:9494])
-        by smtp.gmail.com with ESMTPSA id k64sm1366705pgk.23.2021.03.24.00.35.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 00:35:48 -0700 (PDT)
-Date:   Wed, 24 Mar 2021 16:35:43 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCHv3 3/6] media: v4l UAPI: add ROI auto-controls flags
-Message-ID: <YFrrz9lEKgjY1Arn@google.com>
-References: <20210319055342.127308-1-senozhatsky@chromium.org>
- <20210319055342.127308-4-senozhatsky@chromium.org>
- <CANiDSCseJdKuPSZFDvc8VGp=PDqGEN42ZsLVGgkwhAz5hhVCQQ@mail.gmail.com>
- <YFqiWixqSuPMTwXz@google.com>
- <CANiDSCujVZy93W=HW317R5rEzEtdaaR8XwA_tu-ZT4eFe1VSrQ@mail.gmail.com>
+        Wed, 24 Mar 2021 03:56:47 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id OyNelvrLxCAEGOyNhlYquz; Wed, 24 Mar 2021 08:56:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616572605; bh=fZ79A/xTJZ3PqF4fkdUC6OWqKO2m1C1YvsZWEkldU/s=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Ca67zsS+HbgQlD3UqjXubuytG65YZEUu+r0o5EMgFtk9HZDJzuP1iB+tnhhTUTLOk
+         eInv/lLTgwMv7HC05Pv41vQTMVm3rGnL3vQEOKrTJN92+uuM3l0utRXJ+S/Yo+0euj
+         9s1FFyRhe4T6K4lSHeUa5ij3BUp7czVC+kBI9KABXurGdmDymWfF/brtLuPs0KywKa
+         pUE6wARJtU/sFFLRVs9Pmj7DXBagcOpU2UxbaGlCxaWyTvN60fBT8ZlLamKFlAiiVu
+         KzD1QYMJ8hD8fejzsPzKRRdVs5LlVdDnClstrKJwaKQPdS7xF4/F+/sHUaR5rbr1LI
+         ITutfA5DGY3Uw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] adv7604: fix HPD support for adv7611/12
+Message-ID: <c7093e76-ffb4-b19c-f576-b264f935a3ce@xs4all.nl>
+Date:   Wed, 24 Mar 2021 08:56:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCujVZy93W=HW317R5rEzEtdaaR8XwA_tu-ZT4eFe1VSrQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfMMEc6Jxr+z2qIghm6YbPYhxEQSiejPnYmE9YgjUzxxYbn1KAbPyn8X7Uvn104nQdsfjBKfGEdrxW1TvA0EKfvErVw0furQzVXNRhAgZTQOI1K7UkilP
+ 1v4QBDTu+TRIDnaWTQRE+tKav0R/tYjbnPDH/EliX0w7OxAs+auH7EOXYckYCfhDAfCYQ5VYqqPgoUNj3Dv3TC0mwIkrHqB4ImX3206kJCSmrVimay00gbeP
+ US9g7d0bRjca5Og/1RTiGQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (21/03/24 08:28), Ricardo Ribalda wrote:
-[..]
-> > >
-> > > Are you sure that you do not want to start with 1<<3, there might be
-> > > some hardware that support LE/SE
-> >
-> > How the hardware's going to support this? There is simply no way to
-> > pass these flags to the firmware, the values already overlap with
-> > auto-controls. So I guess these flags are for the driver (C code).
-> > uvcvideo driver is not doing any "lesser or equal rectangle" magic
-> > for ROI. No such thing is defined by UVC spec.
-> 
-> The driver can implement se/le.
+For the adv7604 the hotplug detect pin is controlled through gpio pins from
+the SoC, but the adv7611 and adv7612 control the hotplug detect pin themselves.
 
-Right. I wonder if we can actually fit ROI into selection API.
-v4l2 selection is focusing on rectangle, that's the only thing
-that matters, but in ROI rectangle and autocontrols are equally
-important.
+But the driver had no support for this, so the HPD was always high, even when
+changing the EDID. Add proper support for this to the driver.
+
+Tested with an adv7612.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 7547afc85eb1..15bcb88ca2e3 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -519,10 +519,17 @@ static inline int edid_write_block(struct v4l2_subdev *sd,
+
+ static void adv76xx_set_hpd(struct adv76xx_state *state, unsigned int hpd)
+ {
++	const struct adv76xx_chip_info *info = state->info;
+ 	unsigned int i;
+
+-	for (i = 0; i < state->info->num_dv_ports; ++i)
+-		gpiod_set_value_cansleep(state->hpd_gpio[i], hpd & BIT(i));
++	if (info->type == ADV7604) {
++		for (i = 0; i < state->info->num_dv_ports; ++i)
++			gpiod_set_value_cansleep(state->hpd_gpio[i], hpd & BIT(i));
++	} else {
++		for (i = 0; i < state->info->num_dv_ports; ++i)
++			io_write_clr_set(&state->sd, 0x20, 0x80 >> i,
++					 (!!(hpd & BIT(i))) << (7 - i));
++	}
+
+ 	v4l2_subdev_notify(&state->sd, ADV76XX_HOTPLUG, &hpd);
+ }
+@@ -2826,6 +2833,18 @@ static int adv76xx_core_init(struct v4l2_subdev *sd)
+ 	io_write(sd, 0x0b, 0x44);   /* Power down ESDP block */
+ 	cp_write(sd, 0xcf, 0x01);   /* Power down macrovision */
+
++	/* HPD */
++	if (info->type != ADV7604) {
++		/* Set manual HPD values to 0 */
++		io_write_clr_set(sd, 0x20, 0xc0, 0);
++		/*
++		 * Set HPA_DELAY to 200 ms and set automatic HPD control
++		 * to: internal EDID is active AND a cable is detected
++		 * AND the manual HPD control is set to 1.
++		 */
++		hdmi_write_clr_set(sd, 0x6c, 0xf6, 0x26);
++	}
++
+ 	/* video format */
+ 	io_write_clr_set(sd, 0x02, 0x0f, pdata->alt_gamma << 3);
+ 	io_write_clr_set(sd, 0x05, 0x0e, pdata->blank_data << 3 |
