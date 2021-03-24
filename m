@@ -2,114 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FDD334712B
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 06:41:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5F62347133
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 06:47:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232940AbhCXFl0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 01:41:26 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:53270 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232830AbhCXFlS (ORCPT
+        id S235286AbhCXFqY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 01:46:24 -0400
+Received: from mail-m975.mail.163.com ([123.126.97.5]:47158 "EHLO
+        mail-m975.mail.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235303AbhCXFqH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 01:41:18 -0400
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 23 Mar 2021 22:41:17 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 23 Mar 2021 22:41:16 -0700
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 24 Mar 2021 11:10:59 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id BC4E4216A6; Wed, 24 Mar 2021 11:10:58 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH] media: venus : hfi: add venus image info into smem
-Date:   Wed, 24 Mar 2021 11:10:57 +0530
-Message-Id: <1616564457-25221-1-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        Wed, 24 Mar 2021 01:46:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=DMi9g
+        BKA8V6Tl2JurLgWr/kbFPfvpARWZMY2TG8EQVA=; b=gn8TuDPn84AtjJ0EPLcOY
+        1WGW9Lt7MlEB7u1YM1aTDZCcKhLFreTXxieDl7uyi9b5qDNdIhT+4TTeY9Q7N225
+        eoyTo5HrNVLV3B0THDf3ubitMoiKRX/pt04VbtfKCxnvJ0cRvZ8sFMX92JZMXnPC
+        sBqtRb8zSLTZkoXeFlPbYQ=
+Received: from caizhichao.ccdomain.com (unknown [218.94.48.178])
+        by smtp5 (Coremail) with SMTP id HdxpCgBXIqD10VpgIUcpBw--.92S2;
+        Wed, 24 Mar 2021 13:45:43 +0800 (CST)
+From:   caizhichao <tomstomsczc@163.com>
+To:     mchehab@kernel.org
+Cc:     linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        sakari.ailus@linux.intel.com, Zhichao Cai <caizhichao@yulong.com>
+Subject: [PATCH] drivers:staging: Simplify the if condition
+Date:   Wed, 24 Mar 2021 13:45:35 +0800
+Message-Id: <20210324054535.1716-1-tomstomsczc@163.com>
+X-Mailer: git-send-email 2.30.0.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: HdxpCgBXIqD10VpgIUcpBw--.92S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZryrGF1UZF1UCr13Xr4kCrg_yoWkGFgEkr
+        4ftFn2gr45Cr1fCw15CF4UZ34Iqan5Ar9Y9a4FyFW3KFsrZay8Z3ykZry8J3s0g34Yqr9x
+        CrZ5urn3KwnrWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU05KsUUUUUU==
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: pwrp23prpvu6rf6rljoofrz/1tbisgdfilUMRlWqaAAAso
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-fill fw version info into smem to be printed as part of
-soc info.
+From: Zhichao Cai <caizhichao@yulong.com>
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Fixes coccicheck warning:
+drivers/staging/media/atomisp/pci/sh_css_params.c:4652:24-26: WARNING !A || A && B is equivalent to !A || B
+
+Signed-off-by: Zhichao Cai <caizhichao@yulong.com>
 ---
- drivers/media/platform/qcom/venus/hfi_msgs.c | 36 ++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css_params.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-index 06a1908..0e94921 100644
---- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-+++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-@@ -6,6 +6,7 @@
- #include <linux/hash.h>
- #include <linux/list.h>
- #include <linux/slab.h>
-+#include <linux/soc/qcom/smem.h>
- #include <media/videobuf2-v4l2.h>
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 9fad28b..7467256 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -4649,10 +4649,8 @@ struct ia_css_dvs_6axis_config *
+ 	params = stream->isp_params_configs;
  
- #include "core.h"
-@@ -14,6 +15,8 @@
- #include "hfi_msgs.h"
- #include "hfi_parser.h"
+ 	/* Backward compatibility by default consider pipe as Video*/
+-	if (!params || (params &&
+-			!params->pipe_dvs_6axis_config[IA_CSS_PIPE_ID_VIDEO])) {
++	if (!params || !params->pipe_dvs_6axis_config[IA_CSS_PIPE_ID_VIDEO])
+ 		goto err;
+-	}
  
-+#define SMEM_IMAGE_VERSION_TABLE 469
-+
- static void event_seq_changed(struct venus_core *core, struct venus_inst *inst,
- 			      struct hfi_msg_event_notify_pkt *pkt)
- {
-@@ -239,15 +242,44 @@ static void
- sys_get_prop_image_version(struct device *dev,
- 			   struct hfi_msg_sys_property_info_pkt *pkt)
- {
-+	u32 i = 0;
-+	size_t smem_block_size = 0;
-+	u8 *smem_table_ptr;
-+	char version[256];
-+	const u32 version_string_size = 128;
-+	const u32 smem_image_index_venus = 14 * 128;
-+	u8 *str_image_version;
- 	int req_bytes;
- 
- 	req_bytes = pkt->hdr.size - sizeof(*pkt);
- 
--	if (req_bytes < 128 || !pkt->data[1] || pkt->num_properties > 1)
-+	if (req_bytes < version_string_size || !pkt->data[1] || pkt->num_properties > 1)
- 		/* bad packet */
- 		return;
- 
--	dev_dbg(dev, VDBGL "F/W version: %s\n", (u8 *)&pkt->data[1]);
-+	str_image_version = (u8 *)&pkt->data[1];
-+
-+	/*
-+	 * The version string returned by firmware includes null
-+	 * characters at the start and in between. Replace the null
-+	 * characters with space, to print the version info.
-+	 */
-+	for (i = 0; i < version_string_size; i++) {
-+		if (str_image_version[i] != '\0')
-+			version[i] = str_image_version[i];
-+		else
-+			version[i] = ' ';
-+	}
-+
-+	version[i] = '\0';
-+	dev_dbg(dev, VDBGL "F/W version: %s\n", version);
-+
-+	smem_table_ptr = qcom_smem_get(QCOM_SMEM_HOST_ANY,
-+				       SMEM_IMAGE_VERSION_TABLE, &smem_block_size);
-+	if ((smem_image_index_venus + version_string_size) <= smem_block_size &&
-+	    smem_table_ptr)
-+		memcpy(smem_table_ptr + smem_image_index_venus,
-+		       str_image_version, version_string_size);
- }
- 
- static void hfi_sys_property_info(struct venus_core *core,
+ 	dvs_config = kvcalloc(1, sizeof(struct ia_css_dvs_6axis_config),
+ 			      GFP_KERNEL);
 -- 
-2.7.4
+1.9.1
 
