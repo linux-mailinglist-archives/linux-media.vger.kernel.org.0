@@ -2,207 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E52D34825A
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 20:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D484F3482D4
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 21:23:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238087AbhCXT65 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 15:58:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237981AbhCXT6f (ORCPT
+        id S238104AbhCXUXR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 16:23:17 -0400
+Received: from mail-il1-f176.google.com ([209.85.166.176]:41719 "EHLO
+        mail-il1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238058AbhCXUW4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 15:58:35 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F4DC061763
-        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 12:58:35 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id j17so12886116qvo.13
-        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 12:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=WohtsYNWEdFTIn8E+Et3spzWAWV2YpfFIl4Sn9otDIc=;
-        b=O1asTqeApZJOrRJ3N58wnaLH6u5ZyLuKnbnLod3nO2S3ZYzpQ4ItwhhbC8VDfU579j
-         C7+c9zj17/nKO2QP6w7qw7CBLdYA9y0tZgQ7NgNbDDYlA0rqHCAJtc64XilqbeqEcnsz
-         v1JrWWjIVee8T2eXC9VcV8Exj+wrChvmAcoGllkoWyPCyv1yYNdP4uwqZw2Ol30naFld
-         AVKxcCqAoc3UMMWvADruEuNZ2e+WrZ518AaoqiGrASGXAiumlkw62S0nSp7OcSoiYbDJ
-         3VXfUK/S04M0h/M9wcBIpPZegSUeqDqt8wWnRbaJMg1kSMZQcNYckREMWgV++dmTZZWR
-         ugOA==
+        Wed, 24 Mar 2021 16:22:56 -0400
+Received: by mail-il1-f176.google.com with SMTP id r8so186355ilo.8;
+        Wed, 24 Mar 2021 13:22:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WohtsYNWEdFTIn8E+Et3spzWAWV2YpfFIl4Sn9otDIc=;
-        b=QYyemDKFeKxKBUmNkYzoPO+vfSeTVGQfBpvxPC4pI0O3i9XGMcLpgftbwrZf0u8ROO
-         PAGGflks4y5B+mXyLFN7muxBHhjDG50xUZxEDdj5lYYF9COSlkX0HCB/RmPf0LS+MZek
-         DfIVJWRzV5AjXrfqoaQ2p4jT76+Pkwh+ZlC8Wsg7Lya2T2YhO6cnABilbda1dDvBkaz9
-         4dOSXnyV5aqkn2egE2TjKgb3rCiTt+o5pmYdbihLa6yC5V+OPP7EEVz6ww3xSAK0rKUZ
-         ZkmMW2exbgddCwnNa+gT6Kf8E4OJ1cjPm7DZwOsLV6p667+0VFc0itNXT6dSp30IblRY
-         +MjA==
-X-Gm-Message-State: AOAM5315bNuQztr7OgCxfeSvZFHFfmBN7hLg4J58IjwHpCg9qhDIxZB8
-        CioiEuiZWBdN1DkX7bNsy/rO8A==
-X-Google-Smtp-Source: ABdhPJwVOGZjBIbcrcxsjTB8BxQREUcVPDREe/rzhL7mQYvJXvkATuDxxPdELSWp+C0ZUKN8e2iOXw==
-X-Received: by 2002:a0c:bf47:: with SMTP id b7mr4326951qvj.38.1616615914732;
-        Wed, 24 Mar 2021 12:58:34 -0700 (PDT)
-Received: from nicolas-tpx395.lan (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id n6sm2009606qtx.22.2021.03.24.12.58.33
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ym9wQJ835EhicfJs2Z/0AiEJTDHIWA8h8IYBIVzB34I=;
+        b=T8A0FHcCIWiyBuOlIz/O5+Ot5ut0YUNRhcFHly0k5BZPhvhOla6W/rGXyFo91iEwXT
+         BA0HhMM66Edy1877SVp7cPo9twuOqAejBlafaVIEdc1ivwCK2U/CnaQwNh5Sf0m2+sGa
+         NaKT09qBexiid1s1pW+YQkiLHvNj3RNN5sVIyVr3YHr3/UHC0Nm2nLA8Gb5U1P5U4KVO
+         J5s5BNiA4fWU6pcg2utG/Hu9FLDDx93dna3ixAKgjF73umAFnwgGkL6qFQEaeqbmka1W
+         1V9MCFuEQCiwuX4RznarezLD0O0n3J1I/6pyzBetlE7R8C+YsQIm6Jqz1doqJ37QjcBv
+         I6Hg==
+X-Gm-Message-State: AOAM531rM5HS8l6mp30oTwuRwEhZ9Y09N/b0B+jyU6HrUMj798HCfNag
+        3IRPxVxavG/obXHIgWR60/SPZBAEZLKo
+X-Google-Smtp-Source: ABdhPJx3LwNgG+pEwKPSbbPIAocbEobG0kVRkstX/EHtFKqufLF2VaRE6e/EzOizKuOO3upBFpe2XA==
+X-Received: by 2002:a05:6e02:128c:: with SMTP id y12mr3996206ilq.7.1616617375356;
+        Wed, 24 Mar 2021 13:22:55 -0700 (PDT)
+Received: from xps15.herring.priv ([64.188.179.253])
+        by smtp.googlemail.com with ESMTPSA id p5sm1544811iod.31.2021.03.24.13.22.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 12:58:34 -0700 (PDT)
-Message-ID: <45362b53cb3603597c2e83be68df439164572ad4.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 00/10] Microship SAMA5D4 VPU support et al
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Emil Velikov <emil.l.velikov@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        Nicolas Ferre <nicolas.ferre@microchip.com>
-Date:   Wed, 24 Mar 2021 15:58:33 -0400
-In-Reply-To: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
-References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        Wed, 24 Mar 2021 13:22:54 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: media: video-interfaces: Drop the example
+Date:   Wed, 24 Mar 2021 14:22:53 -0600
+Message-Id: <20210324202253.3576798-1-robh@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 11 mars 2021 à 15:40 +0000, Emil Velikov a écrit :
-> Hi all
-> 
-> This series adds support for the Microchip SAMA5D4 VPU, which it based
-> on the Hantro G1.
+The example in video-interfaces.yaml uses a bunch of undocumented
+bindings which will cause warnings when undocumented compatible checks
+are enabled. The example could be fixed to use documented bindings, but
+doing so would just duplicate other examples. So let's just remove the
+example.
 
-Perhaps in your next version you could fix the object line, you wrote Microship
-instead of Microchip.
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+v2: Drop instead of fixing the example
 
-> 
-> The hardware can support up-to 1280x720 for each of the MPEG2, VP8 and
-> H264 codecs. There is only a single decoder and no encoders on the SoC.
-> 
-> The Hantro G1 post-processing is also enabled on the platform.
-> 
-> To minimise duplication, the series starts with a few small cleanups.
-> 
-> 
-> As you may have noticed, this is my first patches series to linux-media,
-> so any tips how to make this as smoother process are appreciated.
-> 
-> 
-> Changes in v2:
->  - Add testing results in the cover letter (thanks Eze)
->  - s/Atmel/Microchip/ through the series (thanks Nicolas)
->  - Split defconfig change into separate commit (thanks Eze, Nicolas)
->  - Added Reviewed-by and Fixes tags (thanks Philipp)
->  - Split DT into separate commit, wrote binding document, fixup minor DT
->    warnings (thanks Eze)
->  - Rebased on top of 5.12-rc2, as per Linus' email to avoid 5.12-rc1
->    https://lwn.net/Articles/848265/
-> 
-> 
-> 
-> Testing
-> -------
-> 
->  - v4l-compliance
-> 
-> Command used:
->   v4l2-compliance -m0
-> 
-> Output summary:
-> 
-> v4l2-compliance 1.21.0-4740, 32 bits, 32-bit time_t
-> v4l2-compliance SHA: f253495fa6de 2021-03-06 15:32:09
-> 
-> Compliance test for hantro-vpu device /dev/media0:
-> 
-> Total for hantro-vpu device /dev/media0: 8, Succeeded: 8, Failed: 0,
-> Warnings: 0
-> 
-> Compliance test for hantro-vpu device /dev/video0:
-> 
-> Total for hantro-vpu device /dev/video0: 46, Succeeded: 46, Failed: 0,
-> Warnings: 0
-> 
-> 
->  - Post-processor testing
-> 
-> Command used:
->   gst-launch-1.0 -v filesrc location=test.mp4  ! decodebin3 !
-> video/x-raw,format=YUY2 ! ...
-> 
-> Confirmed the VPU is used by observing the interrupts triggering, strace
-> showed extra v4l2 ioctls - VIDIOC_S_FMT(... V4L2_PIX_FMT_YUYV  ...)
-> 
-> 
->  - MPEG2 testing, custom ffmpeg from
->    https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-hwaccel-4.3
-> 
-> Command used:
->   ffmpeg -hwaccel drm -i mpeg2.mpeg2 -f rawvideo -pix_fmt yuv420p out.raw
-> 
-> Confirmed the VPU is used by observing the interrupts triggering, strace
-> showed the v4l2 ioctls being used plus played back the resulting file.
-> 
-> 
->  - VP8 testing, using fluster
-> 
-> Command used:
->   fluster.py run -ts VP8-TEST-VECTORS -d GStreamer-VP8-V4L2SL-Gst1.0
-> 
-> Output summary:
-> 
-> Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
-> Ran 61 tests in 103.273s
-> 
-> FAILED (failures=9, errors=2)
-> 
-> 
->  - H264 testing, using fluster
-> 
-> Command used:
->   fluster.py run -ts JVT-AVC_V1 -d GStreamer-H.264-V4L2SL-Gst1.0
-> 
-> Output summary:
-> 
-> Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2SL-Gst1.0
-> Ran 135 tests in 420.444s
-> 
-> FAILED (failures=9, errors=55)
-> 
-> 
-> Looking forward to your feedback,
-> Emil
-> 
-> 
-> Emil Velikov (10):
->   media: hantro: use G1_REG_INTERRUPT directly for the mpeg2
->   media: hantro: imx: reuse MB_DIM define
->   media: hantro: imx: remove duplicate dec_base init
->   media: hantro: imx: remove unused include
->   media: hantro: introduce hantro_g1.c for common API
->   media: dt-bindings: Document SAMA5D4 VDEC bindings
->   media: hantro: add initial SAMA5D4 support
->   ARM: dts: sama5d4: enable Hantro G1 VDEC
->   ARM: configs: at91: sama5: update with savedefconfig
->   ARM: configs: at91: sama5: enable the Hantro G1 engine
-> 
->  .../media/microchip,sama5d4-vdec.yaml         |  59 +++++++++
->  arch/arm/boot/dts/sama5d4.dtsi                |   9 ++
->  arch/arm/configs/sama5_defconfig              |  40 +++---
->  drivers/staging/media/hantro/Kconfig          |  10 +-
->  drivers/staging/media/hantro/Makefile         |   4 +
->  drivers/staging/media/hantro/hantro_drv.c     |   3 +
->  drivers/staging/media/hantro/hantro_g1.c      |  39 ++++++
->  .../media/hantro/hantro_g1_mpeg2_dec.c        |   5 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +
->  drivers/staging/media/hantro/imx8m_vpu_hw.c   |  27 +---
->  drivers/staging/media/hantro/rk3288_vpu_hw.c  |  36 +-----
->  .../staging/media/hantro/sama5d4_vdec_hw.c    | 117 ++++++++++++++++++
->  12 files changed, 274 insertions(+), 79 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
->  create mode 100644 drivers/staging/media/hantro/hantro_g1.c
->  create mode 100644 drivers/staging/media/hantro/sama5d4_vdec_hw.c
-> 
+ .../bindings/media/video-interfaces.yaml      | 127 ------------------
+ 1 file changed, 127 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+index 0a7a73fd59f2..4391dce2caee 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
++++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+@@ -215,130 +215,3 @@ properties:
+       CCP2, for instance.
+ 
+ additionalProperties: true
+-
+-examples:
+-  # The example snippet below describes two data pipelines.  ov772x and imx074
+-  # are camera sensors with a parallel and serial (MIPI CSI-2) video bus
+-  # respectively. Both sensors are on the I2C control bus corresponding to the
+-  # i2c0 controller node.  ov772x sensor is linked directly to the ceu0 video
+-  # host interface. imx074 is linked to ceu0 through the MIPI CSI-2 receiver
+-  # (csi2). ceu0 has a (single) DMA engine writing captured data to memory.
+-  # ceu0 node has a single 'port' node which may indicate that at any time
+-  # only one of the following data pipelines can be active:
+-  # ov772x -> ceu0 or imx074 -> csi2 -> ceu0.
+-  - |
+-    ceu@fe910000 {
+-        compatible = "renesas,sh-mobile-ceu";
+-        reg = <0xfe910000 0xa0>;
+-        interrupts = <0x880>;
+-
+-        mclk: master_clock {
+-            compatible = "renesas,ceu-clock";
+-            #clock-cells = <1>;
+-            clock-frequency = <50000000>;  /* Max clock frequency */
+-            clock-output-names = "mclk";
+-        };
+-
+-        port {
+-            #address-cells = <1>;
+-            #size-cells = <0>;
+-
+-            /* Parallel bus endpoint */
+-            ceu0_1: endpoint@1 {
+-                reg = <1>;    /* Local endpoint # */
+-                remote-endpoint = <&ov772x_1_1>;  /* Remote phandle */
+-                bus-width = <8>;  /* Used data lines */
+-                data-shift = <2>;  /* Lines 9:2 are used */
+-
+-                /* If hsync-active/vsync-active are missing,
+-                   embedded BT.656 sync is used */
+-                hsync-active = <0>;  /* Active low */
+-                vsync-active = <0>;  /* Active low */
+-                data-active = <1>;  /* Active high */
+-                pclk-sample = <1>;  /* Rising */
+-            };
+-
+-            /* MIPI CSI-2 bus endpoint */
+-            ceu0_0: endpoint@0 {
+-                reg = <0>;
+-                remote-endpoint = <&csi2_2>;
+-            };
+-        };
+-    };
+-
+-    i2c {
+-        #address-cells = <1>;
+-        #size-cells = <0>;
+-
+-        camera@21 {
+-            compatible = "ovti,ov772x";
+-            reg = <0x21>;
+-            vddio-supply = <&regulator1>;
+-            vddcore-supply = <&regulator2>;
+-
+-            clock-frequency = <20000000>;
+-            clocks = <&mclk 0>;
+-            clock-names = "xclk";
+-
+-            port {
+-                /* With 1 endpoint per port no need for addresses. */
+-                ov772x_1_1: endpoint {
+-                    bus-width = <8>;
+-                    remote-endpoint = <&ceu0_1>;
+-                    hsync-active = <1>;
+-                    vsync-active = <0>; /* Who came up with an
+-                               inverter here ?... */
+-                    data-active = <1>;
+-                    pclk-sample = <1>;
+-                };
+-            };
+-        };
+-
+-        camera@1a {
+-            compatible = "sony,imx074";
+-            reg = <0x1a>;
+-            vddio-supply = <&regulator1>;
+-            vddcore-supply = <&regulator2>;
+-
+-            clock-frequency = <30000000>;  /* Shared clock with ov772x_1 */
+-            clocks = <&mclk 0>;
+-            clock-names = "sysclk";    /* Assuming this is the
+-                       name in the datasheet */
+-            port {
+-                imx074_1: endpoint {
+-                    clock-lanes = <0>;
+-                    data-lanes = <1 2>;
+-                    remote-endpoint = <&csi2_1>;
+-                };
+-            };
+-        };
+-    };
+-
+-    csi2: csi2@ffc90000 {
+-        compatible = "renesas,sh-mobile-csi2";
+-        reg = <0xffc90000 0x1000>;
+-        interrupts = <0x17a0>;
+-        #address-cells = <1>;
+-        #size-cells = <0>;
+-
+-        port@1 {
+-            compatible = "renesas,csi2c";  /* One of CSI2I and CSI2C. */
+-            reg = <1>;      /* CSI-2 PHY #1 of 2: PHY_S,
+-                       PHY_M has port address 0,
+-                       is unused. */
+-            csi2_1: endpoint {
+-                clock-lanes = <0>;
+-                data-lanes = <2 1>;
+-                remote-endpoint = <&imx074_1>;
+-            };
+-        };
+-        port@2 {
+-            reg = <2>;      /* port 2: link to the CEU */
+-
+-            csi2_2: endpoint {
+-                remote-endpoint = <&ceu0_0>;
+-            };
+-        };
+-    };
+-
+-...
+-- 
+2.27.0
 
