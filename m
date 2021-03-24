@@ -2,207 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D484F3482D4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 21:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67BFF34839F
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 22:28:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238104AbhCXUXR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 16:23:17 -0400
-Received: from mail-il1-f176.google.com ([209.85.166.176]:41719 "EHLO
-        mail-il1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238058AbhCXUW4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 16:22:56 -0400
-Received: by mail-il1-f176.google.com with SMTP id r8so186355ilo.8;
-        Wed, 24 Mar 2021 13:22:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ym9wQJ835EhicfJs2Z/0AiEJTDHIWA8h8IYBIVzB34I=;
-        b=T8A0FHcCIWiyBuOlIz/O5+Ot5ut0YUNRhcFHly0k5BZPhvhOla6W/rGXyFo91iEwXT
-         BA0HhMM66Edy1877SVp7cPo9twuOqAejBlafaVIEdc1ivwCK2U/CnaQwNh5Sf0m2+sGa
-         NaKT09qBexiid1s1pW+YQkiLHvNj3RNN5sVIyVr3YHr3/UHC0Nm2nLA8Gb5U1P5U4KVO
-         J5s5BNiA4fWU6pcg2utG/Hu9FLDDx93dna3ixAKgjF73umAFnwgGkL6qFQEaeqbmka1W
-         1V9MCFuEQCiwuX4RznarezLD0O0n3J1I/6pyzBetlE7R8C+YsQIm6Jqz1doqJ37QjcBv
-         I6Hg==
-X-Gm-Message-State: AOAM531rM5HS8l6mp30oTwuRwEhZ9Y09N/b0B+jyU6HrUMj798HCfNag
-        3IRPxVxavG/obXHIgWR60/SPZBAEZLKo
-X-Google-Smtp-Source: ABdhPJx3LwNgG+pEwKPSbbPIAocbEobG0kVRkstX/EHtFKqufLF2VaRE6e/EzOizKuOO3upBFpe2XA==
-X-Received: by 2002:a05:6e02:128c:: with SMTP id y12mr3996206ilq.7.1616617375356;
-        Wed, 24 Mar 2021 13:22:55 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.253])
-        by smtp.googlemail.com with ESMTPSA id p5sm1544811iod.31.2021.03.24.13.22.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 13:22:54 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     devicetree@vger.kernel.org
+        id S238338AbhCXV2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 17:28:14 -0400
+Received: from mga06.intel.com ([134.134.136.31]:35577 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233849AbhCXV2E (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Mar 2021 17:28:04 -0400
+IronPort-SDR: AIynuTeax0lSDR4QNNDrAwjv5zKQly0i/YD/y0BUrNCul06y1zxVSONEJ2DYy4nAgY8oUOJjJV
+ biZiQbh9rRyw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="252146191"
+X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
+   d="scan'208";a="252146191"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 14:28:01 -0700
+IronPort-SDR: WfPWxzgv6hRguRTx0Lc0se0H/IbC6vbec18pdDFxd4+6q0LrD3loM5RVaRgzQbGak0sV9tw53y
+ 2EfXrYrBhmaA==
+X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
+   d="scan'208";a="442424773"
+Received: from aksagira-mobl2.amr.corp.intel.com ([10.209.125.174])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 14:27:54 -0700
+Message-ID: <c0121400eea96626cdd212ad95f296a024356289.camel@linux.intel.com>
+Subject: Re: [PATCH 00/25] Rid W=1 warnings from HID
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Lee Jones <lee.jones@linaro.org>
 Cc:     linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: media: video-interfaces: Drop the example
-Date:   Wed, 24 Mar 2021 14:22:53 -0600
-Message-Id: <20210324202253.3576798-1-robh@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bruno =?ISO-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Daniel Drubin <daniel.drubin@intel.com>,
+        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
+        Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, Lopez Casado <nlopezcasad@logitech.com>,
+        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
+        Masaki Ota <masaki.ota@jp.alps.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        message to <vojtech@ucw.cz>,
+        Michael Haboustak <mike-@cinci.rr.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        Vojtech Pavlik <vojtech@suse.cz>,
+        Zhang Lixu <lixu.zhang@intel.com>
+Date:   Wed, 24 Mar 2021 14:27:54 -0700
+In-Reply-To: <20210324173404.66340-1-lee.jones@linaro.org>
+References: <20210324173404.66340-1-lee.jones@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The example in video-interfaces.yaml uses a bunch of undocumented
-bindings which will cause warnings when undocumented compatible checks
-are enabled. The example could be fixed to use documented bindings, but
-doing so would just duplicate other examples. So let's just remove the
-example.
+On Wed, 2021-03-24 at 17:33 +0000, Lee Jones wrote:
+> This set is part of a larger effort attempting to clean-up W=1
+> kernel builds, which are currently overwhelmingly riddled with
+> niggly little warnings.
+> 
 
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v2: Drop instead of fixing the example
+For changes in  drivers/hid/intel-ish-hid folder
 
- .../bindings/media/video-interfaces.yaml      | 127 ------------------
- 1 file changed, 127 deletions(-)
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-index 0a7a73fd59f2..4391dce2caee 100644
---- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-+++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-@@ -215,130 +215,3 @@ properties:
-       CCP2, for instance.
- 
- additionalProperties: true
--
--examples:
--  # The example snippet below describes two data pipelines.  ov772x and imx074
--  # are camera sensors with a parallel and serial (MIPI CSI-2) video bus
--  # respectively. Both sensors are on the I2C control bus corresponding to the
--  # i2c0 controller node.  ov772x sensor is linked directly to the ceu0 video
--  # host interface. imx074 is linked to ceu0 through the MIPI CSI-2 receiver
--  # (csi2). ceu0 has a (single) DMA engine writing captured data to memory.
--  # ceu0 node has a single 'port' node which may indicate that at any time
--  # only one of the following data pipelines can be active:
--  # ov772x -> ceu0 or imx074 -> csi2 -> ceu0.
--  - |
--    ceu@fe910000 {
--        compatible = "renesas,sh-mobile-ceu";
--        reg = <0xfe910000 0xa0>;
--        interrupts = <0x880>;
--
--        mclk: master_clock {
--            compatible = "renesas,ceu-clock";
--            #clock-cells = <1>;
--            clock-frequency = <50000000>;  /* Max clock frequency */
--            clock-output-names = "mclk";
--        };
--
--        port {
--            #address-cells = <1>;
--            #size-cells = <0>;
--
--            /* Parallel bus endpoint */
--            ceu0_1: endpoint@1 {
--                reg = <1>;    /* Local endpoint # */
--                remote-endpoint = <&ov772x_1_1>;  /* Remote phandle */
--                bus-width = <8>;  /* Used data lines */
--                data-shift = <2>;  /* Lines 9:2 are used */
--
--                /* If hsync-active/vsync-active are missing,
--                   embedded BT.656 sync is used */
--                hsync-active = <0>;  /* Active low */
--                vsync-active = <0>;  /* Active low */
--                data-active = <1>;  /* Active high */
--                pclk-sample = <1>;  /* Rising */
--            };
--
--            /* MIPI CSI-2 bus endpoint */
--            ceu0_0: endpoint@0 {
--                reg = <0>;
--                remote-endpoint = <&csi2_2>;
--            };
--        };
--    };
--
--    i2c {
--        #address-cells = <1>;
--        #size-cells = <0>;
--
--        camera@21 {
--            compatible = "ovti,ov772x";
--            reg = <0x21>;
--            vddio-supply = <&regulator1>;
--            vddcore-supply = <&regulator2>;
--
--            clock-frequency = <20000000>;
--            clocks = <&mclk 0>;
--            clock-names = "xclk";
--
--            port {
--                /* With 1 endpoint per port no need for addresses. */
--                ov772x_1_1: endpoint {
--                    bus-width = <8>;
--                    remote-endpoint = <&ceu0_1>;
--                    hsync-active = <1>;
--                    vsync-active = <0>; /* Who came up with an
--                               inverter here ?... */
--                    data-active = <1>;
--                    pclk-sample = <1>;
--                };
--            };
--        };
--
--        camera@1a {
--            compatible = "sony,imx074";
--            reg = <0x1a>;
--            vddio-supply = <&regulator1>;
--            vddcore-supply = <&regulator2>;
--
--            clock-frequency = <30000000>;  /* Shared clock with ov772x_1 */
--            clocks = <&mclk 0>;
--            clock-names = "sysclk";    /* Assuming this is the
--                       name in the datasheet */
--            port {
--                imx074_1: endpoint {
--                    clock-lanes = <0>;
--                    data-lanes = <1 2>;
--                    remote-endpoint = <&csi2_1>;
--                };
--            };
--        };
--    };
--
--    csi2: csi2@ffc90000 {
--        compatible = "renesas,sh-mobile-csi2";
--        reg = <0xffc90000 0x1000>;
--        interrupts = <0x17a0>;
--        #address-cells = <1>;
--        #size-cells = <0>;
--
--        port@1 {
--            compatible = "renesas,csi2c";  /* One of CSI2I and CSI2C. */
--            reg = <1>;      /* CSI-2 PHY #1 of 2: PHY_S,
--                       PHY_M has port address 0,
--                       is unused. */
--            csi2_1: endpoint {
--                clock-lanes = <0>;
--                data-lanes = <2 1>;
--                remote-endpoint = <&imx074_1>;
--            };
--        };
--        port@2 {
--            reg = <2>;      /* port 2: link to the CEU */
--
--            csi2_2: endpoint {
--                remote-endpoint = <&ceu0_0>;
--            };
--        };
--    };
--
--...
--- 
-2.27.0
+> Lee Jones (25):
+>   HID: intel-ish-hid: Remove unused variable 'err'
+>   HID: ishtp-hid-client: Move variable to where it's actually used
+>   HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
+>   HID: intel-ish: Supply some missing param descriptions
+>   HID: intel-ish: Fix a naming disparity and a formatting error
+>   HID: usbhid: Repair a formatting issue in a struct description
+>   HID: intel-ish-hid: Fix a little doc-rot
+>   HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
+>   HID: hid-alps: Correct struct misnaming
+>   HID: intel-ish-hid: Fix potential copy/paste error
+>   HID: hid-core: Fix incorrect function name in header
+>   HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name
+> in
+>     header
+>   HID: ishtp-hid-client: Fix incorrect function name
+> report_bad_packet()
+>   HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
+>   HID: hid-picolcd_core: Remove unused variable 'ret'
+>   HID: hid-logitech-hidpp: Fix conformant kernel-doc header and
+> demote
+>     abuses
+>   HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
+>   HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
+>   HID: hid-uclogic-params: Ensure function names are present and
+> correct
+>     in kernel-doc headers
+>   HID: hid-sensor-custom: Remove unused variable 'ret'
+>   HID: wacom_sys: Demote kernel-doc abuse
+>   HID: hid-sensor-hub: Remove unused struct member 'quirks'
+>   HID: hid-sensor-hub: Move 'hsdev' description to correct struct
+>     definition
+>   HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting
+> issues
+>   HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler
+> warning
+> 
+>  drivers/hid/hid-alps.c                       |  2 +-
+>  drivers/hid/hid-core.c                       |  2 +-
+>  drivers/hid/hid-kye.c                        |  2 +-
+>  drivers/hid/hid-logitech-hidpp.c             |  7 +--
+>  drivers/hid/hid-picolcd_core.c               |  5 +--
+>  drivers/hid/hid-sensor-custom.c              |  5 +--
+>  drivers/hid/hid-sensor-hub.c                 |  4 +-
+>  drivers/hid/hid-thrustmaster.c               | 24 +++++------
+>  drivers/hid/hid-uclogic-params.c             |  8 ++--
+>  drivers/hid/hid-uclogic-rdesc.c              |  2 +-
+>  drivers/hid/intel-ish-hid/ipc/ipc.c          |  2 +-
+>  drivers/hid/intel-ish-hid/ipc/pci-ish.c      |  3 +-
+>  drivers/hid/intel-ish-hid/ishtp-fw-loader.c  | 45 ++++++++++------
+> ----
+>  drivers/hid/intel-ish-hid/ishtp-hid-client.c | 11 +++--
+>  drivers/hid/intel-ish-hid/ishtp-hid.c        |  2 +-
+>  drivers/hid/intel-ish-hid/ishtp-hid.h        |  9 +---
+>  drivers/hid/intel-ish-hid/ishtp/bus.c        |  9 +++-
+>  drivers/hid/intel-ish-hid/ishtp/client.c     |  5 +--
+>  drivers/hid/intel-ish-hid/ishtp/hbm.c        |  4 +-
+>  drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  |  4 +-
+>  drivers/hid/usbhid/hid-pidff.c               |  4 +-
+>  drivers/hid/usbhid/usbkbd.c                  |  2 +-
+>  drivers/hid/wacom_sys.c                      |  2 +-
+>  include/linux/intel-ish-client-if.h          |  8 +++-
+>  24 files changed, 90 insertions(+), 81 deletions(-)
+> 
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> Cc: Anssi Hannula <anssi.hannula@gmail.com>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: Daniel Drubin <daniel.drubin@intel.com>
+> Cc: Dario Pagani <dario.pagani.146+linuxk@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Henrik Rydberg <rydberg@bitmath.org>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Cc: Kim Kuparinen <kimi.h.kuparinen@gmail.com>
+> Cc: "Krzysztof Wilczyński" <kw@linux.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> Cc: linux-usb@vger.kernel.org
+> Cc: Lopez Casado <nlopezcasad@logitech.com>
+> Cc: "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>
+> Cc: Masaki Ota <masaki.ota@jp.alps.com>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: message to <vojtech@ucw.cz>
+> Cc: Michael Haboustak <mike-@cinci.rr.com>
+> Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Uwe Kleine-König" <uwe@kleine-koenig.org>
+> Cc: Vojtech Pavlik <vojtech@suse.cz>
+> Cc: Zhang Lixu <lixu.zhang@intel.com>
 
