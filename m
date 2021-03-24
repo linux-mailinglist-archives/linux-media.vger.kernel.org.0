@@ -2,57 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15258347443
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 10:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F72634751E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 10:55:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbhCXJNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 05:13:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53466 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234605AbhCXJNM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 05:13:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 702BF6157F;
-        Wed, 24 Mar 2021 09:13:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616577192;
-        bh=RUzX/nbmq3RGqHMtGfALSfCQu+1aN6qyVwAbUtdZfeQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RDbCVYJGerr6v35Ir/fH9j2vZdextEWxuCLxhUVSm4B9jy+mzdQ9mZo4EAqGZe05X
-         IfYt++jxQw1nXgDX3YFfJ3qhzNwbPaUFDJXxD16hXdu/qXsLM1YZ9+ASceCZWaAg+L
-         aqnHHMz/gEcuTIUYi/HbUTf3uF6E2KgecxRSRMAc=
-Date:   Wed, 24 Mar 2021 10:13:09 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Zhichao Cai <tomstomsczc@163.com>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Zhichao Cai <caizhichao@yulong.com>
-Subject: Re: [PATCH] drivers:staging: NULL check before some freeing
- functions is not needed.
-Message-ID: <YFsCpTIneSZyj3t/@kroah.com>
-References: <20210324084126.895-1-tomstomsczc@163.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210324084126.895-1-tomstomsczc@163.com>
+        id S234934AbhCXJzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 05:55:10 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:48975 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234802AbhCXJy4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Mar 2021 05:54:56 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 24 Mar 2021 02:54:56 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 24 Mar 2021 02:54:54 -0700
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 24 Mar 2021 15:24:34 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id C9A5C21694; Wed, 24 Mar 2021 15:24:33 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v10 0/2] Add encoder ctrls for long term reference
+Date:   Wed, 24 Mar 2021 15:24:30 +0530
+Message-Id: <1616579672-13898-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 04:41:26PM +0800, Zhichao Cai wrote:
-> From: Zhichao Cai <caizhichao@yulong.com>
-> 
-> Fixes coccicheck warning:
-> drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c:390:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/sh_css_params.c:1579:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/sh_css_params.c:3010:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4269:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4630:2-7: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c:159:4-10: WARNING: NULL check before some freeing functions is not needed.
+This series add the encoder controls for long term reference (LTR)
+and support for the same in venus driver.
 
-Please break this up per-driver.
+Dikshita Agarwal (2):
+  media: v4l2-ctrl: add controls for long term reference.
+  venus: venc: Add support for Long Term Reference (LTR) controls
 
-And provide a real changelog text.
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 18 ++++++++
+ drivers/media/platform/qcom/venus/core.h           |  2 +
+ drivers/media/platform/qcom/venus/venc.c           |  9 ++++
+ drivers/media/platform/qcom/venus/venc_ctrls.c     | 48 +++++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-ctrls.c               | 14 +++++++
+ include/uapi/linux/v4l2-controls.h                 |  3 ++
+ 6 files changed, 93 insertions(+), 1 deletion(-)
 
-thanks,
+-- 
+2.7.4
 
-greg k-h
