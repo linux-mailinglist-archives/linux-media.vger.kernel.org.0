@@ -2,265 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4B2734809F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 19:38:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEC973481C1
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 20:19:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237632AbhCXSiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 14:38:25 -0400
-Received: from mga06.intel.com ([134.134.136.31]:23215 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237588AbhCXSiE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 14:38:04 -0400
-IronPort-SDR: 2sTRWLhz0iztMQNM5h1AAD3h+9JQAiPWVL8dgWDvhX7Ysi/UNTf5qzKZF0afVA/W6y9Yn+IMuB
- H+tj6WPr1DTA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="252122856"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="252122856"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:03 -0700
-IronPort-SDR: 82HrEA9Kv1JjO5q3m3qB3RLtXzhvKc+N5Onukq/2OorhF9Ofn+aEdMciHUOGnboAbJq/is06eH
- XXwVzZNJ4ngA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="374747338"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Mar 2021 11:38:02 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lP8OH-0001R6-9n; Wed, 24 Mar 2021 18:38:01 +0000
-Date:   Thu, 25 Mar 2021 02:37:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS WITH WARNING
- 97b34809ec240d82c82af97626c2071a4062e0e6
-Message-ID: <605b8702.+t9cc+34CTinvtNa%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S237868AbhCXTS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 15:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238116AbhCXTRP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Mar 2021 15:17:15 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D44C061786
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 12:17:14 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id 14so2355996wrz.12
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 12:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ks7ShY2KdqBCOa2qudGrTxafbstGO1KxoD94z5nmwd4=;
+        b=bjZoBOViVyL1mHLmUFR7BSZIMAluKI/kXY5E2/ztjZRSCxzbzqraymTeP/LQuXxMd6
+         5YPx58H1VAuhSW12/DzOC9BHGHgBV1J/hhCob2AhjQhBoGcMDaLPjYwGaOGrtjITgpiU
+         twnR7Di8AA6EdQ4WpfeSjtyjUfsAP9baelo+A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=ks7ShY2KdqBCOa2qudGrTxafbstGO1KxoD94z5nmwd4=;
+        b=X4m5lxxqUH3JwftIR+MHCjvKG7T2Wea+hMTx3TAu3ZmpFuQTL9ir/NMifLf+HHc0TT
+         aHaAjUw8rl08cOUC3G27E9BQzIeTCgKRcRM0L20UH33fGLsBftqxbkHOVRP5wZrHgSld
+         zk7y5JdTdLvJedLgoSPf7ViX6O8DHmP4NQgKIYU4vgdEFfFMI4ZN7FK6AGOHJQsdtb6W
+         q1lbJQ6NNRnfiyK125xzxRNQD1t1J/+jqNwGHQsEwEJyWDNUX7OCdMRIOJ16qgKQKXJt
+         NzcRy1quX8rC6JgEN0yyHHl+BamyIlvVBcJk0XjzaUjWENwhtFZ/7jF711MNVl7O0VVu
+         CB4Q==
+X-Gm-Message-State: AOAM5331BItzry66/T0EW4lZoEgxPfHDkmYGR9lMg9NE/kf1yx3Txy0+
+        1ZUDZXijShiVe9Y5LimvjQ5t8g==
+X-Google-Smtp-Source: ABdhPJz0jKYo0H/XBwWmbtO5rMA4MuyiBVo+Vi9lmrQcQ8si+ZT3Tkgf1DTxMp2/fnyfyvXSPQ76vg==
+X-Received: by 2002:a5d:6312:: with SMTP id i18mr5156957wru.149.1616613433126;
+        Wed, 24 Mar 2021 12:17:13 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id f2sm3344574wmp.20.2021.03.24.12.17.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 12:17:12 -0700 (PDT)
+Date:   Wed, 24 Mar 2021 20:17:10 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        3pvd@google.com, Jann Horn <jannh@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH 3/3] mm: unexport follow_pfn
+Message-ID: <YFuQNj10P+uUHD4G@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        3pvd@google.com, Jann Horn <jannh@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
+ <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
+ <20210324125211.GA2356281@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20210324125211.GA2356281@nvidia.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-tree
-branch HEAD: 97b34809ec240d82c82af97626c2071a4062e0e6  media: staging: atomisp: reduce kernel stack usage
+On Wed, Mar 24, 2021 at 09:52:11AM -0300, Jason Gunthorpe wrote:
+> On Tue, Mar 16, 2021 at 04:33:03PM +0100, Daniel Vetter wrote:
+> > Both kvm (in bd2fae8da794 ("KVM: do not assume PTE is writable after
+> > follow_pfn")) and vfio (in 07956b6269d3 ("vfio/type1: Use
+> > follow_pte()")) have lost their callsites of follow_pfn(). All the
+> > other ones have been switched over to unsafe_follow_pfn because they
+> > cannot be fixed without breaking userspace api.
+> > 
+> > Argueably the vfio code is still racy, but that's kinda a bigger
+> > picture. But since it does leak the pte beyond where it drops the pt
+> > lock, without anything else like an mmu notifier guaranteeing
+> > coherence, the problem is at least clearly visible in the vfio code.
+> > So good enough with me.
+> > 
+> > I've decided to keep the explanation that after dropping the pt lock
+> > you must have an mmu notifier if you keep using the pte somehow by
+> > adjusting it and moving it into the kerneldoc for the new follow_pte()
+> > function.
+> > 
+> > Cc: 3pvd@google.com
+> > Cc: Jann Horn <jannh@google.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Jason Gunthorpe <jgg@nvidia.com>
+> > Cc: Cornelia Huck <cohuck@redhat.com>
+> > Cc: Peter Xu <peterx@redhat.com>
+> > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-samsung-soc@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: kvm@vger.kernel.org
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  include/linux/mm.h |  2 --
+> >  mm/memory.c        | 26 +++++---------------------
+> >  mm/nommu.c         | 13 +------------
+> >  3 files changed, 6 insertions(+), 35 deletions(-)
+> 
+> I think this is the right thing to do.
 
-possible Warning in current branch:
+Was just about to smash this into the topic branch for testing in
+linux-next. Feel like an ack on the series, or at least the two mm
+patches?
+-Daniel
 
-drivers/media/platform/imx-jpeg/mxc-jpeg.c:1993:3-10: line 1993 is redundant because platform_get_irq() already prints an error
+> 
+> Alex is working on fixing VFIO and while kvm is still racy using
+> follow pte, I think they are working on it too?
+> 
+> Jason
 
-Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-`-- riscv-allmodconfig
-    `-- drivers-media-platform-imx-jpeg-mxc-jpeg.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
-
-elapsed time: 1541m
-
-configs tested: 196
-configs skipped: 2
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-powerpc                         ps3_defconfig
-um                           x86_64_defconfig
-ia64                         bigsur_defconfig
-powerpc                     tqm8560_defconfig
-powerpc                     mpc5200_defconfig
-powerpc                     akebono_defconfig
-sh                          rsk7203_defconfig
-sh                             shx3_defconfig
-arm                         orion5x_defconfig
-mips                        workpad_defconfig
-powerpc                 mpc8313_rdb_defconfig
-mips                     cu1000-neo_defconfig
-arm                        mini2440_defconfig
-powerpc                      obs600_defconfig
-arm                           h3600_defconfig
-arc                    vdk_hs38_smp_defconfig
-powerpc                      pmac32_defconfig
-sh                        sh7785lcr_defconfig
-mips                         tb0287_defconfig
-sh                ecovec24-romimage_defconfig
-mips                        qi_lb60_defconfig
-arm                        vexpress_defconfig
-sh                  sh7785lcr_32bit_defconfig
-arm                      tct_hammer_defconfig
-arm                             mxs_defconfig
-sh                            titan_defconfig
-mips                 decstation_r4k_defconfig
-sh                 kfr2r09-romimage_defconfig
-powerpc                    klondike_defconfig
-sh                           se7712_defconfig
-ia64                          tiger_defconfig
-mips                          ath25_defconfig
-arm                         cm_x300_defconfig
-openrisc                  or1klitex_defconfig
-powerpc                 linkstation_defconfig
-powerpc                   lite5200b_defconfig
-mips                  cavium_octeon_defconfig
-arm                       imx_v4_v5_defconfig
-powerpc64                           defconfig
-m68k                        mvme147_defconfig
-m68k                          hp300_defconfig
-arc                           tb10x_defconfig
-mips                        bcm63xx_defconfig
-powerpc                   bluestone_defconfig
-arm                      pxa255-idp_defconfig
-arm                            hisi_defconfig
-arm                          exynos_defconfig
-h8300                       h8s-sim_defconfig
-mips                      pic32mzda_defconfig
-arm                       versatile_defconfig
-arm                          collie_defconfig
-sh                          sdk7780_defconfig
-powerpc                  storcenter_defconfig
-powerpc                     kilauea_defconfig
-mips                   sb1250_swarm_defconfig
-ia64                             allmodconfig
-powerpc                     pseries_defconfig
-mips                        jmr3927_defconfig
-powerpc                     taishan_defconfig
-powerpc                 mpc834x_mds_defconfig
-m68k                          multi_defconfig
-powerpc                    socrates_defconfig
-arm                       imx_v6_v7_defconfig
-arm                        neponset_defconfig
-sh                            hp6xx_defconfig
-m68k                            q40_defconfig
-mips                     loongson1b_defconfig
-m68k                        m5407c3_defconfig
-arm                      footbridge_defconfig
-arm                          simpad_defconfig
-mips                      malta_kvm_defconfig
-arm                           stm32_defconfig
-arc                     haps_hs_smp_defconfig
-s390                             alldefconfig
-mips                            e55_defconfig
-sh                     sh7710voipgw_defconfig
-m68k                        stmark2_defconfig
-xtensa                         virt_defconfig
-powerpc                 mpc8540_ads_defconfig
-sh                          sdk7786_defconfig
-sh                           se7721_defconfig
-powerpc                 mpc85xx_cds_defconfig
-m68k                       m5475evb_defconfig
-sh                   rts7751r2dplus_defconfig
-mips                      maltaaprp_defconfig
-nios2                         3c120_defconfig
-sh                          landisk_defconfig
-mips                             allyesconfig
-sh                   secureedge5410_defconfig
-arm                      integrator_defconfig
-powerpc                 mpc836x_mds_defconfig
-mips                     cu1830-neo_defconfig
-powerpc                           allnoconfig
-mips                  maltasmvp_eva_defconfig
-riscv                               defconfig
-ia64                             alldefconfig
-riscv                          rv32_defconfig
-arm                  colibri_pxa300_defconfig
-mips                           jazz_defconfig
-mips                        bcm47xx_defconfig
-powerpc                 mpc837x_mds_defconfig
-sh                           se7619_defconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a002-20210323
-x86_64               randconfig-a003-20210323
-x86_64               randconfig-a006-20210323
-x86_64               randconfig-a001-20210323
-x86_64               randconfig-a004-20210323
-x86_64               randconfig-a005-20210323
-i386                 randconfig-a003-20210323
-i386                 randconfig-a004-20210323
-i386                 randconfig-a001-20210323
-i386                 randconfig-a002-20210323
-i386                 randconfig-a006-20210323
-i386                 randconfig-a005-20210323
-i386                 randconfig-a004-20210324
-i386                 randconfig-a003-20210324
-i386                 randconfig-a001-20210324
-i386                 randconfig-a002-20210324
-i386                 randconfig-a006-20210324
-i386                 randconfig-a005-20210324
-x86_64               randconfig-a012-20210324
-x86_64               randconfig-a015-20210324
-x86_64               randconfig-a014-20210324
-x86_64               randconfig-a013-20210324
-x86_64               randconfig-a016-20210324
-x86_64               randconfig-a011-20210324
-i386                 randconfig-a014-20210324
-i386                 randconfig-a011-20210324
-i386                 randconfig-a015-20210324
-i386                 randconfig-a016-20210324
-i386                 randconfig-a013-20210324
-i386                 randconfig-a012-20210324
-i386                 randconfig-a014-20210323
-i386                 randconfig-a011-20210323
-i386                 randconfig-a015-20210323
-i386                 randconfig-a016-20210323
-i386                 randconfig-a012-20210323
-i386                 randconfig-a013-20210323
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a002-20210324
-x86_64               randconfig-a003-20210324
-x86_64               randconfig-a001-20210324
-x86_64               randconfig-a006-20210324
-x86_64               randconfig-a005-20210324
-x86_64               randconfig-a004-20210324
-x86_64               randconfig-a012-20210323
-x86_64               randconfig-a015-20210323
-x86_64               randconfig-a013-20210323
-x86_64               randconfig-a014-20210323
-x86_64               randconfig-a011-20210323
-x86_64               randconfig-a016-20210323
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
