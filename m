@@ -2,245 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D3D1347F47
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 18:24:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0B5347F6E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 18:35:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236994AbhCXRYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 13:24:12 -0400
-Received: from mga12.intel.com ([192.55.52.136]:53023 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237203AbhCXRXv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 13:23:51 -0400
-IronPort-SDR: yL9oxq2NkZhlquImkta6nt+h9S/S6oz+ynljTV03SlpY+jxHj3Z6YSi0/BEl28bI2zVmhs+Ax6
- jb4UeXGk3rHA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="170100330"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="170100330"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 10:23:51 -0700
-IronPort-SDR: uedm2LZaTEm8EkjTV/0VLgh1rPKRHAjmVPtN/kS8dDwXw/C2k9RPfFWtVOABELAa3gXSrjXbjY
- C4ZS/Dclw49g==
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="452676278"
-Received: from grosikox-mobl.ger.corp.intel.com (HELO [10.214.230.125]) ([10.214.230.125])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 10:23:48 -0700
-From:   "Rosikopulos, GjorgjiX" <gjorgjix.rosikopulos@linux.intel.com>
-Subject: Re: [PATCH 05/10] media: v4l: Add Keem Bay Camera meta buffer formats
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Martina Krasteva <martinax.krasteva@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org,
-        daniele.alessandrelli@linux.intel.com,
-        paul.j.murphy@linux.intel.com
-References: <20210319180632.585-1-martinax.krasteva@linux.intel.com>
- <20210319180632.585-6-martinax.krasteva@linux.intel.com>
- <20210322182743.GR3@paasikivi.fi.intel.com>
-Message-ID: <1b377362-17b9-8bf8-4095-fe4978f9aa15@linux.intel.com>
-Date:   Wed, 24 Mar 2021 17:23:45 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S237193AbhCXRei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 13:34:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237203AbhCXReK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Mar 2021 13:34:10 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C1BC0613E1
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 10:34:09 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id k10so34269837ejg.0
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 10:34:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VoFNqvJqV3TdL84vFoklC/P+s5SxY+mp4X8TTiNgMtE=;
+        b=p5GUKS/uwIXlF0KDHuVWCTKOILfvq6pgQeedSTtsSMFwzeuZp8AKlKbhStPy4SRDFk
+         HRqJKvh8toc4XC2CDpMwgejowYDSgwwsD1NNm/IZLadO+9aHWEJEa7SnZn+Fzie+/tpY
+         cHhRabnd8kARi5Sxtf813O8WVqAJ4I6376ff+ZdtFwIXyxn2TFZwAcHQP8iPkpz2DhES
+         sPWg2kI28DA6L8flcNKaK7fCrqsKbgjkmeINLGfWN8W8iv4Lz10+IASi3UZhscm0Vp5a
+         4LfKAQOpAmDlZWEXD41zDbsvBBjj9lvzYhyZx+Ckfdf3hiQ9fnRbMmWjK4JD9JZdNjZV
+         soZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VoFNqvJqV3TdL84vFoklC/P+s5SxY+mp4X8TTiNgMtE=;
+        b=MSk5ExGY4YA3U5YJK/4jN5fooJ/z0KFI230sbEwjM3DaAhCOrLanQ8hidkqzoRkTfq
+         LrIvnHgw4iV2XP1LJgq65iyoChH/IE/JluYGtW8WxIs0r/+3Bu5dBx7yTKKxH6gIoBqG
+         cElJZAc2YDJ/7S5jngSJB0u3F1oyrkp66/875z2zvGBj1pVQwdEPPdf9BvA0muUCF/Ba
+         gxuI5SWL1BGhm59kACNLFxSk+mwxxSRGV7ctmf/oIr3GSUt40dMDm1AYTxBb+c+qbJhH
+         fD61NaZIcTej7B7/CNir0sUCwgX6U4AnTLoHBcuiDyjKo0/870kUXdlgX/oIoiFnbi8G
+         vtnQ==
+X-Gm-Message-State: AOAM531v/1dvQVCr4EbxMv8qyKRjjv79iSmtJPhrClbskQOw6cNUqSWU
+        Qu4i7+YbpNGees5pFbJPX36VMA==
+X-Google-Smtp-Source: ABdhPJzwCa1MrVqILnw5ineqDKoBXsRVPYAznXPlfLrlyyVo9HL2XAvV+eancRBLlKNZ4hQlmcJ62g==
+X-Received: by 2002:a17:906:7946:: with SMTP id l6mr4857686ejo.500.1616607247797;
+        Wed, 24 Mar 2021 10:34:07 -0700 (PDT)
+Received: from dell.default ([91.110.221.180])
+        by smtp.gmail.com with ESMTPSA id p19sm1466367edr.57.2021.03.24.10.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 10:34:07 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Drubin <daniel.drubin@intel.com>,
+        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, Lopez Casado <nlopezcasad@logitech.com>,
+        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
+        Masaki Ota <masaki.ota@jp.alps.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        message to <vojtech@ucw.cz>,
+        Michael Haboustak <mike-@cinci.rr.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Vojtech Pavlik <vojtech@suse.cz>,
+        Zhang Lixu <lixu.zhang@intel.com>
+Subject: [PATCH 00/25] Rid W=1 warnings from HID
+Date:   Wed, 24 Mar 2021 17:33:39 +0000
+Message-Id: <20210324173404.66340-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210322182743.GR3@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-Thank you for the review,
+Lee Jones (25):
+  HID: intel-ish-hid: Remove unused variable 'err'
+  HID: ishtp-hid-client: Move variable to where it's actually used
+  HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
+  HID: intel-ish: Supply some missing param descriptions
+  HID: intel-ish: Fix a naming disparity and a formatting error
+  HID: usbhid: Repair a formatting issue in a struct description
+  HID: intel-ish-hid: Fix a little doc-rot
+  HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
+  HID: hid-alps: Correct struct misnaming
+  HID: intel-ish-hid: Fix potential copy/paste error
+  HID: hid-core: Fix incorrect function name in header
+  HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name in
+    header
+  HID: ishtp-hid-client: Fix incorrect function name report_bad_packet()
+  HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
+  HID: hid-picolcd_core: Remove unused variable 'ret'
+  HID: hid-logitech-hidpp: Fix conformant kernel-doc header and demote
+    abuses
+  HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
+  HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
+  HID: hid-uclogic-params: Ensure function names are present and correct
+    in kernel-doc headers
+  HID: hid-sensor-custom: Remove unused variable 'ret'
+  HID: wacom_sys: Demote kernel-doc abuse
+  HID: hid-sensor-hub: Remove unused struct member 'quirks'
+  HID: hid-sensor-hub: Move 'hsdev' description to correct struct
+    definition
+  HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting issues
+  HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler warning
 
-On 22/03/2021 18:27, Sakari Ailus wrote:
-> Hi Martian and Gjorgji,
->
-> On Fri, Mar 19, 2021 at 06:06:27PM +0000, Martina Krasteva wrote:
->> From: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
->>
->> Add Keem Bay Camera specific meta formats for processing
->> parameters and statistics:
->>
->>      V4L2_META_FMT_KMB_PARAMS
->>      V4L2_META_FMT_KMB_STATS
->>
->> Signed-off-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
->> Co-developed-by: Ivan Dimitrov <ivanx.dimitrov@intel.com>
->> Signed-off-by: Ivan Dimitrov <ivanx.dimitrov@intel.com>
->> Co-developed-by: Martina Krasteva <martinax.krasteva@intel.com>
->> Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
->> Acked-by: Paul J. Murphy <paul.j.murphy@intel.com>
->> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
->> ---
->>   .../userspace-api/media/v4l/meta-formats.rst       |  1 +
->>   .../media/v4l/pixfmt-meta-intel-kmb.rst            | 98 ++++++++++++++++++++++
->>   MAINTAINERS                                        |  2 +
->>   include/uapi/linux/videodev2.h                     |  4 +
->>   4 files changed, 105 insertions(+)
->>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-intel-kmb.rst
->>
->> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
->> index fff25357fe86..cb85161dc1ae 100644
->> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
->> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
->> @@ -14,6 +14,7 @@ These formats are used for the :ref:`metadata` interface only.
->>   
->>       pixfmt-meta-d4xx
->>       pixfmt-meta-intel-ipu3
->> +    pixfmt-meta-intel-kmb
->>       pixfmt-meta-rkisp1
->>       pixfmt-meta-uvc
->>       pixfmt-meta-vsp1-hgo
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-kmb.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-kmb.rst
->> new file mode 100644
->> index 000000000000..99615bbed106
->> --- /dev/null
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-kmb.rst
->> @@ -0,0 +1,98 @@
->> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
->> +
->> +.. _v4l2-meta-fmt-params:
->> +.. _v4l2-meta-fmt-stats:
->> +
->> +*******************************************************************
->> +V4L2_META_FMT_KMB_PARAMS ('kmbp'), V4L2_META_FMT_KMB_STATS ('kmbs')
->> +*******************************************************************
->> +
->> +.. kmb_isp_stats
->> +
->> +ISP statistics
->> +==============
->> +
->> +The Keembay ISP statistics blocks collect different statistics over
->> +an input Bayer frame in non-HDR mode, or up to three input Bayer frames
->> +in HDR mode. Those statistics are obtained from the "keembay-metadata-stats"
->> +metadata capture video node, using the :c:type:`v4l2_meta_format` interface.
->> +They are formatted as described by the :c:type:`kmb_isp_stats` structure.
->> +
->> +The statistics collected are AE/AWB (Auto-exposure/Auto-white balance),
->> +AF (Auto-focus) filter response, luma histogram, rgb histograms and dehaze statistics.
->> +Dehaze statistic are collected after HDR fusion in HDR mode.
->> +
->> +The struct :c:type:`kmb_isp_params` contain all configurable parameters for the
-> The syntax has changed recently regarding references to structs, which now
-> are simply "struct nameofthestruct".
+ drivers/hid/hid-alps.c                       |  2 +-
+ drivers/hid/hid-core.c                       |  2 +-
+ drivers/hid/hid-kye.c                        |  2 +-
+ drivers/hid/hid-logitech-hidpp.c             |  7 +--
+ drivers/hid/hid-picolcd_core.c               |  5 +--
+ drivers/hid/hid-sensor-custom.c              |  5 +--
+ drivers/hid/hid-sensor-hub.c                 |  4 +-
+ drivers/hid/hid-thrustmaster.c               | 24 +++++------
+ drivers/hid/hid-uclogic-params.c             |  8 ++--
+ drivers/hid/hid-uclogic-rdesc.c              |  2 +-
+ drivers/hid/intel-ish-hid/ipc/ipc.c          |  2 +-
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c      |  3 +-
+ drivers/hid/intel-ish-hid/ishtp-fw-loader.c  | 45 ++++++++++----------
+ drivers/hid/intel-ish-hid/ishtp-hid-client.c | 11 +++--
+ drivers/hid/intel-ish-hid/ishtp-hid.c        |  2 +-
+ drivers/hid/intel-ish-hid/ishtp-hid.h        |  9 +---
+ drivers/hid/intel-ish-hid/ishtp/bus.c        |  9 +++-
+ drivers/hid/intel-ish-hid/ishtp/client.c     |  5 +--
+ drivers/hid/intel-ish-hid/ishtp/hbm.c        |  4 +-
+ drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  |  4 +-
+ drivers/hid/usbhid/hid-pidff.c               |  4 +-
+ drivers/hid/usbhid/usbkbd.c                  |  2 +-
+ drivers/hid/wacom_sys.c                      |  2 +-
+ include/linux/intel-ish-client-if.h          |  8 +++-
+ 24 files changed, 90 insertions(+), 81 deletions(-)
 
-Thanks i have missed that, it will be fixed in next patchset.
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Anssi Hannula <anssi.hannula@gmail.com>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Daniel Drubin <daniel.drubin@intel.com>
+Cc: Dario Pagani <dario.pagani.146+linuxk@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: Kim Kuparinen <kimi.h.kuparinen@gmail.com>
+Cc: "Krzysztof Wilczyński" <kw@linux.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-usb@vger.kernel.org
+Cc: Lopez Casado <nlopezcasad@logitech.com>
+Cc: "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>
+Cc: Masaki Ota <masaki.ota@jp.alps.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: message to <vojtech@ucw.cz>
+Cc: Michael Haboustak <mike-@cinci.rr.com>
+Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Uwe Kleine-König" <uwe@kleine-koenig.org>
+Cc: Vojtech Pavlik <vojtech@suse.cz>
+Cc: Zhang Lixu <lixu.zhang@intel.com>
+-- 
+2.27.0
 
->
->> +statistics:
->> +
->> +- The struct :c:type:`kmb_raw_params` contain enable flags for all
->> +  statistics except dehaze (always enabled) and configuration for flicker rows
->> +  statistics.
->> +- The struct :c:type:`kmb_ae_awb_params` contain configuration parameters for AE/AWB
->> +  statistics.
->> +- The struct :c:type:`kmb_af_params` contain configuration for AF (Auto-focus) filter
->> +  response statistics.
->> +- The struct :c:type:`kmb_hist_params` contain configuration for luma and rgb histograms.
->> +- The struct :c:type:`kmb_hist_params` contain configuration for luma and rgb histograms.
->> +- The struct :c:type:`kmb_dehaze_params` contain configuration for dehaze statistics.
-> Please wrap before 80 characters per line unless there's a reason to do
-> otherwise.
-Ok
->
->> +
->> +.. code-block:: c
->> +
->> +	struct kmb_isp_stats {
->> +		struct {
->> +			__u8 ae_awb_stats[KMB_CAM_AE_AWB_STATS_SIZE];
->> +			__u8 af_stats[KMB_CAM_AF_STATS_SIZE];
->> +			__u8 hist_luma[KMB_CAM_HIST_LUMA_SIZE];
->> +			__u8 hist_rgb[KMB_CAM_HIST_RGB_SIZE];
->> +			__u8 flicker_rows[KMB_CAM_FLICKER_ROWS_SIZE];
->> +		} exposure[KMB_CAM_MAX_EXPOSURES];
->> +		__u8 dehaze[MAX_DHZ_AIRLIGHT_STATS_SIZE];
->> +		struct kmb_isp_stats_flags update;
->> +	};
->> +
->> +.. kmb_isp_stats
->> +
->> +ISP parameters
->> +==============
->> +
->> +The ISP parameters are passed to the "keembay-metadata-params" metadata
->> +output video node, using the :c:type:`v4l2_meta_format` interface. They are
->> +formatted as described by the :c:type:`kmb_isp_params` structure.
->> +
->> +Both ISP statistics and ISP parameters described here are closely tied to
->> +the underlying camera sub-system (VPU Camera) APIs. They are usually consumed
->> +and produced by dedicated user space libraries that comprise the important
->> +tuning tools, thus freeing the developers from being bothered with the low
->> +level hardware and algorithm details.
->> +
->> +.. code-block:: c
->> +
->> +	struct kmb_isp_params {
->> +		struct kmb_isp_params_flags update;
->> +		struct kmb_blc_params blc[KMB_CAM_MAX_EXPOSURES];
->> +		struct kmb_sigma_dns_params sigma_dns[KMB_CAM_MAX_EXPOSURES];
->> +		struct kmb_lsc_params lsc;
->> +		struct kmb_raw_params raw;
->> +		struct kmb_ae_awb_params ae_awb;
->> +		struct kmb_af_params af;
->> +		struct kmb_hist_params histogram;
->> +		struct kmb_lca_params lca;
->> +		struct kmb_debayer_params debayer;
->> +		struct kmb_dog_dns_params dog_dns;
->> +		struct kmb_luma_dns_params luma_dns;
->> +		struct kmb_sharpen_params sharpen;
->> +		struct kmb_chroma_gen_params chroma_gen;
->> +		struct kmb_median_params median;
->> +		struct kmb_chroma_dns_params chroma_dns;
->> +		struct kmb_color_comb_params color_comb;
->> +		struct kmb_hdr_params hdr;
->> +		struct kmb_lut_params lut;
->> +		struct kmb_tnf_params tnf;
->> +		struct kmb_dehaze_params dehaze;
->> +		struct kmb_warp_params warp;
->> +	};
-> As this is already part of the UAPI header you don't need to repeat it
-> here.
-
-I Agree it will be removed in next patchset.
-
->
->> +
->> +Keembay ISP uAPI data types
->> +===============================
->> +
->> +.. kernel-doc:: include/uapi/linux/keembay-isp-ctl.h
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 955f9f6a195d..d90eaf453012 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1972,6 +1972,8 @@ L:	linux-media@vger.kernel.org
->>   S:	Maintained
->>   T:	git git://linuxtv.org/media_tree.git
->>   F:	Documentation/devicetree/bindings/media/intel,keembay-camera.yaml
->> +F:	Documentation/media/uapi/v4l/meta-formats.rst
->> +F:	Documentation/media/uapi/v4l/pixfmt-meta-intel-kmb.rst
-> The files are under Documentation/userspace-api/media/v4l/ .
-
-Thanks it will be fixed.
-
->
->>   F:	drivers/media/platform/keembay-camera/
->>   F:	include/uapi/linux/keembay-isp-ctl.h
->>   
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 79dbde3bcf8d..0d32269638f6 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -769,6 +769,10 @@ struct v4l2_pix_format {
->>   #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
->>   #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
->>   
->> +/* Vendor specific - used for Keem Bay camera sub-system */
->> +#define V4L2_META_FMT_KMB_PARAMS v4l2_fourcc('K', 'M', 'B', 'P') /* Keem Bay parameters */
->> +#define V4L2_META_FMT_KMB_STATS  v4l2_fourcc('K', 'M', 'B', 'S') /* Keem Bay statistics */
->> +
->>   /* priv field value to indicates that subsequent fields are valid. */
->>   #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
->>   
