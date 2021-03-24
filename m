@@ -2,132 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DED13479DB
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 14:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB075347A00
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 14:56:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235574AbhCXNqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 09:46:51 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:65108 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235572AbhCXNqe (ORCPT
+        id S235696AbhCXNzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 09:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42426 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235767AbhCXNzB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 09:46:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1616593594; x=1648129594;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=FvPDaHUzjC9xXphePPStpuKbHidSjAiCxc54TOeg7kQ=;
-  b=rlAJJapFZx2kXT0BtTiqo4JtAM7BAddpw6brxH5KLeiASN65imRKYMnH
-   N32hPPMjnOtVLs5b391X2GdoW/MxEQ17ydLPXBzlnDUJEFVWGAbJJrS1u
-   dVwMotRI8QG5rL8J/bBq90vu8SOWudW00XRHFKR1HztWBdr7z4ifTXGGl
-   mDXAHnNv5e+CAuvdjr/O6uSy9mdpCMSbpu1l6J8J6EhMrlDyA9hQBa6gx
-   WPOxwOxyFjYSS5MlL0NjXAGsaBMPOoatHG3fCG1HyDuyejbWqU3iYMITn
-   cyGnDhG3rypqqW/HoeYbnhqO6juLbFJ+yJPJeD9OdzjG2we8W5n3M4yGM
-   g==;
-IronPort-SDR: DRtHfB90mf+KI27pe5E+AvMDJgl1PYi7WKU3vUDSw7rxxgmYFlgOBL+f3Jor3JfosPHu/F94nQ
- ALtmpMiXq+v8q+NzHTCqdW8v4UUIRg/g9nlSWoUqVCz9ucYWPDfb+fgMps1C4Lx25UqjvTFFUB
- SVP6POFLhb6sh2hoLZS8avezM/SCcLYY59ljMI8r3yNB6YcdRxNZR1MkgYOrxfg53IAZkxiGc1
- Dw0+aKT7NzbXyW8MrlMcahz+sJ71+I36l22QsP/Y2txh0Tb/Qr4EwNd0PBFCyWkJndtwOWDJFM
- cYI=
-X-IronPort-AV: E=Sophos;i="5.81,274,1610434800"; 
-   d="scan'208";a="48709226"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Mar 2021 06:46:30 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 24 Mar 2021 06:46:26 -0700
-Received: from [10.171.246.12] (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server id 15.1.2176.2 via Frontend
- Transport; Wed, 24 Mar 2021 06:46:24 -0700
-Subject: Re: [PATCH v2 00/10] Microship SAMA5D4 VPU support et al
-To:     Emil Velikov <emil.l.velikov@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC:     Philipp Zabel <p.zabel@pengutronix.de>,
-        <linux-media@vger.kernel.org>,
-        linux-rockchip <linux-rockchip@lists.infradead.org>
-References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
- <5ecf1d3b8a8f88d6387a1549faeb4f4180cf5d4b.camel@collabora.com>
- <CACvgo51uNyQgzGdW=f-0wxvjv-+OD1p7E4DJXRzu1GvnAHbcCQ@mail.gmail.com>
-From:   Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-Message-ID: <50b3b4b3-6c5b-3f1e-3499-c88574ce9f74@microchip.com>
-Date:   Wed, 24 Mar 2021 14:44:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Wed, 24 Mar 2021 09:55:01 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2790BC061763
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 06:55:01 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id v15so1919040lfq.5
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 06:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=PgS7FYres3Xdyh8t09n3C+beyG2Bh2b8GepXqA+1xpY=;
+        b=lCBHY8BB8T063LXXZ9vRbvvMUhIK0JGAWl71h3B+u9/v5t8MsH4ySiXzlx2ofgl0g+
+         /iDVrelvuS64bRKRLFCEwyrpPVCz3hWAdSHkT5f2vDrr9tL3DtcDh1a4EkSGGkVXgwNX
+         FG6trWltSICW9BD5xmZwY7QcDXxDVImMEJoVN1ifXJPWbCnBM+xRj2mv5UXr4lR+mlY9
+         au+cEqrdEHjf/aypETGW6PIJxUiwstzzZRq5tRn0CsDqvBHNwXKyDdlSxwjY2JuZkXVE
+         2SZYBE4LfVnWHjsS/vrDyk6TJ5fqYezlQvk+zRbcThlXzxpdmvWWf4+EBAHsFjqVTgNk
+         r0nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=PgS7FYres3Xdyh8t09n3C+beyG2Bh2b8GepXqA+1xpY=;
+        b=itxjK0s91GtB5Z2WPcrcpNW3igv9SEHgvXEFTRDlgsLrfoSi3fSRftP+Ka4D9nBB9g
+         eVkKr6mF8Y1MTw4XjyR+bKkqMs/wR0NEZ+MHq1ELr9pEwNBi4yi7ee4Rf4BwkFX1Y85F
+         Vdsrd2GoO/jXNk6h5PQcm59whJGTqHErC/A7wXPAD+coj1oTxst0sZcafeJBAnn7iaVY
+         gx7/3PDegoK68z2FrwV/oIaUS1Jbmvn7Lkh5u3CBAutG7ef54GexJ/mLCigkvvZHpMZv
+         7nWCmhf8R/If9A3HB9UkOoG9Rnrmnyekc2UK247otkK3aobMmmmXhbJuYViNuZJd2JsC
+         liIA==
+X-Gm-Message-State: AOAM532MmaO8F4Wbuy+lKUiXVkPCi/8GRR1+4Ks55jPO7YBbGQFO+f7n
+        mKXd1nXOqNXVfYznLVBjDAUW1w==
+X-Google-Smtp-Source: ABdhPJyGomK7csxLo/rj12Rh8zselonGvFz3iTpxlOJdH6lROKzCr+X4NiCtWKdchY7aEEo3BfUkBQ==
+X-Received: by 2002:a05:6512:1044:: with SMTP id c4mr2054177lfb.198.1616594099652;
+        Wed, 24 Mar 2021 06:54:59 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id f13sm319571ljm.25.2021.03.24.06.54.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 06:54:55 -0700 (PDT)
+Date:   Wed, 24 Mar 2021 14:54:55 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] media: rcar-csi2: Enable support for r8a77961
+Message-ID: <YFtEr9imzsbImk2y@oden.dyn.berto.se>
+References: <20210312132459.1754782-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdXbhzzYUwiXg8h2KPdTb-c5peogDK_saGvDir36zNAq4w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CACvgo51uNyQgzGdW=f-0wxvjv-+OD1p7E4DJXRzu1GvnAHbcCQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXbhzzYUwiXg8h2KPdTb-c5peogDK_saGvDir36zNAq4w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Emil,
+Hi Geert,
 
-On 24/03/2021 at 13:49, Emil Velikov wrote:
-> On Tue, 16 Mar 2021 at 17:23, Ezequiel Garcia <ezequiel@collabora.com> wrote:
+Thanks for your feedback.
+
+On 2021-03-23 15:53:27 +0100, Geert Uytterhoeven wrote:
+> Hi Niklas,
 > 
->> On Thu, 2021-03-11 at 15:40 +0000, Emil Velikov wrote:
->>> Emil Velikov (10):
->>>    media: hantro: use G1_REG_INTERRUPT directly for the mpeg2
->>>    media: hantro: imx: reuse MB_DIM define
->>>    media: hantro: imx: remove duplicate dec_base init
->>>    media: hantro: imx: remove unused include
->>>    media: hantro: introduce hantro_g1.c for common API
->>
->> For patches 1-5:
->>
->> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
->>
->>>    media: dt-bindings: Document SAMA5D4 VDEC bindings
->>
->> This one need to be reviewed by DT maintainers, I think.
->>
-> Rob can you help with this one?
+> On Fri, Mar 12, 2021 at 2:26 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Enable support for M3-W+ (r8a77961).
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
->>>    media: hantro: add initial SAMA5D4 support
->>
->> For patch 7:
->>
->> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
->>
->>>    ARM: dts: sama5d4: enable Hantro G1 VDEC
->>>    ARM: configs: at91: sama5: update with savedefconfig
->>>    ARM: configs: at91: sama5: enable the Hantro G1 engine
->>>
->>
->> These need review from Microchip maintainers.
->>
-> Alexandre, Ludovic, Nicolas
-> Do you have any input of the patches or series as a whole?
+> Thanks for your patch!
+> 
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -1164,6 +1164,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
+> >                 .compatible = "renesas,r8a7796-csi2",
+> >                 .data = &rcar_csi2_info_r8a7796,
+> >         },
+> > +       {
+> > +               .compatible = "renesas,r8a77961-csi2",
+> > +               .data = &rcar_csi2_info_r8a7796,
+> 
+> Hence CSI2 on R-Car M3-W+ is handled the same way as R-Car M3-W.
+> I don't know what this means for the driver, but according to Technical
+> Update TN-RCT-S0359A/E, R-Car M3-W+ supports lane settings 4/2/1 on
+> CSI40/41 (like most other R-Car Gen3 SoCs), while R-Car M3-W supports
+> only lane setting 4 on CSI40/41.
 
-The patch series looks good to me.
+This is a great find.
 
-If needed on patches that we don't take ourselves, you can add my:
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+The table TN-RCT-S0359A/E correct was not present in datasheets before 
+v0.80 so it have completely been missed. The trouble is that the current 
+driver does the wrong thing for M3-W (and allows 4/2/1 lanes) and this 
+this patch would be correct for M3-W+ while still leaving M3-W 
+incorrect.
 
-Now, when we have the tag from Rob, how to coordinate these different 
-pieces? Will it go through the media git tree? Will we benefit from a 
-stable branch to share or will we just have to wait for the driver to 
-hit Mainline before adding the defconfig and DT patches?
+I will resping this series to first correct the M3-W behavior and then 
+add M3-W on-top.
 
-> If you prefer we can drop the last two patches for the defconfig. I've
-> included those for posterity.
-No strong opinion on my side, except that defconfig stuff might be 
-better handled in at91 + arm-soc trees because we'll have other changes 
-to queue for 5.13.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-> Thanks for the review Eze.
-> Would you recommend that I resend the series with your R-B or it's
-> better to wait for feedback from others?
-
-Thanks a lot for this nice work. Best regards,
 -- 
-Nicolas Ferre
+Regards,
+Niklas Söderlund
