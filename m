@@ -2,102 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 344733477BD
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 12:53:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 510823477DF
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 13:08:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231546AbhCXLwv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 07:52:51 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40368 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230465AbhCXLwY (ORCPT
+        id S232545AbhCXMHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 08:07:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232207AbhCXMHc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 07:52:24 -0400
-Received: from mail-wr1-f69.google.com ([209.85.221.69])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lP23j-0003B7-OS
-        for linux-media@vger.kernel.org; Wed, 24 Mar 2021 11:52:23 +0000
-Received: by mail-wr1-f69.google.com with SMTP id n17so980700wrq.5
-        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 04:52:23 -0700 (PDT)
+        Wed, 24 Mar 2021 08:07:32 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 391CFC0613DE
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 05:07:32 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id x126so17164712pfc.13
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 05:07:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=VuRjzLbq9QnW+8wXxMXWYUJMkL1n+ttgNIblb9wNPMY=;
+        b=Jmf4GwCa9kb2V3V3DQGPMOWNdAGbcq1ehTkfWzAE8kTBmYMS1wi3tGPYs60ueI8bKQ
+         SVGgiY1qKloFHgxi4fAUT3ijseg5Gk6phovVoAS4JU3M/Txb4zU7qAL98bTpgsCxBNoW
+         GiA8JaEg9Xfs2o/SkXapZZUDxkLLPj50HQYR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Qmi2ZcZ4Ov2VcWa1bHwgm98xPpUlWNkc1tyPWm2T3qk=;
-        b=j+uw+Eeg3NTB39Rv+EcU6GaVVxf0OISAtZVjZ1dDXHy2NCW9KQ29/mnuSqS0x8F3vE
-         qQVFRSHQhEYR+K+HM/XxhuxApPlzZEfSTiRMTmzyJ0AI/0K4p+LG6PCm8Iw60lJPQmFn
-         rbU2RUkoEU7yGR66KAAokxYkcJKuCQ7C+OBfJm+B9rPLw3SPnSQ0eyxibDyBKGXa4ZvN
-         Osk3xeohixYnGYb299CLWIF/dq48m+HfeZs11tRSxTS2DAiksZlzPfZE5GK9ZrdxnO04
-         Wmvb6vUj1CDF3sB/Lo/APhtofRH0COUF2diwbcthdc0Z1EpRg30qOpzXtDdebAVluxES
-         qXjA==
-X-Gm-Message-State: AOAM531gqS7wP9KUcfXIgIdHkjV2+EjU5q/aey5tYrbWzcPPEj+6QNTA
-        o/XuJngXkq4BzRHZWQbLMcn5FMcb+LQDZY2ShBDmdOI/b1TnMgKmSyt4uAc/kcYidknDMVB3Buc
-        yKAiSEIQQ7nUaCE3aGGxHlfJ4tX9FqlwXcN5erAdV
-X-Received: by 2002:adf:b345:: with SMTP id k5mr3150503wrd.14.1616586743518;
-        Wed, 24 Mar 2021 04:52:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+KDo2Qy8gmyHSPoB/SJyI+cQ3ikXBVnqum07z+cQ0kA+sbqSU3h48n07nkS47Fdb99xhCtg==
-X-Received: by 2002:adf:b345:: with SMTP id k5mr3150492wrd.14.1616586743403;
-        Wed, 24 Mar 2021 04:52:23 -0700 (PDT)
-Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.gmail.com with ESMTPSA id q9sm2790171wrp.79.2021.03.24.04.52.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 04:52:23 -0700 (PDT)
-Subject: Re: [PATCH] exynos4-is: fix kernel-doc warnings
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <3b56dd72-d04f-40ac-39b1-ebdf16aa80dd@xs4all.nl>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <fdbbc3b8-4176-e7fa-1497-93eec53c13b3@canonical.com>
-Date:   Wed, 24 Mar 2021 12:52:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VuRjzLbq9QnW+8wXxMXWYUJMkL1n+ttgNIblb9wNPMY=;
+        b=jN0QwxWexivFu9DkSHj1XA8w35MkwTTgsiGAXqyMd0/ivhBGbBFmc6ywKUZ4SSDYXe
+         BkbUMz5PhlbCfhn3QDQD1w8aYi7htzHOu9BvY+IvBL27w3JlG03q6ciOAo6pEwjG9wJF
+         NWXu+ahVQn5V1k0rhGgDBpXbohJY9uib4YPQut2c22twuzkeIwepB2fwonAZzglMd9yw
+         w5F7pkySh3fSi0K3J7ylZQyZ4OpbYXYQduBP2ioadYClL9nSMpxKDpFZqOSdoLYGr1/b
+         OykiN4BzyanRlKP6374opBnJFlVCfw87Tw5qtJanBFy/Z+ZV5TQH9Jf5zYcUDAlO1geX
+         DILA==
+X-Gm-Message-State: AOAM530FRk9vGUQ1gOl9LOvjbjodwafnhfndyUv5RL9lQcdrNLNaMtnO
+        gcQnKygpK9MijZD0N+qAQhAxhg==
+X-Google-Smtp-Source: ABdhPJx6WFmeKyJOgqsIGbUO6Yr7ZPHJtYMk5x6PGi9zyq0bfEFkZ3YetEjgUQrA5UxsudozmfIWUQ==
+X-Received: by 2002:a63:fe56:: with SMTP id x22mr2728134pgj.329.1616587651535;
+        Wed, 24 Mar 2021 05:07:31 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:8f:2:9cb3:4047:113:3430])
+        by smtp.gmail.com with ESMTPSA id y8sm2315523pge.56.2021.03.24.05.07.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 05:07:29 -0700 (PDT)
+Date:   Wed, 24 Mar 2021 21:07:26 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/8] videobuf2: handle non-contiguous DMA allocations
+Message-ID: <YFsrfu8eYMX28195@chromium.org>
+References: <20210302004624.31294-1-senozhatsky@chromium.org>
+ <20210302004624.31294-9-senozhatsky@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <3b56dd72-d04f-40ac-39b1-ebdf16aa80dd@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210302004624.31294-9-senozhatsky@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/03/2021 10:15, Hans Verkuil wrote:
-> Fixes these kernel-doc warnings:
+On Tue, Mar 02, 2021 at 09:46:24AM +0900, Sergey Senozhatsky wrote:
+> This adds support for new noncontiguous DMA API, which
+> requires allocators to have two execution branches: one
+> for the current API, and one for the new one.
 > 
-> drivers/media/platform/exynos4-is/fimc-isp.h:139: warning: Function parameter or member 've' not described in 'fimc_is_video'
-> drivers/media/platform/exynos4-is/fimc-isp.h:139: warning: Function parameter or member 'buf_count' not described in 'fimc_is_video'
-> drivers/media/platform/exynos4-is/fimc-isp.h:139: warning: Function parameter or member 'buf_mask' not described in 'fimc_is_video'
-> drivers/media/platform/exynos4-is/fimc-isp.h:139: warning: Function parameter or member 'streaming' not described in 'fimc_is_video'
-> drivers/media/platform/exynos4-is/fimc-isp.h:139: warning: Function parameter or member 'buffers' not described in 'fimc_is_video'
-> drivers/media/platform/exynos4-is/fimc-isp.h:139: warning: Function parameter or member 'pixfmt' not described in 'fimc_is_video'
-> drivers/media/platform/exynos4-is/fimc-isp.h:176: warning: Function parameter or member 'src_fmt' not described in 'fimc_isp'
-> drivers/media/platform/exynos4-is/fimc-isp.h:176: warning: Function parameter or member 'sink_fmt' not described in 'fimc_isp'
-> drivers/media/platform/exynos4-is/fimc-isp.h:176: warning: Function parameter or member 'subdev_lock' not described in 'fimc_isp'
-> drivers/media/platform/exynos4-is/fimc-lite.h:178: warning: Function parameter or member 'events' not described in 'fimc_lite'
-> drivers/media/platform/exynos4-is/fimc-lite.h:178: warning: Function parameter or member 'streaming' not described in 'fimc_lite'
-> drivers/media/platform/exynos4-is/media-dev.h:143: warning: Function parameter or member 'wbclk' not described in 'fimc_md'
-> drivers/media/platform/exynos4-is/media-dev.h:143: warning: Function parameter or member 'fimc_lite' not described in 'fimc_md'
-> drivers/media/platform/exynos4-is/media-dev.h:143: warning: Function parameter or member 'clk_provider' not described in 'fimc_md'
-> drivers/media/platform/exynos4-is/media-dev.h:143: warning: Function parameter or member 'subdev_notifier' not described in 'fimc_md'
-> drivers/media/platform/exynos4-is/media-dev.h:143: warning: Function parameter or member 'pipelines' not described in 'fimc_md'
-> drivers/media/platform/exynos4-is/media-dev.h:143: warning: Function parameter or member 'link_setup_graph' not described in 'fimc_md'
-> drivers/media/platform/exynos4-is/fimc-core.h:261: warning: Function parameter or member 'alpha' not described in 'fimc_frame'
-> drivers/media/platform/exynos4-is/fimc-core.h:321: warning: Function parameter or member 'streaming' not described in 'fimc_vid_cap'
-> drivers/media/platform/exynos4-is/fimc-core.h:429: warning: Function parameter or member 'drv_data' not described in 'fimc_dev'
-> drivers/media/platform/exynos4-is/fimc-core.h:495: warning: Function parameter or member 'in_order_1p' not described in 'fimc_ctx'
-> drivers/media/platform/exynos4-is/fimc-core.h:673: warning: Function parameter or member 'vid_cap' not described in 'fimc_active_queue_add'
-> drivers/media/platform/exynos4-is/fimc-core.h:685: warning: Function parameter or member 'vid_cap' not described in 'fimc_active_queue_pop'
-> drivers/media/platform/exynos4-is/fimc-core.h:700: warning: Function parameter or member 'vid_cap' not described in 'fimc_pending_queue_add'
-> drivers/media/platform/exynos4-is/fimc-core.h:711: warning: Function parameter or member 'vid_cap' not described in 'fimc_pending_queue_pop'
-> drivers/media/platform/exynos4-is/fimc-reg.h:333: warning: Function parameter or member 'dev' not described in 'fimc_hw_set_dma_seq'
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> [hch: untested conversion to the ne API]
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 141 +++++++++++++++---
+>  1 file changed, 117 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 1e218bc440c6..d6a9f7b682f3 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/slab.h>
+>  #include <linux/dma-mapping.h>
+> +#include <linux/highmem.h>
+>  
+>  #include <media/videobuf2-v4l2.h>
+>  #include <media/videobuf2-dma-contig.h>
+> @@ -42,8 +43,14 @@ struct vb2_dc_buf {
+>  	struct dma_buf_attachment	*db_attach;
+>  
+>  	struct vb2_buffer		*vb;
+> +	unsigned int			non_coherent_mem:1;
+>  };
+>  
+> +static bool vb2_dc_is_coherent(struct vb2_dc_buf *buf)
+> +{
+> +	return !buf->non_coherent_mem;
+> +}
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+nit: Given that this is just a simple negated return, do we need a dedicated
+helper for it?
+
+> +
+>  /*********************************************/
+>  /*        scatterlist table functions        */
+>  /*********************************************/
+> @@ -78,12 +85,21 @@ static void *vb2_dc_cookie(struct vb2_buffer *vb, void *buf_priv)
+>  static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
+>  {
+>  	struct vb2_dc_buf *buf = buf_priv;
+> -	struct dma_buf_map map;
+> -	int ret;
+>  
+> -	if (!buf->vaddr && buf->db_attach) {
+> -		ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
+> -		buf->vaddr = ret ? NULL : map.vaddr;
+> +	if (buf->vaddr)
+> +		return buf->vaddr;
+> +
+> +	if (buf->db_attach) {
+> +		struct dma_buf_map map;
+> +
+> +		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
+> +			buf->vaddr = map.vaddr;
+> +	}
+> +
+> +	if (!vb2_dc_is_coherent(buf)) {
+
+I believe it's not possible for both buf->db_attach and
+!vb2_dc_is_coherent() to be true, but nevertheless the code can be
+misleading for the reader. Would it make sense to just return early in the
+if that handles db_attach?
+
+> +		buf->vaddr = dma_vmap_noncontiguous(buf->dev,
+> +						    buf->size,
+> +						    buf->dma_sgt);
+>  	}
+>  
+>  	return buf->vaddr;
+> @@ -101,13 +117,26 @@ static void vb2_dc_prepare(void *buf_priv)
+>  	struct vb2_dc_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
+>  
+> +	/* This takes care of DMABUF and user-enforced cache sync hint */
+>  	if (buf->vb->skip_cache_sync_on_prepare)
+>  		return;
+>  
+> +	/*
+> +	 * Coherent MMAP buffers do not need to be synced, unlike coherent
+> +	 * USERPTR and non-coherent MMAP buffers.
+
+USERPTR buffers are always considered non-coherent.
+
+> +	 */
+> +	if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
+> +		return;
+> +
+>  	if (!sgt)
+>  		return;
+>  
+> +	/* For both USERPTR and non-coherent MMAP */
+>  	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> +
+> +	/* Non-coherrent MMAP only */
+> +	if (!vb2_dc_is_coherent(buf) && buf->vaddr)
+> +		flush_kernel_vmap_range(buf->vaddr, buf->size);
+>  }
+>  
+>  static void vb2_dc_finish(void *buf_priv)
+> @@ -115,19 +144,46 @@ static void vb2_dc_finish(void *buf_priv)
+>  	struct vb2_dc_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
+>  
+> +	/* This takes care of DMABUF and user-enforced cache sync hint */
+>  	if (buf->vb->skip_cache_sync_on_finish)
+>  		return;
+>  
+> +	/*
+> +	 * Coherent MMAP buffers do not need to be synced, unlike coherent
+> +	 * USERPTR and non-coherent MMAP buffers.
+
+Ditto.
+
+> +	 */
+> +	if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
+> +		return;
+> +
+>  	if (!sgt)
+>  		return;
+>  
+> +	/* For both USERPTR and non-coherent MMAP */
+>  	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> +
+> +	/* Non-coherrent MMAP only */
+> +	if (!vb2_dc_is_coherent(buf) && buf->vaddr)
+> +		invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+>  }
+>  
+>  /*********************************************/
+>  /*        callbacks for MMAP buffers         */
+>  /*********************************************/
+>  
+> +static void __vb2_dc_put(struct vb2_dc_buf *buf)
+> +{
+> +	if (vb2_dc_is_coherent(buf)) {
+> +		dma_free_attrs(buf->dev, buf->size, buf->cookie,
+> +			       buf->dma_addr, buf->attrs);
+> +		return;
+> +	}
+> +
+> +	if (buf->vaddr)
+> +		dma_vunmap_noncontiguous(buf->dev, buf->vaddr);
+> +	dma_free_noncontiguous(buf->dev, buf->size,
+> +			       buf->dma_sgt, buf->dma_addr);
+> +}
+> +
+>  static void vb2_dc_put(void *buf_priv)
+
+nit: Unrelated to this patch or series, but could be a follow-up clean-up:
+Could we rename this and the newly added function to include mmap in the
+name, since it's only for MMAP buffers?
 
 Best regards,
-Krzysztof
+Tomasz
+
