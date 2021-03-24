@@ -2,148 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 151BF3471A4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 07:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F6D34721E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 08:12:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbhCXGcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 02:32:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbhCXGcl (ORCPT
+        id S235726AbhCXHMH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 03:12:07 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:59237 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231214AbhCXHLd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 02:32:41 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4BE8C0613DA
-        for <linux-media@vger.kernel.org>; Tue, 23 Mar 2021 23:32:40 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id bt4so11188843pjb.5
-        for <linux-media@vger.kernel.org>; Tue, 23 Mar 2021 23:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=L7in4zMNdZBc1GxLcnECgmkXR6YAII8UXVAv+IYWr9s=;
-        b=nAUos0/1sE5Lk8+Ki56nM1Qm5MHroKWX0tekqp9IenEnrLL1pUDMRtqPL05UGkOQhT
-         BviFz134utRDij4/zmq+KBoveP+J5Azz3OaNBrHQeesm3MUdgq1jF0Ea2uDxdSdOhmAX
-         /Yp3JAp29Xm6tXZFHj6Xucofys2cEVkzKToPI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=L7in4zMNdZBc1GxLcnECgmkXR6YAII8UXVAv+IYWr9s=;
-        b=NilpheCH4a4g/L2D52ssB480siAYkPlDfkqsqFAMTab2JXK4MYaWV9EIuAlAbftwHg
-         o4d4DGJqT9EVT3R6G1TDBf+WzCIDOa8MV083MxiIUvVramIh+Tf2JkP0DN38oS6lI+SL
-         cF8R3tCnYHkQrbgtfZ4oTBVnpjrzFtnuEmyIsfRcyzY9c3RvfzwzeytSypB/jboI3S1Y
-         pJKc4XWS94HNHWMsOUh9Q7qeUoZJ4z3Q0TLlmmAz9HM3rG2a20PA31XuMRuJrlIHpB3T
-         sHqPhJmhtjzKkfmQmTaa9hoGXL4pmL2qNifJwuUGDNA5NHUZB+7gOEqFmK8V9JDUsV87
-         gJ5A==
-X-Gm-Message-State: AOAM531GxVwez5cxwiDOlBRrm/WfPFcz7Y48BmwPGLtDOb+quPsvOIAe
-        1My2LsykDn1EKeNu3BdDyIhv9w==
-X-Google-Smtp-Source: ABdhPJzt701pViCL3Ey/mou0tQDFBpd/u1Pc+j5WrvFpZLxETd1pmRXxQtG7il+tiahqieaQ6NzBGA==
-X-Received: by 2002:a17:90a:5b11:: with SMTP id o17mr1992274pji.32.1616567560296;
-        Tue, 23 Mar 2021 23:32:40 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:84ac:62f7:16a8:ccc7])
-        by smtp.gmail.com with ESMTPSA id w79sm1210900pfc.87.2021.03.23.23.32.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Mar 2021 23:32:39 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 24 Mar 2021 03:11:33 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id OxfslvZAYCAEGOxfvlYh91; Wed, 24 Mar 2021 08:11:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616569891; bh=af379MePk+OqlUZnznf6IdSjJ9o3/HqcWRWI+mXuMI0=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qK5wF7nPMtQJk3zCefwtYj1lfQz4WVXxnPmotWVgnpzG+Vc6edIU+7j8ibD9vbQm/
+         IrB3aaW6X0oTpCLz21bJTgcZBmF+G9ioIE7LeWw8LU+vutgk/m7G867Cnr9d1Es6fv
+         v55SbKXTdvvomWpu2iVxqYzDRA5l9TJxFFfLvQPrbQDuFhepe9nukZu8XgAVtCyQHz
+         abD9jlElL3xujmRRDBYkEOxEI+vOgfjyB3fQOIrFAkXq9cpn60fIzrmUYjxBQfdFgL
+         ExQP/gfW8mJJR2vRv7EVXcaxU1g7R7B78qEJF99RTjjkgBKsgEHzOj+K1w4hRsX6Lr
+         p85omNLeSeV7w==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] adv7604: support EDIDs up to 4 blocks
+Message-ID: <00882808-472a-d429-c565-a701da579ead@xs4all.nl>
+Date:   Wed, 24 Mar 2021 08:11:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1616564457-25221-1-git-send-email-dikshita@codeaurora.org>
-References: <1616564457-25221-1-git-send-email-dikshita@codeaurora.org>
-Subject: Re: [PATCH] media: venus : hfi: add venus image info into smem
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Date:   Tue, 23 Mar 2021 23:32:38 -0700
-Message-ID: <161656755819.3012082.9032882357160965681@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNfJgY0YWRYrYspeSYDohqq3oE7MIoRcnlv5Qq1RsUX4tEAJqryqcIndzUrf98F4R47crPpcioxZxe4CbZeUT9/Devc6J+NDCZZ9HtSBxctO2sS5BGX2
+ 6xV+xDYVy37BSTlNVOzbeUBVJsTEKQwyaRGaPTXH45Gr06EeNjrMDvZh/KDweY92e+JpX8P/DTzkNa8XgtufyNZlLX7Qa6X0HhE8JwOeKmXJaNwzC8YFQ3BP
+ 6brr4cuSog5fgqWNFVrOog==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Dikshita Agarwal (2021-03-23 22:40:57)
-> fill fw version info into smem to be printed as part of
+While the adv7604/11/12 hardware supported EDIDs up to 4 blocks, the
+driver didn't. This patch adds support for this. It also improves support
+for EDIDs that do not have a Source Physical Address: in that case the
+spa location is set to the first byte of the second block, and the
+'physical address' is just the two bytes at that location. This is per
+the suggestion in the adv76xx documentation for such EDIDs.
 
-s/fill/Fill/
+Tested with an adv7604 and adv7612.
 
-> soc info.
->=20
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/hfi_msgs.c | 36 ++++++++++++++++++++++=
-++++--
->  1 file changed, 34 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media=
-/platform/qcom/venus/hfi_msgs.c
-> index 06a1908..0e94921 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> @@ -239,15 +242,44 @@ static void
->  sys_get_prop_image_version(struct device *dev,
->                            struct hfi_msg_sys_property_info_pkt *pkt)
->  {
-> +       u32 i =3D 0;
-> +       size_t smem_block_size =3D 0;
-> +       u8 *smem_table_ptr;
-> +       char version[256];
-> +       const u32 version_string_size =3D 128;
-> +       const u32 smem_image_index_venus =3D 14 * 128;
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 18184297e2f0..7547afc85eb1 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -73,6 +73,8 @@ MODULE_LICENSE("GPL");
 
-Can these be #defines instead of local const variables?
+ #define ADV76XX_MAX_ADDRS (3)
 
-> +       u8 *str_image_version;
->         int req_bytes;
-> =20
->         req_bytes =3D pkt->hdr.size - sizeof(*pkt);
-> =20
-> -       if (req_bytes < 128 || !pkt->data[1] || pkt->num_properties > 1)
-> +       if (req_bytes < version_string_size || !pkt->data[1] || pkt->num_=
-properties > 1)
->                 /* bad packet */
->                 return;
-> =20
-> -       dev_dbg(dev, VDBGL "F/W version: %s\n", (u8 *)&pkt->data[1]);
++#define ADV76XX_MAX_EDID_BLOCKS 4
++
+ enum adv76xx_type {
+ 	ADV7604,
+ 	ADV7611,
+@@ -108,6 +110,11 @@ struct adv76xx_chip_info {
 
-Why is pkt->data not already a u8?
+ 	unsigned int edid_enable_reg;
+ 	unsigned int edid_status_reg;
++	unsigned int edid_segment_reg;
++	unsigned int edid_segment_mask;
++	unsigned int edid_spa_loc_reg;
++	unsigned int edid_spa_loc_msb_mask;
++	unsigned int edid_spa_port_b_reg;
+ 	unsigned int lcf_reg;
 
-> +       str_image_version =3D (u8 *)&pkt->data[1];
-> +
-> +       /*
-> +        * The version string returned by firmware includes null
-> +        * characters at the start and in between. Replace the null
-> +        * characters with space, to print the version info.
-> +        */
-> +       for (i =3D 0; i < version_string_size; i++) {
-> +               if (str_image_version[i] !=3D '\0')
-> +                       version[i] =3D str_image_version[i];
-> +               else
-> +                       version[i] =3D ' ';
-> +       }
-> +
-> +       version[i] =3D '\0';
-> +       dev_dbg(dev, VDBGL "F/W version: %s\n", version);
+ 	unsigned int cable_det_mask;
+@@ -176,7 +183,7 @@ struct adv76xx_state {
+ 	const struct adv76xx_format_info *format;
 
-Instead of replacing the string with spaces can we find the first
-non-null character up to version_string_size and then stash a pointer to
-that and print it out with dev_dbg()? That would save 256 bytes on the
-stack for something that is presumably a string and will be NUL
-terminated.
+ 	struct {
+-		u8 edid[256];
++		u8 edid[ADV76XX_MAX_EDID_BLOCKS * 128];
+ 		u32 present;
+ 		unsigned blocks;
+ 	} edid;
+@@ -2327,15 +2334,25 @@ static int adv76xx_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
+ 				__func__, edid->pad, state->edid.present);
+ 		return 0;
+ 	}
+-	if (edid->blocks > 2) {
+-		edid->blocks = 2;
++	if (info->type == ADV7604 && edid->blocks > ADV76XX_MAX_EDID_BLOCKS) {
++		edid->blocks = ADV76XX_MAX_EDID_BLOCKS;
+ 		return -E2BIG;
+ 	}
++
+ 	pa = v4l2_get_edid_phys_addr(edid->edid, edid->blocks * 128, &spa_loc);
+ 	err = v4l2_phys_addr_validate(pa, &parent_pa, NULL);
+ 	if (err)
+ 		return err;
 
-> +
-> +       smem_table_ptr =3D qcom_smem_get(QCOM_SMEM_HOST_ANY,
-> +                                      SMEM_IMAGE_VERSION_TABLE, &smem_bl=
-ock_size);
-> +       if ((smem_image_index_venus + version_string_size) <=3D smem_bloc=
-k_size &&
-> +           smem_table_ptr)
-> +               memcpy(smem_table_ptr + smem_image_index_venus,
-> +                      str_image_version, version_string_size);
++	if (!spa_loc) {
++		/*
++		 * There is no SPA, so just set spa_loc to 128 and pa to whatever
++		 * data is there.
++		 */
++		spa_loc = 128;
++		pa = (edid->edid[spa_loc] << 8) | edid->edid[spa_loc + 1];
++	}
++
+ 	v4l2_dbg(2, debug, sd, "%s: write EDID pad %d, edid.present = 0x%x\n",
+ 			__func__, edid->pad, state->edid.present);
 
-It would be nice to have shorter variable names so this was an
+@@ -2344,59 +2361,63 @@ static int adv76xx_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
+ 	adv76xx_set_hpd(state, 0);
+ 	rep_write_clr_set(sd, info->edid_enable_reg, 0x0f, 0x00);
 
-	if (condition1 && condition2)
-		memcpy();
+-	/*
+-	 * Return an error if no location of the source physical address
+-	 * was found.
+-	 */
+-	if (edid->blocks > 1 && spa_loc == 0)
+-		return -EINVAL;
+-
+ 	switch (edid->pad) {
+ 	case ADV76XX_PAD_HDMI_PORT_A:
+ 		state->spa_port_a[0] = pa >> 8;
+ 		state->spa_port_a[1] = pa & 0xff;
+ 		break;
+ 	case ADV7604_PAD_HDMI_PORT_B:
+-		rep_write(sd, 0x70, pa >> 8);
+-		rep_write(sd, 0x71, pa & 0xff);
++		rep_write(sd, info->edid_spa_port_b_reg, pa >> 8);
++		rep_write(sd, info->edid_spa_port_b_reg + 1, pa & 0xff);
+ 		break;
+ 	case ADV7604_PAD_HDMI_PORT_C:
+-		rep_write(sd, 0x72, pa >> 8);
+-		rep_write(sd, 0x73, pa & 0xff);
++		rep_write(sd, info->edid_spa_port_b_reg + 2, pa >> 8);
++		rep_write(sd, info->edid_spa_port_b_reg + 3, pa & 0xff);
+ 		break;
+ 	case ADV7604_PAD_HDMI_PORT_D:
+-		rep_write(sd, 0x74, pa >> 8);
+-		rep_write(sd, 0x75, pa & 0xff);
++		rep_write(sd, info->edid_spa_port_b_reg + 4, pa >> 8);
++		rep_write(sd, info->edid_spa_port_b_reg + 5, pa & 0xff);
+ 		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+
+-	if (info->type == ADV7604) {
+-		rep_write(sd, 0x76, spa_loc & 0xff);
+-		rep_write_clr_set(sd, 0x77, 0x40, (spa_loc & 0x100) >> 2);
+-	} else {
+-		/* ADV7612 Software Manual Rev. A, p. 15 */
+-		rep_write(sd, 0x70, spa_loc & 0xff);
+-		rep_write_clr_set(sd, 0x71, 0x01, (spa_loc & 0x100) >> 8);
+-	}
++	if (info->edid_spa_loc_reg) {
++		u8 mask = info->edid_spa_loc_msb_mask;
+
+-	if (spa_loc) {
+-		edid->edid[spa_loc] = state->spa_port_a[0];
+-		edid->edid[spa_loc + 1] = state->spa_port_a[1];
++		rep_write(sd, info->edid_spa_loc_reg, spa_loc & 0xff);
++		rep_write_clr_set(sd, info->edid_spa_loc_reg + 1,
++				  mask, (spa_loc & 0x100) ? mask : 0);
+ 	}
+
++	edid->edid[spa_loc] = state->spa_port_a[0];
++	edid->edid[spa_loc + 1] = state->spa_port_a[1];
++
+ 	memcpy(state->edid.edid, edid->edid, 128 * edid->blocks);
+ 	state->edid.blocks = edid->blocks;
+ 	state->aspect_ratio = v4l2_calc_aspect_ratio(edid->edid[0x15],
+ 			edid->edid[0x16]);
+ 	state->edid.present |= 1 << edid->pad;
+
+-	err = edid_write_block(sd, 128 * edid->blocks, state->edid.edid);
++	rep_write_clr_set(sd, info->edid_segment_reg,
++			  info->edid_segment_mask, 0);
++	err = edid_write_block(sd, 128 * min(edid->blocks, 2U), state->edid.edid);
+ 	if (err < 0) {
+ 		v4l2_err(sd, "error %d writing edid pad %d\n", err, edid->pad);
+ 		return err;
+ 	}
++	if (edid->blocks > 2) {
++		rep_write_clr_set(sd, info->edid_segment_reg,
++				  info->edid_segment_mask,
++				  info->edid_segment_mask);
++		err = edid_write_block(sd, 128 * (edid->blocks - 2),
++				       state->edid.edid + 256);
++		if (err < 0) {
++			v4l2_err(sd, "error %d writing edid pad %d\n",
++				 err, edid->pad);
++			return err;
++		}
++	}
+
+ 	/* adv76xx calculates the checksums and enables I2C access to internal
+ 	   EDID RAM from DDC port. */
+@@ -2989,6 +3010,11 @@ static const struct adv76xx_chip_info adv76xx_chip_info[] = {
+ 		.num_dv_ports = 4,
+ 		.edid_enable_reg = 0x77,
+ 		.edid_status_reg = 0x7d,
++		.edid_segment_reg = 0x77,
++		.edid_segment_mask = 0x10,
++		.edid_spa_loc_reg = 0x76,
++		.edid_spa_loc_msb_mask = 0x40,
++		.edid_spa_port_b_reg = 0x70,
+ 		.lcf_reg = 0xb3,
+ 		.tdms_lock_mask = 0xe0,
+ 		.cable_det_mask = 0x1e,
+@@ -3039,6 +3065,8 @@ static const struct adv76xx_chip_info adv76xx_chip_info[] = {
+ 		.num_dv_ports = 1,
+ 		.edid_enable_reg = 0x74,
+ 		.edid_status_reg = 0x76,
++		.edid_segment_reg = 0x7a,
++		.edid_segment_mask = 0x01,
+ 		.lcf_reg = 0xa3,
+ 		.tdms_lock_mask = 0x43,
+ 		.cable_det_mask = 0x01,
+@@ -3083,6 +3111,11 @@ static const struct adv76xx_chip_info adv76xx_chip_info[] = {
+ 		.num_dv_ports = 1,			/* normally 2 */
+ 		.edid_enable_reg = 0x74,
+ 		.edid_status_reg = 0x76,
++		.edid_segment_reg = 0x7a,
++		.edid_segment_mask = 0x01,
++		.edid_spa_loc_reg = 0x70,
++		.edid_spa_loc_msb_mask = 0x01,
++		.edid_spa_port_b_reg = 0x52,
+ 		.lcf_reg = 0xa3,
+ 		.tdms_lock_mask = 0x43,
+ 		.cable_det_mask = 0x01,
