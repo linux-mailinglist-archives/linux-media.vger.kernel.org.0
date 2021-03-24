@@ -2,86 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B40E34738F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 09:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC2333473D4
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 09:43:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233671AbhCXIWX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 04:22:23 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:60578 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233850AbhCXIVl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 04:21:41 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12O8KlL6013728;
-        Wed, 24 Mar 2021 08:21:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Apl7iBU+rkoAZbuqIafD2/G0po9c8kIFgEDAuBoBx9Y=;
- b=vj9JHeGzgCZLEkvspzvbVoHBN4Pkz1I4YljQPvE2qm1gR8tfrCDHDwnMF+072pkx+xvM
- sZVibBPZ/Q2L+cP7C+GMpbLD/7k6TeGEFb9HRAxoHoHvTAm5Jne4LsTEhuFC0EhGDLxX
- oDtWx0vDQaqe5I+Qo4cH7Rxia9858OCy8OcFys5mzV2K5Hg2hE88S6QEUo1lB3P7WVz9
- OzafDIsdjyUC8XHgwjSbQwSOLpcb+0X5oSAJRkPXqe9lidaL1sslKFqMiTesouEZcNj6
- A9quh2I8UNj6EU4gQX5QuYX6jjjeMALo4U8vC7H2ocKRGB0aAk4MnNfDjLzJ3f9az3Py qQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2120.oracle.com with ESMTP id 37d9pn1rue-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 24 Mar 2021 08:21:17 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12O8LAQR110096;
-        Wed, 24 Mar 2021 08:21:15 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 37dtmqht7e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 24 Mar 2021 08:21:15 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12O8L37j007580;
-        Wed, 24 Mar 2021 08:21:03 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 24 Mar 2021 08:21:03 +0000
-Date:   Wed, 24 Mar 2021 11:20:55 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     caizhichao <tomstomsczc@163.com>
-Cc:     mchehab@kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-        Zhichao Cai <caizhichao@yulong.com>
-Subject: Re: [PATCH] drivers:staging: Simplify the if condition
-Message-ID: <20210324082055.GL1717@kadam>
-References: <20210324054535.1716-1-tomstomsczc@163.com>
+        id S234171AbhCXInP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 04:43:15 -0400
+Received: from m12-18.163.com ([220.181.12.18]:60577 "EHLO m12-18.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234143AbhCXImm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Mar 2021 04:42:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=9w4n7
+        pCQ+xBIwuXyTz+/d9YQ+ktMmMahOP3n55cdsT0=; b=YM/7UV5vSrxihme7X97Y1
+        pm21mEb2CRTSCVXmHkJWTgij0GOdi4qfHwbhRFEu2kaPljk8nUuGkVYcfDzgAWp2
+        gELHZcWmRjHreXkSMMbImGaRpZd7jCtxGf/Xkt8l1ToXvBLk50b1WdOk0ZvoHIot
+        Qv7ketyZr82W18vHBBDmXY=
+Received: from caizhichao.ccdomain.com (unknown [218.94.48.178])
+        by smtp14 (Coremail) with SMTP id EsCowAAXAuAp+1pgj7KtaQ--.50389S2;
+        Wed, 24 Mar 2021 16:41:31 +0800 (CST)
+From:   Zhichao Cai <tomstomsczc@163.com>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Zhichao Cai <caizhichao@yulong.com>
+Subject: [PATCH] drivers:staging: NULL check before some freeing functions is not needed.
+Date:   Wed, 24 Mar 2021 16:41:26 +0800
+Message-Id: <20210324084126.895-1-tomstomsczc@163.com>
+X-Mailer: git-send-email 2.30.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210324054535.1716-1-tomstomsczc@163.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9932 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 phishscore=0
- bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103240065
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9932 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 phishscore=0
- mlxlogscore=989 priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0
- adultscore=0 clxscore=1011 malwarescore=0 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103240065
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EsCowAAXAuAp+1pgj7KtaQ--.50389S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCFy7KF4xGF4xXr1kWr1UAwb_yoWrCrWfpF
+        W0vw1DC3y8Xr1UArsrJw4xJa45A397tayUGa92g3WfWa1xtFWfAF1aka45GrnYqrW5X3ya
+        yF45WrW2gw4DtrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jc4SrUUUUU=
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: pwrp23prpvu6rf6rljoofrz/xtbBdRtfilaD+lnWcgAAsp
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 01:45:35PM +0800, caizhichao wrote:
-> From: Zhichao Cai <caizhichao@yulong.com>
-> 
-> Fixes coccicheck warning:
-> drivers/staging/media/atomisp/pci/sh_css_params.c:4652:24-26: WARNING !A || A && B is equivalent to !A || B
-> 
+From: Zhichao Cai <caizhichao@yulong.com>
 
-Thanks, but someone already did this.  Please work against linux-next.
+Fixes coccicheck warning:
+drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c:390:2-8: WARNING: NULL check before some freeing functions is not needed.
+drivers/staging/media/atomisp/pci/sh_css_params.c:1579:2-8: WARNING: NULL check before some freeing functions is not needed.
+drivers/staging/media/atomisp/pci/sh_css_params.c:3010:2-8: WARNING: NULL check before some freeing functions is not needed.
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:4269:2-8: WARNING: NULL check before some freeing functions is not needed.
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:4630:2-7: WARNING: NULL check before some freeing functions is not needed.
+drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c:159:4-10: WARNING: NULL check before some freeing functions is not needed.
 
-regards,
-dan carpenter
+Signed-off-by: Zhichao Cai <caizhichao@yulong.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c                     | 6 ++----
+ .../media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c  | 3 +--
+ drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c | 3 +--
+ drivers/staging/media/atomisp/pci/sh_css_params.c                   | 6 ++----
+ 4 files changed, 6 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 592ea99..72a6cac 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4265,8 +4265,7 @@ int atomisp_set_parameters(struct video_device *vdev,
+ apply_parameter_failed:
+ 	if (css_param)
+ 		atomisp_free_css_parameters(css_param);
+-	if (param)
+-		kvfree(param);
++	kvfree(param);
+ 
+ 	return ret;
+ }
+@@ -4626,8 +4625,7 @@ int atomisp_fixed_pattern(struct atomisp_sub_device *asd, int flag,
+ err:
+ 	if (ret && res)
+ 		ia_css_frame_free(res);
+-	if (tmp_buf)
+-		vfree(tmp_buf);
++	vfree(tmp_buf);
+ 	if (ret == 0)
+ 		*result = res;
+ 	return ret;
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
+index 3e72dab..13caa55 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
+@@ -386,8 +386,7 @@ struct ia_css_isp_dvs_statistics_map *
+ 
+ 	return me;
+ err:
+-	if (me)
+-		kvfree(me);
++	kvfree(me);
+ 	return NULL;
+ }
+ 
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+index e861777..823ec54 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+@@ -155,8 +155,7 @@
+ 
+ 	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++) {
+ 		for (pclass = 0; pclass < IA_CSS_NUM_PARAM_CLASSES; pclass++) {
+-			if (mem_params->params[pclass][mem].address)
+-				kvfree(mem_params->params[pclass][mem].address);
++			kvfree(mem_params->params[pclass][mem].address);
+ 			if (css_params->params[pclass][mem].address)
+ 				hmm_free(css_params->params[pclass][mem].address);
+ 			mem_params->params[pclass][mem].address = NULL;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 7467256..644e145 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -1575,8 +1575,7 @@ struct ia_css_isp_3a_statistics_map *
+ 	return me;
+ 
+ err:
+-	if (me)
+-		kvfree(me);
++	kvfree(me);
+ 	return NULL;
+ }
+ 
+@@ -3006,8 +3005,7 @@ static void free_map(struct sh_css_ddr_address_map *map)
+ 	}
+ 
+ 	kvfree(params);
+-	if (per_frame_params)
+-		kvfree(per_frame_params);
++	kvfree(per_frame_params);
+ 	stream->isp_params_configs = NULL;
+ 	stream->per_frame_isp_params_configs = NULL;
+ 
+-- 
+1.9.1
 
 
