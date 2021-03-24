@@ -2,28 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEBBD347F30
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 18:21:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D3D1347F47
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 18:24:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237062AbhCXRU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 13:20:58 -0400
-Received: from mga05.intel.com ([192.55.52.43]:20474 "EHLO mga05.intel.com"
+        id S236994AbhCXRYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 13:24:12 -0400
+Received: from mga12.intel.com ([192.55.52.136]:53023 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236534AbhCXRUn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 13:20:43 -0400
-IronPort-SDR: h0brNFsVjsE6MdDYdonblzmC0PwW7oBRBH0qUP1kZ5tBdRNDZfQwFNxar7NNMm9lWEDPhvCoWM
- 720nDWFQ8cNg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="275873487"
+        id S237203AbhCXRXv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Mar 2021 13:23:51 -0400
+IronPort-SDR: yL9oxq2NkZhlquImkta6nt+h9S/S6oz+ynljTV03SlpY+jxHj3Z6YSi0/BEl28bI2zVmhs+Ax6
+ jb4UeXGk3rHA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="170100330"
 X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="275873487"
+   d="scan'208";a="170100330"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 10:20:42 -0700
-IronPort-SDR: Lk4T5F64U9NJKdWK6Uw/5wN/VGyrSl1c8AczIJXXwV4x+GDh97UsIpEEFkMDj8YclL9VntCVYG
- MA4tkeVZGvtA==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 10:23:51 -0700
+IronPort-SDR: uedm2LZaTEm8EkjTV/0VLgh1rPKRHAjmVPtN/kS8dDwXw/C2k9RPfFWtVOABELAa3gXSrjXbjY
+ C4ZS/Dclw49g==
 X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="452675072"
+   d="scan'208";a="452676278"
 Received: from grosikox-mobl.ger.corp.intel.com (HELO [10.214.230.125]) ([10.214.230.125])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 10:20:38 -0700
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 10:23:48 -0700
+From:   "Rosikopulos, GjorgjiX" <gjorgjix.rosikopulos@linux.intel.com>
 Subject: Re: [PATCH 05/10] media: v4l: Add Keem Bay Camera meta buffer formats
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Martina Krasteva <martinax.krasteva@linux.intel.com>
@@ -34,23 +35,22 @@ Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
 References: <20210319180632.585-1-martinax.krasteva@linux.intel.com>
  <20210319180632.585-6-martinax.krasteva@linux.intel.com>
  <20210322182743.GR3@paasikivi.fi.intel.com>
-From:   "Rosikopulos, GjorgjiX" <gjorgjix.rosikopulos@linux.intel.com>
-Message-ID: <109505aa-37ef-48db-8f96-431f68540c32@linux.intel.com>
-Date:   Wed, 24 Mar 2021 17:20:20 +0000
+Message-ID: <1b377362-17b9-8bf8-4095-fe4978f9aa15@linux.intel.com>
+Date:   Wed, 24 Mar 2021 17:23:45 +0000
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
 In-Reply-To: <20210322182743.GR3@paasikivi.fi.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Sakari,
 
-Thank you for the review
+Thank you for the review,
 
 On 22/03/2021 18:27, Sakari Ailus wrote:
 > Hi Martian and Gjorgji,
@@ -124,7 +124,9 @@ On 22/03/2021 18:27, Sakari Ailus wrote:
 >> +The struct :c:type:`kmb_isp_params` contain all configurable parameters for the
 > The syntax has changed recently regarding references to structs, which now
 > are simply "struct nameofthestruct".
+
 Thanks i have missed that, it will be fixed in next patchset.
+
 >
 >> +statistics:
 >> +
@@ -200,7 +202,9 @@ Ok
 >> +	};
 > As this is already part of the UAPI header you don't need to repeat it
 > here.
+
 I Agree it will be removed in next patchset.
+
 >
 >> +
 >> +Keembay ISP uAPI data types
@@ -218,7 +222,9 @@ I Agree it will be removed in next patchset.
 >> +F:	Documentation/media/uapi/v4l/meta-formats.rst
 >> +F:	Documentation/media/uapi/v4l/pixfmt-meta-intel-kmb.rst
 > The files are under Documentation/userspace-api/media/v4l/ .
+
 Thanks it will be fixed.
+
 >
 >>   F:	drivers/media/platform/keembay-camera/
 >>   F:	include/uapi/linux/keembay-isp-ctl.h
