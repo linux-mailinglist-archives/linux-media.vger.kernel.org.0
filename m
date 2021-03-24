@@ -2,180 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93A1734751F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 10:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 908A5347540
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 11:02:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235192AbhCXJzL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 05:55:11 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:48975 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235127AbhCXJy6 (ORCPT
+        id S235358AbhCXKCR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 06:02:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48068 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233243AbhCXKBt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 05:54:58 -0400
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 24 Mar 2021 02:54:58 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 24 Mar 2021 02:54:56 -0700
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 24 Mar 2021 15:24:39 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id 1582521694; Wed, 24 Mar 2021 15:24:38 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v10 2/2] venus: venc: Add support for Long Term Reference (LTR) controls
-Date:   Wed, 24 Mar 2021 15:24:32 +0530
-Message-Id: <1616579672-13898-3-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1616579672-13898-1-git-send-email-dikshita@codeaurora.org>
-References: <1616579672-13898-1-git-send-email-dikshita@codeaurora.org>
+        Wed, 24 Mar 2021 06:01:49 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32956C061763
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 03:01:47 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id a132-20020a1c668a0000b029010f141fe7c2so832110wmc.0
+        for <linux-media@vger.kernel.org>; Wed, 24 Mar 2021 03:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Rx9Rrt/z2zFgoBGaEEFsYywvK+LMAW4MrtxKYsFOxi8=;
+        b=jFre5dwClSH3ihB4O1rKSqw+4vWvAXTVpllJLmcWCS9AgfYt6KOglUjZBQIycdVaEt
+         tBt1wuUwWXtozPuxBmfMZpgCLLrCgdwINZBRvlfwlPyocmCJ1DaaSzXk0p3miF6bLb7N
+         aA0x6yhgA6Y7KfzxCpdm9tixP/U2cPfInnFfA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=Rx9Rrt/z2zFgoBGaEEFsYywvK+LMAW4MrtxKYsFOxi8=;
+        b=cYDGmVJqISHUUPQJJLXTFsDTqHg9FalGbqQrvay26ARiTSkIwzsJm0lN4fczgR5Cn8
+         AdTWB1PFru6p/v4g2WnD813FOX+UB8Khse+rg2voxyEr3f7Wazx6pW57+BJ1Na4wpyeZ
+         qwgZFs2M7vuu+Oq3WULormHWflnDn4KfFA7ZtkqKmmgzaxWsh5X26GuLN3Lu+l2dsg4s
+         hqdXyKYx1Q36Eg6YHVdkB+Z44oZebYlGQlIP03nm2qQ6LoXljskhDmatNMVsQaaXQegm
+         Ry9B8KLOP3aPErRcO+r6S7bHQyPqMT6hnnoengjfXj/TCccsd8YA+8tSKcC+8QyJXllD
+         mUmA==
+X-Gm-Message-State: AOAM532Fim/fUNEgLlP/pw9ynmgLc61qSoUkplPc2+pSTkCJZ66Y1is/
+        iu2ImRulAUkNr4ojCXjGz9qOiA==
+X-Google-Smtp-Source: ABdhPJzZO9UI2vZj6xofrTq7y71eZw5LhOLy8ME2YPH+gQPzgAUK1BFVHzywoWotW3V4Wde3lxsOXQ==
+X-Received: by 2002:a7b:c0d1:: with SMTP id s17mr2074690wmh.153.1616580105822;
+        Wed, 24 Mar 2021 03:01:45 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id e13sm2443665wrg.72.2021.03.24.03.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 03:01:45 -0700 (PDT)
+Date:   Wed, 24 Mar 2021 11:01:43 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Liam Howlett <liam.howlett@oracle.com>
+Cc:     "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] i915_vma: Rename vma_lookup to i915_vma_lookup
+Message-ID: <YFsOB5fWBJSxo03E@phenom.ffwll.local>
+Mail-Followup-To: Liam Howlett <liam.howlett@oracle.com>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+References: <20210323134208.3077275-1-Liam.Howlett@Oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210323134208.3077275-1-Liam.Howlett@Oracle.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for below LTR controls in encoder:
-- V4L2_CID_MPEG_VIDEO_LTR_COUNT
-- V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX
-- V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES
+On Tue, Mar 23, 2021 at 01:42:21PM +0000, Liam Howlett wrote:
+> Use i915 prefix to avoid name collision with future vma_lookup() in mm.
+> 
+> Signed-off-by: Liam R. Howlett <Liam.Howlett@Oracle.com>
+> Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
----
- drivers/media/platform/qcom/venus/core.h       |  2 ++
- drivers/media/platform/qcom/venus/venc.c       |  9 +++++
- drivers/media/platform/qcom/venus/venc_ctrls.c | 48 +++++++++++++++++++++++++-
- 3 files changed, 58 insertions(+), 1 deletion(-)
+Applied to i915-gem-next branch for 5.13. We have a bit a branch shuffling
+going on right now so unusal path, it should show up in linux-next through
+drm-next hopefully this week still.
+-Daniel
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index a252ed3..9451e54 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -238,6 +238,8 @@ struct venc_controls {
- 	} level;
- 
- 	u32 base_priority_id;
-+
-+	u32 ltr_count;
- };
- 
- struct venus_buffer {
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 6976ed5..508af44 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -546,6 +546,7 @@ static int venc_set_properties(struct venus_inst *inst)
- 	struct hfi_quantization quant;
- 	struct hfi_quantization_range quant_range;
- 	struct hfi_enable en;
-+	struct hfi_ltr_mode ltr_mode;
- 	u32 ptype, rate_control, bitrate;
- 	u32 profile, level;
- 	int ret;
-@@ -722,6 +723,14 @@ static int venc_set_properties(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
- 
-+	ptype = HFI_PROPERTY_PARAM_VENC_LTRMODE;
-+		ltr_mode.ltr_count = ctr->ltr_count;
-+		ltr_mode.ltr_mode = HFI_LTR_MODE_MANUAL;
-+		ltr_mode.trust_mode = 1;
-+		ret = hfi_session_set_property(inst, ptype, &ltr_mode);
-+		if (ret)
-+			return ret;
-+
- 	switch (inst->hfi_codec) {
- 	case HFI_VIDEO_CODEC_H264:
- 		profile = ctr->profile.h264;
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index a52b800..1f2d8183 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -20,6 +20,7 @@
- #define INTRA_REFRESH_MBS_MAX	300
- #define AT_SLICE_BOUNDARY	\
- 	V4L2_MPEG_VIDEO_H264_LOOP_FILTER_MODE_DISABLED_AT_SLICE_BOUNDARY
-+#define MAX_LTR_FRAME_COUNT 4
- 
- static int venc_calc_bpframes(u32 gop_size, u32 conseq_b, u32 *bf, u32 *pf)
- {
-@@ -72,6 +73,8 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct venc_controls *ctr = &inst->controls.enc;
- 	struct hfi_enable en = { .enable = 1 };
- 	struct hfi_bitrate brate;
-+	struct hfi_ltr_use ltr_use;
-+	struct hfi_ltr_mark ltr_mark;
- 	u32 bframes;
- 	u32 ptype;
- 	int ret;
-@@ -276,6 +279,37 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:
- 		ctr->base_priority_id = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
-+		ctr->ltr_count = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
-+		mutex_lock(&inst->lock);
-+		if (inst->streamon_out && inst->streamon_cap) {
-+			ptype = HFI_PROPERTY_CONFIG_VENC_MARKLTRFRAME;
-+			ltr_mark.mark_frame = ctrl->val;
-+			ret = hfi_session_set_property(inst, ptype, &ltr_mark);
-+			if (ret) {
-+				mutex_unlock(&inst->lock);
-+				return ret;
-+			}
-+		}
-+		mutex_unlock(&inst->lock);
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
-+		mutex_lock(&inst->lock);
-+		if (inst->streamon_out && inst->streamon_cap) {
-+			ptype = HFI_PROPERTY_CONFIG_VENC_USELTRFRAME;
-+			ltr_use.ref_ltr = ctrl->val;
-+			ltr_use.use_constrnt = true;
-+			ltr_use.frames = 0;
-+			ret = hfi_session_set_property(inst, ptype, &ltr_use);
-+			if (ret) {
-+				mutex_unlock(&inst->lock);
-+				return ret;
-+			}
-+		}
-+		mutex_unlock(&inst->lock);
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -291,7 +325,7 @@ int venc_ctrl_init(struct venus_inst *inst)
- {
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 51);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 54);
- 	if (ret)
- 		return ret;
- 
-@@ -498,6 +532,18 @@ int venc_ctrl_init(struct venus_inst *inst)
- 			  V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID, 0,
- 			  6, 1, 0);
- 
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES, 0,
-+			  ((1 << MAX_LTR_FRAME_COUNT) - 1), 1, 0);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_LTR_COUNT, 0,
-+			  MAX_LTR_FRAME_COUNT, 1, 0);
-+
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX, 0,
-+			  (MAX_LTR_FRAME_COUNT - 1), 1, 0);
-+
- 	ret = inst->ctrl_handler.error;
- 	if (ret)
- 		goto err;
+> ---
+>  drivers/gpu/drm/i915/i915_vma.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index caa9b041616b..ee0028c697f6 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -230,7 +230,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>  }
+>  
+>  static struct i915_vma *
+> -vma_lookup(struct drm_i915_gem_object *obj,
+> +i915_vma_lookup(struct drm_i915_gem_object *obj,
+>  	   struct i915_address_space *vm,
+>  	   const struct i915_ggtt_view *view)
+>  {
+> @@ -278,7 +278,7 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
+>  	GEM_BUG_ON(!atomic_read(&vm->open));
+>  
+>  	spin_lock(&obj->vma.lock);
+> -	vma = vma_lookup(obj, vm, view);
+> +	vma = i915_vma_lookup(obj, vm, view);
+>  	spin_unlock(&obj->vma.lock);
+>  
+>  	/* vma_create() will resolve the race if another creates the vma */
+> -- 
+> 2.30.0
+
 -- 
-2.7.4
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
