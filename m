@@ -2,150 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B823E3473FA
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 09:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02604347434
+	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 10:12:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233715AbhCXIyE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 04:54:04 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:37171 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234045AbhCXIxj (ORCPT
+        id S231801AbhCXJL2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 05:11:28 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:42550 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230274AbhCXJL0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 04:53:39 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id OzGelwIG0CAEGOzGhlZ4uS; Wed, 24 Mar 2021 09:53:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616576018; bh=yUW/RaeQJPREro1UhJl7zUUe5GW6I7n4sN+UfTklbiA=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=t7mS48/If8c2VqZG3sdGugENOzCZVV+x8kySCc6gu5VNEdk5xlh8cmhWSmOTfneSU
-         jbxRogAbefyflOyiDQzASJ4/OnMikr/OiCdZXx+agTzbJODGLO9qjHEMOgvr8N9wkO
-         5sLzz5+vl1XL+Yh6oaNihRRvlaSVZoMgvsSHrGQbuwDnOEZK7rXmM3gXU46RpMB8/J
-         2n4TuVYPULIaT9hR0Seb8iDtHYcETlB9LRkBhw9qT1kJIJOlOHAbm0LBGYxjIaZVwN
-         zM9EnAcOEBa9GckvpLZbS28C48gf1Vph0kTP/9RQpCImedfVsMeozHpIiiMgJPFTh9
-         BGYmj/0mKMXWg==
-To:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Archit Taneja <architt@codeaurora.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] drm/bridge: adv7511: fix support for large EDIDs
-Message-ID: <904185be-19ea-a321-a227-d4e659fe1b68@xs4all.nl>
-Date:   Wed, 24 Mar 2021 09:53:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Wed, 24 Mar 2021 05:11:26 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12O94mRc012513;
+        Wed, 24 Mar 2021 09:11:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=x7emTuVJV3q/b6jrkqL3n70sQqTTr7N1wLavtKFNKFQ=;
+ b=BZFe6yToM/XOlYSmEPER/n30M1pwCpAPee8hDCF8pZE1EBN1fZ+N+JgQj73Cthm1IAyW
+ JKLotydZAOXfaBai4c2Ej5K1CgwKDs8DhkZzXFY1C7u9yPnpVjvEyUChYVLI5e7etKMX
+ 2UoR648aqlzbdwYsIUgEjm3ONwBHolc7KE2F08kbOfr5TIaffVYHbwtBF3AII67Yy+Z/
+ aPw2OGo6s+UAnyc2TnunjfoJqH66yhJKevog4OGjgnKJQLuFxtPBHYW/QgYs18zi4aoX
+ 8hLGV9EM/ROgosbni6wu0jLRaTnayobCTY772Bx5a5UG6r+s1Jq+6rDbVNrzadW0kFWi Rg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 37d8fra18e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Mar 2021 09:11:08 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12O94qWB014532;
+        Wed, 24 Mar 2021 09:11:06 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3030.oracle.com with ESMTP id 37dtyyjudr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Mar 2021 09:11:06 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12O9B2Z5009840;
+        Wed, 24 Mar 2021 09:11:03 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 24 Mar 2021 02:11:02 -0700
+Date:   Wed, 24 Mar 2021 12:10:54 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Zhichao Cai <tomstomsczc@163.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Zhichao Cai <caizhichao@yulong.com>
+Subject: Re: [PATCH] drivers:staging: NULL check before some freeing
+ functions is not needed.
+Message-ID: <20210324091054.GM1717@kadam>
+References: <20210324084126.895-1-tomstomsczc@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNrjgwN9wqpC/KjMFiHEs1iNMh4C3iRxaZNAhNJJGzyKMVaiJjuAzQsRH2IcUY8myNGkUwwSf4ycnPWcKTzdq8rT+VqdjWa3i2Yci2OzPUbVcdjHf2i+
- BSMUhjnjgUr6GL5+faqXubZJjxHPBbaw5ZJIMXnAWm8cbBqxjoxhwKIqbajScraLFAQBGW+Qi5FZyrLZWNKpsClQcGHGGB0yrgxiflAECegagcW6zOsOdrT/
- j7nZehzZfeBL4bM97wwZ85uf0lPM0tPnA2We7yvmOtLZ/y/X1zkQyHRi07Bk5FUcYMqKGWqt0XESUiuxEupYMqz2PefBTZy7pCKwWPtaWUimF/RO8mMrJf+K
- jCypa6QQjyh4SX1yCMSWxzq2dthHuA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210324084126.895-1-tomstomsczc@163.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9932 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 phishscore=0
+ mlxlogscore=893 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103240072
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9932 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0 mlxlogscore=851
+ phishscore=0 bulkscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103240072
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While testing support for large (> 256 bytes) EDIDs on the Renesas
-Koelsch board I noticed that the adv7511 bridge driver only read the
-first two blocks.
+On Wed, Mar 24, 2021 at 04:41:26PM +0800, Zhichao Cai wrote:
+> From: Zhichao Cai <caizhichao@yulong.com>
+> 
+> Fixes coccicheck warning:
+> drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c:390:2-8: WARNING: NULL check before some freeing functions is not needed.
+> drivers/staging/media/atomisp/pci/sh_css_params.c:1579:2-8: WARNING: NULL check before some freeing functions is not needed.
+> drivers/staging/media/atomisp/pci/sh_css_params.c:3010:2-8: WARNING: NULL check before some freeing functions is not needed.
+> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4269:2-8: WARNING: NULL check before some freeing functions is not needed.
+> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4630:2-7: WARNING: NULL check before some freeing functions is not needed.
+> drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c:159:4-10: WARNING: NULL check before some freeing functions is not needed.
+> 
 
-The media V4L2 version for the adv7511 (drivers/media/i2c/adv7511-v4l2.c)
-handled this correctly.
+Some of these have been fixed already.  Please work against linux-next.
 
-Besides a simple bug when setting the segment register (it was set to the
-block number instead of block / 2), the logic of the code was also weird.
-In particular reading the DDC_STATUS is odd: this is unrelated to EDID
-reading.
+regards,
+dan carpenter
 
-The reworked code just waits for any EDID segment reads to finish (this
-does nothing if the a segment is already read), checks if the desired
-segment matches the read segment, and if not, then it requests the new
-segment and waits again for the EDID segment to be read.
-
-Finally it checks if the currently buffered EDID segment contains the
-desired EDID block, and if not it will update the EDID buffer from
-the adv7511.
-
-Tested with my Koelsch board and with EDIDs of 1, 2, 3 and 4 blocks.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Testing on the Renesas board also requires these two adv7604 patches
-if you want to test with an HDMI cable between the HDMI input and output:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/00882808-472a-d429-c565-a701da579ead@xs4all.nl/
-https://patchwork.linuxtv.org/project/linux-media/patch/c7093e76-ffb4-b19c-f576-b264f935a3ce@xs4all.nl/
----
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 76555ae64e9c..9e8db1c60167 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -328,6 +328,7 @@ static void adv7511_set_link_config(struct adv7511 *adv7511,
- static void __adv7511_power_on(struct adv7511 *adv7511)
- {
- 	adv7511->current_edid_segment = -1;
-+	adv7511->edid_read = false;
-
- 	regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER,
- 			   ADV7511_POWER_POWER_DOWN, 0);
-@@ -529,29 +530,35 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
- 	struct adv7511 *adv7511 = data;
- 	struct i2c_msg xfer[2];
- 	uint8_t offset;
-+	unsigned int cur_segment;
- 	unsigned int i;
- 	int ret;
-
- 	if (len > 128)
- 		return -EINVAL;
-
--	if (adv7511->current_edid_segment != block / 2) {
--		unsigned int status;
-+	/* wait for any EDID segment reads to finish */
-+	adv7511_wait_for_edid(adv7511, 200);
-
--		ret = regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
--				  &status);
-+	ret = regmap_read(adv7511->regmap, ADV7511_REG_EDID_SEGMENT, &cur_segment);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * If the current read segment does not match what we need, then
-+	 * write the new segment and wait for it to be read.
-+	 */
-+	if (cur_segment != block / 2) {
-+		adv7511->edid_read = false;
-+		cur_segment = block / 2;
-+		regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
-+			     cur_segment);
-+		ret = adv7511_wait_for_edid(adv7511, 200);
- 		if (ret < 0)
- 			return ret;
-+	}
-
--		if (status != 2) {
--			adv7511->edid_read = false;
--			regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
--				     block);
--			ret = adv7511_wait_for_edid(adv7511, 200);
--			if (ret < 0)
--				return ret;
--		}
--
-+	if (adv7511->current_edid_segment != cur_segment) {
- 		/* Break this apart, hopefully more I2C controllers will
- 		 * support 64 byte transfers than 256 byte transfers
- 		 */
-@@ -579,7 +586,7 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
- 			offset += 64;
- 		}
-
--		adv7511->current_edid_segment = block / 2;
-+		adv7511->current_edid_segment = cur_segment;
- 	}
-
- 	if (block % 2 == 0)
