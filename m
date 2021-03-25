@@ -2,62 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A555349A2B
+	by mail.lfdr.de (Postfix) with ESMTP id 3D484349A2C
 	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 20:28:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbhCYT2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 15:28:19 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:47124 "EHLO mout01.posteo.de"
+        id S230209AbhCYT2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 15:28:20 -0400
+Received: from mout02.posteo.de ([185.67.36.66]:43595 "EHLO mout02.posteo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230064AbhCYT15 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 15:27:57 -0400
+        id S230189AbhCYT2P (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Mar 2021 15:28:15 -0400
 Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 0776D160060
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 20:27:55 +0100 (CET)
+        by mout02.posteo.de (Postfix) with ESMTPS id 8CC4B2400FE
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 20:28:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1616700476; bh=KAUIE+0YSHQ+zfhYjGyg7A/WvjII2fl49ulVSmLhIHw=;
+        t=1616700493; bh=dKKpN44ZYVEDaO79znPOIgtvqlJqY5SPbiTkjKa9rxQ=;
         h=From:To:Cc:Subject:Date:From;
-        b=AhkBKBexIX56w4m4fzf9Y22SYoLsPI8nyf8a/6N1EqTQOtg+HJvL+6ZdrCNQyBM3o
-         bY5eJf++zBkhyAzl/GcJLNsjpzUKZVKtBmS+MZvFG7YerWEk6aHy/LQtQwbLGEd6U4
-         zv6c1oyfShFRcGYlZKdSJ0m6/2w9YWrpxHlDveO1vVMLSjgd8WaeZGFX90bdLMyYZN
-         FH7vw04DcJhXFjs0D0frfHM5CVHlO4kwOiKP6MVyi5RZvnDYJSqvBatEoo6yOlLXH/
-         9zSsqtFDamMzFgWi49c4mzW9ZkNF0vAIobEZOk/3J5PNhkJBSiwTnecHB+MGB6/NbT
-         1Pjajgak7gyGQ==
+        b=Vh/dN2Ib6X6SZK58YojUjU/6nzYeeImqKDd3CtEPIjoExQK6v17jHhrpl6r51EHW8
+         HuPjn4VLCgFcHjxdXbd2xQlhED3Zu5X32o4ZLJopTFVH/XsM7BV/lUuxMnxndo7E8p
+         1b32Yo2BLvfGEl1OCl3Sby2fxI/hcNrTfFgMtURSMGYjPGNUMak8XYtUr/IcN6VO/h
+         k9e8kpME3Sxay1lYkBxt1F9OxleIaFffrEnXFYrwf1UZI/5fNxyX0ar5rBwhZAqO1t
+         YHkmZk9FCR41FimwwCjBxD+eEcNfjWZfEjiM7cMBa6qWtEmu7FMCpeiA5eZi8xbmAA
+         jm6MO/1oudhjg==
 Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4F5w9l17M7z9rxm;
-        Thu, 25 Mar 2021 20:27:55 +0100 (CET)
+        by submission (posteo.de) with ESMTPSA id 4F5wB44PZ4z9rxN;
+        Thu, 25 Mar 2021 20:28:12 +0100 (CET)
 From:   Sebastian Fricke <sebastian.fricke@posteo.net>
 To:     linux-media@vger.kernel.org
 Cc:     dafna.hirschfeld@collabora.com, laurent.pinchart@ideasonboard.com,
         helen.koike@collabora.com, heiko@sntech.de,
         Sebastian Fricke <sebastian.fricke@posteo.net>
-Subject: [PATCH 0/2] Allow higher sink pad resolutions for the RkISP1
-Date:   Thu, 25 Mar 2021 20:26:59 +0100
-Message-Id: <20210325192700.21393-1-sebastian.fricke@posteo.net>
+Subject: [PATCH 1/2] media: rkisp1: Increase ISP input resolution limit
+Date:   Thu, 25 Mar 2021 20:27:01 +0100
+Message-Id: <20210325192700.21393-2-sebastian.fricke@posteo.net>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210325192700.21393-1-sebastian.fricke@posteo.net>
+References: <20210325192700.21393-1-sebastian.fricke@posteo.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current implementation limits the maximum sink pad resolution to
-4032x3024, which is mentioned by the Rockchip TRM as the maximum size
-to handle black level calibration. But the ISP can actually set it's
-sink pad format to a size of 4416x3312.
-Allow higher sink pad resolutions in order to allow a bigger range of
-sensor modes to be used with the RkISP1.
-This patch was tested with a NanoPC-T4 and a OV13850, which provides a
-resolution of 4224x3136.
+The incentive for this patch was to overcome the inability of the
+ISP device to work with resolutions greater than 4032x3024.
+Increase the limit to 4416x3312 to allow higher input resolutions.
+Use the old resolution to crop the input resolution down to the maximum
+size for the ISP to process frames.
 
-Sebastian Fricke (2):
-  media: rkisp1: Increase ISP input resolution limit
-  media: rkisp1: Limit the sink pad crop size
-
+Signed-off-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+---
  drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 10 ++++++----
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c    |  8 ++++++--
- 2 files changed, 12 insertions(+), 6 deletions(-)
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 038c303a8aed..553effda4d5e 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -30,10 +30,12 @@
+ #define RKISP1_ISP_SD_SINK BIT(1)
+ 
+ /* min and max values for the widths and heights of the entities */
+-#define RKISP1_ISP_MAX_WIDTH		4032
+-#define RKISP1_ISP_MAX_HEIGHT		3024
+-#define RKISP1_ISP_MIN_WIDTH		32
+-#define RKISP1_ISP_MIN_HEIGHT		32
++#define RKISP1_ISP_MAX_WIDTH			4416
++#define RKISP1_ISP_MAX_HEIGHT			3312
++#define RKISP1_ISP_MAX_WIDTH_PROCESSING		4032
++#define RKISP1_ISP_MAX_HEIGHT_PROCESSING	3024
++#define RKISP1_ISP_MIN_WIDTH			32
++#define RKISP1_ISP_MIN_HEIGHT			32
+ 
+ #define RKISP1_RSZ_MP_SRC_MAX_WIDTH		4416
+ #define RKISP1_RSZ_MP_SRC_MAX_HEIGHT		3312
 -- 
 2.25.1
 
