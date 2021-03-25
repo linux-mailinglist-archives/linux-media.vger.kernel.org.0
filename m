@@ -2,198 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30CD7349BBE
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 22:40:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 321B334A050
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 04:40:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhCYVkA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 17:40:00 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:49602 "EHLO mout01.posteo.de"
+        id S230343AbhCZDjm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 23:39:42 -0400
+Received: from mail.bnmotors.ru ([90.154.55.245]:46168 "EHLO mail.bnmotors.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230425AbhCYVjf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 17:39:35 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 97DC2160062
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 22:39:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1616708373; bh=KdsRNnvFwA87wgl2QBB2wW9QE36s9vpzeA4RiwDJPBc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hbNiISK+bPdIj1IHAiROnGd4rGSphwzX7p4vsivNZ+OphZBQDgavAEJNbHYa9i8Ej
-         8Jl4tb/SoSnZC9lW/vx5t2DNn3UKUg/kRCsGSRI4ApWdSX8w4uGUqSUsT9qM0vk/Gz
-         9w2kXYJUjRIgN48MeInrtqfr4Q9++8KK93rNrKz3UlIzTJHdSoS+gXVtpOOsfnzvde
-         x/WoYaxDe1oBQysABfpkQ1nhnJYCfE7sbG9ehij0Bc/28oZSxzFCwLPc0D3rTusrfR
-         uOvv1r1TOpt5zzzj8FN1dE8FrPBe5gH6aWcaAaWqitFqcmD1g0t+waOKIbNIbeF7sY
-         njq2ahrpzHhLQ==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4F5z5c4fg7z6tmJ;
-        Thu, 25 Mar 2021 22:39:32 +0100 (CET)
-From:   Benjamin Drung <bdrung@posteo.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     stable@vger.kernel.org, Adam Goode <agoode@google.com>,
-        Benjamin Drung <bdrung@posteo.de>
-Subject: [PATCH] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
-Date:   Thu, 25 Mar 2021 22:34:59 +0100
-Message-Id: <20210325213458.51309-1-bdrung@posteo.de>
-X-Mailer: git-send-email 2.27.0
+        id S230109AbhCZDjL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Mar 2021 23:39:11 -0400
+X-Greylist: delayed 10676 seconds by postgrey-1.27 at vger.kernel.org; Thu, 25 Mar 2021 23:39:10 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.bnmotors.ru (Postfix) with ESMTP id 85B87AF52593;
+        Fri, 26 Mar 2021 02:44:16 +0300 (MSK)
+Received: from mail.bnmotors.ru ([127.0.0.1])
+        by localhost (mail.bnmotors.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 6Y7UhhF53HEQ; Fri, 26 Mar 2021 02:44:16 +0300 (MSK)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.bnmotors.ru (Postfix) with ESMTP id D6FB5AF60078;
+        Fri, 26 Mar 2021 02:09:45 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.bnmotors.ru D6FB5AF60078
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bnmotors.ru;
+        s=300D0CD2-F95F-11E8-8CD0-CA4D891A4340; t=1616713786;
+        bh=YU1iIRGaunCEbzj6bsvemv6r89um1Z2K8hLK6d5vD28=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=CTAGhrP+LdspVldpLsJ2KVDstSo1MX9tieHBphwByWIP2aD+JnakjochFU0/ULUVk
+         TQZTRq24Z8vz4KU2vQilC75zTn2L4FBnM+fwp/08N9LVn9t80XwXvbZ79KhmgrQdTJ
+         1XMMiltsm01B/xiuoKXmMGw0FctVZSjJxIitRF3QgusKoAdcEdh5TaCojnM4+dV5VA
+         NZBZX9+gseiAIvjymWvl7bbn/YisvRFk9O29e3+leg9hoyqYuV6O5N9DcglyjbjngP
+         fPAMWfd+PJZs4P3Bk5RqThrXrcvtfEgB6R7ybnDvhq0Wb4MZPhVxsHNbr3WiEbaVsQ
+         1iIdPl3cyKsJg==
+X-Virus-Scanned: amavisd-new at bnmotors.ru
+Received: from mail.bnmotors.ru ([127.0.0.1])
+        by localhost (mail.bnmotors.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id o4oh-i47E-0y; Fri, 26 Mar 2021 02:09:45 +0300 (MSK)
+Received: from [91.224.92.189] (unknown [91.224.92.189])
+        by mail.bnmotors.ru (Postfix) with ESMTPSA id C1B0AA6003BB;
+        Fri, 26 Mar 2021 01:29:43 +0300 (MSK)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Darlehensangebot mit niedrigem Zinssatz von 2%
+To:     Recipients <yaschenko.roman@bnmotors.ru>
+From:   "Mr Anthony Williams" <yaschenko.roman@bnmotors.ru>
+Date:   Thu, 25 Mar 2021 15:29:42 -0700
+Reply-To: loan@quinnlncompanyltd.com
+Message-Id: <20210325222944.C1B0AA6003BB@mail.bnmotors.ru>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Elgato Cam Link 4K HDMI video capture card reports to support three
-different pixel formats, where the first format depends on the connected
-HDMI device.
+Sehr geehrte Damen und Herren
 
-```
-$ v4l2-ctl -d /dev/video0 --list-formats-ext
-ioctl: VIDIOC_ENUM_FMT
-	Type: Video Capture
+Sind Sie es auch leid sich mit Banken oder Finanzdienstleister f=FCr ein Da=
+rlehen herumzuschlagen. Sicherheiten zu besorgen, um das Darlehen 150% abzu=
+sichern? Sie ben=F6tigen ein Darlehen um eine Investition vorzunehmen, kurz=
+fristige Schulden in mittel- bis langfristig umzuwandeln?
 
-	[0]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[1]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[2]: 'YU12' (Planar YUV 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-```
+Ja, aber Sicherheit, Vertraulichkeit und Transparenz ist Ihnen wichtig. Dan=
+n k=F6nnen wir Ihnen helfen. Wir sind eine in England beheimatete Firma, di=
+e sich darauf spezialisiert hat, Darlehen an Private und Firmen unkomplizie=
+rt zu vergeben.
 
-Changing the pixel format to anything besides the first pixel format
-does not work:
+Die Zinsen und die Laufzeiten sind sehr attraktiv (2%) und in punkto Sicher=
+heit beschr=E4nken wir uns auf das absolute Minimum.
 
-```
-v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
-Format Video Capture:
-	Width/Height      : 3840/2160
-	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
-	Field             : None
-	Bytes per Line    : 3840
-	Size Image        : 12441600
-	Colorspace        : sRGB
-	Transfer Function : Rec. 709
-	YCbCr/HSV Encoding: Rec. 709
-	Quantization      : Default (maps to Limited Range)
-	Flags             :
-```
+Interessiert? Dann kontaktieren Sie uns doch f=FCr weitere Informationen pe=
+r e-mail
 
-User space applications like VLC might show an error message on the
-terminal in that case:
+Wir freuen uns, von Ihnen zu h=F6ren.
 
-```
-libv4l2: error set_fmt gave us a different result than try_fmt!
-```
+Sicherheit, Vertrauen und Transparenz sind die Pfeiler unseres Gesch=E4fts.
 
-Depending on the error handling of the user space applications, they
-might display a distorted video, because they use the wrong pixel format
-for decoding the stream.
+Freundliche Gr=FCsse
 
-The Elgato Cam Link 4K responds to the USB video probe
-VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
-second byte contains bFormatIndex (instead of being the second byte of
-bmHint). The first byte is always zero. The third byte is always 1.
+Anthony William
 
-The firmware bug was reported to Elgato on 2020-12-01 and it was
-forwarded by the support team to the developers as feature request.
-There is no firmware update available since then. The latest firmware
-for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
-
-Therefore add a quirk to correct the malformed data structure.
-
-The quirk was successfully tested with VLC, OBS, and Chromium using
-different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
-1920x1080), and frame rates (29.970 and 59.940 fps).
-
-Signed-off-by: Benjamin Drung <bdrung@posteo.de>
----
-
-Feel free to propose a better name for the quirk than
-UVC_QUIRK_FIX_FORMAT_INDEX.
-
-To backport to version 5.11 and earlier, the line
-
-```
-uvc_dbg(stream->dev, CONTROL,
-```
-
-needs to be changed back to
-
-```
-uvc_trace(UVC_TRACE_CONTROL,
-```
-
- drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
- drivers/media/usb/uvc/uvc_video.c  | 17 +++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 31 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 30ef2a3110f7..4f245b3f8bd9 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3132,6 +3132,19 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/*
-+	 * Elgato Cam Link 4K
-+	 * Latest firmware as of 2021-03-23 needs this quirk.
-+	 * MCU: 20.02.19, FPGA: 67
-+	 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x0fd9,
-+	  .idProduct		= 0x0066,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index f2f565281e63..e348e1794d93 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -128,6 +128,23 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 	struct uvc_frame *frame = NULL;
- 	unsigned int i;
- 
-+	/*
-+	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-+	 * contains bFormatIndex (instead of being the second byte of bmHint).
-+	 * The first byte is always zero. The third byte is always 1.
-+	 */
-+	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
-+		__u8 corrected_format_index;
-+
-+		corrected_format_index = ctrl->bmHint >> 8;
-+		uvc_dbg(stream->dev, CONTROL,
-+			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
-+			ctrl->bmHint, ctrl->bFormatIndex,
-+			ctrl->bFormatIndex, corrected_format_index);
-+		ctrl->bmHint = ctrl->bFormatIndex;
-+		ctrl->bFormatIndex = corrected_format_index;
-+	}
-+
- 	for (i = 0; i < stream->nformats; ++i) {
- 		if (stream->format[i].index == ctrl->bFormatIndex) {
- 			format = &stream->format[i];
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 97df5ecd66c9..bf401d5ba27d 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -209,6 +209,7 @@
- #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
- #define UVC_QUIRK_FORCE_Y8		0x00000800
- #define UVC_QUIRK_FORCE_BPP		0x00001000
-+#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
--- 
-2.27.0
-
+Management
+Quinn Loan Company Limited
