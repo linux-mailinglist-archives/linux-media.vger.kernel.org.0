@@ -2,114 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92343348B41
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 09:14:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 605F0348B5F
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 09:17:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbhCYINd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 04:13:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbhCYINT (ORCPT
+        id S229893AbhCYIRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 04:17:16 -0400
+Received: from vulcan.natalenko.name ([104.207.131.136]:35816 "EHLO
+        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229816AbhCYIRE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 04:13:19 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B470C061763
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 01:13:18 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id jy13so1465970ejc.2
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 01:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HejjARvJ9xPzmvq9Kb1zqDu3RAw9VmmzKI0Ua2yVZWY=;
-        b=kYALy9LoxNSmT31hMkqKdDwmBUCwkQQPfZRxqVfaQNb6SSyyhqEVXORGQlZ/gsHHyL
-         rXpU596MLUA5ZE1M/vgYekdE1EiSfL+awNober1qR+38waVNDhZ1gogY3f6If/6rPjhm
-         tRHSt8U2JKFMBMwQDjjbXDRbBau0NanR76FFbkd5R/qeAwZ0ZCRAzI7AeMp6TkSG6HQG
-         enuNkyUis7EzsT9InqgX6kqC7sIJoX7DJGAu2WSZaeBhJnYPd8xc4IAJ1kkBUp17OoIR
-         pSRo1pEVuBU8iSze/ZeCLFzmGo/bjTsymjwcGQ43kDa4b7elG140bCFf2S9J0OvntzLF
-         YQRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HejjARvJ9xPzmvq9Kb1zqDu3RAw9VmmzKI0Ua2yVZWY=;
-        b=Jw4ltDQNkgv6UbKTuFnK8khMNHR1yyC2XlP1PVV/BKed74uC2lV1QT53C19VxcI+ef
-         uSsy4R0dEAbaQXGNDfS4ZK3I+SFAyPAcAW0JenkmZiyFQbU1YVsy546Q4rXRB6Vrm0r7
-         U/HLSUuZ3vy1AYLxKKp8PcKYaT++Wzjl9jHRS1rAgwxrLbVvfdRPsUvmw28h8dzU4x3J
-         GPLrl9jokTmPgKmMRgdxAjKZxeDrYBzwnoPpwh5nqIi88qA2RCl10j/C704cueRlarP0
-         wZSiJXAn/DBnQWiaqXohzZMOzQESZfg1zvaOwGfgSeDawdsL7Tle3D4GLMb8SGIxGG5H
-         XQVA==
-X-Gm-Message-State: AOAM533KRWLild4SrWxJm6L5BXLdEzx5PvA+h9cJBUCgUhfzIGjukYnD
-        Ut1izmuzBaeHykVaov/Ab6pgjQ==
-X-Google-Smtp-Source: ABdhPJxQhbpkhmqgC6PVpNJ3hc23dX6UiyLifzKp1AQpw+OE0HW4RV3jfMUeAGihMpu5JSftIMhv/g==
-X-Received: by 2002:a17:906:2404:: with SMTP id z4mr7851672eja.14.1616659997026;
-        Thu, 25 Mar 2021 01:13:17 -0700 (PDT)
-Received: from [192.168.1.54] (hst-208-220.medicom.bg. [84.238.208.220])
-        by smtp.googlemail.com with ESMTPSA id u24sm2049805ejr.34.2021.03.25.01.13.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Mar 2021 01:13:16 -0700 (PDT)
-Subject: Re: [PATCH v3 14/15] media: venus: Convert to use resource-managed
- OPP API
-To:     Dmitry Osipenko <digetx@gmail.com>, Qiang Yu <yuq825@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Yangtao Li <tiny.windzz@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
-        lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-References: <20210314163408.22292-1-digetx@gmail.com>
- <20210314163408.22292-15-digetx@gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <b780c19f-7f5d-5453-dec1-062fa7c1dc07@linaro.org>
-Date:   Thu, 25 Mar 2021 10:13:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Thu, 25 Mar 2021 04:17:04 -0400
+Received: from localhost (kaktus.kanapka.ml [151.237.229.131])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id 983589F89B3;
+        Thu, 25 Mar 2021 09:17:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1616660222;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bh7wP2L3MUfdWgUnQuBUElgHs80OttJY20MheoOX9z0=;
+        b=kQTslmY70D+XU8hjEh8DFuJnXj25xjL2XNEaBKRcuvuP2/wrjZ8BMGKZKdUcDE9WV77jTD
+        ub2HCCrifZzp4J45mkD5VPV2wM3IWielQptu5QYeAXofs7jz8r4RcLAmCBXZicV6VMlhoU
+        oexebAnGATmsBpI5eo35dMt2nO1eBFQ=
+Date:   Thu, 25 Mar 2021 09:17:02 +0100
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     linux-kernel@vger.kernel.org
+Cc:     Ilkka Prusi <ilkka.prusi@pp.inet.fi>,
+        Chris Rankin <rankincj@gmail.com>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Huang Rui <ray.huang@amd.com>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: WARNING: AMDGPU DRM warning in 5.11.9
+Message-ID: <20210325081702.5kdzp7moqhcox65b@spock.localdomain>
+References: <CAK2bqVJ+=nHTK-hnUC=qL1mcOvHWTCwDMYPBKJp77QCbBvBGGw@mail.gmail.com>
+ <a38a3c04-4ac8-01a6-da69-a2bdaa54f61d@pp.inet.fi>
 MIME-Version: 1.0
-In-Reply-To: <20210314163408.22292-15-digetx@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a38a3c04-4ac8-01a6-da69-a2bdaa54f61d@pp.inet.fi>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hello.
 
-On 3/14/21 6:34 PM, Dmitry Osipenko wrote:
-> From: Yangtao Li <tiny.windzz@gmail.com>
+On Thu, Mar 25, 2021 at 07:57:33AM +0200, Ilkka Prusi wrote:
+> On 24.3.2021 16.16, Chris Rankin wrote:
+> > Hi,
+> > 
+> > Theee warnings ares not present in my dmesg log from 5.11.8:
+> > 
+> > [   43.390159] ------------[ cut here ]------------
+> > [   43.393574] WARNING: CPU: 2 PID: 1268 at
+> > drivers/gpu/drm/ttm/ttm_bo.c:517 ttm_bo_release+0x172/0x282 [ttm]
+> > [   43.401940] Modules linked in: nf_nat_ftp nf_conntrack_ftp cfg80211
 > 
-> Use resource-managed OPP API to simplify code.
+> Changing WARN_ON to WARN_ON_ONCE in drivers/gpu/drm/ttm/ttm_bo.c
+> ttm_bo_release() reduces the flood of messages into single splat.
 > 
-> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/media/platform/qcom/venus/core.h      |  1 -
->  .../media/platform/qcom/venus/pm_helpers.c    | 35 +++++--------------
->  2 files changed, 8 insertions(+), 28 deletions(-)
+> This warning appears to come from 57fcd550eb15bce ("drm/ttm: Warn on pinning
+> without holding a reference)" and reverting it might be one choice.
+> 
+> 
+> > 
+> > There are others, but I am assuming there is a common cause here.
+> > 
+> > Cheers,
+> > Chris
+> > 
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index a76eb2c14e8c..50b53355b265 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -514,7 +514,7 @@ static void ttm_bo_release(struct kref *kref)
+>                  * shrinkers, now that they are queued for
+>                  * destruction.
+>                  */
+> -               if (WARN_ON(bo->pin_count)) {
+> +               if (WARN_ON_ONCE(bo->pin_count)) {
+>                         bo->pin_count = 0;
+>                         ttm_bo_del_from_lru(bo);
+>                         ttm_bo_add_mem_to_lru(bo, &bo->mem);
+> 
+> 
+> 
+> --
+>  - Ilkka
+> 
 
+WARN_ON_ONCE() will just hide the underlying problem. Do we know why
+this happens at all?
 
-I'll take this through media-tree once OPP API changes are merged.
+Same for me, BTW, with v5.11.9:
+
+```
+[~]> lspci | grep VGA
+0a:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Lexa PRO [Radeon 540/540X/550/550X / RX 540X/550/550X] (rev c7)
+
+[ 3676.033140] ------------[ cut here ]------------
+[ 3676.033153] WARNING: CPU: 7 PID: 1318 at drivers/gpu/drm/ttm/ttm_bo.c:517 ttm_bo_release+0x375/0x500 [ttm]
+…
+[ 3676.033340] Hardware name: ASUS System Product Name/Pro WS X570-ACE, BIOS 3302 03/05/2021
+…
+[ 3676.033469] Call Trace:
+[ 3676.033473]  ttm_bo_move_accel_cleanup+0x1ab/0x3a0 [ttm]
+[ 3676.033478]  amdgpu_bo_move+0x334/0x860 [amdgpu]
+[ 3676.033580]  ttm_bo_validate+0x1f1/0x2d0 [ttm]
+[ 3676.033585]  amdgpu_cs_bo_validate+0x9b/0x1c0 [amdgpu]
+[ 3676.033665]  amdgpu_cs_list_validate+0x115/0x150 [amdgpu]
+[ 3676.033743]  amdgpu_cs_ioctl+0x873/0x20a0 [amdgpu]
+[ 3676.033960]  drm_ioctl_kernel+0xb8/0x140 [drm]
+[ 3676.033977]  drm_ioctl+0x222/0x3c0 [drm]
+[ 3676.034071]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+[ 3676.034145]  __x64_sys_ioctl+0x83/0xb0
+[ 3676.034149]  do_syscall_64+0x33/0x40
+…
+[ 3676.034171] ---[ end trace 66e9865b027112f3 ]---
+```
+
+Thanks.
 
 -- 
-regards,
-Stan
+  Oleksandr Natalenko (post-factum)
