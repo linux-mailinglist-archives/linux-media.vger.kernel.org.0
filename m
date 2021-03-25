@@ -2,136 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75531349BB2
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 22:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30CD7349BBE
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 22:40:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230470AbhCYVeA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 17:34:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbhCYVd6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 17:33:58 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD580C061761
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 14:33:57 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id j18so3745579wra.2
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 14:33:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TXHI1OxX+D4iSzKCuoMMss3yjiQz/+KLKVrP99q3G2I=;
-        b=frvH/QuNUnODqvtDdusaUFppblhOygLUWsC1ixB43GNG2Cc+yxM2WFbRWpgjN4Ju8Y
-         95PeIsuDNMn98oqagJ3ef1Nu2yOkiL1vvMi/6inWwQyeTtLH5DD3GrBLCXNufjRYGMCK
-         r/gFSHALeS9GIhicmr/nrrhcB3MijIi/RQZtU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=TXHI1OxX+D4iSzKCuoMMss3yjiQz/+KLKVrP99q3G2I=;
-        b=gZemiMmTBvd9is0NZ6qDwJlrIJdO++bTTRd9mrSwniP8XfIi7mS1hLCZDuAZ0327M5
-         OtkbBy3EFtF/p1DIl9egbxoo0bDyfuhx2CRllZrWs6nnmGzJP2NTbZzB9S+9tT5wIUeh
-         XM8g+GlIm6oJMMYM/e769E8cHORef7YbTCMXOpGRH46oNMxeSDAqWwgzhFHQEhNv5pM3
-         WPP4le1Rx5tp6GkHzkgd8vLYw+SNu3UtIHiLi/ugjcmht4Y3F7Ywbo6O5tEte4Ie4J/+
-         c5UfX1lqPqMeWc2pT/nTh/BeEefbQA/P+Ar+2BmLTEomNo51wMjQDdIJ7PHLNg9Er3d8
-         ZQ2w==
-X-Gm-Message-State: AOAM533GUFJ2st+KjRaBqS+ulItm+PVA1JTBX2s39bYY8zrlvUVMoRvG
-        xcSf5WTUgnLHQAGIWbu8/VR9AA==
-X-Google-Smtp-Source: ABdhPJwn8UAApYENGs0EsRiOl6kaa4IOv1NsIwYwvHs5ZhbA+T+EIOa3Ak0sCs/YbuNvp+I4gerYDg==
-X-Received: by 2002:adf:e8c9:: with SMTP id k9mr10992298wrn.315.1616708036367;
-        Thu, 25 Mar 2021 14:33:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id x13sm1115693wmp.39.2021.03.25.14.33.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 14:33:55 -0700 (PDT)
-Date:   Thu, 25 Mar 2021 22:33:53 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        3pvd@google.com, Jann Horn <jannh@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH 3/3] mm: unexport follow_pfn
-Message-ID: <YF0BwfzqpPLuFTw+@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        3pvd@google.com, Jann Horn <jannh@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
- <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
- <20210324125211.GA2356281@nvidia.com>
- <YFuQNj10P+uUHD4G@phenom.ffwll.local>
+        id S230486AbhCYVkA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 17:40:00 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:49602 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230425AbhCYVjf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Mar 2021 17:39:35 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 97DC2160062
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 22:39:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1616708373; bh=KdsRNnvFwA87wgl2QBB2wW9QE36s9vpzeA4RiwDJPBc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hbNiISK+bPdIj1IHAiROnGd4rGSphwzX7p4vsivNZ+OphZBQDgavAEJNbHYa9i8Ej
+         8Jl4tb/SoSnZC9lW/vx5t2DNn3UKUg/kRCsGSRI4ApWdSX8w4uGUqSUsT9qM0vk/Gz
+         9w2kXYJUjRIgN48MeInrtqfr4Q9++8KK93rNrKz3UlIzTJHdSoS+gXVtpOOsfnzvde
+         x/WoYaxDe1oBQysABfpkQ1nhnJYCfE7sbG9ehij0Bc/28oZSxzFCwLPc0D3rTusrfR
+         uOvv1r1TOpt5zzzj8FN1dE8FrPBe5gH6aWcaAaWqitFqcmD1g0t+waOKIbNIbeF7sY
+         njq2ahrpzHhLQ==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4F5z5c4fg7z6tmJ;
+        Thu, 25 Mar 2021 22:39:32 +0100 (CET)
+From:   Benjamin Drung <bdrung@posteo.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     stable@vger.kernel.org, Adam Goode <agoode@google.com>,
+        Benjamin Drung <bdrung@posteo.de>
+Subject: [PATCH] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
+Date:   Thu, 25 Mar 2021 22:34:59 +0100
+Message-Id: <20210325213458.51309-1-bdrung@posteo.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YFuQNj10P+uUHD4G@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 08:17:10PM +0100, Daniel Vetter wrote:
-> On Wed, Mar 24, 2021 at 09:52:11AM -0300, Jason Gunthorpe wrote:
-> > On Tue, Mar 16, 2021 at 04:33:03PM +0100, Daniel Vetter wrote:
-> > > Both kvm (in bd2fae8da794 ("KVM: do not assume PTE is writable after
-> > > follow_pfn")) and vfio (in 07956b6269d3 ("vfio/type1: Use
-> > > follow_pte()")) have lost their callsites of follow_pfn(). All the
-> > > other ones have been switched over to unsafe_follow_pfn because they
-> > > cannot be fixed without breaking userspace api.
-> > > 
-> > > Argueably the vfio code is still racy, but that's kinda a bigger
-> > > picture. But since it does leak the pte beyond where it drops the pt
-> > > lock, without anything else like an mmu notifier guaranteeing
-> > > coherence, the problem is at least clearly visible in the vfio code.
-> > > So good enough with me.
-> > > 
-> > > I've decided to keep the explanation that after dropping the pt lock
-> > > you must have an mmu notifier if you keep using the pte somehow by
-> > > adjusting it and moving it into the kerneldoc for the new follow_pte()
-> > > function.
-> > > 
-> > > Cc: 3pvd@google.com
-> > > Cc: Jann Horn <jannh@google.com>
-> > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > Cc: Jason Gunthorpe <jgg@nvidia.com>
-> > > Cc: Cornelia Huck <cohuck@redhat.com>
-> > > Cc: Peter Xu <peterx@redhat.com>
-> > > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > > Cc: linux-mm@kvack.org
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > > Cc: linux-samsung-soc@vger.kernel.org
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: kvm@vger.kernel.org
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > ---
-> > >  include/linux/mm.h |  2 --
-> > >  mm/memory.c        | 26 +++++---------------------
-> > >  mm/nommu.c         | 13 +------------
-> > >  3 files changed, 6 insertions(+), 35 deletions(-)
-> > 
-> > I think this is the right thing to do.
-> 
-> Was just about to smash this into the topic branch for testing in
-> linux-next. Feel like an ack on the series, or at least the two mm
-> patches?
+The Elgato Cam Link 4K HDMI video capture card reports to support three
+different pixel formats, where the first format depends on the connected
+HDMI device.
 
-Pushed them to my topic branch for a bit of testing in linux-next,
-hopefully goes all fine for a pull for 5.13.
--Daniel
+```
+$ v4l2-ctl -d /dev/video0 --list-formats-ext
+ioctl: VIDIOC_ENUM_FMT
+	Type: Video Capture
+
+	[0]: 'NV12' (Y/CbCr 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+	[1]: 'NV12' (Y/CbCr 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+	[2]: 'YU12' (Planar YUV 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+```
+
+Changing the pixel format to anything besides the first pixel format
+does not work:
+
+```
+v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
+Format Video Capture:
+	Width/Height      : 3840/2160
+	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
+	Field             : None
+	Bytes per Line    : 3840
+	Size Image        : 12441600
+	Colorspace        : sRGB
+	Transfer Function : Rec. 709
+	YCbCr/HSV Encoding: Rec. 709
+	Quantization      : Default (maps to Limited Range)
+	Flags             :
+```
+
+User space applications like VLC might show an error message on the
+terminal in that case:
+
+```
+libv4l2: error set_fmt gave us a different result than try_fmt!
+```
+
+Depending on the error handling of the user space applications, they
+might display a distorted video, because they use the wrong pixel format
+for decoding the stream.
+
+The Elgato Cam Link 4K responds to the USB video probe
+VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
+second byte contains bFormatIndex (instead of being the second byte of
+bmHint). The first byte is always zero. The third byte is always 1.
+
+The firmware bug was reported to Elgato on 2020-12-01 and it was
+forwarded by the support team to the developers as feature request.
+There is no firmware update available since then. The latest firmware
+for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
+
+Therefore add a quirk to correct the malformed data structure.
+
+The quirk was successfully tested with VLC, OBS, and Chromium using
+different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
+1920x1080), and frame rates (29.970 and 59.940 fps).
+
+Signed-off-by: Benjamin Drung <bdrung@posteo.de>
+---
+
+Feel free to propose a better name for the quirk than
+UVC_QUIRK_FIX_FORMAT_INDEX.
+
+To backport to version 5.11 and earlier, the line
+
+```
+uvc_dbg(stream->dev, CONTROL,
+```
+
+needs to be changed back to
+
+```
+uvc_trace(UVC_TRACE_CONTROL,
+```
+
+ drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 17 +++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 31 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 30ef2a3110f7..4f245b3f8bd9 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3132,6 +3132,19 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/*
++	 * Elgato Cam Link 4K
++	 * Latest firmware as of 2021-03-23 needs this quirk.
++	 * MCU: 20.02.19, FPGA: 67
++	 */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x0fd9,
++	  .idProduct		= 0x0066,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index f2f565281e63..e348e1794d93 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -128,6 +128,23 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 	struct uvc_frame *frame = NULL;
+ 	unsigned int i;
+ 
++	/*
++	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
++	 * contains bFormatIndex (instead of being the second byte of bmHint).
++	 * The first byte is always zero. The third byte is always 1.
++	 */
++	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
++		__u8 corrected_format_index;
++
++		corrected_format_index = ctrl->bmHint >> 8;
++		uvc_dbg(stream->dev, CONTROL,
++			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
++			ctrl->bmHint, ctrl->bFormatIndex,
++			ctrl->bFormatIndex, corrected_format_index);
++		ctrl->bmHint = ctrl->bFormatIndex;
++		ctrl->bFormatIndex = corrected_format_index;
++	}
++
+ 	for (i = 0; i < stream->nformats; ++i) {
+ 		if (stream->format[i].index == ctrl->bFormatIndex) {
+ 			format = &stream->format[i];
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 97df5ecd66c9..bf401d5ba27d 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -209,6 +209,7 @@
+ #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
++#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.27.0
+
