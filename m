@@ -2,217 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B09B0349395
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 15:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3012D3493DA
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 15:15:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbhCYODj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 10:03:39 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36885 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231344AbhCYODe (ORCPT
+        id S231225AbhCYOOg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 10:14:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47528 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230113AbhCYOOT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 10:03:34 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PQa8lEOF0UzyrPQaClVqSF; Thu, 25 Mar 2021 15:03:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616681012; bh=ugUybBJc0SQbgRW4Y26f8ODe8SU5WYsUFSuPVm9YnJ8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=DJYLsqN721Tbvj7826d1hlrYxR8wFiBbafgjuEoRy0vyCqohL3pNXdecMZdKqZVAF
-         CmrTb1A8IzOgbbbjFVKn3ocKj+A36YPqO1LSRXqofdiv5P+KT0kBCR3q2s+KPkFPQb
-         W6y+KFxN6WPfxN6UCi1gKCzBbkHogZ+UheE32I6cU8QB8T3l4D9u4OcSxrBHkgHsyb
-         xsX54jJQcNoKmFTTUQLpHMMEyeetMZHjpVUEkfXj6Sg01GmTAGIgIFFDULoylc/sUg
-         V24sipXleboIaKPqlawHd8ot67Y/LwpJ5ubDN1K8e4gXnLUe9XpNeMcMjsAWkNlewF
-         eN3d+ira/MGDw==
-Subject: Re: [PATCH] uvcvideo: improve error handling in uvc_query_ctrl()
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <347cdb4a-19a2-98ce-580f-5aba4abfb2fc@xs4all.nl>
- <CAPybu_34Zus8rSSEMsrxo0euQ+SFu-aZUmHRya7GFPJysp6TsQ@mail.gmail.com>
- <35f1fa6e-a498-9217-5359-82b58dec61f6@xs4all.nl>
- <CANiDSCvWG-iyj9wAaKKKT-6n=ngEW8dN0Mx0VcTWTktzt7nCdw@mail.gmail.com>
- <8a265a15-c9f6-bea4-1a38-df675a977e8c@xs4all.nl>
- <CANiDSCvy_FyxQXv+04u0b9vp1mF7TB_e6XGmSWYM6VoYVrDPHA@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <fa87cc48-db19-fa22-a7fe-4eb9d7483cfe@xs4all.nl>
-Date:   Thu, 25 Mar 2021 15:03:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Thu, 25 Mar 2021 10:14:19 -0400
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDEDDC06174A;
+        Thu, 25 Mar 2021 07:14:18 -0700 (PDT)
+Received: by mail-ua1-x932.google.com with SMTP id j4so551638uan.1;
+        Thu, 25 Mar 2021 07:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0SSljh8VgyOCvuZyrp0irHi3aJFMKD0jnieo/jO7CEI=;
+        b=Tqd7++4+FcQgPrOd6IdwoJABBd4WVgiLVbVQGDorDUfzwmBXuD1Ys2luNVgih5rPXd
+         UTVb13yXK5P8IKpk1q4dtqq97ERfq+pBVRWyR0nWCPORggX0N3MPJZPGt66fEeU7EA6G
+         +SaURMLj8qbFcK5KAibAXit9+bUtnS4GijIxqKVls4t+ozFH5yYT0s29VtTBkE0oZqPL
+         ouRhG9uQOpVbn4fk5+3eYQ08fJnIN0Gswc3XeVgxuC6Cpf3bmKz/h+gRBSnGH3YizS9m
+         G2xoIxRfvwC85jBmnoF96ikNKn3Zewi4SAIuSggMjuJGscvtip557E1s/bd1Krb6wDEq
+         KtFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0SSljh8VgyOCvuZyrp0irHi3aJFMKD0jnieo/jO7CEI=;
+        b=pJeYeRv0TjO6ota+HIpCPBdOP0FSJ8pMZ/QAr9zI6huV8uOsK9sNZjGl/fjTEVc4BZ
+         mUpjE3YKKs4tW4ylyZ6uYmbaarWaULPjXBK6AGzDLrI1Snp/mldDQA0fMKON52pGuK26
+         qmQiBgg2JOq5AAnZ+13RSpayPpYJbnNuEzZhInsUacH/MQJAqPkAD5M28qYFNTXyjmaQ
+         js3OT9YQ6Rh/aZZhEuqT6yOFBOEawd5U24iOmSsSU0XwZhtoBlZg+3vMWhjljaaemdIs
+         A2qhXl/mJs6d8vUHw+GNZJpi/HzrQmSiXj1ka2pyyDOyc0o0wXBtyYhsxrVoVeTTzVSI
+         3/RQ==
+X-Gm-Message-State: AOAM530ntcI5R3FrD58kaHSHMBmupF1XAgAqi1AXQo/WR2UybpN1uuui
+        V/TE+vUtvuOe5H9oDw95zzezQ/p+8bR2j8sKMEgzEU8nUgJTEA==
+X-Google-Smtp-Source: ABdhPJykAGvfrWh/jq0MsPDnI0kz6Tj5UWjX8pgwdXEkcGFOTuEwxthi3FtQxf+dmirWaPsTUHw8+scnIfB4K4Mz6uQ=
+X-Received: by 2002:ab0:32d0:: with SMTP id f16mr4947078uao.64.1616681657893;
+ Thu, 25 Mar 2021 07:14:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANiDSCvy_FyxQXv+04u0b9vp1mF7TB_e6XGmSWYM6VoYVrDPHA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCt6VcVm+mv7PGc+UABJG5oDhvu6GIBw/zTf6iuA70iWroUVd/p5fSAgnfSGSavh6EqC8GIQK06mvq5k+pw9Sk3Zk1EMo/sEL29/hbVlNJj0eKb7ZYpP
- VXzOzkXq06QATVcEimSPyvx0upmZVqC2mC9Sv2wSIrF6KUuSiGbccfmgpywo1mE2HTFinWUiC/BEAmAjLt4aBLlvNZF8zCwDoWGFRb3GUPaOvPQcuk0o+v0v
- AzHtMptrUvLY8Xxq/YLJxRY7Xbc9Iaj8n7+TUiRn4Ek=
+References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
+ <20210311154055.3496076-7-emil.l.velikov@gmail.com> <20210324151715.GA3070006@robh.at.kernel.org>
+In-Reply-To: <20210324151715.GA3070006@robh.at.kernel.org>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Thu, 25 Mar 2021 14:14:06 +0000
+Message-ID: <CACvgo51EpUqRBDQ0tO8aoUM3eo=y9R5VFOazWD05hOaiGwgZPg@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] media: dt-bindings: Document SAMA5D4 VDEC bindings
+To:     Rob Herring <robh@kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org,
+        linux-rockchip <linux-rockchip@lists.infradead.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/03/2021 15:02, Ricardo Ribalda wrote:
-> Hi Hans
-> 
-> On Thu, Mar 25, 2021 at 2:57 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> On 25/03/2021 14:54, Ricardo Ribalda wrote:
->>> hi Hans
->>>
->>> On Thu, Mar 25, 2021 at 1:18 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>>
->>>> On 23/03/2021 16:25, Ricardo Ribalda Delgado wrote:
->>>>> Hi Hans
->>>>>
->>>>> Thanks for the patch. I like how uvc is ending :)
->>>>>
->>>>> On Mon, Mar 22, 2021 at 1:09 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>>>>
->>>>>> - If __uvc_query_ctrl() failed with a non-EPIPE error, then
->>>>>>   report that with dev_err. If an error code is obtained, then
->>>>>>   report that with dev_dbg.
->>>>>>
->>>>>> - For error 2 (Wrong state) return -EACCES instead of -EILSEQ.
->>>>>>   EACCES is a much more appropriate error code. EILSEQ will return
->>>>>>   "Invalid or incomplete multibyte or wide character." in strerror(),
->>>>>>   which is a *very* confusing message.
->>>>>>
->>>>>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
->>>>>> ---
->>>>>> Ricardo, this too can be added to the uvc series.
->>>>>> ---
->>>>>>  drivers/media/usb/uvc/uvc_video.c | 44 +++++++++++++++++--------------
->>>>>>  1 file changed, 24 insertions(+), 20 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
->>>>>> index b63c073ec30e..3f461bb4eeb9 100644
->>>>>> --- a/drivers/media/usb/uvc/uvc_video.c
->>>>>> +++ b/drivers/media/usb/uvc/uvc_video.c
->>>>>> @@ -68,7 +68,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
->>>>>>                         u8 intfnum, u8 cs, void *data, u16 size)
->>>>>>  {
->>>>>>         int ret;
->>>>>> -       u8 error;
->>>>>> +       u8 error = 0;
->>>>>>         u8 tmp;
->>>>>>
->>>>>>         ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
->>>>>> @@ -76,35 +76,39 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
->>>>>>         if (likely(ret == size))
->>>>>>                 return 0;
->>>>>>
->>>>>> -       dev_dbg(&dev->udev->dev,
->>>>>> -               "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
->>>>>> -               uvc_query_name(query), cs, unit, ret, size);
->>>>>> +       ret = ret < 0 ? ret : -EPIPE;
->>>>>>
->>>>>> -       if (ret != -EPIPE)
->>>>>> -               return ret;
->>>>>> -
->>>>>> -       tmp = *(u8 *)data;
->>>>>> +       if (ret == -EPIPE) {
->>>>>> +               tmp = *(u8 *)data;
->>>>>>
->>>>>> -       ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
->>>>>> -                              UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
->>>>>> -                              UVC_CTRL_CONTROL_TIMEOUT);
->>>>>> +               ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
->>>>>> +                                      UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
->>>>>> +                                      UVC_CTRL_CONTROL_TIMEOUT);
->>>>>>
->>>>>> -       error = *(u8 *)data;
->>>>>> -       *(u8 *)data = tmp;
->>>>>> +               if (ret == 1)
->>>>>> +                       error = *(u8 *)data;
->>>>>> +               *(u8 *)data = tmp;
->>>>>> +               if (ret != 1)
->>>>>> +                       ret = ret < 0 ? ret : -EPIPE;
->>>>>> +       }
->>>>>>
->>>>>> -       if (ret != 1)
->>>>>> -               return ret < 0 ? ret : -EPIPE;
->>>>>> +       if (error)
->>>>>> +               dev_dbg(&dev->udev->dev,
->>>>>> +                       "Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
->>>>>> +                       uvc_query_name(query), cs, unit, error);
->>>>>> +       else
->>>>>> +               dev_err(&dev->udev->dev,
->>>>>> +                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
->>>>>> +                       uvc_query_name(query), cs, unit, ret, size);
->>>>>
->>>>> If __uvc_query_ctrl and UVC_VC_REQUEST_ERROR_CODE_CONTROL failed,
->>>>> error is 0. And I think that you want to show a dev_err in that case.
->>>>> Maybe we can initialize error to 7 ?
->>>>
->>>> I'm confused, if error == 0, then it does show dev_err.
->>>
->>> My bad.
->>>
->>> Ignore the message.
->>>
->>> Can we write it as ?:
->>>
->>> if (!error) {
->>>   dev_dbg(&dev->udev->dev,
->>>  "Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
->>>  uvc_query_name(query), cs, unit, error);
->>>  return ret;
->>> }
->>>
->>> dev_err(&dev->udev->dev,
->>> "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
->>> uvc_query_name(query), cs, unit, ret, size);
->>
->> Sure! Just take this patch as inspiration :-)
-> 
-> Do you mind if I modify it before resend?
+On Wed, 24 Mar 2021 at 15:17, Rob Herring <robh@kernel.org> wrote:
+>
+> On Thu, Mar 11, 2021 at 03:40:51PM +0000, Emil Velikov wrote:
+> > From: Emil Velikov <emil.velikov@collabora.com>
+> >
+> > Add devicetree binding documentation for the Hantro G1/G2 VDEC on
+> > the Microchip SAMAS5D4 SoC.
+> >
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Cc: Frank Rowand <frowand.list@gmail.com>
+> > Cc: devicetree@vger.kernel.org>
+> > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> > ---
+> > v2
+> >  - Newly introduced
+> >  - s/Atmel/Microchip/ (Nicolas)
+> >  - Drop leading 0 in node name/address
+> > ---
+> >  .../media/microchip,sama5d4-vdec.yaml         | 59 +++++++++++++++++++
+> >  1 file changed, 59 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+> > new file mode 100644
+> > index 000000000000..9cb2c0295d54
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+> > @@ -0,0 +1,59 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +
+> > +%YAML 1.2
+> > +---
+> > +$id: "http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#"
+> > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > +
+> > +title: Hantro G1 VPU codec implemented on Microchip SAMA5D4 SoCs
+> > +
+> > +maintainers:
+> > +  - Emil Velikov <emil.velikov@collabora.com>
+> > +
+> > +description:
+> > +  Hantro G1 video decode accelerator present on Microchip SAMA5D4 SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: microchip,sama5d4-vdec
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: vdec
+>
+> Why do you need a name? *-names are used to distinguish multiple entries
+> and don't add anything if only a single entry.
+>
+On one hand the names are used to describe the hardware - the SAMA
+board uses designated clock and interrupt lines - both called "vdec".
+Additionally the names are ultimately required by the underlying API -
+platform_get_irq_byname and  devm_clk_bulk_get respectively.
+How can we get the respective entries without the name?
 
-No problem, feel free!
+Skimming through the existing dts file -
+arch/arm/boot/dts/sama5d4.dtsi and other dts files - there are lots of
+examples where the device tree binding contains the name for a single
+clock/interrupt.
 
-	Hans
-
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>>
->>>
->>>>
->>>>>
->>>>>
->>>>>>
->>>>>> -       uvc_dbg(dev, CONTROL, "Control error %u\n", error);
->>>>>> +       if (!error)
->>>>>> +               return ret;
->>>>> I think we do not want these two lines (read next comment)
->>>>>>
->>>>>>         switch (error) {
->>>>>> -       case 0:
->>>>>> -               /* Cannot happen - we received a STALL */
->>>>>> -               return -EPIPE;
->>>>>>         case 1: /* Not ready */
->>>>>>                 return -EBUSY;
->>>>>>         case 2: /* Wrong state */
->>>>>> -               return -EILSEQ;
->>>>>> +               return -EACCES;
->>>>>>         case 3: /* Power */
->>>>>>                 return -EREMOTE;
->>>>>>         case 4: /* Out of range */
->>>>>
->>>>> Maybe we want a dev_dbg if the error code is unknown and return ret?
->>>>
->>>> Make sense.
->>>>
->>>> Regards,
->>>>
->>>>         Hans
->>>
->>>
->>>
->>
-> 
-> 
-
+Thanks
+Emil
