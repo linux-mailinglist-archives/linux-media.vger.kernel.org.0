@@ -2,182 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0497348E68
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 11:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1573348E70
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 11:56:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230250AbhCYKy1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 06:54:27 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49828 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230306AbhCYKyL (ORCPT
+        id S230236AbhCYK4D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 06:56:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230306AbhCYKzu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 06:54:11 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 079AD560;
-        Thu, 25 Mar 2021 11:54:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616669650;
-        bh=HPNt5V3uTpiZcLoVRtw+cQBhNxQZ/Fy2Isg+f3SCBgo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BcOu/cY5rGuljJtiHmT+6SqJWoOnbYVo39TEYwKksLXmk97hNB50PYB6zmdcWnntl
-         AmJI7IWa/KV/XdQX6NuSvza349J8gxXjmR636EVhQGyOYK7mVeK9awRkTJ6aPDr1/N
-         CUiTmhWRFPIiRDxmUg0UgYERnMcwxCXJEFFJwQxY=
-Date:   Thu, 25 Mar 2021 12:53:27 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, linux-kernel@vger.kernel.org,
-        jc@kynesim.co.uk, dave.stevenson@raspberrypi.org,
-        tfiga@chromium.org
-Subject: Re: [PATCH 1/2] media: videobuf2: use dmabuf size for length
-Message-ID: <YFxrpw5I2Lrbq+AO@pendragon.ideasonboard.com>
-References: <20210325001712.197837-1-helen.koike@collabora.com>
+        Thu, 25 Mar 2021 06:55:50 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C862C06174A
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 03:55:50 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id y6so1911643eds.1
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 03:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Z1GZucc6xAe4CvMSCSTJPL9ro5+l4YgYD4RbEdU33x8=;
+        b=eqyPVNX0BupwLrvjOOHm64Zyq+Qnq155y4CjVjA5OOXktimYImHFbBCf9mzNl27V1M
+         4gnxEMCfZlM00kCHpkeg4wHSit7aw2UBjcEc0X6bhOapoRNL+JO0IFbWFlps3TOeBHQM
+         lKxl33DtTioBpUkOr8inhTZHd+FtgP/Tr+2cxQdm6Sjjg//ZDhA+0gkzAuVYDx5oicn7
+         8fs02rh9q7saANapc1GWyFYSHthgzr81BSrPb4OpmLn2SFubDzqOhiYj9fXA+ZcrzKXz
+         Ps0RnLVzpPDz8bmDhYwzGAg4bRw42NfUtiT6CqsczdW2CpWy5xMcFd/AmusbSgs0OPwF
+         d+yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Z1GZucc6xAe4CvMSCSTJPL9ro5+l4YgYD4RbEdU33x8=;
+        b=Uv5qrtMWzxvJ3kWO7WDfu5EN0W+SoogtBKFDQp0XMNzyyNBEPNKopvF2xKsEylclA8
+         liHaqhFkYgHC8PB7TgsJpDYPKqcu55yX0HsaDRvx4F47SkAp5zkt7ALe1hCaTrFCLrEn
+         sbhllq338VDqHwi/ZeVVcWc5FKV/UZOC8qH0boRKBAB3XYNPxSshC9R82GrjI14ocxnv
+         dHrjHZKqQdgdjFoK1T8xVUZWAhAmgSz8Wt8w7gup6qJfnkYEo1v3mDUYFf7hwfK6fOQd
+         Tdc9B3C9pgiOFfLvGR9zc78aelej9dPxEYJV83BTSQQTFGwwMZRNWYK+xPfSFTKpYCta
+         jYUA==
+X-Gm-Message-State: AOAM530pbmtgHEUrsEJN80vGkV+hL73wcM44Ls561VNIht7BPQwepE9f
+        N2YccMmsGXMTN4Hz0FhfVieang==
+X-Google-Smtp-Source: ABdhPJw2rDMbO8JHDX2lUXJvLooSMCXg5b/5z7UfOVk2DSk+V1hPEFNAdf+6JS6vyLx20eiD54VPWA==
+X-Received: by 2002:a50:fa42:: with SMTP id c2mr8450803edq.159.1616669749131;
+        Thu, 25 Mar 2021 03:55:49 -0700 (PDT)
+Received: from [192.168.1.54] (hst-221-22.medicom.bg. [84.238.221.22])
+        by smtp.googlemail.com with ESMTPSA id u15sm2537567eds.6.2021.03.25.03.55.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Mar 2021 03:55:48 -0700 (PDT)
+Subject: Re: [PATCH] v4l: Cast timestamp tv_usec to singned
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20210325102952.1126952-1-stanimir.varbanov@linaro.org>
+ <CAK8P3a0uCJ0U=mUiuUfT53r27KLBHaMOpZpLTp4BrbvG1P7sMw@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <29b4179f-b3d2-8c7e-eed6-af5aed80d430@linaro.org>
+Date:   Thu, 25 Mar 2021 12:55:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <CAK8P3a0uCJ0U=mUiuUfT53r27KLBHaMOpZpLTp4BrbvG1P7sMw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210325001712.197837-1-helen.koike@collabora.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
 
-On Wed, Mar 24, 2021 at 09:17:11PM -0300, Helen Koike wrote:
-> Always use dmabuf size when considering the length of the buffer.
-> Discard userspace provided length.
-> Fix length check error in _verify_length(), which was handling single and
-> multiplanar diferently, and also not catching the case where userspace
-> provides a bigger length and bytesused then the underlying buffer.
-> 
-> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> ---
-> 
-> Hello,
-> 
-> As discussed on
-> https://patchwork.linuxtv.org/project/linux-media/patch/gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com/
-> 
-> This patch also helps the conversion layer of the Ext API patchset,
-> where we are not exposing the length field.
-> 
-> It was discussed that userspace might use a smaller length field to
-> limit the usage of the underlying buffer, but I'm not sure if this is
-> really usefull and just complicates things.
-> 
-> If this is usefull, then we should also expose a length field in the Ext
-> API, and document this feature properly.
-> 
-> What do you think?
 
-I think a limit could be useful, as a single dmabuf object could hold
-multiple planes, which should be addressed by an offset from the
-beginning of the buffer. Giving a length to the kernel could help
-catching errors. As the existing API doesn't support offsets, a length
-limit is likely not very useful at the moment, but should I believe be
-included at least in the new API.
-
-For the existing implementation, I'd say that we should be pragmatic. If
-using the provided length as a maximum boundary makes the implementation
-more complex for very little gain, let's not do it. But on the other
-hand, considering existing userspace, would there be added value in
-implementing such a mechanism ?
-
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 21 ++++++++++++++++---
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++----
->  include/uapi/linux/videodev2.h                |  7 +++++--
->  3 files changed, 27 insertions(+), 9 deletions(-)
+On 3/25/21 12:51 PM, Arnd Bergmann wrote:
+> On Thu, Mar 25, 2021 at 11:29 AM Stanimir Varbanov
+> <stanimir.varbanov@linaro.org> wrote:
+>>
+>> Some of the MPEG4 standards allows negative timestamps. Correct
+>> tv_usec cast to s32.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 02281d13505f..2cbde14af051 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -1205,6 +1205,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  
->  	for (plane = 0; plane < vb->num_planes; ++plane) {
->  		struct dma_buf *dbuf = dma_buf_get(planes[plane].m.fd);
-> +		unsigned int bytesused;
->  
->  		if (IS_ERR_OR_NULL(dbuf)) {
->  			dprintk(q, 1, "invalid dmabuf fd for plane %d\n",
-> @@ -1213,9 +1214,23 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  			goto err;
->  		}
->  
-> -		/* use DMABUF size if length is not provided */
-> -		if (planes[plane].length == 0)
-> -			planes[plane].length = dbuf->size;
-> +		planes[plane].length = dbuf->size;
-> +		bytesused = planes[plane].bytesused ?
-> +			    planes[plane].bytesused : dbuf->size;
-> +
-> +		if (planes[plane].bytesused > planes[plane].length) {
-> +			dprintk(q, 1, "bytesused is bigger then dmabuf length for plane %d\n",
-> +				plane);
-> +			ret = -EINVAL;
-> +			goto err;
-> +		}
-> +
-> +		if (planes[plane].data_offset >= bytesused) {
-> +			dprintk(q, 1, "data_offset >= bytesused for plane %d\n",
-> +				plane);
-> +			ret = -EINVAL;
-> +			goto err;
-> +		}
->  
->  		if (planes[plane].length < vb->planes[plane].min_length) {
->  			dprintk(q, 1, "invalid dmabuf length %u for plane %d, minimum length %u\n",
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 7e96f67c60ba..ffc7ed46f74a 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -98,14 +98,14 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
->  	unsigned int bytesused;
->  	unsigned int plane;
->  
-> -	if (V4L2_TYPE_IS_CAPTURE(b->type))
-> +	/* length check for dmabuf is performed in _prepare_dmabuf() */
-> +	if (V4L2_TYPE_IS_CAPTURE(b->type) || b->memory == VB2_MEMORY_DMABUF)
->  		return 0;
->  
->  	if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
->  		for (plane = 0; plane < vb->num_planes; ++plane) {
-> -			length = (b->memory == VB2_MEMORY_USERPTR ||
-> -				  b->memory == VB2_MEMORY_DMABUF)
-> -			       ? b->m.planes[plane].length
-> +			length = b->memory == VB2_MEMORY_USERPTR
-> +				? b->m.planes[plane].length
->  				: vb->planes[plane].length;
->  			bytesused = b->m.planes[plane].bytesused
->  				  ? b->m.planes[plane].bytesused : length;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 8d15f6ccc4b4..79b3b2893513 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -968,7 +968,9 @@ struct v4l2_requestbuffers {
->  /**
->   * struct v4l2_plane - plane info for multi-planar buffers
->   * @bytesused:		number of bytes occupied by data in the plane (payload)
-> - * @length:		size of this plane (NOT the payload) in bytes
-> + * @length:		size of this plane (NOT the payload) in bytes. Filled
-> + *			by userspace for USERPTR and by the driver for DMABUF
-> + *			and MMAP.
->   * @mem_offset:		when memory in the associated struct v4l2_buffer is
->   *			V4L2_MEMORY_MMAP, equals the offset from the start of
->   *			the device memory for this plane (or is a "cookie" that
-> @@ -1025,7 +1027,8 @@ struct v4l2_plane {
->   * @m:		union of @offset, @userptr, @planes and @fd
->   * @length:	size in bytes of the buffer (NOT its payload) for single-plane
->   *		buffers (when type != *_MPLANE); number of elements in the
-> - *		planes array for multi-plane buffers
-> + *		planes array for multi-plane buffers. Filled by userspace for
-> + *		USERPTR and by the driver for DMABUF and MMAP.
->   * @reserved2:	drivers and applications must zero this field
->   * @request_fd: fd of the request that this buffer should use
->   * @reserved:	for backwards compatibility with applications that do not know
+> Can you clarify what exactly is allowed in MPEG4? Normally we require
+> a normalized timestamp to come from user space in other kernel interfaces,
+> i.e. an arbitrary .tv_sec value that may or may not be negative, plus
+> a sub-second .tv_usec between 0 and 999999, or a .tv_nsect between 0
+> and 999999999 to indicate the time after the last full second.
+> 
+> E.g. a negative timestamp of -1.0001 seconds would be represented as
+> .tv_sec = -2, .tv_usec = 999900.
+
+Sure, I will try to collect some more info. Thanks!
+
+> 
+> What is the range defined in MPEG4? It might be necessary to check
+> for the specific range and reject anything outside of that, in particular
+> if MPEG4 also allows positive microsecond values larger than 999999.
+> 
+>          Arnd
+> 
+>>  include/media/v4l2-common.h | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+>> index 3eb202259e8c..1ed61416003a 100644
+>> --- a/include/media/v4l2-common.h
+>> +++ b/include/media/v4l2-common.h
+>> @@ -544,11 +544,11 @@ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+>>  {
+>>         /*
+>>          * When the timestamp comes from 32-bit user space, there may be
+>> -        * uninitialized data in tv_usec, so cast it to u32.
+>> +        * uninitialized data in tv_usec, so cast it to s32.
+>>          * Otherwise allow invalid input for backwards compatibility.
+>>          */
+>>         return buf->timestamp.tv_sec * NSEC_PER_SEC +
+>> -               (u32)buf->timestamp.tv_usec * NSEC_PER_USEC;
+>> +               (s32)buf->timestamp.tv_usec * NSEC_PER_USEC;
+>>  }
+>>
 
 -- 
-Regards,
-
-Laurent Pinchart
+regards,
+Stan
