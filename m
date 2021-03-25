@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D484349A2C
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 20:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C72349A41
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 20:29:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230209AbhCYT2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 15:28:20 -0400
-Received: from mout02.posteo.de ([185.67.36.66]:43595 "EHLO mout02.posteo.de"
+        id S230159AbhCYT2w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 15:28:52 -0400
+Received: from mout02.posteo.de ([185.67.36.66]:50385 "EHLO mout02.posteo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230189AbhCYT2P (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 15:28:15 -0400
+        id S230282AbhCYT2b (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Mar 2021 15:28:31 -0400
 Received: from submission (posteo.de [89.146.220.130]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id 8CC4B2400FE
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 20:28:13 +0100 (CET)
+        by mout02.posteo.de (Postfix) with ESMTPS id E15002400FB
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 20:28:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1616700493; bh=dKKpN44ZYVEDaO79znPOIgtvqlJqY5SPbiTkjKa9rxQ=;
+        t=1616700509; bh=EiJxPe4iT0Su0XpouQQ6ITs2EEQQHjTSvUgaZP3By04=;
         h=From:To:Cc:Subject:Date:From;
-        b=Vh/dN2Ib6X6SZK58YojUjU/6nzYeeImqKDd3CtEPIjoExQK6v17jHhrpl6r51EHW8
-         HuPjn4VLCgFcHjxdXbd2xQlhED3Zu5X32o4ZLJopTFVH/XsM7BV/lUuxMnxndo7E8p
-         1b32Yo2BLvfGEl1OCl3Sby2fxI/hcNrTfFgMtURSMGYjPGNUMak8XYtUr/IcN6VO/h
-         k9e8kpME3Sxay1lYkBxt1F9OxleIaFffrEnXFYrwf1UZI/5fNxyX0ar5rBwhZAqO1t
-         YHkmZk9FCR41FimwwCjBxD+eEcNfjWZfEjiM7cMBa6qWtEmu7FMCpeiA5eZi8xbmAA
-         jm6MO/1oudhjg==
+        b=ppMToE/khpBu5Wz+ORtbwyTF3MzEad2BM5rfDoKXL/vC5+xg/PYoSJgz3yCua/z9y
+         kunZGiYv1EsmttXOFOYM0Q6xA+O7UIKwV/ZHz26g4a+GMvCDIsJdtksCB/H6ZNc67w
+         qw55CQIm2iYxxTDfxaxxohX+2mmtej0mxSGv8TrKs6jI9itx6BLLP7UNaSJZhYJGk8
+         ox0+oT4I2aSD+9Ac5AFmmut56mDDpyYJYa/XDK+kEgmIEmzGtQogJMjwve5SJwFBMJ
+         wZOWWqPvpumkTQhjcv+xG28SLEd5AWIZdlTRR4dYZok/WpuZOxgHQscLkxAn/vHwtS
+         nHnhUfibpZIiQ==
 Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4F5wB44PZ4z9rxN;
-        Thu, 25 Mar 2021 20:28:12 +0100 (CET)
+        by submission (posteo.de) with ESMTPSA id 4F5wBN6Tqvz9rxn;
+        Thu, 25 Mar 2021 20:28:28 +0100 (CET)
 From:   Sebastian Fricke <sebastian.fricke@posteo.net>
 To:     linux-media@vger.kernel.org
 Cc:     dafna.hirschfeld@collabora.com, laurent.pinchart@ideasonboard.com,
         helen.koike@collabora.com, heiko@sntech.de,
         Sebastian Fricke <sebastian.fricke@posteo.net>
-Subject: [PATCH 1/2] media: rkisp1: Increase ISP input resolution limit
-Date:   Thu, 25 Mar 2021 20:27:01 +0100
-Message-Id: <20210325192700.21393-2-sebastian.fricke@posteo.net>
+Subject: [PATCH 2/2] media: rkisp1: Limit the sink pad crop size
+Date:   Thu, 25 Mar 2021 20:27:03 +0100
+Message-Id: <20210325192700.21393-3-sebastian.fricke@posteo.net>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210325192700.21393-1-sebastian.fricke@posteo.net>
 References: <20210325192700.21393-1-sebastian.fricke@posteo.net>
@@ -43,38 +43,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The incentive for this patch was to overcome the inability of the
-ISP device to work with resolutions greater than 4032x3024.
-Increase the limit to 4416x3312 to allow higher input resolutions.
-Use the old resolution to crop the input resolution down to the maximum
-size for the ISP to process frames.
+The RkISP can take higher input resolutions than 4032x3024, but the TRM
+declares this size as the maximum size for handling black level calibration.
+Crop the input resolution down to the expected size.
 
 Signed-off-by: Sebastian Fricke <sebastian.fricke@posteo.net>
 ---
- drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index 038c303a8aed..553effda4d5e 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -30,10 +30,12 @@
- #define RKISP1_ISP_SD_SINK BIT(1)
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index 2e5b57e3aedc..06d3cca0c00c 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -758,9 +758,13 @@ static void rkisp1_isp_set_sink_crop(struct rkisp1_isp *isp,
+ 					  which);
  
- /* min and max values for the widths and heights of the entities */
--#define RKISP1_ISP_MAX_WIDTH		4032
--#define RKISP1_ISP_MAX_HEIGHT		3024
--#define RKISP1_ISP_MIN_WIDTH		32
--#define RKISP1_ISP_MIN_HEIGHT		32
-+#define RKISP1_ISP_MAX_WIDTH			4416
-+#define RKISP1_ISP_MAX_HEIGHT			3312
-+#define RKISP1_ISP_MAX_WIDTH_PROCESSING		4032
-+#define RKISP1_ISP_MAX_HEIGHT_PROCESSING	3024
-+#define RKISP1_ISP_MIN_WIDTH			32
-+#define RKISP1_ISP_MIN_HEIGHT			32
+ 	sink_crop->left = ALIGN(r->left, 2);
+-	sink_crop->width = ALIGN(r->width, 2);
++	sink_crop->width = clamp_t(u32, ALIGN(r->width, 2),
++				   RKISP1_ISP_MIN_WIDTH,
++				   RKISP1_ISP_MAX_WIDTH_PROCESSING);
+ 	sink_crop->top = r->top;
+-	sink_crop->height = r->height;
++	sink_crop->height = clamp_t(u32, r->height,
++				    RKISP1_ISP_MIN_HEIGHT,
++				    RKISP1_ISP_MAX_HEIGHT_PROCESSING);
+ 	rkisp1_sd_adjust_crop(sink_crop, sink_fmt);
  
- #define RKISP1_RSZ_MP_SRC_MAX_WIDTH		4416
- #define RKISP1_RSZ_MP_SRC_MAX_HEIGHT		3312
+ 	*r = *sink_crop;
 -- 
 2.25.1
 
