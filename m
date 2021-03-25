@@ -2,206 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC9263484D9
-	for <lists+linux-media@lfdr.de>; Wed, 24 Mar 2021 23:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00B9C3485CB
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 01:19:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238901AbhCXWqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Mar 2021 18:46:23 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38830 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238899AbhCXWqG (ORCPT
+        id S239189AbhCYASv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Mar 2021 20:18:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36776 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239156AbhCYASY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Mar 2021 18:46:06 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7BF1F580;
-        Wed, 24 Mar 2021 23:46:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616625964;
-        bh=42HY5uwZ1MbcmUVScEyI1EYtiX5bQBYXMVzT77DP95U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uqfMiK2Vr92pgvCfj8Wsr0mvn5xnHYACf5C6V07SW/bVDjTQpGE2Ec53wGwRsLptr
-         jAfFRR42m/l7MmXXHKptfJHacMpLTXtTO8wvzuNdKMrDwgFnZ1P/jBrQX0vWHbB3id
-         5lnaXX/qDxaRM5vYQuNfzuZIt3Ccbr9UrSg44NsU=
-Date:   Thu, 25 Mar 2021 00:45:21 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: media: video-interfaces: Drop the example
-Message-ID: <YFvBAazu5yrV6r5b@pendragon.ideasonboard.com>
-References: <20210324202253.3576798-1-robh@kernel.org>
+        Wed, 24 Mar 2021 20:18:24 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC2AC06174A;
+        Wed, 24 Mar 2021 17:18:24 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 3C1971F40DCA
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, kernel@collabora.com,
+        linux-kernel@vger.kernel.org, jc@kynesim.co.uk,
+        laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.org,
+        tfiga@chromium.org, Helen Koike <helen.koike@collabora.com>
+Subject: [PATCH 1/2] media: videobuf2: use dmabuf size for length
+Date:   Wed, 24 Mar 2021 21:17:11 -0300
+Message-Id: <20210325001712.197837-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210324202253.3576798-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Always use dmabuf size when considering the length of the buffer.
+Discard userspace provided length.
+Fix length check error in _verify_length(), which was handling single and
+multiplanar diferently, and also not catching the case where userspace
+provides a bigger length and bytesused then the underlying buffer.
 
-Thank you for the patch.
+Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+---
 
-On Wed, Mar 24, 2021 at 02:22:53PM -0600, Rob Herring wrote:
-> The example in video-interfaces.yaml uses a bunch of undocumented
-> bindings which will cause warnings when undocumented compatible checks
-> are enabled. The example could be fixed to use documented bindings, but
-> doing so would just duplicate other examples. So let's just remove the
-> example.
-> 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hello,
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+As discussed on
+https://patchwork.linuxtv.org/project/linux-media/patch/gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com/
 
-> ---
-> v2: Drop instead of fixing the example
-> 
->  .../bindings/media/video-interfaces.yaml      | 127 ------------------
->  1 file changed, 127 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> index 0a7a73fd59f2..4391dce2caee 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> @@ -215,130 +215,3 @@ properties:
->        CCP2, for instance.
->  
->  additionalProperties: true
-> -
-> -examples:
-> -  # The example snippet below describes two data pipelines.  ov772x and imx074
-> -  # are camera sensors with a parallel and serial (MIPI CSI-2) video bus
-> -  # respectively. Both sensors are on the I2C control bus corresponding to the
-> -  # i2c0 controller node.  ov772x sensor is linked directly to the ceu0 video
-> -  # host interface. imx074 is linked to ceu0 through the MIPI CSI-2 receiver
-> -  # (csi2). ceu0 has a (single) DMA engine writing captured data to memory.
-> -  # ceu0 node has a single 'port' node which may indicate that at any time
-> -  # only one of the following data pipelines can be active:
-> -  # ov772x -> ceu0 or imx074 -> csi2 -> ceu0.
-> -  - |
-> -    ceu@fe910000 {
-> -        compatible = "renesas,sh-mobile-ceu";
-> -        reg = <0xfe910000 0xa0>;
-> -        interrupts = <0x880>;
-> -
-> -        mclk: master_clock {
-> -            compatible = "renesas,ceu-clock";
-> -            #clock-cells = <1>;
-> -            clock-frequency = <50000000>;  /* Max clock frequency */
-> -            clock-output-names = "mclk";
-> -        };
-> -
-> -        port {
-> -            #address-cells = <1>;
-> -            #size-cells = <0>;
-> -
-> -            /* Parallel bus endpoint */
-> -            ceu0_1: endpoint@1 {
-> -                reg = <1>;    /* Local endpoint # */
-> -                remote-endpoint = <&ov772x_1_1>;  /* Remote phandle */
-> -                bus-width = <8>;  /* Used data lines */
-> -                data-shift = <2>;  /* Lines 9:2 are used */
-> -
-> -                /* If hsync-active/vsync-active are missing,
-> -                   embedded BT.656 sync is used */
-> -                hsync-active = <0>;  /* Active low */
-> -                vsync-active = <0>;  /* Active low */
-> -                data-active = <1>;  /* Active high */
-> -                pclk-sample = <1>;  /* Rising */
-> -            };
-> -
-> -            /* MIPI CSI-2 bus endpoint */
-> -            ceu0_0: endpoint@0 {
-> -                reg = <0>;
-> -                remote-endpoint = <&csi2_2>;
-> -            };
-> -        };
-> -    };
-> -
-> -    i2c {
-> -        #address-cells = <1>;
-> -        #size-cells = <0>;
-> -
-> -        camera@21 {
-> -            compatible = "ovti,ov772x";
-> -            reg = <0x21>;
-> -            vddio-supply = <&regulator1>;
-> -            vddcore-supply = <&regulator2>;
-> -
-> -            clock-frequency = <20000000>;
-> -            clocks = <&mclk 0>;
-> -            clock-names = "xclk";
-> -
-> -            port {
-> -                /* With 1 endpoint per port no need for addresses. */
-> -                ov772x_1_1: endpoint {
-> -                    bus-width = <8>;
-> -                    remote-endpoint = <&ceu0_1>;
-> -                    hsync-active = <1>;
-> -                    vsync-active = <0>; /* Who came up with an
-> -                               inverter here ?... */
-> -                    data-active = <1>;
-> -                    pclk-sample = <1>;
-> -                };
-> -            };
-> -        };
-> -
-> -        camera@1a {
-> -            compatible = "sony,imx074";
-> -            reg = <0x1a>;
-> -            vddio-supply = <&regulator1>;
-> -            vddcore-supply = <&regulator2>;
-> -
-> -            clock-frequency = <30000000>;  /* Shared clock with ov772x_1 */
-> -            clocks = <&mclk 0>;
-> -            clock-names = "sysclk";    /* Assuming this is the
-> -                       name in the datasheet */
-> -            port {
-> -                imx074_1: endpoint {
-> -                    clock-lanes = <0>;
-> -                    data-lanes = <1 2>;
-> -                    remote-endpoint = <&csi2_1>;
-> -                };
-> -            };
-> -        };
-> -    };
-> -
-> -    csi2: csi2@ffc90000 {
-> -        compatible = "renesas,sh-mobile-csi2";
-> -        reg = <0xffc90000 0x1000>;
-> -        interrupts = <0x17a0>;
-> -        #address-cells = <1>;
-> -        #size-cells = <0>;
-> -
-> -        port@1 {
-> -            compatible = "renesas,csi2c";  /* One of CSI2I and CSI2C. */
-> -            reg = <1>;      /* CSI-2 PHY #1 of 2: PHY_S,
-> -                       PHY_M has port address 0,
-> -                       is unused. */
-> -            csi2_1: endpoint {
-> -                clock-lanes = <0>;
-> -                data-lanes = <2 1>;
-> -                remote-endpoint = <&imx074_1>;
-> -            };
-> -        };
-> -        port@2 {
-> -            reg = <2>;      /* port 2: link to the CEU */
-> -
-> -            csi2_2: endpoint {
-> -                remote-endpoint = <&ceu0_0>;
-> -            };
-> -        };
-> -    };
-> -
-> -...
+This patch also helps the conversion layer of the Ext API patchset,
+where we are not exposing the length field.
 
+It was discussed that userspace might use a smaller length field to
+limit the usage of the underlying buffer, but I'm not sure if this is
+really usefull and just complicates things.
+
+If this is usefull, then we should also expose a length field in the Ext
+API, and document this feature properly.
+
+What do you think?
+---
+ .../media/common/videobuf2/videobuf2-core.c   | 21 ++++++++++++++++---
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++----
+ include/uapi/linux/videodev2.h                |  7 +++++--
+ 3 files changed, 27 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 02281d13505f..2cbde14af051 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -1205,6 +1205,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
+ 		struct dma_buf *dbuf = dma_buf_get(planes[plane].m.fd);
++		unsigned int bytesused;
+ 
+ 		if (IS_ERR_OR_NULL(dbuf)) {
+ 			dprintk(q, 1, "invalid dmabuf fd for plane %d\n",
+@@ -1213,9 +1214,23 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 			goto err;
+ 		}
+ 
+-		/* use DMABUF size if length is not provided */
+-		if (planes[plane].length == 0)
+-			planes[plane].length = dbuf->size;
++		planes[plane].length = dbuf->size;
++		bytesused = planes[plane].bytesused ?
++			    planes[plane].bytesused : dbuf->size;
++
++		if (planes[plane].bytesused > planes[plane].length) {
++			dprintk(q, 1, "bytesused is bigger then dmabuf length for plane %d\n",
++				plane);
++			ret = -EINVAL;
++			goto err;
++		}
++
++		if (planes[plane].data_offset >= bytesused) {
++			dprintk(q, 1, "data_offset >= bytesused for plane %d\n",
++				plane);
++			ret = -EINVAL;
++			goto err;
++		}
+ 
+ 		if (planes[plane].length < vb->planes[plane].min_length) {
+ 			dprintk(q, 1, "invalid dmabuf length %u for plane %d, minimum length %u\n",
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 7e96f67c60ba..ffc7ed46f74a 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -98,14 +98,14 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
+ 	unsigned int bytesused;
+ 	unsigned int plane;
+ 
+-	if (V4L2_TYPE_IS_CAPTURE(b->type))
++	/* length check for dmabuf is performed in _prepare_dmabuf() */
++	if (V4L2_TYPE_IS_CAPTURE(b->type) || b->memory == VB2_MEMORY_DMABUF)
+ 		return 0;
+ 
+ 	if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
+ 		for (plane = 0; plane < vb->num_planes; ++plane) {
+-			length = (b->memory == VB2_MEMORY_USERPTR ||
+-				  b->memory == VB2_MEMORY_DMABUF)
+-			       ? b->m.planes[plane].length
++			length = b->memory == VB2_MEMORY_USERPTR
++				? b->m.planes[plane].length
+ 				: vb->planes[plane].length;
+ 			bytesused = b->m.planes[plane].bytesused
+ 				  ? b->m.planes[plane].bytesused : length;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 8d15f6ccc4b4..79b3b2893513 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -968,7 +968,9 @@ struct v4l2_requestbuffers {
+ /**
+  * struct v4l2_plane - plane info for multi-planar buffers
+  * @bytesused:		number of bytes occupied by data in the plane (payload)
+- * @length:		size of this plane (NOT the payload) in bytes
++ * @length:		size of this plane (NOT the payload) in bytes. Filled
++ *			by userspace for USERPTR and by the driver for DMABUF
++ *			and MMAP.
+  * @mem_offset:		when memory in the associated struct v4l2_buffer is
+  *			V4L2_MEMORY_MMAP, equals the offset from the start of
+  *			the device memory for this plane (or is a "cookie" that
+@@ -1025,7 +1027,8 @@ struct v4l2_plane {
+  * @m:		union of @offset, @userptr, @planes and @fd
+  * @length:	size in bytes of the buffer (NOT its payload) for single-plane
+  *		buffers (when type != *_MPLANE); number of elements in the
+- *		planes array for multi-plane buffers
++ *		planes array for multi-plane buffers. Filled by userspace for
++ *		USERPTR and by the driver for DMABUF and MMAP.
+  * @reserved2:	drivers and applications must zero this field
+  * @request_fd: fd of the request that this buffer should use
+  * @reserved:	for backwards compatibility with applications that do not know
 -- 
-Regards,
+2.30.1
 
-Laurent Pinchart
