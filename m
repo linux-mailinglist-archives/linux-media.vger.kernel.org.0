@@ -2,124 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1573348E70
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 11:56:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59AFD3491C2
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 13:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbhCYK4D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 06:56:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230306AbhCYKzu (ORCPT
+        id S230113AbhCYMTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 08:19:23 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45257 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229617AbhCYMS6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 06:55:50 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C862C06174A
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 03:55:50 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id y6so1911643eds.1
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 03:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Z1GZucc6xAe4CvMSCSTJPL9ro5+l4YgYD4RbEdU33x8=;
-        b=eqyPVNX0BupwLrvjOOHm64Zyq+Qnq155y4CjVjA5OOXktimYImHFbBCf9mzNl27V1M
-         4gnxEMCfZlM00kCHpkeg4wHSit7aw2UBjcEc0X6bhOapoRNL+JO0IFbWFlps3TOeBHQM
-         lKxl33DtTioBpUkOr8inhTZHd+FtgP/Tr+2cxQdm6Sjjg//ZDhA+0gkzAuVYDx5oicn7
-         8fs02rh9q7saANapc1GWyFYSHthgzr81BSrPb4OpmLn2SFubDzqOhiYj9fXA+ZcrzKXz
-         Ps0RnLVzpPDz8bmDhYwzGAg4bRw42NfUtiT6CqsczdW2CpWy5xMcFd/AmusbSgs0OPwF
-         d+yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Z1GZucc6xAe4CvMSCSTJPL9ro5+l4YgYD4RbEdU33x8=;
-        b=Uv5qrtMWzxvJ3kWO7WDfu5EN0W+SoogtBKFDQp0XMNzyyNBEPNKopvF2xKsEylclA8
-         liHaqhFkYgHC8PB7TgsJpDYPKqcu55yX0HsaDRvx4F47SkAp5zkt7ALe1hCaTrFCLrEn
-         sbhllq338VDqHwi/ZeVVcWc5FKV/UZOC8qH0boRKBAB3XYNPxSshC9R82GrjI14ocxnv
-         dHrjHZKqQdgdjFoK1T8xVUZWAhAmgSz8Wt8w7gup6qJfnkYEo1v3mDUYFf7hwfK6fOQd
-         Tdc9B3C9pgiOFfLvGR9zc78aelej9dPxEYJV83BTSQQTFGwwMZRNWYK+xPfSFTKpYCta
-         jYUA==
-X-Gm-Message-State: AOAM530pbmtgHEUrsEJN80vGkV+hL73wcM44Ls561VNIht7BPQwepE9f
-        N2YccMmsGXMTN4Hz0FhfVieang==
-X-Google-Smtp-Source: ABdhPJw2rDMbO8JHDX2lUXJvLooSMCXg5b/5z7UfOVk2DSk+V1hPEFNAdf+6JS6vyLx20eiD54VPWA==
-X-Received: by 2002:a50:fa42:: with SMTP id c2mr8450803edq.159.1616669749131;
-        Thu, 25 Mar 2021 03:55:49 -0700 (PDT)
-Received: from [192.168.1.54] (hst-221-22.medicom.bg. [84.238.221.22])
-        by smtp.googlemail.com with ESMTPSA id u15sm2537567eds.6.2021.03.25.03.55.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Mar 2021 03:55:48 -0700 (PDT)
-Subject: Re: [PATCH] v4l: Cast timestamp tv_usec to singned
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20210325102952.1126952-1-stanimir.varbanov@linaro.org>
- <CAK8P3a0uCJ0U=mUiuUfT53r27KLBHaMOpZpLTp4BrbvG1P7sMw@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <29b4179f-b3d2-8c7e-eed6-af5aed80d430@linaro.org>
-Date:   Thu, 25 Mar 2021 12:55:48 +0200
+        Thu, 25 Mar 2021 08:18:58 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id POwvlc3h2FRvvPOwzlTE1a; Thu, 25 Mar 2021 13:18:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616674737; bh=JgK2eVmdPRsEDzvbV8SrG+ld1diXibhvRPi88fT4GUg=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=B/HUVKjPr9v8zBJ80vLEf41fuPnuZ5lKQxzyz5s1turEGVOr5UtWrZA1AgJyeMwgb
+         ThDI8+hthL40qNnztZdfC5eX8pC1UnhFarRE1Jay+/wNInqdd1npRZv+1Tt+c6EVw7
+         Yw8Jw6Cibt5zhQvcoRXXDgBDgqd72l/Unsje3Nr0vcVoaJWfrEWdjZRju7Bnzm2VPU
+         Jv8I1WGZ4oNji6urxULBf+U8rIIWkq1igLDrWw4LCaXZFiqBZ7zFhq9U+p7oQ4784X
+         3s+hQskDY+r/f6WpeC85p5IwXBbQEyU0A2hWT66Q6uCgazXDEEGrLDm98YETc6qHXc
+         ob9vTBZbH5NhA==
+Subject: Re: [PATCH] uvcvideo: improve error handling in uvc_query_ctrl()
+To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <347cdb4a-19a2-98ce-580f-5aba4abfb2fc@xs4all.nl>
+ <CAPybu_34Zus8rSSEMsrxo0euQ+SFu-aZUmHRya7GFPJysp6TsQ@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <35f1fa6e-a498-9217-5359-82b58dec61f6@xs4all.nl>
+Date:   Thu, 25 Mar 2021 13:18:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a0uCJ0U=mUiuUfT53r27KLBHaMOpZpLTp4BrbvG1P7sMw@mail.gmail.com>
+In-Reply-To: <CAPybu_34Zus8rSSEMsrxo0euQ+SFu-aZUmHRya7GFPJysp6TsQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfIy++4uZUp3NDvDZ+dXrJ9mZa2eReACnoU7yxmk+/XXu5d3KHhf64mpCTxS5NPzNq7C393zOnrC09RdWWT3CzZ9sYFcfgFgEBKJzgtbKqXiK69X5ONNG
+ t+YqxiQUSm0rrxOqFcAWD1E424jveD4EIsIt+GhG07Ub+MglovJv+GG+rz4v7Uk0HCR0TlTjc5/OegME6BoaexAfX9gwcBDkPaHN9WjXORkREXvyxrJKnXxG
+ 9cqTl+qtRUoGudN3zvLr2BAyt0VqjGg2ziimVMl6Sxk=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 3/25/21 12:51 PM, Arnd Bergmann wrote:
-> On Thu, Mar 25, 2021 at 11:29 AM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
+On 23/03/2021 16:25, Ricardo Ribalda Delgado wrote:
+> Hi Hans
+> 
+> Thanks for the patch. I like how uvc is ending :)
+> 
+> On Mon, Mar 22, 2021 at 1:09 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
 >>
->> Some of the MPEG4 standards allows negative timestamps. Correct
->> tv_usec cast to s32.
+>> - If __uvc_query_ctrl() failed with a non-EPIPE error, then
+>>   report that with dev_err. If an error code is obtained, then
+>>   report that with dev_dbg.
 >>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> 
-> Can you clarify what exactly is allowed in MPEG4? Normally we require
-> a normalized timestamp to come from user space in other kernel interfaces,
-> i.e. an arbitrary .tv_sec value that may or may not be negative, plus
-> a sub-second .tv_usec between 0 and 999999, or a .tv_nsect between 0
-> and 999999999 to indicate the time after the last full second.
-> 
-> E.g. a negative timestamp of -1.0001 seconds would be represented as
-> .tv_sec = -2, .tv_usec = 999900.
-
-Sure, I will try to collect some more info. Thanks!
-
-> 
-> What is the range defined in MPEG4? It might be necessary to check
-> for the specific range and reject anything outside of that, in particular
-> if MPEG4 also allows positive microsecond values larger than 999999.
-> 
->          Arnd
-> 
->>  include/media/v4l2-common.h | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> - For error 2 (Wrong state) return -EACCES instead of -EILSEQ.
+>>   EACCES is a much more appropriate error code. EILSEQ will return
+>>   "Invalid or incomplete multibyte or wide character." in strerror(),
+>>   which is a *very* confusing message.
 >>
->> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
->> index 3eb202259e8c..1ed61416003a 100644
->> --- a/include/media/v4l2-common.h
->> +++ b/include/media/v4l2-common.h
->> @@ -544,11 +544,11 @@ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+>> ---
+>> Ricardo, this too can be added to the uvc series.
+>> ---
+>>  drivers/media/usb/uvc/uvc_video.c | 44 +++++++++++++++++--------------
+>>  1 file changed, 24 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+>> index b63c073ec30e..3f461bb4eeb9 100644
+>> --- a/drivers/media/usb/uvc/uvc_video.c
+>> +++ b/drivers/media/usb/uvc/uvc_video.c
+>> @@ -68,7 +68,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>>                         u8 intfnum, u8 cs, void *data, u16 size)
 >>  {
->>         /*
->>          * When the timestamp comes from 32-bit user space, there may be
->> -        * uninitialized data in tv_usec, so cast it to u32.
->> +        * uninitialized data in tv_usec, so cast it to s32.
->>          * Otherwise allow invalid input for backwards compatibility.
->>          */
->>         return buf->timestamp.tv_sec * NSEC_PER_SEC +
->> -               (u32)buf->timestamp.tv_usec * NSEC_PER_USEC;
->> +               (s32)buf->timestamp.tv_usec * NSEC_PER_USEC;
->>  }
+>>         int ret;
+>> -       u8 error;
+>> +       u8 error = 0;
+>>         u8 tmp;
 >>
+>>         ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
+>> @@ -76,35 +76,39 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>>         if (likely(ret == size))
+>>                 return 0;
+>>
+>> -       dev_dbg(&dev->udev->dev,
+>> -               "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+>> -               uvc_query_name(query), cs, unit, ret, size);
+>> +       ret = ret < 0 ? ret : -EPIPE;
+>>
+>> -       if (ret != -EPIPE)
+>> -               return ret;
+>> -
+>> -       tmp = *(u8 *)data;
+>> +       if (ret == -EPIPE) {
+>> +               tmp = *(u8 *)data;
+>>
+>> -       ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
+>> -                              UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
+>> -                              UVC_CTRL_CONTROL_TIMEOUT);
+>> +               ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
+>> +                                      UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
+>> +                                      UVC_CTRL_CONTROL_TIMEOUT);
+>>
+>> -       error = *(u8 *)data;
+>> -       *(u8 *)data = tmp;
+>> +               if (ret == 1)
+>> +                       error = *(u8 *)data;
+>> +               *(u8 *)data = tmp;
+>> +               if (ret != 1)
+>> +                       ret = ret < 0 ? ret : -EPIPE;
+>> +       }
+>>
+>> -       if (ret != 1)
+>> -               return ret < 0 ? ret : -EPIPE;
+>> +       if (error)
+>> +               dev_dbg(&dev->udev->dev,
+>> +                       "Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
+>> +                       uvc_query_name(query), cs, unit, error);
+>> +       else
+>> +               dev_err(&dev->udev->dev,
+>> +                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+>> +                       uvc_query_name(query), cs, unit, ret, size);
+> 
+> If __uvc_query_ctrl and UVC_VC_REQUEST_ERROR_CODE_CONTROL failed,
+> error is 0. And I think that you want to show a dev_err in that case.
+> Maybe we can initialize error to 7 ?
 
--- 
-regards,
-Stan
+I'm confused, if error == 0, then it does show dev_err.
+
+> 
+> 
+>>
+>> -       uvc_dbg(dev, CONTROL, "Control error %u\n", error);
+>> +       if (!error)
+>> +               return ret;
+> I think we do not want these two lines (read next comment)
+>>
+>>         switch (error) {
+>> -       case 0:
+>> -               /* Cannot happen - we received a STALL */
+>> -               return -EPIPE;
+>>         case 1: /* Not ready */
+>>                 return -EBUSY;
+>>         case 2: /* Wrong state */
+>> -               return -EILSEQ;
+>> +               return -EACCES;
+>>         case 3: /* Power */
+>>                 return -EREMOTE;
+>>         case 4: /* Out of range */
+> 
+> Maybe we want a dev_dbg if the error code is unknown and return ret?
+
+Make sense.
+
+Regards,
+
+	Hans
