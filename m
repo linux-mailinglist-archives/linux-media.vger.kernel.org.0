@@ -2,97 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4865234960F
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 16:51:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54668349636
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 16:57:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230494AbhCYPu2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 11:50:28 -0400
-Received: from esa.microchip.iphmx.com ([68.232.153.233]:50871 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbhCYPuI (ORCPT
+        id S229614AbhCYP4z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 11:56:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229664AbhCYP4l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 11:50:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1616687408; x=1648223408;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=PJSaq6SBrfJT7eP4m6kYKHp8nCSUZQCywIVVXvt1GnU=;
-  b=kaz+yUL4HCb9HbT/tg7cnCEiyIe2qU8kqMdNTgfKZzeQ7hHTbqZK4kHw
-   pzcdbZJ4Mh+ofVPR/7UxnP7eNykqjeJqU8O7ZUpgjOy3e9moQlkHo+0NV
-   gSDp6FHWDet4JkY7TjTzUpYu7ZLTniOr55iv6HnvQgdmG1AyThXWeq5ER
-   Mr+hgKDatW1Py5nOG6t5FDQazOA8cOJYcd+CEesm54mnf3m1IJlw+an9u
-   eMYq4hDSAGCZ7t5+nL/j/VEcYRxo+98nVwQJElg85iJu8Esf+3Z/fJer9
-   9+QVsIEEpgzzmX3gWYd5Cv3ZyHqGHLaT/kzwmroFRTt5AiM3Na5VKVGRa
-   Q==;
-IronPort-SDR: 52+3TdEhxR2RSpXIIiHEIbA+hoS0c4fM8zLxrxWURhsmEezLX2De/V2Y2e1duYCxarDcbyJZea
- N5xpF0Z5rVGQrDzWdWAj1i8mFNEtqMWyx1DlSbim5uxFsk7VtHMlHITJwW6f5dl47H7xGSiiDQ
- 8AyDhqGGNaZr9H/pcaWjjzQSao6Whtenv+haOYj+J4GgRU05hT5HernK2IH37565bh++TBQnNj
- EYOiaGrOSFAQ6DhO8tBo/QBYrMTK1XZVhJy9vPKOoWwbglAdJsW5FuvKP1Eczn8olqyzX0aViw
- ECE=
-X-IronPort-AV: E=Sophos;i="5.81,277,1610434800"; 
-   d="scan'208";a="114640813"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Mar 2021 08:50:07 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 25 Mar 2021 08:50:07 -0700
-Received: from [10.171.246.120] (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2176.2 via Frontend
- Transport; Thu, 25 Mar 2021 08:50:05 -0700
-Subject: Re: [PATCH v2 00/10] Microship SAMA5D4 VPU support et al
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC:     Emil Velikov <emil.l.velikov@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        <linux-media@vger.kernel.org>,
-        linux-rockchip <linux-rockchip@lists.infradead.org>
-References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
- <5ecf1d3b8a8f88d6387a1549faeb4f4180cf5d4b.camel@collabora.com>
- <CACvgo51uNyQgzGdW=f-0wxvjv-+OD1p7E4DJXRzu1GvnAHbcCQ@mail.gmail.com>
- <50b3b4b3-6c5b-3f1e-3499-c88574ce9f74@microchip.com>
- <YFxObibxqK23WTMf@piout.net>
-From:   Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-Message-ID: <6567d6e3-060e-1d94-ef53-60e524bae815@microchip.com>
-Date:   Thu, 25 Mar 2021 16:50:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Thu, 25 Mar 2021 11:56:41 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA950C06174A
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 08:56:40 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id m12so3236051lfq.10
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 08:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8lQPXW1iKZ4L43EHiXEacLc8bcZOagDnYs52fxy+4jw=;
+        b=jE2JpebDizggU6dTG3z4tEsy27xK2UV9s/8zHMAUGLnKdi2sqlsxDzqkWyzyRg5Ihu
+         FKcj8w151ebDmhr4Dx5xdrtS7m0HVe7xNMCuDiEb4vv2bgtEbQcm//kPYehV7ubJYgN0
+         qrx2SI/ONqKHymJ9bW1OZob7WJfujXb3WAkhvRdeKk5xEKStVVmarrKoCWqcp7ah2MPi
+         ptR3a+3U0763NVx6jlwWYOA1JKGFAAqCA/mTt2z3DxlUbdJOp0maCjJqMTMGeZ1jwMRn
+         w6tY6Frni3duV63K1rjpQOhSL5jcnjkN81iSJPntig2LY6hxdl9DT1s2S9ucRMp3DjiI
+         U1KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8lQPXW1iKZ4L43EHiXEacLc8bcZOagDnYs52fxy+4jw=;
+        b=T01JPgikNwBhI4kVjGgvT3fCorHrQ9JrQtGH21o8AjcN+O4Vt2uit3OsWXjIGclIcf
+         Uawq8sxkaVwoOz4VDtftcLotwWEAbKh/Un/uWjlxmg/FR7ZXHFyC4Bx/JyH12OSJEN+0
+         /qf6SyoMUqhsTQ+PIyFBOe67nA1E5YGdHkJzBa73HEhjQuzCtXYOUbEC1xa4JELxV8Ht
+         3tPs1WZ2UnIZ+PoZvyx07Vda/EEFaV4rdZekXpSqMTDEEy+CCPYeSZARGGjhThU270ui
+         ryR5w0MwIopVg258aA1rK9vfA8AeACmn7pvAf9AbnflwdHuLI0B1SS6f0TqpW7AXdqAX
+         INhA==
+X-Gm-Message-State: AOAM533sWcH0TPE35n4gp+ctQUkWAeM7BkEJM00PGHDDVb8hkawUvKz8
+        Y3PdMw0lJBjg1Pz+8vSpQVq2nl1DP/aTa5TiZ3TJ6MxUnVxDRQ==
+X-Google-Smtp-Source: ABdhPJzcSexdzEuE8ZMnbMMs6XCzuVXYQtl8AMtF3Khq8nfez5d8WZ3Ecq1Olddnal6v6jRytNKmeHttkthhXNA5au4=
+X-Received: by 2002:a19:380a:: with SMTP id f10mr5303635lfa.294.1616687799226;
+ Thu, 25 Mar 2021 08:56:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFxObibxqK23WTMf@piout.net>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <347cdb4a-19a2-98ce-580f-5aba4abfb2fc@xs4all.nl>
+ <CAPybu_34Zus8rSSEMsrxo0euQ+SFu-aZUmHRya7GFPJysp6TsQ@mail.gmail.com>
+ <35f1fa6e-a498-9217-5359-82b58dec61f6@xs4all.nl> <CANiDSCvWG-iyj9wAaKKKT-6n=ngEW8dN0Mx0VcTWTktzt7nCdw@mail.gmail.com>
+ <8a265a15-c9f6-bea4-1a38-df675a977e8c@xs4all.nl> <CANiDSCvy_FyxQXv+04u0b9vp1mF7TB_e6XGmSWYM6VoYVrDPHA@mail.gmail.com>
+ <fa87cc48-db19-fa22-a7fe-4eb9d7483cfe@xs4all.nl>
+In-Reply-To: <fa87cc48-db19-fa22-a7fe-4eb9d7483cfe@xs4all.nl>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Thu, 25 Mar 2021 16:56:23 +0100
+Message-ID: <CAPybu_0kZr_Q6BByJ_OEFFO846U+Ti8cY0TAOfMPs=O2Tt0tOQ@mail.gmail.com>
+Subject: Re: [PATCH] uvcvideo: improve error handling in uvc_query_ctrl()
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/03/2021 at 09:48, Alexandre Belloni wrote:
-> On 24/03/2021 14:44:14+0100, Nicolas Ferre wrote:
->> Now, when we have the tag from Rob, how to coordinate these different
->> pieces? Will it go through the media git tree? Will we benefit from a stable
->> branch to share or will we just have to wait for the driver to hit Mainline
->> before adding the defconfig and DT patches?
->>
-> 
-> I think the defconfig and dt patches can go through at91 as soon as we
-> get Rob's ack. There is no build dependency so it can be taken at any
-> time. Worst case, we end up with a selected config option that doesn't
-> exist.
+Hi Hans
 
-Agreed, and it simplify things.
+On Thu, Mar 25, 2021 at 3:03 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 25/03/2021 15:02, Ricardo Ribalda wrote:
+> > Hi Hans
+> >
+> > On Thu, Mar 25, 2021 at 2:57 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >>
+> >> On 25/03/2021 14:54, Ricardo Ribalda wrote:
+> >>> hi Hans
+> >>>
+> >>> On Thu, Mar 25, 2021 at 1:18 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >>>>
+> >>>> On 23/03/2021 16:25, Ricardo Ribalda Delgado wrote:
+> >>>>> Hi Hans
+> >>>>>
+> >>>>> Thanks for the patch. I like how uvc is ending :)
+> >>>>>
+> >>>>> On Mon, Mar 22, 2021 at 1:09 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >>>>>>
+> >>>>>> - If __uvc_query_ctrl() failed with a non-EPIPE error, then
+> >>>>>>   report that with dev_err. If an error code is obtained, then
+> >>>>>>   report that with dev_dbg.
+> >>>>>>
+> >>>>>> - For error 2 (Wrong state) return -EACCES instead of -EILSEQ.
+> >>>>>>   EACCES is a much more appropriate error code. EILSEQ will return
+> >>>>>>   "Invalid or incomplete multibyte or wide character." in strerror(),
+> >>>>>>   which is a *very* confusing message.
+> >>>>>>
+> >>>>>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+> >>>>>> ---
+> >>>>>> Ricardo, this too can be added to the uvc series.
+> >>>>>> ---
+> >>>>>>  drivers/media/usb/uvc/uvc_video.c | 44 +++++++++++++++++--------------
+> >>>>>>  1 file changed, 24 insertions(+), 20 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> >>>>>> index b63c073ec30e..3f461bb4eeb9 100644
+> >>>>>> --- a/drivers/media/usb/uvc/uvc_video.c
+> >>>>>> +++ b/drivers/media/usb/uvc/uvc_video.c
+> >>>>>> @@ -68,7 +68,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> >>>>>>                         u8 intfnum, u8 cs, void *data, u16 size)
+> >>>>>>  {
+> >>>>>>         int ret;
+> >>>>>> -       u8 error;
+> >>>>>> +       u8 error = 0;
+> >>>>>>         u8 tmp;
+> >>>>>>
+> >>>>>>         ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
+> >>>>>> @@ -76,35 +76,39 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> >>>>>>         if (likely(ret == size))
+> >>>>>>                 return 0;
+> >>>>>>
+> >>>>>> -       dev_dbg(&dev->udev->dev,
+> >>>>>> -               "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> >>>>>> -               uvc_query_name(query), cs, unit, ret, size);
+> >>>>>> +       ret = ret < 0 ? ret : -EPIPE;
+> >>>>>>
+> >>>>>> -       if (ret != -EPIPE)
+> >>>>>> -               return ret;
+> >>>>>> -
+> >>>>>> -       tmp = *(u8 *)data;
+> >>>>>> +       if (ret == -EPIPE) {
+> >>>>>> +               tmp = *(u8 *)data;
+> >>>>>>
+> >>>>>> -       ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
+> >>>>>> -                              UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
+> >>>>>> -                              UVC_CTRL_CONTROL_TIMEOUT);
+> >>>>>> +               ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
+> >>>>>> +                                      UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
+> >>>>>> +                                      UVC_CTRL_CONTROL_TIMEOUT);
+> >>>>>>
+> >>>>>> -       error = *(u8 *)data;
+> >>>>>> -       *(u8 *)data = tmp;
+> >>>>>> +               if (ret == 1)
+> >>>>>> +                       error = *(u8 *)data;
+> >>>>>> +               *(u8 *)data = tmp;
+> >>>>>> +               if (ret != 1)
+> >>>>>> +                       ret = ret < 0 ? ret : -EPIPE;
+> >>>>>> +       }
+> >>>>>>
+> >>>>>> -       if (ret != 1)
+> >>>>>> -               return ret < 0 ? ret : -EPIPE;
+> >>>>>> +       if (error)
+> >>>>>> +               dev_dbg(&dev->udev->dev,
+> >>>>>> +                       "Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
+> >>>>>> +                       uvc_query_name(query), cs, unit, error);
+> >>>>>> +       else
+> >>>>>> +               dev_err(&dev->udev->dev,
+> >>>>>> +                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> >>>>>> +                       uvc_query_name(query), cs, unit, ret, size);
+> >>>>>
+> >>>>> If __uvc_query_ctrl and UVC_VC_REQUEST_ERROR_CODE_CONTROL failed,
+> >>>>> error is 0. And I think that you want to show a dev_err in that case.
+> >>>>> Maybe we can initialize error to 7 ?
+> >>>>
+> >>>> I'm confused, if error == 0, then it does show dev_err.
+> >>>
+> >>> My bad.
+> >>>
+> >>> Ignore the message.
+> >>>
+> >>> Can we write it as ?:
+> >>>
+> >>> if (!error) {
+> >>>   dev_dbg(&dev->udev->dev,
+> >>>  "Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
+> >>>  uvc_query_name(query), cs, unit, error);
+> >>>  return ret;
+> >>> }
+> >>>
+> >>> dev_err(&dev->udev->dev,
+> >>> "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> >>> uvc_query_name(query), cs, unit, ret, size);
+> >>
+> >> Sure! Just take this patch as inspiration :-)
+> >
+> > Do you mind if I modify it before resend?
+>
+> No problem, feel free!
+>
+Something like?
 
-My only concern is with triggering some of the bots while checking for 
-DT compatible string definition.
+https://git.kernel.org/pub/scm/linux/kernel/git/ribalda/linux.git/commit/?h=uvc-compliance-v9&id=aaf96b6cab88059d4d70346669d26cde09276586
 
-Regards,
-   Nicolas
+Will probably repost the series tomorrow.
 
+Thanks!
+
+>         Hans
+>
+> >>
+> >> Regards,
+> >>
+> >>         Hans
+> >>
+> >>>
+> >>>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>
+> >>>>>>
+> >>>>>> -       uvc_dbg(dev, CONTROL, "Control error %u\n", error);
+> >>>>>> +       if (!error)
+> >>>>>> +               return ret;
+> >>>>> I think we do not want these two lines (read next comment)
+> >>>>>>
+> >>>>>>         switch (error) {
+> >>>>>> -       case 0:
+> >>>>>> -               /* Cannot happen - we received a STALL */
+> >>>>>> -               return -EPIPE;
+> >>>>>>         case 1: /* Not ready */
+> >>>>>>                 return -EBUSY;
+> >>>>>>         case 2: /* Wrong state */
+> >>>>>> -               return -EILSEQ;
+> >>>>>> +               return -EACCES;
+> >>>>>>         case 3: /* Power */
+> >>>>>>                 return -EREMOTE;
+> >>>>>>         case 4: /* Out of range */
+> >>>>>
+> >>>>> Maybe we want a dev_dbg if the error code is unknown and return ret?
+> >>>>
+> >>>> Make sense.
+> >>>>
+> >>>> Regards,
+> >>>>
+> >>>>         Hans
+> >>>
+> >>>
+> >>>
+> >>
+> >
+> >
+>
 
 
 -- 
-Nicolas Ferre
+Ricardo Ribalda
