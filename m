@@ -2,115 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D6C348BF0
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 09:53:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ADC2348BF1
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 09:54:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbhCYIxY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 04:53:24 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:49025 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229716AbhCYIxL (ORCPT
+        id S229635AbhCYIx5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 04:53:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34490 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229448AbhCYIxo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 04:53:11 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id PLjml58qHCAEGPLjqlclS2; Thu, 25 Mar 2021 09:53:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616662390; bh=B7AaR/XrF6v4Q7XsH6H4exyqn2zs0jCIxzKAMOIbfoY=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vTR10EpdkrEXcT/zV5OPOhVmuIkvKgeiMmC3Uza4MB5ZhWiQ+pcSyLQTCfxNdNPl7
-         mktdaIFUj/0SL9rvtVyYKS5TJSe63xyGO1M126mnOVOGllouDr3GoVSYj8luujMyhW
-         nYk6SPHToxQZaKZNRnM+qV3WTZN1nTXLL3df+JE5ZJbjsb+O55CkAaB8nCAEYnGysn
-         NzeWBT63PgO1rajdF8e7wUX6D/xrn2rIdZb98yhDe1/wUll/JSwR1I1nIlF4x0gwB0
-         WVEZ0OSFjt2ZjjBFkrEI/weOGi+fPX17QhkjwNT7JGVdSuf7UMz4YVQPp/xP+B62T2
-         Mc8vG+5zWlv4Q==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.13] Various fixes
-Message-ID: <040ce89b-442d-3a2a-f574-6ec223df245a@xs4all.nl>
-Date:   Thu, 25 Mar 2021 09:53:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Thu, 25 Mar 2021 04:53:44 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F645C06174A;
+        Thu, 25 Mar 2021 01:53:44 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id y2so1067787qtw.13;
+        Thu, 25 Mar 2021 01:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gZxnPiCQhsN08UGJzeB16Tk0u20EtfTz8/UTt2Ac+go=;
+        b=K65Qekkn/QlG1raASTKNsn6Rl4BytEyG57i6HB+f83tkC5oQ4llZIWdFYKj0Oo7BpL
+         tOzOsCELIW30Nha2gHQ7N4sfZZYNj5ulZlniuN+PCHSTV593W7wwJBObhKzfBSswGs7R
+         A/WiWmo0p/r4zN7Lz1rcOsm6i8sq9DwKNn9hTTCzrgxjtL6B6AwIuWFUtWwRePNo9pjg
+         /uh9gF1iLy9PYQAqgQIQn3FtcjnijiLj5EHANUk60iSLxUAM8+mFdDgFBH6MfEERZRzO
+         8/GfA+CcwGao95KV0J6y4MATG8qtQ5ZF2iM34aLm9hVvEtG59OMLRxu4Nq647/34D16l
+         68Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gZxnPiCQhsN08UGJzeB16Tk0u20EtfTz8/UTt2Ac+go=;
+        b=SFcwFL1aoA/7JWBEFcGgA8WFeWaT/iDr5hSeA8AwWj1pSdefRG0yjv3czqI90QM6RL
+         qWqWdTORwAw8QFk7jPHTv4mzGtuIG0nJFrPeoWMgqTPuMmtVZmOKoirYFDuMdjyV5nJd
+         iC6MBBr9JMWu2jUVjPuBt7iZYPLOrOJ5VGsruEqND5quHkLtEU0Svb/JaQDq97kPovNm
+         orbx4R6gGVkzsxnf3V4qu5by5DcXAncD7+ztx1U40Nkf5ENCMPAtH+iIpoB3feoJAKxi
+         7JKhsjsjDzRzQ2OehGgxN8oITapGEnPxOWbalogl46+b5MjwynGkeupCoCeHCZYmNOzO
+         //4g==
+X-Gm-Message-State: AOAM532wCQdLIahu5CQ6wwcsMvmMuck5GOhyuj67m4I1lXZtDfibtHuc
+        6LN7GrCqEF3bcBgtuFxjM54=
+X-Google-Smtp-Source: ABdhPJwDkG60JjzH7R7kuumGL+OD2VR/Nq1o8eVYrmqteXpNUaqcdYNtlqgl7l1y6ENCuuZTeUQfqw==
+X-Received: by 2002:ac8:5c02:: with SMTP id i2mr6481678qti.159.1616662423694;
+        Thu, 25 Mar 2021 01:53:43 -0700 (PDT)
+Received: from localhost.localdomain ([156.146.58.54])
+        by smtp.gmail.com with ESMTPSA id w5sm3712675qkc.85.2021.03.25.01.53.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Mar 2021 01:53:43 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+        nirmoy.das@amd.com, ray.huang@amd.com, lee.jones@linaro.org,
+        andrey.grodzovsky@amd.com, luben.tuikov@amd.com,
+        marek.olsak@amd.com, unixbhaskar@gmail.com, Felix.Kuehling@amd.com,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Cc:     rdunlap@infradead.org
+Subject: [PATCH] drm/amd/amdgpu/gfx_v7_0: Trivial typo fixes
+Date:   Thu, 25 Mar 2021 14:23:24 +0530
+Message-Id: <20210325085324.30224-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFmQ/4G6NRc5AusueFjLON8/nHz9ElDjQpDMHHrh2pAuomWY8P8lulUvpy6yrYCbXWSwLkjdVhzsJmqqxcsCG0paizzLEv9Xt+KaZwH9I670W7DnCWPN
- K5+St5U2ZGjfbMfoCipA7EkVwlsOwiA+dorWXu5s5xzpsszzzv1lT+9unlpTXJmBTd3YUrVRMk/Fm8yAMYO8LBERwzZr5YKea6U=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 97b34809ec240d82c82af97626c2071a4062e0e6:
+s/acccess/access/
+s/inferface/interface/
+s/sequnce/sequence/  .....two different places.
+s/retrive/retrieve/
+s/sheduling/scheduling/
+s/independant/independent/
+s/wether/whether/ ......two different places.
+s/emmit/emit/
+s/synce/sync/
 
-  media: staging: atomisp: reduce kernel stack usage (2021-03-23 16:55:52 +0100)
 
-are available in the Git repository at:
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13b
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+index a368724c3dfc..4502b95ddf6b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+@@ -1877,7 +1877,7 @@ static void gfx_v7_0_init_compute_vmid(struct amdgpu_device *adev)
+ 	mutex_unlock(&adev->srbm_mutex);
 
-for you to fetch changes up to 50e4b86dc9d649e4c1348feec131d12bc5758d28:
+ 	/* Initialize all compute VMIDs to have no GDS, GWS, or OA
+-	   acccess. These should be enabled by FW for target VMIDs. */
++	   access. These should be enabled by FW for target VMIDs. */
+ 	for (i = adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; i++) {
+ 		WREG32(amdgpu_gds_reg_offset[i].mem_base, 0);
+ 		WREG32(amdgpu_gds_reg_offset[i].mem_size, 0);
+@@ -2058,7 +2058,7 @@ static void gfx_v7_0_constants_init(struct amdgpu_device *adev)
+  * @adev: amdgpu_device pointer
+  *
+  * Set up the number and offset of the CP scratch registers.
+- * NOTE: use of CP scratch registers is a legacy inferface and
++ * NOTE: use of CP scratch registers is a legacy interface and
+  * is not used by default on newer asics (r6xx+).  On newer asics,
+  * memory buffers are used for fences rather than scratch regs.
+  */
+@@ -2172,7 +2172,7 @@ static void gfx_v7_0_ring_emit_vgt_flush(struct amdgpu_ring *ring)
+  * @seq: sequence number
+  * @flags: fence related flags
+  *
+- * Emits a fence sequnce number on the gfx ring and flushes
++ * Emits a fence sequence number on the gfx ring and flushes
+  * GPU caches.
+  */
+ static void gfx_v7_0_ring_emit_fence_gfx(struct amdgpu_ring *ring, u64 addr,
+@@ -2215,7 +2215,7 @@ static void gfx_v7_0_ring_emit_fence_gfx(struct amdgpu_ring *ring, u64 addr,
+  * @seq: sequence number
+  * @flags: fence related flags
+  *
+- * Emits a fence sequnce number on the compute ring and flushes
++ * Emits a fence sequence number on the compute ring and flushes
+  * GPU caches.
+  */
+ static void gfx_v7_0_ring_emit_fence_compute(struct amdgpu_ring *ring,
+@@ -2245,14 +2245,14 @@ static void gfx_v7_0_ring_emit_fence_compute(struct amdgpu_ring *ring,
+  * gfx_v7_0_ring_emit_ib - emit an IB (Indirect Buffer) on the ring
+  *
+  * @ring: amdgpu_ring structure holding ring information
+- * @job: job to retrive vmid from
++ * @job: job to retrieve vmid from
+  * @ib: amdgpu indirect buffer object
+  * @flags: options (AMDGPU_HAVE_CTX_SWITCH)
+  *
+  * Emits an DE (drawing engine) or CE (constant engine) IB
+  * on the gfx ring.  IBs are usually generated by userspace
+  * acceleration drivers and submitted to the kernel for
+- * sheduling on the ring.  This function schedules the IB
++ * scheduling on the ring.  This function schedules the IB
+  * on the gfx ring for execution by the GPU.
+  */
+ static void gfx_v7_0_ring_emit_ib_gfx(struct amdgpu_ring *ring,
+@@ -2402,7 +2402,7 @@ static int gfx_v7_0_ring_test_ib(struct amdgpu_ring *ring, long timeout)
 
-  vivid: update EDID (2021-03-25 09:52:09 +0100)
+ /*
+  * CP.
+- * On CIK, gfx and compute now have independant command processors.
++ * On CIK, gfx and compute now have independent command processors.
+  *
+  * GFX
+  * Gfx consists of a single ring and can process both gfx jobs and
+@@ -2630,7 +2630,7 @@ static int gfx_v7_0_cp_gfx_resume(struct amdgpu_device *adev)
+ 	ring->wptr = 0;
+ 	WREG32(mmCP_RB0_WPTR, lower_32_bits(ring->wptr));
 
-----------------------------------------------------------------
-Tag branch
+-	/* set the wb address wether it's enabled or not */
++	/* set the wb address whether it's enabled or not */
+ 	rptr_addr = adev->wb.gpu_addr + (ring->rptr_offs * 4);
+ 	WREG32(mmCP_RB0_RPTR_ADDR, lower_32_bits(rptr_addr));
+ 	WREG32(mmCP_RB0_RPTR_ADDR_HI, upper_32_bits(rptr_addr) & 0xFF);
+@@ -2985,7 +2985,7 @@ static void gfx_v7_0_mqd_init(struct amdgpu_device *adev,
+ 	mqd->cp_hqd_pq_wptr_poll_addr_lo = wb_gpu_addr & 0xfffffffc;
+ 	mqd->cp_hqd_pq_wptr_poll_addr_hi = upper_32_bits(wb_gpu_addr) & 0xffff;
 
-----------------------------------------------------------------
-Bhaskar Chowdhury (3):
-      media: atomisp: fix a typo
-      media: entity: A typo fix
-      media: cx88: Fix a typo
+-	/* set the wb address wether it's enabled or not */
++	/* set the wb address whether it's enabled or not */
+ 	wb_gpu_addr = adev->wb.gpu_addr + (ring->rptr_offs * 4);
+ 	mqd->cp_hqd_pq_rptr_report_addr_lo = wb_gpu_addr & 0xfffffffc;
+ 	mqd->cp_hqd_pq_rptr_report_addr_hi =
+@@ -3198,7 +3198,7 @@ static int gfx_v7_0_cp_resume(struct amdgpu_device *adev)
+ /**
+  * gfx_v7_0_ring_emit_vm_flush - cik vm flush using the CP
+  *
+- * @ring: the ring to emmit the commands to
++ * @ring: the ring to emit the commands to
+  *
+  * Sync the command pipeline with the PFP. E.g. wait for everything
+  * to be completed.
+@@ -3220,7 +3220,7 @@ static void gfx_v7_0_ring_emit_pipeline_sync(struct amdgpu_ring *ring)
+ 	amdgpu_ring_write(ring, 4); /* poll interval */
 
-Colin Ian King (2):
-      media: imx-jpeg: Fix spelling mistake "Canot" -> "Cannot"
-      media: imx-jpeg: Pass the v4l2_jpeg_header header argument by reference
+ 	if (usepfp) {
+-		/* synce CE with ME to prevent CE fetch CEIB before context switch done */
++		/* sync CE with ME to prevent CE fetch CEIB before context switch done */
+ 		amdgpu_ring_write(ring, PACKET3(PACKET3_SWITCH_BUFFER, 0));
+ 		amdgpu_ring_write(ring, 0);
+ 		amdgpu_ring_write(ring, PACKET3(PACKET3_SWITCH_BUFFER, 0));
+--
+2.30.1
 
-Dafna Hirschfeld (1):
-      media: rkisp1: uapi: document which flags/structs relate to statistics config
-
-Ezequiel Garcia (1):
-      media: hantro: fix kernel-doc warnings and style
-
-Hans Verkuil (8):
-      allegro-dvt/nal-h264.h: fix kernel-doc: hdr -> hrd
-      s3c-camif/camif-core.h: fix kernel-doc warnings
-      s5p-jpeg/jpeg-core.h: fix kernel-doc warnings
-      exynos-gsc/gsc-core.h: fix kernel-doc warnings
-      exynos4-is: fix kernel-doc warnings
-      s5p-mfc/s5p_mfc_common.h: fix kernel-doc warnings
-      cobalt: fix initial EDID
-      vivid: update EDID
-
-Muhammad Usama Anjum (1):
-      media: em28xx: fix memory leak
-
-Wei Yongjun (2):
-      media: imx-jpeg: Fix error return code in mxc_jpeg_probe()
-      media: imx-jpeg: Fix return value check in mxc_jpeg_attach_pm_domains()
-
-Xiaofeng Cao (1):
-      drivers/media/pci/bt8xx/bttv-cards: fix typos
-
- drivers/media/pci/bt8xx/bttv-cards.c            | 20 ++++++++++----------
- drivers/media/pci/cobalt/cobalt-driver.c        | 10 +++++-----
- drivers/media/pci/cx88/cx88-cards.c             |  2 +-
- drivers/media/platform/allegro-dvt/nal-h264.h   |  2 +-
- drivers/media/platform/exynos-gsc/gsc-core.h    | 19 +++++++++++++------
- drivers/media/platform/exynos4-is/fimc-core.h   | 10 ++++++++--
- drivers/media/platform/exynos4-is/fimc-isp.h    | 17 ++++++++++++-----
- drivers/media/platform/exynos4-is/fimc-lite.h   |  2 ++
- drivers/media/platform/exynos4-is/fimc-reg.h    |  1 +
- drivers/media/platform/exynos4-is/media-dev.h   |  7 ++++++-
- drivers/media/platform/imx-jpeg/mxc-jpeg.c      | 22 ++++++++++++----------
- drivers/media/platform/s3c-camif/camif-core.h   | 16 +++++++++++++---
- drivers/media/platform/s5p-jpeg/jpeg-core.h     |  5 ++++-
- drivers/media/platform/s5p-mfc/s5p_mfc_common.h | 28 ++++++++++++++--------------
- drivers/media/test-drivers/vivid/vivid-core.c   |  6 +++---
- drivers/media/usb/em28xx/em28xx-dvb.c           |  1 +
- drivers/staging/media/atomisp/i2c/gc2235.h      |  2 +-
- drivers/staging/media/hantro/hantro_hw.h        | 12 ++++++++++++
- include/media/media-entity.h                    |  2 +-
- include/uapi/linux/rkisp1-config.h              | 16 ++++++++--------
- 20 files changed, 128 insertions(+), 72 deletions(-)
