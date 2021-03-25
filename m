@@ -2,94 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 255DB348E08
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 11:31:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0091A348E1F
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 11:39:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbhCYKak (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 06:30:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbhCYKaQ (ORCPT
+        id S230194AbhCYKis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 06:38:48 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33165 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230177AbhCYKih (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 06:30:16 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B5ABC06174A
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 03:30:14 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id z1so1800039edb.8
-        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 03:30:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4LQrkxh9XKHSRaKe0wqWIdW7sIgBGHX5Nu3p1oqv7x4=;
-        b=ktbIalbIIhDCdyngNwWDlOVfaSjCsoG/22ZJREjlWiLrrXgprFTB0BRCCY5DIOZcg4
-         nVaPlzjlWEjDEKW6czVHMHIayNA/dLCes0Q4X7dg/t85hzwjLtLZbYjow3EZdOHGinY3
-         Ps8k6UduYvXcIs2ySVvKAmWMWFh6bv8ZeyZjRboLNqMTh7J/fGSfdketOF+kKtFiyunk
-         wvEbAaHr9bcZ29A1UKgGrLvRqbeR8pki0wCOph5VuBPlK8yxgVRIar3rfezQ0cNozVHE
-         v+TiHsx5GUm5HaMQMBEXLjlv8vc/qrd8kotXON8EIbKGzb6c8htA30rTKBxLdt5ApG34
-         I0OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4LQrkxh9XKHSRaKe0wqWIdW7sIgBGHX5Nu3p1oqv7x4=;
-        b=W2YypOmIXPBHBns+F+E15eHev8RzWeY6T81nCJs00m5OxMiz4ms8zcRP9tUfU46WFx
-         rvnHaEC3q1rCwmrNPfq96BH//x/cMGPDETS7uyMej6yi4sUGxbfFwMO+D8vDeK5qzzGv
-         AX/sGkqhT8reEzSWusB+x6auiCp2z37dq+4ZhprTkNf1JDuf/BPrSaGl+vrST/zqh97A
-         DqimsEPXh5rxyTeYXpOMmOFZ0E3s5eK1bHFf1URSdDBmmTSef0PXX1EBfTjeGrm9DSFo
-         Nbg9KTU9VqLEWkZEwnpdSwXwHGq8SFwOfkbFk9uXoZzz8Awclz6ehoQsW2/+1o1Hri8k
-         FY/g==
-X-Gm-Message-State: AOAM532H6v+QdFQqkAIdZY8Ubka9Q47uehIOk4vQcNg+YpKTHTSI6Lbg
-        yS/y28rNPWnE58fiqPxr5FpxH4kcr+c+y+50
-X-Google-Smtp-Source: ABdhPJxAqMqXxBiv+v4j+0aErmfQrk/eYif57JfWpxs2WNj4nAW7w2+GLoMEjOL6MsZg2Wo06Q9t4A==
-X-Received: by 2002:aa7:cd63:: with SMTP id ca3mr8274164edb.265.1616668213051;
-        Thu, 25 Mar 2021 03:30:13 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-104.medicom.bg. [84.238.221.104])
-        by smtp.gmail.com with ESMTPSA id z20sm2407661edd.0.2021.03.25.03.30.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 03:30:12 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH] v4l: Cast timestamp tv_usec to singned
-Date:   Thu, 25 Mar 2021 12:29:52 +0200
-Message-Id: <20210325102952.1126952-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Thu, 25 Mar 2021 06:38:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PNNolDPRKUzyrPNNrlVJYl; Thu, 25 Mar 2021 11:38:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616668715; bh=v1+yMKVeRCYikKmsamG47BU3T7Lmm1Z+kKu75a4f0bI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=KwmdUtFSGqcOWfnIVtymPONlLAQ+Gwwar0AIUKFEuYRs0+lKBJXs2adg8O3g0a+2s
+         czl/6VmRIC+p+l22N2jjs/CqEHAXmP35L/tUFhdAUFiqiXr1BUif16W5BL/yh0oO0Z
+         dbs+QEvACHq3z05IhWRZzdnZVvJ+Btl6/OnGEZTfvuVRWkbmW1IqHyQdfKOfnljufp
+         2ihd1votp4f7zyRst1IDdyvJPSKh1Kb97rMYDGMEHFSx9GCe42xvofj8ZCOlZLb7yy
+         RiRtFfe1dGQZPxxLv9dKqROitVDHZc0YjTWMKMZHLRREO0ySpcKhzwoUuPUH1pmOiI
+         r1HHhmoaDXgYg==
+Subject: Re: [PATCH] adv7604: support EDIDs up to 4 blocks
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <00882808-472a-d429-c565-a701da579ead@xs4all.nl>
+ <YFxldF7Eb0eE6dVi@oden.dyn.berto.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d006b693-9add-cd48-fd94-b15e559f9ee2@xs4all.nl>
+Date:   Thu, 25 Mar 2021 11:38:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <YFxldF7Eb0eE6dVi@oden.dyn.berto.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfAdLr11NTUF+WbW9VcJfVzRNuQY+xpR2f81sVTlKZgHVomg7UgHH2or0LDz/oB2WD7V/j4/Cw9ivKcuxbrnyTlM7kzWWeWLwj0jSWji808ELW+XZxzoi
+ TAJLBwTrS25DJ0BcJHZMb+BG3VgAfMPXc9kHrttvcqoNl1TRWAecx4qTQ8EaUiF6tTP688hf3sIKFaZ+8lmSsQXmU90W1rQUfAKqq3nqxVZ63QuaWr0I1JOa
+ Yp9osPBbCK9DTEMwEQthBw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some of the MPEG4 standards allows negative timestamps. Correct
-tv_usec cast to s32.
+On 25/03/2021 11:27, Niklas Söderlund wrote:
+> Hi Hans,
+> 
+> Thanks for your work.
+> 
+> On 2021-03-24 08:11:28 +0100, Hans Verkuil wrote:
+>> While the adv7604/11/12 hardware supported EDIDs up to 4 blocks, the
+>> driver didn't. This patch adds support for this. It also improves support
+>> for EDIDs that do not have a Source Physical Address: in that case the
+>> spa location is set to the first byte of the second block, and the
+>> 'physical address' is just the two bytes at that location. This is per
+>> the suggestion in the adv76xx documentation for such EDIDs.
+>>
+>> Tested with an adv7604 and adv7612.
+> 
+> I tested this on my Koelsch together with it's two buddies [1] and [2] 
+> to verify that my capture tests still worked. They did not and 
+> unfortunately they crashed the kernel instead. A quick check suggests 
+> this patch (which I had first in my stack of the 3 patches on-top of 
+> media-tree [3]) was the source. Running directly on media-tree and 
+> things work as before.
+> 
+> I managed to reduce the TC to not even having to have a HDMI video 
+> source attached just running v4l2-compliance was enough. I tested it 
+> using both the latest master of v4l-utils [4] and the one I had on the 
+> system since earlier [5] with the same result.
+> 
+> arm ~ # v4l2-compliance --version
+> v4l2-compliance 1.21.0-4752, 32 bits, 32-bit time_t
+> v4l2-compliance SHA: 162d4e7221ca 2021-03-25 07:35:09
+> 
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- include/media/v4l2-common.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+<snip>
 
-diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-index 3eb202259e8c..1ed61416003a 100644
---- a/include/media/v4l2-common.h
-+++ b/include/media/v4l2-common.h
-@@ -544,11 +544,11 @@ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
- {
- 	/*
- 	 * When the timestamp comes from 32-bit user space, there may be
--	 * uninitialized data in tv_usec, so cast it to u32.
-+	 * uninitialized data in tv_usec, so cast it to s32.
- 	 * Otherwise allow invalid input for backwards compatibility.
- 	 */
- 	return buf->timestamp.tv_sec * NSEC_PER_SEC +
--		(u32)buf->timestamp.tv_usec * NSEC_PER_USEC;
-+		(s32)buf->timestamp.tv_usec * NSEC_PER_USEC;
- }
- 
- static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
--- 
-2.25.1
+>> @@ -2327,15 +2334,25 @@ static int adv76xx_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
+>>  				__func__, edid->pad, state->edid.present);
+>>  		return 0;
+>>  	}
+>> -	if (edid->blocks > 2) {
+>> -		edid->blocks = 2;
+>> +	if (info->type == ADV7604 && edid->blocks > ADV76XX_MAX_EDID_BLOCKS) {
 
+Urgh, remove 'info->type == ADV7604 && '. That fixes it.
+
+It's a left-over from an older version of the patch that I forgot to remove.
+
+Luckily v4l2-compliance tests with 256 blocks so this was caught. I should have
+run v4l2-compliance myself :-(
+
+I'll post a v2.
+
+Regards,
+
+	Hans
+
+>> +		edid->blocks = ADV76XX_MAX_EDID_BLOCKS;
+>>  		return -E2BIG;
+>>  	}
