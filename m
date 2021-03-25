@@ -2,59 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B602E348BE2
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 09:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7844C348BED
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 09:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229448AbhCYItE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 04:49:04 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:53875 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbhCYIsz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 04:48:55 -0400
-X-Originating-IP: 90.65.108.55
-Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 470BB1C0006;
-        Thu, 25 Mar 2021 08:48:46 +0000 (UTC)
-Date:   Thu, 25 Mar 2021 09:48:46 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc:     Emil Velikov <emil.l.velikov@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org,
-        linux-rockchip <linux-rockchip@lists.infradead.org>
-Subject: Re: [PATCH v2 00/10] Microship SAMA5D4 VPU support et al
-Message-ID: <YFxObibxqK23WTMf@piout.net>
-References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
- <5ecf1d3b8a8f88d6387a1549faeb4f4180cf5d4b.camel@collabora.com>
- <CACvgo51uNyQgzGdW=f-0wxvjv-+OD1p7E4DJXRzu1GvnAHbcCQ@mail.gmail.com>
- <50b3b4b3-6c5b-3f1e-3499-c88574ce9f74@microchip.com>
+        id S229666AbhCYIwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 04:52:21 -0400
+Received: from mga12.intel.com ([192.55.52.136]:35109 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229761AbhCYIwL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Mar 2021 04:52:11 -0400
+IronPort-SDR: 6fC6MCW/VKqWG6BhYe7m61xFhw0+4pmXDoINK5PQvz3OsA+heMlFhehLMDGDua1MhG8e1cXUBx
+ tVs7J37HWX7Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="170236569"
+X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; 
+   d="scan'208";a="170236569"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2021 01:52:10 -0700
+IronPort-SDR: zs+SB7lb6LLXt85zal5NPVqsCM4paZ7+Bu0x4GB+P7wyhqOjImKsgHS0ONW+S4NN/UsrgcIsOe
+ OFfQU3n1Jk5Q==
+X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; 
+   d="scan'208";a="593697007"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2021 01:52:08 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 6CF6D2017A;
+        Thu, 25 Mar 2021 10:52:06 +0200 (EET)
+Date:   Thu, 25 Mar 2021 10:52:06 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: media: video-interfaces: Drop the example
+Message-ID: <20210325085206.GF3@paasikivi.fi.intel.com>
+References: <20210324202253.3576798-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <50b3b4b3-6c5b-3f1e-3499-c88574ce9f74@microchip.com>
+In-Reply-To: <20210324202253.3576798-1-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/03/2021 14:44:14+0100, Nicolas Ferre wrote:
-> Now, when we have the tag from Rob, how to coordinate these different
-> pieces? Will it go through the media git tree? Will we benefit from a stable
-> branch to share or will we just have to wait for the driver to hit Mainline
-> before adding the defconfig and DT patches?
+On Wed, Mar 24, 2021 at 02:22:53PM -0600, Rob Herring wrote:
+> The example in video-interfaces.yaml uses a bunch of undocumented
+> bindings which will cause warnings when undocumented compatible checks
+> are enabled. The example could be fixed to use documented bindings, but
+> doing so would just duplicate other examples. So let's just remove the
+> example.
 > 
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-I think the defconfig and dt patches can go through at91 as soon as we
-get Rob's ack. There is no build dependency so it can be taken at any
-time. Worst case, we end up with a selected config option that doesn't
-exist.
+Thanks!
+
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Sakari Ailus
