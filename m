@@ -2,90 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0576349B86
-	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 22:23:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75531349BB2
+	for <lists+linux-media@lfdr.de>; Thu, 25 Mar 2021 22:34:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230329AbhCYVWi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Mar 2021 17:22:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56120 "EHLO
+        id S230470AbhCYVeA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Mar 2021 17:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbhCYVW2 (ORCPT
+        with ESMTP id S230500AbhCYVd6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Mar 2021 17:22:28 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 255EEC06174A;
-        Thu, 25 Mar 2021 14:22:28 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id a132-20020a1c668a0000b029010f141fe7c2so3894215wmc.0;
-        Thu, 25 Mar 2021 14:22:28 -0700 (PDT)
+        Thu, 25 Mar 2021 17:33:58 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD580C061761
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 14:33:57 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id j18so3745579wra.2
+        for <linux-media@vger.kernel.org>; Thu, 25 Mar 2021 14:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ex72Tejmqm01CO5iitHcidNTG+JjZOkOQfAFBeL7xZ8=;
-        b=JgqUyMQjIkLWBarjz1QCr0+MxwMia7z1QSh/V8uLC7tB7bZ2mYsOX8YUhVNJCmr6w8
-         hE9C/TafduTNF1e/li1+0dGDj7oBgo0H2w7istXW7k22USjhrrlj6IbjSNwhZMF3BkLM
-         56dQQLjXWwsmetQMZJn6DuRT7tBgVo6CftvMlaW8yzX42EOwBDxObWypBB+uLVuXlsJv
-         f/0ukom1pxou+3LqBm5jv66NRiFyysyAKKSetlMf9/xUlTjIWol1N20Prt8Cga94aU76
-         zzZ5q+wYqGbKmQ/oclXaeWcxXptW2F0Q4+F1ixE3V1E8+c8zgQhYWKSo7IiizOCyQSug
-         ez2A==
+        d=ffwll.ch; s=google;
+        h=date:from:to:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TXHI1OxX+D4iSzKCuoMMss3yjiQz/+KLKVrP99q3G2I=;
+        b=frvH/QuNUnODqvtDdusaUFppblhOygLUWsC1ixB43GNG2Cc+yxM2WFbRWpgjN4Ju8Y
+         95PeIsuDNMn98oqagJ3ef1Nu2yOkiL1vvMi/6inWwQyeTtLH5DD3GrBLCXNufjRYGMCK
+         r/gFSHALeS9GIhicmr/nrrhcB3MijIi/RQZtU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ex72Tejmqm01CO5iitHcidNTG+JjZOkOQfAFBeL7xZ8=;
-        b=VwuQ6Z/gDcapnohmh6kSpXd+31OAL7avIYuxZMdlbaBX/SBo1RA0flwP9qHYw3UrIz
-         XdtyK80o5LOu325QJ4QikTHNkeqSr5qZv1lBYrl4yYmtuO9nJnXiyHkM1WRHJd+kArdK
-         OED+lvXbRc/CBOw4o1VgdkJ9ml5D9arWEC68u3UYbNm02udTY1E40B98KgWyQvuJcPnP
-         H4u8XUbEUMipjxss6E6I/cbxiOcBXXXj7F/LWoL4g6+qjN/K7m3WAxR+50H+2jSkAsyH
-         YgwNY6bkMPSm9/yC96aWHm8ah4bSsAscTehiEGsrb6413qqQOCdG/mEq/7b6bRC40nP6
-         McGQ==
-X-Gm-Message-State: AOAM533BpTf0XpNlovzrUZDAqOH5vYII78KUtbdkGr6aMWIDf38F0GfU
-        ORe6cZeAdTd1U7WDkXI/o0c=
-X-Google-Smtp-Source: ABdhPJwniVByflGcxt0GEEmvQQ9ODeYvibky8TQSY3fkZtNe57KyFV0tpEqbRyeHD5uGjKzy0WN6TA==
-X-Received: by 2002:a1c:68c5:: with SMTP id d188mr9577322wmc.119.1616707346754;
-        Thu, 25 Mar 2021 14:22:26 -0700 (PDT)
-Received: from alaa ([197.57.239.61])
-        by smtp.gmail.com with ESMTPSA id s83sm8049753wmf.26.2021.03.25.14.22.26
+        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=TXHI1OxX+D4iSzKCuoMMss3yjiQz/+KLKVrP99q3G2I=;
+        b=gZemiMmTBvd9is0NZ6qDwJlrIJdO++bTTRd9mrSwniP8XfIi7mS1hLCZDuAZ0327M5
+         OtkbBy3EFtF/p1DIl9egbxoo0bDyfuhx2CRllZrWs6nnmGzJP2NTbZzB9S+9tT5wIUeh
+         XM8g+GlIm6oJMMYM/e769E8cHORef7YbTCMXOpGRH46oNMxeSDAqWwgzhFHQEhNv5pM3
+         WPP4le1Rx5tp6GkHzkgd8vLYw+SNu3UtIHiLi/ugjcmht4Y3F7Ywbo6O5tEte4Ie4J/+
+         c5UfX1lqPqMeWc2pT/nTh/BeEefbQA/P+Ar+2BmLTEomNo51wMjQDdIJ7PHLNg9Er3d8
+         ZQ2w==
+X-Gm-Message-State: AOAM533GUFJ2st+KjRaBqS+ulItm+PVA1JTBX2s39bYY8zrlvUVMoRvG
+        xcSf5WTUgnLHQAGIWbu8/VR9AA==
+X-Google-Smtp-Source: ABdhPJwn8UAApYENGs0EsRiOl6kaa4IOv1NsIwYwvHs5ZhbA+T+EIOa3Ak0sCs/YbuNvp+I4gerYDg==
+X-Received: by 2002:adf:e8c9:: with SMTP id k9mr10992298wrn.315.1616708036367;
+        Thu, 25 Mar 2021 14:33:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id x13sm1115693wmp.39.2021.03.25.14.33.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 14:22:26 -0700 (PDT)
-From:   Alaa Emad <alaaemadhossney.ae@gmail.com>
-To:     hverkuil@xs4all.nl
-Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller@googlegroups.com,
-        Alaa Emad <alaaemadhossney.ae@gmail.com>,
-        syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
-Subject: [PATCH] media: sq905.c: fix uninitialized variable
-Date:   Thu, 25 Mar 2021 23:22:02 +0200
-Message-Id: <20210325212202.142945-1-alaaemadhossney.ae@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 25 Mar 2021 14:33:55 -0700 (PDT)
+Date:   Thu, 25 Mar 2021 22:33:53 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        3pvd@google.com, Jann Horn <jannh@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH 3/3] mm: unexport follow_pfn
+Message-ID: <YF0BwfzqpPLuFTw+@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        3pvd@google.com, Jann Horn <jannh@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
+ <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
+ <20210324125211.GA2356281@nvidia.com>
+ <YFuQNj10P+uUHD4G@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YFuQNj10P+uUHD4G@phenom.ffwll.local>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reported-by: syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
-Signed-off-by: Alaa Emad <alaaemadhossney.ae@gmail.com>
----
- drivers/media/usb/gspca/sq905.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Mar 24, 2021 at 08:17:10PM +0100, Daniel Vetter wrote:
+> On Wed, Mar 24, 2021 at 09:52:11AM -0300, Jason Gunthorpe wrote:
+> > On Tue, Mar 16, 2021 at 04:33:03PM +0100, Daniel Vetter wrote:
+> > > Both kvm (in bd2fae8da794 ("KVM: do not assume PTE is writable after
+> > > follow_pfn")) and vfio (in 07956b6269d3 ("vfio/type1: Use
+> > > follow_pte()")) have lost their callsites of follow_pfn(). All the
+> > > other ones have been switched over to unsafe_follow_pfn because they
+> > > cannot be fixed without breaking userspace api.
+> > > 
+> > > Argueably the vfio code is still racy, but that's kinda a bigger
+> > > picture. But since it does leak the pte beyond where it drops the pt
+> > > lock, without anything else like an mmu notifier guaranteeing
+> > > coherence, the problem is at least clearly visible in the vfio code.
+> > > So good enough with me.
+> > > 
+> > > I've decided to keep the explanation that after dropping the pt lock
+> > > you must have an mmu notifier if you keep using the pte somehow by
+> > > adjusting it and moving it into the kerneldoc for the new follow_pte()
+> > > function.
+> > > 
+> > > Cc: 3pvd@google.com
+> > > Cc: Jann Horn <jannh@google.com>
+> > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > Cc: Jason Gunthorpe <jgg@nvidia.com>
+> > > Cc: Cornelia Huck <cohuck@redhat.com>
+> > > Cc: Peter Xu <peterx@redhat.com>
+> > > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > > Cc: linux-mm@kvack.org
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > > Cc: linux-samsung-soc@vger.kernel.org
+> > > Cc: linux-media@vger.kernel.org
+> > > Cc: kvm@vger.kernel.org
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > ---
+> > >  include/linux/mm.h |  2 --
+> > >  mm/memory.c        | 26 +++++---------------------
+> > >  mm/nommu.c         | 13 +------------
+> > >  3 files changed, 6 insertions(+), 35 deletions(-)
+> > 
+> > I think this is the right thing to do.
+> 
+> Was just about to smash this into the topic branch for testing in
+> linux-next. Feel like an ack on the series, or at least the two mm
+> patches?
 
-diff --git a/drivers/media/usb/gspca/sq905.c b/drivers/media/usb/gspca/sq905.c
-index 97799cfb832e..54b733002f5c 100644
---- a/drivers/media/usb/gspca/sq905.c
-+++ b/drivers/media/usb/gspca/sq905.c
-@@ -157,8 +157,8 @@ static int sq905_ack_frame(struct gspca_dev *gspca_dev)
- static int
- sq905_read_data(struct gspca_dev *gspca_dev, u8 *data, int size, int need_lock)
- {
--	int ret;
--	int act_len;
-+	int ret = 0;
-+	int act_len = 0;
- 
- 	gspca_dev->usb_buf[0] = '\0';
- 	if (need_lock)
+Pushed them to my topic branch for a bit of testing in linux-next,
+hopefully goes all fine for a pull for 5.13.
+-Daniel
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
