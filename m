@@ -2,119 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F31934A760
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 13:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E8BC34A7C8
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 14:04:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbhCZMeZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 08:34:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
+        id S229982AbhCZNDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 09:03:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbhCZMeH (ORCPT
+        with ESMTP id S229995AbhCZNDn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 08:34:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 859C1C0613AA
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 05:34:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 887A4443;
-        Fri, 26 Mar 2021 13:34:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616762043;
-        bh=Wnf40Ilesv1yHntQYZH9xGeKUiM63iXI4OOt7UXGriA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=N19BgQ+y34gTobz0y8SX952bZejm/cW901muu15cBrrAR7L6iNnHaEOgAol/FmB+y
-         aGz5s4MzfIxq24J+TcL5Ok4GOjiARRH0C2ti22QkWeasRyqXWi1d/A9zkwajcHOrOS
-         ng4Bgkkf1q6YXwWhF9Kc8pA+BrrjSnsjXDjqK5z0=
-Date:   Fri, 26 Mar 2021 14:33:19 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Archit Taneja <architt@codeaurora.org>
-Subject: Re: [PATCH] drm/bridge: adv7511: fix support for large EDIDs
-Message-ID: <YF3Ujx+FxeL2eZbA@pendragon.ideasonboard.com>
-References: <904185be-19ea-a321-a227-d4e659fe1b68@xs4all.nl>
- <YF0yIDWC+7HtMBLb@pendragon.ideasonboard.com>
- <712f7355-482c-b8e3-701b-5a19774aeb5c@xs4all.nl>
+        Fri, 26 Mar 2021 09:03:43 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5C1C0613AA
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 06:03:42 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id k128so2944773wmk.4
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 06:03:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=pnByEdP+F8ySISIiRZhvGyObOtY7yMK7CtOka9IyJso=;
+        b=KFAboZN11OkLz2V2hb/BTp9pvQXtrkzQxmK3SrMsj1dzqindmlpSP51YqSQWREGGd8
+         gFy1LgWC4uX8xuPIpGIas8iFsfUzoOrTPn8BFc72Dc+RmvSC69xxPmRSbLqSPSlaNRQ1
+         V/YCMLbLSww4Q80k/DV269X2LqE+NIWqAgI0oHkntTcOhaQvSe55N3gCqBRYf87jI/2K
+         PrXOXP0wo+weHiTlYs3fpvpIrDn1zZNS5eMT9LgEAFCi48k9uTxeRSL4xp4ygED9Oq5w
+         GqdDzK9k3VhTuAaRWrxuk8mwS5p8ekC4azkq3JY/7Ib6msK0VVOtu1s872ZEcYEvTKpS
+         1ktw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=pnByEdP+F8ySISIiRZhvGyObOtY7yMK7CtOka9IyJso=;
+        b=hKiLBF6tHFCZ70KhJuQH7Vml5eKGdmGo9uBjXJzgmg6fhP4nUquRoCRAC4sfhwsgSA
+         Tld8Wyi8amka2pPIiv7fyCCBhSuYJuZAPKPzc/o0BQ6ZFw76FueAE4NPIA/j5MnZOCS5
+         oB1zi+puGGsjAZ81VHW2evhmawdH7Z7nivmn+p21HUJe1QwF/K8qYImISogEv1UY/rIk
+         PLj9FahXFTd/AYRrpWGrND2/1phnYGh2Eo4FPvnR9w1LRKz5vqrt7didzzb3Zs706l+h
+         aYBvJ35ttcpDUFLNqZeJvjZ7so3FlaT2yAFLbnJo7NHnc0gdsM2X5sj7WpKDP3KNiC2M
+         PDsg==
+X-Gm-Message-State: AOAM530XUwILwvIDi8UEZ637nXwqEj1wdAILvAttWuQ/YWR4jKeddpVi
+        oTTCSOD9LDGS+VtFfMNdVSbzAA==
+X-Google-Smtp-Source: ABdhPJytjO/q7I6RMfWuWUsFwzUNQaKrL0Deofw+H2JZcemUb8pTUA4JBAYVjCqMXUaEEhtMbtZ9WQ==
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr13319120wmc.65.1616763820853;
+        Fri, 26 Mar 2021 06:03:40 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id t20sm11312759wmi.15.2021.03.26.06.03.39
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Fri, 26 Mar 2021 06:03:40 -0700 (PDT)
+From:   John Cox <jc@kynesim.co.uk>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, linux-kernel@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH 1/2] media: videobuf2: use dmabuf size for length
+Date:   Fri, 26 Mar 2021 13:03:39 +0000
+Message-ID: <8omr5gd5r4qm7d9l6l5grhlgj3c2h7di88@4ax.com>
+References: <20210325001712.197837-1-helen.koike@collabora.com> <afno5g9a14fmf7tj1uq0e9pciflop2rv3k@4ax.com> <e67265d4-0641-e6d5-a939-9aa05f2214a6@collabora.com>
+In-Reply-To: <e67265d4-0641-e6d5-a939-9aa05f2214a6@collabora.com>
+User-Agent: ForteAgent/8.00.32.1272
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <712f7355-482c-b8e3-701b-5a19774aeb5c@xs4all.nl>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Helen
 
-On Fri, Mar 26, 2021 at 07:31:09AM +0100, Hans Verkuil wrote:
-> On 26/03/2021 02:00, Laurent Pinchart wrote:
-> > On Wed, Mar 24, 2021 at 09:53:32AM +0100, Hans Verkuil wrote:
-> >> While testing support for large (> 256 bytes) EDIDs on the Renesas
-> >> Koelsch board I noticed that the adv7511 bridge driver only read the
-> >> first two blocks.
-> >>
-> >> The media V4L2 version for the adv7511 (drivers/media/i2c/adv7511-v4l2.c)
-> >> handled this correctly.
-> >>
-> >> Besides a simple bug when setting the segment register (it was set to the
-> >> block number instead of block / 2), the logic of the code was also weird.
-> >> In particular reading the DDC_STATUS is odd: this is unrelated to EDID
-> >> reading.
-> > 
-> > Bits 3:0 of DDC_STATUS report the DDC controller state, which can be
-> > used to wait until the DDC controller is idle (it reports, among other
-> > possible states, if an EDID read is in progress). Other options are
-> > possible of course, including waiting for ADV7511_INT0_EDID_READY as
-> > done in adv7511_wait_for_edid(), but I wonder if the !irq case in
-> > adv7511_wait_for_edid() wouldn't be better of busy-looping on the DDC
-> > status instead of running the interrupt handler manually. That's
-> > unrelated to this patch though.
-> 
-> The DDC status tests for other things as well, including HDCP.
+>Hi John,
+>
+>On 3/25/21 7:20 AM, John Cox wrote:
+>> Hi
+>>=20
+>>> Always use dmabuf size when considering the length of the buffer.
+>>> Discard userspace provided length.
+>>> Fix length check error in _verify_length(), which was handling single=
+ and
+>>> multiplanar diferently, and also not catching the case where =
+userspace
+>>> provides a bigger length and bytesused then the underlying buffer.
+>>>
+>>> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>>> ---
+>>>
+>>> Hello,
+>>>
+>>> As discussed on
+>>> =
+https://patchwork.linuxtv.org/project/linux-media/patch/gh5kef5bkeel3o6b2=
+dkgc2dfagu9klj4c0@4ax.com/
+>>>
+>>> This patch also helps the conversion layer of the Ext API patchset,
+>>> where we are not exposing the length field.
+>>>
+>>> It was discussed that userspace might use a smaller length field to
+>>> limit the usage of the underlying buffer, but I'm not sure if this is
+>>> really usefull and just complicates things.
+>>>
+>>> If this is usefull, then we should also expose a length field in the =
+Ext
+>>> API, and document this feature properly.
+>>>
+>>> What do you think?
+>>> ---
+>>> .../media/common/videobuf2/videobuf2-core.c   | 21 =
+++++++++++++++++---
+>>> .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++----
+>>> include/uapi/linux/videodev2.h                |  7 +++++--
+>>> 3 files changed, 27 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c =
+b/drivers/media/common/videobuf2/videobuf2-core.c
+>>> index 02281d13505f..2cbde14af051 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>>> @@ -1205,6 +1205,7 @@ static int __prepare_dmabuf(struct vb2_buffer =
+*vb)
+>>>
+>>> 	for (plane =3D 0; plane < vb->num_planes; ++plane) {
+>>> 		struct dma_buf *dbuf =3D dma_buf_get(planes[plane].m.fd);
+>>> +		unsigned int bytesused;
+>>>
+>>> 		if (IS_ERR_OR_NULL(dbuf)) {
+>>> 			dprintk(q, 1, "invalid dmabuf fd for plane %d\n",
+>>> @@ -1213,9 +1214,23 @@ static int __prepare_dmabuf(struct vb2_buffer =
+*vb)
+>>> 			goto err;
+>>> 		}
+>>>
+>>> -		/* use DMABUF size if length is not provided */
+>>> -		if (planes[plane].length =3D=3D 0)
+>>> -			planes[plane].length =3D dbuf->size;
+>>> +		planes[plane].length =3D dbuf->size;
+>>> +		bytesused =3D planes[plane].bytesused ?
+>>> +			    planes[plane].bytesused : dbuf->size;
+>>> +
+>>> +		if (planes[plane].bytesused > planes[plane].length) {
+>>> +			dprintk(q, 1, "bytesused is bigger then dmabuf length for plane =
+%d\n",
+>>> +				plane);
+>>> +			ret =3D -EINVAL;
+>>> +			goto err;
+>>> +		}
+>>> +
+>>> +		if (planes[plane].data_offset >=3D bytesused) {
+>>> +			dprintk(q, 1, "data_offset >=3D bytesused for plane %d\n",
+>>> +				plane);
+>>> +			ret =3D -EINVAL;
+>>> +			goto err;
+>>> +		}
+>>>
+>>> 		if (planes[plane].length < vb->planes[plane].min_length) {
+>>> 			dprintk(q, 1, "invalid dmabuf length %u for plane %d, minimum =
+length %u\n",
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c =
+b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> index 7e96f67c60ba..ffc7ed46f74a 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> @@ -98,14 +98,14 @@ static int __verify_length(struct vb2_buffer *vb,=
+ const struct v4l2_buffer *b)
+>>> 	unsigned int bytesused;
+>>> 	unsigned int plane;
+>>>
+>>> -	if (V4L2_TYPE_IS_CAPTURE(b->type))
+>>> +	/* length check for dmabuf is performed in _prepare_dmabuf() */
+>>> +	if (V4L2_TYPE_IS_CAPTURE(b->type) || b->memory =3D=3D =
+VB2_MEMORY_DMABUF)
+>>> 		return 0;
+>>>
+>>> 	if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
+>>> 		for (plane =3D 0; plane < vb->num_planes; ++plane) {
+>>> -			length =3D (b->memory =3D=3D VB2_MEMORY_USERPTR ||
+>>> -				  b->memory =3D=3D VB2_MEMORY_DMABUF)
+>>> -			       ? b->m.planes[plane].length
+>>> +			length =3D b->memory =3D=3D VB2_MEMORY_USERPTR
+>>> +				? b->m.planes[plane].length
+>>> 				: vb->planes[plane].length;
+>>> 			bytesused =3D b->m.planes[plane].bytesused
+>>> 				  ? b->m.planes[plane].bytesused : length;
+>>> diff --git a/include/uapi/linux/videodev2.h =
+b/include/uapi/linux/videodev2.h
+>>> index 8d15f6ccc4b4..79b3b2893513 100644
+>>> --- a/include/uapi/linux/videodev2.h
+>>> +++ b/include/uapi/linux/videodev2.h
+>>> @@ -968,7 +968,9 @@ struct v4l2_requestbuffers {
+>>> /**
+>>>   * struct v4l2_plane - plane info for multi-planar buffers
+>>>   * @bytesused:		number of bytes occupied by data in the plane =
+(payload)
+>>> - * @length:		size of this plane (NOT the payload) in bytes
+>>> + * @length:		size of this plane (NOT the payload) in bytes. Filled
+>>> + *			by userspace for USERPTR and by the driver for DMABUF
+>>> + *			and MMAP.
+>>>   * @mem_offset:		when memory in the associated struct v4l2_buffer is
+>>>   *			V4L2_MEMORY_MMAP, equals the offset from the start of
+>>>   *			the device memory for this plane (or is a "cookie" that
+>>> @@ -1025,7 +1027,8 @@ struct v4l2_plane {
+>>>   * @m:		union of @offset, @userptr, @planes and @fd
+>>>   * @length:	size in bytes of the buffer (NOT its payload) for =
+single-plane
+>>>   *		buffers (when type !=3D *_MPLANE); number of elements in the
+>>> - *		planes array for multi-plane buffers
+>>> + *		planes array for multi-plane buffers. Filled by userspace for
+>>> + *		USERPTR and by the driver for DMABUF and MMAP.
+>>>   * @reserved2:	drivers and applications must zero this field
+>>>   * @request_fd: fd of the request that this buffer should use
+>>>   * @reserved:	for backwards compatibility with applications that do =
+not know
+>>=20
+>> I think this does what I want. But I'm going to restate my usage =
+desires
+>> and check that you agree that it covers them.
+>>=20
+>> I'm interested in passing compressed bitstreams to a decoder.  The =
+size
+>> of these buffers can be very variable and the worst case will nearly
+>> always be much larger than the typical case and that size cannot be
+>> known in advance of usage.  It can be very wasteful to have to =
+allocate
+>> buffers that are over an order of magnitude bigger than are likely to
+>> ever be used.  If you have a fixed pool of fixed size buffers =
+allocated
+>> at the start of time this wastefulness is unavoidable, but dmabufs can
+>> be dynamically sized to be as big as required and so there should be =
+no
+>> limitation on passing in buffers that are smaller than the maximum.  =
+It
+>
+>Do you mean that the kernel should re-allocate the buffer dynamically
+>without userspace intervention?
+>I'm not entirely sure if this would be possible.
 
-I haven't read the chip's documentation in details, but if HDCP
-negotiation is in progress, doesn't that keep the DDC bus busy,
-preventing an EDID read ?
+No - I didn't mean that at all.  Any reallocation would be done by the
+user.  I was just setting out why damabufs are different from (and more
+useful than) MMAP buffers for bitstream-like purposes.
 
-> I think it is pure luck that this code even worked:
-> 
->         if (adv7511->current_edid_segment != block / 2) {
->                 unsigned int status;
-> 
->                 ret = regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
->                                   &status);
->                 if (ret < 0)
->                         return ret;
-> 
->                 if (status != 2) {
->                         adv7511->edid_read = false;
->                         regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
->                                      block);
->                         ret = adv7511_wait_for_edid(adv7511, 200);
->                         if (ret < 0)
->                                 return ret;
->                 }
-> 
-> What happens on power on is that the adv7511 starts reading the EDID.
-> So the DDC_STATUS is 1 (Reading EDID). This code is called, it falls
-> in the status != 2 block, it writes the EDID_SEGMENT with 0 (it already
-> is 0 after a power on), then waits for the EDID read to finish.
-> 
-> The only reason this works is that this code is called fast enough
-> after the device is powered on that it is still reading the EDID.
+Regards
 
-Yes, I agree with you. Luck is nice, except when it makes us merge
-incorrect code :-)
+John Cox
 
-> It fails if you want to read the next segment, since in that case the
-> status is 2 (IDLE) and it will never write the new segment to the
-> EDID_SEGMENT register.
-> 
-> And besides, status wasn't ANDed with 0xf either, and HDCP might
-> also be ongoing (should that be enabled in the future).
-
--- 
-Regards,
-
-Laurent Pinchart
+>Regards,
+>Helen
+>
+>
+>> also seems plausible that dmabufs that are larger than the maximum
+>> should be allowed as long as their bytesused is smaller or equal.
+>>=20
+>> As an aside, even when using dynamically sized dmabufs they are often
+>> way larger than the data they contain and forcing cache flushes or =
+maps
+>> of their entire length rather than just the used portion is also
+>> wasteful.  This might be a use for the incoming size field.
+>>=20
+>> Regards
+>>=20
+>> John Cox
+>>=20
