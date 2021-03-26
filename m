@@ -2,196 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A1C34A736
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 13:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F31934A760
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 13:34:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230146AbhCZM3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 08:29:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53812 "EHLO
+        id S230076AbhCZMeZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 08:34:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230167AbhCZM3W (ORCPT
+        with ESMTP id S229695AbhCZMeH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 08:29:22 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3197C0613AA;
-        Fri, 26 Mar 2021 05:29:20 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id D76C31F46CDB
-Subject: Re: [PATCH 1/2] media: videobuf2: use dmabuf size for length
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, linux-kernel@vger.kernel.org,
-        jc@kynesim.co.uk, dave.stevenson@raspberrypi.org,
-        tfiga@chromium.org
-References: <20210325001712.197837-1-helen.koike@collabora.com>
- <YFxrpw5I2Lrbq+AO@pendragon.ideasonboard.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <2d626f62-1a11-9d83-08a8-3f78bbd2dec0@collabora.com>
-Date:   Fri, 26 Mar 2021 09:29:11 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Fri, 26 Mar 2021 08:34:07 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 859C1C0613AA
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 05:34:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 887A4443;
+        Fri, 26 Mar 2021 13:34:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616762043;
+        bh=Wnf40Ilesv1yHntQYZH9xGeKUiM63iXI4OOt7UXGriA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=N19BgQ+y34gTobz0y8SX952bZejm/cW901muu15cBrrAR7L6iNnHaEOgAol/FmB+y
+         aGz5s4MzfIxq24J+TcL5Ok4GOjiARRH0C2ti22QkWeasRyqXWi1d/A9zkwajcHOrOS
+         ng4Bgkkf1q6YXwWhF9Kc8pA+BrrjSnsjXDjqK5z0=
+Date:   Fri, 26 Mar 2021 14:33:19 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Archit Taneja <architt@codeaurora.org>
+Subject: Re: [PATCH] drm/bridge: adv7511: fix support for large EDIDs
+Message-ID: <YF3Ujx+FxeL2eZbA@pendragon.ideasonboard.com>
+References: <904185be-19ea-a321-a227-d4e659fe1b68@xs4all.nl>
+ <YF0yIDWC+7HtMBLb@pendragon.ideasonboard.com>
+ <712f7355-482c-b8e3-701b-5a19774aeb5c@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <YFxrpw5I2Lrbq+AO@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <712f7355-482c-b8e3-701b-5a19774aeb5c@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Hans,
 
-On 3/25/21 7:53 AM, Laurent Pinchart wrote:
-> Hi Helen,
+On Fri, Mar 26, 2021 at 07:31:09AM +0100, Hans Verkuil wrote:
+> On 26/03/2021 02:00, Laurent Pinchart wrote:
+> > On Wed, Mar 24, 2021 at 09:53:32AM +0100, Hans Verkuil wrote:
+> >> While testing support for large (> 256 bytes) EDIDs on the Renesas
+> >> Koelsch board I noticed that the adv7511 bridge driver only read the
+> >> first two blocks.
+> >>
+> >> The media V4L2 version for the adv7511 (drivers/media/i2c/adv7511-v4l2.c)
+> >> handled this correctly.
+> >>
+> >> Besides a simple bug when setting the segment register (it was set to the
+> >> block number instead of block / 2), the logic of the code was also weird.
+> >> In particular reading the DDC_STATUS is odd: this is unrelated to EDID
+> >> reading.
+> > 
+> > Bits 3:0 of DDC_STATUS report the DDC controller state, which can be
+> > used to wait until the DDC controller is idle (it reports, among other
+> > possible states, if an EDID read is in progress). Other options are
+> > possible of course, including waiting for ADV7511_INT0_EDID_READY as
+> > done in adv7511_wait_for_edid(), but I wonder if the !irq case in
+> > adv7511_wait_for_edid() wouldn't be better of busy-looping on the DDC
+> > status instead of running the interrupt handler manually. That's
+> > unrelated to this patch though.
 > 
-> On Wed, Mar 24, 2021 at 09:17:11PM -0300, Helen Koike wrote:
->> Always use dmabuf size when considering the length of the buffer.
->> Discard userspace provided length.
->> Fix length check error in _verify_length(), which was handling single and
->> multiplanar diferently, and also not catching the case where userspace
->> provides a bigger length and bytesused then the underlying buffer.
->>
->> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
->> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->> ---
->>
->> Hello,
->>
->> As discussed on
->> https://patchwork.linuxtv.org/project/linux-media/patch/gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com/
->>
->> This patch also helps the conversion layer of the Ext API patchset,
->> where we are not exposing the length field.
->>
->> It was discussed that userspace might use a smaller length field to
->> limit the usage of the underlying buffer, but I'm not sure if this is
->> really usefull and just complicates things.
->>
->> If this is usefull, then we should also expose a length field in the Ext
->> API, and document this feature properly.
->>
->> What do you think?
+> The DDC status tests for other things as well, including HDCP.
+
+I haven't read the chip's documentation in details, but if HDCP
+negotiation is in progress, doesn't that keep the DDC bus busy,
+preventing an EDID read ?
+
+> I think it is pure luck that this code even worked:
 > 
-> I think a limit could be useful, as a single dmabuf object could hold
-> multiple planes, which should be addressed by an offset from the
-> beginning of the buffer. Giving a length to the kernel could help
-> catching errors. As the existing API doesn't support offsets, a length
-> limit is likely not very useful at the moment, but should I believe be
-> included at least in the new API.
-
-For the new API, If there are no users, we can leave space to add it later
-if such a feature becomes interesting for userspace in the future.
-
+>         if (adv7511->current_edid_segment != block / 2) {
+>                 unsigned int status;
 > 
-> For the existing implementation, I'd say that we should be pragmatic. If
-> using the provided length as a maximum boundary makes the implementation
-> more complex for very little gain, let's not do it. But on the other
-> hand, considering existing userspace, would there be added value in
-> implementing such a mechanism ?
+>                 ret = regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
+>                                   &status);
+>                 if (ret < 0)
+>                         return ret;
+> 
+>                 if (status != 2) {
+>                         adv7511->edid_read = false;
+>                         regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
+>                                      block);
+>                         ret = adv7511_wait_for_edid(adv7511, 200);
+>                         if (ret < 0)
+>                                 return ret;
+>                 }
+> 
+> What happens on power on is that the adv7511 starts reading the EDID.
+> So the DDC_STATUS is 1 (Reading EDID). This code is called, it falls
+> in the status != 2 block, it writes the EDID_SEGMENT with 0 (it already
+> is 0 after a power on), then waits for the EDID read to finish.
+> 
+> The only reason this works is that this code is called fast enough
+> after the device is powered on that it is still reading the EDID.
 
-I'm guessing that userspace doesn't use this field as a boundary, since this
-usage is not documented. So I'm guessing it makes things more complex for
-little gain, so it doesn't seem we are adding much value to userspace.
+Yes, I agree with you. Luck is nice, except when it makes us merge
+incorrect code :-)
 
-And with this patch, it will be much easier to implement Ext API with a
-conversion layer to/from the existing API.
+> It fails if you want to read the next segment, since in that case the
+> status is 2 (IDLE) and it will never write the new segment to the
+> EDID_SEGMENT register.
+> 
+> And besides, status wasn't ANDed with 0xf either, and HDCP might
+> also be ongoing (should that be enabled in the future).
 
+-- 
 Regards,
-Helen
 
-> 
->> ---
->>   .../media/common/videobuf2/videobuf2-core.c   | 21 ++++++++++++++++---
->>   .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++----
->>   include/uapi/linux/videodev2.h                |  7 +++++--
->>   3 files changed, 27 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index 02281d13505f..2cbde14af051 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -1205,6 +1205,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->>   
->>   	for (plane = 0; plane < vb->num_planes; ++plane) {
->>   		struct dma_buf *dbuf = dma_buf_get(planes[plane].m.fd);
->> +		unsigned int bytesused;
->>   
->>   		if (IS_ERR_OR_NULL(dbuf)) {
->>   			dprintk(q, 1, "invalid dmabuf fd for plane %d\n",
->> @@ -1213,9 +1214,23 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->>   			goto err;
->>   		}
->>   
->> -		/* use DMABUF size if length is not provided */
->> -		if (planes[plane].length == 0)
->> -			planes[plane].length = dbuf->size;
->> +		planes[plane].length = dbuf->size;
->> +		bytesused = planes[plane].bytesused ?
->> +			    planes[plane].bytesused : dbuf->size;
->> +
->> +		if (planes[plane].bytesused > planes[plane].length) {
->> +			dprintk(q, 1, "bytesused is bigger then dmabuf length for plane %d\n",
->> +				plane);
->> +			ret = -EINVAL;
->> +			goto err;
->> +		}
->> +
->> +		if (planes[plane].data_offset >= bytesused) {
->> +			dprintk(q, 1, "data_offset >= bytesused for plane %d\n",
->> +				plane);
->> +			ret = -EINVAL;
->> +			goto err;
->> +		}
->>   
->>   		if (planes[plane].length < vb->planes[plane].min_length) {
->>   			dprintk(q, 1, "invalid dmabuf length %u for plane %d, minimum length %u\n",
->> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> index 7e96f67c60ba..ffc7ed46f74a 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> @@ -98,14 +98,14 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
->>   	unsigned int bytesused;
->>   	unsigned int plane;
->>   
->> -	if (V4L2_TYPE_IS_CAPTURE(b->type))
->> +	/* length check for dmabuf is performed in _prepare_dmabuf() */
->> +	if (V4L2_TYPE_IS_CAPTURE(b->type) || b->memory == VB2_MEMORY_DMABUF)
->>   		return 0;
->>   
->>   	if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
->>   		for (plane = 0; plane < vb->num_planes; ++plane) {
->> -			length = (b->memory == VB2_MEMORY_USERPTR ||
->> -				  b->memory == VB2_MEMORY_DMABUF)
->> -			       ? b->m.planes[plane].length
->> +			length = b->memory == VB2_MEMORY_USERPTR
->> +				? b->m.planes[plane].length
->>   				: vb->planes[plane].length;
->>   			bytesused = b->m.planes[plane].bytesused
->>   				  ? b->m.planes[plane].bytesused : length;
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 8d15f6ccc4b4..79b3b2893513 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -968,7 +968,9 @@ struct v4l2_requestbuffers {
->>   /**
->>    * struct v4l2_plane - plane info for multi-planar buffers
->>    * @bytesused:		number of bytes occupied by data in the plane (payload)
->> - * @length:		size of this plane (NOT the payload) in bytes
->> + * @length:		size of this plane (NOT the payload) in bytes. Filled
->> + *			by userspace for USERPTR and by the driver for DMABUF
->> + *			and MMAP.
->>    * @mem_offset:		when memory in the associated struct v4l2_buffer is
->>    *			V4L2_MEMORY_MMAP, equals the offset from the start of
->>    *			the device memory for this plane (or is a "cookie" that
->> @@ -1025,7 +1027,8 @@ struct v4l2_plane {
->>    * @m:		union of @offset, @userptr, @planes and @fd
->>    * @length:	size in bytes of the buffer (NOT its payload) for single-plane
->>    *		buffers (when type != *_MPLANE); number of elements in the
->> - *		planes array for multi-plane buffers
->> + *		planes array for multi-plane buffers. Filled by userspace for
->> + *		USERPTR and by the driver for DMABUF and MMAP.
->>    * @reserved2:	drivers and applications must zero this field
->>    * @request_fd: fd of the request that this buffer should use
->>    * @reserved:	for backwards compatibility with applications that do not know
-> 
+Laurent Pinchart
