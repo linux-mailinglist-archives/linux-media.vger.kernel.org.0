@@ -2,141 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E473B34AA1A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 15:38:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F40F434AA1D
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 15:38:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230266AbhCZOhw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 10:37:52 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:48711 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230051AbhCZOhU (ORCPT
+        id S230286AbhCZOhx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 10:37:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231160AbhCZOha (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 10:37:20 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 50E805C0709;
-        Fri, 26 Mar 2021 10:37:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Fri, 26 Mar 2021 10:37:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=BKbkEFN8uWf6/5XzOIUJ/zSrTAR
-        0hmJdAto/Rq8x6Gc=; b=IIxLG9ba7mVnfP9WpjehPAWNJ7jIpXBMf2x9MrjuMd3
-        6+oc2Ncn3dOkKsh3U3XxQiq7ef/sXJusncocRVpyEr4N8CcXVny5k5XldEjYBoaf
-        nkoyYCQ15gr/4CT7EH42CPjk73leZlFc+M5h2MdmjI8I9bC8R3rqjWmD8D9jqVrk
-        fBXg4NBnX2w9FhhJcZj2QyAv0Jz07zHJdKBNUxwVUzy09S1hSUL3aRYDaZf6QGj+
-        wR02tVA+qmbXjbeJdJ0BaL4WpGp8seMaCooT/mIzk4XDo0FM04ss03Wf+xIUCGTr
-        sz7IPnIhm/wqXCbjzVOT1G++oE8yUrZPuyU/BOFQuvQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=BKbkEF
-        N8uWf6/5XzOIUJ/zSrTAR0hmJdAto/Rq8x6Gc=; b=LcZklxOYE+10C+292gYbfy
-        h3P/1JPkrEVp3O2J0Z7odMNLDX1Tx5rSy4oBOCbTpPCT1vrwWEwm6Fk2nzuckRqK
-        Jd4+8noDZlWaJ6MdicQwWnj+O0KdekFB4Ssg8wI30s6pfKcabrJnxYHTJtt03QIq
-        GpeM34aepqHqCYIpVdpcpO5lIWeZF6AvzuIOfXlBUyshuXwgjVCsYMX0bNaWVxDR
-        /HhNurIFiQUngZV1zDZ/jYQdlPEDx19/ir+NoBy5jsXLEbQO7Gvs8+0QXdMdmsCa
-        MrEbu27+/BMXTbo/WzB3xmWC3HRwWUCYreJQUMmfi7TtffReGScNQrT1xtM/J1mA
-        ==
-X-ME-Sender: <xms:nfFdYBz01OflNeRefy3fRVVpPTbRLDKpo2_eVqA6HyMc-zDxJ3iNYQ>
-    <xme:nfFdYCiZpvY5uH19s8sX0OP6XfVyhbK-6UjC1nGZ-3wY8S74-7vkf5Kt01f-mVztl
-    -DfKzPGvnaAhANkVlY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehvddgieekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:nfFdYArhCOEnmKb8twNSWWwKgo5Nz59VkK6iFLiZQqn9aKtQ3KgSJg>
-    <xmx:nfFdYBdfZ7vD0K0VHBpnlXelJv4-LpvCpnbpxJqcKoi8-D921qqGFQ>
-    <xmx:nfFdYDfzzRc0bBm6ZaGHIvwq-cfbh4mn9xS11H-b2hXyV8HGv8wVqA>
-    <xmx:n_FdYCEym37a9T4dokuplcSSUaDXxuDseimCNWMTIZMsoM0maW5kqQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A5AE41080054;
-        Fri, 26 Mar 2021 10:37:17 -0400 (EDT)
-Date:   Fri, 26 Mar 2021 15:37:15 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: Re: [PATCH v5 09/10] drm: rcar-du: Perform group setup from the
- atomic tail handler
-Message-ID: <20210326143715.tpk4o62xgjvigefe@gilmour>
-References: <20210322163535.1090570-1-kieran.bingham+renesas@ideasonboard.com>
- <20210322163535.1090570-10-kieran.bingham+renesas@ideasonboard.com>
+        Fri, 26 Mar 2021 10:37:30 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BE89C0613AA
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 07:37:30 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1lPnaQ-0001Ln-5z; Fri, 26 Mar 2021 15:37:18 +0100
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1lPnaO-0007mU-JM; Fri, 26 Mar 2021 15:37:16 +0100
+Date:   Fri, 26 Mar 2021 15:37:16 +0100
+From:   Philipp Zabel <pza@pengutronix.de>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     ezequiel@collabora.com, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        lee.jones@linaro.org, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com, kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v6 02/13] dt-bindings: media: nxp,imx8mq-vpu: Update the
+ bindings for G2 support
+Message-ID: <20210326143716.GA27823@pengutronix.de>
+References: <20210318082046.51546-1-benjamin.gaignard@collabora.com>
+ <20210318082046.51546-3-benjamin.gaignard@collabora.com>
+ <20210326141156.GA8441@pengutronix.de>
+ <3c23bfb0-eed4-63ad-be70-58aa129b0e35@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nydjxzy5xve57wtg"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210322163535.1090570-10-kieran.bingham+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3c23bfb0-eed4-63ad-be70-58aa129b0e35@collabora.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:29:00 up 36 days, 17:52, 99 users,  load average: 0.78, 0.37,
+ 0.20
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Mar 26, 2021 at 03:26:15PM +0100, Benjamin Gaignard wrote:
+> 
+> Le 26/03/2021 à 15:11, Philipp Zabel a écrit :
+> > On Thu, Mar 18, 2021 at 09:20:35AM +0100, Benjamin Gaignard wrote:
+> > > Introducing G2 hevc video decoder lead to modify the bindings to allow
+> > > to get one node per VPUs.
+> > > VPUs share one hardware control block which is provided as a phandle on
+> > > an syscon.
+> > > Each node got now one reg and one interrupt.
+> > > Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
+> > > 
+> > > To be compatible with older DT the driver is still capable to use 'ctrl'
+> > > reg-name even if it is deprecated now.
+> > > 
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > ---
+> > > version 5:
+> > > - This version doesn't break the backward compatibilty between kernel
+> > >    and DT.
+> > > 
+> > >   .../bindings/media/nxp,imx8mq-vpu.yaml        | 53 ++++++++++++-------
+> > >   1 file changed, 34 insertions(+), 19 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> > > index 762be3f96ce9..79502fc8bde5 100644
+> > > --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> > > @@ -15,22 +15,18 @@ description:
+> > >   properties:
+> > >     compatible:
+> > > -    const: nxp,imx8mq-vpu
+> > > +    oneOf:
+> > > +      - const: nxp,imx8mq-vpu
+> > > +      - const: nxp,imx8mq-vpu-g2
+> > >     reg:
+> > > -    maxItems: 3
+> > > -
+> > > -  reg-names:
+> > > -    items:
+> > > -      - const: g1
+> > > -      - const: g2
+> > > -      - const: ctrl
+> > > +    maxItems: 1
+> > >     interrupts:
+> > > -    maxItems: 2
+> > > +    maxItems: 1
+> > >     interrupt-names:
+> > > -    items:
+> > > +    oneOf:
+> > >         - const: g1
+> > >         - const: g2
+> > > @@ -46,14 +42,18 @@ properties:
+> > >     power-domains:
+> > >       maxItems: 1
+> > > +  nxp,imx8mq-vpu-ctrl:
+> > > +    description: Specifies a phandle to syscon VPU hardware control block
+> > > +    $ref: "/schemas/types.yaml#/definitions/phandle"
+> > > +
+> > Should we drop the 'q' here, i.e. nxp,imx8m-vpu-ctrl so we can use the same
+> > binding for i.MX8MM later?
+> 
+> I don't know if the control block is the same or not on IMX8MM, so I have only
+> put a compatible targeting IMX8MQ.
 
---nydjxzy5xve57wtg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Oh, the compatible property of the control handle node can be different.
+I'm just suggesting that this phandle property be called the same.
+Otherwise we'd have to add another nxp,imx8mm-vpu-ctrl property and then
+mark either of the two as required, depending on the compatible.
 
-Hi Kieran,
+> > 
+> > >   required:
+> > >     - compatible
+> > >     - reg
+> > > -  - reg-names
+> > >     - interrupts
+> > >     - interrupt-names
+> > >     - clocks
+> > >     - clock-names
+> > > +  - nxp,imx8mq-vpu-ctrl
+> > >   additionalProperties: false
+> > > @@ -62,18 +62,33 @@ examples:
+> > >           #include <dt-bindings/clock/imx8mq-clock.h>
+> > >           #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > -        vpu: video-codec@38300000 {
+> > > +        vpu_ctrl: syscon@38320000 {
+> > > +                 compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
+> > > +                 reg = <0x38320000 0x10000>;
+> > > +        };
+> > > +
+> > > +        vpu_g1: video-codec@38300000 {
+> > >                   compatible = "nxp,imx8mq-vpu";
+> > > -                reg = <0x38300000 0x10000>,
+> > > -                      <0x38310000 0x10000>,
+> > > -                      <0x38320000 0x10000>;
+> > > -                reg-names = "g1", "g2", "ctrl";
+> > > -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> > > -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> > > -                interrupt-names = "g1", "g2";
+> > > +                reg = <0x38300000 0x10000>;
+> > > +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> > > +                interrupt-names = "g1";
+> > > +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > +                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> > Does the G1 VPU require the G2 clock and vice versa?
+> 
+> Yes either the control hardware block won't work.
 
-On Mon, Mar 22, 2021 at 04:35:34PM +0000, Kieran Bingham wrote:
-> Create rcar_du_group_atomic_check() and rcar_du_group_atomic_setup()
-> functions to track and apply group state through the DRM atomic state.
-> The use_count field is moved from the rcar_du_group structure to an
-> enabled field in the rcar_du_group_state structure.
->=20
-> This allows separating group setup from the configuration of the CRTCs
-> that are part of the group, simplifying the CRTC code and improving
-> overall readability. The existing rcar_du_group_{get,put}() functions
-> are now redundant and removed.
->=20
-> The groups share clocking with the CRTCs within the group, and so are
-> accessible only when one of its CRTCs has been powered through
-> rcar_du_crtc_atomic_exit_standby().
->=20
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+Ok.
 
-It's a bit weird to have both your and Laurent's SoB without a
-Co-Developped-By or an authorship from him.
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-However, using a drm_private_obj shared between CRTC has a gotcha: you
-don't have any ordering guarantee between commits if they affect
-different CRTCs (and they are non-blocking).
-
-Let's assume we have two subsequent commits, commit1 and commit2, both
-non-blocking, and affecting different CRTC, plane and connectors. In
-this case, commit1 old private state will be commit0 new private state,
-and commit 2 old private state will be commit1 new private state.
-
-If commit2 is executed before commit1, then it will free its old state
-when done with it (so commit1 new private state), and will thus result
-in an use-after-free when commit1 is ran.
-
-In order to fix this, you should store (and get a reference to) the
-drm_crtc_commit in your private state in atomic_commit_setup, and call
-drm_crtc_commit_wait on that commit as the first part of your
-commit_tail to serialize those commits.
-
-Maxime
-
---nydjxzy5xve57wtg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYF3xmwAKCRDj7w1vZxhR
-xbtPAP9DE5c1AG+thwHS9ps9NCp44Y6DX7aLK8RJvtyi+VoF+gD/Rqulso4AYAuU
-N+k101boqfKcYPmLsilSOvdfMdLeFwo=
-=DUQq
------END PGP SIGNATURE-----
-
---nydjxzy5xve57wtg--
+regards
+Philipp
