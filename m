@@ -2,174 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE1F934AD3B
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 18:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA2F34AD40
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 18:21:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230187AbhCZRRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 13:17:51 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:61460 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbhCZRRl (ORCPT
+        id S230080AbhCZRVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 13:21:09 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:55500 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229986AbhCZRUw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 13:17:41 -0400
+        Fri, 26 Mar 2021 13:20:52 -0400
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210326171740euoutp02f767d4eea02c6dae1a518c1ee9687011~v8-0-M--O0047800478euoutp02v
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 17:17:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210326171740euoutp02f767d4eea02c6dae1a518c1ee9687011~v8-0-M--O0047800478euoutp02v
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20210326172050euoutp014f3cdf07dc9bd41093c310cc07e70fb2~v9CmV10iI0878508785euoutp01v
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 17:20:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20210326172050euoutp014f3cdf07dc9bd41093c310cc07e70fb2~v9CmV10iI0878508785euoutp01v
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1616779060;
-        bh=H+2OLIX542Ham/Tue6GfRgTpUqzBcEfDf6HHWZIb4Pw=;
+        s=mail20170921; t=1616779250;
+        bh=5ycsHJieO61oyBDXB4dIHaMLQHU6SJHcz90jNt2n+vQ=;
         h=From:To:Cc:Subject:Date:References:From;
-        b=emcJxrfBRl7YB0Xh/9bxhqYVRDBqsh6Zx6ziPe/YDLcnFhYKWNItwWbVTsKJRmKXz
-         EFmN7Q+5HKQ1Fh/uqsjiRiIh0QcCXkyIW/mXPYCyBhdWxu3U01nSM6S5nw/H5pMq0p
-         DVuAO6CldtfPbzwpZfl4z0eNDiD8wMxIuu4cjK+4=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        b=KTbogjWF9BOKll5J78U0CG1Jt9Hze+wm96Jcfk9awuMQjKymqWLOkJBJWeCO5Emcu
+         Vgn7GF3k7HjXYYIzMFNzn3eYdLRZxK0oEA3ZdfZqQOusBSigSPe1Tf1aY6edlZ/+75
+         YN/805S9VW2yGYhAlHL+DHarepsh7h5NIc99KPNw=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
         eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20210326171739eucas1p2d2df828918f0f859f32c10fc652ed9c0~v8-0ON3J-2398823988eucas1p2s;
-        Fri, 26 Mar 2021 17:17:39 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 24.57.09444.3371E506; Fri, 26
-        Mar 2021 17:17:39 +0000 (GMT)
+        20210326172049eucas1p25e1407c7c9701d4d380bba9c71f66a42~v9ClmcWqD1892618926eucas1p2o;
+        Fri, 26 Mar 2021 17:20:49 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id C7.C7.09439.1F71E506; Fri, 26
+        Mar 2021 17:20:49 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20210326171739eucas1p1a1d2dfd4772ca11faab60e8336d6685b~v8-z6N8Hp0779907799eucas1p1A;
-        Fri, 26 Mar 2021 17:17:39 +0000 (GMT)
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20210326172049eucas1p2209de36f9519a2adb488a3b9f18b7f89~v9ClLXM9q1893618936eucas1p2l;
+        Fri, 26 Mar 2021 17:20:49 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
         eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20210326171739eusmtrp2652ef09ee79b82754dfaaee3c29acba1~v8-z5n6T22679526795eusmtrp2-;
-        Fri, 26 Mar 2021 17:17:39 +0000 (GMT)
-X-AuditID: cbfec7f4-dd5ff700000024e4-fd-605e1733bb1a
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 33.99.08696.2371E506; Fri, 26
-        Mar 2021 17:17:38 +0000 (GMT)
+        20210326172049eusmtrp240d4b45b7f58f77da61ae30092d53ccf~v9ClKsnHF2876228762eusmtrp2G;
+        Fri, 26 Mar 2021 17:20:49 +0000 (GMT)
+X-AuditID: cbfec7f5-c03ff700000024df-cf-605e17f127a1
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 99.C9.08696.1F71E506; Fri, 26
+        Mar 2021 17:20:49 +0000 (GMT)
 Received: from AMDC3061.digital.local (unknown [106.120.51.75]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20210326171738eusmtip13f940f177ae68c3b1bc1ad205869812d~v8-zml6ld2987129871eusmtip1Q;
-        Fri, 26 Mar 2021 17:17:38 +0000 (GMT)
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20210326172049eusmtip249d286a2ddd1c14b07f0130b9c92cbed~v9Ck5i8mi0373103731eusmtip2S;
+        Fri, 26 Mar 2021 17:20:49 +0000 (GMT)
 From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: [PATCH] media: exynos4-is: Fix kernel-doc entries in fimc-is.h
-Date:   Fri, 26 Mar 2021 18:17:25 +0100
-Message-Id: <20210326171725.7581-1-s.nawrocki@samsung.com>
+Subject: [PATCH] media: s5p-mfc: Fix kernel-doc entries in s5p_mfc_common.h
+Date:   Fri, 26 Mar 2021 18:20:40 +0100
+Message-Id: <20210326172040.7674-1-s.nawrocki@samsung.com>
 X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRmVeSWpSXmKPExsWy7djPc7rG4nEJBr1/xSxOTX7GZNGzYSur
-        xeE37awOzB59W1YxenzeJOdx6utn9gDmKC6blNSczLLUIn27BK6Mpj3T2AvuK1Z8nHSUsYFx
-        g0wXIyeHhICJxPfTy5m6GLk4hARWMEpM+rmfGcL5wiix6eo2qMxnRoldc9+yw7Tc3L6YBSKx
-        nFFi/Zr1jHAtU/4sYQGpYhMwlOg92scIYosIyEs86b3BBmIzCzhLPJ71hwnEFhZwl9j/7zGY
-        zSKgKvH012Swel4BK4l18+awQGyTl1i94QDYTRICl9glrl2ayAaRcJHo7dnDCmELS7w6vgXq
-        PBmJ/zvnM0E0NDNK9Oy+zQ7hTGCUuH98ASNElbXEnXO/gCZxAJ2kKbF+lz5E2FHiwaVzLCBh
-        CQE+iRtvBSGO5pOYtG06M0SYV6KjTQiiWkXi96rpTBC2lET3k/9QN3tILLnfCnaakECsRM+t
-        G+wTGOVmIexawMi4ilE8tbQ4Nz212CgvtVyvODG3uDQvXS85P3cTIzCmT/87/mUH4/JXH/UO
-        MTJxMB5ilOBgVhLhZT0dmyDEm5JYWZValB9fVJqTWnyIUZqDRUmcN2nLmnghgfTEktTs1NSC
-        1CKYLBMHp1QDk9ByfsNG+SNiigVXa2yzzrqoMHBoP33u/eBQ67fEWiH7hXkNYZeFIt69d/Gp
-        8lgSM/dxhNLDLRe7Zx2zWb6J6eecmo/z9N1evHzeL89+asX7t9Pmb2Hubl1y0Jrr4JejSTOO
-        HPi88+PdH/temd6N83rmtXNOsNeRB6p5PTWuO+Sj/9gwt20WTWiwOZmSci5TeY9SvPnF51Wm
-        /VPuFN3UK955uXFDY2/166PCvHMV63OPz9TtiVfY9rdS6MyJ84vVjHf+Xp7y6vkd84cn9sUU
-        XCt1lJhcLq+9YtP6F1ssv/C8uPvUZfuBJ/6pK49/fhgsF3T6ZNPuhxZ2gUl8MqIO/dnndn34
-        PYFjjfKOMKltNsuVWIozEg21mIuKEwGKb8cTWAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJLMWRmVeSWpSXmKPExsVy+t/xu7pG4nEJBh2tNhanJj9jsujZsJXV
-        4vCbdlYHZo++LasYPT5vkvM49fUzewBzlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGx
-        eayVkamSvp1NSmpOZllqkb5dgl5G055p7AX3FSs+TjrK2MC4QaaLkZNDQsBE4ub2xSxdjFwc
-        QgJLGSVu7O0FcjiAElIS81uUIGqEJf5c62KDqPnEKLH80UxmkASbgKFE79E+RhBbREBe4knv
-        DTYQm1nAVeLDiZtMILawgLvE/n+PwWwWAVWJp78mg9XzClhJrJs3hwVigbzE6g0HmCcw8ixg
-        ZFjFKJJaWpybnltspFecmFtcmpeul5yfu4kRGEbbjv3csoNx5auPeocYmTgYDzFKcDArifCy
-        no5NEOJNSaysSi3Kjy8qzUktPsRoCrRvIrOUaHI+MJDzSuINzQxMDU3MLA1MLc2MlcR5TY6s
-        iRcSSE8sSc1OTS1ILYLpY+LglGpgkmu4tsrrw57z6ZcfOF6vfeJx+HbguVCZQ8v1Beac65cu
-        nrvw/IfoWkl/iZKbjzqstx/rLLCy1WlNWuF84MfVQqVrF5JmmQWuWfzx7mUdkWzNfOdVvosi
-        dvv9MRbV+z/Rxr6m94lyV0ZJ7YFbU8JcorYX6+sLSG5dasozt3nBu6Q766PPr57v+8KRy/T7
-        v+NWIfv1kjl/nvoU7jGFOYSj8mON/Jc8VXbVWxXb9q/8d1v/A+/0LQ9vJ/6dzi6Rm87yafLM
-        +QpP/Dj4I+f+tuxnMDn8IWqucoCGqtTOABPO5enX+eo0u+5zrZbhCWRevamlqvKoe2Kj6MwJ
-        de8ZnnLmGaeKsk98OS39mTh7n1+gEktxRqKhFnNRcSIAsuqSuqwCAAA=
-X-CMS-MailID: 20210326171739eucas1p1a1d2dfd4772ca11faab60e8336d6685b
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMIsWRmVeSWpSXmKPExsWy7djP87ofxeMSDD6f1bM4NfkZk0XPhq2s
+        FofftLM6MHv0bVnF6PF5k5zHqa+f2QOYo7hsUlJzMstSi/TtErgyZv44xFxwVL/iwa/TzA2M
+        p9S7GDk4JARMJLqmCHYxcnEICaxglOi6fJQZwvnCKPFow30o5zOjxMxjmxm7GDnBOqbtbmIC
+        sYUEljNKfL5aD9fRPuECC0iCTcBQovdoH1iDiIC8xJPeG2wgNrOAs8TjWX/AmoUFvCXmNS0C
+        q2ERUJXY+ncaO4jNK2AlsfrFDlaIZfISqzccALtCQuAau8S87x/YIRIuEitPPIQqEpZ4dXwL
+        VFxG4v/O+UwQDc2MEj27b7NDOBMYJe4fXwD1g7XEnXO/2EAhwCygKbF+lz5E2FHi1YLHrJCA
+        4ZO48VYQ4mg+iUnbpjNDhHklOtqEIKpVJH6vms4EYUtJdD/5zwJhe0gs/j+DDRJAsRL/rh9n
+        ncAoNwth1wJGxlWM4qmlxbnpqcXGeanlesWJucWleel6yfm5mxiB8Xz63/GvOxhXvPqod4iR
+        iYPxEKMEB7OSCC/r6dgEId6UxMqq1KL8+KLSnNTiQ4zSHCxK4ry7tq6JFxJITyxJzU5NLUgt
+        gskycXBKNTC1zmNJffxog8XnM3FBauGq4qfeBE2sDN246KtHzFHFvJ7aAzKyy/f3JgV/2eEm
+        zxZ/6tsZA/3ml46LvKcYKXts338l/GGM4JbVB9jOXIqa0W+15nRyus/C5Hvxti6uWo8l1nEv
+        XbmSzSv5vwKPYd6KaypNF19FTP+W0Gx+jiPyTot277ZHE7QbY1LP1oXenGeqdrAte63NNI2Q
+        183ap3ZoBAWVSzoEltm/f3Gx3F0jYnVewaUtRf61xtt4NsWd+5PFwZX+O+nnj9Z8CSXN1Wxr
+        ZFOXPzBdtHd5wz1+9viMJ99vCuw0YZ9+eu15q4WxNf3Hjjkem5dvnDiXp3C30xx3t1r+ymOL
+        dRd6zomU41JiKc5INNRiLipOBAAOJVszVgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJLMWRmVeSWpSXmKPExsVy+t/xe7ofxeMSDP5dE7U4NfkZk0XPhq2s
+        FofftLM6MHv0bVnF6PF5k5zHqa+f2QOYo/RsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyN
+        zWOtjEyV9O1sUlJzMstSi/TtEvQyZv44xFxwVL/iwa/TzA2Mp9S7GDk5JARMJKbtbmLqYuTi
+        EBJYyigxq3snexcjB1BCSmJ+ixJEjbDEn2tdbBA1nxglJvxfwAKSYBMwlOg92scIYosIyEs8
+        6b3BBmIzC7hKfDhxkwnEFhbwlpjXtAishkVAVWLr32nsIDavgJXE6hc7WCEWyEus3nCAeQIj
+        zwJGhlWMIqmlxbnpucVGesWJucWleel6yfm5mxiBYbTt2M8tOxhXvvqod4iRiYPxEKMEB7OS
+        CC/r6dgEId6UxMqq1KL8+KLSnNTiQ4ymQPsmMkuJJucDAzmvJN7QzMDU0MTM0sDU0sxYSZzX
+        5MiaeCGB9MSS1OzU1ILUIpg+Jg5OqQam7hNnJDf6cOd4P7KtymwtUPFc2fpLKmdBCavePfk/
+        so777MXnp4RO3Hnq6sN9dkUXO1Jvska3zN/VnKL/q6JJ9nfXHxGlpvnLy1f8X8ZRFMmj3tz3
+        MDbV3/xB6roPXhfiJWNnuc89I2ij8bLLufBX61OJJdb8kZbXfkyc/tjD+uyhT48ZxHmvORSl
+        Mfzck7fxauTVvhM/dtWe+LcwvpzLP03xqdDjgJZ1ibsMd1ac0Jrpe7e7Yk6we9bBi7uuiM7y
+        eRW80Ml76847G/9+cZ9zUv7U0cUJ0/S29s2f6ttygf9f0NX3BVIVDzuDXDSWFz9NSKj5d+5C
+        zHmv0PU6Z8QcH/ZLX18teHSW92MGtu0JSizFGYmGWsxFxYkAu4r8jKwCAAA=
+X-CMS-MailID: 20210326172049eucas1p2209de36f9519a2adb488a3b9f18b7f89
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210326171739eucas1p1a1d2dfd4772ca11faab60e8336d6685b
+X-RootMTR: 20210326172049eucas1p2209de36f9519a2adb488a3b9f18b7f89
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20210326171739eucas1p1a1d2dfd4772ca11faab60e8336d6685b
-References: <CGME20210326171739eucas1p1a1d2dfd4772ca11faab60e8336d6685b@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20210326172049eucas1p2209de36f9519a2adb488a3b9f18b7f89
+References: <CGME20210326172049eucas1p2209de36f9519a2adb488a3b9f18b7f89@eucas1p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes scripts/kernel-doc warnings:
 
-fimc-is.h:286: warning: Function parameter or member 'fw' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'memory' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'f_w' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'isp' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'sensor' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'setfile' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'ctrl_handler' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'irq' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'sensor_index' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'i2h_cmd' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'h2i_cmd' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'fd_header' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'config' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'config_index' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'is_p_region' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'is_dma_p_region' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'is_shared_region' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'af' not described in 'fimc_is'
-fimc-is.h:286: warning: Function parameter or member 'debugfs_entry' not described in 'fimc_is'
+s5p_mfc_common.h:343: warning: Function parameter or member 'fw_buf' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'mem_size' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'mem_base' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'mem_bitmap' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'mem_virt' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'dma_base' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'watchdog_timer' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'fw_get_done' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:343: warning: Function parameter or member 'risc_on' not described in 's5p_mfc_dev'
+s5p_mfc_common.h:714: warning: Function parameter or member 'src_bufs_cnt' not described in 's5p_mfc_ctx'
+s5p_mfc_common.h:714: warning: Function parameter or member 'dst_bufs_cnt' not described in 's5p_mfc_ctx'
+s5p_mfc_common.h:714: warning: Function parameter or member 'pb_count' not described in 's5p_mfc_ctx'
+s5p_mfc_common.h:714: warning: Function parameter or member 'force_frame_type' not described in 's5p_mfc_ctx'
+s5p_mfc_common.h:714: warning: Function parameter or member 'slice_mode' not described in 's5p_mfc_ctx'
+s5p_mfc_common.h:714: warning: Function parameter or member 'slice_size' not described in 's5p_mfc_ctx'
+s5p_mfc_common.h:714: warning: Function parameter or member 'frame_tag' not described in 's5p_mfc_ctx'
+s5p_mfc_common.h:714: warning: Function parameter or member 'scratch_buf_size' not described in 's5p_mfc_ctx'
 
-The f_w field is unused so remove it.
-
-Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Reported-by: Hans verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 ---
- drivers/media/platform/exynos4-is/fimc-is.h | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+Depends on Hans' "s5p-mfc/s5p_mfc_common.h: fix kernel-doc warnings" patch.
+---
+ .../media/platform/s5p-mfc/s5p_mfc_common.h   | 23 +++++++++++++------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-is.h b/drivers/media/platform/exynos4-is/fimc-is.h
-index ce30b007bc55..06586e455b1d 100644
---- a/drivers/media/platform/exynos4-is/fimc-is.h
-+++ b/drivers/media/platform/exynos4-is/fimc-is.h
-@@ -232,15 +232,33 @@ struct chain_config {
-  * struct fimc_is - fimc-is data structure
-  * @pdev: pointer to FIMC-IS platform device
-  * @pctrl: pointer to pinctrl structure for this device
-- * @v4l2_dev: pointer to top the level v4l2_device
-+ * @v4l2_dev: pointer to the top level v4l2_device
-+ * @fw: data structure describing the FIMC-IS firmware binary
-+ * @memory: memory region assigned for the FIMC-IS (firmware)
-+ * @isp: the ISP block data structure
-+ * @sensor: fimc-is sensor subdevice array
-+ * @setfile: descriptor of the imaging pipeline calibration data
-+ * @ctrl_handler: the v4l2 controls handler
-  * @lock: mutex serializing video device and the subdev operations
-  * @slock: spinlock protecting this data structure and the hw registers
-  * @clocks: FIMC-LITE gate clock
-  * @regs: MCUCTL mmapped registers region
-  * @pmu_regs: PMU ISP mmapped registers region
-+ * @irq: FIMC-IS interrupt
-  * @irq_queue: interrupt handling waitqueue
-  * @lpm: low power mode flag
-  * @state: internal driver's state flags
-+ * @sensor_index: image sensor index for the firmware
-+ * @i2h_cmd: FIMC-IS to the host (CPU) mailbox command data structure
-+ * @h2i_cmd: the host (CPU) to FIMC-IS mailbox command data structure
-+ * @fd_header: the face detection result data structure
-+ * @config: shared HW pipeline configuration data
-+ * @config_index: index to the @config entry currently in use
-+ * @is_p_region: pointer to the shared parameter memory region
-+ * @is_dma_p_region: DMA address of the shared parameter memory region
-+ * @is_shared_region: pointer to the IS shared region data structure
-+ * @af: auto focus data
-+ * @debugfs_entry: debugfs entry for the firmware log
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
+index 80851084bc83..c3ef4f6a42d2 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
+@@ -273,14 +273,18 @@ struct s5p_mfc_priv_buf {
+  * @int_type:		type of last interrupt
+  * @int_err:		error number for last interrupt
+  * @queue:		waitqueue for waiting for completion of device commands
+- * @fw_size:		size of firmware
+- * @fw_virt_addr:	virtual firmware address
+- * @dma_base[]:		address of the beginning of memory banks
++ * @fw_buf:		the firmware buffer data structure
++ * @mem_size:		size of the firmware operation memory
++ * @mem_base:		base DMA address of the firmware operation memory
++ * @mem_bitmap:		bitmap for managing MFC internal buffer allocations
++ * @mem_virt:		virtual address of the firmware operation memory
++ * @dma_base:		address of the beginning of memory banks
+  * @hw_lock:		used for hardware locking
+  * @ctx:		array of driver contexts
+  * @curr_ctx:		number of the currently running context
+  * @ctx_work_bits:	used to mark which contexts are waiting for hardware
+  * @watchdog_cnt:	counter for the watchdog
++ * @watchdog_timer:	timer for the watchdog
+  * @watchdog_workqueue:	workqueue for the watchdog
+  * @watchdog_work:	worker for the watchdog
+  * @enter_suspend:	flag set when entering suspend
+@@ -290,9 +294,9 @@ struct s5p_mfc_priv_buf {
+  * @mfc_cmds:		cmd structure holding HW commands function pointers
+  * @mfc_regs:		structure holding MFC registers
+  * @fw_ver:		loaded firmware sub-version
+- * @fw_get_done		flag set when request_firmware() is complete and
++ * @fw_get_done:	flag set when request_firmware() is complete and
+  *			copied into fw_buf
+- * risc_on:		flag indicates RISC is on or off
++ * @risc_on:		flag indicates RISC is on or off
+  *
   */
- struct fimc_is {
- 	struct platform_device		*pdev;
-@@ -249,7 +267,6 @@ struct fimc_is {
+ struct s5p_mfc_dev {
+@@ -579,7 +583,9 @@ struct s5p_mfc_codec_ops {
+  * @capture_state:	state of the capture buffers queue
+  * @output_state:	state of the output buffers queue
+  * @src_bufs:		information on allocated source buffers
++ * @src_bufs_cnt:	number of allocated source buffers
+  * @dst_bufs:		information on allocated destination buffers
++ * @dst_bufs_cnt:	number of allocated destination buffers
+  * @sequence:		counter for the sequence number for v4l2
+  * @dec_dst_flag:	flags for buffers queued in the hardware
+  * @dec_src_buf_size:	size of the buffer for source buffers in decoding
+@@ -591,7 +597,7 @@ struct s5p_mfc_codec_ops {
+  * @after_packed_pb:	flag used to track buffer when stream is in
+  *			Packed PB format
+  * @sei_fp_parse:	enable/disable parsing of frame packing SEI information
+- * @dpb_count:		count of the DPB buffers required by MFC hw
++ * @pb_count:		count of the DPB buffers required by MFC hw
+  * @total_dpb_count:	count of DPB buffers with additional buffers
+  *			requested by the application
+  * @ctx:		context buffer information
+@@ -606,11 +612,15 @@ struct s5p_mfc_codec_ops {
+  * @tmv_buffer_size:	size of temporal predictor motion vector buffer
+  * @frame_type:		used to force the type of the next encoded frame
+  * @ref_queue:		list of the reference buffers for encoding
++ * @force_frame_type:	encoder's frame type forcing control
+  * @ref_queue_cnt:	number of the buffers in the reference list
++ * @slice_size:		slice size
++ * @slice_mode:		mode of dividing frames into slices
+  * @c_ops:		ops for encoding
+  * @ctrls:		array of controls, used when adding controls to the
+  *			v4l2 control framework
+  * @ctrl_handler:	handler for v4l2 framework
++ * @scratch_buf_size:	scratch buffer size
+  */
+ struct s5p_mfc_ctx {
+ 	struct s5p_mfc_dev *dev;
+@@ -709,7 +719,6 @@ struct s5p_mfc_ctx {
  
- 	struct fimc_is_firmware		fw;
- 	struct fimc_is_memory		memory;
--	struct firmware			*f_w;
+ 	struct v4l2_ctrl *ctrls[MFC_MAX_CTRLS];
+ 	struct v4l2_ctrl_handler ctrl_handler;
+-	unsigned int frame_tag;
+ 	size_t scratch_buf_size;
+ };
  
- 	struct fimc_isp			isp;
- 	struct fimc_is_sensor		sensor[FIMC_IS_SENSORS_NUM];
 -- 
 2.25.1
 
