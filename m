@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED7934A989
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 15:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26BA534A995
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 15:22:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230252AbhCZOUx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 10:20:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
+        id S230070AbhCZOW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 10:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230231AbhCZOUs (ORCPT
+        with ESMTP id S230098AbhCZOWY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 10:20:48 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FDF7C0613B4
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 07:20:47 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id d8-20020a1c1d080000b029010f15546281so5002914wmd.4
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 07:20:47 -0700 (PDT)
+        Fri, 26 Mar 2021 10:22:24 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93944C0613B1
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 07:22:21 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id o16so5878895wrn.0
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 07:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=6xcgNGeiKXVzTZo3oILiZykt3w8GnNqVy7yzUHjFBQQ=;
-        b=XeWeBn8WX5c+uJ8CnM+CQZtmzh/4bB4qoMOD512ejsGsAJhBMpIRE45WmKhdf2TLqx
-         MiQ6KDk6/7dK5bC7/+YYWLHrtI06Ylrvmd6twooQS+XegMtZPl4Yf+uUHzXSdofzs0cp
-         bvHUTHcKSdaDDHV+Y53fP3oLBS8LcoFCOQn4l1FbEJucpwut9t3dciREPiwQSF0ZQKKQ
-         Ee1jr+vVwrB3+iekJsvmKwpu8RuaJaotHb+gkCtGTJOoxCEV/+4RHUazLmcluVA1pSht
-         YojJg8tbVnIbRSxGQoaeSJBznKPSXq3Clwm4mlT+W4SXXom4TtpEkaUJ2pRM4TzCKw5Z
-         FVdg==
+        bh=jPrss6MgeIvEfu+cUNSjrJCOpcljezeh6+dDf7NPDa0=;
+        b=NjVCbBdVhpCtF7cQoLz45keDeqicZaSTkXDP951der0x2QQYIp9fHHev6kcunhfpz6
+         bUdkTdaiPd2oW5CwM83DHOv6FmDQCUbkZxXVzeOz3Qrd/FjNADrDk6oRM7POjoYXOPTT
+         x7PNhS1oVP1P3xCW6vYeVjOCO7CA7bbiNY9Ik38D3mcwW9SCYHoqci7628F8tm57vSmm
+         VO+NUhBWAh9mib0vaqb2FCXCjHfWhxHX0b8FhNx8eIMBdoF78kQ7/f3pD2QO8ovWqMwx
+         uAAUplq3CihgzTk3bAjsK6w9XUzDrtieZd7xiYqxupACowD34HMzX3HWc0fo9RnjanJc
+         elYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=6xcgNGeiKXVzTZo3oILiZykt3w8GnNqVy7yzUHjFBQQ=;
-        b=OGPXdgihioqBagXdhZBJV17SUriSZgUbLYXqXwhgC8BwPz6qjCJsWYvjJ/amtIaXzA
-         cMvzHxqEGkWAuBqGOydY9AzO0vNHeKZv90rMeeoIVzL9mvZUZJcqZxFGxh7qo5vT6KDN
-         sNJ0SZemkdOHNb97R4QdtJsiXxrFhu3sqNHqPHihAjP3xxL5xB5bAKkuJ3ebrVlH00ux
-         mcQW7XXBb82Crp43m/fY7b+wNYSDtf/Vokuu3D4s1wTSV9cL95kv2nZ3yBDM95tBHmdn
-         Fl8ZyiWjnMIhiffjIRaBJAQxrHHAQhFbAFON0fgopvq3dliqCd5y6Tidqzxb7GamGewT
-         k6FQ==
-X-Gm-Message-State: AOAM531GF4GjCpMSnNDE0V5wLHDgK//Bx3j4gUabyh12H40/vg1COLo7
-        1rufdUi/B4q/TeDZ6jqv+rLX4w==
-X-Google-Smtp-Source: ABdhPJzCoDvRJ0yro1yeYdy8gIdvQTImgu841Bp+OkX3kL6D2LJpK0xk7inIx+W3Fy7Q3UcDJTIu1w==
-X-Received: by 2002:a05:600c:378c:: with SMTP id o12mr13377556wmr.69.1616768446113;
-        Fri, 26 Mar 2021 07:20:46 -0700 (PDT)
+        bh=jPrss6MgeIvEfu+cUNSjrJCOpcljezeh6+dDf7NPDa0=;
+        b=e7WVpkQG76CaYatPpbeOW/4WaknFhWpqIQzA13Jek5s9AbtAYQVDF/x9DcgE4Qpiud
+         qzkhAfHD3Pz044Si6SCrF4TcuiR8bW7id24gfK9Q+RCVMkF7ixK7/iW4C9yIlfSPhvJc
+         vqO0rZdZ5blolajltZOSW5qUucm7LdjEehf4mUfuIsnSZ8FhBz2Ak7gIltnLSardpG8s
+         iGSWEEuy207dFsXqp8vvQHVwmxR5LRNp10+gn8Yaue5BvX4nuEjrCJlBJJ1+4LHi7wzn
+         vXUDI8vGRvbOopgfQHDb7c0WTIjWrq4ExnyTxp84B2Wht5CTAkOfbfp894SjUat5Eo70
+         tWxg==
+X-Gm-Message-State: AOAM530/LIxcb/z/zT3c2XG+rqIF0YaH058s9Zbrg1csz2C5cmi720tD
+        aE7BXoIPIssnRl0LyAQL4Qm96Q==
+X-Google-Smtp-Source: ABdhPJwZ8BOpa2TGeYwtefzDJ+tZQkFdJIoEeZ72w1wchMYOQ50a7VJGaZoN4pp7Dmug5Uv1b+VT2A==
+X-Received: by 2002:adf:d207:: with SMTP id j7mr14783922wrh.150.1616768540289;
+        Fri, 26 Mar 2021 07:22:20 -0700 (PDT)
 Received: from dell ([91.110.221.194])
-        by smtp.gmail.com with ESMTPSA id e8sm11125675wme.14.2021.03.26.07.20.43
+        by smtp.gmail.com with ESMTPSA id f16sm12744884wrt.21.2021.03.26.07.22.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 07:20:45 -0700 (PDT)
-Date:   Fri, 26 Mar 2021 14:20:41 +0000
+        Fri, 26 Mar 2021 07:22:19 -0700 (PDT)
+Date:   Fri, 26 Mar 2021 14:22:17 +0000
 From:   Lee Jones <lee.jones@linaro.org>
 To:     Jonathan Cameron <jic23@kernel.org>
 Cc:     linux-kernel@vger.kernel.org,
@@ -83,40 +83,48 @@ Cc:     linux-kernel@vger.kernel.org,
         Vojtech Pavlik <vojtech@suse.cz>,
         Zhang Lixu <lixu.zhang@intel.com>
 Subject: Re: [PATCH 00/25] Rid W=1 warnings from HID
-Message-ID: <20210326142041.GZ2916463@dell>
+Message-ID: <20210326142217.GA2916463@dell>
 References: <20210324173404.66340-1-lee.jones@linaro.org>
  <20210326114202.3862b8c5@jic23-huawei>
+ <20210326142041.GZ2916463@dell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210326114202.3862b8c5@jic23-huawei>
+In-Reply-To: <20210326142041.GZ2916463@dell>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 26 Mar 2021, Jonathan Cameron wrote:
+On Fri, 26 Mar 2021, Lee Jones wrote:
 
-> On Wed, 24 Mar 2021 17:33:39 +0000
-> Lee Jones <lee.jones@linaro.org> wrote:
+> On Fri, 26 Mar 2021, Jonathan Cameron wrote:
 > 
-> > This set is part of a larger effort attempting to clean-up W=1
-> > kernel builds, which are currently overwhelmingly riddled with
-> > niggly little warnings.
+> > On Wed, 24 Mar 2021 17:33:39 +0000
+> > Lee Jones <lee.jones@linaro.org> wrote:
+> > 
+> > > This set is part of a larger effort attempting to clean-up W=1
+> > > kernel builds, which are currently overwhelmingly riddled with
+> > > niggly little warnings.
+> > 
+> > Lee, it's a bit novel to cc linux-iio on the cover letter but
+> > none of the actual patches..  Or least none of them reached
+> > me or lore.kernel.org
 > 
-> Lee, it's a bit novel to cc linux-iio on the cover letter but
-> none of the actual patches..  Or least none of them reached
-> me or lore.kernel.org
+> Looks like only 18 of the 25 actually made it onto the list.
+> 
+> How odd!
 
-Looks like only 18 of the 25 actually made it onto the list.
+Ouch!  That's why then:
 
-How odd!
+  4.3.0 Temporary System Problem.  Try again later (10). p19sm1466367edr.57 - gsmtp
 
-Hold on, I'll submit a [RESEND].
-
-> I'm sure they are great :)
-
-Naturally!
+> Hold on, I'll submit a [RESEND].
+> 
+> > I'm sure they are great :)
+> 
+> Naturally!
+> 
 
 -- 
 Lee Jones [李琼斯]
