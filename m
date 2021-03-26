@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B6F34A509
+	by mail.lfdr.de (Postfix) with ESMTP id A8EC134A50B
 	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 10:59:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230003AbhCZJ6x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 05:58:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49556 "EHLO
+        id S230023AbhCZJ6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 05:58:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbhCZJ6p (ORCPT
+        with ESMTP id S229904AbhCZJ6q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 05:58:45 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40338C0613AA
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:45 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id u21so7437894ejo.13
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:45 -0700 (PDT)
+        Fri, 26 Mar 2021 05:58:46 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315EFC0613B3
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:46 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id u21so7437935ejo.13
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tjQTtHVhiMLOKDkirjBwOrBbAr7RuF9oo6N4dkwJrD4=;
-        b=DoTEkH3mGM3eg1OgpTZxL88d2VqbLDGm35xDcOrUh9iR/7hIdtgDEJu3oCMOOQIAMr
-         xgDaplhpXpI1b7w7XjdFqomJddjMLyAUHY2LhFtUqZ7di3KhCcMOdcCEH3s9UnYNSLa7
-         Tb+S3h/QScQBpxpWuV8D2KSJQzv290mHAeKgk=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=l9DqWBZVACDhYWKU2Yn/vht3Qo/OTKVi3IGrxQaKbjA=;
+        b=R/aKZgXTHS/4xIEZdHeaHUgrSlfv2Dd9ROd6AzvFZEIHu0lXhaNx4QQnTd6BbMCQ9e
+         4KPC8iUUbLmXVJwh3563sZ4MqMKWdUxrcWAZpOQUNb7gK/0hnXoOOi05fGxEm/PBg9Cu
+         QnPNZFh5aYiUY5q3glMpcnplZLVw5HNpyXwKw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tjQTtHVhiMLOKDkirjBwOrBbAr7RuF9oo6N4dkwJrD4=;
-        b=OnBxEewuV/D2nIZwUjPez6q6kAWqEXO3MKJN14WMU3nzGPgun5ywxR+IbEmYYzJ/sM
-         1HleXtipXq9sSLreGd97h/HTwVS2i3GdkAnbOMPk9aA8XoRwxaa9BEpwQOfQ26NqpyHs
-         Hp5XyQC1bdsP0H/mtVlW2gBeiGInTtST0oqZxq7brMwQtCtre+piurYVviqb89va2Ppf
-         bzuQv7epQ3XimakuhugK0iHKr3Ocl3USgtvcsWr/cIF6n+cxY8w40+icBmco5V8B2GPk
-         /OajWYtyAIxEHYUOEtmTLgQrSO+A4Q/mWGuJJPvH/Qs3iDqnUFv6xc5s3qgghqO0dF5C
-         zCTw==
-X-Gm-Message-State: AOAM5308R3i/gBFXwvlo5ouXm0aixH7rysPuGFuI6HFQswDtCS18tUIc
-        ccHeT4w0orRUxxBI16pUCb94KA==
-X-Google-Smtp-Source: ABdhPJyaW92TsvrmmUc4oFjWTuBqvsVQF5Y8E0bUgtqrY0WSWE0Z0kRtEsgvufFFzHKb7wi0MmluFA==
-X-Received: by 2002:a17:906:2404:: with SMTP id z4mr14016161eja.14.1616752723903;
-        Fri, 26 Mar 2021 02:58:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=l9DqWBZVACDhYWKU2Yn/vht3Qo/OTKVi3IGrxQaKbjA=;
+        b=sWqIFOZ7KM1KoVqJ9u7+Onwh+WvuCcMdNYvkMf9JPiIBWUMPigltMUajdZWt6IaFny
+         GyuIRbr5WgWMDBq9unAydcljflazqXyPOzyLYEhqoJkslGnR7yaxNyjL6IXbxPw7tSnb
+         P2ih1zIkqTk8xe/Nt/hcAR3yAC0fIskSPoqR/FtnjORSqx6u7mnD/RdXNOpH67xSuDVr
+         bNSGFcBdWurglW2LAjYfEMs9pu2qEStXd7AmBF+Bkgxv9p0nk32BdWcZ0gMqF8whFeDK
+         eP2zLPbOYFm9kk/uTd2w+tjjlYgE2OQQrTQeLOwOTGUH81XV5aYWZkjnzglAkhgrJns+
+         2tDg==
+X-Gm-Message-State: AOAM533u5IGB04FC4Nb4NHZE+U227tKfUNF9EvD1tMv2YbFYu4IpFbm8
+        CzBRrcQ0W9UtOWu0/sgf5r0acg==
+X-Google-Smtp-Source: ABdhPJzd+9FAWPd+RVI3IWGgXRQzmTyLDFI3R++xJeBQ34graIsOkacOfMN/0rjEW67Lz664ewsOaw==
+X-Received: by 2002:a17:906:86c6:: with SMTP id j6mr13747183ejy.197.1616752724800;
+        Fri, 26 Mar 2021 02:58:44 -0700 (PDT)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id h13sm4036658edz.71.2021.03.26.02.58.42
+        by smtp.gmail.com with ESMTPSA id h13sm4036658edz.71.2021.03.26.02.58.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 02:58:43 -0700 (PDT)
+        Fri, 26 Mar 2021 02:58:44 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -52,83 +52,171 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v9 00/22] uvcvideo: Fix v4l2-compliance errors
-Date:   Fri, 26 Mar 2021 10:58:18 +0100
-Message-Id: <20210326095840.364424-1-ribalda@chromium.org>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
+Subject: [PATCH v9 01/22] media: v4l2-ioctl: Fix check_ext_ctrls
+Date:   Fri, 26 Mar 2021 10:58:19 +0100
+Message-Id: <20210326095840.364424-2-ribalda@chromium.org>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
+In-Reply-To: <20210326095840.364424-1-ribalda@chromium.org>
+References: <20210326095840.364424-1-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-*v4l2-compliance -m /dev/media0 -a -f
-Total for uvcvideo device /dev/media0: 8, Succeeded: 6, Failed: 2, Warnings: 0
-Total for uvcvideo device /dev/video0: 54, Succeeded: 50, Failed: 4, Warnings: 2
-Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
-Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 102,
-Failed: 6, Warnings: 2
+Drivers that do not use the ctrl-framework use this function instead.
 
-After fixing all of them we go down to:
+Fix the following issues:
 
-Total for uvcvideo device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
-Total for uvcvideo device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
-Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
-Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 108,
-Failed: 0, Warnings: 0
+- Do not check for multiple classes when getting the DEF_VAL.
+- Return -EINVAL for request_api calls
+- Default value cannot be changed, return EINVAL as soon as possible.
+- Return the right error_idx
+[If an error is found when validating the list of controls passed with
+VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to
+indicate to userspace that no actual hardware was touched.
+It would have been much nicer of course if error_idx could point to the
+control index that failed the validation, but sadly that's not how the
+API was designed.]
 
-YES, NO MORE WARNINGS :)
+Fixes v4l2-compliance:
+Control ioctls (Input 0):
+        warn: v4l2-test-controls.cpp(834): error_idx should be equal to count
+        warn: v4l2-test-controls.cpp(855): error_idx should be equal to count
+		fail: v4l2-test-controls.cpp(813): doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+Buffer ioctls (Input 0):
+		fail: v4l2-test-buffers.cpp(1994): ret != EINVAL && ret != EBADR && ret != ENOTTY
+	test Requests: FAIL
 
-Note that we depend on:
+Cc: stable@vger.kernel.org
+Fixes: 6fa6f831f095 ("media: v4l2-ctrls: add core request support")
+Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 60 ++++++++++++++++++----------
+ 1 file changed, 39 insertions(+), 21 deletions(-)
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20210317143453.483470-1-ribalda@chromium.org/
-
-With Hans patch we can also pass v4l2-compliance -s.
-
-Changelog from v8 (Thanks to Hans)
-- 3 patches from Hans
-- Add Reviewed-by
-
-Hans Verkuil (4):
-  uvcvideo: uvc_ctrl_is_accessible: check for INACTIVE
-  uvcvideo: improve error handling in uvc_query_ctrl()
-  uvcvideo: don't spam the log in uvc_ctrl_restore_values()
-  uvc: use vb2 ioctl and fop helpers
-
-Ricardo Ribalda (18):
-  media: v4l2-ioctl: Fix check_ext_ctrls
-  media: pvrusb2: Do not check for V4L2_CTRL_WHICH_DEF_VAL
-  media: uvcvideo: Do not check for V4L2_CTRL_WHICH_DEF_VAL
-  media: v4l2-ioctl: S_CTRL output the right value
-  media: uvcvideo: Remove s_ctrl and g_ctrl
-  media: uvcvideo: Set capability in s_param
-  media: uvcvideo: Return -EIO for control errors
-  media: uvcvideo: refactor __uvc_ctrl_add_mapping
-  media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
-  media: uvcvideo: Use dev->name for querycap()
-  media: uvcvideo: Set unique vdev name based in type
-  media: uvcvideo: Increase the size of UVC_METADATA_BUF_SIZE
-  media: uvcvideo: Use control names from framework
-  media: uvcvideo: Check controls flags before accessing them
-  media: uvcvideo: Set error_idx during ctrl_commit errors
-  media: uvcvideo: Return -EACCES to inactive controls
-  media: docs: Document the behaviour of uvcdriver
-  media: uvcvideo: Downgrade control error messages
-
- .../userspace-api/media/v4l/vidioc-g-ctrl.rst |   5 +
- .../media/v4l/vidioc-g-ext-ctrls.rst          |   5 +
- drivers/media/usb/pvrusb2/pvrusb2-v4l2.c      |   4 -
- drivers/media/usb/uvc/uvc_ctrl.c              | 343 +++++++++++----
- drivers/media/usb/uvc/uvc_driver.c            |  22 +-
- drivers/media/usb/uvc/uvc_metadata.c          |  10 +-
- drivers/media/usb/uvc/uvc_queue.c             | 143 -------
- drivers/media/usb/uvc/uvc_v4l2.c              | 389 +++---------------
- drivers/media/usb/uvc/uvc_video.c             |  51 ++-
- drivers/media/usb/uvc/uvcvideo.h              |  54 +--
- drivers/media/v4l2-core/v4l2-ioctl.c          |  67 +--
- 11 files changed, 444 insertions(+), 649 deletions(-)
-
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 31d1342e61e8..7b5ebdd329e8 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -908,7 +908,7 @@ static void v4l_print_default(const void *arg, bool write_only)
+ 	pr_cont("driver-specific ioctl\n");
+ }
+ 
+-static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
++static bool check_ext_ctrls(struct v4l2_ext_controls *c, unsigned long ioctl)
+ {
+ 	__u32 i;
+ 
+@@ -917,23 +917,41 @@ static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
+ 	for (i = 0; i < c->count; i++)
+ 		c->controls[i].reserved2[0] = 0;
+ 
+-	/* V4L2_CID_PRIVATE_BASE cannot be used as control class
+-	   when using extended controls.
+-	   Only when passed in through VIDIOC_G_CTRL and VIDIOC_S_CTRL
+-	   is it allowed for backwards compatibility.
+-	 */
+-	if (!allow_priv && c->which == V4L2_CID_PRIVATE_BASE)
+-		return 0;
+-	if (!c->which)
+-		return 1;
++	switch (c->which) {
++	case V4L2_CID_PRIVATE_BASE:
++		/*
++		 * V4L2_CID_PRIVATE_BASE cannot be used as control class
++		 * when using extended controls.
++		 * Only when passed in through VIDIOC_G_CTRL and VIDIOC_S_CTRL
++		 * is it allowed for backwards compatibility.
++		 */
++		if (ioctl == VIDIOC_G_CTRL || ioctl == VIDIOC_S_CTRL)
++			return false;
++		break;
++	case V4L2_CTRL_WHICH_DEF_VAL:
++		/* Default value cannot be changed */
++		if (ioctl == VIDIOC_S_EXT_CTRLS ||
++		    ioctl == VIDIOC_TRY_EXT_CTRLS) {
++			c->error_idx = c->count;
++			return false;
++		}
++		return true;
++	case V4L2_CTRL_WHICH_CUR_VAL:
++		return true;
++	case V4L2_CTRL_WHICH_REQUEST_VAL:
++		c->error_idx = c->count;
++		return false;
++	}
++
+ 	/* Check that all controls are from the same control class. */
+ 	for (i = 0; i < c->count; i++) {
+ 		if (V4L2_CTRL_ID2WHICH(c->controls[i].id) != c->which) {
+-			c->error_idx = i;
+-			return 0;
++			c->error_idx = ioctl == VIDIOC_TRY_EXT_CTRLS ? i :
++								      c->count;
++			return false;
+ 		}
+ 	}
+-	return 1;
++	return true;
+ }
+ 
+ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+@@ -2229,7 +2247,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops *ops,
+ 	ctrls.controls = &ctrl;
+ 	ctrl.id = p->id;
+ 	ctrl.value = p->value;
+-	if (check_ext_ctrls(&ctrls, 1)) {
++	if (check_ext_ctrls(&ctrls, VIDIOC_G_CTRL)) {
+ 		int ret = ops->vidioc_g_ext_ctrls(file, fh, &ctrls);
+ 
+ 		if (ret == 0)
+@@ -2263,7 +2281,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
+ 	ctrls.controls = &ctrl;
+ 	ctrl.id = p->id;
+ 	ctrl.value = p->value;
+-	if (check_ext_ctrls(&ctrls, 1))
++	if (check_ext_ctrls(&ctrls, VIDIOC_S_CTRL))
+ 		return ops->vidioc_s_ext_ctrls(file, fh, &ctrls);
+ 	return -EINVAL;
+ }
+@@ -2285,8 +2303,8 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+ 					vfd, vfd->v4l2_dev->mdev, p);
+ 	if (ops->vidioc_g_ext_ctrls == NULL)
+ 		return -ENOTTY;
+-	return check_ext_ctrls(p, 0) ? ops->vidioc_g_ext_ctrls(file, fh, p) :
+-					-EINVAL;
++	return check_ext_ctrls(p, VIDIOC_G_EXT_CTRLS) ?
++				ops->vidioc_g_ext_ctrls(file, fh, p) : -EINVAL;
+ }
+ 
+ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+@@ -2306,8 +2324,8 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+ 					vfd, vfd->v4l2_dev->mdev, p);
+ 	if (ops->vidioc_s_ext_ctrls == NULL)
+ 		return -ENOTTY;
+-	return check_ext_ctrls(p, 0) ? ops->vidioc_s_ext_ctrls(file, fh, p) :
+-					-EINVAL;
++	return check_ext_ctrls(p, VIDIOC_S_EXT_CTRLS) ?
++				ops->vidioc_s_ext_ctrls(file, fh, p) : -EINVAL;
+ }
+ 
+ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+@@ -2327,8 +2345,8 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+ 					  vfd, vfd->v4l2_dev->mdev, p);
+ 	if (ops->vidioc_try_ext_ctrls == NULL)
+ 		return -ENOTTY;
+-	return check_ext_ctrls(p, 0) ? ops->vidioc_try_ext_ctrls(file, fh, p) :
+-					-EINVAL;
++	return check_ext_ctrls(p, VIDIOC_TRY_EXT_CTRLS) ?
++			ops->vidioc_try_ext_ctrls(file, fh, p) : -EINVAL;
+ }
+ 
+ /*
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
