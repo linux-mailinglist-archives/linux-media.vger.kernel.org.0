@@ -2,176 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E4A34A67F
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 12:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E783834A68B
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 12:42:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbhCZLhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 07:37:11 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:51721 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbhCZLgl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 07:36:41 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 0B617E000B;
-        Fri, 26 Mar 2021 11:36:32 +0000 (UTC)
-Date:   Fri, 26 Mar 2021 12:37:05 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 05/19] media: v4l2-subdev: De-deprecate init() subdev
- op
-Message-ID: <20210326113705.ig3v2m5cwyrf66xb@uno.localdomain>
-References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
- <20210319164148.199192-6-jacopo+renesas@jmondi.org>
- <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
- <20210321205256.GE3@valkosipuli.retiisi.eu>
- <20210322125144.xd4yky6jmaw56x4a@uno.localdomain>
+        id S229589AbhCZLmL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 26 Mar 2021 07:42:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42390 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229590AbhCZLmH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Mar 2021 07:42:07 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 25CBE61A26;
+        Fri, 26 Mar 2021 11:41:57 +0000 (UTC)
+Date:   Fri, 26 Mar 2021 11:42:02 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bruno =?UTF-8?B?UHI=?= =?UTF-8?B?w6ltb250?= 
+        <bonbons@linux-vserver.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Daniel Drubin <daniel.drubin@intel.com>,
+        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
+        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, Lopez Casado <nlopezcasad@logitech.com>,
+        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
+        Masaki Ota <masaki.ota@jp.alps.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        message to <vojtech@ucw.cz>,
+        Michael Haboustak <mike-@cinci.rr.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <uwe@kleine-koenig.org>,
+        Vojtech Pavlik <vojtech@suse.cz>,
+        Zhang Lixu <lixu.zhang@intel.com>
+Subject: Re: [PATCH 00/25] Rid W=1 warnings from HID
+Message-ID: <20210326114202.3862b8c5@jic23-huawei>
+In-Reply-To: <20210324173404.66340-1-lee.jones@linaro.org>
+References: <20210324173404.66340-1-lee.jones@linaro.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210322125144.xd4yky6jmaw56x4a@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Wed, 24 Mar 2021 17:33:39 +0000
+Lee Jones <lee.jones@linaro.org> wrote:
 
-On Mon, Mar 22, 2021 at 01:51:44PM +0100, Jacopo Mondi wrote:
-> Hi Sakari,
->
-> On Sun, Mar 21, 2021 at 10:52:56PM +0200, Sakari Ailus wrote:
-> > Hi Laurent and Jacopo,
-> >
-> > Thanks for cc'ing me.
-> >
-> > On Sat, Mar 20, 2021 at 05:42:12PM +0200, Laurent Pinchart wrote:
-> > > Hi Jacopo,
-> > >
-> > > Thank you for the patch.
-> > >
-> > > CC'ing Sakari on v3 to get feedback.
-> > >
-> > > On Fri, Mar 19, 2021 at 05:41:34PM +0100, Jacopo Mondi wrote:
-> > > > The init() subdev core operation is deemed to be deprecated for new
-> > > > subdevice drivers. However it could prove useful for complex
-> > > > architectures to defer operation that require access to the
-> > > > communication bus if said bus is not available (or fully configured)
-> > > > at the time when the subdevice probe() function is run.
-> > > >
-> > > > As an example, the GMSL architecture requires the GMSL configuration
-> > > > link to be configured on the host side after the remote subdevice
-> > > > has completed its probe function. After the configuration on the host
-> > > > side has been performed, the subdevice registers can be accessed through
-> > > > the communication bus.
-> >
-> > What does the remote device's probe do that needs to be done before bus
-> > config on the host side?
->
-> A few lines here below:
->
->  In the GMSL use case the bus configuration requires the enablement of the
->  noise immunity threshold on the remote side which ensures reliability
->  of communications in electrically noisy environments. After the subdevice
->  has enabled the threshold at the end of its probe() sequence the host
->  side shall compensate it with an higher signal amplitude. Once this
->  sequence has completed the bus can be accessed with noise protection
->  enabled and all the operations that require a considerable number of
->  transactions on the bus (such as the image sensor configuration
->  sequence) are run in the subdevice init() operation implementation.
->
-> >
-> > Alternatively, could the remote init() work be done at the time streaming
-> > is started?
->
-> That would require programing the sensor, the embedded ISP at s_stream
-> time which would take some time.
+> This set is part of a larger effort attempting to clean-up W=1
+> kernel builds, which are currently overwhelmingly riddled with
+> niggly little warnings.
 
-I'm afraid but from my testing also the chip identification is more
-reliable if run in init(). As identifying chips is something that has
-to happen at probe/initialization I fear it is not possible to move it
-to s_stream time.
+Lee, it's a bit novel to cc linux-iio on the cover letter but
+none of the actual patches..  Or least none of them reached
+me or lore.kernel.org
 
->
-> I'll take this suggestion into account though and run some more tests.
->
-> Thanks
->   j
->
-> >
-> > > >
-> > > > In particular:
-> > > >
-> > > > 	HOST			REMOTE
-> > > >
-> > > > 	probe()
-> > > > 	   |
-> > > > 	   ---------------------> |
-> > > > 				  probe() {
-> > > > 				     bus config()
-> > > > 				  }
-> > > > 	   |<--------------------|
-> > > > 	v4l2 async bound {
-> > > > 	    bus config()
-> > > > 	    call subdev init()
-> > > > 	   |-------------------->|
-> > > > 				 init() {
-> > > > 				     access register on the bus()
-> > > > 				}
-> > > > 	   |<-------------------
-> > > > 	}
-> > > >
-> > > > In the GMSL use case the bus configuration requires the enablement of the
-> > > > noise immunity threshold on the remote side which ensures reliability
-> > > > of communications in electrically noisy environments. After the subdevice
-> > > > has enabled the threshold at the end of its probe() sequence the host
-> > > > side shall compensate it with an higher signal amplitude. Once this
-> > > > sequence has completed the bus can be accessed with noise protection
-> > > > enabled and all the operations that require a considerable number of
-> > > > transactions on the bus (such as the image sensor configuration
-> > > > sequence) are run in the subdevice init() operation implementation.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > ---
-> > > >  include/media/v4l2-subdev.h | 15 ++++++++++++---
-> > > >  1 file changed, 12 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > > index d0e9a5bdb08b..3068d9940669 100644
-> > > > --- a/include/media/v4l2-subdev.h
-> > > > +++ b/include/media/v4l2-subdev.h
-> > > > @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
-> > > >   *	each pin being configured.  This function could be called at times
-> > > >   *	other than just subdevice initialization.
-> > > >   *
-> > > > - * @init: initialize the sensor registers to some sort of reasonable default
-> > > > - *	values. Do not use for new drivers and should be removed in existing
-> > > > - *	drivers.
-> > > > + * @init: initialize the subdevice registers to some sort of reasonable default
-> > > > + *	values. Do not use for new drivers (and should be removed in existing
-> > > > + *	ones) for regular architectures where the image sensor is connected to
-> > > > + *	the host receiver. For more complex architectures where the subdevice
-> > > > + *	initialization should be deferred to the completion of the probe
-> > > > + *	sequence of some intermediate component, or the communication bus
-> > > > + *	requires configurations on the host side that depend on the completion
-> > > > + *	of the probe sequence of the remote subdevices, the usage of this
-> > > > + *	operation could be considered to allow the devices along the pipeline to
-> > > > + *	probe and register in the media graph and to defer any operation that
-> > > > + *	require actual access to the communication bus to their init() function
-> > > > + *	implementation.
-> > > >   *
-> > > >   * @load_fw: load firmware.
-> > > >   *
-> >
-> > --
-> > Kind regards,
-> >
-> > Sakari Ailus
+I'm sure they are great :)
+
+Jonathan
+
+> 
+> Lee Jones (25):
+>   HID: intel-ish-hid: Remove unused variable 'err'
+>   HID: ishtp-hid-client: Move variable to where it's actually used
+>   HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
+>   HID: intel-ish: Supply some missing param descriptions
+>   HID: intel-ish: Fix a naming disparity and a formatting error
+>   HID: usbhid: Repair a formatting issue in a struct description
+>   HID: intel-ish-hid: Fix a little doc-rot
+>   HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
+>   HID: hid-alps: Correct struct misnaming
+>   HID: intel-ish-hid: Fix potential copy/paste error
+>   HID: hid-core: Fix incorrect function name in header
+>   HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name in
+>     header
+>   HID: ishtp-hid-client: Fix incorrect function name report_bad_packet()
+>   HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
+>   HID: hid-picolcd_core: Remove unused variable 'ret'
+>   HID: hid-logitech-hidpp: Fix conformant kernel-doc header and demote
+>     abuses
+>   HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
+>   HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
+>   HID: hid-uclogic-params: Ensure function names are present and correct
+>     in kernel-doc headers
+>   HID: hid-sensor-custom: Remove unused variable 'ret'
+>   HID: wacom_sys: Demote kernel-doc abuse
+>   HID: hid-sensor-hub: Remove unused struct member 'quirks'
+>   HID: hid-sensor-hub: Move 'hsdev' description to correct struct
+>     definition
+>   HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting issues
+>   HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler warning
+> 
+>  drivers/hid/hid-alps.c                       |  2 +-
+>  drivers/hid/hid-core.c                       |  2 +-
+>  drivers/hid/hid-kye.c                        |  2 +-
+>  drivers/hid/hid-logitech-hidpp.c             |  7 +--
+>  drivers/hid/hid-picolcd_core.c               |  5 +--
+>  drivers/hid/hid-sensor-custom.c              |  5 +--
+>  drivers/hid/hid-sensor-hub.c                 |  4 +-
+>  drivers/hid/hid-thrustmaster.c               | 24 +++++------
+>  drivers/hid/hid-uclogic-params.c             |  8 ++--
+>  drivers/hid/hid-uclogic-rdesc.c              |  2 +-
+>  drivers/hid/intel-ish-hid/ipc/ipc.c          |  2 +-
+>  drivers/hid/intel-ish-hid/ipc/pci-ish.c      |  3 +-
+>  drivers/hid/intel-ish-hid/ishtp-fw-loader.c  | 45 ++++++++++----------
+>  drivers/hid/intel-ish-hid/ishtp-hid-client.c | 11 +++--
+>  drivers/hid/intel-ish-hid/ishtp-hid.c        |  2 +-
+>  drivers/hid/intel-ish-hid/ishtp-hid.h        |  9 +---
+>  drivers/hid/intel-ish-hid/ishtp/bus.c        |  9 +++-
+>  drivers/hid/intel-ish-hid/ishtp/client.c     |  5 +--
+>  drivers/hid/intel-ish-hid/ishtp/hbm.c        |  4 +-
+>  drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  |  4 +-
+>  drivers/hid/usbhid/hid-pidff.c               |  4 +-
+>  drivers/hid/usbhid/usbkbd.c                  |  2 +-
+>  drivers/hid/wacom_sys.c                      |  2 +-
+>  include/linux/intel-ish-client-if.h          |  8 +++-
+>  24 files changed, 90 insertions(+), 81 deletions(-)
+> 
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> Cc: Anssi Hannula <anssi.hannula@gmail.com>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: Daniel Drubin <daniel.drubin@intel.com>
+> Cc: Dario Pagani <dario.pagani.146+linuxk@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Henrik Rydberg <rydberg@bitmath.org>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Cc: Kim Kuparinen <kimi.h.kuparinen@gmail.com>
+> Cc: "Krzysztof Wilczyński" <kw@linux.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> Cc: linux-usb@vger.kernel.org
+> Cc: Lopez Casado <nlopezcasad@logitech.com>
+> Cc: "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>
+> Cc: Masaki Ota <masaki.ota@jp.alps.com>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: message to <vojtech@ucw.cz>
+> Cc: Michael Haboustak <mike-@cinci.rr.com>
+> Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Uwe Kleine-König" <uwe@kleine-koenig.org>
+> Cc: Vojtech Pavlik <vojtech@suse.cz>
+> Cc: Zhang Lixu <lixu.zhang@intel.com>
+
