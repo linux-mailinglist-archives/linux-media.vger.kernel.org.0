@@ -2,76 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 407B234AF9A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 20:52:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27E8834AFD9
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 21:09:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbhCZTvm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 15:51:42 -0400
-Received: from mail-io1-f42.google.com ([209.85.166.42]:34413 "EHLO
-        mail-io1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230376AbhCZTv0 (ORCPT
+        id S230213AbhCZUJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 16:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230289AbhCZUIh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 15:51:26 -0400
-Received: by mail-io1-f42.google.com with SMTP id x16so6595596iob.1;
-        Fri, 26 Mar 2021 12:51:26 -0700 (PDT)
+        Fri, 26 Mar 2021 16:08:37 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EE1C0613AA;
+        Fri, 26 Mar 2021 13:08:36 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id u10so8787276lju.7;
+        Fri, 26 Mar 2021 13:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=bTSKUkeadgfX9uFyTr/0jnVXknNnSOXxi4Zs42xIHHg=;
+        b=ihng4i0WrKAbWFHENw9r2dTuK2dWiAULRyVWA0o7CDIki4FSnuAXZoZX9cXoB5NrZB
+         JY7KOfZObgEWpwqtm9pMvg27/PTud1g8z1h0eNWm0aIsqqLvSoqYsOXmCuaREMr6prNz
+         zU7Eg2UYk4Us5GBZIAZIMWOS29iY0tIzlQrKsMwNPVvXaihwZUon9tNcycBVe1Vk9R4V
+         dzxN9uMSg8zK/A9exy4LG59ppVOg38xm3hoNZtTvKc4SsoFLRljae60qPxWGl6s5beTU
+         3pnqZZiaqFSHvEhgHgMqb4faJvcJyhAKW+H5MfDBf2DvzcU7AThR0+XyEpAdlanX0iBB
+         Njfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DtFwYHBHWj9m6rEVipWhUpwvWVC2DTKwUNCl/ss4Kq4=;
-        b=ANvz8SnPsl/4d33y1Ma6cs1EGc4tqsHWtvYvv4O0FOi0Ydsi0niROYIECOk+yPxPXx
-         QlwBgP0LAJ6KStBlEv5DckShwnkTEf6H5kS5NHVNQrxTflkFcqV1pXzQEgXhy630zSlk
-         PzPqL6s9XB3EaP/vgpaUHF8D9npAOzyQ96XCJCt1+CNKiU/dQ4CwhnhyYrwtK/L+8yK2
-         I/8pqYh8oL+NYOoEd8OxduT8lH3gpjQYMQe7QX7HGfq/dabecJsIImBvI8Q8wcc/J6bu
-         6GVzStxMcS16EU8X6qMJvtK2G3LheugNY6asgKlV4ue/cpaMmmTG8V0+jociPb+biT6p
-         fYQQ==
-X-Gm-Message-State: AOAM530yZdXq+ZWVVRjWmZ5DXNhr7Hvw6uhZMDCbG/VaiWOYQyJdpBQD
-        E/2Ez5lXOziZtOHXyxghjQ==
-X-Google-Smtp-Source: ABdhPJwmLZLvQHr1GWhzWdWadhO29XtJuY0BNXa2dZAGRf9FjQk9xZP8Iru6WcEK8XG8URIEZ1MfUg==
-X-Received: by 2002:a5d:9599:: with SMTP id a25mr11547998ioo.25.1616788285847;
-        Fri, 26 Mar 2021 12:51:25 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id s5sm4696815ild.13.2021.03.26.12.51.23
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=bTSKUkeadgfX9uFyTr/0jnVXknNnSOXxi4Zs42xIHHg=;
+        b=bpBgPU42buw521Na5pJgYDjAfV6tqjCZhrKURpWBoel44f04mGOJwxIdYfAPKhhdo/
+         k2D+iATS/xO5ROAmQj3fRkYOIBtC6uYbn6IGH1rV1cSaF9AaLxoQIY2zGGj27KkJu2fi
+         NL3Uf7rkoAjZRcuU7AQZf3OI+jL7o42xl+my7ZQqw6HI9NGv74b9utI0kTjQ2ugk/Mxg
+         vAMnLHOK1LTUnPoFAf2lsFDECrDxpYhXBEgdloplkrhkGf0gYmSKt2AUYcBpOIgLRW/Q
+         Bla3qqWaMN8UDN+HkSjiwFInQB51jWEDa0h7mnW4+b/mRqthkFKr5kf2Dss6a+uP7pL5
+         Q0wg==
+X-Gm-Message-State: AOAM533HbV75SIFDhkTR6c7N5b2lTQ8fvoB2vFs/EpauM4T7qT0Qtt21
+        RtoEVJqAO/6Pbf4dmVZHJ7DydiflOVH99cBZ
+X-Google-Smtp-Source: ABdhPJwym6uk4OtELrbqMJwOrYQLce2aqJWpmLQ3HotcGPUdQyGv6jzOzfCWkqzMGgJSYHpM42aGPQ==
+X-Received: by 2002:a05:651c:32e:: with SMTP id b14mr10055761ljp.277.1616789315032;
+        Fri, 26 Mar 2021 13:08:35 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.227.42])
+        by smtp.gmail.com with ESMTPSA id l10sm962994lfk.48.2021.03.26.13.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 12:51:24 -0700 (PDT)
-Received: (nullmailer pid 3758799 invoked by uid 1000);
-        Fri, 26 Mar 2021 19:51:23 -0000
-Date:   Fri, 26 Mar 2021 13:51:23 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: media: video-interfaces: Drop the example
-Message-ID: <20210326195123.GA3758701@robh.at.kernel.org>
-References: <20210324202253.3576798-1-robh@kernel.org>
+        Fri, 26 Mar 2021 13:08:34 -0700 (PDT)
+Message-ID: <988f3fa172458cd1f24366d4a9dbd636d2f8cbff.camel@gmail.com>
+Subject: Re: [PATCH] drivers/media/usb/gspca/stv06xx: fix memory leak
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        syzbot+e7f4c64a4248a0340c37@syzkaller.appspotmail.com
+Date:   Fri, 26 Mar 2021 23:08:33 +0300
+In-Reply-To: <20210323171356.4a613351@coco.lan>
+References: <20210226233731.614553-1-paskripkin@gmail.com>
+         <20210323171356.4a613351@coco.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210324202253.3576798-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 24 Mar 2021 14:22:53 -0600, Rob Herring wrote:
-> The example in video-interfaces.yaml uses a bunch of undocumented
-> bindings which will cause warnings when undocumented compatible checks
-> are enabled. The example could be fixed to use documented bindings, but
-> doing so would just duplicate other examples. So let's just remove the
-> example.
+Hi! Thanks for the review.
+
+On Tue, 2021-03-23 at 17:13 +0100, Mauro Carvalho Chehab wrote:
+> Em Sat, 27 Feb 2021 02:37:31 +0300
+> Pavel Skripkin <paskripkin@gmail.com> escreveu:
 > 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> v2: Drop instead of fixing the example
+> > Syzbot reported memory leak in hdcs_probe_1x00()[1].
+> > hdcs_probe_1x00() allocates memory for struct hdcs, but if
+> > hdcs_init() fails in gspca_dev_probe2()
+> > this memory becomes leaked.
+> > 
+> > int gspca_dev_probe2(struct usb_interface *intf,
+> >                 const struct usb_device_id *id,
+> >                 const struct sd_desc *sd_desc,
+> >                 int dev_size,
+> >                 struct module *module)
+> > {
+> > ...
+> > 
+> >         ret = sd_desc->config(gspca_dev, id);
+> >         if (ret < 0)
+> >                 goto out;
+> >         ret = sd_desc->init(gspca_dev);
+> >         if (ret < 0)
+> >                 goto out;
+> > ...
+> > out:
+> >         if (gspca_dev->input_dev)
+> >                 input_unregister_device(gspca_dev->input_dev);
+> >         v4l2_ctrl_handler_free(gspca_dev->vdev.ctrl_handler);
+> >         v4l2_device_unregister(&gspca_dev->v4l2_dev);
+> >         kfree(gspca_dev->usb_buf);
+> >         kfree(gspca_dev);
+> >         return ret;
+> > }
+> > 
+> > Reported-by: syzbot+e7f4c64a4248a0340c37@syzkaller.appspotmail.com
+> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> > Change-Id: Ia198671177ee346de61780813025110c7c491d7a
+> > ---
+> >  drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c | 12 ++++++++----
+> >  1 file changed, 8 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
+> > b/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
+> > index 5a47dcbf1c8e..24df13b33a02 100644
+> > --- a/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
+> > +++ b/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
+> > @@ -485,7 +485,7 @@ static int hdcs_init(struct sd *sd)
+> >                                            stv_bridge_init[i][1]);
+> >         }
+> >         if (err < 0)
+> > -               return err;
+> > +               goto error;
+> >  
+> >         /* sensor soft reset */
+> >         hdcs_reset(sd);
+> > @@ -496,12 +496,12 @@ static int hdcs_init(struct sd *sd)
+> >                                              stv_sensor_init[i][1]);
+> >         }
+> >         if (err < 0)
+> > -               return err;
+> > +               goto error;
+> >  
+> >         /* Enable continuous frame capture, bit 2: stop when frame
+> > complete */
+> >         err = stv06xx_write_sensor(sd, HDCS_REG_CONFIG(sd), BIT(3));
+> >         if (err < 0)
+> > -               return err;
+> > +               goto error;
+> >  
+> >         /* Set PGA sample duration
+> >         (was 0x7E for the STV602, but caused slow framerate with
+> > HDCS-1020) */
+> > @@ -512,9 +512,13 @@ static int hdcs_init(struct sd *sd)
+> >                 err = stv06xx_write_sensor(sd, HDCS_TCTRL,
+> >                                 (HDCS_ADC_START_SIG_DUR << 5) | hdcs-
+> > >psmp);
+> >         if (err < 0)
+> > -               return err;
+> > +               goto error;
+> >  
+> >         return hdcs_set_size(sd, hdcs->array.width, hdcs-
+> > >array.height);
+> > +
+> > +error:
+> > +       kfree(hdcs);
+> > +       return err;
+> >  }
 > 
->  .../bindings/media/video-interfaces.yaml      | 127 ------------------
->  1 file changed, 127 deletions(-)
+> This doesn't seem the right fix here, as it is not the _init function
+> that allocates it. Also, when the device is disconnected, a memory
+> leak
+> will happen.
+
+It won't.
+
+static int hdcs_probe_1x00(struct sd *sd)
+{
+	....
+	sd->sensor_priv = hdcs;
+	....
+}
+
+
+static void sd_disconnect(struct usb_interface *intf)
+{
+	void *priv = sd->sensor_priv;
+	....
+	kfree(priv);
+}
+
+Is it correct?
+
+> 
+> I suspect that the right fix would be to move this:
+> 
+>         hdcs = kmalloc(sizeof(struct hdcs), GFP_KERNEL);
+>         if (!hdcs)
+>                 return -ENOMEM;
+> 
+> To the main driver (stv06xx.c) - probably replacing it by kzalloc(),
 > 
 
-Applied, thanks!
+I don't really understand why, because this allocation refers only to
+stv06xx_hdcs, and other stv06xx sensors don't use it.
+
+If hdcs_init() fails, we won't be able to access this pointer, because 
+in gspca_dev_probe2() only this code will be executed on error
+condition:
+
+	v4l2_ctrl_handler_free(gspca_dev->vdev.ctrl_handler);
+	v4l2_device_unregister(&gspca_dev->v4l2_dev);
+	kfree(gspca_dev->usb_buf);
+	kfree(gspca_dev);
+
+Maybe, I don't properly understand it, can You explain, please?
+
+> and then handle the free code both both sd_probe() and sd_disconnect().
+> 
+> 
+> Thanks,
+
+-- 
+With regards,
+Pavel Skripkin
+
+
