@@ -2,87 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4801334A39C
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 10:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A038734A436
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 10:22:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbhCZJEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 05:04:36 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39487 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229768AbhCZJEA (ORCPT
+        id S230003AbhCZJVm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 05:21:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229984AbhCZJV0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 05:04:00 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id PiNQl3s4Y43ycPiNTl3AiI; Fri, 26 Mar 2021 10:03:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616749415; bh=9gYBQ0x9ou3bfLqVYYoQqNrc1CRCKA4mF1DWFR906i8=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ZzwSLavtWUjyKS5FB2ZZ8aO+Fuk2EVK7ub9tFpZISa4yy+AQ57RDRQhHcmYFqni4q
-         vTHTS4kdjOmO+30mUJDESton0RxtO0I7nu5rGhodf7JKNVIk23oDp0eUlTxBTzJmFD
-         K2zZV7wOndxQG1LuUC6HbLYRn+71p0TMUd/6B4kdOO7k5TLJlHUGR8L6EFvsbEsK6c
-         xTxk66IrsjBp7JD6WBgW/jiYHPQAMYU/D4U+blg99cmlnki7rjFpHAm+Bszo2MpKh9
-         pFTtZBJJmrkGGmTRoYZ70eKv/AqX/9AFXg69M9j1/dkQMDPZxfCKWyLcuBvW8qbcNZ
-         Ti15Lk95A3DDw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] adv7511-v4l2: correctly report EDIDs of 1 block
-Message-ID: <9a769617-f555-f14f-1fea-71152b7c9e8f@xs4all.nl>
-Date:   Fri, 26 Mar 2021 10:03:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Fri, 26 Mar 2021 05:21:26 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587D1C0613AA
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:21:26 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id b14so6650872lfv.8
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=SXlGw5E8cFMEBSYNsj3Vz3BMobAzf0JuRIAQr46wPC0=;
+        b=c1tFJvdvp/PtYGc1kAB6xyJv/JzjcI31/XrFxcQM6NMX75DdUof5OlUTsXlUH17T5a
+         YXBo91exx7cI824xn/9ZUfLSEOJJ1BEybM6OgFfDuM6kjmMTVHLTshYPsiOnEp+3Uu9y
+         kkuQIBe8jNnuv9wyELVxDkG2Z01xU90GlZPfJWOCfl8X12IIClD5DjXIoMHMUMebK+9g
+         79MzY2hiI5HgjuJ6Ct5BHGp/x1N1/xjchaqLaNVd8sCxG347EQebg/kJ+qr15O2eAzQH
+         A/yXGu+yES7NUJ8QLHbDYzwncCYgHcxz85HsUN/Ar9QWOLG2Gc5qn3ZpsL3O8hBtXDFF
+         9QkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=SXlGw5E8cFMEBSYNsj3Vz3BMobAzf0JuRIAQr46wPC0=;
+        b=H/jZYHrvmGDnjMe3nA0FXQqEKBDcHss60EWxLuDdYpvZ2UHL8sQPKs4TUuIffIeGqz
+         KjKD1J58a01Ze2KpiFsSY0F+jXaHEJ1JRvXJSEQgJE5XrVAPaIpaC9cfL/I3IfBVx/bB
+         bE2Phc2/EPbKuxz6NgyiS7um3IJN25kBPqam0NtGUKJeCJIkQVX8xNqVKHbj+mX1T1N+
+         59AtQfJQKWLa1XKSITSX+MXHwx7z6XYP25hpQn188mUT7YbAFcQ1QKm0ZKN5mPCn+Ea3
+         yw7DEVh+TrmB7G5BDsi24n+iC3WHwbkDtnXHshAa9X0QJQqnGAaPCr+O0bLjaflRgytO
+         gtPA==
+X-Gm-Message-State: AOAM532KNvNL74n/3+XraQFgouljo3436fO317s/cSPctJ/cQBMxTd8t
+        rU2uB+L/F40EPS0RQA/s16eXOwrRz6MH7w==
+X-Google-Smtp-Source: ABdhPJz/dN3ASQCBbsu+lvIlURutLQANLw1UJxfHq9mBq/yRFyCeGJezG9ilg25vvY+xPE7CJCWzvw==
+X-Received: by 2002:ac2:5444:: with SMTP id d4mr7820522lfn.126.1616750484919;
+        Fri, 26 Mar 2021 02:21:24 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id k30sm1052702ljc.140.2021.03.26.02.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 02:21:24 -0700 (PDT)
+Date:   Fri, 26 Mar 2021 10:21:23 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: v4l-utils: nullptr dereference after 56175f62bef28490 ("qv4l2: fix
+ CaptureWin::setWindowSize() if there are multiple screens")
+Message-ID: <YF2nk3JzgYD/37oU@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGO0Ie1I1CRcC28cUGfZ3Av/k6pvT594Po4Vyq/hKYhk1sTRehq/FntNvqrMlD1not9JXLajwqdNcECIApfsQrPgwZil3ftzNEl+YR372psGjv/X4/Qt
- fUnLJpne5/TizUTRpsLBTm3zkR8N9XmFx+L6YWVDCxDca5VkXrRMbUGR/E6+RFp9fnHh6HUBW+2MppkxrPFehRECt6e3oBBkFUY=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the EDID has an odd number of blocks (usually just 1, but the
-same problem occurs with 3 blocks), then VIDIOC_G_EDID reported 2
-(or 4) blocks. Fix this.
+Hi Hans,
 
-Signed-off-by: Hans Verkuil <hansverk@cisco.com>
----
- drivers/media/i2c/adv7511-v4l2.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+I just rebuilt latest v4l-utils master and unfortunately found a problem 
+with qv4l2. I run it on my target devices with X forwarding and after 
+commit 56175f62bef28490 ("qv4l2: fix CaptureWin::setWindowSize() if 
+there are multiple screens") I get a segmentation fault when I try to 
+start a capture. When the windows that displays the capture is suppose 
+to pop-up it crashes as it tries to dereference a nullptr.
 
-diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
-index 9183003ae22d..992db5c79b13 100644
---- a/drivers/media/i2c/adv7511-v4l2.c
-+++ b/drivers/media/i2c/adv7511-v4l2.c
-@@ -1196,21 +1196,21 @@ static int adv7511_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
- 		return -EINVAL;
+I bisected the problem to the mentioned commit and the change
 
- 	if (edid->start_block == 0 && edid->blocks == 0) {
--		edid->blocks = state->edid.segments * 2;
-+		edid->blocks = state->edid.blocks;
- 		return 0;
- 	}
+	-       QScreen *screen = QGuiApplication::screenAt(mapToGlobal({width() / 2, 0}));
+	+       QScreen *screen = window()->windowHandle()->screen();
 
--	if (state->edid.segments == 0)
-+	if (state->edid.blocks == 0)
- 		return -ENODATA;
+After the change window()->windowHandle() returns a nullptr for me and 
+then I die.
 
--	if (edid->start_block >= state->edid.segments * 2)
-+	if (edid->start_block >= state->edid.blocks)
- 		return -EINVAL;
-
--	if (edid->start_block + edid->blocks > state->edid.segments * 2)
--		edid->blocks = state->edid.segments * 2 - edid->start_block;
-+	if (edid->start_block + edid->blocks > state->edid.blocks)
-+		edid->blocks = state->edid.blocks - edid->start_block;
-
- 	memcpy(edid->edid, &state->edid.data[edid->start_block * 128],
--			128 * edid->blocks);
-+	       128 * edid->blocks);
-
- 	return 0;
- }
 -- 
-2.29.2
-
+Regards,
+Niklas Söderlund
