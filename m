@@ -2,119 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7161934A1B7
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 07:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12E5634A1DA
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 07:32:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbhCZGYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 02:24:02 -0400
-Received: from mout02.posteo.de ([185.67.36.66]:33455 "EHLO mout02.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229871AbhCZGYA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 02:24:00 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id 7F5FE240100
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 07:23:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1616739838; bh=LrP8uBzoPuY+H7JyRQ1Ppe3Ej4iPf2DtmT03FM6ei/Y=;
-        h=From:To:Cc:Subject:Date:From;
-        b=AOkgP3uiVBshEbaCmEqbMC5yNBKd2hTw7VozHgyC2R3zvsojhntgICHyRTtdnn3Ve
-         AXMvbHYHLNsv+4UB4Pc6SZnGB3VJOF+Et1vhYiVgjp9JjRolpz0GO5wgY78kwHvI4W
-         jsFFwja9GNhAYbO+NmRDh9qAGk8xTsV7BodRywiy5qs6UhK5WSB93hrY7OgO9/w+Cq
-         8Y64oG6yXPros4UhATXQO2pLkX/Y7U11x6qhJY+WpUKIAdccBNKQUthRFcsZMgrs3R
-         7qMIaO4QMzrT287Ps0PQ+5memnz3usfxCA63qGxRNZ27GIORT8mvC3Arh16Iyn1huo
-         PLqv9A2D8sN1g==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4F6Bkj6fskz9rxd;
-        Fri, 26 Mar 2021 07:23:57 +0100 (CET)
-From:   Sebastian Fricke <sebastian.fricke@posteo.net>
-To:     linux-media@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, heiko@sntech.de,
-        Sebastian Fricke <sebastian.fricke@posteo.net>
-Subject: [PATCH v2] media: rkisp1: Increase ISP input resolution limit
-Date:   Fri, 26 Mar 2021 07:23:30 +0100
-Message-Id: <20210326062329.53103-1-sebastian.fricke@posteo.net>
-X-Mailer: git-send-email 2.25.1
+        id S230016AbhCZGbb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 02:31:31 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:38125 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229812AbhCZGbO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Mar 2021 02:31:14 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Pfzxl3I8G43ycPg00l2ucD; Fri, 26 Mar 2021 07:31:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616740272; bh=R1hiTxSsY33hBqt0QOv8qGBmYr+RRqH/Ddp46Jxw38A=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Y614AKAlfwI0rAfxKL2vepoXHdNckmPBRjZ8LL+EGvI+T+/TWJRBFm3kxAN5jeHBx
+         QOjy6Tb6L9nNnDnbXhCZgvO8k+PyKRhLifFrwbhzCDnVdVO9Gz0Sw+erk/AN1FtonC
+         6ahHbvzaJwSLd6FGI4yTqY1v/LL4w4qPQeMQ2yCjulNamoJtSpRDKwRndlu72S8Z5y
+         S055sE++vjkYPX/lFdsxQYMFc+Xx3QW82V8Uly7pwoxydefsuwpKuUO2PJQ45PLiCG
+         QEtoGlzBOE/44dJd8dI2y+Egjw17XMY5BmypCaBSbLKbQwt2fPVeV6XHE/ZW8Zk4/+
+         HHqtiFv3NG2og==
+Subject: Re: [PATCH] drm/bridge: adv7511: fix support for large EDIDs
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Archit Taneja <architt@codeaurora.org>
+References: <904185be-19ea-a321-a227-d4e659fe1b68@xs4all.nl>
+ <YF0yIDWC+7HtMBLb@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <712f7355-482c-b8e3-701b-5a19774aeb5c@xs4all.nl>
+Date:   Fri, 26 Mar 2021 07:31:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YF0yIDWC+7HtMBLb@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfP/ltafrvKSMFa/Iew3JApzfLmDiMf3NaSS4MRYCq1uHtQ48vNL9JrJZloqXbYNnHtzngi3aw4OgHdO2/icBB0OvOPcXWj8nPMJZkdVF9fdOlufxKZXJ
+ ZWKQmSlLF/qU0QuMqAgInqnukGgzGdWDrcbg2EZlN1+FNpyMZQEUP7w2lTx1MWzDPNBxMZaFsCpfeiIyKQPH2r9DhIrKvMD+3QOQEn0mJSLMi+RNE6TsJH+J
+ EurM06hJC+uOnl62i9BUkATVS89BUUD/fGQEWRQnoXJMx+Px9kBrE2k2QiUp+eHposeU52RftAHkdSNN7qQReAX7g1SgTbJ23LP4NZOOG9jXuRT38jH3vZeu
+ EMcOcuGjBXJ5xOZScatqnoPwkbqiBA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current implementation limits the maximum sink pad resolution to
-4032x3024, which is mentioned by the Rockchip TRM as the maximum size
-to handle black level calibration. But the ISP can actually set it's
-sink pad format to a size of 4416x3312.
-Allow higher sink pad resolutions in order to allow a bigger range of
-sensor modes to be used with the RkISP1.
-Apply the previous limit to the sink pad crop instead of the format to
-satisfy the requirement of the ISP.
+On 26/03/2021 02:00, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Mar 24, 2021 at 09:53:32AM +0100, Hans Verkuil wrote:
+>> While testing support for large (> 256 bytes) EDIDs on the Renesas
+>> Koelsch board I noticed that the adv7511 bridge driver only read the
+>> first two blocks.
+>>
+>> The media V4L2 version for the adv7511 (drivers/media/i2c/adv7511-v4l2.c)
+>> handled this correctly.
+>>
+>> Besides a simple bug when setting the segment register (it was set to the
+>> block number instead of block / 2), the logic of the code was also weird.
+>> In particular reading the DDC_STATUS is odd: this is unrelated to EDID
+>> reading.
+> 
+> Bits 3:0 of DDC_STATUS report the DDC controller state, which can be
+> used to wait until the DDC controller is idle (it reports, among other
+> possible states, if an EDID read is in progress). Other options are
+> possible of course, including waiting for ADV7511_INT0_EDID_READY as
+> done in adv7511_wait_for_edid(), but I wonder if the !irq case in
+> adv7511_wait_for_edid() wouldn't be better of busy-looping on the DDC
+> status instead of running the interrupt handler manually. That's
+> unrelated to this patch though.
 
-Signed-off-by: Sebastian Fricke <sebastian.fricke@posteo.net>
----
-Changes since v1:
-- Improve the name of the new macro -> s/*_PROCESSING/*_CROP/
-- Add a descriptive comment to explain why we need those 2 new macros
-- Combine the separated 2 patches into a single one as patch 2 was
-  depending on patch 1, which would have introduced a bisection breakage
-  (Thanks to Laurent Pinchart)
+The DDC status tests for other things as well, including HDCP.
 
-This patch was tested with a NanoPC-T4 and a OV13850, which provides a
-resolution of 4224x3136.
----
- .../platform/rockchip/rkisp1/rkisp1-common.h   | 18 +++++++++++++-----
- .../platform/rockchip/rkisp1/rkisp1-isp.c      |  8 ++++++--
- 2 files changed, 19 insertions(+), 7 deletions(-)
+I think it is pure luck that this code even worked:
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index 038c303a8aed..553a4b12becf 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -29,11 +29,19 @@
- #define RKISP1_ISP_SD_SRC BIT(0)
- #define RKISP1_ISP_SD_SINK BIT(1)
- 
--/* min and max values for the widths and heights of the entities */
--#define RKISP1_ISP_MAX_WIDTH		4032
--#define RKISP1_ISP_MAX_HEIGHT		3024
--#define RKISP1_ISP_MIN_WIDTH		32
--#define RKISP1_ISP_MIN_HEIGHT		32
-+/*
-+ * min and max values for the widths and heights of the entities
-+ * The ISP device accepts input resolutions of up to 4416x3312, but
-+ * it can only process resolutions of 4032x3024 internally.
-+ * Therefore the crop resolution is limited to 4032x3024, the
-+ * sink pad crop is applied automatically when the format is set.
-+ */
-+#define RKISP1_ISP_MAX_WIDTH			4416
-+#define RKISP1_ISP_MAX_HEIGHT			3312
-+#define RKISP1_ISP_MAX_WIDTH_CROP		4032
-+#define RKISP1_ISP_MAX_HEIGHT_CROP		3024
-+#define RKISP1_ISP_MIN_WIDTH			32
-+#define RKISP1_ISP_MIN_HEIGHT			32
- 
- #define RKISP1_RSZ_MP_SRC_MAX_WIDTH		4416
- #define RKISP1_RSZ_MP_SRC_MAX_HEIGHT		3312
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 2e5b57e3aedc..a8274e84a64b 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -758,9 +758,13 @@ static void rkisp1_isp_set_sink_crop(struct rkisp1_isp *isp,
- 					  which);
- 
- 	sink_crop->left = ALIGN(r->left, 2);
--	sink_crop->width = ALIGN(r->width, 2);
-+	sink_crop->width = clamp_t(u32, ALIGN(r->width, 2),
-+				   RKISP1_ISP_MIN_WIDTH,
-+				   RKISP1_ISP_MAX_WIDTH_CROP);
- 	sink_crop->top = r->top;
--	sink_crop->height = r->height;
-+	sink_crop->height = clamp_t(u32, r->height,
-+				    RKISP1_ISP_MIN_HEIGHT,
-+				    RKISP1_ISP_MAX_HEIGHT_CROP);
- 	rkisp1_sd_adjust_crop(sink_crop, sink_fmt);
- 
- 	*r = *sink_crop;
--- 
-2.25.1
+        if (adv7511->current_edid_segment != block / 2) {
+                unsigned int status;
 
+                ret = regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
+                                  &status);
+                if (ret < 0)
+                        return ret;
+
+                if (status != 2) {
+                        adv7511->edid_read = false;
+                        regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
+                                     block);
+                        ret = adv7511_wait_for_edid(adv7511, 200);
+                        if (ret < 0)
+                                return ret;
+                }
+
+What happens on power on is that the adv7511 starts reading the EDID.
+So the DDC_STATUS is 1 (Reading EDID). This code is called, it falls
+in the status != 2 block, it writes the EDID_SEGMENT with 0 (it already
+is 0 after a power on), then waits for the EDID read to finish.
+
+The only reason this works is that this code is called fast enough
+after the device is powered on that it is still reading the EDID.
+
+It fails if you want to read the next segment, since in that case the
+status is 2 (IDLE) and it will never write the new segment to the
+EDID_SEGMENT register.
+
+And besides, status wasn't ANDed with 0xf either, and HDCP might
+also be ongoing (should that be enabled in the future).
+
+Regards,
+
+	Hans
