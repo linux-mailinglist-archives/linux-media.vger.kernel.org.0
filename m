@@ -2,112 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 156F634A667
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 12:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6E4A34A67F
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 12:37:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbhCZLWO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 07:22:14 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:46721 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbhCZLWM (ORCPT
+        id S229580AbhCZLhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 07:37:11 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:51721 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229573AbhCZLgl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 07:22:12 -0400
+        Fri, 26 Mar 2021 07:36:41 -0400
 X-Originating-IP: 93.34.118.233
 Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 231141C0004;
-        Fri, 26 Mar 2021 11:22:07 +0000 (UTC)
-Date:   Fri, 26 Mar 2021 12:22:40 +0100
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 0B617E000B;
+        Fri, 26 Mar 2021 11:36:32 +0000 (UTC)
+Date:   Fri, 26 Mar 2021 12:37:05 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
         niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 11/19] media: i2c: rdacm21: Add dealy after OV490 reset
-Message-ID: <20210326112240.eqoo7lpwhbmtaqq5@uno.localdomain>
+Subject: Re: [PATCH v3 05/19] media: v4l2-subdev: De-deprecate init() subdev
+ op
+Message-ID: <20210326113705.ig3v2m5cwyrf66xb@uno.localdomain>
 References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
- <20210319164148.199192-12-jacopo+renesas@jmondi.org>
- <99971a13-4d02-2255-6653-569915da181d@ideasonboard.com>
- <YFYaMh832WYlsR9u@pendragon.ideasonboard.com>
+ <20210319164148.199192-6-jacopo+renesas@jmondi.org>
+ <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
+ <20210321205256.GE3@valkosipuli.retiisi.eu>
+ <20210322125144.xd4yky6jmaw56x4a@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YFYaMh832WYlsR9u@pendragon.ideasonboard.com>
+In-Reply-To: <20210322125144.xd4yky6jmaw56x4a@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Kieran,
+Hi Sakari,
 
-On Sat, Mar 20, 2021 at 05:52:18PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Mon, Mar 22, 2021 at 01:51:44PM +0100, Jacopo Mondi wrote:
+> Hi Sakari,
 >
-> Thank you for the patch.
->
-> On Fri, Mar 19, 2021 at 04:49:44PM +0000, Kieran Bingham wrote:
-> > Hi Jacopo,
+> On Sun, Mar 21, 2021 at 10:52:56PM +0200, Sakari Ailus wrote:
+> > Hi Laurent and Jacopo,
 > >
-> > s/dealy/delay/ in $SUBJECT
+> > Thanks for cc'ing me.
 > >
-> > On 19/03/2021 16:41, Jacopo Mondi wrote:
-> > > Add a delay after the OV490 chip is put in reset state. The reset
-> > > signal shall be held for at least 250 useconds.
+> > On Sat, Mar 20, 2021 at 05:42:12PM +0200, Laurent Pinchart wrote:
+> > > Hi Jacopo,
 > > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/rdacm21.c | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > > Thank you for the patch.
 > > >
-> > > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> > > index babd14b21252..875bec9f7904 100644
-> > > --- a/drivers/media/i2c/rdacm21.c
-> > > +++ b/drivers/media/i2c/rdacm21.c
-> > > @@ -448,7 +448,10 @@ static int rdacm21_init(struct v4l2_subdev *sd, unsigned int val)
-> > >  	if (ret)
-> > >  		return ret;
+> > > CC'ing Sakari on v3 to get feedback.
 > > >
-> > > -	/* Enable GPIO1 and hold OV490 in reset during max9271 configuration. */
-> > > +	/*
-> > > +	 * Enable GPIO1 and hold OV490 in reset during max9271 configuration.
-> > > +	 * The reset signal has to be asserted for at least 250 useconds.
-> > > +	 */
-> > >  	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> > >  	if (ret)
-> > >  		return ret;
-> > > @@ -456,6 +459,7 @@ static int rdacm21_init(struct v4l2_subdev *sd, unsigned int val)
-> > >  	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> > >  	if (ret)
-> > >  		return ret;
-> > > +	usleep_range(250, 500);
+> > > On Fri, Mar 19, 2021 at 05:41:34PM +0100, Jacopo Mondi wrote:
+> > > > The init() subdev core operation is deemed to be deprecated for new
+> > > > subdevice drivers. However it could prove useful for complex
+> > > > architectures to defer operation that require access to the
+> > > > communication bus if said bus is not available (or fully configured)
+> > > > at the time when the subdevice probe() function is run.
+> > > >
+> > > > As an example, the GMSL architecture requires the GMSL configuration
+> > > > link to be configured on the host side after the remote subdevice
+> > > > has completed its probe function. After the configuration on the host
+> > > > side has been performed, the subdevice registers can be accessed through
+> > > > the communication bus.
 > >
-> > Aha, for a second there I thought the comment meant it had to be
-> > asserted for 250 uS before clearing it again. But it's 250 uS before
-> > using the OV490.
-
-No, it's 250usecond before releasing it. After the OV490 is released
-from reset there's a 3-5 milliseconds sleep below.
-
+> > What does the remote device's probe do that needs to be done before bus
+> > config on the host side?
+>
+> A few lines here below:
+>
+>  In the GMSL use case the bus configuration requires the enablement of the
+>  noise immunity threshold on the remote side which ensures reliability
+>  of communications in electrically noisy environments. After the subdevice
+>  has enabled the threshold at the end of its probe() sequence the host
+>  side shall compensate it with an higher signal amplitude. Once this
+>  sequence has completed the bus can be accessed with noise protection
+>  enabled and all the operations that require a considerable number of
+>  transactions on the bus (such as the image sensor configuration
+>  sequence) are run in the subdevice init() operation implementation.
+>
 > >
-> > Perhaps possible to update the comment a little, but nothing that matters.
+> > Alternatively, could the remote init() work be done at the time streaming
+> > is started?
 >
-> The commit message and comment should match the code, especially given
+> That would require programing the sensor, the embedded ISP at s_stream
+> time which would take some time.
 
-They do if I'm not mistaken.
+I'm afraid but from my testing also the chip identification is more
+reliable if run in init(). As identifying chips is something that has
+to happen at probe/initialization I fear it is not possible to move it
+to s_stream time.
 
-> that I'm not sure here which of the two is actually incorrect. I suspect
-> the sleep is actually in the wrong location.
 >
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> I'll take this suggestion into account though and run some more tests.
+>
+> Thanks
+>   j
+>
 > >
+> > > >
+> > > > In particular:
+> > > >
+> > > > 	HOST			REMOTE
+> > > >
+> > > > 	probe()
+> > > > 	   |
+> > > > 	   ---------------------> |
+> > > > 				  probe() {
+> > > > 				     bus config()
+> > > > 				  }
+> > > > 	   |<--------------------|
+> > > > 	v4l2 async bound {
+> > > > 	    bus config()
+> > > > 	    call subdev init()
+> > > > 	   |-------------------->|
+> > > > 				 init() {
+> > > > 				     access register on the bus()
+> > > > 				}
+> > > > 	   |<-------------------
+> > > > 	}
+> > > >
+> > > > In the GMSL use case the bus configuration requires the enablement of the
+> > > > noise immunity threshold on the remote side which ensures reliability
+> > > > of communications in electrically noisy environments. After the subdevice
+> > > > has enabled the threshold at the end of its probe() sequence the host
+> > > > side shall compensate it with an higher signal amplitude. Once this
+> > > > sequence has completed the bus can be accessed with noise protection
+> > > > enabled and all the operations that require a considerable number of
+> > > > transactions on the bus (such as the image sensor configuration
+> > > > sequence) are run in the subdevice init() operation implementation.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  include/media/v4l2-subdev.h | 15 ++++++++++++---
+> > > >  1 file changed, 12 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > > index d0e9a5bdb08b..3068d9940669 100644
+> > > > --- a/include/media/v4l2-subdev.h
+> > > > +++ b/include/media/v4l2-subdev.h
+> > > > @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
+> > > >   *	each pin being configured.  This function could be called at times
+> > > >   *	other than just subdevice initialization.
+> > > >   *
+> > > > - * @init: initialize the sensor registers to some sort of reasonable default
+> > > > - *	values. Do not use for new drivers and should be removed in existing
+> > > > - *	drivers.
+> > > > + * @init: initialize the subdevice registers to some sort of reasonable default
+> > > > + *	values. Do not use for new drivers (and should be removed in existing
+> > > > + *	ones) for regular architectures where the image sensor is connected to
+> > > > + *	the host receiver. For more complex architectures where the subdevice
+> > > > + *	initialization should be deferred to the completion of the probe
+> > > > + *	sequence of some intermediate component, or the communication bus
+> > > > + *	requires configurations on the host side that depend on the completion
+> > > > + *	of the probe sequence of the remote subdevices, the usage of this
+> > > > + *	operation could be considered to allow the devices along the pipeline to
+> > > > + *	probe and register in the media graph and to defer any operation that
+> > > > + *	require actual access to the communication bus to their init() function
+> > > > + *	implementation.
+> > > >   *
+> > > >   * @load_fw: load firmware.
+> > > >   *
 > >
-> > >  	ret = max9271_configure_gmsl_link(&dev->serializer);
-> > >  	if (ret)
-> > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> > --
+> > Kind regards,
+> >
+> > Sakari Ailus
