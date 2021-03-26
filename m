@@ -2,174 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 234F634A7F6
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 14:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96AFC34A95A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 15:13:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbhCZNTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 09:19:37 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:44891 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229882AbhCZNTH (ORCPT
+        id S230104AbhCZOMs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 10:12:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47692 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229986AbhCZOMQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 09:19:07 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id PmMgl50VX43ycPmMkl3lwX; Fri, 26 Mar 2021 14:19:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616764746; bh=XFwB8lNGG/PoztTlQE2ZWLxvoRXPfG2lERyMv+lwx/U=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=EUWbdRR0eJy/r7qVDU9G25N9F4mIUXgZByurMVOhHFuhGFV0CP3lzEI1Ytz6zv4n8
-         vTuHIqxb6E/8LNmLHcTGSLEGuvRsdYdj8d/+WgQnWhgrowbhdDnIh57A28ZGviI+1N
-         +0jtjt28UQyHPgsVT1tebB50NY+uZGQuwe85/zQi5ObNFR17/+Ts/5EqwLwMwPvKAM
-         PwUWiUQQWq7MVQ3WDWfo2wgxA/9pOEzITLn+PWlH0nOLcXfq4kuT8PymjT4HFrI57m
-         8OaXPrz4uz5oKkn0c/dJy8rcxjaQul5o/mRQqsEwaYd/hG1V4hn85GE8WKf18j7v04
-         iOQMm3HULZ7rg==
-To:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv2] drm/bridge: adv7511: fix support for large EDIDs
-Message-ID: <eeefa323-1273-10f9-0e26-0efc41ab8763@xs4all.nl>
-Date:   Fri, 26 Mar 2021 14:19:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Fri, 26 Mar 2021 10:12:16 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A24C0613AA
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 07:12:15 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1lPnBv-0005tW-3S; Fri, 26 Mar 2021 15:11:59 +0100
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1lPnBs-0006cN-1E; Fri, 26 Mar 2021 15:11:56 +0100
+Date:   Fri, 26 Mar 2021 15:11:56 +0100
+From:   Philipp Zabel <pza@pengutronix.de>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     ezequiel@collabora.com, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        lee.jones@linaro.org, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com, kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v6 02/13] dt-bindings: media: nxp,imx8mq-vpu: Update the
+ bindings for G2 support
+Message-ID: <20210326141156.GA8441@pengutronix.de>
+References: <20210318082046.51546-1-benjamin.gaignard@collabora.com>
+ <20210318082046.51546-3-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfHFTotcOZlQvI4R+7yJnKTXZFDSrFYvOWA2ESOG/SfcZoNotP72IBOXXe4ctUCvvyU92x7YObpsD8mOWKV4TxXXtdeuyEk517hu9AUm669pd+6a838oY
- huLrUrHFg9DwDTrtHrwnemlAZt7l6//HrmjM6WHEpYuNZNuG/Elw/IvVbgmC7x+ImHz8ISo3lVAgtXlS9Fd8pK82wXlGfRivugC8ChoFU67dkZbodaDuxbcx
- bx7pIpY42HfoTP2KGdp2LrXHzCssCum/KQ5h2sl07ujLMjUwOBEYB8TOg38A8MFcIFkEC8RkZCKna9AQI/19qAXLQ0jBw8n7lw/7U7QgchM=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210318082046.51546-3-benjamin.gaignard@collabora.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:07:47 up 36 days, 17:31, 96 users,  load average: 0.09, 0.22,
+ 0.17
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While testing support for large (> 256 bytes) EDIDs on the Renesas
-Koelsch board I noticed that the adv7511 bridge driver only read the
-first two blocks.
+On Thu, Mar 18, 2021 at 09:20:35AM +0100, Benjamin Gaignard wrote:
+> Introducing G2 hevc video decoder lead to modify the bindings to allow
+> to get one node per VPUs.
+> VPUs share one hardware control block which is provided as a phandle on
+> an syscon.
+> Each node got now one reg and one interrupt.
+> Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
+> 
+> To be compatible with older DT the driver is still capable to use 'ctrl'
+> reg-name even if it is deprecated now.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 5:
+> - This version doesn't break the backward compatibilty between kernel
+>   and DT.
+> 
+>  .../bindings/media/nxp,imx8mq-vpu.yaml        | 53 ++++++++++++-------
+>  1 file changed, 34 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> index 762be3f96ce9..79502fc8bde5 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> @@ -15,22 +15,18 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    const: nxp,imx8mq-vpu
+> +    oneOf:
+> +      - const: nxp,imx8mq-vpu
+> +      - const: nxp,imx8mq-vpu-g2
+>  
+>    reg:
+> -    maxItems: 3
+> -
+> -  reg-names:
+> -    items:
+> -      - const: g1
+> -      - const: g2
+> -      - const: ctrl
+> +    maxItems: 1
+>  
+>    interrupts:
+> -    maxItems: 2
+> +    maxItems: 1
+>  
+>    interrupt-names:
+> -    items:
+> +    oneOf:
+>        - const: g1
+>        - const: g2
+>  
+> @@ -46,14 +42,18 @@ properties:
+>    power-domains:
+>      maxItems: 1
+>  
+> +  nxp,imx8mq-vpu-ctrl:
+> +    description: Specifies a phandle to syscon VPU hardware control block
+> +    $ref: "/schemas/types.yaml#/definitions/phandle"
+> +
 
-The media V4L2 version for the adv7511 (drivers/media/i2c/adv7511-v4l2.c)
-handled this correctly.
+Should we drop the 'q' here, i.e. nxp,imx8m-vpu-ctrl so we can use the same
+binding for i.MX8MM later?
 
-Besides a simple bug when setting the segment register (it was set to the
-block number instead of block / 2), the logic of the code was also weird.
-In particular reading the DDC_STATUS is odd: this is unrelated to EDID
-reading.
+>  required:
+>    - compatible
+>    - reg
+> -  - reg-names
+>    - interrupts
+>    - interrupt-names
+>    - clocks
+>    - clock-names
+> +  - nxp,imx8mq-vpu-ctrl
+>  
+>  additionalProperties: false
+>  
+> @@ -62,18 +62,33 @@ examples:
+>          #include <dt-bindings/clock/imx8mq-clock.h>
+>          #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  
+> -        vpu: video-codec@38300000 {
+> +        vpu_ctrl: syscon@38320000 {
+> +                 compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
+> +                 reg = <0x38320000 0x10000>;
+> +        };
+> +
+> +        vpu_g1: video-codec@38300000 {
+>                  compatible = "nxp,imx8mq-vpu";
+> -                reg = <0x38300000 0x10000>,
+> -                      <0x38310000 0x10000>,
+> -                      <0x38320000 0x10000>;
+> -                reg-names = "g1", "g2", "ctrl";
+> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> -                interrupt-names = "g1", "g2";
+> +                reg = <0x38300000 0x10000>;
+> +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +                interrupt-names = "g1";
+> +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> +                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
 
-The reworked code just waits for any EDID segment reads to finish (this
-does nothing if the a segment is already read), checks if the desired
-segment matches the read segment, and if not, then it requests the new
-segment and waits again for the EDID segment to be read.
+Does the G1 VPU require the G2 clock and vice versa?
 
-Finally it checks if the currently buffered EDID segment contains the
-desired EDID block, and if not it will update the EDID buffer from
-the adv7511.
-
-Tested with my Koelsch board and with EDIDs of 1, 2, 3 and 4 blocks.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-Changes since v2: make current_edid_segment an int (it's set to -1 after all)
-and use that instead of reading ADV7511_REG_EDID_SEGMENT. Also sprinkle a
-few comments in the code.
----
- drivers/gpu/drm/bridge/adv7511/adv7511.h     |  2 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 40 +++++++++++++-------
- 2 files changed, 27 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index a9bb734366ae..3dd29c578fc9 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -342,7 +342,7 @@ struct adv7511 {
- 	unsigned int f_audio;
- 	unsigned int audio_source;
-
--	unsigned int current_edid_segment;
-+	int current_edid_segment;
- 	uint8_t edid_buf[256];
- 	bool edid_read;
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 76555ae64e9c..43fefdd8d92b 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -327,7 +327,12 @@ static void adv7511_set_link_config(struct adv7511 *adv7511,
-
- static void __adv7511_power_on(struct adv7511 *adv7511)
- {
-+	/*
-+	 * The adv7511 will start reading the first EDID segment as
-+	 * soon as it is powered on.
-+	 */
- 	adv7511->current_edid_segment = -1;
-+	adv7511->edid_read = false;
-
- 	regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER,
- 			   ADV7511_POWER_POWER_DOWN, 0);
-@@ -526,6 +531,7 @@ static int adv7511_wait_for_edid(struct adv7511 *adv7511, int timeout)
- static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
- 				  size_t len)
- {
-+	unsigned int need_segment = block / 2;
- 	struct adv7511 *adv7511 = data;
- 	struct i2c_msg xfer[2];
- 	uint8_t offset;
-@@ -535,23 +541,29 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
- 	if (len > 128)
- 		return -EINVAL;
-
--	if (adv7511->current_edid_segment != block / 2) {
--		unsigned int status;
-+	/* wait for any ongoing EDID segment reads to finish */
-+	adv7511_wait_for_edid(adv7511, 200);
-
--		ret = regmap_read(adv7511->regmap, ADV7511_REG_DDC_STATUS,
--				  &status);
-+	/*
-+	 * If the current read segment does not match what we need, then
-+	 * write the new segment and wait for it to be read.
-+	 *
-+	 * Note that after power on the adv7511 starts reading segment 0
-+	 * of the EDID automatically. So if current_edid_segment < 0, then
-+	 * we do not need to write the EDID_SEGMENT register again, since
-+	 * it is already reading segment 0.
-+	 */
-+	if (adv7511->current_edid_segment >= 0 &&
-+	    adv7511->current_edid_segment != need_segment) {
-+		adv7511->edid_read = false;
-+		regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
-+			     need_segment);
-+		ret = adv7511_wait_for_edid(adv7511, 200);
- 		if (ret < 0)
- 			return ret;
-+	}
-
--		if (status != 2) {
--			adv7511->edid_read = false;
--			regmap_write(adv7511->regmap, ADV7511_REG_EDID_SEGMENT,
--				     block);
--			ret = adv7511_wait_for_edid(adv7511, 200);
--			if (ret < 0)
--				return ret;
--		}
--
-+	if (adv7511->current_edid_segment != need_segment) {
- 		/* Break this apart, hopefully more I2C controllers will
- 		 * support 64 byte transfers than 256 byte transfers
- 		 */
-@@ -579,7 +591,7 @@ static int adv7511_get_edid_block(void *data, u8 *buf, unsigned int block,
- 			offset += 64;
- 		}
-
--		adv7511->current_edid_segment = block / 2;
-+		adv7511->current_edid_segment = need_segment;
- 	}
-
- 	if (block % 2 == 0)
--- 
-2.30.1
-
+regards
+Philipp
