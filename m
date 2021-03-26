@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C744334A52B
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 11:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD12A34A52E
+	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 11:00:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230333AbhCZJ7o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 05:59:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49676 "EHLO
+        id S230376AbhCZJ7u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Mar 2021 05:59:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbhCZJ66 (ORCPT
+        with ESMTP id S229981AbhCZJ67 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 05:58:58 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452BCC0613B1
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:58 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id e7so5592648edu.10
-        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:58 -0700 (PDT)
+        Fri, 26 Mar 2021 05:58:59 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1CBC0613B1
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:59 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id o19so5634560edc.3
+        for <linux-media@vger.kernel.org>; Fri, 26 Mar 2021 02:58:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2y2043uffVR+Axz3IQVPi3Ysoys/BWtFNPbRtzf1kL0=;
-        b=XgF63OA3iDsQinIPZBYEr8xo0HmgnBltM2VyBTZUJlrE7RvmQWTXVJ/bPDKAQgcbSr
-         hMzMUxoBPWavwexaFLyLHvsj9kuOGk4t4tYOfFeBHZREj7an3p7wF3sDIXq0RZ72q5BK
-         zWkAxBGo9khdo6tgVxlUUdVPNNA30QfR7Ynv4=
+        bh=uCrEyotbYF7tjluvQkWSRucWwy5lZOwnlMYsosdr5+s=;
+        b=KRXW799zU2MTkSiZwFPeS/NQnIfH+m9lYWRHp/dmwKY+tmOr2yVorJWeFyRXrK65Te
+         CnldOEnO1NNXxfPRFjj0aGq/W9BnGpxTlaLBd2HPBlLowAt8bGqEVbHG6LfWKeMQeVhY
+         3ZJSd/EDfxdk7heSx/BtvGbxpys+b3clSZVGg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2y2043uffVR+Axz3IQVPi3Ysoys/BWtFNPbRtzf1kL0=;
-        b=cZ5yrCOA4nPv+Im2XxImGXCA1N1vGV2NMRa5ggCgv2lCZDLO5m8rEyUpzzyH1WBLKA
-         LLcWXFQVLO75hVWwVZz/Q26jcP/ncK/Q518qfUNo1+5J9co+13EcdV9tnSpN2e4vTUmv
-         OHgTTrAwpIl1qCcrjbsWZ7urvZqKnZechmG2Bhnq3Z5/Dl2H1M32HE4osjIPFLhvlaYd
-         /c7AXgXL1QS+gn7humvuX3U51Au5b1uvoQFExKw+a/d0cOzERUY5IKWjJiFB3ZbEo12+
-         Pl+AFv1Pzb9r0yhCJnmPqhUPBLGe7Qiye1RCQiU221JusMRcVuaLsSzbIMbHt6ctgbXQ
-         7YZg==
-X-Gm-Message-State: AOAM533sc2o9YxhvyUknwYH6oauTjCnniflnkKxrMc92+E51GsyhOcPq
-        tndfG6xf/GN/Z++Lfj5JSlwlCA==
-X-Google-Smtp-Source: ABdhPJxvjIQgrOmedo0HpCzfT7PVy74zFLNCDZ0n2a5fez8hs/en3vpCIMntNMC2y9Q/wN+2rK09uA==
-X-Received: by 2002:a50:fd15:: with SMTP id i21mr13534405eds.384.1616752737079;
-        Fri, 26 Mar 2021 02:58:57 -0700 (PDT)
+        bh=uCrEyotbYF7tjluvQkWSRucWwy5lZOwnlMYsosdr5+s=;
+        b=nz7hQ0fcNRpm5zM89k5jBUcmrACTNAJXe7vetK+mS8xO+sYwd1CZgQ+K3rAKt4WMio
+         eikrQA4v+CKPr2WE+kQ/qaX51mq8kT933M8v/ADvz5QiM7GMTgAM/3a0/O8Knc6fZS7u
+         xazIPBG2rwCYo25u7lkA0S9Ox4aOunpSevBpwTaIkfAkOhM0gIIOkBa9n9ZnEFJfIe3P
+         haUyFo4aXXotZyOk5LDJGzw79aZmbMpCvFteeZX3py2GBTWmA+1RfIPrGfCvayKf4foU
+         ukJlmp4rtuyq1hdeVqBjkEYgt9OQsCXPazy9LEaE9EVSne1q+fmePy7AqdN5xgt+aCj6
+         N2wg==
+X-Gm-Message-State: AOAM530J6F9yNL2A9QchQof4NtDpRlvq9yaedLx76xo7R1hcSs6SEnG+
+        aULQSIluwicpr4/MueksFZpyow==
+X-Google-Smtp-Source: ABdhPJwGZlffD5wb8dSneMODwCyR7usaPrHR/9r/bzx2a8jFZm4TQieAiVLvCyG4R0aFXP7Gv9tfsA==
+X-Received: by 2002:aa7:d74b:: with SMTP id a11mr13885736eds.92.1616752738024;
+        Fri, 26 Mar 2021 02:58:58 -0700 (PDT)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id h13sm4036658edz.71.2021.03.26.02.58.56
+        by smtp.gmail.com with ESMTPSA id h13sm4036658edz.71.2021.03.26.02.58.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 02:58:56 -0700 (PDT)
+        Fri, 26 Mar 2021 02:58:57 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -52,10 +52,11 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v9 18/22] media: uvcvideo: Downgrade control error messages
-Date:   Fri, 26 Mar 2021 10:58:36 +0100
-Message-Id: <20210326095840.364424-19-ribalda@chromium.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Subject: [PATCH v9 19/22] uvcvideo: uvc_ctrl_is_accessible: check for INACTIVE
+Date:   Fri, 26 Mar 2021 10:58:37 +0100
+Message-Id: <20210326095840.364424-20-ribalda@chromium.org>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
 In-Reply-To: <20210326095840.364424-1-ribalda@chromium.org>
 References: <20210326095840.364424-1-ribalda@chromium.org>
@@ -65,27 +66,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the error into a debug message, so they are still valid for
-debugging but do not fill dmesg.
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Check for inactive controls in uvc_ctrl_is_accessible().
+Use the new value for the master_id controls if present,
+otherwise use the existing value to determine if it is OK
+to set the control. Doing this here avoids attempting to
+set an inactive control, which will return an error from the
+USB device.
+
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
 ---
- drivers/media/usb/uvc/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 28 +++++++++++++++++++++++++++-
+ drivers/media/usb/uvc/uvc_v4l2.c |  4 ++--
+ drivers/media/usb/uvc/uvcvideo.h |  3 ++-
+ 3 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index ea2903dc3252..b63c073ec30e 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -76,7 +76,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
- 	if (likely(ret == size))
- 		return 0;
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index d9d4add1e813..6e7b904bc33d 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1047,10 +1047,18 @@ static int uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
+ }
  
--	dev_err(&dev->udev->dev,
-+	dev_dbg(&dev->udev->dev,
- 		"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
- 		uvc_query_name(query), cs, unit, ret, size);
+ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+-			   bool read)
++			   const struct v4l2_ext_controls *ctrls,
++			   unsigned long ioctl)
+ {
++	struct uvc_control_mapping *master_map = NULL;
++	struct uvc_control *master_ctrl = NULL;
+ 	struct uvc_control_mapping *mapping;
+ 	struct uvc_control *ctrl;
++	bool read = ioctl == VIDIOC_G_EXT_CTRLS;
++	bool try = ioctl == VIDIOC_TRY_EXT_CTRLS;
++	s32 val;
++	int ret;
++	int i;
  
+ 	if (__uvc_query_v4l2_class(chain, v4l2_id, 0) >= 0)
+ 		return -EACCES;
+@@ -1065,6 +1073,24 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+ 	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
+ 		return -EACCES;
+ 
++	if (read || try || !mapping->master_id)
++		return 0;
++
++	for (i = ctrls->count - 1; i >= 0; i--)
++		if (ctrls->controls[i].id == mapping->master_id)
++			return ctrls->controls[i].value ==
++					mapping->master_manual ? 0 : -EACCES;
++
++	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
++			   &master_ctrl, 0);
++
++	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
++		return 0;
++
++	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
++	if (ret >= 0 && val != mapping->master_manual)
++		return -EACCES;
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 8d8b12a4db34..0f4d893eff46 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -1000,8 +1000,8 @@ static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
+ 	int ret = 0;
+ 
+ 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+-		ret = uvc_ctrl_is_accessible(chain, ctrl->id,
+-					    ioctl == VIDIOC_G_EXT_CTRLS);
++		ret = uvc_ctrl_is_accessible(chain, ctrl->id, ctrls,
++					    ioctl);
+ 		if (ret)
+ 			break;
+ 	}
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 0313b30f0cea..20bc681315fb 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -901,7 +901,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
+ int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
+ int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
+ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+-			   bool read);
++			   const struct v4l2_ext_controls *ctrls,
++			   unsigned long ioctl);
+ 
+ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+ 		      struct uvc_xu_control_query *xqry);
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
