@@ -2,103 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2804834B572
-	for <lists+linux-media@lfdr.de>; Sat, 27 Mar 2021 09:27:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08E5C34B5B5
+	for <lists+linux-media@lfdr.de>; Sat, 27 Mar 2021 10:45:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230315AbhC0I0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Mar 2021 04:26:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbhC0I02 (ORCPT
+        id S230471AbhC0Jou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Mar 2021 05:44:50 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:43785 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230415AbhC0Jon (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Mar 2021 04:26:28 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB458C0613B1;
-        Sat, 27 Mar 2021 01:26:23 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id i26so11140577lfl.1;
-        Sat, 27 Mar 2021 01:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HXMWNDQbMJC2pNLyvsUAp1+hk7Pgd2JKUMYOKTb8v3Q=;
-        b=SvrZTJXvdEocuHaG+xo/n05ji5C+L+4JwDc/e6O/Fogmbj5mmtIObBtdz8lKeGBjb6
-         n0V3B8ah2oW/a8ZfX/tKbZjMq+KXsrh3fidAFwkJew6al256wsyazbXvV2fwXVz1BKLe
-         w/g4lxYxupNR/Uf9/5dvnhTs7yk1ydKoI5k+/0vXJGEChJ4LbRdubd/vxGcIqh/G9mY9
-         A48OfCBLcteraN1ax5YerK6JaeTz84TVN2d22zzuvrva/9AiUZOxmzAyNlP2/18Z84kS
-         qoHJkQ3oDczTstEOnxxJTyXzGvl4A6k3wJWsEgoAtH+htyBkkUJrrwypAprOwnqFxALd
-         zIbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HXMWNDQbMJC2pNLyvsUAp1+hk7Pgd2JKUMYOKTb8v3Q=;
-        b=iLMvfcJdoqjYsAkFvxoWX0UEL1k+0ZU1Smsmt40K8yTszQg6cwP5sxr4sgZY7f5rKI
-         wMH77Uym8ioG9OBfKUzxw2F8Y50fTk9O6kQE0nDFsbAGcbGEVYtWItHS7Xn8uiWRyKte
-         RgmHba7860vb+6zEwN6/TyUcSFvwnEJflUQVdkR8EBTq3hksaDl7Rp8rHpIVEaWu26gk
-         IiGQsnuWpB66t/8BZ/KodDz5j9RY2+VAX6Cfg2U4W1toMXN8+rW4EbdrhcvrBq8Nm9Q5
-         xOZSGSFo0Mmc/UNnLHjobiFHWVVgCPFMVAJZ9MyurzIS2zzIeIqcnX7L/ShcWsuQEXTR
-         VLnQ==
-X-Gm-Message-State: AOAM532pc534UMChN7PJGGKbgEmvoI2VQem6R3SunDOaAMXRTRS9rray
-        Fq/gxr9jdpNNWpF03X9ACsE329ZPKgmB4WQC
-X-Google-Smtp-Source: ABdhPJwptqqbv2/oyazFu0X1cKjhZNZnSUk34ThRMcqN2NwF50QpRWdQPBNmtYdgbggQ48NPGg/A3g==
-X-Received: by 2002:a05:6512:3390:: with SMTP id h16mr10875452lfg.479.1616833582353;
-        Sat, 27 Mar 2021 01:26:22 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.227.42])
-        by smtp.gmail.com with ESMTPSA id 21sm1126966lfh.231.2021.03.27.01.26.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Mar 2021 01:26:21 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
-Subject: [PATCH] media: usb: fix memory leak in em28xx_dvb_init
-Date:   Sat, 27 Mar 2021 11:26:13 +0300
-Message-Id: <20210327082613.4702-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Sat, 27 Mar 2021 05:44:43 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Q5UjlwhA0MxedQ5UnlVhXw; Sat, 27 Mar 2021 10:44:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616838281; bh=Kf3Q422iCX47gH7MjHXvEZ1BGJA778YLIqwMrByWEBI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=mYopXwAlJL+t+A0RrTb6KILb3l/NIVTxefkdosee982F4tf1zMknWE3yFtCs/r4TX
+         gNRZTbnZJcea2pj8e+4/Gy8cJdt94Nqf3S7yCrxDaTi0NMwGBJlUnuf5D4rVNYWfsp
+         04IKvhTjqjehOY21D2uDiioDPIqKHYQBfqHQ1nKy6Xd0U6DY9c5VeR+qrBaJ7wjocL
+         Br4rMxAYqIrVlgpVn3VMi/s+w0k52zVtWNyt6TcyuzQDoQu7xUPgRSY0QcYZFMgk3a
+         v857qoMLTeiCU0jmXDHEnB+49CshYWTBw4Sfdly4Koinm5jK+DUexStq8xpx5ifAJf
+         8Q4jcgpp2kZew==
+Subject: Re: [PATCH v2] media: sq905.c: fix uninitialized variable
+To:     Alaa Emad <alaaemadhossney.ae@gmail.com>
+Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller@googlegroups.com,
+        syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
+References: <20210326210252.129595-1-alaaemadhossney.ae@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <6e78ccd3-8bdd-8a2e-ef4f-c9dded65caed@xs4all.nl>
+Date:   Sat, 27 Mar 2021 10:44:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210326210252.129595-1-alaaemadhossney.ae@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfLILiw9hCS5iAmHXMKm1xB8QqfAuJrVoDb04+zz3F5yhW8UQc2vLNZfquHQ/kHwmmLvA1RxyCf+g5TqI7pFRTbeIqOeq0DRf8jk/jG72urP65ieUbZmQ
+ GMUwyLrRLxmQinCgUek5seJ6Tbxei4UZxyS79zHR1xn2gRyNw+rD7N7oq2jksT64U9gH3tjpDZlR5Lzu+O7WapEBAGgYEvjik33i/Ft67rXD5JM7AAUPKmwI
+ ACcj5uqbOERXIJhPetWGT967JqSTaxEcJVDp0b2uvmxm/59UL8jLGRrf+B6/6pe2sBRafG0K23A11/duJFSR32ZA9j64y9IGrx5lLdk1n/Ckut0ujTGrx+sQ
+ ZOv0zLwH4WNtwQpNurXULAnXQOxfTGjOmEai6f4fMS4iGPSUNKkN/AXB15xyDXkfBJF/qjCfb/OEnNTfj4L4Z/5b1z/kevczReIuC/H0zBI+4dDF/uQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot reported memory leak in em28xx_dvb_init()[1]
-The problem was in wrong error handling after em28xx_alloc_urbs()[2] call.
-In case of error allocated urbs must be freed
+Hi Alaa,
 
-  backtrace:
-    [<ffffffff8304c141>] kmalloc_array.constprop.0+0x41/0x60 include/linux/slab.h:594
-    [<ffffffff8304dba2>] kcalloc include/linux/slab.h:623 [inline]
-    [<ffffffff8304dba2>] em28xx_alloc_urbs+0x102/0x550 drivers/media/usb/em28xx/em28xx-core.c:930 [2]
-    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]	  [1]
-    [<ffffffff84279fa7>] em28xx_dvb_init.cold+0xa3/0x2bb1 drivers/media/usb/em28xx/em28xx-dvb.c:1483
-    [<ffffffff8304e33b>] em28xx_init_extension+0x9b/0xe0 drivers/media/usb/em28xx/em28xx-core.c:1126
-    [<ffffffff83050143>] request_module_async+0x33/0x40 drivers/media/usb/em28xx/em28xx-cards.c:3406
-    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
-    [<ffffffff81259dbb>] process_scheduled_works kernel/workqueue.c:2337 [inline]
-    [<ffffffff81259dbb>] worker_thread+0x2fb/0x5d0 kernel/workqueue.c:2426
-    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
-    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+FYI: this patch has already been applied to the media_tree master git repo:
 
-Reported-by: syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/media/usb/em28xx/em28xx-dvb.c | 1 +
- 1 file changed, 1 insertion(+)
+https://patchwork.linuxtv.org/project/linux-media/patch/2c46832a-99a8-73bf-ec85-085052f8b4db@xs4all.nl/
 
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index 526424279637..471bd74667e3 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -2010,6 +2010,7 @@ static int em28xx_dvb_init(struct em28xx *dev)
- 	return result;
- 
- out_free:
-+	em28xx_uninit_usb_xfer(dev, EM28XX_DIGITAL_MODE);
- 	kfree(dvb);
- 	dev->dvb = NULL;
- 	goto ret;
--- 
-2.30.2
+That's good enough for this issue so I am marking this patch as Obsolete in
+our patchwork.
+
+On 26/03/2021 22:02, Alaa Emad wrote:
+> Reported-by: syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
+> Signed-off-by: Alaa Emad <alaaemadhossney.ae@gmail.com>
+> 
+> ---
+> Changes in v2:
+>   - Fix the error occured because of pervious fix.
+> ---
+>  drivers/media/usb/gspca/sq905.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/usb/gspca/sq905.c b/drivers/media/usb/gspca/sq905.c
+> index 97799cfb832e..57206dd2e1a0 100644
+> --- a/drivers/media/usb/gspca/sq905.c
+> +++ b/drivers/media/usb/gspca/sq905.c
+> @@ -157,8 +157,8 @@ static int sq905_ack_frame(struct gspca_dev *gspca_dev)
+>  static int
+>  sq905_read_data(struct gspca_dev *gspca_dev, u8 *data, int size, int need_lock)
+>  {
+> -	int ret;
+> -	int act_len;
+> +	int ret;
+> +	int act_len;
+>  
+>  	gspca_dev->usb_buf[0] = '\0';
+>  	if (need_lock)
+> @@ -180,8 +180,8 @@ sq905_read_data(struct gspca_dev *gspca_dev, u8 *data, int size, int need_lock)
+>  			   data, size, &act_len, SQ905_DATA_TIMEOUT);
+>  
+>  	/* successful, it returns 0, otherwise  negative */
+> -	if (ret < 0 || act_len != size) {
+> -		pr_err("bulk read fail (%d) len %d/%d\n", ret, act_len, size);
+> +	if (ret < 0 || act_len != size) {
+> +	       pr_err("bulk read fail (%d) len %d/%d\n", ret, ret < 0 ? -1 : act_len, size);
+
+General note: it looks like you are replacing tab characters with spaces.
+Make sure you configure your editor not to do that.
+
+Regards,
+
+	Hans
+
+>  		return -EIO;
+>  	}
+>  	return 0;
+> 
 
