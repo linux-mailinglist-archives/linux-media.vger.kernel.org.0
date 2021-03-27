@@ -2,97 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0395C34B7DC
-	for <lists+linux-media@lfdr.de>; Sat, 27 Mar 2021 16:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C83534B9D7
+	for <lists+linux-media@lfdr.de>; Sat, 27 Mar 2021 23:21:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbhC0PLP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Mar 2021 11:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbhC0PKp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Mar 2021 11:10:45 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE15BC0613B1;
-        Sat, 27 Mar 2021 08:10:44 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id f26so10764417ljp.8;
-        Sat, 27 Mar 2021 08:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3xfofQcDvN4J+tG1djpCVc7GNwqtmS+FRdc3V48y94c=;
-        b=g4xMcu9gaK87RePOaVte17/kJoqmPyPYDU8XeDvo5IrlKk9mVS90Pw3HsKodIfYNeG
-         msRcRaA6pUGv7nKFzQpq6pUOnDQOFU6tN71G25FCnIsfaXQCiTGPb5iU5FhyB+S8hvSa
-         5pxLDIGU13ItEW0tv3aqIDbaOkcAk3j5f53QLnS0RbOx3w1qtwkYCsomRrXXk6XNDjR9
-         dIK2KrzAG1z5YA4cK0GWEsao7ZY0JQkcA+Rm2iujwe0gRdGw6+vXEGNuC9FXDSUwlmG1
-         ArLgLZfBKwfTMAv7mOa4DKcHEgI14+ZVQYdNIAgMIohA25MIxGJNiXV5T0JML2hlz/le
-         a3Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3xfofQcDvN4J+tG1djpCVc7GNwqtmS+FRdc3V48y94c=;
-        b=eExvP63xOubT4UxkZXysdgQ17NpWU0IL8oEBWXVS1WQmazaYa84HPu+ImR8jgqkdIl
-         ZdnJbxF9tkUVcU2p3F0M+dkZr5QC+sXSvNYVm3PSmt/Gm8tOXQVlCdOdb9oTMjek5Xm4
-         GEKRXIOoBDeF7Q/sd6AmKbvXbGEWPulKQj7yzU1SlgPkHU26Q7gCnzZ17wn/j1glEkZi
-         hfDZKn2LLWRTX9+5b/cax2o+Zye1JxuAnGxIqvZy5stMZV+3Y13247Ui7WO1a6LAMQiX
-         dvQIMCpg2p8cnA3RQohK7v3hHbXm7r6IM8LlI4PPkqmLzu6Jp+Z34wQGBTTozlzPinUQ
-         nbBQ==
-X-Gm-Message-State: AOAM530sVz6xuzeUfQPDnGoFJdJn6YcKRtoYHlRzG0mcJ0Rw+8gAhB2B
-        le7msd+YceWhW1MnzGHEGp1gMSYmYuiPBEpWpso=
-X-Google-Smtp-Source: ABdhPJwafV4KNkPy1zHGiOqitY4kgFI/fQAcdR1EfGqZGLCO1GBSj03JQziROm1n/De278FX7mZzgg==
-X-Received: by 2002:a2e:9793:: with SMTP id y19mr11876186lji.374.1616857843167;
-        Sat, 27 Mar 2021 08:10:43 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.227.42])
-        by smtp.gmail.com with ESMTPSA id x13sm1590125ljj.4.2021.03.27.08.10.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Mar 2021 08:10:42 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     mchehab@kernel.org, andy.shevchenko@gmail.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
-Subject: [PATCH v2] media: usb: fix memory leak in em28xx_dvb_init
-Date:   Sat, 27 Mar 2021 18:09:16 +0300
-Message-Id: <20210327150916.31848-1-paskripkin@gmail.com>
+        id S231225AbhC0WUm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Mar 2021 18:20:42 -0400
+Received: from mga14.intel.com ([192.55.52.115]:65376 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231191AbhC0WUR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 27 Mar 2021 18:20:17 -0400
+IronPort-SDR: Xoq7TagD7rdSeABGU20yDwb7C1SndxULbZfqA/QSpUv63EgOCoPrfAgRZ5SUt3avb8TvAvEYbU
+ IdurenMTkIcA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9936"; a="190792949"
+X-IronPort-AV: E=Sophos;i="5.81,284,1610438400"; 
+   d="scan'208";a="190792949"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2021 15:20:16 -0700
+IronPort-SDR: Fm30aeXPCvAm5sdq9f22Q7ZzXtWWAW+bh5SrIxPsTasYOT1OuV3Y9X7Y5AC0VxWy5KLtXNEbka
+ iRjLdNX/M3zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,284,1610438400"; 
+   d="scan'208";a="594591281"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga005.jf.intel.com with ESMTP; 27 Mar 2021 15:20:13 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id C980411F; Sun, 28 Mar 2021 00:20:27 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH v1 1/8] software node: Free resources explicitly when swnode_register() fails
+Date:   Sun, 28 Mar 2021 00:20:05 +0200
+Message-Id: <20210327222012.54103-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210327082613.4702-1-paskripkin@gmail.com>
-References: <20210327082613.4702-1-paskripkin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot reported memory leak in em28xx_dvb_init()[1]
-The problem was in wrong error handling after em28xx_alloc_urbs()[2] call.
-In case of error allocated urbs must be freed
+Currently we have a slightly twisted logic in swnode_register().
+It frees resources that it doesn't allocate on error path and
+in once case it relies on the ->release() implementation.
 
-  backtrace:
-    [<ffffffff8304c141>] kmalloc_array.constprop.0+0x41/0x60 include/linux/slab.h:594
-    [<ffffffff8304dba2>] kcalloc include/linux/slab.h:623 [inline]
-    [<ffffffff8304dba2>] em28xx_alloc_urbs+0x102/0x550 drivers/media/usb/em28xx/em28xx-core.c:930 [2]
-    [<ffffffff84279fa7>] em28xx_dvb_init drivers/media/usb/em28xx/em28xx-dvb.c:1517 [inline]	  [1]
+Untwist the logic by freeing resources explicitly when swnode_register()
+fails. Currently it happens only in fwnode_create_software_node().
 
-Reported-by: syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/media/usb/em28xx/em28xx-dvb.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/base/swnode.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index 526424279637..471bd74667e3 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -2010,6 +2010,7 @@ static int em28xx_dvb_init(struct em28xx *dev)
- 	return result;
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index fa3719ef80e4..456f5fe58b58 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -767,22 +767,19 @@ swnode_register(const struct software_node *node, struct swnode *parent,
+ 	int ret;
  
- out_free:
-+	em28xx_uninit_usb_xfer(dev, EM28XX_DIGITAL_MODE);
- 	kfree(dvb);
- 	dev->dvb = NULL;
- 	goto ret;
+ 	swnode = kzalloc(sizeof(*swnode), GFP_KERNEL);
+-	if (!swnode) {
+-		ret = -ENOMEM;
+-		goto out_err;
+-	}
++	if (!swnode)
++		return ERR_PTR(-ENOMEM);
+ 
+ 	ret = ida_simple_get(parent ? &parent->child_ids : &swnode_root_ids,
+ 			     0, 0, GFP_KERNEL);
+ 	if (ret < 0) {
+ 		kfree(swnode);
+-		goto out_err;
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	swnode->id = ret;
+ 	swnode->node = node;
+ 	swnode->parent = parent;
+-	swnode->allocated = allocated;
+ 	swnode->kobj.kset = swnode_kset;
+ 	fwnode_init(&swnode->fwnode, &software_node_ops);
+ 
+@@ -803,16 +800,17 @@ swnode_register(const struct software_node *node, struct swnode *parent,
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	/*
++	 * Assign the flag only in the successful case, so
++	 * the above kobject_put() won't mess up with properties.
++	 */
++	swnode->allocated = allocated;
++
+ 	if (parent)
+ 		list_add_tail(&swnode->entry, &parent->children);
+ 
+ 	kobject_uevent(&swnode->kobj, KOBJ_ADD);
+ 	return &swnode->fwnode;
+-
+-out_err:
+-	if (allocated)
+-		property_entries_free(node->properties);
+-	return ERR_PTR(ret);
+ }
+ 
+ /**
+@@ -963,6 +961,7 @@ struct fwnode_handle *
+ fwnode_create_software_node(const struct property_entry *properties,
+ 			    const struct fwnode_handle *parent)
+ {
++	struct fwnode_handle *fwnode;
+ 	struct software_node *node;
+ 	struct swnode *p = NULL;
+ 	int ret;
+@@ -987,7 +986,13 @@ fwnode_create_software_node(const struct property_entry *properties,
+ 
+ 	node->parent = p ? p->node : NULL;
+ 
+-	return swnode_register(node, p, 1);
++	fwnode = swnode_register(node, p, 1);
++	if (IS_ERR(fwnode)) {
++		property_entries_free(node->properties);
++		kfree(node);
++	}
++
++	return fwnode;
+ }
+ EXPORT_SYMBOL_GPL(fwnode_create_software_node);
+ 
 -- 
 2.30.2
 
