@@ -2,107 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08E5C34B5B5
-	for <lists+linux-media@lfdr.de>; Sat, 27 Mar 2021 10:45:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A334734B5F2
+	for <lists+linux-media@lfdr.de>; Sat, 27 Mar 2021 11:06:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230471AbhC0Jou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Mar 2021 05:44:50 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:43785 "EHLO
+        id S231293AbhC0KGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Mar 2021 06:06:40 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50773 "EHLO
         lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230415AbhC0Jon (ORCPT
+        by vger.kernel.org with ESMTP id S231420AbhC0KGh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Mar 2021 05:44:43 -0400
+        Sat, 27 Mar 2021 06:06:37 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id Q5UjlwhA0MxedQ5UnlVhXw; Sat, 27 Mar 2021 10:44:41 +0100
+        id Q5oTlwoWOMxedQ5oWlVlgm; Sat, 27 Mar 2021 11:05:05 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616838281; bh=Kf3Q422iCX47gH7MjHXvEZ1BGJA778YLIqwMrByWEBI=;
+        t=1616839505; bh=TQ+a8tANZ+72KNGmHrRM3uD3YjpIQRYLJTptBtx+rtg=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=mYopXwAlJL+t+A0RrTb6KILb3l/NIVTxefkdosee982F4tf1zMknWE3yFtCs/r4TX
-         gNRZTbnZJcea2pj8e+4/Gy8cJdt94Nqf3S7yCrxDaTi0NMwGBJlUnuf5D4rVNYWfsp
-         04IKvhTjqjehOY21D2uDiioDPIqKHYQBfqHQ1nKy6Xd0U6DY9c5VeR+qrBaJ7wjocL
-         Br4rMxAYqIrVlgpVn3VMi/s+w0k52zVtWNyt6TcyuzQDoQu7xUPgRSY0QcYZFMgk3a
-         v857qoMLTeiCU0jmXDHEnB+49CshYWTBw4Sfdly4Koinm5jK+DUexStq8xpx5ifAJf
-         8Q4jcgpp2kZew==
-Subject: Re: [PATCH v2] media: sq905.c: fix uninitialized variable
-To:     Alaa Emad <alaaemadhossney.ae@gmail.com>
-Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller@googlegroups.com,
-        syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
-References: <20210326210252.129595-1-alaaemadhossney.ae@gmail.com>
+        b=o7jixV1agKLGgeAKUWLh4lEarKkd8CuDrVDehObW6h4Qo6OYOQwHO/2uVKQfcNC+o
+         gwqg3cbmBELcRClgYGi7X8oMCb/8OQd17F2QzRZAafGBzgBkT8hLVfeveB07isJP32
+         zmlBWLRU6KvBvFMmiq1bPZFUPJOPDTRZAb/jt06O7FS6yFIPTz7aYs62/VfROWtRmZ
+         aAuRgcT2V7fBe81gBjzOmh1lO/KrvrZ/M2LaD/lBaLW53e6oEOsW8AexjmyZJc1RmA
+         ktRTjp1ElaQkunFmhoMSkTMvkZ9MetAt+Ox8EJzvL6FCdPz7Kd7cC9sCrBJMmczHI8
+         pAtfVAVz2tmvA==
+Subject: Re: [PATCH v5 0/5] Add r8a77965 DRIF support
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20201021135332.4928-1-fabrizio.castro.jz@renesas.com>
+ <20201021214319.GO3942@pendragon.ideasonboard.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6e78ccd3-8bdd-8a2e-ef4f-c9dded65caed@xs4all.nl>
-Date:   Sat, 27 Mar 2021 10:44:37 +0100
+Message-ID: <90cb3777-377c-84d0-9b35-8c4b15084ebd@xs4all.nl>
+Date:   Sat, 27 Mar 2021 11:05:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210326210252.129595-1-alaaemadhossney.ae@gmail.com>
+In-Reply-To: <20201021214319.GO3942@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLILiw9hCS5iAmHXMKm1xB8QqfAuJrVoDb04+zz3F5yhW8UQc2vLNZfquHQ/kHwmmLvA1RxyCf+g5TqI7pFRTbeIqOeq0DRf8jk/jG72urP65ieUbZmQ
- GMUwyLrRLxmQinCgUek5seJ6Tbxei4UZxyS79zHR1xn2gRyNw+rD7N7oq2jksT64U9gH3tjpDZlR5Lzu+O7WapEBAGgYEvjik33i/Ft67rXD5JM7AAUPKmwI
- ACcj5uqbOERXIJhPetWGT967JqSTaxEcJVDp0b2uvmxm/59UL8jLGRrf+B6/6pe2sBRafG0K23A11/duJFSR32ZA9j64y9IGrx5lLdk1n/Ckut0ujTGrx+sQ
- ZOv0zLwH4WNtwQpNurXULAnXQOxfTGjOmEai6f4fMS4iGPSUNKkN/AXB15xyDXkfBJF/qjCfb/OEnNTfj4L4Z/5b1z/kevczReIuC/H0zBI+4dDF/uQ=
+X-CMAE-Envelope: MS4xfN+Yt1MWMaGCp7FLHOcIRM9XIgx0VI4ifq17L4jrGKeisDLRki3Re8MK1nlJNK/yzjJIk47ikGYxcXrLee7JxdY/rKR2G1Jip6K9K6KHrHFrXo3oIQ3T
+ TpkpX1J96ZRYmwbaJ7EBf/ZFDL+IMgu9RxL2/FNqmC0wBznghhFF7hXITwWdx14/af/LlwfVtswMPoqUwKveSzWmo5okhH1h5f8BuFGsnfkq0F843We+qx6K
+ e9h6GyhPeuo4S/EhzepOIuWWaIWM0veX9HuwsbMVXBnLYka0/tRm85+ycDn0p/dpH1ghRVcK2yOGBYz/1Vx26uJe0X593xH8oS0B9nbPSjUUwAbN1hmiBZgC
+ sB3A/J/T5yWjOK4MviHA+0nPxvj6W6pFbWQYvq75Rq3+27wwxgCfTwsiC/DxBnUsM7O0BGF3DqjsfzsHcBHSnleKlbi/JNP0dJrtg7yGrASlBs28H9PHFYVX
+ VTgmvM1AQ4crePxJOqnTnilb4lQ5lI4Ajtz2Rfbz6cP9RQMXvLxnUjbwbHqNI1RuLDJhF4KrXvvxhPlZmRsh08p3u2TfHqrN6UT+MABowqu6sAp+O9aAyYyi
+ tgJKQ+5AuuOeowwrDM8U76XcbUzuaaQkgJRKgs4OUflvcritGjJvnQDxmeJ0C/VSeVSUWefAtx+MPdaLcV5FHVHH+4aV7E2ckQExsqoDXKoxtg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alaa,
+Hi Laurent,
 
-FYI: this patch has already been applied to the media_tree master git repo:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/2c46832a-99a8-73bf-ec85-085052f8b4db@xs4all.nl/
-
-That's good enough for this issue so I am marking this patch as Obsolete in
-our patchwork.
-
-On 26/03/2021 22:02, Alaa Emad wrote:
-> Reported-by: syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
-> Signed-off-by: Alaa Emad <alaaemadhossney.ae@gmail.com>
+On 21/10/2020 23:43, Laurent Pinchart wrote:
+> Hi Fabrizio,
 > 
-> ---
-> Changes in v2:
->   - Fix the error occured because of pervious fix.
-> ---
->  drivers/media/usb/gspca/sq905.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> On Wed, Oct 21, 2020 at 02:53:27PM +0100, Fabrizio Castro wrote:
+>> Dear All,
+>>
+>> this series is to add DRIF support for the r8a77965
+>> (a.k.a. R-Car M3-N). Version 5 fixes a warning reported
+>> by 'make dt_binding_check', as reported by Rob.
 > 
-> diff --git a/drivers/media/usb/gspca/sq905.c b/drivers/media/usb/gspca/sq905.c
-> index 97799cfb832e..57206dd2e1a0 100644
-> --- a/drivers/media/usb/gspca/sq905.c
-> +++ b/drivers/media/usb/gspca/sq905.c
-> @@ -157,8 +157,8 @@ static int sq905_ack_frame(struct gspca_dev *gspca_dev)
->  static int
->  sq905_read_data(struct gspca_dev *gspca_dev, u8 *data, int size, int need_lock)
->  {
-> -	int ret;
-> -	int act_len;
-> +	int ret;
-> +	int act_len;
->  
->  	gspca_dev->usb_buf[0] = '\0';
->  	if (need_lock)
-> @@ -180,8 +180,8 @@ sq905_read_data(struct gspca_dev *gspca_dev, u8 *data, int size, int need_lock)
->  			   data, size, &act_len, SQ905_DATA_TIMEOUT);
->  
->  	/* successful, it returns 0, otherwise  negative */
-> -	if (ret < 0 || act_len != size) {
-> -		pr_err("bulk read fail (%d) len %d/%d\n", ret, act_len, size);
-> +	if (ret < 0 || act_len != size) {
-> +	       pr_err("bulk read fail (%d) len %d/%d\n", ret, ret < 0 ? -1 : act_len, size);
+> Patch 1/5 to 4/5 taken in my tree, I'll send a pull request to
+> linux-media when the merge window closes. I expect Geert to handle 5/5.
 
-General note: it looks like you are replacing tab characters with spaces.
-Make sure you configure your editor not to do that.
+Patch 5 has been merged, but patches 1-4 aren't. I don't think there
+was a PR for it. For some reason these patches are delegated to me in
+patchwork. I've now delegated them to you for further processing.
 
 Regards,
 
 	Hans
 
->  		return -EIO;
->  	}
->  	return 0;
+> 
+>> Fabrizio Castro (5):
+>>   MAINTAINERS: Update MAINTAINERS for Renesas DRIF driver
+>>   media: dt-bindings: media: renesas,drif: Convert to json-schema
+>>   media: dt-bindings: media: renesas,drif: Add r8a77990 support
+>>   media: dt-bindings: media: renesas,drif: Add r8a77965 support
+>>   arm64: dts: r8a77965: Add DRIF support
+>>
+>>  .../bindings/media/renesas,drif.txt           | 177 -----------
+>>  .../bindings/media/renesas,drif.yaml          | 279 ++++++++++++++++++
+>>  MAINTAINERS                                   |   4 +-
+>>  arch/arm64/boot/dts/renesas/r8a77965.dtsi     | 120 ++++++++
+>>  4 files changed, 401 insertions(+), 179 deletions(-)
+>>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,drif.txt
+>>  create mode 100644 Documentation/devicetree/bindings/media/renesas,drif.yaml
 > 
 
