@@ -2,151 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DB3C34B165
-	for <lists+linux-media@lfdr.de>; Fri, 26 Mar 2021 22:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2920434B444
+	for <lists+linux-media@lfdr.de>; Sat, 27 Mar 2021 05:41:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230152AbhCZVf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Mar 2021 17:35:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230142AbhCZVfw (ORCPT
+        id S229582AbhC0Ekk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Mar 2021 00:40:40 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:39377 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229481AbhC0EkT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Mar 2021 17:35:52 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D822C0613AA;
-        Fri, 26 Mar 2021 14:35:51 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id u20so8933403lja.13;
-        Fri, 26 Mar 2021 14:35:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=2ieblrruj5YvTjlquzx3j6fm4YaYK6LNYq/xss2H9Js=;
-        b=aUwEl6EAV87dwYXbqwLb8Yd4Htq9czvGjktMNzsBZVhRS2evEwTxETMqtc6um5dsp5
-         uIGgoIwi8UsaAuf5KREZIpSDmGLHfRDz+p2MsoHqf9uLwQBzPfm4AwFMKGFntnF8nKEk
-         m4vZyZpYZanEeEDH4Og7bmKusaUDgV+yiWhuuBIxfvPLL9dG51SOW9SMQT5YgXojuwle
-         DT2Os2kaZgCuj3+4Ih9uMpmuEZiMHGKmDOLZMQkivyF7XO0129f0ZJctJwHSJLP5cRLE
-         kltmu30vDXYL7zWWOb/IJVQhv/TEKY+WIgmSenk+glm9/l4ghC3ldYDvV68b+ARgJBsN
-         9pXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=2ieblrruj5YvTjlquzx3j6fm4YaYK6LNYq/xss2H9Js=;
-        b=E6jgN1F8s3XIfqoZmga6qNTCDf2SKtA+DHH1u6JnVxrmR9rRVpbPwfKs1FcxAM+VJN
-         NXDfIxiQhEPCF+ximczJ6Ze0v6mAi66MZTSQ466/OB717HDcshNnV5zD5h/VzDqLk7JW
-         AAhRe9Pqs5X79c3l/uudI1/EDqad1DyDan0Tk5ZeIABwCyQistPwU3pQuukHGUxCbfH5
-         JP2dojmpnbl+9blNWivP/AjSJC3Q/EOv7Gr8fhbse/6OfyxlMWaxtOAhoNztnPgQDlNK
-         piZVI3QBUEZI0gtbq5bpninPgrw3KGToz77jpJ3uJNQ0tJeDgo0DkEXlPfi2fDfQWT/v
-         TaWA==
-X-Gm-Message-State: AOAM532t54iDaehpHP52K8NDSyvgFRlMSaUa6xUkxK9jhRKuwBtmKmgS
-        EYKaGalkf2XMc3uTKwSeB4g=
-X-Google-Smtp-Source: ABdhPJzQs6zt1xIb4kqD4QqbvVt55cHTl9PiickiClvdb7Si0ASZn+rAJZicogFpuhwjfgtY5ihsxg==
-X-Received: by 2002:a2e:a48b:: with SMTP id h11mr10025070lji.492.1616794549965;
-        Fri, 26 Mar 2021 14:35:49 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.227.42])
-        by smtp.gmail.com with ESMTPSA id x17sm982675lfg.164.2021.03.26.14.35.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 14:35:49 -0700 (PDT)
-Message-ID: <ff97f9dc25d726e06d792e5d011f19747637e2a0.camel@gmail.com>
-Subject: Re: [PATCH v2] media: sq905.c: fix uninitialized variable
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     Alaa Emad <alaaemadhossney.ae@gmail.com>, hverkuil@xs4all.nl
-Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller@googlegroups.com,
-        syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com,
-        Dmitry Vyukov <dvyukov@google.com>
-Date:   Sat, 27 Mar 2021 00:35:48 +0300
-In-Reply-To: <20210326210252.129595-1-alaaemadhossney.ae@gmail.com>
-References: <20210326210252.129595-1-alaaemadhossney.ae@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sat, 27 Mar 2021 00:40:19 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Q0k9l7uZogIC3Q0kBlk5ZO; Sat, 27 Mar 2021 05:40:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616820015; bh=hH/tH3HVbbIJ86NqXzOSzlny/LI0oTU3fK8GwvWWrxw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=N2OX7KVrAqqsVh3LdcYM+klMsyyqvKLm5jCPVnE7ZeJg6bk0YAVsQLa6nlxj8qbAX
+         wHsQLYU5j3eDsfbJVW92oQKeQCfinqROqdSu3cMlc1oe6dT4JV4rAH3tokPWyID71M
+         gT1uCXtv+dHWNE9GKkLPcnbZHLapd1FY4Er2X8rOK4HwMswJ5Wuw6b8lqzwXSm4+js
+         mUv0RpZOxXIGB8OxqtgrLXmYDAyKn0NhGbRuTvJsFf/MwvzsEZA+396CcR4rJra4LF
+         7GZ44yXzWoUUuecTDfcL34Yq3nNB2jxPAnAuV5LCD7z8qE6xIPIpAnaJr3znDiQCM8
+         wzpN3mAjoslQQ==
+Message-ID: <118633b49342833c344b85b663409bd2@smtp-cloud8.xs4all.net>
+Date:   Sat, 27 Mar 2021 05:40:13 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfO05FEjwbezsA217sZ4fn6K2tvHSEJGb4uHSk3mYmpXa01Ea5+htGJd0iWWn7d+aytMVEo61PSPq7EOwO9gg2mpE8PwYH57iJHYhsvrGWG7jA8Nj3Cyz
+ +udAWg7u+H64NfeFMhobN7ZTBsYGgp1K7xFiilspTq5eqRPU2FrTPRFOjVOYwE4z+X7m6T0A0LjO/glqwa1g/7uVKqKjgSY/IZgmQy+rXlpOCJHgfLKASODl
+ wv+FgjL5Frj0em0hTsFj0w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Fri, 2021-03-26 at 23:02 +0200, Alaa Emad wrote:
-> Reported-by: syzbot+a4e309017a5f3a24c7b3@syzkaller.appspotmail.com
-> Signed-off-by: Alaa Emad <alaaemadhossney.ae@gmail.com>
-> 
-> ---
-> Changes in v2:
->   - Fix the error occured because of pervious fix.
-> ---
->  drivers/media/usb/gspca/sq905.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/usb/gspca/sq905.c
-> b/drivers/media/usb/gspca/sq905.c
-> index 97799cfb832e..57206dd2e1a0 100644
-> --- a/drivers/media/usb/gspca/sq905.c
-> +++ b/drivers/media/usb/gspca/sq905.c
-> @@ -157,8 +157,8 @@ static int sq905_ack_frame(struct gspca_dev
-> *gspca_dev)
->  static int
->  sq905_read_data(struct gspca_dev *gspca_dev, u8 *data, int size, int
-> need_lock)
->  {
-> -       int ret;
-> -       int act_len;
-> +       int ret;
-> +       int act_len;
->  
->         gspca_dev->usb_buf[0] = '\0';
->         if (need_lock)
-> @@ -180,8 +180,8 @@ sq905_read_data(struct gspca_dev *gspca_dev, u8
-> *data, int size, int need_lock)
->                            data, size, &act_len, SQ905_DATA_TIMEOUT);
->  
->         /* successful, it returns 0, otherwise  negative */
-> -       if (ret < 0 || act_len != size) {
-> -               pr_err("bulk read fail (%d) len %d/%d\n", ret, act_len,
-> size);
-> +       if (ret < 0 || act_len != size) {
-> +              pr_err("bulk read fail (%d) len %d/%d\n", ret, ret < 0 ?
-> -1 : act_len, size);
->                 return -EIO;
->         }
->         return 0;
-> -- 
-> 2.25.1
-> 
+Results of the daily build of media_tree:
 
-I skimmed through code, and I'm not sure about Dmitry's approach,
-because I think usb_submit_urb() can return some valid urb-
->actual_length and error code:
+date:			Sat Mar 27 05:00:11 CET 2021
+media-tree git hash:	97b34809ec240d82c82af97626c2071a4062e0e6
+media_build git hash:	70188fdddcfedda190f1118529888cd3dc2581d6
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-	if (!wait_for_completion_timeout(&ctx.done, expire)) {
-		usb_kill_urb(urb);
-		retval = (ctx.status == -ENOENT ? -ETIMEDOUT :
-ctx.status);
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12-rc1-i686: OK
+linux-5.12-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: ERRORS: Final Summary: 3023, Succeeded: 3022, Failed: 1, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-		dev_dbg(&urb->dev->dev,
-			"%s timed out on ep%d%s len=%u/%u\n",
-			current->comm,
-			usb_endpoint_num(&urb->ep->desc),
-			usb_urb_dir_in(urb) ? "in" : "out",
-			urb->actual_length,
-			urb->transfer_buffer_length);
-	} else
-		retval = ctx.status;
-...
-	if (actual_length)
-		*actual_length = urb->actual_length;
+Detailed results are available here:
 
-I believe, that this info might be useful.  
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-Im not sure about it, i didn't found any examples of this log and have
-no idea how to reproduce it, it's just my thoughts. Maybe, one of the
-maintainers will correct me 
+Detailed regression test results are available here:
 
--- 
-With regards,
-Pavel Skripkin
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
 
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
