@@ -2,137 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4F9034BC81
-	for <lists+linux-media@lfdr.de>; Sun, 28 Mar 2021 15:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72DDC34BC93
+	for <lists+linux-media@lfdr.de>; Sun, 28 Mar 2021 16:26:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbhC1N1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Mar 2021 09:27:54 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33084 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbhC1N1n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Mar 2021 09:27:43 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id C27381F4645C
-Message-ID: <d0736505a4814aa2ba19c3c2cd9480d44b0781ef.camel@collabora.com>
-Subject: Re: [PATCH v2 4/4] v4l: async, fwnode: Improve module organisation
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, ezequiel.garcia@collabora.com
-Date:   Sun, 28 Mar 2021 10:27:35 -0300
-In-Reply-To: <20210323192742.GA3@paasikivi.fi.intel.com>
-References: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
-         <20210312125657.25442-5-sakari.ailus@linux.intel.com>
-         <8f28218c90cdf22dd7f3d2cea259f4013ff263c4.camel@collabora.com>
-         <20210323192742.GA3@paasikivi.fi.intel.com>
-Organization: Collabora
+        id S231180AbhC1O0P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Mar 2021 10:26:15 -0400
+Received: from comms.puri.sm ([159.203.221.185]:38576 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229499AbhC1O0C (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 28 Mar 2021 10:26:02 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 12BB4DFE04;
+        Sun, 28 Mar 2021 07:25:32 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 8_QDUlBngpvc; Sun, 28 Mar 2021 07:25:31 -0700 (PDT)
+Message-ID: <d693de36b91bb06f0d5209140e75355b1e16a197.camel@puri.sm>
+Subject: Re: [PATCH] imx7-media-csi: csi2 only
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     ezequiel@collabora.com, festevam@gmail.com,
+        linux-media@vger.kernel.org, p.zabel@pengutronix.de,
+        rmfrfs@gmail.com, slongerbeam@gmail.com
+Date:   Sun, 28 Mar 2021 16:25:26 +0200
+In-Reply-To: <YFHXm4vnyJ3SKEB8@pendragon.ideasonboard.com>
+References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
+         <20210316115635.4096574-1-martin.kepplinger@puri.sm>
+         <YFDzUpzZVrGbM793@pendragon.ideasonboard.com>
+         <9079ec9d39d48acbc3630db079b92dc223d6f1f4.camel@puri.sm>
+         <YFHXm4vnyJ3SKEB8@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
-MIME-Version: 1.0
+User-Agent: Evolution 3.38.3-1 
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2021-03-23 at 21:27 +0200, Sakari Ailus wrote:
-> Hi Ezequiel,
+Am Mittwoch, dem 17.03.2021 um 12:19 +0200 schrieb Laurent Pinchart:
+> Hi Martin,
 > 
-> On Tue, Mar 23, 2021 at 02:46:04PM -0300, Ezequiel Garcia wrote:
-> > On Fri, 2021-03-12 at 14:56 +0200, Sakari Ailus wrote:
-> > > The V4L2 async framework is generally used with the V4L2 fwnode, which
-> > > also depends on the former. There is only one exception, the CAFE_CCIC
-> > > driver, which uses V4L2 async but does not need V4L2 fwnode.
+> On Wed, Mar 17, 2021 at 11:08:57AM +0100, Martin Kepplinger wrote:
+> > Am Dienstag, dem 16.03.2021 um 20:05 +0200 schrieb Laurent
+> > Pinchart:
+> > > On Tue, Mar 16, 2021 at 12:56:35PM +0100, Martin Kepplinger
+> > > wrote:
+> > > > ---
+> > > > 
+> > > > hi Laurent,
+> > > > 
+> > > > thanks a lot for posting this series!
+> > > > 
+> > > > First: I only test imx7-media-csi (csi bridge) because I run it
+> > > > on imx8mq.
+> > > > overall, I'm very happy with all of this and I get the same
+> > > > image out
+> > > > of it as I get with the mx6s_capture nxp driver.
 > > > 
-> > > At the same time there is a vast number of systems that need videodev
-> > > module, but have no use for v4l2-async that's now part of videodev.
+> > > That's good news :-)
 > > > 
-> > > In order to improve, build v4l2-async and v4l2-fwnode as a single module
-> > > called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
-> > > Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
+> > > > one issue I have is with is_csi2, so I post this patch that I
+> > > > need in
+> > > > order to test. It's obviously no solution, just to describe the
+> > > > issue:
+> > > > 
+> > > > I'm not sure why but imx7_csi_pad_link_validate() isn't called
+> > > > in my case
+> > > > and is_csi2 doesn't get set, so I force it. Would it make sense
+> > > > to> make
+> > > > a dts property for this?
 > > > 
+> > > Some platforms support both parallel and CSI-2 inputs, so we
+> > > can't
+> > > hardcode which one is used in DT. I'd advise trying to debug why
+> > > the
+> > > function is never called in your case, it's meant to be called
+> > > with the
+> > > following call stack
+> > > 
+> > > - imx7_csi_pad_link_validate() (through
+> > > v4l2_subdev_pad_ops.link_validate)
+> > > - v4l2_subdev_link_validate() (through
+> > > media_entity_operations.link_validate)
+> > > - __media_pipeline_start()
+> > > - imx_media_pipeline_set_stream()
+> > > - capture_start_streaming()
+> > > - ...
 > > 
-> > Seems this is not what this patch is doing: the symbol is not renamed,
-> > and now we have two modules v4l2-fwnode.ko and v4l2-async.ko, unless
-> > I'm confused.
-> 
-> Oh, well, I changed what the patch does but forgot to update this. :-I
-> 
-> Basically this now splits v4l2-async out of videodev.
-> 
+> > possible the 2 issues are related. I have to say that media-ctl
+> > (and
+> > the api) is kind of new to me and this is not strictly related to
+> > the
+> > patchset anymore. The patchset is certainly required for us to
+> > have.
+> > this is just me trying to test it properly...
 > > 
-> > I personally was more fond of having just one v4l2-async.ko module,
-> > but I'm not sure if you found any obstacles.
 > > 
-> > > This also moves the initialisation of the debufs entries for async subdevs
-> > > to loading of the v4l2-async module. The directory is named as
-> > > "v4l2-async".
-> > > 
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/media/i2c/Kconfig            |  8 ++++++++
-> > >  drivers/media/v4l2-core/Kconfig      |  4 ++++
-> > >  drivers/media/v4l2-core/Makefile     | 11 +++++++++--
-> > >  drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
-> > >  drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
-> > >  5 files changed, 42 insertions(+), 9 deletions(-)
-> > > 
-> > [..]
-> > > diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-> > > index e4cd589b99a5..eb5ebb5461fd 100644
-> > > --- a/drivers/media/v4l2-core/Makefile
-> > > +++ b/drivers/media/v4l2-core/Makefile
-> > > @@ -7,15 +7,22 @@ tuner-objs    :=      tuner-core.o
-> > >  
-> > >  videodev-objs  :=      v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
-> > >                         v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
-> > > -                       v4l2-async.o v4l2-common.o
-> > > +                       v4l2-common.o
-> > >  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
-> > >  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
-> > >  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
-> > >  videodev-$(CONFIG_SPI) += v4l2-spi.o
-> > >  videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
-> > >  
-> > > -obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
-> > >  obj-$(CONFIG_VIDEO_V4L2) += videodev.o
-> > > +ifneq ($(findstring y,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
+> > I tried to set what I know that my sensor driver sends to mipi:
 > > 
-> > Hm, to me this ifdefery is an indication that we are trying
-> > to do something fishy.
+> > media-ctl -V "'csi':0 [fmt:SBGGR10/640x480 colorspace:raw]"
+> > 
+> > 
+> > Device topology
+> > - entity 1: csi (2 pads, 1 link)
+> >             type V4L2 subdev subtype Unknown flags 0
+> >             device node name /dev/v4l-subdev0
+> >         pad0: Sink
+> >                 [fmt:SBGGR10_1X10/640x480 field:none colorspace:raw
+> > xfer:none ycbcr:601 quantization:full-range]
+> >         pad1: Source
+> >                 [fmt:SBGGR10_1X10/640x480 field:none colorspace:raw
+> > xfer:none ycbcr:601 quantization:full-range]
+> >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
+> > 
+> > - entity 4: csi capture (1 pad, 1 link)
+> >             type Node subtype V4L flags 0
+> >             device node name /dev/video0
+> >         pad0: Sink
+> >                 <- "csi":1 [ENABLED,IMMUTABLE]
+> > 
+> > - entity 10: mxc-mipi-csi2.0 (0 pad, 0 link)
+> >              type V4L2 subdev subtype Unknown flags 0
+> >              device node name /dev/v4l-subdev1
 > 
-> What's happening here is that v4l2-fwnode depends on v4l2-async, but for
-> drivers to avoid selecting both, v4l2-async is built if only
-> CONFIG_V4L2_FWNODE is set.
+> The sensor is missing from the media graph, so that's not very likely
+> to
+> work :-) Has the sensor driver probed correctly ? Also, the
+> mxc-mipi-csi2.0 entity doesn't have pads, that's not right.
 > 
-> So this perhaps isn't too pretty but it saves hassle in Kconfig files.
 > 
 
-How about:
+ok. what I try is adding a mipi driver (based on nxps') to the staging
+drivers and what media-ctl -p says so far is below. Despite no sensor
+being shown (not sure what's missing there), the sensors' get_format()
+and get_frame_interval() are being called during "media-ctl -p" and
+hence the "mxc-mipi-csi2.0" sink format is correct.
 
-v4l2-async-objs := v4l2-async-core.o
-v4l2-async-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
-obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+somehow commands like these just don't change anything:
 
-config V4L2_FWNODE
-        bool
-        select V4L2_ASYNC
+media-ctl -l "'mxc-mipi-csi2.0':4" -> "'csi':0[1]"
+or setting already set up links to active [1] or inactive [0] doesn't
+change anything either:
+media-ctl -l "'csi':1" -> "'csi capture':0" "[1]"
 
-config V4L2_ASYNC
-        tristate
+does anything come to mind what's missing here by chance? thanks a lot
+for all your help!
 
-This avoids the ifdefs and expresses the same behavior
-you stated above:
 
-* v4l2-async is now out of videodev
-* v4l2-fwnode depends on v4l2-async (through select in this case,
-  given they are helper modules).
-* v4l2-async is built if CONFIG_V4L2_FWNODE is set.
+Media device information
+------------------------
+driver          imx7-csi
+model           imx-media
+serial          
+bus info        
+hw revision     0x0
+driver version  5.12.0
 
-And v4l2-async is a module or built-in, depending on the
-media subsystem (MEDIA_SUPPORT) being module or built-in,
-which I think makes sense.
+Device topology
+- entity 1: csi (2 pads, 1 link)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Sink
+		[fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:lim-range]
+	pad1: Source
+		[fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:lim-range]
+		-> "csi capture":0 [ENABLED,IMMUTABLE]
 
-Thanks,
-Ezequiel
+- entity 4: csi capture (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+	pad0: Sink
+		<- "csi":1 [ENABLED,IMMUTABLE]
+
+- entity 10: mxc-mipi-csi2.0 (8 pads, 0 link)
+             type V4L2 subdev subtype Unknown flags 0
+             device node name /dev/v4l-subdev1
+	pad0: Sink
+		[fmt:SBGGR10_1X10/640x480@1/30 field:none
+colorspace:unknown]
+	pad1: Unknown
+	pad2: Unknown
+	pad3: Unknown
+	pad4: Source
+	pad5: Unknown
+	pad6: Unknown
+	pad7: Unknown
+
+
 
