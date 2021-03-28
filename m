@@ -2,199 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA2D434BD4E
-	for <lists+linux-media@lfdr.de>; Sun, 28 Mar 2021 18:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B91534BD6D
+	for <lists+linux-media@lfdr.de>; Sun, 28 Mar 2021 19:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbhC1QpD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Mar 2021 12:45:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbhC1Qoi (ORCPT
+        id S229762AbhC1RC2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Mar 2021 13:02:28 -0400
+Received: from smtp04.smtpout.orange.fr ([80.12.242.126]:37868 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231363AbhC1RCY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Mar 2021 12:44:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CDF9C061756
-        for <linux-media@vger.kernel.org>; Sun, 28 Mar 2021 09:44:38 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 273A6436;
-        Sun, 28 Mar 2021 18:44:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616949875;
-        bh=uAODWAEd4LDJZmNU9+slD83thh/+/acmaXXopi01YYs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IgI9TjS3dxHGg568GN3bDTAp1UIVbdrwx0waz8T81xdUUaKJvoXp9KH2jB3FiQ0ml
-         7hGqrKfuRA8SWzsECC8BB5LCcw9r6D0WGTWRd73uy9Q8UkMphy33uwnGnkCBmCta2l
-         sdR2/aHRWet3uqhLhGLREwjG0zg2MXTco+oCC6/8=
-Date:   Sun, 28 Mar 2021 19:43:51 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     ezequiel@collabora.com, festevam@gmail.com,
-        linux-media@vger.kernel.org, p.zabel@pengutronix.de,
-        rmfrfs@gmail.com, slongerbeam@gmail.com
-Subject: Re: [PATCH] imx7-media-csi: csi2 only
-Message-ID: <YGCyRwCNqtorq1eu@pendragon.ideasonboard.com>
-References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
- <20210316115635.4096574-1-martin.kepplinger@puri.sm>
- <YFDzUpzZVrGbM793@pendragon.ideasonboard.com>
- <9079ec9d39d48acbc3630db079b92dc223d6f1f4.camel@puri.sm>
- <YFHXm4vnyJ3SKEB8@pendragon.ideasonboard.com>
- <d693de36b91bb06f0d5209140e75355b1e16a197.camel@puri.sm>
+        Sun, 28 Mar 2021 13:02:24 -0400
+Received: from localhost.localdomain ([90.126.11.170])
+        by mwinf5d59 with ME
+        id lt2L2400H3g7mfN03t2MTN; Sun, 28 Mar 2021 19:02:22 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 28 Mar 2021 19:02:22 +0200
+X-ME-IP: 90.126.11.170
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     ezequiel@vanguardiasur.com.ar, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: tw686x: switch from 'pci_' to 'dma_' API
+Date:   Sun, 28 Mar 2021 19:02:18 +0200
+Message-Id: <c5b0537f3471d16279ad6e36b2e446ecf2ea20dd.1616950871.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d693de36b91bb06f0d5209140e75355b1e16a197.camel@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-On Sun, Mar 28, 2021 at 04:25:26PM +0200, Martin Kepplinger wrote:
-> Am Mittwoch, dem 17.03.2021 um 12:19 +0200 schrieb Laurent Pinchart:
-> > On Wed, Mar 17, 2021 at 11:08:57AM +0100, Martin Kepplinger wrote:
-> > > Am Dienstag, dem 16.03.2021 um 20:05 +0200 schrieb Laurent Pinchart:
-> > > > On Tue, Mar 16, 2021 at 12:56:35PM +0100, Martin Kepplinger wrote:
-> > > > > ---
-> > > > > 
-> > > > > hi Laurent,
-> > > > > 
-> > > > > thanks a lot for posting this series!
-> > > > > 
-> > > > > First: I only test imx7-media-csi (csi bridge) because I run it on imx8mq.
-> > > > > overall, I'm very happy with all of this and I get the same image out
-> > > > > of it as I get with the mx6s_capture nxp driver.
-> > > > 
-> > > > That's good news :-)
-> > > > 
-> > > > > one issue I have is with is_csi2, so I post this patch that I need in
-> > > > > order to test. It's obviously no solution, just to describe the issue:
-> > > > > 
-> > > > > I'm not sure why but imx7_csi_pad_link_validate() isn't called in my case
-> > > > > and is_csi2 doesn't get set, so I force it. Would it make sense to make
-> > > > > a dts property for this?
-> > > > 
-> > > > Some platforms support both parallel and CSI-2 inputs, so we can't
-> > > > hardcode which one is used in DT. I'd advise trying to debug why the
-> > > > function is never called in your case, it's meant to be called with the
-> > > > following call stack
-> > > > 
-> > > > - imx7_csi_pad_link_validate() (through
-> > > > v4l2_subdev_pad_ops.link_validate)
-> > > > - v4l2_subdev_link_validate() (through
-> > > > media_entity_operations.link_validate)
-> > > > - __media_pipeline_start()
-> > > > - imx_media_pipeline_set_stream()
-> > > > - capture_start_streaming()
-> > > > - ...
-> > > 
-> > > possible the 2 issues are related. I have to say that media-ctl (and
-> > > the api) is kind of new to me and this is not strictly related to the
-> > > patchset anymore. The patchset is certainly required for us to have.
-> > > this is just me trying to test it properly...
-> > > 
-> > > 
-> > > I tried to set what I know that my sensor driver sends to mipi:
-> > > 
-> > > media-ctl -V "'csi':0 [fmt:SBGGR10/640x480 colorspace:raw]"
-> > > 
-> > > 
-> > > Device topology
-> > > - entity 1: csi (2 pads, 1 link)
-> > >             type V4L2 subdev subtype Unknown flags 0
-> > >             device node name /dev/v4l-subdev0
-> > >         pad0: Sink
-> > >                 [fmt:SBGGR10_1X10/640x480 field:none colorspace:raw
-> > > xfer:none ycbcr:601 quantization:full-range]
-> > >         pad1: Source
-> > >                 [fmt:SBGGR10_1X10/640x480 field:none colorspace:raw
-> > > xfer:none ycbcr:601 quantization:full-range]
-> > >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
-> > > 
-> > > - entity 4: csi capture (1 pad, 1 link)
-> > >             type Node subtype V4L flags 0
-> > >             device node name /dev/video0
-> > >         pad0: Sink
-> > >                 <- "csi":1 [ENABLED,IMMUTABLE]
-> > > 
-> > > - entity 10: mxc-mipi-csi2.0 (0 pad, 0 link)
-> > >              type V4L2 subdev subtype Unknown flags 0
-> > >              device node name /dev/v4l-subdev1
-> > 
-> > The sensor is missing from the media graph, so that's not very likely to
-> > work :-) Has the sensor driver probed correctly ? Also, the
-> > mxc-mipi-csi2.0 entity doesn't have pads, that's not right.
-> 
-> ok. what I try is adding a mipi driver (based on nxps') to the staging
-> drivers and what media-ctl -p says so far is below. Despite no sensor
-> being shown (not sure what's missing there), the sensors' get_format()
-> and get_frame_interval() are being called during "media-ctl -p" and
-> hence the "mxc-mipi-csi2.0" sink format is correct.
-> 
-> somehow commands like these just don't change anything:
-> 
-> media-ctl -l "'mxc-mipi-csi2.0':4" -> "'csi':0[1]"
-> or setting already set up links to active [1] or inactive [0] doesn't
-> change anything either:
-> media-ctl -l "'csi':1" -> "'csi capture':0" "[1]"
-> 
-> does anything come to mind what's missing here by chance? thanks a lot
-> for all your help!
-> 
-> 
-> Media device information
-> ------------------------
-> driver          imx7-csi
-> model           imx-media
-> serial          
-> bus info        
-> hw revision     0x0
-> driver version  5.12.0
-> 
-> Device topology
-> - entity 1: csi (2 pads, 1 link)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev0
-> 	pad0: Sink
-> 		[fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
-> xfer:srgb ycbcr:601 quantization:lim-range]
-> 	pad1: Source
-> 		[fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
-> xfer:srgb ycbcr:601 quantization:lim-range]
-> 		-> "csi capture":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 4: csi capture (1 pad, 1 link)
->             type Node subtype V4L flags 0
->             device node name /dev/video1
-> 	pad0: Sink
-> 		<- "csi":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 10: mxc-mipi-csi2.0 (8 pads, 0 link)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev1
-> 	pad0: Sink
-> 		[fmt:SBGGR10_1X10/640x480@1/30 field:none colorspace:unknown]
-> 	pad1: Unknown
-> 	pad2: Unknown
-> 	pad3: Unknown
-> 	pad4: Source
-> 	pad5: Unknown
-> 	pad6: Unknown
-> 	pad7: Unknown
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
 
-I can't tell what wrong without looking at the code, but for instance
-the 8 pads above also look fishy.
+When memory is allocated in 'tw686x_audio_dma_alloc()' (tw686x-audio.c)
+GFP_KERNEL can be used because it is only called from a probe function
+and no spinlock is taken in the between.
+The call chain is:
+  tw686x_probe					(tw686x-core.c)
+    --> tw686x_audio_init					(tw686x-audio.c)
+      --> tw686x_audio_dma_alloc					(tw686x-audio.c)
 
-I'd recommend extending the existing imx7-mipi-csis driver instead of
-creating a new driver. The CSI-2 receivers in i.MX7 and i.MX8 are very
-similar, the latter having a more recent version of the same IP core
-(originating from Samsung, and actually also supported in one separate
-driver for Exynos which should ideally be merged with imx7-mipi-csis
-into a single implementation, but that's a separate matter). A new
-i.MX8-specific driver will have little chance of being accepted upstream
-given the above.
+When memory is allocated in 'tw686x_memcpy_dma_alloc()' and in
+'tw686x_sg_dma_alloc()' (tw686x-video.c) GFP_KERNEL can be used because
+these functions are .alloc functions from a tw686x_dma_ops structure.
 
+
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
+
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
+
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/tw686x/tw686x-audio.c | 13 +++++++------
+ drivers/media/pci/tw686x/tw686x-core.c  |  2 +-
+ drivers/media/pci/tw686x/tw686x-video.c | 17 ++++++++---------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/media/pci/tw686x/tw686x-audio.c b/drivers/media/pci/tw686x/tw686x-audio.c
+index 54144e23a487..74cba1368cfa 100644
+--- a/drivers/media/pci/tw686x/tw686x-audio.c
++++ b/drivers/media/pci/tw686x/tw686x-audio.c
+@@ -300,9 +300,9 @@ static void tw686x_audio_dma_free(struct tw686x_dev *dev,
+ 	for (pb = 0; pb < 2; pb++) {
+ 		if (!ac->dma_descs[pb].virt)
+ 			continue;
+-		pci_free_consistent(dev->pci_dev, ac->dma_descs[pb].size,
+-				    ac->dma_descs[pb].virt,
+-				    ac->dma_descs[pb].phys);
++		dma_free_coherent(&dev->pci_dev->dev, ac->dma_descs[pb].size,
++				  ac->dma_descs[pb].virt,
++				  ac->dma_descs[pb].phys);
+ 		ac->dma_descs[pb].virt = NULL;
+ 	}
+ }
+@@ -313,7 +313,7 @@ static int tw686x_audio_dma_alloc(struct tw686x_dev *dev,
+ 	int pb;
+ 
+ 	/*
+-	 * In the memcpy DMA mode we allocate a consistent buffer
++	 * In the memcpy DMA mode we allocate a coherent buffer
+ 	 * and use it for the DMA capture. Otherwise, DMA
+ 	 * acts on the ALSA buffers as received in pcm_prepare.
+ 	 */
+@@ -324,8 +324,9 @@ static int tw686x_audio_dma_alloc(struct tw686x_dev *dev,
+ 		u32 reg = pb ? ADMA_B_ADDR[ac->ch] : ADMA_P_ADDR[ac->ch];
+ 		void *virt;
+ 
+-		virt = pci_alloc_consistent(dev->pci_dev, AUDIO_DMA_SIZE_MAX,
+-					    &ac->dma_descs[pb].phys);
++		virt = dma_alloc_coherent(&dev->pci_dev->dev,
++					  AUDIO_DMA_SIZE_MAX,
++					  &ac->dma_descs[pb].phys, GFP_KERNEL);
+ 		if (!virt) {
+ 			dev_err(&dev->pci_dev->dev,
+ 				"dma%d: unable to allocate audio DMA %s-buffer\n",
+diff --git a/drivers/media/pci/tw686x/tw686x-core.c b/drivers/media/pci/tw686x/tw686x-core.c
+index 74ae4f0dcee7..6676e069b515 100644
+--- a/drivers/media/pci/tw686x/tw686x-core.c
++++ b/drivers/media/pci/tw686x/tw686x-core.c
+@@ -276,7 +276,7 @@ static int tw686x_probe(struct pci_dev *pci_dev,
+ 	}
+ 
+ 	pci_set_master(pci_dev);
+-	err = pci_set_dma_mask(pci_dev, DMA_BIT_MASK(32));
++	err = dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(32));
+ 	if (err) {
+ 		dev_err(&pci_dev->dev, "32-bit PCI DMA not supported\n");
+ 		err = -EIO;
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+index 1ced2b0ddb24..b227e9e78ebd 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -92,8 +92,8 @@ static void tw686x_memcpy_dma_free(struct tw686x_video_channel *vc,
+ 	}
+ 
+ 	if (desc->virt) {
+-		pci_free_consistent(dev->pci_dev, desc->size,
+-				    desc->virt, desc->phys);
++		dma_free_coherent(&dev->pci_dev->dev, desc->size, desc->virt,
++				  desc->phys);
+ 		desc->virt = NULL;
+ 	}
+ }
+@@ -110,8 +110,8 @@ static int tw686x_memcpy_dma_alloc(struct tw686x_video_channel *vc,
+ 	     "Allocating buffer but previous still here\n");
+ 
+ 	len = (vc->width * vc->height * vc->format->depth) >> 3;
+-	virt = pci_alloc_consistent(dev->pci_dev, len,
+-				    &vc->dma_descs[pb].phys);
++	virt = dma_alloc_coherent(&dev->pci_dev->dev, len,
++				  &vc->dma_descs[pb].phys, GFP_KERNEL);
+ 	if (!virt) {
+ 		v4l2_err(&dev->v4l2_dev,
+ 			 "dma%d: unable to allocate %s-buffer\n",
+@@ -258,8 +258,8 @@ static void tw686x_sg_dma_free(struct tw686x_video_channel *vc,
+ 	struct tw686x_dev *dev = vc->dev;
+ 
+ 	if (desc->size) {
+-		pci_free_consistent(dev->pci_dev, desc->size,
+-				    desc->virt, desc->phys);
++		dma_free_coherent(&dev->pci_dev->dev, desc->size, desc->virt,
++				  desc->phys);
+ 		desc->virt = NULL;
+ 	}
+ 
+@@ -276,9 +276,8 @@ static int tw686x_sg_dma_alloc(struct tw686x_video_channel *vc,
+ 	void *virt;
+ 
+ 	if (desc->size) {
+-
+-		virt = pci_alloc_consistent(dev->pci_dev, desc->size,
+-					    &desc->phys);
++		virt = dma_alloc_coherent(&dev->pci_dev->dev, desc->size,
++					  &desc->phys, GFP_KERNEL);
+ 		if (!virt) {
+ 			v4l2_err(&dev->v4l2_dev,
+ 				 "dma%d: unable to allocate %s-buffer\n",
 -- 
-Regards,
+2.27.0
 
-Laurent Pinchart
