@@ -2,155 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48C2934BA92
-	for <lists+linux-media@lfdr.de>; Sun, 28 Mar 2021 05:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38CC734BB72
+	for <lists+linux-media@lfdr.de>; Sun, 28 Mar 2021 08:46:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231131AbhC1Djm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Mar 2021 23:39:42 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:60937 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231197AbhC1DjW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Mar 2021 23:39:22 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id QMGklEfFMgIC3QMGmlleZ0; Sun, 28 Mar 2021 05:39:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616902760; bh=cXMWj5wCjAHErd+DhwnQ/2JidU29v7aZYsGRyGhNsMk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=qKhGCla310bCkmUzkQTWYRqlD/4S6WAfOXVpnqwdDdGyLZiztxlWi9Oln681b4+tK
-         rw7Uk5KoVzXLI7GSGuUJrEVoiRN+DQTDeFMCBQyOZYtL8Bo/sR3j7uYG4x32hu7qrH
-         MvBnCf9otjxy0pvor6F4PpN0pGqONisG1ByJnfVTxf2cNaERv+jwyBTSBjp1pG/8o4
-         0opjfk3kPNjXSulB76bo1YGh67ANKsjfYCnViMR1OMoHd7F+vKD4+nausn22vZeNcH
-         TSWM3bcH4GrhQ+RGyqQVK14iYSUvSZyS3QuI+TpL9peRHlMRyDJiIMT/ydF9q8s6jj
-         Qy+253eaokLpg==
-Message-ID: <598abd350124d3d600a8272ad80df8aa@smtp-cloud8.xs4all.net>
-Date:   Sun, 28 Mar 2021 05:39:18 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfGPw6Ogn3AVyab6IXlt7vf6qrRne1ZAL3/r9fyzG+BmSJFK2KMwMmocBEVaAD9xlliMjHcp7f1IB/RUbrgKop6z4OCtLriIAs1fMXid5UxF4/6XbKq+F
- K4WLwZUalkdtIFbP9NhQhXQzJcDsjJzi+qUwG7IKzFm8QgaN9xKibvoCwbBQjhf732HmFUQuXYHYbJnMmKFC5pLvc/y1enj26WIfBATAIaJTdtpGPoDxPpIS
- 3+qXH5sAXakl/EcDNtx59w==
+        id S229538AbhC1Gpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Mar 2021 02:45:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60410 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229485AbhC1Gpa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 28 Mar 2021 02:45:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D0256194B;
+        Sun, 28 Mar 2021 06:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1616913930;
+        bh=V5RpuwVxE2xlFXjlBeiGEZq40sCLDKCXJW5QQK3/0uQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xUbNqFvtb69lRSVGccaQuXiljG+0hoYeyEx7FYAtsdvwcL0D+TQj2RUyHa/qMAaH3
+         c/OmnPeahOocPzuDSgNFSIQRVGFQYHuriIJCBTZTwZ7RK2+brbMMCjxhERS1rJxdjl
+         vburE002jlLlfiIUmPAm/tXL5t6qZGEk7I/vEEFw=
+Date:   Sun, 28 Mar 2021 08:45:27 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Daniel Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-acpi@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: Re: [PATCH v1 3/8] software node: Show properties and their values
+ in sysfs
+Message-ID: <YGAmB2Nwph6pArXc@kroah.com>
+References: <20210327222012.54103-1-andriy.shevchenko@linux.intel.com>
+ <20210327222012.54103-3-andriy.shevchenko@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210327222012.54103-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Sun, Mar 28, 2021 at 12:20:07AM +0200, Andy Shevchenko wrote:
+> It's very convenient to see what properties and their values
+> are currently being assigned in the registered software nodes.
+> 
+> Show properties and their values in sysfs.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/base/swnode.c | 137 ++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 132 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> index 19aa44bc2628..d7fe1a887d2d 100644
+> --- a/drivers/base/swnode.c
+> +++ b/drivers/base/swnode.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/property.h>
+>  #include <linux/slab.h>
+> +#include <linux/sysfs.h>
+>  
+>  struct swnode {
+>  	int id;
+> @@ -17,6 +18,10 @@ struct swnode {
+>  	struct fwnode_handle fwnode;
+>  	const struct software_node *node;
+>  
+> +	/* properties in sysfs */
+> +	struct kobj_attribute *property_attrs;
+> +	struct attribute_group property_group;
+> +
+>  	/* hierarchy */
+>  	struct ida child_ids;
+>  	struct list_head entry;
+> @@ -25,6 +30,7 @@ struct swnode {
+>  
+>  	unsigned int allocated:1;
+>  	unsigned int managed:1;
+> +	unsigned int properties:1;
+>  };
+>  
+>  static DEFINE_IDA(swnode_root_ids);
+> @@ -299,6 +305,18 @@ static int property_entry_copy_data(struct property_entry *dst,
+>  	return 0;
+>  }
+>  
+> +static int property_entries_count(const struct property_entry *properties)
+> +{
+> +	int n = 0;
+> +
+> +	if (properties) {
+> +		while (properties[n].name)
+> +			n++;
+> +	}
+> +
+> +	return n;
+> +}
+> +
+>  /**
+>   * property_entries_dup - duplicate array of properties
+>   * @properties: array of properties to copy
+> @@ -310,15 +328,13 @@ struct property_entry *
+>  property_entries_dup(const struct property_entry *properties)
+>  {
+>  	struct property_entry *p;
+> -	int i, n = 0;
+> +	int i, n;
+>  	int ret;
+>  
+> -	if (!properties)
+> +	n = property_entries_count(properties);
+> +	if (n == 0)
+>  		return NULL;
+>  
+> -	while (properties[n].name)
+> -		n++;
+> -
+>  	p = kcalloc(n + 1, sizeof(*p), GFP_KERNEL);
+>  	if (!p)
+>  		return ERR_PTR(-ENOMEM);
+> @@ -746,6 +762,108 @@ static void software_node_free(const struct software_node *node)
+>  	kfree(node);
+>  }
+>  
+> +static ssize_t
+> +swnode_property_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct swnode *swnode = kobj_to_swnode(kobj);
+> +	const struct property_entry *prop;
+> +	const void *pointer;
+> +	ssize_t len = 0;
+> +	int i;
+> +
+> +	prop = property_entry_get(swnode->node->properties, attr->attr.name);
+> +	if (!prop)
+> +		return -EINVAL;
+> +
+> +	/* We can't fail here, because it means boolean property */
+> +	pointer = property_get_pointer(prop);
+> +	if (!pointer)
+> +		return sysfs_emit(buf, "\n");
+> +
+> +	switch (prop->type) {
+> +	case DEV_PROP_U8:
+> +		for (i = 0; i < prop->length / sizeof(u8); i++)
+> +			len += sysfs_emit_at(buf, len, "%u,", ((u8 *)pointer)[i]);
 
-Results of the daily build of media_tree:
+No, sysfs is "one value per file", and that is not what you are showing
+here at all :(
 
-date:			Sun Mar 28 05:00:08 CEST 2021
-media-tree git hash:	97b34809ec240d82c82af97626c2071a4062e0e6
-media_build git hash:	70188fdddcfedda190f1118529888cd3dc2581d6
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Also, there is no Documentation/ABI/ entries for your new sysfs files,
+so that means we couldn't take this patcheset anyway :(
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2963, Succeeded: 2962, Failed: 1, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+greg k-h
