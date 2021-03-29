@@ -2,121 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA9D434C50F
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 09:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F414734C52E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 09:47:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbhC2Hh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 03:37:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38740 "EHLO
+        id S231319AbhC2HrO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 03:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbhC2Hhe (ORCPT
+        with ESMTP id S231142AbhC2Hq5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 03:37:34 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F2DC061574
-        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 00:37:33 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 718C31F45F11
-Subject: Re: [PATCH v3] media: rkisp1: Increase ISP input resolution limit
-To:     Sebastian Fricke <sebastian.fricke@posteo.net>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
-        heiko@sntech.de, Collabora Kernel ML <kernel@collabora.com>
-References: <20210329061637.14921-1-sebastian.fricke@posteo.net>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <de156560-cf94-acbe-5838-287fd06f63c4@collabora.com>
-Date:   Mon, 29 Mar 2021 09:37:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 29 Mar 2021 03:46:57 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D427C061756
+        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 00:46:56 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id j7so11809455wrd.1
+        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 00:46:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=gKqOr9BTXct/tRsLbZ99P7dlk5cf6Eud2sZybPk3YFo=;
+        b=kaPRrDWVtSv6ShmZ7l0uPXzHIzC5TB8pxZhs6iM8eklwxyqkk3hSXri0EW3sEsdSGZ
+         RYCosMqpvYPmWWK3Olvp7jvfSIGhDkPsQKuk7lJkUEASFm3Wq1vve2XYqAesVqVKWacb
+         IM0SwInTrz2+8mBitRL5PfkWeFKG2RijXhy57LrcyzeHwtdEoCTCgFdfENO55ziqjP+V
+         vNrESlDG8snaSn2HAQB/eOCuWt2JqREsKn+UGUGZxecGRwCsrUsU7QRUiugwtTmWzPtS
+         2SEGvscbjiki2IqS3XojMj1mgyecW99Fz8h5nRRNOnkmecGF6OJSGCOtapM9VIC0/Sgb
+         I1mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=gKqOr9BTXct/tRsLbZ99P7dlk5cf6Eud2sZybPk3YFo=;
+        b=l9mAl+g9k+ChbmwhFkSh5iTP9UMOaOljEanjxkG/I370FuLp6tM7VJne+1ofoxl+OR
+         codK8LEj8hth5dsnVyCw3xHdEA84V/C/RUIbmxo/kshItrhxKHbJrT6U/81nOQEvmbMg
+         LoSIuiebaVlFeMXRu4SMcWJFMzQ2HJkZaCifMjgnLIItzkrSVuaBbmFVhA4QDBk4PA/O
+         oUja5WmYAvXaCK8KtHOdm5geMTqQym34Z32oUxSwXImH4yn9PIhJ7BYv6S4Y73K36VES
+         tVeSIhR3h2JyTv28usQKSHHlrzOSxvIiz1fnk6Ki9u75O2Kpp5OEJe7tvbiZroqLQleB
+         1gvw==
+X-Gm-Message-State: AOAM533mfqRJ6eIKcyMMUJaHdkbV9zVVLUEygOBnZlcjl12VJquMhUUB
+        8YDL0UWdmVJ5RmtDLWXb3+jNHw==
+X-Google-Smtp-Source: ABdhPJzWzZhMRMPnCKckhJQXhaq4Dq6bmLUHi3xHIiorsZ6H00ywKErdNka2kYZzNUgvcZShJCKXEg==
+X-Received: by 2002:a05:6000:1149:: with SMTP id d9mr26758779wrx.347.1617004015168;
+        Mon, 29 Mar 2021 00:46:55 -0700 (PDT)
+Received: from dell ([91.110.221.217])
+        by smtp.gmail.com with ESMTPSA id r206sm18457285wma.46.2021.03.29.00.46.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 00:46:54 -0700 (PDT)
+Date:   Mon, 29 Mar 2021 08:46:50 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com, kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v7 01/13] dt-bindings: mfd: Add 'nxp,imx8mq-vpu-ctrl' to
+ syscon list
+Message-ID: <20210329074650.GC2916463@dell>
+References: <20210329065743.11961-1-benjamin.gaignard@collabora.com>
+ <20210329065743.11961-2-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20210329061637.14921-1-sebastian.fricke@posteo.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210329065743.11961-2-benjamin.gaignard@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, 29 Mar 2021, Benjamin Gaignard wrote:
 
-On 29.03.21 08:16, Sebastian Fricke wrote:
-> The current implementation limits the maximum sink pad resolution to
-> 4032x3024, which is mentioned by the Rockchip TRM as the maximum size
-> to handle black level correction. But the ISP can actually set its
-> sink pad format to a size of 4416x3312.
-> Allow higher sink pad resolutions in order to allow a bigger range of
-> sensor modes to be used with the RkISP1.
-> Apply the previous limit to the sink pad crop instead of the format to
-> satisfy the requirement of the ISP.
+> Add 'nxp,imx8mq-vpu-ctrl' in the list of possible syscon.
+> It will used to access to the VPU control registers.
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@posteo.net>
-
-sing-off of the author usually comes first and then the "reviewed-by".
-Not sure if it meters.
-
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 > ---
->   .../platform/rockchip/rkisp1/rkisp1-common.h   | 18 +++++++++++++-----
->   .../platform/rockchip/rkisp1/rkisp1-isp.c      |  8 ++++++--
->   2 files changed, 19 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index 038c303a8aed..553a4b12becf 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -29,11 +29,19 @@
->   #define RKISP1_ISP_SD_SRC BIT(0)
->   #define RKISP1_ISP_SD_SINK BIT(1)
->   
-> -/* min and max values for the widths and heights of the entities */
-> -#define RKISP1_ISP_MAX_WIDTH		4032
-> -#define RKISP1_ISP_MAX_HEIGHT		3024
-> -#define RKISP1_ISP_MIN_WIDTH		32
-> -#define RKISP1_ISP_MIN_HEIGHT		32
-> +/*
-> + * min and max values for the widths and heights of the entities
-> + * The ISP device accepts input resolutions of up to 4416x3312, but
-> + * it can only process resolutions of 4032x3024 internally.
-> + * Therefore the crop resolution is limited to 4032x3024, the
-> + * sink pad crop is applied automatically when the format is set.
-> + */
-> +#define RKISP1_ISP_MAX_WIDTH			4416
-> +#define RKISP1_ISP_MAX_HEIGHT			3312
-> +#define RKISP1_ISP_MAX_WIDTH_CROP		4032
-> +#define RKISP1_ISP_MAX_HEIGHT_CROP		3024
-> +#define RKISP1_ISP_MIN_WIDTH			32
-> +#define RKISP1_ISP_MIN_HEIGHT			32
->   
->   #define RKISP1_RSZ_MP_SRC_MAX_WIDTH		4416
->   #define RKISP1_RSZ_MP_SRC_MAX_HEIGHT		3312
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 2e5b57e3aedc..a8274e84a64b 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -758,9 +758,13 @@ static void rkisp1_isp_set_sink_crop(struct rkisp1_isp *isp,
->   					  which);
->   
->   	sink_crop->left = ALIGN(r->left, 2);
-> -	sink_crop->width = ALIGN(r->width, 2);
-> +	sink_crop->width = clamp_t(u32, ALIGN(r->width, 2),
-> +				   RKISP1_ISP_MIN_WIDTH,
-> +				   RKISP1_ISP_MAX_WIDTH_CROP);
->   	sink_crop->top = r->top;
-> -	sink_crop->height = r->height;
-> +	sink_crop->height = clamp_t(u32, r->height,
-> +				    RKISP1_ISP_MIN_HEIGHT,
-> +				    RKISP1_ISP_MAX_HEIGHT_CROP);
+> version 7:
+>  - Add Rob ack
+>  Documentation/devicetree/bindings/mfd/syscon.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Hi, I think you should also update  the crop in rkisp1_isp_init_config
-and also the values returned in get_selection for the sink pad's V4L2_SEL_TGT_CROP_BOUNDS.
-I think because the sink crop bounds are now different than the sink format.
-Did you run the compliance tests and made sure they pass?
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-Thanks,
-Dafna
-
->   	rkisp1_sd_adjust_crop(sink_crop, sink_fmt);
->   
->   	*r = *sink_crop;
-> 
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
