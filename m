@@ -2,133 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B62E534C454
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 08:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA9D434C50F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 09:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbhC2G6e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 02:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58558 "EHLO
+        id S229706AbhC2Hh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 03:37:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbhC2G6N (ORCPT
+        with ESMTP id S229441AbhC2Hhe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 02:58:13 -0400
+        Mon, 29 Mar 2021 03:37:34 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6450C061574;
-        Sun, 28 Mar 2021 23:58:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F2DC061574
+        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 00:37:33 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 8BA031F45C65
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, lee.jones@linaro.org,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 13/13] arm64: dts: imx8mq: Add node to G2 hardware
-Date:   Mon, 29 Mar 2021 08:57:43 +0200
-Message-Id: <20210329065743.11961-14-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210329065743.11961-1-benjamin.gaignard@collabora.com>
-References: <20210329065743.11961-1-benjamin.gaignard@collabora.com>
+        (Authenticated sender: dafna)
+        with ESMTPSA id 718C31F45F11
+Subject: Re: [PATCH v3] media: rkisp1: Increase ISP input resolution limit
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        heiko@sntech.de, Collabora Kernel ML <kernel@collabora.com>
+References: <20210329061637.14921-1-sebastian.fricke@posteo.net>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <de156560-cf94-acbe-5838-287fd06f63c4@collabora.com>
+Date:   Mon, 29 Mar 2021 09:37:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210329061637.14921-1-sebastian.fricke@posteo.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Split VPU node in two: one for G1 and one for G2 since they are
-different hardware blocks.
-Add syscon for hardware control block.
-Remove reg-names property that is useless.
-Each VPU node only need one interrupt.
-Change G2 assigned clock to match to the specifications.
-In the both nodes all the clocks need to assigned to make
-sure that control block will be correctly clocked even if
-only one device node is enabled.
+Hi,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
-version 7:
- - use nxp,imx8m-vpu-ctrl as phandle syscon property name
+On 29.03.21 08:16, Sebastian Fricke wrote:
+> The current implementation limits the maximum sink pad resolution to
+> 4032x3024, which is mentioned by the Rockchip TRM as the maximum size
+> to handle black level correction. But the ISP can actually set its
+> sink pad format to a size of 4416x3312.
+> Allow higher sink pad resolutions in order to allow a bigger range of
+> sensor modes to be used with the RkISP1.
+> Apply the previous limit to the sink pad crop instead of the format to
+> satisfy the requirement of the ISP.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@posteo.net>
 
-version 5:
- - use syscon instead of VPU reset
+sing-off of the author usually comes first and then the "reviewed-by".
+Not sure if it meters.
 
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 43 ++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 9 deletions(-)
+> ---
+>   .../platform/rockchip/rkisp1/rkisp1-common.h   | 18 +++++++++++++-----
+>   .../platform/rockchip/rkisp1/rkisp1-isp.c      |  8 ++++++--
+>   2 files changed, 19 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 038c303a8aed..553a4b12becf 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -29,11 +29,19 @@
+>   #define RKISP1_ISP_SD_SRC BIT(0)
+>   #define RKISP1_ISP_SD_SINK BIT(1)
+>   
+> -/* min and max values for the widths and heights of the entities */
+> -#define RKISP1_ISP_MAX_WIDTH		4032
+> -#define RKISP1_ISP_MAX_HEIGHT		3024
+> -#define RKISP1_ISP_MIN_WIDTH		32
+> -#define RKISP1_ISP_MIN_HEIGHT		32
+> +/*
+> + * min and max values for the widths and heights of the entities
+> + * The ISP device accepts input resolutions of up to 4416x3312, but
+> + * it can only process resolutions of 4032x3024 internally.
+> + * Therefore the crop resolution is limited to 4032x3024, the
+> + * sink pad crop is applied automatically when the format is set.
+> + */
+> +#define RKISP1_ISP_MAX_WIDTH			4416
+> +#define RKISP1_ISP_MAX_HEIGHT			3312
+> +#define RKISP1_ISP_MAX_WIDTH_CROP		4032
+> +#define RKISP1_ISP_MAX_HEIGHT_CROP		3024
+> +#define RKISP1_ISP_MIN_WIDTH			32
+> +#define RKISP1_ISP_MIN_HEIGHT			32
+>   
+>   #define RKISP1_RSZ_MP_SRC_MAX_WIDTH		4416
+>   #define RKISP1_RSZ_MP_SRC_MAX_HEIGHT		3312
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index 2e5b57e3aedc..a8274e84a64b 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -758,9 +758,13 @@ static void rkisp1_isp_set_sink_crop(struct rkisp1_isp *isp,
+>   					  which);
+>   
+>   	sink_crop->left = ALIGN(r->left, 2);
+> -	sink_crop->width = ALIGN(r->width, 2);
+> +	sink_crop->width = clamp_t(u32, ALIGN(r->width, 2),
+> +				   RKISP1_ISP_MIN_WIDTH,
+> +				   RKISP1_ISP_MAX_WIDTH_CROP);
+>   	sink_crop->top = r->top;
+> -	sink_crop->height = r->height;
+> +	sink_crop->height = clamp_t(u32, r->height,
+> +				    RKISP1_ISP_MIN_HEIGHT,
+> +				    RKISP1_ISP_MAX_HEIGHT_CROP);
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 17c449e12c2e..65158414d255 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1329,15 +1329,16 @@ usb3_phy1: usb-phy@382f0040 {
- 			status = "disabled";
- 		};
- 
--		vpu: video-codec@38300000 {
-+		vpu_ctrl: syscon@38320000 {
-+			compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
-+			reg = <0x38320000 0x10000>;
-+		};
-+
-+		vpu_g1: video-codec@38300000 {
- 			compatible = "nxp,imx8mq-vpu";
--			reg = <0x38300000 0x10000>,
--			      <0x38310000 0x10000>,
--			      <0x38320000 0x10000>;
--			reg-names = "g1", "g2", "ctrl";
--			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "g1", "g2";
-+			reg = <0x38300000 0x10000>;
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g1";
- 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-@@ -1350,9 +1351,33 @@ vpu: video-codec@38300000 {
- 						 <&clk IMX8MQ_VPU_PLL_OUT>,
- 						 <&clk IMX8MQ_SYS1_PLL_800M>,
- 						 <&clk IMX8MQ_VPU_PLL>;
--			assigned-clock-rates = <600000000>, <600000000>,
-+			assigned-clock-rates = <600000000>, <300000000>,
-+					       <800000000>, <0>;
-+			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mq-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g2";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-+			clock-names = "g1", "g2",  "bus";
-+			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-+					  <&clk IMX8MQ_CLK_VPU_G2>,
-+					  <&clk IMX8MQ_CLK_VPU_BUS>,
-+					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-+			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_SYS1_PLL_800M>,
-+						 <&clk IMX8MQ_VPU_PLL>;
-+			assigned-clock-rates = <600000000>, <300000000>,
- 					       <800000000>, <0>;
- 			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
- 		};
- 
- 		pcie0: pcie@33800000 {
--- 
-2.25.1
+Hi, I think you should also update  the crop in rkisp1_isp_init_config
+and also the values returned in get_selection for the sink pad's V4L2_SEL_TGT_CROP_BOUNDS.
+I think because the sink crop bounds are now different than the sink format.
+Did you run the compliance tests and made sure they pass?
 
+Thanks,
+Dafna
+
+>   	rkisp1_sd_adjust_crop(sink_crop, sink_fmt);
+>   
+>   	*r = *sink_crop;
+> 
