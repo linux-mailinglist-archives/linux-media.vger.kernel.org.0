@@ -2,155 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2869934C244
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 05:41:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B35A34C31D
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 07:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230306AbhC2Dkv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Mar 2021 23:40:51 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58079 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230297AbhC2DkX (ORCPT
+        id S229479AbhC2FlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 01:41:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38184 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229441AbhC2Fkt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Mar 2021 23:40:23 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id QilIlKsw8gIC3QilKlnFWx; Mon, 29 Mar 2021 05:40:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1616989222; bh=bqFD2gBIiBshGRSfJcIP5/YKeenJ29xnO6Amc/cdEsw=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=VSID1GY7e7Kdhc54eIU9ave+Oy2jeWS3BwhuGPpziqGkNdUdXd2/SXNmBLbYnwy7o
-         yJsSGfnKH3ZH3LNp/2byux4Sz5w2Nx1/UNwmNWG/H1qf8Fb8kl+rKQ7QbIFTfVKTN7
-         AEFcS4y1FHQCEPY5gN0YpbJbCsRyIT8jldr2XoYQgnbpSxFqaBwjoEag+YVDbcgh3W
-         iy3YVtS2UKcZ7nmQ9CgN9icvcUGQprkJ17dRAz6JlEXL5/tKfsvPXgBtVtAHYNMt2v
-         4VCXQ7rfXgUlzgbCYWybZCl9Kfq2edgCMvposjrWARQCuc3ZW5RX7cgwL9bvg0Akit
-         5VkiDww6s480A==
-Message-ID: <12020522fddb2cd00d79521792698d2e@smtp-cloud8.xs4all.net>
-Date:   Mon, 29 Mar 2021 05:40:20 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfGsIAQ8aomxdDpOMHwCNL0y8jjbvauQ683JJfc2hb47Rvn8Lr8yheOg/cLRNJNTf82o/a934N1N2MdYm/lUsIYg5ChvQtxkKKABPrxGe4BAdhZnGJCyg
- ZvNtONU0d+B3jhubKk4YvccHI2+t4gQkZfXfSN7EqJren4zmb/Kyan/aPssVb9VQBt7vRpXYKHfpYz+IGHtSHkYWruYh4VrXwFYMqDYaGfNwGZNd1xH08Yte
- D5YJy4cAm2FbYs0KLclohQ==
+        Mon, 29 Mar 2021 01:40:49 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FA7A31A;
+        Mon, 29 Mar 2021 07:40:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616996448;
+        bh=M+O4pVog9pyrgXcwvV+quwHz6zhH4X1o4rwZx7fhm54=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lMeQSparGayQ3zn55aBltWn7u4oChcG8QvlYYOPXf/4kRgI9ax/xMwVmZ5EEwsW/8
+         Q/lJVz66UEBWH+KOn7/fKUhinkZPPFxXoIayJBaU0RtEr4meCJpOTu712lbVtx380b
+         DEVdmXfNB5WFDsmA6MpifMWxTbYcDoIDs2EMsgcc=
+Date:   Mon, 29 Mar 2021 08:40:04 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>
+Cc:     linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, heiko@sntech.de
+Subject: Re: [PATCH v2] media: rkisp1: Increase ISP input resolution limit
+Message-ID: <YGFoNJ1erlKroQGB@pendragon.ideasonboard.com>
+References: <20210326062329.53103-1-sebastian.fricke@posteo.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210326062329.53103-1-sebastian.fricke@posteo.net>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Sebastian,
 
-Results of the daily build of media_tree:
+Thank you for the patch.
 
-date:			Mon Mar 29 05:00:11 CEST 2021
-media-tree git hash:	97b34809ec240d82c82af97626c2071a4062e0e6
-media_build git hash:	70188fdddcfedda190f1118529888cd3dc2581d6
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+On Fri, Mar 26, 2021 at 07:23:30AM +0100, Sebastian Fricke wrote:
+> The current implementation limits the maximum sink pad resolution to
+> 4032x3024, which is mentioned by the Rockchip TRM as the maximum size
+> to handle black level calibration. But the ISP can actually set it's
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: 
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+s/calibration/correction/
+s/it's/its/
 
-Detailed results are available here:
+> sink pad format to a size of 4416x3312.
+> Allow higher sink pad resolutions in order to allow a bigger range of
+> sensor modes to be used with the RkISP1.
+> Apply the previous limit to the sink pad crop instead of the format to
+> satisfy the requirement of the ISP.
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@posteo.net>
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Detailed regression test results are available here:
+> ---
+> Changes since v1:
+> - Improve the name of the new macro -> s/*_PROCESSING/*_CROP/
+> - Add a descriptive comment to explain why we need those 2 new macros
+> - Combine the separated 2 patches into a single one as patch 2 was
+>   depending on patch 1, which would have introduced a bisection breakage
+>   (Thanks to Laurent Pinchart)
+> 
+> This patch was tested with a NanoPC-T4 and a OV13850, which provides a
+> resolution of 4224x3136.
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-common.h   | 18 +++++++++++++-----
+>  .../platform/rockchip/rkisp1/rkisp1-isp.c      |  8 ++++++--
+>  2 files changed, 19 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 038c303a8aed..553a4b12becf 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -29,11 +29,19 @@
+>  #define RKISP1_ISP_SD_SRC BIT(0)
+>  #define RKISP1_ISP_SD_SINK BIT(1)
+>  
+> -/* min and max values for the widths and heights of the entities */
+> -#define RKISP1_ISP_MAX_WIDTH		4032
+> -#define RKISP1_ISP_MAX_HEIGHT		3024
+> -#define RKISP1_ISP_MIN_WIDTH		32
+> -#define RKISP1_ISP_MIN_HEIGHT		32
+> +/*
+> + * min and max values for the widths and heights of the entities
+> + * The ISP device accepts input resolutions of up to 4416x3312, but
+> + * it can only process resolutions of 4032x3024 internally.
+> + * Therefore the crop resolution is limited to 4032x3024, the
+> + * sink pad crop is applied automatically when the format is set.
+> + */
+> +#define RKISP1_ISP_MAX_WIDTH			4416
+> +#define RKISP1_ISP_MAX_HEIGHT			3312
+> +#define RKISP1_ISP_MAX_WIDTH_CROP		4032
+> +#define RKISP1_ISP_MAX_HEIGHT_CROP		3024
+> +#define RKISP1_ISP_MIN_WIDTH			32
+> +#define RKISP1_ISP_MIN_HEIGHT			32
+>  
+>  #define RKISP1_RSZ_MP_SRC_MAX_WIDTH		4416
+>  #define RKISP1_RSZ_MP_SRC_MAX_HEIGHT		3312
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index 2e5b57e3aedc..a8274e84a64b 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -758,9 +758,13 @@ static void rkisp1_isp_set_sink_crop(struct rkisp1_isp *isp,
+>  					  which);
+>  
+>  	sink_crop->left = ALIGN(r->left, 2);
+> -	sink_crop->width = ALIGN(r->width, 2);
+> +	sink_crop->width = clamp_t(u32, ALIGN(r->width, 2),
+> +				   RKISP1_ISP_MIN_WIDTH,
+> +				   RKISP1_ISP_MAX_WIDTH_CROP);
+>  	sink_crop->top = r->top;
+> -	sink_crop->height = r->height;
+> +	sink_crop->height = clamp_t(u32, r->height,
+> +				    RKISP1_ISP_MIN_HEIGHT,
+> +				    RKISP1_ISP_MAX_HEIGHT_CROP);
+>  	rkisp1_sd_adjust_crop(sink_crop, sink_fmt);
+>  
+>  	*r = *sink_crop;
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+-- 
+Regards,
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Laurent Pinchart
