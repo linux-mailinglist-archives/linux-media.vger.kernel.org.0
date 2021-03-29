@@ -2,227 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3A1C34D842
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 21:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0267E34D948
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 22:48:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231880AbhC2T3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 15:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53926 "EHLO
+        id S231124AbhC2UsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 16:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231872AbhC2T3V (ORCPT
+        with ESMTP id S229555AbhC2Urw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 15:29:21 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8E70C061574;
-        Mon, 29 Mar 2021 12:29:20 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 005EB1F454DE
-Message-ID: <9a6ce3a1339a5967e17963f54e2148d752b43d97.camel@collabora.com>
-Subject: Re: [PATCH v7 12/13] media: hantro: IMX8M: add variant for G2/HEVC
- codec
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        lee.jones@linaro.org, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com
-Date:   Mon, 29 Mar 2021 16:29:09 -0300
-In-Reply-To: <20210329065743.11961-13-benjamin.gaignard@collabora.com>
-References: <20210329065743.11961-1-benjamin.gaignard@collabora.com>
-         <20210329065743.11961-13-benjamin.gaignard@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Mon, 29 Mar 2021 16:47:52 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81806C061574
+        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 13:47:52 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id e18so14144155wrt.6
+        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 13:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=3qYuKfMWSCgX+js+2GWSJXYUGgZhqF401yOZtCsqoWs=;
+        b=WQm1dG09J3fKMl6GRgQIUxr6+kCY4bPhm3w3Wz2N5Cu1BheprV+RVI6N+cFT1ZHuYe
+         acY1rZ5rSey1Ofr5MSpQI3ShKBOpqtDHzFEh1MqIozJlsZ1W0U9vmlR37HtbR68D4htz
+         X9v/yBvsZNy/1gBjfIxKw8JEqgkElhhoX0es7jAeS16io5WHwcP+QmbXwpqYwVSzPdVY
+         1ocIRKQnL6Ee7MLsiDOtfCDQtx0UuncLm1HkXyOWUkR8zUjHrxPcKfDoBxd5FGa4co9R
+         7ks+d0fKhM8s0RjbL6BkKhmS30uCejBPtEKUlUEsqLiZtkDT5rbMQ3Ad95/JKWLD4GoL
+         qbcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=3qYuKfMWSCgX+js+2GWSJXYUGgZhqF401yOZtCsqoWs=;
+        b=lg0hK8wp5ZiKQQQteM0KlXfzB9sksvkFMz8dugC6096g/URN+C4d7KhuL0bZSQEpDH
+         E+Qb5GrjK1OElvCXBz3BA2MrLa6Rja9HJnXQVubfbCbHkZpdGlNyK5714XcMw+YIzcLT
+         43BKQEEx2jZvl7aMya/p5YDVWWyItfJZRAMVGE2GJovemZjy2PfOVoHTSR3AYSAPKBiY
+         0fvQKcS8eFjcwctet4o469x7TfPROzQdpmufhr+1ms7V3nq24mbX+7MeK98uB4NJ3qno
+         e3adpn8I6fhHdiTf/bBVyPW3qtYvlmN1/il2QefqzOTss40702VIxCMhwCaFBvM5H1o3
+         JUWQ==
+X-Gm-Message-State: AOAM531hShanpugp3nYESahndKIdrnM2e1xvdMglblP6xpwtT00C2950
+        UOtV8asVR2xvq589WN31hNE=
+X-Google-Smtp-Source: ABdhPJyegX1C42uZZjK893w2s3IMr0quphEhCNhT+2HwAhk2Oh4x5zC+8pS9Ge3w2CTb73XTCxECoA==
+X-Received: by 2002:a5d:6411:: with SMTP id z17mr29788754wru.119.1617050871190;
+        Mon, 29 Mar 2021 13:47:51 -0700 (PDT)
+Received: from [192.168.1.211] ([91.110.20.103])
+        by smtp.gmail.com with ESMTPSA id l15sm30892226wru.38.2021.03.29.13.47.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Mar 2021 13:47:50 -0700 (PDT)
+Subject: Re: [PATCH] ipu3-cio2: Parse sensor orientation and rotation
+To:     =?UTF-8?Q?Fabian_W=c3=bcthrich?= <me@fabwu.ch>,
+        linux-media@vger.kernel.org
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210321191155.55723-1-me@fabwu.ch>
+ <682898ab-c63d-160e-8fdb-7003a856cc07@gmail.com>
+ <abe2dd5f-7854-091c-9871-4aa11e5d8b28@fabwu.ch>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <77ca125d-f603-af81-b1df-99c71e62d777@gmail.com>
+Date:   Mon, 29 Mar 2021 21:47:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <abe2dd5f-7854-091c-9871-4aa11e5d8b28@fabwu.ch>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2021-03-29 at 08:57 +0200, Benjamin Gaignard wrote:
-> Add variant to IMX8M to enable G2/HEVC codec.
-> Define the capabilities for the hardware up to 3840x2160.
-> G2 doesn't have postprocessor, use the same clocks and got it
-> own interruption.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Hi Fabian - sorry for the late reply.
 
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-> ---
-> version 7:
->  - Add Philipp Reviewed-by tag.
-> 
-> version 5:
->  - remove useless postproc fields for G2
-> 
-> version 2:
-> - remove useless clocks
-> 
->  drivers/staging/media/hantro/hantro_drv.c   |  1 +
->  drivers/staging/media/hantro/hantro_hw.h    |  1 +
->  drivers/staging/media/hantro/imx8m_vpu_hw.c | 76 ++++++++++++++++++++-
->  3 files changed, 76 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 33b8bd38eac1..ed380a8bef93 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -574,6 +574,7 @@ static const struct of_device_id of_hantro_match[] = {
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
->         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-> +       { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
->  #endif
->         { /* sentinel */ }
->  };
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 5788188aae50..b4e7490bbe45 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -193,6 +193,7 @@ extern const struct hantro_variant rk3399_vpu_variant;
->  extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3288_vpu_variant;
->  extern const struct hantro_variant imx8mq_vpu_variant;
-> +extern const struct hantro_variant imx8mq_vpu_g2_variant;
->  
->  extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
->  
-> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> index 8d0c3425234b..6de43e0edc36 100644
-> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> @@ -12,6 +12,7 @@
->  #include "hantro.h"
->  #include "hantro_jpeg.h"
->  #include "hantro_g1_regs.h"
-> +#include "hantro_g2_regs.h"
->  
->  #define CTRL_SOFT_RESET                0x00
->  #define RESET_G1               BIT(1)
-> @@ -129,6 +130,26 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
->         },
->  };
->  
-> +static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
-> +       {
-> +               .fourcc = V4L2_PIX_FMT_NV12,
-> +               .codec_mode = HANTRO_MODE_NONE,
-> +       },
-> +       {
-> +               .fourcc = V4L2_PIX_FMT_HEVC_SLICE,
-> +               .codec_mode = HANTRO_MODE_HEVC_DEC,
-> +               .max_depth = 2,
-> +               .frmsize = {
-> +                       .min_width = 48,
-> +                       .max_width = 3840,
-> +                       .step_width = MB_DIM,
-> +                       .min_height = 48,
-> +                       .max_height = 2160,
-> +                       .step_height = MB_DIM,
-> +               },
-> +       },
-> +};
-> +
->  static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
->  {
->         struct hantro_dev *vpu = dev_id;
-> @@ -147,6 +168,24 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
->         return IRQ_HANDLED;
->  }
->  
-> +static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
-> +{
-> +       struct hantro_dev *vpu = dev_id;
-> +       enum vb2_buffer_state state;
-> +       u32 status;
-> +
-> +       status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
-> +       state = (status & HEVC_REG_INTERRUPT_DEC_RDY_INT) ?
-> +                VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-> +
-> +       vdpu_write(vpu, 0, HEVC_REG_INTERRUPT);
-> +       vdpu_write(vpu, HEVC_REG_CONFIG_DEC_CLK_GATE_E, HEVC_REG_CONFIG);
-> +
-> +       hantro_irq_done(vpu, state);
-> +
-> +       return IRQ_HANDLED;
-> +}
-> +
->  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
->  {
->         struct device_node *np = vpu->dev->of_node;
-> @@ -176,6 +215,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
->         imx8m_soft_reset(vpu, RESET_G1);
->  }
->  
-> +static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
-> +{
-> +       struct hantro_dev *vpu = ctx->dev;
-> +
-> +       imx8m_soft_reset(vpu, RESET_G2);
-> +}
-> +
->  /*
->   * Supported codec ops.
->   */
-> @@ -201,16 +247,28 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
->         },
->  };
->  
-> +static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
-> +       [HANTRO_MODE_HEVC_DEC] = {
-> +               .run = hantro_g2_hevc_dec_run,
-> +               .reset = imx8m_vpu_g2_reset,
-> +               .init = hantro_hevc_dec_init,
-> +               .exit = hantro_hevc_dec_exit,
-> +       },
-> +};
-> +
->  /*
->   * VPU variants.
->   */
->  
->  static const struct hantro_irq imx8mq_irqs[] = {
->         { "g1", imx8m_vpu_g1_irq },
-> -       { "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
->  };
->  
-> -static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
-> +static const struct hantro_irq imx8mq_g2_irqs[] = {
-> +       { "g2", imx8m_vpu_g2_irq },
-> +};
-> +
-> +static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus"};
->  
->  const struct hantro_variant imx8mq_vpu_variant = {
->         .dec_fmts = imx8m_vpu_dec_fmts,
-> @@ -228,3 +286,17 @@ const struct hantro_variant imx8mq_vpu_variant = {
->         .clk_names = imx8mq_clk_names,
->         .num_clocks = ARRAY_SIZE(imx8mq_clk_names),
->  };
-> +
-> +const struct hantro_variant imx8mq_vpu_g2_variant = {
-> +       .dec_offset = 0x0,
-> +       .dec_fmts = imx8m_vpu_g2_dec_fmts,
-> +       .num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
-> +       .codec = HANTRO_HEVC_DECODER,
-> +       .codec_ops = imx8mq_vpu_g2_codec_ops,
-> +       .init = imx8mq_vpu_hw_init,
-> +       .runtime_resume = imx8mq_runtime_resume,
-> +       .irqs = imx8mq_g2_irqs,
-> +       .num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
-> +       .clk_names = imx8mq_clk_names,
-> +       .num_clocks = ARRAY_SIZE(imx8mq_clk_names),
-> +};
+On 22/03/2021 15:16, Fabian Wüthrich wrote:
+>>> +#define CIO2_SENSOR_ROTATION_NORMAL		0
+>>> +#define CIO2_SENSOR_ROTATION_INVERTED		1
+>>> +
+>>
+>> I think these are good here but...
+>>
+>>> +/* Panel position defined in _PLD section of ACPI Specification 6.3 */
+>>> +#define CIO2_PLD_PANEL_TOP			0
+>>> +#define CIO2_PLD_PANEL_BOTTOM			1
+>>> +#define CIO2_PLD_PANEL_LEFT			2
+>>> +#define CIO2_PLD_PANEL_RIGHT			3
+>>> +#define CIO2_PLD_PANEL_FRONT			4
+>>> +#define CIO2_PLD_PANEL_BACK			5
+>>> +#define CIO2_PLD_PANEL_UNKNOWN			6
+>>> +
+>>
+>> ...I wonder if these ought to go somewhere in the include/acpi headers.
+>> You might be the only person to refer to pld->panel in driver code (at
+>> least a quick grep doesn't show me another one, and only another couple
+>> of uses of pld at all) so it's probably not a big deal, but it just
+>> feels slightly the wrong place. What do you think?
+>>
+> I agree. What about include/acpi/acbuffer.h? But I don't know if this
+> hinders the acceptance of this patch.
 
 
+Yeah I think that's probably the right place. I don't think this is a
+blocker no, but you'll need to do a v2 anyway to extend the array below,
+so you could include another patch then.
+
+>
+>>>  #define CIO2_SENSOR_CONFIG(_HID, _NR, ...)	\
+>>>  	(const struct cio2_sensor_config) {	\
+>>>  		.hid = _HID,			\
+>>> @@ -80,6 +93,7 @@ struct cio2_sensor_ssdb {
+>>>  struct cio2_property_names {
+>>>  	char clock_frequency[16];
+>>>  	char rotation[9];
+>>> +	char orientation[12];
+>>>  	char bus_type[9];
+>>>  	char data_lanes[11];
+>>>  	char remote_endpoint[16];
+>>> @@ -106,6 +120,8 @@ struct cio2_sensor {
+>>>  	struct cio2_node_names node_names;
+>>>  
+>>>  	struct cio2_sensor_ssdb ssdb;
+>>> +	struct acpi_pld_info *pld;
+>>> +
+>>>  	struct cio2_property_names prop_names;
+>>>  	struct property_entry ep_properties[5];
+>>>  	struct property_entry dev_properties[3];
+>>
+>> You should extend dev_properties to 4 members; there needs to be an
+>> empty entry as a terminator or it'll be a problem in the event someone
+>> tries to access a property that isn't there.
+>>
+> Good catch. Thanks I missed that.
