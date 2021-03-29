@@ -2,22 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B72434D83E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 21:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3A1C34D842
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 21:30:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231825AbhC2T3c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 15:29:32 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53738 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230462AbhC2T27 (ORCPT
+        id S231880AbhC2T3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 15:29:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231872AbhC2T3V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 15:28:59 -0400
+        Mon, 29 Mar 2021 15:29:21 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8E70C061574;
+        Mon, 29 Mar 2021 12:29:20 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 3F7AA1F45515
-Message-ID: <97b3722e5be95d269ebb57f85ac0318cc2c3f54e.camel@collabora.com>
-Subject: Re: [PATCH v7 10/13] media: hantro: handle V4L2_PIX_FMT_HEVC_SLICE
- control
+        with ESMTPSA id 005EB1F454DE
+Message-ID: <9a6ce3a1339a5967e17963f54e2148d752b43d97.camel@collabora.com>
+Subject: Re: [PATCH v7 12/13] media: hantro: IMX8M: add variant for G2/HEVC
+ codec
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
@@ -31,10 +34,10 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
         kernel@collabora.com
-Date:   Mon, 29 Mar 2021 16:28:46 -0300
-In-Reply-To: <20210329065743.11961-11-benjamin.gaignard@collabora.com>
+Date:   Mon, 29 Mar 2021 16:29:09 -0300
+In-Reply-To: <20210329065743.11961-13-benjamin.gaignard@collabora.com>
 References: <20210329065743.11961-1-benjamin.gaignard@collabora.com>
-         <20210329065743.11961-11-benjamin.gaignard@collabora.com>
+         <20210329065743.11961-13-benjamin.gaignard@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.2-1 
@@ -45,28 +48,181 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On Mon, 2021-03-29 at 08:57 +0200, Benjamin Gaignard wrote:
-> Make sure that V4L2_PIX_FMT_HEVC_SLICE is correctly handle by v4l2
-> of the driver.
+> Add variant to IMX8M to enable G2/HEVC codec.
+> Define the capabilities for the hardware up to 3840x2160.
+> G2 doesn't have postprocessor, use the same clocks and got it
+> own interruption.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
 Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
 > ---
->  drivers/staging/media/hantro/hantro_v4l2.c | 1 +
->  1 file changed, 1 insertion(+)
+> version 7:
+>  - Add Philipp Reviewed-by tag.
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index 77d7fe62ce81..0655324fd0d4 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -392,6 +392,7 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
->         case V4L2_PIX_FMT_MPEG2_SLICE:
->         case V4L2_PIX_FMT_VP8_FRAME:
->         case V4L2_PIX_FMT_H264_SLICE:
-> +       case V4L2_PIX_FMT_HEVC_SLICE:
->                 ctx->fh.m2m_ctx->out_q_ctx.q.requires_requests = true;
->                 break;
->         default:
+> version 5:
+>  - remove useless postproc fields for G2
+> 
+> version 2:
+> - remove useless clocks
+> 
+>  drivers/staging/media/hantro/hantro_drv.c   |  1 +
+>  drivers/staging/media/hantro/hantro_hw.h    |  1 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 76 ++++++++++++++++++++-
+>  3 files changed, 76 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 33b8bd38eac1..ed380a8bef93 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -574,6 +574,7 @@ static const struct of_device_id of_hantro_match[] = {
+>  #endif
+>  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+>         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+> +       { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
+>  #endif
+>         { /* sentinel */ }
+>  };
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 5788188aae50..b4e7490bbe45 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -193,6 +193,7 @@ extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3288_vpu_variant;
+>  extern const struct hantro_variant imx8mq_vpu_variant;
+> +extern const struct hantro_variant imx8mq_vpu_g2_variant;
+>  
+>  extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
+>  
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index 8d0c3425234b..6de43e0edc36 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -12,6 +12,7 @@
+>  #include "hantro.h"
+>  #include "hantro_jpeg.h"
+>  #include "hantro_g1_regs.h"
+> +#include "hantro_g2_regs.h"
+>  
+>  #define CTRL_SOFT_RESET                0x00
+>  #define RESET_G1               BIT(1)
+> @@ -129,6 +130,26 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+>         },
+>  };
+>  
+> +static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+> +       {
+> +               .fourcc = V4L2_PIX_FMT_NV12,
+> +               .codec_mode = HANTRO_MODE_NONE,
+> +       },
+> +       {
+> +               .fourcc = V4L2_PIX_FMT_HEVC_SLICE,
+> +               .codec_mode = HANTRO_MODE_HEVC_DEC,
+> +               .max_depth = 2,
+> +               .frmsize = {
+> +                       .min_width = 48,
+> +                       .max_width = 3840,
+> +                       .step_width = MB_DIM,
+> +                       .min_height = 48,
+> +                       .max_height = 2160,
+> +                       .step_height = MB_DIM,
+> +               },
+> +       },
+> +};
+> +
+>  static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>  {
+>         struct hantro_dev *vpu = dev_id;
+> @@ -147,6 +168,24 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>         return IRQ_HANDLED;
+>  }
+>  
+> +static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
+> +{
+> +       struct hantro_dev *vpu = dev_id;
+> +       enum vb2_buffer_state state;
+> +       u32 status;
+> +
+> +       status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
+> +       state = (status & HEVC_REG_INTERRUPT_DEC_RDY_INT) ?
+> +                VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> +
+> +       vdpu_write(vpu, 0, HEVC_REG_INTERRUPT);
+> +       vdpu_write(vpu, HEVC_REG_CONFIG_DEC_CLK_GATE_E, HEVC_REG_CONFIG);
+> +
+> +       hantro_irq_done(vpu, state);
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+>  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+>  {
+>         struct device_node *np = vpu->dev->of_node;
+> @@ -176,6 +215,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
+>         imx8m_soft_reset(vpu, RESET_G1);
+>  }
+>  
+> +static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
+> +{
+> +       struct hantro_dev *vpu = ctx->dev;
+> +
+> +       imx8m_soft_reset(vpu, RESET_G2);
+> +}
+> +
+>  /*
+>   * Supported codec ops.
+>   */
+> @@ -201,16 +247,28 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
+>         },
+>  };
+>  
+> +static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+> +       [HANTRO_MODE_HEVC_DEC] = {
+> +               .run = hantro_g2_hevc_dec_run,
+> +               .reset = imx8m_vpu_g2_reset,
+> +               .init = hantro_hevc_dec_init,
+> +               .exit = hantro_hevc_dec_exit,
+> +       },
+> +};
+> +
+>  /*
+>   * VPU variants.
+>   */
+>  
+>  static const struct hantro_irq imx8mq_irqs[] = {
+>         { "g1", imx8m_vpu_g1_irq },
+> -       { "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
+>  };
+>  
+> -static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+> +static const struct hantro_irq imx8mq_g2_irqs[] = {
+> +       { "g2", imx8m_vpu_g2_irq },
+> +};
+> +
+> +static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus"};
+>  
+>  const struct hantro_variant imx8mq_vpu_variant = {
+>         .dec_fmts = imx8m_vpu_dec_fmts,
+> @@ -228,3 +286,17 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>         .clk_names = imx8mq_clk_names,
+>         .num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+>  };
+> +
+> +const struct hantro_variant imx8mq_vpu_g2_variant = {
+> +       .dec_offset = 0x0,
+> +       .dec_fmts = imx8m_vpu_g2_dec_fmts,
+> +       .num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
+> +       .codec = HANTRO_HEVC_DECODER,
+> +       .codec_ops = imx8mq_vpu_g2_codec_ops,
+> +       .init = imx8mq_vpu_hw_init,
+> +       .runtime_resume = imx8mq_runtime_resume,
+> +       .irqs = imx8mq_g2_irqs,
+> +       .num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
+> +       .clk_names = imx8mq_clk_names,
+> +       .num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+> +};
 
 
