@@ -2,58 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7475334CDFF
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 12:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DBFE34CFF7
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 14:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231673AbhC2Ka0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 06:30:26 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:34440 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232311AbhC2KaL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 06:30:11 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lQp9t-0031Oy-Re; Mon, 29 Mar 2021 10:30:09 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lQpDp-0006zl-Ud; Mon, 29 Mar 2021 10:34:14 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.13] V4L2 camera patches (#72709)
-Date:   Mon, 29 Mar 2021 10:34:13 +0000
-Message-Id: <20210329103413.26848-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210329102056.GA3@valkosipuli.retiisi.eu>
-References: 
+        id S230420AbhC2MWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 08:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45698 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230098AbhC2MVy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Mar 2021 08:21:54 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B25C061574
+        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 05:21:54 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id c3so12127229qkc.5
+        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 05:21:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p6rmO3zHRzz2l323GfaHouhtqwmc+pnC3YfIkr5pe5w=;
+        b=UOHS8W0JbsucbBMxNs3JSiRkGbFmtCz0GyYLC2w59DIYSCkhKEJFPhY3HX3fIom2xI
+         /1LYYscvXIpLr8CNyAC82HGXmy04VOG4OqbnJvAWKy4/cMKQZ/Ww5NTooI3ciikQe3nV
+         Id1i6CLbisCLFLjM10Lhe51C9f9CiKOL5872iBiQu33ToxYQUIWP6rFvdoJIeq2Ox4H1
+         F6EfcbcHT9LbXyzwM7yFYeVmUB6/La0hZMJztre64Me/q7r+SYR3qufGlbTZSvZkgBfo
+         ptHRO7mJ1J84RS+k740aUjKPt9Jvu+IylArOdy6b5cBs7Erk7KV1ZEqUVvbthGPyqOv0
+         K3cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p6rmO3zHRzz2l323GfaHouhtqwmc+pnC3YfIkr5pe5w=;
+        b=To/nm3WR+hEWZk6CwyRuEhRHCxpJ0Qxw3JObEeb8ukIr8E3O/Mlvuopt+KPlHWQdvT
+         dQHiUf67QUT3CZl0tIFIjR+WFuz/EjHoZ7CT7KYuuXHXMtRYtfZ5cvyRIYK5EY/XqTe2
+         FkI28BSp7lG+JBwJOedtrF6KF1rqfWDpBn0FomrPiWo281SXGQ4Iu27IYxtmZ2akn9+G
+         iX4mFlupRi6HqnK0OMjqFEuJjCipd0baUfeiBKWwLPDr4lvBQTxdArcwwH2OnQNlNzgA
+         A1vASDZbr2HCWC4Yhk5Zh+7dRbwbzEVXDBjwRVh6W2ZBGI8aawKblHPA3PsL/3xb/M3D
+         Heqg==
+X-Gm-Message-State: AOAM531QTs5vEEki0fElWMmD1zXdsj6VZPwdxP0vREY57L5UoC3HEr2U
+        tLd/KdTA7ENWwrNk7I8GCTY=
+X-Google-Smtp-Source: ABdhPJxGmao58LkgXlzRc1FjG3JR3prZ/UXqGqqLYxND+JKttucbHXFlbOqbMiqTbpnodVUgr4v51A==
+X-Received: by 2002:a37:b206:: with SMTP id b6mr25081311qkf.275.1617020513205;
+        Mon, 29 Mar 2021 05:21:53 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:919:7898:56c:200:f2a5])
+        by smtp.gmail.com with ESMTPSA id a8sm8214366qtx.9.2021.03.29.05.21.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 05:21:52 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil@xs4all.nl
+Cc:     p.zabel@pengutronix.de, linux-media@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] media: imx-pxp: Remove unneeded of_match_ptr()
+Date:   Mon, 29 Mar 2021 09:21:43 -0300
+Message-Id: <20210329122143.579240-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+i.MX is a DT-only platform, so of_match_ptr() can be safely
+removed.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210329102056.GA3@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/96380/
-Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/20210329102056.GA3@valkosipuli.retiisi.eu
+Remove the unneeded of_match_ptr(). 
 
-gpg: Signature made Mon 29 Mar 2021 10:16:52 AM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ drivers/media/platform/imx-pxp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Build aborted due to a fatal error:
-FAILED: patch patch patches/0009-staging-media-ipu3-add-missing-kernel-doc-struct-key.patch doesn't apply:
-Applying patch patches/0009-staging-media-ipu3-add-missing-kernel-doc-struct-key.patch
-patching file drivers/staging/media/ipu3/ipu3-css-pool.h
-Hunk #1 FAILED at 10.
-Hunk #2 FAILED at 24.
-2 out of 2 hunks FAILED -- rejects in file drivers/staging/media/ipu3/ipu3-css-pool.h
-Patch patches/0009-staging-media-ipu3-add-missing-kernel-doc-struct-key.patch can be reverse-applied
+diff --git a/drivers/media/platform/imx-pxp.c b/drivers/media/platform/imx-pxp.c
+index 08d76eb05ed1..078d19afe35f 100644
+--- a/drivers/media/platform/imx-pxp.c
++++ b/drivers/media/platform/imx-pxp.c
+@@ -1755,7 +1755,7 @@ static struct platform_driver pxp_driver = {
+ 	.remove		= pxp_remove,
+ 	.driver		= {
+ 		.name	= MEM2MEM_NAME,
+-		.of_match_table = of_match_ptr(pxp_dt_ids),
++		.of_match_table = pxp_dt_ids,
+ 	},
+ };
+ 
+-- 
+2.25.1
 
