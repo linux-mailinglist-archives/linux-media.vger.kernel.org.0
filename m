@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E45F734C44A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 08:59:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 571F134C443
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 08:59:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbhC2G6a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 02:58:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58510 "EHLO
+        id S231138AbhC2G63 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 02:58:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230220AbhC2G6D (ORCPT
+        with ESMTP id S230224AbhC2G6E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 02:58:03 -0400
+        Mon, 29 Mar 2021 02:58:04 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC81C061574;
-        Sun, 28 Mar 2021 23:58:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 534FFC061574;
+        Sun, 28 Mar 2021 23:58:04 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 8E8DF1F45B73
+        with ESMTPSA id 0A47C1F45B80
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
         robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -32,9 +32,9 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
         kernel@collabora.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 05/13] media: hevc: Add decode params control
-Date:   Mon, 29 Mar 2021 08:57:35 +0200
-Message-Id: <20210329065743.11961-6-benjamin.gaignard@collabora.com>
+Subject: [PATCH v7 06/13] media: hantro: change hantro_codec_ops run prototype to return errors
+Date:   Mon, 29 Mar 2021 08:57:36 +0200
+Message-Id: <20210329065743.11961-7-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210329065743.11961-1-benjamin.gaignard@collabora.com>
 References: <20210329065743.11961-1-benjamin.gaignard@collabora.com>
@@ -44,402 +44,274 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add decode params control and it associated structure to regroup
-all the information that are needed to decode a reference frame as
-it is describe in ITU-T Rec. H.265 section "8.3.2 Decoding process
-for reference picture set".
-
-Adapt Cedrus driver to these changes.
+Change hantro_codec_ops run prototype from 'void' to 'int'.
+This allow to cancel the job if an error occur while configuring
+the hardware.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
-version 7:
- - rebased on top of media_tree/master branch
+version 5:
+ - forward hantro_h264_dec_prepare_run() return value in case
+   of error
 
-version 6:
- - fix compilation errors
+ drivers/staging/media/hantro/hantro_drv.c     |  4 +++-
+ .../staging/media/hantro/hantro_g1_h264_dec.c | 10 +++++++---
+ .../media/hantro/hantro_g1_mpeg2_dec.c        |  4 +++-
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |  6 ++++--
+ .../staging/media/hantro/hantro_h1_jpeg_enc.c |  4 +++-
+ drivers/staging/media/hantro/hantro_hw.h      | 19 ++++++++++---------
+ .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |  4 +++-
+ .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |  4 +++-
+ .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |  6 ++++--
+ 9 files changed, 40 insertions(+), 21 deletions(-)
 
- .../media/v4l/ext-ctrls-codec.rst             | 94 +++++++++++++++----
- .../media/v4l/vidioc-queryctrl.rst            |  6 ++
- drivers/media/v4l2-core/v4l2-ctrls.c          | 26 +++--
- drivers/staging/media/sunxi/cedrus/cedrus.c   |  6 ++
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |  2 +
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 12 ++-
- include/media/hevc-ctrls.h                    | 29 ++++--
- 8 files changed, 137 insertions(+), 39 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 92314aec655a..7552869687f7 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -3181,9 +3181,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     * - __u8
-       - ``pic_struct``
-       -
--    * - __u8
--      - ``num_active_dpb_entries``
--      - The number of entries in ``dpb``.
-     * - __u8
-       - ``ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - The list of L0 reference elements as indices in the DPB.
-@@ -3191,22 +3188,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - The list of L1 reference elements as indices in the DPB.
-     * - __u8
--      - ``num_rps_poc_st_curr_before``
--      - The number of reference pictures in the short-term set that come before
--        the current frame.
--    * - __u8
--      - ``num_rps_poc_st_curr_after``
--      - The number of reference pictures in the short-term set that come after
--        the current frame.
--    * - __u8
--      - ``num_rps_poc_lt_curr``
--      - The number of reference pictures in the long-term set.
--    * - __u8
--      - ``padding[7]``
-+      - ``padding``
-       - Applications and drivers must set this to zero.
--    * - struct :c:type:`v4l2_hevc_dpb_entry`
--      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
--      - The decoded picture buffer, for meta-data about reference frames.
-     * - struct :c:type:`v4l2_hevc_pred_weight_table`
-       - ``pred_weight_table``
-       - The prediction weight coefficients for inter-picture prediction.
-@@ -3441,3 +3424,78 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     so this has to come from client.
-     This is applicable to H264 and valid Range is from 0 to 63.
-     Source Rec. ITU-T H.264 (06/2019); G.7.4.1.1, G.8.8.1.
-+
-+``V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS (struct)``
-+    Specifies various decode parameters, especially the references picture order
-+    count (POC) for all the lists (short, long, before, current, after) and the
-+    number of entries for each of them.
-+    These parameters are defined according to :ref:`hevc`.
-+    They are described in section 8.3 "Slice decoding process" of the
-+    specification.
-+
-+.. c:type:: v4l2_ctrl_hevc_decode_params
-+
-+.. cssclass:: longtable
-+
-+.. flat-table:: struct v4l2_ctrl_hevc_decode_params
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __s32
-+      - ``pic_order_cnt_val``
-+      - PicOrderCntVal as described in section 8.3.1 "Decoding process
-+        for picture order count" of the specification.
-+    * - __u8
-+      - ``num_active_dpb_entries``
-+      - The number of entries in ``dpb``.
-+    * - struct :c:type:`v4l2_hevc_dpb_entry`
-+      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - The decoded picture buffer, for meta-data about reference frames.
-+    * - __u8
-+      - ``num_poc_st_curr_before``
-+      - The number of reference pictures in the short-term set that come before
-+        the current frame.
-+    * - __u8
-+      - ``num_poc_st_curr_after``
-+      - The number of reference pictures in the short-term set that come after
-+        the current frame.
-+    * - __u8
-+      - ``num_poc_lt_curr``
-+      - The number of reference pictures in the long-term set.
-+    * - __u8
-+      - ``poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - PocStCurrBefore as described in section 8.3.2 "Decoding process for reference
-+        picture set.
-+    * - __u8
-+      - ``poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - PocStCurrAfter as described in section 8.3.2 "Decoding process for reference
-+        picture set.
-+    * - __u8
-+      - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - PocLtCurr as described in section 8.3.2 "Decoding process for reference
-+        picture set.
-+    * - __u64
-+      - ``flags``
-+      - See :ref:`Decode Parameters Flags <hevc_decode_params_flags>`
-+
-+.. _hevc_decode_params_flags:
-+
-+``Decode Parameters Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC``
-+      - 0x00000001
-+      -
-+    * - ``V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC``
-+      - 0x00000002
-+      -
-+    * - ``V4L2_HEVC_DECODE_PARAM_FLAG_NO_OUTPUT_OF_PRIOR``
-+      - 0x00000004
-+      -
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 8a285daedc6a..cf8f94693c39 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -495,6 +495,12 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_ctrl_vp8_frame`, containing VP8
- 	frame parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_hevc_decode_params`, containing HEVC
-+	decoding parameters for stateless video decoders.
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 595e82a82728..02c5c2f1a88b 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -161,7 +161,9 @@ static void device_run(void *priv)
  
- .. raw:: latex
+ 	v4l2_m2m_buf_copy_metadata(src, dst, true);
  
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 39038c6ad8fb..8c1a98ed4ca4 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -1037,6 +1037,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:			return "HEVC Sequence Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:			return "HEVC Picture Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
-+	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
- 
-@@ -1496,6 +1497,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
- 		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
-+		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
-+		break;
- 	case V4L2_CID_UNIT_CELL_SIZE:
- 		*type = V4L2_CTRL_TYPE_AREA;
- 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-@@ -1852,6 +1856,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
- 	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
- 	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
-+	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
- 	struct v4l2_area *area;
- 	void *p = ptr.p + idx * ctrl->elem_size;
- 	unsigned int i;
-@@ -2127,23 +2132,27 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 		zero_padding(*p_hevc_pps);
- 		break;
- 
--	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
--		p_hevc_slice_params = p;
-+	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
-+		p_hevc_decode_params = p;
- 
--		if (p_hevc_slice_params->num_active_dpb_entries >
-+		if (p_hevc_decode_params->num_active_dpb_entries >
- 		    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
- 			return -EINVAL;
- 
--		zero_padding(p_hevc_slice_params->pred_weight_table);
--
--		for (i = 0; i < p_hevc_slice_params->num_active_dpb_entries;
-+		for (i = 0; i < p_hevc_decode_params->num_active_dpb_entries;
- 		     i++) {
- 			struct v4l2_hevc_dpb_entry *dpb_entry =
--				&p_hevc_slice_params->dpb[i];
-+				&p_hevc_decode_params->dpb[i];
- 
- 			zero_padding(*dpb_entry);
- 		}
- 
-+		break;
+-	ctx->codec_ops->run(ctx);
++	if (ctx->codec_ops->run(ctx))
++		goto err_cancel_job;
 +
-+	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
-+		p_hevc_slice_params = p;
-+
-+		zero_padding(p_hevc_slice_params->pred_weight_table);
- 		zero_padding(*p_hevc_slice_params);
- 		break;
+ 	return;
  
-@@ -2840,6 +2849,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
- 		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
- 		break;
-+	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
-+		elem_size = sizeof(struct v4l2_ctrl_hevc_decode_params);
-+		break;
- 	case V4L2_CTRL_TYPE_AREA:
- 		elem_size = sizeof(struct v4l2_area);
- 		break;
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 92812d1a39d4..6f095ae53818 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -151,6 +151,12 @@ static const struct cedrus_control cedrus_controls[] = {
- 		},
- 		.codec		= CEDRUS_CODEC_VP8,
- 	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
-+		},
-+		.codec		= CEDRUS_CODEC_H265,
-+	},
+ err_cancel_job:
+diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+index 845bef73d218..5c792b7bcb79 100644
+--- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+@@ -273,13 +273,15 @@ static void set_buffers(struct hantro_ctx *ctx)
+ 	vdpu_write_relaxed(vpu, ctx->h264_dec.priv.dma, G1_REG_ADDR_QTABLE);
+ }
+ 
+-void hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
++int hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
++	int ret;
+ 
+ 	/* Prepare the H264 decoder context. */
+-	if (hantro_h264_dec_prepare_run(ctx))
+-		return;
++	ret = hantro_h264_dec_prepare_run(ctx);
++	if (ret)
++		return ret;
+ 
+ 	/* Configure hardware registers. */
+ 	set_params(ctx);
+@@ -301,4 +303,6 @@ void hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
+ 			   G1_REG_CONFIG_DEC_CLK_GATE_E,
+ 			   G1_REG_CONFIG);
+ 	vdpu_write(vpu, G1_REG_INTERRUPT_DEC_E, G1_REG_INTERRUPT);
++
++	return 0;
+ }
+diff --git a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
+index 6386a3989bfe..5e8943d31dc5 100644
+--- a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
+@@ -155,7 +155,7 @@ hantro_g1_mpeg2_dec_set_buffers(struct hantro_dev *vpu, struct hantro_ctx *ctx,
+ 	vdpu_write_relaxed(vpu, backward_addr, G1_REG_REFER3_BASE);
+ }
+ 
+-void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
++int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+@@ -248,4 +248,6 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
+ 
+ 	reg = G1_REG_DEC_E(1);
+ 	vdpu_write(vpu, reg, G1_SWREG(1));
++
++	return 0;
+ }
+diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+index 57002ba70176..96622a7f8279 100644
+--- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+@@ -425,7 +425,7 @@ static void cfg_buffers(struct hantro_ctx *ctx,
+ 	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
+ }
+ 
+-void hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
++int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+ {
+ 	const struct v4l2_ctrl_vp8_frame *hdr;
+ 	struct hantro_dev *vpu = ctx->dev;
+@@ -438,7 +438,7 @@ void hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+ 
+ 	hdr = hantro_get_ctrl(ctx, V4L2_CID_STATELESS_VP8_FRAME);
+ 	if (WARN_ON(!hdr))
+-		return;
++		return -EINVAL;
+ 
+ 	/* Reset segment_map buffer in keyframe */
+ 	if (V4L2_VP8_FRAME_IS_KEY_FRAME(hdr) && ctx->vp8_dec.segment_map.cpu)
+@@ -498,4 +498,6 @@ void hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+ 	hantro_end_prepare_run(ctx);
+ 
+ 	vdpu_write(vpu, G1_REG_INTERRUPT_DEC_E, G1_REG_INTERRUPT);
++
++	return 0;
+ }
+diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+index b88dc4ed06db..56cf261a8e95 100644
+--- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
++++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+@@ -88,7 +88,7 @@ hantro_h1_jpeg_enc_set_qtable(struct hantro_dev *vpu,
+ 	}
+ }
+ 
+-void hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
++int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+@@ -136,6 +136,8 @@ void hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+ 	hantro_end_prepare_run(ctx);
+ 
+ 	vepu_write(vpu, reg, H1_REG_ENC_CTRL);
++
++	return 0;
+ }
+ 
+ void hantro_jpeg_enc_done(struct hantro_ctx *ctx)
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 13a6e7113001..a76852966578 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -126,14 +126,15 @@ struct hantro_postproc_ctx {
+  *		Optional and called from process context.
+  * @run:	Start single {en,de)coding job. Called from atomic context
+  *		to indicate that a pair of buffers is ready and the hardware
+- *		should be programmed and started.
++ *		should be programmed and started. Returns zero if OK, a
++ *		negative value in error cases.
+  * @done:	Read back processing results and additional data from hardware.
+  * @reset:	Reset the hardware in case of a timeout.
+  */
+ struct hantro_codec_ops {
+ 	int (*init)(struct hantro_ctx *ctx);
+ 	void (*exit)(struct hantro_ctx *ctx);
+-	void (*run)(struct hantro_ctx *ctx);
++	int (*run)(struct hantro_ctx *ctx);
+ 	void (*done)(struct hantro_ctx *ctx);
+ 	void (*reset)(struct hantro_ctx *ctx);
  };
+@@ -164,8 +165,8 @@ void hantro_irq_done(struct hantro_dev *vpu,
+ void hantro_start_prepare_run(struct hantro_ctx *ctx);
+ void hantro_end_prepare_run(struct hantro_ctx *ctx);
  
- #define CEDRUS_CONTROLS_COUNT	ARRAY_SIZE(cedrus_controls)
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 15f147dad4cb..930922bd4e46 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -76,6 +76,7 @@ struct cedrus_h265_run {
- 	const struct v4l2_ctrl_hevc_sps			*sps;
- 	const struct v4l2_ctrl_hevc_pps			*pps;
- 	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
-+	const struct v4l2_ctrl_hevc_decode_params	*decode_params;
- };
+-void hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
+-void rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx);
++int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
++int rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx);
+ int hantro_jpeg_enc_init(struct hantro_ctx *ctx);
+ void hantro_jpeg_enc_exit(struct hantro_ctx *ctx);
+ void hantro_jpeg_enc_done(struct hantro_ctx *ctx);
+@@ -173,7 +174,7 @@ void hantro_jpeg_enc_done(struct hantro_ctx *ctx);
+ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
+ 				   unsigned int dpb_idx);
+ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx);
+-void hantro_g1_h264_dec_run(struct hantro_ctx *ctx);
++int hantro_g1_h264_dec_run(struct hantro_ctx *ctx);
+ int hantro_h264_dec_init(struct hantro_ctx *ctx);
+ void hantro_h264_dec_exit(struct hantro_ctx *ctx);
  
- struct cedrus_vp8_run {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index d696b3ec70c0..8a7e44f92812 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -68,6 +68,8 @@ void cedrus_device_run(void *priv)
- 			V4L2_CID_MPEG_VIDEO_HEVC_PPS);
- 		run.h265.slice_params = cedrus_find_control_data(ctx,
- 			V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS);
-+		run.h265.decode_params = cedrus_find_control_data(ctx,
-+			V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS);
- 		break;
+@@ -204,15 +205,15 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
+ 	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
+ }
  
- 	case V4L2_PIX_FMT_VP8_FRAME:
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index ce497d0197df..397a4ba5df4c 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -245,6 +245,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	const struct v4l2_ctrl_hevc_sps *sps;
- 	const struct v4l2_ctrl_hevc_pps *pps;
- 	const struct v4l2_ctrl_hevc_slice_params *slice_params;
-+	const struct v4l2_ctrl_hevc_decode_params *decode_params;
- 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
- 	dma_addr_t src_buf_addr;
- 	dma_addr_t src_buf_end_addr;
-@@ -256,6 +257,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	sps = run->h265.sps;
- 	pps = run->h265.pps;
- 	slice_params = run->h265.slice_params;
-+	decode_params = run->h265.decode_params;
- 	pred_weight_table = &slice_params->pred_weight_table;
+-void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+-void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
++int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
++int rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
+ void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+ 	const struct v4l2_ctrl_mpeg2_quantization *ctrl);
+ int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
+ void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
  
- 	/* MV column buffer size and allocation. */
-@@ -487,7 +489,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+-void hantro_g1_vp8_dec_run(struct hantro_ctx *ctx);
+-void rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx);
++int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx);
++int rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx);
+ int hantro_vp8_dec_init(struct hantro_ctx *ctx);
+ void hantro_vp8_dec_exit(struct hantro_ctx *ctx);
+ void hantro_vp8_prob_update(struct hantro_ctx *ctx,
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c b/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
+index 3498e6124acd..3a27ebef4f38 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
+@@ -118,7 +118,7 @@ rk3399_vpu_jpeg_enc_set_qtable(struct hantro_dev *vpu,
+ 	}
+ }
  
- 	reg = VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_TC_OFFSET_DIV2(slice_params->slice_tc_offset_div2) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_BETA_OFFSET_DIV2(slice_params->slice_beta_offset_div2) |
--	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(slice_params->num_rps_poc_st_curr_after == 0) |
-+	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(decode_params->num_poc_st_curr_after == 0) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CR_QP_OFFSET(slice_params->slice_cr_qp_offset) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CB_QP_OFFSET(slice_params->slice_cb_qp_offset) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_QP_DELTA(slice_params->slice_qp_delta);
-@@ -527,8 +529,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	cedrus_write(dev, VE_DEC_H265_NEIGHBOR_INFO_ADDR, reg);
- 
- 	/* Write decoded picture buffer in pic list. */
--	cedrus_h265_frame_info_write_dpb(ctx, slice_params->dpb,
--					 slice_params->num_active_dpb_entries);
-+	cedrus_h265_frame_info_write_dpb(ctx, decode_params->dpb,
-+					 decode_params->num_active_dpb_entries);
- 
- 	/* Output frame. */
- 
-@@ -545,7 +547,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	/* Reference picture list 0 (for P/B frames). */
- 	if (slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_I) {
--		cedrus_h265_ref_pic_list_write(dev, slice_params->dpb,
-+		cedrus_h265_ref_pic_list_write(dev, decode_params->dpb,
- 					       slice_params->ref_idx_l0,
- 					       slice_params->num_ref_idx_l0_active_minus1 + 1,
- 					       VE_DEC_H265_SRAM_OFFSET_REF_PIC_LIST0);
-@@ -564,7 +566,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	/* Reference picture list 1 (for B frames). */
- 	if (slice_params->slice_type == V4L2_HEVC_SLICE_TYPE_B) {
--		cedrus_h265_ref_pic_list_write(dev, slice_params->dpb,
-+		cedrus_h265_ref_pic_list_write(dev, decode_params->dpb,
- 					       slice_params->ref_idx_l1,
- 					       slice_params->num_ref_idx_l1_active_minus1 + 1,
- 					       VE_DEC_H265_SRAM_OFFSET_REF_PIC_LIST1);
-diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-index 003f819ecb26..8e0109eea454 100644
---- a/include/media/hevc-ctrls.h
-+++ b/include/media/hevc-ctrls.h
-@@ -19,6 +19,7 @@
- #define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
- #define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
- #define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
-+#define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
- #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
- #define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
- 
-@@ -26,6 +27,7 @@
- #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
- #define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
- #define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
-+#define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
- 
- enum v4l2_mpeg_video_hevc_decode_mode {
- 	V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_SLICE_BASED,
-@@ -194,18 +196,10 @@ struct v4l2_ctrl_hevc_slice_params {
- 	__u8	pic_struct;
- 
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
--	__u8	num_active_dpb_entries;
- 	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
- 	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
- 
--	__u8	num_rps_poc_st_curr_before;
--	__u8	num_rps_poc_st_curr_after;
--	__u8	num_rps_poc_lt_curr;
--
--	__u8	padding;
--
--	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
--	struct v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	padding[5];
- 
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
- 	struct v4l2_hevc_pred_weight_table pred_weight_table;
-@@ -213,4 +207,21 @@ struct v4l2_ctrl_hevc_slice_params {
- 	__u64	flags;
- };
- 
-+#define V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC		0x1
-+#define V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC		0x2
-+#define V4L2_HEVC_DECODE_PARAM_FLAG_NO_OUTPUT_OF_PRIOR  0x4
+-void rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx)
++int rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+@@ -168,4 +168,6 @@ void rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx)
+ 	/* Kick the watchdog and start encoding */
+ 	hantro_end_prepare_run(ctx);
+ 	vepu_write(vpu, reg, VEPU_REG_ENCODE_START);
 +
-+struct v4l2_ctrl_hevc_decode_params {
-+	__s32	pic_order_cnt_val;
-+	__u8	num_active_dpb_entries;
-+	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	num_poc_st_curr_before;
-+	__u8	num_poc_st_curr_after;
-+	__u8	num_poc_lt_curr;
-+	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u64	flags;
-+};
++	return 0;
+ }
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
+index f610fa5b4335..4bd3080abbc1 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
+@@ -157,7 +157,7 @@ rk3399_vpu_mpeg2_dec_set_buffers(struct hantro_dev *vpu,
+ 	vdpu_write_relaxed(vpu, backward_addr, VDPU_REG_REFER3_BASE);
+ }
+ 
+-void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
++int rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+@@ -254,4 +254,6 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
+ 
+ 	reg = vdpu_read(vpu, VDPU_SWREG(57)) | VDPU_REG_DEC_E(1);
+ 	vdpu_write(vpu, reg, VDPU_SWREG(57));
 +
- #endif
++	return 0;
+ }
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+index 8661a3cc1e6b..e5d20fe5b007 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+@@ -503,7 +503,7 @@ static void cfg_buffers(struct hantro_ctx *ctx,
+ 	vdpu_write_relaxed(vpu, dst_dma, VDPU_REG_ADDR_DST);
+ }
+ 
+-void rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx)
++int rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx)
+ {
+ 	const struct v4l2_ctrl_vp8_frame *hdr;
+ 	struct hantro_dev *vpu = ctx->dev;
+@@ -516,7 +516,7 @@ void rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx)
+ 
+ 	hdr = hantro_get_ctrl(ctx, V4L2_CID_STATELESS_VP8_FRAME);
+ 	if (WARN_ON(!hdr))
+-		return;
++		return -EINVAL;
+ 
+ 	/* Reset segment_map buffer in keyframe */
+ 	if (V4L2_VP8_FRAME_IS_KEY_FRAME(hdr) && ctx->vp8_dec.segment_map.cpu)
+@@ -589,4 +589,6 @@ void rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx)
+ 	hantro_end_prepare_run(ctx);
+ 
+ 	hantro_reg_write(vpu, &vp8_dec_start_dec, 1);
++
++	return 0;
+ }
 -- 
 2.25.1
 
