@@ -2,89 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DBFE34CFF7
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 14:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9E2B34D0D8
+	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 15:02:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230420AbhC2MWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 08:22:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45698 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230098AbhC2MVy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 08:21:54 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B25C061574
-        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 05:21:54 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id c3so12127229qkc.5
-        for <linux-media@vger.kernel.org>; Mon, 29 Mar 2021 05:21:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p6rmO3zHRzz2l323GfaHouhtqwmc+pnC3YfIkr5pe5w=;
-        b=UOHS8W0JbsucbBMxNs3JSiRkGbFmtCz0GyYLC2w59DIYSCkhKEJFPhY3HX3fIom2xI
-         /1LYYscvXIpLr8CNyAC82HGXmy04VOG4OqbnJvAWKy4/cMKQZ/Ww5NTooI3ciikQe3nV
-         Id1i6CLbisCLFLjM10Lhe51C9f9CiKOL5872iBiQu33ToxYQUIWP6rFvdoJIeq2Ox4H1
-         F6EfcbcHT9LbXyzwM7yFYeVmUB6/La0hZMJztre64Me/q7r+SYR3qufGlbTZSvZkgBfo
-         ptHRO7mJ1J84RS+k740aUjKPt9Jvu+IylArOdy6b5cBs7Erk7KV1ZEqUVvbthGPyqOv0
-         K3cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p6rmO3zHRzz2l323GfaHouhtqwmc+pnC3YfIkr5pe5w=;
-        b=To/nm3WR+hEWZk6CwyRuEhRHCxpJ0Qxw3JObEeb8ukIr8E3O/Mlvuopt+KPlHWQdvT
-         dQHiUf67QUT3CZl0tIFIjR+WFuz/EjHoZ7CT7KYuuXHXMtRYtfZ5cvyRIYK5EY/XqTe2
-         FkI28BSp7lG+JBwJOedtrF6KF1rqfWDpBn0FomrPiWo281SXGQ4Iu27IYxtmZ2akn9+G
-         iX4mFlupRi6HqnK0OMjqFEuJjCipd0baUfeiBKWwLPDr4lvBQTxdArcwwH2OnQNlNzgA
-         A1vASDZbr2HCWC4Yhk5Zh+7dRbwbzEVXDBjwRVh6W2ZBGI8aawKblHPA3PsL/3xb/M3D
-         Heqg==
-X-Gm-Message-State: AOAM531QTs5vEEki0fElWMmD1zXdsj6VZPwdxP0vREY57L5UoC3HEr2U
-        tLd/KdTA7ENWwrNk7I8GCTY=
-X-Google-Smtp-Source: ABdhPJxGmao58LkgXlzRc1FjG3JR3prZ/UXqGqqLYxND+JKttucbHXFlbOqbMiqTbpnodVUgr4v51A==
-X-Received: by 2002:a37:b206:: with SMTP id b6mr25081311qkf.275.1617020513205;
-        Mon, 29 Mar 2021 05:21:53 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:919:7898:56c:200:f2a5])
-        by smtp.gmail.com with ESMTPSA id a8sm8214366qtx.9.2021.03.29.05.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 05:21:52 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     hverkuil@xs4all.nl
-Cc:     p.zabel@pengutronix.de, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] media: imx-pxp: Remove unneeded of_match_ptr()
-Date:   Mon, 29 Mar 2021 09:21:43 -0300
-Message-Id: <20210329122143.579240-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S231793AbhC2NBp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 09:01:45 -0400
+Received: from mga11.intel.com ([192.55.52.93]:38158 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231569AbhC2NB2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Mar 2021 09:01:28 -0400
+IronPort-SDR: IZ4WvCnN/rFWLCZ0t0+yM4JxD1/NxasVKi+gGIt1PZUnpLUmsYZ2Qw7THHjt/dMBuW9D74aErp
+ Zh39Sg16Y6sQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="188275054"
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="188275054"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 06:01:26 -0700
+IronPort-SDR: r29PVR40HJDKTPxnh2BdepZ2i6qkER5CYOGByOT3/Lm06gJBDSe6vdRkyLv4TeOa0FYGKNR1VK
+ Nq8h5aza3AAQ==
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="376417615"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 06:01:23 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1lQrWA-00H1cf-Md; Mon, 29 Mar 2021 16:01:18 +0300
+Date:   Mon, 29 Mar 2021 16:01:18 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Daniel Scally <djrscally@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: Re: [PATCH v1 3/8] software node: Show properties and their values
+ in sysfs
+Message-ID: <YGHPnkoB/wP6u6HC@smile.fi.intel.com>
+References: <20210327222012.54103-1-andriy.shevchenko@linux.intel.com>
+ <20210327222012.54103-3-andriy.shevchenko@linux.intel.com>
+ <YGAmB2Nwph6pArXc@kroah.com>
+ <CAHp75VfFzqpdR+6p9vQww-ujQcw3L-V_N7ezUTGhcRmvwvqMZg@mail.gmail.com>
+ <YGB+YMh1MsQao3zS@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YGB+YMh1MsQao3zS@kroah.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-i.MX is a DT-only platform, so of_match_ptr() can be safely
-removed.
+On Sun, Mar 28, 2021 at 03:02:24PM +0200, Greg Kroah-Hartman wrote:
+> On Sun, Mar 28, 2021 at 03:56:26PM +0300, Andy Shevchenko wrote:
+> > On Sun, Mar 28, 2021 at 9:47 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Sun, Mar 28, 2021 at 12:20:07AM +0200, Andy Shevchenko wrote:
+> > > > It's very convenient to see what properties and their values
+> > > > are currently being assigned in the registered software nodes.
+> > > >
+> > > > Show properties and their values in sysfs.
+> > 
+> > ...
+> > 
+> > > > +             for (i = 0; i < prop->length / sizeof(u8); i++)
+> > > > +                     len += sysfs_emit_at(buf, len, "%u,", ((u8 *)pointer)[i]);
+> > >
+> > > No, sysfs is "one value per file", and that is not what you are showing
+> > > here at all :(
+> > 
+> > It is following: it's a "one value" for property in question,
+> > 
+> > As we may read in [1]: "...so it is socially acceptable to express an
+> > array of values of the same type."
+> > 
+> > And here is exactly the case: *values of the same type*.
+> 
+> So what is it going to look like exactly?
 
-Remove the unneeded of_match_ptr(). 
+Basically we have two approaches (already done in the kernel!) use space or
+comma for a separator. So:
+ - for boolean it will be an empty string (and it's one value always)
+ - for integers it will be, for example, '0,1,2' (w/o single quotes)
+   for property array with values 0, 1, and 2
+ - for plain integers or arrays out of 1 element it will be plain integer
+ - for strings it will be, for example, '"str1","str2"' (w/o single quotes)
+   for array of string { "str1", "str2" }
+ - for single string or array out of 1 element, it will be '"str"' (w/o single
+   quotes)
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/media/platform/imx-pxp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This should be a part of documentation.
 
-diff --git a/drivers/media/platform/imx-pxp.c b/drivers/media/platform/imx-pxp.c
-index 08d76eb05ed1..078d19afe35f 100644
---- a/drivers/media/platform/imx-pxp.c
-+++ b/drivers/media/platform/imx-pxp.c
-@@ -1755,7 +1755,7 @@ static struct platform_driver pxp_driver = {
- 	.remove		= pxp_remove,
- 	.driver		= {
- 		.name	= MEM2MEM_NAME,
--		.of_match_table = of_match_ptr(pxp_dt_ids),
-+		.of_match_table = pxp_dt_ids,
- 	},
- };
- 
+> And what tool is going to be
+> there to parse this mess?  Who is going to to use it?
+
+I guess something like hwinfo (needs a patch).
+
+The idea behind that this is following what ACPI and DT provides to the users
+via /sys/firmware/ (however, in binary format). I can re-do to provide a
+binary, and it will effectively make software nodes in align with the rest.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
