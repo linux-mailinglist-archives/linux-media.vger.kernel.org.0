@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2D6534D96E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Mar 2021 23:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 699FA34DC09
+	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 00:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231272AbhC2VHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Mar 2021 17:07:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46710 "EHLO
+        id S231737AbhC2WqC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Mar 2021 18:46:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231314AbhC2VHC (ORCPT
+        with ESMTP id S229763AbhC2Wpc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Mar 2021 17:07:02 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1E20C061574;
-        Mon, 29 Mar 2021 14:07:01 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id t5-20020a1c77050000b029010e62cea9deso7329268wmi.0;
-        Mon, 29 Mar 2021 14:07:01 -0700 (PDT)
+        Mon, 29 Mar 2021 18:45:32 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796EAC061762;
+        Mon, 29 Mar 2021 15:45:32 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so245977wma.0;
+        Mon, 29 Mar 2021 15:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=wymBNLQAb/qlX8skiczhdYWHj6Aq/qxq8MM3GFnILNk=;
-        b=QVOE8LnKESKbPxunJ6fQ9EXEX+saGlPLvUljMlASbWCVGt5Z5v5JJ/1XrJ1SwqhLwj
-         BVf10Wz+LCPJn/fexc0jfYp1j+HoH9+7Mlz030SCb/GGeZnwG0S8Ih12G3YEXMGoOi6t
-         OWa6ClmRZTt+dAsNnC2Pwv/f/QUPamz/35uxAhubNGzPgDMyVFmHeJ8MQopcy5o1KNL5
-         8pOawJu36repMumXomXPTuVvHbxFISk82GfRNNJT5ATjbScIMChU03DHyNnMdniDy+5W
-         6a1V2OrDdNN/qyhNJt76EIaqWJdlVanuGEmTHoFajZkWaaYl08Z6w+Cykqpu58WYSckT
-         LI9w==
+        bh=ETElOIEjdVlntEPGKFfKH5hdv13+jUzKgNis+gv7d0Y=;
+        b=I+IhwZ48NFnJUjuO1Rzmhhhm1o+iYydBzUK7BfQjz7PysEuDydE9oYAzwgHCCcZ3RS
+         kYgmh0XTuAZ1Imyp/i87qIoiDc1He1bhpNK9V44KTHI7tieMsa1DoVg3KIX5KaXfXmY9
+         sxIlZLQiwm1BTE+4GH2rsYUAyNWszWhQIGG8iWGjit1sT9QnmAjDMtn6wIqS42BIb96r
+         hHcKdnvjM/yItitQ5aFtNpmVGsB7PT6R3efYlpaluS9dsYVltdqqWYYkdzS2aMAHp/Je
+         1+kyTYDZgYooTfcNS37EKmvoGYP5F6DyVgVFu9rvEiWDnNKe2b+07Scg0rWsA8ukMq82
+         fYGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=wymBNLQAb/qlX8skiczhdYWHj6Aq/qxq8MM3GFnILNk=;
-        b=c2UUIGfm0wTOCnoKFXUHqJCnNxn+31bduI7rdWW60dVJugWYABxixXLKvdvoV9uJCt
-         0C7S99ihA7/8Yz7BrZhvSus3zvxAehSpx1JvjnUKhtH/GEZBiDsUHqvIWENje1d+j7ye
-         DEuaGhJReRTExIEfdPoorD0niNwh9S8Yg9j43Y5ipHneq+O//Ejar2bn40JbhqxWmQoC
-         aYU+Jio2/UnKaq7FQFgcYiU9XIU9leeRGn4e/AGrG94N/9xNt/t4SVwHK7QaINZyf496
-         UvQtUnTDilEDElhwcTP3boOSi3ShhIkcPlez2C+HJ7xvcmwaVQKNLmLrCwUFHAdINh2o
-         dDZA==
-X-Gm-Message-State: AOAM533byK9GlQDXpXY0DKt1RYdLoCQefHzvjh095/Xb/dRv/qdTPM9t
-        Oogo9L4m/3XS5iGxZanfeRz7Ri6WqBU=
-X-Google-Smtp-Source: ABdhPJzrCb3hXadhWOgxbjhl5szV15i9EJFpYsUh+E3AMNwO/aTgKe+zuY5tAvDd6aIFy++rKE6Qog==
-X-Received: by 2002:a05:600c:2145:: with SMTP id v5mr790346wml.65.1617052020546;
-        Mon, 29 Mar 2021 14:07:00 -0700 (PDT)
+        bh=ETElOIEjdVlntEPGKFfKH5hdv13+jUzKgNis+gv7d0Y=;
+        b=NyG2J5iCFIDp4UiCNwb7DkvMn/kljOJ6ec+SVVC6jLJi/G4/i+vgUP7NoNpIRR/A2k
+         pzToP9AkUCfra+0Jn6S+SjG5Rw5ejH3Qb8m80UFKKcQRUelaecrF4RC9dixNpte1I+I0
+         vPf/7j/A1sVF4P6ul54Vmu7UHSgQCHrb4AqUtNo4Il+ZYo8UAY/d+wWN+Ak9kYzlNbeU
+         Qr7AnOJdikZrGEQNwdU+kTLaf0D4fe8JDauGhGwXi2+72iOvnKHTex/xuA4K5sLV9w6Q
+         IAYjhz1VEQnimR34MAimbsNNLLQgkqkxT243U14MrMJyTimKYVCoPp7gB3UYFmSoOSD+
+         A+pQ==
+X-Gm-Message-State: AOAM530JUxpZoQyQXApxwXdlSjHbmt1DIMNGiwDCIAexgS6E7LVJOA2T
+        Rl57NNehoHdvcgAj8V57gtR2GB3ZBFM=
+X-Google-Smtp-Source: ABdhPJxyRVPH6LZ09xytzgreMLOzWL84xbVukFnYvZDzbBVKV7qUeIJj/aFitR0isTzjCLSK7EtWow==
+X-Received: by 2002:a7b:c8d9:: with SMTP id f25mr1012593wml.157.1617057931268;
+        Mon, 29 Mar 2021 15:45:31 -0700 (PDT)
 Received: from [192.168.1.211] ([91.110.20.103])
-        by smtp.gmail.com with ESMTPSA id a15sm21389883wrr.53.2021.03.29.14.06.59
+        by smtp.gmail.com with ESMTPSA id g5sm32251362wrq.30.2021.03.29.15.45.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Mar 2021 14:07:00 -0700 (PDT)
-Subject: Re: [PATCH v2 3/6] software node: Deduplicate code in
- fwnode_create_software_node()
+        Mon, 29 Mar 2021 15:45:30 -0700 (PDT)
+Subject: Re: [PATCH v2 5/6] software node: Introduce SOFTWARE_NODE_REFERENCE()
+ helper macro
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-acpi@vger.kernel.org
@@ -63,14 +63,14 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 References: <20210329151207.36619-1-andriy.shevchenko@linux.intel.com>
- <20210329151207.36619-3-andriy.shevchenko@linux.intel.com>
+ <20210329151207.36619-5-andriy.shevchenko@linux.intel.com>
 From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <4e922df6-4c87-9a95-538c-dc777ebaccab@gmail.com>
-Date:   Mon, 29 Mar 2021 22:06:59 +0100
+Message-ID: <5e76c3b8-d154-e5ca-25d8-290376469e5a@gmail.com>
+Date:   Mon, 29 Mar 2021 23:45:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210329151207.36619-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210329151207.36619-5-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -81,45 +81,77 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Andy
 
 On 29/03/2021 16:12, Andy Shevchenko wrote:
-> Deduplicate conditional and assignment in fwnode_create_software_node(),
-> i.e. parent is checked in two out of three cases and parent software node
-> is assigned by to_swnode() call.
+> This is useful to assign software node reference with arguments
+> in a common way. Moreover, we have already couple of users that
+> may be converted. And by the fact, one of them is moved right here
+> to use the helper.
 >
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-
-Reviewed-by: Daniel Scally <djrscally@gmail.com>
-
 > ---
 > v2: no changes
->  drivers/base/swnode.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
+>  drivers/base/test/property-entry-test.c | 11 ++---------
+>  include/linux/property.h                | 13 ++++++++-----
+>  2 files changed, 10 insertions(+), 14 deletions(-)
 >
-> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> index 19aa44bc2628..db982859171e 100644
-> --- a/drivers/base/swnode.c
-> +++ b/drivers/base/swnode.c
-> @@ -973,15 +973,14 @@ fwnode_create_software_node(const struct property_entry *properties,
->  {
->  	struct fwnode_handle *fwnode;
->  	struct software_node *node;
-> -	struct swnode *p = NULL;
-> -
-> -	if (parent) {
-> -		if (IS_ERR(parent))
-> -			return ERR_CAST(parent);
-> -		if (!is_software_node(parent))
-> -			return ERR_PTR(-EINVAL);
-> -		p = to_swnode(parent);
-> -	}
-> +	struct swnode *p;
-> +
-> +	if (IS_ERR(parent))
-> +		return ERR_CAST(parent);
-> +
-> +	p = to_swnode(parent);
-> +	if (parent && !p)
-> +		return ERR_PTR(-EINVAL);
+> diff --git a/drivers/base/test/property-entry-test.c b/drivers/base/test/property-entry-test.c
+> index abe03315180f..c2e455d46ffd 100644
+> --- a/drivers/base/test/property-entry-test.c
+> +++ b/drivers/base/test/property-entry-test.c
+> @@ -370,15 +370,8 @@ static void pe_test_reference(struct kunit *test)
+>  	};
 >  
->  	node = software_node_alloc(properties);
->  	if (IS_ERR(node))
+>  	static const struct software_node_ref_args refs[] = {
+> -		{
+> -			.node = &nodes[0],
+> -			.nargs = 0,
+> -		},
+> -		{
+> -			.node = &nodes[1],
+> -			.nargs = 2,
+> -			.args = { 3, 4 },
+> -		},
+> +		SOFTWARE_NODE_REFERENCE(&nodes[0]),
+> +		SOFTWARE_NODE_REFERENCE(&nodes[1], 3, 4),
+>  	};
+>  
+>  	const struct property_entry entries[] = {
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index dd4687b56239..0d876316e61d 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -254,6 +254,13 @@ struct software_node_ref_args {
+>  	u64 args[NR_FWNODE_REFERENCE_ARGS];
+>  };
+>  
+> +#define SOFTWARE_NODE_REFERENCE(_ref_, ...)			\
+> +(const struct software_node_ref_args) {				\
+> +	.node = _ref_,						\
+> +	.nargs = ARRAY_SIZE(((u64[]){ 0, ##__VA_ARGS__ })) - 1,	\
+> +	.args = { __VA_ARGS__ },				\
+> +}
+> +
+>  /**
+>   * struct property_entry - "Built-in" device property representation.
+>   * @name: Name of the property.
+> @@ -362,11 +369,7 @@ struct property_entry {
+>  	.name = _name_,							\
+>  	.length = sizeof(struct software_node_ref_args),		\
+>  	.type = DEV_PROP_REF,						\
+> -	{ .pointer = &(const struct software_node_ref_args) {		\
+> -		.node = _ref_,						\
+> -		.nargs = ARRAY_SIZE(((u64[]){ 0, ##__VA_ARGS__ })) - 1,	\
+> -		.args = { __VA_ARGS__ },				\
+> -	} },								\
+> +	{ .pointer = &SOFTWARE_NODE_REFERENCE(_ref_, ##__VA_ARGS__), },	\
+>  }
+
+
+What are the .args intended to be used for? I actually had it in mind to
+replace this with a simple pointer to a struct software_node, because I
+can't see any users of them and the fact that it's actually storing a
+pointer to a new variable is something that confused me for a good long
+time when I wrote the cio2-bridge (though that's mostly due to my
+relative inexperience of course, but still)
+
+>  
+>  struct property_entry *
