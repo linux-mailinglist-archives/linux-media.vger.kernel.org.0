@@ -2,179 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7172534E375
-	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 10:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5321034E397
+	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 10:56:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbhC3Io7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Mar 2021 04:44:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55246 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231594AbhC3Iog (ORCPT
+        id S231549AbhC3I4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Mar 2021 04:56:25 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:43839 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231512AbhC3I4P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Mar 2021 04:44:36 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82882C061764
-        for <linux-media@vger.kernel.org>; Tue, 30 Mar 2021 01:44:31 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id c8so15372425wrq.11
-        for <linux-media@vger.kernel.org>; Tue, 30 Mar 2021 01:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=QeJyxgGc10pDaYNNAjfeii+zaUwklx3peLYUlVYiAaY=;
-        b=S0tYOpSD/ZJh3ZD7i+RsmuoE59o3Fsn7qNYvfw9oPctsWGSiOdyIUNGklFbIi0fdsD
-         pwi7wMid3Z3j+CdJybOtWWuaWNgtjPUfE2xGD2PTf1/qoiKJSlZ+HCGXID02oT3hNxwb
-         wFfTiuw5mtTFyiHCn57eMyQBy7yHwNuHAByWKjuPeyx4ibEjHKhyYYXeD2gKi6je+0+Y
-         D2ThNL57aMz67FZzq6m/CBo0WnoEiJCEWjxCdzRXAuydHHyi9hSpo/k2I9EFc4JdU6/9
-         +w6XjthOg3GOVgupCJakziw3iI0LPjdRR8LzXIk/qJC7wW2mwR1JcaYeU8Arid9vdw4M
-         1EsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=QeJyxgGc10pDaYNNAjfeii+zaUwklx3peLYUlVYiAaY=;
-        b=Cfqh0tqv2+J10yxBbKMjDn7EuGIXwUgEpAYcVF/TJBxSWqJHqoF/7FGzQezID1cpsH
-         5RWc9uOPIHl6zzJbA38BDsrXDYZAzu2eTHxq1BwZ37sMF0jMkQpILmtRz+dnmuU9HDL2
-         KhBioK3DffZYKGNIdDz1NfIwezlkhbHCjdAc9jFNe73DACGfKsPAyrUPb9mUuOrp+owc
-         P86+E5RtCD+VIv3NfdvhsqlMr4kN6AeuqCmUwjzkrs1rz2niOob8gS9TGk67STImF242
-         olKaHcU19FQzW0emWCOr1L3IpJuLPx+kztk7jBP7eBmTVargJWlhUk1Q2QzWhPfW0T7f
-         xsog==
-X-Gm-Message-State: AOAM5311dixn51NNKbX19KJLHJH0KckM/LHEN2yNaKaarhG0rtQbfSw4
-        9BGpNQUxLRTEpkAO5etkruCEqw==
-X-Google-Smtp-Source: ABdhPJwBXFQGjk2ZQOQhpWfWn7D2BeJN+Kgv2+n/4a86q735GB6I+PE7RNQIN/9Rot8sUxrlUiubMA==
-X-Received: by 2002:adf:f150:: with SMTP id y16mr32802937wro.414.1617093870312;
-        Tue, 30 Mar 2021 01:44:30 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id k13sm40191578wri.27.2021.03.30.01.44.29
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 30 Mar 2021 01:44:29 -0700 (PDT)
-From:   John Cox <jc@kynesim.co.uk>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH for v5.12] v4l2-ctrls.c: fix race condition in hdl->requests list
-Date:   Tue, 30 Mar 2021 09:44:29 +0100
-Message-ID: <p1p56gp29io74ma4dkd3hd7hsafdvsl84p@4ax.com>
-References: <ce92a438-4708-74a0-8fb4-c8fb6495e6b8@xs4all.nl>
-In-Reply-To: <ce92a438-4708-74a0-8fb4-c8fb6495e6b8@xs4all.nl>
-User-Agent: ForteAgent/8.00.32.1272
+        Tue, 30 Mar 2021 04:56:15 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id RAARlTX7JgIC3RAAWlqJnI; Tue, 30 Mar 2021 10:56:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1617094572; bh=JXsTvxNMPUfTJCAUiBSsBbIxN24S+QIllqw+MIROZKE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=D6JyFUf0kUv1oZksAIoC6mHHs/tyCSi2V8GOvnZT5qrJqLovZEXFGemn4Bkxzo/DR
+         koLGFUp3rZw9iRc71wV3gOr8etXzjgPq3EdeUJCJisTxfBWXKYJYstotBwwiVtqAYn
+         fsao5TMPD4KAytdOmsqKW37kFr/G5aO7wrMs1qpkbRGpbh2LCfOblmJ2htopmXUZwn
+         +KqRsHF+gHUwMwUqreGJYBvZwX7cVD37yvEfSoUdStATWr6kbxXljFqJbzLDNc6Boo
+         8NhGKyP32ZRKGUH9G2lple2lIGWTauLzUYOIVNhRQBA/8ve8XRs4sgecWAsXCKclyF
+         owW1nCC4cdFmw==
+Subject: Re: vb2_queue type question
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <b86d16cc-e3b1-0db3-f544-9f630572126c@ideasonboard.com>
+ <67107267-69c8-d87d-6579-5e7dac0400fb@xs4all.nl>
+ <a9325fd6-8f14-ced5-97c4-3d05dc7ab150@ideasonboard.com>
+ <7abd695a-4a6d-e447-59d0-cf359c319a77@xs4all.nl>
+ <0cea2812-7f04-e081-728c-8b39308ff0f9@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a964df70-612e-6ae3-a183-f1c34a1c4629@xs4all.nl>
+Date:   Tue, 30 Mar 2021 10:56:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0cea2812-7f04-e081-728c-8b39308ff0f9@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfJ44RKKZ5UXqvyHDDnqPvDordhrvU4MwbczxaW2f69UxzAMw5zHVJ2+MXskXWC6VTSvCyXDhkeemYouvkEC1HWzcfusnI2Eji6FfbyLBoHYehcLTOS8e
+ PjUHnOcOBMnMaPGrK758iOHadxzwOqjm0U8AsVNInPtISLz5pomUhOuirPNT9pMnEtrGOvqwTgbiVmRPHTcIA4Yg29fAsa/xBKIKznaAmuAl7khsi8lUl3rr
+ HGygq29TqgFde10x53G+bnnOyjENmacxEVglQk0lpSQQk9OwHxsvaasYAjqX3v2oz3ApfBSwgM5UwAseIT/B7StDlQOCXgo84ZbHi6tPlfF7R0MxvApeFPR0
+ wJvDy+ngQ4UfuEo8owUWaNF/cEywZa7kIyoBLmOTv12VBzPvNlEdgaNmAFdCV+x/J/r8o3oqQwvHxHgeqMWUiHbbtfr+Xw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 27 Mar 2021 12:27:40 +0100, you wrote:
+On 3/30/21 10:18 AM, Tomi Valkeinen wrote:
+> Hi Hans,
+> 
+> On 26/03/2021 12:18, Hans Verkuil wrote:
+> 
+>> The only thing that you do is update the queue type when you set the
+>> video or metadata format. When you start allocating buffers the queue type
+>> of the last set format is used. At that moment any attempt to set the format
+>> to another type will fail since vb2_is_busy(queue) will be true.
+>>
+>> So only the s_fmt ioctl will change the type. The g/try_fmt ioctls just must
+>> keep working as-is.
+> 
+> I noticed that v4l2-compliance complains about this. It first tests the 
+> format ioctls for both video and metadata buffers, and the last s_fmt is 
+> for metadata. Then it tests buffer ioctls, and reqbufs for video buffers 
+> fails as the queue is in metadata mode, not video mode.
+> 
+> I added a custom .vidioc_reqbufs function to the driver which sets the 
+> queue type and then calls vb2_ioctl_reqbufs normally. This makes 
+> v4l2-compliance pass.
+> 
+> But is that correct change, or should v4l2-compliance be changed?
+> 
+>   Tomi
+> 
 
->When a request is re-inited it will release all control handler
->objects that are still in the request. It does that by unbinding
->and putting all those objects. When the object is unbound the
->obj->req pointer is set to NULL, and the object's unbind op is
->called. When the object it put the object's release op is called
->to free the memory.
->
->For a request object that contains a control handler that means
->that v4l2_ctrl_handler_free() is called in the release op.
->
->A control handler used in a request has a pointer to the main
->control handler that is created by the driver and contains the
->current state of all controls. If the device is unbound (due to
->rmmod or a forced unbind), then that main handler is freed, again
->by calling v4l2_ctrl_handler_free(), and any outstanding request
->objects that refer to that main handler have to be unbound and put
->as well.
->
->It does that by this test:
->
->	if (!hdl->req_obj.req && !list_empty(&hdl->requests)) {
->
->I.e. the handler has no pointer to a request, so is the main
->handler, and one or more request objects refer to this main
->handler.
->
->However, this test is wrong since hdl->req_obj.req is actually
->NULL when re-initing a request (the object unbind will set req to
->NULL), and the only reason this seemingly worked is that the
->requests list is typically empty since the request's unbind op
->will remove the handler from the requests list.
->
->But if another thread is at the same time adding a new control
->to a request, then there is a race condition where one thread
->is removing a control handler object from the requests list and
->another thread is adding one. The result is that hdl->requests
->is no longer empty and the code thinks that a main handler is
->being freed instead of a control handler that is part of a request.
->
->There are two bugs here: first the test for hdl->req_obj.req: this
->should be hdl->req_obj.ops since only the main control handler will
->have a NULL pointer there.
->
->The second is that adding or deleting request objects from the
->requests list of the main handler isn't protected by taking the
->main handler's lock.
->
->Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->Reported-by: John Cox <jsc66@cam.ac.uk>
->Fixes: 6fa6f831f095 ("media: v4l2-ctrls: add core request support")
->---
-> drivers/media/v4l2-core/v4l2-ctrls.c | 17 ++++++++++++++---
-> 1 file changed, 14 insertions(+), 3 deletions(-)
->
->diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c =
-b/drivers/media/v4l2-core/v4l2-ctrls.c
->index 39038c6ad8fb..757d215c2be4 100644
->--- a/drivers/media/v4l2-core/v4l2-ctrls.c
->+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->@@ -2560,7 +2560,15 @@ void v4l2_ctrl_handler_free(struct =
-v4l2_ctrl_handler *hdl)
-> 	if (hdl =3D=3D NULL || hdl->buckets =3D=3D NULL)
-> 		return;
->
->-	if (!hdl->req_obj.req && !list_empty(&hdl->requests)) {
->+	/*
->+	 * If the main handler is freed and it is used by handler objects in
->+	 * outstanding requests, then unbind and put those objects before
->+	 * freeing the main handler.
->+	 *
->+	 * The main handler can be identified by having a NULL ops pointer in
->+	 * the request object.
->+	 */
->+	if (!hdl->req_obj.ops && !list_empty(&hdl->requests)) {
-> 		struct v4l2_ctrl_handler *req, *next_req;
->
-> 		list_for_each_entry_safe(req, next_req, &hdl->requests, requests) {
->@@ -3634,8 +3642,8 @@ static void v4l2_ctrl_request_unbind(struct =
-media_request_object *obj)
-> 		container_of(obj, struct v4l2_ctrl_handler, req_obj);
-> 	struct v4l2_ctrl_handler *main_hdl =3D obj->priv;
->
->-	list_del_init(&hdl->requests);
-> 	mutex_lock(main_hdl->lock);
->+	list_del_init(&hdl->requests);
-> 	if (hdl->request_is_queued) {
-> 		list_del_init(&hdl->requests_queued);
-> 		hdl->request_is_queued =3D false;
->@@ -3694,8 +3702,11 @@ static int v4l2_ctrl_request_bind(struct =
-media_request *req,
-> 	if (!ret) {
-> 		ret =3D media_request_object_bind(req, &req_ops,
-> 						from, false, &hdl->req_obj);
->-		if (!ret)
->+		if (!ret) {
->+			mutex_lock(from->lock);
-> 			list_add_tail(&hdl->requests, &from->requests);
->+			mutex_unlock(from->lock);
->+		}
-> 	}
-> 	return ret;
-> }
+Good question.
 
-Tested-by: John Cox <jc@kynesim.co.uk>
+So currently this is something that is rarely used. The few implementations
+of this rely on the last set format to decide what the queue type will be.
 
-Could you also change the report to
+But is this actually something you want? Wouldn't it be better to rely on the
+queue type as passed with VIDIOC_REQBUFS/CREATE_BUFS? That's really the moment
+where you lock in the queue type.
 
-Reported-by: John Cox <jc@kynesim.co.uk>
+To do this you would have to make your own ioctl op:
 
-Many thanks
+int my_ioctl_reqbufs(struct file *file, void *priv,
+                          struct v4l2_requestbuffers *p)
+{
+	struct video_device *vdev = video_devdata(file);
 
-John Cox
+	if (p->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
+	    p->type != V4L2_BUF_TYPE_META_CAPTURE)
+		return -EINVAL;
+	if (p->type != vdev->queue.type && vb2_queue_is_busy(vdev, file))
+                return -EBUSY;
+	vdev->queue.type = p->type;
+	return vb2_ioctl_reqbufs(file, priv, p);
+}
+
+And ditto for create_bufs.
+
+I think this makes more sense than relying on the format.
+
+The reason it relied on the format was that the ivtv driver that introduced
+this is old and only supports the read() interface. Since you cannot specify a type
+when starting streaming that was the only way it could be implemented.
+
+But for modern drivers it would be much better to lock it in when you request
+buffers for the first time.
+
+So vivid (the only other driver that supports this) has to be changed to use this
+as well.
+
+Regards,
+
+	Hans
