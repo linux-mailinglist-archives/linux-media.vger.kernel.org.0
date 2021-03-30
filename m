@@ -2,175 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB7BB34EEF0
-	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 19:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5520634EFA2
+	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 19:35:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232367AbhC3RFS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Mar 2021 13:05:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43191 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231627AbhC3REp (ORCPT
+        id S232455AbhC3Ren (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Mar 2021 13:34:43 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:59520 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232311AbhC3Re2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Mar 2021 13:04:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617123884;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=w2lAv6Y8ocPT8PnVS3wa7b+VzR9sgZuZpuwMMYuUfRA=;
-        b=Q93deXp5ubUSVFzZh14ql6ivIfl1fZjl4/ncBe+y1uqwaI1OiBNv8c1uj0s5fSNuBMkt1A
-        3qYOxwTfq+AeovB408IKsuqYtZz4xmR4NaNGwl0ND07hGIMNNv7T5/Xf01W6c+YXywh3mB
-        TzxV1hIKrmX4N3cHkMi8ZsDpfJEn4fs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-sx8b9aQ6OBCGXtdjeTbFuw-1; Tue, 30 Mar 2021 13:04:41 -0400
-X-MC-Unique: sx8b9aQ6OBCGXtdjeTbFuw-1
-Received: by mail-wr1-f69.google.com with SMTP id h5so10597263wrr.17
-        for <linux-media@vger.kernel.org>; Tue, 30 Mar 2021 10:04:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=w2lAv6Y8ocPT8PnVS3wa7b+VzR9sgZuZpuwMMYuUfRA=;
-        b=msEXFWKJiUK56N+VPrS9/ohnUnueg8xu9v+IrdZlm6zlL+MaMl4Je1kRK5RVQCkjjP
-         3GwvVyb13tZPvPcQ2hd+625Zyjs9qH+2wzzN/XZSpZRzzCU2VZXKQSpTAUu5YdpyxmXl
-         96c+IScW7vf0/FwQ98Thevi2SFhdHAjxer/fdANTsN6uy1p6xjzsVDgNWrNrse+B6Cj9
-         TTyI98fqhKEg08pt3+qnh9o1fB6hkURp/SNR+eWBX56j9jUVjVe6vgmc72VNtB37w03A
-         gWFZhhHeUcJr1NgKOWHjOseb8HLx9t///56sLGksqMZ18MpCdaUP7suI+u0yCLiIkQPm
-         b3Gg==
-X-Gm-Message-State: AOAM530Qfh0qZ7qT9mlfqWgRE7dv8oDuQ+9RvYRC1Yr9RVtL9niG8PCI
-        UEh5JLdZM8LI7E2ytHvTUgahlfvPRvERq2Ecpaox+Wd/U7tbCS20WbmN6H09TnP+PSoAKvSE4mW
-        MjYGOhCGb1Fv95uC8mGPz3cE=
-X-Received: by 2002:a1c:94:: with SMTP id 142mr5215331wma.0.1617123880291;
-        Tue, 30 Mar 2021 10:04:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwugJHlzSS2mn8UQWmSis1ODZnV8Ol3jz22ZDpQ2ZeAwkBOxRJlOkJMe6AE9fWnLS9GnIN4Dw==
-X-Received: by 2002:a1c:94:: with SMTP id 142mr5215293wma.0.1617123880037;
-        Tue, 30 Mar 2021 10:04:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id c9sm33421003wrr.78.2021.03.30.10.04.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Mar 2021 10:04:34 -0700 (PDT)
-Subject: Re: [syzbot] WARNING in unsafe_follow_pfn
-To:     syzbot <syzbot+015dd7cdbbbc2c180c65@syzkaller.appspotmail.com>,
-        akpm@linux-foundation.org, bp@alien8.de, daniel.vetter@ffwll.ch,
-        daniel.vetter@intel.com, hpa@zytor.com, jmattson@google.com,
-        jmorris@namei.org, joro@8bytes.org, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-        m.szyprowski@samsung.com, mchehab@kernel.org, mingo@redhat.com,
-        seanjc@google.com, serge@hallyn.com,
-        syzkaller-bugs@googlegroups.com, tfiga@chromium.org,
-        tglx@linutronix.de, vkuznets@redhat.com, wanpengli@tencent.com,
-        x86@kernel.org
-References: <000000000000ca9a6005bec29ebe@google.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <2db3c803-6a94-9345-261a-a2bb74370c02@redhat.com>
-Date:   Tue, 30 Mar 2021 19:04:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Tue, 30 Mar 2021 13:34:28 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 12UHXtnt056809;
+        Tue, 30 Mar 2021 12:33:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1617125635;
+        bh=klDN3SRCgEm92mzhH+b10dVnhg4f/bIDdg6mQxTtm4o=;
+        h=From:To:CC:Subject:Date;
+        b=DHU9Kl08+poeyMRGZ5LTonGYtO7avzKKZPcvTTCoiUpl9Ktnuu2CYUcLN67MxO0QL
+         c+PXjfelxxXwJx/WMkyYUeY9TaFO46ja46uDOiAAch4VTI8+pakFrtBXwEZcgahdv7
+         1n+BOxAQcroO2uGMB0Xv+sHyr8gCxw9jq+Jx1qRI=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 12UHXtdE031312
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 30 Mar 2021 12:33:55 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 30
+ Mar 2021 12:33:55 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Tue, 30 Mar 2021 12:33:55 -0500
+Received: from pratyush-OptiPlex-790.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 12UHXmgh125244;
+        Tue, 30 Mar 2021 12:33:49 -0500
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Benoit Parrot <bparrot@ti.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Peter Chen <peter.chen@nxp.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <dmaengine@vger.kernel.org>
+CC:     Pratyush Yadav <p.yadav@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 00/16] CSI2RX support on J721E
+Date:   Tue, 30 Mar 2021 23:03:32 +0530
+Message-ID: <20210330173348.30135-1-p.yadav@ti.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <000000000000ca9a6005bec29ebe@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/03/21 17:26, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    93129492 Add linux-next specific files for 20210326
-> git tree:       linux-next
-> console output: https://syzkaller.appspot.com/x/log.txt?x=169ab21ad00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=6f2f73285ea94c45
-> dashboard link: https://syzkaller.appspot.com/bug?extid=015dd7cdbbbc2c180c65
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=119b8d06d00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=112e978ad00000
-> 
-> The issue was bisected to:
-> 
-> commit d40b9fdee6dc819d8fc35f70c345cbe0394cde4c
-> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Date:   Tue Mar 16 15:33:01 2021 +0000
-> 
->      mm: Add unsafe_follow_pfn
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=122d2016d00000
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=112d2016d00000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=162d2016d00000
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+015dd7cdbbbc2c180c65@syzkaller.appspotmail.com
-> Fixes: d40b9fdee6dc ("mm: Add unsafe_follow_pfn")
+Hi,
 
-This is basically intentional because get_vaddr_frames is broken, isn't 
-it?  I think it needs to be ignored in syzkaller.
+This series adds support for CSI2 capture on J721E. It includes some
+fixes to the Cadence CSI2RX driver, adds Rx support to Cadence DPHY
+driver, and finally adds the TI CSI2RX wrapper driver.
 
-Paolo
+Tested on TI's J721E with OV5640 sensor.
 
-> ------------[ cut here ]------------
-> unsafe follow_pfn usage
-> WARNING: CPU: 1 PID: 8426 at mm/memory.c:4807 unsafe_follow_pfn+0x20f/0x260 mm/memory.c:4807
-> Modules linked in:
-> CPU: 0 PID: 8426 Comm: syz-executor677 Not tainted 5.12.0-rc4-next-20210326-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> RIP: 0010:unsafe_follow_pfn+0x20f/0x260 mm/memory.c:4807
-> Code: 8b 7c 24 20 49 89 6d 00 e8 6e 84 64 07 e9 30 ff ff ff e8 f4 19 cb ff 48 c7 c7 40 1f 76 89 c6 05 56 eb 09 0c 01 e8 34 1a 21 07 <0f> 0b e9 71 fe ff ff 41 bc ea ff ff ff e9 06 ff ff ff e8 1a 65 0f
-> RSP: 0018:ffffc9000161f660 EFLAGS: 00010282
-> RAX: 0000000000000000 RBX: 1ffff920002c3ecc RCX: 0000000000000000
-> RDX: ffff88801954d580 RSI: ffffffff815c3fd5 RDI: fffff520002c3ebe
-> RBP: ffff888023d56948 R08: 0000000000000000 R09: 0000000000000000
-> R10: ffffffff815bd77e R11: 0000000000000000 R12: 0000000021000000
-> R13: ffff8880143a4010 R14: 0000000000000000 R15: 0000000000000110
-> FS:  00000000005d1300(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f172c4cd6c0 CR3: 0000000011f70000 CR4: 00000000001506f0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->   get_vaddr_frames+0x337/0x600 drivers/media/common/videobuf2/frame_vector.c:72
->   vb2_create_framevec+0x55/0xc0 drivers/media/common/videobuf2/videobuf2-memops.c:50
->   vb2_vmalloc_get_userptr+0xce/0x4c0 drivers/media/common/videobuf2/videobuf2-vmalloc.c:90
->   __prepare_userptr+0x342/0x15f0 drivers/media/common/videobuf2/videobuf2-core.c:1128
->   __buf_prepare+0x635/0x7d0 drivers/media/common/videobuf2/videobuf2-core.c:1367
->   vb2_core_qbuf+0xa9d/0x11c0 drivers/media/common/videobuf2/videobuf2-core.c:1658
->   vb2_qbuf+0x135/0x1a0 drivers/media/common/videobuf2/videobuf2-v4l2.c:820
->   vb2_ioctl_qbuf+0xfb/0x140 drivers/media/common/videobuf2/videobuf2-v4l2.c:1050
->   v4l_qbuf drivers/media/v4l2-core/v4l2-ioctl.c:2027 [inline]
->   v4l_qbuf+0x92/0xc0 drivers/media/v4l2-core/v4l2-ioctl.c:2021
->   __video_do_ioctl+0xb94/0xe20 drivers/media/v4l2-core/v4l2-ioctl.c:2951
->   video_usercopy+0x253/0x1300 drivers/media/v4l2-core/v4l2-ioctl.c:3297
->   v4l2_ioctl+0x1b3/0x250 drivers/media/v4l2-core/v4l2-dev.c:366
->   vfs_ioctl fs/ioctl.c:48 [inline]
->   __do_sys_ioctl fs/ioctl.c:753 [inline]
->   __se_sys_ioctl fs/ioctl.c:739 [inline]
->   __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739
->   do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
->   entry_SYSCALL_64_after_hwframe+0x44/0xae
-> RIP: 0033:0x443639
-> Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007ffee3065668 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000443639
-> RDX: 0000000020000140 RSI: 00000000c058560f RDI: 0000000000000004
-> RBP: 00000000004031e0 R08: 00000000004004a0 R09: 00000000004004a0
-> R10: 00236962762f7665 R11: 0000000000000246 R12: 0000000000403270
-> R13: 0000000000000000 R14: 00000000004b1018 R15: 00000000004004a0
-> 
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-> syzbot can test patches for this issue, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
-> 
+Paul Kocialkowski (1):
+  phy: Distinguish between Rx and Tx for MIPI D-PHY with submodes
+
+Pratyush Yadav (15):
+  phy: cdns-dphy: Prepare for Rx support
+  phy: cdns-dphy: Allow setting mode
+  phy: cdns-dphy: Add Rx support
+  media: cadence: csi2rx: Add external DPHY support
+  media: cadence: csi2rx: Soft reset the streams before starting capture
+  media: cadence: csi2rx: Set the STOP bit when stopping a stream
+  media: cadence: csi2rx: Fix stream data configuration
+  media: cadence: csi2rx: Turn subdev power on before starting stream
+  media: cadence: csi2rx: Add wrappers for subdev calls
+  dmaengine: ti: k3-psil-j721e: Add entry for CSI2RX
+  dt-bindings: media: Add DT bindings for TI CSI2RX driver
+  media: ti-vpe: csi2rx: Add CSI2RX support
+  dt-bindings: phy: Convert Cadence DPHY binding to YAML
+  dt-bindings: phy: cdns,dphy: make clocks optional
+  dt-bindings: phy: cdns,dphy: add power-domains property
+
+ .../devicetree/bindings/media/ti,csi2rx.yaml  |  70 ++
+ .../devicetree/bindings/phy/cdns,dphy.txt     |  20 -
+ .../devicetree/bindings/phy/cdns,dphy.yaml    |  52 +
+ MAINTAINERS                                   |   7 +
+ drivers/dma/ti/k3-psil-j721e.c                |  10 +
+ drivers/media/platform/Kconfig                |  11 +
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 269 ++++-
+ drivers/media/platform/ti-vpe/Makefile        |   1 +
+ drivers/media/platform/ti-vpe/ti-csi2rx.c     | 964 ++++++++++++++++++
+ drivers/phy/cadence/cdns-dphy.c               | 407 +++++++-
+ include/linux/phy/phy-mipi-dphy.h             |  13 +
+ 11 files changed, 1754 insertions(+), 70 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/ti,csi2rx.yaml
+ delete mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.yaml
+ create mode 100644 drivers/media/platform/ti-vpe/ti-csi2rx.c
+
+--
+2.30.0
 
