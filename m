@@ -2,295 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A88B834EE04
-	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 18:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB7BB34EEF0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 19:06:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231998AbhC3Qfw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 30 Mar 2021 12:35:52 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:39546 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232186AbhC3Qfm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Mar 2021 12:35:42 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lRHLA-004lsi-9R; Tue, 30 Mar 2021 16:35:40 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lRHP7-0001Kx-Cb; Tue, 30 Mar 2021 16:39:45 +0000
-Date:   Tue, 30 Mar 2021 16:39:45 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1607367429.4.1617122385379@builder.linuxtv.org>
-In-Reply-To: <582341887.2.1617120073715@builder.linuxtv.org>
-References: <582341887.2.1617120073715@builder.linuxtv.org>
-Subject: Build failed in Jenkins: camorama #20
+        id S232367AbhC3RFS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Mar 2021 13:05:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43191 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231627AbhC3REp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Mar 2021 13:04:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617123884;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=w2lAv6Y8ocPT8PnVS3wa7b+VzR9sgZuZpuwMMYuUfRA=;
+        b=Q93deXp5ubUSVFzZh14ql6ivIfl1fZjl4/ncBe+y1uqwaI1OiBNv8c1uj0s5fSNuBMkt1A
+        3qYOxwTfq+AeovB408IKsuqYtZz4xmR4NaNGwl0ND07hGIMNNv7T5/Xf01W6c+YXywh3mB
+        TzxV1hIKrmX4N3cHkMi8ZsDpfJEn4fs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-sx8b9aQ6OBCGXtdjeTbFuw-1; Tue, 30 Mar 2021 13:04:41 -0400
+X-MC-Unique: sx8b9aQ6OBCGXtdjeTbFuw-1
+Received: by mail-wr1-f69.google.com with SMTP id h5so10597263wrr.17
+        for <linux-media@vger.kernel.org>; Tue, 30 Mar 2021 10:04:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=w2lAv6Y8ocPT8PnVS3wa7b+VzR9sgZuZpuwMMYuUfRA=;
+        b=msEXFWKJiUK56N+VPrS9/ohnUnueg8xu9v+IrdZlm6zlL+MaMl4Je1kRK5RVQCkjjP
+         3GwvVyb13tZPvPcQ2hd+625Zyjs9qH+2wzzN/XZSpZRzzCU2VZXKQSpTAUu5YdpyxmXl
+         96c+IScW7vf0/FwQ98Thevi2SFhdHAjxer/fdANTsN6uy1p6xjzsVDgNWrNrse+B6Cj9
+         TTyI98fqhKEg08pt3+qnh9o1fB6hkURp/SNR+eWBX56j9jUVjVe6vgmc72VNtB37w03A
+         gWFZhhHeUcJr1NgKOWHjOseb8HLx9t///56sLGksqMZ18MpCdaUP7suI+u0yCLiIkQPm
+         b3Gg==
+X-Gm-Message-State: AOAM530Qfh0qZ7qT9mlfqWgRE7dv8oDuQ+9RvYRC1Yr9RVtL9niG8PCI
+        UEh5JLdZM8LI7E2ytHvTUgahlfvPRvERq2Ecpaox+Wd/U7tbCS20WbmN6H09TnP+PSoAKvSE4mW
+        MjYGOhCGb1Fv95uC8mGPz3cE=
+X-Received: by 2002:a1c:94:: with SMTP id 142mr5215331wma.0.1617123880291;
+        Tue, 30 Mar 2021 10:04:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwugJHlzSS2mn8UQWmSis1ODZnV8Ol3jz22ZDpQ2ZeAwkBOxRJlOkJMe6AE9fWnLS9GnIN4Dw==
+X-Received: by 2002:a1c:94:: with SMTP id 142mr5215293wma.0.1617123880037;
+        Tue, 30 Mar 2021 10:04:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id c9sm33421003wrr.78.2021.03.30.10.04.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Mar 2021 10:04:34 -0700 (PDT)
+Subject: Re: [syzbot] WARNING in unsafe_follow_pfn
+To:     syzbot <syzbot+015dd7cdbbbc2c180c65@syzkaller.appspotmail.com>,
+        akpm@linux-foundation.org, bp@alien8.de, daniel.vetter@ffwll.ch,
+        daniel.vetter@intel.com, hpa@zytor.com, jmattson@google.com,
+        jmorris@namei.org, joro@8bytes.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+        m.szyprowski@samsung.com, mchehab@kernel.org, mingo@redhat.com,
+        seanjc@google.com, serge@hallyn.com,
+        syzkaller-bugs@googlegroups.com, tfiga@chromium.org,
+        tglx@linutronix.de, vkuznets@redhat.com, wanpengli@tencent.com,
+        x86@kernel.org
+References: <000000000000ca9a6005bec29ebe@google.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2db3c803-6a94-9345-261a-a2bb74370c02@redhat.com>
+Date:   Tue, 30 Mar 2021 19:04:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: camorama
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <000000000000ca9a6005bec29ebe@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/camorama/20/display/redirect>
+On 30/03/21 17:26, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    93129492 Add linux-next specific files for 20210326
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=169ab21ad00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=6f2f73285ea94c45
+> dashboard link: https://syzkaller.appspot.com/bug?extid=015dd7cdbbbc2c180c65
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=119b8d06d00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=112e978ad00000
+> 
+> The issue was bisected to:
+> 
+> commit d40b9fdee6dc819d8fc35f70c345cbe0394cde4c
+> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Date:   Tue Mar 16 15:33:01 2021 +0000
+> 
+>      mm: Add unsafe_follow_pfn
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=122d2016d00000
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=112d2016d00000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=162d2016d00000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+015dd7cdbbbc2c180c65@syzkaller.appspotmail.com
+> Fixes: d40b9fdee6dc ("mm: Add unsafe_follow_pfn")
 
-Changes:
+This is basically intentional because get_vaddr_frames is broken, isn't 
+it?  I think it needs to be ignored in syzkaller.
 
+Paolo
 
-------------------------------------------
-[...truncated 22.02 KB...]
-checking for sys/types.h... yes
-checking for sys/stat.h... yes
-checking for stdlib.h... yes
-checking for string.h... yes
-checking for memory.h... yes
-checking for strings.h... yes
-checking for inttypes.h... yes
-checking for stdint.h... yes
-checking for unistd.h... yes
-checking whether sys/types.h defines makedev... no
-checking sys/mkdev.h usability... no
-checking sys/mkdev.h presence... no
-checking for sys/mkdev.h... no
-checking sys/sysmacros.h usability... yes
-checking sys/sysmacros.h presence... yes
-checking for sys/sysmacros.h... yes
-checking fcntl.h usability... yes
-checking fcntl.h presence... yes
-checking for fcntl.h... yes
-checking for stdlib.h... (cached) yes
-checking for string.h... (cached) yes
-checking sys/ioctl.h usability... yes
-checking sys/ioctl.h presence... yes
-checking for sys/ioctl.h... yes
-checking for unistd.h... (cached) yes
-checking linux/videodev.h usability... no
-checking linux/videodev.h presence... no
-checking for linux/videodev.h... no
-checking png.h usability... yes
-checking png.h presence... yes
-checking for png.h... yes
-checking glade/glade.h usability... no
-checking glade/glade.h presence... no
-checking for glade/glade.h... no
-checking for v4l2_open in -lv4l2... yes
-checking whether C compiler accepts -Werror=unknown-warning-option... no
-checking whether C compiler accepts -Wno-suggest-attribute=format... yes
-checking whether C compiler accepts -fno-strict-aliasing... yes
-checking whether C compiler accepts -Wall... yes
-checking whether C compiler accepts -Wextra... yes
-checking whether C compiler accepts -Wundef... yes
-checking whether C compiler accepts -Wwrite-strings... yes
-checking whether C compiler accepts -Wpointer-arith... yes
-checking whether C compiler accepts -Wmissing-declarations... yes
-checking whether C compiler accepts -Wredundant-decls... yes
-checking whether C compiler accepts -Wno-unused-parameter... yes
-checking whether C compiler accepts -Wno-missing-field-initializers... yes
-checking whether C compiler accepts -Wformat=2... yes
-checking whether C compiler accepts -Wcast-align... yes
-checking whether C compiler accepts -Wformat-nonliteral... yes
-checking whether C compiler accepts -Wformat-security... yes
-checking whether C compiler accepts -Wsign-compare... yes
-checking whether C compiler accepts -Wstrict-aliasing... yes
-checking whether C compiler accepts -Wshadow... yes
-checking whether C compiler accepts -Winline... yes
-checking whether C compiler accepts -Wpacked... yes
-checking whether C compiler accepts -Wmissing-format-attribute... yes
-checking whether C compiler accepts -Wmissing-noreturn... yes
-checking whether C compiler accepts -Winit-self... yes
-checking whether C compiler accepts -Wredundant-decls... (cached) yes
-checking whether C compiler accepts -Wmissing-include-dirs... yes
-checking whether C compiler accepts -Wunused-but-set-variable... yes
-checking whether C compiler accepts -Warray-bounds... yes
-checking whether C compiler accepts -Wreturn-type... yes
-checking whether C compiler accepts -Wswitch-enum... yes
-checking whether C compiler accepts -Wswitch-default... yes
-checking whether C compiler accepts -Wduplicated-cond... yes
-checking whether C compiler accepts -Wduplicated-branches... yes
-checking whether C compiler accepts -Wlogical-op... yes
-checking whether C compiler accepts -Wrestrict... yes
-checking whether C compiler accepts -Wnull-dereference... yes
-checking whether C compiler accepts -Wdouble-promotion... yes
-checking whether C compiler accepts -Wnested-externs... yes
-checking whether C compiler accepts -Wmissing-prototypes... yes
-checking whether C compiler accepts -Wstrict-prototypes... yes
-checking whether C compiler accepts -Wdeclaration-after-statement... yes
-checking whether C compiler accepts -Wimplicit-function-declaration... yes
-checking whether C compiler accepts -Wold-style-definition... yes
-checking whether C compiler accepts -Wjump-misses-init... yes
-checking whether C compiler accepts -Wno-error=unused-parameter... yes
-checking whether C compiler accepts -Wno-error=missing-field-initializers... yes
-checking whether C compiler accepts -Werror=unknown-warning-option... (cached) no
-checking whether the linker accepts -Wl,--as-needed... yes
-checking whether the linker accepts -Wl,--as-needed... yes
-checking whether the linker accepts -Wl,-z,relro... yes
-checking whether the linker accepts -Wl,-z,relro... yes
-checking whether the linker accepts -Wl,-z,now... yes
-checking whether the linker accepts -Wl,-z,now... yes
-checking whether the linker accepts -Wl,-z,noexecstack... yes
-checking whether the linker accepts -Wl,-z,noexecstack... yes
-checking whether the linker accepts -Wl,--no-as-needed... yes
-checking whether the linker accepts -Wl,--fatal-warnings... yes
-checking whether the linker accepts -Wl,-fatal_warnings... no
-checking whether the linker accepts -Wl,--no-as-needed... yes
-checking for pkg-config... /usr/bin/pkg-config
-checking pkg-config is at least version 0.16... yes
-checking for PACKAGE... yes
-checking that generated files are newer than configure... done
-configure: creating ./config.status
-config.status: creating Makefile
-config.status: creating src/Makefile
-config.status: creating data/Makefile
-config.status: creating po/Makefile.in
-config.status: creating config.h
-config.status: config.h is unchanged
-config.status: executing po-directories commands
-config.status: creating po/POTFILES
-config.status: creating po/Makefile
-config.status: executing depfiles commands
+> ------------[ cut here ]------------
+> unsafe follow_pfn usage
+> WARNING: CPU: 1 PID: 8426 at mm/memory.c:4807 unsafe_follow_pfn+0x20f/0x260 mm/memory.c:4807
+> Modules linked in:
+> CPU: 0 PID: 8426 Comm: syz-executor677 Not tainted 5.12.0-rc4-next-20210326-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> RIP: 0010:unsafe_follow_pfn+0x20f/0x260 mm/memory.c:4807
+> Code: 8b 7c 24 20 49 89 6d 00 e8 6e 84 64 07 e9 30 ff ff ff e8 f4 19 cb ff 48 c7 c7 40 1f 76 89 c6 05 56 eb 09 0c 01 e8 34 1a 21 07 <0f> 0b e9 71 fe ff ff 41 bc ea ff ff ff e9 06 ff ff ff e8 1a 65 0f
+> RSP: 0018:ffffc9000161f660 EFLAGS: 00010282
+> RAX: 0000000000000000 RBX: 1ffff920002c3ecc RCX: 0000000000000000
+> RDX: ffff88801954d580 RSI: ffffffff815c3fd5 RDI: fffff520002c3ebe
+> RBP: ffff888023d56948 R08: 0000000000000000 R09: 0000000000000000
+> R10: ffffffff815bd77e R11: 0000000000000000 R12: 0000000021000000
+> R13: ffff8880143a4010 R14: 0000000000000000 R15: 0000000000000110
+> FS:  00000000005d1300(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f172c4cd6c0 CR3: 0000000011f70000 CR4: 00000000001506f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>   get_vaddr_frames+0x337/0x600 drivers/media/common/videobuf2/frame_vector.c:72
+>   vb2_create_framevec+0x55/0xc0 drivers/media/common/videobuf2/videobuf2-memops.c:50
+>   vb2_vmalloc_get_userptr+0xce/0x4c0 drivers/media/common/videobuf2/videobuf2-vmalloc.c:90
+>   __prepare_userptr+0x342/0x15f0 drivers/media/common/videobuf2/videobuf2-core.c:1128
+>   __buf_prepare+0x635/0x7d0 drivers/media/common/videobuf2/videobuf2-core.c:1367
+>   vb2_core_qbuf+0xa9d/0x11c0 drivers/media/common/videobuf2/videobuf2-core.c:1658
+>   vb2_qbuf+0x135/0x1a0 drivers/media/common/videobuf2/videobuf2-v4l2.c:820
+>   vb2_ioctl_qbuf+0xfb/0x140 drivers/media/common/videobuf2/videobuf2-v4l2.c:1050
+>   v4l_qbuf drivers/media/v4l2-core/v4l2-ioctl.c:2027 [inline]
+>   v4l_qbuf+0x92/0xc0 drivers/media/v4l2-core/v4l2-ioctl.c:2021
+>   __video_do_ioctl+0xb94/0xe20 drivers/media/v4l2-core/v4l2-ioctl.c:2951
+>   video_usercopy+0x253/0x1300 drivers/media/v4l2-core/v4l2-ioctl.c:3297
+>   v4l2_ioctl+0x1b3/0x250 drivers/media/v4l2-core/v4l2-dev.c:366
+>   vfs_ioctl fs/ioctl.c:48 [inline]
+>   __do_sys_ioctl fs/ioctl.c:753 [inline]
+>   __se_sys_ioctl fs/ioctl.c:739 [inline]
+>   __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739
+>   do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+>   entry_SYSCALL_64_after_hwframe+0x44/0xae
+> RIP: 0033:0x443639
+> Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007ffee3065668 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000443639
+> RDX: 0000000020000140 RSI: 00000000c058560f RDI: 0000000000000004
+> RBP: 00000000004031e0 R08: 00000000004004a0 R09: 00000000004004a0
+> R10: 00236962762f7665 R11: 0000000000000246 R12: 0000000000403270
+> R13: 0000000000000000 R14: 00000000004b1018 R15: 00000000004004a0
+> 
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> syzbot can test patches for this issue, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
+> 
 
-compile time options summary
-============================
-
-    Gtk version to use: 3
-+ make clean
-Making clean in src
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-test -z "camorama" || rm -f camorama
-rm -f *.o
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-Making clean in data
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-rm -f org.gnome.camorama.gschema.valid 
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-Making clean in po
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-rm -f *.insert-header
-rm -f remove-potcdate.sed
-rm -f ./stamp-poT
-rm -f core core.* camorama.po camorama.1po camorama.2po *.new.po
-rm -fr *.o
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-test -z "camorama.desktop camorama.appdata.xml po/camorama.pot" || rm -f camorama.desktop camorama.appdata.xml po/camorama.pot
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-+ make
-make  all-recursive
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-Making all in src
-make[2]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT callbacks.o -MD -MP -MF .deps/callbacks.Tpo -c -o callbacks.o callbacks.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-chain.o -MD -MP -MF .deps/camorama-filter-chain.Tpo -c -o camorama-filter-chain.o camorama-filter-chain.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-laplace.o -MD -MP -MF .deps/camorama-filter-laplace.Tpo -c -o camorama-filter-laplace.o camorama-filter-laplace.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-mirror.o -MD -MP -MF .deps/camorama-filter-mirror.Tpo -c -o camorama-filter-mirror.o camorama-filter-mirror.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-reichardt.o -MD -MP -MF .deps/camorama-filter-reichardt.Tpo -c -o camorama-filter-reichardt.o camorama-filter-reichardt.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-window.o -MD -MP -MF .deps/camorama-window.Tpo -c -o camorama-window.o camorama-window.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT filter.o -MD -MP -MF .deps/filter.Tpo -c -o filter.o filter.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT main.o -MD -MP -MF .deps/main.Tpo -c -o main.o main.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT support.o -MD -MP -MF .deps/support.Tpo -c -o support.o support.c
-mv -f .deps/camorama-filter-mirror.Tpo .deps/camorama-filter-mirror.Po
-mv -f .deps/camorama-filter-reichardt.Tpo .deps/camorama-filter-reichardt.Po
-mv -f .deps/camorama-filter-laplace.Tpo .deps/camorama-filter-laplace.Po
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT v4l.o -MD -MP -MF .deps/v4l.Tpo -c -o v4l.o v4l.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/libdrm -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT fileio.o -MD -MP -MF .deps/fileio.Tpo -c -o fileio.o fileio.c
-callbacks.c: In function ‘set_image_scale’:
-callbacks.c:391:12: warning: unused variable ‘title’ [-Wunused-variable]
-     gchar *title;
-            ^~~~~
-mv -f .deps/camorama-filter-chain.Tpo .deps/camorama-filter-chain.Po
-mv -f .deps/camorama-window.Tpo .deps/camorama-window.Po
-mv -f .deps/callbacks.Tpo .deps/callbacks.Po
-mv -f .deps/filter.Tpo .deps/filter.Po
-mv -f .deps/support.Tpo .deps/support.Po
-mv -f .deps/fileio.Tpo .deps/fileio.Po
-mv -f .deps/main.Tpo .deps/main.Po
-mv -f .deps/v4l.Tpo .deps/v4l.Po
-gcc -fno-strict-aliasing -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -Wl,--no-as-needed  -o camorama callbacks.o camorama-filter-chain.o camorama-filter-laplace.o camorama-filter-mirror.o camorama-filter-reichardt.o camorama-window.o filter.o main.o support.o v4l.o fileio.o  -lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo-gobject -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lcairo -lv4l2 -lm 
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-Making all in data
-make[2]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-/usr/lib/x86_64-linux-gnu/glib-2.0/glib-compile-schemas --strict --dry-run  --schema-file=org.gnome.camorama.gschema.xml && mkdir -p . && touch org.gnome.camorama.gschema.valid
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-Making all in po
-make[2]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-make camorama.pot-update
-make[3]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-sed -e '/^#/d' remove-potcdate.sin > t-remove-potcdate.sed
-mv t-remove-potcdate.sed remove-potcdate.sed
-package_gnu=""; \
-test -n "$package_gnu" || { \
-  if { if (LC_ALL=C find --version) 2>/dev/null | grep GNU >/dev/null; then \
-         LC_ALL=C find -L .. -maxdepth 1 -type f -size -10000000c -exec grep -i 'GNU camorama' /dev/null '{}' ';' 2>/dev/null; \
-       else \
-         LC_ALL=C grep -i 'GNU camorama' ../* 2>/dev/null; \
-       fi; \
-     } | grep -v 'libtool:' >/dev/null; then \
-     package_gnu=yes; \
-   else \
-     package_gnu=no; \
-   fi; \
-}; \
-if test "$package_gnu" = "yes"; then \
-  package_prefix='GNU '; \
-else \
-  package_prefix=''; \
-fi; \
-if test -n '' || test 'https://github.com/alessio/camorama' = '@'PACKAGE_BUGREPORT'@'; then \
-  msgid_bugs_address=''; \
-else \
-  msgid_bugs_address='https://github.com/alessio/camorama'; \
-fi; \
-case `/usr/bin/xgettext --version | sed 1q | sed -e 's,^[^0-9]*,,'` in \
-  '' | 0.[0-9] | 0.[0-9].* | 0.1[0-5] | 0.1[0-5].* | 0.16 | 0.16.[0-1]*) \
-    /usr/bin/xgettext --default-domain=camorama --directory=.. \
-      --add-comments=TRANSLATORS: \
-      --files-from=./POTFILES.in \
-      --copyright-holder='Camorama developers' \
-      --msgid-bugs-address="$msgid_bugs_address" \
-      --keyword=_ --keyword=N_  \
-    ;; \
-  *) \
-    /usr/bin/xgettext --default-domain=camorama --directory=.. \
-      --add-comments=TRANSLATORS: \
-      --files-from=./POTFILES.in \
-      --copyright-holder='Camorama developers' \
-      --package-name="${package_prefix}camorama" \
-      --package-version='0.20.7' \
-      --msgid-bugs-address="$msgid_bugs_address" \
-      --keyword=_ --keyword=N_  \
-    ;; \
-esac
-test ! -f camorama.po || { \
-  if test -f ./camorama.pot-header; then \
-    sed -e '1,/^#$/d' < camorama.po > camorama.1po && \
-    cat ./camorama.pot-header camorama.1po > camorama.po && \
-    rm -f camorama.1po \
-    || exit 1; \
-  fi; \
-  if test -f ./camorama.pot; then \
-    sed -f remove-potcdate.sed < ./camorama.pot > camorama.1po && \
-    sed -f remove-potcdate.sed < camorama.po > camorama.2po && \
-    if cmp camorama.1po camorama.2po >/dev/null 2>&1; then \
-      rm -f camorama.1po camorama.2po camorama.po; \
-    else \
-      rm -f camorama.1po camorama.2po ./camorama.pot && \
-      mv camorama.po ./camorama.pot; \
-    fi; \
-  else \
-    mv camorama.po ./camorama.pot; \
-  fi; \
-}
-make[3]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-*** error: gettext infrastructure mismatch: using a Makefile.in.in from gettext version 0.20 but the autoconf macros are from gettext version 0.19
-make[2]: *** [Makefile:248: stamp-po] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-make[1]: *** [Makefile:541: all-recursive] Error 1
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-make: *** [Makefile:397: all] Error 2
-Build step 'Execute shell' marked build as failure
