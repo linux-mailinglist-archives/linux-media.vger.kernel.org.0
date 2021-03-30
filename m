@@ -2,99 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8553934E42D
-	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 11:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C81E34E447
+	for <lists+linux-media@lfdr.de>; Tue, 30 Mar 2021 11:27:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231699AbhC3JSc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Mar 2021 05:18:32 -0400
-Received: from ni.piap.pl ([195.187.100.5]:43316 "EHLO ni.piap.pl"
+        id S231622AbhC3J1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Mar 2021 05:27:08 -0400
+Received: from mga02.intel.com ([134.134.136.20]:29497 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231438AbhC3JSA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Mar 2021 05:18:00 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ni.piap.pl (Postfix) with ESMTPSA id 423AC443A5D;
-        Tue, 30 Mar 2021 11:17:54 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 423AC443A5D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1617095874; bh=U2rsxJHSxkDfNMjPvbE4U2R3Ifu51mUaDNbjIjemCo0=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=CMx6RSUE3GH8pnvGM3gD0WNsqqMpaK2pQYvhUxkn8vWL8ZHTWYgZylsadjY+C/sgX
-         2B8FGtU+VCyWr3+CRP9iVq3NHwsuhIOOxjSfxKyQABC3UhLN4V2UCj5gnx/BiZPQZR
-         XvWjJbtvK5DwlplL9YlynSQbtMhZ0O1peB3YbiQc=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org,
+        id S231773AbhC3J0j (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Mar 2021 05:26:39 -0400
+IronPort-SDR: DS+na1goAYLlBj/96DxtW4sLhU/3Sp2u5JboPgAb0IaWsuuj0S9gTXtjIEhXS1g7ndOXOVgo48
+ RP5crxo1+YtQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="178860870"
+X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
+   d="scan'208";a="178860870"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 02:26:38 -0700
+IronPort-SDR: JFuYIEolFJdWz4Sv28R+nQxwOke/2rsulxP06Fia9r9cjpjPcXAywFTcgkq40Tk6+sELd+CG/0
+ Ej8txvdJS3Pg==
+X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
+   d="scan'208";a="516364791"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 02:26:35 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lRAds-00HHww-Nn; Tue, 30 Mar 2021 12:26:32 +0300
+Date:   Tue, 30 Mar 2021 12:26:32 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: RFC: dt-binding: media: document ON Semi AR0521 sensor bindings
-References: <m3o8fjs02a.fsf@t19.piap.pl>
-        <YFEBRGF20xhpHese@pendragon.ideasonboard.com>
-Sender: khalasa@piap.pl
-Date:   Tue, 30 Mar 2021 11:17:54 +0200
-In-Reply-To: <YFEBRGF20xhpHese@pendragon.ideasonboard.com> (Laurent Pinchart's
-        message of "Tue, 16 Mar 2021 21:04:36 +0200")
-Message-ID: <m3czvhxanx.fsf@t19.piap.pl>
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: Re: [PATCH v2 5/6] software node: Introduce
+ SOFTWARE_NODE_REFERENCE() helper macro
+Message-ID: <YGLuyKFbDgVLU2OW@smile.fi.intel.com>
+References: <20210329151207.36619-1-andriy.shevchenko@linux.intel.com>
+ <20210329151207.36619-5-andriy.shevchenko@linux.intel.com>
+ <5e76c3b8-d154-e5ca-25d8-290376469e5a@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 4
-X-KLMS-Message-Action: skipped
-X-KLMS-AntiSpam-Status: not scanned, whitelist
-X-KLMS-AntiPhishing: not scanned, whitelist
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5e76c3b8-d154-e5ca-25d8-290376469e5a@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
-
->> +  reg:
->> +    description: I2C bus address of the sensor device
->
-> You can drop this, it's implicit for I2C devices.
-
-Do you mean just dropping these two lines (and MaxItems: 1), and leaving
-"reg" in "required" and in the example? E.g.:
-...
-required:
-  - compatible
-  - reg
-  - clocks
-  - clock-names
-  - port
-
-additionalProperties: false
-
-examples:
-  - |
-    #include <dt-bindings/gpio/gpio.h>
-    #include <dt-bindings/clock/imx6qdl-clock.h>
-
-    i2c {
-            #address-cells =3D <1>;
-            #size-cells =3D <0>;
-
-            ar0521: camera-sensor@36 {
-                    compatible =3D "onnn,ar0521";
-                    reg =3D <0x36>;
-                    pinctrl-names =3D "default";
+On Mon, Mar 29, 2021 at 11:45:29PM +0100, Daniel Scally wrote:
+> On 29/03/2021 16:12, Andy Shevchenko wrote:
+> > This is useful to assign software node reference with arguments
+> > in a common way. Moreover, we have already couple of users that
+> > may be converted. And by the fact, one of them is moved right here
+> > to use the helper.
 
 ...
 
-It protests with:
+> > +		SOFTWARE_NODE_REFERENCE(&nodes[0]),
+> > +		SOFTWARE_NODE_REFERENCE(&nodes[1], 3, 4),
 
-Documentation/devicetree/bindings/media/i2c/onnn,ar0521.example.dt.yaml:
-camera-sensor@36: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-        From schema: /usr/src/linux/imx6/Documentation/devicetree/bindings/=
-media/i2c/onnn,ar0521.yaml
+...
 
-Thus I'm currently leaving it as is.
---=20
-Krzysztof Ha=C5=82asa
+> > +#define SOFTWARE_NODE_REFERENCE(_ref_, ...)			\
+> > +(const struct software_node_ref_args) {				\
+> > +	.node = _ref_,						\
+> > +	.nargs = ARRAY_SIZE(((u64[]){ 0, ##__VA_ARGS__ })) - 1,	\
+> > +	.args = { __VA_ARGS__ },				\
+> > +}
 
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+...
+
+> > +	{ .pointer = &SOFTWARE_NODE_REFERENCE(_ref_, ##__VA_ARGS__), },	\
+> 
+> What are the .args intended to be used for? I actually had it in mind to
+> replace this with a simple pointer to a struct software_node, because I
+> can't see any users of them and the fact that it's actually storing a
+> pointer to a new variable is something that confused me for a good long
+> time when I wrote the cio2-bridge (though that's mostly due to my
+> relative inexperience of course, but still)
+
+It's to be in align with DT phandle references that can take arguments. While
+for now, indeed, we have no users of this, it might be changed in the future
+(I hadn't checked DesignWare DMA where I would like to transform the code to
+ use device properties eventually and there it might be the case).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
