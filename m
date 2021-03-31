@@ -2,128 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F57E3503D6
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 17:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A45C5350447
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 18:15:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235853AbhCaPwG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 11:52:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35400 "EHLO
+        id S233811AbhCaQPB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 12:15:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235268AbhCaPvp (ORCPT
+        with ESMTP id S233767AbhCaQOa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 11:51:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF6AC061574;
-        Wed, 31 Mar 2021 08:51:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A575A8C4;
-        Wed, 31 Mar 2021 17:51:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1617205900;
-        bh=TT1B0ipLE8lonuj4I4eUgB10aO66A/Vogn1icdF97Wk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZpfNmxQP0fia8sl6phoFqlXeTSFarWFA4RsBHMnXDQ+M7tAHaEeEx+so6eDUhn5Ty
-         SSxz92NgIe6j6al77AJlkWRndZmhKKJLw2dqN3wa7EWkboiG5LrHfeeo8pGe7jcgp6
-         rG0+/0mF87iHtXY/dOBl/ibLW3cm7eIrZLJ/OMsU=
-Date:   Wed, 31 Mar 2021 18:50:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Peter Chen <peter.chen@nxp.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        dmaengine@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>
-Subject: Re: [PATCH 13/16] media: ti-vpe: csi2rx: Add CSI2RX support
-Message-ID: <YGSaYBF/mQdcqjBx@pendragon.ideasonboard.com>
-References: <20210330173348.30135-1-p.yadav@ti.com>
- <20210330173348.30135-14-p.yadav@ti.com>
- <91bbf2a9-9d27-7f9b-1c17-ad6544a828f1@ideasonboard.com>
- <20210331154456.t6edvpw6mfwlf2zg@ti.com>
+        Wed, 31 Mar 2021 12:14:30 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7105C061574
+        for <linux-media@vger.kernel.org>; Wed, 31 Mar 2021 09:14:29 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id b7so30920841ejv.1
+        for <linux-media@vger.kernel.org>; Wed, 31 Mar 2021 09:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=vNxjeoAypk14qZeAB3I01j/gis4p3ugNWJgFdaxWU/Q=;
+        b=rg5lOMyrShuCinEw8rLg1MsMbFzvzNJwRuFTcf3XGfpPn5FbG2JucOeBmhTReuO94g
+         igE4CCbIp+DZq67I05uSrOoAesOyVuEfL3XqEF55K/N25Ivc2UIxoJtb9B8qJYhH/8WD
+         6DL6fW9FEF+zJz0EJeubyAFDFcm9DLfonWDc5JHt4KJvK+jhA0y4w2Pn3J/JuVJYjVcz
+         kL86TYYTYj447y6QGbbsW8vbFTGqBPrFVceKHbzWgIQ6cw4SXJTtg693JpLD5mhCy/xC
+         Wic4bnqpi6Sz3Ak6Amwhb95dFNN4b2BbL2uc7ITjeXI8KFau+K0Aj7o9ffYXH+zi//Bl
+         Ap7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=vNxjeoAypk14qZeAB3I01j/gis4p3ugNWJgFdaxWU/Q=;
+        b=mw84qPCAJjRBSdBV53dNHgmFETVhUe3dmYbb0XxKB/YqW7Wm+2tbz1hACfa1MbvCbX
+         4nHpZqxYEGrzDdMzPMSkC+S913gGZxcpLJrHRuGHE3lldKsCaCaP4ibWAotRc2H3LIKW
+         HQxW1MO4+HvpJevLsiCQYQ63fg+TuQgmoqo2U/qp93mJvvjhigDfIhNn+su/X029Odef
+         QmMxtPj2R9E4MFPS4P5Yf2uc54y9K8cYmxExkZdbJDeCq4BXnNkgy4YxaX+c2vSuqfL0
+         uEl6HSxIKOIQWkM2YLrgQzrXdj1TClDJeh0W+YHGyn2Uz4oWzdC+we4juruhx3IaPUxZ
+         M06w==
+X-Gm-Message-State: AOAM532ElL1Uv69BLZ0wlfd8pn+z9JbS/6bRVYJOpKpx8u3xnpCutZqm
+        OdNajD3+tNTqT992Z46YaUz4oYFI37ue7AETZ+iElQ==
+X-Google-Smtp-Source: ABdhPJyCD57Hk7JN+3B03CkiyVtp0j4O0SewLISi/qF5v74Y9tYrClp8NL+kMqJYkabgyX1EXc87VOEKtqokYa2ngPE=
+X-Received: by 2002:a17:906:c099:: with SMTP id f25mr4446366ejz.141.1617207268482;
+ Wed, 31 Mar 2021 09:14:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210331154456.t6edvpw6mfwlf2zg@ti.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 31 Mar 2021 13:14:17 -0300
+Message-ID: <CAAEAJfAQkocEX1Z32YwupQT1s+PMGUNQcpgrLhX9+yu+1v9czw@mail.gmail.com>
+Subject: NULL pointer dereference at v4l2_ctrl_request_complete
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 10:44:57AM -0500, Benoit Parrot wrote:
-> Pratyush,
-> 
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote on Wed [2021-Mar-31 09:06:35 +0300]:
-> > Hi,
-> > 
-> > On 30/03/2021 20:33, Pratyush Yadav wrote:
-> > > TI's J721E uses the Cadence CSI2RX and DPHY peripherals to facilitate
-> > > capture over a CSI-2 bus.
-> > > 
-> > > The Cadence CSI2RX IP acts as a bridge between the TI specific parts and
-> > > the CSI-2 protocol parts. TI then has a wrapper on top of this bridge
-> > > called the SHIM layer. It takes in data from stream 0, repacks it, and
-> > > sends it to memory over PSI-L DMA.
-> > > 
-> > > This driver acts as the "front end" to V4L2 client applications. It
-> > > implements the required ioctls and buffer operations, passes the
-> > > necessary calls on to the bridge, programs the SHIM layer, and performs
-> > > DMA via the dmaengine API to finally return the data to a buffer
-> > > supplied by the application.
-> > > 
-> > > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> > > ---
-> > >   MAINTAINERS                               |   7 +
-> > >   drivers/media/platform/Kconfig            |  11 +
-> > >   drivers/media/platform/ti-vpe/Makefile    |   1 +
-> > >   drivers/media/platform/ti-vpe/ti-csi2rx.c | 964 ++++++++++++++++++++++
-> > >   4 files changed, 983 insertions(+)
-> > >   create mode 100644 drivers/media/platform/ti-vpe/ti-csi2rx.c
-> > 
-> > Some quick comments:
-> > 
-> > "ti-vpe" directory is not correct, this has nothing to do with VPE. That
-> > said, the directory has already been abused by having CAL driver there,
-> > perhaps we should rename the directory just to "ti". But if we do that,
-> > I think we should have subdirs for cal, vpe and this new one.
-> 
-> I agree with Tomi here. This should create a ti directory under
-> media/platform and then add a directory under that specifically for this
-> driver/IP as a first step. Not sure what the correct name for that
-> directory should be but it should meaningful. As a follow on step then the
-> other drivers can be relocated to a proper directory structure.
+Hi Hans,
 
-+1, including for the relocation if possible.
+We have found this crash in mainline:
 
-> > "ti-csi2rx" is rather generic name. TI has had CSI-2 RX IPs before (CAL)
-> > and probably will also have new ones in the future. If there's no clear
-> > model name for the IP, as I think is the case here, it's probably best
-> > to just use the SoC model in the name. E.g. the DSS on J7 is
-> > "ti,j721e-dss".
-> > 
-> > This driver implements the legacy video API. I think it would be better
-> > (and easier to maintain) to only implement the media-controller API,
-> > unless you specifically need to support the legacy API for existing
-> > userspace.
-> 
-> We just went through a major rework with CAL to make it media controller
-> compatible in order to be able to handle CSI2 virtual channels.
-> I think as this is a new driver/IP which perform the same type of service
-> it makes sense to make use the more current API instead of the legacy one.
+[  258.174662] Unable to handle kernel NULL pointer dereference at
+virtual address 0000000000000000
+[  258.182967] Mem abort info:
+[  258.187746]   ESR = 0x96000004
+[  258.192100]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  258.199108]   SET = 0, FnV = 0
+[  258.203732]   EA = 0, S1PTW = 0
+[  258.208389] Data abort info:
+[  258.212743]   ISV = 0, ISS = 0x00000004
+[  258.218322]   CM = 0, WnR = 0
+[  258.222760] user pgtable: 4k pages, 48-bit VAs, pgdp=00000000444b0000
+[  258.230822] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
+[  258.239097] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+[  258.246162] Modules linked in: hantro_vpu(C) videobuf2_vmalloc
+v4l2_h264 videobuf2_dma_contig videobuf2_memops v4l2_mem2mem
+videobuf2_v4l2 videobuf2_common videodev mc etnaviv fsl_imx8_ddr_perf
+gpu_sched fuse
+[  258.263431] CPU: 0 PID: 34 Comm: kworker/0:1 Tainted: G         C
+     5.12.0-rc2+ #106
+[  258.270312] Hardware name: NXP i.MX8MQ EVK (DT)
+[  258.273542] Workqueue: events v4l2_m2m_device_run_work [v4l2_mem2mem]
+[  258.278716] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
+[  258.283426] pc : __memcpy+0x7c/0x180
+[  258.285709] lr : v4l2_ctrl_request_complete+0x7c/0x200 [videodev]
+[  258.290585] sp : ffff8000116fbc60
+[  258.292598] x29: ffff8000116fbc60 x28: ffff80001142b780
+[  258.296617] x27: ffff80001127bc80 x26: 00000000e9b00000
+[  258.300637] x25: 00000000e9a00000 x24: ffff0000067e2500
+[  258.304653] x23: ffff0000067e2538 x22: ffff00000387d238
+[  258.308671] x21: ffff0000067e2598 x20: ffff000004644e00
+[  258.312688] x19: ffff000006812a00 x18: 0000000000000000
+[  258.316708] x17: 0000000000000000 x16: 0000000000000000
+[  258.320724] x15: 0000000000000000 x14: 0000000000000000
+[  258.324744] x13: 0000000000000000 x12: 0000000000000000
+[  258.328761] x11: 0000000000000000 x10: 0000000000000000
+[  258.332776] x9 : 0000000000000000 x8 : 0000000000000000
+[  258.336793] x7 : 0000000000000000 x6 : ffff000006812a40
+[  258.340811] x5 : 0000000000000006 x4 : 0000000000000000
+[  258.344826] x3 : 0000000000000010 x2 : 0000000000000010
+[  258.348845] x1 : 0000000000000000 x0 : ffff000006812a40
+[  258.352864] Call trace:
+[  258.354010]  __memcpy+0x7c/0x180
+[  258.355941]  hantro_end_prepare_run+0x2c/0x60 [hantro_vpu]
+[  258.360150]  hantro_g1_mpeg2_dec_run+0x3b0/0x7f0 [hantro_vpu]
+[  258.364615]  device_run+0xa8/0xbc [hantro_vpu]
+[  258.367777]  v4l2_m2m_try_run+0x84/0x134 [v4l2_mem2mem]
+[  258.371723]  v4l2_m2m_device_run_work+0x14/0x20 [v4l2_mem2mem]
+[  258.376279]  process_one_work+0x1c0/0x484
+[  258.378995]  worker_thread+0x70/0x434
+[  258.381364]  kthread+0x158/0x160
+[  258.383296]  ret_from_fork+0x10/0x34
+[  258.385582] Code: a8c12027 a88120c7 a8c12027 a88120c7 (a8c12027)
+[  258.390377] ---[ end trace fea6ecb96dad642d ]---
 
-+2 :-)
+This needs several concurrent streams to run at the same time,
+it doesn't happen with just one; it was reproduced in rkvdec
+and hantro drivers. The above stacktrace is on MPEG-2,
+but we have found it on H.264 as well.
 
--- 
-Regards,
+I've traced this to:
 
-Laurent Pinchart
+                v4l2_ctrl_lock(ctrl);
+                if (ref->req) {
+                        ptr_to_ptr(ctrl, ref->req->p_req, ref->p_req);
+
+And:
+
+static void ptr_to_ptr(struct v4l2_ctrl *ctrl,
+                       union v4l2_ctrl_ptr from, union v4l2_ctrl_ptr to)
+{
+        if (ctrl == NULL)
+                return;
+        memcpy(to.p, from.p_const, ctrl->elems * ctrl->elem_size);
+                               ^^^^^^^^^^^^
+                               This is NULL
+
+I've been staring at this file and trying to understand how this can happen
+but haven't been able to make any progress so far...
+
+Any ideas ?
+
+Thanks,
+Ezequiel
