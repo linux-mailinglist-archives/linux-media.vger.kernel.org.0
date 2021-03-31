@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6357350597
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 19:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42596350598
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 19:36:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234565AbhCaRfz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 13:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57854 "EHLO
+        id S234557AbhCaRfy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 13:35:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234461AbhCaRfg (ORCPT
+        with ESMTP id S234466AbhCaRfh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 13:35:36 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B044C061574;
-        Wed, 31 Mar 2021 10:35:35 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 12so10534990wmf.5;
-        Wed, 31 Mar 2021 10:35:35 -0700 (PDT)
+        Wed, 31 Mar 2021 13:35:37 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED960C061574;
+        Wed, 31 Mar 2021 10:35:36 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id t5-20020a1c77050000b029010e62cea9deso1580036wmi.0;
+        Wed, 31 Mar 2021 10:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=J9QCFckIBAkkMW1HuLQ0Z2D0zukJHxh0rMMA4ARv74o=;
-        b=f7R36IW85JWA3JM042Skzgg63r58U6OiRJmQQL27JFIs4cRGODXhJfXNzD4sR8i1uI
-         I7YT2w1oS7c5gYWglNWdHY43r2LiMDwS4xe7bJottqtAmbwNSlassjVBYxHwjwstxi+j
-         C560wdT4Ksq7xUP6FIKD6W5ktb9QWn4kiJC4PS6Jn0gVunUphGGI2iyZVniPbVBlI8ki
-         cpJTDRN+HwRAocWtNeCCEP+vBbgn0t+RcaAvfdx2r5m+DO/7lV9+OMc9UWdC+gepF+7t
-         wZeTtLFi6CZ2b1ungtOpxJQSfHppxZoefa8rIV7uw1QKJPb+LqalLvYx0w0LVHHDbUAh
-         QTsw==
+        bh=c4cZd+M5f+AeDALoemgsfPAehWaYVnvxwh4uGy+wkOo=;
+        b=JIWKVXAkmAJBnseSZM1anFOSAccWbD3fSw/O9Ev/2uz4uizLMQA/T9QkRU2EpG+9VX
+         VXCRPZ5IPV+veUsbuCFKFCu1Uqblcr3OazXphTbg+DsI3iMQHBHefjsAEVKMXMQnI6+2
+         2XI50ZSXqajmM66UU4xIScEzJE4zuszwko7Or+vzHcawTSEP6S9wt8vi6Q2lskD9hiHL
+         +Xo+aaZpO9BFXJIkdHUj8zp3w23NpLBBDfpMLCCnfKfBPMG6LWKxgxtmRZ8VG8exC1oV
+         7om1yCf15jeCBBY3l7htmS+dnEY3haan6BQkybkeCKNwdN6GyeK2qHooS60X84/G6kF3
+         IsEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=J9QCFckIBAkkMW1HuLQ0Z2D0zukJHxh0rMMA4ARv74o=;
-        b=JSqFMvtZkjSndvF1hTKWWEUoOVyCvJw4bb2/TcJB2BRO2YCEW9Y1NKbs8K3cGnNvJq
-         qG8JfBpz+vXZkYzmIL5Qfi7ekeojhTvs9PR8t0f5n408x0N9f58d1WSTD884NFyfF3zF
-         lhzSJoIf9FJbqoLcX8ITxkugf4g+R2kOp5N2VhMERL8TXFC6qcO5aqqT16e4mHY5GwgT
-         YptzcRMGdQvSXo5fYTXi5jpHN4jptpE+YXdsneKgZJDrFPXO1PFBNTgUMhe4uhQia8G+
-         NyuKJOpcf3IL5g9tgivIf5KIQ2fyDj/gWSxZ3leobpmXZehAKp3aOEEQS9ECOxZVL6kK
-         1Lig==
-X-Gm-Message-State: AOAM531xIH0UKBPhWVMZs7hdnvG6ened4Cf4lD0YU/qXcN2+y/YkhNj3
-        SZcfTWp3+q6GtcVw3+cdIig=
-X-Google-Smtp-Source: ABdhPJwLSOnWotXARo97qgnF3BxfFU0WQJclwokJkmXaXHWELQ/+b91woIYyzgHcow8388aMYut9kg==
-X-Received: by 2002:a05:600c:3515:: with SMTP id h21mr4194328wmq.9.1617212134195;
-        Wed, 31 Mar 2021 10:35:34 -0700 (PDT)
+        bh=c4cZd+M5f+AeDALoemgsfPAehWaYVnvxwh4uGy+wkOo=;
+        b=USInlLpj5h6fcgDOhxT+Ejo+L0rPO0a+d2RzDvq0+s79zK2+nIZF1euenFcxxSlYXC
+         PUVdvmy1NcedKcN6TMjtx8At40zf7PNbQUSujya6wYlgmkpB52s3D0nNZsDW3wyXTP1W
+         xXlcGlw7G0lL1XqQ38D61k0wsHz9vtHEjuBQR9oAUdSHW8r7w+A88hbQwrqITNNoTqHR
+         MkcjKRuTg/l1kmCBBq1d0haZ1QNHEcxqjK55dnxysDsYdpaqZn77bnASOf2TXU00mZlN
+         v2tT11CWbU08PtJy/YPlGuw/5FFQLxB+q786/1bfVL9YKXXqR9f94KdepvYz7UhP5rqu
+         fQfg==
+X-Gm-Message-State: AOAM532WUXh69XKQZGGxM7SvC3pMHBJc1WXx/uZ63ztg4O51qb26isGC
+        e6+EDgRvQcWZbOy8U7Yhmcy29peb7wu6aA==
+X-Google-Smtp-Source: ABdhPJxYoWD58r/igYEN0Jrd0MhzMiw4wIwiTk3CAQbIobPAkZQlgG/9klpTSWowgkhdlnIrgaIjJg==
+X-Received: by 2002:a05:600c:2945:: with SMTP id n5mr4179454wmd.78.1617212135727;
+        Wed, 31 Mar 2021 10:35:35 -0700 (PDT)
 Received: from arch-x1c3.. ([2a00:5f00:102:0:6e1d:cfb9:fb12:552d])
-        by smtp.gmail.com with ESMTPSA id 12sm4714200wmw.43.2021.03.31.10.35.33
+        by smtp.gmail.com with ESMTPSA id 12sm4714200wmw.43.2021.03.31.10.35.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 10:35:33 -0700 (PDT)
+        Wed, 31 Mar 2021 10:35:35 -0700 (PDT)
 From:   Emil Velikov <emil.l.velikov@gmail.com>
 To:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Cc:     emil.l.velikov@gmail.com
-Subject: [PATCH v3 6/9] media: hantro: add fallback handling for single irq/clk
-Date:   Wed, 31 Mar 2021 18:35:17 +0100
-Message-Id: <20210331173520.184191-7-emil.l.velikov@gmail.com>
+Cc:     emil.l.velikov@gmail.com, Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v3 7/9] media: dt-bindings: Document SAMA5D4 VDEC bindings
+Date:   Wed, 31 Mar 2021 18:35:18 +0100
+Message-Id: <20210331173520.184191-8-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210331173520.184191-1-emil.l.velikov@gmail.com>
 References: <20210331173520.184191-1-emil.l.velikov@gmail.com>
@@ -68,73 +68,89 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Emil Velikov <emil.velikov@collabora.com>
 
-Currently the driver expects that each irq/clk will have a name
-specified.
+Add devicetree binding documentation for the Hantro G1/G2 VDEC on
+the Microchip SAMAS5D4 SoC.
 
-A valid point was raised by the DT maintainers - when there is a single
-interrupt line or clock - the names are not needed.
-
-This is handled:
- - clk - implicitly - ultimately we'll call of_clk_get_hw(..., 0, NULL
-   which will get the first clock from the pmc
- - irq - explicitly - platform_get_irq(..., 0)
-
-To gracefully handle potential bugs, add respective WARN_ON() if we're
-having more than one irq/clk, yet lacking the respective names.
-
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: devicetree@vger.kernel.org>
 Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-Suggested-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
-v3
- - New patch
+v2
+ - Newly introduced
+ - s/Atmel/Microchip/ (Nicolas)
+ - Drop leading 0 in node name/address
 ---
- drivers/staging/media/hantro/hantro_drv.c | 24 +++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ .../media/microchip,sama5d4-vdec.yaml         | 59 +++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index e5f200e64993..d1294eb9cd07 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -752,8 +752,16 @@ static int hantro_probe(struct platform_device *pdev)
- 	if (!vpu->clocks)
- 		return -ENOMEM;
- 
--	for (i = 0; i < vpu->variant->num_clocks; i++)
-+	for (i = 0; i < vpu->variant->num_clocks; i++) {
- 		vpu->clocks[i].id = vpu->variant->clk_names[i];
+diff --git a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+new file mode 100644
+index 000000000000..9cb2c0295d54
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+@@ -0,0 +1,59 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +
-+		/*
-+		 * Warn and refuse to load if the driver has multiple clocks,
-+		 * yet they are lacking the respective names.
-+		 */
-+		if (WARN_ON(!vpu->variant->clk_names[i] && i))
-+			return -ENXIO;
-+	}
- 	ret = devm_clk_bulk_get(&pdev->dev, vpu->variant->num_clocks,
- 				vpu->clocks);
- 	if (ret)
-@@ -791,7 +799,19 @@ static int hantro_probe(struct platform_device *pdev)
- 		if (!vpu->variant->irqs[i].handler)
- 			continue;
- 
--		irq = platform_get_irq_byname(vpu->pdev, irq_name);
-+		/*
-+		 * If the driver has a single IRQ, chances are there will be no
-+		 * actual name in the DT bindings.
-+		 */
-+		if (!irq_name) {
-+			if (WARN_ON(i))
-+				return -ENXIO;
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
-+			irq_name = "default";
-+			irq = platform_get_irq(vpu->pdev, 0);
-+		} else {
-+			irq = platform_get_irq_byname(vpu->pdev, irq_name);
-+		}
- 		if (irq <= 0)
- 			return -ENXIO;
- 
++title: Hantro G1 VPU codec implemented on Microchip SAMA5D4 SoCs
++
++maintainers:
++  - Emil Velikov <emil.velikov@collabora.com>
++
++description:
++  Hantro G1 video decode accelerator present on Microchip SAMA5D4 SoCs.
++
++properties:
++  compatible:
++    const: microchip,sama5d4-vdec
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  interrupt-names:
++    items:
++      - const: vdec
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: vdec_clk
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++        #include <dt-bindings/clock/at91.h>
++        #include <dt-bindings/interrupt-controller/irq.h>
++
++        vdec0: vdec@300000 {
++                compatible = "microchip,sama5d4-vdec";
++                reg = <0x00300000 0x100000>;
++                interrupts = <19 IRQ_TYPE_LEVEL_HIGH 4>;
++                interrupt-names = "vdec";
++                clocks = <&pmc PMC_TYPE_PERIPHERAL 19>;
++                clock-names = "vdec_clk";
++        };
 -- 
 2.31.1
 
