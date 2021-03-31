@@ -2,114 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB3534FCF9
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 11:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CE4034FE2F
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 12:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234553AbhCaJeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 05:34:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49082 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234707AbhCaJd4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 05:33:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C1C7619F0;
-        Wed, 31 Mar 2021 09:33:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617183235;
-        bh=nO6ttpQXe+OeRL88ACEvx2io7aYwd7vnwQG1o0nC6Gw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h/JuXQ8QMS62JOS9+ByXnOqyzOo1u3p8/2y0FqKbbBkFG6wtSSRN6I1ayMSxygk3j
-         qldKxHUcR0scfwhsSdITKQ7+94rabU11oLcDAa1BiNj+WKDU6v94KuqL/+hOp43z3q
-         gQFfkJSlxy9axVYovQHURUYVgGQ91TetD/7hoDBWL3651g2Ipd0r0N5eqyDblVv5jt
-         QKCzfa6PyBL78BiutkrA8CljFwSwXHv1OCDCjsOFYera4llrAZ/r++C8x7oLnie10+
-         M5/ucomuSVbT3yqgBpg6NrNhKbc6VLYxhZMXzzifGCYvRuXL5JN8CanH/SizY8lZi0
-         MCw/bOOFpQPWQ==
-Date:   Wed, 31 Mar 2021 15:03:51 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Pratyush Yadav <p.yadav@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Peter Chen <peter.chen@nxp.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        dmaengine@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 00/16] CSI2RX support on J721E
-Message-ID: <YGRB/42Q6aVBLoAq@vkoul-mobl.Dlink>
-References: <20210330173348.30135-1-p.yadav@ti.com>
+        id S234855AbhCaKiR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 06:38:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20679 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234976AbhCaKiM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 31 Mar 2021 06:38:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617187092;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=s8qO9aJt1Ewg4CxvO0dgmRB96mWbB/RaImJrf7xnxKc=;
+        b=a74IkMBYhUkYqUjmgfmvK3NcFYO8aXr/38m5oEXLG4jfQdt0WlKShy0+dmoecYnPWevjcd
+        KjxWvaAtH/aDFXnGLxTNZxWSFtm6AF0avuME/eu/9ncDcH+tB4mC20hWGulgxPm84n+E+n
+        6sS44UwaPcmqtLRN72i4YtW6vKQaZ8w=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-pCQAnPFNOIi28tNLSbXQBQ-1; Wed, 31 Mar 2021 06:38:09 -0400
+X-MC-Unique: pCQAnPFNOIi28tNLSbXQBQ-1
+Received: by mail-ed1-f71.google.com with SMTP id q25so869467eds.16
+        for <linux-media@vger.kernel.org>; Wed, 31 Mar 2021 03:38:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=s8qO9aJt1Ewg4CxvO0dgmRB96mWbB/RaImJrf7xnxKc=;
+        b=HqaneDBnOg//S0vvdOmWmUdFtb43oT8ZQww2qzB/CtyfOe6Iel+5nIvmUYoaJ0Aeat
+         4VMmR7/xU5Z1f4FsMi0sENcXhgiyPZ0XO7BQs8C9XcE3heWEnYlSMygScK2HS0NGD3KU
+         BoOvHTUPbLEYZ7gcJvpabUrm+0WJ5JsPfxwXitPihcogKYd4aO6I3sTpcze6KB/eDbop
+         B6uS0VAXncPQ95gdj2vnJSzok1ktaQKxKi9OAawoIlF7k8NMcgEIDMQoUu12OhePCYyH
+         zfMVzw66Fa604ZhZm0fllGANuzdo7e+MxmJFXxLb2Bj86SXF1DlfN3olxe7LE0+2+YXi
+         amVw==
+X-Gm-Message-State: AOAM5322mW3TBXRW5CnPAx4jOj8RmSGSKN3u+MocSG5g62F7sg8oYrwy
+        5rJ5oUdCS7DwthCi11l80CSrKku42we8RfFSLjqcQOO/QnOELSF4EhNZNEiv67lxsJ+C3RGLoYY
+        hkOZyUSpoWfR5owWeU7xJVZY=
+X-Received: by 2002:a17:906:32da:: with SMTP id k26mr2748535ejk.483.1617187088655;
+        Wed, 31 Mar 2021 03:38:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyk2b+1jNoZ3mhDq+p41B7mHh8KTNyIJJKszk3McLRMkfCxf0HXpumEjZc25f/96dU8IoOC5g==
+X-Received: by 2002:a17:906:32da:: with SMTP id k26mr2748519ejk.483.1617187088500;
+        Wed, 31 Mar 2021 03:38:08 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id s20sm1237339edu.93.2021.03.31.03.38.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Mar 2021 03:38:07 -0700 (PDT)
+Subject: Re: [PATCH 1/1] media: uvcvideo: Support devices that report an OT as
+ an entity source
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, John Nealy <jnealy3@yahoo.com>
+References: <20210308103128.33173-1-hdegoede@redhat.com>
+ <20210308103128.33173-2-hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <7974a22b-8b84-845e-4d2c-3650254a1a86@redhat.com>
+Date:   Wed, 31 Mar 2021 12:38:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210330173348.30135-1-p.yadav@ti.com>
+In-Reply-To: <20210308103128.33173-2-hdegoede@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30-03-21, 23:03, Pratyush Yadav wrote:
-> Hi,
-> 
-> This series adds support for CSI2 capture on J721E. It includes some
-> fixes to the Cadence CSI2RX driver, adds Rx support to Cadence DPHY
-> driver, and finally adds the TI CSI2RX wrapper driver.
-> 
-> Tested on TI's J721E with OV5640 sensor.
-> 
-> Paul Kocialkowski (1):
->   phy: Distinguish between Rx and Tx for MIPI D-PHY with submodes
-> 
-> Pratyush Yadav (15):
->   phy: cdns-dphy: Prepare for Rx support
->   phy: cdns-dphy: Allow setting mode
->   phy: cdns-dphy: Add Rx support
->   media: cadence: csi2rx: Add external DPHY support
->   media: cadence: csi2rx: Soft reset the streams before starting capture
->   media: cadence: csi2rx: Set the STOP bit when stopping a stream
->   media: cadence: csi2rx: Fix stream data configuration
->   media: cadence: csi2rx: Turn subdev power on before starting stream
->   media: cadence: csi2rx: Add wrappers for subdev calls
->   dmaengine: ti: k3-psil-j721e: Add entry for CSI2RX
->   dt-bindings: media: Add DT bindings for TI CSI2RX driver
->   media: ti-vpe: csi2rx: Add CSI2RX support
->   dt-bindings: phy: Convert Cadence DPHY binding to YAML
->   dt-bindings: phy: cdns,dphy: make clocks optional
->   dt-bindings: phy: cdns,dphy: add power-domains property
+Hi All,
 
-Is there any dependency between patches to various subsystems, if not
-please do consider sending a series per subsystem...
-
-Thanks
-
-
+On 3/8/21 11:31 AM, Hans de Goede wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
->  .../devicetree/bindings/media/ti,csi2rx.yaml  |  70 ++
->  .../devicetree/bindings/phy/cdns,dphy.txt     |  20 -
->  .../devicetree/bindings/phy/cdns,dphy.yaml    |  52 +
->  MAINTAINERS                                   |   7 +
->  drivers/dma/ti/k3-psil-j721e.c                |  10 +
->  drivers/media/platform/Kconfig                |  11 +
->  drivers/media/platform/cadence/cdns-csi2rx.c  | 269 ++++-
->  drivers/media/platform/ti-vpe/Makefile        |   1 +
->  drivers/media/platform/ti-vpe/ti-csi2rx.c     | 964 ++++++++++++++++++
->  drivers/phy/cadence/cdns-dphy.c               | 407 +++++++-
->  include/linux/phy/phy-mipi-dphy.h             |  13 +
->  11 files changed, 1754 insertions(+), 70 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/ti,csi2rx.yaml
->  delete mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.txt
->  create mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.yaml
->  create mode 100644 drivers/media/platform/ti-vpe/ti-csi2rx.c
+> Some devices reference an output terminal as the source of extension
+> units. This is incorrect, as output terminals only have an input pin,
+> and thus can't be connected to any entity in the forward direction. The
+> resulting topology would cause issues when registering the media
+> controller graph. To avoid this problem, connect the extension unit to
+> the source of the output terminal instead.
 > 
-> --
-> 2.30.0
+> While at it, and while no device has been reported to be affected by
+> this issue, also handle forward scans where two output terminals would
+> be connected together, and skip the terminals found through such an
+> invalid connection.
+> 
+> Reported-and-tested-by: John Nealy <jnealy3@yahoo.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
--- 
-~Vinod
+Ping? This is a bug-fix which fixes a WARN triggering, causing many
+users to see a backtrace in their kernel-logs and reporting bugs about this:
+
+https://bugzilla.redhat.com/buglist.cgi?quicksearch=mc-entity.c
+
+Currently shows 12 open bugs for this and this is not counting all the
+ones which have already been triaged and matched as dups.
+
+As such it would be really good if we can get this merged and on
+its way to 5.12-rc# as a fix for 5.12 (and to be backported to the
+stable series).
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 32 ++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 30ef2a3110f7..8df58f04dac6 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1716,6 +1716,31 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
+>  				return -EINVAL;
+>  			}
+>  
+> +			/*
+> +			 * Some devices reference an output terminal as the
+> +			 * source of extension units. This is incorrect, as
+> +			 * output terminals only have an input pin, and thus
+> +			 * can't be connected to any entity in the forward
+> +			 * direction. The resulting topology would cause issues
+> +			 * when registering the media controller graph. To
+> +			 * avoid this problem, connect the extension unit to
+> +			 * the source of the output terminal instead.
+> +			 */
+> +			if (UVC_ENTITY_IS_OTERM(entity)) {
+> +				struct uvc_entity *source;
+> +
+> +				source = uvc_entity_by_id(chain->dev,
+> +							  entity->baSourceID[0]);
+> +				if (!source) {
+> +					uvc_dbg(chain->dev, DESCR,
+> +						"Can't connect extension unit %u in chain\n",
+> +						forward->id);
+> +					break;
+> +				}
+> +
+> +				forward->baSourceID[0] = source->id;
+> +			}
+> +
+>  			list_add_tail(&forward->chain, &chain->entities);
+>  			if (!found)
+>  				uvc_dbg_cont(PROBE, " (->");
+> @@ -1735,6 +1760,13 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
+>  				return -EINVAL;
+>  			}
+>  
+> +			if (UVC_ENTITY_IS_OTERM(entity)) {
+> +				uvc_dbg(chain->dev, DESCR,
+> +					"Unsupported connection between output terminals %u and %u\n",
+> +					entity->id, forward->id);
+> +				break;
+> +			}
+> +
+>  			list_add_tail(&forward->chain, &chain->entities);
+>  			if (!found)
+>  				uvc_dbg_cont(PROBE, " (->");
+> 
+
