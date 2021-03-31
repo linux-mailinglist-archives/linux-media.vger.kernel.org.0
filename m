@@ -2,80 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2644D35018C
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 15:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28CFC350190
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 15:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235900AbhCaNld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 09:41:33 -0400
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:40479 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235842AbhCaNlC (ORCPT
+        id S235942AbhCaNlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 09:41:35 -0400
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:37756 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235943AbhCaNlJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 09:41:02 -0400
-Received: by mail-ot1-f49.google.com with SMTP id w31-20020a9d36220000b02901f2cbfc9743so18926314otb.7;
-        Wed, 31 Mar 2021 06:41:02 -0700 (PDT)
+        Wed, 31 Mar 2021 09:41:09 -0400
+Received: by mail-ot1-f50.google.com with SMTP id t23-20020a0568301e37b02901b65ab30024so18972947otr.4;
+        Wed, 31 Mar 2021 06:41:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
          :message-id;
-        bh=jsgIdaqlH2C9MJUIwIFmOwXHosTK36DMQwbtDc67PdU=;
-        b=GlaMOk/EftBiN9LQOojhfQNTipiW4HdZpPp93eVlGY5wxRi5SVqVjg3BE7zWj5O36Y
-         CVRBXQHSvGv5hJdyZffayr2hnFGq8WDqji1s3SO6MePwtk8SRfakOwA1RaXr9eF80wUO
-         G+7FiK0gUW2ORuodrDKVwWtvTGs3TN1JBYDrd5jpYHFzozp7kpI66cc707eCmlEFH9It
-         TV1Pfu6FQRXfElF8oinDf7G2UGL6hylx7O43hwefm31jfRz/jgKxE44pQQOMGFcM80M7
-         CAz/b2r56S4XkqZtcAyExPzgfCpIqVrbOwg4LzQ25bvneT8ErQa7wqpQPylzZ+Eafrf3
-         QzZA==
-X-Gm-Message-State: AOAM530GfY6o8ZlaFbIiiO0rjeYuyxdmJ6JWIFMu9JSWnPxw8No9PIV7
-        uhRa5XhM6iDzy5GusT1vkw==
-X-Google-Smtp-Source: ABdhPJy9cZd8SNUZfNXUreF3fwUvIluuSS4fiqRj0Ql+EUHendHCquhblhKUmO6JrZ58igOXICq5Tg==
-X-Received: by 2002:a9d:4b8d:: with SMTP id k13mr2677027otf.354.1617198061936;
-        Wed, 31 Mar 2021 06:41:01 -0700 (PDT)
+        bh=Ysq2futYM+aXUbEnhYTDLe/Ns9IPCloyqMjrGa/P5Hs=;
+        b=GxsGX2gJThBMV9Rz4EWMnD0+e/P+wy1Pa2ny6/ieej8Ppl0VrJBWKZzhGU/dQLjDI9
+         Ho5e8SxSm4L9n3QFusROUs37XcLIq7R1kjjPKhVW5vs3PSxGauh4b5S2OSYMVYVR4/Gs
+         UsrdDcG7x+aMPSq0IPLgnOrmuDcJv0tTMcl0XLvDZv+0vv8AK/LfUDqdlKoYkvBnNK0u
+         Hly+0hFtWmb+xSfxGfDRJT9MMRZmoniv87CRaRoLhJGV/jOv86/lzWeDa4S6EZlxreQs
+         ecKLEKqaJxz5SODmuh4wik86io9lFNzsb2zzXJ7PHCHs6mSnW+iKvxSdtrO0D1Fv9rUX
+         Ugaw==
+X-Gm-Message-State: AOAM531AcrjO3ErV5tlzBFEkXgqaUdwM1Wut8mSR/2zplsi+EVBnuMgX
+        x4Ee5lg3Uv4+YycDJmQydA==
+X-Google-Smtp-Source: ABdhPJzTBBb/qkQn5k2zhMOHhTWR+p65BoV9tJQb6+MMqLy1cPlSH5hPasP869gBKLq+qYaQeEzuHA==
+X-Received: by 2002:a9d:7003:: with SMTP id k3mr2738828otj.351.1617198068778;
+        Wed, 31 Mar 2021 06:41:08 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id o6sm474874otj.81.2021.03.31.06.41.00
+        by smtp.gmail.com with ESMTPSA id 38sm468460oth.14.2021.03.31.06.41.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 06:41:01 -0700 (PDT)
-Received: (nullmailer pid 2074854 invoked by uid 1000);
+        Wed, 31 Mar 2021 06:41:07 -0700 (PDT)
+Received: (nullmailer pid 2074861 invoked by uid 1000);
         Wed, 31 Mar 2021 13:40:59 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Pratyush Yadav <p.yadav@ti.com>
-Cc:     Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        devicetree@vger.kernel.org, Kishon Vijay Abraham I <kishon@ti.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-phy@lists.infradead.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        dmaengine@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Peter Chen <peter.chen@nxp.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-In-Reply-To: <20210330173348.30135-13-p.yadav@ti.com>
-References: <20210330173348.30135-1-p.yadav@ti.com> <20210330173348.30135-13-p.yadav@ti.com>
-Subject: Re: [PATCH 12/16] dt-bindings: media: Add DT bindings for TI CSI2RX driver
+To:     Liu Ying <victor.liu@nxp.com>
+Cc:     airlied@linux.ie, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, kernel@pengutronix.de,
+        robh+dt@kernel.org, kishon@ti.com, linux-imx@nxp.com,
+        marcel.ziswiler@toradex.com, linux-arm-kernel@lists.infradead.org,
+        s.hauer@pengutronix.de, lee.jones@linaro.org,
+        jernej.skrabec@siol.net, shawnguo@kernel.org,
+        Laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        a.hajda@samsung.com, jonas@kwiboo.se, narmstrong@baylibre.com,
+        robert.foss@linaro.org, vkoul@kernel.org
+In-Reply-To: <1617172405-12962-8-git-send-email-victor.liu@nxp.com>
+References: <1617172405-12962-1-git-send-email-victor.liu@nxp.com> <1617172405-12962-8-git-send-email-victor.liu@nxp.com>
+Subject: Re: [PATCH v7 07/14] dt-bindings: mfd: Add i.MX8qm/qxp Control and Status Registers module binding
 Date:   Wed, 31 Mar 2021 08:40:59 -0500
-Message-Id: <1617198059.574658.2074853.nullmailer@robh.at.kernel.org>
+Message-Id: <1617198059.605916.2074860.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 30 Mar 2021 23:03:44 +0530, Pratyush Yadav wrote:
-> TI's J721E uses the Cadence CSI2RX and DPHY peripherals to facilitate
-> capture over a CSI-2 bus. The TI CSI2RX platform driver glues all the
-> parts together.
+On Wed, 31 Mar 2021 14:33:18 +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qm/qxp Control and Status Registers module.
 > 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->  .../devicetree/bindings/media/ti,csi2rx.yaml  | 70 +++++++++++++++++++
->  1 file changed, 70 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/ti,csi2rx.yaml
+> v6->v7:
+> * Add Rob's R-b tag.
+> 
+> v5->v6:
+> * Drop 'select' schema. (Rob)
+> 
+> v4->v5:
+> * Newly introduced in v5. (Rob)
+> 
+>  .../devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml   | 192 +++++++++++++++++++++
+>  1 file changed, 192 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.yaml
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -83,9 +82,11 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/ti,csi2rx.example.dts:21.30-29.11: Warning (unit_address_vs_reg): /example-0/ticsi2rx: node has a reg or ranges property, but no unit name
+Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.example.dt.yaml:0:0: /example-0/syscon@56221000/pxl2dpi: failed to match any schema with compatible: ['fsl,imx8qxp-pxl2dpi']
+Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.example.dt.yaml:0:0: /example-0/syscon@56221000/ldb: failed to match any schema with compatible: ['fsl,imx8qxp-ldb']
+Documentation/devicetree/bindings/mfd/fsl,imx8qxp-csr.example.dt.yaml:0:0: /example-0/phy@56228300: failed to match any schema with compatible: ['fsl,imx8qxp-mipi-dphy']
 
-See https://patchwork.ozlabs.org/patch/1460166
+See https://patchwork.ozlabs.org/patch/1460356
 
 This check can fail if there are any dependencies. The base for a patch
 series is generally the most recent rc1.
