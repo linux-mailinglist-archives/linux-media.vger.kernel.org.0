@@ -2,97 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBE7835074B
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 21:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4F063507B1
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 21:58:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235497AbhCaTSZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 15:18:25 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:54227 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235429AbhCaTSP (ORCPT
+        id S236293AbhCaT6U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 15:58:20 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33960 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235995AbhCaT55 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 15:18:15 -0400
-Received: by mail-il1-f198.google.com with SMTP id k12so2252485ilo.20
-        for <linux-media@vger.kernel.org>; Wed, 31 Mar 2021 12:18:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=zI5rz79lvwSeB44SWVVZPpyrakLxjesZfijHo0YURIM=;
-        b=T9WYfRQkek5Ay4CwPaWot/36Pt8UfCFh0sKGCai/iFieLTpfEWGrjLGzITG3qnpZSe
-         f0RHpzHvnjQMvWuwFt4zFuZ7Th5Fte0eupcEYFjGYzWL6PCSEGXlsvRXeLe8rousTy+b
-         sRt+Osx46EoEBaznDpqWq0Y3lbomPffqi3yAqj+DloRrVlMGGRdpoyMDJfDIvK7Tyaw6
-         hmO7C7RZl0RSmpk4+45vRE1FzwJZiug8/XWoIlPufjiKiOCl3BeclNzOSt4k45B1oqOf
-         c32l/v05dGEhso8blNWxh+/GcgSGrwhd5Sl/h/CMRlz/Vc/NhD5kizAyRiFxJR3NkIbA
-         lyUw==
-X-Gm-Message-State: AOAM533c5eg4jxqT32PFaYoODN2lsvCUx06IL5N2KLar8xgC1wLrOiLH
-        ONNV4Q2MypEB5g36hJjDbWQIVREXMLInqByucZivEANyoRsA
-X-Google-Smtp-Source: ABdhPJzEAeCWDEVGLDiG0xJyfXDqxE1ox/wzziCBmS4IFhCcdS+LnHaSpE5wOfDF/TG3zQMabHvf39+0yr2wo7O1B070EDESvDUX
-MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:eaf:: with SMTP id u15mr3502042ilj.45.1617218295308;
- Wed, 31 Mar 2021 12:18:15 -0700 (PDT)
-Date:   Wed, 31 Mar 2021 12:18:15 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000004274005bed9fa32@google.com>
-Subject: [syzbot] memory leak in hdcs_probe_1020
-From:   syzbot <syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com>
-To:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
+        Wed, 31 Mar 2021 15:57:57 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 88FED1F46396
+Message-ID: <7ab16129c1f3cb701f3b5d5fc3cc66f9f42d6606.camel@collabora.com>
+Subject: Re: [PATCH v3 6/9] media: hantro: add fallback handling for single
+ irq/clk
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Emil Velikov <emil.l.velikov@gmail.com>, kernel@collabora.com,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
+Date:   Wed, 31 Mar 2021 16:57:48 -0300
+In-Reply-To: <20210331173520.184191-7-emil.l.velikov@gmail.com>
+References: <20210331173520.184191-1-emil.l.velikov@gmail.com>
+         <20210331173520.184191-7-emil.l.velikov@gmail.com>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Emil,
 
-syzbot found the following issue on:
+Thanks for the patch. Looking good!
 
-HEAD commit:    0f4498ce Merge tag 'for-5.12/dm-fixes-2' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17e1514ad00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=49f2683f4e7a4347
-dashboard link: https://syzkaller.appspot.com/bug?extid=990626a4ef6f043ed4cd
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16fb3d9ed00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=117539aad00000
+A few comments below.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
+On Wed, 2021-03-31 at 18:35 +0100, Emil Velikov wrote:
+> From: Emil Velikov <emil.velikov@collabora.com>
+> 
+> Currently the driver expects that each irq/clk will have a name
+> specified.
+> 
+> A valid point was raised by the DT maintainers - when there is a single
+> interrupt line or clock - the names are not needed.
+> 
+> This is handled:
+>  - clk - implicitly - ultimately we'll call of_clk_get_hw(..., 0, NULL
+>    which will get the first clock from the pmc
+>  - irq - explicitly - platform_get_irq(..., 0)
+> 
+> To gracefully handle potential bugs, add respective WARN_ON() if we're
+> having more than one irq/clk, yet lacking the respective names.
+> 
+> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-BUG: memory leak
-unreferenced object 0xffff888110dd9f00 (size 64):
-  comm "kworker/0:0", pid 5, jiffies 4294944081 (age 15.000s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 18 00 00 00  ................
-    04 00 00 00 60 01 00 00 30 01 00 00 04 00 00 00  ....`...0.......
-  backtrace:
-    [<ffffffff8424c055>] kmalloc include/linux/slab.h:554 [inline]
-    [<ffffffff8424c055>] hdcs_probe_1020 drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c:428 [inline]
-    [<ffffffff8424c055>] hdcs_probe_1020.cold+0x39/0x96 drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c:413
-    [<ffffffff82fe2db7>] stv06xx_config+0x107/0x190 drivers/media/usb/gspca/stv06xx/stv06xx.c:575
-    [<ffffffff842427ca>] gspca_dev_probe2+0x359/0x6c5 drivers/media/usb/gspca/gspca.c:1529
-    [<ffffffff84242b78>] gspca_dev_probe.cold+0x42/0x4a drivers/media/usb/gspca/gspca.c:1606
-    [<ffffffff82ba7c87>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<ffffffff825f6079>] really_probe+0x159/0x4a0 drivers/base/dd.c:554
-    [<ffffffff825f6444>] driver_probe_device+0x84/0x100 drivers/base/dd.c:740
-    [<ffffffff825f6b5e>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:846
-    [<ffffffff825f2ff7>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<ffffffff825f66f2>] __device_attach+0x122/0x250 drivers/base/dd.c:914
-    [<ffffffff825f4c96>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<ffffffff825f11e5>] device_add+0x5d5/0xc40 drivers/base/core.c:3242
-    [<ffffffff82ba5229>] usb_set_configuration+0x9d9/0xb90 drivers/usb/core/message.c:2164
-    [<ffffffff82bb568c>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<ffffffff82ba73ec>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<ffffffff825f6079>] really_probe+0x159/0x4a0 drivers/base/dd.c:554
+Since this is a new patch, I'm unsure where was this Acked-by?
 
+> Suggested-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> ---
+> v3
+>  - New patch
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 24 +++++++++++++++++++++--
+>  1 file changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index e5f200e64993..d1294eb9cd07 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -752,8 +752,16 @@ static int hantro_probe(struct platform_device *pdev)
+>         if (!vpu->clocks)
+>                 return -ENOMEM;
+>  
+> -       for (i = 0; i < vpu->variant->num_clocks; i++)
+> +       for (i = 0; i < vpu->variant->num_clocks; i++) {
+>                 vpu->clocks[i].id = vpu->variant->clk_names[i];
+> +
+> +               /*
+> +                * Warn and refuse to load if the driver has multiple clocks,
+> +                * yet they are lacking the respective names.
+> +                */
+> +               if (WARN_ON(!vpu->variant->clk_names[i] && 
 
+We already have more WARN_ON than we should in this driver,
+I would just remove this condition entirely.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> +                       return -ENXIO;
+> +       }
+>         ret = devm_clk_bulk_get(&pdev->dev, vpu->variant->num_clocks,
+>                                 vpu->clocks);
+>         if (ret)
+> @@ -791,7 +799,19 @@ static int hantro_probe(struct platform_device *pdev)
+>                 if (!vpu->variant->irqs[i].handler)
+>                         continue;
+>  
+> -               irq = platform_get_irq_byname(vpu->pdev, irq_name);
+> +               /*
+> +                * If the driver has a single IRQ, chances are there will be no
+> +                * actual name in the DT bindings.
+> +                */
+> +               if (!irq_name) {
+> +                       if (WARN_ON(i))
+> +                               return -ENXIO;
+> +
+> +                       irq_name = "default";
+> +                       irq = platform_get_irq(vpu->pdev, 0);
+> +               } else {
+> +                       irq = platform_get_irq_byname(vpu->pdev, irq_name);
+> +               }
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+How about this instead:
+
+irq = platform_get_irq_byname(vpu->pdev, irq_name);
+if (irq <= 0)
+	irq = platform_get_irq(vpu->pdev, i);
+
+(and leave the irq name in the sama5d4 code).
+
+Thanks,
+Ezequiel
+
