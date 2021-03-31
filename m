@@ -2,184 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CF4D34F413
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 00:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFA5B34F78E
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 05:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232805AbhC3WPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Mar 2021 18:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232292AbhC3WPP (ORCPT
+        id S232874AbhCaDjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Mar 2021 23:39:44 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:60201 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233222AbhCaDjl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Mar 2021 18:15:15 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 293DEC061574
-        for <linux-media@vger.kernel.org>; Tue, 30 Mar 2021 15:15:15 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id bt4so8464553pjb.5
-        for <linux-media@vger.kernel.org>; Tue, 30 Mar 2021 15:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CEJVo99ddrzFsx+Y7vim0XaXbjg0vh0wW249qitilJc=;
-        b=meUgQ8XuuGX2w/BSIG4Hz4EF7XC9+2efqf9gHbw/McANGT1S0Z0TwooXm0EwVoeeC9
-         VE8+hDP4ClO6laZGUWRq3SVtNUY/kdGhkrNvjHfnz4qTguvnPvdB9sio+aLJYHTz63na
-         0F//yTUTwk/POk31IhOjDpQm/II1tGnLMgLPg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CEJVo99ddrzFsx+Y7vim0XaXbjg0vh0wW249qitilJc=;
-        b=HDLPMRHxqqGcv/Ty9dgMSmtzQ5Ai92VkuBrKc7nWjPJGtK9/HIQgRx42ElDIONkFlc
-         hQA506HBY45q6VwcgZ4NsgO8b4RsW2T5Z0WF/JOAhB4HM7F0G+CQqcfUZDXKA/qhpuhd
-         QN2o0iUF/qTdpKGmdrja1ybPRenV0AQHTMe6gV4iDocWwCn4lpIhLv5+pvWwSeV0PUa8
-         LaHg+NezQEg8T/VuymO22xMpq6EhRpbM7bDct78UGeN/do427b1ObwUA8oOJrwol5JrH
-         AEJuJBMmfheFQpSvbg/osOdXgSEAFWvXYQENzVkcSUyV4rFNhneEn7tqyGXjn2OQ+EsW
-         WVqg==
-X-Gm-Message-State: AOAM531bOgU5r2gXx7Z5TUhg/l8mZgYe/1SSEtA0Q/9ED+P7LBb4Y5eT
-        J0y3Bzqhf41NJqxgdrPRFYoG5N7oKYMghg==
-X-Google-Smtp-Source: ABdhPJwNoj3YqVLpIvr86EesTfK7j0NfYhZD74Zo1vS33U/TjjIPnrqrAU2LRkP5QexaxBFNGQ6mcQ==
-X-Received: by 2002:a17:90a:8b07:: with SMTP id y7mr439343pjn.78.1617142514280;
-        Tue, 30 Mar 2021 15:15:14 -0700 (PDT)
-Received: from localhost (201.59.83.34.bc.googleusercontent.com. [34.83.59.201])
-        by smtp.gmail.com with UTF8SMTPSA id q66sm124518pja.27.2021.03.30.15.15.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Mar 2021 15:15:13 -0700 (PDT)
-From:   Fritz Koenig <frkoenig@chromium.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, tiffany.lin@mediatek.com,
-        acourbot@chromium.org
-Cc:     Fritz Koenig <frkoenig@chromium.org>
-Subject: [PATCH] media: mtk-vcodec: vdec: Reduce padding in VIDIOC_TRY_FMT
-Date:   Tue, 30 Mar 2021 22:15:06 +0000
-Message-Id: <20210330221506.2278606-1-frkoenig@chromium.org>
-X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Tue, 30 Mar 2021 23:39:41 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id RRhhlU6lE43ycRRhjlC7ew; Wed, 31 Mar 2021 05:39:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1617161979; bh=ntbqH6Dnx6eVCIJC5S1vyI4oLCr2tvKLIzanXKCd2zA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=tGEzJ+YzcS19Qqe52snjtLjNeUoWv718IVwvTe07vKYfoymkBl9jyVAaGtSqY+NJ2
+         gsmMATJCQ6HPUc0k4iV/jZoplUtsCPEEVE8gq03mXtU5rW+lDbf4/fa0B/4mcN8r6u
+         ntZ3sxsJR5tHbdiXCRJmL9M8psM2AWPhLeBm2DvxwBnUeydzlWMuyfibeiHZMeUtRd
+         Xaa9CEn+TGVi5WMPHEds6H/glQqyQkxij0Hg4rQO8Fkb5peZhWupkl2naktIlx/rtX
+         sP1mCdmq6iD0Xj/aWssuq1M+TV9wRKDOjZ0Q4MlI73HXbiVTlLovDzxXkX3oPxUCtD
+         xzEussgHldasQ==
+Message-ID: <b574f30a86f4a415f68dbf55d72c22db@smtp-cloud9.xs4all.net>
+Date:   Wed, 31 Mar 2021 05:39:36 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfGaEsL4z4gXW69YW3/mAF6BZ7Ny8b59P3E3R3m1OYBv7vx5VkDXcx7jcRUCju02a325eeZICB7F2qkRC/WQTA0h2+bQ+jv7zRBNUIh+kXgzFAMtEmLga
+ H64b4UmZCzpzBuhn0YqtayjFS8vV6btb68VFAr0w8OX2JKy0n7UwH//QZeO1wA1Tc/E6PwgSO6e3ZPpdaAkRge4J6O+4Ij9/BSLqNhRaX+sLlHRCW2c+wYLG
+ JYAwxtzhbjrl/vNGx62frg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the header has been parsed or the codec is stateless
-reduce the padding of the decoded frame.
-In stateless codecs width and height are specified by
-the application.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
----
- .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 59 ++++++++++++-------
- 1 file changed, 39 insertions(+), 20 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-index 56d86e59421e..9c88454dc10c 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-@@ -653,7 +653,7 @@ static int vidioc_vdec_subscribe_evt(struct v4l2_fh *fh,
- 	}
- }
- 
--static int vidioc_try_fmt(struct v4l2_format *f,
-+static int vidioc_try_fmt(struct v4l2_format *f, void *priv,
- 			  const struct mtk_video_fmt *fmt)
- {
- 	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
-@@ -665,6 +665,7 @@ static int vidioc_try_fmt(struct v4l2_format *f,
- 		pix_fmt_mp->plane_fmt[0].bytesperline = 0;
- 	} else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
- 		int tmp_w, tmp_h;
-+		struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
- 
- 		pix_fmt_mp->height = clamp(pix_fmt_mp->height,
- 					MTK_VDEC_MIN_H,
-@@ -673,27 +674,45 @@ static int vidioc_try_fmt(struct v4l2_format *f,
- 					MTK_VDEC_MIN_W,
- 					MTK_VDEC_MAX_W);
- 
-+		tmp_w = pix_fmt_mp->width;
-+		tmp_h = pix_fmt_mp->height;
-+
-+		if (ctx->dev->vdec_pdata->uses_stateless_api ||
-+			ctx->state >= MTK_STATE_HEADER) {
-+			v4l_bound_align_image(&pix_fmt_mp->width,
-+						MTK_VDEC_MIN_W,
-+						MTK_VDEC_MAX_W, 4,
-+						&pix_fmt_mp->height,
-+						MTK_VDEC_MIN_H,
-+						MTK_VDEC_MAX_H, 5, 6);
-+
-+			if (pix_fmt_mp->width < tmp_w &&
-+				(pix_fmt_mp->width + 16) <= MTK_VDEC_MAX_W)
-+				pix_fmt_mp->width += 16;
-+			if (pix_fmt_mp->height < tmp_h &&
-+				(pix_fmt_mp->height + 32) <= MTK_VDEC_MAX_H)
-+				pix_fmt_mp->height += 32;
-+		} else {
- 		/*
--		 * Find next closer width align 64, heign align 64, size align
-+		 * Find next closer width align 64, height align 64, size align
- 		 * 64 rectangle
- 		 * Note: This only get default value, the real HW needed value
- 		 *       only available when ctx in MTK_STATE_HEADER state
- 		 */
--		tmp_w = pix_fmt_mp->width;
--		tmp_h = pix_fmt_mp->height;
--		v4l_bound_align_image(&pix_fmt_mp->width,
--					MTK_VDEC_MIN_W,
--					MTK_VDEC_MAX_W, 6,
--					&pix_fmt_mp->height,
--					MTK_VDEC_MIN_H,
--					MTK_VDEC_MAX_H, 6, 9);
--
--		if (pix_fmt_mp->width < tmp_w &&
--			(pix_fmt_mp->width + 64) <= MTK_VDEC_MAX_W)
--			pix_fmt_mp->width += 64;
--		if (pix_fmt_mp->height < tmp_h &&
--			(pix_fmt_mp->height + 64) <= MTK_VDEC_MAX_H)
--			pix_fmt_mp->height += 64;
-+			v4l_bound_align_image(&pix_fmt_mp->width,
-+						MTK_VDEC_MIN_W,
-+						MTK_VDEC_MAX_W, 6,
-+						&pix_fmt_mp->height,
-+						MTK_VDEC_MIN_H,
-+						MTK_VDEC_MAX_H, 6, 9);
-+
-+			if (pix_fmt_mp->width < tmp_w &&
-+				(pix_fmt_mp->width + 64) <= MTK_VDEC_MAX_W)
-+				pix_fmt_mp->width += 64;
-+			if (pix_fmt_mp->height < tmp_h &&
-+				(pix_fmt_mp->height + 64) <= MTK_VDEC_MAX_H)
-+				pix_fmt_mp->height += 64;
-+		}
- 
- 		mtk_v4l2_debug(0,
- 			"before resize width=%d, height=%d, after resize width=%d, height=%d, sizeimage=%d",
-@@ -729,7 +748,7 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *priv,
- 		fmt = mtk_vdec_find_format(f);
- 	}
- 
--	return vidioc_try_fmt(f, fmt);
-+	return vidioc_try_fmt(f, priv, fmt);
- }
- 
- static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
-@@ -749,7 +768,7 @@ static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
- 		return -EINVAL;
- 	}
- 
--	return vidioc_try_fmt(f, fmt);
-+	return vidioc_try_fmt(f, priv, fmt);
- }
- 
- static int vidioc_vdec_g_selection(struct file *file, void *priv,
-@@ -875,7 +894,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
- 		return -EINVAL;
- 
- 	q_data->fmt = fmt;
--	vidioc_try_fmt(f, q_data->fmt);
-+	vidioc_try_fmt(f, priv, q_data->fmt);
- 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
- 		q_data->sizeimage[0] = pix_mp->plane_fmt[0].sizeimage;
- 		q_data->coded_width = pix_mp->width;
--- 
-2.31.0.291.g576ba9dcdaf-goog
+date:			Wed Mar 31 05:00:10 CEST 2021
+media-tree git hash:	97b34809ec240d82c82af97626c2071a4062e0e6
+media_build git hash:	70188fdddcfedda190f1118529888cd3dc2581d6
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12-rc1-i686: OK
+linux-5.12-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
