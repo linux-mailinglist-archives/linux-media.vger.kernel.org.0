@@ -2,131 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79BF934FB79
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 10:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84D5E34FBAF
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 10:33:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234402AbhCaIWe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 04:22:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234218AbhCaIWO (ORCPT
+        id S232476AbhCaIct (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 04:32:49 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50697 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234406AbhCaIcT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 04:22:14 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D6CC06175F;
-        Wed, 31 Mar 2021 01:22:08 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id j18so18741516wra.2;
-        Wed, 31 Mar 2021 01:22:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=M1iFyRy+/vZUwYcc1X6N0dJDOfsIozzsPvSrVwXYI9E=;
-        b=E9WAczEs5N19fSB2T1k0zRDej2UTmXciCl1vBTv2mrC+k/PVxFG7YLMPlJhGH3Ttdr
-         kF5g0jXEYnQOkluMhUEwlstLasx2EeajhnzLS9Ti0AHqvCMzx5xPfPpp0bFjNjyhMK/O
-         nU40OVqg5m/kZ6IkQ7np7Rh5UCeaIWvMfyzpZJicYdk7MWCEi0UN/TdssTSsF65QFfzn
-         NtyzqznzHFNQT0I5VJpCxHtew9xVVpfEf1+h9cvs82OWshGVNOyf+/omSatS9Z6nFsG6
-         wFCFbHXJlniMN0xKaQNtrq5qvxLpae8r1NJTiqaFG1oHBQbqbJdjimgjt8qqm3mu1ceL
-         zCYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=M1iFyRy+/vZUwYcc1X6N0dJDOfsIozzsPvSrVwXYI9E=;
-        b=Tn7dBDecP662mh4sW9SWEpFw3sCZJJOFr0bHZhgRjqJ0dYTEQVw0e7GzpbkR3l+gCW
-         2Yorc1NLZrsQTTyvMQoNksSxl6wdx9mPiLzv6PnjkbQ42QZeJqIm3/aPLZ7xFDy3mFTC
-         wU/g5bKPzPyDuzHRpXKbxkEy0BZEyGz6zaGazFrfJXWVdhy2y+VMoElDuMDcf+8N8cKw
-         ssWVprm+EL2AN427miTVTyaAPqSTzLN1FhB3WIlv3VYY4jU6dlaqab9V7Xmlq0G3rV/K
-         TVMm0qBtV9HiLC5AAItZlYRxwM2LC2Sbphqf2f8ObTjqMoTfbDkXk9h47CwEWtIresdg
-         rWfA==
-X-Gm-Message-State: AOAM531gF6k8OgzAJvNxrG38VUDOasp2E2+Mu2JX+D1Q3/tv7bMiMMuc
-        tx2O5dwWBML1An6wn0DoZiE=
-X-Google-Smtp-Source: ABdhPJxocGQz+VOIBDxcQHX4MBugeeIBnoWOESz5Gn2qa0vf/v1c+0QFQ56/BWtzigKb4KRRKERVqA==
-X-Received: by 2002:adf:dd4f:: with SMTP id u15mr2293305wrm.260.1617178927531;
-        Wed, 31 Mar 2021 01:22:07 -0700 (PDT)
-Received: from 192.168.10.5 ([39.46.7.73])
-        by smtp.gmail.com with ESMTPSA id i8sm2812844wrx.43.2021.03.31.01.22.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 01:22:07 -0700 (PDT)
-Message-ID: <675efa79414d2d8cb3696d3ca3a0c3be99bd92fa.camel@gmail.com>
-Subject: Re: [PATCH] media: em28xx: fix memory leak
-From:   Muhammad Usama Anjum <musamaanjum@gmail.com>
-To:     hverkuil-cisco@xs4all.nl
-Cc:     syzkaller-bugs@googlegroups.com, dvyukov@google.com,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:EM28XX VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
-        stable@vger.kernel.org
-Date:   Wed, 31 Mar 2021 13:22:01 +0500
-In-Reply-To: <20210324180753.GA410359@LEGION>
-References: <20210324180753.GA410359@LEGION>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Wed, 31 Mar 2021 04:32:19 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id RWGqlaMlPgIC3RWGvlscRd; Wed, 31 Mar 2021 10:32:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1617179537; bh=w3r73FVb2DUarie6ceGIXm8Q6FDbldVGdQ/arBUUeX4=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=m9uycZZjFQ3/ir+TlV8YGbACAdhckVOdsjS4NE2Q2BwzaomsWcU0qcMrjpGTGD8Ia
+         TS54sI2p8oDSLI5tXipBC9gGB97sOmb0SAHgM/YKmCmLZoKm1VUm9WHh2VgMeSu71Z
+         C7IDhQ/S+3nq1+ikZCNDp9XKtfzqJkyWVbSgF5GKnV9mtSZDxMKqQ89kXBcP8fYTr/
+         tpPUiBVklF7fgfoDO9LWnHefXgVeqzA+bDg0v6zQJC4iIfjsvmml8sjJSiX0+z05Hm
+         INSg1Up7SM+hkhf/ZYPsrxWyOtGExKwGo2CmJmnHEb44g3iWZs+V904LIIrA95wTkU
+         Pj7jfKXTBLqaA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] cec/core: clarify rx-arb-lost usage message
+Message-ID: <4e09f4c8-d5b4-4234-d183-10a99271e4c1@xs4all.nl>
+Date:   Wed, 31 Mar 2021 10:32:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfIVotX3RVpjoR5S+IhVca8uddIPEVH6WErfrLnTH7ECdpGok6sg8cJNpZgbbsQBPC9F8GsLabIiXfOLd0Dm9dC6WzZALpAQaDwGkFMbVidaxmauvP5Bb
+ M4ndBK7VJlSURWHuhjopBQ3BHmnEm66Iearnny04sNHHiIrTuIJzU1ErwjxvM8TlvKmoaEN6GZOkxTjZocO8kTSSJq18punO19c=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2021-03-24 at 23:07 +0500, Muhammad Usama Anjum wrote:
-> If some error occurs, URB buffers should also be freed. If they aren't
-> freed with the dvb here, the em28xx_dvb_fini call doesn't frees the URB
-> buffers as dvb is set to NULL. The function in which error occurs should
-> do all the cleanup for the allocations it had done.
-> 
-> Tested the patch with the reproducer provided by syzbot. This patch
-> fixes the memleak.
-> 
-> Reported-by: syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
-> Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
-> ---
-> Resending the same path as some email addresses were missing from the
-> earlier email.
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    1a4431a5 Merge tag 'afs-fixes-20210315' of git://git.kerne..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11013a7cd00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=ff6b8b2e9d5a1227
-> dashboard link: https://syzkaller.appspot.com/bug?extid=889397c820fa56adf25d
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1559ae3ad00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=176985c6d00000
-> 
->  drivers/media/usb/em28xx/em28xx-dvb.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-> index 526424279637..471bd74667e3 100644
-> --- a/drivers/media/usb/em28xx/em28xx-dvb.c
-> +++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-> @@ -2010,6 +2010,7 @@ static int em28xx_dvb_init(struct em28xx *dev)
->  	return result;
->  
->  out_free:
-> +	em28xx_uninit_usb_xfer(dev, EM28XX_DIGITAL_MODE);
->  	kfree(dvb);
->  	dev->dvb = NULL;
->  	goto ret;
+The rx-arb-lost error injection command only works with <op> set to 'any'.
+Explicitly say so in the usage message.
 
-I'd received the following notice and waiting for the review:
-On Thu, 2021-03-25 at 09:06 +0000, Patchwork wrote:
-> Hello,
-> 
-> The following patch (submitted by you) has been updated in Patchwork:
-> 
->  * linux-media: media: em28xx: fix memory leak
->      - http://patchwork.linuxtv.org/project/linux-media/patch/20210324180753.GA410359@LEGION/
->      - for: Linux Media kernel patches
->     was: New
->     now: Under Review
-> 
-> This email is a notification only - you do not need to respond.
-> 
-> Happy patchworking.
-> 
+Also use [] to indicate that the <poll> argument is optional.
 
-Thanks,
-Usama
-
-
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst b/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
+index 064c8c5a1943..b0efce40471f 100644
+--- a/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
++++ b/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
+@@ -44,7 +44,7 @@ error injection status::
+ 	#   <op>[,<mode>] rx-low-drive <bit>   force a low-drive condition at this bit position
+ 	#   <op>[,<mode>] rx-add-byte          add a spurious byte to the received CEC message
+ 	#   <op>[,<mode>] rx-remove-byte       remove the last byte from the received CEC message
+-	#   <op>[,<mode>] rx-arb-lost <poll>   generate a POLL message to trigger an arbitration lost
++	#    any[,<mode>] rx-arb-lost [<poll>] generate a POLL message to trigger an arbitration lost
+ 	#
+ 	# TX error injection settings:
+ 	#   tx-ignore-nack-until-eom           ignore early NACKs until EOM
+diff --git a/drivers/media/cec/core/cec-pin-error-inj.c b/drivers/media/cec/core/cec-pin-error-inj.c
+index c0088d3b8e3d..fc0968b9d40e 100644
+--- a/drivers/media/cec/core/cec-pin-error-inj.c
++++ b/drivers/media/cec/core/cec-pin-error-inj.c
+@@ -277,7 +277,7 @@ int cec_pin_error_inj_show(struct cec_adapter *adap, struct seq_file *sf)
+ 	seq_puts(sf, "#   <op>[,<mode>] rx-low-drive <bit>   force a low-drive condition at this bit position\n");
+ 	seq_puts(sf, "#   <op>[,<mode>] rx-add-byte          add a spurious byte to the received CEC message\n");
+ 	seq_puts(sf, "#   <op>[,<mode>] rx-remove-byte       remove the last byte from the received CEC message\n");
+-	seq_puts(sf, "#   <op>[,<mode>] rx-arb-lost <poll>   generate a POLL message to trigger an arbitration lost\n");
++	seq_puts(sf, "#    any[,<mode>] rx-arb-lost [<poll>] generate a POLL message to trigger an arbitration lost\n");
+ 	seq_puts(sf, "#\n");
+ 	seq_puts(sf, "# TX error injection settings:\n");
+ 	seq_puts(sf, "#   tx-ignore-nack-until-eom           ignore early NACKs until EOM\n");
